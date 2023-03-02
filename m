@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA8A6A7CA4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:29:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D556A7CC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:34:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeFw-0003P8-5X; Thu, 02 Mar 2023 03:25:40 -0500
+	id 1pXeFo-0002Zj-0y; Thu, 02 Mar 2023 03:25:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFD-00028A-R3
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFK-0002Br-5R
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFC-0001yR-Au
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFF-0001ye-QH
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745493;
+ s=mimecast20190719; t=1677745497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zPrRco/19b/UwmPHQphBosqDOoUGzra1uvANevhWyQY=;
- b=hInC7zWU9fR0SkwnG3evd8Brztu1WqSsvy785tWiY+zOwLk8i/G2tyu5LE+SRlcZQ3fctU
- vW2wWbZkKjfyFcUIeYDVI3HDyTofXojvG8Co72CRxPKTi9z0WEmhQuWf7FnP+mPi84UdEO
- X6jnTTr1jYxifbFzvyL3bmbMmiYxmNY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QSfx4EEhKWxIZHb7NirlnEOJXXkyWmFVrE3AW0rFTkI=;
+ b=XY5vcgD+ONPKtDjvjVzLbpmk8wZoRceX/okVgHKyJX+DyVM8Rzw6c1aDbFXGk4tEoqgrPb
+ 6GCdZ0+u7MrdmPnpvPZ0JMc/5t1I/vBLOfoCUMEal+eCtQZfIF1FnTGoeCjzfeFdXDDWCs
+ f6sokEjUXZxhRVQpiAHP6r3V9aiie0k=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-626-ceIDXq5JPLCZpfLuOkDbFQ-1; Thu, 02 Mar 2023 03:24:52 -0500
-X-MC-Unique: ceIDXq5JPLCZpfLuOkDbFQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- o15-20020a05600002cf00b002c54a27803cso3050129wry.22
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:24:51 -0800 (PST)
+ us-mta-443-9LLhoPA_MiKTD41DCgAR0Q-1; Thu, 02 Mar 2023 03:24:55 -0500
+X-MC-Unique: 9LLhoPA_MiKTD41DCgAR0Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r7-20020a05600c35c700b003eb3f2c4fb4so741496wmq.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:24:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745490;
+ d=1e100.net; s=20210112; t=1677745494;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zPrRco/19b/UwmPHQphBosqDOoUGzra1uvANevhWyQY=;
- b=RPo6D16wsD2zllUNtKVgnf+c/qYFLPS41BWYmDIqSi6AfPDZTtsL92bUYMd/8suPe8
- vzY9gMPClOH3vno5Y7yRd6iR5juTxxNow2OpIO2fhxkBNuoTwiwjD0E2TfIEGInxlQzd
- pqYL7Hgr0d3g03VF3U5+2KqenuhI054kTeGWvHH1BnkTl8Z8Dod27AJYqn0zKdxb+fY7
- QDwqZpfLVDR0CQ0JmFxh5Kd+Nzy2RRDPQ64eWX7qG06/sphHRc4D6dhAWil74fqvWZZO
- yIZHCCzKuKtOu6zcT+hawpIhKKp8fzIeKQikNke9uc9pwh8ATcGDVPVcwo44v3GkSp2t
- Qjdg==
-X-Gm-Message-State: AO0yUKW+ZG4HGCwN3+6e1EowpkWTFhM0U1wsWMW1GR0D86rc/p5zlBjh
- rZex/IX/77aBJsg+BWUhNkQ95O1y1x0ihDs8sh26msXSAtofUXqdAG+8QQacLRrQDeCByuD6ZMt
- /6w9/HOs8ggrVweVXyzL8cDGK8x+jHZESDQKlq/VuilXYRBpUBvDSaRpTEFUBsU9/gA==
-X-Received: by 2002:adf:e745:0:b0:2c5:a38f:ca3a with SMTP id
- c5-20020adfe745000000b002c5a38fca3amr791304wrn.10.1677745490527; 
- Thu, 02 Mar 2023 00:24:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set994MK8bkfabCkt/AVi3AU+femKVeo0OwLef79HDaKr68InBeS91G85A8jzmYGO7LzAEXE3kw==
-X-Received: by 2002:adf:e745:0:b0:2c5:a38f:ca3a with SMTP id
- c5-20020adfe745000000b002c5a38fca3amr791282wrn.10.1677745490189; 
- Thu, 02 Mar 2023 00:24:50 -0800 (PST)
+ bh=QSfx4EEhKWxIZHb7NirlnEOJXXkyWmFVrE3AW0rFTkI=;
+ b=RaASmwh/toWHafPVZZQTUAZkdNuE3SF6pX+iqi6q2XSm2/yaDwFlYTV+BoAOten8Zg
+ BvQH7MOuCfW/IuOgGKV2oNWA/K+q8CeJ5tQ4GaZJM1nJZRrGanXresh2d8lqMZTuURCV
+ TUqP//JvyS9yZfrGBkOtkUxED4Dun6ehneLK5YXw3B3QFvGLlWUC2UB4xSegsKEGKyrg
+ LsIQLB4UC+5OSxE110KOtzYbeCSdBcRfCygQ6PoD71bMiILkLkTe5GGFY5RV+k6zYaPE
+ FnMQFCCGFaTyOBgiWiqTyGIrXvPqH02ulgtEVfxMj6oIST3jZJ2wJhvoqH5T6n+GxE5W
+ yHOg==
+X-Gm-Message-State: AO0yUKVoQfahtPFd2DO/MuWJpcFeZd5X3fuzjXpUW1wS2hN1FMhuJTH2
+ Lki30YUxg+sjqvAM59U1N9yFe0mEvFkjYuRuwLqlaWjbJeF1V97OhV0VxoFy9D2TV35+Pi5UkKg
+ bUDvMT7atVxmN65akTnpx523DKM2VWgop/BNd1eMtu8htD/oM57u9LoCN+yQLSpAfqA==
+X-Received: by 2002:adf:e5cf:0:b0:2c3:f00c:ebaa with SMTP id
+ a15-20020adfe5cf000000b002c3f00cebaamr7052171wrn.4.1677745494018; 
+ Thu, 02 Mar 2023 00:24:54 -0800 (PST)
+X-Google-Smtp-Source: AK7set9WXeNoTj+8QQmeOslswSFhGTEfZgpHGkBkfLflMdtF8DlFous1xHqiBh/IFpsx2Kr8f/UDpw==
+X-Received: by 2002:adf:e5cf:0:b0:2c3:f00c:ebaa with SMTP id
+ a15-20020adfe5cf000000b002c3f00cebaamr7052145wrn.4.1677745493625; 
+ Thu, 02 Mar 2023 00:24:53 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- f3-20020a0560001b0300b002c70e60abd4sm14789134wrz.2.2023.03.02.00.24.48
+ i13-20020adfe48d000000b002c5539171d1sm14818363wrm.41.2023.03.02.00.24.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:24:49 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:24:47 -0500
+ Thu, 02 Mar 2023 00:24:53 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:24:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -69,9 +69,12 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 06/53] Revert "x86: use typedef for SetupData struct"
-Message-ID: <20230302082343.560446-7-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PULL 07/53] Revert "x86: return modified setup_data only if read as
+ memory, not as file"
+Message-ID: <20230302082343.560446-8-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -80,7 +83,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,9 +107,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This reverts commit eebb38a5633a77f5fa79d6486d5b2fcf8fbe3c07.
+This reverts commit e935b735085dfa61d8e6d276b6f9e7687796a3c7.
 
-Fixes: eebb38a563 ("x86: use typedef for SetupData struct")
+Fixes: e935b73508 ("x86: return modified setup_data only if read as memory, not as file")
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Tested-by: Nathan Chancellor <nathan@kernel.org>
 Tested-by: Dov Murik <dovmurik@linux.ibm.com>
@@ -114,63 +117,147 @@ Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/i386/x86.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ include/hw/nvram/fw_cfg.h | 22 -------------------
+ hw/i386/x86.c             | 46 +++++++++------------------------------
+ hw/nvram/fw_cfg.c         | 12 +++++-----
+ 3 files changed, 16 insertions(+), 64 deletions(-)
 
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index 2e503904dc..c1f81a5f13 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -117,28 +117,6 @@ struct FWCfgMemState {
+  */
+ void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t len);
+ 
+-/**
+- * fw_cfg_add_bytes_callback:
+- * @s: fw_cfg device being modified
+- * @key: selector key value for new fw_cfg item
+- * @select_cb: callback function when selecting
+- * @write_cb: callback function after a write
+- * @callback_opaque: argument to be passed into callback function
+- * @data: pointer to start of item data
+- * @len: size of item data
+- * @read_only: is file read only
+- *
+- * Add a new fw_cfg item, available by selecting the given key, as a raw
+- * "blob" of the given size. The data referenced by the starting pointer
+- * is only linked, NOT copied, into the data structure of the fw_cfg device.
+- */
+-void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
+-                               FWCfgCallback select_cb,
+-                               FWCfgWriteCallback write_cb,
+-                               void *callback_opaque,
+-                               void *data, size_t len,
+-                               bool read_only);
+-
+ /**
+  * fw_cfg_add_string:
+  * @s: fw_cfg device being modified
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 278dd54830..66cf171ace 100644
+index 66cf171ace..ed161a3409 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -658,12 +658,12 @@ DeviceState *ioapic_init_secondary(GSIState *gsi_state)
-     return dev;
+@@ -36,7 +36,6 @@
+ #include "sysemu/whpx.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/replay.h"
+-#include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/xen.h"
+@@ -770,24 +769,6 @@ static bool load_elfboot(const char *kernel_filename,
+     return true;
  }
  
--typedef struct SetupData {
-+struct setup_data {
-     uint64_t next;
-     uint32_t type;
-     uint32_t len;
-     uint8_t data[];
--} __attribute__((packed)) SetupData;
-+} __attribute__((packed));
+-typedef struct SetupDataFixup {
+-    void *pos;
+-    hwaddr orig_val, new_val;
+-    uint32_t addr;
+-} SetupDataFixup;
+-
+-static void fixup_setup_data(void *opaque)
+-{
+-    SetupDataFixup *fixup = opaque;
+-    stq_p(fixup->pos, fixup->new_val);
+-}
+-
+-static void reset_setup_data(void *opaque)
+-{
+-    SetupDataFixup *fixup = opaque;
+-    stq_p(fixup->pos, fixup->orig_val);
+-}
+-
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+@@ -1112,11 +1093,8 @@ void x86_load_linux(X86MachineState *x86ms,
+         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+     }
  
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+-    sev_load_ctx.kernel_data = (char *)kernel;
+-    sev_load_ctx.kernel_size = kernel_size;
++    /* Offset 0x250 is a pointer to the first setup_data link. */
++    stq_p(header + 0x250, first_setup_data);
  
- /*
-@@ -804,7 +804,7 @@ void x86_load_linux(X86MachineState *x86ms,
-     FILE *f;
-     char *vmode;
-     MachineState *machine = MACHINE(x86ms);
--    SetupData *setup_data;
-+    struct setup_data *setup_data;
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-     const char *dtb_filename = machine->dtb;
-@@ -1087,11 +1087,11 @@ void x86_load_linux(X86MachineState *x86ms,
-         }
+     /*
+      * If we're starting an encrypted VM, it will be OVMF based, which uses the
+@@ -1126,20 +1104,16 @@ void x86_load_linux(X86MachineState *x86ms,
+      * file the user passed in.
+      */
+     if (!sev_enabled()) {
+-        SetupDataFixup *fixup = g_malloc(sizeof(*fixup));
+-
+         memcpy(setup, header, MIN(sizeof(header), setup_size));
+-        /* Offset 0x250 is a pointer to the first setup_data link. */
+-        fixup->pos = setup + 0x250;
+-        fixup->orig_val = ldq_p(fixup->pos);
+-        fixup->new_val = first_setup_data;
+-        fixup->addr = cpu_to_le32(real_addr);
+-        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_SETUP_ADDR, fixup_setup_data, NULL,
+-                                  fixup, &fixup->addr, sizeof(fixup->addr), true);
+-        qemu_register_reset(reset_setup_data, fixup);
+-    } else {
+-        fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+     }
++
++    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
++    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
++    sev_load_ctx.kernel_data = (char *)kernel;
++    sev_load_ctx.kernel_size = kernel_size;
++
++    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
+     sev_load_ctx.setup_data = (char *)setup;
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index a00881bc64..29a5bef1d5 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -693,12 +693,12 @@ static const VMStateDescription vmstate_fw_cfg = {
+     }
+ };
  
-         setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(SetupData) + dtb_size;
-+        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
-         kernel = g_realloc(kernel, kernel_size);
+-void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
+-                               FWCfgCallback select_cb,
+-                               FWCfgWriteCallback write_cb,
+-                               void *callback_opaque,
+-                               void *data, size_t len,
+-                               bool read_only)
++static void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
++                                      FWCfgCallback select_cb,
++                                      FWCfgWriteCallback write_cb,
++                                      void *callback_opaque,
++                                      void *data, size_t len,
++                                      bool read_only)
+ {
+     int arch = !!(key & FW_CFG_ARCH_LOCAL);
  
- 
--        setup_data = (SetupData *)(kernel + setup_data_offset);
-+        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-         setup_data->next = cpu_to_le64(first_setup_data);
-         first_setup_data = prot_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-@@ -1102,9 +1102,9 @@ void x86_load_linux(X86MachineState *x86ms,
- 
-     if (!legacy_no_rng_seed) {
-         setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(SetupData) + RNG_SEED_LENGTH;
-+        kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
-         kernel = g_realloc(kernel, kernel_size);
--        setup_data = (SetupData *)(kernel + setup_data_offset);
-+        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-         setup_data->next = cpu_to_le64(first_setup_data);
-         first_setup_data = prot_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
 -- 
 MST
 
