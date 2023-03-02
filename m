@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5733D6A87D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86906A87F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:35:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXmdy-0006bW-Br; Thu, 02 Mar 2023 12:23:02 -0500
+	id 1pXmpM-0008QF-Sr; Thu, 02 Mar 2023 12:34:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pXmdv-0006Yb-TU
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:22:59 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXmpK-0008Pp-Nr
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:34:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pXmdt-00026M-Db
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:22:59 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PSHqR4cvYz6J7f6;
- Fri,  3 Mar 2023 01:17:55 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 2 Mar
- 2023 17:22:53 +0000
-Date: Thu, 2 Mar 2023 17:22:52 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, qemu
- <qemu-devel@nongnu.org>, Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, "Mike
- Maslenkin" <mike.maslenkin@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
- Markus Armbruster <armbru@redhat.com>, =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau
- <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>, Michael Roth
- <michael.roth@amd.com>
-Subject: Re: [PATCH v6 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-Message-ID: <20230302172252.00000025@huawei.com>
-In-Reply-To: <20230302055254-mutt-send-email-mst@kernel.org>
-References: <20230227112751.6101-1-Jonathan.Cameron@huawei.com>
- <20230227112751.6101-9-Jonathan.Cameron@huawei.com>
- <20230302100608.00005bcd@huawei.com>
- <e9287de7-94a6-944b-1627-3fa8f7f1a9bc@linaro.org>
- <20230302055254-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXmpI-00074j-Lf
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:34:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677778483;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lDTss3ss1Cb1wJ6dzUagsqkNpnG42JvEwCjFhH9myQA=;
+ b=M5nD3ORRu3ic7+vee2Dn12U36C2gIgBTH/w0Ra2IW/JJnAIowF+lwXDGbykD1pz6AwyIal
+ /PsvYDncKu7ty93drLNw40m156oGN9Mif3E65s411heSUy79uYrahoKi+nOEK1wOnkzJsE
+ atUYlpwT8hVTViNrGQI9ZyvzpVfP4kI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-50-M_EnBjdTOdKw1jjbwEuy2Q-1; Thu, 02 Mar 2023 12:34:40 -0500
+X-MC-Unique: M_EnBjdTOdKw1jjbwEuy2Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 286E03C0F1A1;
+ Thu,  2 Mar 2023 17:34:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EC9F2026D76;
+ Thu,  2 Mar 2023 17:34:38 +0000 (UTC)
+Date: Thu, 2 Mar 2023 17:34:36 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+Message-ID: <ZADeLNaltLAZ9BU8@redhat.com>
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230302172211.4146376-1-peter.maydell@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,115 +82,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023 05:55:00 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
+> migration-test has been flaky for a long time, both in CI and
+> otherwise:
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+> (a FreeBSD job)
+>   32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
+> 
+> on a local macos x86 box:
+> ▶  34/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
+>  34/621 qemu:qtest+qtest-i386 / qtest-i386/migration-test                         ERROR          168.12s   killed by signal 6 SIGABRT
+> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+> stderr:
+> qemu-system-i386: Failed to peek at channel
+> query-migrate shows failed migration: Unable to write to socket: Broken pipe
+> **
+> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
+> 
+> (test program exited with status code -6)
+> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+> 
+> ▶  37/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
+>  37/621 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test                     ERROR          174.37s   killed by signal 6 SIGABRT
+> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+> stderr:
+> query-migrate shows failed migration: Unable to write to socket: Broken pipe
+> **
+> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
+> 
+> (test program exited with status code -6)
+> 
+> In the cases where I've looked at the underlying log, this seems to
+> be in the migration/multifd/tcp/plain/cancel subtest.  Disable that
+> specific subtest by default until somebody can track down the
+> underlying cause. Enthusiasts can opt back in by setting
+> QEMU_TEST_FLAKY_TESTS=1 in their environment.
 
-> On Thu, Mar 02, 2023 at 11:49:52AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> > On 2/3/23 11:06, Jonathan Cameron wrote: =20
-> > > +CC Michael Roth.
-> > >=20
-> > > Michael Tsirkin noted I'd missed CCing QAPI maintaintainers on the
-> > > poison injection series so I went back to check the others I had out =
-for review.
-> > > For this series I'd managed to pick up one of two as Markus gave comm=
-ents on
-> > > earlier versions. =20
-> >=20
-> > Now LGTM for meson/QAPI (although I'm not a QAPI maintainer).
-> >=20
-> > Hopefully MST can take your series just in time for soft freeze. =20
->=20
->=20
-> Bottleneck is QAPI right now. Consider CC Eric and maybe Daniel
-> because Daniel is awesome and has been helping out with lots
-> of stuff among them QAPI.
+No objection to disabling the test. Given the many multifd fixes we
+have seen, I fear that unlikely many of the flakey tests, this is
+not merely a test problem, but rather has a decent chance of being
+a real bug in migration code.
 
-Thanks for the tip.  Resent with additional CCs (hopefully to right
-people!) and a note that we are looking for qapi review.
+> 
+> We might need to disable more parts of this test if this isn't
+> sufficient to fix the flakiness.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> This is a slightly more targeted variation on my original
+> modest proposal.
+> ---
+>  tests/qtest/migration-test.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 109bc8e7b13..d4ab3934ed2 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -2572,8 +2572,14 @@ int main(int argc, char **argv)
+>      qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
+>      qtest_add_func("/migration/multifd/tcp/plain/none",
+>                     test_multifd_tcp_none);
+> -    qtest_add_func("/migration/multifd/tcp/plain/cancel",
+> -                   test_multifd_tcp_cancel);
+> +    /*
+> +     * This test is flaky and sometimes fails in CI and otherwise:
+> +     * don't run unless user opts in via environment variable.
+> +     */
+> +    if (getenv("QEMU_TEST_FLAKY_TESTS")) {
+> +        qtest_add_func("/migration/multifd/tcp/plain/cancel",
+> +                       test_multifd_tcp_cancel);
+> +    }
+>      qtest_add_func("/migration/multifd/tcp/plain/zlib",
+>                     test_multifd_tcp_zlib);
+>  #ifdef CONFIG_ZSTD
+> -- 
+> 2.34.1
+> 
+> 
 
-With the benefit of hindsight I'd have ordered the series differently
-if I'd guessed we'd bottleneck here.
-
-Jonathan
-
->=20
-> > > On Mon, 27 Feb 2023 11:27:51 +0000
-> > > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
-> > >  =20
-> > > > CXL uses PCI AER Internal errors to signal to the host that an erro=
-r has
-> > > > occurred. The host can then read more detailed status from the CXL =
-RAS
-> > > > capability.
-> > > >=20
-> > > > For uncorrectable errors: support multiple injection in one operati=
-on
-> > > > as this is needed to reliably test multiple header logging support =
-in an
-> > > > OS. The equivalent feature doesn't exist for correctable errors, so=
- only
-> > > > one error need be injected at a time.
-> > > >=20
-> > > > Note:
-> > > >   - Header content needs to be manually specified in a fashion that
-> > > >     matches the specification for what can be in the header for each
-> > > >     error type.
-> > > >=20
-> > > > Injection via QMP:
-> > > > { "execute": "qmp_capabilities" }
-> > > > ...
-> > > > { "execute": "cxl-inject-uncorrectable-errors",
-> > > >    "arguments": {
-> > > >      "path": "/machine/peripheral/cxl-pmem0",
-> > > >      "errors": [
-> > > >          {
-> > > >              "type": "cache-address-parity",
-> > > >              "header": [ 3, 4]
-> > > >          },
-> > > >          {
-> > > >              "type": "cache-data-parity",
-> > > >              "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17=
-,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-> > > >          },
-> > > >          {
-> > > >              "type": "internal",
-> > > >              "header": [ 1, 2, 4]
-> > > >          }
-> > > >          ]
-> > > >    }}
-> > > > ...
-> > > > { "execute": "cxl-inject-correctable-error",
-> > > >      "arguments": {
-> > > >          "path": "/machine/peripheral/cxl-pmem0",
-> > > >          "type": "physical"
-> > > >      } }
-> > > >=20
-> > > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > > ---
-> > > > v6: (Thanks to Philippe Mathieu-Daud=E9)
-> > > > - Add Since entries in cxl.json
-> > > > - Add error prints in the stub functions so that if they are called=
- without
-> > > >    CONFIG_CXL_MEM_DEVICE then we get a useful print rather than jus=
-t silently
-> > > >    eating them.
-> > > > ---
-> > > >   hw/cxl/cxl-component-utils.c   |   4 +-
-> > > >   hw/mem/cxl_type3.c             | 281 ++++++++++++++++++++++++++++=
-+++++
-> > > >   hw/mem/cxl_type3_stubs.c       |  17 ++
-> > > >   hw/mem/meson.build             |   2 +
-> > > >   include/hw/cxl/cxl_component.h |  26 +++
-> > > >   include/hw/cxl/cxl_device.h    |  11 ++
-> > > >   qapi/cxl.json                  | 128 +++++++++++++++
-> > > >   qapi/meson.build               |   1 +
-> > > >   qapi/qapi-schema.json          |   1 +
-> > > >   9 files changed, 470 insertions(+), 1 deletion(-) =20
->=20
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
