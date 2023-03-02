@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2F66A878A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FD26A87B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:18:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXmNJ-00016J-GI; Thu, 02 Mar 2023 12:05:49 -0500
+	id 1pXmYB-0002FJ-Kx; Thu, 02 Mar 2023 12:17:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXmN8-00013D-ET
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:05:41 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1pXmYA-0002F9-62
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:17:02 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXmN5-0005o0-86
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:05:37 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id bx12so14068704wrb.11
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 09:05:31 -0800 (PST)
+ id 1pXmY8-0008DX-A3
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:17:01 -0500
+Received: by mail-wr1-x429.google.com with SMTP id h14so17264746wru.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 09:16:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aS7EigyogWQ+GM6QLzPXOzXftjKZdWVVXhkoTRLFJBg=;
- b=IOZJSc9qPP1EfiXLBNfdW5Rm+RTGSikx/JuCi7Yi8DC9LYSgH9dguJdOw+gEhc5iDI
- OS/4LsgtE5cOCYNasJqow8U0mKnZwbC5lGokuDF8876FDwvJPNO6DUaLFDDnTi2khu3d
- VqMjCNoBeoNhpJxs8r1a7v4+VC4SykfvZAZXJyQhWihbLHuuwuVE1AhOa6pGrM3L8T7S
- +lUtx/S8XGdl7kJWP6nz1zNs0vNpxvYJ+Z4O5RnvlvQLptdSyLra9fawT0WBB7w2Q9Ua
- +5Z9HkC+DWUxu7eAhgD2wJMEjLxNjhoCRTIK5bGUI86sJJL19PfZHbjiz0hZzHH/kLvG
- Q75g==
+ bh=X7LFaw1eVIWZZU+0eBB/XZT/xjvDyiFvIR0aCCLaXVY=;
+ b=BIMDKn0qcKCOoSW7C103+KBb8ur9wMvRzpHGvzeOyzRrY+Q7JrEWTGr7rKHrstuYxi
+ 6c9DVEzQReKP7/Avz5rrIS3AT1U8VnrOKntiddWNjbE+UBvLkboCWuXGn8/fWirslTft
+ udAMJu48ULjN9wvcpuhcFmpdVicauutLpPFxftBt6ylXWbFeAgiHcjYuVYBRuwU0doR1
+ ywthoTsMwFbNH7JxMzPsdtZi+ubTe8VIifGEREeCqZ5bNbtS518eNizXhh9YrUZfM1fi
+ vFE5VpachLve+MH2PssjJGriqPUk5zyR6oRlhyay5PEViR2zac67bUq0M8fRg+qEpPRe
+ ie7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=aS7EigyogWQ+GM6QLzPXOzXftjKZdWVVXhkoTRLFJBg=;
- b=Z62Xsn1eK4zZ1OSlCs5SweRJ27UhS2B9342ohUUfYrsQHYlUiznGN0zXKW5J8CQCzz
- FxP4xCrr1Atxpf4CvJ5XCx14h3lDvzSRXCWfzL3LhZwOuPxw5n0xub0MX81Z9yM6h1ZD
- WnnbvZWudwEisnxA4WrLy02Zqi/vqu2gSm+NjaI7adoxTEbvfNYzZZnrvj8y9SM4yA39
- 1RPtv/dLVG66wqKoZxdQjf1lY754skAgNnGHy8KAbiSywFAbut63F4hfB4fgsgP76ce7
- VqfLIUwEDdf6PCkkrkBR7abAd9IcnxveQGmmIVixw2ehIK7+xnsQdVIqHqz1sZTNQwpQ
- aX8A==
-X-Gm-Message-State: AO0yUKUuifbPcilVGQ42RbtgSnD1qJr8am5AjvFz5xq/nnihlndK+xM3
- 2aGcLFg3kbTt2XM1dudXru0yzA==
-X-Google-Smtp-Source: AK7set8zMW/aHHUa3RM22zJ6pc4UlcrDdixVlpGTWHV/IGN5gXTEoLJIjg7SfKRLXjlsKfVTupzjMQ==
-X-Received: by 2002:a5d:4dd2:0:b0:2c9:5675:7def with SMTP id
- f18-20020a5d4dd2000000b002c956757defmr7251965wru.2.1677776729930; 
- Thu, 02 Mar 2023 09:05:29 -0800 (PST)
+ bh=X7LFaw1eVIWZZU+0eBB/XZT/xjvDyiFvIR0aCCLaXVY=;
+ b=XptcShO8A5PKgh+6EkmdPDq6GMgGGHwxhzJxTceA4sPwg0Sr/eKdb5ggCsdMtuK/pD
+ R86Tl8zZR1l8RrAU/p8NHxDQJNDct6Cerdrqp0GRnrfnsPWv3UZpPSgEL9TDlAT4C3KC
+ O5bw8y0dwOfnsyZWc4XlUObAZIwmK84pW4sUbtoEuro7/LESULAuO0e8Fg3DhWu6G7Ma
+ Gy1rSdtXg+E1UD7Swr9FRYhtlyZ1N1gcyszp3oku9LQjFkFG4CpTChD4Mb2OL2Kv9qz0
+ anAXxXwRblPXR7KS93jfTPvj7fqCRUniXgDpfPbnahGyyAhDC8D/H0xehU2xr3wfJed3
+ I2hw==
+X-Gm-Message-State: AO0yUKXul8PsW7IzU+vrWDX2edqypD/2Xwui5E+2lT0K8suqzwhUaFEo
+ vjIwh3nJ0+w7UiawF5c5BuVoSA==
+X-Google-Smtp-Source: AK7set9phY06rLLBW1inWqiRZp5cp22urB9DULw2idBPNK4nHSoISobki1Cc0+ofOkX5zbStwK6ixg==
+X-Received: by 2002:adf:fe8e:0:b0:2c7:1b6d:3356 with SMTP id
+ l14-20020adffe8e000000b002c71b6d3356mr7786883wrr.70.1677777418333; 
+ Thu, 02 Mar 2023 09:16:58 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- y18-20020a5d4ad2000000b002c5584d0e3dsm15784139wrs.24.2023.03.02.09.05.29
+ a4-20020a5d5704000000b002c559843748sm16012728wrv.10.2023.03.02.09.16.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 09:05:29 -0800 (PST)
+ Thu, 02 Mar 2023 09:16:57 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0CF841FFB7;
- Thu,  2 Mar 2023 17:05:29 +0000 (GMT)
-References: <CAG8fp8S4AErtJ5YjpmW5d7+sRSyqQp+Th6NrJRm248gohNwCiw@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id 86DE61FFB7;
+ Thu,  2 Mar 2023 17:16:57 +0000 (GMT)
+References: <CA+Yfj7vS0kdkbQGe-HYf7stqf-So-5ny5dioeoC_V0LGvMfVuA@mail.gmail.com>
+ <20230302135302.GM7636@redhat.com>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Akihiro Suda <suda.kyoto@gmail.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL v2 20/24] tests/docker: use direct RUNC call to build
- containers
-Date: Thu, 02 Mar 2023 17:05:02 +0000
-In-reply-to: <CAG8fp8S4AErtJ5YjpmW5d7+sRSyqQp+Th6NrJRm248gohNwCiw@mail.gmail.com>
-Message-ID: <87zg8v9j8n.fsf@linaro.org>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: Ayush Singh <ayushdevel1325@gmail.com>, Erik Skultety
+ <eskultet@redhat.com>, marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [GSoC 2023] Introducing Myself
+Date: Thu, 02 Mar 2023 17:14:15 +0000
+In-reply-to: <20230302135302.GM7636@redhat.com>
+Message-ID: <87r0u79ipi.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,19 +96,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Akihiro Suda <suda.kyoto@gmail.com> writes:
+"Richard W.M. Jones" <rjones@redhat.com> writes:
 
->> +               $(RUNC) build                           \
+> On Thu, Mar 02, 2023 at 07:17:46PM +0530, Ayush Singh wrote:
+>> Hello Everyone,
+>>=20
+>> I am Ayush Singh, a 3rd-year university student from the Indian Institut=
+e of
+>> Technology (Indian School of Mines), Dhanbad, India. This email is just =
+to
+>>=20
+>> I participated and successfully completed my GSoC 2022 Project under Tia=
+nocore
+>> Organization in Rust, so I am pretty experienced in Rust Language. I am =
+also
+>> fairly proficient in reading and working with C, although not to the same
+>> degree as Rust.
+>>=20
+>> I use Qemu often for testing and thus would like to contribute to Qemu a=
+s a
+>> part of GSoC 2023. I have narrowed down the projects to:
+>>=20
+>> 1.=C2=A0 Rust bindings for libnbd: https://wiki.qemu.org/Google_Summer_o=
+f_Code_2023#
+>> Rust_bindings_for_libnbd
+>> 2.=C2=A0 RDP server: https://wiki.qemu.org/Google_Summer_of_Code_2023#RD=
+P_server
+>>=20
+>> I would just like to confirm if both of the above projects are up for gr=
+abs in
+>> the upcoming GSoC 2023, and if there are any specific requirements/tasks=
+ to
+>> complete to apply for either of the projects.
 >
-> There is no `runc build` command.
-> Perhaps you meant `$(DOCKER) build`?
+> We do have another candidate.  I'm not sure what happens in these
+> situations .. Erik?
 
-No RUNC is defined in config-host.mak now because it can be docker or
-podman.
+Project allocations happen through the GSoC process so everyone should
+apply and then you interview the prospective candidates and choose the
+best one.
 
+> Rich.
 >
-> Regards,
-> Akihiro Suda
+>> Finally, what is the preferred way of discussions in Qemu community? I d=
+id see
+>> an IRC channel as well as qemu-discuss mailing list.
+
+For realtime questions (keeping in mind TZ's and working hours) IRC is
+the best way. You can connect via matrix as described here:
+
+  https://www.qemu.org/support/
+
+as not everyone has access to a persistent IRC bouncer. Otherwise deeper
+technical questions are best handled on qemu-devel where the thread can
+be followed by the whole community.
+
+>>=20
+>> Yours sincerely
+>> Ayush Singh
+>>=20
+>> Github: https://github.com/Ayush1325
+>> GSoC 2022 Project: https://summerofcode.withgoogle.com/archive/2022/proj=
+ects/
+>> PwQlcngc
 
 
 --=20
