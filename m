@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9A76A85B9
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFAB6A85B8
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:01:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlLS-0000zG-0j; Thu, 02 Mar 2023 10:59:50 -0500
+	id 1pXlM8-00014J-Dn; Thu, 02 Mar 2023 11:00:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlLO-0000ym-Nt
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:59:46 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pXlLt-00013T-LU
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:00:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlLM-0000VN-T7
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:59:46 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pXlLr-0000nP-TD
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:00:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677772783;
+ s=mimecast20190719; t=1677772814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cwKGKm3x6NUbGSo6Slsb5Q+n4bjrKvL71NBIOubum6A=;
- b=S/ay0xC0tv7lR9G5M/tlRPUsFUZwl6ODpOR4DASkBnmRzMczFzRMcE6n/ugBODegFBmprZ
- imhrktCT5nTUMk+4zu/lJ9EkYGhuF9s0/2ghm+2lfCN0Mero0Y8DYMXGlW4NBfkhRwSSlX
- oQ0/wALEosiZEuQpwRYyBc4k50DVA5Y=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-624-3pIY9UV7MvSsdr4EcJLIAA-1; Thu, 02 Mar 2023 10:59:42 -0500
-X-MC-Unique: 3pIY9UV7MvSsdr4EcJLIAA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- m15-20020adfa3cf000000b002be0eb97f4fso3290822wrb.8
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 07:59:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677772781;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cwKGKm3x6NUbGSo6Slsb5Q+n4bjrKvL71NBIOubum6A=;
- b=XuVwop6AYFc88sT2NfD9khP5uw9o6hLPVQ9ITz568YNNIKUNcQamKDHRYTynhmmpzT
- pFZffX/kc/lVrkzO21TqmtYFnso55ApFJL7rHgsZqEtLFqE26dNhqzvUSEhFHtTpAL2B
- YGjHH01a5r1EBveXHnasK20WQ45LQJeZh8JrVb3tt2e/OoEWXY5kFgbKvMZhHJSPOX2d
- TgMp2ytNXteAYPRfgVi6mZRGMuHlAP1fcgDfFo7ZX9liwrQFuO9OoU/E7nc/3Dm/Gzh/
- ZVlFJlmyUVpd1ImdV1T5ioBVbc2NR6qjHpnHJL4CIrO/oRErYDXtK1xgUgyHE5IKLztP
- l3XA==
-X-Gm-Message-State: AO0yUKVZxfyuFE76sDNWJTiFoGuEwhoq8AHaGX8HO3bJqtyHFa5+z1TQ
- jP7fkcfpXQ9vsHfTXLklzvVj4QcKXFVpxexbDYrWVjhghR60hbRAdPipr8m7N1uOkVZvwAXGf7g
- GKs/xodBE1Od3C+Q=
-X-Received: by 2002:adf:f44b:0:b0:2c8:5f9d:9f6f with SMTP id
- f11-20020adff44b000000b002c85f9d9f6fmr9030534wrp.10.1677772781467; 
- Thu, 02 Mar 2023 07:59:41 -0800 (PST)
-X-Google-Smtp-Source: AK7set+/9r8nFmsxr3e4XcUzsKSSRJCwoAM2urXL9ltOpx5j12KgCbuV5WefKVvWgxewl0ZZsXw7Eg==
-X-Received: by 2002:adf:f44b:0:b0:2c8:5f9d:9f6f with SMTP id
- f11-20020adff44b000000b002c85f9d9f6fmr9030521wrp.10.1677772781162; 
- Thu, 02 Mar 2023 07:59:41 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- p10-20020a5d458a000000b002c559def236sm15279259wrq.57.2023.03.02.07.59.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 07:59:40 -0800 (PST)
-Date: Thu, 2 Mar 2023 16:59:39 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- ani@anisinha.ca, berrange@redhat.com, thuth@redhat.com
-Subject: Re: [PATCH 14/33] tests: acpi: update expected blobs
-Message-ID: <20230302165939.015af710@imammedo.users.ipa.redhat.com>
-In-Reply-To: <87ilfj2m7k.fsf@suse.de>
-References: <20230224153812.4176226-1-imammedo@redhat.com>
- <20230224153812.4176226-15-imammedo@redhat.com>
- <20230301192428-mutt-send-email-mst@kernel.org>
- <20230302130251.4ef53268@imammedo.users.ipa.redhat.com>
- <87a60vwbwj.fsf@suse.de>
- <20230302155719.357c92fa@imammedo.users.ipa.redhat.com>
- <87ilfj2m7k.fsf@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ bh=GlwxBcWtzRVreQhCR9//ht2cjZ0m/wpO0+fGFoLQOuI=;
+ b=ZoksjRi3LoT6phDBfDqb476dXxWlH6kYgPVnKT5Gy2R7Njup2v3IvCLJdGDCG+5i7/BBRr
+ 5csRH/mZmo8bG89oVHtv7KAb3/AeqopOXrTIWNrWuU+D46JGE+cZ5/HkEIEUMj/USuT/mQ
+ 41sklUXCHumi2WybpwNcYr0Xjb2rfcA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-258-znHySGT4OcaZqvniQpoMvg-1; Thu, 02 Mar 2023 11:00:10 -0500
+X-MC-Unique: znHySGT4OcaZqvniQpoMvg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 885F11875041;
+ Thu,  2 Mar 2023 16:00:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0C9D140EBF6;
+ Thu,  2 Mar 2023 16:00:07 +0000 (UTC)
+Date: Thu, 2 Mar 2023 11:00:05 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 2/6] block: convert blk_exp_close_all_type() to
+ AIO_WAIT_WHILE_UNLOCKED()
+Message-ID: <20230302160005.GB2497705@fedora>
+References: <20230301205801.2453491-1-stefanha@redhat.com>
+ <20230301205801.2453491-3-stefanha@redhat.com>
+ <7c440fc8-d37b-b933-ed5f-02baf7136bca@linaro.org>
+ <20230302130810.GA2485531@fedora>
+ <2421dc87-026e-154c-02df-7ffd778da7be@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dbkhlOUG11o6TRfr"
+Content-Disposition: inline
+In-Reply-To: <2421dc87-026e-154c-02df-7ffd778da7be@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,99 +87,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 02 Mar 2023 12:43:11 -0300
-Fabiano Rosas <farosas@suse.de> wrote:
 
-> Igor Mammedov <imammedo@redhat.com> writes:
-> 
-> > On Thu, 02 Mar 2023 09:55:24 -0300
-> > Fabiano Rosas <farosas@suse.de> wrote:
-> >  
-> >> Igor Mammedov <imammedo@redhat.com> writes:
-> >>   
-> >> > On Wed, 1 Mar 2023 19:27:33 -0500
-> >> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >> >    
-> >> >> On Fri, Feb 24, 2023 at 04:37:53PM +0100, Igor Mammedov wrote:    
-> >> >> > only following context change:
-> >> >> >  -  Local1 = Zero
-> >> >> >     If ((Arg0 != ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
-> >> >> >     {
-> >> >> >         Return (Local0)
-> >> >> >  ...
-> >> >> >         Return (Local0)
-> >> >> >     }
-> >> >> > 
-> >> >> >  +  Local1 = Zero
-> >> >> >     Local2 = AIDX (DerefOf (Arg4 [Zero]), DerefOf (Arg4 [One]
-> >> >> > 
-> >> >> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>      
-> >> >> 
-> >> >> Nope:
-> >> >> 
-> >> >> diff -ru -N -IDisassembly -IChecksum '-I*     Length           ' old/asl/tests/data/acpi/q35/DSDT.viot.dsl new/asl/tests/data/acpi/q35/DSDT.viot.dsl
-> >> >> :--- old/asl/tests/data/acpi/q35/DSDT.viot.dsl  2023-03-01 19:22:57.636454958 -0500
-> >> >> :+++ new/asl/tests/data/acpi/q35/DSDT.viot.dsl  2023-03-01 19:22:58.451460462 -0500
-> >> >> :@@ -148,7 +148,6 @@
-> >> >>                      {
-> >> >>                           0x00                                             // .
-> >> >>                      }
-> >> >> -                Local1 = Zero
-> >> >>                  If ((Arg0 != ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
-> >> >>                  {
-> >> >>                      Return (Local0)
-> >> >> :@@ -159,12 +158,14 @@
-> >> >>                      Return (Local0)
-> >> >>                  }
-> >> >>  
-> >> >> +                Local1 = Zero
-> >> >>                  Local2 = AIDX (DerefOf (Arg4 [Zero]), DerefOf (Arg4 [One]
-> >> >>                      ))
-> >> >>                  If (!((Local2 == Zero) | (Local2 == 0xFFFFFFFF)))
-> >> >>                  {
-> >> >>                      Local1 |= One
-> >> >>                      Local1 |= (One << 0x07)
-> >> >> +                    Local1 |= (One << 0x05)
-> >> >>                  }
-> >> >>  
-> >> >>                  Local0 [Zero] = Local1
-> >> >> 
-> >> >> 
-> >> >> and the funny thing is, the second change is in the expected
-> >> >> file but not in the code so this patch causes the test to fail.    
-> >> >
-> >> > above diff is remnants of some old version of the patch before
-> >> > patches were reshuffled.
-> >> >
-> >> > for some reason q35/viot test gets skipped => no table rebuild => stale DSDT.viot table
-> >> >
-> >> > reverting recently merged commit c471eb4f40, I can get q35/viot test back:
-> >> >
-> >> > commit c471eb4f40445908c1be7bb11a37ac676a0edae7
-> >> > Author: Fabiano Rosas <farosas@suse.de>
-> >> > Date:   Wed Feb 8 16:46:57 2023 -0300
-> >> >
-> >> >     tests/qtest: Check for devices in bios-tables-test
-> >> >
-> >> > so checks aren't working as expected on my host for some reason
-> >> >    
-> >> 
-> >> Was this a legitimate skip or do we have a bug in the way we check for
-> >> devices? I.e. did you have CONFIG_VIRTIO_IOMMU in the build?  
-> >
-> > config should be there since with your patch reverted viot test runs and passes just fine
-> > so I'd assume it is a bug somewhere in check code
-> >  
-> 
-> Probably easier to just revert the patch then. We have stopped building
-> bios-tables-test.c when CONFIG_PARALLEL is not present, so the build
-> --without-default-devices is already covered.
-> 
-> We would only need those checks if PCI_DEVICES=n or one of the
-> individual CONFIGs, which we have discussed previously that is not worth
-> the effort to keep track of.
-> 
+--dbkhlOUG11o6TRfr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ok, then I'll include revert in on respin
+On Thu, Mar 02, 2023 at 03:16:32PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 2/3/23 14:08, Stefan Hajnoczi wrote:
+> > On Thu, Mar 02, 2023 at 11:36:03AM +0100, Philippe Mathieu-Daud=E9 wrot=
+e:
+> > > On 1/3/23 21:57, Stefan Hajnoczi wrote:
+> > > > There is no change in behavior. Switch to AIO_WAIT_WHILE_UNLOCKED()
+> > > > instead of AIO_WAIT_WHILE() to document that this code has already =
+been
+> > > > audited and converted. The AioContext argument is already NULL so
+> > > > aio_context_release() is never called anyway.
+> > >=20
+> > > Shouldn't we assert(ctx && unlock) in AIO_WAIT_WHILE_INTERNAL() then?
+> >=20
+> > Can you show where you'd add that assertion? It's not clear to me what
+> > the purpose is.
+>=20
+> Without your series applied, using:
+>=20
+> -- >8 --
+> diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+> index dd9a7f6461..dc372e4c16 100644
+> --- a/include/block/aio-wait.h
+> +++ b/include/block/aio-wait.h
+> @@ -82,6 +82,8 @@ extern AioWait global_aio_wait;
+>      bool waited_ =3D false;                                          \
+>      AioWait *wait_ =3D &global_aio_wait;                             \
+>      AioContext *ctx_ =3D (ctx);                                      \
+> +    assert("Use AIO_WAIT_WHILE_UNLOCKED()" && !unlock              \
+> +           || (ctx && strcmp(#ctx, "qemu_get_aio_context()")));    \
+>      /* Increment wait_->num_waiters before evaluating cond. */     \
+>      qatomic_inc(&wait_->num_waiters);                              \
+>      /* Paired with smp_mb in aio_wait_kick(). */                   \
+> ---
+
+Ah, I see. You are suggesting adding an assertion to catch
+AIO_WAIT_WHILE() usage in cases where AIO_WAIT_WHILE_UNLOCKED() should
+be used instead.
+
+I think it's a bit too clever, especially the strcmp trick, but we can
+add it as the final patch. I have grepped the code and don't think there
+are any remaining instances where the assertion fails.
+
+Stefan
+
+> I get:
+>=20
+> Assertion failed: ("Use AIO_WAIT_WHILE_UNLOCKED()" && !1 || (((void*)0) &&
+> strcmp("((void*)0)", "qemu_get_aio_context()"))), function
+> blk_exp_close_all_type, file export.c, line 309.
+>=20
+> -> [PATCH 2/6] block: convert blk_exp_close_all_type() to
+> AIO_WAIT_WHILE_UNLOCKED()
+>=20
+> Assertion failed: ("Use AIO_WAIT_WHILE_UNLOCKED()" && !1 ||
+> (qemu_get_aio_context() && strcmp("qemu_get_aio_context()",
+> "qemu_get_aio_context()"))), function bdrv_graph_wrlock, file graph-lock.=
+c,
+> line 130.
+>=20
+> -> [PATCH 3/6] block: convert bdrv_graph_wrlock() to
+> AIO_WAIT_WHILE_UNLOCKED()
+>=20
+> Assertion failed: ("Use AIO_WAIT_WHILE_UNLOCKED()" && !1 || (((void*)0) &&
+> strcmp("((void*)0)", "qemu_get_aio_context()"))), function
+> bdrv_drain_all_begin, file io.c, line 523.
+>=20
+> -> [PATCH 4/6] block: convert bdrv_drain_all_begin() to
+> AIO_WAIT_WHILE_UNLOCKED()
+>=20
+
+--dbkhlOUG11o6TRfr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQAyAUACgkQnKSrs4Gr
+c8g0lgf+JecBQdq6iINzsXkfYVC5A3jmNKWGsYeIViAi3b0bcEjf1xb97TVgivzN
++rNxie6XSpvQscTmATTAX/433y3epsZkq46oY72WdjIKEF0QQ/L2btLL/kfPgBf2
+Ez1uKEdzf9rfR3MTJpLNILACyPu5rSIDw+zz9OqmfQljJSTswHIViMwSnunmaPnR
+ymkMKySNe/120JUYM9t+7Fe457IWvhmbur6Zt2ZUgqNeCwAaegifsHVYF8Yl1glX
+bEVxn04h0SMeD4X7E0DiR3S/KVq57CAskuouQ3L9+Gky96ZVJncac2Ku5zyxrZAu
+I12PL2uaWHYpbF31Kgn/r/cdE836RQ==
+=X8us
+-----END PGP SIGNATURE-----
+
+--dbkhlOUG11o6TRfr--
 
 
