@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A126A8436
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 15:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79AB6A8452
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 15:43:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXjyH-0003i4-MM; Thu, 02 Mar 2023 09:31:49 -0500
+	id 1pXk8S-0002Ux-2a; Thu, 02 Mar 2023 09:42:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXjyB-0003Vs-Om
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:31:45 -0500
+ id 1pXk8P-0002Ss-Ii
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:42:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXjy8-0000tE-UV
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:31:42 -0500
+ id 1pXk8N-0005LQ-Qy
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:42:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677767499;
+ s=mimecast20190719; t=1677768134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=La9vQ2mE1bajEncz77INlr7fEpP/qsSZU5MH4aARx34=;
- b=R0dtcYHXeaBzpwAJ29k7y8+FbH5cVI5yksJipGB/bZUzRVh8CNztv4iJqSqbhGOB7eA983
- Y5QUR5OnLJ3pgiWqw1OZ5LGbK7SAxMxyXSdAKfiV0pZjqyseFv7G8sNXcAfrxlv9LjxcvF
- cV3kxs3LHNheREDY9WcnKp3kHfKK2pA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TXVHmIT0NVzS/nzPhxgKDoqSFBAo5SFr4JP59PeKt74=;
+ b=Jqz9I2gAGoxtMngsV/+MO2yJzc+RyA1WhyFQJJAnWg4K7Xb4cS8mnhmPZjdayhmsQDNBlR
+ 2GYRNbamtQxeDb5OPJxwKtJNxBmcGj13QBtuYYpGa/hy40BY9xQm/fdJVZ5Z4gTcL4xd91
+ kVUsFxeCNoGVBH/DLqsZ3TbVRvuZlis=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-624-H4ptnTQCMK6NWDiAHQRBEQ-1; Thu, 02 Mar 2023 09:31:29 -0500
-X-MC-Unique: H4ptnTQCMK6NWDiAHQRBEQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso5818153wmi.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 06:31:28 -0800 (PST)
+ us-mta-496-L7LuOIC0OByKf-8g4WItBA-1; Thu, 02 Mar 2023 09:42:13 -0500
+X-MC-Unique: L7LuOIC0OByKf-8g4WItBA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j6-20020a05600c1c0600b003eaf882cb85so1171292wms.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 06:42:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677767487;
+ d=1e100.net; s=20210112; t=1677768132;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=La9vQ2mE1bajEncz77INlr7fEpP/qsSZU5MH4aARx34=;
- b=c6Xdz7fbkkn7sm9ALmDtkCmMkCJdXhRqFhhKQewKTReKGV+pSqjrlIlliQzg2cW4Xz
- G0e7rCvlEsxjG65KShPDZztdUILLm3kKUe0Vw2oNB4O6gn5f/gn5QC/7xhI+KiPn18bd
- GIMw4ciEhF9VW1YvLwbG0pZ+Ex02axiOMGdbFL+MK/wQ0O9g+z+UgUUAa1jKNA7f8ACk
- 39ihgxa5S4AY1MTOcFaFqw0bsCw9qMUxhPiTtzn3dQYu8+FfTSsm2/IjEVIHI8c9phfg
- epDA0uCUd1Ak0PYMxjNsa7y917TvG2O0EVSMtkKvveLcahh6+Sps3h3YxtwIvsO3OxMR
- CzZA==
-X-Gm-Message-State: AO0yUKWVm8tJ/UAGlGXhHUZzB4Rv3jgVplKpArMpdFiUJBEkaVjcEQgT
- dxT+JU6sQeYa8PCDfD/+Nv1ZZ29qfLcMG5rpwxz939p4iYVbolCDXAcMqXx1PA1+DzkAc2vNxgF
- JG3maema2iCQ/zyI=
-X-Received: by 2002:a05:600c:3318:b0:3df:e4b4:de69 with SMTP id
- q24-20020a05600c331800b003dfe4b4de69mr7777306wmp.27.1677767487518; 
- Thu, 02 Mar 2023 06:31:27 -0800 (PST)
-X-Google-Smtp-Source: AK7set/X86aChDTYTRO5+oG2gKjbnAvSzfeGuGrwW4YBcE3VbiHc+3dY/OtMpD4L5uWcFqEQIQ8U0Q==
-X-Received: by 2002:a05:600c:3318:b0:3df:e4b4:de69 with SMTP id
- q24-20020a05600c331800b003dfe4b4de69mr7777286wmp.27.1677767487230; 
- Thu, 02 Mar 2023 06:31:27 -0800 (PST)
+ bh=TXVHmIT0NVzS/nzPhxgKDoqSFBAo5SFr4JP59PeKt74=;
+ b=34bDsIXugEGIiUuXjsvDTPlW5NpNeK4EDwRLudlTMQKIcyLW17XAmOqD+LgjaZgm+b
+ pc3auYu7vsrK2ipCQCQxwWBt+8SUsnGM8LBjp+AbE7qhZxo0PKxv69wF6L4X98gIvExM
+ y2Pkd1N39AY3p+lCjZkfjAfGkDjsd4m3OjFD7goKiJwbG+hvAJ0j4qga3nEpAY+qxP99
+ 1nUiIMT42gq26B6lGboN7TcVJFBNXCqR6C1oiaIRMg+jBVAnfIwv9b/VQ2Sv8WHVMR4y
+ /jN2V83Do/Z8twSNUoNvX9/JbVLkRQZSYqI10naABk/VO2rQpsPUlZxMIV3kRa9yMXql
+ MRhA==
+X-Gm-Message-State: AO0yUKXQNqRleBwquNoh/XfdeJA86s7Pth7Gdk87ikv9jF9g+2G4rZlA
+ Rol0F2ToqjlpW+ZKQ0HgLM82pj7iJL/8L2S3Kbf+bfNnUSKq5kqIgRVkuN6GkfHk0PwTwAd5hAI
+ dGMXvA06U0HxY50k=
+X-Received: by 2002:a05:600c:4aa7:b0:3ea:f6c4:5f25 with SMTP id
+ b39-20020a05600c4aa700b003eaf6c45f25mr7980426wmp.36.1677768131943; 
+ Thu, 02 Mar 2023 06:42:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set+RBv1hbyj6VAk3vGx8YZRl5yQiPHFosd0d0jUofOK6j+mWA4BhArTwYwWQPPW4SIaXv9ww8Q==
+X-Received: by 2002:a05:600c:4aa7:b0:3ea:f6c4:5f25 with SMTP id
+ b39-20020a05600c4aa700b003eaf6c45f25mr7980415wmp.36.1677768131679; 
+ Thu, 02 Mar 2023 06:42:11 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
  by smtp.gmail.com with ESMTPSA id
- n37-20020a05600c3ba500b003e2052bad94sm3502916wms.33.2023.03.02.06.31.26
+ h2-20020a1ccc02000000b003e2066a6339sm3158547wmb.5.2023.03.02.06.42.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 06:31:26 -0800 (PST)
-Date: Thu, 2 Mar 2023 15:31:25 +0100
+ Thu, 02 Mar 2023 06:42:10 -0800 (PST)
+Date: Thu, 2 Mar 2023 15:42:09 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno
- <aurelien@aurel32.net>
-Subject: Re: [PATCH 5/7] hw/acpi/piix4: Fix offset of GPE0 registers
-Message-ID: <20230302153125.2b8c7a07@imammedo.users.ipa.redhat.com>
-In-Reply-To: <BC12A842-2845-49DE-B88D-C5A1009BBD80@gmail.com>
-References: <20230122170724.21868-1-shentey@gmail.com>
- <20230122170724.21868-6-shentey@gmail.com>
- <20230125165501.00672bc0@imammedo.users.ipa.redhat.com>
- <BC12A842-2845-49DE-B88D-C5A1009BBD80@gmail.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow
+ <shentey@gmail.com>, qemu-devel@nongnu.org, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, Huacai Chen <chenhuacai@kernel.org>
+Subject: Re: [PATCH 2/3] hw/isa/vt82c686: Allow PM controller to switch to
+ ACPI mode
+Message-ID: <20230302154209.4eda6225@imammedo.users.ipa.redhat.com>
+In-Reply-To: <78bc4dd9-f713-3824-1d87-74f3011b019d@linaro.org>
+References: <20230129213418.87978-1-shentey@gmail.com>
+ <20230129213418.87978-3-shentey@gmail.com>
+ <9611ad50-1c60-de0a-e8e0-85b487950888@eik.bme.hu>
+ <78bc4dd9-f713-3824-1d87-74f3011b019d@linaro.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -105,102 +105,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 29 Jan 2023 14:55:06 +0000
-Bernhard Beschow <shentey@gmail.com> wrote:
+On Mon, 6 Feb 2023 09:00:37 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 
-> Am 25. Januar 2023 15:55:01 UTC schrieb Igor Mammedov <imammedo@redhat.com>:
-> >On Sun, 22 Jan 2023 18:07:22 +0100
-> >Bernhard Beschow <shentey@gmail.com> wrote:
-> >  
-> >> The PIIX4 datasheet defines the GPSTS register to be at offset 0x0c of the
-> >> power management I/O register block. This register block is represented
-> >> in the device model by the io attribute. So make io_gpe a child memory
-> >> region of io at offset 0x0c.  
-> >
-> >to what end?
-> >  
-> >> Note that SeaBIOS sets the base address of the register block to 0x600,
-> >> resulting in the io_gpe block to start at 0x60c. GPE_BASE is defined as
-> >> 0xafe0 which is 0xa9d4 bytes off. In order to preserve compatibilty,
-> >> create an io_gpe_qemu memory region alias at GPE_BASE.  
-> >
-> >qemu's io_gpe != piix4(GPSTS)
-> >QEMU simply doesn't implement piix4(GPSTS), instead it has implemented
-> >custom GPE registers block at 0xafe0 for its hotplug purposes.
-> >Bits in both GPE blocks have different meaning,
-> >so moving io_gpe to PMBASE+0x0c, would be a bug.
-> >
-> >Interesting question is what guest gets now when it reads
-> >PMBASE+0x0c ?
-> >
-> >If reads return -1 and guest uses these
-> >registers it might get confused since all STS/EN bits
-> >are set and writes are ignored. We likely get away
-> >with it since these registers aren't used by non ACPI guests
-> >(non x86 ones) and x86 ones fetch GPE block from FADT
-> >table => not using piix4(GPSTS) at all.
-> >So It's a bug to fix (at least make it read as 0s)  
-> 
-> I see. This wasn't obvious to me and I'll drop this patch.
-> 
-> How about renaming io_gpe to something communicating that this is purely a "Frankenstein" functionality, e.g. to io_gpe_qemu or io_gpe_hotplug? Any preferences?
-
-I don't think it's worth of effort, io_gpe is not worse that others.
-
-> 
+> On 31/1/23 15:54, BALATON Zoltan wrote:
+> > On Sun, 29 Jan 2023, Bernhard Beschow wrote: =20
+> >> Adds missing functionality the real hardware supports.
+> >>
 > >> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > >> ---
-> >>  include/hw/acpi/piix4.h | 1 +
-> >>  hw/acpi/piix4.c         | 9 +++++++--
-> >>  2 files changed, 8 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git a/include/hw/acpi/piix4.h b/include/hw/acpi/piix4.h
-> >> index 62e1925a1f..4e6cad9e8c 100644
-> >> --- a/include/hw/acpi/piix4.h
-> >> +++ b/include/hw/acpi/piix4.h
-> >> @@ -40,6 +40,7 @@ struct PIIX4PMState {
-> >>  
-> >>      MemoryRegion io;
-> >>      MemoryRegion io_gpe;
-> >> +    MemoryRegion io_gpe_qemu;
-> >>      ACPIREGS ar;
-> >>  
-> >>      APMState apm;
-> >> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> >> index 2e9bc63fca..836f9026b1 100644
-> >> --- a/hw/acpi/piix4.c
-> >> +++ b/hw/acpi/piix4.c
-> >> @@ -49,6 +49,7 @@
-> >>  #include "qom/object.h"
-> >>  
-> >>  #define GPE_BASE 0xafe0
-> >> +#define GPE_OFS 0xc
-> >>  #define GPE_LEN 4
-> >>  
-> >>  #define ACPI_PCIHP_ADDR_PIIX4 0xae00
-> >> @@ -429,7 +430,7 @@ static void piix4_pm_add_properties(PIIX4PMState *s)
-> >>      object_property_add_uint8_ptr(OBJECT(s), ACPI_PM_PROP_ACPI_DISABLE_CMD,
-> >>                                    &acpi_disable_cmd, OBJ_PROP_FLAG_READ);
-> >>      object_property_add_uint64_ptr(OBJECT(s), ACPI_PM_PROP_GPE0_BLK,
-> >> -                                   &s->io_gpe.addr, OBJ_PROP_FLAG_READ);
-> >> +                                   &s->io_gpe_qemu.addr, OBJ_PROP_FLAG_READ);
-> >>      object_property_add_uint8_ptr(OBJECT(s), ACPI_PM_PROP_GPE0_BLK_LEN,
-> >>                                    &s->ar.gpe.len, OBJ_PROP_FLAG_READ);
-> >>      object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
-> >> @@ -558,7 +559,11 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-> >>  {
-> >>      memory_region_init_io(&s->io_gpe, OBJECT(s), &piix4_gpe_ops, s,
-> >>                            "acpi-gpe0", GPE_LEN);
-> >> -    memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> >> +    memory_region_add_subregion(&s->io, GPE_OFS, &s->io_gpe);
-> >> +
-> >> +    memory_region_init_alias(&s->io_gpe_qemu, OBJECT(s), "acpi-gpe0-qemu",
-> >> +                             &s->io_gpe, 0, memory_region_size(&s->io_gpe));
-> >> +    memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe_qemu);
-> >>  
-> >>      if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-> >>          acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,  
-> >  
-> 
+> >> hw/isa/vt82c686.c | 18 +++++++++++++++++-
+> >> 1 file changed, 17 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> >> index 2189be6f20..b0765d4ed8 100644
+> >> --- a/hw/isa/vt82c686.c
+> >> +++ b/hw/isa/vt82c686.c
+> >> @@ -37,6 +37,9 @@
+> >> #include "qemu/timer.h"
+> >> #include "trace.h" =20
+>=20
+> > Why does=20
+> > acpi_pm1_cnt_update() take two arguments for a bool value? Can these be=
+=20
+> > both true or false at the same time? =20
+>=20
+> No, this is a one-bit so boolean is enough...
+
+one boolean would be fine unless they were both false?
+
+>=20
+> Maybe unfinished refactor from commit eaba51c573 ("acpi, acpi_piix,
+> vt82c686: factor out PM1_CNT logic")?
+>=20
 
 
