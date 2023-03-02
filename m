@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C0E6A84D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 16:03:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756C16A84F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 16:13:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXkSD-0001BL-79; Thu, 02 Mar 2023 10:02:45 -0500
+	id 1pXkbj-0001XX-Pj; Thu, 02 Mar 2023 10:12:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXkS1-000153-TM
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:02:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pXkbi-0001XM-1E
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:12:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXkRz-0004uY-NQ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:02:33 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pXkbg-0005Gt-G0
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:12:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677769348;
+ s=mimecast20190719; t=1677769951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8wUlAmbkeiive3tr45UwwXyfR/QPhGo1RznOWahl5n0=;
- b=VmPakh9DyjqOhx3ONpAHrZnLlAmV6d6Szl3pfwTxyvdbICmpB5iyPBsQykKpiWSYXPfyF9
- ovFTjN7tZ3+pqokCsCv0WdymbQ8f66qjbkT0Rwq/XyYi/DDUdJIRgN+eiVjcY5BGSc6qF4
- +tGP80pIxM/NsgccLuEwGg9Nfx8N+4w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-iboxR91LMMi_xDQHR0G5Sg-1; Thu, 02 Mar 2023 10:02:25 -0500
-X-MC-Unique: iboxR91LMMi_xDQHR0G5Sg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD50E18E0A6A;
- Thu,  2 Mar 2023 15:02:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CC3040C83B6;
- Thu,  2 Mar 2023 15:02:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 830CD21E6A1F; Thu,  2 Mar 2023 16:02:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org,  Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org,  Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 5/6] hmp: convert handle_hmp_command() to
- AIO_WAIT_WHILE_UNLOCKED()
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-6-stefanha@redhat.com>
- <87ttz3sju0.fsf@pond.sub.org> <20230302132205.GB2485531@fedora>
-Date: Thu, 02 Mar 2023 16:02:22 +0100
-In-Reply-To: <20230302132205.GB2485531@fedora> (Stefan Hajnoczi's message of
- "Thu, 2 Mar 2023 08:22:05 -0500")
-Message-ID: <87v8jjjiwx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=Xvpj20OaqPV+tTNqnT4a47jgVWbQU5AWf0dybgNpzPY=;
+ b=VlE87w4YSYZExyCoMTYKhqVKWFrXrOHzyxCqRXWrzIJTtzzkE1jl1ozd7J7YYWK8SfQslU
+ SkouDMAkHjR/1qDVkEuL94q9zo+MNbflhIzPsp8OaK9Jz8BVrzD+X8D3b6QqouorrpxS56
+ K9jyypD81PaKeWC4FU0qhtA3wKRh4hg=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-578-kfSviltYOfyUJm19_y7oBQ-1; Thu, 02 Mar 2023 10:12:30 -0500
+X-MC-Unique: kfSviltYOfyUJm19_y7oBQ-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ d185-20020a25e6c2000000b008fa1d22bd55so4377156ybh.21
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 07:12:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677769949;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xvpj20OaqPV+tTNqnT4a47jgVWbQU5AWf0dybgNpzPY=;
+ b=8BZ4HSoMxG3N5oQxUd7RRHelXoGWBPealo/6yvJ0+JyvWxj2/2QbyMAGoXmLVSr6ZF
+ t25fd8jCO746qBzCuefHMnXAB/2jZlEJwpPP03rYGCYX2MEpHfH4C+8n0/pPM0uLfOoD
+ RRTq/rV5KXle0pda+sMmobaYmb60sOpcm1H1zomXLWVi2K0KurVWM4jtCabQYNecaZid
+ lDpyptws7ZD0q9troMTFObXn7kE3FdyUYDQVSuOkd6nY5ZnYGh/4zyAjK+qhjUam3cE3
+ v98HtaqymkooGSIyl7eNO9YJ5gj0uB7Zo1xO0IbzwoDzXGAT1vSRL8D8n2rKtUHyBW2q
+ rKZg==
+X-Gm-Message-State: AO0yUKXm7koVNqAQ4InnyGQOArjnfwMgSJ/B8ufIwGDAwGDjOOfdmbGC
+ nteJ0XI8U5CQzUGVE/BxDSmHvXgBWRbuKDlRa0pOQ044R0M/+YNxHLZ/l2qSMyWHjBHN/rj5tva
+ VRa668FYAh3p3XwH/QRGjmIA12uvppwM=
+X-Received: by 2002:a5b:611:0:b0:a48:6236:1be4 with SMTP id
+ d17-20020a5b0611000000b00a4862361be4mr5416051ybq.2.1677769948916; 
+ Thu, 02 Mar 2023 07:12:28 -0800 (PST)
+X-Google-Smtp-Source: AK7set+KfUB4uyDVEey5V9dJqp/t7Xlwm7rkrTxn7d+OG/fx9dTn9EQFkqGKl/wN1phqsY4EaJ+Fe9tC6w/B7sNHnbw=
+X-Received: by 2002:a5b:611:0:b0:a48:6236:1be4 with SMTP id
+ d17-20020a5b0611000000b00a4862361be4mr5416031ybq.2.1677769948569; Thu, 02 Mar
+ 2023 07:12:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+References: <20230224155438.112797-1-eperezma@redhat.com>
+ <20230224155438.112797-11-eperezma@redhat.com>
+ <45482a90-1bb6-fc67-3fbd-86833d7d00c1@redhat.com>
+In-Reply-To: <45482a90-1bb6-fc67-3fbd-86833d7d00c1@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 2 Mar 2023 16:11:52 +0100
+Message-ID: <CAJaqyWcEzmv2K-FDZJ9jf8tSvfYc2SkhHEBsP3HKM73Mu1nhZw@mail.gmail.com>
+Subject: Re: [PATCH v4 10/15] vdpa: disable RAM block discard only for the
+ first device
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
+ Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>, 
+ Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,165 +105,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
-
-> On Thu, Mar 02, 2023 at 08:17:43AM +0100, Markus Armbruster wrote:
->> Stefan Hajnoczi <stefanha@redhat.com> writes:
->> 
->> > The HMP monitor runs in the main loop thread. Calling
->> 
->> Correct.
->> 
->> > AIO_WAIT_WHILE(qemu_get_aio_context(), ...) from the main loop thread is
->> > equivalent to AIO_WAIT_WHILE_UNLOCKED(NULL, ...) because neither unlocks
->> > the AioContext and the latter's assertion that we're in the main loop
->> > succeeds.
->> >
->> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->> > ---
->> >  monitor/hmp.c | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/monitor/hmp.c b/monitor/hmp.c
->> > index 2aa85d3982..5ecbdac802 100644
->> > --- a/monitor/hmp.c
->> > +++ b/monitor/hmp.c
->> > @@ -1167,7 +1167,7 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
->> >          Coroutine *co = qemu_coroutine_create(handle_hmp_command_co, &data);
->> >          monitor_set_cur(co, &mon->common);
->> >          aio_co_enter(qemu_get_aio_context(), co);
->> > -        AIO_WAIT_WHILE(qemu_get_aio_context(), !data.done);
->> > +        AIO_WAIT_WHILE_UNLOCKED(NULL, !data.done);
->> >      }
->> >  
->> >      qobject_unref(qdict);
->> 
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> 
->> For an R-by, I need to understand this in more detail.  I'm not familiar
->> with the innards of AIO_WAIT_WHILE() & friends, so I need to go real
->> slow.
->> 
->> We change
->> 
->>     ctx from qemu_get_aio_context() to NULL
->>     unlock from true to false
->> 
->> in
->> 
->>     bool waited_ = false;                                          \
->>     AioWait *wait_ = &global_aio_wait;                             \
->>     AioContext *ctx_ = (ctx);                                      \
->>     /* Increment wait_->num_waiters before evaluating cond. */     \
->>     qatomic_inc(&wait_->num_waiters);                              \
->>     /* Paired with smp_mb in aio_wait_kick(). */                   \
->>     smp_mb();                                                      \
->>     if (ctx_ && in_aio_context_home_thread(ctx_)) {                \
->>         while ((cond)) {                                           \
->>             aio_poll(ctx_, true);                                  \
->>             waited_ = true;                                        \
->>         }                                                          \
->>     } else {                                                       \
->>         assert(qemu_get_current_aio_context() ==                   \
->>                qemu_get_aio_context());                            \
->>         while ((cond)) {                                           \
->>             if (unlock && ctx_) {                                  \
->>                 aio_context_release(ctx_);                         \
->>             }                                                      \
->>             aio_poll(qemu_get_aio_context(), true);                \
->>             if (unlock && ctx_) {                                  \
->>                 aio_context_acquire(ctx_);                         \
->>             }                                                      \
->>             waited_ = true;                                        \
->>         }                                                          \
->>     }                                                              \
->>     qatomic_dec(&wait_->num_waiters);                              \
->>     waited_; })
->> 
->> qemu_get_aio_context() is non-null here, correct?
+On Mon, Feb 27, 2023 at 9:11 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> qemu_get_aio_context() always returns the main loop thread's AioContext.
-
-So it's non-null.
-
-> qemu_get_current_aio_context() returns the AioContext that was most
-> recently set in the my_aiocontext thread-local variable for IOThreads,
-> the main loop's AioContext for BQL threads, or NULL for threads
-> that don't use AioContext at all.
 >
->> What's the value of in_aio_context_home_thread(qemu_get_aio_context())?
+> =E5=9C=A8 2023/2/24 23:54, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > Although it does not make a big difference, its more correct and
+> > simplifies the cleanup path in subsequent patches.
+> >
+> > Move ram_block_discard_disable(false) call to the top of
+> > vhost_vdpa_cleanup because:
+> > * We cannot use vhost_vdpa_first_dev after dev->opaque =3D NULL
+> >    assignment.
+> > * Improve the stack order in cleanup: since it is the last action taken
+> >    in init, it should be the first at cleanup.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-vdpa.c | 25 ++++++++++++++-----------
+> >   1 file changed, 14 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 71e3dc21fe..27655e7582 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -431,16 +431,6 @@ static int vhost_vdpa_init(struct vhost_dev *dev, =
+void *opaque, Error **errp)
+> >       trace_vhost_vdpa_init(dev, opaque);
+> >       int ret;
+> >
+> > -    /*
+> > -     * Similar to VFIO, we end up pinning all guest memory and have to
+> > -     * disable discarding of RAM.
+> > -     */
+> > -    ret =3D ram_block_discard_disable(true);
+> > -    if (ret) {
+> > -        error_report("Cannot set discarding of RAM broken");
+> > -        return ret;
+> > -    }
+> > -
+> >       v =3D opaque;
+> >       v->dev =3D dev;
+> >       dev->opaque =3D  opaque ;
+> > @@ -452,6 +442,16 @@ static int vhost_vdpa_init(struct vhost_dev *dev, =
+void *opaque, Error **errp)
+> >           return 0;
+> >       }
+> >
+> > +    /*
+> > +     * Similar to VFIO, we end up pinning all guest memory and have to
+> > +     * disable discarding of RAM.
+> > +     */
+> > +    ret =3D ram_block_discard_disable(true);
+> > +    if (ret) {
+> > +        error_report("Cannot set discarding of RAM broken");
+> > +        return ret;
+> > +    }
 >
-> This function checks whether the given AioContext is associated with
-> this thread. In a BQL thread it returns true if the context is the main
-> loop's AioContext. In an IOThread it returns true if the context is the
-> IOThread's AioContext. Otherwise it returns false.
-
-I guess that means in_aio_context_home_thread(qemu_get_aio_context()) is
-true in the main thread.
-
-Before the patch, the if's condition is true, and we execute
-
-           while ((cond)) {                                           \
-               aio_poll(ctx_, true);                                  \
-               waited_ = true;                                        \
-           }                                                          \
-
-Afterwards, it's false, and we execute
-
->>     }                                                              \
->>     qatomic_dec(&wait_->num_waiters);                              \
->>     waited_; })
->> 
->> qemu_get_aio_context() is non-null here, correct?
 >
-> qemu_get_aio_context() always returns the main loop thread's AioContext.
-
-So it's non-null.
-
-> qemu_get_current_aio_context() returns the AioContext that was most
-> recently set in the my_aiocontext thread-local variable for IOThreads,
-> the main loop's AioContext for BQL threads, or NULL for threads
-> that don't use AioContext at all.
+> We seems to lose the chance to free svq allocated by
+> vhost_vdpa_init_svq() in this case?
 >
->> What's the value of in_aio_context_home_thread(qemu_get_aio_context())?
+
+Right, I'll fix it in the next version.
+
+Thanks!
+
+> Thanks
 >
-> This function checks whether the given AioContext is associated with
-> this thread. In a BQL thread it returns true if the context is the main
-> loop's AioContext. In an IOThread it returns true if the context is the
-> IOThread's AioContext. Otherwise it returns false.
-
-I guess that means in_aio_context_home_thread(qemu_get_aio_context()) is
-true in the main thread.
-
-Before the patch, the if's condition is true, and we execute
-
-           while ((cond)) {                                           \
-               aio_poll(ctx_, true);                                  \
-               waited_ = true;                                        \
-           }                                                          \
-
-Afterwards, it's false, and we instead execute
-
-           assert(qemu_get_current_aio_context() ==                   \
-                  qemu_get_aio_context());                            \
-           while ((cond)) {                                           \
-               if (unlock && ctx_) {                                  \
-                   aio_context_release(ctx_);                         \
-               }                                                      \
-               aio_poll(qemu_get_aio_context(), true);                \
-               if (unlock && ctx_) {                                  \
-                   aio_context_acquire(ctx_);                         \
-               }                                                      \
-               waited_ = true;                                        \
-           }                                                          \
-
-The assertion is true: both operands of == are the main loop's
-AioContext.
-
-The if conditions are false, because unlock is.
-
-Therefore, we execute the exact same code.
-
-All correct?
+>
+> > +
+> >       vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> >                                  VIRTIO_CONFIG_S_DRIVER);
+> >
+> > @@ -577,12 +577,15 @@ static int vhost_vdpa_cleanup(struct vhost_dev *d=
+ev)
+> >       assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDP=
+A);
+> >       v =3D dev->opaque;
+> >       trace_vhost_vdpa_cleanup(dev, v);
+> > +    if (vhost_vdpa_first_dev(dev)) {
+> > +        ram_block_discard_disable(false);
+> > +    }
+> > +
+> >       vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> >       memory_listener_unregister(&v->listener);
+> >       vhost_vdpa_svq_cleanup(dev);
+> >
+> >       dev->opaque =3D NULL;
+> > -    ram_block_discard_disable(false);
+> >
+> >       return 0;
+> >   }
+>
 
 
