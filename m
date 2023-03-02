@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8386A8C10
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2786A8C22
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:45:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrc4-000702-85; Thu, 02 Mar 2023 17:41:24 -0500
+	id 1pXrcA-00074V-DT; Thu, 02 Mar 2023 17:41:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrc1-0006zB-PF
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:21 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrc7-00073y-Um
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:27 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrbz-0008Q4-Gi
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:21 -0500
-Received: by mail-wr1-x431.google.com with SMTP id v16so659509wrn.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrc6-0008Ni-D0
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:27 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id q16so619608wrw.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796878;
+ d=linaro.org; s=google; t=1677796885;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uGLX24+M0yUzTdArc9wULeHBvztrfWJqtGM1+N7rTy8=;
- b=lkXMb2pmp0VBpjxu+KgHJRXikOFCoOPaEn9jhjjf+pZY/se/m6/bjXTLAXumgYB2Fo
- grUMWFWZt1REFn3c2B8vedD5qR+cFpC3oZmvlKXoBg9KWWv2m0pz6UpslDTnTDazyr7Y
- JyTFtD7a8WlfJ60UoixzlC5tDpHh2ImTb2WmagLBmMPfivOzvo0UFpq5YmvbxfhINwWL
- R30WJOrdswAeQg5y4XTlcDNDf/8gaMpZaIxwbreXImQMUtON3OojSLgTcYJhM0upDTvP
- DHIJcR1jhWReIDy2igCtv0dUtX3GgSFNvE5bYrGgroGvBOBqXQ7i261q/tWimusV4lU8
- UamQ==
+ bh=IBU+8jdhjCYbSlld/hmcA7nJYY2utc4DYNvGGjyLRLg=;
+ b=n0/7lUwEOFQu4z7Uz/XunGZ/aSRMTUgk6d35oeLKW+f7siuafmKtyGvOZYBcdMzPZp
+ PddLv2zeG/pRLQSJynI114jC/FN6Xt3hjyRSi0xK4fXFO4KK+n9MwgKMb8CxFOhao+P0
+ gHnVQcuGXJohuWxfNjvN5aWMvwEM3DgRIX2U6I1pFnFR9rX7GyMr6aEcO7otPIoeE07x
+ PPN5d/a/Dx3mCroJzs35ZfyhdNzRDEpQFbZEzPuKsc2/AWC/x77BOamjI00gfeRss53c
+ w2RZjxXPpFhdrwL2vnD45ADQDpN5/wSwWzg+wFolxowCWcAdwXuf2oGi245DQPjwmVHX
+ KAGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796878;
+ d=1e100.net; s=20210112; t=1677796885;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uGLX24+M0yUzTdArc9wULeHBvztrfWJqtGM1+N7rTy8=;
- b=klsLir9UrmGNSIoc9pJmCpDK0fhlvVSLBatn5rad6J9HcFa+aFYsgjL9PcX8Sf5Ucz
- k+0xvO6+dqmSNDpeQMlRgK/D2LhmS0lf8znZp3xwvt3nbAXTgu7bOVGDRi408810Rt2n
- AvKRL4Drj0sp514Rh5WsN8jo1UQ45bypfJhCEPKN5AZ4Nvd/DGXRErlNPLRx82c9NRS6
- auKQHkkQK9Ou/ZZ6BJeR+ZswpcyolA/oqus+Pl7gjPHEXCB/hohgPSXWnb+cWBEbJuOi
- mxvpj/KKtHDg5X7AKV0v9d9me7ZunL9LxLws0o2rF7+dCrzIcdooAFaXAt+HEajcm3Mk
- mbvw==
-X-Gm-Message-State: AO0yUKUhQi2pAFlDhNg+E7/3G188hYMz/XwCEXJk3lpCwD9/WnjmGTA5
- uxiX8i0an8YApIswEno0vjFlLz6Hz/OJTcuw
-X-Google-Smtp-Source: AK7set/VdsYSqCf/teNcK0HX2PypW1I9sRFjn1vqmKM9NYD97DCMEmg/QdI2OuTPtjMnTou58f3iEA==
-X-Received: by 2002:adf:fc8b:0:b0:2bf:d285:b787 with SMTP id
- g11-20020adffc8b000000b002bfd285b787mr8422599wrr.56.1677796877885; 
- Thu, 02 Mar 2023 14:41:17 -0800 (PST)
+ bh=IBU+8jdhjCYbSlld/hmcA7nJYY2utc4DYNvGGjyLRLg=;
+ b=cfH4lAJTDDuMYCjean1eV/DAI5Fz/jfEvj90BKv7LAAlsFUG23j1sTVlAAye7qDhUm
+ mK8R1kUauNONVm2tDqfBTsGSBphcAORSOypDPbggGkMDIIZv29Jo61uFGju7FWxqggQa
+ 3pNyb5np3Tr8YmtF1ehjADV42TrItpfjDBDPmHfkbzD9Yxxmo170+Fp8et+PlXou5Mx0
+ Tu7saJS3WAy9GIm8sDFL+KdVBNQL8lty1iurdedZtYjE+EEKa/p4M9bAuaJUAB7MGs0P
+ 6GuA1PmEi6irbm4tDQH1ixhNHPjCSNRpBTGrrrTUFz/3zRGE1hvuQBcdxQ+bT0n+Hy1G
+ UTyw==
+X-Gm-Message-State: AO0yUKVskC8B7VVZuhgheOZgCSoyJYphL/fr3dx43TQGxdFXZPDVmTjc
+ zFEh225Q3OTMQTLlV71MrWZUl6UcXuWKstKj
+X-Google-Smtp-Source: AK7set/jAHe9MIJ8MxkrxDtuqjOugi5d05k1ZtGm3TrKR/JfXo8iKB6uB7Yyztas2/BEbal/p+t2cw==
+X-Received: by 2002:adf:f9c5:0:b0:2cb:eef2:daff with SMTP id
+ w5-20020adff9c5000000b002cbeef2daffmr8803089wrr.22.1677796885442; 
+ Thu, 02 Mar 2023 14:41:25 -0800 (PST)
 Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- z5-20020a5d4c85000000b002c71703876bsm504884wrs.14.2023.03.02.14.41.15
+ o14-20020a5d408e000000b002bfd524255esm497315wrp.43.2023.03.02.14.41.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:41:17 -0800 (PST)
+ Thu, 02 Mar 2023 14:41:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Bernhard Beschow <shentey@gmail.com>
@@ -61,19 +61,23 @@ Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-block@nongnu.org
-Subject: [PATCH v3 02/18] hw/ide/piix: Allow using PIIX3-IDE as standalone PCI
- function
-Date: Thu,  2 Mar 2023 23:40:42 +0100
-Message-Id: <20230302224058.43315-3-philmd@linaro.org>
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH v3 03/18] hw/i386/pc_piix: Wire PIIX3 IDE ouput IRQs to ISA
+ bus IRQs 14/15
+Date: Thu,  2 Mar 2023 23:40:43 +0100
+Message-Id: <20230302224058.43315-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
 References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,72 +100,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In order to allow Frankenstein uses such plugging a PIIX3
-IDE function on a ICH9 chipset (which already exposes AHCI
-ports...) as:
+Since pc_init1() has access to the ISABus*, retrieve the
+ISA IRQs with isa_bus_get_irq().
 
-  $ qemu-system-x86_64 -M q35 -device piix3-ide
-
-add a kludge to automatically wires the IDE IRQs on an ISA
-bus exposed by a PCI-to-ISA bridge (usually function #0).
-Restrict this kludge to the PIIX3.
-
-Reported-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-TODO: describe why this configuration is broken (multiple
-output IRQs wired to the same input IRQ can lead to various
-IRQ level changed in the iothread, thus missed by the vCPUs).
----
- hw/ide/piix.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ hw/i386/pc_piix.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index a36dac8469..7cb96ef67f 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -170,6 +170,18 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 126b6c11df..1e90b9ff0d 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -277,7 +277,13 @@ static void pc_init1(MachineState *machine,
+     if (pcmc->pci_enabled) {
+         PCIDevice *dev;
  
-     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
- 
-+    if (!d->isa_irq[0] && !d->isa_irq[1]
-+                       && DEVICE_GET_CLASS(d)->user_creatable) {
-+        /* kludge specific to TYPE_PIIX3_IDE */
-+        Object *isabus = object_resolve_path_type("", TYPE_ISA_BUS, NULL);
+-        dev = pci_create_simple(pci_bus, piix3_devfn + 1, TYPE_PIIX3_IDE);
++        dev = pci_new_multifunction(piix3_devfn + 1, false, TYPE_PIIX3_IDE);
++        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 0,
++                                    isa_bus_get_irq(isa_bus, 14));
++        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 1,
++                                    isa_bus_get_irq(isa_bus, 15));
++        pci_realize_and_unref(dev, pci_bus, &error_fatal);
 +
-+        if (!isabus) {
-+            error_setg(errp, "Unable to find a single ISA bus");
-+            return;
-+        }
-+        d->isa_irq[0] = isa_bus_get_irq(ISA_BUS(isabus), 14);
-+        d->isa_irq[1] = isa_bus_get_irq(ISA_BUS(isabus), 15);
-+    }
-     for (unsigned i = 0; i < ARRAY_SIZE(d->isa_irq); i++) {
-         if (!pci_piix_init_bus(d, i, errp)) {
-             return;
-@@ -202,6 +214,13 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->hotpluggable = false;
-+    /*
-+     * This function is part of a Super I/O chip and shouldn't be user
-+     * creatable. However QEMU accepts impossible hardware setups such
-+     * plugging a PIIX IDE function on a ICH ISA bridge.
-+     * Keep this Frankenstein (ab)use working.
-+     */
-+    dc->user_creatable = true;
- }
- 
- static const TypeInfo piix3_ide_info = {
-@@ -225,6 +244,8 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->hotpluggable = false;
-+    /* Reason: Part of a Super I/O chip */
-+    dc->user_creatable = false;
- }
- 
- static const TypeInfo piix4_ide_info = {
+         pci_ide_create_devs(dev);
+         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
+         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
 -- 
 2.38.1
 
