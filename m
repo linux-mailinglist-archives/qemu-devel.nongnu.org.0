@@ -2,70 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00F66A88C3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096506A892C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 20:10:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXo4o-00023B-57; Thu, 02 Mar 2023 13:54:50 -0500
+	id 1pXoIS-0007IF-Pf; Thu, 02 Mar 2023 14:08:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXo4m-00022x-Ip
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:54:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXo4k-00082y-Jj
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:54:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677783285;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Y9nNgJpFavOm2PBmTeetlmmb81/MU5bEQCUnPgyXvI=;
- b=F50Pnxmtzlr9UoK4vtxgRC52wu+XlptGyrguywsVy5RtBzOUPUFSVZYlNsDr5iyop0kPE0
- kd4MmLT7nyzixdWmFXbWXrTc2tIm4uSUdXXNDiX7S7r756ZmF9QMdNf6dCCku+hXMoR2Ps
- 2B5G8tEHomOkIkK84yXI3bV7N0F0n/Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-j1v3H7ZyOJqmCF-z_xw1sg-1; Thu, 02 Mar 2023 13:54:42 -0500
-X-MC-Unique: j1v3H7ZyOJqmCF-z_xw1sg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E70C101A55E;
- Thu,  2 Mar 2023 18:54:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08DEAC16027;
- Thu,  2 Mar 2023 18:54:40 +0000 (UTC)
-Date: Thu, 2 Mar 2023 18:54:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXoIQ-0007GS-PO
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 14:08:54 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXoIL-0004UF-HT
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 14:08:54 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t15so126455wrz.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 11:08:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kPp/zsqm6mdPFLwh5srr7CQkmjUrttysHZTn7bFGWpY=;
+ b=B4c014FNbB/hoC/PNtD/BsvPW66lpvE1aC++xgER9MIoaj+eu9kbnu8mLABTy+3Yz1
+ zJ0Vy0CEWsJCzrPA8X7/rZ1M+0eGFGdJ6zB8tJtP4kGg5BeQJxNcSA1vlYbL/tB1fLjY
+ /45i432dlaJmfD1DEOG1LgFdMfFG8i6l8CEhJuQ/LA4+FIFF6fgEZFFhT0abWDl0JXAi
+ S/luV4w/2tdYu/Xt9gmhe8SPohHLGamIdcJN66Pn3/rxtns8s73VT9alXZvoZBPe6YpH
+ LxfAdmBa19oZLAMsYFu/zW5nW2cCF6827xbDc1iTkwFryqwUWj0fpfSyJrX/cRHbwmo3
+ o6KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kPp/zsqm6mdPFLwh5srr7CQkmjUrttysHZTn7bFGWpY=;
+ b=ESMWtpvD1l7P8QHl75cuyfDKDKDXVK/fhI134Ar+8IVxOM1FvpPgOpiXMaHQVxGvsZ
+ sLnr75qEX/ul3c+rH9I8T/6XExrwq8252fWXkqdiAB+1c8ukpJzRsyyZx2GiCvXuwsnQ
+ OAPOOKGIpj6c0oAvSQcG3A5SP/fve8A1B21zlnUtyK3Rp+ZGEYINMBTAaoQ5yPIrelA1
+ GxScq3sSKm4a0Lg8bdUfPq9dSQzEC4sNgAZfR1cDu/HLWhs4QLu73tyy2a1wEjjK6jZ7
+ GOto9u7g2HyLUUmzswTmBDj3JOvMbKhi03Oz2I4O7kDSSIR7Jtf8d3UI7Px2BQ3aUVXd
+ AOMQ==
+X-Gm-Message-State: AO0yUKWpxQBpYh28wsr3p7y0+9fJZWzTZsccER5JE9n0eGsKXELujjQU
+ n2a/TznrACQWwWJP4Ng4uzxjbg==
+X-Google-Smtp-Source: AK7set90A4peKHOfeMuDzh3k8oevAVkOV3qefEklUxb2APqbzv7vxT2HRM6yiKGIOngNFQp00MHmeA==
+X-Received: by 2002:adf:dc47:0:b0:2ca:9950:718 with SMTP id
+ m7-20020adfdc47000000b002ca99500718mr8166180wrj.52.1677784127465; 
+ Thu, 02 Mar 2023 11:08:47 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ z6-20020adfd0c6000000b002c55efa9cbesm154762wrh.39.2023.03.02.11.08.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 11:08:47 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 93EAA1FFB7;
+ Thu,  2 Mar 2023 19:08:46 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/5] iotests: make meson aware of individual I/O tests
-Message-ID: <ZADw7p4ZRgVuhg+a@redhat.com>
-References: <20230302184606.418541-1-berrange@redhat.com>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Laurent Vivier <laurent@vivier.eu>,
+ nicolas.eder@lauterbach.com, Ilya Leoshkevich <iii@linux.ibm.com>,
+ kvm@vger.kernel.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-s390x@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, Bin Meng <bin.meng@windriver.com>,
+ Marek Vasut <marex@denx.de>, Greg Kurz <groug@kaod.org>,
+ Song Gao <gaosong@loongson.cn>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Chris Wulff <crwulff@gmail.com>, qemu-riscv@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ mads@ynddal.dk, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ John Snow <jsnow@redhat.com>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Yanan Wang <wangyanan55@huawei.com>, David Hildenbrand <david@redhat.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v4 00/26] gdbstub/next: re-organise and split build
+Date: Thu,  2 Mar 2023 19:08:20 +0000
+Message-Id: <20230302190846.2593720-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230302184606.418541-1-berrange@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,102 +121,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 06:46:01PM +0000, Daniel P. Berrangé wrote:
-> To just repeat the patch 5 description...
-> 
-> Currently meson registers a single test that invokes an entire group of
-> I/O tests, hiding the test granularity from meson. There are various
-> downsides of doing this
-> 
->  * You cannot ask 'meson test' to invoke a single I/O test
->  * The meson test timeout can't be applied to the individual
->    tests
->  * Meson only gets a pass/fail for the overall I/O test group
->    not individual tests
+I was motivated to sort this out while working on my register API
+which is target agnostic but ran into the weeds when trying to link up
+with the gdbstub. This was due to us building gdbstub for every single
+target we support due to a few ABI sensitive bits that require CPU
+specific information. This series does a bunch of surgery to break the
+monolithic file apart into its constituent parts as well as simplify
+the headers to users can avoid bringing in more dependencies than they
+need.
 
-Another big benefit is that we get to see the execution time of
-every I/O test, so can identify which handful of tests are making
-it take almost 5 minutes to run in gitlab...
+I had hoped to go all the way and conditionally compile syscalls only
+for the two ABIs (32 and 64 bit) unfortunately I was unable to the
+appropriate meson-foo to make that happen.
 
-The really big 4 are:
+This version is mostly just minor clean-ups and tag updates including
+a few extra code motion and checkpatch cleanup patches. The biggest
+change is replacing the probe shell script with a slightly smarter
+python one and adding Mad's accelops patch.
 
-199/314 qemu:block / qemu-iotests-qcow2-040   OK    16.62s   1 subtests passed
-200/314 qemu:block / qemu-iotests-qcow2-041   OK    44.51s   1 subtests passed
-265/314 qemu:block / qemu-iotests-qcow2-191   OK    17.93s   1 subtests passed
-282/314 qemu:block / qemu-iotests-qcow2-271   OK    25.03s   1 subtests passed
+The following patches need review:
 
-there are a bunch in the ~5 second range, and then most are
-1 second or less.
+ - gdbstub: split out softmmu/user specifics for syscall handling
+ - testing: probe gdb for supported architectures ahead of time
+ - gdbstub: only compile gdbstub twice for whole build
+ - gdbstub: clean-up indent on gdb_exit
 
->  * If a CI job gets killed by the GitLab timeout, we don't
->    get visibility into how far through the I/O tests
->    execution got.
-> 
-> This is not really specific to the I/O tests, the problem is common
-> to any case of us running a test which is in fact another test
-> harness which runs many tests. It would be nice to have meson have
-> the full view of all tests run. Adapting the I/O tests is as easy
-> win in this respect.
-> 
-> This switches meson to perform test discovery by invoking 'check' in
-> dry-run mode. It then registers one meson test case for each I/O
-> test. Parallel execution remains disabled since the I/O tests do not
-> use self contained execution environments and thus conflict with
-> each other.
-> 
-> Compare contrast output from a current job:
-> 
->   https://gitlab.com/qemu-project/qemu/-/jobs/3863603546
-> 
-> [quote]
-> 204/224 qemu:block / qemu-iotests qcow2   OK 329.94s   119 subtests passed
-> [/quote]
-> 
-> Vs what is seen with this series:
-> 
->   https://gitlab.com/berrange/qemu/-/jobs/3865975463
-> 
-> [quote]
-> 204/350 qemu:block / qemu-iotests-qcow2-001   OK    2.16s   1 subtests passed
-> 205/350 qemu:block / qemu-iotests-qcow2-002   OK    2.77s   1 subtests passed
-> 
-> ...snip...
-> 
-> 329/350 qemu:block / qemu-iotests-qcow2-qemu-img-close-errors       OK    6.19s   1 subtests passed
-> 330/350 qemu:block / qemu-iotests-qcow2-qsd-jobs          OK    0.55s   1 subtests passed
-> [/quote]
-> 
-> A few tweaks were needed to the iotests runner because it had a few
-> assumptions about it always running in a tree that has already been
-> built, which is obviously not the case at the time meson does test
-> discovery.
-> 
-> Daniel P. Berrangé (5):
->   iotests: explicitly pass source/build dir to 'check' command
->   iotests: allow test discovery before building
->   iotests: strip subdir path when listing tests
->   iotests: print TAP protocol version when reporting tests
->   iotests: register each I/O test separately with meson
-> 
->  tests/qemu-iotests/check         | 11 +++++++++--
->  tests/qemu-iotests/meson.build   | 33 ++++++++++++++++++++++++++------
->  tests/qemu-iotests/testenv.py    | 22 +++++++++++++++++----
->  tests/qemu-iotests/testrunner.py |  1 +
->  4 files changed, 55 insertions(+), 12 deletions(-)
-> 
-> -- 
-> 2.39.2
-> 
+Alex Bennée (24):
+  gdbstub/internals.h: clean up include guard
+  gdbstub: fix-up copyright and license files
+  gdbstub: clean-up indent on gdb_exit
+  gdbstub: define separate user/system structures
+  gdbstub: move GDBState to shared internals header
+  includes: move tb_flush into its own header
+  gdbstub: move fromhex/tohex routines to internals
+  gdbstub: make various helpers visible to the rest of the module
+  gdbstub: move chunk of softmmu functionality to own file
+  gdbstub: move chunks of user code into own files
+  gdbstub: rationalise signal mapping in softmmu
+  gdbstub: abstract target specific details from gdb_put_packet_binary
+  gdbstub: specialise handle_query_attached
+  gdbstub: specialise target_memory_rw_debug
+  gdbstub: introduce gdb_get_max_cpus
+  gdbstub: specialise stub_can_reverse
+  gdbstub: fix address type of gdb_set_cpu_pc
+  gdbstub: don't use target_ulong while handling registers
+  gdbstub: move register helpers into standalone include
+  gdbstub: move syscall handling to new file
+  gdbstub: only compile gdbstub twice for whole build
+  testing: probe gdb for supported architectures ahead of time
+  include: split target_long definition from cpu-defs
+  gdbstub: split out softmmu/user specifics for syscall handling
 
-With regards,
-Daniel
+Mads Ynddal (1):
+  gdbstub: move update guest debug to accel ops
+
+Philippe Mathieu-Daudé (1):
+  gdbstub: Make syscall_complete/[gs]et_reg target-agnostic typedefs
+
+ MAINTAINERS                                   |    4 +
+ configure                                     |    8 +
+ gdbstub/internals.h                           |  214 ++-
+ include/exec/cpu-defs.h                       |   19 +-
+ include/exec/exec-all.h                       |    1 -
+ include/exec/gdbstub.h                        |  208 ---
+ include/exec/target_long.h                    |   42 +
+ include/exec/tb-flush.h                       |   26 +
+ include/gdbstub/helpers.h                     |  103 +
+ include/gdbstub/syscalls.h                    |  124 ++
+ include/gdbstub/user.h                        |   43 +
+ include/sysemu/accel-ops.h                    |    1 +
+ linux-user/user-internals.h                   |    1 +
+ accel/kvm/kvm-accel-ops.c                     |    8 +
+ accel/stubs/tcg-stub.c                        |    1 +
+ accel/tcg/tb-maint.c                          |    1 +
+ accel/tcg/translate-all.c                     |    1 +
+ cpu.c                                         |   12 +-
+ gdbstub/gdbstub.c                             | 1655 ++---------------
+ gdbstub/softmmu.c                             |  613 +++++-
+ gdbstub/syscalls.c                            |  221 +++
+ gdbstub/user-target.c                         |  283 +++
+ gdbstub/user.c                                |  433 ++++-
+ hw/ppc/spapr_hcall.c                          |    1 +
+ linux-user/exit.c                             |    2 +-
+ linux-user/main.c                             |    1 +
+ linux-user/signal.c                           |    2 +-
+ plugins/core.c                                |    1 +
+ plugins/loader.c                              |    2 +-
+ semihosting/arm-compat-semi.c                 |    1 +
+ semihosting/guestfd.c                         |    2 +-
+ semihosting/syscalls.c                        |    3 +-
+ softmmu/runstate.c                            |    2 +-
+ target/alpha/gdbstub.c                        |    2 +-
+ target/alpha/sys_helper.c                     |    1 +
+ target/arm/gdbstub.c                          |    1 +
+ target/arm/gdbstub64.c                        |    2 +-
+ target/arm/tcg/helper-a64.c                   |    2 +-
+ target/arm/tcg/m_helper.c                     |    1 +
+ target/avr/gdbstub.c                          |    2 +-
+ target/cris/gdbstub.c                         |    2 +-
+ target/hexagon/gdbstub.c                      |    2 +-
+ target/hppa/gdbstub.c                         |    2 +-
+ target/i386/gdbstub.c                         |    2 +-
+ target/i386/whpx/whpx-all.c                   |    2 +-
+ target/loongarch/gdbstub.c                    |    1 +
+ target/m68k/gdbstub.c                         |    2 +-
+ target/m68k/helper.c                          |    1 +
+ target/m68k/m68k-semi.c                       |    3 +-
+ target/microblaze/gdbstub.c                   |    2 +-
+ target/mips/gdbstub.c                         |    2 +-
+ target/mips/tcg/sysemu/mips-semi.c            |    3 +-
+ target/nios2/cpu.c                            |    2 +-
+ target/nios2/nios2-semi.c                     |    3 +-
+ target/openrisc/gdbstub.c                     |    2 +-
+ target/openrisc/interrupt.c                   |    2 +-
+ target/openrisc/mmu.c                         |    2 +-
+ target/ppc/cpu_init.c                         |    2 +-
+ target/ppc/gdbstub.c                          |    1 +
+ target/riscv/csr.c                            |    1 +
+ target/riscv/gdbstub.c                        |    1 +
+ target/rx/gdbstub.c                           |    2 +-
+ target/s390x/gdbstub.c                        |    1 +
+ target/s390x/helper.c                         |    2 +-
+ target/sh4/gdbstub.c                          |    2 +-
+ target/sparc/gdbstub.c                        |    2 +-
+ target/tricore/gdbstub.c                      |    2 +-
+ target/xtensa/core-dc232b.c                   |    2 +-
+ target/xtensa/core-dc233c.c                   |    2 +-
+ target/xtensa/core-de212.c                    |    2 +-
+ target/xtensa/core-de233_fpu.c                |    2 +-
+ target/xtensa/core-dsp3400.c                  |    2 +-
+ target/xtensa/core-fsf.c                      |    2 +-
+ target/xtensa/core-lx106.c                    |    2 +-
+ target/xtensa/core-sample_controller.c        |    2 +-
+ target/xtensa/core-test_kc705_be.c            |    2 +-
+ target/xtensa/core-test_mmuhifi_c3.c          |    2 +-
+ target/xtensa/gdbstub.c                       |    2 +-
+ target/xtensa/helper.c                        |    2 +-
+ gdbstub/meson.build                           |   35 +-
+ gdbstub/trace-events                          |    4 +-
+ scripts/probe-gdb-support.py                  |   88 +
+ target/xtensa/import_core.sh                  |    2 +-
+ tests/tcg/aarch64/Makefile.target             |    2 +-
+ tests/tcg/multiarch/Makefile.target           |    5 +
+ .../multiarch/system/Makefile.softmmu-target  |    6 +-
+ tests/tcg/s390x/Makefile.target               |    2 +-
+ 87 files changed, 2470 insertions(+), 1799 deletions(-)
+ create mode 100644 include/exec/target_long.h
+ create mode 100644 include/exec/tb-flush.h
+ create mode 100644 include/gdbstub/helpers.h
+ create mode 100644 include/gdbstub/syscalls.h
+ create mode 100644 include/gdbstub/user.h
+ create mode 100644 gdbstub/syscalls.c
+ create mode 100644 gdbstub/user-target.c
+ create mode 100755 scripts/probe-gdb-support.py
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.39.2
 
 
