@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF82B6A88B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C3D6A88B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:46:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXnwc-0001Pm-SE; Thu, 02 Mar 2023 13:46:22 -0500
+	id 1pXnwl-0002KG-B7; Thu, 02 Mar 2023 13:46:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwa-0001Et-BF
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pXnwi-00023P-Pg
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwY-0005Ag-Ik
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:19 -0500
+ id 1pXnwh-0005Bz-Eg
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677782777;
+ s=mimecast20190719; t=1677782786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cou8plli0844KO4kApgnJ8iDk4TVAP4KMLt1Nf0+lH4=;
- b=D+FC23ddr8KbQtqXM0czsqobBFshfTNZa11n6NnJQNvBoOiKl7jS1eC6oYJlvbXVvh00/M
- ZusyqgKEq1XAcatQW5o1lcLOthNyXHf6tiABRP9vn0eBI1KK37VNy0AHmquUk/5CQPTvJz
- tk4r0YzzRWVYhwuLJVALvIRFuVP5NKY=
+ bh=pDvGNSHUgSnRAK1Yl1OqKTWg1L0reMCofGiVW2qpC6o=;
+ b=PEpUAs/O0zTBOxh523x4ox0S0UVkVmTtrGDjz8b6MhxruUFY+vb7n9tlbv+hvl0PiqWxOR
+ +juivfchVcypMy82WIGTPJEOeA9IE2pV4WRM6qZLydeOLHY7luiBHeAlWRPXmiheufax0i
+ cWj2gLGZdJ8xGXwwN+mXyRnZDdK/Wwg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-sSUP6lB2M7y6GWKFrXpr6A-1; Thu, 02 Mar 2023 13:46:16 -0500
-X-MC-Unique: sSUP6lB2M7y6GWKFrXpr6A-1
+ us-mta-74-I7ANcgAlMzirvnRt30aa5g-1; Thu, 02 Mar 2023 13:46:18 -0500
+X-MC-Unique: I7ANcgAlMzirvnRt30aa5g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7540802C18;
- Thu,  2 Mar 2023 18:46:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E11C818E0921;
+ Thu,  2 Mar 2023 18:46:17 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6717CC16027;
- Thu,  2 Mar 2023 18:46:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57939C16027;
+ Thu,  2 Mar 2023 18:46:16 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 3/5] iotests: strip subdir path when listing tests
-Date: Thu,  2 Mar 2023 18:46:04 +0000
-Message-Id: <20230302184606.418541-4-berrange@redhat.com>
+Subject: [PATCH 4/5] iotests: print TAP protocol version when reporting tests
+Date: Thu,  2 Mar 2023 18:46:05 +0000
+Message-Id: <20230302184606.418541-5-berrange@redhat.com>
 In-Reply-To: <20230302184606.418541-1-berrange@redhat.com>
 References: <20230302184606.418541-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,36 +80,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When asking 'check' to list individual tests by invoking it in dry run
-mode, it prints the paths to the tests relative to the base of the
-I/O test directory.
-
-When asking 'check' to run an individual test, however, it mandates that
-only the unqualified test name is given, without any path prefix. This
-inconsistency makes it harder to ask for a list of tests and then invoke
-each one.
-
-Thus the test listing code is change to flatten the test names, by
-printing only the base name, which can be directly invoked.
+Recently meson started complaining that TAP test reports don't include
+the TAP protocol version. While this warning is bogus and has since been
+removed from Meson, it looks like good practice to include this header
+going forward. The GLib library test harness has started unconditionally
+printing the version, so this brings the I/O tests into line.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qemu-iotests/check | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/testrunner.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 7e287a79a3..3a8744220a 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -169,7 +169,7 @@ if __name__ == '__main__':
-         sys.exit(str(e))
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 5a771da86e..e734800b3d 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -391,6 +391,7 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+         casenotrun = []
  
-     if args.dry_run:
--        print('\n'.join(tests))
-+        print('\n'.join([os.path.basename(t) for t in tests]))
-     else:
-         with TestRunner(env, tap=args.tap,
-                         color=args.color) as tr:
+         if self.tap:
++            print('TAP version 13')
+             self.env.print_env('# ')
+             print('1..%d' % len(tests))
+         else:
 -- 
 2.39.2
 
