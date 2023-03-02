@@ -2,54 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14F66A8945
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 20:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B027B6A895E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 20:17:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXoLn-0000Jr-BI; Thu, 02 Mar 2023 14:12:23 -0500
+	id 1pXoQN-0006SQ-2O; Thu, 02 Mar 2023 14:17:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pXoLW-0008PO-55; Thu, 02 Mar 2023 14:12:06 -0500
-Received: from muminek.juszkiewicz.com.pl ([213.251.184.221])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pXoLU-0006jN-CK; Thu, 02 Mar 2023 14:12:05 -0500
-Received: from localhost (localhost [127.0.0.1])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 89055260167;
- Thu,  2 Mar 2023 20:12:02 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
-Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
- by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SznqlDZupR5i; Thu,  2 Mar 2023 20:11:56 +0100 (CET)
-Received: from puchatek.lan (83.11.36.13.ipv4.supernova.orange.pl
- [83.11.36.13])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 550682606A3;
- Thu,  2 Mar 2023 20:11:52 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: Radoslaw Biernacki <rad@semihalf.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Leif Lindholm <quic_llindhol@quicinc.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Subject: [PATCH 3/3] tests/avocado: add Alpine Linux boot on AArch64/sbsa-ref
-Date: Thu,  2 Mar 2023 20:11:46 +0100
-Message-Id: <20230302191146.1790560-3-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
-References: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXoQK-0006QY-RY
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 14:17:04 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXoQJ-0001oA-8Y
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 14:17:04 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ qa18-20020a17090b4fd200b0023750b675f5so3814074pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 11:17:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iLr79mUYpD7n2fWY1isFlllDc1Ts6cyrQhrXxqVh+oI=;
+ b=oB9uOqz5baFj7szucU1b45vGBANsyQpSpPXggE/KvhEVIBNvM6cqxMke9kyBuhDbXO
+ W8tAsc/BqeqR5C6W5rdJe2EF0dA0aD92tAj4QsYORDrUStJSm6L/N3VcjTfSMaxxDlbc
+ 8VD/YoUkw/v1ara3csNt67AMjB/ssbdnUwvb5HCVhxumLvyTn7qAczZXJIt/AjTCBamC
+ e9eQsq/YLwPqfkXbNow8q7fW75U19DJkw1wrhFb4W4GU5wEF3VwdHKHylWINh+zGN0Z/
+ Bc/OnK/vI2j9p6nlN4T8xsLZKndWJR7M5xbnA3clCufIpm8qP8h4TLVwx9Ur077w3oz7
+ bHkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iLr79mUYpD7n2fWY1isFlllDc1Ts6cyrQhrXxqVh+oI=;
+ b=NrpxnE4Vxd4FMHXwaZsh8AWoWiNFu8AACbfU1RtbtlW+tnCYHQPcrbwJ8Zk+jow7Uo
+ d3T9r02e9+KSbeeNYo/rBnOhdDxwg8fggY3EKA5Cq69vzAx2aVeescpXjTlfQPxdoDOc
+ LL7SeNt829grfOXABvoJ5ZTfPVmGQUkWaFS97JFvDBGkZjRGabE9VP3I1ovAqhhTmcoZ
+ uigcLh1916o96Jhna+ZVKVQPr06nrVUCOrG7brpNhzyim0nrB4wvw3zW52XlVz2n45Bl
+ Kbs7xM5Y1C1spCN2LBuy0lRrREsDHVgCoPvTPXoBtd4Z8itXXuu/K7lZfYAV36RqOPtC
+ e1YA==
+X-Gm-Message-State: AO0yUKW0RTRyEYfZ7/BIC5t5cKOPRUzsNotj1HTN1WW8/RQbDe0y9XXK
+ jlqHCBPpUr32Psira1lNEBEyKQ==
+X-Google-Smtp-Source: AK7set8q5buMh9nbVyokQ4/YqRa3LmxigobrTlUjpPAUdPi+Lkp7lS378BIFJWFilH8FZVyJj4j0hQ==
+X-Received: by 2002:a05:6a21:3395:b0:cc:786d:2128 with SMTP id
+ yy21-20020a056a21339500b000cc786d2128mr13318821pzb.53.1677784621560; 
+ Thu, 02 Mar 2023 11:17:01 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
+ ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
+ by smtp.gmail.com with ESMTPSA id
+ n9-20020a654cc9000000b004fab4455748sm29834pgt.75.2023.03.02.11.17.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 11:17:01 -0800 (PST)
+Message-ID: <834aba50-7b64-8acf-0d08-1cd086e3ac24@linaro.org>
+Date: Thu, 2 Mar 2023 11:16:59 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=213.251.184.221;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] tcg: Clear plugin_mem_cbs on TB exit
+Content-Language: en-US
+To: Emilio Cota <cota@braap.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org,
+ aaron@os.amperecomputing.com, frederic.petrot@univ-grenoble-alpes.fr
+References: <20230301024737.1210851-1-richard.henderson@linaro.org>
+ <20230301024737.1210851-2-richard.henderson@linaro.org>
+ <Y/8/iCIOVdAwcgW0@cota-l14>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <Y/8/iCIOVdAwcgW0@cota-l14>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,52 +97,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To unify tests for AArch64/virt and AArch64/sbsa-ref we boot
-same Alpine Linux image on both.
+On 3/1/23 02:05, Emilio Cota wrote:
+> As I mentioned in the patch that is being superseded here
+> I like this approach -- it is simpler and generates less
+> code.
+> 
+> I'd also like to see the plugin_gen_disable_mem_helpers
+> function go away, and a mention somewhere that now we are
+> intentionally not clearing cpu->plugin_mem_cbs until TB exit
+> (before we weren't doing that either, but that was unintentional
+> due to a bug).  So, for instance when doing a goto_tb from a
+> TB with helpers, we leave plugin_mem_cbs set.
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- tests/avocado/machine_aarch64_sbsaref.py | 29 ++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+plugin_mem_cbs is used by all out-of-line load/store, therefore we cannot leave it set 
+longer than required.
 
-diff --git a/tests/avocado/machine_aarch64_sbsaref.py b/tests/avocado/machine_aarch64_sbsaref.py
-index e36e53d4d5..fdbde4b891 100644
---- a/tests/avocado/machine_aarch64_sbsaref.py
-+++ b/tests/avocado/machine_aarch64_sbsaref.py
-@@ -148,3 +148,32 @@ def test_sbsaref_linux_max(self):
-         :avocado: tags=cpu:max
-         """
-         self.boot_linux('max')
-+
-+    # This tests the whole boot chain from EFI to Userspace
-+    # We only boot a whole OS for the current top level CPU and GIC
-+    # Other test profiles should use more minimal boots
-+    def test_alpine_sbsaref_max(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:sbsa-ref
-+        """
-+        self.fetch_firmware()
-+
-+        iso_url = ('https://dl-cdn.alpinelinux.org/'
-+                   'alpine/v3.17/releases/aarch64/'
-+                   'alpine-standard-3.17.2-aarch64.iso')
-+
-+        # Alpine use sha256 so I recalculated this myself
-+        iso_sha1 = '76284fcd7b41fe899b0c2375ceb8470803eea839'
-+        iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
-+
-+        self.vm.set_console()
-+        self.vm.add_args("-cpu", "max,pauth-impdef=on")
-+        self.vm.add_args("-machine", "sbsa-ref")
-+        self.vm.add_args("-drive", f"file={iso_path},format=raw")
-+        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
-+        self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
-+
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Welcome to Alpine Linux 3.17')
-+
--- 
-2.39.2
 
+r~
 
