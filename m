@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE536A80EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2738C6A8103
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:27:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXh0T-0007oE-6I; Thu, 02 Mar 2023 06:21:53 -0500
+	id 1pXh5A-00016D-G4; Thu, 02 Mar 2023 06:26:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pXh0R-0007nr-4V
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:21:51 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXh53-00015w-1G
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:26:37 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pXh0P-00056j-Hb
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:21:50 -0500
-Received: by mail-pg1-x529.google.com with SMTP id h31so9557366pgl.6
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677756107;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXh51-0006W6-Eo
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:26:36 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ l7-20020a05600c1d0700b003eb5e6d906bso1225566wms.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:26:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bKlnnRNdD/jVZ7UoSQ8uMM/iIBjgcrHJLg/1A722+Mw=;
- b=OwB8ywxMgaSgdAJMa6o6ry4VyU3yq36hwwjyyQPhk9NVFFbeZSw3gBuD17MGIFQ6VZ
- jKelaSJ9DPlJDw5SwecK3rusiE0KQkrItyRBjmwoNe1izl/t5x6puFojRn52m9q1dTT/
- hPDSzDiCAcWe106zZn607foOtmxLE0EmC+PHAsd++H+iQSwtWR0KPucnFapvlLgvh7yg
- uaHclLSn4yzOwN8FLlG4OoHJOx8tm0F/Lc5DH3J1ZnDdmJvKlC74MsO1VwWamXjunu2a
- hO49OQwHMNBmbW3aTXiwRYogpeE+slZCL3Z7SvU/a1ao4z+Qwf6PzFhrhGSUfNYsrhun
- spkQ==
+ bh=rANQBvPrQySrrZedqAWrXCRRr4eHVMPikbL4x1XET0U=;
+ b=PD6+bf0ea9cT5T8M6aZj/qlEIMyELKEusSLbka7Ub+MJ5C2/vJs1wp72JfLdADBsYS
+ Ji7PlZMKDF8fO0LPbpgi3uRgUbYB0aJCLT6Cb+qUJG7VxKalE3j71QjSCBAJgVBnOrD4
+ Rzg2xRIVUlujmOUccmB5s5tEevACVbe4ioGn+qvTW+0ChH1EokR8nxA4Ttg2x6ewTMoz
+ GBtfFaz2sUg5o5jNbpyO/MkVgQ98szZZoyR2++0U2xMXJjBjHpMr/LtV6VqlnNfz4nal
+ BvPWBzZokf+dJfDJuaMT2QJyZPpU2ybtuEeBLLI5NGKPpXpH/QIM3gYb5B15VwKOWZdV
+ c3Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677756107;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bKlnnRNdD/jVZ7UoSQ8uMM/iIBjgcrHJLg/1A722+Mw=;
- b=hbHcgvKJ5vijbZR8eDpnhwTgMek/g2u8BOk3p0RWWHOcuJYDaMgpvQzgbHXlqBIM7Y
- oFDwIuBEWlwfADCKNdsUB2ouGLRlkyI3yNxnsn0LmtEHFnd8lp9dHETeq9V7B3eAbECk
- YbK38DFNw5EhFNeLKZSZOKUOO7GF+13xBKfW2tnUA2ve9U0dAVSAJg3w2GZBWL2IBb63
- 0L5yMn14AXi1qPv0aF8zdexS5+uxP8Tt30g5FwvZkAZwUde4w2ykwLS/GiMfPVmll50K
- +ZPOZRW1H8BGBUW/ffORyRRos9ZJkrXW5F50r3PXKa4TsuTpuD9gp2SpXtR88HKDaEgx
- DOOw==
-X-Gm-Message-State: AO0yUKUbmn/l6sO1EJ78HeQoWa72VzLw+8ymwFbqjPCLtb1O5X7ieAEr
- VL8J5vItRxR0vr/QVfzud9DPQ6zW9gtMW560FBKS+A==
-X-Google-Smtp-Source: AK7set+5ffFW8zJcHOM6U6bOu60y+a3DhTyYtgITAu8oAbaaN4sSb4uNMDU+Vpm0mHlNkFcfChPQ8aLmI0Am5hnYUs8=
-X-Received: by 2002:a65:60d4:0:b0:503:77c9:45aa with SMTP id
- r20-20020a6560d4000000b0050377c945aamr3152909pgv.9.1677756107659; Thu, 02 Mar
- 2023 03:21:47 -0800 (PST)
-MIME-Version: 1.0
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rANQBvPrQySrrZedqAWrXCRRr4eHVMPikbL4x1XET0U=;
+ b=zjNymcCnZnbJrT2UgZC/eX+DT85EdHrqN4Cp70rk8eLHZsZxOYOGiOx7TVIyGfL0g9
+ x2JcD0dUR+QIAdskZT9QdktLiSWbpZDZWmqY+MSSGD4VxNdk6AfObvL40RlVb+MwT9zp
+ w7GcLs2zlEiAFZ51PXfVukZDSA2G1pDPEpvZ8eCX9K3cMBWd8R7GlEdUegcBGsIbV07z
+ qTsYJgrDiKQhWGPF97Zn469CsG5vjyYXBNhSWnYBUzE/PN/P8NiU3YQwmWvP8oHNJz2g
+ 2jEE0WxxO+FngGUDGrPNAndfEu0uTdeswZtgV9gHc3rF+ncSyWZJIZMY7hzoTqTK2SJ+
+ gC5Q==
+X-Gm-Message-State: AO0yUKUZehCI3IAjJzdK0oavicVCYVwaUGMeUrghGk/RTOufpFJCOJLo
+ BWlZ3/0rNbK1vMznE4FSOnO5jA==
+X-Google-Smtp-Source: AK7set9JYao9pJEZMbu1t4e+PjdoOCvFO5CUGw+1Ag3jYkEVSlT6khQWBK+oxTxwHSh1cF08kQa6rA==
+X-Received: by 2002:a05:600c:4929:b0:3ea:ea8a:a94a with SMTP id
+ f41-20020a05600c492900b003eaea8aa94amr7919560wmp.27.1677756392664; 
+ Thu, 02 Mar 2023 03:26:32 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ z7-20020a05600c0a0700b003dc434b39c7sm7401555wmp.0.2023.03.02.03.26.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 03:26:32 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E15331FFB7;
+ Thu,  2 Mar 2023 11:26:31 +0000 (GMT)
 References: <20230301151604.1948813-1-alex.bennee@linaro.org>
  <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
  <87356ocp56.fsf@linaro.org>
  <CAFEAcA9X9nQ-6iYqGV9fWWmzDU_SE1ADed6xToOoDmMbvEBkuA@mail.gmail.com>
  <CAHDbmO19_HT7ZgtdvWfzp-BEn3uyhw7NKAW9f9adSHoaZ1mEug@mail.gmail.com>
  <CAFEAcA-Pve7oOuDmP=BDSt5Smdn8MUg2y47Y6PL3YMXwg=Q4Sw@mail.gmail.com>
- <eb6e47c4-546e-b191-d142-009b52b1e3fa@linaro.org>
-In-Reply-To: <eb6e47c4-546e-b191-d142-009b52b1e3fa@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Mar 2023 11:21:36 +0000
-Message-ID: <CAFEAcA_ztebfE1+nPx0X=3QJCssoDNceDsZ4=SBbAxywY7jO7g@mail.gmail.com>
-Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker, avocado,
- windows)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker,
+ avocado, windows)
+Date: Thu, 02 Mar 2023 11:24:36 +0000
+In-reply-to: <CAFEAcA-Pve7oOuDmP=BDSt5Smdn8MUg2y47Y6PL3YMXwg=Q4Sw@mail.gmail.com>
+Message-ID: <87lekfbdi0.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,39 +100,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023 at 11:15, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> On 2/3/23 11:56, Peter Maydell wrote:
-> > On Wed, 1 Mar 2023 at 19:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> >>
-> >>  From the other thread:
-> >>
-> >> I think the underlying config needs updating:
-> >>
-> >>    .git/modules/tests/fp/berkeley-testfloat-3/config
-> >>
-> >> I'm surprised the git config for submodules doesn't carry the metadata=
-.
-> >
-> > Yeah, in my local repo that I merge stuff with that file
-> > does still have a github URL:
-> > url =3D git://github.com/cota/berkeley-testfloat-3
-> >
-> > So I guess my questions are:
-> >   (1) why hasn't this been a problem up til now ?
-> >   (2) does this mean that if I merge this then everybody will
-> >       need to manually go in and update this file somehow
-> >       to be able to pull the updated qemu master ?
->
-> I assume you are not passing --disable-git-update or
-> --with-git-submodules to ./configure.
 
-No, I don't do that. But this problem happens before we
-get anywhere near configure, when I try to do the
-'git fetch' of the main repo!
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-thanks
--- PMM
+> On Wed, 1 Mar 2023 at 19:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>> From the other thread:
+>>
+>> I think the underlying config needs updating:
+>>
+>>   .git/modules/tests/fp/berkeley-testfloat-3/config
+>>
+>> I'm surprised the git config for submodules doesn't carry the metadata.
+>
+> Yeah, in my local repo that I merge stuff with that file
+> does still have a github URL:
+> url =3D git://github.com/cota/berkeley-testfloat-3
+>
+> So I guess my questions are:
+>  (1) why hasn't this been a problem up til now ?
+
+Well this is the first time we've had to tweak testfloat since Emilio
+introduced it when we first added the fp tests.
+
+>  (2) does this mean that if I merge this then everybody will
+>      need to manually go in and update this file somehow
+>      to be able to pull the updated qemu master ?
+
+It will depend on how old their checkout is. I don't know why git does
+just honour the metadata in .git-submodules - maybe there is a command
+line stanza to reset the origin repo of submodules?
+
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
