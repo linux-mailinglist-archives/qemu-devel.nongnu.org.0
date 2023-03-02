@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DD76A8345
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3846A8363
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:20:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXifW-0003jP-Bm; Thu, 02 Mar 2023 08:08:22 -0500
+	id 1pXiqB-0002RV-At; Thu, 02 Mar 2023 08:19:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXifS-0003io-Ky
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:08:18 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pXiq9-0002Q6-4r
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:19:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXifQ-0004de-Vo
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:08:18 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pXiq7-0001yY-EY
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:19:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677762496;
+ s=mimecast20190719; t=1677763158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jF5VTrs2vK1eJMxz5uin/DQUR7qzdkUAmBHxWE4SI3g=;
- b=BlvcNsjh+OjQYfvx2Hm2JXYjlNmrIoPlUFaUbbam7r+RVvcub2905H1qz8gHCbFX6T/WpK
- CE1QYnnWJeGx2tE5eFvnwCsUHJrMnSzk6076FLU2vhoHuQZj9Y9Rifns1DIAkAxdXYcM7k
- N9ojYm51M8tUwsefixsV2Lw52pq6Lto=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UJzy24w6npCM8mMn/MhvvxPgcvos6qwUZutXPQd9j+4=;
+ b=QWUqenTKzTRjaFSQ6DnVYbA60g9uLXq5JvsoV1XK4tQfonVOay5T1dO3ZbjDU+xj6nj4R4
+ FZG8NbINkwrxM4mkx8T8LJpeN46I/tZMZebdOC8pZn1AfW/hnC6GfEBOytf6O/FNuw5g0o
+ 9Y3k7jHKQs7twenMldFJNXUkgz5Rjfg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-VCUkUZ7GPwWWwF7KLe-6ZQ-1; Thu, 02 Mar 2023 08:08:12 -0500
-X-MC-Unique: VCUkUZ7GPwWWwF7KLe-6ZQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-106-e4MvfVPhNJ6S9R5VTHg3RQ-1; Thu, 02 Mar 2023 08:19:03 -0500
+X-MC-Unique: e4MvfVPhNJ6S9R5VTHg3RQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E29185C70B;
- Thu,  2 Mar 2023 13:08:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F08744097544;
- Thu,  2 Mar 2023 13:08:11 +0000 (UTC)
-Date: Thu, 2 Mar 2023 08:08:10 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 2/6] block: convert blk_exp_close_all_type() to
- AIO_WAIT_WHILE_UNLOCKED()
-Message-ID: <20230302130810.GA2485531@fedora>
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-3-stefanha@redhat.com>
- <7c440fc8-d37b-b933-ed5f-02baf7136bca@linaro.org>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C0C8857A84;
+ Thu,  2 Mar 2023 13:18:52 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 566AF2166B2C;
+ Thu,  2 Mar 2023 13:18:50 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 0/4] Add meson wrap fallback for slirp & dtc
+Date: Thu,  2 Mar 2023 17:18:44 +0400
+Message-Id: <20230302131848.1527460-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LKiZsdlBJf9lyr7m"
-Content-Disposition: inline
-In-Reply-To: <7c440fc8-d37b-b933-ed5f-02baf7136bca@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,41 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
---LKiZsdlBJf9lyr7m
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, Mar 02, 2023 at 11:36:03AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 1/3/23 21:57, Stefan Hajnoczi wrote:
-> > There is no change in behavior. Switch to AIO_WAIT_WHILE_UNLOCKED()
-> > instead of AIO_WAIT_WHILE() to document that this code has already been
-> > audited and converted. The AioContext argument is already NULL so
-> > aio_context_release() is never called anyway.
->=20
-> Shouldn't we assert(ctx && unlock) in AIO_WAIT_WHILE_INTERNAL() then?
+Meson "wrap" is a mechanism to build dependencies that doesn't rely on git
+submodules and integrate external dependencies as subproject()s.
 
-Can you show where you'd add that assertion? It's not clear to me what
-the purpose is.
+This offers developpers a simpler way to build QEMU with missing system
+dependencies (ex, libslirp in my case), but also simplify the fallback build
+definition of dtc/libfdt.
 
-Stefan
+In constrast with QEMU configure submodule handling, the subprojects are not
+downloaded automatically, and the user has to call "meson subprojects download"
+himself prior to running configure/meson.
 
---LKiZsdlBJf9lyr7m
-Content-Type: application/pgp-signature; name="signature.asc"
+Marc-André Lureau (4):
+  mtest2make.py: teach suite name that are just "PROJECT"
+  build-sys: prevent meson from downloading wrapped subprojects
+  build-sys: add slirp.wrap
+  build-sys: replace dtc submodule with dtc.wrap
 
------BEGIN PGP SIGNATURE-----
+ configure                     | 25 +++-------------
+ meson.build                   | 56 +++++------------------------------
+ .gitignore                    |  3 ++
+ .gitmodules                   |  3 --
+ dtc                           |  1 -
+ meson_options.txt             |  5 ++--
+ scripts/meson-buildoptions.sh |  4 +--
+ scripts/mtest2make.py         |  9 +++---
+ subprojects/dtc.wrap          |  6 ++++
+ subprojects/slirp.wrap        |  6 ++++
+ 10 files changed, 35 insertions(+), 83 deletions(-)
+ delete mode 160000 dtc
+ create mode 100644 subprojects/dtc.wrap
+ create mode 100644 subprojects/slirp.wrap
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQAn7oACgkQnKSrs4Gr
-c8iFvAgAyoc+z5roR9yttlAnbMrb50bSQYY0leZDpLvs3XfQsKr03OW8GyARN6ct
-gev0T16BG8OhbeD0U3o9tqxB70jc4ovcExWnHfCo++hvawIowdf9RgZirton4u1B
-MUElDtzj0t4HU8Wsh/OYF/qWKarxBo2b50XwuE7PkOF4DQgLS8QBvQi5ECOeCRr+
-2d3Y3T94bwt80k7aRdA1dKspribnCFVP8yny1fRxuOOiHwE66mi3iQDI/QN0w4U+
-tr7pi0H6pzhSOY8XMWQ6vchXCe1odWymu9P6puB5Dr+wwj2xcNN0nKfOsQp/SwTl
-kQUlG9XVV2/4HYREsYS0/4NTBrGXNQ==
-=BLPK
------END PGP SIGNATURE-----
-
---LKiZsdlBJf9lyr7m--
+-- 
+2.39.2
 
 
