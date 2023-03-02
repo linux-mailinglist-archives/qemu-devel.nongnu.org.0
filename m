@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21136A7CC9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BC56A7CB6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:32:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeGM-0004Mv-5H; Thu, 02 Mar 2023 03:26:06 -0500
+	id 1pXeGP-0004eS-7w; Thu, 02 Mar 2023 03:26:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeG8-000409-BH
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:54 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGB-00046Y-56
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeG6-0002O7-NU
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:52 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeG9-0002Oa-IC
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745550;
+ s=mimecast20190719; t=1677745553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EFVCuIJNs11CoeniZAfk9rLQ2ZLV3j08SI6kdll+0Mw=;
- b=L8uXAPDeclh4C3+5PhTowAAZPbLstoxTFA8sGy/m8cNBhSs+HaFxbKstOdFifTFvX4G7aX
- cisMnwdjB1GsEZVi0CejbsLzRbXVMpSI1yMs7X1Z0M2RByBZenuhBF/j25S5WnXkQbOxvj
- A9r7VIh/FO0+p5X1r6IznsD0LUkiyw8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=v+fAaTMzaHbQ6OGyBux6MoCGU/rvRP9Pac7qwzuX0Kw=;
+ b=YsNpN0TLxOR8+MWDbXMfzXBI1O1IG5l489/ifnkpDM16LhECw2icMpvEF2gV0ndepdJshj
+ lgeplHH+voSasg4wyZptUsRogbwnXhSLmDpWLnovFpmfXwwE6RqGDrMCQsZnFl+4NkWlct
+ 86iNgx84zCVHdcIy4v/JWws0YDLtl9I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-646-lzQk05_KNsyeNjebHgC-nw-1; Thu, 02 Mar 2023 03:25:49 -0500
-X-MC-Unique: lzQk05_KNsyeNjebHgC-nw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- e17-20020a05600c219100b003e21fa60ec1so748117wme.2
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:48 -0800 (PST)
+ us-mta-342-mySM7merO2qtsbh4pIbazw-1; Thu, 02 Mar 2023 03:25:51 -0500
+X-MC-Unique: mySM7merO2qtsbh4pIbazw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k36-20020a05600c1ca400b003eac86e4387so916712wms.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745547;
+ d=1e100.net; s=20210112; t=1677745550;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EFVCuIJNs11CoeniZAfk9rLQ2ZLV3j08SI6kdll+0Mw=;
- b=wJVOClCBjLepdNR+9N0d1qK9s2pl6OJwK644KbwJbgmAyKyeUZ3nTD1PMzWs4R6zdS
- 788M83jT0tB5MaxK4j3Kkk7leSYM8Dav5qZJfDV+RLrT7YRz7GOKS58L/JkM9I/ATIkj
- GTyF/hoNvVQmP22Uw2teHPK/H39pl2/76AH6NmHY/lFqsdyt/nQrr591kK8kt+ZwXU+l
- H24jAsn8rPGJk+XQf2pHypsVGG+HChzYwfLd0wbtfZEypVF+0Tf/cPSlF017m5p4zqSF
- Lut0cfTzx4EQXIvTEZVSKcvzPo49bIgFuYE20GJEqTdAToXlkiF1rRIH2GngUM52+irM
- d9yA==
-X-Gm-Message-State: AO0yUKWyKy/jE9A1ySCWrNCw86jPkQKLw8eNP3VxDeOfLbIARUs4cC06
- zKzCKshU78fw88UW1olcrBmYGUP28DUhTvs/o4CfH7WVKg47874Ts6PS+aoAV4Ub+kHKKVnnt5G
- P8HAHmlHqczkfcHmYVsZ1sP5lsUy1I1+fq4IyVlTmUCvcx5uW/IJ/QAtGnVqTt8Jw3Q==
-X-Received: by 2002:a5d:5143:0:b0:2c7:103f:7122 with SMTP id
- u3-20020a5d5143000000b002c7103f7122mr6219178wrt.28.1677745547384; 
- Thu, 02 Mar 2023 00:25:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set8W06s187MkDVOuEw0eR2cT9nWt7iOmtxyxFjNYEcOZE7QACpPFbfvNRWqP80Qs0n/snfrxxA==
-X-Received: by 2002:a5d:5143:0:b0:2c7:103f:7122 with SMTP id
- u3-20020a5d5143000000b002c7103f7122mr6219163wrt.28.1677745547052; 
- Thu, 02 Mar 2023 00:25:47 -0800 (PST)
+ bh=v+fAaTMzaHbQ6OGyBux6MoCGU/rvRP9Pac7qwzuX0Kw=;
+ b=zE8hXyr+CR73dY42S5VeeVWHln8kz42j8q9ubCkzglj3DxAh71afsWtUV6SObXARyH
+ t7pw/r0BPcZs57h3s3gcSJygJVEtRcYlqZSyrEYEG6hHr0fXr2E9/1qP4LHmp0UNWrNS
+ Lf0u2IjbPbYsGoai076ILndZ6BpL2M1i3FHblZwWow62UxN/BIPBZ2/yGTiOjsnS1kOb
+ pOtyGMYB0MdHuSUd4xlVDGSKJDaaEEWjPK6QbcaeZX7UmJFW9ZEMbAY7OyE+uKMzGHMI
+ qXFWVl3e9d504sHQR1evgu9q2qn8nYB7Lh/c8PfEBK052JLQqpgRSzHcAimSrDxiWuEi
+ Uvmg==
+X-Gm-Message-State: AO0yUKXkLa9RkbtGqBzKCVeTbx/KgsDY10rwaE+9xT/sXME9kUCgJ5+R
+ iTdEiAHHHJ4j2pfdy1jlZDt7Q7fTuQ7BrmPNCO2bn+BMVMqzaxXobDt1nBlzQ13S/lwfc2LqmuL
+ tDqGWGzAEENC9zO3w+AnIWuenz8yd0RrbZOX1mfYCDk2mR/zRuoRzjTiyM7yjjCbkFQ==
+X-Received: by 2002:a5d:4ed2:0:b0:2c7:f56:285b with SMTP id
+ s18-20020a5d4ed2000000b002c70f56285bmr7656935wrv.63.1677745550182; 
+ Thu, 02 Mar 2023 00:25:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set8GyNYM+E6tNg8LkJ9An+cQfBKa6oiDPDq8DJUvHw7Pk+rnyd173vFsLj6+hYjovJbg9HorSg==
+X-Received: by 2002:a5d:4ed2:0:b0:2c7:f56:285b with SMTP id
+ s18-20020a5d4ed2000000b002c70f56285bmr7656922wrv.63.1677745549927; 
+ Thu, 02 Mar 2023 00:25:49 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- l35-20020a05600c1d2300b003e6dcd562a6sm2298358wms.28.2023.03.02.00.25.45
+ iz12-20020a05600c554c00b003e1f2e43a1csm2109878wmb.48.2023.03.02.00.25.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:46 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:44 -0500
+ Thu, 02 Mar 2023 00:25:49 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Anton Kuchin <antonkuchin@yandex-team.ru>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 24/53] pci/shpc: pass PCIDevice pointer to shpc_slot_command()
-Message-ID: <20230302082343.560446-25-mst@redhat.com>
+Subject: [PULL 25/53] pci/shpc: refactor shpc_device_plug_common()
+Message-ID: <20230302082343.560446-26-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,88 +101,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-We'll need it in further patch to report bridge in QAPI event.
+Rename it to shpc_device_get_slot(), to mention what it does rather
+than how it is used. It also helps to reuse it in further commit.
+
+Also, add a return value and get rid of local_err.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-Message-Id: <20230216180356.156832-6-vsementsov@yandex-team.ru>
+Message-Id: <20230216180356.156832-7-vsementsov@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/shpc.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ hw/pci/shpc.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index 959dc470f3..9f964b1d70 100644
+index 9f964b1d70..e7bc7192f1 100644
 --- a/hw/pci/shpc.c
 +++ b/hw/pci/shpc.c
-@@ -263,9 +263,10 @@ static bool shpc_slot_is_off(uint8_t state, uint8_t power, uint8_t attn)
-     return state == SHPC_STATE_DISABLED && power == SHPC_LED_OFF;
+@@ -496,8 +496,9 @@ static const MemoryRegionOps shpc_mmio_ops = {
+         .max_access_size = 4,
+     },
+ };
+-static void shpc_device_plug_common(PCIDevice *affected_dev, int *slot,
+-                                    SHPCDevice *shpc, Error **errp)
++
++static bool shpc_device_get_slot(PCIDevice *affected_dev, int *slot,
++                                 SHPCDevice *shpc, Error **errp)
+ {
+     int pci_slot = PCI_SLOT(affected_dev->devfn);
+     *slot = SHPC_PCI_TO_IDX(pci_slot);
+@@ -507,21 +508,20 @@ static void shpc_device_plug_common(PCIDevice *affected_dev, int *slot,
+                    "controller. Valid slots are between %d and %d.",
+                    pci_slot, SHPC_IDX_TO_PCI(0),
+                    SHPC_IDX_TO_PCI(shpc->nslots) - 1);
+-        return;
++        return false;
+     }
++
++    return true;
  }
  
--static void shpc_slot_command(SHPCDevice *shpc, uint8_t target,
-+static void shpc_slot_command(PCIDevice *d, uint8_t target,
-                               uint8_t state, uint8_t power, uint8_t attn)
+ void shpc_device_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+                             Error **errp)
  {
-+    SHPCDevice *shpc = d->shpc;
-     int slot = SHPC_LOGICAL_TO_IDX(target);
-     uint8_t old_state = shpc_get_status(shpc, slot, SHPC_SLOT_STATE_MASK);
-     uint8_t old_power = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
-@@ -314,8 +315,9 @@ static void shpc_slot_command(SHPCDevice *shpc, uint8_t target,
-     }
- }
+-    Error *local_err = NULL;
+     PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
+     SHPCDevice *shpc = pci_hotplug_dev->shpc;
+     int slot;
  
--static void shpc_command(SHPCDevice *shpc)
-+static void shpc_command(PCIDevice *d)
+-    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!shpc_device_get_slot(PCI_DEVICE(dev), &slot, shpc, errp)) {
+         return;
+     }
+ 
+@@ -563,16 +563,13 @@ void shpc_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                    DeviceState *dev, Error **errp)
  {
-+    SHPCDevice *shpc = d->shpc;
-     uint8_t code = pci_get_byte(shpc->config + SHPC_CMD_CODE);
-     uint8_t speed;
-     uint8_t target;
-@@ -336,7 +338,7 @@ static void shpc_command(SHPCDevice *shpc)
-         state = (code & SHPC_SLOT_STATE_MASK) >> SHPC_SLOT_STATE_SHIFT;
-         power = (code & SHPC_SLOT_PWR_LED_MASK) >> SHPC_SLOT_PWR_LED_SHIFT;
-         attn = (code & SHPC_SLOT_ATTN_LED_MASK) >> SHPC_SLOT_ATTN_LED_SHIFT;
--        shpc_slot_command(shpc, target, state, power, attn);
-+        shpc_slot_command(d, target, state, power, attn);
-         break;
-     case 0x40 ... 0x47:
-         speed = code & SHPC_SEC_BUS_MASK;
-@@ -354,10 +356,10 @@ static void shpc_command(SHPCDevice *shpc)
-         }
-         for (i = 0; i < shpc->nslots; ++i) {
-             if (!(shpc_get_status(shpc, i, SHPC_SLOT_STATUS_MRL_OPEN))) {
--                shpc_slot_command(shpc, i + SHPC_CMD_TRGT_MIN,
-+                shpc_slot_command(d, i + SHPC_CMD_TRGT_MIN,
-                                   SHPC_STATE_PWRONLY, SHPC_LED_ON, SHPC_LED_NO);
-             } else {
--                shpc_slot_command(shpc, i + SHPC_CMD_TRGT_MIN,
-+                shpc_slot_command(d, i + SHPC_CMD_TRGT_MIN,
-                                   SHPC_STATE_NO, SHPC_LED_OFF, SHPC_LED_NO);
-             }
-         }
-@@ -375,10 +377,10 @@ static void shpc_command(SHPCDevice *shpc)
-         }
-         for (i = 0; i < shpc->nslots; ++i) {
-             if (!(shpc_get_status(shpc, i, SHPC_SLOT_STATUS_MRL_OPEN))) {
--                shpc_slot_command(shpc, i + SHPC_CMD_TRGT_MIN,
-+                shpc_slot_command(d, i + SHPC_CMD_TRGT_MIN,
-                                   SHPC_STATE_ENABLED, SHPC_LED_ON, SHPC_LED_NO);
-             } else {
--                shpc_slot_command(shpc, i + SHPC_CMD_TRGT_MIN,
-+                shpc_slot_command(d, i + SHPC_CMD_TRGT_MIN,
-                                   SHPC_STATE_NO, SHPC_LED_OFF, SHPC_LED_NO);
-             }
-         }
-@@ -410,7 +412,7 @@ static void shpc_write(PCIDevice *d, unsigned addr, uint64_t val, int l)
-         shpc->config[a] &= ~(val & w1cmask); /* W1C: Write 1 to Clear */
+-    Error *local_err = NULL;
+     PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
+     SHPCDevice *shpc = pci_hotplug_dev->shpc;
+     uint8_t state;
+     uint8_t led;
+     int slot;
+ 
+-    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!shpc_device_get_slot(PCI_DEVICE(dev), &slot, shpc, errp)) {
+         return;
      }
-     if (ranges_overlap(addr, l, SHPC_CMD_CODE, 2)) {
--        shpc_command(shpc);
-+        shpc_command(d);
-     }
-     shpc_interrupt_update(d);
- }
+ 
 -- 
 MST
 
