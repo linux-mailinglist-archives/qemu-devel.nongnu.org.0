@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CC76A7CAF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC1A6A7CB7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:32:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeHd-0006T9-4q; Thu, 02 Mar 2023 03:27:25 -0500
+	id 1pXeHU-0005sI-UY; Thu, 02 Mar 2023 03:27:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHC-0005gW-RM
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHE-0005gq-1v
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:27:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGx-0002b6-En
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeH3-0002bb-2t
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745602;
+ s=mimecast20190719; t=1677745608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wXVLWL/BesuAOOm6vpOl2pfhgEhXIwPZXi20f0iQFYo=;
- b=Ew8ryN5NC4HeruOzW7VSTf/PMg760FoTdI1uq4U/p4wDYS16WqDec9OUD2N94ffK9MeAjC
- 3yysympD39MVYNSI2M/L80N73RXGUfEUsMSV452IjE3eYuSst+9gpOREwXAbfg85HiDVc9
- IM6axZWvVd/xf9NYjvoQRB8WoZBL43c=
+ bh=nnTR3xgEleaKgQugx6zt8EnPv3TKHsZvrDjaL0Vvsrk=;
+ b=VAQYK/tjEI+7PCu5oW6xkrR65GAcfLAZRlB8NgofbldjCumDExgo6zkEo465UhaCziGGHd
+ QCgOIXu8NVEUxlwfvgq028oQSgq3dnx1H22z81F8AQ8rFFNhfIChewJP0+er1f4yx68Sq8
+ CYNiYw0iErmVlC8U/yJGKIZrULWQ6PE=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-401-8m4FxOs5OAmRKIbQZxplEw-1; Thu, 02 Mar 2023 03:26:41 -0500
-X-MC-Unique: 8m4FxOs5OAmRKIbQZxplEw-1
+ us-mta-329-0yjyyI8cNsGgVopSMVL41w-1; Thu, 02 Mar 2023 03:26:45 -0500
+X-MC-Unique: 0yjyyI8cNsGgVopSMVL41w-1
 Received: by mail-wm1-f69.google.com with SMTP id
- m28-20020a05600c3b1c00b003e7d4662b83so950742wms.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:41 -0800 (PST)
+ l16-20020a05600c1d1000b003e77552705cso743030wms.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745600;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wXVLWL/BesuAOOm6vpOl2pfhgEhXIwPZXi20f0iQFYo=;
- b=lTxcRHjHmKJDXgamBSO8xBajuuDEPrynqN6UETtk9/wBdbzbOWdt/XsWZ55XiXfYDO
- rJIhwiYzd/ewkczj/aqsd0dIxYLtBH/qIViuoUKETweA8inSOXDsbL5XmmkStuEGvNCB
- hoDwd17/Vq2ONsjSrFUbApMJocv0MWN0sDBxMPXiLWQdCxZijFVqduA+Hu7kpY+TiXH9
- a8F8xVK4TJV0Z3JCo+Ctj7Dr6lnpZ1cnd14qhRH3d68olQBrhRWh/NWTOt/LSjIivIP3
- v3dNkg2gqqrN345tRxUKdoP1bh3Cn3NjdFsLnACmyzhSFLXz3R7TQPCOJLW7ISXrR0Dl
- KZag==
-X-Gm-Message-State: AO0yUKXl3mnTBiQaohtxKIOEk/sBp7W/Fezr0aKYSIuC0DMid6COv03x
- qCAJQi/TRSC78S13RGPElyapeiQhl/uaE6yV5Ft5jT/SLEXjFlXa+nqaohttP22ZOI8g6B6torm
- 9U4gcT/Dfa2q+DtJ49EFrbcomWoGncqSJdhJ/jllgOy42/1/j5Hbq9EWVUwb1na34PA==
-X-Received: by 2002:a5d:6805:0:b0:2c8:42b5:8025 with SMTP id
- w5-20020a5d6805000000b002c842b58025mr7760476wru.47.1677745599985; 
- Thu, 02 Mar 2023 00:26:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set90GREJXlJhKKuj/HJeAFX/2M0aKO9VxIzkVIEb9j53QKW66V46tXPq1Qnpx5rxNJ5zV6jBNw==
-X-Received: by 2002:a5d:6805:0:b0:2c8:42b5:8025 with SMTP id
- w5-20020a5d6805000000b002c842b58025mr7760459wru.47.1677745599624; 
- Thu, 02 Mar 2023 00:26:39 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745603;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nnTR3xgEleaKgQugx6zt8EnPv3TKHsZvrDjaL0Vvsrk=;
+ b=gZJ07YhpjAcPeV6M7DuYp3fqUUAqVvcS/aYW3eU46HsUCKeGnAGzK6b0wyg7FFCqiZ
+ GPB+zFK2dOFvsR8ZAAF8xUZPp/5gAy7xkE/Ihc4nN3X/w3p7RN7qxLJaTVNzebl/dwOa
+ SGJ7m0Y3XSbnSg9AbDKApB35+sH0NioIH13CG4vEz0JcwklyJqgC6t1ScsqJt77Aq1dj
+ oWvE0+UY2A6KepcLpl9UQGlSv4QEjJixyotyrHNQozUNbDr9AIcGhJ6MQ/F5NgdXIny/
+ hWSGgHrlPqhbQYGb/WQTRPKyhkRoR8D9gmCJPQZCqHOL5pDVZCdGZ44ye2cQNC+jUQzy
+ AP0g==
+X-Gm-Message-State: AO0yUKVUSkfWCQghAfjjUmtyI1cBDnRrlbBhluzRhy+3u1k9DDC3K6H5
+ Rs7wtwzC5VoI12Lqv/C/IwmncmsQXlypsP7W9mtj2rdiWbO4jNC/RAVJvKUUFnyA7vg8uiGDn4N
+ t5ypHZdd5Qf2ia91rCyQWKeQp3uAk8sFMrmLKZjpdA6ydUTXxX83vy+N94UGneLYVOg==
+X-Received: by 2002:a05:600c:8518:b0:3eb:3cc9:9f85 with SMTP id
+ gw24-20020a05600c851800b003eb3cc99f85mr8021200wmb.26.1677745603509; 
+ Thu, 02 Mar 2023 00:26:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set/2pyEy5IouLjMztmLJAPfYvTgGV3rQf/FDDjjqlh6nWgdSrl2ynnKOF829DNCU1xrcPpU9iw==
+X-Received: by 2002:a05:600c:8518:b0:3eb:3cc9:9f85 with SMTP id
+ gw24-20020a05600c851800b003eb3cc99f85mr8021180wmb.26.1677745603255; 
+ Thu, 02 Mar 2023 00:26:43 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- q6-20020a1ce906000000b003e0015c8618sm2112909wmc.6.2023.03.02.00.26.37
+ e16-20020a7bc2f0000000b003eb5a531232sm2147188wmk.38.2023.03.02.00.26.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:26:39 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:26:36 -0500
+ Thu, 02 Mar 2023 00:26:42 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:26:40 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Fan Ni <fan.ni@samsung.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 41/53] intel-iommu: send UNMAP notifications for domain or
- global inv desc
-Message-ID: <20230302082343.560446-42-mst@redhat.com>
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 42/53] MAINTAINERS: Add Fan Ni as Compute eXpress Link QEMU
+ reviewer
+Message-ID: <20230302082343.560446-43-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -102,75 +104,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-We don't send UNMAP notification upon domain or global invalidation
-which will lead the notifier can't work correctly. One example is to
-use vhost remote IOTLB without enabling device IOTLB.
+Fan Ni has offered to help out with QEMU CXL emulation reviewing.
+Add him as a designated reviewer.
 
-Fixing this by sending UNMAP notification.
+Thanks to Fan for stepping up after I requested help following Ben
+stepping down as co-maintainer. Fan base been active in testing
+and review recently so great to have Fan on board.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20230223065924.42503-6-jasowang@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Based on patch [PATCH] MAINTAINERS: Remove CXL maintainer Ben Widawsky
+
+Message-id: <20230220212437.1462314-1-armbru@redhat.com>
+Message-Id: <20230228113926.11485-1-Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Acked-by: Fan Ni <fan.ni@samsung.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/intel_iommu.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index a6b35b07d2..faade7def8 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1530,13 +1530,17 @@ static int vtd_sync_shadow_page_table_range(VTDAddressSpace *vtd_as,
-     return vtd_page_walk(s, ce, addr, addr + size, &info, vtd_as->pasid);
- }
- 
--static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
-+static int vtd_address_space_sync(VTDAddressSpace *vtd_as)
- {
-     int ret;
-     VTDContextEntry ce;
-     IOMMUNotifier *n;
- 
--    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
-+    /* If no MAP notifier registered, we simply invalidate all the cache */
-+    if (!vtd_as_has_map_notifier(vtd_as)) {
-+        IOMMU_NOTIFIER_FOREACH(n, &vtd_as->iommu) {
-+            memory_region_unmap_iommu_notifier_range(n);
-+        }
-         return 0;
-     }
- 
-@@ -2000,7 +2004,7 @@ static void vtd_iommu_replay_all(IntelIOMMUState *s)
-     VTDAddressSpace *vtd_as;
- 
-     QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
--        vtd_sync_shadow_page_table(vtd_as);
-+        vtd_address_space_sync(vtd_as);
-     }
- }
- 
-@@ -2082,7 +2086,7 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
-              * framework will skip MAP notifications if that
-              * happened.
-              */
--            vtd_sync_shadow_page_table(vtd_as);
-+            vtd_address_space_sync(vtd_as);
-         }
-     }
- }
-@@ -2140,7 +2144,7 @@ static void vtd_iotlb_domain_invalidate(IntelIOMMUState *s, uint16_t domain_id)
-         if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
-                                       vtd_as->devfn, &ce) &&
-             domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
--            vtd_sync_shadow_page_table(vtd_as);
-+            vtd_address_space_sync(vtd_as);
-         }
-     }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e96e9dbfe6..a4647dd1c4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2637,6 +2637,7 @@ T: git https://gitlab.com/vsementsov/qemu.git block
+ Compute Express Link
+ M: Ben Widawsky <ben.widawsky@intel.com>
+ M: Jonathan Cameron <jonathan.cameron@huawei.com>
++R: Fan Ni <fan.ni@samsung.com>
+ S: Supported
+ F: hw/cxl/
+ F: hw/mem/cxl_type3.c
 -- 
 MST
 
