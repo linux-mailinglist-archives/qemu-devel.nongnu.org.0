@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13426A7FC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:15:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696CE6A7FC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:16:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXfwi-0006fV-HL; Thu, 02 Mar 2023 05:13:56 -0500
+	id 1pXfy9-0007Oy-HG; Thu, 02 Mar 2023 05:15:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pXfwg-0006f9-17; Thu, 02 Mar 2023 05:13:54 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pXfwd-0008Ig-PR; Thu, 02 Mar 2023 05:13:53 -0500
-Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c14:5708:0:640:5704:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 037A75E8EE;
- Thu,  2 Mar 2023 13:13:36 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:7321::1:10] (unknown
- [2a02:6b8:b081:7321::1:10])
- by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id YDTE3E0OeqM0-5HJPOU0Z; Thu, 02 Mar 2023 13:13:35 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net;
- dkim=pass
-Message-ID: <708f6131-1d4f-ff4d-611c-30b0da891223@yandex-team.ru>
-Date: Thu, 2 Mar 2023 13:13:34 +0300
+ (Exim 4.90_1) (envelope-from <clopez@suse.de>)
+ id 1pXfy6-0007OI-QB; Thu, 02 Mar 2023 05:15:22 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <clopez@suse.de>)
+ id 1pXfy3-0000L1-4S; Thu, 02 Mar 2023 05:15:22 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B5D001FE6E;
+ Thu,  2 Mar 2023 10:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677752115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0dFeqs925nKU+EpW5o+gz7IWAukCerMgqLwKq9Ul/ps=;
+ b=ShWVbpdXzIk7+DPdLOoO39MmyonUAu1T9faEVo84Xwexb91nB7i4dNM8Qn3zKBTQEdOTgQ
+ XVpqpgyb3nknWGdn64cLPjQ5stwbQ3n19BLJ4YWfSzrYjLd4VtN43LU7kx+PuPGQWFtdyy
+ 23y7Tg+lomVOZ1Z1bMcr5TEvsQyCo3c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677752115;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0dFeqs925nKU+EpW5o+gz7IWAukCerMgqLwKq9Ul/ps=;
+ b=mdIURL9a6o//Y2J5UrgXp8NfZ7MCeW9/mO2k6HFGTYyOpgii4d79CpoH8DFvIhBZ0ocHh2
+ M4AGmyOncGoKR2BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E38D313349;
+ Thu,  2 Mar 2023 10:15:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ma9vNDJ3AGRbVAAAMHmgww
+ (envelope-from <clopez@suse.de>); Thu, 02 Mar 2023 10:15:14 +0000
+From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
+ qemu-s390x@nongnu.org (open list:virtio-ccw)
+Subject: [PATCH] virtio: refresh vring region cache after updating a virtqueue
+ size
+Date: Thu,  2 Mar 2023 11:14:47 +0100
+Message-Id: <20230302101447.4499-1-clopez@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 8/9] mirror: return the remaining dirty bytes upon query
-Content-Language: en-US
-To: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com, den@virtuozzo.com,
- t.lamprecht@proxmox.com, alexander.ivanov@virtuozzo.com
-References: <20230224144825.466375-1-f.ebner@proxmox.com>
- <20230224144825.466375-9-f.ebner@proxmox.com>
- <0e9d40ac-42c8-698f-ee75-4cbc5bfe7fa5@yandex-team.ru>
- <ed82e058-0d83-8b29-5f10-2076268cac3a@proxmox.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <ed82e058-0d83-8b29-5f10-2076268cac3a@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=clopez@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,57 +89,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.03.23 13:00, Fiona Ebner wrote:
-> Am 01.03.23 um 17:31 schrieb Vladimir Sementsov-Ogievskiy:
->> On 24.02.23 17:48, Fiona Ebner wrote:
->>> This can be used by management applications starting with a job in
->>> background mode to determine when the switch to active mode should
->>> happen.
->>>
->>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
->>> ---
->>>    block/mirror.c       | 1 +
->>>    qapi/block-core.json | 4 +++-
->>>    2 files changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/block/mirror.c b/block/mirror.c
->>> index 02b5bd8bd2..ac83309b82 100644
->>> --- a/block/mirror.c
->>> +++ b/block/mirror.c
->>> @@ -1259,6 +1259,7 @@ static void mirror_query(BlockJob *job,
->>> BlockJobInfo *info)
->>>          info->u.mirror = (BlockJobInfoMirror) {
->>>            .actively_synced = s->actively_synced,
->>> +        .remaining_dirty = bdrv_get_dirty_count(s->dirty_bitmap),
->>
->> Doesn't it duplicate info->len - info->offset in meaning?
->>
-> 
-> Essentially yes, apart from the in-flight bytes:
+When a virtqueue size is changed by the guest via
+virtio_queue_set_num(), its region cache is not automatically updated.
+If the size was increased, this could lead to accessing the cache out
+of bounds. For example, in vring_get_used_event():
 
-Is it worth reporting to user?
+    static inline uint16_t vring_get_used_event(VirtQueue *vq)
+    {
+        return vring_avail_ring(vq, vq->vring.num);
+    }
 
->>          job_progress_set_remaining(&s->common.job,
->>                                     s->bytes_in_flight + cnt +
->>                                     s->active_write_bytes_in_flight);
-> 
-> Should I rather use that value (and rename it to e.g. data_remaining to
-> be more similar to data_sent from 9/9)?
-> 
-> But I'd argue the same way as in 9/9: it's not transparent to users what
-> offset and len mean for the mirror job, because their documentation is
-> for a generic block job. E.g. len is documented to be able to change in
-> both directions while the job runs.
-> 
+    static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
+    {
+        VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
+        hwaddr pa = offsetof(VRingAvail, ring[i]);
 
-Still I'm not sure that we need new status values. I.e. if you need some new ones, you should explain the case and why existing information is not enough.
+        if (!caches) {
+            return 0;
+        }
 
-Especially when documentation of existing things is unclear, its better to start from improving it. And when we understand what len and offset means for mirror, it would probably be enough.
+        return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
+    }
 
+vq->vring.num will be greater than caches->avail.len, which will
+trigger a failed assertion down the call path of
+virtio_lduw_phys_cached().
 
+Fix this by calling virtio_queue_update_rings() after
+virtio_queue_set_num() if we are not already calling
+virtio_queue_set_rings().
+
+Signed-off-by: Carlos López <clopez@suse.de>
+---
+ hw/s390x/virtio-ccw.c   | 1 +
+ hw/virtio/virtio-mmio.c | 5 ++---
+ hw/virtio/virtio-pci.c  | 1 +
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index e33e5207ab..89891ac58a 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
+                 return -EINVAL;
+             }
+             virtio_queue_set_num(vdev, index, num);
++            virtio_queue_update_rings(vdev, index);
+         } else if (virtio_queue_get_num(vdev, index) > num) {
+             /* Fail if we don't have a big enough queue. */
+             return -EINVAL;
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 23ba625eb6..c74822308f 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -350,10 +350,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
+     case VIRTIO_MMIO_QUEUE_NUM:
+         trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
+         virtio_queue_set_num(vdev, vdev->queue_sel, value);
++        virtio_queue_update_rings(vdev, vdev->queue_sel);
+ 
+-        if (proxy->legacy) {
+-            virtio_queue_update_rings(vdev, vdev->queue_sel);
+-        } else {
++        if (!proxy->legacy) {
+             proxy->vqs[vdev->queue_sel].num = value;
+         }
+         break;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 247325c193..a0a2f2c965 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+         proxy->vqs[vdev->queue_sel].num = val;
+         virtio_queue_set_num(vdev, vdev->queue_sel,
+                              proxy->vqs[vdev->queue_sel].num);
++        virtio_queue_update_rings(vdev, vdev->queue_sel);
+         break;
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         vector = virtio_queue_vector(vdev, vdev->queue_sel);
 -- 
-Best regards,
-Vladimir
+2.35.3
 
 
