@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7D16A861C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2F16A862D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:20:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbd-0006bw-SF; Thu, 02 Mar 2023 11:16:34 -0500
+	id 1pXlbs-0007S4-26; Thu, 02 Mar 2023 11:16:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbE-0006D4-3d
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:08 -0500
+ id 1pXlbJ-0006HW-He
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbA-0000NN-Oh
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:07 -0500
+ id 1pXlbC-0000PA-20
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677773763;
+ s=mimecast20190719; t=1677773765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mOfbQcHb7slmDzgqWP3qyqJgG9k/dc7YPlOMusT+bFs=;
- b=GQl7k2M0sVlp/+qMi4+F/MMlD5n4LdIs/h+oaa2NT5j1w0yyOCtHD9Ri2DJw54fB0pSxIN
- IOzi+tgf7to3qYxp/5a8lfq34kqR2S0HPS95535ZowtLITK9N0YqYq4Q1o/Ka0HB15a+b6
- wlo9j0QK0kGiTIA5EqzBWNXT0TDthrM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mkZvl3K3aI4mRh24Jvs4zW7sj46GolRfUae2UG012Ro=;
+ b=dR90HroMo1KSotdlvgiNJewAwiGQU1IHPhy7kcy41pTcjwVsK5MIBXZeTb+AJ3JZUGqiEr
+ jtWQ/YzebMhPbEyotDEL2uhBsGZDEYp9eARKAdXdwhrCKx/8dDLyEq/tkOy+LNy25/8K2q
+ 1eVIxKdWVvKAKVp/zQradNvX0IM3Vx4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-326-jUiLZWD9PuysLWwXLbxt8Q-1; Thu, 02 Mar 2023 11:16:02 -0500
-X-MC-Unique: jUiLZWD9PuysLWwXLbxt8Q-1
+ us-mta-416-JoDAChi8PheuXi8ChMGE2Q-1; Thu, 02 Mar 2023 11:16:03 -0500
+X-MC-Unique: JoDAChi8PheuXi8ChMGE2Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34A3F811E9C
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAEAA3C0E45D
  for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:16:02 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2951140EBF6;
- Thu,  2 Mar 2023 16:16:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 648DD140EBF6;
+ Thu,  2 Mar 2023 16:16:02 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v2 21/34] acpi: pci: support acpi-index for non-hotpluggable
- devices
-Date: Thu,  2 Mar 2023 17:15:30 +0100
-Message-Id: <20230302161543.286002-22-imammedo@redhat.com>
+Subject: [PATCH v2 22/34] tests: acpi: update expected blobs
+Date: Thu,  2 Mar 2023 17:15:31 +0100
+Message-Id: <20230302161543.286002-23-imammedo@redhat.com>
 In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
 References: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,59 +80,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Inject static _DSM (EDSM) if non-hotpluggable device has
-acpi-index configured on it.
-It lets use acpi-index non-hotpluggable devices / devices
-attached to non-hotpluggable bus.
+the only chenge is addition of _DSM- > EDSM method
+on non-hotpluggable devices with configured acpi-index.
+Something like:
+
+  +                Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+  +                {
+  +                    Local0 = Package (0x01)
+  +                        {
+  +                            0x65
+  +                        }
+  +                    Return (EDSM (Arg0, Arg1, Arg2, Arg3, Local0))
+  +                }
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+ tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3260 -> 3309 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge       | Bin 12637 -> 12678 bytes
+ tests/data/acpi/q35/DSDT.noacpihp           | Bin 8114 -> 8188 bytes
+ 4 files changed, 3 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 6f5501fb74..46f78e9338 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -452,6 +452,25 @@ static Aml *aml_pci_edsm(void)
-     return method;
- }
- 
-+static Aml *aml_pci_static_endpoint_dsm(PCIDevice *pdev)
-+{
-+    Aml *method;
-+
-+    g_assert(pdev->acpi_index != 0);
-+    method = aml_method("_DSM", 4, AML_SERIALIZED);
-+    {
-+        Aml *params = aml_local(0);
-+        Aml *pkg = aml_package(1);
-+        aml_append(pkg, aml_int(pdev->acpi_index));
-+        aml_append(method, aml_store(pkg, params));
-+        aml_append(method,
-+            aml_return(aml_call5("EDSM", aml_arg(0), aml_arg(1),
-+                                 aml_arg(2), aml_arg(3), params))
-+        );
-+    }
-+    return method;
-+}
-+
- static void build_append_pcihp_notify_entry(Aml *method, int slot)
- {
-     Aml *if_ctx;
-@@ -577,6 +596,12 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
-         aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
- 
-         call_dev_aml_func(DEVICE(bus->devices[devfn]), dev);
-+        /* add _DSM if device has acpi-index set */
-+        if (pdev->acpi_index && !bsel &&
-+            !object_property_get_bool(OBJECT(pdev), "hotpluggable",
-+                                      &error_abort)) {
-+            aml_append(dev, aml_pci_static_endpoint_dsm(pdev));
-+        }
- 
-         /* device descriptor has been composed, add it into parent context */
-         aml_append(parent_scope, dev);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 70244976c9..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,4 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT.hpbrroot",
+-"tests/data/acpi/q35/DSDT.multi-bridge",
+-"tests/data/acpi/q35/DSDT.noacpihp",
+diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
+index bfe0bf37180c0f0521d264d3e35b5f51feff2630..bee88c5ee815f0acf022b278876f0a212b1da84a 100644
+GIT binary patch
+delta 134
+zcmdlZ`Bsw4CD<k8Ee`_&<F1WdHe6ipS~2m#PVoZ%nwtZ-teKM3gN+U1IpQ5%f`Dq+
+z7(~S5U4ngi3WQh~xl$9BxB@vDnOWHh(M^`Y#ujje><rOO8o>q#0Y(N938+q1Ms8h3
+GB&`7G*&wt4
+
+delta 85
+zcmaDWxkr-ACD<io4-W$aqyI)O8!j$4^_cizr+5KBwao!s)=Y-{!Nvyh9Py4WK|nQZ
+X4AD&r!NwMF0d}AOf3N{UfRO<Jc*7Ed
+
+diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+index 1240cede1a2fedc902b9dc71687880b73170e81b..595ab64601ae3deb12bbf18ca463e39ba0a86195 100644
+GIT binary patch
+delta 81
+zcmcbc)RxTU66_MvX2`(67`Tz^t{ita7h_C(uv5H16W8WXax(nt>cQp~@f`7vE<rpD
+j4Ezit;_)uQzB~m&ER0;K2}@jooQ%w@?1arcdV$OUo6Hrb
+
+delta 41
+xcmZomzMI7566_KZYskRBxM(BST{-S14#t@HV5fM2PWH{8<Yf3ao9p>A0{{}H42A#z
+
+diff --git a/tests/data/acpi/q35/DSDT.noacpihp b/tests/data/acpi/q35/DSDT.noacpihp
+index 44ee5e74c533f2c7554885b73adb947ed74b421f..c292c2369b011b779af44d0fa6fd2f7994098b2e 100644
+GIT binary patch
+delta 199
+zcmdmF|Hq!oCD<k8k30hdqtiw%7g;Vpt(f>=r+5K3t;rFx_Uh`vh8FQ0@s2J*JPZuX
+z3?kz3F2TM$1wt&0T&W35T!Ea7%&hE$$;)I_EG>hL5NcT&qMI~=4G;p13?dRx&8&>v
+lx{S!WU&$(%ng$yq6te?$s{|VuK&(d5`4w5`W;MAUMgVo#G5-Jn
+
+delta 125
+zcmexkzsa7<CD<iolRN_hW86kA7g;VBwV3!|r+5J$)yWaE_Wb<8h8FQ0@s2J*JPZuX
+z43qcCswgM~8zID48KRr`gAEV@j0}^d<rHLOf{hVk>_A1_!3G8plNdG^$n`J+09-yC
+ANdN!<
+
 -- 
 2.39.1
 
