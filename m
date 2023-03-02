@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBEC6A8605
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123416A862F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:20:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbW-0006VZ-TM; Thu, 02 Mar 2023 11:16:27 -0500
+	id 1pXlbq-0007QW-Qi; Thu, 02 Mar 2023 11:16:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbE-0006D3-Af
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:08 -0500
+ id 1pXlbJ-0006HS-E7
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbA-0000Jx-Nj
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:07 -0500
+ id 1pXlbB-0000K5-F6
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1677773754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CyhOXEfniT3nMry9IJHAQ7s8QwW5WIhb342SsCtQ44U=;
- b=fNSgvuFFOvRPYFTcnhiCevKgI1B25MDFVBwoFjQ15DMK7UfaGog7kVXzZwFzbJKFedNHgG
- pDdBjKdYg8wfFQdR1bwqjnkwWMsHL8/PP6gh2deKBCLXTASLvcnpzzaQ3Bxd8ahCDXXW0F
- 62rLIiKneBdhayWbevCfWaUoWsDyf+c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XTdaUW41KsYdJ+ixF+sOvm1OAGGA25ktcKt2UTMxlyU=;
+ b=MHJUf18YtW8IoADzlcSKw7lRKC6jQE/2OwwpWQUcTyzCd7WaYwuw30oXnSWRzx1J/3yKSB
+ Dvk9J35U0is5FoMm9E4hp/rQqjlXaqfIObwxCSqQ8ckPv6jmjdJSrp84/8kVDuzD08Hksb
+ inSdFi6nzaIEsCNCVQXDolVW+J7VRUQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-Te81UiNCM7OSosau5NW9RQ-1; Thu, 02 Mar 2023 11:15:51 -0500
-X-MC-Unique: Te81UiNCM7OSosau5NW9RQ-1
+ us-mta-651-9aHD4rKRPoqdj6ZqWpQ0Wg-1; Thu, 02 Mar 2023 11:15:52 -0500
+X-MC-Unique: 9aHD4rKRPoqdj6ZqWpQ0Wg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65B7B3C0E464
- for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:15:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28398101A55E
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:15:52 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D43A3140EBF6;
- Thu,  2 Mar 2023 16:15:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9619A140EBF6;
+ Thu,  2 Mar 2023 16:15:51 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v2 07/34] x86: pcihp: fix missing PCNT callchain when
- intermediate root-port has 'hotplug=off' set
-Date: Thu,  2 Mar 2023 17:15:16 +0100
-Message-Id: <20230302161543.286002-8-imammedo@redhat.com>
+Subject: [PATCH v2 08/34] tests: acpi: whitelist pc/DSDT.hpbrroot and
+ pc/DSDT.hpbridge tests
+Date: Thu,  2 Mar 2023 17:15:17 +0100
+Message-Id: <20230302161543.286002-9-imammedo@redhat.com>
 In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
 References: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,100 +81,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Beside BSEL numbers change (due to 2 extra root-ports in q35/miltibridge test),
-following change is expected:
+follow up fix for missing root-port AML will affect these tests
+by adding non-hotpluggable Device descriptors of colplugged
+bridges when bridge hotplug is disabled.
 
-       Scope (\_SB.PCI0)
-       {
-  ...
-  +        Scope (S50)
-  +        {
-  +            Scope (S00)
-  +            {
-  +                Method (PCNT, 0, NotSerialized)
-  +                {
-  +                    BNUM = Zero
-  +                    DVNT (PCIU, One)
-  +                    DVNT (PCID, 0x03)
-  +                }
-  +            }
-  +
-  +            Method (PCNT, 0, NotSerialized)
-  +            {
-  +                ^S00.PCNT
-  +            }
-  +        }
-  ...
-           Method (PCNT, 0, NotSerialized)
-           {
-  +            ^S50.PCNT ()
-               ^S13.PCNT ()
-               ^S12.PCNT ()
-               ^S11.PCNT ()
-
-I practice [1] hasn't broke anything since on hardware side we unset
-hotplug_handler on such intermediate port => hotplug behind it has
-not been properly wired and as result not worked.
-
-1)
-Fixes: ddab4d3fae4e8 ("pcihp: compose PCNT callchain right before its user _GPE._E01")
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index b19fb4259e..c691104d47 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -517,16 +517,24 @@ static bool build_append_notfication_callback(Aml *parent_scope,
-     PCIBus *sec;
-     QObject *bsel;
-     int nr_notifiers = 0;
-+    GQueue *pcnt_bus_list = g_queue_new();
- 
-     QLIST_FOREACH(sec, &bus->child, sibling) {
-         Aml *br_scope = aml_scope("S%.02X", sec->parent_dev->devfn);
--        if (pci_bus_is_root(sec) ||
--            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
-+        if (pci_bus_is_root(sec)) {
-             continue;
-         }
-         nr_notifiers = nr_notifiers +
-                        build_append_notfication_callback(br_scope, sec);
--        aml_append(parent_scope, br_scope);
-+        /*
-+         * add new child scope to parent
-+         * and keep track of bus that have PCNT,
-+         * bus list is used later to call children PCNTs from this level PCNT
-+         */
-+        if (nr_notifiers) {
-+            g_queue_push_tail(pcnt_bus_list, sec);
-+            aml_append(parent_scope, br_scope);
-+        }
-     }
- 
-     /*
-@@ -550,17 +558,13 @@ static bool build_append_notfication_callback(Aml *parent_scope,
-     }
- 
-     /* Notify about child bus events in any case */
--    QLIST_FOREACH(sec, &bus->child, sibling) {
--        if (pci_bus_is_root(sec) ||
--            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
--            continue;
--        }
--
-+    while ((sec = g_queue_pop_head(pcnt_bus_list))) {
-         aml_append(method, aml_name("^S%.02X.PCNT", sec->parent_dev->devfn));
-     }
- 
-     aml_append(parent_scope, method);
-     qobject_unref(bsel);
-+    g_queue_free(pcnt_bus_list);
-     return !!nr_notifiers;
- }
- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dabc024f53..a0dbb28cde 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1,5 @@
+ /* List of comma-separated changed AML files to ignore */
+ "tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/q35/DSDT.noacpihp",
 -- 
 2.39.1
 
