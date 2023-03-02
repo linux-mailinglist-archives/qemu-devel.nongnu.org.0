@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C276A7C98
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7826D6A7CA3
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:29:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeFm-0002S2-NF; Thu, 02 Mar 2023 03:25:30 -0500
+	id 1pXeFq-0002hx-02; Thu, 02 Mar 2023 03:25:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFV-0002FP-UJ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:16 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFZ-0002Fv-QS
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:18 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFT-0002Bg-Qx
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:13 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFX-0002CI-GE
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745511;
+ s=mimecast20190719; t=1677745514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TCSYqJbo9EsXx3sz7ebfc0MQ5H8efRMAzVObswWYkt0=;
- b=EQSIDD8Ze76D4wWqgDfuXsRcb5lVAAtwvhR61uvXc2jKowLy+IWjov0/Nuf3tAiVN5iBau
- N3W0qChhTTZuG0q1CvyRiWNqLLRgwZM0u34onv/M2cCBmqf0Oc/+/Kn4irCwmMJ7CO2gI/
- ryMUJjI6C+k9uA9qiTKVsvVtkA1bX0M=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mHgZzuUR8eKxbjo0rCrirNhTNqh5oYr9Fm8k8gMJ5Xw=;
+ b=Ns2u8YUmZu8FbhgC9CDRCDb1ChKNh+lbh7HLEhjdsA+v8ppXdCHC/y962v4ffqXHhSlBzu
+ S9Xxc0cpFAJQFTvmT8rLgpVFYrmKed2UjOd0svsURU6IJdljgTf7tgUDBYBxSu5pA4P/l0
+ RSuqw4stsPaPKWqVQ1Vyr2Yfk8Vkzlw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-475-6icMR7s4PtKcmPpXvow22A-1; Thu, 02 Mar 2023 03:25:10 -0500
-X-MC-Unique: 6icMR7s4PtKcmPpXvow22A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso5461652wmi.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:09 -0800 (PST)
+ us-mta-327-U8yKUTfSMrO6O2pRJKPE2w-1; Thu, 02 Mar 2023 03:25:13 -0500
+X-MC-Unique: U8yKUTfSMrO6O2pRJKPE2w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ x3-20020a5d6503000000b002c8c421fdfaso3030058wru.15
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745508;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TCSYqJbo9EsXx3sz7ebfc0MQ5H8efRMAzVObswWYkt0=;
- b=dUQXDdDi0d4jfj9CVpfLJ934XaV8wSDxO2QcoTckGUOb8kijn92MRDN44tCyjMbHmx
- joZ0oxuPEp3VsotsNIZh48DqEP7q6rIoeWt5oSmluuUpDA9U4rj/8Rd3/WvNULh90fRT
- HJGzwH7D0iL3W9i/fmEoBsLHaIUdXhJIqZch3RLR8L9KE2p0BhvogNW1SFVonsCtikY8
- 9f1JIrrSgGlembwQz7G0cBNj8fqLmsNwz4vlRJNDYf0j/YBVvu2mLuA24IR0spk7C2Hn
- krSxpFvEC7slJVFAPFwR//eixQXtRWSgvP6M3VFf0jCKO/BB/410ljZ3Fm94rBg2DYvh
- tU5Q==
-X-Gm-Message-State: AO0yUKU/aGz4viUGyFcFliB23dYD9zXpWsUPaQNy2/87VsFAP9jBSzcw
- PSqxnUCxv82Q5XkATz7Zhql5DLA3eTIvR3/VZeqVLq5REsUQb4SOFHDRvkzXYoK1q2goGfZ9WxA
- s7vNQgHxbU7HYXuVcDshgcctc+iLU/YFXL+fpkag9aR3Jliqm8epjsFQTF/59JP0q5w==
-X-Received: by 2002:a05:6000:120b:b0:2c7:17dd:ed6a with SMTP id
- e11-20020a056000120b00b002c717dded6amr6916465wrx.33.1677745508429; 
- Thu, 02 Mar 2023 00:25:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set9uE+NA736YKjGbN1si1U/5ZcsuV5oWfhNPQibx4NmQgCTNEpdlLXYbS5NiVcYXXS+DkvMV1g==
-X-Received: by 2002:a05:6000:120b:b0:2c7:17dd:ed6a with SMTP id
- e11-20020a056000120b00b002c717dded6amr6916448wrx.33.1677745508198; 
- Thu, 02 Mar 2023 00:25:08 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745511;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mHgZzuUR8eKxbjo0rCrirNhTNqh5oYr9Fm8k8gMJ5Xw=;
+ b=er6WDlptX3eLYMUbn7CBB972irkCv5caLusBHCktiIEbucPVG8ihjTttwrm2poM5ex
+ EqR0/Q2yaToq6KLxIz/p58Q5xtfo+Q8Zj3QDQHRMzTq072pBTj3xBkZ0n3bYEpwzD0ep
+ YzaNkyCboS4RqUh72i4IczJuMx4mNciresRMYQq9jBaZwIV2Mmh1V32LPGKCzEgBgMvc
+ XA6SIkHi6u+RRpVOYEflsjLWmbvZkd3vn2CEM/QuTPx1f/bLg+8XD7s+3DKQXPyc3M3s
+ 2Wbjqug0+AlHfhMMxpj8tIKY3nVmLDHCNSTedqYqq1Cl8GYB7B7oUnde586DxzAeeOa8
+ BMuA==
+X-Gm-Message-State: AO0yUKUubjlSM1Uzk9GofDZ+ELk15z73ppi88iL7JCFTQ7Ur2xDso9S9
+ MVz6VqkWM3+18RE2tKbSwlNvJLr26LQVPFulRbJm22aWFuyu0cIAMZBmbLS+GRRpMqNH6sOB4iQ
+ tr7TZv4l6mzZE3zYzroPQ6yMWx/oCHQg/0HXJtKRIBkkJsQYLTSCZFnGw1p5a5L67sg==
+X-Received: by 2002:a05:600c:310e:b0:3eb:3148:a1b7 with SMTP id
+ g14-20020a05600c310e00b003eb3148a1b7mr7192619wmo.12.1677745511338; 
+ Thu, 02 Mar 2023 00:25:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set8aO1L6RIiyFhrvx7PidP0hOyyww16YnHhJ5idmMjAHu/36Q6rvzeXzPiLrzIV7obY9EJpZeA==
+X-Received: by 2002:a05:600c:310e:b0:3eb:3148:a1b7 with SMTP id
+ g14-20020a05600c310e00b003eb3148a1b7mr7192603wmo.12.1677745511018; 
+ Thu, 02 Mar 2023 00:25:11 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- u4-20020adfed44000000b002c563b124basm14710344wro.103.2023.03.02.00.25.06
+ v16-20020a05600c445000b003dd1bd66e0dsm2341373wmn.3.2023.03.02.00.25.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:07 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:04 -0500
+ Thu, 02 Mar 2023 00:25:10 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:08 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Akihiko Odaki <akihiko.odaki@daynix.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 11/53] vhost-user-gpio: Configure vhost_dev when connecting
-Message-ID: <20230302082343.560446-12-mst@redhat.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PULL 12/53] vhost-user-i2c: Back up vqs before cleaning up vhost_dev
+Message-ID: <20230302082343.560446-13-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -103,82 +99,51 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-vhost_dev_cleanup(), called from vu_gpio_disconnect(), clears vhost_dev
-so vhost-user-gpio must set the members of vhost_dev each time
-connecting.
+vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
+the memory pointed by the member.
 
-do_vhost_user_cleanup() should also acquire the pointer to vqs directly
-from VHostUserGPIO instead of referring to vhost_dev as it can be called
-after vhost_dev_cleanup().
-
-Fixes: 27ba7b027f ("hw/virtio: add boilerplate for vhost-user-gpio device")
+Fixes: 7221d3b634 ("hw/virtio: add boilerplate for vhost-user-i2c device")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-Id: <20230130140320.77999-1-akihiko.odaki@daynix.com>
-Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230130140435.78049-1-akihiko.odaki@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-user-gpio.h |  2 +-
- hw/virtio/vhost-user-gpio.c         | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/virtio/vhost-user-i2c.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-user-gpio.h b/include/hw/virtio/vhost-user-gpio.h
-index a9305c5e6c..a9d3f9b049 100644
---- a/include/hw/virtio/vhost-user-gpio.h
-+++ b/include/hw/virtio/vhost-user-gpio.h
-@@ -23,7 +23,7 @@ struct VHostUserGPIO {
-     VirtIODevice parent_obj;
-     CharBackend chardev;
-     struct virtio_gpio_config config;
--    struct vhost_virtqueue *vhost_vq;
-+    struct vhost_virtqueue *vhost_vqs;
-     struct vhost_dev vhost_dev;
-     VhostUserState vhost_user;
-     VirtQueue *command_vq;
-diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index fe3da32c74..d6927b610a 100644
---- a/hw/virtio/vhost-user-gpio.c
-+++ b/hw/virtio/vhost-user-gpio.c
-@@ -16,6 +16,7 @@
- #include "trace.h"
- 
- #define REALIZE_CONNECTION_RETRIES 3
-+#define VHOST_NVQS 2
- 
- /* Features required from VirtIO */
- static const int feature_bits[] = {
-@@ -208,8 +209,7 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserGPIO *gpio)
- {
-     virtio_delete_queue(gpio->command_vq);
-     virtio_delete_queue(gpio->interrupt_vq);
--    g_free(gpio->vhost_dev.vqs);
--    gpio->vhost_dev.vqs = NULL;
-+    g_free(gpio->vhost_vqs);
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index dc5c828ba6..60eaf0d95b 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -143,8 +143,6 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserI2C *i2c)
+     vhost_user_cleanup(&i2c->vhost_user);
+     virtio_delete_queue(i2c->vq);
      virtio_cleanup(vdev);
-     vhost_user_cleanup(&gpio->vhost_user);
+-    g_free(i2c->vhost_dev.vqs);
+-    i2c->vhost_dev.vqs = NULL;
  }
-@@ -229,6 +229,9 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
-     vhost_dev_set_config_notifier(vhost_dev, &gpio_ops);
-     gpio->vhost_user.supports_config = true;
  
-+    gpio->vhost_dev.nvqs = VHOST_NVQS;
-+    gpio->vhost_dev.vqs = gpio->vhost_vqs;
-+
-     ret = vhost_dev_init(vhost_dev, &gpio->vhost_user,
+ static int vu_i2c_connect(DeviceState *dev)
+@@ -228,6 +226,7 @@ static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
+     ret = vhost_dev_init(&i2c->vhost_dev, &i2c->vhost_user,
                           VHOST_BACKEND_TYPE_USER, 0, errp);
      if (ret < 0) {
-@@ -347,10 +350,9 @@ static void vu_gpio_device_realize(DeviceState *dev, Error **errp)
++        g_free(i2c->vhost_dev.vqs);
+         do_vhost_user_cleanup(vdev, i2c);
+     }
  
-     virtio_init(vdev, VIRTIO_ID_GPIO, sizeof(gpio->config));
+@@ -239,10 +238,12 @@ static void vu_i2c_device_unrealize(DeviceState *dev)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VHostUserI2C *i2c = VHOST_USER_I2C(dev);
++    struct vhost_virtqueue *vhost_vqs = i2c->vhost_dev.vqs;
  
--    gpio->vhost_dev.nvqs = 2;
-     gpio->command_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
-     gpio->interrupt_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
--    gpio->vhost_dev.vqs = g_new0(struct vhost_virtqueue, gpio->vhost_dev.nvqs);
-+    gpio->vhost_vqs = g_new0(struct vhost_virtqueue, VHOST_NVQS);
- 
-     gpio->connected = false;
+     /* This will stop vhost backend if appropriate. */
+     vu_i2c_set_status(vdev, 0);
+     vhost_dev_cleanup(&i2c->vhost_dev);
++    g_free(vhost_vqs);
+     do_vhost_user_cleanup(vdev, i2c);
+ }
  
 -- 
 MST
