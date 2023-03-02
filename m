@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123AC6A8458
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 15:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FCC6A845C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 15:46:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXkAA-0006wI-3a; Thu, 02 Mar 2023 09:44:06 -0500
+	id 1pXkBm-0000N6-5j; Thu, 02 Mar 2023 09:45:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXkA7-0006vx-Ue
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:44:03 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXkBk-0000Mh-CQ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:45:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXkA6-0006pJ-FF
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:44:03 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXkBh-0007Qn-9B
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:45:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677768241;
+ s=mimecast20190719; t=1677768340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v2eKJJacejP9wXF+36LoJxQxXgDcyIduj+iFIB/0YPQ=;
- b=BufeM+GJyiQSurKsRAAXQmxXRBT6QqozHMn38R7IxZSXtgI5zNSiMa8dsZiFCWgvSwDn5P
- nRdCfMzoaxCyGhrCf4NGEax5mm4cZC4riesVADXlUqdeephKOXvaDsTXZnE6+mQ6shhxq3
- tqahisBrBlaIwNFcFTUTiLSWE3A6weU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=e+570caFwB4prWyCHXA+anOt5MYk86Ng89ex8ZtVSF0=;
+ b=fpJfUTZmLrVlWDayjoz91X/NZDWSRnEz0YLcDo8UxiKmRsnf58cLmsPWHXaGSBkDmcDLbW
+ QkRfgoFCwrP4zOsiO0jNeQ+VwwP+ZG/3zqoyof6SsEd0XxcsUF94hvEbY/6M8MYSo92Bmj
+ EUfo5BRM0921euS8+7VWBlcLEWKoRyM=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-490-_NZQcmPVNze_8kMdYs6tLA-1; Thu, 02 Mar 2023 09:43:59 -0500
-X-MC-Unique: _NZQcmPVNze_8kMdYs6tLA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l16-20020a05600c1d1000b003e77552705cso1177616wms.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 06:43:59 -0800 (PST)
+ us-mta-442-_6AdB6WxMQ23zQ63sMfZSw-1; Thu, 02 Mar 2023 09:45:39 -0500
+X-MC-Unique: _6AdB6WxMQ23zQ63sMfZSw-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ pz4-20020ad45504000000b0056f060452adso8814806qvb.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 06:45:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677768234;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v2eKJJacejP9wXF+36LoJxQxXgDcyIduj+iFIB/0YPQ=;
- b=tzhFf+LNWPr3qDFVL/KT+bFpj//lKpM4n4uVnmM9xXZiHU6HHZtaBXv2YPnC2NzJKn
- Neap+ODEmCJ/Rq6RfzDTeUK19I6B1louGrXNAqnf7+v0ICbYF+QFbfT24ZlpPV1d7UPI
- f8/sfSX0D+ph4KnKB25wGBALglOvqZpECfMI83QHJTTT+lxKnuHrERERWzEalEHXe79z
- guZj1Cs2eG+BBHFFqzQUpa2+AW9HdoGmQtQTZA59iLAuz3D49olYQRfU2BPxhs+VN0eh
- KKy+QlKXjgcfaCaz7mNMz91U5svFlKw/7fNheNaQ1/JtteLFQ4jShEq3zMgDX9uorqMc
- /D4w==
-X-Gm-Message-State: AO0yUKURIxK2kMHQz6xJS578M6yOo3rMDBoDQNkABN4nxnWpVm6BNxTy
- QBLvN26Ic/glrxj3vTd0X4Ky/mmEXeEMTKo0qbBZeLecfEX2Ry/4qjIalV4k9p+cEZ5s1Jvu9Pj
- R4mo8tw+ZmomuZDI=
-X-Received: by 2002:a5d:574d:0:b0:2c9:f488:5f54 with SMTP id
- q13-20020a5d574d000000b002c9f4885f54mr7425563wrw.57.1677768233889; 
- Thu, 02 Mar 2023 06:43:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set908BUsMOH2KMIxEcThQWEXjCxBX/BTYV2OgIwSeT/uVIa+ayBdwtn8g7+HSgSBi5dq+1UAMg==
-X-Received: by 2002:a5d:574d:0:b0:2c9:f488:5f54 with SMTP id
- q13-20020a5d574d000000b002c9f4885f54mr7425542wrw.57.1677768233567; 
- Thu, 02 Mar 2023 06:43:53 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- g13-20020a05600c310d00b003eaf666cbe0sm3402780wmo.27.2023.03.02.06.43.51
+ d=1e100.net; s=20210112; t=1677768338;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e+570caFwB4prWyCHXA+anOt5MYk86Ng89ex8ZtVSF0=;
+ b=cCeq5oa7jd0tKxTs5l4vGGc61InjNWQpZzkDd5AJz7fUHKDZPRzV0FWxTKYTaRIjvq
+ O7ykdhqQ4mo5IUpUHoiN6wpWS7KptZ185JQvlBTlw92ALZr3DXiFErmP+dcSuq+UvoJE
+ UmyJWO5CaWl91u3bpid98nctS/b0MY8nto29BVsCB1TPK+/KhKHfgXWjV40weJeeg3C2
+ YoJPcodSqJP9Z0kOcHNazgpJN1B80I3Kk9wzhvC6ncyJSZfjwTp3/LFzDfw3qR8aNrct
+ 9ctD9qGNMFjUxIJJ+W7J+iC92qMJOUUv6XSKGrcy8sb7aVH55ZUzB9UeXeo6rclD84Y3
+ 8qWw==
+X-Gm-Message-State: AO0yUKVN9gstBMnenzXJizASdFAh/moCU6aFAxW6dVc+0VHrnNnFXJE6
+ aVajwHhp1FpBtauQss2Rjpu1r/rbAsFjWmd7V3nAyFsZeSAQq4b9koffjRGzJj0gBFZVMy1vMic
+ ER4BBSmCRwuoch9g=
+X-Received: by 2002:a0c:f251:0:b0:56e:f542:628 with SMTP id
+ z17-20020a0cf251000000b0056ef5420628mr14461403qvl.3.1677768338623; 
+ Thu, 02 Mar 2023 06:45:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/y8Y1Rtf0EG231uhAphiM298KZ/AKhnlNrsGTndKb4gffs3Pb7uE4EPqI3fpzcHj/vkdwduw==
+X-Received: by 2002:a0c:f251:0:b0:56e:f542:628 with SMTP id
+ z17-20020a0cf251000000b0056ef5420628mr14461369qvl.3.1677768338326; 
+ Thu, 02 Mar 2023 06:45:38 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ m67-20020a375846000000b00725d8d6983asm10906023qkb.61.2023.03.02.06.45.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 06:43:51 -0800 (PST)
-Date: Thu, 2 Mar 2023 15:43:50 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>, Thomas
- Huth <thuth@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-trivial@nongnu.org
-Subject: Re: [PATCH v2 19/20] hw/i386/ich9: Clean up includes
-Message-ID: <20230302154350.0327f0c1@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230131115326.12454-20-shentey@gmail.com>
-References: <20230131115326.12454-1-shentey@gmail.com>
- <20230131115326.12454-20-shentey@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ Thu, 02 Mar 2023 06:45:37 -0800 (PST)
+Date: Thu, 2 Mar 2023 09:45:35 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuang Xu <xuchuangxclwt@bytedance.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
+Message-ID: <ZAC2ccoQpFLa07ZK@x1n>
+References: <20230225163141.1209368-1-peterx@redhat.com>
+ <6c75e2e2-5ba9-bc52-2c6c-a0bfb5f5b56f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6c75e2e2-5ba9-bc52-2c6c-a0bfb5f5b56f@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,64 +101,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023 12:53:25 +0100
-Bernhard Beschow <shentey@gmail.com> wrote:
-
-this lacks commit description explaining below movements
-
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  include/hw/i386/ich9.h | 8 +++++---
->  hw/i386/acpi-build.c   | 1 +
->  hw/isa/lpc_ich9.c      | 2 +-
->  3 files changed, 7 insertions(+), 4 deletions(-)
+On Thu, Mar 02, 2023 at 10:46:56AM +0100, David Hildenbrand wrote:
+> On 25.02.23 17:31, Peter Xu wrote:
+> > [not for merging, but for discussion; this is something I found when
+> >   looking at another issue on Chuang's optimization for migration downtime]
+> > 
+> > Summary: we tried to access memory_listeners, address_spaces, etc. in RCU
+> > way.  However we didn't implement them with RCU-safety. This patchset is
+> > trying to do that; at least making it closer.
+> > 
+> > NOTE!  It's doing it wrongly for now, so please feel free to see this as a
+> > thread to start discussing this problem, as in subject.
+> > 
+> > The core problem here is how to make sure memory listeners will be freed in
+> > RCU ways, per when unlinking them from the global memory_listeners list.
 > 
-> diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-> index d29090a9b7..3125863049 100644
-> --- a/include/hw/i386/ich9.h
-> +++ b/include/hw/i386/ich9.h
-> @@ -1,11 +1,13 @@
->  #ifndef HW_ICH9_H
->  #define HW_ICH9_H
->  
-> -#include "hw/sysbus.h"
-> -#include "hw/i386/pc.h"
->  #include "hw/isa/apm.h"
-> -#include "hw/acpi/acpi.h"
->  #include "hw/acpi/ich9.h"
-> +#include "hw/intc/ioapic.h"
-> +#include "hw/pci/pci.h"
-> +#include "hw/pci/pci_device.h"
-> +#include "exec/memory.h"
-> +#include "qemu/notify.h"
->  #include "qom/object.h"
->  
->  void ich9_generate_smi(void);
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 127c4e2d50..266df7a153 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -59,6 +59,7 @@
->  #include "hw/acpi/pcihp.h"
->  #include "hw/i386/fw_cfg.h"
->  #include "hw/i386/ich9.h"
-> +#include "hw/i386/pc.h"
->  #include "hw/pci/pci_bus.h"
->  #include "hw/pci-host/i440fx.h"
->  #include "hw/pci-host/q35.h"
-> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-> index 808c572ae4..f508f6071e 100644
-> --- a/hw/isa/lpc_ich9.c
-> +++ b/hw/isa/lpc_ich9.c
-> @@ -40,8 +40,8 @@
->  #include "hw/irq.h"
->  #include "hw/isa/apm.h"
->  #include "hw/pci/pci.h"
-> -#include "hw/pci/pci_bridge.h"
->  #include "hw/i386/ich9.h"
-> +#include "hw/i386/pc.h"
->  #include "hw/acpi/acpi.h"
->  #include "hw/acpi/ich9.h"
->  #include "hw/pci/pci_bus.h"
+> Can you elaborate why we would want to do that? Is there a real reason we
+> cannot hold the BQL when unregistering a listener?
+
+Yes afaict we must hold BQL when unregister any listener for now.  I added
+an explicit assert in patch 1 for that.
+
+We want to do that because potentially we have RCU readers accessing these
+two lists, so here taking BQL only is not enough.  We need to release the
+objects after all users are gone.
+
+We already do that for address spaces, but afaict the listener part was
+overlooked.  The challenge here is how to achieve the same for listeners.
+
+> 
+> Or could we use any other, more fine-grained, lock to protect the memory
+> listeners?
+> 
+> Naive me would think that any interactions between someone updating the
+> memory listeners, and a listener getting removed, would require some careful
+> synchronization (to not rip a notifier out while someone else notifies --
+> what is the still registered notifier supposed to do with notifications
+> while it is already going away?), instead of doing it via RCU.
+> 
+> I'm all for using RCU if it improves performance and keeps things simple. If
+> RCU is neither required for performance reason and overcomplicates the
+> implementation, maybe using locking is the better choice.
+
+For ASes, one major user RCU is memory_region_find_rcu().
+
+For listeners, the only path that doesn't take BQL (afaict) is
+memory_region_clear_dirty_bitmap().  Maybe you'll have some points here on
+the side effect of taking it because it's in either virtio-mem or balloon
+path for page hinting iirc.
+
+In short, so far I don't know whether it's possible to have all paths take
+BQL while not regress anything.
+
+> 
+> TBH, so far I thought that any memory_listeners register/unregistering
+> *requires* the BQL, and everything else is a BUG.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
