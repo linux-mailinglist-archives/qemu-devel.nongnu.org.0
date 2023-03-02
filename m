@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE856A8C12
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF876A8C0F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrcc-0007St-K1; Thu, 02 Mar 2023 17:41:58 -0500
+	id 1pXrcn-0007bK-KZ; Thu, 02 Mar 2023 17:42:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcb-0007R5-EA
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:57 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrck-0007YM-Dm
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:06 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcZ-0008VE-Rv
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:57 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- o38-20020a05600c512600b003e8320d1c11so2650160wms.1
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrch-0008WJ-8c
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:05 -0500
+Received: by mail-wm1-x334.google.com with SMTP id j3so580307wms.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:42:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796914;
+ d=linaro.org; s=google; t=1677796921;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WBH0OC00WXelyQU0Dru5HltuKOYgUwSjsFr5h9b93CI=;
- b=rZvVoTx7mcGvLx5x4cGyfQyxRwvVXY/carR2VREyOo3wVQgHk27crXiiT/wIPyRrYU
- Y3pZRYeGvFcRQcLyAVgIek6tGqjydvyRrlLwM+rXzGhQm3eo+7ssqhJyHv3TDsWpaeVL
- 6SuGNnFgQjT+kH3nANQN7QBLq0wfWNCgrevj8nogbRUNBMZLUN8Sn/bvnbT0mAyvEBIz
- 0EpNWeLktE5hKDFT0MQcDILMTagM0bHgb77+ZmQWC4C4yQi6NU1BUYeH39MdnNs4phMI
- 59iH7DZILzpx3CjPifQ/QSgU+G+xGEHY4nxum2qV3wsKfRZN3KhzYtZf8D/iGLFI4xgu
- jWTw==
+ bh=3AoU626teyyuqy/kOKhaATOA10AmPEd2CLo0HeKY7iM=;
+ b=AvtpbScbEToTeZttg2AmvmKP8tEir63YdYgxtnadOqpZXqEJLmnnU6nr3PyWAvDLLc
+ YZJ10TM1jrBSwVGMMkT3vAA5v8O1bc3fk6DN0Y9fvGqGV1aM7HQT//yDqqFxjQ+9XQ1Y
+ u8MMGpShwf6fR+hvmQsisPdViffVDm/ni4wA4tlSOFZfjrRBbJwdk8NNeJ6hxBisoz/3
+ gQ83QP+ESO9earPBETvudL7W/B+eH7DdOMrdI9QXBJfTHV62fvAI29A65z/Rn9OYhlCc
+ CuvZJxjfLzxpSoOeeFEa+M/tJrgC2wmoYe+R7iB19ikSftaw4lIssuwc4ZaC+YKY12gt
+ 4txw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796914;
+ d=1e100.net; s=20210112; t=1677796921;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WBH0OC00WXelyQU0Dru5HltuKOYgUwSjsFr5h9b93CI=;
- b=fqdUBaArJFV3buzf6IErOicJI4tzHjJ9TFq3ogM73r270N1U7JJFBcG+L11gr4vkeb
- /11tpBZoOrnqx1az4EfwDy4Nls3Vu8gtr64JQ4USpPG+x0YB3Eqmv+V/IeRV3YUsVapV
- IwnhfV2+9sBgbUpGWy1PBpCYw6qPcbz7lbOw9/U7KRpqtEhiM0rY6l26BKeT0ZPJb/tI
- 1Trdt1fU0MgiEup6qossZIysSudcYjZhlbR0WDNuBXcfcgUVaWT+gXqSts8lGnc9mx2Y
- qdkbgImnUekLif4+QuAHWXxZ5NfKim7hR0LLfDCFJO495VX5llcBc1lb5c88901U0dE8
- mxLQ==
-X-Gm-Message-State: AO0yUKVTIeKzwv44fCwAkwR1T0loihf0IDGtukX5gSOd4wc+v6En8LZL
- mLgjB5krGwAltGcf8YTLIvQzOoPz2TN1/RwU
-X-Google-Smtp-Source: AK7set94qLUEx9Gbp86qYgJQCmMrt2N3vWoo7zk8lwHQ77DHP9x2SEq+jr1UuNIZgrB7nwuUjUMXHQ==
-X-Received: by 2002:a05:600c:1c8e:b0:3e0:98c:dd93 with SMTP id
- k14-20020a05600c1c8e00b003e0098cdd93mr8804092wms.29.1677796914201; 
- Thu, 02 Mar 2023 14:41:54 -0800 (PST)
+ bh=3AoU626teyyuqy/kOKhaATOA10AmPEd2CLo0HeKY7iM=;
+ b=2/fRgbvkx7xB1k/lWON8fwLA8P6HLpC9XbhDwFT/R6R0dn2h0PffE4Ej4eucYgztDL
+ mV6MarDdiDdsRNM8BXYOymqvNl1vf6q7YGHOMNoe8JexkTawnfJjw+PXQO2drRuh910N
+ uFOt6dR3oF8bqiBIE3t2SYRGpUufnzwnpa0cWCBZOKpj+T5zi0Z2/jeO6nK6WTP9mU9L
+ apN3SSCHonM00zOGoIoPppiCbb0DBWhcLiGcl4/9nKN+ujKxsaIZ8p/llk5GzcmnG2S4
+ FyrWxzrgh2GLO/qO439o+PEwTJB8+5bSfWsCMoVk+lZrFXC7jmtQqedYv/eKU5Kh5mgE
+ PdFg==
+X-Gm-Message-State: AO0yUKWPAub+2W4HehiTDfbomJOGHthabCU+l4gwniOA7wMJtH7zN1dq
+ iYz15Iv4tT0WmW+SoEaj7OvVax1ZNoxkhs6r
+X-Google-Smtp-Source: AK7set8ZzvM1oxwciMrSCJi/O5P01GnKohqIBPNIvwAPR01kZOMh6P906R3XRXtDd0KaUdw8Vn/xUQ==
+X-Received: by 2002:a05:600c:a293:b0:3eb:3e24:59e2 with SMTP id
+ hu19-20020a05600ca29300b003eb3e2459e2mr8719217wmb.25.1677796921709; 
+ Thu, 02 Mar 2023 14:42:01 -0800 (PST)
 Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- he11-20020a05600c540b00b003daf7721bb3sm4397190wmb.12.2023.03.02.14.41.52
+ g12-20020a05600c310c00b003dc49e0132asm4955231wmo.1.2023.03.02.14.41.59
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:41:53 -0800 (PST)
+ Thu, 02 Mar 2023 14:42:01 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Bernhard Beschow <shentey@gmail.com>
@@ -61,19 +60,20 @@ Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 07/18] hw/isa: Deprecate isa_get_irq() in favor of
- isa_bus_get_irq()
-Date: Thu,  2 Mar 2023 23:40:47 +0100
-Message-Id: <20230302224058.43315-8-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+Subject: [PATCH v3 08/18] hw/ide: Introduce generic ide_init_ioport()
+Date: Thu,  2 Mar 2023 23:40:48 +0100
+Message-Id: <20230302224058.43315-9-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
 References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,48 +96,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Last commit removed the last use of isa_get_irq(NULL).
-Add an assertion to ensure we won't use that hack again.
-Deprecate in favor of the BUS API: isa_bus_get_irq().
+Add ide_init_ioport() which is not restricted to the ISA bus.
+(Next commit will use it for a PCI device).
 
+Inspired-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/isa-bus.c     | 6 +++---
- include/hw/isa/isa.h | 3 ++-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ hw/ide/ioport.c           | 12 ++++++++++--
+ include/hw/ide/internal.h |  2 ++
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index a289eccfb1..081bac18ee 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -85,10 +85,10 @@ qemu_irq isa_bus_get_irq(ISABus *bus, unsigned irqnum)
-  * This function is only for special cases such as the 'ferr', and
-  * temporary use for normal devices until they are converted to qdev.
-  */
--qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
-+qemu_irq isa_get_irq(ISADevice *dev, unsigned irqnum)
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index d869f8018a..ed7957dbae 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -46,8 +46,6 @@ int ide_bus_init_ioport_isa(IDEBus *bus, ISADevice *dev,
  {
--    assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
--    return isa_bus_get_irq(isabus, isairq);
-+    assert(dev);
-+    return isa_bus_get_irq(ISA_BUS(qdev_get_parent_bus(DEVICE(dev))), irqnum);
+     int ret;
+ 
+-    /* ??? Assume only ISA and PCI configurations, and that the PCI-ISA
+-       bridge has been setup properly to always register with ISA.  */
+     ret = isa_register_portio_list(dev, &bus->portio_list,
+                                    iobase, ide_portio_list, bus, "ide");
+ 
+@@ -58,3 +56,13 @@ int ide_bus_init_ioport_isa(IDEBus *bus, ISADevice *dev,
+ 
+     return ret;
  }
- 
- void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 40d6224a4e..75fb620782 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -87,7 +87,8 @@ ISADevice *isa_create_simple(ISABus *bus, const char *name);
- 
- ISADevice *isa_vga_init(ISABus *bus);
- 
--qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
-+/*  isa_get_irq() is deprecated, please use isa_bus_get_irq() instead. */
-+qemu_irq isa_get_irq(ISADevice *dev, unsigned irqnum);
- void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
- MemoryRegion *isa_address_space(ISADevice *dev);
- MemoryRegion *isa_address_space_io(ISADevice *dev);
++
++void ide_bus_init_ioport(IDEBus *bus, Object *owner, MemoryRegion *io,
++                         int iobase, int iobase2)
++{
++    portio_list_init(&bus->portio_list, owner, ide_portio_list, bus, "ide");
++    portio_list_add(&bus->portio_list, io, iobase);
++
++    portio_list_init(&bus->portio2_list, owner, ide_portio2_list, bus, "ide");
++    portio_list_add(&bus->portio_list, io, iobase2);
++}
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index d3b7fdc504..6967ca13e0 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -617,6 +617,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+                    uint32_t cylinders, uint32_t heads, uint32_t secs,
+                    int chs_trans, Error **errp);
+ void ide_exit(IDEState *s);
++void ide_bus_init_ioport(IDEBus *bus, Object *owner, MemoryRegion *io,
++                         int iobase, int iobase2);
+ void ide_bus_init_output_irq(IDEBus *bus, qemu_irq irq_out);
+ void ide_bus_set_irq(IDEBus *bus);
+ void ide_bus_register_restart_cb(IDEBus *bus);
 -- 
 2.38.1
 
