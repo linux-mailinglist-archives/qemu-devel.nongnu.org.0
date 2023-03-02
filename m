@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292A96A7C9F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0F96A7CC7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:34:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeGU-0004yD-9N; Thu, 02 Mar 2023 03:26:14 -0500
+	id 1pXeGX-0005CK-3U; Thu, 02 Mar 2023 03:26:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGH-0004Am-BA
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:02 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGR-0004yx-Qw
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:11 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGF-0002P6-Pn
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGQ-0002Qj-1e
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745559;
+ s=mimecast20190719; t=1677745569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fpUPnDDHsSgm3zfqQTTpFqcSqwirzmtC8kRA6gtYoj8=;
- b=NDjaHxODxxZasSJwdXGKOJ4vHBx02a/aYu7sbcZm0Dk0Cn2zMLfxZmxHdQjX3AaH5ATGk5
- jzfE0ETcFrVVeWI9dstFmcKpZ+/d8ps7i0hp5HfjUTwBC6QRZzA30RUoaQdaiw6LINj8VQ
- Z/nyjtdd/vzh/+WMAj7zy+4Y0nuoEeA=
+ bh=x5lWbatbxSdF0Y0jI5eIVBSt28ruPy3dHHozV6cb81s=;
+ b=Tq8V5H9nxF9pJYp1d0sSpPp+44aqsheKTeWTEqmVM4TC/+SNbq30OstL5NPk1PziT3vidS
+ za37uKO3EJ9QvCJ78LNGZSvMMo2UsMV2rl4mlcJHkunVLa9R0/S71N17q0aF/J7/Sv5X0w
+ 0CSSdAC4ZLzPMeWIn8TTMGTL7pz5njg=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-148-NUvgoNOpPvmf-ewx_DHs1A-1; Thu, 02 Mar 2023 03:25:57 -0500
-X-MC-Unique: NUvgoNOpPvmf-ewx_DHs1A-1
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-584-V4_4p-hMOtyYmr-_xXydng-1; Thu, 02 Mar 2023 03:26:00 -0500
+X-MC-Unique: V4_4p-hMOtyYmr-_xXydng-1
 Received: by mail-wr1-f69.google.com with SMTP id
- i18-20020a05600011d200b002c94d861113so2982683wrx.16
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:57 -0800 (PST)
+ u5-20020a5d6da5000000b002cd82373455so1919139wrs.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745556;
+ d=1e100.net; s=20210112; t=1677745559;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fpUPnDDHsSgm3zfqQTTpFqcSqwirzmtC8kRA6gtYoj8=;
- b=LybUelkhfJwu7MFC/tXZm6El2UWAmjxE3600pfXW0ZWIIrQknLLs+n2GafrFzypRwi
- JYWzOpN5KEpHoWC37yfq9nDsHSWssu/Oa8im7Oq2rsLYE+sYXCKvkN0qll1DnHAGQm5y
- 6dHpa9UgF09QUrKF0ZUc4bM2N1ag5K8m5nnRbpIkP0hcmDnSl74ItV52YIdJaIi/yJxD
- kMbUFAU1pJbRz3jISr3nAfCrcPAi25x2rEjB/kRkKVGiro3lfGrsCL+XbAKPv+KrITL1
- /jcXcbhF6oeZZCRXdORk6cnHqMILKJ355Ou9qywt/ov0qjzmS+o/NkJvRfd+UyZNn59l
- 37gQ==
-X-Gm-Message-State: AO0yUKV6TSzmMMINNW7htBIcgNl0VtVp1vHKsoDS6OHBR5aMfG+HNQrV
- jt3892XjRsvOEzzIqrwxy461Jz+jTHWItGv9slR5RJwZXuvXaJekq79oQEU7l1xSmcr8gENvURK
- serjX+pIFnV9oJ0hUYPgWto4YvAZc0hT+K5GRg9cnMSTUgZHjFJ9mLIx/CFrC/0t9hg==
-X-Received: by 2002:a05:6000:1b8f:b0:2cb:72c2:3d12 with SMTP id
- r15-20020a0560001b8f00b002cb72c23d12mr6843458wru.68.1677745556199; 
- Thu, 02 Mar 2023 00:25:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set89j5MiQXLK1hV9ICRLkAzw80LO6HVY9IpfOvRRdDV/96a2p33N7JneFIHg/TGCTn3AEQ1KIQ==
-X-Received: by 2002:a05:6000:1b8f:b0:2cb:72c2:3d12 with SMTP id
- r15-20020a0560001b8f00b002cb72c23d12mr6843435wru.68.1677745555762; 
- Thu, 02 Mar 2023 00:25:55 -0800 (PST)
+ bh=x5lWbatbxSdF0Y0jI5eIVBSt28ruPy3dHHozV6cb81s=;
+ b=IRTnygUMwIA7Vn6LTNgovDM+xwqg6ChKqMOmWhUk5JQa+58xdw5CeEX7Y8+krlk2rW
+ ohZE07X98ccuiFp+C9HB3q8y0XQIgelrEyrpNJkiyjA/msSz6RIKPiUzjOtVyoyWHL7k
+ aar2r7u4B9z3YuPs2IHKggcJlElaTYylzi6SOUgjF9lPJSRdqLgKQKdAQPqf4iq3/N+0
+ EUcetXCmi9AaTI6UV4upYoyJIGjeCgwa8yB4zOp+AjBteN8TTfl/2NhArPVPLlQR4e4r
+ gRbkAzSXZ3PtxFlshGCN+EW7Py9jWCH6i44c8JMbzlQY1Jqk5PBT1oQyYpkcjwO2HEBW
+ 308A==
+X-Gm-Message-State: AO0yUKXIwL40rVFjo+XTkmZpH6LBeS+CSmqbuEW09N2EsWgk83GDjJqS
+ JLTdBjslX3Jnp0bUD9Uo1fQVSn1xbHSy62fkHyaoOX69A19N1TPJs3prAvIJ7eVEs5GbT/WRd3r
+ kKCVz0nzG7DmyLDl+9RHYXS9UgV67CXpW8wCnlS/gninZVFcK5YzsWVMofIaLWMwJqQ==
+X-Received: by 2002:a5d:4752:0:b0:2c9:d91b:a6ff with SMTP id
+ o18-20020a5d4752000000b002c9d91ba6ffmr7676937wrs.21.1677745559211; 
+ Thu, 02 Mar 2023 00:25:59 -0800 (PST)
+X-Google-Smtp-Source: AK7set/LhCtEoJhugSrj+Yu3O5mLd6F27j/ZD4fAJSaNTyXQPb6SUeI0SQm++vg9VsZLsl7kQAgndQ==
+X-Received: by 2002:a5d:4752:0:b0:2c9:d91b:a6ff with SMTP id
+ o18-20020a5d4752000000b002c9d91ba6ffmr7676917wrs.21.1677745558944; 
+ Thu, 02 Mar 2023 00:25:58 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- y1-20020adfdf01000000b002c6d0462163sm14714838wrl.100.2023.03.02.00.25.54
+ c18-20020adfed92000000b002c54c9bd71fsm14967284wro.93.2023.03.02.00.25.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:55 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:53 -0500
+ Thu, 02 Mar 2023 00:25:58 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:56 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -68,8 +68,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Anton Kuchin <antonkuchin@yandex-team.ru>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 27/53] pcie_regs: drop duplicated indicator value macros
-Message-ID: <20230302082343.560446-28-mst@redhat.com>
+Subject: [PULL 28/53] pcie: drop unused PCIExpressIndicator
+Message-ID: <20230302082343.560446-29-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -104,89 +104,55 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-We already have indicator values in
-include/standard-headers/linux/pci_regs.h , no reason to reinvent them
-in include/hw/pci/pcie_regs.h. (and we already have usage of
-PCI_EXP_SLTCTL_PWR_IND_BLINK and PCI_EXP_SLTCTL_PWR_IND_OFF in
-hw/pci/pcie.c, so let's be consistent)
+The structure type is unused. Also, it's the only user of corresponding
+macros, so drop them too.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-Message-Id: <20230216180356.156832-9-vsementsov@yandex-team.ru>
+Message-Id: <20230216180356.156832-10-vsementsov@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pcie_regs.h |  9 ---------
- hw/pci/pcie.c              | 13 +++++++------
- 2 files changed, 7 insertions(+), 15 deletions(-)
+ include/hw/pci/pcie.h      | 8 --------
+ include/hw/pci/pcie_regs.h | 5 -----
+ 2 files changed, 13 deletions(-)
 
+diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+index 798a262a0a..3cc2b15957 100644
+--- a/include/hw/pci/pcie.h
++++ b/include/hw/pci/pcie.h
+@@ -27,14 +27,6 @@
+ #include "hw/pci/pcie_sriov.h"
+ #include "hw/hotplug.h"
+ 
+-typedef enum {
+-    /* for attention and power indicator */
+-    PCI_EXP_HP_IND_RESERVED     = PCI_EXP_SLTCTL_IND_RESERVED,
+-    PCI_EXP_HP_IND_ON           = PCI_EXP_SLTCTL_IND_ON,
+-    PCI_EXP_HP_IND_BLINK        = PCI_EXP_SLTCTL_IND_BLINK,
+-    PCI_EXP_HP_IND_OFF          = PCI_EXP_SLTCTL_IND_OFF,
+-} PCIExpressIndicator;
+-
+ typedef enum {
+     /* these bits must match the bits in Slot Control/Status registers.
+      * PCI_EXP_HP_EV_xxx = PCI_EXP_SLTCTL_xxxE = PCI_EXP_SLTSTA_xxx
 diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 963dc2e170..00b595a82e 100644
+index 00b595a82e..1fe0bdd25b 100644
 --- a/include/hw/pci/pcie_regs.h
 +++ b/include/hw/pci/pcie_regs.h
-@@ -70,15 +70,6 @@ typedef enum PCIExpLinkWidth {
- #define PCI_EXP_SLTCTL_IND_ON           0x1
- #define PCI_EXP_SLTCTL_IND_BLINK        0x2
- #define PCI_EXP_SLTCTL_IND_OFF          0x3
--#define PCI_EXP_SLTCTL_AIC_SHIFT        ctz32(PCI_EXP_SLTCTL_AIC)
--#define PCI_EXP_SLTCTL_AIC_OFF                          \
--    (PCI_EXP_SLTCTL_IND_OFF << PCI_EXP_SLTCTL_AIC_SHIFT)
--
--#define PCI_EXP_SLTCTL_PIC_SHIFT        ctz32(PCI_EXP_SLTCTL_PIC)
--#define PCI_EXP_SLTCTL_PIC_OFF                          \
--    (PCI_EXP_SLTCTL_IND_OFF << PCI_EXP_SLTCTL_PIC_SHIFT)
--#define PCI_EXP_SLTCTL_PIC_ON                          \
--    (PCI_EXP_SLTCTL_IND_ON << PCI_EXP_SLTCTL_PIC_SHIFT)
+@@ -66,11 +66,6 @@ typedef enum PCIExpLinkWidth {
  
+ #define PCI_EXP_SLTCAP_PSN_SHIFT        ctz32(PCI_EXP_SLTCAP_PSN)
+ 
+-#define PCI_EXP_SLTCTL_IND_RESERVED     0x0
+-#define PCI_EXP_SLTCTL_IND_ON           0x1
+-#define PCI_EXP_SLTCTL_IND_BLINK        0x2
+-#define PCI_EXP_SLTCTL_IND_OFF          0x3
+-
  #define PCI_EXP_SLTCTL_SUPPORTED        \
              (PCI_EXP_SLTCTL_ABPE |      \
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 82ef723983..ccdb2377e1 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -634,8 +634,8 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
-                                  PCI_EXP_SLTCTL_PIC |
-                                  PCI_EXP_SLTCTL_AIC);
-     pci_word_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCTL,
--                               PCI_EXP_SLTCTL_PIC_OFF |
--                               PCI_EXP_SLTCTL_AIC_OFF);
-+                               PCI_EXP_SLTCTL_PWR_IND_OFF |
-+                               PCI_EXP_SLTCTL_ATTN_IND_OFF);
-     pci_word_test_and_set_mask(dev->wmask + pos + PCI_EXP_SLTCTL,
-                                PCI_EXP_SLTCTL_PIC |
-                                PCI_EXP_SLTCTL_AIC |
-@@ -679,7 +679,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
-                                  PCI_EXP_SLTCTL_PDCE |
-                                  PCI_EXP_SLTCTL_ABPE);
-     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
--                               PCI_EXP_SLTCTL_AIC_OFF);
-+                               PCI_EXP_SLTCTL_ATTN_IND_OFF);
- 
-     if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
-         /* Downstream ports enforce device number 0. */
-@@ -694,7 +694,8 @@ void pcie_cap_slot_reset(PCIDevice *dev)
-                                        PCI_EXP_SLTCTL_PCC);
-         }
- 
--        pic = populated ? PCI_EXP_SLTCTL_PIC_ON : PCI_EXP_SLTCTL_PIC_OFF;
-+        pic = populated ?
-+                PCI_EXP_SLTCTL_PWR_IND_ON : PCI_EXP_SLTCTL_PWR_IND_OFF;
-         pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL, pic);
-     }
- 
-@@ -770,9 +771,9 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-      * control of powered off slots before powering them on.
-      */
-     if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
--        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PIC_OFF &&
-+        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF &&
-         (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
--        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PIC_OFF)) {
-+        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PWR_IND_OFF)) {
-         pcie_cap_slot_do_unplug(dev);
-     }
-     pcie_cap_update_power(dev);
+              PCI_EXP_SLTCTL_PDCE |      \
 -- 
 MST
 
