@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F1A6A78C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 02:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794DF6A7911
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 02:39:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXXZh-0001SZ-NK; Wed, 01 Mar 2023 20:17:37 -0500
+	id 1pXXu9-0002NA-SG; Wed, 01 Mar 2023 20:38:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pXXZf-0001NG-De
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 20:17:35 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <ajaysjoshi1978@gmail.com>)
+ id 1pXXa8-0001qd-M4
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 20:18:04 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pXXZd-0000kF-2M
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 20:17:35 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id x34so15309739pjj.0
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 17:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1677719851;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=FDAgXfxbB7h5X48GgeInyy3f0Gph3XGCCAgt58/gBhA=;
- b=FVlzQlZISwDBU9Sgjic7XHAzGzH7JBFprhbbL7neZNAaN0ffZzoehcwzebToZJuEv4
- VkgcqO0FiVIazzipuYeyTj+JcU3H3JVLi5TEkhelKVb+chMRArrHU3PUJwuqcQBjxhjc
- e0etTn9E4VqpVhTmLzee3dtpZAlCQUTAm8l+Nza8g4FQN72DEMVei3xH5TGJyhjU4hlW
- q13Pkl0OsKxMji5BE9AD72WVjkPqiSJeMQRnSrbwkzmP5FGsnOsdqZCea8aQtXIs9g+T
- 5Lo0hBtVLmLpY40DFZ6Rf+0lCZ4737IiTQFkXm4QNLOXMunDKWmzPMtY9WgFMgJhe9DE
- SnQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677719851;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <ajaysjoshi1978@gmail.com>)
+ id 1pXXa5-0000p6-TF
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 20:18:03 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ ay29-20020a05600c1e1d00b003e9f4c2b623so658497wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 17:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FDAgXfxbB7h5X48GgeInyy3f0Gph3XGCCAgt58/gBhA=;
- b=bdcvHRrbcyEhN6JsGP45j9llnm53AKJZ0DkYjyyu8yWYZpCEbmoK8b0+X6EA3/m2LG
- 5Hl/3c9K0DVo4tzDSr2po72xjFmGrg9AxpZjA6zmGzSJHiuhqCMucYzpAt7nWZFHm6wA
- r5PR9jtTnVBF8y9vx7cWWvRhm1C4xeunr/QTn05gXsZQd511M2XZzCDwhP7dPi2MlV16
- c0RYPY+WojIQl3owrKzrpDtQJsjn89ibD24e4Ho/XLolJVPBHTbDfneMW4R9j1ojZ6Z8
- tSse3g8JjAuXltWl1yV4EJbxQHcKKnY+kHDIIXHMmr4kQgSUPlyYKvX6AEgtmd2nZ1Lh
- GR1w==
-X-Gm-Message-State: AO0yUKWRTp0al0ar0k/EMURML91xjcIAx+mPz8i3Ko9i+6hzbtrzKG3/
- 6g01qcFJSUTr9vxtQ9LQ8OTRrA==
-X-Google-Smtp-Source: AK7set/WJjvLIXxF2wu/9nPjzWZ9y2qr0WNSo4WNQfKkGNTdlRqgLZU+dxBv4BdiniwHib+Kr84Hbg==
-X-Received: by 2002:a17:902:a710:b0:19e:6afd:86eb with SMTP id
- w16-20020a170902a71000b0019e6afd86ebmr630558plq.56.1677719850834; 
- Wed, 01 Mar 2023 17:17:30 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- p19-20020a1709028a9300b0019cec7d88c3sm9084151plo.236.2023.03.01.17.17.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 17:17:30 -0800 (PST)
-Date: Wed, 01 Mar 2023 17:17:30 -0800 (PST)
-X-Google-Original-Date: Wed, 01 Mar 2023 17:14:46 PST (-0800)
-Subject: Re: [PATCH] target/riscv: Add support for Zicond extension
-In-Reply-To: <20230221091009.36545-1-liweiwei@iscas.ac.cn>
-CC: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, 
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- liweiwei@iscas.ac.cn
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: liweiwei@iscas.ac.cn
-Message-ID: <mhng-bef021e9-ca1e-497b-81cc-b0d9bd810a1b@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ bh=KUlICSsItzogtsE+dYcejxsa1xJXEIYNaUAlJE/kEm0=;
+ b=ACR46OnbqMFt8tfJ//F7wfCxEcoQ+TXrRgq3KRKcLOd0od/ZsUseqoeYH2IO3rwN6P
+ Mr+DbgEAkB8TiYsyFSYVELeeMpVrJM4xXRoNGnR/12mWUQaKUvLufj8GFtghMZAqwdD9
+ Ji6VLn+3e8STjO8jc0Bm4p/sq5lBd20oAV3F1f0WzqSQlwFA8p6GxCMFFijXqqDcod08
+ 2GInK+b5GwxNVlU5FuDZKb5JAGAOfuELvcqJYNA/61meFlXcX5z5WDqKTqCjFl/juZCo
+ wUhSD5+tE2ql+npIwdfHDtGXOANlBTwOt1rTVdAXaTJcfSEEeERq4L1pj/v3Ifr2N99n
+ /2Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KUlICSsItzogtsE+dYcejxsa1xJXEIYNaUAlJE/kEm0=;
+ b=UA+bFTY7JjkYdmrI+w8NEeYDyvTXbUV/+X799KvMgzgGfH3Cu1QmobFWdx9b0jmZ6t
+ HzdDFPPQM/ZAjWirPjnkZDylvHJ9x3QoBwdRqM6Cjt7nEm4QptOWxCSawljOQcHIDv1x
+ bnqwJcLOFDxOa+Ah7u9p3EVOR8IOxhDtrvHWpiD1lNzFphLbDSCDHfX2i+XzIB4JTxKd
+ mne+ellFzECL6Q7goyzW6zkzwP+H/ISdBjOp00W+kVc6BfSfwMey8bshE8hdS9CAXWM/
+ XAxZWLJd7EIe48DIJV7D+1ipjaEJ0sWyofQmQjgTpkzhH2cD57GL8Bice/HDU15kPXhb
+ ALZg==
+X-Gm-Message-State: AO0yUKWzGj++fwingBkrYpJbDTf1SmHOmU5SgkfhGMPl6zzIoBtUuwNd
+ SkkcEEerf9LSW0bKccG4sWHc3/2kVISCtQH6SNU=
+X-Google-Smtp-Source: AK7set+QWhNMKWZY+9vXt4zAcZPVKgozO8BgB3yYArSjmnScbTlXwgAEjYP8oAwayV50wkrWYa0+wtUQmi0NLKww6Uw=
+X-Received: by 2002:a05:600c:3c9b:b0:3df:97ed:dde8 with SMTP id
+ bg27-20020a05600c3c9b00b003df97eddde8mr2411874wmb.5.1677719878772; Wed, 01
+ Mar 2023 17:17:58 -0800 (PST)
+MIME-Version: 1.0
+References: <Y/Cm5nuJl3G2CG2p@memverge.com>
+ <b066510e-8420-26ba-019b-fef2b255634e@wdc.com>
+ <20230228104916.00003d9a@Huawei.com>
+In-Reply-To: <20230228104916.00003d9a@Huawei.com>
+From: Ajay Joshi <ajaysjoshi1978@gmail.com>
+Date: Thu, 2 Mar 2023 06:47:47 +0530
+Message-ID: <CAJmyj+CqfJY2kPQC5UzQWuHgnDfdrcAuPMdDj2REmHMcrmQyYA@mail.gmail.com>
+Subject: Re: [RFC] CXL: TCG/KVM instruction alignment issue discussion default
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: =?UTF-8?Q?J=C3=B8rgen_Hansen?= <Jorgen.Hansen@wdc.com>, 
+ Gregory Price <gregory.price@memverge.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=ajaysjoshi1978@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 01 Mar 2023 20:38:43 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,136 +92,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 01:10:09 PST (-0800), liweiwei@iscas.ac.cn wrote:
-> The spec can be found in https://github.com/riscv/riscv-zicond.
-> Two instructions are added:
->  - czero.eqz: Moves zero to a register rd, if the condition rs2 is
->    equal to zero, otherwise moves rs1 to rd.
->  - czero.nez: Moves zero to a register rd, if the condition rs2 is
->    nonzero, otherwise moves rs1 to rd.
+On Tue, Feb 28, 2023 at 4:54=E2=80=AFPM Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
 >
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->  target/riscv/cpu.c                           |  2 +
->  target/riscv/cpu.h                           |  1 +
->  target/riscv/insn32.decode                   |  4 ++
->  target/riscv/insn_trans/trans_rvzicond.c.inc | 49 ++++++++++++++++++++
->  target/riscv/translate.c                     |  1 +
->  5 files changed, 57 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_rvzicond.c.inc
+> On Mon, 27 Feb 2023 11:06:47 +0000
+> J=C3=B8rgen Hansen <Jorgen.Hansen@wdc.com> wrote:
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 0dd2f0c753..80b92930ae 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -74,6 +74,7 @@ struct isa_ext_data {
->  static const struct isa_ext_data isa_edata_arr[] = {
->      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
->      ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-> +    ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
->      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
->      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
->      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-> @@ -1143,6 +1144,7 @@ static Property riscv_cpu_extensions[] = {
->      DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+> > On 2/18/23 11:22, Gregory Price wrote:
+> > > Breaking this off into a separate thread for archival sake.
+> > >
+> > > There's a bug with handling execution of instructions held in CXL
+> > > memory - specifically when an instruction crosses a page boundary.
+> > >
+> > > The result of this is that type-3 devices cannot use KVM at all at th=
+e
+> > > moment, and require the attached patch to run in TCG-only mode.
+> > >
+> > >
+> > > CXL memory devices are presently emulated as MMIO, and MMIO has no
+> > > coherency guarantees, so TCG doesn't cache the results of translating
+> > > an instruction, meaning execution is incredibly slow (orders of
+> > > magnitude slower than KVM).
+> > >
+> > >
+> > > Request for comments:
+> > >
+> > >
+> > > First there's the stability issue:
+> > >
+> > > 0) TCG cannot handle instructions across a page boundary spanning ram=
+ and
+> > >     MMIO. See attached patch for hotfix.  This basically solves the p=
+age
+> > >     boundary issue by reverting the entire block to MMIO-mode if the
+> > >     problem is detected.
+> > >
+> > > 1) KVM needs to be investigated.  It's likely the same/similar issue,
+> > >     but it's not confirmed.
+> >
+> > I ran into an issue with KVM as well. However, it wasn't a page boundar=
+y
+> > spanning issue, since I could hit it when using pure CXL backed memory
+> > for a given application. It turned out that (at least) certain AVX
+> > instructions didn't handle execution from MMIO when using qemu. This
+> > generated an illegal instruction exception for the application. At that
+> > point, I switched to tcg, so I didn't investigate if running a non-AVX
+> > system would work with KVM.
 >
->      /* These are experimental so mark with 'x-' */
-> +    DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
->      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->      /* ePMP 0.9.3 */
->      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7128438d8e..81b7c92e7a 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -447,6 +447,7 @@ struct RISCVCPUConfig {
->      bool ext_zkt;
->      bool ext_ifencei;
->      bool ext_icsr;
-> +    bool ext_zicond;
->      bool ext_zihintpause;
->      bool ext_smstateen;
->      bool ext_sstc;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index b7e7613ea2..fb537e922e 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -890,3 +890,7 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
->  # *** RV32 Zksed Standard Extension ***
->  sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
->  sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
-> +
-> +# *** RV32 Zicond Standard Extension ***
-> +czero_eqz   0000111  ..... ..... 101 ..... 0110011 @r
-> +czero_nez   0000111  ..... ..... 111 ..... 0110011 @r
-> diff --git a/target/riscv/insn_trans/trans_rvzicond.c.inc b/target/riscv/insn_trans/trans_rvzicond.c.inc
-> new file mode 100644
-> index 0000000000..645260164e
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvzicond.c.inc
-> @@ -0,0 +1,49 @@
-> +/*
-> + * RISC-V translation routines for the Zicond Standard Extension.
-> + *
-> + * Copyright (c) 2020-2023 PLCT Lab
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#define REQUIRE_ZICOND(ctx) do {          \
-> +    if (!ctx->cfg_ptr->ext_zicond) {      \
-> +        return false;                     \
-> +    }                                     \
-> +} while (0)
-> +
-> +static bool trans_czero_eqz(DisasContext *ctx, arg_czero_eqz *a)
-> +{
-> +    REQUIRE_ZICOND(ctx);
-> +
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-> +
-> +    tcg_gen_movcond_tl(TCG_COND_EQ, dest, src2, ctx->zero, ctx->zero, src1);
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    return true;
-> +}
-> +
-> +static bool trans_czero_nez(DisasContext *ctx, arg_czero_nez *a)
-> +{
-> +    REQUIRE_ZICOND(ctx);
-> +
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-> +
-> +    tcg_gen_movcond_tl(TCG_COND_NE, dest, src2, ctx->zero, ctx->zero, src1);
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    return true;
-> +}
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 772f9d7973..6e65c6afca 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1103,6 +1103,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->  #include "insn_trans/trans_rvh.c.inc"
->  #include "insn_trans/trans_rvv.c.inc"
->  #include "insn_trans/trans_rvb.c.inc"
-> +#include "insn_trans/trans_rvzicond.c.inc"
->  #include "insn_trans/trans_rvzawrs.c.inc"
->  #include "insn_trans/trans_rvzfh.c.inc"
->  #include "insn_trans/trans_rvk.c.inc"
-
-Thanks, this is queued up in riscv-to-apply.next .
+> Short term I'm wondering if we should attempt to error out on KVM
+> unless some override parameter is used alongside the main cxl=3Don
+This seems like a good idea. Avoids the trouble of discovering a lot later
+during the execution.
+>
+> >
+> > > Second there's the performance issue:
+> > >
+> > > 0) Do we actually care about performance? How likely are users to
+> > >     attempt to run software out of CXL memory?
+> > >
+> > > 1) If we do care, is there a potential for converting CXL away from t=
+he
+> > >     MMIO design?  The issue is coherency for shared memory. Emulating
+> > >     coherency is a) hard, and b) a ton of work for little gain.
+> > >
+> > >     Presently marking CXL memory as MMIO basically enforces coherency=
+ by
+> > >     preventing caching, though it's unclear how this is enforced
+> > >     by KVM (or if it is, i have to imagine it is).
+> >
+> > Having the option of doing device specific processing of accesses to a
+> > CXL type 3 device (that the MMIO based access allows) is useful for
+> > experimentation with device functionality, so I would be sad to see tha=
+t
+> > option go away. Emulating cache line access to a type 3 device would be
+> > interesting, and could potentially be implemented in a way that would
+> > allow caching of device memory in a shadow page in RAM, but that it a
+> > rather large project.
+>
+> Absolutely agree.  Can sketch a solution that is entirely in QEMU and
+> works with KVM on a white board, but it doesn't feel like a small job
+> to actually implement it and I'm sure there are nasty corners
+> (persistency is going to be tricky)
+>
+> If anyone sees this as a 'fun challenge' and wants to take it on though
+> that would be great!
+>
+> Jonathan
+>
+> >
+> > > It might be nice to solve this for non-shared memory regions, but
+> > > testing functionality >>> performance at this point so it might not
+> > > worth the investment.
+> >
+> > Thanks,
+> > Jorgen
+>
 
