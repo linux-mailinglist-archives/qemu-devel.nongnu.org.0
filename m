@@ -2,100 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F9E6A8158
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D146A8166
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:43:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhHK-0002nk-Tj; Thu, 02 Mar 2023 06:39:18 -0500
+	id 1pXhJi-00047P-E9; Thu, 02 Mar 2023 06:41:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pXhHJ-0002nM-17
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:39:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pXhHH-0005Wg-JE
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:39:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677757154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hs+vC0jDWd7oC2gnzIs24+HTP4s43rzqfih52WdXWwE=;
- b=Gxh06pCUtYSubsdi8u7lunqCXCD/bNFDD2mDA/RwHm8mLDfrJt7iE+PX+wmz6WnH7W7VUI
- 1qxG/U7rtTdODX42/g0qhyKXHVR/yJMIv/1rTD38FZfygGnoukCQmcn1FkR6GNaYxPTXuO
- ZqulARwvaBZEOFfNQqOoF7eLG6KcsL0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-600-Iv1dNHAzNcycPxSV_mxD4g-1; Thu, 02 Mar 2023 06:39:13 -0500
-X-MC-Unique: Iv1dNHAzNcycPxSV_mxD4g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j2-20020adfa782000000b002ca9ab26627so2927368wrc.23
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:39:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hs+vC0jDWd7oC2gnzIs24+HTP4s43rzqfih52WdXWwE=;
- b=LeCk40a4ZEdb0V/DID789FqUCvzk2GkqrV6wXkEwnhj33QtWd8GRTxLKg/0+YehHAJ
- Y/x3c4/DqMAsTBb9ePqhTYOSiG4F4aTjsHizlyEjnPcv8MT0mD+IdnpkD9OaaRnv/jUL
- FTfhGDbuhfs2lJHyiKyE+7inrEFKEjctV9QsyVV1zpszysD3f+dCbkBZAFeSYfxDYwmO
- Ndhp77s4SCG3Qc2u2b4XBl5tH7OF2JgfThH+EKmY9YC8AYMkAIPUEsWY4fDJnwmddGK6
- srl4uwfU8ov4cC9XehaEDq4avlp4cQRRQSVVI8TRwQPnlQrauoRbPr6ZxoUDmEDmtL6A
- KqeQ==
-X-Gm-Message-State: AO0yUKXhrCq8wW1L2J8VNv21LGuHoCkMbgbj9awIwKkchTJ70WxfOJBR
- V3U34/TSFDolQyFYOiOiC8J9+mVTh8fy8PW47yp78wNP+twcnRy8I6LegyHBIe8xOnBIAmSXo6H
- lW7Cyh4jlBNxH8pjmCBgF
-X-Received: by 2002:a5d:5146:0:b0:2c7:d87:7a3f with SMTP id
- u6-20020a5d5146000000b002c70d877a3fmr6731090wrt.50.1677757152595; 
- Thu, 02 Mar 2023 03:39:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set/yLlQRuTsZnq3Oa0JicmFLewHyzyWFWYe+NIkmvEMJ2hUMT8jI03hY5mT39nFz8pcz8BeYtQ==
-X-Received: by 2002:a5d:5146:0:b0:2c7:d87:7a3f with SMTP id
- u6-20020a5d5146000000b002c70d877a3fmr6731074wrt.50.1677757152280; 
- Thu, 02 Mar 2023 03:39:12 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70e:4f00:87ba:e9e9:3821:677b?
- (p200300cbc70e4f0087bae9e93821677b.dip0.t-ipconnect.de.
- [2003:cb:c70e:4f00:87ba:e9e9:3821:677b])
- by smtp.gmail.com with ESMTPSA id
- s2-20020adff802000000b002c706c754fesm15101878wrp.32.2023.03.02.03.39.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 03:39:11 -0800 (PST)
-Message-ID: <9c14c247-0184-35e8-6399-b542e4e20129@redhat.com>
-Date: Thu, 2 Mar 2023 12:39:10 +0100
+ (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
+ id 1pXhJd-00042N-4a; Thu, 02 Mar 2023 06:41:41 -0500
+Received: from m12.mail.163.com ([123.126.96.233])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <qianfanguijin@163.com>)
+ id 1pXhJZ-00069A-5N; Thu, 02 Mar 2023 06:41:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=jCDes
+ igh82Ronj4ZJhWWGo4BX8vn3tjCkvwhAX4N0+w=; b=ncSEJTMevMkQtFw36zWeI
+ mnnamlNl7kuYXMYQKuBK+XFuUEQuh04+Tt7ZlJJVmrnM5YsDQYhl9i1FJc0lOY8o
+ fyjtIjcFfje29NMBWQtLcogDjhTSQukxZP5qCC+TSB/6/YhFn//CW6kn3BdlvdcL
+ h/WHa9mhylzdAFwozATgJw=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [144.123.156.254])
+ by smtp20 (Coremail) with SMTP id H91pCgBni79OiwBknjVaGA--.63318S2;
+ Thu, 02 Mar 2023 19:41:02 +0800 (CST)
+From: qianfanguijin@163.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qianfan Zhao <qianfanguijin@163.com>
+Subject: [RFC PATCH v1 00/12] *** Add allwinner R40 device support ***
+Date: Thu,  2 Mar 2023 19:40:49 +0800
+Message-Id: <20230302114102.32236-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [External] [PATCH] hostmem: Add clear option to file backend
-Content-Language: en-US
-To: Feiran Zheng <fam.zheng@bytedance.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Peter Xu <peterx@redhat.com>, Fam Zheng <fam@euphon.net>,
- Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20230302110925.4680-1-fam.zheng@bytedance.com>
- <377c3521-ffe1-074b-48ac-71fd445b3bb4@redhat.com>
- <15DA845E-C50C-46BB-A241-164E5851E388@bytedance.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <15DA845E-C50C-46BB-A241-164E5851E388@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: H91pCgBni79OiwBknjVaGA--.63318S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFyUXw48ArWUuFyfXFyUGFg_yoW5GryUpF
+ s8C3y5Kr45Ja13AF4aqFsrJFyrJa4kGr4Utrn7ZFy7Ary7Kan0qr1UKa1furWrGrWUKr47
+ ZFWSqF1Sgws8taDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRAbbiUUUUU=
+X-Originating-IP: [144.123.156.254]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQg8m7VaEEhmlOQAAsD
+Received-SPF: pass client-ip=123.126.96.233;
+ envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,33 +71,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.03.23 12:37, Feiran Zheng wrote:
-> 
-> 
->> On 2 Mar 2023, at 11:31, David Hildenbrand <david@redhat.com> wrote:
->>
->> On 02.03.23 12:09, Fam Zheng wrote:
->>> This adds a memset to clear the backing memory. This is useful in the
->>> case of PMEM DAX to drop dirty data, if the backing memory is handed
->>> over from a previous application or firmware which didn't clean up
->>> before exiting.
->>
->> Why can't the VM manager do that instead? If you have a file that's certainly easily possible.
-> 
-> 
-> Hi David,
-> 
-> Technically yes, but I have a simple VM manager here which wants to avoid replicating the same mmap code, such as handling the flags depending on share=on|off,hugepages=on|off. All in all this approach requires the least additional code to achieve it.
+From: qianfan Zhao <qianfanguijin@163.com>
 
-so ... we're supposed to maintain that code in QEMU instead to make your 
-life easier ? :)
+v1: 2023-03-02
 
-Sorry, for this particular use case I don't see the big benefit of 
-moving that code into QEMU.
+The first three patches try fix allwinner i2c driver and I already send them
+as a standalone PR and can read it from: 
+
+https://patchwork.kernel.org/project/qemu-devel/patch/20230220081252.25348-3-qianfanguijin@163.com/
+
+Hope that patch can merged first before this.
+
+The next patches will add allwinner R40 device support, including ccu, mmc, i2c,
+axp221 pmic, sdram controller, emac and gmac. Now the mainline u-boot and
+kernel can work fine (It doesn't support booting allwinner bsp code and there
+are no plans to support it now).
+
+qianfan Zhao (12):
+  hw: allwinner-i2c: Make the trace message more readable
+  hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on SUN6i SoCs
+  hw: arm: allwinner-h3: Fix and complete H3 i2c devices
+  hw: arm: Add bananapi M2-Ultra and allwinner-r40 support
+  hw/arm/allwinner-r40: add Clock Control Unit
+  hw: allwinner-r40: Complete uart devices
+  hw: arm: allwinner-r40: Add 5 TWI controllers
+  hw/misc: AXP221 PMU Emulation
+  hw/arm/allwinner-r40: add SDRAM controller device
+  hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+  hw: arm: allwinner-r40: Fix the mmc controller's type
+  hw: arm: allwinner-r40: Add emac and gmac support
+
+ configs/devices/arm-softmmu/default.mak |   1 +
+ hw/arm/Kconfig                          |  10 +
+ hw/arm/allwinner-h3.c                   |  29 +-
+ hw/arm/allwinner-r40.c                  | 555 ++++++++++++++++++++++++
+ hw/arm/bananapi_m2u.c                   | 128 ++++++
+ hw/arm/meson.build                      |   1 +
+ hw/i2c/allwinner-i2c.c                  | 136 +++++-
+ hw/i2c/trace-events                     |   5 +-
+ hw/misc/Kconfig                         |   4 +
+ hw/misc/allwinner-r40-ccu.c             | 207 +++++++++
+ hw/misc/allwinner-r40-dramc.c           | 499 +++++++++++++++++++++
+ hw/misc/axp221.c                        | 196 +++++++++
+ hw/misc/meson.build                     |   3 +
+ hw/misc/trace-events                    |  19 +
+ hw/sd/allwinner-sdhost.c                |  70 ++-
+ include/hw/arm/allwinner-h3.h           |   6 +
+ include/hw/arm/allwinner-r40.h          | 148 +++++++
+ include/hw/i2c/allwinner-i2c.h          |   6 +
+ include/hw/misc/allwinner-r40-ccu.h     |  65 +++
+ include/hw/misc/allwinner-r40-dramc.h   | 108 +++++
+ include/hw/sd/allwinner-sdhost.h        |   9 +
+ 21 files changed, 2191 insertions(+), 14 deletions(-)
+ create mode 100644 hw/arm/allwinner-r40.c
+ create mode 100644 hw/arm/bananapi_m2u.c
+ create mode 100644 hw/misc/allwinner-r40-ccu.c
+ create mode 100644 hw/misc/allwinner-r40-dramc.c
+ create mode 100644 hw/misc/axp221.c
+ create mode 100644 include/hw/arm/allwinner-r40.h
+ create mode 100644 include/hw/misc/allwinner-r40-ccu.h
+ create mode 100644 include/hw/misc/allwinner-r40-dramc.h
 
 -- 
-Thanks,
-
-David / dhildenb
+2.25.1
 
 
