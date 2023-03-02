@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B606A8295
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917C86A8317
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:02:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiA0-0005jU-E0; Thu, 02 Mar 2023 07:35:53 -0500
+	id 1pXiBX-0007kv-JK; Thu, 02 Mar 2023 07:37:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi8H-0003Kd-Fh
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:34:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pXi8H-0003Kn-HY
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:34:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi7q-0003zR-Bq
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:33:35 -0500
+ id 1pXi7t-000402-75
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:33:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677760413;
+ s=mimecast20190719; t=1677760416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VwEA1SKGSZ+qVi7NXmaUzW9NGYsub5ZiAUDkM1xzZs0=;
- b=EWNWnLx1eCjOwiagO2n02uIzhQhpAfkGb3y7RWTUOXqu3ukS5p0wp0v5MbIr/i/8qDlg2a
- FpL1H8oYCr5wCn1IwMYWEatjT0QWYiC74fY9QJJiL/+V++/77OTKtCVxN404G8tycZyb5p
- nU8CL1qHtoXfXfT91cY8W7l6ajiiMHk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-631-EWV3l9UiP7678_B8yiCBrA-1; Thu, 02 Mar 2023 07:33:32 -0500
-X-MC-Unique: EWV3l9UiP7678_B8yiCBrA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d14-20020adfa34e000000b002bfc062eaa8so3215214wrb.20
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:33:32 -0800 (PST)
+ bh=/VzYrCiOSSwuHpZgRg3228aUTO/Ukfcmohe1DeHbe5A=;
+ b=QgK5t1Q/kdUp7XLE+UWGvm/5C7CvGuzyU3EQpk1AoX0j+bQP9VZXPNXKJ4bTO1zAspSzaY
+ uZEo+KIBTgA2PLxLncAqEGEz8lqmRL0ZjjYYwM8rSljV8HZF8YCVb0KVhdSGKq//o/34hW
+ D788SpBIOqh4VsvrHBlK/BGXQoDYvdM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-76-ea9TPiPaOLu8YoBMpOen5g-1; Thu, 02 Mar 2023 07:33:35 -0500
+X-MC-Unique: ea9TPiPaOLu8YoBMpOen5g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m7-20020a056000008700b002c7047ea429so3200292wrx.21
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:33:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VwEA1SKGSZ+qVi7NXmaUzW9NGYsub5ZiAUDkM1xzZs0=;
- b=yjWZTp2msyZ/OGx9DxGpouX8EihfwG/m98ahmj669xKz3+CyfIqD9RERM09s3p+2vJ
- ZGOzZLVApsZK9dPPTtt2Lxlqn6l6nx6O6hkA5Bge7m3GEGdtOr9t1FuapmkZJHCoQuQz
- aQAxmskvu/FxuQay1YH7xDo9oA3ADsfPZPSOGy9KtXZ0Pp4vRms6lxVpDSPnILWhCZjN
- WKAzojpZ435jNTJKadr/TeMFjlVq3t75sJFP4SFKNOtzBA3I4IV9/Rvz9c4hBv0ubEsy
- CeuJFNQ6Ao/Yg51pOUo7U1Q2gI53tXn4sY0EwNWSy0Ftu2OVhclOjW1c4kikTQZuWAKr
- cA+w==
-X-Gm-Message-State: AO0yUKXACSY3DDgvkxcZyfxhGQ9ipAIBGDT4JlT2MbFRchlyxWVLvVtg
- /BhPP3056zC4Yd7+5KBkojUiXOm+0PuGNC/U/ueTDOUXq+t90vkSTFahZOktF10bM+7gEX8TEbF
- HA7wHyKvZWELQVq83kpezeTCMPPWxlDVgC7vBrUYMOeGnApT2E4NlPpZyDTrw4ljyQuBFjzqD4x
- 8=
-X-Received: by 2002:a5d:45c4:0:b0:2c7:6ce2:bb37 with SMTP id
- b4-20020a5d45c4000000b002c76ce2bb37mr7930811wrs.29.1677760411148; 
- Thu, 02 Mar 2023 04:33:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set85u+MmkAQLLOl4onPv1bpVBAYQHB1tJE/rWmELFN2cky7vZ9Az6Xk4Txh9GWwLqZONzNd4hQ==
-X-Received: by 2002:a5d:45c4:0:b0:2c7:6ce2:bb37 with SMTP id
- b4-20020a5d45c4000000b002c76ce2bb37mr7930792wrs.29.1677760410778; 
- Thu, 02 Mar 2023 04:33:30 -0800 (PST)
+ bh=/VzYrCiOSSwuHpZgRg3228aUTO/Ukfcmohe1DeHbe5A=;
+ b=fF3VgFtA5jt6puXSA+du5Uyuc+T4aYIy4Mzq/AmecvmBv3WC4/E1/uafM7vPxInINQ
+ I6K+9haxxBNmorsm0YZ7AYHqO1dSiNSPzy0bnhiD84T6kMfSUL91KeUfNPRoGwUx+mQv
+ Tgt/sOnJ1YKzmgZmifd/0S+s3Sv7dOmsSmc/Uj5aTqudv7lajTxGfKXOBisxYNP9brJw
+ m0n1taQ84p+RTtxnO9aItOg8UueQaE9GdWUvfFXTQZ6J5mkoUGkxfZbDLTLaOgFp0hcG
+ LmE2/ySKpvo9d6usKUhJMOxjkYDNGDckFKstBRDX3zHCuWgbcd94XDtgwUF3HMyr7e5V
+ hEBQ==
+X-Gm-Message-State: AO0yUKWp1rHiT4xzQIGuHQZ261G9tAJCqWbWw83CuVZNpph2zHWXWY9O
+ 8nbnJ9j5B5QJlb1I7yGn5dUAwGBhaBtWL2RzKtI6YD/yvobC7TFCUk3+tI9pMMUhUVL1CgjQXmg
+ 5HYfkoAyf4stPa765byeMdH17cFNO+BoaY+cVDeeDtgmG4Gs0Z4nkv6ebYXCFU1ERmWpfRuHWE6
+ E=
+X-Received: by 2002:a5d:6a85:0:b0:2c7:deb:c61 with SMTP id
+ s5-20020a5d6a85000000b002c70deb0c61mr7524846wru.39.1677760413989; 
+ Thu, 02 Mar 2023 04:33:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set+QsVU70FuQcYVCnRZr4EDDHLe978aERdz36s1FC3u0qPgIJ5ccd/mqFAae0N4NYcLgR/OlLg==
+X-Received: by 2002:a5d:6a85:0:b0:2c7:deb:c61 with SMTP id
+ s5-20020a5d6a85000000b002c70deb0c61mr7524836wru.39.1677760413761; 
+ Thu, 02 Mar 2023 04:33:33 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- t11-20020a05600c450b00b003dc47d458cdsm3149254wmo.15.2023.03.02.04.33.30
+ l8-20020adff488000000b002c557f82e27sm15284106wro.99.2023.03.02.04.33.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 04:33:30 -0800 (PST)
+ Thu, 02 Mar 2023 04:33:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Krempa <pkrempa@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 61/62] qapi: Add 'acpi' field to 'query-machines' output
-Date: Thu,  2 Mar 2023 13:30:28 +0100
-Message-Id: <20230302123029.153265-62-pbonzini@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Subject: [PULL 62/62] Makefile: qemu-bundle is a directory
+Date: Thu,  2 Mar 2023 13:30:29 +0100
+Message-Id: <20230302123029.153265-63-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302123029.153265-1-pbonzini@redhat.com>
 References: <20230302123029.153265-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,56 +100,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Krempa <pkrempa@redhat.com>
+From: Juan Quintela <quintela@redhat.com>
 
-Report which machine types support ACPI so that management applications
-can properly use the 'acpi' property even on platforms such as ARM where
-support for ACPI depends on the machine type and thus checking presence
-of '-machine acpi=' in 'query-command-line-options' is insufficient.
+So make distclean should remove it with -rf, not -f alone.
 
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <537625d3e25d345052322c42ca19812b98b4f49a.1677571792.git.pkrempa@redhat.com>
+It has been that way since it was included.
+
+ommit cf60ccc3306ca4726cbd286a156863863b00ff4f
+Author: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date:   Fri Jun 24 23:50:37 2022 +0900
+
+    cutils: Introduce bundle mechanism
+
+Fixes: cf60ccc3306ca4726cbd286a156863863b00ff4f
+
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20230301111910.1660-1-quintela@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine-qmp-cmds.c | 1 +
- qapi/machine.json          | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 2d904747c080..b98ff15089a7 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -102,6 +102,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
-         info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
-         info->numa_mem_supported = mc->numa_mem_supported;
-         info->deprecated = !!mc->deprecation_reason;
-+        info->acpi = !!object_class_property_find(OBJECT_CLASS(mc), "acpi");
-         if (mc->default_cpu_type) {
-             info->default_cpu_type = g_strdup(mc->default_cpu_type);
-         }
-diff --git a/qapi/machine.json b/qapi/machine.json
-index b9228a5e4616..604b686e59f2 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -155,6 +155,8 @@
- #
- # @default-ram-id: the default ID of initial RAM memory backend (since 5.2)
- #
-+# @acpi: machine type supports ACPI (since 8.0)
-+#
- # Since: 1.2
- ##
- { 'struct': 'MachineInfo',
-@@ -162,7 +164,7 @@
-             '*is-default': 'bool', 'cpu-max': 'int',
-             'hotpluggable-cpus': 'bool',  'numa-mem-supported': 'bool',
-             'deprecated': 'bool', '*default-cpu-type': 'str',
--            '*default-ram-id': 'str' } }
-+            '*default-ram-id': 'str', 'acpi': 'bool' } }
+diff --git a/Makefile b/Makefile
+index ce2f83a684f6..e421f8a1f4f7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -220,7 +220,7 @@ qemu-%.tar.bz2:
  
- ##
- # @query-machines:
+ distclean: clean recurse-distclean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak Makefile.prereqs qemu-bundle
++	rm -f config-host.mak Makefile.prereqs
+ 	rm -f tests/tcg/*/config-target.mak tests/tcg/config-host.mak
+ 	rm -f config.status
+ 	rm -f roms/seabios/config.mak
+@@ -230,7 +230,7 @@ distclean: clean recurse-distclean
+ 	rm -f Makefile.ninja Makefile.mtest build.ninja.stamp meson.stamp
+ 	rm -f config.log
+ 	rm -f linux-headers/asm
+-	rm -Rf .sdk
++	rm -Rf .sdk qemu-bundle
+ 
+ find-src-path = find "$(SRC_PATH)" -path "$(SRC_PATH)/meson" -prune -o \
+ 	-type l -prune -o \( -name "*.[chsS]" -o -name "*.[ch].inc" \)
 -- 
 2.39.1
 
