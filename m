@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45C96A798B
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBAF6A798A
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 03:33:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXYkG-0000kR-Ft; Wed, 01 Mar 2023 21:32:36 -0500
+	id 1pXYkG-0000kS-Hn; Wed, 01 Mar 2023 21:32:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pXYkB-0000jC-B2
+ id 1pXYkB-0000jB-5r
  for qemu-devel@nongnu.org; Wed, 01 Mar 2023 21:32:31 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pXYk8-00048Q-28
+ id 1pXYk7-00048a-SF
  for qemu-devel@nongnu.org; Wed, 01 Mar 2023 21:32:30 -0500
-Received: by mail-pl1-x634.google.com with SMTP id p6so15263091plf.0
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 18:32:23 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so1413050pjh.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 18:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677724342;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677724343;
  h=content-transfer-encoding:mime-version:message-id:to:from:cc
  :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=VvBeEuJiBzpec98IW6FzfORo+NUzGPoTnGPVZ1D/SBU=;
- b=Q8Z3zvRnSaXiffCTbdrYH1gNgSJZKqGp01JBQosSBLJCI99Y00vs1JaAoXiqKtBAtK
- La7/ZmQazb3j3Pm5RlzqUwqgJnYBMcDmMR6T9vnVW4lu7wJRsru8LgYDDPc8iuRldhkP
- yyCgtzvQR5S2B2fzt3s84d6o9rSnMa3hRVf19vccvQZJQRmWcqlxoX1t+PFsaar0f0ex
- CVcxE4NbrhnEfJ/ZJFuVdWS4x9Lxlexl/GAy8NS+cgTE3GjvgjkAuTuLQPP7iJKQ7SbC
- 3hKElavu5Z0wlV1rxmuJBc5Ns1OppWF/Hza5OXPYq7d/zA6NvYfN2Gqq+ExhbGQD+JEl
- KSAg==
+ :reply-to; bh=4UXPLfpRXeWjtHYgrdOgFIZrsGiUoZWchmtMXfPGG8c=;
+ b=IL/bGjuFZC9b0Xk9YPFfc+nN1m90jXc3pi6ZdwL0vLxhatUoPVxskcRU9wJQ2YvN8S
+ K0hJE261SKHZjdUWG6pcv1ppl29XqdpjujsxdLUKaOcbo43DWb4H8e5hIyk/FBu+YQOQ
+ 66+oNIM3VWnHofiNBYUIFZJxt3hwPHpVucXwX9enwTbu2KinbKydo8mNpPig9iW67Mzf
+ LiXYjMkyg71EsFXgrCj4t2YVFfrFas8yRQSz02JAqr4lJZhlJDuly0nl5S6pC0pA+/bj
+ glR9wIuj2OB3MtvS3PMy0yc6QIdu4kNS6UnKfIy/uaNVe4dWh+GujFXN64/X6lZSbYdB
+ mThw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677724342;
+ d=1e100.net; s=20210112; t=1677724343;
  h=content-transfer-encoding:mime-version:message-id:to:from:cc
  :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VvBeEuJiBzpec98IW6FzfORo+NUzGPoTnGPVZ1D/SBU=;
- b=M79B+sIGp0lMnwAkRaaK4TaTufpy7/04w/PoUTBRbwTYck4Zlf0zQx03KfreH8vxw5
- auUFGTMIKHg96qptUINBm0VOJG5xBIMDWdzaZO7ecPk5sWxM5VxraIPHGqrCxERSJZuA
- 8Vg8ArbwcsVj3rVGuqXCrHR4HRXOhmK8GrdPJ2BKSyFwBBZBzCqPS/RWukB0iPJ4nlgu
- qXhX+6Ad4wDDDimY+E5T/4DVE4hZ1+aEFNc6MWzolOE3k51Rw8+YwPhoXEC7qKEsqy1p
- VrPCiaMw3i49vZONr7cyaoZs0enn5Uw9YJN38ukCQvgjGN5dcQP+KcXx50UnMAME1HVG
- TpOA==
-X-Gm-Message-State: AO0yUKXq4aSuIqqijJ2gcN+jtHdsPDnNtMArg6+4y+zHszNoqHanqATi
- v9cLKF2iyO6XiVV3HEQdJnkt3twbUEUa4RF3
-X-Google-Smtp-Source: AK7set/L6LFYY+e36VB8MLXKtwlzAb+a161izb03EBkjFbY/qmzqCU4SflwayvbDsp4i59zMNzuHlQ==
-X-Received: by 2002:a17:902:720b:b0:19e:2495:20e0 with SMTP id
- ba11-20020a170902720b00b0019e249520e0mr551789plb.21.1677724341763; 
- Wed, 01 Mar 2023 18:32:21 -0800 (PST)
+ bh=4UXPLfpRXeWjtHYgrdOgFIZrsGiUoZWchmtMXfPGG8c=;
+ b=plJYRvqQAEbEo/Eq013HTtT5kijiIwQYZh+tH5KC2aQzcbh7CqLhcaT3icdg81MOLv
+ 4mZdTHeCmMqn6iWnyEJX0qH2dYZleVXxVlnIdzQR6gP6SOId5PPDy9WmNz2/1Rbi3hWZ
+ GakoMwDY0tcAKbAA6CJNPY4huIHGr3yNh+feIhTas+KLI3OnVdNjuS2eiPGy8D0peGn8
+ E2ZfUay685P6nvE3WYBMnCKFNq1h2apXbyf4qsFDISYy8eCRWUjkLhZMJvWmzm8T6eT/
+ QPeav9J8JSQ0Nuz1t/iCGFg1k0QJh+W5GKZIRzQgNerPA8lOS6MmvyCvJ/OXNK51FrS+
+ X5vg==
+X-Gm-Message-State: AO0yUKVkT44q0E18nODEuC5Aztzw8lxDIoXH9Xv05DY21nhIrsodB2pa
+ ZLyYYaoIGJgLWKYxk7wGL164OA==
+X-Google-Smtp-Source: AK7set9p37ChMJm/kUFLyfdRNshfthkNrkZtk9KDMZBunaTX5iNoPg9NB9DBX4OpUSHFuvdrxK4dYA==
+X-Received: by 2002:a17:903:2448:b0:19c:d78b:cdc with SMTP id
+ l8-20020a170903244800b0019cd78b0cdcmr10193347pls.5.1677724343370; 
+ Wed, 01 Mar 2023 18:32:23 -0800 (PST)
 Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- a11-20020a170902900b00b0019a9637b2d3sm9071903plp.279.2023.03.01.18.32.20
+ c5-20020a6566c5000000b00503000f0492sm1755765pgw.14.2023.03.01.18.32.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 18:32:20 -0800 (PST)
-Date: Wed, 01 Mar 2023 18:32:20 -0800 (PST)
-X-Google-Original-Date: Wed, 01 Mar 2023 18:15:39 PST (-0800)
-Subject: Re: [PATCH 0/2] target/riscv: some vector_helper.c cleanups
-In-Reply-To: <20230226170514.588071-1-dbarboza@ventanamicro.com>
-CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
- dbarboza@ventanamicro.com
+ Wed, 01 Mar 2023 18:32:22 -0800 (PST)
+Date: Wed, 01 Mar 2023 18:32:22 -0800 (PST)
+X-Google-Original-Date: Wed, 01 Mar 2023 18:31:21 PST (-0800)
+Subject: Re: [PATCH 0/2] Fix the OpenSBI CI job and bump to v1.2
+In-Reply-To: <20230224212543.20462-1-palmer@rivosinc.com>
+CC: Bin Meng <bmeng.cn@gmail.com>, thuth@redhat.com
 From: Palmer Dabbelt <palmer@rivosinc.com>
-To: dbarboza@ventanamicro.com
-Message-ID: <mhng-6a39a5ff-a51e-433f-9f4e-8ee606510d18@palmer-ri-x1c9a>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Message-ID: <mhng-33fa8014-8db8-44e5-85d9-f2071db025ac@palmer-ri-x1c9a>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,33 +88,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 26 Feb 2023 09:05:12 PST (-0800), dbarboza@ventanamicro.com wrote:
-> Based-on: 20230222185205.355361-2-dbarboza@ventanamicro.com
-> ("[PATCH v7 01/10] target/riscv: introduce riscv_cpu_cfg()")
+On Fri, 24 Feb 2023 13:25:41 PST (-0800), Palmer Dabbelt wrote:
+> The OpenSBI version bump found a CI failure, which appears to actually
+> have been related to the Docker version as opposed to the Ubuntu
+> version -- at least assuming my local CI run
+> <https://gitlab.com/palmer-dabbelt/qemu/-/jobs/3832389705> is accurate
+> (thanks to Thomas for pointing out how to get those set up).
 >
-> Hi,
->
-> This is a re-send of patch 1, which is already reviewed, with a
-> follow-up that uses riscv_cpu_cfg() in the remaining of the file. This
-> was suggested by Weiwei Li in the "[PATCH 0/4] RISCVCPUConfig related
-> cleanups" review. Patch 1 makes the work of patch 2 easier since it
-> eliminated some uses of env_archcpu() we want to avoid.
->
-> Both patches depends on patch "[PATCH v7 01/10] target/riscv: introduce
-> riscv_cpu_cfg()" that can be found here:
->
-> https://patchew.org/QEMU/20230222185205.355361-1-dbarboza@ventanamicro.com/20230222185205.355361-2-dbarboza@ventanamicro.com/
->
->
-> Daniel Henrique Barboza (2):
->   target/riscv/vector_helper.c: create vext_set_tail_elems_1s()
->   target/riscv/vector_helper.c: avoid env_archcpu() when reading
->     RISCVCPUConfig
->
->  target/riscv/vector_helper.c | 104 +++++++++++++----------------------
->  1 file changed, 39 insertions(+), 65 deletions(-)
+> I've left off the Ubuntu version upgrade because it's triggering some
+> key-related issues when in apt.  That's probably worth doing, but I
+> figured it'd be better to send these along now to try and get things
+> unblocked.  The EDK2 Docker setup looks like it would have the same
+> issue but I'll also keep that independent.
 
-Thanks, these are queued up.  If we're already broken on 
-non-power-of-two then that ROUND_UP() suggestion might be worth looking 
-at, as I doubt we'd want to support them even if the ISA allows for it.
+This is queued.
 
