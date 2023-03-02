@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FCC6A845C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 15:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A406A8493
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 15:49:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXkBm-0000N6-5j; Thu, 02 Mar 2023 09:45:46 -0500
+	id 1pXkEW-0003Fa-CM; Thu, 02 Mar 2023 09:48:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXkBk-0000Mh-CQ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:45:44 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pXkER-0003EQ-2O
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:48:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXkBh-0007Qn-9B
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:45:43 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pXkEO-0007wT-JM
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 09:48:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677768340;
+ s=mimecast20190719; t=1677768506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=e+570caFwB4prWyCHXA+anOt5MYk86Ng89ex8ZtVSF0=;
- b=fpJfUTZmLrVlWDayjoz91X/NZDWSRnEz0YLcDo8UxiKmRsnf58cLmsPWHXaGSBkDmcDLbW
- QkRfgoFCwrP4zOsiO0jNeQ+VwwP+ZG/3zqoyof6SsEd0XxcsUF94hvEbY/6M8MYSo92Bmj
- EUfo5BRM0921euS8+7VWBlcLEWKoRyM=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4KKO9Qt4vdKV35M6bBt6ZUfoc2v4IDNJGbrnhmhVsuY=;
+ b=XuZtFBL6QPwQzWRrxK70mPJbFG7T5Pzp5uAIL93GklwklqOMYQZxl8ba98NXm9f3J9H8Nh
+ 0PrjUiUI+F3y6wZtDDXDxX3LJ+c1hCVjzEDS9DhSElQ50q0QeWv/VNm62nUteH+sK84btE
+ EPyMEEzsEVXT6+wELwkSiU5KKZ2z/fo=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-442-_6AdB6WxMQ23zQ63sMfZSw-1; Thu, 02 Mar 2023 09:45:39 -0500
-X-MC-Unique: _6AdB6WxMQ23zQ63sMfZSw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- pz4-20020ad45504000000b0056f060452adso8814806qvb.6
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 06:45:39 -0800 (PST)
+ us-mta-612-uDWPglYmMLasV5l2WZj-Cg-1; Thu, 02 Mar 2023 09:48:25 -0500
+X-MC-Unique: uDWPglYmMLasV5l2WZj-Cg-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-536bf635080so320862517b3.23
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 06:48:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677768338;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e+570caFwB4prWyCHXA+anOt5MYk86Ng89ex8ZtVSF0=;
- b=cCeq5oa7jd0tKxTs5l4vGGc61InjNWQpZzkDd5AJz7fUHKDZPRzV0FWxTKYTaRIjvq
- O7ykdhqQ4mo5IUpUHoiN6wpWS7KptZ185JQvlBTlw92ALZr3DXiFErmP+dcSuq+UvoJE
- UmyJWO5CaWl91u3bpid98nctS/b0MY8nto29BVsCB1TPK+/KhKHfgXWjV40weJeeg3C2
- YoJPcodSqJP9Z0kOcHNazgpJN1B80I3Kk9wzhvC6ncyJSZfjwTp3/LFzDfw3qR8aNrct
- 9ctD9qGNMFjUxIJJ+W7J+iC92qMJOUUv6XSKGrcy8sb7aVH55ZUzB9UeXeo6rclD84Y3
- 8qWw==
-X-Gm-Message-State: AO0yUKVN9gstBMnenzXJizASdFAh/moCU6aFAxW6dVc+0VHrnNnFXJE6
- aVajwHhp1FpBtauQss2Rjpu1r/rbAsFjWmd7V3nAyFsZeSAQq4b9koffjRGzJj0gBFZVMy1vMic
- ER4BBSmCRwuoch9g=
-X-Received: by 2002:a0c:f251:0:b0:56e:f542:628 with SMTP id
- z17-20020a0cf251000000b0056ef5420628mr14461403qvl.3.1677768338623; 
- Thu, 02 Mar 2023 06:45:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set/y8Y1Rtf0EG231uhAphiM298KZ/AKhnlNrsGTndKb4gffs3Pb7uE4EPqI3fpzcHj/vkdwduw==
-X-Received: by 2002:a0c:f251:0:b0:56e:f542:628 with SMTP id
- z17-20020a0cf251000000b0056ef5420628mr14461369qvl.3.1677768338326; 
- Thu, 02 Mar 2023 06:45:38 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- m67-20020a375846000000b00725d8d6983asm10906023qkb.61.2023.03.02.06.45.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 06:45:37 -0800 (PST)
-Date: Thu, 2 Mar 2023 09:45:35 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Chuang Xu <xuchuangxclwt@bytedance.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
-Message-ID: <ZAC2ccoQpFLa07ZK@x1n>
-References: <20230225163141.1209368-1-peterx@redhat.com>
- <6c75e2e2-5ba9-bc52-2c6c-a0bfb5f5b56f@redhat.com>
+ d=1e100.net; s=20210112; t=1677768505;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4KKO9Qt4vdKV35M6bBt6ZUfoc2v4IDNJGbrnhmhVsuY=;
+ b=bxJZrPv2RK7ap+jAsEvWRU2mTl2Ayw6fr/GStg/XVkBS1X/cZ12lSMUbmYvXEC0say
+ lz0Bd0KhrI1psKZ2ABBSa49+zZQXhcIfVsrsAIuLTaa8ufICBaOQK4qKG2xZJtg3cTKU
+ ajEVEssqgtgUpxSbIVkeYWub3u0r8DOvzle5DFRLLi525MiVGffUmsawstk2MjC577td
+ yjXzrJX+yi9KiWQIjRbuuPk6qAVSTb8Snum22aItcP5C2tirbPxd92BZqg8jfkf07992
+ HY7TPbH6bfIkum6tZOtPTliPchfkFbQ1wEhG5De64gGBQVFew66go0p0GhnNXrLgAdAV
+ eQOg==
+X-Gm-Message-State: AO0yUKVWu2Dm0cllBznpcVR1tF++9weO8Yn8r3sMIazISaKmldz/lwro
+ m4ypFYNnvvn1/OEf7HWS3cxS6+YYx1W7DyKHBzqNU7ul+F4tUm/jjzdoSI6xZNYfJMyeT0WThKw
+ iaVH8LvQ5x/SBF7+eqTycvzt7jnvDKow=
+X-Received: by 2002:a81:ae23:0:b0:535:18be:4126 with SMTP id
+ m35-20020a81ae23000000b0053518be4126mr6395562ywh.6.1677768504869; 
+ Thu, 02 Mar 2023 06:48:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set98rW6WAY3E+kHPgyDZZLvlKqK7Us+Pj5tJlSzOSNX+GWe297iSAr+R76vGZ5EyKGVArewYLtnZGgbfD2X7gT4=
+X-Received: by 2002:a81:ae23:0:b0:535:18be:4126 with SMTP id
+ m35-20020a81ae23000000b0053518be4126mr6395550ywh.6.1677768504640; Thu, 02 Mar
+ 2023 06:48:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6c75e2e2-5ba9-bc52-2c6c-a0bfb5f5b56f@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+References: <20230213191929.1547497-1-eperezma@redhat.com>
+ <CACGkMEsQe=zcfmK=rMH=u6RgHkkBFs+tJO7gT0v_bWwJ_N+z6Q@mail.gmail.com>
+ <CAJaqyWfsBLvsJNF=RvhbirwNypzjfaO7thyK22s-nCjdaNs4yQ@mail.gmail.com>
+ <20230214024736-mutt-send-email-mst@kernel.org>
+ <CAJaqyWc8JON+QhJbqQCFx+q+qxb5LqjgsHS2wZ7R3v37uVU_sw@mail.gmail.com>
+ <20230301163325-mutt-send-email-mst@kernel.org>
+ <CAJaqyWfpbeoLfe1-GcoR=rtJMg1DGezMe8pjSNPQjBG4BzqMrA@mail.gmail.com>
+ <20230302064234-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230302064234-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 2 Mar 2023 15:47:48 +0100
+Message-ID: <CAJaqyWe0=R8OKXec1xvCWPrQOdum-Jp4V1_MCevi8nB4J7+kgA@mail.gmail.com>
+Subject: Re: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ
+ feature
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, 
+ Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, 
+ Eli Cohen <eli@mellanox.com>, alvaro.karsz@solid-run.com, 
+ Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,65 +104,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 10:46:56AM +0100, David Hildenbrand wrote:
-> On 25.02.23 17:31, Peter Xu wrote:
-> > [not for merging, but for discussion; this is something I found when
-> >   looking at another issue on Chuang's optimization for migration downtime]
-> > 
-> > Summary: we tried to access memory_listeners, address_spaces, etc. in RCU
-> > way.  However we didn't implement them with RCU-safety. This patchset is
-> > trying to do that; at least making it closer.
-> > 
-> > NOTE!  It's doing it wrongly for now, so please feel free to see this as a
-> > thread to start discussing this problem, as in subject.
-> > 
-> > The core problem here is how to make sure memory listeners will be freed in
-> > RCU ways, per when unlinking them from the global memory_listeners list.
-> 
-> Can you elaborate why we would want to do that? Is there a real reason we
-> cannot hold the BQL when unregistering a listener?
+On Thu, Mar 2, 2023 at 12:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Thu, Mar 02, 2023 at 12:30:52PM +0100, Eugenio Perez Martin wrote:
+> > > You need to pass this to guest. My point is that there is no reason to
+> > > get it from the kernel driver. QEMU can figure out whether the flag is
+> > > needed itself.
+> > >
+> >
+> > Ok, I can see now how the HW device does not have all the knowledge to
+> > offer this flag or not. But I'm not sure how qemu can know either.
+> >
+> > If qemu opens /dev/vhost-vdpa-N, how can it know it? It has no way to
+> > tell if the device is sw or hw as far as I know. Am I missing
+> > something?
+> >
+> > Thanks!
+>
+> This is what I said earlier.  You can safely assume vdpa needs this
+> flag. Only exception is vduse and we don't care about performance there.
+>
 
-Yes afaict we must hold BQL when unregister any listener for now.  I added
-an explicit assert in patch 1 for that.
+Ok now I get your point, thanks for explaining.
 
-We want to do that because potentially we have RCU readers accessing these
-two lists, so here taking BQL only is not enough.  We need to release the
-objects after all users are gone.
+But I'm missing why it is wrong to start using it properly from the
+kernel. I didn't test vDPA in non x86 / PCI, but if it does not work
+because of the lack of this feature flag the right fix would be to
+offer it, not to start assuming it in qemu, isn't it?
 
-We already do that for address spaces, but afaict the listener part was
-overlooked.  The challenge here is how to achieve the same for listeners.
+I can see how "assume VIRTIO_F_ORDER_PLATFORM from qemu" may need code
+comments and extra explanations, but to start offering it properly
+from the device is expected somehow.
 
-> 
-> Or could we use any other, more fine-grained, lock to protect the memory
-> listeners?
-> 
-> Naive me would think that any interactions between someone updating the
-> memory listeners, and a listener getting removed, would require some careful
-> synchronization (to not rip a notifier out while someone else notifies --
-> what is the still registered notifier supposed to do with notifications
-> while it is already going away?), instead of doing it via RCU.
-> 
-> I'm all for using RCU if it improves performance and keeps things simple. If
-> RCU is neither required for performance reason and overcomplicates the
-> implementation, maybe using locking is the better choice.
-
-For ASes, one major user RCU is memory_region_find_rcu().
-
-For listeners, the only path that doesn't take BQL (afaict) is
-memory_region_clear_dirty_bitmap().  Maybe you'll have some points here on
-the side effect of taking it because it's in either virtio-mem or balloon
-path for page hinting iirc.
-
-In short, so far I don't know whether it's possible to have all paths take
-BQL while not regress anything.
-
-> 
-> TBH, so far I thought that any memory_listeners register/unregistering
-> *requires* the BQL, and everything else is a BUG.
-
-Thanks,
-
--- 
-Peter Xu
+Thanks!
 
 
