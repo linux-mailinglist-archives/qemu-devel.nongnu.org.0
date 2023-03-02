@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DE16A88AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E85516A88B6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:47:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXnwa-0001FB-Ua; Thu, 02 Mar 2023 13:46:20 -0500
+	id 1pXnwc-0001PV-HZ; Thu, 02 Mar 2023 13:46:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwY-00016e-CH
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:18 -0500
+ id 1pXnwZ-0001By-Sn
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwW-00059h-HU
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:17 -0500
+ id 1pXnwY-0005AV-Bm
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677782775;
+ s=mimecast20190719; t=1677782777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/6ApikPP/FgnXZsOu95/fvwfQFK7ck6XKqwLw9PSu/w=;
- b=TKKFrCZx+z/ST9N2Sc3epEjmZpTNhQXvaEXeWU0lLuBENBMajrJk97ZFyfg2CSlyLVZtwR
- n4w795DMZ+FIHXeJ2sXT3jXUv4cHBvqZFpGLSV4o4eT//VzlNzJI4Izn6sTwQLWSVHIYOC
- nvdwaAS0rAAhVxyh9Bu6TXS0js8KGbw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Vm2qo2oFGbt/kSCsSBoZ+hFmn5nLvxm4q9lpIJk2PwE=;
+ b=Oxi/MAzAhrihhQ55PeG6v3OlILEzHH3KFLzChVhr9Dja1rrUPtL/phEo/KcCvO9/qesO73
+ uH4Fl9lrWdqi+N9hIq69H84AkLTJQmDja14WPCqth1QtvZhJDtSpiVp2K6nKrlw5OEdJk3
+ 5PxCNjTZFuu318CWbQA5keTSb2vOgRM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-k0Ui8ittNHa2MNnJBefXLA-1; Thu, 02 Mar 2023 13:46:12 -0500
-X-MC-Unique: k0Ui8ittNHa2MNnJBefXLA-1
+ us-mta-487-q6IhYmwoN0ungU0xSvTLdg-1; Thu, 02 Mar 2023 13:46:14 -0500
+X-MC-Unique: q6IhYmwoN0ungU0xSvTLdg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DB4B185A78B;
- Thu,  2 Mar 2023 18:46:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 172173C14864;
+ Thu,  2 Mar 2023 18:46:14 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83476C16027;
- Thu,  2 Mar 2023 18:46:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78FEFC1602A;
+ Thu,  2 Mar 2023 18:46:12 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 1/5] iotests: explicitly pass source/build dir to 'check'
- command
-Date: Thu,  2 Mar 2023 18:46:02 +0000
-Message-Id: <20230302184606.418541-2-berrange@redhat.com>
+Subject: [PATCH 2/5] iotests: allow test discovery before building
+Date: Thu,  2 Mar 2023 18:46:03 +0000
+Message-Id: <20230302184606.418541-3-berrange@redhat.com>
 In-Reply-To: <20230302184606.418541-1-berrange@redhat.com>
 References: <20230302184606.418541-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -81,90 +80,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The 'check' script has some rather dubious logic whereby it assumes
-that if invoked as a symlink, then it is running from a separate
-source tree and build tree, otherwise it assumes the current working
-directory is a combined source and build tree.
+The 'check' script can be invoked in "dry run" mode, in which case it
+merely does test discovery and prints out all their names. Despite only
+doing test discovery it still validates that the various QEMU binaries
+can be found. This makes it impossible todo test discovery prior to
+building QEMU. This is a desirable feature to support, because it will
+let meson discover tests.
 
-This doesn't work if you want to invoke the 'check' script using
-its full source tree path while still using a split source and build
-tree layout. This would be a typical situation with meson if you ask
-it to find the 'check' script path using files('check').
-
-Rather than trying to make the logic more magical, add support for
-explicitly passing the dirs using --source-dir and --build-dir. If
-either is omitted the current logic is maintained.
+Fortunately the code in the TestEnv constructor is ordered in a way
+that makes this fairly trivial to achieve. We can just short circuit
+the constructor after the basic directory paths have been set.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qemu-iotests/check      |  8 +++++++-
- tests/qemu-iotests/testenv.py | 17 +++++++++++++----
- 2 files changed, 20 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/check      | 1 +
+ tests/qemu-iotests/testenv.py | 5 +++++
+ 2 files changed, 6 insertions(+)
 
 diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 9bdda1394e..806abc21d6 100755
+index 806abc21d6..7e287a79a3 100755
 --- a/tests/qemu-iotests/check
 +++ b/tests/qemu-iotests/check
-@@ -113,6 +113,10 @@ def make_argparser() -> argparse.ArgumentParser:
-                        'middle of the process.')
-     g_sel.add_argument('tests', metavar='TEST_FILES', nargs='*',
-                        help='tests to run, or "--" followed by a command')
-+    g_sel.add_argument('--build-dir', default=None,
-+                       help='Path to iotests build directory')
-+    g_sel.add_argument('--source-dir', default=None,
-+                       help='Path to iotests build directory')
- 
-     return p
- 
-@@ -124,7 +128,9 @@ if __name__ == '__main__':
-                   aiomode=args.aiomode, cachemode=args.cachemode,
+@@ -129,6 +129,7 @@ if __name__ == '__main__':
                    imgopts=args.imgopts, misalign=args.misalign,
                    debug=args.debug, valgrind=args.valgrind,
--                  gdb=args.gdb, qprint=args.print)
-+                  gdb=args.gdb, qprint=args.print,
-+                  source_dir=args.source_dir,
-+                  build_dir=args.build_dir)
+                   gdb=args.gdb, qprint=args.print,
++                  dry_run=args.dry_run,
+                   source_dir=args.source_dir,
+                   build_dir=args.build_dir)
  
-     if len(sys.argv) > 1 and sys.argv[-len(args.tests)-1] == '--':
-         if not args.tests:
 diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index a864c74b12..9bf37cd381 100644
+index 9bf37cd381..952efa0e63 100644
 --- a/tests/qemu-iotests/testenv.py
 +++ b/tests/qemu-iotests/testenv.py
-@@ -177,7 +177,9 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-                  debug: bool = False,
+@@ -178,6 +178,7 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
                   valgrind: bool = False,
                   gdb: bool = False,
--                 qprint: bool = False) -> None:
-+                 qprint: bool = False,
-+                 source_dir: Optional[str] = None,
-+                 build_dir: Optional[str] = None) -> None:
+                  qprint: bool = False,
++                 dry_run: bool = False,
+                  source_dir: Optional[str] = None,
+                  build_dir: Optional[str] = None) -> None:
          self.imgfmt = imgfmt
-         self.imgproto = imgproto
-         self.aiomode = aiomode
-@@ -213,12 +215,19 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
- 
-         if os.path.islink(sys.argv[0]):
-             # called from the build tree
--            self.source_iotests = os.path.dirname(os.readlink(sys.argv[0]))
--            self.build_iotests = os.path.dirname(os.path.abspath(sys.argv[0]))
-+            self.source_iotests = os.path.dirname(
-+                os.readlink(sys.argv[0]))
-+            self.build_iotests = os.path.dirname(
-+                os.path.abspath(sys.argv[0]))
-         else:
-             # called from the source tree
-             self.source_iotests = os.getcwd()
--            self.build_iotests = self.source_iotests
-+            self.build_iotests = os.getcwd()
-+
-+        if source_dir is not None:
-+            self.source_iotests = source_dir
-+        if build_dir is not None:
-+            self.build_iotests = build_dir
- 
+@@ -232,6 +233,10 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
          self.build_root = os.path.join(self.build_iotests, '..', '..')
  
+         self.init_directories()
++
++        if dry_run:
++            return
++
+         self.init_binaries()
+ 
+         self.malloc_perturb_ = os.getenv('MALLOC_PERTURB_',
 -- 
 2.39.2
 
