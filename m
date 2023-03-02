@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D446A85F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FC56A861A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:18:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXla9-0005Hp-FH; Thu, 02 Mar 2023 11:15:01 -0500
+	id 1pXlbO-0006Ew-1a; Thu, 02 Mar 2023 11:16:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXlZx-0005HA-LX
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:14:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pXlbB-0006B3-0H
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXlZv-0008Er-Ne
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:14:49 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pXlau-0000Ip-7M
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677773686;
+ s=mimecast20190719; t=1677773747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OxVAs019BMTeBm9vS97gxsi1jYuz4vGP7nfpHS33agI=;
- b=Ix8Ebw+565MNBG/q084Wh3l7lO9bRwSBSimGNaGlIhsiiMa6aF9dMnCipwS+eZPpA/7mzY
- Uaird7fb2FhOXYbm9Qt77rl9sba6isQbWBXz0KOTQ98bYkt4LbwUifknggUztsrJwTnWfb
- 5YC27Ahx9Mb4s7pG9tMt5RWy15GiF/8=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nMRL38P3ZdEHPgA12Yifxl37BLRORoyYRgs3RxaPTgE=;
+ b=DXssUYpp4P5wP86za9vXsWASIuh1w6GFIMXiMHB4eklkek+D7+kUk1HQdJyrfQ2MLz6GP1
+ AYWoJLORh7RkSeRejyN7pvbW6v6sc1E4iFwFaVhej4AoPN1r/e3ViceOsiP2NJyZJcvSoF
+ iGDlOPb+cvdeOf7dCej593gLxkxvYxc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-Wz4tC-gEO4eNkaTPaHAcwQ-1; Thu, 02 Mar 2023 11:14:43 -0500
-X-MC-Unique: Wz4tC-gEO4eNkaTPaHAcwQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-461-MKdhpQiuPH6UYcs16vZJVw-1; Thu, 02 Mar 2023 11:15:46 -0500
+X-MC-Unique: MKdhpQiuPH6UYcs16vZJVw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 98A23857A94;
- Thu,  2 Mar 2023 16:14:41 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A6F12166B26;
- Thu,  2 Mar 2023 16:14:40 +0000 (UTC)
-Date: Thu, 2 Mar 2023 11:14:38 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Feiran Zheng <fam.zheng@bytedance.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Peter Xu <peterx@redhat.com>, fam@euphon.net,
- Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [External] [PATCH] hostmem: Add clear option to file backend
-Message-ID: <20230302161438.GC2497705@fedora>
-References: <20230302110925.4680-1-fam.zheng@bytedance.com>
- <377c3521-ffe1-074b-48ac-71fd445b3bb4@redhat.com>
- <ZACMKL5MOeD59OLl@redhat.com>
- <45E8FC3F-B444-4137-8C9D-9BAF9DEE49D9@bytedance.com>
- <742db562-5d63-5ef7-8d8b-c4ab9469feff@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 15FE5187505F
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:15:46 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8287F140EBF6;
+ Thu,  2 Mar 2023 16:15:45 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH v2 00/34] pci(pc/q35): acpi-index support on non-hotpluggable
+ slots
+Date: Thu,  2 Mar 2023 17:15:09 +0100
+Message-Id: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="T+eNP0HsFtQZdPd2"
-Content-Disposition: inline
-In-Reply-To: <742db562-5d63-5ef7-8d8b-c4ab9469feff@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,99 +79,150 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---T+eNP0HsFtQZdPd2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changelog:
+  v2:
+    * rebase on top mst's pull request
+    * revert
+        3aa50aa253 ("tests/qtest: Check for devices in bios-tables-test")
+      which broke acpi tables test and rebuild due to skipping some tests
+      even thought none of devices tests depend on weren't disabled
+      that resulted in stale expected tables and merge conflicts.
 
-On Thu, Mar 02, 2023 at 02:56:43PM +0100, David Hildenbrand wrote:
-> On 02.03.23 12:57, Feiran Zheng wrote:
-> >=20
-> >=20
-> > > On 2 Mar 2023, at 11:44, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
-> > >=20
-> > > On Thu, Mar 02, 2023 at 12:31:46PM +0100, David Hildenbrand wrote:
-> > > > On 02.03.23 12:09, Fam Zheng wrote:
-> > > > > This adds a memset to clear the backing memory. This is useful in=
- the
-> > > > > case of PMEM DAX to drop dirty data, if the backing memory is han=
-ded
-> > > > > over from a previous application or firmware which didn't clean up
-> > > > > before exiting.
-> > > > >=20
-> > > >=20
-> > > > Why can't the VM manager do that instead? If you have a file that's
-> > > > certainly easily possible.
-> > >=20
-> > > This feels conceptually similar to the case where you expose a host
-> > > block device to the guest. If that block device was previously given
-> > > to a different guest it might still have data in it. Someone needs
-> > > to take responsibility for scrubbing that data. Since that may take
-> > > a non-trivial amount of time, it is typically todo that scrubbing in
-> > > the background after the old VM is gone rather than put it into the
-> > > startup path for a new VM which would delay boot.
-> > >=20
-> > > PMEM is blurring the boundary between memory and disk, but the tradeo=
-ff
-> > > is not so different. We know that in general merely faulting in guest
-> > > memory is quite time consuming and delays VM startup significantly as
-> > > RAM size increases. Doing the full memset can only be slower still.
-> > >=20
-> > > For prealloc we've create complex code to fault in memory across many
-> > > threads and even that's too slow, so we're considering doing it in the
-> > > background as the VM starts up.
-> > >=20
-> > > IIUC, this patch just puts the memset in the critical serialized path.
-> > > This will inevitably lead to a demand for improving performance by
-> > > parallelizing across threads, but we know that's too slow already,
-> > > and we cant play the background async game with memset as that's
-> > > actually changunig guest visible contents.
-> > >=20
-> > > IOW, for large PMEM sizes, it does look compelling to do the clearing
-> > > of old data in the background outside context of QEMU VM startup to
-> > > avoid delayed startup.
-> > >=20
-> > > I can still understand the appeal of a simple flag to set on QEMU from
-> > > a usability POV, but not sure its a good idea to encourage this usage
-> > > by mgmt apps.
-> >=20
-> > I can totally see the reasoning about the latency here, but I=E2=80=99m=
- a little dubious if multi-threading for memset can actaully help reduce th=
-e start-up time; the total cost is going to be bound by memory bandwidth be=
-tween the CPU and memory (even more so if it=E2=80=99s PMEM) which is limit=
-ed.
->=20
-> Right, daxio is the magic bit:
->=20
-> daxio.x86_64 : Perform I/O on Device DAX devices or zero a Device DAX dev=
-ice
->=20
-> # daxio -z -o /dev/dax0.0
-> daxio: copied 8587837440 bytes to device "/dev/dax0.0"
+Series extends acpi-index support to host-bridge(s) and bridges
+with disabled hotplug (either explicitly or implicitly).
+Whats new (it is still limited to 'pc' and 'q35' machines),
+acpi-index now works for non-hotpluggable slots/nics:
+ * q35: host-bridge
+ * pc: host-bridge with disabled hotplug
+       'PIIX4_PM.acpi-root-pci-hotplug=off'
+ * non-hotpluggable multifunction nics
+ * on non-hotpluggable slots with native hotplug (i.e. without ACPI PCI hotplug)
+       PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off
+       ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+     + pcie-root-port,hotplug=off | pci-bridge,shpc=off
 
-I think Dan's concerns are valid, but I noticed daxio also just calls
-pmem_memset_persist(), so it's doing pretty much the same
-single-threaded thing as the patch:
-https://github.com/pmem/pmdk/blob/master/src/tools/daxio/daxio.c#L506
+where it doesn't work (and never will):
+ * on hotplugged ports/bridges
+ * on hotpluggable ports/bridges with native hotplug
 
-Stefan
+1-12/34:  fixes for bugs or odd behavior
+14-24/34: non-hotplug/multifunction acpi-index enabling
+29-34/34: cleanups 
+all of that is peppered by extra acpi tests or extensions to existing ones
 
---T+eNP0HsFtQZdPd2
-Content-Type: application/pgp-signature; name="signature.asc"
+Somewhat tested with RHEL9.0 and WS2022.
 
------BEGIN PGP SIGNATURE-----
+What's in queue:
+ * PXB support 
+ * microvm and arm/virt support
+all of above only for non-hotpluggable slots as I don't really want to
+pull there complicated APCI PCI hotplug.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQAy24ACgkQnKSrs4Gr
-c8hSfggAhHuOh4rnsgT5M98lkZgDWhB+n7e1HGpQC2hJoFz1moCMshx11p4EJ3yl
-TfaZwQDcgJuSHJKMf2xNFZJ6tWC9hAVE6fVk4kfNjb0ruaSoVsjzn7yaMIvZDhIA
-UKgmACTJW5jsHR+6zqZEuH4jvPXTxAwbIRNd2bnufrpiwmylBpXhVvs5ogRQZBkE
-NHXO9qoaZVEmWuS+/x1yoN/NE4mKtAivwrY/dGQ1FVz8J29lrvyFdGXewm9tAbZl
-avhON1OEpWSl6xzLUldMecENLVEbd7s/IH2zH/jbDWP5I9O7CaVhAI1SS1nMFawA
-kiTDviZ0Jp85prz/a++mgFtkEwS45Q==
-=27Np
------END PGP SIGNATURE-----
+gitlab tree: https://gitlab.com/imammedo/qemu/-/tree/acpi_index_non_hotplug_v2
 
---T+eNP0HsFtQZdPd2--
+Igor Mammedov (34):
+  Revert "tests/qtest: Check for devices in bios-tables-test"
+  tests: acpi: whitelist new q35.noacpihp test and pc.hpbrroot
+  tests: acpi: add test_acpi_q35_tcg_no_acpi_hotplug test and extend
+    test_acpi_piix4_no_acpi_pci_hotplug
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist q35/DSDT.multi-bridge before extending testcase
+  tests: acpi: extend multi-bridge case with case
+    'root-port,id=HOHP,hotplug=off root-port,bus=NOHP'
+  x86: pcihp: fix missing PCNT callchain when intermediate root-port has
+    'hotplug=off' set
+  tests: acpi: whitelist pc/DSDT.hpbrroot and pc/DSDT.hpbridge tests
+  x86: pcihp: fix missing bridge AML when intermediate root-port has
+    'hotplug=off' set
+  tests: acpi: update expected blobs
+  pcihp: piix4: do not redirect hotplug controller to piix4 when ACPI
+    hotplug is disabled
+  pci: fix 'hotplugglable' property behavior
+  tests: acpi: whitelist DSDT blobs before isolating PCI _DSM func 0
+    prolog
+  pcihp: move PCI _DSM function 0 prolog into separate function
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT before adding EDSM method
+  acpi: pci: add EDSM method to DSDT
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT before adding device with acpi-index to
+    testcases
+  tests: acpi: add device with acpi-index on non-hotpluggble bus
+  acpi: pci: support acpi-index for non-hotpluggable devices
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT before exposing non zero functions
+  acpi: pci: describe all functions on populated slots
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT before adding non-0 function device with
+    acpi-index to testcases
+  tests: acpi: add non zero function device with acpi-index on
+    non-hotpluggble bus
+  tests: acpi: update expected blobs
+  pci: move acpi-index uniqueness check to generic PCI device code
+  acpi: pci: drop BSEL usage when deciding that device isn't
+    hotpluggable
+  acpi: pci: move BSEL into build_append_pcihp_slots()
+  acpi: pci: move out ACPI PCI hotplug generator from generic slot
+    generator build_append_pci_bus_devices()
+  pcihp: move fields enabling hotplug into AcpiPciHpState
+  pcihp: add ACPI PCI hotplug specific is_hotpluggable_bus() callback
+
+ include/hw/acpi/ich9.h                        |   1 +
+ include/hw/acpi/pcihp.h                       |  11 +-
+ include/hw/acpi/piix4.h                       |   2 -
+ include/hw/hotplug.h                          |   2 +
+ include/hw/qdev-core.h                        |  13 +-
+ hw/acpi/acpi-pci-hotplug-stub.c               |   9 +-
+ hw/acpi/ich9.c                                |  21 +-
+ hw/acpi/pci-bridge.c                          |  14 +-
+ hw/acpi/pcihp.c                               | 112 +++--------
+ hw/acpi/piix4.c                               |  33 ++--
+ hw/i386/acpi-build.c                          | 179 +++++++++++++-----
+ hw/isa/lpc_ich9.c                             |   1 +
+ hw/pci/pci.c                                  |  57 ++++++
+ hw/pci/pcie_port.c                            |   8 +
+ tests/data/acpi/pc/DSDT                       | Bin 6360 -> 6488 bytes
+ tests/data/acpi/pc/DSDT.acpierst              | Bin 6283 -> 6411 bytes
+ tests/data/acpi/pc/DSDT.acpihmat              | Bin 7685 -> 7813 bytes
+ tests/data/acpi/pc/DSDT.bridge                | Bin 12487 -> 12615 bytes
+ tests/data/acpi/pc/DSDT.cphp                  | Bin 6824 -> 6952 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8014 -> 8142 bytes
+ tests/data/acpi/pc/DSDT.hpbridge              | Bin 6289 -> 6451 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3081 -> 3343 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6432 -> 6560 bytes
+ tests/data/acpi/pc/DSDT.memhp                 | Bin 7719 -> 7847 bytes
+ tests/data/acpi/pc/DSDT.nohpet                | Bin 6218 -> 6346 bytes
+ tests/data/acpi/pc/DSDT.numamem               | Bin 6366 -> 6494 bytes
+ tests/data/acpi/pc/DSDT.roothp                | Bin 9745 -> 9873 bytes
+ tests/data/acpi/q35/DSDT                      | Bin 8252 -> 8361 bytes
+ tests/data/acpi/q35/DSDT.acpierst             | Bin 8269 -> 8378 bytes
+ tests/data/acpi/q35/DSDT.acpihmat             | Bin 9577 -> 9686 bytes
+ tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8531 -> 8640 bytes
+ tests/data/acpi/q35/DSDT.applesmc             | Bin 8298 -> 8407 bytes
+ tests/data/acpi/q35/DSDT.bridge               | Bin 11481 -> 11590 bytes
+ tests/data/acpi/q35/DSDT.core-count2          | Bin 32392 -> 32501 bytes
+ tests/data/acpi/q35/DSDT.cphp                 | Bin 8716 -> 8825 bytes
+ tests/data/acpi/q35/DSDT.cxl                  | Bin 9564 -> 9673 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9906 -> 10015 bytes
+ tests/data/acpi/q35/DSDT.ipmibt               | Bin 8327 -> 8436 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8340 -> 8449 bytes
+ tests/data/acpi/q35/DSDT.ivrs                 | Bin 8269 -> 8378 bytes
+ tests/data/acpi/q35/DSDT.memhp                | Bin 9611 -> 9720 bytes
+ tests/data/acpi/q35/DSDT.mmio64               | Bin 9382 -> 9491 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge         | Bin 12337 -> 12770 bytes
+ tests/data/acpi/q35/DSDT.noacpihp             | Bin 0 -> 8248 bytes
+ tests/data/acpi/q35/DSDT.nohpet               | Bin 8110 -> 8219 bytes
+ tests/data/acpi/q35/DSDT.numamem              | Bin 8258 -> 8367 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8353 -> 8462 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8858 -> 8967 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8884 -> 8993 bytes
+ tests/data/acpi/q35/DSDT.viot                 | Bin 9361 -> 9470 bytes
+ tests/data/acpi/q35/DSDT.xapic                | Bin 35615 -> 35724 bytes
+ tests/qtest/bios-tables-test.c                | 125 +++++-------
+ 52 files changed, 345 insertions(+), 243 deletions(-)
+ create mode 100644 tests/data/acpi/q35/DSDT.noacpihp
+
+-- 
+2.39.1
 
 
