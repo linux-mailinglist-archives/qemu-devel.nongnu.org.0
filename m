@@ -2,91 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C446A8391
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118FD6A83A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:38:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXj2G-0008TQ-M7; Thu, 02 Mar 2023 08:31:52 -0500
+	id 1pXj7Z-00020A-RS; Thu, 02 Mar 2023 08:37:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
- id 1pXj2A-0008O9-2i
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:31:49 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
- id 1pXj26-00072b-Ex
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:31:45 -0500
-Received: by mail-wr1-x434.google.com with SMTP id v16so13722141wrn.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 05:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zJ72wLcoIJAhwLPYYo0uj/OrafpbMT+L9IeLyyWdvRE=;
- b=BZkrbXPqf57Q3LwcBLnSEcpXoXITZRrWdBPhwENkqJlNFNUFyHl6RSAdJAcjc2GuCl
- cZ7DXrkdZPTVptouNHz4WgmNb7x0X6NzPv7wUlnjifI1JyNkNKLZEX1xshAHCuPKogV9
- oObhzYUUvy+C5Kud+b2fQqg1gf8aGu0RIqvR3+p7LIZ2yICvwOtKCrAAy5pPSCVvgkD5
- 4JV6DalLKFC3W4+LaLSH2kjWF09d1ufnwQiIfj9jTpWW8zq0kOuWLzL0fY3bummQbjof
- 75+L3faRrosoizRgI/ycbs8p0AlX30o1nuYA6qFc5bfzFa3LkUFIewjkFlblHcYSoFms
- B8fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zJ72wLcoIJAhwLPYYo0uj/OrafpbMT+L9IeLyyWdvRE=;
- b=TYi1LF4Kx053ulkvs8VR7YYJ/oMemeAXQThd0WgKOTnWv1zoSeZXhodLWSSLIhmv7v
- mly9lw1JtKqaJtzPI/d+KC+G2wJGVCpiiD5LWLAXdoSRrzK+jWKudTi7XgcMjxApVBoX
- 8fOzgB/LyNT+DEN9LJx+7goINbmc3eULqUfyxYHx4rjeenSCC6VlW2VMgjM8ryKk0lnx
- NSEwJe4rMqlhJyP3dj4STJmwca2mrJEvXwpfZ+vbO1FYC5IMrAa+2RFJ67ShFDcIUvTk
- NKcOduHXRUHdJBs6Be4IwhVCeUS16XD1QKH3wvWNEVecfMw5itTcZkX/1GRauV30p+K7
- XpmQ==
-X-Gm-Message-State: AO0yUKV+y0A+oPSZMI97qcNLdRUieGYdpU65cPu7YQxofKEHv20ejDYh
- A6fBiduBUfimPp+cCPz9bRGKNg==
-X-Google-Smtp-Source: AK7set+8u8IHGkO/XILebj48lMvPsmsU1t/Br8sacMr9InZJarmiUb+KaQg0p15FW5Hc0mDzfzaC0w==
-X-Received: by 2002:a5d:564f:0:b0:2c7:1206:85ff with SMTP id
- j15-20020a5d564f000000b002c7120685ffmr8214629wrw.48.1677763889145; 
- Thu, 02 Mar 2023 05:31:29 -0800 (PST)
-Received: from smtpclient.apple ([93.115.195.2])
- by smtp.gmail.com with ESMTPSA id
- c2-20020a5d4cc2000000b002bfd524255esm15010913wrt.43.2023.03.02.05.31.28
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 02 Mar 2023 05:31:28 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [External] [PATCH] hostmem: Add clear option to file backend
-From: Feiran Zheng <fam.zheng@bytedance.com>
-In-Reply-To: <cd366355-0589-eba1-bfa0-bd2b9ee117a8@redhat.com>
-Date: Thu, 2 Mar 2023 13:31:17 +0000
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Peter Xu <peterx@redhat.com>, Fam Zheng <fam@euphon.net>,
- Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <409947D6-4B0F-4D72-840E-D04AF3BF6C71@bytedance.com>
-References: <20230302110925.4680-1-fam.zheng@bytedance.com>
- <377c3521-ffe1-074b-48ac-71fd445b3bb4@redhat.com>
- <15DA845E-C50C-46BB-A241-164E5851E388@bytedance.com>
- <9c14c247-0184-35e8-6399-b542e4e20129@redhat.com>
- <D936CC04-15BB-4F77-A2F6-919225EA06C1@bytedance.com>
- <cd366355-0589-eba1-bfa0-bd2b9ee117a8@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=fam.zheng@bytedance.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pXj7T-0001yV-NC
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:37:15 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pXj7R-0001vv-6E
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:37:15 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PSBwR6KCFz6J7hv;
+ Thu,  2 Mar 2023 21:36:55 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 2 Mar 2023 13:37:08 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
+ <fan.ni@samsung.com>
+CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>, Michael
+ Roth <michael.roth@amd.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>, Markus Armbruster
+ <armbru@redhat.com>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
+ <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>, =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=
+ <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [RESEND PATCH v6 0/8] hw/cxl: RAS error emulation and injection
+Date: Thu, 2 Mar 2023 13:37:01 +0000
+Message-ID: <20230302133709.30373-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,63 +66,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Resending to expand CC list. Looking in particular for review of the QAPI
+part of patch 8.
+
+v6:  Thanks to Philippe Mathieu-Daudé
+- Added 'Since' entries to qapi docs.
+- Added error prints to stubs rather than doing nothing at all.
+(these two comments will be applied to the Poison injeciton series as well)
+- Picked up tags
+
+Long discussion on whether there was a good way to make the qapi only
+exist when CONFIG_CXL* was set.  Conclusion (I think) was that
+unfortunately there isn't a good way to do this so stubs are currently
+the best option.  Thanks to Marcus for some great background info on this.
+
+Based on series "[PATCH v4 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream"
+
+Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
+
+v3 cover letter.
+
+CXL error reporting is complex. This series only covers the protocol
+related errors reported via PCIe AER - Ira Weiny has posted support for
+Event log based injection and I will post an update of Poison list injection
+shortly. My proposal is to upstream this one first, followed by Ira's Event
+Log series, then finally the Poison List handling. That is based on likely
+order of Linux kernel support (the support for this type of error reporting
+went in during the recent merge window, the others are still under review).
+Note we may propose other non error related features in between!
+
+In order to test the kernel support for RAS error handling, I previously
+provided this series via gitlab, enabling David Jiang's kernel patches
+to be tested.
+
+Now that Linux kernel support is upstream, this series is proposing the
+support for upstream inclusion in QEMU. Note that support for Multiple
+Header Recording has been added to QEMU the meantime and a kernel
+patch to use that feature sent out.
+
+https://lore.kernel.org/linux-cxl/20230113154058.16227-1-Jonathan.Cameron@huawei.com/T/#t
+
+There are two generic PCI AER precursor feature additions.
+1) The PCI_ERR_UCOR_MASK register has not been implemented until now
+   and is necessary for correct emulation.
+2) The routing for AER errors, via existing AER error injection, only
+   covered one of two paths given in the PCIe base specification,
+   unfortunately not the one used by the Linux kernel CXL support.
+
+The use of MSI for the CXL root ports, both makes sense from the point
+of view of how it may well be implemented, and works around the documented
+lack of PCI interrupt routing in i386/q35. I have a hack that lets
+us correctly route those interrupts but don't currently plan to post it.
+
+The actual CXL error injection uses a new QMP interface as documented
+in the final patch description. The existing AER error injection
+internals are reused though it's HMP interface is not.
+
+Injection via QMP:
+{ "execute": "qmp_capabilities" }
+...
+{ "execute": "cxl-inject-uncorrectable-errors",
+  "arguments": {
+    "path": "/machine/peripheral/cxl-pmem0",
+    "errors": [
+        {
+            "type": "cache-address-parity",
+            "header": [ 3, 4]
+        },
+        {
+            "type": "cache-data-parity",
+            "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        },
+        {
+            "type": "internal",
+            "header": [ 1, 2, 4]
+        }
+        ]
+  }}
+...
+{ "execute": "cxl-inject-correctable-error",
+    "arguments": {
+        "path": "/machine/peripheral/cxl-pmem0",
+        "type": "physical"
+    } }
 
 
-> On 2 Mar 2023, at 11:54, David Hildenbrand <david@redhat.com> wrote:
->=20
-> On 02.03.23 12:48, Feiran Zheng wrote:
->>> On 2 Mar 2023, at 11:39, David Hildenbrand <david@redhat.com> wrote:
->>>=20
->>> On 02.03.23 12:37, Feiran Zheng wrote:
->>>>> On 2 Mar 2023, at 11:31, David Hildenbrand <david@redhat.com> =
-wrote:
->>>>>=20
->>>>> On 02.03.23 12:09, Fam Zheng wrote:
->>>>>> This adds a memset to clear the backing memory. This is useful in =
-the
->>>>>> case of PMEM DAX to drop dirty data, if the backing memory is =
-handed
->>>>>> over from a previous application or firmware which didn't clean =
-up
->>>>>> before exiting.
->>>>>=20
->>>>> Why can't the VM manager do that instead? If you have a file =
-that's certainly easily possible.
->>>> Hi David,
->>>> Technically yes, but I have a simple VM manager here which wants to =
-avoid replicating the same mmap code, such as handling the flags =
-depending on share=3Don|off,hugepages=3Don|off. All in all this approach =
-requires the least additional code to achieve it.
->>>=20
->>> so ... we're supposed to maintain that code in QEMU instead to make =
-your life easier ? :)
->>>=20
->>> Sorry, for this particular use case I don't see the big benefit of =
-moving that code into QEMU.
->>>=20
->> I am posting because this does not only makes my life easier, =
-supposedly it also make other developers life easier, because the file =
-here can be a char file and there is no easy way to clear it =
-(/dev/dax1.0) from command line if you want to invoke a QEMU command =
-directly.
->> Maybe I=E2=80=99m missing a convenient command to clear a DAX char =
-file?
->=20
-> Can't you simply use dd and read from /dev/zero?
->=20
+Jonathan Cameron (8):
+  hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
+  hw/pci/aer: Add missing routing for AER errors
+  hw/pci-bridge/cxl_root_port: Wire up AER
+  hw/pci-bridge/cxl_root_port: Wire up MSI
+  hw/mem/cxl-type3: Add AER extended capability
+  hw/cxl: Fix endian issues in CXL RAS capability defaults / masks
+  hw/pci/aer: Make PCIE AER error injection facility available for other
+    emulation to use.
+  hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
 
-I don=E2=80=99t think it works for dax because the fs driver only =
-implemented mmap, not read/write:
+ hw/cxl/cxl-component-utils.c   |  20 ++-
+ hw/mem/cxl_type3.c             | 294 +++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3_stubs.c       |  17 ++
+ hw/mem/meson.build             |   2 +
+ hw/pci-bridge/cxl_root_port.c  |  64 +++++++
+ hw/pci/pci-internal.h          |   1 -
+ hw/pci/pcie_aer.c              |  14 +-
+ include/hw/cxl/cxl_component.h |  26 +++
+ include/hw/cxl/cxl_device.h    |  11 ++
+ include/hw/pci/pcie_aer.h      |   1 +
+ include/hw/pci/pcie_regs.h     |   3 +
+ qapi/cxl.json                  | 128 ++++++++++++++
+ qapi/meson.build               |   1 +
+ qapi/qapi-schema.json          |   1 +
+ 14 files changed, 572 insertions(+), 11 deletions(-)
+ create mode 100644 hw/mem/cxl_type3_stubs.c
+ create mode 100644 qapi/cxl.json
 
-# strace -e write dd if=3D/dev/zero of=3D/dev/dax1.0 bs=3D1G count=3D1
-write(1, =
-"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., =
-1073741824) =3D -1 EINVAL (Invalid argument)
-write(2, "dd: error writing '/dev/dax1.0':"..., 50dd: error writing =
-'/dev/dax1.0': Invalid argument
+-- 
+2.37.2
 
-Fam=
 
