@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C485F6A8369
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178D06A836E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:23:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiq7-0002Pk-2H; Thu, 02 Mar 2023 08:19:19 -0500
+	id 1pXitG-0008E9-8K; Thu, 02 Mar 2023 08:22:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pXiq2-0002MS-82
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:19:14 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pXitB-0008DP-R7
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:22:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pXiq0-0001vu-Ai
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:19:14 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pXit7-00039W-Vu
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:22:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677763151;
+ s=mimecast20190719; t=1677763344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C92cwbrUIEb79ztRwJO63K6JAXeMJ8+BlbvlMZXumCU=;
- b=ieVCPBmBDIH0yzmVlcG1iOGUOSNkqcCmNq73ZVi/1QVLTI2+tG7AhwwsAY7UKW/QBH0aE7
- HxzHRQF5I3zV03I5R9gLNWQrixrd8y6hkFIMNNp9Ip5r/jRjaKQIrMpbu6fBmOmjW8sdPZ
- N9MqA0x7uJEtBESNcixrc9nGEsKy4vc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JjVZ+XfdcKtGHX+0QmKEz5Xdu0jH7j+Ilb1KLQrddZ8=;
+ b=EaLJ9HuyAeOnND+Jntj++aCt48ACFBnGqWbG4yGzN9jK8iiJI447VSuDYVa0mQDe/CAQ+u
+ 8aAkeEDRb721HB7lt7x2g16phFo0jMKfavqy46NDBe2TRmXPXa2r09dJ02fPTNPK/5Wy3K
+ jQT0+hh2G1oPrYPeGORXYKhqX3ytHho=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-MmE3ldrwMceYKrmkwpUYGg-1; Thu, 02 Mar 2023 08:19:10 -0500
-X-MC-Unique: MmE3ldrwMceYKrmkwpUYGg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-437-WWc2WY4xMv261yGBpV-UaA-1; Thu, 02 Mar 2023 08:22:08 -0500
+X-MC-Unique: WWc2WY4xMv261yGBpV-UaA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0128858F09;
- Thu,  2 Mar 2023 13:19:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40D7B40C6EC4;
- Thu,  2 Mar 2023 13:19:07 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 4/4] build-sys: replace dtc submodule with dtc.wrap
-Date: Thu,  2 Mar 2023 17:18:48 +0400
-Message-Id: <20230302131848.1527460-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20230302131848.1527460-1-marcandre.lureau@redhat.com>
-References: <20230302131848.1527460-1-marcandre.lureau@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1FBE38123AE;
+ Thu,  2 Mar 2023 13:22:07 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 432662026D4B;
+ Thu,  2 Mar 2023 13:22:07 +0000 (UTC)
+Date: Thu, 2 Mar 2023 08:22:05 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 5/6] hmp: convert handle_hmp_command() to
+ AIO_WAIT_WHILE_UNLOCKED()
+Message-ID: <20230302132205.GB2485531@fedora>
+References: <20230301205801.2453491-1-stefanha@redhat.com>
+ <20230301205801.2453491-6-stefanha@redhat.com>
+ <87ttz3sju0.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="s16+r/V2ms9fi/iW"
+Content-Disposition: inline
+In-Reply-To: <87ttz3sju0.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,246 +85,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Use meson wrap fallback for libfdt. Simplify handling of
-fallback/internal build and get rid of a submodule.
+--s16+r/V2ms9fi/iW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This drops support for ./configure --enable-fdt=git/--enable-fdt=internal:
-if the system version is enough, it will use it, otherwise it can fall back
-on the wrapped subproject.
+On Thu, Mar 02, 2023 at 08:17:43AM +0100, Markus Armbruster wrote:
+> Stefan Hajnoczi <stefanha@redhat.com> writes:
+>=20
+> > The HMP monitor runs in the main loop thread. Calling
+>=20
+> Correct.
+>=20
+> > AIO_WAIT_WHILE(qemu_get_aio_context(), ...) from the main loop thread is
+> > equivalent to AIO_WAIT_WHILE_UNLOCKED(NULL, ...) because neither unlocks
+> > the AioContext and the latter's assertion that we're in the main loop
+> > succeeds.
+> >
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  monitor/hmp.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/monitor/hmp.c b/monitor/hmp.c
+> > index 2aa85d3982..5ecbdac802 100644
+> > --- a/monitor/hmp.c
+> > +++ b/monitor/hmp.c
+> > @@ -1167,7 +1167,7 @@ void handle_hmp_command(MonitorHMP *mon, const ch=
+ar *cmdline)
+> >          Coroutine *co =3D qemu_coroutine_create(handle_hmp_command_co,=
+ &data);
+> >          monitor_set_cur(co, &mon->common);
+> >          aio_co_enter(qemu_get_aio_context(), co);
+> > -        AIO_WAIT_WHILE(qemu_get_aio_context(), !data.done);
+> > +        AIO_WAIT_WHILE_UNLOCKED(NULL, !data.done);
+> >      }
+> > =20
+> >      qobject_unref(qdict);
+>=20
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+>=20
+> For an R-by, I need to understand this in more detail.  I'm not familiar
+> with the innards of AIO_WAIT_WHILE() & friends, so I need to go real
+> slow.
+>=20
+> We change
+>=20
+>     ctx from qemu_get_aio_context() to NULL
+>     unlock from true to false
+>=20
+> in
+>=20
+>     bool waited_ =3D false;                                          \
+>     AioWait *wait_ =3D &global_aio_wait;                             \
+>     AioContext *ctx_ =3D (ctx);                                      \
+>     /* Increment wait_->num_waiters before evaluating cond. */     \
+>     qatomic_inc(&wait_->num_waiters);                              \
+>     /* Paired with smp_mb in aio_wait_kick(). */                   \
+>     smp_mb();                                                      \
+>     if (ctx_ && in_aio_context_home_thread(ctx_)) {                \
+>         while ((cond)) {                                           \
+>             aio_poll(ctx_, true);                                  \
+>             waited_ =3D true;                                        \
+>         }                                                          \
+>     } else {                                                       \
+>         assert(qemu_get_current_aio_context() =3D=3D                   \
+>                qemu_get_aio_context());                            \
+>         while ((cond)) {                                           \
+>             if (unlock && ctx_) {                                  \
+>                 aio_context_release(ctx_);                         \
+>             }                                                      \
+>             aio_poll(qemu_get_aio_context(), true);                \
+>             if (unlock && ctx_) {                                  \
+>                 aio_context_acquire(ctx_);                         \
+>             }                                                      \
+>             waited_ =3D true;                                        \
+>         }                                                          \
+>     }                                                              \
+>     qatomic_dec(&wait_->num_waiters);                              \
+>     waited_; })
+>=20
+> qemu_get_aio_context() is non-null here, correct?
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- configure                     | 21 -------------
- meson.build                   | 56 +++++------------------------------
- .gitignore                    |  1 +
- .gitmodules                   |  3 --
- dtc                           |  1 -
- meson_options.txt             |  5 ++--
- scripts/meson-buildoptions.sh |  4 +--
- subprojects/dtc.wrap          |  6 ++++
- 8 files changed, 18 insertions(+), 79 deletions(-)
- delete mode 160000 dtc
- create mode 100644 subprojects/dtc.wrap
+qemu_get_aio_context() always returns the main loop thread's AioContext.
 
-diff --git a/configure b/configure
-index 02b4aa4ce9..051a5cc69b 100755
---- a/configure
-+++ b/configure
-@@ -297,8 +297,6 @@ vfio_user_server="disabled"
- # are included in the automatically generated help message)
- 
- # 1. Track which submodules are needed
--fdt="auto"
--
- # 2. Automatically enable/disable other options
- tcg="auto"
- cfi="false"
-@@ -860,14 +858,6 @@ for opt do
-   ;;
-   --disable-cfi) cfi="false"
-   ;;
--  --disable-fdt) fdt="disabled"
--  ;;
--  --enable-fdt) fdt="enabled"
--  ;;
--  --enable-fdt=git) fdt="internal"
--  ;;
--  --enable-fdt=*) fdt="$optarg"
--  ;;
-   --with-coroutine=*) coroutine="$optarg"
-   ;;
-   --with-git=*) git="$optarg"
-@@ -1546,16 +1536,6 @@ if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
-     fi
- fi
- 
--##########################################
--# fdt probe
--
--case "$fdt" in
--  auto | enabled | internal)
--    # Simpler to always update submodule, even if not needed.
--    git_submodules="${git_submodules} dtc"
--    ;;
--esac
--
- ##########################################
- # check and set a backend for coroutine
- 
-@@ -2597,7 +2577,6 @@ if test "$skip_meson" = no; then
- 
-   # QEMU options
-   test "$cfi" != false && meson_option_add "-Dcfi=$cfi"
--  test "$fdt" != auto && meson_option_add "-Dfdt=$fdt"
-   test -n "${LIB_FUZZING_ENGINE+xxx}" && meson_option_add "-Dfuzzing_engine=$LIB_FUZZING_ENGINE"
-   test "$qemu_suffix" != qemu && meson_option_add "-Dqemu_suffix=$qemu_suffix"
-   test "$smbd" != '' && meson_option_add "-Dsmbd=$smbd"
-diff --git a/meson.build b/meson.build
-index 77d2ae87e4..9017141d7d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2759,54 +2759,14 @@ endif
- 
- fdt = not_found
- if have_system
--  fdt_opt = get_option('fdt')
--  if fdt_opt in ['enabled', 'auto', 'system']
--    have_internal = fs.exists(meson.current_source_dir() / 'dtc/libfdt/Makefile.libfdt')
--    fdt = cc.find_library('fdt', kwargs: static_kwargs,
--                          required: fdt_opt == 'system' or
--                                    fdt_opt == 'enabled' and not have_internal)
--    if fdt.found() and cc.links('''
--       #include <libfdt.h>
--       #include <libfdt_env.h>
--       int main(void) { fdt_find_max_phandle(NULL, NULL); return 0; }''',
--         dependencies: fdt)
--      fdt_opt = 'system'
--    elif fdt_opt == 'system'
--       error('system libfdt requested, but it is too old (1.5.1 or newer required)')
--    elif have_internal
--      fdt_opt = 'internal'
--    else
--      fdt_opt = 'disabled'
--      fdt = not_found
-+    # libfdt is not always shipped with a pkgconfig file.
-+    fdt = cc.find_library('fdt', kwargs: static_kwargs, required: false)
-+    if not fdt.found() or not cc.has_function('fdt_find_max_phandle', dependencies: fdt)
-+      fdt = dependency('fdt', kwargs: static_kwargs,
-+                method: 'pkg-config', version: '>=1.5.1',
-+                required: (get_option('fdt').auto() and fdt_required.length() > 0) or get_option('fdt').enabled(),
-+                default_options: ['python=disabled', 'tools=false'])
-     endif
--  endif
--  if fdt_opt == 'internal'
--    fdt_files = files(
--      'dtc/libfdt/fdt.c',
--      'dtc/libfdt/fdt_ro.c',
--      'dtc/libfdt/fdt_wip.c',
--      'dtc/libfdt/fdt_sw.c',
--      'dtc/libfdt/fdt_rw.c',
--      'dtc/libfdt/fdt_strerror.c',
--      'dtc/libfdt/fdt_empty_tree.c',
--      'dtc/libfdt/fdt_addresses.c',
--      'dtc/libfdt/fdt_overlay.c',
--      'dtc/libfdt/fdt_check.c',
--    )
--
--    fdt_inc = include_directories('dtc/libfdt')
--    libfdt = static_library('fdt',
--                            build_by_default: false,
--                            sources: fdt_files,
--                            include_directories: fdt_inc)
--    fdt = declare_dependency(link_with: libfdt,
--                             include_directories: fdt_inc)
--  endif
--else
--  fdt_opt = 'disabled'
--endif
--if not fdt.found() and fdt_required.length() > 0
--  error('fdt not available but required by targets ' + ', '.join(fdt_required))
- endif
- 
- config_host_data.set('CONFIG_CAPSTONE', capstone.found())
-@@ -3989,7 +3949,7 @@ summary_info += {'Linux io_uring support': linux_io_uring}
- summary_info += {'ATTR/XATTR support': libattr}
- summary_info += {'RDMA support':      rdma}
- summary_info += {'PVRDMA support':    have_pvrdma}
--summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
-+summary_info += {'fdt support':       fdt}
- summary_info += {'libcap-ng support': libcap_ng}
- summary_info += {'bpf support':       libbpf}
- summary_info += {'spice protocol support': spice_protocol}
-diff --git a/.gitignore b/.gitignore
-index 1ea59f4819..13662d4f24 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -21,4 +21,5 @@ GTAGS
- *.patch
- *.gcov
- 
-+/subprojects/dtc
- /subprojects/slirp
-diff --git a/.gitmodules b/.gitmodules
-index 6ce5bf49c5..410a00d566 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -13,9 +13,6 @@
- [submodule "roms/qemu-palcode"]
- 	path = roms/qemu-palcode
- 	url = https://gitlab.com/qemu-project/qemu-palcode.git
--[submodule "dtc"]
--	path = dtc
--	url = https://gitlab.com/qemu-project/dtc.git
- [submodule "roms/u-boot"]
- 	path = roms/u-boot
- 	url = https://gitlab.com/qemu-project/u-boot.git
-diff --git a/dtc b/dtc
-deleted file mode 160000
-index b6910bec11..0000000000
---- a/dtc
-+++ /dev/null
-@@ -1 +0,0 @@
--Subproject commit b6910bec11614980a21e46fbccc35934b671bd81
-diff --git a/meson_options.txt b/meson_options.txt
-index fc9447d267..493100ba4c 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -279,9 +279,8 @@ option('vduse_blk_export', type: 'feature', value: 'auto',
- 
- option('capstone', type: 'feature', value: 'auto',
-        description: 'Whether and how to find the capstone library')
--option('fdt', type: 'combo', value: 'auto',
--       choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
--       description: 'Whether and how to find the libfdt library')
-+option('fdt', type: 'feature', value: 'auto',
-+       description: 'libfdt device tree library')
- 
- option('selinux', type: 'feature', value: 'auto',
-        description: 'SELinux support in qemu-nbd')
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 009fab1515..2a8e91a60c 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -24,8 +24,6 @@ meson_options_help() {
-   printf "%s\n" '  --enable-debug-mutex     mutex debugging support'
-   printf "%s\n" '  --enable-debug-stack-usage'
-   printf "%s\n" '                           measure coroutine stack usage'
--  printf "%s\n" '  --enable-fdt[=CHOICE]    Whether and how to find the libfdt library'
--  printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
-   printf "%s\n" '  --enable-fuzzing         build fuzzing targets'
-   printf "%s\n" '  --enable-gcov            Enable coverage tracking.'
-   printf "%s\n" '  --enable-gprof           QEMU profiling with gprof'
-@@ -91,6 +89,7 @@ meson_options_help() {
-   printf "%s\n" '  dmg             dmg image format support'
-   printf "%s\n" '  docs            Documentations build support'
-   printf "%s\n" '  dsound          DirectSound sound support'
-+  printf "%s\n" '  fdt             libfdt device tree library'
-   printf "%s\n" '  fuse            FUSE block device export'
-   printf "%s\n" '  fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports'
-   printf "%s\n" '  gcrypt          libgcrypt cryptography support'
-@@ -262,7 +261,6 @@ _meson_option_parse() {
-     --disable-dsound) printf "%s" -Ddsound=disabled ;;
-     --enable-fdt) printf "%s" -Dfdt=enabled ;;
-     --disable-fdt) printf "%s" -Dfdt=disabled ;;
--    --enable-fdt=*) quote_sh "-Dfdt=$2" ;;
-     --enable-fuse) printf "%s" -Dfuse=enabled ;;
-     --disable-fuse) printf "%s" -Dfuse=disabled ;;
-     --enable-fuse-lseek) printf "%s" -Dfuse_lseek=enabled ;;
-diff --git a/subprojects/dtc.wrap b/subprojects/dtc.wrap
-new file mode 100644
-index 0000000000..da789704d0
---- /dev/null
-+++ b/subprojects/dtc.wrap
-@@ -0,0 +1,6 @@
-+[wrap-git]
-+url = https://github.com/dgibson/dtc.git
-+revision = 72fc810c3025f07de718f5f32a290a6cd5d1f4ee
-+
-+[provide]
-+fdt = libfdt_dep
--- 
-2.39.2
+qemu_get_current_aio_context() returns the AioContext that was most
+recently set in the my_aiocontext thread-local variable for IOThreads,
+the main loop's AioContext for BQL threads, or NULL for threads
+that don't use AioContext at all.
+
+> What's the value of in_aio_context_home_thread(qemu_get_aio_context())?
+
+This function checks whether the given AioContext is associated with
+this thread. In a BQL thread it returns true if the context is the main
+loop's AioContext. In an IOThread it returns true if the context is the
+IOThread's AioContext. Otherwise it returns false.
+
+--s16+r/V2ms9fi/iW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQAov0ACgkQnKSrs4Gr
+c8gwDQf9HGcEZ0qisa9Gzp+xSRbI5UcocnkUsTED9FF+rVB4u/NmokXxHOLej0UB
+DULk9j+aCjKK0vc2zh0XJg4/uzeA1wDqOXdrKjwF4b5cmYH5zS8+odINAdum0yGE
+JuXgjG3n7SB85aAdDbauJokJEXI6qtvHfOHCAdOamiH4QxUpG5YyEWUY159DHdND
+oPN8V59DULzpWBfRXq0Ie56tDWrLnqDy9IuHwOU1ZMM/FycDiMeYiwdo7Ss4LCZu
+MWuseTqyuo3/kzrGUBa0CGlzK1t0ZRxUjnkKFKOPJlN/Q1hUMTX6/y3GLsXCBjt5
+7SXV5qLjWSJJEPZWVUUWvMbxrCdYYg==
+=FQCW
+-----END PGP SIGNATURE-----
+
+--s16+r/V2ms9fi/iW--
 
 
