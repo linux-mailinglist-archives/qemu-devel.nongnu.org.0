@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6F46A8316
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876A06A8318
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:02:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiZM-00032y-8s; Thu, 02 Mar 2023 08:02:00 -0500
+	id 1pXiZR-0003IE-Ky; Thu, 02 Mar 2023 08:02:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pXiYv-0002tB-Hr
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:01:40 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1pXiZK-00039c-T9
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:01:59 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pXiYt-00015E-H5
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:01:32 -0500
-Received: by mail-pg1-x530.google.com with SMTP id 130so9720389pgg.3
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 05:01:31 -0800 (PST)
+ id 1pXiZI-0001DI-Sq
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:01:58 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id n5so10006669pfv.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 05:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677762090;
+ d=linaro.org; s=google; t=1677762115;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=g2swlh73GjDI3O6ctw5HieBknwuaqrxEbvtnWF2Lals=;
- b=YdYk933yO2AmVAcR9C4R4z8+6yArYkvMAf5RxJAFXClND84x2foT2ioOF7pCVWDEcx
- CiypfrpgX5uMqkJ+A6eLcpkHVTZ1GapzIYXZA4+JtS5RyQdK3v1We5WebFkWoTLMBUTy
- ASPkqy0diSekLyEghg1EscVEaY44jTnxXkLml+MvCMrHekA8xRy6EnhRpYtxlQoYSTJa
- rZKOB+jprAjSEqvg4BDk7dJYcLmfnSbYUtPAV3I2QjzJ34hRKQtbUSQYpaaOfqaWF5tX
- oxXfbI6S9zqZCGK6bT9Upey/Kpln8lhsoK6VLqWbOYd2G+dGKhrzr1K4oh1V4ZBRVPdk
- v/CA==
+ bh=M5DfpqGSQitL33LMpcR5wC/EcuSAZDgZS26iYCxyjBM=;
+ b=PekDNndZkHy0B9U6hOSngFWDD10Vc0QbwMU03LRI9K+UW3EcWI95Hem7fDLyVJsMIg
+ /CWaHaqWPaATKLCXB9ZO90saSy6xWlowaSMNpPDMJ7h23UIxJJdw7arKriEZpZCMBWIT
+ PEDHlrnUqbF6UCbX+2zJ3pSZaD2SpTD4csEBVExMsGW9iojJkzNYzXSSLVHgE/M2e3cS
+ Lrpnaqb0FZvglcfcC9+4nhQqxzW6gqX9BpM/bHdge/pp5l8Yk7vHM6O8pszS8HlBiOYa
+ oHci4t6GA2tamFHxFoqnesCZTgFrRvsKtsceHt8L9C9qc/Tyocj23Sqqwg9QglMqyAcr
+ BgbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677762090;
+ d=1e100.net; s=20210112; t=1677762115;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=g2swlh73GjDI3O6ctw5HieBknwuaqrxEbvtnWF2Lals=;
- b=VekcEZrzDzJlQHiFfXXYiPO+LDZJHrdDL3rdmZ4lIRifQaExWLN5L1hKlfPKwosKru
- MXByq9r9Hu4a2bLw29FhmrwjAuHhC81Nxed+7eRKecU32zFauaKE4uQqqXq/moREG3Am
- /l+k7AdjpYdyRXud5qoATupeFpyewQzsPvYpstERnCXX6pcCjw2vOA3fgqSG6+xk0/rM
- QIqAkVkwlrXLUtMDb9oQzMZqADIwBSFcjRBFyQ5k+7NuwB37Z1cDO6brjFZNvIT6m5An
- DByh46Bh8rkYCG+qjArNmLWgwqUHnWFkzRhwTBKStZ8Qv5k8O74n46vLKFjn/TCfuGgE
- UKyQ==
-X-Gm-Message-State: AO0yUKW6+aDsbfoLzfzr5lCqU9jXZBSgQn8qyJzjoI3I1mqyCnAwUmzf
- YUcSQ43Ostx6CTsPW39fHB0sgsqSnQs+qzGBdUnPqA==
-X-Google-Smtp-Source: AK7set8mRvGdVI9dpBM7TtSZaZCAwawvipDxlYT4lkesqNtewRnhflRi1ynZmh0khV/2DJrnEhuT7nml9OAogslNkSU=
-X-Received: by 2002:a65:6a94:0:b0:503:a7:d244 with SMTP id
- q20-20020a656a94000000b0050300a7d244mr3348733pgu.9.1677762089951; 
- Thu, 02 Mar 2023 05:01:29 -0800 (PST)
+ bh=M5DfpqGSQitL33LMpcR5wC/EcuSAZDgZS26iYCxyjBM=;
+ b=4JvLZ3YdqWx4tzctkRfF/7S2ILGlaAkMufUis7wPKeMSontPGkX/fvvh+I0MqB130Q
+ P27N/KSetniPv21LnxSMR6Fv6mf72N2R9kwwjRblk+MiqhgATW+5twWdovXBI9rNY5yN
+ x9F8l4uFrQFpLT1IrGUe7r5rfQT2WwFVAWb9sJoZvYqaAJZA6TKkoVNmt6JFJE7xeVSJ
+ 3buk2/dF9yHP669ljXa3b5WxTK4ZMvFvi9FgcmHHt5NK9Q0PL2Z/cldeiZg+rAsU0Wgm
+ Hs8Egg1Gkl26qxoBvI+Vc0ow9yrPMN2RkcXTewzrQJhS1qs3vqgfcneG/nDBvALfFFh9
+ zDKg==
+X-Gm-Message-State: AO0yUKXWJHPtizn9rTpvN6l3aJMAWsLzaWLeM69ORxVbTn9Tjyxq35zZ
+ YJcDOHJlGDHCULVNDKMLyTruzsJBO/kN7Uy3R02efA==
+X-Google-Smtp-Source: AK7set/JYT7AZvRN0QCrlQ7SHtXqfBbt2Ds39cTWeYQQiCU3/NDzii725Rd1zmXUKbP2EHyETehhzE2YYXN8EQ+W3xs=
+X-Received: by 2002:a63:b55a:0:b0:502:fd71:d58c with SMTP id
+ u26-20020a63b55a000000b00502fd71d58cmr3445780pgo.9.1677762115425; Thu, 02 Mar
+ 2023 05:01:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20230302070700.2998086-1-armbru@redhat.com>
-In-Reply-To: <20230302070700.2998086-1-armbru@redhat.com>
+References: <20230301182353.21559-1-imp@bsdimp.com>
+In-Reply-To: <20230301182353.21559-1-imp@bsdimp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Mar 2023 13:01:17 +0000
-Message-ID: <CAFEAcA9VKsLTyeSNEs9RsmUN+T3jw=gXd7oeSR0=Hiq=QbX2ZQ@mail.gmail.com>
-Subject: Re: [PULL 0/5] Monitor patches for 2023-03-02
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
+Date: Thu, 2 Mar 2023 13:01:44 +0000
+Message-ID: <CAFEAcA-9p+MEy+tSOzQKNLseM6USF017eUjuHaO_PgNvkf_L-w@mail.gmail.com>
+Subject: Re: [PULL 00/10] Bsd user 2023q1 patches
+To: Warner Losh <imp@bsdimp.com>
+Cc: qemu-devel@nongnu.org, Kyle Evans <kevans@freebsd.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ richard.henderson@linaro.org, f4bug@amsat.org, 
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,7 +87,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023 at 07:07, Markus Armbruster <armbru@redhat.com> wrote:
+On Wed, 1 Mar 2023 at 18:26, Warner Losh <imp@bsdimp.com> wrote:
 >
 > The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
 >
@@ -91,14 +95,14 @@ On Thu, 2 Mar 2023 at 07:07, Markus Armbruster <armbru@redhat.com> wrote:
 >
 > are available in the Git repository at:
 >
->   https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2023-03-02
+>   git@gitlab.com:bsdimp/qemu.git tags/bsd-user-2023q1-pull-request
 >
-> for you to fetch changes up to 0f3fea217164e3925db91d46f21fc9fa11708e66:
+> for you to fetch changes up to 6da777e2121b1eed4d20cc3e892b3c3d303bc252:
 >
->   target/ppc: Restrict 'qapi-commands-machine.h' to system emulation (2023-03-02 07:51:33 +0100)
+>   bsd-user: implement sysctlbyname(2) (2023-03-01 11:09:19 -0700)
 >
 > ----------------------------------------------------------------
-> Monitor patches for 2023-03-02
+> 2023 Q1 bsd-user upstreaming: bugfixes and sysctl
 >
 
 
