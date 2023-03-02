@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048426A8C1C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:44:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4122A6A8CB3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 00:06:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXreI-0002vr-Kg; Thu, 02 Mar 2023 17:43:42 -0500
+	id 1pXryp-00055S-5L; Thu, 02 Mar 2023 18:04:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdw-0002kR-VR
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:43:21 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <suda.kyoto@gmail.com>)
+ id 1pXryj-00054b-Nq
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:04:51 -0500
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdt-0000Mb-OQ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:43:20 -0500
-Received: by mail-wr1-x430.google.com with SMTP id l25so618876wrb.3
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:43:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <suda.kyoto@gmail.com>)
+ id 1pXryh-00014M-Qy
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:04:49 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id v13so498403ybu.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 15:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796996;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=76WGhaMeuPYXbX/pWJbcrHLrwrtrG1g1D4hmZur00GA=;
- b=iZ+l7xfL/1aNIR07/GVT61XLdWOjC9vj9inShnVEGcn2SL8TMzabaUo+q9kls+6Yor
- upoRAiiycnbd+h8MZJQQAR9Pu0iTaEccnMBa3T4BFoenT+FB7tYJr7Pa86EPOYhs/gh0
- TZTsoFy6IYnJC0352DUKIVKExKJijx4G231iO87Ik+yqxrF18FZeFXoMiyWKo0v3q1nf
- 6P8uLflQcn2DqZRh47b5iE+Nawc5bjSX6One1SHOAE/FDtDQGDSC+3XRSYC8LrdPbSIN
- aubb0gL2IHevP8Mml1072IZAgnBK/L7zDERaAMkiI+h/BY+knaFBPUDhYGlWC+0esbpH
- G1Dg==
+ d=gmail.com; s=20210112; t=1677798286;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jiVQQTut4EMQ4zfFcxAGvC9dloQ2Amaa4NZb7myZiBo=;
+ b=UZE6/JXQqUxqZJSWH0jy6sYZ44eO0z6xaUbqfO5ZVF3oe6g7cQrlOyTSADOTEEeGi+
+ QaAFiAgBOGmVcZqXJB8ZoH4xpGr3I+5lfwefG59CTe4cE8wZUA0ESJEvUZm7NinhJo2f
+ NST2h/5JUG0Fi4zY7WpuSvLYp5SkEokFuHMqF6KJF8AS3KpuJyGyxWOmnxG4IqyVimfY
+ LHXPciz2oU/pYyG2VX4jDT2JnwNz7oFNB86k7PpxRzQWys0302ZpEcafkolM8Oap7de9
+ Y6cSage0c+hsDK3j3d93DdXtyn+WDMpZ/CXJG9gS2yc7hTsdzfVCHxzy3dhI4qQ8lJyE
+ 8uzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796996;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=76WGhaMeuPYXbX/pWJbcrHLrwrtrG1g1D4hmZur00GA=;
- b=MOgC3xKq5rZprR6IK1g36e7553diQ6C6WxbbYqTMX4KbFi4T/RCQkGoj2Z9+oS5YYz
- S3ydfqvh0bJFzIoQyr5yMCGnZGGd5AwAkN8Qgq79fzxHRsHnj8AzDPYt5dNZDbtJqYBx
- VnT+4PsRo3nd49PTmwQkT97xO9xC0WRHj7gBeVEQhl4MWNmoPO3YXn6AKLmTH9zcAp5/
- VA8fGAweB2P6yTzHxhemvArX2c8j0FIYXLyfo2eEfeG41Xo5ERwRrGlmrMRZqS9odOiz
- OeLrTgRH8T2YqcYmJcic4fOGqRN/Xe2ataXi59BFYi5V7kEcM48HBfaPIoQqR87uNj/n
- ajxQ==
-X-Gm-Message-State: AO0yUKU1r8G+ODG649qOoXO4zgwbitj8FOI+TesB9OdFkWqARS9uHdqG
- qai/QV5As+Yp4HoX69onxnAJE4uTPz9PzIdQ
-X-Google-Smtp-Source: AK7set/IJYEjq/epgGkE/m9+5/R30RsFhzIsMKPihePS9U+Gd/Zr1KhBpK7/C9/vZr3J5ViJs4g0ng==
-X-Received: by 2002:adf:f604:0:b0:2cd:8237:345b with SMTP id
- t4-20020adff604000000b002cd8237345bmr2131316wrp.9.1677796996311; 
- Thu, 02 Mar 2023 14:43:16 -0800 (PST)
-Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
- [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- e15-20020a5d594f000000b002c56046a3b5sm481652wri.53.2023.03.02.14.43.13
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:43:15 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org,
-	Bernhard Beschow <shentey@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v3 18/18] hw/isa/piix: Unify PIIX-ISA QOM type names using
- qdev aliases
-Date: Thu,  2 Mar 2023 23:40:58 +0100
-Message-Id: <20230302224058.43315-19-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
-References: <20230302224058.43315-1-philmd@linaro.org>
+ d=1e100.net; s=20210112; t=1677798286;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jiVQQTut4EMQ4zfFcxAGvC9dloQ2Amaa4NZb7myZiBo=;
+ b=VQVGh6CtzcHy95JVZZe1klZkvIj15R6hpU4f2x4+T2zYsKnD6q1FCSEHLwCmcQn9H1
+ pw4fUySP3psRP87jDMGvcsd73eS2qjuM8rs9SMAnHoYj+0wWGI9/ZOnXWECbkhn+rLFC
+ pbzEZVuVkExVEUbHDxbuuJjEYN6P5nLO99WRCq8dQ/PMhHFONSNxL8bBL1gMAI9bWhIq
+ Xxh0HGHmjiUZYnYY3trT42hMh80mb9Y9iec5/IkKi9Zp0ItODC5QbgW7bRUZ2TMLE0SZ
+ T16ORxojKqPPMetaqEj9ZmQpGeYrX78Qv2sAuwFNnZNG+i33PB5cMSE0YzhYu1m4SY4h
+ VJkw==
+X-Gm-Message-State: AO0yUKUcFM8iVEnGSXxAQ0iwiJ7z8fAtbzxPdvIxi2ILYhcoMUPPnBbz
+ FP0t24/Mgn7FlXISEJvDtZZ2cj+QFwQgO0lshIY=
+X-Google-Smtp-Source: AK7set/iMIrczhb0Hlh4STsohUUfkW75aQ6ExRNE1tFUKlQCmHidDhg6sv4rEDdNQuKtvvVWjbCPxw7V89no8A1Zh+8=
+X-Received: by 2002:a5b:685:0:b0:8de:ddd5:7f8e with SMTP id
+ j5-20020a5b0685000000b008deddd57f8emr5379264ybq.4.1677798285700; Thu, 02 Mar
+ 2023 15:04:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+References: <CAG8fp8S4AErtJ5YjpmW5d7+sRSyqQp+Th6NrJRm248gohNwCiw@mail.gmail.com>
+ <87zg8v9j8n.fsf@linaro.org>
+In-Reply-To: <87zg8v9j8n.fsf@linaro.org>
+From: Akihiro Suda <suda.kyoto@gmail.com>
+Date: Fri, 3 Mar 2023 08:04:34 +0900
+Message-ID: <CAG8fp8RZ29JSKkWAKFhu0nedaosaYTU7NBFEY-zJaNU=ic9iJA@mail.gmail.com>
+Subject: Re: [PULL v2 20/24] tests/docker: use direct RUNC call to build
+ containers
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000d2f17905f5f2dadd"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=suda.kyoto@gmail.com; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,53 +85,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Unify PIIX ISA (PCI function #0) as:
+--000000000000d2f17905f5f2dadd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- pci-piix3 -> piix-isa       (abstract base class)
- PIIX3     -> piix3-isa      (PIIX3 implementation)
- PIIX3-xen -> piix3-isa-xen  (PIIX3 implementation with Xen extensions)
- piix4-isa -> piix4-isa      (PIIX4 implementation)
+> No RUNC is defined in config-host.mak now because it can be docker or
+podman.
 
-Alias previous names in the QDevAlias table.
+I feel $(RUNC) isn't the right variable name as it can't be set to "runc".
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- include/hw/southbridge/piix.h | 6 +++---
- softmmu/qdev-monitor.c        | 3 +++
- 2 files changed, 6 insertions(+), 3 deletions(-)
+If $(DOCKER) is not preferable either, $(CONTAINER_ENGINE) might be a
+better name.
+https://github.com/search?l=3DMakefile&q=3D%24%28CONTAINER_ENGINE%29&type=
+=3DCode
 
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 71a82ef266..cce65e8f44 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -58,9 +58,9 @@ struct PIIX3State {
-     MemoryRegion rcr_mem;
- };
- 
--#define TYPE_PIIX_ISA       "pci-piix3"
--#define TYPE_PIIX3_ISA      "PIIX3"
--#define TYPE_PIIX3_ISA_XEN  "PIIX3-xen"
-+#define TYPE_PIIX_ISA       "piix-isa"
-+#define TYPE_PIIX3_ISA      "piix3-isa"
-+#define TYPE_PIIX3_ISA_XEN  "piix3-isa-xen"
- #define TYPE_PIIX4_ISA      "piix4-isa"
- 
- OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_ISA)
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index b8d2c4dadd..820e7f52ad 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -72,6 +72,9 @@ static const QDevAlias qdev_alias_table[] = {
-     { "ES1370", "es1370" }, /* -soundhw name */
-     { "ich9-ahci", "ahci" },
-     { "lsi53c895a", "lsi" },
-+    { "piix-isa", "pci-piix3" },
-+    { "piix3-isa", "PIIX3" },
-+    { "piix3-isa-xen", "PIIX3-xen" },
-     { "virtio-9p-device", "virtio-9p", QEMU_ARCH_VIRTIO_MMIO },
-     { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_VIRTIO_CCW },
-     { "virtio-9p-pci", "virtio-9p", QEMU_ARCH_VIRTIO_PCI },
--- 
-2.38.1
 
+2023=E5=B9=B43=E6=9C=883=E6=97=A5(=E9=87=91) 2:05 Alex Benn=C3=A9e <alex.be=
+nnee@linaro.org>:
+
+>
+> Akihiro Suda <suda.kyoto@gmail.com> writes:
+>
+> >> +               $(RUNC) build                           \
+> >
+> > There is no `runc build` command.
+> > Perhaps you meant `$(DOCKER) build`?
+>
+> No RUNC is defined in config-host.mak now because it can be docker or
+> podman.
+>
+> >
+> > Regards,
+> > Akihiro Suda
+>
+>
+> --
+> Alex Benn=C3=A9e
+> Virtualisation Tech Lead @ Linaro
+>
+
+--000000000000d2f17905f5f2dadd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>&gt; No RUNC is defined in config-host.mak now becaus=
+e it can be docker or</div>podman.<div><br><div>I feel $(RUNC) isn&#39;t th=
+e right variable name as it can&#39;t be set to &quot;runc&quot;.</div><div=
+><br></div><div>If $(DOCKER) is not preferable either, $(CONTAINER_ENGINE) =
+might be a better name.</div><div><a href=3D"https://github.com/search?l=3D=
+Makefile&amp;q=3D%24%28CONTAINER_ENGINE%29&amp;type=3DCode">https://github.=
+com/search?l=3DMakefile&amp;q=3D%24%28CONTAINER_ENGINE%29&amp;type=3DCode</=
+a><br></div><div><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">2023=E5=B9=B43=E6=9C=883=E6=97=A5(=E9=87=91) 2:05 Alex=
+ Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@lina=
+ro.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+<br>
+Akihiro Suda &lt;<a href=3D"mailto:suda.kyoto@gmail.com" target=3D"_blank">=
+suda.kyoto@gmail.com</a>&gt; writes:<br>
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(RUNC) bu=
+ild=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt;<br>
+&gt; There is no `runc build` command.<br>
+&gt; Perhaps you meant `$(DOCKER) build`?<br>
+<br>
+No RUNC is defined in config-host.mak now because it can be docker or<br>
+podman.<br>
+<br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; Akihiro Suda<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+Virtualisation Tech Lead @ Linaro<br>
+</blockquote></div></div></div>
+
+--000000000000d2f17905f5f2dadd--
 
