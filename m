@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE436A8607
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1302D6A860F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:18:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbY-0006ap-HD; Thu, 02 Mar 2023 11:16:28 -0500
+	id 1pXlbe-0006cq-8o; Thu, 02 Mar 2023 11:16:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbF-0006Ey-Ph
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:10 -0500
+ id 1pXlbE-0006D5-4P
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbB-0000Me-E6
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:09 -0500
+ id 1pXlbB-0000My-CY
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677773762;
+ s=mimecast20190719; t=1677773763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E5T3WloKll5wcRLq1oz5LaJj1X0zkI7pq/9qrh8fN8E=;
- b=XOohy2r2bFKsdyfSwN8si68nS7GFAwOe6+mJumMvxY3En25h6nvYtl+sbUBQWXiRmk7TNF
- anQxN4uJVxlg1M/mjOOtjhWbIRDtkyCFxPIhhDk8Q2VkkvpebSL4ovb7lrSP1jjglo/OP4
- PfaMSpJb9x3K/NkZHrW9y+AZLB2MF+k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eio23YFoNvRfEvZ67M1esVA9+3yPMZnMgq1UgivS6gk=;
+ b=XewSIzUj90/e0mE5o8tgCTwG7G+HGfsiZ+dIyLPJcgCS95XtQ42mH0hYggUjbSlSo3NL84
+ 8gMn2qZszqeUw3FOMzLlh6B5eDPfCU8sAyZgsfuVvAcb46dzXdA1lwb3H3qUI4/kHw9q4I
+ e/cuvLzA0BTp8GjJqvnrZgnRCk6JjLg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-yQ9xoQ5LOwWcorO1RIFPaQ-1; Thu, 02 Mar 2023 11:16:00 -0500
-X-MC-Unique: yQ9xoQ5LOwWcorO1RIFPaQ-1
+ us-mta-60-aNIui9CaO2OY-xDdeJ-5jQ-1; Thu, 02 Mar 2023 11:16:01 -0500
+X-MC-Unique: aNIui9CaO2OY-xDdeJ-5jQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEB4A802C18
- for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:16:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72ACC280BF64
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:16:01 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2926E140EBF6;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF403140EBF6;
  Thu,  2 Mar 2023 16:16:00 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v2 19/34] tests: acpi: whitelist DSDT before adding device
- with acpi-index to testcases
-Date: Thu,  2 Mar 2023 17:15:28 +0100
-Message-Id: <20230302161543.286002-20-imammedo@redhat.com>
+Subject: [PATCH v2 20/34] tests: acpi: add device with acpi-index on
+ non-hotpluggble bus
+Date: Thu,  2 Mar 2023 17:15:29 +0100
+Message-Id: <20230302161543.286002-21-imammedo@redhat.com>
 In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
 References: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -83,18 +83,21 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qtest/bios-tables-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..70244976c9 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.noacpihp",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 295d80740e..d7c34ba504 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1054,6 +1054,7 @@ static void test_acpi_q35_multif_bridge(void)
+         " -device pcie-root-port,id=rphptgt3,port=0x0,chassis=7,addr=2.3"
+         " -device pci-testdev,bus=pcie.0,addr=2.4"
+         " -device pci-testdev,bus=pcie.0,addr=5.0"
++        " -device pci-testdev,bus=pcie.0,addr=0xf.0,acpi-index=101"
+         " -device pci-testdev,bus=rp0,addr=0.0"
+         " -device pci-testdev,bus=br1"
+         " -device pcie-root-port,id=rpnohp,chassis=8,addr=0xA.0,hotplug=off"
 -- 
 2.39.1
 
