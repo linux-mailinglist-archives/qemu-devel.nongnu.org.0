@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2786A8C22
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:45:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7803F6A8C14
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrcA-00074V-DT; Thu, 02 Mar 2023 17:41:30 -0500
+	id 1pXrcQ-0007Ba-A2; Thu, 02 Mar 2023 17:41:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrc7-00073y-Um
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:27 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcN-00079W-SG
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:43 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrc6-0008Ni-D0
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:27 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id q16so619608wrw.2
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcL-0008Rs-2P
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:43 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so2844206wms.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796885;
+ d=linaro.org; s=google; t=1677796892;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IBU+8jdhjCYbSlld/hmcA7nJYY2utc4DYNvGGjyLRLg=;
- b=n0/7lUwEOFQu4z7Uz/XunGZ/aSRMTUgk6d35oeLKW+f7siuafmKtyGvOZYBcdMzPZp
- PddLv2zeG/pRLQSJynI114jC/FN6Xt3hjyRSi0xK4fXFO4KK+n9MwgKMb8CxFOhao+P0
- gHnVQcuGXJohuWxfNjvN5aWMvwEM3DgRIX2U6I1pFnFR9rX7GyMr6aEcO7otPIoeE07x
- PPN5d/a/Dx3mCroJzs35ZfyhdNzRDEpQFbZEzPuKsc2/AWC/x77BOamjI00gfeRss53c
- w2RZjxXPpFhdrwL2vnD45ADQDpN5/wSwWzg+wFolxowCWcAdwXuf2oGi245DQPjwmVHX
- KAGg==
+ bh=+sfyAsKb/ybApqIFl07T9s+7iUFCDW80zwk8fRCVEAE=;
+ b=xu1rjB7YD8DjZWjxzi3BvlMN8UixTnVYDqagQlFTxx2InrN87xWrEjkJp069tuj7Bz
+ CxCQMD6hNI2YHq+JwGw0t3NrUUBdZOipfiA3z7a7BQxVUJJOWERZehqGQvhVf8KMhQLy
+ fhV/jRictU1DOTTReu77WjZBTgZGBkQ7F/JKWDhvP3VrpglK/OTY6UsET+CtU3MPGa44
+ l/IUBYI2w5GPoVB9II3ocN2mXZtoAs4dxwvtJBg4Gv5sxd0k9OAMpwsTHjcPstW6z9st
+ 1nGVu16OalqMzqfW1utxpjSRJVc0Ypo8j5QOq23tpKOImzT5RCGXPDNWLJxbYNh9uLRt
+ nB2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796885;
+ d=1e100.net; s=20210112; t=1677796892;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IBU+8jdhjCYbSlld/hmcA7nJYY2utc4DYNvGGjyLRLg=;
- b=cfH4lAJTDDuMYCjean1eV/DAI5Fz/jfEvj90BKv7LAAlsFUG23j1sTVlAAye7qDhUm
- mK8R1kUauNONVm2tDqfBTsGSBphcAORSOypDPbggGkMDIIZv29Jo61uFGju7FWxqggQa
- 3pNyb5np3Tr8YmtF1ehjADV42TrItpfjDBDPmHfkbzD9Yxxmo170+Fp8et+PlXou5Mx0
- Tu7saJS3WAy9GIm8sDFL+KdVBNQL8lty1iurdedZtYjE+EEKa/p4M9bAuaJUAB7MGs0P
- 6GuA1PmEi6irbm4tDQH1ixhNHPjCSNRpBTGrrrTUFz/3zRGE1hvuQBcdxQ+bT0n+Hy1G
- UTyw==
-X-Gm-Message-State: AO0yUKVskC8B7VVZuhgheOZgCSoyJYphL/fr3dx43TQGxdFXZPDVmTjc
- zFEh225Q3OTMQTLlV71MrWZUl6UcXuWKstKj
-X-Google-Smtp-Source: AK7set/jAHe9MIJ8MxkrxDtuqjOugi5d05k1ZtGm3TrKR/JfXo8iKB6uB7Yyztas2/BEbal/p+t2cw==
-X-Received: by 2002:adf:f9c5:0:b0:2cb:eef2:daff with SMTP id
- w5-20020adff9c5000000b002cbeef2daffmr8803089wrr.22.1677796885442; 
- Thu, 02 Mar 2023 14:41:25 -0800 (PST)
+ bh=+sfyAsKb/ybApqIFl07T9s+7iUFCDW80zwk8fRCVEAE=;
+ b=Zozx7WbSyz4txfS3voJdpK2Qjs6egntBPpTt4J/x2+Ri2OTgz9fCbd5dQhuPxgK8s7
+ ri/2x+q+P9P+LP4Y2tuNHI64ns3GevI9E7V559DO8mhD9NdvsKWL6sReLlVx/kBvU06S
+ pGL7eDk6ym3ML9JVhOVXbH3IRScu34+cZhwfoHdhyfo3kxacUFZXHYEkfyzCIlwBfr9n
+ YXBOwLhWTWDj3wOExNQXfrEzuu8sPxBAFG0XzFDPn9DUIXdqqD9R9Ywp2Z/jpC+4mQ4d
+ hswb8AQD+xb39OOM1ItgvPlOepEs9yPEa0jDzk0lmmKVi71BHN8YJAuc6RIuuGDXkajD
+ H3uQ==
+X-Gm-Message-State: AO0yUKXeNuHS3JlDItOC2/PGyA7TjEztAwrWzTn0T5ISeIHIUfjnYfOR
+ I+5lzQUkuoQNKCA5Dqp4CcM1XL6K0RTQQhxr
+X-Google-Smtp-Source: AK7set8SWvk0HWg5p/Zd2njTCKsAOYJMTaC75KODxQ5MiBsOXZLVWHVmhLXt0tld7ks3knru+bb7dA==
+X-Received: by 2002:a05:600c:3422:b0:3e2:20c7:6544 with SMTP id
+ y34-20020a05600c342200b003e220c76544mr8899029wmp.19.1677796892714; 
+ Thu, 02 Mar 2023 14:41:32 -0800 (PST)
 Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- o14-20020a5d408e000000b002bfd524255esm497315wrp.43.2023.03.02.14.41.22
+ x17-20020adfdcd1000000b002c5804b6afasm497341wrm.67.2023.03.02.14.41.30
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:41:25 -0800 (PST)
+ Thu, 02 Mar 2023 14:41:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Bernhard Beschow <shentey@gmail.com>
@@ -61,23 +62,19 @@ Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v3 03/18] hw/i386/pc_piix: Wire PIIX3 IDE ouput IRQs to ISA
- bus IRQs 14/15
-Date: Thu,  2 Mar 2023 23:40:43 +0100
-Message-Id: <20230302224058.43315-4-philmd@linaro.org>
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: [PATCH v3 04/18] hw/isa/piix4: Wire PIIX4 IDE ouput IRQs to ISA bus
+ IRQs 14/15
+Date: Thu,  2 Mar 2023 23:40:44 +0100
+Message-Id: <20230302224058.43315-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
 References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,33 +97,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since pc_init1() has access to the ISABus*, retrieve the
-ISA IRQs with isa_bus_get_irq().
+piix4_realize() initialized an array of 16 ISA IRQs in
+PIIX4State::isa[], use it to wire the IDE output IRQs.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/pc_piix.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/isa/piix4.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 126b6c11df..1e90b9ff0d 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -277,7 +277,13 @@ static void pc_init1(MachineState *machine,
-     if (pcmc->pci_enabled) {
-         PCIDevice *dev;
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index e0b149f8eb..702b458a3e 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -229,6 +229,8 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
  
--        dev = pci_create_simple(pci_bus, piix3_devfn + 1, TYPE_PIIX3_IDE);
-+        dev = pci_new_multifunction(piix3_devfn + 1, false, TYPE_PIIX3_IDE);
-+        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 0,
-+                                    isa_bus_get_irq(isa_bus, 14));
-+        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 1,
-+                                    isa_bus_get_irq(isa_bus, 15));
-+        pci_realize_and_unref(dev, pci_bus, &error_fatal);
-+
-         pci_ide_create_devs(dev);
-         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
+     /* IDE */
+     qdev_prop_set_int32(DEVICE(&s->ide), "addr", dev->devfn + 1);
++    qdev_connect_gpio_out_named(DEVICE(&s->ide), "ide-irq", 0, s->isa[14]);
++    qdev_connect_gpio_out_named(DEVICE(&s->ide), "ide-irq", 1, s->isa[15]);
+     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+         return;
+     }
 -- 
 2.38.1
 
