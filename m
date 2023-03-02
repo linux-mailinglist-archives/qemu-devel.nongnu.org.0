@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C3D6A88B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79FD6A88B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:47:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXnwl-0002KG-B7; Thu, 02 Mar 2023 13:46:31 -0500
+	id 1pXnwf-0001eB-Rp; Thu, 02 Mar 2023 13:46:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwi-00023P-Pg
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pXnwd-0001Wx-HV
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwh-0005Bz-Eg
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:28 -0500
+ id 1pXnwc-0005BJ-1I
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677782786;
+ s=mimecast20190719; t=1677782781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pDvGNSHUgSnRAK1Yl1OqKTWg1L0reMCofGiVW2qpC6o=;
- b=PEpUAs/O0zTBOxh523x4ox0S0UVkVmTtrGDjz8b6MhxruUFY+vb7n9tlbv+hvl0PiqWxOR
- +juivfchVcypMy82WIGTPJEOeA9IE2pV4WRM6qZLydeOLHY7luiBHeAlWRPXmiheufax0i
- cWj2gLGZdJ8xGXwwN+mXyRnZDdK/Wwg=
+ bh=ZbymN6ODIBWCyWIfatbk1cfOZ4XQichSEhXRbexI754=;
+ b=SV4ibwo8o0u+2siWvbDJDSaHHAA5Csz3VFgHmTf+Z+0qiY0RvcjsM0oN2LXLFhI11aj6LX
+ VkwKTA3OAJ1A1ynzWA+1S7zXvTaceGffyGvOoxSEWFN7/QbCtlVRRw01F/WRGdBGS2MmG9
+ L1cesm2LejxfYyhqWWDKcjqFYcamSFg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-I7ANcgAlMzirvnRt30aa5g-1; Thu, 02 Mar 2023 13:46:18 -0500
-X-MC-Unique: I7ANcgAlMzirvnRt30aa5g-1
+ us-mta-41-Zre4qo5RNdiCefbWa_3f9w-1; Thu, 02 Mar 2023 13:46:20 -0500
+X-MC-Unique: Zre4qo5RNdiCefbWa_3f9w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E11C818E0921;
- Thu,  2 Mar 2023 18:46:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C23D7101A521;
+ Thu,  2 Mar 2023 18:46:19 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57939C16027;
- Thu,  2 Mar 2023 18:46:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 504AEC16027;
+ Thu,  2 Mar 2023 18:46:18 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 4/5] iotests: print TAP protocol version when reporting tests
-Date: Thu,  2 Mar 2023 18:46:05 +0000
-Message-Id: <20230302184606.418541-5-berrange@redhat.com>
+Subject: [PATCH 5/5] iotests: register each I/O test separately with meson
+Date: Thu,  2 Mar 2023 18:46:06 +0000
+Message-Id: <20230302184606.418541-6-berrange@redhat.com>
 In-Reply-To: <20230302184606.418541-1-berrange@redhat.com>
 References: <20230302184606.418541-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,29 +80,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Recently meson started complaining that TAP test reports don't include
-the TAP protocol version. While this warning is bogus and has since been
-removed from Meson, it looks like good practice to include this header
-going forward. The GLib library test harness has started unconditionally
-printing the version, so this brings the I/O tests into line.
+Currently meson registers a single test that invokes an entire group of
+I/O tests, hiding the test granularity from meson. There are various
+downsides of doing this
+
+ * You cannot ask 'meson test' to invoke a single I/O test
+ * The meson test timeout can't be applied to the individual
+   tests
+ * Meson only gets a pass/fail for the overall I/O test group
+   not individual tests
+ * If a CI job gets killed by the GitLab timeout, we don't
+   get visibility into how far through the I/O tests
+   execution got.
+
+This switches meson to perform test discovery by invoking 'check' in
+dry-run mode. It then registers one meson test case for each I/O
+test. Parallel execution remains disabled since the I/O tests do not
+use self contained execution environments and thus conflict with
+each other.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qemu-iotests/testrunner.py | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qemu-iotests/meson.build | 33 +++++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 5a771da86e..e734800b3d 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -391,6 +391,7 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
-         casenotrun = []
+diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+index 323a4acb6a..48c82085af 100644
+--- a/tests/qemu-iotests/meson.build
++++ b/tests/qemu-iotests/meson.build
+@@ -32,16 +32,37 @@ foreach k, v : emulators
+   endif
+ endforeach
  
-         if self.tap:
-+            print('TAP version 13')
-             self.env.print_env('# ')
-             print('1..%d' % len(tests))
-         else:
++qemu_iotests_check_cmd = files('check')
++
+ foreach format, speed: qemu_iotests_formats
+   if speed == 'quick'
+     suites = 'block'
+   else
+     suites = ['block-' + speed, speed]
+   endif
+-  test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
+-       depends: qemu_iotests_binaries, env: qemu_iotests_env,
+-       protocol: 'tap',
+-       suite: suites,
+-       timeout: 0,
+-       is_parallel: false)
++
++  args = ['-tap', '-' + format]
++  if speed == 'quick'
++      args += ['-g', 'auto']
++  endif
++
++  rc = run_command(
++      [qemu_iotests_check_cmd] + args + ['-n'],
++      check: true,
++  )
++
++  foreach item: rc.stdout().strip().split()
++      message('Adding test qemu-iotests-' + format + '-' + item)
++      args = ['-tap', '-' + format, item,
++              '--source-dir', meson.current_source_dir(),
++              '--build-dir', meson.current_build_dir()]
++      test('qemu-iotests-' + format + '-' + item,
++           qemu_iotests_check_cmd,
++           args: args,
++           is_parallel: false,
++           depends: qemu_iotests_binaries,
++           env: qemu_iotests_env,
++           protocol: 'tap',
++           suite: suites)
++  endforeach
+ endforeach
 -- 
 2.39.2
 
