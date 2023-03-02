@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2ABA6A880F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57CD6A8815
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:45:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXmxM-0005OW-Mn; Thu, 02 Mar 2023 12:43:04 -0500
+	id 1pXmxN-0005QT-7I; Thu, 02 Mar 2023 12:43:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Cwst=62=kaod.org=clg@ozlabs.org>)
- id 1pXmwy-0004tm-IT; Thu, 02 Mar 2023 12:42:40 -0500
+ id 1pXmx3-000501-CU; Thu, 02 Mar 2023 12:42:45 -0500
 Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Cwst=62=kaod.org=clg@ozlabs.org>)
- id 1pXmwt-0002mo-2S; Thu, 02 Mar 2023 12:42:36 -0500
+ id 1pXmwy-0002n4-Lt; Thu, 02 Mar 2023 12:42:45 -0500
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PSJMr32WYz4x84;
- Fri,  3 Mar 2023 04:42:32 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PSJMv0xBDz4x8B;
+ Fri,  3 Mar 2023 04:42:35 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PSJMn3g9Gz4x5X;
- Fri,  3 Mar 2023 04:42:29 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PSJMr6lYRz4x5X;
+ Fri,  3 Mar 2023 04:42:32 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -33,9 +33,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Sittisak Sinprem <ssinprem@celestica.com>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 07/11] hw/at24c : modify at24c to support 1 byte address mode
-Date: Thu,  2 Mar 2023 18:42:02 +0100
-Message-Id: <20230302174206.2434673-8-clg@kaod.org>
+Subject: [PULL 08/11] aspeed/fuji : correct the eeprom size
+Date: Thu,  2 Mar 2023 18:42:03 +0100
+Message-Id: <20230302174206.2434673-9-clg@kaod.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230302174206.2434673-1-clg@kaod.org>
 References: <20230302174206.2434673-1-clg@kaod.org>
@@ -67,87 +67,85 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Sittisak Sinprem <ssinprem@celestica.com>
 
+Device 24C64 the size is 64 kilobits = 8kilobyte
+Device 24C02 the size is 2 kilobits = 256byte
+
 Signed-off-by: Sittisak Sinprem <ssinprem@celestica.com>
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 [ clg: checkpatch issues ]
-Message-Id: <167660539263.10409.9736070122710923479-1@git.sr.ht>
+Message-Id: <167660539263.10409.9736070122710923479-2@git.sr.ht>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/nvram/eeprom_at24c.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+ hw/arm/aspeed.c | 36 ++++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index 3328c32814..613c4929e3 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -41,6 +41,13 @@ struct EEPROMState {
-     uint16_t cur;
-     /* total size in bytes */
-     uint32_t rsize;
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 6bafeb8fdd..cb59a37b07 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -858,42 +858,46 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+     i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+     i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
+ 
+-    at24c_eeprom_init(i2c[19], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[20], 0x50, 2 * KiB);
+-    at24c_eeprom_init(i2c[22], 0x52, 2 * KiB);
 +    /*
-+     * address byte number
-+     *  for  24c01, 24c02 size <= 256 byte, use only 1 byte
-+     *  otherwise size > 256, use 2 byte
++     * EEPROM 24c64 size is 64Kbits or 8 Kbytes
++     *        24c02 size is 2Kbits or 256 bytes
 +     */
-+    uint8_t asize;
-+
-     bool writable;
-     /* cells changed since last START? */
-     bool changed;
-@@ -91,7 +98,11 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
-     EEPROMState *ee = AT24C_EE(s);
-     uint8_t ret;
++    at24c_eeprom_init(i2c[19], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[20], 0x50, 256);
++    at24c_eeprom_init(i2c[22], 0x52, 256);
  
--    if (ee->haveaddr == 1) {
-+    /*
-+     * If got the byte address but not completely with address size
-+     * will return the invalid value
-+     */
-+    if (ee->haveaddr > 0 && ee->haveaddr < ee->asize) {
-         return 0xff;
-     }
+     i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
+     i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
+     i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
+     i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
  
-@@ -108,11 +119,11 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
- {
-     EEPROMState *ee = AT24C_EE(s);
+-    at24c_eeprom_init(i2c[8], 0x51, 64 * KiB);
++    at24c_eeprom_init(i2c[8], 0x51, 8 * KiB);
+     i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
  
--    if (ee->haveaddr < 2) {
-+    if (ee->haveaddr < ee->asize) {
-         ee->cur <<= 8;
-         ee->cur |= data;
-         ee->haveaddr++;
--        if (ee->haveaddr == 2) {
-+        if (ee->haveaddr == ee->asize) {
-             ee->cur %= ee->rsize;
-             DPRINTK("Set pointer %04x\n", ee->cur);
-         }
-@@ -199,6 +210,18 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
-         }
-         DPRINTK("Reset read backing file\n");
-     }
-+
-+    /*
-+     * If address size didn't define with property set
-+     *   value is 0 as default, setting it by Rom size detecting.
-+     */
-+    if (ee->asize == 0) {
-+        if (ee->rsize <= 256) {
-+            ee->asize = 1;
-+        } else {
-+            ee->asize = 2;
-+        }
-+    }
- }
+     i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
+-    at24c_eeprom_init(i2c[50], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[50], 0x52, 8 * KiB);
+     i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
+     i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
  
- static
-@@ -213,6 +236,7 @@ void at24c_eeprom_reset(DeviceState *state)
+     i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
+     i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
  
- static Property at24c_eeprom_props[] = {
-     DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
-+    DEFINE_PROP_UINT8("address-size", EEPROMState, asize, 0),
-     DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
-     DEFINE_PROP_DRIVE("drive", EEPROMState, blk),
-     DEFINE_PROP_END_OF_LIST()
+-    at24c_eeprom_init(i2c[65], 0x53, 64 * KiB);
++    at24c_eeprom_init(i2c[65], 0x53, 8 * KiB);
+     i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
+     i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
+-    at24c_eeprom_init(i2c[68], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[69], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[70], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[71], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[68], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[69], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[70], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[71], 0x52, 8 * KiB);
+ 
+-    at24c_eeprom_init(i2c[73], 0x53, 64 * KiB);
++    at24c_eeprom_init(i2c[73], 0x53, 8 * KiB);
+     i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
+     i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
+-    at24c_eeprom_init(i2c[76], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[77], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[78], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[79], 0x52, 64 * KiB);
+-    at24c_eeprom_init(i2c[28], 0x50, 2 * KiB);
++    at24c_eeprom_init(i2c[76], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[77], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[78], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[79], 0x52, 8 * KiB);
++    at24c_eeprom_init(i2c[28], 0x50, 256);
+ 
+     for (int i = 0; i < 8; i++) {
+         at24c_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
 -- 
 2.39.2
 
