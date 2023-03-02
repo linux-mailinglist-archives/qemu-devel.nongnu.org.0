@@ -2,97 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5168C6A8D11
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 00:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E286A8DB2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 00:58:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXsOl-0005kj-8R; Thu, 02 Mar 2023 18:31:43 -0500
+	id 1pXsnE-0002yT-Dl; Thu, 02 Mar 2023 18:57:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXsOe-0005gv-TH
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:31:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXsOd-0004gq-3E
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:31:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677799894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UEQ6b/orgBxMNV6HPaYsp7/0JXbveTmvuQTE4Pbmt/M=;
- b=bP0qU3PxZQLNuotTOG7Lqfr/vGA5gZ2U5YY3Oi7NrSL96a69IOksjcTQz/Fo7hmRiShWs7
- DmT12qVzGicTrCoGscEyTgEsQnuQRaWAjN5RRzTeeIKr0UC38sjUap3fcBcEcUwXDsL/29
- ji87Ekt1b1LH0ZwRfEWBPQeF7hizAbQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-408-JoStGhbaMUu0CVjNr6Vchw-1; Thu, 02 Mar 2023 18:31:33 -0500
-X-MC-Unique: JoStGhbaMUu0CVjNr6Vchw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j6-20020a05600c1c0600b003eaf882cb85so231631wms.9
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 15:31:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXsnC-0002xz-Ga
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:56:58 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXsnA-0006Ae-B5
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:56:57 -0500
+Received: by mail-pl1-x635.google.com with SMTP id i3so990732plg.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 15:56:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677801414;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rWFaCKA+hIE53xwpQ3fq1g0pZqqbX2ad8ML/qKWDpT4=;
+ b=E1mxlRYv8ftJhmdnfmG0CsboTT6953sOcfVtL7ODU9t1MxPV7exjDeX353zWn90ObH
+ CTxXAeOf0YGYDgK3vCbPMC7T5P1Sz9EGSg1WvQk6YJoo2Is986UbWMuq5cqrQQtPTjW+
+ 3O5uRqcyVYnhmAmzIMFczhgaf7gAp43XNpOlUrX+wIqZzRDapCfbkyBMOIt45FFrhIRI
+ Spe3j8iUflJaMF7SX5kqFL3dhNVYKbyJhNLpdeCNOvGZDgT5Nk2kIk46P68NWM+kprHf
+ sjTRUt57FvDDndKVHCl+svpODN2GAjceW1MoCgpTPI3HRhvgXNaSwLtO5lYlNikHYrbO
+ S5gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677799892;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UEQ6b/orgBxMNV6HPaYsp7/0JXbveTmvuQTE4Pbmt/M=;
- b=Pvut0YqV2nLdPgiXitjUBOIrz3vGJzXRpNyURAzsptbzjRkpL/IHNFEX9M+p8M8YEX
- cGAvNaiSx2yPxbsO20Mz9DxaIHYn6Kvwj1fObMzNgETGqoRSoPtnamcrPFY8DGiAfujn
- bK2yH8ORod5SwcQRAwpR2GCCBvQLXNWoMTSLJVsm2bq/CA2zcmmEjg8qRafQ2WBVbvWV
- XJTUEU0Py56FGvdkJZhKK1tWuGis7FrLolLqs1GVgpcd9yoPhTz97Weu/ZIZtkWjKZFj
- brDn/i95G/YvONqGkwmxoYNQV8xx6xw3LjGyBCjcj/2QAbHiGHWg2MEwIzeMcCMVvsJL
- bL8Q==
-X-Gm-Message-State: AO0yUKVsU6B59U7Fu8ZnUHjrnbjNAIsKBWz4vZ0ZNX0ZQRW6C9uhgfwb
- P3OPfPpVX04LA1pSMQoK2+llb8trWWSqvn3ZaSanFiGR3iFn5KVjLbBHA+hWTmgrtuhD+G4ySlk
- leD/hfEjf488/AiI=
-X-Received: by 2002:adf:e807:0:b0:2c8:a44a:bf25 with SMTP id
- o7-20020adfe807000000b002c8a44abf25mr21504wrm.50.1677799891872; 
- Thu, 02 Mar 2023 15:31:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set+phV5C81foKnDwr/m72cmFwg8cehYHe6AkYMSznBAxIuOhd+pd9bIfzgikXFTOowGgBvwwiw==
-X-Received: by 2002:adf:e807:0:b0:2c8:a44a:bf25 with SMTP id
- o7-20020adfe807000000b002c8a44abf25mr21488wrm.50.1677799891577; 
- Thu, 02 Mar 2023 15:31:31 -0800 (PST)
-Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
+ d=1e100.net; s=20210112; t=1677801414;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rWFaCKA+hIE53xwpQ3fq1g0pZqqbX2ad8ML/qKWDpT4=;
+ b=pxZgIjVmv9F4B5wJBoq7hrbsco/dqrrMUUAd5KjdFoUC3n6ocTNbuoS+piT2hiMnJb
+ LMFdENbJnOiCucfpuPcu1XanyS0UPjXtzkgUHtJXiBhxO4k046d5Wb216omx9N37Fo16
+ Ln3c3dW7sMFDpMEebYRNx4sS6LefvZWAZRI9ftlo6y+FYmhPwrrHWFNsIeaiH8x4CvCk
+ A5Te8ewABw15knc++DOLciP6xmUc5JiN8SbWUeONb8hxiD8ntN6lH04o4tgQ3cGAKWse
+ OSU5H+Kh2bPpjIytKCfihhkA/RGZgvJDTGtOpSPtoy7MBAYsnwu4CN92OfNz8yF+a4MI
+ LT5A==
+X-Gm-Message-State: AO0yUKWPzWTKAStZ8Wa+IoN5dEAfeOZlMbRVG3NY5thB2DKgyxGRzTcB
+ s8VL10uuuV9MipiHm2MJ8yGd8g==
+X-Google-Smtp-Source: AK7set/qbUjRSl1q9gXEu8quNOLiO3Fw6gL9/+sUpyBLtC+6HU0DIKvQSE3Tr8ZP88lTFLv0g9r7rw==
+X-Received: by 2002:a17:902:720b:b0:19c:171a:d346 with SMTP id
+ ba11-20020a170902720b00b0019c171ad346mr20290plb.44.1677801414212; 
+ Thu, 02 Mar 2023 15:56:54 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
+ ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
  by smtp.gmail.com with ESMTPSA id
- h18-20020a5d4312000000b002c7107ce17fsm606396wrq.3.2023.03.02.15.31.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 15:31:31 -0800 (PST)
-Date: Thu, 2 Mar 2023 18:31:28 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
- longpeng2@huawei.com, Eli Cohen <eli@mellanox.com>,
- alvaro.karsz@solid-run.com, Lei Yang <leiyang@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ
- feature
-Message-ID: <20230302182928-mutt-send-email-mst@kernel.org>
-References: <20230213191929.1547497-1-eperezma@redhat.com>
- <CACGkMEsQe=zcfmK=rMH=u6RgHkkBFs+tJO7gT0v_bWwJ_N+z6Q@mail.gmail.com>
- <CAJaqyWfsBLvsJNF=RvhbirwNypzjfaO7thyK22s-nCjdaNs4yQ@mail.gmail.com>
- <20230214024736-mutt-send-email-mst@kernel.org>
- <CAJaqyWc8JON+QhJbqQCFx+q+qxb5LqjgsHS2wZ7R3v37uVU_sw@mail.gmail.com>
- <20230301163325-mutt-send-email-mst@kernel.org>
- <CAJaqyWfpbeoLfe1-GcoR=rtJMg1DGezMe8pjSNPQjBG4BzqMrA@mail.gmail.com>
- <20230302064234-mutt-send-email-mst@kernel.org>
- <CAJaqyWe0=R8OKXec1xvCWPrQOdum-Jp4V1_MCevi8nB4J7+kgA@mail.gmail.com>
+ s2-20020a170902ea0200b001992fc0a8eesm215792plg.174.2023.03.02.15.56.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 15:56:53 -0800 (PST)
+Message-ID: <0aa0a803-6cc9-5b93-d192-ecc75a685626@linaro.org>
+Date: Thu, 2 Mar 2023 15:56:51 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJaqyWe0=R8OKXec1xvCWPrQOdum-Jp4V1_MCevi8nB4J7+kgA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH] gdbstub: attempt to split gdb into 32/64 bit targets
+ [!WORKING PLZ HELP]
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230302192546.2617633-1-alex.bennee@linaro.org>
+ <97d3a552-2bac-6cc8-345c-0b5a50a772e6@linaro.org>
+In-Reply-To: <97d3a552-2bac-6cc8-345c-0b5a50a772e6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,46 +98,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 03:47:48PM +0100, Eugenio Perez Martin wrote:
-> On Thu, Mar 2, 2023 at 12:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Thu, Mar 02, 2023 at 12:30:52PM +0100, Eugenio Perez Martin wrote:
-> > > > You need to pass this to guest. My point is that there is no reason to
-> > > > get it from the kernel driver. QEMU can figure out whether the flag is
-> > > > needed itself.
-> > > >
-> > >
-> > > Ok, I can see now how the HW device does not have all the knowledge to
-> > > offer this flag or not. But I'm not sure how qemu can know either.
-> > >
-> > > If qemu opens /dev/vhost-vdpa-N, how can it know it? It has no way to
-> > > tell if the device is sw or hw as far as I know. Am I missing
-> > > something?
-> > >
-> > > Thanks!
-> >
-> > This is what I said earlier.  You can safely assume vdpa needs this
-> > flag. Only exception is vduse and we don't care about performance there.
-> >
+On 3/2/23 13:21, Richard Henderson wrote:
+> On 3/2/23 09:25, Alex Bennée wrote:
+>> -# These have to built to the target ABI
+>> -specific_ss.add(files('syscalls.c'))
+>> +# These have to built to the target ABI but are otherwise target
+>> +# independent
+>> +gdb32_ss = ss.source_set()
+>> +gdb64_ss = ss.source_set()
+>> +
+>> +gdb32_ss.add(files('syscalls.c'))
+>> +gdb64_ss.add(files('syscalls.c'))
+>> +
+>> +gdb32_ss = gdb32_ss.apply(config_host, strict: false)
+>> +gdb64_ss = gdb64_ss.apply(config_host, strict: false)
 > 
-> Ok now I get your point, thanks for explaining.
+> You don't need the source sets.
 > 
-> But I'm missing why it is wrong to start using it properly from the
-> kernel.
->
-> I didn't test vDPA in non x86 / PCI, but if it does not work
-> because of the lack of this feature flag the right fix would be to
-> offer it, not to start assuming it in qemu, isn't it?
+>> +libgdb32 = static_library('gdb32', gdb32_ss.sources(),
+>> +                          name_suffix: 'fa',
+>> +                          c_args: ['-DTARGET_LONG_BITS=32'])
+>> +libgdb64 = static_library('gdb64', gdb64_ss.sources(),
+>> +                          name_suffix: 'fa',
+>> +                          c_args: ['-DTARGET_LONG_BITS=64'])
+>> +
+>> +gdb32 = declare_dependency(link_whole: libgdb32)
+>> +gdb64 = declare_dependency(link_whole: libgdb64)
 > 
-> I can see how "assume VIRTIO_F_ORDER_PLATFORM from qemu" may need code
-> comments and extra explanations, but to start offering it properly
-> from the device is expected somehow.
+> It appears to work with "link_with:".
 > 
-> Thanks!
+> Both comments apply here and to your gdb_user/gdb_softmmu libraries.
 
-Does kernel always expose it?
+Hmm.  It worked for qemu-system-aarch64, but not qemu-system-avr.
+I'm at a bit of a loss...
 
--- 
-MST
+
+r~
 
 
