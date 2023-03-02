@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1851E6A8067
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C4D6A807D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:57:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXgag-0002Ab-HP; Thu, 02 Mar 2023 05:55:14 -0500
+	id 1pXgbv-0002x1-42; Thu, 02 Mar 2023 05:56:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXgad-00029D-GL
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:55:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXgab-0003Jt-KT
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:55:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677754508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HsZKqPyXmkcDK+HT2f/lQGqJ4IpXfDJksnmqf9kYf3s=;
- b=XA+M3mDllu6RBhGbddzkUH22O1363HWUheSBvFh6scNhr12M1mSE6OMWaEER/WDcOQ5qzc
- vpKGbktfhiEQmKvoxDsaLTZflCwGJcte2ICX4EzpqYXRuqsYMTopVTJlkxk5lEHr3LCoUs
- Pg6UtcN+JnF3j6mqwOBaQlEl9kjIPHg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-440-roSyVQT0OF6jj0BT8q5TDQ-1; Thu, 02 Mar 2023 05:55:06 -0500
-X-MC-Unique: roSyVQT0OF6jj0BT8q5TDQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso5598712wmi.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 02:55:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXgbt-0002wf-JT
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:56:29 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXgbs-0003S1-2z
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:56:29 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so2414718pjg.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 02:56:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677754586;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+8V6Gv52EFbJxSc99PiFzx3Sz6UMpbQYI6j/4tH31vE=;
+ b=c8/hMbRRUVbRJ3ySy5euBf6QePF8fIyICJSCuoqtX8miauueoUYEUr4Pat+EWPxaRv
+ dxle1Mlp1H/cR/gUiNIx2QhCav1fV2EeqlfJc+yJCf2JXKU80R2Kf1Ug3H2BI2VDDplh
+ eELbA3mYh4pQlNFzCtsv9nLknANMoYzg1aXKEx3q8xLNxV4SJcWfKCLzVDPEpfL5oNz9
+ OO2fia7fEu5uqdlqjAYKmAf2oRXP3W5McYxuemljlps4vLMkkln2h6x8DLEcih7R0n5g
+ lHUJYTeQbpzkHMhTyfMJVdS6PG7c4SoRlndYQGywm+G4ITWxl92HKES8MkQbz2BGFw45
+ CbBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677754505;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HsZKqPyXmkcDK+HT2f/lQGqJ4IpXfDJksnmqf9kYf3s=;
- b=08CotCbpgsZn3u+od5yeiMGFbAihU3lUjdmoy2eVT47JXSz8o7o1ATXtMvZL9W9JsK
- Uj41YMfel3Svnyy7V7RKS95N0yq5yEM2kbDhW93KkDkux/59wwOx2xR83xvFvxTIOmSF
- gzdszCOjTFoL1QvrBZ19BaFg5J9+5qFcL+hW3VqqME95z9Etqa35ZrbCHaEpEOOQ2Q1Q
- X1029oESZoX1pFpiTexxNbsMGzrvnal6t5DENh4EzO12Nf30uqoPASO2jfzikleAnpSv
- +9ZI+mZYN+vISPav5vHU8OTZc2fBCZhi5YpeLoK4HrMLthZ9LqflACAQ+OF6HMYgVaQ+
- WCag==
-X-Gm-Message-State: AO0yUKUtWtKya1pESZaYGUPwZ5SVcfKf5EZYi2ehmu1pPPMSFHRi3Pxz
- GRzHTutic/ft20DEbVCNHCUPuzHR3xw/NcHdFN3hAXAK1HQT3HqUQ8MqL23hamExm1WIclPuPGV
- lpKEdnAfe2gAqoJs=
-X-Received: by 2002:adf:e490:0:b0:2c5:52b7:af88 with SMTP id
- i16-20020adfe490000000b002c552b7af88mr7506254wrm.36.1677754505770; 
- Thu, 02 Mar 2023 02:55:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Bz1ETeVLbkAgoJhRoz5X1b26yvRxTkNJ7YTYQJ5Ast6MnrsN3KSMBzTepCps+Tcl7yOcyJw==
-X-Received: by 2002:adf:e490:0:b0:2c5:52b7:af88 with SMTP id
- i16-20020adfe490000000b002c552b7af88mr7506241wrm.36.1677754505469; 
- Thu, 02 Mar 2023 02:55:05 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- y1-20020adfdf01000000b002c6d0462163sm15069232wrl.100.2023.03.02.02.55.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 02:55:04 -0800 (PST)
-Date: Thu, 2 Mar 2023 05:55:00 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- qemu <qemu-devel@nongnu.org>, Ben Widawsky <bwidawsk@kernel.org>,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Ira Weiny <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
- Mike Maslenkin <mike.maslenkin@gmail.com>,
- Dave Jiang <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v6 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-Message-ID: <20230302055254-mutt-send-email-mst@kernel.org>
-References: <20230227112751.6101-1-Jonathan.Cameron@huawei.com>
- <20230227112751.6101-9-Jonathan.Cameron@huawei.com>
- <20230302100608.00005bcd@huawei.com>
- <e9287de7-94a6-944b-1627-3fa8f7f1a9bc@linaro.org>
+ d=1e100.net; s=20210112; t=1677754586;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+8V6Gv52EFbJxSc99PiFzx3Sz6UMpbQYI6j/4tH31vE=;
+ b=BvgoFOvV3rFA7vp8APyBXn+jsG03h/zW6rbhq8Fb/5Q/Yq054Q2CYlHcI1D+BmCh3Q
+ aYcUy7pIppYsE6yEHwZerAKHKUlh9Xm4VV4YtlQdjvOD/3JT6GxTjjxqdfs/t4Waq1At
+ JZ4tvJuWwgVkToqBeVePZQyeWJ2o9ihM/mw/SRjR1xIs7gaKz4CNqD1oaFZwL27bfZyy
+ 9GCeqTuTLgM+A5JFb83g0NX7sFRmN1n3vPSTomw7LXnHIDW0bI5tu6ElJLIfe30IH8Eh
+ 3E2scuVZqkdOi00a9neeZcNHrw1sPsVSiqyOI3J5Py7rvI6tm2hcO+lOICIUr6WEEXam
+ A+mQ==
+X-Gm-Message-State: AO0yUKVTisEwGELHwi2bIUmMAAfXU1mi+TYSgX51ehXGo2OxcX0VB57y
+ cMvu1YSNmrtuIz3JDdw3AjRJ59HiQsaQzg5ryIZTRw==
+X-Google-Smtp-Source: AK7set9G0vhanyZizoEhGS8T/tCN2yraXmM18RaGIyfLXucQZPmrORB4Qbd1uh1fk4V93ZYbNZqHnBn2Scz5an7A56Y=
+X-Received: by 2002:a17:90a:4a09:b0:233:be3d:8a42 with SMTP id
+ e9-20020a17090a4a0900b00233be3d8a42mr3901840pjh.0.1677754586273; Thu, 02 Mar
+ 2023 02:56:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e9287de7-94a6-944b-1627-3fa8f7f1a9bc@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230301151604.1948813-1-alex.bennee@linaro.org>
+ <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
+ <87356ocp56.fsf@linaro.org>
+ <CAFEAcA9X9nQ-6iYqGV9fWWmzDU_SE1ADed6xToOoDmMbvEBkuA@mail.gmail.com>
+ <CAHDbmO19_HT7ZgtdvWfzp-BEn3uyhw7NKAW9f9adSHoaZ1mEug@mail.gmail.com>
+In-Reply-To: <CAHDbmO19_HT7ZgtdvWfzp-BEn3uyhw7NKAW9f9adSHoaZ1mEug@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Mar 2023 10:56:15 +0000
+Message-ID: <CAFEAcA-Pve7oOuDmP=BDSt5Smdn8MUg2y47Y6PL3YMXwg=Q4Sw@mail.gmail.com>
+Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker, avocado,
+ windows)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,86 +91,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 11:49:52AM +0100, Philippe Mathieu-Daudé wrote:
-> On 2/3/23 11:06, Jonathan Cameron wrote:
-> > +CC Michael Roth.
-> > 
-> > Michael Tsirkin noted I'd missed CCing QAPI maintaintainers on the
-> > poison injection series so I went back to check the others I had out for review.
-> > For this series I'd managed to pick up one of two as Markus gave comments on
-> > earlier versions.
-> 
-> Now LGTM for meson/QAPI (although I'm not a QAPI maintainer).
-> 
-> Hopefully MST can take your series just in time for soft freeze.
+On Wed, 1 Mar 2023 at 19:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> From the other thread:
+>
+> I think the underlying config needs updating:
+>
+>   .git/modules/tests/fp/berkeley-testfloat-3/config
+>
+> I'm surprised the git config for submodules doesn't carry the metadata.
 
+Yeah, in my local repo that I merge stuff with that file
+does still have a github URL:
+url =3D git://github.com/cota/berkeley-testfloat-3
 
-Bottleneck is QAPI right now. Consider CC Eric and maybe Daniel
-because Daniel is awesome and has been helping out with lots
-of stuff among them QAPI.
+So I guess my questions are:
+ (1) why hasn't this been a problem up til now ?
+ (2) does this mean that if I merge this then everybody will
+     need to manually go in and update this file somehow
+     to be able to pull the updated qemu master ?
 
-> > On Mon, 27 Feb 2023 11:27:51 +0000
-> > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
-> > 
-> > > CXL uses PCI AER Internal errors to signal to the host that an error has
-> > > occurred. The host can then read more detailed status from the CXL RAS
-> > > capability.
-> > > 
-> > > For uncorrectable errors: support multiple injection in one operation
-> > > as this is needed to reliably test multiple header logging support in an
-> > > OS. The equivalent feature doesn't exist for correctable errors, so only
-> > > one error need be injected at a time.
-> > > 
-> > > Note:
-> > >   - Header content needs to be manually specified in a fashion that
-> > >     matches the specification for what can be in the header for each
-> > >     error type.
-> > > 
-> > > Injection via QMP:
-> > > { "execute": "qmp_capabilities" }
-> > > ...
-> > > { "execute": "cxl-inject-uncorrectable-errors",
-> > >    "arguments": {
-> > >      "path": "/machine/peripheral/cxl-pmem0",
-> > >      "errors": [
-> > >          {
-> > >              "type": "cache-address-parity",
-> > >              "header": [ 3, 4]
-> > >          },
-> > >          {
-> > >              "type": "cache-data-parity",
-> > >              "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-> > >          },
-> > >          {
-> > >              "type": "internal",
-> > >              "header": [ 1, 2, 4]
-> > >          }
-> > >          ]
-> > >    }}
-> > > ...
-> > > { "execute": "cxl-inject-correctable-error",
-> > >      "arguments": {
-> > >          "path": "/machine/peripheral/cxl-pmem0",
-> > >          "type": "physical"
-> > >      } }
-> > > 
-> > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > ---
-> > > v6: (Thanks to Philippe Mathieu-Daudé)
-> > > - Add Since entries in cxl.json
-> > > - Add error prints in the stub functions so that if they are called without
-> > >    CONFIG_CXL_MEM_DEVICE then we get a useful print rather than just silently
-> > >    eating them.
-> > > ---
-> > >   hw/cxl/cxl-component-utils.c   |   4 +-
-> > >   hw/mem/cxl_type3.c             | 281 +++++++++++++++++++++++++++++++++
-> > >   hw/mem/cxl_type3_stubs.c       |  17 ++
-> > >   hw/mem/meson.build             |   2 +
-> > >   include/hw/cxl/cxl_component.h |  26 +++
-> > >   include/hw/cxl/cxl_device.h    |  11 ++
-> > >   qapi/cxl.json                  | 128 +++++++++++++++
-> > >   qapi/meson.build               |   1 +
-> > >   qapi/qapi-schema.json          |   1 +
-> > >   9 files changed, 470 insertions(+), 1 deletion(-)
-
+thanks
+-- PMM
 
