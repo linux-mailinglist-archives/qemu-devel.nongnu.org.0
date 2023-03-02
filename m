@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBAF6A798A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 03:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2152D6A799E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 03:45:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXYkG-0000kS-Hn; Wed, 01 Mar 2023 21:32:36 -0500
+	id 1pXYvV-0007dv-98; Wed, 01 Mar 2023 21:44:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pXYkB-0000jB-5r
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 21:32:31 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pXYk7-00048a-SF
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 21:32:30 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- m8-20020a17090a4d8800b002377bced051so1413050pjh.0
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 18:32:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677724343;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=4UXPLfpRXeWjtHYgrdOgFIZrsGiUoZWchmtMXfPGG8c=;
- b=IL/bGjuFZC9b0Xk9YPFfc+nN1m90jXc3pi6ZdwL0vLxhatUoPVxskcRU9wJQ2YvN8S
- K0hJE261SKHZjdUWG6pcv1ppl29XqdpjujsxdLUKaOcbo43DWb4H8e5hIyk/FBu+YQOQ
- 66+oNIM3VWnHofiNBYUIFZJxt3hwPHpVucXwX9enwTbu2KinbKydo8mNpPig9iW67Mzf
- LiXYjMkyg71EsFXgrCj4t2YVFfrFas8yRQSz02JAqr4lJZhlJDuly0nl5S6pC0pA+/bj
- glR9wIuj2OB3MtvS3PMy0yc6QIdu4kNS6UnKfIy/uaNVe4dWh+GujFXN64/X6lZSbYdB
- mThw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677724343;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4UXPLfpRXeWjtHYgrdOgFIZrsGiUoZWchmtMXfPGG8c=;
- b=plJYRvqQAEbEo/Eq013HTtT5kijiIwQYZh+tH5KC2aQzcbh7CqLhcaT3icdg81MOLv
- 4mZdTHeCmMqn6iWnyEJX0qH2dYZleVXxVlnIdzQR6gP6SOId5PPDy9WmNz2/1Rbi3hWZ
- GakoMwDY0tcAKbAA6CJNPY4huIHGr3yNh+feIhTas+KLI3OnVdNjuS2eiPGy8D0peGn8
- E2ZfUay685P6nvE3WYBMnCKFNq1h2apXbyf4qsFDISYy8eCRWUjkLhZMJvWmzm8T6eT/
- QPeav9J8JSQ0Nuz1t/iCGFg1k0QJh+W5GKZIRzQgNerPA8lOS6MmvyCvJ/OXNK51FrS+
- X5vg==
-X-Gm-Message-State: AO0yUKVkT44q0E18nODEuC5Aztzw8lxDIoXH9Xv05DY21nhIrsodB2pa
- ZLyYYaoIGJgLWKYxk7wGL164OA==
-X-Google-Smtp-Source: AK7set9p37ChMJm/kUFLyfdRNshfthkNrkZtk9KDMZBunaTX5iNoPg9NB9DBX4OpUSHFuvdrxK4dYA==
-X-Received: by 2002:a17:903:2448:b0:19c:d78b:cdc with SMTP id
- l8-20020a170903244800b0019cd78b0cdcmr10193347pls.5.1677724343370; 
- Wed, 01 Mar 2023 18:32:23 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- c5-20020a6566c5000000b00503000f0492sm1755765pgw.14.2023.03.01.18.32.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 18:32:22 -0800 (PST)
-Date: Wed, 01 Mar 2023 18:32:22 -0800 (PST)
-X-Google-Original-Date: Wed, 01 Mar 2023 18:31:21 PST (-0800)
-Subject: Re: [PATCH 0/2] Fix the OpenSBI CI job and bump to v1.2
-In-Reply-To: <20230224212543.20462-1-palmer@rivosinc.com>
-CC: Bin Meng <bmeng.cn@gmail.com>, thuth@redhat.com
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Message-ID: <mhng-33fa8014-8db8-44e5-85d9-f2071db025ac@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pXYvR-0007Zg-9K; Wed, 01 Mar 2023 21:44:09 -0500
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pXYvO-0008N4-Lk; Wed, 01 Mar 2023 21:44:08 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R241e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VcvBco-_1677725019; 
+Received: from 30.221.97.107(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VcvBco-_1677725019) by smtp.aliyun-inc.com;
+ Thu, 02 Mar 2023 10:43:40 +0800
+Message-ID: <8f026ece-1535-8b8f-aeff-ab4a90469fd7@linux.alibaba.com>
+Date: Thu, 2 Mar 2023 10:43:39 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 05/18] target/riscv: gdbstub: Do not generate CSR XML
+ if Zicsr is disabled
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: bmeng@tinylab.org, qemu-devel@nongnu.org, liweiwei@iscas.ac.cn,
+ Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, qemu-riscv@nongnu.org
+References: <CAEUhbmWtg8+V44h7xgtggcORLww7kCv60DX+r3XYFTOrgzMtmA@mail.gmail.com>
+ <mhng-4de827d1-bce4-4e30-b5d3-cd9e61e4b4db@palmer-ri-x1c9a>
+ <CAEUhbmVGe3mtG+NXkLJ9yKcQEXUB8dsZiFDW=d1kmRzWR-Mrdg@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <CAEUhbmVGe3mtG+NXkLJ9yKcQEXUB8dsZiFDW=d1kmRzWR-Mrdg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.130;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-130.freemail.mail.aliyun.com
+X-Spam_score_int: -99
+X-Spam_score: -10.0
+X-Spam_bar: ----------
+X-Spam_report: (-10.0 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,18 +67,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Feb 2023 13:25:41 PST (-0800), Palmer Dabbelt wrote:
-> The OpenSBI version bump found a CI failure, which appears to actually
-> have been related to the Docker version as opposed to the Ubuntu
-> version -- at least assuming my local CI run
-> <https://gitlab.com/palmer-dabbelt/qemu/-/jobs/3832389705> is accurate
-> (thanks to Thomas for pointing out how to get those set up).
->
-> I've left off the Ubuntu version upgrade because it's triggering some
-> key-related issues when in apt.  That's probably worth doing, but I
-> figured it'd be better to send these along now to try and get things
-> unblocked.  The EDK2 Docker setup looks like it would have the same
-> issue but I'll also keep that independent.
 
-This is queued.
+On 2023/3/2 8:30, Bin Meng wrote:
+> On Thu, Mar 2, 2023 at 7:43 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>> On Wed, 01 Mar 2023 01:55:34 PST (-0800), Bin Meng wrote:
+>>> On Wed, Mar 1, 2023 at 5:52 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>>>>
+>>>> On 2023/2/28 18:40, Bin Meng wrote:
+>>>>> There is no need to generate the CSR XML if the Zicsr extension
+>>>>> is not enabled.
+>>>> Should we generate the FPU XML or Vector XML when Zicsr is not enabled?
+>>> Good point. I think we should disable that too.
+>> Seems reasonable.  Did you want to do that as part of a v3, or just as a
+>> follow-on fix?
+>>
+> I looked at this further.
+>
+> The FPU / Vector XML is guarded by the " env->misa_ext" check. If
+> Zicsr is disabled while F or V extension is off, QEMU will error out
+> in riscv_cpu_realize() earlier before the gdbstub init.
+
+Make sense.
+
+Zhiwei
+
+>
+> So current patch should be fine.
+>
+> Regards,
+> Bin
 
