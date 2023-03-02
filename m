@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C1A6A82DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2F06A82BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:53:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiBX-0007tE-QH; Thu, 02 Mar 2023 07:37:26 -0500
+	id 1pXiCT-0000WK-Aw; Thu, 02 Mar 2023 07:38:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pXi8v-0004KZ-4v; Thu, 02 Mar 2023 07:34:41 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXiAB-000696-9X; Thu, 02 Mar 2023 07:36:00 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pXi8s-0004BW-Rs; Thu, 02 Mar 2023 07:34:40 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 1119C48DB1;
- Thu,  2 Mar 2023 13:34:36 +0100 (CET)
-Message-ID: <cfd20e33-8f5e-c121-6cbd-2c751756b725@proxmox.com>
-Date: Thu, 2 Mar 2023 13:34:34 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXiA8-0004f8-VR; Thu, 02 Mar 2023 07:35:58 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A94DD746F34;
+ Thu,  2 Mar 2023 13:35:50 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E9DFE746F2F; Thu,  2 Mar 2023 13:35:49 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E8357746F32;
+ Thu,  2 Mar 2023 13:35:49 +0100 (CET)
+Date: Thu, 2 Mar 2023 13:35:49 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Woodhouse <dwmw2@infradead.org>
+cc: "Michael S . Tsirkin" <mst@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>, 
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ ReneEngel80@emailn.de
+Subject: Re: [PATCH] hw/intc/i8259: Implement legacy LTIM Edge/Level Bank
+ Select
+In-Reply-To: <20230302090626.1085437-1-dwmw2@infradead.org>
+Message-ID: <80e72188-8339-309c-dc09-08252adcfff8@eik.bme.hu>
+References: <81f53c106bf9584828402ab92e94ac4331c58c7a.camel@infradead.org>
+ <20230302090626.1085437-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 8/9] mirror: return the remaining dirty bytes upon query
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com, den@virtuozzo.com,
- t.lamprecht@proxmox.com, alexander.ivanov@virtuozzo.com
-References: <20230224144825.466375-1-f.ebner@proxmox.com>
- <20230224144825.466375-9-f.ebner@proxmox.com>
- <0e9d40ac-42c8-698f-ee75-4cbc5bfe7fa5@yandex-team.ru>
- <ed82e058-0d83-8b29-5f10-2076268cac3a@proxmox.com>
- <708f6131-1d4f-ff4d-611c-30b0da891223@yandex-team.ru>
-From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <708f6131-1d4f-ff4d-611c-30b0da891223@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.092,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,74 +65,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 02.03.23 um 11:13 schrieb Vladimir Sementsov-Ogievskiy:
-> On 02.03.23 13:00, Fiona Ebner wrote:
->> Am 01.03.23 um 17:31 schrieb Vladimir Sementsov-Ogievskiy:
->>> On 24.02.23 17:48, Fiona Ebner wrote:
->>>> This can be used by management applications starting with a job in
->>>> background mode to determine when the switch to active mode should
->>>> happen.
->>>>
->>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>>> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
->>>> ---
->>>>    block/mirror.c       | 1 +
->>>>    qapi/block-core.json | 4 +++-
->>>>    2 files changed, 4 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/block/mirror.c b/block/mirror.c
->>>> index 02b5bd8bd2..ac83309b82 100644
->>>> --- a/block/mirror.c
->>>> +++ b/block/mirror.c
->>>> @@ -1259,6 +1259,7 @@ static void mirror_query(BlockJob *job,
->>>> BlockJobInfo *info)
->>>>          info->u.mirror = (BlockJobInfoMirror) {
->>>>            .actively_synced = s->actively_synced,
->>>> +        .remaining_dirty = bdrv_get_dirty_count(s->dirty_bitmap),
->>>
->>> Doesn't it duplicate info->len - info->offset in meaning?
->>>
->>
->> Essentially yes, apart from the in-flight bytes:
-> 
-> Is it worth reporting to user?
-> 
+On Thu, 2 Mar 2023, David Woodhouse wrote:
+> Back in the mists of time, before IBM PS/2 came along with MCA and added
+> per-pin level control in the ELCR register, the i8259 had a chip-wide
+> level-mode control in bit 3 of ICW1.
 
-You suggested that data_sent and remaining_dirty are important:
-https://lists.nongnu.org/archive/html/qemu-devel/2023-02/msg03831.html
+Thanks a lot for doing this, it's easy if you already understand the PIC 
+and know where to look for the rest but takes more time if I have to learn 
+all that first. I can only comment on comments, the rest looks plausible 
+but I lack the knowledge to review that. I'll test this later today wirh 
+MorphOS and if no problems found I can make chnages to commit message as 
+you've asked and add it to the series to replace my workaround.
 
-But I guess info->len - info->offset is just as good as part of a
-heuristic to decide when the switch to active mode should happen.
+I'm not sure how to test migration, I've never used that with QEMU so if 
+somebody can do that with PC machine that would help. The pegasos2 does 
+not yet support migration because it did not work before and we are still 
+implementing parts of VT8231 so it was decided to only fix vmstate saving 
+after that's settled so we don't have to worry about that now.
 
-For us, it doesn't really matter right now, because our users didn't
-report issues with convergence, so our plan is to just switch to active
-mode after the job is ready. We just need actively_synced to infer when
-the switch is complete.
+> Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
+> disabled', but apparently MorphOS is using it in the version of the
+> i8259 which is in the Pegasos2 board as part of the vt82c686 chipset.
 
->>>          job_progress_set_remaining(&s->common.job,
->>>                                     s->bytes_in_flight + cnt +
->>>                                     s->active_write_bytes_in_flight);
->>
->> Should I rather use that value (and rename it to e.g. data_remaining to
->> be more similar to data_sent from 9/9)?
->>
->> But I'd argue the same way as in 9/9: it's not transparent to users what
->> offset and len mean for the mirror job, because their documentation is
->> for a generic block job. E.g. len is documented to be able to change in
->> both directions while the job runs.
->>
-> 
-> Still I'm not sure that we need new status values. I.e. if you need some
-> new ones, you should explain the case and why existing information is
-> not enough.
-> 
-> Especially when documentation of existing things is unclear, its better
-> to start from improving it. And when we understand what len and offset
-> means for mirror, it would probably be enough.
-> 
+The pegasos2 actually has VT8231 which is closely related to 686B but a 
+bit later member of that family.
 
-Okay, makes sense! But I'm not sure how. Should I just add a paragraph
-describing what the values mean for mirror in the description of @len
-and @offset in @BlockJobInfo? Or where should this be documented?
+> It's easy enough to implement, and I think it's harmless enough to do so
+> unconditionally.
+>
+> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+> ---
+> hw/intc/i8259.c                 | 10 ++++------
+> hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
+> include/hw/isa/i8259_internal.h |  1 +
+> 3 files changed, 28 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+> index 17910f3bcb..bbae2d87f4 100644
+> --- a/hw/intc/i8259.c
+> +++ b/hw/intc/i8259.c
+> @@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
+>     }
+> #endif
+>
+> -    if (s->elcr & mask) {
+> +    if (s->ltim || (s->elcr & mask)) {
+>         /* level triggered */
+>         if (level) {
+>             s->irr |= mask;
+> @@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
+>         s->isr |= (1 << irq);
+>     }
+>     /* We don't clear a level sensitive interrupt here */
+> -    if (!(s->elcr & (1 << irq))) {
+> +    if (!s->ltim && !(s->elcr & (1 << irq))) {
+>         s->irr &= ~(1 << irq);
+>     }
+>     pic_update_irq(s);
+> @@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
+>     PICCommonState *s = PIC_COMMON(dev);
+>
+>     s->elcr = 0;
+> +    s->ltim = 0;
+>     pic_init_reset(s);
+> }
+>
+> @@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
+>             s->init_state = 1;
+>             s->init4 = val & 1;
+>             s->single_mode = val & 2;
+> -            if (val & 0x08) {
+> -                qemu_log_mask(LOG_UNIMP,
+> -                              "i8259: level sensitive irq not supported\n");
+> -            }
+> +            s->ltim = val & 8;
+>         } else if (val & 0x08) {
+>             if (val & 0x04) {
+>                 s->poll = 1;
+> diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
+> index af2e4a2241..c931dc2d07 100644
+> --- a/hw/intc/i8259_common.c
+> +++ b/hw/intc/i8259_common.c
+> @@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
+>     s->special_fully_nested_mode = 0;
+>     s->init4 = 0;
+>     s->single_mode = 0;
+> -    /* Note: ELCR is not reset */
+> +    /* Note: ELCR and LTIM are not reset */
+> }
+>
+> static int pic_dispatch_pre_save(void *opaque)
+> @@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
+>                    s->special_fully_nested_mode);
+> }
+>
+> +static bool ltim_state_needed(void *opaque)
+> +{
+> +    PICCommonState *s = PIC_COMMON(opaque);
+> +
+> +    return !!s->ltim;
+> +}
+> +
+> +static const VMStateDescription vmstate_pic_ltim = {
+> +    .name = "i8259/ltim",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = ltim_state_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8(ltim, PICCommonState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> static const VMStateDescription vmstate_pic_common = {
+>     .name = "i8259",
+>     .version_id = 1,
+> @@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
+>         VMSTATE_UINT8(single_mode, PICCommonState),
+>         VMSTATE_UINT8(elcr, PICCommonState),
+>         VMSTATE_END_OF_LIST()
+> +    },
+> +    .subsections = (const VMStateDescription*[]) {
+> +        &vmstate_pic_ltim,
+> +        NULL
+>     }
+> };
+>
+> diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
+> index 155b098452..f9dcc4163e 100644
+> --- a/include/hw/isa/i8259_internal.h
+> +++ b/include/hw/isa/i8259_internal.h
+> @@ -61,6 +61,7 @@ struct PICCommonState {
+>     uint8_t single_mode; /* true if slave pic is not initialized */
+>     uint8_t elcr; /* PIIX edge/trigger selection*/
+>     uint8_t elcr_mask;
+> +    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
 
+Is this rather called Edge/Level Interrupt Mode or something like that?
+
+Regards,
+BALATON Zoltan
+
+>     qemu_irq int_out[1];
+>     uint32_t master; /* reflects /SP input pin */
+>     uint32_t iobase;
+>
 
