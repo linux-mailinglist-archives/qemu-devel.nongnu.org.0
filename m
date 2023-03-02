@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321306A813A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3096A8150
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:38:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhEC-0000bR-TR; Thu, 02 Mar 2023 06:36:05 -0500
+	id 1pXhFd-0001sq-E9; Thu, 02 Mar 2023 06:37:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXhE8-0000aE-EB
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:36:00 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1pXhFb-0001sf-AE
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:37:31 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXhE6-0002uM-6A
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:35:59 -0500
-Received: by mail-wr1-x430.google.com with SMTP id l1so13153650wry.12
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:35:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1pXhFY-0004Fq-Ua
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:37:31 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so1505517wms.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:37:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x9WUBJ9iS6kPfoD67X90JS4aVHJN2MDeu/hMrNpVnsk=;
- b=VAp5LAL1j80qJGXxwCLaCe+zQbAcq6u4dGwyvRVWWX5vn9Yw5JIBUDAKsPB8FBo0qI
- YKLaj2HFmn8uTTC5cFfniO2/iezu9PSTDMmlOfwyx+4NQneyVxpdNpQAkTJ9EmfpPyAE
- uvXPEfScqifYbZ1VvWHfwO/6Y+djHnYL6bXbG6wKB9m3uEb7FR2Enf6x5d4rxmJxOZ5K
- hDkw0mXdvqpKMTMxrRL818ll6Lq+jD19cQrKm09RZXLRM5toAY3469QUur2Q+qg5K3wQ
- vgvxrBj874UtMFTr/eX+OEc9B34XFf0fxqqbBObegr3OJkEqRAm21zkcbJtyTp+1UGY/
- KEWw==
+ bh=m1Q+ww77Dte3sDcCU+1jOtU9oP4AXkfxzJq67gcSpsk=;
+ b=XW2bxOJHE4xdBXB48s8VS43qbEr03z5olSIL9YPyeT2l1t14dx6IS8TQAyYs/JGxfK
+ UHOoKflJUbgNcBQuxA8kmLS5662C9B9WEI+dM6/7cpnN4NAmtjUD+tu+/XApumxCDsX5
+ fpSahqfF6g/18lkmg9WEY5NjHTFRjaQ5BnVASur8j/aXZbbkm2xwWTaXuRXo5jJlvVgG
+ LPamcllBF62m+o6TTqM/H0nVApKK4ZXqLZyQDBrXfvGu/Sqb6iKBWsg3Tdxqs7p+RNbj
+ +d4j54RlXGLkd1eKKHqDhQo/hV+4NEjCS9hGwFHm6Jrvj+99STFeix6oLX5R9K41ZIiT
+ 2iaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=x9WUBJ9iS6kPfoD67X90JS4aVHJN2MDeu/hMrNpVnsk=;
- b=GsL4NfAH+VoDhjpY2KN9OcTpsMcF/78tTZe3bGO1Klx9/qpxK8oPjEd8D8xrIjnFxm
- CZ54OeWxvIIKtHaNs6OexoTXVLMA6AUARuKtLpZ92bVwyIfRg+aySx4df6ktIcgodLlR
- sZtvfH7YgpUJAQesLkBgqWsplHlnDxk9Kk9hvzKM0P2txmcSPfnEIrznaFXtXEdwCFym
- S6jtmRjeMAM3LTB3gnfz0uTXkqRzQvgPmqv/hrJeb8jnIatkkj+FbAGZm/yN8eL/gs80
- L1aqdYwOXVEU82UJGI5xJ2XvvnYp+JqoGx9lW5AGEUNyRJ9R9Ea2qJzVq9RMDoR4Ibnn
- 1lzA==
-X-Gm-Message-State: AO0yUKUuJFxfuJqjQGMQhQGUxjAJvBgg8g/P6mqoMjgvcVp5UU1aGRxS
- 8A+zWcgNxrW97C0dBcVlHDq53Q==
-X-Google-Smtp-Source: AK7set/bZtqEFF/K+Y+j8uFs74jaa0BUCW/kR+MnpUNqYuLJdOPkkvGBLDMP46n239NGn2tuHt9Bdw==
-X-Received: by 2002:adf:e745:0:b0:2c5:a38f:ca3a with SMTP id
- c5-20020adfe745000000b002c5a38fca3amr1195586wrn.10.1677756956143; 
- Thu, 02 Mar 2023 03:35:56 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=m1Q+ww77Dte3sDcCU+1jOtU9oP4AXkfxzJq67gcSpsk=;
+ b=IKJZ49QTcXcS5L/W6Xfnl2iOnBpFS2y9tomSozW/O73ZYpWbatRFkRS19P+lf+zqH7
+ yIOxlh2LRGspjg3klLJB8/VEE4QdYAW0kYQyS3PDFl+5x1NYuPe3qkHO4Ecf015SY8YH
+ HHV3teqXg36+tIzGHBvsHhRMbOf21lUVnlN43DVWaVHrjg3ECOj1Gb3tTkG4Jq3ULmfA
+ HMt+FNdTwrvFD3lrSQma2EVRZou6dNmkNeUtEbfJ8pwhdSrqJvQTdCe7b7KzBafgCHdP
+ d31yciiEicobBtiIsAC0n1zFb4SQK1OjPWmRPw4cKC66GmtLAe/jSXUe96DBeK6X3Hmx
+ G8rQ==
+X-Gm-Message-State: AO0yUKWz4q7CkuQXm7ghFrTgbLBBXJv1kRFIOU1ZrON5woqg2Jvp5qKD
+ wAKt4OmhCBd6Q9mgE25UTcdQdg==
+X-Google-Smtp-Source: AK7set/sodROn8GrXvMtE833j6TnAImsP1GpBqhkRS/VDt7/kIlSTaoS47P3RtSxs0zSc87EUKKJ0g==
+X-Received: by 2002:a05:600c:4fc3:b0:3ea:ed4d:38ee with SMTP id
+ o3-20020a05600c4fc300b003eaed4d38eemr7625007wmq.4.1677757047185; 
+ Thu, 02 Mar 2023 03:37:27 -0800 (PST)
+Received: from smtpclient.apple ([93.115.195.2])
  by smtp.gmail.com with ESMTPSA id
- o11-20020a05600c4fcb00b003e8f0334db8sm3011658wmq.5.2023.03.02.03.35.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 03:35:55 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 50C071FFB7;
- Thu,  2 Mar 2023 11:35:55 +0000 (GMT)
-References: <20230301151604.1948813-1-alex.bennee@linaro.org>
- <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
- <87356ocp56.fsf@linaro.org>
- <CAFEAcA9X9nQ-6iYqGV9fWWmzDU_SE1ADed6xToOoDmMbvEBkuA@mail.gmail.com>
- <CAHDbmO19_HT7ZgtdvWfzp-BEn3uyhw7NKAW9f9adSHoaZ1mEug@mail.gmail.com>
- <CAFEAcA-Pve7oOuDmP=BDSt5Smdn8MUg2y47Y6PL3YMXwg=Q4Sw@mail.gmail.com>
- <eb6e47c4-546e-b191-d142-009b52b1e3fa@linaro.org>
- <CAFEAcA_ztebfE1+nPx0X=3QJCssoDNceDsZ4=SBbAxywY7jO7g@mail.gmail.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker,
- avocado, windows)
-Date: Thu, 02 Mar 2023 11:34:35 +0000
-In-reply-to: <CAFEAcA_ztebfE1+nPx0X=3QJCssoDNceDsZ4=SBbAxywY7jO7g@mail.gmail.com>
-Message-ID: <87cz5rbd2c.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ s18-20020a7bc392000000b003eb20d4d4a8sm2552629wmj.44.2023.03.02.03.37.26
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 Mar 2023 03:37:26 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: [External] [PATCH] hostmem: Add clear option to file backend
+From: Feiran Zheng <fam.zheng@bytedance.com>
+In-Reply-To: <377c3521-ffe1-074b-48ac-71fd445b3bb4@redhat.com>
+Date: Thu, 2 Mar 2023 11:37:15 +0000
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Peter Xu <peterx@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Message-Id: <15DA845E-C50C-46BB-A241-164E5851E388@bytedance.com>
+References: <20230302110925.4680-1-fam.zheng@bytedance.com>
+ <377c3521-ffe1-074b-48ac-71fd445b3bb4@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+X-Mailer: Apple Mail (2.3731.400.51.1.1)
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=fam.zheng@bytedance.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,118 +101,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Thu, 2 Mar 2023 at 11:15, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
-rg> wrote:
->>
->> On 2/3/23 11:56, Peter Maydell wrote:
->> > On Wed, 1 Mar 2023 at 19:47, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->> >>
->> >>  From the other thread:
->> >>
->> >> I think the underlying config needs updating:
->> >>
->> >>    .git/modules/tests/fp/berkeley-testfloat-3/config
->> >>
->> >> I'm surprised the git config for submodules doesn't carry the metadat=
-a.
->> >
->> > Yeah, in my local repo that I merge stuff with that file
->> > does still have a github URL:
->> > url =3D git://github.com/cota/berkeley-testfloat-3
->> >
->> > So I guess my questions are:
->> >   (1) why hasn't this been a problem up til now ?
->> >   (2) does this mean that if I merge this then everybody will
->> >       need to manually go in and update this file somehow
->> >       to be able to pull the updated qemu master ?
->>
->> I assume you are not passing --disable-git-update or
->> --with-git-submodules to ./configure.
->
-> No, I don't do that. But this problem happens before we
-> get anywhere near configure, when I try to do the
-> 'git fetch' of the main repo!
-
-c.f:
-
-  =E2=9E=9C  git submodule foreach --recursive git config --get remote.orig=
-in.url
-
-  Entering 'dtc'
-  https://git.qemu.org/git/dtc.git
-  Entering 'meson'
-  https://github.com/mesonbuild/meson/
-  Entering 'roms/QemuMacDrivers'
-  https://git.qemu.org/git/QemuMacDrivers.git
-  Entering 'roms/SLOF'
-  https://git.qemu.org/git/SLOF.git
-  Entering 'roms/ipxe'
-  https://git.qemu.org/git/ipxe.git
-  Entering 'roms/openbios'
-  https://git.qemu.org/git/openbios.git
-  Entering 'roms/opensbi'
-  https://git.qemu.org/git/opensbi.git
-  Entering 'roms/qboot'
-  https://github.com/bonzini/qboot
-  Entering 'roms/qemu-palcode'
-  https://git.qemu.org/git/qemu-palcode.git
-  Entering 'roms/seabios'
-  https://git.qemu.org/git/seabios.git/
-  Entering 'roms/seabios-hppa'
-  https://git.qemu.org/git/seabios-hppa.git
-  Entering 'roms/skiboot'
-  https://git.qemu.org/git/skiboot.git
-  Entering 'roms/u-boot'
-  https://git.qemu.org/git/u-boot.git
-  Entering 'roms/u-boot-sam460ex'
-  https://git.qemu.org/git/u-boot-sam460ex.git
-  Entering 'roms/vbootrom'
-  https://gitlab.com/qemu-project/vbootrom.git
-  Entering 'subprojects/libvfio-user'
-  https://gitlab.com/qemu-project/libvfio-user.git
-  Entering 'tests/fp/berkeley-softfloat-3'
-  https://github.com/cota/berkeley-softfloat-3
-  Entering 'tests/fp/berkeley-testfloat-3'
-  https://gitlab.com/qemu-project/berkeley-testfloat-3.git
-  Entering 'tests/lcitool/libvirt-ci'
-  http://gitlab.com/libvirt/libvirt-ci
-  Entering 'ui/keycodemapdb'
-  https://git.qemu.org/git/keycodemapdb.git
-
-vs what .gitmodules says:
-
-=E2=9E=9C  cat .gitmodules | grep url
-        url =3D https://gitlab.com/qemu-project/seabios.git/
-        url =3D https://gitlab.com/qemu-project/SLOF.git
-        url =3D https://gitlab.com/qemu-project/ipxe.git
-        url =3D https://gitlab.com/qemu-project/openbios.git
-        url =3D https://gitlab.com/qemu-project/qemu-palcode.git
-        url =3D https://gitlab.com/qemu-project/dtc.git
-        url =3D https://gitlab.com/qemu-project/u-boot.git
-        url =3D https://gitlab.com/qemu-project/skiboot.git
-        url =3D https://gitlab.com/qemu-project/QemuMacDrivers.git
-        url =3D https://gitlab.com/qemu-project/keycodemapdb.git
-        url =3D https://gitlab.com/qemu-project/seabios-hppa.git
-        url =3D https://gitlab.com/qemu-project/u-boot-sam460ex.git
-        url =3D https://gitlab.com/qemu-project/berkeley-testfloat-3.git
-        url =3D https://gitlab.com/qemu-project/berkeley-softfloat-3.git
-        url =3D https://gitlab.com/qemu-project/edk2.git
-        url =3D   https://gitlab.com/qemu-project/opensbi.git
-        url =3D https://gitlab.com/qemu-project/qboot.git
-        url =3D https://gitlab.com/qemu-project/meson.git
-        url =3D https://gitlab.com/qemu-project/vbootrom.git
-        url =3D https://gitlab.com/libvirt/libvirt-ci.git
-        url =3D https://gitlab.com/qemu-project/libvfio-user.git
-
->
-> thanks
-> -- PMM
+> On 2 Mar 2023, at 11:31, David Hildenbrand <david@redhat.com> wrote:
+>=20
+> On 02.03.23 12:09, Fam Zheng wrote:
+>> This adds a memset to clear the backing memory. This is useful in the
+>> case of PMEM DAX to drop dirty data, if the backing memory is handed
+>> over from a previous application or firmware which didn't clean up
+>> before exiting.
+>=20
+> Why can't the VM manager do that instead? If you have a file that's =
+certainly easily possible.
 
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Hi David,
+
+Technically yes, but I have a simple VM manager here which wants to =
+avoid replicating the same mmap code, such as handling the flags =
+depending on share=3Don|off,hugepages=3Don|off. All in all this approach =
+requires the least additional code to achieve it.
+
+Thanks,
+Fam
+
+>=20
+> --=20
+> Thanks,
+>=20
+> David / dhildenb
+>=20
+
 
