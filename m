@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808D66A817F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B277A6A8182
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:49:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhQN-00024c-OK; Thu, 02 Mar 2023 06:48:39 -0500
+	id 1pXhQq-0002bF-1T; Thu, 02 Mar 2023 06:49:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pXhQM-00024H-03
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:48:38 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1pXhQm-0002U5-U1
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:49:05 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pXhQK-0005aM-BX
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:48:37 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id r40so12274552oiw.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:48:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1pXhQk-0005l2-Lz
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:49:04 -0500
+Received: by mail-wm1-x331.google.com with SMTP id j3so10504310wms.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1677757714;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bfxtFo75Vbs6nbCD7jh08npMAeE5QGd1IbzegI4Xkyk=;
- b=lI0LnPmEcS00r5Y2hoKEbZv5i8RoEfu3QIJaM99obXn3odAkzf6nFJu46NN/3MzweC
- yviXXrqmDpfrh/2H27CsX3Y9JHc9Om1SL12JEv9JJO/OmbFTfk34DgH2PeFAFoYMBpOj
- 5yNFo0cNKNYu1X3vqSq9TOuRDl9c6bxjiyWOnaM4fksCKpNlfxlxUFBZadpQUvacHyfa
- XkQiDQzTs5/0nhODOC/Ruao1wUAKtmBXEuN/rE6g1rflA3oYy6R9QZTW2uvVGtIFXkbV
- 2TktQEOEdHKnK/BbKRzFGlEv2dAGmC5SZcn03WzxODQqOnqiAjAnYZkXSz6VFf2fI0hq
- vs0A==
+ d=bytedance.com; s=google;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qk2LK8/67bXJvgOd0J2YuXDemxjdCR5D1Mu3Pwswr08=;
+ b=OE0BRz1p0cL7HNqH4DoEEK7xPA3+u+1LA+Cauih7Glp5wPjkMHCa4s7HzTqiEkyWJQ
+ InQE91j03yV9hWXiwp5NcATDWYRN62KM2mgspMy4L6G7aNXz6bfVbCH3pdchUpuT0flm
+ LOD2CUF+JXHxZ7cXe9fce5KbeEcTjTCVo6a1/kJQV6SVSLgi+FxeOCktxGs0YTyxMdU/
+ 558WK7YXe7N+9j3qqz3KovWn8EorHAG94+4vWQ07B7RRaxQ5qhG2N4wqUsXJAtUfcM5k
+ 1nKtpZtRsMy38NbHMHaJJNV8+bq2MQ8U+YFdGDMVUBSPvJT7rtYgNvdNpeLtmunpbho1
+ Fr4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677757714;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bfxtFo75Vbs6nbCD7jh08npMAeE5QGd1IbzegI4Xkyk=;
- b=uYL9qtGMgbakpm9tG8InTQeLekuuTBmksN4bhxo5A0vtTYFi+gKTZ6pJcSSTqEUKVw
- 8bxVnWThA7BOB9YGO2QJIcHOxKL5kGeNdLLz+xV5XuV5R3zwveCPTS9YXcXveBrL3JQe
- k43G3s4ewC4ut5JCDvXMTLUSw0jhdxqMyJYvcV5XYBg49XXt8qzhEdkGCKUtK3DOOwRT
- PFGynx5KK5MC+nOboYVPP5eugqdeUJCBxma0SMTDRJT48HRgLsFltVLlxK25PPunLxBx
- POf/dfGz26gpfjjfxKs3uOym2MSQ16bB03UG5hiEH7LhVahRrQVPfWkTzbaOqQQApQ0N
- PMDQ==
-X-Gm-Message-State: AO0yUKXZg7lFp9QZShNzJoFn9z18XI6blLmhwUn+NEhZmLzpGJG8jp97
- G0IQOu4sC2JcMyDdQyRdEDqqD7yBD6SCc79u
-X-Google-Smtp-Source: AK7set/u1tKeKUPsUhY+eA4Rt8n5bg/E84YjSk3Cd8PcLpvK+i99oIgH9ch0tS/1T+MsgM/1tzPqMA==
-X-Received: by 2002:a05:6808:3a7:b0:378:69f4:7f6c with SMTP id
- n7-20020a05680803a700b0037869f47f6cmr4870434oie.43.1677757714050; 
- Thu, 02 Mar 2023 03:48:34 -0800 (PST)
-Received: from [192.168.68.107] ([177.189.53.31])
+ d=1e100.net; s=20210112;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qk2LK8/67bXJvgOd0J2YuXDemxjdCR5D1Mu3Pwswr08=;
+ b=nLgJIWXDa/1uKMxO0nz5OaYFX7ANftk3kXYAetFSTiOiz2+cfPo/ugAB5zVWhSPlxp
+ 6DU9U1xYvyQ/gNMzaE2YHN43uPz88fw8Gc7y5jsYNSJN68Ef8pc4TOFIKXPLhcqN/xdI
+ TPODYzyS2wdIEXTIXIz8woQSLruRs9hyCh9A4VXUZQNM1csjAr0lhkBl6zjHUUzx4+gm
+ Y6YEiAgG2r/5W7e6OU/99VyRi6eRQmXZKEIGIMucVPbbmEF3ZzOCvEvVPybWhK5dt0Jj
+ wCVM3KPQ5bPOm46p8G1pV5UdVsLcWGQ4sxnKQ/6RqO1LiJOXtTC1lMlP+tQgQDrF5UOH
+ I5wg==
+X-Gm-Message-State: AO0yUKX6wrvn44d4zZ7f5bCkqwc17sOdXexVjfxcilms4D9l2Nxw0Kjx
+ cezDwqWky442piEXtWws1UkWBA==
+X-Google-Smtp-Source: AK7set+sXjIPHrR4oXIua1OClSUuqrQg643fWaSuSplkYvaoJmW5OoGturmwrrv+r0+8ISpGUe52Sg==
+X-Received: by 2002:a05:600c:16c9:b0:3df:ee64:4814 with SMTP id
+ l9-20020a05600c16c900b003dfee644814mr7370522wmn.20.1677757739845; 
+ Thu, 02 Mar 2023 03:48:59 -0800 (PST)
+Received: from smtpclient.apple ([93.115.195.2])
  by smtp.gmail.com with ESMTPSA id
- x124-20020acae082000000b0038440f0f63dsm4065344oig.37.2023.03.02.03.48.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 03:48:33 -0800 (PST)
-Message-ID: <38da764e-3cc8-14cb-4f9a-5b3b4014e042@ventanamicro.com>
-Date: Thu, 2 Mar 2023 08:48:29 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v8 0/4] riscv: Add support for Zicbo[m,z,p] instructions
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- richard.henderson@linaro.org, Palmer Dabbelt <palmer@rivosinc.com>
-References: <20230224132536.552293-1-dbarboza@ventanamicro.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230224132536.552293-1-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+ i16-20020a05600c355000b003dc4480df80sm3084056wmq.34.2023.03.02.03.48.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 Mar 2023 03:48:59 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: [External] [PATCH] hostmem: Add clear option to file backend
+From: Feiran Zheng <fam.zheng@bytedance.com>
+In-Reply-To: <9c14c247-0184-35e8-6399-b542e4e20129@redhat.com>
+Date: Thu, 2 Mar 2023 11:48:48 +0000
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Peter Xu <peterx@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D936CC04-15BB-4F77-A2F6-919225EA06C1@bytedance.com>
+References: <20230302110925.4680-1-fam.zheng@bytedance.com>
+ <377c3521-ffe1-074b-48ac-71fd445b3bb4@redhat.com>
+ <15DA845E-C50C-46BB-A241-164E5851E388@bytedance.com>
+ <9c14c247-0184-35e8-6399-b542e4e20129@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+X-Mailer: Apple Mail (2.3731.400.51.1.1)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=fam.zheng@bytedance.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,65 +101,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-Thanks everyone for the reviews. Palmer, patch 1 just landed upstream (commit
-1770b2f2d3d6). You can pick patches 2-4 cleanly now.
-
-There is another patch in the ML:
-
-[PATCH v2 0/1] hw/riscv/virt.c: add cbo[mz]-block-size fdt properties​3 messages
-
-that can be picked together as well.
 
 
-Thanks,
+> On 2 Mar 2023, at 11:39, David Hildenbrand <david@redhat.com> wrote:
+>=20
+> On 02.03.23 12:37, Feiran Zheng wrote:
+>>> On 2 Mar 2023, at 11:31, David Hildenbrand <david@redhat.com> wrote:
+>>>=20
+>>> On 02.03.23 12:09, Fam Zheng wrote:
+>>>> This adds a memset to clear the backing memory. This is useful in =
+the
+>>>> case of PMEM DAX to drop dirty data, if the backing memory is =
+handed
+>>>> over from a previous application or firmware which didn't clean up
+>>>> before exiting.
+>>>=20
+>>> Why can't the VM manager do that instead? If you have a file that's =
+certainly easily possible.
+>> Hi David,
+>> Technically yes, but I have a simple VM manager here which wants to =
+avoid replicating the same mmap code, such as handling the flags =
+depending on share=3Don|off,hugepages=3Don|off. All in all this approach =
+requires the least additional code to achieve it.
+>=20
+> so ... we're supposed to maintain that code in QEMU instead to make =
+your life easier ? :)
+>=20
+> Sorry, for this particular use case I don't see the big benefit of =
+moving that code into QEMU.
+>=20
+
+I am posting because this does not only makes my life easier, supposedly =
+it also make other developers life easier, because the file here can be =
+a char file and there is no easy way to clear it (/dev/dax1.0) from =
+command line if you want to invoke a QEMU command directly.
+
+Maybe I=E2=80=99m missing a convenient command to clear a DAX char file?
+
+Surely it doesn=E2=80=99t make a big difference either way and I am not =
+worried of maintaining the code outside QEMU, but I just think this flag =
+is a nice thing in QEMU anyway.
 
 
-Daniel
 
-On 2/24/23 10:25, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> This version has a change in patch 2, proposed by Weiwei Li, where we're
-> now triggering virt_instruction_fault before triggering illegal_insn
-> fault from S mode.
-> 
-> Richard already queued patch 1 is queued in tcg-next already. I'm still
-> including it here to allow for easier testing of the remaining patches.
-> 
-> Changes from v7:
-> - patch 1: queued in tcg-next, included here to facilitate testing the
->    other patches
-> - patch 2:
->    - changed check_zicbo_envcfg() to trigger the virtual faults
->      before triggering the illegal exception from S mode.
-> - v7 link: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg07041.html
-> 
-> Christoph Muellner (3):
->    target/riscv: implement Zicboz extension
->    target/riscv: implement Zicbom extension
->    target/riscv: add Zicbop cbo.prefetch{i,r,m} placeholder
-> 
-> Daniel Henrique Barboza (1):
->    tcg: add 'size' param to probe_access_flags()
-> 
->   accel/stubs/tcg-stub.c                      |   2 +-
->   accel/tcg/cputlb.c                          |  17 ++-
->   accel/tcg/user-exec.c                       |   5 +-
->   include/exec/exec-all.h                     |   3 +-
->   semihosting/uaccess.c                       |   2 +-
->   target/arm/ptw.c                            |   2 +-
->   target/arm/sve_helper.c                     |   2 +-
->   target/riscv/cpu.c                          |   7 +
->   target/riscv/cpu.h                          |   4 +
->   target/riscv/helper.h                       |   5 +
->   target/riscv/insn32.decode                  |  16 ++-
->   target/riscv/insn_trans/trans_rvzicbo.c.inc |  57 +++++++++
->   target/riscv/op_helper.c                    | 135 ++++++++++++++++++++
->   target/riscv/translate.c                    |   1 +
->   target/s390x/tcg/mem_helper.c               |   6 +-
->   15 files changed, 250 insertions(+), 14 deletions(-)
->   create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
-> 
+Fam
+
+> --=20
+> Thanks,
+>=20
+> David / dhildenb
+>=20
+
 
