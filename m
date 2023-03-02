@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188436A8B19
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 22:23:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D2D6A8B31
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 22:26:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXqNr-0000tE-0M; Thu, 02 Mar 2023 16:22:39 -0500
+	id 1pXqQh-0005u6-IT; Thu, 02 Mar 2023 16:25:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pXqNo-0000sJ-JP
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:22:36 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pXqQd-0005gD-VF; Thu, 02 Mar 2023 16:25:32 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pXqNm-0002Pr-UI
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:22:36 -0500
-Received: by mail-ed1-x529.google.com with SMTP id s11so2434201edy.8
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 13:22:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pXqQc-0004SB-ED; Thu, 02 Mar 2023 16:25:31 -0500
+Received: by mail-ed1-x531.google.com with SMTP id cw28so2530530edb.5;
+ Thu, 02 Mar 2023 13:25:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677792154;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20210112; t=1677792328;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=E3AbtksDDkEgW154O4FaZBF+XsOlCJCcpo5LHxuITys=;
- b=SbodzgqTXASpdpzrW/p33BHevosp6Xf34vNuqkZ2y6kabsW0vLkcSl/Y9T6M42A5u8
- uJEqeOV2EWGw8Q0LN+EjltfFvXWz7nMY0HOg4veIJs7iwQS6Hpb6heLqquPR3L0FX2u6
- gGmRQFBXilq5eCa13E07ePMCDqNhQeehpNMB49/hr/5EcEtzPo1NbgeJBRnUyxa53xo1
- ZwNO7EV6CrMcS6zSCO8V8OiMUKGFiaNqDRfWnMyF9zhRKWGZJrA+QZfeO8A3d8IU5RKJ
- 6HwMQ9RwZ1xpPGQ/2armPRJf+AECE+egXUKgTnr32IVIE4yaDZ68FqbAgLATwQ2v785o
- pVLQ==
+ bh=XAUO1YXcOBjdg+DnX6dktKeqsUXpQMrcfox5EiQpiho=;
+ b=VoFtJSaHDtkCboaZAv1q/0bToiqblTmpci3tAwQndfrk8TVFue6CdqojvDMzprocu1
+ UqnPhe7gYpEQwgEhpbcI8ZLrKPmj0fOsyJjTzstWqqWfeYU7N93aFrUQtAGBCG6IrAU/
+ 3ma6haQEELzrtvWOxGeOwv27Shj5zk2DxFHlyTj2yfRpEQLM4sjsTAqnzoXi0J5awlFw
+ ftkI6Ad8a5aIB99JPOjnzB/Yu0tkJyTwlpUyKmkLXH+U4ZeePR4BkH6WWIM9xRW4spAA
+ adFDbKY2LBCnyeDVBo1m7L3YCYpETQwk8MBrJ4UxUxI6o+uki9LmX4e9tboRTzua6sKy
+ HLMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677792154;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1677792328;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=E3AbtksDDkEgW154O4FaZBF+XsOlCJCcpo5LHxuITys=;
- b=K6kBARuFGDds2FdhNYWAEP+1AoDEIwaj/MSCDEKs3qUIhnaana413eowu5T4Dtp4CJ
- 0nwvbLVdRlHHi3AuQ10ZvgqLOaFAhGlYrmGMByKsa0sJIk1KIFCVPaTeo1dvb+QstZjD
- /blXZxAfUGbx0rGzbAEWruIm4XtYaFoRzMlt3ty9PCxaDfvj7BTGXOQllG73Gfe7KDwb
- yhFfWisIjrF9u4fEqgL7qf5Kek2cdnb/4wcyZR17sL7+jHWB+oP/y0WDH4BSw/hdGdXo
- ZXy2Y9CW1Ap5+iD6r8AwkohpU/uCekKXG6adYmHP5iLnphcTtPiDtUG946sDhFkTl+1X
- NaOQ==
-X-Gm-Message-State: AO0yUKWrvayD0EuRHWLLsYUbJa4CgU3emdEIR0QhkkeT9nNUHagZ5hLy
- hGx/YRvUH6x9T3bGprmvcZqvRyB+HfI=
-X-Google-Smtp-Source: AK7set+MX29xmLqjZSpu0iLhBwH5+L7t7+5T0s6ldasBy0sZRNpY+Hud2DxQvRc2laf0aucK79xzYg==
-X-Received: by 2002:a17:906:2b48:b0:8f8:7a2b:cc0d with SMTP id
- b8-20020a1709062b4800b008f87a2bcc0dmr12981685ejg.47.1677792154009; 
- Thu, 02 Mar 2023 13:22:34 -0800 (PST)
-Received: from Provence.localdomain
- (dynamic-092-224-150-004.92.224.pool.telefonica.de. [92.224.150.4])
- by smtp.gmail.com with ESMTPSA id
- s4-20020a1709062ec400b008f89953b761sm145895eji.3.2023.03.02.13.22.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 13:22:33 -0800 (PST)
+ bh=XAUO1YXcOBjdg+DnX6dktKeqsUXpQMrcfox5EiQpiho=;
+ b=VC1jkQX7C8fmUfgdIqSeIUNlBByvThoOIk5ERWQfJqgWBM3qnVvrRr89u4x2I31ZOF
+ ZSdZ52vnxoa6KL5p1+bWddzTd0k/8tW2wmf6l3zKu4wCmPOUDGzmI0MtrKb1Biki9omY
+ 7RJ2WDI4NThuansV5nE/B/E3t9d1bQhdfTHsb+a5vgo+MnqjlcTO1tSRoP6zCIy+KqsR
+ cA5XmmIjO3qVn/VHzxxCKcXVBBCSQdTMaNy3v+LTn9ghTWJ6E5E4UlwuYetDzGa+5Fzq
+ EazcmANXfFyoa08X5bfLShGoa6NoRIpZQ450TTJ2whhRaZnbKJNXU3U6OAU1M+oU/qJD
+ dMIQ==
+X-Gm-Message-State: AO0yUKW88fiS1hAzVzu3Ei8xakZ0R9nMsp+THciYE1gHIziHAlunDDDV
+ WfF2fbDC5eddJYzv967hHf4=
+X-Google-Smtp-Source: AK7set/YUu5qlUR9MzOZJi0kVOpabQMuvWvAwUmvSs9+xmG79kROXuyGfX32FFfJRwf6BQPWezwGIw==
+X-Received: by 2002:aa7:c498:0:b0:474:a583:2e1a with SMTP id
+ m24-20020aa7c498000000b00474a5832e1amr10853812edq.12.1677792327941; 
+ Thu, 02 Mar 2023 13:25:27 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-092-224-150-004.92.224.pool.telefonica.de.
+ [92.224.150.4]) by smtp.gmail.com with ESMTPSA id
+ y9-20020a1709064b0900b008b176df2899sm130320eju.160.2023.03.02.13.25.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 13:25:27 -0800 (PST)
+Date: Thu, 02 Mar 2023 21:25:14 +0000
 From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: qemu-devel@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-arm@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, John Snow <jsnow@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v8 23/23] hw/isa/piix: Reuse PIIX3 base class' realize method
- in PIIX4
-Date: Thu,  2 Mar 2023 22:22:01 +0100
-Message-Id: <20230302212201.224360-24-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230302212201.224360-1-shentey@gmail.com>
-References: <20230302212201.224360-1-shentey@gmail.com>
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-ppc@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>
+Subject: Re: [PATCH v7 00/23] Consolidate PIIX south bridges
+In-Reply-To: <20230301171819-mutt-send-email-mst@kernel.org>
+References: <20230212123805.30799-1-shentey@gmail.com>
+ <A5067C75-87DB-4D58-B49E-97BEDF303831@gmail.com>
+ <20230301171819-mutt-send-email-mst@kernel.org>
+Message-ID: <0433958F-660C-4E33-9AE9-2ADBE1AE6D64@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,154 +106,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Resolves duplicate code.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/piix.c | 78 ++++++++++++++++-----------------------------------
- 1 file changed, 24 insertions(+), 54 deletions(-)
 
-diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index 5d4e411e33..945c47b7e9 100644
---- a/hw/isa/piix.c
-+++ b/hw/isa/piix.c
-@@ -311,17 +311,11 @@ static const MemoryRegionOps rcr_ops = {
-     },
- };
- 
--static void pci_piix3_realize(PCIDevice *dev, Error **errp)
-+static void pci_piix_realize(PCIDevice *dev, const char *uhci_type,
-+                             ISABus *isa_bus, Error **errp)
- {
-     PIIXState *d = PIIX_PCI_DEVICE(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
--    ISABus *isa_bus;
--
--    isa_bus = isa_bus_new(DEVICE(d), pci_address_space(dev),
--                          pci_address_space_io(dev), errp);
--    if (!isa_bus) {
--        return;
--    }
- 
-     memory_region_init_io(&d->rcr_mem, OBJECT(dev), &rcr_ops, d,
-                           "piix-reset-control", 1);
-@@ -346,8 +340,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
- 
-     /* USB */
-     if (d->has_usb) {
--        object_initialize_child(OBJECT(dev), "uhci", &d->uhci,
--                                TYPE_PIIX3_USB_UHCI);
-+        object_initialize_child(OBJECT(dev), "uhci", &d->uhci, uhci_type);
-         qdev_prop_set_int32(DEVICE(&d->uhci), "addr", dev->devfn + 2);
-         if (!qdev_realize(DEVICE(&d->uhci), BUS(pci_bus), errp)) {
-             return;
-@@ -442,8 +435,15 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-     ERRP_GUARD();
-     PIIXState *piix3 = PIIX_PCI_DEVICE(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
-+    ISABus *isa_bus;
-+
-+    isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
-+                          pci_address_space_io(dev), errp);
-+    if (!isa_bus) {
-+        return;
-+    }
- 
--    pci_piix3_realize(dev, errp);
-+    pci_piix_realize(dev, TYPE_PIIX3_USB_UHCI, isa_bus, errp);
-     if (*errp) {
-         return;
-     }
-@@ -483,8 +483,15 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
-     ERRP_GUARD();
-     PIIXState *piix3 = PIIX_PCI_DEVICE(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
-+    ISABus *isa_bus;
- 
--    pci_piix3_realize(dev, errp);
-+    isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
-+                          pci_address_space_io(dev), errp);
-+    if (!isa_bus) {
-+        return;
-+    }
-+
-+    pci_piix_realize(dev, TYPE_PIIX3_USB_UHCI, isa_bus, errp);
-     if (*errp) {
-         return;
-     }
-@@ -525,6 +532,7 @@ static void piix4_request_i8259_irq(void *opaque, int irq, int level)
- 
- static void piix4_realize(PCIDevice *dev, Error **errp)
- {
-+    ERRP_GUARD();
-     PIIXState *s = PIIX_PCI_DEVICE(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
-     ISABus *isa_bus;
-@@ -536,59 +544,21 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
- 
--    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &rcr_ops, s,
--                          "piix-reset-control", 1);
--    memory_region_add_subregion_overlap(pci_address_space_io(dev),
--                                        PIIX_RCR_IOPORT, &s->rcr_mem, 1);
--
-     /* initialize i8259 pic */
-     i8259_out_irq = qemu_allocate_irqs(piix4_request_i8259_irq, s, 1);
-     s->pic = i8259_init(isa_bus, *i8259_out_irq);
- 
--    /* initialize ISA irqs */
--    isa_bus_register_input_irqs(isa_bus, s->pic);
-+    pci_piix_realize(dev, TYPE_PIIX4_USB_UHCI, isa_bus, errp);
-+    if (*errp) {
-+        return;
-+    }
- 
-     /* initialize pit */
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
- 
--    /* DMA */
--    i8257_dma_init(isa_bus, 0);
--
-     /* RTC */
--    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
--    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
--        return;
--    }
-     s->rtc.irq = s->pic[s->rtc.isairq];
- 
--    /* IDE */
--    qdev_prop_set_int32(DEVICE(&s->ide), "addr", dev->devfn + 1);
--    if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
--        return;
--    }
--
--    /* USB */
--    if (s->has_usb) {
--        object_initialize_child(OBJECT(dev), "uhci", &s->uhci,
--                                TYPE_PIIX4_USB_UHCI);
--        qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
--        if (!qdev_realize(DEVICE(&s->uhci), BUS(pci_bus), errp)) {
--            return;
--        }
--    }
--
--    /* ACPI controller */
--    if (s->has_acpi) {
--        object_initialize_child(OBJECT(s), "pm", &s->pm, TYPE_PIIX4_PM);
--        qdev_prop_set_int32(DEVICE(&s->pm), "addr", dev->devfn + 3);
--        qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", s->smb_io_base);
--        qdev_prop_set_bit(DEVICE(&s->pm), "smm-enabled", s->smm_enabled);
--        if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
--            return;
--        }
--        qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->pic[9]);
--    }
--
-     pci_bus_irqs(pci_bus, piix_set_irq, s, PIIX_NUM_PIRQS);
- }
- 
--- 
-2.39.2
+Am 1=2E M=C3=A4rz 2023 22:19:12 UTC schrieb "Michael S=2E Tsirkin" <mst@re=
+dhat=2Ecom>:
+>On Thu, Feb 23, 2023 at 05:25:23PM +0000, Bernhard Beschow wrote:
+>> Ping
+>>=20
+>> Can we queue the piix3 part already? Now that the series doesn't introd=
+uce a PIC proxy any more the piix3 part is essentially QOM cleanup=2E
+>>=20
+>> Note that I cautiously dropped some Reviewed-by tags in the piix3 part =
+as well=2E
+>>=20
+>> Best regards,
+>> Bernhard
+>
+>This conflicts with ICH9 cleanup - I guess once that is merged you will
+>rebase right?
 
+I did -- v8 is out!
+
+Best regards,
+Bernhard
 
