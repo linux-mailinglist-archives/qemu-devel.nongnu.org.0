@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610156A7D6A
+	by mail.lfdr.de (Postfix) with ESMTPS id 765B96A7D6C
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:16:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXf1D-0006iP-PP; Thu, 02 Mar 2023 04:14:32 -0500
+	id 1pXf1U-0006ug-Jb; Thu, 02 Mar 2023 04:14:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pXf15-0006QW-Gb
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:14:23 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e])
+ id 1pXf15-0006SA-Tc
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:14:24 -0500
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pXf12-0007Z9-E5
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:14:22 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id
- v1-20020a9d6041000000b0068d4a8a8d2dso9110196otj.12
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 01:14:17 -0800 (PST)
+ id 1pXf13-0007ZL-7U
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:14:23 -0500
+Received: by mail-ot1-x32a.google.com with SMTP id
+ v1-20020a9d6041000000b0068d4a8a8d2dso9110279otj.12
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 01:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1677748453;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=z5c2bQOwrWxvvs9nR+nbGDX2izdNRL4cC/XCJgSGPHg=;
- b=HfOJzupwH5OUPi/UpKiRKxV9aRq1h2vy3NNxS2ZuL88uRD5FaNv+y2hK0ABwwLiIAS
- hK3IXckU1iHrpioL3RvxmdtCkanU+oS/S03+rL2InPWixqmfW72sbDNn5SK9Cnyg3eUV
- ZlzmdTzHogrceAinRGmXZbku5wHuyPkcuKGwa9pqEZHV3/sswfxqNErj/naZzEQgrKC1
- DWQ9KHE8e3JmZlQ7OVvCQAIaFUwE5sEETkrUVRPgkdWXcd5ybnnGx1PzyRCQKe42FGeR
- HGk7XJw/b6pI3Sj4mrT6OW1SO9vsqOqh4u7/UMV7rJDhB9Rs9ejrILC7GjTNKv+27PKi
- mXhQ==
+ d=ventanamicro.com; s=google; t=1677748457;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R274/Vc5G4hcu19V0bNDe9Pycy+Is3/KvfH/HkOqwFY=;
+ b=DSxhLKVWd3SKoPIIS0QAWR2IqJbwkvWRZtfMH9xGNPnGHGEr9v1x6ajYa6tjKXMiBU
+ WvHfOc1y+cU7whT6heNFE4B6ed/xfnrOEduJjzJyzkO1xcdF5HodjUgkKGHulG51qb0B
+ pgoF/XQI/jhgvRRQKsI0lUwrjod6twAyS0grJRrWM9wi2fbl0/m+F4qPkCf7CHPmA/bi
+ 55xPWlT4v1AdvFcIoGiB4X1vKVab0Mj52tn52AS+mUYBQ1Ipw6mI1FbCiLsZyxLJg/e6
+ hKsYkMLWeaW+NchI0eYC7q6KfpMuq6CpceRaG37lb+aebxSbC/JQZe/layOM64V+/OtV
+ J6bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677748453;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z5c2bQOwrWxvvs9nR+nbGDX2izdNRL4cC/XCJgSGPHg=;
- b=CXGtj+Mie6IudfLTgnCEGl+loPyRs7+kbwjteq0KV1vW9RRST+wareU7XCuyA3eDdQ
- gqUxP5Xz4+ukQprx9dfDpeOJMlyuRDcj6x10f9V3HJ1Ju+m4Wg5yjSJxba0fbHFm198+
- Wuwo0gKUZJfmxyG78pa6N5J8EUdwUhGeOlJO7rqpb2pK88WTQJlvlWMbeeJL0fgI0Wvp
- 0hGxOrwyhMN7VlCj4bV4+KeCNCfnTBcG0t9WbQCw55HnjgeWrjO2j1U7ZM/oXedKbJ2/
- mKAONHXFtQFaM2N+UXYtB44ri2NoqcdiEUXQ7//bFVGEMF8v0UixEhljYLYMCDmrT5o/
- 3tIA==
-X-Gm-Message-State: AO0yUKWeWa+SbEOlh+2/Qj3mUSIPNd1k54iaatKsQWK8ZNkKzfPlYI3v
- seZcOs41ica/l4JXiUP3L+dFa7uXNV53HQgS
-X-Google-Smtp-Source: AK7set9MR82DqHps3T2KC+zZcy0HTf0dxChuaAmmOyg1DL4mezCga3ZI7Gt4bmQt4BLpyF+HsBGLzA==
-X-Received: by 2002:a9d:684a:0:b0:693:c20e:5655 with SMTP id
- c10-20020a9d684a000000b00693c20e5655mr754602oto.4.1677748453143; 
- Thu, 02 Mar 2023 01:14:13 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677748457;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R274/Vc5G4hcu19V0bNDe9Pycy+Is3/KvfH/HkOqwFY=;
+ b=PEXcCryBM71Lz6oUrEjFco4ydLKlkPArZKY84NGh6ZuSA+LkgqVs+M7qX/tJ7n2Yun
+ ZNmTMrGDhF1zZ9FZVUPc7Cr8YE9eBibAUwwjCuFbxBTndYEJEjAtc05B45iaMG/0FI0b
+ KalWlH646fg4kDf0fSctgDv4n+C1sfgAWXhFTYmkCiIj1PKnVODjfdWecyRtRJyV5D9v
+ SOVt477uStXGW4jc6bcZ17Ov8DxzEep4poArR+LPyehhe8uZFtJSsxTHLCSL++BRmQ6f
+ zBaB5V1hfoW5D6Nk8/kpzX37qLMqk/CmFIZ5ijN6GMVr6EjrnI7YYRWQgMonUNJh1mew
+ nQCw==
+X-Gm-Message-State: AO0yUKUR+U5ihU8XRmzfRo+RzxHedQ1JV8o2ouz5aDf9iHT7RK3uhXtt
+ FWWwJWF9Y9d/mnnBgRBmqAlGxwiroMh6bV/j
+X-Google-Smtp-Source: AK7set8X3WkLFuly/1S0jCA9Q19VuIjBKpkEM2ZEq9vK9tpNlOwF5KQNMDfMxQG4IqXBczn1dw6D9w==
+X-Received: by 2002:a9d:17a7:0:b0:690:ee6c:5684 with SMTP id
+ j36-20020a9d17a7000000b00690ee6c5684mr666398otj.16.1677748456958; 
+ Thu, 02 Mar 2023 01:14:16 -0800 (PST)
 Received: from grind.. ([177.189.53.31]) by smtp.gmail.com with ESMTPSA id
- v15-20020a9d7d0f000000b006864c8043e0sm5641793otn.61.2023.03.02.01.14.10
+ v15-20020a9d7d0f000000b006864c8043e0sm5641793otn.61.2023.03.02.01.14.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 01:14:12 -0800 (PST)
+ Thu, 02 Mar 2023 01:14:16 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [PATCH v2 0/1] hw/riscv/virt.c: add cbo[mz]-block-size fdt properties
-Date: Thu,  2 Mar 2023 06:14:05 -0300
-Message-Id: <20230302091406.407824-1-dbarboza@ventanamicro.com>
+ Ben Dooks <ben.dooks@codethink.co.uk>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Andrew Jones <ajones@ventanamicro.com>
+Subject: [PATCH v2 1/1] hw/riscv/virt.c: add cbo[mz]-block-size fdt properties
+Date: Thu,  2 Mar 2023 06:14:06 -0300
+Message-Id: <20230302091406.407824-2-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230302091406.407824-1-dbarboza@ventanamicro.com>
+References: <20230302091406.407824-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,33 +95,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: 20230224132536.552293-1-dbarboza@ventanamicro.com
-("[PATCH v8 0/4] riscv: Add support for Zicbo[m,z,p] instructions")
+From: Anup Patel <apatel@ventanamicro.com>
 
-Hi,
+The cbom-block-size fdt property property is used to inform the OS about
+the blocksize in bytes for the Zicbom cache operations. Linux documents
+it in Documentation/devicetree/bindings/riscv/cpus.yaml
+as:
 
-This second version, which is still dependent on:
+  riscv,cbom-block-size:
+    $ref: /schemas/types.yaml#/definitions/uint32
+    description:
+      The blocksize in bytes for the Zicbom cache operations.
 
-[PATCH v8 0/4] riscv: Add support for Zicbo[m,z,p] instructions
+cboz-block-size has the same role but for the Zicboz extension, i.e.
+informs the size in bytes for Zicboz cache operations. Linux support
+for it is under review/approval in [1]. Patch 3 of that series describes
+cboz-block-size as:
 
-Is adding the cboz FDT property as well as requested by Ben Dooks. First
-version refrain from adding it since it's still under review in the
-kernel but, given that we have cboz_blocksize already available, it
-makes sense to also expose it like we're already doing for
-cbom-block-size.
+  riscv,cboz-block-size:
+    $ref: /schemas/types.yaml#/definitions/uint32
+    description:
+      The blocksize in bytes for the Zicboz cache operations.
 
-Changes from v1:
-- also add riscv,cboz-block-size for Zicboz
-- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg00368.html
+[1] https://lore.kernel.org/all/20230224162631.405473-1-ajones@ventanamicro.com/
 
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>
-
-Anup Patel (1):
-  hw/riscv/virt.c: add cbo[mz]-block-size fdt properties
-
+Cc: Andrew Jones <ajones@ventanamicro.com>
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+---
  hw/riscv/virt.c | 11 +++++++++++
  1 file changed, 11 insertions(+)
 
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 49acb57da4..3799fab9e5 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -244,6 +244,17 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+         name = riscv_isa_string(cpu_ptr);
+         qemu_fdt_setprop_string(ms->fdt, cpu_name, "riscv,isa", name);
+         g_free(name);
++
++        if (cpu_ptr->cfg.ext_icbom) {
++            qemu_fdt_setprop_cell(ms->fdt, cpu_name, "riscv,cbom-block-size",
++                                  cpu_ptr->cfg.cbom_blocksize);
++        }
++
++        if (cpu_ptr->cfg.ext_icboz) {
++            qemu_fdt_setprop_cell(ms->fdt, cpu_name, "riscv,cboz-block-size",
++                                  cpu_ptr->cfg.cboz_blocksize);
++        }
++
+         qemu_fdt_setprop_string(ms->fdt, cpu_name, "compatible", "riscv");
+         qemu_fdt_setprop_string(ms->fdt, cpu_name, "status", "okay");
+         qemu_fdt_setprop_cell(ms->fdt, cpu_name, "reg",
 -- 
 2.39.2
 
