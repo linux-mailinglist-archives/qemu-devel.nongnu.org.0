@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E186A8628
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A63E6A8630
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:21:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbs-0007SI-1q; Thu, 02 Mar 2023 11:16:48 -0500
+	id 1pXlf8-0005rJ-Gb; Thu, 02 Mar 2023 11:20:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbU-0006ZW-Kx
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXlf4-0005aL-1P
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:20:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbR-0000WX-0a
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:22 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXlf1-0001Ae-JI
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:20:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677773775;
+ s=mimecast20190719; t=1677774002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yo++dBc/5aWCdHBju+glqAek6KyJetoX/h/Zt2dPXbE=;
- b=eGBiceKbCEjaCM1BSZuowvsaMA7KzLtNuCqtbhKcbKq0kL0MGE9AZHDh66uS10Wwe59HkC
- gpdBgcEiVM/lQM6UJxCnTaPXISIkvjuRSdw3KSeKthLKcEmjLmCuNEtDOeoGLdJEAZQXi3
- /n3OJj8PHQ2j6552vuaNLHuZwzV98qk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IaJVYGTgDnYhj3pDxPsXjQBKpeEv1wv6K4l4+FiScLY=;
+ b=fCuMal+/5dErSUeS34kBk0NP6y4wPPCqUtDAbY1kkiJ9uBMn/ZOvQel9gml77ZGFPUfOpL
+ EsY1F5GbgPZyQu1r8vndwZ5gNfD4HCam7cyod5H4/arIT8n9lGwLucBzX3yHcL+RUG+T8Z
+ QZbG37WaQ4GILfc+1mPlVHfmAQ6y+zk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-_JLt9-uNNcyRPis_0_X6Ow-1; Thu, 02 Mar 2023 11:16:12 -0500
-X-MC-Unique: _JLt9-uNNcyRPis_0_X6Ow-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-638-LAhZj0VsP_mYB6Jkjw0XpA-1; Thu, 02 Mar 2023 11:20:01 -0500
+X-MC-Unique: LAhZj0VsP_mYB6Jkjw0XpA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E29402A5954C
- for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:16:11 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq2.redhat.com
- (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BFCE140EBF6;
- Thu,  2 Mar 2023 16:16:11 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A290C87A388
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:20:00 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.194.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1272540C6EC4;
+ Thu,  2 Mar 2023 16:19:59 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	berrange@redhat.com
-Subject: [PATCH v2 34/34] pcihp: add ACPI PCI hotplug specific
- is_hotpluggable_bus() callback
-Date: Thu,  2 Mar 2023 17:15:43 +0100
-Message-Id: <20230302161543.286002-35-imammedo@redhat.com>
-In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
-References: <20230302161543.286002-1-imammedo@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PULL 0/2] Migration 20230302 patches
+Date: Thu,  2 Mar 2023 17:19:57 +0100
+Message-Id: <20230302161959.9844-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,194 +76,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Provide pcihp specific callback to check if bus is hotpluggable
-and consolidate its scattered hotplug criteria there.
-While at it clean up no longer needed
-   qbus_set_hotplug_handler(BUS(bus), NULL)
-workarounds since callback makes qbus_is_hotpluggable() return
-correct answer even if hotplug_handler is set on bus.
+The following changes since commit 262312d7ba6e2966acedb4f9c134fd19176b4083:
 
-PS:
-see ("pci: fix 'hotplugglable' property behavior") for details
-why callback was introduced.
+  Merge tag 'pull-testing-next-010323-1' of https://gitlab.com/stsquad/qemu into staging (2023-03-02 13:02:53 +0000)
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- include/hw/acpi/ich9.h          |  1 +
- include/hw/acpi/pcihp.h         |  1 +
- hw/acpi/acpi-pci-hotplug-stub.c |  4 ++++
- hw/acpi/ich9.c                  |  6 +++++
- hw/acpi/pcihp.c                 | 42 ++++++++++++++-------------------
- hw/acpi/piix4.c                 |  8 +++++++
- hw/isa/lpc_ich9.c               |  1 +
- 7 files changed, 39 insertions(+), 24 deletions(-)
+are available in the Git repository at:
 
-diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-index 57a542c4b8..2faf7f0cae 100644
---- a/include/hw/acpi/ich9.h
-+++ b/include/hw/acpi/ich9.h
-@@ -87,6 +87,7 @@ void ich9_pm_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                       DeviceState *dev, Error **errp);
- void ich9_pm_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                               Error **errp);
-+bool ich9_pm_is_hotpluggable_bus(HotplugHandler *hotplug_dev, BusState *bus);
- 
- void ich9_pm_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
- #endif /* HW_ACPI_ICH9_H */
-diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-index 04c98511a4..ef59810c17 100644
---- a/include/hw/acpi/pcihp.h
-+++ b/include/hw/acpi/pcihp.h
-@@ -58,6 +58,7 @@ typedef struct AcpiPciHpState {
- void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
-                      MemoryRegion *address_space_io, uint16_t io_base);
- 
-+bool acpi_pcihp_is_hotpluggbale_bus(AcpiPciHpState *s, BusState *bus);
- void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                    DeviceState *dev, Error **errp);
- void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
-index d1794399f7..dcee3ad7a1 100644
---- a/hw/acpi/acpi-pci-hotplug-stub.c
-+++ b/hw/acpi/acpi-pci-hotplug-stub.c
-@@ -40,3 +40,7 @@ void acpi_pcihp_reset(AcpiPciHpState *s)
-     return;
- }
- 
-+bool acpi_pcihp_is_hotpluggbale_bus(AcpiPciHpState *s, BusState *bus)
-+{
-+    return true;
-+}
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index f778ade7ea..25e2c7243e 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -578,6 +578,12 @@ void ich9_pm_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-     }
- }
- 
-+bool ich9_pm_is_hotpluggable_bus(HotplugHandler *hotplug_dev, BusState *bus)
-+{
-+    ICH9LPCState *lpc = ICH9_LPC_DEVICE(hotplug_dev);
-+    return acpi_pcihp_is_hotpluggbale_bus(&lpc->pm.acpi_pci_hotplug, bus);
-+}
-+
- void ich9_pm_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list)
- {
-     ICH9LPCState *s = ICH9_LPC_DEVICE(adev);
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 34cad061a8..dcfb779a7a 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -121,20 +121,6 @@ static void acpi_set_pci_info(bool has_bridge_hotplug)
-     }
- }
- 
--static void acpi_pcihp_disable_root_bus(void)
--{
--    Object *host = acpi_get_i386_pci_host();
--    PCIBus *bus;
--
--    bus = PCI_HOST_BRIDGE(host)->bus;
--    if (bus && qbus_is_hotpluggable(BUS(bus))) {
--        /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
--        qbus_set_hotplug_handler(BUS(bus), NULL);
--    }
--
--    return;
--}
--
- static void acpi_pcihp_test_hotplug_bus(PCIBus *bus, void *opaque)
- {
-     AcpiPciHpFind *find = opaque;
-@@ -278,9 +264,6 @@ static void acpi_pcihp_update(AcpiPciHpState *s)
- 
- void acpi_pcihp_reset(AcpiPciHpState *s)
- {
--    if (!s->use_acpi_root_pci_hotplug) {
--        acpi_pcihp_disable_root_bus();
--    }
-     acpi_set_pci_info(s->use_acpi_hotplug_bridge);
-     acpi_pcihp_update(s);
- }
-@@ -320,13 +303,6 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-             object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
-             PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
- 
--            /* Remove all hot-plug handlers if hot-plug is disabled on slot */
--            if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT) &&
--                !PCIE_SLOT(pdev)->hotplug) {
--                qbus_set_hotplug_handler(BUS(sec), NULL);
--                return;
--            }
--
-             qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
-             /* We don't have to overwrite any other hotplug handler yet */
-             assert(QLIST_EMPTY(&sec->child));
-@@ -385,6 +361,24 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
- }
- 
-+bool acpi_pcihp_is_hotpluggbale_bus(AcpiPciHpState *s, BusState *bus)
-+{
-+    Object *o = OBJECT(bus->parent);
-+
-+    if (s->use_acpi_hotplug_bridge &&
-+        object_dynamic_cast(o, TYPE_PCI_BRIDGE)) {
-+        if (object_dynamic_cast(o, TYPE_PCIE_SLOT) && !PCIE_SLOT(o)->hotplug) {
-+            return false;
-+        }
-+        return true;
-+    }
-+
-+    if (s->use_acpi_root_pci_hotplug) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
- {
-     AcpiPciHpState *s = opaque;
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 0a233fa95d..63d2113b86 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -404,6 +404,13 @@ static void piix4_device_unplug_cb(HotplugHandler *hotplug_dev,
-     }
- }
- 
-+static bool piix4_is_hotpluggable_bus(HotplugHandler *hotplug_dev,
-+                                      BusState *bus)
-+{
-+    PIIX4PMState *s = PIIX4_PM(hotplug_dev);
-+    return acpi_pcihp_is_hotpluggbale_bus(&s->acpi_pci_hotplug, bus);
-+}
-+
- static void piix4_pm_machine_ready(Notifier *n, void *opaque)
- {
-     PIIX4PMState *s = container_of(n, PIIX4PMState, machine_ready);
-@@ -644,6 +651,7 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
-     hc->plug = piix4_device_plug_cb;
-     hc->unplug_request = piix4_device_unplug_request_cb;
-     hc->unplug = piix4_device_unplug_cb;
-+    hc->is_hotpluggable_bus = piix4_is_hotpluggable_bus;
-     adevc->ospm_status = piix4_ospm_status;
-     adevc->send_event = piix4_send_gpe;
-     adevc->madt_cpu = pc_madt_cpu_entry;
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index d8303d0322..9714b0001e 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -865,6 +865,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
-     hc->plug = ich9_pm_device_plug_cb;
-     hc->unplug_request = ich9_pm_device_unplug_request_cb;
-     hc->unplug = ich9_pm_device_unplug_cb;
-+    hc->is_hotpluggable_bus = ich9_pm_is_hotpluggable_bus;
-     adevc->ospm_status = ich9_pm_ospm_status;
-     adevc->send_event = ich9_send_gpe;
-     adevc->madt_cpu = pc_madt_cpu_entry;
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230302-pull-request
+
+for you to fetch changes up to c31772ad6883533757d2a7dfe9ce24325e3ec16c:
+
+  Fix exec migration on Windows (w32+w64). (2023-03-02 17:06:27 +0100)
+
+----------------------------------------------------------------
+Migraiton Pull request
+
+Hi
+
+This pull requests include:
+- use-after-free in test-vmstate (eric)
+- fix exec migration in windows (berberian)
+
+Please apply.
+
+----------------------------------------------------------------
+
+Eric Auger (1):
+  test-vmstate: fix bad GTree usage, use-after-free
+
+John Berberian, Jr (1):
+  Fix exec migration on Windows (w32+w64).
+
+ migration/exec.c          | 24 ++++++++++++++++++++++++
+ tests/unit/test-vmstate.c |  5 ++---
+ 2 files changed, 26 insertions(+), 3 deletions(-)
+
 -- 
-2.39.1
+2.39.2
 
 
