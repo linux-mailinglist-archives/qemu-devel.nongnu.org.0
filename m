@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975DE6A8164
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:42:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DE86A8168
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:43:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhJf-00044J-4W; Thu, 02 Mar 2023 06:41:43 -0500
+	id 1pXhJf-00044V-91; Thu, 02 Mar 2023 06:41:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1pXhJb-00041Y-Q4; Thu, 02 Mar 2023 06:41:39 -0500
-Received: from m12.mail.163.com ([123.126.96.234])
+ id 1pXhJb-00041X-P6; Thu, 02 Mar 2023 06:41:39 -0500
+Received: from m12.mail.163.com ([123.126.96.233])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <qianfanguijin@163.com>)
- id 1pXhJZ-00069S-2D; Thu, 02 Mar 2023 06:41:39 -0500
+ id 1pXhJZ-00069R-2b; Thu, 02 Mar 2023 06:41:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Loe6a
- ZHMrzE9iFa8rDoWH/ayBVuYxe1lFz57yi2qNNw=; b=QZ7EwBygLXCxcUBgsJ5c9
- 6S5axtmJeeZIt8jBXXbbYE9YQz5F0ucVdQLc68NrzGE/2fsh4Yd3lQmVjzNSJJ3x
- CB1yezaImXQafrYsULD0nuEXBiDKQq5qWxuP0VO9Vb59lW/Fv6dq+DrvygGeXzon
- z2cYyuSKb09gMiN9gJcQus=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=W8ose
+ XLLoGmg6ep9d/aMwd6HC+YABeP2tHYrtdkhkk4=; b=KSRrRfZGpY3W7JVvTIkVf
+ P9m8lRoD7EVKd+TXHaDnATOVf7/7iKB1iXyDc9ffzfuM9486oir9FSg3jFVzYBl9
+ IbeCkroxAYXLZr9hK8MxImXO0bUNlCRKBM8SyulnIKAz8lpS/GAi1hepY+phwQ/I
+ erN0vxIFSMItJs1TpsGJvE=
 Received: from DESKTOP-B1R4FVG.localdomain (unknown [144.123.156.254])
- by smtp20 (Coremail) with SMTP id H91pCgBni79OiwBknjVaGA--.63318S3;
+ by smtp20 (Coremail) with SMTP id H91pCgBni79OiwBknjVaGA--.63318S4;
  Thu, 02 Mar 2023 19:41:03 +0800 (CST)
 From: qianfanguijin@163.com
 To: qemu-arm@nongnu.org,
@@ -34,23 +34,23 @@ Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Niek Linnenbank <nieklinnenbank@gmail.com>,
  qianfan Zhao <qianfanguijin@163.com>
-Subject: [RFC PATCH v1 01/12] hw: allwinner-i2c: Make the trace message more
- readable
-Date: Thu,  2 Mar 2023 19:40:50 +0800
-Message-Id: <20230302114102.32236-2-qianfanguijin@163.com>
+Subject: [RFC PATCH v1 02/12] hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on
+ SUN6i SoCs
+Date: Thu,  2 Mar 2023 19:40:51 +0800
+Message-Id: <20230302114102.32236-3-qianfanguijin@163.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230302114102.32236-1-qianfanguijin@163.com>
 References: <20230302114102.32236-1-qianfanguijin@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: H91pCgBni79OiwBknjVaGA--.63318S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Jr4kuw4kKw4UCryfCr43GFg_yoW7Kr17pr
- Z0krsIgr15Kas8Zr1fKF1DJF1rJFyqyr1Iyws7W347uF1xCw13ZrykGF45A390k34Utr45
- GFZ8Za42qFWYya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEJKsUUUUUU=
+X-CM-TRANSID: H91pCgBni79OiwBknjVaGA--.63318S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGFyxCFW3KFyrAFWUWF43Awb_yoW5Kw4rpF
+ Wqgr45KF4Yqa97WrnIqFn8GF18Jry8C3y8Krsa9FyIvFnrW3ZFqr1ktrWakrn8GrWrJw43
+ tFs8tFyxWFn0qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi2YLDUUUUU=
 X-Originating-IP: [144.123.156.254]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXA8m7VXl5ytw1wABsC
-Received-SPF: pass client-ip=123.126.96.234;
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXRAm7VWBoxmNGAAAs9
+Received-SPF: pass client-ip=123.126.96.233;
  envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,178 +76,108 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: qianfan Zhao <qianfanguijin@163.com>
 
-Next is an example when read/write trace enabled:
+TWI_CNTR_INT_FLAG is W1C(write 1 to clear and write 0 has non-effect)
+register on SUN6i based SoCs, we should lower interrupt when the guest
+set this bit.
 
-allwinner_i2c_write write  XADDR(0x04): 0x00
-allwinner_i2c_write write   CNTR(0x0c): 0x50 M_STP BUS_EN
-allwinner_i2c_write write   CNTR(0x0c): 0xe4 A_ACK M_STA BUS_EN INT_EN
+The linux kernel will hang in irq handler(mv64xxx_i2c_intr) if no
+device connected on the i2c bus, next is the trace log:
+
+allwinner_i2c_write write   CNTR(0x0c): 0xc4 A_ACK BUS_EN INT_EN
+allwinner_i2c_write write   CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
 allwinner_i2c_read  read    CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
-allwinner_i2c_read  read    STAT(0x10): 0x08 STAT_M_STA_TX
+allwinner_i2c_read  read    STAT(0x10): 0x20 STAT_M_ADDR_WR_NACK
+allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
+allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
+allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
+allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
+...
+
+Fix it.
 
 Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 ---
- hw/i2c/allwinner-i2c.c | 110 ++++++++++++++++++++++++++++++++++++++++-
- hw/i2c/trace-events    |   5 +-
- 2 files changed, 110 insertions(+), 5 deletions(-)
+ hw/i2c/allwinner-i2c.c         | 26 ++++++++++++++++++++++++--
+ include/hw/i2c/allwinner-i2c.h |  6 ++++++
+ 2 files changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
-index a435965836..fa650e7e02 100644
+index fa650e7e02..819638d740 100644
 --- a/hw/i2c/allwinner-i2c.c
 +++ b/hw/i2c/allwinner-i2c.c
-@@ -129,6 +129,39 @@ enum {
-     STAT_IDLE = 0x1f
- } TWI_STAT_STA;
+@@ -463,10 +463,16 @@ static void allwinner_i2c_write(void *opaque, hwaddr offset,
+                 s->stat = STAT_FROM_STA(STAT_IDLE);
+                 s->cntr &= ~TWI_CNTR_M_STP;
+             }
+-            if ((s->cntr & TWI_CNTR_INT_FLAG) == 0) {
+-                /* Interrupt flag cleared */
++
++            if (!s->irq_clear_inverted && !(s->cntr & TWI_CNTR_INT_FLAG)) {
++                /* Write 0 to clear this flag */
++                qemu_irq_lower(s->irq);
++            } else if (s->irq_clear_inverted && (s->cntr & TWI_CNTR_INT_FLAG)) {
++                /* Write 1 to clear this flag */
++                s->cntr &= ~TWI_CNTR_INT_FLAG;
+                 qemu_irq_lower(s->irq);
+             }
++
+             if ((s->cntr & TWI_CNTR_A_ACK) == 0) {
+                 if (STAT_TO_STA(s->stat) == STAT_M_DATA_RX_ACK) {
+                     s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
+@@ -557,9 +563,25 @@ static const TypeInfo allwinner_i2c_type_info = {
+     .class_init = allwinner_i2c_class_init,
+ };
  
-+#define TWI_STAT_STA_DESC(sta)  [sta] = #sta
-+static const char *twi_stat_sta_descriptors[] = {
-+    TWI_STAT_STA_DESC(STAT_BUS_ERROR),
-+    TWI_STAT_STA_DESC(STAT_M_STA_TX),
-+    TWI_STAT_STA_DESC(STAT_M_RSTA_TX),
-+    TWI_STAT_STA_DESC(STAT_M_ADDR_WR_ACK),
-+    TWI_STAT_STA_DESC(STAT_M_ADDR_WR_NACK),
-+    TWI_STAT_STA_DESC(STAT_M_DATA_TX_ACK),
-+    TWI_STAT_STA_DESC(STAT_M_DATA_TX_NACK),
-+    TWI_STAT_STA_DESC(STAT_M_ARB_LOST),
-+    TWI_STAT_STA_DESC(STAT_M_ADDR_RD_ACK),
-+    TWI_STAT_STA_DESC(STAT_M_ADDR_RD_NACK),
-+    TWI_STAT_STA_DESC(STAT_M_DATA_RX_ACK),
-+    TWI_STAT_STA_DESC(STAT_M_DATA_RX_NACK),
-+    TWI_STAT_STA_DESC(STAT_S_ADDR_WR_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_ARB_LOST_AW_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_GCA_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_ARB_LOST_GCA_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_DATA_RX_SA_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_DATA_RX_SA_NACK),
-+    TWI_STAT_STA_DESC(STAT_S_DATA_RX_GCA_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_DATA_RX_GCA_NACK),
-+    TWI_STAT_STA_DESC(STAT_S_STP_RSTA),
-+    TWI_STAT_STA_DESC(STAT_S_ADDR_RD_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_ARB_LOST_AR_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_DATA_TX_ACK),
-+    TWI_STAT_STA_DESC(STAT_S_DATA_TX_NACK),
-+    TWI_STAT_STA_DESC(STAT_S_LB_TX_ACK),
-+    TWI_STAT_STA_DESC(STAT_M_2ND_ADDR_WR_ACK),
-+    TWI_STAT_STA_DESC(STAT_M_2ND_ADDR_WR_NACK),
-+    TWI_STAT_STA_DESC(STAT_IDLE),
++static void allwinner_i2c_sun6i_init(Object *obj)
++{
++    AWI2CState *s = AW_I2C(obj);
++
++    s->irq_clear_inverted = true;
++}
++
++static const TypeInfo allwinner_i2c_sun6i_type_info = {
++    .name = TYPE_AW_I2C_SUN6I,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AWI2CState),
++    .instance_init = allwinner_i2c_sun6i_init,
++    .class_init = allwinner_i2c_class_init,
 +};
 +
- static const char *allwinner_i2c_get_regname(unsigned offset)
+ static void allwinner_i2c_register_types(void)
  {
-     switch (offset) {
-@@ -155,6 +188,79 @@ static const char *allwinner_i2c_get_regname(unsigned offset)
-     }
+     type_register_static(&allwinner_i2c_type_info);
++    type_register_static(&allwinner_i2c_sun6i_type_info);
  }
  
-+static const char *twi_cntr_reg_bits[] = {
-+    [2] = "A_ACK",
-+    [3] = "INT_FLAG",
-+    [4] = "M_STP",
-+    [5] = "M_STA",
-+    [6] = "BUS_EN",
-+    [7] = "INT_EN",
-+};
-+
-+static const char *twi_line_ctrl_reg_bits[] = {
-+    [5] = "SCL_STATE",
-+    [4] = "SDA_STATE",
-+    [3] = "SCL_CTL",
-+    [2] = "SCL_CTL_EN",
-+    [1] = "SDA_CTL",
-+    [0] = "SDA_CTL_EN",
-+};
-+
-+static void make_reg_value_bit_descriptors(char *s, size_t sz, uint8_t value,
-+                                           const char **desc_arrays,
-+                                           size_t array_size)
-+{
-+    unsigned i = 0;
-+
-+    for (; i < array_size; i++) {
-+        if ((value & (1 << i)) && desc_arrays[i]) {
-+            strncat(s, desc_arrays[i], sz - 1);
-+            strncat(s, " ", sz - 1);
-+        }
-+    }
-+}
-+
-+static void make_reg_value_descriptors(char *s, size_t sz, uint8_t addr,
-+                                       uint8_t value)
-+{
-+    switch (addr) {
-+    case TWI_CNTR_REG:
-+        make_reg_value_bit_descriptors(s, sz, value, twi_cntr_reg_bits,
-+                                       ARRAY_SIZE(twi_cntr_reg_bits));
-+        break;
-+    case TWI_LCR_REG:
-+        make_reg_value_bit_descriptors(s, sz, value, twi_line_ctrl_reg_bits,
-+                                       ARRAY_SIZE(twi_line_ctrl_reg_bits));
-+        break;
-+    case TWI_STAT_REG:
-+        if (STAT_TO_STA(value) <= STAT_IDLE)
-+            strncat(s, twi_stat_sta_descriptors[STAT_TO_STA(value)], sz - 1);
-+        break;
-+    }
-+}
-+
-+static void allwinner_i2c_trace_read(uint8_t addr, uint8_t value)
-+{
-+    char desc[256] = { 0 };
-+
-+    if (trace_event_get_state_backends(TRACE_ALLWINNER_I2C_READ)) {
-+       make_reg_value_descriptors(desc, sizeof(desc), addr, value);
-+       trace_allwinner_i2c_read(allwinner_i2c_get_regname(addr),
-+                                addr, value, desc);
-+    }
-+}
-+
-+static void allwinner_i2c_trace_write(uint8_t addr, uint8_t value)
-+{
-+    char desc[256] = { 0 };
-+
-+    if (trace_event_get_state_backends(TRACE_ALLWINNER_I2C_WRITE)) {
-+        make_reg_value_descriptors(desc, sizeof(desc), addr, value);
-+        trace_allwinner_i2c_write(allwinner_i2c_get_regname(addr),
-+                                  addr, value, desc);
-+    }
-+}
-+
- static inline bool allwinner_i2c_is_reset(AWI2CState *s)
- {
-     return s->srst & TWI_SRST_MASK;
-@@ -271,7 +377,7 @@ static uint64_t allwinner_i2c_read(void *opaque, hwaddr offset,
-         break;
-     }
+ type_init(allwinner_i2c_register_types)
+diff --git a/include/hw/i2c/allwinner-i2c.h b/include/hw/i2c/allwinner-i2c.h
+index 4f378b86ba..0e325d265e 100644
+--- a/include/hw/i2c/allwinner-i2c.h
++++ b/include/hw/i2c/allwinner-i2c.h
+@@ -28,6 +28,10 @@
+ #include "qom/object.h"
  
--    trace_allwinner_i2c_read(allwinner_i2c_get_regname(offset), offset, value);
-+    allwinner_i2c_trace_read((uint8_t)offset, (uint8_t)value);
+ #define TYPE_AW_I2C "allwinner.i2c"
++
++/** Allwinner I2C sun6i family and newer (A31, H2+, H3, etc) */
++#define TYPE_AW_I2C_SUN6I    TYPE_AW_I2C "-sun6i"
++
+ OBJECT_DECLARE_SIMPLE_TYPE(AWI2CState, AW_I2C)
  
-     return (uint64_t)value;
- }
-@@ -283,7 +389,7 @@ static void allwinner_i2c_write(void *opaque, hwaddr offset,
+ #define AW_I2C_MEM_SIZE         0x24
+@@ -50,6 +54,8 @@ struct AWI2CState {
+     uint8_t srst;
+     uint8_t efr;
+     uint8_t lcr;
++
++    bool irq_clear_inverted;
+ };
  
-     value &= 0xff;
- 
--    trace_allwinner_i2c_write(allwinner_i2c_get_regname(offset), offset, value);
-+    allwinner_i2c_trace_write((uint8_t)offset, (uint8_t)value);
- 
-     switch (offset) {
-     case TWI_ADDR_REG:
-diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
-index 8e88aa24c1..963946bfdb 100644
---- a/hw/i2c/trace-events
-+++ b/hw/i2c/trace-events
-@@ -16,9 +16,8 @@ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
- i2c_ack(void) ""
- 
- # allwinner_i2c.c
--
--allwinner_i2c_read(const char* reg_name, uint64_t offset, uint64_t value) "read %s [0x%" PRIx64 "]: -> 0x%" PRIx64
--allwinner_i2c_write(const char* reg_name, uint64_t offset, uint64_t value) "write %s [0x%" PRIx64 "]: <- 0x%" PRIx64
-+allwinner_i2c_read(const char *regname, uint8_t addr, uint8_t value, const char *desc)  " read  %6s(0x%02x): 0x%02x %s"
-+allwinner_i2c_write(const char *regname, uint8_t addr, uint8_t value, const char *desc) "write %6s(0x%02x): 0x%02x %s"
- 
- # aspeed_i2c.c
- 
+ #endif /* ALLWINNER_I2C_H */
 -- 
 2.25.1
 
