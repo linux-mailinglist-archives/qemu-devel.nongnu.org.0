@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738956A860C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:17:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBEC6A8605
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:17:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbg-0006sd-4p; Thu, 02 Mar 2023 11:16:36 -0500
+	id 1pXlbW-0006VZ-TM; Thu, 02 Mar 2023 11:16:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbH-0006H5-Hm
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:16 -0500
+ id 1pXlbE-0006D3-Af
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbB-0000Jf-En
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:10 -0500
+ id 1pXlbA-0000Jx-Nj
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677773752;
+ s=mimecast20190719; t=1677773754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CRa69iKQ+R0BW6f7WW+TT10/pGvtx9Rs/eA8slZSXPQ=;
- b=cWoDTXkCBUs1dkIM8tStYbgmG+F92K0H5jU4U7oIHaYiriV8EWbtHvULf8cTqmZKgh/1lX
- vUqTFMV9yHdQVIEuFElTg87b0IlPKxiXzGlzogg1Do3XJFvoyXgApmP6o+i+3z6Yz1hle7
- dXvySLS9o/b67Gmo2mOgbn+zzdfKmgs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CyhOXEfniT3nMry9IJHAQ7s8QwW5WIhb342SsCtQ44U=;
+ b=fNSgvuFFOvRPYFTcnhiCevKgI1B25MDFVBwoFjQ15DMK7UfaGog7kVXzZwFzbJKFedNHgG
+ pDdBjKdYg8wfFQdR1bwqjnkwWMsHL8/PP6gh2deKBCLXTASLvcnpzzaQ3Bxd8ahCDXXW0F
+ 62rLIiKneBdhayWbevCfWaUoWsDyf+c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-Al8b1jw7PMGrUzfI-JWLcQ-1; Thu, 02 Mar 2023 11:15:51 -0500
-X-MC-Unique: Al8b1jw7PMGrUzfI-JWLcQ-1
+ us-mta-321-Te81UiNCM7OSosau5NW9RQ-1; Thu, 02 Mar 2023 11:15:51 -0500
+X-MC-Unique: Te81UiNCM7OSosau5NW9RQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3753802C18
- for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:15:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65B7B3C0E464
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:15:51 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D88F140EBF6;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D43A3140EBF6;
  Thu,  2 Mar 2023 16:15:50 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v2 06/34] tests: acpi: extend multi-bridge case with case
- 'root-port, id=HOHP, hotplug=off root-port, bus=NOHP'
-Date: Thu,  2 Mar 2023 17:15:15 +0100
-Message-Id: <20230302161543.286002-7-imammedo@redhat.com>
+Subject: [PATCH v2 07/34] x86: pcihp: fix missing PCNT callchain when
+ intermediate root-port has 'hotplug=off' set
+Date: Thu,  2 Mar 2023 17:15:16 +0100
+Message-Id: <20230302161543.286002-8-imammedo@redhat.com>
 In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
 References: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,47 +81,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Following corner case wasn't covered:
+Beside BSEL numbers change (due to 2 extra root-ports in q35/miltibridge test),
+following change is expected:
 
-  -device pcie-root-port,id=NO_HOTPLUG,hotplug=off
-  -device pcie-root-port,bus=NO_HOTPLUG
-
-when intermediate root-port has explicitly disabled hotplug,
-all hierarchy below it is not described anymore (used to be
-described in 7.2)
-
-So as result we see only NO_HOTPLUG root-port described
-
-  +            Device (S50)
+       Scope (\_SB.PCI0)
+       {
+  ...
+  +        Scope (S50)
+  +        {
+  +            Scope (S00)
   +            {
-  +                Name (_ADR, 0x000A0000)  // _ADR: Address
+  +                Method (PCNT, 0, NotSerialized)
+  +                {
+  +                    BNUM = Zero
+  +                    DVNT (PCIU, One)
+  +                    DVNT (PCID, 0x03)
+  +                }
   +            }
+  +
+  +            Method (PCNT, 0, NotSerialized)
+  +            {
+  +                ^S00.PCNT
+  +            }
+  +        }
+  ...
+           Method (PCNT, 0, NotSerialized)
+           {
+  +            ^S50.PCNT ()
+               ^S13.PCNT ()
+               ^S12.PCNT ()
+               ^S11.PCNT ()
 
-and no children nor notification chain for them are being composed.
-Follow up patches will fix missing leaf root-port descriptor
-and notification chain that should accompany it.
+I practice [1] hasn't broke anything since on hardware side we unset
+hotplug_handler on such intermediate port => hotplug behind it has
+not been properly wired and as result not worked.
 
+1)
+Fixes: ddab4d3fae4e8 ("pcihp: compose PCNT callchain right before its user _GPE._E01")
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/i386/acpi-build.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 7828c6b7e6..295d80740e 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1055,7 +1055,10 @@ static void test_acpi_q35_multif_bridge(void)
-         " -device pci-testdev,bus=pcie.0,addr=2.4"
-         " -device pci-testdev,bus=pcie.0,addr=5.0"
-         " -device pci-testdev,bus=rp0,addr=0.0"
--        " -device pci-testdev,bus=br1", &data);
-+        " -device pci-testdev,bus=br1"
-+        " -device pcie-root-port,id=rpnohp,chassis=8,addr=0xA.0,hotplug=off"
-+        " -device pcie-root-port,id=rp3,chassis=9,bus=rpnohp"
-+        , &data);
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b19fb4259e..c691104d47 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -517,16 +517,24 @@ static bool build_append_notfication_callback(Aml *parent_scope,
+     PCIBus *sec;
+     QObject *bsel;
+     int nr_notifiers = 0;
++    GQueue *pcnt_bus_list = g_queue_new();
  
-     /* hotplugged bridges section */
-     qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr1",
+     QLIST_FOREACH(sec, &bus->child, sibling) {
+         Aml *br_scope = aml_scope("S%.02X", sec->parent_dev->devfn);
+-        if (pci_bus_is_root(sec) ||
+-            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
++        if (pci_bus_is_root(sec)) {
+             continue;
+         }
+         nr_notifiers = nr_notifiers +
+                        build_append_notfication_callback(br_scope, sec);
+-        aml_append(parent_scope, br_scope);
++        /*
++         * add new child scope to parent
++         * and keep track of bus that have PCNT,
++         * bus list is used later to call children PCNTs from this level PCNT
++         */
++        if (nr_notifiers) {
++            g_queue_push_tail(pcnt_bus_list, sec);
++            aml_append(parent_scope, br_scope);
++        }
+     }
+ 
+     /*
+@@ -550,17 +558,13 @@ static bool build_append_notfication_callback(Aml *parent_scope,
+     }
+ 
+     /* Notify about child bus events in any case */
+-    QLIST_FOREACH(sec, &bus->child, sibling) {
+-        if (pci_bus_is_root(sec) ||
+-            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
+-            continue;
+-        }
+-
++    while ((sec = g_queue_pop_head(pcnt_bus_list))) {
+         aml_append(method, aml_name("^S%.02X.PCNT", sec->parent_dev->devfn));
+     }
+ 
+     aml_append(parent_scope, method);
+     qobject_unref(bsel);
++    g_queue_free(pcnt_bus_list);
+     return !!nr_notifiers;
+ }
+ 
 -- 
 2.39.1
 
