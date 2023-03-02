@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593566A8C1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8656A8C16
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrdZ-0001Pi-Bc; Thu, 02 Mar 2023 17:42:57 -0500
+	id 1pXrdi-0001kv-52; Thu, 02 Mar 2023 17:43:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdX-0001LR-QZ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:55 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrde-0001gE-Qg
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:43:02 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdW-0000Ea-7D
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:55 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p16so560253wmq.5
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:42:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdd-0000EZ-6l
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:43:02 -0500
+Received: by mail-wm1-x330.google.com with SMTP id j3so581404wms.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:43:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796973;
+ d=linaro.org; s=google; t=1677796980;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Bd1OtqBygG3Ey4k52ycKQXbZ8TYrh9zI9oYB+ByJfKQ=;
- b=CrJZMr7NS+K1QFqpo31b6xY5hqthq8dEBov+MA1lV2MpErknHKeDWvcWwB+0go9Mtx
- 9SdneTw2a3YbL0Km/+r3ve0MLPsYkdX3tDY3Zu+PfJnJm/WebLC4OV+EwYEBbeSK9qxy
- 3HsNloyEwb2rGPIFbRqX63jngRYf5nowJnSjXwZYoHMIJRrrZn5AbRzWHzbxCi5y5UAj
- VLH295r57xm5jSiMhzBpJzmZcuR3XJk9SITV2TC9M3o2i+PMeziwpFoVovFwYLJ7hGsR
- bEJaXbu/lfuZj9Xa86LkuOUzxIHU48swjyo4DBdfNRH7db2MuOiybI/5B/g5cQF8b0bg
- yPZQ==
+ bh=df58h/AdXCUfIsw29990QJNsnEG6zfozV6HUit6iE6U=;
+ b=h4Knyj0Z8KTC4eV7VdLnn//y14JwUcX97mrkVBCnvrPzpEOHB1aKjYljpr1NJXF9hk
+ kVK1E1sj4Tyhv0DoIdeVK6m4aNUCa7vmdzWdWadYCUpg29DMmynTW6y337ROV0Uf7v2s
+ 2q1iVCVnNvePBisQfuthkddW8khK//3wPdseVSfVNLFB1FmcSEKA3LRxyXGw4Bh/6Yr5
+ GUu26AVdnNiUZRl8jUu9nV0PUUNlNOoJEzJYIXQJeiLlrFrI7jFdP3N9WnSFq1LmctW4
+ PIC6xxJmurjAIMbmIJt+m0+luNXX16UxtoATp569jG3eoK1eh2FcboEJWlIeZaAWPhty
+ kwzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796973;
+ d=1e100.net; s=20210112; t=1677796980;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Bd1OtqBygG3Ey4k52ycKQXbZ8TYrh9zI9oYB+ByJfKQ=;
- b=duFopnm0f0/nB6kyPJYdhLa43WiyknQV6uP68LsJKT3LvdcuRyQ4Yh3rpL9sAxfvrs
- HfqGRFGRngupHTW9XmAOefqPxWhX/Eo4Dqah8aHjpXoBDE5tu/z63rynJndJG6YJ3wdO
- CPk2CyfsP834zj1AmZ5KxPM8HfjgBf7XsFPFFsthF1/1klt2yqzh3S3z56czpP1LbuPL
- wNXBX/9KSErFQYDNWAtdXueJq16UiyzSVolL8WPjl4IzE0PnWpO7+QmCv+oLeAzPTbJp
- RXaEdPUDq8/5xPRdNYrDHni9DMKsKhWpO+uqO35DU0nuNCdl1e1kXV4zocOvsc7t2pYE
- +C8Q==
-X-Gm-Message-State: AO0yUKXv6m51Y4A21slNWTUMCGDoqj1Z+8Hgmd9OeJsfi2a7NNFmI4wQ
- 1P/+x1q4xsslsJBejpRCy1vJB2REDLxYFVG9
-X-Google-Smtp-Source: AK7set+4wGgqRXa9ikkWTvI3IuwHWQK+z9OdJ2hJcOAMKxaAK5M1h8NbHimtPCF1N7wKZUe1jqRhow==
-X-Received: by 2002:a05:600c:181d:b0:3ea:f6c4:5f2a with SMTP id
- n29-20020a05600c181d00b003eaf6c45f2amr8904936wmp.17.1677796973389; 
- Thu, 02 Mar 2023 14:42:53 -0800 (PST)
+ bh=df58h/AdXCUfIsw29990QJNsnEG6zfozV6HUit6iE6U=;
+ b=OorIkeXApoO64NBvwlO0BpcecJqCkoEBL+y+gAeGYsPA75Dqe9KSbzWOo3/E4uliIW
+ P+/IsMc5YdBhVOZLTogKvEzkzG8gKwr5iSsCUHIkbLeYifPhKCAc04BIgoKU23WcZ7JE
+ olRr2a9hzNWBAeJTIXiw6e3QLcQ104sXuOVZYUvuZqMgwRuRS7lJRdQaW/rG2QoGEXgS
+ WldnoPKsWFl1YDr7V5V+PMgIjBq9z3+8L4uL3+8FprVR8GyTkXxmbpSQOpXp1x7E7T/C
+ YKHiEvMNez9FCYOQyBw2l5+LVjQWNtU1coLIQARYNA2c1pEB1SxeJbfhjWi0ztqZFfus
+ DzhA==
+X-Gm-Message-State: AO0yUKUqaX/CRg/o265NLVpgyS4tGe4G1yAo3idR7YhNYR4UzIUXOu/O
+ TmoCWgp0nfjwkrdNQhJ3oQm4kqdzrrgseQTZ
+X-Google-Smtp-Source: AK7set/a5oV4t7DqaYekSgx5/4yd5r8jZ0HDP5xQZ979b3ZNUsFI/COYk7vjjm2Ckg5ZuuKuK3zOlA==
+X-Received: by 2002:a05:600c:1708:b0:3ea:c100:f18d with SMTP id
+ c8-20020a05600c170800b003eac100f18dmr8587990wmn.9.1677796980304; 
+ Thu, 02 Mar 2023 14:43:00 -0800 (PST)
 Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- k8-20020a5d66c8000000b002c573a6216fsm500468wrw.37.2023.03.02.14.42.51
+ p21-20020a05600c431500b003daf672a616sm719382wme.22.2023.03.02.14.42.58
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:42:53 -0800 (PST)
+ Thu, 02 Mar 2023 14:42:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Bernhard Beschow <shentey@gmail.com>
@@ -61,21 +61,20 @@ Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v3 15/18] hw/southbridge/piix: Use
- OBJECT_DECLARE_SIMPLE_TYPE() macro
-Date: Thu,  2 Mar 2023 23:40:55 +0100
-Message-Id: <20230302224058.43315-16-philmd@linaro.org>
+Subject: [PATCH v3 16/18] hw/isa/piix: Batch register QOM types using
+ DEFINE_TYPES() macro
+Date: Thu,  2 Mar 2023 23:40:56 +0100
+Message-Id: <20230302224058.43315-17-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
 References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,45 +97,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Manually convert to OBJECT_DECLARE_SIMPLE_TYPE() macro,
-similarly to automatic conversion from commit 8063396bf3
-("Use OBJECT_DECLARE_SIMPLE_TYPE when possible").
+See rationale in commit 38b5d79b2e ("qom: add helper
+macro DEFINE_TYPES()").
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/hw/southbridge/piix.h | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/isa/piix3.c | 53 +++++++++++++++++++++-----------------------------
+ 1 file changed, 22 insertions(+), 31 deletions(-)
 
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 0bf48e936d..a58bf13a41 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -29,7 +29,7 @@
- #define PIIX_NUM_PIC_IRQS       16      /* i8259 * 2 */
- #define PIIX_NUM_PIRQS          4ULL    /* PIRQ[A-D] */
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index a9cb39bf21..0ee94a2313 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -346,19 +346,6 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+     adevc->build_dev_aml = build_pci_isa_aml;
+ }
  
--struct PIIXState {
-+struct PIIX3State {
-     PCIDevice dev;
- 
-     /*
-@@ -57,14 +57,12 @@ struct PIIXState {
-     /* IO memory region for Reset Control Register (PIIX_RCR_IOPORT) */
-     MemoryRegion rcr_mem;
- };
--typedef struct PIIXState PIIX3State;
- 
- #define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
--DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
--                         TYPE_PIIX3_PCI_DEVICE)
+-static const TypeInfo piix3_pci_type_info = {
+-    .name = TYPE_PIIX3_PCI_DEVICE,
+-    .parent = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(PIIX3State),
+-    .abstract = true,
+-    .class_init = pci_piix3_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { TYPE_ACPI_DEV_AML_IF },
+-        { },
+-    },
+-};
 -
- #define TYPE_PIIX3_DEVICE "PIIX3"
- #define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
- #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+ static void piix3_realize(PCIDevice *dev, Error **errp)
+ {
+     ERRP_GUARD();
+@@ -382,12 +369,6 @@ static void piix3_class_init(ObjectClass *klass, void *data)
+     k->realize = piix3_realize;
+ }
  
-+OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_PCI_DEVICE)
-+
- #endif
+-static const TypeInfo piix3_info = {
+-    .name          = TYPE_PIIX3_DEVICE,
+-    .parent        = TYPE_PIIX3_PCI_DEVICE,
+-    .class_init    = piix3_class_init,
+-};
+-
+ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
+ {
+     ERRP_GUARD();
+@@ -416,17 +397,27 @@ static void piix3_xen_class_init(ObjectClass *klass, void *data)
+     k->realize = piix3_xen_realize;
+ }
+ 
+-static const TypeInfo piix3_xen_info = {
+-    .name          = TYPE_PIIX3_XEN_DEVICE,
+-    .parent        = TYPE_PIIX3_PCI_DEVICE,
+-    .class_init    = piix3_xen_class_init,
++static const TypeInfo piix_isa_types[] = {
++    {
++        .name           = TYPE_PIIX3_PCI_DEVICE,
++        .parent         = TYPE_PCI_DEVICE,
++        .instance_size  = sizeof(PIIX3State),
++        .class_init     = pci_piix3_class_init,
++        .abstract       = true,
++        .interfaces = (InterfaceInfo[]) {
++            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++            { TYPE_ACPI_DEV_AML_IF },
++            { },
++        },
++    }, {
++        .name           = TYPE_PIIX3_DEVICE,
++        .parent         = TYPE_PIIX3_PCI_DEVICE,
++        .class_init     = piix3_class_init,
++    }, {
++        .name           = TYPE_PIIX3_XEN_DEVICE,
++        .parent         = TYPE_PIIX3_PCI_DEVICE,
++        .class_init     = piix3_xen_class_init,
++    }
+ };
+ 
+-static void piix3_register_types(void)
+-{
+-    type_register_static(&piix3_pci_type_info);
+-    type_register_static(&piix3_info);
+-    type_register_static(&piix3_xen_info);
+-}
+-
+-type_init(piix3_register_types)
++DEFINE_TYPES(piix_isa_types)
 -- 
 2.38.1
 
