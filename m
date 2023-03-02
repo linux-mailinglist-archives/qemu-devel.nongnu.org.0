@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824F16A8569
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 16:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395046A8568
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 16:37:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXkxr-0004K1-26; Thu, 02 Mar 2023 10:35:27 -0500
+	id 1pXkxn-0004BP-59; Thu, 02 Mar 2023 10:35:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+9a0490e5ac528e462c30+7130+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pXkxP-0003tN-8f
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:34:59 -0500
+ id 1pXkxI-0003oD-RB
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:34:52 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+9a0490e5ac528e462c30+7130+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pXkxN-0001go-4t
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:34:59 -0500
+ id 1pXkxC-0001fH-Iw
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 10:34:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=FnClZ8IFan30fx5D6PHOfap2YeZdQXUEp+XrOHw7NWs=; b=VVkNvJQsV79cgt8bzx+l0ClT+G
- Wiyz5BhL24D12/QkaDakc0ALlSx1i2qok2apG76LwYNEM1pPgmDb1NfTSlVj7wZkqVtHQVBqpujPV
- K1mLrO+C4airr6O55gGcgarHdCX04k4Bsl7YQxlVfXtD4xKx+Jia60goBVqSVetR+CatCGqWNXsPc
- Hkh2FB4jcKSnEwt9c7+CYwLFfwoNISbAUmAKkfx1ZpxeJe/41myBDmH/5c+nMtk3LX5v20ijD+P3c
- fb+EEZ7t4gvEtKdroZBJtbhl42Mqx90Tx1WL+utNfz9glZ4m/cq0szzCSXECcHVSYePfkl7xeKlYy
- t8AX++Ww==;
+ bh=7HuQae7CBMvNWNUtKmsp3irMJUgtZo+bY0Gg/sxTvcA=; b=dq8AgLqqnaLPtRWcENWM2cS34S
+ VPG6QR36tiZ4IOJIl0WR5V140YJiSV4QwUoMXWjQyPcG8gmcMFdqz1bC9CEY9jbPh2WHAPw/ucBhm
+ oM5fK7TlM8bdPU3fRvBsq+nMkLRvvLB/dH3AaAvQKW5WaIRw5OUlj8kvCwKojnlO2HKmcNRn143qM
+ 0uwwkElqhMVAy1aetnMgnlnmrGE2KR2hViX+Ee56aT3ouBn9iCrBS05fxonTB8AVe2TmyMuz8OS6+
+ UeVLolZ2i4CLzzk1CtUbzuHZB0zIkPT+bqYEMfBVyJVAn66km008aM1dnhq2FS/bFH9hrsUv5RLUt
+ n31ldh3Q==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pXkx4-00FL3m-2e; Thu, 02 Mar 2023 15:34:40 +0000
+ id 1pXkx4-00FL3n-2o; Thu, 02 Mar 2023 15:34:40 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pXkx4-004uzR-2J; Thu, 02 Mar 2023 15:34:38 +0000
+ Linux)) id 1pXkx4-004uzW-2S; Thu, 02 Mar 2023 15:34:38 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -42,10 +42,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Ankur Arora <ankur.a.arora@oracle.com>,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-Subject: [RFC PATCH v1 18/25] hw/xen: Avoid crash when backend watch fires too
- early
-Date: Thu,  2 Mar 2023 15:34:28 +0000
-Message-Id: <20230302153435.1170111-19-dwmw2@infradead.org>
+Subject: [RFC PATCH v1 19/25] hw/xen: Only advertise ring-page-order for
+ xen-block if gnttab supports it
+Date: Thu,  2 Mar 2023 15:34:29 +0000
+Message-Id: <20230302153435.1170111-20-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230302153435.1170111-1-dwmw2@infradead.org>
 References: <20230302153435.1170111-1-dwmw2@infradead.org>
@@ -78,59 +78,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paul Durrant <pdurrant@amazon.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-The xen-block code ends up calling aio_poll() through blkconf_geometry(),
-which means we see watch events during the indirect call to
-xendev_class->realize() in xen_device_realize(). Unfortunately this call
-is made before populating the initial frontend and backend device nodes
-in xenstore and hence xen_block_frontend_changed() (which is called from
-a watch event) fails to read the frontend's 'state' node, and hence
-believes the device is being torn down. This in-turn sets the backend
-state to XenbusStateClosed and causes the device to be deleted before it
-is fully set up, leading to the crash.
-By simply moving the call to xendev_class->realize() after the initial
-xenstore nodes are populated, this sorry state of affairs is avoided.
+Whem emulating Xen, multi-page grants are distinctly non-trivial and we
+have elected not to support them for the time being. Don't advertise
+them to the guest.
 
-Reported-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/xen/xen-bus.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/block/xen-block.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 9fe54967d4..c59850b1de 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -1034,13 +1034,6 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-         goto unrealize;
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 87299615e3..f5a744589d 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -83,7 +83,8 @@ static void xen_block_connect(XenDevice *xendev, Error **errp)
+             g_free(ring_ref);
+             return;
+         }
+-    } else if (order <= blockdev->props.max_ring_page_order) {
++    } else if (qemu_xen_gnttab_can_map_multi() &&
++               order <= blockdev->props.max_ring_page_order) {
+         unsigned int i;
+ 
+         nr_ring_ref = 1 << order;
+@@ -255,8 +256,12 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
      }
  
--    if (xendev_class->realize) {
--        xendev_class->realize(xendev, errp);
--        if (*errp) {
--            goto unrealize;
--        }
--    }
--
-     xen_device_backend_printf(xendev, "frontend", "%s",
-                               xendev->frontend_path);
-     xen_device_backend_printf(xendev, "frontend-id", "%u",
-@@ -1059,6 +1052,13 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-         xen_device_frontend_set_state(xendev, XenbusStateInitialising, true);
-     }
- 
-+    if (xendev_class->realize) {
-+        xendev_class->realize(xendev, errp);
-+        if (*errp) {
-+            goto unrealize;
-+        }
+     xen_device_backend_printf(xendev, "feature-flush-cache", "%u", 1);
+-    xen_device_backend_printf(xendev, "max-ring-page-order", "%u",
+-                              blockdev->props.max_ring_page_order);
++
++    if (qemu_xen_gnttab_can_map_multi()) {
++        xen_device_backend_printf(xendev, "max-ring-page-order", "%u",
++                                  blockdev->props.max_ring_page_order);
 +    }
 +
-     xendev->exit.notify = xen_device_exit;
-     qemu_add_exit_notifier(&xendev->exit);
-     return;
+     xen_device_backend_printf(xendev, "info", "%u", blockdev->info);
+ 
+     xen_device_frontend_printf(xendev, "virtual-device", "%lu",
 -- 
 2.39.0
 
