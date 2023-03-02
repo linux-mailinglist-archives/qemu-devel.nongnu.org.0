@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DDC6A8C15
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A57F6A8C1A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:44:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrdG-0000In-F9; Thu, 02 Mar 2023 17:42:39 -0500
+	id 1pXrdN-0000WH-Hm; Thu, 02 Mar 2023 17:42:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdB-0000AR-GY
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:33 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdK-0000L6-97
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:42 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrd9-0000C4-Sw
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:33 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id l1so571996wry.12
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:42:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrdH-0000DJ-U4
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:42:42 -0500
+Received: by mail-wr1-x436.google.com with SMTP id bx12so578545wrb.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796950;
+ d=linaro.org; s=google; t=1677796958;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Q+kjUrDqzW8TbJSLEkGuQbfUY5rqxaKrpCoB8EhM+g=;
- b=CFRn4QrCQP0ephMH8ZlvYYKoKbL14Qc29VFGAImPEw132JYZxrCwN7w1a3fmjIEY7E
- /UDQZTCWy3hkOZgi1p/2n0LGTCNyCEuiev8sDfsfVVMO9Cr/dDvviXWMkWL7bFot6heJ
- /veZ1pza6Ze2Zn+xQk8/xqeLk2X1X479RQZuKNXggfsONg1LVDwwIUXMaLqodO2t5LhJ
- pWNvW3EV9lCVb1YTAYDN+G4omdniDQin+20LuHIcl5mD+me7TanIHfljWmO87n7zaxiK
- DLXDERXF/9qhSnSSj0AgZszw/T6UQe7cvMrf3Hy/kZ0SB2NnUsCe6QfBA1lzgswABxKz
- NTsg==
+ bh=RidLNtwIoGn7ttcFWACRZC3LbU/oAHGplGzZSNvavi4=;
+ b=B3Z2GZWF65YZNhmwCw6QzT+ty56a8uyLILDtPxnhdNSQ8I2n5QJ2Y+7wbhDIZX/Vgj
+ 1StwQJNzCNtgbAA7cgATHTt61ZpCmRG4O/ruUbl3x5WDwIzwouz6Gjsq30tgBXP0rJha
+ ghw2wBo5LuS5P0RmtR5pO0jDeHeaV70Ey0DDvuGNCHB+doJVV0CNdamhyOHRCF6Fd9KJ
+ 4GXN74WZipb9fqK3J0zXJ8W082WKtJJr0VAQRwRnxxzFOFHDiHWJg3Svoaur+uleCfJV
+ 6eDq7m6V80mZXmSFb8/nf0QdNAR9Prd0qCj85i1V5z7Jzg8xHfyad/gmUxJEYUf6lLxQ
+ P+qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796950;
+ d=1e100.net; s=20210112; t=1677796958;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8Q+kjUrDqzW8TbJSLEkGuQbfUY5rqxaKrpCoB8EhM+g=;
- b=4Ypr5yDSs8pUULrIOj9PEx+Sky9tWW8MniF1BbNKaoGH2ANeASbQP6IU0JJH1gZZW6
- yUbBkEd/KeyjY6GcfAcgM6XQZzbp/6SzoeZnMhq6Tr2kvfDaQsrPrBSLxNCeTM0QIAdc
- p3r4PpBHXYtJnf4slnIrkAsp2G4biJobFR3ohOPtR3wWhbfQf9znL63mdqlHlsCIYTBI
- 4eIUMpCtE/RGiYX2Dhoj/1y57hguk7MSWLB3vLnFKnnON7VBOYG5vGGfkdm968P67q8b
- zP0Gwdi+QW22RB/k0Wk2In4z95+C4WaHu2GzKuqG3lehceDJZgEOpQ3Jsdzy/+Y4HR1K
- cSKQ==
-X-Gm-Message-State: AO0yUKUmNoOLlrDgQTiDDK6BLM2M7a8RoJ46ANeRuSkc05h3I+8HqYiN
- GPaw3wq1y4io+Lxq9dF8lso3sYFFT4QZP+ZB
-X-Google-Smtp-Source: AK7set+ff+wqRGtCwcgrZobmTeyHPBJruQ3rkkuesD2kSX6/ISuPlKNd749tRXKOFmc6vFwcyQx9oA==
-X-Received: by 2002:adf:e5c1:0:b0:2c5:5d15:4e25 with SMTP id
- a1-20020adfe5c1000000b002c55d154e25mr8535246wrn.16.1677796950390; 
- Thu, 02 Mar 2023 14:42:30 -0800 (PST)
+ bh=RidLNtwIoGn7ttcFWACRZC3LbU/oAHGplGzZSNvavi4=;
+ b=ab76N21mRLJh4jn4KO8eSfYCdMj3zp2sGcgWzLpWSb8eDvgDiTJg7PAiBuxZ/cSIzG
+ xJBA/jpDCKQ/wzSCZ1yakCcgllQZHdXzzRG41wP70ndA7LwqbF3lYvG8c/wHaXSeAQj5
+ d3oa+cZF+Px9L/3QWgnps0BU7Bd9c7XtfyQJHl/kTKwbaC4dJP6pRBda9r9UKfdjz4RN
+ 3ZCecXsV5tcDXrz0G2+ods+zgbuPiyi0Zr5C1a8Lr9CKeiREjv79GEra31r13iymW2D9
+ NRAAthYr9u58hBsixGiE3TFvRSWPoCq1UiCciqC8ULz+/mgLyhINZkRCCng2UBWqJ6EZ
+ 49pQ==
+X-Gm-Message-State: AO0yUKWSVH3KNlnPgtHmDjpYxtjgTkaYi+JyKY7uaVg/0Aeb+rXqsMaH
+ SNgPzNVDRTwhEsQULaIhjP5zjJG+hNoJqyev
+X-Google-Smtp-Source: AK7set97gNA8pCbGhtrXeRiPllBW/plNbpaC2ZB8wZ036Ojn4gZMRyk1hGlFrElr2a9STTkqO2SmZw==
+X-Received: by 2002:a5d:4c52:0:b0:2cd:ceab:df1a with SMTP id
+ n18-20020a5d4c52000000b002cdceabdf1amr2248260wrt.32.1677796958300; 
+ Thu, 02 Mar 2023 14:42:38 -0800 (PST)
 Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- f9-20020adfdb49000000b002c59c6abc10sm477084wrj.115.2023.03.02.14.42.28
+ e17-20020a5d4e91000000b002c559626a50sm532985wru.13.2023.03.02.14.42.35
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:42:30 -0800 (PST)
+ Thu, 02 Mar 2023 14:42:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Bernhard Beschow <shentey@gmail.com>
@@ -60,19 +60,22 @@ Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 12/18] hw/isa: Reduce 'isabus' singleton scope to
- isa_bus_new()
-Date: Thu,  2 Mar 2023 23:40:52 +0100
-Message-Id: <20230302224058.43315-13-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+Subject: [PATCH v3 13/18] exec/ioport: Factor
+ portio_list_register_flush_coalesced() out
+Date: Thu,  2 Mar 2023 23:40:53 +0100
+Message-Id: <20230302224058.43315-14-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
 References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,55 +98,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Previous commit ensured when entering isa_register_portio_list(),
-'dev' is not NULL. Being a TYPE_ISA_DEVICE, the device must sit
-on a ISA bus. This means isa_bus_new() as already been called
-and 'isabus' can not be NULL.
+We always follow the same pattern when registering
+coalesced portio:
 
-Simplify by removing the 'isabus' NULL check in
-isa_register_portio_list(). 'isabus' is now only used in
-isa_bus_new(). Reduce its scope by only declaring it the
-function using it (this will allows us to create multiple
-ISA buses later).
+  - portio_list_init()
+  - portio_list_set_flush_coalesced()
+  - portio_list_add()
 
+Factor these 3 operations in a single helper named
+portio_list_register_flush_coalesced().
+
+Drop portio_list_set_flush_coalesced() which is now
+inlined.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230207234615.77300-2-philmd@linaro.org>
 ---
- hw/isa/isa-bus.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ hw/display/qxl.c      |  7 +++----
+ hw/display/vga.c      |  5 ++---
+ include/exec/ioport.h |  5 ++++-
+ softmmu/ioport.c      | 27 ++++++++++++++++++++++-----
+ 4 files changed, 31 insertions(+), 13 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 3036341d3b..8e3ca3785e 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -25,8 +25,6 @@
- #include "sysemu/sysemu.h"
- #include "hw/isa/isa.h"
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index ec712d3ca2..2ecaa0643f 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -2224,10 +2224,9 @@ static void qxl_realize_primary(PCIDevice *dev, Error **errp)
+     }
+     vga_init(vga, OBJECT(dev),
+              pci_address_space(dev), pci_address_space_io(dev), false);
+-    portio_list_init(&qxl->vga_port_list, OBJECT(dev), qxl_vga_portio_list,
+-                     vga, "vga");
+-    portio_list_set_flush_coalesced(&qxl->vga_port_list);
+-    portio_list_add(&qxl->vga_port_list, pci_address_space_io(dev), 0x3b0);
++    portio_list_register_flush_coalesced(&qxl->vga_port_list, OBJECT(dev),
++                                         qxl_vga_portio_list, vga, "vga",
++                                         pci_address_space_io(dev), 0x3b0);
+     qxl->have_vga = true;
  
--static ISABus *isabus;
+     vga->con = graphic_console_init(DEVICE(dev), 0, &qxl_ops, qxl);
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 7a5fdff649..98d644922e 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -2309,9 +2309,8 @@ void vga_init(VGACommonState *s, Object *obj, MemoryRegion *address_space,
+                                         1);
+     memory_region_set_coalescing(vga_io_memory);
+     if (init_vga_ports) {
+-        portio_list_init(&s->vga_port_list, obj, vga_ports, s, "vga");
+-        portio_list_set_flush_coalesced(&s->vga_port_list);
+-        portio_list_add(&s->vga_port_list, address_space_io, 0x3b0);
++        portio_list_register_flush_coalesced(&s->vga_port_list, obj, vga_ports,
++                                             s, "vga", address_space_io, 0x3b0);
+     }
+     if (vbe_ports) {
+         portio_list_init(&s->vbe_port_list, obj, vbe_ports, s, "vbe");
+diff --git a/include/exec/ioport.h b/include/exec/ioport.h
+index e34f668998..eb9882a3ee 100644
+--- a/include/exec/ioport.h
++++ b/include/exec/ioport.h
+@@ -65,7 +65,10 @@ typedef struct PortioList {
+ void portio_list_init(PortioList *piolist, Object *owner,
+                       const struct MemoryRegionPortio *callbacks,
+                       void *opaque, const char *name);
+-void portio_list_set_flush_coalesced(PortioList *piolist);
++void portio_list_register_flush_coalesced(PortioList *piolist, Object *owner,
++                                          const MemoryRegionPortio *callbacks,
++                                          void *opaque, const char *name,
++                                          MemoryRegion *mr, uint32_t offset);
+ void portio_list_destroy(PortioList *piolist);
+ void portio_list_add(PortioList *piolist,
+                      struct MemoryRegion *address_space,
+diff --git a/softmmu/ioport.c b/softmmu/ioport.c
+index cb8adb0b93..be0c920c5c 100644
+--- a/softmmu/ioport.c
++++ b/softmmu/ioport.c
+@@ -124,6 +124,7 @@ void portio_list_init(PortioList *piolist,
+         ++n;
+     }
+ 
++    assert(owner);
+     piolist->ports = callbacks;
+     piolist->nr = 0;
+     piolist->regions = g_new0(MemoryRegion *, n);
+@@ -134,11 +135,6 @@ void portio_list_init(PortioList *piolist,
+     piolist->flush_coalesced_mmio = false;
+ }
+ 
+-void portio_list_set_flush_coalesced(PortioList *piolist)
+-{
+-    piolist->flush_coalesced_mmio = true;
+-}
 -
- static char *isabus_get_fw_dev_path(DeviceState *dev);
- 
- static void isa_bus_class_init(ObjectClass *klass, void *data)
-@@ -52,6 +50,8 @@ static const TypeInfo isa_bus_info = {
- ISABus *isa_bus_new(DeviceState *dev, MemoryRegion* address_space,
-                     MemoryRegion *address_space_io, Error **errp)
+ void portio_list_destroy(PortioList *piolist)
  {
-+    static ISABus *isabus;
+     MemoryRegionPortioList *mrpio;
+@@ -297,3 +293,24 @@ void portio_list_del(PortioList *piolist)
+         memory_region_del_subregion(piolist->address_space, &mrpio->mr);
+     }
+ }
 +
-     if (isabus) {
-         error_setg(errp, "Can't create a second ISA bus");
-         return NULL;
-@@ -132,10 +132,6 @@ int isa_register_portio_list(ISADevice *dev,
-     assert(dev);
-     assert(piolist && !piolist->owner);
- 
--    if (!isabus) {
--        return -ENODEV;
--    }
--
-     /* START is how we should treat DEV, regardless of the actual
-        contents of the portio array.  This is how the old code
-        actually handled e.g. the FDC device.  */
++static void do_portio_list_register(PortioList *piolist, Object *owner,
++                                    const MemoryRegionPortio *callbacks,
++                                    void *opaque, const char *name,
++                                    MemoryRegion *mr, uint32_t offset,
++                                    bool flush_coalesced_mmio)
++{
++    assert(piolist && !piolist->owner);
++    portio_list_init(piolist, owner, callbacks, opaque, name);
++    piolist->flush_coalesced_mmio = flush_coalesced_mmio;
++    portio_list_add(piolist, mr, offset);
++}
++
++void portio_list_register_flush_coalesced(PortioList *piolist, Object *owner,
++                                          const MemoryRegionPortio *callbacks,
++                                          void *opaque, const char *name,
++                                          MemoryRegion *mr, uint32_t offset)
++{
++    do_portio_list_register(piolist, owner, callbacks,
++                            opaque, name, mr, offset, true);
++}
 -- 
 2.38.1
 
