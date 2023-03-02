@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7DE6A7BA2
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC776A7BA0
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 08:07:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXd23-0002iz-0O; Thu, 02 Mar 2023 02:07:15 -0500
+	id 1pXd22-0002hF-9Q; Thu, 02 Mar 2023 02:07:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1x-0002gS-5b
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:09 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1v-0002gO-Tg
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1v-0005TG-Km
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:08 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1s-0005Sf-G1
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677740826;
+ s=mimecast20190719; t=1677740823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ANQjlRaq4vQYioAcyRImwl/RWb73DqBd2Kh2Xk2HLqc=;
- b=Uoo5iO5U5kCJXWe2/pqb8Sa1wavYA7/eHgYCng8hPtsS/5656P3WOKlo9qKsXcnx2vBmWu
- e8PDDHprl6py9YIaHMWML7ffBE/MpGFPYyH3NoKl2Te0ZA9Xnz7cWxImy/NSRUX9XlEuu0
- imZa9DgWAnu7Zjkxjtnfvz8i7THfaXA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3EEBtnp00yhEK2jIM7VFnQf5ieeLElGwuTQ0thfuo8Q=;
+ b=fmJ6DBqxDmNaMqU5MuFhGkr03pQYDWzFgcjFfBCF3//ogxQa9m3me47oiVoENp0xXkUmqQ
+ eu9Qz+dh9YC+Qmxr5PkibcHYu+bIrF0qKKIDRd733FZsnfpuJi6cwHOWtbvc/27pURRtCX
+ cfh9xEYCiK84n/lkGJcFOWNR3tHoS5k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-hPyL4I23OraF1bofFaAoog-1; Thu, 02 Mar 2023 02:07:01 -0500
-X-MC-Unique: hPyL4I23OraF1bofFaAoog-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-213-neJ1GJ_qNTKT6MJ2yKI67Q-1; Thu, 02 Mar 2023 02:07:02 -0500
+X-MC-Unique: neJ1GJ_qNTKT6MJ2yKI67Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D3463C0DDCA;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59BE1101AA5F;
  Thu,  2 Mar 2023 07:07:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34C6D140EBF4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 353641121315;
  Thu,  2 Mar 2023 07:07:01 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 094BA21E6A23; Thu,  2 Mar 2023 08:07:00 +0100 (CET)
+ id 0BE8F21E6A24; Thu,  2 Mar 2023 08:07:00 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Dongli Zhang <dongli.zhang@oracle.com>,
- Joe Jin <joe.jin@oracle.com>,
+Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PULL 1/5] readline: fix hmp completion issue
-Date: Thu,  2 Mar 2023 08:06:56 +0100
-Message-Id: <20230302070700.2998086-2-armbru@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 2/5] target/arm: Restrict 'qapi-commands-machine.h' to system
+ emulation
+Date: Thu,  2 Mar 2023 08:06:57 +0100
+Message-Id: <20230302070700.2998086-3-armbru@redhat.com>
 In-Reply-To: <20230302070700.2998086-1-armbru@redhat.com>
 References: <20230302070700.2998086-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -81,64 +81,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Dongli Zhang <dongli.zhang@oracle.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The auto completion does not work in some cases.
+Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
+user-mode builds") we don't generate the "qapi-commands-machine.h"
+header in a user-emulation-only build.
 
-Case 1.
+Move the QMP functions from helper.c (which is always compiled)
+to monitor.c (which is only compiled when system-emulation
+is selected).  Rename monitor.c to arm-qmp-cmds.c.
 
-1. (qemu) info reg
-2. Press 'Tab'.
-3. It does not auto complete.
-
-Case 2.
-
-1. (qemu) block_resize flo
-2. Press 'Tab'.
-3. It does not auto complete 'floppy0'.
-
-Since the readline_add_completion_of() may add any completion when
-strlen(pfx) is zero, we remove the check with (name[0] == '\0') because
-strlen() always returns zero in that case.
-
-Fixes: 52f50b1e9f8f ("readline: Extract readline_add_completion_of() from monitor")
-Cc: Joe Jin <joe.jin@oracle.com>
-Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-Message-Id: <20230207045241.8843-1-dongli.zhang@oracle.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230223155540.30370-2-philmd@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+[Straightforward conflict with commit 9def656e7a2 resolved]
 ---
- monitor/hmp.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ target/arm/{monitor.c => arm-qmp-cmds.c} | 28 +++++++++++++++++++++++
+ target/arm/helper.c                      | 29 ------------------------
+ target/arm/meson.build                   |  2 +-
+ 3 files changed, 29 insertions(+), 30 deletions(-)
+ rename target/arm/{monitor.c => arm-qmp-cmds.c} (90%)
 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 2aa85d3982..fee410362f 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1189,9 +1189,7 @@ static void cmd_completion(MonitorHMP *mon, const char *name, const char *list)
-         }
-         memcpy(cmd, pstart, len);
-         cmd[len] = '\0';
--        if (name[0] == '\0') {
--            readline_add_completion_of(mon->rs, name, cmd);
--        }
-+        readline_add_completion_of(mon->rs, name, cmd);
-         if (*p == '\0') {
-             break;
-         }
-@@ -1335,9 +1333,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
-             /* block device name completion */
-             readline_set_completion_index(mon->rs, strlen(str));
-             while ((blk = blk_next(blk)) != NULL) {
--                if (str[0] == '\0') {
--                    readline_add_completion_of(mon->rs, str, blk_name(blk));
--                }
-+                readline_add_completion_of(mon->rs, str, blk_name(blk));
-             }
-             break;
-         case 's':
+diff --git a/target/arm/monitor.c b/target/arm/arm-qmp-cmds.c
+similarity index 90%
+rename from target/arm/monitor.c
+rename to target/arm/arm-qmp-cmds.c
+index ecdd5ee817..c8fa524002 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/arm-qmp-cmds.c
+@@ -227,3 +227,31 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+ 
+     return expansion_info;
+ }
++
++static void arm_cpu_add_definition(gpointer data, gpointer user_data)
++{
++    ObjectClass *oc = data;
++    CpuDefinitionInfoList **cpu_list = user_data;
++    CpuDefinitionInfo *info;
++    const char *typename;
++
++    typename = object_class_get_name(oc);
++    info = g_malloc0(sizeof(*info));
++    info->name = g_strndup(typename,
++                           strlen(typename) - strlen("-" TYPE_ARM_CPU));
++    info->q_typename = g_strdup(typename);
++
++    QAPI_LIST_PREPEND(*cpu_list, info);
++}
++
++CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
++{
++    CpuDefinitionInfoList *cpu_list = NULL;
++    GSList *list;
++
++    list = object_class_get_list(TYPE_ARM_CPU, false);
++    g_slist_foreach(list, arm_cpu_add_definition, &cpu_list);
++    g_slist_free(list);
++
++    return cpu_list;
++}
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 14af7ba095..82c546f11a 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -23,7 +23,6 @@
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/tcg.h"
+-#include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/error.h"
+ #include "qemu/guest-random.h"
+ #ifdef CONFIG_TCG
+@@ -9188,34 +9187,6 @@ void arm_cpu_list(void)
+     g_slist_free(list);
+ }
+ 
+-static void arm_cpu_add_definition(gpointer data, gpointer user_data)
+-{
+-    ObjectClass *oc = data;
+-    CpuDefinitionInfoList **cpu_list = user_data;
+-    CpuDefinitionInfo *info;
+-    const char *typename;
+-
+-    typename = object_class_get_name(oc);
+-    info = g_malloc0(sizeof(*info));
+-    info->name = g_strndup(typename,
+-                           strlen(typename) - strlen("-" TYPE_ARM_CPU));
+-    info->q_typename = g_strdup(typename);
+-
+-    QAPI_LIST_PREPEND(*cpu_list, info);
+-}
+-
+-CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+-{
+-    CpuDefinitionInfoList *cpu_list = NULL;
+-    GSList *list;
+-
+-    list = object_class_get_list(TYPE_ARM_CPU, false);
+-    g_slist_foreach(list, arm_cpu_add_definition, &cpu_list);
+-    g_slist_free(list);
+-
+-    return cpu_list;
+-}
+-
+ /*
+  * Private utility function for define_one_arm_cp_reg_with_opaque():
+  * add a single reginfo struct to the hash table.
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index a5191b57e1..6226098ad5 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -20,8 +20,8 @@ arm_softmmu_ss = ss.source_set()
+ arm_softmmu_ss.add(files(
+   'arch_dump.c',
+   'arm-powerctl.c',
++  'arm-qmp-cmds.c',
+   'machine.c',
+-  'monitor.c',
+   'ptw.c',
+ ))
+ 
 -- 
 2.39.0
 
