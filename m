@@ -2,79 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866E36A7B75
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 07:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0269D6A7B7B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 07:45:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXcdk-0008HW-KA; Thu, 02 Mar 2023 01:42:08 -0500
+	id 1pXcg8-0000pp-Lp; Thu, 02 Mar 2023 01:44:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXcde-0008HL-Fb
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 01:42:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pXcfr-0000mU-Mm
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 01:44:24 -0500
+Received: from mga09.intel.com ([134.134.136.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXcdc-0007kd-62
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 01:42:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677739318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type;
- bh=ylXimtzB+ymGHLbtsqidiGwjVRyJ17VCSfXLE/ASye0=;
- b=LZRXPA2qBGbTHGBmQSWMQk2e/fHIRj3SZ/UA4P63ekV9Cjx2uhHlrF9cJmGVF0MA2h7Mlg
- 91EAP65DhkJyehrmYcmY+jRIB/f6xFwb8qTYiKW7UrchB2WbXwsmQ5d1nqspTMFfvj3V9k
- MHMBJ/NaJZAaQzkOYnsispS3A0YtOGw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-281-R04blifzMQiIR501VSfzaA-1; Thu, 02 Mar 2023 01:41:41 -0500
-X-MC-Unique: R04blifzMQiIR501VSfzaA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- az12-20020a05600c600c00b003e8910ec2fdso5359419wmb.6
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 22:41:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677739299;
- h=content-disposition:mime-version:message-id:subject:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ylXimtzB+ymGHLbtsqidiGwjVRyJ17VCSfXLE/ASye0=;
- b=PG9+mLewMlyllajOzIiFLsIcH1+7tk2ik1hGwpp7rm1XkU/Z7sEd9iuCcOybx3hrkp
- 2iGBU95LsrEHP0LhF8h04Z6KZq2VqO5PDoh3E1nOuZcjaqOYFzQUWvg0EcGXIhI05qLs
- p1OGmavgBCGVubhESuDYSsgpuy7xtzeG7tHicJAaikLWMcM0qvSmUQBuV3OIUXo8xEoD
- 8P99smrsq2c5QtLZCRX8GO4mQwiiQ/l/A6htTuFgr1Pmj12tUyiQV47Hvlh9iUPaqZsp
- fzbbpi3HF6/1bqjz5IHOAb8fLSaZ0dxOi5yy5/A2HPdGyfA7vDQ1RcCDg6ompa2IXFgl
- xLIw==
-X-Gm-Message-State: AO0yUKV3TQxhKfCS5GGJAP7yVj5ZOmvduK46bJLQpFPZ7eXOrJaZY2ng
- lt9NZ/5dt6mMc03EHLiNP8I4YkTSBZNzv5tg9uk48TPa5J9HR5OZbdcpCaPVJP/A+PZp/HJsqij
- gPQQ4KzJNXqp+flpjMhRf4R5RkEghwgzPyOYF4y8DNBFgtb4AmNEYZLSRM6cO/iWYHQ==
-X-Received: by 2002:a05:600c:3d8e:b0:3eb:4cb5:e13 with SMTP id
- bi14-20020a05600c3d8e00b003eb4cb50e13mr7184089wmb.31.1677739299664; 
- Wed, 01 Mar 2023 22:41:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set81wlu5/NR9gk2npYFBMYc0l6cLT3CBlQQfveDrlbw7mCpfS1cF7u3Zl4enZ/xH2ByCzRSTyA==
-X-Received: by 2002:a05:600c:3d8e:b0:3eb:4cb5:e13 with SMTP id
- bi14-20020a05600c3d8e00b003eb4cb50e13mr7184073wmb.31.1677739299345; 
- Wed, 01 Mar 2023 22:41:39 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- p2-20020adfe602000000b002c561805a4csm14711490wrm.45.2023.03.01.22.41.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 22:41:38 -0800 (PST)
-Date: Thu, 2 Mar 2023 01:41:36 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
-Subject: duplicate acpi files
-Message-ID: <20230302013223-mutt-send-email-mst@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pXcfp-0000f3-KP
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 01:44:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677739457; x=1709275457;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=oueOD11PCg/91V1I8tHKkro3mAtodyyY/mGuuHrNFaE=;
+ b=gPpDXg72M7bPfoWvtBotRhRaZDijRMABv1CPIJGbXGqZIDaqe88x2UUr
+ Xor/0egDsiLBpDGbhBPbKZ9LEWG/Z/KGkw1zmqoPyXvesYan/IeLrfnk0
+ uJI5bUlS5x0guruCWG9aA+hAkbRgwnrW9HV25qtVI/QMdGHbEL3mWDhPz
+ 5iiRtbQOV5/LmK/kho6fAgdJUHUWMUw77VGD50sf0j5WW/sTagXvhF3nq
+ JBmyUtfThAnpELAmkDXka2FnhzJEYzhfF5nPbwkIgbkjt9WrULsMrsckS
+ Zh2SV36NT3ja4/6aNaGka68Bnr1vOEp5kzW9JOn+J37xX5/wurZmzCEUl g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="336134467"
+X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; d="scan'208";a="336134467"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2023 22:44:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="763890262"
+X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; d="scan'208";a="763890262"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by FMSMGA003.fm.intel.com with ESMTP; 01 Mar 2023 22:44:14 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 1 Mar 2023 22:44:13 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Wed, 1 Mar 2023 22:44:13 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 1 Mar 2023 22:44:13 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CiYPMf0NX9h4r8zTKR/MSs/fLoRpGTTC3oftkxcw8Jlrpgfw4KptJmR6GXu7h67FLd3fdB9seVyCL/hzHiKRRP89rYjwbw/KeOxM1uVvC5hYvPRnsKUlDEcnY6n2VlEW/01BXLIwOu7d20vKbaDLj6KNcya6jfMCallizq/bu2+CImhGpSSwRBpnk1dAtVEJify5sdMaDOkilFSBS3bmCtA5wb42SpzfObhdDLr3k4p56YGFvu9DoyIWq38ZKNNkvpoL3G8WdByt/5JobKq2nrHQ7JDJV1DVHUtJ1Od0XWoCkzqX0K71i3l6Cko9GcOGTqvsVMQTBIIOXvYJgZphOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eIEh/GE+J/i8dtNJ0VsJfaETrpDfuca5DSp+emoFcEA=;
+ b=LUZOPUguBAsi9wZ61by0JD2J+Bcfd96Avx+XeBFlPstfZ0VazVFdwTs37/vUmsCcBwc3xmC9A+Y1ZHgMZT+4V37cCwBj4Mg7XGCdVb5g0x/xDm1jY7Ts8alwVxXJTyfSPJ7OHUloZA6YGdZiLRxtnHN2T/M/yo/TzOfArp+IvbV4SGr9ULRY6pcIKpTVAFiz9feWQYqY8zcAsZEI63etmOfP5zJ/xdqXYRzHErwft1xIqwpBnsERJFKh2XD8u1kKQAINS/e6dM2joG3XxwyX3/LDfPxoXiFG8NOHFZ+rrIT6ZuqF2FOlwVrnILivkVYeLDUGSUaoUICyMbl5/fpEoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6156.19; Thu, 2 Mar 2023 06:44:11 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6156.019; Thu, 2 Mar 2023
+ 06:44:11 +0000
+Date: Wed, 1 Mar 2023 22:44:07 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, <qemu-devel@nongnu.org>,
+ Michael Tsirkin <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>
+CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>
+Subject: Re: [PATCH v3 7/7] hw/cxl/events: Add injection of Memory Module
+ Events
+Message-ID: <640045b7d503a_3a6b529495@iweiny-mobl.notmuch>
+References: <20230227173416.7740-1-Jonathan.Cameron@huawei.com>
+ <20230227173416.7740-8-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20230227173416.7740-8-Jonathan.Cameron@huawei.com>
+X-ClientProxiedBy: BY3PR04CA0005.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::10) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|DM8PR11MB5653:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72476861-7868-4d64-81a7-08db1ae987c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yR8xNlbZbccUjM4NBhF+skiQscN/ANrXvB64tpFjQKYPAchgX/dx2bSefXYVJz7f2fdO86uhpm0q7R4Z7KT9RH1/+dSO6Mir4E3EHbWtSkCsbB5geDDKjh8eB3bvOt5F5kkMQ4VDqXD8ZS6EVstSE4XAdxKtwIOWgppvmOWnq0/CBUneXyWQ4xMngqP9xzstouOt2syme64GS9YA690oIqE4dOLOwA4x/7qGpIeBwrVUssCEJeqvWN4TffoGEnuE2+U1nTAZMjJ0dZCcUYCdoiGFKQvpZcZSTOI++wz/M/Dsj84nJdtjJ5aJvvdyhN1qmoh3/ypJuiZ1FbIoG92Tjt3XFwhYe1UfgryDzs4iw7OTx35UMnz7q1Z4N2/ebIzVoa7ep+xrKkP2lqu+Sxoj8fQ8tM8GKexWVmEqXkiuffYQKy/tEhqWRsu2TWwD7Njmm7j7nDMbtIDfbbyd7TAM0NDYsRTawWfUirUzpgosp3ZKe8TMd/OoC5Z6YO3RTCB72kDGpy0rOoWlcIuFgWlt2Aa4K+7oNh2uwY1mGso5FHiuWPOuuuZSzLZ4e038RmqRP2E54Wg5lDZqmLL7Vby+GCpdFE4WRI+jGit8ILg23UuBrIw8tpq6iP/pVaovsl4rwBg4+jVUKXMQKdO+tYy9rQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(136003)(39860400002)(396003)(366004)(346002)(376002)(451199018)(107886003)(6666004)(38100700002)(8936002)(5660300002)(478600001)(82960400001)(66946007)(86362001)(26005)(186003)(9686003)(6512007)(6506007)(6486002)(66476007)(66556008)(2906002)(44832011)(8676002)(316002)(41300700001)(4326008)(110136005)(54906003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lfLQ+40qTfzI6KLEMhInQ2P4a5e9Wq1nITDrJEmwOhvwM8uIp3NmJRtr7+Rq?=
+ =?us-ascii?Q?Ks/oSe0n/8QzfnFc0ymjTmevvbuHfjIoQ7tjDLE92zy41/XQkbpfcNF3T+ph?=
+ =?us-ascii?Q?z8NKibUSF2sq7gTGOnIlkuAH8oUD6fGUKF5WXbpyWAvkjjfqJ29/hOzpI1w+?=
+ =?us-ascii?Q?bALFlSnF4DWbLbknJEKK2g20KxCMg17GjP21fRE40rtcaPVOTo2S3P/gH7+H?=
+ =?us-ascii?Q?saS9vmhEEAt+21qBVheevtzQZ1yUwUE4zF0Q04/hGprxOCmHCknXRdJxONRx?=
+ =?us-ascii?Q?bOPjEl3Ss8f0LaLoPC36ANNJKDe77cKXrbHoItBVChk1scbS3TdfDZFBXTle?=
+ =?us-ascii?Q?3fPOB+BjU7mwIRq/eipec35vHm7e7Uj8LjN0/oE/vEF7XYqEosWonmxWzXrJ?=
+ =?us-ascii?Q?WDlKW8lz/uBA7MYfbMar3T66xruU5ettG6BayqGemf/TN0/2zlCXUcXzJefX?=
+ =?us-ascii?Q?l62uJjTvolR0YdHIV9hkFoQBEZeLCsSo6Vw4+S6q6iX+7f7zZPvqpt+u2SpG?=
+ =?us-ascii?Q?plYI6jkiEnhlgL8JLutgtCUfscM3qRyl5TM9rD5FTXniWiNk4aeGUXbTx2Lx?=
+ =?us-ascii?Q?sJYZ3ilKY4fWMppdLy5HJePfx+hsLD2s7Jy3WoCPPYTgQjCKQuJYpoKNU6dT?=
+ =?us-ascii?Q?uhLeRJxp8TJ45vhM4AISQoUshWortb50ZBQ/YOFsvT1/RWqUYbu/1Pd7sQJK?=
+ =?us-ascii?Q?zl0i+adnrumXqUefuOoUKBFzZaTYUagKeaTEPitf3RUOrqtDFagbQIV2v7ad?=
+ =?us-ascii?Q?fKoJBTU0/zKGPOIcO5sMlLdv15vLLjl4/Vjl+FjO/6Aqpf4hpxD1ciAFa8gl?=
+ =?us-ascii?Q?fUxtAixSRfJq7jtJfqTnTtxM2TSrzMMflGG150Tqi+S9CTzux7EHdvKfW5sW?=
+ =?us-ascii?Q?os5/wO7TePlDHUrYqzhVDPEsi/MXsLV9AaWO1B3h8l3j3RL5IcERQ93IGQ2D?=
+ =?us-ascii?Q?kAlodAJ0HcIzH0PvahY8wk47BAVozjc+92N0bq7NwbHEpAEmxPdmJ7VkO1lC?=
+ =?us-ascii?Q?LSREkfPMV2MBqQaFv+qwnE4zpZkOrjXY500kml28R7M8QV/+FF3t9Vo0P4MV?=
+ =?us-ascii?Q?n7rJzdhW46gfaFLF+ucrYiJj/FA8OOiC+AcNVltRg9GVWEPjRf+mJs0IFlgu?=
+ =?us-ascii?Q?2cpwDtGQAC2/SV650QLgQg+n6pqykRL3TnaAMTIzw0xQ5VXl+j45qSV/0LFP?=
+ =?us-ascii?Q?GT4ihhsHQ1t874X3cEGnbjSDSACa7OZwA/IBSbO1gWLz4t0yj4gYqla5fNy/?=
+ =?us-ascii?Q?MzaPMmO2UHx0gqCIcHAdh+VBghSaEe8gC6vK6sfoNxhjPO6VyXpmwBs9Q1yz?=
+ =?us-ascii?Q?ItTe6APgiIJGYyOYh7MTF44M93Ggj30yFSfbnd74aQZ+zXSPuMxbuUH7lQGA?=
+ =?us-ascii?Q?cpvUB91ARHfCb2nfmzDL6HGgsLhjry7hyTXIHCXaDezkk0o+q5vAZk3iaENZ?=
+ =?us-ascii?Q?SWcS+ZZpKJNO0tC7VK7yqKGyuXduxd7sr90x/A5J5/M6ALcRpw+F7PX7W5ui?=
+ =?us-ascii?Q?gy+ARyLMmuK7z8mOVgv4+3ubPEp1IR7rV+zv+paW1N0zbrpDfhqGnf5KATGj?=
+ =?us-ascii?Q?iPkDA/xv4kF6ZO8PHIUSBhMPO+9Z2jlA1madYk3/?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72476861-7868-4d64-81a7-08db1ae987c8
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 06:44:11.4105 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ftDHJdA38++7YdqWFEALSaWSXAEK+z/JZT8MNhKE2bFSzuMofjRVEMR7PN8NNiMhw5jzJ/Q7Atb4dPjiOkcx8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5653
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=ira.weiny@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,56 +165,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi guys,
-I got annoyed that whenever I run ./tests/data/acpi/rebuild-expected-aml.sh
-then my tree gets polluted with duplicate acpi files.
-If I forget to blow them away then later they become stale
-and bios table test fails.
+Jonathan Cameron wrote:
+> These events include a copy of the device health information at the
+> time of the event. Actually using the emulated device health would
+> require a lot of controls to manipulate that state.  Given the aim
+> of this injection code is to just test the flows when events occur,
+> inject the contents of the device health state as well.
+> 
+> Future work may add more sophisticate device health emulation
+> including direct generation of these records when events occur
+> (such as a temperature threshold being crossed).  That does not
+> reduce the usefulness of this more basic generation of the events.
 
-So wrote a script to find these hoping to teach rebuild-expected-aml.sh
-not to generate these:
+Seems very reasonable to me.
 
-find tests/data/acpi/ -type f -exec sha256sum '{}' ';'|sort -d|uniq -w 64 --all-repeated=separate
+One spelling issue below.  With that.
 
-Turns out we have lots of duplicates already!
-These generally increase churn and make review and maintainance of aml
-harder - I will remove the trivial ones but slightly harder issues:
-- unifying pc and q35 - I guess we can teach bios table test to look
-  for expected files one
-  directory up and put pc and q35 in a shared directory.
-- teaching rebuild-expected-aml.sh to remove duplicates.
-- we really should first generate in some temp directory,
-  then have a separate script to move files over, this way we can also
-  do useful things like tell user what changed - or even pre-generate
-  a good git commit message.
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-I have been using the following script but it expects files to
-already be in git, not ideal:
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  hw/mem/cxl_type3.c          | 61 +++++++++++++++++++++++++++++++++++++
+>  hw/mem/cxl_type3_stubs.c    | 12 ++++++++
+>  include/hw/cxl/cxl_events.h | 19 ++++++++++++
+>  qapi/cxl.json               | 35 +++++++++++++++++++++
+>  4 files changed, 127 insertions(+)
+> 
 
-SCM=`pwd`
-temp=$(mktemp -d)
-status=$?
-[ -z "${file}" ] || exit $status
-cd ${temp}
-rm -fr old new
-git clone ${SCM} old
-git clone ${SCM} new
-cd ${temp}/old
-git checkout ${1}
-./tests/data/acpi/disassemle-aml.sh -o ${temp}/old/asl
-cd ${temp}/new
-git checkout ${2}
-./tests/data/acpi/disassemle-aml.sh -o ${temp}/new/asl
-cd ${temp}
-# skip irrelevant header fields
-# prefix diff output so it's can be safely included in git log
-diff -ru -N -IDisassembly -IChecksum -I'*     Length           ' old/asl new/asl | sed -e 's/^---\|+++\|@@\|diff/:&/'
-rm -fr ${temp}
+[...]
 
+> diff --git a/qapi/cxl.json b/qapi/cxl.json
+> index 32f340d972..8b3d30cd71 100644
+> --- a/qapi/cxl.json
+> +++ b/qapi/cxl.json
+> @@ -90,6 +90,41 @@
+>              '*column': 'uint16', '*correction-mask': [ 'uint64' ]
+>             }}
+>  
+> +##
+> +# @cxl-inject-memory-module-event:
+> +#
+> +# Inject an event record for a Memory Module Event (CXL r3.0 8.2.9.2.1.3)
+> +# This event includes a copy of the Device Health info at the time of
+> +# the event.
+> +#
+> +# @path: CXL type 3 device canonical QOM path
+> +# @log: Event Log to add the event to
+> +# @flags: header flags
+> +# @type: Device Event Type (see spec for permitted values)
+> +# @health-status: Overall health summary bitmap (see spec for permitted bits)
+> +# @media-status: Overall media health summary (see spec for permitted values)
+> +# @additional-status: Complex field (see spec for meaning)
+> +# @life-used: Percentage (0-100) of factory expected life span
+> +# @temperature: Device temperature in degrees Celsius
+> +# @dirty-shutdown-count: Counter incremented whenever device is unable
+> +#                        to determine if data loss may have occured.
 
-One of you want to try improving on these issues?
+							      ^^^^^^^^^
+							      occurred
 
--- 
-MST
-
+Ira
 
