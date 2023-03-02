@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2F06A82BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A3F6A829D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:49:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiCT-0000WK-Aw; Thu, 02 Mar 2023 07:38:26 -0500
+	id 1pXiCl-00017n-F4; Thu, 02 Mar 2023 07:38:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXiAB-000696-9X; Thu, 02 Mar 2023 07:36:00 -0500
+ id 1pXiC6-0000q8-BC; Thu, 02 Mar 2023 07:38:06 -0500
 Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXiA8-0004f8-VR; Thu, 02 Mar 2023 07:35:58 -0500
+ id 1pXiC3-0005Gs-Ao; Thu, 02 Mar 2023 07:37:57 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A94DD746F34;
- Thu,  2 Mar 2023 13:35:50 +0100 (CET)
+ by localhost (Postfix) with SMTP id 58448746346;
+ Thu,  2 Mar 2023 13:37:51 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E9DFE746F2F; Thu,  2 Mar 2023 13:35:49 +0100 (CET)
+ id 23F36746324; Thu,  2 Mar 2023 13:37:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E8357746F32;
- Thu,  2 Mar 2023 13:35:49 +0100 (CET)
-Date: Thu, 2 Mar 2023 13:35:49 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2206A7462DB;
+ Thu,  2 Mar 2023 13:37:51 +0100 (CET)
+Date: Thu, 2 Mar 2023 13:37:51 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Woodhouse <dwmw2@infradead.org>
-cc: "Michael S . Tsirkin" <mst@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>, 
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
  Gerd Hoffmann <kraxel@redhat.com>, 
  Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH] hw/intc/i8259: Implement legacy LTIM Edge/Level Bank
- Select
-In-Reply-To: <20230302090626.1085437-1-dwmw2@infradead.org>
-Message-ID: <80e72188-8339-309c-dc09-08252adcfff8@eik.bme.hu>
-References: <81f53c106bf9584828402ab92e94ac4331c58c7a.camel@infradead.org>
- <20230302090626.1085437-1-dwmw2@infradead.org>
+ Bernhard Beschow <shentey@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, ReneEngel80@emailn.de
+Subject: Re: [PATCH v5 2/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
+ forwarder"
+In-Reply-To: <7ae0ae69-817e-7100-beed-ed610b3135cb@linaro.org>
+Message-ID: <f85e3122-3a30-1a32-a6b0-8414663e39f9@eik.bme.hu>
+References: <cover.1677628524.git.balaton@eik.bme.hu>
+ <cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu>
+ <709f5780-97e5-0cee-d776-4558cf39e000@eik.bme.hu>
+ <7ae0ae69-817e-7100-beed-ed610b3135cb@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: multipart/mixed;
+ boundary="3866299591-2134330101-1677760671=:51004"
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -65,149 +66,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023, David Woodhouse wrote:
-> Back in the mists of time, before IBM PS/2 came along with MCA and added
-> per-pin level control in the ELCR register, the i8259 had a chip-wide
-> level-mode control in bit 3 of ICW1.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Thanks a lot for doing this, it's easy if you already understand the PIC 
-and know where to look for the rest but takes more time if I have to learn 
-all that first. I can only comment on comments, the rest looks plausible 
-but I lack the knowledge to review that. I'll test this later today wirh 
-MorphOS and if no problems found I can make chnages to commit message as 
-you've asked and add it to the series to replace my workaround.
+--3866299591-2134330101-1677760671=:51004
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-I'm not sure how to test migration, I've never used that with QEMU so if 
-somebody can do that with PC machine that would help. The pegasos2 does 
-not yet support migration because it did not work before and we are still 
-implementing parts of VT8231 so it was decided to only fix vmstate saving 
-after that's settled so we don't have to worry about that now.
+On Thu, 2 Mar 2023, Philippe Mathieu-Daudé wrote:
+> On 1/3/23 01:33, BALATON Zoltan wrote:
+>> On Wed, 1 Mar 2023, BALATON Zoltan wrote:
+>>> This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
+>>> keeping the rename of a state field but reverting other cahanges which
+>>> break interrupts on pegasos2.
+>> 
+>> I've found this with just booting the MorphOS iso which now hangs without 
+>> this revert when trying to read from the ide device.
+>
+> Can you add an Avocado test booting the MorphOS iso?
 
-> Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
-> disabled', but apparently MorphOS is using it in the version of the
-> i8259 which is in the Pegasos2 board as part of the vt82c686 chipset.
-
-The pegasos2 actually has VT8231 which is closely related to 686B but a 
-bit later member of that family.
-
-> It's easy enough to implement, and I think it's harmless enough to do so
-> unconditionally.
->
-> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-> ---
-> hw/intc/i8259.c                 | 10 ++++------
-> hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
-> include/hw/isa/i8259_internal.h |  1 +
-> 3 files changed, 28 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-> index 17910f3bcb..bbae2d87f4 100644
-> --- a/hw/intc/i8259.c
-> +++ b/hw/intc/i8259.c
-> @@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
->     }
-> #endif
->
-> -    if (s->elcr & mask) {
-> +    if (s->ltim || (s->elcr & mask)) {
->         /* level triggered */
->         if (level) {
->             s->irr |= mask;
-> @@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
->         s->isr |= (1 << irq);
->     }
->     /* We don't clear a level sensitive interrupt here */
-> -    if (!(s->elcr & (1 << irq))) {
-> +    if (!s->ltim && !(s->elcr & (1 << irq))) {
->         s->irr &= ~(1 << irq);
->     }
->     pic_update_irq(s);
-> @@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
->     PICCommonState *s = PIC_COMMON(dev);
->
->     s->elcr = 0;
-> +    s->ltim = 0;
->     pic_init_reset(s);
-> }
->
-> @@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
->             s->init_state = 1;
->             s->init4 = val & 1;
->             s->single_mode = val & 2;
-> -            if (val & 0x08) {
-> -                qemu_log_mask(LOG_UNIMP,
-> -                              "i8259: level sensitive irq not supported\n");
-> -            }
-> +            s->ltim = val & 8;
->         } else if (val & 0x08) {
->             if (val & 0x04) {
->                 s->poll = 1;
-> diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
-> index af2e4a2241..c931dc2d07 100644
-> --- a/hw/intc/i8259_common.c
-> +++ b/hw/intc/i8259_common.c
-> @@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
->     s->special_fully_nested_mode = 0;
->     s->init4 = 0;
->     s->single_mode = 0;
-> -    /* Note: ELCR is not reset */
-> +    /* Note: ELCR and LTIM are not reset */
-> }
->
-> static int pic_dispatch_pre_save(void *opaque)
-> @@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
->                    s->special_fully_nested_mode);
-> }
->
-> +static bool ltim_state_needed(void *opaque)
-> +{
-> +    PICCommonState *s = PIC_COMMON(opaque);
-> +
-> +    return !!s->ltim;
-> +}
-> +
-> +static const VMStateDescription vmstate_pic_ltim = {
-> +    .name = "i8259/ltim",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = ltim_state_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT8(ltim, PICCommonState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> static const VMStateDescription vmstate_pic_common = {
->     .name = "i8259",
->     .version_id = 1,
-> @@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
->         VMSTATE_UINT8(single_mode, PICCommonState),
->         VMSTATE_UINT8(elcr, PICCommonState),
->         VMSTATE_END_OF_LIST()
-> +    },
-> +    .subsections = (const VMStateDescription*[]) {
-> +        &vmstate_pic_ltim,
-> +        NULL
->     }
-> };
->
-> diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
-> index 155b098452..f9dcc4163e 100644
-> --- a/include/hw/isa/i8259_internal.h
-> +++ b/include/hw/isa/i8259_internal.h
-> @@ -61,6 +61,7 @@ struct PICCommonState {
->     uint8_t single_mode; /* true if slave pic is not initialized */
->     uint8_t elcr; /* PIIX edge/trigger selection*/
->     uint8_t elcr_mask;
-> +    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
-
-Is this rather called Edge/Level Interrupt Mode or something like that?
+I think you had a patch for that before, so you remember where to find it? 
+I can't test that though as I don't have avocado and it does not come with 
+my distro. So maybe if you can revive your patch and test it that might 
+work better.
 
 Regards,
 BALATON Zoltan
 
->     qemu_irq int_out[1];
->     uint32_t master; /* reflects /SP input pin */
->     uint32_t iobase;
+>> I think I've mentioned that I've also tried this way first but then ended 
+>> up adding this because it was needed in a review of the patch earlier but I 
+>> can't find that message now. For now it seems the easiest is to revert this 
+>> and think about it later.
+>> 
+>> Regards,
+>> BALATON Zoltan
+>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>> hw/isa/vt82c686.c | 10 +++++++++-
+>>> 1 file changed, 9 insertions(+), 1 deletion(-)
 >
+>
+--3866299591-2134330101-1677760671=:51004--
 
