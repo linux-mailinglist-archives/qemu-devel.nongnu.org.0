@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643D66A82A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B076A82C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:53:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiAB-0005tQ-Ky; Thu, 02 Mar 2023 07:36:00 -0500
+	id 1pXi8f-0003qC-IA; Thu, 02 Mar 2023 07:34:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi6u-0002fC-C7
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:38 -0500
+ id 1pXi6y-0002g1-BJ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi6s-0003KQ-Av
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:36 -0500
+ id 1pXi6v-0003Kz-3i
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677760353;
+ s=mimecast20190719; t=1677760356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F7B8kC9fbTJB8WNXRcT9rQGyNOTgXhWFYATbCndhLFE=;
- b=QzAw9I04jxa+1XMulNIoT5rDqGbvBiziWTEcWIELmic83PeRu9et7HPp52LgtHUgjakRjd
- H6mHO02JZTh9ZNz9LHsDpY5ea8GNqbMGFVOeXFQ76UOXDaJohhz+BJ/HocqkjWMr9/bCZl
- 1NoU00mwx63/hmnk2IfJF4AnU57skLg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-21lVMP0wPDeIplf76na6mw-1; Thu, 02 Mar 2023 07:32:32 -0500
-X-MC-Unique: 21lVMP0wPDeIplf76na6mw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m7-20020a056000008700b002c7047ea429so3199691wrx.21
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:32:32 -0800 (PST)
+ bh=IdUIlpIs8IPN6BMwzU1eu+jWD9U/sh3sma8wPlM1EBA=;
+ b=g9I56g/qDbcyRi96bKP3A8bTLtjpcAYLkGr3ihGSFh0DPW7pm088WnCDKWNGCFGf5xzyfa
+ 3TOUG9FBtgOjgDAh9BctOU1WoC3kjb0c/gQGarr0v42R2ooV80YlKt+X/Nci08dws5r3d6
+ LyCVO1QB7MbKMWRapo7mgo7xX+euirQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-vScGSOkoMT2816wzmv2T7Q-1; Thu, 02 Mar 2023 07:32:35 -0500
+X-MC-Unique: vScGSOkoMT2816wzmv2T7Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n27-20020a05600c3b9b00b003e9ca0f4677so1010575wms.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:32:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=F7B8kC9fbTJB8WNXRcT9rQGyNOTgXhWFYATbCndhLFE=;
- b=dvtc4hDksAWoMrHEnk410xB8N5F/5pxY/qGvyF3CqiNbN5iv4/M6c5bXBDx9AbxrDt
- 9qIddj/dfk4G/5X+zUkxpFojl81fE7rpBQSKUqEsw815CnnbbGkk/yTRqw4Rsx1rBxII
- VGMHL821yN3E2chwndBQZbAUxuztrvVqV4Tom726vMR2cSM+hQlr+jVLZpaKzTh5csoI
- 3vOO+YBFQ4js2L2T6ZtyDz6sheceqnARGUGa6/1xoyNbT5xBQMHQhpwgTxzs61bG4bt1
- tBTXNwgB5vDf3rQqMfZd1jrjrPR+upm3UEmwPFDDtzdt4SsD3cUpGqKeogQrObOOVLaa
- VGkg==
-X-Gm-Message-State: AO0yUKVt1Oq99H+FWMUYHWrqIL+1gmDgHJx9ZjLeENKzEEIqclVZJloS
- 22ceyTECfkM3XKeHRGKaOAGbTkpqO4k9MjEzgO/fgC+siIHQ8f/ybomLOlc/4F8ty8LNCWwuoce
- WgyqdLffDRXLm/uVmd2F4JiLRGli17jr+0RPCLwZKugttAcaVIqfNr1Hoab/m+Wrp6rK55UiNQm
- M=
-X-Received: by 2002:adf:dd0b:0:b0:2c7:bbe:456c with SMTP id
- a11-20020adfdd0b000000b002c70bbe456cmr7104484wrm.63.1677760351040; 
- Thu, 02 Mar 2023 04:32:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Qi0LbLluQ5da7GSD4reh+6G+PiOs9KEYsBASCOFJMuDQMWD9uyDaNtOvqtJcx8eIYUR7thQ==
-X-Received: by 2002:adf:dd0b:0:b0:2c7:bbe:456c with SMTP id
- a11-20020adfdd0b000000b002c70bbe456cmr7104465wrm.63.1677760350606; 
- Thu, 02 Mar 2023 04:32:30 -0800 (PST)
+ bh=IdUIlpIs8IPN6BMwzU1eu+jWD9U/sh3sma8wPlM1EBA=;
+ b=kfGYQsCd43nCEqOlHMeiWLeJMw9873mtv4L9yv9AZKzc/QzswTRwXN5v8bKxiuS4Ph
+ g7YgNaShsr56EuEx/s9fLwwWiuWc8fCIAmITEeSdd9o6sIAbLy3+xjrispV/eEhxNOf1
+ 9GPfO3M2l22j2YWVVS0POLpEBC64Osb0bKLbBPLBk4Bv00JTKzDhvbfyniTTQy1mhmpi
+ sJJiNGlQrF8WmtcVaVvpmi3ZbgAHS3McNIJr2tYkAD7tynRqm5N8KdQur5tNj8vndqhj
+ y3ZHt4hKW/L+NAsdl3ahoDcv8bGqY0m+M3KaxFhqBV+AZdpK4VrudexT/IP61IOIhHAG
+ uHLA==
+X-Gm-Message-State: AO0yUKXrqmL/0mD3heyaIPtmOsUCVfuAluEC+9fH2J3VEOgpQqMSFdEb
+ 345jC7h5VFLAdfwlKUsKVx4C565dgSNpT7TAtG/cm8tSo6bvDGUe723V/uJwmRXswZK88zkcRxK
+ cALkshYIMYc1j7ZJGI8mM/e0v5OLWn2lPyqlCTY0t9G0c6aFdQV4nTVM++J71C1yXH45c8ZbwkP
+ Q=
+X-Received: by 2002:a5d:5651:0:b0:2c7:604:52a1 with SMTP id
+ j17-20020a5d5651000000b002c7060452a1mr7338558wrw.29.1677760353816; 
+ Thu, 02 Mar 2023 04:32:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set9CxpDH+3WIb6HbRWDOsKWHc19TYx1GmKkJDrJ9i5NgCzKsXdz0Au16jGdVgUwmnoezONT5Qg==
+X-Received: by 2002:a5d:5651:0:b0:2c7:604:52a1 with SMTP id
+ j17-20020a5d5651000000b002c7060452a1mr7338543wrw.29.1677760353539; 
+ Thu, 02 Mar 2023 04:32:33 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- s11-20020a5d424b000000b002c55521903bsm15013670wrr.51.2023.03.02.04.32.29
+ a10-20020adfe5ca000000b002c3dc4131f5sm14842379wrn.18.2023.03.02.04.32.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 04:32:30 -0800 (PST)
+ Thu, 02 Mar 2023 04:32:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Woodhouse <dwmw@amazon.co.uk>,
 	Paul Durrant <paul@xen.org>
-Subject: [PULL 40/62] hw/xen: Support HVM_PARAM_CALLBACK_TYPE_GSI callback
-Date: Thu,  2 Mar 2023 13:30:07 +0100
-Message-Id: <20230302123029.153265-41-pbonzini@redhat.com>
+Subject: [PULL 41/62] hw/xen: Support HVM_PARAM_CALLBACK_TYPE_PCI_INTX callback
+Date: Thu,  2 Mar 2023 13:30:08 +0100
+Message-Id: <20230302123029.153265-42-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302123029.153265-1-pbonzini@redhat.com>
 References: <20230302123029.153265-1-pbonzini@redhat.com>
@@ -104,347 +104,230 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The GSI callback (and later PCI_INTX) is a level triggered interrupt. It
-is asserted when an event channel is delivered to vCPU0, and is supposed
-to be cleared when the vcpu_info->evtchn_upcall_pending field for vCPU0
-is cleared again.
+The guest is permitted to specify an arbitrary domain/bus/device/function
+and INTX pin from which the callback IRQ shall appear to have come.
 
-Thankfully, Xen does *not* assert the GSI if the guest sets its own
-evtchn_upcall_pending field; we only need to assert the GSI when we
-have delivered an event for ourselves. So that's the easy part, kind of.
+In QEMU we can only easily do this for devices that actually exist, and
+even that requires us "knowing" that it's a PCMachine in order to find
+the PCI root bus — although that's OK really because it's always true.
 
-There's a slight complexity in that we need to hold the BQL before we
-can call qemu_set_irq(), and we definitely can't do that while holding
-our own port_lock (because we'll need to take that from the qemu-side
-functions that the PV backend drivers will call). So if we end up
-wanting to set the IRQ in a context where we *don't* already hold the
-BQL, defer to a BH.
+We also don't get to get notified of INTX routing changes, because we
+can't do that as a passive observer; if we try to register a notifier
+it will overwrite any existing notifier callback on the device.
 
-However, we *do* need to poll for the evtchn_upcall_pending flag being
-cleared. In an ideal world we would poll that when the EOI happens on
-the PIC/IOAPIC. That's how it works in the kernel with the VFIO eventfd
-pairs — one is used to trigger the interrupt, and the other works in the
-other direction to 'resample' on EOI, and trigger the first eventfd
-again if the line is still active.
-
-However, QEMU doesn't seem to do that. Even VFIO level interrupts seem
-to be supported by temporarily unmapping the device's BARs from the
-guest when an interrupt happens, then trapping *all* MMIO to the device
-and sending the 'resample' event on *every* MMIO access until the IRQ
-is cleared! Maybe in future we'll plumb the 'resample' concept through
-QEMU's irq framework but for now we'll do what Xen itself does: just
-check the flag on every vmexit if the upcall GSI is known to be
-asserted.
+But in practice, guests using PCI_INTX will only ever use pin A on the
+Xen platform device, and won't swizzle the INTX routing after they set
+it up. So this is just fine.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_evtchn.c  | 97 +++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  4 ++
- hw/i386/pc.c              |  6 +++
- include/sysemu/kvm_xen.h  |  1 +
- target/i386/cpu.h         |  1 +
- target/i386/kvm/kvm.c     | 11 +++++
- target/i386/kvm/xen-emu.c | 40 ++++++++++++++++
- target/i386/kvm/xen-emu.h |  1 +
- 8 files changed, 161 insertions(+)
+ hw/i386/kvm/xen_evtchn.c  | 80 ++++++++++++++++++++++++++++++++-------
+ target/i386/kvm/xen-emu.c | 34 +++++++++++++++++
+ 2 files changed, 100 insertions(+), 14 deletions(-)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index e937de7a9358..6b0bdba65df3 100644
+index 6b0bdba65df3..f39b751ff999 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -27,6 +27,8 @@
- 
+@@ -28,6 +28,8 @@
  #include "hw/sysbus.h"
  #include "hw/xen/xen.h"
-+#include "hw/i386/x86.h"
-+#include "hw/irq.h"
+ #include "hw/i386/x86.h"
++#include "hw/i386/pc.h"
++#include "hw/pci/pci.h"
+ #include "hw/irq.h"
  
  #include "xen_evtchn.h"
- #include "xen_overlay.h"
-@@ -100,9 +102,12 @@ struct XenEvtchnState {
+@@ -101,6 +103,7 @@ struct XenEvtchnState {
+ 
      uint64_t callback_param;
      bool evtchn_in_kernel;
++    uint32_t callback_gsi;
  
-+    QEMUBH *gsi_bh;
-+
-     QemuMutex port_lock;
-     uint32_t nr_ports;
-     XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
-+    qemu_irq gsis[IOAPIC_NUM_PINS];
- };
+     QEMUBH *gsi_bh;
  
- struct XenEvtchnState *xen_evtchn_singleton;
-@@ -167,13 +172,42 @@ static const TypeInfo xen_evtchn_info = {
-     .class_init    = xen_evtchn_class_init,
- };
- 
-+static void gsi_assert_bh(void *opaque)
-+{
-+    struct vcpu_info *vi = kvm_xen_get_vcpu_info_hva(0);
-+    if (vi) {
-+        xen_evtchn_set_callback_level(!!vi->evtchn_upcall_pending);
-+    }
-+}
-+
- void xen_evtchn_create(void)
- {
-     XenEvtchnState *s = XEN_EVTCHN(sysbus_create_simple(TYPE_XEN_EVTCHN,
-                                                         -1, NULL));
-+    int i;
-+
-     xen_evtchn_singleton = s;
- 
-     qemu_mutex_init(&s->port_lock);
-+    s->gsi_bh = aio_bh_new(qemu_get_aio_context(), gsi_assert_bh, s);
-+
-+    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-+        sysbus_init_irq(SYS_BUS_DEVICE(s), &s->gsis[i]);
-+    }
-+}
-+
-+void xen_evtchn_connect_gsis(qemu_irq *system_gsis)
-+{
-+    XenEvtchnState *s = xen_evtchn_singleton;
-+    int i;
-+
-+    if (!s) {
-+        return;
-+    }
-+
-+    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(s), i, system_gsis[i]);
-+    }
- }
- 
- static void xen_evtchn_register_types(void)
-@@ -183,6 +217,64 @@ static void xen_evtchn_register_types(void)
+@@ -217,11 +220,41 @@ static void xen_evtchn_register_types(void)
  
  type_init(xen_evtchn_register_types)
  
-+void xen_evtchn_set_callback_level(int level)
++static int set_callback_pci_intx(XenEvtchnState *s, uint64_t param)
 +{
-+    XenEvtchnState *s = xen_evtchn_singleton;
-+    uint32_t param;
++    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
++    uint8_t pin = param & 3;
++    uint8_t devfn = (param >> 8) & 0xff;
++    uint16_t bus = (param >> 16) & 0xffff;
++    uint16_t domain = (param >> 32) & 0xffff;
++    PCIDevice *pdev;
++    PCIINTxRoute r;
 +
-+    if (!s) {
-+        return;
++    if (domain || !pcms) {
++        return 0;
++    }
++
++    pdev = pci_find_device(pcms->bus, bus, devfn);
++    if (!pdev) {
++        return 0;
++    }
++
++    r = pci_device_route_intx_to_irq(pdev, pin);
++    if (r.mode != PCI_INTX_ENABLED) {
++        return 0;
 +    }
 +
 +    /*
-+     * We get to this function in a number of ways:
-+     *
-+     *  • From I/O context, via PV backend drivers sending a notification to
-+     *    the guest.
-+     *
-+     *  • From guest vCPU context, via loopback interdomain event channels
-+     *    (or theoretically even IPIs but guests don't use those with GSI
-+     *    delivery because that's pointless. We don't want a malicious guest
-+     *    to be able to trigger a deadlock though, so we can't rule it out.)
-+     *
-+     *  • From guest vCPU context when the HVM_PARAM_CALLBACK_IRQ is being
-+     *    configured.
-+     *
-+     *  • From guest vCPU context in the KVM exit handler, if the upcall
-+     *    pending flag has been cleared and the GSI needs to be deasserted.
-+     *
-+     *  • Maybe in future, in an interrupt ack/eoi notifier when the GSI has
-+     *    been acked in the irqchip.
-+     *
-+     * Whichever context we come from if we aren't already holding the BQL
-+     * then e can't take it now, as we may already hold s->port_lock. So
-+     * trigger the BH to set the IRQ for us instead of doing it immediately.
-+     *
-+     * In the HVM_PARAM_CALLBACK_IRQ and KVM exit handler cases, the caller
-+     * will deliberately take the BQL because they want the change to take
-+     * effect immediately. That just leaves interdomain loopback as the case
-+     * which uses the BH.
++     * Hm, can we be notified of INTX routing changes? Not without
++     * *owning* the device and being allowed to overwrite its own
++     * ->intx_routing_notifier, AFAICT. So let's not.
 +     */
-+    if (!qemu_mutex_iothread_locked()) {
-+        qemu_bh_schedule(s->gsi_bh);
-+        return;
-+    }
-+
-+    param = (uint32_t)s->callback_param;
-+
-+    switch (s->callback_param >> CALLBACK_VIA_TYPE_SHIFT) {
-+    case HVM_PARAM_CALLBACK_TYPE_GSI:
-+        if (param < IOAPIC_NUM_PINS) {
-+            qemu_set_irq(s->gsis[param], level);
-+            if (level) {
-+                /* Ensure the vCPU polls for deassertion */
-+                kvm_xen_set_callback_asserted();
-+            }
-+        }
-+        break;
-+    }
++    return r.irq;
 +}
 +
- int xen_evtchn_set_callback_param(uint64_t param)
+ void xen_evtchn_set_callback_level(int level)
  {
      XenEvtchnState *s = xen_evtchn_singleton;
-@@ -209,6 +301,11 @@ int xen_evtchn_set_callback_param(uint64_t param)
+-    uint32_t param;
+-
+     if (!s) {
+         return;
+     }
+@@ -260,18 +293,12 @@ void xen_evtchn_set_callback_level(int level)
+         return;
+     }
+ 
+-    param = (uint32_t)s->callback_param;
+-
+-    switch (s->callback_param >> CALLBACK_VIA_TYPE_SHIFT) {
+-    case HVM_PARAM_CALLBACK_TYPE_GSI:
+-        if (param < IOAPIC_NUM_PINS) {
+-            qemu_set_irq(s->gsis[param], level);
+-            if (level) {
+-                /* Ensure the vCPU polls for deassertion */
+-                kvm_xen_set_callback_asserted();
+-            }
++    if (s->callback_gsi && s->callback_gsi < IOAPIC_NUM_PINS) {
++        qemu_set_irq(s->gsis[s->callback_gsi], level);
++        if (level) {
++            /* Ensure the vCPU polls for deassertion */
++            kvm_xen_set_callback_asserted();
          }
-         break;
+-        break;
      }
-+
-+    case HVM_PARAM_CALLBACK_TYPE_GSI:
-+        ret = 0;
-+        break;
-+
-     default:
-         /* Xen doesn't return error even if you set something bogus */
-         ret = 0;
-diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 5d3e03553f34..b03c3108bcba 100644
---- a/hw/i386/kvm/xen_evtchn.h
-+++ b/hw/i386/kvm/xen_evtchn.h
-@@ -12,9 +12,13 @@
- #ifndef QEMU_XEN_EVTCHN_H
- #define QEMU_XEN_EVTCHN_H
+ }
  
-+#include "hw/sysbus.h"
-+
- void xen_evtchn_create(void);
- int xen_evtchn_soft_reset(void);
- int xen_evtchn_set_callback_param(uint64_t param);
-+void xen_evtchn_connect_gsis(qemu_irq *system_gsis);
-+void xen_evtchn_set_callback_level(int level);
+@@ -283,15 +310,22 @@ int xen_evtchn_set_callback_param(uint64_t param)
+         .u.vector = 0,
+     };
+     bool in_kernel = false;
++    uint32_t gsi = 0;
++    int type = param >> CALLBACK_VIA_TYPE_SHIFT;
+     int ret;
  
- struct evtchn_status;
- struct evtchn_close;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index f38e3f1be84a..71d3b8bec260 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1310,6 +1310,12 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-     }
-     *rtc_state = ISA_DEVICE(mc146818_rtc_init(isa_bus, 2000, rtc_irq));
- 
-+#ifdef CONFIG_XEN_EMU
-+    if (xen_mode == XEN_EMULATE) {
-+        xen_evtchn_connect_gsis(gsi);
-+    }
-+#endif
-+
-     qemu_register_boot_set(pc_boot_set, *rtc_state);
- 
-     if (!xen_enabled() &&
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index fbb7414eb797..2b200302810b 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -23,6 +23,7 @@ int kvm_xen_soft_reset(void);
- uint32_t kvm_xen_get_caps(void);
- void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
- void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
-+void kvm_xen_set_callback_asserted(void);
- int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
- 
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 4b70257db5dd..7227a8ec08d8 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1808,6 +1808,7 @@ typedef struct CPUArchState {
-     uint64_t xen_vcpu_time_info_gpa;
-     uint64_t xen_vcpu_runstate_gpa;
-     uint8_t xen_vcpu_callback_vector;
-+    bool xen_callback_asserted;
-     uint16_t xen_virq[XEN_NR_VIRQS];
-     uint64_t xen_singleshot_timer_ns;
- #endif
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 5a144ec0de3a..3c3795506dbe 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -4990,6 +4990,17 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
-         kvm_rate_limit_on_bus_lock();
+     if (!s) {
+         return -ENOTSUP;
      }
  
 +    /*
-+     * If the callback is asserted as a GSI (or PCI INTx) then check if
-+     * vcpu_info->evtchn_upcall_pending has been cleared, and deassert
-+     * the callback IRQ if so. Ideally we could hook into the PIC/IOAPIC
-+     * EOI and only resample then, exactly how the VFIO eventfd pairs
-+     * are designed to work for level triggered interrupts.
++     * We need the BQL because set_callback_pci_intx() may call into PCI code,
++     * and because we may need to manipulate the old and new GSI levels.
 +     */
-+    if (x86_cpu->env.xen_callback_asserted) {
-+        kvm_xen_maybe_deassert_callback(cpu);
-+    }
++    assert(qemu_mutex_iothread_locked());
+     qemu_mutex_lock(&s->port_lock);
+ 
+-    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
++    switch (type) {
+     case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
+         xa.u.vector = (uint8_t)param,
+ 
+@@ -299,10 +333,17 @@ int xen_evtchn_set_callback_param(uint64_t param)
+         if (!ret && kvm_xen_has_cap(EVTCHN_SEND)) {
+             in_kernel = true;
+         }
++        gsi = 0;
+         break;
+     }
+ 
++    case HVM_PARAM_CALLBACK_TYPE_PCI_INTX:
++        gsi = set_callback_pci_intx(s, param);
++        ret = gsi ? 0 : -EINVAL;
++        break;
 +
-     /* We need to protect the apic state against concurrent accesses from
-      * different threads in case the userspace irqchip is used. */
-     if (!kvm_irqchip_in_kernel()) {
+     case HVM_PARAM_CALLBACK_TYPE_GSI:
++        gsi = (uint32_t)param;
+         ret = 0;
+         break;
+ 
+@@ -320,6 +361,17 @@ int xen_evtchn_set_callback_param(uint64_t param)
+         }
+         s->callback_param = param;
+         s->evtchn_in_kernel = in_kernel;
++
++        if (gsi != s->callback_gsi) {
++            struct vcpu_info *vi = kvm_xen_get_vcpu_info_hva(0);
++
++            xen_evtchn_set_callback_level(0);
++            s->callback_gsi = gsi;
++
++            if (gsi && vi && vi->evtchn_upcall_pending) {
++                kvm_xen_inject_vcpu_callback_vector(0, type);
++            }
++        }
+     }
+ 
+     qemu_mutex_unlock(&s->port_lock);
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 821629f07765..b52617df5490 100644
+index b52617df5490..9e22c9fa025f 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -320,6 +320,39 @@ void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id)
-     return X86_CPU(cs)->env.xen_vcpu_info_hva;
- }
- 
-+void kvm_xen_maybe_deassert_callback(CPUState *cs)
-+{
-+    CPUX86State *env = &X86_CPU(cs)->env;
-+    struct vcpu_info *vi = env->xen_vcpu_info_hva;
-+    if (!vi) {
-+        return;
-+    }
-+
-+    /* If the evtchn_upcall_pending flag is cleared, turn the GSI off. */
-+    if (!vi->evtchn_upcall_pending) {
-+        qemu_mutex_lock_iothread();
-+        /*
-+         * Check again now we have the lock, because it may have been
-+         * asserted in the interim. And we don't want to take the lock
-+         * every time because this is a fast path.
-+         */
-+        if (!vi->evtchn_upcall_pending) {
-+            X86_CPU(cs)->env.xen_callback_asserted = false;
-+            xen_evtchn_set_callback_level(0);
-+        }
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+void kvm_xen_set_callback_asserted(void)
-+{
-+    CPUState *cs = qemu_get_cpu(0);
-+
-+    if (cs) {
-+        X86_CPU(cs)->env.xen_callback_asserted = true;
-+    }
-+}
-+
- void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type)
- {
-     CPUState *cs = qemu_get_cpu(vcpu_id);
-@@ -352,6 +385,13 @@ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type)
-          */
-         qemu_cpu_kick(cs);
-         break;
-+
-+    case HVM_PARAM_CALLBACK_TYPE_GSI:
-+    case HVM_PARAM_CALLBACK_TYPE_PCI_INTX:
-+        if (vcpu_id == 0) {
-+            xen_evtchn_set_callback_level(1);
-+        }
-+        break;
+@@ -131,6 +131,38 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
+         return ret;
      }
+ 
++    /* If called a second time, don't repeat the rest of the setup. */
++    if (s->xen_caps) {
++        return 0;
++    }
++
++    /*
++     * Event channel delivery via GSI/PCI_INTX needs to poll the vcpu_info
++     * of vCPU0 to deassert the IRQ when ->evtchn_upcall_pending is cleared.
++     *
++     * In the kernel, there's a notifier hook on the PIC/IOAPIC which allows
++     * such things to be polled at precisely the right time. We *could* do
++     * it nicely in the kernel: check vcpu_info[0]->evtchn_upcall_pending at
++     * the moment the IRQ is acked, and see if it should be reasserted.
++     *
++     * But the in-kernel irqchip is deprecated, so we're unlikely to add
++     * that support in the kernel. Insist on using the split irqchip mode
++     * instead.
++     *
++     * This leaves us polling for the level going low in QEMU, which lacks
++     * the appropriate hooks in its PIC/IOAPIC code. Even VFIO is sending a
++     * spurious 'ack' to an INTX IRQ every time there's any MMIO access to
++     * the device (for which it has to unmap the device and trap access, for
++     * some period after an IRQ!!). In the Xen case, we do it on exit from
++     * KVM_RUN, if the flag is set to say that the GSI is currently asserted.
++     * Which is kind of icky, but less so than the VFIO one. I may fix them
++     * both later...
++     */
++    if (!kvm_kernel_irqchip_split()) {
++        error_report("kvm: Xen support requires kernel-irqchip=split");
++        return -EINVAL;
++    }
++
+     s->xen_caps = xen_caps;
+     return 0;
  }
+@@ -684,7 +716,9 @@ static bool handle_set_param(struct kvm_xen_exit *exit, X86CPU *cpu,
  
-diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
-index 452605699abb..fe85e0b19580 100644
---- a/target/i386/kvm/xen-emu.h
-+++ b/target/i386/kvm/xen-emu.h
-@@ -28,5 +28,6 @@ int kvm_xen_init_vcpu(CPUState *cs);
- int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit);
- int kvm_put_xen_state(CPUState *cs);
- int kvm_get_xen_state(CPUState *cs);
-+void kvm_xen_maybe_deassert_callback(CPUState *cs);
- 
- #endif /* QEMU_I386_KVM_XEN_EMU_H */
+     switch (hp.index) {
+     case HVM_PARAM_CALLBACK_IRQ:
++        qemu_mutex_lock_iothread();
+         err = xen_evtchn_set_callback_param(hp.value);
++        qemu_mutex_unlock_iothread();
+         xen_set_long_mode(exit->u.hcall.longmode);
+         break;
+     default:
 -- 
 2.39.1
 
