@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528E86A8652
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE266A8653
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:27:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXll3-0008Sh-Un; Thu, 02 Mar 2023 11:26:21 -0500
+	id 1pXllU-0000VU-VB; Thu, 02 Mar 2023 11:26:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXll2-0008Qj-8P
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:26:16 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXllO-0000N8-Ka
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:26:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXll0-0005j8-JS
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:26:15 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXllM-0005lQ-Gx
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:26:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677774373;
+ s=mimecast20190719; t=1677774395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3FXfxnbEXGIu2sUzQf9ObKvGGDh9ML9hW+LsAX+7rqQ=;
- b=DH0pb5uL+z6sFt5U6iiCS4tve8d/hcZyHP+xvMuqxuhArNUejXeGIUm5w9pdQRJTLQjFsA
- A+u3QyT4uyGC7VnLRwaYKuTLeftVZQWoxMDg4nkx3IwPRpKImrvmFO8LkcRwxbMVM/IzRS
- 3Rfzo+/5dnT9TD7gHVDQTfjfReNh96I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xyPfLAnjdkcn4CRe6dv5v5YqZPSSqm94H6qJ7g9G0jY=;
+ b=Kttdb6L6B1B+1QorDaqW2tNYHwkVy/ZwmQPHqGsdeczgW3l57hK5Pz2oq666TH+2h26D3Y
+ liEI5b6QdDnbe5/zRMD7/6bmzZWy+r8MnadFv1BGl+RRfJIAqPmnfOSEyvmME2rI9jmLi5
+ Z3HjaabT5c7cYguaSUhJhgC8Q5BbFcU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-qc6GTOyOPc64421Zo9rdiQ-1; Thu, 02 Mar 2023 11:26:09 -0500
-X-MC-Unique: qc6GTOyOPc64421Zo9rdiQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-221-XpwkHkBXOAOaLeCIFjjB-A-1; Thu, 02 Mar 2023 11:26:33 -0500
+X-MC-Unique: XpwkHkBXOAOaLeCIFjjB-A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42AA3886064;
- Thu,  2 Mar 2023 16:26:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F17A140EBF6;
- Thu,  2 Mar 2023 16:26:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0569421E6A21; Thu,  2 Mar 2023 17:26:08 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org,  Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org,  Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 6/6] monitor: convert monitor_cleanup() to
- AIO_WAIT_WHILE_UNLOCKED()
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-7-stefanha@redhat.com>
- <87pm9rsjq4.fsf@pond.sub.org>
-Date: Thu, 02 Mar 2023 17:26:08 +0100
-In-Reply-To: <87pm9rsjq4.fsf@pond.sub.org> (Markus Armbruster's message of
- "Thu, 02 Mar 2023 08:20:03 +0100")
-Message-ID: <87fsani0gv.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E76B299E74A
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:26:33 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.194.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2F6C2166B26;
+ Thu,  2 Mar 2023 16:26:32 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH] migration: move migration_global_dump() to
+ migration-hmp-cmds.c
+Date: Thu,  2 Mar 2023 17:26:31 +0100
+Message-Id: <20230302162631.10250-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,52 +76,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> writes:
+It is only used there, so we can make it static.
+Once there, remove spice.h that it is not used.
 
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->
->> monitor_cleanup() is called from the main loop thread. Calling
->
-> Correct.
->
->> AIO_WAIT_WHILE(qemu_get_aio_context(), ...) from the main loop thread is
->> equivalent to AIO_WAIT_WHILE_UNLOCKED(NULL, ...) because neither unlocks
->> the AioContext and the latter's assertion that we're in the main loop
->> succeeds.
->>
->> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>  monitor/monitor.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/monitor/monitor.c b/monitor/monitor.c
->> index 8dc96f6af9..602535696c 100644
->> --- a/monitor/monitor.c
->> +++ b/monitor/monitor.c
->> @@ -666,7 +666,7 @@ void monitor_cleanup(void)
->>       * We need to poll both qemu_aio_context and iohandler_ctx to make
->>       * sure that the dispatcher coroutine keeps making progress and
->>       * eventually terminates.  qemu_aio_context is automatically
->> -     * polled by calling AIO_WAIT_WHILE on it, but we must poll
->> +     * polled by calling AIO_WAIT_WHILE_UNLOCKED on it, but we must poll
->>       * iohandler_ctx manually.
->>       *
->>       * Letting the iothread continue while shutting down the dispatcher
->> @@ -679,7 +679,7 @@ void monitor_cleanup(void)
->>          aio_co_wake(qmp_dispatcher_co);
->>      }
->>  
->> -    AIO_WAIT_WHILE(qemu_get_aio_context(),
->> +    AIO_WAIT_WHILE_UNLOCKED(NULL,
->>                     (aio_poll(iohandler_get_aio_context(), false),
->>                      qatomic_mb_read(&qmp_dispatcher_co_busy)));
->
-> Acked-by: Markus Armbruster <armbru@redhat.com>
->
-> For an R-by, I need to understand this in more detail.  See my reply to
-> the previous patch.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ include/migration/misc.h       |  1 -
+ migration/migration-hmp-cmds.c | 23 +++++++++++++++++++++--
+ migration/migration.c          | 19 -------------------
+ 3 files changed, 21 insertions(+), 22 deletions(-)
 
-Upgrading to
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+diff --git a/include/migration/misc.h b/include/migration/misc.h
+index 8b49841016..5ebe13b4b9 100644
+--- a/include/migration/misc.h
++++ b/include/migration/misc.h
+@@ -66,7 +66,6 @@ bool migration_has_finished(MigrationState *);
+ bool migration_has_failed(MigrationState *);
+ /* ...and after the device transmission */
+ bool migration_in_postcopy_after_devices(MigrationState *);
+-void migration_global_dump(Monitor *mon);
+ /* True if incoming migration entered POSTCOPY_INCOMING_DISCARD */
+ bool migration_in_incoming_postcopy(void);
+ /* True if incoming migration entered POSTCOPY_INCOMING_ADVISE */
+diff --git a/migration/migration-hmp-cmds.c b/migration/migration-hmp-cmds.c
+index 72519ea99f..7dcb289c05 100644
+--- a/migration/migration-hmp-cmds.c
++++ b/migration/migration-hmp-cmds.c
+@@ -15,7 +15,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "block/qapi.h"
+-#include "migration/misc.h"
+ #include "migration/snapshot.h"
+ #include "monitor/hmp.h"
+ #include "monitor/monitor.h"
+@@ -29,7 +28,27 @@
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/runstate.h"
+-#include "ui/qemu-spice.h"
++#include "sysemu/sysemu.h"
++#include "migration.h"
++
++static void migration_global_dump(Monitor *mon)
++{
++    MigrationState *ms = migrate_get_current();
++
++    monitor_printf(mon, "globals:\n");
++    monitor_printf(mon, "store-global-state: %s\n",
++                   ms->store_global_state ? "on" : "off");
++    monitor_printf(mon, "only-migratable: %s\n",
++                   only_migratable ? "on" : "off");
++    monitor_printf(mon, "send-configuration: %s\n",
++                   ms->send_configuration ? "on" : "off");
++    monitor_printf(mon, "send-section-footer: %s\n",
++                   ms->send_section_footer ? "on" : "off");
++    monitor_printf(mon, "decompress-error-check: %s\n",
++                   ms->decompress_error_check ? "on" : "off");
++    monitor_printf(mon, "clear-bitmap-shift: %u\n",
++                   ms->clear_bitmap_shift);
++}
+ 
+ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+ {
+diff --git a/migration/migration.c b/migration/migration.c
+index ca52c8aab3..c0584481c7 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -4410,25 +4410,6 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+     s->migration_thread_running = true;
+ }
+ 
+-void migration_global_dump(Monitor *mon)
+-{
+-    MigrationState *ms = migrate_get_current();
+-
+-    monitor_printf(mon, "globals:\n");
+-    monitor_printf(mon, "store-global-state: %s\n",
+-                   ms->store_global_state ? "on" : "off");
+-    monitor_printf(mon, "only-migratable: %s\n",
+-                   only_migratable ? "on" : "off");
+-    monitor_printf(mon, "send-configuration: %s\n",
+-                   ms->send_configuration ? "on" : "off");
+-    monitor_printf(mon, "send-section-footer: %s\n",
+-                   ms->send_section_footer ? "on" : "off");
+-    monitor_printf(mon, "decompress-error-check: %s\n",
+-                   ms->decompress_error_check ? "on" : "off");
+-    monitor_printf(mon, "clear-bitmap-shift: %u\n",
+-                   ms->clear_bitmap_shift);
+-}
+-
+ #define DEFINE_PROP_MIG_CAP(name, x)             \
+     DEFINE_PROP_BOOL(name, MigrationState, enabled_capabilities[x], false)
+ 
+-- 
+2.39.2
 
 
