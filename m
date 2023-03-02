@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BC56A7CB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C050E6A7CB1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:31:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeGP-0004eS-7w; Thu, 02 Mar 2023 03:26:09 -0500
+	id 1pXeGR-0004pT-7w; Thu, 02 Mar 2023 03:26:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGB-00046Y-56
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGE-00049o-9n
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeG9-0002Oa-IC
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:54 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGC-0002Op-Hn
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745553;
+ s=mimecast20190719; t=1677745556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v+fAaTMzaHbQ6OGyBux6MoCGU/rvRP9Pac7qwzuX0Kw=;
- b=YsNpN0TLxOR8+MWDbXMfzXBI1O1IG5l489/ifnkpDM16LhECw2icMpvEF2gV0ndepdJshj
- lgeplHH+voSasg4wyZptUsRogbwnXhSLmDpWLnovFpmfXwwE6RqGDrMCQsZnFl+4NkWlct
- 86iNgx84zCVHdcIy4v/JWws0YDLtl9I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O/JYwSKf5nVRGaZw7BDSvU/17EvsC7CjAFuUr02BOcA=;
+ b=ME6u3Bc/TA+uWHN54wDWVbiXecjI6ZQDmnYqsXM15vI5YQbgC+Xp2F3BAjNPD7IIgiypQg
+ 8qolpZy4ytvwFh0TdMZ4Byy/sDZ+NENVkHU7XOcLmfPQ+JTeN5TQxxAzGG7Bx3aTh/tdTq
+ 8pM7GABZnERjdL91EgBdOAErKYR8mn8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-342-mySM7merO2qtsbh4pIbazw-1; Thu, 02 Mar 2023 03:25:51 -0500
-X-MC-Unique: mySM7merO2qtsbh4pIbazw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k36-20020a05600c1ca400b003eac86e4387so916712wms.8
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:51 -0800 (PST)
+ us-mta-444-jKjJ9BiNPvy_lWVIGweMjw-1; Thu, 02 Mar 2023 03:25:54 -0500
+X-MC-Unique: jKjJ9BiNPvy_lWVIGweMjw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ az39-20020a05600c602700b003e97eb80524so926405wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745550;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v+fAaTMzaHbQ6OGyBux6MoCGU/rvRP9Pac7qwzuX0Kw=;
- b=zE8hXyr+CR73dY42S5VeeVWHln8kz42j8q9ubCkzglj3DxAh71afsWtUV6SObXARyH
- t7pw/r0BPcZs57h3s3gcSJygJVEtRcYlqZSyrEYEG6hHr0fXr2E9/1qP4LHmp0UNWrNS
- Lf0u2IjbPbYsGoai076ILndZ6BpL2M1i3FHblZwWow62UxN/BIPBZ2/yGTiOjsnS1kOb
- pOtyGMYB0MdHuSUd4xlVDGSKJDaaEEWjPK6QbcaeZX7UmJFW9ZEMbAY7OyE+uKMzGHMI
- qXFWVl3e9d504sHQR1evgu9q2qn8nYB7Lh/c8PfEBK052JLQqpgRSzHcAimSrDxiWuEi
- Uvmg==
-X-Gm-Message-State: AO0yUKXkLa9RkbtGqBzKCVeTbx/KgsDY10rwaE+9xT/sXME9kUCgJ5+R
- iTdEiAHHHJ4j2pfdy1jlZDt7Q7fTuQ7BrmPNCO2bn+BMVMqzaxXobDt1nBlzQ13S/lwfc2LqmuL
- tDqGWGzAEENC9zO3w+AnIWuenz8yd0RrbZOX1mfYCDk2mR/zRuoRzjTiyM7yjjCbkFQ==
-X-Received: by 2002:a5d:4ed2:0:b0:2c7:f56:285b with SMTP id
- s18-20020a5d4ed2000000b002c70f56285bmr7656935wrv.63.1677745550182; 
- Thu, 02 Mar 2023 00:25:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set8GyNYM+E6tNg8LkJ9An+cQfBKa6oiDPDq8DJUvHw7Pk+rnyd173vFsLj6+hYjovJbg9HorSg==
-X-Received: by 2002:a5d:4ed2:0:b0:2c7:f56:285b with SMTP id
- s18-20020a5d4ed2000000b002c70f56285bmr7656922wrv.63.1677745549927; 
- Thu, 02 Mar 2023 00:25:49 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745553;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O/JYwSKf5nVRGaZw7BDSvU/17EvsC7CjAFuUr02BOcA=;
+ b=ONfcXJii4I+1SSLOYCdSTkhfM0w7QBLbHnnAzXtW3h0KjqFe0HYSD9QKoqgXg0QxDH
+ +Rp346knGi6YgTpXoQIV+KodV5F/GHv/7v4ogQFnXYXCSQE6XrTnEinUM7SGFkX/S+Cx
+ mnzT5UQlx8NCLwVar0NI/HGPv7/YEC/gNJqmEP6Rj0Kw3VKHpy7LHgYv1aqWatqpP6IX
+ rZc/WgyuuDOVF+8oaZgL2e1fLhc3tqFheg9cAHvbtfaB8jQisCa9vWtOO+FWvlnAy/G+
+ FQGIYnN5xT1v414JbQiZGgYrkTNFD6YjJS+d+eHb5nGXpNSXTATyg2s35mAR1EK4fEqM
+ NB+g==
+X-Gm-Message-State: AO0yUKVIrEn48sIMnAfXAN6TQ6BqwNGfEFWbxQ/MEW7pXgZ6h+/+UBaM
+ jaO5cEu3uBVFcxH+ptLmpymzKdqLK/TVKSue1rrH1RX9Jk7yDv0BXv521++q3U5hyG2WaLcQNJv
+ ylLon0r3FYeV9qQ8TPwpjJ/nHXmRYFGf3ZYrUifyAgRyP0VqVgv7VhexGN7u7UxUHXw==
+X-Received: by 2002:a5d:5189:0:b0:2c3:be89:7c2b with SMTP id
+ k9-20020a5d5189000000b002c3be897c2bmr844436wrv.14.1677745553164; 
+ Thu, 02 Mar 2023 00:25:53 -0800 (PST)
+X-Google-Smtp-Source: AK7set/Szraoep2QlLcCqbPf5nqM1CWTwlbDQXYE8QrVACaeFK4kJXWDZZTi1iePHYEoGAypmyCkDw==
+X-Received: by 2002:a5d:5189:0:b0:2c3:be89:7c2b with SMTP id
+ k9-20020a5d5189000000b002c3be897c2bmr844420wrv.14.1677745552901; 
+ Thu, 02 Mar 2023 00:25:52 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- iz12-20020a05600c554c00b003e1f2e43a1csm2109878wmb.48.2023.03.02.00.25.48
+ l8-20020a05600c4f0800b003b47b80cec3sm2446250wmq.42.2023.03.02.00.25.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:49 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:47 -0500
+ Thu, 02 Mar 2023 00:25:52 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Anton Kuchin <antonkuchin@yandex-team.ru>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 25/53] pci/shpc: refactor shpc_device_plug_common()
-Message-ID: <20230302082343.560446-26-mst@redhat.com>
+Subject: [PULL 26/53] pcie: pcie_cap_slot_write_config(): use correct macro
+Message-ID: <20230302082343.560446-27-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -101,80 +104,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Rename it to shpc_device_get_slot(), to mention what it does rather
-than how it is used. It also helps to reuse it in further commit.
-
-Also, add a return value and get rid of local_err.
+PCI_EXP_SLTCTL_PIC_OFF is a value, and PCI_EXP_SLTCTL_PIC is a mask.
+Happily PCI_EXP_SLTCTL_PIC_OFF is a maximum value for this mask and is
+equal to the mask itself. Still the code looks like a bug. Let's make
+it more reader-friendly.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-Message-Id: <20230216180356.156832-7-vsementsov@yandex-team.ru>
+Message-Id: <20230216180356.156832-8-vsementsov@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/shpc.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ hw/pci/pcie.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index 9f964b1d70..e7bc7192f1 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -496,8 +496,9 @@ static const MemoryRegionOps shpc_mmio_ops = {
-         .max_access_size = 4,
-     },
- };
--static void shpc_device_plug_common(PCIDevice *affected_dev, int *slot,
--                                    SHPCDevice *shpc, Error **errp)
-+
-+static bool shpc_device_get_slot(PCIDevice *affected_dev, int *slot,
-+                                 SHPCDevice *shpc, Error **errp)
- {
-     int pci_slot = PCI_SLOT(affected_dev->devfn);
-     *slot = SHPC_PCI_TO_IDX(pci_slot);
-@@ -507,21 +508,20 @@ static void shpc_device_plug_common(PCIDevice *affected_dev, int *slot,
-                    "controller. Valid slots are between %d and %d.",
-                    pci_slot, SHPC_IDX_TO_PCI(0),
-                    SHPC_IDX_TO_PCI(shpc->nslots) - 1);
--        return;
-+        return false;
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 924fdabd15..82ef723983 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -770,9 +770,9 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+      * control of powered off slots before powering them on.
+      */
+     if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+-        (val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF &&
++        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PIC_OFF &&
+         (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
+-        (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
++        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PIC_OFF)) {
+         pcie_cap_slot_do_unplug(dev);
      }
-+
-+    return true;
- }
- 
- void shpc_device_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                             Error **errp)
- {
--    Error *local_err = NULL;
-     PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
-     SHPCDevice *shpc = pci_hotplug_dev->shpc;
-     int slot;
- 
--    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!shpc_device_get_slot(PCI_DEVICE(dev), &slot, shpc, errp)) {
-         return;
-     }
- 
-@@ -563,16 +563,13 @@ void shpc_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
- void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                    DeviceState *dev, Error **errp)
- {
--    Error *local_err = NULL;
-     PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
-     SHPCDevice *shpc = pci_hotplug_dev->shpc;
-     uint8_t state;
-     uint8_t led;
-     int slot;
- 
--    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!shpc_device_get_slot(PCI_DEVICE(dev), &slot, shpc, errp)) {
-         return;
-     }
- 
+     pcie_cap_update_power(dev);
 -- 
 MST
 
