@@ -2,91 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE53E6A8B41
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 22:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94486A8B42
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 22:52:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXqpL-00021G-7H; Thu, 02 Mar 2023 16:51:03 -0500
+	id 1pXqpz-0002Zm-6T; Thu, 02 Mar 2023 16:51:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXqpI-00020r-QZ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:51:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXqpx-0002Yd-1k; Thu, 02 Mar 2023 16:51:41 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXqpH-0005ir-Ci
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:51:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677793857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pJpVAly2UzTxDNsNT0eE5VfpFY+FJg1GdYZIFNsjMWM=;
- b=ZErFWNuoiMSSB/qYYYZ39KxDtG1j50tUcwSc6hp5Yvkaf2XeWTGOFFlM1RIKYUyFaJjR68
- 5BOmyA+S6g2HPqmBQKKRpTgVHjzT2k9ku2m2SetH38ko8KAhatCqqSuS7yhzUHRrQA+zHs
- z+2QT0Ota0zMxFcThG1+2KfMaAJOSTg=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-570-6cFXxaTLPZGN3wecskMiiA-1; Thu, 02 Mar 2023 16:50:53 -0500
-X-MC-Unique: 6cFXxaTLPZGN3wecskMiiA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- y6-20020ad457c6000000b00535261af1b1so377822qvx.13
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 13:50:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677793853;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pJpVAly2UzTxDNsNT0eE5VfpFY+FJg1GdYZIFNsjMWM=;
- b=0EzUTrYpjB97ELj6m36M3cbB07SSSF9JRQ2WMrls2a4KDS+0RmxiwVH8rdsyfpwLEx
- qvZ8fh3VJ1obV5V9tNkjlb9d8AFGe3NE3VGOxjfbaF1OI8H/4Wv1ZT03p2G9E6wR4ImY
- wQX0rqccyVe7kVQ1F62caMEz/ZU2qbcj+J9l34nW7ycdD0Ox9hj/W+0HETB6A2I1aYc5
- s1fn5P3l13m0+/3/XT/d0q/u6XHpZoMePmU53OYL19l+5gbn3U9zQ/F8yur6uwYqciYT
- 0WKANs4QB8ZAbWyMvXq9Y6FAC5ZXT3OoNX7+nRHD3AjXRkLlHvrQE+v9w9KXUxDSgZIR
- h18Q==
-X-Gm-Message-State: AO0yUKVHoEDP80QiLce+0xsibsJPu1UU7VxZEU21ELk9EfOo7+nCnxl4
- qxzPYBf5o0tuFNXOWXWHMVZxPHCJmjcv6pg8r4rJUlNFA9hWcxZ04DtANwv+Jl26WdhR+4xGUE7
- F5gEP6dZksIf8rxo=
-X-Received: by 2002:ac8:5b4e:0:b0:3bf:daef:75de with SMTP id
- n14-20020ac85b4e000000b003bfdaef75demr22270256qtw.4.1677793853279; 
- Thu, 02 Mar 2023 13:50:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set9xPuDmluBofmav4tNN8MsV3SuPgx023EIoZQ/QUmLxsuRsOLHppLXFSjEl+YkodVMRd2JnOQ==
-X-Received: by 2002:ac8:5b4e:0:b0:3bf:daef:75de with SMTP id
- n14-20020ac85b4e000000b003bfdaef75demr22270234qtw.4.1677793852986; 
- Thu, 02 Mar 2023 13:50:52 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- r3-20020ae9d603000000b007423a4ae27esm482310qkk.12.2023.03.02.13.50.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 13:50:52 -0800 (PST)
-Date: Thu, 2 Mar 2023 16:50:51 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Chuang Xu <xuchuangxclwt@bytedance.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
-Message-ID: <ZAEaO7Yqw2F8hbbV@x1n>
-References: <20230225163141.1209368-1-peterx@redhat.com>
- <6c75e2e2-5ba9-bc52-2c6c-a0bfb5f5b56f@redhat.com>
- <ZAC2ccoQpFLa07ZK@x1n>
- <4f130497-1200-8c42-7d48-cadf54f3f6a4@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXqpu-0005oi-Oj; Thu, 02 Mar 2023 16:51:40 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C2684746346;
+ Thu,  2 Mar 2023 22:51:30 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 88306746324; Thu,  2 Mar 2023 22:51:30 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 86CF47462DB;
+ Thu,  2 Mar 2023 22:51:30 +0100 (CET)
+Date: Thu, 2 Mar 2023 22:51:30 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+cc: Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Bernhard Beschow <shentey@gmail.com>, philmd@linaro.org, 
+ ReneEngel80@emailn.de
+Subject: Re: [PATCH v5 1/7] hw/display/sm501: Add debug property to control
+ pixman usage
+In-Reply-To: <7976b7c4b950dc1ff378263dedf4c73b15614033.1677628524.git.balaton@eik.bme.hu>
+Message-ID: <4050c077-34d5-7ba8-3510-7828514e929e@eik.bme.hu>
+References: <cover.1677628524.git.balaton@eik.bme.hu>
+ <7976b7c4b950dc1ff378263dedf4c73b15614033.1677628524.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4f130497-1200-8c42-7d48-cadf54f3f6a4@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,16 +63,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 04:11:56PM +0100, David Hildenbrand wrote:
-> I guess the main concern here would be overhead from gabbing/releasing the
-> BQL very often, and blocking the BQL while we're eventually in the kernel,
-> clearing bitmaps, correct?
+On Wed, 1 Mar 2023, BALATON Zoltan wrote:
+> Add a property to allow disabling pixman and always use the fallbacks
+> for different operations which is useful for testing different drawing
+> methods or debugging pixman related issues.
 
-More or less yes.  I think it's pretty clear we move on with RCU unless
-extremely necessary (which I don't think..), then it's about how to fix the
-bug so rcu safety guaranteed.
+Peter,
 
--- 
-Peter Xu
+It was verified that the already merged patches fixed the problems with 
+pixman on macOS by adding the fallback so that does not need this property 
+but it is still useful for debugging or testing. Are you OK with adding it 
+as a debug property as described in this version or still have a concern 
+about this?
 
+Regards,
+BALATON Zoltan
+
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+> hw/display/sm501.c | 18 +++++++++++++++---
+> 1 file changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+> index 17835159fc..dbabbc4339 100644
+> --- a/hw/display/sm501.c
+> +++ b/hw/display/sm501.c
+> @@ -465,6 +465,7 @@ typedef struct SM501State {
+>     uint32_t last_width;
+>     uint32_t last_height;
+>     bool do_full_update; /* perform a full update next time */
+> +    uint8_t use_pixman;
+>     I2CBus *i2c_bus;
+>
+>     /* mmio registers */
+> @@ -827,7 +828,7 @@ static void sm501_2d_operation(SM501State *s)
+>                 de = db + (width + (height - 1) * dst_pitch) * bypp;
+>                 overlap = (db < se && sb < de);
+>             }
+> -            if (overlap) {
+> +            if (overlap && (s->use_pixman & BIT(2))) {
+>                 /* pixman can't do reverse blit: copy via temporary */
+>                 int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
+>                 uint32_t *tmp = tmp_buf;
+> @@ -852,13 +853,15 @@ static void sm501_2d_operation(SM501State *s)
+>                 if (tmp != tmp_buf) {
+>                     g_free(tmp);
+>                 }
+> -            } else {
+> +            } else if (!overlap && (s->use_pixman & BIT(1))) {
+>                 fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
+>                                        (uint32_t *)&s->local_mem[dst_base],
+>                                        src_pitch * bypp / sizeof(uint32_t),
+>                                        dst_pitch * bypp / sizeof(uint32_t),
+>                                        8 * bypp, 8 * bypp, src_x, src_y,
+>                                        dst_x, dst_y, width, height);
+> +            } else {
+> +                fallback = true;
+>             }
+>             if (fallback) {
+>                 uint8_t *sp = s->local_mem + src_base;
+> @@ -891,7 +894,7 @@ static void sm501_2d_operation(SM501State *s)
+>             color = cpu_to_le16(color);
+>         }
+>
+> -        if ((width == 1 && height == 1) ||
+> +        if (!(s->use_pixman & BIT(0)) || (width == 1 && height == 1) ||
+>             !pixman_fill((uint32_t *)&s->local_mem[dst_base],
+>                          dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
+>                          dst_x, dst_y, width, height, color)) {
+> @@ -2035,6 +2038,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+>
+> static Property sm501_sysbus_properties[] = {
+>     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+> +    DEFINE_PROP_UINT8("x-pixman", SM501SysBusState, state.use_pixman, 7),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>
+> @@ -2122,6 +2126,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
+>
+> static Property sm501_pci_properties[] = {
+>     DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
+> +    DEFINE_PROP_UINT8("x-pixman", SM501PCIState, state.use_pixman, 7),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>
+> @@ -2162,11 +2167,18 @@ static void sm501_pci_class_init(ObjectClass *klass, void *data)
+>     dc->vmsd = &vmstate_sm501_pci;
+> }
+>
+> +static void sm501_pci_init(Object *o)
+> +{
+> +    object_property_set_description(o, "x-pixman", "Use pixman for: "
+> +                                    "1: fill, 2: blit, 4: overlap blit");
+> +}
+> +
+> static const TypeInfo sm501_pci_info = {
+>     .name          = TYPE_PCI_SM501,
+>     .parent        = TYPE_PCI_DEVICE,
+>     .instance_size = sizeof(SM501PCIState),
+>     .class_init    = sm501_pci_class_init,
+> +    .instance_init = sm501_pci_init,
+>     .interfaces = (InterfaceInfo[]) {
+>         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>         { },
+>
 
