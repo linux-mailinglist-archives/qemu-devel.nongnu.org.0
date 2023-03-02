@@ -2,95 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A495B6A83AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5126A83B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:43:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXj9j-0005WZ-6N; Thu, 02 Mar 2023 08:39:35 -0500
+	id 1pXjCr-0004ae-SO; Thu, 02 Mar 2023 08:42:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pXj9f-0005Rp-0b
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:39:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXjCj-0004Xq-Li
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:42:41 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pXj9d-0002SE-Eb
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:39:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677764368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8UnfSbMYNNgzoZGawsXpWGkv+4jmC6nkFsLTYDbxsTI=;
- b=JPCVteBBveJAFKPUxSYUIR65N7ucVurpCC6W9/2BOMwr0nH1n2cE5fq9dCxWr4Wq55bmEq
- 6mmvNHdmKtJMXe5VscaCMUY2tO0PdKnceZCoCZ4MHI7NjjqzuFaNHMJV2Fn/Q6goxDnimj
- ikbAANnRz7/2sysEKUDoIjKULzaOzOs=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-121-j6k1-qSoMam2QEuC2dcP8Q-1; Thu, 02 Mar 2023 08:39:27 -0500
-X-MC-Unique: j6k1-qSoMam2QEuC2dcP8Q-1
-Received: by mail-pj1-f69.google.com with SMTP id
- cl18-20020a17090af69200b0023470d96ae6so2059858pjb.1
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 05:39:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8UnfSbMYNNgzoZGawsXpWGkv+4jmC6nkFsLTYDbxsTI=;
- b=Gjn5fhTBwN7FRIERJ0Vo8N7ratq/L5Y39RyJLboSjEJlpBp03ZPSs22YjIgsV3BRlx
- pJhbXOO13TnmcdsI/WjdKiGRjWapWHta6JajG+1CBlXKpd3WO3Q1IiVQnaEyiqzyWbmK
- 3QPb+7tQyVqss8XrAtkPRupvG5ib1gQxXTyPmjBFnZ4DFldqeoBYUKORhiIKLxPB1WhP
- YuuhZxnBHkbtidePPaRr2AiA52iXMz3XHAwiAfW2GQBb3q+07ML9qZ0EMxfsItfO6wub
- jlKuTsa2UwYIzU7QcnIoQMrD9eq4dF3AFvLOzK4WtoDOhI9sNJrXYVg4qSqSvm0rA3qi
- TSHw==
-X-Gm-Message-State: AO0yUKXeUsqRGaVKeCCuXo7RgUHVtFRSUTNFZe/FD4eCms9PexMDBN5F
- jl58aXpueLSVspy899MZPyUPT5rIRF+mLb/ozs+hldSlYVyd4v/1a2Gxmeq/Lri77s1WZPCTMfz
- VMe6m9z9k5oq2rYtHAjIrstLAjvPtHlA=
-X-Received: by 2002:a62:8281:0:b0:5df:9809:6220 with SMTP id
- w123-20020a628281000000b005df98096220mr4033074pfd.3.1677764366151; 
- Thu, 02 Mar 2023 05:39:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set+a/fgG1sDJY0Wg8HtsQNqmWTjIiDBcdwXGiUihFqPgAS6qxO7QGc+qdB4z1VCvahkPJUDsTDuwl9pcbHRIcSE=
-X-Received: by 2002:a62:8281:0:b0:5df:9809:6220 with SMTP id
- w123-20020a628281000000b005df98096220mr4033067pfd.3.1677764365873; Thu, 02
- Mar 2023 05:39:25 -0800 (PST)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 2 Mar 2023 05:39:25 -0800
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20230228150216.77912-1-cohuck@redhat.com>
- <20230228150216.77912-2-cohuck@redhat.com>
- <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
- <874jr4dbcr.fsf@redhat.com>
- <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
- <87sfeoblsa.fsf@redhat.com>
- <CABJz62PbzFMB3ifg7OvTXe34TS5b3xDHJk8XGs-inA5t5UEAtA@mail.gmail.com>
- <87fsanmgi9.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXjCY-0004Sk-S5
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:42:32 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A86407462DB;
+ Thu,  2 Mar 2023 14:42:17 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 79E2C7457E7; Thu,  2 Mar 2023 14:42:17 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 7850A745706;
+ Thu,  2 Mar 2023 14:42:17 +0100 (CET)
+Date: Thu, 2 Mar 2023 14:42:17 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Paolo Bonzini <pbonzini@redhat.com>
+cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+In-Reply-To: <c465a44a-1ff6-5118-516c-56a8f99b9509@redhat.com>
+Message-ID: <485be109-57a5-178a-1ac6-291fd05d9baa@eik.bme.hu>
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
+ <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
+ <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
+ <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
+ <20220119041842-mutt-send-email-mst@kernel.org>
+ <20220222094021-mutt-send-email-mst@kernel.org>
+ <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
+ <20230220172659-mutt-send-email-mst@kernel.org>
+ <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
+ <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
+ <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
+ <c465a44a-1ff6-5118-516c-56a8f99b9509@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87fsanmgi9.fsf@redhat.com>
-Date: Thu, 2 Mar 2023 05:39:25 -0800
-Message-ID: <CABJz62OMj+ahAKWcyd5xKFnQ9g2ODoKyi2AvAtxe_bYWLXKUOQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, 
- kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,20 +73,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 02:26:06PM +0100, Cornelia Huck wrote:
-> On Wed, Mar 01 2023, Andrea Bolognani <abologna@redhat.com> wrote:
-> > Note that, from libvirt's point of view, there's no advantage to
-> > doing things that way instead of what you already have. Handling the
-> > additional machine property is a complete non-issue. But it would
-> > make things nicer for people running QEMU directly, I think.
+On Tue, 21 Feb 2023, Paolo Bonzini wrote:
+> On 2/21/23 13:48, BALATON Zoltan wrote:
+>> My patch works and don't see what else could it break.
 >
-> I'm tempted to simply consider this to be another wart of the QEMU
-> command line :)
+> I strongly suspect that your patch, while fixing access to one byte of the 
+> (2-byte) registers, breaks access to the other byte.
+>
+> Thanks for the reproduction instructions, I'll take a look.
 
-Fine by me! Papering over such idiosyncrasies is part of libvirt's
-core mission after all :)
+Any chance this can still be fixed? As a bugfix we may have one more week 
+maybe.
 
--- 
-Andrea Bolognani / Red Hat / Virtualization
-
+Regards,
+BALATON Zoltan
 
