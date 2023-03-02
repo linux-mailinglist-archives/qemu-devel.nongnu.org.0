@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECA56A8A6E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 21:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2046A8AD8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 21:49:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXpYm-0004WW-Mr; Thu, 02 Mar 2023 15:29:54 -0500
+	id 1pXpqK-0004sg-SB; Thu, 02 Mar 2023 15:48:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXpYi-0004WJ-OR
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 15:29:48 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pXpqI-0004qj-Tl
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 15:47:58 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXpYT-00060G-RA
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 15:29:48 -0500
-Received: by mail-pl1-x633.google.com with SMTP id i10so505070plr.9
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 12:29:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ id 1pXpqH-0003Yo-BS
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 15:47:58 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id y2so398557pjg.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 12:47:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677790075;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0JKv8RpyJ+viJhK9MA6SkF8wdzOxlXzPMnu/XUJz9ww=;
- b=StdwLeRxXl6Mdrus4CeViHMbOw9O7DMYT7j9hIdODhFPSZNzB0ZZDr6mU2kNafirkn
- ChIPpoCDDDO/CiKKVCOdVKFzrfqlvATXqt+tRYAR1hDjAVQ8Zzqn6DqrCfq7mrnwQrbn
- AdCLuB3L0HDrbxddGG39RuRyZFVMQLq66tmllsqHLTDOtBs3/929fP0lg/bElkRXd4g6
- tjuteYiifaY+yEuEQPD2SsvCFeOstpWG7hK4UNUt8SxQcOT67+J8tMeFzBOnQALIqmFf
- gQq6S8Ch7VUHWjedFydpntI+AnaBSEfmnYGPCJ4u/xyxoup4AL+PbWCW1KX9dhfdcXYe
- gZig==
+ bh=lveCctSfE1YZYVAB6XxHoWUv+tJNAkDjVEBkaW1Ki2U=;
+ b=c33XqIiiI6y5b8w2cWVx8bY6mAqaQvt/p7YfrSIo3i/frwkD1ITOLj+fY4ppzpHEmr
+ kwR1zOO5JLrbusWt97R1RoxnIyek5tSpRkxWJgo3tUTIe8YsrbIuB6n2EVD2zvyxJ/UC
+ EP55CkQGBew+8r/xHwSSZ0Csa7q6NeHOtscFJOppGQe0jcoHexN+Cg/TY9Qli6OT1xw/
+ jY6OE9jfH5HYgqtwKvrCuDy568fje/yIpSoCjIADn+YquRdpmR8niGgr2u6I65Yni0ih
+ 2kveSDd2qCwEjoMRcnLD9HVHK2PmVQoaVT31HPcG+T+7iWIubEjr1sAC4iDIvRfagZZ3
+ UjWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
+ d=1e100.net; s=20210112; t=1677790075;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0JKv8RpyJ+viJhK9MA6SkF8wdzOxlXzPMnu/XUJz9ww=;
- b=erhX+t7wNN0mJEVYGwZFWCn9SKd17KoVJQfkgmI1Zfs3PGc6NFQwehRC2uiN3B1DH9
- tIt0Wu5iAXMaBXSXe9HaR9IfoZSKjdRr+fpTtxT5AorAvWlU97+hDuLoNduJASZuInwO
- P+HKt12ff/HI9+F9omChxzimEvM+GABXixD3TVib8U6Na6G3R/hf2EUDryOFBwg0HVDx
- 2KaTfhnxmaoJAbgQAt8y5P9SYQqP4n6G6QfEJM2Q3AiuTfk5rNhxpXQAIFN8EZJQjqM5
- PAFtxJu3ghuxl9hLsPMlQ9wcfUiQeExmsMH+jhSOm0RkPHDYhm7vCZZS+v74GoTXMHIp
- N/GQ==
-X-Gm-Message-State: AO0yUKW2s9s+Ytrpte5OgQ3ubet3dp3aYUkS1x0H+BQvH2/zJRF1GIbr
- 79/1djsr5ens13UEe234Jhl/YQ==
-X-Google-Smtp-Source: AK7set9wa0ixORe1WwF1E+CHpK4WS1Mw8Tm3XWJv8w++AMU4bv6nMApzyVqUJecxItGGPUikHw4izg==
-X-Received: by 2002:a17:902:c40d:b0:19c:e3dd:db3c with SMTP id
- k13-20020a170902c40d00b0019ce3dddb3cmr3881263plk.20.1677788969361; 
- Thu, 02 Mar 2023 12:29:29 -0800 (PST)
+ bh=lveCctSfE1YZYVAB6XxHoWUv+tJNAkDjVEBkaW1Ki2U=;
+ b=Vm00pVUwiQAhF2uPINAOus2puw5yriR3JBwyXrz4AxPMLgi8Ld3zr3t3OYCrkZosEN
+ mIy77jhg08kLRtArwnVtfS61MswOAC4HTVXIHKBD+fFkBn0j3mhK4U4qMF5a+WcpXGkz
+ 3OfG98J7YOeCjkeZuC3eC2uI5CgliCViVsGgNu7KrH44nMeP4ovbMKutAXK3PT7lR8+G
+ JNmhJaG9GlzKYDpkpOPEiR4iyrYbOlXZwQFpPOTTaqQoJnhu26TGbruIXXEZITENkf0W
+ H0RBXRnSLNmYHuFC7HmNaepAvA9yKY2e34GfA0mwGLpumR0PHlwuN2F+zHm5YJVtSCti
+ OtsQ==
+X-Gm-Message-State: AO0yUKUPoAGVQNdkyroaeMnJTBJBuARNbxRiSJ42rr+znrhPmEXrXV9G
+ D0M2oG6J8jkov2KZPtMQUNkCYQ==
+X-Google-Smtp-Source: AK7set9O1HvWaCstxwczqTiUUr3X9hDZFMkKvNEiSzldQJGUlv/fURYOoG6r+0au/GebPwD25vy55A==
+X-Received: by 2002:a17:902:ab1b:b0:19c:c9d0:5bf8 with SMTP id
+ ik27-20020a170902ab1b00b0019cc9d05bf8mr7844072plb.35.1677790075552; 
+ Thu, 02 Mar 2023 12:47:55 -0800 (PST)
 Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
  ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a170902ec8f00b001994554099esm94225plg.173.2023.03.02.12.29.28
+ z11-20020a170902d54b00b0019c92f56983sm110935plf.120.2023.03.02.12.47.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 12:29:28 -0800 (PST)
-Message-ID: <ea57591d-a424-fc70-67f7-20d20dcec574@linaro.org>
-Date: Thu, 2 Mar 2023 12:29:26 -0800
+ Thu, 02 Mar 2023 12:47:55 -0800 (PST)
+Message-ID: <234c4694-946f-78e3-07fc-dad06d6932e9@linaro.org>
+Date: Thu, 2 Mar 2023 12:47:53 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 04/26] gdbstub: clean-up indent on gdb_exit
+Subject: Re: [PATCH v4 23/26] testing: probe gdb for supported architectures
+ ahead of time
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230302190846.2593720-1-alex.bennee@linaro.org>
- <20230302190846.2593720-5-alex.bennee@linaro.org>
+ <20230302190846.2593720-24-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230302190846.2593720-5-alex.bennee@linaro.org>
+In-Reply-To: <20230302190846.2593720-24-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,15 +97,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/2/23 09:08, Alex Bennée wrote:
-> Otherwise checkpatch will throw a hissy fit on the later patches that
-> split this function up.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   gdbstub/gdbstub.c | 28 ++++++++++++++--------------
->   1 file changed, 14 insertions(+), 14 deletions(-)
+> +# mappings from gdb arch to QEMU target
+> +mappings = {
+> +    "alpha" : "alpha",
+> +    "aarch64" : ["aarch64", "aarch64_be"],
+> +    "armv7": "arm",
+> +    "armv8-a" : ["aarch64", "aarch64_be"],
+> +    "avr" : "avr",
+> +    "cris" : "cris",
+> +    # hexagon?
+
+No hexagon in upstream gdb.
+
+> +    "hppa1.0" : "hppa",
+> +    "i386" : "i386",
+> +    "i386:x86-64" : "x86_64",
+> +    # loongarch?
+
+Loongarch64 in my recent gdb build.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
