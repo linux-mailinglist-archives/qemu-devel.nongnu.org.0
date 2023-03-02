@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF0A6A8BAB
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BE86A8BAA
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrIk-0006OG-1w; Thu, 02 Mar 2023 17:21:26 -0500
+	id 1pXrIx-0006iF-RX; Thu, 02 Mar 2023 17:21:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrIi-0006Mx-Ew
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:24 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXrIv-0006Ya-B3
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:37 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrIg-0007wb-OQ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:24 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id f11so551554wrv.8
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:21:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXrIt-00081f-LI
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:37 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ p3-20020a17090ad30300b0023a1cd5065fso497329pju.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:21:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677795681;
+ d=linaro.org; s=google; t=1677795694;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HUILPdLysPVqixdbseU8O2BqodLow6wXYYFBFdjPbzE=;
- b=rNmCaPAL1fnhhOPkzNQgNWUz8DmliWKnQSQlA4Cz+1CeL08ZgzKRgAoviLHWnWZqQe
- +vPUcYHoakgTsbyrPSXhU8jcIwaHAYwK0Kptd943gQ+4s376pX5q6KqDyQwESgktX3Gu
- cl0YxuApwv7sHNLzkrE3m2obop120/OliaHS/AXFk4bURTS16Cx8AnFiWgLQG8cz8H6J
- eKyCWDiP8tUy63fc8Zk6EMGaHWSrJ1aulqIzmTrcpOXbpn241kQtKOaFEadFCk0R863H
- 1lCdqtceIdxmUvht+353/6rNdOsScRv9piKNKpo14sINu1R2XypPjnyeZhwO7yF2vY//
- NdeQ==
+ bh=5BdHKoIB8APHpqS8+uzCpSjSjIUJBzINWTHOSa+BUTk=;
+ b=qSCmcZfj9rwU5xX8M5eI6ajKmI94dLmojj2E9/2LJIQN1oRKLU9bEvL+IJI8lWvNze
+ fbASWj1QucXCHq9kzsao2/iFacbgZMfosKbNihuxV3gw2+IJMNoSO/qX2Yk1yWf5h+DL
+ Ij1f0fUQEJdkm6OnKS07TRD+ySZIbHWw+QIJk+0J6TYN0GQnLDKGL+gxNlH1stZBU7yA
+ mOWgIyHhuTg/CciKPGP3UEE/qcPmnh7fdHHM6d8uTuddwYZC+CKPTaYfAguc66FiYRUP
+ Syrs76w48xry/58v1aVEyaahvRkaHBeOH0uQYhOSf00KgkKIKMKSn/vHqMmaoZpXsi6K
+ iHrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677795681;
+ d=1e100.net; s=20210112; t=1677795694;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HUILPdLysPVqixdbseU8O2BqodLow6wXYYFBFdjPbzE=;
- b=KsoFc5+jsN7FQvCKlxot1BQStlzV4olsDrtcUDrwqblS+mgS3P4bO3epOc2t7zSmJI
- G7LOhlRQGorkYZWGAosNNLA8hF9lK6lcQ/NlCoxyx89V2jRT7z/E40yMCK1lFYuu3dRS
- GweGTahjBJP7xiLfsCks8dwNpQkv0dtBA+h2PpWy54l9PFStcbzk3w8RBLsBT6+FnHDn
- JM5NqpS/83ZZxsYk00u77pUFNNrEJF11j+rKxMHm4ZXjDYCcHjZHEu5lQFQe4xVoPmU0
- UgZ4+Bl29yiPe/z22BS2hu4KG5mmJ2jVhHKDChkAaTaQRzXZpCBRla2RIqX7EsV54E5N
- 0iHg==
-X-Gm-Message-State: AO0yUKXFtoduVzvq+U1zSbiMi3wQXYieeD0z12PhsDHXM+CuHjwdgIr9
- smaKk8qP2Sv+chWwMu9ZiLbFwA==
-X-Google-Smtp-Source: AK7set9AlSQVRrTYEtJHjNOOjv3jwlC2uDgLNi6D6If7vTpeqGFoZdIwYjiPzjxB6S4u2GpezgOdtQ==
-X-Received: by 2002:adf:f847:0:b0:2c7:ae57:5acc with SMTP id
- d7-20020adff847000000b002c7ae575accmr8792662wrq.26.1677795680914; 
- Thu, 02 Mar 2023 14:21:20 -0800 (PST)
-Received: from [192.168.27.175] (43.red-95-127-39.staticip.rima-tde.net.
- [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- g18-20020a5d4892000000b002c70e60abd4sm489506wrq.2.2023.03.02.14.21.19
+ bh=5BdHKoIB8APHpqS8+uzCpSjSjIUJBzINWTHOSa+BUTk=;
+ b=JBU9tkSQ6TK9vS7LngiDrDKZfv9Sbd7E3beOxguzmwZmGIkAucjNh3HgV0K2h4MVO3
+ /Z2HcLEFmXXB9Vt4XoMbWHC06Uz/PUJXj0YqLzyusAdrPLE2bOWHh3NqlBzoV8sGTzYZ
+ TQP4BPLQ8uP2mSlaZxIvDj6rEich2a6ncF46KWM/awQNoQPauxyasJ4eTCfd9IsSgrBz
+ mYKXfX4ecjUhFYq8WUJev3nqCYbZDo4F+YWa2oQdSaAmjCYsNzLw+d4A1dKDN4akB6Sm
+ hPQRdKa0PwfrCvrjq4Gz4KqdCKTWGMpQQysxsXZQeFkPpcJ2cyC50+YRqOzTxSxNWGud
+ Qp/g==
+X-Gm-Message-State: AO0yUKUCoZOgSZG6ZwIO/Ayw1MJtexuzNWCWmZoyO5YVyFWjwMZvxpFd
+ Z6fF9Q0dXSDy5jpt09aedM71gw==
+X-Google-Smtp-Source: AK7set8sR9G7rU+kWiZ45McYLvsOKeXUGRvKwIrXx0ACTw0ncR25g420Tz1PsiR54UiJfgYUqlyY2Q==
+X-Received: by 2002:a17:902:e841:b0:199:2a89:f912 with SMTP id
+ t1-20020a170902e84100b001992a89f912mr14164419plg.20.1677795694018; 
+ Thu, 02 Mar 2023 14:21:34 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
+ ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
+ by smtp.gmail.com with ESMTPSA id
+ a16-20020a170902b59000b0019cbabf127dsm157907pls.182.2023.03.02.14.21.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 14:21:20 -0800 (PST)
-Message-ID: <e6ea9eda-51be-df8e-5711-73b944b52944@linaro.org>
-Date: Thu, 2 Mar 2023 23:21:18 +0100
+ Thu, 02 Mar 2023 14:21:33 -0800 (PST)
+Message-ID: <c3c114ce-a70d-ab39-a8f9-41378b4a6ee0@linaro.org>
+Date: Thu, 2 Mar 2023 14:21:31 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 1/4] pnv_phb4_pec: Keep track of instantiated PHBs
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 25/26] gdbstub: split out softmmu/user specifics for
+ syscall handling
 Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
- danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20230302163715.129635-1-fbarrat@linux.ibm.com>
- <20230302163715.129635-2-fbarrat@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230302163715.129635-2-fbarrat@linux.ibm.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230302190846.2593720-1-alex.bennee@linaro.org>
+ <20230302190846.2593720-26-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230302190846.2593720-26-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -92,65 +97,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Frederic,
-
-On 2/3/23 17:37, Frederic Barrat wrote:
-> Add an array on the PEC object to keep track of the PHBs which are
-> instantiated. The array can be sparsely populated when using
-> user-created PHBs. It will be useful for the next patch to only export
-> instantiated PHBs in the device tree.
-> 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
->   hw/pci-host/pnv_phb4_pec.c     | 12 +++++++-----
->   hw/ppc/pnv.c                   |  1 +
->   include/hw/pci-host/pnv_phb4.h |  2 ++
->   3 files changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 43267a428f..97c06bb0a0 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-
-> +static PnvPHB *pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
-> +                                           int stack_no,
-> +                                           Error **errp)
->   {
->       PnvPHB *phb = PNV_PHB(qdev_new(TYPE_PNV_PHB));
->       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
-> @@ -128,8 +128,9 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
->                               &error_fatal);
->   
->       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
-> -        return;
-> +        return NULL;
+On 3/2/23 09:08, Alex Bennée wrote:
+> @@ -104,9 +104,10 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
 >       }
-> +    return phb;
->   }
-
-
-> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-> index 28d61b96c7..0b72ef1471 100644
-> --- a/include/hw/pci-host/pnv_phb4.h
-> +++ b/include/hw/pci-host/pnv_phb4.h
-> @@ -185,6 +185,8 @@ struct PnvPhb4PecState {
 >   
->       /* PHBs */
->       uint32_t num_phbs;
-> +#define MAX_PHBS_PER_PEC        3
-> +    PnvPHB *phbs[MAX_PHBS_PER_PEC];
->   
->       PnvChip *chip;
->   };
+>       gdbserver_syscall_state.current_syscall_cb = cb;
+> -#ifndef CONFIG_USER_ONLY
+> -    vm_stop(RUN_STATE_DEBUG);
+> -#endif
+> +
+> +    /* user/softmmu specific handling */
+> +    gdb_pre_syscall_handling();
 
- From QOM PoV, better would be to 'embed' the PnvPHB structure (not only
-a pointer to it), and initialize the PnvPHB instance calling
-object_initialize_child() instead of qdev_new().
+I think this placement of vm_stop is inconvenient, and that we don't need to continue.  If 
+we move it down below the construction of gdbserver_syscall_state.syscall_buf...
 
-See for example the recent conversion of OHCISysBusState in commit
-01c400ae43 ("hw/display/sm501: Embed OHCI QOM child in chipset").
+>       p = &gdbserver_syscall_state.syscall_buf[0];
+>       p_end = &gdbserver_syscall_state.syscall_buf[sizeof(gdbserver_syscall_state.syscall_buf)];
+>       *(p++) = 'F';
+> @@ -141,27 +142,13 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
+>           }
+>       }
+>       *p = 0;
+> -#ifdef CONFIG_USER_ONLY
+> -    gdb_put_packet(gdbserver_syscall_state.syscall_buf);
+> -    /*
+> -     * Return control to gdb for it to process the syscall request.
+> -     * Since the protocol requires that gdb hands control back to us
+> -     * using a "here are the results" F packet, we don't need to check
+> -     * gdb_handlesig's return value (which is the signal to deliver if
+> -     * execution was resumed via a continue packet).
+> -     */
+> -    gdb_handlesig(gdbserver_state.c_cpu, 0);
+> -#else
+> -    /*
+> -     * In this case wait to send the syscall packet until notification that
+> -     * the CPU has stopped.  This must be done because if the packet is sent
+> -     * now the reply from the syscall request could be received while the CPU
+> -     * is still in the running state, which can cause packets to be dropped
+> -     * and state transition 'T' packets to be sent while the syscall is still
+> -     * being processed.
+> -     */
+> -    qemu_cpu_kick(gdbserver_state.c_cpu);
+> -#endif
+> +
+> +    if (gdb_send_syscall_now()) { /* true only for *-user */
+> +        gdb_put_packet(gdbserver_syscall_state.syscall_buf);
+> +    }
+> +
+> +    /* user/softmmu specific handling */
+> +    gdb_post_syscall_handling();
 
-Regards,
+... then we don't need 3 separate hooks for user/softmmu.
 
-Phil.
+softmmu:
+
+void gdb_syscall_handling(const char *syscall_buf)
+{
+     vm_stop(RUN_STATE_DEBUG);
+     qemu_cpu_kick(gdbserver_state.c_cpu);
+}
+
+user:
+
+void gdb_syscall_handling(const char *syscall_buf)
+{
+     gdb_put_packet(syscall_buf);
+     gdb_handlesig(gdbserver_state.c_cpu, 0);
+}
+
+
+r~
 
