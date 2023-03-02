@@ -2,61 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105FB6A816B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FD86A816D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:44:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhLX-0001MP-4q; Thu, 02 Mar 2023 06:43:39 -0500
+	id 1pXhLZ-0001dt-Ex; Thu, 02 Mar 2023 06:43:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1pXhLR-00011S-F0; Thu, 02 Mar 2023 06:43:33 -0500
-Received: from m12.mail.163.com ([220.181.12.215])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qianfanguijin@163.com>)
- id 1pXhLO-0006tq-Rz; Thu, 02 Mar 2023 06:43:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hfsaf
- 0cVWqNl3e1WGR6dzbgyz2FcZ6pfzL4URwzL/hw=; b=BM8R8GzL5aCy2PlwbSSvr
- zjv895EGbYAHn6FDwb/p6sbA82BqBFlJy+iOEmcGOIf0XlUgsQUt/Pq2fw63B9LV
- ahQ3XHoxNR0R7L4H0r6kH5pFXNU23jZgIGqJMnq4vPcAZjwoNgJQHnFLlm+ezQ2P
- 8q1RtUZhz/fC7TDtO2iUHE=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [144.123.156.254])
- by zwqz-smtp-mta-g2-0 (Coremail) with SMTP id _____wAH7JDOiwBkjOIhBw--.32153S3;
- Thu, 02 Mar 2023 19:43:11 +0800 (CST)
-From: qianfanguijin@163.com
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- qianfan Zhao <qianfanguijin@163.com>
-Subject: [RFC PATCH v1 12/12] hw: arm: allwinner-r40: Add emac and gmac support
-Date: Thu,  2 Mar 2023 19:43:10 +0800
-Message-Id: <20230302114310.32340-2-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230302114310.32340-1-qianfanguijin@163.com>
-References: <20230302114310.32340-1-qianfanguijin@163.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXhLW-0001Ql-V9
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:43:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXhLV-0006wb-H7
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:43:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677757417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rAiF2Qw9ZH5wbEi7MkMCAKOw0vminbMbhvvampX9yCE=;
+ b=Qsmdr+AWNJdtrS3GmKswhZrSPm68joc6GqIeIP6HPsSXfzJCfrv9IzonKj6U18lAOOi3Np
+ azdnH/IGFJ+2Ee9ftGdjPHttZRCsxK9ItuA4YSKK65m/vMmIGTihahAJ1IK9wc00EceGO1
+ uqgnMUOYqtij0woAMIunkJQibkhfkeY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-665-be4B7BHBP4e6RhNgTFCblw-1; Thu, 02 Mar 2023 06:43:35 -0500
+X-MC-Unique: be4B7BHBP4e6RhNgTFCblw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 4-20020a05600c024400b003eb2e295c05so5665040wmj.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:43:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677757414;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rAiF2Qw9ZH5wbEi7MkMCAKOw0vminbMbhvvampX9yCE=;
+ b=H0c/9CWcHwVrE0CJCSNC2F3casWicd3obp3iXMDLPiYBzEpqgbxM5P03vrS6lA+FLX
+ BN75ohtejCgiakDDAH7jJcl+6jm7H6PcoZt9/otR08yssuqm/oyLiuB+KguP9dtr2T/S
+ FDqtXOH428YdYI03JNqE6UnBEZNj4SeNpwpWmQT/udvN6alEzhvJ6JzwkRaAZugMO9kY
+ cJ6BUZrjKYHT+42p2dCX0XXKhy59Iv2/dZJv2KX40oX5t9Z4xKMdvv4CHY1smSXOs/DO
+ PRRk5gtPegItZpocy7f1WivMyq4YrdLMKFRURjQd5MLT+bR6ynWhI7w35GP+HyPSBzRM
+ opBg==
+X-Gm-Message-State: AO0yUKUQPvCcDRgnqp+boGgzlGztjYCSk+edlVWVu0oPoaT5eH423u1Q
+ N2UzEAdA1tko7VnCWoOuaTMI+7txll8GUAq1AgmvBkCk5rSflZ9+Ju5ZZuvix+tcYHp8zHWiuN2
+ xSROrhBVr6Ls5onI=
+X-Received: by 2002:a5d:658f:0:b0:2c5:3cfa:f7dc with SMTP id
+ q15-20020a5d658f000000b002c53cfaf7dcmr7777923wru.7.1677757414367; 
+ Thu, 02 Mar 2023 03:43:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set9NFUjgVSes/kUGT6iUWt81AqDIpeKjnS6VnHra0YJW+x8mx4HzysMZNjc1RPM6eK1G3d0WzQ==
+X-Received: by 2002:a5d:658f:0:b0:2c5:3cfa:f7dc with SMTP id
+ q15-20020a5d658f000000b002c53cfaf7dcmr7777910wru.7.1677757414099; 
+ Thu, 02 Mar 2023 03:43:34 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ t1-20020a5d6a41000000b002c70a68111asm15314431wrw.83.2023.03.02.03.43.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 03:43:33 -0800 (PST)
+Date: Thu, 2 Mar 2023 06:43:29 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Eli Cohen <eli@mellanox.com>,
+ alvaro.karsz@solid-run.com, Lei Yang <leiyang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ
+ feature
+Message-ID: <20230302064234-mutt-send-email-mst@kernel.org>
+References: <20230213191929.1547497-1-eperezma@redhat.com>
+ <CACGkMEsQe=zcfmK=rMH=u6RgHkkBFs+tJO7gT0v_bWwJ_N+z6Q@mail.gmail.com>
+ <CAJaqyWfsBLvsJNF=RvhbirwNypzjfaO7thyK22s-nCjdaNs4yQ@mail.gmail.com>
+ <20230214024736-mutt-send-email-mst@kernel.org>
+ <CAJaqyWc8JON+QhJbqQCFx+q+qxb5LqjgsHS2wZ7R3v37uVU_sw@mail.gmail.com>
+ <20230301163325-mutt-send-email-mst@kernel.org>
+ <CAJaqyWfpbeoLfe1-GcoR=rtJMg1DGezMe8pjSNPQjBG4BzqMrA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wAH7JDOiwBkjOIhBw--.32153S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Jr4DJw17Kr1UKrW3KrWkCrg_yoW7Cw4fpF
- 43Cr98KrWFg3WrAr48Kwn3Xryftw48CrnrtF1SkFWfJF1kWr1kWr42va1UuFy5GFs7Ga1a
- grZ5GFWSg3W7t3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_dbb_UUUUU=
-X-Originating-IP: [144.123.156.254]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzhYm7WI0XgNz6wAAsA
-Received-SPF: pass client-ip=220.181.12.215;
- envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJaqyWfpbeoLfe1-GcoR=rtJMg1DGezMe8pjSNPQjBG4BzqMrA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,162 +106,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: qianfan Zhao <qianfanguijin@163.com>
+On Thu, Mar 02, 2023 at 12:30:52PM +0100, Eugenio Perez Martin wrote:
+> > You need to pass this to guest. My point is that there is no reason to
+> > get it from the kernel driver. QEMU can figure out whether the flag is
+> > needed itself.
+> >
+> 
+> Ok, I can see now how the HW device does not have all the knowledge to
+> offer this flag or not. But I'm not sure how qemu can know either.
+> 
+> If qemu opens /dev/vhost-vdpa-N, how can it know it? It has no way to
+> tell if the device is sw or hw as far as I know. Am I missing
+> something?
+> 
+> Thanks!
 
-R40 has two ethernet controllers named as emac and gmac. The emac is
-compatibled with A10, and the GMAC is compatibled with H3.
+This is what I said earlier.  You can safely assume vdpa needs this
+flag. Only exception is vduse and we don't care about performance there.
 
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
----
- hw/arm/allwinner-r40.c         | 46 ++++++++++++++++++++++++++++++++--
- include/hw/arm/allwinner-r40.h |  6 +++++
- 2 files changed, 50 insertions(+), 2 deletions(-)
-
-diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c
-index 53eafb6b5b..f83d08bc50 100644
---- a/hw/arm/allwinner-r40.c
-+++ b/hw/arm/allwinner-r40.c
-@@ -39,6 +39,7 @@ const hwaddr allwinner_r40_memmap[] = {
-     [AW_R40_DEV_SRAM_A2]    = 0x00004000,
-     [AW_R40_DEV_SRAM_A3]    = 0x00008000,
-     [AW_R40_DEV_SRAM_A4]    = 0x0000b400,
-+    [AW_R40_DEV_EMAC]       = 0x01c0b000,
-     [AW_R40_DEV_MMC0]       = 0x01c0f000,
-     [AW_R40_DEV_MMC1]       = 0x01c10000,
-     [AW_R40_DEV_MMC2]       = 0x01c11000,
-@@ -58,6 +59,7 @@ const hwaddr allwinner_r40_memmap[] = {
-     [AW_R40_DEV_TWI2]       = 0x01c2b400,
-     [AW_R40_DEV_TWI3]       = 0x01c2b800,
-     [AW_R40_DEV_TWI4]       = 0x01c2c000,
-+    [AW_R40_DEV_GMAC]       = 0x01c50000,
-     [AW_R40_DEV_DRAMCOM]    = 0x01c62000,
-     [AW_R40_DEV_DRAMCTL]    = 0x01c63000,
-     [AW_R40_DEV_DRAMPHY]    = 0x01c65000,
-@@ -86,7 +88,6 @@ static struct AwR40Unimplemented r40_unimplemented[] = {
-     { "spi1",       0x01c06000, 4 * KiB },
-     { "cs0",        0x01c09000, 4 * KiB },
-     { "keymem",     0x01c0a000, 4 * KiB },
--    { "emac",       0x01c0b000, 4 * KiB },
-     { "usb0-otg",   0x01c13000, 4 * KiB },
-     { "usb0-host",  0x01c14000, 4 * KiB },
-     { "crypto",     0x01c15000, 4 * KiB },
-@@ -131,7 +132,6 @@ static struct AwR40Unimplemented r40_unimplemented[] = {
-     { "tvd2",       0x01c33000, 4 * KiB },
-     { "tvd3",       0x01c34000, 4 * KiB },
-     { "gpu",        0x01c40000, 64 * KiB },
--    { "gmac",       0x01c50000, 64 * KiB },
-     { "hstmr",      0x01c60000, 4 * KiB },
-     { "tcon-top",   0x01c70000, 4 * KiB },
-     { "lcd0",       0x01c71000, 4 * KiB },
-@@ -181,6 +181,8 @@ enum {
-     AW_R40_GIC_SPI_MMC1      = 33,
-     AW_R40_GIC_SPI_MMC2      = 34,
-     AW_R40_GIC_SPI_MMC3      = 35,
-+    AW_R40_GIC_SPI_EMAC      = 55,
-+    AW_R40_GIC_SPI_GMAC      = 85,
-     AW_R40_GIC_SPI_TWI3      = 88,
-     AW_R40_GIC_SPI_TWI4      = 89,
- };
-@@ -276,6 +278,9 @@ static void allwinner_r40_init(Object *obj)
-     object_initialize_child(obj, "twi3", &s->i2c3, TYPE_AW_I2C_SUN6I);
-     object_initialize_child(obj, "twi4", &s->i2c4, TYPE_AW_I2C_SUN6I);
- 
-+    object_initialize_child(obj, "emac", &s->emac, TYPE_AW_EMAC);
-+    object_initialize_child(obj, "gmac", &s->gmac, TYPE_AW_SUN8I_EMAC);
-+
-     object_initialize_child(obj, "dramc", &s->dramc, TYPE_AW_R40_DRAMC);
-     object_property_add_alias(obj, "ram-addr", OBJECT(&s->dramc),
-                              "ram-addr");
-@@ -285,6 +290,7 @@ static void allwinner_r40_init(Object *obj)
- 
- static void allwinner_r40_realize(DeviceState *dev, Error **errp)
- {
-+    const char *r40_nic_models[] = { "gmac", "emac", NULL };
-     AwR40State *s = AW_R40(dev);
-     unsigned i;
- 
-@@ -480,6 +486,42 @@ static void allwinner_r40_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->dramc), 1, s->memmap[AW_R40_DEV_DRAMCTL]);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->dramc), 2, s->memmap[AW_R40_DEV_DRAMPHY]);
- 
-+    /* nic support gmac and emac */
-+    for (int i = 0; i < ARRAY_SIZE(r40_nic_models) - 1; i++) {
-+        NICInfo *nic = &nd_table[i];
-+
-+        if (!nic->used)
-+            continue;
-+        if (qemu_show_nic_models(nic->model, r40_nic_models))
-+            exit(0);
-+
-+        switch (qemu_find_nic_model(nic, r40_nic_models, r40_nic_models[0])) {
-+        case 0: /* gmac */
-+            qdev_set_nic_properties(DEVICE(&s->gmac), nic);
-+            break;
-+        case 1: /* emac */
-+            qdev_set_nic_properties(DEVICE(&s->emac), nic);
-+            break;
-+        default:
-+            exit(1);
-+            break;
-+        }
-+    }
-+
-+    /* GMAC */
-+    object_property_set_link(OBJECT(&s->gmac), "dma-memory",
-+                                     OBJECT(get_system_memory()), &error_fatal);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->gmac), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gmac), 0, s->memmap[AW_R40_DEV_GMAC]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gmac), 0,
-+                       qdev_get_gpio_in(DEVICE(&s->gic), AW_R40_GIC_SPI_GMAC));
-+
-+    /* EMAC */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->emac), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->emac), 0, s->memmap[AW_R40_DEV_EMAC]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->emac), 0,
-+                       qdev_get_gpio_in(DEVICE(&s->gic), AW_R40_GIC_SPI_EMAC));
-+
-     /* Unimplemented devices */
-     for (i = 0; i < ARRAY_SIZE(r40_unimplemented); i++) {
-         create_unimplemented_device(r40_unimplemented[i].device_name,
-diff --git a/include/hw/arm/allwinner-r40.h b/include/hw/arm/allwinner-r40.h
-index 6fc9691bb5..c97392d12f 100644
---- a/include/hw/arm/allwinner-r40.h
-+++ b/include/hw/arm/allwinner-r40.h
-@@ -28,6 +28,8 @@
- #include "hw/misc/allwinner-r40-ccu.h"
- #include "hw/misc/allwinner-r40-dramc.h"
- #include "hw/i2c/allwinner-i2c.h"
-+#include "hw/net/allwinner_emac.h"
-+#include "hw/net/allwinner-sun8i-emac.h"
- #include "target/arm/cpu.h"
- #include "sysemu/block-backend.h"
- 
-@@ -36,6 +38,7 @@ enum {
-     AW_R40_DEV_SRAM_A2,
-     AW_R40_DEV_SRAM_A3,
-     AW_R40_DEV_SRAM_A4,
-+    AW_R40_DEV_EMAC,
-     AW_R40_DEV_MMC0,
-     AW_R40_DEV_MMC1,
-     AW_R40_DEV_MMC2,
-@@ -55,6 +58,7 @@ enum {
-     AW_R40_DEV_TWI2,
-     AW_R40_DEV_TWI3,
-     AW_R40_DEV_TWI4,
-+    AW_R40_DEV_GMAC,
-     AW_R40_DEV_GIC_DIST,
-     AW_R40_DEV_GIC_CPU,
-     AW_R40_DEV_GIC_HYP,
-@@ -111,6 +115,8 @@ struct AwR40State {
-     AWI2CState i2c2;
-     AWI2CState i2c3;
-     AWI2CState i2c4;
-+    AwEmacState emac;
-+    AwSun8iEmacState gmac;
-     GICState gic;
-     MemoryRegion sram_a1;
-     MemoryRegion sram_a2;
 -- 
-2.25.1
+MST
 
 
