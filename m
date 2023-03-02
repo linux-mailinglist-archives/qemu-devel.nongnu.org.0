@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012986A800C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:39:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDC26A8017
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:42:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXgKx-0004VT-0J; Thu, 02 Mar 2023 05:38:59 -0500
+	id 1pXgNv-0005tC-Sv; Thu, 02 Mar 2023 05:42:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pXgKv-0004V5-HX
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:38:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pXgKu-0002UU-7Q
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:38:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677753535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qjKWn7Rsi/fhHKsJ7DJv0aT+tDYoiddDVGwCtFzpo3M=;
- b=gSeYqsuhbI/8vL+5qL6HwiVJSKXyCv6K35SUIh8kkpvWy3FQQpMBzrlaJ3Au2eQnfVgLEY
- 4kP28ne8K2d+ovwq613vzoYNWO4vooHplgg6y+coLP86ji+bQiASliaIoQ+fX86h+a2i/I
- yM7j+hTZaQBAgx1+ZJKHCgJ7jJH4pm0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-63-lR-1GwGyNmClRP1iptbZWg-1; Thu, 02 Mar 2023 05:38:52 -0500
-X-MC-Unique: lR-1GwGyNmClRP1iptbZWg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E57DA2806041;
- Thu,  2 Mar 2023 10:38:51 +0000 (UTC)
-Received: from [10.39.192.48] (unknown [10.39.192.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0571C16027;
- Thu,  2 Mar 2023 10:38:49 +0000 (UTC)
-Message-ID: <f3ea947e-aa33-f627-25e9-6eed3e2d8b7a@redhat.com>
-Date: Thu, 2 Mar 2023 11:38:48 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXgNi-0005mf-Is
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:41:50 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXgNg-00038i-R0
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:41:50 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id bw19so16010016wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 02:41:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677753707;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AmvD0+KNHlilXkSHgx/SUoS0tZFl84xsVJ6KTtsOYHk=;
+ b=ecblB0z5eFdSB9OnFPwPDhJfl41Xisy/OkCADxpUVDlwctPHXDsuT2shwXlfJ0Wird
+ ry/Fyh5k0zR2XH4GknQQcTbrQ8JsyyeYGWFKp2gK3It70nKgiaMDqf8/8zV4ItzNTDxG
+ wWJQg5Vhih/avF2gdU0W3196WKDh21PiFmU+7Nuj3FOPephLLaiIEmsZZClJDWTNn7xv
+ RVt3ivALr/1vMM0qa6rdkvN4KoFMjk1QSe7CIQ9hsOjC9EAzAdOJdFfXuzBuidwWgRG1
+ /KDBjvBdcbBVj0A66q79nMp7+8F6Nk8s7PIXo0g5swtDGAHaGbavf4JGbwH+ZH+ktGhO
+ MY8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677753707;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AmvD0+KNHlilXkSHgx/SUoS0tZFl84xsVJ6KTtsOYHk=;
+ b=EuxjjHbp+c1DTCMwiuJTlbym4lpGQ7JEXdM+nljrXts6yoCz5pDALvyUTme9N0iamN
+ blsUjIBtItPIaJ0s7R12z5xb+R7hyYY3k7S3U3OLupelrw53VIDJIWCqiv5q7f+jhOai
+ aoTvFmODho05DcEpSN2FD7Fn10/mRHdkxlX5QkzD0Yi7oaAMDlLEeQgcqu00zVSCi5FI
+ exeqiq824mqRpzkNcnrZGZzJfeAu0GQJlsYnYomi0htlKCAcpiCiL8sS6RWFpvbxhaO3
+ r2c0LJtJcFffKMEIzDgoQLsJCZFWOaDCULOhEkw+Fh2U2W80RGsyK5kHsx+YAtBDGG4o
+ Q+OQ==
+X-Gm-Message-State: AO0yUKXDoscx9Bd4GphBMxDCkuHzmMtq10x1zhOkaHm4aOtKyApE+5xM
+ hXGrKUW5z0Qq+1EsIbYabB0vjA==
+X-Google-Smtp-Source: AK7set8tmIts6w3rpZHRsn/92SUrLilm/JhH3LlCOd4UgL0CHI/xQsy0/poxWcv5GvmDnx+ALDKvFg==
+X-Received: by 2002:a5d:4dc3:0:b0:2c7:659:3cb1 with SMTP id
+ f3-20020a5d4dc3000000b002c706593cb1mr7170356wru.70.1677753707047; 
+ Thu, 02 Mar 2023 02:41:47 -0800 (PST)
+Received: from [192.168.74.175] (89.red-88-28-21.dynamicip.rima-tde.net.
+ [88.28.21.89]) by smtp.gmail.com with ESMTPSA id
+ s4-20020a5d6a84000000b002c551f7d452sm15227131wru.98.2023.03.02.02.41.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 02:41:46 -0800 (PST)
+Message-ID: <7ae0ae69-817e-7100-beed-ed610b3135cb@linaro.org>
+Date: Thu, 2 Mar 2023 11:41:43 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
- legacy reg block
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v5 2/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
+ forwarder"
 Content-Language: en-US
-To: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Ani Sinha <ani@anisinha.ca>,
- Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Oliver Steffen <osteffen@redhat.com>,
- Pawel Polawski <ppolawsk@redhat.com>,
- Dann Frazier <dann.frazier@canonical.com>
-References: <20230104090138.214862-1-lersek@redhat.com>
- <20230104072457-mutt-send-email-mst@kernel.org>
- <7122894b-ccbf-9d30-ee54-c23c25c0f82b@redhat.com>
- <CAATJJ0K8Qt3-gNFT4nmweRFk-1bSHGicuLPim_V7EjgaXmLtGw@mail.gmail.com>
- <2cf7e982-470f-87eb-7f3e-807499d7c89f@redhat.com>
- <CAATJJ0LoQW9RDF=1=f_D1zWJSgWzMMtJ0FvqdsQYd9zOuuKkgg@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-In-Reply-To: <CAATJJ0LoQW9RDF=1=f_D1zWJSgWzMMtJ0FvqdsQYd9zOuuKkgg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, ReneEngel80@emailn.de
+References: <cover.1677628524.git.balaton@eik.bme.hu>
+ <cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu>
+ <709f5780-97e5-0cee-d776-4558cf39e000@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <709f5780-97e5-0cee-d776-4558cf39e000@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,42 +98,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 09:32, Christian Ehrhardt wrote:
+On 1/3/23 01:33, BALATON Zoltan wrote:
+> On Wed, 1 Mar 2023, BALATON Zoltan wrote:
+>> This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
+>> keeping the rename of a state field but reverting other cahanges which
+>> break interrupts on pegasos2.
+> 
+> I've found this with just booting the MorphOS iso which now hangs 
+> without this revert when trying to read from the ide device.
 
-> good ~instant
-> [08:14:37.267336194] Select Item: 0xE
-> [08:14:37.268346995] [Bds]RegisterKeyNotify: 000C/0000 80000000/00 Success
->
-> bad ~8s
-> [08:15:43.561054490] Select Item: 0xE
-> [08:15:51.291039364] [Bds]RegisterKeyNotify: 000C/0000 80000000/00 Success
+Can you add an Avocado test booting the MorphOS iso?
 
-Yes, this is consistent with my hypothesis.
-
-  PlatformBootManagerBeforeConsole()
-
-    GetFrontPageTimeoutFromQemu()
-      QemuFwCfgSelectItem (QemuFwCfgItemBootMenu)
-        // "Select Item: 0xE"
-
-    gRT->SetVariable()
-
-    PlatformRegisterOptionsAndKeys()
-      EfiBootManagerAddKeyOptionVariable()
-
-        gRT->SetVariable()
-
-        BmProcessKeyOption()
-          BmRegisterHotkeyNotify()
-            // "[Bds]RegisterKeyNotify: 000C/0000 80000000/00 Success"
-
-IOW, there are at least two gRT->SetVariable() calls in OVMF (with
-EFI_VARIABLE_NON_VOLATILE attribute) between the two adjacent log lines
-you quoted.
-
-The other functions listed in the call tree may contain further
-gRT->SetVariable() calls.
-
-Laszlo
-
+> I think 
+> I've mentioned that I've also tried this way first but then ended up 
+> adding this because it was needed in a review of the patch earlier but I 
+> can't find that message now. For now it seems the easiest is to revert 
+> this and think about it later.
+> 
+> Regards,
+> BALATON Zoltan
+> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>> hw/isa/vt82c686.c | 10 +++++++++-
+>> 1 file changed, 9 insertions(+), 1 deletion(-)
 
