@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876A96A7C9D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADC46A7C91
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:27:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeG1-0003f1-D1; Thu, 02 Mar 2023 03:25:45 -0500
+	id 1pXeG2-0003gE-HT; Thu, 02 Mar 2023 03:25:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFu-0003N4-0A
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFw-0003V9-GY
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFs-0002Lq-99
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFv-0002MG-4G
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745535;
+ s=mimecast20190719; t=1677745538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ZksbsNOv/+hJ85tBQeNhtUAxT46QdRsXOaorVG1pUQ=;
- b=eZ2z68yGZyXlZ4W9yD1Aymzi8KxoHh51EmDS5Xppn+FD0Gm9FQPEwzaf50x9fJr4FMKYJT
- 97FH5Ygzefp0lGP6dY0MICTnwBQfMKcoR5nVVkTCDPSKkdviBS8C0uXEvnv5+6jqwL9tnf
- p9snyofCNV9Y0NqPkvBR+rArf6oG4uo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-127-J7_pdfHKNGKR2aBYAyqL1A-1; Thu, 02 Mar 2023 03:25:34 -0500
-X-MC-Unique: J7_pdfHKNGKR2aBYAyqL1A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k20-20020a05600c1c9400b003e2249bd2b4so5462174wms.5
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:33 -0800 (PST)
+ bh=hCkjYV3Gpv1lSpJ9Xhk2qDaDQoVELHpoQmx9VQwG720=;
+ b=hFCxrnGS7zY8K/DstzrkMUGvWaztyIyKrooyrUw7Agiji6KPfekP7jtzkbpUH0y+iodlKc
+ hJ7Xz6EzYtCMNC1z11mAdctNfv02ooN1rcgid6VD1Dy1elCLNnv63i+RrpabvW1Hhk6yIX
+ 1+eOfVoQbE1GErEaXyc/q0SvFMy4BPc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-500-PzJ5ZvQkPCWMbDvmc0sN3g-1; Thu, 02 Mar 2023 03:25:37 -0500
+X-MC-Unique: PzJ5ZvQkPCWMbDvmc0sN3g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d14-20020adfa34e000000b002bfc062eaa8so3053800wrb.20
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745532;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+ZksbsNOv/+hJ85tBQeNhtUAxT46QdRsXOaorVG1pUQ=;
- b=BtaJ5ejL48knYs1SQKm/VClTlSexsaMcIS94MzpZd4M58diDpF7Lcl8yfhPUGcZRlM
- IRDvFdlXo4jq1Z1Qf4lOxC37BeLrMV3FZIFMYtOdATS6PxqG/eEE4y5Y+Yldi7LU2GFk
- Q9+KwUMbQwYQA+pUDtMErUwQcztwDfsFliVEfNpzu2by//9FM1qYAWDJ99QXl1JRkDB7
- quQEhYvTYzMtw9DEerUnEvaPUMR3jk9lLNUw9RmCKJNdy1KYmE5TqFjOa/ncMZKmbrnW
- S64WURpYqYR4sTCcXlfGPAstT5MyZ32QPOQGngs3eYo8vyY+J5pWmlSdz0VVjlRgnnVI
- 911g==
-X-Gm-Message-State: AO0yUKXXWPbSccYz7Pc5WG49KyQDbigL65sYfgdKiEfVkvJktLv9XElX
- WgCXqQAaRkQHzMmQm8uRg7UmTWyqr/mfOFnzVx4Z3uxml91ZQ/nCUG2TIoph+STWaWKIjr/p6Wj
- qBVKqqdeD7P9Jyk5o+L3zb4khUEwdLbGdsI4bHq5oUQa9rw1fgA0jufm64wnbe9mfxA==
-X-Received: by 2002:a5d:4c52:0:b0:2cd:ceab:df1a with SMTP id
- n18-20020a5d4c52000000b002cdceabdf1amr741354wrt.32.1677745532556; 
- Thu, 02 Mar 2023 00:25:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set/8sWmKM91fW7eHIJ8zgIwRWLfFpxOqViq93z85SqdIms9DvJ1cQuPRdX5od14row1ktorSKw==
-X-Received: by 2002:a5d:4c52:0:b0:2cd:ceab:df1a with SMTP id
- n18-20020a5d4c52000000b002cdceabdf1amr741338wrt.32.1677745532292; 
- Thu, 02 Mar 2023 00:25:32 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745535;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hCkjYV3Gpv1lSpJ9Xhk2qDaDQoVELHpoQmx9VQwG720=;
+ b=u0xr0/hv5KLrgUnvddDxNObo3twDWAjc/1T01Cw1T4dIOBnmXOK3WWSM/Y1E1mMujs
+ CM4L0kqHJAHqpoEbwMP2UoriH5mHyiCvIhaX7Oh3fY9TwJ2+J9j7hDLAF33qZTrK/62+
+ ZMSdsRzGYv5/MR9Jv92xy50Opv/nXNEsXh2zZh92uFOyX9G31LxY0UlVXC5k1aokKyBa
+ TyK61WmSmoudK/R/GpKFiWyh+OvDgiByj1o87aqMKLJ0qO5kodsxhf/5AVxSFkM3azXO
+ zpI4TaefSYdFFdhRQm7pXyTpW+siJRhr/3gTl4hXBJyRHFVVWVpe5QKWsDD4hnEsprsH
+ k+zQ==
+X-Gm-Message-State: AO0yUKVVKwkWWZaL8W+aGQwA1QVqOOokVBndW188l8z/+rX2I97WIZ/q
+ 1WPhoGwjdRe28Yu+wE3fw0jjoMEcKX8EPj4gVGCwtRfdjGhtAW4qU0On0wdS59kBPHlhX3++U0x
+ GARHY2TB38j9w5GvO/liFTm3vLiyq7rkAe6Uwm89ZCMcfbTihP1BLlAX0MS9hS+Y4yQ==
+X-Received: by 2002:a5d:6084:0:b0:2ca:e856:5a4 with SMTP id
+ w4-20020a5d6084000000b002cae85605a4mr813636wrt.26.1677745535640; 
+ Thu, 02 Mar 2023 00:25:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set/8TPU9PdUUVbOkP+KDSIVYyNLvIbWX2z4p3Ev9c7jB6VxF8Wi8rrcKhv/mnbuOTFbKhvfz4g==
+X-Received: by 2002:a5d:6084:0:b0:2ca:e856:5a4 with SMTP id
+ w4-20020a5d6084000000b002cae85605a4mr813623wrt.26.1677745535395; 
+ Thu, 02 Mar 2023 00:25:35 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- v12-20020adfedcc000000b002c5a1bd527dsm14591039wro.96.2023.03.02.00.25.30
+ u12-20020a05600c00cc00b003e1202744f2sm2041336wmm.31.2023.03.02.00.25.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:31 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:29 -0500
+ Thu, 02 Mar 2023 00:25:34 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:32 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL 19/53] vdpa: stop all svq on device deletion
-Message-ID: <20230302082343.560446-20-mst@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 20/53] pci/shpc: set attention led to OFF on reset
+Message-ID: <20230302082343.560446-21-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,69 +99,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eugenio Pérez <eperezma@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Not stopping them leave the device in a bad state when virtio-net
-fronted device is unplugged with device_del monitor command.
+0 is not a valid state for the led. Let's start with OFF.
 
-This is not triggable in regular poweroff or qemu forces shutdown
-because cleanup is called right after vhost_vdpa_dev_start(false).  But
-devices hot unplug does not call vdpa device cleanups.  This lead to all
-the vhost_vdpa devices without stop the SVQ but the last.
-
-Fix it and clean the code, making it symmetric with
-vhost_vdpa_svqs_start.
-
-Fixes: dff4426fa656 ("vhost: Add Shadow VirtQueue kick forwarding capabilities")
-Reported-by: Lei Yang <leiyang@redhat.com>
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Message-Id: <20230209170004.899472-1-eperezma@redhat.com>
-Tested-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+Message-Id: <20230216180356.156832-2-vsementsov@yandex-team.ru>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ hw/pci/shpc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 542e003101..df3a1e92ac 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -689,26 +689,11 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-     return ret;
- }
- 
--static void vhost_vdpa_reset_svq(struct vhost_vdpa *v)
--{
--    if (!v->shadow_vqs_enabled) {
--        return;
--    }
--
--    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
--        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
--        vhost_svq_stop(svq);
--    }
--}
--
- static int vhost_vdpa_reset_device(struct vhost_dev *dev)
- {
--    struct vhost_vdpa *v = dev->opaque;
-     int ret;
-     uint8_t status = 0;
- 
--    vhost_vdpa_reset_svq(v);
--
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-     trace_vhost_vdpa_reset_device(dev, status);
-     return ret;
-@@ -1100,6 +1085,8 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
- 
-     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-+
-+        vhost_svq_stop(svq);
-         vhost_vdpa_svq_unmap_rings(dev, svq);
- 
-         event_notifier_cleanup(&svq->hdev_kick);
+diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+index fca7f6691a..1b3f619dc9 100644
+--- a/hw/pci/shpc.c
++++ b/hw/pci/shpc.c
+@@ -223,6 +223,7 @@ void shpc_reset(PCIDevice *d)
+                             SHPC_SLOT_STATUS_PRSNT_MASK);
+             shpc_set_status(shpc, i, SHPC_LED_OFF, SHPC_SLOT_PWR_LED_MASK);
+         }
++        shpc_set_status(shpc, i, SHPC_LED_OFF, SHPC_SLOT_ATTN_LED_MASK);
+         shpc_set_status(shpc, i, 0, SHPC_SLOT_STATUS_66);
+     }
+     shpc_set_sec_bus_speed(shpc, SHPC_SEC_BUS_33);
 -- 
 MST
 
