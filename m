@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6146A7B9F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 08:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDA66A7BA4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 08:08:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXd1z-0002gm-2q; Thu, 02 Mar 2023 02:07:11 -0500
+	id 1pXd26-0002uC-1l; Thu, 02 Mar 2023 02:07:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1u-0002fx-IT
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1x-0002gl-Rs
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1s-0005Se-Gi
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:06 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXd1w-0005TQ-2O
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:07:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677740823;
+ s=mimecast20190719; t=1677740827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kgbSASuu3cV58gv0lhM4uGISQfJUfz8H+7nE1VuVk8I=;
- b=YabQficHFCwXCBJLg/le7MiSSmKouMUdP7eONKQB7ay7M/3DWzOQlf8zKTzne20tpMa3uZ
- cSpapBbjn5c3vMjibdWqv1Ii4+XXAdpoL/Uh2f+C+vh8wbLr4wYeJrjO1vvwTbA5BH0yNj
- hp0o8TJ3divAGD47YXG2KtdYK1D2kRs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ns2NdRrri0S6YoBrgBtjeueKfArjbP8KbgSUPCbyk8M=;
+ b=GO3FueyAK4ZO5m0kz66oFWP9rO7fu8eRI/yrFfNoGLpv4EBVOXDlh3ScIX1sp4eFC2D1EY
+ 0CtA10vNddceLhmbdirM0YOWgPPkaREgaTZQwFu3KtTW0qLphePW2lStZLn97f/iA2ZptE
+ M5tARJEdeAThwFF7SsYg5/gkkgfWclk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-fPXZQWpwMOObhqlUO276nA-1; Thu, 02 Mar 2023 02:07:01 -0500
-X-MC-Unique: fPXZQWpwMOObhqlUO276nA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-204-F-pACq2QOXCQV4764u6BvA-1; Thu, 02 Mar 2023 02:07:03 -0500
+X-MC-Unique: F-pACq2QOXCQV4764u6BvA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AAF12823806;
- Thu,  2 Mar 2023 07:07:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8E8485CCE4;
+ Thu,  2 Mar 2023 07:07:02 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30B892166B26;
- Thu,  2 Mar 2023 07:07:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89C55C16027;
+ Thu,  2 Mar 2023 07:07:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 10AB721E6A26; Thu,  2 Mar 2023 08:07:00 +0100 (CET)
+ id 1336A21E6A28; Thu,  2 Mar 2023 08:07:00 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 4/5] target/loongarch: Restrict 'qapi-commands-machine.h' to
- system emulation
-Date: Thu,  2 Mar 2023 08:06:59 +0100
-Message-Id: <20230302070700.2998086-5-armbru@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 5/5] target/ppc: Restrict 'qapi-commands-machine.h' to system
+ emulation
+Date: Thu,  2 Mar 2023 08:07:00 +0100
+Message-Id: <20230302070700.2998086-6-armbru@redhat.com>
 In-Reply-To: <20230302070700.2998086-1-armbru@redhat.com>
 References: <20230302070700.2998086-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,118 +88,198 @@ Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
 user-mode builds") we don't generate the "qapi-commands-machine.h"
 header in a user-emulation-only build.
 
-Extract the QMP functions from cpu.c (which is always compiled)
-to the new 'loongarch-qmp-cmds.c' unit (which is only compiled
-when system emulation is selected).
+Move the QMP functions from cpu_init.c (which is always compiled)
+to monitor.c (which is only compiled when system-emulation
+is selected).  Rename monitor.c to arm-qmp-cmds.c.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Note ppc_cpu_class_by_name() is used by both file units, so we
+expose its prototype in "cpu-qom.h".
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230223155540.30370-4-philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20230223155540.30370-5-philmd@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- target/loongarch/cpu.c                | 27 -------------------
- target/loongarch/loongarch-qmp-cmds.c | 37 +++++++++++++++++++++++++++
- target/loongarch/meson.build          |  1 +
- 3 files changed, 38 insertions(+), 27 deletions(-)
- create mode 100644 target/loongarch/loongarch-qmp-cmds.c
+ target/ppc/cpu-qom.h                     |  2 +
+ target/ppc/cpu_init.c                    | 48 +----------------------
+ target/ppc/{monitor.c => ppc-qmp-cmds.c} | 50 +++++++++++++++++++++++-
+ target/ppc/meson.build                   |  2 +-
+ 4 files changed, 53 insertions(+), 49 deletions(-)
+ rename target/ppc/{monitor.c => ppc-qmp-cmds.c} (78%)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 290ab4d526..4e845ba29b 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -12,7 +12,6 @@
- #include "qemu/module.h"
- #include "sysemu/qtest.h"
- #include "exec/exec-all.h"
--#include "qapi/qapi-commands-machine-target.h"
- #include "cpu.h"
- #include "internals.h"
- #include "fpu/softfloat-helpers.h"
-@@ -748,29 +747,3 @@ static const TypeInfo loongarch_cpu_type_infos[] = {
- };
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index 0fbd8b7246..9666f54f65 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -31,6 +31,8 @@
  
- DEFINE_TYPES(loongarch_cpu_type_infos)
--
--static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
+ OBJECT_DECLARE_CPU_TYPE(PowerPCCPU, PowerPCCPUClass, POWERPC_CPU)
+ 
++ObjectClass *ppc_cpu_class_by_name(const char *name);
++
+ typedef struct CPUArchState CPUPPCState;
+ typedef struct ppc_tb_t ppc_tb_t;
+ typedef struct ppc_dcr_t ppc_dcr_t;
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index abee71d407..d62ffe8a6f 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -40,7 +40,6 @@
+ #include "qemu/cutils.h"
+ #include "disas/capstone.h"
+ #include "fpu/softfloat.h"
+-#include "qapi/qapi-commands-machine-target.h"
+ 
+ #include "helper_regs.h"
+ #include "internal.h"
+@@ -6841,7 +6840,7 @@ static const char *ppc_cpu_lookup_alias(const char *alias)
+     return NULL;
+ }
+ 
+-static ObjectClass *ppc_cpu_class_by_name(const char *name)
++ObjectClass *ppc_cpu_class_by_name(const char *name)
+ {
+     char *cpu_model, *typename;
+     ObjectClass *oc;
+@@ -6981,51 +6980,6 @@ void ppc_cpu_list(void)
+ #endif
+ }
+ 
+-static void ppc_cpu_defs_entry(gpointer data, gpointer user_data)
 -{
 -    ObjectClass *oc = data;
--    CpuDefinitionInfoList **cpu_list = user_data;
--    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
--    const char *typename = object_class_get_name(oc);
+-    CpuDefinitionInfoList **first = user_data;
+-    const char *typename;
+-    CpuDefinitionInfo *info;
 -
+-    typename = object_class_get_name(oc);
+-    info = g_malloc0(sizeof(*info));
 -    info->name = g_strndup(typename,
--                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
--    info->q_typename = g_strdup(typename);
+-                           strlen(typename) - strlen(POWERPC_CPU_TYPE_SUFFIX));
 -
--    QAPI_LIST_PREPEND(*cpu_list, info);
+-    QAPI_LIST_PREPEND(*first, info);
 -}
 -
 -CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
 -{
 -    CpuDefinitionInfoList *cpu_list = NULL;
 -    GSList *list;
+-    int i;
 -
--    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
--    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
+-    list = object_class_get_list(TYPE_POWERPC_CPU, false);
+-    g_slist_foreach(list, ppc_cpu_defs_entry, &cpu_list);
 -    g_slist_free(list);
+-
+-    for (i = 0; ppc_cpu_aliases[i].alias != NULL; i++) {
+-        PowerPCCPUAlias *alias = &ppc_cpu_aliases[i];
+-        ObjectClass *oc;
+-        CpuDefinitionInfo *info;
+-
+-        oc = ppc_cpu_class_by_name(alias->model);
+-        if (oc == NULL) {
+-            continue;
+-        }
+-
+-        info = g_malloc0(sizeof(*info));
+-        info->name = g_strdup(alias->alias);
+-        info->q_typename = g_strdup(object_class_get_name(oc));
+-
+-        QAPI_LIST_PREPEND(cpu_list, info);
+-    }
 -
 -    return cpu_list;
 -}
-diff --git a/target/loongarch/loongarch-qmp-cmds.c b/target/loongarch/loongarch-qmp-cmds.c
-new file mode 100644
-index 0000000000..6c25957881
---- /dev/null
-+++ b/target/loongarch/loongarch-qmp-cmds.c
-@@ -0,0 +1,37 @@
-+/*
-+ * QEMU LoongArch CPU (monitor definitions)
-+ *
-+ * SPDX-FileCopyrightText: 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
+-
+ static void ppc_cpu_set_pc(CPUState *cs, vaddr value)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+diff --git a/target/ppc/monitor.c b/target/ppc/ppc-qmp-cmds.c
+similarity index 78%
+rename from target/ppc/monitor.c
+rename to target/ppc/ppc-qmp-cmds.c
+index 8250b1304e..36e5b5eff8 100644
+--- a/target/ppc/monitor.c
++++ b/target/ppc/ppc-qmp-cmds.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU monitor
++ * QEMU PPC (monitor definitions)
+  *
+  * Copyright (c) 2003-2004 Fabrice Bellard
+  *
+@@ -28,6 +28,9 @@
+ #include "qemu/ctype.h"
+ #include "monitor/hmp-target.h"
+ #include "monitor/hmp.h"
 +#include "qapi/qapi-commands-machine-target.h"
-+#include "cpu.h"
++#include "cpu-models.h"
++#include "cpu-qom.h"
+ 
+ static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
+                                    int val)
+@@ -172,3 +175,48 @@ int target_get_monitor_def(CPUState *cs, const char *name, uint64_t *pval)
+ 
+     return -EINVAL;
+ }
 +
-+static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
++static void ppc_cpu_defs_entry(gpointer data, gpointer user_data)
 +{
 +    ObjectClass *oc = data;
-+    CpuDefinitionInfoList **cpu_list = user_data;
-+    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
-+    const char *typename = object_class_get_name(oc);
++    CpuDefinitionInfoList **first = user_data;
++    const char *typename;
++    CpuDefinitionInfo *info;
 +
++    typename = object_class_get_name(oc);
++    info = g_malloc0(sizeof(*info));
 +    info->name = g_strndup(typename,
-+                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
-+    info->q_typename = g_strdup(typename);
++                           strlen(typename) - strlen(POWERPC_CPU_TYPE_SUFFIX));
 +
-+    QAPI_LIST_PREPEND(*cpu_list, info);
++    QAPI_LIST_PREPEND(*first, info);
 +}
 +
 +CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
 +{
 +    CpuDefinitionInfoList *cpu_list = NULL;
 +    GSList *list;
++    int i;
 +
-+    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
-+    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
++    list = object_class_get_list(TYPE_POWERPC_CPU, false);
++    g_slist_foreach(list, ppc_cpu_defs_entry, &cpu_list);
 +    g_slist_free(list);
++
++    for (i = 0; ppc_cpu_aliases[i].alias != NULL; i++) {
++        PowerPCCPUAlias *alias = &ppc_cpu_aliases[i];
++        ObjectClass *oc;
++        CpuDefinitionInfo *info;
++
++        oc = ppc_cpu_class_by_name(alias->model);
++        if (oc == NULL) {
++            continue;
++        }
++
++        info = g_malloc0(sizeof(*info));
++        info->name = g_strdup(alias->alias);
++        info->q_typename = g_strdup(object_class_get_name(oc));
++
++        QAPI_LIST_PREPEND(cpu_list, info);
++    }
 +
 +    return cpu_list;
 +}
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 690633969f..9293a8ab78 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -16,6 +16,7 @@ loongarch_tcg_ss.add(zlib)
- 
- loongarch_softmmu_ss = ss.source_set()
- loongarch_softmmu_ss.add(files(
-+  'loongarch-qmp-cmds.c',
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index 79beaff147..7929de8360 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -39,7 +39,7 @@ ppc_softmmu_ss.add(files(
    'machine.c',
-   'tlb_helper.c',
-   'constant_timer.c',
+   'mmu-hash32.c',
+   'mmu_common.c',
+-  'monitor.c',
++  'ppc-qmp-cmds.c',
+ ))
+ ppc_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'mmu_helper.c',
 -- 
 2.39.0
 
