@@ -2,55 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694456A81E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F26D6A81E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:08:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhhM-0000G8-5r; Thu, 02 Mar 2023 07:06:12 -0500
+	id 1pXhic-00021r-FQ; Thu, 02 Mar 2023 07:07:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pXhhG-0000FP-Nu
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:06:07 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pXhiZ-0001x3-QJ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:07:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pXhhD-0006Ni-5K
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:06:06 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PS8vD6vRdz6J7jf;
- Thu,  2 Mar 2023 20:05:44 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 2 Mar
- 2023 12:05:57 +0000
-Date: Thu, 2 Mar 2023 12:05:56 +0000
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pXhiW-0006oa-0k
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:07:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677758842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hvxcKjWA95EJolHhUtqXWoPRTkvUHlF9dDhQ/r9ocNg=;
+ b=UZGlivnTZkWye0cksG1Xd6FUGzWZiphKIK4eRtq3bS53+lO0blZ37Opid0LLSAJgQZk00J
+ yxmqvuIs3stwEAhWb5zGbbX+AuR75xd7bAceRgmoy+jmJR4Nyu2oKNpSEwgqAy+4fPax49
+ N91NftS48RCE/oCeoj3UohkIk8G18lA=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-MVX6RD5GPzuw9Ly6RskJeQ-1; Thu, 02 Mar 2023 07:07:21 -0500
+X-MC-Unique: MVX6RD5GPzuw9Ly6RskJeQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ k19-20020ac86053000000b003bd0d4e3a50so8274443qtm.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:07:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677758840;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hvxcKjWA95EJolHhUtqXWoPRTkvUHlF9dDhQ/r9ocNg=;
+ b=mTvb/UkNlbzMAlMtUSepS5cDL0x0aJcg/WqW3HMmDVQxNF0MhfyFnw4+IHYCg8nhlX
+ Qw5ohRPqjbItPiBEPmxKu8PI2towBcr9x9e9KllJJBUwpHhNSK1nhkNJexBNaPzWJwR/
+ hwMmAa5lpKJ7sWOdZdfl6BkI9/Y3+cKp2k0ulNs5o6ifQhXbLOrqavGwVEiV1l3A1VNp
+ TEiPLRHSWXXS9H6nCgk7bElv5KaYJ73xDhEcACTnUr9CZnsD7SXt7549YBi1MHOOjBbb
+ C7AHyWl6BEIy3TsBfHONFCLYMJKrEwVlFfxCSCfrgxBg6MaVENjy+veRGE2RBfIliZB4
+ fV3w==
+X-Gm-Message-State: AO0yUKWJNwfN4vSelzAdf4iYSljvJpHxyz1d6fEAFPYqQTHQN4ZODUuP
+ vfPPI4K7AdbBlt/Olg+4aMO4CX58z0+e04As+LuW89tEhW2qxKLlr8qomY8r3N6aRRRJKi3hCQn
+ 1MEmr1d0ktH28HXo=
+X-Received: by 2002:ac8:59c8:0:b0:3ba:3ac7:ccf1 with SMTP id
+ f8-20020ac859c8000000b003ba3ac7ccf1mr16473427qtf.58.1677758840430; 
+ Thu, 02 Mar 2023 04:07:20 -0800 (PST)
+X-Google-Smtp-Source: AK7set94j4omZV18JFD/UjXlb6n8j3fa6KCndlwLSKTOx+3zfd67LCke0As3kDfzubtULqvMs/cnmA==
+X-Received: by 2002:ac8:59c8:0:b0:3ba:3ac7:ccf1 with SMTP id
+ f8-20020ac859c8000000b003ba3ac7ccf1mr16473406qtf.58.1677758840119; 
+ Thu, 02 Mar 2023 04:07:20 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id
+ y6-20020a05620a09c600b006ee8874f5fasm10710714qky.53.2023.03.02.04.07.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 04:07:19 -0800 (PST)
+Date: Thu, 2 Mar 2023 13:07:16 +0100
+From: Igor Mammedov <imammedo@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Igor Mammedov <imammedo@redhat.com>, <qemu-devel@nongnu.org>,
- <ani@anisinha.ca>, <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, berrange@redhat.com
 Subject: Re: [PATCH 00/33] pci(pc/q35): acpi-index support on
  non-hotpluggable slots
-Message-ID: <20230302120556.00003ac7@Huawei.com>
+Message-ID: <20230302130716.5afb85a6@imammedo.users.ipa.redhat.com>
 In-Reply-To: <20230302055544-mutt-send-email-mst@kernel.org>
 References: <20230224153812.4176226-1-imammedo@redhat.com>
  <20230302055544-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,8 +98,6 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
@@ -97,6 +129,16 @@ On Thu, 2 Mar 2023 05:59:16 -0500
 > 
 > dropped because viot was wrong.
 > Pls rebase fix up and repost.
+
+I'll rebase on top of your recent pull req with c471eb4f4044 commit reverted
+to get properly updated tables.
+Partial table rebuilds are fragile anyways, should we make rebuild ignore
+checks the commit introduced?
+
+PS:
+Does the rest of the series look fine to you?
+
+
 > 
 > 
 > Apropos I still think we should split up DSDT to several
@@ -105,18 +147,6 @@ On Thu, 2 Mar 2023 05:59:16 -0500
 > and it's easier to merge things.
 > 
 > For example, how about moving CXL things to an SSDT?
-
-I'll take a look at that, though given CXL doesn't have that much in DSDT that
-is different from pxb-pcie (it is set to grow a bit, but just by one _DSM)
-and the code is currently mixed up, it may make more sense to pull out both CXL
-and PXB into a single SSDT.
-
-I'm definitely keen on less churn in these files given it's not the
-easiest thing to sort out if you care carrying a lot of patches out of
-tree as we currently are for CXL.
-
-Jonathan 
-
 > 
 > 
 > > Somewhat tested with RHEL9.0 and WS2022.
@@ -235,7 +265,6 @@ Jonathan
 > > 
 > > -- 
 > > 2.39.1  
-> 
 > 
 
 
