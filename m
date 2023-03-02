@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4C26A7D6F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C676A7D6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:16:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXezi-00048L-24; Thu, 02 Mar 2023 04:12:58 -0500
+	id 1pXezl-0004Is-3i; Thu, 02 Mar 2023 04:13:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pXeze-00045x-Ld
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:12:54 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pXezi-0004GN-Ui
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:12:58 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pXezd-0004RU-20
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:12:54 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- 6-20020a17090a190600b00237c5b6ecd7so2162684pjg.4
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 01:12:52 -0800 (PST)
+ id 1pXezg-0006FJ-V5
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:12:58 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id z2so16831543plf.12
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 01:12:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IgHDmQnuC0ohesXkjuU3Tp9ntNJhpkJz30khys/nojg=;
- b=POf5lDVWrgDnI00pdsHqfak12z61bs7Ck44vaFKPRp+rjsmILnioOu8L+Sf42VDfMc
- CEURMHg4n3oVnxFAXqIrEnS7o2Kw99aDeZDNNEMg88t4SsHiK3kjxVxd+rw6y/Rs1gje
- WBFEqnzwflj8y4R/qgkv0qQRUzDR5y12KlER2ChAQyK14RVrmerJQzrFP1izglGi3Ovi
- UtcUsRCcEaYsAymeW/jewfdK2zpaHz1aCeH31E37NySbbB1vzdSFwnpCdnZ3BJKUkBqR
- VGDkK0U17W6DwK+PmKB+niCdJ8qB+uYzOoDvFv+pSpqaNGRdnkSRt+xN+UsInbxUKHBM
- kJQw==
+ bh=WRPPbttll/DWnQNdAzlT2kSuA8zqc53TPKgPf1dqdsw=;
+ b=EJH6gK33ll8t+AbipM2m3dzIXSCE+Er3MeBSBhvirFV4lw731gEnN35B/m+2IqSvyo
+ rurYZkf8LYdi2t4sPNz0wqlV3AFe5wlSUTZiKCWaGmVE0Vy9ITjCI/gISO8WhJXW1wYT
+ hgLVBzq2unDoyYU9DPo88Uvo/yBGup9eGt03ge3HpphQwCsRsXbGOrBHd7gbg/s80RJu
+ MTpdyTQwiS4zfEotbkv877ni11o9tzhOPj4YJDjrnuzFcjE5u6Hnr+wCXATGxT0tQrUv
+ GCdoiIxeFHECYs4o1POpzqMGxkCtHTLQKxDnEZUQS/rwaQXiK1zZ29CdfAvYBoJQKpzF
+ C3RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IgHDmQnuC0ohesXkjuU3Tp9ntNJhpkJz30khys/nojg=;
- b=4iBYvh3RYDBm3GmOTNjuSo1mh2mR22VSWR5jN0LX2TRVN44R8dM8wRuHaSh6xMNQtQ
- +I7XqYfvoLelVL3ieSYxSOnw0PlpP7HHYQANa4bds4TrORWTlM8Nr63cosXSlXUDeW3P
- 44rpRfwo5BE/bgjrIXaD/RJ1Fn0BkI0G7dlzOVxJ01tGYPjzxW/QU8Xx1PXmvrq+WYSh
- RUmciDRYS7obE4x3JaIv+FuSW7T4Rs8dAMR3YHVnIkeZtAygwXkoGHQrTGN/2JmxF0YX
- 2uwkqbtB6bQ9JHXBdiCekVpSDhp5QXL9wvcoABRu+MX9I5GReZGTZUaeMFbNqryLWTTf
- MHRQ==
-X-Gm-Message-State: AO0yUKW1uzi/W+VA0MhH6/9nPnfB0HuXEwq1K6X7M4REbz9B+LcJcW2P
- 6mwpeXsWiA5EhcLGyBKihQosCA==
-X-Google-Smtp-Source: AK7set8B92TYWEnMi5z//wnelwPvN5S0mRhyfpmmCKqwTLYj4mIZM+oE3jFBMmZQy5wqj9I2AmPJtg==
-X-Received: by 2002:a17:903:40c6:b0:19c:d6d0:7887 with SMTP id
- t6-20020a17090340c600b0019cd6d07887mr8106425pld.30.1677748372374; 
- Thu, 02 Mar 2023 01:12:52 -0800 (PST)
+ bh=WRPPbttll/DWnQNdAzlT2kSuA8zqc53TPKgPf1dqdsw=;
+ b=2vRUg0TD9VEXs767Ie8oqh+TR38c02AQbA1M3HAF0xwiYhuUdXXhLFIr15iXHYpM/x
+ dJP1NPzlhiaj8drKW89JROjZ8XhEbW5BHlKEx+K0IWhTJRgSP9cMVZz7F4GXOC2FdDHi
+ mULTpoPHlMK0Y+b5odV/dBRE1+eUiJ1ZBqJJBPgjhbQIcnD3hTifbDPY/3+RyVq6EeUc
+ w8xO2sE++OCSwEg3387nf4TxSNQvbvB9PBE2DuCKDkIOoqVR+0QHxQEmNJCw0EaF75dU
+ HXOkVEpVMdV7GY4znLXWdjtvFE2mZtFyZ2+Mnsl/MS3z5Sud/e9vqUIp/A5A51pQk98z
+ DHAw==
+X-Gm-Message-State: AO0yUKXOPAIicUE49CaGFgdnjA6z7KZDdGKwugzNKClNsx+r2byYdlCJ
+ JHgEJymFGixGBp8Pf7Q8bMtu8A==
+X-Google-Smtp-Source: AK7set/fmJMItSMT2xZ2VOrN22B+NmgjPd+JVgyeBemFEEMtExTwFl+H4y3p5+kz3d/V39NpCcn1pg==
+X-Received: by 2002:a17:902:6b03:b0:19e:700c:b6e0 with SMTP id
+ o3-20020a1709026b0300b0019e700cb6e0mr1059537plk.35.1677748376242; 
+ Thu, 02 Mar 2023 01:12:56 -0800 (PST)
 Received: from localhost.localdomain ([49.206.14.226])
  by smtp.gmail.com with ESMTPSA id
- iz12-20020a170902ef8c00b0019945535973sm9850692plb.63.2023.03.02.01.12.48
+ iz12-20020a170902ef8c00b0019945535973sm9850692plb.63.2023.03.02.01.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 01:12:52 -0800 (PST)
+ Thu, 02 Mar 2023 01:12:55 -0800 (PST)
 From: Sunil V L <sunilvl@ventanamicro.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -69,16 +68,16 @@ Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Atish Kumar Patra <atishp@rivosinc.com>,
  Igor Mammedov <imammedo@redhat.com>, Sunil V L <sunilvl@ventanamicro.com>,
  Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH V5 7/8] hw/riscv/virt.c: Initialize the ACPI tables
-Date: Thu,  2 Mar 2023 14:42:11 +0530
-Message-Id: <20230302091212.999767-8-sunilvl@ventanamicro.com>
+Subject: [PATCH V5 8/8] MAINTAINERS: Add entry for RISC-V ACPI
+Date: Thu,  2 Mar 2023 14:42:12 +0530
+Message-Id: <20230302091212.999767-9-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230302091212.999767-1-sunilvl@ventanamicro.com>
 References: <20230302091212.999767-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,31 +100,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Initialize the ACPI tables if the acpi option is not
-disabled.
+RISC-V ACPI related functionality for virt machine is added in
+virt-acpi-build.c. Add the maintainer entry after moving the
+ARM ACPI entry under the main ACPI entry.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- hw/riscv/virt.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ MAINTAINERS | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 9b85d5b747..8329c477a7 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1316,6 +1316,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
-     if (kvm_enabled()) {
-         riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
-     }
-+
-+    if (virt_is_acpi_enabled(s)) {
-+        virt_acpi_setup(s);
-+    }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e96e9dbfe6..3b840fa700 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -999,12 +999,6 @@ S: Maintained
+ F: hw/ssi/xlnx-versal-ospi.c
+ F: include/hw/ssi/xlnx-versal-ospi.h
  
- static void virt_machine_init(MachineState *machine)
+-ARM ACPI Subsystem
+-M: Shannon Zhao <shannon.zhaosl@gmail.com>
+-L: qemu-arm@nongnu.org
+-S: Maintained
+-F: hw/arm/virt-acpi-build.c
+-
+ STM32F100
+ M: Alexandre Iooss <erdnaxe@crans.org>
+ L: qemu-arm@nongnu.org
+@@ -1892,6 +1886,18 @@ F: docs/specs/acpi_nvdimm.rst
+ F: docs/specs/acpi_pci_hotplug.rst
+ F: docs/specs/acpi_hw_reduced_hotplug.rst
+ 
++ARM ACPI Subsystem
++M: Shannon Zhao <shannon.zhaosl@gmail.com>
++L: qemu-arm@nongnu.org
++S: Maintained
++F: hw/arm/virt-acpi-build.c
++
++RISC-V ACPI Subsystem
++M: Sunil V L <sunilvl@ventanamicro.com>
++L: qemu-riscv@nongnu.org
++S: Maintained
++F: hw/riscv/virt-acpi-build.c
++
+ ACPI/VIOT
+ M: Jean-Philippe Brucker <jean-philippe@linaro.org>
+ S: Supported
 -- 
 2.34.1
 
