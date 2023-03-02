@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DE86A8168
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EB26A8169
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:43:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhJf-00044V-91; Thu, 02 Mar 2023 06:41:43 -0500
+	id 1pXhJg-00044s-2W; Thu, 02 Mar 2023 06:41:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1pXhJb-00041X-P6; Thu, 02 Mar 2023 06:41:39 -0500
-Received: from m12.mail.163.com ([123.126.96.233])
+ id 1pXhJb-00041W-N4; Thu, 02 Mar 2023 06:41:39 -0500
+Received: from m12.mail.163.com ([123.126.96.234])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <qianfanguijin@163.com>)
- id 1pXhJZ-00069R-2b; Thu, 02 Mar 2023 06:41:39 -0500
+ id 1pXhJY-00069T-DY; Thu, 02 Mar 2023 06:41:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=W8ose
- XLLoGmg6ep9d/aMwd6HC+YABeP2tHYrtdkhkk4=; b=KSRrRfZGpY3W7JVvTIkVf
- P9m8lRoD7EVKd+TXHaDnATOVf7/7iKB1iXyDc9ffzfuM9486oir9FSg3jFVzYBl9
- IbeCkroxAYXLZr9hK8MxImXO0bUNlCRKBM8SyulnIKAz8lpS/GAi1hepY+phwQ/I
- erN0vxIFSMItJs1TpsGJvE=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=c0oaO
+ KazxYJZtJyXvhbpUehZRKXiMqRZrek0/PzmKMg=; b=eca/QrDiiBh726udps/Qp
+ p9Gpg0iZp7jbIra7VmGIks6FULVgIvWyQrPvkNE82hFieK+tUobH4oIDcSBngyNm
+ TttyDoice1CHDsU7XbEM30DYJlcd1XCxmmhjteWwSgJHyvN62DrSZIDqTnGc1mD6
+ JjZUVzVl/e7SDWPkXM/VZw=
 Received: from DESKTOP-B1R4FVG.localdomain (unknown [144.123.156.254])
- by smtp20 (Coremail) with SMTP id H91pCgBni79OiwBknjVaGA--.63318S4;
- Thu, 02 Mar 2023 19:41:03 +0800 (CST)
+ by smtp20 (Coremail) with SMTP id H91pCgBni79OiwBknjVaGA--.63318S5;
+ Thu, 02 Mar 2023 19:41:04 +0800 (CST)
 From: qianfanguijin@163.com
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -34,23 +34,23 @@ Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Niek Linnenbank <nieklinnenbank@gmail.com>,
  qianfan Zhao <qianfanguijin@163.com>
-Subject: [RFC PATCH v1 02/12] hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on
- SUN6i SoCs
-Date: Thu,  2 Mar 2023 19:40:51 +0800
-Message-Id: <20230302114102.32236-3-qianfanguijin@163.com>
+Subject: [RFC PATCH v1 03/12] hw: arm: allwinner-h3: Fix and complete H3 i2c
+ devices
+Date: Thu,  2 Mar 2023 19:40:52 +0800
+Message-Id: <20230302114102.32236-4-qianfanguijin@163.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230302114102.32236-1-qianfanguijin@163.com>
 References: <20230302114102.32236-1-qianfanguijin@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: H91pCgBni79OiwBknjVaGA--.63318S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGFyxCFW3KFyrAFWUWF43Awb_yoW5Kw4rpF
- Wqgr45KF4Yqa97WrnIqFn8GF18Jry8C3y8Krsa9FyIvFnrW3ZFqr1ktrWakrn8GrWrJw43
- tFs8tFyxWFn0qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi2YLDUUUUU=
+X-CM-TRANSID: H91pCgBni79OiwBknjVaGA--.63318S5
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFyDXw4ftrWkKryrWF1Utrb_yoWrtF1Upr
+ WUCrs0gFWrW34xZr1vkwn3Zr1rta48Cr1DCa4SgFyfKr4jgw1qqw1Ivw4UCFy8XF4kuayY
+ qryxKFW8G3WUtaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEHGQDUUUUU=
 X-Originating-IP: [144.123.156.254]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXRAm7VWBoxmNGAAAs9
-Received-SPF: pass client-ip=123.126.96.233;
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzhAm7WI0XgNudQAAsF
+Received-SPF: pass client-ip=123.126.96.234;
  envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,108 +76,131 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: qianfan Zhao <qianfanguijin@163.com>
 
-TWI_CNTR_INT_FLAG is W1C(write 1 to clear and write 0 has non-effect)
-register on SUN6i based SoCs, we should lower interrupt when the guest
-set this bit.
-
-The linux kernel will hang in irq handler(mv64xxx_i2c_intr) if no
-device connected on the i2c bus, next is the trace log:
-
-allwinner_i2c_write write   CNTR(0x0c): 0xc4 A_ACK BUS_EN INT_EN
-allwinner_i2c_write write   CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
-allwinner_i2c_read  read    CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
-allwinner_i2c_read  read    STAT(0x10): 0x20 STAT_M_ADDR_WR_NACK
-allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
-allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
-allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
-allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
-...
-
-Fix it.
+Allwinner h3 has 4 twi(i2c) devices named twi0, twi1, twi2 and r_twi.
+The registers are compatible with TYPE_AW_I2C_SUN6I, write 1 to clear
+control register's INT_FLAG bit.
 
 Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 ---
- hw/i2c/allwinner-i2c.c         | 26 ++++++++++++++++++++++++--
- include/hw/i2c/allwinner-i2c.h |  6 ++++++
- 2 files changed, 30 insertions(+), 2 deletions(-)
+ hw/arm/allwinner-h3.c         | 29 +++++++++++++++++++++++++----
+ include/hw/arm/allwinner-h3.h |  6 ++++++
+ 2 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
-index fa650e7e02..819638d740 100644
---- a/hw/i2c/allwinner-i2c.c
-+++ b/hw/i2c/allwinner-i2c.c
-@@ -463,10 +463,16 @@ static void allwinner_i2c_write(void *opaque, hwaddr offset,
-                 s->stat = STAT_FROM_STA(STAT_IDLE);
-                 s->cntr &= ~TWI_CNTR_M_STP;
-             }
--            if ((s->cntr & TWI_CNTR_INT_FLAG) == 0) {
--                /* Interrupt flag cleared */
-+
-+            if (!s->irq_clear_inverted && !(s->cntr & TWI_CNTR_INT_FLAG)) {
-+                /* Write 0 to clear this flag */
-+                qemu_irq_lower(s->irq);
-+            } else if (s->irq_clear_inverted && (s->cntr & TWI_CNTR_INT_FLAG)) {
-+                /* Write 1 to clear this flag */
-+                s->cntr &= ~TWI_CNTR_INT_FLAG;
-                 qemu_irq_lower(s->irq);
-             }
-+
-             if ((s->cntr & TWI_CNTR_A_ACK) == 0) {
-                 if (STAT_TO_STA(s->stat) == STAT_M_DATA_RX_ACK) {
-                     s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
-@@ -557,9 +563,25 @@ static const TypeInfo allwinner_i2c_type_info = {
-     .class_init = allwinner_i2c_class_init,
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index bfce3c8d92..69d0ad6f50 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -54,6 +54,8 @@ const hwaddr allwinner_h3_memmap[] = {
+     [AW_H3_DEV_UART2]      = 0x01c28800,
+     [AW_H3_DEV_UART3]      = 0x01c28c00,
+     [AW_H3_DEV_TWI0]       = 0x01c2ac00,
++    [AW_H3_DEV_TWI1]       = 0x01c2b000,
++    [AW_H3_DEV_TWI2]       = 0x01c2b400,
+     [AW_H3_DEV_EMAC]       = 0x01c30000,
+     [AW_H3_DEV_DRAMCOM]    = 0x01c62000,
+     [AW_H3_DEV_DRAMCTL]    = 0x01c63000,
+@@ -64,6 +66,7 @@ const hwaddr allwinner_h3_memmap[] = {
+     [AW_H3_DEV_GIC_VCPU]   = 0x01c86000,
+     [AW_H3_DEV_RTC]        = 0x01f00000,
+     [AW_H3_DEV_CPUCFG]     = 0x01f01c00,
++    [AW_H3_DEV_R_TWI]      = 0x01f02400,
+     [AW_H3_DEV_SDRAM]      = 0x40000000
  };
  
-+static void allwinner_i2c_sun6i_init(Object *obj)
-+{
-+    AWI2CState *s = AW_I2C(obj);
-+
-+    s->irq_clear_inverted = true;
-+}
-+
-+static const TypeInfo allwinner_i2c_sun6i_type_info = {
-+    .name = TYPE_AW_I2C_SUN6I,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AWI2CState),
-+    .instance_init = allwinner_i2c_sun6i_init,
-+    .class_init = allwinner_i2c_class_init,
-+};
-+
- static void allwinner_i2c_register_types(void)
- {
-     type_register_static(&allwinner_i2c_type_info);
-+    type_register_static(&allwinner_i2c_sun6i_type_info);
+@@ -107,8 +110,6 @@ struct AwH3Unimplemented {
+     { "uart1",     0x01c28400, 1 * KiB },
+     { "uart2",     0x01c28800, 1 * KiB },
+     { "uart3",     0x01c28c00, 1 * KiB },
+-    { "twi1",      0x01c2b000, 1 * KiB },
+-    { "twi2",      0x01c2b400, 1 * KiB },
+     { "scr",       0x01c2c400, 1 * KiB },
+     { "gpu",       0x01c40000, 64 * KiB },
+     { "hstmr",     0x01c60000, 4 * KiB },
+@@ -123,7 +124,6 @@ struct AwH3Unimplemented {
+     { "r_prcm",    0x01f01400, 1 * KiB },
+     { "r_twd",     0x01f01800, 1 * KiB },
+     { "r_cir-rx",  0x01f02000, 1 * KiB },
+-    { "r_twi",     0x01f02400, 1 * KiB },
+     { "r_uart",    0x01f02800, 1 * KiB },
+     { "r_pio",     0x01f02c00, 1 * KiB },
+     { "r_pwm",     0x01f03800, 1 * KiB },
+@@ -151,8 +151,11 @@ enum {
+     AW_H3_GIC_SPI_UART2     =  2,
+     AW_H3_GIC_SPI_UART3     =  3,
+     AW_H3_GIC_SPI_TWI0      =  6,
++    AW_H3_GIC_SPI_TWI1      =  7,
++    AW_H3_GIC_SPI_TWI2      =  8,
+     AW_H3_GIC_SPI_TIMER0    = 18,
+     AW_H3_GIC_SPI_TIMER1    = 19,
++    AW_H3_GIC_SPI_R_TWI     = 44,
+     AW_H3_GIC_SPI_MMC0      = 60,
+     AW_H3_GIC_SPI_EHCI0     = 72,
+     AW_H3_GIC_SPI_OHCI0     = 73,
+@@ -227,7 +230,10 @@ static void allwinner_h3_init(Object *obj)
+ 
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_AW_RTC_SUN6I);
+ 
+-    object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C);
++    object_initialize_child(obj, "twi0",  &s->i2c0,  TYPE_AW_I2C_SUN6I);
++    object_initialize_child(obj, "twi1",  &s->i2c1,  TYPE_AW_I2C_SUN6I);
++    object_initialize_child(obj, "twi2",  &s->i2c2,  TYPE_AW_I2C_SUN6I);
++    object_initialize_child(obj, "r_twi", &s->r_twi, TYPE_AW_I2C_SUN6I);
  }
  
- type_init(allwinner_i2c_register_types)
-diff --git a/include/hw/i2c/allwinner-i2c.h b/include/hw/i2c/allwinner-i2c.h
-index 4f378b86ba..0e325d265e 100644
---- a/include/hw/i2c/allwinner-i2c.h
-+++ b/include/hw/i2c/allwinner-i2c.h
-@@ -28,6 +28,10 @@
- #include "qom/object.h"
+ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+@@ -432,6 +438,21 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0,
+                        qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI0));
  
- #define TYPE_AW_I2C "allwinner.i2c"
++    sysbus_realize(SYS_BUS_DEVICE(&s->i2c1), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c1), 0, s->memmap[AW_H3_DEV_TWI1]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c1), 0,
++                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI1));
 +
-+/** Allwinner I2C sun6i family and newer (A31, H2+, H3, etc) */
-+#define TYPE_AW_I2C_SUN6I    TYPE_AW_I2C "-sun6i"
++    sysbus_realize(SYS_BUS_DEVICE(&s->i2c2), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c2), 0, s->memmap[AW_H3_DEV_TWI2]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c2), 0,
++                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI2));
 +
- OBJECT_DECLARE_SIMPLE_TYPE(AWI2CState, AW_I2C)
- 
- #define AW_I2C_MEM_SIZE         0x24
-@@ -50,6 +54,8 @@ struct AWI2CState {
-     uint8_t srst;
-     uint8_t efr;
-     uint8_t lcr;
++    sysbus_realize(SYS_BUS_DEVICE(&s->r_twi), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->r_twi), 0, s->memmap[AW_H3_DEV_R_TWI]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->r_twi), 0,
++                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_R_TWI));
 +
-+    bool irq_clear_inverted;
+     /* Unimplemented devices */
+     for (i = 0; i < ARRAY_SIZE(unimplemented); i++) {
+         create_unimplemented_device(unimplemented[i].device_name,
+diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+index 1d7ce20589..59e0f822d2 100644
+--- a/include/hw/arm/allwinner-h3.h
++++ b/include/hw/arm/allwinner-h3.h
+@@ -84,6 +84,8 @@ enum {
+     AW_H3_DEV_UART3,
+     AW_H3_DEV_EMAC,
+     AW_H3_DEV_TWI0,
++    AW_H3_DEV_TWI1,
++    AW_H3_DEV_TWI2,
+     AW_H3_DEV_DRAMCOM,
+     AW_H3_DEV_DRAMCTL,
+     AW_H3_DEV_DRAMPHY,
+@@ -93,6 +95,7 @@ enum {
+     AW_H3_DEV_GIC_VCPU,
+     AW_H3_DEV_RTC,
+     AW_H3_DEV_CPUCFG,
++    AW_H3_DEV_R_TWI,
+     AW_H3_DEV_SDRAM
  };
  
- #endif /* ALLWINNER_I2C_H */
+@@ -133,6 +136,9 @@ struct AwH3State {
+     AwSidState sid;
+     AwSdHostState mmc0;
+     AWI2CState i2c0;
++    AWI2CState i2c1;
++    AWI2CState i2c2;
++    AWI2CState r_twi;
+     AwSun8iEmacState emac;
+     AwRtcState rtc;
+     GICState gic;
 -- 
 2.25.1
 
