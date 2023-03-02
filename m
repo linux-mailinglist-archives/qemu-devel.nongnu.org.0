@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2F16A862D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06E86A8610
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:18:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbs-0007S4-26; Thu, 02 Mar 2023 11:16:48 -0500
+	id 1pXlbj-00072l-T1; Thu, 02 Mar 2023 11:16:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbJ-0006HW-He
+ id 1pXlbJ-0006HV-GL
  for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbC-0000PA-20
+ id 1pXlbC-0000PO-9h
  for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1677773765;
@@ -24,32 +24,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mkZvl3K3aI4mRh24Jvs4zW7sj46GolRfUae2UG012Ro=;
- b=dR90HroMo1KSotdlvgiNJewAwiGQU1IHPhy7kcy41pTcjwVsK5MIBXZeTb+AJ3JZUGqiEr
- jtWQ/YzebMhPbEyotDEL2uhBsGZDEYp9eARKAdXdwhrCKx/8dDLyEq/tkOy+LNy25/8K2q
- 1eVIxKdWVvKAKVp/zQradNvX0IM3Vx4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EfxcrkRVtwoJ6dyTSQXY+2CnPxgTlqWbpeRowBTQsOQ=;
+ b=f+tzKO8dPNJnuBi2faK3hpTQk524LJN5vKlyMarB1eW5xeXjTWFHN40L4ipkXqILUjt6DL
+ qQM3pMTdgUm/v+RGM4rmmuCFqS/mMSF3D69djsPX0TgNqgbxds/fkq5T59SSrGv1wgwCK4
+ eG005m2lWYymIv+v2iQfxK6KptuEv9I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-JoDAChi8PheuXi8ChMGE2Q-1; Thu, 02 Mar 2023 11:16:03 -0500
-X-MC-Unique: JoDAChi8PheuXi8ChMGE2Q-1
+ us-mta-488-awjG3hDDNdmD5MtBvDUcTA-1; Thu, 02 Mar 2023 11:16:03 -0500
+X-MC-Unique: awjG3hDDNdmD5MtBvDUcTA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAEAA3C0E45D
- for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:16:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADAA4101A55E
+ for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:16:03 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 648DD140EBF6;
- Thu,  2 Mar 2023 16:16:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 270E9140EBF6;
+ Thu,  2 Mar 2023 16:16:03 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v2 22/34] tests: acpi: update expected blobs
-Date: Thu,  2 Mar 2023 17:15:31 +0100
-Message-Id: <20230302161543.286002-23-imammedo@redhat.com>
+Subject: [PATCH v2 23/34] tests: acpi: whitelist DSDT before exposing non zero
+ functions
+Date: Thu,  2 Mar 2023 17:15:32 +0100
+Message-Id: <20230302161543.286002-24-imammedo@redhat.com>
 In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
 References: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,71 +81,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-the only chenge is addition of _DSM- > EDSM method
-on non-hotpluggable devices with configured acpi-index.
-Something like:
-
-  +                Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-  +                {
-  +                    Local0 = Package (0x01)
-  +                        {
-  +                            0x65
-  +                        }
-  +                    Return (EDSM (Arg0, Arg1, Arg2, Arg3, Local0))
-  +                }
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
- tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3260 -> 3309 bytes
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 12637 -> 12678 bytes
- tests/data/acpi/q35/DSDT.noacpihp           | Bin 8114 -> 8188 bytes
- 4 files changed, 3 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 37 +++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 70244976c9..dfb8523c8b 100644
+index dfb8523c8b..8911b10650 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
+@@ -1 +1,38 @@
  /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT.hpbrroot",
--"tests/data/acpi/q35/DSDT.multi-bridge",
--"tests/data/acpi/q35/DSDT.noacpihp",
-diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
-index bfe0bf37180c0f0521d264d3e35b5f51feff2630..bee88c5ee815f0acf022b278876f0a212b1da84a 100644
-GIT binary patch
-delta 134
-zcmdlZ`Bsw4CD<k8Ee`_&<F1WdHe6ipS~2m#PVoZ%nwtZ-teKM3gN+U1IpQ5%f`Dq+
-z7(~S5U4ngi3WQh~xl$9BxB@vDnOWHh(M^`Y#ujje><rOO8o>q#0Y(N938+q1Ms8h3
-GB&`7G*&wt4
-
-delta 85
-zcmaDWxkr-ACD<io4-W$aqyI)O8!j$4^_cizr+5KBwao!s)=Y-{!Nvyh9Py4WK|nQZ
-X4AD&r!NwMF0d}AOf3N{UfRO<Jc*7Ed
-
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index 1240cede1a2fedc902b9dc71687880b73170e81b..595ab64601ae3deb12bbf18ca463e39ba0a86195 100644
-GIT binary patch
-delta 81
-zcmcbc)RxTU66_MvX2`(67`Tz^t{ita7h_C(uv5H16W8WXax(nt>cQp~@f`7vE<rpD
-j4Ezit;_)uQzB~m&ER0;K2}@jooQ%w@?1arcdV$OUo6Hrb
-
-delta 41
-xcmZomzMI7566_KZYskRBxM(BST{-S14#t@HV5fM2PWH{8<Yf3ao9p>A0{{}H42A#z
-
-diff --git a/tests/data/acpi/q35/DSDT.noacpihp b/tests/data/acpi/q35/DSDT.noacpihp
-index 44ee5e74c533f2c7554885b73adb947ed74b421f..c292c2369b011b779af44d0fa6fd2f7994098b2e 100644
-GIT binary patch
-delta 199
-zcmdmF|Hq!oCD<k8k30hdqtiw%7g;Vpt(f>=r+5K3t;rFx_Uh`vh8FQ0@s2J*JPZuX
-z3?kz3F2TM$1wt&0T&W35T!Ea7%&hE$$;)I_EG>hL5NcT&qMI~=4G;p13?dRx&8&>v
-lx{S!WU&$(%ng$yq6te?$s{|VuK&(d5`4w5`W;MAUMgVo#G5-Jn
-
-delta 125
-zcmexkzsa7<CD<iolRN_hW86kA7g;VBwV3!|r+5J$)yWaE_Wb<8h8FQ0@s2J*JPZuX
-z43qcCswgM~8zID48KRr`gAEV@j0}^d<rHLOf{hVk>_A1_!3G8plNdG^$n`J+09-yC
-ANdN!<
-
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.acpierst",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
++"tests/data/acpi/q35/DSDT.applesmc",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.core-count2",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.cxl",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.ipmismbus",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.noacpihp",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.pvpanic-isa",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.viot",
++"tests/data/acpi/q35/DSDT.xapic",
 -- 
 2.39.1
 
