@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07606A7DAE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D4F6A7E48
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:44:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXfIK-0006f6-Gz; Thu, 02 Mar 2023 04:32:13 -0500
+	id 1pXfTv-0008W5-5B; Thu, 02 Mar 2023 04:44:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXfI6-0006db-1N
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:31:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXfI4-00065v-6T
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:31:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677749514;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pget2bPmbbg6Wa3DBUVRUG45ZdlSe4j61fVglhw1ZE8=;
- b=CUQzN8ouW94QgdzZ9zI+LufBwSiMX2xj6vEFZdvxeHOc3UoturePPR7T2/2UDnZrf2YFkz
- j1wR5rdKNcDLdJuS5hDOIRk1X6EUwjfyjlJ9hc3SwEjV4cL96+F5fndS/2udWDiWYocYkQ
- y+JoM2UVrWrgqUef2dBXYLRZLqkFdVc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638--rJtMsTUMEi36HYNkN8T_A-1; Thu, 02 Mar 2023 04:31:51 -0500
-X-MC-Unique: -rJtMsTUMEi36HYNkN8T_A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B077886461;
- Thu,  2 Mar 2023 09:31:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E897A492C14;
- Thu,  2 Mar 2023 09:31:48 +0000 (UTC)
-Date: Thu, 2 Mar 2023 09:31:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Beraldo Leal <bleal@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
-Message-ID: <ZABtAt78by0TIPf7@redhat.com>
-References: <87fsb4k85h.fsf@pond.sub.org>
- <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
- <87a61821y3.fsf@pond.sub.org>
- <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
- <87356yq9rs.fsf@pond.sub.org>
- <20230228155801.s2imkaybh3a4d5x3@redhat.com>
- <Y/8Zy/Lk8i9RCOdc@redhat.com> <875ybkwr10.fsf@pond.sub.org>
- <CAJ+F1C+S+ChMdk0y5VHzFj94y5UV3iPjHweeLoUTHcBHW-pkYw@mail.gmail.com>
- <87wn3zskq3.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXfTt-0008Vp-JO
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:44:09 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXfTs-0002lU-27
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:44:09 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id k37so10300666wms.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 01:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=092wLcFG3TlkyDkzmWSMWCfKl5GHOFXYFVyiZ1xBmHI=;
+ b=NT1owtnR6dQrNFKCQytcFI95xsloBYB9RNhDGsb48xLUo4KgZpbGB2cBZDz3Tp4oAJ
+ kv2YDRu0ilsItudAZQBtQDXhvrNAvZrLHsRccQ1DD2UsgrcfcQ92eV6RkR6Cmgjy9i6K
+ MIrBWCRaxsGU1dEVzZclPrPmFMRfOL4FEHCP5NvMaqypTu3PUgnT2Q2pR0UKCnLF8LIg
+ cHbkfE/OYVfIJ64aEEa+cXdyw8h73NFdy+jAyQ1UARY7R/8Uk3b7V1AuAquoktFw0t28
+ IOS5bqUBMTszaRSpUnc2vsdX2eVxVoVBgRLwVDG6l/QiOTU9ERxip7+e/lVll9MQniQ8
+ UYzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=092wLcFG3TlkyDkzmWSMWCfKl5GHOFXYFVyiZ1xBmHI=;
+ b=39ksvoI0mO8W5ZTTwUPFflW8jtclwSnQAhIaWO2+Phj2LSHOOy8mpyGcT2KgeTk+cO
+ EPZ1Ynt/2UPXXN+0CqpFlfQ3KoXAHOdCzK+678WC6P+LrtzokqSyenzOLkEk86zskWT1
+ ZtJmbYT6v+mET7qToQtsifC8OPi6Keqho6PWB9UFgAGNO9Blq3zsQ+ORT58/7VfsGwAZ
+ C4S0WPELyQJLdE8HuJa44Y4ntM3dpZ+rBjK9t6zfOUAXMZJuzQJqdZtC6ulhlqMZ1LMs
+ n7dUbawRIVYZbNk658ri23d725kqMToqY3Spbr6QjUhdu83ANzPKcUB/Grb1g03EiUFn
+ VtxQ==
+X-Gm-Message-State: AO0yUKXfwLYfC1UEhdzx+7MWXPpvyW52z/H1GxQFtbArxnFYnDXBfe0A
+ LpQiC+qce5fBezDuraQvlw+goA==
+X-Google-Smtp-Source: AK7set9p4GmsKCONPV7cH9Gp06u6Mr857l8g+iPLPACRGSXJXB7781yLx0M81Hw4CxGtIRlTmOivZg==
+X-Received: by 2002:a05:600c:4aa0:b0:3eb:3f2d:f22f with SMTP id
+ b32-20020a05600c4aa000b003eb3f2df22fmr8176621wmp.21.1677750245882; 
+ Thu, 02 Mar 2023 01:44:05 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ r15-20020a05600c2f0f00b003eae73f0fc1sm2422623wmn.18.2023.03.02.01.44.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 01:44:05 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 182681FFB7;
+ Thu,  2 Mar 2023 09:44:05 +0000 (GMT)
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>, Paolo Bonzini
+ <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <philmd@linaro.org>, Markus Armbruster <armbru@redhat.com>, =?utf-8?Q?Dan?=
+ =?utf-8?Q?iel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
+Date: Thu, 02 Mar 2023 09:34:15 +0000
+In-reply-to: <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+Message-ID: <87ttz3bi8q.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87wn3zskq3.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,38 +99,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 07:58:28AM +0100, Markus Armbruster wrote:
-> Marc-André Lureau <marcandre.lureau@gmail.com> writes:
-> 
-> > Hi
-> >
-> > On Wed, Mar 1, 2023 at 5:16 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >> What about 3. have an additional command conditional on CONFIG_WIN32?
-> >> Existing getfd stays the same: always fails when QEMU runs on a Windows
-> >> host.  The new command exists only when QEMU runs on a Windows host.
-> 
-> We could additionally deprecate getfd for Windows.
-> 
-> > This is what was suggested initially:
-> > https://patchew.org/QEMU/20230103110814.3726795-1-marcandre.lureau@redhat.com/20230103110814.3726795-9-marcandre.lureau@redhat.com/
-> >
-> > I also like it better, as a specific command for windows sockets, less
-> > ways to use it wrongly.
-> 
-> Daniel, what do you think?
 
-I wasn't especially a fan of platform specific APIs, but perhaps in
-retrospect it will be the lesser of two evils.
+marcandre.lureau@redhat.com writes:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> As per comment, presumably to avoid syscall in critical section.
+>
+> Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+I know this is already merged but as an academic exercise we could have
+kept the lock guard with a little restructuring like this:
+
+  void qmp_closefd(const char *fdname, Error **errp)
+  {
+      Monitor *cur_mon =3D monitor_cur();
+      mon_fd_t *monfd;
+      int tmp_fd =3D -1;
+
+      WITH_QEMU_LOCK_GUARD(&cur_mon->mon_lock) {
+          QLIST_FOREACH(monfd, &cur_mon->fds, next) {
+              if (strcmp(monfd->name, fdname) !=3D 0) {
+                  continue;
+              }
+
+              QLIST_REMOVE(monfd, next);
+              tmp_fd =3D monfd->fd;
+              g_free(monfd->name);
+              g_free(monfd);
+              break;
+          }
+      }
+
+      if (tmp_fd > 0) {
+          /* close() must be outside critical section */
+          close(tmp_fd);
+      } else {
+          error_setg(errp, "File descriptor named '%s' not found", fdname);
+      }
+  }
+
+To my mind it makes it easier to reason about locking but I probably
+have an irrational aversion to multiple exit paths for locks.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
