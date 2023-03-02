@@ -2,111 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F396A7D9C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C312E6A7DA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 10:25:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXfAY-0006Gq-4L; Thu, 02 Mar 2023 04:24:10 -0500
+	id 1pXfBs-0000NJ-3F; Thu, 02 Mar 2023 04:25:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1pXfAV-0006FC-Rk
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:24:07 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1pXfAU-0002zI-1p
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 04:24:07 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3228ZlEO021904; Thu, 2 Mar 2023 09:24:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=vPLk/e2oosadXWIcQOfevRiTO6C/yOzd4FWWULnuD1s=;
- b=Hdbutq4lYE9zhHqKA6oHBc1DlUxoUKmv7cMv0KvBFlw+UiiiV+2v/pBUQ+YObryusH4i
- YJ9SCMzpQ8TPSPi29C0j5Xg+w3Aoy/yCFpHDxfFGkZZXRu9aKFvJNkUMWmXq6w9gmfa1
- hsiu9kuiVe5A0P/ff+zlWp88h9TBdEDT5D1cCqmTI4ANDyRLRbBMG9vIqtpp+/Wc6m/f
- 5FmPv11SPMdZdX8Y6rvreeJWGWsIeVeqWv/O7LBK6Ngb8GTnLxH8oXL1Vq4EWPZdzvnY
- 6h5vYkv8PpfJ3+7mIf4/m/sCZ1BH3aQdZL9lyX4Cc86gX2pQJhnudpwvxa1tgJqx4QO4 Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p2re31bws-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Mar 2023 09:24:03 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32290Mh2029080;
- Thu, 2 Mar 2023 09:24:02 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p2re31bw9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Mar 2023 09:24:02 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3226KaPC024608;
- Thu, 2 Mar 2023 09:24:01 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3nybe9v1w3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Mar 2023 09:24:01 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
- [10.39.53.232])
- by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3229O0o543581842
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Mar 2023 09:24:00 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4F75F5805D;
- Thu,  2 Mar 2023 09:24:00 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D4CAA58061;
- Thu,  2 Mar 2023 09:23:58 +0000 (GMT)
-Received: from amdmilan1.watson.ibm.com (unknown [9.2.130.16])
- by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  2 Mar 2023 09:23:58 +0000 (GMT)
-From: Dov Murik <dovmurik@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Tom Lendacky <thomas.lendacky@amd.com>,
- Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Mario Smarduch <mario.smarduch@amd.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Subject: [RFC PATCH v3 4/4] i386/sev: Allow measured direct kernel boot on SNP
-Date: Thu,  2 Mar 2023 09:23:47 +0000
-Message-Id: <20230302092347.1988853-5-dovmurik@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230302092347.1988853-1-dovmurik@linux.ibm.com>
-References: <20230302092347.1988853-1-dovmurik@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pXfBc-0000Cs-SE; Thu, 02 Mar 2023 04:25:17 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pXfBZ-0003K6-SI; Thu, 02 Mar 2023 04:25:15 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ j19-20020a05600c191300b003eb3e1eb0caso1229906wmq.1; 
+ Thu, 02 Mar 2023 01:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UgUMEt+prO6c8gKv0UVNWeB2aWOakOZG0Q9kLxhGLG4=;
+ b=HyKcX4ZHkkLBYAq3Cg96RXW3o4GQXr3Gdhv6X4bin2xWdwTo9fe4px1QtV1jgjLg2p
+ NkX1mGSXsHmeaXQqJLJHBiI+WosGNhMt8sLHrBw9u7MAFp1lAq9vlVQ15m5o7bWv6ct5
+ 222lY4uSauT0/S53otZEO6UY+o1PPBIMievqtNaCA5umyHeO51Q5IRBNX9YHSttqb+lD
+ g/fdLkKFSc5i1/ysQ79PR9XX+jwKTOOpzjAS71yppz+Gt/PQfpylJdrflf755r9iUrAZ
+ aveN8pvHx5kwAptAxbbxEXi7pvl9sQZVh+jbXzIXurU/Z8Mg80xbYSSo1SdYvpsj7mVe
+ rXiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UgUMEt+prO6c8gKv0UVNWeB2aWOakOZG0Q9kLxhGLG4=;
+ b=BicWIUx0yXh6jC9NBTNbPrHqmMGFQu+2yhlzOTgOstN466qbdMJDy0qi5nHrh4K2NB
+ ahDolIiOxqAZvJZBjyeorLKV2lParInu8BsMntTsBOWfQNVjhkPKfAg0CksA0GvWphJL
+ 1OjYR13zg+MEwkEVDM7vPu/F2HlE/45a5u30nzufZZfA+0H5lFp/ip81/biAJpU39Swi
+ A+Loy2VCMKReobbZB0nsOMui0OemAyT7bHmMZmvJNhXl9kIIV8Q+kOI7ub9jTCS6raAo
+ bNp+Rtb8N9dM3Wth+uaUTd5rZCNqeQ9Ty9HPGE8v3/C3sLLLbvk1xyO4SA0OLtinjsbc
+ mE4Q==
+X-Gm-Message-State: AO0yUKWjBLQcHpe5xrdR9z2Vpqmvxms5a1TVnKaUUHIUaR2sJ4HIQyKJ
+ Vt3VBB3+SU7dL/vUZKIFMIM=
+X-Google-Smtp-Source: AK7set8Gs71EI97gGKz//p+SnKtHJExEpiuw4ZbEyGboVmiugqZ+A47ms1BJzSpT+vMCZdmFjXA1fg==
+X-Received: by 2002:a05:600c:81e:b0:3e2:201a:5bce with SMTP id
+ k30-20020a05600c081e00b003e2201a5bcemr7299439wmp.40.1677749110852; 
+ Thu, 02 Mar 2023 01:25:10 -0800 (PST)
+Received: from [192.168.18.179] (54-240-197-239.amazon.com. [54.240.197.239])
+ by smtp.gmail.com with ESMTPSA id
+ h8-20020adff188000000b002c54241b4fesm14573977wro.80.2023.03.02.01.25.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 01:25:10 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <c5ba665d-f385-8ed5-9f4e-acac9b7c6f62@xen.org>
+Date: Thu, 2 Mar 2023 09:25:05 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Jgbc9TQqoLwV-E0tPTkh-LVw3JJCY1jM
-X-Proofpoint-ORIG-GUID: liQZoXhzBQJ3lJrtW2djRp2NnCXATgd5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-02_04,2023-03-02_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- mlxscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0 bulkscore=0
- suspectscore=0 impostorscore=0 spamscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303020078
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 4/4] hw: replace most qemu_bh_new calls with
+ qemu_bh_new_guarded
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Amit Shah <amit@kernel.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ "open list:virtio-blk" <qemu-block@nongnu.org>,
+ "open list:i.MX31 (kzm)" <qemu-arm@nongnu.org>,
+ "open list:Old World (g3beige)" <qemu-ppc@nongnu.org>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230205040737.3567731-5-alxndr@bu.edu>
+ <20230301155442-mutt-send-email-mst@kernel.org>
+Organization: Xen Project
+In-Reply-To: <20230301155442-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,132 +118,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In SNP, the hashes page designated with a specific metadata entry
-published in AmdSev OVMF.
+On 01/03/2023 20:54, Michael S. Tsirkin wrote:
+> On Sat, Feb 04, 2023 at 11:07:37PM -0500, Alexander Bulekov wrote:
+>> This protects devices from bh->mmio reentrancy issues.
+>>
+>> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> 
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> 
 
-Therefore, if the user enabled kernel hashes (for measured direct boot),
-QEMU should prepare the content of hashes table, and during the
-processing of the metadata entry it copy the content into the designated
-page and encrypt it.
+Xen parts...
 
-Note that in SNP (unlike SEV and SEV-ES) the measurements is done in
-whole 4KB pages.  Therefore QEMU zeros the whole page that includes the
-hashes table, and fills in the kernel hashes area in that page, and then
-encrypts the whole page.  The rest of the page is reserved for SEV
-launch secrets which are not usable anyway on SNP.
-
-If the user disabled kernel hashes, QEMU pre-validates the kernel hashes
-page as a zero page.
-
-Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
----
- include/hw/i386/pc.h |  2 ++
- target/i386/sev.c    | 40 ++++++++++++++++++++++++++++++++++++----
- 2 files changed, 38 insertions(+), 4 deletions(-)
-
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 2b8212b416..32b5ca45ec 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -163,6 +163,8 @@ typedef enum {
-     SEV_DESC_TYPE_SNP_SECRETS,
-     /* The section contains address that can be used as a CPUID page */
-     SEV_DESC_TYPE_CPUID,
-+    /* The section contains the region for kernel hashes for measured direct boot */
-+    SEV_DESC_TYPE_SNP_KERNEL_HASHES = 0x10,
- 
- } ovmf_sev_metadata_desc_type;
- 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 126e40ec26..ef47fd748f 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -131,6 +131,9 @@ struct SevSnpGuestState {
-     struct kvm_snp_init kvm_init_conf;
-     struct kvm_sev_snp_launch_start kvm_start_conf;
-     struct kvm_sev_snp_launch_finish kvm_finish_conf;
-+
-+    uint32_t kernel_hashes_offset;
-+    PaddedSevHashTable *kernel_hashes_data;
- };
- 
- #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
-@@ -1529,6 +1532,23 @@ snp_launch_update_cpuid(SevSnpGuestState *sev_snp, uint32_t cpuid_addr,
-     return 0;
- }
- 
-+static int
-+snp_launch_update_kernel_hashes(SevSnpGuestState *sev_snp, uint32_t addr,
-+                                void *hva, uint32_t len)
-+{
-+    int type = KVM_SEV_SNP_PAGE_TYPE_ZERO;
-+    if (sev_snp->sev_common.kernel_hashes) {
-+        assert(sev_snp->kernel_hashes_data);
-+        assert((sev_snp->kernel_hashes_offset +
-+                sizeof(*sev_snp->kernel_hashes_data)) <= len);
-+        memset(hva, 0, len);
-+        memcpy(hva + sev_snp->kernel_hashes_offset, sev_snp->kernel_hashes_data,
-+               sizeof(*sev_snp->kernel_hashes_data));
-+        type = KVM_SEV_SNP_PAGE_TYPE_NORMAL;
-+    }
-+    return sev_snp_launch_update(sev_snp, addr, hva, len, type);
-+}
-+
- static int
- snp_metadata_desc_to_page_type(int desc_type)
- {
-@@ -1537,6 +1557,7 @@ snp_metadata_desc_to_page_type(int desc_type)
-     case SEV_DESC_TYPE_SNP_SEC_MEM: return KVM_SEV_SNP_PAGE_TYPE_ZERO;
-     case SEV_DESC_TYPE_SNP_SECRETS: return KVM_SEV_SNP_PAGE_TYPE_SECRETS;
-     case SEV_DESC_TYPE_CPUID: return KVM_SEV_SNP_PAGE_TYPE_CPUID;
-+    case SEV_DESC_TYPE_SNP_KERNEL_HASHES: return KVM_SEV_SNP_PAGE_TYPE_NORMAL;
-     default: return -1;
-     }
- }
-@@ -1568,6 +1589,9 @@ snp_populate_metadata_pages(SevSnpGuestState *sev_snp,
- 
-         if (type == KVM_SEV_SNP_PAGE_TYPE_CPUID) {
-             ret = snp_launch_update_cpuid(sev_snp, desc->base, hva, desc->len);
-+        } else if (desc->type == SEV_DESC_TYPE_SNP_KERNEL_HASHES) {
-+            ret = snp_launch_update_kernel_hashes(sev_snp, desc->base, hva,
-+                                                  desc->len);
-         } else {
-             ret = sev_snp_launch_update(sev_snp, desc->base, hva, desc->len,
-                                         type);
-@@ -2162,10 +2186,6 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-         return false;
-     }
- 
--    if (sev_snp_enabled()) {
--        return false;
--    }
--
-     area = (SevHashTableDescriptor *)data;
-     if (!area->base || area->size < sizeof(PaddedSevHashTable)) {
-         error_setg(errp, "SEV: guest firmware hashes table area is invalid "
-@@ -2173,6 +2193,18 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-         return false;
-     }
- 
-+    if (sev_snp_enabled()) {
-+        /*
-+         * SNP: Populate the hashes table in an area that later in
-+         * snp_launch_update_kernel_hashes() will be copied to the guest memory
-+         * and encrypted.
-+         */
-+        SevSnpGuestState *sev_snp_guest = SEV_SNP_GUEST(sev_common);
-+        sev_snp_guest->kernel_hashes_offset = area->base & ~TARGET_PAGE_MASK;
-+        sev_snp_guest->kernel_hashes_data = g_new0(PaddedSevHashTable, 1);
-+        return build_kernel_loader_hashes(sev_snp_guest->kernel_hashes_data, ctx, errp);
-+    }
-+
-     /*
-      * Populate the hashes table in the guest's memory at the OVMF-designated
-      * area for the SEV hashes table
--- 
-2.25.1
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
