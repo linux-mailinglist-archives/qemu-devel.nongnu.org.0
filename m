@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3A16A8B22
+	by mail.lfdr.de (Postfix) with ESMTPS id 3818A6A8B21
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 22:24:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXqNo-0000rr-C9; Thu, 02 Mar 2023 16:22:36 -0500
+	id 1pXqNo-0000sI-Ts; Thu, 02 Mar 2023 16:22:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pXqNm-0000rC-Hl
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:22:34 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pXqNn-0000ro-MT
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:22:35 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pXqNl-0002Ri-02
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:22:34 -0500
-Received: by mail-ed1-x535.google.com with SMTP id g3so2584639eda.1
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 13:22:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pXqNl-0002RM-VE
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 16:22:35 -0500
+Received: by mail-ed1-x531.google.com with SMTP id o12so2403965edb.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 13:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677792152;
+ d=gmail.com; s=20210112; t=1677792153;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Nyy3BC37kImjkVwZxg+wfPmOnmEQ2wZSPRsrjcxuus=;
- b=odZtaPsFzuFEisp7Fo/q3CzRzKDrTzb1shXlmGZ2ybk3jeCD/SAdZ0E8fVMqZ5W5K/
- b9tBxWgmEEWpEJEyXLGpHsTpAzi8yBiC6UkmJD6OnFx8/LYMtMY/aWnRO7OX8+HGkUT8
- Tcw+8k8BU6V2qs8VaJ7MoNweHy61jxv/20fGA2iXVz3E3iT81+7j5NC28iV7S5ovldi3
- kx27M0q9sTPb1eWx8K671uif/jeF0GvGMJUJZU2UoXkrprnnKJwTbbvI22hsrj+7EpyB
- DbIA46PliRGK00JiBpEXuKC8+zi6x7VmkU+kEQUr135jBUrU7EKG3R/5Uf0VhnwPYpnw
- pAEA==
+ bh=2Kx/g2VrS2dX5K0SmH0rYqZrQLtmH4+SmEOJoYir288=;
+ b=FPG8K2qpTSDxamN0GCgLKOZ+IAFarwUzSiwDvcttUpRw7UU98fNIM/NxmNBnV6qY1a
+ /aRm7cfz6qS+/XuSREvUkzSrXUzEcZi5bwdRsschnu50lBu5uMaN7QHPeHO2tzmabj4K
+ UiTCCYtvTK8U0EGG4GpL0NNIC53mz3L6amIyJGsP2B8HbYEFVxsFxzPbY2zcRkY7HTxT
+ 86jFxpGoiC0Ud7JkFDnMryCEHd7fGHmF67RtjKXtN05hwfMHL5eiO6s0rM7wzrpwfemr
+ XC3Lqx5ALBChIFjhzCJJT/Mk/iUYwaIUMWTqoT5pBhH0ArgeXfduU08djG5ewtXnCKaB
+ iWRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677792152;
+ d=1e100.net; s=20210112; t=1677792153;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8Nyy3BC37kImjkVwZxg+wfPmOnmEQ2wZSPRsrjcxuus=;
- b=jZKie7fvQ2ECupB336rCcF5JmXf3mwnVUOsXCAlkuCjrsfa5Bni9KOqJVWYDQWjM35
- auhwNUXKYYZwxeNqmccNst/V3arzymte8UmlTMzu3ucDYtZFmKo9MIRXr3S46Zankbam
- Cbp5z4K7zyG/r1xEV85b5YZpqYl5WG4aCjKPkYuqgzFpSBXwYlX53zkyGeFGuv0TxYB2
- YdTEhWSJQUZzmQb7zRFaHw4AjgqkM5PulP2v6aQfAfYQfm+tib6Y+e0rhir6yxl5iVaU
- m6Ut3P1DF/j4g4f/FcL3ZPOVnQrB0ieLZDF1Udp0NvFzQW+pB8NXpYWlehB1+HtC9ntS
- 6zyQ==
-X-Gm-Message-State: AO0yUKWAT5e2yAf7Sh2gY5MJ27vrOGOT9C2w84dr9pdsYb54Ly+v+QLB
- 00V18Rd5lzF6TeFYxzMNkspFEcHYbg0=
-X-Google-Smtp-Source: AK7set9/eoCcgwBu0GLS9vo2R5Vgfz900B1xsb0U6/xR5Kg2oZJU7zRzhavtR6VgC750ENbep/c7Ag==
-X-Received: by 2002:a17:906:36c6:b0:895:ef96:9d9b with SMTP id
- b6-20020a17090636c600b00895ef969d9bmr11736225ejc.30.1677792151971; 
- Thu, 02 Mar 2023 13:22:31 -0800 (PST)
+ bh=2Kx/g2VrS2dX5K0SmH0rYqZrQLtmH4+SmEOJoYir288=;
+ b=kDt1USSPd413DCALJ0Z1qnYql5vnceuRo3V2CSxmRxdndjmXdVfreWRxwSQyOTg6y6
+ sybtl6IV8tXVaKsUpFoifZziYn9xUQXMh0mW0dRIHdMaL/9AXycD6TPc7t8IRUdfgX1+
+ dQ5cjlvZYfm+4L6rpoKIlv+lIjyCBkPmS/N6rY/MEsAFdNaK+EV9Mwp/WwO1XzJ8f1XM
+ lDrH13bdwOa3yzgRpsiI/jYnhWkIMyiJXJSyDxdzURzMCBYrEPGPZgQ9FNB7a4GS31EP
+ K3wzIPs82fSoSXBpY/g/u/X7jMPWkU6EMZnlUxc1By3Q/GXbCi011fur+vuKhHWzYsbI
+ aE4w==
+X-Gm-Message-State: AO0yUKXFuXbSUYEaxcR1tYchnzR1VC7aJ8Jv70xWJS9xj/t1mT7KESGd
+ 5mIgb34mvjjo383Q+aWjFLdRerx7McM=
+X-Google-Smtp-Source: AK7set9mmAyb0ELf3cnLM/5o4Pg+b88TKRIm2/FbNsvcbIcbz9K3qcQyLQkDTDfpsQUVxd0UtbEHzA==
+X-Received: by 2002:a17:907:c15:b0:879:bff:55c with SMTP id
+ ga21-20020a1709070c1500b008790bff055cmr17368486ejc.1.1677792153073; 
+ Thu, 02 Mar 2023 13:22:33 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-092-224-150-004.92.224.pool.telefonica.de. [92.224.150.4])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a1709062ec400b008f89953b761sm145895eji.3.2023.03.02.13.22.31
+ s4-20020a1709062ec400b008f89953b761sm145895eji.3.2023.03.02.13.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 13:22:31 -0800 (PST)
+ Thu, 02 Mar 2023 13:22:32 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -63,16 +63,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Aurelien Jarno <aurelien@aurel32.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v8 21/23] hw/isa/piix: Consolidate IRQ triggering
-Date: Thu,  2 Mar 2023 22:21:59 +0100
-Message-Id: <20230302212201.224360-22-shentey@gmail.com>
+Subject: [PATCH v8 22/23] hw/isa/piix: Share PIIX3's base class with PIIX4
+Date: Thu,  2 Mar 2023 22:22:00 +0100
+Message-Id: <20230302212201.224360-23-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230302212201.224360-1-shentey@gmail.com>
 References: <20230302212201.224360-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,73 +95,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Speeds up PIIX4 which resolves an old TODO.
+Having a common base class will allow for substituting PIIX3 with PIIX4
+and vice versa. Moreover, it makes PIIX4 implement the
+acpi-dev-aml-interface.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-41-shentey@gmail.com>
+Message-Id: <20221022150508.26830-42-shentey@gmail.com>
 ---
- hw/isa/piix.c | 26 +++-----------------------
- 1 file changed, 3 insertions(+), 23 deletions(-)
+ hw/isa/piix.c | 48 ++++++++++++++++++++++--------------------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
 
 diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index d6c39d6f37..30873b0764 100644
+index 30873b0764..5d4e411e33 100644
 --- a/hw/isa/piix.c
 +++ b/hw/isa/piix.c
-@@ -84,27 +84,6 @@ static void piix_set_irq(void *opaque, int pirq, int level)
-     piix_set_irq_level(piix, pirq, level);
+@@ -388,12 +388,11 @@ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+     qbus_build_aml(bus, scope);
  }
  
--static void piix4_set_irq(void *opaque, int irq_num, int level)
--{
--    int i, pic_irq, pic_level;
--    PIIXState *s = opaque;
--    PCIBus *bus = pci_get_bus(&s->dev);
--
--    /* now we change the pic irq level according to the piix irq mappings */
--    /* XXX: optimize */
--    pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
--    if (pic_irq < ISA_NUM_IRQS) {
--        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
--        pic_level = 0;
--        for (i = 0; i < PIIX_NUM_PIRQS; i++) {
--            if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
--                pic_level |= pci_bus_get_irq_level(bus, i);
--            }
--        }
--        qemu_set_irq(s->pic[pic_irq], pic_level);
--    }
--}
--
- static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
+-static void pci_piix3_init(Object *obj)
++static void pci_piix_init(Object *obj)
  {
-     PIIXState *piix3 = opaque;
-@@ -240,7 +219,7 @@ static int piix4_post_load(void *opaque, int version_id)
-         s->rcr = 0;
-     }
+     PIIXState *d = PIIX_PCI_DEVICE(obj);
  
--    return 0;
-+    return piix3_post_load(opaque, version_id);
+     object_initialize_child(obj, "rtc", &d->rtc, TYPE_MC146818_RTC);
+-    object_initialize_child(obj, "ide", &d->ide, TYPE_PIIX3_IDE);
  }
  
- static int piix3_pre_save(void *opaque)
-@@ -597,7 +576,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-         qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->pic[9]);
-     }
+ static Property pci_piix_props[] = {
+@@ -404,7 +403,7 @@ static Property pci_piix_props[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
--    pci_bus_irqs(pci_bus, piix4_set_irq, s, PIIX_NUM_PIRQS);
-+    pci_bus_irqs(pci_bus, piix_set_irq, s, PIIX_NUM_PIRQS);
- }
- 
- static void piix4_init(Object *obj)
-@@ -615,6 +594,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
+-static void pci_piix3_class_init(ObjectClass *klass, void *data)
++static void pci_piix_class_init(ObjectClass *klass, void *data)
+ {
      DeviceClass *dc = DEVICE_CLASS(klass);
      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -412,11 +411,8 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
  
-+    k->config_write = piix_write_config;
+     dc->reset       = piix_reset;
+     dc->desc        = "ISA bridge";
+-    dc->vmsd        = &vmstate_piix3;
+     dc->hotpluggable   = false;
+     k->vendor_id    = PCI_VENDOR_ID_INTEL;
+-    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
+-    k->device_id    = PCI_DEVICE_ID_INTEL_82371SB_0;
+     k->class_id     = PCI_CLASS_BRIDGE_ISA;
+     /*
+      * Reason: part of PIIX3 southbridge, needs to be wired up by
+@@ -431,9 +427,9 @@ static const TypeInfo piix_pci_type_info = {
+     .name = TYPE_PIIX_PCI_DEVICE,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PIIXState),
+-    .instance_init = pci_piix3_init,
++    .instance_init = pci_piix_init,
+     .abstract = true,
+-    .class_init = pci_piix3_class_init,
++    .class_init = pci_piix_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+         { TYPE_ACPI_DEV_AML_IF },
+@@ -456,17 +452,29 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
+     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
+ }
+ 
++static void piix3_init(Object *obj)
++{
++    PIIXState *d = PIIX_PCI_DEVICE(obj);
++
++    object_initialize_child(obj, "ide", &d->ide, TYPE_PIIX3_IDE);
++}
++
+ static void piix3_class_init(ObjectClass *klass, void *data)
+ {
++    DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+     k->config_write = piix_write_config;
+     k->realize = piix3_realize;
++    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
++    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
++    dc->vmsd = &vmstate_piix3;
+ }
+ 
+ static const TypeInfo piix3_info = {
+     .name          = TYPE_PIIX3_DEVICE,
+     .parent        = TYPE_PIIX_PCI_DEVICE,
++    .instance_init = piix3_init,
+     .class_init    = piix3_class_init,
+ };
+ 
+@@ -492,15 +500,20 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
+ 
+ static void piix3_xen_class_init(ObjectClass *klass, void *data)
+ {
++    DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+     k->config_write = piix3_write_config_xen;
+     k->realize = piix3_xen_realize;
++    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
++    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
++    dc->vmsd = &vmstate_piix3;
+ }
+ 
+ static const TypeInfo piix3_xen_info = {
+     .name          = TYPE_PIIX3_XEN_DEVICE,
+     .parent        = TYPE_PIIX_PCI_DEVICE,
++    .instance_init = piix3_init,
+     .class_init    = piix3_xen_class_init,
+ };
+ 
+@@ -585,7 +598,6 @@ static void piix4_init(Object *obj)
+ 
+     qdev_init_gpio_out_named(DEVICE(obj), &s->cpu_intr, "intr", 1);
+ 
+-    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
+ }
+ 
+@@ -596,31 +608,15 @@ static void piix4_class_init(ObjectClass *klass, void *data)
+ 
+     k->config_write = piix_write_config;
      k->realize = piix4_realize;
-     k->vendor_id = PCI_VENDOR_ID_INTEL;
+-    k->vendor_id = PCI_VENDOR_ID_INTEL;
      k->device_id = PCI_DEVICE_ID_INTEL_82371AB_0;
+-    k->class_id = PCI_CLASS_BRIDGE_ISA;
+-    dc->reset = piix_reset;
+-    dc->desc = "ISA bridge";
+     dc->vmsd = &vmstate_piix4;
+-    /*
+-     * Reason: part of PIIX4 southbridge, needs to be wired up,
+-     * e.g. by mips_malta_init()
+-     */
+-    dc->user_creatable = false;
+-    dc->hotpluggable = false;
+-    device_class_set_props(dc, pci_piix_props);
+ }
+ 
+ static const TypeInfo piix4_info = {
+     .name          = TYPE_PIIX4_PCI_DEVICE,
+-    .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(PIIXState),
++    .parent        = TYPE_PIIX_PCI_DEVICE,
+     .instance_init = piix4_init,
+     .class_init    = piix4_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { },
+-    },
+ };
+ 
+ static void piix3_register_types(void)
 -- 
 2.39.2
 
