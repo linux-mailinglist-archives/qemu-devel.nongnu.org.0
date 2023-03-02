@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD3E6A7CB9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C696A7CE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:36:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeHV-0005sm-Aw; Thu, 02 Mar 2023 03:27:17 -0500
+	id 1pXeHM-0005kE-3e; Thu, 02 Mar 2023 03:27:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHA-0005gD-HJ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:56 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeH9-0005fz-P5
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGu-0002aX-CI
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:42 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGo-0002Ye-8P
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745598;
+ s=mimecast20190719; t=1677745593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=t6c10ACzCOZas8J7pxjW6LzY+glwxzDOaL5XtXdfnh8=;
- b=PcrTtEBYrbN6FrMcAtCxH3cTR3CTdjBVV1MvtMXdfghu3pbGXIpNgCYrg3UsNYlDPHgEU+
- BV0iw34JB99Ii5BgEDAYL5SgUl4ZLGIyXp8d2DNUevR3JzeUlHDJ4rsMMeYIS4JKFWLHkv
- lSROFx0m7lKlmS1nZsjo8XYRfE0480I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-iJbyPlRENbCGu5uToN6EBw-1; Thu, 02 Mar 2023 03:26:27 -0500
-X-MC-Unique: iJbyPlRENbCGu5uToN6EBw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k26-20020a05600c0b5a00b003dfe4bae099so764686wmr.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:27 -0800 (PST)
+ bh=8a+rP6o0RdY4iJOHPH7os1V5R8oHg454SVeKQqR7OvE=;
+ b=CHJXkeRnSrPZh1Qzgb59skJRYmqIRB13F7AYcvNooYJxt6S8amZAPYHeyPxCVfKff8jQXd
+ Gp4Lb7d6YBwxonaI1nm2inQT0SVxEJ9EFt2BqVcN7ib2Px2iHdR6IMW3hkez/UoLMzeURe
+ 4X2XZXYKQBJhHykTGxnFbH6ztyXrvx8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-635-G0577PPbOK2TxBL9oHVIjA-1; Thu, 02 Mar 2023 03:26:32 -0500
+X-MC-Unique: G0577PPbOK2TxBL9oHVIjA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n15-20020a05600c500f00b003dd07ce79c8so750440wmr.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745586;
+ d=1e100.net; s=20210112; t=1677745590;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=t6c10ACzCOZas8J7pxjW6LzY+glwxzDOaL5XtXdfnh8=;
- b=UtPj2jokDHKjC0Euknr+swb9PpMDL4PToWH5p2tRoRKKcSbn2EF98n/kBXpcq15+SN
- sdgeHHoPiwbGNMJJiVFlwDEronO8N3l2cKCvT+dTPJWxpAMOrRUfgHe+wV3aFF8O9T8H
- AxYoYz+XkFFXtlq5fVyTlHQiKqUBIJel7cVYJQkvdvz2Dpzr1K3DeSRw9+0N19ZefjV6
- N09yPhX3sOqfFirxQ1w5UcivS8CKWZXO93Fg43mgha/PMcGImnpDH2mFJ/bcFTzaR018
- xpEGX/Uc9PlYmXq1dUCtsIKv+4Vi21kOMbAT17SjN8gzwkZhFjGEkLM6lTvlBV5TUOSz
- cKIg==
-X-Gm-Message-State: AO0yUKWalkeFzmgtGSjOnfM7QIH7NHgsxG3Uch0Xk82jomrBlAOGd5jc
- Qv3jtFCu1in3bkpHi+PxZ0oGo5ymroSoVpguJSqJjFbseFvqMEljLLQNpNULgujO/aPa51JiWks
- J2TpgsOfndLMPxmAF6eKxlTrvlhEa8SgMINb1ELXWp3G4iGt0nZGB/uxFOrHiM9zm0w==
-X-Received: by 2002:a05:6000:110f:b0:2c7:d75:373a with SMTP id
- z15-20020a056000110f00b002c70d75373amr6695240wrw.1.1677745586524; 
- Thu, 02 Mar 2023 00:26:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set+/WTnByFy9CB08VApz6vCmNBpNWvwj0Pov3wkw/8kcyZ6gKfXnE3pw+3qClQF8Ut+u5z42kA==
-X-Received: by 2002:a05:6000:110f:b0:2c7:d75:373a with SMTP id
- z15-20020a056000110f00b002c70d75373amr6695223wrw.1.1677745586304; 
- Thu, 02 Mar 2023 00:26:26 -0800 (PST)
+ bh=8a+rP6o0RdY4iJOHPH7os1V5R8oHg454SVeKQqR7OvE=;
+ b=s0iXpN4CBTT8rxRQYaZXZl61K7PwVRPgk7Og6Iy1UxA+Wv+n8Nd+5rl+w7T75NmEAe
+ 1cekEiJWawBcRfzjEpb++rV1sz6p+80MrDLeAU8mbW1hngBDWHdTBepYdcq6lAHv+wyu
+ 48yuq0E90ZG7Ae+wezb70X8ISeDj1jdp9Ib8mdR7mD4dWvs51J6AASjxtbHvCRP0IKux
+ qR62bPYgVF0lEy3VClgLNfqg77bIoWTqP9vfl1vGJHiykpTH4ffNkFzCwVYDH/XTQ/gw
+ GudvXhq8gcqJT87nVZWWFM/QvHzMyAGjkxMBOHKQykKYgUZMvIpGeM8ZvHoukgEUbMSY
+ zARQ==
+X-Gm-Message-State: AO0yUKVB92INMvfyfIZU/257ppP0t4HgHtYwwuZjS7kOYlInOkiR8Suk
+ 25xzbF5ktDv5BFlBsQfpke2C1doA/0R162yl+01d+SN2UNKeJOU6ahdIN5ETkr6g/r8DCGo3lu/
+ 4LoE/FEg2TCyfJZmeqFkfweqxThpFODf7Xx447kfQd+wwgUnvm/1r9XffkPrFtpTBmQ==
+X-Received: by 2002:adf:dc50:0:b0:2c5:8c04:efbf with SMTP id
+ m16-20020adfdc50000000b002c58c04efbfmr6953666wrj.13.1677745590334; 
+ Thu, 02 Mar 2023 00:26:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set/Bu3WyPD8pBXiRZOHZJd8z6WczAJvd+o8PN+ICev8A08ETgL91zAH7cKzWrukJ9alEpWdAUA==
+X-Received: by 2002:adf:dc50:0:b0:2c5:8c04:efbf with SMTP id
+ m16-20020adfdc50000000b002c58c04efbfmr6953647wrj.13.1677745590111; 
+ Thu, 02 Mar 2023 00:26:30 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- j14-20020a5d464e000000b002c558869934sm14759686wrs.81.2023.03.02.00.26.24
+ a5-20020a5d4565000000b002c3f81c51b6sm14344430wrc.90.2023.03.02.00.26.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:26:25 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:26:23 -0500
+ Thu, 02 Mar 2023 00:26:29 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:26:26 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
  Viktor Prutyanov <viktor@daynix.com>, Peter Xu <peterx@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 37/53] intel-iommu: fail MAP notifier without caching mode
-Message-ID: <20230302082343.560446-38-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 38/53] intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+Message-ID: <20230302082343.560446-39-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -104,33 +104,42 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jason Wang <jasowang@redhat.com>
 
-Without caching mode, MAP notifier won't work correctly since guest
-won't send IOTLB update event when it establishes new mappings in the
-I/O page tables. Let's fail the IOMMU notifiers early instead of
-misbehaving silently.
+Without dt mode, device IOTLB notifier won't work since guest won't
+send device IOTLB invalidation descriptor in this case. Let's fail
+early instead of misbehaving silently.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Tested-by: Laurent Vivier <lvivier@redhat.com>
 Tested-by: Viktor Prutyanov <viktor@daynix.com>
+Buglink: https://bugzilla.redhat.com/2156876
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20230223065924.42503-2-jasowang@redhat.com>
+Message-Id: <20230223065924.42503-3-jasowang@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/intel_iommu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/i386/intel_iommu.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 6b1de80e85..b520542c47 100644
+index b520542c47..a6b35b07d2 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -3186,6 +3186,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-                          "Snoop Control with vhost or VFIO is not supported");
+@@ -3179,6 +3179,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+ {
+     VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+     IntelIOMMUState *s = vtd_as->iommu_state;
++    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+ 
+     /* TODO: add support for VFIO and vhost users */
+     if (s->snoop_control) {
+@@ -3193,6 +3194,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+                          PCI_FUNC(vtd_as->devfn));
          return -ENOTSUP;
      }
-+    if (!s->caching_mode && (new & IOMMU_NOTIFIER_MAP)) {
++    if (!x86_iommu->dt_supported && (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP)) {
 +        error_setg_errno(errp, ENOTSUP,
-+                         "device %02x.%02x.%x requires caching mode",
++                         "device %02x.%02x.%x requires device IOTLB mode",
 +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
 +                         PCI_FUNC(vtd_as->devfn));
 +        return -ENOTSUP;
