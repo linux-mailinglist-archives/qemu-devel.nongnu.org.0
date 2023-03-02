@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B623A6A7C46
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89126A7C68
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:20:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXe25-0006py-7c; Thu, 02 Mar 2023 03:11:21 -0500
+	id 1pXe9k-0000nW-BP; Thu, 02 Mar 2023 03:19:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pXe1l-0006Yx-Ki
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:11:02 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1pXe9h-0000n8-BI
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:19:13 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pXe1j-0000cS-0b
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:11:00 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id q15so12884343oiw.11
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:10:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1pXe9f-00062h-Nq
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:19:13 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 16so9287051pge.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1677744657;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vHtPkjOiXO9mXS8KZr+d+YJteZl1d4QhDAU/YQ3XLY8=;
- b=HHiBZE3Uqybgd+8O390DVqvWQYaKEMk6gmsMBwLYzvVoDza99ZUOVej0wFJtB56Ac3
- 8E2W2wyY7uqHuXglT6gpGRxgcEIE50Utkn+u//7hWM2APStKQV+Wpn08V1CdvlHH/Qc8
- Q0Tusacmo68vQSoCgtRirXJAqrWf0JrefeRFw/1YWx8ETM2/E0pMkGwU9kwzmmzbeu+j
- Kr8DK+k4V/KFqRbfZMWQjuf+eLijuDoCdY9zbChz/HdafRpU5hsLs5zXp/svXsXhR+oe
- KC6uUh3n5bQW+QOeIOtfANK6OdT81mhu4HbzjGK8bGGys6ZUqmTrrtMg9Kyx1FgvToCO
- G4kQ==
+ d=linaro.org; s=google; t=1677745150;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=dsj4gw8eOT9LdA+6gyH7R3o0TvSBiMHhi7t9smJowvY=;
+ b=IsclPXqWTvxt+u5b6NFskrmfGclkpWk4a/ZTYtCmxpRtx3zzHDwIFW4L3patPoUJpi
+ qqi7aUVbGkX9rgYQUC3wVCt3DbZZtx5Iryp1Ef7e6fag9CGAf6Knt8dHDNdhvi4cVVfu
+ xqZjtntaYWSvostbEOnvIGnFtLnMCpB9QufKEHaa2oS1t2YBuVhlfz4ZrpqgiNGxoDpD
+ VVWAtbRJe6WuttJrG8/BN2s9IPObAFnKmywuTVldPCf+sxf1o4+wSdew/K2eLKEEtN8N
+ ukT110CYb5jzUeLn5DWTbrkSlMS8EVQV3CUcnVqpocdKCSxNIYS0vrHa7S10r2JQ92kP
+ tQ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677744657;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vHtPkjOiXO9mXS8KZr+d+YJteZl1d4QhDAU/YQ3XLY8=;
- b=09nc90j+Usbxlf9s7Brki/Naw58fKS+edhqpRQRIbPf7ydYfFXl7Yw3xXGBkUkYhut
- AwEsqqDIPCqDSbDPB6iUCqFjDy/1i+7c+JBHVluHcHSemoNgZr62TMORG2nCPDqoKb9M
- o+zGe7mYezuFoeygzJ5YapvUDEiPRJT3d6+qNQ3YgYDXb6EslyNbcry8RcnEFQ5IuFg4
- kbuVHl2BeTE1YzT3VgUK0edE05woEW5abxYpTrTnYmH3rRhaxNI4p5CfmGSVC6MW/y7V
- zMKG6oyfb3wxxcMSkpO21RKO2vQdi7IPpRJ3/7B5v3+sWabPXIs8qVnHYPn8MvHj4GBx
- sgXQ==
-X-Gm-Message-State: AO0yUKU5krHZBCxMaJDyCqjLCrgHcvUq6Qwf3JatAUOrrq7YElQ41Lzn
- 9bUutsz6zkusbXIseRjF90iPKA==
-X-Google-Smtp-Source: AK7set9fQgrLLxt1HXfL/4ZHW6f96yFZ0gbAXHBCsklRYySo1H51Obtp77L2Y1EnZzamlyCpXNgpdQ==
-X-Received: by 2002:a54:4783:0:b0:384:c13:d13c with SMTP id
- o3-20020a544783000000b003840c13d13cmr4431548oic.7.1677744656755; 
- Thu, 02 Mar 2023 00:10:56 -0800 (PST)
-Received: from [192.168.68.107] ([177.189.53.31])
- by smtp.gmail.com with ESMTPSA id
- l2-20020a9d7082000000b006863ccbf067sm5711203otj.74.2023.03.02.00.10.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 00:10:56 -0800 (PST)
-Message-ID: <6ed93c3a-edc3-7e5a-c683-43391f450064@ventanamicro.com>
-Date: Thu, 2 Mar 2023 05:10:52 -0300
+ d=1e100.net; s=20210112; t=1677745150;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dsj4gw8eOT9LdA+6gyH7R3o0TvSBiMHhi7t9smJowvY=;
+ b=09eo36Ji9Q3P4elGx+2DXPmklMofh4N0tEwsEEnSybmv51bBRbrLNoNFWEYFbULo66
+ A+OQBBD6WCG5t2VejLPYD6Qwc9OpPp9sVLyINoznaTP0wDhdh94iOwcIPxDDikY3rxFN
+ hWWR+/R4THiIrWfNA3MxlvAY+vjsVVzklI4ZIKvdlXAOdj5BbpIqNefZuq0tjHA4qzOJ
+ Xg6JWnivHl7ZGTiIaXjWeAtdlCx2va5Z1A2VSb2GnWUK6r1mwGtVcuTTaSI7zJfU5K3c
+ NV8pen1+yDSf/6YX8VIsDMaT9GFaYBpO90vy8b2A/assaIK7AdjjtE+AM39QNXcV/QDZ
+ vdCg==
+X-Gm-Message-State: AO0yUKWFtCbyKKy14woTr4WLtI1CUxLUAKYpB9DAhfvp4HNhZPYvEgiH
+ ZB9qSHNA0iNN5YiqVp+rrqPgPQ==
+X-Google-Smtp-Source: AK7set/R/7m2YH2OxVBgHgIHB3sQI/WMTf6qYCSQuViRUx1uXw/vsbHB8XOHZu3eZC8ih4eXLUxj+Q==
+X-Received: by 2002:a05:6a00:a81:b0:5a8:aa5e:4bc3 with SMTP id
+ b1-20020a056a000a8100b005a8aa5e4bc3mr1878722pfl.1.1677745149672; 
+ Thu, 02 Mar 2023 00:19:09 -0800 (PST)
+Received: from localhost ([122.172.83.155]) by smtp.gmail.com with ESMTPSA id
+ y25-20020aa78559000000b00592543d7363sm9074120pfn.1.2023.03.02.00.19.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 00:19:09 -0800 (PST)
+Date: Thu, 2 Mar 2023 13:49:07 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ stratos-dev@op-lists.linaro.org,
+ Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
+ Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Liu Jiang <gerry@linux.alibaba.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ virtio-dev@lists.oasis-open.org
+Subject: Re: [virtio-dev] [RFC QEMU] docs: vhost-user: Add custom memory
+ mapping support
+Message-ID: <20230302081907.pwt4nvz5buyt2dz3@vireshk-i7>
+References: <Y/9zkDAS4odz93GM@fedora> <877cw0ctpr.fsf@linaro.org>
+ <Y/+LdfF0rL3wEqfd@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 0/4] RISCVCPUConfig related cleanups
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-References: <20230224174520.92490-1-dbarboza@ventanamicro.com>
- <mhng-c59a4d9c-9a01-44ea-b5a9-b416390b6570@palmer-ri-x1c9a>
- <CAEUhbmUtXVTC3-DFVTAaOaa3_OeP-d8sB-=PSQy4zcFXmC+xfg@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmUtXVTC3-DFVTAaOaa3_OeP-d8sB-=PSQy4zcFXmC+xfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/+LdfF0rL3wEqfd@fedora>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,58 +99,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 01-03-23, 12:29, Stefan Hajnoczi wrote:
+> What is the advantage over defining separate messages? Separate messages
+> are cleaner and more typesafe.
 
+I thought we wanted to keep single message for one kind of functionality, which
+is mmap related quirks here. And so it would be better if we can reuse the same
+for next hypervisor which may need this.
 
-On 3/1/23 23:24, Bin Meng wrote:
-> Hi Palmer,
-> 
-> On Thu, Mar 2, 2023 at 10:08 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
->>
->> On Fri, 24 Feb 2023 09:45:16 PST (-0800), dbarboza@ventanamicro.com wrote:
->>> Hi,
->>>
->>> These cleanups were suggested by LIU Zhiwei during the review of the
->>> RISCV_FEATURE_* cleanups, currently on version 7 [1].
->>>
->>> These are dependent on the patch "[PATCH v7 01/10] target/riscv: introduce
->>> riscv_cpu_cfg()" from [1] because we use the riscv_cpu_cfg() API.
->>>
->>>
->>> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06467.html
->>>
->>> Daniel Henrique Barboza (4):
->>>    target/riscv/csr.c: use env_archcpu() in ctr()
->>>    target/riscv/csr.c: simplify mctr()
->>>    target/riscv/csr.c: use riscv_cpu_cfg() to avoid env_cpu() pointers
->>>    target/riscv/csr.c: avoid env_archcpu() usages when reading
->>>      RISCVCPUConfig
->>>
->>>   target/riscv/csr.c | 90 +++++++++++++---------------------------------
->>>   1 file changed, 24 insertions(+), 66 deletions(-)
->>
->> I just based these on that patch, which landed as d4ea711704
->> ("target/riscv: introduce riscv_cpu_cfg()").  That resulted in a handful
->> of merge conflicts, but everything looked pretty mechanical.  So it's
->> queued up.
->>
-> 
-> As Weiwei pointed out in
-> https://lore.kernel.org/qemu-devel/e40e75ff-37e0-94d3-e9e2-c159b0e2da68@iscas.ac.cn/,
-> patch#1 should be dropped.
+The value parameter is not fixed and is hypervisor specific, for Xen this is the
+domain id, for others it may mean something else.
 
-Yeah, that's my bad. I should've send a v2 owithout patch 1 to avoid confusion.
+> I don't have a concrete example, but was thinking of a guest that shares
+> memory with other guests (like the experimental virtio-vhost-user
+> device). Maybe there would be a scenario where some memory belongs to
+> one domain and some belongs to another (but has been mapped into the
+> first domain), and the vhost-user back-end needs to access both.
 
+These look tricky (and real) and I am not sure how we would want to handle
+these. Maybe wait until we have a real use-case ?
 
-Daniel
+> The other thing that comes to mind is that the spec must clearly state
+> which mmaps are affected by the Xen domain information. For example,
+> just mem table memory regions and not the
+> VHOST_USER_PROTOCOL_F_LOG_SHMFD feature?
 
-> 
-> But I see it was landed up in your tree @
-> https://github.com/palmer-dabbelt/qemu/commit/3c7d54f945f1b5b474ea35c0815a1618927c9384,
-> while my changes are already in tree @
-> https://github.com/palmer-dabbelt/qemu/commit/94e297071bc0a5965cc32c497a886f2cf9d32710.
-> 
-> Not sure why git doesn't figure that out ...
-> 
-> Regards,
-> Bin
+Maybe we can mention that only the mmap's performed via /dev/xen/privcmd and
+/dev/xen/gntdev files are affected by this ?
+
+-- 
+viresh
 
