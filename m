@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDC26A7C94
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:27:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876A96A7C9D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeFy-0003Vk-3K; Thu, 02 Mar 2023 03:25:42 -0500
+	id 1pXeG1-0003f1-D1; Thu, 02 Mar 2023 03:25:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFq-0002uc-S5
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFu-0003N4-0A
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFp-0002Ju-2R
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFs-0002Lq-99
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745532;
+ s=mimecast20190719; t=1677745535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xpHv1sDqC6NygLP0zl9CacgM4K8/lko9ZbzQDaG876Y=;
- b=Dp+d8a6WRvi5N+tifkaJe8K827tevS/y7qCCPCqvAzEP40kt/QxVa/SfWD2laEOAxJIyWU
- kCbrOZZKunfEKb6jxgWG+cEObP52HbfAWdieQx6cEH3qIh1dJqB1zpLe2mwPhcGGXGxYze
- xvl5ifrBwDzVIbeIO/YC8g09fvTf/Wk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-609-rmh6fyXdNriTbco6aloFXw-1; Thu, 02 Mar 2023 03:25:31 -0500
-X-MC-Unique: rmh6fyXdNriTbco6aloFXw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso5461977wmi.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:31 -0800 (PST)
+ bh=+ZksbsNOv/+hJ85tBQeNhtUAxT46QdRsXOaorVG1pUQ=;
+ b=eZ2z68yGZyXlZ4W9yD1Aymzi8KxoHh51EmDS5Xppn+FD0Gm9FQPEwzaf50x9fJr4FMKYJT
+ 97FH5Ygzefp0lGP6dY0MICTnwBQfMKcoR5nVVkTCDPSKkdviBS8C0uXEvnv5+6jqwL9tnf
+ p9snyofCNV9Y0NqPkvBR+rArf6oG4uo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-127-J7_pdfHKNGKR2aBYAyqL1A-1; Thu, 02 Mar 2023 03:25:34 -0500
+X-MC-Unique: J7_pdfHKNGKR2aBYAyqL1A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k20-20020a05600c1c9400b003e2249bd2b4so5462174wms.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745529;
+ d=1e100.net; s=20210112; t=1677745532;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xpHv1sDqC6NygLP0zl9CacgM4K8/lko9ZbzQDaG876Y=;
- b=M6TxkTu/HrP1bN8whwGtfTzTEA/pc1k0DGb4ZS2Lpvg13lUP4mbwq4c1+/24amrC86
- Jl+dBljrlbofynsDlyz3jn17k+aKzeAbGXKfl4VYAWKP4yEOPLe0L+lF+4foApva4vSN
- S6P2+n5qfSOQHiivGGxTqQmf9XqNU7zg70IybhyUJqRHc3JyqE7WGJwCQpegCx2c2kKQ
- 81FzCzhOifnUipO+5b2lUGApjhCw55wpPNgaWpEAGSJLVDB711ciSvpbmp1W4xKoBqOm
- CxWscKKncpDXs35zlw7zGFwbl5VWmlT3x+N94zy3PfIt92aELjZUwST2pLUak584BkkO
- luDA==
-X-Gm-Message-State: AO0yUKXJHHiVQ6tfhmjerj40fn8gqZpmPCEn+0rzW4pXRNVu+EcP7Qx2
- NYyEWQPMtMRXHYzPMw+IV56IDMskdBLRBPDldOovWXBzAqJHKxeFZAef60QzUHrntESX2VLojZ6
- JbXlmv4+N2pIaAjuq2B6G/d/P7iPK7sw4A/9y2iMtDNH23X3AxeSHB/gsE33JcavpcQ==
-X-Received: by 2002:a05:600c:81b:b0:3e2:6ec:61ea with SMTP id
- k27-20020a05600c081b00b003e206ec61eamr7238663wmp.28.1677745529333; 
- Thu, 02 Mar 2023 00:25:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set8hXhPvDyWtZ3gSQHpOUfB3cBJGx0MP5PsByDNyjxjUnw9O5EiLL+UhWYKYLE4Yd0Q2rOB3Fw==
-X-Received: by 2002:a05:600c:81b:b0:3e2:6ec:61ea with SMTP id
- k27-20020a05600c081b00b003e206ec61eamr7238648wmp.28.1677745529043; 
- Thu, 02 Mar 2023 00:25:29 -0800 (PST)
+ bh=+ZksbsNOv/+hJ85tBQeNhtUAxT46QdRsXOaorVG1pUQ=;
+ b=BtaJ5ejL48knYs1SQKm/VClTlSexsaMcIS94MzpZd4M58diDpF7Lcl8yfhPUGcZRlM
+ IRDvFdlXo4jq1Z1Qf4lOxC37BeLrMV3FZIFMYtOdATS6PxqG/eEE4y5Y+Yldi7LU2GFk
+ Q9+KwUMbQwYQA+pUDtMErUwQcztwDfsFliVEfNpzu2by//9FM1qYAWDJ99QXl1JRkDB7
+ quQEhYvTYzMtw9DEerUnEvaPUMR3jk9lLNUw9RmCKJNdy1KYmE5TqFjOa/ncMZKmbrnW
+ S64WURpYqYR4sTCcXlfGPAstT5MyZ32QPOQGngs3eYo8vyY+J5pWmlSdz0VVjlRgnnVI
+ 911g==
+X-Gm-Message-State: AO0yUKXXWPbSccYz7Pc5WG49KyQDbigL65sYfgdKiEfVkvJktLv9XElX
+ WgCXqQAaRkQHzMmQm8uRg7UmTWyqr/mfOFnzVx4Z3uxml91ZQ/nCUG2TIoph+STWaWKIjr/p6Wj
+ qBVKqqdeD7P9Jyk5o+L3zb4khUEwdLbGdsI4bHq5oUQa9rw1fgA0jufm64wnbe9mfxA==
+X-Received: by 2002:a5d:4c52:0:b0:2cd:ceab:df1a with SMTP id
+ n18-20020a5d4c52000000b002cdceabdf1amr741354wrt.32.1677745532556; 
+ Thu, 02 Mar 2023 00:25:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set/8sWmKM91fW7eHIJ8zgIwRWLfFpxOqViq93z85SqdIms9DvJ1cQuPRdX5od14row1ktorSKw==
+X-Received: by 2002:a5d:4c52:0:b0:2cd:ceab:df1a with SMTP id
+ n18-20020a5d4c52000000b002cdceabdf1amr741338wrt.32.1677745532292; 
+ Thu, 02 Mar 2023 00:25:32 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- o11-20020a05600c4fcb00b003e8f0334db8sm2342046wmq.5.2023.03.02.00.25.27
+ v12-20020adfedcc000000b002c5a1bd527dsm14591039wro.96.2023.03.02.00.25.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:28 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:26 -0500
+ Thu, 02 Mar 2023 00:25:31 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:29 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Maxime Coquelin <maxime.coquelin@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 18/53] vhost-user: Adopt new backend naming
-Message-ID: <20230302082343.560446-19-mst@redhat.com>
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 19/53] vdpa: stop all svq on device deletion
+Message-ID: <20230302082343.560446-20-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -84,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,162 +101,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-The Vhost-user specification changed feature and request
-naming from _SLAVE_ to _BACKEND_.
+Not stopping them leave the device in a bad state when virtio-net
+fronted device is unplugged with device_del monitor command.
 
-This patch adopts the new naming convention.
+This is not triggable in regular poweroff or qemu forces shutdown
+because cleanup is called right after vhost_vdpa_dev_start(false).  But
+devices hot unplug does not call vdpa device cleanups.  This lead to all
+the vhost_vdpa devices without stop the SVQ but the last.
 
-Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
-Message-Id: <20230208203259.381326-4-maxime.coquelin@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Fix it and clean the code, making it symmetric with
+vhost_vdpa_svqs_start.
+
+Fixes: dff4426fa656 ("vhost: Add Shadow VirtQueue kick forwarding capabilities")
+Reported-by: Lei Yang <leiyang@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <20230209170004.899472-1-eperezma@redhat.com>
+Tested-by: Laurent Vivier <lvivier@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-user.c | 30 +++++++++++++++---------------
- hw/virtio/virtio-qmp.c | 12 ++++++------
- 2 files changed, 21 insertions(+), 21 deletions(-)
+ hw/virtio/vhost-vdpa.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index e68daa35d4..8968541514 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -40,7 +40,7 @@
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 542e003101..df3a1e92ac 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -689,26 +689,11 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+     return ret;
+ }
  
- #define VHOST_MEMORY_BASELINE_NREGIONS    8
- #define VHOST_USER_F_PROTOCOL_FEATURES 30
--#define VHOST_USER_SLAVE_MAX_FDS     8
-+#define VHOST_USER_BACKEND_MAX_FDS     8
- 
- /*
-  * Set maximum number of RAM slots supported to
-@@ -71,12 +71,12 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_RARP = 2,
-     VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
-     VHOST_USER_PROTOCOL_F_NET_MTU = 4,
--    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
-+    VHOST_USER_PROTOCOL_F_BACKEND_REQ = 5,
-     VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
-     VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
-     VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
-     VHOST_USER_PROTOCOL_F_CONFIG = 9,
--    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
-+    VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD = 10,
-     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-@@ -110,7 +110,7 @@ typedef enum VhostUserRequest {
-     VHOST_USER_SET_VRING_ENABLE = 18,
-     VHOST_USER_SEND_RARP = 19,
-     VHOST_USER_NET_SET_MTU = 20,
--    VHOST_USER_SET_SLAVE_REQ_FD = 21,
-+    VHOST_USER_SET_BACKEND_REQ_FD = 21,
-     VHOST_USER_IOTLB_MSG = 22,
-     VHOST_USER_SET_VRING_ENDIAN = 23,
-     VHOST_USER_GET_CONFIG = 24,
-@@ -134,11 +134,11 @@ typedef enum VhostUserRequest {
- } VhostUserRequest;
- 
- typedef enum VhostUserSlaveRequest {
--    VHOST_USER_SLAVE_NONE = 0,
--    VHOST_USER_SLAVE_IOTLB_MSG = 1,
--    VHOST_USER_SLAVE_CONFIG_CHANGE_MSG = 2,
--    VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG = 3,
--    VHOST_USER_SLAVE_MAX
-+    VHOST_USER_BACKEND_NONE = 0,
-+    VHOST_USER_BACKEND_IOTLB_MSG = 1,
-+    VHOST_USER_BACKEND_CONFIG_CHANGE_MSG = 2,
-+    VHOST_USER_BACKEND_VRING_HOST_NOTIFIER_MSG = 3,
-+    VHOST_USER_BACKEND_MAX
- }  VhostUserSlaveRequest;
- 
- typedef struct VhostUserMemoryRegion {
-@@ -1638,13 +1638,13 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
-     }
- 
-     switch (hdr.request) {
--    case VHOST_USER_SLAVE_IOTLB_MSG:
-+    case VHOST_USER_BACKEND_IOTLB_MSG:
-         ret = vhost_backend_handle_iotlb_msg(dev, &payload.iotlb);
-         break;
--    case VHOST_USER_SLAVE_CONFIG_CHANGE_MSG :
-+    case VHOST_USER_BACKEND_CONFIG_CHANGE_MSG:
-         ret = vhost_user_slave_handle_config_change(dev);
-         break;
--    case VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG:
-+    case VHOST_USER_BACKEND_VRING_HOST_NOTIFIER_MSG:
-         ret = vhost_user_slave_handle_vring_host_notifier(dev, &payload.area,
-                                                           fd ? fd[0] : -1);
-         break;
-@@ -1696,7 +1696,7 @@ fdcleanup:
- static int vhost_setup_slave_channel(struct vhost_dev *dev)
+-static void vhost_vdpa_reset_svq(struct vhost_vdpa *v)
+-{
+-    if (!v->shadow_vqs_enabled) {
+-        return;
+-    }
+-
+-    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+-        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
+-        vhost_svq_stop(svq);
+-    }
+-}
+-
+ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
  {
-     VhostUserMsg msg = {
--        .hdr.request = VHOST_USER_SET_SLAVE_REQ_FD,
-+        .hdr.request = VHOST_USER_SET_BACKEND_REQ_FD,
-         .hdr.flags = VHOST_USER_VERSION,
-     };
-     struct vhost_user *u = dev->opaque;
-@@ -1707,7 +1707,7 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
-     QIOChannel *ioc;
+-    struct vhost_vdpa *v = dev->opaque;
+     int ret;
+     uint8_t status = 0;
  
-     if (!virtio_has_feature(dev->protocol_features,
--                            VHOST_USER_PROTOCOL_F_SLAVE_REQ)) {
-+                            VHOST_USER_PROTOCOL_F_BACKEND_REQ)) {
-         return 0;
-     }
+-    vhost_vdpa_reset_svq(v);
+-
+     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+     trace_vhost_vdpa_reset_device(dev, status);
+     return ret;
+@@ -1100,6 +1085,8 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
  
-@@ -2065,7 +2065,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
++
++        vhost_svq_stop(svq);
+         vhost_vdpa_svq_unmap_rings(dev, svq);
  
-         if (virtio_has_feature(features, VIRTIO_F_IOMMU_PLATFORM) &&
-                 !(virtio_has_feature(dev->protocol_features,
--                    VHOST_USER_PROTOCOL_F_SLAVE_REQ) &&
-+                    VHOST_USER_PROTOCOL_F_BACKEND_REQ) &&
-                  virtio_has_feature(dev->protocol_features,
-                     VHOST_USER_PROTOCOL_F_REPLY_ACK))) {
-             error_setg(errp, "IOMMU support requires reply-ack and "
-diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
-index e4d4bece2d..b70148aba9 100644
---- a/hw/virtio/virtio-qmp.c
-+++ b/hw/virtio/virtio-qmp.c
-@@ -42,12 +42,12 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_RARP = 2,
-     VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
-     VHOST_USER_PROTOCOL_F_NET_MTU = 4,
--    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
-+    VHOST_USER_PROTOCOL_F_BACKEND_REQ = 5,
-     VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
-     VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
-     VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
-     VHOST_USER_PROTOCOL_F_CONFIG = 9,
--    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
-+    VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD = 10,
-     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-@@ -101,8 +101,8 @@ static const qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
-             "supported"),
-     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_NET_MTU, \
-             "VHOST_USER_PROTOCOL_F_NET_MTU: Expose host MTU to guest supported"),
--    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_SLAVE_REQ, \
--            "VHOST_USER_PROTOCOL_F_SLAVE_REQ: Socket fd for back-end initiated "
-+    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_BACKEND_REQ, \
-+            "VHOST_USER_PROTOCOL_F_BACKEND_REQ: Socket fd for back-end initiated "
-             "requests supported"),
-     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CROSS_ENDIAN, \
-             "VHOST_USER_PROTOCOL_F_CROSS_ENDIAN: Endianness of VQs for legacy "
-@@ -116,8 +116,8 @@ static const qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
-     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CONFIG, \
-             "VHOST_USER_PROTOCOL_F_CONFIG: Vhost-user messaging for virtio "
-             "device configuration space supported"),
--    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD, \
--            "VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD: Slave fd communication "
-+    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD, \
-+            "VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD: Slave fd communication "
-             "channel supported"),
-     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_HOST_NOTIFIER, \
-             "VHOST_USER_PROTOCOL_F_HOST_NOTIFIER: Host notifiers for specified "
+         event_notifier_cleanup(&svq->hdev_kick);
 -- 
 MST
 
