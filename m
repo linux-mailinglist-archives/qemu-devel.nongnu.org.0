@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACAE6A81FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:19:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D536A822F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:30:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhtM-00068F-KT; Thu, 02 Mar 2023 07:18:36 -0500
+	id 1pXi3s-00060c-NA; Thu, 02 Mar 2023 07:29:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pXhtJ-00062S-MI
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:18:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pXhtI-0004bm-2V
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:18:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677759510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=hLKw2DvFxtJO2P6P5lwBnmgXKGMV6JmxJOlmMQQAMaw=;
- b=fQROQb3C9Ep3oaOw71x385TP6Y2L5HRRF4rUVb5ex8hinBnUsSdGWlUzfnhhUDV58CjX6Y
- iIm/4/xVREynTv0htl3TwCeFaTPveUt/c/Ds4osuEwOXc3KiSPxofLprAcdMYgI6xdgw//
- N5UTw5b/lIRVp/wKJjj2rJ+VD9HEOOY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-K1QQmfelPo-gnhcN0R9UoQ-1; Thu, 02 Mar 2023 07:17:21 -0500
-X-MC-Unique: K1QQmfelPo-gnhcN0R9UoQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 875873C10247;
- Thu,  2 Mar 2023 12:17:21 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.45.226.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82089C16027;
- Thu,  2 Mar 2023 12:17:20 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Albert Esteve <aesteve@redhat.com>
-Subject: [PATCH] hw/virtio/vhost-user: avoid using unitialized errp
-Date: Thu,  2 Mar 2023 13:17:19 +0100
-Message-Id: <20230302121719.9390-1-aesteve@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXi3q-0005zm-E8
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:29:26 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXi3o-0002JM-QE
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:29:26 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id g3so7474826wri.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:29:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677760163;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4IYfsoN2fa0aowgpP0Rkb7TmdinOeGqENvoZ6CJvrj4=;
+ b=Ke6Ug9K0SeS90+xzKgTvUDYpSFb1EPZBM8SuYeUQH6NQ9oMs/hs8hzRpTNZpIAWbqb
+ islWUDH+Py1mXgyReWxrlah5TzDqelJiBYnTaZs1eMa/LbXUA4gJlQnhLTm/roguksGY
+ esbp0E9KTmQ2Uz6LcJozRRWA9yYvzDWJ8LPJ921waFe5X/5ZsYrQs+62DpXW18aqIw6U
+ uDeMza4el/mMlDpJSIaw+59qtiU7aRICiKOASblrIZEIEFPlCB73r/9LH9rFhBb1E4D5
+ P2mhduUev+f3YOvj9ARikFjruc6De0p1co+yfwE4RrznDFkxnkcLSoFweQ5/ueb+qBp4
+ 0Sdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677760163;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4IYfsoN2fa0aowgpP0Rkb7TmdinOeGqENvoZ6CJvrj4=;
+ b=T3z+WuUNnCoMUXd3EDP2tQW2QXVHVxBzPCEFL6Hb1ILUp/3oup8cJWg1tivF0+ujYS
+ 1JFbacjihMzZIARaaIvtMfZd2QtqbjU01iJr61bs6I8VGp3KxYuS2MCmgoqFFpAhFG7p
+ VuVxsKD0026Y4J1thEbckUek40vwWPx7RDrktAVtuqCnPnG/JPHemEY7GS9o7dy9r2Xg
+ 62M/lwjMH0QD+5oGpgVO3gB89iQR83ERKtyW0ht4Y1IxTrZGdrt8tKwAAnvD23uDv4Dd
+ hcmQ0B4neQEWzphEElgvmDOIaPNkhNuM90G8b+20Ms5w82Y/nGvedBj0juwyrwI21qBF
+ cirg==
+X-Gm-Message-State: AO0yUKWt5G4SobFW9u9cTYIqOAC/Y8sv4UEDanzegiD69FE9HlRVZXUM
+ 0ad25vqgA4dg2BaJ3pIE8i96Fw==
+X-Google-Smtp-Source: AK7set/S2xJtlHqjbIu1+D+UINIX+M8ABHf1QpJA2A+HeOKcAf7OOrMBG5Oo8p01EIUjYPKILaCZ7w==
+X-Received: by 2002:adf:db90:0:b0:2c5:8d06:75c2 with SMTP id
+ u16-20020adfdb90000000b002c58d0675c2mr7583929wri.35.1677760162958; 
+ Thu, 02 Mar 2023 04:29:22 -0800 (PST)
+Received: from [192.168.74.175] (76.red-88-28-30.dynamicip.rima-tde.net.
+ [88.28.30.76]) by smtp.gmail.com with ESMTPSA id
+ a13-20020a056000100d00b002c6e84cadcbsm15308763wrx.72.2023.03.02.04.29.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 04:29:22 -0800 (PST)
+Message-ID: <c45e55c7-0894-4f72-e1e2-dc49e66a6588@linaro.org>
+Date: Thu, 2 Mar 2023 13:29:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] vfio: Fix vfio_get_dev_region() trace event
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+References: <20230302111731.2381505-1-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230302111731.2381505-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=aesteve@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,41 +92,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-During protocol negotiation, when we the QEMU
-stub does not support a backend with F_CONFIG,
-it throws a warning and supresses the
-VHOST_USER_PROTOCOL_F_CONFIG bit.
+On 2/3/23 12:17, Cédric Le Goater wrote:
+> From: Cédric Le Goater <clg@redhat.com>
+> 
+> Format is missing a conversion specifier.
+> 
+> Fixes: e61a424f05 ("vfio: Create device specific region info helper")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1526
+> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+> ---
+>   hw/vfio/trace-events | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-However, the warning uses warn_reportf_err macro
-and passes an unitialized errp pointer. However,
-the macro tries to edit the 'msg' member of the
-unitialized Error and segfaults.
-
-Instead, just use warn_report, which prints a
-warning message directly to the output.
-
-Fixes: 5653493 ("hw/virtio/vhost-user: don't suppress F_CONFIG when supported")
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- hw/virtio/vhost-user.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index e68daa35d4..34c331b3ba 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -2031,8 +2031,8 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
-         } else {
-             if (virtio_has_feature(protocol_features,
-                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
--                warn_reportf_err(*errp, "vhost-user backend supports "
--                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU does not.");
-+                warn_report("vhost-user backend supports "
-+                            "VHOST_USER_PROTOCOL_F_CONFIG but QEMU does not.");
-                 protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
-             }
-         }
--- 
-2.39.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
