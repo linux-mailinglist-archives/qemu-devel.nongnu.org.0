@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123316A7962
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F13E6A7961
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 03:15:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXYRz-0004Nn-S5; Wed, 01 Mar 2023 21:13:44 -0500
+	id 1pXYSe-0006DF-5V; Wed, 01 Mar 2023 21:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pXYRw-0004Gl-49
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 21:13:41 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pXYRu-0005Tu-2y
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 21:13:39 -0500
-Received: by mail-pf1-x431.google.com with SMTP id ay18so9227008pfb.2
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 18:13:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677723216;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=usqa6T82H/AQx+cCnajt85Mw++4g4uTdUei6cdIf57o=;
- b=JtAgkAVqGzOHmoqGvWcLj2Mo9+QvPhjV11CIu3nQiEVmv+XhdvK+jg6uE5towjbsF5
- RyM40VmMzSXuA2mugMPl4PA6RsBG89vGNZ063fLsWtoLnHgnqBF7W4sHjJT/ehko6qkZ
- WKCKGvzq5KtHTd6fvgco61bklG4r+xLHBVltD6U9rV7rI4J71ByTeXnd1T0rS/00RxwY
- CJeXzW+bdYVCpz+IZzlxTxFrFfaOrohZmBYHFiBVpXn4HoL/1tbCvgFGGvHE1HBCBD8S
- sGdWjz3gSVquVPOOVnr88tyXWqYCsGTo0Wc/wRsCCp7akK20FgYAAc25CPILL4UVjqlV
- eyBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677723216;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=usqa6T82H/AQx+cCnajt85Mw++4g4uTdUei6cdIf57o=;
- b=hLbGZKSdxu0CaqW34WkYF8YI8ixLlzYBCN8U2/ixFfxCRTy0/FxFXtxrmtP+n5tBVg
- AcgSjOseUUULdbuVOx5/xesBznFeQtkf3z7xWUcLyG7qkv8LXbz4bSsdTf3bBvKZELa8
- Cx+9FP48kHHvzA4R8bHTRUpeKwbuG3kDb8NDCEfkqwoIHMZx8HsyFCux2ij6g9+aSsCc
- G4B+R2+KcD4l9UXyXV9IdfxvIsooVe1hN5dPApXRRQuRG1ysOMVuATw4sbEMrT036KW6
- ACAOKq63g1BslGa/lm6MnB/Pqjig0EJ9TwIHff5RY9AiRTT7xdc/22d5zXoP5Chvmpzs
- NIfg==
-X-Gm-Message-State: AO0yUKXzED0tkEK/gCQqCVSwTkP0ke6nbIuiihKVo/nAqSWblG3anrHJ
- fwM7lbAKLxKI39au901ATPWiMw==
-X-Google-Smtp-Source: AK7set8lPTT2Gh4hzHpOnaVHfqnNf2Yh+ZfpSjzYS7NF8FBSOc8g10jImGCdFQyKX109WoN5CZRzZg==
-X-Received: by 2002:a62:5251:0:b0:5a8:68c0:5607 with SMTP id
- g78-20020a625251000000b005a868c05607mr7811870pfb.21.1677723216339; 
- Wed, 01 Mar 2023 18:13:36 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- j18-20020aa78dd2000000b005938f5b7231sm8486981pfr.201.2023.03.01.18.13.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 18:13:35 -0800 (PST)
-Date: Wed, 01 Mar 2023 18:13:35 -0800 (PST)
-X-Google-Original-Date: Wed, 01 Mar 2023 18:08:16 PST (-0800)
-Subject: Re: [PATCH 1/2] target/riscv/vector_helper.c: create
- vext_set_tail_elems_1s()
-In-Reply-To: <27f27069-b14a-45da-7e79-bdbd378e1a72@linaro.org>
-CC: dbarboza@ventanamicro.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, frank.chang@sifive.com
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: philmd@linaro.org
-Message-ID: <mhng-348cd335-c03c-481a-b09f-06bb3134650f@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=palmer@rivosinc.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXYSb-0006Cw-W4; Wed, 01 Mar 2023 21:14:22 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXYSZ-0005aG-QW; Wed, 01 Mar 2023 21:14:21 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BA01B746335;
+ Thu,  2 Mar 2023 03:14:13 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7A25B746324; Thu,  2 Mar 2023 03:14:13 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 78D6F7462DB;
+ Thu,  2 Mar 2023 03:14:13 +0100 (CET)
+Date: Thu, 2 Mar 2023 03:14:13 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
+Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <ae970003-6bcf-1e6b-77b0-4c1080d33161@ilande.co.uk>
+Message-ID: <d3f3360e-9edc-9ee3-1524-d465d51e1d8e@eik.bme.hu>
+References: <cover.1677445307.git.balaton@eik.bme.hu>
+ <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
+ <F86A8AF3-8D69-497A-ADD1-688D2B4FED03@gmail.com>
+ <04111f8e-e24d-2a61-d359-f20f8cd4634e@eik.bme.hu>
+ <877517F9-2205-413F-A408-72D36B5142EB@gmail.com>
+ <bc066c26-e801-12a0-624e-16ce9c21e00c@eik.bme.hu>
+ <7368aeee-4d33-6c90-4068-1ba9c2b2c57b@eik.bme.hu>
+ <c0b5ad2e-1b69-a570-b3ca-1f31339f1c8f@eik.bme.hu>
+ <CAG4p6K7K7SE38EUnQ9Z3pU4bt2-Asd2AOoeivp3F6B-+RujF8A@mail.gmail.com>
+ <ae970003-6bcf-1e6b-77b0-4c1080d33161@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ BOUNDARY="3866299591-506288975-1677721006=:79107"
+Content-ID: <9d4c6c6d-4d4c-3bab-a68f-453886f050b1@eik.bme.hu>
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,68 +72,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 26 Feb 2023 10:23:01 PST (-0800), philmd@linaro.org wrote:
-> On 26/2/23 18:05, Daniel Henrique Barboza wrote:
->> Commit 752614cab8e6 ("target/riscv: rvv: Add tail agnostic for vector
->> load / store instructions") added code to set the tail elements to 1 in
->> the end of vext_ldst_stride(), vext_ldst_us(), vext_ldst_index() and
->> vext_ldff(). Aside from a env->vl versus an evl value being used in the
->> first loop, the code is being repeated 4 times.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-506288975-1677721006=:79107
+Content-Type: text/plain; CHARSET=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+Content-ID: <4ab8b933-e963-c30c-f1ec-a894c95a7d66@eik.bme.hu>
+
+On Wed, 1 Mar 2023, Mark Cave-Ayland wrote:
+> On 27/02/2023 16:52, Bernhard Beschow wrote:
+>> On Mon, Feb 27, 2023 at 1:57 PM BALATON Zoltan <balaton@eik.bme.hu 
+>> <mailto:balaton@eik.bme.hu>> wrote:
+>> in. So if
+>>      >> fuloon2e needs to do that then it should. I'll check that as I was 
+>> focusing
+>>      >
+>>      > fuloong2e
 >>
->> Create a helper to avoid code repetition in all those functions.
->> Arguments that are used in the callers (nf, esz and max_elems) are
->> passed as arguments. All other values are being derived inside the
->> helper.
->>
->> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Reviewed-by: Frank Chang <frank.chang@sifive.com>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   target/riscv/vector_helper.c | 86 +++++++++++++-----------------------
->>   1 file changed, 30 insertions(+), 56 deletions(-)
+>>     I've checked fuloong2e and it still works as before. PCI bus is handled by
+>>     bonito on that board so your patch would actually break it. The VIA chip
+>>     is a PCIDevice. You're not supposed to replace the interrupts of the bus
+>>     it's connected to from this model as that should be done by the pci-host
+>>     or the board. Therefore modeling the chip's PIRQ/PINT pins as gpios which
+>>     is the QDev concept for that is right and your usage of pci_set_irq here
+>>     is wrong.
+>> 
+>> 
+>> Works for me:
+>> (08/84) 
+>> tests/avocado/boot_linux_console.py:BootLinuxConsole.test_mips64el_fuloong2e: 
+>> PASS(2.77 s)
 >
->
->> +static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
->> +                                   void *vd, uint32_t desc, uint32_t nf,
->> +                                   uint32_t esz, uint32_t max_elems)
->> +{
->> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
->> +    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
->> +    uint32_t vta = vext_vta(desc);
->> +    uint32_t registers_used;
->> +    int k;
->> +
->> +    for (k = 0; k < nf; ++k) {
->> +        vext_set_elems_1s(vd, vta, (k * max_elems + vl) * esz,
->> +                          (k * max_elems + max_elems) * esz);
->> +    }
->> +
->> +    if (nf * max_elems % total_elems != 0) {
->> +        registers_used = ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
->> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
->> +                          registers_used * vlenb);
->> +    }
->
->    for (unsigned k = 0; k < nf; ++k) {
->        vext_set_elems_1s(vd, vta, (k * max_elems + vl) * esz,
->                          (k * max_elems + max_elems) * esz);
->    }
->
->    if (nf * max_elems % total_elems != 0) {
->        uint32_t cnt = (nf * max_elems) * esz;
->        vext_set_elems_1s(vd, vta, cnt, QEMU_ALIGN_UP(cnt, vlenb));
->    }
->
-> I suspect ROUND_UP() could be used if vlenb is a power of 2.
+> The bonito code is interesting in that the IRQ is swizzled in 
+> pci_bonito_map_irq() to the internal IRQ, and then pci_bonito_set_irq() sets 
+> the output (CPU?) IRQ accordingly. This means that the routing is currently 
+> fixed based upon the slot number, rather than using the VIA PCI IRQ routing. 
+> This bit will need some thought as to how this interacts with pci_bus_irqs() 
+> in your proposed patch, feel free to suggest a suitable approach.
 
-As far as I can tell there's nothing in the ISA that requires vlenb be a 
-power of two, it's just defined as 
+I believe the fuloong2e may be similarly connected as the pegasos2. The 
+Marvell Discovery II mv64361 was based on a MIPS counterpart so the 
+concepts may be similar in these just the CPU arch is different.
 
-    The XLEN-bit-wide read-only CSR vlenb holds the value VLEN/8, i.e., 
-    the vector register length in bytes.
+This doc https://wiki.qemu.org/images/0/09/Bonito64-spec.pdf says the 
+bonito north bridge has some GPin and GPIO pins which are connected to the 
+interrupt controller (see section 5.15). Probably you can infer which pins 
+PCI IRQs should come in from the map_irq function in the bonito model. I'd 
+expect GPIO0-3 based on description in the table in section 6.1
 
-I'm pretty surprised to see that's the case and I'd doubt anything 
-actually works with non-power-of-two vlenb.  It's possible I'm just 
-missing something in the ISA so I opened a bug at
-<https://github.com/riscv/riscv-v-spec/issues/864>.
+On the other hand the board's firmware suggests PCI interrupt lines are 
+also connected to the PIRQ pins of th 686B:
+
+https://github.com/loongson-community/pmon/blob/master/sys/dev/pci/vt82c686_devbd2e.c
+
+(if this is the right file to look at as there are different versions but 
+dev board 2e said to inlude fuloong2e in the main README). Then in 686B 
+PCI interrupts are mapped to 9.10.11.13 with the PnP IRQ routing registers 
+in 686B.
+
+This could then be modeled similarly to how I did it in this series for 
+pegasos2: One could add gpio inputs in bonito to model the pins where the 
+PCI interrupt lines are connected then connect these together in the board 
+code just like they are wired on the real board.
+
+Although this board does not have any PCI slots so these are only for the 
+on board PCI devices: https://www.linux-mips.org/wiki/Fuloong_2E but a 
+similar dev board may have 4 PCI slots.
+
+Regards,
+BALATON Zoltan
+--3866299591-506288975-1677721006=:79107--
 
