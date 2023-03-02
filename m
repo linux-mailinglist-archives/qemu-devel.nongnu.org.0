@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0F96A7CC7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791EA6A7C8E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:27:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeGX-0005CK-3U; Thu, 02 Mar 2023 03:26:17 -0500
+	id 1pXeGU-0004yg-7J; Thu, 02 Mar 2023 03:26:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGR-0004yx-Qw
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGN-0004bK-4j
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGQ-0002Qj-1e
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:11 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGL-0002Px-H7
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745569;
+ s=mimecast20190719; t=1677745564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x5lWbatbxSdF0Y0jI5eIVBSt28ruPy3dHHozV6cb81s=;
- b=Tq8V5H9nxF9pJYp1d0sSpPp+44aqsheKTeWTEqmVM4TC/+SNbq30OstL5NPk1PziT3vidS
- za37uKO3EJ9QvCJ78LNGZSvMMo2UsMV2rl4mlcJHkunVLa9R0/S71N17q0aF/J7/Sv5X0w
- 0CSSdAC4ZLzPMeWIn8TTMGTL7pz5njg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-584-V4_4p-hMOtyYmr-_xXydng-1; Thu, 02 Mar 2023 03:26:00 -0500
-X-MC-Unique: V4_4p-hMOtyYmr-_xXydng-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u5-20020a5d6da5000000b002cd82373455so1919139wrs.9
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:00 -0800 (PST)
+ bh=h2bR1E9x5nXhHVI2VgaSSLZQ00ud7nc8Dt6XI/qDYmY=;
+ b=CYd9wBAVDBoQJAFsvaLXV5ss3iuRhJAK34e5tANcKl06/lQadsceUdxEHGTJKnqocHPbJb
+ 3CLU5IYqxtLsaHjSE72YwngHaD9Irvq3CD/PSNkhyiTU+a74ZYRcDEN2XQYNCkD2W8dPO6
+ etwm4/owcr6VK9ADd1hBZxbv+CXO1IQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-7-HJ-w1EcXNJaTZoSEoBUqsw-1; Thu, 02 Mar 2023 03:26:03 -0500
+X-MC-Unique: HJ-w1EcXNJaTZoSEoBUqsw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j32-20020a05600c1c2000b003e9bdf02c9fso920834wms.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745559;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x5lWbatbxSdF0Y0jI5eIVBSt28ruPy3dHHozV6cb81s=;
- b=IRTnygUMwIA7Vn6LTNgovDM+xwqg6ChKqMOmWhUk5JQa+58xdw5CeEX7Y8+krlk2rW
- ohZE07X98ccuiFp+C9HB3q8y0XQIgelrEyrpNJkiyjA/msSz6RIKPiUzjOtVyoyWHL7k
- aar2r7u4B9z3YuPs2IHKggcJlElaTYylzi6SOUgjF9lPJSRdqLgKQKdAQPqf4iq3/N+0
- EUcetXCmi9AaTI6UV4upYoyJIGjeCgwa8yB4zOp+AjBteN8TTfl/2NhArPVPLlQR4e4r
- gRbkAzSXZ3PtxFlshGCN+EW7Py9jWCH6i44c8JMbzlQY1Jqk5PBT1oQyYpkcjwO2HEBW
- 308A==
-X-Gm-Message-State: AO0yUKXIwL40rVFjo+XTkmZpH6LBeS+CSmqbuEW09N2EsWgk83GDjJqS
- JLTdBjslX3Jnp0bUD9Uo1fQVSn1xbHSy62fkHyaoOX69A19N1TPJs3prAvIJ7eVEs5GbT/WRd3r
- kKCVz0nzG7DmyLDl+9RHYXS9UgV67CXpW8wCnlS/gninZVFcK5YzsWVMofIaLWMwJqQ==
-X-Received: by 2002:a5d:4752:0:b0:2c9:d91b:a6ff with SMTP id
- o18-20020a5d4752000000b002c9d91ba6ffmr7676937wrs.21.1677745559211; 
- Thu, 02 Mar 2023 00:25:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set/LhCtEoJhugSrj+Yu3O5mLd6F27j/ZD4fAJSaNTyXQPb6SUeI0SQm++vg9VsZLsl7kQAgndQ==
-X-Received: by 2002:a5d:4752:0:b0:2c9:d91b:a6ff with SMTP id
- o18-20020a5d4752000000b002c9d91ba6ffmr7676917wrs.21.1677745558944; 
- Thu, 02 Mar 2023 00:25:58 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745562;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h2bR1E9x5nXhHVI2VgaSSLZQ00ud7nc8Dt6XI/qDYmY=;
+ b=HhdMEB/iJWeSZlKDfyQm8lssayhO1i0n/jmqBjAbyC+kB49NrcbnLwBg9XUox8EGtA
+ xYMhS49y2wBXNkiY4DtCQbfzTalaDUssEkrNA03Mjf8TGVfMsk0RoHabSVkXafqNi08m
+ t+hr0Fr9iPxz+T6nznvmPBQhBWmDTT/+Oi8qEUBRqJxeUedBLawarfDQbhjNZ7NM9by9
+ xE56HR3v5rZwjJh1y+RrLArC9v229u0EBf+5jB2QqAbQz6qgxH0W2RBcVfG1IUKKGPdk
+ kiSk7UG5njJ/ptK4PQFZlmyzuBd++SlfJlNlVG4Lnravvl7qCnKLad5ZbpDpSn6AHSzL
+ d+jA==
+X-Gm-Message-State: AO0yUKUhgw7ZQf52aiSs4ObVwHi2tJKFDcz2lQ9gYypfjofIX+xdm5IR
+ uX9It8esPKJaxO6qCc/325TckqQcQZhPKdj3S9NBqvaPGgVUSAVDpfkOcrLmWCdIEPqa4E1144l
+ uxh3iYYYdUHD/+QbXIxECR2j6DsRWRQMI8vgKdPbZhaq3s4eRxfkU6cKp8g6ASNAhrw==
+X-Received: by 2002:a05:600c:4450:b0:3dc:16d2:ae5e with SMTP id
+ v16-20020a05600c445000b003dc16d2ae5emr7194868wmn.32.1677745562022; 
+ Thu, 02 Mar 2023 00:26:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set867L6gQV+lq+ECJNvoGTId2PsKcLD2opiwPutaGqJdHDOEOV5BV1V8ILTkglpj29xQLLMt+A==
+X-Received: by 2002:a05:600c:4450:b0:3dc:16d2:ae5e with SMTP id
+ v16-20020a05600c445000b003dc16d2ae5emr7194848wmn.32.1677745561696; 
+ Thu, 02 Mar 2023 00:26:01 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- c18-20020adfed92000000b002c54c9bd71fsm14967284wro.93.2023.03.02.00.25.57
+ hn6-20020a05600ca38600b003e22508a343sm2120388wmb.12.2023.03.02.00.26.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:58 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:56 -0500
+ Thu, 02 Mar 2023 00:26:01 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:59 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Anton Kuchin <antonkuchin@yandex-team.ru>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 28/53] pcie: drop unused PCIExpressIndicator
-Message-ID: <20230302082343.560446-29-mst@redhat.com>
+Subject: [PULL 29/53] pcie: pcie_cap_slot_enable_power() use correct helper
+Message-ID: <20230302082343.560446-30-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,55 +101,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-The structure type is unused. Also, it's the only user of corresponding
-macros, so drop them too.
+*_by_mask() helpers shouldn't be used here (and that's the only one).
+*_by_mask() helpers do shift their value argument, but in pcie.c code
+we use values that are already shifted appropriately.
+Happily, PCI_EXP_SLTCTL_PWR_ON is zero, so shift doesn't matter. But if
+we apply same helper for PCI_EXP_SLTCTL_PWR_OFF constant it will do
+wrong thing.
+
+So, let's use instead pci_word_test_and_clear_mask() which is already
+used in the file to clear PCI_EXP_SLTCTL_PWR_OFF bit in
+pcie_cap_slot_init() and pcie_cap_slot_reset().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-Message-Id: <20230216180356.156832-10-vsementsov@yandex-team.ru>
+Message-Id: <20230216180356.156832-11-vsementsov@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pcie.h      | 8 --------
- include/hw/pci/pcie_regs.h | 5 -----
- 2 files changed, 13 deletions(-)
+ hw/pci/pcie.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 798a262a0a..3cc2b15957 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -27,14 +27,6 @@
- #include "hw/pci/pcie_sriov.h"
- #include "hw/hotplug.h"
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index ccdb2377e1..db8360226f 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -373,8 +373,8 @@ void pcie_cap_slot_enable_power(PCIDevice *dev)
+     uint32_t sltcap = pci_get_long(exp_cap + PCI_EXP_SLTCAP);
  
--typedef enum {
--    /* for attention and power indicator */
--    PCI_EXP_HP_IND_RESERVED     = PCI_EXP_SLTCTL_IND_RESERVED,
--    PCI_EXP_HP_IND_ON           = PCI_EXP_SLTCTL_IND_ON,
--    PCI_EXP_HP_IND_BLINK        = PCI_EXP_SLTCTL_IND_BLINK,
--    PCI_EXP_HP_IND_OFF          = PCI_EXP_SLTCTL_IND_OFF,
--} PCIExpressIndicator;
--
- typedef enum {
-     /* these bits must match the bits in Slot Control/Status registers.
-      * PCI_EXP_HP_EV_xxx = PCI_EXP_SLTCTL_xxxE = PCI_EXP_SLTSTA_xxx
-diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 00b595a82e..1fe0bdd25b 100644
---- a/include/hw/pci/pcie_regs.h
-+++ b/include/hw/pci/pcie_regs.h
-@@ -66,11 +66,6 @@ typedef enum PCIExpLinkWidth {
+     if (sltcap & PCI_EXP_SLTCAP_PCP) {
+-        pci_set_word_by_mask(exp_cap + PCI_EXP_SLTCTL,
+-                             PCI_EXP_SLTCTL_PCC, PCI_EXP_SLTCTL_PWR_ON);
++        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTCTL,
++                                     PCI_EXP_SLTCTL_PCC);
+     }
+ }
  
- #define PCI_EXP_SLTCAP_PSN_SHIFT        ctz32(PCI_EXP_SLTCAP_PSN)
- 
--#define PCI_EXP_SLTCTL_IND_RESERVED     0x0
--#define PCI_EXP_SLTCTL_IND_ON           0x1
--#define PCI_EXP_SLTCTL_IND_BLINK        0x2
--#define PCI_EXP_SLTCTL_IND_OFF          0x3
--
- #define PCI_EXP_SLTCTL_SUPPORTED        \
-             (PCI_EXP_SLTCTL_ABPE |      \
-              PCI_EXP_SLTCTL_PDCE |      \
 -- 
 MST
 
