@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AC66A870D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460B26A8710
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:42:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXltV-00086z-O9; Thu, 02 Mar 2023 11:35:01 -0500
+	id 1pXltZ-0008HM-E7; Thu, 02 Mar 2023 11:35:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pXltS-0007w2-RE
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:34:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pXltX-0008Eu-60
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:35:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pXltR-0007LL-3j
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:34:58 -0500
+ id 1pXltV-0007SA-Ji
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:35:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677774896;
+ s=mimecast20190719; t=1677774901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gyOZF0bPnWCURMNhh/OOxKx1HC5vnkMb+FdPeHzBliM=;
- b=GPoR30JBB25Cmd1sCgBTuo8geVRfkvoYM75GRrx4Z7qg45ryu2e8rH23wcoJ6U/oWRAi36
- 4LHy162W+vq18mgWdk3bhTyncct4R52Nh5ig+6j+6UkV9Q8qcn/JF5zMJcMeLlj3j+Sdcn
- 6oY1sTALa2r5yUTv798OaP3eTgtA3vg=
+ bh=ndppjIbVvz8jma2GmFuQAa1NSKUMWKwvLonh6OzMiLk=;
+ b=AjbMFV538/9vvx69UyAgUbkXmgdjvGkUuvdCQ/dl6Qw2Ah+DxhdzdhPnrR9eQbRO/GIdhT
+ DHIwmwaGcgw1Xymy88OeWCfxHoSJA/fJfCknwrBg+JvnAHFMouZgr74LcGwbtioYs0XDTc
+ u3tBUGDY8bIeIeygnwaF2gy7OvkY3qM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-XxFiQrRaOFOfx6-v2pnrBQ-1; Thu, 02 Mar 2023 11:34:55 -0500
-X-MC-Unique: XxFiQrRaOFOfx6-v2pnrBQ-1
+ us-mta-294-PJfEdOWKO8mKC_m-y8coVA-1; Thu, 02 Mar 2023 11:34:57 -0500
+X-MC-Unique: PJfEdOWKO8mKC_m-y8coVA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C47001C3D380;
- Thu,  2 Mar 2023 16:34:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 217EC3C14100;
+ Thu,  2 Mar 2023 16:34:57 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB03B492C3E;
- Thu,  2 Mar 2023 16:34:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13898492B01;
+ Thu,  2 Mar 2023 16:34:54 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -52,16 +52,16 @@ Cc: David Hildenbrand <david@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eric Blake <eblake@redhat.com>
-Subject: [PATCH 15/43] migration: Move qmp_query_migrate_capabilities() to
+Subject: [PATCH 16/43] migration: Move qmp_migrate_set_capabilities() to
  options.c
-Date: Thu,  2 Mar 2023 17:33:42 +0100
-Message-Id: <20230302163410.11399-16-quintela@redhat.com>
+Date: Thu,  2 Mar 2023 17:33:43 +0100
+Message-Id: <20230302163410.11399-17-quintela@redhat.com>
 In-Reply-To: <20230302163410.11399-1-quintela@redhat.com>
 References: <20230302163410.11399-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,80 +87,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 22 ----------------------
- migration/options.c   | 23 +++++++++++++++++++++++
- 2 files changed, 23 insertions(+), 22 deletions(-)
+ migration/migration.c | 26 --------------------------
+ migration/options.c   | 26 ++++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index dd8df53684..5c70bb3153 100644
+index 5c70bb3153..1dd2ccf9ee 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -886,28 +886,6 @@ void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value)
-     migrate_send_rp_message(mis, MIG_RP_MSG_RESUME_ACK, sizeof(buf), &buf);
+@@ -1220,32 +1220,6 @@ MigrationInfo *qmp_query_migrate(Error **errp)
+     return info;
  }
  
--MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
+-void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
+-                                  Error **errp)
 -{
--    MigrationCapabilityStatusList *head = NULL, **tail = &head;
--    MigrationCapabilityStatus *caps;
 -    MigrationState *s = migrate_get_current();
--    int i;
+-    MigrationCapabilityStatusList *cap;
+-    bool new_caps[MIGRATION_CAPABILITY__MAX];
 -
--    for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
--#ifndef CONFIG_LIVE_BLOCK_MIGRATION
--        if (i == MIGRATION_CAPABILITY_BLOCK) {
--            continue;
--        }
--#endif
--        caps = g_malloc0(sizeof(*caps));
--        caps->capability = i;
--        caps->state = s->capabilities[i];
--        QAPI_LIST_APPEND(tail, caps);
+-    if (migration_is_running(s->state)) {
+-        error_setg(errp, QERR_MIGRATION_ACTIVE);
+-        return;
 -    }
 -
--    return head;
+-    memcpy(new_caps, s->capabilities, sizeof(new_caps));
+-    for (cap = params; cap; cap = cap->next) {
+-        new_caps[cap->value->capability] = cap->value->state;
+-    }
+-
+-    if (!migrate_caps_check(s->capabilities, new_caps, errp)) {
+-        return;
+-    }
+-
+-    for (cap = params; cap; cap = cap->next) {
+-        s->capabilities[cap->value->capability] = cap->value->state;
+-    }
 -}
 -
- MigrationParameters *qmp_query_migrate_parameters(Error **errp)
- {
-     MigrationParameters *params;
+ /*
+  * Check whether the parameters are valid. Error will be put into errp
+  * (if provided). Return true if valid, otherwise false.
 diff --git a/migration/options.c b/migration/options.c
-index 2cae0b8f08..ac9098fbfb 100644
+index ac9098fbfb..1436bf42c2 100644
 --- a/migration/options.c
 +++ b/migration/options.c
-@@ -15,6 +15,7 @@
+@@ -415,3 +415,29 @@ MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
  
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-commands-migration.h"
- #include "sysemu/runstate.h"
- #include "migration.h"
- #include "ram.h"
-@@ -392,3 +393,25 @@ bool migrate_caps_check(bool *old_caps, bool *new_caps, Error **errp)
- 
-     return true;
+     return head;
  }
 +
-+MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
++void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
++                                  Error **errp)
 +{
-+    MigrationCapabilityStatusList *head = NULL, **tail = &head;
-+    MigrationCapabilityStatus *caps;
 +    MigrationState *s = migrate_get_current();
-+    int i;
++    MigrationCapabilityStatusList *cap;
++    bool new_caps[MIGRATION_CAPABILITY__MAX];
 +
-+    for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
-+#ifndef CONFIG_LIVE_BLOCK_MIGRATION
-+        if (i == MIGRATION_CAPABILITY_BLOCK) {
-+            continue;
-+        }
-+#endif
-+        caps = g_malloc0(sizeof(*caps));
-+        caps->capability = i;
-+        caps->state = s->capabilities[i];
-+        QAPI_LIST_APPEND(tail, caps);
++    if (migration_is_running(s->state)) {
++        error_setg(errp, QERR_MIGRATION_ACTIVE);
++        return;
 +    }
 +
-+    return head;
++    memcpy(new_caps, s->capabilities, sizeof(new_caps));
++    for (cap = params; cap; cap = cap->next) {
++        new_caps[cap->value->capability] = cap->value->state;
++    }
++
++    if (!migrate_caps_check(s->capabilities, new_caps, errp)) {
++        return;
++    }
++
++    for (cap = params; cap; cap = cap->next) {
++        s->capabilities[cap->value->capability] = cap->value->state;
++    }
 +}
 -- 
 2.39.2
