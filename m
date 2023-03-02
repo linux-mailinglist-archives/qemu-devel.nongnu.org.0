@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE206A8B97
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF0A6A8BAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrEP-0004uy-AI; Thu, 02 Mar 2023 17:16:57 -0500
+	id 1pXrIk-0006OG-1w; Thu, 02 Mar 2023 17:21:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrEN-0004uC-5n
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:16:55 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrIi-0006Mx-Ew
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:24 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrEL-0006cY-5D
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:16:54 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id g3so557085wri.6
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:16:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrIg-0007wb-OQ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:24 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id f11so551554wrv.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:21:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677795411;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1677795681;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=j/QW1HM2Mk99OFnysxfaddjjhGUCTkKLCoCNHfnkBus=;
- b=ALhBjpW+9d/4nqIcn9T7comSyKRfOMYle0Ef7GQcmPgOMdutjgV9UKobixXu/69zHV
- Gna/Ej5gE7HUKBhbCvqj8/rzOOj3rbijoydiLuqrANb5aNRLMwdpFwlO6Ij0SEjLwLD2
- SuURyr8oCgi/BLZT/28QMLcv7vIq/RsDcJEHtcwC9g3SA4Sh23srhZ96u5XizNgGCXBf
- ZH3j7PM46/BS1tqUUOXxHHonLNrabmZBig13eMG/aln6neAwBf8pxBBx/y54Rue4bw03
- m/17PD9lLEL2rAwGbbb36CMxU3NG/S/W6it0v6UIN8EOIM9HtOZbnfqO+RvCmNpJkpgk
- 4s4Q==
+ bh=HUILPdLysPVqixdbseU8O2BqodLow6wXYYFBFdjPbzE=;
+ b=rNmCaPAL1fnhhOPkzNQgNWUz8DmliWKnQSQlA4Cz+1CeL08ZgzKRgAoviLHWnWZqQe
+ +vPUcYHoakgTsbyrPSXhU8jcIwaHAYwK0Kptd943gQ+4s376pX5q6KqDyQwESgktX3Gu
+ cl0YxuApwv7sHNLzkrE3m2obop120/OliaHS/AXFk4bURTS16Cx8AnFiWgLQG8cz8H6J
+ eKyCWDiP8tUy63fc8Zk6EMGaHWSrJ1aulqIzmTrcpOXbpn241kQtKOaFEadFCk0R863H
+ 1lCdqtceIdxmUvht+353/6rNdOsScRv9piKNKpo14sINu1R2XypPjnyeZhwO7yF2vY//
+ NdeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677795411;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20210112; t=1677795681;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j/QW1HM2Mk99OFnysxfaddjjhGUCTkKLCoCNHfnkBus=;
- b=FZvH2VA0je5hNTxKhjlM70IHBM7Ieqr1h10woVD3Plh1JYeGECX61WG9eCklr8j8qt
- O6HY1ysS7ftvjTZOXfFCQ72oqBsRPLTcK+fxdHGHffldQhlTumvdWCGOTPhtEXjsmEfY
- DvLAq0mRnnjSWNQR+hY5vtfGHvocSFeMsGjbakd1Vy2/Fmf4bS8sEEuudoRIcSmus5Rs
- GPrDW6zpydgZFp6ECNoMnq103xKOd+pVvpisKVDNMIwqaYzY1aHaQs4qGN8k+Xh/Y+SE
- p229rsmkT/dDihGoBWCQYRw6y/8cnBEeBZQGS1M4Q5vgS0mUvNS7BJXagF1fjDwx43ka
- 8TWA==
-X-Gm-Message-State: AO0yUKVFWe/MiRuJfeBASjYpMrERQ4jNjmEwUcdsN+BxWDLD0z5pdwsQ
- sj2W93o8JQnslfArGTHvYxJQ2g==
-X-Google-Smtp-Source: AK7set8FAJoagkadDS0ky4D6I6VKl6CQte+kz2H8UpkpBkrwx3GyTQUjYMJKyj+fdM6XhAnFPLxhzw==
-X-Received: by 2002:a05:6000:11c2:b0:2c7:1d55:a56b with SMTP id
- i2-20020a05600011c200b002c71d55a56bmr8281108wrx.70.1677795411324; 
- Thu, 02 Mar 2023 14:16:51 -0800 (PST)
+ bh=HUILPdLysPVqixdbseU8O2BqodLow6wXYYFBFdjPbzE=;
+ b=KsoFc5+jsN7FQvCKlxot1BQStlzV4olsDrtcUDrwqblS+mgS3P4bO3epOc2t7zSmJI
+ G7LOhlRQGorkYZWGAosNNLA8hF9lK6lcQ/NlCoxyx89V2jRT7z/E40yMCK1lFYuu3dRS
+ GweGTahjBJP7xiLfsCks8dwNpQkv0dtBA+h2PpWy54l9PFStcbzk3w8RBLsBT6+FnHDn
+ JM5NqpS/83ZZxsYk00u77pUFNNrEJF11j+rKxMHm4ZXjDYCcHjZHEu5lQFQe4xVoPmU0
+ UgZ4+Bl29yiPe/z22BS2hu4KG5mmJ2jVhHKDChkAaTaQRzXZpCBRla2RIqX7EsV54E5N
+ 0iHg==
+X-Gm-Message-State: AO0yUKXFtoduVzvq+U1zSbiMi3wQXYieeD0z12PhsDHXM+CuHjwdgIr9
+ smaKk8qP2Sv+chWwMu9ZiLbFwA==
+X-Google-Smtp-Source: AK7set9AlSQVRrTYEtJHjNOOjv3jwlC2uDgLNi6D6If7vTpeqGFoZdIwYjiPzjxB6S4u2GpezgOdtQ==
+X-Received: by 2002:adf:f847:0:b0:2c7:ae57:5acc with SMTP id
+ d7-20020adff847000000b002c7ae575accmr8792662wrq.26.1677795680914; 
+ Thu, 02 Mar 2023 14:21:20 -0800 (PST)
 Received: from [192.168.27.175] (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- k21-20020a7bc415000000b003e206cc7237sm4096886wmi.24.2023.03.02.14.16.48
+ g18-20020a5d4892000000b002c70e60abd4sm489506wrq.2.2023.03.02.14.21.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 14:16:50 -0800 (PST)
-Message-ID: <733a61bc-0e41-a864-c7fa-f177b35afa25@linaro.org>
-Date: Thu, 2 Mar 2023 23:16:47 +0100
+ Thu, 02 Mar 2023 14:21:20 -0800 (PST)
+Message-ID: <e6ea9eda-51be-df8e-5711-73b944b52944@linaro.org>
+Date: Thu, 2 Mar 2023 23:21:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 4/6] docs/about/deprecated: Deprecate the
- qemu-system-arm binary
+Subject: Re: [PATCH 1/4] pnv_phb4_pec: Keep track of instantiated PHBs
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>
-References: <20230302163106.465559-1-thuth@redhat.com>
- <20230302163106.465559-5-thuth@redhat.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
+ danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20230302163715.129635-1-fbarrat@linux.ibm.com>
+ <20230302163715.129635-2-fbarrat@linux.ibm.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230302163106.465559-5-thuth@redhat.com>
+In-Reply-To: <20230302163715.129635-2-fbarrat@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -99,39 +92,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/3/23 17:31, Thomas Huth wrote:
-> qemu-system-aarch64 is a proper superset of qemu-system-arm,
-> and the latter was mainly still required for 32-bit KVM support.
-> But this 32-bit KVM arm support has been dropped in the Linux
-> kernel a couple of years ago already, so we don't really need
-> qemu-system-arm anymore, thus deprecated it now.
+Hi Frederic,
+
+On 2/3/23 17:37, Frederic Barrat wrote:
+> Add an array on the PEC object to keep track of the PHBs which are
+> instantiated. The array can be sparsely populated when using
+> user-created PHBs. It will be useful for the next patch to only export
+> instantiated PHBs in the device tree.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 > ---
->   docs/about/deprecated.rst | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   hw/pci-host/pnv_phb4_pec.c     | 12 +++++++-----
+>   hw/ppc/pnv.c                   |  1 +
+>   include/hw/pci-host/pnv_phb4.h |  2 ++
+>   3 files changed, 10 insertions(+), 5 deletions(-)
 > 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index a30aa8dfdf..21ce70b5c9 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -45,6 +45,16 @@ run 32-bit guests by selecting a 32-bit CPU model, including KVM support
->   on x86_64 hosts. Thus users are recommended to reconfigure their systems
->   to use the ``qemu-system-x86_64`` binary instead.
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 43267a428f..97c06bb0a0 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+
+> +static PnvPHB *pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+> +                                           int stack_no,
+> +                                           Error **errp)
+>   {
+>       PnvPHB *phb = PNV_PHB(qdev_new(TYPE_PNV_PHB));
+>       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
+> @@ -128,8 +128,9 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>                               &error_fatal);
 >   
-> +``qemu-system-arm`` binary (since 8.0)
-> +''''''''''''''''''''''''''''''''''''''
-> +
-> +``qemu-system-aarch64`` is a proper superset of ``qemu-system-arm``. The
-> +latter was mainly a requirement for running KVM on 32-bit arm hosts, but
-> +this 32-bit KVM support has been removed some years ago already (see:
+>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+> -        return;
+> +        return NULL;
+>       }
+> +    return phb;
+>   }
 
-s/some/few/?
 
-> +https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=541ad0150ca4
-> +). Thus the QEMU project will drop the ``qemu-system-arm`` binary in a
-> +future release. Use ``qemu-system-aarch64`` instead.
+> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+> index 28d61b96c7..0b72ef1471 100644
+> --- a/include/hw/pci-host/pnv_phb4.h
+> +++ b/include/hw/pci-host/pnv_phb4.h
+> @@ -185,6 +185,8 @@ struct PnvPhb4PecState {
+>   
+>       /* PHBs */
+>       uint32_t num_phbs;
+> +#define MAX_PHBS_PER_PEC        3
+> +    PnvPHB *phbs[MAX_PHBS_PER_PEC];
+>   
+>       PnvChip *chip;
+>   };
 
-If we unify, wouldn't it be simpler to name the single qemu-system
-binary emulating various ARM architectures as 'qemu-system-arm'?
+ From QOM PoV, better would be to 'embed' the PnvPHB structure (not only
+a pointer to it), and initialize the PnvPHB instance calling
+object_initialize_child() instead of qdev_new().
+
+See for example the recent conversion of OHCISysBusState in commit
+01c400ae43 ("hw/display/sm501: Embed OHCI QOM child in chipset").
+
+Regards,
+
+Phil.
 
