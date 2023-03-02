@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696CE6A7FC4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBE26A7FC7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:16:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXfy9-0007Oy-HG; Thu, 02 Mar 2023 05:15:25 -0500
+	id 1pXfz0-0007wI-Nm; Thu, 02 Mar 2023 05:16:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clopez@suse.de>)
- id 1pXfy6-0007OI-QB; Thu, 02 Mar 2023 05:15:22 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXfyp-0007nk-Tm
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:16:12 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <clopez@suse.de>)
- id 1pXfy3-0000L1-4S; Thu, 02 Mar 2023 05:15:22 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B5D001FE6E;
- Thu,  2 Mar 2023 10:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677752115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0dFeqs925nKU+EpW5o+gz7IWAukCerMgqLwKq9Ul/ps=;
- b=ShWVbpdXzIk7+DPdLOoO39MmyonUAu1T9faEVo84Xwexb91nB7i4dNM8Qn3zKBTQEdOTgQ
- XVpqpgyb3nknWGdn64cLPjQ5stwbQ3n19BLJ4YWfSzrYjLd4VtN43LU7kx+PuPGQWFtdyy
- 23y7Tg+lomVOZ1Z1bMcr5TEvsQyCo3c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677752115;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0dFeqs925nKU+EpW5o+gz7IWAukCerMgqLwKq9Ul/ps=;
- b=mdIURL9a6o//Y2J5UrgXp8NfZ7MCeW9/mO2k6HFGTYyOpgii4d79CpoH8DFvIhBZ0ocHh2
- M4AGmyOncGoKR2BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E38D313349;
- Thu,  2 Mar 2023 10:15:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ma9vNDJ3AGRbVAAAMHmgww
- (envelope-from <clopez@suse.de>); Thu, 02 Mar 2023 10:15:14 +0000
-From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- qemu-s390x@nongnu.org (open list:virtio-ccw)
-Subject: [PATCH] virtio: refresh vring region cache after updating a virtqueue
- size
-Date: Thu,  2 Mar 2023 11:14:47 +0100
-Message-Id: <20230302101447.4499-1-clopez@suse.de>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXfyj-0000RN-FH
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:16:07 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id k37so10361512wms.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 02:15:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677752152;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2gr+fj5rz16xEpjDylDSjGoOmykD65FA325aFCo2PeU=;
+ b=uSsx2QIMe6fha7YNoY07idmPjqK4jCHIuILRszQr5urqGUidbwCYV77qH3XxBLEgBS
+ inPKAi5VdwTEh8VbkRglquHE7KfOcp32RXv5mOUZQO8fHQVkoTeRYLGri9pbA+wCTEiM
+ Xu9vLO0WgdwTtIktJxok2jlfqYvA8XGnDunLI8NfPFxvpF7ptv1c+00efPAkByurOevb
+ ftABbbHo3ZzqOtGMJXhFi7hHLderSz2VJGKdEfvVGBAnYdyjP8OACgftAPV1VdwGnXv6
+ TXc/Zgzz0DNjGoawNfHB12rKqs39xi4EA+p+2sd32M3MjydGoOxkq5nWxJlQvoqcZBX0
+ z4Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677752152;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2gr+fj5rz16xEpjDylDSjGoOmykD65FA325aFCo2PeU=;
+ b=1dhFr2eYvYFjXuwBZX/hoU4keyRudXlynT5MLEjpJbNXQI3LkPy89AElG4Z89TQ2QM
+ IJhrrBJvK/t0vXGE3Z1qGp+DQoYil6IO41Pi15/yNE3MQOMagldfkBYIX0PEAnlSoSJ7
+ k4Ev5m4uZy4Gm0wpkNwRbM70K4W4ngqVAFlIuhUfZ9buj+4B48kvJYtBqLb1LUD8Ezld
+ FJns56z3pFhJWDctX/CDmTrsJNpsft1XNYUjTMEmBw82mwohODbNOvhXwQzS4n/5vJbV
+ bdLti1G3zV+drgqZogcX67IPJ23vBKh8hANFiQEOufd4chqktJYWmf5oV68xsNEajlyE
+ fiyA==
+X-Gm-Message-State: AO0yUKXQtapLkN1vOOFaDQgBvZV+SxMwQMCCRzcqMTdwagSlOemdlzCJ
+ zQBGr5HIH6zDaB/+pQ7/219HUQ==
+X-Google-Smtp-Source: AK7set+F9dZ3FrvAkJ30B5dBnhwhmSZHNONHPm+1qbFXHEi8TjnvH7MHKIpF5bgz9hT+aZzuQPHgYg==
+X-Received: by 2002:a05:600c:3ca5:b0:3e8:490b:e286 with SMTP id
+ bg37-20020a05600c3ca500b003e8490be286mr7207336wmb.14.1677752152552; 
+ Thu, 02 Mar 2023 02:15:52 -0800 (PST)
+Received: from [192.168.74.175] (89.red-88-28-21.dynamicip.rima-tde.net.
+ [88.28.21.89]) by smtp.gmail.com with ESMTPSA id
+ hg26-20020a05600c539a00b003e20a6fd604sm2509698wmb.4.2023.03.02.02.15.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 02:15:52 -0800 (PST)
+Message-ID: <cd21f3b5-e6cb-7fbd-b66c-712edb416088@linaro.org>
+Date: Thu, 2 Mar 2023 11:15:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] tests/data/acpi/virt: drop (most) duplicate files.
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20230302072211.555383-1-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230302072211.555383-1-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=clopez@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,85 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When a virtqueue size is changed by the guest via
-virtio_queue_set_num(), its region cache is not automatically updated.
-If the size was increased, this could lead to accessing the cache out
-of bounds. For example, in vring_get_used_event():
+On 2/3/23 08:22, Michael S. Tsirkin wrote:
+> When virt ACPI files were added, lots of duplicates were created because
+> we forgot that there's a no-prefix fallback: e.g. if
+> tests/data/acpi/virt/APIC.memhp is not there then test will use
+> tests/data/acpi/virt/APIC.
+> 
+> Drop these.
+> 
+> These were found with
+> $find tests/data/acpi/ -type f -exec sha256sum '{}' ';'|sort -d|uniq -w 64 --all-repeated=separate
+> (trick: -d does a dictionary sort so a no-suffix file ends up first).
+> 
+> Note: there are still a bunch of issues with duplicates left even after this.
+> 
+> First pc and q35 are often identical.
+> Second, sometimes files are identical but not identical to the default
+> fallback, e.g.
+> tests/data/acpi/pc/SLIT.cphp and tests/data/acpi/pc/SLIT.memhp
+> or
+> tests/data/acpi/q35/HMAT.acpihmat-noinitiator and tests/data/acpi/virt/HMAT.acpihmatvirt
+> 
+> Finding a way to deduplicate these is still a TODO item - softlinks
+> maybe?
+> 
+> We also need to make rebuild-expected-aml.sh smarter about not creating
+> these duplicates in the 1st place.
+> 
+> And maybe we should use softlinks instead of relying on a fallback
+> to make it explicit what version does each test expect?
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   tests/data/acpi/virt/APIC.memhp   | Bin 172 -> 0 bytes
+>   tests/data/acpi/virt/APIC.numamem | Bin 172 -> 0 bytes
+>   tests/data/acpi/virt/DSDT.numamem | Bin 5196 -> 0 bytes
+>   tests/data/acpi/virt/FACP.memhp   | Bin 276 -> 0 bytes
+>   tests/data/acpi/virt/FACP.numamem | Bin 276 -> 0 bytes
+>   tests/data/acpi/virt/GTDT.memhp   | Bin 96 -> 0 bytes
+>   tests/data/acpi/virt/GTDT.numamem | Bin 96 -> 0 bytes
+>   tests/data/acpi/virt/IORT.memhp   | Bin 128 -> 0 bytes
+>   tests/data/acpi/virt/IORT.numamem | Bin 128 -> 0 bytes
+>   tests/data/acpi/virt/IORT.pxb     | Bin 128 -> 0 bytes
+>   tests/data/acpi/virt/MCFG.memhp   | Bin 60 -> 0 bytes
+>   tests/data/acpi/virt/MCFG.numamem | Bin 60 -> 0 bytes
+>   tests/data/acpi/virt/SPCR.memhp   | Bin 80 -> 0 bytes
+>   tests/data/acpi/virt/SPCR.numamem | Bin 80 -> 0 bytes
+>   14 files changed, 0 insertions(+), 0 deletions(-)
+>   delete mode 100644 tests/data/acpi/virt/APIC.memhp
+>   delete mode 100644 tests/data/acpi/virt/APIC.numamem
+>   delete mode 100644 tests/data/acpi/virt/DSDT.numamem
+>   delete mode 100644 tests/data/acpi/virt/FACP.memhp
+>   delete mode 100644 tests/data/acpi/virt/FACP.numamem
+>   delete mode 100644 tests/data/acpi/virt/GTDT.memhp
+>   delete mode 100644 tests/data/acpi/virt/GTDT.numamem
+>   delete mode 100644 tests/data/acpi/virt/IORT.memhp
+>   delete mode 100644 tests/data/acpi/virt/IORT.numamem
+>   delete mode 100644 tests/data/acpi/virt/IORT.pxb
+>   delete mode 100644 tests/data/acpi/virt/MCFG.memhp
+>   delete mode 100644 tests/data/acpi/virt/MCFG.numamem
+>   delete mode 100644 tests/data/acpi/virt/SPCR.memhp
+>   delete mode 100644 tests/data/acpi/virt/SPCR.numamem
 
-    static inline uint16_t vring_get_used_event(VirtQueue *vq)
-    {
-        return vring_avail_ring(vq, vq->vring.num);
-    }
-
-    static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
-    {
-        VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-        hwaddr pa = offsetof(VRingAvail, ring[i]);
-
-        if (!caches) {
-            return 0;
-        }
-
-        return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
-    }
-
-vq->vring.num will be greater than caches->avail.len, which will
-trigger a failed assertion down the call path of
-virtio_lduw_phys_cached().
-
-Fix this by calling virtio_queue_update_rings() after
-virtio_queue_set_num() if we are not already calling
-virtio_queue_set_rings().
-
-Signed-off-by: Carlos López <clopez@suse.de>
----
- hw/s390x/virtio-ccw.c   | 1 +
- hw/virtio/virtio-mmio.c | 5 ++---
- hw/virtio/virtio-pci.c  | 1 +
- 3 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index e33e5207ab..89891ac58a 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
-                 return -EINVAL;
-             }
-             virtio_queue_set_num(vdev, index, num);
-+            virtio_queue_update_rings(vdev, index);
-         } else if (virtio_queue_get_num(vdev, index) > num) {
-             /* Fail if we don't have a big enough queue. */
-             return -EINVAL;
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 23ba625eb6..c74822308f 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -350,10 +350,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
-     case VIRTIO_MMIO_QUEUE_NUM:
-         trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
-         virtio_queue_set_num(vdev, vdev->queue_sel, value);
-+        virtio_queue_update_rings(vdev, vdev->queue_sel);
- 
--        if (proxy->legacy) {
--            virtio_queue_update_rings(vdev, vdev->queue_sel);
--        } else {
-+        if (!proxy->legacy) {
-             proxy->vqs[vdev->queue_sel].num = value;
-         }
-         break;
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 247325c193..a0a2f2c965 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-         proxy->vqs[vdev->queue_sel].num = val;
-         virtio_queue_set_num(vdev, vdev->queue_sel,
-                              proxy->vqs[vdev->queue_sel].num);
-+        virtio_queue_update_rings(vdev, vdev->queue_sel);
-         break;
-     case VIRTIO_PCI_COMMON_Q_MSIX:
-         vector = virtio_queue_vector(vdev, vdev->queue_sel);
--- 
-2.35.3
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
