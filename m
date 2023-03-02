@@ -2,57 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86906A87F5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851C96A87FB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:38:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXmpM-0008QF-Sr; Thu, 02 Mar 2023 12:34:48 -0500
+	id 1pXmsA-00025d-Fz; Thu, 02 Mar 2023 12:37:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXmpK-0008Pp-Nr
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:34:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pXms7-00024w-98
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:37:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXmpI-00074j-Lf
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:34:46 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pXms5-0008EY-DM
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:37:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677778483;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1677778653;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lDTss3ss1Cb1wJ6dzUagsqkNpnG42JvEwCjFhH9myQA=;
- b=M5nD3ORRu3ic7+vee2Dn12U36C2gIgBTH/w0Ra2IW/JJnAIowF+lwXDGbykD1pz6AwyIal
- /PsvYDncKu7ty93drLNw40m156oGN9Mif3E65s411heSUy79uYrahoKi+nOEK1wOnkzJsE
- atUYlpwT8hVTViNrGQI9ZyvzpVfP4kI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-50-M_EnBjdTOdKw1jjbwEuy2Q-1; Thu, 02 Mar 2023 12:34:40 -0500
-X-MC-Unique: M_EnBjdTOdKw1jjbwEuy2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 286E03C0F1A1;
- Thu,  2 Mar 2023 17:34:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EC9F2026D76;
- Thu,  2 Mar 2023 17:34:38 +0000 (UTC)
-Date: Thu, 2 Mar 2023 17:34:36 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ bh=U2V1DNWw9JWarKnBJJe+tGEVA+rttNoJrDCC8TGy6+g=;
+ b=FU2PrwTO848toKf+Cy71A+z2XW4RTtmru1NTu2h4MSIC1v3vvytrShMgWBgSBs4sD+cOeP
+ VgQeW2ISbXHr5pHg/WXqjX0O4NjF8+UF1iuDw2eCw0YbMfjjbBNrO2mJ1+Fe+W1Hk1Cclk
+ siL90n6mAOVqHLAJ2Ovjb9QfZNgKgCc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-595-0IvQFo7jM0utmhsBgLyxDw-1; Thu, 02 Mar 2023 12:37:32 -0500
+X-MC-Unique: 0IvQFo7jM0utmhsBgLyxDw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ m15-20020adfa3cf000000b002be0eb97f4fso3341389wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 09:37:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U2V1DNWw9JWarKnBJJe+tGEVA+rttNoJrDCC8TGy6+g=;
+ b=n2d2PiTn1i/kkCqaZW/3pOuhj6GrQ3E4vI5uRGEzDbNLAmDTmtEQJGc2fbb3LnqI80
+ IApQ8e/x8Kf2qKF6ZX44B7aT78OdEYoEly8yqL0OFzeqioAaOm4CQu5u/UwDCybOFwhP
+ yvlte9eGAjNjGW5zYLf8/NyBKYCxnEDomYw2bvvqoTNqUABRHo+A9MZax6qXfwxfoejU
+ 5Q88kKan2Z1riz2KwCau0RclwMob+uTMF3iC3IMm13Z5mb7yXAC1XuqIcMK6ECI461Df
+ ApLuCOq1h7zshhBeUV1olqXU1TBQAJaE9+Mjls+kWk7br4aC4GHbYPoQU/iO2IRMtyNh
+ vCjg==
+X-Gm-Message-State: AO0yUKVxHIeaLBcRqzafqE1lncGBtM7lSz1/4fc+M6cuOtB0aJOCmZMi
+ I99TUbeJGyuZUoYXeYBmamk2kIXqZkjb76YS8GQjIvj2+lyBD3NJPzu8b020rNc07hXKazTnh76
+ kW7hlczEU5845z9A=
+X-Received: by 2002:adf:cd8f:0:b0:2c5:4c7d:53ab with SMTP id
+ q15-20020adfcd8f000000b002c54c7d53abmr7613581wrj.20.1677778651121; 
+ Thu, 02 Mar 2023 09:37:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set+kq4tnhEtWu8wk96gm00oMQU2V4Hwr2G4FIjRt06rUBXq+vBvFXjv7NIZxC91OJtOt//qxQA==
+X-Received: by 2002:adf:cd8f:0:b0:2c5:4c7d:53ab with SMTP id
+ q15-20020adfcd8f000000b002c54c7d53abmr7613572wrj.20.1677778650831; 
+ Thu, 02 Mar 2023 09:37:30 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ j22-20020a05600c485600b003e203681b26sm161350wmo.29.2023.03.02.09.37.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 09:37:30 -0800 (PST)
+Date: Thu, 2 Mar 2023 17:37:28 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>
 Subject: Re: [PATCH] tests/qtest/migration-test: Disable
  migration/multifd/tcp/plain/cancel
-Message-ID: <ZADeLNaltLAZ9BU8@redhat.com>
+Message-ID: <ZADe2HMuRNUwCVxW@work-vm>
 References: <20230302172211.4146376-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -60,8 +81,7 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302172211.4146376-1-peter.maydell@linaro.org>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,11 +102,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
+* Peter Maydell (peter.maydell@linaro.org) wrote:
 > migration-test has been flaky for a long time, both in CI and
 > otherwise:
 > 
@@ -122,12 +141,6 @@ On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
 > specific subtest by default until somebody can track down the
 > underlying cause. Enthusiasts can opt back in by setting
 > QEMU_TEST_FLAKY_TESTS=1 in their environment.
-
-No objection to disabling the test. Given the many multifd fixes we
-have seen, I fear that unlikely many of the flakey tests, this is
-not merely a test problem, but rather has a decent chance of being
-a real bug in migration code.
-
 > 
 > We might need to disable more parts of this test if this isn't
 > sufficient to fix the flakiness.
@@ -158,19 +171,27 @@ a real bug in migration code.
 > +        qtest_add_func("/migration/multifd/tcp/plain/cancel",
 > +                       test_multifd_tcp_cancel);
 > +    }
+
+OK, that seems reasonably selective.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+
+(Cancel tests are always a pain; they can be racy with the test
+completing before you fire the cancel; or 'cancel' itself
+can hit lots of races inside the migration code if it's not written
+carefully enough to expect a cancel).
+
+Dave
+
+
 >      qtest_add_func("/migration/multifd/tcp/plain/zlib",
 >                     test_multifd_tcp_zlib);
 >  #ifdef CONFIG_ZSTD
 > -- 
 > 2.34.1
 > 
-> 
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
