@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFAB6A85B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D396A85BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:01:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlM8-00014J-Dn; Thu, 02 Mar 2023 11:00:32 -0500
+	id 1pXlMT-0001Wf-Ub; Thu, 02 Mar 2023 11:00:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXlLt-00013T-LU
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:00:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXlLr-0000nP-TD
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:00:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677772814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GlwxBcWtzRVreQhCR9//ht2cjZ0m/wpO0+fGFoLQOuI=;
- b=ZoksjRi3LoT6phDBfDqb476dXxWlH6kYgPVnKT5Gy2R7Njup2v3IvCLJdGDCG+5i7/BBRr
- 5csRH/mZmo8bG89oVHtv7KAb3/AeqopOXrTIWNrWuU+D46JGE+cZ5/HkEIEUMj/USuT/mQ
- 41sklUXCHumi2WybpwNcYr0Xjb2rfcA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-znHySGT4OcaZqvniQpoMvg-1; Thu, 02 Mar 2023 11:00:10 -0500
-X-MC-Unique: znHySGT4OcaZqvniQpoMvg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 885F11875041;
- Thu,  2 Mar 2023 16:00:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0C9D140EBF6;
- Thu,  2 Mar 2023 16:00:07 +0000 (UTC)
-Date: Thu, 2 Mar 2023 11:00:05 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 2/6] block: convert blk_exp_close_all_type() to
- AIO_WAIT_WHILE_UNLOCKED()
-Message-ID: <20230302160005.GB2497705@fedora>
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-3-stefanha@redhat.com>
- <7c440fc8-d37b-b933-ed5f-02baf7136bca@linaro.org>
- <20230302130810.GA2485531@fedora>
- <2421dc87-026e-154c-02df-7ffd778da7be@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXlMJ-0001Ug-DW
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:00:43 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXlMH-0000r4-RQ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:00:43 -0500
+Received: by mail-pf1-x431.google.com with SMTP id n5so10375749pfv.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 08:00:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677772840;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+n7+f74EnVFCcHgcGtgX5vTUUV3I+JQc1+ADtcVp6/U=;
+ b=HEbbJ8jEIaxHHVU/1ku69muhqUjhzqfva6ClGyoPAPPJ3bBgMu+ZAM5VjpeVj0L35i
+ typM3nlHCyHHbyE73JuAAix3JMiVQE2TZpvJQpqft31CA6lRQQzf3TXWd3oXaVpwWTNu
+ bDKt2FBVxVrdwGQFcmQkSTIpsjyMw++Hz3O0Jfzf7+TAyodureJkx1NKZX/E30Q5H+pB
+ gOC80DAjMM6vN8TTXIXa32+YIW0a0C3cwTHJ244us5paBpVvKoAODtiu+jHpxUUcog+I
+ /08myzzKe8GSsJCRU+TurrhAdbEmdIyOP3EN+KDiNnGdtbQ6HXL2g2jSW7SmWbDHmLLI
+ Mbxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677772840;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+n7+f74EnVFCcHgcGtgX5vTUUV3I+JQc1+ADtcVp6/U=;
+ b=N7VokU+VWC07X4b9oIaqUj8a7kD0tEa38c4WO6C/GPlgUHhMuSvaDldKAo2FVfLiaq
+ dAE6J7DdnQKxyaP+4HZ/VZXX0/M3rOYxV1QEgG+CE3GR0M+OrNqRX6tY8qFrxXnSlacC
+ jYeuKF7oCZwCKXdnzCpek60UyAAVaur8gnw9zPpXC7xBsTaXHCZbJ+7Uu7QnTG3X/i1b
+ obZf7h8Ltoneal0cuRAEflrAfnjJXJldZ+mwFzSp2hwpLwxAQqfLfYhr499xVzA6KIiO
+ 33k7e0r0Kk2vEx13r6qzcDU83ny/KJwbsewnV8YCY2xlRKUtXvfQGpZl5HyhsXbUgVXp
+ V87A==
+X-Gm-Message-State: AO0yUKWTrnB3wdfp9V/sbw1zwP6M0vVV4KEA23jhzq5mq2As8Qhr0KpT
+ 7QkI6Y1LMbfSpmC0bmKB8W2dwMDtA+N7Je8yTYumCw==
+X-Google-Smtp-Source: AK7set8ms42GRJLYAmW5KSqRIj71kNl1rvKyCQyTWudRVQehdEEOxD2WaSzIwLb3DrjqRLymBnY9dsYEJbWBnm6p1Jc=
+X-Received: by 2002:a63:3347:0:b0:503:7cc9:3f8d with SMTP id
+ z68-20020a633347000000b005037cc93f8dmr3395682pgz.9.1677772840177; Thu, 02 Mar
+ 2023 08:00:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dbkhlOUG11o6TRfr"
-Content-Disposition: inline
-In-Reply-To: <2421dc87-026e-154c-02df-7ffd778da7be@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230228150216.77912-1-cohuck@redhat.com>
+ <20230228150216.77912-2-cohuck@redhat.com>
+ <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
+ <874jr4dbcr.fsf@redhat.com>
+ <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
+ <87sfeoblsa.fsf@redhat.com>
+ <CAFEAcA8z9mS55oBySDYA6PHB=qcRQRH1Aa4WJidG8B=n+6CyEQ@mail.gmail.com>
+ <87cz5rmdlg.fsf@redhat.com>
+In-Reply-To: <87cz5rmdlg.fsf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Mar 2023 16:00:28 +0000
+Message-ID: <CAFEAcA-Q6hzgW-B52X5XEtZsvBX64qSr9wSKizLVYu58mPdXKw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Andrea Bolognani <abologna@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,97 +96,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 2 Mar 2023 at 14:29, Cornelia Huck <cohuck@redhat.com> wrote:
+>
+> On Thu, Mar 02 2023, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > I think having MTE in the specific case of KVM behave differently
+> > to how we've done all these existing properties and how we've
+> > done MTE for TCG would be confusing. The simplest thing is to just
+> > follow the existing UI for TCG MTE.
+> >
+> > The underlying reason for this is that MTE in general is not a feature
+> > only of the CPU, but also of the whole system design. It happens
+> > that KVM gives us tagged RAM "for free" but that's an oddity
+> > of the KVM implementation -- in real hardware there needs to
+> > be system level support for tagging.
+>
+> Hm... the Linux kernel actually seems to consider MTE to be a cpu
+> feature (at least, it lists it in the cpu features).
+>
+> So, is your suggestion to use the 'mte' prop of the virt machine to mean
+> "enable all prereqs for MTE, i.e. allocate tag memory for TCG and enable
+> MTE in the kernel for KVM"? For TCG, we'll get MTE for the max cpu
+> model; for KVM, we'd get MTE for host (== max), but I'm wondering what
+> should happen if we get named cpu models and the user specifies one
+> where we won't have MTE (i.e. some pre-8.5 one)?
 
---dbkhlOUG11o6TRfr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think we can probably cross that bridge when we get to it,
+but I imagine the semantics would be "cortex-foo plus MTE"
+(in the same way that -cpu cortex-foo,+x,-y can add and
+subtract features from a baseline).
 
-On Thu, Mar 02, 2023 at 03:16:32PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 2/3/23 14:08, Stefan Hajnoczi wrote:
-> > On Thu, Mar 02, 2023 at 11:36:03AM +0100, Philippe Mathieu-Daud=E9 wrot=
-e:
-> > > On 1/3/23 21:57, Stefan Hajnoczi wrote:
-> > > > There is no change in behavior. Switch to AIO_WAIT_WHILE_UNLOCKED()
-> > > > instead of AIO_WAIT_WHILE() to document that this code has already =
-been
-> > > > audited and converted. The AioContext argument is already NULL so
-> > > > aio_context_release() is never called anyway.
-> > >=20
-> > > Shouldn't we assert(ctx && unlock) in AIO_WAIT_WHILE_INTERNAL() then?
-> >=20
-> > Can you show where you'd add that assertion? It's not clear to me what
-> > the purpose is.
->=20
-> Without your series applied, using:
->=20
-> -- >8 --
-> diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
-> index dd9a7f6461..dc372e4c16 100644
-> --- a/include/block/aio-wait.h
-> +++ b/include/block/aio-wait.h
-> @@ -82,6 +82,8 @@ extern AioWait global_aio_wait;
->      bool waited_ =3D false;                                          \
->      AioWait *wait_ =3D &global_aio_wait;                             \
->      AioContext *ctx_ =3D (ctx);                                      \
-> +    assert("Use AIO_WAIT_WHILE_UNLOCKED()" && !unlock              \
-> +           || (ctx && strcmp(#ctx, "qemu_get_aio_context()")));    \
->      /* Increment wait_->num_waiters before evaluating cond. */     \
->      qatomic_inc(&wait_->num_waiters);                              \
->      /* Paired with smp_mb in aio_wait_kick(). */                   \
-> ---
-
-Ah, I see. You are suggesting adding an assertion to catch
-AIO_WAIT_WHILE() usage in cases where AIO_WAIT_WHILE_UNLOCKED() should
-be used instead.
-
-I think it's a bit too clever, especially the strcmp trick, but we can
-add it as the final patch. I have grepped the code and don't think there
-are any remaining instances where the assertion fails.
-
-Stefan
-
-> I get:
->=20
-> Assertion failed: ("Use AIO_WAIT_WHILE_UNLOCKED()" && !1 || (((void*)0) &&
-> strcmp("((void*)0)", "qemu_get_aio_context()"))), function
-> blk_exp_close_all_type, file export.c, line 309.
->=20
-> -> [PATCH 2/6] block: convert blk_exp_close_all_type() to
-> AIO_WAIT_WHILE_UNLOCKED()
->=20
-> Assertion failed: ("Use AIO_WAIT_WHILE_UNLOCKED()" && !1 ||
-> (qemu_get_aio_context() && strcmp("qemu_get_aio_context()",
-> "qemu_get_aio_context()"))), function bdrv_graph_wrlock, file graph-lock.=
-c,
-> line 130.
->=20
-> -> [PATCH 3/6] block: convert bdrv_graph_wrlock() to
-> AIO_WAIT_WHILE_UNLOCKED()
->=20
-> Assertion failed: ("Use AIO_WAIT_WHILE_UNLOCKED()" && !1 || (((void*)0) &&
-> strcmp("((void*)0)", "qemu_get_aio_context()"))), function
-> bdrv_drain_all_begin, file io.c, line 523.
->=20
-> -> [PATCH 4/6] block: convert bdrv_drain_all_begin() to
-> AIO_WAIT_WHILE_UNLOCKED()
->=20
-
---dbkhlOUG11o6TRfr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQAyAUACgkQnKSrs4Gr
-c8g0lgf+JecBQdq6iINzsXkfYVC5A3jmNKWGsYeIViAi3b0bcEjf1xb97TVgivzN
-+rNxie6XSpvQscTmATTAX/433y3epsZkq46oY72WdjIKEF0QQ/L2btLL/kfPgBf2
-Ez1uKEdzf9rfR3MTJpLNILACyPu5rSIDw+zz9OqmfQljJSTswHIViMwSnunmaPnR
-ymkMKySNe/120JUYM9t+7Fe457IWvhmbur6Zt2ZUgqNeCwAaegifsHVYF8Yl1glX
-bEVxn04h0SMeD4X7E0DiR3S/KVq57CAskuouQ3L9+Gky96ZVJncac2Ku5zyxrZAu
-I12PL2uaWHYpbF31Kgn/r/cdE836RQ==
-=X8us
------END PGP SIGNATURE-----
-
---dbkhlOUG11o6TRfr--
-
+thanks
+-- PMM
 
