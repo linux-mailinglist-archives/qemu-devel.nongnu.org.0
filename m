@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C326A82D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658886A82C3
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:53:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXi8f-0003qJ-R8; Thu, 02 Mar 2023 07:34:25 -0500
+	id 1pXi8Q-0003Jd-Ag; Thu, 02 Mar 2023 07:34:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi6m-0002ZS-UW
+ id 1pXi6p-0002aK-Lu
  for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi6j-0003IY-Lo
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:26 -0500
+ id 1pXi6m-0003JC-Nn
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677760345;
+ s=mimecast20190719; t=1677760348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=79RsmoLxuuXkGBmklmtuZd+2O+6/W1NcISno4kDP6RA=;
- b=PwLiaKxDr/ytuXcvGx9+fuMbtcZqfDZUUE5gPP2XWd5y68s9miLptxLesvwaaAYlZIWjPw
- /V00bhUyPJQXGje94/Fwufb9zvpqoc9iHUlf7zZPTlOdcLbAtgvCKkyuEMCSdsEy6ouj3S
- WkXjGwHTl3CWsFDZHDMeNUgJUSI02mU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=w2Lkd43zRTJy6RHJewz2yutPwRBKk/prXz6vda9RNlM=;
+ b=fv7b38zSIxV8mCgkJFpZ0p402Fqr2yi+/AQYV/1sKS60+BQ7o9cuaaw9sUwHozURl4iDON
+ f/GuuJTnaK9Vr3cOHn2uy6jKjtxgHifEh+4X2v/0OrCTw2epZrbi+/PfcqD1fLE7tuLXFC
+ D23/Izmxqk3hJoZAjgCSKSpDWlXn+Zs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-322-JTgOrAalMVyl7zOH1sEP5g-1; Thu, 02 Mar 2023 07:32:24 -0500
-X-MC-Unique: JTgOrAalMVyl7zOH1sEP5g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n27-20020a05600c3b9b00b003e9ca0f4677so1010332wms.8
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:32:23 -0800 (PST)
+ us-mta-393-22jN_2gIODaNxprPUoGBrg-1; Thu, 02 Mar 2023 07:32:27 -0500
+X-MC-Unique: 22jN_2gIODaNxprPUoGBrg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ bx25-20020a5d5b19000000b002c7ce4ce3c3so3197989wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:32:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=79RsmoLxuuXkGBmklmtuZd+2O+6/W1NcISno4kDP6RA=;
- b=hmabz0enfTCAAakb1+nfGomvcUdYTyThYxPWTjfGBzaDYVpw5QiSideKndNAxIX5OO
- 7qMQGn8B7/hraySQzicpRZ6Y8zXeA3Wg7gVWR6bV+C57g/rnQialIoHuSTxTokEfbXco
- PLKuVetZHbLNvBfB/lEx8Nb/6diM6ljqrL0NoZG5iajVVxZxixsPYweYrGBTtUNuEcgA
- d6I9sOMeJz7InE0g0DR8wxzXFdNeYPWTeRPBMlsgTPd3O1mAYjM+6YIZlFe0uIVRIQEk
- 3HSdAID8APns+nX4pDnrzwi2qj4fLYf01LRI0aHpbrSL3IDQ4FRPuALs4n0TBjv0O1ib
- wR5w==
-X-Gm-Message-State: AO0yUKVsntvrIB2sT5CAO3j+FniI3jiCflDjjSYw+BQQ0IoJwmyZdO9c
- mvN1VU1Vc5YxHD6nv8mbzSDk4RS8RJdLFHvy29hipOFD2N/8VvJFIol3UhwM1J5U1BrUMdA0z+O
- NTdOUnpHTQ8438sKquF6xol2NK9RddG99StSY/ikkOXwx/6F0ssBoOAgM8mfJYVvveUn3/lqSmU
- o=
-X-Received: by 2002:adf:f186:0:b0:2c7:4d7d:56b1 with SMTP id
- h6-20020adff186000000b002c74d7d56b1mr7249072wro.4.1677760342310; 
- Thu, 02 Mar 2023 04:32:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set+Ws7tPK7WGkY5fYaSyk/SBexLrfdBUnDwvPiSI+xvCv9mVHEfdWJsIcH33IDzuMQbstnmEJw==
-X-Received: by 2002:adf:f186:0:b0:2c7:4d7d:56b1 with SMTP id
- h6-20020adff186000000b002c74d7d56b1mr7249056wro.4.1677760342007; 
- Thu, 02 Mar 2023 04:32:22 -0800 (PST)
+ bh=w2Lkd43zRTJy6RHJewz2yutPwRBKk/prXz6vda9RNlM=;
+ b=uHQ0FNGvRGLc4up8CVeyfLRKZ/FVcFU6RzKRlAGaW0j8lUPvYrX1XZ6Soy8U6FcvQS
+ aPRgQ8dHuGtT1JFUbxX9lgCP7BnWoNpQK2zKOHtSMkRM6/jrFdINteLlTUnqsSDqLefM
+ 9hlkdL0Ij6ojI7ckyO6D3XjiKZYSYQDWzdFcgbhIz7AdGXBWArsYF9qyMPOYEspwJpFr
+ jvZlO08UYkdshkzU9bLFKvu+KuQAVuSpnZYMp769R/fLGClQETDCzS4PwTJf6MuTLN29
+ b44JmyhWNi1B5hTarpqGx0KmXsxvsl2DbmPqwgCOx2zCv5BRqOZUR/PvTgBrnGfUj/In
+ OV9Q==
+X-Gm-Message-State: AO0yUKXdwC8UZMNuBUyoIcHQML9aF75R0wFs3GShDV9ujyYSlLiYHCF3
+ nW4ByDvSpC5a1c1F+SZvwVt3+Yl/vWYteXzoXTcOwvi5H1RO8QegQlzdFA0TyKucmxih/O0/Vj5
+ WOQDnfnbZMFXoB+PGBMFL9ZDYxjGoLJapY9zKQbwluEc89glFjUHJi8pPzsJhFcL277Ux5v2Y8m
+ Y=
+X-Received: by 2002:adf:efd0:0:b0:2c7:1c36:3c67 with SMTP id
+ i16-20020adfefd0000000b002c71c363c67mr7787533wrp.23.1677760345197; 
+ Thu, 02 Mar 2023 04:32:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set+c5wPKlJscVJdESlmGbYk3ZGHbhK5U4bZyVABLAhhOp97QtfjDdDvl6Fc/NTNAx6h+nfBOeA==
+X-Received: by 2002:adf:efd0:0:b0:2c7:1c36:3c67 with SMTP id
+ i16-20020adfefd0000000b002c71c363c67mr7787509wrp.23.1677760344786; 
+ Thu, 02 Mar 2023 04:32:24 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- e15-20020a5d594f000000b002c5d3f0f737sm15078271wri.30.2023.03.02.04.32.21
+ s11-20020a5d424b000000b002c55521903bsm15013482wrr.51.2023.03.02.04.32.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 04:32:21 -0800 (PST)
+ Thu, 02 Mar 2023 04:32:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Woodhouse <dwmw@amazon.co.uk>,
 	Paul Durrant <paul@xen.org>
-Subject: [PULL 37/62] hw/xen: Implement EVTCHNOP_bind_vcpu
-Date: Thu,  2 Mar 2023 13:30:04 +0100
-Message-Id: <20230302123029.153265-38-pbonzini@redhat.com>
+Subject: [PULL 38/62] hw/xen: Implement EVTCHNOP_reset
+Date: Thu,  2 Mar 2023 13:30:05 +0100
+Message-Id: <20230302123029.153265-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302123029.153265-1-pbonzini@redhat.com>
 References: <20230302123029.153265-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,104 +106,121 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_evtchn.c  | 40 +++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  2 ++
- target/i386/kvm/xen-emu.c | 12 ++++++++++++
- 3 files changed, 54 insertions(+)
+ hw/i386/kvm/xen_evtchn.c  | 30 ++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h  |  3 +++
+ target/i386/kvm/xen-emu.c | 17 +++++++++++++++++
+ 3 files changed, 50 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index e2e36d94f670..cbaf4f535aaf 100644
+index cbaf4f535aaf..c804a315e046 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -791,6 +791,46 @@ int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
-     return ret;
+@@ -12,6 +12,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/module.h"
++#include "qemu/lockable.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/log.h"
+ #include "qapi/error.h"
+@@ -747,6 +748,35 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+     return 0;
  }
  
-+int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu)
++int xen_evtchn_soft_reset(void)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
-+    XenEvtchnPort *p;
-+    int ret = -EINVAL;
++    int i;
 +
 +    if (!s) {
 +        return -ENOTSUP;
 +    }
 +
-+    if (!valid_port(vcpu->port)) {
-+        return -EINVAL;
++    assert(qemu_mutex_iothread_locked());
++
++    QEMU_LOCK_GUARD(&s->port_lock);
++
++    for (i = 0; i < s->nr_ports; i++) {
++        close_port(s, i);
 +    }
 +
-+    if (!valid_vcpu(vcpu->vcpu)) {
-+        return -ENOENT;
-+    }
-+
-+    qemu_mutex_lock(&s->port_lock);
-+
-+    p = &s->port_table[vcpu->port];
-+
-+    if (p->type == EVTCHNSTAT_interdomain ||
-+        p->type == EVTCHNSTAT_unbound ||
-+        p->type == EVTCHNSTAT_pirq ||
-+        (p->type == EVTCHNSTAT_virq && virq_is_global(p->type_val))) {
-+        /*
-+         * unmask_port() with do_unmask==false will just raise the event
-+         * on the new vCPU if the port was already pending.
-+         */
-+        p->vcpu = vcpu->vcpu;
-+        unmask_port(s, vcpu->port, false);
-+        ret = 0;
-+    }
-+
-+    qemu_mutex_unlock(&s->port_lock);
-+
-+    return ret;
++    return 0;
 +}
 +
- int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
++int xen_evtchn_reset_op(struct evtchn_reset *reset)
++{
++    if (reset->dom != DOMID_SELF && reset->dom != xen_domid) {
++        return -ESRCH;
++    }
++
++    return xen_evtchn_soft_reset();
++}
++
+ int xen_evtchn_close_op(struct evtchn_close *close)
  {
      XenEvtchnState *s = xen_evtchn_singleton;
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 1ebc7580eba5..486b031c8292 100644
+index 486b031c8292..5d3e03553f34 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -23,6 +23,7 @@ struct evtchn_bind_ipi;
- struct evtchn_send;
+@@ -13,6 +13,7 @@
+ #define QEMU_XEN_EVTCHN_H
+ 
+ void xen_evtchn_create(void);
++int xen_evtchn_soft_reset(void);
+ int xen_evtchn_set_callback_param(uint64_t param);
+ 
+ struct evtchn_status;
+@@ -24,6 +25,7 @@ struct evtchn_send;
  struct evtchn_alloc_unbound;
  struct evtchn_bind_interdomain;
-+struct evtchn_bind_vcpu;
+ struct evtchn_bind_vcpu;
++struct evtchn_reset;
  int xen_evtchn_status_op(struct evtchn_status *status);
  int xen_evtchn_close_op(struct evtchn_close *close);
  int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
-@@ -31,5 +32,6 @@ int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
- int xen_evtchn_send_op(struct evtchn_send *send);
+@@ -33,5 +35,6 @@ int xen_evtchn_send_op(struct evtchn_send *send);
  int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
  int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain);
-+int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
+ int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
++int xen_evtchn_reset_op(struct evtchn_reset *reset);
  
  #endif /* QEMU_XEN_EVTCHN_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 1aff6b104259..8dc0d320f5ea 100644
+index 8dc0d320f5ea..821629f07765 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -952,6 +952,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         }
+@@ -964,6 +964,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         err = xen_evtchn_bind_vcpu_op(&vcpu);
          break;
      }
-+    case EVTCHNOP_bind_vcpu: {
-+        struct evtchn_bind_vcpu vcpu;
++    case EVTCHNOP_reset: {
++        struct evtchn_reset reset;
 +
-+        qemu_build_assert(sizeof(vcpu) == 8);
-+        if (kvm_copy_from_gva(cs, arg, &vcpu, sizeof(vcpu))) {
++        qemu_build_assert(sizeof(reset) == 2);
++        if (kvm_copy_from_gva(cs, arg, &reset, sizeof(reset))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_bind_vcpu_op(&vcpu);
++        err = xen_evtchn_reset_op(&reset);
 +        break;
 +    }
      default:
          return false;
      }
+@@ -981,6 +993,11 @@ int kvm_xen_soft_reset(void)
+ 
+     trace_kvm_xen_soft_reset();
+ 
++    err = xen_evtchn_soft_reset();
++    if (err) {
++        return err;
++    }
++
+     /*
+      * Zero is the reset/startup state for HVM_PARAM_CALLBACK_IRQ. Strictly,
+      * it maps to HVM_PARAM_CALLBACK_TYPE_GSI with GSI#0, but Xen refuses to
 -- 
 2.39.1
 
