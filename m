@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698CC6A7C82
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:25:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F250C6A7C81
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:25:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeEv-00025V-Sq; Thu, 02 Mar 2023 03:24:37 -0500
+	id 1pXeEx-000264-O0; Thu, 02 Mar 2023 03:24:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeEt-000254-6J
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeEv-00025e-G9
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeEr-0001ux-8D
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeEt-0001wR-Tw
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:24:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745472;
+ s=mimecast20190719; t=1677745475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CFmNraIcZL21rjW03vBgeiUimW+DG42CMPWxMHTJm8g=;
- b=VXy++YKBBXk5LitSZyBa6pureApoqvFF6Ni9pn1MTQdBGNfWnL+QCbVim/klXnB4/kZMvW
- T4R4GhcGC3tddZyTvCubpiaLQs5tvelEODuJVCH/+6DfPrVi9ldOpOFNPbqpTSW1kfJMwp
- 7AMdEmWiS8Yo0GgTWYcQjVUg/a6cRO4=
+ in-reply-to:in-reply-to:references:references;
+ bh=3rAU4eV4gEL1nE9JTrIdiAlrOHj3+NJ35GVTPTdgm+I=;
+ b=FjRaDsIHv3GgsBsXuskNs2mOrt/WhiJO0mjIJw2SLRD9ISviZguxy6j5t3ZGDjSgbJYmVd
+ qrFYaxntnQpnN88RuKooNGFoehZzXiPKEk7p0YNWGFsEpdrqF0bQ0/rvMryEhDEN5HmNRB
+ DA1mYih4JMwYeKkDa9FIZ3dvInoZcW0=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-513-8UH4AoD3PnalVfC7nXY67Q-1; Thu, 02 Mar 2023 03:24:30 -0500
-X-MC-Unique: 8UH4AoD3PnalVfC7nXY67Q-1
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-50-JfTjt08SO_yV4tk2cA3gHg-1; Thu, 02 Mar 2023 03:24:33 -0500
+X-MC-Unique: JfTjt08SO_yV4tk2cA3gHg-1
 Received: by mail-wr1-f70.google.com with SMTP id
- bx25-20020a5d5b19000000b002c7ce4ce3c3so3037920wrb.13
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:24:30 -0800 (PST)
+ i18-20020a05600011d200b002c94d861113so2982138wrx.16
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:24:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745469;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CFmNraIcZL21rjW03vBgeiUimW+DG42CMPWxMHTJm8g=;
- b=UU+0l/BepZUm+uPbffrE3lRTwOqtn0DBl11CuuFRxkFuXYJDtqRe3PEhmfoYh6Qs4X
- ewG3JrsIEDzNWbEkQXEgud7a7GmfQlb+lxJrtARkv1ZjnN5+/aowa49DXjTdIa1E4W9o
- 7aeTQvwvtv1/e0odUjHF9KCTWVOPZwdjOc9A09d9S08oXM805mPCRzBOB0Fu9gpwkRtP
- GWq1gzXUw6pnL10vI8xmIKaKMXyoxZHp1+Jdo9NYOW28DJUKVjvIlkW8AR9KzK0sDSr3
- 25DQ/ggtQV9DwoldrrglAUK4J9xkYXloQToXgFIxBraoShI4wWBaNvbbYhNX8acLZzJO
- ff9Q==
-X-Gm-Message-State: AO0yUKXOUDMIgVRky6nbA/JNFmHBLJ29e1a/dyhTixh2+/nGZvVP/liT
- ud9UJlQ6edXb/WJSD335awC6zOpLuApnY62snXXSP2xyjJr3PvFmIuWAnwrnUNUtxLRPAwkAMLs
- 1HVljMPbC+Bv4mPMDPVaj6PbqKWu3b18V3ZKPS3mhV1OZbBqNwJhGXI1Lv1h+0/tdUA==
-X-Received: by 2002:adf:ee85:0:b0:2c7:d6a:d7fa with SMTP id
- b5-20020adfee85000000b002c70d6ad7famr7206899wro.25.1677745468769; 
- Thu, 02 Mar 2023 00:24:28 -0800 (PST)
-X-Google-Smtp-Source: AK7set+C22Gm+BaHEe64lhQB+U6ACcR1MlDx+sLeWqwTA8g28dlsh+MxUX/O3nXu87GDsxC9wTplBg==
-X-Received: by 2002:adf:ee85:0:b0:2c7:d6a:d7fa with SMTP id
- b5-20020adfee85000000b002c70d6ad7famr7206879wro.25.1677745468360; 
- Thu, 02 Mar 2023 00:24:28 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745471;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3rAU4eV4gEL1nE9JTrIdiAlrOHj3+NJ35GVTPTdgm+I=;
+ b=k0uKeo5X/4FfpFzhx1Kd+1BuiYokAFjtYpLJOziUVmSXdKy0TUNmlCdwnWcl6obu6w
+ EKitEpiuphw976Tr2srNo3sYhJhv5xn7PnzYe7gANDCO1LthvJNkgBJtiogQ3gOyyeVO
+ c5Y/p4WC9Eir7cCvjbo68AjBnv8B/pFO5LU6DJiCxkOXfgcZTGNMPs92hLpxlBWgc9mI
+ SxE5d7aSioFi9SGDOmgmctwf3kw1a24LfMwJMspbjTWGO8A+wSh5EvPIqS6dZ0SRgzqC
+ mIZjmpUIN39/AOe5sdhy+I1WAcXzklKu6el2YloxglR1Q/CQdJAR3RLqgRVa/fXF8QGo
+ GFZA==
+X-Gm-Message-State: AO0yUKXP4Aia0CXjveP8nHORLxtlwW7o/QGDxlP11QjVHxCKSocCCObb
+ dDP4E9Nii7/xNmcduXzcZmEuZeIiCJ27qW0zJA6b0ZV/l6ob+wuY2WzJLDpIqI8JaogIZuxOy9y
+ ab8ulsYRJ54U7x/ptEWqwHqHFqL7dSH4iOsR/xG+sDXb9TP6AGLWqA+8qzV1wyKTlVA==
+X-Received: by 2002:a05:600c:5125:b0:3ea:d601:976f with SMTP id
+ o37-20020a05600c512500b003ead601976fmr6338117wms.23.1677745471635; 
+ Thu, 02 Mar 2023 00:24:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set9rHTOT/nfn2YT/ELSmTPYKImys2PQy9yXfecvZJq4rwH2HOYW8Hxu4NiNrMjcEVC0vykQS2w==
+X-Received: by 2002:a05:600c:5125:b0:3ea:d601:976f with SMTP id
+ o37-20020a05600c512500b003ead601976fmr6338097wms.23.1677745471268; 
+ Thu, 02 Mar 2023 00:24:31 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- k33-20020a05600c1ca100b003dfe5190376sm2337117wms.35.2023.03.02.00.24.27
+ o2-20020a05600c510200b003e208cec49bsm5792606wms.3.2023.03.02.00.24.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:24:27 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:24:25 -0500
+ Thu, 02 Mar 2023 00:24:30 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:24:28 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/53] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20230302082343.560446-1-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 01/53] hw/smbios: fix field corruption in type 4 table
+Message-ID: <20230302082343.560446-2-mst@redhat.com>
+References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,192 +98,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
+From: Julia Suvorova <jusual@redhat.com>
 
-  Merge tag 'buildsys-qom-qdev-ui-20230227' of https://github.com/philmd/qemu into staging (2023-02-28 15:09:18 +0000)
+Since table type 4 of SMBIOS version 2.6 is shorter than 3.0, the
+strings which follow immediately after the struct fields have been
+overwritten by unconditional filling of later fields such as core_count2.
+Make these fields dependent on the SMBIOS version.
 
-are available in the Git repository at:
+Fixes: 05e27d74c7 ("hw/smbios: add core_count2 to smbios table type 4")
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2169904
 
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 65888be0d4da746e2f99930e21018d801bf8995e:
-
-  tests/data/acpi/virt: drop (most) duplicate files. (2023-03-02 03:16:26 -0500)
-
-----------------------------------------------------------------
-virtio,pc,pci: features, cleanups, fixes
-
-vhost-user support without ioeventfd
-word replacements in vhost user spec
-shpc improvements
-
-cleanups, fixes all over the place
-
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Message-Id: <20230223125747.254914-1-jusual@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/smbios/smbios.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-----------------------------------------------------------------
-Akihiko Odaki (4):
-      vhost-user-gpio: Configure vhost_dev when connecting
-      vhost-user-i2c: Back up vqs before cleaning up vhost_dev
-      vhost-user-rng: Back up vqs before cleaning up vhost_dev
-      hw/timer/hpet: Fix expiration time overflow
-
-Alex Bennée (1):
-      backends/vhost-user: remove the ioeventfd check
-
-Carlos López (2):
-      vhost: avoid a potential use of an uninitialized variable in vhost_svq_poll()
-      libvhost-user: check for NULL when allocating a virtqueue element
-
-Dr. David Alan Gilbert (1):
-      virtio-rng-pci: fix transitional migration compat for vectors
-
-Eugenio Pérez (2):
-      virtio-net: clear guest_announce feature if no cvq backend
-      vdpa: stop all svq on device deletion
-
-Gregory Price (2):
-      hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
-      hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
-
-Ira Weiny (3):
-      qemu/bswap: Add const_le64()
-      qemu/uuid: Add UUID static initializer
-      hw/cxl/mailbox: Use new UUID network order define for cel_uuid
-
-Jason Wang (4):
-      intel-iommu: fail MAP notifier without caching mode
-      intel-iommu: fail DEVIOTLB_UNMAP without dt mode
-      memory: introduce memory_region_unmap_iommu_notifier_range()
-      smmu: switch to use memory_region_unmap_iommu_notifier_range()
-
-Jonathan Cameron (6):
-      MAINTAINERS: Add Fan Ni as Compute eXpress Link QEMU reviewer
-      hw/mem/cxl_type3: Improve error handling in realize()
-      hw/pci-bridge/cxl_downstream: Fix type naming mismatch
-      tests/acpi: Allow update of q35/DSDT.cxl
-      hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
-      tests: acpi: Update q35/DSDT.cxl for removed duplicate UID
-
-Julia Suvorova (1):
-      hw/smbios: fix field corruption in type 4 table
-
-Maxime Coquelin (3):
-      docs: vhost-user: replace _SLAVE_ with _BACKEND_
-      libvhost-user: Adopt new backend naming
-      vhost-user: Adopt new backend naming
-
-Michael S. Tsirkin (8):
-      Revert "x86: don't let decompressed kernel image clobber setup_data"
-      Revert "x86: do not re-randomize RNG seed on snapshot load"
-      Revert "x86: re-initialize RNG seed when selecting kernel"
-      Revert "x86: reinitialize RNG seed on system reboot"
-      Revert "x86: use typedef for SetupData struct"
-      Revert "x86: return modified setup_data only if read as memory, not as file"
-      Revert "hw/i386: pass RNG seed via setup_data entry"
-      tests/data/acpi/virt: drop (most) duplicate files.
-
-Peter Xu (1):
-      intel-iommu: send UNMAP notifications for domain or global inv desc
-
-Philippe Mathieu-Daudé (1):
-      hw/pci: Trace IRQ routing on PCI topology
-
-Vladimir Sementsov-Ogievskiy (12):
-      pci/shpc: set attention led to OFF on reset
-      pci/shpc: change shpc_get_status() return type to uint8_t
-      pci/shpc: shpc_slot_command(): handle PWRONLY -> ENABLED transition
-      pci/shpc: more generic handle hot-unplug in shpc_slot_command()
-      pci/shpc: pass PCIDevice pointer to shpc_slot_command()
-      pci/shpc: refactor shpc_device_plug_common()
-      pcie: pcie_cap_slot_write_config(): use correct macro
-      pcie_regs: drop duplicated indicator value macros
-      pcie: drop unused PCIExpressIndicator
-      pcie: pcie_cap_slot_enable_power() use correct helper
-      pcie: introduce pcie_sltctl_powered_off() helper
-      pcie: set power indicator to off on reset by default
-
-Yajun Wu (1):
-      chardev/char-socket: set s->listener = NULL in char_socket_finalize
-
-Zhenzhong Duan (1):
-      memory: Optimize replay of guest mapping
-
- include/exec/memory.h                     |  10 +++
- include/hw/cxl/cxl_device.h               |   2 +-
- include/hw/i386/microvm.h                 |   5 +-
- include/hw/i386/pc.h                      |   3 -
- include/hw/i386/x86.h                     |   3 +-
- include/hw/nvram/fw_cfg.h                 |  31 --------
- include/hw/pci/pcie.h                     |   8 --
- include/hw/pci/pcie_regs.h                |  14 ----
- include/hw/virtio/vhost-user-gpio.h       |   2 +-
- include/qemu/bswap.h                      |  12 ++-
- include/qemu/uuid.h                       |  12 +++
- subprojects/libvhost-user/libvhost-user.h |  20 ++---
- backends/vhost-user.c                     |  11 ---
- chardev/char-socket.c                     |   1 +
- hw/arm/smmu-common.c                      |  16 +---
- hw/core/machine.c                         |   2 +
- hw/cxl/cxl-device-utils.c                 |   2 +-
- hw/cxl/cxl-mailbox-utils.c                |  28 +++----
- hw/i386/acpi-build.c                      |   1 -
- hw/i386/intel_iommu.c                     |  31 ++++++--
- hw/i386/microvm.c                         |  17 ++---
- hw/i386/pc.c                              |   4 +-
- hw/i386/pc_piix.c                         |   2 -
- hw/i386/pc_q35.c                          |   2 -
- hw/i386/x86.c                             | 122 ++++++++----------------------
- hw/mem/cxl_type3.c                        |  15 +++-
- hw/net/virtio-net.c                       |  15 ++++
- hw/nvram/fw_cfg.c                         |  21 ++---
- hw/pci-bridge/cxl_downstream.c            |   2 +-
- hw/pci/pci.c                              |   8 ++
- hw/pci/pcie.c                             |  30 +++++---
- hw/pci/shpc.c                             | 107 ++++++++++++++------------
- hw/smbios/smbios.c                        |   8 +-
- hw/timer/hpet.c                           |  19 +++--
- hw/virtio/vhost-shadow-virtqueue.c        |   2 +-
- hw/virtio/vhost-user-gpio.c               |  10 ++-
- hw/virtio/vhost-user-i2c.c                |   5 +-
- hw/virtio/vhost-user-rng.c                |   5 +-
- hw/virtio/vhost-user.c                    |  30 ++++----
- hw/virtio/vhost-vdpa.c                    |  17 +----
- hw/virtio/virtio-qmp.c                    |  12 +--
- softmmu/memory.c                          |  17 ++++-
- subprojects/libvhost-user/libvhost-user.c |  27 ++++---
- MAINTAINERS                               |   1 +
- docs/interop/vhost-user.rst               |  40 +++++-----
- hw/pci/trace-events                       |   1 +
- tests/data/acpi/q35/DSDT.cxl              | Bin 9578 -> 9564 bytes
- tests/data/acpi/virt/APIC.memhp           | Bin 172 -> 0 bytes
- tests/data/acpi/virt/APIC.numamem         | Bin 172 -> 0 bytes
- tests/data/acpi/virt/DSDT.numamem         | Bin 5196 -> 0 bytes
- tests/data/acpi/virt/FACP.memhp           | Bin 276 -> 0 bytes
- tests/data/acpi/virt/FACP.numamem         | Bin 276 -> 0 bytes
- tests/data/acpi/virt/GTDT.memhp           | Bin 96 -> 0 bytes
- tests/data/acpi/virt/GTDT.numamem         | Bin 96 -> 0 bytes
- tests/data/acpi/virt/IORT.memhp           | Bin 128 -> 0 bytes
- tests/data/acpi/virt/IORT.numamem         | Bin 128 -> 0 bytes
- tests/data/acpi/virt/IORT.pxb             | Bin 128 -> 0 bytes
- tests/data/acpi/virt/MCFG.memhp           | Bin 60 -> 0 bytes
- tests/data/acpi/virt/MCFG.numamem         | Bin 60 -> 0 bytes
- tests/data/acpi/virt/SPCR.memhp           | Bin 80 -> 0 bytes
- tests/data/acpi/virt/SPCR.numamem         | Bin 80 -> 0 bytes
- 61 files changed, 357 insertions(+), 396 deletions(-)
- delete mode 100644 tests/data/acpi/virt/APIC.memhp
- delete mode 100644 tests/data/acpi/virt/APIC.numamem
- delete mode 100644 tests/data/acpi/virt/DSDT.numamem
- delete mode 100644 tests/data/acpi/virt/FACP.memhp
- delete mode 100644 tests/data/acpi/virt/FACP.numamem
- delete mode 100644 tests/data/acpi/virt/GTDT.memhp
- delete mode 100644 tests/data/acpi/virt/GTDT.numamem
- delete mode 100644 tests/data/acpi/virt/IORT.memhp
- delete mode 100644 tests/data/acpi/virt/IORT.numamem
- delete mode 100644 tests/data/acpi/virt/IORT.pxb
- delete mode 100644 tests/data/acpi/virt/MCFG.memhp
- delete mode 100644 tests/data/acpi/virt/MCFG.numamem
- delete mode 100644 tests/data/acpi/virt/SPCR.memhp
- delete mode 100644 tests/data/acpi/virt/SPCR.numamem
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 4869566cf5..d2007e70fb 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -750,14 +750,16 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
+     t->core_enabled = t->core_count;
+ 
+-    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
+-
+     t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
+-    t->thread_count2 = cpu_to_le16(ms->smp.threads);
+ 
+     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
+     t->processor_family2 = cpu_to_le16(0x01); /* Other */
+ 
++    if (tbl_len == SMBIOS_TYPE_4_LEN_V30) {
++        t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
++        t->thread_count2 = cpu_to_le16(ms->smp.threads);
++    }
++
+     SMBIOS_BUILD_TABLE_POST;
+     smbios_type4_count++;
+ }
+-- 
+MST
 
 
