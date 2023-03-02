@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429FE6A8C18
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE856A8C12
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:43:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrcX-0007GD-1z; Thu, 02 Mar 2023 17:41:53 -0500
+	id 1pXrcc-0007St-K1; Thu, 02 Mar 2023 17:41:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcV-0007FA-Hp
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:51 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcb-0007R5-EA
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:57 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcS-0008U5-PA
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:51 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so2819510wmb.5
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrcZ-0008VE-Rv
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:41:57 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ o38-20020a05600c512600b003e8320d1c11so2650160wms.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:41:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677796907;
+ d=linaro.org; s=google; t=1677796914;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DSE7g2BGvjGKtD0MrBQHAr8f/88wxlLX0Z9UtPjGoiE=;
- b=x8OyNtl42W3kRLnt0EIbxe7d6QFch/H29Le8lQ3VDmQbDCIPzgZi5WK1sz9gSEZjJq
- mUVK6QIzmWi7VVP8qjpa3uECzIZFbaHUndVa+HXNQazZixFa5gn2oZgqhU4eOb8M3Pz1
- /o5Of5vmRfv+RdRbP1KvV7Ej78bnLZfzW4v5Cq+jBa5XwUbeMzNXFlyagATVmykvipw0
- 9aV0G7m3Ka8XHGcPG/MkSN7CO9k9A17QR42bdRVpGewQ/+O9zcXRM9iP4f7mp5cCVUhC
- QuASqTcAKk1eK+whJ/Fg4VqUCV2fBuYP5Dvso4cDkSIQiXO/dFtkolnTZCNxvc9fzv2H
- j6Qg==
+ bh=WBH0OC00WXelyQU0Dru5HltuKOYgUwSjsFr5h9b93CI=;
+ b=rZvVoTx7mcGvLx5x4cGyfQyxRwvVXY/carR2VREyOo3wVQgHk27crXiiT/wIPyRrYU
+ Y3pZRYeGvFcRQcLyAVgIek6tGqjydvyRrlLwM+rXzGhQm3eo+7ssqhJyHv3TDsWpaeVL
+ 6SuGNnFgQjT+kH3nANQN7QBLq0wfWNCgrevj8nogbRUNBMZLUN8Sn/bvnbT0mAyvEBIz
+ 0EpNWeLktE5hKDFT0MQcDILMTagM0bHgb77+ZmQWC4C4yQi6NU1BUYeH39MdnNs4phMI
+ 59iH7DZILzpx3CjPifQ/QSgU+G+xGEHY4nxum2qV3wsKfRZN3KhzYtZf8D/iGLFI4xgu
+ jWTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677796907;
+ d=1e100.net; s=20210112; t=1677796914;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DSE7g2BGvjGKtD0MrBQHAr8f/88wxlLX0Z9UtPjGoiE=;
- b=h9VXD7eAbj/lw7T4DP/B1DmJl/zDEagNQ+OQV6d5lthDoEALttfmtlBQjlMkOyl3yY
- fE7OU4ZVkbhCrCGrE0f+ctgCiEGSHrgk19ghK2dv+FRlmkAk7W0z+aZLtAe5Qk0NDVoY
- ULrb3K3sUU4H04EVLjDioBdHaBU/ooJqnMwUinjOaUfzensiIRtd4lFIpk+xkPdg0bfG
- 4gisOst0p7cCNzvm1Lp6vqkBba99LlpWDOBFQjLPdetcAr37aZwBa2MzzliFf/FKjIcG
- gL/vrw0o6wPAkh1n1fX68GPlmef2IgGr56qNn4dZrzvhGENEDZXf8Ol2oZK81MQ99VM5
- UnRA==
-X-Gm-Message-State: AO0yUKVQYrCMAtax1+RGNoBe6/vAg8gAmkRzsOqQYooo/ytDnkuK7S/t
- pKYJu4VUZTX3YN6OsCqTWHx/2U9165TXlenE
-X-Google-Smtp-Source: AK7set/Pe0tWpwEmAhuXUa++sIw0dBHE7X1ZbUblKTXsZJ76QFcTcF24giJac6BUF25mGMU3OPdRGA==
-X-Received: by 2002:a05:600c:3583:b0:3eb:399d:ab1d with SMTP id
- p3-20020a05600c358300b003eb399dab1dmr8994045wmq.16.1677796907307; 
- Thu, 02 Mar 2023 14:41:47 -0800 (PST)
+ bh=WBH0OC00WXelyQU0Dru5HltuKOYgUwSjsFr5h9b93CI=;
+ b=fqdUBaArJFV3buzf6IErOicJI4tzHjJ9TFq3ogM73r270N1U7JJFBcG+L11gr4vkeb
+ /11tpBZoOrnqx1az4EfwDy4Nls3Vu8gtr64JQ4USpPG+x0YB3Eqmv+V/IeRV3YUsVapV
+ IwnhfV2+9sBgbUpGWy1PBpCYw6qPcbz7lbOw9/U7KRpqtEhiM0rY6l26BKeT0ZPJb/tI
+ 1Trdt1fU0MgiEup6qossZIysSudcYjZhlbR0WDNuBXcfcgUVaWT+gXqSts8lGnc9mx2Y
+ qdkbgImnUekLif4+QuAHWXxZ5NfKim7hR0LLfDCFJO495VX5llcBc1lb5c88901U0dE8
+ mxLQ==
+X-Gm-Message-State: AO0yUKVTIeKzwv44fCwAkwR1T0loihf0IDGtukX5gSOd4wc+v6En8LZL
+ mLgjB5krGwAltGcf8YTLIvQzOoPz2TN1/RwU
+X-Google-Smtp-Source: AK7set94qLUEx9Gbp86qYgJQCmMrt2N3vWoo7zk8lwHQ77DHP9x2SEq+jr1UuNIZgrB7nwuUjUMXHQ==
+X-Received: by 2002:a05:600c:1c8e:b0:3e0:98c:dd93 with SMTP id
+ k14-20020a05600c1c8e00b003e0098cdd93mr8804092wms.29.1677796914201; 
+ Thu, 02 Mar 2023 14:41:54 -0800 (PST)
 Received: from localhost.localdomain (43.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
- h12-20020a05600c314c00b003dfee43863fsm4595726wmo.26.2023.03.02.14.41.45
+ he11-20020a05600c540b00b003daf7721bb3sm4397190wmb.12.2023.03.02.14.41.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 02 Mar 2023 14:41:46 -0800 (PST)
+ Thu, 02 Mar 2023 14:41:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Bernhard Beschow <shentey@gmail.com>
@@ -61,20 +61,19 @@ Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-block@nongnu.org
-Subject: [PATCH v3 06/18] hw/ide/piix: Ensure IDE output IRQs are wired at
- realization
-Date: Thu,  2 Mar 2023 23:40:46 +0100
-Message-Id: <20230302224058.43315-7-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v3 07/18] hw/isa: Deprecate isa_get_irq() in favor of
+ isa_bus_get_irq()
+Date: Thu,  2 Mar 2023 23:40:47 +0100
+Message-Id: <20230302224058.43315-8-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
 References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,50 +96,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ensure both IDE output IRQ lines are wired.
-
-We can remove the last use of isa_get_irq(NULL).
+Last commit removed the last use of isa_get_irq(NULL).
+Add an assertion to ensure we won't use that hack again.
+Deprecate in favor of the BUS API: isa_bus_get_irq().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/piix.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ hw/isa/isa-bus.c     | 6 +++---
+ include/hw/isa/isa.h | 3 ++-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index cb527553e2..91424e5249 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -134,14 +134,17 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
-     static const struct {
-         int iobase;
-         int iobase2;
--        int isairq;
-     } port_info[] = {
--        {0x1f0, 0x3f6, 14},
--        {0x170, 0x376, 15},
-+        {0x1f0, 0x3f6},
-+        {0x170, 0x376},
-     };
-     int ret;
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index a289eccfb1..081bac18ee 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -85,10 +85,10 @@ qemu_irq isa_bus_get_irq(ISABus *bus, unsigned irqnum)
+  * This function is only for special cases such as the 'ferr', and
+  * temporary use for normal devices until they are converted to qdev.
+  */
+-qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
++qemu_irq isa_get_irq(ISADevice *dev, unsigned irqnum)
+ {
+-    assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
+-    return isa_bus_get_irq(isabus, isairq);
++    assert(dev);
++    return isa_bus_get_irq(ISA_BUS(qdev_get_parent_bus(DEVICE(dev))), irqnum);
+ }
  
--    qemu_irq irq_out = d->isa_irq[i] ? : isa_get_irq(NULL, port_info[i].isairq);
-+    if (!d->isa_irq[i]) {
-+        error_setg(errp, "output IDE IRQ %u not connected", i);
-+        return false;
-+    }
-+
-     ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-     ret = ide_bus_init_ioport_isa(&d->bus[i], NULL, port_info[i].iobase,
-                                   port_info[i].iobase2);
-@@ -150,7 +153,7 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
-                          object_get_typename(OBJECT(d)), i);
-         return false;
-     }
--    ide_bus_init_output_irq(&d->bus[i], irq_out);
-+    ide_bus_init_output_irq(&d->bus[i], d->isa_irq[i]);
+ void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 40d6224a4e..75fb620782 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -87,7 +87,8 @@ ISADevice *isa_create_simple(ISABus *bus, const char *name);
  
-     bmdma_init(&d->bus[i], &d->bmdma[i], d);
-     d->bmdma[i].bus = &d->bus[i];
+ ISADevice *isa_vga_init(ISABus *bus);
+ 
+-qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
++/*  isa_get_irq() is deprecated, please use isa_bus_get_irq() instead. */
++qemu_irq isa_get_irq(ISADevice *dev, unsigned irqnum);
+ void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
+ MemoryRegion *isa_address_space(ISADevice *dev);
+ MemoryRegion *isa_address_space_io(ISADevice *dev);
 -- 
 2.38.1
 
