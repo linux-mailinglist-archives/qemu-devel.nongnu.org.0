@@ -2,38 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5756A8807
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A2A6A8813
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:44:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXmx1-0004ti-ED; Thu, 02 Mar 2023 12:42:43 -0500
+	id 1pXmwy-0004sM-RC; Thu, 02 Mar 2023 12:42:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Cwst=62=kaod.org=clg@ozlabs.org>)
- id 1pXmwf-0004Wp-Ur; Thu, 02 Mar 2023 12:42:22 -0500
+ id 1pXmwf-0004WG-LN; Thu, 02 Mar 2023 12:42:22 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Cwst=62=kaod.org=clg@ozlabs.org>)
- id 1pXmwe-0002jW-3f; Thu, 02 Mar 2023 12:42:21 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PSJMS4dm6z4x80;
- Fri,  3 Mar 2023 04:42:12 +1100 (AEDT)
+ id 1pXmwd-0002ji-Sr; Thu, 02 Mar 2023 12:42:21 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PSJMX1jXRz4x86;
+ Fri,  3 Mar 2023 04:42:16 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PSJMQ6c8wz4x5X;
- Fri,  3 Mar 2023 04:42:10 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PSJMT1Cn9z4x5X;
+ Fri,  3 Mar 2023 04:42:12 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dongli Zhang <dongli.zhang@oracle.com>, Joe Jin <joe.jin@oracle.com>,
+ Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 00/11] aspeed queue
-Date: Thu,  2 Mar 2023 18:41:55 +0100
-Message-Id: <20230302174206.2434673-1-clg@kaod.org>
+Subject: [PULL 01/11] readline: fix hmp completion issue
+Date: Thu,  2 Mar 2023 18:41:56 +0100
+Message-Id: <20230302174206.2434673-2-clg@kaod.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230302174206.2434673-1-clg@kaod.org>
+References: <20230302174206.2434673-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,67 +66,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit a2b5f8b8ab7b2c947823088103a40f0ff11fe06b:
+From: Dongli Zhang <dongli.zhang@oracle.com>
 
-  Merge tag 'pull-tcg-20230301' of https://gitlab.com/rth7680/qemu into staging (2023-03-01 19:19:20 +0000)
+The auto completion does not work in some cases.
 
-are available in the Git repository at:
+Case 1.
 
-  https://github.com/legoater/qemu/ tags/pull-aspeed-20230302
+1. (qemu) info reg
+2. Press 'Tab'.
+3. It does not auto complete.
 
-for you to fetch changes up to b22a2d409b1acfdf0d63d1bb3595194ceb3d94da:
+Case 2.
 
-  aspeed/smc: Replace SysBus IRQs with GPIO lines (2023-03-02 13:57:50 +0100)
+1. (qemu) block_resize flo
+2. Press 'Tab'.
+3. It does not auto complete 'floppy0'.
 
-----------------------------------------------------------------
-aspeed queue:
+Since the readline_add_completion_of() may add any completion when
+strlen(pfx) is zero, we remove the check with (name[0] == '\0') because
+strlen() always returns zero in that case.
 
-* fix for the Aspeed I2C slave mode
-* a new I2C echo device from Klaus and its associated test in avocado.
-* initial SoC cleanups to allow the use of block devices instead of
-  drives on the command line.
-* new facebook machines and eeprom fixes for the Fuji
-* readline fix
+Fixes: 52f50b1e9f8f ("readline: Extract readline_add_completion_of() from monitor")
+Cc: Joe Jin <joe.jin@oracle.com>
+Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ monitor/hmp.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-----------------------------------------------------------------
-Cédric Le Goater (4):
-      tests/avocado/machine_aspeed.py: Add an I2C slave test
-      aspeed: Introduce a spi_boot region under the SoC
-      aspeed: Add a boot_rom overlap region in the SoC spi_boot container
-      aspeed/smc: Replace SysBus IRQs with GPIO lines
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index 2aa85d3982..fee410362f 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1189,9 +1189,7 @@ static void cmd_completion(MonitorHMP *mon, const char *name, const char *list)
+         }
+         memcpy(cmd, pstart, len);
+         cmd[len] = '\0';
+-        if (name[0] == '\0') {
+-            readline_add_completion_of(mon->rs, name, cmd);
+-        }
++        readline_add_completion_of(mon->rs, name, cmd);
+         if (*p == '\0') {
+             break;
+         }
+@@ -1335,9 +1333,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
+             /* block device name completion */
+             readline_set_completion_index(mon->rs, strlen(str));
+             while ((blk = blk_next(blk)) != NULL) {
+-                if (str[0] == '\0') {
+-                    readline_add_completion_of(mon->rs, str, blk_name(blk));
+-                }
++                readline_add_completion_of(mon->rs, str, blk_name(blk));
+             }
+             break;
+         case 's':
+-- 
+2.39.2
 
-Dongli Zhang (1):
-      readline: fix hmp completion issue
-
-Karthikeyan Pasupathi (2):
-      hw/arm/aspeed: Adding new machine Yosemitev2 in QEMU
-      hw/arm/aspeed: Adding new machine Tiogapass in QEMU
-
-Klaus Jensen (2):
-      hw/i2c: only schedule pending master when bus is idle
-      hw/misc: add a toy i2c echo device
-
-Sittisak Sinprem (2):
-      hw/at24c : modify at24c to support 1 byte address mode
-      aspeed/fuji : correct the eeprom size
-
- docs/system/arm/aspeed.rst      |   2 +
- hw/arm/aspeed_eeprom.h          |   6 ++
- include/hw/arm/aspeed_soc.h     |   5 ++
- include/hw/i2c/i2c.h            |   2 +
- hw/arm/aspeed.c                 | 159 ++++++++++++++++++++++++++++------------
- hw/arm/aspeed_ast2600.c         |  13 ++++
- hw/arm/aspeed_eeprom.c          |  45 ++++++++++++
- hw/arm/aspeed_soc.c             |  14 ++++
- hw/arm/fby35.c                  |   8 +-
- hw/i2c/aspeed_i2c.c             |   2 +
- hw/i2c/core.c                   |  37 ++++++----
- hw/misc/i2c-echo.c              | 156 +++++++++++++++++++++++++++++++++++++++
- hw/nvram/eeprom_at24c.c         |  30 +++++++-
- hw/ssi/aspeed_smc.c             |   5 +-
- monitor/hmp.c                   |   8 +-
- hw/misc/meson.build             |   2 +
- tests/avocado/machine_aspeed.py |  10 +++
- 17 files changed, 421 insertions(+), 83 deletions(-)
- create mode 100644 hw/misc/i2c-echo.c
 
