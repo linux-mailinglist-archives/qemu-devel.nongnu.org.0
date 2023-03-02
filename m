@@ -2,191 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9D26A784C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 01:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D876A7865
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 01:29:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXWa4-0003ev-RH; Wed, 01 Mar 2023 19:13:56 -0500
+	id 1pXWnc-0004ET-Ad; Wed, 01 Mar 2023 19:27:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pXWa2-0003ek-WA
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 19:13:55 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXWnZ-0004E1-1D
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 19:27:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pXWZy-0006SS-QX
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 19:13:54 -0500
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 321NBQ5A011770; Thu, 2 Mar 2023 00:13:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=iZ5GnosRLjGixRBm4bdFz8whHTJZ2rh+wacSJoXslcg=;
- b=NFA84MJeuDS+6Cx1H01tJyZHm0y+/qSRExeqX3BS+7xDpO65wzPLLrCCV0t1oyq2lEp/
- 6IH30TXhinx1uAzQHO8/S7AYvGtKkRX3MjeCT/xIyGpOxBbuYHuE8uqfmMmuYppO879d
- IGNHc1xzFgWjopcK0BjTc34s1+PXoFkaYET4WfwgojLt1vdA8ayoDkCY2C9K2BmWTvkP
- nMhYE/CElsWQwiepBPBGRuqHVgXmbNJwgf5rFZUFFfaMZ3JROhiVStHkV8FG9n4GtsbC
- yVlO1bk+Ydp9/Ts3XEUsDn3u8nzxDhnqcXR4045HlmY+SGZjYb6Yj9+PqDgNMNE3aomg uw== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nyb7wte1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Mar 2023 00:13:45 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 321NOpaS015949; Thu, 2 Mar 2023 00:13:43 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3ny8s9knq9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Mar 2023 00:13:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ofkcyiksEjf3N7SxqYnyMEkDFk1+Mw/F+rPWRd2lxeiPJ/CnWWLIjmCWtGYTPdhFTCwyClCKi4yM8CWrJAnSQX2g/HXqWUWCBYfGKeWitt1l4v6rX0EBpFMmoXng0ie1RASNFGT3NgzAAw/mOtc3Ri+Hm2n4YCnIBM5Tr1Px+RoOvvyGMZeNwVsVdfFYNR23CjbqMT7R5iXZO9S1HVMxVDbAUxIz239klJwAhe37JI/4hYq5T6OAyyOlqpGrFRFxCVM+7viwe4x8g0DkkXpzT1L6JLSQfJ6Qalbjp5/jsIgNVDMuRvN59+wOgBGrmP6o5pURb/wXrohBoMeTIEV1Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iZ5GnosRLjGixRBm4bdFz8whHTJZ2rh+wacSJoXslcg=;
- b=DnQKDXHmRNnYe/r0z8bHPb6KgQe2YzJ0hb8EUjGpxQjLiLjAebrZ+3FyEAkn17yAnM39BPj5bY1SgpXpF0nEpDkF6YCFBcZddPGwXTDDL/J9+IlTeECK445g+4/fd0tNWdVg8jf7oeY25bJT86EKabr6+0Hb4+sn6lrUcD/RA78Q4a34SkJWT7qDfKudlU/jtVVzC+H3FcGsAwPm6IqIJ+LQCs6yOXVsHkvkIBZYgJXx3eG2SHVqT/0T2WZxhv6Q4POuCLhX8oZFEtGtGZn6gLMz4ur9nNtvjO0sQIzjrA8OUV36NP/ijkvyLNX+l11jRgYa7x8b30bUtDro4T7cGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iZ5GnosRLjGixRBm4bdFz8whHTJZ2rh+wacSJoXslcg=;
- b=W9IiZ1ZPIIUTffkL63p7szZBFenHzxQqG04lDKtcrPrGItdCH6Bj7+MhPdWCCe1Y1jOI1WDCyo2LiGI3tGpCIiK608yRtqwKvhQG41yCgFnrou9h+K37TijhH90nqXgXwJ0vJycKxzXaZ0Zn+VDK6GEObirJDhI59BNBgLpt+90=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by MW4PR10MB5882.namprd10.prod.outlook.com (2603:10b6:303:18f::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.17; Thu, 2 Mar
- 2023 00:13:41 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::9b30:898b:e552:8823]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::9b30:898b:e552:8823%6]) with mapi id 15.20.6156.018; Thu, 2 Mar 2023
- 00:13:41 +0000
-Message-ID: <41cfc314-cbdb-6191-6433-d23e3d5a5523@oracle.com>
-Date: Thu, 2 Mar 2023 00:13:31 +0000
-Subject: Re: [PATCH v2 10/20] vfio/common: Record DMA mapped IOVA ranges
-Content-Language: en-US
-From: Joao Martins <joao.m.martins@oracle.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>
-References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-11-avihaih@nvidia.com>
- <20230222151039.1de95db4.alex.williamson@redhat.com>
- <83238759-4808-1e41-824b-865c330a431a@oracle.com>
- <20230223140527.096dc42b.alex.williamson@redhat.com>
- <a53767f9-b630-8f2e-0523-bd47d4539c61@oracle.com>
- <20230223145018.3c46a966.alex.williamson@redhat.com>
- <617b396a-d5e2-8c10-9717-1cc6fc9d43dd@oracle.com>
- <20230228133653.2f911490.alex.williamson@redhat.com>
- <114233e8-bdb8-21f5-ade9-0163658feb84@oracle.com>
-In-Reply-To: <114233e8-bdb8-21f5-ade9-0163658feb84@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0187.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a::31) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXWnW-00011v-96
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 19:27:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677716860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cb/o9TEKa6VlSfJW5twA+WdpuGqzrmoxSNTAdbR3Kv0=;
+ b=GYFd+PSZIyniz5ueEbyEkHMOa9+mrWQ/soxRexyJSoqXfpzf1Md6itRaC1MsxFazriEwPS
+ IXG/lBz9FgMKNX6Tn/me0Mjtx0QaOc1W8SpoCIk5ikCpwc6E9ypqaSH7PD09ZF/r/vc0QF
+ kP0NqGT7HM90d2pBsrTyHfepiHp1Lx4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-244--LDYBiJTOAKZbNnh3fCMzQ-1; Wed, 01 Mar 2023 19:27:39 -0500
+X-MC-Unique: -LDYBiJTOAKZbNnh3fCMzQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ n6-20020a5d51c6000000b002ca3c48ba46so2665042wrv.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 16:27:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677716858;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Cb/o9TEKa6VlSfJW5twA+WdpuGqzrmoxSNTAdbR3Kv0=;
+ b=bNI7N/yDDKbYBLzdYyVLA17Cww/9iVBrVyub320vp3DYFvGk1gMcgMn48jCh0d+m58
+ EjPDKXM83sIbfIMy8GlMvSEcEJk7A5ZfBhbig47bvXlW7yPQYCipDp8bubM8w+LHSCjt
+ jI1ISDyf1wy+M6dFjDya4Tdo45ShNWxAI37GqNAE9K3VgWyfjP1ih00xsNkj4K2ibDUC
+ oEtR3otJ7oqjgO/pKzYSXOkRCiHqftnPEnFM9wt/M4ciTrhmMvyTa4KiikZClvmgIONT
+ a3Q3Nd09DSM99I0kWzGsGtD2G5z6sT9nxBxnFUYsSN+dxzI8enfUD4Ly1ac6Xp6ytvBY
+ 3hqQ==
+X-Gm-Message-State: AO0yUKVTKNLtW4r2KPLNLmQHNUoyRo/50vv7PKi/qe9oXBpy+lxWRRI3
+ KYXFUB4tD717fdYbRDYxx55eoDwni0czVlzBHvT8dgDuzFmupeyqn94YsTwgRN7qKXQmdNg+4/X
+ iwCw7vQ70PJaTPgY=
+X-Received: by 2002:a5d:4dc3:0:b0:2c7:11f4:8eb4 with SMTP id
+ f3-20020a5d4dc3000000b002c711f48eb4mr5600332wru.71.1677716857761; 
+ Wed, 01 Mar 2023 16:27:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set+szKf+tDnbTFGFBbLwtmj7s0pCrEjwdtu+8zHuIzaEr1/dCsURZRGWOpU6LoQccPdtybl9FA==
+X-Received: by 2002:a5d:4dc3:0:b0:2c7:11f4:8eb4 with SMTP id
+ f3-20020a5d4dc3000000b002c711f48eb4mr5600322wru.71.1677716857326; 
+ Wed, 01 Mar 2023 16:27:37 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ m15-20020a5d6a0f000000b002c707785da4sm13595431wru.107.2023.03.01.16.27.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 16:27:36 -0800 (PST)
+Date: Wed, 1 Mar 2023 19:27:33 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, berrange@redhat.com
+Subject: Re: [PATCH 14/33] tests: acpi: update expected blobs
+Message-ID: <20230301192428-mutt-send-email-mst@kernel.org>
+References: <20230224153812.4176226-1-imammedo@redhat.com>
+ <20230224153812.4176226-15-imammedo@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BLAPR10MB4835:EE_|MW4PR10MB5882:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb3c3624-c60a-4465-d832-08db1ab2fa3c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LYMY1TzAF5QKuG18FwDET1H0mg+kxe71N6b+3bGwb+hHjTUvnpgqREjGXuMfxW1ns21xJw9FoJy2hI/ygUlcJ+B2esqDmBExTzS9pb24UlPnjPPrTOPS1cM8DU0u1PiS8L/GduE67G+OfYMco40VSBA9RRjNkVGkn/e3JLlULLuHOSpvzUI03dxbq+VRax/AUG8REoFwz2+l96+IrQES2O7/ARbZ4DtObcX43qKiqq9q5upFyI0Z28RYhqI7BM7IUlpzFl9wjt+GCPjE7qY39pVNPv2hq+bBvPbxRaUnIQt46odu9Hc2AoizgVvp7s4MCG4tTyS6lluhSlxMgoa+LIL9RWYfzBbATISB9FXqOPT/twpwhBxJo8yL35l+s9vEJea2H2/qnI23wZtTmM4z3hVUE9WxLtcHCNl9MX/p+LALd6DYOHT1bPMASoELK+/Tcysm1yLa5vbVTMIlqXjA5o6goUV7iVxU8JlNVJOC+E7HkMzJc3zCntuaHBU6cMx5dEX5BDUBk0BMJr/5KLbzKiAQGYG1VDjmc9Tw0EavPWUttaA03hNJMCCGFZQb9PwLNcftXCRzi0se4o4La1WBjuF6fR59OL49XF1YCLj0eYQB+PWj1yIFhLflm1H/D+H/mq3pRqS7n/bvEkRRroEwyWDf7n2sczPWdlzFizvrDzyz3EIZvAKwd8LkH9RAyC8PFhqDq8NQM4KKggNUgPXSKzh0At9+iKoVDtW+HVHum4Q=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(366004)(39860400002)(346002)(396003)(136003)(376002)(451199018)(38100700002)(8936002)(31696002)(36756003)(86362001)(66556008)(2906002)(41300700001)(66476007)(66946007)(7416002)(4326008)(8676002)(5660300002)(6916009)(2616005)(6506007)(53546011)(186003)(6512007)(83380400001)(26005)(478600001)(316002)(6486002)(966005)(31686004)(30864003)(6666004)(54906003)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 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
- =?utf-8?B?K0E9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: p4kesvlZ+KTSqcgcrmCcku3tra9z2zbBWAAaf1grXjEz3JcDFrDG4sa3QSXhjspt4dUNlzinEiHBAZ44zB9lesHDsyISkvVSQW2+FNOmWchlRJm9ZrZFrjGoNLguuFWvrTGGrAc7pehqrxfNULWvE+e6Nk7PETqzLb6a4yzAZi9VEtuBT9fBEVd5c98nUfL1Qg51JtxO8oe9FtTPiGHT+KUYiTTaAvgL1y5q+pW71Vr5hiZ3Fb1OUrzTA+91cDpDC+X5wPVMcefxqJlr8fuqREykTJbTgITe78RYDMGosWeA8i69RlbMYIj6D1JPKKSnSXOVIpkzhUuA0g04g4Kb0Fudq3GavE85WeJLpj3hnmEeGP1/Z0IRAt187mtTEn7M95v8rwtscUjrdksYHxCDWEns2SC/FdLtrgb0lelTpZJMOA+6ABCzf3RB62xvhXyBRYbxI3YWruM+tb4gGp0GX7uyieGcq2D/gZVhHZpKHIhyk59pIegmAGY/Zy3/cti/gXCQ/jX9MMlKXXKliy/m2KI8AFnu3qFnpNMKdNrRg+ySlTkXPOtmt4R8YI8j/5D4fzyVrHgB3Z5swppID9xUo08V0Qp2e2r6qp33vTcurMNG1Zg2TbRu+VthOIsaMK7hgIDXWxARAvwlh/xfIb6db7hlKL6jeXNfg9rMGa9ggZvtMxyMhIKfkAH6NRYMx9dRlpyiXLh/s0BNgc+V0RGvY5QBWnqh1olBptSnyb6x7I9ucEI3iqSQR+PU2QRWtQZEUZe3WLjg9md/ZVBcH47dauQeraOgL9fhZ0snaejaYbNHpa1oF/ah4IB3hYKRoAj9RP8hK6pKoMujLzS0VGw5Xl/wjlFY5tJQY+iah/gdIfbU/YFaEfjOcXY3lTpsgk4D1gTqEKQ98DDVjofI4+aqJA==
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb3c3624-c60a-4465-d832-08db1ab2fa3c
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 00:13:40.9724 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NponvVqU+oO6B+rG33prw9N/+A7UYBz6KtreHcPkBk9Lh7N0IOYLQspVVv7ct1Th4fd5CEPYfxIScleuV5tiDSE8VkJHrdx8Mqw9DFZxNuI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5882
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-01_16,2023-03-01_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 suspectscore=0 phishscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303020000
-X-Proofpoint-GUID: XTyPT-Imxj0xZJ16XR1daUAN7u1p_J80
-X-Proofpoint-ORIG-GUID: XTyPT-Imxj0xZJ16XR1daUAN7u1p_J80
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224153812.4176226-15-imammedo@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -203,346 +95,455 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 00:07, Joao Martins wrote:
-> On 28/02/2023 20:36, Alex Williamson wrote:
-
-[...]
-
->> Can we make the same argument that the overhead is negligible if a VM
->> makes use of 10s of GB of virtio-mem with 2MB block size?
->>
->> But then on a 4KB host we're limited to 256 tracking entries, so
->> wasting all that time and space on a runtime IOVATree is even more
->> dubious.
->>
->> In fact, it doesn't really matter that vfio_listener_region_add and
->> this potentially new listener come to the same result, as long as the
->> new listener is a superset of the existing listener. 
+On Fri, Feb 24, 2023 at 04:37:53PM +0100, Igor Mammedov wrote:
+> only following context change:
+>  -  Local1 = Zero
+>     If ((Arg0 != ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
+>     {
+>         Return (Local0)
+>  ...
+>         Return (Local0)
+>     }
 > 
-> I am trying to put this in a way that's not too ugly to reuse the most between
-> vfio_listener_region_add() and the vfio_migration_mapping_add().
+>  +  Local1 = Zero
+>     Local2 = AIDX (DerefOf (Arg4 [Zero]), DerefOf (Arg4 [One]
 > 
-> For you to have an idea, here's so far how it looks thus far:
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+
+Nope:
+
+diff -ru -N -IDisassembly -IChecksum '-I*     Length           ' old/asl/tests/data/acpi/q35/DSDT.viot.dsl new/asl/tests/data/acpi/q35/DSDT.viot.dsl
+:--- old/asl/tests/data/acpi/q35/DSDT.viot.dsl  2023-03-01 19:22:57.636454958 -0500
+:+++ new/asl/tests/data/acpi/q35/DSDT.viot.dsl  2023-03-01 19:22:58.451460462 -0500
+:@@ -148,7 +148,6 @@
+                     {
+                          0x00                                             // .
+                     }
+-                Local1 = Zero
+                 If ((Arg0 != ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
+                 {
+                     Return (Local0)
+:@@ -159,12 +158,14 @@
+                     Return (Local0)
+                 }
+ 
++                Local1 = Zero
+                 Local2 = AIDX (DerefOf (Arg4 [Zero]), DerefOf (Arg4 [One]
+                     ))
+                 If (!((Local2 == Zero) | (Local2 == 0xFFFFFFFF)))
+                 {
+                     Local1 |= One
+                     Local1 |= (One << 0x07)
++                    Local1 |= (One << 0x05)
+                 }
+ 
+                 Local0 [Zero] = Local1
+
+
+and the funny thing is, the second change is in the expected
+file but not in the code so this patch causes the test to fail.
+
+
+> ---
+>  tests/qtest/bios-tables-test-allowed-diff.h   |  35 ------------------
+>  tests/data/acpi/pc/DSDT                       | Bin 6360 -> 6360 bytes
+>  tests/data/acpi/pc/DSDT.acpierst              | Bin 6283 -> 6283 bytes
+>  tests/data/acpi/pc/DSDT.acpihmat              | Bin 7685 -> 7685 bytes
+>  tests/data/acpi/pc/DSDT.bridge                | Bin 12487 -> 12487 bytes
+>  tests/data/acpi/pc/DSDT.cphp                  | Bin 6824 -> 6824 bytes
+>  tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8014 -> 8014 bytes
+>  tests/data/acpi/pc/DSDT.hpbridge              | Bin 6323 -> 6323 bytes
+>  tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6432 -> 6432 bytes
+>  tests/data/acpi/pc/DSDT.memhp                 | Bin 7719 -> 7719 bytes
+>  tests/data/acpi/pc/DSDT.nohpet                | Bin 6218 -> 6218 bytes
+>  tests/data/acpi/pc/DSDT.numamem               | Bin 6366 -> 6366 bytes
+>  tests/data/acpi/pc/DSDT.roothp                | Bin 9745 -> 9745 bytes
+>  tests/data/acpi/q35/DSDT                      | Bin 8252 -> 8252 bytes
+>  tests/data/acpi/q35/DSDT.acpierst             | Bin 8269 -> 8269 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat             | Bin 9577 -> 9577 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8531 -> 8531 bytes
+>  tests/data/acpi/q35/DSDT.applesmc             | Bin 8298 -> 8298 bytes
+>  tests/data/acpi/q35/DSDT.bridge               | Bin 11481 -> 11481 bytes
+>  tests/data/acpi/q35/DSDT.core-count2          | Bin 32392 -> 32392 bytes
+>  tests/data/acpi/q35/DSDT.cphp                 | Bin 8716 -> 8716 bytes
+>  tests/data/acpi/q35/DSDT.cxl                  | Bin 9578 -> 9578 bytes
+>  tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9906 -> 9906 bytes
+>  tests/data/acpi/q35/DSDT.ipmibt               | Bin 8327 -> 8327 bytes
+>  tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8340 -> 8340 bytes
+>  tests/data/acpi/q35/DSDT.ivrs                 | Bin 8269 -> 8269 bytes
+>  tests/data/acpi/q35/DSDT.memhp                | Bin 9611 -> 9611 bytes
+>  tests/data/acpi/q35/DSDT.mmio64               | Bin 9382 -> 9382 bytes
+>  tests/data/acpi/q35/DSDT.multi-bridge         | Bin 12545 -> 12545 bytes
+>  tests/data/acpi/q35/DSDT.nohpet               | Bin 8110 -> 8110 bytes
+>  tests/data/acpi/q35/DSDT.numamem              | Bin 8258 -> 8258 bytes
+>  tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8353 -> 8353 bytes
+>  tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8858 -> 8858 bytes
+>  tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8884 -> 8884 bytes
+>  tests/data/acpi/q35/DSDT.viot                 | Bin 9361 -> 9377 bytes
+>  tests/data/acpi/q35/DSDT.xapic                | Bin 35615 -> 35615 bytes
+>  36 files changed, 35 deletions(-)
 > 
-> https://github.com/jpemartins/qemu/commits/vfio-dirty-tracking
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index 7e7745db39..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,36 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/pc/DSDT",
+> -"tests/data/acpi/pc/DSDT.acpierst",
+> -"tests/data/acpi/pc/DSDT.acpihmat",
+> -"tests/data/acpi/pc/DSDT.bridge",
+> -"tests/data/acpi/pc/DSDT.cphp",
+> -"tests/data/acpi/pc/DSDT.dimmpxm",
+> -"tests/data/acpi/pc/DSDT.hpbridge",
+> -"tests/data/acpi/pc/DSDT.ipmikcs",
+> -"tests/data/acpi/pc/DSDT.memhp",
+> -"tests/data/acpi/pc/DSDT.nohpet",
+> -"tests/data/acpi/pc/DSDT.numamem",
+> -"tests/data/acpi/pc/DSDT.roothp",
+> -"tests/data/acpi/q35/DSDT",
+> -"tests/data/acpi/q35/DSDT.acpierst",
+> -"tests/data/acpi/q35/DSDT.acpihmat",
+> -"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
+> -"tests/data/acpi/q35/DSDT.applesmc",
+> -"tests/data/acpi/q35/DSDT.bridge",
+> -"tests/data/acpi/q35/DSDT.core-count2",
+> -"tests/data/acpi/q35/DSDT.cphp",
+> -"tests/data/acpi/q35/DSDT.cxl",
+> -"tests/data/acpi/q35/DSDT.dimmpxm",
+> -"tests/data/acpi/q35/DSDT.ipmibt",
+> -"tests/data/acpi/q35/DSDT.ipmismbus",
+> -"tests/data/acpi/q35/DSDT.ivrs",
+> -"tests/data/acpi/q35/DSDT.memhp",
+> -"tests/data/acpi/q35/DSDT.mmio64",
+> -"tests/data/acpi/q35/DSDT.multi-bridge",
+> -"tests/data/acpi/q35/DSDT.nohpet",
+> -"tests/data/acpi/q35/DSDT.numamem",
+> -"tests/data/acpi/q35/DSDT.pvpanic-isa",
+> -"tests/data/acpi/q35/DSDT.tis.tpm12",
+> -"tests/data/acpi/q35/DSDT.tis.tpm2",
+> -"tests/data/acpi/q35/DSDT.viot",
+> -"tests/data/acpi/q35/DSDT.xapic",
+> diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
+> index 0b475fb5a966543fef2cd7672a0b198838a63151..ec133a6d3aabcfd22b7b46019338db2de255da70 100644
+> GIT binary patch
+> delta 19
+> acmca%c*Af*JmcgfMinN8#LcaY!Quc(l?Foq
 > 
-> Particularly this one:
+> delta 20
+> bcmca%c*Af*JR@@fL*nFkMwQKNj6vc6P%j3t
 > 
-> https://github.com/jpemartins/qemu/commit/3b11fa0e4faa0f9c0f42689a7367284a25d1b585
+> diff --git a/tests/data/acpi/pc/DSDT.acpierst b/tests/data/acpi/pc/DSDT.acpierst
+> index 17ef7caeb6fe4445f1234ff060c3db6809184ef6..2b4b7f31919f360e038e37de713639da753f13aa 100644
+> GIT binary patch
+> delta 19
+> acmeA+>^9sG&p0`WQH6;iadRspn>YYICk0#p
 > 
-> vfio_get_section_iova_range() is where most of these checks are that are sort of
-> a subset of the ones in vfio_listener_region_add().
+> delta 20
+> bcmeA+>^9sG&&XWBkT^M>QDt)*Bda(7L?;Ex
 > 
->> So I think we can
->> simplify out a lot of the places we'd see duplication and bugs.  I'm
->> not even really sure why we wouldn't simplify things further and only
->> record a single range covering the low and high memory marks for a
->> non-vIOMMU VMs, or potentially an approximation removing gaps of 1GB or
->> more, for example.  Thanks,
+> diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
+> index 675b674eaa92d99513ac243a97064d369791ee53..714a123e7a500cf0f862ff6c4e9a3f50a96af056 100644
+> GIT binary patch
+> delta 19
+> acmZp*X|>r9&p0`WQH6;iadRtUgA4#az6Ip~
 > 
-> Yes, for Qemu, to have one single artificial range with a computed min IOVA and
-> max IOVA is the simplest to get it implemented. It would avoid us maintaining an
-> IOVATree as you would only track min/max pair (maybe max_below).
+> delta 20
+> bcmZp*X|>r9&&XWBkT^M>QDt)*W4#OjMaTwI
 > 
-> My concern with a reduced single range is 1) big holes in address space leading
-> to asking more than you need[*] and then 2) device dirty tracking limits e.g.
-> hardware may have upper limits, so you may prematurely exercise those. So giving
-> more choice to the vfio drivers to decide how to cope with the mapped address
-> space description looks to have a bit more longevity.
+> diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
+> index c1ce06136619f55c084a34c51997c059c29cb06a..6c0543cf75ad3e02468ed4925fd3369a183e9b45 100644
+> GIT binary patch
+> delta 19
+> acmX?}csy}KJmcgfMinN8#LcaYPWk{%hX#lM
 > 
-> Anyway the temptation with having a single range is that this can all go away if
-> the vfio_listener_region_add() tracks just min/max IOVA pair.
+> delta 20
+> bcmX?}csy}KJR@@fL*nFkMwQKNjE?#MR9^=6
 > 
-> Below scissors mark it's how this patch is looking like in the commit above
-> while being a full list of mappings. It's also stored here:
+> diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
+> index 754ab854dc48fc1af2d335e7269c23a056e66eb8..e1bcb0a4f3ee1269bdd5e949206b40d0e3c076e6 100644
+> GIT binary patch
+> delta 19
+> acmZ2sy25lrJmcgfMinN8#LcaY%8~#={{_7O
 > 
-> https://github.com/jpemartins/qemu/commits/vfio-dirty-tracking
+> delta 20
+> bcmZ2sy25lrJR@@fL*nFkMwQKNj7pLKNkIlH
 > 
-> I'll respond here with a patch on what it looks like with the range watermark
-> approach.
+> diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
+> index 170503336b3fd94cc7a4356003fa080f0ef57b01..1c90e119c5d3dc7e86d04942114e5cfe40de6039 100644
+> GIT binary patch
+> delta 19
+> acmX?Scg}7@JmcgfMinN8#LcaYCuIRj*#^Y`
 > 
-
-... Which is here:
-
-https://github.com/jpemartins/qemu/commits/vfio-dirty-tracking-range
-
-And below scissors mark at the end this patch in the series. Smaller, most of
-the churn is the new checks. I need to adjust commit messages, depending on
-which way the group decides to go. So take those with a grain of salt.
-
+> delta 20
+> bcmX?Scg}7@JR@@fL*nFkMwQKNj3;CPQF#Y5
 > 
-> [0] AMD 1T boundary is what comes to mind, which on Qemu relocates memory above
-> 4G into after 1T.
-
----------------->8-----------------
-
-From: Joao Martins <joao.m.martins@oracle.com>
-Date: Wed, 22 Feb 2023 19:49:05 +0200
-Subject: [PATCH wip 7/12] vfio/common: Record DMA mapped IOVA ranges
-
-According to the device DMA logging uAPI, IOVA ranges to be logged by
-the device must be provided all at once upon DMA logging start.
-
-As preparation for the following patches which will add device dirty
-page tracking, keep a record of all DMA mapped IOVA ranges so later they
-can be used for DMA logging start.
-
-Note that when vIOMMU is enabled DMA mapped IOVA ranges are not tracked.
-This is due to the dynamic nature of vIOMMU DMA mapping/unmapping.
-
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Signed-off-by: Avihai Horon <avihaih@nvidia.com>
----
- hw/vfio/common.c              | 110 ++++++++++++++++++++++++++++++++--
- hw/vfio/trace-events          |   1 +
- include/hw/vfio/vfio-common.h |   5 ++
- 3 files changed, 112 insertions(+), 4 deletions(-)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 655e8dbb74d4..ff4a2aa0e14b 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -44,6 +44,7 @@
- #include "migration/blocker.h"
- #include "migration/qemu-file.h"
- #include "sysemu/tpm.h"
-+#include "qemu/iova-tree.h"
-
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -426,6 +427,11 @@ void vfio_unblock_multiple_devices_migration(void)
-     multiple_devices_migration_blocker = NULL;
- }
-
-+static bool vfio_have_giommu(VFIOContainer *container)
-+{
-+    return !QLIST_EMPTY(&container->giommu_list);
-+}
-+
- static void vfio_set_migration_error(int err)
- {
-     MigrationState *ms = migrate_get_current();
-@@ -610,6 +616,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
-         .iova = iova,
-         .size = size,
-     };
-+    int ret;
-
-     if (!readonly) {
-         map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
-@@ -626,8 +633,10 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
-         return 0;
-     }
-
-+    ret = -errno;
-     error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
--    return -errno;
-+
-+    return ret;
- }
-
- static void vfio_host_win_add(VFIOContainer *container,
-@@ -1326,11 +1335,93 @@ static int vfio_set_dirty_page_tracking(VFIOContainer
-*container, bool start)
-     return ret;
- }
-
-+static bool vfio_get_section_iova_range(VFIOContainer *container,
-+                                        MemoryRegionSection *section,
-+                                        hwaddr *out_iova, hwaddr *out_end)
-+{
-+    Int128 llend, llsize;
-+    hwaddr iova, end;
-+
-+    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
-+    llend = int128_make64(section->offset_within_address_space);
-+    llend = int128_add(llend, section->size);
-+    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
-+
-+    if (int128_ge(int128_make64(iova), llend)) {
-+        return false;
-+    }
-+    end = int128_get64(int128_sub(llend, int128_one()));
-+
-+    if (memory_region_is_iommu(section->mr) ||
-+        memory_region_has_ram_discard_manager(section->mr)) {
-+        return false;
-+    }
-+
-+    llsize = int128_sub(llend, int128_make64(iova));
-+
-+    if (memory_region_is_ram_device(section->mr)) {
-+        VFIOHostDMAWindow *hostwin;
-+        hwaddr pgmask;
-+
-+        hostwin = vfio_find_hostwin(container, iova, end);
-+        if (!hostwin) {
-+            return false;
-+        }
-+
-+        pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
-+        if ((iova & pgmask) || (int128_get64(llsize) & pgmask)) {
-+            return false;
-+        }
-+    }
-+
-+    *out_iova = iova;
-+    *out_end = int128_get64(llend);
-+    return true;
-+}
-+
-+static void vfio_dma_tracking_update(MemoryListener *listener,
-+                                     MemoryRegionSection *section)
-+{
-+    VFIOContainer *container = container_of(listener, VFIOContainer,
-mappings_listener);
-+    hwaddr iova, end;
-+
-+    if (vfio_have_giommu(container)) {
-+        vfio_set_migration_error(-EOPNOTSUPP);
-+        return;
-+    }
-+
-+    if (!vfio_listener_valid_section(section) ||
-+        !vfio_get_section_iova_range(container, section, &iova, &end)) {
-+        return;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&container->mappings_mutex) {
-+        if (container->min_tracking_iova > iova) {
-+            container->min_tracking_iova = iova;
-+        }
-+        if (container->max_tracking_iova < end) {
-+            container->max_tracking_iova = end;
-+        }
-+    }
-+
-+    trace_vfio_dma_tracking_update(iova, end,
-+                                   container->min_tracking_iova,
-+                                   container->max_tracking_iova);
-+    return;
-+}
-+
-+static const MemoryListener vfio_dirty_tracking_listener = {
-+    .name = "vfio-tracking",
-+    .region_add = vfio_dma_tracking_update,
-+};
-+
- static void vfio_listener_log_global_start(MemoryListener *listener)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-     int ret;
-
-+    memory_listener_register(&container->mappings_listener, container->space->as);
-+
-     ret = vfio_set_dirty_page_tracking(container, true);
-     if (ret) {
-         vfio_set_migration_error(ret);
-@@ -1346,6 +1437,13 @@ static void vfio_listener_log_global_stop(MemoryListener
-*listener)
-     if (ret) {
-         vfio_set_migration_error(ret);
-     }
-+
-+    memory_listener_unregister(&container->mappings_listener);
-+
-+    WITH_QEMU_LOCK_GUARD(&container->mappings_mutex) {
-+        container->min_tracking_iova = 0;
-+        container->max_tracking_iova = 0;
-+    }
- }
-
- static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-@@ -2172,16 +2270,18 @@ static int vfio_connect_container(VFIOGroup *group,
-AddressSpace *as,
-     QLIST_INIT(&container->giommu_list);
-     QLIST_INIT(&container->hostwin_list);
-     QLIST_INIT(&container->vrdl_list);
-+    qemu_mutex_init(&container->mappings_mutex);
-+    container->mappings_listener = vfio_dirty_tracking_listener;
-
-     ret = vfio_init_container(container, group->fd, errp);
-     if (ret) {
--        goto free_container_exit;
-+        goto destroy_mappings_exit;
-     }
-
-     ret = vfio_ram_block_discard_disable(container, true);
-     if (ret) {
-         error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
--        goto free_container_exit;
-+        goto destroy_mappings_exit;
-     }
-
-     switch (container->iommu_type) {
-@@ -2317,7 +2417,8 @@ listener_release_exit:
- enable_discards_exit:
-     vfio_ram_block_discard_disable(container, false);
-
--free_container_exit:
-+destroy_mappings_exit:
-+    qemu_mutex_destroy(&container->mappings_mutex);
-     g_free(container);
-
- close_fd_exit:
-@@ -2371,6 +2472,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
-         }
-
-         trace_vfio_disconnect_container(container->fd);
-+        qemu_mutex_destroy(&container->mappings_mutex);
-         close(container->fd);
-         g_free(container);
-
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 669d9fe07cd9..8591f660595b 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -104,6 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t
-iova, uint64_t offset_wi
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t
-size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not
-aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING
-region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64"
-- 0x%"PRIx64
-+vfio_dma_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t
-max) "tracking_update 0x%"PRIx64" - 0x%"PRIx64" -> [0x%"PRIx64" - 0x%"PRIx64"]"
- vfio_disconnect_container(int fd) "close container->fd=%d"
- vfio_put_group(int fd) "close group->fd=%d"
- vfio_get_device(const char * name, unsigned int flags, unsigned int
-num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 87524c64a443..bb54f204ab8b 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -23,6 +23,7 @@
-
- #include "exec/memory.h"
- #include "qemu/queue.h"
-+#include "qemu/iova-tree.h"
- #include "qemu/notify.h"
- #include "ui/console.h"
- #include "hw/display/ramfb.h"
-@@ -81,6 +82,7 @@ typedef struct VFIOContainer {
-     int fd; /* /dev/vfio/vfio, empowered by the attached groups */
-     MemoryListener listener;
-     MemoryListener prereg_listener;
-+    MemoryListener mappings_listener;
-     unsigned iommu_type;
-     Error *error;
-     bool initialized;
-@@ -89,6 +91,9 @@ typedef struct VFIOContainer {
-     uint64_t max_dirty_bitmap_size;
-     unsigned long pgsizes;
-     unsigned int dma_max_mappings;
-+    hwaddr min_tracking_iova;
-+    hwaddr max_tracking_iova;
-+    QemuMutex mappings_mutex;
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-     QLIST_HEAD(, VFIOGroup) group_list;
---
-2.17.2
+> diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
+> index 5dea100bc9492bb2367aac8660522201785c1efb..04e1c20f63be7c6c574e72590332707ca410852a 100644
+> GIT binary patch
+> delta 19
+> acmdmNxY=++JmcgfMinN8#LcaYdg1^?7X{P+
+> 
+> delta 20
+> bcmdmNxY=++JR@@fL*nFkMwQKNjJo0gN@oT_
+> 
+> diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
+> index dd7135602709fc4a361930c74f9bebc6b32e6916..3c2aba132f10b5e4a9931877533a9d8f260b7381 100644
+> GIT binary patch
+> delta 19
+> acmZ2rw7_UXJmcgfMinN8#LcaYv&8{IX9gVr
+> 
+> delta 20
+> bcmZ2rw7_UXJR@@fL*nFkMwQKNjI+c6NRtMO
+> 
+> diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
+> index 2f895e9b385c1ae2f58c7ade4de02328b1be7356..811965f42d97adadde6e9ec6d6153e767041bc6d 100644
+> GIT binary patch
+> delta 19
+> acmZ2(v)pDwJmcgfMinN8#LcaYi(~*q$_7gS
+> 
+> delta 20
+> bcmZ2(v)pDwJR@@fL*nFkMwQKNj0<G|OBe>Z
+> 
+> diff --git a/tests/data/acpi/pc/DSDT.nohpet b/tests/data/acpi/pc/DSDT.nohpet
+> index c012b63ace2f359eec0368ed22ef507ee3905c78..bbf73023ade329770ff9f9ac5c897218764182b5 100644
+> GIT binary patch
+> delta 19
+> acmX?QaLQmqJmcgfMinN8#LcaYN5ue0UIvx`
+> 
+> delta 20
+> bcmX?QaLQmqJR@@fL*nFkMwQKNj7P)(PTB_q
+> 
+> diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
+> index f2ef4b97290cc58c514c3ce7fd45cb08214d7138..c5d93366a417ad1a92c01659f1db9c159caa7132 100644
+> GIT binary patch
+> delta 19
+> acmca-c+YS{JmcgfMinN8#LcaYk>UVKc?MMg
+> 
+> delta 20
+> bcmca-c+YS{JR@@fL*nFkMwQKNj1l4hQ6C1w
+> 
+> diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
+> index 657c8263f0c649abc806a67576fd74cb32af60c3..9e3d482366bd800cf987044801eebc814629b15b 100644
+> GIT binary patch
+> delta 19
+> acmbQ}Gtp;5JmcgfMinN8#LcaYJt_c0t_Cpx
+> 
+> delta 20
+> bcmbQ}Gtp;5JR@@fL*nFkMwQKNjNK{#N$>`r
+> 
+> diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
+> index d68c472b460e4609a64ea67de3c4cebfca76164d..c304e15e366d7317fd0e9db0a144f02e0437d7a1 100644
+> GIT binary patch
+> delta 19
+> acmdnvu*YG864PW=CKV=z#LXT|Ut|G790nW!
+> 
+> delta 20
+> bcmdnvu*YG85)*R)L*is5CY8;eOrK=|NfZW(
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
+> index de7ae27125f9667d7aa7a7cc0e8210773b61a2e2..3aa5c4b3193d32bb8263a1fe06c05b714541c532 100644
+> GIT binary patch
+> delta 19
+> acmX@>aModi64PW=CKV=z#LXT|ta1QCqXkd^
+> 
+> delta 20
+> bcmX@>aModi5)*R)L*is5CY8;eOe}H$NxcQW
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
+> index 48e2862257ac614b5fd6391c4ec425106c48afb1..3ffbf8f83f64144ace17ff5f06bcb4fec9df33d9 100644
+> GIT binary patch
+> delta 19
+> acmaFq_0nsD64PW=CKV=z#LXT|ipl^;Bn7<y
+> 
+> delta 20
+> bcmaFq_0nsD5)*R)L*is5CY8;eObW^XPl^UB
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.acpihmat-noinitiator b/tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+> index 30a4aa2ec8feb6012a64d476ff37b14717d20eaf..ebec32b575d310f98937fe9208f0c60349ca753d 100644
+> GIT binary patch
+> delta 19
+> acmccYblGWx64PW=CKV=z#LXT|-0}cJ%mrrv
+> 
+> delta 20
+> bcmccYblGWx5)*R)L*is5CY8;eOkDB+O7;cS
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
+> index 84e2b5cbc4483ae93634f223160253231dcc4932..b0994644ec811b962e80f49e36e122967f5af1d1 100644
+> GIT binary patch
+> delta 19
+> acmaFm@XBF>64PW=CKV=z#LXT|N^$^3@dc*<
+> 
+> delta 20
+> bcmaFm@XBF>5)*R)L*is5CY8;eOp0;<PDKV4
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+> index e411d40fd1e297879d78dcf15486dd465ab54568..8e11b8ea4862c8ec27376703c9c43e9895ca60eb 100644
+> GIT binary patch
+> delta 19
+> acmcZ^c{6f@64PW=CKV=z#LXT|6SV+H$p$h2
+> 
+> delta 20
+> bcmcZ^c{6f@5)*R)L*is5CY8;eOcS&KP%Q?a
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.core-count2 b/tests/data/acpi/q35/DSDT.core-count2
+> index 0603db8cc63cfc562f83e55eaf5162e7c29bf4d1..a895599c3c53c0cd0888ec166a30d6c036d26b93 100644
+> GIT binary patch
+> delta 21
+> ccmeD9%h>Ukaf1@mWK|{=CWge#9!w5309TO)+W-In
+> 
+> delta 22
+> dcmeD9%h>Ukaf1>Qa{)u*WF;n*&7Ms5H2`0o2T1?`
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
+> index beeb83c33b385fc8b41d44f299b8d9ba7203d935..725998cb587c02ac963f290bac5c14d665bc85e9 100644
+> GIT binary patch
+> delta 19
+> acmeBi>2cYh#57rzNrj0aakB^05qSVRh6R=Y
+> 
+> delta 20
+> bcmeBi>2cYh#Kc^{kT_Y1NoBJq(_wi4LM8?T
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
+> index 3d18b9672d124a0cf11a79e92c396a1b883d0589..04c2c66a25536854b4305787c8e0b41e96c3c133 100644
+> GIT binary patch
+> delta 19
+> acmaFm^~!6564PW=CKV=z#LXT|O3DC8N(I0G
+> 
+> delta 20
+> bcmaFm^~!655)*R)L*is5CY8;eOp3|?PqGFs
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
+> index 99a93e12a7faac78e9524ad6758f42c5c0df18eb..ef643b4ee02cacb9a55f89b8e7f05524125515a1 100644
+> GIT binary patch
+> delta 19
+> acmdnwyUBNh64PW=CKV=z#LXT|St<ZQVFjN6
+> 
+> delta 20
+> bcmdnwyUBNh5)*R)L*is5CY8;eOqnVGNM8mG
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
+> index 7f7601dbff820044aa646048c0bfe0e6324b9d0d..b136aea961c89a97db09db9b68809979564d8faf 100644
+> GIT binary patch
+> delta 19
+> acmZp7Y<JwC#57rzNrj0aakB@Ly&M2JVFdsH
+> 
+> delta 20
+> bcmZp7Y<JwC#Kc^{kT_Y1NoBJqlbsv@Kk)@_
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
+> index 6c5d1afe443d9261d3b93801711f8d5b267696f3..0970dbd5896fc0038b1369dbbcc982ead7736ae6 100644
+> GIT binary patch
+> delta 19
+> acmbQ@IK^>;64PW=CKV=z#LXT|K5_s%PX#9c
+> 
+> delta 20
+> bcmbQ@IK^>;5)*R)L*is5CY8;eOx|(;LHPxh
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.ivrs b/tests/data/acpi/q35/DSDT.ivrs
+> index de7ae27125f9667d7aa7a7cc0e8210773b61a2e2..3aa5c4b3193d32bb8263a1fe06c05b714541c532 100644
+> GIT binary patch
+> delta 19
+> acmX@>aModi64PW=CKV=z#LXT|ta1QCqXkd^
+> 
+> delta 20
+> bcmX@>aModi5)*R)L*is5CY8;eOe}H$NxcQW
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
+> index 79bce5c8f0132e72b8e700488ea56c7593737810..9709e5a7a7edcb7509954b553f7bf29a424033db 100644
+> GIT binary patch
+> delta 19
+> acmeD7?)KiG#57rzNrj0aakB@LvoZiXQUxUd
+> 
+> delta 20
+> bcmeD7?)KiG#Kc^{kT_Y1NoBJqlan$4LH-4k
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
+> index c249929add97439ceb9f891d44c425311517ad18..e1cd01f2349bb8c2f7f8badad11441ffe6d57acc 100644
+> GIT binary patch
+> delta 19
+> acmZ4Hxy*Be64PW=CKV=z#LXT|aY_I`4+U`m
+> 
+> delta 20
+> bcmZ4Hxy*Be5)*R)L*is5CY8;eOtDG;MePOO
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+> index f2f60fdbb3b44ab9adb69bb36e4a80978536af9b..3b9dffb565833cc87bbf08dadfc1f31ac858e93b 100644
+> GIT binary patch
+> delta 19
+> acmZonYE0Uo#57rzNrj0aakB^0PCWoU?*+gB
+> 
+> delta 20
+> bcmZonYE0Uo#Kc^{kT_Y1NoBJq(+)iVM70Jk
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
+> index 9ff9983a80a7487470ccd02ce587200444675816..2cf7f6db0fd8de357278f942a4082e714804dca9 100644
+> GIT binary patch
+> delta 19
+> acmZ2yzs`Px64PW=CKV=z#LXT|X|e!5<^^y7
+> 
+> delta 20
+> bcmZ2yzs`Px5)*R)L*is5CY8;eOsTQ}MZg8#
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
+> index 1e7c45ef3ccb000a06f64152622b4bd27916d181..310e3d5053b90863f96c29dd69a514b4999b4a19 100644
+> GIT binary patch
+> delta 19
+> acmX@)aL8eU64PW=CKV=z#LXT|zhnVJ00u4q
+> 
+> delta 20
+> bcmX@)aL8eU5)*R)L*is5CY8;eOh07-N(2U+
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.pvpanic-isa b/tests/data/acpi/q35/DSDT.pvpanic-isa
+> index ed47451c44e3041e5b7fed55de7b6ef1aca54350..6672b6fa05c8ee30a8ea4ab0931d59c1315a4e9c 100644
+> GIT binary patch
+> delta 19
+> acmZ4JxX^Kf64PW=CKV=z#LXT|k#Yb%Jq1nx
+> 
+> delta 20
+> bcmZ4JxX^Kf5)*R)L*is5CY8;eOc8PbL;(f7
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
+> index efc2efc19f00ca7564467756616da44f5fd71cfe..eae2dc599331516e11632356f05d7831d1fa1e6a 100644
+> GIT binary patch
+> delta 19
+> acmbQ`I?Hu~64PW=CKV=z#LXT|K?(poy#+%6
+> 
+> delta 20
+> bcmbQ`I?Hu~5)*R)L*is5CY8;eOo0jjLwg0W
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
+> index 675339715f72b4400445ce8c0dd12f416aa0efb0..68c6a7d244cfc78efa6b9cd1385f2134ca149ad7 100644
+> GIT binary patch
+> delta 19
+> acmdnuy2W*a64PW=CKV=z#LXT|ISK$knFWym
+> 
+> delta 20
+> bcmdnuy2W*a5)*R)L*is5CY8;eOxX$mM~emj
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> index eeb40b360f7c1de93501e1ddcd7dab306a51113b..4d2937a87c4a39993eaa756f02d59ef35a08f1c2 100644
+> GIT binary patch
+> delta 118
+> zcmbQ}xzLl#CD<iop$Y>7Bf~~6A4W#e$>EGUg}4G-f_-@x_^?gRVki(~W@Jd1tjeTf
+> z%#c{%=;;#C+>yh;03;Y0k`^dUs-2v~Fgc0mKM*j~CNd`0CRQ?Xu`@tu*2#rT1{@36
+> QCuec7E@9lfkm-XW0I$^}K>z>%
+> 
+> delta 101
+> zcmZ4JInk5LCD<ioq6z~8qtiw%A4W!z$>EGUML7dpf_-@xxUfymVki(~W@JbxU`U*-
+> z#H6C(=;;#C+>yh;03;Y0k`_o!s-2v~Fgc0mKM*j~CNd`0CRQ?Xu}`jKGT6M4>4PEw
+> DoVXuG
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.xapic b/tests/data/acpi/q35/DSDT.xapic
+> index 3aa86f07243f0449c7dc245650715d729744e3ee..e9b4881bdc72eb7c59dcf258c1a98363b46bfbcd 100644
+> GIT binary patch
+> delta 21
+> dcmbO~jcNWgrVUC=lU12im>3c_doW$^002#l2H*ey
+> 
+> delta 22
+> ecmbO~jcNWgrVUC=%moaIla-iMHhVH%>i_^$`Ug$`
+> 
+> -- 
+> 2.39.1
 
 
