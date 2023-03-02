@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C937B6A7CDA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC266A7CA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeGb-0005JT-O1; Thu, 02 Mar 2023 03:26:21 -0500
+	id 1pXeGd-0005Nr-2b; Thu, 02 Mar 2023 03:26:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGT-00054n-IQ
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGW-0005Fm-Ty
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGQ-0002Qn-Uh
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGV-0002RF-0t
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745570;
+ s=mimecast20190719; t=1677745574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BZdFF76ZcDhntkg5fV7Et8wjmIeg/gJw+wUQyOqPpkg=;
- b=A1L9bTKHve7JHkq+/NHK3JHmvW4mWonvD0VyPjoDyCBp7lWGuhcZ2jo4qr/fjAzh5qFJM7
- jjlECK5m3/sz4cFtOFJjImoo5AFWa1IspXOntHiaboztNVPoFs2DcHtap74JWXHzWYm22u
- 3ZCPC/ZKsvgZ3sYPmFnkdWkPeQY4BPI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wjucy0cfusU4XwAvaR67yzsR5ckrokMlyHf5HfD6GQY=;
+ b=Y8xc5a56gcgh/EsbbF5+ZAn6LovlAWYDxQnVPqIDws0ESEXZYnPG2SqnCCTzQL01qQzltw
+ yOf77VL+dJTDLRqhLaTk7PsHgfRuWeOAz84YozvjYTPWc9/3+fZn+SVGkYQGaUghPjItpA
+ VHVekxh2Ipd8sf3y7wU1jRlhvlDN1IE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-283-B4sr-IbgOz2q006tF0UQ4w-1; Thu, 02 Mar 2023 03:26:09 -0500
-X-MC-Unique: B4sr-IbgOz2q006tF0UQ4w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- t1-20020a7bc3c1000000b003dfe223de49so923811wmj.5
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:08 -0800 (PST)
+ us-mta-627-N9Pju26GNxK8M8DnM0K8Kg-1; Thu, 02 Mar 2023 03:26:12 -0500
+X-MC-Unique: N9Pju26GNxK8M8DnM0K8Kg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z6-20020a05600c220600b003e222c9c5f4so5460823wml.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745567;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BZdFF76ZcDhntkg5fV7Et8wjmIeg/gJw+wUQyOqPpkg=;
- b=Ji88waOA6R+T81XzKtc8/V5womeOpZ2Tiz834OU/lDolFpn9QS4yWBPcMZZJCIVo0T
- K7KRsy/cxjxpYh7L/pCaAr3Z8fASTD1H9k4Hw7Qy7wKw0YRNG5l1G5u7glhwJ4mnjifs
- 1vaN7a0MnvDoxRORd7i5AIixNCblx6aQsveYzgHdopl+7vr7Qs4+P9oKIPWYS76dvDXq
- H9+okz7rTN5aX22T17FzXX4wPAKQxSgFUOQMP5b1P9E7uzk3Gl2Gd3j5R5dLmSgIFFOR
- +E+B/hYrZ/ehc/mCgGHo4CT+5YMQbQnxZ7FO3Q6l5bPoCE7K1A5RqD5rt1GxvZq66+9u
- Ny0g==
-X-Gm-Message-State: AO0yUKXFXrhI0qibh8VPn13oT9ZUqBovekuM3ZHTLj6Gb1BnNK/lKixd
- TR+aerbQ6OExjY5t9GfyKURL23n9mAqHDVLtSlKHKfprERYDlUOX4XwFOs0diveUsEaGQVPtzon
- 5yaR1e0Sfu2nlrhSdh4vf8rnl2lnSDql5fXvWKFQ1u/Ex1EX+PHezH1lExg+05afGMg==
-X-Received: by 2002:a05:600c:4450:b0:3eb:3c76:c23c with SMTP id
- v16-20020a05600c445000b003eb3c76c23cmr6824604wmn.3.1677745567563; 
- Thu, 02 Mar 2023 00:26:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set+FgHtEbsjXN5dnLTYmIdY2IJfj0C42Rmvygx/oom9GJG/OoAI1bgh8wsJNzwwGIGRSkg2GYQ==
-X-Received: by 2002:a05:600c:4450:b0:3eb:3c76:c23c with SMTP id
- v16-20020a05600c445000b003eb3c76c23cmr6824580wmn.3.1677745567176; 
- Thu, 02 Mar 2023 00:26:07 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745570;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wjucy0cfusU4XwAvaR67yzsR5ckrokMlyHf5HfD6GQY=;
+ b=5pS/KkciLQeYzrnQ7CEOcQjBHj0hq9PPbC8cGYjs5Rc6p1MqZYOWIuK1MS+jhXEvOB
+ /3YKDP+D85e5FC72hlHZA8YQ2bVCPcZc5Z3zIjqItsMyAHSp0i084QC5Sdm0aqyu5cvz
+ TaAFErVeFmea9THF9WdnzBKgtCCl7H2lwKuoj0j4WYDebbFs8EYVODowwmZPwUDS5Fje
+ mR/BacvCdEMShrrM0vvyhyWowf2o49MfjahY2fYLzhvrKro4bLJg4ELyBaJPn5uHbKBJ
+ faIABGu2AVpT6ME+cE8WbDTQAQC/6REPlrNcNgyLc1w/RvvhZpn/qwLbRX96EHlGkD+V
+ xFLw==
+X-Gm-Message-State: AO0yUKVaHlavNS3pPsa8/lSXHkxlh3FrZEK46fmUc4M2A0XuUdVJX+0z
+ ZkEAHhSfrq59wNakLzXqK1nJC76L+PFOEvl85lbaUHjjzSU5XOWuvKtmPsN0ALfl1u/bSFVLYzB
+ nUpP0Vonnh9yuL2LzxSORSP4weGOFmiYFuMCZ/KOeJa8dOpJBdsZtTOVnA9MOzJbmlg==
+X-Received: by 2002:a5d:4586:0:b0:2c7:1d71:e672 with SMTP id
+ p6-20020a5d4586000000b002c71d71e672mr6599776wrq.7.1677745570287; 
+ Thu, 02 Mar 2023 00:26:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set/GhEUguNKXV1QJMrhPFPQ/WSDcVVbMnNujEuBk/wK5wxjV2l2O1zOABxdFa+dN1eTyRkhvSQ==
+X-Received: by 2002:a5d:4586:0:b0:2c7:1d71:e672 with SMTP id
+ p6-20020a5d4586000000b002c71d71e672mr6599766wrq.7.1677745569967; 
+ Thu, 02 Mar 2023 00:26:09 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- l4-20020a5d4804000000b002c59c6abc10sm14447805wrq.115.2023.03.02.00.26.05
+ a4-20020a5d5704000000b002c559843748sm14742920wrv.10.2023.03.02.00.26.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:26:06 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:26:04 -0500
+ Thu, 02 Mar 2023 00:26:09 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:26:07 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 31/53] pcie: set power indicator to off on reset by default
-Message-ID: <20230302082343.560446-32-mst@redhat.com>
+ Carlos =?utf-8?B?TMOzcGV6?= <clopez@suse.de>
+Subject: [PULL 32/53] vhost: avoid a potential use of an uninitialized
+ variable in vhost_svq_poll()
+Message-ID: <20230302082343.560446-33-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -99,31 +100,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+From: Carlos López <clopez@suse.de>
 
-It should be zero, the only valid values are ON, OFF and BLINK.
+In vhost_svq_poll(), if vhost_svq_get_buf() fails due to a device
+providing invalid descriptors, len is left uninitialized and returned
+to the caller, potentally leaking stack data or causing undefined
+behavior.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-Message-Id: <20230216180356.156832-13-vsementsov@yandex-team.ru>
+Fix this by initializing len to 0.
+
+Found with GCC 13 and -fanalyzer (abridged):
+
+../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
+../hw/virtio/vhost-shadow-virtqueue.c:538:12: warning: use of uninitialized value ‘len’ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+  538 |     return len;
+      |            ^~~
+  ‘vhost_svq_poll’: events 1-4
+    |
+    |  522 | size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+    |      |        ^~~~~~~~~~~~~~
+    |      |        |
+    |      |        (1) entry to ‘vhost_svq_poll’
+    |......
+    |  525 |     uint32_t len;
+    |      |              ~~~
+    |      |              |
+    |      |              (2) region created on stack here
+    |      |              (3) capacity: 4 bytes
+    |......
+    |  528 |         if (vhost_svq_more_used(svq)) {
+    |      |             ~
+    |      |             |
+    |      |             (4) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_poll’
+
+    (...)
+
+    |  528 |         if (vhost_svq_more_used(svq)) {
+    |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |            ||
+    |      |            |(8) ...to here
+    |      |            (7) following ‘true’ branch...
+    |......
+    |  537 |     vhost_svq_get_buf(svq, &len);
+    |      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |     |
+    |      |     (9) calling ‘vhost_svq_get_buf’ from ‘vhost_svq_poll’
+    |
+    +--> ‘vhost_svq_get_buf’: events 10-11
+           |
+           |  416 | static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+           |      |                          ^~~~~~~~~~~~~~~~~
+           |      |                          |
+           |      |                          (10) entry to ‘vhost_svq_get_buf’
+           |......
+           |  423 |     if (!vhost_svq_more_used(svq)) {
+           |      |          ~
+           |      |          |
+           |      |          (11) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_get_buf’
+           |
+
+           (...)
+
+           |
+         ‘vhost_svq_get_buf’: event 14
+           |
+           |  423 |     if (!vhost_svq_more_used(svq)) {
+           |      |        ^
+           |      |        |
+           |      |        (14) following ‘false’ branch...
+           |
+         ‘vhost_svq_get_buf’: event 15
+           |
+           |cc1:
+           | (15): ...to here
+           |
+    <------+
+    |
+  ‘vhost_svq_poll’: events 16-17
+    |
+    |  537 |     vhost_svq_get_buf(svq, &len);
+    |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |     |
+    |      |     (16) returning to ‘vhost_svq_poll’ from ‘vhost_svq_get_buf’
+    |  538 |     return len;
+    |      |            ~~~
+    |      |            |
+    |      |            (17) use of uninitialized value ‘len’ here
+
+Note by  Laurent Vivier <lvivier@redhat.com>:
+
+    The return value is only used to detect an error:
+
+    vhost_svq_poll
+        vhost_vdpa_net_cvq_add
+            vhost_vdpa_net_load_cmd
+                vhost_vdpa_net_load_mac
+                  -> a negative return is only used to detect error
+                vhost_vdpa_net_load_mq
+                  -> a negative return is only used to detect error
+            vhost_vdpa_net_handle_ctrl_avail
+              -> a negative return is only used to detect error
+
+Fixes: d368c0b052ad ("vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush")
+Signed-off-by: Carlos López <clopez@suse.de>
+Message-Id: <20230213085747.19956-1-clopez@suse.de>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/pcie.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 90faf0710a..b8c24cf45f 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -684,6 +684,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
-                                  PCI_EXP_SLTCTL_PDCE |
-                                  PCI_EXP_SLTCTL_ABPE);
-     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
-+                               PCI_EXP_SLTCTL_PWR_IND_OFF |
-                                PCI_EXP_SLTCTL_ATTN_IND_OFF);
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 4307296358..515ccf870d 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -522,7 +522,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+ {
+     int64_t start_us = g_get_monotonic_time();
+-    uint32_t len;
++    uint32_t len = 0;
  
-     if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
+     do {
+         if (vhost_svq_more_used(svq)) {
 -- 
 MST
 
