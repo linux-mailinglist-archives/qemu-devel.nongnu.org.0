@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFAE6A8163
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E016A8171
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:44:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXhKP-0004de-9F; Thu, 02 Mar 2023 06:42:29 -0500
+	id 1pXhLW-00018S-2a; Thu, 02 Mar 2023 06:43:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXhKD-0004Tb-Rs
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:42:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXhKC-0006U3-Eq
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:42:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677757335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BCVDis/KuBY393W5OTQOORkiXQCBloWqFypwmpaMLUw=;
- b=QHIEVVjm7sEwIsyquiBWMT97zB02u347TDw4rf0zotCU8w/smgo9ZYGnttW8kHyI1hEDpf
- PBQSZes8Eon1CiGT5Ic8s8nWedtb2IhQTDtEGvFg5BoynJC3nEOIp56hrMml1iDmG3jkZ/
- HItwzj9z74S0mOUmB87Dg3MD7K+PITg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-45-wRzbxR2XOVednsGkYt8tGw-1; Thu, 02 Mar 2023 06:42:14 -0500
-X-MC-Unique: wRzbxR2XOVednsGkYt8tGw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n15-20020a05600c500f00b003dd07ce79c8so966150wmr.1
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:42:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677757333;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BCVDis/KuBY393W5OTQOORkiXQCBloWqFypwmpaMLUw=;
- b=XBP+EA2aMIihc2nuehTS/U0wTJvNtwDku3G8YFCMHlgM/Z2CJ8f3u08olOvKab03Zz
- CwWetEOtYT035BOorVtA4V53fGmELVOLxbGcZn6hmciAejq7luJCy4fxyRyhZjXvGFqc
- 20xMYibh2pewQFR/PK7xT2Z9FKeR04b4tZymMMeDm54UQv0tHL0D4LSDy6jDC9FT3ppr
- w41J7XlCCwjRazA5ttC7/OhBqJh9GKJgFEAptuzazUtL6fUI+c5caFrp//LeC1jMMZFR
- RIOvvmgFLQa7fumtQsuirJPRraBvM63YPQgLFDRJ0seEFupA8AyMxYqfwb/pexk79RzG
- b0aw==
-X-Gm-Message-State: AO0yUKUoWeuJ/zYYZnAoO8WgRkyFY+wFtgPH7J8/mzAAN8kmBSdRfj/S
- MdCHgZ2QFQTLdOqrxDLk8VyRLdfXj7MsWz9VuYF1XVphZQLnqN209T41o53+72ui4F0BxKTMtSN
- 7IlcdDPkFrc4po5g=
-X-Received: by 2002:a05:600c:908:b0:3eb:20f6:2d5c with SMTP id
- m8-20020a05600c090800b003eb20f62d5cmr7908990wmp.35.1677757333346; 
- Thu, 02 Mar 2023 03:42:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set/KuI0oCmVjMYFk1gi1d4rkhFZWRk1ea7XmCVs41rZLZou7GvB7a87CoxEmGDOjmcg7QnxAJA==
-X-Received: by 2002:a05:600c:908:b0:3eb:20f6:2d5c with SMTP id
- m8-20020a05600c090800b003eb20f62d5cmr7908979wmp.35.1677757333077; 
- Thu, 02 Mar 2023 03:42:13 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- z7-20020a05600c0a0700b003dc434b39c7sm7463580wmp.0.2023.03.02.03.42.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 03:42:12 -0800 (PST)
-Date: Thu, 2 Mar 2023 06:42:09 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PULL 31/53] pcie: set power indicator to off on reset by default
-Message-ID: <20230302064150-mutt-send-email-mst@kernel.org>
-References: <20230302082343.560446-1-mst@redhat.com>
- <20230302082343.560446-32-mst@redhat.com>
- <37e6d07b-d3db-4a9b-42b6-dd04375822da@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
+ id 1pXhLP-0000p6-KC; Thu, 02 Mar 2023 06:43:32 -0500
+Received: from m12.mail.163.com ([220.181.12.215])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <qianfanguijin@163.com>)
+ id 1pXhLN-0006so-5P; Thu, 02 Mar 2023 06:43:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Lk2p5
+ dM/gxzGmZK2D34aNq683yhjuF8HDDgw1YnG14o=; b=WsiZxqIF5S2sCGn52dY06
+ vSCaWgJ9k5k4PAiNw3R+q7vAEqbjM9FSbLpjKMJY9mSYbSid9PdnwZ03/dopJVHC
+ vipz/XYcjIhiJr8Pt6IvzcEKfPGMTMpml5oUbaqfuB/bqmEljL9kLBOUHCrcIapG
+ R4rmJXprjpOlTI0GnAF6VY=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [144.123.156.254])
+ by zwqz-smtp-mta-g2-0 (Coremail) with SMTP id _____wAH7JDOiwBkjOIhBw--.32153S2;
+ Thu, 02 Mar 2023 19:43:11 +0800 (CST)
+From: qianfanguijin@163.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qianfan Zhao <qianfanguijin@163.com>
+Subject: [RFC PATCH v1 11/12] hw: arm: allwinner-r40: Fix the mmc controller's
+ type
+Date: Thu,  2 Mar 2023 19:43:09 +0800
+Message-Id: <20230302114310.32340-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37e6d07b-d3db-4a9b-42b6-dd04375822da@yandex-team.ru>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wAH7JDOiwBkjOIhBw--.32153S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ur1DJr47CF17JFyfXryDGFg_yoW8Xr4kp3
+ Wfua9xGr9Yg3yxAa1DK3Z7Wry8Gryv9w1UCr1F9343Gw18G3ykXFyYya1UCa4kKr48AF4r
+ Z3WFqan5Xan5JaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi-J55UUUUU=
+X-Originating-IP: [144.123.156.254]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBYm7VXl5yt2OgABsw
+Received-SPF: pass client-ip=220.181.12.215;
+ envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,41 +71,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 02:34:02PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> On 02.03.23 11:26, Michael S. Tsirkin wrote:
-> > From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> > 
-> > It should be zero, the only valid values are ON, OFF and BLINK.
-> 
-> At any chance, fix s/should be/should not be/
+From: qianfan Zhao <qianfanguijin@163.com>
 
+R40 has SAMP_DL_REG register and mmc2 controller has only 8K dma buffer.
+Fix it's compatible string.
 
-Unless there's a bigger issue I'm not redoing the pull just for this.
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ hw/arm/allwinner-r40.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> > 
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> > Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-> > Message-Id: <20230216180356.156832-13-vsementsov@yandex-team.ru>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >   hw/pci/pcie.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > index 90faf0710a..b8c24cf45f 100644
-> > --- a/hw/pci/pcie.c
-> > +++ b/hw/pci/pcie.c
-> > @@ -684,6 +684,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
-> >                                    PCI_EXP_SLTCTL_PDCE |
-> >                                    PCI_EXP_SLTCTL_ABPE);
-> >       pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
-> > +                               PCI_EXP_SLTCTL_PWR_IND_OFF |
-> >                                  PCI_EXP_SLTCTL_ATTN_IND_OFF);
-> >       if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
-> 
-> -- 
-> Best regards,
-> Vladimir
+diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c
+index d217e6c936..53eafb6b5b 100644
+--- a/hw/arm/allwinner-r40.c
++++ b/hw/arm/allwinner-r40.c
+@@ -264,10 +264,11 @@ static void allwinner_r40_init(Object *obj)
+                               "clk1-freq");
+ 
+     object_initialize_child(obj, "ccu", &s->ccu, TYPE_AW_R40_CCU);
+-    object_initialize_child(obj, "mmc0", &s->mmc0, TYPE_AW_SDHOST_SUN5I);
+-    object_initialize_child(obj, "mmc1", &s->mmc1, TYPE_AW_SDHOST_SUN5I);
+-    object_initialize_child(obj, "mmc2", &s->mmc2, TYPE_AW_SDHOST_SUN5I);
+-    object_initialize_child(obj, "mmc3", &s->mmc3, TYPE_AW_SDHOST_SUN5I);
++    object_initialize_child(obj, "mmc0", &s->mmc0, TYPE_AW_SDHOST_SUN50I_A64);
++    object_initialize_child(obj, "mmc1", &s->mmc1, TYPE_AW_SDHOST_SUN50I_A64);
++    object_initialize_child(obj, "mmc2", &s->mmc2,
++                            TYPE_AW_SDHOST_SUN50I_A64_EMMC);
++    object_initialize_child(obj, "mmc3", &s->mmc3, TYPE_AW_SDHOST_SUN50I_A64);
+ 
+     object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C_SUN6I);
+     object_initialize_child(obj, "twi1", &s->i2c1, TYPE_AW_I2C_SUN6I);
+-- 
+2.25.1
 
 
