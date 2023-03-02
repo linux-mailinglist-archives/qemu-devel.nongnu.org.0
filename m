@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632606A7CA0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C276A7C98
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeFq-0002iK-0G; Thu, 02 Mar 2023 03:25:34 -0500
+	id 1pXeFm-0002S2-NF; Thu, 02 Mar 2023 03:25:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFS-0002Ex-1H
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFV-0002FP-UJ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFQ-0002B0-6Q
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:09 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeFT-0002Bg-Qx
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:25:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745507;
+ s=mimecast20190719; t=1677745511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2zjerUZt8B5fT3PtlV+vANrfuJpkyirv+ZgJLhS/Hnw=;
- b=ahp9JQCGD7pvqKz5hS6ArsSdnXNEDEe8g8TlTmUV3acmMzUc+uDRSR60ZnrKwq+zohBGUr
- t77jJxzjJ7OBvHca0AWHddGPph1SVZJ6yUGcBfAC6yZkX9guto8LRKku0NGn61gfOXbfYy
- n6UzSHc9dDD4RmTzqxwTeoTtGAWcfTY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TCSYqJbo9EsXx3sz7ebfc0MQ5H8efRMAzVObswWYkt0=;
+ b=EQSIDD8Ze76D4wWqgDfuXsRcb5lVAAtwvhR61uvXc2jKowLy+IWjov0/Nuf3tAiVN5iBau
+ N3W0qChhTTZuG0q1CvyRiWNqLLRgwZM0u34onv/M2cCBmqf0Oc/+/Kn4irCwmMJ7CO2gI/
+ ryMUJjI6C+k9uA9qiTKVsvVtkA1bX0M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-241-PTKf2_uUPKeNIR4WNJN6aA-1; Thu, 02 Mar 2023 03:25:06 -0500
-X-MC-Unique: PTKf2_uUPKeNIR4WNJN6aA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- bh3-20020a05600005c300b002c70d6e2014so3054356wrb.10
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:06 -0800 (PST)
+ us-mta-475-6icMR7s4PtKcmPpXvow22A-1; Thu, 02 Mar 2023 03:25:10 -0500
+X-MC-Unique: 6icMR7s4PtKcmPpXvow22A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l23-20020a7bc457000000b003e206cbce8dso5461652wmi.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:25:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745504;
+ d=1e100.net; s=20210112; t=1677745508;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2zjerUZt8B5fT3PtlV+vANrfuJpkyirv+ZgJLhS/Hnw=;
- b=2OCgiCZf7llmVB/bS4pCQlaSLeiLAMckbQI8sve9aHCuMn4yxVPzOMDug6JdxFU62a
- rh+rZ130+u3yjVQ+kfLAC/HUdmTwz/DbmEmrSYceoHvzP3BekB+JkF5GrPAeEdl+QVXe
- IPt7wTGPK37bk0qzhTCZhqqzqW9/vNAYInsylput/hv8D2JC6MpT1zy2XLo9ZY8VLwCO
- O0G2KI9T9huSnFj5p5VtB+awCEhP8wM7Ny0ezklk3wr7HgubkV6CCVpaZjpQ2cPI+sZr
- ZeDSwStHx9Oc+Z3jep8QNN0eq4Ow97XQ1Oa4uoWVQWk+zivsACInvyLN7Vz/yQUKajBV
- VfCg==
-X-Gm-Message-State: AO0yUKXRJEwIinK2CueaNqvlxKK0ZGEBpJXy3enhyM40e7tvMOo3I2eD
- LmLLT2pVmICaRUfHlCD6HkM0yi2wv9CojkSvixrBdSGNG1SyGlMNoTmhRcyI/uToIsXERMPtwxO
- jyQ27T24xncGCKAA8ssYWtfx4N/jEVi7m8c/Dt0r2xmAeJ9/DT5s/BooMnNPKAy2jRA==
-X-Received: by 2002:a05:600c:92a:b0:3ea:c100:e974 with SMTP id
- m42-20020a05600c092a00b003eac100e974mr7734175wmp.26.1677745504754; 
- Thu, 02 Mar 2023 00:25:04 -0800 (PST)
-X-Google-Smtp-Source: AK7set9a9Xnd8c/SsJqLPgwexWfPxlCzd/RzIkQpuWEhwgY5bpUWyxbR9VoJgPhvga4TVwz/mRg5lg==
-X-Received: by 2002:a05:600c:92a:b0:3ea:c100:e974 with SMTP id
- m42-20020a05600c092a00b003eac100e974mr7734159wmp.26.1677745504539; 
- Thu, 02 Mar 2023 00:25:04 -0800 (PST)
+ bh=TCSYqJbo9EsXx3sz7ebfc0MQ5H8efRMAzVObswWYkt0=;
+ b=dUQXDdDi0d4jfj9CVpfLJ934XaV8wSDxO2QcoTckGUOb8kijn92MRDN44tCyjMbHmx
+ joZ0oxuPEp3VsotsNIZh48DqEP7q6rIoeWt5oSmluuUpDA9U4rj/8Rd3/WvNULh90fRT
+ HJGzwH7D0iL3W9i/fmEoBsLHaIUdXhJIqZch3RLR8L9KE2p0BhvogNW1SFVonsCtikY8
+ 9f1JIrrSgGlembwQz7G0cBNj8fqLmsNwz4vlRJNDYf0j/YBVvu2mLuA24IR0spk7C2Hn
+ krSxpFvEC7slJVFAPFwR//eixQXtRWSgvP6M3VFf0jCKO/BB/410ljZ3Fm94rBg2DYvh
+ tU5Q==
+X-Gm-Message-State: AO0yUKU/aGz4viUGyFcFliB23dYD9zXpWsUPaQNy2/87VsFAP9jBSzcw
+ PSqxnUCxv82Q5XkATz7Zhql5DLA3eTIvR3/VZeqVLq5REsUQb4SOFHDRvkzXYoK1q2goGfZ9WxA
+ s7vNQgHxbU7HYXuVcDshgcctc+iLU/YFXL+fpkag9aR3Jliqm8epjsFQTF/59JP0q5w==
+X-Received: by 2002:a05:6000:120b:b0:2c7:17dd:ed6a with SMTP id
+ e11-20020a056000120b00b002c717dded6amr6916465wrx.33.1677745508429; 
+ Thu, 02 Mar 2023 00:25:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set9uE+NA736YKjGbN1si1U/5ZcsuV5oWfhNPQibx4NmQgCTNEpdlLXYbS5NiVcYXXS+DkvMV1g==
+X-Received: by 2002:a05:6000:120b:b0:2c7:17dd:ed6a with SMTP id
+ e11-20020a056000120b00b002c717dded6amr6916448wrx.33.1677745508198; 
+ Thu, 02 Mar 2023 00:25:08 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- he11-20020a05600c540b00b003daf7721bb3sm2198394wmb.12.2023.03.02.00.25.03
+ u4-20020adfed44000000b002c563b124basm14710344wro.103.2023.03.02.00.25.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:25:04 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:25:01 -0500
+ Thu, 02 Mar 2023 00:25:07 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:25:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL 10/53] backends/vhost-user: remove the ioeventfd check
-Message-ID: <20230302082343.560446-11-mst@redhat.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 11/53] vhost-user-gpio: Configure vhost_dev when connecting
+Message-ID: <20230302082343.560446-12-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -100,70 +101,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-While ioeventfds are needed for good performance with KVM guests it
-should not be a gating requirement. We can run vhost-user backends using
-simulated ioeventfds or inband signalling.
+vhost_dev_cleanup(), called from vu_gpio_disconnect(), clears vhost_dev
+so vhost-user-gpio must set the members of vhost_dev each time
+connecting.
 
-With this change I can run:
+do_vhost_user_cleanup() should also acquire the pointer to vqs directly
+from VHostUserGPIO instead of referring to vhost_dev as it can be called
+after vhost_dev_cleanup().
 
-  $QEMU $OPTS \
-    -display gtk,gl=on \
-    -device vhost-user-gpu-pci,chardev=vhgpu \
-    -chardev socket,id=vhgpu,path=vhgpu.sock
-
-with:
-
-  ./contrib/vhost-user-gpu/vhost-user-gpu \
-    -s vhgpu.sock \
-    -v
-
-and at least see things start-up - although the display gets rotated by
-180 degrees. Once lightdm takes over we never make it to the login
-prompt and just get a blank screen.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20221202132231.1048669-1-alex.bennee@linaro.org>
-
-Message-Id: <20230130124728.175610-1-alex.bennee@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Fixes: 27ba7b027f ("hw/virtio: add boilerplate for vhost-user-gpio device")
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Message-Id: <20230130140320.77999-1-akihiko.odaki@daynix.com>
+Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- backends/vhost-user.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ include/hw/virtio/vhost-user-gpio.h |  2 +-
+ hw/virtio/vhost-user-gpio.c         | 10 ++++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index 0596223ac4..94c6a82d52 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -20,12 +20,6 @@
- #include "io/channel-command.h"
- #include "hw/virtio/virtio-bus.h"
+diff --git a/include/hw/virtio/vhost-user-gpio.h b/include/hw/virtio/vhost-user-gpio.h
+index a9305c5e6c..a9d3f9b049 100644
+--- a/include/hw/virtio/vhost-user-gpio.h
++++ b/include/hw/virtio/vhost-user-gpio.h
+@@ -23,7 +23,7 @@ struct VHostUserGPIO {
+     VirtIODevice parent_obj;
+     CharBackend chardev;
+     struct virtio_gpio_config config;
+-    struct vhost_virtqueue *vhost_vq;
++    struct vhost_virtqueue *vhost_vqs;
+     struct vhost_dev vhost_dev;
+     VhostUserState vhost_user;
+     VirtQueue *command_vq;
+diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+index fe3da32c74..d6927b610a 100644
+--- a/hw/virtio/vhost-user-gpio.c
++++ b/hw/virtio/vhost-user-gpio.c
+@@ -16,6 +16,7 @@
+ #include "trace.h"
  
--static bool
--ioeventfd_enabled(void)
--{
--    return kvm_enabled() && kvm_eventfds_enabled();
--}
--
- int
- vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
-                             unsigned nvqs, Error **errp)
-@@ -34,11 +28,6 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
+ #define REALIZE_CONNECTION_RETRIES 3
++#define VHOST_NVQS 2
  
-     assert(!b->vdev && vdev);
+ /* Features required from VirtIO */
+ static const int feature_bits[] = {
+@@ -208,8 +209,7 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserGPIO *gpio)
+ {
+     virtio_delete_queue(gpio->command_vq);
+     virtio_delete_queue(gpio->interrupt_vq);
+-    g_free(gpio->vhost_dev.vqs);
+-    gpio->vhost_dev.vqs = NULL;
++    g_free(gpio->vhost_vqs);
+     virtio_cleanup(vdev);
+     vhost_user_cleanup(&gpio->vhost_user);
+ }
+@@ -229,6 +229,9 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
+     vhost_dev_set_config_notifier(vhost_dev, &gpio_ops);
+     gpio->vhost_user.supports_config = true;
  
--    if (!ioeventfd_enabled()) {
--        error_setg(errp, "vhost initialization failed: requires kvm");
--        return -1;
--    }
--
-     if (!vhost_user_init(&b->vhost_user, &b->chr, errp)) {
-         return -1;
-     }
++    gpio->vhost_dev.nvqs = VHOST_NVQS;
++    gpio->vhost_dev.vqs = gpio->vhost_vqs;
++
+     ret = vhost_dev_init(vhost_dev, &gpio->vhost_user,
+                          VHOST_BACKEND_TYPE_USER, 0, errp);
+     if (ret < 0) {
+@@ -347,10 +350,9 @@ static void vu_gpio_device_realize(DeviceState *dev, Error **errp)
+ 
+     virtio_init(vdev, VIRTIO_ID_GPIO, sizeof(gpio->config));
+ 
+-    gpio->vhost_dev.nvqs = 2;
+     gpio->command_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
+     gpio->interrupt_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
+-    gpio->vhost_dev.vqs = g_new0(struct vhost_virtqueue, gpio->vhost_dev.nvqs);
++    gpio->vhost_vqs = g_new0(struct vhost_virtqueue, VHOST_NVQS);
+ 
+     gpio->connected = false;
+ 
 -- 
 MST
 
