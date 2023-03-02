@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7BF6A7FFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:31:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D296A8001
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 11:37:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXgCP-0007MV-CO; Thu, 02 Mar 2023 05:30:09 -0500
+	id 1pXgIH-0001LT-Pv; Thu, 02 Mar 2023 05:36:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pXgCI-0007KD-Ij
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:30:05 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pXgCG-0000n7-5V
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:30:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DD4A421275;
- Thu,  2 Mar 2023 10:29:48 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 2 Mar
- 2023 11:29:48 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006dd9eef8a-3c5f-48cc-99be-56b243b508f2,
- 9B4FE5079A0EA0ECEB0374FF8CD8206378B8B5FD) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <2503ff6f-a4fa-d58c-ea5f-49a39cd21403@kaod.org>
-Date: Thu, 2 Mar 2023 11:29:47 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXgIG-0001FS-0b
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:36:12 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXgID-00029x-7O
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 05:36:11 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id t15so16027150wrz.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 02:36:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677753367;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=r3zMtAQynGLBqlZ7qBAMcZt+6syP1vaSxp4lxKp5Ay0=;
+ b=oinwO23r/3gppFKBT4Rl7J8qGaGQ5q8dz22lgR7iCpDSY3YU6aghPNEQxrFXKrsMbu
+ Z0CEQEl/wev3fb7aeex2fj6W2U/3UKCNNLCua3QQivw7O3yqcePxV50Fgjv4ulMp4Zq/
+ JKP+py8EKeO43hUa4sYbO+Ay714rCrYB6LTYj+mI+jXywjRzgiJo5b62tpY09+OW3+VT
+ b3/vfF4YySs9g6ajrOtqEyAOowYrsoMmoWFgnCzvSi91EO7WVNHFYv765xddEan0Iz0Q
+ qfaPJr4PASl+hSmBnb+SAuFPhoEw4hhVt1VJXadCnfbOoOxysQcbQA+z6UKynEEYMfog
+ rKHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677753367;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=r3zMtAQynGLBqlZ7qBAMcZt+6syP1vaSxp4lxKp5Ay0=;
+ b=OroOLf8LVv0x2npjMELujOkN120bl5kKA7g6fYwm6+MDstLZ9G6gsCcQxZbs6ctBFj
+ llOz3FTeebeyPaFfp0nNJB1hDxvfSLU2oqup83rMr1DJ3Cq1UN9KsTedHyIvVMBdeDcx
+ GfnQx3FjZrLInPpwVV2WP3Sil9ERDAu79NDPLRnWh5cK7NhIgjQmmCmAAJkeKE5XFY90
+ C+2haV8C6kZ5p9YQ4/p00bdJJNN/NyFxPzElnm9Xw1YBLhWZ8E6yZnmIiwa6HrvpnT58
+ LeJXZJ9ZYCWkpt5Dql+x8MqhITVPFpb+1Ljt6OeO5fGwQ9xXWmD7BjIVOt+EBvPrO5m0
+ EnLA==
+X-Gm-Message-State: AO0yUKWJbsXFaraD4iqw3kssicPEj1OLIDRTiQeIdK7yJ/AWVJfKrBWN
+ Z2ZoMs/ST+t4P1c1ALNpBVtlWw==
+X-Google-Smtp-Source: AK7set8u+oQJG2affiIVfZolaAcbxAAjb2DPK/ZnypTUALTj7pK7hZRoKtSXaKk4PVfCuU7FRHtrzA==
+X-Received: by 2002:a5d:4d08:0:b0:2ca:8da1:db96 with SMTP id
+ z8-20020a5d4d08000000b002ca8da1db96mr6934405wrt.50.1677753367381; 
+ Thu, 02 Mar 2023 02:36:07 -0800 (PST)
+Received: from [192.168.74.175] (89.red-88-28-21.dynamicip.rima-tde.net.
+ [88.28.21.89]) by smtp.gmail.com with ESMTPSA id
+ w9-20020a05600c474900b003eb5a0873e0sm2676982wmo.39.2023.03.02.02.36.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 02:36:06 -0800 (PST)
+Message-ID: <7c440fc8-d37b-b933-ed5f-02baf7136bca@linaro.org>
+Date: Thu, 2 Mar 2023 11:36:03 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: Bug in master branch:
- IbmPrep40pMachine.test_factory_firmware_and_netbsd broken
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 2/6] block: convert blk_exp_close_all_type() to
+ AIO_WAIT_WHILE_UNLOCKED()
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clegoate@redhat.com>, Thomas Huth
- <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, Peter Maydell
- <peter.maydell@linaro.org>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-CC: Richard Henderson <richard.henderson@linaro.org>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, Bernhard Beschow <shentey@gmail.com>
-References: <928a8552-ab62-9e6c-a492-d6453e338b9d@redhat.com>
- <ef101296-fc49-aa65-bc88-ce12fee8aeea@redhat.com>
- <71ed4fd4-0d47-5802-cb2d-35a49002a92d@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <71ed4fd4-0d47-5802-cb2d-35a49002a92d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 9e8fb34b-176e-41ec-b97a-a59bccdc12f9
-X-Ovh-Tracer-Id: 8834936572233288693
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeljedgudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehuefgtdetteefgfeihfefgfeuudevfeeihefgvedvteeiudeggefhhedthedvffenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdgtlhgvghhorghtvgesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhhphhouhhsshhinhesrhgvrggtthhoshdrohhrghdpfhegsghughesrghmshgrthdrohhrghdprhhitg
- hhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhshhgvnhhtvgihsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20230301205801.2453491-1-stefanha@redhat.com>
+ <20230301205801.2453491-3-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230301205801.2453491-3-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,73 +97,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 11:27, Philippe Mathieu-Daudé wrote:
-> On 2/3/23 10:48, Cédric Le Goater wrote:
->> On 3/2/23 08:47, Thomas Huth wrote:
->>>
->>>   Hi all,
->>>
->>> seems like we've got another bug that sneaked in during the CI minutes blackout: The avocado test IbmPrep40pMachine.test_factory_firmware_and_netbsd is now broken reliably, see:
->>>
->>>   https://gitlab.com/qemu-project/qemu/-/jobs/3858833617#L300
->>>   https://gitlab.com/thuth/qemu/-/jobs/3858727901#L300
->>>   https://gitlab.com/thuth/qemu/-/jobs/3857804517#L300
->>>
->>> Is anybody already looking into this?
->>>
->>>   Thomas
->>
->> I tried manually and QEMU reached :
->>        >> (builds@wb29, Tue Oct  7 23:59:44 PDT 2008)
->>      Boot:
->>      Loading in()
->>      3558080+232036 [197696+188133]=0x3fbbf0
->>      start=0x100000
->>      Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
->>          2006, 2007
->>          The NetBSD Foundation, Inc.  All rights reserved.
->>      Copyright (c) 1982, 1986, 1989, 1991, 1993
->>          The Regents of the University of California.  All rights reserved.
->>      NetBSD 4.0.1 (GENERIC) #0: Wed Oct  8 00:46:56 PDT 2008
->> builds@wb29:/home/builds/ab/netbsd-4-0-1-RELEASE/prep/200810080053Z-obj/home/builds/ab/netbsd-4-0-1-RELEASE/src/sys/arch/prep/compile/GENERIC
->>      Model: IBM PPS Model 6015
->>      total memory = 128 MB
->>      avail memory = 119 MB
->>      trap: kernel read DSI trap @ 0x7c3042a6 by 0x3e4cf8 (DSISR 0x40000000, err=14), lr 0x377eac
->>      panic: trap
->>      Stopped in pid 0.1 () at        netbsd:cpu_Debugger+0x10: lwz     r0, r1, 0
->>      x14
-> 
-> Bisecting using:
-> 
->       make print-V \
->    && ninja qemu-system-ppc \
->    && AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
->       avocado --show=app,console \
->         run --test-runner=nrunner -t slowness:high \
->           tests/avocado/ppc_prep_40p.py
-> 
-> commit cef2e7148e32d61338de0220619d308bf42af770
-> Author: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Date:   Fri Feb 10 16:05:34 2023 +0100
-> 
->      hw/isa/i82378: Remove intermediate IRQ forwarder
-> 
->      When the i82378 model was added in commit a04ff940974 ("prep:
->      Add i82378 PCI-to-ISA bridge emulation") the i8259 model was
->      not yet QOM'ified. This happened later in commit 747c70af78f
->      ("i8259: Convert to qdev").
-> 
->      Directly dispatch ISA IRQs to 'cpu_intr' output IRQ
->      by removing the intermediate i82378_request_out0_irq()
->      handler. Rename ISA IRQs array as 'isa_irqs_in' to
->      emphasize these are input IRQs.
+On 1/3/23 21:57, Stefan Hajnoczi wrote:
+> There is no change in behavior. Switch to AIO_WAIT_WHILE_UNLOCKED()
+> instead of AIO_WAIT_WHILE() to document that this code has already been
+> audited and converted. The AioContext argument is already NULL so
+> aio_context_release() is never called anyway.
 
-Yes. Just found the same.
+Shouldn't we assert(ctx && unlock) in AIO_WAIT_WHILE_INTERNAL() then?
 
-> Sorry :/ I'll look at this.
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   block/export/export.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/block/export/export.c b/block/export/export.c
+> index 28a91c9c42..e3fee60611 100644
+> --- a/block/export/export.c
+> +++ b/block/export/export.c
+> @@ -306,7 +306,7 @@ void blk_exp_close_all_type(BlockExportType type)
+>           blk_exp_request_shutdown(exp);
+>       }
+>   
+> -    AIO_WAIT_WHILE(NULL, blk_exp_has_type(type));
+> +    AIO_WAIT_WHILE_UNLOCKED(NULL, blk_exp_has_type(type));
+>   }
+>   
+>   void blk_exp_close_all(void)
 
-Thanks,
-
-C.
 
