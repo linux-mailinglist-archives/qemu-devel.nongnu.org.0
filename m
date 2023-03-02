@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250B86A8CEE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 00:23:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E916A8CF0
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 00:23:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXsFS-0001Vc-4a; Thu, 02 Mar 2023 18:22:06 -0500
+	id 1pXsGd-0006bp-HA; Thu, 02 Mar 2023 18:23:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXsFP-0001QW-Fl
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:22:03 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXsFN-0002Ww-RH
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:22:03 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- m8-20020a17090a4d8800b002377bced051so4455368pjh.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 15:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677799320;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hapeU56zLLLNjl6HwhImjBgWSq2y96TgwzZ7koOYKLg=;
- b=K9kCb7dL9jYpDJhtsGvty8ZsasQ+jleXUla0MZsLDxL5SoffMoWbiqs2r35LuZENue
- WU+8xGg6xhbSztVB3n9SQOzq1yGv6CF9kr8sLH7R3W3xSTn3qXKORslZ28xcXDg67ywc
- mWM4tiWCdYxVyoNQN3qXdDe6+aVBdSNqqGEqPMqMKEZLW5KjCEBmYPNg/2KURageWYLN
- CyjQSyFV76Exq0iCgs3ap40EG/VvWCmJJ1doFGwHsYsLE2C6oj+ySyQTw8ASTZF8OPNH
- 1cvc9RBTw32pwfc3a3oxp/dxaFB2ZDT29xIIfQts/fpsAXs9UcCQEf+SC0snhobtr1co
- SvNQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXsGb-0006QV-09
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:23:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXsGZ-0002mk-G4
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 18:23:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677799394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kDvFeZ1Oph7J+nzF/eJA0Ji1BrfAFQUAyS7DsB6ad8o=;
+ b=i2nmtguXnTfNOxfLnvJqjlrK55G4aGjukyG+HVvkTT/AZnhr0Ve9nqyP0XLB0nbO244bHh
+ e/qM+MfJXuYMrVrQMgL1cOOZ4HkO327cbfTexHvFaC9TBpl9FYV3CtQbG7t2jW5Hz+IsMD
+ fMVjAcKoJvOFJ9JNNJQUQ8YxyrnqaZ8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-621-qE3m4d8IOWWzhoQ3fQcpcA-1; Thu, 02 Mar 2023 18:23:13 -0500
+X-MC-Unique: qE3m4d8IOWWzhoQ3fQcpcA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ bx25-20020a5d5b19000000b002c7ce4ce3c3so86706wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 15:23:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677799320;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1677799392;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hapeU56zLLLNjl6HwhImjBgWSq2y96TgwzZ7koOYKLg=;
- b=UuYn9P3mr+7kCBLrLZANZYcSAP2YS9xYoeOqMWXmmMw/R6HLVIDU79y5GhxCoLZaHM
- ZrWqDQQzdr56pO2nl/NcdxWhPzaHS0B1D5tWh3d9jBOjr38VdM4AKNwkkfdHH7dxSq42
- QK+cLyi7nrCmYR8aF4MddwbqvCy6wpsxEMf5BrvL19sHvZCslNMGL5jkeOTR7dIYjYZ4
- ByPNQNhJIoli8WSqANvvUJbe5WjpT6RH3kHEuuIRhqyGzDm39Lbu/1X3BtDWvGD6shPr
- 2Gpoas7YlGetp6jd09y/qTcoWG9RnyxUjmVNRHc6Xbo9CwDz1ijgFI2QDEQElJAMA96k
- 0+pw==
-X-Gm-Message-State: AO0yUKXlaHJuOYaLaElGZIeN1LTPzmb802r9iuFe+0Ny6NUCiTTBNCob
- abtEQ2c2f+CjrEqihsHE6i29UA==
-X-Google-Smtp-Source: AK7set8aL2l0STxDGd3uPFznG1UQA/zaf2EhbM34stLKLBx8CoY8/iVuQ9xK9x3e0/XNKbOYeUSb8g==
-X-Received: by 2002:a05:6a20:6699:b0:cb:6f9c:166d with SMTP id
- o25-20020a056a20669900b000cb6f9c166dmr106265pzh.43.1677799320224; 
- Thu, 02 Mar 2023 15:22:00 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
- ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
+ bh=kDvFeZ1Oph7J+nzF/eJA0Ji1BrfAFQUAyS7DsB6ad8o=;
+ b=RO01rYDnQSoNKoqJO/TQQFxl68NjMVwUJOzlkSJp43pWE4CjyYFZSupx/XCQlCQNAW
+ y9Mk+kVDa48R0GkcgPiDOGDxW4eX3bBAFloLpHPVS7/+vrsCiyrpjpMGWK2sDGdVK92k
+ 7YZ3yR6khcEVWQ0/uI9/Vl1w9OAQDxf1kdGmKhwbili72aQM6Idbf7qKLSPrHUnMZQoK
+ UYNrqMUJ5BlC4CG+UBW4YNCINcQu7fJdLanoJxylDAuA8VY/dn9QYNPdCRIPvtKhjFy2
+ 7CYM/BbhMEcesPRh43KzIX9fceDcrwRSoRMBFgAB//nyjcgAmBGZ5hY2MhNSd/AB/aiI
+ PUoQ==
+X-Gm-Message-State: AO0yUKUxvdeCGxX0ZxqD5QqpWVrSsi2KoNw+3/E6N1GI66GvJ33IUIvx
+ YTa5VKyijlNkyKVmmMVOXmCTtMbx3z40ed9+7f9Zgz3E9su0cAnZ6vFxeQu+2OuWE4ec/R4hhvS
+ e1z17JVsmMgBhc/g=
+X-Received: by 2002:adf:e703:0:b0:2c3:dd81:49ad with SMTP id
+ c3-20020adfe703000000b002c3dd8149admr19393wrm.33.1677799392379; 
+ Thu, 02 Mar 2023 15:23:12 -0800 (PST)
+X-Google-Smtp-Source: AK7set9pfYlZ+nqbGeDRotyWozH/YEdBnuNqNxtiB9bntet/3gAjn6DwgsUT2K6xLpYQ6Ze3p9UsCA==
+X-Received: by 2002:adf:e703:0:b0:2c3:dd81:49ad with SMTP id
+ c3-20020adfe703000000b002c3dd8149admr19384wrm.33.1677799392061; 
+ Thu, 02 Mar 2023 15:23:12 -0800 (PST)
+Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
  by smtp.gmail.com with ESMTPSA id
- w18-20020a63af12000000b004fbdfdffa40sm185427pge.87.2023.03.02.15.21.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 15:21:59 -0800 (PST)
-Message-ID: <97d3a552-2bac-6cc8-345c-0b5a50a772e6@linaro.org>
-Date: Thu, 2 Mar 2023 15:21:58 -0800
+ z26-20020a1c4c1a000000b003eb395a8280sm4311885wmf.37.2023.03.02.15.23.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 15:23:11 -0800 (PST)
+Date: Thu, 2 Mar 2023 18:23:09 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/53] virtio,pc,pci: features, cleanups, fixes
+Message-ID: <20230302182151-mutt-send-email-mst@kernel.org>
+References: <20230302082343.560446-1-mst@redhat.com>
+ <df86476e-deee-36ff-8f53-6743ef6f792a@msgid.tls.msk.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH] gdbstub: attempt to split gdb into 32/64 bit targets
- [!WORKING PLZ HELP]
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230302192546.2617633-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230302192546.2617633-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <df86476e-deee-36ff-8f53-6743ef6f792a@msgid.tls.msk.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,36 +98,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 09:25, Alex BennÃ©e wrote:
-> -# These have to built to the target ABI
-> -specific_ss.add(files('syscalls.c'))
-> +# These have to built to the target ABI but are otherwise target
-> +# independent
-> +gdb32_ss = ss.source_set()
-> +gdb64_ss = ss.source_set()
-> +
-> +gdb32_ss.add(files('syscalls.c'))
-> +gdb64_ss.add(files('syscalls.c'))
-> +
-> +gdb32_ss = gdb32_ss.apply(config_host, strict: false)
-> +gdb64_ss = gdb64_ss.apply(config_host, strict: false)
+On Thu, Mar 02, 2023 at 03:16:24PM +0300, Michael Tokarev wrote:
+> 02.03.2023 11:24, Michael S. Tsirkin wrote:
+> ..
+> >    https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> 
+> It looks like this series contains quite a few changes which should be
+> applied to -stable as well. Here are the ones which I think should be
+> there, maybe others too:
+> 
+>  Julia Suvorova:
+>         hw/smbios: fix field corruption in type 4 table
+> 
+>  Michael S. Tsirkin:
+>         (Revert "x86: don't let decompressed kernel image clobber setup_data" -- not in 7.2)
+>         Revert "x86: do not re-randomize RNG seed on snapshot load"
+>         Revert "x86: re-initialize RNG seed when selecting kernel"
+>         Revert "x86: reinitialize RNG seed on system reboot"
+>         Revert "x86: use typedef for SetupData struct"
+>         Revert "x86: return modified setup_data only if read as memory, not as file"
+>         Revert "hw/i386: pass RNG seed via setup_data entry"
+> 
+>  Alex Bennée:
+>         backends/vhost-user: remove the ioeventfd check
 
-You don't need the source sets.
+not this one I think, it's a feature not a bugfix.
 
-> +libgdb32 = static_library('gdb32', gdb32_ss.sources(),
-> +                          name_suffix: 'fa',
-> +                          c_args: ['-DTARGET_LONG_BITS=32'])
-> +libgdb64 = static_library('gdb64', gdb64_ss.sources(),
-> +                          name_suffix: 'fa',
-> +                          c_args: ['-DTARGET_LONG_BITS=64'])
-> +
-> +gdb32 = declare_dependency(link_whole: libgdb32)
-> +gdb64 = declare_dependency(link_whole: libgdb64)
+>  Akihiko Odaki:
+>         vhost-user-gpio: Configure vhost_dev when connecting
+>         vhost-user-i2c: Back up vqs before cleaning up vhost_dev
+>         vhost-user-rng: Back up vqs before cleaning up vhost_dev
+>         hw/timer/hpet: Fix expiration time overflow
+> 
+>  Dr. David Alan Gilbert (1):
+>         virtio-rng-pci: fix transitional migration compat for vectors
+> 
+> 
+>  Eugenio Pérez:
+>         vdpa: stop all svq on device deletion
+> 
+>  Carlos López:
+>         vhost: avoid a potential use of an uninitialized variable in vhost_svq_poll()
+>         libvhost-user: check for NULL when allocating a virtqueue element
+> 
+>  Yajun Wu:
+>          chardev/char-socket: set s->listener = NULL in char_socket_finalize
+> 
+>  Jason Wang:
+>         intel-iommu: fail MAP notifier without caching mode
+>         intel-iommu: fail DEVIOTLB_UNMAP without dt mode
 
-It appears to work with "link_with:".
 
-Both comments apply here and to your gdb_user/gdb_softmmu libraries.
+others ok
 
+> 
+> Does this make sense?
+> 
+> Thanks,
+> 
+> /mjt
 
-r~
 
