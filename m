@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BE86A8BAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DB56A8BC2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 23:25:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXrIx-0006iF-RX; Thu, 02 Mar 2023 17:21:39 -0500
+	id 1pXrMT-0008Q9-7T; Thu, 02 Mar 2023 17:25:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXrIv-0006Ya-B3
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:37 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrMQ-0008PY-VZ
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:25:15 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXrIt-00081f-LI
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:21:37 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- p3-20020a17090ad30300b0023a1cd5065fso497329pju.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:21:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXrMP-0002JA-2c
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 17:25:14 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id g3so572653wri.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 14:25:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677795694;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1677795911;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5BdHKoIB8APHpqS8+uzCpSjSjIUJBzINWTHOSa+BUTk=;
- b=qSCmcZfj9rwU5xX8M5eI6ajKmI94dLmojj2E9/2LJIQN1oRKLU9bEvL+IJI8lWvNze
- fbASWj1QucXCHq9kzsao2/iFacbgZMfosKbNihuxV3gw2+IJMNoSO/qX2Yk1yWf5h+DL
- Ij1f0fUQEJdkm6OnKS07TRD+ySZIbHWw+QIJk+0J6TYN0GQnLDKGL+gxNlH1stZBU7yA
- mOWgIyHhuTg/CciKPGP3UEE/qcPmnh7fdHHM6d8uTuddwYZC+CKPTaYfAguc66FiYRUP
- Syrs76w48xry/58v1aVEyaahvRkaHBeOH0uQYhOSf00KgkKIKMKSn/vHqMmaoZpXsi6K
- iHrA==
+ bh=ThQdYLnI+zhCdeoLmtn5mNV9OQ4DNbQ7a6T0t4T4sTU=;
+ b=y6/2Fh4AOfmeNHWnQ+N5pDvJXzJQyzyaOerhexPF/5YGd8xCvlIr9F4LtG4Kohnw5L
+ BxMTR29+5BT4RrOsSQzIcOLEiriQG9spYGYRTTUxSqyxsR1SpEHUP5BYi31AcRUbO7Yq
+ 8HQzeJ4ESlcLAYdpTrs3aUAWB8CAs6rAPpQozMibu97lySILUdhXmNpOhwxd6kYyu9lt
+ kVpJXGCsD2n7teNgmgJcHvddQ2ptIDKOXrgU/9SHd5+HaWpfOYEXUPiVqel4Jt3XDSda
+ xaOsMl49/4cUcdd/nqyXiKdqY0EtN4UG4LmFdPKg14FfdRceNvwEhBIhpqxspVBwFei4
+ qB1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677795694;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1677795911;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5BdHKoIB8APHpqS8+uzCpSjSjIUJBzINWTHOSa+BUTk=;
- b=JBU9tkSQ6TK9vS7LngiDrDKZfv9Sbd7E3beOxguzmwZmGIkAucjNh3HgV0K2h4MVO3
- /Z2HcLEFmXXB9Vt4XoMbWHC06Uz/PUJXj0YqLzyusAdrPLE2bOWHh3NqlBzoV8sGTzYZ
- TQP4BPLQ8uP2mSlaZxIvDj6rEich2a6ncF46KWM/awQNoQPauxyasJ4eTCfd9IsSgrBz
- mYKXfX4ecjUhFYq8WUJev3nqCYbZDo4F+YWa2oQdSaAmjCYsNzLw+d4A1dKDN4akB6Sm
- hPQRdKa0PwfrCvrjq4Gz4KqdCKTWGMpQQysxsXZQeFkPpcJ2cyC50+YRqOzTxSxNWGud
- Qp/g==
-X-Gm-Message-State: AO0yUKUCoZOgSZG6ZwIO/Ayw1MJtexuzNWCWmZoyO5YVyFWjwMZvxpFd
- Z6fF9Q0dXSDy5jpt09aedM71gw==
-X-Google-Smtp-Source: AK7set8sR9G7rU+kWiZ45McYLvsOKeXUGRvKwIrXx0ACTw0ncR25g420Tz1PsiR54UiJfgYUqlyY2Q==
-X-Received: by 2002:a17:902:e841:b0:199:2a89:f912 with SMTP id
- t1-20020a170902e84100b001992a89f912mr14164419plg.20.1677795694018; 
- Thu, 02 Mar 2023 14:21:34 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
- ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
- by smtp.gmail.com with ESMTPSA id
- a16-20020a170902b59000b0019cbabf127dsm157907pls.182.2023.03.02.14.21.33
+ bh=ThQdYLnI+zhCdeoLmtn5mNV9OQ4DNbQ7a6T0t4T4sTU=;
+ b=Ja2ZA0YhfImSzBzUe9B7N4EjyjO1OKGQsd6U9DJFSc5lx2OhSHtgHodsZihluXm+cJ
+ tZUPfZR0RtJmyrxT9NSHg2Fr/CyM9BfTmdSWTM0H0rmgL89oxpNk79DqN0jbfH+5haM+
+ v1DFhoOxGMC8PIipNgLNY8eEPFySNnKckZuLeWm45+hN+oDBk6hl1OUdDNU0J0DH7TK6
+ gAG4fGKOlb2bPl162VdLlI7jdvUOj307aIJwM9xjwpD4zx3zf0kP/Bakn/zh7szLtL00
+ FTSr1YQBBku5mgZfsFxiOIHDgyv0QTkqB6UXBUS0Q9zC7Hn3b76YnHQNBn5/Uwt8o/g+
+ eFag==
+X-Gm-Message-State: AO0yUKVFAdy+cJ3U7LQQQfgKX8XEy6ZtIjZBhDz0kvW9r9APnT9so5K0
+ atzy4HTz2EKrdcXgvzjPCEMZsQ==
+X-Google-Smtp-Source: AK7set8LnVTbEDji8ucTtLhz+zCaeWCSTy6f43MM8s6ZjeYfk4ZXW9DDSkg0zr5U3T9k6LiHFUYslQ==
+X-Received: by 2002:adf:f791:0:b0:2c9:5dd8:2978 with SMTP id
+ q17-20020adff791000000b002c95dd82978mr8957408wrp.59.1677795911436; 
+ Thu, 02 Mar 2023 14:25:11 -0800 (PST)
+Received: from [192.168.27.175] (43.red-95-127-39.staticip.rima-tde.net.
+ [95.127.39.43]) by smtp.gmail.com with ESMTPSA id
+ a12-20020a056000100c00b002c55ec7f661sm517607wrx.5.2023.03.02.14.25.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 14:21:33 -0800 (PST)
-Message-ID: <c3c114ce-a70d-ab39-a8f9-41378b4a6ee0@linaro.org>
-Date: Thu, 2 Mar 2023 14:21:31 -0800
+ Thu, 02 Mar 2023 14:25:10 -0800 (PST)
+Message-ID: <e635b980-2d55-bf5a-a572-1b18244d330c@linaro.org>
+Date: Thu, 2 Mar 2023 23:25:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 25/26] gdbstub: split out softmmu/user specifics for
- syscall handling
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230302190846.2593720-1-alex.bennee@linaro.org>
- <20230302190846.2593720-26-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230302190846.2593720-26-alex.bennee@linaro.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <ZADe2HMuRNUwCVxW@work-vm>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ZADe2HMuRNUwCVxW@work-vm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -97,75 +96,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 09:08, Alex Bennée wrote:
-> @@ -104,9 +104,10 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
->       }
->   
->       gdbserver_syscall_state.current_syscall_cb = cb;
-> -#ifndef CONFIG_USER_ONLY
-> -    vm_stop(RUN_STATE_DEBUG);
-> -#endif
-> +
-> +    /* user/softmmu specific handling */
-> +    gdb_pre_syscall_handling();
+On 2/3/23 18:37, Dr. David Alan Gilbert wrote:
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+>> migration-test has been flaky for a long time, both in CI and
+>> otherwise:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+>> (a FreeBSD job)
+>>    32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
+>>
+>> on a local macos x86 box:
+>> ▶  34/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
+>>   34/621 qemu:qtest+qtest-i386 / qtest-i386/migration-test                         ERROR          168.12s   killed by signal 6 SIGABRT
+>> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+>> stderr:
+>> qemu-system-i386: Failed to peek at channel
+>> query-migrate shows failed migration: Unable to write to socket: Broken pipe
+>> **
+>> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
+>>
+>> (test program exited with status code -6)
+>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+>>
+>> ▶  37/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
+>>   37/621 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test                     ERROR          174.37s   killed by signal 6 SIGABRT
+>> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+>> stderr:
+>> query-migrate shows failed migration: Unable to write to socket: Broken pipe
+>> **
+>> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
+>>
+>> (test program exited with status code -6)
+>>
+>> In the cases where I've looked at the underlying log, this seems to
+>> be in the migration/multifd/tcp/plain/cancel subtest.  Disable that
+>> specific subtest by default until somebody can track down the
+>> underlying cause. Enthusiasts can opt back in by setting
+>> QEMU_TEST_FLAKY_TESTS=1 in their environment.
+>>
+>> We might need to disable more parts of this test if this isn't
+>> sufficient to fix the flakiness.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>> This is a slightly more targeted variation on my original
+>> modest proposal.
+>> ---
+>>   tests/qtest/migration-test.c | 10 ++++++++--
+>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+>> index 109bc8e7b13..d4ab3934ed2 100644
+>> --- a/tests/qtest/migration-test.c
+>> +++ b/tests/qtest/migration-test.c
+>> @@ -2572,8 +2572,14 @@ int main(int argc, char **argv)
+>>       qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
+>>       qtest_add_func("/migration/multifd/tcp/plain/none",
+>>                      test_multifd_tcp_none);
+>> -    qtest_add_func("/migration/multifd/tcp/plain/cancel",
+>> -                   test_multifd_tcp_cancel);
+>> +    /*
+>> +     * This test is flaky and sometimes fails in CI and otherwise:
+>> +     * don't run unless user opts in via environment variable.
+>> +     */
+>> +    if (getenv("QEMU_TEST_FLAKY_TESTS")) {
+>> +        qtest_add_func("/migration/multifd/tcp/plain/cancel",
+>> +                       test_multifd_tcp_cancel);
+>> +    }
+> 
+> OK, that seems reasonably selective.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> 
+> (Cancel tests are always a pain; they can be racy with the test
+> completing before you fire the cancel; or 'cancel' itself
+> can hit lots of races inside the migration code if it's not written
+> carefully enough to expect a cancel).
 
-I think this placement of vm_stop is inconvenient, and that we don't need to continue.  If 
-we move it down below the construction of gdbserver_syscall_state.syscall_buf...
+Set 'QEMU_TEST_FLAKY_TESTS' in your gitlab namespace:
+https://docs.gitlab.com/ee/ci/variables/#for-a-project
 
->       p = &gdbserver_syscall_state.syscall_buf[0];
->       p_end = &gdbserver_syscall_state.syscall_buf[sizeof(gdbserver_syscall_state.syscall_buf)];
->       *(p++) = 'F';
-> @@ -141,27 +142,13 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
->           }
->       }
->       *p = 0;
-> -#ifdef CONFIG_USER_ONLY
-> -    gdb_put_packet(gdbserver_syscall_state.syscall_buf);
-> -    /*
-> -     * Return control to gdb for it to process the syscall request.
-> -     * Since the protocol requires that gdb hands control back to us
-> -     * using a "here are the results" F packet, we don't need to check
-> -     * gdb_handlesig's return value (which is the signal to deliver if
-> -     * execution was resumed via a continue packet).
-> -     */
-> -    gdb_handlesig(gdbserver_state.c_cpu, 0);
-> -#else
-> -    /*
-> -     * In this case wait to send the syscall packet until notification that
-> -     * the CPU has stopped.  This must be done because if the packet is sent
-> -     * now the reply from the syscall request could be received while the CPU
-> -     * is still in the running state, which can cause packets to be dropped
-> -     * and state transition 'T' packets to be sent while the syscall is still
-> -     * being processed.
-> -     */
-> -    qemu_cpu_kick(gdbserver_state.c_cpu);
-> -#endif
-> +
-> +    if (gdb_send_syscall_now()) { /* true only for *-user */
-> +        gdb_put_packet(gdbserver_syscall_state.syscall_buf);
-> +    }
-> +
-> +    /* user/softmmu specific handling */
-> +    gdb_post_syscall_handling();
-
-... then we don't need 3 separate hooks for user/softmmu.
-
-softmmu:
-
-void gdb_syscall_handling(const char *syscall_buf)
-{
-     vm_stop(RUN_STATE_DEBUG);
-     qemu_cpu_kick(gdbserver_state.c_cpu);
-}
-
-user:
-
-void gdb_syscall_handling(const char *syscall_buf)
-{
-     gdb_put_packet(syscall_buf);
-     gdb_handlesig(gdbserver_state.c_cpu, 0);
-}
-
-
-r~
+(Also, set it in your local env or in the script you run
+to automate your testing).
 
