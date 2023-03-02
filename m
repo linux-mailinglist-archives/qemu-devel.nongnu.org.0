@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79FD6A88B2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31176A88B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 19:47:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXnwf-0001eB-Rp; Thu, 02 Mar 2023 13:46:25 -0500
+	id 1pXnxr-0005Na-ET; Thu, 02 Mar 2023 13:47:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwd-0001Wx-HV
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXnwc-0005BJ-1I
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:46:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677782781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZbymN6ODIBWCyWIfatbk1cfOZ4XQichSEhXRbexI754=;
- b=SV4ibwo8o0u+2siWvbDJDSaHHAA5Csz3VFgHmTf+Z+0qiY0RvcjsM0oN2LXLFhI11aj6LX
- VkwKTA3OAJ1A1ynzWA+1S7zXvTaceGffyGvOoxSEWFN7/QbCtlVRRw01F/WRGdBGS2MmG9
- L1cesm2LejxfYyhqWWDKcjqFYcamSFg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-Zre4qo5RNdiCefbWa_3f9w-1; Thu, 02 Mar 2023 13:46:20 -0500
-X-MC-Unique: Zre4qo5RNdiCefbWa_3f9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C23D7101A521;
- Thu,  2 Mar 2023 18:46:19 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 504AEC16027;
- Thu,  2 Mar 2023 18:46:18 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 5/5] iotests: register each I/O test separately with meson
-Date: Thu,  2 Mar 2023 18:46:06 +0000
-Message-Id: <20230302184606.418541-6-berrange@redhat.com>
-In-Reply-To: <20230302184606.418541-1-berrange@redhat.com>
-References: <20230302184606.418541-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXnxn-00057y-Aq
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:47:36 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXnxl-0005Sp-A8
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 13:47:34 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so3811820pjh.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 10:47:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kZWm3WWjQtpIfRaau961S5oQLdCKBqeEN4zL+V0mMn0=;
+ b=C8XOWW5520wonb1OsX5rPnaCp2cYoBXtW6t2jm2bgHyxxTp60Fzyb2Sz24y0Al7719
+ bE3bvKV/l0g0qEK7DlLXARKy2xLL6nUAD75erJNufYUeUhQkmD1eLkHf3GoOf89wsfrp
+ BiSxvXMV0Cidc34T6z97db3sjJ0elJTbX1zlZ+cS9qJ3jgo/9dlBw8Fa/aH3zeqhZsyM
+ yBFRTTjdPrZybi45CxXroJDnQNn0LFxG53jB5ffPi0nLifS5aWrjf00dhBdPBUkmRX6I
+ ZNdCSBcQ35o51YjYzrwqN/m87QLVuIR+oa17EwghywedWlJTSB2dqsfKLDcy3fNKyU5X
+ 5Xzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kZWm3WWjQtpIfRaau961S5oQLdCKBqeEN4zL+V0mMn0=;
+ b=KxxMgCSLri0C4W7LeYmw+ZjakNdz5hCd8ZbuOcSrwThc/p38OvP7UoOT9NK1xM+d22
+ nkwz7G8o9C17CV0HhmjTjTnPdW5Si/GPWV97KVLAso0qUVnxk6laj1rjMD68c0bWv7pE
+ +acK/n7YIZs0IK0BC/7Ocxng4fF1T3h6TkcP6djKMBIr9MBzuGQPJ/2U/vQ7RTZkZ01c
+ 7v51adkWaK4GxcU0Exc5mJ3qkEupTYO6DBbWNmO3DdsPsi2OCL5OFZ0irETjWyKcTjEz
+ dsYZNR3vWYq+b6N5eEG5zADdUG5qOEsvBloXQfUln69C/VtwljKppBoI9MwrRI7dpf/l
+ ygBw==
+X-Gm-Message-State: AO0yUKV3L267rLUQz7Ajh3KA+N0WuZiicJwZDH4y1FkaAdhjZmTeZlBx
+ k2u0mv/9eYbUiCpZWj5ekdPcRA==
+X-Google-Smtp-Source: AK7set/t69hB8brHlLrPOUFJSKFAT5fEfL91xlgAAnjNvUSbePOeCLWAcN8xQP84Mln67kr+vBFwLw==
+X-Received: by 2002:a05:6a20:b930:b0:cd:7d01:7654 with SMTP id
+ fe48-20020a056a20b93000b000cd7d017654mr10510379pzb.14.1677782851468; 
+ Thu, 02 Mar 2023 10:47:31 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce?
+ ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
+ by smtp.gmail.com with ESMTPSA id
+ r9-20020a62e409000000b005a54a978c1bsm54461pfh.7.2023.03.02.10.47.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 10:47:31 -0800 (PST)
+Message-ID: <d23b0ad9-5346-d0ff-5f58-5192caec4502@linaro.org>
+Date: Thu, 2 Mar 2023 10:47:29 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] tcg: Clear plugin_mem_cbs on TB exit
+Content-Language: en-US
+To: Emilio Cota <cota@braap.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org,
+ aaron@os.amperecomputing.com, frederic.petrot@univ-grenoble-alpes.fr
+References: <20230301024737.1210851-1-richard.henderson@linaro.org>
+ <20230301024737.1210851-2-richard.henderson@linaro.org>
+ <Y/8/iCIOVdAwcgW0@cota-l14>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <Y/8/iCIOVdAwcgW0@cota-l14>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,79 +97,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently meson registers a single test that invokes an entire group of
-I/O tests, hiding the test granularity from meson. There are various
-downsides of doing this
+On 3/1/23 02:05, Emilio Cota wrote:
+> As I mentioned in the patch that is being superseded here
+> I like this approach -- it is simpler and generates less
+> code.
+> 
+> I'd also like to see the plugin_gen_disable_mem_helpers
+> function go away, and a mention somewhere that now we are
+> intentionally not clearing cpu->plugin_mem_cbs until TB exit
+> (before we weren't doing that either, but that was unintentional
+> due to a bug).  So, for instance when doing a goto_tb from a
+> TB with helpers, we leave plugin_mem_cbs set. This is not a
+> problem in practice because if subsequent TB's use helpers,
+> they will overwrite the pointer.
 
- * You cannot ask 'meson test' to invoke a single I/O test
- * The meson test timeout can't be applied to the individual
-   tests
- * Meson only gets a pass/fail for the overall I/O test group
-   not individual tests
- * If a CI job gets killed by the GitLab timeout, we don't
-   get visibility into how far through the I/O tests
-   execution got.
+If we can do that, go from one TB to another without clearing, then we don't need to clear 
+it at all, ever.
 
-This switches meson to perform test discovery by invoking 'check' in
-dry-run mode. It then registers one meson test case for each I/O
-test. Parallel execution remains disabled since the I/O tests do not
-use self contained execution environments and thus conflict with
-each other.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qemu-iotests/meson.build | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
-
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index 323a4acb6a..48c82085af 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -32,16 +32,37 @@ foreach k, v : emulators
-   endif
- endforeach
- 
-+qemu_iotests_check_cmd = files('check')
-+
- foreach format, speed: qemu_iotests_formats
-   if speed == 'quick'
-     suites = 'block'
-   else
-     suites = ['block-' + speed, speed]
-   endif
--  test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
--       depends: qemu_iotests_binaries, env: qemu_iotests_env,
--       protocol: 'tap',
--       suite: suites,
--       timeout: 0,
--       is_parallel: false)
-+
-+  args = ['-tap', '-' + format]
-+  if speed == 'quick'
-+      args += ['-g', 'auto']
-+  endif
-+
-+  rc = run_command(
-+      [qemu_iotests_check_cmd] + args + ['-n'],
-+      check: true,
-+  )
-+
-+  foreach item: rc.stdout().strip().split()
-+      message('Adding test qemu-iotests-' + format + '-' + item)
-+      args = ['-tap', '-' + format, item,
-+              '--source-dir', meson.current_source_dir(),
-+              '--build-dir', meson.current_build_dir()]
-+      test('qemu-iotests-' + format + '-' + item,
-+           qemu_iotests_check_cmd,
-+           args: args,
-+           is_parallel: false,
-+           depends: qemu_iotests_binaries,
-+           env: qemu_iotests_env,
-+           protocol: 'tap',
-+           suite: suites)
-+  endforeach
- endforeach
--- 
-2.39.2
-
+r~
 
