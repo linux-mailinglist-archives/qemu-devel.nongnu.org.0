@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F13E6A7961
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 03:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFCA6A7978
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 03:26:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXYSe-0006DF-5V; Wed, 01 Mar 2023 21:14:24 -0500
+	id 1pXYcV-00063T-6r; Wed, 01 Mar 2023 21:24:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXYSb-0006Cw-W4; Wed, 01 Mar 2023 21:14:22 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXYSZ-0005aG-QW; Wed, 01 Mar 2023 21:14:21 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BA01B746335;
- Thu,  2 Mar 2023 03:14:13 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7A25B746324; Thu,  2 Mar 2023 03:14:13 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 78D6F7462DB;
- Thu,  2 Mar 2023 03:14:13 +0100 (CET)
-Date: Thu, 2 Mar 2023 03:14:13 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
-Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <ae970003-6bcf-1e6b-77b0-4c1080d33161@ilande.co.uk>
-Message-ID: <d3f3360e-9edc-9ee3-1524-d465d51e1d8e@eik.bme.hu>
-References: <cover.1677445307.git.balaton@eik.bme.hu>
- <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
- <F86A8AF3-8D69-497A-ADD1-688D2B4FED03@gmail.com>
- <04111f8e-e24d-2a61-d359-f20f8cd4634e@eik.bme.hu>
- <877517F9-2205-413F-A408-72D36B5142EB@gmail.com>
- <bc066c26-e801-12a0-624e-16ce9c21e00c@eik.bme.hu>
- <7368aeee-4d33-6c90-4068-1ba9c2b2c57b@eik.bme.hu>
- <c0b5ad2e-1b69-a570-b3ca-1f31339f1c8f@eik.bme.hu>
- <CAG4p6K7K7SE38EUnQ9Z3pU4bt2-Asd2AOoeivp3F6B-+RujF8A@mail.gmail.com>
- <ae970003-6bcf-1e6b-77b0-4c1080d33161@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pXYcK-00063C-8J; Wed, 01 Mar 2023 21:24:24 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pXYcG-00007R-31; Wed, 01 Mar 2023 21:24:21 -0500
+Received: by mail-ed1-x532.google.com with SMTP id da10so61995624edb.3;
+ Wed, 01 Mar 2023 18:24:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gCyrn6m+ZePTl/4odcTzCkGGKmhhwKz6XVQo1iM33kQ=;
+ b=gWpVkypSzcar+FQg1qz7wV/4cDEclGATqZrse3qujSmcC3QnB57o3E3n6VU1A2DWoB
+ yJfSa3GckeYYu9iubmh9cvBDOiFtnjt3KwaXnHlC/MSLzlt5FqHjRNTKL6drbfTUA3WQ
+ id9b/M1X5U4/WcbMc1JN2s4IGS/BZyPqxSi4Ksn9DF2BQ/IHtVO9akHB1S7Zl4tBnUq7
+ C9gSxsosgf4NF8edGJk7DoVSz3YiRfBMHqOYCdFV7Pr+1TO3ZhKWI/EsjPG+dplBZNja
+ VM+876QpWuYgJ4/fKlMX8EuL1H4qnEd9WCUMLEyXCSRHgTDgJMXfSk4wFJ1MQkgDrioS
+ LLXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gCyrn6m+ZePTl/4odcTzCkGGKmhhwKz6XVQo1iM33kQ=;
+ b=kg1FCVZP4EiWoKavMN7j7WPUQsZjZwjcwLQu3u5+EBqXbzrvShUESdgfpvIpbWnbb5
+ N8Y4TftSFWtudZoqdOu+s65kgasBJZHr0/tAycKxCpChaErz0ViR2Oj43KY+kRlAlkOz
+ 3/CxLixdjPlOjmauKYCYfXMa20bnGAqlf3NIppW5ERxZYYLB1kDAZ97oQL7lH5iVojMw
+ OLRmyu8Op+dQf8IJ3DKCPryYcI/5l02L5zpOSl4/rhn9jxdDpctIJKPkuXx1nDVmqzzm
+ /hPCdsdaO43LA9WpPKMLAMe26txOK1K762YraQ0sXsdyouu7erahgUbO/9Ds0289NaKT
+ 7v+w==
+X-Gm-Message-State: AO0yUKWS+Tzl5zbhYNmlSUAZEF2ZnLRn4cL7KKz0YvibRjB9gMrmmSZm
+ u01cl4JjpS3pZOpjfpgIR9kQjWlmBY82Qebx9uA=
+X-Google-Smtp-Source: AK7set/d9c+bYdNKF858thaN9ivncSCdLHR+YO5PhSNYttNmoC0McyWOgUeiekySRdTn6zjN/TUUknicSb+P1teGxVs=
+X-Received: by 2002:a50:a695:0:b0:4bc:2776:5b61 with SMTP id
+ e21-20020a50a695000000b004bc27765b61mr2319430edc.6.1677723857112; Wed, 01 Mar
+ 2023 18:24:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-506288975-1677721006=:79107"
-Content-ID: <9d4c6c6d-4d4c-3bab-a68f-453886f050b1@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20230224174520.92490-1-dbarboza@ventanamicro.com>
+ <mhng-c59a4d9c-9a01-44ea-b5a9-b416390b6570@palmer-ri-x1c9a>
+In-Reply-To: <mhng-c59a4d9c-9a01-44ea-b5a9-b416390b6570@palmer-ri-x1c9a>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 2 Mar 2023 10:24:05 +0800
+Message-ID: <CAEUhbmUtXVTC3-DFVTAaOaa3_OeP-d8sB-=PSQy4zcFXmC+xfg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] RISCVCPUConfig related cleanups
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: dbarboza@ventanamicro.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,75 +85,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Palmer,
 
---3866299591-506288975-1677721006=:79107
-Content-Type: text/plain; CHARSET=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <4ab8b933-e963-c30c-f1ec-a894c95a7d66@eik.bme.hu>
-
-On Wed, 1 Mar 2023, Mark Cave-Ayland wrote:
-> On 27/02/2023 16:52, Bernhard Beschow wrote:
->> On Mon, Feb 27, 2023 at 1:57 PM BALATON Zoltan <balaton@eik.bme.hu 
->> <mailto:balaton@eik.bme.hu>> wrote:
->> in. So if
->>      >> fuloon2e needs to do that then it should. I'll check that as I was 
->> focusing
->>      >
->>      > fuloong2e
->>
->>     I've checked fuloong2e and it still works as before. PCI bus is handled by
->>     bonito on that board so your patch would actually break it. The VIA chip
->>     is a PCIDevice. You're not supposed to replace the interrupts of the bus
->>     it's connected to from this model as that should be done by the pci-host
->>     or the board. Therefore modeling the chip's PIRQ/PINT pins as gpios which
->>     is the QDev concept for that is right and your usage of pci_set_irq here
->>     is wrong.
->> 
->> 
->> Works for me:
->> (08/84) 
->> tests/avocado/boot_linux_console.py:BootLinuxConsole.test_mips64el_fuloong2e: 
->> PASS(2.77 s)
+On Thu, Mar 2, 2023 at 10:08=E2=80=AFAM Palmer Dabbelt <palmer@rivosinc.com=
+> wrote:
 >
-> The bonito code is interesting in that the IRQ is swizzled in 
-> pci_bonito_map_irq() to the internal IRQ, and then pci_bonito_set_irq() sets 
-> the output (CPU?) IRQ accordingly. This means that the routing is currently 
-> fixed based upon the slot number, rather than using the VIA PCI IRQ routing. 
-> This bit will need some thought as to how this interacts with pci_bus_irqs() 
-> in your proposed patch, feel free to suggest a suitable approach.
+> On Fri, 24 Feb 2023 09:45:16 PST (-0800), dbarboza@ventanamicro.com wrote=
+:
+> > Hi,
+> >
+> > These cleanups were suggested by LIU Zhiwei during the review of the
+> > RISCV_FEATURE_* cleanups, currently on version 7 [1].
+> >
+> > These are dependent on the patch "[PATCH v7 01/10] target/riscv: introd=
+uce
+> > riscv_cpu_cfg()" from [1] because we use the riscv_cpu_cfg() API.
+> >
+> >
+> > [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06467.html
+> >
+> > Daniel Henrique Barboza (4):
+> >   target/riscv/csr.c: use env_archcpu() in ctr()
+> >   target/riscv/csr.c: simplify mctr()
+> >   target/riscv/csr.c: use riscv_cpu_cfg() to avoid env_cpu() pointers
+> >   target/riscv/csr.c: avoid env_archcpu() usages when reading
+> >     RISCVCPUConfig
+> >
+> >  target/riscv/csr.c | 90 +++++++++++++---------------------------------
+> >  1 file changed, 24 insertions(+), 66 deletions(-)
+>
+> I just based these on that patch, which landed as d4ea711704
+> ("target/riscv: introduce riscv_cpu_cfg()").  That resulted in a handful
+> of merge conflicts, but everything looked pretty mechanical.  So it's
+> queued up.
+>
 
-I believe the fuloong2e may be similarly connected as the pegasos2. The 
-Marvell Discovery II mv64361 was based on a MIPS counterpart so the 
-concepts may be similar in these just the CPU arch is different.
+As Weiwei pointed out in
+https://lore.kernel.org/qemu-devel/e40e75ff-37e0-94d3-e9e2-c159b0e2da68@isc=
+as.ac.cn/,
+patch#1 should be dropped.
 
-This doc https://wiki.qemu.org/images/0/09/Bonito64-spec.pdf says the 
-bonito north bridge has some GPin and GPIO pins which are connected to the 
-interrupt controller (see section 5.15). Probably you can infer which pins 
-PCI IRQs should come in from the map_irq function in the bonito model. I'd 
-expect GPIO0-3 based on description in the table in section 6.1
+But I see it was landed up in your tree @
+https://github.com/palmer-dabbelt/qemu/commit/3c7d54f945f1b5b474ea35c0815a1=
+618927c9384,
+while my changes are already in tree @
+https://github.com/palmer-dabbelt/qemu/commit/94e297071bc0a5965cc32c497a886=
+f2cf9d32710.
 
-On the other hand the board's firmware suggests PCI interrupt lines are 
-also connected to the PIRQ pins of th 686B:
-
-https://github.com/loongson-community/pmon/blob/master/sys/dev/pci/vt82c686_devbd2e.c
-
-(if this is the right file to look at as there are different versions but 
-dev board 2e said to inlude fuloong2e in the main README). Then in 686B 
-PCI interrupts are mapped to 9.10.11.13 with the PnP IRQ routing registers 
-in 686B.
-
-This could then be modeled similarly to how I did it in this series for 
-pegasos2: One could add gpio inputs in bonito to model the pins where the 
-PCI interrupt lines are connected then connect these together in the board 
-code just like they are wired on the real board.
-
-Although this board does not have any PCI slots so these are only for the 
-on board PCI devices: https://www.linux-mips.org/wiki/Fuloong_2E but a 
-similar dev board may have 4 PCI slots.
+Not sure why git doesn't figure that out ...
 
 Regards,
-BALATON Zoltan
---3866299591-506288975-1677721006=:79107--
+Bin
 
