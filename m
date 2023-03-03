@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BBC66A9219
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C0A6A9233
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:12:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0Mq-0007EJ-8D; Fri, 03 Mar 2023 03:02:16 -0500
+	id 1pY0Vd-0000vp-33; Fri, 03 Mar 2023 03:11:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pY0Mg-0007CK-CG
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pY0Me-0001jq-MU
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:02:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677830522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LuZcAk/35uQKnnlIDJFa40OOdO1s93AlFMT75MuMKSQ=;
- b=VGyoWJUMYquFBbennvYMqXpujF/Gv+8bJwb436Bf/D0ZXZoM2y+S4xQSL1dtWFuJ54CBS5
- SVlyuyNnpCatsZsJNa8euBY2TEUelvF1ASy44EGyL08FwO38mqLn15jc8pk0+Y6W7mKtsE
- s0A4rkQ6tN1GHOImLdLnLnRLVQHrSf4=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-653-tTl5BOuLOluostmKEsuRSQ-1; Fri, 03 Mar 2023 03:02:01 -0500
-X-MC-Unique: tTl5BOuLOluostmKEsuRSQ-1
-Received: by mail-oo1-f69.google.com with SMTP id
- c9-20020a4a4f09000000b005178610a793so684368oob.3
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:02:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1pY0VY-0000pg-AJ
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:11:16 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1pY0VW-0004Ty-Kn
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:11:16 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ qa18-20020a17090b4fd200b0023750b675f5so5357631pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677831073;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=4fvhd/CjcSxSDcDRaW2+sffBUEEjHgUO/YNJh3LIGeo=;
+ b=HWRZF9hxScmW5iNVhnA8nAdnjUV6HaZ4NNs9hVYHU4ExCJm/ruch/KRQ4C4Ir4XSB6
+ 0b8wdSB4PvAEP97c2UBGYBVjqrNhs5YRPgq4FI2lNbjlhPeYnXWBcrFxNroCEncx4myB
+ kXoDLNq1NYfiv1HAoW0xj1dUKeckHkBa1AnTIlvodsUO6gD+xKyhi994UetnvuKmBrmY
+ udRlWHSFPGGxmjgx1ME2tLZB61VRW3Ybo05M4NscauQHokML6kT35W5Oi2fnwWK2Nzsi
+ JeJ9+adFdCr0tcdYwmM7s6nKd9iombVLXAfxd2jX1wbY3laZJQI1V5Nae7DRnAa3yPkj
+ KGHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677830521;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LuZcAk/35uQKnnlIDJFa40OOdO1s93AlFMT75MuMKSQ=;
- b=Yvome1UU3tRPN4qMAHSyuukqzqcVfHEdLL9BdSvSBTRihnBMm3rksUJ+ajh4jkB98k
- 1kBRyxgdses4NWwuslWhE4nt5LgJa795flyBYvw/JmKenVDLzprCcjJtYlAUUV8x9fQP
- tAVVHLs9Vhu6CKQQhrptADPsyytmIFq3aavkTZpw67BxRDcVjUAcJRG234VsbNQrHh50
- M+3uqrv9Vx9A6OFsBc+UmEHaoDHyTuVu4HaKF02tPwb9teED1bQrzFr7wb+9+ykakvD/
- /qFgLE9GrvYFTNoAMtSTbiZ3w8EyS7bAG4p/blFG1QWDLKliUJhnzO288Bv9KBHwUqNp
- 3ptw==
-X-Gm-Message-State: AO0yUKUdMP+r8k37E7Kr05BA9KUrgRcUlizJUXaQlOUW3BVIm3w6cokx
- hcwSYaIVcTBwF75+mp7tmbTM68Yf5qtbfs1sPIqs7lf9jCBvfQNRk787nWme19jf8ATCpdjqCIL
- BaEN5Qpv0KE/VO2/4g2fQ+VsaD/3E7OA=
-X-Received: by 2002:aca:1216:0:b0:383:c688:a8e0 with SMTP id
- 22-20020aca1216000000b00383c688a8e0mr249682ois.9.1677830521152; 
- Fri, 03 Mar 2023 00:02:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set+upSTf48oWqLTqQnA6Lah2hq893e/j1gock93zWY1fXEPDvPyiIKei3V7jI1J6Zo7/jfJrRLUtTLSt6NLavT8=
-X-Received: by 2002:aca:1216:0:b0:383:c688:a8e0 with SMTP id
- 22-20020aca1216000000b00383c688a8e0mr249661ois.9.1677830519993; Fri, 03 Mar
- 2023 00:01:59 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677831073;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4fvhd/CjcSxSDcDRaW2+sffBUEEjHgUO/YNJh3LIGeo=;
+ b=ArpDCsK0ZDt0hKtrxh5tQkyktWCshtjppXYNgS6hqzdV6d/0elpGu4cTPw/dyJWigo
+ Ack5/J1jpIFQ8eB61WeBjvuXO5oUC5+13DiIx3dYfIYHtpHhZwO91u7IYYb25sGbAc37
+ d9doJSPMEbXpOhMpe12q3NKxVI6EPz8S1HtMjb0xXDxkhzQMwEjXfClqj0XtPV0aOWhi
+ Usv8Q5Kcg5yS+liVXeeIrHm5N6CkYSu1ohQ6RR7BBcXW8z3oMEsWSA3HXeYOqURtCTMA
+ rBY2A3SUUva7bbMbxJOplbB3TK8RJmU0d5pdMsQGxA/H1H3gMrrvxvsUuNoqKO4WZ07v
+ 9JAw==
+X-Gm-Message-State: AO0yUKW4KkiGv7/2A6Z+YemjRwrAnu71UeMcXB1Dkb1/qXOn1wTwYV5c
+ LhYNW4nFsuU1R4Gd2glns6uXLA==
+X-Google-Smtp-Source: AK7set9pwBoUqmQ648WFuJ9eNFtOCWgufbD4voyt0olq5F6HoZcChJO6380uERtNwEr//sigsXtTHg==
+X-Received: by 2002:a17:902:e745:b0:19c:eaab:653d with SMTP id
+ p5-20020a170902e74500b0019ceaab653dmr5095605plf.15.1677831072831; 
+ Fri, 03 Mar 2023 00:11:12 -0800 (PST)
+Received: from localhost ([122.172.83.155]) by smtp.gmail.com with ESMTPSA id
+ c10-20020a170902aa4a00b0019e8915b1b5sm915163plr.105.2023.03.03.00.11.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 00:11:12 -0800 (PST)
+Date: Fri, 3 Mar 2023 13:41:10 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org,
+ Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
+ Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Liu Jiang <gerry@linux.alibaba.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [virtio-dev] [RFC QEMU] docs: vhost-user: Add custom memory
+ mapping support
+Message-ID: <20230303081110.e6waldur3i7lzl6e@vireshk-i7>
+References: <Y/9zkDAS4odz93GM@fedora>
 MIME-Version: 1.0
-References: <20230213101048.94519-1-philmd@linaro.org>
- <e432c04d-6682-596f-c5bc-5266a38bbe0d@linaro.org>
- <092be240-8e2f-4ef1-aefc-f5622be4b314@linaro.org>
-In-Reply-To: <092be240-8e2f-4ef1-aefc-f5622be4b314@linaro.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 3 Mar 2023 16:01:49 +0800
-Message-ID: <CACGkMEv4F1CZdPgU+dbGtDxdEp2aV1m=qLxpHrXpaTP6ZwdKAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] hw/net/eepro100: Finish QDev conversion
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, 
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/9zkDAS4odz93GM@fedora>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,46 +99,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 9:40=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> Hi Jason, do you Ack this series?
+On 01-03-23, 10:47, Stefan Hajnoczi wrote:
+> Resend - for some reason my email didn't make it out.
 
-Sorry for the late reply.
+How about this (will send a formal patch later).
 
-I've queued this series.
+Author: Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Tue Feb 21 14:36:30 2023 +0530
 
-Thanks
+    docs: vhost-user: Add Xen specific memory mapping support
 
->
-> On 23/2/23 16:16, Philippe Mathieu-Daud=C3=A9 wrote:
-> > ping
-> >
-> > On 13/2/23 11:10, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> Convert EEPRO100 to use the latest QDev conventions / style.
-> >>
-> >> v1:
-> >> https://lore.kernel.org/qemu-devel/20230213070820.76881-9-philmd@linar=
-o.org/
-> >>
-> >> Based-on: <20230213070423.76428-1-philmd@linaro.org>
-> >>            hw/qdev: Housekeeping around qdev_get_parent_bus()
-> >>
-> >> Philippe Mathieu-Daud=C3=A9 (7):
-> >>    hw/net/eepro100: Abort if pci_add_capability() ever fail
-> >>    hw/net/eepro100: Introduce TYPE_EEPRO100 QOM abstract parent
-> >>    hw/net/eepro100: Convert reset handler to DeviceReset
-> >>    hw/net/eepro100: Pass E100PCIDeviceInfo as class init data
-> >>    hw/net/eepro100: Remove instance
-> >>      EEPRO100State::has_extended_tcb_support
-> >>    hw/net/eepro100: Remove instance's EEPRO100State::device
-> >>    hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100()
-> >>
-> >>   hw/net/eepro100.c | 147 ++++++++++++++++++++++----------------------=
---
-> >>   1 file changed, 69 insertions(+), 78 deletions(-)
-> >>
-> >
->
+    The current model of memory mapping at the back-end works fine where a
+    standard call to mmap() (for the respective file descriptor) is enough
+    before the front-end can start accessing the guest memory.
 
+    There are other complex cases though where the back-end needs more
+    information and simple mmap() isn't enough. For example Xen, a type-1
+    hypervisor, currently supports memory mapping via two different methods,
+    foreign-mapping (via /dev/privcmd) and grant-dev (via /dev/gntdev). In
+    both these cases, the back-end needs to call mmap() and ioctl(), and
+    need to pass extra information via the ioctl(), like the Xen domain-id
+    of the guest whose memory we are trying to map.
+
+    Add a new protocol feature, 'VHOST_USER_PROTOCOL_F_XEN_MMAP', which lets
+    the back-end know about the additional memory mapping requirements.
+    When this feature is negotiated, the front-end can send the
+    'VHOST_USER_SET_XEN_MMAP' message type to provide the additional
+    information to the back-end.
+
+    Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+ docs/interop/vhost-user.rst | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 3f18ab424eb0..8be5f5eae941 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -258,6 +258,24 @@ Inflight description
+
+ :queue size: a 16-bit size of virtqueues
+
++Xen mmap description
++^^^^^^^^^^^^^^^^^^^^
++
+++-------+-------+
++| flags | domid |
+++-------+-------+
++
++:flags: 64-bit bit field
++
++- Bit 0 is set for Xen foreign memory memory mapping.
++- Bit 1 is set for Xen grant memory memory mapping.
++- Bit 2 is set if the back-end can directly map additional memory (like
++  descriptor buffers or indirect descriptors, which aren't part of already
++  shared memory regions) without the need of front-end sending an additional
++  memory region first.
++
++:domid: a 64-bit Xen hypervisor specific domain id.
++
+ C structure
+ -----------
+
+@@ -867,6 +885,7 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
+   #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+   #define VHOST_USER_PROTOCOL_F_STATUS               16
++  #define VHOST_USER_PROTOCOL_F_XEN_MMAP             17
+
+ Front-end message types
+ -----------------------
+@@ -1422,6 +1441,23 @@ Front-end message types
+   query the back-end for its device status as defined in the Virtio
+   specification.
+
++``VHOST_USER_SET_XEN_MMAP``
++  :id: 41
++  :equivalent ioctl: N/A
++  :request payload: Xen mmap description
++  :reply payload: N/A
++
++  When the ``VHOST_USER_PROTOCOL_F_XEN_MMAP`` protocol feature has been
++  successfully negotiated, this message is submitted by the front-end to set the
++  Xen hypervisor specific memory mapping configurations at the back-end.  These
++  configurations should be used to mmap memory regions, virtqueues, descriptors
++  and descriptor buffers. The front-end must send this message before any
++  memory-regions are sent to the back-end via ``VHOST_USER_SET_MEM_TABLE`` or
++  ``VHOST_USER_ADD_MEM_REG`` message types. The front-end can send this message
++  multiple times, if different mmap configurations are required for different
++  memory regions, where the most recent ``VHOST_USER_SET_XEN_MMAP`` must be used
++  by the back-end to map any newly shared memory regions.
++
+
+ Back-end message types
+ ----------------------
+
+-- 
+viresh
 
