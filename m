@@ -2,53 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DCC16A9782
+	by mail.lfdr.de (Postfix) with ESMTPS id 695136A9783
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:49:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4p8-0003Qs-OE; Fri, 03 Mar 2023 07:47:46 -0500
+	id 1pY4pC-0003RS-T8; Fri, 03 Mar 2023 07:47:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pY4p4-0003Oo-VV; Fri, 03 Mar 2023 07:47:42 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY4pA-0003RB-Ba
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:47:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pY4p3-00085w-11; Fri, 03 Mar 2023 07:47:42 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3406B745720;
- Fri,  3 Mar 2023 13:47:33 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F028F745706; Fri,  3 Mar 2023 13:47:32 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id EEB4E7456E3;
- Fri,  3 Mar 2023 13:47:32 +0100 (CET)
-Date: Fri, 3 Mar 2023 13:47:32 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Woodhouse <dwmw2@infradead.org>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>, 
- John Snow <jsnow@redhat.com>, 
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
- ide_init_ioport()
-In-Reply-To: <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
-Message-ID: <0baf4043-ab5d-1982-ca76-e30dae93a6df@eik.bme.hu>
-References: <20230302224058.43315-1-philmd@linaro.org>
- <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY4p8-00086a-NW
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:47:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677847665;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e1YAKg7BtgeaEZ0xj7p6x302w2n6TLwGJtnBjHQae8g=;
+ b=CvDUESN2vgMsTmPmFU3fu0veORSSokFr8uN1Q0LvkQBCjGKOr5k9UBmKvfkquSgJ+Aib7p
+ cV3etG3qfC7A2IB1ar+YliztDZoUoPBpbfZH5DmsrwQfE5NAVgqgdYNQy4UGqV7Htic5KK
+ gbpIyD0+1s7mWTqQoOG5k7ZYWXTUqt4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-440-20fQhpWXOr6l3wHXnlwS0w-1; Fri, 03 Mar 2023 07:47:44 -0500
+X-MC-Unique: 20fQhpWXOr6l3wHXnlwS0w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ e22-20020a05600c219600b003e000facbb1so2776325wme.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:47:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=e1YAKg7BtgeaEZ0xj7p6x302w2n6TLwGJtnBjHQae8g=;
+ b=6nD83X5OruaYzGRyF8g8oiLHmvVNm5jWai2fu12lfJ1O5ElmHHTFjMnzgIap5TOHA8
+ PrrSZq9zZi4CBJBMpfXNcrN2MoF7vor8SXuY/mn1dzvR9s2gGbC0XrB0FJ8YPD1Ansmg
+ D6xZI2OIjPGZ5JoJfXwhUx8bT7V/vVF0Is1xfXK64imn661J/df8KDt4NbqDgmY3NJvj
+ OKr9C2to4XcE+D2s95EiaSVDJV6M4/ioCT91TdGD8NmrVAb6bgvHE7ibTLeu8akXah+D
+ KuOab1+NQnJUn7DjXRrBe9+5pDPwfs3Z4p6RPEfKiMNPyjYhVCeIjUstFESINSt3nkWT
+ 903A==
+X-Gm-Message-State: AO0yUKXFueGrpXiPyvEbhHBjT2OMJ+MSyTjK026nfLFWE1AOcjzn4fcA
+ j7fn8wTnGv1shrHmI+JmwKP7conXLL+PjV5YKzBKkmXCDtSmFfw2SSL5FZPuxezw/XQ3y/V5EER
+ o272mQfUpP+Ie5Ao=
+X-Received: by 2002:a05:600c:524b:b0:3eb:39e2:9156 with SMTP id
+ fc11-20020a05600c524b00b003eb39e29156mr1502453wmb.5.1677847663070; 
+ Fri, 03 Mar 2023 04:47:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set+PLZsSOWSFVjLlz1le1R1F/w4QzBz88s9Gwq5O5T6vFXh94i74h28Nsl49d/nKNna4sxX3gA==
+X-Received: by 2002:a05:600c:524b:b0:3eb:39e2:9156 with SMTP id
+ fc11-20020a05600c524b00b003eb39e29156mr1502444wmb.5.1677847662844; 
+ Fri, 03 Mar 2023 04:47:42 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
+ [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
+ x5-20020a5d4445000000b002c70a0e2cd0sm2053695wrr.101.2023.03.03.04.47.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 04:47:42 -0800 (PST)
+Message-ID: <029b545a-e814-5917-0a3f-edc578844dbe@redhat.com>
+Date: Fri, 3 Mar 2023 13:47:40 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1407362776-1677847652=:28478"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] test: Fix test-crypto-secret when compiling without
+ keyring support
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230301110058.1255-1-quintela@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230301110058.1255-1-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,59 +100,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 01/03/2023 12.00, Juan Quintela wrote:
+> Linux keyring support is protected by CONFIG_KEYUTILS.
+> Use CONFIG_SECRET_KEYRING.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> 
+> ---
+> 
+> Previous version of this patch changed the meson build rules.
+> Daniel told me that the proper fix was to change the #ifdef test.
+> ---
+>   tests/unit/test-crypto-secret.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 
---3866299591-1407362776-1677847652=:28478
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This seems to cause failures in the CI:
 
-On Fri, 3 Mar 2023, David Woodhouse wrote:
-> On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daudé" <philmd@linaro.org> wrote:
->> Since v2: rebased
->>
->> I'm posting this series as it to not block Bernhard's PIIX
->> cleanup work. I don't have code change planned, but eventually
->> reword / improve commit descriptions.
->>
->> Tested commit after commit to be sure it is bisectable. Sadly
->> this was before Zoltan & Thomas report a problem with commit
->> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
->
-> However much I stare at the partial revert which fixes it, I just cannot 
-> believe that the change could make any difference at all. There's got to 
-> be something weird going on there.
->
-> I was going to ask if the level mode for the PIT made any difference, 
-> but this is the output IRQ from the PIT to the CPU itself so I don't see 
-> how it would.
+https://gitlab.com/thuth/qemu/-/jobs/3870672310#L1443
+https://gitlab.com/thuth/qemu/-/jobs/3870672331#L2353
 
-This is independent of the ltim patch and I've found this even before 
-you've sent that patch as this is in my v5 series which you've replied to. 
-I've found this problem before when I've first written this model back in 
-2019 and did not understand why it's needed but as now shown also with the 
-prep machine there's some other problem somewhere that makes this 
-necessary. As the way we had before works for the last few years reverting 
-it is the safest bet now but we can try to find out and clean up 
-eventually.
+../tests/unit/test-crypto-secret.c:29:10: fatal error: keyutils.h: No such file or directory
+    29 | #include <keyutils.h>
+       |          ^~~~~~~~~~~~
+compilation terminated.
 
-> Would like to see a report with tracing from pic_update_irq, the CPU 
-> interrupt "handler" and the intermediate IRQ handler. With the 
-> intermediate present and without it. To compare the two.
+And when building locally, I got:
 
-I'll try to collect such trace when I'll have time but if you want to 
-experiment debian 8.11.0 netinstall cd should boot either with -kernel or 
-with the -bios pegasos2.rom (type boot cd install/pegasos at the ok prompt 
-in that case but the rom needs to be extracted from an updater as it's not 
-freely distributable). I think Thomas Huth also reproduced the same with 
-prep or 40p firmware after a similar change on that machine now.
+FAILED: tests/unit/test-crypto-secret
+tests/unit/test-crypto-secret.p/test-crypto-secret.c.o: In function `test_secret_keyring_expired_key':
+../../devel/qemu/tests/unit/test-crypto-secret.c:194: undefined reference to `add_key'
+../../devel/qemu/tests/unit/test-crypto-secret.c:197: undefined reference to `keyctl_set_timeout'
+../../devel/qemu/tests/unit/test-crypto-secret.c:212: undefined reference to `keyctl_unlink'
+tests/unit/test-crypto-secret.p/test-crypto-secret.c.o: In function `test_secret_keyring_revoked_key':
+../../devel/qemu/tests/unit/test-crypto-secret.c:169: undefined reference to `add_key'
+../../devel/qemu/tests/unit/test-crypto-secret.c:172: undefined reference to `keyctl_revoke'
+../../devel/qemu/tests/unit/test-crypto-secret.c:186: undefined reference to `keyctl_unlink'
+tests/unit/test-crypto-secret.p/test-crypto-secret.c.o: In function `test_secret_keyring_good':
+../../devel/qemu/tests/unit/test-crypto-secret.c:141: undefined reference to `add_key'
+../../devel/qemu/tests/unit/test-crypto-secret.c:155: undefined reference to `keyctl_unlink'
+collect2: error: ld returned 1 exit status
 
-In any case it's unrelated to level sensitive mode which is only needed by 
-MorphOS on pegasos2 to fix simultaneous interrupts e.g.with sound and USB 
-or PCI cards which all share IRQ9 on that machine. Other guests don't even 
-enable that ltim bit so it should not affect anything else.
+  Thomas
 
-Regards,
-BALATON Zoltan
---3866299591-1407362776-1677847652=:28478--
 
