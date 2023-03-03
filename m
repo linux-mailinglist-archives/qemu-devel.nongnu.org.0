@@ -2,99 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBFE6A9364
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EBC6A936A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:10:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1Qj-00008L-Hc; Fri, 03 Mar 2023 04:10:21 -0500
+	id 1pY1R1-0000Fe-Ba; Fri, 03 Mar 2023 04:10:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pY1Qg-00007g-Vq
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:10:19 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pY1Qy-0000Ey-UH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:10:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pY1Qf-00050P-Fx
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:10:18 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pY1Qw-00055a-7a
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:10:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677834616;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1677834633;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9+21rV9JTPJqEv5hAaO9XIP6+vcaQYqkxAqtWTVCpXo=;
- b=JieVK3t39PdAqLkrgjiiH2YPP3J0lNCzd7Pcq+0wbKb1WHVc/x/5kkweM5mUQmZBBZPDZz
- 8uIVx5siW5wwaMbMuhtiG5rsMyxyHCnfsQbD39HaAyPPUg0jYK6J8Qy/QYI6LSRvHYnGe+
- Bt8p5ApAIkw9cYSWP0YhUr4Dgu5Ewbo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bbRso0XnADEwjX/NHog3wk2G4omVi6TXV66aSYkaobo=;
+ b=ds8HkshMblIgBRCQTmke5naVs05baphQ2jZA625CfJAROkVCU0Z97843CeN8YZs93dMXz9
+ nRuer2gMgu4iD5dtLvEyy/HXds3R0cgBwMWtNtueE6gx5/gDmiKaj6Q3bdhwAHqktcUgyX
+ IzV+dfDRrV2ZWCRd0oYxO6Ryj0TooTA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-624-i9z2GSAlNv2T9yNg5Dlqcw-1; Fri, 03 Mar 2023 04:10:14 -0500
-X-MC-Unique: i9z2GSAlNv2T9yNg5Dlqcw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z6-20020a7bc7c6000000b003e0107732f4so686598wmk.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:10:14 -0800 (PST)
+ us-mta-442-AGeBZp5wNbq1JE1LQwpUAQ-1; Fri, 03 Mar 2023 04:10:32 -0500
+X-MC-Unique: AGeBZp5wNbq1JE1LQwpUAQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d14-20020adfa34e000000b002bfc062eaa8so272469wrb.20
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:10:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9+21rV9JTPJqEv5hAaO9XIP6+vcaQYqkxAqtWTVCpXo=;
- b=HZ1rPdQvPgN/fMr2mJTuIb2URhd0cuHbwpxP4L08KWprxny55uENroLBCE3EOCH9/Q
- eXxGbyOJrR4RHIasI3zZ9disxGn19IUsQwLCtCu45+ZSOMxugAp30u5bU7voTHaoPCec
- Ei6oNVzZorqSEKYGGJmlcN0A+uUGr3N4LeCxzoo3ZdbFoEufAuEe8G7avqYnJ5E31xnf
- Dn5Rjkxz8NwuDkmJBu4aAKeXZiV6gDYqLzrYyRvvM3tC7RhtImomO1aoFc2e0250JGvO
- ms2oUJDfFHV8W9Pk64rgVwbvaNAu5MaeQh01MN3Mi0iTHXGyiFbEZjNXFqB9ZWxyAuEn
- 9uYw==
-X-Gm-Message-State: AO0yUKUL+bhhP7S0iTiXoYkeXVxYQMzE2coirQnnAUrNnJGL28dEmrC/
- nH31x1w6u3LCQrKOJj6Xy37IQQgQzGYiormo0H9I2HO+NJnydW6b3DHYhAqTFZMfAzsLuUGFWl5
- sFHwL2RtkEGvIRWc=
-X-Received: by 2002:a7b:cc10:0:b0:3eb:3104:efef with SMTP id
- f16-20020a7bcc10000000b003eb3104efefmr885828wmh.31.1677834613687; 
- Fri, 03 Mar 2023 01:10:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set8sNUs5aIxfGLBghONN9hU8KRKJmuWW4ZRlWH0vxY0sJVns6zDMxd7ZTzr9WpfjWC7OFifobQ==
-X-Received: by 2002:a7b:cc10:0:b0:3eb:3104:efef with SMTP id
- f16-20020a7bcc10000000b003eb3104efefmr885809wmh.31.1677834613378; 
- Fri, 03 Mar 2023 01:10:13 -0800 (PST)
-Received: from ?IPV6:2003:cb:c702:6100:f5c9:50a5:3310:d8ac?
- (p200300cbc7026100f5c950a53310d8ac.dip0.t-ipconnect.de.
- [2003:cb:c702:6100:f5c9:50a5:3310:d8ac])
+ d=1e100.net; s=20210112; t=1677834630;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bbRso0XnADEwjX/NHog3wk2G4omVi6TXV66aSYkaobo=;
+ b=4GKHz09lhjHLhRYKEw/z/XNWXgG6qovtnhgf6nV8L6rEFJ9rBQjqzZQbUS1RvFcMF3
+ lC3Ch/4w6CLgxjUfDHe4EOdNM8+EEMQBg2GDudREB1AfmY4IvwFMGfR0YoFbuo/mEaE8
+ HlSl5K2BRn4BipUXOZwx+iOal7oJrbOgiF0fZGpE/x+JKeHw2yMNL9I3s8HvRaBXUHcl
+ Sk5x+5PwQXokHjSCE6A173kh6Vr4hW6m0UUTTBbwFu36OMXRRIiEJM2yex4SZ+EJIUKu
+ oSV4/GzU5M3Z8MH5LdD4ivtWxSelc+GmibOvufyHs70O6+CR1EkQhxQnYXY3hfTfSuXi
+ 7f4Q==
+X-Gm-Message-State: AO0yUKWAmuD2HvZmGd1dVfoD3FNBuSSJD7TtUwXdG+RmHTXKbRgF+Oiw
+ 395GLXxrvJztZSg5OEjAbyvXNQfkCOfbOfE6oOOHlT7uCumg/jaSMPWX34C5yaDgWCFdCD7EHiW
+ ctPyr734oIhGhvpM=
+X-Received: by 2002:a5d:6385:0:b0:2c7:e424:eeb8 with SMTP id
+ p5-20020a5d6385000000b002c7e424eeb8mr731189wru.57.1677834630195; 
+ Fri, 03 Mar 2023 01:10:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set/59Ys0FWBLlG92I7Bym8TO7BTE0GXRbWCE6sr6c593JhQNo7RsTpbHadjGfPcFcr7qcB06Xg==
+X-Received: by 2002:a5d:6385:0:b0:2c7:e424:eeb8 with SMTP id
+ p5-20020a5d6385000000b002c7e424eeb8mr731174wru.57.1677834629935; 
+ Fri, 03 Mar 2023 01:10:29 -0800 (PST)
+Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
  by smtp.gmail.com with ESMTPSA id
- a17-20020a056000101100b002c553e061fdsm1592358wrx.112.2023.03.03.01.10.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 01:10:12 -0800 (PST)
-Message-ID: <c4b70513-7cbc-a858-58ed-537c8fe7795e@redhat.com>
-Date: Fri, 3 Mar 2023 10:10:12 +0100
+ m5-20020a5d4a05000000b002c706c754fesm1589014wrq.32.2023.03.03.01.10.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 01:10:29 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  qemu-devel@nongnu.org,  Alex
+ =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+In-Reply-To: <ZADeLNaltLAZ9BU8@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 2 Mar 2023 17:34:36 +0000")
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <ZADeLNaltLAZ9BU8@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 03 Mar 2023 10:10:28 +0100
+Message-ID: <87edq6i4jf.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Chuang Xu <xuchuangxclwt@bytedance.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230225163141.1209368-1-peterx@redhat.com>
- <6c75e2e2-5ba9-bc52-2c6c-a0bfb5f5b56f@redhat.com> <ZAC2ccoQpFLa07ZK@x1n>
- <4f130497-1200-8c42-7d48-cadf54f3f6a4@redhat.com> <ZAEaO7Yqw2F8hbbV@x1n>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <ZAEaO7Yqw2F8hbbV@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,37 +103,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.03.23 22:50, Peter Xu wrote:
-> On Thu, Mar 02, 2023 at 04:11:56PM +0100, David Hildenbrand wrote:
->> I guess the main concern here would be overhead from gabbing/releasing the
->> BQL very often, and blocking the BQL while we're eventually in the kernel,
->> clearing bitmaps, correct?
-> 
-> More or less yes.  I think it's pretty clear we move on with RCU unless
-> extremely necessary (which I don't think..), then it's about how to fix the
-> bug so rcu safety guaranteed.
-
-What about an additional simple lock?
-
-Like:
-
-* register/unregister requires that new notifier lock + BQL
-* traversing notifiers requires either that new lock or the BQL
-
-We simply take the new lock in that problematic function. That would 
-work as long as we don't require traversal of the notifiers concurrently 
--- and as long as we have a lot of bouncing back and forth (I don't 
-think we have, even in the migration context, or am I wrong?).
-
-That way we also make sure that each notifier is only called once. I'm 
-not 100% sure if all notifiers would expect to be called concurrently.
-
--- 
-Thanks,
-
-David / dhildenb
+RGFuaWVsIFAuIEJlcnJhbmfDqSA8YmVycmFuZ2VAcmVkaGF0LmNvbT4gd3JvdGU6DQo+IE9uIFRo
+dSwgTWFyIDAyLCAyMDIzIGF0IDA1OjIyOjExUE0gKzAwMDAsIFBldGVyIE1heWRlbGwgd3JvdGU6
+DQo+PiBtaWdyYXRpb24tdGVzdCBoYXMgYmVlbiBmbGFreSBmb3IgYSBsb25nIHRpbWUsIGJvdGgg
+aW4gQ0kgYW5kDQo+PiBvdGhlcndpc2U6DQo+PiANCj4+IGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11
+LXByb2plY3QvcWVtdS8tL2pvYnMvMzgwNjA5MDIxNg0KPj4gKGEgRnJlZUJTRCBqb2IpDQo+PiAg
+IDMyLzY0OCBFUlJPUjouLi90ZXN0cy9xdGVzdC9taWdyYXRpb24taGVscGVycy5jOjIwNTp3YWl0
+X2Zvcl9taWdyYXRpb25fc3RhdHVzOiBhc3NlcnRpb24gZmFpbGVkOiAoZ190ZXN0X3RpbWVyX2Vs
+YXBzZWQoKSA8IE1JR1JBVElPTl9TVEFUVVNfV0FJVF9USU1FT1VUKSBFUlJPUg0KPj4gDQo+PiBv
+biBhIGxvY2FsIG1hY29zIHg4NiBib3g6DQo+PiDilrYgIDM0LzYyMSBFUlJPUjouLi8uLi90ZXN0
+cy9xdGVzdC9taWdyYXRpb24taGVscGVycy5jOjE1MTptaWdyYXRlX3F1ZXJ5X25vdF9mYWlsZWQ6
+IGFzc2VydGlvbiBmYWlsZWQ6ICghZ19zdHJfZXF1YWwoc3RhdHVzLCAiZmFpbGVkIikpIEVSUk9S
+DQo+PiAgMzQvNjIxIHFlbXU6cXRlc3QrcXRlc3QtaTM4NiAvIHF0ZXN0LWkzODYvbWlncmF0aW9u
+LXRlc3QgICAgICAgICAgICAgICAgICAgICAgICAgRVJST1IgICAgICAgICAgMTY4LjEycyAgIGtp
+bGxlZCBieSBzaWduYWwgNiBTSUdBQlJUDQo+PiDigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJUg4pyAICDigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJUNCj4+IHN0ZGVycjoNCj4+IHFlbXUtc3lzdGVt
+LWkzODY6IEZhaWxlZCB0byBwZWVrIGF0IGNoYW5uZWwNCj4+IHF1ZXJ5LW1pZ3JhdGUgc2hvd3Mg
+ZmFpbGVkIG1pZ3JhdGlvbjogVW5hYmxlIHRvIHdyaXRlIHRvIHNvY2tldDogQnJva2VuIHBpcGUN
+Cj4+ICoqDQo+PiBFUlJPUjouLi8uLi90ZXN0cy9xdGVzdC9taWdyYXRpb24taGVscGVycy5jOjE1
+MTptaWdyYXRlX3F1ZXJ5X25vdF9mYWlsZWQ6IGFzc2VydGlvbiBmYWlsZWQ6ICghZ19zdHJfZXF1
+YWwoc3RhdHVzLCAiZmFpbGVkIikpDQo+PiANCj4+ICh0ZXN0IHByb2dyYW0gZXhpdGVkIHdpdGgg
+c3RhdHVzIGNvZGUgLTYpDQo+PiDigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJUNCj4+IA0KPj4g4pa2ICAzNy82MjEgRVJST1I6Li4v
+Li4vdGVzdHMvcXRlc3QvbWlncmF0aW9uLWhlbHBlcnMuYzoxNTE6bWlncmF0ZV9xdWVyeV9ub3Rf
+ZmFpbGVkOiBhc3NlcnRpb24gZmFpbGVkOiAoIWdfc3RyX2VxdWFsKHN0YXR1cywgImZhaWxlZCIp
+KSBFUlJPUg0KPj4gIDM3LzYyMSBxZW11OnF0ZXN0K3F0ZXN0LXg4Nl82NCAvIHF0ZXN0LXg4Nl82
+NC9taWdyYXRpb24tdGVzdCAgICAgICAgICAgICAgICAgICAgIEVSUk9SICAgICAgICAgIDE3NC4z
+N3MgICBraWxsZWQgYnkgc2lnbmFsIDYgU0lHQUJSVA0KPj4g4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVIOKcgCAg4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQo+PiBzdGRlcnI6DQo+PiBxdWVy
+eS1taWdyYXRlIHNob3dzIGZhaWxlZCBtaWdyYXRpb246IFVuYWJsZSB0byB3cml0ZSB0byBzb2Nr
+ZXQ6IEJyb2tlbiBwaXBlDQo+PiAqKg0KPj4gRVJST1I6Li4vLi4vdGVzdHMvcXRlc3QvbWlncmF0
+aW9uLWhlbHBlcnMuYzoxNTE6bWlncmF0ZV9xdWVyeV9ub3RfZmFpbGVkOiBhc3NlcnRpb24gZmFp
+bGVkOiAoIWdfc3RyX2VxdWFsKHN0YXR1cywgImZhaWxlZCIpKQ0KPj4gDQo+PiAodGVzdCBwcm9n
+cmFtIGV4aXRlZCB3aXRoIHN0YXR1cyBjb2RlIC02KQ0KPj4gDQo+PiBJbiB0aGUgY2FzZXMgd2hl
+cmUgSSd2ZSBsb29rZWQgYXQgdGhlIHVuZGVybHlpbmcgbG9nLCB0aGlzIHNlZW1zIHRvDQo+PiBi
+ZSBpbiB0aGUgbWlncmF0aW9uL211bHRpZmQvdGNwL3BsYWluL2NhbmNlbCBzdWJ0ZXN0LiAgRGlz
+YWJsZSB0aGF0DQo+PiBzcGVjaWZpYyBzdWJ0ZXN0IGJ5IGRlZmF1bHQgdW50aWwgc29tZWJvZHkg
+Y2FuIHRyYWNrIGRvd24gdGhlDQo+PiB1bmRlcmx5aW5nIGNhdXNlLiBFbnRodXNpYXN0cyBjYW4g
+b3B0IGJhY2sgaW4gYnkgc2V0dGluZw0KPj4gUUVNVV9URVNUX0ZMQUtZX1RFU1RTPTEgaW4gdGhl
+aXIgZW52aXJvbm1lbnQuDQo+DQo+IE5vIG9iamVjdGlvbiB0byBkaXNhYmxpbmcgdGhlIHRlc3Qu
+IEdpdmVuIHRoZSBtYW55IG11bHRpZmQgZml4ZXMgd2UNCj4gaGF2ZSBzZWVuLCBJIGZlYXIgdGhh
+dCB1bmxpa2VseSBtYW55IG9mIHRoZSBmbGFrZXkgdGVzdHMsIHRoaXMgaXMNCj4gbm90IG1lcmVs
+eSBhIHRlc3QgcHJvYmxlbSwgYnV0IHJhdGhlciBoYXMgYSBkZWNlbnQgY2hhbmNlIG9mIGJlaW5n
+DQo+IGEgcmVhbCBidWcgaW4gbWlncmF0aW9uIGNvZGUuDQoNCldoYXQgaXMgcmVhbGx5IHdlaXJk
+IHdpdGggdGhpcyBmYWlsdXJlIGlzIHRoYXQ6DQotIGl0IG9ubHkgaGFwcGVucyBvbiBub24teDg2
+DQotIG9uIGNvZGUgdGhhdCBpcyBub3QgYXJjaCBkZXBlbmRlbnQNCi0gb24gY2FuY2VsLCB3aGF0
+IHdlIHJlYWxseSBkbyB0aGVyZSBpcyBjbG9zZSBmZCdzIGZvciB0aGUgbXVsdGlmZA0KICBjaGFu
+bmVsIHRocmVhZHMgdG8gZ2V0IG91dCBvZiB0aGUgcmVjdiwgaS5lLiBhZ2Fpbiwgbm90aGluZyB0
+aGF0DQogIHNob3VsZCBiZSBhcmNoIGRlcGVuZGVudC4NCg0KQXMgc2FpZCBpbiB0aGUgb3RoZXIg
+ZW1haWwsIEkgZXhwZWN0IHRvIGdldCBiYWNrIGFjY2VzcyB0byBBUk0gc2VydmVycw0KbmV4dCB3
+ZWVrLg0KDQpMYXRlciwgSnVhbi4NCg==
 
 
