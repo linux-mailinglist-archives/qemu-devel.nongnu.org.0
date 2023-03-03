@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAD66A945D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561AD6A945F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:45:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1yC-0002PU-Ss; Fri, 03 Mar 2023 04:44:56 -0500
+	id 1pY1yP-0002U9-VP; Fri, 03 Mar 2023 04:45:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY1yA-0002Ke-Vu
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:44:55 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY1y9-0006iY-If
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:44:54 -0500
-Received: by mail-wm1-x336.google.com with SMTP id c18so1180575wmr.3
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:44:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677836691;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=S1jjL4oE632lripB1tLFpaEUySlf/wTdOxJzkYl6RQU=;
- b=l8do7zs8BYSt7Yc9Lax5nGmef2OpkaiGjWBCE7/bIFEFdl2FkWqEnlb7UpsQb3Jr02
- Wkr4yx9ZcIj2Eo3Q6rZuFk3/5tiToN5oZVLgfEgeOfrBIykcXnX/ddEubLSWrHhrlBxX
- B7DBwtWfwptYb5HvmHz5mHL6SssR2CdU23aEd570wHAKWDIiWV92tnPN0cwiq6eEb63z
- YjYz3m3nGprD42udkHHf7G6lDDG3xn0i5G168wOiwfz1rO8LlqlCY5IHZ7aODJNn8RFM
- eWR+bxx4lpeZJTLBjVKfSmzHtbE/GKnf4R8wsAjqHtM5LGSyahcSd53T/QKkPF96iJnB
- K52g==
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pY1yO-0002TV-4Q
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:45:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pY1yM-0006u6-4o
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:45:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677836705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M1eKjVSNiFx2qeutxVvCzawxNumM9nF8oPNxW/wzG6Q=;
+ b=gl4o59SL2ccQ/lS1EDnJlPqEuJfftFSy36hj7WELwVMdPEsg11XGnQZnMA8ULobEDkjW2t
+ od+4et/2zZCAOwglRV4rvsG6mnPD9N+NE0gwDP91SZhygqR3uB1YjZkxktVHnR4UyPeo4A
+ xii58ynvHT1GkMqZhrjNFgWzF8QHVvg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-453-U4khsaCuNqOQA3GDLJvsiQ-1; Fri, 03 Mar 2023 04:45:03 -0500
+X-MC-Unique: U4khsaCuNqOQA3GDLJvsiQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j6-20020a05600c1c0600b003eaf882cb85so750604wms.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:45:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677836691;
+ d=1e100.net; s=20210112; t=1677836702;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S1jjL4oE632lripB1tLFpaEUySlf/wTdOxJzkYl6RQU=;
- b=x85UFoC2ZJrDitV9mtybIECFDGX8yyD2D9slvnU0lEYDTzJzjDejwxXBvdxphuAW6A
- qAJVCdovoLx2gotoDKwUUmAh8en+JdzLIFSGHRc9qOt+drVCZ7mrscK+/nuwOE0bWti7
- uH57ycRbg0QZwywyqfuP1HmI6e1JFPrmn9Fw6bPAFTPyOqf/waHxLdCqrP6kJTif0G+/
- D/JM876D9PMVM/66aVhqWljNlMpYJeIFpEdJw1K225MWHWqn1BF0IWi09HDqkZPC+7Z3
- Tgx7HvGaiCJOzI3tPaTTR2VPUC8EILG0qW9GclPr4xhEJKnQYFCPIqm7uBEixruzW096
- aNig==
-X-Gm-Message-State: AO0yUKWkb20l7GRaHBReSqq9na9AUk5X3lyzXOKJNifIkS9dzjnNkZp6
- +PkAIlgRoDwa1n2Nw1rrEfxcoaRGRc9PprKL
-X-Google-Smtp-Source: AK7set9mR1OQpG07eTUq2hP0REoNFAAmLHssZdbJ5xbMXn1sl38QZyv3ifujLSER/CPJHTtYXE3q6g==
-X-Received: by 2002:a05:600c:3c89:b0:3eb:38e6:f659 with SMTP id
- bg9-20020a05600c3c8900b003eb38e6f659mr1019578wmb.15.1677836691512; 
- Fri, 03 Mar 2023 01:44:51 -0800 (PST)
-Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- u10-20020a7bc04a000000b003e876122dc1sm5246022wmc.47.2023.03.03.01.44.50
+ bh=M1eKjVSNiFx2qeutxVvCzawxNumM9nF8oPNxW/wzG6Q=;
+ b=phfAbFiC9K8ei78ToEereuENIEnwMjTU0COeaw0nmMHAips0recqObAvrc/sB9zDDo
+ 72ITy3qqtQHqadb3HlmqBgBe44JpODZCFx8D5Ar3rUpIAtO83e5ijRgD+GiVDIhhR+Ax
+ l4q5ysO4GcF9m3NnI4nbqxAc2Gt6nkcZ5ARNOKiA5rPpBwzj/bYGY6nNlTYTnp9fYa8P
+ 4L9b/ntk6C2oqODR6MNtOM798WKTCUROtPaBjaiU6R9tm6/YQoEMbOMb6eb87aKxqwNv
+ lBhdk5aLK44+eedl9hefooRMQqXNfkQyNeozO+pk5VMR0y7M5VWIB+TsaWUvFDcwm16L
+ F5hg==
+X-Gm-Message-State: AO0yUKWPzbM89PFcF5orq513CxjCUkuv+1e0yC/SxUvsKkSuXlfCawTe
+ j8cMRt6q1P0/xNvRG7WVg73DKFN9QVjuCvKjUvTikKg9WemDCsggUO8rRc06aRv8mWrhIjmP3e4
+ J9u5i067T2uOcR5pPmMiO
+X-Received: by 2002:a05:600c:3c9c:b0:3ea:bc08:b63e with SMTP id
+ bg28-20020a05600c3c9c00b003eabc08b63emr1209310wmb.2.1677836702628; 
+ Fri, 03 Mar 2023 01:45:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set+FMODkAJaY5AWNXn3eVv6J8EP7ROje2DGRsA4VbgYzW00QFuvL7STuZ7N3nDP7Qd7mnn4Dbg==
+X-Received: by 2002:a05:600c:3c9c:b0:3ea:bc08:b63e with SMTP id
+ bg28-20020a05600c3c9c00b003eabc08b63emr1209303wmb.2.1677836702342; 
+ Fri, 03 Mar 2023 01:45:02 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ z26-20020a1c4c1a000000b003eb395a8280sm5456689wmf.37.2023.03.03.01.45.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 01:44:51 -0800 (PST)
-Message-ID: <0b3f38db-81c5-6114-28d4-69aeafae3d34@linaro.org>
-Date: Fri, 3 Mar 2023 10:44:49 +0100
+ Fri, 03 Mar 2023 01:45:01 -0800 (PST)
+Message-ID: <f4f9fe64-0e79-08e7-7833-fd5c897424a8@redhat.com>
+Date: Fri, 3 Mar 2023 10:45:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4.5 27/29] gdbstub: Adjust gdb_do_syscall to only use
- uint32_t and uint64_t
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] vfio: Fix vfio_get_dev_region() trace event
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-References: <20230303025805.625589-1-richard.henderson@linaro.org>
- <20230303025805.625589-28-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230303025805.625589-28-richard.henderson@linaro.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>
+References: <20230303074330.2609377-1-clg@kaod.org>
+ <93a2b734-d3b1-27e8-32f4-d46342dc6b00@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <93a2b734-d3b1-27e8-32f4-d46342dc6b00@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +102,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 03:58, Richard Henderson wrote:
-> Pass %x as uint32_t and %lx as uint64_t; pass the address
-> of %s as uint64_t and the length as uint32_t.
+On 3/3/23 10:34, Philippe Mathieu-Daudé wrote:
+> On 3/3/23 08:43, Cédric Le Goater wrote:
+>> From: Cédric Le Goater <clg@redhat.com>
+>>
+>> Simply revert 'x8' to fix the typo and remove the ending '8'
+>>
+>> Fixes: e61a424f05 ("vfio: Create device specific region info helper")
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1526
+>> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+>> ---
+>>   hw/vfio/trace-events | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>> index 669d9fe07c..28e82541a2 100644
+>> --- a/hw/vfio/trace-events
+>> +++ b/hw/vfio/trace-events
+>> @@ -117,7 +117,7 @@ vfio_region_mmaps_set_enabled(const char *name, bool enabled) "Region %s mmaps e
+>>   vfio_region_unmap(const char *name, unsigned long offset, unsigned long end) "Region %s unmap [0x%lx - 0x%lx]"
+>>   vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Device %s region %d: %d sparse mmap entries"
+>>   vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
+>> -vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+>> +vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%08x"
 > 
-> Add casts in semihosting/syscalls.c from target_ulong to
-> uint64_t; add casts from int to uint32_t for clarity.
+> 8 digits might be over-engineered, but at least is future-proof :)
+
+well, yes, but it also depends on other possible outputs from the OS or,
+more important, from gdb when dumping memory. It it better if they match.
+
+Since it is an hex number, may be I should add a '0x' prefix also ? That's
+a lot of versions for a 2 bytes patch ! :)
+
+Thanks,
+
+C.
+
+
+
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   gdbstub/syscalls.c     | 12 ++++++------
->   semihosting/syscalls.c | 34 ++++++++++++++++++++--------------
->   2 files changed, 26 insertions(+), 20 deletions(-)
-
-Few more casts, but nice target(_ulong) simplification!
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> $ git grep -E 'VFIO_REGION_(SUB)?TYPE_' linux-headers/
+> linux-headers/linux/vfio.h:322:#define VFIO_REGION_TYPE_PCI_VENDOR_TYPE (1 << 31)
+> linux-headers/linux/vfio.h:323:#define VFIO_REGION_TYPE_PCI_VENDOR_MASK (0xffff)
+> linux-headers/linux/vfio.h:324:#define VFIO_REGION_TYPE_GFX       (1)
+> linux-headers/linux/vfio.h:325:#define VFIO_REGION_TYPE_CCW        (2)
+> linux-headers/linux/vfio.h:326:#define VFIO_REGION_TYPE_MIGRATION_DEPRECATED   (3)
+> linux-headers/linux/vfio.h:328:/* sub-types for VFIO_REGION_TYPE_PCI_* */
+> linux-headers/linux/vfio.h:331:#define VFIO_REGION_SUBTYPE_INTEL_IGD_OPREGION   (1)
+> linux-headers/linux/vfio.h:332:#define VFIO_REGION_SUBTYPE_INTEL_IGD_HOST_CFG   (2)
+> linux-headers/linux/vfio.h:333:#define VFIO_REGION_SUBTYPE_INTEL_IGD_LPC_CFG    (3)
+> linux-headers/linux/vfio.h:341:#define VFIO_REGION_SUBTYPE_NVIDIA_NVLINK2_RAM   (1)
+> linux-headers/linux/vfio.h:350:#define VFIO_REGION_SUBTYPE_IBM_NVLINK2_ATSD     (1)
+> linux-headers/linux/vfio.h:352:/* sub-types for VFIO_REGION_TYPE_GFX */
+> linux-headers/linux/vfio.h:353:#define VFIO_REGION_SUBTYPE_GFX_EDID       (1)
+> linux-headers/linux/vfio.h:402:/* sub-types for VFIO_REGION_TYPE_CCW */
+> linux-headers/linux/vfio.h:403:#define VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD        (1)
+> linux-headers/linux/vfio.h:404:#define VFIO_REGION_SUBTYPE_CCW_SCHIB        (2)
+> linux-headers/linux/vfio.h:405:#define VFIO_REGION_SUBTYPE_CCW_CRW        (3)
+> linux-headers/linux/vfio.h:407:/* sub-types for VFIO_REGION_TYPE_MIGRATION */
+> linux-headers/linux/vfio.h:408:#define VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED (1)
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
 
 
