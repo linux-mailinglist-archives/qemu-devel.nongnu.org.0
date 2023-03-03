@@ -2,92 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879136A975B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:40:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCC16A9782
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:49:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4gT-0007Mh-T0; Fri, 03 Mar 2023 07:38:50 -0500
+	id 1pY4p8-0003Qs-OE; Fri, 03 Mar 2023 07:47:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY4gP-0007MH-9M
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:38:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pY4p4-0003Oo-VV; Fri, 03 Mar 2023 07:47:42 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY4gM-0003Pp-Qo
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:38:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677847121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XtGR+g6Uasqve/o0/6PzbaQm90yBQFs1+qUgY7Vjj6Q=;
- b=QXmg5DCC/5yGiFLHtYxszpLhb8YETbbMLp4rMo05V67ljAb+osIFcgiZm4UtAhfK+y5nlo
- X4AqQFePrl55jE62zjvsGOBwrSIJ0bXmY2J3yBvWGRKdsiBviPvCxKDE0NddvILJPGfRB6
- Vm3qwlvWSM8tSO9/byeEDZD/d59uC18=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-638-YamC9K1rOYqheJEX5SPKlQ-1; Fri, 03 Mar 2023 07:38:40 -0500
-X-MC-Unique: YamC9K1rOYqheJEX5SPKlQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k20-20020a05600c1c9400b003e2249bd2b4so875048wms.5
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:38:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XtGR+g6Uasqve/o0/6PzbaQm90yBQFs1+qUgY7Vjj6Q=;
- b=U/KF8Ifo3ANj4gQrFKBc5oKtpXgE6LuGmnC3TqhfDH1iCf7oD95fhhanS2Yv9Zm+m4
- j2AKVhwMCAzYvDo0IYwE3LKM4B9klSxjrSeeIIZnEByxSofSS7RV5liKk/SAwxWDzU4X
- 217ZyxJoBVLtazNY+s5cj3Af1PqeD2dh0Phe0bAnWDi4gaZbxlmdg1lm6mCLRCqjbGlO
- dA8SDWB+GI4PWdqtGCOrSNNFjveKNXe7Sw1DAV4VdNJklI0UNLMbJ2IXbIOvtO3pD8wx
- sH5CaDJkSF86P9NXOllj3Ba2XZ1hXL3t2fmjm5q9aiPmjy5MqqqSORWlMrPbVaBNf0RW
- hq/Q==
-X-Gm-Message-State: AO0yUKUmTc/LfIprLTXexElIViIlv9p0ON/JXf2N6vbO6NUYRHqc7USk
- Ld2Z38LrQmEjcq2RrNS9AelOxuor5mdP7JtEuQHW4rVktU5ElawBdzT4RpMMLyHCJLKNnZvkOQ/
- 6PGiJwKF6McuQV0s=
-X-Received: by 2002:a05:600c:4447:b0:3ea:c110:55ba with SMTP id
- v7-20020a05600c444700b003eac11055bamr1438190wmn.18.1677847119286; 
- Fri, 03 Mar 2023 04:38:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set+sZd8iRTZdSg7v/KJ2C/f0kDYz0s+EwXUKW9/iEItUB9XsbdbStBIt6vUYgE9YYYFna7JpZA==
-X-Received: by 2002:a05:600c:4447:b0:3ea:c110:55ba with SMTP id
- v7-20020a05600c444700b003eac11055bamr1438177wmn.18.1677847119065; 
- Fri, 03 Mar 2023 04:38:39 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
- [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
- g12-20020a05600c310c00b003dc49e0132asm6791380wmo.1.2023.03.03.04.38.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 04:38:38 -0800 (PST)
-Message-ID: <9739da85-adf2-cf33-15c8-6107aaf6b814@redhat.com>
-Date: Fri, 3 Mar 2023 13:38:37 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pY4p3-00085w-11; Fri, 03 Mar 2023 07:47:42 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3406B745720;
+ Fri,  3 Mar 2023 13:47:33 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id F028F745706; Fri,  3 Mar 2023 13:47:32 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EEB4E7456E3;
+ Fri,  3 Mar 2023 13:47:32 +0100 (CET)
+Date: Fri, 3 Mar 2023 13:47:32 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Woodhouse <dwmw2@infradead.org>
+cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>, 
+ John Snow <jsnow@redhat.com>, 
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
+ ide_init_ioport()
+In-Reply-To: <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
+Message-ID: <0baf4043-ab5d-1982-ca76-e30dae93a6df@eik.bme.hu>
+References: <20230302224058.43315-1-philmd@linaro.org>
+ <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RESEND PATCH 1/1] pc-bios: Add support for List-Directed IPL
- from ECKD DASD
-Content-Language: en-US
-To: qemu-s390x@nongnu.org, jjherne@linux.ibm.com, frankja@linux.ibm.com,
- Eric Farman <farman@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: jrossi@linux.ibm.com, qemu-devel@nongnu.org
-References: <20230221174548.1866861-1-jrossi@linux.ibm.com>
- <20230221174548.1866861-2-jrossi@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230221174548.1866861-2-jrossi@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1407362776-1677847652=:28478"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,35 +64,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/02/2023 18.45, jrossi@linux.ibm.com wrote:
-> From: Jared Rossi <jrossi@linux.ibm.com>
-> 
-> Check for a List Directed IPL Boot Record, which would supersede the CCW type
-> entries.  If the record is valid, proceed to use the new style pointers
-> and perform LD-IPL. Each block pointer is interpreted as either an LD-IPL
-> pointer or a legacy CCW pointer depending on the type of IPL initiated.
-> 
-> In either case CCW- or LD-IPL is transparent to the user and will boot the same
-> image regardless of which set of pointers is used. Because the interactive boot
-> menu is only written with the old style pointers, the menu will be disabled for
-> List Directed IPL from ECKD DASD.
-> 
-> If the LD-IPL fails, retry the IPL using the CCW type pointers.
-> 
-> If no LD-IPL boot record is found, simply perform CCW type IPL as usual.
-> 
-> Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
-> 
-> ---
->   pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
->   pc-bios/s390-ccw/bootmap.h |  30 ++++++-
->   2 files changed, 148 insertions(+), 39 deletions(-)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-  Janosch, Jason, Eric, Christian,
+--3866299591-1407362776-1677847652=:28478
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-could you please help with reviewing + testing this patch?
+On Fri, 3 Mar 2023, David Woodhouse wrote:
+> On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daudé" <philmd@linaro.org> wrote:
+>> Since v2: rebased
+>>
+>> I'm posting this series as it to not block Bernhard's PIIX
+>> cleanup work. I don't have code change planned, but eventually
+>> reword / improve commit descriptions.
+>>
+>> Tested commit after commit to be sure it is bisectable. Sadly
+>> this was before Zoltan & Thomas report a problem with commit
+>> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
+>
+> However much I stare at the partial revert which fixes it, I just cannot 
+> believe that the change could make any difference at all. There's got to 
+> be something weird going on there.
+>
+> I was going to ask if the level mode for the PIT made any difference, 
+> but this is the output IRQ from the PIT to the CPU itself so I don't see 
+> how it would.
 
-  Thanks,
-   Thomas
+This is independent of the ltim patch and I've found this even before 
+you've sent that patch as this is in my v5 series which you've replied to. 
+I've found this problem before when I've first written this model back in 
+2019 and did not understand why it's needed but as now shown also with the 
+prep machine there's some other problem somewhere that makes this 
+necessary. As the way we had before works for the last few years reverting 
+it is the safest bet now but we can try to find out and clean up 
+eventually.
 
+> Would like to see a report with tracing from pic_update_irq, the CPU 
+> interrupt "handler" and the intermediate IRQ handler. With the 
+> intermediate present and without it. To compare the two.
+
+I'll try to collect such trace when I'll have time but if you want to 
+experiment debian 8.11.0 netinstall cd should boot either with -kernel or 
+with the -bios pegasos2.rom (type boot cd install/pegasos at the ok prompt 
+in that case but the rom needs to be extracted from an updater as it's not 
+freely distributable). I think Thomas Huth also reproduced the same with 
+prep or 40p firmware after a similar change on that machine now.
+
+In any case it's unrelated to level sensitive mode which is only needed by 
+MorphOS on pegasos2 to fix simultaneous interrupts e.g.with sound and USB 
+or PCI cards which all share IRQ9 on that machine. Other guests don't even 
+enable that ltim bit so it should not affect anything else.
+
+Regards,
+BALATON Zoltan
+--3866299591-1407362776-1677847652=:28478--
 
