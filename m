@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF366A996A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933BE6A996E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:32:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY6Pz-0006wm-3x; Fri, 03 Mar 2023 09:29:55 -0500
+	id 1pY6SF-0007wq-7l; Fri, 03 Mar 2023 09:32:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY6Pw-0006wH-Ti
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:29:52 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY6Pv-0007Cz-E2
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:29:52 -0500
-Received: by mail-pf1-x436.google.com with SMTP id fd25so1682120pfb.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 06:29:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677853790;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=51IZpA1dynVt+5lRDC2bcX9f9rBMfnCJq3VatCa8Z6k=;
- b=CReS4wOGDBN7SRTYiIHw/qWimjWe+WZ/YwchiUe3XGhfs2O6NhiVHQiqSlbsTqxJKb
- eBKeDkkV1zMl9PDtBa7SIJUKGbwIOLxk61eMOPcbpcVGPeaIpVo/ji3L2UYJThI1xb09
- QVaPE59WdYEKxOOu7mJJEk0ODF9Dz5VNjHrcTI56p2OHXF9pPUPAawHAo0rw9coRx8nU
- 2+Lg33p+lcja1auKXj4AGEElQqqvQ7zwNR8e1f72OqgpCtXIuvRCQOEx2CVB3HX2//Ok
- QYQ5kQqCUfkNmSt1w6Etyv3uEgPPy8jXxzOMrhPSAuE/Sg0ti/43HINKgYuXj5QffZsU
- KLxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677853790;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=51IZpA1dynVt+5lRDC2bcX9f9rBMfnCJq3VatCa8Z6k=;
- b=ZmtdUYupUxPPjmrQ5hmBnfGOTn+ckzGs0qKQ2j+jZ8P8Fx96S7eE+ILF0F3Uq9ghI3
- ZiO60Ma+9m1YD6ls6HIl6qlIx7INY7agQ9f5nVx8kX9NZ1rWhDarDDf89JNoUZwe6j5f
- kO9fadrTBb9yRpsx5A/ma6QeH9XSO497D08QDVM3bFtJ+Ef+7myxTPHpD5ZcWzJaQdEo
- 86nS7F3XbT8mHDGqwtBlni8kXZPGrpTk12aX6V5iHQKnlN9ELn27hsjN8orhVgT333DC
- 3fTK6egCdOAmrzCG3l2POmhWn/br4grgIhx7dkJI/Tw14jqfGnMSF2EOHsSVCOCZdeVm
- bpgA==
-X-Gm-Message-State: AO0yUKXz3ufeFMKd8bzOfrZVkFz0A9vDOtjeWtySTlzM63W5f2PnR1Bs
- hF3ZTOplNxGXTBtpmU4ku4h4eMV0qhy6j88GCDq08A==
-X-Google-Smtp-Source: AK7set+IetcMBbsECUkMp7x1mv/NKWUivoE65xMtCYV7ViHYh/Z6RrEMSGHZrk00hK0WpqUsSoAa+80mLuWxvZumhO4=
-X-Received: by 2002:a63:7d03:0:b0:503:4a2c:5f0 with SMTP id
- y3-20020a637d03000000b005034a2c05f0mr522760pgc.9.1677853789825; Fri, 03 Mar
- 2023 06:29:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pY6SC-0007ut-5r
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:32:12 -0500
+Received: from rev.ng ([5.9.113.41])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pY6SA-0007m2-7N
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:32:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=toWykX+XX7lOfN0193lKamfLWEB+kSE4XhK+jr+rle0=; b=rZN+6Kf9q2Le1K/+UWbsCanFC5
+ R6d7onRyU1szDKn8MRrm3DVqACtqbxJWR+Oy621TBg2adSzgKxxXJZv7QYCWGbkKk0fSFa3bnFwg9
+ RX1j/UYO/8R8zQhmQpuglHtO3ktep6JIyT3tVvryvQ99QJAGHZs7TC4L3nxdSSxznVJc=;
+Message-ID: <4c181663-5ec3-cd94-1e0f-f6551823fac4@rev.ng>
+Date: Fri, 3 Mar 2023 15:31:44 +0100
 MIME-Version: 1.0
-References: <20230227230122.816702-1-richard.henderson@linaro.org>
- <a5b66aee-0c97-96f7-81ca-44fac1289733@linaro.org>
-In-Reply-To: <a5b66aee-0c97-96f7-81ca-44fac1289733@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 14:29:38 +0000
-Message-ID: <CAFEAcA-fMVab0e0CG_uep49+JPZ=tfJgJXJmbtJeepGBSLsLhA@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 v4 00/21] target/arm: Implement FEAT_RME
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH] tcg: `reachable_code_pass()` remove empty else-branch
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>
+References: <20230301142221.24495-1-anjo@rev.ng>
+ <SN4PR0201MB8808E80B0AD000E394223813DEAD9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Content-Language: en-US
+Organization: rev.ng
+In-Reply-To: <SN4PR0201MB8808E80B0AD000E394223813DEAD9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,15 +61,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 23:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+
+On 3/1/23 23:37, Taylor Simpson wrote:
+>> diff --git a/tcg/tcg.c b/tcg/tcg.c
+>> index a4a3da6804..531bc74231 100644
+>> --- a/tcg/tcg.c
+>> +++ b/tcg/tcg.c
+>> @@ -2664,21 +2664,40 @@ static void reachable_code_pass(TCGContext *s)
+>>                   dead = false;
+>>                   remove = false;
+>>
+>> -                /*
+>> -                 * Optimization can fold conditional branches to unconditional.
+>> -                 * If we find a label with one reference which is preceded by
+>> -                 * an unconditional branch to it, remove both.  This needed to
+>> -                 * wait until the dead code in between them was removed.
+>> -                 */
+>> -                if (label->refs == 1) {
+>> -                    TCGOp *op_prev = QTAILQ_PREV(op, link);
+> Can't we just insert a while loop here to move op_prev back across labels?
 >
-> Gah!  I didn't mean to tag this one with for-8.0.
+>      while (op_next->opc == INDEX_op_set_label) {
+>          op_prev = QTAILQ_PREV(op, op_prev);
+>      }
+>
+>> -                    if (op_prev->opc == INDEX_op_br &&
+>> -                        label == arg_label(op_prev->args[0])) {
+Ah I see, you're thinking something like
 
-Ah; I was wondering :-)
+     dead = false;
+     remove = false;
 
--- PMM
+     if (label->refs == 1) {
+         TCGOp *op_prev = NULL;
+         do {
+             op_prev = QTAILQ_PREV(op_prev, link);
+         } while (op_prev->opc == INDEX_op_set_label);
+
+         if (op_prev->opc == INDEX_op_br &&
+             label == arg_label(op_prev->args[0])) {
+             tcg_op_remove(s, op_prev);
+             remove = true;
+         }
+     }
+
+to handle
+
+     br
+     set_label
+     ...
+     set_label
+
+I do like being able to combine both branches, and we're no longer 
+relying on
+the next iteration of the loop to clean up the final set_label. Since we 
+won't
+ever encounter more than one intermediate set_label this might be overkill,
+but either way I think it's an improvement.
+
+Thanks for the feedback, I'll resubmit with this change! :)
+
+-- 
+Anton Johansson,
+rev.ng Labs Srl.
+
 
