@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEAA6A95D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19096A95DA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:14:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY3IO-0002YS-D1; Fri, 03 Mar 2023 06:09:52 -0500
+	id 1pY3MJ-00056b-Fh; Fri, 03 Mar 2023 06:13:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pY3IL-0002Uf-Rv; Fri, 03 Mar 2023 06:09:49 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pY3IJ-0008Dn-G7; Fri, 03 Mar 2023 06:09:49 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pY3Hv-003tSJ-6g; Fri, 03 Mar 2023 12:09:23 +0100
-Received: from p57bd9bc2.dip0.t-ipconnect.de ([87.189.155.194]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1pY3Hu-0022n3-VM; Fri, 03 Mar 2023 12:09:23 +0100
-Message-ID: <89fd1c916b6c8094ea1a7a52396b3f91025c75c1.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v2 0/6] Deprecate support for 32-bit x86 and arm hosts
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Thomas Huth <thuth@redhat.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Daniel
- Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, qemu-arm@nongnu.org, Maxim Levitsky
- <mlevitsk@redhat.com>, libvir-list@redhat.com, Richard Henderson
- <richard.henderson@linaro.org>, xen-devel@lists.xenproject.org, Reinoud
- Zandijk <reinoud@netbsd.org>, Michael Tokarev <mjt@tls.msk.ru>, Helge
- Deller <deller@gmx.de>
-Date: Fri, 03 Mar 2023 12:09:21 +0100
-In-Reply-To: <6c1f0d05-924e-854e-0175-5e345945e086@redhat.com>
-References: <20230302163106.465559-1-thuth@redhat.com>
- <4bed38c3-ab4f-cd32-05a4-afa090ad8b9a@linaro.org>
- <6c1f0d05-924e-854e-0175-5e345945e086@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY3MH-00054J-De
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:13:53 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY3MF-0000gf-IW
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:13:53 -0500
+Received: by mail-pf1-x435.google.com with SMTP id ce7so1291271pfb.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:13:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677842030;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=771nX0xx/KFQs9t+cJRFBeu+fP6pT03sAEMlxCA2kn4=;
+ b=ct8K8vZsnMUE99Xwwy1LkpVNHyxjuzr5OVLOlSBFg4OgYbvVshh+jBvoLTSC20Fc3B
+ FtDjRslMvZWNpfjKTQubMupP0v55OFQDaA6DshgB3u9ndDTr746MENlrvAlpdGR0Kd3a
+ GztdNr+D2j1OvQ1YTDA14dVEvaajEHOeoq06NAuW/1w8xPP0GGZlquC9nurx2WhjQUXW
+ O8y6GbxFTxvLy0cM9f1ekP1WTt/kKWtzlliow7fhruvGV0KQQDaI1YGvS5gOiWEDLpzS
+ 12V38zydn2epsJr+Z6nYFNlWtr0KnNLJittWhc/dGlBpC4JTvt+jacwT6gWZNOd5s0P+
+ xNHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677842030;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=771nX0xx/KFQs9t+cJRFBeu+fP6pT03sAEMlxCA2kn4=;
+ b=ZQQn7SAsjHilSLDQ86akULrNuVrloUNLF9UGWo1nROwAP8Dg4bwqvQi/ZXnP88lfLz
+ AeD6qNrod3UfJCPvGUdXvC0EZy+P/aIZ1j6hKyhUtvNi0aMgnPp0wxciOgYXXnqOwZhb
+ qPY/a4OK9gcSIflUnB5D05QJBTELZCHBpL/vJXDjzOOJInDp4MzIKEzxS+1jD+G8dwa8
+ p8KD9yLmrmGnuSMWwwV1+X9OebfTG8H+yJRJ6gczue9p4RoJsRDkhZ0diOyl2989gQVH
+ LKtDjmT5Rddcracx7ye0L3G8kRccSK5peqrcBPWMVSdyz4OuHufGeeNSiR8R32gVa6dq
+ H0Ow==
+X-Gm-Message-State: AO0yUKUxPvK1A0PJ0H3l9WERdsAV+0WsJlWNJ95qfrUve7HThiapb0UD
+ 8kTZF3PgbYCvOsK+QMjhTmXVfRAC5L6MAWJMMCeWBg==
+X-Google-Smtp-Source: AK7set/x/WDdgn+S92hQtOBJgCidOYOIzwhzhmI8pfKfzDc4K8wJXyjZeel1XCw1H0yJAhaHt/0OexozxTAKdEQJxEk=
+X-Received: by 2002:a62:ce4e:0:b0:5a9:c22e:7764 with SMTP id
+ y75-20020a62ce4e000000b005a9c22e7764mr725402pfg.5.1677842029563; Fri, 03 Mar
+ 2023 03:13:49 -0800 (PST)
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.155.194
-X-ZEDAT-Hint: PO
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CA+LXE64nmGveP834FfUKxfrGN5dGX-615-OvFsTSLCuoKombmw@mail.gmail.com>
+ <e06d72d1-9628-2b5a-8ff9-7a1bedea087f@redhat.com>
+In-Reply-To: <e06d72d1-9628-2b5a-8ff9-7a1bedea087f@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Mar 2023 11:13:38 +0000
+Message-ID: <CAFEAcA8dDqym3PrZszxrtq6JMNkWxcL9LjwmMeW2aXbU75V3fg@mail.gmail.com>
+Subject: Re: Is the fix for "DMA MMIO reentrancy" in qemu stable now?
+To: Thomas Huth <thuth@redhat.com>
+Cc: byzero <byzero512@gmail.com>, qemu-devel@nongnu.org, 
+ Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,24 +85,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello!
+On Fri, 3 Mar 2023 at 11:00, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 02/03/2023 09.27, byzero wrote:
+> > Hi,
+> > The bug class of MMIO reentrancy is fixed by adding a member "memory" in the
+> > struct "MemTxAttrs", but the patch only exists in 7.x version, which is only
+> > release version, but not stable version. The latest stable version is 6.1,
+> > and there is no stable version being released for nearly a year.  According
+> > to the docs(https://www.qemu.org/download/
+> > <https://www.qemu.org/download/>): "The stable trees are located in branches
+> > named stable-X.YY branch, where X.YY is the release version.".
+> >    So I want to know that if the patch is stable enough? Will the community
+> > be possible to change the way for fixing the bug class?
+> >    thanks for reading this email.
+>
+>   Hi,
+>
+> as far as I know, there are currently no more stable releases, due to time
+> constraints of the stable maintainer. So your best option is currently to
+> pick the corresponding patches and apply them on your own before compiling QEMU.
 
-On Fri, 2023-03-03 at 10:48 +0100, Thomas Huth wrote:
-> x86 =3D=3D> deprecate both, user and system emulation support on
->          32-bit hosts
-> arm =3D=3D> deprecate only system emulation on 32-bit hosts.
+Regardless, note that if you care about security issues then you
+always needed to
+either be using a distro provided QEMU or else be doing your own curating
+and applying of security related patches. The 'stable releases' have always
+been a convenience for people and distros interested in bug fixes of various
+kinds; they were never "quick point releases for security related fixes".
 
-I would recommend against dropping support for 32-bit hosts for qemu-user
-as there are some cases where the emulation of 32-bit user code on 64-bit
-hosts does not work properly [1].
-
-Adrian
-
-> [1] https://sourceware.org/bugzilla/show_bug.cgi?id=3D23960
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+-- PMM
 
