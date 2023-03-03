@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A3B6A92DC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C9C6A92EC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:46:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zF-00085m-9l; Fri, 03 Mar 2023 03:41:57 -0500
+	id 1pY0zH-000873-5U; Fri, 03 Mar 2023 03:41:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zC-00084M-RE
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:54 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pY0zE-00085K-6y
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:56 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zB-0007l9-Bi
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:54 -0500
-Received: by mail-pl1-x632.google.com with SMTP id i10so1958862plr.9
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:52 -0800 (PST)
+ id 1pY0zC-0007t6-J0
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:55 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id y2so1790957pjg.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832912;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832914;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pRW11J/J45CAJ0uTYQ2YvgkRQZQK3nFD6G/IjMnU3Tg=;
- b=c6gVhheHWLm/RKENoG/nXrH59Vg0xamP9DsDMygzFBkYSYrbSaLyEItECxC/ToQ99p
- wcJ9KHzrJGUKTOp6Qq6/cX4TqLr0516tYFmwkKzQzymtG08fUzNbHFianRye8WJceYXv
- sMhnRq1EturNCbpY/7tFrzmBt4iIMfnAtd9ZB+S/wgSnv9oF71ojynDMH9nfGI8M44Ei
- GdB+IfOOugv1X0h2t8FO112cuhw4oSI/z60lUb0+s2662lTnxNFAEITG/Bz0sjl1NqZp
- TTxR7NfW0oB9pv/QtIxF9PIzgW7niENRGjcQ8OCh8Dpc81xyepfPBoTBMV5kKSgch+Qw
- FTFQ==
+ bh=H0kfUACxjxhg5dNp8nYzlobKUc0cuKo9GjRqKYGyZNk=;
+ b=qLTOQKQYbXOcZgLF2RjarNO5V1E7u0nQhyOS8r7PN5ur3XOMHWLoyxrlY9fOs6c+1M
+ HUfq1FBbqeeht1fn1GcBOCGkKNIn+IZgXDTN7wPi82gLypgMGKSQ4NMqSxEv7eb0UfnY
+ mf/p57VEO2ooc8Amz+8rHU5+E+SK8fU4StiMITl5hmAghiaK2WsNqfe8HcKlpJ4ucsQ8
+ Ie4xkg4T/eNhfh43o4HBEsw0IjixW/o4zBCpTm0fSiQtd676EB4sQiFc7arlPOZJXjrR
+ 1bkfTQfZIcA/E3NR13WbgNEgJFJb4PBvKjgQekDK/dVD3vw33SV6GunLouz2iL/4xMNU
+ gs8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832912;
+ d=1e100.net; s=20210112; t=1677832914;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pRW11J/J45CAJ0uTYQ2YvgkRQZQK3nFD6G/IjMnU3Tg=;
- b=M/Va7MB00tliZa1zXdvv5TNtJjXxSvEdcNnQz5zcozMYNo3MCWvdoZpd5Y6E/UrAkQ
- CJig2AZ8n8lupzA+8xjR5SzAxy1dhujw+cSnYY6MjhWWw0Vo8QYSa8QWooB3h+2mDlLe
- HZKn4nMo0b+xO5lbEninu/mBQFLZepLxW+iMWzIKeRJwQ3cySok9WqiPleyUBfb2UwqN
- khkv8mPWWbRqVKiaLEPZwGnlHKoVlc+FQSchVcL0VbC7EkRuYxI3F4DsCDwgEwLp8cnT
- cHvPXgFwHOVYu7TRp3mR72vUmNLOp3wH/CIK2nUlwHy/1lBqrfrBC1w0cC/h4H8tRxug
- fDcw==
-X-Gm-Message-State: AO0yUKV0ojB7ce2JaPxXFKWtzy1oGIGOdw4OA/rCXdSWRrU1hCMwS/5d
- bYT4eGI3irN3HRsOok64Sjj5uQ==
-X-Google-Smtp-Source: AK7set8NALu8qq8g53l2mJG9wcKMSpf1y8LAtZgaeVo9siV3cyrKK531NEG3Qh9hvGoGYtmPnDSOWQ==
-X-Received: by 2002:a17:90b:1d0e:b0:234:d42:163e with SMTP id
- on14-20020a17090b1d0e00b002340d42163emr901180pjb.28.1677832912623; 
- Fri, 03 Mar 2023 00:41:52 -0800 (PST)
+ bh=H0kfUACxjxhg5dNp8nYzlobKUc0cuKo9GjRqKYGyZNk=;
+ b=xCAy/MOhdNYi7kRA+/2URGc+tFK4HepnHSawVet49pxcPuA8CPl6+dtcoedOeTp+VF
+ T33njFJfnUVglAa1JP+wKS3z7hnGItp9mSRODsqOXwaKoA/TBy4lDjheJOtRp/8NxOwg
+ aKf5fAEVzQmTc+hr8fGZsfja+pzaO4n5n42PLZChsWuQlq6RNh328t2g2VY21CsZvSTQ
+ Y6cEBToRIDojxTgruS407AE4rU+DGlfQZhB3PjoGyxrEfPKYVcZEBHxojFKn3eZpdVKt
+ euvjQBFNHuSAMdslTcp1lA19Sn/YqAFdBRxZ5gVrVkz2zU6LCWlepiHUN4+m0ypTKnZ/
+ G8Bw==
+X-Gm-Message-State: AO0yUKXDBQAyj/lm3ysJiSssHmzxNS+GMf+P/2X7uQJNeu4Qzo+NzIA/
+ BWPv5rs623u9CwamGilj72KWYg==
+X-Google-Smtp-Source: AK7set/Fah9yVJBmS8pR/H3Z8db1xc51j259sv5z+8u0syJy9iZa5dQPUK9zpjxMD2gUappwRlw1qA==
+X-Received: by 2002:a17:902:cec6:b0:196:8292:e879 with SMTP id
+ d6-20020a170902cec600b001968292e879mr1629021plg.1.1677832913753; 
+ Fri, 03 Mar 2023 00:41:53 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- h4-20020a170902f54400b0019a6cce205bsm972175plf.154.2023.03.03.00.41.52
+ ka14-20020a170903334e00b0019ccded6a46sm963721plb.228.2023.03.03.00.41.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:52 -0800 (PST)
-Subject: [PULL 25/59] target/riscv: gdbstub: Check priv spec version before
- reporting CSR
-Date: Fri,  3 Mar 2023 00:37:06 -0800
-Message-Id: <20230303083740.12817-26-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:53 -0800 (PST)
+Subject: [PULL 26/59] target/riscv: Add some comments to clarify the priority
+ policy of riscv_csrrw_check()
+Date: Fri,  3 Mar 2023 00:37:07 -0800
+Message-Id: <20230303083740.12817-27-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -65,12 +65,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Bin Meng <bmeng@tinylab.org>, Weiwei Li <liweiwei@iscas.ac.cn>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,43 +93,61 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-The gdbstub CSR XML is dynamically generated according to the result
-of the CSR predicate() result. This has been working fine until
-commit 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
-introduced the privilege spec version check in riscv_csrrw_check().
+The priority policy of riscv_csrrw_check() was once adjusted in
+commit eacaf4401956 ("target/riscv: Fix priority of csr related check in riscv_csrrw_check")
+whose commit message says the CSR existence check should come before
+the access control check, but the code changes did not agree with
+the commit message, that the predicate() check actually came after
+the read / write check.
 
-When debugging the 'sifive_u' machine whose priv spec is at 1.10,
-gdbstub reports priv spec 1.12 CSRs like menvcfg in the XML, hence
-we see "remote failure reply 'E14'" message when examining all CSRs
-via "info register system" from gdb.
+In fact this was intentional. Add some comments there so that people
+won't bother trying to change it without a solid reason.
 
-Add the priv spec version check in the CSR XML generation logic to
-fix this issue.
-
-Fixes: 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-ID: <20230228104035.1879882-2-bmeng@tinylab.org>
+Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
+Message-ID: <20230228104035.1879882-3-bmeng@tinylab.org>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/gdbstub.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/csr.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 6e7bbdbd5e..e57372db38 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -290,6 +290,9 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
-     g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 75a540bfcb..4cc2c6370f 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3776,11 +3776,12 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+     int read_only = get_field(csrno, 0xC00) == 3;
+     int csr_min_priv = csr_ops[csrno].min_priv_ver;
  
-     for (i = 0; i < CSR_TABLE_SIZE; i++) {
-+        if (env->priv_ver < csr_ops[i].min_priv_ver) {
-+            continue;
-+        }
-         predicate = csr_ops[i].predicate;
-         if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
-             if (csr_ops[i].name) {
+-    /* ensure the CSR extension is enabled. */
++    /* ensure the CSR extension is enabled */
+     if (!cpu->cfg.ext_icsr) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
++    /* privileged spec version check */
+     if (env->priv_ver < csr_min_priv) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+@@ -3790,10 +3791,18 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
++    /* read / write check */
+     if (write_mask && read_only) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
++    /*
++     * The predicate() not only does existence check but also does some
++     * access control check which triggers for example virtual instruction
++     * exception in some cases. When writing read-only CSRs in those cases
++     * illegal instruction exception should be triggered instead of virtual
++     * instruction exception. Hence this comes after the read / write check.
++     */
+     RISCVException ret = csr_ops[csrno].predicate(env, csrno);
+     if (ret != RISCV_EXCP_NONE) {
+         return ret;
 -- 
 2.39.2
 
