@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1499E6A9FDB
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8326A9FDE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:06:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYAhT-0003cY-DZ; Fri, 03 Mar 2023 14:04:15 -0500
+	id 1pYAih-0004zj-UG; Fri, 03 Mar 2023 14:05:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYAhQ-0003UU-Vr
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:04:13 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ id 1pYAid-0004q1-8j
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:05:29 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYAhN-0007FM-S4
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:04:12 -0500
-Received: by mail-pf1-x434.google.com with SMTP id bd34so2217265pfb.3
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 11:04:09 -0800 (PST)
+ id 1pYAia-0007g0-Ok
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:05:27 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id a9so3714256plh.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 11:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677870248;
+ d=linaro.org; s=google; t=1677870323;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=n2J3wBfnS9D62Jug7rilIGkXLvaZLQkBK8tQ3uA5ZPo=;
- b=nrKNqLVcEVja41SbtllV+K2AeiwxN0vwdm+wqNfYTOg2h4blhyvjirdfYGHPM+386E
- EQuay4fWkPdGpehwvYYOTnHJqiQEE+6gBKr5w+N0dY44eW9MGwvEoGkgjFyERSIR4oHs
- sVNm25vPEMa7ZrFHYM9N990MgiQKuCmG/ippMs06SSOL6pLPi9++w8XXN4+ekfzMBnCa
- 54Q0IKDmClJxfB0cqo7hD2AdhcenzftV/pROBsKF43CP76SOWQ31bu7PVs4+PEqxZT5T
- V5AbpHBQvqj1IrbvWZhWIU9AfgSLaFl36XuWEUpif9QzVvD6bYcMa21lD/IqWW4GWuLW
- hHvw==
+ bh=rY8hg+ZDfbay23UtjvXiQyvBkil5VxYpNYFPij2yIH0=;
+ b=m8sVZdBdj20lLIG6GVfo2GmPd+/ll5jPqioG3Wus4r48CN50yc661GZUX3yaWSWmWd
+ f9mhl+mZzIsTD/HGi5cSb6r2t8lxNGaecDmUwBF29SYjQlR8B6ixi+XSSLwaWC3g5UxZ
+ huiuyrDchCZK6onJ3Cg6bAYb6rVEBDtBlvX1ru2UsncggkDZF4zhkxd6PGOCT5ewM9Cg
+ pBu2yj0gq3oKXKW6N7Uq3zNb6IMukxPxJKkzGazGvNL9PkckCqXgsXx1dfrO2PCnTyty
+ kfXTbBHombjdYmaPHrcYF28g0Lfglk8PAc+7K2nmM3GOqjiBY2AQbJ4Br4KvD8J9Mwh/
+ 3Zfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677870248;
+ d=1e100.net; s=20210112; t=1677870323;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=n2J3wBfnS9D62Jug7rilIGkXLvaZLQkBK8tQ3uA5ZPo=;
- b=MKLnWbs0HXRLM8jQBe5Fb0ooPDrSCaKou408K+3EFJlTq5TxQB0q8sWAY6ovcQ8ppx
- JqmCi7PccO63zIwKtM+kWwKKeezaO2BwskBClbcA7g2s0vuuxQ1KIQf2SjoSu5oGUorV
- xzAX35MV95CbjppCKA3R2a6VfqvX7Lt8JgBVQrUvfHPYN+x1rpNEzvqP4u8kSmfBSzot
- wMNlV7k42rnfH7NsD/cDVLg2o8FvELf/X4pRWweZkgAtzuqQEvU7g0EhhHE8n5YbeQY7
- wr/ORo16sCvkStDgKzgFd0XAJY/qdastmD3RUzBLiRneCCDI8xKBJy7UK79nshB+wO8s
- kg4g==
-X-Gm-Message-State: AO0yUKWRWkl+LNlu2YgRKcZVCc4PyQdtEUoEJjj+UWr0rRS5EYD9W8Hg
- QwzxokgK0jbg31hP9pMIlW8TCE7xwcHTLLJQ8j0Kmg==
-X-Google-Smtp-Source: AK7set/LK0LB10czP0zyWa2luECmeA9GRruNS133Ja/NM6k6/VR7w86Bz0gSn3NTdGnDWI8stCgNJEKiySS5AxI+8ZI=
-X-Received: by 2002:a63:2953:0:b0:502:ecb9:4f23 with SMTP id
- bu19-20020a632953000000b00502ecb94f23mr913452pgb.5.1677870248299; Fri, 03 Mar
- 2023 11:04:08 -0800 (PST)
+ bh=rY8hg+ZDfbay23UtjvXiQyvBkil5VxYpNYFPij2yIH0=;
+ b=x85SBl0TTW8XJNEI4mJ+lCqvjULPjObL3JslafLFc6AicTO5mzKWDZsZdvjwBp/VEn
+ bzF0lMKRzusRxmER5fIapQMZPqe8KcVpgZPccYPorYPSNWXB4uWrVddK5+OFla7k35XW
+ MQX4UKCnPuRusrfFsChFIeVH1vOe6MqMc3q8CF40/aYaap+H3dnRqmL8Z3VT0jszlnkR
+ ITNY5psPsl7NTItfKmqC7FkEVtyfmkidQ7pfekEP8E8OyifkKxxM2kUGU45oRJCi1syu
+ t0hh2B2YwcNZ0tuiBf2q6SVQ8aXGG8xOsNseaKVGstfMz1nl32wNxQgzIOf1FoC3IsG9
+ 5c8g==
+X-Gm-Message-State: AO0yUKUKWTFMCKBV1WjWIZNXr/oD4uJLc+QtaADV+oR0EedVhbQ3pcom
+ 6vr6MC7p7a33cetCLz6y3wu04qut/0GaxSDSltHHNg==
+X-Google-Smtp-Source: AK7set+vM8Br44mLjU/3jC285H0ieON6z0ifxraVV+sSivte50olq4mhb2YeMAbVYPWeVTlyALk8y/Imx7B2D7FqmYs=
+X-Received: by 2002:a17:902:a3c6:b0:19b:8cbb:30fe with SMTP id
+ q6-20020a170902a3c600b0019b8cbb30femr1085402plb.13.1677870323363; Fri, 03 Mar
+ 2023 11:05:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20230227052505.352889-1-richard.henderson@linaro.org>
- <20230227052505.352889-36-richard.henderson@linaro.org>
-In-Reply-To: <20230227052505.352889-36-richard.henderson@linaro.org>
+ <20230227052505.352889-66-richard.henderson@linaro.org>
+In-Reply-To: <20230227052505.352889-66-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 19:03:57 +0000
-Message-ID: <CAFEAcA-mbUBH4VuobjqAtmspsGtMedcTQuvz+4Ls=-=mF+Yr5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 35/76] target/m68k: Drop tcg_temp_free
+Date: Fri, 3 Mar 2023 19:05:12 +0000
+Message-ID: <CAFEAcA9hjD_WRv3Aoh9xy0MS+BB7Ps2s_+ksimzBQKryZy20hw@mail.gmail.com>
+Subject: Re: [PATCH v2 65/76] target/sparc: Drop get_temp_tl
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org, 
  qemu-riscv@nongnu.org, qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, 
@@ -64,8 +64,8 @@ Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
  gaosong@loongson.cn, jiaxun.yang@flygoat.com, tsimpson@quicinc.com, 
  ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +88,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 05:32, Richard Henderson
+On Mon, 27 Feb 2023 at 05:44, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Translators are no longer required to free tcg temporaries.
+> Translators are no longer required to free tcg temporaries,
+> therefore there's no need to record temps for later freeing.
+> Replace the few uses with tcg_temp_new.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/m68k/translate.c | 181 ----------------------------------------
->  1 file changed, 181 deletions(-)
+>  target/sparc/translate.c | 53 ++++++++++++++--------------------------
+>  1 file changed, 18 insertions(+), 35 deletions(-)
 >
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index d7237b6a99..3055d2d246 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -138,7 +138,6 @@ static void delay_set_areg(DisasContext *s, unsigned regno,
->  {
->      if (s->writeback_mask & (1 << regno)) {
->          if (give_temp) {
-> -            tcg_temp_free(s->writeback[regno]);
->              s->writeback[regno] = val;
->          } else {
->              tcg_gen_mov_i32(s->writeback[regno], val);
-> @@ -163,7 +162,6 @@ static void do_writebacks(DisasContext *s)
->          do {
->              unsigned regno = ctz32(mask);
->              tcg_gen_mov_i32(cpu_aregs[regno], s->writeback[regno]);
-> -            tcg_temp_free(s->writeback[regno]);
->              mask &= mask - 1;
->          } while (mask);
->      }
-
-I wondered briefly whether now temps are auto-freed the
-complication of the 'give_temp' argument to this function could
-be removed, but it was too unclear to me exactly what it was
-doing. So never mind...
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
