@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E58F6A950A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:17:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B44F6A9514
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:20:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY2S7-0006Nd-OZ; Fri, 03 Mar 2023 05:15:51 -0500
+	id 1pY2W7-00043L-5a; Fri, 03 Mar 2023 05:19:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2S6-0006MV-AM
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:15:50 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2W5-00042v-Ac
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:19:57 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2S4-0000w7-AA
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:15:50 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id l1so1688468wry.12
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:15:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2W3-0001az-Mi
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:19:57 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so3564802wms.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:19:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677838546;
+ d=linaro.org; s=google; t=1677838792;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=OdoP+zNS352Ldv0xPO0LUJLGgWyE5Oog1llpZ74DCCc=;
- b=LLaQfiH2lv33lbhVDmH2Nr69Z8helPy08qKxoXBsYtPuBBEpwxq9mLrgcYWRDiYK8x
- zOHmB8koWOGWFiCQLdWkh13wVOUYjdEvD6yX4/GnuElk1HNtkWPO6K22N+Bs6EZ+Duqo
- ZsECehfqS5nE5VqKP0X6X6yy+rZEmWuRHo2atoX1ea27vv0F2bIq06UZvcSvzSYOKwOD
- z48SJwdjz2Ng2vPYUjwpMwkcgdOCoV84oSps/Gw+YNJ2g9/7OpVymneH583X1U9TJo85
- 0gsyVmuWMaCxu8Wakw9DiCohjYVg/OVlLcwsgFYVkJ5sBmK+mVREypZEIxTz1pYxCP7Z
- eKBw==
+ bh=UeKDS2J9ivPxSreJh641jAdlF/X7WuFE5gTaUy5A4o4=;
+ b=yekgzilU+/1Uh4mqoABfGr0Kq6ppkZ4eVr6134GV3Uggn3X4LCFmxBmktZagHwk60R
+ 5cyBTOVhwSQwkdnv/Jsofs5oWY2iLS20iVXtzpeX4e3zd+Obq2tiRexLYqzgX0mfNUL8
+ +LsbaHX8GCpHOPGEO66jLI8FFGql0YrrASsN/NQxDf2IjDLdjkeCznGrkWFURWEX2JPr
+ wo04kyjMrHY7FObD1et0QB/7kyXNoVKuMALtmsQhV+lEwwolR4ZIUctABbGVm3H2zwBV
+ EkwARw3Y0/xSswBBwjIaOaEH0oTB4x9luz4vGJOm/bISnmGQ7zPaJiNo0YeJrHgpktbd
+ 4FGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677838546;
+ d=1e100.net; s=20210112; t=1677838792;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OdoP+zNS352Ldv0xPO0LUJLGgWyE5Oog1llpZ74DCCc=;
- b=h0tqM3CDCh41vAzFhdCPWNjR/DaImGDnFqB4GqobbdvDdI7FkmO3YoF2AY0ZCMRwNg
- Y2HLrFfjyyx9PmFTgAQIYIp7YT8x8MDxCnREJkRX63M3XR8DBzVR9Uwqz0WbpyJWGIIU
- yHeTGcGSYVFIy/AdtvpuDa5AtAV++IV2PPPdOcSSrToScV4Du3++ngYZM4Cvke8TrO0O
- S/PQQKgaIJcc1zx7odziVXlsiVber/ljtr885a73dkYsXDSObFaRu8YcqPzn5AMVyFU2
- oWUmZrQ0ZUdx6sf7qUMw2OcrXvyDHPVnfjPaJOq+NThqoaFhLpWdge+XOHnDjXW6Na4+
- jkVw==
-X-Gm-Message-State: AO0yUKWmWTSnNw6dwNy7OVGLC1ifw9eocnPlSviEC8xBphcIFo6O/3E+
- HZTgUM/aGQVaBN9Gm1JekAYiiA==
-X-Google-Smtp-Source: AK7set873DHO5NJxK+sErOmxAQTub9W1kd9EK71Icfb78w3M5NaHDdmG1m81bBoQMn0RS/iO+znsOA==
-X-Received: by 2002:a5d:456a:0:b0:2c9:bae4:8e4a with SMTP id
- a10-20020a5d456a000000b002c9bae48e4amr924750wrc.26.1677838546581; 
- Fri, 03 Mar 2023 02:15:46 -0800 (PST)
+ bh=UeKDS2J9ivPxSreJh641jAdlF/X7WuFE5gTaUy5A4o4=;
+ b=uLptO++htrDgFvmZjlx9r5l83ChcbkMtgKc3fJI2Ie49XoXwOwQIk4g3VmSBWgvHyy
+ Rq13jSjTS0cH7FDbkIoeBXPxYPookxQuJBO0y+cdPvc/wLAwi5tk6o/Kl+rZooSv5+qq
+ VwB21IEhGopQ4lN+b5nzDbS/djjCJMLRtew9XVMZIiyQNBrsKNAkMW1qjX+fXTk3WHQf
+ Zb3moI3dltSeq3xihyODIYPuQDHClWLUraTR4/hOPsDKZ8GtOMgYlk6NBLwESBcie5N5
+ 3PzA4HaXvk3LovYFiFXR4AlnuJUbTq7CkC7MLZAvgAKS0b0dYGbNWsy39nklyQpSB06d
+ rlwg==
+X-Gm-Message-State: AO0yUKUCae0HZCUMdLD3bTE+lFTIl4TpldCaOvC2g95wh5tSkhlfD0YF
+ dhr/PwKa52WYIgRSOI0RwVGB7g==
+X-Google-Smtp-Source: AK7set+U7YiSD5diPtaAG0vxGzK2Cx9H75ZWLX+FH0gwbOy3crXuOaF8Zxh/VzJXpz0qzQAFvqprfg==
+X-Received: by 2002:a05:600c:4e41:b0:3ea:e7e7:a2f9 with SMTP id
+ e1-20020a05600c4e4100b003eae7e7a2f9mr1312618wmq.13.1677838792627; 
+ Fri, 03 Mar 2023 02:19:52 -0800 (PST)
 Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
  [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- v11-20020a5d610b000000b002c5a790e959sm1776360wrt.19.2023.03.03.02.15.44
+ b5-20020a05600c150500b003e91b9a92c9sm1976382wmg.24.2023.03.03.02.19.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 02:15:46 -0800 (PST)
-Message-ID: <dfb74ad1-a228-4a63-a01b-70e935de57d0@linaro.org>
-Date: Fri, 3 Mar 2023 11:15:43 +0100
+ Fri, 03 Mar 2023 02:19:52 -0800 (PST)
+Message-ID: <aeac5ad3-6672-10b1-283d-10d950688697@linaro.org>
+Date: Fri, 3 Mar 2023 11:19:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 6/6] Add the AEHD implementation.
+Subject: Re: [PATCH 1/6] Add the Android Emulator hypervisor driver (AEHD)
+ accelerator.
 Content-Language: en-US
-To: Haitao Shan <hshan@google.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
- Haitao Shan <haitao.shan@google.com>,
- "open list:Android Emulator..." <emu-dev@google.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Haitao Shan <hshan@google.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 References: <20230303022618.4098825-1-hshan@google.com>
- <20230303022618.4098825-6-hshan@google.com>
+ <20230303023013-mutt-send-email-mst@kernel.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230303022618.4098825-6-hshan@google.com>
+In-Reply-To: <20230303023013-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -98,62 +97,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 03:26, Haitao Shan wrote:
-> Implement the AEHD accelerator including the AEHD AccelClass,
-> AccelCPUClass, AccelOpsClass.
+On 3/3/23 08:33, Michael S. Tsirkin wrote:
+> On Thu, Mar 02, 2023 at 06:26:12PM -0800, Haitao Shan wrote:
+>> Add the configure support for the Android Emulator hypervisor driver
+>> accelerator. The Android Emulator hypervisor driver is a Windows
+>> driver made by porting the KVM from kernel 4.9-rc7.
+>>
+>> Signed-off-by: Haitao Shan <hshan@google.com>
 > 
-> Signed-off-by: Haitao Shan <hshan@google.com>
-> ---
->   hw/i386/x86.c                     |    2 +-
->   include/exec/ram_addr.h           |    2 -
->   include/sysemu/aehd.h             |   87 ++
->   include/sysemu/hw_accel.h         |    1 +
->   target/i386/aehd/aehd-accel-ops.c |  119 ++
->   target/i386/aehd/aehd-accel-ops.h |   22 +
->   target/i386/aehd/aehd-all.c       | 1020 +++++++++++++++
->   target/i386/aehd/aehd-cpu.c       |  150 +++
->   target/i386/aehd/aehd-cpu.h       |   41 +
->   target/i386/aehd/aehd-stub.c      |   22 +
->   target/i386/aehd/aehd.c           | 1915 +++++++++++++++++++++++++++++
->   target/i386/aehd/aehd_i386.h      |   26 +
->   target/i386/aehd/aehd_int.h       |    2 +-
->   target/i386/aehd/meson.build      |    4 +
->   target/i386/cpu.c                 |   12 +-
->   target/i386/cpu.h                 |    5 +-
->   target/i386/helper.c              |    3 +
->   target/i386/meson.build           |    1 +
->   18 files changed, 3428 insertions(+), 6 deletions(-)
+> Replying on patch 1 but it applies to the whole patchset.
 
-I'm not going to review a 3000+ LoC patch, sorry.
+Indeed this series lacks a cover letter, which would show
+this huge diffstat:
 
-1/ it is too big for my brain and I'm going to miss things
-2/ it is likely duplicating KVM identical code; if so we
-    should refactor to use common code. In particular because
-    we can fix bugs once.
+  MAINTAINERS                       |   12 +
+  accel/Kconfig                     |    3 +
+  docs/about/build-platforms.rst    |    2 +-
+  hw/i386/aehd/apic.c               |  204 +++++++++++++++
+  hw/i386/aehd/i8259.c              |  165 ++++++++++++
+  hw/i386/aehd/ioapic.c             |  164 ++++++++++++
+  hw/i386/aehd/meson.build          |    6 +
+  hw/i386/meson.build               |    1 +
+  hw/i386/pc.c                      |    5 +
+  hw/i386/x86.c                     |    5 +-
+  include/exec/poison.h             |    1 +
+  include/exec/ram_addr.h           |    2 -
+  include/hw/core/cpu.h             |    7 +
+  include/hw/intc/i8259.h           |    1 +
+  include/hw/intc/ioapic.h          |    1 +
+  include/sysemu/aehd-interface.h   |  878 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  include/sysemu/aehd.h             |  168 ++++++++++++
+  include/sysemu/hw_accel.h         |    1 +
+  meson.build                       |   16 ++
+  meson_options.txt                 |    2 +
+  qemu-options.hx                   |   20 +-
+  scripts/meson-buildoptions.sh     |    2 +
+  target/i386/aehd/aehd-accel-ops.c |  119 +++++++++
+  target/i386/aehd/aehd-accel-ops.h |   22 ++
+  target/i386/aehd/aehd-all.c       | 1349 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  target/i386/aehd/aehd-cpu.c       |  150 +++++++++++
+  target/i386/aehd/aehd-cpu.h       |   41 +++
+  target/i386/aehd/aehd-stub.c      |   22 ++
+  target/i386/aehd/aehd.c           | 2003 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  target/i386/aehd/aehd_i386.h      |   26 ++
+  target/i386/aehd/aehd_int.h       |   50 ++++
+  target/i386/aehd/meson.build      |    8 +
+  target/i386/cpu-sysemu.c          |    3 +
+  target/i386/cpu.c                 |   12 +-
+  target/i386/cpu.h                 |    5 +-
+  target/i386/helper.c              |    3 +
+  target/i386/meson.build           |    2 +
+  37 files changed, 5465 insertions(+), 16 deletions(-)
 
->   create mode 100644 target/i386/aehd/aehd-accel-ops.c
->   create mode 100644 target/i386/aehd/aehd-accel-ops.h
->   create mode 100644 target/i386/aehd/aehd-cpu.c
->   create mode 100644 target/i386/aehd/aehd-cpu.h
->   create mode 100644 target/i386/aehd/aehd-stub.c
->   create mode 100644 target/i386/aehd/aehd_i386.h
+> There's obvious duplication with kvm here - probably not surprising.
+> 
+> I'd be interested to hear from KVM people to know whether
+> there's interest in unifying code, or they would rather
+> not bother supporting this platform and it's better off
+> being kept separate.
 
+I believe the hw part can be unified, reducing the maintenance
+cost. (I gave Haitao few hints replying to the relevant patches).
 
-> --- /dev/null
-> +++ b/target/i386/aehd/aehd-accel-ops.c
-> @@ -0,0 +1,119 @@
-> +/*
-> + * QEMU AEHD support
-> + *
-> + * Copyright IBM, Corp. 2008
-> + *           Red Hat, Inc. 2008
-> + *
-> + * Authors:
-> + *  Anthony Liguori   <aliguori@us.ibm.com>
-> + *  Glauber Costa     <gcosta@redhat.com>
+Regards,
 
-In various files you add in this series you use incorrect
-author / (c). While you copy/paste their implementation,
-they didn't authored this AEHD implementation (which is based
-on their work).
+Phil.
 
