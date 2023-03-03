@@ -2,178 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2046A9375
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004DE6A9391
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:17:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1TV-0002Im-JC; Fri, 03 Mar 2023 04:13:13 -0500
+	id 1pY1X4-0003zT-Hg; Fri, 03 Mar 2023 04:16:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1pY1TS-0002IM-U9
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:13:10 -0500
-Received: from mga01.intel.com ([192.55.52.88])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY1Wy-0003z9-Ek
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:16:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1pY1TQ-0005sm-TL
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:13:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677834788; x=1709370788;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=3Y/aCc9FugCT2plckcyFqgHFI1RbEncIvVT81EUFo2E=;
- b=X1U2sRLBquRBniUvE+xWvXgjTM5aBT7Z7jcWk0iOLpE2cumWy9Djx5Kr
- ehupduTlUhjJwoEus6GWjVdhYMEU29dK5Bfv7ZsnQNbOqlW9jc5SwH4t6
- Ze1Nx7SVsvlA4elFBYq/c0U7UUOjPkzLldaYAVT6GK9uwTqz2c++aQd7e
- ppMhoQAUo8qyzC4GJBRWQq67SgP3lcRwYv3EBXlbtPFYArxv5oghy7r58
- rVXPt39hy/LwP7TZII7E9MOf+8vgi1M02KBtuT28ENf30YRoa51mc3tjz
- lvAtMyywTdWlqvASOsjiMw8z3Zl0QEuakYqFuIUEylMDPstiw8Efl9qhh g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="362596062"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="362596062"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2023 01:12:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="744170782"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="744170782"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2023 01:12:49 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 3 Mar 2023 01:12:49 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 3 Mar 2023 01:12:48 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Fri, 3 Mar 2023 01:12:48 -0800
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.42) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Fri, 3 Mar 2023 01:12:48 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RqFUxz4WnOTPzf0JD7jFSLituxCAOV5xMN5yAcjB2RJPCoxc2unrz1ratlVL2ajIKNBWUZnVbJWrEt0GJGl9EMQrWo/zSg5NCT3Xq39SiZy4+NvlC/1HnJOMznqHpjhLghowZYEVfwGzFTN1beAb82SlXnToP8ezceRlUHH9GlZ1n2kjE0YxS2Y1LTDCi2hBuv4Z1E2A4ZmCqw6q4ZVtlcVpj1wNR2La6fdUgsaVSp4w4Wuu0eT34ABf3FjmRWwIpWstCJQUTYa3jwqR3dCuUV8mQa/iewGEknjshGQOmSySyH/Aj7uoEaikGqXxTzfqSfoJMKJSl+JhCuDK96/d7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3Y/aCc9FugCT2plckcyFqgHFI1RbEncIvVT81EUFo2E=;
- b=mg8/i0vBwJlaAUIbDea1vefJpIacCnzmEqxDH6HjouGhU92LP8ZKQanQp8LfoL2x1qL/pAsOD4E4uD5TK0MCQs4jJti6bxD468A4SdSzfIAGxnjFGXT3FPDr7OjUVu/NuVrhgeLgB9RCgQLXEaUpGKtbpW2rRLXidDD5OgBOM9oD3/saZrilrsXrBNYZRO8CJMIx1g9pNBDo2EIbKW1uSGsou9gVMLjr2XfHIOuCBb0iXchN7bjysSHi9PIWTx4/7G5DP/PoS/Q+l+PHVBS/p3pJ/m7gNz1I/uvYDZPTrMy3IJDXg9b++/X08fRTF1UAfP2OV2Mo01xEs/NcUGgIuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DS0PR11MB6373.namprd11.prod.outlook.com (2603:10b6:8:cb::20) by
- DM4PR11MB8203.namprd11.prod.outlook.com (2603:10b6:8:187::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6134.27; Fri, 3 Mar 2023 09:12:40 +0000
-Received: from DS0PR11MB6373.namprd11.prod.outlook.com
- ([fe80::7f91:b0b7:7b23:fa58]) by DS0PR11MB6373.namprd11.prod.outlook.com
- ([fe80::7f91:b0b7:7b23:fa58%8]) with mapi id 15.20.6156.018; Fri, 3 Mar 2023
- 09:12:40 +0000
-From: "Wang, Wei W" <wei.w.wang@intel.com>
-To: "quintela@redhat.com" <quintela@redhat.com>, =?utf-8?B?QWxleCBCZW5uw6ll?=
- <alex.bennee@linaro.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Pavel Dovgalyuk
- <pavel.dovgaluk@ispras.ru>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, Mark Burton
- <mburton@qti.qualcomm.com>, Bill Mills <bill.mills@linaro.org>, Marco Liebel
- <mliebel@qti.qualcomm.com>, Alexandre Iooss <erdnaxe@crans.org>, "Mahmoud
- Mandour" <ma.mandourr@gmail.com>, Emilio Cota <cota@braap.org>, kvm-devel
- <kvm@vger.kernel.org>, =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=
- <f4bug@amsat.org>, "Christopherson,, Sean" <seanjc@google.com>
-Subject: RE: Future of icount discussion for next KVM call?
-Thread-Topic: Future of icount discussion for next KVM call?
-Thread-Index: AQHZQfDqI9tbGvRklkm/jIyMCFf6BK7RmTE6gAABVpCADVW2UIAJ69uA
-Date: Fri, 3 Mar 2023 09:12:40 +0000
-Message-ID: <DS0PR11MB637306EFDE0C89690D01AC8ADCB39@DS0PR11MB6373.namprd11.prod.outlook.com>
-References: <87bklt9alc.fsf@linaro.org>
- <CAHDbmO3QSbpKLWKt9uj+2Yo_fT-dC-E4M1Nb=iWHqMSBw35-3w@mail.gmail.com>
- <875yc1k92c.fsf@secure.mitica>
- <DS0PR11MB637307EE325932FC2F1AE7CFDCA09@DS0PR11MB6373.namprd11.prod.outlook.com>
- <DS0PR11MB63732F34D2E6B924B35B2393DCA99@DS0PR11MB6373.namprd11.prod.outlook.com>
-In-Reply-To: <DS0PR11MB63732F34D2E6B924B35B2393DCA99@DS0PR11MB6373.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR11MB6373:EE_|DM4PR11MB8203:EE_
-x-ms-office365-filtering-correlation-id: 060b732d-4ae0-4f5a-0031-08db1bc7707a
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ECJvr0SnG/xN4+KhY9kAEUo2DifWSc/ZQ7nPDTp9FpN0RIJIXvM4a3dGMwgzFaPG61a/lgRWYefBSv6VPOit231m66XhcaidXFEGPtPp4N8zECimw08h9rLtYkXjpCMsL1E/MTJF/eCJ7Qe1NI446hzE++mDzfPyge9o4j6p1BhLRSxk9a9Fw5aJFN+Lk74LWpRwAF4JPF4CviBX3v+LgqYMxVzev1rXSOI5rf3sx6ZhH8VJOnT/BAvX/bhLBgTQ7WNidH8KBKXojjFjV2VTqQKHPHnC+LLjDAjcEGy9kUWyKPjWJs0GGbiIA7dHbJW7d/j76lKSw8DhnDKe+QBC42/4vJRLq/CfWmVWqc328thuIm6PqANa2kJTz3VolKizs8p+7Put1MU6fhaTluMfjrTvjQmz82Qj/KA8TawodQ1z1NuiwcmQIm0Bpkwf0fZfsCE4GvYX0NVws3r/xhnCae2mIwXvEimvXoVOTIe1PJHa/59eXGtQmSdcQSaitKA6pyxsNCp842MYC8GD6EbfHz/7+7FtoFZL7GFwvKoz74FjJbVtG4fv3T+9gFkrCiqv5V+yd5iPj9153EZTz2onMRNDQhPHzHoEvTs1XYpRPVsXVeIDbDq89Rl38VoPeyPtrJRR8jJ1nftWHgiyPN5AasVP1SCz4yHmVyfsNQmyJPIen21mMKeIJFBD7bXdO+xJJba7eqKiigdVPwHOwCyMihx32NKACDXRV03j4ctj98o=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB6373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(136003)(376002)(346002)(396003)(366004)(39860400002)(451199018)(86362001)(5660300002)(82960400001)(478600001)(71200400001)(110136005)(8936002)(53546011)(26005)(966005)(316002)(52536014)(41300700001)(6506007)(9686003)(4744005)(186003)(7696005)(38070700005)(38100700002)(55016003)(64756008)(8676002)(4326008)(66476007)(66446008)(54906003)(83380400001)(7416002)(66556008)(2906002)(76116006)(66946007)(122000001)(33656002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SmR2SGJQMjVtbW9EN2hxOEZEaFg4V0NSOWY5OGErM1EwOG5GUGl6empUbFI1?=
- =?utf-8?B?THZHV0lCMFNUSkRPRHZyS2U0ZXpUaWh5dVg2QWRpV0dkbDNHQ1FURDU1SXhS?=
- =?utf-8?B?L21hMUl6TE9WaGQ4SmFIUUZXNkFJUlh3eFlrMEVNTTRmT05TbjZXcVVJVllF?=
- =?utf-8?B?K0hFY3RrUlFPK2ozc1pKb1NjaU1Ia1YyckJaUmoyVGxRUDRJUDU4NENLYlZl?=
- =?utf-8?B?dXRJbkt0VCtpYXhKaElBdWFzV3VHNUpiNU1uOHB4NUdvUFF1QjhOVHBQM0R0?=
- =?utf-8?B?Wkh4eFFQK1JzcEVVVUJnZlJoYzluUy95ZnZ1dTZUQXpIYWdnUTZJV2Z2NjJD?=
- =?utf-8?B?TUQraE9WZnJIbTNodGk5YjZWMFcxd0szRXJqUDJEZitMaHEyNDZGMy9pVFpJ?=
- =?utf-8?B?RjFCZ254Y3Npc2hucFdRS0FsdWVEcStoMCt1R284aDdjNW5MT0RGOXpFTTk4?=
- =?utf-8?B?Z2U4TlJpUEYzM3krYXUrVFJzS3JReVVuVTJLVXpOeFlUei85MENyWm9RMENI?=
- =?utf-8?B?c3VQUzdVWUlvd1VJcFN1RkZLMEx3RFhzcEt1dE9pb0NFWFJzUW1zZXNOaVZJ?=
- =?utf-8?B?SnI1MlpHYlRNSENPc2IzcWVqUDlxditRUUJpWFVkT0lmdk5sUFIvR1NmTk9P?=
- =?utf-8?B?cGxTckFxR3kzaWtZdzJQNW9MUWFVdjNKRUVpNWRPalZsYjRoNnBydXNlbzJv?=
- =?utf-8?B?eUxjeXVYWFhsNEhsN0xhelg4L0U2eGNnVHV1dUdtSHJSU3Fpb3RFUEc1dzFs?=
- =?utf-8?B?SnZodTI5STd2aC9FZ3hReHN5K3ZEdUgvdVAxQVpVdVJ0Vy8yc0R0aTE4cFB2?=
- =?utf-8?B?SUorVTBPWHlxeUFBMk85WGpGN1ZlYjBUMmdGcFVyVTIzdEVjTHBvM1hpclVJ?=
- =?utf-8?B?bGp0NGNYS1pjM00wbldaSkZGcHBSb0ZneHNOQ3padjJDUkhxblYxNjdZdmJN?=
- =?utf-8?B?SGJzYmVYUVVmUjk1bTBoSDhIcHpVcDJEUFR5eHlDUnYzbUtma3VqRVloMnlj?=
- =?utf-8?B?R1RXWkdnRTJnY0tKcVhTd2hNTjlKbHJIYWtrbGJ5enJDQXRXT01CUG02ek93?=
- =?utf-8?B?YUEydW9yVlJSQVRET0JqaHNXbDQyNW9RbXViSWFGNjFtTTBwaHdPK2lMQjVU?=
- =?utf-8?B?cnVWMXVxUncvTkZvZ0ZITHBxZHlnOWUvVlZDVVlvTGVRL0NGVVZpRTBCOFRa?=
- =?utf-8?B?TldWd0ltSU5GeEdubFhid2lsZmdPVE1tdzJ0OW9Oc0hOSlRVMFRrMDVjaGEw?=
- =?utf-8?B?RjgraWJtZlZ1cVRKNC9UM0RlYTJSNXI1REIzVlI5WmVISVdGeFF1TzdLNmZE?=
- =?utf-8?B?dFd0YmtEeERzRXpmSTk1L2w5NVJkUjVyalBnRUR0N0JpS0FKaDFuUWt5eFZV?=
- =?utf-8?B?YVZVOU5IMG1jcE9CVk1MVjhtLzVDZjVwT0tyZCtjVGFtRVZTSnh0NUdLek1C?=
- =?utf-8?B?NVdMVkFsREFRK0dqWld0YVp6OGVDYmxNYmtJWXJ1eGh3dUlZRG9ZekhHcW85?=
- =?utf-8?B?SnNTaGYybnlKUzZmQnh6V3ZQamM2c05POUNZRURrSDRoMG13Mnl3eWFIdDBC?=
- =?utf-8?B?N2c5WmFrdjNjVXhYOTBrL2w0WGgrcWJteStxbDFDVS9uTnZML1RFN0FqdVZQ?=
- =?utf-8?B?OWxPOTJsbjZkNWdxV29wNTBsYXNLaG5rOHBxeFpNdENoR3pNallWMVdmWlBZ?=
- =?utf-8?B?M1QyRWxLT2d4L01neFhzQTFRUTA0SWc4OVpuWEliTTlJNU9vR0pubTkrYndr?=
- =?utf-8?B?bjZtdmNBRVlpVVJYVWh0a2VyRnBWcCs0T3cwRjNINzltUGhNZDF2MmNUNk9l?=
- =?utf-8?B?MGJpd1pwZUprV05TSXJqdjBzNjZORWFVeXBkSitITlE3Q3d3L0RzTm1Ja21p?=
- =?utf-8?B?Qm5zM05lWHFGbXNBME9CT09qQlVCTjBXZjQ2RzJ4cmFSdWU0aEtMUkcvSkJy?=
- =?utf-8?B?UkYzb3dyZUhUMmtxSUtBK05xeGl5RkRkNGJRZmFadHYyc0p2TEhsMGwxV050?=
- =?utf-8?B?Y2ZGN0g2RHNTRnhmajYvRFROQ3BxVXVGWFhFWStocXNpZWY3ZVJzMXh3YWpM?=
- =?utf-8?B?T3crVHFvNHJ6WlVNQnhYWThFKytxbm9Xc1NCV1ZsV2JEVGE5cEtXa1FzNjBu?=
- =?utf-8?Q?2AhYXRe0pdKFJjwIil2+OrxUf?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY1Ww-0007BF-QD
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:16:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677835005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9YuqYehjUc0AmBy0b1FAzpBRPPZoZuIG6Th6GQyGhU=;
+ b=EXv3Icgz4VeOHzY0VLwdOnLqpumypQZ6KX0sv9Jn0qeZMfLJ7DGW+mOd+bwiTaduEczY35
+ XIHdjSp1eB+bP9L2P1A0+eMeqx2P6yvAaamWIyaQwu24E7P3+pBzv+LoUbpIzQBW4K+z1Q
+ AAgENtzzumeKW10wo18sUe+pcNwigAQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-602-JyVPYsxVNsycZdE8FEOS8A-1; Fri, 03 Mar 2023 04:16:43 -0500
+X-MC-Unique: JyVPYsxVNsycZdE8FEOS8A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ba28-20020a0560001c1c00b002cc6d1f0c06so275757wrb.17
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:16:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677835002;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+9YuqYehjUc0AmBy0b1FAzpBRPPZoZuIG6Th6GQyGhU=;
+ b=lhw6OA61Lfz2q8hhbI41WroO0zTQtnTtda7B0LBIvbfKJ3oc0UnNQeKYdLHO3+NXeF
+ cbVkXLJAbpVYwECRosXOLxRvLDey9Tt01XA9eoTwPNpvJel4YASm6zwRoIndoyVcRTfp
+ pjOI47bT7rfmDHdHxV3uh++h6w+X0KuGiVZJ5DGHrw6yC9dQIVTOppG5ziPNm2NxIZIv
+ nt1QoifJ79JXl2jbCKzgWdJn+KqcqZmBe3ddgR1/tS12KGRgIOOkyvLVmHk7Ue0JoysA
+ cKBXio8jAhVIOJpIChQ7Hn3W+/ZIMWAMczsp7NBPzBi+UI6brXgboA2UEP+BXwph9UBm
+ wKyw==
+X-Gm-Message-State: AO0yUKUex97rbTArnUkII9qSUzLzYE9MdcW0a5VHNELrv9ZR5Ac0e+YB
+ V/8cEhzt9P5jaM6CgRXv/ftSsgKUsHXapUFzLfIwpf6zgFDfIu6OLGMb8bzIeMuqMJRPi7MStFj
+ rw9tSlCPP313ZleQ=
+X-Received: by 2002:adf:ea8c:0:b0:2ca:5c9a:a548 with SMTP id
+ s12-20020adfea8c000000b002ca5c9aa548mr950808wrm.60.1677835002224; 
+ Fri, 03 Mar 2023 01:16:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set8vLfWFU0MwoeLam6HHc5VPMlNs0RodEOjiLx4E8tcDi587GsUa34clBGrpFPXbwqAyQ6pOEw==
+X-Received: by 2002:adf:ea8c:0:b0:2ca:5c9a:a548 with SMTP id
+ s12-20020adfea8c000000b002ca5c9aa548mr950789wrm.60.1677835001936; 
+ Fri, 03 Mar 2023 01:16:41 -0800 (PST)
+Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
+ by smtp.gmail.com with ESMTPSA id
+ o16-20020a056000011000b002c703d59fa7sm1610078wrx.12.2023.03.03.01.16.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 01:16:41 -0800 (PST)
+Date: Fri, 3 Mar 2023 04:16:38 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Eli Cohen <eli@mellanox.com>,
+ alvaro.karsz@solid-run.com, Lei Yang <leiyang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ
+ feature
+Message-ID: <20230303041325-mutt-send-email-mst@kernel.org>
+References: <CACGkMEsQe=zcfmK=rMH=u6RgHkkBFs+tJO7gT0v_bWwJ_N+z6Q@mail.gmail.com>
+ <CAJaqyWfsBLvsJNF=RvhbirwNypzjfaO7thyK22s-nCjdaNs4yQ@mail.gmail.com>
+ <20230214024736-mutt-send-email-mst@kernel.org>
+ <CAJaqyWc8JON+QhJbqQCFx+q+qxb5LqjgsHS2wZ7R3v37uVU_sw@mail.gmail.com>
+ <20230301163325-mutt-send-email-mst@kernel.org>
+ <CAJaqyWfpbeoLfe1-GcoR=rtJMg1DGezMe8pjSNPQjBG4BzqMrA@mail.gmail.com>
+ <20230302064234-mutt-send-email-mst@kernel.org>
+ <CAJaqyWe0=R8OKXec1xvCWPrQOdum-Jp4V1_MCevi8nB4J7+kgA@mail.gmail.com>
+ <20230302182928-mutt-send-email-mst@kernel.org>
+ <CAJaqyWdcGUYMgB4qs4be5XMDsh+GaSQeoFj6K4xgbnKPbm1TbA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 060b732d-4ae0-4f5a-0031-08db1bc7707a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2023 09:12:40.2073 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X2xWVwdDRviY2cnYc0ufx9EQofqhcpC2RxMr4d/pW3F0LPou4wIeJ7Am2O/Xetcr6WL02kD6A4qO0JshmCNNHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8203
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=wei.w.wang@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJaqyWdcGUYMgB4qs4be5XMDsh+GaSQeoFj6K4xgbnKPbm1TbA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -189,19 +110,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gVGh1cnNkYXksIEZlYnJ1YXJ5IDE2LCAyMDIzIDEwOjM2IFBNLCBXYW5nLCBXZWkgVyB3cm90
-ZToNCj4gPiBPbiBUaHVyc2RheSwgRmVicnVhcnkgMTYsIDIwMjMgOTo1NyBQTSwgSnVhbiBRdWlu
-dGVsYSB3cm90ZToNCj4gPiA+IEp1c3QgdG8gc2VlIHdoYXQgd2UgYXJlIGhhdmluZyBub3c6DQo+
-ID4gPg0KPiA+ID4gLSBzaW5nbGUgcWVtdSBiaW5hcnkgbW92ZWQgdG8gbmV4dCBzbG90IChtb3Zl
-ZCB0byBuZXh0IHdlZWs/KQ0KPiA+ID4gICBQaGlsbGlwZSBwcm9wb3NhbA0KPiA+ID4gLSBURFgg
-bWlncmF0aW9uOiB3ZSBoYXZlIHRoZSBzbGlkZXMsIGJ1dCBubyBjb2RlDQo+ID4gPiAgIFNvIEkg
-Z3Vlc3Mgd2UgY2FuIG1vdmUgaXQgdG8gdGhlIGZvbGxvd2luZyBzbG90LCB3aGVuIHdlIGhhdmUg
-YSBjaGFuY2UNCj4gPiA+ICAgdG8gbG9vayBhdCB0aGUgY29kZSwgV2VpPw0KPiA+DQo+ID4gSXQn
-cyBvayB0byBtZSB0byBjb250aW51ZSB0aGUgZGlzY3Vzc2lvbiBvbiBlaXRoZXIgRmViIDIxc3Qg
-b3IgTWFyY2gNCj4gPiA3dGgsIGFuZCBJIHBsYW4gdG8gZmluaXNoIHNvbWUgdXBkYXRlIGFuZCBz
-aGFyZSB0aGUgY29kZSBiZWZvcmUgZW5kIG9mDQo+IG5leHQgd2Vlay4NCj4gDQo+IEtWTSBjb2Rl
-IGNhbiBiZSByZWFkIGhlcmU6IGh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC90ZHgvICB0ZHgtbWln
-LXdpcA0KPiBRRU1VIGNvZGUgd2lsbCBiZSBzaGFyZWQgc29vbi4NCg0KUUVNVSBjb2RlIGNhbiBi
-ZSByZWFkIGhlcmU6IGh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9xZW11LXRkeC8gwqAgdGR4LW1p
-Zy13aXANCg==
+On Fri, Mar 03, 2023 at 10:08:17AM +0100, Eugenio Perez Martin wrote:
+> On Fri, Mar 3, 2023 at 12:31 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Thu, Mar 02, 2023 at 03:47:48PM +0100, Eugenio Perez Martin wrote:
+> > > On Thu, Mar 2, 2023 at 12:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Thu, Mar 02, 2023 at 12:30:52PM +0100, Eugenio Perez Martin wrote:
+> > > > > > You need to pass this to guest. My point is that there is no reason to
+> > > > > > get it from the kernel driver. QEMU can figure out whether the flag is
+> > > > > > needed itself.
+> > > > > >
+> > > > >
+> > > > > Ok, I can see now how the HW device does not have all the knowledge to
+> > > > > offer this flag or not. But I'm not sure how qemu can know either.
+> > > > >
+> > > > > If qemu opens /dev/vhost-vdpa-N, how can it know it? It has no way to
+> > > > > tell if the device is sw or hw as far as I know. Am I missing
+> > > > > something?
+> > > > >
+> > > > > Thanks!
+> > > >
+> > > > This is what I said earlier.  You can safely assume vdpa needs this
+> > > > flag. Only exception is vduse and we don't care about performance there.
+> > > >
+> > >
+> > > Ok now I get your point, thanks for explaining.
+> > >
+> > > But I'm missing why it is wrong to start using it properly from the
+> > > kernel.
+> > >
+> > > I didn't test vDPA in non x86 / PCI, but if it does not work
+> > > because of the lack of this feature flag the right fix would be to
+> > > offer it, not to start assuming it in qemu, isn't it?
+> > >
+> > > I can see how "assume VIRTIO_F_ORDER_PLATFORM from qemu" may need code
+> > > comments and extra explanations, but to start offering it properly
+> > > from the device is expected somehow.
+> > >
+> > > Thanks!
+> >
+> > Does kernel always expose it?
+> >
+> 
+> As far as I know the only vdpa device exposing it is alibaba/eni_vdpa
+
+That is my point then. qemu should set it and ignore what kernel says.
+
+-- 
+MST
+
 
