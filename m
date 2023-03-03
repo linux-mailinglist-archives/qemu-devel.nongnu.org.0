@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F9E6A945C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7D66A9363
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:10:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0yt-0006f9-Tl; Fri, 03 Mar 2023 03:41:36 -0500
+	id 1pY0zA-00080k-Sy; Fri, 03 Mar 2023 03:41:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yj-0006bE-Ag
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:26 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pY0z3-0007nm-CO
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:45 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yh-0007le-Gu
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:25 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id v11so1964276plz.8
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:22 -0800 (PST)
+ id 1pY0z1-0007tj-DG
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:45 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id bd34so1091769pfb.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832881;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832902;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b78UWC9uO9LxVpWkpN/xs0h4gShaH6sg+/KTvj59t3E=;
- b=EZ8I5II2oJMEU+btNsknYwfXouwIb/GFdSnde5b2ccW6zheXNAT+0U+nMrAx5sF+j6
- h6tb31w8BSno946APJIv9L3ii1KqSG3rXBf0F7rx3kLG0NMoforggNUJg4UkimfjSmcF
- eQiMbWBnaCDvezmcom6MIpGJcyEVMmUQKYcVJKtY1HkxOO2FuhuCiYF7HmjPXfiQic2i
- ErLTv1VI7t7UM3f9JTQkSv1vp5B0ixLrcNv/1Ska183h9JoCDaDm30VCcwJd9LdPUGOm
- g9x03dYakQM6uxz0INoIZfEV+O726e9Rkh5qeQS5/RXvmNsV5OPpRbUmQWMylhi6YGt4
- Pqdw==
+ bh=AS9hiZl0QHmELtD5efmoWyb9Kuen5W+Uc8UohPs5jS8=;
+ b=GF0VGGHrbOAFtMFLpLS3sPoBSIth7DzMVNbrkFkq4UN6HdCg5vlnwzl0hPmk6nNaiI
+ sEgLzKpKeYJ87/HGYkOznUtKvhiwK0hsHyZVHqjAzw4YJBJHJ7wTZdLrEpA0yqtFWcJm
+ todytLF8Tg3aHdte8fgiKz5ToaWEn7E/hREHLIJWWaYJltrRiMmcamva+Nz0Hb1v9dyU
+ no4R488lqLKuG7wCqj4T/u/kzCJhpVjCfHDh1N7x7+kXyrIdCxy6vc4oCz+OvvrcJGKg
+ JcRKA6H7e2PnTDJqUo+OudhpdO3rwQSJE+/qTqrAmAACJLx6OMai7F+gWBd6uRlQ7mRO
+ HwXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832881;
+ d=1e100.net; s=20210112; t=1677832902;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=b78UWC9uO9LxVpWkpN/xs0h4gShaH6sg+/KTvj59t3E=;
- b=apxIG+FdSCl4nMuONeXlJ1xKDPmYcUW1aKxJGYW3QjHfusvEm1KO0T1v3zElsGYF4s
- nJZC3inkJ09JUu30Lv/7FVe+Y+qPlBsq3soS4IODL1eT14PaNhXfhtDpRzIxia3k5gh6
- aMEA+ZWECG0aeWD9ai4lyRW/WbHiv4kuZ54dr5/SoqwwURNQLoOToHUeM1iukAU6vGHX
- D/Hgrf9gXgDxYfWnViPdYiq7zXoAc2i94P5YHSttdzJzP5v1hMah7HchZDG34tnkmqM5
- +hneppQcHoC2+xZBG86lYCxIv0mKZHpLsNg4V/4BNEy6SH5Oy4ukdEJ3P88SRumWnrXA
- NrZA==
-X-Gm-Message-State: AO0yUKUsLiQJV74V7hz2Kl0eBeStq/afdYR5/a36vtieaKaLAtSJe7uT
- JX/Fjda9eIjWoEhlAk7hjQnRKg==
-X-Google-Smtp-Source: AK7set88rnUYDfO7QNOQbML6Hk46FIloQo6dJo2Op0D1fh1njCt80+JvG/87c3T7hXcklT/PJsliSw==
-X-Received: by 2002:a05:6a20:bf25:b0:cc:8a62:d0d5 with SMTP id
- gc37-20020a056a20bf2500b000cc8a62d0d5mr1262791pzb.55.1677832881511; 
- Fri, 03 Mar 2023 00:41:21 -0800 (PST)
+ bh=AS9hiZl0QHmELtD5efmoWyb9Kuen5W+Uc8UohPs5jS8=;
+ b=CEGMk5e0IIr2COo0BdeNIhGCHXUTdRG0dicsSUA/ibDsXB1jXVVKxerRy7AH0U8w7+
+ Kf10SakArhOVh5FUbL+VNBD0iwzk210sZV8YF8cCOR8PXJyS2iviWy6WLUQgw8wQal9y
+ azx/3mBgscMR28/wSZI/yjd+XDqBrSplThJwSdsyXU0TW6B7oil1Bz4TQJR9akecQm4N
+ HFm1bqW6zfatQCySI7zZ0DEzAYIm7lcUYzGaBYCTYAFz/BHVB/FAAtXFDB3PIBa5s/ER
+ Xcy1Tp8VRsJfi/KA0XUbrQFBpjTiptQWZhDM0bHkLTath2GGjj/VYFtcqvKLNh16FqlC
+ CAAw==
+X-Gm-Message-State: AO0yUKW12on4LyY5q/QuhOQiEKtgMxrVQC+MbTDWc526O01HLJnmHbzD
+ JdCR4NSUnqPuLHzOqNMzY18CWw==
+X-Google-Smtp-Source: AK7set+GF8ylGbOcPgnGkkHo3QO5dUA4Xnu6zzcp6QZaS9evXMYyK+MdJviZ5GVxj9/NswQFP7CDrQ==
+X-Received: by 2002:aa7:948e:0:b0:5a8:b911:a264 with SMTP id
+ z14-20020aa7948e000000b005a8b911a264mr1281302pfk.28.1677832902043; 
+ Fri, 03 Mar 2023 00:41:42 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- bm17-20020a056a00321100b00580fb018e4bsm1003792pfb.211.2023.03.03.00.41.20
+ f6-20020aa782c6000000b005d6dff9bbecsm1036415pfn.62.2023.03.03.00.41.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:21 -0800 (PST)
-Subject: [PULL 01/59] target/riscv: introduce riscv_cpu_cfg()
-Date: Fri,  3 Mar 2023 00:36:42 -0800
-Message-Id: <20230303083740.12817-2-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:41 -0800 (PST)
+Subject: [PULL 17/59] target/riscv: Indent fixes in cpu.c
+Date: Fri,  3 Mar 2023 00:36:58 -0800
+Message-Id: <20230303083740.12817-18-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
+ Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bmeng@tinylab.org>, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- Weiwei Li <liweiwei@iscas.ac.cn>,
- Richard Henderson <richard.henderson@linaro.org>, 
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=palmer@rivosinc.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,39 +91,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-We're going to do changes that requires accessing the RISCVCPUConfig
-struct from the RISCVCPU, having access only to a CPURISCVState 'env'
-pointer. Add a helper to make the code easier to read.
+Fix indent problems in vector related check.
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20230222185205.355361-2-dbarboza@ventanamicro.com>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Message-ID: <20230215020539.4788-8-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/riscv/cpu.c | 44 ++++++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 31537fc05f..7ee22cbfa1 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -654,6 +654,11 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
- #endif
- #define riscv_cpu_mxl_bits(env) (1UL << (4 + riscv_cpu_mxl(env)))
- 
-+static inline const RISCVCPUConfig *riscv_cpu_cfg(CPURISCVState *env)
-+{
-+    return &env_archcpu(env)->cfg;
-+}
-+
- #if defined(TARGET_RISCV32)
- #define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
- #else
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 49ac368662..9b8747ab15 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -798,7 +798,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+         }
+         if (cpu->cfg.ext_f) {
+             error_setg(errp,
+-                "Zfinx cannot be supported together with F extension");
++                       "Zfinx cannot be supported together with F extension");
+             return;
+         }
+     }
+@@ -861,40 +861,40 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+         ext |= RVV;
+         if (!is_power_of_2(cpu->cfg.vlen)) {
+             error_setg(errp,
+-                    "Vector extension VLEN must be power of 2");
++                       "Vector extension VLEN must be power of 2");
+             return;
+         }
+         if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
+             error_setg(errp,
+-                    "Vector extension implementation only supports VLEN "
+-                    "in the range [128, %d]", RV_VLEN_MAX);
++                       "Vector extension implementation only supports VLEN "
++                       "in the range [128, %d]", RV_VLEN_MAX);
+             return;
+         }
+         if (!is_power_of_2(cpu->cfg.elen)) {
+             error_setg(errp,
+-                    "Vector extension ELEN must be power of 2");
++                       "Vector extension ELEN must be power of 2");
+             return;
+         }
+-    if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
+-        error_setg(errp,
+-                "Vector extension implementation only supports ELEN "
+-                "in the range [8, 64]");
+-        return;
+-    }
+-    if (cpu->cfg.vext_spec) {
+-        if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
+-            vext_version = VEXT_VERSION_1_00_0;
+-        } else {
++        if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
+             error_setg(errp,
+-                   "Unsupported vector spec version '%s'",
+-                   cpu->cfg.vext_spec);
++                       "Vector extension implementation only supports ELEN "
++                       "in the range [8, 64]");
+             return;
+         }
+-    } else {
+-        qemu_log("vector version is not specified, "
+-                 "use the default value v1.0\n");
+-    }
+-    set_vext_version(env, vext_version);
++        if (cpu->cfg.vext_spec) {
++            if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
++                vext_version = VEXT_VERSION_1_00_0;
++            } else {
++                error_setg(errp,
++                           "Unsupported vector spec version '%s'",
++                           cpu->cfg.vext_spec);
++                return;
++            }
++        } else {
++            qemu_log("vector version is not specified, "
++                     "use the default value v1.0\n");
++        }
++        set_vext_version(env, vext_version);
+     }
+     if (cpu->cfg.ext_j) {
+         ext |= RVJ;
 -- 
 2.39.2
 
