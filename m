@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832486A92DB
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D0E6A92C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0z3-0007mX-Tk; Fri, 03 Mar 2023 03:41:45 -0500
+	id 1pY0z9-0007ze-6A; Fri, 03 Mar 2023 03:41:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yw-0007H5-Bx
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:38 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1pY0yx-0007L0-OA
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:39 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yu-0007qA-D5
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:38 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id u5so1972930plq.7
+ id 1pY0yv-0007qp-Ap
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:39 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ h11-20020a17090a2ecb00b00237c740335cso1565674pjs.3
  for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832895;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832896;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1tBlsx7SnOxqiVplnbiuLiMigZbJDtgl1hLXrOTps5Q=;
- b=5GMOYEMJrPHNsg5BTtQj4VIyp1NPdGKTViUjTz/2NikgBMsWzZPMhdkHXj+sTQMmwQ
- /GSzc6PFJsIxkIgMO48mXiTlptHKK66tS3lbLjS/t2otwnqGua70dBSl/Wqkkrwcmpva
- yaIBY03iRbkNIlrLsHAnyQEXFaB6ECFCOjuIG0n9LYZlQqsgc2/+4eXmUWZUh3axeD2z
- y32HUmbmw0mSOc7bTQ7vMPoEs80Fbt4lHtDwZFH78VSBGmN5RV8TmOn4ZXFzyN9iPgib
- D9YqtjEKHEaPey8BcjacRTh2qXV1w+BNQ0upHv6Ms9b5oD/PXfz/qI/JcRzFnjkLye7N
- 8cFQ==
+ bh=1NW+NIexrpPmdGr0YETGUz1SO+EPDDsXBDOKSAL+94I=;
+ b=7whNdQVEyKS45V+NcQrgr3c/mC2WV7+Tp9VBZL92YOqkvvq+b0Ar1/UHC1rBaXwvny
+ GPM+XDEqRYpqBzNdP9/g1xjH4TXg1j7Q/B1bQ0rIPDhGbxRSCJpczhzI/8ijxr2//Trm
+ MI89iAlOSHz3FylA5mw3JQtN35H/UP6WHVPAVQk5ZNpJdnYenspFErexSASQjFt7jhbx
+ YEM0BWJFsMmbfXmBOIR/cLQjE1bXj6p8DD4o4fvgP5m6iAr1iBPV7QD2QaFbMbXgMZDG
+ 44gZxIkdLcyyPSoy6/SYDushRoXaeAfGoGl4CcpmU+iw9W78Jc/YiXOjbe8uEqzv8JYM
+ jofw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832895;
+ d=1e100.net; s=20210112; t=1677832896;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1tBlsx7SnOxqiVplnbiuLiMigZbJDtgl1hLXrOTps5Q=;
- b=qfUF1zDxBd5TkMi6efT6Ni5vbi+6RMe7fXjENyVv9sAv3y83WVEr/r0YkWe54lUZgT
- tQ0QhnHZVa7tc4AyP+kheMhRg7fupXdZF35LgZWcpdxEkGnbPLaQ8qygacEbu3keupDg
- vf5lVZjo1yE8n3b/VZsnmJxIB3PIcsEEERIdgD52j+nlK7W6W35i+hvRBY3ssYkY9nK+
- h9OQ42e6HM3fI/Wcxt4ingplpylhyPX8JfmdrDXV9zkYK7mt8wIKYtTwi4p2EHfg9cD1
- M6IqyxQXD8d5ZoHN0QCm1upFfXhUER4xG19p/CpPkEndcm75r2qgOovWXThg4xZrgeYT
- FmGA==
-X-Gm-Message-State: AO0yUKW5PBP5tuNmFPlrCz3zfcgw9nneiO9U6FQw1yO+Ur30yQOfvlKJ
- e+TV+Dt8vTInGecCJYBuxBBzPw==
-X-Google-Smtp-Source: AK7set+N9FUx5fvIb8Yj3bZZIRRD6af1TWZIWHSJQFNv3UdsBtwJw70LGTrpCSHGSC3aA7T1MA2A+A==
-X-Received: by 2002:a17:903:2344:b0:19e:6e29:2a8c with SMTP id
- c4-20020a170903234400b0019e6e292a8cmr1529054plh.5.1677832894945; 
- Fri, 03 Mar 2023 00:41:34 -0800 (PST)
+ bh=1NW+NIexrpPmdGr0YETGUz1SO+EPDDsXBDOKSAL+94I=;
+ b=UqerxyhhB0D6vS73X7iAGEsA9AH0+a2EvBNjaNXMg56ltCiR3KSTs3pB1VjWcFPOwQ
+ u3RLGzQveKAws4iho48oljfzu+4O+kiYedr5LGlhqf6Nov3sLau4lqguKTSVCyYFjlvh
+ F7xgaD3M2t9dyiC0jOLB/J6uWjPlLGIz8OkU5mpE4fazX+PVI1kRk3HA5Nn0tY6XiJf6
+ F/9mQ8E/Xzq4bAtzamMC1mCskAnNcEn74U5un2CwbfvuasQhazK103ty3vj4TzwNe3BD
+ 2UbATCiJcDDPja24vl9dtVV3wjxusu47wGYyoWe5FeojtpLelyRH9U62XN9Zv6qQGVxJ
+ TQIg==
+X-Gm-Message-State: AO0yUKVSBvCROWRuMvwWuDXB0uz7Q128pS0TVMk9jKWbpmiBTYXktKP0
+ vNDlWaZop49KtET4RRyWocB1OQ==
+X-Google-Smtp-Source: AK7set9Jb7TQ/PJn/mIBx3TkF6CuY6HXF9O74HvUxpLpeioUndaD5ZuRNc8Xl4I9mulPBumrRxh6LQ==
+X-Received: by 2002:a17:90b:38c3:b0:236:704d:ab8c with SMTP id
+ nn3-20020a17090b38c300b00236704dab8cmr900526pjb.26.1677832896142; 
+ Fri, 03 Mar 2023 00:41:36 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- x8-20020a1709027c0800b0019a7c890c5asm949271pll.263.2023.03.03.00.41.34
+ nl2-20020a17090b384200b002311dbb2bc5sm2853499pjb.45.2023.03.03.00.41.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:34 -0800 (PST)
-Subject: [PULL 11/59] target/riscv: Fix the relationship between Zfhmin and Zfh
-Date: Fri,  3 Mar 2023 00:36:52 -0800
-Message-Id: <20230303083740.12817-12-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:35 -0800 (PST)
+Subject: [PULL 12/59] target/riscv: Fix the relationship between Zhinxmin and
+ Zhinx
+Date: Fri,  3 Mar 2023 00:36:53 -0800
+Message-Id: <20230303083740.12817-13-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -68,14 +70,14 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,34 +95,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Zfhmin is part of Zfh, so Zfhmin will be enabled when Zfh is enabled.
+Just like zfh and zfhmin, Zhinxmin is part of Zhinx so Zhinxmin
+will be enabled when Zhinx is enabled.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230215020539.4788-2-liweiwei@iscas.ac.cn>
+Message-ID: <20230215020539.4788-3-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/riscv/cpu.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 93b52b826c..a717f5d995 100644
+index a717f5d995..dcd85f7f27 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -729,7 +729,11 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         return;
+@@ -754,8 +754,11 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
      }
  
--    if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f) {
-+    if (cpu->cfg.ext_zfh) {
-+        cpu->cfg.ext_zfhmin = true;
+     /* Set the ISA extensions, checks should have happened above */
+-    if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
+-        cpu->cfg.ext_zhinxmin) {
++    if (cpu->cfg.ext_zhinx) {
++        cpu->cfg.ext_zhinxmin = true;
 +    }
 +
-+    if (cpu->cfg.ext_zfhmin && !cpu->cfg.ext_f) {
-         error_setg(errp, "Zfh/Zfhmin extensions require F extension");
-         return;
++    if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinxmin) {
+         cpu->cfg.ext_zfinx = true;
      }
+ 
 -- 
 2.39.2
 
