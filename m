@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3F46A93CE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B636A9433
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:33:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zU-0008JV-0x; Fri, 03 Mar 2023 03:42:12 -0500
+	id 1pY0zj-00007k-2g; Fri, 03 Mar 2023 03:42:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zM-0008A8-JY
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:05 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pY0zQ-0008FN-Gi
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:08 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zK-0007vc-Vd
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:04 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so5449996pjb.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:02 -0800 (PST)
+ id 1pY0zO-0007qA-OS
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:08 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id u5so1973969plq.7
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832922;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832926;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ANT6yA8og6cp2JQNgcvNlobtrKvjn+I9WXjZe6xjdC4=;
- b=tqdWQAQMXsh5yVQc6+BuzL+1Dkw1OUiZx9Y+uOLX+ckQWJiyWPCyAids08zQ7CRCgr
- VT7BaZY42qn+zlzBf7dTKheu6EwDicIxqwIyQ1po3TmXZou5CbxjvtYiSr8q9seljT+z
- mAbspahSMa7tkvijuqeO+vXUHd8hRN2D6/PqJ5Z6bSSrTDlzm0R2ZsXtpNHy8pvJWhlF
- kwxJfrZNLt2OK7p5347B5/eq+O/AHuxi0V2xG3jl2aQXQjdHsjaBLyGQxpbaA4ff1cbO
- 2PMQymV0QaKkaIfUO1eOBC9haiszSpCbG/V5bV9P/Yf3HDXKIK/MqvI4nLf0zBUho9Qy
- R4LA==
+ bh=PBboFqD/kSBEIR1p31nwYTGVAdZxVLQHofC0o83aLNg=;
+ b=OCVkaDkvXnlYArcuiotlg1w5PWUPyEz28rRS1lpa+XpvF3qoFBHoJPIDl+Y5b8rE1N
+ xif97/82BwVgRufN/7AN9r2EEZk/X3OEovyVwsVtzT3ipzR+KZQCtMcoOCEk1NzZEJEy
+ /xl4be8J/H+gJNqw3NeOUPb6/x9x0lczK/TQ7fNUce0Jg9wmdlHwrY2mZ/RSqgGufCtb
+ 9FhKzqAP1QPCQdo8YATOXL4TjUl1qShE7fmZ9uq7rVUPa6BULKFV31I1QNeaH3s5lFgg
+ uFbzYwzDZYoTzhI4l4UObR7Zh/9aHe8TsCDSsV+Cfs4uoVg7eq5gKCs6Iz44OkEKLYPU
+ IrgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832922;
+ d=1e100.net; s=20210112; t=1677832926;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ANT6yA8og6cp2JQNgcvNlobtrKvjn+I9WXjZe6xjdC4=;
- b=VemhtVYN6G0CErmJKFOLdZPCm7BrLALWkEIC7fQ5SdewKkSd9YhbO3tZ5QFmcIiPYe
- H8w1L5dMMrCRhGT+dNY2q0OlBY957TIXIVikTmQp6S1X14Q4jrXz4BghjUn0UwIOpjjp
- RW/Sjj9/9MNdo8z6WkSi8+a6KhnAKOMJzzXGCbL9Undko2+HmIg1NUpubOLaTHDy/rSm
- biMpwCdJADacHrQbN+abGClBFpR0HWOHkcECIo2ZlgIoJqKxUp4Jyx1xXjHPQ4hig5cq
- MxsiBDD7Q3CB8gYTKz1e3agw0uSCy7Gh0ntaCi/e2yZu2BOa9GOWohFI7yO5vGN6OuDO
- jspQ==
-X-Gm-Message-State: AO0yUKVwFTfFphGw3A8TNseZIdyJ0WCUvopD8ybOjRDGWLJWRSa0gTyB
- GS60If/SibSoN7fV0CCEG9I3PQ==
-X-Google-Smtp-Source: AK7set/N6XcF6ldW4ZLzt0yvjXIhS5OhVpfnV0qmm11CDtuPdAxMBv0a/5f2gn7P/R0dCXY0WOPunw==
-X-Received: by 2002:a17:90b:3e8e:b0:233:ee50:d28b with SMTP id
- rj14-20020a17090b3e8e00b00233ee50d28bmr963340pjb.16.1677832922195; 
- Fri, 03 Mar 2023 00:42:02 -0800 (PST)
+ bh=PBboFqD/kSBEIR1p31nwYTGVAdZxVLQHofC0o83aLNg=;
+ b=gWSmNIhjV6+AoKPmMSfM4+0J6zW/SiVUR8hYpPntiwS8v1kwrZAxyl06fU976LvPKV
+ OPHB3Szs30khyWAXsqSAAci1R6ifagHjJWPA/87YduD0jbI4Wc9C92YEfNGyn9zT/vLb
+ 3HkxMc49tdB8e2CkenJORBUj1C9ON+SfPxGVKOb+XP14Ji0BUlNFp3IOEwXgzMJmCipr
+ juPUGHfQ9jcmqfVdpxkqeyg4ZZdZzypxtAHTkJrGelfFMF9zQITNLbG2+mSId/EM7H4i
+ J6Rh5B5BnAJbQCCv0i5pRcs7ELypd5hkebmHKeRAsiGmNYGFCBZEXMmpz7POvMkUG+8C
+ yX8g==
+X-Gm-Message-State: AO0yUKWO77yGnn8ae9i5h3xsgMHqNGcXN2PZJ+ZM3/hEObWpBhIvSY2x
+ MUaxjPx93mRTn4oD96QoqfDUzA==
+X-Google-Smtp-Source: AK7set9yXCtCADC3lfxxEYaKAIqkY9b2OqkFxn1Sfy8dtJDJwjsTrwJbnvSaKYOgR4pJHBjtNliuiw==
+X-Received: by 2002:a17:903:187:b0:19e:6d83:8277 with SMTP id
+ z7-20020a170903018700b0019e6d838277mr1516563plg.51.1677832925945; 
+ Fri, 03 Mar 2023 00:42:05 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- 15-20020a17090a0f0f00b002310ed024adsm678130pjy.12.2023.03.03.00.42.01
+ a17-20020a170902b59100b001991f07f41dsm952602pls.297.2023.03.03.00.42.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:01 -0800 (PST)
-Subject: [PULL 33/59] target/riscv: Simplify getting RISCVCPU pointer from env
-Date: Fri,  3 Mar 2023 00:37:14 -0800
-Message-Id: <20230303083740.12817-34-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:05 -0800 (PST)
+Subject: [PULL 36/59] target/riscv: gdbstub: Drop the vector CSRs in
+ riscv-vector.xml
+Date: Fri,  3 Mar 2023 00:37:17 -0800
+Message-Id: <20230303083740.12817-37-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -69,8 +69,8 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,141 +94,131 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-Use env_archcpu() to get RISCVCPU pointer from env directly.
+It's worth noting that the vector CSR predicate() has a similar
+run-time check logic to the FPU CSR. With the previous patch our
+gdbstub can correctly report these vector CSRs via the CSR xml.
+
+Commit 719d3561b269 ("target/riscv: gdb: support vector registers for rv64 & rv32")
+inserted these vector CSRs in an ad-hoc, non-standard way in the
+riscv-vector.xml. Now we can treat these CSRs no different from
+other CSRs.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-ID: <20230228104035.1879882-10-bmeng@tinylab.org>
+Message-ID: <20230228104035.1879882-13-bmeng@tinylab.org>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/csr.c | 36 ++++++++++++------------------------
- 1 file changed, 12 insertions(+), 24 deletions(-)
+ target/riscv/gdbstub.c | 75 ------------------------------------------
+ 1 file changed, 75 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index a3e0e5755c..8e827362cc 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -46,8 +46,7 @@ static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
-                                        uint64_t bit)
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index ef52f41460..6048541606 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -127,40 +127,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+     return 0;
+ }
+ 
+-/*
+- * Convert register index number passed by GDB to the correspond
+- * vector CSR number. Vector CSRs are defined after vector registers
+- * in dynamic generated riscv-vector.xml, thus the starting register index
+- * of vector CSRs is 32.
+- * Return 0 if register index number is out of range.
+- */
+-static int riscv_gdb_vector_csrno(int num_regs)
+-{
+-    /*
+-     * The order of vector CSRs in the switch case
+-     * should match with the order defined in csr_ops[].
+-     */
+-    switch (num_regs) {
+-    case 32:
+-        return CSR_VSTART;
+-    case 33:
+-        return CSR_VXSAT;
+-    case 34:
+-        return CSR_VXRM;
+-    case 35:
+-        return CSR_VCSR;
+-    case 36:
+-        return CSR_VL;
+-    case 37:
+-        return CSR_VTYPE;
+-    case 38:
+-        return CSR_VLENB;
+-    default:
+-        /* Unknown register. */
+-        return 0;
+-    }
+-}
+-
+ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
  {
-     bool virt = riscv_cpu_virt_enabled(env);
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
+     uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+@@ -174,19 +140,6 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
+         return cnt;
+     }
  
-     if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
-         return RISCV_EXCP_NONE;
-@@ -90,8 +89,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+-    int csrno = riscv_gdb_vector_csrno(n);
+-
+-    if (!csrno) {
+-        return 0;
+-    }
+-
+-    target_ulong val = 0;
+-    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
+-
+-    if (result == RISCV_EXCP_NONE) {
+-        return gdb_get_regl(buf, val);
+-    }
+-
+     return 0;
+ }
  
- static RISCVException vs(CPURISCVState *env, int csrno)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
+@@ -201,19 +154,6 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
+         return vlenb;
+     }
  
-     if (env->misa_ext & RVV ||
-         cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
-@@ -108,8 +106,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
- static RISCVException ctr(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
-     int ctr_index;
-     target_ulong ctr_mask;
-     int base_csrno = CSR_CYCLE;
-@@ -166,8 +163,7 @@ static RISCVException ctr32(CPURISCVState *env, int csrno)
- #if !defined(CONFIG_USER_ONLY)
- static RISCVException mctr(CPURISCVState *env, int csrno)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
-     int ctr_index;
-     int base_csrno = CSR_MHPMCOUNTER3;
+-    int csrno = riscv_gdb_vector_csrno(n);
+-
+-    if (!csrno) {
+-        return 0;
+-    }
+-
+-    target_ulong val = ldtul_p(mem_buf);
+-    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
+-
+-    if (result == RISCV_EXCP_NONE) {
+-        return sizeof(target_ulong);
+-    }
+-
+     return 0;
+ }
  
-@@ -195,8 +191,7 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
+@@ -361,21 +301,6 @@ static int ricsv_gen_dynamic_vector_xml(CPUState *cs, int base_reg)
+         num_regs++;
+     }
  
- static RISCVException sscofpmf(CPURISCVState *env, int csrno)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
+-    /* Define vector CSRs */
+-    const char *vector_csrs[7] = {
+-        "vstart", "vxsat", "vxrm", "vcsr",
+-        "vl", "vtype", "vlenb"
+-    };
+-
+-    for (i = 0; i < 7; i++) {
+-        g_string_append_printf(s,
+-                               "<reg name=\"%s\" bitsize=\"%d\""
+-                               " regnum=\"%d\" group=\"vector\""
+-                               " type=\"int\"/>",
+-                               vector_csrs[i], TARGET_LONG_BITS, base_reg++);
+-        num_regs++;
+-    }
+-
+     g_string_append_printf(s, "</feature>");
  
-     if (!cpu->cfg.ext_sscofpmf) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -321,8 +316,7 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
- 
- static RISCVException mstateen(CPURISCVState *env, int csrno)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     if (!cpu->cfg.ext_smstateen) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -333,8 +327,7 @@ static RISCVException mstateen(CPURISCVState *env, int csrno)
- 
- static RISCVException hstateen_pred(CPURISCVState *env, int csrno, int base)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     if (!cpu->cfg.ext_smstateen) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -363,8 +356,7 @@ static RISCVException sstateen(CPURISCVState *env, int csrno)
- {
-     bool virt = riscv_cpu_virt_enabled(env);
-     int index = csrno - CSR_SSTATEEN0;
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     if (!cpu->cfg.ext_smstateen) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -918,8 +910,7 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
- 
- static RISCVException sstc(CPURISCVState *env, int csrno)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
-     bool hmode_check = false;
- 
-     if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-@@ -1152,8 +1143,7 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
- static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
-                                      target_ulong *val)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     *val = cpu->cfg.mvendorid;
-     return RISCV_EXCP_NONE;
-@@ -1162,8 +1152,7 @@ static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
- static RISCVException read_marchid(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     *val = cpu->cfg.marchid;
-     return RISCV_EXCP_NONE;
-@@ -1172,8 +1161,7 @@ static RISCVException read_marchid(CPURISCVState *env, int csrno,
- static RISCVException read_mimpid(CPURISCVState *env, int csrno,
-                                   target_ulong *val)
- {
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     *val = cpu->cfg.mimpid;
-     return RISCV_EXCP_NONE;
+     cpu->dyn_vreg_xml = g_string_free(s, false);
 -- 
 2.39.2
 
