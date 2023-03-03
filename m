@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16266A8F51
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7036A8F52
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 03:42:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXvME-0002Wr-7D; Thu, 02 Mar 2023 21:41:18 -0500
+	id 1pXvMD-0002WF-2t; Thu, 02 Mar 2023 21:41:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pXvMB-0002VM-8v
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:41:15 -0500
+ id 1pXvMA-0002Ux-LT
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:41:14 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pXvM7-0004hN-92
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:41:15 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1pXvM7-0004hK-AG
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:41:14 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Dx_5dCXgFkzXcHAA--.8895S3;
+ by gateway (Coremail) with SMTP id _____8DxE1xCXgFkz3cHAA--.8629S3;
  Fri, 03 Mar 2023 10:41:06 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxbL4_XgFkx4lHAA--.60313S5; 
- Fri, 03 Mar 2023 10:41:05 +0800 (CST)
+ AQAAf8DxbL4_XgFkx4lHAA--.60313S6; 
+ Fri, 03 Mar 2023 10:41:06 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	peter.maydell@linaro.org
-Subject: [PULL 3/5] docs/system/loongarch: update loongson3.rst and rename it
- to virt.rst
-Date: Fri,  3 Mar 2023 10:41:01 +0800
-Message-Id: <20230303024103.356250-4-gaosong@loongson.cn>
+Subject: [PULL 4/5] target/loongarch: Implement Chip Configuraiton Version
+ Register(0x0000)
+Date: Fri,  3 Mar 2023 10:41:02 +0800
+Message-Id: <20230303024103.356250-5-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230303024103.356250-1-gaosong@loongson.cn>
 References: <20230303024103.356250-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxbL4_XgFkx4lHAA--.60313S5
+X-CM-TRANSID: AQAAf8DxbL4_XgFkx4lHAA--.60313S6
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3GF17XryUXw4fJFy5KF45KFg_yoWxJF43pF
- 1avFWxKr1kXrnYvrs5Ga4xW3WqvFnakr9xWF4Dtw4rurWqv347ZwsYy34rXF9rA34kJFy2
- qry8K3yUu3WUXaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Gw4UZryrXw15JrykZry7Wrg_yoW8Jr43pr
+ 9xZF1DKa1Uta9xA3Wkuay5Xr1DWr17Gr42va1I9rWvkws8XryxXF1kt39I9FyUXayrGrW2
+ grn5Cr1UuF4vq3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -76,173 +76,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the EDK2 had already support LoongArch, update build bios,
-and update cpu type, cross-tools.
+According to the 3A5000 manual 4.1 implement Chip Configuration
+Version Register(0x0000).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20230227035905.1290953-1-gaosong@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230227071046.1445572-1-gaosong@loongson.cn>
 ---
- .../loongarch/{loongson3.rst => virt.rst}     | 97 ++++++++-----------
- 1 file changed, 38 insertions(+), 59 deletions(-)
- rename docs/system/loongarch/{loongson3.rst => virt.rst} (51%)
+ target/loongarch/cpu.c | 2 ++
+ target/loongarch/cpu.h | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/docs/system/loongarch/loongson3.rst b/docs/system/loongarch/virt.rst
-similarity index 51%
-rename from docs/system/loongarch/loongson3.rst
-rename to docs/system/loongarch/virt.rst
-index 489ea20f8f..c37268b404 100644
---- a/docs/system/loongarch/loongson3.rst
-+++ b/docs/system/loongarch/virt.rst
-@@ -19,14 +19,14 @@ The ``virt`` machine supports:
- - Fw_cfg device
- - PCI/PCIe devices
- - Memory device
--- CPU device. Type: la464-loongarch-cpu.
-+- CPU device. Type: la464.
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index d6513f2d9d..97e6579f6a 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -546,6 +546,8 @@ static void loongarch_qemu_write(void *opaque, hwaddr addr,
+ static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     switch (addr) {
++    case VERSION_REG:
++        return 0x11ULL;
+     case FEATURE_REG:
+         return 1ULL << IOCSRF_MSI | 1ULL << IOCSRF_EXTIOI |
+                1ULL << IOCSRF_CSRIPI;
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index d60693fafe..e11c875188 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -28,6 +28,7 @@
+ #define IOCSRF_GMOD             9
+ #define IOCSRF_VM               11
  
- CPU and machine Type
- --------------------
- 
- The ``qemu-system-loongarch64`` provides emulation for virt
- machine. You can specify the machine type ``virt`` and
--cpu type ``la464-loongarch-cpu``.
-+cpu type ``la464``.
- 
- Boot options
- ------------
-@@ -35,95 +35,74 @@ We can boot the LoongArch virt machine by specifying the uefi bios,
- initrd, and linux kernel. And those source codes and binary files
- can be accessed by following steps.
- 
--(1) booting command:
-+(1) Build qemu-system-loongarch64:
- 
- .. code-block:: bash
- 
--  $ qemu-system-loongarch64 -machine virt -m 4G -cpu la464-loongarch-cpu \
--      -smp 1 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd initrd.img \
--      -append "root=/dev/ram rdinit=/sbin/init console=ttyS0,115200" \
--      --nographic
--
--Note: The running speed may be a little slow, as the performance of our
--qemu and uefi bios is not perfect, and it is being fixed.
--
--(2) cross compiler tools:
--
--.. code-block:: bash
--
--  wget https://github.com/loongson/build-tools/releases/download/ \
--  2022.05.29/loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz
--
--  tar -vxf loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz
--
--(3) qemu compile configure option:
--
--.. code-block:: bash
--
--  ./configure --disable-rdma --disable-pvrdma --prefix=usr \
-+  ./configure --disable-rdma --disable-pvrdma --prefix=/usr \
-               --target-list="loongarch64-softmmu" \
-               --disable-libiscsi --disable-libnfs --disable-libpmem \
-               --disable-glusterfs --enable-libusb --enable-usb-redir \
-               --disable-opengl --disable-xen --enable-spice \
-               --enable-debug --disable-capstone --disable-kvm \
-               --enable-profiler
--  make
-+  make -j8
- 
--(4) uefi bios source code and compile method:
-+(2) Set cross tools:
- 
- .. code-block:: bash
- 
--  git clone https://github.com/loongson/edk2-LoongarchVirt.git
--
--  cd edk2-LoongarchVirt
--
--  git submodule update --init
--
--  export PATH=$YOUR_COMPILER_PATH/bin:$PATH
--
--  export WORKSPACE=`pwd`
-+  wget https://github.com/loongson/build-tools/releases/download/2022.09.06/loongarch64-clfs-6.3-cross-tools-gcc-glibc.tar.xz
- 
--  export PACKAGES_PATH=$WORKSPACE/edk2-LoongarchVirt
-+  tar -vxf loongarch64-clfs-6.3-cross-tools-gcc-glibc.tar.xz  -C /opt
- 
--  export GCC5_LOONGARCH64_PREFIX=loongarch64-unknown-linux-gnu-
-+  export PATH=/opt/cross-tools/bin:$PATH
-+  export LD_LIBRARY_PATH=/opt/cross-tools/lib:$LD_LIBRARY_PATH
-+  export LD_LIBRARY_PATH=/opt/cross-tools/loongarch64-unknown-linux-gnu/lib/:$LD_LIBRARY_PATH
- 
--  edk2-LoongarchVirt/edksetup.sh
-+Note: You need get the latest cross-tools at https://github.com/loongson/build-tools
- 
--  make -C edk2-LoongarchVirt/BaseTools
-+(3) Build BIOS:
- 
--  build --buildtarget=DEBUG --tagname=GCC5 --arch=LOONGARCH64  --platform=OvmfPkg/LoongArchQemu/Loongson.dsc
-+    See: https://github.com/tianocore/edk2-platforms/tree/master/Platform/Loongson/LoongArchQemuPkg#readme
- 
--  build --buildtarget=RELEASE --tagname=GCC5 --arch=LOONGARCH64  --platform=OvmfPkg/LoongArchQemu/Loongson.dsc
-+Note: To build the release version of the bios,  set --buildtarget=RELEASE,
-+      the bios file path:  Build/LoongArchQemu/RELEASE_GCC5/FV/QEMU_EFI.fd
- 
--The efi binary file path:
--
--  Build/LoongArchQemu/DEBUG_GCC5/FV/QEMU_EFI.fd
--
--  Build/LoongArchQemu/RELEASE_GCC5/FV/QEMU_EFI.fd
--
--(5) linux kernel source code and compile method:
-+(4) Build kernel:
- 
- .. code-block:: bash
- 
-   git clone https://github.com/loongson/linux.git
- 
--  export PATH=$YOUR_COMPILER_PATH/bin:$PATH
--
--  export LD_LIBRARY_PATH=$YOUR_COMPILER_PATH/lib:$LD_LIBRARY_PATH
-+  cd linux
- 
--  export LD_LIBRARY_PATH=$YOUR_COMPILER_PATH/loongarch64-unknown-linux-gnu/lib/:$LD_LIBRARY_PATH
-+  git checkout loongarch-next
- 
-   make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu- loongson3_defconfig
- 
--  make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu-
--
--  make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu- install
--
--  make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu- modules_install
-+  make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu- -j32
- 
- Note: The branch of linux source code is loongarch-next.
-+      the kernel file: arch/loongarch/boot/vmlinuz.efi
- 
--(6) initrd file:
-+(5) Get initrd:
- 
-   You can use busybox tool and the linux modules to make a initrd file. Or you can access the
-   binary files: https://github.com/yangxiaojuan-loongson/qemu-binary
-+
-+.. code-block:: bash
-+
-+  git clone https://github.com/yangxiaojuan-loongson/qemu-binary
-+
-+Note: the initrd file is ramdisk
-+
-+(6) Booting LoongArch:
-+
-+.. code-block:: bash
-+
-+  $ ./build/qemu-system-loongarch64 -machine virt -m 4G -cpu la464 \
-+      -smp 1 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd ramdisk \
-+      -serial stdio   -monitor telnet:localhost:4495,server,nowait \
-+      -append "root=/dev/ram rdinit=/sbin/init console=ttyS0,115200" \
-+      --nographic
++#define VERSION_REG             0x0
+ #define FEATURE_REG             0x8
+ #define VENDOR_REG              0x10
+ #define CPUNAME_REG             0x20
 -- 
 2.31.1
 
