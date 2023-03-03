@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2FB6A972D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879136A975B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:40:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4PG-0007h4-Cx; Fri, 03 Mar 2023 07:21:02 -0500
+	id 1pY4gT-0007Mh-T0; Fri, 03 Mar 2023 07:38:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY4PD-0007fv-Nk
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:20:59 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY4PB-0007A6-96
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:20:59 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id c4so1451540pfl.0
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:20:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677846055;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Vi14a4GHC/3FMMXxejIM2uaZ3YtMhaDDVhpO89nDews=;
- b=qX40O0Xos+EyYqkWQGrV/cI6gFbKkaDjX+1FUAwwbul7ZXhpQNgo1IP3GpKbb1fDZh
- P19GnuliLa54bADGzcZQStQXxP+TGLO6v4U7+zoP0D8K5NQDuviVZTezwkXLOP8dzPhC
- UbFkbZPiR6quujHXK4eaMFIdcX4dJ1AYJ8ByWP8rnWD5lqeW5h15d5b+UetWDWvdWa8L
- LL0xA2LOom4zNr1BI3M9KvbYwrRsLIpQ5OxUH64njrXcl0uhblBvBeLkCSeaFbL5gAzy
- WkL1c1leWu3nBc5jrGWCnDnZiRAbcQEFqEbse7g+X7iAo+Ddzr201w6Uj7qB9DUUVidK
- QlUg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY4gP-0007MH-9M
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:38:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY4gM-0003Pp-Qo
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:38:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677847121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XtGR+g6Uasqve/o0/6PzbaQm90yBQFs1+qUgY7Vjj6Q=;
+ b=QXmg5DCC/5yGiFLHtYxszpLhb8YETbbMLp4rMo05V67ljAb+osIFcgiZm4UtAhfK+y5nlo
+ X4AqQFePrl55jE62zjvsGOBwrSIJ0bXmY2J3yBvWGRKdsiBviPvCxKDE0NddvILJPGfRB6
+ Vm3qwlvWSM8tSO9/byeEDZD/d59uC18=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-638-YamC9K1rOYqheJEX5SPKlQ-1; Fri, 03 Mar 2023 07:38:40 -0500
+X-MC-Unique: YamC9K1rOYqheJEX5SPKlQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k20-20020a05600c1c9400b003e2249bd2b4so875048wms.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:38:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677846055;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Vi14a4GHC/3FMMXxejIM2uaZ3YtMhaDDVhpO89nDews=;
- b=k105bHp0ZsUByTOYlhaasQIQ+IP0iT3TQCJyQgfGfHCMObF4khU2X0TctkZEyKYsSV
- +ojfF9E5g6FX+/KOP7xTnthVzlyGYEOiP9B5+PZoREkSipOxYEhI4GGcUV9+zrq/yuUW
- SQPcJ+CF7oYS1NQPABX76RXHEbuIs4CmBGwg+m3zkgEYMXRyZ/K0kDzzzXKzw+zcA6fp
- wA7uOipN5avf+24qGBX/GsvoAFtE7e/GTVWCXoCRSaUHNq6gAOKJWKFST3251b6g79O6
- vlbbKSOlg9tLOZRPPs7M8KOTPD/pUhJzSvRvdAY4yxXhVtPwD3QcHvjaACRkOybFP4sF
- +CGA==
-X-Gm-Message-State: AO0yUKU9/sPS/IEuUGKdDKeKrzOGX1guv0orzvgQz+Orh2hdarvDct+Z
- YwPez6/Uh/4iTVvUnLvOz6ZDISLW2Hgj/Yv+TCJs9g==
-X-Google-Smtp-Source: AK7set9eZkfYvdCvyP1Xi7GMKWKfvpq+cRodnlWGhz72luAptL8+XCZ2GnWfTBhEqTvfwzQmrXYmrTXlXZWCR0YF9uc=
-X-Received: by 2002:a63:5508:0:b0:502:fd71:d58c with SMTP id
- j8-20020a635508000000b00502fd71d58cmr466425pgb.9.1677846055343; Fri, 03 Mar
- 2023 04:20:55 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XtGR+g6Uasqve/o0/6PzbaQm90yBQFs1+qUgY7Vjj6Q=;
+ b=U/KF8Ifo3ANj4gQrFKBc5oKtpXgE6LuGmnC3TqhfDH1iCf7oD95fhhanS2Yv9Zm+m4
+ j2AKVhwMCAzYvDo0IYwE3LKM4B9klSxjrSeeIIZnEByxSofSS7RV5liKk/SAwxWDzU4X
+ 217ZyxJoBVLtazNY+s5cj3Af1PqeD2dh0Phe0bAnWDi4gaZbxlmdg1lm6mCLRCqjbGlO
+ dA8SDWB+GI4PWdqtGCOrSNNFjveKNXe7Sw1DAV4VdNJklI0UNLMbJ2IXbIOvtO3pD8wx
+ sH5CaDJkSF86P9NXOllj3Ba2XZ1hXL3t2fmjm5q9aiPmjy5MqqqSORWlMrPbVaBNf0RW
+ hq/Q==
+X-Gm-Message-State: AO0yUKUmTc/LfIprLTXexElIViIlv9p0ON/JXf2N6vbO6NUYRHqc7USk
+ Ld2Z38LrQmEjcq2RrNS9AelOxuor5mdP7JtEuQHW4rVktU5ElawBdzT4RpMMLyHCJLKNnZvkOQ/
+ 6PGiJwKF6McuQV0s=
+X-Received: by 2002:a05:600c:4447:b0:3ea:c110:55ba with SMTP id
+ v7-20020a05600c444700b003eac11055bamr1438190wmn.18.1677847119286; 
+ Fri, 03 Mar 2023 04:38:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set+sZd8iRTZdSg7v/KJ2C/f0kDYz0s+EwXUKW9/iEItUB9XsbdbStBIt6vUYgE9YYYFna7JpZA==
+X-Received: by 2002:a05:600c:4447:b0:3ea:c110:55ba with SMTP id
+ v7-20020a05600c444700b003eac11055bamr1438177wmn.18.1677847119065; 
+ Fri, 03 Mar 2023 04:38:39 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
+ [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
+ g12-20020a05600c310c00b003dc49e0132asm6791380wmo.1.2023.03.03.04.38.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 04:38:38 -0800 (PST)
+Message-ID: <9739da85-adf2-cf33-15c8-6107aaf6b814@redhat.com>
+Date: Fri, 3 Mar 2023 13:38:37 +0100
 MIME-Version: 1.0
-References: <20230303083740.12817-1-palmer@rivosinc.com>
-In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 12:20:44 +0000
-Message-ID: <CAFEAcA-ZrqJnZHHNdtqS-dy0zGHbNWiGmagX=cO+5Q3u94M8JA@mail.gmail.com>
-Subject: Re: [PULL 00/59] Fifth RISC-V PR for QEMU 8.0
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RESEND PATCH 1/1] pc-bios: Add support for List-Directed IPL
+ from ECKD DASD
+Content-Language: en-US
+To: qemu-s390x@nongnu.org, jjherne@linux.ibm.com, frankja@linux.ibm.com,
+ Eric Farman <farman@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: jrossi@linux.ibm.com, qemu-devel@nongnu.org
+References: <20230221174548.1866861-1-jrossi@linux.ibm.com>
+ <20230221174548.1866861-2-jrossi@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230221174548.1866861-2-jrossi@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,46 +103,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 08:41, Palmer Dabbelt <palmer@rivosinc.com> wrote:
->
-> merged tag 'buildsys-qom-qdev-ui-20230227'
-> The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
->
->   Merge tag 'buildsys-qom-qdev-ui-20230227' of https://github.com/philmd/qemu into staging (2023-02-28 15:09:18 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230303
->
-> for you to fetch changes up to 37151032989ecf6e7ce8b65bc7bcb400d0318b2c:
->
->   Merge patch series "target/riscv: some vector_helper.c cleanups" (2023-03-01 18:09:48 -0800)
->
-> ----------------------------------------------------------------
-> Fifth RISC-V PR for QEMU 8.0
->
-> * Experimantal support for writable misa.
-> * Support for Svadu extension.
-> * Support for the Zicond extension.
-> * Fixes to gdbstub, CSR accesses, dependencies between the various
->   floating-point exceptions, and XTheadMemPair.
-> * Many cleanups.
->
-> ----------------------------------------------------------------
-> There's a lot of cleanups here, a handful of which ended up stepping on
-> each other and were necessary for various features.  I tried to keep
-> each individual patch set intact, but that led to some merge conflicts
-> and a bit of a clunky history -- I'm not sure what the right answer is
-> there, happy to re-spin this to be more linear if that's problem for
-> folks.
+On 21/02/2023 18.45, jrossi@linux.ibm.com wrote:
+> From: Jared Rossi <jrossi@linux.ibm.com>
+> 
+> Check for a List Directed IPL Boot Record, which would supersede the CCW type
+> entries.  If the record is valid, proceed to use the new style pointers
+> and perform LD-IPL. Each block pointer is interpreted as either an LD-IPL
+> pointer or a legacy CCW pointer depending on the type of IPL initiated.
+> 
+> In either case CCW- or LD-IPL is transparent to the user and will boot the same
+> image regardless of which set of pointers is used. Because the interactive boot
+> menu is only written with the old style pointers, the menu will be disabled for
+> List Directed IPL from ECKD DASD.
+> 
+> If the LD-IPL fails, retry the IPL using the CCW type pointers.
+> 
+> If no LD-IPL boot record is found, simply perform CCW type IPL as usual.
+> 
+> Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
+> 
+> ---
+>   pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
+>   pc-bios/s390-ccw/bootmap.h |  30 ++++++-
+>   2 files changed, 148 insertions(+), 39 deletions(-)
 
-It looks like in this case you got lucky, but in general I don't
-recommend including merge commits in your pull requests, rather
-than fixing up patches by rebasing them. If I find that a
-pull request has merge conflicts when I try to merge it, I'm
-going to kick it back to you to rebase, and then you need to
-rebase and fix up the commits in it anyway...
+  Janosch, Jason, Eric, Christian,
 
-thanks
--- PMM
+could you please help with reviewing + testing this patch?
+
+  Thanks,
+   Thomas
+
 
