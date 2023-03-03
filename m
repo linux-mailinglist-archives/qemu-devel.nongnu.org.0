@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F426A9BD5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CBD6A9BD8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:38:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY8NY-0000hL-TE; Fri, 03 Mar 2023 11:35:32 -0500
+	id 1pY8PD-0002T7-Ro; Fri, 03 Mar 2023 11:37:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pY8NU-0000g3-G9
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:35:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY8PA-0002QE-Lr
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:37:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pY8NR-00070n-LJ
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:35:27 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY8P8-0007U9-Uo
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:37:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677861324;
+ s=mimecast20190719; t=1677861430;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jh9Nzfj9sBC79eOOdrOykBI+FQi2AOIJvVfXCNXNiUU=;
- b=dEDtlGNzN1L8R11qxyQrR68sOobamJv+DtiLyaWcLNDAeF8Tl5y5vYV4SSIHbPYQaqsTTp
- +hmmYe7kiy0RKP9jSVNrRTw1R60O55STX+YuwRIqy+SBFA+71gsELVS4qoBEnY3PFx4AJT
- I55U+6bQkssaCxi/E4lzO6bA9wdCzik=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=T4AS8phio193RPsFUi8pScqTWb6IVm5LQ7uczICHrBA=;
+ b=U2a/89aB8Vish3CpMMAJYmIS8W4Zdt/Ol3rsAsgI+jj62ofTMDLA7pCRWzJ+szpNR91QPn
+ TkUi6NHQG5G+/jom3g8VJ//+t+U3M/OlLdh8b85MR4BccY/jh0vYgshOR69qdkCPdpRugK
+ VZpp5nvMQXf2Y+eS3i6xeezcV4yoewo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-103-pyUgcUUUMPi7UW7m7mx8Xg-1; Fri, 03 Mar 2023 11:35:23 -0500
-X-MC-Unique: pyUgcUUUMPi7UW7m7mx8Xg-1
-Received: by mail-yb1-f198.google.com with SMTP id
- d7-20020a25adc7000000b00953ffdfbe1aso2902639ybe.23
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:35:23 -0800 (PST)
+ us-mta-13-LF4qL-4QMiy8UL5Zinu4wA-1; Fri, 03 Mar 2023 11:37:08 -0500
+X-MC-Unique: LF4qL-4QMiy8UL5Zinu4wA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l31-20020a05600c1d1f00b003e8626cdd42so1153414wms.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:37:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677861322;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jh9Nzfj9sBC79eOOdrOykBI+FQi2AOIJvVfXCNXNiUU=;
- b=GVV6AjI8BSpOn0HbxSOWUg+6D4PvYdqR8xU7rVpe6XzX9/2xWpJ4n5M21sEOyCZISb
- smM2aMTaGQl5wixfT1pcgdAoVVKZLmApXpGkjorZaM+lrEFIA6xLqoPv5RCJyo+GCQDA
- BxLEiy0vWtygSVIrLbOCOlLtDhWxwn2dB2AKFJrFNXwyOzCf0HtqJJUOVjHIIs+n6+9S
- 8DFc5B3UhVGzVlS8MYt71wpvFh+yVWMOoxFLsRzc2VTATA4DwR8RAJ/6XVeKEoDi0hUj
- 69DoIuqiXR+4otlD/YzXrBAj9VsaVpuj1muarKMM13BHSdtSfz4lQJlBliz1Hq/ipIWG
- BLxg==
-X-Gm-Message-State: AO0yUKXcN0kN8cuqJXPfILcR9VBUGsyTg5awKilOcQBz39YEZT34jlov
- ZckZsZQPD/dkZA6WwuzlFdZJssw4ATGPfY/gWbiWXsDiNTi7DnjkVFV2Fhs7nErtOpyHr3d/J5W
- 11XNCVahbrkW8zOF4F2f8jP785/9FDjI=
-X-Received: by 2002:a25:9c05:0:b0:a6f:b653:9f18 with SMTP id
- c5-20020a259c05000000b00a6fb6539f18mr1165540ybo.2.1677861322724; 
- Fri, 03 Mar 2023 08:35:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set+0EMrf3hjJ0voW9+dP8TxkXfgelywU9B/SAxT+mTsZDGyGaCAztwktRrY6/pDaDjTewdv6WA0aGhLLgBgU3oc=
-X-Received: by 2002:a25:9c05:0:b0:a6f:b653:9f18 with SMTP id
- c5-20020a259c05000000b00a6fb6539f18mr1165522ybo.2.1677861322445; Fri, 03 Mar
- 2023 08:35:22 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=T4AS8phio193RPsFUi8pScqTWb6IVm5LQ7uczICHrBA=;
+ b=2bO03bCNfjNplIhtQ4WUn0zk6aJyLfi+gj0omPkYMUdFTZIVAR5+COJQ09r2x1UvFS
+ vydHdxIGkp+c6iONrZyqoRF8F7anMPTf3o6fQ1TuGUoYJLHVTefN6MOP7iE5fnSGc0Vm
+ q3U3I2GRsJ25aAQ7wnm5sBcNYdSWG+ELM+3aVAaY4P4pGvFcJhpuUNPa+O1Rh5Jsjatz
+ hN+fISIukW7wlvyTdjCZEzhfGo/+xrpT/hZO6oqgLMKomrdFZ30qGPt7EiwUPnI3b2+E
+ zR7X7naxA1+XopJEczp0Dclm0qz/Yevbpo8chsL7bdpzUPlv28X5RdVhtnpqFM6GS/vs
+ z1dQ==
+X-Gm-Message-State: AO0yUKVkPcJSiGpf+6v5Ne7g5jFg6UR6HcOiH/K4hgVU+e4UpSv2Da5T
+ MOqMG4KscXGHYJh/YyBJr/j6/+0i4U72yh0JkG2CqZDEuW5JxPjbjZHniOoHJEA2mhkj+9NGYou
+ Up4EPyFmz3j5S16U=
+X-Received: by 2002:a05:6000:11cb:b0:2c9:bb03:7843 with SMTP id
+ i11-20020a05600011cb00b002c9bb037843mr1821950wrx.69.1677861427875; 
+ Fri, 03 Mar 2023 08:37:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set//hWSj85k0uXl6jGLYpOtpZlmpwOKQte2S+bH2NFKtaRC3+CMX0bPCTgtadH6+I220Yv61cQ==
+X-Received: by 2002:a05:6000:11cb:b0:2c9:bb03:7843 with SMTP id
+ i11-20020a05600011cb00b002c9bb037843mr1821941wrx.69.1677861427623; 
+ Fri, 03 Mar 2023 08:37:07 -0800 (PST)
+Received: from [192.168.8.103] (tmo-099-97.customers.d1-online.com.
+ [80.187.99.97]) by smtp.gmail.com with ESMTPSA id
+ m5-20020a5d56c5000000b002be505ab59asm2593056wrw.97.2023.03.03.08.37.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 08:37:07 -0800 (PST)
+Message-ID: <5e428a2a-a3ae-c07a-8d14-7f7df124cfb7@redhat.com>
+Date: Fri, 3 Mar 2023 17:37:05 +0100
 MIME-Version: 1.0
-References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-8-eperezma@redhat.com>
- <32496de6-e1f7-a37b-3c82-5d294a9dd339@oracle.com>
-In-Reply-To: <32496de6-e1f7-a37b-3c82-5d294a9dd339@oracle.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 3 Mar 2023 17:34:46 +0100
-Message-ID: <CAJaqyWdm4mYUv_Jw-=2g8_D8sPmfKSGDkuKDESCm4aTzjfx_KQ@mail.gmail.com>
-Subject: Re: [PATCH v4 07/15] vdpa: add vhost_vdpa_suspend
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
- Shannon Nelson <snelson@pensando.io>, Jason Wang <jasowang@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>,
- alvaro.karsz@solid-run.com, 
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Parav Pandit <parav@mellanox.com>, Eli Cohen <eli@mellanox.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 5/8] iotests: connect stdin to /dev/null when running
+ tests
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230303160727.3977246-1-berrange@redhat.com>
+ <20230303160727.3977246-6-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230303160727.3977246-6-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,118 +104,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 1, 2023 at 2:30=E2=80=AFAM Si-Wei Liu <si-wei.liu@oracle.com> w=
-rote:
->
->
->
-> On 2/24/2023 7:54 AM, Eugenio P=C3=A9rez wrote:
-> > The function vhost.c:vhost_dev_stop fetches the vring base so the vq
-> > state can be migrated to other devices.  However, this is unreliable in
-> > vdpa, since we didn't signal the device to suspend the queues, making
-> > the value fetched useless.
-> >
-> > Suspend the device if possible before fetching first and subsequent
-> > vring bases.
-> >
-> > Moreover, vdpa totally reset and wipes the device at the last device
-> > before fetch its vrings base, making that operation useless in the last
-> > device. This will be fixed in later patches of this series.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> > v4:
-> > * Look for _F_SUSPEND at vhost_dev->backend_cap, not backend_features
-> > * Fall back on reset & fetch used idx from guest's memory
-> > ---
-> >   hw/virtio/vhost-vdpa.c | 25 +++++++++++++++++++++++++
-> >   hw/virtio/trace-events |  1 +
-> >   2 files changed, 26 insertions(+)
-> >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 228677895a..f542960a64 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -712,6 +712,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev=
- *dev)
-> >
-> >       ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-> >       trace_vhost_vdpa_reset_device(dev, status);
-> > +    v->suspended =3D false;
-> >       return ret;
-> >   }
-> >
-> > @@ -1109,6 +1110,29 @@ static void vhost_vdpa_svqs_stop(struct vhost_de=
-v *dev)
-> >       }
-> >   }
-> >
-> > +static void vhost_vdpa_suspend(struct vhost_dev *dev)
-> > +{
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> > +    int r;
-> > +
-> > +    if (!vhost_vdpa_first_dev(dev)) {
-> > +        return;
-> > +    }
-> > +
-> > +    if (!(dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
-> Polarity reversed. This ends up device getting reset always even if the
-> backend offers _F_SUSPEND.
->
+On 03/03/2023 17.07, Daniel P. Berrangé wrote:
+> Currently the tests have their stdin inherited from the test harness,
+> meaning they are connected to a TTY. The QEMU processes spawned by
+> certain tests, however, modify TTY settings and if the test exits
+> abnormally the settings might not be restored.
+> 
+> The python test harness thus has some logic which will capture the
+> initial TTY settings and restore them once all tests are finished.
+> 
+> This does not, however, take into account the possibility of many
+> copies of the 'check' program running in parallel. With parallel
+> execution, a later invokation may save the TTY state that QEMU has
 
-Good catch, I'll fix it in v5.
+s/invokation/invocation/
 
-Thanks!
+> already modified, and thus restore bad state leaving the TTY
+> non-functional.
+> 
+> None of the I/O tests shnould actually be interactive requiring
 
-> -Siwei
->
-> > +        trace_vhost_vdpa_suspend(dev);
-> > +        r =3D ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
-> > +        if (unlikely(r)) {
-> > +            error_report("Cannot suspend: %s(%d)", g_strerror(errno), =
-errno);
-> > +        } else {
-> > +            v->suspended =3D true;
-> > +            return;
-> > +        }
-> > +    }
-> > +
-> > +    vhost_vdpa_reset_device(dev);
-> > +}
-> > +
-> >   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-> >   {
-> >       struct vhost_vdpa *v =3D dev->opaque;
-> > @@ -1123,6 +1147,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev =
-*dev, bool started)
-> >           }
-> >           vhost_vdpa_set_vring_ready(dev);
-> >       } else {
-> > +        vhost_vdpa_suspend(dev);
-> >           vhost_vdpa_svqs_stop(dev);
-> >           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-> >       }
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index a87c5f39a2..8f8d05cf9b 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -50,6 +50,7 @@ vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
-> >   vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
-> >   vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint=
-32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
-> >   vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "=
-dev: %p config: %p config_len: %"PRIu32
-> > +vhost_vdpa_suspend(void *dev) "dev: %p"
-> >   vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
-> >   vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long =
-size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu =
-refcnt: %d fd: %d log: %p"
-> >   vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int=
- flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_us=
-er_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_=
-addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" =
-log_guest_addr: 0x%"PRIx64
->
+s/shnould/should/
+
+> user input and so they should not require a TTY at all. To avoid
+> this while TTY save/restore complexity we can connect the test
+> stdin to /dev/null instead.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   tests/qemu-iotests/testrunner.py | 22 ++--------------------
+>   1 file changed, 2 insertions(+), 20 deletions(-)
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
