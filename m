@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E036A9C0D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9066A9C32
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:50:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY8Y7-0002BC-M2; Fri, 03 Mar 2023 11:46:27 -0500
+	id 1pY8ax-0006eN-VL; Fri, 03 Mar 2023 11:49:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY8Y4-0001qg-JE
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:46:24 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pY8at-0006cR-7N
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:49:19 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY8Y3-0001Ww-04
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:46:24 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so2838218pjz.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:46:22 -0800 (PST)
+ id 1pY8ar-0002NX-MB
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:49:18 -0500
+Received: by mail-pf1-x434.google.com with SMTP id fa28so1937859pfb.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:49:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677861981;
+ d=linaro.org; s=google; t=1677862156;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sgIMx4JSD5f56bgofErAUur/x1goi7NUTJO95TXtuTo=;
- b=eC9QbTw32CtXpMZw7MxBxjmssW7FVnQ9heJnGwoOomdEjvf/3NjydaugOnklZKp/W5
- JD6sFTI5jJA2GMrJCDnWpFtIm5hy4/51A6I6OzHDGhPheqbNpVD0XPIAw/4BHVABzhWh
- AfxgTm8ubChxep3FGGO+Yx4Rx0Fb+GppDEFGC43ylSvNfulrIJl6uQy1lf8agBcuQq5e
- SYaarellQPDoCLL09XH3iOUaqpn0iiqHkyjjx0GUR6YAewt5C4med0E7stH3eFHL+DlM
- h01Pv9fPgpWGprba2H/3oxNTVobFfMIptWojJJhNgSG4jKI5NVXSDKzqAI78jhQ9IIjj
- WjsQ==
+ bh=gYqUDK5QCWo5zUjaVokPHL9/Kw7/CqfGFL4kZ/hEAFk=;
+ b=n+05wIbm+dRGwZg4X95UwcBJ/az0BCYH2wcdbCnWVIOe079ZThwHcVm1BjCWdak1qS
+ qY7WzH7w5wfftefW6F/rJe+AyqDTIurnR24ShHArcFNMkYm6eYOGZII+iWcQhCJRTBKm
+ lzUaCBgFXhJJ9UUlhMNlgh4qG9nIkrhpCP9qd/eU0MiMd1bSNcWkhiqMQCvfViK8K6TH
+ 9csA5GqB7OxNZPeN3luGerGoISrvze6sdTUH/3AQcRZf3jR4j8T2AGfn95LSnznnShqe
+ dIdjlAGifsemMzpUqtihtArCxS53m/W1GM5V1AnCCB4YcdHCmiuELGbZAS7T4HgDJqoK
+ GPCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677861981;
+ d=1e100.net; s=20210112; t=1677862156;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=sgIMx4JSD5f56bgofErAUur/x1goi7NUTJO95TXtuTo=;
- b=pmPDKPRf9pviaDH3BLiRB6lNa2Wh8fnv6M88ZGusaj4Mlk0E8qbxzGajyCrb9/LgoB
- sqbA5nLjWGDJzFoWTp4dgzB2JiaT+eTu7K55BQRfVsTLjlZgQC5TA5DGcMBYxpoqWMLd
- xYT0EjDq10+Xr7oqJCo9AGXR207+bgpvRU0CoRXYyMMiFqEFZD/UxIusqHhyN+2PwE/9
- raiDeDuBCP7zkOHnr/1cqSrn1Q8vC/AND/Xq5zXRNzqy09xVBYdDCxX3EeUOgOyDO0MK
- BZX+5o7x7BQCkCrHUY9Q7NyDxxEM0l4dE8ZstcuYO53SLiFJ3dMVjydv3tAoYMf8fywx
- catQ==
-X-Gm-Message-State: AO0yUKWLaT+HTV8Ewpzv09XCP6ma8lcHcIrPShlAK9nv81pMBKe1A/Pr
- nomsTdn23Fx5KFqbHICZ5QGvLe5rgXMfvxZMmfPmwQ==
-X-Google-Smtp-Source: AK7set/u2AJugekHBFT+Y7Z3C4VlH1tw34SahtRiv0MmAuPp+0sY0pf+GHFYTh2QmYUnTt8JjNU5oEuoZonCXL3uOYk=
-X-Received: by 2002:a17:90b:46d2:b0:237:ae7c:1595 with SMTP id
- jx18-20020a17090b46d200b00237ae7c1595mr848370pjb.2.1677861981406; Fri, 03 Mar
- 2023 08:46:21 -0800 (PST)
+ bh=gYqUDK5QCWo5zUjaVokPHL9/Kw7/CqfGFL4kZ/hEAFk=;
+ b=fN0+a+f22Y1OES5hPzakf0rg7mUV+bhQ4mtrCDc/OBsCYMMBtZJdo7UE5LMntolmkd
+ 0FoLLwTJTa9MFQVcoMjmMgY/oOnRc3T0gmGFYR/FqYqsUy1nHbyYnXupHkSKswSyxKvo
+ vKg91IZdZzC1reSs2yvE45NrfvlvO+1G5iOpgIu/Rk7uda+LR2mdx4y8vxYn53Lz//SY
+ oiYg1sqyYrIZWub4CdVO/4GPGm1bG+8wCqfubD49F2JHSBcoH6sOeG9h1EV0HV87giRy
+ nt6+QN2DQWEJWrVydBNwqk+1+wBbIq7jkGucnZ4dxrn1BuVD22kthOULfxJ/5Tk/FVAb
+ Imuw==
+X-Gm-Message-State: AO0yUKXW7t2vlx4HuXA2KxqgZo/3CQWVRnBRXKCuKynGGZMoNvdEm9vp
+ RpAQ1Ed6UfaNoW2mimCFSuPHvs72xfv54FzNmI9nmPG0+GejNQ==
+X-Google-Smtp-Source: AK7set9hFgkmBs6AGzYCAIJ40r6f9cZTGBE3wdFZCADYzLIEHHE/WbvYYuiOdoswwY2K5XIImSiWwZOf9fZlHQcdqys=
+X-Received: by 2002:a05:6a00:225a:b0:593:c9dd:9069 with SMTP id
+ i26-20020a056a00225a00b00593c9dd9069mr1189541pfu.5.1677862155919; Fri, 03 Mar
+ 2023 08:49:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20230223204342.1093632-1-richard.henderson@linaro.org>
- <20230223204342.1093632-5-richard.henderson@linaro.org>
-In-Reply-To: <20230223204342.1093632-5-richard.henderson@linaro.org>
+ <20230223204342.1093632-7-richard.henderson@linaro.org>
+In-Reply-To: <20230223204342.1093632-7-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 16:46:10 +0000
-Message-ID: <CAFEAcA_oEcs04iDgawLTCZvdBrCHi22X-jSLC5O7f5htuTD3yA@mail.gmail.com>
-Subject: Re: [PATCH 04/13] accel/tcg: Honor TLB_DISCARD_WRITE in
+Date: Fri, 3 Mar 2023 16:49:04 +0000
+Message-ID: <CAFEAcA-PnmGDjWY6OfyKw+XY94e2j6vb5_rWM3oqnia4BN3Ogw@mail.gmail.com>
+Subject: Re: [PATCH 06/13] accel/tcg: Trigger watchpoints from
  atomic_mmu_lookup
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,16 +85,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 at 20:45, Richard Henderson
+On Thu, 23 Feb 2023 at 20:46, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Using an atomic write or read-write insn on ROM is basically
-> a happens-never case.  Handle it via stop-the-world, which
-> will generate non-atomic serial code, where we can correctly
-> ignore the write while producing the correct read result.
+> Fixes a bug in that we weren't reporting these changes.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  accel/tcg/cputlb.c | 40 +++++++++++++++++++++++++++++-----------
+>  1 file changed, 29 insertions(+), 11 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
