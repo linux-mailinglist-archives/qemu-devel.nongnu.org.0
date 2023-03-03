@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5BD6A96DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D47E6A96FD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:07:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY42g-0004Gz-0K; Fri, 03 Mar 2023 06:57:42 -0500
+	id 1pY4Am-0000ea-LQ; Fri, 03 Mar 2023 07:06:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pY42e-0004GW-Bj; Fri, 03 Mar 2023 06:57:40 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pY42b-0006yL-PS; Fri, 03 Mar 2023 06:57:40 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pY42W-004B3D-QC; Fri, 03 Mar 2023 12:57:32 +0100
-Received: from p57bd9bc2.dip0.t-ipconnect.de ([87.189.155.194]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1pY42W-0029Jx-I9; Fri, 03 Mar 2023 12:57:32 +0100
-Message-ID: <366865d17d130de0d75e9ea18e540bf4979b8ab7.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v2 0/6] Deprecate support for 32-bit x86 and arm hosts
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Thomas Huth <thuth@redhat.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Daniel
- Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, qemu-arm@nongnu.org, Maxim Levitsky
- <mlevitsk@redhat.com>, libvir-list@redhat.com, Richard Henderson
- <richard.henderson@linaro.org>, xen-devel@lists.xenproject.org, Reinoud
- Zandijk <reinoud@netbsd.org>, Michael Tokarev <mjt@tls.msk.ru>, Helge
- Deller <deller@gmx.de>, Laurent Vivier <lvivier@redhat.com>
-Date: Fri, 03 Mar 2023 12:57:31 +0100
-In-Reply-To: <2c7f837f-c156-8525-005f-f47d50591a85@redhat.com>
-References: <20230302163106.465559-1-thuth@redhat.com>
- <4bed38c3-ab4f-cd32-05a4-afa090ad8b9a@linaro.org>
- <6c1f0d05-924e-854e-0175-5e345945e086@redhat.com>
- <89fd1c916b6c8094ea1a7a52396b3f91025c75c1.camel@physik.fu-berlin.de>
- <2c7f837f-c156-8525-005f-f47d50591a85@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY4Ak-0000eD-RC
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:06:02 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY4Aj-0001Dg-1Y
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:06:02 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id bn17so1300354pgb.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677845159;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+zaTCnMNEhh9zv+yOtKux4pGWDREu6RdJLlJbGBShUg=;
+ b=McDrB7aptbft2LG2iFMHUj4xIOR9fLa33PEZ7hjZvcgyHz8zdrLkPKlfeI5jvKQRjT
+ AMD6pEKSMUFG7OXXB+YGimhMQgaLyI8p1pPwbx7CID0jN1gN0Dy/xlrTjL9FriQQMk1H
+ 7R+yTtn1DeZVrZjDHqYgs/6ZJYQB6KZPRJHUshf/iNycL3xxi4w0sixwtYmiKVzhdh3U
+ lp0jkBMb1ok/WGRpc9G/44l6Ugmw/yFZccEmTONHe8SCRofaktJdMkJX0sxIYCoMUakE
+ OjpbdE1ECq31emSwHl9HoZKYlP6P/Tl08w6ApctLXMSdS/ECsL0E/E4LNs9FBwbrrYJz
+ EGFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677845159;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+zaTCnMNEhh9zv+yOtKux4pGWDREu6RdJLlJbGBShUg=;
+ b=VGPKa8NQ7n8hX2Nb1RVK2Sb7DrrUJAhGA0pepLSOoSSc9tIofOnsoOcNQ5YcInauNA
+ 4S4+jPwi6x7fGYWgZt+Ajztd+b8FbIchMg2sVGZLCXyQYJEqKHzO8QbXpzHdNN5YzxCF
+ dVB8o3sPF+Y8YNx9ptYNY0kQL3BhKzngj7gJ6nR5vlHTENsvLhhVbrkFNyvNykEGGgLV
+ S+ANz64uH7F9B7DfJOCqIiQJ51diROlUD4XM8PSRBPXgN26EhWlBGztZx1k/nRqDqEch
+ Od03PM6W98IA8MIKuB0XT6xYbM3HUMxnt9qayvnWrLR/9GRe98pE3w0gsIb8dQZk/hX3
+ b2Hg==
+X-Gm-Message-State: AO0yUKXI9Me+g0UAYPpvYW2Z6vqTJ7uz3cXQQIiqIYeaTuoZKBFuyiAH
+ UduSgiEXmoB+kUT79x+tA+SAjfhzl2+xL8A9PpO5Gw==
+X-Google-Smtp-Source: AK7set/MPVQyyXM69MRlUj8AL8PVGqjUG+vpFnumWaQpCgBchnMoOOP6f9Xp3vv7SEKaoxZQLnHX9xHRzF2nYRr83VE=
+X-Received: by 2002:a63:f705:0:b0:503:7cc9:3f8d with SMTP id
+ x5-20020a63f705000000b005037cc93f8dmr421828pgh.9.1677845159373; Fri, 03 Mar
+ 2023 04:05:59 -0800 (PST)
+MIME-Version: 1.0
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
+ <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
+ <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
+In-Reply-To: <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Mar 2023 12:05:47 +0000
+Message-ID: <CAFEAcA-U568vrLKHegfKQWu1RfUCRjdOKZQMoFXSde1yk4V3Wg@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+To: Thomas Huth <thuth@redhat.com>
+Cc: quintela@redhat.com,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 
-MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.155.194
-X-ZEDAT-Hint: PO
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,31 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Thomas!
+On Fri, 3 Mar 2023 at 11:29, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 03/03/2023 12.18, Peter Maydell wrote:
+> > On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
+> >>
+> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> >>> On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
+> >>>> migration-test has been flaky for a long time, both in CI and
+> >>>> otherwise:
+> >>>>
+> >>>> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+> >>>> (a FreeBSD job)
+> >>>>    32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migr=
+ation_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_=
+WAIT_TIMEOUT) ERROR
+> >>>>
+> >>>> on a local macos x86 box:
+> >
+> >
+> >
+> >> What is really weird with this failure is that:
+> >> - it only happens on non-x86
+> >
+> > No, I have seen it on x86 macos, and x86 OpenBSD
+> >
+> >> - on code that is not arch dependent
+> >> - on cancel, what we really do there is close fd's for the multifd
+> >>    channel threads to get out of the recv, i.e. again, nothing that
+> >>    should be arch dependent.
+> >
+> > I'm pretty sure that it tends to happen when the machine that's
+> > running the test is heavily loaded. You probably have a race condition.
+>
+> I think I can second that. IIRC I've seen it a couple of times on my x86
+> laptop when running "make check -j$(nproc) SPEED=3Dslow" here.
 
-On Fri, 2023-03-03 at 12:22 +0100, Thomas Huth wrote:
-> The ticket is very long and hard to read, but ... oh my, does that mean y=
-ou=20
-> need to compile qemu-user in 32-bit mode on a 64-bit x86 host to properly=
-=20
-> run 32-bit binaries from other architectures? ... uh, that's ugly ... and=
-=20
-> sounds like bug in QEMU's user mode emulation ... and what if you're runn=
-ing=20
-> a distro (or different 64-bit host architecutre) that does not support=
-=20
-> 32-bit userspace libraries anymore? Then you're lost?
+And another on-x86 failure case, just now, on the FreeBSD x86 CI job:
+https://gitlab.com/qemu-project/qemu/-/jobs/3870165180
 
-Perhaps the explanation here by Florian Weimer is a bit easier to understan=
-d:
-
-> https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
-
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+thanks
+-- PMM
 
