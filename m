@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F826A92E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A3B6A92DC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zH-000872-4j; Fri, 03 Mar 2023 03:41:59 -0500
+	id 1pY0zF-00085m-9l; Fri, 03 Mar 2023 03:41:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zC-00083u-FH
+ id 1pY0zC-00084M-RE
  for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:54 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zA-0007xz-II
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:53 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id l1so1811442pjt.2
+ id 1pY0zB-0007l9-Bi
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:54 -0500
+Received: by mail-pl1-x632.google.com with SMTP id i10so1958862plr.9
  for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832911;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832912;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XBFShlq0Mtiviu35cbAP5uhkLUId7RlJPqqDmZVwaNg=;
- b=xirFmfVUod07P7pa/XjEM8cMjT468Tgyyrd9rkdG3BGq2FKKGv8ypJR3QAvb8H0l/G
- 8id1jZA/NDUcLXy7j/86dr6l52jXd+C7wbZuCouV3MqOw61tT/biwPjGHsKc6nhMblsb
- cLf4GLnWBmiy2eCGMyU1HU2m0oDHBkYh/fdKLPa4axowMkKUffvnsAHucSmRb7AC9Ey7
- QnD4INeihTIv9qetxHOlj0yDX4AiuWFY37sJo51vABEVD5EjTz6pvRrpbd5M8tUS82hw
- UFVjyGuGAV8JxM00RrWrKCdjoK7lTg2m6YHP8FNZ0RUDtO6ztnqFejMcjND1/NZptMgc
- UdjQ==
+ bh=pRW11J/J45CAJ0uTYQ2YvgkRQZQK3nFD6G/IjMnU3Tg=;
+ b=c6gVhheHWLm/RKENoG/nXrH59Vg0xamP9DsDMygzFBkYSYrbSaLyEItECxC/ToQ99p
+ wcJ9KHzrJGUKTOp6Qq6/cX4TqLr0516tYFmwkKzQzymtG08fUzNbHFianRye8WJceYXv
+ sMhnRq1EturNCbpY/7tFrzmBt4iIMfnAtd9ZB+S/wgSnv9oF71ojynDMH9nfGI8M44Ei
+ GdB+IfOOugv1X0h2t8FO112cuhw4oSI/z60lUb0+s2662lTnxNFAEITG/Bz0sjl1NqZp
+ TTxR7NfW0oB9pv/QtIxF9PIzgW7niENRGjcQ8OCh8Dpc81xyepfPBoTBMV5kKSgch+Qw
+ FTFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832911;
+ d=1e100.net; s=20210112; t=1677832912;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XBFShlq0Mtiviu35cbAP5uhkLUId7RlJPqqDmZVwaNg=;
- b=4iy3BFqTi3GbUG90XFEeGHVfTgqG9A6Pfa4KL8rreB6gLhiMU/8imrNyqTSSN0yTW/
- rMwO/SQ6zImsr/+t+g3r6nMoUhS9dwzXKAWQ4TH9OiIcTeeYnLpZWYkYE62rzck90bsJ
- eXqy+iqodcK6UdFx7utkPD+m4dhAIeXhMpfHa1OjY4XdYnmTdjgYlttdN6RkKt8Dr4Dl
- GRoemijWEtkMlWHau9gM2kxq8kZR4WxxLpS1pI30tsUn0eDvbwyWfaWEazlVQIV2DTYu
- ljWvbTKxiJJnXYt7uI10qxoc9QTnWGOtfxZdess0q6wUsrCHvkak+wFlU3mP7303k90w
- mOZQ==
-X-Gm-Message-State: AO0yUKX5DcJOI74nAVYYrQZZuPyxAfkYcJnavz0AQbxE/pegk9zt3kf7
- t1xBdIdogJRsQOFka81ifDbwFQ==
-X-Google-Smtp-Source: AK7set8JLVsVYr9oI/lKgb+DcO4W+oSVT0pZlxlskrp0UHxki+YkU9cBvQ9ozjJypNKMydjzw2uVJg==
-X-Received: by 2002:a17:903:11cc:b0:19c:eb50:88b9 with SMTP id
- q12-20020a17090311cc00b0019ceb5088b9mr1538220plh.29.1677832911260; 
- Fri, 03 Mar 2023 00:41:51 -0800 (PST)
+ bh=pRW11J/J45CAJ0uTYQ2YvgkRQZQK3nFD6G/IjMnU3Tg=;
+ b=M/Va7MB00tliZa1zXdvv5TNtJjXxSvEdcNnQz5zcozMYNo3MCWvdoZpd5Y6E/UrAkQ
+ CJig2AZ8n8lupzA+8xjR5SzAxy1dhujw+cSnYY6MjhWWw0Vo8QYSa8QWooB3h+2mDlLe
+ HZKn4nMo0b+xO5lbEninu/mBQFLZepLxW+iMWzIKeRJwQ3cySok9WqiPleyUBfb2UwqN
+ khkv8mPWWbRqVKiaLEPZwGnlHKoVlc+FQSchVcL0VbC7EkRuYxI3F4DsCDwgEwLp8cnT
+ cHvPXgFwHOVYu7TRp3mR72vUmNLOp3wH/CIK2nUlwHy/1lBqrfrBC1w0cC/h4H8tRxug
+ fDcw==
+X-Gm-Message-State: AO0yUKV0ojB7ce2JaPxXFKWtzy1oGIGOdw4OA/rCXdSWRrU1hCMwS/5d
+ bYT4eGI3irN3HRsOok64Sjj5uQ==
+X-Google-Smtp-Source: AK7set8NALu8qq8g53l2mJG9wcKMSpf1y8LAtZgaeVo9siV3cyrKK531NEG3Qh9hvGoGYtmPnDSOWQ==
+X-Received: by 2002:a17:90b:1d0e:b0:234:d42:163e with SMTP id
+ on14-20020a17090b1d0e00b002340d42163emr901180pjb.28.1677832912623; 
+ Fri, 03 Mar 2023 00:41:52 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- kz14-20020a170902f9ce00b0019a733a75a2sm979406plb.60.2023.03.03.00.41.50
+ h4-20020a170902f54400b0019a6cce205bsm972175plf.154.2023.03.03.00.41.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:50 -0800 (PST)
-Subject: [PULL 24/59] target/riscv: Expose properties for Zv* extensions
-Date: Fri,  3 Mar 2023 00:37:05 -0800
-Message-Id: <20230303083740.12817-25-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:52 -0800 (PST)
+Subject: [PULL 25/59] target/riscv: gdbstub: Check priv spec version before
+ reporting CSR
+Date: Fri,  3 Mar 2023 00:37:06 -0800
+Message-Id: <20230303083740.12817-26-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Bin Meng <bmeng@tinylab.org>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=palmer@rivosinc.com; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,51 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Bin Meng <bmeng@tinylab.org>
 
-Expose Zve64d,Zvfh,Zvfhmin properties.
+The gdbstub CSR XML is dynamically generated according to the result
+of the CSR predicate() result. This has been working fine until
+commit 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+introduced the privilege spec version check in riscv_csrrw_check().
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230215020539.4788-15-liweiwei@iscas.ac.cn>
+When debugging the 'sifive_u' machine whose priv spec is at 1.10,
+gdbstub reports priv spec 1.12 CSRs like menvcfg in the XML, hence
+we see "remote failure reply 'E14'" message when examining all CSRs
+via "info register system" from gdb.
+
+Add the priv spec version check in the CSR XML generation logic to
+fix this issue.
+
+Fixes: 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Message-ID: <20230228104035.1879882-2-bmeng@tinylab.org>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ target/riscv/gdbstub.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9b8747ab15..b7f212c59e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -101,6 +101,9 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
-     ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
-     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-+    ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_12_0, ext_zve64d),
-+    ISA_EXT_DATA_ENTRY(zvfh, true, PRIV_VERSION_1_12_0, ext_zvfh),
-+    ISA_EXT_DATA_ENTRY(zvfhmin, true, PRIV_VERSION_1_12_0, ext_zvfhmin),
-     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
-@@ -1126,6 +1129,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
-+    DEFINE_PROP_BOOL("Zve64d", RISCVCPU, cfg.ext_zve64d, false),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
-@@ -1185,6 +1189,9 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
-     DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 6e7bbdbd5e..e57372db38 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -290,6 +290,9 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+     g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
  
-+    DEFINE_PROP_BOOL("x-zvfh", RISCVCPU, cfg.ext_zvfh, false),
-+    DEFINE_PROP_BOOL("x-zvfhmin", RISCVCPU, cfg.ext_zvfhmin, false),
-+
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     for (i = 0; i < CSR_TABLE_SIZE; i++) {
++        if (env->priv_ver < csr_ops[i].min_priv_ver) {
++            continue;
++        }
+         predicate = csr_ops[i].predicate;
+         if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
+             if (csr_ops[i].name) {
 -- 
 2.39.2
 
