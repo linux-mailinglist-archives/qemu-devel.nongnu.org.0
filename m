@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FEE6A95E2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69ABF6A95E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:19:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY3P8-0006am-6F; Fri, 03 Mar 2023 06:16:50 -0500
+	id 1pY3Qy-0007wd-UT; Fri, 03 Mar 2023 06:18:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3P5-0006Zw-Ss
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:16:47 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ id 1pY3Qx-0007wL-9t
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:18:43 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3P4-0001eW-71
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:16:47 -0500
-Received: by mail-pg1-x533.google.com with SMTP id d6so1247998pgu.2
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:16:45 -0800 (PST)
+ id 1pY3Qv-0001xy-Ms
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:18:43 -0500
+Received: by mail-pf1-x430.google.com with SMTP id a7so1291425pfx.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:18:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677842204;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HpqkAhmyA0LdyZSyhNu9CgDOyvGP61IIvcQNWKvMTAY=;
- b=aPuwdCNtlGGPCx32OtbizzAVK4IYwHotCm8vUf8rH71gCgSTi1Zcq6Ws8tRaL1SKR2
- qHQx4dPQGal5Mp01cA6yIhckJT5y0sDY/56m8Lkyg/mZJMEvcnV988KI15KI5u6L+IRM
- h+iELKli65iCRvcgLCo/zay4wFtlM4nv5Jr+dKavsDrx73Cy/z5r5CszWSk7BN5jbqoe
- cV8M2NxSGEj949OnkHmqKa248lgc2klZK4amqtvMC0R95XHJEVU4zXax0Zjrm7Rio91E
- Uw1owcNYZT9V8Mn4FhEJHKN6dtpI1WDU3Go5X6Cqo5qi3WxQC0vRJPf39b08ndKFcJMI
- yXLg==
+ d=linaro.org; s=google; t=1677842319;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HbpQhNZ/dSPaFmyNoEXBlhteytNsJs9z2iPj6cVUqhY=;
+ b=phxaI1w8JZV9/77RX2arnfdVecR1rEl3WwkJJ3xijd53BA+oBnTLAAKSUYR4EvIA1d
+ CLu20qUX7CV+zkg/UyqEWDj/F4QA5Hq3Yhsvgp2iTbauSNH02mmhEHsccJvQ3wrorpoq
+ UK+YOP1kPQyxCywPWAWuepiqM+9QM+Gn27eZ2v1dkRIXaA4i4XQwe+AOrmxXrlrAN3Lq
+ fMoEF781H2y/vNioY+wJv/icjp2zxB2B/kdKGdRQO6XTXDw0B8AJ77aoLyg9TmRQRNOt
+ u5CkG8z937s2B7EFw3rFQHokje3M4tJRiO3s2Hz7sHjDecPFnuG0iu8rdLvybRJebBFl
+ yh9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677842204;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HpqkAhmyA0LdyZSyhNu9CgDOyvGP61IIvcQNWKvMTAY=;
- b=EJEdG/RDIhfBIBc4PSTz3pq9EyFVWI1d6SwUH+6FDYaibdXTeLHs78jhdREgQEmKtQ
- 31JXUJN+niFEqC8EKt2JymrtwpRE93SMfpoYdszyA2dmAu/qkTIe45C4xFHXlUw+1TFk
- nx45GYRDj2sx6HtUMbAotUT2Fi8bbVx+P7undY73FxG/U2Ds9s0XsNwvlXakfiOVx+mE
- KMUbfOiaAFS7MrnbFZPrkdDz0EwOTZCinM9SvE1XLitHgLU20cFAAE9gPvuEejpA6n1X
- GkmVLqzQsv9e2iFsbyhK0n9px6d5fUhK1vDnoFtdQ5QMC26LRjsQ+B21Y8sgfNwk0+xB
- va6Q==
-X-Gm-Message-State: AO0yUKWPlgBdyyhtsF4815bj4APg7haPYhxxNUu49B1FKlIkA/UeAVL1
- nUlfJoR4rlvAJ0S6qzq/IAFNKNSsvaPg0Pjr4CWBhQ==
-X-Google-Smtp-Source: AK7set9CNauIHkidY86e9p0+4D48SNNhrsSEwa5fbYw0YUBRN8Nx2srPULT6bjJ68MYMjGEsg/cbJriR7JHdxPs40sc=
-X-Received: by 2002:a63:f705:0:b0:503:7cc9:3f8d with SMTP id
- x5-20020a63f705000000b005037cc93f8dmr378922pgh.9.1677842204397; Fri, 03 Mar
- 2023 03:16:44 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677842319;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HbpQhNZ/dSPaFmyNoEXBlhteytNsJs9z2iPj6cVUqhY=;
+ b=TVKL6Y7RHapDXayZLBNrxninDlYlkruLsWKhCpxv3RF/CjczxcOWNdna8+cgdtFWY5
+ P/lAiVEnH0MBaQR5psa6PoKuD/3YeaE3i3fok880EMDO07Z1QgkQzedI91Bsht4lPhFo
+ +FlQtUVeNckkiWg8amPnzuori65wJAUJ+RQEHEqv3IPYf0LISwpws6/ic7GSYDqfS0/e
+ R0Ro8p0qYMA9lpfg7oDbjZO/FSl065WkekaiT6oWvm1iJYTFjJeEmK9OqxRFGse3eHMi
+ HTsrSu9LS5/f9TYmKTuk5Jf2/t5rjAM0jJKDrCeI4OyLeubxZzSlwRSWlzsR7QnjxEpU
+ YGAg==
+X-Gm-Message-State: AO0yUKWIQVeMGZ3c8Leww94zTaXkYzK9DMo7F+wdnJ0Y32GHnOA8VRlm
+ bNe8JxU3LGO3amL1X2wetzvX2o5XFYe40PW7lWyV3w==
+X-Google-Smtp-Source: AK7set9r6//k1CungiSRz6HBxJGE+0rmPzaqhqN7Bjf/OuHDpM7XJogKEL5xFB0feW0YqX1KvW9mCZ5Ma2u+gNPomDI=
+X-Received: by 2002:a63:7d03:0:b0:503:4a2c:5f0 with SMTP id
+ y3-20020a637d03000000b005034a2c05f0mr341299pgc.9.1677842318840; Fri, 03 Mar
+ 2023 03:18:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20230302163106.465559-1-thuth@redhat.com>
- <20230302163106.465559-5-thuth@redhat.com>
-In-Reply-To: <20230302163106.465559-5-thuth@redhat.com>
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
+In-Reply-To: <87edq6i4jf.fsf@secure.mitica>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 11:16:32 +0000
-Message-ID: <CAFEAcA8JZqKnSN98PoO684zS1ZADj_KkaWO2QMk3w9uXk2cdMg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] docs/about/deprecated: Deprecate the
- qemu-system-arm binary
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Daniel Berrange <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org, 
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com, 
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>
+Date: Fri, 3 Mar 2023 11:18:27 +0000
+Message-ID: <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+To: quintela@redhat.com
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,38 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023 at 16:31, Thomas Huth <thuth@redhat.com> wrote:
+On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
 >
-> qemu-system-aarch64 is a proper superset of qemu-system-arm,
-> and the latter was mainly still required for 32-bit KVM support.
-> But this 32-bit KVM arm support has been dropped in the Linux
-> kernel a couple of years ago already, so we don't really need
-> qemu-system-arm anymore, thus deprecated it now.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  docs/about/deprecated.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index a30aa8dfdf..21ce70b5c9 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -45,6 +45,16 @@ run 32-bit guests by selecting a 32-bit CPU model, including KVM support
->  on x86_64 hosts. Thus users are recommended to reconfigure their systems
->  to use the ``qemu-system-x86_64`` binary instead.
->
-> +``qemu-system-arm`` binary (since 8.0)
-> +''''''''''''''''''''''''''''''''''''''
-> +
-> +``qemu-system-aarch64`` is a proper superset of ``qemu-system-arm``.
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> > On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
+> >> migration-test has been flaky for a long time, both in CI and
+> >> otherwise:
+> >>
+> >> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+> >> (a FreeBSD job)
+> >>   32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migrati=
+on_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAI=
+T_TIMEOUT) ERROR
+> >>
+> >> on a local macos x86 box:
 
-I think this is not quite true -- at the moment if you want
-"every feature we implement, 32-bit" the only way to get
-that is 'qemu-system-arm -cpu max'. The '-cpu max' on
-qemu-system-aarch64 is 64-bit, and we don't implement for TCG
-the "-cpu max,aarch64=off" syntax that we do for KVM that would
-let the user say "no 64-bit support".
+
+
+> What is really weird with this failure is that:
+> - it only happens on non-x86
+
+No, I have seen it on x86 macos, and x86 OpenBSD
+
+> - on code that is not arch dependent
+> - on cancel, what we really do there is close fd's for the multifd
+>   channel threads to get out of the recv, i.e. again, nothing that
+>   should be arch dependent.
+
+I'm pretty sure that it tends to happen when the machine that's
+running the test is heavily loaded. You probably have a race condition.
 
 thanks
 -- PMM
