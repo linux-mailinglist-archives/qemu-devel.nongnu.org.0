@@ -2,81 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AC26A8F92
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 04:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CC66A8FE9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 04:34:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXvcx-0007dh-A3; Thu, 02 Mar 2023 21:58:35 -0500
+	id 1pXwA4-0001KE-QY; Thu, 02 Mar 2023 22:32:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXvcv-0007cY-F8
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:58:33 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXvct-0001pV-RB
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:58:33 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id x34so1210303pjj.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 18:58:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677812311;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4OngDMFsl9T6YL6fMvNNNnl0dkTUWspPmNYtn7l2lDM=;
- b=M4pHKN3Nlc4yFZavIpROm06Ha2GbYlXhoFLrUNMjY/E1ThP1YzbMs6oiLmuQhT7/J+
- o1NwiwIq1IG9IISWMNMVsS0xESmFI25OoOiZwkFWQqhxOa89wQaRQZWzZtQKHGC1bX3R
- CQ+CcgK4pHg2BGJ7BZ/QzRq9JSgwJag7FZ1IhQXhShEWsPVya5obiNNNjG22BOnBNJ1O
- XVDaIGeKkFeeWw8PK9fORMrL/3/f6KVPtHmlpMb3GyTOeh/qWHESreeJZ5WN5/dNUMqE
- 0VsoKNNt2K2jkY2boj8RoJTqNfNvrFKwWlHGh8SZGSS1DJtikm3leYNCXKSBE/aXw5YI
- 3Ygw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pXwA0-0001JX-B6
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 22:32:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pXw9y-0003t8-2P
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 22:32:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677814360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=phYuHNjQM6ykNN6HuegGTsLwLZ0S941A3yDwxOSwtvQ=;
+ b=DT49NuT/U4QVHcT/dtJl804WaFJWCoOQTkHlSPPDP2oQ1rqd2gJIxrPp9OtwruwT6cCmd/
+ ZrMqyOcgCUFDvn1dEhAiRlhbRJ8wCwTUSOJLmX3bj6dHj+6QVaTJYrxxnFUfhx5wbvwpTo
+ aeMcuYX/By0cGMJpGIobVIyCcC2c2Uw=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-658-5pmPKY3yPYudHnE2SXKMgg-1; Thu, 02 Mar 2023 22:32:37 -0500
+X-MC-Unique: 5pmPKY3yPYudHnE2SXKMgg-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ mm13-20020a17090b358d00b002377ec65e7aso2467400pjb.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 19:32:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677812311;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4OngDMFsl9T6YL6fMvNNNnl0dkTUWspPmNYtn7l2lDM=;
- b=7Gerj8lPPDDEAZQgdzTpp+7zFhR3ZnQ/Ra2s5XOC/ypBY9tHzAkWkNfbIqiWnQ52GX
- l2FtV4u9N9DQZ5E00FOcJf1sNYdEJlp1jQLt7xlkqqO1eNVlMWV3WaGI4/IUL8BhXub7
- 8b9j6UzmWRuD5i1AJUAHiMREmedi7LiuSTQMlqNKmGXiCrqRI5VNte/ULPFgfoXu6Qie
- GYKTJMleWMmjnD9epuW5ka7SIFSpSw8ud4BzCHtO586ShtdGl1Mev8sh3x4yAymVXnhh
- UFA9XYmzWRB9vNnvhXPodqwDahBDJAMdzyv5umsLvMv5g53NYpmkrYYvAZZQIDuajVK3
- S3CQ==
-X-Gm-Message-State: AO0yUKW/90SUaD1PfNcFzNpRAxe7lqF0K3RzfFFrWAVyuJRuKqVVwdwB
- p8Rg47Stfqp+ygJrBnf0sbqacCaj1/HRYwandtc=
-X-Google-Smtp-Source: AK7set8Gzk1mhWGWfszvndUlwjCOjJZdktl/m5tFeq3yRKuSi6GdTiBoZp0yIDqiIQM85fV3HeMuTQ==
-X-Received: by 2002:a17:902:8688:b0:194:7a99:d5ce with SMTP id
- g8-20020a170902868800b001947a99d5cemr425332plo.12.1677812311056; 
- Thu, 02 Mar 2023 18:58:31 -0800 (PST)
-Received: from stoup.. ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
+ d=1e100.net; s=20210112; t=1677814356;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=phYuHNjQM6ykNN6HuegGTsLwLZ0S941A3yDwxOSwtvQ=;
+ b=5FX9UGXodw2zGp2CYaOdSLEt489kGk3BMep6XFGpZH9ditsFYaEQUnT/hdD1ViA/nA
+ yWKB2fJwhetpgDhaWzjzn7qcPDOLESdntHNM7/9zCYGlEDsdv5X+I2wmYbAQEsngrhFg
+ mjo20eC6asSkovQ+cxAW7Jp0Svgk2YMh/mqSM+1XkoxcTsheadxL9UN2nS7qaVqvUWko
+ eAu5IrmWxNZYDJfsIwcoGlKFLmeyZ9fJTBgy2o2JR6S/A6xpmso94buQMz2pxDJ4Y9ds
+ vuSpazl87jlGKhDv7SpbwF1OjCqO/r7mvvL+HUj+VCTDBY6ou0mGJxTWGv/XAfHIqjua
+ cEbg==
+X-Gm-Message-State: AO0yUKXWDpGS6npCG45bXO01fQAvExoxe2UimlMgf55LuKUp/Y2BfNVv
+ eBKwXIepO5WWl7RmFXT/qMyZWWFzbWVXcINgmbqibmROHvjo15KyfSNBNLLCjF8DkjcSENL21F5
+ f9DcO2cIETQK7Gqk=
+X-Received: by 2002:a17:90a:1911:b0:234:b8cb:512b with SMTP id
+ 17-20020a17090a191100b00234b8cb512bmr105474pjg.30.1677814355947; 
+ Thu, 02 Mar 2023 19:32:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set93FqC3ax7ZQ3We5hnNBolERKb5yct15WO39v5vw3wYYlvIhMSYNoFeQpfR2e1g2fIVFwT9QA==
+X-Received: by 2002:a17:90a:1911:b0:234:b8cb:512b with SMTP id
+ 17-20020a17090a191100b00234b8cb512bmr105447pjg.30.1677814355548; 
+ Thu, 02 Mar 2023 19:32:35 -0800 (PST)
+Received: from [10.72.13.180] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a17090301c400b001992e74d055sm372244plh.12.2023.03.02.18.58.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 18:58:30 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, Mads Ynddal <m.ynddal@samsung.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4.5 29/29] gdbstub: move update guest debug to accel ops
-Date: Thu,  2 Mar 2023 18:58:05 -0800
-Message-Id: <20230303025805.625589-30-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230303025805.625589-1-richard.henderson@linaro.org>
-References: <20230303025805.625589-1-richard.henderson@linaro.org>
+ w26-20020a63475a000000b00502ea97cbc0sm407408pgk.40.2023.03.02.19.32.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 19:32:35 -0800 (PST)
+Message-ID: <fcd6405d-294e-3af7-5574-30870904257e@redhat.com>
+Date: Fri, 3 Mar 2023 11:32:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v4 01/15] vdpa net: move iova tree creation from init to
+ start
+Content-Language: en-US
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>,
+ Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>,
+ Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
+References: <20230224155438.112797-1-eperezma@redhat.com>
+ <20230224155438.112797-2-eperezma@redhat.com>
+ <a2f01833-0709-4155-e922-4624e31ac3b3@redhat.com>
+ <CAJaqyWebiu1oTAgpnVvjUZ672OLLHSqt1vjn8rNkMGy5n4vq-g@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWebiu1oTAgpnVvjUZ672OLLHSqt1vjn8rNkMGy5n4vq-g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,94 +114,278 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mads Ynddal <m.ynddal@samsung.com>
 
-Continuing the refactor of a48e7d9e52 (gdbstub: move guest debug support
-check to ops) by removing hardcoded kvm_enabled() from generic cpu.c
-code, and replace it with a property of AccelOpsClass.
+在 2023/3/1 15:01, Eugenio Perez Martin 写道:
+> On Mon, Feb 27, 2023 at 8:04 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2023/2/24 23:54, Eugenio Pérez 写道:
+>>> Only create iova_tree if and when it is needed.
+>>>
+>>> The cleanup keeps being responsible of last VQ but this change allows it
+>>> to merge both cleanup functions.
+>>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> Acked-by: Jason Wang <jasowang@redhat.com>
+>>> ---
+>>> v4:
+>>> * Remove leak of iova_tree because double allocation
+>>> * Document better the sharing of IOVA tree between data and CVQ
+>>> ---
+>>>    net/vhost-vdpa.c | 113 ++++++++++++++++++++++++++++++++++-------------
+>>>    1 file changed, 83 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>> index de5ed8ff22..b89c99066a 100644
+>>> --- a/net/vhost-vdpa.c
+>>> +++ b/net/vhost-vdpa.c
+>>> @@ -178,13 +178,9 @@ err_init:
+>>>    static void vhost_vdpa_cleanup(NetClientState *nc)
+>>>    {
+>>>        VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>> -    struct vhost_dev *dev = &s->vhost_net->dev;
+>>>
+>>>        qemu_vfree(s->cvq_cmd_out_buffer);
+>>>        qemu_vfree(s->status);
+>>> -    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
+>>> -        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
+>>> -    }
+>>>        if (s->vhost_net) {
+>>>            vhost_net_cleanup(s->vhost_net);
+>>>            g_free(s->vhost_net);
+>>> @@ -234,10 +230,64 @@ static ssize_t vhost_vdpa_receive(NetClientState *nc, const uint8_t *buf,
+>>>        return size;
+>>>    }
+>>>
+>>> +/** From any vdpa net client, get the netclient of first queue pair */
+>>> +static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa(VhostVDPAState *s)
+>>> +{
+>>> +    NICState *nic = qemu_get_nic(s->nc.peer);
+>>> +    NetClientState *nc0 = qemu_get_peer(nic->ncs, 0);
+>>> +
+>>> +    return DO_UPCAST(VhostVDPAState, nc, nc0);
+>>> +}
+>>> +
+>>> +static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
+>>> +{
+>>> +    struct vhost_vdpa *v = &s->vhost_vdpa;
+>>> +
+>>> +    if (v->shadow_vqs_enabled) {
+>>> +        v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
+>>> +                                           v->iova_range.last);
+>>> +    }
+>>> +}
+>>> +
+>>> +static int vhost_vdpa_net_data_start(NetClientState *nc)
+>>> +{
+>>> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>> +    struct vhost_vdpa *v = &s->vhost_vdpa;
+>>> +
+>>> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+>>> +
+>>> +    if (v->index == 0) {
+>>> +        vhost_vdpa_net_data_start_first(s);
+>>> +        return 0;
+>>> +    }
+>>> +
+>>> +    if (v->shadow_vqs_enabled) {
+>>> +        VhostVDPAState *s0 = vhost_vdpa_net_first_nc_vdpa(s);
+>>> +        v->iova_tree = s0->vhost_vdpa.iova_tree;
+>>> +    }
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static void vhost_vdpa_net_client_stop(NetClientState *nc)
+>>> +{
+>>> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>> +    struct vhost_dev *dev;
+>>> +
+>>> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+>>> +
+>>> +    dev = s->vhost_vdpa.dev;
+>>> +    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
+>>> +        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
+>>> +    }
+>>> +}
+>>> +
+>>>    static NetClientInfo net_vhost_vdpa_info = {
+>>>            .type = NET_CLIENT_DRIVER_VHOST_VDPA,
+>>>            .size = sizeof(VhostVDPAState),
+>>>            .receive = vhost_vdpa_receive,
+>>> +        .start = vhost_vdpa_net_data_start,
+>>> +        .stop = vhost_vdpa_net_client_stop,
+>>
+>> Looking at the implementation, it seems nothing net specific, any reason
+>> we can't simply use vhost_vdpa_dev_start()?
+>>
+> IOVA tree must be shared between (at least) all dataplane vhost_vdpa.
+> How could we move the call to vhost_vdpa_net_first_nc_vdpa to
+> vhost_vdpa_dev_start?
 
-Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230207131721.49233-1-mads@ynddal.dk>
-[AJB: add ifdef around update_guest_debug_ops, fix brace]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230302190846.2593720-27-alex.bennee@linaro.org>
----
- include/sysemu/accel-ops.h |  1 +
- accel/kvm/kvm-accel-ops.c  |  8 ++++++++
- cpu.c                      | 11 ++++++++---
- 3 files changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index 30690c71bd..3c1fab4b1e 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -48,6 +48,7 @@ struct AccelOpsClass {
- 
-     /* gdbstub hooks */
-     bool (*supports_guest_debug)(void);
-+    int (*update_guest_debug)(CPUState *cpu);
-     int (*insert_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr len);
-     int (*remove_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr len);
-     void (*remove_all_breakpoints)(CPUState *cpu);
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index fbf4fe3497..457eafa380 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -86,6 +86,13 @@ static bool kvm_cpus_are_resettable(void)
-     return !kvm_enabled() || kvm_cpu_check_are_resettable();
- }
- 
-+#ifdef KVM_CAP_SET_GUEST_DEBUG
-+static int kvm_update_guest_debug_ops(CPUState *cpu)
-+{
-+    return kvm_update_guest_debug(cpu, 0);
-+}
-+#endif
-+
- static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -99,6 +106,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
- 
- #ifdef KVM_CAP_SET_GUEST_DEBUG
-+    ops->update_guest_debug = kvm_update_guest_debug_ops;
-     ops->supports_guest_debug = kvm_supports_guest_debug;
-     ops->insert_breakpoint = kvm_insert_breakpoint;
-     ops->remove_breakpoint = kvm_remove_breakpoint;
-diff --git a/cpu.c b/cpu.c
-index e6abc6c76c..567b23af46 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -31,8 +31,8 @@
- #include "hw/core/sysemu-cpu-ops.h"
- #include "exec/address-spaces.h"
- #endif
-+#include "sysemu/cpus.h"
- #include "sysemu/tcg.h"
--#include "sysemu/kvm.h"
- #include "exec/replay-core.h"
- #include "exec/cpu-common.h"
- #include "exec/exec-all.h"
-@@ -326,9 +326,14 @@ void cpu_single_step(CPUState *cpu, int enabled)
- {
-     if (cpu->singlestep_enabled != enabled) {
-         cpu->singlestep_enabled = enabled;
--        if (kvm_enabled()) {
--            kvm_update_guest_debug(cpu, 0);
-+
-+#if !defined(CONFIG_USER_ONLY)
-+        const AccelOpsClass *ops = cpus_get_accel();
-+        if (ops->update_guest_debug) {
-+            ops->update_guest_debug(cpu);
-         }
-+#endif
-+
-         trace_breakpoint_singlestep(cpu->cpu_index, enabled);
-     }
- }
--- 
-2.34.1
+Ok, I think I get it. We should really consider to implement a parent 
+structure in the future for vhost_vdpa then we can avoid tricks like:
+
+vq_index_end and vhost_vdpa_net_first_nc_vdpa()
+
+Thanks
+
+
+>
+> A possibility is to always allocate it just in case. But it seems to
+> me it is better to not start allocating resources just in case :).
+>
+>>>            .cleanup = vhost_vdpa_cleanup,
+>>>            .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
+>>>            .has_ufo = vhost_vdpa_has_ufo,
+>>> @@ -351,7 +401,7 @@ dma_map_err:
+>>>
+>>>    static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>    {
+>>> -    VhostVDPAState *s;
+>>> +    VhostVDPAState *s, *s0;
+>>>        struct vhost_vdpa *v;
+>>>        uint64_t backend_features;
+>>>        int64_t cvq_group;
+>>> @@ -415,8 +465,6 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>            return r;
+>>>        }
+>>>
+>>> -    v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
+>>> -                                       v->iova_range.last);
+>>>        v->shadow_vqs_enabled = true;
+>>>        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+>>>
+>>> @@ -425,6 +473,27 @@ out:
+>>>            return 0;
+>>>        }
+>>>
+>>> +    s0 = vhost_vdpa_net_first_nc_vdpa(s);
+>>> +    if (s0->vhost_vdpa.iova_tree) {
+>>> +        /*
+>>> +         * SVQ is already configured for all virtqueues.  Reuse IOVA tree for
+>>> +         * simplicity, wether CVQ shares ASID with guest or not, because:
+>>
+>> Typo, should be "whether", or "regardless of whether"(not a native speaker).
+>>
+> Good catch, I can fix it in the next version.
+>
+> Thanks!
+>
+>> Other looks good.
+>>
+>> Thanks
+>>
+>>
+>>> +         * - Memory listener need access to guest's memory addresses allocated
+>>> +         *   in the IOVA tree.
+>>> +         * - There should be plenty of IOVA address space for both ASID not to
+>>> +         *   worry about collisions between them.  Guest's translations are
+>>> +         *   still validated with virtio virtqueue_pop so there is no risk for
+>>> +         *   the guest to access memory it shouldn't.
+>>> +         *
+>>> +         * To allocate a iova tree per ASID is doable but it complicates the
+>>> +         * code and it is not worth for the moment.
+>>> +         */
+>>> +        v->iova_tree = s0->vhost_vdpa.iova_tree;
+>>> +    } else {
+>>> +        v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
+>>> +                                           v->iova_range.last);
+>>> +    }
+>>> +
+>>>        r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer,
+>>>                                   vhost_vdpa_net_cvq_cmd_page_len(), false);
+>>>        if (unlikely(r < 0)) {
+>>> @@ -449,15 +518,9 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+>>>        if (s->vhost_vdpa.shadow_vqs_enabled) {
+>>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
+>>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
+>>> -        if (!s->always_svq) {
+>>> -            /*
+>>> -             * If only the CVQ is shadowed we can delete this safely.
+>>> -             * If all the VQs are shadows this will be needed by the time the
+>>> -             * device is started again to register SVQ vrings and similar.
+>>> -             */
+>>> -            g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
+>>> -        }
+>>>        }
+>>> +
+>>> +    vhost_vdpa_net_client_stop(nc);
+>>>    }
+>>>
+>>>    static ssize_t vhost_vdpa_net_cvq_add(VhostVDPAState *s, size_t out_len,
+>>> @@ -667,8 +730,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>>>                                           int nvqs,
+>>>                                           bool is_datapath,
+>>>                                           bool svq,
+>>> -                                       struct vhost_vdpa_iova_range iova_range,
+>>> -                                       VhostIOVATree *iova_tree)
+>>> +                                       struct vhost_vdpa_iova_range iova_range)
+>>>    {
+>>>        NetClientState *nc = NULL;
+>>>        VhostVDPAState *s;
+>>> @@ -690,7 +752,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>>>        s->vhost_vdpa.shadow_vqs_enabled = svq;
+>>>        s->vhost_vdpa.iova_range = iova_range;
+>>>        s->vhost_vdpa.shadow_data = svq;
+>>> -    s->vhost_vdpa.iova_tree = iova_tree;
+>>>        if (!is_datapath) {
+>>>            s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
+>>>                                                vhost_vdpa_net_cvq_cmd_page_len());
+>>> @@ -760,7 +821,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>>>        uint64_t features;
+>>>        int vdpa_device_fd;
+>>>        g_autofree NetClientState **ncs = NULL;
+>>> -    g_autoptr(VhostIOVATree) iova_tree = NULL;
+>>>        struct vhost_vdpa_iova_range iova_range;
+>>>        NetClientState *nc;
+>>>        int queue_pairs, r, i = 0, has_cvq = 0;
+>>> @@ -812,12 +872,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>>>            goto err;
+>>>        }
+>>>
+>>> -    if (opts->x_svq) {
+>>> -        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
+>>> -            goto err_svq;
+>>> -        }
+>>> -
+>>> -        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
+>>> +    if (opts->x_svq && !vhost_vdpa_net_valid_svq_features(features, errp)) {
+>>> +        goto err;
+>>>        }
+>>>
+>>>        ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
+>>> @@ -825,7 +881,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>>>        for (i = 0; i < queue_pairs; i++) {
+>>>            ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+>>>                                         vdpa_device_fd, i, 2, true, opts->x_svq,
+>>> -                                     iova_range, iova_tree);
+>>> +                                     iova_range);
+>>>            if (!ncs[i])
+>>>                goto err;
+>>>        }
+>>> @@ -833,13 +889,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>>>        if (has_cvq) {
+>>>            nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+>>>                                     vdpa_device_fd, i, 1, false,
+>>> -                                 opts->x_svq, iova_range, iova_tree);
+>>> +                                 opts->x_svq, iova_range);
+>>>            if (!nc)
+>>>                goto err;
+>>>        }
+>>>
+>>> -    /* iova_tree ownership belongs to last NetClientState */
+>>> -    g_steal_pointer(&iova_tree);
+>>>        return 0;
+>>>
+>>>    err:
+>>> @@ -849,7 +903,6 @@ err:
+>>>            }
+>>>        }
+>>>
+>>> -err_svq:
+>>>        qemu_close(vdpa_device_fd);
+>>>
+>>>        return -1;
 
 
