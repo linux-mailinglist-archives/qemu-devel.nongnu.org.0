@@ -2,93 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270B36A9643
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:29:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EB26A9644
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:30:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY3b2-0006SN-Ts; Fri, 03 Mar 2023 06:29:08 -0500
+	id 1pY3bd-0007BT-SO; Fri, 03 Mar 2023 06:29:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY3b0-0006SD-8r
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:29:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1pY3ba-00077C-Vf; Fri, 03 Mar 2023 06:29:43 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY3ax-00052q-H2
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:29:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677842942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GEoLIsWMhat7MPW4eNTb7IjlQaoySkJ6G0BjA0kPS10=;
- b=AzQdLBd9WUCfixjHMYbewUXSFCCysa7yh4JukAV+Kqvp2dbXGI39MOQ8TS3NRj35c5Dq12
- ufQq/RbyQW4hUxvAiL627jmMmOCuXTJJgFcnZpxUcshFFClJlOTnX1O2Ec+84CUAaj9UCv
- k4XA0B7LqCy925mc2Ahjd5T2g1/nTPo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-127-syI8Gq1oN22k2A5lZY2zAA-1; Fri, 03 Mar 2023 06:29:00 -0500
-X-MC-Unique: syI8Gq1oN22k2A5lZY2zAA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x3-20020a5d6503000000b002c8c421fdfaso343958wru.15
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:29:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GEoLIsWMhat7MPW4eNTb7IjlQaoySkJ6G0BjA0kPS10=;
- b=DYvZ/Gpww4hiqpKWEebjcRB4Ba2K2P5kbQtQ0Xe8KFfD9FPMrJyuajFTN0fvqfZYVH
- 0jc+HOC/fganfvzBJ11vpqRYHDY0IKbiQaYLJYTFpMteXRgO7FWq3XGRHeV2CD3yBXDt
- HXHARrg0X1UUfFA+sa8XUGbdG3i+5T3UgZpmhHfILqYttV+/FKXVll9JlN7ctaT4VHaz
- 5c2g5ecUowVfhuvW6Soah7UtJSYJ7gS4cosEmjYVIx3hgoebxl2cTnzgbeolblS6QJRi
- 7DtJolRTyRePY4sWc9Yy+JWeT3VOAvfJjZg7rEV5bwyOJywRj8dj1XgeCM8XKR+9YvVo
- yRBg==
-X-Gm-Message-State: AO0yUKUT/V76z1ve4Dx6Y60E+S7HC5GCGEEeGfXLV63jbwQCgDaAGM0D
- KafoEV4nXfqUr7JCevl8e56dqS/gmYrYI0la+qsdldO8d2j7/+4anl4l32hjaD7qd/ff0X3HIqu
- 55+Rt47B4VEX6ECE=
-X-Received: by 2002:adf:fe86:0:b0:2c7:a9ec:12 with SMTP id
- l6-20020adffe86000000b002c7a9ec0012mr1362693wrr.11.1677842939837; 
- Fri, 03 Mar 2023 03:28:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set+1V8WUc2sZncvVCxhJrNcYHWmQZ4Khazui+N9BFXNUGnu/I5tBX9YwhLpnDg5dQnQDuTdlGg==
-X-Received: by 2002:adf:fe86:0:b0:2c7:a9ec:12 with SMTP id
- l6-20020adffe86000000b002c7a9ec0012mr1362679wrr.11.1677842939528; 
- Fri, 03 Mar 2023 03:28:59 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
- [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
- e18-20020adffc52000000b002ca864b807csm1968091wrs.0.2023.03.03.03.28.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 03:28:59 -0800 (PST)
-Message-ID: <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
-Date: Fri, 3 Mar 2023 12:28:57 +0100
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1pY3bY-0005FQ-Vx; Fri, 03 Mar 2023 06:29:42 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 323BHL3R015553; Fri, 3 Mar 2023 11:29:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5MJa0x5D+KZsaZ3Wmx67GBx2xJ/ptt8NGl9TxxnPTPY=;
+ b=ru+xVZfwf2ptf5tFeO7Gj4wLCoMKQ7c01ATZFjkkcOz4wjkS1oYek/VAuW2mJsqndBq6
+ Bbae6NtMOpyJ7XQ24H7eUc656XBu+XVN0zyrmp6BgqC2/cm/JC+rVOeQlA++0Y633F+s
+ +wBcCa/TxnQpX7+VRO+O52GCHfjXkjXJoxVy0glHpjvwKH1HLEjKuMUXWpca2OZbTGLL
+ kyIzu+3RQ3o2eb4uC24RPvsnH2qZ9Rm/FKZqeBhTNzTSb6EV0bddU0+HzbT6Hr4E5HEs
+ s+ZG1+oKPzENlde9UBikvChCRxEyOzIZWc5d7Iuml5zTPayIV/SU1kj9wY0/+FLKSq8x bg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p3fvyr7fb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Mar 2023 11:29:31 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 323BIfiU020500;
+ Fri, 3 Mar 2023 11:29:31 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p3fvyr7es-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Mar 2023 11:29:31 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 322KFilY028691;
+ Fri, 3 Mar 2023 11:29:29 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3nybab59wa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Mar 2023 11:29:29 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 323BTQGI47579402
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Mar 2023 11:29:26 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 92BA120040;
+ Fri,  3 Mar 2023 11:29:26 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2D9F22004B;
+ Fri,  3 Mar 2023 11:29:26 +0000 (GMT)
+Received: from [9.171.6.198] (unknown [9.171.6.198])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Mar 2023 11:29:26 +0000 (GMT)
+Message-ID: <345cee46-ba36-eb0c-a758-c7f50cbace7c@linux.ibm.com>
+Date: Fri, 3 Mar 2023 12:29:25 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest/migration-test: Disable
- migration/multifd/tcp/plain/cancel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/4] pnv_phb4_pec: Keep track of instantiated PHBs
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, clg@kaod.org, 
+ danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20230302163715.129635-1-fbarrat@linux.ibm.com>
+ <20230302163715.129635-2-fbarrat@linux.ibm.com>
+ <e6ea9eda-51be-df8e-5711-73b944b52944@linaro.org>
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20230302172211.4146376-1-peter.maydell@linaro.org>
- <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
- <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <e6ea9eda-51be-df8e-5711-73b944b52944@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: OVCDgHPeZkhOofWN6mMd0hKcvrNq66EU
+X-Proofpoint-ORIG-GUID: sw_GihAEPUyp5ygvb50E6gdSn_T7SOzd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-03_01,2023-03-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 clxscore=1011 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0 mlxlogscore=887
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303030098
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,39 +115,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/03/2023 12.18, Peter Maydell wrote:
-> On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
+
+
+On 02/03/2023 23:21, Philippe Mathieu-Daudé wrote:
+> Hi Frederic,
+> 
+> On 2/3/23 17:37, Frederic Barrat wrote:
+>> Add an array on the PEC object to keep track of the PHBs which are
+>> instantiated. The array can be sparsely populated when using
+>> user-created PHBs. It will be useful for the next patch to only export
+>> instantiated PHBs in the device tree.
 >>
->> Daniel P. Berrangé <berrange@redhat.com> wrote:
->>> On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
->>>> migration-test has been flaky for a long time, both in CI and
->>>> otherwise:
->>>>
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
->>>> (a FreeBSD job)
->>>>    32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
->>>>
->>>> on a local macos x86 box:
+>> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+>> ---
+>>   hw/pci-host/pnv_phb4_pec.c     | 12 +++++++-----
+>>   hw/ppc/pnv.c                   |  1 +
+>>   include/hw/pci-host/pnv_phb4.h |  2 ++
+>>   3 files changed, 10 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+>> index 43267a428f..97c06bb0a0 100644
+>> --- a/hw/pci-host/pnv_phb4_pec.c
+>> +++ b/hw/pci-host/pnv_phb4_pec.c
+> 
+>> +static PnvPHB *pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>> +                                           int stack_no,
+>> +                                           Error **errp)
+>>   {
+>>       PnvPHB *phb = PNV_PHB(qdev_new(TYPE_PNV_PHB));
+>>       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
+>> @@ -128,8 +128,9 @@ static void 
+>> pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>>                               &error_fatal);
+>>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+>> -        return;
+>> +        return NULL;
+>>       }
+>> +    return phb;
+>>   }
 > 
 > 
+>> diff --git a/include/hw/pci-host/pnv_phb4.h 
+>> b/include/hw/pci-host/pnv_phb4.h
+>> index 28d61b96c7..0b72ef1471 100644
+>> --- a/include/hw/pci-host/pnv_phb4.h
+>> +++ b/include/hw/pci-host/pnv_phb4.h
+>> @@ -185,6 +185,8 @@ struct PnvPhb4PecState {
+>>       /* PHBs */
+>>       uint32_t num_phbs;
+>> +#define MAX_PHBS_PER_PEC        3
+>> +    PnvPHB *phbs[MAX_PHBS_PER_PEC];
+>>       PnvChip *chip;
+>>   };
 > 
->> What is really weird with this failure is that:
->> - it only happens on non-x86
-> 
-> No, I have seen it on x86 macos, and x86 OpenBSD
-> 
->> - on code that is not arch dependent
->> - on cancel, what we really do there is close fd's for the multifd
->>    channel threads to get out of the recv, i.e. again, nothing that
->>    should be arch dependent.
-> 
-> I'm pretty sure that it tends to happen when the machine that's
-> running the test is heavily loaded. You probably have a race condition.
+>  From QOM PoV, better would be to 'embed' the PnvPHB structure (not only
+> a pointer to it), and initialize the PnvPHB instance calling
+> object_initialize_child() instead of qdev_new().
 
-I think I can second that. IIRC I've seen it a couple of times on my x86 
-laptop when running "make check -j$(nproc) SPEED=slow" here.
+Hi Phil,
+Daniel beat me to it, but we used to do precisely that but went the
+opposite direction (see 0d512c7120a2), because we can now specify from 
+the command line what PHB to implement so we don't want to allocate all 
+of them.
 
-  Thomas
+   Fred
 
 
+> 
+> See for example the recent conversion of OHCISysBusState in commit
+> 01c400ae43 ("hw/display/sm501: Embed OHCI QOM child in chipset").
+> 
+> Regards,
+> 
+> Phil.
 
