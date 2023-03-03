@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FFB6A95B8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CCF6A95C7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:04:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY39O-0002gX-Vf; Fri, 03 Mar 2023 06:00:34 -0500
+	id 1pY3Ca-0006y3-79; Fri, 03 Mar 2023 06:03:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY39J-0002gB-KW
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:00:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY39H-0005M6-Sr
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:00:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677841226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SZtegFE70obj21q7zWxOWf4qmcQCFam2ZS9RY39KFr8=;
- b=MOW9669BqghDkGr3P2xc+2KezIrRRKBhQmLeSQkqqoU1qTUns1N5dBvhrO2fej+f88X7/S
- YiNM6l5agf5X5Q1kRc3QbqhIN/R/rtftovC9jERAS4l+tMc9hIAUtiIbQEqwdqivWWmBit
- e+IOKqPJcfe9oA7uuFTf/b110cUQp6U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-412-Di3Ih68jOLewxznYvUMlGg-1; Fri, 03 Mar 2023 06:00:25 -0500
-X-MC-Unique: Di3Ih68jOLewxznYvUMlGg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l14-20020a5d526e000000b002cd851d79b2so327162wrc.5
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:00:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY3CW-0006xB-HC
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:03:49 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY3CU-0006iP-RK
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:03:48 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 130so1226102pgg.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677841425;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=t4xoFeWO302skjnQ/fqB+7hUtgvkEYforbnz6qEI8nM=;
+ b=afzjMUcomoaNrvT++wK6wTVEbHr5JP49Anay5aLQkooy1AsrCTvJqAtHNMDqFBrYa8
+ JSVqIYYQXs2OFfEN5cgemLHsTHpMmG44V6wTcILj35LDaAWgDCwGFUiQiGXQsklNyNPj
+ ZhqjM4rtZpZj5WhCgdgAtu+T4i1dWreNp+KWXsEb1Qj3TmDiLESI4fFpijYFVI1Cwj9l
+ 0GCc+HceNHi2dGVymnlHc95Ke39A2tkUtu9OPItn355oWTnPT+LsFduSuvaQho6INkVY
+ mq/6Mua9El8OCqfjPKpARTPRprRhKh/4LubFeE+mOXfkFEzzSuV8O6a6PqgefxAz6R1r
+ 0IMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SZtegFE70obj21q7zWxOWf4qmcQCFam2ZS9RY39KFr8=;
- b=PG/x+ccCubocw/objOhHKzOmfsOLgzfMsv6eds9I+3S9yUmo9rwf8CrDHlLdFYo52t
- yL2JTJjZJQunAsk8wKvtoMGG8m9NTIppfA0eZ7rC53nrYwsWyC1fhi978kBwWUAKGZFl
- v3FVwgiwTwAuZ6MOZ+rBShcB18Mo+hqCrm1KGIw9B/0LAY9b4wyJKMy3sBJmNh1MGqmo
- gcl0lnc33ozaFBl1XoJtReSLNz9Q3qWVVIQ5RAPoH7sUBK4+A/PWo6KFn63z1VChmkU8
- jYPdEI10nwaNVM7YEvP/YDlfW3o0lApfi3rvn+S/VUNb9BHFXjiNRMTQdp0RZBgO7j4L
- L+lA==
-X-Gm-Message-State: AO0yUKUHOZR4dhmGAjE5P1MbgQmPoQCMz3Q8Xj1QDig04ooL/fqZpwDw
- Ed31ByJvwJg/wvtpPtOTnLvUqS6bQU0xpsEwLMGTUA457Nw/U9r69PRqfHkalWUjrGH7XGcw/nv
- c799NWivcV9VEKnc=
-X-Received: by 2002:a05:600c:4511:b0:3ea:e554:7808 with SMTP id
- t17-20020a05600c451100b003eae5547808mr1186309wmo.19.1677841224156; 
- Fri, 03 Mar 2023 03:00:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set9kXlJFMEGsyFgRrhcDMslM78QhkEidtwNG2vZZylSRvYDh+2XiuXZHS4kjU3JivjCnoPp7nQ==
-X-Received: by 2002:a05:600c:4511:b0:3ea:e554:7808 with SMTP id
- t17-20020a05600c451100b003eae5547808mr1186288wmo.19.1677841223808; 
- Fri, 03 Mar 2023 03:00:23 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
- [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
- bg12-20020a05600c3c8c00b003e8dc7a03basm5993858wmb.41.2023.03.03.03.00.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 03:00:23 -0800 (PST)
-Message-ID: <e06d72d1-9628-2b5a-8ff9-7a1bedea087f@redhat.com>
-Date: Fri, 3 Mar 2023 12:00:22 +0100
+ d=1e100.net; s=20210112; t=1677841425;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t4xoFeWO302skjnQ/fqB+7hUtgvkEYforbnz6qEI8nM=;
+ b=8NHowpxGW+kMzsPotoFQoX4Re58CjAwdwWoh//6zugLL6Fbih03FvL9pRZGPk5qEfq
+ pou9RfPnDJP6Tj7MmrY+ku2eC+cDxhZDgJ5hqiFX7ZyrTrCLtbI6Bvek0zFIfSymHekJ
+ xnpOBtX5DZKFy4k07VcEyTaKKI0ofA9Gn89b1/sdGei/XdQcslWabXQWi5jJspqImyPe
+ hQPl/EsBAOQVP85u4vD08uZXa2gOpjU3gc4rn6NItS1fM1Mixf3UvgNEJFmJKIIRSENR
+ QS32xM9Qab4OcLVeNFnWj+q3qRt64kujBX4Z7l9+nbrZhbAH2EkyzczPPX7SBMpU6fYU
+ qmMA==
+X-Gm-Message-State: AO0yUKUjfl0AhNRhvY9eyvq07sKnpX3ZcM5EdGGTsLsJUyBVYr6kb0HU
+ ho4korUVhdonraznJHqYdEgRQHhs94X8pC44BuQVXQ==
+X-Google-Smtp-Source: AK7set+2C+7cP5WfNkyP0jg0Y9n+zBUFhtxca7nyH7h1TSw01owMpypfDheMYwAMYBS7+SbSNpcSdnnK8it4ncx7sNo=
+X-Received: by 2002:a63:5508:0:b0:502:fd71:d58c with SMTP id
+ j8-20020a635508000000b00502fd71d58cmr394472pgb.9.1677841425061; Fri, 03 Mar
+ 2023 03:03:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: Is the fix for "DMA MMIO reentrancy" in qemu stable now?
-Content-Language: en-US
-To: byzero <byzero512@gmail.com>, qemu-devel@nongnu.org
-References: <CA+LXE64nmGveP834FfUKxfrGN5dGX-615-OvFsTSLCuoKombmw@mail.gmail.com>
-Cc: Michael Roth <michael.roth@amd.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CA+LXE64nmGveP834FfUKxfrGN5dGX-615-OvFsTSLCuoKombmw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230302123029.153265-1-pbonzini@redhat.com>
+In-Reply-To: <20230302123029.153265-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Mar 2023 11:03:33 +0000
+Message-ID: <CAFEAcA98FkO6_buQentxpUK5Zw_5=8NYf0i0R8DymZKmfpFg5g@mail.gmail.com>
+Subject: Re: [PULL 00/62] i386, misc changes for QEMU 8.0 soft freeze
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,25 +83,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 09.27, byzero wrote:
-> Hi,
-> The bug class of MMIO reentrancy is fixed by adding a member "memory" in the 
-> struct "MemTxAttrs", but the patch only exists in 7.x version, which is only 
-> release version, but not stable version. The latest stable version is 6.1, 
-> and there is no stable version being released for nearly a year.  According 
-> to the docs(https://www.qemu.org/download/ 
-> <https://www.qemu.org/download/>): "The stable trees are located in branches 
-> named stable-X.YY branch, where X.YY is the release version.".
->    So I want to know that if the patch is stable enough? Will the community 
-> be possible to change the way for fixing the bug class?
->    thanks for reading this email.
+On Thu, 2 Mar 2023 at 12:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
+>
+>   Merge tag 'buildsys-qom-qdev-ui-20230227' of https://github.com/philmd/qemu into staging (2023-02-28 15:09:18 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 526947e496e4447d74b8d42415e2847481c5043d:
+>
+>   Merge branch 'xenfv-kvm-15' of git://git.infradead.org/users/dwmw2/qemu into HEAD (2023-03-01 15:02:13 +0100)
+>
+> ----------------------------------------------------------------
+> * bugfixes
+> * Core Xen emulation support for KVM/x86
+>
+> ----------------------------------------------------------------
 
-  Hi,
 
-as far as I know, there are currently no more stable releases, due to time 
-constraints of the stable maintainer. So your best option is currently to 
-pick the corresponding patches and apply them on your own before compiling QEMU.
+Applied, thanks.
 
-  Thomas
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
+-- PMM
 
