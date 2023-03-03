@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096486A978F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965F36A9796
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:52:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4rb-0006Ix-Hj; Fri, 03 Mar 2023 07:50:19 -0500
+	id 1pY4sv-0007vr-Ky; Fri, 03 Mar 2023 07:51:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY4rZ-0006IC-1o
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:50:17 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY4rW-00008w-KH
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:50:16 -0500
-Received: by mail-wr1-x429.google.com with SMTP id h11so2142843wrm.5
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:50:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677847812;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ssztaoREULm8OCU1dCA1/uLiRuuwVyYr5/IqlgnY47c=;
- b=Bn/AM2r8XITJTPL2WyYDLmWzBFqRtn1FT2jHwi+/5LIEAlYAMLfYfdYXy1kQkS2PoL
- re2iLAeU6zRcld5wdvd6WXG8i85mfxZLw/V+fkW/V6Z3gvnEAZdink9WEUfQO71ENXv1
- B5HSzV3ws6t4bqx199WXLBJWcCM11nS8Y4lwTB5tyvsthvFGaCY+MaicwEoGnkdXno3E
- WME9BcaZ5z88muJpMxEPQLFbl3N2ceGFOjhQ+2Y+JEv/0jc3SWvtWMcJt1XnbJth9J6a
- fHVlrC/mwhxUJ+BjK6TLrq/5rMFWz6/NyMF/VhI9He0pkSZbop5R1Ny4GdFqUG6qW6r8
- Boeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677847812;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ssztaoREULm8OCU1dCA1/uLiRuuwVyYr5/IqlgnY47c=;
- b=tzv1owYyb3GinpSCV1+z9V7aw8N22UEciPPeH6VLn+OATBHtXnv9iRjHcG0Hj1gdvI
- kBKi3iqxWb1TnS/djD5SsikJp28JkqnNlEadSAr2PQZ3YhR4MKu904t9kjHrQcNBwRcb
- 3FPS9O6OiCDk8Z97rvkcBtGMX78ywsDEXgkN/u4R+YaG3sJPGxs1K98Os5BN8tgId42n
- T7hyLd1sxxhPy21M+l0YdH9SAAh/esWmeM6JxV4x+LL32ebvpa1MlCoXBomisu1USMMd
- XNH9vVWRVW6bexpnQpj3z7Zj8jnHwR40FXMxpFERVoWViBTzbLZw06aL7uq2umYE22wG
- vi3g==
-X-Gm-Message-State: AO0yUKUMx0rksg8AnV89IK1rMyCE77HomQmO7d36UkD78yEmN4LblLjT
- loxI1vTqODtIccbLOLzrABAuFQ==
-X-Google-Smtp-Source: AK7set8rh//A99FSu07pjdjXhioxLuY+b1rTGF7+mjTMYLSKdbK2g7tnB4MHrb+o+R5e18k4it7Tsw==
-X-Received: by 2002:adf:da47:0:b0:2c9:f488:5f54 with SMTP id
- r7-20020adfda47000000b002c9f4885f54mr1140405wrl.57.1677847812539; 
- Fri, 03 Mar 2023 04:50:12 -0800 (PST)
-Received: from [192.168.206.175] (7.red-88-28-24.dynamicip.rima-tde.net.
- [88.28.24.7]) by smtp.gmail.com with ESMTPSA id
- ip21-20020a05600ca69500b003eb596cbc54sm2407336wmb.0.2023.03.03.04.50.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 04:50:12 -0800 (PST)
-Message-ID: <2e33d6b7-543a-b929-ca23-6102c36d2488@linaro.org>
-Date: Fri, 3 Mar 2023 13:50:09 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+c2a260b7edcf36afa963+7131+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pY4st-0007vV-GH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:51:39 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+c2a260b7edcf36afa963+7131+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pY4sr-0000VI-ID
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:51:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=TxQ+0QDvoR12hGNUybvVqDZRC8+OYpouVH405mcO7UA=; b=Y2r1Kpesndzx8qIeP7vec0kM7w
+ PpI5IkpXaiR5mRygz+BPU4te7Stf+n/U0uYIq2L0cyQyJAbrL7KYAIRqf/gh0uRVjHuQKFoZkRiL7
+ s9r+2U+Ho0y9z7RCU48D9ixtRK3nXqvwTE6KZboOUerXo2HPIV8rXycebvV9rN6HqyyB22+8ixxrI
+ mjC2t79Ulpi8m4ITfIfhhIYyJXk2FlHyf1gY2FkoMYr/nPvc5yig8bDZlF8bXkhBAhviBTVIuk4WX
+ Cfcf7RDywi80iYYD2mmgW1yaXvfoBKfhVy0Z0oDDHOfKrAIfHSj8fGT/HYjHusvuKGn1T86qkktUJ
+ lolrEL1A==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pY4si-00388D-EP; Fri, 03 Mar 2023 12:51:28 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pY4sh-005KMY-1w; Fri, 03 Mar 2023 12:51:27 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>
+Subject: [PATCH 0/2] tests/avocado: Test Xen guest support under KVM
+Date: Fri,  3 Mar 2023 12:51:24 +0000
+Message-Id: <20230303125126.1269861-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
- ide_init_ioport()
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org
-References: <20230302224058.43315-1-philmd@linaro.org>
- <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
- <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+c2a260b7edcf36afa963+7131+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,46 +75,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 08:46, Mark Cave-Ayland wrote:
-> On 03/03/2023 06:58, David Woodhouse wrote:
-> 
->> On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daudé" 
->> <philmd@linaro.org> wrote:
->>> Since v2: rebased
->>>
->>> I'm posting this series as it to not block Bernhard's PIIX
->>> cleanup work. I don't have code change planned, but eventually
->>> reword / improve commit descriptions.
->>>
->>> Tested commit after commit to be sure it is bisectable. Sadly
->>> this was before Zoltan & Thomas report a problem with commit
->>> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
->>
->> However much I stare at the partial revert which fixes it, I just 
->> cannot believe that the change could make any difference at all. 
->> There's got to be something weird going on there.
->>
->> I was going to ask if the level mode for the PIT made any difference, 
->> but this is the output IRQ from the PIT to the CPU itself so I don't 
->> see how it would.
->>
->> Would like to see a report with tracing from pic_update_irq, the CPU 
->> interrupt "handler" and the intermediate IRQ handler. With the 
->> intermediate present and without it. To compare the two.
-> 
-> I suspect it's related to the removal of the allocation of the qemu_irq: 
-> qdev gpios work by adding a child IRQ object to the device, so it could 
-> be possible that something in the gpio internals isn't being updated 
-> correctly when the value is overwritten directly.
-> 
-> Is the problem picked up when running a binary built with 
-> --enable-sanitizers? That's normally quite good at detecting this kind 
-> of issue.
+Add avocado tests to boot Xen guests in various interesting modes:
+ • MSI delivered via PIRQ.
+ • MSI delivered directly with vAPIC.
+ • Event channel interrupt to I/O APIC.
+ • Event channel interrupt to legacy PIC.
 
-No ASan warning. However I see (before/after bb98e0f59c):
+Using AHCI disk for now so this should work with the basic platform
+support that's already in Paolo's pull request. After phase 2 of the
+Xen support is merged, we can switch it to use xen-disk instead.
 
-qemu-system-ppc: pc87312: unsupported device reconfiguration (0f 11 00)
-qemu-system-ppc: pc87312: unsupported device reconfiguration (0f 11 84)
-qemu-system-ppc: pc87312: unsupported device reconfiguration (09 01 84)
+The warnings about not being able to validate the kernel and initrd
+images made me sad, so I added hashes of those to the distro structure.
+
+David Woodhouse (2):
+      tests/avocado: Add Fedora 34 distro, including kernel/initrd checksums
+      tests/avocado: Test Xen guest support under KVM
+
+ tests/avocado/avocado_qemu/__init__.py |  27 ++++++++
+ tests/avocado/xen_guest.py             | 113 +++++++++++++++++++++++++++++++++
+ 2 files changed, 140 insertions(+)
+
 
 
