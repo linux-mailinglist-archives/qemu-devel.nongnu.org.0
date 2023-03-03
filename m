@@ -2,71 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89346AA59B
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 00:29:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066696AA59F
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 00:30:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYEpE-0006I2-SM; Fri, 03 Mar 2023 18:28:32 -0500
+	id 1pYEqX-0007kE-OR; Fri, 03 Mar 2023 18:29:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pYEpC-0006HX-Jk; Fri, 03 Mar 2023 18:28:30 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pYEpA-0007BI-QW; Fri, 03 Mar 2023 18:28:30 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id cy23so16372826edb.12;
- Fri, 03 Mar 2023 15:28:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=285cnmyzebRj588xRX811oHsxiW+wew/m7qWBgyn3o0=;
- b=mKG4l/HWipqTcKb7lS9AmSUgjZ0SZdnO5YkiWZCeXYX9YIlJ/Gnzbw2zn01IGoCik5
- yT9aZNSIQir5sMkN1vjjGj6J2hECILINYxNDMkya4Y3rCfQlvuTjH/sdBP1R9NKGKqzl
- ZswAHff3vqPftjyeblmo1ZbVG0pl5w0OWb3uZbO3hrxshqR+Z4zbd/tPxKg8Fp6ZLWnt
- vLYNXouS0MGIpFJ4Prhnh1sofKlf27FCRX91P32CvzsJhTnjaWombT7teqkWgASDtcKS
- 7imuy/2UmeJ24W0rpYvZn4rEYuLW7WDGogODGMdt58dguy8ETt9itqft2Xn3341EcLAz
- 0U9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=285cnmyzebRj588xRX811oHsxiW+wew/m7qWBgyn3o0=;
- b=kSex3NN33iGOnMRyKeB8FTLa8kr5dxNe18LCgylG/yT6WSPbC1/c6lTHiYZJ/buj7z
- xP6qYs5s5QsZOOGFbd7KOh55wAbkediktxW3r0KfawXOpBOexWHG088Oc2NwfhhQMtSU
- ptBD/JnlcbcDgdQ70FdPdxbAOrVHeLOThBWWujLTmbiPF/VsKNmlASvkEMKSr8MoDfSS
- eh3TelewFUoyLsBYR/3idxibFRrRKZwycOd7vNglIeQKKoqMfe3PfkpY5KlbsT7AzNsX
- CoV71nisjlXZrTUDbBsrvu/bi3mZjrWpZmHIC1ujEXLiy/rNH3VI49nLM8r9Kta8eXY6
- FHxA==
-X-Gm-Message-State: AO0yUKXjMbg6xwV8q03ifS6OpaQHyiWM1XpDt/fL+Cl81PSkUqH4k2/N
- KF41nlVZWrGnPhS/tUDx3URtj9bfMvVdfW9eueY=
-X-Google-Smtp-Source: AK7set8Ps14HXNTSwfzXSv8/7gFvEp8l5Ie4d8mmD8fTYuDWb6hzb1NS1VL81BGb8dBUz8rV83xhxd5Yl5wFQabTw4g=
-X-Received: by 2002:a17:906:d51:b0:8b1:cd2e:177a with SMTP id
- r17-20020a1709060d5100b008b1cd2e177amr1710769ejh.6.1677886106082; Fri, 03 Mar
- 2023 15:28:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20230303202448.11911-1-palmer@rivosinc.com>
- <20230303202448.11911-2-palmer@rivosinc.com>
-In-Reply-To: <20230303202448.11911-2-palmer@rivosinc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 4 Mar 2023 07:28:14 +0800
-Message-ID: <CAEUhbmXVqJ3RnTk7OGquR-ChCSWJ8NmOGeo6kUmoFhipofm7tQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] gitlab/opensbi: Move to docker:stable
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1pYEqO-0007jy-TR
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 18:29:45 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1pYEqN-0007HT-An
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 18:29:44 -0500
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 323NBCKk025363; Fri, 3 Mar 2023 23:29:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=bHB7j43oWOBbisXanyMobI+Y/LFfVGbxerxbGhYavsM=;
+ b=bo1HVwROHByjadXyoChDsBh4xiBdwWd+wz+fwEwCaFZ7Mud1/lx2qqOaV2FVWUQDiQ8c
+ 2l/9WLH5l7ntqv9jy0V5Rc1a8Yh/QVz/BvKHv4/JhoX46b6GfxfkxyyCj2nV0Z8o6PFU
+ WpH2Q6rp9Lv9i6Rc2QurEuUPHFacrcDNM00FYGeIhx3qrcZEFOrNWlaN9d3zYxIPKdfT
+ a3a3UVYUUjI1mpN9L19UfwvuPH9RjMw/MZACYXgnT7QfroBRGTijVDTAQ9Gp6oeJTiLX
+ CEQL1zEk3vFwWo8NLGewZ7sDoLTQEDVlWSReYxrx1QMwXmArr8sE4nIkbZqdmieOQ16a Pw== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p32ty3w4s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Mar 2023 23:29:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nMNpmYbogLaOz00dp9na4bweZNR9myk+86nJwFhDpe2ZMBsNMVAGPb0lijHgaWTd4JkvKb8uriRx7JggIUgzFFVUlVCMmq/COKTJm90jRuhvssGNaqLqW5avoG7RG0BnqQBBGbuRldRCs35oWeSE93/l7lrrmssN4zpiiIDtOUWHkxK4tuglgdNIRJcLPAap59Va5nm4fVxbvzIJzMg9kolbibSAOEXky70xLajz6RkZRbJfAR2TKJFSnokTJpOcZAyQZM8Q6XXqguI2pzRxvbTeCuB+sau5rC9P0GIJUVDly6r7wzS1J/PmOXdyqLQLS3j2KuPp3KuQClw6KU6cqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bHB7j43oWOBbisXanyMobI+Y/LFfVGbxerxbGhYavsM=;
+ b=T2M2GAXlrI00DmIkDez9NVcLO+bx4eflPds/8sCnrGHzro0FEs888ib/x0W0CXu7OF3Y2HMA2atBlkIbTlffDTj8/jc+NnAZu2j0p9vB8uxztuJAjWsv+vizdNHzGb6n/z5r7n96sEUdjs6dZhsjzmwnmmv2c3dTM4jh4ZS4hCWFqF9tL446TSnAvPps9yXVsufegDcozDYIVzORgXtjxth6yXZsId77uvUn8upSVAKPdfTIYZMvVaICDuq97BTuiEtf9pk31XF0642qL6uk4dnpIPGDAkn9Zd1JMSBK4HIxjlzUT/OuPkLFb8mc+Uz14qhJX+xThN7bRdAuhkBh9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by DM6PR02MB6987.namprd02.prod.outlook.com
+ (2603:10b6:5:256::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.25; Fri, 3 Mar
+ 2023 23:29:39 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::3e12:c026:afdc:beda]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::3e12:c026:afdc:beda%5]) with mapi id 15.20.6156.019; Fri, 3 Mar 2023
+ 23:29:39 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: "anjo@rev.ng" <anjo@rev.ng>
+Subject: RE: [PATCH 2/2] tcg: Merge two sequential labels
+Thread-Topic: [PATCH 2/2] tcg: Merge two sequential labels
+Thread-Index: AQHZTh/XUl425xZErkmS01tBzXjf1q7ps2EQ
+Date: Fri, 3 Mar 2023 23:29:38 +0000
+Message-ID: <SN4PR0201MB880891115E7D66689FBF7887DEB39@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20230303223056.966286-1-richard.henderson@linaro.org>
+ <20230303223056.966286-3-richard.henderson@linaro.org>
+In-Reply-To: <20230303223056.966286-3-richard.henderson@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|DM6PR02MB6987:EE_
+x-ms-office365-filtering-correlation-id: 00508f20-ca1e-45a7-7bd7-08db1c3f286c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oadYfn0FtiT8XTI8dDAdzAdGNga7ZVAFovhH64ATI9pSU90mHLLbP7Ccm8YRrvcF/TR7pOEaOklwDkvE7covgBSn98zhlqIaK4Qfjn6kabnKOsjX1ePUp9ZU/fMup+cnd6Lv9Ql2l/pFkhUHh44H67MNTHhf4Rsr2NVSXxvF+iVueKI8uFPgMOR5I/bRXlKH4T/dh3sYuiE2cDT/nq3kRpcWPvzw7Ly4EsxVVMyUukoQ0aU6y6nGNKuMBUxwjrhnlH0JDCyzWJfbMbRiZrbVTFiLuOKczlpKOQj7+Mgwbs+kfM3ZVYKwat9Nm69LIqsXIeU/uLDZEUDDZqU+GVZKSgomRRA35XREHdD66YhMDX1cPx2Sne/CR2BKpuZQqsohshXL47o9vngmbHZNxUBF+n64aopF2eOMpf30YZW1a40yJGGFLBfVDTfUBKm4JbJ1W2p808G5WyU9QlyHQL9mhmuwmMJcm9RuPr3DSGMGKeZzzMkjnMfFomkb+HRWp7VI2X9nDwVhi15kTWyWE1u0Di8kpuTlkujc21Le/iQ+kXNDeykpWX+05WwmQWOgXplWQqDOWpHA7X+1PewspeIed7UWnV+s3nsXwOfS8scNSPqJ++KZx/0O3dd8eSFQJ7ssp29LMQulHHNuK2iVldecOgySY6f6HMpFwwYrct4x0mYeTfCf1Azc6/SoncUGMZe0dWp29sr+QQ1COokLQBSzjw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(136003)(39860400002)(366004)(376002)(346002)(451199018)(122000001)(66476007)(66446008)(52536014)(110136005)(8936002)(41300700001)(478600001)(8676002)(66556008)(86362001)(55016003)(66946007)(33656002)(7696005)(71200400001)(38070700005)(53546011)(64756008)(38100700002)(76116006)(186003)(6506007)(9686003)(2906002)(316002)(4326008)(4744005)(5660300002)(83380400001)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VKc3yAmyYl+HpK3/4IFNyc8Ks/lrg6Gxt+Z8xXhzqUm1xSTvHG7VS/abYp1G?=
+ =?us-ascii?Q?13mWvN3O/uUOJE34omHIFUsMFbuIpR0eSzBtw6mBRKOFVS4KLAYailYAKB01?=
+ =?us-ascii?Q?jA42PeR51gKc2s1Ihnb/MejKAu7ulUHtOwNWVO5cIrc/70bvTgvEViVOA2HA?=
+ =?us-ascii?Q?uLX3ZdSJbH1MK2egZP9vvC8sdwZPjFHe0jvemIkUkKb6AZ6pvsMxF2wvSUXz?=
+ =?us-ascii?Q?Y274CTHQNu/LfV9H00Lh/kZsi6UhqN8nflGaDqAq9uyOUr6iBCydGncVOG9s?=
+ =?us-ascii?Q?gEwWKXWUeSVutbT7UlC7LxmUhtJ5LwlxkrGobOtEktg19qobxh+LxbfEqrDW?=
+ =?us-ascii?Q?uGz4yj9fvh+JfN6+8oTdovRDX+oSamTb+F+hZNUnVINXkJcAvuodZie+8jkQ?=
+ =?us-ascii?Q?6b9xKoE5DJ5CTpkkh1cqK+gZVbK1c0Pq8Ubpjf2YtoQRcqAAAkeSSiF2HC9R?=
+ =?us-ascii?Q?OZLNbwTHN0D1oagda/i+DehXVbFJC43q5xwwLETBlRrWvFL5jJUmFUMXGkZX?=
+ =?us-ascii?Q?4UA67Q+iU3JKTZib2Y9W+f++SrOk3eqtSxkFu7enU/FGEOsrNwu5xxp41+la?=
+ =?us-ascii?Q?+6A7Ay6pAJ+UkMCTEzO10moVW6YASDY6VaiZlFQQpQcodayk/y7Mc8Qyo3bG?=
+ =?us-ascii?Q?hqLQLEZ2+YNu1o/VP28CTKAzePtEcHQxRFE950OSW81w07xNQ9yqsWFuNsw1?=
+ =?us-ascii?Q?KtoHxjK4kApY7jdixez1TeQSnc657BCnDOLAGNDvKvmjGNZIV0JxA7a7+I14?=
+ =?us-ascii?Q?b+W47p+7jEYzcmBHGOBY6tRUsExslxqsOFGS3qlitQFUbZg0bUhmdzFhukoU?=
+ =?us-ascii?Q?1/Bd92/NYb6dd1GvLbWc2SUG5odSR4248/DMbVsuKa71f2gF6sDoClli+9lY?=
+ =?us-ascii?Q?CZDoN5+ZmATB++ufzo7RlKA5kPSts+F9iRppGpzYVDFZNk+vbsaETNSt4xHN?=
+ =?us-ascii?Q?90HLDLzlZozssi1Y5jsThxeH55OzPMvyZum6rFS1YEc6tXb3Bcd4IJyTMRgJ?=
+ =?us-ascii?Q?pQ4C5Jext8Eb/ch4IQpbgGTSSnyLPWLPfEQFc2Ar+piRQAAEKhoauAHymxCe?=
+ =?us-ascii?Q?jQOpSxj7K9+qeeCs9axNxgGNV2gtDa05/8q1y2246dXMqBSIteqpXcz8mnG4?=
+ =?us-ascii?Q?QvoGdFN+zzhPoxE66aD0E31bVStq/NGdNIsDZPqkNcNrwnzJiRiLNBWsDpBT?=
+ =?us-ascii?Q?2FFxr8Pcnc3B4z5aznrV4/c5wJ4BJaHlzMq9/AHCq2OFQI+qMCLN5Ov/ljvt?=
+ =?us-ascii?Q?P6ryxbRkrzz/q/w7PxEYrwqPSGO0I435GLeWsygZ0SLaYy+ZLuMHT+wjTCe+?=
+ =?us-ascii?Q?wJ+C8sphL+mnS4IaWTAMlo9LmwgOIHNdg4tPKgSysqn/TKxAF8Xcf4KmKewj?=
+ =?us-ascii?Q?PovuiBG8kRW33QGkQe/CMr3DCOiz6rbegaA3Yy34s06LxS5n4A1t4iV4xDLg?=
+ =?us-ascii?Q?HTCRzQ2Q9zULwM1PxvT5rQGLZTYHNrb3iQU5Zbl6Nl2mGVlqsgU+S6XQDMOX?=
+ =?us-ascii?Q?EMoLhG/Y0OTgqO7Yzn27fPjjmfX8AD7S8ZIXiEcpnNzUkmtR1kvZAwIekBHx?=
+ =?us-ascii?Q?YpuRjhpfukhAGqzesnuCQuXb7hSwCMHbseb7cExV?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52c.google.com
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Co1bavk+ZzPaj0CPKe0D6miBdOazWTIxR5ENRNBZFnGemR0ioq7UMph5iiAqSMX4He90GQ9ocManzUivLuewH6vhC1FDVe8XLRdZlXhc9aTBYTyRNEmT5FeGlabXbxPn8a7N9vIPTvFB6MrGBOLuhbtmqgkdYf8kMI373wmGjaHRcLnkyXvRBkeoXKJpxRwvzkF+r70npmmHaDDdm8VmjSjZmlAxtdfNUxKfphCiojCvUNL7zxnhuQ9M9pqnbznG22u2qmg60Olq5bYw95AqffLnVk1oksKGO6X4gG3W5QFQUHHkoqIDqwzj37QvtxKjZpxNQ1BDQtZL2nDQeHsowXQQEaNhWoDFAXpPnl7LdsV2xXxrG8RmUlQE1tGHEwOTaTZJnNUwDjQT+FbbpTHqiJ2Iqxm1Or25BvR+0GviF8mbu+y/F9rlnIV5ZUSUWSBUAlFhTBUatoI41SZDHv9k/fiXKINbSC3dtjF1Bw6CP7G1yBiYJ4KQ/uddZpnMbCKazAUw1wGYJmEdZtsfNrf2bWvR8z0iLBCpl2VyAgzGmFLgqzFp1Ya5OyENJek4/rPRw5Ye5Ea6pNK5A7oVtsDZLghyE8KOTN/n7FR9B0Z4WI1aufqaObU+Lk+duj/mV0kZe+pndrgbWjpSiFPvn736c3exNTaTm9L9cK5hVqS95LWbxGEVLundymVBI/LrTMRYjb5kBVcal6OrxQw+A3qQ9nJp/OhammEqCWSRcGHqZEImETQIBUf+8ejGWNibBlem2En0TXT5a4Qvyut6EVSLLVJg04sAlUzB71U5xi/6TsOp56yYnFzvDMOcTD/pArZM
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00508f20-ca1e-45a7-7bd7-08db1c3f286c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2023 23:29:38.9460 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: S8BWAsu6gV8cJkwOsqDtke6Ia5RkkhU5bMK68ZER4o5jGq3Jr9ixLuTeiu+nbrC7waRrXg/kzX6vEAPOnuOFkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6987
+X-Proofpoint-GUID: eXtWvj85z3hi6KC462LxP8TxtFu3x62o
+X-Proofpoint-ORIG-GUID: eXtWvj85z3hi6KC462LxP8TxtFu3x62o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-03_05,2023-03-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=517
+ malwarescore=0 spamscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303030198
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,63 +159,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Mar 4, 2023 at 4:25=E2=80=AFAM Palmer Dabbelt <palmer@rivosinc.com>=
- wrote:
->
-> The OpenSBI build has been using docker:19.03.1, which appears to be old
-> enough that v2 of the manifest is no longer supported.  Something has
-> started serving us those manifests, resulting in errors along the lines
-> of
->
->     $ docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_C=
-OMMIT_SHA --tag $IMAGE_TAG .gitlab-ci.d/opensbi
->     Step 1/7 : FROM ubuntu:18.04
->     18.04: Pulling from library/ubuntu
->     mediaType in manifest should be 'application/vnd.docker.distribution.=
-manifest.v2+json' not 'application/vnd.oci.image.manifest.v1+json'
->
-> This moves to docker:stable, as was suggested by the template.  It also
-> adds the python3 package via apt, as OpenSBI requires that to build.
->
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+
+
+> -----Original Message-----
+> From: Richard Henderson <richard.henderson@linaro.org>
+> Sent: Friday, March 3, 2023 3:31 PM
+> To: qemu-devel@nongnu.org
+> Cc: anjo@rev.ng; Taylor Simpson <tsimpson@quicinc.com>
+> Subject: [PATCH 2/2] tcg: Merge two sequential labels
+>=20
+> Remove the first label and redirect all uses to the second.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  .gitlab-ci.d/opensbi.yml        | 4 ++--
->  .gitlab-ci.d/opensbi/Dockerfile | 1 +
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-> index 04ed5a3ea1..9a651465d8 100644
-> --- a/.gitlab-ci.d/opensbi.yml
-> +++ b/.gitlab-ci.d/opensbi.yml
-> @@ -42,9 +42,9 @@
->  docker-opensbi:
->    extends: .opensbi_job_rules
->    stage: containers
-> -  image: docker:19.03.1
-> +  image: docker:stable
->    services:
-> -    - docker:19.03.1-dind
-> +    - docker:stable-dind
->    variables:
->      GIT_DEPTH: 3
->      IMAGE_TAG: $CI_REGISTRY_IMAGE:opensbi-cross-build
-> diff --git a/.gitlab-ci.d/opensbi/Dockerfile b/.gitlab-ci.d/opensbi/Docke=
-rfile
-> index 4ba8a4de86..2d151a6bc8 100644
-> --- a/.gitlab-ci.d/opensbi/Dockerfile
-> +++ b/.gitlab-ci.d/opensbi/Dockerfile
-> @@ -16,6 +16,7 @@ RUN apt update \
->          git \
->          make \
->          wget \
-> +       python3 \
+>  tcg/tcg.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 43 insertions(+), 1 deletion(-)
 
-nits: this should be inserted before wget to follow the alphabetical order
-
->      && \
->      \
->      rm -rf /var/lib/apt/lists/*
-> --
-
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 
