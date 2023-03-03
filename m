@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717666A92ED
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7416A92E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0z3-0007kE-7R; Fri, 03 Mar 2023 03:41:45 -0500
+	id 1pY0z5-0007ox-IP; Fri, 03 Mar 2023 03:41:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yy-0007PD-KO
+ id 1pY0yz-0007Vu-Mj
  for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:41 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yw-0007ra-S6
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:40 -0500
-Received: by mail-pf1-x429.google.com with SMTP id ce7so1070802pfb.9
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:38 -0800 (PST)
+ id 1pY0yx-0007s7-UP
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:41 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so5413121pjg.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832897;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832898;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lqVjjOTZ9eMdzabLZOWmFSlP1B+iw01WmCSIdt7lwp0=;
- b=M/CgJXP9rICo1SFnWYHofEHswm58IRdJ/AXEmzWgkhzd8IaP9EXrt1zcQN9kuQ1q4/
- R6oGgrB/LZN29aB4+oeRXUfDvscnShXcjDeZyxApxOhOR6UHL7pyCjSqklLwu7Sa2M7x
- Xh9chqPfRRg4vGQrAzm4S4UOkhYQ84s4odJsQ0MmVIWqMmLILfbdKNQSdVD8YVPhebqd
- ksco7viY5dyf5goJFC6eHZcH44AIgjswelmlbF7QmCI66nVDAjoakCC4jxb/J6L4WQ5B
- 9gsbfkj/I37AHEsxN5KTxV7y4TGs1qaqKXAxdf1uWHkhKv3j5DXbB5WzFyPdTNFAYQFu
- YPfg==
+ bh=E2uTMnecgdqwtCVcnTwCqTOoQw2CLDtGHhwqfs8rN5Y=;
+ b=nOByMZlfUE+3wYpRTD2WQ0zfJQvWJEtBmdP3X8qn+3yNeyCYl8MY54sjvwEUubiIeD
+ CZIoDDcLRJ1KylGpULcO7EHnxuk9DAPw/G5uR+KSyL63lQUC7eW1HwHJie3+2RH2AQTl
+ lqzanUuDe6obwgYedvNSQ9KuSz60J+VtwB0k3tkvR/8TNekvcKHfAE9H8pAh87cSATj/
+ v1V6p1FIpQmgyf8kbSN6QZs0r0w6ciMuvvsxp8Gls4kyPiR/z4w9mXZfP2Py1lQfSTlB
+ J6Qs/HvXa//vQeJ99WR2QqNmXiCGvppIgUdPoyIlQkQPODWORn2pCPNDAzkN8mxGs7om
+ eeOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832897;
+ d=1e100.net; s=20210112; t=1677832898;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lqVjjOTZ9eMdzabLZOWmFSlP1B+iw01WmCSIdt7lwp0=;
- b=Ve682nJPOLFs0FnQ1VM2V6QX7tuOqZTCPuICSKc5FRPK1Dmfli46+IaRiQcmrlIq4v
- L36WGuXYVCdso3CAk+1irDUJV5Yig0wUXDjMFfqzJYC6YWAtWiPhAV6267Z/0mM3HlAF
- cHickvy8QEDAu77R2RUE+Sc1Bp4tMZTPTbeZ/qdUPBsH9BxZxvi2irlbG8Ih1XhgfmLa
- gFsOQqcaUOJ9QRWKZkyorQ1m78lOxLjqfkgZlr8cYaOFM5DTB+E2dwYM9kmQTkZgh8N3
- 0i+FCB75DU/84L01DacAd2oMEcRON0NltgJrVWSXaq5MT60c2Tz2KDO08rrvUfYuVZhQ
- VZIQ==
-X-Gm-Message-State: AO0yUKWdbyEgHyAo1kcRsWvd1AO7HD+wwtKFRtxQXb8l8YqThDMJDcQ/
- 0SjYi7FeE+jmO9BF8RkSDXJHKQ==
-X-Google-Smtp-Source: AK7set/Fva0h7CxUkJquuQuyfRebkusQdeH50L/8rYor5kmF+HPBFIgJJmoYco/4bAOnb3b3gnmPPA==
-X-Received: by 2002:a62:7b45:0:b0:5a9:b4eb:d262 with SMTP id
- w66-20020a627b45000000b005a9b4ebd262mr1598578pfc.1.1677832897354; 
- Fri, 03 Mar 2023 00:41:37 -0800 (PST)
+ bh=E2uTMnecgdqwtCVcnTwCqTOoQw2CLDtGHhwqfs8rN5Y=;
+ b=Se5+Tl1+GlhhL+vjxeYitq71Q8XA4unMPNNDL11nb+OIv1VWpqwxUbdyiKTEA9lm/O
+ KIqwno0t0c3g/GXemT9QMUZFt3O/sJcQhaovNndFAIXoyUFrQ+/L7IMcAWu7WLtgeOto
+ rdgmCj4GvC+GOQ7aQoSU+bsWtxILNldezLdSYMi/uPILqdhI3FEg1GmmyTRaykwsr/W0
+ 6aW2QG8Plp2tk8CLEcz5RIKSlnjG9SaZoYOUjULYQSJIc+hrSAPm4DPed5uHgAxOOgYh
+ svQwl209Rtry3akoCbHv723XXjsqDxQuxs2JtuPnYgj6NE1j8rpmi5S7Zzhpgzn9J1v3
+ B3yw==
+X-Gm-Message-State: AO0yUKXcDClX4QF03F7ejfKWU2BpjSRdXL2YFoq4KjPAB5PZi8tCDhLv
+ Veqe3jxFmzxvh04d7EbDL1Q4+A==
+X-Google-Smtp-Source: AK7set/CnTo1KPFRpz3pbg8Tes8k0/Cs7AyRXYoU+gzf6Y9pqPZ3HvJqO3pmKPaB9xTPQNb/yeRDCA==
+X-Received: by 2002:a05:6a20:7785:b0:c7:13be:6de9 with SMTP id
+ c5-20020a056a20778500b000c713be6de9mr1258284pzg.14.1677832898510; 
+ Fri, 03 Mar 2023 00:41:38 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- t8-20020aa79388000000b0058bb79beefcsm1025500pfe.123.2023.03.03.00.41.36
+ m8-20020aa79008000000b005dae7d1b61asm1021857pfo.154.2023.03.03.00.41.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:36 -0800 (PST)
-Subject: [PULL 13/59] target/riscv: Simplify the check for Zfhmin and Zhinxmin
-Date: Fri,  3 Mar 2023 00:36:54 -0800
-Message-Id: <20230303083740.12817-14-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:38 -0800 (PST)
+Subject: [PULL 14/59] target/riscv: Add cfg properties for Zv* extensions
+Date: Fri,  3 Mar 2023 00:36:55 -0800
+Message-Id: <20230303083740.12817-15-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -68,8 +69,8 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=palmer@rivosinc.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,113 +94,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-We needn't check Zfh and Zhinx in these instructions.
+Add properties for Zve64d,Zvfh,Zvfhmin extensions.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230215020539.4788-4-liweiwei@iscas.ac.cn>
+Message-ID: <20230215020539.4788-5-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/insn_trans/trans_rvzfh.c.inc | 25 +++++++++++------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ target/riscv/cpu.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-index 2ad5716312..85fc1aa822 100644
---- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -28,15 +28,14 @@
-     }                                  \
- } while (0)
- 
--#define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
--    if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
-+#define REQUIRE_ZFHMIN(ctx) do {              \
-+    if (!ctx->cfg_ptr->ext_zfhmin) {          \
-         return false;                         \
-     }                                         \
- } while (0)
- 
--#define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
--    if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin ||          \
--          ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) {     \
-+#define REQUIRE_ZFHMIN_OR_ZHINXMIN(ctx) do {                 \
-+    if (!(ctx->cfg_ptr->ext_zfhmin || ctx->cfg_ptr->ext_zhinxmin)) { \
-         return false;                                        \
-     }                                                        \
- } while (0)
-@@ -47,7 +46,7 @@ static bool trans_flh(DisasContext *ctx, arg_flh *a)
-     TCGv t0;
- 
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN(ctx);
-+    REQUIRE_ZFHMIN(ctx);
- 
-     decode_save_opc(ctx);
-     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
-@@ -70,7 +69,7 @@ static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
-     TCGv t0;
- 
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN(ctx);
-+    REQUIRE_ZFHMIN(ctx);
- 
-     decode_save_opc(ctx);
-     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
-@@ -401,7 +400,7 @@ static bool trans_fmax_h(DisasContext *ctx, arg_fmax_h *a)
- static bool trans_fcvt_s_h(DisasContext *ctx, arg_fcvt_s_h *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx);
-+    REQUIRE_ZFHMIN_OR_ZHINXMIN(ctx);
- 
-     TCGv_i64 dest = dest_fpr(ctx, a->rd);
-     TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-@@ -418,7 +417,7 @@ static bool trans_fcvt_s_h(DisasContext *ctx, arg_fcvt_s_h *a)
- static bool trans_fcvt_d_h(DisasContext *ctx, arg_fcvt_d_h *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx);
-+    REQUIRE_ZFHMIN_OR_ZHINXMIN(ctx);
-     REQUIRE_ZDINX_OR_D(ctx);
- 
-     TCGv_i64 dest = dest_fpr(ctx, a->rd);
-@@ -436,7 +435,7 @@ static bool trans_fcvt_d_h(DisasContext *ctx, arg_fcvt_d_h *a)
- static bool trans_fcvt_h_s(DisasContext *ctx, arg_fcvt_h_s *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx);
-+    REQUIRE_ZFHMIN_OR_ZHINXMIN(ctx);
- 
-     TCGv_i64 dest = dest_fpr(ctx, a->rd);
-     TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-@@ -452,7 +451,7 @@ static bool trans_fcvt_h_s(DisasContext *ctx, arg_fcvt_h_s *a)
- static bool trans_fcvt_h_d(DisasContext *ctx, arg_fcvt_h_d *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx);
-+    REQUIRE_ZFHMIN_OR_ZHINXMIN(ctx);
-     REQUIRE_ZDINX_OR_D(ctx);
- 
-     TCGv_i64 dest = dest_fpr(ctx, a->rd);
-@@ -585,7 +584,7 @@ static bool trans_fcvt_h_wu(DisasContext *ctx, arg_fcvt_h_wu *a)
- static bool trans_fmv_x_h(DisasContext *ctx, arg_fmv_x_h *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN(ctx);
-+    REQUIRE_ZFHMIN(ctx);
- 
-     TCGv dest = dest_gpr(ctx, a->rd);
- 
-@@ -605,7 +604,7 @@ static bool trans_fmv_x_h(DisasContext *ctx, arg_fmv_x_h *a)
- static bool trans_fmv_h_x(DisasContext *ctx, arg_fmv_h_x *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH_OR_ZFHMIN(ctx);
-+    REQUIRE_ZFHMIN(ctx);
- 
-     TCGv t0 = get_gpr(ctx, a->rs1, EXT_ZERO);
- 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 31537fc05f..7f5264e165 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -462,7 +462,10 @@ struct RISCVCPUConfig {
+     bool ext_zhinxmin;
+     bool ext_zve32f;
+     bool ext_zve64f;
++    bool ext_zve64d;
+     bool ext_zmmul;
++    bool ext_zvfh;
++    bool ext_zvfhmin;
+     bool ext_smaia;
+     bool ext_ssaia;
+     bool ext_sscofpmf;
 -- 
 2.39.2
 
