@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F3F6A9392
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78B26A939D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:19:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1XU-0004H3-Qw; Fri, 03 Mar 2023 04:17:20 -0500
+	id 1pY1Z8-0005pr-72; Fri, 03 Mar 2023 04:19:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pY1XR-00047o-8f; Fri, 03 Mar 2023 04:17:17 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ id 1pY1Yi-0005mv-Fp; Fri, 03 Mar 2023 04:18:36 -0500
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pY1XN-0007KY-5v; Fri, 03 Mar 2023 04:17:15 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-1755e639b65so2302772fac.3; 
- Fri, 03 Mar 2023 01:17:12 -0800 (PST)
+ id 1pY1Yg-0007de-6Q; Fri, 03 Mar 2023 04:18:36 -0500
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-17652f24da7so2297182fac.4; 
+ Fri, 03 Mar 2023 01:18:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pBsnEA7TEXj394UQGvsX7xCr+wZU+doLotmx6g6lZ4o=;
- b=OsAzRpCLNhjsSxXC5tf+CgUv0lkPvm9Mjl1ahviHHsdpMSjug3kJDpJrKILzrpuh16
- 2conSeq3ULIKd7pm+MqTUaLrY/S+DvNfNUTmxQm456UyF2ENZZ3dEB6KfvDkyL6N0g3p
- /RPdzl1MLtG5S+I0cmmeG1ijVdreM183GfCwwgvJx/JVO8zczNMi/rKAYhBSNcwqTuhE
- SXaKqdqgYlv6978tV3u5dnUZpgGz4q+FrZkujMfBbiYyBx17geuq5FJOUqCVXfwyF85s
- DzIVsBlKRNjrOGiANVYurOycu7hXfMYYYKhoehKHNuicCkbBs4HnRtoCsNCAjSr9GUAY
- oHng==
+ bh=wRlHcU+1fxh9LhbaNgVUSFN5nj/D6/o2wL1hSwIokvE=;
+ b=RpKZ6Ua9mTAaRCXW2ySXxr2TFeWQNo1kXXf0JkmnG/BuvmfWJfwYsDJBlr5ey5zRHZ
+ nbTu1a9L2iiO3ZewURPxsdctIwesiL0Buf5bwEDHrOHqX4qp9T53Qy15mHcqruIfjMHC
+ 89Iyjz/Z0yylQM2A//M71cnMx80Paht4pa3VlZZrtFwT4EZxfJMQjiO1EBI4naih16Mq
+ 5A/T4FvDrFLSgi6lHIBIp5yY2IWOtls0x9Sf5TLMhk3GR/CClMv6i0kGWeIDf6hjAxKz
+ N9YfLySYaUJ3gyNHvfYvC8N+8GCCQx/+2GRK0eBmVV+jhDzqrwKGQ4cNxFxqgztzDnOy
+ z6DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pBsnEA7TEXj394UQGvsX7xCr+wZU+doLotmx6g6lZ4o=;
- b=7GF4JJkMK/zJMMcTYpw2PXGbJae8qA/LujyHXCBpuGBQ4vwKbpsPScqaCaZfp7acUh
- esh6WFcOF8oQ3T/xWSqB6QgwUSNGZhoeuHt5AyaMe5ZuizUtoHl7AEdImaHkkfz9BjLB
- 9DVowMa2Mm4V0ztF0tqnBomJDeeB+sH9bFXQRx/ZJRXfywLd28hZq7EqDTq8FVa567hu
- dNfEaloqF3YkaZZa53iCpFb1FCvA+fWfmXlsanx/oXjaMoEMNkMK36aya0JpcGIxuWNC
- fuH4ON52L1x7uSlse9eyXzUDoGBIZ2PuiTmQMSRZLADQ3niISsS1YxoG4SZdNKLDrcnt
- gJ8A==
-X-Gm-Message-State: AO0yUKUavmznZJxb5l/Zb49Jh36ylIuTOTUyuE0EDeNyO8Ipe7W12wcw
- ozRChV/bhztguwW27smHUBM=
-X-Google-Smtp-Source: AK7set+rIBSkhd+Kq9am04lu6soxmIPcDPFKXyelQ+Y+O5Btbux6E9VNk1vwYKmAVd359RX9ncvMLQ==
-X-Received: by 2002:a05:6870:fb8c:b0:176:5e07:bf69 with SMTP id
- kv12-20020a056870fb8c00b001765e07bf69mr666454oab.28.1677835029081; 
- Fri, 03 Mar 2023 01:17:09 -0800 (PST)
+ bh=wRlHcU+1fxh9LhbaNgVUSFN5nj/D6/o2wL1hSwIokvE=;
+ b=uaTVGPRLQGlymLTdnOOFc5cehbDbshG/ATEsbxCG2iFDGiSHY5A3cWFsBmeC9dilte
+ o5GbN4lDy9VMlXmZwZvZKVfJ358rdYu+37COuYwSKyJOu5qpaYlQZ3xZbs328W4L+flT
+ 4nWxpjHUGyd4axaY28zh7d/2OoDhnbRXE5DGlqdfvOOQtkLeBtJB8xtoo9va9NOKdjIx
+ 7Tm++eAsCgnMlxPChsHIGnPtuEAHADCMXeoLTKRlZnrlwocxPV7yvCq/CfWEYeKrK37U
+ 9DUBzZ+KBKa9IlT9UKe+A2929oTZWe/gyQ3z5jE1I48Z+PaUt2tlVVcOrzL1MLOsg7XH
+ OCDw==
+X-Gm-Message-State: AO0yUKXYYcnhyaMWzYcckxjo5VW+1WtAJrhbKONHlxTV81sDWWdXReYn
+ gdn88Xr/hFkE3pU4EzpfrOc=
+X-Google-Smtp-Source: AK7set/NnrvRdQivGvbtqiLE5liRj53rd0TaLi8IRsxRDIRQw3eU1pKrIYiv+wkn7wWATtH83fUUVQ==
+X-Received: by 2002:a05:6870:15d5:b0:176:37eb:e6ed with SMTP id
+ k21-20020a05687015d500b0017637ebe6edmr555609oad.39.1677835109637; 
+ Fri, 03 Mar 2023 01:18:29 -0800 (PST)
 Received: from [192.168.68.107] ([177.189.53.31])
  by smtp.gmail.com with ESMTPSA id
- u22-20020a056830249600b00684152e9ff2sm859292ots.0.2023.03.03.01.17.06
+ 26-20020a056870131a00b001728d38a41asm767485oab.55.2023.03.03.01.18.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 01:17:08 -0800 (PST)
-Message-ID: <7e6b2a4b-6187-b106-0d45-e60dd874e77c@gmail.com>
-Date: Fri, 3 Mar 2023 06:17:04 -0300
+ Fri, 03 Mar 2023 01:18:29 -0800 (PST)
+Message-ID: <7229b94e-5378-98a1-623b-9391bfec0a32@gmail.com>
+Date: Fri, 3 Mar 2023 06:18:25 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v5 4/7] hw/ppc/pegasos2: Fix PCI interrupt routing
+Subject: Re: [PATCH 1/4] pnv_phb4_pec: Keep track of instantiated PHBs
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de
-References: <cover.1677628524.git.balaton@eik.bme.hu>
- <a51b8b647d3b297c794739a862d3565e3e5ed882.1677628524.git.balaton@eik.bme.hu>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20230302163715.129635-1-fbarrat@linux.ibm.com>
+ <20230302163715.129635-2-fbarrat@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <a51b8b647d3b297c794739a862d3565e3e5ed882.1677628524.git.balaton@eik.bme.hu>
+In-Reply-To: <20230302163715.129635-2-fbarrat@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -96,124 +93,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-It seems that I can't pick this patch standalone. It will break pegasos2 boot
-without patches 2 and 3 that comes beforehand.
-
-Phil, this patch already has my ack, so feel free to slide it together with
-patches 2 and 3 in your PR.
 
 
-Thanks,
-
-Daniel
-
-On 2/28/23 21:17, BALATON Zoltan wrote:
-> According to the PegasosII schematics the PCI interrupt lines are
-> connected to both the gpp pins of the Mv64361 north bridge and the
-> PINT pins of the VT8231 south bridge so guests can get interrupts from
-> either of these. So far we only had the MV64361 connections which
-> worked for on board devices but for additional PCI devices (such as
-> network or sound card added with -device) guest OSes expect interrupt
-> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
-> VT8231 ISA bridge. After the previous patches we can now model this
-> and also remove the board specific connection from mv64361. Also
-> configure routing of these lines when using Virtual Open Firmware to
-> match board firmware for guests that expect this.
+On 3/2/23 13:37, Frederic Barrat wrote:
+> Add an array on the PEC object to keep track of the PHBs which are
+> instantiated. The array can be sparsely populated when using
+> user-created PHBs. It will be useful for the next patch to only export
+> instantiated PHBs in the device tree.
 > 
-> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 > ---
->   hw/pci-host/mv64361.c |  4 ----
->   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
->   2 files changed, 25 insertions(+), 5 deletions(-)
+
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/pci-host/pnv_phb4_pec.c     | 12 +++++++-----
+>   hw/ppc/pnv.c                   |  1 +
+>   include/hw/pci-host/pnv_phb4.h |  2 ++
+>   3 files changed, 10 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
-> index 298564f1f5..19e8031a3f 100644
-> --- a/hw/pci-host/mv64361.c
-> +++ b/hw/pci-host/mv64361.c
-> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
->       }
->       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
->       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
-> -    /* FIXME: PCI IRQ connections may be board specific */
-> -    for (i = 0; i < PCI_NUM_PINS; i++) {
-> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
-> -    }
->   }
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 43267a428f..97c06bb0a0 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -112,9 +112,9 @@ static const MemoryRegionOps pnv_pec_pci_xscom_ops = {
+>       .endianness = DEVICE_BIG_ENDIAN,
+>   };
 >   
->   static void mv64361_reset(DeviceState *dev)
-> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index 7cc375df05..f1650be5ee 100644
-> --- a/hw/ppc/pegasos2.c
-> +++ b/hw/ppc/pegasos2.c
-> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
->       MachineState parent_obj;
->       PowerPCCPU *cpu;
->       DeviceState *mv;
-> +    qemu_irq mv_pirq[PCI_NUM_PINS];
-> +    qemu_irq via_pirq[PCI_NUM_PINS];
->       Vof *vof;
->       void *fdt_blob;
->       uint64_t kernel_addr;
-> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
->       }
->   }
->   
-> +static void pegasos2_pci_irq(void *opaque, int n, int level)
-> +{
-> +    Pegasos2MachineState *pm = opaque;
-> +
-> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
-> +    qemu_set_irq(pm->mv_pirq[n], level);
-> +    qemu_set_irq(pm->via_pirq[n], level);
-> +}
-> +
->   static void pegasos2_init(MachineState *machine)
+> -static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+> -                                        int stack_no,
+> -                                        Error **errp)
+> +static PnvPHB *pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+> +                                           int stack_no,
+> +                                           Error **errp)
 >   {
->       Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
-> @@ -106,7 +117,7 @@ static void pegasos2_init(MachineState *machine)
->       I2CBus *i2c_bus;
->       const char *fwname = machine->firmware ?: PROM_FILENAME;
->       char *filename;
-> -    int sz;
-> +    int i, sz;
->       uint8_t *spd_data;
+>       PnvPHB *phb = PNV_PHB(qdev_new(TYPE_PNV_PHB));
+>       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
+> @@ -128,8 +128,9 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>                               &error_fatal);
 >   
->       /* init CPU */
-> @@ -156,11 +167,18 @@ static void pegasos2_init(MachineState *machine)
->       /* Marvell Discovery II system controller */
->       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
->                             qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
-> +    for (i = 0; i < PCI_NUM_PINS; i++) {
-> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
-> +    }
->       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
-> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+> -        return;
+> +        return NULL;
+>       }
+> +    return phb;
+>   }
 >   
->       /* VIA VT8231 South Bridge (multifunction PCI device) */
->       via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
->                                                    true, TYPE_VT8231_ISA));
-> +    for (i = 0; i < PCI_NUM_PINS; i++) {
-> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
-> +    }
->       object_property_add_alias(OBJECT(machine), "rtc-time",
->                                 object_resolve_path_component(via, "rtc"),
->                                 "date");
-> @@ -267,6 +285,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
->                                 PCI_INTERRUPT_LINE, 2, 0x9);
->       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
->                                 0x50, 1, 0x2);
-> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-> +                              0x55, 1, 0x90);
-> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-> +                              0x56, 1, 0x99);
-> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-> +                              0x57, 1, 0x90);
+>   static void pnv_pec_realize(DeviceState *dev, Error **errp)
+> @@ -148,8 +149,9 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
 >   
->       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
->                                 PCI_INTERRUPT_LINE, 2, 0x109);
+>       /* Create PHBs if running with defaults */
+>       if (defaults_enabled()) {
+> +        g_assert(pec->num_phbs <= MAX_PHBS_PER_PEC);
+>           for (i = 0; i < pec->num_phbs; i++) {
+> -            pnv_pec_default_phb_realize(pec, i, errp);
+> +            pec->phbs[i] = pnv_pec_default_phb_realize(pec, i, errp);
+>           }
+>       }
+>   
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 44b1fbbc93..24bf8461d6 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -314,6 +314,7 @@ static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
+>   
+>           for (j = 0; j < pec->num_phbs; j++) {
+>               if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
+> +                pec->phbs[j] = phb->phb_base;
+>                   return pec;
+>               }
+>           }
+> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+> index 28d61b96c7..0b72ef1471 100644
+> --- a/include/hw/pci-host/pnv_phb4.h
+> +++ b/include/hw/pci-host/pnv_phb4.h
+> @@ -185,6 +185,8 @@ struct PnvPhb4PecState {
+>   
+>       /* PHBs */
+>       uint32_t num_phbs;
+> +#define MAX_PHBS_PER_PEC        3
+> +    PnvPHB *phbs[MAX_PHBS_PER_PEC];
+>   
+>       PnvChip *chip;
+>   };
 
