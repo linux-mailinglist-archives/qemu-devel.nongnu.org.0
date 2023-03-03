@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473D76A930C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F044A6A92D8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zm-0000Bw-04; Fri, 03 Mar 2023 03:42:30 -0500
+	id 1pY0zo-0000Wp-Tn; Fri, 03 Mar 2023 03:42:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zc-0008RN-T5
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:21 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pY0zf-0008Tu-Im
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:23 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zb-00085Y-3D
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:20 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- m20-20020a17090ab79400b00239d8e182efso5408221pjr.5
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:18 -0800 (PST)
+ id 1pY0zd-00086S-OL
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:23 -0500
+Received: by mail-pf1-x436.google.com with SMTP id n5so1064249pfv.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832938;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832940;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wFw20b6Bz2FDDW0u4vx4mlXe6VxyRQIjZ8e8ySZmec4=;
- b=JJv49+xJPwm7CbGC7jbqaw9T1jrXdi0hxF890fnmDgch7Y7TbTYjy3obngVqGr3AmY
- YJq1wO8O14qDnbKVEoKDaYF2VXlGOplrxRCY+XolxFpm3iiHwkSOLus+bIGxAGiy1W4/
- Gnj1w7xwtfq3uhPEttIPIeEnw0+4VAfu5+gKU77kuJS2XPNvEtWsKFPIHq7zlDNVcJNC
- eIvxly0LR9cwLlMMbIrzxCkDM/V5egxdRZqonHXpC+yU7rdBOba7RuxH2DOQc9IK0BBC
- cyzlpoQ0yBpbcdNCQcjGwh4y3DHRgfnF1Dy+WMZcjHL/7Ni/c0AMwX5vDuOFYNRnQpAE
- eJOA==
+ bh=9t3N2UJPfcfoD4pGjTXsSm1eTae8jmXFNY8cb9vfdLw=;
+ b=3/g0ekRdndJexqm9TtVz45tN+0+V05Sk+0/ONZyKc7FH0bMyXRhdMcIwWCGVOwc/LN
+ zt4B/RLcCrGnfOyZrxo8L7a4Eop19p7pv5+qDLSzFy73KHdXHJQVRUUgaplvHzAvvxXo
+ 5tNZK9/GIIKItzmGT+lp+Qp+9cdXRVq6LfokwR5naBGul+1gWBRQkyRhExNTciAxv7fY
+ SyLbUMiCj6+54o6JlDYTQ2O9eqgo9fDkQITpJCBRjJCdsFYIJ3rWXoej9fmagahvdptU
+ FKDY669H/kIdS412SrHskVxUJo+q2810Wsd+SHH+hXdpXCjr51S8PCzOrO40vmodA3Aa
+ yEIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832938;
+ d=1e100.net; s=20210112; t=1677832940;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wFw20b6Bz2FDDW0u4vx4mlXe6VxyRQIjZ8e8ySZmec4=;
- b=m3Pzsb5+TP+C0CSlnwCE+v2JEOJorHSmximu5kNkuHVEiAMvWwXGrkzznaTlDlFPVO
- v1mieAjCM7aIU8M5a/5L/N8tcbz3qmuLmZDrlMZ2v9NAQpAN96fBs72XIQi1EQuBxsPX
- okgRmHsR8ecMO31sbuJRxNJI4HpeRty0yjB9ijwk6XYfY0x3n7G8wdeLTZXYAvoGH53Q
- KwPeo5WRqrappVae6ogef1/AdzhWRWtdo7P3AQ9FcsevrViPgXY90askbxQFabtcPAj+
- oUMpSl51JIzN9oh5WsHK8OLcQ5oO21q5DXfnlic/wzhr2bhQVK6Kixm1HGUexp9K/1Gf
- 4KsA==
-X-Gm-Message-State: AO0yUKV95dNxvGDPI1QOsEt1wqOiRC/KH0fFnntPURx8r8+DXKgQDFGz
- aqAtGEalvTsf84W+Rx76E53JHg==
-X-Google-Smtp-Source: AK7set+3rzih3CAQS7KCWNydca64HEoVGSS6DKv04ZcgVE2A+THcbfWej7FSV4WADjjR2HPB2xIGQQ==
-X-Received: by 2002:a17:902:e80a:b0:19d:243:d5d3 with SMTP id
- u10-20020a170902e80a00b0019d0243d5d3mr1066350plg.33.1677832937841; 
- Fri, 03 Mar 2023 00:42:17 -0800 (PST)
+ bh=9t3N2UJPfcfoD4pGjTXsSm1eTae8jmXFNY8cb9vfdLw=;
+ b=AfwYfaFsdcypzfjAQtJiBAYLQ0VaW3YEAKoyMvnw0d1Ty+huhhGTl/hBh51U/FfxA+
+ 8w3T/fIneFzxbO/mR/LoaWWgrVCLsu3lA0J7tcRPfaykmvQGvUH+CPPzwMpfUwLDRg2v
+ GR8ueC3QXMQDbeVHOhw/w4dcaAEPaQKRm2F9dX2qHeJEoB04WIDcQxhGgGYolS4lkLZC
+ Xpn7WTyEn+wK5oZSvedq/zesDhTvcaRYOs4hG1xKryebMlUd5uum+ND3WKsHY0ZhyA/t
+ Fjr3Y7quJNJhvkSs2OoresHEIraQC9ECq68cWBnjLTKo8buNpHld/qZfAuG69YC3/vdi
+ nyZg==
+X-Gm-Message-State: AO0yUKXZvDiZlirLrTUJR97qOaJIMEt0e7kwjir4Ro2wm7tm5qtUS8db
+ CAZCjlafozFY4cxGJneSpOuPzg==
+X-Google-Smtp-Source: AK7set/NosIjhB4gLHiILgAz8rl+s0AyDsA5qz33xC+XWL7lnsC1V0ZQzBC4iJiXCnAVmh7kExQuvA==
+X-Received: by 2002:aa7:9f1a:0:b0:5dc:2de8:f500 with SMTP id
+ g26-20020aa79f1a000000b005dc2de8f500mr1249125pfr.22.1677832940347; 
+ Fri, 03 Mar 2023 00:42:20 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- kq13-20020a170903284d00b0019a7f427b79sm980473plb.119.2023.03.03.00.42.17
+ u1-20020aa78381000000b005cd81a74821sm1020965pfm.152.2023.03.03.00.42.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:17 -0800 (PST)
-Subject: [PULL 45/59] target/riscv: Add support for Zicond extension
-Date: Fri,  3 Mar 2023 00:37:26 -0800
-Message-Id: <20230303083740.12817-46-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:19 -0800 (PST)
+Subject: [PULL 47/59] hw/riscv: Move the dtb load bits outside of create_fdt()
+Date: Fri,  3 Mar 2023 00:37:28 -0800
+Message-Id: <20230303083740.12817-48-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@rivosinc.com>
+ Bin Meng <bmeng@tinylab.org>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
+ Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=palmer@rivosinc.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,140 +91,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Bin Meng <bmeng@tinylab.org>
 
-The spec can be found in https://github.com/riscv/riscv-zicond.
-Two instructions are added:
- - czero.eqz: Moves zero to a register rd, if the condition rs2 is
-   equal to zero, otherwise moves rs1 to rd.
- - czero.nez: Moves zero to a register rd, if the condition rs2 is
-   nonzero, otherwise moves rs1 to rd.
+Move the dtb load bits outside of create_fdt(), and put it explicitly
+in sifive_u_machine_init() and virt_machine_init(). With such change
+create_fdt() does exactly what its function name tells us.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-ID: <20230221091009.36545-1-liweiwei@iscas.ac.cn>
+Suggested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Message-ID: <20230228074522.1845007-2-bmeng@tinylab.org>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c                           |  2 +
- target/riscv/cpu.h                           |  1 +
- target/riscv/insn32.decode                   |  4 ++
- target/riscv/insn_trans/trans_rvzicond.c.inc | 49 ++++++++++++++++++++
- target/riscv/translate.c                     |  1 +
- 5 files changed, 57 insertions(+)
- create mode 100644 target/riscv/insn_trans/trans_rvzicond.c.inc
+ hw/riscv/sifive_u.c         | 31 +++++++++++++++----------------
+ hw/riscv/virt.c             | 29 ++++++++++++++---------------
+ include/hw/riscv/sifive_u.h |  1 +
+ 3 files changed, 30 insertions(+), 31 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9e726d106e..3d41016eb4 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -74,6 +74,7 @@ struct isa_ext_data {
- static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
-     ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
-+    ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
-     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-@@ -1172,6 +1173,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 76db5ed3dd..35a335b8d0 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -99,7 +99,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     MachineState *ms = MACHINE(s);
+     uint64_t mem_size = ms->ram_size;
+     void *fdt;
+-    int cpu, fdt_size;
++    int cpu;
+     uint32_t *cells;
+     char *nodename;
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+@@ -112,19 +112,10 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         "sifive,plic-1.0.0", "riscv,plic0"
+     };
  
-     /* These are experimental so mark with 'x-' */
-+    DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
-     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index d8e47b87e3..30c75bf7d6 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -434,6 +434,7 @@ struct RISCVCPUConfig {
-     bool ext_zkt;
-     bool ext_ifencei;
-     bool ext_icsr;
-+    bool ext_zicond;
-     bool ext_zihintpause;
-     bool ext_smstateen;
-     bool ext_sstc;
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index b7e7613ea2..fb537e922e 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -890,3 +890,7 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
- # *** RV32 Zksed Standard Extension ***
- sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
- sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
-+
-+# *** RV32 Zicond Standard Extension ***
-+czero_eqz   0000111  ..... ..... 101 ..... 0110011 @r
-+czero_nez   0000111  ..... ..... 111 ..... 0110011 @r
-diff --git a/target/riscv/insn_trans/trans_rvzicond.c.inc b/target/riscv/insn_trans/trans_rvzicond.c.inc
-new file mode 100644
-index 0000000000..645260164e
---- /dev/null
-+++ b/target/riscv/insn_trans/trans_rvzicond.c.inc
-@@ -0,0 +1,49 @@
-+/*
-+ * RISC-V translation routines for the Zicond Standard Extension.
-+ *
-+ * Copyright (c) 2020-2023 PLCT Lab
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define REQUIRE_ZICOND(ctx) do {          \
-+    if (!ctx->cfg_ptr->ext_zicond) {      \
-+        return false;                     \
-+    }                                     \
-+} while (0)
-+
-+static bool trans_czero_eqz(DisasContext *ctx, arg_czero_eqz *a)
-+{
-+    REQUIRE_ZICOND(ctx);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-+
-+    tcg_gen_movcond_tl(TCG_COND_EQ, dest, src2, ctx->zero, ctx->zero, src1);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_czero_nez(DisasContext *ctx, arg_czero_nez *a)
-+{
-+    REQUIRE_ZICOND(ctx);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-+
-+    tcg_gen_movcond_tl(TCG_COND_NE, dest, src2, ctx->zero, ctx->zero, src1);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 8ffa2116e0..4a957a50b5 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1103,6 +1103,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
- #include "insn_trans/trans_rvh.c.inc"
- #include "insn_trans/trans_rvv.c.inc"
- #include "insn_trans/trans_rvb.c.inc"
-+#include "insn_trans/trans_rvzicond.c.inc"
- #include "insn_trans/trans_rvzawrs.c.inc"
- #include "insn_trans/trans_rvzfh.c.inc"
- #include "insn_trans/trans_rvk.c.inc"
+-    if (ms->dtb) {
+-        fdt = ms->fdt = load_device_tree(ms->dtb, &fdt_size);
+-        if (!fdt) {
+-            error_report("load_device_tree() failed");
+-            exit(1);
+-        }
+-        return;
+-    } else {
+-        fdt = ms->fdt = create_device_tree(&fdt_size);
+-        if (!fdt) {
+-            error_report("create_device_tree() failed");
+-            exit(1);
+-        }
++    fdt = ms->fdt = create_device_tree(&s->fdt_size);
++    if (!fdt) {
++        error_report("create_device_tree() failed");
++        exit(1);
+     }
+ 
+     qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
+@@ -561,8 +552,16 @@ static void sifive_u_machine_init(MachineState *machine)
+     qdev_connect_gpio_out(DEVICE(&(s->soc.gpio)), 10,
+                           qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
+ 
+-    /* create device tree */
+-    create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
++    /* load/create device tree */
++    if (machine->dtb) {
++        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
++        if (!machine->fdt) {
++            error_report("load_device_tree() failed");
++            exit(1);
++        }
++    } else {
++        create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
++    }
+ 
+     if (s->start_in_flash) {
+         /*
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 981392c0bb..4f8191860b 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1009,19 +1009,10 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
+     uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
+     uint8_t rng_seed[32];
+ 
+-    if (ms->dtb) {
+-        ms->fdt = load_device_tree(ms->dtb, &s->fdt_size);
+-        if (!ms->fdt) {
+-            error_report("load_device_tree() failed");
+-            exit(1);
+-        }
+-        return;
+-    } else {
+-        ms->fdt = create_device_tree(&s->fdt_size);
+-        if (!ms->fdt) {
+-            error_report("create_device_tree() failed");
+-            exit(1);
+-        }
++    ms->fdt = create_device_tree(&s->fdt_size);
++    if (!ms->fdt) {
++        error_report("create_device_tree() failed");
++        exit(1);
+     }
+ 
+     qemu_fdt_setprop_string(ms->fdt, "/", "model", "riscv-virtio,qemu");
+@@ -1506,8 +1497,16 @@ static void virt_machine_init(MachineState *machine)
+     }
+     virt_flash_map(s, system_memory);
+ 
+-    /* create device tree */
+-    create_fdt(s, memmap);
++    /* load/create device tree */
++    if (machine->dtb) {
++        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
++        if (!machine->fdt) {
++            error_report("load_device_tree() failed");
++            exit(1);
++        }
++    } else {
++        create_fdt(s, memmap);
++    }
+ 
+     s->machine_done.notify = virt_machine_done;
+     qemu_add_machine_init_done_notifier(&s->machine_done);
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 65af306963..0696f85942 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -68,6 +68,7 @@ typedef struct SiFiveUState {
+ 
+     /*< public >*/
+     SiFiveUSoCState soc;
++    int fdt_size;
+ 
+     bool start_in_flash;
+     uint32_t msel;
 -- 
 2.39.2
 
