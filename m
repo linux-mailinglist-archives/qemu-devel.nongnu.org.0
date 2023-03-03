@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8626A92D6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6506A9316
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:52:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zv-0001PL-Sv; Fri, 03 Mar 2023 03:42:39 -0500
+	id 1pY0zx-0001aU-7F; Fri, 03 Mar 2023 03:42:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zj-0000B6-Hh
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:27 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ id 1pY0zl-0000Ob-Cd
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:29 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zh-0007p0-GN
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:27 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id fd25so1102389pfb.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:24 -0800 (PST)
+ id 1pY0zj-00083X-Lv
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:29 -0500
+Received: by mail-pl1-x635.google.com with SMTP id ky4so2002755plb.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832944;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832947;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5m2PUYsFAY3FX5JhuJCzoKPCRU6d188hHgGxLD/laJI=;
- b=nhf/5s+myYaLMgZbWaXTsTdJTllY1FCYFj1uZ8e6KuUf9Wq+GtQ/+i7Nz527lhzacH
- BpKsR7bR0siaUr4a8iYpO5taQi5O0+kx3PHD0kBCRqY2N9jwCQWqKUBbBQM7ZbVo1I5I
- 5tV3Fw6b0U9c9ITpgdd4J/YFFcETT5Yhj7eCTTT0yGwg2gmErCbBcNAA/QmNTYi/rFWZ
- LImwanIKnNK1xbe7NGGLZ3xHTf8EfPstjnoG85ZRCiOuC6gyQf3OOT2RCJloD/bcS9R+
- e5f8vCjmCYJKH7NuBjO3jAAZHr01IPZ93M9qQJgOQ2VncJplUvqiQfbUlge5l+tbWpzj
- wHMw==
+ bh=fZYYFQkf7br/XYCwuLnMNO1BPXLZr4qEybUL4n7cJiY=;
+ b=VdagSACTnvPU46mGK5+SarJgHik7Sp/HHnkfKVsDZF9LWMZW2su2rg1SNvazTmTq+3
+ noU4YEWQPtl8W1Qy55oDNy8g8q74LR5MFqTLMH2T01N54nh5vzHiBdya2K+IvpkoX7xc
+ IUool7l/q0fEQYtMpzuMNEHcqmPzaqtgnE80ZejgPIsO59uSHx++aoWR2RpbENhqoRCK
+ j7qofs1k0iEylKYqz0InP0qr7zUW1MPJnZSVmrv6rbyi6JOw0Ny0u2vIvpG0m5cd6NES
+ /m5fSXqsQJtvzSKeKZ2/83a7rsMzfXr8ZLjD8xRpkKCXaRy/7RLvJjVT7sL5glqWXNZ8
+ tAOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832944;
+ d=1e100.net; s=20210112; t=1677832947;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5m2PUYsFAY3FX5JhuJCzoKPCRU6d188hHgGxLD/laJI=;
- b=p71zB4RHqTy2i9eXqarEcgi+AnXaQzWuZx5eLEdV3e33ewJs9pMVNld2aJV36JYkik
- S/FurZjgpEPidHDA/EeN/kTOsdz7h8zl5fxqB+Jfg1ZijexAgHyACZ0WCuuQxUI31V7K
- MtsomPOeUtvKvYTcCsZPfp2C6G8W5YmFQXGmGL3BFOx5VqjRqILAs9/NvQEX4b1555+I
- qgGWr5uL8+eagLcfE87PoN7ngNdwUP2mkcEUonWyF4Kr3sOVbqj+QFoEUGuy34x36c0t
- BtdRymODh5zCM2HEMyrgN7tl2VN2pgAUcJzhw1jW1JkHAGE6OEjnoGRzpAbrNlAr7VNc
- 2SJA==
-X-Gm-Message-State: AO0yUKUf/czLgeUPwHVI7hjeTx+xqxoAkdqbM/mqmI7sWshQQgGUwkpB
- xUIbDrWXiebhEhyXWJJJVkTdng==
-X-Google-Smtp-Source: AK7set9MGRj/+RwCy0oNoz1f5sSPCuAwPG0YXKDf0DpeoKpab3me/go0x3NTm1wAxORiavrrUJG79g==
-X-Received: by 2002:aa7:9f1a:0:b0:5a8:ae60:eb4a with SMTP id
- g26-20020aa79f1a000000b005a8ae60eb4amr1206329pfr.28.1677832944362; 
- Fri, 03 Mar 2023 00:42:24 -0800 (PST)
+ bh=fZYYFQkf7br/XYCwuLnMNO1BPXLZr4qEybUL4n7cJiY=;
+ b=ea0zws6RXAfI1+PbsHquBzFrNbiPcJv5BkFbvro+FVwKjqqpmg+RnV8bqmFsnwu858
+ qKZO2J6rHk9sPI/Jk/Cy7t6hwQXfUFi3sBTsVGFX1HHk/b8f1deth1jjVonzpAMhiFqK
+ 6KiZ4JMRhKpd/7gnCGB5zEKzNVIbE0sHxaOe/ks2934GzL+gL3liM2I+8nkGh1yWPDDv
+ wZLvOba9/yx9mt/buSVKidp8bziXnGcrtWXqZYKIN3p3Z/yMbOSVJRfrOq5kTIsPfHWI
+ XzBxgCIXZaCl9dBlCG25/Ckhfes7Il+EVROdn2apF0DCUnBfi4r1OLVuC+c8P7nPHhlI
+ nA3w==
+X-Gm-Message-State: AO0yUKXGuZMu41lIQoa8oeNkVcD2UuOf+RgPHFNjxCrYoRwy/qEhzDvW
+ 6LvfiDWORs5aGs1DfOHMuoW6YdUUWPN4DbEJ
+X-Google-Smtp-Source: AK7set9Xlo2YLH5StYx2rh1bbhR1WKrf1lUgrubCXuRJugu8sDhhKRaztkysjJ7E+dJ2kuqvuNsJ1A==
+X-Received: by 2002:a17:90a:1c3:b0:237:3f83:61f3 with SMTP id
+ 3-20020a17090a01c300b002373f8361f3mr944748pjd.16.1677832946849; 
+ Fri, 03 Mar 2023 00:42:26 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- r9-20020a62e409000000b005a54a978c1bsm1042607pfh.7.2023.03.03.00.42.23
+ u5-20020a654c05000000b0050376cedb3asm1003844pgq.24.2023.03.03.00.42.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:23 -0800 (PST)
-Subject: [PULL 50/59] target/riscv: Add csr support for svadu
-Date: Fri,  3 Mar 2023 00:37:31 -0800
-Message-Id: <20230303083740.12817-51-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:26 -0800 (PST)
+Subject: [PULL 52/59] target/riscv: Add *envcfg.HADE related check in address
+ translation
+Date: Fri,  3 Mar 2023 00:37:33 -0800
+Message-Id: <20230303083740.12817-53-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -68,8 +69,8 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=palmer@rivosinc.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=palmer@rivosinc.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,128 +94,67 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Add ext_svadu property
-Add HADE field in *envcfg:
-* menvcfg.HADE is read-only zero if Svadu is not implemented.
-* henvcfg.HADE is read-only zero if menvcfg.HADE is zero.
+When menvcfg.HADE is 1, hardware updating of PTE A/D bits is enabled
+during single-stage address translation. When the hypervisor extension is
+implemented, if menvcfg.HADE is 1, hardware updating of PTE A/D bits is
+enabled during G-stage address translation.
+
+Set *envcfg.HADE default true for backward compatibility.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230224040852.37109-4-liweiwei@iscas.ac.cn>
+Message-ID: <20230224040852.37109-6-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.h      |  1 +
- target/riscv/cpu_bits.h |  4 ++++
- target/riscv/csr.c      | 17 +++++++++++------
- 3 files changed, 16 insertions(+), 6 deletions(-)
+ target/riscv/cpu.c        | 6 ++++--
+ target/riscv/cpu_helper.c | 6 ++++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 31537fc05f..3991eab5e5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -450,6 +450,7 @@ struct RISCVCPUConfig {
-     bool ext_zihintpause;
-     bool ext_smstateen;
-     bool ext_sstc;
-+    bool ext_svadu;
-     bool ext_svinval;
-     bool ext_svnapot;
-     bool ext_svpbmt;
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8b0d7e20ea..fca7ef0cef 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -747,10 +747,12 @@ typedef enum RISCVException {
- #define MENVCFG_CBIE                       (3UL << 4)
- #define MENVCFG_CBCFE                      BIT(6)
- #define MENVCFG_CBZE                       BIT(7)
-+#define MENVCFG_HADE                       (1ULL << 61)
- #define MENVCFG_PBMTE                      (1ULL << 62)
- #define MENVCFG_STCE                       (1ULL << 63)
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index c8580f0c80..32cb297cfe 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -613,8 +613,10 @@ static void riscv_cpu_reset_hold(Object *obj)
+     env->bins = 0;
+     env->two_stage_lookup = false;
  
- /* For RV32 */
-+#define MENVCFGH_HADE                      BIT(29)
- #define MENVCFGH_PBMTE                     BIT(30)
- #define MENVCFGH_STCE                      BIT(31)
+-    env->menvcfg = (cpu->cfg.ext_svpbmt ? MENVCFG_PBMTE : 0);
+-    env->henvcfg = (cpu->cfg.ext_svpbmt ? HENVCFG_PBMTE : 0);
++    env->menvcfg = (cpu->cfg.ext_svpbmt ? MENVCFG_PBMTE : 0) |
++                   (cpu->cfg.ext_svadu ? MENVCFG_HADE : 0);
++    env->henvcfg = (cpu->cfg.ext_svpbmt ? HENVCFG_PBMTE : 0) |
++                   (cpu->cfg.ext_svadu ? HENVCFG_HADE : 0);
  
-@@ -763,10 +765,12 @@ typedef enum RISCVException {
- #define HENVCFG_CBIE                       MENVCFG_CBIE
- #define HENVCFG_CBCFE                      MENVCFG_CBCFE
- #define HENVCFG_CBZE                       MENVCFG_CBZE
-+#define HENVCFG_HADE                       MENVCFG_HADE
- #define HENVCFG_PBMTE                      MENVCFG_PBMTE
- #define HENVCFG_STCE                       MENVCFG_STCE
+     /* Initialized default priorities of local interrupts. */
+     for (i = 0; i < ARRAY_SIZE(env->miprio); i++) {
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 44a8f267ae..7b7df01935 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -937,9 +937,11 @@ restart:
+         }
  
- /* For RV32 */
-+#define HENVCFGH_HADE                       MENVCFGH_HADE
- #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
- #define HENVCFGH_STCE                       MENVCFGH_STCE
+         bool pbmte = env->menvcfg & MENVCFG_PBMTE;
++        bool hade = env->menvcfg & MENVCFG_HADE;
  
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index b86c1aa6fa..be71c50f09 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1890,7 +1890,8 @@ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+         if (first_stage && two_stage && riscv_cpu_virt_enabled(env)) {
+             pbmte = pbmte && (env->henvcfg & HENVCFG_PBMTE);
++            hade = hade && (env->henvcfg & HENVCFG_HADE);
+         }
  
-     if (riscv_cpu_mxl(env) == MXL_RV64) {
-         mask |= (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
--                (cfg->ext_sstc ? MENVCFG_STCE : 0);
-+                (cfg->ext_sstc ? MENVCFG_STCE : 0) |
-+                (cfg->ext_svadu ? MENVCFG_HADE : 0);
-     }
-     env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
+         if (riscv_cpu_sxl(env) == MXL_RV32) {
+@@ -998,6 +1000,10 @@ restart:
  
-@@ -1909,7 +1910,8 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
- {
-     RISCVCPUConfig *cfg = &env_archcpu(env)->cfg;
-     uint64_t mask = (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
--                    (cfg->ext_sstc ? MENVCFG_STCE : 0);
-+                    (cfg->ext_sstc ? MENVCFG_STCE : 0) |
-+                    (cfg->ext_svadu ? MENVCFG_HADE : 0);
-     uint64_t valh = (uint64_t)val << 32;
- 
-     env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
-@@ -1959,8 +1961,10 @@ static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
-     /*
-      * henvcfg.pbmte is read_only 0 when menvcfg.pbmte = 0
-      * henvcfg.stce is read_only 0 when menvcfg.stce = 0
-+     * henvcfg.hade is read_only 0 when menvcfg.hade = 0
-      */
--    *val = env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) | env->menvcfg);
-+    *val = env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE | HENVCFG_HADE) |
-+                           env->menvcfg);
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -1976,7 +1980,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
-     }
- 
-     if (riscv_cpu_mxl(env) == MXL_RV64) {
--        mask |= env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
-+        mask |= env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE | HENVCFG_HADE);
-     }
- 
-     env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
-@@ -1994,7 +1998,7 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
-         return ret;
-     }
- 
--    *val = (env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) |
-+    *val = (env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE | HENVCFG_HADE) |
-                             env->menvcfg)) >> 32;
-     return RISCV_EXCP_NONE;
- }
-@@ -2002,7 +2006,8 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
- static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
-                                   target_ulong val)
- {
--    uint64_t mask = env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
-+    uint64_t mask = env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE |
-+                                    HENVCFG_HADE);
-     uint64_t valh = (uint64_t)val << 32;
-     RISCVException ret;
- 
+             /* Page table updates need to be atomic with MTTCG enabled */
+             if (updated_pte != pte) {
++                if (!hade) {
++                    return TRANSLATE_FAIL;
++                }
++
+                 /*
+                  * - if accessed or dirty bits need updating, and the PTE is
+                  *   in RAM, then we do so atomically with a compare and swap.
 -- 
 2.39.2
 
