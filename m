@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19EC6A9411
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13CB6A93E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:25:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zu-0001B3-1a; Fri, 03 Mar 2023 03:42:38 -0500
+	id 1pY0zn-0000Uh-QU; Fri, 03 Mar 2023 03:42:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0ze-0008Ri-50
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:22 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pY0zg-0008V9-QC
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:25 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zc-000860-8v
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:21 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id oj5so1780806pjb.5
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:19 -0800 (PST)
+ id 1pY0zf-00086w-B7
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:24 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id n6so1987360plf.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832939;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832942;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cTBqTOX66ilKzC7xCByUy9pfB1RZcSI16KtCXQgik/w=;
- b=H9hYXgKDq5dd2Jz0x0M6pigS/BK9EuBFi8sw+wbaj9S5Ai9CD35p5zOOpYqBjLY34G
- wOJm9IrPCUTO+doFVSt1HCeVkReJ/YSmvP9hWKFWnaAPct06Z7zgONh4HpoIO2UrovOR
- FzW6WGVXApQn7DaCC4XtZxc1p+J20CPxdCANtunG6NdNVnAMevJt3+a1DMxCuvXXnIv0
- izcTsIblZLHPyT7MYUt8a9CuWOZBJc7l239icadKaPt85eb5VrZW9B2BjhEXVehJhl+f
- A7/+I0DrbQbV8XZ5sGer8iXBUHRQr7vj6+R8Rye9QwOaG/mMGPnhfxZkN2sfUecz5Li3
- HM7Q==
+ bh=YwFKiArhbxJLyBVT/Z+JtOcropCSjORrRpC5cWL6qGo=;
+ b=XMVZpgvz+3T+O9QwKocc7Keysdq6Qzgf/L8/cNGuEbz0227eSJNkVsZKV2kBbS/ayy
+ 8OkB8kVpcytZjNFfYE0fjJRPp6he4+/mBsl1vGPMKfctIRXWd+V3kHG1R5OLdyh59Ue5
+ gv/fjywgNwlDWITjiaAJP1njr6nx1pY3DBuuTepeKFxXRF4InFAPdRrWJ4CHHadyQdkP
+ PqrPtxpsG7vLLxAMZry8LaHz23jdZu7+1Fv9x8ar4/zow92srW7qwoNtin0hrLTyNcqq
+ fEOUCiFLIUvoNw+sPErgj1fNdkBAws+omgQajF3/PX+J9Bk8/HZdOq6EBjMgaGnOny+k
+ r3vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832939;
+ d=1e100.net; s=20210112; t=1677832942;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cTBqTOX66ilKzC7xCByUy9pfB1RZcSI16KtCXQgik/w=;
- b=Js4A6fUwo9mq9bEuCvGTq0nfAdLnK08Y3Z0tPO7g9ssXHZAvh/xsHs76IHXGsu+u0v
- w2iSL/4bpzQspYVTzqTGbKaBSqR1egsHrnqgYf3etlEa/D3m1tl3+fb1zaGJdFhIJ6us
- puHSRyixgvWduOXJpyLTWH2PKiuvU7nRk+IkMCX6hd5hp2y6uPx2bFfQcpKR3N8wDmCH
- ECQLbjq+c5ER4Mc6KOt2GRneXEA4FgMeYCaNb/O+3sYq7VwB6ToL8ARN0igLGBBCD1LC
- roV9MCfYDAWvqagL9jP/7MUIZy+WaIMD+vj0Ea85FRix7ybVSsfghgjcd8Tb5bBXVUB9
- Kppg==
-X-Gm-Message-State: AO0yUKUnrm9UmJPDC6LIZ1+n34zCJFNf4QYE1tGFG4TS1jley//dJweN
- eQm3V9N7776Pd3uX2wFY4gYQ2Q==
-X-Google-Smtp-Source: AK7set9QthMOGSe9jeUqpVue0nmX4FAhMN6Es1x89zQOAxgiE9xdACmE8hVgmR+8aNgkcOzPiC29vQ==
-X-Received: by 2002:a05:6a20:258a:b0:cc:868f:37b3 with SMTP id
- k10-20020a056a20258a00b000cc868f37b3mr1287882pzd.58.1677832939061; 
- Fri, 03 Mar 2023 00:42:19 -0800 (PST)
+ bh=YwFKiArhbxJLyBVT/Z+JtOcropCSjORrRpC5cWL6qGo=;
+ b=ehOLjGrOjExRHWYLzzPJuVOmvwQRJurhvLGYmiZrxegDqa4hT6zXu7dJUCjaFeDLpp
+ o6GDoY/rP/47pUC/F6ECzPJ9knbORk9o/pPdSHmcIXRIx8OH3NcsZ2yAG54ntT7JfIed
+ MKASBdE3Roz3g6NwRn/PednjO4L6c+kkPiwK/1TV66J1E9Ka6icBzIilwgLpnK1uJWuf
+ PyEH4xgmXp+v1bL6/LO6va6H4haGh2VuMWByNwjZmClz2m/fIOce+rVW77aKdaz5Yfow
+ 4NiHbnyB1ZYGbOdt2kJDH1rIZEXfZZJH+D53klbLcmGBNwi4cv3TylLXhykz8FGd5YKm
+ ENfw==
+X-Gm-Message-State: AO0yUKXreRxtEQJT2741mLxuZoqjlnIBiEraK56je27hIh6Oc4WepIQP
+ 1s5ykG26Ua7pDewhAsB0blUvZw==
+X-Google-Smtp-Source: AK7set8ZuYT41+MzIaUOWYmZiQyuse4/dntmjpUUtJWYgvJUxWjL1IVLcUl7L86VbO+mxS/wUwmltg==
+X-Received: by 2002:a05:6a20:158e:b0:cd:929d:27fc with SMTP id
+ h14-20020a056a20158e00b000cd929d27fcmr1810423pzj.45.1677832941938; 
+ Fri, 03 Mar 2023 00:42:21 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- v10-20020aa7808a000000b005a8ae0c52cfsm1076799pff.16.2023.03.03.00.42.18
+ i22-20020aa78d96000000b005d932d0c029sm1044509pfr.65.2023.03.03.00.42.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:18 -0800 (PST)
-Subject: [PULL 46/59] hw/riscv: Skip re-generating DT nodes for a given DTB
-Date: Fri,  3 Mar 2023 00:37:27 -0800
-Message-Id: <20230303083740.12817-47-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:21 -0800 (PST)
+Subject: [PULL 48/59] target/riscv: Fix the relationship between
+ menvcfg.PBMTE/STCE and Svpbmt/Sstc extensions
+Date: Fri,  3 Mar 2023 00:37:29 -0800
+Message-Id: <20230303083740.12817-49-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Bin Meng <bmeng@tinylab.org>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
+ Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,50 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Launch qemu-system-riscv64 with a given dtb for 'sifive_u' and 'virt'
-machines, QEMU complains:
+menvcfg.PBMTE/STCE are read-only zero if Svpbmt/Sstc are not implemented.
 
-  qemu_fdt_add_subnode: Failed to create subnode /soc: FDT_ERR_EXISTS
-
-The whole DT generation logic should be skipped when a given DTB is
-present.
-
-Fixes: b1f19f238cae ("hw/riscv: write bootargs 'chosen' FDT after riscv_load_kernel()")
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230228074522.1845007-1-bmeng@tinylab.org>
+Message-ID: <20230224040852.37109-2-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- hw/riscv/sifive_u.c | 1 +
- hw/riscv/virt.c     | 1 +
- 2 files changed, 2 insertions(+)
+ target/riscv/csr.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index ad3bb35b34..76db5ed3dd 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -118,6 +118,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-             error_report("load_device_tree() failed");
-             exit(1);
-         }
-+        return;
-     } else {
-         fdt = ms->fdt = create_device_tree(&fdt_size);
-         if (!fdt) {
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 49f2c157f7..981392c0bb 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1015,6 +1015,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
-             error_report("load_device_tree() failed");
-             exit(1);
-         }
-+        return;
-     } else {
-         ms->fdt = create_device_tree(&s->fdt_size);
-         if (!ms->fdt) {
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 1b0a0c1693..b20b00a9a7 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1885,10 +1885,12 @@ static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
+ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
++    RISCVCPUConfig *cfg = &env_archcpu(env)->cfg;
+     uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
+ 
+     if (riscv_cpu_mxl(env) == MXL_RV64) {
+-        mask |= MENVCFG_PBMTE | MENVCFG_STCE;
++        mask |= (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
++                (cfg->ext_sstc ? MENVCFG_STCE : 0);
+     }
+     env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
+ 
+@@ -1905,7 +1907,9 @@ static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
+ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
+-    uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
++    RISCVCPUConfig *cfg = &env_archcpu(env)->cfg;
++    uint64_t mask = (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
++                    (cfg->ext_sstc ? MENVCFG_STCE : 0);
+     uint64_t valh = (uint64_t)val << 32;
+ 
+     env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
 -- 
 2.39.2
 
