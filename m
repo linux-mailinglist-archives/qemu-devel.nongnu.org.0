@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893396A9159
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 08:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DE86A916A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 08:05:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXzOe-0000eK-4k; Fri, 03 Mar 2023 02:00:04 -0500
+	id 1pXzSh-0007CP-NN; Fri, 03 Mar 2023 02:04:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tao1.su@linux.intel.com>)
- id 1pXzOa-0000cx-Qz
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 02:00:00 -0500
-Received: from mga14.intel.com ([192.55.52.115])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tao1.su@linux.intel.com>)
- id 1pXzOZ-000591-9Q
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 02:00:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677826799; x=1709362799;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4LTjoHEcDyifKoH0BL+lwwYPesUz1LD6wixhga8t/KU=;
- b=av5QmnPggye2h7TYgM8dwYTko2V1+0wcwLJZgJwgLFnS/svf1uZizlfx
- ZGUXwSIjujkFaRCdJWc9QVmPAJTUWilLu3u44Yw/O6bjrNF0RFgLLJaEl
- bb3sJHLe8pH1qBbbEHNBuAqAu8FA4+vjqGa8xIpWNr2Hcjwg7e5hM/dLk
- p59NmgPBPwP5375+g84OS4Uq5bygJHbhwYpSiaF0KOZEm188FWJoj58yf
- PBa6HrMkA1QkLHd/ZrhNQDtxW1mIDWnxIh3HEFLMrDoZud0gu1rz4ZQ0n
- 2F91pUBNexkSfj2DSlVSwqfNcSungqTF6fo18rYUIGTp1t0t8DkTEHOel A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="334995844"
-X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; d="scan'208";a="334995844"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2023 22:59:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="668550479"
-X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; d="scan'208";a="668550479"
-Received: from linux.bj.intel.com ([10.238.157.63])
- by orsmga007.jf.intel.com with ESMTP; 02 Mar 2023 22:59:56 -0800
-From: Tao Su <tao1.su@linux.intel.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, yang.zhong@intel.com,
- jing2.liu@intel.com, vkuznets@redhat.com, philmd@linaro.org
-Subject: [PATCH v2 6/6] target/i386: Add support for PREFETCHIT0/1 in CPUID
- enumeration
-Date: Fri,  3 Mar 2023 14:59:13 +0800
-Message-Id: <20230303065913.1246327-7-tao1.su@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230303065913.1246327-1-tao1.su@linux.intel.com>
-References: <20230303065913.1246327-1-tao1.su@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pXzSd-0007C0-Qq
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 02:04:12 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pXzSb-0005xf-JR
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 02:04:11 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id oj5so1587220pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 23:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1677827042;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9qxR+LsNp3aFMRW6JEaKPzeka+7ImnlF0fF7dWEDWdA=;
+ b=OUpipDmmHsci7EN7YfKNlduJr4LoyRUr14H9uAzJGDTGGRdctWByMMtVSHI/K78c4C
+ +/V4lJ211Uw7ZdDPYF4+6PHUBY8sqwjzT6iCDEULPh51sT3tqTKRMFR5uIcFihOjqdFP
+ ZbLd07xd0s6GOLAnd3Fcngi9KY0WHXkaPQDuQr5/7VNoFsuOb4SRNe2LWPcOlt8YmiVW
+ qg0/crxmBJiFZ0cD0LaID/7UE6t5eAHqK6b1hgJUpYTHZ8SyQk9S7x4juOJg6kiwlILt
+ Envug9crXgm7xcgt7NipuST3fZTdLbqKrAgxcQsUE0eHTpC8jFqCXYBEvGixPIKcjI2y
+ F1CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677827042;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9qxR+LsNp3aFMRW6JEaKPzeka+7ImnlF0fF7dWEDWdA=;
+ b=C2VS97zLX1AX+x/fVMAMm4UcNKJoOozeqAYJsBPd6M8ks8Wcl7D0HPdzYx8cgdKd1L
+ i4YVUKBQV8cxyGUXS/wkT/zLMx3mHIG8AwNhpW3SPzXokxkAqyecIn7imglPibu8bg2A
+ Dgk8sn0fvETSOMS0MR6xZy6RK2Z3szOyHNroCDY6OT3y27eeCwYc0yiVIMF6fMVJ6FWj
+ P0gognxSvc1eFYtLBkShlpmRmeMAxTJG5zJAsU/5Qy6gCuYLYA6UKdyD86jetr8aKxmd
+ IuVvypJSjvP9VSsfevULxfGDmhQphaM7E69n/quoiJTvJXpAOVH0O1taDHjxIDDg5pEq
+ UF9A==
+X-Gm-Message-State: AO0yUKX6vimYSdrqOaA5ojYbxXm6zwpX98No92PiplILBtoUu81Q4Br+
+ ez1QDG/wpSdaWuribd3GrTq2kQ==
+X-Google-Smtp-Source: AK7set8MSB6U3LwgSLkbqB5frxxsjuK5QTsM5998ZT+sb7Ca+7TftJEva/ZJIPy4rcJHuSq9ILDQOw==
+X-Received: by 2002:a05:6a20:5489:b0:cc:120c:b259 with SMTP id
+ i9-20020a056a20548900b000cc120cb259mr1563263pzk.39.1677827042020; 
+ Thu, 02 Mar 2023 23:04:02 -0800 (PST)
+Received: from [10.3.43.196] ([61.213.176.8]) by smtp.gmail.com with ESMTPSA id
+ j22-20020aa78d16000000b005a909290425sm825551pfe.172.2023.03.02.23.03.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 23:04:01 -0800 (PST)
+Message-ID: <f0589d64-79cf-7b59-47ae-ac1428f20241@bytedance.com>
+Date: Fri, 3 Mar 2023 15:02:24 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Re: [PATCH v6 09/12] cryptodev: Account statistics
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, mst@redhat.com
+Cc: arei.gonglei@huawei.com, dgilbert@redhat.com, pbonzini@redhat.com,
+ armbru@redhat.com, qemu-devel@nongnu.org
+References: <20230301105847.253084-1-pizhenwei@bytedance.com>
+ <20230301105847.253084-10-pizhenwei@bytedance.com>
+ <Y/8xdwWYywVu4jIp@redhat.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <Y/8xdwWYywVu4jIp@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=tao1.su@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,51 +95,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jiaxi Chen <jiaxi.chen@linux.intel.com>
 
-Latest Intel platform Granite Rapids has introduced a new instruction -
-PREFETCHIT0/1, which moves code to memory (cache) closer to the
-processor depending on specific hints.
 
-The bit definition:
-CPUID.(EAX=7,ECX=1):EDX[bit 14]
+On 3/1/23 19:05, Daniel P. Berrangé wrote:
+> On Wed, Mar 01, 2023 at 06:58:44PM +0800, zhenwei pi wrote:
+>> Account OPS/BPS for crypto device, this will be used for 'query-stats'
+>> QEMU monitor command and QoS in the next step.
+>>
+>> Note that a crypto device may support symmetric mode, asymmetric mode,
+>> both symmetric and asymmetric mode. So we use two structure to
+>> describe the statistics of a crypto device.
+>>
+>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+>> ---
+>>   backends/cryptodev.c       | 68 +++++++++++++++++++++++++++++++++++---
+>>   include/sysemu/cryptodev.h | 49 +++++++++++++++++++++++++++
+>>   2 files changed, 112 insertions(+), 5 deletions(-)
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> 
+> With regards,
+> Daniel
 
-Add CPUID definition for PREFETCHIT0/1.
+Hi Daniel,
+Thanks for your patience in the trunk of work!
 
-Signed-off-by: Jiaxi Chen <jiaxi.chen@linux.intel.com>
-Signed-off-by: Tao Su <tao1.su@linux.intel.com>
----
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+Hi Michael,
+All the patches in this series have been reviewed by Daniel, a small 
+improvement(use macro to walk a list which is pointed out by Dr. David 
+Alan Gilbert) remains and I'd like to do this work in another followup 
+change.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index eee1e5c25f..719e6a2636 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -894,7 +894,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, NULL, NULL, NULL,
-             "avx-vnni-int8", "avx-ne-convert", NULL, NULL,
-             NULL, NULL, NULL, NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, NULL, "prefetchiti", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 14876938c1..febb1837d0 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -922,6 +922,8 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
- #define CPUID_7_1_EDX_AVX_VNNI_INT8     (1U << 4)
- /* AVX NE CONVERT Instructions */
- #define CPUID_7_1_EDX_AVX_NE_CONVERT    (1U << 5)
-+/* PREFETCHIT0/1 Instructions */
-+#define CPUID_7_1_EDX_PREFETCHITI       (1U << 14)
- 
- /* XFD Extend Feature Disabled */
- #define CPUID_D_1_EAX_XFD               (1U << 4)
 -- 
-2.34.1
-
+zhenwei pi
 
