@@ -2,86 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F496A9525
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:26:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D546A952B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:28:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY2bv-0006lF-1r; Fri, 03 Mar 2023 05:25:59 -0500
+	id 1pY2df-0007YF-W2; Fri, 03 Mar 2023 05:27:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2bo-0006l1-Ho
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:25:52 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2bm-0004mp-O2
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:25:52 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id bx12so1724277wrb.11
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677839149;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SM6B82OSDN89Y3zVOahxekl6UHarbJyHBW+OF2tS6mU=;
- b=xDdfya8kPPa0Pl0HtlMnwxAy8e3Jz/c6IrHkS0K2PsljYgAksH0tnbBpJuKWDg4rYQ
- yEL8x09Mi8k9wGsvaNH0o6g8pMmrVkhziEWdgXL+IL3rGWpFytnyVAsOEGpBjnSSuQq+
- bHJPkGQuUd4U7mKyHa1dus4gGwAFqkWZBG+a/sMhNj+IG8FFdHkP8WdNJul6BXZgSvDm
- ujZ/SyTIju79Fqui+Xf7EeqA+LUEMUeiM42K3JtjTsNmKUI7AgSJyJwitSJQN+D9TFpy
- T+wd6n3/yxBqavb/cjzIoT9OzMTMT3h9NmiHJ2r0eGn3ol0BSoEHcc0MpftCk7VoQhPw
- xw8Q==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY2dd-0007Xl-EX
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:27:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY2dZ-0004yT-LH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:27:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677839261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DB7wWm6tGPcU2IGliVAS1qGy2En+lUiplgHZacexQFw=;
+ b=Py7gRv9nnbB31SMTYie2YcxaE+72zOa12Dd8pz5rw2OfJkVysweLepcH57jAOk7Cug8LRi
+ BlFteQJiJ3e0hJO7hZmjyj6q2y0uN9gJS+IH8R4cYCY8ShhAKaL/VBmwg5X4ejzSQRKe7a
+ Lnr25xmWaXOTF7oFsvZYU12ZhmcnRsk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-622-c_ZWDoEmO7O0gP_FFGUFYA-1; Fri, 03 Mar 2023 05:27:37 -0500
+X-MC-Unique: c_ZWDoEmO7O0gP_FFGUFYA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 4-20020a05600c024400b003eb2e295c05so771612wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:27:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677839149;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SM6B82OSDN89Y3zVOahxekl6UHarbJyHBW+OF2tS6mU=;
- b=yxlBHHg8OQNn5S21BYtapBLJl3h6SwFqSAuqDzllZ54DDXGMNWJobjD62oRef0QC5D
- fz5i2CJ+slSQK7UH/wb2rTRxQs1OfM3rTeDECHI20hhyGjrRomZ1dOODaYWp6vjQxcK6
- q+VwWfc2fD9B/OXv771weT8V9/UoaxOtpfSqPthdQ6czHVplKMjb5T9FtUsXjSWZIH0u
- T07nXgKjvK6R/gZ1HgPir4dz6CdCte+9kZmmlWizRbWHctzx9wDrx0CRSNNJrD3EjIXf
- qoYQThjEEoq7Qpz6tiUSLquG31K+PLlKp9snlQvO1+mgyN9ShmJux79DFhBSH01HGTwi
- xjwA==
-X-Gm-Message-State: AO0yUKX74VVJHMsBpdS1LeJOEz1fbuYFpOxpA6/ahR5+XdI0fMMRPBMO
- AM/8x8IAG3SChzQBro3/bMoZSw==
-X-Google-Smtp-Source: AK7set8WtKDVG0daRnR92gz0xZzH++6u7ChWg6tAXM9ujO3eCsBKJvI+KYHMED2Ti4LfPc+GqaB7Fg==
-X-Received: by 2002:a5d:5222:0:b0:2c9:850c:6b15 with SMTP id
- i2-20020a5d5222000000b002c9850c6b15mr931369wra.41.1677839149181; 
- Fri, 03 Mar 2023 02:25:49 -0800 (PST)
-Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- g18-20020a5d4892000000b002c70e60abd4sm1823531wrq.2.2023.03.03.02.25.47
+ bh=DB7wWm6tGPcU2IGliVAS1qGy2En+lUiplgHZacexQFw=;
+ b=cvOeSnrnKkpyNDs6SM9jxQLN90C03mMXnAmfehc1BWcK1ZnwQu30JFuLFHI1SrxSYh
+ VxAkhKD+Mf+vAAsEF/HBZdnOnJJAb052eq22O9EeSvVdarbKkT672FUFN3hNvTTqYFOn
+ zkQ2BBm7y30Fib5C5Z48RUtw3biDQGiFCRxC+rPUV0yUcQZq2ls/olkSWVelm79WwEQg
+ RPwRFQveUxvz1nJ8Ulh9rYE9/A/UF4RFIfEeAYFGbwlJEx9f365wfYf8w1nsiSFC14Vx
+ S2Pqh1Z/Ru4zNwd9BgqIIv/zbmKO953kkjScpdaYeGMLKO/ED83p8ZL2aghwUM1FbRUV
+ k02w==
+X-Gm-Message-State: AO0yUKUOPl7AqkBWajVzON7m5f1VJzjfqp2tqIKjd985XkoEOXkeCWL9
+ bv5zXst06ugTadhVzfK98OL4XV8AdQDqWnimy4AqmCBPDiR7QpiPBokYYkaD4RdILeLK4pTxMla
+ h/3VML00XaHkVn9M=
+X-Received: by 2002:a05:600c:5127:b0:3ea:dbdd:66df with SMTP id
+ o39-20020a05600c512700b003eadbdd66dfmr1141641wms.2.1677839256820; 
+ Fri, 03 Mar 2023 02:27:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set/BmDSP+LYgQRnY7lLNoMj3yXMt9/ilsN1/xEA29z6iwbmZ2MfsUdqDssRBkaR2KhFHPSnmMQ==
+X-Received: by 2002:a05:600c:5127:b0:3ea:dbdd:66df with SMTP id
+ o39-20020a05600c512700b003eadbdd66dfmr1141629wms.2.1677839256529; 
+ Fri, 03 Mar 2023 02:27:36 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
+ [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
+ l3-20020a5d4103000000b002c55521903bsm1773571wrp.51.2023.03.03.02.27.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 02:25:48 -0800 (PST)
-Message-ID: <e85a5616-514f-0623-d8ec-eec758ac160b@linaro.org>
-Date: Fri, 3 Mar 2023 11:25:46 +0100
+ Fri, 03 Mar 2023 02:27:35 -0800 (PST)
+Message-ID: <29717625-6af2-89df-cbc9-d004b7ecf6f1@redhat.com>
+Date: Fri, 3 Mar 2023 11:27:34 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 1/6] Add the Android Emulator hypervisor driver (AEHD)
- accelerator.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 0/5] iotests: make meson aware of individual I/O tests
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Haitao Shan <hshan@google.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20230303022618.4098825-1-hshan@google.com>
- <20230303023013-mutt-send-email-mst@kernel.org>
- <aeac5ad3-6672-10b1-283d-10d950688697@linaro.org>
-In-Reply-To: <aeac5ad3-6672-10b1-283d-10d950688697@linaro.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230302184606.418541-1-berrange@redhat.com>
+ <44d571e7-05b6-b2a1-7eb7-44bf2912ec69@redhat.com>
+ <ZAG1jLsR8vZJprJ4@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <ZAG1jLsR8vZJprJ4@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,81 +103,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 11:19, Philippe Mathieu-Daudé wrote:
-> On 3/3/23 08:33, Michael S. Tsirkin wrote:
->> On Thu, Mar 02, 2023 at 06:26:12PM -0800, Haitao Shan wrote:
->>> Add the configure support for the Android Emulator hypervisor driver
->>> accelerator. The Android Emulator hypervisor driver is a Windows
->>> driver made by porting the KVM from kernel 4.9-rc7.
+On 03/03/2023 09.53, Daniel P. Berrangé wrote:
+> On Fri, Mar 03, 2023 at 09:30:39AM +0100, Thomas Huth wrote:
+>> On 02/03/2023 19.46, Daniel P. Berrangé wrote:
+>>> To just repeat the patch 5 description...
 >>>
->>> Signed-off-by: Haitao Shan <hshan@google.com>
+>>> Currently meson registers a single test that invokes an entire group of
+>>> I/O tests, hiding the test granularity from meson. There are various
+>>> downsides of doing this
+>>>
+>>>    * You cannot ask 'meson test' to invoke a single I/O test
+>>>    * The meson test timeout can't be applied to the individual
+>>>      tests
+>>>    * Meson only gets a pass/fail for the overall I/O test group
+>>>      not individual tests
+>>>    * If a CI job gets killed by the GitLab timeout, we don't
+>>>      get visibility into how far through the I/O tests
+>>>      execution got.
+>>>
+>>> This is not really specific to the I/O tests, the problem is common
+>>> to any case of us running a test which is in fact another test
+>>> harness which runs many tests. It would be nice to have meson have
+>>> the full view of all tests run. Adapting the I/O tests is as easy
+>>> win in this respect.
+>>>
+>>> This switches meson to perform test discovery by invoking 'check' in
+>>> dry-run mode. It then registers one meson test case for each I/O
+>>> test. Parallel execution remains disabled since the I/O tests do not
+>>> use self contained execution environments and thus conflict with
+>>> each other.
 >>
->> Replying on patch 1 but it applies to the whole patchset.
+>> Great to see some movement in this area again!
+>>
+>> Some questions/remarks:
+>>
+>> 1) Could you remove tests/check-block.sh now? See also:
+>>     https://lore.kernel.org/all/20220209101530.3442837-9-thuth@redhat.com/
 > 
-> Indeed this series lacks a cover letter, 
-I just noticed the cover letter in my inbox, oddly delivered after
-the patches:
-https://lore.kernel.org/qemu-devel/CAGD3tSzW1QoAsn+uGjoAkBegLt1iZ=9YWDFcvqbcHMr0S_5kVw@mail.gmail.com/
-(note the patches are disconnected from the cover, and the cover lacks
-the diffstat).
+> Possibly, I wasn't sure if that was wanted as a general entry
+> point for humans, or was solely for meson ?
 
-> which would show
-> this huge diffstat:
-> 
->   MAINTAINERS                       |   12 +
->   accel/Kconfig                     |    3 +
->   docs/about/build-platforms.rst    |    2 +-
->   hw/i386/aehd/apic.c               |  204 +++++++++++++++
->   hw/i386/aehd/i8259.c              |  165 ++++++++++++
->   hw/i386/aehd/ioapic.c             |  164 ++++++++++++
->   hw/i386/aehd/meson.build          |    6 +
->   hw/i386/meson.build               |    1 +
->   hw/i386/pc.c                      |    5 +
->   hw/i386/x86.c                     |    5 +-
->   include/exec/poison.h             |    1 +
->   include/exec/ram_addr.h           |    2 -
->   include/hw/core/cpu.h             |    7 +
->   include/hw/intc/i8259.h           |    1 +
->   include/hw/intc/ioapic.h          |    1 +
->   include/sysemu/aehd-interface.h   |  878 
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->   include/sysemu/aehd.h             |  168 ++++++++++++
->   include/sysemu/hw_accel.h         |    1 +
->   meson.build                       |   16 ++
->   meson_options.txt                 |    2 +
->   qemu-options.hx                   |   20 +-
->   scripts/meson-buildoptions.sh     |    2 +
->   target/i386/aehd/aehd-accel-ops.c |  119 +++++++++
->   target/i386/aehd/aehd-accel-ops.h |   22 ++
->   target/i386/aehd/aehd-all.c       | 1349 
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->   target/i386/aehd/aehd-cpu.c       |  150 +++++++++++
->   target/i386/aehd/aehd-cpu.h       |   41 +++
->   target/i386/aehd/aehd-stub.c      |   22 ++
->   target/i386/aehd/aehd.c           | 2003 
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->   target/i386/aehd/aehd_i386.h      |   26 ++
->   target/i386/aehd/aehd_int.h       |   50 ++++
->   target/i386/aehd/meson.build      |    8 +
->   target/i386/cpu-sysemu.c          |    3 +
->   target/i386/cpu.c                 |   12 +-
->   target/i386/cpu.h                 |    5 +-
->   target/i386/helper.c              |    3 +
->   target/i386/meson.build           |    2 +
->   37 files changed, 5465 insertions(+), 16 deletions(-)
-> 
->> There's obvious duplication with kvm here - probably not surprising.
->>
->> I'd be interested to hear from KVM people to know whether
->> there's interest in unifying code, or they would rather
->> not bother supporting this platform and it's better off
->> being kept separate.
-> 
-> I believe the hw part can be unified, reducing the maintenance
-> cost. (I gave Haitao few hints replying to the relevant patches).
-> 
-> Regards,
-> 
-> Phil.
+I think this script was only ever used for "make check-block", I never heard 
+of anybody really using this script directly in a regular fashion. Humans 
+rather run the tests/qemu-iotests/check script directly. Also see its origins:
+
+  https://gitlab.com/qemu-project/qemu/-/commit/b8c6f29eb84cd3ccbbf
+
+  HTH,
+   Thomas
 
 
