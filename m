@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AE66A9947
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040826A995F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:27:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY6D3-000282-Ci; Fri, 03 Mar 2023 09:16:33 -0500
+	id 1pY6M2-0004xb-EF; Fri, 03 Mar 2023 09:25:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+c2a260b7edcf36afa963+7131+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pY6Cw-000254-0s
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:16:26 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+c2a260b7edcf36afa963+7131+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pY6Ct-0003fc-As
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:16:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=qh8XglnYAlTa87FLwiHDGTC8ZvJgFW2OMSzpAhmaEn4=; b=K9Ox/aEKeWMCuETcGF41BHtZVC
- EqRYvyWT8lwRFwWflZ2KXHkZZDVNaCQDu/HgFYlW8hGYuRyRZd3H1SwhzJ7Valy4qfeSVdW1A6dyC
- b9CdN+SecgbydbO2J1S7euOearaNoN2h7lIXqeD6oTPB95MOmCBezLqwy2fkhpLAU1h1x5ZS9TQh/
- mtm9LIeHD+bLD2woR/yova8ZxDxcURqlIN/X6a0gCyPDsuBkD+b3KWqOGJFYyh4Kgpv4TO3MO0U1W
- /+q9qmkGTGsvZNqZAcPKbsq1f6bI3sZD3RKncq+pCXn/wRAjuidaeva4MudElAKOuV/z3+bARLeJ3
- TPEIT/gg==;
-Received: from [2001:8b0:10b:5:fb4d:a4f5:3e36:91e1]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pY6Cn-003Am1-SA; Fri, 03 Mar 2023 14:16:18 +0000
-Message-ID: <c649f797559886c27c6438cd9d154e5ce3f33a2e.camel@infradead.org>
-Subject: Re: [PULL 00/62] i386, misc changes for QEMU 8.0 soft freeze
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Date: Fri, 03 Mar 2023 14:16:16 +0000
-In-Reply-To: <CAFEAcA8LFXmkf3-QHXp5m607WXLn+n5RR5usxiQbAHezF=9m9w@mail.gmail.com>
-References: <20230302123029.153265-1-pbonzini@redhat.com>
- <CAFEAcA98FkO6_buQentxpUK5Zw_5=8NYf0i0R8DymZKmfpFg5g@mail.gmail.com>
- <d0a89b2ae5b601f37cacd5b525d81309597b975d.camel@infradead.org>
- <CAFEAcA8LFXmkf3-QHXp5m607WXLn+n5RR5usxiQbAHezF=9m9w@mail.gmail.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-UXvbPq8VefE3MzjijMyp"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY6Lz-0004wi-Ry
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:25:47 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pY6Lw-00060Y-1W
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:25:47 -0500
+Received: by mail-pf1-x430.google.com with SMTP id z11so1659385pfh.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 06:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677853535;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wreAfFH2n1KmfuYHmZW0lu1AFMuh49zlqxQjUTSrbL4=;
+ b=pb5l3OBJ4/VrxZuYj5sdgTGscya20VlIbl3uhfXBO3PFUDLNuz2pkNio4LA/G89UrP
+ mqBo9XI7DnG4/4hpcy6wL7hFDameeM1anJKn8TCIqrVvPj0bfTVfariCWdWwL+PWIaZf
+ e9P0mOD1QcZcO+HTKPZNcBc/emzSVHTxUCBBXYshcWfLxIh+Nmnyxm28Cmxutnyu+ecZ
+ KznupPRW1y37O00kjEFWgvdNeCmZ2+ca0TsnCcfpsZjSva68p6m3absYOBVrAdTjfFop
+ m0bQLz7QJCvHtYkqcJm6PCNtBM0dVoOpPV9i2XSdwzUyBDqqvkBPO63RGCcbNHVZyaKY
+ CWNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677853535;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wreAfFH2n1KmfuYHmZW0lu1AFMuh49zlqxQjUTSrbL4=;
+ b=u589RgQ+BaXF3K55g21bZSIkv4qe5qUV5LZYyOFkijHkX4JNcWVFxWYssHDUlt5B35
+ qkJqEPM6FMRe+VnOY8Z4X4PFe3WOrAkqLnpePF2LXOFoUsggcJEC80w/uOd1mQ2VKC28
+ jXeTp3s8vBCC8IWPJ73EuVFhGDSTYIxQJ+k9Kl66mpFamfXE+S4Do5Sp9noVORA6zM4r
+ BmbTNbOCztVCUmqtM72xTbC5HGMPl6Q6d2ByrcejpPvMg/KdN+vWWwsM62BT9Ag2qbZI
+ b/iC/hy6rUjyBhBw4qlXDcfugbWO1BeUbDTw0uUZekZj3V4mylUutz0Ma3GdvVlKceVE
+ er/Q==
+X-Gm-Message-State: AO0yUKUECuAXOnjTmS+oVaCggENnrprOq/t3Fy3Zj13+REJECmI1Ungy
+ KjvXlPHU1j11J8CCyeAs1zNKP0r0UMT7Nu1ujKFNZA==
+X-Google-Smtp-Source: AK7set+aFBMdAQ1d//x474Hx4EVA9ORGWoauSD+kgab8MPzWbHq0jpAVJIYDK2LG8vFS1oINcOSLiPEJG51muaMrasc=
+X-Received: by 2002:a63:a80c:0:b0:503:a7:d244 with SMTP id
+ o12-20020a63a80c000000b0050300a7d244mr555119pgf.9.1677853534929; 
+ Fri, 03 Mar 2023 06:25:34 -0800 (PST)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+c2a260b7edcf36afa963+7131+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230223105308.559632-1-ardb@kernel.org>
+In-Reply-To: <20230223105308.559632-1-ardb@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Mar 2023 14:25:23 +0000
+Message-ID: <CAFEAcA8Nd+Eq8iGGSLgzoOAXB_GoumETKZMnSEz6cBa7ZOfSWw@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw: arm: Support direct boot for Linux/arm64 EFI
+ zboot images
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,142 +89,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 23 Feb 2023 at 10:53, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> Fedora 39 will ship its arm64 kernels in the new generic EFI zboot
+> format, using gzip compression for the payload.
+>
+> For doing EFI boot in QEMU, this is completely transparent, as the
+> firmware or bootloader will take care of this. However, for direct
+> kernel boot without firmware, we will lose the ability to boot such
+> distro kernels unless we deal with the new format directly.
+>
+> EFI zboot images contain metadata in the header regarding the placement
+> of the compressed payload inside the image, and the type of compression
+> used. This means we can wire up the existing gzip support without too
+> much hassle, by parsing the header and grabbing the payload from inside
+> the loaded zboot image.
 
---=-UXvbPq8VefE3MzjijMyp
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Seems reasonable to me. Any particular reason for marking the
+patch RFC ?
 
-On Fri, 2023-03-03 at 13:46 +0000, Peter Maydell wrote:
-> On Fri, 3 Mar 2023 at 13:44, David Woodhouse <dwmw2@infradead.org>
-> wrote:
-> >=20
-> > On Fri, 2023-03-03 at 11:03 +0000, Peter Maydell wrote:
-> > >=20
-> > > Applied, thanks.
-> > >=20
-> > > Please update the changelog at
-> > > https://wiki.qemu.org/ChangeLog/8.0
-> > > for any user-visible changes.
-> >=20
-> > Can I have a wiki account 'dwmw2' with which to do so, please?
->=20
-> Per our irc conversation, I've created one for you.
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  hw/arm/boot.c       |  4 ++
+>  hw/core/loader.c    | 64 ++++++++++++++++++++
+>  include/hw/loader.h |  2 +
+>  3 files changed, 70 insertions(+)
+>
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index 3d7d11f782feb5da..dc10a0788227443e 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -924,6 +924,10 @@ static uint64_t load_aarch64_image(const char *filen=
+ame, hwaddr mem_base,
+>          size =3D len;
+>      }
+>
+> +    if (unpack_efi_zboot_image(&buffer, &size)) {
+> +        return -1;
+> +    }
 
-Thanks. Updated https://wiki.qemu.org/ChangeLog/8.0#x86 with a
-reference to the documentation at
-https://qemu-project.gitlab.io/qemu/system/i386/xen.html
+It seems a bit odd that we will now accept a gzipped file, unzip
+it and then look inside it for the EFI zboot image that tells us
+to do a second unzip step. Is that intentional/useful?
+If not, probably better to do something like "if this is an
+EFI zboot image, load-and-decompress, otherwise if a plain gzipped
+file, load-and-decompress, otherwise assume a raw file".
 
---=-UXvbPq8VefE3MzjijMyp
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+> +
+>      /* check the arm64 magic header value -- very old kernels may not ha=
+ve it */
+>      if (size > ARM64_MAGIC_OFFSET + 4 &&
+>          memcmp(buffer + ARM64_MAGIC_OFFSET, "ARM\x64", 4) =3D=3D 0) {
+> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> index 173f8f67f6e3e79c..7e7f49261a309012 100644
+> --- a/hw/core/loader.c
+> +++ b/hw/core/loader.c
+> @@ -857,6 +857,70 @@ ssize_t load_image_gzipped(const char *filename, hwa=
+ddr addr, uint64_t max_sz)
+>      return bytes;
+>  }
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzAzMTQxNjE2WjAvBgkqhkiG9w0BCQQxIgQgqHVGMH28
-eA4T7mKjOwo2K5n7tsTInQA3z8JJ+GTHbeAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBxjCM8KM1UqFvKp4khaAj9xDz8xNvtERZ7
-OsMJ25XSovtsn+ZKkcn5hJ/a4u+ta9YhegWGVT8F8ETxXPWYfoyZ9zEMtSxLdQZ0RJyNVrPi91fI
-D81QVfv2sHwJJaN/qfoyw4gOMi77+yYxlVyLoX09KPgVl6p9nIP6iT7tZaHbUVDOgOONtGb2EdEn
-b7nkyGBGcjO2BRa5YFslqcy9cGyHlSkj3I2/71Gpuo5P2CJ8rn/AgX+KKN6AlTNF8Sd2IWzPHQL2
-lbTtQdrFsjJ8PqaW5OPlJYjfPCxGUoCLHdIaSw2T95oiBrvtmTQCCVdm807O852W23AZxSp5or3s
-DKagtvlm5/GNUUOmb9mOFs2Kra422ksyJ5KDyvceaUzX1ba68vhqL9IIU4i9jbu6HTJJtHKyh3ee
-wJq4js01UvnAvYJYaToYIozCt2BqHsU0SaMwLVNFBD5A9UZZDwPhmV6zitl4S7gshcI9yxb1YLld
-4JsiR8caTbM7b+a/Z8yHdPL/DCFfYWENMkI8Q6OWhIjen1ZdlxuvT1nBsCVZkYssS1lgSVFT9a4c
-clZb3vEEw6vs1cdPgd5wftBpw6lTxqlCVMsW+rRDe9CTgvheqbHiMaVWyQYbnpjZfjEnRX0Ym7hi
-Eu+Eiz77JggcgWDKHu57+Us+ZFV1PeqoPA0bGHiOxgAAAAAAAA==
+I assume there's a spec somewhere that defines the file format;
+this would be a good place for a comment giving a reference to it
+(URL, document name, etc).
 
+> +// The Linux header magic number for a EFI PE/COFF
+> +// image targetting an unspecified architecture.
+> +#define LINUX_EFI_PE_MAGIC        "\xcd\x23\x82\x81"
+> +
+> +struct linux_efi_zboot_header {
+> +    uint8_t     msdos_magic[4];         // PE/COFF 'MZ' magic number
+> +    uint8_t     zimg[4];                // "zimg" for Linux EFI zboot im=
+ages
+> +    uint32_t    payload_offset;         // LE offset to the compressed p=
+ayload
+> +    uint32_t    payload_size;           // LE size of the compressed pay=
+load
+> +    uint8_t     reserved[8];
+> +    char        compression_type[32];   // Compression type, e.g., "gzip=
+"
+> +    uint8_t     linux_magic[4];         // Linux header magic
+> +    uint32_t    pe_header_offset;       // LE offset to the PE header
+> +};
 
---=-UXvbPq8VefE3MzjijMyp--
+QEMU coding standard doesn't use '//' style comments.
+
+> +
+> +/*
+> + * Check whether *buffer points to a Linux EFI zboot image in memory.
+> + *
+> + * If it does, attempt to decompress it to a new buffer, and free the ol=
+d one.
+> + * If any of this fails, return an error to the caller.
+> + *
+> + * If the image is not a Linux EFI zboot image, do nothing and return su=
+ccess.
+> + */
+> +int unpack_efi_zboot_image(uint8_t **buffer, int *size)
+> +{
+> +    const struct linux_efi_zboot_header *header;
+> +    uint8_t *data =3D NULL;
+> +    ssize_t bytes;
+> +
+> +    /* ignore if this is too small to be a EFI zboot image */
+> +    if (*size < sizeof(*header)) {
+> +        return 0;
+> +    }
+> +
+> +    header =3D (struct linux_efi_zboot_header *)*buffer;
+
+This isn't valid, because *buffer might not be properly aligned.
+You can deal with that by defining your uint32_t fields to be uint8_t[]
+and accessing the contents via ldl_le_p().
+
+> +
+> +    /* ignore if this is not a Linux EFI zboot image */
+> +    if (memcmp(&header->zimg, "zimg", 4) !=3D 0 ||
+> +        memcmp(&header->linux_magic, LINUX_EFI_PE_MAGIC, 4) !=3D 0) {
+
+Do we not care about checking the msdos_magic[] ?
+
+> +        return 0;
+> +    }
+> +
+> +    if (strncmp(header->compression_type, "gzip", 4) !=3D 0) {
+
+Is this field supposed to be NUL-terminated? If I am not confused
+about strncmp(), I think this is comparing only the first 4
+characters and so would match both "gzip" and "gzip-but-not-really".
+
+> +        fprintf(stderr, "unable to handle EFI zboot image with \"%s\" co=
+mpression\n",
+> +                header->compression_type);
+
+This assumes the field is NUL-terminated and will do something
+silly if fed a file where it is not.
+
+> +        return -1;
+> +    }
+> +
+> +    data =3D g_malloc(LOAD_IMAGE_MAX_GUNZIP_BYTES);
+> +    bytes =3D gunzip(data, LOAD_IMAGE_MAX_GUNZIP_BYTES,
+> +                   *buffer + le32_to_cpu(header->payload_offset),
+> +                   le32_to_cpu(header->payload_size));
+
+I think we should bounds-check that the payload offset and size
+are actually all within the input buffer first.
+
+> +    if (bytes < 0) {
+> +        fprintf(stderr, "failed to decompress EFI zboot image\n");
+> +        g_free(data);
+> +        return -1;
+> +    }
+> +
+> +    g_free(*buffer);
+> +    *buffer =3D g_realloc(data, bytes);
+> +    *size =3D bytes;
+> +    return 0;
+> +}
+> +
+>  /*
+>   * Functions for reboot-persistent memory regions.
+>   *  - used for vga bios and option roms.
+> diff --git a/include/hw/loader.h b/include/hw/loader.h
+> index 70248e0da77908c1..d1092c8bfbd903c7 100644
+> --- a/include/hw/loader.h
+> +++ b/include/hw/loader.h
+> @@ -86,6 +86,8 @@ ssize_t load_image_gzipped_buffer(const char *filename,=
+ uint64_t max_sz,
+>                                    uint8_t **buffer);
+>  ssize_t load_image_gzipped(const char *filename, hwaddr addr, uint64_t m=
+ax_sz);
+>
+> +int unpack_efi_zboot_image(uint8_t **buffer, int *size);
+> +
+
+New global functions should have a doc-comment format comment
+describing them in the header file. (This is one of those areas where
+we have a bunch of legacy code that doesn't conform to our ideals and
+are trying to gradually ratchet up by imposing a standard on new
+contributions.)
+
+thanks
+-- PMM
 
