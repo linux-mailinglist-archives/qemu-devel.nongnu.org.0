@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F044A6A92D8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8626A92D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zo-0000Wp-Tn; Fri, 03 Mar 2023 03:42:33 -0500
+	id 1pY0zv-0001PL-Sv; Fri, 03 Mar 2023 03:42:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zf-0008Tu-Im
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:23 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ id 1pY0zj-0000B6-Hh
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:27 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zd-00086S-OL
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:23 -0500
-Received: by mail-pf1-x436.google.com with SMTP id n5so1064249pfv.11
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:21 -0800 (PST)
+ id 1pY0zh-0007p0-GN
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:27 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id fd25so1102389pfb.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832940;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832944;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9t3N2UJPfcfoD4pGjTXsSm1eTae8jmXFNY8cb9vfdLw=;
- b=3/g0ekRdndJexqm9TtVz45tN+0+V05Sk+0/ONZyKc7FH0bMyXRhdMcIwWCGVOwc/LN
- zt4B/RLcCrGnfOyZrxo8L7a4Eop19p7pv5+qDLSzFy73KHdXHJQVRUUgaplvHzAvvxXo
- 5tNZK9/GIIKItzmGT+lp+Qp+9cdXRVq6LfokwR5naBGul+1gWBRQkyRhExNTciAxv7fY
- SyLbUMiCj6+54o6JlDYTQ2O9eqgo9fDkQITpJCBRjJCdsFYIJ3rWXoej9fmagahvdptU
- FKDY669H/kIdS412SrHskVxUJo+q2810Wsd+SHH+hXdpXCjr51S8PCzOrO40vmodA3Aa
- yEIw==
+ bh=5m2PUYsFAY3FX5JhuJCzoKPCRU6d188hHgGxLD/laJI=;
+ b=nhf/5s+myYaLMgZbWaXTsTdJTllY1FCYFj1uZ8e6KuUf9Wq+GtQ/+i7Nz527lhzacH
+ BpKsR7bR0siaUr4a8iYpO5taQi5O0+kx3PHD0kBCRqY2N9jwCQWqKUBbBQM7ZbVo1I5I
+ 5tV3Fw6b0U9c9ITpgdd4J/YFFcETT5Yhj7eCTTT0yGwg2gmErCbBcNAA/QmNTYi/rFWZ
+ LImwanIKnNK1xbe7NGGLZ3xHTf8EfPstjnoG85ZRCiOuC6gyQf3OOT2RCJloD/bcS9R+
+ e5f8vCjmCYJKH7NuBjO3jAAZHr01IPZ93M9qQJgOQ2VncJplUvqiQfbUlge5l+tbWpzj
+ wHMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832940;
+ d=1e100.net; s=20210112; t=1677832944;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9t3N2UJPfcfoD4pGjTXsSm1eTae8jmXFNY8cb9vfdLw=;
- b=AfwYfaFsdcypzfjAQtJiBAYLQ0VaW3YEAKoyMvnw0d1Ty+huhhGTl/hBh51U/FfxA+
- 8w3T/fIneFzxbO/mR/LoaWWgrVCLsu3lA0J7tcRPfaykmvQGvUH+CPPzwMpfUwLDRg2v
- GR8ueC3QXMQDbeVHOhw/w4dcaAEPaQKRm2F9dX2qHeJEoB04WIDcQxhGgGYolS4lkLZC
- Xpn7WTyEn+wK5oZSvedq/zesDhTvcaRYOs4hG1xKryebMlUd5uum+ND3WKsHY0ZhyA/t
- Fjr3Y7quJNJhvkSs2OoresHEIraQC9ECq68cWBnjLTKo8buNpHld/qZfAuG69YC3/vdi
- nyZg==
-X-Gm-Message-State: AO0yUKXZvDiZlirLrTUJR97qOaJIMEt0e7kwjir4Ro2wm7tm5qtUS8db
- CAZCjlafozFY4cxGJneSpOuPzg==
-X-Google-Smtp-Source: AK7set/NosIjhB4gLHiILgAz8rl+s0AyDsA5qz33xC+XWL7lnsC1V0ZQzBC4iJiXCnAVmh7kExQuvA==
-X-Received: by 2002:aa7:9f1a:0:b0:5dc:2de8:f500 with SMTP id
- g26-20020aa79f1a000000b005dc2de8f500mr1249125pfr.22.1677832940347; 
- Fri, 03 Mar 2023 00:42:20 -0800 (PST)
+ bh=5m2PUYsFAY3FX5JhuJCzoKPCRU6d188hHgGxLD/laJI=;
+ b=p71zB4RHqTy2i9eXqarEcgi+AnXaQzWuZx5eLEdV3e33ewJs9pMVNld2aJV36JYkik
+ S/FurZjgpEPidHDA/EeN/kTOsdz7h8zl5fxqB+Jfg1ZijexAgHyACZ0WCuuQxUI31V7K
+ MtsomPOeUtvKvYTcCsZPfp2C6G8W5YmFQXGmGL3BFOx5VqjRqILAs9/NvQEX4b1555+I
+ qgGWr5uL8+eagLcfE87PoN7ngNdwUP2mkcEUonWyF4Kr3sOVbqj+QFoEUGuy34x36c0t
+ BtdRymODh5zCM2HEMyrgN7tl2VN2pgAUcJzhw1jW1JkHAGE6OEjnoGRzpAbrNlAr7VNc
+ 2SJA==
+X-Gm-Message-State: AO0yUKUf/czLgeUPwHVI7hjeTx+xqxoAkdqbM/mqmI7sWshQQgGUwkpB
+ xUIbDrWXiebhEhyXWJJJVkTdng==
+X-Google-Smtp-Source: AK7set9MGRj/+RwCy0oNoz1f5sSPCuAwPG0YXKDf0DpeoKpab3me/go0x3NTm1wAxORiavrrUJG79g==
+X-Received: by 2002:aa7:9f1a:0:b0:5a8:ae60:eb4a with SMTP id
+ g26-20020aa79f1a000000b005a8ae60eb4amr1206329pfr.28.1677832944362; 
+ Fri, 03 Mar 2023 00:42:24 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- u1-20020aa78381000000b005cd81a74821sm1020965pfm.152.2023.03.03.00.42.19
+ r9-20020a62e409000000b005a54a978c1bsm1042607pfh.7.2023.03.03.00.42.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:19 -0800 (PST)
-Subject: [PULL 47/59] hw/riscv: Move the dtb load bits outside of create_fdt()
-Date: Fri,  3 Mar 2023 00:37:28 -0800
-Message-Id: <20230303083740.12817-48-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:23 -0800 (PST)
+Subject: [PULL 50/59] target/riscv: Add csr support for svadu
+Date: Fri,  3 Mar 2023 00:37:31 -0800
+Message-Id: <20230303083740.12817-51-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Bin Meng <bmeng@tinylab.org>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
+ Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=palmer@rivosinc.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=palmer@rivosinc.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,138 +91,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Move the dtb load bits outside of create_fdt(), and put it explicitly
-in sifive_u_machine_init() and virt_machine_init(). With such change
-create_fdt() does exactly what its function name tells us.
+Add ext_svadu property
+Add HADE field in *envcfg:
+* menvcfg.HADE is read-only zero if Svadu is not implemented.
+* henvcfg.HADE is read-only zero if menvcfg.HADE is zero.
 
-Suggested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230228074522.1845007-2-bmeng@tinylab.org>
+Message-ID: <20230224040852.37109-4-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- hw/riscv/sifive_u.c         | 31 +++++++++++++++----------------
- hw/riscv/virt.c             | 29 ++++++++++++++---------------
- include/hw/riscv/sifive_u.h |  1 +
- 3 files changed, 30 insertions(+), 31 deletions(-)
+ target/riscv/cpu.h      |  1 +
+ target/riscv/cpu_bits.h |  4 ++++
+ target/riscv/csr.c      | 17 +++++++++++------
+ 3 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 76db5ed3dd..35a335b8d0 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -99,7 +99,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     MachineState *ms = MACHINE(s);
-     uint64_t mem_size = ms->ram_size;
-     void *fdt;
--    int cpu, fdt_size;
-+    int cpu;
-     uint32_t *cells;
-     char *nodename;
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-@@ -112,19 +112,10 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         "sifive,plic-1.0.0", "riscv,plic0"
-     };
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 31537fc05f..3991eab5e5 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -450,6 +450,7 @@ struct RISCVCPUConfig {
+     bool ext_zihintpause;
+     bool ext_smstateen;
+     bool ext_sstc;
++    bool ext_svadu;
+     bool ext_svinval;
+     bool ext_svnapot;
+     bool ext_svpbmt;
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 8b0d7e20ea..fca7ef0cef 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -747,10 +747,12 @@ typedef enum RISCVException {
+ #define MENVCFG_CBIE                       (3UL << 4)
+ #define MENVCFG_CBCFE                      BIT(6)
+ #define MENVCFG_CBZE                       BIT(7)
++#define MENVCFG_HADE                       (1ULL << 61)
+ #define MENVCFG_PBMTE                      (1ULL << 62)
+ #define MENVCFG_STCE                       (1ULL << 63)
  
--    if (ms->dtb) {
--        fdt = ms->fdt = load_device_tree(ms->dtb, &fdt_size);
--        if (!fdt) {
--            error_report("load_device_tree() failed");
--            exit(1);
--        }
--        return;
--    } else {
--        fdt = ms->fdt = create_device_tree(&fdt_size);
--        if (!fdt) {
--            error_report("create_device_tree() failed");
--            exit(1);
--        }
-+    fdt = ms->fdt = create_device_tree(&s->fdt_size);
-+    if (!fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
+ /* For RV32 */
++#define MENVCFGH_HADE                      BIT(29)
+ #define MENVCFGH_PBMTE                     BIT(30)
+ #define MENVCFGH_STCE                      BIT(31)
+ 
+@@ -763,10 +765,12 @@ typedef enum RISCVException {
+ #define HENVCFG_CBIE                       MENVCFG_CBIE
+ #define HENVCFG_CBCFE                      MENVCFG_CBCFE
+ #define HENVCFG_CBZE                       MENVCFG_CBZE
++#define HENVCFG_HADE                       MENVCFG_HADE
+ #define HENVCFG_PBMTE                      MENVCFG_PBMTE
+ #define HENVCFG_STCE                       MENVCFG_STCE
+ 
+ /* For RV32 */
++#define HENVCFGH_HADE                       MENVCFGH_HADE
+ #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
+ #define HENVCFGH_STCE                       MENVCFGH_STCE
+ 
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index b86c1aa6fa..be71c50f09 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1890,7 +1890,8 @@ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+ 
+     if (riscv_cpu_mxl(env) == MXL_RV64) {
+         mask |= (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
+-                (cfg->ext_sstc ? MENVCFG_STCE : 0);
++                (cfg->ext_sstc ? MENVCFG_STCE : 0) |
++                (cfg->ext_svadu ? MENVCFG_HADE : 0);
+     }
+     env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
+ 
+@@ -1909,7 +1910,8 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+ {
+     RISCVCPUConfig *cfg = &env_archcpu(env)->cfg;
+     uint64_t mask = (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
+-                    (cfg->ext_sstc ? MENVCFG_STCE : 0);
++                    (cfg->ext_sstc ? MENVCFG_STCE : 0) |
++                    (cfg->ext_svadu ? MENVCFG_HADE : 0);
+     uint64_t valh = (uint64_t)val << 32;
+ 
+     env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
+@@ -1959,8 +1961,10 @@ static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
+     /*
+      * henvcfg.pbmte is read_only 0 when menvcfg.pbmte = 0
+      * henvcfg.stce is read_only 0 when menvcfg.stce = 0
++     * henvcfg.hade is read_only 0 when menvcfg.hade = 0
+      */
+-    *val = env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) | env->menvcfg);
++    *val = env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE | HENVCFG_HADE) |
++                           env->menvcfg);
+     return RISCV_EXCP_NONE;
+ }
+ 
+@@ -1976,7 +1980,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
      }
  
-     qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
-@@ -561,8 +552,16 @@ static void sifive_u_machine_init(MachineState *machine)
-     qdev_connect_gpio_out(DEVICE(&(s->soc.gpio)), 10,
-                           qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
- 
--    /* create device tree */
--    create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
-+    /* load/create device tree */
-+    if (machine->dtb) {
-+        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
-+        if (!machine->fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+    } else {
-+        create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
-+    }
- 
-     if (s->start_in_flash) {
-         /*
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 981392c0bb..4f8191860b 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1009,19 +1009,10 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
-     uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
-     uint8_t rng_seed[32];
- 
--    if (ms->dtb) {
--        ms->fdt = load_device_tree(ms->dtb, &s->fdt_size);
--        if (!ms->fdt) {
--            error_report("load_device_tree() failed");
--            exit(1);
--        }
--        return;
--    } else {
--        ms->fdt = create_device_tree(&s->fdt_size);
--        if (!ms->fdt) {
--            error_report("create_device_tree() failed");
--            exit(1);
--        }
-+    ms->fdt = create_device_tree(&s->fdt_size);
-+    if (!ms->fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
+     if (riscv_cpu_mxl(env) == MXL_RV64) {
+-        mask |= env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
++        mask |= env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE | HENVCFG_HADE);
      }
  
-     qemu_fdt_setprop_string(ms->fdt, "/", "model", "riscv-virtio,qemu");
-@@ -1506,8 +1497,16 @@ static void virt_machine_init(MachineState *machine)
+     env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
+@@ -1994,7 +1998,7 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+         return ret;
      }
-     virt_flash_map(s, system_memory);
  
--    /* create device tree */
--    create_fdt(s, memmap);
-+    /* load/create device tree */
-+    if (machine->dtb) {
-+        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
-+        if (!machine->fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+    } else {
-+        create_fdt(s, memmap);
-+    }
+-    *val = (env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) |
++    *val = (env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE | HENVCFG_HADE) |
+                             env->menvcfg)) >> 32;
+     return RISCV_EXCP_NONE;
+ }
+@@ -2002,7 +2006,8 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+ static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
+-    uint64_t mask = env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
++    uint64_t mask = env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE |
++                                    HENVCFG_HADE);
+     uint64_t valh = (uint64_t)val << 32;
+     RISCVException ret;
  
-     s->machine_done.notify = virt_machine_done;
-     qemu_add_machine_init_done_notifier(&s->machine_done);
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 65af306963..0696f85942 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -68,6 +68,7 @@ typedef struct SiFiveUState {
- 
-     /*< public >*/
-     SiFiveUSoCState soc;
-+    int fdt_size;
- 
-     bool start_in_flash;
-     uint32_t msel;
 -- 
 2.39.2
 
