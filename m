@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1A86A8F87
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 04:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409936A8F8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 04:01:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXvcj-0007Sd-E5; Thu, 02 Mar 2023 21:58:21 -0500
+	id 1pXvco-0007VV-Es; Thu, 02 Mar 2023 21:58:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXvcg-0007Qa-1F
+ id 1pXvcg-0007RS-T1
  for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:58:18 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXvcd-0001od-VT
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:58:17 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id a9so1308359plh.11
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 18:58:13 -0800 (PST)
+ id 1pXvce-0001ou-BT
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:58:18 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id x34so1209780pjj.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 18:58:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1677812293;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=afKJl9J8dwmJwl5uT+DP4MXGN3pCqi29VExi2VZVhL8=;
- b=g3/qSbu6whqbjnjm/Zgt8MiU15NnECCLDiJJjMIkCF/VSOc5/dq5RM5u+5/UIStxMn
- KkCuxY3VlewnU8yHIwNFjoAnQwZ8Q0sRtLJterV47Won0Obe8Kv3VqyBi+OmXGJ0icaH
- 0DvEHhPHJNVuEeOnwC2I/Ltg6mjyNwmRBiOHiQ1Hu7we8krjsXt39PFvbR3qHC3qXBH6
- 122qZvNpKC6686ozVKaqDfQdQOlaptb6NDqF/qUBXJyM20IKnPriOXVoLfrrQbCSw61b
- H6lrf4ZIYfuwzMlFiqL3UYCdZQNFufegKjTuX3JubpqavOvquKpb1PUFhzGA+7zeFMuS
- 272A==
+ bh=B9W3wFs03k7dis/zJ2ZqM32MFlhRl5WhqJ+IbJHjQRQ=;
+ b=AhMuzVjn+9fvkhe/m4AycOCKTsYEm/L1A0zDs4Mv5SC3NaUjvuZZ2v3LZetGiVumoR
+ Ik4td76+JYrIqbDfz8I17oTdosHRo64Ztja+PdiyltSRE/d/JQh+mugpaRaaGqGRqKb/
+ 9HyH9ptuxonKCE9OWrCw7TSe+M0JJbmt8tKjSzlE1YkznTh807MgMYtUDTziSrrvdJ8k
+ D9YjCjXGoFF9omZE9gPS13zdqPO9JE8wJ1rxQFAyimLRFbZUPgCQXz4n0elMW1YxuMqJ
+ rcEaXvGRw6yW66+rac7NKHxKpHuibzhkHf8jb2HYxPTDY1Eg0hEbDFXIs6LvZyfalve4
+ ifHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1677812293;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=afKJl9J8dwmJwl5uT+DP4MXGN3pCqi29VExi2VZVhL8=;
- b=btEmpp1CjE60HQmAqc6bt4HnUJ2q5Q9IeEWfvBZwVdTTOY9Lh/LRPLGHzDxB+vfPsK
- XaMr7zHWrZxtrYKBbjOVhgUyyvcZZohQKel5/c9LU/+nRStQ0H2wEQ774mVDCMmaxpM3
- vX+/xsf0mTSOZXrl+2SOc1HEyYinqrRKjus/XzqfiE2SkZEQf3NsK6i0/1ZyKkFGnc/z
- 9Dl5nVsTolrMxeonsN4Sd+TKhIXWzmp4hC1I4SgPIGEhp1G2AFvvBsEzy/FZ4WHPViST
- Ut9UF4UNCnOx56WmWGi9YzOHuzUUouGfkgijbh81ceLZVCvag5tVn0ejZ565AFRqhUQN
- E/HA==
-X-Gm-Message-State: AO0yUKUiaange7KMK4O30MnpVneW6cDXWyZlTEobkvtsnv296gYzr797
- OMpflfHwpFzrh9LyNREWH25rxkH1LBZs2n8DES4=
-X-Google-Smtp-Source: AK7set9B0TK2eEWC5+yZ9wRSHHtR4O1ShI1LI2au9ljSzNy26XKWtNUKJSnUoj/6zzmCdGK2CiyZUw==
-X-Received: by 2002:a17:902:db0b:b0:19e:524a:657 with SMTP id
- m11-20020a170902db0b00b0019e524a0657mr457407plx.56.1677812292624; 
- Thu, 02 Mar 2023 18:58:12 -0800 (PST)
+ bh=B9W3wFs03k7dis/zJ2ZqM32MFlhRl5WhqJ+IbJHjQRQ=;
+ b=bo/qBw1y/LyLhq1Tsw2fMADS0YHp1hqA3X//hkQYstJJVFBGY/RKsRWoaBk+d1EUSd
+ jEM9a4uh7KuG/3mrX1MsgDQYSlIb7JlJMI8tSXCdCDzQOD2cXVnN3H7sTnEV6TIhOBBH
+ u86qGsOYT3oNsvtDF6GKNNXjvYu4Qn4Vns6Z/kZXkUG5ppe89XUzDF0wLfH45UHcjxHx
+ Nu8w+Lk5sBjU4919iaCQBAVQ8LEhHtxMi6D2SaHnUwLipck3ahXnqXBRwuKollhVbkJ4
+ oN/AEv2CCclL3P+chfF7E8m+NztVVIra8tFIrHg4dtam7rHF4yUfUOXjviOopQDfapjn
+ WyrA==
+X-Gm-Message-State: AO0yUKVhRaUKhxTExfR4xLnoUTsbraMk0ugRRGRx7Aq2D+rJB4yuUuAF
+ IZGNRKH6tjPlCPKKBE/t2lzgsnO3SbLFjb4SVGE=
+X-Google-Smtp-Source: AK7set9HuFDAbdfGpP/EWbMg9cb7e0Yzsd15lT+O9mG7uMfIi8Eg7K+ThDmd6/yFTEUhfyjzRTtqGQ==
+X-Received: by 2002:a17:902:740a:b0:19c:bcb1:d75c with SMTP id
+ g10-20020a170902740a00b0019cbcb1d75cmr425836pll.30.1677812293548; 
+ Thu, 02 Mar 2023 18:58:13 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:f3e6:4626:fbc8:b2ce])
  by smtp.gmail.com with ESMTPSA id
  e4-20020a17090301c400b001992e74d055sm372244plh.12.2023.03.02.18.58.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 18:58:12 -0800 (PST)
+ Thu, 02 Mar 2023 18:58:13 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
-Subject: [PATCH v4.5 06/29] gdbstub: move GDBState to shared internals header
-Date: Thu,  2 Mar 2023 18:57:42 -0800
-Message-Id: <20230303025805.625589-7-richard.henderson@linaro.org>
+Subject: [PATCH v4.5 07/29] includes: move tb_flush into its own header
+Date: Thu,  2 Mar 2023 18:57:43 -0800
+Message-Id: <20230303025805.625589-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230303025805.625589-1-richard.henderson@linaro.org>
 References: <20230303025805.625589-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,147 +93,221 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-We are about to split softmmu and user mode helpers into different
-files. To facilitate this we will need to share access to the GDBState
-between those files.
+This aids subsystems (like gdbstub) that want to trigger a flush
+without pulling target specific headers.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-Message-Id: <20230302190846.2593720-7-alex.bennee@linaro.org>
+Message-Id: <20230302190846.2593720-8-alex.bennee@linaro.org>
 ---
- gdbstub/internals.h | 50 +++++++++++++++++++++++++++++++++++++++++++++
- gdbstub/gdbstub.c   | 42 -------------------------------------
- 2 files changed, 50 insertions(+), 42 deletions(-)
+ MAINTAINERS                 |  1 +
+ include/exec/exec-all.h     |  1 -
+ include/exec/tb-flush.h     | 26 ++++++++++++++++++++++++++
+ linux-user/user-internals.h |  1 +
+ accel/stubs/tcg-stub.c      |  1 +
+ accel/tcg/tb-maint.c        |  1 +
+ accel/tcg/translate-all.c   |  1 +
+ cpu.c                       |  1 +
+ gdbstub/gdbstub.c           |  2 ++
+ hw/ppc/spapr_hcall.c        |  1 +
+ plugins/core.c              |  1 +
+ plugins/loader.c            |  2 +-
+ target/alpha/sys_helper.c   |  1 +
+ target/riscv/csr.c          |  1 +
+ 14 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 include/exec/tb-flush.h
 
-diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index 7df0e11c47..32daaf73a3 100644
---- a/gdbstub/internals.h
-+++ b/gdbstub/internals.h
-@@ -11,6 +11,56 @@
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 76662969d7..234800e3dc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -136,6 +136,7 @@ F: docs/devel/decodetree.rst
+ F: docs/devel/tcg*
+ F: include/exec/cpu*.h
+ F: include/exec/exec-all.h
++F: include/exec/tb-flush.h
+ F: include/exec/helper*.h
+ F: include/sysemu/cpus.h
+ F: include/sysemu/tcg.h
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index e09254333d..ad9eb6067b 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -677,7 +677,6 @@ void tb_invalidate_phys_addr(target_ulong addr);
+ #else
+ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
+ #endif
+-void tb_flush(CPUState *cpu);
+ void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
+ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end);
+ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+diff --git a/include/exec/tb-flush.h b/include/exec/tb-flush.h
+new file mode 100644
+index 0000000000..d92d06565b
+--- /dev/null
++++ b/include/exec/tb-flush.h
+@@ -0,0 +1,26 @@
++/*
++ * tb-flush prototype for use by the rest of the system.
++ *
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#ifndef _TB_FLUSH_H_
++#define _TB_FLUSH_H_
++
++/**
++ * tb_flush() - flush all translation blocks
++ * @cs: CPUState (must be valid, but treated as anonymous pointer)
++ *
++ * Used to flush all the translation blocks in the system. Sometimes
++ * it is simpler to flush everything than work out which individual
++ * translations are now invalid and ensure they are not called
++ * anymore.
++ *
++ * tb_flush() takes care of running the flush in an exclusive context
++ * if it is not already running in one. This means no guest code will
++ * run until this complete.
++ */
++void tb_flush(CPUState *cs);
++
++#endif /* _TB_FLUSH_H_ */
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 3576da413f..9333db4f51 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -20,6 +20,7 @@
  
+ #include "exec/user/thunk.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "qemu/log.h"
+ 
+ extern char *exec_path;
+diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+index 96af23dc5d..813695b402 100644
+--- a/accel/stubs/tcg-stub.c
++++ b/accel/stubs/tcg-stub.c
+@@ -11,6 +11,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "exec/tb-flush.h"
+ #include "exec/exec-all.h"
+ 
+ void tb_flush(CPUState *cpu)
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index efefa08ee1..7246c1c46b 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -22,6 +22,7 @@
+ #include "exec/cputlb.h"
+ #include "exec/log.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "exec/translate-all.h"
+ #include "sysemu/tcg.h"
+ #include "tcg/tcg.h"
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 4b5abc0f44..7096e68406 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -47,6 +47,7 @@
+ #include "exec/cputlb.h"
+ #include "exec/translate-all.h"
+ #include "exec/translator.h"
++#include "exec/tb-flush.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/qemu-print.h"
+ #include "qemu/main-loop.h"
+diff --git a/cpu.c b/cpu.c
+index 2e9f931249..e6abc6c76c 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -36,6 +36,7 @@
+ #include "exec/replay-core.h"
  #include "exec/cpu-common.h"
- 
-+#define MAX_PACKET_LENGTH 4096
-+
-+/*
-+ * Shared structures and definitions
-+ */
-+
-+typedef struct GDBProcess {
-+    uint32_t pid;
-+    bool attached;
-+
-+    char target_xml[1024];
-+} GDBProcess;
-+
-+enum RSState {
-+    RS_INACTIVE,
-+    RS_IDLE,
-+    RS_GETLINE,
-+    RS_GETLINE_ESC,
-+    RS_GETLINE_RLE,
-+    RS_CHKSUM1,
-+    RS_CHKSUM2,
-+};
-+
-+typedef struct GDBState {
-+    bool init;       /* have we been initialised? */
-+    CPUState *c_cpu; /* current CPU for step/continue ops */
-+    CPUState *g_cpu; /* current CPU for other ops */
-+    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
-+    enum RSState state; /* parsing state */
-+    char line_buf[MAX_PACKET_LENGTH];
-+    int line_buf_index;
-+    int line_sum; /* running checksum */
-+    int line_csum; /* checksum at the end of the packet */
-+    GByteArray *last_packet;
-+    int signal;
-+    bool multiprocess;
-+    GDBProcess *processes;
-+    int process_num;
-+    char syscall_buf[256];
-+    gdb_syscall_complete_cb current_syscall_cb;
-+    GString *str_buf;
-+    GByteArray *mem_buf;
-+    int sstep_flags;
-+    int supported_sstep_flags;
-+} GDBState;
-+
-+/*
-+ * Break/Watch point support - there is an implementation for softmmu
-+ * and user mode.
-+ */
- bool gdb_supports_guest_debug(void);
- int gdb_breakpoint_insert(CPUState *cs, int type, vaddr addr, vaddr len);
- int gdb_breakpoint_remove(CPUState *cs, int type, vaddr addr, vaddr len);
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "exec/translate-all.h"
+ #include "exec/log.h"
+ #include "hw/core/accel-cpu.h"
 diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index 1e6f8978b5..ef506faa8e 100644
+index ef506faa8e..abb1777e73 100644
 --- a/gdbstub/gdbstub.c
 +++ b/gdbstub/gdbstub.c
-@@ -41,8 +41,6 @@
+@@ -47,6 +47,8 @@
+ #include "semihosting/semihost.h"
+ #include "exec/exec-all.h"
+ #include "exec/replay-core.h"
++#include "exec/tb-flush.h"
++#include "exec/hwaddr.h"
+ 
+ #include "internals.h"
+ 
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 925ff523cc..ec4def62f8 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -8,6 +8,7 @@
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "helper_regs.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/ppc/spapr.h"
+diff --git a/plugins/core.c b/plugins/core.c
+index e04ffa1ba4..04632886b9 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -24,6 +24,7 @@
+ #include "exec/cpu-common.h"
+ 
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "exec/helper-proto.h"
+ #include "tcg/tcg.h"
+ #include "tcg/tcg-op.h"
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 88c30bde2d..809f3f9b13 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -29,7 +29,7 @@
+ #include "qemu/plugin.h"
+ #include "qemu/memalign.h"
+ #include "hw/core/cpu.h"
+-#include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #ifndef CONFIG_USER_ONLY
  #include "hw/boards.h"
  #endif
- 
--#define MAX_PACKET_LENGTH 4096
--
- #include "qemu/sockets.h"
- #include "sysemu/hw_accel.h"
+diff --git a/target/alpha/sys_helper.c b/target/alpha/sys_helper.c
+index 25f6cb8894..c83c92dd4c 100644
+--- a/target/alpha/sys_helper.c
++++ b/target/alpha/sys_helper.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "exec/helper-proto.h"
  #include "sysemu/runstate.h"
-@@ -325,23 +323,6 @@ typedef struct GDBRegisterState {
-     struct GDBRegisterState *next;
- } GDBRegisterState;
- 
--typedef struct GDBProcess {
--    uint32_t pid;
--    bool attached;
--
--    char target_xml[1024];
--} GDBProcess;
--
--enum RSState {
--    RS_INACTIVE,
--    RS_IDLE,
--    RS_GETLINE,
--    RS_GETLINE_ESC,
--    RS_GETLINE_RLE,
--    RS_CHKSUM1,
--    RS_CHKSUM2,
--};
--
- #ifdef CONFIG_USER_ONLY
- typedef struct {
-     int fd;
-@@ -357,29 +338,6 @@ typedef struct {
- static GDBSystemState gdbserver_system_state;
- #endif
- 
--typedef struct GDBState {
--    bool init;       /* have we been initialised? */
--    CPUState *c_cpu; /* current CPU for step/continue ops */
--    CPUState *g_cpu; /* current CPU for other ops */
--    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
--    enum RSState state; /* parsing state */
--    char line_buf[MAX_PACKET_LENGTH];
--    int line_buf_index;
--    int line_sum; /* running checksum */
--    int line_csum; /* checksum at the end of the packet */
--    GByteArray *last_packet;
--    int signal;
--    bool multiprocess;
--    GDBProcess *processes;
--    int process_num;
--    char syscall_buf[256];
--    gdb_syscall_complete_cb current_syscall_cb;
--    GString *str_buf;
--    GByteArray *mem_buf;
--    int sstep_flags;
--    int supported_sstep_flags;
--} GDBState;
--
- static GDBState gdbserver_state;
- 
- static void init_gdbserver_state(void)
+ #include "sysemu/sysemu.h"
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 1b0a0c1693..74c64d4902 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -25,6 +25,7 @@
+ #include "time_helper.h"
+ #include "qemu/main-loop.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-flush.h"
+ #include "sysemu/cpu-timers.h"
+ #include "qemu/guest-random.h"
+ #include "qapi/error.h"
 -- 
 2.34.1
 
