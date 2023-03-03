@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E0A6A980F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:59:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B519D6A9810
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:59:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4zc-00083q-Tv; Fri, 03 Mar 2023 07:58:36 -0500
+	id 1pY503-0000RB-4J; Fri, 03 Mar 2023 07:59:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pY4zZ-0007zR-9N
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:58:34 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pY4zu-000063-CJ
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:58:54 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pY4zX-0003Tv-UP
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:58:33 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id c18so1519430wmr.3
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:58:31 -0800 (PST)
+ id 1pY4zp-0003cw-Tb
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:58:52 -0500
+Received: by mail-wr1-x436.google.com with SMTP id f11so2154278wrv.8
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:58:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=F+Uc7VcW1NGPlapvs/AzRA03UkEjPfoD2MLRxcBXKqs=;
- b=VWhvbDFjYEf5Bw9qPasxjESa88C7tTU2ucvugg03rUQVXa2Y8ifh8lc5bbxtkt4GxH
- 0LIeC5GHRk0ke7a4l71xI0yRVdfOmc3FgB5GC6KKBIimfHUlpu6IV0K7K9N2tpk3Poot
- VrhX/9K94cmIUtGiqQBAbKeMhG+nMYVB8kSZua9NX7YN4D3n2dN8sCm6MyEZmeDjlD83
- jXsaqrT/wR07KnqSOfIhTLSDxNGjGWrYF3WIRrY72pAwzDf+F3XvGGolv/Wr/9oGiAuB
- eGKoHYz4ujdszkBa4GylClaItywYGcr8zzJ+KkVTl4Lv2sb93qpSwpNiZdaWVRFNepOM
- 34sg==
+ bh=oLdEqABSryxZpGN/SUtPppUdsDXkr6RQXNU6fDJsXXA=;
+ b=WPGQdy4YIsyMby6bPTys7WcmS5P3LoGgs6ziBgIsOMSLY3xnJFf0qXivdS95XSjUBP
+ jEjZkF4w0NfcO37NvIrc9SxR/MIZaydPFOQFI0OH8u9huj3a9jKgueFfPTvN6sE9Xu3X
+ DpZ5tfUMi0Qv9X7DXWdZE1sCpgAecV4n3g8/f+SO6w4xFj12D9PZ4T2WXOnpqgl4SP2K
+ iiJ2LMdDwfslaOw9WNKTeDFMB5eNsOdUnKu41Najzv11DaaEy9Gh+VQj7Vz7zgDJmE0j
+ RIUjCipnt08+XUkdKq6IHW5fyI7YMldAm3GDGjgHq0XxhJ1PtIz3I4Y4TYHNsKB/SmAp
+ EuDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=F+Uc7VcW1NGPlapvs/AzRA03UkEjPfoD2MLRxcBXKqs=;
- b=2oiSUsaXMR6neSLoXgHo+WjhAgGgWz5Y09lynn2RM9j38cSizYINsd0bQSVtZyU8Ng
- m8WtE0J8RWzpFXnnhqd+GxlVgOKZbkBUIZBAVuQCYWa9Dxnyh6HxLRepRfWVF/xcoeox
- 0dLCZXJdU+omdB+AFYF/acMCpnRcGk+RFg1bMxGoeZoqDtkRLDfNtQIatv4CqOODvidR
- RhFIC7Tgiq51kzxU+N4YrdZohcZ69B6ZkThwMybZx3SFP4Ik9YIxwUCB1090MNJpaL3A
- QxIjklzF4GGbXhBws0UOk5NW6O0Y4QOt9Is0BZ3HSbclF9a9l2e6eFSkxLtE8M+aNj2C
- h/wA==
-X-Gm-Message-State: AO0yUKVXD6mVssXq4MU1BI2e4RWCjpDJK8RsJvLksucYdFr4q8uAMG7R
- Xbw+2+TIrRsbkc+TUkDlJ1cMRg==
-X-Google-Smtp-Source: AK7set8GLoXD4U2x+2JXdsVgt/yGlcAwKc89Rh/9TynFZZaEFpTRkvHm571QCmtB5RW4juO4yrJU1g==
-X-Received: by 2002:a05:600c:548a:b0:3eb:5ab3:b6d0 with SMTP id
- iv10-20020a05600c548a00b003eb5ab3b6d0mr1589801wmb.6.1677848310243; 
- Fri, 03 Mar 2023 04:58:30 -0800 (PST)
+ bh=oLdEqABSryxZpGN/SUtPppUdsDXkr6RQXNU6fDJsXXA=;
+ b=PrxEqWW63dCZMyMZzW2firsmL1ciWVwzsRmqdw942tZU4Pdza5cZ7r8KIpf3oqLo0R
+ nNTlSwyw9s/qIFPSYm9Hifl8ksZIHvJhnf1CDUEvwO7ZCrsaBIfRopGJmr6X8pKSwLMS
+ MsA12+ubIv14I9e0AnImrE9wtmmrNt3Gs0RfllOEQDrjtQc2ziuRwyniRDNf3NbTAHpO
+ QS+uzLp00TjBslWc5ewE8VWctBTvGsJzM1UxQKFUQBvjHtCUQDzOqO63+TaRpQeFh+fD
+ eZtuzQ+UANh5g8nKyjkJShJJUTE3OVuENVKCKYs1EX5ZLFj/A8eeQ4jtBdhkjS34OrqV
+ dOWg==
+X-Gm-Message-State: AO0yUKVnRqC1WOjxiNGJN8ww0ahIT6iFJAkVqOajs9oF35nHT20rBT6M
+ 6MVbgI7sLKDSKiP5SHfESdLV3A==
+X-Google-Smtp-Source: AK7set9Yg1XMCF5UoEAVS89j073bl4qQ3RKP8I1LwD1EMcioDgwjDlNOAgXfBTkxY0UI2D0ksxnstQ==
+X-Received: by 2002:a5d:58c1:0:b0:2c7:b51:65ce with SMTP id
+ o1-20020a5d58c1000000b002c70b5165cemr1262796wrf.12.1677848324794; 
+ Fri, 03 Mar 2023 04:58:44 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- l10-20020a7bc44a000000b003e21dcccf9fsm5703550wmi.16.2023.03.03.04.58.29
+ j29-20020a5d6e5d000000b002c59f18674asm2151604wrz.22.2023.03.03.04.58.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 04:58:29 -0800 (PST)
+ Fri, 03 Mar 2023 04:58:44 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9D3B21FFB7;
- Fri,  3 Mar 2023 12:58:29 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 378851FFB7;
+ Fri,  3 Mar 2023 12:58:44 +0000 (GMT)
 References: <20230302184606.418541-1-berrange@redhat.com>
- <20230302184606.418541-4-berrange@redhat.com>
+ <20230302184606.418541-5-berrange@redhat.com>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH 3/5] iotests: strip subdir path when listing tests
-Date: Fri, 03 Mar 2023 12:58:24 +0000
-In-reply-to: <20230302184606.418541-4-berrange@redhat.com>
-Message-ID: <87y1oe800a.fsf@linaro.org>
+Subject: Re: [PATCH 4/5] iotests: print TAP protocol version when reporting
+ tests
+Date: Fri, 03 Mar 2023 12:58:40 +0000
+In-reply-to: <20230302184606.418541-5-berrange@redhat.com>
+Message-ID: <87ttz27zzv.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,17 +100,11 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> When asking 'check' to list individual tests by invoking it in dry run
-> mode, it prints the paths to the tests relative to the base of the
-> I/O test directory.
->
-> When asking 'check' to run an individual test, however, it mandates that
-> only the unqualified test name is given, without any path prefix. This
-> inconsistency makes it harder to ask for a list of tests and then invoke
-> each one.
->
-> Thus the test listing code is change to flatten the test names, by
-> printing only the base name, which can be directly invoked.
+> Recently meson started complaining that TAP test reports don't include
+> the TAP protocol version. While this warning is bogus and has since been
+> removed from Meson, it looks like good practice to include this header
+> going forward. The GLib library test harness has started unconditionally
+> printing the version, so this brings the I/O tests into line.
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
