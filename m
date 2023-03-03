@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF726AA4AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 23:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928A16AA4CA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 23:53:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYE55-0007il-4H; Fri, 03 Mar 2023 17:40:51 -0500
+	id 1pYEGI-0007v2-Rc; Fri, 03 Mar 2023 17:52:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pYE53-0007ce-0f
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 17:40:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pYEGG-0007ud-7O; Fri, 03 Mar 2023 17:52:24 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pYE51-0003ML-El
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 17:40:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677883246;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YCs++0UsDn2I23tW4LFZnn2rnwrR0f+f/KvujfQTnE8=;
- b=Y6tU5Z0OpxPexp/hLVu1+yGyZybAtrsdouvucUMVyxTTtD0OrpkrNSm3fyZuct1GGU6sck
- CrNMwPERH6vQkVPQin1kLqC4JXUZpJCZRreEdN8EY3mmJ1CjSupfNkPaYgbLAfWEYwrhHu
- uim0UeIo9D0kn5GkbUf8v5qT/X/DI2M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-r9371hxYPgWLxpaUffrfkw-1; Fri, 03 Mar 2023 17:40:41 -0500
-X-MC-Unique: r9371hxYPgWLxpaUffrfkw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A89D85A5A3;
- Fri,  3 Mar 2023 22:40:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B32F492C3E;
- Fri,  3 Mar 2023 22:40:40 +0000 (UTC)
-Date: Fri, 3 Mar 2023 16:40:38 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Wouter Verhelst <w@uter.be>
-Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- libguestfs@redhat.com
-Subject: Re: [PATCH v2 5/6] spec: Introduce NBD_FLAG_BLOCK_STATUS_PAYLOAD
-Message-ID: <20230303224038.sxhd6enenp4v7gpa@redhat.com>
-References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-6-eblake@redhat.com>
- <Y/Xo+DGAYSZ4bQvK@pc220518.home.grep.be>
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pYEGE-00062a-2g; Fri, 03 Mar 2023 17:52:23 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pYEFv-00027Z-GM; Fri, 03 Mar 2023 23:52:03 +0100
+Message-ID: <c699bca1-194f-d35e-eb22-7f77e92be605@maciej.szmigiero.name>
+Date: Fri, 3 Mar 2023 23:51:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/Xo+DGAYSZ4bQvK@pc220518.home.grep.be>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US, pl-PL
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ kraxel@redhat.com
+References: <20230120122633.84983-1-kwolf@redhat.com>
+ <20230120122633.84983-4-kwolf@redhat.com>
+ <be61e573-1713-472c-899e-ac51b8a22345@kaod.org> <Y+IN+xWlJUl6I2u9@redhat.com>
+ <d09135a0-8ca7-d8af-bcf9-677e839b9d17@kaod.org> <Y+JIlj5BxP6vDFjG@redhat.com>
+ <5fb3fd72-3bd8-4895-62dd-2d504188faf2@kaod.org>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PULL 03/38] pflash: Only read non-zero parts of backend image
+In-Reply-To: <5fb3fd72-3bd8-4895-62dd-2d504188faf2@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,51 +63,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 12:05:44PM +0200, Wouter Verhelst wrote:
-> On Mon, Nov 14, 2022 at 04:46:54PM -0600, Eric Blake wrote:
-> >  #### Simple reply message
-> > 
-> > @@ -1232,6 +1235,19 @@ The field has the following format:
-> >    will be faster than a regular write). Clients MUST NOT set the
-> >    `NBD_CMD_FLAG_FAST_ZERO` request flag unless this transmission flag
-> >    is set.
-> > +- bit 12, `NBD_FLAG_BLOCK_STATUS_PAYLOAD`: Indicates that the server
-> > +  understands the use of the `NBD_CMD_FLAG_PAYLOAD_LEN` flag to
-> > +  `NBD_CMD_BLOCK_STATUS` to allow the client to request that the
-> > +  server filters its response to a specific subset of negotiated
-> > +  metacontext ids passed in via a client payload, rather than the
-> > +  default of replying to all metacontext ids. Servers MUST NOT
-> > +  advertise this bit unless the client successfully negotiates
-> > +  extended headers via `NBD_OPT_EXTENDED_HEADERS`, and SHOULD NOT
-> > +  advertise this bit in response to `NBD_OPT_EXPORT_NAME` or
-> > +  `NBD_OPT_GO` if the client does not negotiate metacontexts with
-> > +  `NBD_OPT_SET_META_CONTEXT`; clients SHOULD NOT set the
-> > +  `NBD_CMD_FLAG_PAYLOAD_LEN` flag for `NBD_CMD_BLOCK_STATUS` unless
-> > +  this transmission flag is set.
+On 8.02.2023 12:19, Cédric Le Goater wrote:
+> On 2/7/23 13:48, Kevin Wolf wrote:
+>> Am 07.02.2023 um 10:19 hat Cédric Le Goater geschrieben:
+>>> On 2/7/23 09:38, Kevin Wolf wrote:
+>>>> Am 06.02.2023 um 16:54 hat Cédric Le Goater geschrieben:
+>>>>> On 1/20/23 13:25, Kevin Wolf wrote:
+>>>>>> From: Xiang Zheng <zhengxiang9@huawei.com>
+>>>>>>
+>>>>>> Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
+>>>>>> when using persistent UEFI variables on virt board. Actually we only use
+>>>>>> a very small(non-zero) part of the memory while the rest significant
+>>>>>> large(zero) part of memory is wasted.
+>>>>>>
+>>>>>> So this patch checks the block status and only writes the non-zero part
+>>>>>> into memory. This requires pflash devices to use sparse files for
+>>>>>> backends.
+>>>>>>
+>>>>>> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+>>>>>>
+>>>>>> [ kraxel: rebased to latest master ]
+>>>>>>
+>>>>>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>>>>>> Message-Id: <20221220084246.1984871-1-kraxel@redhat.com>
+>>>>>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>>>> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>>>>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>>>>
+>>>>> This newly merged patch introduces a "regression" when booting an Aspeed
+>>>>> machine. The following extra m25p80 patch (not yet merged) is required
+>>>>> for the issue to show:
+>>>>>
+>>>>>     https://lore.kernel.org/qemu-devel/20221115151000.2080833-1-clg@kaod.org/
+>>>>>
+>>>>> U-Boot fails to find the filesystem in that case.
+>>>>>
+>>>>> It can be easily reproduced with the witherspoon-bmc machine and seems
+>>>>> to be related to the use of a UBI filesystem. Other Aspeed machines not
+>>>>> using UBI are not impacted.
+>>>>>
+>>>>> Here is a tentative fix. I don't know enough the block layer to explain
+>>>>> what is happening :/
+>>>>
+>>>> I was puzzled for a moment, but...
+>>>>
+>>>>> @@ -39,7 +39,7 @@ static int blk_pread_nonzeroes(BlockBack
+>>>>>                return ret;
+>>>>>            }
+>>>>>            if (!(ret & BDRV_BLOCK_ZERO)) {
+>>>>> -            ret = bdrv_pread(bs->file, offset, bytes,
+>>>>
+>>>> 'bs->file' rather than 'bs' really looks wrong. I think replacing that
+>>>> would already fix the bug you're seeing.
+>>>>
+>>>> Just to be sure, how did you configure the block backend? bs->file would
+>>>> happen to work more or less with raw over file-posix (which is probably
+>>>> what Gerd tested), but I think it breaks with anything else.
+>>>
+>>> The command is  :
+>>>
+>>>    $ qemu-system-arm -M witherspoon-bmc -net user \
+>>>     -drive file=/path/to/file.mtd,format=raw,if=mtd \
+>>>     -nographic -serial mon:stdio -snapshot
+>>>
+>>> If I remove '-snapshot', all works fine.
+>>
+>> Ok, that makes sense then. -snapshot creates a temporary qcow2 overlay,
+>> and then what your guest sees with bs->file is not the virtual disk
+>> content of the qcow2 image, but the qcow2 file itself.
 > 
-> Given that we are introducing this at the same time as the extended
-> headers (and given that we're running out of available flags in this
-> 16-bit field), isn't it better to make the ability to understand
-> PAYLOAD_LEN be implied by extended headers? Or is there a use case for
-> implementing extended headers but not a payload length on
-> CMD_BLOCK_STATUS that I'm missing?
+> yes. Same symptom with pflash devices, TCG and KVM. The guest hangs with -snapshot.
+> 
+> C.
+> 
+> qemu-system-aarch64 -M virt -smp 2 -cpu max -accel tcg,thread=multi -nographic -m 2G -drive if=pflash,format=raw,file=/usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw,readonly=on -drive if=pflash,format=raw,file=rhel9-varstore.img -device virtio-net,netdev=net0,bus=pcie.0,addr=0x3 -netdev user,id=net0 -drive file=rhel9-arm64.qcow2,if=none,id=disk,format=qcow2,cache=none -device virtio-blk-device,drive=disk -serial mon:stdio -snapshot
+> 
+> 
+> 
 
-In my proof of implementation, this was a distinct feature addition on
-top of 64-bit headers.
++1 here for QEMU + KVM/x86: OVMF CODE file fails to load (is all zeroes)
+with either "-snapshot" QEMU command line option or even with just "snapshot=on"
+setting enabled on pflash0.
 
-It is easy to write a server that does not want to deal with a client
-payload on a block status request (for example, a server that only
-knows about one metacontext, and therefore never needs to deal with a
-client wanting a subset of negotiated metacontexts).  Forcing a server
-to have to support a client-side filtering request on block status
-commands, merely because the server now supports 64-bit lengths,
-seemed like a stretch too far, which is why I decided to use a feature
-bit for this one.
+Reverting this patch seems to fix the issue.
 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Thanks,
+Maciej
 
 
