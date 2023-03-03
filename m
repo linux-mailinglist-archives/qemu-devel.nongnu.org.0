@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D800D6A8DC6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 01:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132E66A8DC7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 01:16:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXt5d-0005ZN-TA; Thu, 02 Mar 2023 19:16:01 -0500
+	id 1pXt5i-00064o-HZ; Thu, 02 Mar 2023 19:16:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt5Q-0005QJ-A1
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:15:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt5g-0005y5-97
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:16:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt5O-0005qF-DK
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:15:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt5e-0005wQ-JN
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:16:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677802545;
+ s=mimecast20190719; t=1677802561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5cdPu15UBe7KTDb3QtbGXBpMSA7rh9Jg/65kItOkgBo=;
- b=QmbAlUqtRzQZ++OIkws4aOYCEXstEVwLMSBoLx0luduPZ3s0WWCFTE/ndLkTBl/Xkp9Fqh
- 5WRYTxZ2Yh4m4ZqISp524oeIHzyTxZ9QcpudkMVJLpoGmdqrZUuvfndCozUkoolSNRwL49
- 5Z7NMhFbyN8dDkiWjdGsY6RhBaSs3Sw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-61-HseHFADJPLSLiCx3FQMK-g-1; Thu, 02 Mar 2023 19:15:44 -0500
-X-MC-Unique: HseHFADJPLSLiCx3FQMK-g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j6-20020a05600c1c0600b003eaf882cb85so274874wms.9
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 16:15:44 -0800 (PST)
+ bh=tIBR05ytDMFCNzAJluH8knJqRsuXeDp4DxKD8hcb/sE=;
+ b=BX+gMXtBacp810qxAowA9N8DLrLeyaz5T/OkQOztdWkmn6w4y+XhqOyFl1/nbsStOMpuUO
+ +lnasLqJsegStJ+zPd7T7tcNl+MDU8bilqjJjFe2oXpC67AQiFrpUe0pP2cNOxWOk2BdqL
+ 7XhlZ4moEsxOW06uHRmd1LTEwGgixRc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-442-fEkWJSolPumIjNJfHNFwpA-1; Thu, 02 Mar 2023 19:15:59 -0500
+X-MC-Unique: fEkWJSolPumIjNJfHNFwpA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r7-20020a05600c35c700b003eb3f2c4fb4so282163wmq.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 16:15:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677802543;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5cdPu15UBe7KTDb3QtbGXBpMSA7rh9Jg/65kItOkgBo=;
- b=lpkk6kt1iYoZaKuEWdMoXzcA0m0TDkjBAMUQrDCQKPpQh4Zbf4by2YnUs2LP/55oG4
- OPZdmEzWFkVAFMloSbZjG0GeiOa6HaM2mp7jvD/BjsZlJhhsFuX0RQJUlrSJakbaSOUU
- EPU8cH8nPL1EZV+gS2z70AgVuPDq9JmgI4soVp3zUeGxFyrxoFJxZQwAOLvb7n3e9ak/
- YdpJEK7PjH3gZnz6sCM634iPvkrC3v5Y39AJAqSJuFqGgKvUKm6O5nImTXnbr53J9y1a
- aUcURon1sK89mhcd7jAAATOiF9RpQiAb8RYajxApxL4MjAxsngb+xco1GoTEGyOFH7px
- z/ig==
-X-Gm-Message-State: AO0yUKVMc6BtGvmQYw/Vyni76NXpZVFSxmDy3rsQkLBCVNYji9Mt2DHT
- 76LPGKdNXWAURYWzZDEb6UQ6nPBImwmU228wkAIGHru5oQm5bf/mwan2kehnXCJU/gfkwj8FLaw
- yhBG4mA3LSe6B0Do=
-X-Received: by 2002:a05:600c:1c1d:b0:3e9:c2f4:8ad4 with SMTP id
- j29-20020a05600c1c1d00b003e9c2f48ad4mr9006055wms.8.1677802543340; 
- Thu, 02 Mar 2023 16:15:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set9ckGH2+YUYENIn1+Mqzss73zFzD2Ys7Kb1MOHf0JONFijCzcGAK/RT+hltp/VZQdtdSm9++w==
-X-Received: by 2002:a05:600c:1c1d:b0:3e9:c2f4:8ad4 with SMTP id
- j29-20020a05600c1c1d00b003e9c2f48ad4mr9006044wms.8.1677802543006; 
- Thu, 02 Mar 2023 16:15:43 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677802559;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tIBR05ytDMFCNzAJluH8knJqRsuXeDp4DxKD8hcb/sE=;
+ b=bd8ViDiHNeXQJfBHtzq6kDNyRd2OSOthIPS5RCa01rsd+g4nZGfQdxa7UkHjtAhK7o
+ /PZbhm5Dd0wV8KBKe0gTYXf5nZc/IXxgbqd+C9w/StWvTUoFdpzkofC/tYHnxW7jFW30
+ 6xiwenhBBEDJ+g9AyufR5y18RZqYxzIlip4HViE3X6LMECtFVcNvcxR68EN9hxR81LmS
+ +l144SeBJQsZcYHmHJTWl/FIAeGG9+OWZv6S2vwzyTmXCIE8uJIH5mWBwgR9W/2QTtD/
+ jrJCo3gSc9lod7YJzoGQSW5GcFUFrCRMkSVjZPUxCLJMcYzffpaPVPOqpgxepnw8/m+T
+ pCUQ==
+X-Gm-Message-State: AO0yUKXy7xjFjy9IMVhnpeXCv64VWh9iXmk3rSy67FxSWAyvWhhydtOv
+ OtAn/oODiHONtQJxnH1o0oeR8Lt93WlUz+oRgWeR41R+J77MMtvnAZenK2oCag3V7ZAYuTwMFjy
+ OCHfHcajQ+kfNknk=
+X-Received: by 2002:a05:600c:1992:b0:3ea:f0d6:5d36 with SMTP id
+ t18-20020a05600c199200b003eaf0d65d36mr9094283wmq.29.1677802558820; 
+ Thu, 02 Mar 2023 16:15:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set8joz/eLvFzUJPBVxjJmlDq8puWI9hwLejd6DUZMYM01PZkFl8vpB62VhVM4Gq3pbTsLWvaaA==
+X-Received: by 2002:a05:600c:1992:b0:3ea:f0d6:5d36 with SMTP id
+ t18-20020a05600c199200b003eaf0d65d36mr9094274wmq.29.1677802558619; 
+ Thu, 02 Mar 2023 16:15:58 -0800 (PST)
 Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
  by smtp.gmail.com with ESMTPSA id
- f13-20020a7bcd0d000000b003db01178b62sm4260299wmj.40.2023.03.02.16.15.41
+ f21-20020a1c6a15000000b003e733a973d2sm4224446wmc.39.2023.03.02.16.15.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 16:15:42 -0800 (PST)
-Date: Thu, 2 Mar 2023 19:15:39 -0500
+ Thu, 02 Mar 2023 16:15:58 -0800 (PST)
+Date: Thu, 2 Mar 2023 19:15:55 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Yajun Wu <yajunw@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Yajun@redhat.com, Wu@redhat.com, &lt@redhat.com, Jiri@redhat.com,
- Pirko@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 35/53] chardev/char-socket: set s->listener = NULL in
- char_socket_finalize
-Message-ID: <20230302191519-mutt-send-email-mst@kernel.org>
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PULL 31/53] pcie: set power indicator to off on reset by default
+Message-ID: <20230302191546-mutt-send-email-mst@kernel.org>
 References: <20230302082343.560446-1-mst@redhat.com>
- <20230302082343.560446-36-mst@redhat.com>
- <fd95f235-b43e-f908-887e-b6b57aa5c4f4@msgid.tls.msk.ru>
+ <20230302082343.560446-32-mst@redhat.com>
+ <37e6d07b-d3db-4a9b-42b6-dd04375822da@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd95f235-b43e-f908-887e-b6b57aa5c4f4@msgid.tls.msk.ru>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <37e6d07b-d3db-4a9b-42b6-dd04375822da@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,23 +99,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 02:49:56PM +0300, Michael Tokarev wrote:
-> There are some url'ifications slipped into this one:
+On Thu, Mar 02, 2023 at 02:34:02PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 02.03.23 11:26, Michael S. Tsirkin wrote:
+> > From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> > 
+> > It should be zero, the only valid values are ON, OFF and BLINK.
 > 
-> 02.03.2023 11:26, Michael S. Tsirkin пишет:
-> ..
-> 
-> > Message-Id: <20230214021430.3638579-1-yajunw@nvidia.com>
-> > Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > Signed-off-by: Yajun Wu &lt;<a href="mailto:yajunw@nvidia.com" target="_blank">yajunw@nvidia.com</a>&gt;<br>
-> > Acked-by: Jiri Pirko &lt;<a href="mailto:jiri@nvidia.com" target="_blank">jiri@nvidia.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Marc-André Lureau &lt;<a href="mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br><br> </div><blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-> 
-> 
-> Thanks,
-> 
-> /mjt
+> At any chance, fix s/should be/should not be/
 
-Ugh yack. how did this happen - no idea.
-Fixed now thanks!
+fixed now thanks!
+> > 
+> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> > Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+> > Message-Id: <20230216180356.156832-13-vsementsov@yandex-team.ru>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >   hw/pci/pcie.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > index 90faf0710a..b8c24cf45f 100644
+> > --- a/hw/pci/pcie.c
+> > +++ b/hw/pci/pcie.c
+> > @@ -684,6 +684,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+> >                                    PCI_EXP_SLTCTL_PDCE |
+> >                                    PCI_EXP_SLTCTL_ABPE);
+> >       pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
+> > +                               PCI_EXP_SLTCTL_PWR_IND_OFF |
+> >                                  PCI_EXP_SLTCTL_ATTN_IND_OFF);
+> >       if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
+> 
+> -- 
+> Best regards,
+> Vladimir
 
 
