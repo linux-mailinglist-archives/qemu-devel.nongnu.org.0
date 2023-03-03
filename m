@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A230C6A8E7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 02:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDF16A8F2C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 03:27:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXts8-0002Zu-7X; Thu, 02 Mar 2023 20:06:08 -0500
+	id 1pXv7m-0000qu-M1; Thu, 02 Mar 2023 21:26:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pXts6-0002Vz-3e
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 20:06:06 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pXts3-00063J-Jw
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 20:06:05 -0500
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8CxQMzuRwFk7nEHAA--.8632S3;
- Fri, 03 Mar 2023 09:05:50 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxY+XuRwFkrnJHAA--.25581S2; 
- Fri, 03 Mar 2023 09:05:50 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, philmd@linaro.org, maobibo@loongson.cn,
- yangxiaojuan@loongson.cn, ani@anisinha.ca, mst@redhat.com,
- imammedo@redhat.com
-Subject: [PATCH v2] hw/loongarch/virt: add system_powerdown hmp command support
-Date: Fri,  3 Mar 2023 09:05:48 +0800
-Message-Id: <20230303010548.295580-1-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1pXv7f-0000pS-Rj
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:26:16 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1pXv7e-0007PI-1c
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:26:15 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id ky4so1303574plb.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 18:26:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1677810371;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=yWq1b42T5OkEZJaONEGUZy+16inY6nykNkwD2+9MX+g=;
+ b=dJ/MTr5oAWNgFxdfadMrOSa5lS4Ex46jg6jW23N0lRXw8T1ClXYVgzZ5hFAdLjX0DM
+ 8Zbvw+opxaO44lhS9gwvT3QPHN3PzPBWmNltNubArKYdGW+pegMFdETTCdV9qGR7C8fb
+ wXVXCuYAR06jmJMkvbTPaEPh9N7mBsBA+hDouC72+dp8CLbBGHT7WVZGsvlpYWBNYCCM
+ ELCOdDmMwurJWeaLtC7/PzlOpecAdW68jVrS2/zKW6yOd4y0SahPmSAFe/4fVZ72BIcp
+ 0c20ftJn519VS9FUO0A0ZvbId+so3oBGBJx1vVC/Z8nr48RxOrZPPB0DKaUgcuXm6ONe
+ nEgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677810371;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yWq1b42T5OkEZJaONEGUZy+16inY6nykNkwD2+9MX+g=;
+ b=1xbgSVTlQTp/fXxU4iHS5fvpMbTMiuiLVzHl2njL0Z+VypLuDNmhLthB1rY6QQ/uZb
+ xQnnxA/cuotVDaKioWgWtQvZnDdpcF87qg5WGKORAiUYOHxgYiZ0sbckRJqK2AAy6ihv
+ RMoV6C3gpx49+M0liLdvsW3AYDbAJ7+tzl6QfG87OwlEWFUpye9WSHpZff4tJt6asA7b
+ f9o9UVVUpkfg545qBKIvWnnbGVmKokYogGoytQylDPMX37tPDb6yuqlISY3Wt29dyq1O
+ C+0FCEnqgISF0eMtC2AWv5MBdZuLrPNd69CpYoXqXQCWE54AzDdOxGnF6p7SDeJ+nQhi
+ Q+iw==
+X-Gm-Message-State: AO0yUKURD3mYQ6QMMFcA4eROC/SFzaZY/ZFgStmFjtbrBX7Hng58Ex8P
+ Q+AFghMzrEMhuQii5Bk58TGXYZM5xEE61hWN7VK5JYNdsU+XF5KCsl0=
+X-Google-Smtp-Source: AK7set/MbZBbYi6hBSKxnHcuMq5LMBW58GvlYBQBSnPzRelt7LfTe33Zbv8Z/+BWkbv8u5PLsXcZUJcfeq2zkay+JSM=
+X-Received: by 2002:a17:90b:368e:b0:233:d131:29be with SMTP id
+ mj14-20020a17090b368e00b00233d13129bemr4694371pjb.9.1677810370700; Thu, 02
+ Mar 2023 18:26:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxY+XuRwFkrnJHAA--.25581S2
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw4DXw15Jw4rXF47CrWDXFb_yoW5Jr4Upa
- sxurn3ua1kXryxWas29as8ZF45Arn7Cw12vF12krWFkFsFgrnF9rW8A3yqyFy8G3yrXayv
- vFn5tFy7W3WUWrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b0xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
- 0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
- FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
- v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
- 8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
- 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+From: Haitao Shan <hshan@google.com>
+Date: Thu, 2 Mar 2023 18:25:59 -0800
+Message-ID: <CAGD3tSzW1QoAsn+uGjoAkBegLt1iZ=9YWDFcvqbcHMr0S_5kVw@mail.gmail.com>
+Subject: [PATCH 0/6] Adding the Android Emulator hypervisor driver accelerator
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=hshan@google.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,74 +78,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For loongarch virt machine, add powerdown notification callback
-and send ACPI_POWER_DOWN_STATUS event by acpi ged. Also add
-acpi dsdt table for ACPI_POWER_BUTTON_DEVICE device in this
-patch.
+Hi, qemu maintainers and community members,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- hw/loongarch/acpi-build.c   |  1 +
- hw/loongarch/virt.c         | 12 ++++++++++++
- include/hw/loongarch/virt.h |  1 +
- 3 files changed, 14 insertions(+)
+The following 6 patches implemented a new x86_64 CPU accelerator called
+the Android Emulator hypervisor driver (AEHD).
 
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index 8aed50e858..6cb2472d33 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -260,6 +260,7 @@ build_la_ged_aml(Aml *dsdt, MachineState *machine)
-                                  AML_SYSTEM_MEMORY,
-                                  VIRT_GED_MEM_ADDR);
-     }
-+    acpi_dsdt_add_power_button(dsdt);
- }
- 
- static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 49d25059f8..38ef7cc49f 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -316,6 +316,14 @@ static void virt_machine_done(Notifier *notifier, void *data)
-     loongarch_acpi_setup(lams);
- }
- 
-+static void virt_powerdown_req(Notifier *notifier, void *opaque)
-+{
-+    LoongArchMachineState *s = container_of(notifier,
-+                                   LoongArchMachineState, powerdown_notifier);
-+
-+    acpi_send_event(s->acpi_ged, ACPI_POWER_DOWN_STATUS);
-+}
-+
- struct memmap_entry {
-     uint64_t address;
-     uint64_t length;
-@@ -859,6 +867,10 @@ static void loongarch_init(MachineState *machine)
-                                    VIRT_PLATFORM_BUS_IRQ);
-     lams->machine_done.notify = virt_machine_done;
-     qemu_add_machine_init_done_notifier(&lams->machine_done);
-+     /* connect powerdown request */
-+    lams->powerdown_notifier.notify = virt_powerdown_req;
-+    qemu_register_powerdown_notifier(&lams->powerdown_notifier);
-+
-     fdt_add_pcie_node(lams);
-     /*
-      * Since lowmem region starts from 0 and Linux kernel legacy start address
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index f5f818894e..7ae8a91229 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -45,6 +45,7 @@ struct LoongArchMachineState {
-     /* State for other subsystems/APIs: */
-     FWCfgState  *fw_cfg;
-     Notifier     machine_done;
-+    Notifier     powerdown_notifier;
-     OnOffAuto    acpi;
-     char         *oem_id;
-     char         *oem_table_id;
+The Android Emulator hypervisor driver is a hypervisor for Windows (7
+or later), made by porting the KVM from the linux kernel 4.9-rc7. Its
+initial purpose was to support the Android Emulator on the AMD
+platforms as the old name "Android Emulator Hypervisor Driver for AMD
+Processors" suggested. Despite the name, Intel processors have been
+supported ever since its first release. Since Intel dropped HAXM support,
+the android emulator is switching from HAXM to AEHD.
+Refer to:
+https://github.com/google/android-emulator-hypervisor-driver.
+
+This patchset implements the user space support for the new
+hypervisor. It was initially made by cloning and modifying the KVM
+source codes. In order to support users who wanted to use the new
+hypervisor to run generic OSes such as Windows and Ubuntu,  it was
+periodically rebased to latest QEMU releases ever since QEMU v4.2.0.
+Refer to: https://github.com/qemu-gvm/qemu-gvm.
+
+Given that both the Windows driver and patched QEMU were out and
+tested for a few years, we would like to see if we could submit our
+work to the QEMU community. Users can have another choice of
+hypervisor on Windows.
+
+The patchset is tested on Windows 11 (64bit) with the AEHD 2.1 by
+installing Ubuntu 22.04 and Windows 10 guests and playing with
+savevm/loadvm. It is also tested on Linux (Ubuntu 22.04) and MacOS
+(Intel and Apple Silicon), making sure it does not break others.
+
+Any comments are welcome. Thanks!
+
+Note:
+The Android Emulator hypervisor driver will be maintained by
+Google. However, there is no plan to rebase it to the latest KVM.
+
 -- 
-2.31.1
-
+Haitao @Google
 
