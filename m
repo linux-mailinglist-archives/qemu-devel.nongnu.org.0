@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA206A9454
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:43:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F216A941D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:30:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zt-0001AB-Mm; Fri, 03 Mar 2023 03:42:37 -0500
+	id 1pY101-0001s6-AN; Fri, 03 Mar 2023 03:42:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zn-0000av-LD
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:31 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pY0zt-0001EE-AO
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:37 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zm-0007pD-0n
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:31 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so5423706pjb.3
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:29 -0800 (PST)
+ id 1pY0zr-00084V-6t
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:37 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id x34so1847589pjj.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832949;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832954;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=82h2vRR5TSHW1u0Jlt4giv+BcWArhc5iaQ4XkWCBX7g=;
- b=qJCsSRycIws//tyhMVjGLu6ywxNbUWq/EpBAYtt06a5aefUYr9IFX6c51tozNobEbO
- mNaXIP774C4yY/J55Wv4vaVZbYU5AGBBP+3oX5PBvLr3A1/Jcggfwkzn/gOmZTvKW21l
- 5dPXStv+gHjE1LKElcX8wDarRwy/ykr1x+B5WduZB/fHkIHXp9OzKy3vYd6EnNiY7wVk
- jYmXkJ8mg2saBK8GTkdDvSLu2pGDNAscnrv20F3SP8zl/H1U+bJX8+4D3twnLbVwX8JA
- dJeBGxxyhEQkbeFhrCfoawRKdk//MWOM15MWk3oTzLGCaymC3oNFQj4CwVXCrSRo9k7S
- OrLg==
+ bh=7cOCkkpY1/6w/mGzzZZmxagwohDu2O0n7RpZ/Apo/tc=;
+ b=g15ydl0N6qW2rZ4UUIL9sPF1fQCK6S1aqiZnUuBxes3bBlhh5hvjW0C8k7ZaobLe/3
+ 4wXLHIS946YfMPVQdRdyCGd8bxFQh+Ss2RHL8vKAfAKOcP0lUnwYkSnRrhUXxWKyWGlp
+ C4UUYLa3ukdpZq/wJq/aj5IHP+QtUlGWTOLz/4X3RLDqD0j1gszU0FUwyS8QKajGAEQH
+ uPio8EZYSdo3KsRK5qMlFxPWdblEqYMsvoim8PHYUlu6b2282QgEt6ls9ONkXwQFYsdC
+ WEXx9uXPxKi90ksToq7oUtlVVZVgzfJ7t+Vrfc0FqEwE0cIm+SLf7cwHDJ7cucA5+sx8
+ XaWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832949;
+ d=1e100.net; s=20210112; t=1677832954;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=82h2vRR5TSHW1u0Jlt4giv+BcWArhc5iaQ4XkWCBX7g=;
- b=2FI50lV1ZnPWr0whL4EIfeyuXt8mD9RyGcmZPW/DUMtFO1rTj40vzhHtuGMHLHmnnz
- o6zVwy+QmaN40LB+0u0vdU9OI1XjuAJ8yL+jxONRO9grpZiuPIQwgre8y63qq0vkqGwe
- Dq1BEtKxv+P7BysJdFlxY45giennLAtk/XJ5BglZwviehevCimaEY6V/f6vcDq/uQLcb
- WExy9d3mALinS0X6mMbUn6OD+9lBG1Yw1HIVsAoMfsvw2zVrIQP1YwGX1/7qTx4CHQXy
- gRWuVUUXPtpT/7WZYCUL4lKqXFRD2cc1upYWrTc60CGpOgF8eOVpUK7YJDsAEvOGYBP6
- dcuw==
-X-Gm-Message-State: AO0yUKXgykUIH+WNyUTcq5bhZAh50brdye7JJc/0N1vgArtj4ABwaSNE
- JgiHi4+1ac7/0RjMqbkKkV5w+g==
-X-Google-Smtp-Source: AK7set+8Om/t/KPnpoGXM3eem1NSHfyvFzkxi8WyxVpX4Vu3HXvCoLIMpf7IYVLPGZAjCD+V8sPgQg==
-X-Received: by 2002:a17:902:db02:b0:19c:bfe3:6f73 with SMTP id
- m2-20020a170902db0200b0019cbfe36f73mr3509935plx.16.1677832949204; 
- Fri, 03 Mar 2023 00:42:29 -0800 (PST)
+ bh=7cOCkkpY1/6w/mGzzZZmxagwohDu2O0n7RpZ/Apo/tc=;
+ b=HfOAXLSgBvFnK88fjhJ1wLQHpWNJvNCxtslcqTQkelDvEfIukWJXBFnae7KdkYBB72
+ D7l0kQRj9Nip0bPRGqgA1A2//KeCUG3h3Gcqt0cU7GgtcLPf0+fqSzfM+UKD0ftiTrzj
+ jkd8zjX4lX33LbFjaeGlegFDdQ7F3zp/kfZqoEpe0f1wGreDRhoPoe3xSlwNw0aWdClG
+ 8PuSjyBYP01JnpPw6ToPDIg2YCP+L6j0otFVMU9TTU0NY7wWaDAvsYszNowVlXJ0Bu00
+ YgqHHIOmxXMd2bOtR/51bzSUH3RGksldfI/Le/wDB1JocMncLZ7pMsgssocyLfkO7szd
+ zeAA==
+X-Gm-Message-State: AO0yUKWXQaaS5A0p67JpcQACnpGkZm5oFRxCAD+sEMbGc1Rxt1Rr/yHc
+ 63auVQP0SlhgsPrii7lnXbsVdQrXkN3j9G0/
+X-Google-Smtp-Source: AK7set8KOlWhCXZlDKIc733KoWMKa5mDRMKEVQTrOwe/lJf1xUN0kuPtZn7Ye7T34/RG5SOVGR+u7g==
+X-Received: by 2002:a05:6a20:4c92:b0:cd:42cf:6e03 with SMTP id
+ fq18-20020a056a204c9200b000cd42cf6e03mr1304085pzb.26.1677832954255; 
+ Fri, 03 Mar 2023 00:42:34 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- q15-20020a170902f78f00b001948ff5cc32sm952250pln.215.2023.03.03.00.42.28
+ p22-20020aa78616000000b005d55225fc07sm1036211pfn.73.2023.03.03.00.42.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:28 -0800 (PST)
-Subject: [PULL 54/59] target/riscv/csr.c: use env_archcpu() in ctr()
-Date: Fri,  3 Mar 2023 00:37:35 -0800
-Message-Id: <20230303083740.12817-55-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:33 -0800 (PST)
+Subject: [PULL 58/59] target/riscv/vector_helper.c: create
+ vext_set_tail_elems_1s()
+Date: Fri,  3 Mar 2023 00:37:39 -0800
+Message-Id: <20230303083740.12817-59-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -65,12 +65,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
+ Weiwei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>, 
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,30 +94,179 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-We don't need to use env_cpu() and CPUState().
+Commit 752614cab8e6 ("target/riscv: rvv: Add tail agnostic for vector
+load / store instructions") added code to set the tail elements to 1 in
+the end of vext_ldst_stride(), vext_ldst_us(), vext_ldst_index() and
+vext_ldff(). Aside from a env->vl versus an evl value being used in the
+first loop, the code is being repeated 4 times.
 
+Create a helper to avoid code repetition in all those functions.
+Arguments that are used in the callers (nf, esz and max_elems) are
+passed as arguments. All other values are being derived inside the
+helper.
+
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20230224174520.92490-2-dbarboza@ventanamicro.com>
+Message-ID: <20230226170514.588071-2-dbarboza@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/csr.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/riscv/vector_helper.c | 86 +++++++++++++-----------------------
+ 1 file changed, 30 insertions(+), 56 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1b0a0c1693..d047d8b45c 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -108,8 +108,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
- static RISCVException ctr(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
--    CPUState *cs = env_cpu(env);
--    RISCVCPU *cpu = RISCV_CPU(cs);
-+    RISCVCPU *cpu = env_archcpu(env);
-     int ctr_index;
-     target_ulong ctr_mask;
-     int base_csrno = CSR_CYCLE;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 3073c54871..7e476ea8c3 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -267,6 +267,28 @@ GEN_VEXT_ST_ELEM(ste_h, int16_t, H2, stw)
+ GEN_VEXT_ST_ELEM(ste_w, int32_t, H4, stl)
+ GEN_VEXT_ST_ELEM(ste_d, int64_t, H8, stq)
+ 
++static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
++                                   void *vd, uint32_t desc, uint32_t nf,
++                                   uint32_t esz, uint32_t max_elems)
++{
++    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
++    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
++    uint32_t vta = vext_vta(desc);
++    uint32_t registers_used;
++    int k;
++
++    for (k = 0; k < nf; ++k) {
++        vext_set_elems_1s(vd, vta, (k * max_elems + vl) * esz,
++                          (k * max_elems + max_elems) * esz);
++    }
++
++    if (nf * max_elems % total_elems != 0) {
++        registers_used = ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
++        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
++                          registers_used * vlenb);
++    }
++}
++
+ /*
+  *** stride: access vector element from strided memory
+  */
+@@ -281,8 +303,6 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+     uint32_t nf = vext_nf(desc);
+     uint32_t max_elems = vext_max_elems(desc, log2_esz);
+     uint32_t esz = 1 << log2_esz;
+-    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+-    uint32_t vta = vext_vta(desc);
+     uint32_t vma = vext_vma(desc);
+ 
+     for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+@@ -301,18 +321,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+         }
+     }
+     env->vstart = 0;
+-    /* set tail elements to 1s */
+-    for (k = 0; k < nf; ++k) {
+-        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+-                          (k * max_elems + max_elems) * esz);
+-    }
+-    if (nf * max_elems % total_elems != 0) {
+-        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+-        uint32_t registers_used =
+-            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+-        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+-                          registers_used * vlenb);
+-    }
++
++    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+ }
+ 
+ #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)                        \
+@@ -359,8 +369,6 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+     uint32_t nf = vext_nf(desc);
+     uint32_t max_elems = vext_max_elems(desc, log2_esz);
+     uint32_t esz = 1 << log2_esz;
+-    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+-    uint32_t vta = vext_vta(desc);
+ 
+     /* load bytes from guest memory */
+     for (i = env->vstart; i < evl; i++, env->vstart++) {
+@@ -372,18 +380,8 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+         }
+     }
+     env->vstart = 0;
+-    /* set tail elements to 1s */
+-    for (k = 0; k < nf; ++k) {
+-        vext_set_elems_1s(vd, vta, (k * max_elems + evl) * esz,
+-                          (k * max_elems + max_elems) * esz);
+-    }
+-    if (nf * max_elems % total_elems != 0) {
+-        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+-        uint32_t registers_used =
+-            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+-        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+-                          registers_used * vlenb);
+-    }
++
++    vext_set_tail_elems_1s(env, evl, vd, desc, nf, esz, max_elems);
+ }
+ 
+ /*
+@@ -484,8 +482,6 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+     uint32_t vm = vext_vm(desc);
+     uint32_t max_elems = vext_max_elems(desc, log2_esz);
+     uint32_t esz = 1 << log2_esz;
+-    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+-    uint32_t vta = vext_vta(desc);
+     uint32_t vma = vext_vma(desc);
+ 
+     /* load bytes from guest memory */
+@@ -505,18 +501,8 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+         }
+     }
+     env->vstart = 0;
+-    /* set tail elements to 1s */
+-    for (k = 0; k < nf; ++k) {
+-        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+-                          (k * max_elems + max_elems) * esz);
+-    }
+-    if (nf * max_elems % total_elems != 0) {
+-        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+-        uint32_t registers_used =
+-            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+-        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+-                          registers_used * vlenb);
+-    }
++
++    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+ }
+ 
+ #define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)                  \
+@@ -585,8 +571,6 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+     uint32_t vm = vext_vm(desc);
+     uint32_t max_elems = vext_max_elems(desc, log2_esz);
+     uint32_t esz = 1 << log2_esz;
+-    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+-    uint32_t vta = vext_vta(desc);
+     uint32_t vma = vext_vma(desc);
+     target_ulong addr, offset, remain;
+ 
+@@ -647,18 +631,8 @@ ProbeSuccess:
+         }
+     }
+     env->vstart = 0;
+-    /* set tail elements to 1s */
+-    for (k = 0; k < nf; ++k) {
+-        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+-                          (k * max_elems + max_elems) * esz);
+-    }
+-    if (nf * max_elems % total_elems != 0) {
+-        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+-        uint32_t registers_used =
+-            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+-        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+-                          registers_used * vlenb);
+-    }
++
++    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+ }
+ 
+ #define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)               \
 -- 
 2.39.2
 
