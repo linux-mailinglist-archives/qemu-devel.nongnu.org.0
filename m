@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CC66A8FE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 04:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE416A8FED
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 04:35:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXwA4-0001KE-QY; Thu, 02 Mar 2023 22:32:48 -0500
+	id 1pXwC8-0002QD-8h; Thu, 02 Mar 2023 22:34:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pXwA0-0001JX-B6
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 22:32:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pXwC6-0002Q0-M8
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 22:34:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pXw9y-0003t8-2P
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 22:32:44 -0500
+ id 1pXwC4-0006hi-Rs
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 22:34:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677814360;
+ s=mimecast20190719; t=1677814491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=phYuHNjQM6ykNN6HuegGTsLwLZ0S941A3yDwxOSwtvQ=;
- b=DT49NuT/U4QVHcT/dtJl804WaFJWCoOQTkHlSPPDP2oQ1rqd2gJIxrPp9OtwruwT6cCmd/
- ZrMqyOcgCUFDvn1dEhAiRlhbRJ8wCwTUSOJLmX3bj6dHj+6QVaTJYrxxnFUfhx5wbvwpTo
- aeMcuYX/By0cGMJpGIobVIyCcC2c2Uw=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-658-5pmPKY3yPYudHnE2SXKMgg-1; Thu, 02 Mar 2023 22:32:37 -0500
-X-MC-Unique: 5pmPKY3yPYudHnE2SXKMgg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- mm13-20020a17090b358d00b002377ec65e7aso2467400pjb.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 19:32:36 -0800 (PST)
+ bh=/6EZ5AxQYeiL9+oAmxDD0QUlnJtj4DfZPQ/lC7KO1Hc=;
+ b=ONFwiRBFA0Ng64BydWt2RqIrHcsfE3uZmsGkWiYvDPj4KvdrGb0+WOwsKf/i8s61ywwyMV
+ 45Ycf6h9J7he3AjE/zJWViB++Icach+5Mo2/suipHJJ7UKGf/kkvhlqFtOLbyvIXRP5+pl
+ ytxQBr38g3LHAe2D1xrSJ2AdJuDWMV0=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-83-PRuUidLEOE25MDwe5CyCcg-1; Thu, 02 Mar 2023 22:34:50 -0500
+X-MC-Unique: PRuUidLEOE25MDwe5CyCcg-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ d3-20020a17090acd0300b00237659aae8dso2485534pju.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 19:34:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677814356;
+ d=1e100.net; s=20210112; t=1677814489;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=phYuHNjQM6ykNN6HuegGTsLwLZ0S941A3yDwxOSwtvQ=;
- b=5FX9UGXodw2zGp2CYaOdSLEt489kGk3BMep6XFGpZH9ditsFYaEQUnT/hdD1ViA/nA
- yWKB2fJwhetpgDhaWzjzn7qcPDOLESdntHNM7/9zCYGlEDsdv5X+I2wmYbAQEsngrhFg
- mjo20eC6asSkovQ+cxAW7Jp0Svgk2YMh/mqSM+1XkoxcTsheadxL9UN2nS7qaVqvUWko
- eAu5IrmWxNZYDJfsIwcoGlKFLmeyZ9fJTBgy2o2JR6S/A6xpmso94buQMz2pxDJ4Y9ds
- vuSpazl87jlGKhDv7SpbwF1OjCqO/r7mvvL+HUj+VCTDBY6ou0mGJxTWGv/XAfHIqjua
- cEbg==
-X-Gm-Message-State: AO0yUKXWDpGS6npCG45bXO01fQAvExoxe2UimlMgf55LuKUp/Y2BfNVv
- eBKwXIepO5WWl7RmFXT/qMyZWWFzbWVXcINgmbqibmROHvjo15KyfSNBNLLCjF8DkjcSENL21F5
- f9DcO2cIETQK7Gqk=
-X-Received: by 2002:a17:90a:1911:b0:234:b8cb:512b with SMTP id
- 17-20020a17090a191100b00234b8cb512bmr105474pjg.30.1677814355947; 
- Thu, 02 Mar 2023 19:32:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set93FqC3ax7ZQ3We5hnNBolERKb5yct15WO39v5vw3wYYlvIhMSYNoFeQpfR2e1g2fIVFwT9QA==
-X-Received: by 2002:a17:90a:1911:b0:234:b8cb:512b with SMTP id
- 17-20020a17090a191100b00234b8cb512bmr105447pjg.30.1677814355548; 
- Thu, 02 Mar 2023 19:32:35 -0800 (PST)
+ bh=/6EZ5AxQYeiL9+oAmxDD0QUlnJtj4DfZPQ/lC7KO1Hc=;
+ b=c8bksDWd+UZ2bhAR5yZ2fT/zKMG9E1kJVKRjY78UIaCQpyhYZr2Lg/pRslLLpogTPr
+ zhUOaNXHejQoxWkxyJvCc7Ol2orwkcF67Aa6HugPkwsY6GyeSZA7VVCBphu2BVPIUeE2
+ yF3AgRNLWb3Ekb5+a0KlNvPiLaox0dM4ov1E5OgvQOzS3AjbwosQDSJConvEEG9tfINF
+ W0zkh79ZnqB+dElsx6TKvmLdzUp/fl7yDN72/XNfHuY8yVDSkWQ8QgdyFhougYeDeI+c
+ RNdwac6HkiaxKtMGEF64tDV9CuOsC7KvcnvM/w8XWh3mMO25TkyJ8ixqlYtdx2sL3LQl
+ NSKw==
+X-Gm-Message-State: AO0yUKWd5qTJvILOmSsnuNyWMYAdFCwgerBqqxs2zNE6Crz8rh4vO7n+
+ 6h6Jwsz68IqjfQReUvDIxfW49bHd66RgPA40JFzYAAhcKi9HqRtFSCVdbB/z8Meblt6/j4RgRn4
+ wPW3kV8YDF0JJ8gc=
+X-Received: by 2002:a05:6a20:4b26:b0:cd:1e80:587d with SMTP id
+ fp38-20020a056a204b2600b000cd1e80587dmr608968pzb.23.1677814489409; 
+ Thu, 02 Mar 2023 19:34:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set83Al2C9L/ayQR+RYAvXpnLAsSw/a5H60xBANTg5rjMTOzTowtkQM3H7z2wxdmfS7KQ4xmubw==
+X-Received: by 2002:a05:6a20:4b26:b0:cd:1e80:587d with SMTP id
+ fp38-20020a056a204b2600b000cd1e80587dmr608946pzb.23.1677814489005; 
+ Thu, 02 Mar 2023 19:34:49 -0800 (PST)
 Received: from [10.72.13.180] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- w26-20020a63475a000000b00502ea97cbc0sm407408pgk.40.2023.03.02.19.32.29
+ i22-20020aa78d96000000b005d932d0c029sm439790pfr.65.2023.03.02.19.34.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 19:32:35 -0800 (PST)
-Message-ID: <fcd6405d-294e-3af7-5574-30870904257e@redhat.com>
-Date: Fri, 3 Mar 2023 11:32:27 +0800
+ Thu, 02 Mar 2023 19:34:48 -0800 (PST)
+Message-ID: <3ab19235-bdd7-73a8-052a-a365b0582275@redhat.com>
+Date: Fri, 3 Mar 2023 11:34:41 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 01/15] vdpa net: move iova tree creation from init to
- start
+Subject: Re: [PATCH v4 09/15] vdpa: add vdpa net migration state notifier
 Content-Language: en-US
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>,
@@ -83,14 +82,14 @@ Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
 References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-2-eperezma@redhat.com>
- <a2f01833-0709-4155-e922-4624e31ac3b3@redhat.com>
- <CAJaqyWebiu1oTAgpnVvjUZ672OLLHSqt1vjn8rNkMGy5n4vq-g@mail.gmail.com>
+ <20230224155438.112797-10-eperezma@redhat.com>
+ <afad31de-8109-36b7-b7ea-aa2e1a24f254@redhat.com>
+ <CAJaqyWdyM6i6-GVNUbEkQ_Bo+AhbAQRDx3wZxRu-jwtc1mZT2g@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWebiu1oTAgpnVvjUZ672OLLHSqt1vjn8rNkMGy5n4vq-g@mail.gmail.com>
+In-Reply-To: <CAJaqyWdyM6i6-GVNUbEkQ_Bo+AhbAQRDx3wZxRu-jwtc1mZT2g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -115,277 +114,229 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/3/1 15:01, Eugenio Perez Martin 写道:
-> On Mon, Feb 27, 2023 at 8:04 AM Jason Wang <jasowang@redhat.com> wrote:
+在 2023/3/2 03:26, Eugenio Perez Martin 写道:
+> On Mon, Feb 27, 2023 at 9:08 AM Jason Wang <jasowang@redhat.com> wrote:
 >>
 >> 在 2023/2/24 23:54, Eugenio Pérez 写道:
->>> Only create iova_tree if and when it is needed.
+>>> This allows net to restart the device backend to configure SVQ on it.
 >>>
->>> The cleanup keeps being responsible of last VQ but this change allows it
->>> to merge both cleanup functions.
+>>> Ideally, these changes should not be net specific. However, the vdpa net
+>>> backend is the one with enough knowledge to configure everything because
+>>> of some reasons:
+>>> * Queues might need to be shadowed or not depending on its kind (control
+>>>     vs data).
+>>> * Queues need to share the same map translations (iova tree).
+>>>
+>>> Because of that it is cleaner to restart the whole net backend and
+>>> configure again as expected, similar to how vhost-kernel moves between
+>>> userspace and passthrough.
+>>>
+>>> If more kinds of devices need dynamic switching to SVQ we can create a
+>>> callback struct like VhostOps and move most of the code there.
+>>> VhostOps cannot be reused since all vdpa backend share them, and to
+>>> personalize just for networking would be too heavy.
 >>>
 >>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> Acked-by: Jason Wang <jasowang@redhat.com>
 >>> ---
 >>> v4:
->>> * Remove leak of iova_tree because double allocation
->>> * Document better the sharing of IOVA tree between data and CVQ
+>>> * Delete duplication of set shadow_data and shadow_vqs_enabled moving it
+>>>     to data / cvq net start functions.
+>>>
+>>> v3:
+>>> * Check for migration state at vdpa device start to enable SVQ in data
+>>>     vqs.
+>>>
+>>> v1 from RFC:
+>>> * Add TODO to use the resume operation in the future.
+>>> * Use migration_in_setup and migration_has_failed instead of a
+>>>     complicated switch case.
 >>> ---
->>>    net/vhost-vdpa.c | 113 ++++++++++++++++++++++++++++++++++-------------
->>>    1 file changed, 83 insertions(+), 30 deletions(-)
+>>>    net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
+>>>    1 file changed, 69 insertions(+), 3 deletions(-)
 >>>
 >>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
->>> index de5ed8ff22..b89c99066a 100644
+>>> index b89c99066a..c5512ddf10 100644
 >>> --- a/net/vhost-vdpa.c
 >>> +++ b/net/vhost-vdpa.c
->>> @@ -178,13 +178,9 @@ err_init:
->>>    static void vhost_vdpa_cleanup(NetClientState *nc)
->>>    {
->>>        VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
->>> -    struct vhost_dev *dev = &s->vhost_net->dev;
+>>> @@ -26,12 +26,15 @@
+>>>    #include <err.h>
+>>>    #include "standard-headers/linux/virtio_net.h"
+>>>    #include "monitor/monitor.h"
+>>> +#include "migration/migration.h"
+>>> +#include "migration/misc.h"
+>>>    #include "hw/virtio/vhost.h"
 >>>
->>>        qemu_vfree(s->cvq_cmd_out_buffer);
->>>        qemu_vfree(s->status);
->>> -    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
->>> -        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
->>> -    }
->>>        if (s->vhost_net) {
->>>            vhost_net_cleanup(s->vhost_net);
->>>            g_free(s->vhost_net);
->>> @@ -234,10 +230,64 @@ static ssize_t vhost_vdpa_receive(NetClientState *nc, const uint8_t *buf,
->>>        return size;
+>>>    /* Todo:need to add the multiqueue support here */
+>>>    typedef struct VhostVDPAState {
+>>>        NetClientState nc;
+>>>        struct vhost_vdpa vhost_vdpa;
+>>> +    Notifier migration_state;
+>>>        VHostNetState *vhost_net;
+>>>
+>>>        /* Control commands shadow buffers */
+>>> @@ -239,10 +242,59 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa(VhostVDPAState *s)
+>>>        return DO_UPCAST(VhostVDPAState, nc, nc0);
 >>>    }
 >>>
->>> +/** From any vdpa net client, get the netclient of first queue pair */
->>> +static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa(VhostVDPAState *s)
->>> +{
->>> +    NICState *nic = qemu_get_nic(s->nc.peer);
->>> +    NetClientState *nc0 = qemu_get_peer(nic->ncs, 0);
->>> +
->>> +    return DO_UPCAST(VhostVDPAState, nc, nc0);
->>> +}
->>> +
->>> +static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
+>>> +static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool enable)
 >>> +{
 >>> +    struct vhost_vdpa *v = &s->vhost_vdpa;
+>>> +    VirtIONet *n;
+>>> +    VirtIODevice *vdev;
+>>> +    int data_queue_pairs, cvq, r;
 >>> +
->>> +    if (v->shadow_vqs_enabled) {
->>> +        v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>> +                                           v->iova_range.last);
+>>> +    /* We are only called on the first data vqs and only if x-svq is not set */
+>>> +    if (s->vhost_vdpa.shadow_vqs_enabled == enable) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    vdev = v->dev->vdev;
+>>> +    n = VIRTIO_NET(vdev);
+>>> +    if (!n->vhost_started) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    data_queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
+>>> +    cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
+>>> +                                  n->max_ncs - n->max_queue_pairs : 0;
+>>> +    /*
+>>> +     * TODO: vhost_net_stop does suspend, get_base and reset. We can be smarter
+>>> +     * in the future and resume the device if read-only operations between
+>>> +     * suspend and reset goes wrong.
+>>> +     */
+>>> +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
+>>> +
+>>> +    /* Start will check migration setup_or_active to configure or not SVQ */
+>>> +    r = vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
+>>> +    if (unlikely(r < 0)) {
+>>> +        error_report("unable to start vhost net: %s(%d)", g_strerror(-r), -r);
 >>> +    }
 >>> +}
 >>> +
->>> +static int vhost_vdpa_net_data_start(NetClientState *nc)
+>>> +static void vdpa_net_migration_state_notifier(Notifier *notifier, void *data)
 >>> +{
->>> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
->>> +    struct vhost_vdpa *v = &s->vhost_vdpa;
+>>> +    MigrationState *migration = data;
+>>> +    VhostVDPAState *s = container_of(notifier, VhostVDPAState,
+>>> +                                     migration_state);
 >>> +
->>> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->>> +
->>> +    if (v->index == 0) {
->>> +        vhost_vdpa_net_data_start_first(s);
->>> +        return 0;
->>> +    }
->>> +
->>> +    if (v->shadow_vqs_enabled) {
->>> +        VhostVDPAState *s0 = vhost_vdpa_net_first_nc_vdpa(s);
->>> +        v->iova_tree = s0->vhost_vdpa.iova_tree;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static void vhost_vdpa_net_client_stop(NetClientState *nc)
->>> +{
->>> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
->>> +    struct vhost_dev *dev;
->>> +
->>> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->>> +
->>> +    dev = s->vhost_vdpa.dev;
->>> +    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
->>> +        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
+>>> +    if (migration_in_setup(migration)) {
+>>> +        vhost_vdpa_net_log_global_enable(s, true);
+>>> +    } else if (migration_has_failed(migration)) {
+>>> +        vhost_vdpa_net_log_global_enable(s, false);
 >>> +    }
 >>> +}
 >>> +
->>>    static NetClientInfo net_vhost_vdpa_info = {
->>>            .type = NET_CLIENT_DRIVER_VHOST_VDPA,
->>>            .size = sizeof(VhostVDPAState),
->>>            .receive = vhost_vdpa_receive,
->>> +        .start = vhost_vdpa_net_data_start,
->>> +        .stop = vhost_vdpa_net_client_stop,
->>
->> Looking at the implementation, it seems nothing net specific, any reason
->> we can't simply use vhost_vdpa_dev_start()?
->>
-> IOVA tree must be shared between (at least) all dataplane vhost_vdpa.
-> How could we move the call to vhost_vdpa_net_first_nc_vdpa to
-> vhost_vdpa_dev_start?
-
-
-Ok, I think I get it. We should really consider to implement a parent 
-structure in the future for vhost_vdpa then we can avoid tricks like:
-
-vq_index_end and vhost_vdpa_net_first_nc_vdpa()
-
-Thanks
-
-
->
-> A possibility is to always allocate it just in case. But it seems to
-> me it is better to not start allocating resources just in case :).
->
->>>            .cleanup = vhost_vdpa_cleanup,
->>>            .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
->>>            .has_ufo = vhost_vdpa_has_ufo,
->>> @@ -351,7 +401,7 @@ dma_map_err:
->>>
->>>    static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>    static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
 >>>    {
->>> -    VhostVDPAState *s;
->>> +    VhostVDPAState *s, *s0;
->>>        struct vhost_vdpa *v;
->>>        uint64_t backend_features;
->>>        int64_t cvq_group;
->>> @@ -415,8 +465,6 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->>>            return r;
->>>        }
+>>>        struct vhost_vdpa *v = &s->vhost_vdpa;
 >>>
->>> -    v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>> -                                       v->iova_range.last);
->>>        v->shadow_vqs_enabled = true;
->>>        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+>>> +    add_migration_state_change_notifier(&s->migration_state);
+>>>        if (v->shadow_vqs_enabled) {
+>>>            v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
+>>>                                               v->iova_range.last);
+>>> @@ -256,6 +308,15 @@ static int vhost_vdpa_net_data_start(NetClientState *nc)
 >>>
->>> @@ -425,6 +473,27 @@ out:
+>>>        assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+>>>
+>>> +    if (s->always_svq ||
+>>> +        migration_is_setup_or_active(migrate_get_current()->state)) {
+>>> +        v->shadow_vqs_enabled = true;
+>>> +        v->shadow_data = true;
+>>> +    } else {
+>>> +        v->shadow_vqs_enabled = false;
+>>> +        v->shadow_data = false;
+>>> +    }
+>>> +
+>>>        if (v->index == 0) {
+>>>            vhost_vdpa_net_data_start_first(s);
 >>>            return 0;
->>>        }
+>>> @@ -276,6 +337,10 @@ static void vhost_vdpa_net_client_stop(NetClientState *nc)
 >>>
->>> +    s0 = vhost_vdpa_net_first_nc_vdpa(s);
->>> +    if (s0->vhost_vdpa.iova_tree) {
->>> +        /*
->>> +         * SVQ is already configured for all virtqueues.  Reuse IOVA tree for
->>> +         * simplicity, wether CVQ shares ASID with guest or not, because:
+>>>        assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+>>>
+>>> +    if (s->vhost_vdpa.index == 0) {
+>>> +        remove_migration_state_change_notifier(&s->migration_state);
+>>> +    }
 >>
->> Typo, should be "whether", or "regardless of whether"(not a native speaker).
+>> This should work but I just realize that vhost support
+>> vhost_dev_set_log(), I wonder if it would be simpler to go with that way.
 >>
-> Good catch, I can fix it in the next version.
+>> Using vhost_virtqueue_set_addr(, enable_log = true)?
+>>
+> We can do that but it has the same problem as with checking _F_LOG_ALL
+> in set_features:
+>
+> 1. We're tearing down a vhost device using a listener registered
+> against that device, at start / stop.
+> 2. We need to traverse all the devices many times to first get all the
+> vqs state and then transverse them again to set them up properly.
+>
+> My two ideas to solve the recursiveness of 1 are:
+> a. Duplicating vhost_dev_start / vhost_dev_stop at
+> vhost_vdpa_set_features / vhost_vdpa_set_vring_addr.
+>
+> This has the same problem as all duplications: It will get out of sync
+> eventually. For example, the latest changes about configure interrupt
+> would need to be duplicated in this new call.
+>
+> b. Add a new parameter to vhost_dev_start/stop to skip the
+> set_features / set_vring_address step.
+> Now that the virtio queue reset changes have exposed these functions
+> it is also possible to call them from vhost-vdpa.
+>
+> Maybe we can store that parameter in vhost_vdpa so we don't call
+> vhost_dev_start / stop there instead of affecting all backends, but
+> the idea is the same.
+>
+> For problem 2 I still do not have a solution. CVQ / MQ Is out of the
+> scope for this series but I think it will bite us when we add it
+> (hopefully soon).
+
+
+Thanks for the clarification, I'd suggest to document the above in the 
+changlog.
+
+
 >
 > Thanks!
 >
->> Other looks good.
->>
 >> Thanks
 >>
 >>
->>> +         * - Memory listener need access to guest's memory addresses allocated
->>> +         *   in the IOVA tree.
->>> +         * - There should be plenty of IOVA address space for both ASID not to
->>> +         *   worry about collisions between them.  Guest's translations are
->>> +         *   still validated with virtio virtqueue_pop so there is no risk for
->>> +         *   the guest to access memory it shouldn't.
->>> +         *
->>> +         * To allocate a iova tree per ASID is doable but it complicates the
->>> +         * code and it is not worth for the moment.
->>> +         */
->>> +        v->iova_tree = s0->vhost_vdpa.iova_tree;
->>> +    } else {
->>> +        v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>> +                                           v->iova_range.last);
->>> +    }
 >>> +
->>>        r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer,
->>>                                   vhost_vdpa_net_cvq_cmd_page_len(), false);
->>>        if (unlikely(r < 0)) {
->>> @@ -449,15 +518,9 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
->>>        if (s->vhost_vdpa.shadow_vqs_enabled) {
->>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
->>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
->>> -        if (!s->always_svq) {
->>> -            /*
->>> -             * If only the CVQ is shadowed we can delete this safely.
->>> -             * If all the VQs are shadows this will be needed by the time the
->>> -             * device is started again to register SVQ vrings and similar.
->>> -             */
->>> -            g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
->>> -        }
->>>        }
->>> +
->>> +    vhost_vdpa_net_client_stop(nc);
->>>    }
+>>>        dev = s->vhost_vdpa.dev;
+>>>        if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
+>>>            g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
+>>> @@ -412,11 +477,12 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>        s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>>        v = &s->vhost_vdpa;
 >>>
->>>    static ssize_t vhost_vdpa_net_cvq_add(VhostVDPAState *s, size_t out_len,
->>> @@ -667,8 +730,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
->>>                                           int nvqs,
->>>                                           bool is_datapath,
->>>                                           bool svq,
->>> -                                       struct vhost_vdpa_iova_range iova_range,
->>> -                                       VhostIOVATree *iova_tree)
->>> +                                       struct vhost_vdpa_iova_range iova_range)
->>>    {
->>>        NetClientState *nc = NULL;
->>>        VhostVDPAState *s;
->>> @@ -690,7 +752,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>>> -    v->shadow_data = s->always_svq;
+>>> +    s0 = vhost_vdpa_net_first_nc_vdpa(s);
+>>> +    v->shadow_data = s0->vhost_vdpa.shadow_vqs_enabled;
+>>>        v->shadow_vqs_enabled = s->always_svq;
+>>>        s->vhost_vdpa.address_space_id = VHOST_VDPA_GUEST_PA_ASID;
+>>>
+>>> -    if (s->always_svq) {
+>>> +    if (s->vhost_vdpa.shadow_data) {
+>>>            /* SVQ is already configured for all virtqueues */
+>>>            goto out;
+>>>        }
+>>> @@ -473,7 +539,6 @@ out:
+>>>            return 0;
+>>>        }
+>>>
+>>> -    s0 = vhost_vdpa_net_first_nc_vdpa(s);
+>>>        if (s0->vhost_vdpa.iova_tree) {
+>>>            /*
+>>>             * SVQ is already configured for all virtqueues.  Reuse IOVA tree for
+>>> @@ -749,6 +814,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>>>        s->vhost_vdpa.device_fd = vdpa_device_fd;
+>>>        s->vhost_vdpa.index = queue_pair_index;
+>>>        s->always_svq = svq;
+>>> +    s->migration_state.notify = vdpa_net_migration_state_notifier;
 >>>        s->vhost_vdpa.shadow_vqs_enabled = svq;
 >>>        s->vhost_vdpa.iova_range = iova_range;
 >>>        s->vhost_vdpa.shadow_data = svq;
->>> -    s->vhost_vdpa.iova_tree = iova_tree;
->>>        if (!is_datapath) {
->>>            s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
->>>                                                vhost_vdpa_net_cvq_cmd_page_len());
->>> @@ -760,7 +821,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>        uint64_t features;
->>>        int vdpa_device_fd;
->>>        g_autofree NetClientState **ncs = NULL;
->>> -    g_autoptr(VhostIOVATree) iova_tree = NULL;
->>>        struct vhost_vdpa_iova_range iova_range;
->>>        NetClientState *nc;
->>>        int queue_pairs, r, i = 0, has_cvq = 0;
->>> @@ -812,12 +872,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>            goto err;
->>>        }
->>>
->>> -    if (opts->x_svq) {
->>> -        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
->>> -            goto err_svq;
->>> -        }
->>> -
->>> -        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
->>> +    if (opts->x_svq && !vhost_vdpa_net_valid_svq_features(features, errp)) {
->>> +        goto err;
->>>        }
->>>
->>>        ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
->>> @@ -825,7 +881,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>        for (i = 0; i < queue_pairs; i++) {
->>>            ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
->>>                                         vdpa_device_fd, i, 2, true, opts->x_svq,
->>> -                                     iova_range, iova_tree);
->>> +                                     iova_range);
->>>            if (!ncs[i])
->>>                goto err;
->>>        }
->>> @@ -833,13 +889,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>        if (has_cvq) {
->>>            nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
->>>                                     vdpa_device_fd, i, 1, false,
->>> -                                 opts->x_svq, iova_range, iova_tree);
->>> +                                 opts->x_svq, iova_range);
->>>            if (!nc)
->>>                goto err;
->>>        }
->>>
->>> -    /* iova_tree ownership belongs to last NetClientState */
->>> -    g_steal_pointer(&iova_tree);
->>>        return 0;
->>>
->>>    err:
->>> @@ -849,7 +903,6 @@ err:
->>>            }
->>>        }
->>>
->>> -err_svq:
->>>        qemu_close(vdpa_device_fd);
->>>
->>>        return -1;
 
 
