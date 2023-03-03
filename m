@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385AF6A94A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2752C6A94C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:04:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY2CB-000872-Im; Fri, 03 Mar 2023 04:59:23 -0500
+	id 1pY2GD-0004EB-Q0; Fri, 03 Mar 2023 05:03:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2C9-00086e-FB
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:59:21 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2GC-0004E2-0P
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:03:32 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2C7-0004Da-Q5
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:59:21 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id p26so1196898wmc.4
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:59:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2GA-0005he-Ds
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:03:31 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id p16so1202557wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:03:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677837558;
+ d=linaro.org; s=google; t=1677837809;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rfk5iKLO5t++ORx9LT4nS3HJErx0ZGQh//fKC86TjzA=;
- b=JG00VDiv1sCiOEep1y2qZgaoplqwgh687K733T90nFtL4juBdAsnLWJaNxz4YEaKsd
- +KV/ObKbpeD9gtYBUK2rfCrFFE9dZr0w6zvvqw68TPypBXIgcfkQcmybBMN+ufcJRB/N
- 5UencHiatA4j/k7QkpzuBI7Jfj4CHf6Qo5XcnCxsPWEoSW6bEUc64ITnF5O6ArLhYHKb
- QQ4vlyPPNVMEf+b3HX9+Scn5uI8tCz/E3RP5PiSv2yMoMkx9zY29SVUAunagsrKXx1U0
- C+4mUvdOP56twd+bEuVcftquoHJKGtE//YrKSXhLJqplOtoQ6mifTWk6jfV8O8+8gUQ/
- r/wg==
+ bh=KpEj2OTkrfDzX5Dql/Ca4gf1Qdubi7p7BI780UINR5k=;
+ b=bcZ/A+ULKeORTGlyYUUmfjtKzmilnNZLQT5tCYT5nLVgzMWablDwrtpZri4Jd/9q/A
+ e8dwCrD8VtqrbNl/aCLcXhCKUaic587q1RqoYZrwW2S1UUzKzAjL4avWqTs6HhAIx7bz
+ LKIIj8+tLeVyxjABJshaYWZIAhDaTjEVqLcUtVPcFFMam/E6ieSmKGojgjKQFfpPaTj3
+ qmbeEUBZwLur0WeOPXzSXkp4ee7QxrtY/pOdfEqlMQGwer8uBgqo1HkQXH4ifGWSkIzv
+ ZfFXs8EXclTZfU1x5nIkFHfCYFBDeXhnWtnVFMEevCoKG0yz3PYhieVT4eerTi4O7GYh
+ Ymjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677837558;
+ d=1e100.net; s=20210112; t=1677837809;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rfk5iKLO5t++ORx9LT4nS3HJErx0ZGQh//fKC86TjzA=;
- b=TH8gBelZ85HptmaLUHLrPkfFpk8PTnhxnChaJhv5bmffT+vVRJkboiUDgTB8ZebyEI
- fGeMrUDXq2ceqCD9RqEbFxYSn58A3B3ws6cy92yiFLWXvuqml5iCh2u1lB+XLACFKnNA
- klGAqZw86IEoUL0llb7IffNNLtu8dtR08DU052g3bmVzIK10K6eRbXUXnCzJCAcJpliL
- aHBBxilscD1TXQYzmo+InFH2SpK1nmH8RTDp8w1faDUZUpxYk4d36yx4QwaHdn5yZ2Rm
- Lu0Bw3MFhfCtDIpLZsNypnbFegGVM4rvrvzvfzgZRb7gYGWfJyCMT9vMGB/GHKSzIO8Y
- Rxzg==
-X-Gm-Message-State: AO0yUKWfQcRlYDt1hE/e0r/xn9LFPEc8DHdF1zX5ncL5gRGIJhSfXNf+
- IDywfylqkboG0OZzLf9XCjfMqw==
-X-Google-Smtp-Source: AK7set+ItZ9oKGKlOmb8mMiB2sCHDHOKLNnMJ86Mlt704oVrwJJW68P9uw11KMYyyiOLeg4Itatjog==
-X-Received: by 2002:a05:600c:3148:b0:3dc:1687:9ba2 with SMTP id
- h8-20020a05600c314800b003dc16879ba2mr1101776wmo.35.1677837558328; 
- Fri, 03 Mar 2023 01:59:18 -0800 (PST)
+ bh=KpEj2OTkrfDzX5Dql/Ca4gf1Qdubi7p7BI780UINR5k=;
+ b=FGOuk/pn8ecgPHqZ4K2NLDNDsaQPQNlXgsLUS4DwcptxppcNwdAYPwCRuxwFYEGlNl
+ FKPLCNwzlTFMNzM8+LQnG8WMtfFtrQUGnt6sKQDS310iCHGrvBGgA2xto94R8kgAepLa
+ 85OVwB7vJn3CXY5ZtZt7BkvfT5H7tngrq3MqSwHtE7k1hiCM4SXglDbEnvC15fri12da
+ lIToWxoBekrV1xuaBBHo4yKEqqrmH0oA75qyfcGs0ebYqmLfqy2c5UZUd4UCXadrMJd6
+ nUTud/PJ+/vzKNbmtJa/5ySYjDuN3njoK6bRMjs0VsIBqk9njfMlPNZmZUWRGEqhGb90
+ t8mQ==
+X-Gm-Message-State: AO0yUKUM29CVcntq/xVuoUpkefSZlKOMHXW9AgKoNrq400oEHUnXoFpE
+ kkeY0DlvZhrn1f28JEl+ah4Z/w==
+X-Google-Smtp-Source: AK7set+8KetItfmuLlSbEeMaYg7+rREA0AdKQkqMFq1usGfkYiTs1e9xGnv19SMb4y5+xQl3aJP1Aw==
+X-Received: by 2002:a05:600c:4f53:b0:3ea:e4bb:4e84 with SMTP id
+ m19-20020a05600c4f5300b003eae4bb4e84mr1040708wmq.20.1677837808742; 
+ Fri, 03 Mar 2023 02:03:28 -0800 (PST)
 Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
  [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- m18-20020a05600c3b1200b003db0ad636d1sm6048066wms.28.2023.03.03.01.59.16
+ r39-20020a05600c322700b003eafc47eb09sm1835865wmp.43.2023.03.03.02.03.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 01:59:17 -0800 (PST)
-Message-ID: <5da6862c-523b-91d4-f5b0-90bd0fb25059@linaro.org>
-Date: Fri, 3 Mar 2023 10:59:14 +0100
+ Fri, 03 Mar 2023 02:03:28 -0800 (PST)
+Message-ID: <ef261447-8a9f-316d-83f4-036da85edd2a@linaro.org>
+Date: Fri, 3 Mar 2023 11:03:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 3/6] Add the aehd-apic device type.
+Subject: Re: [PATCH 4/6] Add the aehd-ioapic device type.
 Content-Language: en-US
-To: Haitao Shan <hshan@google.com>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>
-Cc: Haitao Shan <haitao.shan@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+To: Haitao Shan <hshan@google.com>, qemu-devel@nongnu.org
+Cc: Haitao Shan <haitao.shan@google.com>, "Michael S. Tsirkin"
  <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- "open list:Android Emulator..." <emu-dev@google.com>,
- Fabiano Rosas <farosas@suse.de>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "open list:Android Emulator..." <emu-dev@google.com>
 References: <20230303022618.4098825-1-hshan@google.com>
- <20230303022618.4098825-3-hshan@google.com>
+ <20230303022618.4098825-4-hshan@google.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230303022618.4098825-3-hshan@google.com>
+In-Reply-To: <20230303022618.4098825-4-hshan@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -99,126 +97,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Haitao,
-
 On 3/3/23 03:26, Haitao Shan wrote:
-> The aehd-apic device type represents the AEHD in kernel APIC.
+> The aehd-ioapic device type represents the AEHD in kernel IO-APIC.
 > The irqchips should be always in kernel when AEHD is used.
 > 
 > Signed-off-by: Haitao Shan <hshan@google.com>
 > ---
->   MAINTAINERS                  |   2 +
->   hw/i386/aehd/apic.c          | 204 +++++++++++++++++++++++
->   hw/i386/aehd/meson.build     |   4 +
->   hw/i386/meson.build          |   1 +
->   include/hw/core/cpu.h        |   7 +
->   include/sysemu/aehd.h        |  52 ++++++
->   target/i386/aehd/aehd-all.c  | 315 +++++++++++++++++++++++++++++++++++
->   target/i386/aehd/aehd.c      |  88 ++++++++++
->   target/i386/aehd/aehd_int.h  |  50 ++++++
->   target/i386/aehd/meson.build |   4 +
->   target/i386/cpu-sysemu.c     |   3 +
->   target/i386/meson.build      |   1 +
->   12 files changed, 731 insertions(+)
->   create mode 100644 hw/i386/aehd/apic.c
->   create mode 100644 hw/i386/aehd/meson.build
->   create mode 100644 target/i386/aehd/aehd-all.c
->   create mode 100644 target/i386/aehd/aehd.c
->   create mode 100644 target/i386/aehd/aehd_int.h
->   create mode 100644 target/i386/aehd/meson.build
+>   hw/i386/aehd/ioapic.c       | 164 ++++++++++++++++++++++++++++++++++++
+>   hw/i386/aehd/meson.build    |   1 +
+>   hw/i386/pc.c                |   3 +
+>   hw/i386/x86.c               |   3 +
+>   include/hw/intc/ioapic.h    |   1 +
+>   include/sysemu/aehd.h       |   4 +
+>   target/i386/aehd/aehd-all.c |  14 +++
+>   7 files changed, 190 insertions(+)
+>   create mode 100644 hw/i386/aehd/ioapic.c
 
 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index fb5d9667ca..5ed0600504 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -400,6 +400,13 @@ struct CPUState {
->       uint32_t kvm_fetch_index;
->       uint64_t dirty_pages;
->   
-> +    /* Only used in AEHD */
-> +#ifdef _WIN32
-> +    HANDLE aehd_fd;
-> +    struct AEHDState *aehd_state;
-> +    struct aehd_run *aehd_run;
-> +#endif
+> +static const TypeInfo aehd_ioapic_info = {
+> +    .name  = TYPE_AEHD_IOAPIC,
+> +    .parent = TYPE_IOAPIC_COMMON,
 
-We are difficultly trying to make this structure generic
-since 2 years now. Since AEHD won't make it to the 8.0 release,
-I'd rather take the time to get this part well done.
+Instead of duplicating TYPE_KVM_IOAPIC, as a first step we should
+extract the common code in an abstract TYPE_INKERNEL_IOAPIC object,
+then TYPE_AEHD_IOAPIC inherits it.
 
-IIRC we ought to use a AccelCPUState pointer here, allocated by
-AccelCPUClass::cpu_instance_init()
+> +    .instance_size = sizeof(AEHDIOAPICState),
+> +    .class_init = aehd_ioapic_class_init,
+> +};
 
->       /* Use by accel-block: CPU is executing an ioctl() */
->       QemuLockCnt in_ioctl_lock;
->   
-> diff --git a/include/sysemu/aehd.h b/include/sysemu/aehd.h
-> index 7ba4234f60..87fa2f8362 100644
-> --- a/include/sysemu/aehd.h
-> +++ b/include/sysemu/aehd.h
-> @@ -14,6 +14,12 @@
->   #ifndef QEMU_AEHD_H
->   #define QEMU_AEHD_H
->   
-> +#include "qemu/queue.h"
-> +#include "qemu/accel.h"
-> +#include "hw/core/cpu.h"
-> +#include "exec/memattrs.h"
-> +#include "hw/irq.h"
-> +
->   #ifdef NEED_CPU_H
->   # ifdef CONFIG_AEHD
->   #  define CONFIG_AEHD_IS_POSSIBLE
-> @@ -23,3 +29,49 @@
->   #endif
->   
->   #define aehd_enabled()           (0)
-> +
-> +struct aehd_run;
-> +struct aehd_lapic_state;
-> +struct aehd_irq_routing_entry;
-> +
-> +struct AEHDState;
-> +
-> +#define TYPE_AEHD_ACCEL ACCEL_CLASS_NAME("aehd")
-> +typedef struct AEHDState AEHDState;
-> +DECLARE_INSTANCE_CHECKER(AEHDState, AEHD_STATE,
-> +                         TYPE_AEHD_ACCEL)
-> +
-> +extern AEHDState *aehd_state;
-> +
-> +#ifdef NEED_CPU_H
-> +#include "cpu.h"
-> +
-> +/* internal API */
-> +
-> +int aehd_ioctl(AEHDState *s, int type, void *input, size_t input_size,
-> +               void *output, size_t output_size);
-> +int aehd_vm_ioctl(AEHDState *s, int type, void *input, size_t input_size,
-> +                  void *output, size_t output_size);
-> +int aehd_vcpu_ioctl(CPUState *cpu, int type, void *input, size_t input_size,
-> +                    void *output, size_t output_size);
-> +
-> +/* Arch specific hooks */
-> +
-> +/* Notify arch about newly added MSI routes */
-> +int aehd_arch_add_msi_route_post(struct aehd_irq_routing_entry *route,
-> +                                 int vector, PCIDevice *dev);
-> +/* Notify arch about released MSI routes */
-> +int aehd_arch_release_virq_post(int virq);
-> +
-> +int aehd_set_irq(AEHDState *s, int irq, int level);
-> +int aehd_irqchip_send_msi(AEHDState *s, MSIMessage msg);
-> +
-> +void aehd_put_apic_state(DeviceState *d, struct aehd_lapic_state *kapic);
-> +void aehd_get_apic_state(DeviceState *d, struct aehd_lapic_state *kapic);
-> +
-> +#endif /* NEED_CPU_H */
-> +
-> +void aehd_irqchip_commit_routes(AEHDState *s);
-> +void aehd_irqchip_release_virq(AEHDState *s, int virq);
-> +
-> +#endif
 
 
