@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF766A92DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6476A92D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0yw-0007F2-Gf; Fri, 03 Mar 2023 03:41:38 -0500
+	id 1pY0yz-0007Hs-Qq; Fri, 03 Mar 2023 03:41:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yk-0006es-Sh
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:26 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pY0yl-0006fy-S6
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:30 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yi-0007lv-8z
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:26 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id a2so1994407plm.4
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:23 -0800 (PST)
+ id 1pY0yj-0007m8-P2
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:27 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id kb15so1813200pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832883;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832884;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JSXQ1gv8F6gBWFEiNu0PyJfk2U181G5/O9/ILiiVGXY=;
- b=EHgivzUCJHpMIL1y3nJBd/u3gFrhIlr7Rvu4b/1bteOrBNQZl06WiZJaECFZF1gKJ8
- BJr6UZd56OV+vznQ6lVp6crcH554X6ToFvcoKBrV+KV0h/B9JacfSV5ZwCilvBMMcTJM
- mqrhFRLY5UZtwB7T/a1EnDWQyx48NdnjQoHhK1tgfhvUwgeK1AQGjHne1UhzjN+r0bTm
- liL05Qn7GQAV9VTwLXVzjtFNFetzFREPTO1KqxkrHjQ2YfxwVTtv8KiKbzY8mstmKEoM
- P4pf2fmL8v0XaIzfe9zuu19iwogc0AQFm9LgHIgDYoaJAnO9U75cA3lU5K+Cz8xPVNNu
- H5Ag==
+ bh=4Hfiux9wjBHefjdAiFtqfeuuXfGolGwUIxeXcDisz5o=;
+ b=C9CXga+yG17lo4qFtwa+yfafom+JPrJaE/5kr4LAbjz41AmhvuUeNBSe0ZfO2pn9RX
+ qXVbVa0j2x31lgBVcQD5Dz1jq6ckCepmLP6rss0etNQHQCLtd7tazbSNkIPqLunO5Jot
+ rF7DvrY/umjU7u2L7DyBtluW0l9JXRSW10cstRgyhrWC3rddFSY7g9xNus9M/iK8oQ7R
+ FaTbSM/ZIeAH3k3El+GQU08w2qUiVaWlOkVk3V+GMzCAYVkwTmk38+bL4SIqydKQtCdB
+ p/CZHp8leUYzu/ixzhpIiajiKk1pfzxG/xUNeJ+9sQeFrAdOYcoPtwqxp2NXYsIOAo5l
+ g96w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832883;
+ d=1e100.net; s=20210112; t=1677832884;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JSXQ1gv8F6gBWFEiNu0PyJfk2U181G5/O9/ILiiVGXY=;
- b=RU9w31oQOs/bdDoKsosALaPVYx46v/i+kJXInLCJ14cxZ+cCeEOPaj49DH6t78g60J
- jcqgKqUBZnLg/nAmcuXlI8MJPt9w+fPsdmWgVWDlTewMW0bDoEvz+6DndDubWjraVw9L
- L0O7a4lg2T+Lms3ljfdLqtGj5zHlgoShWykGgrBshNo56Il9kSs/4A9bOWYJIyAG+Uh1
- 3es0WiNlXKsUGgOWFbGRsJXtopoosrJnc6IO6hPBhoGr7NbakepK4OmGDIWAFfLL1l20
- pWD4elqxnuPMKloKCmmmSgRNkVawnU9f69pUreIK22j9vvyYogtgVCTr2RY8tRHVITkO
- q0DQ==
-X-Gm-Message-State: AO0yUKWKBxH39LbcVZ50KC6MgKtBmzpSbahT83L4qc63WFWlzg346TAG
- +pa7/camcSFbY9zSHt8IiPB7nA==
-X-Google-Smtp-Source: AK7set+tyRsSDYvzg9KmsebpvTOdoyIZEXWpWREFcI/gAiuO+4wOu2fNV1p5qUxZJ7VLNcDacaTQHA==
-X-Received: by 2002:a17:902:e842:b0:19a:b4a9:9ddb with SMTP id
- t2-20020a170902e84200b0019ab4a99ddbmr1481757plg.49.1677832882946; 
- Fri, 03 Mar 2023 00:41:22 -0800 (PST)
+ bh=4Hfiux9wjBHefjdAiFtqfeuuXfGolGwUIxeXcDisz5o=;
+ b=V1w50GVX2bi05FfwYJAzKHmO9YTrgmbA2BvA7ZTBNyr7wlOblc6WarAL/xXpS9JrvI
+ 2+Pur1pTpOp8Na5Oh7KdDbhKfHswBFvBzWSgJFEjBY6uPlb1+ulZCBSXMka1IygT21uz
+ D82PXBRp2jiYaMOghY4QSFeWHPRhblY9JyIOYzYlyjKocCzeIwbp3/+VbdNgSFQ7TNa7
+ wTqnRGZjnI3odFDKkanE9w2+LCmngwk7H424maQaAAoMGwsSA3b+WhZpvOpt9gQFp04R
+ VPtkAuP5zgeGyfiYr8hZqS+EH619TUae0Ph4P3mSJLXhb6dNSXLgHkAl4Ek0ipwWx8rQ
+ W+Mw==
+X-Gm-Message-State: AO0yUKXijH1NoCU4fkUOBRrvsjDiNgGJv52V8QHA03/Q5eZODhINYihT
+ ZlJQOwhCh7Rm6sri8cjRAUzB6g==
+X-Google-Smtp-Source: AK7set8fBQjPXKzFPTdtKuiinrCLHzEPQARCg3SvizpIacPD8FkvN00vTk+KBtb1ojPWavwxP/9xQg==
+X-Received: by 2002:a17:90a:190f:b0:233:ccd2:40a4 with SMTP id
+ 15-20020a17090a190f00b00233ccd240a4mr905500pjg.23.1677832884243; 
+ Fri, 03 Mar 2023 00:41:24 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- kq14-20020a170903284e00b0019cf747253csm974701plb.87.2023.03.03.00.41.22
+ x15-20020a170902ec8f00b0019aa5e0aadesm976117plg.110.2023.03.03.00.41.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:22 -0800 (PST)
-Subject: [PULL 02/59] target/riscv: do not mask unsupported QEMU extensions in
- write_misa()
-Date: Fri,  3 Mar 2023 00:36:43 -0800
-Message-Id: <20230303083740.12817-3-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:23 -0800 (PST)
+Subject: [PULL 03/59] target/riscv: allow MISA writes as experimental
+Date: Fri,  3 Mar 2023 00:36:44 -0800
+Message-Id: <20230303083740.12817-4-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -65,12 +64,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, Bin Meng <bmeng@tinylab.org>, 
- Andrew Jones <ajones@ventanamicro.com>, Palmer Dabbelt <palmer@rivosinc.com>
+ Weiwei Li <liweiwei@iscas.ac.cn>, Andrew Jones <ajones@ventanamicro.com>, 
+ Bin Meng <bmeng@tinylab.org>, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,37 +94,97 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-The masking done using env->misa_ext_mask already filters any extension
-that QEMU doesn't support. If the hart supports the extension then QEMU
-supports it as well.
+At this moment, and apparently since ever, we have no way of enabling
+RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+the nuts and bolts that handles how to properly write this CSR, has
+always been a no-op as well because write_misa() will always exit
+earlier.
 
-If the masking done by env->misa_ext_mask is somehow letting unsupported
-QEMU extensions pass by, misa_ext_mask itself needs to be fixed instead.
+This seems to be benign in the majority of cases. Booting an Ubuntu
+'virt' guest and logging all the calls to 'write_misa' shows that no
+writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+RISC-V extensions after the machine is powered on, seems to be a niche
+use.
+
+After discussions in the mailing list, most notably in [1], we reached
+the consensus that this code is not suited to be exposed to users
+because it's not well tested, but at the same time removing it is a bit
+extreme because we would like to fix it, and it's easier to do so with
+the code available to use instead of fetching it from git log.
+
+The approach taken here is to get rid of RISCV_FEATURE_MISA altogether
+and use a new experimental flag called x-misa-w. The default value is
+false, meaning that we're keeping the existing behavior of doing nothing
+if a write_misa() is attempted. As with any existing experimental flag,
+x-misa-w is also a temporary flag that we need to remove once we fix
+write_misa().
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Message-ID: <20230222185205.355361-3-dbarboza@ventanamicro.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Message-ID: <20230222185205.355361-4-dbarboza@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/csr.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/riscv/cpu.c | 6 ++++++
+ target/riscv/cpu.h | 2 +-
+ target/riscv/csr.c | 2 +-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 93b52b826c..1d637b1acd 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -1210,6 +1210,12 @@ static Property riscv_cpu_properties[] = {
+ 
+     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+     DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
++
++    /*
++     * write_misa() is marked as experimental for now so mark
++     * it with -x and default to 'false'.
++     */
++    DEFINE_PROP_BOOL("x-misa-w", RISCVCPU, cfg.misa_w, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7ee22cbfa1..ca828424c1 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -89,7 +89,6 @@ enum {
+     RISCV_FEATURE_MMU,
+     RISCV_FEATURE_PMP,
+     RISCV_FEATURE_EPMP,
+-    RISCV_FEATURE_MISA,
+     RISCV_FEATURE_DEBUG
+ };
+ 
+@@ -498,6 +497,7 @@ struct RISCVCPUConfig {
+     bool pmp;
+     bool epmp;
+     bool debug;
++    bool misa_w;
+ 
+     bool short_isa_string;
+ };
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1b0a0c1693..e149b453da 100644
+index e149b453da..3cb8d2ffad 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -1356,9 +1356,6 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
-     /* Mask extensions that are not supported by this hart */
-     val &= env->misa_ext_mask;
- 
--    /* Mask extensions that are not supported by QEMU */
--    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU | RVV);
--
-     /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
-     if ((val & RVD) && !(val & RVF)) {
-         val &= ~RVD;
+@@ -1329,7 +1329,7 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+ static RISCVException write_misa(CPURISCVState *env, int csrno,
+                                  target_ulong val)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
++    if (!riscv_cpu_cfg(env)->misa_w) {
+         /* drop write to misa */
+         return RISCV_EXCP_NONE;
+     }
 -- 
 2.39.2
 
