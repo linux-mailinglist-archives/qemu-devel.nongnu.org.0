@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B446A94E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33776A9507
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:17:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY2M1-0008HD-1d; Fri, 03 Mar 2023 05:09:33 -0500
+	id 1pY2Rp-00067B-4e; Fri, 03 Mar 2023 05:15:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2Ly-0008Gt-MT
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:09:30 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2Lx-0007JT-0o
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:09:30 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bx12so1683047wrb.11
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:09:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677838166;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Hy/d28wvWHAgRL7H5GRJPuV8/lGxnjDPDwO332dNSbc=;
- b=QYqiFA2awOrx+kkDn5q16fl8KZoH6x9DFUjwAprYMmDpUeeO+t/V13PBisp5yAUkdX
- iDrKzeTh2zDs53/G/5hHj2lDn8BS/23cJbC3uIkvYXBkbIkpIrGXeJl3iSEeCVFKjs7s
- xU6DEuDFfokNilEkpZ8i01rYAg2eMVKbt/1cjzUYcX5h6c/JGTe+BX8ql+MBdmR1J8zZ
- 2NAwi+eZExiZEtHb7Cf1nC4HIElVHGKGf082wBp8gyrKDYDtrG/erRxp6tx1tzwSNnLv
- Lf7+sjFryMs/0vSLYY7YGQJOyv93VsXZCrzr3XOmsOojHc6rJj5DfXThlaTk1KZYT1iP
- PKYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677838166;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Hy/d28wvWHAgRL7H5GRJPuV8/lGxnjDPDwO332dNSbc=;
- b=ZbpSTT+5QuXJPRQNtvrSgKBXmpWzgtGHuKRIhGxP/LjfftUWgblyVEyezvlWyOq6TG
- Snutn9i9GcsdgEf22djKe/xDfKRm1GLGDW1kXC02EVfTT6EI2aYn0Q18jIuPtsS9wUJE
- 75gXUtwmTjKNXdzuEi1cwZnRk9bxwsPS0GVj+N5A4oDV4O8Y53gKq9y1gDBp9Uw1IPuE
- oxUnrVT7NPC2QQm7vObjKVnOPqaoZF60kHPIE83SVBZtAZt8TMMQsNjoAI4SdnPYUYcb
- V9Y+pyZ7bmjFVz9etLUuRB/5Nwv67Ja9R6EbBw/f9MHHyHh+S0lfZxnRrV/hEK8aUgMR
- KU6w==
-X-Gm-Message-State: AO0yUKWxek1T6qhWMFrOWqtB9r/KLXtk4GCi4BxKMnJ7Bb47kvLGoD19
- ajUzl/2ga1dYiugAn9GYxlWH5g==
-X-Google-Smtp-Source: AK7set/zUQGsZAYIMRD+9PHS7emEtVJdIis/mKum9Xf2Pcy3ZAsonRfemtZykGmm1WiA1SwcaXgmrg==
-X-Received: by 2002:a5d:6512:0:b0:2c5:5687:5ed5 with SMTP id
- x18-20020a5d6512000000b002c556875ed5mr856994wru.18.1677838166699; 
- Fri, 03 Mar 2023 02:09:26 -0800 (PST)
-Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- z5-20020a5d4c85000000b002c71703876bsm1721330wrs.14.2023.03.03.02.09.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 02:09:26 -0800 (PST)
-Message-ID: <84a59aed-04e2-e1fc-6862-591164473ea8@linaro.org>
-Date: Fri, 3 Mar 2023 11:09:22 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY2RN-0005w2-IH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:15:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY2RL-0000Z6-0K
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:15:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677838501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TpIlf9psPSTZKBaw+RSYYsCEkerCEPwHUsx9lr/nHA8=;
+ b=hCV7oNSmLc+VC7Qfysn6/EWrFpHsO+HFe6AayZ+T8fp9fqghhFcJFjTpfhf3X5wpSbjsQY
+ 0uy+vXeUOZBcu1MycPa+saLGW8ncHbv2XNR+N2XH6UKU9VfDwUodc9DVc4DV5ZgersBzIh
+ LM7Pucqn6x++ll/zo2o6yXLp3T7AQSA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-61-AerQz7NuMbiiz8u1ijZjjQ-1; Fri, 03 Mar 2023 05:14:57 -0500
+X-MC-Unique: AerQz7NuMbiiz8u1ijZjjQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E93A5802C18;
+ Fri,  3 Mar 2023 10:14:56 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84169492C14;
+ Fri,  3 Mar 2023 10:14:54 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH v3 0/6] Deprecate support for 32-bit x86 and arm hosts
+Date: Fri,  3 Mar 2023 11:14:46 +0100
+Message-Id: <20230303101452.769367-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 5/6] Add the aehd-i8259 device type.
-Content-Language: en-US
-To: Haitao Shan <hshan@google.com>, qemu-devel@nongnu.org
-Cc: Haitao Shan <haitao.shan@google.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "open list:Android Emulator..." <emu-dev@google.com>
-References: <20230303022618.4098825-1-hshan@google.com>
- <20230303022618.4098825-5-hshan@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230303022618.4098825-5-hshan@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,58 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 03:26, Haitao Shan wrote:
-> The aehd-i8259 device type represents the AEHD in kernel PICs.
-> The irqchips should be always in kernel when AEHD is used.
-> 
-> Signed-off-by: Haitao Shan <hshan@google.com>
-> ---
->   hw/i386/aehd/i8259.c     | 165 +++++++++++++++++++++++++++++++++++++++
->   hw/i386/aehd/meson.build |   1 +
->   hw/i386/pc.c             |   2 +
->   include/hw/intc/i8259.h  |   1 +
->   4 files changed, 169 insertions(+)
->   create mode 100644 hw/i386/aehd/i8259.c
+We're struggling quite badly with our CI minutes on the shared
+gitlab runners, so we urgently need to think of ways to cut down
+our supported build and target environments. qemu-system-i386 and
+qemu-system-arm are not really required anymore, since nobody uses
+KVM on the corresponding systems for production anymore, and the
+-x86_64 and -arch64 variants are a proper superset of those binaries.
+So it's time to deprecate them and the corresponding 32-bit host
+environments now (32-bit arm for system emulation, and 32-bit x86
+completely).
 
+This is a follow-up patch series from the previous discussion here:
 
-> +static void aehd_pic_reset(DeviceState *dev)
-> +{
-> +    PICCommonState *s = PIC_COMMON(dev);
-> +
-> +    s->elcr = 0;
-> +    pic_reset_common(s);
-> +
-> +    aehd_pic_put(s);
-> +}
-> +
-> +static void aehd_pic_set_irq(void *opaque, int irq, int level)
-> +{
-> +    pic_stat_update_irq(irq, level);
-> +    aehd_set_irq(aehd_state, irq, level);
-> +}
-> +
-> +static void aehd_pic_realize(DeviceState *dev, Error **errp)
-> +{
-> +    PICCommonState *s = PIC_COMMON(dev);
-> +    AEHDPICClass *kpc = AEHD_PIC_GET_CLASS(dev);
-> +
-> +    memory_region_init_io(&s->base_io, OBJECT(dev), NULL, NULL, "aehd-pic", 2);
-> +    memory_region_init_io(&s->elcr_io, OBJECT(dev), NULL, NULL, "aehd-elcr", 1);
-> +
-> +
-> +    kpc->parent_realize(dev, errp);
-> +}
+ https://lore.kernel.org/qemu-devel/20230130114428.1297295-1-thuth@redhat.com/
 
-Again, this should be drastically simplified by adding a some fields &
-handlers to the abstract TYPE_INKERNEL_IOAPIC class:
+where people still mentioned that there is still interest in certain
+support for 32-bit host hardware. But as far as I could see, there is
+no real need for 32-bit x86 host support and for system emulation on
+32-bit arm hosts anymore, so it should be fine if we drop these host
+environments soon (these are also the two architectures that contribute
+the most to the long test times in our CI, so we would benefit a lot by
+dropping those).
 
-struct InKernelAPICCommonClass {
-     APICCommonClass parent_class;
+v3:
+- Update some commit descriptions according to the suggestions in v2
+- Added the Reviewed-bys from v2
 
-     void (*pic_put)(PICCommonState *s)
-     ...
-};
+v2:
+- Split binary and host deprecation into separate patches
+- Added patches to immediately drop the jobs from the CI
 
-Eventually this could even belong to APICCommonClass, but I haven't
-checked in detail.
+Thomas Huth (6):
+  docs/about/deprecated: Deprecate 32-bit x86 hosts
+  docs/about/deprecated: Deprecate the qemu-system-i386 binary
+  gitlab-ci.d/crossbuilds: Drop the i386 jobs
+  docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation
+  docs/about/deprecated: Deprecate the qemu-system-arm binary
+  gitlab-ci.d/crossbuilds: Drop the 32-bit arm system emulation jobs
+
+ docs/about/deprecated.rst    | 43 ++++++++++++++++++++++++++++++++++++
+ .gitlab-ci.d/crossbuilds.yml | 34 ----------------------------
+ 2 files changed, 43 insertions(+), 34 deletions(-)
+
+-- 
+2.31.1
+
 
