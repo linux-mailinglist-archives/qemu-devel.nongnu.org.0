@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98576A9303
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94346A92DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zR-0008F8-Gn; Fri, 03 Mar 2023 03:42:09 -0500
+	id 1pY0zW-0008Lk-7g; Fri, 03 Mar 2023 03:42:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zL-00089S-AJ
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:03 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pY0zN-0008Ac-SH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:06 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zJ-0007mo-P3
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:03 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- p3-20020a17090ad30300b0023a1cd5065fso1616490pju.0
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:01 -0800 (PST)
+ id 1pY0zM-0007n9-9g
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:05 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id l1so1811863pjt.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832921;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832923;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JeC9UIsIrP9BmX3HUZg1DweVzMp1+h1saYBBS3xuZqw=;
- b=lQ2tp3kILmlPTHMwahAWnpfWpRafKzlpw1Rj2YOEEe83L9AESfb885bq54Rwj9quYj
- N/G8JptlUkqA0yZEl+kRm1hjlzy+7A5drlkYEUYKHQUXpei1RwnzbKrelNcW6nvo2jQ+
- AkWsde3xTn7v6U5BsLsffKY9PtN5QCzrWm+YFcQBSn98dLqMfZ2/Qr+v98SDg1g6DB6M
- u6DSgxnMYgk61afv0lfPGtpGPmrAHY3f7S5GMpOFu3r7NUxYC3pPZle1ZHH51gkAjaH4
- 7FuaRXsvrmboGfxtq/OsOH/8DkobsfTABA+7a2iDJSH5GQ5DocfKRXA87SUEweAn3XY0
- w1yQ==
+ bh=xVge5eYF4AHTDYM9NZKBwRnMkT36zpgg9PzKCyvzH58=;
+ b=Ov3EgEHhU0h+WUBa1ESpFar3LeckmZHpndVV4bHbCJTzl8OlB6TcMimsq3U61RCZTx
+ FkxvvwIypblqRLTO2ewkE5Q9EafgHXjkuHL0z1WTcaX21vj4WXpsmZfqPM9EZlVhbqZA
+ 4fhrzXQOcMW9jgFbCzzlpItJGFODUkMF1qKqniwXwPXa5GLjTdeEa63aa1FqjizYzqzA
+ HwSFKokUmBKToic5j/LoV9hKaV8dWCmb1Ppsuz92UyBS45zxm4UvcUx4aMtMyEFzdYW+
+ 2+zgkGrEoGuRmgVWOZjU+W2XWIv3ySzR8wFj1tGRXLRm+lxlWpr8F/x6RRU2j2JoJrFi
+ sQeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832921;
+ d=1e100.net; s=20210112; t=1677832923;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JeC9UIsIrP9BmX3HUZg1DweVzMp1+h1saYBBS3xuZqw=;
- b=BfDBc7E2XlAUphSTyhlCWzJrR0pmelYono1zqEUtCywCMWR9XXA4g4bEPaUEABxgHE
- hRyG1Xnhmh2yIylrMekkGVRApcC8l7MfQOGgA0DxkbzHzyAjJTaz5NNKorjsF5JCN9QO
- nF6J41Z7dNQQu+KUEq/gDhwuz2kVUOE3yhqgsaAidbStPgYDcCHf9FSh6bf3xitkvvSW
- pGGfGlf66rU9QZdEOEk5pnY7iEG3Qx4WC/cwhfFyUJ1F87FQzaJqtwEqOLDUqh5u/o/z
- lyy6b3xKgfVXsjhl0A/a2pf5tFy3C9gPitSBhRbrMIoq1c0mXL86XtwVYfamlhHpjlXH
- /kmg==
-X-Gm-Message-State: AO0yUKVETpPyZ4fl0wRJLb6L5/1LwVW2bqEJ0HK49PH36VRUsxzsQVFp
- S/7f9j0FEfqUtmQIdhy6zhqw4A==
-X-Google-Smtp-Source: AK7set9qeJL5QOyz08Yxf06+pz88LeowsMEQXlwC5pyCjtacf/ud6VUCdKJUgQHqB5Wf94C1cqk3tw==
-X-Received: by 2002:a17:90a:e7c3:b0:236:6dea:8795 with SMTP id
- kb3-20020a17090ae7c300b002366dea8795mr919973pjb.14.1677832920976; 
- Fri, 03 Mar 2023 00:42:00 -0800 (PST)
+ bh=xVge5eYF4AHTDYM9NZKBwRnMkT36zpgg9PzKCyvzH58=;
+ b=bPlPQITPf1Oeq/O6jIpbwsR/t2s09SHEAQ2V3lkqlaH2cFUGYVpo/KOOVBo+N6rskl
+ WkRXomWkJJEY6xh2s9g+Pp36ASkgqpBUOocyD8uNi9r2JMk2u6PIteko04FNf8X+9Old
+ wrMpcfcPP2fJNSa9eH/RwIEudZD6SA2Jf11Y52irP5WPyBU77f2I+46IDZhh3sKPODU/
+ 5Zal5ZGszqyR2xhsb0zIArtTiTBytMtUdaWJbza0NN65u1/r3/LXcATj/yzJ4j1CLw9Y
+ uzVp0Kf4Nit0+qhzMbyVOIajASTGkwb1eqUWJ0+d3VkOssGcZt+BAHPcRFx9etZNbny6
+ 873Q==
+X-Gm-Message-State: AO0yUKX60rtLPAex+ZlDBKFLb3+BKDX+GZ2iz3iqzgUyyj28XyKTk256
+ xLl8J2YcX8zEERRIt1SXsZgHtQ==
+X-Google-Smtp-Source: AK7set+Vq87ze9oHP7avO2IN8NCAvTCj1zx2H0ZBTateULcwANLS7DvdgJx+wUdARFNExFiDecTZIA==
+X-Received: by 2002:a05:6a20:1e5a:b0:be:bc70:6810 with SMTP id
+ cy26-20020a056a201e5a00b000bebc706810mr1198489pzb.5.1677832923444; 
+ Fri, 03 Mar 2023 00:42:03 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- z9-20020a63e109000000b004fbd91d9716sm990809pgh.15.2023.03.03.00.42.00
+ 5-20020aa79205000000b00593ce7ebbaasm1018494pfo.184.2023.03.03.00.42.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:00 -0800 (PST)
-Subject: [PULL 32/59] target/riscv: Simplify {read,
- write}_pmpcfg() a little bit
-Date: Fri,  3 Mar 2023 00:37:13 -0800
-Message-Id: <20230303083740.12817-33-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:03 -0800 (PST)
+Subject: [PULL 34/59] target/riscv: Avoid reporting odd-numbered pmpcfgX in
+ the CSR XML for RV64
+Date: Fri,  3 Mar 2023 00:37:15 -0800
+Message-Id: <20230303083740.12817-35-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -70,8 +69,8 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,40 +94,77 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-Use the register index that has already been calculated in the
-pmpcfg_csr_{read,write} call.
+At present the odd-numbered PMP configuration registers for RV64 are
+reported in the CSR XML by QEMU gdbstub. However these registers do
+not exist on RV64 so trying to access them from gdb results in 'E14'.
+
+Move the pmpcfgX index check from the actual read/write routine to
+the PMP CSR predicate() routine, so that non-existent pmpcfgX won't
+be reported in the CSR XML for RV64.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-ID: <20230228104035.1879882-9-bmeng@tinylab.org>
+Message-ID: <20230228104035.1879882-11-bmeng@tinylab.org>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/csr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/csr.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 9264db6110..a3e0e5755c 100644
+index 8e827362cc..7284fd8a0d 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -3360,7 +3360,7 @@ static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
-     if (!check_pmp_reg_index(env, reg_index)) {
-         return RISCV_EXCP_ILLEGAL_INST;
+@@ -412,6 +412,15 @@ static int aia_hmode32(CPURISCVState *env, int csrno)
+ static RISCVException pmp(CPURISCVState *env, int csrno)
+ {
+     if (riscv_cpu_cfg(env)->pmp) {
++        if (csrno <= CSR_PMPCFG3) {
++            uint32_t reg_index = csrno - CSR_PMPCFG0;
++
++            /* TODO: RV128 restriction check */
++            if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
++                return RISCV_EXCP_ILLEGAL_INST;
++            }
++        }
++
+         return RISCV_EXCP_NONE;
      }
--    *val = pmpcfg_csr_read(env, csrno - CSR_PMPCFG0);
-+    *val = pmpcfg_csr_read(env, reg_index);
+ 
+@@ -3331,23 +3340,11 @@ static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
      return RISCV_EXCP_NONE;
  }
  
-@@ -3372,7 +3372,7 @@ static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
-     if (!check_pmp_reg_index(env, reg_index)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
--    pmpcfg_csr_write(env, csrno - CSR_PMPCFG0, val);
-+    pmpcfg_csr_write(env, reg_index, val);
+-static bool check_pmp_reg_index(CPURISCVState *env, uint32_t reg_index)
+-{
+-    /* TODO: RV128 restriction check */
+-    if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
+-        return false;
+-    }
+-    return true;
+-}
+-
+ static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
+                                   target_ulong *val)
+ {
+     uint32_t reg_index = csrno - CSR_PMPCFG0;
+ 
+-    if (!check_pmp_reg_index(env, reg_index)) {
+-        return RISCV_EXCP_ILLEGAL_INST;
+-    }
+     *val = pmpcfg_csr_read(env, reg_index);
      return RISCV_EXCP_NONE;
  }
+@@ -3357,9 +3354,6 @@ static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
+ {
+     uint32_t reg_index = csrno - CSR_PMPCFG0;
  
+-    if (!check_pmp_reg_index(env, reg_index)) {
+-        return RISCV_EXCP_ILLEGAL_INST;
+-    }
+     pmpcfg_csr_write(env, reg_index, val);
+     return RISCV_EXCP_NONE;
+ }
 -- 
 2.39.2
 
