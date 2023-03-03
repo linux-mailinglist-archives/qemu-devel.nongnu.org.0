@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78786A9917
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0836A991B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:09:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY63d-0007CS-Jc; Fri, 03 Mar 2023 09:06:49 -0500
+	id 1pY65w-0008FW-0z; Fri, 03 Mar 2023 09:09:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY63b-0007C2-Op
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:06:47 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY63Z-0000X5-TK
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:06:47 -0500
-Received: by mail-pl1-x629.google.com with SMTP id h8so2733797plf.10
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 06:06:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677852404;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FdfEb4YRCyEREZ+0oyMFBEC3j+X9bzIDyBDU7myJYSs=;
- b=u5zWsLYhqLtfXfUsruhS7Rymc15vG5QTirovxVOiKR7YcR7vVdyD5RavMNCPIHzpbl
- Tm+E0rVHYBLrtp7enJlLMsxeRxz1rn/O2vz6LucDzHq/6rbuTUfyZ4WxHPytby196jPo
- yEO9aNxal+3ZKI11h2HvLHFmYsZshxGanCLf/wHgXJ0uEdVyrpYI6PDMm8CdAYHJoBzB
- lTkTgURX9js2BRRnebvrrdG4jjka6RQhlggdAySCL3QzOBLkkY0XyHIkWxvyRgV4h4xn
- 79DVMOncnSZGDuwi9vBxVHQObU/iRcevO/TSUut9XcxxZIkU9A8z2sPVxZw1nqRbfs4g
- hsHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677852404;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FdfEb4YRCyEREZ+0oyMFBEC3j+X9bzIDyBDU7myJYSs=;
- b=4Y64QY2pBd4J3Zhnyn9r8+f/ReetX4+2gBzILEpeVA6mFkIzxG1trOXnySkm+U6l60
- EIDoVl9w+rEiE4r6+TyH0SHiqp0nO+0VTnE1lV1vZsBQft1vpaeXZgV3QHU9yN7WZw5p
- pLEDP/MZ0rImGAP4IIkNFqLvr5fwX9vZCCQOjvYeINcJvVyVZhB0Ppdrwk9fbs8BLSqH
- Vo6jHXkOCjeS53BW/zJv60R8UdEp1Cbm3xHdEujJQsoz/DYJb6TxCeV92PD0r4aNPn3G
- y/L2MJbouaq53trtGeSbDCGKY6YeeAj2J8uiY5EZjYmvu5meJvTEVamOaiYvD+FQH5bf
- GdTw==
-X-Gm-Message-State: AO0yUKX8fnvsMTO0z+8E1et+siA1F4u/o3vHAKNV6++w5N13SkGvWi6h
- 1MmyGSHkvrAOjQh5VnPTXBaUJniJG+iqv+SonEJyyWnxq2qUDw==
-X-Google-Smtp-Source: AK7set/dEMP99bKUCGUdwMe7WCSanTbV7ma1PSKHKjLuhmTmrroz80fqprWv1VIQSlShBSZLj7OPTHMgyE7tOTAUuuw=
-X-Received: by 2002:a17:90a:d18a:b0:234:c035:7749 with SMTP id
- fu10-20020a17090ad18a00b00234c0357749mr627655pjb.0.1677852404261; Fri, 03 Mar
- 2023 06:06:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pY65s-0008F9-Rr
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:09:08 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pY65r-00015K-4y
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:09:08 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 86DDC20790;
+ Fri,  3 Mar 2023 14:09:03 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 3 Mar
+ 2023 15:09:02 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0042d930621-53e7-4135-96e2-3284c0a14617,
+ D247C90D5DACFD620130D6A3F59DE8A1FE9C6D23) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d62972e8-cfc9-e494-1b41-cf4825715532@kaod.org>
+Date: Fri, 3 Mar 2023 15:08:58 +0100
 MIME-Version: 1.0
-References: <20230227225832.816605-1-richard.henderson@linaro.org>
-In-Reply-To: <20230227225832.816605-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 14:06:33 +0000
-Message-ID: <CAFEAcA-PcckkLvL3iyoXopkggxwqr3OJOR0AKk4EV+m2DDDhbw@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 v4 0/4] target/arm: pre-FEAT_RME fixes
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PULL 00/11] aspeed queue
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20230302174206.2434673-1-clg@kaod.org>
+ <840ae915-390e-5cb9-3186-360856ecf407@kaod.org>
+ <CAFEAcA-HvviZFZXBwJQXhxVsqv473=5BW=WJgKSd25uqmschXw@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA-HvviZFZXBwJQXhxVsqv473=5BW=WJgKSd25uqmschXw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 89f1fae1-78d8-483f-b685-d7f4d3f7e7da
+X-Ovh-Tracer-Id: 18410433804771363805
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudelledgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedukeeuheegtdekvdegveelvdffieegveevheeukeetgeekfeeivefgheduieekteenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,23 +74,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 23:00, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These were part of the v3 RME patch set, but are bug fixes
-> that should not be deferred until all of RME is ready.
->
-> r~
->
-> Richard Henderson (4):
->   target/arm: Handle m-profile in arm_is_secure
->   target/arm: Stub arm_hcr_el2_eff for m-profile
->   target/arm: Diagnose incorrect usage of arm_is_secure subroutines
->   target/arm: Rewrite check_s2_mmu_setup
+On 3/3/23 14:34, Peter Maydell wrote:
+> On Fri, 3 Mar 2023 at 13:23, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> Hello Peter,
+>>
+>> On 3/2/23 18:41, Cédric Le Goater wrote:
+>>> The following changes since commit a2b5f8b8ab7b2c947823088103a40f0ff11fe06b:
+>>>
+>>>     Merge tag 'pull-tcg-20230301' of https://gitlab.com/rth7680/qemu into staging (2023-03-01 19:19:20 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>     https://github.com/legoater/qemu/ tags/pull-aspeed-20230302
+>>>
+>>> for you to fetch changes up to b22a2d409b1acfdf0d63d1bb3595194ceb3d94da:
+>>>
+>>>     aspeed/smc: Replace SysBus IRQs with GPIO lines (2023-03-02 13:57:50 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> aspeed queue:
+>>>
+>>> * fix for the Aspeed I2C slave mode
+>>> * a new I2C echo device from Klaus and its associated test in avocado.
+>>> * initial SoC cleanups to allow the use of block devices instead of
+>>>     drives on the command line.
+>>> * new facebook machines and eeprom fixes for the Fuji
+>>> * readline fix
+>>
+>> This one was merged already. Would you prefer an updated PR instead ?
+> 
+> I'm not sure what you're asking ?
 
+Sorry, I am not being clear. I included commit 76f5801a83 ("readline:
+fix hmp completion issue") in the PR, which could be an issue when you
+merge, may be not, I am not sure. I can respin if you like.
 
+Thanks,
 
-Applied to target-arm.next, thanks.
+C.
 
--- PMM
 
