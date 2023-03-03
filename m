@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CCF6A95C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEAA6A95D4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:11:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY3Ca-0006y3-79; Fri, 03 Mar 2023 06:03:52 -0500
+	id 1pY3IO-0002YS-D1; Fri, 03 Mar 2023 06:09:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3CW-0006xB-HC
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:03:49 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3CU-0006iP-RK
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:03:48 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id 130so1226102pgg.3
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:03:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677841425;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=t4xoFeWO302skjnQ/fqB+7hUtgvkEYforbnz6qEI8nM=;
- b=afzjMUcomoaNrvT++wK6wTVEbHr5JP49Anay5aLQkooy1AsrCTvJqAtHNMDqFBrYa8
- JSVqIYYQXs2OFfEN5cgemLHsTHpMmG44V6wTcILj35LDaAWgDCwGFUiQiGXQsklNyNPj
- ZhqjM4rtZpZj5WhCgdgAtu+T4i1dWreNp+KWXsEb1Qj3TmDiLESI4fFpijYFVI1Cwj9l
- 0GCc+HceNHi2dGVymnlHc95Ke39A2tkUtu9OPItn355oWTnPT+LsFduSuvaQho6INkVY
- mq/6Mua9El8OCqfjPKpARTPRprRhKh/4LubFeE+mOXfkFEzzSuV8O6a6PqgefxAz6R1r
- 0IMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677841425;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=t4xoFeWO302skjnQ/fqB+7hUtgvkEYforbnz6qEI8nM=;
- b=8NHowpxGW+kMzsPotoFQoX4Re58CjAwdwWoh//6zugLL6Fbih03FvL9pRZGPk5qEfq
- pou9RfPnDJP6Tj7MmrY+ku2eC+cDxhZDgJ5hqiFX7ZyrTrCLtbI6Bvek0zFIfSymHekJ
- xnpOBtX5DZKFy4k07VcEyTaKKI0ofA9Gn89b1/sdGei/XdQcslWabXQWi5jJspqImyPe
- hQPl/EsBAOQVP85u4vD08uZXa2gOpjU3gc4rn6NItS1fM1Mixf3UvgNEJFmJKIIRSENR
- QS32xM9Qab4OcLVeNFnWj+q3qRt64kujBX4Z7l9+nbrZhbAH2EkyzczPPX7SBMpU6fYU
- qmMA==
-X-Gm-Message-State: AO0yUKUjfl0AhNRhvY9eyvq07sKnpX3ZcM5EdGGTsLsJUyBVYr6kb0HU
- ho4korUVhdonraznJHqYdEgRQHhs94X8pC44BuQVXQ==
-X-Google-Smtp-Source: AK7set+2C+7cP5WfNkyP0jg0Y9n+zBUFhtxca7nyH7h1TSw01owMpypfDheMYwAMYBS7+SbSNpcSdnnK8it4ncx7sNo=
-X-Received: by 2002:a63:5508:0:b0:502:fd71:d58c with SMTP id
- j8-20020a635508000000b00502fd71d58cmr394472pgb.9.1677841425061; Fri, 03 Mar
- 2023 03:03:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20230302123029.153265-1-pbonzini@redhat.com>
-In-Reply-To: <20230302123029.153265-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 11:03:33 +0000
-Message-ID: <CAFEAcA98FkO6_buQentxpUK5Zw_5=8NYf0i0R8DymZKmfpFg5g@mail.gmail.com>
-Subject: Re: [PULL 00/62] i386, misc changes for QEMU 8.0 soft freeze
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1pY3IL-0002Uf-Rv; Fri, 03 Mar 2023 06:09:49 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1pY3IJ-0008Dn-G7; Fri, 03 Mar 2023 06:09:49 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1pY3Hv-003tSJ-6g; Fri, 03 Mar 2023 12:09:23 +0100
+Received: from p57bd9bc2.dip0.t-ipconnect.de ([87.189.155.194]
+ helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
+ with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1pY3Hu-0022n3-VM; Fri, 03 Mar 2023 12:09:23 +0100
+Message-ID: <89fd1c916b6c8094ea1a7a52396b3f91025c75c1.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH v2 0/6] Deprecate support for 32-bit x86 and arm hosts
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Thomas Huth <thuth@redhat.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Daniel
+ Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, qemu-arm@nongnu.org, Maxim Levitsky
+ <mlevitsk@redhat.com>, libvir-list@redhat.com, Richard Henderson
+ <richard.henderson@linaro.org>, xen-devel@lists.xenproject.org, Reinoud
+ Zandijk <reinoud@netbsd.org>, Michael Tokarev <mjt@tls.msk.ru>, Helge
+ Deller <deller@gmx.de>
+Date: Fri, 03 Mar 2023 12:09:21 +0100
+In-Reply-To: <6c1f0d05-924e-854e-0175-5e345945e086@redhat.com>
+References: <20230302163106.465559-1-thuth@redhat.com>
+ <4bed38c3-ab4f-cd32-05a4-afa090ad8b9a@linaro.org>
+ <6c1f0d05-924e-854e-0175-5e345945e086@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.155.194
+X-ZEDAT-Hint: PO
+Received-SPF: pass client-ip=130.133.4.66;
+ envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,31 +74,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023 at 12:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
->
->   Merge tag 'buildsys-qom-qdev-ui-20230227' of https://github.com/philmd/qemu into staging (2023-02-28 15:09:18 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 526947e496e4447d74b8d42415e2847481c5043d:
->
->   Merge branch 'xenfv-kvm-15' of git://git.infradead.org/users/dwmw2/qemu into HEAD (2023-03-01 15:02:13 +0100)
->
-> ----------------------------------------------------------------
-> * bugfixes
-> * Core Xen emulation support for KVM/x86
->
-> ----------------------------------------------------------------
+Hello!
 
+On Fri, 2023-03-03 at 10:48 +0100, Thomas Huth wrote:
+> x86 =3D=3D> deprecate both, user and system emulation support on
+>          32-bit hosts
+> arm =3D=3D> deprecate only system emulation on 32-bit hosts.
 
-Applied, thanks.
+I would recommend against dropping support for 32-bit hosts for qemu-user
+as there are some cases where the emulation of 32-bit user code on 64-bit
+hosts does not work properly [1].
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Adrian
 
--- PMM
+> [1] https://sourceware.org/bugzilla/show_bug.cgi?id=3D23960
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
