@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889226A9623
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1026A9625
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:27:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY3XS-0003Nk-Hh; Fri, 03 Mar 2023 06:25:33 -0500
+	id 1pY3Yv-0004c2-Kf; Fri, 03 Mar 2023 06:26:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3X5-0003Lg-5I
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:25:03 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pY3Yo-0004ZI-E2
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:26:51 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3X2-0003V7-EX
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:25:02 -0500
-Received: by mail-pg1-x529.google.com with SMTP id q189so1236281pga.9
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:24:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677842698;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aT5E5FQuhkYZHN7xCNC3IujwXcdIeJdZVQgTLRWi92M=;
- b=JdlLeBN9mZJKEzV2VH1S1A56dOCzQMFoF3EFCCzNeJhuZ0/DcQj0FSt6e+TAwbQ8a/
- 9sFQyrtfC3y9X0+7Ge7TFkFeBBu/HfLMyCr0TD5vmRswBGNsMR0KuPPcC/t+0Nxkyg94
- akiDWvTZlsZ6o+AnhgnxbxN5VJXTOyAXd8wiBQ9bH4agHMMI1JenET0Q5kr13rdOXADZ
- G0bd5vBN/KVFmaFe7hiFRlnnaJ3W1II1jZJrGujsdTk4ORgorIXvETWuDQmhj5fNAi6M
- LPDGI+bWQc7wCa2g+Sz+/eaGH3DArOygO9P4pmwO7LKLsiOARMLG0eSFMnIF41229i2A
- HYTg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pY3Ym-0004N1-Ni
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:26:50 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso3723491wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:26:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iUqr5erx8+OwmkALJPrJFLC85+jmkVhI6/lFPgW+I6A=;
+ b=RmYG37N9xIRIt1QHa+0MsNhEg33yCp2ro4xVIh6ZGFzTC3bUzq+tlA6AxtH5qy5PQj
+ xgl7/3nZ2kqsjNpKOyycSxURhGMgQSnO7b7umluAlCymvvKjJhr4ceoERnfXJmlA4Dsl
+ 8HYvkI4jWo8Gsmslnpw2/eBj/DzSNPiWB5301X/cWubjQcqf5z0uZ98fWJmELCiVCT1E
+ 1jasVqhY0UCd9RjJnYYu5ejioe2JIMo5SBnxlsZnfY1Bi5+z5RaXrJxInIABVbIsgPtk
+ 4tidfcUKVZ9AEXNyWf/KmgK4MeXU3iE/5PnjbnIgzXB2tLXdE0Zp0SgTLrYXDsDGg1Sx
+ 8saw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677842698;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aT5E5FQuhkYZHN7xCNC3IujwXcdIeJdZVQgTLRWi92M=;
- b=7Mj8sjFYysJ6CfHHHrRf0npuSEZ/xjsW5Tm9o+7IuVut2d9ZEGwwYqi/v2jud0rvIq
- 5XD2vBuTw03dNoqiT3vdVyuAXgxOVab3mfVNG+NZ1NOF0yX13FKo9Vb/IJA/00RdjtzL
- am1/OMWRawnq8KaG/PkwNFHPhMrjjciNBEbNtlmnL2Xh5Xf9ywjtPHL5AI1F/b/oqtI7
- ctwKoBGAfis9l4CZVlxol1u6MTvwEA2bKfNCoNY7Uz5m3Hxif/J17x1s4wvrPmQxe9lZ
- fx+aP9CYxkgYGaATNU5YNfRA2RzNe/Q1OAHKEkl8rPPDMUJY7ih+hJmkL+NkA4/TMSOj
- EM6g==
-X-Gm-Message-State: AO0yUKX0+ujl69sAOi0q4TH+xlgzS1kVT64XybVsAWs1TI+sS0jPN/ob
- tQXx3EcUGMhNw0ZnteQ7riOvo0KOxAldz5VwDM4dcA==
-X-Google-Smtp-Source: AK7set9TFhgmzEYff5a5Y/FhcSMZ3q7NzK7FxjJZYmiBpcpZypyz3OwZzAn3/jSFaGTGPE0QrSfYtgRzKg7q/DB7Eps=
-X-Received: by 2002:a62:ce4e:0:b0:606:6380:98da with SMTP id
- y75-20020a62ce4e000000b00606638098damr729699pfg.5.1677842698016; Fri, 03 Mar
- 2023 03:24:58 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=iUqr5erx8+OwmkALJPrJFLC85+jmkVhI6/lFPgW+I6A=;
+ b=teGp0vxAQcOXQrGUuIPiD4iiBuSmM/KuN9Gon035nXNaprwX30SIgXs4cK125V5tek
+ G5895j9n7kntI4reR+0bfDMOG14Wmtwn2feeCSPgRyO1VFOgoLX1MSu5gtPXC3iB2IWm
+ zk5XJHyO3BoIS5cbJamTYqKGCHZ5jRrHolMhpPY2Yn4bhdFZ3LLFREAA9XByxyExdqb+
+ cTciiQJ5hJn0al+uRwTT8e0YDNvh3qBzKCmmYkF/h9HgTG3UWl7PYXLcowcPGsogqNvJ
+ 1ippK+rXGS0widBoN1bcLGJo045hCe5nd+Mx45bLHPFgTZjau5O8fbbB0nDmgBl4hWDh
+ MytA==
+X-Gm-Message-State: AO0yUKUuW2+20p2rCZel0UcmqZfLY2vWfRFkr8GgU0GozGVosuMqLIrr
+ lkI0KO1XQvsvpN4KWd6uXyWA/w==
+X-Google-Smtp-Source: AK7set/aBLtNIKzJKAkXwukeK7eTI02eLDK9G2YoVa4V6kn49Jb5nIulQ7xedth3WTIozxlPbZ0O3Q==
+X-Received: by 2002:a05:600c:548b:b0:3eb:39e7:3607 with SMTP id
+ iv11-20020a05600c548b00b003eb39e73607mr1441037wmb.4.1677842806877; 
+ Fri, 03 Mar 2023 03:26:46 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ j22-20020a05600c485600b003e203681b26sm2069997wmo.29.2023.03.03.03.26.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 03:26:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 27D791FFB7;
+ Fri,  3 Mar 2023 11:26:46 +0000 (GMT)
+References: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Cc: Radoslaw Biernacki <rad@semihalf.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Leif Lindholm <quic_llindhol@quicinc.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Da?=
+ =?utf-8?Q?ud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH 1/3] tests/avocado: update AArch64 tests to Alpine 3.17.2
+Date: Fri, 03 Mar 2023 11:24:59 +0000
+In-reply-to: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
+Message-ID: <87mt4u9itl.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230302163106.465559-1-thuth@redhat.com>
- <4bed38c3-ab4f-cd32-05a4-afa090ad8b9a@linaro.org>
- <6c1f0d05-924e-854e-0175-5e345945e086@redhat.com>
- <89fd1c916b6c8094ea1a7a52396b3f91025c75c1.camel@physik.fu-berlin.de>
-In-Reply-To: <89fd1c916b6c8094ea1a7a52396b3f91025c75c1.camel@physik.fu-berlin.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 11:24:46 +0000
-Message-ID: <CAFEAcA9cE087cowTodqAb2mkzGxxnAcBGZsMNu6uj_Nsa2v-dw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Deprecate support for 32-bit x86 and arm hosts
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, Daniel Berrange <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org, 
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com, 
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, 
- Reinoud Zandijk <reinoud@netbsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x529.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,38 +97,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 11:09, John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
->
-> Hello!
->
-> On Fri, 2023-03-03 at 10:48 +0100, Thomas Huth wrote:
-> > x86 ==> deprecate both, user and system emulation support on
-> >          32-bit hosts
-> > arm ==> deprecate only system emulation on 32-bit hosts.
->
-> I would recommend against dropping support for 32-bit hosts for qemu-user
-> as there are some cases where the emulation of 32-bit user code on 64-bit
-> hosts does not work properly [1].
->
-> Adrian
->
-> > [1] https://sourceware.org/bugzilla/show_bug.cgi?id=23960
 
-I failed entirely to get any traction with persuading the
-kernel folks to provide an API to let QEMU work in that
-"32-bit guest wants a 32-bit dirent but the kernel is
-providing a 64-bit hash value as a dirent" case. Somebody kindly
-wrote some kernel patches but they went absolutely nowhere.
+Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org> writes:
 
-It seems to only happen for certain kinds of 32-bit guest, where
-the guest libc is not also using 64-bit dirents. So at least as
-far as Arm guests are concerned the effective result was "the
-older arm binaries that were built to need a 32-bit dirent are
-just not around any more, so very few people run into the problem".
-You can also work around it by using a different host filesystem
-type, I think.
+Next time please ensure you have a cover letter for a multi-patch series
+as the various bits of tooling get confused without one.
 
-thanks
--- PMM
+> To test Alpine boot on SBSA-Ref target we need Alpine Linux
+> 'standard' image as 'virt' one lacks kernel modules.
+
+Is this kernel modules we will need for SBSA "hw" choices?
+
+> So to minimalize Avocado cache I move test to 'standard' image.
+>
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  tests/avocado/machine_aarch64_virt.py | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machin=
+e_aarch64_virt.py
+> index 25dab8dc00..a90dc6ff4b 100644
+> --- a/tests/avocado/machine_aarch64_virt.py
+> +++ b/tests/avocado/machine_aarch64_virt.py
+> @@ -38,11 +38,11 @@ def test_alpine_virt_tcg_gic_max(self):
+>          :avocado: tags=3Daccel:tcg
+>          """
+>          iso_url =3D ('https://dl-cdn.alpinelinux.org/'
+> -                   'alpine/v3.16/releases/aarch64/'
+> -                   'alpine-virt-3.16.3-aarch64.iso')
+> +                   'alpine/v3.17/releases/aarch64/'
+> +                   'alpine-standard-3.17.2-aarch64.iso')
+>=20=20
+>          # Alpine use sha256 so I recalculated this myself
+> -        iso_sha1 =3D '0683bc089486d55c91bf6607d5ecb93925769bc0'
+> +        iso_sha1 =3D '76284fcd7b41fe899b0c2375ceb8470803eea839'
+>          iso_path =3D self.fetch_asset(iso_url, asset_hash=3Diso_sha1)
+>=20=20
+>          self.vm.set_console()
+> @@ -65,7 +65,7 @@ def test_alpine_virt_tcg_gic_max(self):
+>          self.vm.add_args('-object', 'rng-random,id=3Drng0,filename=3D/de=
+v/urandom')
+>=20=20
+>          self.vm.launch()
+> -        self.wait_for_console_pattern('Welcome to Alpine Linux 3.16')
+> +        self.wait_for_console_pattern('Welcome to Alpine Linux 3.17')
+>=20=20
+>=20=20
+>      def common_aarch64_virt(self, machine):
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
