@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72DD6A9E5B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 19:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0268B6A9EA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 19:26:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYA0D-0002xo-Bh; Fri, 03 Mar 2023 13:19:33 -0500
+	id 1pYA6B-0006fA-93; Fri, 03 Mar 2023 13:25:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1pYA0A-0002wJ-AI
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 13:19:30 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1pYA08-0008E7-Kl
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 13:19:30 -0500
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 323BsdKQ009121; Fri, 3 Mar 2023 18:19:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=drYSI9fS/tOadsNdAuyS0CWfZQbxAcaI5Kako4ATgWE=;
- b=iq7Twyhd373pSxUm7+xSbshn4tU/hqfMWCpZ3tsUFzrsMeORFJnnUxvLdqbRM3/5kgfm
- bNYs1gZ86+BrhFATPz4ArxtCIik4M+KMNzQZiwP3euaxQjFWKHwtRfbFG+DPLTp5fZ/I
- TssyVdJeMzjFs6b2qm0azwzm+ynC7OlWkaKaFpr/2QkXDMjooiMut3tyHWoHJpR0zYNg
- mGE4NA6WAE+INOG3iPv8G/BhsF8cD5ggMsJCvIZ45YM8mjNkv/gEw1INkqtNReb1LQ4W
- 4dT2PPd4rC6Kpmt3urucFrgrMkZSWeBwaeHy7eQYLta/Zj3L1IuDJRCq7Kh7blFW3LPd /w== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p2rbgd2tf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Mar 2023 18:19:23 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 323IJN8O007253
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 3 Mar 2023 18:19:23 GMT
-Received: from NASANPPMTA03.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 3 Mar 2023 10:19:20 -0800
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: <qemu-devel@nongnu.org>
-CC: <alex.bennee@linaro.org>, <philmd@linaro.org>, <tsimpson@quicinc.com>
-Subject: hexagon: check-tcg rebuilding up to date image 
-Date: Fri, 3 Mar 2023 15:19:03 -0300
-Message-ID: <3ccca5373de05be28b861c0e9e780c709703f0f7.1677862556.git.quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pYA69-0006aA-7y
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 13:25:41 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pYA67-0002Sx-KJ
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 13:25:40 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ u3-20020a17090a450300b00239db6d7d47so3103786pjg.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 10:25:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677867938;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fnGoF8YLB/nvxFfUrxZ6aikhdToPm0b/4C20nXAG+4A=;
+ b=v2nVC9tOUVDOGQHxwr8QZy0mwtJMv830e02aylIJZNPEWnGzhhgcpKmejS4jZXHlwv
+ 6eMuh+Uj1CFsuxPMCwdgmrQ1mHpsz8E6RyTpZr2ZJAWuY+qmC1SOTjmjceAtozc8uD1/
+ KLDBrd336xv7bsa6hOZYz9xlJqi3lmFp1sPsGgRx8x0g7HQzRWKLOjn3eyQ+Q44qgD77
+ OtbkfMtxJ5I+JkEOUW8nbJAh+2B0Q6WfulhzodbvgDsqA7lX3WdG2KRswKYWitqipMO9
+ dFcQQ+6Jbz/SGMmntoLLFWh6ZT00V7bHKw9nknuILzjEiJYGRcOmT416++EWqgO3GuMb
+ /iOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677867938;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fnGoF8YLB/nvxFfUrxZ6aikhdToPm0b/4C20nXAG+4A=;
+ b=Uls8dH4IEGjT2LK8nKpgKMkN40qL6iBW7EwOtMPjxaTa/UdGks5jaiGdHUnIySgXoY
+ F9ytNS4T2Oi6aLvFPXAUaZ20N+J0qo5273URY6nnJ/qIAvYscDT3uuo3mRUZdsp4bOLE
+ y2flL7aUcQKeOx4kqEVxZjtLpFQKk9XDnpy8pRhPD/jS0DyECSPTak2A2Bz/0nw9IfxS
+ XrxafQcfstiAP9Mp+mw4N92yVRMj7KyCG1n71ZTWRv9rdbokNUqclsfkJJ05u1psCNT/
+ 3qMfZWKLSPzRxcD2WZ7+M4gtnrLyFxVwBpqL1GexyCodh7G2OGOLGRsXe7tGkhDj/Orx
+ kpZw==
+X-Gm-Message-State: AO0yUKUwLaKRR43BwV6ptuymvwBAbGnCU1rNp4qEj7/zj6hPzoNtZaUW
+ NqSq8fxstnmydBBFVsPr+31UmiTY6lreGrqWYTQ71Q==
+X-Google-Smtp-Source: AK7set/S63Otfg6CUo4P221sWoaAnV2aUL9x5F2lAuWQe5UMarLFxkdmzGrY6RVM2CJjOhrDoq0sU/2ey2R+2nLppxg=
+X-Received: by 2002:a17:90b:f12:b0:237:5834:2808 with SMTP id
+ br18-20020a17090b0f1200b0023758342808mr987776pjb.0.1677867937990; Fri, 03 Mar
+ 2023 10:25:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: TmPclAC1XhLNxEP7Rt9beVQqkI97uYZJ
-X-Proofpoint-ORIG-GUID: TmPclAC1XhLNxEP7Rt9beVQqkI97uYZJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-03_03,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=542
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- mlxscore=0 spamscore=0 malwarescore=0 adultscore=0 bulkscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303030157
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=quic_mathbern@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230227052505.352889-1-richard.henderson@linaro.org>
+ <20230227052505.352889-15-richard.henderson@linaro.org>
+In-Reply-To: <20230227052505.352889-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Mar 2023 18:25:26 +0000
+Message-ID: <CAFEAcA_-d1yr_afCNHNSaHTmWAzjS85OX8gXwHC1Z4ybGvLE0A@mail.gmail.com>
+Subject: Re: [PATCH v2 14/76] target/arm: Drop tcg_temp_free from
+ translator-sme.c
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org, 
+ qemu-riscv@nongnu.org, qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, 
+ kbastian@mail.uni-paderborn.de, ysato@users.sourceforge.jp, 
+ gaosong@loongson.cn, jiaxun.yang@flygoat.com, tsimpson@quicinc.com, 
+ ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,19 +90,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Mon, 27 Feb 2023 at 05:28, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Translators are no longer required to free tcg temporaries.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-We noticed that local `make check-tcg` is rebuilding the docker image
-for qemu-hexagon at every run, whereas previously it would say "Image is
-up to date" and move on.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-This was changed at 0b1a649047 (tests/docker: use direct RUNC call to
-build containers, 2023-02-28), where we started to no longer use
-docker.py and its image_matches_dockerfile() to skip image builds.
-
-Is this new behavior by design? Or perhaps do we have some local
-docker misconfiguration that is not correctly using caches?
- 
-Thanks,
-Matheus
+thanks
+-- PMM
 
