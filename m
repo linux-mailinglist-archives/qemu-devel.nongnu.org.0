@@ -2,85 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3F16A97E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:58:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BC66A980E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:58:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4yf-0004HH-JO; Fri, 03 Mar 2023 07:57:37 -0500
+	id 1pY4zH-00074g-FA; Fri, 03 Mar 2023 07:58:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pY4y8-0003zL-25
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:57:04 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pY4y6-000222-H3
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:57:03 -0500
-Received: by mail-wm1-x334.google.com with SMTP id k37so1556009wms.0
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XAk/sDdX8LyPjbOykITfpOM51d7JOalxrJLJT7HAKqs=;
- b=Rwuc5Dj0suh0HaotUf9bpYAtD3hXIuQYlXEG8fBaNG52vh4S9EsAo5QyFUH7zqrBXC
- TfO2/Owihrdnji4m0ulrBcKEiM9AliTdgWGEufeSGaur1o46qtnnDBapkdmk32Imb9sW
- F6jor69gXF+qNWIeGOnCqfmrvFPuwhEoNru+bes7UiHCF0L4ihLMOhQKPPRJ379Rlu1C
- sctkurh1QGAfv4M99PnaHSBH4WArTCTlPJ+5EXUDBj9HEBHRviRXjHzXtEV6uF5gXCJs
- 5gBnvy8Al4lAC/rB7ktL57PW1gXVljOFGgqH+EhZZi0DHHqNwcorYdaIMIR790D9cEo6
- J8Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=XAk/sDdX8LyPjbOykITfpOM51d7JOalxrJLJT7HAKqs=;
- b=xC4GfZSbiUF3joOiFDW1OcJUtM118fqhh2eg87NFLrJpDDE0IHjyyOAUBzT9ja0Rdz
- U6u8preZOQYTkW5JrdgmmsqNXPl7zvzN3G8RItC5qMa5I0YZs+e0zZHyOEwAi6NiJ9oK
- 0dGGkM0aSETo1ocAwFjzDhbHTeGolaxb8rM40TYA5g2ifrNrohDlh0yLMKg+z3PXxl/N
- 9YSojxjbzai+WkmYNlqlWq4W3/vFIgIOaOg1rArAnXDVQgjqPbxPufLD+pqbi9squv9P
- 3J5uA7FsgqXvhPsoPJKj4mlqiXBBR6nKxBVvwf2JBh4Kc1PcDr9gGu7zE6x54ki+qSF6
- cMJw==
-X-Gm-Message-State: AO0yUKXHylFrAMD8JB+eX3gVFXvmbko6DCxxzEBHud+MYyNjV9JvS8Th
- NDwxbVuONY9yN61GaCQjsozVwg==
-X-Google-Smtp-Source: AK7set/UXxsTRPSjnkz7P+eCBop2DG5LvnEn2/Ti++Qj9u2y9QY6H3/JXJs2sCoJLRRYvRzwT1Vqgg==
-X-Received: by 2002:a05:600c:4448:b0:3dc:18de:b20d with SMTP id
- v8-20020a05600c444800b003dc18deb20dmr1533462wmn.33.1677848220653; 
- Fri, 03 Mar 2023 04:57:00 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- c21-20020a7bc015000000b003e214803343sm5892975wmb.46.2023.03.03.04.57.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 04:57:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 113651FFB7;
- Fri,  3 Mar 2023 12:57:00 +0000 (GMT)
-References: <20230302184606.418541-1-berrange@redhat.com>
- <20230302184606.418541-3-berrange@redhat.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/5] iotests: allow test discovery before building
-Date: Fri, 03 Mar 2023 12:56:55 +0000
-In-reply-to: <20230302184606.418541-3-berrange@redhat.com>
-Message-ID: <87356m9en7.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pY4z8-0006xx-Tf; Fri, 03 Mar 2023 07:58:06 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pY4z6-00037j-Uh; Fri, 03 Mar 2023 07:58:06 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0D2F2746324;
+ Fri,  3 Mar 2023 13:57:58 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C7F50746346; Fri,  3 Mar 2023 13:57:57 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C68CF7462DB;
+ Fri,  3 Mar 2023 13:57:57 +0100 (CET)
+Date: Fri, 3 Mar 2023 13:57:57 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org, 
+ Bernhard Beschow <shentey@gmail.com>, John Snow <jsnow@redhat.com>, 
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
+ ide_init_ioport()
+In-Reply-To: <2e33d6b7-543a-b929-ca23-6102c36d2488@linaro.org>
+Message-ID: <1eb7fccc-4aa2-abd2-9383-ac1a30aef3d7@eik.bme.hu>
+References: <20230302224058.43315-1-philmd@linaro.org>
+ <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
+ <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
+ <2e33d6b7-543a-b929-ca23-6102c36d2488@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/mixed;
+ boundary="3866299591-1725957249-1677848277=:28478"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,25 +66,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+--3866299591-1725957249-1677848277=:28478
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> The 'check' script can be invoked in "dry run" mode, in which case it
-> merely does test discovery and prints out all their names. Despite only
-> doing test discovery it still validates that the various QEMU binaries
-> can be found. This makes it impossible todo test discovery prior to
-> building QEMU. This is a desirable feature to support, because it will
-> let meson discover tests.
+On Fri, 3 Mar 2023, Philippe Mathieu-Daudé wrote:
+> On 3/3/23 08:46, Mark Cave-Ayland wrote:
+>> On 03/03/2023 06:58, David Woodhouse wrote:
+>> 
+>>> On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daudé" <philmd@linaro.org> 
+>>> wrote:
+>>>> Since v2: rebased
+>>>> 
+>>>> I'm posting this series as it to not block Bernhard's PIIX
+>>>> cleanup work. I don't have code change planned, but eventually
+>>>> reword / improve commit descriptions.
+>>>> 
+>>>> Tested commit after commit to be sure it is bisectable. Sadly
+>>>> this was before Zoltan & Thomas report a problem with commit
+>>>> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
+>>> 
+>>> However much I stare at the partial revert which fixes it, I just cannot 
+>>> believe that the change could make any difference at all. There's got to 
+>>> be something weird going on there.
+>>> 
+>>> I was going to ask if the level mode for the PIT made any difference, but 
+>>> this is the output IRQ from the PIT to the CPU itself so I don't see how 
+>>> it would.
+>>> 
+>>> Would like to see a report with tracing from pic_update_irq, the CPU 
+>>> interrupt "handler" and the intermediate IRQ handler. With the 
+>>> intermediate present and without it. To compare the two.
+>> 
+>> I suspect it's related to the removal of the allocation of the qemu_irq: 
+>> qdev gpios work by adding a child IRQ object to the device, so it could be 
+>> possible that something in the gpio internals isn't being updated correctly 
+>> when the value is overwritten directly.
+>> 
+>> Is the problem picked up when running a binary built with 
+>> --enable-sanitizers? That's normally quite good at detecting this kind of 
+>> issue.
 >
-> Fortunately the code in the TestEnv constructor is ordered in a way
-> that makes this fairly trivial to achieve. We can just short circuit
-> the constructor after the basic directory paths have been set.
+> No ASan warning. However I see (before/after bb98e0f59c):
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> qemu-system-ppc: pc87312: unsupported device reconfiguration (0f 11 00)
+> qemu-system-ppc: pc87312: unsupported device reconfiguration (0f 11 84)
+> qemu-system-ppc: pc87312: unsupported device reconfiguration (09 01 84)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+This does not seem related at all especially if you also see it before 
+because we have the same problem in vt82c686 and this error above rather 
+looks liek it should be a qemu_log_mask(LOG_UNIMP) as that's all that 
+function seems to do where this is printed so looks like it's just 
+unimplemented functionality.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Regards,
+BALATON Zoltan
+--3866299591-1725957249-1677848277=:28478--
 
