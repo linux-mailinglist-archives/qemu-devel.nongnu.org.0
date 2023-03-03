@@ -2,53 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACCE6A9456
+	by mail.lfdr.de (Postfix) with ESMTPS id 165F26A9455
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:43:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1wE-0006ym-Qx; Fri, 03 Mar 2023 04:42:54 -0500
+	id 1pY1we-0007VW-Bd; Fri, 03 Mar 2023 04:43:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
- id 1pY1wC-0006yc-QR
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:42:53 -0500
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
- id 1pY1wB-0006NT-0j
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:42:52 -0500
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1pY1w3-0007DD-9B; Fri, 03 Mar 2023 10:42:43 +0100
-Message-ID: <632d4ca3-01ed-4d51-41b0-40c1aa82ffe9@leemhuis.info>
-Date: Fri, 3 Mar 2023 10:42:42 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY1wQ-0007Qj-Pl
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:43:07 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY1wP-0006Ti-8G
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:43:06 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so875165wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:43:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677836583;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=r/wGWaNciDRLtnr55OWobHC2854nly9YcDud6gGG0xQ=;
+ b=oY2DRDPV59KF69WT4wkPDL/1gBEK/xga5S/cny259JHn0ZSRJWyfn6nSaleNPT3Tje
+ uniwwVJO/zPQbRC2nnfUsXhjsMhPu1pfEkquFntOsUbeaX4UILPOiZwCtbvWMBWSSCrt
+ SEYdC/OgIuMtxXcU8p4H9b7YOorwY9GIHoEwj4VqC0cvOBGJYdB7k9vyaFnVpzLOoAGX
+ c2051oPEZbQ7KEj9WBvAA/VAjA7gW7xL6bKTkXhmiWx6/SxdJC0ksz0aVo/Qcb67BIoC
+ pbAI79gIurKG35iPDKT6FtZcHq+XITgsewIG3Mdjw9smR21BnnPMhwMhrG0FVVcc03BC
+ IrNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677836583;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=r/wGWaNciDRLtnr55OWobHC2854nly9YcDud6gGG0xQ=;
+ b=3RkOayHqlhV4JrWdESbgdVVOwr9mcy9fQ00FYNUtKjDi4IFGadW3KJNyN4K1fBmZFB
+ KEy0fBWq2+MpHgAIFnYCVURmfpPhtmfMGV8N1RRvtWyIvinXMbBk4qCDLv2RIHM/7GO5
+ UJjr4YBr7H8JzQBU+lpkwjP357/b+p6ZqXCoSjCKVDC5//ipDMpx/PZMjRKcOeC9lYNJ
+ K7eFR0TZrKM35j2v+xYSDmrj5qnvlYaw+fsGR26aWLHvrPyCNuxlYMkuNGORPZSmQfSX
+ mpqKjpP8q2QlDFQicjqmtHKCkw8h8zlvE1b1+KjeBjRZ3Db0brsnMfyKIxM7ZIYkptNj
+ k5IQ==
+X-Gm-Message-State: AO0yUKWDd5VenI1V+adQ8jFX1CR7eKtn0VAz4oakR4CSYfREf50AjA7N
+ wFz0njLggxXlSOi52DHYxy/0CQ==
+X-Google-Smtp-Source: AK7set/B7AxmGrNae4WLApoHavaxRMe/961jlQdxqPuI/pCHzzibClRVKbzO2ExUYSXL9r9ZiyrNnA==
+X-Received: by 2002:a1c:750a:0:b0:3ea:e582:48dd with SMTP id
+ o10-20020a1c750a000000b003eae58248ddmr962663wmc.34.1677836583092; 
+ Fri, 03 Mar 2023 01:43:03 -0800 (PST)
+Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
+ [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
+ d42-20020a05600c4c2a00b003e6efc0f91csm1808935wmp.42.2023.03.03.01.43.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 01:43:02 -0800 (PST)
+Message-ID: <217f4b5d-bbc8-c896-7b5f-a8e0effa04f9@linaro.org>
+Date: Fri, 3 Mar 2023 10:43:00 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: regression: insmod module failed in VM with nvdimm on #forregzbot
-Content-Language: en-US, de-DE
-From: "Linux regression tracking #update (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-To: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org,
- chenxiang via <qemu-devel@nongnu.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>
-References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
- <b4b81dfd-d30c-e8f4-3ea3-1af9140a82bb@leemhuis.info>
-In-Reply-To: <b4b81dfd-d30c-e8f4-3ea3-1af9140a82bb@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v4.5 26/29] gdbstub: Remove gdb_do_syscallv
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+References: <20230303025805.625589-1-richard.henderson@linaro.org>
+ <20230303025805.625589-27-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230303025805.625589-27-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1677836571;
- 99bd8e47; 
-X-HE-SMSGID: 1pY1w3-0007DD-9B
-Received-SPF: pass client-ip=80.237.130.52;
- envelope-from=regressions@leemhuis.info; helo=wp530.webpack.hosteurope.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.092,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -63,57 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-[TLDR: This mail in primarily relevant for Linux regression tracking. A
-change or fix related to the regression discussed in this thread was
-posted or applied, but it did not use a Link: tag to point to the
-report, as Linus and the documentation call for. Things happen, no
-worries -- but now the regression tracking bot needs to be told manually
-about the fix. See link in footer if these mails annoy you.]
-
-On 30.11.22 11:10, Thorsten Leemhuis wrote:
->
-> On 30.11.22 03:52, chenxiang (M) wrote:
->>
->> We boot the VM using following commands (with nvdimm on)  (qemu version
->> 6.1.50, kernel 6.0-r4):
->>
->> qemu-system-aarch64 -machine
->> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
->> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
->> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
->> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
->> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
->> -object memory-backend-ram,id=ram1,size=10G -device
->> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
->> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
->> [...]
->> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
->> defer initialization to initcall where permitted").
+On 3/3/23 03:58, Richard Henderson wrote:
+> This function is unused, except to implement gdb_do_syscall.
+> Fold the implementations together.
 > 
-> Thanks for the report. To be sure below issue doesn't fall through the
-> cracks unnoticed, I'm adding it to regzbot, my Linux kernel regression
-> tracking bot:
-> 
-> #regzbot ^introduced fc5a89f75d2a
-> #regzbot title arm64: kaslr: vmalloc error when boothing a VM with nvdimm
-> #regzbot ignore-activity
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/gdbstub/syscalls.h | 11 -----------
+>   gdbstub/syscalls.c         | 26 ++++++++++----------------
+>   2 files changed, 10 insertions(+), 27 deletions(-)
 
-#regzbot fix: arm64: kaslr: don't pretend KASLR is enabled if offset <
-MIN_KIMG_ALIGN
-#regzbot ignore-activity
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Backstory:
-
-https://lore.kernel.org/lkml/CAMj1kXGWEaQXoKj=DzG9XpVGi4t5zfE-RSG0BodVL-b47nsj-A@mail.gmail.com/
-https://lore.kernel.org/all/20230223204101.1500373-1-ardb@kernel.org/
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
 
