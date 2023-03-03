@@ -2,98 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004DE6A9391
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F3F6A9392
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:17:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1X4-0003zT-Hg; Fri, 03 Mar 2023 04:16:54 -0500
+	id 1pY1XU-0004H3-Qw; Fri, 03 Mar 2023 04:17:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY1Wy-0003z9-Ek
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:16:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY1Ww-0007BF-QD
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 04:16:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677835005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+9YuqYehjUc0AmBy0b1FAzpBRPPZoZuIG6Th6GQyGhU=;
- b=EXv3Icgz4VeOHzY0VLwdOnLqpumypQZ6KX0sv9Jn0qeZMfLJ7DGW+mOd+bwiTaduEczY35
- XIHdjSp1eB+bP9L2P1A0+eMeqx2P6yvAaamWIyaQwu24E7P3+pBzv+LoUbpIzQBW4K+z1Q
- AAgENtzzumeKW10wo18sUe+pcNwigAQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-602-JyVPYsxVNsycZdE8FEOS8A-1; Fri, 03 Mar 2023 04:16:43 -0500
-X-MC-Unique: JyVPYsxVNsycZdE8FEOS8A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ba28-20020a0560001c1c00b002cc6d1f0c06so275757wrb.17
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 01:16:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pY1XR-00047o-8f; Fri, 03 Mar 2023 04:17:17 -0500
+Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pY1XN-0007KY-5v; Fri, 03 Mar 2023 04:17:15 -0500
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1755e639b65so2302772fac.3; 
+ Fri, 03 Mar 2023 01:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pBsnEA7TEXj394UQGvsX7xCr+wZU+doLotmx6g6lZ4o=;
+ b=OsAzRpCLNhjsSxXC5tf+CgUv0lkPvm9Mjl1ahviHHsdpMSjug3kJDpJrKILzrpuh16
+ 2conSeq3ULIKd7pm+MqTUaLrY/S+DvNfNUTmxQm456UyF2ENZZ3dEB6KfvDkyL6N0g3p
+ /RPdzl1MLtG5S+I0cmmeG1ijVdreM183GfCwwgvJx/JVO8zczNMi/rKAYhBSNcwqTuhE
+ SXaKqdqgYlv6978tV3u5dnUZpgGz4q+FrZkujMfBbiYyBx17geuq5FJOUqCVXfwyF85s
+ DzIVsBlKRNjrOGiANVYurOycu7hXfMYYYKhoehKHNuicCkbBs4HnRtoCsNCAjSr9GUAY
+ oHng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677835002;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+9YuqYehjUc0AmBy0b1FAzpBRPPZoZuIG6Th6GQyGhU=;
- b=lhw6OA61Lfz2q8hhbI41WroO0zTQtnTtda7B0LBIvbfKJ3oc0UnNQeKYdLHO3+NXeF
- cbVkXLJAbpVYwECRosXOLxRvLDey9Tt01XA9eoTwPNpvJel4YASm6zwRoIndoyVcRTfp
- pjOI47bT7rfmDHdHxV3uh++h6w+X0KuGiVZJ5DGHrw6yC9dQIVTOppG5ziPNm2NxIZIv
- nt1QoifJ79JXl2jbCKzgWdJn+KqcqZmBe3ddgR1/tS12KGRgIOOkyvLVmHk7Ue0JoysA
- cKBXio8jAhVIOJpIChQ7Hn3W+/ZIMWAMczsp7NBPzBi+UI6brXgboA2UEP+BXwph9UBm
- wKyw==
-X-Gm-Message-State: AO0yUKUex97rbTArnUkII9qSUzLzYE9MdcW0a5VHNELrv9ZR5Ac0e+YB
- V/8cEhzt9P5jaM6CgRXv/ftSsgKUsHXapUFzLfIwpf6zgFDfIu6OLGMb8bzIeMuqMJRPi7MStFj
- rw9tSlCPP313ZleQ=
-X-Received: by 2002:adf:ea8c:0:b0:2ca:5c9a:a548 with SMTP id
- s12-20020adfea8c000000b002ca5c9aa548mr950808wrm.60.1677835002224; 
- Fri, 03 Mar 2023 01:16:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set8vLfWFU0MwoeLam6HHc5VPMlNs0RodEOjiLx4E8tcDi587GsUa34clBGrpFPXbwqAyQ6pOEw==
-X-Received: by 2002:adf:ea8c:0:b0:2ca:5c9a:a548 with SMTP id
- s12-20020adfea8c000000b002ca5c9aa548mr950789wrm.60.1677835001936; 
- Fri, 03 Mar 2023 01:16:41 -0800 (PST)
-Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pBsnEA7TEXj394UQGvsX7xCr+wZU+doLotmx6g6lZ4o=;
+ b=7GF4JJkMK/zJMMcTYpw2PXGbJae8qA/LujyHXCBpuGBQ4vwKbpsPScqaCaZfp7acUh
+ esh6WFcOF8oQ3T/xWSqB6QgwUSNGZhoeuHt5AyaMe5ZuizUtoHl7AEdImaHkkfz9BjLB
+ 9DVowMa2Mm4V0ztF0tqnBomJDeeB+sH9bFXQRx/ZJRXfywLd28hZq7EqDTq8FVa567hu
+ dNfEaloqF3YkaZZa53iCpFb1FCvA+fWfmXlsanx/oXjaMoEMNkMK36aya0JpcGIxuWNC
+ fuH4ON52L1x7uSlse9eyXzUDoGBIZ2PuiTmQMSRZLADQ3niISsS1YxoG4SZdNKLDrcnt
+ gJ8A==
+X-Gm-Message-State: AO0yUKUavmznZJxb5l/Zb49Jh36ylIuTOTUyuE0EDeNyO8Ipe7W12wcw
+ ozRChV/bhztguwW27smHUBM=
+X-Google-Smtp-Source: AK7set+rIBSkhd+Kq9am04lu6soxmIPcDPFKXyelQ+Y+O5Btbux6E9VNk1vwYKmAVd359RX9ncvMLQ==
+X-Received: by 2002:a05:6870:fb8c:b0:176:5e07:bf69 with SMTP id
+ kv12-20020a056870fb8c00b001765e07bf69mr666454oab.28.1677835029081; 
+ Fri, 03 Mar 2023 01:17:09 -0800 (PST)
+Received: from [192.168.68.107] ([177.189.53.31])
  by smtp.gmail.com with ESMTPSA id
- o16-20020a056000011000b002c703d59fa7sm1610078wrx.12.2023.03.03.01.16.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 01:16:41 -0800 (PST)
-Date: Fri, 3 Mar 2023 04:16:38 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
- longpeng2@huawei.com, Eli Cohen <eli@mellanox.com>,
- alvaro.karsz@solid-run.com, Lei Yang <leiyang@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ
- feature
-Message-ID: <20230303041325-mutt-send-email-mst@kernel.org>
-References: <CACGkMEsQe=zcfmK=rMH=u6RgHkkBFs+tJO7gT0v_bWwJ_N+z6Q@mail.gmail.com>
- <CAJaqyWfsBLvsJNF=RvhbirwNypzjfaO7thyK22s-nCjdaNs4yQ@mail.gmail.com>
- <20230214024736-mutt-send-email-mst@kernel.org>
- <CAJaqyWc8JON+QhJbqQCFx+q+qxb5LqjgsHS2wZ7R3v37uVU_sw@mail.gmail.com>
- <20230301163325-mutt-send-email-mst@kernel.org>
- <CAJaqyWfpbeoLfe1-GcoR=rtJMg1DGezMe8pjSNPQjBG4BzqMrA@mail.gmail.com>
- <20230302064234-mutt-send-email-mst@kernel.org>
- <CAJaqyWe0=R8OKXec1xvCWPrQOdum-Jp4V1_MCevi8nB4J7+kgA@mail.gmail.com>
- <20230302182928-mutt-send-email-mst@kernel.org>
- <CAJaqyWdcGUYMgB4qs4be5XMDsh+GaSQeoFj6K4xgbnKPbm1TbA@mail.gmail.com>
+ u22-20020a056830249600b00684152e9ff2sm859292ots.0.2023.03.03.01.17.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 01:17:08 -0800 (PST)
+Message-ID: <7e6b2a4b-6187-b106-0d45-e60dd874e77c@gmail.com>
+Date: Fri, 3 Mar 2023 06:17:04 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJaqyWdcGUYMgB4qs4be5XMDsh+GaSQeoFj6K4xgbnKPbm1TbA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 4/7] hw/ppc/pegasos2: Fix PCI interrupt routing
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ ReneEngel80@emailn.de
+References: <cover.1677628524.git.balaton@eik.bme.hu>
+ <a51b8b647d3b297c794739a862d3565e3e5ed882.1677628524.git.balaton@eik.bme.hu>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <a51b8b647d3b297c794739a862d3565e3e5ed882.1677628524.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,54 +96,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 03, 2023 at 10:08:17AM +0100, Eugenio Perez Martin wrote:
-> On Fri, Mar 3, 2023 at 12:31 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Thu, Mar 02, 2023 at 03:47:48PM +0100, Eugenio Perez Martin wrote:
-> > > On Thu, Mar 2, 2023 at 12:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Thu, Mar 02, 2023 at 12:30:52PM +0100, Eugenio Perez Martin wrote:
-> > > > > > You need to pass this to guest. My point is that there is no reason to
-> > > > > > get it from the kernel driver. QEMU can figure out whether the flag is
-> > > > > > needed itself.
-> > > > > >
-> > > > >
-> > > > > Ok, I can see now how the HW device does not have all the knowledge to
-> > > > > offer this flag or not. But I'm not sure how qemu can know either.
-> > > > >
-> > > > > If qemu opens /dev/vhost-vdpa-N, how can it know it? It has no way to
-> > > > > tell if the device is sw or hw as far as I know. Am I missing
-> > > > > something?
-> > > > >
-> > > > > Thanks!
-> > > >
-> > > > This is what I said earlier.  You can safely assume vdpa needs this
-> > > > flag. Only exception is vduse and we don't care about performance there.
-> > > >
-> > >
-> > > Ok now I get your point, thanks for explaining.
-> > >
-> > > But I'm missing why it is wrong to start using it properly from the
-> > > kernel.
-> > >
-> > > I didn't test vDPA in non x86 / PCI, but if it does not work
-> > > because of the lack of this feature flag the right fix would be to
-> > > offer it, not to start assuming it in qemu, isn't it?
-> > >
-> > > I can see how "assume VIRTIO_F_ORDER_PLATFORM from qemu" may need code
-> > > comments and extra explanations, but to start offering it properly
-> > > from the device is expected somehow.
-> > >
-> > > Thanks!
-> >
-> > Does kernel always expose it?
-> >
+Hi,
+
+It seems that I can't pick this patch standalone. It will break pegasos2 boot
+without patches 2 and 3 that comes beforehand.
+
+Phil, this patch already has my ack, so feel free to slide it together with
+patches 2 and 3 in your PR.
+
+
+Thanks,
+
+Daniel
+
+On 2/28/23 21:17, BALATON Zoltan wrote:
+> According to the PegasosII schematics the PCI interrupt lines are
+> connected to both the gpp pins of the Mv64361 north bridge and the
+> PINT pins of the VT8231 south bridge so guests can get interrupts from
+> either of these. So far we only had the MV64361 connections which
+> worked for on board devices but for additional PCI devices (such as
+> network or sound card added with -device) guest OSes expect interrupt
+> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+> VT8231 ISA bridge. After the previous patches we can now model this
+> and also remove the board specific connection from mv64361. Also
+> configure routing of these lines when using Virtual Open Firmware to
+> match board firmware for guests that expect this.
 > 
-> As far as I know the only vdpa device exposing it is alibaba/eni_vdpa
-
-That is my point then. qemu should set it and ignore what kernel says.
-
--- 
-MST
-
+> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/pci-host/mv64361.c |  4 ----
+>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+>   2 files changed, 25 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+> index 298564f1f5..19e8031a3f 100644
+> --- a/hw/pci-host/mv64361.c
+> +++ b/hw/pci-host/mv64361.c
+> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
+>       }
+>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+> -    /* FIXME: PCI IRQ connections may be board specific */
+> -    for (i = 0; i < PCI_NUM_PINS; i++) {
+> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+> -    }
+>   }
+>   
+>   static void mv64361_reset(DeviceState *dev)
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 7cc375df05..f1650be5ee 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+>       MachineState parent_obj;
+>       PowerPCCPU *cpu;
+>       DeviceState *mv;
+> +    qemu_irq mv_pirq[PCI_NUM_PINS];
+> +    qemu_irq via_pirq[PCI_NUM_PINS];
+>       Vof *vof;
+>       void *fdt_blob;
+>       uint64_t kernel_addr;
+> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+>       }
+>   }
+>   
+> +static void pegasos2_pci_irq(void *opaque, int n, int level)
+> +{
+> +    Pegasos2MachineState *pm = opaque;
+> +
+> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
+> +    qemu_set_irq(pm->mv_pirq[n], level);
+> +    qemu_set_irq(pm->via_pirq[n], level);
+> +}
+> +
+>   static void pegasos2_init(MachineState *machine)
+>   {
+>       Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
+> @@ -106,7 +117,7 @@ static void pegasos2_init(MachineState *machine)
+>       I2CBus *i2c_bus;
+>       const char *fwname = machine->firmware ?: PROM_FILENAME;
+>       char *filename;
+> -    int sz;
+> +    int i, sz;
+>       uint8_t *spd_data;
+>   
+>       /* init CPU */
+> @@ -156,11 +167,18 @@ static void pegasos2_init(MachineState *machine)
+>       /* Marvell Discovery II system controller */
+>       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+>                             qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
+> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
+> +    }
+>       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+>   
+>       /* VIA VT8231 South Bridge (multifunction PCI device) */
+>       via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
+>                                                    true, TYPE_VT8231_ISA));
+> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
+> +    }
+>       object_property_add_alias(OBJECT(machine), "rtc-time",
+>                                 object_resolve_path_component(via, "rtc"),
+>                                 "date");
+> @@ -267,6 +285,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
+>                                 PCI_INTERRUPT_LINE, 2, 0x9);
+>       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+>                                 0x50, 1, 0x2);
+> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+> +                              0x55, 1, 0x90);
+> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+> +                              0x56, 1, 0x99);
+> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+> +                              0x57, 1, 0x90);
+>   
+>       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
+>                                 PCI_INTERRUPT_LINE, 2, 0x109);
 
