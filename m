@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E206A9DA4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 18:26:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E613D6A9D93
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 18:25:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY99p-0000Ty-Sq; Fri, 03 Mar 2023 12:25:25 -0500
+	id 1pY99t-0000Xg-2Y; Fri, 03 Mar 2023 12:25:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pY99n-0000NU-GQ
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:25:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pY99p-0000Vx-UE
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:25:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pY99l-0005bo-Kt
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:25:23 -0500
+ id 1pY99o-0005cq-C3
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:25:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677864321;
+ s=mimecast20190719; t=1677864323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=36HXObT0IK6akZiTNkCoC/vHJoCI6P2P8iJddUIWLuQ=;
- b=ZRmRrEAMHqe5If4OW4pjVXf3A6L6azxuJGyVDaOTnhEhSzl7Mp2F5TTb0OPVaGQ2IB08Ap
- Pg/kyamHe7FvlEglvl1BWZ7MmCGnXTB7YpuZ974HDiDvRRX/+BEUP/94pC3Db/lvpy7XbF
- T2awItymBxqNoKlImWykH6gihJVjLHo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MbMrm/5o7KL5RcJRFUbSHY5hxxvHx8R161EGdxHoJg8=;
+ b=YVmukzH8dZGmjORlpDRi64am5K6dGououhbaBIYE7PFMnn98DQhJLnmMFS0P3mzinkSGIc
+ 5LVXZIWwmLWgLMetHP03TbBC7Ulvspm1NcfXXYfMuQ10gKjaWSCwwyRRFlaBfdGMaKLzwv
+ /vfMN2M7MoYLaRLMCPrJjtxS0uh4/Ec=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-i_VgnqCmMFKKcF4TeYaMRw-1; Fri, 03 Mar 2023 12:25:16 -0500
-X-MC-Unique: i_VgnqCmMFKKcF4TeYaMRw-1
+ us-mta-438-sw01AhOLPlWOjK4QUl3iRg-1; Fri, 03 Mar 2023 12:25:19 -0500
+X-MC-Unique: sw01AhOLPlWOjK4QUl3iRg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B47501815D17;
- Fri,  3 Mar 2023 17:25:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBC5E3C10ECC;
+ Fri,  3 Mar 2023 17:25:18 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF053440D8;
- Fri,  3 Mar 2023 17:25:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1E25440D8;
+ Fri,  3 Mar 2023 17:25:15 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -56,16 +56,17 @@ Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Subject: [PATCH v5 08/14] vdpa: add vdpa net migration state notifier
-Date: Fri,  3 Mar 2023 18:24:39 +0100
-Message-Id: <20230303172445.1089785-9-eperezma@redhat.com>
+Subject: [PATCH v5 09/14] vdpa: disable RAM block discard only for the first
+ device
+Date: Fri,  3 Mar 2023 18:24:40 +0100
+Message-Id: <20230303172445.1089785-10-eperezma@redhat.com>
 In-Reply-To: <20230303172445.1089785-1-eperezma@redhat.com>
 References: <20230303172445.1089785-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,200 +90,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This allows net to restart the device backend to configure SVQ on it.
+Although it does not make a big difference, its more correct and
+simplifies the cleanup path in subsequent patches.
 
-Ideally, these changes should not be net specific and they could be done
-in:
-* vhost_vdpa_set_features (with VHOST_F_LOG_ALL)
-* vhost_vdpa_set_vring_addr (with .enable_log)
-* vhost_vdpa_set_log_base.
-
-However, the vdpa net backend is the one with enough knowledge to
-configure everything because of some reasons:
-* Queues might need to be shadowed or not depending on its kind (control
-  vs data).
-* Queues need to share the same map translations (iova tree).
-
-Also, there are other problems that may have solutions but complicates
-the implementation at this stage:
-* We're basically duplicating vhost_dev_start and vhost_dev_stop, and
-  they could go out of sync.  If we want to reuse them, we need a way to
-  skip some function calls to avoid recursiveness (either vhost_ops ->
-  vhost_set_features, vhost_set_vring_addr, ...).
-* We need to traverse all vhost_dev of a given net device twice: one to
-  stop and get the vq state and another one after the reset to
-  configure properties like address, fd, etc.
-
-Because of that it is cleaner to restart the whole net backend and
-configure again as expected, similar to how vhost-kernel moves between
-userspace and passthrough.
-
-If more kinds of devices need dynamic switching to SVQ we can:
-* Create a callback struct like VhostOps and move most of the code
-  there.  VhostOps cannot be reused since all vdpa backend share them,
-  and to personalize just for networking would be too heavy.
-* Add a parent struct or link all the vhost_vdpa or vhost_dev structs so
-  we can traverse them.
+Move ram_block_discard_disable(false) call to the top of
+vhost_vdpa_cleanup because:
+* We cannot use vhost_vdpa_first_dev after dev->opaque = NULL
+  assignment.
+* Improve the stack order in cleanup: since it is the last action taken
+  in init, it should be the first at cleanup.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
-v5:
-* Expand patch message with latest conversation in mail thread.
+ hw/virtio/vhost-vdpa.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-v4:
-* Delete duplication of set shadow_data and shadow_vqs_enabled moving it
-  to data / cvq net start functions.
-
-v3:
-* Check for migration state at vdpa device start to enable SVQ in data
-  vqs.
-
-v1 from RFC:
-* Add TODO to use the resume operation in the future.
-* Use migration_in_setup and migration_has_failed instead of a
-  complicated switch case.
----
- net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 69 insertions(+), 3 deletions(-)
-
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index d195f48776..167b43679d 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -26,12 +26,15 @@
- #include <err.h>
- #include "standard-headers/linux/virtio_net.h"
- #include "monitor/monitor.h"
-+#include "migration/migration.h"
-+#include "migration/misc.h"
- #include "hw/virtio/vhost.h"
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index c9a82ce5e0..49afa59261 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -431,16 +431,6 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+     trace_vhost_vdpa_init(dev, opaque);
+     int ret;
  
- /* Todo:need to add the multiqueue support here */
- typedef struct VhostVDPAState {
-     NetClientState nc;
-     struct vhost_vdpa vhost_vdpa;
-+    Notifier migration_state;
-     VHostNetState *vhost_net;
+-    /*
+-     * Similar to VFIO, we end up pinning all guest memory and have to
+-     * disable discarding of RAM.
+-     */
+-    ret = ram_block_discard_disable(true);
+-    if (ret) {
+-        error_report("Cannot set discarding of RAM broken");
+-        return ret;
+-    }
+-
+     v = opaque;
+     v->dev = dev;
+     dev->opaque =  opaque ;
+@@ -452,6 +442,16 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+         return 0;
+     }
  
-     /* Control commands shadow buffers */
-@@ -239,10 +242,59 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa(VhostVDPAState *s)
-     return DO_UPCAST(VhostVDPAState, nc, nc0);
- }
- 
-+static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool enable)
-+{
-+    struct vhost_vdpa *v = &s->vhost_vdpa;
-+    VirtIONet *n;
-+    VirtIODevice *vdev;
-+    int data_queue_pairs, cvq, r;
-+
-+    /* We are only called on the first data vqs and only if x-svq is not set */
-+    if (s->vhost_vdpa.shadow_vqs_enabled == enable) {
-+        return;
-+    }
-+
-+    vdev = v->dev->vdev;
-+    n = VIRTIO_NET(vdev);
-+    if (!n->vhost_started) {
-+        return;
-+    }
-+
-+    data_queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
-+    cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-+                                  n->max_ncs - n->max_queue_pairs : 0;
 +    /*
-+     * TODO: vhost_net_stop does suspend, get_base and reset. We can be smarter
-+     * in the future and resume the device if read-only operations between
-+     * suspend and reset goes wrong.
++     * Similar to VFIO, we end up pinning all guest memory and have to
++     * disable discarding of RAM.
 +     */
-+    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
-+
-+    /* Start will check migration setup_or_active to configure or not SVQ */
-+    r = vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
-+    if (unlikely(r < 0)) {
-+        error_report("unable to start vhost net: %s(%d)", g_strerror(-r), -r);
-+    }
-+}
-+
-+static void vdpa_net_migration_state_notifier(Notifier *notifier, void *data)
-+{
-+    MigrationState *migration = data;
-+    VhostVDPAState *s = container_of(notifier, VhostVDPAState,
-+                                     migration_state);
-+
-+    if (migration_in_setup(migration)) {
-+        vhost_vdpa_net_log_global_enable(s, true);
-+    } else if (migration_has_failed(migration)) {
-+        vhost_vdpa_net_log_global_enable(s, false);
-+    }
-+}
-+
- static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
- {
-     struct vhost_vdpa *v = &s->vhost_vdpa;
- 
-+    add_migration_state_change_notifier(&s->migration_state);
-     if (v->shadow_vqs_enabled) {
-         v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
-                                            v->iova_range.last);
-@@ -256,6 +308,15 @@ static int vhost_vdpa_net_data_start(NetClientState *nc)
- 
-     assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
- 
-+    if (s->always_svq ||
-+        migration_is_setup_or_active(migrate_get_current()->state)) {
-+        v->shadow_vqs_enabled = true;
-+        v->shadow_data = true;
-+    } else {
-+        v->shadow_vqs_enabled = false;
-+        v->shadow_data = false;
++    ret = ram_block_discard_disable(true);
++    if (ret) {
++        error_report("Cannot set discarding of RAM broken");
++        return ret;
 +    }
 +
-     if (v->index == 0) {
-         vhost_vdpa_net_data_start_first(s);
-         return 0;
-@@ -276,6 +337,10 @@ static void vhost_vdpa_net_client_stop(NetClientState *nc)
+     vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+                                VIRTIO_CONFIG_S_DRIVER);
  
-     assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
- 
-+    if (s->vhost_vdpa.index == 0) {
-+        remove_migration_state_change_notifier(&s->migration_state);
+@@ -577,12 +577,15 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+     v = dev->opaque;
+     trace_vhost_vdpa_cleanup(dev, v);
++    if (vhost_vdpa_first_dev(dev)) {
++        ram_block_discard_disable(false);
 +    }
 +
-     dev = s->vhost_vdpa.dev;
-     if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
-         g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-@@ -412,11 +477,12 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
-     v = &s->vhost_vdpa;
+     vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+     memory_listener_unregister(&v->listener);
+     vhost_vdpa_svq_cleanup(dev);
  
--    v->shadow_data = s->always_svq;
-+    s0 = vhost_vdpa_net_first_nc_vdpa(s);
-+    v->shadow_data = s0->vhost_vdpa.shadow_vqs_enabled;
-     v->shadow_vqs_enabled = s->always_svq;
-     s->vhost_vdpa.address_space_id = VHOST_VDPA_GUEST_PA_ASID;
+     dev->opaque = NULL;
+-    ram_block_discard_disable(false);
  
--    if (s->always_svq) {
-+    if (s->vhost_vdpa.shadow_data) {
-         /* SVQ is already configured for all virtqueues */
-         goto out;
-     }
-@@ -473,7 +539,6 @@ out:
-         return 0;
-     }
- 
--    s0 = vhost_vdpa_net_first_nc_vdpa(s);
-     if (s0->vhost_vdpa.iova_tree) {
-         /*
-          * SVQ is already configured for all virtqueues.  Reuse IOVA tree for
-@@ -749,6 +814,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-     s->always_svq = svq;
-+    s->migration_state.notify = vdpa_net_migration_state_notifier;
-     s->vhost_vdpa.shadow_vqs_enabled = svq;
-     s->vhost_vdpa.iova_range = iova_range;
-     s->vhost_vdpa.shadow_data = svq;
+     return 0;
+ }
 -- 
 2.31.1
 
