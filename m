@@ -2,80 +2,161 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19FD6AA0CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 22:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7867B6AA10C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 22:23:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYCVB-0004dG-HS; Fri, 03 Mar 2023 15:59:41 -0500
+	id 1pYCqf-0003CZ-CF; Fri, 03 Mar 2023 16:21:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pYCV8-0004cm-V4; Fri, 03 Mar 2023 15:59:38 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pYCV6-0008S8-6N; Fri, 03 Mar 2023 15:59:37 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1B5FA1F750;
- Fri,  3 Mar 2023 20:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677877173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5/F8bcSdTvKkxYkAx6kmxgBeHgBpoB3AT/OMccsBdoA=;
- b=HLMggIjgsyZ8FUpEAbrqZfKCpBuYVzBzjgaj1n68DazuWZJDe9xWtik/gLQMcP1iqV13L8
- Nf3NVrw9nJwAgGYoy2o+iUV9D8usUP4lBvUyXzRhiC+Fzw/Jr5BFPTnlvs1gRxFWpeEXz/
- XqZ6c/EucTsZvmITrIt3cdTG6wisbcM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677877173;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5/F8bcSdTvKkxYkAx6kmxgBeHgBpoB3AT/OMccsBdoA=;
- b=9SvSFgWzGtYOWrA+4fmEEkU7Gup68p1WgJeIZHjxpc+vXwmGlULZ8B+SuTHLcyBhevz3lO
- ft6/azhgbj479lDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90B3A1329E;
- Fri,  3 Mar 2023 20:59:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id O05dFbRfAmRYUwAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 03 Mar 2023 20:59:32 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu?=
- =?utf-8?Q?-Daud=C3=A9?=
- <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH RESEND v7 5/9] tests/avocado: Pass parameters to
- migration test
-In-Reply-To: <CAFEAcA8p86BdbbO-thyov+A-dc98iygPx6nyCmnxinCRCuKviA@mail.gmail.com>
-References: <20230228192628.26140-1-farosas@suse.de>
- <20230228192628.26140-6-farosas@suse.de>
- <CAFEAcA8p86BdbbO-thyov+A-dc98iygPx6nyCmnxinCRCuKviA@mail.gmail.com>
-Date: Fri, 03 Mar 2023 17:59:29 -0300
-Message-ID: <87pm9pwnym.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pYCqd-0003CC-Nc
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 16:21:51 -0500
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pYCqb-00009L-6V
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 16:21:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677878507; x=1709414507;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=aVCpsAyBom8DnvVN8UM3Gb6yCLEKhY19rsZEaHP3EpE=;
+ b=XkdFOM2bxzH8QSw98hBTW0TZgCIvNs2kggtgdIi4gVXsRXxEg7Zq1//X
+ f3qnL2gnJw/TK7WgQ82hjeUqQxLn4zCHQSh9jMeUZ+wR/oi6bJJc0j2Cg
+ V3/nAO2Sg+ovUoDVuIKtqKTlKOsiNiwM+d8t4HIpcFuKTFzaIDJZwnJOL
+ lt/2aImJtyPL0bFBwwjvhx2NlPVTR4yi+x8yDTJZpLT2tIIQxNi+tilnJ
+ 5ZWUAutO0HjL01ehUPk4g2mybmwIwEiYVPhuqGatof5Y68meGq7YRJF9p
+ DTaWlKWBnmhfbUQAeaC3Xf1sk9YzIki+nBbZ0RNyo/qilwRYA9KLT/May w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="397748583"
+X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; d="scan'208";a="397748583"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2023 13:21:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="707987709"
+X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; d="scan'208";a="707987709"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga001.jf.intel.com with ESMTP; 03 Mar 2023 13:21:42 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 3 Mar 2023 13:21:41 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 3 Mar 2023 13:21:41 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 3 Mar 2023 13:21:41 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 3 Mar 2023 13:21:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RWlPFH/6qi6s8xnNNGa01WJnTDUikoOLokiVuHNmkIA82pMBDgL/7E8asHcTs9gEyN6oT5qAbSYQA8w45Tgvf8naDedJYHP0fM7qYCkYU/zMQKy30pbnxIBxRYR9Tctw60G0Qi+e6cqckw+Y4AiFXnNQ1FzLnueFbOSxhEo1ZQxGntyOFJ26qfg1cInl3uukrje4lV04pKUMFRMedViYMjd5XzQLsLH6BcDeDI4LaGBzZZyUgkd/RvRLEsIEu6v97FdPb9eypTb7CFsI09TMgj4mMJdUHE4dRn+vGaRUU1IXRSUgy9MS+2PovYejKMDmYTK8r9nW/IwmEw7VEX7TGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DK/4C9nF8rMgI78eG9CECMkdZ1aAUhz9gUKmMyWmn9M=;
+ b=WSASGYw/slve3E9EecyE9uWFS52/GhQ2G+7xWDMkOI1SMW+/gvnxJzfy0IsDnH7K5BMab6VhgMAC66apdPLoNge8GPq+QlwyRQpFhGj+lR98RH79lYmb8pABBuIT9+3hqLY6gcB7O842J91DVvzy2A2X4lNelZ+0tEDULiDohV3u6Jp5ploHwdWl+k2PRMHAggd0NIAQb7hW5HwyVW1c+rPW0ctYH062OYBsZo88jRkT7IHzYk8I6xVnwhZ553tvmGLKJ9tjGvJdClD0afAfL1s0FQJQJ7LrABlhDzhCITKr1Icb+/NOYkYBJAdg4/vLyujZ17U/vXhDGe722M1qeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by PH8PR11MB8014.namprd11.prod.outlook.com (2603:10b6:510:23a::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Fri, 3 Mar
+ 2023 21:21:38 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6156.019; Fri, 3 Mar 2023
+ 21:21:38 +0000
+Date: Fri, 3 Mar 2023 13:21:31 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, <qemu-devel@nongnu.org>,
+ Michael Tsirkin <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>
+CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>, Michael
+ Roth <michael.roth@amd.com>, Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>, Markus Armbruster
+ <armbru@redhat.com>, Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?=
+ <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>, =?iso-8859-1?Q?Marc-Andr=E9?= Lureau
+ <marcandre.lureau@redhat.com>, "Thomas Huth" <thuth@redhat.com>
+Subject: Re: [PATCH v4 4/6] hw/cxl: QMP based poison injection support
+Message-ID: <640264db1b4e9_5d837294f2@iweiny-mobl.notmuch>
+References: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
+ <20230303150908.27889-5-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230303150908.27889-5-Jonathan.Cameron@huawei.com>
+X-ClientProxiedBy: SJ0PR03CA0003.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::8) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|PH8PR11MB8014:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc235ad7-c531-4f15-e5e7-08db1c2d4636
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wsgMWTurPbMKitwLlrgoZN4AG+VQkT6WOi9Nbb0emcps6H0B8iyQKaos3e0Z7/c+ojczisWp0tURKCoEe6N4UtFIilQBE3dxwltl/hj98EhzhT1CCwqt/13o3yGjVpOn1EMpiQq83dY0rSK5nTB+G3u/0uCQX97HKRLcwIEnj8QUyxdFs3S+p6OybTDBWPTAwzzT6wMy80q+ptnlvvJb0A/i408gwgPo3QpQ0Xvzhqdx9TRm+OnxGOioohe9MzjgMXSNaq+OXvteYTYhJucfmZtDU0zD3uYXVW4dU2fep+gWRSr2NBGSINF8FTlvu2E5FrYgLVa+kp4kdqS6DrJm5za7cApVuvUd9fJ9lslJ+qrGpjqTPtr+E5TV5/sBwN0oLG8Vp1WqGccRaN83ktloq9BQndL3S3it0LmB2lseQnKVS0oZHWFhdvjtBsszttkH2gHvWdmhAlrSrv8ZHI6oF9iiOO339DhYoF5lbBZy9oIBbKJQTFGvTeT6zGhBjU/gMsNX7AxjfuLTdppG9H+qf/jU55NToWkgZVXXI+2IHd4kHD1eWN8vWWWAIt012XbEzL1ZayFOthC2zugFP/ejEQUj944iaqV3WqCszZXO0Ow+kmYoQqjKwFeReECNq/a+
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(346002)(39860400002)(136003)(376002)(366004)(396003)(451199018)(86362001)(41300700001)(66946007)(8676002)(66476007)(66556008)(8936002)(6512007)(4326008)(54906003)(9686003)(6486002)(83380400001)(6666004)(5660300002)(6506007)(478600001)(316002)(26005)(38100700002)(82960400001)(186003)(966005)(7416002)(2906002)(110136005)(44832011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mzE/pU9l273qHgifp2oSDlRf3ncP5QhNJxKRJ+KpxL8bAcgBvA/mpdJU29ed?=
+ =?us-ascii?Q?tBMcFzcTtxprhsEbS/GSgMirAs9TkLPiINfkHsm1qAdrJQy5+J3KrrEEYy86?=
+ =?us-ascii?Q?DZ7m3dXfjQGlg7T9fIc11zqceL/kYq2CLkNQiHt8uTmqal4XlRnqC8xtONs0?=
+ =?us-ascii?Q?9ROmpXlTk3uR9+/znBijG7xo8OtAbDSlBcxsWSzysUQWyeLdhrk9xqQkGmRu?=
+ =?us-ascii?Q?2FqpYPyRrdxmhN1uvd9LagglhvzV8KXw8hiAc12fUxrV11du6vYnU0mc3JT4?=
+ =?us-ascii?Q?z97ilVVPy7SUAEcQWnxHe6tf6YwJtsiibNiRHViZkEey5b+osecOrdxv1XAb?=
+ =?us-ascii?Q?hbTZEY+iMaAIr8kXXBqDQAK9pk6jyoBXn0Rbmpmxs4WECT9MwUKlpMFRC5xL?=
+ =?us-ascii?Q?lb9lN7uq/beIOv6HYDtsrn5F3kLGJRWWzfKbTRHth7w9a6LFthcHKbWmwLgX?=
+ =?us-ascii?Q?4lFbm03BLlEl40jLOGXnPaJGrjh3XiXI9UNHDhraEE2U/pCdokJtSmUDZIZm?=
+ =?us-ascii?Q?hoAt/VM3QYAK1O/xLJlsvivhbU5v5OVCukU2FKcfjFsdtJGesDqlwlhiZ0xM?=
+ =?us-ascii?Q?lDOqCWXfu7CB1v9iNyoq1hoO4n1L5KSBNT+Q50fn/TBfJoF+9qSYYFUE/TRi?=
+ =?us-ascii?Q?z3aJ96RqYBunRDdt2xzZtLWPJqZYRY2caPsRbdWUI5coGE2E2cLb7kMGxUTY?=
+ =?us-ascii?Q?F39ot1H06cVroRGEmUugttDxEBopG2JopSVxMiF7bC01YuC2IakCIHZ+sfB+?=
+ =?us-ascii?Q?jxO6A7m6ZlrOYX8Bu+xlUkV/kTFN2CdgQx7gYlVIStvel+ZxUJ6EIoQDT3Mk?=
+ =?us-ascii?Q?7AH1LU5Yb4+0h3FX7xI1ayNXd+HJKj0zEHJCdS517c0gt6smOlfFq4f7Vqox?=
+ =?us-ascii?Q?fg3vX1AZ2kX5Hjr7XAQHfZGj2GmG8EgF5S/TUrethwZDrkEIrxNtjIkbjBqW?=
+ =?us-ascii?Q?h3fSoK+U+hFIPzTSX8NCJpF0hnzS8K9sjOmMSx731SHNeEOviP+Pl77tFWiP?=
+ =?us-ascii?Q?1hhYZMaasRI0rmNQcGrErYFO0OZgEu9415BOKkaihAHvlk1kcEPolLqf15jS?=
+ =?us-ascii?Q?9RtneH8JsNOwKmAwS5Z8x/+YJ+zhXcPsTA0n2O+k2RWOcHHjazt3RHpSFCaA?=
+ =?us-ascii?Q?kn8PjcrKv/3/L0bjf9/Tv0jsyGkfQIqCUBfkhNeYkXIUVUITrNItOK/WewA1?=
+ =?us-ascii?Q?s3cBkGoXK565nld0WEkBUM2lLhSmrQJwALJuSRiDeOszt9+ns58/bKMKP35m?=
+ =?us-ascii?Q?GWpG+EmoYzxKoYubEC8Pyb3L4BmjaBkUlAlgiUroQFZvX9yUphtAL0cdcov9?=
+ =?us-ascii?Q?hyBzyTcHeBkEK81PWSgq6H1H9yL2jQTBIZvTl4maGtefVoZo6aT/55yXQaYf?=
+ =?us-ascii?Q?PxwCcjhMk0e5ydQK+36B5PYi+DqP5+nEVcWz86BlerhODigHntwaU8G5aee8?=
+ =?us-ascii?Q?fwKcm6bWcOhtTrGPFmgij0v2eylaHRddpkKWD30D1ae+U1WGgPTzgjBpfPyi?=
+ =?us-ascii?Q?WsZ6d3gpYrr4HkI/8Bb7WHGt3LxD/KLP4mrp/cUdlBx7hZAgqOxjx5cu0zuH?=
+ =?us-ascii?Q?4ZKrwKWZmRfnLGNXwxAIfZtcH8oUmuwonBy+tZyV?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc235ad7-c531-4f15-e5e7-08db1c2d4636
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2023 21:21:38.2665 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GEGtImLK5IJYlIVCtMp12soyOmYzFu+xke7vc6Xyes/wwBcG5xpBmu1eat9Lte+TvRV5WCreAqyf8Kyjs7dScQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8014
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=ira.weiny@intel.com;
+ helo=mga06.intel.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,69 +174,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Jonathan Cameron wrote:
+> Inject poison using qmp command cxl-inject-poison to add an entry to the
+> poison list.
+> 
+> For now, the poison is not returned CXL.mem reads, but only via the
+> mailbox command Get Poison List.
+> 
+> See CXL rev 3.0, sec 8.2.9.8.4.1 Get Poison list (Opcode 4300h)
+> 
+> Kernel patches to use this interface here:
+> https://lore.kernel.org/linux-cxl/cover.1665606782.git.alison.schofield@intel.com/
+> 
+> To inject poison using qmp (telnet to the qmp port)
+> { "execute": "qmp_capabilities" }
+> 
+> { "execute": "cxl-inject-poison",
+>     "arguments": {
+>          "path": "/machine/peripheral/cxl-pmem0",
+>          "start": 2048,
+>          "length": 256
+>     }
+> }
+> 
+> Adjusted to select a device on your machine.
+> 
+> Note that the poison list supported is kept short enough to avoid the
+> complexity of state machine that is needed to handle the MORE flag.
+> 
 
-> On Tue, 28 Feb 2023 at 19:28, Fabiano Rosas <farosas@suse.de> wrote:
->>
->> The migration tests are currently broken for an aarch64 host because
->> the tests pass no 'machine' and 'cpu' options on the QEMU command
->> line.
->>
->> Add a separate class to each architecture so that we can specify
->> 'machine' and 'cpu' options instead of relying on defaults.
->>
->> Add a skip decorator to keep the current behavior of only running
->> migration tests when the qemu target matches the host architecture.
->
-> I still don't understand this patch. Don't we run the
-> migration-test on all hosts already? David ?
->
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-We run on all hosts but for each host we only take the QEMU binary that
-matches the host architecture. So if you want to test aarch64 migration,
-you need an aarch64 host.
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> ---
+> v4:
+>  - Widen the mask on Poison source (lower bits of the address)
+>    to allow for Vendor Defined. Change will make it easier to potentially
+>    add a means to inject such poison in the future. Today it has no
+>    impact.
 
-If you run on an x86_64 host (without this patch):
-$ ../configure #all targets
-$ make check-avocado AVOCADO_TESTS=../tests/avocado/migration.py
-
-You'll see:
-
- (1/3) ... migration.py:Migration.test_migration_with_tcp_localhost: PASS (0.21 s)
- (2/3) ... migration.py:Migration.test_migration_with_unix: PASS (0.18 s)
- (3/3) ... migration.py:Migration.test_migration_with_exec: PASS (0.21 s)
-
-All three tests ran using qemu-system-x86_64.
-
-The issue I'm trying to solve is that when run on a aarch64 host, the
-test will fail because (being generic) it doesn't pass the '-machine
-virt' option and there is no architecture-specific information in it at
-all.
-
-If we need to pass '-machine virt' to the arm machine, then something
-needs to change to add architecture-specific knowledge into the test. My
-first version hardcoded the usual "if arch == foo". That was frowned
-upon, so this version creates a class for each architecture like other
-tests do (e.g. boot_linux.py).
-
-The downside of this is that we need to explicitly enumerate the host
-architectures on which we want the test to run. I chose a few of the
-obvious, but we might need to add more.
-
-The upside is that we could now enable the test to run with all the
-targets present in the build. If we remove the @skip decorators from
-this patch, we'd get (note the arch strings):
-
- (01/12) ... migration.py:Aarch64.test_migration_with_tcp_localhost: PASS (0.19 s)
- (02/12) ... migration.py:Aarch64.test_migration_with_unix: PASS (0.16 s)
- (03/12) ... migration.py:Aarch64.test_migration_with_exec: PASS (0.20 s)
-                          ^
- (04/12) ... migration.py:X86_64.test_migration_with_tcp_localhost: PASS (0.21 s)
- (05/12) ... migration.py:X86_64.test_migration_with_unix: PASS (0.18 s)
- (06/12) ... migration.py:X86_64.test_migration_with_exec: PASS (0.21 s)
-                          ^
- (07/12) ... migration.py:PPC64.test_migration_with_tcp_localhost: PASS (0.20 s)
- (08/12) ... migration.py:PPC64.test_migration_with_unix: PASS (0.17 s)
- (09/12) ... migration.py:PPC64.test_migration_with_exec: PASS (0.20 s)
-                          ^
+[...]
 
