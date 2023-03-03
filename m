@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA89A6A9517
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F496A9525
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 11:26:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY2Y4-0004zG-1F; Fri, 03 Mar 2023 05:22:00 -0500
+	id 1pY2bv-0006lF-1r; Fri, 03 Mar 2023 05:25:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2Y2-0004z0-8D
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:21:58 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2bo-0006l1-Ho
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:25:52 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2Y0-0002Qj-Ml
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:21:57 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- j19-20020a05600c1c1300b003e9b564fae9so3568708wms.2
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:21:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pY2bm-0004mp-O2
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 05:25:52 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id bx12so1724277wrb.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 02:25:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677838915;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1677839149;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mzlTP7R7zKCP7RJ8UiVzNpPB9G68mLprKPS65LltYYQ=;
- b=ngRXPhil7bj3ycpjZ2nfojxKpA1sozPlWMzoi6tz5m+9ydiiaE9GrSxvNVUUgb22uU
- PSrwz6wkEnyslNL8Bn/sp4HB6BbfQN9DbGBqk4wljP5Y6aN5uuHixDU93FiGsAsKVxoW
- vlaVAltrwSf8bUTl5MbjF01UqOit1HYpD3DiuIAq5nPkcwEZ8eXP4CSk+7s7SycANOCq
- wD8BQ3KrQmP3R7ypZ3j/cr8zCEmC4HeLpWPKL/ftjh4vOMHbIlOhmj7Hm5H4yQDdyBHl
- pOaKVylMGdrEmDIVLvkshVsT0aQVjEmLim6y79vWd+UnSrgf5LZiED14limOAuU/S/q6
- cFEQ==
+ bh=SM6B82OSDN89Y3zVOahxekl6UHarbJyHBW+OF2tS6mU=;
+ b=xDdfya8kPPa0Pl0HtlMnwxAy8e3Jz/c6IrHkS0K2PsljYgAksH0tnbBpJuKWDg4rYQ
+ yEL8x09Mi8k9wGsvaNH0o6g8pMmrVkhziEWdgXL+IL3rGWpFytnyVAsOEGpBjnSSuQq+
+ bHJPkGQuUd4U7mKyHa1dus4gGwAFqkWZBG+a/sMhNj+IG8FFdHkP8WdNJul6BXZgSvDm
+ ujZ/SyTIju79Fqui+Xf7EeqA+LUEMUeiM42K3JtjTsNmKUI7AgSJyJwitSJQN+D9TFpy
+ T+wd6n3/yxBqavb/cjzIoT9OzMTMT3h9NmiHJ2r0eGn3ol0BSoEHcc0MpftCk7VoQhPw
+ xw8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677838915;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20210112; t=1677839149;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mzlTP7R7zKCP7RJ8UiVzNpPB9G68mLprKPS65LltYYQ=;
- b=WVqg42/GTq+aGQ3B4mm7H7yRbqVZNumuIRaiBuQZ/GPjCshi90UgPb8vWaALsnbHqD
- lgha4dWqkQm/n9lPB9TtRbr/B1aQjq8pgKKoRvazuplPzaRxTFAZeI5Mqtawxg2dxGsU
- mkSRUYRCta/uc2ZeC83EyrC6O8y0HLJNDlLlAT4EUXVVj/lWU5r0T6tiO4Tozn2f3YYu
- RS6cdtokLKvVOpp/F5k1B9g1YoMQNHx3P7Xf1XTndTpB3M3AeOdZovx4g7i+USmQx+00
- mI4bBV9dvKNQdEKrzDo9qbkwGZTAklvU0BFdGFhAVJ7BFUma8rDprEW1cvfQpOIPTOuY
- LfCQ==
-X-Gm-Message-State: AO0yUKXijSodD2pIgv2LJCOaOCOiU5NVVhEulFYzTWoIeoZUTLFK8y3p
- 1AUjWaB8rZYo8HeGXZtLQ8Z/Jw==
-X-Google-Smtp-Source: AK7set/y4nBoHbF+MCdO2IUmaX6TdF9cDnDQW+P6n0jDIjBG5I8GF1PCA2fXKcwrdTiiqAq5Gr/d1w==
-X-Received: by 2002:a05:600c:548b:b0:3eb:39e7:3607 with SMTP id
- iv11-20020a05600c548b00b003eb39e73607mr1254174wmb.4.1677838915005; 
- Fri, 03 Mar 2023 02:21:55 -0800 (PST)
+ bh=SM6B82OSDN89Y3zVOahxekl6UHarbJyHBW+OF2tS6mU=;
+ b=yxlBHHg8OQNn5S21BYtapBLJl3h6SwFqSAuqDzllZ54DDXGMNWJobjD62oRef0QC5D
+ fz5i2CJ+slSQK7UH/wb2rTRxQs1OfM3rTeDECHI20hhyGjrRomZ1dOODaYWp6vjQxcK6
+ q+VwWfc2fD9B/OXv771weT8V9/UoaxOtpfSqPthdQ6czHVplKMjb5T9FtUsXjSWZIH0u
+ T07nXgKjvK6R/gZ1HgPir4dz6CdCte+9kZmmlWizRbWHctzx9wDrx0CRSNNJrD3EjIXf
+ qoYQThjEEoq7Qpz6tiUSLquG31K+PLlKp9snlQvO1+mgyN9ShmJux79DFhBSH01HGTwi
+ xjwA==
+X-Gm-Message-State: AO0yUKX74VVJHMsBpdS1LeJOEz1fbuYFpOxpA6/ahR5+XdI0fMMRPBMO
+ AM/8x8IAG3SChzQBro3/bMoZSw==
+X-Google-Smtp-Source: AK7set8WtKDVG0daRnR92gz0xZzH++6u7ChWg6tAXM9ujO3eCsBKJvI+KYHMED2Ti4LfPc+GqaB7Fg==
+X-Received: by 2002:a5d:5222:0:b0:2c9:850c:6b15 with SMTP id
+ i2-20020a5d5222000000b002c9850c6b15mr931369wra.41.1677839149181; 
+ Fri, 03 Mar 2023 02:25:49 -0800 (PST)
 Received: from [192.168.59.175] (180.red-88-28-30.dynamicip.rima-tde.net.
  [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- v38-20020a05600c4da600b003eb68bb61c8sm1678065wmp.3.2023.03.03.02.21.52
+ g18-20020a5d4892000000b002c70e60abd4sm1823531wrq.2.2023.03.03.02.25.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 02:21:54 -0800 (PST)
-Message-ID: <0ffef565-0332-43c3-2786-9fb0a8c356bf@linaro.org>
-Date: Fri, 3 Mar 2023 11:21:51 +0100
+ Fri, 03 Mar 2023 02:25:48 -0800 (PST)
+Message-ID: <e85a5616-514f-0623-d8ec-eec758ac160b@linaro.org>
+Date: Fri, 3 Mar 2023 11:25:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 3/6] gitlab-ci.d/crossbuilds: Drop the i386 jobs
+Subject: Re: [PATCH 1/6] Add the Android Emulator hypervisor driver (AEHD)
+ accelerator.
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-References: <20230303101452.769367-1-thuth@redhat.com>
- <20230303101452.769367-4-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230303101452.769367-4-thuth@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Haitao Shan <hshan@google.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230303022618.4098825-1-hshan@google.com>
+ <20230303023013-mutt-send-email-mst@kernel.org>
+ <aeac5ad3-6672-10b1-283d-10d950688697@linaro.org>
+In-Reply-To: <aeac5ad3-6672-10b1-283d-10d950688697@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -101,49 +97,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 11:14, Thomas Huth wrote:
-> Hardly anybody still uses 32-bit x86 environments for running QEMU,
-> so let's stop wasting our scarce CI minutes with these jobs.
+On 3/3/23 11:19, Philippe Mathieu-Daudé wrote:
+> On 3/3/23 08:33, Michael S. Tsirkin wrote:
+>> On Thu, Mar 02, 2023 at 06:26:12PM -0800, Haitao Shan wrote:
+>>> Add the configure support for the Android Emulator hypervisor driver
+>>> accelerator. The Android Emulator hypervisor driver is a Windows
+>>> driver made by porting the KVM from kernel 4.9-rc7.
+>>>
+>>> Signed-off-by: Haitao Shan <hshan@google.com>
+>>
+>> Replying on patch 1 but it applies to the whole patchset.
 > 
-> (There are still the 32-bit MinGW and TCI jobs around for having
-> some compile test coverage on 32-bit, and the dockerfile can stay
-> in case someone wants to reproduce a flaw locally)
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   .gitlab-ci.d/crossbuilds.yml | 20 --------------------
->   1 file changed, 20 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index d3a31a2112..b96439146f 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -43,26 +43,6 @@ cross-arm64-user:
->     variables:
->       IMAGE: debian-arm64-cross
->   
-> -cross-i386-system:
-> -  extends:
-> -    - .cross_system_build_job
-> -    - .cross_test_artifacts
-> -  needs:
-> -    job: i386-fedora-cross-container
-> -  variables:
-> -    IMAGE: fedora-i386-cross
-> -    MAKE_CHECK_ARGS: check-qtest
-> -
-> -cross-i386-user:
-> -  extends:
-> -    - .cross_user_build_job
-> -    - .cross_test_artifacts
-> -  needs:
-> -    job: i386-fedora-cross-container
-> -  variables:
-> -    IMAGE: fedora-i386-cross
-> -    MAKE_CHECK_ARGS: check
+> Indeed this series lacks a cover letter, 
+I just noticed the cover letter in my inbox, oddly delivered after
+the patches:
+https://lore.kernel.org/qemu-devel/CAGD3tSzW1QoAsn+uGjoAkBegLt1iZ=9YWDFcvqbcHMr0S_5kVw@mail.gmail.com/
+(note the patches are disconnected from the cover, and the cover lacks
+the diffstat).
 
-The cross-i386-user job might require an Ack from Laurent,
-so cc'ing him.
+> which would show
+> this huge diffstat:
+> 
+>   MAINTAINERS                       |   12 +
+>   accel/Kconfig                     |    3 +
+>   docs/about/build-platforms.rst    |    2 +-
+>   hw/i386/aehd/apic.c               |  204 +++++++++++++++
+>   hw/i386/aehd/i8259.c              |  165 ++++++++++++
+>   hw/i386/aehd/ioapic.c             |  164 ++++++++++++
+>   hw/i386/aehd/meson.build          |    6 +
+>   hw/i386/meson.build               |    1 +
+>   hw/i386/pc.c                      |    5 +
+>   hw/i386/x86.c                     |    5 +-
+>   include/exec/poison.h             |    1 +
+>   include/exec/ram_addr.h           |    2 -
+>   include/hw/core/cpu.h             |    7 +
+>   include/hw/intc/i8259.h           |    1 +
+>   include/hw/intc/ioapic.h          |    1 +
+>   include/sysemu/aehd-interface.h   |  878 
+> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   include/sysemu/aehd.h             |  168 ++++++++++++
+>   include/sysemu/hw_accel.h         |    1 +
+>   meson.build                       |   16 ++
+>   meson_options.txt                 |    2 +
+>   qemu-options.hx                   |   20 +-
+>   scripts/meson-buildoptions.sh     |    2 +
+>   target/i386/aehd/aehd-accel-ops.c |  119 +++++++++
+>   target/i386/aehd/aehd-accel-ops.h |   22 ++
+>   target/i386/aehd/aehd-all.c       | 1349 
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   target/i386/aehd/aehd-cpu.c       |  150 +++++++++++
+>   target/i386/aehd/aehd-cpu.h       |   41 +++
+>   target/i386/aehd/aehd-stub.c      |   22 ++
+>   target/i386/aehd/aehd.c           | 2003 
+> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   target/i386/aehd/aehd_i386.h      |   26 ++
+>   target/i386/aehd/aehd_int.h       |   50 ++++
+>   target/i386/aehd/meson.build      |    8 +
+>   target/i386/cpu-sysemu.c          |    3 +
+>   target/i386/cpu.c                 |   12 +-
+>   target/i386/cpu.h                 |    5 +-
+>   target/i386/helper.c              |    3 +
+>   target/i386/meson.build           |    2 +
+>   37 files changed, 5465 insertions(+), 16 deletions(-)
+> 
+>> There's obvious duplication with kvm here - probably not surprising.
+>>
+>> I'd be interested to hear from KVM people to know whether
+>> there's interest in unifying code, or they would rather
+>> not bother supporting this platform and it's better off
+>> being kept separate.
+> 
+> I believe the hw part can be unified, reducing the maintenance
+> cost. (I gave Haitao few hints replying to the relevant patches).
+> 
+> Regards,
+> 
+> Phil.
+
 
