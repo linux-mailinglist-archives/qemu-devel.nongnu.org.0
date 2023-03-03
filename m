@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546B76AA093
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 21:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136DD6AA090
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 21:26:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYByW-0006XO-E8; Fri, 03 Mar 2023 15:25:56 -0500
+	id 1pYByU-0006W2-8x; Fri, 03 Mar 2023 15:25:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pYByU-0006W8-3G
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 15:25:54 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pYByQ-0006Vo-GB
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 15:25:50 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pYByM-0006d3-Mr
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 15:25:53 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so3413748pjz.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 12:25:46 -0800 (PST)
+ id 1pYByK-0006bn-DC
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 15:25:50 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id kb15so3793861pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 12:25:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677875145;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677875143;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
  bh=MCCHdMeKf8DHEwfDHWBdsIuJkrOPU/36uey9ua2ZS9k=;
- b=VXs+PEUN2hzt4SKtpOx1MOoWH4aNX3Z/VGJgGaXgFsGnerInBX5AaZBz9707q7spZ4
- iYwtjrcR1lDJ3EjnQ/yIMvjkM2YNllV37hB10kyKx9ftlCg449W2r/OjDp8EEYMIdzF/
- h4bjlwzbisJmL3UskZxuAS3+qUIlEyCDQv44xZffmUsA+UYiBWv7XD1XKRROPmk5Jl2W
- cPKjJwWV5RTcFi0WWcklLlb/5pS+FbS6Wljd9u29pkHgmsEPfdbSUPKKQDmUq8lM0Ibe
- 1fEtT8CeGAFBm+fmbP/DiW/GYMI4MzSMLfutvMKU2bpBx5quLSUzFn8Wt4L1GhSvYZFD
- SodQ==
+ b=DmjYfujGLpwZKxa55tK1WhTqjOdMmvfTKfQOjusuzhXfd91KmUDSWV+Mds7Y5h7NKk
+ 03tMZoxFNzi9URGs2YolSmhdOXQe1QFMEWee8HcQJIba8Uu6dRbCWtlPLIjrBWlD1mXR
+ qXbt3pXAqJRIHvLQaun7wSG5JAZHqkKsIkFtePb5jVAHB3gvvjWBCeaollJJjUR+0ZsS
+ iq/81wbgtic8ARqiTmLRrFllsbXnaNRTE8V00pJbHMpyzy+T/anZC263VJyGBNWEJhRE
+ tmUGeHfmhDfKyy5go5aKO1frL6TAmOFPuY9QscNvYeHXfILOz3vfXVzF3goloC2dK12w
+ lAxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677875145;
+ d=1e100.net; s=20210112; t=1677875143;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=MCCHdMeKf8DHEwfDHWBdsIuJkrOPU/36uey9ua2ZS9k=;
- b=W6sr5hRQmD9n1xSkrof4PxxubGnHU+TRV1UFbYxb4WLi44JgdNSmnZ/Ej3VGRp5WqM
- vzy+Ir0zdYB/oTzl/waSRTsWO93ig/HBr5PMaiC3DbTZmn+WJiJsZ/J7Ts2KPIPwed1q
- 7tS7IcH9MROEHfnORoJiCn9BmDK7tf0x9PeOT/PFOPRWQe6EPJkGLsjTN48JD7SAnHe1
- Tdv7VmcNgoqv7zO4WpYKEH347+slBYBDJyTcsQ9AaklP7/jMUh0CgH0H2Y7wwBwI5cID
- sCHra4piFkR4b9/pFuVxIwM5DpGyM1p9q+oygM8tAzA3SM8q/TQSiTC7dFENLnLZTuay
- w+eA==
-X-Gm-Message-State: AO0yUKXmPa8ZWvVKI9w5R1oF6ERgQhYy6rLOlmft3qBA1KNivN0gJzuX
- 5SmOZmOgGNfHUjSt4V3LTIduydnd4WybORxq
-X-Google-Smtp-Source: AK7set+eBeGMMT8Gu4JwKvEXLfazGCf7jaJ7oosvXM1wzmHV3UENjb8GcX2fNo5C4SLjOoybEX+OgA==
-X-Received: by 2002:a05:6a20:3d92:b0:bf:58d1:ce86 with SMTP id
- s18-20020a056a203d9200b000bf58d1ce86mr6746941pzi.5.1677875144324; 
- Fri, 03 Mar 2023 12:25:44 -0800 (PST)
+ b=BFNbCkATmbaviuglMmrvNO4qBhCrKRCrN38COQBmIgXkwt3yGsDcW9bYV40S+xWkzn
+ LJlDcwa/RRP7sGzhQPk0DLADt9L6DjqMdPo755082Kw0QasuWXw70kSWqxut2QYsmdCA
+ yer955xLmGXndJjx18MF9kx26VkInNxgHD3uFiCY6tuhf0gdo4PbepBfbrFqbKg10Jp5
+ E0r/6dBPk9uIsIgPi3QWnT/OMCJ58vuQMaTpDBb5csUs3HYzXNuCem/4GhUlmiJmYN5K
+ ILKGJnB+4o55JOQCvyHC1+I7Xzv4lbF9ZRjtIKUZ0I1fk+IxPROCFrHUTEXzyaRw3amA
+ pw0g==
+X-Gm-Message-State: AO0yUKUV6x5nCrveJfe4p/Y4fAhnbALHhmk3OzSMcRt63ZoSTJ9+fSDq
+ Gf7bE/wfXffIYnZTFcT2xgoV/A==
+X-Google-Smtp-Source: AK7set8R5DW2nSNv7ncwBbAVzQmyVkel7Cd4Ax9nRij491bH2efbelZX97EwljeKoHyn/+amoRipVw==
+X-Received: by 2002:a05:6a20:9387:b0:b8:4b1a:deb5 with SMTP id
+ x7-20020a056a20938700b000b84b1adeb5mr3104938pzh.18.1677875142571; 
+ Fri, 03 Mar 2023 12:25:42 -0800 (PST)
 Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- g3-20020a635203000000b005035f5e1f9csm1976849pgb.2.2023.03.03.12.25.43
+ g3-20020a635203000000b005035f5e1f9csm1976817pgb.2.2023.03.03.12.25.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 12:25:44 -0800 (PST)
+ Fri, 03 Mar 2023 12:25:41 -0800 (PST)
 Subject: [PATCH v2 2/2] roms/opensbi: Upgrade from v1.1 to v1.2
 Date: Fri,  3 Mar 2023 12:24:48 -0800
 Message-Id: <20230303202448.11911-3-palmer@rivosinc.com>
@@ -68,14 +67,14 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Bin Meng <bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
