@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D47E6A96FD
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:07:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF486A9725
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 13:18:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY4Am-0000ea-LQ; Fri, 03 Mar 2023 07:06:04 -0500
+	id 1pY4Le-0005NA-Dw; Fri, 03 Mar 2023 07:17:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY4Ak-0000eD-RC
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:06:02 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY4Aj-0001Dg-1Y
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:06:02 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id bn17so1300354pgb.10
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:06:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677845159;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+zaTCnMNEhh9zv+yOtKux4pGWDREu6RdJLlJbGBShUg=;
- b=McDrB7aptbft2LG2iFMHUj4xIOR9fLa33PEZ7hjZvcgyHz8zdrLkPKlfeI5jvKQRjT
- AMD6pEKSMUFG7OXXB+YGimhMQgaLyI8p1pPwbx7CID0jN1gN0Dy/xlrTjL9FriQQMk1H
- 7R+yTtn1DeZVrZjDHqYgs/6ZJYQB6KZPRJHUshf/iNycL3xxi4w0sixwtYmiKVzhdh3U
- lp0jkBMb1ok/WGRpc9G/44l6Ugmw/yFZccEmTONHe8SCRofaktJdMkJX0sxIYCoMUakE
- OjpbdE1ECq31emSwHl9HoZKYlP6P/Tl08w6ApctLXMSdS/ECsL0E/E4LNs9FBwbrrYJz
- EGFQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY4LX-0005Mw-4b
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:17:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY4LU-0005yP-Rp
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 07:17:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677845827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WIIoV7rKSvMTlAkvUUfgNrG1KGxizg7annGLPQSMT8c=;
+ b=C7GwWNNNPO0Hzfh3ZGl3UCjLRZDiggO/Dr18+HGkr2eInWSdfEdw+ebG9zjiQ5XZsvKa5U
+ HW1pg9VRGBmDOjawCGAYuh6TxKX4Awlhmdsn3QBa2Zcu2xo8FSuv2BaQZ7dG7SvV2CLwmL
+ UCgn7+6QsIyyEpr4afnveOqiEKLKGjI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-313-6u3iVkAYMym_JxTVabVUSg-1; Fri, 03 Mar 2023 07:17:06 -0500
+X-MC-Unique: 6u3iVkAYMym_JxTVabVUSg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l31-20020a05600c1d1f00b003e8626cdd42so860708wms.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 04:17:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677845159;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+zaTCnMNEhh9zv+yOtKux4pGWDREu6RdJLlJbGBShUg=;
- b=VGPKa8NQ7n8hX2Nb1RVK2Sb7DrrUJAhGA0pepLSOoSSc9tIofOnsoOcNQ5YcInauNA
- 4S4+jPwi6x7fGYWgZt+Ajztd+b8FbIchMg2sVGZLCXyQYJEqKHzO8QbXpzHdNN5YzxCF
- dVB8o3sPF+Y8YNx9ptYNY0kQL3BhKzngj7gJ6nR5vlHTENsvLhhVbrkFNyvNykEGGgLV
- S+ANz64uH7F9B7DfJOCqIiQJ51diROlUD4XM8PSRBPXgN26EhWlBGztZx1k/nRqDqEch
- Od03PM6W98IA8MIKuB0XT6xYbM3HUMxnt9qayvnWrLR/9GRe98pE3w0gsIb8dQZk/hX3
- b2Hg==
-X-Gm-Message-State: AO0yUKXI9Me+g0UAYPpvYW2Z6vqTJ7uz3cXQQIiqIYeaTuoZKBFuyiAH
- UduSgiEXmoB+kUT79x+tA+SAjfhzl2+xL8A9PpO5Gw==
-X-Google-Smtp-Source: AK7set/MPVQyyXM69MRlUj8AL8PVGqjUG+vpFnumWaQpCgBchnMoOOP6f9Xp3vv7SEKaoxZQLnHX9xHRzF2nYRr83VE=
-X-Received: by 2002:a63:f705:0:b0:503:7cc9:3f8d with SMTP id
- x5-20020a63f705000000b005037cc93f8dmr421828pgh.9.1677845159373; Fri, 03 Mar
- 2023 04:05:59 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677845825;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WIIoV7rKSvMTlAkvUUfgNrG1KGxizg7annGLPQSMT8c=;
+ b=HAueBxNSDjEu10Ak7WJpMvamtlXCQrnIeV9vF0haZH7AeIHpMeOtGc0klXOX84mYiu
+ lbJ00k26XCe8yoMs+0mf02LJ7zT3CW1FCEWR/7849knjXWlEFUVuZHGaDfCuywShFLS7
+ +fEPBy2QSkvB7FEC78k4S6F/K9Y+oGvI6Ly9x5Qpw6x07NDjp88CaDariudUqUyUHdq/
+ QN2G3QKK1ihU+lXJWfL9bZa+a0VbX+/PhsBZ5hPRvwFyxb2i1BnZkgJq5QgtZd3ZdizN
+ MgAwoaLY+NrQPd5H0MSKIObU4d0RB3ghKpBVufQEr7w8ClBb0FgxrTGQKjLXAt81FDNP
+ 43Kw==
+X-Gm-Message-State: AO0yUKU6k2uFCSq7pV5gdmVf3XUW1R7nZJZnPEfyGDW9wP3SOBnm/LOj
+ SiGsSiSxgI5rvfijzIZ94w/Y3v7Tn8zLovcbale1bMLHnMrbXfiGgx9FY75kxa6d2t8++Q5CWqw
+ lFddnWnoxGrIJdzM=
+X-Received: by 2002:a05:600c:3153:b0:3eb:2708:86ca with SMTP id
+ h19-20020a05600c315300b003eb270886camr1495772wmo.28.1677845825518; 
+ Fri, 03 Mar 2023 04:17:05 -0800 (PST)
+X-Google-Smtp-Source: AK7set+MbFFwZknJbCPR/htGec1n+z4jQpQ87lWfocKqS57qfGVrbbOdhYST7dzisPeSjFJRuKF42A==
+X-Received: by 2002:a05:600c:3153:b0:3eb:2708:86ca with SMTP id
+ h19-20020a05600c315300b003eb270886camr1495757wmo.28.1677845825195; 
+ Fri, 03 Mar 2023 04:17:05 -0800 (PST)
+Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
+ by smtp.gmail.com with ESMTPSA id
+ h6-20020a1ccc06000000b003e118684d56sm5817345wmb.45.2023.03.03.04.17.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 04:17:04 -0800 (PST)
+Date: Fri, 3 Mar 2023 07:17:01 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gautam Dawar <gautam.dawar@amd.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com,
+ linux-net-drivers@amd.com, harpreet.anand@amd.com,
+ tanuj.kamde@amd.com, koushik.dutta@amd.com
+Subject: Re: [PATCH] vdpa: fix emulated guest announce feature status handling
+Message-ID: <20230303071555-mutt-send-email-mst@kernel.org>
+References: <20230303115810.7482-1-gautam.dawar@amd.com>
 MIME-Version: 1.0
-References: <20230302172211.4146376-1-peter.maydell@linaro.org>
- <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
- <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
- <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
-In-Reply-To: <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 12:05:47 +0000
-Message-ID: <CAFEAcA-U568vrLKHegfKQWu1RfUCRjdOKZQMoFXSde1yk4V3Wg@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest/migration-test: Disable
- migration/multifd/tcp/plain/cancel
-To: Thomas Huth <thuth@redhat.com>
-Cc: quintela@redhat.com,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230303115810.7482-1-gautam.dawar@amd.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,45 +97,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 11:29, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 03/03/2023 12.18, Peter Maydell wrote:
-> > On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
-> >>
-> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >>> On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
-> >>>> migration-test has been flaky for a long time, both in CI and
-> >>>> otherwise:
-> >>>>
-> >>>> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
-> >>>> (a FreeBSD job)
-> >>>>    32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migr=
-ation_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_=
-WAIT_TIMEOUT) ERROR
-> >>>>
-> >>>> on a local macos x86 box:
-> >
-> >
-> >
-> >> What is really weird with this failure is that:
-> >> - it only happens on non-x86
-> >
-> > No, I have seen it on x86 macos, and x86 OpenBSD
-> >
-> >> - on code that is not arch dependent
-> >> - on cancel, what we really do there is close fd's for the multifd
-> >>    channel threads to get out of the recv, i.e. again, nothing that
-> >>    should be arch dependent.
-> >
-> > I'm pretty sure that it tends to happen when the machine that's
-> > running the test is heavily loaded. You probably have a race condition.
->
-> I think I can second that. IIRC I've seen it a couple of times on my x86
-> laptop when running "make check -j$(nproc) SPEED=3Dslow" here.
+On Fri, Mar 03, 2023 at 05:28:10PM +0530, Gautam Dawar wrote:
+> Guest announce capability is emulated by qemu in the .avail_handler
+> shadow virtqueue operation. It updates the status to success in
+> `*s->status` but incorrectly fetches the command execution
+> status from local variable `status` later in call to iov_from_buf().
+> As `status` is initialized to VIRTIO_NET_ERR, it results in a
+> warning "Failed to ack link announce" in virtio_net driver's
+> virtnet_ack_link_announce() function after VM Live Migration.
+> Also, I noticed an invalid check in vhost_vdpa_net_handle_ctrl_avail()
+> that reports an error because status is not updated in call to
+> virtio_net_handle_ctrl_iov():
+> 
+>     virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1);
+>     if (status != VIRTIO_NET_OK) {
+>         error_report("Bad CVQ processing in model");
+>     }
+> Adding an optional OUT status parameter to virtio_net_handle_ctrl_iov()
+> would help resolving this issue and also send the correct status
+> value to the virtio-net driver.
+> 
+> Signed-off-by: Gautam Dawar <gautam.dawar@amd.com>
 
-And another on-x86 failure case, just now, on the FreeBSD x86 CI job:
-https://gitlab.com/qemu-project/qemu/-/jobs/3870165180
 
-thanks
--- PMM
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+Jason your tree right?
+
+> ---
+>  hw/net/virtio-net.c            | 9 +++++++--
+>  include/hw/virtio/virtio-net.h | 3 ++-
+>  net/vhost-vdpa.c               | 3 +--
+>  3 files changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 3ae909041a..36a75592da 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -1503,7 +1503,8 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
+>  size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
+>                                    const struct iovec *in_sg, unsigned in_num,
+>                                    const struct iovec *out_sg,
+> -                                  unsigned out_num)
+> +                                  unsigned out_num,
+> +				  virtio_net_ctrl_ack *status_out)
+>  {
+>      VirtIONet *n = VIRTIO_NET(vdev);
+>      struct virtio_net_ctrl_hdr ctrl;
+> @@ -1514,6 +1515,8 @@ size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
+>      if (iov_size(in_sg, in_num) < sizeof(status) ||
+>          iov_size(out_sg, out_num) < sizeof(ctrl)) {
+>          virtio_error(vdev, "virtio-net ctrl missing headers");
+> +	if (status_out)
+> +		*status_out = status;
+>          return 0;
+>      }
+>  
+> @@ -1540,6 +1543,8 @@ size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
+>      assert(s == sizeof(status));
+>  
+>      g_free(iov2);
+> +    if (status_out)
+> +	    *status_out = status;
+>      return sizeof(status);
+>  }
+>  
+> @@ -1555,7 +1560,7 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>          }
+>  
+>          written = virtio_net_handle_ctrl_iov(vdev, elem->in_sg, elem->in_num,
+> -                                             elem->out_sg, elem->out_num);
+> +                                             elem->out_sg, elem->out_num, NULL);
+>          if (written > 0) {
+>              virtqueue_push(vq, elem, written);
+>              virtio_notify(vdev, vq);
+> diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+> index ef234ffe7e..da76cc414d 100644
+> --- a/include/hw/virtio/virtio-net.h
+> +++ b/include/hw/virtio/virtio-net.h
+> @@ -224,7 +224,8 @@ struct VirtIONet {
+>  size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
+>                                    const struct iovec *in_sg, unsigned in_num,
+>                                    const struct iovec *out_sg,
+> -                                  unsigned out_num);
+> +                                  unsigned out_num,
+> +				  virtio_net_ctrl_ack *status);
+>  void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+>                                     const char *type);
+>  
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index de5ed8ff22..c72b338633 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -638,8 +638,7 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+>          return VIRTIO_NET_ERR;
+>      }
+>  
+> -    status = VIRTIO_NET_ERR;
+> -    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1);
+> +    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1, &status);
+>      if (status != VIRTIO_NET_OK) {
+>          error_report("Bad CVQ processing in model");
+>      }
+> -- 
+> 2.30.1
+
 
