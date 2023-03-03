@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54D76A92E0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677496A92E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:45:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zV-0008Kk-CQ; Fri, 03 Mar 2023 03:42:14 -0500
+	id 1pY0zh-0008QC-N1; Fri, 03 Mar 2023 03:42:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zP-0008Az-6K
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:07 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pY0zR-0008JP-NZ
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:09 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zN-0007vc-Kj
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:06 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so5450102pjb.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:05 -0800 (PST)
+ id 1pY0zQ-0007wn-3J
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:09 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id bo22so1785592pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832925;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832927;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QrDNSJ01MNe4AZXUogDwvS66/gkFhC+s8KaVpjsj/Go=;
- b=cY+01czx0GDG0q30miN71rwDnbe+cNDymj71s7DGyMLnhhFtADQ4Mf/jE0uWX17GTP
- AJjyj4bgPIQI845o4k/5bBBRXwBUl6zuT1wNcj9koa4GMq4uXi3AVur4vHuL6dsBmd2h
- Z7xPP443EFN+aO6RR9R78ADwprefIvYwJ9yXEjlx57Cumr7M5rlKVWhiC22GT4fS/beR
- rgMn84uF7dxatN9rxAGQavUO6t9znPDYeqy0Rzf0KYpdrLhVmUjcC9oRnNVZpuejNZ8B
- X8VacJ9QL7+A32I1yGNFix6aF7dZem9itykOdz7gtwkiI/dKg5n0dBBD73nNVGFiHQdb
- 0/oQ==
+ bh=cVGv5A6n5nDBuoDvZ7Dj19W/tsB8uDWCqYxpjR3oN5A=;
+ b=JM1r19QFyOabMzjhsD3qyNFwASqda9cW79YkUsvFlXT8adlSUbG/2dMtQkutwH7PaQ
+ TbB30qeouPxOimz743dHS+mJNr9pJhDZWcEWYuYQldl2Dr9xFzwWPtfoCXFjbg1RjEV8
+ VF0E9qkobrMc8q5ibXwb70CrG90CicZ65TlG9oIlsUZl81vCXzEUrcuYD3//Ou5OtfCJ
+ yEj9JXyCy499q1c1K1nlqC/lSxOLQu8XL4UJBgfCzpSg8TJKbUckJlHIN4/EcACxLYlb
+ QhGHlkHlZQDizO0Wr6ssvdp2Jn/B0TjXKUnwHtYajDpKQuTcM9ClGMSCdYgbPzPcL3F3
+ qwBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832925;
+ d=1e100.net; s=20210112; t=1677832927;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QrDNSJ01MNe4AZXUogDwvS66/gkFhC+s8KaVpjsj/Go=;
- b=03pliGHtPkwq26MpGRs9Fkme9wQOhYwRnpILDwefVjeocx9RSdWqp4fpmtvZ+YXuHI
- fWPSWjyz0+QoJFbKErFGPy3zdjFBxsDi55z1N70s1yADxyxV3OS8BhLo57NGZnbc1uaF
- opjZtiMBB+Dw+GkRW4AgB+fHHNYKBjrsvVjOElXgEvIPyEpLTIlG6twBwPtmjFWNBB0b
- hqLGNyQIIQuDZ/+XrE2gJO9xRxkeB3+tU+SQL08OuN8xmONhnQ/6MJEVtJZ//lGELpP8
- EJJRutGZTWm/Bd0DYkbel8Lj6KuxYGd491aCK96xLx2KsH4pT5gcj5GqjXdNoVXmBKd6
- nwBA==
-X-Gm-Message-State: AO0yUKVaBzTxEvUeNPIe6962HrwI9h8mvyG7PEbup2vHapqOuIPAv5dr
- lUuMXBi7Vs8AdBv/nEqFjYvZFGcPbZxKET79
-X-Google-Smtp-Source: AK7set8U+HRbMNTXrUD5d4kntWKvfl0yzqKA2SWDZ27fnPtaFV3ZOHACszKb7zshwcj5AVIKjFH+tg==
-X-Received: by 2002:a05:6a20:65a8:b0:cc:491f:420b with SMTP id
- p40-20020a056a2065a800b000cc491f420bmr1437459pzh.8.1677832924845; 
- Fri, 03 Mar 2023 00:42:04 -0800 (PST)
+ bh=cVGv5A6n5nDBuoDvZ7Dj19W/tsB8uDWCqYxpjR3oN5A=;
+ b=ggur+4NGCFd5iRbEa3pUEZILeRPzH6PknOldx6uL9Gce8PcCqXw3wTdPpjLTDPJF1M
+ IkdtWkcyQwL8LqU+ljEMp6jshipv18wsJcevAnL4l9xWRaWrFcsLeaJSJGDp/UMSNwte
+ tXPXVdEZM9ZXwVtpnJlD2RhAhnpdCDWWgk19nHg2QNQMFhZCv+hbsAgwmv5nD5Hjr53/
+ LW7UoH26ffavSM3VYtjqYoCS/kEO14LDMbiiitEpbG2bxVVJd4NNNNIoqmKyZ1Y2zzDf
+ EICCkSNROzAfjHwDnJEXiP/Ihc2JvTHcSQIVEnPeep97bsQ5DSIkaxI0cYFo8MwxFlSa
+ TpLA==
+X-Gm-Message-State: AO0yUKXbNmSqm9wxFcEaFyMNsnAggI/OG0IAbaXw/URPmPnWn1TbQ5Af
+ WCDeDjXnLcTr/luAehJdcvL0JQ==
+X-Google-Smtp-Source: AK7set/Hc1iLzH5tVm2dNh6nfSbGwv9Rw0alwxbYUIfNxjsAioejBHdSsljGSNHeurOdhnMxjrq2FQ==
+X-Received: by 2002:a17:90b:3e8c:b0:237:85e5:3294 with SMTP id
+ rj12-20020a17090b3e8c00b0023785e53294mr922194pjb.20.1677832927239; 
+ Fri, 03 Mar 2023 00:42:07 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- b13-20020aa7870d000000b0058dbd7a5e0esm1028113pfo.89.2023.03.03.00.42.04
+ kw6-20020a170902f90600b0019cad2de86bsm975020plb.156.2023.03.03.00.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:04 -0800 (PST)
-Subject: [PULL 35/59] target/riscv: gdbstub: Turn on debugger mode before
- calling CSR predicate()
-Date: Fri,  3 Mar 2023 00:37:16 -0800
-Message-Id: <20230303083740.12817-36-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:06 -0800 (PST)
+Subject: [PULL 37/59] target/riscv: Allow debugger to access user timer and
+ counter CSRs
+Date: Fri,  3 Mar 2023 00:37:18 -0800
+Message-Id: <20230303083740.12817-38-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -70,8 +69,8 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,55 +94,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-Since commit 94452ac4cf26 ("target/riscv: remove fflags, frm, and fcsr from riscv-*-fpu.xml")
-the 3 FPU CSRs are removed from the XML target decription. The
-original intent of that commit was based on the assumption that
-the 3 FPU CSRs will show up in the riscv-csr.xml so the ones in
-riscv-*-fpu.xml are redundant. But unforuantely that is not true.
-As the FPU CSR predicate() has a run-time check on MSTATUS.FS,
-at the time when CSR XML is generated MSTATUS.FS is unset, hence
-no FPU CSRs will be reported.
+At present user timer and counter CSRs are not reported in the
+CSR XML hence gdb cannot access them.
 
-The FPU CSR predicate() already considered such a case of being
-accessed by a debugger. All we need to do is to turn on debugger
-mode before calling predicate().
+Fix it by adding a debugger check in their predicate() routine.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-ID: <20230228104035.1879882-12-bmeng@tinylab.org>
+Message-ID: <20230228104035.1879882-14-bmeng@tinylab.org>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/gdbstub.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/riscv/csr.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 294f0ceb1c..ef52f41460 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -280,6 +280,10 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
-     int bitsize = 16 << env->misa_mxl_max;
-     int i;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 7284fd8a0d..10ae5df5e6 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -131,6 +131,10 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
  
-+#if !defined(CONFIG_USER_ONLY)
-+    env->debugger = true;
-+#endif
-+
-     /* Until gdb knows about 128-bit registers */
-     if (bitsize > 64) {
-         bitsize = 64;
-@@ -308,6 +312,11 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
-     g_string_append_printf(s, "</feature>");
+ skip_ext_pmu_check:
  
-     cpu->dyn_csr_xml = g_string_free(s, false);
++    if (env->debugger) {
++        return RISCV_EXCP_NONE;
++    }
 +
-+#if !defined(CONFIG_USER_ONLY)
-+    env->debugger = false;
-+#endif
-+
-     return CSR_TABLE_SIZE;
- }
- 
+     if (env->priv < PRV_M && !get_field(env->mcounteren, ctr_mask)) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
 -- 
 2.39.2
 
