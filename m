@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C156A9C36
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE48C6A9C38
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:51:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY8c7-0008Bx-L4; Fri, 03 Mar 2023 11:50:35 -0500
+	id 1pY8cZ-00006o-EI; Fri, 03 Mar 2023 11:51:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1pY8c5-0008Al-Nm
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:50:33 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1pY8c3-0002vK-JW
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:50:33 -0500
-Received: by mail-pl1-x630.google.com with SMTP id p6so3360301plf.0
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:50:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1677862230;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=D3v80g7P8umsQjcH1h4fCP2pr3VRdvfCu8v4L/Rsu1Q=;
- b=PXfQG7BZ5Is77mA828vdj1PHmDwO4lZ73yhNrcTrJjoFQIE5aYHVoC3KQlRL1ujYTF
- pG2odsFCsZwWRmbYjMSSOt5IjUOZsxcaKAfIRSikD1yr383mQnMbYbyrE21chEN3J0N3
- z+nWZoXlAEoGMO3USdw+75MSJ4WhSglLI+3nFuTjsIbLtKokDAhmDu+jgWDRbBIIhERt
- 2n7OojKPmsloHloyMHQSI3WHBJB7Yv5fXLwK5u7GCle/y6ME3YLstBlRuw1K+lhwFQ8N
- qeDSU0E0sxzrz9fYbYeHPQXDXx2E/3v/8f+Qm526cd65Su18wozvh2tBLlnA8WwCIkAQ
- iJ/Q==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY8cW-00006D-JC
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:51:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY8cV-0003FJ-44
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:51:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677862257;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yCPPOFkMVKFHRM8TXdlC9VjWNn4ClAqs9Z7p4aRO3JY=;
+ b=YazsYjvYJFvS5i9IvfxCLfqwcSBrx/8C8NYqfC57PtBi2u3qUyxmddK/y+HfTVIRE68iCi
+ hc1gqJEt17zxk4loQgEjcPkBqdwOTfjMeEaqlFMzWlfehlX1ZEF9pffaotuZnLDShjXab6
+ BLlFUoU97ab6Oy4CiYAQxcdeuYH89SY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-176-KTvzNEU8MiyHtHb4-6TKRw-1; Fri, 03 Mar 2023 11:50:56 -0500
+X-MC-Unique: KTvzNEU8MiyHtHb4-6TKRw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a7-20020a056000188700b002cdd0562b11so482171wri.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:50:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677862230;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=D3v80g7P8umsQjcH1h4fCP2pr3VRdvfCu8v4L/Rsu1Q=;
- b=kvrGaDB0Zelmx3AuCwAFbi/ziSaJ2blo21U/3g5cWO/P3rAIZ/PcDgo8jcMmjrXY2i
- +fequX0FehCtTXwloQcT+1e3KD37hee4kVsicpmpTGng0szt2c7WMbdN7EOmiVDiZ+OD
- Qy5WwTM2Jx0ODHGmEHqjJ8ni+OWGfG9RC2UjTUdpWgRbgjtI7UGLjJCgXvvaCWYebkLM
- aNLxBqVlVo/nwl62DJHzQ16lgBHebE+73/rT2wV8pdOrD8/Y3/J9IZ2C+CS2CI5mbqlA
- 0fCTTGcwsxBJmEQXWtEC0CkAFh4z0aYDGPgT3NkpJ5kbzpNWT1Ed3EYlVCGxs+8OFM/q
- D65Q==
-X-Gm-Message-State: AO0yUKU7cxdrXjhgZD0XaPNoZc+JYxVy5iVd4UNrKPUU7r+0e5z9gjZW
- rXBvEaBapnqKBcjajiDJ7NQYyx5icUvhAmMApCPpWw==
-X-Google-Smtp-Source: AK7set9Yzge+JMvCob5CkK2CU4dPpG8A2xIbIVcH89Sqdl1PnZBMpgkz7EOzm0TjnZgxfvBvd/enk90cKwMFFJ/zl20=
-X-Received: by 2002:a17:903:25c5:b0:19a:ebaa:68d7 with SMTP id
- jc5-20020a17090325c500b0019aebaa68d7mr959787plb.2.1677862229832; Fri, 03 Mar
- 2023 08:50:29 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yCPPOFkMVKFHRM8TXdlC9VjWNn4ClAqs9Z7p4aRO3JY=;
+ b=c26yXZyNnC2HePML8QiCi3cBCp89BU9aVmSEiRyGBz0GydPwrUhz9OLJcZyMX7rgMS
+ 5V/2SSXrVT7QiZxMJRC92npbalONtOjPNQAULV1qxJrGPs8VngZXpiV+ktry66D7WSk6
+ VwomrhBAh7io/lTSVyObMtgd5KZRnZEtFJqIDNMFjCE1F4UmiG+o62UHEyCqd6gVVoIX
+ BXXLFv4ap+umtgz8H1jHC8SjaMzAWr8C6umsTzuJox9v7oFmx4GTclZHbKx1mcfNg5M/
+ dVKzCcOKKzynN7Q8WKgCjz4QDLBeYAJG0Znkrkp858gvwmOKVLmuVMQ5pugnACccgNFu
+ xGdQ==
+X-Gm-Message-State: AO0yUKVxvgEzClCWCXDHEmljEGW7MUYVrlPdn1QgVLrg+VrTK/E0LjWs
+ plUni6Z3R6M3/Fd1oqqWFYZuDNZSALs7rzuldNMDJel3GBw2x6I6CT1c7ax2OP1r6T8de02PmCg
+ Ng493iyZCDkUwSAs=
+X-Received: by 2002:a5d:4a4a:0:b0:2c7:434e:9a5a with SMTP id
+ v10-20020a5d4a4a000000b002c7434e9a5amr1693771wrs.65.1677862255559; 
+ Fri, 03 Mar 2023 08:50:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set9EJtRieyFNvuwjZXhVoj/yMm/JRyfwxcOQekI3pXloTrlxTwCy7GQOurS9hfKWru6PYBUWbQ==
+X-Received: by 2002:a5d:4a4a:0:b0:2c7:434e:9a5a with SMTP id
+ v10-20020a5d4a4a000000b002c7434e9a5amr1693765wrs.65.1677862255310; 
+ Fri, 03 Mar 2023 08:50:55 -0800 (PST)
+Received: from [192.168.8.103] (tmo-099-97.customers.d1-online.com.
+ [80.187.99.97]) by smtp.gmail.com with ESMTPSA id
+ n1-20020adffe01000000b002c4084d3472sm2765954wrr.58.2023.03.03.08.50.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 08:50:54 -0800 (PST)
+Message-ID: <02c59023-b63a-21dc-a2a8-6ae2398e3d6a@redhat.com>
+Date: Fri, 3 Mar 2023 17:50:53 +0100
 MIME-Version: 1.0
-References: <CAGD3tSzW1QoAsn+uGjoAkBegLt1iZ=9YWDFcvqbcHMr0S_5kVw@mail.gmail.com>
- <ZAHNEtV0N+9JyZTk@redhat.com>
-In-Reply-To: <ZAHNEtV0N+9JyZTk@redhat.com>
-From: Haitao Shan <hshan@google.com>
-Date: Fri, 3 Mar 2023 08:50:18 -0800
-Message-ID: <CAGD3tSzZAa+zRv0xEetB-WW+zmnGNJUAzLj0CyGCek9YYDNq9g@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Adding the Android Emulator hypervisor driver
- accelerator
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=hshan@google.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 8/8] iotests: remove the check-block.sh script
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230303160727.3977246-1-berrange@redhat.com>
+ <20230303160727.3977246-9-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230303160727.3977246-9-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,97 +103,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 3, 2023 at 2:34=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@re=
-dhat.com> wrote:
->
-> On Thu, Mar 02, 2023 at 06:25:59PM -0800, Haitao Shan wrote:
-> > The Android Emulator hypervisor driver is a hypervisor for Windows (7
-> > or later), made by porting the KVM from the linux kernel 4.9-rc7. Its
-> > initial purpose was to support the Android Emulator on the AMD
-> > platforms as the old name "Android Emulator Hypervisor Driver for AMD
-> > Processors" suggested. Despite the name, Intel processors have been
-> > supported ever since its first release. Since Intel dropped HAXM suppor=
-t,
-> > the android emulator is switching from HAXM to AEHD.
->
-> When HAXM was proposed for deprecation & removal from QEMU, the suggestio=
-n
-> was that users should switch to Windows' native replacement WHPX, which
-> QEMU already has support for.
-Sorry I was not aware of Intel's suggestion when HAXM was deprecated.
-Is this a decision already, which shuts the door for any other 3rd party
-hypervisors?
+On 03/03/2023 17.07, Daniel P. Berrangé wrote:
+> Now that meson directly invokes the individual I/O tests, the
+> check-block.sh wrapper script is no longer required.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   tests/check-block.sh | 43 -------------------------------------------
+>   1 file changed, 43 deletions(-)
+>   delete mode 100755 tests/check-block.sh
 
->
-> What is the rationale for wanting to introduce a 3rd party hypervisor
-> solution like AEHD, for the Android emulator, rather than just sticking
-> with the standard WHPX hypervisor available for Windows ? IIUC, the
-> Android emulator can already support WHPX according to these pages:
->
->   https://developer.android.com/studio/run/emulator-acceleration
->   https://learn.microsoft.com/en-us/dotnet/maui/android/emulator/hardware=
--acceleration?view=3Dnet-maui-7.0
-You are right. WHPX is supported by the android emulator. The reason for
-supporting AEHD:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-1. HyperV is a type-1 hypervisor, which does not coexist with other hypervi=
-sors.
-According to our data, there are both users who have to live with HyperV on=
- or
-with HyperV off. Those users depend on certain Windows features (or 3rd par=
-ty
-programs) that have to turn on or turn off HyperV. Offering AEHD allows us =
-to
-serve both types of users. This is the major benefit. I think this
-argument is true
-for upstream QEMU users as well.
-
-2. Actually, AEHD started development before WHPX was added to the android
-emulator. But porting/writing a new hypervisor just took lots of time.
-In the middle,
-Microsoft offered us WHPX. It could be the case that AEHD was never started=
- if
-WHPX had been offered one or two years earlier. However, we decided to cont=
-inue.
-First, see reason 1. Second, at least at that time, WHPX was noticeably slo=
-wer
-than both HAXM and AEHD. Third, Microsoft clearly stated there would not be
-any backporting of WHPX to older versions of Windows. And those using old
-versions of Windows need a solution in addition to HAXM.
-
-3. Compared with HAXM, which looks like the default solution when HyperV
-must be off, AEHD supports both Intel and AMD. And according to user feedba=
-ck
-and our own tests, AEHD can support Windows 10. This was the reason
-why I maintained a patched QEMU ever since 4.2.0 specifically for them.
-
-4. Although it is called Android Emulator hypervisor driver, it has nothing=
- that
-is android specific. And I've seen the upstream QEMU successfully refactore=
-d the
-accelerator logic. This made adding a new hypervisor support less intrusive=
- to
-the main code base. I have a good will and intention to maintain what I
-submitted if it could be approved by the community. I hope this does
-not place (or
-at least place very minimum) burden on the maintainers, should it be accept=
-ed.
-
-Hope this can answer your questions. Thanks!
-
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
-
-
---=20
-Haitao @Google
 
