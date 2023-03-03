@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DE46A9968
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:29:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF366A996A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 15:30:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY6Oi-00063b-AY; Fri, 03 Mar 2023 09:28:36 -0500
+	id 1pY6Pz-0006wm-3x; Fri, 03 Mar 2023 09:29:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY6Og-00063L-Qp
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:28:34 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1pY6Pw-0006wH-Ti
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:29:52 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY6Of-00071E-6w
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:28:34 -0500
-Received: by mail-pl1-x629.google.com with SMTP id p20so2784036plw.13
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 06:28:32 -0800 (PST)
+ id 1pY6Pv-0007Cz-E2
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 09:29:52 -0500
+Received: by mail-pf1-x436.google.com with SMTP id fd25so1682120pfb.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 06:29:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677853712;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z1jjAztQ9HZerXRpxamFViFj+6T8tWVAjd1eaGe0To4=;
- b=pAB88lAKOJ9J6AFgfhHc/m6Vf4pWPAMJPfm0k3ufbaeksRCIBAajhCFDJVopu9rcGH
- frTPGr+nJvdPVN0F7/FdsRlgFIT9gzG0LIicd0Jo8K2d59jQyqYJD0HQ4qntI8sJtt3Y
- BqRneA0PQjaik5tG90PS0Wm4cFU7jQWJ1E+T3cAq6i1PjvbzO39Hs3cf2rxKmoglJMU3
- wik0KADp7tKuQJt/FPYus4E9PsYyjTco00fmIUwV/R/uCHWGEvKwPw8wkHYkiQfLZkCw
- TZYR/3iV18A83Eg2UkhrDwEwoGofuRhRF9kbpiocN1WebHBNiyOkodMVWYs5+RX3PKuC
- KhlQ==
+ d=linaro.org; s=google; t=1677853790;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=51IZpA1dynVt+5lRDC2bcX9f9rBMfnCJq3VatCa8Z6k=;
+ b=CReS4wOGDBN7SRTYiIHw/qWimjWe+WZ/YwchiUe3XGhfs2O6NhiVHQiqSlbsTqxJKb
+ eBKeDkkV1zMl9PDtBa7SIJUKGbwIOLxk61eMOPcbpcVGPeaIpVo/ji3L2UYJThI1xb09
+ QVaPE59WdYEKxOOu7mJJEk0ODF9Dz5VNjHrcTI56p2OHXF9pPUPAawHAo0rw9coRx8nU
+ 2+Lg33p+lcja1auKXj4AGEElQqqvQ7zwNR8e1f72OqgpCtXIuvRCQOEx2CVB3HX2//Ok
+ QYQ5kQqCUfkNmSt1w6Etyv3uEgPPy8jXxzOMrhPSAuE/Sg0ti/43HINKgYuXj5QffZsU
+ KLxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677853712;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z1jjAztQ9HZerXRpxamFViFj+6T8tWVAjd1eaGe0To4=;
- b=tM8sQ40iYJRzy1SqXXlHN+jku4VI0YRuvmMF6sTmung+DAE8ekqIfopsZXMIASLPT3
- 4KZk1rCJMlG5+X7OWaKNV+SlKNBeFms3QkyQXE8lqtgiRW0Jkem5rOioLbERmxyosQZk
- nD88bNd9WlgApvI/bD6rEs0TF7NW6E0mhmL5kbzgkebtUvN/A9mbUInPZ2ye4yaOvU/w
- xb8Ed9z/JIUJtcQxv6RiSRHVdgkxaTMMX+1JlWPxVL1fNgF6LN74ExucsHkAgrfshG0h
- 4+EQJnNu6Q/L/S97SlHZg7i7VsDWruBopF5ILZ7u2OtKUlhNNEmtVCAN405YY2TVvwd/
- ymYA==
-X-Gm-Message-State: AO0yUKWjK3VMBPbclYiFzmzfV6oHI3thSBV6yjAg3bq8T316CouNSPtm
- hdRCm4C8bSzzwETQVWsKaOkO95EINuYvciPsLabF0Q==
-X-Google-Smtp-Source: AK7set9EmLRBnKiR7bdr9zn/GorNdkHYeay3cgVtDR4yg002sxR7EU7xSGZ7IGEtGO/w83HpypP0ft31eHNFBiUKx2Q=
-X-Received: by 2002:a17:903:2616:b0:199:4a4f:9d2a with SMTP id
- jd22-20020a170903261600b001994a4f9d2amr784922plb.13.1677853711784; Fri, 03
- Mar 2023 06:28:31 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677853790;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=51IZpA1dynVt+5lRDC2bcX9f9rBMfnCJq3VatCa8Z6k=;
+ b=ZmtdUYupUxPPjmrQ5hmBnfGOTn+ckzGs0qKQ2j+jZ8P8Fx96S7eE+ILF0F3Uq9ghI3
+ ZiO60Ma+9m1YD6ls6HIl6qlIx7INY7agQ9f5nVx8kX9NZ1rWhDarDDf89JNoUZwe6j5f
+ kO9fadrTBb9yRpsx5A/ma6QeH9XSO497D08QDVM3bFtJ+Ef+7myxTPHpD5ZcWzJaQdEo
+ 86nS7F3XbT8mHDGqwtBlni8kXZPGrpTk12aX6V5iHQKnlN9ELn27hsjN8orhVgT333DC
+ 3fTK6egCdOAmrzCG3l2POmhWn/br4grgIhx7dkJI/Tw14jqfGnMSF2EOHsSVCOCZdeVm
+ bpgA==
+X-Gm-Message-State: AO0yUKXz3ufeFMKd8bzOfrZVkFz0A9vDOtjeWtySTlzM63W5f2PnR1Bs
+ hF3ZTOplNxGXTBtpmU4ku4h4eMV0qhy6j88GCDq08A==
+X-Google-Smtp-Source: AK7set+IetcMBbsECUkMp7x1mv/NKWUivoE65xMtCYV7ViHYh/Z6RrEMSGHZrk00hK0WpqUsSoAa+80mLuWxvZumhO4=
+X-Received: by 2002:a63:7d03:0:b0:503:4a2c:5f0 with SMTP id
+ y3-20020a637d03000000b005034a2c05f0mr522760pgc.9.1677853789825; Fri, 03 Mar
+ 2023 06:29:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20230302174206.2434673-1-clg@kaod.org>
- <840ae915-390e-5cb9-3186-360856ecf407@kaod.org>
- <CAFEAcA-HvviZFZXBwJQXhxVsqv473=5BW=WJgKSd25uqmschXw@mail.gmail.com>
- <d62972e8-cfc9-e494-1b41-cf4825715532@kaod.org>
-In-Reply-To: <d62972e8-cfc9-e494-1b41-cf4825715532@kaod.org>
+References: <20230227230122.816702-1-richard.henderson@linaro.org>
+ <a5b66aee-0c97-96f7-81ca-44fac1289733@linaro.org>
+In-Reply-To: <a5b66aee-0c97-96f7-81ca-44fac1289733@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 14:28:20 +0000
-Message-ID: <CAFEAcA_2pLD=dsJXHCZP1ZVFUbFiLoneoz9gbvMPW8-oxGn+ZA@mail.gmail.com>
-Subject: Re: [PULL 00/11] aspeed queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Date: Fri, 3 Mar 2023 14:29:38 +0000
+Message-ID: <CAFEAcA-fMVab0e0CG_uep49+JPZ=tfJgJXJmbtJeepGBSLsLhA@mail.gmail.com>
+Subject: Re: [PATCH for-8.0 v4 00/21] target/arm: Implement FEAT_RME
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,53 +84,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 14:09, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Mon, 27 Feb 2023 at 23:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On 3/3/23 14:34, Peter Maydell wrote:
-> > On Fri, 3 Mar 2023 at 13:23, C=C3=A9dric Le Goater <clg@kaod.org> wrote=
-:
-> >>
-> >> Hello Peter,
-> >>
-> >> On 3/2/23 18:41, C=C3=A9dric Le Goater wrote:
-> >>> The following changes since commit a2b5f8b8ab7b2c947823088103a40f0ff1=
-1fe06b:
-> >>>
-> >>>     Merge tag 'pull-tcg-20230301' of https://gitlab.com/rth7680/qemu =
-into staging (2023-03-01 19:19:20 +0000)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>     https://github.com/legoater/qemu/ tags/pull-aspeed-20230302
-> >>>
-> >>> for you to fetch changes up to b22a2d409b1acfdf0d63d1bb3595194ceb3d94=
-da:
-> >>>
-> >>>     aspeed/smc: Replace SysBus IRQs with GPIO lines (2023-03-02 13:57=
-:50 +0100)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> aspeed queue:
-> >>>
-> >>> * fix for the Aspeed I2C slave mode
-> >>> * a new I2C echo device from Klaus and its associated test in avocado=
-.
-> >>> * initial SoC cleanups to allow the use of block devices instead of
-> >>>     drives on the command line.
-> >>> * new facebook machines and eeprom fixes for the Fuji
-> >>> * readline fix
-> >>
-> >> This one was merged already. Would you prefer an updated PR instead ?
-> >
-> > I'm not sure what you're asking ?
->
-> Sorry, I am not being clear. I included commit 76f5801a83 ("readline:
-> fix hmp completion issue") in the PR, which could be an issue when you
-> merge, may be not, I am not sure. I can respin if you like.
+> Gah!  I didn't mean to tag this one with for-8.0.
 
-I think that's probably going to be fine, it's a small bugfix,
-and the git merge machinery should Just Cope.
+Ah; I was wondering :-)
 
-thanks
 -- PMM
 
