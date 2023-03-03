@@ -2,57 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64BF6A9154
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 07:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCCD6A9155
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 07:59:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXzMA-0006kp-Qt; Fri, 03 Mar 2023 01:57:30 -0500
+	id 1pXzNG-0007rJ-8N; Fri, 03 Mar 2023 01:58:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pXzM1-0006gA-2X; Fri, 03 Mar 2023 01:57:22 -0500
-Received: from mailout03.t-online.de ([194.25.134.81])
+ (Exim 4.90_1) (envelope-from
+ <BATV+ce2d36ceab3eb098c1c7+7131+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pXzND-0007ni-Jg; Fri, 03 Mar 2023 01:58:35 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pXzLz-0003Xb-C3; Fri, 03 Mar 2023 01:57:20 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout03.t-online.de (Postfix) with SMTP id 8E21318298;
- Fri,  3 Mar 2023 07:57:12 +0100 (CET)
-Received: from [192.168.211.200] ([84.175.228.75]) by fwd72.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pXzLp-0zIFtp0; Fri, 3 Mar 2023 07:57:09 +0100
-Message-ID: <433b8fb7-ff70-281c-da10-89ac872163ed@t-online.de>
-Date: Fri, 3 Mar 2023 07:57:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 7/7] hw/audio/via-ac97: Basic implementation of audio
- playback
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ (Exim 4.90_1) (envelope-from
+ <BATV+ce2d36ceab3eb098c1c7+7131+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pXzNB-0004zZ-A1; Fri, 03 Mar 2023 01:58:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=jqVzAe7nIgD4YrTuDbwzjggJTjdxR6/YQwJajt/O82k=; b=N1+zLqup5uhnsb2R2Qz+bA9zW8
+ gVkFS6WC9ATZJr560tdxyWUqG3+h12EP0q2lrjzuHKkFpxYRzwh6CMTiJVK/9wO8G3e94nXRU2Iv/
+ pW7grlFCdf0LkRTpld+mncnjjqkBPtGnYM970QWSJj4IpDr4OuDHe9HBM7BESVZNE258WcTu7X1fd
+ 6Wst7r7fLbqnyJdnyahgZnngdUKgmGRXHwve4mWSgdQ/K2cVM0NOZmlu7fwx/o9WwlFOCA4cwySai
+ yoJxEc2dvp82gcG/GVUY3dBq4Y7GuXZmtY+IMckBJpGy1gnZgCSYKYmuPtMaX0otmMKrLpVCztNlM
+ gjFgLTHg==;
+Received: from [172.31.31.185] (helo=[127.0.0.1])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pXzMy-00Fb7n-1F; Fri, 03 Mar 2023 06:58:21 +0000
+Date: Fri, 03 Mar 2023 06:58:21 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
+CC: John Snow <jsnow@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
  qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de
-References: <cover.1677628524.git.balaton@eik.bme.hu>
- <79e51c3a51f37415ae42b2c4c053cd8a7ffc5c8c.1677628524.git.balaton@eik.bme.hu>
-Content-Language: en-US
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <79e51c3a51f37415ae42b2c4c053cd8a7ffc5c8c.1677628524.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1677826629-812ECD99-731DC59C/0/0 CLEAN NORMAL
-X-TOI-MSGID: 69d6c1ed-e1b5-4684-a9a4-c3729fdaa12a
-Received-SPF: none client-ip=194.25.134.81; envelope-from=vr_qemu@t-online.de;
- helo=mailout03.t-online.de
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_00/18=5D_hw/ide=3A_Untangl?=
+ =?US-ASCII?Q?e_ISA/PCI_abuses_of_ide=5Finit=5Fioport=28=29?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
+References: <20230302224058.43315-1-philmd@linaro.org>
+Message-ID: <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+ce2d36ceab3eb098c1c7+7131+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,26 +75,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> Add basic implementation of the AC'97 sound part used in VIA south
-> bridge chips. Not all features of the device is emulated, only one
-> playback channel is supported for now but this is enough to get sound
-> output from some guests using this device on pegasos2.
->
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> v5: rebased on master
-> v3: Fixed CLEN_LEN mask, add check to avoid runaway DMA and some
-> tweaks to PCI config regs which now make it work with AmigaOS too.
-> This is probably as good as it gets for QEMU 8.0
->
->   hw/audio/trace-events     |   6 +
->   hw/audio/via-ac97.c       | 455 +++++++++++++++++++++++++++++++++++++-
->   hw/isa/trace-events       |   1 +
->   hw/isa/vt82c686.c         |   2 +-
->   include/hw/isa/vt82c686.h |  25 +++
->   5 files changed, 482 insertions(+), 7 deletions(-)
->
 
-Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
 
+On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daud=C3=A9" <philmd@linaro=
+=2Eorg> wrote:
+>Since v2: rebased
+>
+>I'm posting this series as it to not block Bernhard's PIIX
+>cleanup work=2E I don't have code change planned, but eventually
+>reword / improve commit descriptions=2E
+>
+>Tested commit after commit to be sure it is bisectable=2E Sadly
+>this was before Zoltan & Thomas report a problem with commit
+>bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder")=2E
+
+However much I stare at the partial revert which fixes it, I just cannot b=
+elieve that the change could make any difference at all=2E There's got to b=
+e something weird going on there=2E
+
+I was going to ask if the level mode for the PIT made any difference, but =
+this is the output IRQ from the PIT to the CPU itself so I don't see how it=
+ would=2E
+
+Would like to see a report with tracing from pic_update_irq, the CPU inter=
+rupt "handler" and the intermediate IRQ handler=2E With the intermediate pr=
+esent and without it=2E To compare the two=2E 
 
