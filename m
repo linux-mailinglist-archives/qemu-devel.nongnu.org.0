@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EBE6AA05C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4DF6AA074
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 21:06:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYBWv-00007h-CA; Fri, 03 Mar 2023 14:57:25 -0500
+	id 1pYBeY-0004dT-JK; Fri, 03 Mar 2023 15:05:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYBWt-00007F-OA
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:57:23 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pYBeW-0004cr-Fs
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 15:05:16 -0500
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYBWs-0006h8-7X
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:57:23 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id l1so3707397pjt.2
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 11:57:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pYBeU-00019B-SH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 15:05:16 -0500
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-176261d7f45so4218872fac.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 12:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677873440;
+ d=ventanamicro.com; s=google; t=1677873913;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EPBzpwEiAAMTrsN41j5B5yDucNwWSyOhsM+qG9T6AA0=;
- b=elRRo1cnj0vaA+YvluiMiqLMbWbkg/nzuFneZA3lFTMbybBGdtIRHdYdo0hlnglgr5
- 8OpEdEn5sESwFf+oT5B9zioBdJej17pg4keavXnfGCOqzfZ8xzHIWu1RKZoeKv5Ab7in
- dbL9KLC/4peyk8ut6F4Jy+U9PtzK/ykIm87cUgbOqYvuwelPp2fZ6/jIaiFOjISWi0TD
- FmiDBl3UzjtHcx7mxT6Fz4eIK0/jsBrWRyIW2rPNj+z+mmkKbvjfqdciZHevLbHvgviF
- mZzP+yKVAjEWcjirOAzpoLicKaXyShKcq+40G53kumPzBRQ/RLRxpLrAVZzyf+7p1G6b
- JuxA==
+ bh=N1B6/pXnldAgnrh+84ND4QzxbqUfbkSAsr/VmeenwT0=;
+ b=cSWU86OKLokiPsEl3/nClHWH8qgXwVNcuRe0Qenl6bPNPlgV4PBbBDj6mVGSzP0H51
+ prcmLrvg304rqbaA34jxDahM2BF6lLAF+m+Kmo1OyAfGSy17dkxjn6DYINQFX3b9wCLg
+ 0Z4FBWiMXALVOhWMxssVssthqlCy42DCefgPtoZaeULHKHlcFvFtB5sSNeau7S2jl8F2
+ kigAdsJa9thWz2taqrUKaYrAwPtvZVslUcDuDZNEayM2LZHHOH8kVqT/vF49UOgye94Z
+ XYdeBXRPRdprFq7QDD4Um0KN4wMs1o30Xc3eSVOg6wLqakOFiGv2QhSRg8HvBGkw7eTm
+ xAsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677873440;
+ d=1e100.net; s=20210112; t=1677873913;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EPBzpwEiAAMTrsN41j5B5yDucNwWSyOhsM+qG9T6AA0=;
- b=Avk+gTqHxvIOOgbUPiqP3OwGs1BZGGlZeZie1N3YD7MiVXpBV1jcccw45shd+uu/Nq
- /xbSNijrPE9lOT1GF5MKeLYt9+3+KAu0Uw3GkKuR95eJl3tuIjQ+8rxou+BimgnQf9d8
- Rzx0jp5rWHxm5GBfRBh9nqfzRyiXyhjzKWQhCSwVFve+MNpBBe5sdHdqKKXiaB5ut2Ek
- cvVLlYWUJtVBo1OeCtLkcqegkmtF55AllbkWxfxwNyHi5aimtVGfHvJLOxosyJXif29B
- 28ra/zWNSAN3Ufmsh2/S9+TeCgjaReHqwviw7kIkS9V50IDPpUq/KoXo9RrcmLFEYA1W
- PN4A==
-X-Gm-Message-State: AO0yUKVuRkXSQ8hawMbgVfoOzAqwWyoOO2PYHbHNHk0M9dGCQjjBGzCR
- f7OQH5xYP/HLQexF7/6AlYptwQ==
-X-Google-Smtp-Source: AK7set/CtPwrs9sVgAmfWKR5X3LjZomC6zifPJRwdMwrMPOK4E/KvjCjMrEZ+6IIzAbqFGW/rSaMzA==
-X-Received: by 2002:a17:903:41d0:b0:19e:3b41:1826 with SMTP id
- u16-20020a17090341d000b0019e3b411826mr3537173ple.54.1677873440105; 
- Fri, 03 Mar 2023 11:57:20 -0800 (PST)
-Received: from [192.168.0.4] (174-21-74-159.tukw.qwest.net. [174.21.74.159])
+ bh=N1B6/pXnldAgnrh+84ND4QzxbqUfbkSAsr/VmeenwT0=;
+ b=gY90D/gm/IxpZAANgHx1uwTAqlQdI1yGPfQ0ZufkwD6SSpK8KJreo5nY3wn4/k5rZq
+ 6NHybCa/G4uVlHhuQWUrInTBlcJ6T/znKYIMkUG1UQvzraDDYMiCng1bax1oa5/LEtXJ
+ 14qNhADmYS6ka2KRCtTJpqRy8CNJ3cFf7H6SYgIn3hqPoKqYsHhXTO5Wqo218dAFTeiM
+ aUtepP6ctRyi4Iq/djq5r/jCHtxk3QPJt2s6i15ODypBKmMo+CAoWs3LgzcbX9FrFRS0
+ lDID9wxSxohbYbJODLPIqnu1fXy75PcvqUv02B1XxX5MUyw1NliW9xm3CUsivgA/8OEK
+ xp5Q==
+X-Gm-Message-State: AO0yUKWOwL/NORWm63lLxyn4aw7ag9oMR1IEDYGqBa6KG/d6gV389pE9
+ Qzf7Ue+kojY/Ka/31/cKDBob3w==
+X-Google-Smtp-Source: AK7set9ycpopG6uesZXZnDGXloGrCHMnyCBfeIgm5u7y4eBSs9CeYhD9meHaZb8HomDql+z6BEgvAg==
+X-Received: by 2002:a05:6871:806:b0:176:1fd8:d144 with SMTP id
+ q6-20020a056871080600b001761fd8d144mr3935789oap.26.1677873913404; 
+ Fri, 03 Mar 2023 12:05:13 -0800 (PST)
+Received: from [192.168.68.107] ([177.189.53.31])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a170902e9cd00b0019ac9c4f32esm1851607plk.309.2023.03.03.11.57.19
+ b14-20020a9d60ce000000b00690e42f0da8sm1471518otk.24.2023.03.03.12.05.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 11:57:19 -0800 (PST)
-Message-ID: <3615903d-daf1-1d21-d33e-8538c7203817@linaro.org>
-Date: Fri, 3 Mar 2023 11:57:17 -0800
+ Fri, 03 Mar 2023 12:05:12 -0800 (PST)
+Message-ID: <09db99bd-894a-bf17-3d3d-f8bd100fb5be@ventanamicro.com>
+Date: Fri, 3 Mar 2023 17:05:08 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 66/76] target/sparc: Drop get_temp_i32
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20230227052505.352889-1-richard.henderson@linaro.org>
- <20230227052505.352889-67-richard.henderson@linaro.org>
- <CAFEAcA9XfB2DX2Qw5mgVbJRumDuNb90VwpXGvR2XeKD8XgXB8g@mail.gmail.com>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/2] target/riscv: cpu: Implement get_arch_id callback
+To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com, Anup Patel <apatel@ventanamicro.com>
+References: <20230303065055.915652-1-mchitale@ventanamicro.com>
+ <20230303065055.915652-2-mchitale@ventanamicro.com>
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA9XfB2DX2Qw5mgVbJRumDuNb90VwpXGvR2XeKD8XgXB8g@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230303065055.915652-2-mchitale@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x35.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,45 +96,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 11:09, Peter Maydell wrote:
-> On Mon, 27 Feb 2023 at 05:43, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Translators are no longer required to free tcg temporaries,
->> therefore there's no need to record temps for later freeing.
->> Replace the few uses with tcg_temp_new_i32.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/sparc/translate.c | 25 ++++---------------------
->>   1 file changed, 4 insertions(+), 21 deletions(-)
+
+
+On 3/3/23 03:50, Mayuresh Chitale wrote:
 > 
-> Left my review comment on the v1 version of this patch by mistake,
-> so just copying it here:
+> Implement the callback for getting the architecture-dependent CPU ID ie
+> mhartid.
 > 
->> @@ -5762,14 +5752,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
->>       gen_exception(dc, TT_NCP_INSN);
->>       goto egress;
->>   #endif
->> - egress:
->> -    if (dc->n_t32 != 0) {
->> -        int i;
->> -        for (i = dc->n_t32 - 1; i >= 0; --i) {
->> -            tcg_temp_free_i32(dc->t32[i]);
->> -        }
->> -        dc->n_t32 = 0;
->> -    }
->> + egress:;
->>   }
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   target/riscv/cpu.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> Stray semicolon after colon, or does C not let you put a label at
-> the end of a function ?
-
-Mistaken memory that a label neededs a statement, but
-that's to do with declarations not following labels.
-I could change it, though it gets removed in the next patch.
-
-
-r~
-
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 0dd2f0c753..467d8467a3 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1243,6 +1243,13 @@ static const char *riscv_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
+>   }
+>   
+>   #ifndef CONFIG_USER_ONLY
+> +static int64_t riscv_get_arch_id(CPUState *cs)
+> +{
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +
+> +    return cpu->env.mhartid;
+> +}
+> +
+>   #include "hw/core/sysemu-cpu-ops.h"
+>   
+>   static const struct SysemuCPUOps riscv_sysemu_ops = {
+> @@ -1297,6 +1304,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>       cc->disas_set_info = riscv_cpu_disas_set_info;
+>   #ifndef CONFIG_USER_ONLY
+>       cc->sysemu_ops = &riscv_sysemu_ops;
+> +    cc->get_arch_id = riscv_get_arch_id;
+>   #endif
+>       cc->gdb_arch_name = riscv_gdb_arch_name;
+>       cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
 
