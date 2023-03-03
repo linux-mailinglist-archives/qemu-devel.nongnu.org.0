@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9A36A92CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F826A92E9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:46:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zG-00086B-4H; Fri, 03 Mar 2023 03:41:58 -0500
+	id 1pY0zH-000872-4j; Fri, 03 Mar 2023 03:41:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zA-00082M-HB
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:52 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pY0zC-00083u-FH
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:54 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0z8-0007n9-Nr
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:52 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id l1so1811408pjt.2
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:50 -0800 (PST)
+ id 1pY0zA-0007xz-II
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:53 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id l1so1811442pjt.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832910;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832911;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dje010AVV2QeyT/FX8byAIDnwjz48KiaRt3orgmfVv8=;
- b=AG2+x8MM7CaNbBIWYD8C0jVL5biCj8aqVwEYTfszSxWvSGn64u3+xU21AE/kV1ydKh
- FdBSY9LsIaF6xYmfRaQHhZBGaXrKBsxjOG1vRs+41XbfB+kztEyaN3vkSPqpnvPRYKLW
- FVxdAXyuFyiL6iYU7N4RwFKbktNnHe0A7IAbiZHbQ72mNC3qU7IB2Z1C50PPmy6ABDMh
- ON2l56DsXYvyU0OuvLiXbEvOfAEHVHSynmis5P4Y1TeoZ9fBwXy34uiUXvbb3XuxtlLU
- crh64Vq0+692e6Y04mbs0ZXcWSfyNlJaAJ2r/GZXXMhtlD/Pp/urlhlQmrvw7fEwhxV4
- 4RqQ==
+ bh=XBFShlq0Mtiviu35cbAP5uhkLUId7RlJPqqDmZVwaNg=;
+ b=xirFmfVUod07P7pa/XjEM8cMjT468Tgyyrd9rkdG3BGq2FKKGv8ypJR3QAvb8H0l/G
+ 8id1jZA/NDUcLXy7j/86dr6l52jXd+C7wbZuCouV3MqOw61tT/biwPjGHsKc6nhMblsb
+ cLf4GLnWBmiy2eCGMyU1HU2m0oDHBkYh/fdKLPa4axowMkKUffvnsAHucSmRb7AC9Ey7
+ QnD4INeihTIv9qetxHOlj0yDX4AiuWFY37sJo51vABEVD5EjTz6pvRrpbd5M8tUS82hw
+ UFVjyGuGAV8JxM00RrWrKCdjoK7lTg2m6YHP8FNZ0RUDtO6ztnqFejMcjND1/NZptMgc
+ UdjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832910;
+ d=1e100.net; s=20210112; t=1677832911;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dje010AVV2QeyT/FX8byAIDnwjz48KiaRt3orgmfVv8=;
- b=MgNH2FfLLtArHdEga83H6e5bSIo6GpGgMMWnmminMWGqvlYLdAx0aNqsNy8uKvsQCD
- SWDpIJyLm7x1lXzM/uEl/eNejRUb7oqYUIcZT68W7SrVG30erjQrsTEXM9EqvgQrRN8V
- IMQA+0mgSoZVYXnxrc9OuNLC8lSNKBpRZXtOPsTRbGkUnaw9fur2/8vDpbt02OYvqMyI
- ytZVbM7EJHn3TD111BRJqmSi969lRlrpu60KJozcsNSzJNXYga1GOewyo55BTWniXvzy
- Jj7V7o7mGINlXerhugTyP0JPG2P8tIjERPwHaWdbbYrV/omKJCOG/GrqZF5Z3jC5X4CT
- vd+Q==
-X-Gm-Message-State: AO0yUKVdDcmc6emDRXRX8RSymkIroZKBBJW9bgOvlDabffj5EHwvsY4R
- 2eQeXDBUxQamaoBlwFPjoU1dvQ==
-X-Google-Smtp-Source: AK7set/c8y9Vn/ZPgDHxB+vMXOhGvlNK/LN/FVUs8xh9ZoC3qAzRJQNbzly5tDtbhS3KBFA5Wi2stA==
-X-Received: by 2002:a05:6a20:c510:b0:cc:ac05:88f7 with SMTP id
- gm16-20020a056a20c51000b000ccac0588f7mr1111818pzb.34.1677832909947; 
- Fri, 03 Mar 2023 00:41:49 -0800 (PST)
+ bh=XBFShlq0Mtiviu35cbAP5uhkLUId7RlJPqqDmZVwaNg=;
+ b=4iy3BFqTi3GbUG90XFEeGHVfTgqG9A6Pfa4KL8rreB6gLhiMU/8imrNyqTSSN0yTW/
+ rMwO/SQ6zImsr/+t+g3r6nMoUhS9dwzXKAWQ4TH9OiIcTeeYnLpZWYkYE62rzck90bsJ
+ eXqy+iqodcK6UdFx7utkPD+m4dhAIeXhMpfHa1OjY4XdYnmTdjgYlttdN6RkKt8Dr4Dl
+ GRoemijWEtkMlWHau9gM2kxq8kZR4WxxLpS1pI30tsUn0eDvbwyWfaWEazlVQIV2DTYu
+ ljWvbTKxiJJnXYt7uI10qxoc9QTnWGOtfxZdess0q6wUsrCHvkak+wFlU3mP7303k90w
+ mOZQ==
+X-Gm-Message-State: AO0yUKX5DcJOI74nAVYYrQZZuPyxAfkYcJnavz0AQbxE/pegk9zt3kf7
+ t1xBdIdogJRsQOFka81ifDbwFQ==
+X-Google-Smtp-Source: AK7set8JLVsVYr9oI/lKgb+DcO4W+oSVT0pZlxlskrp0UHxki+YkU9cBvQ9ozjJypNKMydjzw2uVJg==
+X-Received: by 2002:a17:903:11cc:b0:19c:eb50:88b9 with SMTP id
+ q12-20020a17090311cc00b0019ceb5088b9mr1538220plh.29.1677832911260; 
+ Fri, 03 Mar 2023 00:41:51 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- m8-20020aa79008000000b005dae7d1b61asm1022277pfo.154.2023.03.03.00.41.49
+ kz14-20020a170902f9ce00b0019a733a75a2sm979406plb.60.2023.03.03.00.41.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:49 -0800 (PST)
-Subject: [PULL 23/59] target/riscv: Simplify check for EEW = 64 in
- trans_rvv.c.inc
-Date: Fri,  3 Mar 2023 00:37:04 -0800
-Message-Id: <20230303083740.12817-24-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:50 -0800 (PST)
+Subject: [PULL 24/59] target/riscv: Expose properties for Zv* extensions
+Date: Fri,  3 Mar 2023 00:37:05 -0800
+Message-Id: <20230303083740.12817-25-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -69,14 +68,14 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,62 +93,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Only V extension supports EEW = 64 in these cases: Zve64* extensions don't
-support EEW = 64 in these cases as commented before the check.
+Expose Zve64d,Zvfh,Zvfhmin properties.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230215020539.4788-14-liweiwei@iscas.ac.cn>
+Message-ID: <20230215020539.4788-15-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ target/riscv/cpu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 5dbdce073b..fc0d0d60e8 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1998,8 +1998,7 @@ static bool vmulh_vv_check(DisasContext *s, arg_rmrr *a)
-      * are not included for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivv_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 9b8747ab15..b7f212c59e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -101,6 +101,9 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
+     ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
+     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
++    ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_12_0, ext_zve64d),
++    ISA_EXT_DATA_ENTRY(zvfh, true, PRIV_VERSION_1_12_0, ext_zvfh),
++    ISA_EXT_DATA_ENTRY(zvfhmin, true, PRIV_VERSION_1_12_0, ext_zvfhmin),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
+@@ -1126,6 +1129,7 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
++    DEFINE_PROP_BOOL("Zve64d", RISCVCPU, cfg.ext_zve64d, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+     DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+@@ -1185,6 +1189,9 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+     DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
  
- static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
-@@ -2012,8 +2011,7 @@ static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
-      * are not included for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivx_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
++    DEFINE_PROP_BOOL("x-zvfh", RISCVCPU, cfg.ext_zvfh, false),
++    DEFINE_PROP_BOOL("x-zvfhmin", RISCVCPU, cfg.ext_zvfhmin, false),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- GEN_OPIVV_GVEC_TRANS(vmul_vv,  mul)
-@@ -2230,8 +2228,7 @@ static bool vsmul_vv_check(DisasContext *s, arg_rmrr *a)
-      * for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivv_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
- 
- static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
-@@ -2242,8 +2239,7 @@ static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
-      * for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivx_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
- 
- GEN_OPIVV_TRANS(vsmul_vv, vsmul_vv_check)
 -- 
 2.39.2
 
