@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FAE6A9DA7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 18:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EA26A9DA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 18:26:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY9AP-0001aR-1g; Fri, 03 Mar 2023 12:26:01 -0500
+	id 1pY9AY-00038j-Dr; Fri, 03 Mar 2023 12:26:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY99z-0000tn-JM
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:25:36 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1pY9AV-0002rx-Ox
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:26:07 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY99w-0005if-G9
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:25:34 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- u3-20020a17090a450300b00239db6d7d47so2909403pjg.4
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 09:25:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1pY9AT-0005ic-OT
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 12:26:07 -0500
+Received: by mail-pl1-x631.google.com with SMTP id i3so3404481plg.6
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 09:26:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677864330;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=raqoH4xnGC35ms6zXFn3a1ISCKigouTArbSSUf/deY4=;
- b=OA+E4IELnfNcQfbsHXoAI+7BVSv/InEaDzNALq7lj5GP7jOog1wOh0IYXlk1IxoU5t
- sOwNesKYdpb7VDdO3XQ+i2uNXMXc1czH1FWf25xdLx0QrUAEKc6+oEhe0wdbNO62c8kc
- VUC0uv08kxlzuxB7CLs5Gn7IymRXMJsOHC8JCLDnu4fA9ROVhOq9eTZrd2wD3jpPqgXZ
- vl0NSqtzHNflkcnvY9HXroRg7ILzI+y6JOaXUfhmIuZ7plPvdM5n8G+bOt3OdlTd2u1A
- hlYnaTDIEpMUzioVPrJQI+dXbSPibrGRhtavqvndXJCEqHeCQPaI+L5+baoZq/Kl9QnD
- eWrw==
+ d=google.com; s=20210112; t=1677864365;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BhdCcdoB7Ix7usprZRSN0XJT9vtF8/q58AlOEU+BMew=;
+ b=f69OJFahNW3amSA9DOZuYCMrDptwF2AiUjKjDBLYnk4Sd9WoM9uBnjF/lMhiFQNgrn
+ IMXq0HdXhkVpre1jeTP9g/bLg6Wj9h1Bahe0A309xnQcSrvU/qy70nt2ukP54O8LlrK3
+ S9yJpTkGD5enawvTfMz/MnrRmRf6zEA3dfFN/cjUGXtsNAz5d2WPtWaeQ2oyP0jYb7Bl
+ kD5+lBQfAcEAKtbyU2PrpuKBhk4Ahy3J3CMzg/dsCorIOsbSqhY+NBcVk0QF58kU0QQg
+ j3atMviCLlu6hGm/8z5itH3PIq82Fzxe6POWjhgMUYUIFaLiiBdO+co7MA2hoAiL7AW3
+ eteg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677864330;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=raqoH4xnGC35ms6zXFn3a1ISCKigouTArbSSUf/deY4=;
- b=OZcKroKvheqgqv1jBTNXy4iqQAQtSHi7AqvflcjChEKKNSiLHcr7gMhdcinRSVoRtn
- Vg24Jo92f7fAI82Rk4SdDr5L0rf62HYM+X9LOrmWzgSsUDQtKnHbbvSiuifiGK15mErZ
- AIKqzPJO5+vTwmwonPspO2We33VLTdlk0ebzv35qBXQc+IFFWCOWUGUoiML/b2j7e4au
- UgSid2nJGbyllxa5j459D44LFe8FXUz0mnDC6rkyLJx94ziXazFDhJJgoyBEyGGv1lpM
- 7DcAK7ILlZyLwHaoS8Mcc1ZuL/d3tNLfQbcXfjD9l9KAMbZWUZ4L+5+ubThT8bxdZ8G+
- hCgA==
-X-Gm-Message-State: AO0yUKWjf+freteqvfRmM1DiCG+LKpxZARhyB5p4nnYo3ekaegcazAVx
- 1lxXXMKoSd2QWH8WGd4q8mKeaErKEINZXxXDHO6K2w==
-X-Google-Smtp-Source: AK7set/eojrNH1fSUVifJX8Vboip1gHfsgXOeK+j57JWn5t5Q8QdFq9V+vhi5/cbEL9kLCHvD0PqxBnfjv3PBblFGro=
-X-Received: by 2002:a17:90b:893:b0:237:7edd:2e08 with SMTP id
- bj19-20020a17090b089300b002377edd2e08mr901355pjb.0.1677864330484; Fri, 03 Mar
- 2023 09:25:30 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677864365;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BhdCcdoB7Ix7usprZRSN0XJT9vtF8/q58AlOEU+BMew=;
+ b=KYqffCsnbn8VAYRrSGNwPGCFUp6DfxOx2wBnH1h3a5P5rugtqcm+VD2roMXt+FahuG
+ 5zK3csWolkCZi0qmJ2J3RBukJwN7Zh2uQhdAaYzlkLNw74k/h/KEh7A9UHbo8WyEVS+p
+ TWV1tHvgtXYzoWmVvvqdzgUnI4HmTt2Zz95EhkS2kzoEErgrUz9XRlWZ9NpNiDHNyoZ+
+ /GK1UR2kRBYkDR24qxvVwQ6uNcHp+9dITQ99tzKN++CqcG1UM7WcBHN4HGLdfR0hG+ZC
+ qQL407+baEwt0CNdMpb202MhM695bt4O+eTXsqE2VCtPV4folfGRcqH9KdCBJaecT1fB
+ KvPA==
+X-Gm-Message-State: AO0yUKVPrJ5qo+/D/xJ09tWT5ep0xRasxZ1tjaWM9jl7S0dK6ly3oFPW
+ gGZRTuTNiCbF1BFpyX/SPsaZ734aNv4OifRenioNWw==
+X-Google-Smtp-Source: AK7set+G3HvsJfl16phF2v0yjv4N52QUUH04wO4TGRPZ2xZv7Xt0OR0Ab3lzNdzjNTdpHcQSuL5hE+RFfu23sFvq9q8=
+X-Received: by 2002:a17:903:25ca:b0:19a:5953:e85c with SMTP id
+ jc10-20020a17090325ca00b0019a5953e85cmr943968plb.1.1677864364766; Fri, 03 Mar
+ 2023 09:26:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20230227052505.352889-1-richard.henderson@linaro.org>
- <20230227052505.352889-2-richard.henderson@linaro.org>
-In-Reply-To: <20230227052505.352889-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 17:25:18 +0000
-Message-ID: <CAFEAcA_+PNfRrYR3=2rHtg2w+BRWRmeP8_kpzec-Xejb4Loidw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/76] tcg: Remove tcg_check_temp_count,
- tcg_clear_temp_count
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org, 
- qemu-riscv@nongnu.org, qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, 
- kbastian@mail.uni-paderborn.de, ysato@users.sourceforge.jp, 
- gaosong@loongson.cn, jiaxun.yang@flygoat.com, tsimpson@quicinc.com, 
- ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+References: <20230303022618.4098825-1-hshan@google.com>
+ <20230303023013-mutt-send-email-mst@kernel.org>
+ <aeac5ad3-6672-10b1-283d-10d950688697@linaro.org>
+ <e85a5616-514f-0623-d8ec-eec758ac160b@linaro.org>
+In-Reply-To: <e85a5616-514f-0623-d8ec-eec758ac160b@linaro.org>
+From: Haitao Shan <hshan@google.com>
+Date: Fri, 3 Mar 2023 09:25:53 -0800
+Message-ID: <CAGD3tSyboZrsZLdB8YLnK-bfxpiBBx=V7cmxK8JDBGPb_=xTBA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] Add the Android Emulator hypervisor driver (AEHD)
+ accelerator.
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=hshan@google.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,18 +92,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 05:27, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, Mar 3, 2023 at 2:25=E2=80=AFAM Philippe Mathieu-Daud=C3=A9 <philmd@=
+linaro.org> wrote:
 >
-> Since all temps allocated by guest front-ends are now TEMP_TB,
-> and we don't recycle TEMP_TB, there's no point in requiring
-> that the front-ends free the temps at all.  Begin by dropping
-> the inner-most checks that all temps have been freed.
+> On 3/3/23 11:19, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 3/3/23 08:33, Michael S. Tsirkin wrote:
+> >> On Thu, Mar 02, 2023 at 06:26:12PM -0800, Haitao Shan wrote:
+> >>> Add the configure support for the Android Emulator hypervisor driver
+> >>> accelerator. The Android Emulator hypervisor driver is a Windows
+> >>> driver made by porting the KVM from kernel 4.9-rc7.
+> >>>
+> >>> Signed-off-by: Haitao Shan <hshan@google.com>
+> >>
+> >> Replying on patch 1 but it applies to the whole patchset.
+> >
+> > Indeed this series lacks a cover letter,
+> I just noticed the cover letter in my inbox, oddly delivered after
+> the patches:
+> https://lore.kernel.org/qemu-devel/CAGD3tSzW1QoAsn+uGjoAkBegLt1iZ=3D9YWDF=
+cvqbcHMr0S_5kVw@mail.gmail.com/
+> (note the patches are disconnected from the cover, and the cover lacks
+> the diffstat).
+Again, I am sorry for the trouble. I will figure out how to
+send cover letter properly together with other patches
+using "git sendmail".
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > which would show
+> > this huge diffstat:
+> >
+> >   MAINTAINERS                       |   12 +
+> >   accel/Kconfig                     |    3 +
+> >   docs/about/build-platforms.rst    |    2 +-
+> >   hw/i386/aehd/apic.c               |  204 +++++++++++++++
+> >   hw/i386/aehd/i8259.c              |  165 ++++++++++++
+> >   hw/i386/aehd/ioapic.c             |  164 ++++++++++++
+> >   hw/i386/aehd/meson.build          |    6 +
+> >   hw/i386/meson.build               |    1 +
+> >   hw/i386/pc.c                      |    5 +
+> >   hw/i386/x86.c                     |    5 +-
+> >   include/exec/poison.h             |    1 +
+> >   include/exec/ram_addr.h           |    2 -
+> >   include/hw/core/cpu.h             |    7 +
+> >   include/hw/intc/i8259.h           |    1 +
+> >   include/hw/intc/ioapic.h          |    1 +
+> >   include/sysemu/aehd-interface.h   |  878
+> > ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >   include/sysemu/aehd.h             |  168 ++++++++++++
+> >   include/sysemu/hw_accel.h         |    1 +
+> >   meson.build                       |   16 ++
+> >   meson_options.txt                 |    2 +
+> >   qemu-options.hx                   |   20 +-
+> >   scripts/meson-buildoptions.sh     |    2 +
+> >   target/i386/aehd/aehd-accel-ops.c |  119 +++++++++
+> >   target/i386/aehd/aehd-accel-ops.h |   22 ++
+> >   target/i386/aehd/aehd-all.c       | 1349
+> > +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++
+> >   target/i386/aehd/aehd-cpu.c       |  150 +++++++++++
+> >   target/i386/aehd/aehd-cpu.h       |   41 +++
+> >   target/i386/aehd/aehd-stub.c      |   22 ++
+> >   target/i386/aehd/aehd.c           | 2003
+> > +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >   target/i386/aehd/aehd_i386.h      |   26 ++
+> >   target/i386/aehd/aehd_int.h       |   50 ++++
+> >   target/i386/aehd/meson.build      |    8 +
+> >   target/i386/cpu-sysemu.c          |    3 +
+> >   target/i386/cpu.c                 |   12 +-
+> >   target/i386/cpu.h                 |    5 +-
+> >   target/i386/helper.c              |    3 +
+> >   target/i386/meson.build           |    2 +
+> >   37 files changed, 5465 insertions(+), 16 deletions(-)
+> >
+> >> There's obvious duplication with kvm here - probably not surprising.
+> >>
+> >> I'd be interested to hear from KVM people to know whether
+> >> there's interest in unifying code, or they would rather
+> >> not bother supporting this platform and it's better off
+> >> being kept separate.
+> >
+> > I believe the hw part can be unified, reducing the maintenance
+> > cost. (I gave Haitao few hints replying to the relevant patches).
+> >
+> > Regards,
+> >
+> > Phil.
+>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+--=20
+Haitao @Google
 
