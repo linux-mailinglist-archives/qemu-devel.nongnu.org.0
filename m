@@ -2,147 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066696AA59F
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 00:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3506AA5CF
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 00:49:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYEqX-0007kE-OR; Fri, 03 Mar 2023 18:29:53 -0500
+	id 1pYF7u-0002GC-LL; Fri, 03 Mar 2023 18:47:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pYEqO-0007jy-TR
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 18:29:45 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pYF7s-0002Fw-SX
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 18:47:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pYEqN-0007HT-An
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 18:29:44 -0500
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 323NBCKk025363; Fri, 3 Mar 2023 23:29:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=bHB7j43oWOBbisXanyMobI+Y/LFfVGbxerxbGhYavsM=;
- b=bo1HVwROHByjadXyoChDsBh4xiBdwWd+wz+fwEwCaFZ7Mud1/lx2qqOaV2FVWUQDiQ8c
- 2l/9WLH5l7ntqv9jy0V5Rc1a8Yh/QVz/BvKHv4/JhoX46b6GfxfkxyyCj2nV0Z8o6PFU
- WpH2Q6rp9Lv9i6Rc2QurEuUPHFacrcDNM00FYGeIhx3qrcZEFOrNWlaN9d3zYxIPKdfT
- a3a3UVYUUjI1mpN9L19UfwvuPH9RjMw/MZACYXgnT7QfroBRGTijVDTAQ9Gp6oeJTiLX
- CEQL1zEk3vFwWo8NLGewZ7sDoLTQEDVlWSReYxrx1QMwXmArr8sE4nIkbZqdmieOQ16a Pw== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p32ty3w4s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Mar 2023 23:29:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nMNpmYbogLaOz00dp9na4bweZNR9myk+86nJwFhDpe2ZMBsNMVAGPb0lijHgaWTd4JkvKb8uriRx7JggIUgzFFVUlVCMmq/COKTJm90jRuhvssGNaqLqW5avoG7RG0BnqQBBGbuRldRCs35oWeSE93/l7lrrmssN4zpiiIDtOUWHkxK4tuglgdNIRJcLPAap59Va5nm4fVxbvzIJzMg9kolbibSAOEXky70xLajz6RkZRbJfAR2TKJFSnokTJpOcZAyQZM8Q6XXqguI2pzRxvbTeCuB+sau5rC9P0GIJUVDly6r7wzS1J/PmOXdyqLQLS3j2KuPp3KuQClw6KU6cqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bHB7j43oWOBbisXanyMobI+Y/LFfVGbxerxbGhYavsM=;
- b=T2M2GAXlrI00DmIkDez9NVcLO+bx4eflPds/8sCnrGHzro0FEs888ib/x0W0CXu7OF3Y2HMA2atBlkIbTlffDTj8/jc+NnAZu2j0p9vB8uxztuJAjWsv+vizdNHzGb6n/z5r7n96sEUdjs6dZhsjzmwnmmv2c3dTM4jh4ZS4hCWFqF9tL446TSnAvPps9yXVsufegDcozDYIVzORgXtjxth6yXZsId77uvUn8upSVAKPdfTIYZMvVaICDuq97BTuiEtf9pk31XF0642qL6uk4dnpIPGDAkn9Zd1JMSBK4HIxjlzUT/OuPkLFb8mc+Uz14qhJX+xThN7bRdAuhkBh9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by DM6PR02MB6987.namprd02.prod.outlook.com
- (2603:10b6:5:256::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.25; Fri, 3 Mar
- 2023 23:29:39 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda%5]) with mapi id 15.20.6156.019; Fri, 3 Mar 2023
- 23:29:39 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "anjo@rev.ng" <anjo@rev.ng>
-Subject: RE: [PATCH 2/2] tcg: Merge two sequential labels
-Thread-Topic: [PATCH 2/2] tcg: Merge two sequential labels
-Thread-Index: AQHZTh/XUl425xZErkmS01tBzXjf1q7ps2EQ
-Date: Fri, 3 Mar 2023 23:29:38 +0000
-Message-ID: <SN4PR0201MB880891115E7D66689FBF7887DEB39@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230303223056.966286-1-richard.henderson@linaro.org>
- <20230303223056.966286-3-richard.henderson@linaro.org>
-In-Reply-To: <20230303223056.966286-3-richard.henderson@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|DM6PR02MB6987:EE_
-x-ms-office365-filtering-correlation-id: 00508f20-ca1e-45a7-7bd7-08db1c3f286c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oadYfn0FtiT8XTI8dDAdzAdGNga7ZVAFovhH64ATI9pSU90mHLLbP7Ccm8YRrvcF/TR7pOEaOklwDkvE7covgBSn98zhlqIaK4Qfjn6kabnKOsjX1ePUp9ZU/fMup+cnd6Lv9Ql2l/pFkhUHh44H67MNTHhf4Rsr2NVSXxvF+iVueKI8uFPgMOR5I/bRXlKH4T/dh3sYuiE2cDT/nq3kRpcWPvzw7Ly4EsxVVMyUukoQ0aU6y6nGNKuMBUxwjrhnlH0JDCyzWJfbMbRiZrbVTFiLuOKczlpKOQj7+Mgwbs+kfM3ZVYKwat9Nm69LIqsXIeU/uLDZEUDDZqU+GVZKSgomRRA35XREHdD66YhMDX1cPx2Sne/CR2BKpuZQqsohshXL47o9vngmbHZNxUBF+n64aopF2eOMpf30YZW1a40yJGGFLBfVDTfUBKm4JbJ1W2p808G5WyU9QlyHQL9mhmuwmMJcm9RuPr3DSGMGKeZzzMkjnMfFomkb+HRWp7VI2X9nDwVhi15kTWyWE1u0Di8kpuTlkujc21Le/iQ+kXNDeykpWX+05WwmQWOgXplWQqDOWpHA7X+1PewspeIed7UWnV+s3nsXwOfS8scNSPqJ++KZx/0O3dd8eSFQJ7ssp29LMQulHHNuK2iVldecOgySY6f6HMpFwwYrct4x0mYeTfCf1Azc6/SoncUGMZe0dWp29sr+QQ1COokLQBSzjw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(136003)(39860400002)(366004)(376002)(346002)(451199018)(122000001)(66476007)(66446008)(52536014)(110136005)(8936002)(41300700001)(478600001)(8676002)(66556008)(86362001)(55016003)(66946007)(33656002)(7696005)(71200400001)(38070700005)(53546011)(64756008)(38100700002)(76116006)(186003)(6506007)(9686003)(2906002)(316002)(4326008)(4744005)(5660300002)(83380400001)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VKc3yAmyYl+HpK3/4IFNyc8Ks/lrg6Gxt+Z8xXhzqUm1xSTvHG7VS/abYp1G?=
- =?us-ascii?Q?13mWvN3O/uUOJE34omHIFUsMFbuIpR0eSzBtw6mBRKOFVS4KLAYailYAKB01?=
- =?us-ascii?Q?jA42PeR51gKc2s1Ihnb/MejKAu7ulUHtOwNWVO5cIrc/70bvTgvEViVOA2HA?=
- =?us-ascii?Q?uLX3ZdSJbH1MK2egZP9vvC8sdwZPjFHe0jvemIkUkKb6AZ6pvsMxF2wvSUXz?=
- =?us-ascii?Q?Y274CTHQNu/LfV9H00Lh/kZsi6UhqN8nflGaDqAq9uyOUr6iBCydGncVOG9s?=
- =?us-ascii?Q?gEwWKXWUeSVutbT7UlC7LxmUhtJ5LwlxkrGobOtEktg19qobxh+LxbfEqrDW?=
- =?us-ascii?Q?uGz4yj9fvh+JfN6+8oTdovRDX+oSamTb+F+hZNUnVINXkJcAvuodZie+8jkQ?=
- =?us-ascii?Q?6b9xKoE5DJ5CTpkkh1cqK+gZVbK1c0Pq8Ubpjf2YtoQRcqAAAkeSSiF2HC9R?=
- =?us-ascii?Q?OZLNbwTHN0D1oagda/i+DehXVbFJC43q5xwwLETBlRrWvFL5jJUmFUMXGkZX?=
- =?us-ascii?Q?4UA67Q+iU3JKTZib2Y9W+f++SrOk3eqtSxkFu7enU/FGEOsrNwu5xxp41+la?=
- =?us-ascii?Q?+6A7Ay6pAJ+UkMCTEzO10moVW6YASDY6VaiZlFQQpQcodayk/y7Mc8Qyo3bG?=
- =?us-ascii?Q?hqLQLEZ2+YNu1o/VP28CTKAzePtEcHQxRFE950OSW81w07xNQ9yqsWFuNsw1?=
- =?us-ascii?Q?KtoHxjK4kApY7jdixez1TeQSnc657BCnDOLAGNDvKvmjGNZIV0JxA7a7+I14?=
- =?us-ascii?Q?b+W47p+7jEYzcmBHGOBY6tRUsExslxqsOFGS3qlitQFUbZg0bUhmdzFhukoU?=
- =?us-ascii?Q?1/Bd92/NYb6dd1GvLbWc2SUG5odSR4248/DMbVsuKa71f2gF6sDoClli+9lY?=
- =?us-ascii?Q?CZDoN5+ZmATB++ufzo7RlKA5kPSts+F9iRppGpzYVDFZNk+vbsaETNSt4xHN?=
- =?us-ascii?Q?90HLDLzlZozssi1Y5jsThxeH55OzPMvyZum6rFS1YEc6tXb3Bcd4IJyTMRgJ?=
- =?us-ascii?Q?pQ4C5Jext8Eb/ch4IQpbgGTSSnyLPWLPfEQFc2Ar+piRQAAEKhoauAHymxCe?=
- =?us-ascii?Q?jQOpSxj7K9+qeeCs9axNxgGNV2gtDa05/8q1y2246dXMqBSIteqpXcz8mnG4?=
- =?us-ascii?Q?QvoGdFN+zzhPoxE66aD0E31bVStq/NGdNIsDZPqkNcNrwnzJiRiLNBWsDpBT?=
- =?us-ascii?Q?2FFxr8Pcnc3B4z5aznrV4/c5wJ4BJaHlzMq9/AHCq2OFQI+qMCLN5Ov/ljvt?=
- =?us-ascii?Q?P6ryxbRkrzz/q/w7PxEYrwqPSGO0I435GLeWsygZ0SLaYy+ZLuMHT+wjTCe+?=
- =?us-ascii?Q?wJ+C8sphL+mnS4IaWTAMlo9LmwgOIHNdg4tPKgSysqn/TKxAF8Xcf4KmKewj?=
- =?us-ascii?Q?PovuiBG8kRW33QGkQe/CMr3DCOiz6rbegaA3Yy34s06LxS5n4A1t4iV4xDLg?=
- =?us-ascii?Q?HTCRzQ2Q9zULwM1PxvT5rQGLZTYHNrb3iQU5Zbl6Nl2mGVlqsgU+S6XQDMOX?=
- =?us-ascii?Q?EMoLhG/Y0OTgqO7Yzn27fPjjmfX8AD7S8ZIXiEcpnNzUkmtR1kvZAwIekBHx?=
- =?us-ascii?Q?YpuRjhpfukhAGqzesnuCQuXb7hSwCMHbseb7cExV?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pYF7q-0003Lq-6f
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 18:47:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677887265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BgoMwwcLKM7PWyjambsbnSOt+BreGFz/Fmwax7rQmEY=;
+ b=Y2HWakv9kXHsSEsj9smtlaw62ELDUysVFzHIAO4/lnJ7aOKh5Cg6atIEIxGqx6o4ssOOsw
+ 3rh18dcKKl9Uo8C1uSDa3s1uyAsXj/T3E/KKKqxk00n2lDwARPSpPfzDLFmmJyQOWmFJgy
+ mG/oqLorp77z2FTPGZRhiHVyh15TPmU=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-664-ULDgbTRjN4iVsUK491zB_g-1; Fri, 03 Mar 2023 18:47:44 -0500
+X-MC-Unique: ULDgbTRjN4iVsUK491zB_g-1
+Received: by mail-il1-f199.google.com with SMTP id
+ r13-20020a92c5ad000000b00316ecbf63c9so2179828ilt.13
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 15:47:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BgoMwwcLKM7PWyjambsbnSOt+BreGFz/Fmwax7rQmEY=;
+ b=HZzC20zXDZL7sbHf+8+HEWqThpGiHVd1a9ucZlQxONyCJam2wrLZH/w17AQ1AIoe4z
+ QeKVGy1aUOoDfF3HFF75SscMiLhqoy4wA80aBE/jQd6p1BBg+1JKst6D7NoLfGb0hj+R
+ Typw782R2Rn6yE63138+npzUsISVNxy/1t4O/83ON2Kjn8PtPBnQOiP6GnZFtXxcmN+a
+ LS5x0JaaLfIdrGOk9FmQhEKVqqXxaVvo/csgckjf8PlxRJ2+dXcVhKDwemP0aILTsBUI
+ obzI9n7fybEGj/s8oeHtfdgktXnGPpbasc158jW13ITxH8FqBbQdYOR+LiD+smUD8Lr4
+ 3c0w==
+X-Gm-Message-State: AO0yUKUQYDdKQj2bwZDZhSEmI3Dm0AhlODWksTEY+eq3qET0u0JbjFZj
+ xiYhtXvQ8OHVo76GrlUlOwp8eBsc1pztScpmscIqPgRoS++ItFOyUelrr77vltZuXHHM8drNWaY
+ IJSgLUdPMhE9RbBI=
+X-Received: by 2002:a92:c542:0:b0:316:e54a:69ac with SMTP id
+ a2-20020a92c542000000b00316e54a69acmr2984519ilj.4.1677887263274; 
+ Fri, 03 Mar 2023 15:47:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set+k+dvMkp5lxPA0IE8WldjwOyqRcxK0glC982Dw+NaE0fY2dDBb7+CSWQD658JYvLWq8dVLBA==
+X-Received: by 2002:a92:c542:0:b0:316:e54a:69ac with SMTP id
+ a2-20020a92c542000000b00316e54a69acmr2984492ilj.4.1677887262985; 
+ Fri, 03 Mar 2023 15:47:42 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ u11-20020a02cbcb000000b003ed8808d450sm1069820jaq.161.2023.03.03.15.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 15:47:42 -0800 (PST)
+Date: Fri, 3 Mar 2023 16:47:40 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>, Jason
+ Wang <jasowang@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
+ =?UTF-8?B?w6k=?= <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti
+ Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v2 10/20] vfio/common: Record DMA mapped IOVA ranges
+Message-ID: <20230303164740.00c2e352.alex.williamson@redhat.com>
+In-Reply-To: <de73073a-821d-4c31-a8a7-80c054ca5f3a@oracle.com>
+References: <20230222174915.5647-1-avihaih@nvidia.com>
+ <20230222174915.5647-11-avihaih@nvidia.com>
+ <20230222151039.1de95db4.alex.williamson@redhat.com>
+ <83238759-4808-1e41-824b-865c330a431a@oracle.com>
+ <20230223140527.096dc42b.alex.williamson@redhat.com>
+ <a53767f9-b630-8f2e-0523-bd47d4539c61@oracle.com>
+ <20230223145018.3c46a966.alex.williamson@redhat.com>
+ <617b396a-d5e2-8c10-9717-1cc6fc9d43dd@oracle.com>
+ <20230228133653.2f911490.alex.williamson@redhat.com>
+ <114233e8-bdb8-21f5-ade9-0163658feb84@oracle.com>
+ <20230302114248.41b6c21b.alex.williamson@redhat.com>
+ <c1e5fa47-7028-5e24-2158-2e64aa44006a@oracle.com>
+ <9e219add-ec7c-4408-902f-fce8c5c64020@oracle.com>
+ <20230303100551.435e8cd3.alex.williamson@redhat.com>
+ <87b39028-4b65-36bb-6b41-9d8ac56164a9@oracle.com>
+ <20230303124025.64c35d87.alex.williamson@redhat.com>
+ <de73073a-821d-4c31-a8a7-80c054ca5f3a@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Co1bavk+ZzPaj0CPKe0D6miBdOazWTIxR5ENRNBZFnGemR0ioq7UMph5iiAqSMX4He90GQ9ocManzUivLuewH6vhC1FDVe8XLRdZlXhc9aTBYTyRNEmT5FeGlabXbxPn8a7N9vIPTvFB6MrGBOLuhbtmqgkdYf8kMI373wmGjaHRcLnkyXvRBkeoXKJpxRwvzkF+r70npmmHaDDdm8VmjSjZmlAxtdfNUxKfphCiojCvUNL7zxnhuQ9M9pqnbznG22u2qmg60Olq5bYw95AqffLnVk1oksKGO6X4gG3W5QFQUHHkoqIDqwzj37QvtxKjZpxNQ1BDQtZL2nDQeHsowXQQEaNhWoDFAXpPnl7LdsV2xXxrG8RmUlQE1tGHEwOTaTZJnNUwDjQT+FbbpTHqiJ2Iqxm1Or25BvR+0GviF8mbu+y/F9rlnIV5ZUSUWSBUAlFhTBUatoI41SZDHv9k/fiXKINbSC3dtjF1Bw6CP7G1yBiYJ4KQ/uddZpnMbCKazAUw1wGYJmEdZtsfNrf2bWvR8z0iLBCpl2VyAgzGmFLgqzFp1Ya5OyENJek4/rPRw5Ye5Ea6pNK5A7oVtsDZLghyE8KOTN/n7FR9B0Z4WI1aufqaObU+Lk+duj/mV0kZe+pndrgbWjpSiFPvn736c3exNTaTm9L9cK5hVqS95LWbxGEVLundymVBI/LrTMRYjb5kBVcal6OrxQw+A3qQ9nJp/OhammEqCWSRcGHqZEImETQIBUf+8ejGWNibBlem2En0TXT5a4Qvyut6EVSLLVJg04sAlUzB71U5xi/6TsOp56yYnFzvDMOcTD/pArZM
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00508f20-ca1e-45a7-7bd7-08db1c3f286c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2023 23:29:38.9460 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: S8BWAsu6gV8cJkwOsqDtke6Ia5RkkhU5bMK68ZER4o5jGq3Jr9ixLuTeiu+nbrC7waRrXg/kzX6vEAPOnuOFkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6987
-X-Proofpoint-GUID: eXtWvj85z3hi6KC462LxP8TxtFu3x62o
-X-Proofpoint-ORIG-GUID: eXtWvj85z3hi6KC462LxP8TxtFu3x62o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-03_05,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=517
- malwarescore=0 spamscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303030198
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -159,21 +125,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 3 Mar 2023 20:16:19 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
+
+> On 03/03/2023 19:40, Alex Williamson wrote:
+> > On Fri, 3 Mar 2023 19:14:50 +0000
+> > Joao Martins <joao.m.martins@oracle.com> wrote:
+> >   
+> >> On 03/03/2023 17:05, Alex Williamson wrote:  
+> >>> On Fri, 3 Mar 2023 16:58:55 +0000
+> >>> Joao Martins <joao.m.martins@oracle.com> wrote:
+> >>>     
+> >>>> On 03/03/2023 00:19, Joao Martins wrote:    
+> >>>>> On 02/03/2023 18:42, Alex Williamson wrote:      
+> >>>>>> On Thu, 2 Mar 2023 00:07:35 +0000
+> >>>>>> Joao Martins <joao.m.martins@oracle.com> wrote:      
+> >>>>>>> @@ -426,6 +427,11 @@ void vfio_unblock_multiple_devices_migration(void)
+> >>>>>>>      multiple_devices_migration_blocker = NULL;
+> >>>>>>>  }
+> >>>>>>>
+> >>>>>>> +static bool vfio_have_giommu(VFIOContainer *container)
+> >>>>>>> +{
+> >>>>>>> +    return !QLIST_EMPTY(&container->giommu_list);
+> >>>>>>> +}      
+> >>>>>>
+> >>>>>> I think it's the case, but can you confirm we build the giommu_list
+> >>>>>> regardless of whether the vIOMMU is actually enabled?
+> >>>>>>      
+> >>>>> I think that is only non-empty when we have the first IOVA mappings e.g. on
+> >>>>> IOMMU passthrough mode *I think* it's empty. Let me confirm.
+> >>>>>       
+> >>>> Yeap, it's empty.
+> >>>>    
+> >>>>> Otherwise I'll have to find a TYPE_IOMMU_MEMORY_REGION object to determine if
+> >>>>> the VM was configured with a vIOMMU or not. That is to create the LM blocker.
+> >>>>>       
+> >>>> I am trying this way, with something like this, but neither
+> >>>> x86_iommu_get_default() nor below is really working out yet. A little afraid of
+> >>>> having to add the live migration blocker on each machine_init_done hook, unless
+> >>>> t here's a more obvious way. vfio_realize should be at a much later stage, so I
+> >>>> am surprised how an IOMMU object doesn't exist at that time.    
+> >>>
+> >>> Can we just test whether the container address space is system_memory?    
+> >>
+> >> IIUC, it doesn't work (see below snippet).
+> >>
+> >> The problem is that you start as a regular VFIO guest, and when the guest boot
+> >> is when new mappings get established/invalidated and propagated into listeners
+> >> (vfio_listener_region_add) and they morph into having a giommu. And that's when
+> >> you can figure out in higher layers that 'you have a vIOMMU' as that's when the
+> >> address space gets changed? That is without being specific to a particular IOMMU
+> >> model. Maybe region_add is where to add, but then it then depends on the guest.  
+> > 
+> > This doesn't seem right to me, look for instance at
+> > pci_device_iommu_address_space() which returns address_space_memory
+> > when there is no vIOMMU.  If devices share an address space, they can
+> > share a container.  When a vIOMMU is present (not even enabled), each
+> > device gets it's own container due to the fact that it's in its own
+> > address space (modulo devices within the same address space due to
+> > aliasing).  
+> 
+> You're obviously right, I was reading this whole thing wrong. This works as far
+> as I tested with an iommu=pt guest (and without an vIOMMU).
+> 
+> I am gonna shape this up, and hopefully submit v3 during over night.
+> 
+> @@ -416,9 +416,26 @@ void vfio_unblock_multiple_devices_migration(void)
+>      multiple_devices_migration_blocker = NULL;
+>  }
+> 
+> -static bool vfio_have_giommu(VFIOContainer *container)
+> +static VFIOAddressSpace *vfio_get_address_space(AddressSpace *as);
+> +
+> +int vfio_block_giommu_migration(VFIODevice *vbasedev, Error **errp)
+>  {
+> -    return !QLIST_EMPTY(&container->giommu_list);
+> +    int ret;
+> +
+> +    if (vbasedev->type == VFIO_DEVICE_TYPE_PCI &&
+> +       !vfio_has_iommu(vbasedev)) {
+> +       return 0;
+> +    }
+> +
+> +    error_setg(&giommu_migration_blocker,
+> +               "Migration is currently not supported with vIOMMU enabled");
+> +    ret = migrate_add_blocker(giommu_migration_blocker, errp);
+> +    if (ret < 0) {
+> +        error_free(giommu_migration_blocker);
+> +        giommu_migration_blocker = NULL;
+> +    }
+> +
+> +    return ret;
+>  }
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 939dcc3d4a9e..f4cf0b41a157 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2843,6 +2843,15 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>      vdev->req_enabled = false;
+>  }
+> 
+> +bool vfio_has_iommu(VFIODevice *vbasedev)
+> +{
+> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+> +    PCIDevice *pdev = &vdev->pdev;
+> +    AddressSpace *as = &address_space_memory;
+> +
+> +    return !(pci_device_iommu_address_space(pdev) == as);
+> +}
 
 
-> -----Original Message-----
-> From: Richard Henderson <richard.henderson@linaro.org>
-> Sent: Friday, March 3, 2023 3:31 PM
-> To: qemu-devel@nongnu.org
-> Cc: anjo@rev.ng; Taylor Simpson <tsimpson@quicinc.com>
-> Subject: [PATCH 2/2] tcg: Merge two sequential labels
->=20
-> Remove the first label and redirect all uses to the second.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/tcg.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 43 insertions(+), 1 deletion(-)
+Shouldn't this be something non-PCI specific like:
 
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+    return vbasedev->group->container->space != &address_space_memory;
+
+Thanks,
+Alex
+
 
