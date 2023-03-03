@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CD76A8DC8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 01:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D800D6A8DC6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 01:16:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXt55-0005OV-C9; Thu, 02 Mar 2023 19:15:27 -0500
+	id 1pXt5d-0005ZN-TA; Thu, 02 Mar 2023 19:16:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt53-0005Mo-8n
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:15:25 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt5Q-0005QJ-A1
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:15:48 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt51-0005kG-8k
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:15:25 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXt5O-0005qF-DK
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 19:15:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677802521;
+ s=mimecast20190719; t=1677802545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cai/0f5z9H64XklkmxXc8qDuMs04Om43sLrqcT73GGk=;
- b=c8pbxJS5cjiqW8/PMGx2pYq6L2ruQ+VaDyDtXe3h8OmBUJQOJD3S25245EZrSx6WH+wEak
- RB6T8UtzEpIJkhXBKvh/VaCI0ZvZla8O+jgDrOAlkS5FYs3KU7Ho0/EHA8LSYrBTcr4Pum
- 4zRyoz1RQBWyZyFtDd7OpLPnFZVyxqY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-axjeX2qANDisCMAsrgkz-Q-1; Thu, 02 Mar 2023 19:15:20 -0500
-X-MC-Unique: axjeX2qANDisCMAsrgkz-Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- x18-20020a1c7c12000000b003e1e7d3cf9fso2003869wmc.3
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 16:15:20 -0800 (PST)
+ bh=5cdPu15UBe7KTDb3QtbGXBpMSA7rh9Jg/65kItOkgBo=;
+ b=QmbAlUqtRzQZ++OIkws4aOYCEXstEVwLMSBoLx0luduPZ3s0WWCFTE/ndLkTBl/Xkp9Fqh
+ 5WRYTxZ2Yh4m4ZqISp524oeIHzyTxZ9QcpudkMVJLpoGmdqrZUuvfndCozUkoolSNRwL49
+ 5Z7NMhFbyN8dDkiWjdGsY6RhBaSs3Sw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-61-HseHFADJPLSLiCx3FQMK-g-1; Thu, 02 Mar 2023 19:15:44 -0500
+X-MC-Unique: HseHFADJPLSLiCx3FQMK-g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j6-20020a05600c1c0600b003eaf882cb85so274874wms.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 16:15:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677802519;
+ d=1e100.net; s=20210112; t=1677802543;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Cai/0f5z9H64XklkmxXc8qDuMs04Om43sLrqcT73GGk=;
- b=2Z0/O9iITrMHmvC8pCDbDL+HpljMxLQMrj8BNEBSWjz0c7Ya86SngvmIGx5VKl0d7V
- Ylk9/wQfh97AAN1jL0Z7Qmzo64t2+rYjNdhE0v51YPd9ffwumNn/6wH2AQImOH/3saF3
- o5zrHdVtuyky6UYMmmXbrhIe/Om7H/rD+NKunoofQiV7pBIyM/CDOjTPEmcoB0VLXHJa
- Dr/z2fuBMyzmByg/e4Mi5GOJowMLi2usLpXBTRa0V0k6zxJ8fFupLJ26OW9M9VCcL9rW
- LXqheP0D4ubf87amrt/DBNrGNLSxVWRUorPJAKK4xWUzGy5JIHFwYwlcLYaHeNGg2L/L
- DwuA==
-X-Gm-Message-State: AO0yUKWlhkPijDCi8BCsiJeI8mUWuJIAAob8FvqIgG2L//+3H7R0rrFp
- dwUIGf47gKzeV3W39KqSDIP2PhITuUA2lM4Tz437dRR7nslbB1KxJedcIzRwJ6yXGRlLjBIQepE
- 0ECgSd9UTEbsWzXqmy5SILJaqGozBCSdGa+hukyBsZxfFR7zDz9/OtCbXDV30URkM8g==
-X-Received: by 2002:adf:fc87:0:b0:2cd:e0a8:f2dc with SMTP id
- g7-20020adffc87000000b002cde0a8f2dcmr100075wrr.7.1677802519007; 
- Thu, 02 Mar 2023 16:15:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set+6wicVxeddBLO6ipnusupnNTYm2wCPM5EAYlq/nYVjdr6abW1d3ID6uMrZ3zdl6qTaawBI3g==
-X-Received: by 2002:adf:fc87:0:b0:2cd:e0a8:f2dc with SMTP id
- g7-20020adffc87000000b002cde0a8f2dcmr100063wrr.7.1677802518614; 
- Thu, 02 Mar 2023 16:15:18 -0800 (PST)
+ bh=5cdPu15UBe7KTDb3QtbGXBpMSA7rh9Jg/65kItOkgBo=;
+ b=lpkk6kt1iYoZaKuEWdMoXzcA0m0TDkjBAMUQrDCQKPpQh4Zbf4by2YnUs2LP/55oG4
+ OPZdmEzWFkVAFMloSbZjG0GeiOa6HaM2mp7jvD/BjsZlJhhsFuX0RQJUlrSJakbaSOUU
+ EPU8cH8nPL1EZV+gS2z70AgVuPDq9JmgI4soVp3zUeGxFyrxoFJxZQwAOLvb7n3e9ak/
+ YdpJEK7PjH3gZnz6sCM634iPvkrC3v5Y39AJAqSJuFqGgKvUKm6O5nImTXnbr53J9y1a
+ aUcURon1sK89mhcd7jAAATOiF9RpQiAb8RYajxApxL4MjAxsngb+xco1GoTEGyOFH7px
+ z/ig==
+X-Gm-Message-State: AO0yUKVMc6BtGvmQYw/Vyni76NXpZVFSxmDy3rsQkLBCVNYji9Mt2DHT
+ 76LPGKdNXWAURYWzZDEb6UQ6nPBImwmU228wkAIGHru5oQm5bf/mwan2kehnXCJU/gfkwj8FLaw
+ yhBG4mA3LSe6B0Do=
+X-Received: by 2002:a05:600c:1c1d:b0:3e9:c2f4:8ad4 with SMTP id
+ j29-20020a05600c1c1d00b003e9c2f48ad4mr9006055wms.8.1677802543340; 
+ Thu, 02 Mar 2023 16:15:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set9ckGH2+YUYENIn1+Mqzss73zFzD2Ys7Kb1MOHf0JONFijCzcGAK/RT+hltp/VZQdtdSm9++w==
+X-Received: by 2002:a05:600c:1c1d:b0:3e9:c2f4:8ad4 with SMTP id
+ j29-20020a05600c1c1d00b003e9c2f48ad4mr9006044wms.8.1677802543006; 
+ Thu, 02 Mar 2023 16:15:43 -0800 (PST)
 Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
  by smtp.gmail.com with ESMTPSA id
- e5-20020a5d5945000000b002c3f9404c45sm644466wri.7.2023.03.02.16.15.17
+ f13-20020a7bcd0d000000b003db01178b62sm4260299wmj.40.2023.03.02.16.15.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 16:15:18 -0800 (PST)
-Date: Thu, 2 Mar 2023 19:15:15 -0500
+ Thu, 02 Mar 2023 16:15:42 -0800 (PST)
+Date: Thu, 2 Mar 2023 19:15:39 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/53] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20230302191427-mutt-send-email-mst@kernel.org>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Yajun Wu <yajunw@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Yajun@redhat.com, Wu@redhat.com, &lt@redhat.com, Jiri@redhat.com,
+ Pirko@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 35/53] chardev/char-socket: set s->listener = NULL in
+ char_socket_finalize
+Message-ID: <20230302191519-mutt-send-email-mst@kernel.org>
 References: <20230302082343.560446-1-mst@redhat.com>
+ <20230302082343.560446-36-mst@redhat.com>
+ <fd95f235-b43e-f908-887e-b6b57aa5c4f4@msgid.tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
+In-Reply-To: <fd95f235-b43e-f908-887e-b6b57aa5c4f4@msgid.tls.msk.ru>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -97,202 +104,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 03:24:28AM -0500, Michael S. Tsirkin wrote:
-> The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
+On Thu, Mar 02, 2023 at 02:49:56PM +0300, Michael Tokarev wrote:
+> There are some url'ifications slipped into this one:
 > 
->   Merge tag 'buildsys-qom-qdev-ui-20230227' of https://github.com/philmd/qemu into staging (2023-02-28 15:09:18 +0000)
+> 02.03.2023 11:26, Michael S. Tsirkin пишет:
+> ..
 > 
-> are available in the Git repository at:
+> > Message-Id: <20230214021430.3638579-1-yajunw@nvidia.com>
+> > Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > Signed-off-by: Yajun Wu &lt;<a href="mailto:yajunw@nvidia.com" target="_blank">yajunw@nvidia.com</a>&gt;<br>
+> > Acked-by: Jiri Pirko &lt;<a href="mailto:jiri@nvidia.com" target="_blank">jiri@nvidia.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Marc-André Lureau &lt;<a href="mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br><br> </div><blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 > 
->   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 > 
-> for you to fetch changes up to 65888be0d4da746e2f99930e21018d801bf8995e:
+> Thanks,
+> 
+> /mjt
 
-
-I re-pushed after fixing two commit log (same files):
-commit ee92a56b08d0b59016a4a9bc1bf3a3de1fbe3956
-now.
-
-Thanks!
-
-
->   tests/data/acpi/virt: drop (most) duplicate files. (2023-03-02 03:16:26 -0500)
-> 
-> ----------------------------------------------------------------
-> virtio,pc,pci: features, cleanups, fixes
-> 
-> vhost-user support without ioeventfd
-> word replacements in vhost user spec
-> shpc improvements
-> 
-> cleanups, fixes all over the place
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Akihiko Odaki (4):
->       vhost-user-gpio: Configure vhost_dev when connecting
->       vhost-user-i2c: Back up vqs before cleaning up vhost_dev
->       vhost-user-rng: Back up vqs before cleaning up vhost_dev
->       hw/timer/hpet: Fix expiration time overflow
-> 
-> Alex Benn�e (1):
->       backends/vhost-user: remove the ioeventfd check
-> 
-> Carlos L�pez (2):
->       vhost: avoid a potential use of an uninitialized variable in vhost_svq_poll()
->       libvhost-user: check for NULL when allocating a virtqueue element
-> 
-> Dr. David Alan Gilbert (1):
->       virtio-rng-pci: fix transitional migration compat for vectors
-> 
-> Eugenio P�rez (2):
->       virtio-net: clear guest_announce feature if no cvq backend
->       vdpa: stop all svq on device deletion
-> 
-> Gregory Price (2):
->       hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
->       hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
-> 
-> Ira Weiny (3):
->       qemu/bswap: Add const_le64()
->       qemu/uuid: Add UUID static initializer
->       hw/cxl/mailbox: Use new UUID network order define for cel_uuid
-> 
-> Jason Wang (4):
->       intel-iommu: fail MAP notifier without caching mode
->       intel-iommu: fail DEVIOTLB_UNMAP without dt mode
->       memory: introduce memory_region_unmap_iommu_notifier_range()
->       smmu: switch to use memory_region_unmap_iommu_notifier_range()
-> 
-> Jonathan Cameron (6):
->       MAINTAINERS: Add Fan Ni as Compute eXpress Link QEMU reviewer
->       hw/mem/cxl_type3: Improve error handling in realize()
->       hw/pci-bridge/cxl_downstream: Fix type naming mismatch
->       tests/acpi: Allow update of q35/DSDT.cxl
->       hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
->       tests: acpi: Update q35/DSDT.cxl for removed duplicate UID
-> 
-> Julia Suvorova (1):
->       hw/smbios: fix field corruption in type 4 table
-> 
-> Maxime Coquelin (3):
->       docs: vhost-user: replace _SLAVE_ with _BACKEND_
->       libvhost-user: Adopt new backend naming
->       vhost-user: Adopt new backend naming
-> 
-> Michael S. Tsirkin (8):
->       Revert "x86: don't let decompressed kernel image clobber setup_data"
->       Revert "x86: do not re-randomize RNG seed on snapshot load"
->       Revert "x86: re-initialize RNG seed when selecting kernel"
->       Revert "x86: reinitialize RNG seed on system reboot"
->       Revert "x86: use typedef for SetupData struct"
->       Revert "x86: return modified setup_data only if read as memory, not as file"
->       Revert "hw/i386: pass RNG seed via setup_data entry"
->       tests/data/acpi/virt: drop (most) duplicate files.
-> 
-> Peter Xu (1):
->       intel-iommu: send UNMAP notifications for domain or global inv desc
-> 
-> Philippe Mathieu-Daud� (1):
->       hw/pci: Trace IRQ routing on PCI topology
-> 
-> Vladimir Sementsov-Ogievskiy (12):
->       pci/shpc: set attention led to OFF on reset
->       pci/shpc: change shpc_get_status() return type to uint8_t
->       pci/shpc: shpc_slot_command(): handle PWRONLY -> ENABLED transition
->       pci/shpc: more generic handle hot-unplug in shpc_slot_command()
->       pci/shpc: pass PCIDevice pointer to shpc_slot_command()
->       pci/shpc: refactor shpc_device_plug_common()
->       pcie: pcie_cap_slot_write_config(): use correct macro
->       pcie_regs: drop duplicated indicator value macros
->       pcie: drop unused PCIExpressIndicator
->       pcie: pcie_cap_slot_enable_power() use correct helper
->       pcie: introduce pcie_sltctl_powered_off() helper
->       pcie: set power indicator to off on reset by default
-> 
-> Yajun Wu (1):
->       chardev/char-socket: set s->listener = NULL in char_socket_finalize
-> 
-> Zhenzhong Duan (1):
->       memory: Optimize replay of guest mapping
-> 
->  include/exec/memory.h                     |  10 +++
->  include/hw/cxl/cxl_device.h               |   2 +-
->  include/hw/i386/microvm.h                 |   5 +-
->  include/hw/i386/pc.h                      |   3 -
->  include/hw/i386/x86.h                     |   3 +-
->  include/hw/nvram/fw_cfg.h                 |  31 --------
->  include/hw/pci/pcie.h                     |   8 --
->  include/hw/pci/pcie_regs.h                |  14 ----
->  include/hw/virtio/vhost-user-gpio.h       |   2 +-
->  include/qemu/bswap.h                      |  12 ++-
->  include/qemu/uuid.h                       |  12 +++
->  subprojects/libvhost-user/libvhost-user.h |  20 ++---
->  backends/vhost-user.c                     |  11 ---
->  chardev/char-socket.c                     |   1 +
->  hw/arm/smmu-common.c                      |  16 +---
->  hw/core/machine.c                         |   2 +
->  hw/cxl/cxl-device-utils.c                 |   2 +-
->  hw/cxl/cxl-mailbox-utils.c                |  28 +++----
->  hw/i386/acpi-build.c                      |   1 -
->  hw/i386/intel_iommu.c                     |  31 ++++++--
->  hw/i386/microvm.c                         |  17 ++---
->  hw/i386/pc.c                              |   4 +-
->  hw/i386/pc_piix.c                         |   2 -
->  hw/i386/pc_q35.c                          |   2 -
->  hw/i386/x86.c                             | 122 ++++++++----------------------
->  hw/mem/cxl_type3.c                        |  15 +++-
->  hw/net/virtio-net.c                       |  15 ++++
->  hw/nvram/fw_cfg.c                         |  21 ++---
->  hw/pci-bridge/cxl_downstream.c            |   2 +-
->  hw/pci/pci.c                              |   8 ++
->  hw/pci/pcie.c                             |  30 +++++---
->  hw/pci/shpc.c                             | 107 ++++++++++++++------------
->  hw/smbios/smbios.c                        |   8 +-
->  hw/timer/hpet.c                           |  19 +++--
->  hw/virtio/vhost-shadow-virtqueue.c        |   2 +-
->  hw/virtio/vhost-user-gpio.c               |  10 ++-
->  hw/virtio/vhost-user-i2c.c                |   5 +-
->  hw/virtio/vhost-user-rng.c                |   5 +-
->  hw/virtio/vhost-user.c                    |  30 ++++----
->  hw/virtio/vhost-vdpa.c                    |  17 +----
->  hw/virtio/virtio-qmp.c                    |  12 +--
->  softmmu/memory.c                          |  17 ++++-
->  subprojects/libvhost-user/libvhost-user.c |  27 ++++---
->  MAINTAINERS                               |   1 +
->  docs/interop/vhost-user.rst               |  40 +++++-----
->  hw/pci/trace-events                       |   1 +
->  tests/data/acpi/q35/DSDT.cxl              | Bin 9578 -> 9564 bytes
->  tests/data/acpi/virt/APIC.memhp           | Bin 172 -> 0 bytes
->  tests/data/acpi/virt/APIC.numamem         | Bin 172 -> 0 bytes
->  tests/data/acpi/virt/DSDT.numamem         | Bin 5196 -> 0 bytes
->  tests/data/acpi/virt/FACP.memhp           | Bin 276 -> 0 bytes
->  tests/data/acpi/virt/FACP.numamem         | Bin 276 -> 0 bytes
->  tests/data/acpi/virt/GTDT.memhp           | Bin 96 -> 0 bytes
->  tests/data/acpi/virt/GTDT.numamem         | Bin 96 -> 0 bytes
->  tests/data/acpi/virt/IORT.memhp           | Bin 128 -> 0 bytes
->  tests/data/acpi/virt/IORT.numamem         | Bin 128 -> 0 bytes
->  tests/data/acpi/virt/IORT.pxb             | Bin 128 -> 0 bytes
->  tests/data/acpi/virt/MCFG.memhp           | Bin 60 -> 0 bytes
->  tests/data/acpi/virt/MCFG.numamem         | Bin 60 -> 0 bytes
->  tests/data/acpi/virt/SPCR.memhp           | Bin 80 -> 0 bytes
->  tests/data/acpi/virt/SPCR.numamem         | Bin 80 -> 0 bytes
->  61 files changed, 357 insertions(+), 396 deletions(-)
->  delete mode 100644 tests/data/acpi/virt/APIC.memhp
->  delete mode 100644 tests/data/acpi/virt/APIC.numamem
->  delete mode 100644 tests/data/acpi/virt/DSDT.numamem
->  delete mode 100644 tests/data/acpi/virt/FACP.memhp
->  delete mode 100644 tests/data/acpi/virt/FACP.numamem
->  delete mode 100644 tests/data/acpi/virt/GTDT.memhp
->  delete mode 100644 tests/data/acpi/virt/GTDT.numamem
->  delete mode 100644 tests/data/acpi/virt/IORT.memhp
->  delete mode 100644 tests/data/acpi/virt/IORT.numamem
->  delete mode 100644 tests/data/acpi/virt/IORT.pxb
->  delete mode 100644 tests/data/acpi/virt/MCFG.memhp
->  delete mode 100644 tests/data/acpi/virt/MCFG.numamem
->  delete mode 100644 tests/data/acpi/virt/SPCR.memhp
->  delete mode 100644 tests/data/acpi/virt/SPCR.numamem
-> 
+Ugh yack. how did this happen - no idea.
+Fixed now thanks!
 
 
