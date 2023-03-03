@@ -2,97 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014DE6A9434
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B064B6A9429
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 10:30:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY1Fj-0003bc-0L; Fri, 03 Mar 2023 03:58:59 -0500
+	id 1pY1JT-0005Ic-9Z; Fri, 03 Mar 2023 04:02:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pY1Fg-0003Wn-Vj
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:58:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pY1JL-0005BK-A3; Fri, 03 Mar 2023 04:02:44 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pY1Ff-0006bK-AK
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:58:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677833933;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VgxN3imb2UFGCqj8l4AW6tphMkdyG+4NvKkmb9QOgh8=;
- b=dRLLQ+PuSuRhh5sYukeiPCKMQhSNJxdQoFT8GF9QSdSkjyoxXalCqLEO4WaNahYOjqcvCJ
- AqIEg/uo0AurmsTdcnO4imrqfe4hvhWxAT5Lex8AMv33XE5V5HSirUjRjcKmewuLHeMZVz
- +DwXCV6v//pP73ilSnZjKjV7khRvNlo=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-247-zNktgGrDOkemGfSOOt1gFA-1; Fri, 03 Mar 2023 03:58:51 -0500
-X-MC-Unique: zNktgGrDOkemGfSOOt1gFA-1
-Received: by mail-yb1-f199.google.com with SMTP id
- c192-20020a25c0c9000000b0092aabd4fa90so1720683ybf.18
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:58:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677833931;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VgxN3imb2UFGCqj8l4AW6tphMkdyG+4NvKkmb9QOgh8=;
- b=CXhhTTuaGdzvyMc8mZC4K4hrGYRSc+bDFGQ5HX4n41OBtq08VHcJqqw4uUxxUSh9ES
- xW3dOwazvZZyrGix5sBGzSCYLS9L1fgjfZ/h/gZtM4Tox6DYnEa4shcFGWnfV9l9mAcd
- NK9UHk1qJkarkXHQTXh5WpX5ET43TyV8cp7daZesGn1xlouE9WSYok1Y5ILhW4uyDh7I
- 0eoUHz8VZ26P+Zlh9gy0u6PDucSx3eHg5Ko5nF5CYqQU+N1f3j/wQSsGgOvzRsRRBPyi
- e/UgA2qkZDlS7w4IGSsBIwYtvhOAeaOT8VGy5q1gL7n0pCHzsMKkHlfuuFATUs5iNKYu
- R1xw==
-X-Gm-Message-State: AO0yUKWBKiSHU9uvDUBVWCN1R92xd5oLkZ8+4JdQ+o9H3tnjXwXB/4cM
- CWUMROLYvrbhriUKr4qYvI3kY2OPrVldlOhhMsxjSr+UEsQrL+Jc6qYIPPHmDqGLtvwo03+hBGr
- B2UeY4MbkDPoQxiyG/d84vqMw9nTbK7o=
-X-Received: by 2002:a81:ad68:0:b0:536:4d58:54b8 with SMTP id
- l40-20020a81ad68000000b005364d5854b8mr445534ywk.6.1677833931224; 
- Fri, 03 Mar 2023 00:58:51 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Vn0y8jUvL3OcIduRFkSX5xMXIjfuyYrpGOWCaT/MWyZBomXn+AVIY8OL6OAg1K9xydTY7cx7C4fwkkuOvg3A=
-X-Received: by 2002:a81:ad68:0:b0:536:4d58:54b8 with SMTP id
- l40-20020a81ad68000000b005364d5854b8mr445511ywk.6.1677833930988; Fri, 03 Mar
- 2023 00:58:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pY1JH-00083n-66; Fri, 03 Mar 2023 04:02:41 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 1C6DB4780F;
+ Fri,  3 Mar 2023 10:02:36 +0100 (CET)
+Message-ID: <a294096d-1604-585c-6703-293cf8193b0c@proxmox.com>
+Date: Fri, 3 Mar 2023 10:02:35 +0100
 MIME-Version: 1.0
-References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-13-eperezma@redhat.com>
- <2367dcff-e8c3-c3ca-378a-e9e67e10710a@redhat.com>
- <CACGkMEs13RdzLfU8nZwHT0YsZ_hXy47or4t9jkHCoJ1EVa3q9w@mail.gmail.com>
- <CAJaqyWcUMwchHZ66=o+aayVvsAT78iOnWo0g3jbg4A1TiAupfQ@mail.gmail.com>
- <69983de5-7cb7-02a1-8869-0977ff2928b2@redhat.com>
-In-Reply-To: <69983de5-7cb7-02a1-8869-0977ff2928b2@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 3 Mar 2023 09:58:14 +0100
-Message-ID: <CAJaqyWfoTO26=aeWbWBBqM-kJpa+4ZtWNxwp2nFmZ9L14BoPqA@mail.gmail.com>
-Subject: Re: [PATCH v4 12/15] vdpa: block migration if device has unsupported
- features
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
- Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>, 
- Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] scsi: megasas: Internal cdbs have 16-byte length
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>, Hannes Reinecke <hare@suse.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20230228171129.4094709-1-linux@roeck-us.net>
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <20230228171129.4094709-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.092,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,142 +56,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 3, 2023 at 4:48 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2023/3/2 03:32, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > On Mon, Feb 27, 2023 at 9:20 AM Jason Wang <jasowang@redhat.com> wrote:
-> >> On Mon, Feb 27, 2023 at 4:15=E2=80=AFPM Jason Wang <jasowang@redhat.co=
-m> wrote:
-> >>>
-> >>> =E5=9C=A8 2023/2/24 23:54, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> >>>> A vdpa net device must initialize with SVQ in order to be migratable=
- at
-> >>>> this moment, and initialization code verifies some conditions.  If t=
-he
-> >>>> device is not initialized with the x-svq parameter, it will not expo=
-se
-> >>>> _F_LOG so the vhost subsystem will block VM migration from its
-> >>>> initialization.
-> >>>>
-> >>>> Next patches change this, so we need to verify migration conditions
-> >>>> differently.
-> >>>>
-> >>>> QEMU only supports a subset of net features in SVQ, and it cannot
-> >>>> migrate state that cannot track or restore in the destination.  Add =
-a
-> >>>> migration blocker if the device offer an unsupported feature.
-> >>>>
-> >>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>>> ---
-> >>>> v3: add mirgation blocker properly so vhost_dev can handle it.
-> >>>> ---
-> >>>>    net/vhost-vdpa.c | 12 ++++++++----
-> >>>>    1 file changed, 8 insertions(+), 4 deletions(-)
-> >>>>
-> >>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> >>>> index 4f983df000..094dc1c2d0 100644
-> >>>> --- a/net/vhost-vdpa.c
-> >>>> +++ b/net/vhost-vdpa.c
-> >>>> @@ -795,7 +795,8 @@ static NetClientState *net_vhost_vdpa_init(NetCl=
-ientState *peer,
-> >>>>                                           int nvqs,
-> >>>>                                           bool is_datapath,
-> >>>>                                           bool svq,
-> >>>> -                                       struct vhost_vdpa_iova_range=
- iova_range)
-> >>>> +                                       struct vhost_vdpa_iova_range=
- iova_range,
-> >>>> +                                       uint64_t features)
-> >>>>    {
-> >>>>        NetClientState *nc =3D NULL;
-> >>>>        VhostVDPAState *s;
-> >>>> @@ -818,7 +819,10 @@ static NetClientState *net_vhost_vdpa_init(NetC=
-lientState *peer,
-> >>>>        s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> >>>>        s->vhost_vdpa.iova_range =3D iova_range;
-> >>>>        s->vhost_vdpa.shadow_data =3D svq;
-> >>>> -    if (!is_datapath) {
-> >>>> +    if (queue_pair_index =3D=3D 0) {
-> >>>> +        vhost_vdpa_net_valid_svq_features(features,
-> >>>> +                                          &s->vhost_vdpa.migration_=
-blocker);
-> >>>
-> >>> Since we do validation at initialization, is this necessary to valid
-> >>> once again in other places?
-> >> Ok, after reading patch 13, I think the question is:
-> >>
-> >> The validation seems to be independent to net, can we valid it once
-> >> during vhost_vdpa_init()?
-> >>
-> > vhost_vdpa_net_valid_svq_features also checks for net features. In
-> > particular, all the non transport features must be in
-> > vdpa_svq_device_features.
-> >
-> > This is how we protect that the device / guest will never negotiate
-> > things like VLAN filtering support, as SVQ still does not know how to
-> > restore at the destination.
-> >
-> > In the VLAN filtering case CVQ is needed to restore VLAN, so it is
-> > covered by patch 11/15. But other future features may need support for
-> > restoring it in the destination.
->
->
-> I wonder how hard to have a general validation code let net specific
-> code to advertise a blacklist to avoid code duplication.
->
+Am 28.02.23 um 18:11 schrieb Guenter Roeck:
+> Host drivers do not necessarily set cdb_len in megasas io commands.
+> With commits 6d1511cea0 ("scsi: Reject commands if the CDB length
+> exceeds buf_len") and fe9d8927e2 ("scsi: Add buf_len parameter to
+> scsi_req_new()"), this results in failures to boot Linux from affected
+> SCSI drives because cdb_len is set to 0 by the host driver.
+> Set the cdb length to its actual size to solve the problem.
+> 
 
-A blacklist does not work here, because I don't know if SVQ needs
-changes for future feature bits that are still not in / proposed to
-the standard.
+Tested-by: Fiona Ebner <f.ebner@proxmox.com>
 
-Regarding the code duplication, do you mean to validate transport
-features and net specific features in one shot, instead of having a
-dedicated function for SVQ transport?
+But I do have a question:
 
-Thanks!
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>  hw/scsi/megasas.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+> index 9cbbb16121..d624866bb6 100644
+> --- a/hw/scsi/megasas.c
+> +++ b/hw/scsi/megasas.c
+> @@ -1780,7 +1780,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>      uint8_t cdb[16];
+>      int len;
+>      struct SCSIDevice *sdev = NULL;
+> -    int target_id, lun_id, cdb_len;
+> +    int target_id, lun_id;
+>  
+>      lba_count = le32_to_cpu(cmd->frame->io.header.data_len);
+>      lba_start_lo = le32_to_cpu(cmd->frame->io.lba_lo);
+> @@ -1789,7 +1789,6 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>  
+>      target_id = cmd->frame->header.target_id;
+>      lun_id = cmd->frame->header.lun_id;
+> -    cdb_len = cmd->frame->header.cdb_len;
+>  
+>      if (target_id < MFI_MAX_LD && lun_id == 0) {
+>          sdev = scsi_device_find(&s->bus, 0, target_id, lun_id);
+> @@ -1804,15 +1803,6 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>          return MFI_STAT_DEVICE_NOT_FOUND;
+>      }
+>  
+> -    if (cdb_len > 16) {
+> -        trace_megasas_scsi_invalid_cdb_len(
+> -            mfi_frame_desc(frame_cmd), 1, target_id, lun_id, cdb_len);
+> -        megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
+> -        cmd->frame->header.scsi_status = CHECK_CONDITION;
+> -        s->event_count++;
+> -        return MFI_STAT_SCSI_DONE_WITH_ERROR;
+> -    }
 
-> Thanks
->
->
-> >
-> > Thanks!
-> >
-> >> Thanks
-> >>
-> >>> Thanks
-> >>>
-> >>>
-> >>>> +    } else if (!is_datapath) {
-> >>>>            s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_pa=
-ge_size(),
-> >>>>                                                vhost_vdpa_net_cvq_cm=
-d_page_len());
-> >>>>            memset(s->cvq_cmd_out_buffer, 0, vhost_vdpa_net_cvq_cmd_p=
-age_len());
-> >>>> @@ -956,7 +960,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, co=
-nst char *name,
-> >>>>        for (i =3D 0; i < queue_pairs; i++) {
-> >>>>            ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, nam=
-e,
-> >>>>                                         vdpa_device_fd, i, 2, true, =
-opts->x_svq,
-> >>>> -                                     iova_range);
-> >>>> +                                     iova_range, features);
-> >>>>            if (!ncs[i])
-> >>>>                goto err;
-> >>>>        }
-> >>>> @@ -964,7 +968,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, co=
-nst char *name,
-> >>>>        if (has_cvq) {
-> >>>>            nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> >>>>                                     vdpa_device_fd, i, 1, false,
-> >>>> -                                 opts->x_svq, iova_range);
-> >>>> +                                 opts->x_svq, iova_range, features)=
-;
-> >>>>            if (!nc)
-> >>>>                goto err;
-> >>>>        }
->
+Shouldn't we still fail when cmd->frame->header.cdb_len > 16? Or is the
+consequence of
+
+> Host drivers do not necessarily set cdb_len in megasas io commands.
+
+that this can be uninitialized memory and we need to assume it was not
+explicitly set?
+
+Best Regards,
+Fiona
+
+> -
+>      cmd->iov_size = lba_count * sdev->blocksize;
+>      if (megasas_map_sgl(s, cmd, &cmd->frame->io.sgl)) {
+>          megasas_write_sense(cmd, SENSE_CODE(TARGET_FAILURE));
+> @@ -1823,7 +1813,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>  
+>      megasas_encode_lba(cdb, lba_start, lba_count, is_write);
+>      cmd->req = scsi_req_new(sdev, cmd->index,
+> -                            lun_id, cdb, cdb_len, cmd);
+> +                            lun_id, cdb, sizeof(cdb), cmd);
+>      if (!cmd->req) {
+>          trace_megasas_scsi_req_alloc_failed(
+>              mfi_frame_desc(frame_cmd), target_id, lun_id);
 
 
