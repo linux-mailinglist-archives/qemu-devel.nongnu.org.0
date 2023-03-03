@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702AE6A9C76
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DD66A9C80
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 17:58:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY8gb-0002ud-Rg; Fri, 03 Mar 2023 11:55:13 -0500
+	id 1pY8j7-00041T-2P; Fri, 03 Mar 2023 11:57:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY8gZ-0002u9-TX
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:55:11 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pY8j4-0003rm-7w
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:57:46 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY8gY-0003zG-Bo
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:55:11 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id fa28so1950055pfb.12
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:55:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677862508;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Ew60/wbt5oKoD6+e+OGNZ8PEd4JBl2JusoxoWgGKODs=;
- b=qPkPB04f526aPRoaz9VFiEzuQCMrQBqo09AZVVmpwTmw6Ized4InZJZxWvUPyt4OM5
- iRm0oiRplWqdkFPmmAJKGwUJ7Njq47d0XtqfTZ7ZC3o9N5TY7nJ/uenOv6SaPLxvBfek
- qB7mSIDUQ1lBig2x48l3sxy1jvZjv6cMOYqQeghbtnqPCa3vTs4sEHSKnDgURDVaVYGd
- nCtCFB07NRw8I+fdmauSRHNNYLfWrQSjbyM7TZl0tvwMmWwuQyCN+3bsisYxW0LBBRjT
- cN258O4ITEawtDN4zxtvZKqB4CNJ2nom9OWjVLxdeYELbl98H25P0Nvy24pGnv8xnY+2
- vIzg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pY8j2-0004ON-I6
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 11:57:45 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so1654961wmq.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 08:57:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fRKkB/7SCqQKf0SyAmt/Xgo8DfBUANB3Xb3LOPqtnM4=;
+ b=w1Mwbu7UQFls/4I/rgLpeRYD403ULBJm7pZXqRs+Hgt+JkC9TZyaHTg6Kni/xR8ZEM
+ 5x6UGyRvILtO+V1gd1sxuFkGuD9KPRhJJ1HEbAOjPZvb6x9cDbTsdjE/lVKhdabbXJOd
+ UE/swpgAhVGLG2UUcbYsDfJqhX0bGTQsInN+8dyO+a7H1Ljp8gb3zOC2tNZDVpXVefba
+ pS74HWP4/lU5OwD2AIaZHC5Jvn7mhHT5H4IVRsQMb27watzVrTbWdUPyablv/rsrP7Cd
+ +QNP+loC2a6LcJGAUuX3QXz23u3z8Yjy6UT+Mab3+soR63qLfPvq4csu1+1XaOtRFK+e
+ p22w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677862508;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ew60/wbt5oKoD6+e+OGNZ8PEd4JBl2JusoxoWgGKODs=;
- b=3TEhM0TaUF+Rka12TW19iokSpaETpYsOiqL4c9KGgjnF082wFpMLA0coqJrouX1Hdc
- hlgVoGPOo4P/qivHGtBm83q5Qs/TKc5Li7AIKHubo4XszXlHNUtAkfhSCcfhucmka1jw
- Qw37LCwFfTXfMy9csTTnB+p7XCjYIfCxMKmrNbWJspRz88svoYWyz3Flcgny6hZ5Y9I+
- vsrTLCgb7xG511sGSdf5Jhzaiyc864PibSZqEcbDJN64bUT0usyDBgUd18jx3jwHtJwk
- FH5hC1Y9UI5iYripITpgx47O2M5Bptp9bQXg892TFKDjKK4Ve7hbOvmm16HDybiLV7y2
- nCzQ==
-X-Gm-Message-State: AO0yUKV5UX/dR4juTCe1uy/Z95EXecjyJFluXrD8vpxY7KUsLCayBYRw
- jvTXkstbjerMvfiaB8UcqpdppcMBZQ4Vm/p336mayg==
-X-Google-Smtp-Source: AK7set9bE15vA/sUWx7umHk11lkzSytuTxj8x6Ycx7e3qv2+1+9icvCQ6pJGzJ+Zr6nRCYzQ7C/6k1oJM71gvtavXCg=
-X-Received: by 2002:a62:d041:0:b0:592:41a:1054 with SMTP id
- p62-20020a62d041000000b00592041a1054mr1155595pfg.5.1677862508403; Fri, 03 Mar
- 2023 08:55:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20230223204342.1093632-1-richard.henderson@linaro.org>
- <20230223204342.1093632-9-richard.henderson@linaro.org>
-In-Reply-To: <20230223204342.1093632-9-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 16:54:57 +0000
-Message-ID: <CAFEAcA_YdMEG_OgLZe=wVW8S4DBg+FG4G8z+_QtNc7rXe4gCcQ@mail.gmail.com>
-Subject: Re: [PATCH 08/13] target/arm: Support 32-byte alignment in pow2_align
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=fRKkB/7SCqQKf0SyAmt/Xgo8DfBUANB3Xb3LOPqtnM4=;
+ b=sWMuMFdj2l7mXIpJa838APYk8iAYq2zlwfnoAC4T8MVcUZ1qIbeNJeVZwYRD1CV/O1
+ yGHx/0zZEK4NxScy7ErlPIK1+4JqOVnUjdMCwY4yCQdhgtXph9OYEez2aXDHS3UNP8k9
+ GK+6rkVKAV4/BFGsRwh8YS4gzdesTUOmeRZbh37upGKSI2fRIca9c/joPTVlQ8IxnKPs
+ 1H0j+FUP0Hf3DNKKNqyGd4dGUfClVAI0TuRUPAkyGYaLzlK15wHgftQh98LP1emrHFjD
+ FpyhyJ6vpK1e4DxIuFbNChbWcJDRlyHWhq1tfjh9LAUu/3uRt33f9ouN7q/67ss9lqcP
+ 0f6A==
+X-Gm-Message-State: AO0yUKW97eUKMdljmdm7B/AkuxVdNqw2Se5SeMc+qJM9GXVJVy752sMS
+ OUGVaEJx/wqDs8sxJmbbb8hP1A==
+X-Google-Smtp-Source: AK7set9mi6unoWy3w8eifRnpag6Uxxg9A3DbL+mT5tTEcgvEFBUdc6Zq3mzc5FwlCv8NLBd28bNP7A==
+X-Received: by 2002:a05:600c:1906:b0:3eb:3c76:c23c with SMTP id
+ j6-20020a05600c190600b003eb3c76c23cmr2202491wmq.3.1677862662445; 
+ Fri, 03 Mar 2023 08:57:42 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ h22-20020a05600c351600b003daf6e3bc2fsm10876312wmq.1.2023.03.03.08.57.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 08:57:41 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 710661FFB7;
+ Fri,  3 Mar 2023 16:57:41 +0000 (GMT)
+References: <20230301024737.1210851-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
+Cc: qemu-devel@nongnu.org, cota@braap.org, aaron@os.amperecomputing.com,
+ frederic.petrot@univ-grenoble-alpes.fr
+Subject: Re: [PATCH 0/2] plugin: fix clearing of plugin_mem_cbs on TB exit
+Date: Fri, 03 Mar 2023 16:57:11 +0000
+In-reply-to: <20230301024737.1210851-1-richard.henderson@linaro.org>
+Message-ID: <874jr193i2.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,19 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 at 20:44, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Now that we have removed TARGET_PAGE_BITS_MIN-6 from
-> TLB_FLAGS_MASK, we can test for 32-byte alignment.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-thanks
--- PMM
+> Supercedes: <20230222043204.941336-1-cota@braap.org>
+> ("[PATCH] plugin: fix clearing of plugin_mem_cbs before TB exit")
+>
+> Let's handle this as we do can_do_io, and reset the value in C.
+
+Queued to plugins/next, thanks.
+
+I've manually fixed up the #ifdefs and called
+plugin_gen_disable_mem_helpers() directly as Emilio recommended.
+
+>
+>
+> r~
+>
+>
+> Richard Henderson (2):
+>   tcg: Clear plugin_mem_cbs on TB exit
+>   include/qemu/plugin: Remove QEMU_PLUGIN_ASSERT
+>
+>  include/qemu/plugin.h       | 4 ----
+>  accel/tcg/cpu-exec-common.c | 4 ++++
+>  accel/tcg/cpu-exec.c        | 5 +++--
+>  3 files changed, 7 insertions(+), 6 deletions(-)
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
