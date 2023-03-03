@@ -2,60 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE09A6A9ABE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 16:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC9F6A9AAD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 16:30:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY7Ow-0008W9-V7; Fri, 03 Mar 2023 10:32:55 -0500
+	id 1pY7MC-0002Yi-Dt; Fri, 03 Mar 2023 10:30:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pY7Oq-0008Km-7t
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 10:32:48 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pY7M9-0002S4-Vb
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 10:30:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pY7Ol-000245-9q
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 10:32:46 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PSsKm1Mf9z67L8m;
- Fri,  3 Mar 2023 23:27:40 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 3 Mar 2023 15:32:38 +0000
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
- <fan.ni@samsung.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>, Michael
- Roth <michael.roth@amd.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>, Markus Armbruster
- <armbru@redhat.com>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
- <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, Mike Maslenkin
- <mike.maslenkin@gmail.com>, =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=
- <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v4 7/7] hw/cxl/events: Add injection of Memory Module Events
-Date: Fri, 3 Mar 2023 15:29:03 +0000
-Message-ID: <20230303152903.28103-8-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230303152903.28103-1-Jonathan.Cameron@huawei.com>
-References: <20230303152903.28103-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pY7M8-0001Kf-9O
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 10:30:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677857398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C8CYDnqDxEbdClXq/ZnDPKtrt+RTGUv/KiTyZBlm1W4=;
+ b=LXpTwupy3OU3cOCfjH50Ou6L5u68zq+QiYRkgEB7RFdOy+q3dcN6Oiuxy7mbADOF2FrrEe
+ Z7rew/d8/RX4eT3AAXDAzkIPKWEun3oHkmPMnQkew7b+8yWrb8b/1D4Khad+h77ZsMwsDC
+ zBE6JXMOi9pKmOU2B0wn9hPQQXu/hpo=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-251-1dO-VehEP3SIXy9BN3eqEQ-1; Fri, 03 Mar 2023 10:29:57 -0500
+X-MC-Unique: 1dO-VehEP3SIXy9BN3eqEQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ cy28-20020a0564021c9c00b004acc6cf6322so4411059edb.18
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 07:29:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677857396;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C8CYDnqDxEbdClXq/ZnDPKtrt+RTGUv/KiTyZBlm1W4=;
+ b=olROxjRxzOdgIszqVdBgwL8LMZND1Knj6Q8s1ivu9DprReZ4HToit34AKA66qm/VKM
+ ZtZ+7ksrGPNz/DU3qevlQx+X6LZvogK9jXrPV9w5hcUDWNJAYH4AEvoJQ+sxii2fD9CJ
+ ObvM78P8c92pv8Ue3f1axMETYS5mIGM4+b/UDTWQD4D/UjLenwApBhPy6l1TLbTcCtd8
+ pXX7cH4tIl2/shtQxUt951+Msaay+nHrrwTAd5o2Q5uUVq3XahEeXqK+SL0EzkeSG+sR
+ i1usVr4jiLhLBt11HMP8au74mC9Mbzk7U4Cl0coPwyi7trqCOqm9ZPmIwjZDtAkTM5GA
+ fZ7w==
+X-Gm-Message-State: AO0yUKWVoD6wckaFe7V4K5Yhtk0mGTIW+eWW6rzX+KJ+v/XJA/xxpETF
+ YSy8d2fmAJpM62OySxe/XkADgJfrLJBDmJglVdoWvyc5+ezQTNmBQxoTZCu6/fb0zb6YYJvgrGy
+ 3p6UezYm6mIrMjTo=
+X-Received: by 2002:a17:906:66d8:b0:872:b17a:9b59 with SMTP id
+ k24-20020a17090666d800b00872b17a9b59mr2208734ejp.38.1677857396640; 
+ Fri, 03 Mar 2023 07:29:56 -0800 (PST)
+X-Google-Smtp-Source: AK7set8dnRZYEh4nj1aKGVjtrq99kdeytFpVlkVCw2lz3ZrGU7sgIHFQRtznrCNgMG+YoPGdYTC+Dg==
+X-Received: by 2002:a17:906:66d8:b0:872:b17a:9b59 with SMTP id
+ k24-20020a17090666d800b00872b17a9b59mr2208709ejp.38.1677857396340; 
+ Fri, 03 Mar 2023 07:29:56 -0800 (PST)
+Received: from ?IPV6:2003:cf:d737:1307:9c:fde6:ce26:76d4?
+ (p200300cfd7371307009cfde6ce2676d4.dip0.t-ipconnect.de.
+ [2003:cf:d737:1307:9c:fde6:ce26:76d4])
+ by smtp.gmail.com with ESMTPSA id
+ ga1-20020a170906b84100b008b17879ec95sm1060178ejb.22.2023.03.03.07.29.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 07:29:55 -0800 (PST)
+Message-ID: <aae7c810-dcfb-d4b0-7da9-20c96f7f5a75@redhat.com>
+Date: Fri, 3 Mar 2023 16:29:54 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/3] block: make BlockBackend->quiesce_counter atomic
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230227205704.1910562-1-stefanha@redhat.com>
+ <20230227205704.1910562-2-stefanha@redhat.com>
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <20230227205704.1910562-2-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,214 +100,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These events include a copy of the device health information at the
-time of the event. Actually using the emulated device health would
-require a lot of controls to manipulate that state.  Given the aim
-of this injection code is to just test the flows when events occur,
-inject the contents of the device health state as well.
+On 27.02.23 21:57, Stefan Hajnoczi wrote:
+> The main loop thread increments/decrements BlockBackend->quiesce_counter
+> when drained sections begin/end. The counter is read in the I/O code
+> path. Therefore this field is used to communicate between threads
+> without a lock.
+>
+> Use qatomic_set()/qatomic_read() to make it clear that this field is
+> accessed by multiple threads.
+>
+> Acquire/release are not necessary because the BlockBackend->in_flight
+> counter already uses sequentially consistent accesses and running I/O
+> requests hold that counter when blk_wait_while_drained() is called.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   block/block-backend.c | 18 +++++++++++-------
+>   1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 278b04ce69..f00bf2ab35 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
 
-Future work may add more sophisticate device health emulation
-including direct generation of these records when events occur
-(such as a temperature threshold being crossed).  That does not
-reduce the usefulness of this more basic generation of the events.
+[...]
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> @@ -2568,7 +2568,9 @@ static void blk_root_drained_begin(BdrvChild *child)
+>       BlockBackend *blk = child->opaque;
+>       ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+>   
+> -    if (++blk->quiesce_counter == 1) {
+> +    int new_counter = qatomic_read(&blk->quiesce_counter) + 1;
+> +    qatomic_set(&blk->quiesce_counter, new_counter);
+> +    if (new_counter == 1) {
+>           if (blk->dev_ops && blk->dev_ops->drained_begin) {
+>               blk->dev_ops->drained_begin(blk->dev_opaque);
+>           }
 
---
-v4: THanks to Ira Weiny for review.
-- Fixed typo in QAPI docs
-- Use device time for event header.
----
- hw/mem/cxl_type3.c          | 62 +++++++++++++++++++++++++++++++++++++
- hw/mem/cxl_type3_stubs.c    | 12 +++++++
- include/hw/cxl/cxl_events.h | 19 ++++++++++++
- qapi/cxl.json               | 35 +++++++++++++++++++++
- 4 files changed, 128 insertions(+)
+[...]
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 526d55ee13..e1278cdfa4 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -1172,6 +1172,11 @@ static const QemuUUID dram_uuid = {
-                  0x4e, 0x9b, 0xfb, 0x5c, 0x96, 0x24),
- };
- 
-+static const QemuUUID memory_module_uuid = {
-+    .data = UUID(0xfe927475, 0xdd59, 0x4339, 0xa5, 0x86,
-+                 0x79, 0xba, 0xb1, 0x13, 0xb7, 0x74),
-+};
-+
- #define CXL_GMER_VALID_CHANNEL                          BIT(0)
- #define CXL_GMER_VALID_RANK                             BIT(1)
- #define CXL_GMER_VALID_DEVICE                           BIT(2)
-@@ -1379,6 +1384,63 @@ void qmp_cxl_inject_dram_event(const char *path, CxlEventLog log, uint8_t flags,
-     return;
- }
- 
-+void qmp_cxl_inject_memory_module_event(const char *path, CxlEventLog log,
-+                                        uint8_t flags, uint8_t type,
-+                                        uint8_t health_status,
-+                                        uint8_t media_status,
-+                                        uint8_t additional_status,
-+                                        uint8_t life_used,
-+                                        int16_t temperature,
-+                                        uint32_t dirty_shutdown_count,
-+                                        uint32_t corrected_volatile_error_count,
-+                                        uint32_t corrected_persistent_error_count,
-+                                        Error **errp)
-+{
-+    Object *obj = object_resolve_path(path, NULL);
-+    CXLEventMemoryModule module;
-+    CXLEventRecordHdr *hdr = &module.hdr;
-+    CXLDeviceState *cxlds;
-+    CXLType3Dev *ct3d;
-+    uint8_t enc_log;
-+    int rc;
-+
-+    if (!obj) {
-+        error_setg(errp, "Unable to resolve path");
-+        return;
-+    }
-+    if (!object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
-+        error_setg(errp, "Path does not point to a CXL type 3 device");
-+        return;
-+    }
-+    ct3d = CXL_TYPE3(obj);
-+    cxlds = &ct3d->cxl_dstate;
-+
-+    rc = ct3d_qmp_cxl_event_log_enc(log);
-+    if (rc < 0) {
-+        error_setg(errp, "Unhandled error log type");
-+        return;
-+    }
-+    enc_log = rc;
-+
-+    memset(&module, 0, sizeof(module));
-+    cxl_assign_event_header(hdr, &memory_module_uuid, flags, sizeof(module),
-+                            cxl_device_get_timestamp(&ct3d->cxl_dstate));
-+
-+    module.type = type;
-+    module.health_status = health_status;
-+    module.media_status = media_status;
-+    module.additional_status = additional_status;
-+    module.life_used = life_used;
-+    stw_le_p(&module.temperature, temperature);
-+    stl_le_p(&module.dirty_shutdown_count, dirty_shutdown_count);
-+    stl_le_p(&module.corrected_volatile_error_count, corrected_volatile_error_count);
-+    stl_le_p(&module.corrected_persistent_error_count, corrected_persistent_error_count);
-+
-+    if (cxl_event_insert(cxlds, enc_log, (CXLEventRecordRaw *)&module)) {
-+        cxl_event_irq_assert(ct3d);
-+    }
-+}
-+
- static void ct3_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-diff --git a/hw/mem/cxl_type3_stubs.c b/hw/mem/cxl_type3_stubs.c
-index 235c171264..2196bd841c 100644
---- a/hw/mem/cxl_type3_stubs.c
-+++ b/hw/mem/cxl_type3_stubs.c
-@@ -26,6 +26,18 @@ void qmp_cxl_inject_dram_event(const char *path, CxlEventLog log, uint8_t flags,
-                                bool has_correction_mask, uint64List *correction_mask,
-                                Error **errp) {}
- 
-+void qmp_cxl_inject_memory_module_event(const char *path, CxlEventLog log,
-+                                        uint8_t flags, uint8_t type,
-+                                        uint8_t health_status,
-+                                        uint8_t media_status,
-+                                        uint8_t additional_status,
-+                                        uint8_t life_used,
-+                                        int16_t temperature,
-+                                        uint32_t dirty_shutdown_count,
-+                                        uint32_t corrected_volatile_error_count,
-+                                        uint32_t corrected_persistent_error_count,
-+                                        Error **errp) {}
-+
- void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t length,
-                            Error **errp)
- {
-diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
-index a39e30d973..089ba2091f 100644
---- a/include/hw/cxl/cxl_events.h
-+++ b/include/hw/cxl/cxl_events.h
-@@ -146,4 +146,23 @@ typedef struct CXLEventDram {
-     uint8_t reserved[0x17];
- } QEMU_PACKED CXLEventDram;
- 
-+/*
-+ * Memory Module Event Record
-+ * CXL Rev 3.0 Section 8.2.9.2.1.3: Table 8-45
-+ * All fields little endian.
-+ */
-+typedef struct CXLEventMemoryModule {
-+    CXLEventRecordHdr hdr;
-+    uint8_t type;
-+    uint8_t health_status;
-+    uint8_t media_status;
-+    uint8_t additional_status;
-+    uint8_t life_used;
-+    int16_t temperature;
-+    uint32_t dirty_shutdown_count;
-+    uint32_t corrected_volatile_error_count;
-+    uint32_t corrected_persistent_error_count;
-+    uint8_t reserved[0x3d];
-+} QEMU_PACKED CXLEventMemoryModule;
-+
- #endif /* CXL_EVENTS_H */
-diff --git a/qapi/cxl.json b/qapi/cxl.json
-index 32f340d972..8f06b48a0a 100644
---- a/qapi/cxl.json
-+++ b/qapi/cxl.json
-@@ -90,6 +90,41 @@
-             '*column': 'uint16', '*correction-mask': [ 'uint64' ]
-            }}
- 
-+##
-+# @cxl-inject-memory-module-event:
-+#
-+# Inject an event record for a Memory Module Event (CXL r3.0 8.2.9.2.1.3)
-+# This event includes a copy of the Device Health info at the time of
-+# the event.
-+#
-+# @path: CXL type 3 device canonical QOM path
-+# @log: Event Log to add the event to
-+# @flags: header flags
-+# @type: Device Event Type (see spec for permitted values)
-+# @health-status: Overall health summary bitmap (see spec for permitted bits)
-+# @media-status: Overall media health summary (see spec for permitted values)
-+# @additional-status: Complex field (see spec for meaning)
-+# @life-used: Percentage (0-100) of factory expected life span
-+# @temperature: Device temperature in degrees Celsius
-+# @dirty-shutdown-count: Counter incremented whenever device is unable
-+#                        to determine if data loss may have occurred.
-+# @corrected-volatile-error-count: Total number of correctable errors in
-+#                                  volatile memory
-+# @corrected-persistent-error-count: Total number correctable errors in
-+#                                    persistent memory
-+#
-+# Since: 8.0
-+##
-+{ 'command': 'cxl-inject-memory-module-event',
-+  'data': { 'path': 'str', 'log': 'CxlEventLog', 'flags' : 'uint8',
-+            'type': 'uint8', 'health-status': 'uint8',
-+            'media-status': 'uint8', 'additional-status': 'uint8',
-+            'life-used': 'uint8', 'temperature' : 'int16',
-+            'dirty-shutdown-count': 'uint32',
-+            'corrected-volatile-error-count': 'uint32',
-+            'corrected-persistent-error-count': 'uint32'
-+            }}
-+
- ##
- # @cxl-inject-poison:
- #
--- 
-2.37.2
+> @@ -2597,12 +2599,14 @@ static bool blk_root_drained_poll(BdrvChild *child)
+
+[...]
+
+>       assert(blk->public.throttle_group_member.io_limits_disabled);
+>       qatomic_dec(&blk->public.throttle_group_member.io_limits_disabled);
+>   
+> -    if (--blk->quiesce_counter == 0) {
+> +    int new_counter = qatomic_read(&blk->quiesce_counter) - 1;
+> +    qatomic_set(&blk->quiesce_counter, new_counter);
+
+I don’t quite understand why you decided not to use simple atomic 
+increments/decrements with just SeqCst in these places.  Maybe it is 
+fine this way, but it isn’t trivial to see.  As far as I understand, 
+these aren’t hot paths, so I don’t think we’d lose performance by using 
+fully atomic operations here.
+
+Hanna
 
 
