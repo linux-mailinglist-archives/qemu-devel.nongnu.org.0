@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C936A92F0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:46:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473D76A930C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:51:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0zp-0000fy-Qx; Fri, 03 Mar 2023 03:42:33 -0500
+	id 1pY0zm-0000Bw-04; Fri, 03 Mar 2023 03:42:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zb-0008QF-7C
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:20 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pY0zc-0008RN-T5
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:21 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0zZ-000858-P6
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:18 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so1589567pjz.1
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:17 -0800 (PST)
+ id 1pY0zb-00085Y-3D
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:42:20 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ m20-20020a17090ab79400b00239d8e182efso5408221pjr.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832936;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832938;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nhVcyaR+wUHNG6/4VyYZTf+bfbXlrY349GdOzrTycmU=;
- b=dgk9U7kLWVlJ9PxwoGsoKY/S6CAm//dppwNf0gBPZcwvTkwRVLafmFrl0OX1yiTSv1
- RDufYx3H2iyE3J5PbUWJLOjXMQ9X2IZ/M34pxbq/cF1o90gZs/LapXoRopE8CCIvLrpb
- NLci7//FwpH4VP7HhT2IhQKD3/L+gMlrFrlQgxI4xcOhfm9k9pNVV6L/WThjB26OjgwL
- 74zbFwqB0gJYNKpzJQskMe+GFLxYG0/bmOT6dUq2kfLqfwt3ewy1DZfBDSh1vFJdQ1v9
- WHi08ow15G4hUgp3D0sIacskFBy31KLtQ+9Ntk41pFKSG6SHaq5jf85eDikAnLi2IiU6
- P//g==
+ bh=wFw20b6Bz2FDDW0u4vx4mlXe6VxyRQIjZ8e8ySZmec4=;
+ b=JJv49+xJPwm7CbGC7jbqaw9T1jrXdi0hxF890fnmDgch7Y7TbTYjy3obngVqGr3AmY
+ YJq1wO8O14qDnbKVEoKDaYF2VXlGOplrxRCY+XolxFpm3iiHwkSOLus+bIGxAGiy1W4/
+ Gnj1w7xwtfq3uhPEttIPIeEnw0+4VAfu5+gKU77kuJS2XPNvEtWsKFPIHq7zlDNVcJNC
+ eIvxly0LR9cwLlMMbIrzxCkDM/V5egxdRZqonHXpC+yU7rdBOba7RuxH2DOQc9IK0BBC
+ cyzlpoQ0yBpbcdNCQcjGwh4y3DHRgfnF1Dy+WMZcjHL/7Ni/c0AMwX5vDuOFYNRnQpAE
+ eJOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832936;
+ d=1e100.net; s=20210112; t=1677832938;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nhVcyaR+wUHNG6/4VyYZTf+bfbXlrY349GdOzrTycmU=;
- b=uKx+Ii7b3UFu0++NFtZH0v7IH51GdIjV7zg5KHuQ5Cwyh8u5Q7LnlxRC1zJQAHvL/R
- 29Ur1TM02x3m5opLD/gIqUd7EGIL5LUr0EUS595WcdxdvmS4GOqFe3FJbnqsmDU/AO3g
- Z5Pfgvo2KMdhvPuWgP/TwDLPyR7e7qYLl9mb3SskO+fAFG3Jrf6sw5CT8WNU5b5tznJB
- UignGG9B8kSfLpKgCQTOpNyUz8IN4/i1JDjwO/p8PVAZzbE6vpgRqfsmP7F9wYV5XoOQ
- Ib7CzVdhWN2UozZy3UQ4ninJE6h3Udg+YUsslEKBW8Jnfh32h+qlKSXXzzQg21fREfst
- mW5Q==
-X-Gm-Message-State: AO0yUKUlszHEhB6C/ydwG1tkJQgrROocOT0XXjRgUtKhygOImY+DyqKG
- BLZ1PlfgoE/mUF5KkfVwTUjmaA==
-X-Google-Smtp-Source: AK7set+S1HNkb2BFMOesMBPEGQQepTlPKZbLQVOcRVUKIEhib1EqOiCqhXvXJOsYsvz7OTS6aRnz8A==
-X-Received: by 2002:a17:90a:194c:b0:237:ae98:a47f with SMTP id
- 12-20020a17090a194c00b00237ae98a47fmr5195634pjh.1.1677832936545; 
- Fri, 03 Mar 2023 00:42:16 -0800 (PST)
+ bh=wFw20b6Bz2FDDW0u4vx4mlXe6VxyRQIjZ8e8ySZmec4=;
+ b=m3Pzsb5+TP+C0CSlnwCE+v2JEOJorHSmximu5kNkuHVEiAMvWwXGrkzznaTlDlFPVO
+ v1mieAjCM7aIU8M5a/5L/N8tcbz3qmuLmZDrlMZ2v9NAQpAN96fBs72XIQi1EQuBxsPX
+ okgRmHsR8ecMO31sbuJRxNJI4HpeRty0yjB9ijwk6XYfY0x3n7G8wdeLTZXYAvoGH53Q
+ KwPeo5WRqrappVae6ogef1/AdzhWRWtdo7P3AQ9FcsevrViPgXY90askbxQFabtcPAj+
+ oUMpSl51JIzN9oh5WsHK8OLcQ5oO21q5DXfnlic/wzhr2bhQVK6Kixm1HGUexp9K/1Gf
+ 4KsA==
+X-Gm-Message-State: AO0yUKV95dNxvGDPI1QOsEt1wqOiRC/KH0fFnntPURx8r8+DXKgQDFGz
+ aqAtGEalvTsf84W+Rx76E53JHg==
+X-Google-Smtp-Source: AK7set+3rzih3CAQS7KCWNydca64HEoVGSS6DKv04ZcgVE2A+THcbfWej7FSV4WADjjR2HPB2xIGQQ==
+X-Received: by 2002:a17:902:e80a:b0:19d:243:d5d3 with SMTP id
+ u10-20020a170902e80a00b0019d0243d5d3mr1066350plg.33.1677832937841; 
+ Fri, 03 Mar 2023 00:42:17 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- lj10-20020a17090b344a00b00233e937fef9sm1035279pjb.18.2023.03.03.00.42.16
+ kq13-20020a170903284d00b0019a7f427b79sm980473plb.119.2023.03.03.00.42.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:42:16 -0800 (PST)
-Subject: [PULL 44/59] RISC-V: XTheadMemPair: Remove register restrictions for
- store-pair
-Date: Fri,  3 Mar 2023 00:37:25 -0800
-Message-Id: <20230303083740.12817-45-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:42:17 -0800 (PST)
+Subject: [PULL 45/59] target/riscv: Add support for Zicond extension
+Date: Fri,  3 Mar 2023 00:37:26 -0800
+Message-Id: <20230303083740.12817-46-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- ristoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- Palmer Dabbelt <palmer@rivosinc.com>
+ Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,36 +91,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Christoph Müllner <christoph.muellner@vrull.eu>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-The XTheadMemPair does not define any restrictions for store-pair
-instructions (th.sdd or th.swd). However, the current code enforces
-the restrictions that are required for load-pair instructions.
-Let's fix this by removing this code.
+The spec can be found in https://github.com/riscv/riscv-zicond.
+Two instructions are added:
+ - czero.eqz: Moves zero to a register rd, if the condition rs2 is
+   equal to zero, otherwise moves rs1 to rd.
+ - czero.nez: Moves zero to a register rd, if the condition rs2 is
+   nonzero, otherwise moves rs1 to rd.
 
-Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-ID: <20230220095612.1529031-1-christoph.muellner@vrull.eu>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Message-ID: <20230221091009.36545-1-liweiwei@iscas.ac.cn>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/insn_trans/trans_xthead.c.inc | 4 ----
- 1 file changed, 4 deletions(-)
+ target/riscv/cpu.c                           |  2 +
+ target/riscv/cpu.h                           |  1 +
+ target/riscv/insn32.decode                   |  4 ++
+ target/riscv/insn_trans/trans_rvzicond.c.inc | 49 ++++++++++++++++++++
+ target/riscv/translate.c                     |  1 +
+ 5 files changed, 57 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_rvzicond.c.inc
 
-diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
-index be87c34f56..cf1731b08d 100644
---- a/target/riscv/insn_trans/trans_xthead.c.inc
-+++ b/target/riscv/insn_trans/trans_xthead.c.inc
-@@ -980,10 +980,6 @@ static bool trans_th_lwud(DisasContext *ctx, arg_th_pair *a)
- static bool gen_storepair_tl(DisasContext *ctx, arg_th_pair *a, MemOp memop,
-                              int shamt)
- {
--    if (a->rs == a->rd1 || a->rs == a->rd2 || a->rd1 == a->rd2) {
--        return false;
--    }
--
-     TCGv data1 = get_gpr(ctx, a->rd1, EXT_NONE);
-     TCGv data2 = get_gpr(ctx, a->rd2, EXT_NONE);
-     TCGv addr1 = tcg_temp_new();
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 9e726d106e..3d41016eb4 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -74,6 +74,7 @@ struct isa_ext_data {
+ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+     ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
++    ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
+     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
+     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
+@@ -1172,6 +1173,7 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+ 
+     /* These are experimental so mark with 'x-' */
++    DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index d8e47b87e3..30c75bf7d6 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -434,6 +434,7 @@ struct RISCVCPUConfig {
+     bool ext_zkt;
+     bool ext_ifencei;
+     bool ext_icsr;
++    bool ext_zicond;
+     bool ext_zihintpause;
+     bool ext_smstateen;
+     bool ext_sstc;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index b7e7613ea2..fb537e922e 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -890,3 +890,7 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
+ # *** RV32 Zksed Standard Extension ***
+ sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
+ sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
++
++# *** RV32 Zicond Standard Extension ***
++czero_eqz   0000111  ..... ..... 101 ..... 0110011 @r
++czero_nez   0000111  ..... ..... 111 ..... 0110011 @r
+diff --git a/target/riscv/insn_trans/trans_rvzicond.c.inc b/target/riscv/insn_trans/trans_rvzicond.c.inc
+new file mode 100644
+index 0000000000..645260164e
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_rvzicond.c.inc
+@@ -0,0 +1,49 @@
++/*
++ * RISC-V translation routines for the Zicond Standard Extension.
++ *
++ * Copyright (c) 2020-2023 PLCT Lab
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#define REQUIRE_ZICOND(ctx) do {          \
++    if (!ctx->cfg_ptr->ext_zicond) {      \
++        return false;                     \
++    }                                     \
++} while (0)
++
++static bool trans_czero_eqz(DisasContext *ctx, arg_czero_eqz *a)
++{
++    REQUIRE_ZICOND(ctx);
++
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++
++    tcg_gen_movcond_tl(TCG_COND_EQ, dest, src2, ctx->zero, ctx->zero, src1);
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
++
++static bool trans_czero_nez(DisasContext *ctx, arg_czero_nez *a)
++{
++    REQUIRE_ZICOND(ctx);
++
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++
++    tcg_gen_movcond_tl(TCG_COND_NE, dest, src2, ctx->zero, ctx->zero, src1);
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 8ffa2116e0..4a957a50b5 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1103,6 +1103,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ #include "insn_trans/trans_rvh.c.inc"
+ #include "insn_trans/trans_rvv.c.inc"
+ #include "insn_trans/trans_rvb.c.inc"
++#include "insn_trans/trans_rvzicond.c.inc"
+ #include "insn_trans/trans_rvzawrs.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
+ #include "insn_trans/trans_rvk.c.inc"
 -- 
 2.39.2
 
