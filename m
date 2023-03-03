@@ -2,95 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563AC6A9256
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0D06A9277
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:32:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0gW-0007bl-6E; Fri, 03 Mar 2023 03:22:36 -0500
+	id 1pY0oV-0000X5-CY; Fri, 03 Mar 2023 03:30:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY0gK-0007YZ-A3
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:22:25 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY0oQ-0000Wa-LG
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:30:48 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pY0gG-0001jv-NM
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:22:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pY0oP-0004oI-1M
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:30:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677831739;
+ s=mimecast20190719; t=1677832243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Q3NbdA9bI4uIGSb06D7wFlZcC+rz73j4f9d+6WKBYc=;
- b=GG9pvvTZJi3qZ3E4m9xo4tqqAy/5Wk3Ogrx4F5nHJPrv3NFc2RYO+Kemw8YTTwrVPwSN1t
- Wiwe1zGhLoGuHEU1Z/wRkjcYZwM2FuRPyPfJ5LRub5rnbAsXSLMcWgxwQpU/45QJnm8sGS
- cK7gl/Jiq/gEyF+GdiyvJXX67J1eLTM=
+ bh=xhZEdZgwfG6wzdSDCxP5zIxrLj6ADxTWkvWfmDGvWiA=;
+ b=ev/B1zSVURpkiAPVwmC72FtmF+Of9x2s4OMTenCQ6clmCWu/Y3+b1gs9Gb94QBotRvj9kr
+ sYuAPQ6TmUf/6ammdUeQkSR+mWPkvpey5HCbIINYvEHDmotkgsOy2huSe3d4maJ2osfw0g
+ G2RdXyYIyIIKonKOz+Y/NTyeHc7dT3A=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-609-wUhZZWpqPYWSeuiHgJI48w-1; Fri, 03 Mar 2023 03:22:18 -0500
-X-MC-Unique: wUhZZWpqPYWSeuiHgJI48w-1
+ us-mta-569-d12z_-1OOcuuTOsvotC3_A-1; Fri, 03 Mar 2023 03:30:42 -0500
+X-MC-Unique: d12z_-1OOcuuTOsvotC3_A-1
 Received: by mail-wm1-f69.google.com with SMTP id
- az12-20020a05600c600c00b003e8910ec2fdso632480wmb.6
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:22:18 -0800 (PST)
+ z6-20020a7bc7c6000000b003e0107732f4so652730wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:30:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677831737;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5Q3NbdA9bI4uIGSb06D7wFlZcC+rz73j4f9d+6WKBYc=;
- b=AWAotUiC1Y9Ja2ZZJL/sTZtzTGmX0tt1GI+TSb8JutVF9VictFjLbWz4AQ6HLuBQmg
- KcPgZCWyziKVyw6D2YeTvhmJpfAKP9wYHGrEewSafscIrhTAz4GL2+bClsC/2NOma66j
- CCwj57hgf5E81I6JPXfX+h1hnmK9U7t8WYsH86Kdarp2Fl7y+9/henhnSurVV7u03uwg
- L2QHGdfwYxPvqB7sDsVSd4506irf2AxEEV5S6je6AseW8Fs33TwFOWfRyCGxvtnJ0Ew5
- KEXNTa6dbk0biAWqlMn/5PIIGB9Mhxl5V08+OCx+XBD4u8IvBm4ZH25bYuoye5U/SV0A
- 7C2A==
-X-Gm-Message-State: AO0yUKUgV99p9QzXRWxKh8k5rlcL+ViFm04AaLooW+ubBUXUpGrONJut
- sGyPHe3rsnF7EHFH8mVQOZ0k2YnQBneYn4/vHjWFhKh9CSTnxI4tUPZU7pND73PK3QeR/VRP/B7
- J/HjuO1h437rTu/A=
-X-Received: by 2002:a5d:698c:0:b0:2c3:eeeb:b2f7 with SMTP id
- g12-20020a5d698c000000b002c3eeebb2f7mr707289wru.62.1677831737525; 
- Fri, 03 Mar 2023 00:22:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set/V+PR/UZc7t2GrDqiPwSvfkR4xqbEgwXyIl6boL10b1nmHLD9moXQSdRROhoeBmIZjpkUqNw==
-X-Received: by 2002:a5d:698c:0:b0:2c3:eeeb:b2f7 with SMTP id
- g12-20020a5d698c000000b002c3eeebb2f7mr707281wru.62.1677831737221; 
- Fri, 03 Mar 2023 00:22:17 -0800 (PST)
-Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
- by smtp.gmail.com with ESMTPSA id
- x17-20020adfdcd1000000b002c5804b6afasm1516382wrm.67.2023.03.03.00.22.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:22:16 -0800 (PST)
-Date: Fri, 3 Mar 2023 03:22:14 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: BALATON Zoltan <balaton@eik.bme.hu>,
- Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-Message-ID: <20230303032209-mutt-send-email-mst@kernel.org>
-References: <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
- <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
- <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
- <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
- <c465a44a-1ff6-5118-516c-56a8f99b9509@redhat.com>
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xhZEdZgwfG6wzdSDCxP5zIxrLj6ADxTWkvWfmDGvWiA=;
+ b=SNukOsCPqKyxYwg3jSb380Lih+WmTAPaW9OK5jeXapCa/VzR2NREbT98gXUiGtcHmJ
+ hv0E5hBOhNTn1nrfW0BGbCI4WF+MPYG11R+FQz2ZEznacVhDuofiqYi8TV24XFePOT7V
+ IPZwNac289Ej8A3DlEcGiC68X+GzAU/VkGMtz3S4poyQMdVk7llrsUuHQwlOvZaNN4hv
+ mw8goXnvtf2oiEwU8DKwxCXbZ+Y6kMVJr6AmOOrOmO7D7OjvqiGgLMgWlZJ7Sxdfk29s
+ sq+rwUv/MLIsGOdn9vsNzbF4vw9m3w3bQiw+t7k8BkiugPNDESzisRUxjkOHfujzKens
+ CXvg==
+X-Gm-Message-State: AO0yUKViJyTCzG9yoQC8edvshx6kGN1RI10uS+rfn1t8/GPy7OBymxIX
+ 7McDHBKG623ZwSe2GKHKgR+R/Q96hkfn2aOcKbESX7/wJUAYSYNVVagZcLsLMl2DcP5bsXwCedK
+ LF1QGhAfUU7zHK8o=
+X-Received: by 2002:adf:f587:0:b0:2c7:deb:c61 with SMTP id
+ f7-20020adff587000000b002c70deb0c61mr837907wro.39.1677832241521; 
+ Fri, 03 Mar 2023 00:30:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set/dJwNruZz1M90tM7eo4IYbIHUhZOKktnfnI0vYyalAI4Di1r4S4buYoNzEhtM12vBaVFHjDw==
+X-Received: by 2002:adf:f587:0:b0:2c7:deb:c61 with SMTP id
+ f7-20020adff587000000b002c70deb0c61mr837895wro.39.1677832241230; 
+ Fri, 03 Mar 2023 00:30:41 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-203.web.vodafone.de.
+ [109.43.176.203]) by smtp.gmail.com with ESMTPSA id
+ h16-20020a5d5490000000b002ce37d2464csm527688wrv.83.2023.03.03.00.30.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Mar 2023 00:30:40 -0800 (PST)
+Message-ID: <44d571e7-05b6-b2a1-7eb7-44bf2912ec69@redhat.com>
+Date: Fri, 3 Mar 2023 09:30:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c465a44a-1ff6-5118-516c-56a8f99b9509@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230302184606.418541-1-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/5] iotests: make meson aware of individual I/O tests
+In-Reply-To: <20230302184606.418541-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,17 +101,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 21, 2023 at 03:02:41PM +0100, Paolo Bonzini wrote:
-> On 2/21/23 13:48, BALATON Zoltan wrote:
-> > My patch works and don't see what else could it break.
+On 02/03/2023 19.46, Daniel P. Berrangé wrote:
+> To just repeat the patch 5 description...
 > 
-> I strongly suspect that your patch, while fixing access to one byte of the
-> (2-byte) registers, breaks access to the other byte.
+> Currently meson registers a single test that invokes an entire group of
+> I/O tests, hiding the test granularity from meson. There are various
+> downsides of doing this
 > 
-> Thanks for the reproduction instructions, I'll take a look.
+>   * You cannot ask 'meson test' to invoke a single I/O test
+>   * The meson test timeout can't be applied to the individual
+>     tests
+>   * Meson only gets a pass/fail for the overall I/O test group
+>     not individual tests
+>   * If a CI job gets killed by the GitLab timeout, we don't
+>     get visibility into how far through the I/O tests
+>     execution got.
 > 
-> Paolo
+> This is not really specific to the I/O tests, the problem is common
+> to any case of us running a test which is in fact another test
+> harness which runs many tests. It would be nice to have meson have
+> the full view of all tests run. Adapting the I/O tests is as easy
+> win in this respect.
+> 
+> This switches meson to perform test discovery by invoking 'check' in
+> dry-run mode. It then registers one meson test case for each I/O
+> test. Parallel execution remains disabled since the I/O tests do not
+> use self contained execution environments and thus conflict with
+> each other.
 
-ping?
+Great to see some movement in this area again!
+
+Some questions/remarks:
+
+1) Could you remove tests/check-block.sh now? See also:
+    https://lore.kernel.org/all/20220209101530.3442837-9-thuth@redhat.com/
+
+2) With regards to parallel execution ... I think it should be
+    possible nowadays - the "check" script is normally also run
+    with the "-j" switch by the tests/check-block.sh script, so
+    if you remove the possibility to run in parallel, it's a
+    regression from the previous behavior!
+
+3) When I tried this last year, I had a weird problem that
+    the terminal sometimes gets messed up ... I wasn't able
+    to track it down back then - could you check by running
+    "make check-block" many times (>10 times) to see whether
+    it happens with your series or not?
+
+  Thomas
 
 
