@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7276A92C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0666A92FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 09:48:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY0yw-0007EY-Al; Fri, 03 Mar 2023 03:41:38 -0500
+	id 1pY0z3-0007k5-79; Fri, 03 Mar 2023 03:41:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yn-0006lV-HG
+ id 1pY0yo-0006pg-95
  for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:31 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pY0yl-0007mg-F4
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:28 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id kb15so1813245pjb.1
+ id 1pY0ym-0007n9-8T
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 03:41:29 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id l1so1810617pjt.2
  for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 00:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832886;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677832887;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P2qA3TlwLDKov+3r2kqVjzEEhRt6+MxAW7wsR31Qwbc=;
- b=a+j6TuXiHOZhLEYSt664Qcyzf6h9ifO7ov6U/clWotK+jO/aJZ8mawNDYTY5l0uPcZ
- C7pYseDq9DhB+GxWMGmVpS2yqr3OfVGhAqTWIHE+CsW1fSNaRtnHGsEZYGq7oY56/P4D
- icaT9CA7u4AHnZKgFst/XKXx7qt148BdpGQuIER1pQmFU7WLeTN8UBbXG+g4za+pXHws
- k2eBpwMuBp064nBqQNKMFOAkwfffO0VXWJTbxXi5/xlzIpOAd9pyIBrsimpllSA1rTjw
- 7GeDlOt1EjMTBbrOfrN0PgXMKuaXxSFE7pqkYTtagT8M0qSnj9dWxh1O+ZBobT3qxpRz
- MK1g==
+ bh=zUP3OSA2SEm6Zwc923BsVzEs0eo9CAKakWrt+naZB44=;
+ b=lzEbdHZF+nYepfAlf+CrysjOAeD2QDubMHkQnvju9SkFdNi2NrOqCFdQxn1e7gYqS7
+ eVYRngnHKg/XRZjNuMq6+OCGN5aK176+aaxTl1O8RO3H6Ec01rBQlox4c0bAWIZaTAd2
+ CqUp61XGi0jGiThHBDVIVS1spI7cLKKG2imkdQ3vKANTvjOvMWZmBtiIaM4AHQQEfcIK
+ oYC3v8jOCigEbb/rR49HwWY9FanP83xPUqXSybL8nIvprhURCnWLTZVyyG+AJdhRdpXV
+ Y29uuS0WCpp14Y6o4z4KlKyXI72UIm1WhAW1csjsjxcEW2wQjocWrjP6R2seppnJ3Lc2
+ vmyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677832886;
+ d=1e100.net; s=20210112; t=1677832887;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P2qA3TlwLDKov+3r2kqVjzEEhRt6+MxAW7wsR31Qwbc=;
- b=Q7X1CjvVf555lxzrabogZ30/dXK31zlShPnJjUMKZ7h3p6WDB+D9285EKvyOrG6zEP
- +0QW7Bcr4BUqO6Afj9Kmw0rTHsGFcuwEi3JrGuoDx2C3OymG8ssg3+R/Z/QxRvha7HZx
- eT0RJFs7nE9L6G8CIrHwnT0MPWMGSsSmBbw02sXXQMZ7jQpeegJOuSOnVTYUcwvsjYtW
- suVQBIkJ+IfLczWC0Qhtp6oGTq3RGdKvRVQViyQ+2ZGs1PSeKuupxvXuwXXGMhfWUr+u
- JGTiPNdZHi6ZbzJ1oJXOrL9hExs1uzv1bL3TD2f6YwpPH3ywv9TZkiPqWWC3D5etNShw
- TwOw==
-X-Gm-Message-State: AO0yUKVpFGGLWcni28R48U3mJ6n4EqNOq6FR0aC+vhlCDTSqwz1bDzsH
- fsqEnRh47nZjY+g8DepJDuV9/w==
-X-Google-Smtp-Source: AK7set/l2Q6I6Az94nVReDP48CYWAF+3V5pR+pHbWE4SFGep+jNbK2kitHBtoj0aPTlgAvx8nxG9KA==
-X-Received: by 2002:a17:90b:350f:b0:235:31e9:e793 with SMTP id
- ls15-20020a17090b350f00b0023531e9e793mr5239254pjb.13.1677832885675; 
- Fri, 03 Mar 2023 00:41:25 -0800 (PST)
+ bh=zUP3OSA2SEm6Zwc923BsVzEs0eo9CAKakWrt+naZB44=;
+ b=ukQZ1EPR2jXYkPFeWpH4J89OFv83xEv/Y2kDgJErL1Vpkc0Ux6JsJ5ufu43hBuQZjR
+ rWRF9VUBJQV8/uaZjRdaNCEM+W0YodbaXdhmEbm4VGLC7r9rY2YMBcrO/l5IRi31RKKB
+ ntqhGsVAv9HuZ/ZWoBFbyykxksWHK/l4oGB5mGz6LhXgL1/dCFy5WY+gNzNSPq8BpADm
+ Z3WwxBgkdenhE5DbQMI7ynNw84XPG+PD5ay5hulF1YtzQ8lWFB9ohN182JgtsCtHjKMI
+ FiCdc27+MpXsGbLPxg9G2AdtPMEWD/gkxB1y3c7sobTH49nht5igCr2gfX3feah2RDI4
+ vPCg==
+X-Gm-Message-State: AO0yUKVIRPm0Zrm/+RmmXDk0rRZXu1wXObiGGNtuBnZz+3m495WqkGj3
+ IF6IpjOhEGoaDescWNAQ7oligw==
+X-Google-Smtp-Source: AK7set8u5WTnGJ5WcPWAQ3lgFoE0CmLNWonzfRBgIVlz3cr8XHgdQ4J7hk9psxa+eWhjsk0EhVsebA==
+X-Received: by 2002:a17:90b:1e05:b0:237:7149:b333 with SMTP id
+ pg5-20020a17090b1e0500b002377149b333mr791616pjb.43.1677832886938; 
+ Fri, 03 Mar 2023 00:41:26 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- k11-20020a17090a590b00b0023747b0445fsm2890039pji.14.2023.03.03.00.41.24
+ 1-20020a630301000000b004fb11a7f2d4sm977214pgd.57.2023.03.03.00.41.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:41:25 -0800 (PST)
-Subject: [PULL 04/59] target/riscv: remove RISCV_FEATURE_DEBUG
-Date: Fri,  3 Mar 2023 00:36:45 -0800
-Message-Id: <20230303083740.12817-5-palmer@rivosinc.com>
+ Fri, 03 Mar 2023 00:41:26 -0800 (PST)
+Subject: [PULL 05/59] target/riscv/cpu.c: error out if EPMP is enabled without
+ PMP
+Date: Fri,  3 Mar 2023 00:36:46 -0800
+Message-Id: <20230303083740.12817-6-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303083740.12817-1-palmer@rivosinc.com>
 References: <20230303083740.12817-1-palmer@rivosinc.com>
@@ -70,8 +71,8 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,101 +96,51 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-RISCV_FEATURE_DEBUG will always follow the value defined by
-cpu->cfg.debug flag. Read the flag instead.
+Instead of silently ignoring the EPMP setting if there is no PMP
+available, error out informing the user that EPMP depends on PMP
+support:
+
+$ ./qemu-system-riscv64 -cpu rv64,pmp=false,x-epmp=true
+qemu-system-riscv64: Invalid configuration: EPMP requires PMP support
+
+This will force users to pick saner options in the QEMU command line.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-ID: <20230222185205.355361-5-dbarboza@ventanamicro.com>
+Message-ID: <20230222185205.355361-6-dbarboza@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c        | 6 +-----
- target/riscv/cpu.h        | 1 -
- target/riscv/cpu_helper.c | 2 +-
- target/riscv/csr.c        | 2 +-
- target/riscv/machine.c    | 3 +--
- 5 files changed, 4 insertions(+), 10 deletions(-)
+ target/riscv/cpu.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1d637b1acd..13e55ec5bd 100644
+index 13e55ec5bd..aec7830c44 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -637,7 +637,7 @@ static void riscv_cpu_reset_hold(Object *obj)
-     set_default_nan_mode(1, &env->fp_status);
+@@ -925,13 +925,18 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
  
- #ifndef CONFIG_USER_ONLY
--    if (riscv_feature(env, RISCV_FEATURE_DEBUG)) {
-+    if (cpu->cfg.debug) {
-         riscv_trigger_init(env);
-     }
+     if (cpu->cfg.pmp) {
+         riscv_set_feature(env, RISCV_FEATURE_PMP);
++    }
++
++    if (cpu->cfg.epmp) {
++        riscv_set_feature(env, RISCV_FEATURE_EPMP);
  
-@@ -935,10 +935,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         /*
+          * Enhanced PMP should only be available
+          * on harts with PMP support
+          */
+-        if (cpu->cfg.epmp) {
+-            riscv_set_feature(env, RISCV_FEATURE_EPMP);
++        if (!cpu->cfg.pmp) {
++            error_setg(errp, "Invalid configuration: EPMP requires PMP support");
++            return;
          }
      }
  
--    if (cpu->cfg.debug) {
--        riscv_set_feature(env, RISCV_FEATURE_DEBUG);
--    }
--
- 
- #ifndef CONFIG_USER_ONLY
-     if (cpu->cfg.ext_sstc) {
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index ca828424c1..dc62554e14 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -89,7 +89,6 @@ enum {
-     RISCV_FEATURE_MMU,
-     RISCV_FEATURE_PMP,
-     RISCV_FEATURE_EPMP,
--    RISCV_FEATURE_DEBUG
- };
- 
- /* Privileged specification version */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 3a9472a2ff..7ae832e829 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -105,7 +105,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
-                            get_field(env->mstatus_hs, MSTATUS_VS));
-     }
--    if (riscv_feature(env, RISCV_FEATURE_DEBUG) && !icount_enabled()) {
-+    if (cpu->cfg.debug && !icount_enabled()) {
-         flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
-     }
- #endif
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 3cb8d2ffad..e220c4a5fd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -437,7 +437,7 @@ static RISCVException epmp(CPURISCVState *env, int csrno)
- 
- static RISCVException debug(CPURISCVState *env, int csrno)
- {
--    if (riscv_feature(env, RISCV_FEATURE_DEBUG)) {
-+    if (riscv_cpu_cfg(env)->debug) {
-         return RISCV_EXCP_NONE;
-     }
- 
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index c6ce318cce..4634968898 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -226,9 +226,8 @@ static const VMStateDescription vmstate_kvmtimer = {
- static bool debug_needed(void *opaque)
- {
-     RISCVCPU *cpu = opaque;
--    CPURISCVState *env = &cpu->env;
- 
--    return riscv_feature(env, RISCV_FEATURE_DEBUG);
-+    return cpu->cfg.debug;
- }
- 
- static int debug_post_load(void *opaque, int version_id)
 -- 
 2.39.2
 
