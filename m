@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B497B6A8F2A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 03:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481766A8F2E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 03:27:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXv89-0000xA-CS; Thu, 02 Mar 2023 21:26:45 -0500
+	id 1pXv8B-0000xm-DA; Thu, 02 Mar 2023 21:26:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <33FoBZAUKCr0kvkdqjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--hshan.bounces.google.com>)
- id 1pXv83-0000wl-Sk
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:26:39 -0500
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+ <33loBZAUKCr8mxmfslttlqj.htrvjrz-ij0jqstslsz.twl@flex--hshan.bounces.google.com>)
+ id 1pXv89-0000xU-A8
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:26:45 -0500
+Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <33FoBZAUKCr0kvkdqjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--hshan.bounces.google.com>)
- id 1pXv81-0007Xv-TN
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:26:39 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- d7-20020a25adc7000000b00953ffdfbe1aso896205ybe.23
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 18:26:36 -0800 (PST)
+ <33loBZAUKCr8mxmfslttlqj.htrvjrz-ij0jqstslsz.twl@flex--hshan.bounces.google.com>)
+ id 1pXv84-0007YL-MN
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 21:26:42 -0500
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-536bbaeceeaso10045207b3.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 18:26:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1677810396;
+ d=google.com; s=20210112; t=1677810399;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Os80dw8QyJd4/ZKOS1KxKkozjCiAs1UTtuUlBbbIAng=;
- b=BSg7+mjHgxN+dN8dd+O9jKxDocadgAGgwTw4f7+JuBMwWjHRdUKMKiK5bK3q9vVwVT
- tpASe1TzTkJnIaGqqE3nd+e8OtpNivjS/7ejwfgznrMTcZml7uIyZbF16/AYpN8BYM9g
- fR6qn8Ljn+hwWSMB5hF2CjYtx2NXr1bJe6Jsqy9V3JHFtkDUL7sRaQzSYRzRayyJETla
- NWYiVTbZMtXwuzBBuSyVrhiZadcdRYrNd7qfPx2BEwvJ6NjzdQmiG+F3r4HMLsNnsRJQ
- dulfOulVDpBv9Q8Akgs5a8gMW1uGhdOYbLOhC8jM/okOK8tQv/0ceKERBL+yD77x4tES
- HRrw==
+ bh=zQ2x+aeHys1kZAjJL1OoMqEJX4HPeP9vJYjOd4CMUSc=;
+ b=SEnPjLKtuSlMt3wf9yhidyH1sLz2vpqe/nQCrfBzA6ydCqZZs2CbPRMABFkXx3w8ms
+ 41opebc11z/yw2Tt1NK9hU0t1EkwPrho+CePEqZPWUZhpBi6pvD+AV7P8guVd52RN2q/
+ P0z2e4otF7jcRah2Eh4mryDccfav76Ei5fvICR2T8KQaJ5e3XW11CBfUhXnQtBgassDZ
+ XDMhRrY5fH2SmBv2f02bVYc7JxGhE+PEVjHLZCQV7aAUYWfr3dfG26BKSLaVZFwgduaX
+ zyRrtRKuBVlvWlumuCoMDaa+tJBpciho2xF41qu6ggJUceA6HcFa3HBK1gsffzT9LiZm
+ 22ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677810396;
+ d=1e100.net; s=20210112; t=1677810399;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Os80dw8QyJd4/ZKOS1KxKkozjCiAs1UTtuUlBbbIAng=;
- b=sgo7u/7MJxDHWKLkJJo8IuIMEcthilwihZbq3I3s8WH1RCVd+nvKsQpVS336v+OWJG
- YhAhdRhA6WNNsXkDzP+dITvFqM6mZh+umH6KYLWyHpg/t/gTXmPJNncRyeFU5pzq8lC3
- SIjA1mOF5UMkpG+Dyfk8kUVN8wzjPccJOlvVvFsJH8vrBDHtqIl3fsoCsl/Xe7RTBJMI
- gygfCPbOzrrJ5Hk0Gx97GnPGd9y7nCA0HGFu0KkdKG3lPYMwyWsL4FAUEXtrkXSzuOJ4
- XkGPOCoIKVcEmRGKDYMbIpSoonh5lueQl9nN1Bmb0XU7JbyMwT4exht+RgzsaQDL3Cnc
- S4Xg==
-X-Gm-Message-State: AO0yUKUL5qdvuHsxjqGUf4ov/HG5YJXjt9HbXumWw5O/Uj66YfDmhcji
- wmLIoztFfAHqAjg/+iHoSsDkTowmYyqt5yIpnsq81dbyRMoXuu6mrvsi0z9GHv1qlS2skxIBva1
- IgKdm5URN86I0kfI48CrDBBP4itIIkOqOWcMIAMhR514EaUawwochNrkReA==
-X-Google-Smtp-Source: AK7set9ANx2BiVqich8oG5cgH/MDU4EntqHI+YfAEG9foQb8lfGSr7uHAuOkpnRKyAHQa+Pqezd0iOcFyg==
+ bh=zQ2x+aeHys1kZAjJL1OoMqEJX4HPeP9vJYjOd4CMUSc=;
+ b=fCZNWcAv4POwk3zP+p7KW+8n3gAoFrLv65kltYawNGn0AotbysP4FkQquHxw5GHMN5
+ oHa3qbW33nQmqbS/yQ0WzgNF5NT3NqYz9Kr8z7LQpc35Z+zD6vZ8aiGXo/pgvqa5W2nv
+ f9KzobjvOnjGZ10ykE5Qhw5hJVbnidlRb/d/GhGFHGIaIcBNKJUrrSOQVvYab4GFgWy/
+ Bob2lqRFEVIQermIvY+zzhfy+D7pMjRD7WMtSySrL02XtSPqD528aBL8JZ4AquQT3zY0
+ coJiOOKn7N/LzwGGJWyZxcpb6PZRYFhxAbu7scXO/LLxiFYp5YsCsCbgNVs7rIBwKREI
+ OpCA==
+X-Gm-Message-State: AO0yUKUZqfwkOoCcjZ7fB1YNnO3VRoHXeAqugA6DR3szuJDF69jACR3z
+ 1abJwix23yytelEtWaqpMTCgIfwpMhw3qe6mdRsarWzsJByMygdQlLvkhNvXKJZwy9AoUgCai/k
+ vGDGxpxbkrPMRbZ/Sm9sRawiwtr3o8MzngE3HPUM00H2O6vzDsnc4p4zwfg==
+X-Google-Smtp-Source: AK7set/wmHl7CT1idGBB49TagBUjPGTrVLamPDkkwxeqCkmWVQNkYYflvE9VebsTgx5rXfNL5/NEJKi/Iw==
 X-Received: from hshan17.roam.corp.google.com
  ([2620:15c:211:201:633f:2163:6a23:74ef])
- (user=hshan job=sendgmr) by 2002:a81:b624:0:b0:52e:f77c:315d with SMTP id
- u36-20020a81b624000000b0052ef77c315dmr32783ywh.3.1677810396385; Thu, 02 Mar
- 2023 18:26:36 -0800 (PST)
-Date: Thu,  2 Mar 2023 18:26:15 -0800
+ (user=hshan job=sendgmr) by 2002:a05:6902:304:b0:8f0:84b:8b9c with SMTP id
+ b4-20020a056902030400b008f0084b8b9cmr0ybs.487.1677810398450; Thu, 02 Mar 2023
+ 18:26:38 -0800 (PST)
+Date: Thu,  2 Mar 2023 18:26:16 -0800
 In-Reply-To: <20230303022618.4098825-1-hshan@google.com>
 Mime-Version: 1.0
 References: <20230303022618.4098825-1-hshan@google.com>
 X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
-Message-ID: <20230303022618.4098825-4-hshan@google.com>
-Subject: [PATCH 4/6] Add the aehd-ioapic device type.
+Message-ID: <20230303022618.4098825-5-hshan@google.com>
+Subject: [PATCH 5/6] Add the aehd-i8259 device type.
 From: Haitao Shan <hshan@google.com>
 To: qemu-devel@nongnu.org
 Cc: Haitao Shan <hshan@google.com>, Haitao Shan <haitao.shan@google.com>, 
@@ -71,9 +71,9 @@ Cc: Haitao Shan <hshan@google.com>, Haitao Shan <haitao.shan@google.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  "open list:Android Emulator..." <emu-dev@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=33FoBZAUKCr0kvkdqjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--hshan.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
+ envelope-from=33loBZAUKCr8mxmfslttlqj.htrvjrz-ij0jqstslsz.twl@flex--hshan.bounces.google.com;
+ helo=mail-yw1-x1149.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -96,29 +96,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The aehd-ioapic device type represents the AEHD in kernel IO-APIC.
+The aehd-i8259 device type represents the AEHD in kernel PICs.
 The irqchips should be always in kernel when AEHD is used.
 
 Signed-off-by: Haitao Shan <hshan@google.com>
 ---
- hw/i386/aehd/ioapic.c       | 164 ++++++++++++++++++++++++++++++++++++
- hw/i386/aehd/meson.build    |   1 +
- hw/i386/pc.c                |   3 +
- hw/i386/x86.c               |   3 +
- include/hw/intc/ioapic.h    |   1 +
- include/sysemu/aehd.h       |   4 +
- target/i386/aehd/aehd-all.c |  14 +++
- 7 files changed, 190 insertions(+)
- create mode 100644 hw/i386/aehd/ioapic.c
+ hw/i386/aehd/i8259.c     | 165 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/aehd/meson.build |   1 +
+ hw/i386/pc.c             |   2 +
+ include/hw/intc/i8259.h  |   1 +
+ 4 files changed, 169 insertions(+)
+ create mode 100644 hw/i386/aehd/i8259.c
 
-diff --git a/hw/i386/aehd/ioapic.c b/hw/i386/aehd/ioapic.c
+diff --git a/hw/i386/aehd/i8259.c b/hw/i386/aehd/i8259.c
 new file mode 100644
-index 0000000000..62ffb0172f
+index 0000000000..9a18e824dc
 --- /dev/null
-+++ b/hw/i386/aehd/ioapic.c
-@@ -0,0 +1,164 @@
++++ b/hw/i386/aehd/i8259.c
+@@ -0,0 +1,165 @@
 +/*
-+ * AEHD in-kernel IOPIC support
++ * AEHD in-kernel PIC (i8259) support
 + *
 + * Copyright (c) 2011 Siemens AG
 + *
@@ -128,56 +125,35 @@ index 0000000000..62ffb0172f
 + * This work is licensed under the terms of the GNU GPL version 2.
 + * See the COPYING file in the top-level directory.
 + */
-+
 +#include "qemu/osdep.h"
-+#include "monitor/monitor.h"
-+#include "hw/i386/pc.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/intc/ioapic_internal.h"
++#include "hw/isa/i8259_internal.h"
++#include "hw/i386/apic_internal.h"
 +#include "sysemu/aehd.h"
 +#include "sysemu/aehd-interface.h"
 +
-+/* PC Utility function */
-+void aehd_pc_setup_irq_routing(bool pci_enabled)
-+{
-+    AEHDState *s = aehd_state;
-+    int i;
++#define TYPE_AEHD_I8259 "aehd-i8259"
++#define AEHD_PIC_CLASS(class) \
++    OBJECT_CLASS_CHECK(AEHDPICClass, (class), TYPE_AEHD_I8259)
++#define AEHD_PIC_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(AEHDPICClass, (obj), TYPE_AEHD_I8259)
 +
-+    for (i = 0; i < 8; ++i) {
-+        if (i == 2) {
-+            continue;
-+        }
-+        aehd_irqchip_add_irq_route(s, i, AEHD_IRQCHIP_PIC_MASTER, i);
-+    }
-+    for (i = 8; i < 16; ++i) {
-+        aehd_irqchip_add_irq_route(s, i, AEHD_IRQCHIP_PIC_SLAVE, i - 8);
-+    }
-+    if (pci_enabled) {
-+        for (i = 0; i < 24; ++i) {
-+            if (i == 0) {
-+                aehd_irqchip_add_irq_route(s, i, AEHD_IRQCHIP_IOAPIC, 2);
-+            } else if (i != 2) {
-+                aehd_irqchip_add_irq_route(s, i, AEHD_IRQCHIP_IOAPIC, i);
-+            }
-+        }
-+    }
-+    aehd_irqchip_commit_routes(s);
-+}
++/**
++ * AEHDPICClass:
++ * @parent_realize: The parent's realizefn.
++ */
++typedef struct AEHDPICClass {
++    PICCommonClass parent_class;
 +
-+typedef struct AEHDIOAPICState AEHDIOAPICState;
++    DeviceRealize parent_realize;
++} AEHDPICClass;
 +
-+struct AEHDIOAPICState {
-+    IOAPICCommonState ioapic;
-+    uint32_t aehd_gsi_base;
-+};
-+
-+static void aehd_ioapic_get(IOAPICCommonState *s)
++static void aehd_pic_get(PICCommonState *s)
 +{
 +    struct aehd_irqchip chip;
-+    struct aehd_ioapic_state *aioapic;
-+    int ret, i;
++    struct aehd_pic_state *aepic;
++    int ret;
 +
-+    chip.chip_id = AEHD_IRQCHIP_IOAPIC;
++    chip.chip_id = s->master ? AEHD_IRQCHIP_PIC_MASTER : AEHD_IRQCHIP_PIC_SLAVE;
 +    ret = aehd_vm_ioctl(aehd_state, AEHD_GET_IRQCHIP, &chip, sizeof(chip),
 +                        &chip, sizeof(chip));
 +    if (ret < 0) {
@@ -185,32 +161,52 @@ index 0000000000..62ffb0172f
 +        abort();
 +    }
 +
-+    aioapic = &chip.chip.ioapic;
++    aepic = &chip.chip.pic;
 +
-+    s->id = aioapic->id;
-+    s->ioregsel = aioapic->ioregsel;
-+    s->irr = aioapic->irr;
-+    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-+        s->ioredtbl[i] = aioapic->redirtbl[i].bits;
-+    }
++    s->last_irr = aepic->last_irr;
++    s->irr = aepic->irr;
++    s->imr = aepic->imr;
++    s->isr = aepic->isr;
++    s->priority_add = aepic->priority_add;
++    s->irq_base = aepic->irq_base;
++    s->read_reg_select = aepic->read_reg_select;
++    s->poll = aepic->poll;
++    s->special_mask = aepic->special_mask;
++    s->init_state = aepic->init_state;
++    s->auto_eoi = aepic->auto_eoi;
++    s->rotate_on_auto_eoi = aepic->rotate_on_auto_eoi;
++    s->special_fully_nested_mode = aepic->special_fully_nested_mode;
++    s->init4 = aepic->init4;
++    s->elcr = aepic->elcr;
++    s->elcr_mask = aepic->elcr_mask;
 +}
 +
-+static void aehd_ioapic_put(IOAPICCommonState *s)
++static void aehd_pic_put(PICCommonState *s)
 +{
 +    struct aehd_irqchip chip;
-+    struct aehd_ioapic_state *aioapic;
-+    int ret, i;
++    struct aehd_pic_state *aepic;
++    int ret;
 +
-+    chip.chip_id = AEHD_IRQCHIP_IOAPIC;
-+    aioapic = &chip.chip.ioapic;
++    chip.chip_id = s->master ? AEHD_IRQCHIP_PIC_MASTER : AEHD_IRQCHIP_PIC_SLAVE;
 +
-+    aioapic->id = s->id;
-+    aioapic->ioregsel = s->ioregsel;
-+    aioapic->base_address = s->busdev.mmio[0].addr;
-+    aioapic->irr = s->irr;
-+    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-+        aioapic->redirtbl[i].bits = s->ioredtbl[i];
-+    }
++    aepic = &chip.chip.pic;
++
++    aepic->last_irr = s->last_irr;
++    aepic->irr = s->irr;
++    aepic->imr = s->imr;
++    aepic->isr = s->isr;
++    aepic->priority_add = s->priority_add;
++    aepic->irq_base = s->irq_base;
++    aepic->read_reg_select = s->read_reg_select;
++    aepic->poll = s->poll;
++    aepic->special_mask = s->special_mask;
++    aepic->init_state = s->init_state;
++    aepic->auto_eoi = s->auto_eoi;
++    aepic->rotate_on_auto_eoi = s->rotate_on_auto_eoi;
++    aepic->special_fully_nested_mode = s->special_fully_nested_mode;
++    aepic->init4 = s->init4;
++    aepic->elcr = s->elcr;
++    aepic->elcr_mask = s->elcr_mask;
 +
 +    ret = aehd_vm_ioctl(aehd_state, AEHD_SET_IRQCHIP,
 +                        &chip, sizeof(chip), NULL, 0);
@@ -220,176 +216,105 @@ index 0000000000..62ffb0172f
 +    }
 +}
 +
-+static void aehd_ioapic_reset(DeviceState *dev)
++static void aehd_pic_reset(DeviceState *dev)
 +{
-+    IOAPICCommonState *s = IOAPIC_COMMON(dev);
++    PICCommonState *s = PIC_COMMON(dev);
 +
-+    ioapic_reset_common(dev);
-+    aehd_ioapic_put(s);
++    s->elcr = 0;
++    pic_reset_common(s);
++
++    aehd_pic_put(s);
 +}
 +
-+static void aehd_ioapic_set_irq(void *opaque, int irq, int level)
++static void aehd_pic_set_irq(void *opaque, int irq, int level)
 +{
-+    AEHDIOAPICState *s = opaque;
-+
-+    aehd_set_irq(aehd_state, s->aehd_gsi_base + irq, level);
++    pic_stat_update_irq(irq, level);
++    aehd_set_irq(aehd_state, irq, level);
 +}
 +
-+static void aehd_ioapic_realize(DeviceState *dev, Error **errp)
++static void aehd_pic_realize(DeviceState *dev, Error **errp)
 +{
-+    IOAPICCommonState *s = IOAPIC_COMMON(dev);
++    PICCommonState *s = PIC_COMMON(dev);
++    AEHDPICClass *kpc = AEHD_PIC_GET_CLASS(dev);
 +
-+    memory_region_init_io(&s->io_memory, OBJECT(dev), NULL, NULL,
-+                          "aehd-ioapic", 0x1000);
++    memory_region_init_io(&s->base_io, OBJECT(dev), NULL, NULL, "aehd-pic", 2);
++    memory_region_init_io(&s->elcr_io, OBJECT(dev), NULL, NULL, "aehd-elcr", 1);
 +
-+    /*
-+     * AEHD ioapic only supports 0x11 now. This will only be used when
-+     * we want to dump ioapic version.
-+     */
-+    s->version = 0x11;
 +
-+    qdev_init_gpio_in(dev, aehd_ioapic_set_irq, IOAPIC_NUM_PINS);
++    kpc->parent_realize(dev, errp);
 +}
 +
-+static Property aehd_ioapic_properties[] = {
-+    DEFINE_PROP_UINT32("gsi_base", AEHDIOAPICState, aehd_gsi_base, 0),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static void aehd_ioapic_class_init(ObjectClass *klass, void *data)
++qemu_irq *aehd_i8259_init(ISABus *bus)
 +{
-+    IOAPICCommonClass *k = IOAPIC_COMMON_CLASS(klass);
++    i8259_init_chip(TYPE_AEHD_I8259, bus, true);
++    i8259_init_chip(TYPE_AEHD_I8259, bus, false);
++
++    return qemu_allocate_irqs(aehd_pic_set_irq, NULL, ISA_NUM_IRQS);
++}
++
++static void aehd_i8259_class_init(ObjectClass *klass, void *data)
++{
++    AEHDPICClass *kpc = AEHD_PIC_CLASS(klass);
++    PICCommonClass *k = PIC_COMMON_CLASS(klass);
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    k->realize   = aehd_ioapic_realize;
-+    k->pre_save  = aehd_ioapic_get;
-+    k->post_load = aehd_ioapic_put;
-+    dc->reset    = aehd_ioapic_reset;
-+    device_class_set_props(dc, aehd_ioapic_properties);
++    dc->reset     = aehd_pic_reset;
++    kpc->parent_realize = dc->realize;
++    dc->realize   = aehd_pic_realize;
++    k->pre_save   = aehd_pic_get;
++    k->post_load  = aehd_pic_put;
 +}
 +
-+static const TypeInfo aehd_ioapic_info = {
-+    .name  = TYPE_AEHD_IOAPIC,
-+    .parent = TYPE_IOAPIC_COMMON,
-+    .instance_size = sizeof(AEHDIOAPICState),
-+    .class_init = aehd_ioapic_class_init,
++static const TypeInfo aehd_i8259_info = {
++    .name = TYPE_AEHD_I8259,
++    .parent = TYPE_PIC_COMMON,
++    .instance_size = sizeof(PICCommonState),
++    .class_init = aehd_i8259_class_init,
++    .class_size = sizeof(AEHDPICClass),
 +};
 +
-+static void aehd_ioapic_register_types(void)
++static void aehd_pic_register_types(void)
 +{
-+    type_register_static(&aehd_ioapic_info);
++    type_register_static(&aehd_i8259_info);
 +}
 +
-+type_init(aehd_ioapic_register_types)
++type_init(aehd_pic_register_types)
 diff --git a/hw/i386/aehd/meson.build b/hw/i386/aehd/meson.build
-index 1749860954..259c9f66f7 100644
+index 259c9f66f7..90c9a3e2b6 100644
 --- a/hw/i386/aehd/meson.build
 +++ b/hw/i386/aehd/meson.build
-@@ -1,4 +1,5 @@
+@@ -1,5 +1,6 @@
  i386_aehd_ss = ss.source_set()
  i386_aehd_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
-+i386_aehd_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
++i386_aehd_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
+ i386_aehd_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
  
  i386_ss.add_all(when: 'CONFIG_AEHD', if_true: i386_aehd_ss)
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 992951c107..59513a5c38 100644
+index 59513a5c38..3b45f75fbd 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -58,6 +58,7 @@
- #include "sysemu/tcg.h"
- #include "sysemu/numa.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/aehd.h"
- #include "sysemu/xen.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-@@ -405,6 +406,8 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
-     s = g_new0(GSIState, 1);
-     if (kvm_ioapic_in_kernel()) {
-         kvm_pc_setup_irq_routing(pci_enabled);
-+    } else if (aehd_enabled()) {
-+        aehd_pc_setup_irq_routing(pci_enabled);
-     }
-     *irqs = qemu_allocate_irqs(gsi_handler, s, IOAPIC_NUM_PINS);
+@@ -1356,6 +1356,8 @@ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs)
  
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index c44846f47b..ffc6f97ce0 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -34,6 +34,7 @@
- #include "qapi/visitor.h"
- #include "sysemu/qtest.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/aehd.h"
- #include "sysemu/numa.h"
- #include "sysemu/replay.h"
- #include "sysemu/reset.h"
-@@ -628,6 +629,8 @@ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
-     assert(parent_name);
-     if (kvm_ioapic_in_kernel()) {
-         dev = qdev_new(TYPE_KVM_IOAPIC);
+     if (kvm_pic_in_kernel()) {
+         i8259 = kvm_i8259_init(isa_bus);
 +    } else if (aehd_enabled()) {
-+        dev = qdev_new(TYPE_AEHD_IOAPIC);
++        i8259 = aehd_i8259_init(isa_bus);
+     } else if (xen_enabled()) {
+         i8259 = xen_interrupt_controller_init();
      } else {
-         dev = qdev_new(TYPE_IOAPIC);
-     }
-diff --git a/include/hw/intc/ioapic.h b/include/hw/intc/ioapic.h
-index aa122e25e3..6f46543e24 100644
---- a/include/hw/intc/ioapic.h
-+++ b/include/hw/intc/ioapic.h
-@@ -26,6 +26,7 @@
- #define IO_APIC_SECONDARY_IRQBASE 24 /* primary 0 -> 23, secondary 24 -> 47 */
+diff --git a/include/hw/intc/i8259.h b/include/hw/intc/i8259.h
+index c412575775..5ce85ed590 100644
+--- a/include/hw/intc/i8259.h
++++ b/include/hw/intc/i8259.h
+@@ -14,6 +14,7 @@ extern PICCommonState *isa_pic;
+  */
+ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq_in);
+ qemu_irq *kvm_i8259_init(ISABus *bus);
++qemu_irq *aehd_i8259_init(ISABus *bus);
+ int pic_get_output(PICCommonState *s);
+ int pic_read_irq(PICCommonState *s);
  
- #define TYPE_KVM_IOAPIC "kvm-ioapic"
-+#define TYPE_AEHD_IOAPIC "aehd-ioapic"
- #define TYPE_IOAPIC "ioapic"
- 
- void ioapic_eoi_broadcast(int vector);
-diff --git a/include/sysemu/aehd.h b/include/sysemu/aehd.h
-index 87fa2f8362..534dd95e3c 100644
---- a/include/sysemu/aehd.h
-+++ b/include/sysemu/aehd.h
-@@ -66,6 +66,8 @@ int aehd_arch_release_virq_post(int virq);
- int aehd_set_irq(AEHDState *s, int irq, int level);
- int aehd_irqchip_send_msi(AEHDState *s, MSIMessage msg);
- 
-+void aehd_irqchip_add_irq_route(AEHDState *s, int gsi, int irqchip, int pin);
-+
- void aehd_put_apic_state(DeviceState *d, struct aehd_lapic_state *kapic);
- void aehd_get_apic_state(DeviceState *d, struct aehd_lapic_state *kapic);
- 
-@@ -74,4 +76,6 @@ void aehd_get_apic_state(DeviceState *d, struct aehd_lapic_state *kapic);
- void aehd_irqchip_commit_routes(AEHDState *s);
- void aehd_irqchip_release_virq(AEHDState *s, int virq);
- 
-+void aehd_pc_setup_irq_routing(bool pci_enabled);
-+
- #endif
-diff --git a/target/i386/aehd/aehd-all.c b/target/i386/aehd/aehd-all.c
-index f2eb80ecde..4c6a670cb7 100644
---- a/target/i386/aehd/aehd-all.c
-+++ b/target/i386/aehd/aehd-all.c
-@@ -124,6 +124,20 @@ static void aehd_add_routing_entry(AEHDState *s,
-     set_gsi(s, entry->gsi);
- }
- 
-+void aehd_irqchip_add_irq_route(AEHDState *s, int irq, int irqchip, int pin)
-+{
-+    struct aehd_irq_routing_entry e = {};
-+
-+    assert(pin < s->gsi_count);
-+
-+    e.gsi = irq;
-+    e.type = AEHD_IRQ_ROUTING_IRQCHIP;
-+    e.flags = 0;
-+    e.u.irqchip.irqchip = irqchip;
-+    e.u.irqchip.pin = pin;
-+    aehd_add_routing_entry(s, &e);
-+}
-+
- void aehd_irqchip_release_virq(AEHDState *s, int virq)
- {
-     struct aehd_irq_routing_entry *e;
 -- 
 2.40.0.rc0.216.gc4246ad0f0-goog
 
