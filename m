@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBD16A9FFB
+	by mail.lfdr.de (Postfix) with ESMTPS id B4ABD6A9FFC
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:21:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYAx6-00029D-1t; Fri, 03 Mar 2023 14:20:24 -0500
+	id 1pYAx9-0002E1-LY; Fri, 03 Mar 2023 14:20:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pYAx3-000292-Rm
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pYAx6-0002Az-Hx
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pYAx2-0003WG-0h
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:21 -0500
+ id 1pYAx4-0003Wl-Vk
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677871218;
+ s=mimecast20190719; t=1677871222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=liQ8kuMIrYxsYTu7Odnl0ItPBxkwbKf74w/Bc0RJF9E=;
- b=R8Lv0xxKssQBqVZILPAq/f6u07vzSKcD0bMl9ELfTsNUTQfkDrm8soaPYywHzW6JB9dWGh
- p3pcADRrJ/CAnVPBwhWLsBUU/ffquq/VoDDu04X8AfU6zMmYPs5PjJYS8s+P01WZ8toG5c
- 4cq/xduSnqQXRDKAVAPhzMFrk1vuKDY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z3NJSDdK9IidexqUuWYWIIP6h2jYWPfBhqOpNB2Un4c=;
+ b=XZYMn+baZ+k9prf6RVZ+9uGJ/HTXeTWlKmJadPhynB2rRixLAS2CwGLKXdY/7xcbtIfxsH
+ Xr5xhAwKlhlLQFk5aO1vVkvDNoNMWr+3zPnFyqWC6AxhAjU0GH/17PsreA5lnSgxyEZclm
+ +fzgbn7ZGUAGzKcQlNf3D7Nudi5KQTo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-b710R53hNLuIpVErZoUIRw-1; Fri, 03 Mar 2023 14:20:15 -0500
-X-MC-Unique: b710R53hNLuIpVErZoUIRw-1
+ us-mta-542-6ItuI1w1Ov-TLLSfU7HT7w-1; Fri, 03 Mar 2023 14:20:19 -0500
+X-MC-Unique: 6ItuI1w1Ov-TLLSfU7HT7w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DEF6380607D;
- Fri,  3 Mar 2023 19:20:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A69E800B23;
+ Fri,  3 Mar 2023 19:20:18 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.45.224.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EAB51140EBF4;
- Fri,  3 Mar 2023 19:20:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B55C4140EBF4;
+ Fri,  3 Mar 2023 19:20:14 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -59,13 +60,15 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
  Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
  Xuzhou Cheng <xuzhou.cheng@windriver.com>, brian.wiltse@live.com
-Subject: [PATCH v3 0/2] QGA installer fixes
-Date: Fri,  3 Mar 2023 21:20:06 +0200
-Message-Id: <20230303192008.109549-1-kkostiuk@redhat.com>
+Subject: [PATCH v3 1/2] qga/win32: Remove change action from MSI installer
+Date: Fri,  3 Mar 2023 21:20:07 +0200
+Message-Id: <20230303192008.109549-2-kkostiuk@redhat.com>
+In-Reply-To: <20230303192008.109549-1-kkostiuk@redhat.com>
+References: <20230303192008.109549-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,38 +92,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Remove the 'change' button from "Programs and Features" because it does
+not checks if a user is an admin or not. The installer has no components
+to choose from and always installs everything. So the 'change' button is
+not obviously needed but can create a security issue.
+
 resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2167423
-fixes: CVE-2023-0664 (2 parts)
+fixes: CVE-2023-0664 (part 1 of 2)
 
-CVE Technical details: The cached installer for QEMU Guest Agent in c:\windows\installer
-(https://github.com/qemu/qemu/blob/master/qga/installer/qemu-ga.wxs),
-can be leveraged to begin a repair of the installation without validation
-that the repair is being performed by an administrative user. The MSI repair
-custom action "RegisterCom" and "UnregisterCom" is not set for impersonation
-which allows for the actions to occur as the SYSTEM account
-(LINE 137 AND 145 of qemu-ga.wxs). The custom action also leverages cmd.exe
-to run qemu-ga.exe in line 134 and 142 which causes an interactive command
-shell to spawn even though the MSI is set to be non-interactive on line 53.
-
+Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
 Reported-by: Brian Wiltse <brian.wiltse@live.com>
+---
+ qga/installer/qemu-ga.wxs | 1 +
+ 1 file changed, 1 insertion(+)
 
-v2: https://lists.nongnu.org/archive/html/qemu-devel/2023-02/msg05979.html
-v2 -> v3:
-  Minor fix in commit messages
-
-v1: https://lists.nongnu.org/archive/html/qemu-devel/2023-02/msg05661.html
-v1 -> v2:
-  Add explanation into commit messages
-
-Konstantin Kostiuk (2):
-  qga/win32: Remove change action from MSI installer
-  qga/win32: Use rundll for VSS installation
-
- qga/installer/qemu-ga.wxs | 11 ++++++-----
- qga/vss-win32/install.cpp |  9 +++++++++
- qga/vss-win32/qga-vss.def |  2 ++
- 3 files changed, 17 insertions(+), 5 deletions(-)
-
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 51340f7ecc..feb629ec47 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -31,6 +31,7 @@
+       />
+     <Media Id="1" Cabinet="qemu_ga.$(var.QEMU_GA_VERSION).cab" EmbedCab="yes" />
+     <Property Id="WHSLogo">1</Property>
++    <Property Id="ARPNOMODIFY" Value="yes" Secure="yes" />
+     <MajorUpgrade
+       DowngradeErrorMessage="Error: A newer version of QEMU guest agent is already installed."
+       />
 --
 2.25.1
 
