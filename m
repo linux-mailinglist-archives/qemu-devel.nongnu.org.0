@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4ABD6A9FFC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8A76A9FFE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:21:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYAx9-0002E1-LY; Fri, 03 Mar 2023 14:20:27 -0500
+	id 1pYAxC-0002FL-GZ; Fri, 03 Mar 2023 14:20:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pYAx6-0002Az-Hx
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pYAxA-0002FB-M4
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pYAx4-0003Wl-Vk
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:24 -0500
+ id 1pYAx9-0003XC-2W
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:20:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677871222;
+ s=mimecast20190719; t=1677871226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z3NJSDdK9IidexqUuWYWIIP6h2jYWPfBhqOpNB2Un4c=;
- b=XZYMn+baZ+k9prf6RVZ+9uGJ/HTXeTWlKmJadPhynB2rRixLAS2CwGLKXdY/7xcbtIfxsH
- Xr5xhAwKlhlLQFk5aO1vVkvDNoNMWr+3zPnFyqWC6AxhAjU0GH/17PsreA5lnSgxyEZclm
- +fzgbn7ZGUAGzKcQlNf3D7Nudi5KQTo=
+ bh=n7a42SrubIoXUImbAN8XOyOMoYa67DMUvHOpB/gTJ0M=;
+ b=VSFkuIDaA7vOPZNUB9DSdJd4sPDWgRort10+tw96KsvKRxvpfEllWqzplszujw/0xcPy1L
+ /MAFHoalTB17SoHorO7jzib1nsA1tR6yg+q37iydmk8kc54ts5wJxTPI1TpalIaPtLPrVC
+ tfCTRQ79n6be/dJpo2All7E1XhyQfR4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-6ItuI1w1Ov-TLLSfU7HT7w-1; Fri, 03 Mar 2023 14:20:19 -0500
-X-MC-Unique: 6ItuI1w1Ov-TLLSfU7HT7w-1
+ us-mta-497-qDQ-jwI8Nome1Jr0grdh0Q-1; Fri, 03 Mar 2023 14:20:23 -0500
+X-MC-Unique: qDQ-jwI8Nome1Jr0grdh0Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A69E800B23;
- Fri,  3 Mar 2023 19:20:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 544488027FD;
+ Fri,  3 Mar 2023 19:20:22 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.45.224.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B55C4140EBF4;
- Fri,  3 Mar 2023 19:20:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9CBE140EBF4;
+ Fri,  3 Mar 2023 19:20:18 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -60,15 +60,15 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
  Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
  Xuzhou Cheng <xuzhou.cheng@windriver.com>, brian.wiltse@live.com
-Subject: [PATCH v3 1/2] qga/win32: Remove change action from MSI installer
-Date: Fri,  3 Mar 2023 21:20:07 +0200
-Message-Id: <20230303192008.109549-2-kkostiuk@redhat.com>
+Subject: [PATCH v3 2/2] qga/win32: Use rundll for VSS installation
+Date: Fri,  3 Mar 2023 21:20:08 +0200
+Message-Id: <20230303192008.109549-3-kkostiuk@redhat.com>
 In-Reply-To: <20230303192008.109549-1-kkostiuk@redhat.com>
 References: <20230303192008.109549-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -92,33 +92,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove the 'change' button from "Programs and Features" because it does
-not checks if a user is an admin or not. The installer has no components
-to choose from and always installs everything. So the 'change' button is
-not obviously needed but can create a security issue.
+The custom action uses cmd.exe to run VSS Service installation
+and removal which causes an interactive command shell to spawn.
+This shell can be used to execute any commands as a SYSTEM user.
+Even if call qemu-ga.exe directly the interactive command shell
+will be spawned as qemu-ga.exe is a console application and used
+by users from the console as well as a service.
+
+As VSS Service runs from DLL which contains the installer and
+uninstaller code, it can be run directly by rundll32.exe without
+any interactive command shell.
+
+Add specific entry points for rundll which is just a wrapper
+for COMRegister/COMUnregister functions with proper arguments.
 
 resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2167423
-fixes: CVE-2023-0664 (part 1 of 2)
+fixes: CVE-2023-0664 (part 2 of 2)
 
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
 Reported-by: Brian Wiltse <brian.wiltse@live.com>
 ---
- qga/installer/qemu-ga.wxs | 1 +
- 1 file changed, 1 insertion(+)
+ qga/installer/qemu-ga.wxs | 10 +++++-----
+ qga/vss-win32/install.cpp |  9 +++++++++
+ qga/vss-win32/qga-vss.def |  2 ++
+ 3 files changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index 51340f7ecc..feb629ec47 100644
+index feb629ec47..46ae9e7a13 100644
 --- a/qga/installer/qemu-ga.wxs
 +++ b/qga/installer/qemu-ga.wxs
-@@ -31,6 +31,7 @@
-       />
-     <Media Id="1" Cabinet="qemu_ga.$(var.QEMU_GA_VERSION).cab" EmbedCab="yes" />
-     <Property Id="WHSLogo">1</Property>
-+    <Property Id="ARPNOMODIFY" Value="yes" Secure="yes" />
-     <MajorUpgrade
-       DowngradeErrorMessage="Error: A newer version of QEMU guest agent is already installed."
-       />
+@@ -127,22 +127,22 @@
+       </Directory>
+     </Directory>
+
+-    <Property Id="cmd" Value="cmd.exe"/>
++    <Property Id="rundll" Value="rundll32.exe"/>
+     <Property Id="REINSTALLMODE" Value="amus"/>
+
+     <?ifdef var.InstallVss?>
+     <CustomAction Id="RegisterCom"
+-              ExeCommand='/c "[qemu_ga_directory]qemu-ga.exe" -s vss-install'
++              ExeCommand='"[qemu_ga_directory]qga-vss.dll",DLLCOMRegister'
+               Execute="deferred"
+-              Property="cmd"
++              Property="rundll"
+               Impersonate="no"
+               Return="check"
+               >
+     </CustomAction>
+     <CustomAction Id="UnRegisterCom"
+-              ExeCommand='/c "[qemu_ga_directory]qemu-ga.exe" -s vss-uninstall'
++              ExeCommand='"[qemu_ga_directory]qga-vss.dll",DLLCOMUnregister'
+               Execute="deferred"
+-              Property="cmd"
++              Property="rundll"
+               Impersonate="no"
+               Return="check"
+               >
+diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
+index b57508fbe0..68662a6dfc 100644
+--- a/qga/vss-win32/install.cpp
++++ b/qga/vss-win32/install.cpp
+@@ -357,6 +357,15 @@ out:
+     return hr;
+ }
+
++STDAPI_(void) CALLBACK DLLCOMRegister(HWND, HINSTANCE, LPSTR, int)
++{
++    COMRegister();
++}
++
++STDAPI_(void) CALLBACK DLLCOMUnregister(HWND, HINSTANCE, LPSTR, int)
++{
++    COMUnregister();
++}
+
+ static BOOL CreateRegistryKey(LPCTSTR key, LPCTSTR value, LPCTSTR data)
+ {
+diff --git a/qga/vss-win32/qga-vss.def b/qga/vss-win32/qga-vss.def
+index 927782c31b..ee97a81427 100644
+--- a/qga/vss-win32/qga-vss.def
++++ b/qga/vss-win32/qga-vss.def
+@@ -1,6 +1,8 @@
+ LIBRARY      "QGA-PROVIDER.DLL"
+
+ EXPORTS
++	DLLCOMRegister
++	DLLCOMUnregister
+ 	COMRegister		PRIVATE
+ 	COMUnregister		PRIVATE
+ 	DllCanUnloadNow		PRIVATE
 --
 2.25.1
 
