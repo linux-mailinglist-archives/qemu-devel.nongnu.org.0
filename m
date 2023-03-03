@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19096A95DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FEE6A95E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 12:17:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pY3MJ-00056b-Fh; Fri, 03 Mar 2023 06:13:55 -0500
+	id 1pY3P8-0006am-6F; Fri, 03 Mar 2023 06:16:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3MH-00054J-De
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:13:53 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ id 1pY3P5-0006Zw-Ss
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:16:47 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pY3MF-0000gf-IW
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:13:53 -0500
-Received: by mail-pf1-x435.google.com with SMTP id ce7so1291271pfb.9
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:13:50 -0800 (PST)
+ id 1pY3P4-0001eW-71
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 06:16:47 -0500
+Received: by mail-pg1-x533.google.com with SMTP id d6so1247998pgu.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 03:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677842030;
+ d=linaro.org; s=google; t=1677842204;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=771nX0xx/KFQs9t+cJRFBeu+fP6pT03sAEMlxCA2kn4=;
- b=ct8K8vZsnMUE99Xwwy1LkpVNHyxjuzr5OVLOlSBFg4OgYbvVshh+jBvoLTSC20Fc3B
- FtDjRslMvZWNpfjKTQubMupP0v55OFQDaA6DshgB3u9ndDTr746MENlrvAlpdGR0Kd3a
- GztdNr+D2j1OvQ1YTDA14dVEvaajEHOeoq06NAuW/1w8xPP0GGZlquC9nurx2WhjQUXW
- O8y6GbxFTxvLy0cM9f1ekP1WTt/kKWtzlliow7fhruvGV0KQQDaI1YGvS5gOiWEDLpzS
- 12V38zydn2epsJr+Z6nYFNlWtr0KnNLJittWhc/dGlBpC4JTvt+jacwT6gWZNOd5s0P+
- xNHw==
+ bh=HpqkAhmyA0LdyZSyhNu9CgDOyvGP61IIvcQNWKvMTAY=;
+ b=aPuwdCNtlGGPCx32OtbizzAVK4IYwHotCm8vUf8rH71gCgSTi1Zcq6Ws8tRaL1SKR2
+ qHQx4dPQGal5Mp01cA6yIhckJT5y0sDY/56m8Lkyg/mZJMEvcnV988KI15KI5u6L+IRM
+ h+iELKli65iCRvcgLCo/zay4wFtlM4nv5Jr+dKavsDrx73Cy/z5r5CszWSk7BN5jbqoe
+ cV8M2NxSGEj949OnkHmqKa248lgc2klZK4amqtvMC0R95XHJEVU4zXax0Zjrm7Rio91E
+ Uw1owcNYZT9V8Mn4FhEJHKN6dtpI1WDU3Go5X6Cqo5qi3WxQC0vRJPf39b08ndKFcJMI
+ yXLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677842030;
+ d=1e100.net; s=20210112; t=1677842204;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=771nX0xx/KFQs9t+cJRFBeu+fP6pT03sAEMlxCA2kn4=;
- b=ZQQn7SAsjHilSLDQ86akULrNuVrloUNLF9UGWo1nROwAP8Dg4bwqvQi/ZXnP88lfLz
- AeD6qNrod3UfJCPvGUdXvC0EZy+P/aIZ1j6hKyhUtvNi0aMgnPp0wxciOgYXXnqOwZhb
- qPY/a4OK9gcSIflUnB5D05QJBTELZCHBpL/vJXDjzOOJInDp4MzIKEzxS+1jD+G8dwa8
- p8KD9yLmrmGnuSMWwwV1+X9OebfTG8H+yJRJ6gczue9p4RoJsRDkhZ0diOyl2989gQVH
- LKtDjmT5Rddcracx7ye0L3G8kRccSK5peqrcBPWMVSdyz4OuHufGeeNSiR8R32gVa6dq
- H0Ow==
-X-Gm-Message-State: AO0yUKUxPvK1A0PJ0H3l9WERdsAV+0WsJlWNJ95qfrUve7HThiapb0UD
- 8kTZF3PgbYCvOsK+QMjhTmXVfRAC5L6MAWJMMCeWBg==
-X-Google-Smtp-Source: AK7set/x/WDdgn+S92hQtOBJgCidOYOIzwhzhmI8pfKfzDc4K8wJXyjZeel1XCw1H0yJAhaHt/0OexozxTAKdEQJxEk=
-X-Received: by 2002:a62:ce4e:0:b0:5a9:c22e:7764 with SMTP id
- y75-20020a62ce4e000000b005a9c22e7764mr725402pfg.5.1677842029563; Fri, 03 Mar
- 2023 03:13:49 -0800 (PST)
+ bh=HpqkAhmyA0LdyZSyhNu9CgDOyvGP61IIvcQNWKvMTAY=;
+ b=EJEdG/RDIhfBIBc4PSTz3pq9EyFVWI1d6SwUH+6FDYaibdXTeLHs78jhdREgQEmKtQ
+ 31JXUJN+niFEqC8EKt2JymrtwpRE93SMfpoYdszyA2dmAu/qkTIe45C4xFHXlUw+1TFk
+ nx45GYRDj2sx6HtUMbAotUT2Fi8bbVx+P7undY73FxG/U2Ds9s0XsNwvlXakfiOVx+mE
+ KMUbfOiaAFS7MrnbFZPrkdDz0EwOTZCinM9SvE1XLitHgLU20cFAAE9gPvuEejpA6n1X
+ GkmVLqzQsv9e2iFsbyhK0n9px6d5fUhK1vDnoFtdQ5QMC26LRjsQ+B21Y8sgfNwk0+xB
+ va6Q==
+X-Gm-Message-State: AO0yUKWPlgBdyyhtsF4815bj4APg7haPYhxxNUu49B1FKlIkA/UeAVL1
+ nUlfJoR4rlvAJ0S6qzq/IAFNKNSsvaPg0Pjr4CWBhQ==
+X-Google-Smtp-Source: AK7set9CNauIHkidY86e9p0+4D48SNNhrsSEwa5fbYw0YUBRN8Nx2srPULT6bjJ68MYMjGEsg/cbJriR7JHdxPs40sc=
+X-Received: by 2002:a63:f705:0:b0:503:7cc9:3f8d with SMTP id
+ x5-20020a63f705000000b005037cc93f8dmr378922pgh.9.1677842204397; Fri, 03 Mar
+ 2023 03:16:44 -0800 (PST)
 MIME-Version: 1.0
-References: <CA+LXE64nmGveP834FfUKxfrGN5dGX-615-OvFsTSLCuoKombmw@mail.gmail.com>
- <e06d72d1-9628-2b5a-8ff9-7a1bedea087f@redhat.com>
-In-Reply-To: <e06d72d1-9628-2b5a-8ff9-7a1bedea087f@redhat.com>
+References: <20230302163106.465559-1-thuth@redhat.com>
+ <20230302163106.465559-5-thuth@redhat.com>
+In-Reply-To: <20230302163106.465559-5-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 11:13:38 +0000
-Message-ID: <CAFEAcA8dDqym3PrZszxrtq6JMNkWxcL9LjwmMeW2aXbU75V3fg@mail.gmail.com>
-Subject: Re: Is the fix for "DMA MMIO reentrancy" in qemu stable now?
+Date: Fri, 3 Mar 2023 11:16:32 +0000
+Message-ID: <CAFEAcA8JZqKnSN98PoO684zS1ZADj_KkaWO2QMk3w9uXk2cdMg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] docs/about/deprecated: Deprecate the
+ qemu-system-arm binary
 To: Thomas Huth <thuth@redhat.com>
-Cc: byzero <byzero512@gmail.com>, qemu-devel@nongnu.org, 
- Michael Roth <michael.roth@amd.com>
+Cc: qemu-devel@nongnu.org, Daniel Berrange <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org, 
+ Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,33 +90,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 11:00, Thomas Huth <thuth@redhat.com> wrote:
+On Thu, 2 Mar 2023 at 16:31, Thomas Huth <thuth@redhat.com> wrote:
 >
-> On 02/03/2023 09.27, byzero wrote:
-> > Hi,
-> > The bug class of MMIO reentrancy is fixed by adding a member "memory" in the
-> > struct "MemTxAttrs", but the patch only exists in 7.x version, which is only
-> > release version, but not stable version. The latest stable version is 6.1,
-> > and there is no stable version being released for nearly a year.  According
-> > to the docs(https://www.qemu.org/download/
-> > <https://www.qemu.org/download/>): "The stable trees are located in branches
-> > named stable-X.YY branch, where X.YY is the release version.".
-> >    So I want to know that if the patch is stable enough? Will the community
-> > be possible to change the way for fixing the bug class?
-> >    thanks for reading this email.
+> qemu-system-aarch64 is a proper superset of qemu-system-arm,
+> and the latter was mainly still required for 32-bit KVM support.
+> But this 32-bit KVM arm support has been dropped in the Linux
+> kernel a couple of years ago already, so we don't really need
+> qemu-system-arm anymore, thus deprecated it now.
 >
->   Hi,
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/about/deprecated.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> as far as I know, there are currently no more stable releases, due to time
-> constraints of the stable maintainer. So your best option is currently to
-> pick the corresponding patches and apply them on your own before compiling QEMU.
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index a30aa8dfdf..21ce70b5c9 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -45,6 +45,16 @@ run 32-bit guests by selecting a 32-bit CPU model, including KVM support
+>  on x86_64 hosts. Thus users are recommended to reconfigure their systems
+>  to use the ``qemu-system-x86_64`` binary instead.
+>
+> +``qemu-system-arm`` binary (since 8.0)
+> +''''''''''''''''''''''''''''''''''''''
+> +
+> +``qemu-system-aarch64`` is a proper superset of ``qemu-system-arm``.
 
-Regardless, note that if you care about security issues then you
-always needed to
-either be using a distro provided QEMU or else be doing your own curating
-and applying of security related patches. The 'stable releases' have always
-been a convenience for people and distros interested in bug fixes of various
-kinds; they were never "quick point releases for security related fixes".
+I think this is not quite true -- at the moment if you want
+"every feature we implement, 32-bit" the only way to get
+that is 'qemu-system-arm -cpu max'. The '-cpu max' on
+qemu-system-aarch64 is 64-bit, and we don't implement for TCG
+the "-cpu max,aarch64=off" syntax that we do for KVM that would
+let the user say "no 64-bit support".
 
+thanks
 -- PMM
 
