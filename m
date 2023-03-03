@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91666A9FEA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD926A9FF2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Mar 2023 20:12:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYAmp-0002j2-Cj; Fri, 03 Mar 2023 14:09:47 -0500
+	id 1pYAp1-0004Dn-Cn; Fri, 03 Mar 2023 14:12:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYAmo-0002ie-3K
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:09:46 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+ id 1pYAoz-0004Cr-Pl
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:12:01 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYAmk-0000En-TG
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:09:45 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id z11so2223246pfh.4
- for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 11:09:42 -0800 (PST)
+ id 1pYAox-0001TX-5T
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 14:12:01 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id x34so3639040pjj.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Mar 2023 11:11:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677870581;
+ d=linaro.org; s=google; t=1677870717;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0sQhjcqSH8pb/5Rz2U6mXpjIZSWWlhhczVIyOLu/xU8=;
- b=KJDdj0cwh/JLQ2rdLqiK0mL8Vvm9KK91rtRr5rf/vVNpD6FOzT7jS9MAmNo/XBliLN
- /TBtD7UkJ1CKg4iWDUxjdffPVyi8jX1FiARCbGDUeyfSgZFASEyMIr/oMTAF513hlynp
- E2m4mBDKyMIc3E1bzo5lQAdfHs/o0URyDU0wUFfuEa7Z73UC7Uo/byDnGS9bW6mIhXx6
- SbYwc+htXNk4njTtDn+X3xitG2SNrch7cN4yKJkF5iLK4zUMmNeaY1Pu7Pz7a1wbkVDb
- OkBMGQWmRM41n2gDDfrj7CRCa1+R04smm9btLEZdYsIxcP3QzNS5nEUWHjoGantOeQ68
- svNQ==
+ bh=28eOft/m9pkBnuEb6pZDj/jSbnSgdzZgdAX7OcHa0J4=;
+ b=htAyzCQtyGwCadomCokeH5RjkEd9h5T8IqDZ81FH7xH54/5ySxnRo/7sKJDxbR3IdQ
+ 1C8F29tMMDpd2ysw5GweWQ+IqbleR9bz9iM2YPO8rIp2X/wJQs8k7W0ENabo4/hOcTPG
+ 3s9hVqoRLWxtPPbtI6M1SSfUBLpkfk4Eo+M6YWKZFskhfUz0OfxuSEi4XyH2qmKhmgn3
+ CGnSVqAMoWevKPPhdMR0x5ngxSLLeUJSeJDLKn0Yq3zOS+6ZLx7J7j48C45nVlT+ZOp3
+ T6wQ1IiYFBww+C5fkn2VnEga+NWShpV8QpbdvpRL1/iSh30nDmXLBWC0JYZ6sSXbXydk
+ IYUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677870581;
+ d=1e100.net; s=20210112; t=1677870717;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0sQhjcqSH8pb/5Rz2U6mXpjIZSWWlhhczVIyOLu/xU8=;
- b=RABCKZAxv86zv7gkZ6HxhlizBCQVNlJ7D5FARWM6YYfqFJU8ohlxq1irK00qTagbJ2
- C7jplSl2APZBEwfv3SYWnJjxUMhRMpl+BUXlW5GrgsvB3AU7/Ya4gP1H+jzMKdhSeH6f
- cyBPBzFvlM4idWESFvpyT6B6Iof8Um055fnASq4EfMJFsjnq7u7U0WgLX9ViAVK1+6mt
- 4/E5cerymH6icihqZ51uJ9ReuYjM/GyloGIpyNvXpB1DzVfXBUQEj1w8wHVp0PGCc0sv
- zN7VIb6SSsZjrVi41cfOt1jG5aPbzdsO2OiSZDeDuqcO8xOdSksZ4LaZJyOdszd2+5gt
- fNDQ==
-X-Gm-Message-State: AO0yUKUOswt7J1TMETWcprP7SS3K3VQSipMpmoyroWpA3P+JfJp0gq27
- 2VkOIRKWKSrNkAZf12pxrM1FOEaV1OTVDofFQmws/w==
-X-Google-Smtp-Source: AK7set8vXuqRilA+FxHrfhh+XgUEF6pav6LFu71/DLhezWMp1B+/h+SJKvMMeAmF2IcWE4Vp71SvnqYOYpnkovDq7AE=
-X-Received: by 2002:a62:db45:0:b0:606:653c:f19b with SMTP id
- f66-20020a62db45000000b00606653cf19bmr1311414pfg.5.1677870581040; Fri, 03 Mar
- 2023 11:09:41 -0800 (PST)
+ bh=28eOft/m9pkBnuEb6pZDj/jSbnSgdzZgdAX7OcHa0J4=;
+ b=Sg81bY91UGFFqZpLxapurRl4y7NDV+zkXnhDPvWPUBEBr5thdN3aq/2Qtv7sD4jbEo
+ T1OCDo/SQYWCfq7IHWFzCzYxZdAC+2o6letssnoSh4FCdjq27Yx8lXdY25zi8EFdCoDb
+ b/duLSlGgRr1K4ev/NAMU0GTx7flupHby9llQ3wgbSnaNrXSXtIwscGfJfcFfbjFkd6C
+ +hrzBhkh7weBEp6yGhma67JZpGM+Tbgh6N0u69yJ/yLTZanNk/+PCkemj49uet+j8llk
+ 85q9ohWdygNFfrIYOnYwuSDtVVvi88prQ6Ic9KJLUFCGt7B6DtWGXYlc8EKAD1V9Yn3D
+ 1KGw==
+X-Gm-Message-State: AO0yUKV+kQLq3t7JZopx9ZETN6W2NN6/IpSCOjtwEkcg+i/rKkRSC/wg
+ s8L3D4Hobqztpotmn1gl1R6p/3dtKKwzeP/c3QUeQQ==
+X-Google-Smtp-Source: AK7set/obMMT0xdiw7a4pM7ofIX1caztW5tOI34FRjHddX3vkayAjZbqTzgrjoD4/drKS6KzAEhc76qITFY/CXrD8ZU=
+X-Received: by 2002:a17:90a:dd86:b0:233:be3d:8a42 with SMTP id
+ l6-20020a17090add8600b00233be3d8a42mr989632pjv.0.1677870717696; Fri, 03 Mar
+ 2023 11:11:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20230227052505.352889-1-richard.henderson@linaro.org>
- <20230227052505.352889-67-richard.henderson@linaro.org>
-In-Reply-To: <20230227052505.352889-67-richard.henderson@linaro.org>
+In-Reply-To: <20230227052505.352889-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Mar 2023 19:09:29 +0000
-Message-ID: <CAFEAcA9XfB2DX2Qw5mgVbJRumDuNb90VwpXGvR2XeKD8XgXB8g@mail.gmail.com>
-Subject: Re: [PATCH v2 66/76] target/sparc: Drop get_temp_i32
+Date: Fri, 3 Mar 2023 19:11:46 +0000
+Message-ID: <CAFEAcA-kz9oTkBnMg08Pg7g83x+YA+CkpgMD3DVjQ7c1hY+7EA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/76] tcg: Drop tcg_temp_free from translators
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org, 
  qemu-riscv@nongnu.org, qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, 
@@ -64,8 +63,8 @@ Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
  gaosong@loongson.cn, jiaxun.yang@flygoat.com, tsimpson@quicinc.com, 
  ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 05:43, Richard Henderson
+On Mon, 27 Feb 2023 at 05:29, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Translators are no longer required to free tcg temporaries,
-> therefore there's no need to record temps for later freeing.
-> Replace the few uses with tcg_temp_new_i32.
+> Based-on: 20230225085945.1798188-1-richard.henderson@linaro.org
+> ("[PATCH v3 00/30] tcg: Simplify temporary usage")
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/sparc/translate.c | 25 ++++---------------------
->  1 file changed, 4 insertions(+), 21 deletions(-)
+> In the above patch set, we changed the lifetime of the temps
+> allocated by the guest translators, and eliminated their reuse,
+> so that we have the best chance of reducing their strength.
+>
+> That we don't reuse them means that we gain nothing by freeing them.
+> Therefore, drop all mention of tcg_temp_free from target/.
+>
+> Changes for v2:
+>   * Apply r-b.
+>   * Fix 74/76 "tracing: remove transform.py".
 
-Left my review comment on the v1 version of this patch by mistake,
-so just copying it here:
+>  95 files changed, 471 insertions(+), 7165 deletions(-)
 
-> @@ -5762,14 +5752,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
->      gen_exception(dc, TT_NCP_INSN);
->      goto egress;
->  #endif
-> - egress:
-> -    if (dc->n_t32 != 0) {
-> -        int i;
-> -        for (i = dc->n_t32 - 1; i >= 0; --i) {
-> -            tcg_temp_free_i32(dc->t32[i]);
-> -        }
-> -        dc->n_t32 = 0;
-> -    }
-> + egress:;
->  }
+The diffstat is really nice here :-)
 
-Stray semicolon after colon, or does C not let you put a label at
-the end of a function ?
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I've reviewed the general stuff (except the python patch),
+the arm parts, and some of the orphaned/minor targets that
+might otherwise struggle to get review.
 
 thanks
 -- PMM
