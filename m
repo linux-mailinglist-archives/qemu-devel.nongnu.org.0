@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D656AA917
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 11:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B4D6AA954
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:42:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYOvU-00062J-Ih; Sat, 04 Mar 2023 05:15:40 -0500
+	id 1pYQGC-0003Tq-IN; Sat, 04 Mar 2023 06:41:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+7cd748277c5a0e276522+7132+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pYOvR-00060p-Gz
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 05:15:38 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+7cd748277c5a0e276522+7132+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pYOvO-0000Rd-Us
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 05:15:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=20rwfXvSfzlbRk0nD62/C/o7cAHVfP0W1Yrf/Sje8f4=; b=fdm5Mme2DynvdXn/IGkCvGjrnc
- gKT1u5E6rPgDGIvhdVYFQby7eaiR9i6qxzLc5kmuW95Myzn7n+9oxvhcm/Cau/8ne2n/n7uwEZat5
- sTbTJ6lv+rhTvlknegAcaxFl7uiuLS+mi3gZJrT3XsWIH6AkVfX4fyDIGaQoyw/qsnPxDXqhKA5eL
- Cul4z0PuBLgLzg+0hwxQLqWins457PyfPuxQjVUIOb9wXFcKQ1MzckXdg9YUluj4Xc5lWi9EpA1M6
- B1yX8TcWzBTIv8pjrt4tWt/9F4Rb/UfGd9o5sk+M/hNH95bsfgetlAI8c71DxXn10LqK5CPjW6dWR
- bNLoqaIA==;
-Received: from [2001:8b0:10b:5:4ce9:a0c4:1cf4:98d9]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pYOvG-003mnN-J7; Sat, 04 Mar 2023 10:15:27 +0000
-Message-ID: <6422cc2395c2f2db126dd4172e82b8d32f254403.camel@infradead.org>
-Subject: Re: IRQ affinity not working on Xen pci-platform device^W^W^W QEMU
- split-irqchip I/O APIC.
-From: David Woodhouse <dwmw2@infradead.org>
-To: Thomas Gleixner <tglx@linutronix.de>, linux-kernel
- <linux-kernel@vger.kernel.org>, xen-devel <xen-devel@lists.xenproject.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>, Peter Xu
- <peterx@redhat.com>
-Date: Sat, 04 Mar 2023 10:15:25 +0000
-In-Reply-To: <c34964056595a5a59d0d53410933a5582ef07d10.camel@infradead.org>
-References: <07866eaf6354dd43d87cffb6eebf101716845b66.camel@infradead.org>
- <87fsalkcck.ffs@tglx>
- <1060e7786498f384634b01c335bf7bf43365e1fe.camel@infradead.org>
- <87356ljr6m.ffs@tglx>
- <c34964056595a5a59d0d53410933a5582ef07d10.camel@infradead.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-U1/a4vhKzKCY0SFJQ4L2"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pYQG5-0003TG-Nq; Sat, 04 Mar 2023 06:41:01 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pYQG3-0008Sh-W1; Sat, 04 Mar 2023 06:41:01 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id o12so20144330edb.9;
+ Sat, 04 Mar 2023 03:40:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677930056;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=06gg4nj5t96ACPHTw2gBHN9uS53R5IPT6zk8wxzhNFU=;
+ b=UzVPvPSBAN0dNiy0GhdwdWBf02+6XVqYEm+q+9xVQciQ8V+CaSotPF3lIHVbeGBxrK
+ hA+esXZ/ZtKP9aoWyqmsWYhN6N+bHyFCo9Cee6p9qiGtGo90X297mdz9gP6Az09OTBHD
+ 0dvJ4WGIQkHt3iNQQxH2kojNHqXVC3a+Ogdsjuhax2LdXeiVAJWyXw8U2nAkjHU6IYKE
+ h/gfRV4HHSUK0OOFObZnTwh+16s1Sw8e26V2YmtnSwX0cOI9fQEQT+vskcWsrYBhxdDd
+ MeOqyBySDTMsL7hDpyB9OOxbb8Iu6QdOudI42FNaeehAXofr0sEGppUM2ZWMZLixJmgE
+ pirA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677930056;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=06gg4nj5t96ACPHTw2gBHN9uS53R5IPT6zk8wxzhNFU=;
+ b=4g3BuJbYDkVkke7j5PCSuNKQ3F41rlE9uCwwrd2k5qrJ7CfkeenshuwdLK7Z7Xz7sf
+ hHqf0Qh+zo12CHI0yx4ljyZpY7lTeEerQ0zWw2YbU+92Kse6kcOZgyy/3vQRkHk0M6rb
+ cQB31qciqw8c/iCl4GtWDfjfvWQW+ZCfR9mS6V93QwhG5ASMWD2wpuLCV8AmDmyuiLEX
+ n/y8tz5KmoKQLexNqE3YZErOo4yb3pzNrAVQx7q/yoXTNaA8uJKWR21SpXKwBHO2NTVL
+ U4JcBZ4aFBrwEOHXrpGgaq2mOhPepSk9wS6qP99RRrLAI9HQHLOV834Eb7XHsioAcifK
+ vyCg==
+X-Gm-Message-State: AO0yUKVUoPHNbaj0mBHyd0QlitcS6xLmFGHGx3CCrPp52urLHTSWnJjM
+ egPwySnP/CR2To5Bbg7sywMQjFvTHpY=
+X-Google-Smtp-Source: AK7set8oq/jds1IUJgmPrYtyTvvsZWTU8RWewZuoxo0eb2MzgQdC5i+9CSGtCru4zHvujv3oHVg2Yg==
+X-Received: by 2002:a17:906:fd8c:b0:8f7:d5c0:c71d with SMTP id
+ xa12-20020a170906fd8c00b008f7d5c0c71dmr6595282ejb.60.1677930056039; 
+ Sat, 04 Mar 2023 03:40:56 -0800 (PST)
+Received: from Provence.localdomain
+ (dynamic-077-183-004-175.77.183.pool.telefonica.de. [77.183.4.175])
+ by smtp.gmail.com with ESMTPSA id
+ j6-20020a17090686c600b008c44438734csm1993248ejy.113.2023.03.04.03.40.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 Mar 2023 03:40:55 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 0/5] Fix recent PIC -> CPU interrupt wiring regressions
+Date: Sat,  4 Mar 2023 12:40:38 +0100
+Message-Id: <20230304114043.121024-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.39.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+7cd748277c5a0e276522+7132+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,132 +99,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---=-U1/a4vhKzKCY0SFJQ4L2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, 2023-03-04 at 09:57 +0000, David Woodhouse wrote:
-> I wonder if the EOI is going missing because it's coming
-> from the wrong CPU? Note no 'EOI broadcast' after the last line in the
-> log I showed above; it isn't just that I trimmed it there.
-
-I'm running on a host kernel without commit fceb3a36c29a so that's
-probably it.
-
-https://git.kernel.org/torvalds/c/fceb3a36c29a
-
---=-U1/a4vhKzKCY0SFJQ4L2
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA0MTAxNTI1WjAvBgkqhkiG9w0BCQQxIgQg7wfgkQqY
-Z6Fvb0PEDhmpnLTf3gvOnS0wVzqNGiaVpVUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgALkZob741/cC//CXzXe3pjA1gZSjLjoKLd
-MuECJH5gZqBr14PIiDEO6mqxtL4uSpxruqxua6BVv/PhlaGGdBdKa1K4dH/avSufK9K85pz2e7CF
-JtdOvf6vx8YOu18aG/wr8+GA5R2eeymmarDOZgXZXPXxiOaaEpg6x1eJZq+a6CH8lTBjOa5t5wJg
-SbVM2EABVKeuWfJc0OKmW71qMXAgGYbDUcyaLBaCXpKRs5JzErxuQ5MPO31o4SsvCEFJZ+DN1QNZ
-pTXUvACVhKia38u34puN7LRGVcppzYN9n4XeMsRoelh/mmqMgAbK6vRjdLLp4jx4eEV3Kx6QFxpG
-rGGktvWmbTfk+tsN0zBQwZvO9trQ2UxNG+XmTvqPwaP+W4m8UHV8xCUPZ7jd4iJpUfTDHxPL6Q3T
-dWG5SOLv6BZmopPd3buf+S3vqDEBvvQW9U5jBLHeeIKbd8ENlIaEvzlevt4PUYdsZszRMTRT82Ev
-mX5TPndlh+R8VchSy+9pIAlf0uDyxX8n6hPMhM0Ez29QVMu1RPjKtLos21Ri4hqSR3xms/gjMnnb
-wrUCXXHgOOSrWlMVucFu3YRbkWlBEcrCgXRsydJIUA6pD3gw/z/j2+Ixj2xmU6zVLeJaJjNmpySy
-amEpnDOrcy314QctJE5+z9JaXm2kQpbRdt8va79cQAAAAAAAAA==
-
-
---=-U1/a4vhKzKCY0SFJQ4L2--
+A recent series [1] attempted to remove some PIC -> CPU interrupt indirecti=
+ons.=0D
+This inadvertantly caused NULL qemu_irqs to be passed to the i8259 because =
+the=0D
+qemu_irqs aren't initialized at that time yet. This series provides a fix b=
+y=0D
+initializing the qemu_irq of the respective south bridges before they=0D
+are passed to i2859_init().=0D
+=0D
+Furthermore -- as an optional extension -- this series also fixes some usab=
+ility=0D
+issues in the API for creating multifunction PCI devices.=0D
+=0D
+The series is structured as follows: The first three commits fix the=0D
+regressions, the last two fix the public API for creating multifunction PCI=
+=0D
+devices.=0D
+=0D
+[1] https://lore.kernel.org/qemu-devel/20230302224058.43315-1-philmd@linaro=
+.org/=0D
+=0D
+Bernhard Beschow (5):=0D
+  hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt=0D
+  hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt=0D
+  hw/ppc/prep: Fix wiring of PIC -> CPU interrupt=0D
+  hw/pci/pci: Remove multifunction parameter from=0D
+    pci_create_simple_multifunction()=0D
+  hw/pci/pci: Remove multifunction parameter from=0D
+    pci_new_multifunction()=0D
+=0D
+ include/hw/pci/pci.h |  4 +---=0D
+ hw/alpha/dp264.c     |  8 +++++---=0D
+ hw/i386/pc_piix.c    |  2 +-=0D
+ hw/i386/pc_q35.c     | 10 +++++-----=0D
+ hw/isa/vt82c686.c    |  3 ++-=0D
+ hw/mips/boston.c     |  3 +--=0D
+ hw/mips/fuloong2e.c  |  9 +++++----=0D
+ hw/mips/malta.c      |  2 +-=0D
+ hw/pci-host/sabre.c  |  6 ++----=0D
+ hw/pci/pci.c         | 18 ++++++++++++------=0D
+ hw/ppc/pegasos2.c    |  9 +++++----=0D
+ hw/ppc/prep.c        |  4 +++-=0D
+ hw/sparc64/sun4u.c   |  5 ++---=0D
+ 13 files changed, 45 insertions(+), 38 deletions(-)=0D
+=0D
+-- =0D
+2.39.2=0D
+=0D
 
