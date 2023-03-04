@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F8B6AAA58
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 15:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D94B6AAA57
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 15:12:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYSav-0001R1-K6; Sat, 04 Mar 2023 09:10:41 -0500
+	id 1pYSbJ-0001V7-Sd; Sat, 04 Mar 2023 09:11:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYSap-0001QU-CY
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:10:37 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pYSbI-0001Us-3H
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:11:04 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYSan-0003yK-AE
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:10:35 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- 6-20020a17090a190600b00237c5b6ecd7so8863781pjg.4
- for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 06:10:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pYSbG-000401-C6
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:11:03 -0500
+Received: by mail-pl1-x636.google.com with SMTP id a9so5588076plh.11
+ for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 06:11:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677939031;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8rbBDKVbFX5p4DPpsjS+sN1J3zemVKGH89kixqMsoJk=;
- b=UITaUBxbOupmnJa5G6IPEwQUkib23Grhw7UDOueeLBURQuv2XKXyBvWO71a1XvYtn7
- +dKBX91NK6ETiyTU4cyKKrkkPh20KOJ7Age7Hl/Fz2U8KG5VZ9FGW49nruK+aTBLuERH
- AHGVYmqhrMa/b5z+3ztAmmm0VwL+WHS4GwlQq7fJNNPqiRSszL6DsV4LxzY44zCcJIe7
- eOhdXHY5KanPLzkmQ2d+VD6JgfQd1p0jSX5YYnqDSwy1oW71fAp9/ebfECylAYjC+IuG
- EPRBpg6sNy7ieKuPsh3opYxLK2mA9z/FqSrtUFNiRRIax5ZxH8d2Zin4YEo3gRbghgAY
- q1Qg==
+ d=gmail.com; s=20210112; t=1677939060;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QAhbs9J0BYIWq0pB92VFIQ/ihobOfBkJ7O8nbefTO5s=;
+ b=q0QFHx0HfFbJzgJW+WaAFkKVAeJt+XWDOqlRT0Q6ppfnAsJieofPzaL+NNjtSU/PV1
+ qjxDjeez/sOr6oXPMJqF11SbqxTxxZJc5LZe/tbPENfTZpVusg3lEiVIie1CLsPD4m4d
+ 4kfi1S/quHD1AsG3Vy52P23GwfaN+cCDc3Y5aB53prmtOpmSa52/Z4mQdiuRORbO2sy9
+ 2icZcMXPxKw293cCfgZX1kY12Ro2LIuU1SutRIrRXXI+ADuUbtXwFvlIwvOsOL7oYGXZ
+ AnjdPmpCk9Pkko5QM188JAal3GK2fxppOllYH4+kzIXaa4e4PQ1PIMKJ9WyHtzl2JEex
+ Va/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677939031;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8rbBDKVbFX5p4DPpsjS+sN1J3zemVKGH89kixqMsoJk=;
- b=XaB0VaCk3RY3t4BwutHvBKOQNF2MUWqNOaDEOMVEM3X744ZiyTON+7dbsWoxcnKjNY
- Q4Q39jvrHPZP9LxQvYtA6rpIYvzELj1bHC0aA9dOvrolfclaY8+n0Glwez6v061QYewa
- WVy2UPndIFSAaXthrBPLA6DU8RzFL8A/4xf+nSQfI2uTqSoej+yyhAr+o/7fZwbw7Y8J
- WtJtQZ+EpB/4ZxjlqESOmNHjsF7NUa5tOEmlgG9lCdwb3l91VQKiISYVMsfuVfhq2NNN
- DOkVJWzOAyQaCbiJHdlhbVYxMUeAeHYj+yOO9toX/iLUun+sCnrBHSbhaXjRusWw8H7g
- o/hA==
-X-Gm-Message-State: AO0yUKU/NymdvFZdgax0sDWBIM10tKBg9wxyDKmxhcuQKncbt6OLgfgU
- C00mq5kpQcc5YepqLGbDQ54SeFST5XSxyY9I4AOXfg==
-X-Google-Smtp-Source: AK7set9hLjgNwUsBsqfH8DnCkB1rIezTnhi0tJwLeXAVVzzDJP7KGm7JIJWmCdJ8qUL8Z9wz/hQRnBQ7MBN5eAM7+As=
-X-Received: by 2002:a17:90b:f12:b0:237:5834:2808 with SMTP id
- br18-20020a17090b0f1200b0023758342808mr1912071pjb.0.1677939031480; Sat, 04
- Mar 2023 06:10:31 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677939060;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QAhbs9J0BYIWq0pB92VFIQ/ihobOfBkJ7O8nbefTO5s=;
+ b=j1RJVfPo5my8q5RAjpqMYkNHMO5ifJX2bpfEtRjCy2Ui9LDFKpG0vCqv6BxySyn9ZQ
+ GaryhdRpNd6Urq+znXKaBdJ3Aq6Ap7k0ZQbg0KrDXkRglNCvxlzoDl1LAKGdtrwCmDEu
+ lsWOahpwGyNCnzudVXsx0obPD/kXuIuxjGXukPX2JOQ060/rSizjkp+CfcMarV7CL8f3
+ lI7a3PS9aoIHUWW8x/YQ0hE1B/x2R2JUqE9woOAecQMUmw8KQAQwwgGp9go0VnVO9EsK
+ pS0OOq0p2hjrbcc72srOAhyQ1az26E51u2jPJDt+FiEQd37Rvje0766H5JL0T8i+D8lY
+ Of1A==
+X-Gm-Message-State: AO0yUKWD06DG7CPxSjnHLk7IWcuO1S9+4x1H29H2acyYfn05qLmTn3RI
+ eeIOOD/flJcAG3ZAy5ZMzDrwvcouOmuj7g==
+X-Google-Smtp-Source: AK7set8fo83di/WTebBz5zvdsTCENs74lcpCsr4hTq6Tvvl6CCuLwahA1EWW+e/GTCUJUZlEiYpBnA==
+X-Received: by 2002:a17:90a:fe8c:b0:237:64dc:4b65 with SMTP id
+ co12-20020a17090afe8c00b0023764dc4b65mr5460743pjb.21.1677939060371; 
+ Sat, 04 Mar 2023 06:11:00 -0800 (PST)
+Received: from [192.168.0.115] ([113.173.97.170])
+ by smtp.gmail.com with ESMTPSA id
+ t10-20020a17090a4e4a00b002371e2ac56csm3090655pjl.32.2023.03.04.06.10.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Mar 2023 06:10:59 -0800 (PST)
+Message-ID: <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
+Date: Sat, 4 Mar 2023 21:10:54 +0700
 MIME-Version: 1.0
-References: <20230228192628.26140-1-farosas@suse.de>
- <20230228192628.26140-6-farosas@suse.de>
- <CAFEAcA8p86BdbbO-thyov+A-dc98iygPx6nyCmnxinCRCuKviA@mail.gmail.com>
- <87pm9pwnym.fsf@suse.de>
-In-Reply-To: <87pm9pwnym.fsf@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 4 Mar 2023 14:10:20 +0000
-Message-ID: <CAFEAcA_aw6mc_FM00MqOcOzqFP=xktpq6+Z-_uhhEHKbw-bKNA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v7 5/9] tests/avocado: Pass parameters to migration
- test
-To: Fabiano Rosas <farosas@suse.de>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230221160500.30336-1-minhquangbui99@gmail.com>
+ <20230221160500.30336-2-minhquangbui99@gmail.com>
+ <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
+ <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
+ <20230227170759.12297901@imammedo.users.ipa.redhat.com>
+ <f24683be-f3a7-34fe-279a-11d01e696bbc@gmail.com>
+ <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
+Content-Language: en-US
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+In-Reply-To: <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,49 +103,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 20:59, Fabiano Rosas <farosas@suse.de> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Tue, 28 Feb 2023 at 19:28, Fabiano Rosas <farosas@suse.de> wrote:
-> >>
-> >> The migration tests are currently broken for an aarch64 host because
-> >> the tests pass no 'machine' and 'cpu' options on the QEMU command
-> >> line.
-> >>
-> >> Add a separate class to each architecture so that we can specify
-> >> 'machine' and 'cpu' options instead of relying on defaults.
-> >>
-> >> Add a skip decorator to keep the current behavior of only running
-> >> migration tests when the qemu target matches the host architecture.
-> >
-> > I still don't understand this patch. Don't we run the
-> > migration-test on all hosts already? David ?
-> >
->
-> We run on all hosts but for each host we only take the QEMU binary that
-> matches the host architecture. So if you want to test aarch64 migration,
-> you need an aarch64 host.
->
-> If you run on an x86_64 host (without this patch):
-> $ ../configure #all targets
-> $ make check-avocado AVOCADO_TESTS=../tests/avocado/migration.py
->
-> You'll see:
->
->  (1/3) ... migration.py:Migration.test_migration_with_tcp_localhost: PASS (0.21 s)
->  (2/3) ... migration.py:Migration.test_migration_with_unix: PASS (0.18 s)
->  (3/3) ... migration.py:Migration.test_migration_with_exec: PASS (0.21 s)
->
-> All three tests ran using qemu-system-x86_64.
->
-> The issue I'm trying to solve is that when run on a aarch64 host, the
-> test will fail because (being generic) it doesn't pass the '-machine
-> virt' option and there is no architecture-specific information in it at
-> all.
+On 2/28/23 23:39, Igor Mammedov wrote:
+> On Tue, 28 Feb 2023 21:34:33 +0700
+> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+> 
+>> On 2/27/23 23:07, Igor Mammedov wrote:
+>>> On Sat, 25 Feb 2023 17:15:17 +0700
+>>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+>>>    
+>>>> On 2/24/23 21:29, Igor Mammedov wrote:
+>>>>> On Tue, 21 Feb 2023 23:04:57 +0700
+>>>>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+>>>>>       
+>>>>>> This commit refactors APIC registers read/write function to support both
+>>>>>> MMIO read/write in xAPIC mode and MSR read/write in x2APIC mode. Also,
+>>>>>> support larger APIC ID, self IPI, new IPI destination determination in
+>>>>>> x2APIC mode.
+>>>>>>
+>>>>>> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
+>>>>>> ---
+>>>>>>     hw/intc/apic.c                  | 211 +++++++++++++++++++++++++-------
+>>>>>>     hw/intc/apic_common.c           |   2 +-
+>>>>>>     include/hw/i386/apic.h          |   5 +-
+>>>>>>     include/hw/i386/apic_internal.h |   2 +-
+>>>>>>     4 files changed, 172 insertions(+), 48 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+>>>>>> index 2d3e55f4e2..205d5923ec 100644
+>>>>>> --- a/hw/intc/apic.c
+>>>>>> +++ b/hw/intc/apic.c
+>>>>>> @@ -30,6 +30,7 @@
+>>>>>>     #include "hw/i386/apic-msidef.h"
+>>>>>>     #include "qapi/error.h"
+>>>>>>     #include "qom/object.h"
+>>>>>> +#include "tcg/helper-tcg.h"
+>>>>>>     
+>>>>>>     #define MAX_APICS 255
+>>>>>
+>>>>> I'm curious how does it work without increasing ^^^?
+>>>>
+>>>> Hmm, my commit message is not entirely correct. In this series, some
+>>>> operations (send IPI, IPI destination determination) have been updated
+>>>> to support x2APIC mode. However, the emulated APIC still doesn't support
+>>>> APIC ID larger than 255 because currently, we use a fixed length (255 +
+>>>> 1) array to manage local APICs. So to support larger APIC ID, I think we
+>>>> need to find any way to manage those, as the possible allocated APIC ID
+>>>> range is large and maybe the allocated APIC ID is sparse which makes
+>>>> fixed length array so wasteful.
+>>> how much sparse it is?
+>>
+>> As far as I know, QEMU allows to set CPU's APIC ID, so user can pass a
+>> very sparse APIC ID array.
+> 
+> I don't think that it does permit this (if it does it's a bug that should be fixed).
+> 
+> As far as I'm aware QEMU derives apic_id from '-smp' and possibly cpu type
+> (there was some differences between Intel and AMD in how apic id was encoded
+> notably AMD having threads or cores that lead to sparse apic id), though I don't
+> remember current state of affairs in x86 cpu topo code.
+> 
+>>> benefits of simple static array is simplicity in management and O(1) access time.
+>>> QEMU does know in advance max apic id so we can size array by dynamically
+>>> allocating it when 1st apic is created. Or if IDs are too sparse
+>>> switch to another structure to keep mapping.
+>>
+>> I totally agree with this.
+>>
+>> I admit that my main focus on this series is to make x2APIC mode
+>> function correctly with TCG accelerator, so I skip the part of extending
+>> the support for higher APIC ID.
+> the tricky part in such half approach is making sure that the code is
+> 'correct' and won't lead to exploits.
+> It would be easier to review if it was completed solution instead of partial.
 
-But my point is that we already CI on aarch64 hosts, so what is
-happening there that means the test doesn't fail already ?
+I looked around and found the way to dynamically allocate local_apics array
 
--- PMM
+	void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+	{
+		if (!kvm_irqchip_in_kernel()) {
+         		apic_set_max_apic_id(x86ms->apic_id_limit);
+     		}
+
+	}
+
+We already calculated apic_id_limit before creating CPU and local APIC 
+so we can use that number to dynamically allocated local_apics.
+
+However, there are still problems while trying to extending support to 
+APIC ID larger than 255 because there are many places assume APIC ID is 
+8-bit long. One of that is interrupt remapping which returns 32-bit 
+destination ID but uses MSI (which has 8-bit destination) to send to 
+APIC. I will look more into this.
+
+Thanks,
+Quang Minh.
 
