@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9008C6AA951
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC816AA950
 	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:42:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYQGG-0003VZ-CE; Sat, 04 Mar 2023 06:41:12 -0500
+	id 1pYQGH-0003WE-Ng; Sat, 04 Mar 2023 06:41:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQG7-0003Te-1m; Sat, 04 Mar 2023 06:41:03 -0500
+ id 1pYQG7-0003Tg-A1; Sat, 04 Mar 2023 06:41:03 -0500
 Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQG5-0008TC-3c; Sat, 04 Mar 2023 06:41:02 -0500
-Received: by mail-ed1-x532.google.com with SMTP id cy23so20063329edb.12;
- Sat, 04 Mar 2023 03:40:59 -0800 (PST)
+ id 1pYQG5-0008Ta-MI; Sat, 04 Mar 2023 06:41:02 -0500
+Received: by mail-ed1-x532.google.com with SMTP id da10so20288194edb.3;
+ Sat, 04 Mar 2023 03:41:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677930058;
+ d=gmail.com; s=20210112; t=1677930060;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9Fsw6q5WagNedxBCFgTdET8uBtnuynOtVv9rkGhTlOo=;
- b=eD3prtXqvJmL697l2893S14PWEHhFsxhIol/mdOmUNfXdnZ/u5ThMiGTmiewZdRyfw
- N2Gp/m6o4rKJgtwqSKAKQc/cmxwMhczNhbtCeJQ0+6Zrbjz2HekOAI8i1ZfhTPt+YL/a
- W5HOLnCBBWT2s2TOgVfJdsr2dn3srfZy1eh/zl63VajEdhDbOux6hHmxy1iR5JMBcYJk
- KCC5WLc4rXTLIsVrTHIrbh4l+BLVI1WKd+PxqEQ2vmnvQuY0fPF3uMmmUOMVZoHPxWbD
- Dc1uVS3c7OtOx8nh54fd3ldcpZ1n3WQond9nOwxjaZVeXJO3ZHGt/EgDn+NqJiKdkGXV
- gbvA==
+ bh=if4VvV49pa65j5fAVPx4ylF15nZ6C4JQhn8tvZ+BbSo=;
+ b=GaTd50DqLAMS5/uiGPkZHnVipHuUF3ZKS3yT5UOTHf8BwgPjwLpOl/DOkn7TLi9NMH
+ 7MkU/kmcI7D0moUdyCVrJE7VMwZju4WRAYQd1tnJp1j2JOHk2cnB+l5tz5ZpJd8Sekbm
+ wzFycyS8pKJx/tQNohH31PiUtq0cCPlRT7HfMXiR1kP3QOnwH5fQV4ihChBac4Og5x8y
+ I+AHkCXcoHJKBFExwKbj+THetR8akRl6bnXv2BW3GOVepxPq/bYkdgJGGLGzX7AVACTf
+ +JjWzl5y2MFDbmv6fA4TkC58F92+O2Wcxq/9KaWdJYDV7KYAZ2AmmSrzy7fAVd7/CGoj
+ Wt6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677930058;
+ d=1e100.net; s=20210112; t=1677930060;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9Fsw6q5WagNedxBCFgTdET8uBtnuynOtVv9rkGhTlOo=;
- b=cUXQXNMNA+EdCTCl8V1HL0yiXpfmqzGnvROtMjySF+B6B0safYDxfkiJxeNXDUwnjA
- 5Fm3eMe/b13E6haPkQ2AVpqx7cDuLILYc7gi2V/QgrpmFVgT2HMkzr2XT9Py9An2zr2q
- be4byqYZFwpUMjcwYGAaNKsh9dz+Y54GNMGdeXNuv80xtD0GiOLyOC4dXrw3J9sE7Kcl
- gULilCaN/7loC4jZz/hmig7o5IiZWFDk5d3XKdPaHzcAOqR4My/hjtU0/4tnXQ7OyhcQ
- kPaVaWZuLpwDv3pPS3jIQD6Kn2dD9gNIn5/tW48CabLl3NIvQF8TqUjHMbfx0T9NzJU7
- 6DXw==
-X-Gm-Message-State: AO0yUKXLscm8rmgwpBOD0BQxfs+HbNpY9Ceg7QUbGXBM+ywB5zBA+UdB
- mtFborzfJ6Kl878AebzDGj4BBgPszYQ=
-X-Google-Smtp-Source: AK7set+t3W3mIWTM7nCqTTpOv1qeB7zk8re+TJj0dtq9JQMx3bLoN5pKn1WSM8KhXMvyWWoE2cSGsA==
-X-Received: by 2002:a17:907:1ca3:b0:8ea:2055:4f1b with SMTP id
- nb35-20020a1709071ca300b008ea20554f1bmr6419058ejc.24.1677930058520; 
- Sat, 04 Mar 2023 03:40:58 -0800 (PST)
+ bh=if4VvV49pa65j5fAVPx4ylF15nZ6C4JQhn8tvZ+BbSo=;
+ b=6B6B1QFolINqVY9jAqKrf8XesGqMHSOeRIAbmA/HFLqNh6inH0AYDt1dFk32d0C47M
+ pXtTLGrIaDYtUFqtvg84tmkrxJmdMq5wJVylkcAQ6Txo4rASVewMqYerLHKTZtTk6Km+
+ Rz6ettkCSMkUFD54Uz4qUrFnUViLWF9TEFU2kWDERxSc7+sQJAVOBANzFBUIORMQJwX8
+ DKDxaWkXlf73lH6L97ay5TN+ObQ24Pye37M4jT2CO1KnEia0m4m/OI+Q6xrmToUa3aJ6
+ zvcpfbGUb9kARzXvMW0bATnfVqu+Ec7MgerWOJnSm152O6RN2ezxRyjMrtiSv2atf8oW
+ iPsA==
+X-Gm-Message-State: AO0yUKXv+2CSPSZdGkGEJKnQg8/Dm2En92wluQUc1/3V1aT1jO+UQrjF
+ xKsTRi2vUqo0WTUPwEJSY7IS2EnUFtk=
+X-Google-Smtp-Source: AK7set94ggGB50sJdeeFyDyuRkjRCo2jFoB2YwGLJM+vjrqDsQRnNCJ2LduNCPz3F96cy8ODlIc5Aw==
+X-Received: by 2002:a17:907:7b8d:b0:8b2:c26c:369e with SMTP id
+ ne13-20020a1709077b8d00b008b2c26c369emr5772756ejc.76.1677930059749; 
+ Sat, 04 Mar 2023 03:40:59 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-077-183-004-175.77.183.pool.telefonica.de. [77.183.4.175])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a17090686c600b008c44438734csm1993248ejy.113.2023.03.04.03.40.57
+ j6-20020a17090686c600b008c44438734csm1993248ejy.113.2023.03.04.03.40.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Mar 2023 03:40:58 -0800 (PST)
+ Sat, 04 Mar 2023 03:40:59 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
@@ -69,9 +69,9 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 2/5] hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt
-Date: Sat,  4 Mar 2023 12:40:40 +0100
-Message-Id: <20230304114043.121024-3-shentey@gmail.com>
+Subject: [PATCH 3/5] hw/ppc/prep: Fix wiring of PIC -> CPU interrupt
+Date: Sat,  4 Mar 2023 12:40:41 +0100
+Message-Id: <20230304114043.121024-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230304114043.121024-1-shentey@gmail.com>
 References: <20230304114043.121024-1-shentey@gmail.com>
@@ -110,37 +110,26 @@ before realizing the south bridge.
 Fixes: cef2e7148e32 ("hw/isa/i82378: Remove intermediate IRQ forwarder")
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/alpha/dp264.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/ppc/prep.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 4161f559a7..e92295ac86 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -16,6 +16,7 @@
- #include "hw/ide/pci.h"
- #include "hw/isa/superio.h"
- #include "net/net.h"
-+#include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "qemu/datadir.h"
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index d00280c0f8..cfa47c1e44 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -270,9 +270,11 @@ static void ibm_40p_init(MachineState *machine)
+     }
  
-@@ -110,11 +111,12 @@ static void clipper_init(MachineState *machine)
-      * Importantly, we need to provide a PCI device node for it, otherwise
-      * some operating systems won't notice there's an ISA bus to configure.
-      */
--    i82378_dev = DEVICE(pci_create_simple(pci_bus, PCI_DEVFN(7, 0), "i82378"));
--    isa_bus = ISA_BUS(qdev_get_child_bus(i82378_dev, "isa.0"));
--
-+    i82378_dev = DEVICE(pci_new(PCI_DEVFN(7, 0), "i82378"));
-     /* Connect the ISA PIC to the Typhoon IRQ used for ISA interrupts. */
-     qdev_connect_gpio_out(i82378_dev, 0, isa_irq);
+     /* PCI -> ISA bridge */
+-    i82378_dev = DEVICE(pci_create_simple(pci_bus, PCI_DEVFN(11, 0), "i82378"));
++    i82378_dev = DEVICE(pci_new(PCI_DEVFN(11, 0), "i82378"));
+     qdev_connect_gpio_out(i82378_dev, 0,
+                           qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT));
 +    qdev_realize_and_unref(i82378_dev, BUS(pci_bus), &error_fatal);
 +
-+    isa_bus = ISA_BUS(qdev_get_child_bus(i82378_dev, "isa.0"));
+     sysbus_connect_irq(pcihost, 0, qdev_get_gpio_in(i82378_dev, 15));
+     isa_bus = ISA_BUS(qdev_get_child_bus(i82378_dev, "isa.0"));
  
-     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
-     mc146818_rtc_init(isa_bus, 1900, rtc_irq);
 -- 
 2.39.2
 
