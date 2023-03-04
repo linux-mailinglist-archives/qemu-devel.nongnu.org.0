@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EB26AABDC
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 19:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEB26AABD4
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 19:20:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYWTR-0006P9-VF; Sat, 04 Mar 2023 13:19:13 -0500
+	id 1pYWTV-0006Pw-UF; Sat, 04 Mar 2023 13:19:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYWTN-0006NU-Sq
+ id 1pYWTP-0006Np-Rn
  for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:11 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYWTL-0003M5-K1
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:08 -0500
-Received: by mail-pg1-x541.google.com with SMTP id bn17so3285631pgb.10
+ id 1pYWTL-0003M7-Ox
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:10 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id n6so6083508plf.5
  for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 10:19:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677953944;
+ d=linaro.org; s=google; t=1677953945;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NMAbXRT3XuWjgVWXzFHUDpgAHu3JgPZi8PcGKw6ji90=;
- b=vlDpSUncoFqQiSouoT/JIjKV3PzWX4zW6935bPJei3yjMKv7+6qimUY/0J7upXLfZX
- Et7C9+KRLZdyWsU2anfqSaraN3Odce15ssIb5mfoUpMTTCVL0gUK1ZSmxNM/5WYkRLN3
- +Xv1uPvCoJWnmhkLn3kf3iwh0w2IAYmBiLm7/aoxZUVO39/5/9HWDyghOM/ajeoWzI8K
- tVSM1IgRuP+AKU8y9QmEB/3Su9Du/IdkWyD5SWcDYMqF7f9izWYLwuXcdi+CcxkDOV9g
- K2Mka5spWYSNhUY3KzJ0LltQZZG0EGq/QwNc+s6PBoq8aP6jmzcnGWtiRp6yd/hKugrT
- jGNQ==
+ bh=CC08sc/7f1akAHHWB9NB+xcDcBZ96GXhinyNlTxvBEg=;
+ b=trrSws4kroecdQGtfYs2jO1C+qQhpgliLm8pAG2SL1FFKW2VJT2obxkVqIz9YZ/GX/
+ taqoQCK+zbwuQjAVEH0o3L16jTo2fLheGa6xDkyzRHSwBnM9usBzkDWPHVwSSKyciYm0
+ LJm8QLKW93vne3DhLrV78yr8lTs634HAM7D/Uvl489Eg57QgKeyIdQmwdVQ0oRwKjpFW
+ 4xMRqrTajWYV1OQCKQSwjIEYxCg3s3OwEW4l0XHfigOWC1w2NRYxgTnxleTihxScTo7e
+ F0RCxaWwnA327uOlIkIkq3f8+km3Oq4ah8CQAFoK2sIqUacdAoaIl86xgk/WD8y7jHey
+ mKmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677953944;
+ d=1e100.net; s=20210112; t=1677953945;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NMAbXRT3XuWjgVWXzFHUDpgAHu3JgPZi8PcGKw6ji90=;
- b=pi6LUtg7IDULvylQWx/SG1iwOsH+faKfve8o7HISUCh1f9IdrVhmutbbWKSJSbtAPk
- qvei9Y8Ev9JiV4B2O+NIX4rp2JRA1yubLIXjaTKlxHvrn5rybvet7YgD09owBgMTt9tG
- vr19QAJ2FSVAn8kV5oeApqgDj9zU2Q9SvXVvGVc0FwFjj+7LDZooBDR4OV7BpXLKPZw/
- ZAsVlrbyuEH2oDcq5yh4wwC3Z8O/G39vHTuRQXgKUTmVixp7dRLe57+taznMOuVMhEfI
- 1lh3uaMTw2h3Y9npVij0UCplUjGUqRhhLXHPbh+FB9Of4M2KTKZF7eEHSLGeNbFlyfKA
- GFcQ==
-X-Gm-Message-State: AO0yUKUR+LcZgMbXQyP+d2AMI5u03fB2J16EiXHbpX9Qui6PBX81+Fon
- Nhz2bU/zGtxNMMUwrLzlNdnAxZjQKwpt3B8ijLtdBVCy
-X-Google-Smtp-Source: AK7set8IU0tpFXPSVioZVPr+ofzsjDwUM4JiHzhwp/h5fuIus4jOfanN+MkXs9UNoQMgEgOh6mjH4Q==
-X-Received: by 2002:a62:1c07:0:b0:5a8:a467:f975 with SMTP id
- c7-20020a621c07000000b005a8a467f975mr5696714pfc.17.1677953944019; 
+ bh=CC08sc/7f1akAHHWB9NB+xcDcBZ96GXhinyNlTxvBEg=;
+ b=l9coNV99qVjaU3ZE2iuyzvPRvLW0DmA6xvB7zqyj17oK7xNKC8vFO9t/3C2phUhfSe
+ JMAK0Pm50cFM16G+cVZFfFK3S6VuTQezpkhO70TW+L57+cAyUdpj+8oJ0Md2XESraSOE
+ w5i0FOb/V1nz6wavqxeOVI1uMDzPBv+Ir9AhQG+9dnktCzURJv7oBonNbvs/4fzh9UGb
+ 6DXqU7gyPomeE2HoJWPRNlCRlN9b4k7fZm0d0PnfMuK7S/ZOP1VSMDHgzW6f1F/ks3h8
+ Dm/QP0ZVybDSNuBrPosWD8+yIEqOOS6gI0dnrK+cu5aSBiLATHI/WqtadXy5Ac1VYWET
+ 5bWg==
+X-Gm-Message-State: AO0yUKWjYItz2NA59lqg3LTFgA5RkM862F+2TWLnQUW6IrR3zJhJ++mn
+ jXHc6wz5z3udmGenJ+6ttMGxc3xwDutk521m9RBGhA==
+X-Google-Smtp-Source: AK7set/SOZzG6uwTlXwmr6uX1OSXNdpa9sEZLq1bMvrXk2+ZOKfom5a55xK6r/0nKzJ0pU2hzeDLNQ==
+X-Received: by 2002:a05:6a20:431a:b0:cb:77ef:b502 with SMTP id
+ h26-20020a056a20431a00b000cb77efb502mr6704170pzk.5.1677953944773; 
  Sat, 04 Mar 2023 10:19:04 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:62b1:64d8:8207:f04e])
  by smtp.gmail.com with ESMTPSA id
- 25-20020aa79259000000b005d866d184b5sm3529668pfp.46.2023.03.04.10.19.03
+ 25-20020aa79259000000b005d866d184b5sm3529668pfp.46.2023.03.04.10.19.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Mar 2023 10:19:03 -0800 (PST)
+ Sat, 04 Mar 2023 10:19:04 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [PATCH v3 02/20] target/mips: Drop tcg_temp_free from
- micromips_translate.c.inc
-Date: Sat,  4 Mar 2023 10:18:42 -0800
-Message-Id: <20230304181900.1097116-3-richard.henderson@linaro.org>
+Subject: [PATCH v3 03/20] target/mips: Drop tcg_temp_free from
+ mips16e_translate.c.inc
+Date: Sat,  4 Mar 2023 10:18:43 -0800
+Message-Id: <20230304181900.1097116-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230304181900.1097116-1-richard.henderson@linaro.org>
 References: <20230304181900.1097116-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,56 +104,33 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
 ---
- target/mips/tcg/micromips_translate.c.inc | 8 --------
- 1 file changed, 8 deletions(-)
+ target/mips/tcg/mips16e_translate.c.inc | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
-index 632895cc9e..23f80d4315 100644
---- a/target/mips/tcg/micromips_translate.c.inc
-+++ b/target/mips/tcg/micromips_translate.c.inc
-@@ -724,9 +724,6 @@ static void gen_ldst_multiple(DisasContext *ctx, uint32_t opc, int reglist,
-         break;
- #endif
-     }
+diff --git a/target/mips/tcg/mips16e_translate.c.inc b/target/mips/tcg/mips16e_translate.c.inc
+index 918b15d55c..602f5f0c02 100644
+--- a/target/mips/tcg/mips16e_translate.c.inc
++++ b/target/mips/tcg/mips16e_translate.c.inc
+@@ -280,9 +280,6 @@ static void gen_mips16_save(DisasContext *ctx,
+ 
+     tcg_gen_movi_tl(t2, -framesize);
+     gen_op_addr_add(ctx, cpu_gpr[29], cpu_gpr[29], t2);
 -    tcg_temp_free(t0);
 -    tcg_temp_free(t1);
--    tcg_temp_free_i32(t2);
+-    tcg_temp_free(t2);
  }
  
+ static void gen_mips16_restore(DisasContext *ctx,
+@@ -386,9 +383,6 @@ static void gen_mips16_restore(DisasContext *ctx,
  
-@@ -1018,8 +1015,6 @@ static void gen_ldst_pair(DisasContext *ctx, uint32_t opc, int rd,
-         break;
- #endif
-     }
+     tcg_gen_movi_tl(t2, framesize);
+     gen_op_addr_add(ctx, cpu_gpr[29], cpu_gpr[29], t2);
 -    tcg_temp_free(t0);
 -    tcg_temp_free(t1);
+-    tcg_temp_free(t2);
  }
  
- static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
-@@ -1067,7 +1062,6 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
- 
-             gen_load_gpr(t0, rt);
-             gen_mtc0(ctx, t0, rs, (ctx->opcode >> 11) & 0x7);
--            tcg_temp_free(t0);
-         }
-         break;
- #endif
-@@ -1276,7 +1270,6 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
-                  * mode.
-                  */
-                 ctx->base.is_jmp = DISAS_STOP;
--                tcg_temp_free(t0);
-             }
-             break;
-         case EI:
-@@ -1293,7 +1286,6 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
-                  */
-                 gen_save_pc(ctx->base.pc_next + 4);
-                 ctx->base.is_jmp = DISAS_EXIT;
--                tcg_temp_free(t0);
-             }
-             break;
-         default:
+ #if defined(TARGET_MIPS64)
 -- 
 2.34.1
 
