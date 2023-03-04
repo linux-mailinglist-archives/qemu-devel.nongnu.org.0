@@ -2,160 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6075C6AA876
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 07:49:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1356AA90A
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 10:59:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYLgU-0006oQ-Lc; Sat, 04 Mar 2023 01:47:58 -0500
+	id 1pYOeV-0006Tt-4B; Sat, 04 Mar 2023 04:58:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pYLgI-0006o7-L9
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 01:47:48 -0500
-Received: from mga01.intel.com ([192.55.52.88])
+ (Exim 4.90_1) (envelope-from
+ <BATV+7cd748277c5a0e276522+7132+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pYOeT-0006Ti-2M
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 04:58:05 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pYLgE-0006Kd-Iu
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 01:47:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677912462; x=1709448462;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=OevIdqSXs00zhbrSCAgW3TBaCATfwutS6k0u2VxEXsc=;
- b=GWO6CzBbWgqBzOVF88nSHmisPQ56pPgbLWvIiO5cl4Hazkktzh8XzAVC
- EOsYB3x543XF3UF/19wIb/2P1kdfoNBw5ndBR9RGzz42i+lj/Hf1JUKtb
- aqxljfbaPJ1BldIe0FiKlm5s+Llio8eg6h2KI/rhX33TSfo/lbdjGccrz
- 3dk92iYtBBdQZtZWoobLF5HeID8hO7t/+682kxo87KP1deRMxpgtXLDKR
- +MveteSmtIWyIgCcx5o6uXsNLLkI5qM0asDDCUVnWJEbtFAeXXrdXtOqy
- qZyT4fbkG7De3vG62qiXs95vIo7Cjl5FeLXLepAp3OER1bZL9jM0JNMub w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="362831935"
-X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; d="scan'208";a="362831935"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2023 22:47:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="625595752"
-X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; d="scan'208";a="625595752"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga003.jf.intel.com with ESMTP; 03 Mar 2023 22:47:35 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 3 Mar 2023 22:47:34 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Fri, 3 Mar 2023 22:47:34 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Fri, 3 Mar 2023 22:47:34 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OE6fs3jplJuCVqdZTMD6V14Vf32L7z6vhkgs+O/SV/b7bidK1Ir/nRGg9oXByb4O7u7+GbNF288qAgUR+RHx5ODUd1Jx2FC9JUFdfD84SLqTU9xqrEYkdlmb4EeJ3i8iqiNYoMrr+mNaPw/OOa07p5RhQuXHFtIh8/sPUevKVd5gGR7JXf0Adxs5EBCUXkyyAbpczijuWSKIgXKFDEIG4pW9rbEbCpsdP9GDJ4iM1BL3OuzVTAQI0JBN/1csPUxKgCLUfTwWm/vn4sStgH/J/+UJ/+dUk9y07OW8oa/qPljxBo3AdGH3UtXmjBIflDwXN/dyGb9LZ/yunPvAiBdvfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sznPojd45+vCte7wFZEdX/+UD1D2MWSUc9fwSFAqLx8=;
- b=lyyMNolXcy70LDWGsEPqpKOdyMCo+NniE890yVbLpHlOp/4bgPtG7IRUni3RPPrh61s0b9ptT64FiQt8bou0ZI5ZR1z0oWAKyQLpU6Ehigblt+0SD4eJgw0zMHuea44W4LcPQ3vKGralDsuUGbWRZNSGikf/oKIgDjDbmr57f2nOySxOmjEtCxX0NRLYQobqUIP2DkKCVX04vhX7OhNabH16mSd7vwnt25il8uSkU4As1hSUcnyGj7wOf4mdv0N6l5RUa96k4iJEMvgBsNjjjGDCFcp4GXXV88WqQ+dJUloVaPJ0OrgjVCp0Gw44mty1igsY07qrISAz0dczVRkfWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by DM4PR11MB6120.namprd11.prod.outlook.com (2603:10b6:8:af::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Sat, 4 Mar
- 2023 06:47:25 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6156.019; Sat, 4 Mar 2023
- 06:47:24 +0000
-Date: Fri, 3 Mar 2023 22:47:20 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, <qemu-devel@nongnu.org>,
- Michael Tsirkin <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- "Michael Roth" <michael.roth@amd.com>, Philippe
- =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Dave Jiang
- <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>, Daniel P
- =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>, Eric Blake
- <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>, Thomas
- Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 6/6] hw/cxl: Add clear poison mailbox command support.
-Message-ID: <6402e9787cad0_606a629499@iweiny-mobl.notmuch>
-References: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
- <20230303150908.27889-7-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230303150908.27889-7-Jonathan.Cameron@huawei.com>
-X-ClientProxiedBy: BYAPR08CA0002.namprd08.prod.outlook.com
- (2603:10b6:a03:100::15) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+ (Exim 4.90_1) (envelope-from
+ <BATV+7cd748277c5a0e276522+7132+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pYOeP-0005lX-K6
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 04:58:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=SfhZHUyfDsg19uG6RM4Ou8sW0goxAG745IQOeAQ8QYU=; b=Ck3glLKyuw7zsPy3T5KPDKYpN8
+ wB/Yp42kmEqRur+bfCTNoaRtiKT1gguMX2NimFz3qLYreym9aFs2UXARN+gJeyaXsmS5LpBKrzqV+
+ X19X34RGt8OBT54oYeqiDnFxtPELuc88iMoBShYKWPk6JuitQahUMZbJdgyWrPFrEtjWEjE44ZNeR
+ E8+bXSnFld7gfazK0o+5JexvzG8itIlLIvZD3OS4V95G4CW7SIU6HZklJLtovgTuSevKZaac5Z6vG
+ FC8o3nUGjGpedR6ZjI5oBkhWwzKFg10Fdgg6WQOmpmR50+ZsmcGQBOEoy4IevED76M6C0PAycAlTS
+ B8v3lqwA==;
+Received: from [2001:8b0:10b:5:4ce9:a0c4:1cf4:98d9]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pYOe5-003mLX-IZ; Sat, 04 Mar 2023 09:57:42 +0000
+Message-ID: <c34964056595a5a59d0d53410933a5582ef07d10.camel@infradead.org>
+Subject: Re: IRQ affinity not working on Xen pci-platform device^W^W^W QEMU
+ split-irqchip I/O APIC.
+From: David Woodhouse <dwmw2@infradead.org>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-kernel
+ <linux-kernel@vger.kernel.org>, xen-devel <xen-devel@lists.xenproject.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>, Peter Xu
+ <peterx@redhat.com>
+Date: Sat, 04 Mar 2023 09:57:40 +0000
+In-Reply-To: <87356ljr6m.ffs@tglx>
+References: <07866eaf6354dd43d87cffb6eebf101716845b66.camel@infradead.org>
+ <87fsalkcck.ffs@tglx>
+ <1060e7786498f384634b01c335bf7bf43365e1fe.camel@infradead.org>
+ <87356ljr6m.ffs@tglx>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-5Pj+37JDg51UR5035j2m"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|DM4PR11MB6120:EE_
-X-MS-Office365-Filtering-Correlation-Id: 72cc7c0b-97a1-46de-2b38-08db1c7c4ff8
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fI1SiHI8lpopEBZRor0k1yfJDyKYMdfOoD04A9BPYIuEsHf7EzRPbimcVZM4FS/dJzX8OR/5qbkpn5XAxrTM+37EJiulTQAnuvOybHxLJXlk1gQij2gxgT2zA9D4pBPw3iX6ioOnxC8ua8Xl+kdHxiCzr678tYgP+SUP4fZslXxltkmx4EP17UCXmeZkDUM5Z1Zh1adUps0j8fMw9t03sIoHRQFDfjuOlH5XOme2hGQjNnjlc/pC4Inz8o5ztIHKlXcuSqJ5SvtPZbG5kwOr+WnZcZKCtQlsijNR2HhNO8Njm6oiIqiq9M8/gXn3bvqcZM8tTFGptb4oe1SLmg7FsGssKqYQLiAjOORKVSR6VNi5alvPyk0KauShc5Fi6VHAzojXK9MiJXbNp+ktQzkC/rEUiZiNeeW5ZZ5ZNKjXrLnlID2DuoB1HuJwz7/oHbijLMC862l3kWvSe8tkSrES3DiZdhQ7ombcOvV2niMqc0V9RHUNqbH50zfWj2Q8pYyOtltK7wFIQAs7m1+ea8N6IctHTJ8ZKbVW1oYhkFCboPzmk0/el4SsvF36sL9ZaToCOTkq/K5/gjxgzzL92aPgRnkHkTmDys0I2D7jSLzV6k+XdC/2cjRy2ugOsPRdgmfqGfP1sSD1IdK55peX3r0U4A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(376002)(366004)(39860400002)(346002)(396003)(136003)(451199018)(54906003)(478600001)(38100700002)(2906002)(110136005)(15650500001)(83380400001)(8676002)(66946007)(66476007)(66556008)(82960400001)(316002)(6486002)(86362001)(4326008)(8936002)(9686003)(186003)(26005)(6506007)(6666004)(7416002)(44832011)(41300700001)(5660300002)(6512007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7/8wBKYTgS6c5OUV/ctn2TZvZHPFjS2QG4vFQC2uV7wpfzwAxwG+Z1dSq3dB?=
- =?us-ascii?Q?jDed6aZpFEJHan6U+7uNOhX9pOsYPugGKNA26YxjpyXwpI2qwVXxqSs9G4Nk?=
- =?us-ascii?Q?amn9R+VQ5clYaXZbN6OWtQc/LLk4OAdZyAvm2P7AQJ/I/hEHW3A9Y9iF+O0j?=
- =?us-ascii?Q?lXxHawACLLJ7tLzmjVHAmK2LCvk75+JtGLOwkVlePCUSQyqZngilbYDfy0t4?=
- =?us-ascii?Q?XqZkg4DN8LxFtM0FszLrUiqskzAqq+ZxK8cTtJA57tPIa1Tyounbkw2Gwtei?=
- =?us-ascii?Q?WbxVkBkoXvgpjb1FI91ei1p6c04RAtN9/cTNtrzMVoD1DDeifGhfN4Gl08/Z?=
- =?us-ascii?Q?FLJwWEGf7X//Vv7+TBxbyU/Cegj8e0j7zhypi6PZdrBIutlXj1i+39abAVcN?=
- =?us-ascii?Q?6XO0sOKrMe4WfU5J3kyDi8ZJhe78/iANlQig0WRFd3/AP5u6tAFp0j8mmE7B?=
- =?us-ascii?Q?FH983WYZ8Nv0IOBaUi0pAthcn7cel/FklHBphDSWPS2XZgHn847ovHLCBNa6?=
- =?us-ascii?Q?57J7uUiy+4gvLPUhCmET6vdMczJbqANuZykbph0l3jTQt50mVgcz0n8dKkhi?=
- =?us-ascii?Q?ZA80rQkJ6zehxfMYSeHJY6MwylI66byYtsaVUgqY2CPpaXWBUSr0Ea4r4prc?=
- =?us-ascii?Q?kEUB6/ihgCXz5wK3zN0ew8Jp1qxWbPBYi0NepnmppfA+KFI5mi3koeJ1GFFu?=
- =?us-ascii?Q?N/0n79jxU0TMR2EpiPmlAdo6MSFyiO1HrS6dmD//oJZ/D5MfldwqQE9Fn7Yj?=
- =?us-ascii?Q?SctFJYgCCibpRHf/6mw/dTf8LgfvxVPQaReFV+w3HsvJ9ID+i21KV1VqBsyp?=
- =?us-ascii?Q?/DqMHWWJDvtqegF79+XwWBdtcFwGvtkCbKNurhONa6DHLaTk3y+sjWRdxYF1?=
- =?us-ascii?Q?Mm5OK7caxqbD91URbMGjlJKlawCQEkzzaqzbmbdW51lkm9ct6WVWD/iHUKTC?=
- =?us-ascii?Q?VTo1k2PTs7fnqGm65U3z67O9F4jQwFfZkpM63dtRDpljfX64UIkPav8tyA1R?=
- =?us-ascii?Q?EQH2X4+UaVhzCCOaPRM9A2jRZXr4/dNzc4xd0S6m6pTehkwgZDWqa6sFbbZp?=
- =?us-ascii?Q?y0koqzd+EBW5fefV8EGkyHB6skJUDe3t+Aj3jIeOiMo84UXWcTJKzqgTOlAC?=
- =?us-ascii?Q?WCIR0ym300srWWpCKa0iRvx/zWGdCR3F9YfGekDhpUAW/EpGd1xd6o02/zVX?=
- =?us-ascii?Q?YQXS8kYsNx1gP8qsqaucGEGfZ/kkER021UR66adITobQ7IYewXjxSPgAzlNr?=
- =?us-ascii?Q?mvMJ3O2T71OyTSwWj3cqSaTCMD5K9jw68F0KFWUMTPBqdsb29YtQi44rny7k?=
- =?us-ascii?Q?p5Q7Vq3PqsSbvwQcCwQOb8GxUH/T1s+lm/q0/fng0Q4q0+Iot9IJQhjzBJzf?=
- =?us-ascii?Q?u8QTBqhuioqJbXwPkLP/ATmlpth7ZKgkAU9NumE29bs/8qyI9wl1o8FVmeNG?=
- =?us-ascii?Q?vzzHErLrC/kG7DcZdCecW7LXsJLh7Wmn4erX8ZsCWQCTy6WWLmXTsbNRY1tX?=
- =?us-ascii?Q?FxyqHergVNcabr9v5MD7YjDm3O8Ml+9HuwCAH4/crHxYYdTXG/40vYKTFacu?=
- =?us-ascii?Q?yzcXVkPKuj6bEpDO4Uve2D4YWrcVkoqESX4Jfk03?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72cc7c0b-97a1-46de-2b38-08db1c7c4ff8
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2023 06:47:24.8430 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FlTpjSJo7W4FFZpHb9R1h+/FLbveavEwJL5RubNZgj6mAr7HhLVwrBMnu9EY5aqRWyDxtLz8+1EdtxybMI+1Bw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6120
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=ira.weiny@intel.com;
- helo=mga01.intel.com
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+7cd748277c5a0e276522+7132+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -171,178 +81,278 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Jonathan Cameron wrote:
-> Current implementation is very simple so many of the corner
-> cases do not exist (e.g. fragmenting larger poison list entries)
 
-One coding style change at the bottom and I'm still hung up on that loop
-logic...
+--=-5Pj+37JDg51UR5035j2m
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
-> v4:
-> - Fix off by one on check of edge of vmr (cut and paste from similar
->   but long fixed in the volatile memory series)
-> - Drop unnecessary overflow check.
-> - Ensure that even in case of overflow we still delete the element
->   replaced (in the hole punching case)
-> ---
->  hw/cxl/cxl-mailbox-utils.c  | 77 +++++++++++++++++++++++++++++++++++++
->  hw/mem/cxl_type3.c          | 36 +++++++++++++++++
->  include/hw/cxl/cxl_device.h |  1 +
->  3 files changed, 114 insertions(+)
-> 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 64a3f3c1bf..0b30307fa3 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -65,6 +65,7 @@ enum {
->      MEDIA_AND_POISON = 0x43,
->          #define GET_POISON_LIST        0x0
->          #define INJECT_POISON          0x1
-> +        #define CLEAR_POISON           0x2
->  };
->  
->  /* 8.2.8.4.5.1 Command Return Codes */
-> @@ -511,6 +512,80 @@ static CXLRetCode cmd_media_inject_poison(struct cxl_cmd *cmd,
->      return CXL_MBOX_SUCCESS;
->  }
->  
-> +static CXLRetCode cmd_media_clear_poison(struct cxl_cmd *cmd,
-> +                                         CXLDeviceState *cxl_dstate,
-> +                                         uint16_t *len)
-> +{
-> +    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-> +    CXLPoisonList *poison_list = &ct3d->poison_list;
-> +    CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-> +    struct clear_poison_pl {
-> +        uint64_t dpa;
-> +        uint8_t data[64];
-> +    };
-> +    CXLPoison *ent;
-> +    uint64_t dpa;
-> +
-> +    struct clear_poison_pl *in = (void *)cmd->payload;
-> +
-> +    dpa = ldq_le_p(&in->dpa);
-> +    if (dpa + 64 > cxl_dstate->mem_size) {
-> +        return CXL_MBOX_INVALID_PA;
-> +    }
-> +
-> +    /* Always exit loop on entry removal so no need for safe variant */
+On Sat, 2023-03-04 at 01:28 +0100, Thomas Gleixner wrote:
+> David!
+>=20
+> On Fri, Mar 03 2023 at 16:54, David Woodhouse wrote:
+> > On Fri, 2023-03-03 at 17:51 +0100, Thomas Gleixner wrote:
+> > > >=20
+> > > > [=C2=A0=C2=A0=C2=A0 0.577173] ACPI: \_SB_.LNKC: Enabled at IRQ 11
+> > > > [=C2=A0=C2=A0=C2=A0 0.578149] The affinity mask was 0-3
+> > > > [=C2=A0=C2=A0=C2=A0 0.579081] The affinity mask is 0-3 and the hand=
+ler is on 2
+> > > > [=C2=A0=C2=A0=C2=A0 0.580288] The affinity mask is 0 and the handle=
+r is on 2
+> > >=20
+> > > What happens is that once the interrupt is requested, the affinity
+> > > setting is deferred to the first interrupt. See the marvelous dance i=
+n
+> > > arch/x86/kernel/apic/msi.c::msi_set_affinity().
+> > >=20
+> > > If you do the setting before request_irq() then the startup will assi=
+gn
+> > > it to the target mask right away.
+> > >=20
+> > > Btw, you are using irq_get_affinity_mask(), which gives you the desir=
+ed
+> > > target mask. irq_get_effective_affinity_mask() gives you the real one=
+.
+> > >=20
+> > > Can you verify that the thing moves over after the first interrupt or=
+ is
+> > > that too late already?
+> >=20
+> > It doesn't seem to move. The hack to just return IRQ_NONE if invoked on
+> > CPU !=3D 0 was intended to do just that. It's a level-triggered interru=
+pt
+> > so when the handler does nothing on the "wrong" CPU, it ought to get
+> > invoked again on the *correct* CPU and actually=C2=A0work that time.
+>=20
+> So much for the theory. This is virt after all so it does not
+> necessarily behave like real hardware.
 
-Commenting this is nice but I don't think it is needed.
+I think you're right. This looks like a QEMU bug with the "split
+irqchip" I/OAPIC.
 
-> +    QLIST_FOREACH(ent, poison_list, node) {
-> +        /*
-> +         * Test for contained in entry. Simpler than general case
-> +         * as clearing 64 bytes and entries 64 byte aligned
-> +         */
-> +        if ((dpa < ent->start) || (dpa >= ent->start + ent->length)) {
-> +            continue;
-> +        }
-> +        /* Do accounting early as we know one will go away */
-> +        ct3d->poison_list_cnt--;
+For reasons I'm unclear about, and which lack a comment in the code,
+QEMU still injects I/OAPIC events into the kernel with kvm_set_irq().
+(I think it's do to with caching, because QEMU doesn't cache interrupt-
+remapping translations anywhere *except* in the KVM IRQ routing table,
+so if it just synthesised an MSI message every time it'd have to
+retranslate it every time?)
 
-Sorry to get so hung up on this but while I think this code now works I
-still think it is odd and will be an issue to maintain.
+Tracing the behaviour here shows:
 
-FWIW I don't think we have to keep 'ent' in the list here...
+ =E2=80=A2 First interrupt happens on CPU2.
+ =E2=80=A2 Linux updates the I/OAPIC RTE to point to CPU0, but QEMU doesn't
+   update the KVM IRQ routing table yet.
+ * QEMU retriggers the (still-high, level triggered) IRQ.
+ =E2=80=A2 QEMU calls kvm_set_irq(11), delivering it to CPU2 again.
+ =E2=80=A2 QEMU *finally* calls ioapic_update_kvm_routes().
+ =E2=80=A2 Linux sees the interrupt on CPU2 again.
 
-> +        if (dpa > ent->start) {
-> +            CXLPoison *frag;
-> +            /* Cannot overflow as replacing existing entry */
-> +
-> +            frag = g_new0(CXLPoison, 1);
-> +
-> +            frag->start = ent->start;
-> +            frag->length = dpa - ent->start;
-> +            frag->type = ent->type;
-> +
-> +            QLIST_INSERT_HEAD(poison_list, frag, node);
-> +            ct3d->poison_list_cnt++;
-> +        }
-> +        if (dpa + 64 < ent->start + ent->length) {
-> +            CXLPoison *frag;
-> +
-> +            if (ct3d->poison_list_cnt == CXL_POISON_LIST_LIMIT) {
-> +                cxl_set_poison_list_overflowed(ct3d);
-> +            } else {
-> +                frag = g_new0(CXLPoison, 1);
-> +
-> +                frag->start = dpa + 64;
-> +                frag->length = ent->start + ent->length - frag->start;
-> +                frag->type = ent->type;
-> +                QLIST_INSERT_HEAD(poison_list, frag, node);
-> +                ct3d->poison_list_cnt++;
-> +            }
-> +        }
-> +        /* Any fragments have been added, free original entry */
-> +        QLIST_REMOVE(ent, node);
-> +        g_free(ent);
-> +        break;
-> +    }
+  $ qemu-system-x86_64 -display none -serial mon:stdio \
+     -accel kvm,xen-version=3D0x4000a,kernel-irqchip=3Dsplit \
+     -kernel ~/git/linux/arch/x86/boot//bzImage=C2=A0\
+     -append "console=3DttyS0,115200 xen_no_vector_callback" \
+     -smp 4 --trace ioapic\* --trace xenstore\*
 
-Why not this?
 
 ...
-    CXLPoison *ent, found = NULL;
 
-...
-    QLIST_FOREACH(ent, poison_list, node) {
-        /*
-         * Test for contained in entry. Simpler than general case
-         * as clearing 64 bytes and entries are 64 byte aligned
-         */
-        if ((dpa >= ent->start) && (dpa < ent->start + ent->length)) {
-            found = ent;
-	    break;
-        }
-    }
+xenstore_read tx 0 path control/platform-feature-xs_reset_watches
+ioapic_set_irq vector: 11 level: 1
+ioapic_set_remote_irr set remote irr for pin 11
+ioapic_service: trigger KVM IRQ 11
+[    0.523627] The affinity mask was 0-3 and the handler is on 2
+ioapic_mem_write ioapic mem write addr 0x0 regsel: 0x27 size 0x4 val 0x26
+ioapic_update_kvm_routes: update KVM route for IRQ 11: fee02000 8021
+ioapic_mem_write ioapic mem write addr 0x10 regsel: 0x26 size 0x4 val 0x180=
+21
+xenstore_reset_watches=20
+ioapic_set_irq vector: 11 level: 1
+ioapic_mem_read ioapic mem read addr 0x10 regsel: 0x26 size 0x4 retval 0x1c=
+021
+[    0.524569] ioapic_ack_level IRQ 11 moveit =3D 1
+ioapic_eoi_broadcast EOI broadcast for vector 33
+ioapic_clear_remote_irr clear remote irr for pin 11 vector 33
+ioapic_mem_write ioapic mem write addr 0x0 regsel: 0x26 size 0x4 val 0x26
+ioapic_mem_read ioapic mem read addr 0x10 regsel: 0x26 size 0x4 retval 0x18=
+021
+[    0.525235] ioapic_finish_move IRQ 11 calls irq_move_masked_irq()
+[    0.526147] irq_do_set_affinity for IRQ 11, 0
+[    0.526732] ioapic_set_affinity for IRQ 11, 0
+[    0.527330] ioapic_setup_msg_from_msi for IRQ11 target 0
+ioapic_mem_write ioapic mem write addr 0x0 regsel: 0x26 size 0x4 val 0x27
+ioapic_mem_write ioapic mem write addr 0x10 regsel: 0x27 size 0x4 val 0x0
+ioapic_mem_write ioapic mem write addr 0x0 regsel: 0x27 size 0x4 val 0x26
+ioapic_mem_write ioapic mem write addr 0x10 regsel: 0x26 size 0x4 val 0x180=
+21
+[    0.527623] ioapic_set_affinity returns 0
+[    0.527623] ioapic_finish_move IRQ 11 calls unmask_ioapic_irq()
+ioapic_mem_write ioapic mem write addr 0x0 regsel: 0x26 size 0x4 val 0x26
+ioapic_mem_write ioapic mem write addr 0x10 regsel: 0x26 size 0x4 val 0x802=
+1
+ioapic_set_remote_irr set remote irr for pin 11
+ioapic_service: trigger KVM IRQ 11
+ioapic_update_kvm_routes: update KVM route for IRQ 11: fee00000 8021
+[    0.529571] The affinity mask was 0 and the handler is on 2
+[    xenstore_watch path memory/target token FFFFFFFF92847D40
+xenstore_watch_event path memory/target token FFFFFFFF92847D40
+ioapic_set_irq vector: 11 level: 1
+0.530486] ioapic_ack_level IRQ 11 moveit =3D 0
 
-    /*
-     * Do we even need 'found'?  Or is ent null if not found?
-     * I'm not sure how QLIST's work.
-     */
-    if (found) {
-        CXLPoison *frag;
 
-        QLIST_REMOVE(found, node);
-        ct3d->poison_list_cnt--;
+This is with Linux doing basically nothing when the handler is invoked
+on the 'wrong' CPU, and just waiting for it to be right.
 
-	/* If not clearing the start, create new beginning of range */
-        if (dpa > found->start) {
-            frag = g_new0(CXLPoison, 1);
-            frag->start = found->start;
-            frag->length = dpa - found->start;
-            frag->type = found->type;
-            QLIST_INSERT_HEAD(poison_list, frag, node);
-            ct3d->poison_list_cnt++;
-	}
+Commenting out the kvm_set_irq() calls in ioapic_service() and letting
+QEMU synthesise an MSI every time works. Better still, so does this,
+making it update the routing table *before* retriggering the IRQ when
+the guest updates the RTE:
 
-	/* If needed, and space available, create new end of range */
-        if (dpa + 64 < found->start + found->length) {
-            if (ct3d->poison_list_cnt == CXL_POISON_LIST_LIMIT) {
-                cxl_set_poison_list_overflowed(ct3d);
-            } else {
-                frag = g_new0(CXLPoison, 1);
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -405,6 +409,7 @@ ioapic_mem_write(void *opaque, hwaddr addr,
+uint64_t val,
+                 s->ioredtbl[index] |=3D ro_bits;
+                 s->irq_eoi[index] =3D 0;
+                 ioapic_fix_edge_remote_irr(&s->ioredtbl[index]);
++                ioapic_update_kvm_routes(s);
+                 ioapic_service(s);
+             }
+         }
+@@ -418,7 +423,6 @@ ioapic_mem_write(void *opaque, hwaddr addr,
+uint64_t val,
+         break;
+     }
+=20
+-    ioapic_update_kvm_routes(s);
+ }
+=20
+ static const MemoryRegionOps ioapic_io_ops =3D {
 
-                frag->start = dpa + 64;
-                frag->length = found->start + found->length - frag->start;
-                frag->type = found->type;
-                QLIST_INSERT_HEAD(poison_list, frag, node);
-                ct3d->poison_list_cnt++;
-            }
-        }
-        g_free(found);
-    }
-...
 
-> +    /* Clearing a region with no poison is not an error so always do so */
-> +    if (cvc->set_cacheline)
 
-For QEMU coding style you still need '{' '}'.
+Now, I don't quite see why we don't get a *third* interrupt, since
+Linux did nothing to clear the level of IRQ 11 and the last trace I see
+from QEMU's ioapic_set_irq confirms it's still set. But I've exceeded
+my screen time for the day, so I'll have to frown at that part some
+more later. I wonder if the EOI is going missing because it's coming
+from the wrong CPU? Note no 'EOI broadcast' after the last line in the
+log I showed above; it isn't just that I trimmed it there.
 
-Ira
+I don't think we need to do anything in Linux; if the handler gets
+invoked on the wrong CPU it'll basically find no events pending for
+that CPU and return having done nothing... and *hopefully* should be
+re-invoked on the correct CPU shortly thereafter.
+
+--=-5Pj+37JDg51UR5035j2m
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA0MDk1NzQwWjAvBgkqhkiG9w0BCQQxIgQgrFR4lPm1
+WDljiYico/w9DdB2c2h8YkQJLvf05v7Z9ZIwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCKjldEN2e1QiSry0BI/VClUsT9X5i9xsQl
+o5kzxXgu2IcI3OzrESs3dmEUgan8PvGOpS+0L8yUygr+0V3VZTHZnnAZERRWE6iD/xpASyp3o9Da
+KPdkfMcgtls6X8k5xI7YELkBQZGcp4SO2QTGXIH0wINAvU64i/k6LpYVKcs5+KTBiPelpCGfGBjx
+QqotOvWPQJauEwDkBR2MoQq1PwvacnSc6BYw5gq0BjiQKgkP73rihMBfAnf6ASr8i1A3IYRHFIg4
+lCvFYJnI8MImFRjfSYQMdfV3j23Em5OWpBX5/iyJLpdpnU+H1d5n9NniF7g/icK1+gSpMm30J2Uk
+sg2yzg2KXz8IyMtVcgOJFqSUZNjPAY/3p5cQ1q3Wlv8+jMgk8xGGrtGjNdAmxkGQZtvB3Kro+jWU
+9vPi6Z/LY3gZ+E+z5rjOaUhMYPfaIuT5ZGdeBeESOrDQhqXqB2XTdsEAIFlyg9P4XpBC0XkYzNMf
+0N5T2tc5VllfvYq+fIyPAoN33TlhovAIaKqe4j9QU0UBnarSeDKYTLyDhqK9k8ZlA45wR0kvMpJA
+PkixXqrDKh54cs8c9NVlHhg2D0lrm7mOw4qQigOXQqGnQ2HefDzFaAXliDYImXK90rtoGCCf9Tt8
+F9OdnbfSKrM68mjIuPwQiI3EqraMswlE8pEs8kKLlwAAAAAAAA==
+
+
+--=-5Pj+37JDg51UR5035j2m--
 
