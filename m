@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A836AA952
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727826AA956
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:54:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYQGN-0003ai-OJ; Sat, 04 Mar 2023 06:41:19 -0500
+	id 1pYQRt-00004v-O9; Sat, 04 Mar 2023 06:53:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQGA-0003Uo-Gv; Sat, 04 Mar 2023 06:41:06 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ id 1pYQRr-0008WN-IR; Sat, 04 Mar 2023 06:53:11 -0500
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQG8-0008UV-7N; Sat, 04 Mar 2023 06:41:05 -0500
-Received: by mail-ed1-x533.google.com with SMTP id o15so20037724edr.13;
- Sat, 04 Mar 2023 03:41:03 -0800 (PST)
+ id 1pYQRp-0003ba-Tp; Sat, 04 Mar 2023 06:53:11 -0500
+Received: by mail-vs1-xe35.google.com with SMTP id x14so4786724vso.9;
+ Sat, 04 Mar 2023 03:53:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677930062;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20210112; t=1677930788;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x436vop8YejkrA2/Ijav3pM+igC8BPCpLg4ZKo7COug=;
- b=eS+c3+lR7hDCN0jR4bnvAWXCkn3gMTasgeZR4HRtflxq5KeLIHy0BhGq/i1e6Nop0E
- wvZmRrLcyp2BSkmV/F95BPSB9yRw/BQF9WqeEOnu36ZsJ+CwdUonHdPHv6LEHDQtLvFM
- KfpkLsofyBC278okqKWH8tE6Xn1e+oohZxF8S2W93auoI7IGJsAWy+UeoH/P+XMovf75
- +qbvoivbhjIBIY2lFTuKgbGHJGqW0nA6EW44Lt3SAmp37U90bGcy5La+T6HZ0U2FICs5
- Q9t4tcBUXXM33HdGWU7rchbF1b8I/EHbAWujn07PAznYHScpETnUWuZkZrgfqx/eS15Z
- fNVg==
+ bh=f614g8cQg7ojygKrnx0Ed4xthODJz3prPcgMxPgb0Yw=;
+ b=QAhMLY9dblUoJJ9AzNhioASMhYFx5YO8u5xA3djUosF2N4Sq9+BtLD2BKV/wO1he0e
+ VdOYt6zMCY9KtdXYKkYKkhj6PDIR/bHBCER2IFaO5pjOloVfm9AxNVa88AXWgfq0IzX3
+ 94vXvcqNMSawKmk6BfSGv1zOXX2+cn17KSIP3NOsOBsboI6nnDR6oFHb/9WybOkmkDmI
+ jDA4vo2KLnaIEMlMQyiBTdL01xQUEQKY30yii783eDe5WH5V7FQ8rOuLJYxjcKCRR7S+
+ bWl24yYqzR2dCGwkIjKRIDichRi0uGGXIwtSdFmLJEBBaDcBOamh/G/M3Gt6bZwgFmaS
+ G09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677930062;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1677930788;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=x436vop8YejkrA2/Ijav3pM+igC8BPCpLg4ZKo7COug=;
- b=zt5HF6A5IJuMdO4MGNfYx/YyX/wdgH3iDqaOyEZbxcxId0mf0eBGB+wopSYMDM/ShZ
- b4kdoA1mT2etO1i0kAoLsaIH0MNGWqiJjW+B0/rhnyXxVtLLNQWjniST5kOY7+rnEv5T
- ifUG9IYtywj236TPXYd3E5ee+wsk2EmIhn7tnOn1WxQ4WnzFsRpeYl97UtEuBbpNwH/D
- lmx97d5InucmwAp/h7Bs6xHxGnltZOXA6ep3u2cFVvEPk9kbEXI58sOfsAwp+TaPX/xK
- PCqQFJ0j+VL3dUcWoeBuXkrZjgz/YEPupgQO2z9BrX7aVY9k4WttOqxwqJsqPun6+Z7q
- Jj1g==
-X-Gm-Message-State: AO0yUKX1Rd3YFqz5QOtftu5XEl2E0e7KozksmB/dw8NkZZziItU9X558
- 50dwuxPJU2Q5nErtqXVoKBNLJD8FQFU=
-X-Google-Smtp-Source: AK7set9V9qy0j8kS7Do47W2iu3A5rTbt5/NzsJfRKupUxtjSHYjYJestwe7K01SWMUz71BldKz1+YQ==
-X-Received: by 2002:a17:907:7fab:b0:8b2:8876:6a3c with SMTP id
- qk43-20020a1709077fab00b008b288766a3cmr6125476ejc.29.1677930062170; 
- Sat, 04 Mar 2023 03:41:02 -0800 (PST)
-Received: from Provence.localdomain
- (dynamic-077-183-004-175.77.183.pool.telefonica.de. [77.183.4.175])
- by smtp.gmail.com with ESMTPSA id
- j6-20020a17090686c600b008c44438734csm1993248ejy.113.2023.03.04.03.41.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Mar 2023 03:41:01 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 5/5] hw/pci/pci: Remove multifunction parameter from
- pci_new_multifunction()
-Date: Sat,  4 Mar 2023 12:40:43 +0100
-Message-Id: <20230304114043.121024-6-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230304114043.121024-1-shentey@gmail.com>
-References: <20230304114043.121024-1-shentey@gmail.com>
+ bh=f614g8cQg7ojygKrnx0Ed4xthODJz3prPcgMxPgb0Yw=;
+ b=CI69QWx5u3FHglFZDmLpsXa1uHY41wERgav1LmIelokDE4nsGiw9T4cdUxHCCkqKzn
+ n58N+7i0S07CpD94X1nVOFMOGM97zrdP9/j0kiidLRWMLqFVQRf528xh5Fz8kvyQYvun
+ A2aAhHL6MTERpUMbjl5JqnAcAV8RUJhyfwI50xHJT0fqwykC9v8kjutKRLLC3e2XsIFv
+ 2gI/LjceijESLpATwO74yjfuy9ppBmVvimhKomt5C8nWCJ00p/O6PiRYxVLn4xamUDiO
+ +OO4dVNA+/S3ONc5XtYy+x6Eydw0sseJJGd4npBvUKNroifa69Mn8VXSm/OsDpUhMGxH
+ +f8Q==
+X-Gm-Message-State: AO0yUKWhNObbimUs9GyG8kg8Zyb3en3dD4W3YOTSjPnRCsYcZYw4uO6I
+ DlJnWcYure8rhqvmUkxGSLxE3aO/9QF2lxG7+b8=
+X-Google-Smtp-Source: AK7set//9y151nCXNEZLZZdR0lwx2YLyo2s9ZIu6JctAlxI/ww63BEV3XCd9sJG30BY/W1dRf9Pc5BscGBJ9rou0q4g=
+X-Received: by 2002:a67:e94c:0:b0:421:c4a7:872b with SMTP id
+ p12-20020a67e94c000000b00421c4a7872bmr1236712vso.6.1677930788484; Sat, 04 Mar
+ 2023 03:53:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
+References: <20230302224058.43315-1-philmd@linaro.org>
+ <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
+ <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
+In-Reply-To: <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
+From: Bernhard Beschow <shentey@gmail.com>
+Date: Sat, 4 Mar 2023 12:52:57 +0100
+Message-ID: <CAG4p6K4aj5n0a68-PKU7=7E7fBwG2jnvD+rPeTvwjUE-kRZ7GA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
+ ide_init_ioport()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ David Woodhouse <dwmw2@infradead.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>, 
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=shentey@gmail.com; helo=mail-vs1-xe35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,182 +90,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is also pci_new() which creates non-multifunction PCI devices.
-Accordingly the parameter is always set to true when a multi function PCI
-device is to be created.
+Am 3. M=C3=A4rz 2023 07:46:31 UTC schrieb Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk>:
+>On 03/03/2023 06:58, David Woodhouse wrote:
+>
+>> On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daud=C3=A9" <philmd@lina=
+ro.org> wrote:
+>>> Since v2: rebased
+>>>
+>>> I'm posting this series as it to not block Bernhard's PIIX
+>>> cleanup work. I don't have code change planned, but eventually
+>>> reword / improve commit descriptions.
+>>>
+>>> Tested commit after commit to be sure it is bisectable. Sadly
+>>> this was before Zoltan & Thomas report a problem with commit
+>>> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
+>>
+>> However much I stare at the partial revert which fixes it, I just cannot=
+ believe that the change could make any difference at all. There's got to b=
+e something weird going on there.
+>>
+>> I was going to ask if the level mode for the PIT made any difference, bu=
+t this is the output IRQ from the PIT to the CPU itself so I don't see how =
+it would.
+>>
+>> Would like to see a report with tracing from pic_update_irq, the CPU int=
+errupt "handler" and the intermediate IRQ handler. With the intermediate pr=
+esent and without it. To compare the two.
+>
+>I suspect it's related to the removal of the allocation of the qemu_irq: q=
+dev gpios work by adding a child IRQ object to the device, so it could be p=
+ossible that something in the gpio internals isn't being updated correctly =
+when the value is overwritten directly.
 
-The reason for the parameter's existence seems to be that it is used in the
-internal PCI code as well which is the only location where it gets set to
-false. This one usage can be resolved by factoring out an internal helper
-function.
+I've just sent a series fixing the issue.
 
-Remove this redundant, error-prone parameter.
+The problem was that cpu_intr gets populated by
+qdev_connect_gpio_out() in board code which happens after via's
+realize method has been executed. So in via's realize method cpu_intr
+is still NULL which causes a NULL qemu_irq to be passed to the i8259.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- include/hw/pci/pci.h |  3 +--
- hw/i386/pc_q35.c     |  6 +++---
- hw/mips/fuloong2e.c  |  2 +-
- hw/pci-host/sabre.c  |  6 ++----
- hw/pci/pci.c         | 13 +++++++++----
- hw/ppc/pegasos2.c    |  3 +--
- hw/sparc64/sun4u.c   |  5 ++---
- 7 files changed, 19 insertions(+), 19 deletions(-)
+One way to fix this is to move qdev_connect_gpio_out() in board code
+between pci_new_multifunction() and pci_realize_and_unref().
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 830407a5b9..cbf3ebea4e 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -572,8 +572,7 @@ pci_set_quad_by_mask(uint8_t *config, uint64_t mask, uint64_t reg)
-     pci_set_quad(config, (~mask & val) | (mask & rval));
- }
- 
--PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
--                                    const char *name);
-+PCIDevice *pci_new_multifunction(int devfn, const char *name);
- PCIDevice *pci_new(int devfn, const char *name);
- bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 65a862b66d..b41fc2b879 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -99,12 +99,12 @@ static int ehci_create_ich9_with_companions(PCIBus *bus, int slot)
-         return -1;
-     }
- 
--    ehci = pci_new_multifunction(PCI_DEVFN(slot, 7), true, name);
-+    ehci = pci_new_multifunction(PCI_DEVFN(slot, 7), name);
-     pci_realize_and_unref(ehci, bus, &error_fatal);
-     usbbus = QLIST_FIRST(&ehci->qdev.child_bus);
- 
-     for (i = 0; i < 3; i++) {
--        uhci = pci_new_multifunction(PCI_DEVFN(slot, comp[i].func), true,
-+        uhci = pci_new_multifunction(PCI_DEVFN(slot, comp[i].func),
-                                      comp[i].name);
-         qdev_prop_set_string(&uhci->qdev, "masterbus", usbbus->name);
-         qdev_prop_set_uint32(&uhci->qdev, "firstport", comp[i].port);
-@@ -236,7 +236,7 @@ static void pc_q35_init(MachineState *machine)
-     phb = PCI_HOST_BRIDGE(q35_host);
-     host_bus = phb->bus;
-     /* create ISA bus */
--    lpc = pci_new_multifunction(PCI_DEVFN(ICH9_LPC_DEV, ICH9_LPC_FUNC), true,
-+    lpc = pci_new_multifunction(PCI_DEVFN(ICH9_LPC_DEV, ICH9_LPC_FUNC),
-                                 TYPE_ICH9_LPC_DEVICE);
-     qdev_prop_set_bit(DEVICE(lpc), "smm-enabled",
-                       x86_machine_is_smm_enabled(x86ms));
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 30944f8fe7..0d4a45bd4f 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -295,7 +295,7 @@ static void mips_fuloong2e_init(MachineState *machine)
-     pci_bus = bonito_init((qemu_irq *)&(env->irq[2]));
- 
-     /* South bridge -> IP5 */
--    pci_dev = pci_new_multifunction(PCI_DEVFN(FULOONG2E_VIA_SLOT, 0), true,
-+    pci_dev = pci_new_multifunction(PCI_DEVFN(FULOONG2E_VIA_SLOT, 0),
-                                     TYPE_VT82C686B_ISA);
-     qdev_connect_gpio_out(DEVICE(pci_dev), 0, env->irq[5]);
-     pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
-diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-index 949ecc21f2..dcb2e230b6 100644
---- a/hw/pci-host/sabre.c
-+++ b/hw/pci-host/sabre.c
-@@ -387,14 +387,12 @@ static void sabre_realize(DeviceState *dev, Error **errp)
-     pci_setup_iommu(phb->bus, sabre_pci_dma_iommu, s->iommu);
- 
-     /* APB secondary busses */
--    pci_dev = pci_new_multifunction(PCI_DEVFN(1, 0), true,
--                                    TYPE_SIMBA_PCI_BRIDGE);
-+    pci_dev = pci_new_multifunction(PCI_DEVFN(1, 0), TYPE_SIMBA_PCI_BRIDGE);
-     s->bridgeB = PCI_BRIDGE(pci_dev);
-     pci_bridge_map_irq(s->bridgeB, "pciB", pci_simbaB_map_irq);
-     pci_realize_and_unref(pci_dev, phb->bus, &error_fatal);
- 
--    pci_dev = pci_new_multifunction(PCI_DEVFN(1, 1), true,
--                                    TYPE_SIMBA_PCI_BRIDGE);
-+    pci_dev = pci_new_multifunction(PCI_DEVFN(1, 1), TYPE_SIMBA_PCI_BRIDGE);
-     s->bridgeA = PCI_BRIDGE(pci_dev);
-     pci_bridge_map_irq(s->bridgeA, "pciA", pci_simbaA_map_irq);
-     pci_realize_and_unref(pci_dev, phb->bus, &error_fatal);
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index c2e14f000e..09907c966e 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2089,8 +2089,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-     pci_dev->msi_trigger = pci_msi_trigger;
- }
- 
--PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
--                                 const char *name)
-+static PCIDevice *pci_new_internal(int devfn, bool multifunction,
-+                                   const char *name)
- {
-     DeviceState *dev;
- 
-@@ -2100,9 +2100,14 @@ PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
-     return PCI_DEVICE(dev);
- }
- 
-+PCIDevice *pci_new_multifunction(int devfn, const char *name)
-+{
-+    return pci_new_internal(devfn, true, name);
-+}
-+
- PCIDevice *pci_new(int devfn, const char *name)
- {
--    return pci_new_multifunction(devfn, false, name);
-+    return pci_new_internal(devfn, false, name);
- }
- 
- bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp)
-@@ -2113,7 +2118,7 @@ bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp)
- PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
-                                            const char *name)
- {
--    PCIDevice *dev = pci_new_multifunction(devfn, true, name);
-+    PCIDevice *dev = pci_new_multifunction(devfn, name);
-     pci_realize_and_unref(dev, bus, &error_fatal);
-     return dev;
- }
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index b0ada9c963..b8c8a60804 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -159,8 +159,7 @@ static void pegasos2_init(MachineState *machine)
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
- 
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
--    via = OBJECT(pci_new_multifunction(PCI_DEVFN(12, 0), true,
--                                       TYPE_VT8231_ISA));
-+    via = OBJECT(pci_new_multifunction(PCI_DEVFN(12, 0), TYPE_VT8231_ISA));
-     qdev_connect_gpio_out(DEVICE(via), 0,
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
-     pci_realize_and_unref(PCI_DEVICE(via), pci_bus, &error_fatal);
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index a25e951f9d..b5d5a82c50 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -612,7 +612,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     pci_busA->slot_reserved_mask = 0xfffffff1;
-     pci_busB->slot_reserved_mask = 0xfffffff0;
- 
--    ebus = pci_new_multifunction(PCI_DEVFN(1, 0), true, TYPE_EBUS);
-+    ebus = pci_new_multifunction(PCI_DEVFN(1, 0), TYPE_EBUS);
-     qdev_prop_set_uint64(DEVICE(ebus), "console-serial-base",
-                          hwdef->console_serial_base);
-     pci_realize_and_unref(ebus, pci_busA, &error_fatal);
-@@ -648,8 +648,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
- 
-         if (!nd->model || strcmp(nd->model, "sunhme") == 0) {
-             if (!onboard_nic) {
--                pci_dev = pci_new_multifunction(PCI_DEVFN(1, 1),
--                                                   true, "sunhme");
-+                pci_dev = pci_new_multifunction(PCI_DEVFN(1, 1), "sunhme");
-                 bus = pci_busA;
-                 memcpy(&macaddr, &nd->macaddr.a, sizeof(MACAddr));
-                 onboard_nic = true;
--- 
-2.39.2
+By having an intermediate IRQ handler the problem didn't appear since
+the (non-NULL) qemu_irq holding the intermediate handler is passed to
+the i8259. The intermediate handler delays reading cpu_intr to
+runtime, so initializing it after realize() is no problem. The price,
+however, is that an indirection occurs at runtime every time cpu_intr
+is triggered.
 
+BTW, the PIC proxy in my PIIX consolidation series attempted to solve
+the same problem: The ISABus IRQs need to be already populated in
+piix-ide's realize method, otherwise NULL qemu_irqs are used. As long
+as piix-ide is realized in board code, separately from the piix south
+bridge, the ISABus IRQs can be populated in between. However, once
+piix-ide is realized in the south bridge, the ISA IRQs must be
+populated before the south bridge's realize(). The PIC proxy solved
+this by introducing intermediate ISA IRQs while the latest incarnation
+of the PIIX consolidation series uses the same approach as described
+above.
+
+Best regards,
+Bernhard
+>
+>Is the problem picked up when running a binary built with --enable-sanitiz=
+ers? That's normally quite good at detecting this kind of issue.
+>
+>
+>ATB,
+>
+>Mark.
 
