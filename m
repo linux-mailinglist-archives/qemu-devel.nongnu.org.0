@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727826AA956
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FA76AA957
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:55:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYQRt-00004v-O9; Sat, 04 Mar 2023 06:53:13 -0500
+	id 1pYQTW-0000vN-1k; Sat, 04 Mar 2023 06:54:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQRr-0008WN-IR; Sat, 04 Mar 2023 06:53:11 -0500
-Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
+ id 1pYQTM-0000v4-0G; Sat, 04 Mar 2023 06:54:44 -0500
+Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQRp-0003ba-Tp; Sat, 04 Mar 2023 06:53:11 -0500
-Received: by mail-vs1-xe35.google.com with SMTP id x14so4786724vso.9;
- Sat, 04 Mar 2023 03:53:09 -0800 (PST)
+ id 1pYQTK-0003ve-AT; Sat, 04 Mar 2023 06:54:43 -0500
+Received: by mail-ua1-x932.google.com with SMTP id v48so3379553uad.6;
+ Sat, 04 Mar 2023 03:54:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677930788;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=f614g8cQg7ojygKrnx0Ed4xthODJz3prPcgMxPgb0Yw=;
- b=QAhMLY9dblUoJJ9AzNhioASMhYFx5YO8u5xA3djUosF2N4Sq9+BtLD2BKV/wO1he0e
- VdOYt6zMCY9KtdXYKkYKkhj6PDIR/bHBCER2IFaO5pjOloVfm9AxNVa88AXWgfq0IzX3
- 94vXvcqNMSawKmk6BfSGv1zOXX2+cn17KSIP3NOsOBsboI6nnDR6oFHb/9WybOkmkDmI
- jDA4vo2KLnaIEMlMQyiBTdL01xQUEQKY30yii783eDe5WH5V7FQ8rOuLJYxjcKCRR7S+
- bWl24yYqzR2dCGwkIjKRIDichRi0uGGXIwtSdFmLJEBBaDcBOamh/G/M3Gt6bZwgFmaS
- G09g==
+ d=gmail.com; s=20210112; t=1677930880;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1d/H5mAq9oYLO/OaRQthQrbDN4kMDEvfNQ5Al7ikGf8=;
+ b=f87rdAAM2udDaY2k+xCLW6heblplLz+jPCtMdxiHbQZZ4aywUxcok6IDSTA6J3b9i3
+ uJnFiSYHkBGuy9jOUt0Rl7td0Y1G7sZd7F9GDrImUSFHa9CeKOKKKHp+GQKPlSbcTAhd
+ ZKFih1IPEFVaSMPPP3tRR0JRXUQkXWvzpwoXD/h05lWVOizwA/rDHzOhvTBexM0sInRK
+ k8Jnsox8e/kBAjz+TDd5ZXj3nwpq8xx0FORTzFF9X/FYnR6HCnf42UccchoiXSAkmPkp
+ IlxynhzFk5qb89nfyzf4Nl9DKfZ/DNRAI126AUMR1PuMPf5dWM4iPsgxozLAE6/1aJFd
+ UH8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677930788;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=f614g8cQg7ojygKrnx0Ed4xthODJz3prPcgMxPgb0Yw=;
- b=CI69QWx5u3FHglFZDmLpsXa1uHY41wERgav1LmIelokDE4nsGiw9T4cdUxHCCkqKzn
- n58N+7i0S07CpD94X1nVOFMOGM97zrdP9/j0kiidLRWMLqFVQRf528xh5Fz8kvyQYvun
- A2aAhHL6MTERpUMbjl5JqnAcAV8RUJhyfwI50xHJT0fqwykC9v8kjutKRLLC3e2XsIFv
- 2gI/LjceijESLpATwO74yjfuy9ppBmVvimhKomt5C8nWCJ00p/O6PiRYxVLn4xamUDiO
- +OO4dVNA+/S3ONc5XtYy+x6Eydw0sseJJGd4npBvUKNroifa69Mn8VXSm/OsDpUhMGxH
- +f8Q==
-X-Gm-Message-State: AO0yUKWhNObbimUs9GyG8kg8Zyb3en3dD4W3YOTSjPnRCsYcZYw4uO6I
- DlJnWcYure8rhqvmUkxGSLxE3aO/9QF2lxG7+b8=
-X-Google-Smtp-Source: AK7set//9y151nCXNEZLZZdR0lwx2YLyo2s9ZIu6JctAlxI/ww63BEV3XCd9sJG30BY/W1dRf9Pc5BscGBJ9rou0q4g=
-X-Received: by 2002:a67:e94c:0:b0:421:c4a7:872b with SMTP id
- p12-20020a67e94c000000b00421c4a7872bmr1236712vso.6.1677930788484; Sat, 04 Mar
- 2023 03:53:08 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677930880;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1d/H5mAq9oYLO/OaRQthQrbDN4kMDEvfNQ5Al7ikGf8=;
+ b=VU38C9T7Ibf6jrMUMHjoGbZiHIZT/zGJLwwwiiUoMbNXqfmQU6ydhbARXII2H+oov0
+ Ph/Sv4jFeT7Ca2oivtgKVGiI9j1g1Xr2MbQYCU34hVJ4cVUQfJbdk0hETBuf+oteosZV
+ rTYTjdc0pl0DgG7P0xsiR3ytKh1qYgKs5yGpvHs1gh3wHPfUw/Rd6TbWiZi+WIz1G0ah
+ z/tTFm6aquod+QU7EiIxqNPMumhXVHx/7CvT0dZOmtFHMu03PgRt1d0tkSq+ZzBIM9KK
+ FXJI5frWmz5Ia1l5fBKERx8yjWtOUYcCIbFEzde7K4+shVqlWsizFSd/zxLy9t1jd+wG
+ ZDjg==
+X-Gm-Message-State: AO0yUKVXrfTiDFjfQRX1HEZCVjBA7xF/kxqtCz1mHS3dB5vbBrtZjOXH
+ vWzA+EhiPlNmH2SttCoLU9HXcEARnZmi1TSz7CtkOyEJ
+X-Google-Smtp-Source: AK7set91tRonaVi06LEA9PwqnICZNbmDHwd5gtE0UWJE7CoBK1UDP5gRgisQM4BnrRXtu2fsO6bpyOb4axMdujaKoC4=
+X-Received: by 2002:ab0:4a12:0:b0:68b:b624:7b86 with SMTP id
+ q18-20020ab04a12000000b0068bb6247b86mr3220320uae.2.1677930880420; Sat, 04 Mar
+ 2023 03:54:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20230302224058.43315-1-philmd@linaro.org>
- <366B37B3-B601-4405-9D7B-4FF1A6D1B9AF@infradead.org>
- <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
-In-Reply-To: <152836d8-d417-df05-4819-cd3d7756732a@ilande.co.uk>
+References: <20230304114043.121024-1-shentey@gmail.com>
+In-Reply-To: <20230304114043.121024-1-shentey@gmail.com>
 From: Bernhard Beschow <shentey@gmail.com>
-Date: Sat, 4 Mar 2023 12:52:57 +0100
-Message-ID: <CAG4p6K4aj5n0a68-PKU7=7E7fBwG2jnvD+rPeTvwjUE-kRZ7GA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
- ide_init_ioport()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- David Woodhouse <dwmw2@infradead.org>, 
+Date: Sat, 4 Mar 2023 12:54:29 +0100
+Message-ID: <CAG4p6K4HQTfhbMkkUq9+9NoA0Pun7L4Q3xs0+9kSx77riX0vGg@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Fix recent PIC -> CPU interrupt wiring regressions
+To: qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>, 
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
- envelope-from=shentey@gmail.com; helo=mail-vs1-xe35.google.com
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paul Burton <paulburton@kernel.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, BALATON Zoltan <balaton@eik.bme.hu>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000015d01e05f611ba27"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
+ envelope-from=shentey@gmail.com; helo=mail-ua1-x932.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,75 +93,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 3. M=C3=A4rz 2023 07:46:31 UTC schrieb Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk>:
->On 03/03/2023 06:58, David Woodhouse wrote:
+--00000000000015d01e05f611ba27
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Mar 4, 2023 at 12:40=E2=80=AFPM Bernhard Beschow <shentey@gmail.com=
+> wrote:
+
+> A recent series [1] attempted to remove some PIC -> CPU interrupt
+> indirections.
+> This inadvertantly caused NULL qemu_irqs to be passed to the i8259 becaus=
+e
+> the
+> qemu_irqs aren't initialized at that time yet. This series provides a fix
+> by
+> initializing the qemu_irq of the respective south bridges before they
+> are passed to i2859_init().
 >
->> On 2 March 2023 22:40:40 GMT, "Philippe Mathieu-Daud=C3=A9" <philmd@lina=
-ro.org> wrote:
->>> Since v2: rebased
->>>
->>> I'm posting this series as it to not block Bernhard's PIIX
->>> cleanup work. I don't have code change planned, but eventually
->>> reword / improve commit descriptions.
->>>
->>> Tested commit after commit to be sure it is bisectable. Sadly
->>> this was before Zoltan & Thomas report a problem with commit
->>> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
->>
->> However much I stare at the partial revert which fixes it, I just cannot=
- believe that the change could make any difference at all. There's got to b=
-e something weird going on there.
->>
->> I was going to ask if the level mode for the PIT made any difference, bu=
-t this is the output IRQ from the PIT to the CPU itself so I don't see how =
-it would.
->>
->> Would like to see a report with tracing from pic_update_irq, the CPU int=
-errupt "handler" and the intermediate IRQ handler. With the intermediate pr=
-esent and without it. To compare the two.
+> Furthermore -- as an optional extension -- this series also fixes some
+> usability
+> issues in the API for creating multifunction PCI devices.
 >
->I suspect it's related to the removal of the allocation of the qemu_irq: q=
-dev gpios work by adding a child IRQ object to the device, so it could be p=
-ossible that something in the gpio internals isn't being updated correctly =
-when the value is overwritten directly.
-
-I've just sent a series fixing the issue.
-
-The problem was that cpu_intr gets populated by
-qdev_connect_gpio_out() in board code which happens after via's
-realize method has been executed. So in via's realize method cpu_intr
-is still NULL which causes a NULL qemu_irq to be passed to the i8259.
-
-One way to fix this is to move qdev_connect_gpio_out() in board code
-between pci_new_multifunction() and pci_realize_and_unref().
-
-By having an intermediate IRQ handler the problem didn't appear since
-the (non-NULL) qemu_irq holding the intermediate handler is passed to
-the i8259. The intermediate handler delays reading cpu_intr to
-runtime, so initializing it after realize() is no problem. The price,
-however, is that an indirection occurs at runtime every time cpu_intr
-is triggered.
-
-BTW, the PIC proxy in my PIIX consolidation series attempted to solve
-the same problem: The ISABus IRQs need to be already populated in
-piix-ide's realize method, otherwise NULL qemu_irqs are used. As long
-as piix-ide is realized in board code, separately from the piix south
-bridge, the ISABus IRQs can be populated in between. However, once
-piix-ide is realized in the south bridge, the ISA IRQs must be
-populated before the south bridge's realize(). The PIC proxy solved
-this by introducing intermediate ISA IRQs while the latest incarnation
-of the PIIX consolidation series uses the same approach as described
-above.
-
-Best regards,
-Bernhard
+> The series is structured as follows: The first three commits fix the
+> regressions, the last two fix the public API for creating multifunction P=
+CI
+> devices.
 >
->Is the problem picked up when running a binary built with --enable-sanitiz=
-ers? That's normally quite good at detecting this kind of issue.
+
+Testing done:
+* `make check`
+* `make check-avocado`
+* Start MorphOS ISO
+
+>
+> [1]
+> https://lore.kernel.org/qemu-devel/20230302224058.43315-1-philmd@linaro.o=
+rg/
+>
+> Bernhard Beschow (5):
+>   hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt
+>   hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt
+>   hw/ppc/prep: Fix wiring of PIC -> CPU interrupt
+>   hw/pci/pci: Remove multifunction parameter from
+>     pci_create_simple_multifunction()
+>   hw/pci/pci: Remove multifunction parameter from
+>     pci_new_multifunction()
+>
+>  include/hw/pci/pci.h |  4 +---
+>  hw/alpha/dp264.c     |  8 +++++---
+>  hw/i386/pc_piix.c    |  2 +-
+>  hw/i386/pc_q35.c     | 10 +++++-----
+>  hw/isa/vt82c686.c    |  3 ++-
+>  hw/mips/boston.c     |  3 +--
+>  hw/mips/fuloong2e.c  |  9 +++++----
+>  hw/mips/malta.c      |  2 +-
+>  hw/pci-host/sabre.c  |  6 ++----
+>  hw/pci/pci.c         | 18 ++++++++++++------
+>  hw/ppc/pegasos2.c    |  9 +++++----
+>  hw/ppc/prep.c        |  4 +++-
+>  hw/sparc64/sun4u.c   |  5 ++---
+>  13 files changed, 45 insertions(+), 38 deletions(-)
+>
+> --
+> 2.39.2
 >
 >
->ATB,
->
->Mark.
+
+--00000000000015d01e05f611ba27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 4, 2023 at 12:40=E2=80=AF=
+PM Bernhard Beschow &lt;<a href=3D"mailto:shentey@gmail.com">shentey@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">A recent series [1] attempted to remove some PIC -&gt; CPU interrupt ind=
+irections.<br>
+This inadvertantly caused NULL qemu_irqs to be passed to the i8259 because =
+the<br>
+qemu_irqs aren&#39;t initialized at that time yet. This series provides a f=
+ix by<br>
+initializing the qemu_irq of the respective south bridges before they<br>
+are passed to i2859_init().<br>
+<br>
+Furthermore -- as an optional extension -- this series also fixes some usab=
+ility<br>
+issues in the API for creating multifunction PCI devices.<br>
+<br>
+The series is structured as follows: The first three commits fix the<br>
+regressions, the last two fix the public API for creating multifunction PCI=
+<br>
+devices.<br></blockquote><div><br></div><div>Testing done:</div><div>* `mak=
+e check`</div><div>* `make check-avocado`</div><div>* Start MorphOS ISO <br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+[1] <a href=3D"https://lore.kernel.org/qemu-devel/20230302224058.43315-1-ph=
+ilmd@linaro.org/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.=
+org/qemu-devel/20230302224058.43315-1-philmd@linaro.org/</a><br>
+<br>
+Bernhard Beschow (5):<br>
+=C2=A0 hw/isa/vt82c686: Fix wiring of PIC -&gt; CPU interrupt<br>
+=C2=A0 hw/alpha/dp264: Fix wiring of PIC -&gt; CPU interrupt<br>
+=C2=A0 hw/ppc/prep: Fix wiring of PIC -&gt; CPU interrupt<br>
+=C2=A0 hw/pci/pci: Remove multifunction parameter from<br>
+=C2=A0 =C2=A0 pci_create_simple_multifunction()<br>
+=C2=A0 hw/pci/pci: Remove multifunction parameter from<br>
+=C2=A0 =C2=A0 pci_new_multifunction()<br>
+<br>
+=C2=A0include/hw/pci/pci.h |=C2=A0 4 +---<br>
+=C2=A0hw/alpha/dp264.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 8 +++++---<br>
+=C2=A0hw/i386/pc_piix.c=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0hw/i386/pc_q35.c=C2=A0 =C2=A0 =C2=A0| 10 +++++-----<br>
+=C2=A0hw/isa/vt82c686.c=C2=A0 =C2=A0 |=C2=A0 3 ++-<br>
+=C2=A0hw/mips/boston.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +--<br>
+=C2=A0hw/mips/fuloong2e.c=C2=A0 |=C2=A0 9 +++++----<br>
+=C2=A0hw/mips/malta.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0hw/pci-host/sabre.c=C2=A0 |=C2=A0 6 ++----<br>
+=C2=A0hw/pci/pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++++++------=
+<br>
+=C2=A0hw/ppc/pegasos2.c=C2=A0 =C2=A0 |=C2=A0 9 +++++----<br>
+=C2=A0hw/ppc/prep.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +++-<br>
+=C2=A0hw/sparc64/sun4u.c=C2=A0 =C2=A0|=C2=A0 5 ++---<br>
+=C2=A013 files changed, 45 insertions(+), 38 deletions(-)<br>
+<br>
+-- <br>
+2.39.2<br>
+<br>
+</blockquote></div></div>
+
+--00000000000015d01e05f611ba27--
 
