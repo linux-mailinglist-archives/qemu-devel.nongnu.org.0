@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFA66AA772
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 02:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF46AA7EE
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 05:06:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYGxa-0007Md-Oj; Fri, 03 Mar 2023 20:45:18 -0500
+	id 1pYJ8u-0000sI-7Z; Fri, 03 Mar 2023 23:05:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pYGxQ-0007Au-3P
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:45:13 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pYJ8p-0000pz-GK
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 23:05:04 -0500
+Received: from mga07.intel.com ([134.134.136.100])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pYGxN-000600-GY
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:45:07 -0500
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3241Xe0W031636; Sat, 4 Mar 2023 01:45:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2022-7-12;
- bh=S8N/340cX9iXMQcJJeOcV59jvlpnhDzM55cnZWaHBpM=;
- b=tNhr+qspgz6/N850XpNL4JpOv1qYb5+1wdJ6eI+IyKEtgUhArWYLQ8fbr8apOA6g3VMt
- LzBVnNgN5zdq6EqguUCSsQuPUkdvotDYKyeY3F535nskZK2ttfYCIVBobH9AMvAOla7t
- q/QbXk/2ycGpruc/ZcN7YQAV/Zl1C0bEKL7dHV88Ar43YBvCjLL64yS+vP6KiJfhO25g
- z0f8Fx60ywJ4eXB0RIhv0C9gsBAEsGtRhVhB9DVt2Vnuidk2SR2HvnGVkNnmz/0iTxtT
- 6WGy2g+52MRMtwqEOkNqPWA3SJJlmqqfCcfxRcV+KnN0EmPCegv/ctYJOOpK6oEcgU7c eg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p3vddg0be-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 04 Mar 2023 01:45:03 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 3241Xdlo015475; Sat, 4 Mar 2023 01:45:03 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p3ve8g7kx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 04 Mar 2023 01:45:03 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3241YZ0x016769;
- Sat, 4 Mar 2023 01:45:02 GMT
-Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-185-117.vpn.oracle.com
- [10.175.185.117])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3p3ve8g73b-14; Sat, 04 Mar 2023 01:45:01 +0000
-From: Joao Martins <joao.m.martins@oracle.com>
-To: qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Cedric Le Goater <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v3 13/13] docs/devel: Document VFIO device dirty page tracking
-Date: Sat,  4 Mar 2023 01:43:43 +0000
-Message-Id: <20230304014343.33646-14-joao.m.martins@oracle.com>
-In-Reply-To: <20230304014343.33646-1-joao.m.martins@oracle.com>
-References: <20230304014343.33646-1-joao.m.martins@oracle.com>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pYJ8m-00054d-8e
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 23:05:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677902700; x=1709438700;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=HD3SckavdhIBNyA+9INcHkdVwaDWSnDk3Cz9Xpj5Hqs=;
+ b=eoIS9Vuw+xCn/FbfrZhYInm8dnXEKjOgH9/TXRO6wDtjX6bY5wuJJCS3
+ blYGYi5/d+lkMBlVJar+I3rp0HuXnwPg3Oavp+OIP8gGWZJfraQ1C9YUY
+ I9m7tZMBgWUEAMiausPHqAD8aky4vjSSDYc6dVbDa8O1A5ufZcaiNWhvf
+ gpHEiBj8W4FlhNWJor8WesJ9Q1RWza8MzBELCIoK2svCMD2nfHGDcGScS
+ wO4ObwMfKDenFFvxb2nA9KAa7aC5hkyqsM9Z0rv+BuleEkiE8fVFLhtSi
+ j6SCWJsjYHItC4gErIF5/z90Ox6ID1b0LKzESXGRa2sY4ksAXX35l/TV8 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="400036518"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; d="scan'208";a="400036518"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2023 20:04:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="849711208"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; d="scan'208";a="849711208"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.168.161])
+ ([10.249.168.161])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2023 20:04:54 -0800
+Message-ID: <fd4b1ce6-d998-c1e7-f9ce-469b757d8f9d@intel.com>
+Date: Sat, 4 Mar 2023 12:04:51 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-03_07,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- bulkscore=0 suspectscore=0
- adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=952 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303040011
-X-Proofpoint-GUID: pjVccxvJqdyiwI6VoVVNjmMbXNCNQCQk
-X-Proofpoint-ORIG-GUID: pjVccxvJqdyiwI6VoVVNjmMbXNCNQCQk
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 0/6] target/i386: Support new Intel platform
+ Instructions in CPUID enumeration
+Content-Language: en-US
+To: Tao Su <tao1.su@linux.intel.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, yang.zhong@intel.com,
+ jing2.liu@intel.com, vkuznets@redhat.com, philmd@linaro.org
+References: <20230303065913.1246327-1-tao1.su@linux.intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20230303065913.1246327-1-tao1.su@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,84 +83,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Avihai Horon <avihaih@nvidia.com>
+On 3/3/2023 2:59 PM, Tao Su wrote:
+> Intel platforms Granite Rapids/Sierra Forest introduce below new
+> instructions and CPUID leaves:
+> 
+>   - CMPccXADD CPUID.(EAX=7,ECX=1):EAX[bit 7]
+>   - AMX-FP16 CPUID.(EAX=7,ECX=1):EAX[bit 21]
+>   - AVX-IFMA CPUID.(EAX=7,ECX=1):EAX[bit 23]
+>   - AVX-VNNI-INT8 CPUID.(EAX=7,ECX=1):EDX[bit 4]
+>   - AVX-NE-CONVERT CPUID.(EAX=7,ECX=1):EDX[bit 5]
+>   - PREFETCHITI CPUID.(EAX=7,ECX=1):EDX[bit 14]
+> 
+> Details can be found in recent Intel ISE (Instruction Set Extensions)[1].
+> 
+> KVM part of advertising these CPUID bits have been already in Linux
+> mainline from commit(6a19d7aa5821) to commit(29c46979b25d). This series
+> adds the counterpart in QEMU to allow these features exposed to guest.
+> 
+> [1] Intel ISE: https://cdrdv2.intel.com/v1/dl/getContent/671368
+> 
 
-Adjust the VFIO dirty page tracking documentation and add a section to
-describe device dirty page tracking.
+For the whole series,
 
-Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
----
- docs/devel/vfio-migration.rst | 46 +++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 15 deletions(-)
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
 
-diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
-index c214c73e2818..1b68ccf11529 100644
---- a/docs/devel/vfio-migration.rst
-+++ b/docs/devel/vfio-migration.rst
-@@ -59,22 +59,37 @@ System memory dirty pages tracking
- ----------------------------------
- 
- A ``log_global_start`` and ``log_global_stop`` memory listener callback informs
--the VFIO IOMMU module to start and stop dirty page tracking. A ``log_sync``
--memory listener callback marks those system memory pages as dirty which are
--used for DMA by the VFIO device. The dirty pages bitmap is queried per
--container. All pages pinned by the vendor driver through external APIs have to
--be marked as dirty during migration. When there are CPU writes, CPU dirty page
--tracking can identify dirtied pages, but any page pinned by the vendor driver
--can also be written by the device. There is currently no device or IOMMU
--support for dirty page tracking in hardware.
-+the VFIO dirty tracking module to start and stop dirty page tracking. A
-+``log_sync`` memory listener callback queries the dirty page bitmap from the
-+dirty tracking module and marks system memory pages which were DMA-ed by the
-+VFIO device as dirty. The dirty page bitmap is queried per container.
-+
-+Currently there are two ways dirty page tracking can be done:
-+(1) Device dirty tracking:
-+In this method the device is responsible to log and report its DMAs. This
-+method can be used only if the device is capable of tracking its DMAs.
-+Discovering device capability, starting and stopping dirty tracking, and
-+syncing the dirty bitmaps from the device are done using the DMA logging uAPI.
-+More info about the uAPI can be found in the comments of the
-+``vfio_device_feature_dma_logging_control`` and
-+``vfio_device_feature_dma_logging_report`` structures in the header file
-+linux-headers/linux/vfio.h.
-+
-+(2) VFIO IOMMU module:
-+In this method dirty tracking is done by IOMMU. However, there is currently no
-+IOMMU support for dirty page tracking. For this reason, all pages are
-+perpetually marked dirty, unless the device driver pins pages through external
-+APIs in which case only those pinned pages are perpetually marked dirty.
-+
-+If the above two methods are not supported, all pages are perpetually marked
-+dirty by QEMU.
- 
- By default, dirty pages are tracked during pre-copy as well as stop-and-copy
--phase. So, a page pinned by the vendor driver will be copied to the destination
--in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
--it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
--finding dirty pages continuously, then it understands that even in stop-and-copy
--phase, it is likely to find dirty pages and can predict the downtime
--accordingly.
-+phase. So, a page marked as dirty will be copied to the destination in both
-+phases. Copying dirty pages in pre-copy phase helps QEMU to predict if it can
-+achieve its downtime tolerances. If QEMU during pre-copy phase keeps finding
-+dirty pages continuously, then it understands that even in stop-and-copy phase,
-+it is likely to find dirty pages and can predict the downtime accordingly.
- 
- QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
- which disables querying the dirty bitmap during pre-copy phase. If it is set to
-@@ -89,7 +104,8 @@ phase of migration. In that case, the unmap ioctl returns any dirty pages in
- that range and QEMU reports corresponding guest physical pages dirty. During
- stop-and-copy phase, an IOMMU notifier is used to get a callback for mapped
- pages and then dirty pages bitmap is fetched from VFIO IOMMU modules for those
--mapped ranges.
-+mapped ranges. If device dirty tracking is enabled with vIOMMU, live migration
-+will be blocked.
- 
- Flow of state changes during Live migration
- ===========================================
--- 
-2.17.2
+> ---
+> 
+> Changelog:
+> 
+> v2:
+>   - Rebase to latest QEMU.
+>   - Improve changelog.
+> v1:
+>   - https://lore.kernel.org/all/20221208071917.1923093-1-jiaxi.chen@linux.intel.com/
+> 
+> Jiaxi Chen (6):
+>    target/i386: Add support for CMPCCXADD in CPUID enumeration
+>    target/i386: Add support for AMX-FP16 in CPUID enumeration
+>    target/i386: Add support for AVX-IFMA in CPUID enumeration
+>    target/i386: Add support for AVX-VNNI-INT8 in CPUID enumeration
+>    target/i386: Add support for AVX-NE-CONVERT in CPUID enumeration
+>    target/i386: Add support for PREFETCHIT0/1 in CPUID enumeration
+> 
+>   target/i386/cpu.c | 26 +++++++++++++++++++++++---
+>   target/i386/cpu.h | 14 ++++++++++++++
+>   2 files changed, 37 insertions(+), 3 deletions(-)
+> 
+> 
+> base-commit: 627634031092e1514f363fd8659a579398de0f0e
 
 
