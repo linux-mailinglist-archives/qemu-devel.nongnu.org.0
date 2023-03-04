@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B033C6AA765
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 02:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EF26AA770
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 02:47:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYGwu-0006xh-6g; Fri, 03 Mar 2023 20:44:36 -0500
+	id 1pYGwx-0006yS-Ow; Fri, 03 Mar 2023 20:44:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pYGws-0006xQ-Rn
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:34 -0500
+ id 1pYGwv-0006yE-W7
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:38 -0500
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pYGwq-0005eu-S0
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:34 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ id 1pYGwu-0005fV-8I
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:37 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 323Ndqic004251; Sat, 4 Mar 2023 01:44:31 GMT
+ 3241iYH8017574; Sat, 4 Mar 2023 01:44:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=ph7NhPNJqQFVQZvkebi126vtqIT7j0fmOZoCxa+ciPc=;
- b=jNR2qGjF7KXnduYy0uV6PdPsaJ4Lj6S9qxfY7z0ogMoFtnNJQm1CBX4R99zqFDFVpVr+
- 9yH8qo9OhkYKjPd1YfjEa3T9752jLL186ppnar/EIp3/MvPe/8hdOxWNWzsao2t3fGql
- 8ys36wnDjwaxPQ+bMWzLU45lo+v/sOtGNK6WsFr+zroYJJoTcY+nA1vPViZNeLvjZ601
- sCEbn8ml0GrUUW5s4soHyPTh7lqtjo7TU6/kVRKXiPrplbzeVTiUQtuG1p/lyeOWpL0p
- 0f7bBj6sQowG3zB5ZcQZ+zH9tTcQKeGgEVCMeKoeMmm037/X2C72gdhbC7L+TQDQ9CIQ gg== 
+ bh=xk8wvTPv6dJhnVr411G6qxujVLuqM/QjT1VPuR/+yew=;
+ b=H8q2xyYhh1JdLVDG4KeL5bY9/RS59e5o0ymKVL6pob37ccVA0H1I91oDllRbW3QJ39FO
+ hrOOnFC00PR0ryCzrPKugsFLB1l0otb8RJowD6SCcfaEYE4mjaIFdrLWEDLzU1vmTYo0
+ UXdT0BZNBaZwclRoG29PKptCVhvd/jkt9227R6ASrAt9EoZ33bURjfvULOs4ejbACDLG
+ GVgL51388llZ6bSQMwj4VeHRYCDThtdutGUSwrra2H19WEbkihZnM/IiDQn7dsKfej3L
+ HIefHgS46fEjmue0cedLtuIfBAFqZuO4Yg7wLmnKi25MC5sTJiskNdqBwJoLabpBFHm9 tA== 
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nybb2rqwj-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p3vk1801e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 04 Mar 2023 01:44:31 +0000
+ Sat, 04 Mar 2023 01:44:34 +0000
 Received: from pps.filterd
  (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 3241XvUC015714; Sat, 4 Mar 2023 01:44:30 GMT
+ with ESMTP id 3241XvUD015714; Sat, 4 Mar 2023 01:44:33 GMT
 Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-185-117.vpn.oracle.com
  [10.175.185.117])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3p3ve8g73b-2; Sat, 04 Mar 2023 01:44:29 +0000
+ 3p3ve8g73b-3; Sat, 04 Mar 2023 01:44:32 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -51,10 +51,9 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
  Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-Subject: [PATCH v3 01/13] vfio/common: Fix error reporting in
- vfio_get_dirty_bitmap()
-Date: Sat,  4 Mar 2023 01:43:31 +0000
-Message-Id: <20230304014343.33646-2-joao.m.martins@oracle.com>
+Subject: [PATCH v3 02/13] vfio/common: Fix wrong %m usages
+Date: Sat,  4 Mar 2023 01:43:32 +0000
+Message-Id: <20230304014343.33646-3-joao.m.martins@oracle.com>
 In-Reply-To: <20230304014343.33646-1-joao.m.martins@oracle.com>
 References: <20230304014343.33646-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
@@ -65,11 +64,11 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  definitions=2023-03-03_07,2023-03-03_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  bulkscore=0 suspectscore=0
- adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=770 phishscore=0
+ adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=813 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2303040011
-X-Proofpoint-GUID: aYhyEpiBN1uf39joTya1NZdk5DzhdjCM
-X-Proofpoint-ORIG-GUID: aYhyEpiBN1uf39joTya1NZdk5DzhdjCM
+X-Proofpoint-GUID: HlJGIx6ft1MhsLj0_xvTM9uhGx2YrJpe
+X-Proofpoint-ORIG-GUID: HlJGIx6ft1MhsLj0_xvTM9uhGx2YrJpe
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -96,27 +95,94 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Avihai Horon <avihaih@nvidia.com>
 
-Return -errno instead of -1 if VFIO_IOMMU_DIRTY_PAGES ioctl fails in
-vfio_get_dirty_bitmap().
+There are several places where the %m conversion is used if one of
+vfio_dma_map(), vfio_dma_unmap() or vfio_get_dirty_bitmap() fail.
+
+The %m usage in these places is wrong since %m relies on errno value while
+the above functions don't report errors via errno.
+
+Fix it by using strerror() with the returned value instead.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
 ---
- hw/vfio/common.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/vfio/common.c | 29 ++++++++++++++++-------------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index bab83c0e55cb..9fc305448fa2 100644
+index 9fc305448fa2..4d26e9cccf91 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -1335,6 +1335,7 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
- 
-     ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+@@ -703,17 +703,17 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                            read_only);
+         if (ret) {
+             error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx", %p) = %d (%m)",
++                         "0x%"HWADDR_PRIx", %p) = %d (%s)",
+                          container, iova,
+-                         iotlb->addr_mask + 1, vaddr, ret);
++                         iotlb->addr_mask + 1, vaddr, ret, strerror(-ret));
+         }
+     } else {
+         ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx") = %d (%m)",
++                         "0x%"HWADDR_PRIx") = %d (%s)",
+                          container, iova,
+-                         iotlb->addr_mask + 1, ret);
++                         iotlb->addr_mask + 1, ret, strerror(-ret));
+         }
+     }
+ out:
+@@ -1095,8 +1095,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
+                        vaddr, section->readonly);
      if (ret) {
-+        ret = -errno;
-         error_report("Failed to get dirty bitmap for iova: 0x%"PRIx64
-                 " size: 0x%"PRIx64" err: %d", (uint64_t)range->iova,
-                 (uint64_t)range->size, errno);
+         error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+-                   container, iova, int128_get64(llsize), vaddr, ret);
++                   "0x%"HWADDR_PRIx", %p) = %d (%s)",
++                   container, iova, int128_get64(llsize), vaddr, ret,
++                   strerror(-ret));
+         if (memory_region_is_ram_device(section->mr)) {
+             /* Allow unexpected mappings not to be fatal for RAM devices */
+             error_report_err(err);
+@@ -1228,16 +1229,18 @@ static void vfio_listener_region_del(MemoryListener *listener,
+             ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+             if (ret) {
+                 error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+-                             "0x%"HWADDR_PRIx") = %d (%m)",
+-                             container, iova, int128_get64(llsize), ret);
++                             "0x%"HWADDR_PRIx") = %d (%s)",
++                             container, iova, int128_get64(llsize), ret,
++                             strerror(-ret));
+             }
+             iova += int128_get64(llsize);
+         }
+         ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx") = %d (%m)",
+-                         container, iova, int128_get64(llsize), ret);
++                         "0x%"HWADDR_PRIx") = %d (%s)",
++                         container, iova, int128_get64(llsize), ret,
++                         strerror(-ret));
+         }
+     }
+ 
+@@ -1384,9 +1387,9 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                                     translated_addr);
+         if (ret) {
+             error_report("vfio_iommu_map_dirty_notify(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx") = %d (%m)",
+-                         container, iova,
+-                         iotlb->addr_mask + 1, ret);
++                         "0x%"HWADDR_PRIx") = %d (%s)",
++                         container, iova, iotlb->addr_mask + 1, ret,
++                         strerror(-ret));
+         }
+     }
+     rcu_read_unlock();
 -- 
 2.17.2
 
