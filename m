@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201406AABD9
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 19:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008916AABDB
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 19:21:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYWTk-0006XO-6s; Sat, 04 Mar 2023 13:19:32 -0500
+	id 1pYWTi-0006Wp-Lu; Sat, 04 Mar 2023 13:19:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYWTZ-0006Th-4O
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:21 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pYWTa-0006VA-EY
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:22 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYWTV-0003Pj-UO
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:20 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- m20-20020a17090ab79400b00239d8e182efso9287061pjr.5
+ id 1pYWTW-0003Q7-C3
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 13:19:22 -0500
+Received: by mail-pg1-x536.google.com with SMTP id bn17so3285777pgb.10
  for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 10:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677953956;
+ d=linaro.org; s=google; t=1677953957;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iTwpX71LYq/RTJCaFN4Ey+fij6djZh42xCt7K+NhOLc=;
- b=bKj4+BjEXHWryA0qy9We2LbhclnBJq7pISJZrnUXYLaxgbX8jyru+kdgQTs9qnHs9B
- Q/BCQ+uXB+tExGyIjHoYjOC4eD+Pvv3Hzb9gXia/WLIDvEeopMqbdDASG5z/CHT+zBRz
- qCg6cjLzKf43EPJaMIVu1zcaFU1AXczVXHJBWOK+FbvXGYVvzuWpVk11oLXXo8FSlRBj
- v6Q+zXLAjVafgJ8ZC6ZOgDTyrr+KzhwhBSiY9XPVUZo78BvsIMklqzIv168hH+D9pQ7q
- ZG6cjQto2u3Yc3Bf+N2M7DKHGb7J+u4X/XV4L7w+1dHBqMwQdy5TK+S81FVf6tUd0a0N
- Mp/g==
+ bh=eUy1JZzTuPGot+rHAkA2NlK/qSoLXklkglokMU7FjFM=;
+ b=PSmetU192pX5NhrBoJffrp8d03rM8C6z0DYtTxZ7y+SdQjOPJ/db37V8Z0GU3Lv3GA
+ I3HNDqn6lQjZwynsYOyDj/Fy4Jkff58DrLPo5R+FxNzmXTdKW1He+rY2Ph0nOgIQvqkd
+ vYGFCqs87G/JU+rs8kIlk84Fh8JrKKdFwNS8VWUaaXGknlNmW+GYae79onnMOqvV+Bgr
+ n4yFrVoUOHluW309Py4wtcSzDajNqAc+U6wYQyLyINxgWD0ryWFhOFqFf5ERWnuMByc2
+ ZtCAfSivTid/cIquPAsmqHXKkQFAcGIfERLlvi48wIfqAg2nDb2YLFT95LKL3u05Q6+u
+ 40pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677953956;
+ d=1e100.net; s=20210112; t=1677953957;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iTwpX71LYq/RTJCaFN4Ey+fij6djZh42xCt7K+NhOLc=;
- b=F7FS176rapQ0CyPgt+dFMjEul6ce5CiBZ5xatd5xY0QLOgvy3cy4GZNVmiZIIXDAIG
- rM/STqESwhPQn927j0ykOXELGX+Q1aDKyNIPBYnCsYJwDSogO1jssbUgIv9/KkJOLSzY
- 3hmFsKJtzd2Mq32smG9YZOm3JQFehzUBdnEpEAQ21YQ2wQmqBrLV7tBL740ahXQjaKyO
- QUbkIMgI5CQF7fRQXkJECe9p4DU8L5I0xU+E0CCC8GdfnhdzNoqEdFc1H227E8Y4j2a5
- Lri4qH9ItSAyT89i70Mzm62o0Tz/UqGfKcYuB+2LbvBwof/JLj/4gj9k7gJaHq94YLPO
- sT+Q==
-X-Gm-Message-State: AO0yUKVr4aTzItDPHgZVTrXx4tm6peht6JiT4FeHPPvZbW0JItC8hZ92
- a4xwFlSrxE2p5kwUtbjqAfdixMW6HkWWvMgk8FTwxA==
-X-Google-Smtp-Source: AK7set+kx8MGWBIFlFRUfwKfLPzWwnnbCOynD5nUgF7IfaZSfUeeucjFu5G5OXUOYZmh079pzaG9cg==
-X-Received: by 2002:a05:6a20:8e28:b0:cd:7fcf:11a6 with SMTP id
- y40-20020a056a208e2800b000cd7fcf11a6mr6344368pzj.48.1677953956048; 
+ bh=eUy1JZzTuPGot+rHAkA2NlK/qSoLXklkglokMU7FjFM=;
+ b=p8d1KUSYdC5GE7LWSCuIMSdc6iIFncgnXhgqRVVW55LSr+91lcuB2EOqRvNT/OhuXY
+ vwlmpQ/wHwfjb3Oivxd8wW9tpU3ppF7OMqw3Rmj0jUoKiffevKLdtPCQ5Mu85VbuMxql
+ VdWLouTWDd07bgZfT4eFQQb8bePTC7dxK0HOc7QXk2IMn15BWgmiEuynMmk4mVeHEk5U
+ W2RQhN3El/otoAD/NTwy1m9KvkbG0zmw4y7Aj+vfHEXqEm/FeFENxD8rOzXhQn/alKls
+ Kl6hDxqb9JW4xFfS0TPAOQJFHaZwe0WUEeoQywZsJEFqUww0k1R5rF/vVANTlKid5miH
+ WTpw==
+X-Gm-Message-State: AO0yUKW1lek4zcnN5NZudknAzOrxgWgG/b7vnczAasFy31Q9zDcWzgWK
+ kDizmodCVpRPTFNLZvb4ne1TC/8oc1PXIBmrZEmqCA==
+X-Google-Smtp-Source: AK7set/JgSGE0bs6vptGSrkDgQw3UY7UwBMOvcr1tr2EVk/4Fhi5XWPgdfHNisKIr/yu5P6AzGKcbA==
+X-Received: by 2002:a62:1b89:0:b0:5db:ba81:dd9f with SMTP id
+ b131-20020a621b89000000b005dbba81dd9fmr5529561pfb.30.1677953956891; 
  Sat, 04 Mar 2023 10:19:16 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:62b1:64d8:8207:f04e])
  by smtp.gmail.com with ESMTPSA id
- 25-20020aa79259000000b005d866d184b5sm3529668pfp.46.2023.03.04.10.19.15
+ 25-20020aa79259000000b005d866d184b5sm3529668pfp.46.2023.03.04.10.19.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Mar 2023 10:19:15 -0800 (PST)
+ Sat, 04 Mar 2023 10:19:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Subject: [PATCH v3 16/20] target/s390x: Remove assert vs g_in2
-Date: Sat,  4 Mar 2023 10:18:56 -0800
-Message-Id: <20230304181900.1097116-17-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/20] target/s390x: Remove g_out, g_out2, g_in1,
+ g_in2 from DisasContext
+Date: Sat,  4 Mar 2023 10:18:57 -0800
+Message-Id: <20230304181900.1097116-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230304181900.1097116-1-richard.henderson@linaro.org>
 References: <20230304181900.1097116-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,8 +92,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These were trying to determine if o->in2 was available for
-use as a temporary.  It's better to just allocate a new one.
+These fields are no longer read, so remove them and the writes.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
@@ -102,57 +101,125 @@ Cc: Ilya Leoshkevich <iii@linux.ibm.com>
 Cc: Thomas Huth <thuth@redhat.com>
 Cc: qemu-s390x@nongnu.org
 ---
- target/s390x/tcg/translate.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ target/s390x/tcg/translate.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index beccd3429e..c431903c67 100644
+index c431903c67..9974162527 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -1428,11 +1428,11 @@ static DisasJumpType op_andi(DisasContext *s, DisasOps *o)
-     int shift = s->insn->data & 0xff;
-     int size = s->insn->data >> 8;
-     uint64_t mask = ((1ull << size) - 1) << shift;
-+    TCGv_i64 t = tcg_temp_new_i64();
+@@ -1061,7 +1061,6 @@ static const DisasFormatInfo format_info[] = {
+    them, and store them back.  See the "in1", "in2", "prep", "wout" sets
+    of routines below for more details.  */
+ typedef struct {
+-    bool g_out, g_out2, g_in1, g_in2;
+     TCGv_i64 out, out2, in1, in2;
+     TCGv_i64 addr1;
+     TCGv_i128 out_128, in1_128, in2_128;
+@@ -3159,9 +3158,7 @@ static DisasJumpType op_mc(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_mov2(DisasContext *s, DisasOps *o)
+ {
+     o->out = o->in2;
+-    o->g_out = o->g_in2;
+     o->in2 = NULL;
+-    o->g_in2 = false;
+     return DISAS_NEXT;
+ }
  
--    assert(!o->g_in2);
--    tcg_gen_shli_i64(o->in2, o->in2, shift);
--    tcg_gen_ori_i64(o->in2, o->in2, ~mask);
--    tcg_gen_and_i64(o->out, o->in1, o->in2);
-+    tcg_gen_shli_i64(t, o->in2, shift);
-+    tcg_gen_ori_i64(t, t, ~mask);
-+    tcg_gen_and_i64(o->out, o->in1, t);
+@@ -3171,9 +3168,7 @@ static DisasJumpType op_mov2e(DisasContext *s, DisasOps *o)
+     TCGv ar1 = tcg_temp_new_i64();
  
-     /* Produce the CC from only the bits manipulated.  */
-     tcg_gen_andi_i64(cc_dst, o->out, mask);
-@@ -3520,10 +3520,10 @@ static DisasJumpType op_ori(DisasContext *s, DisasOps *o)
-     int shift = s->insn->data & 0xff;
-     int size = s->insn->data >> 8;
-     uint64_t mask = ((1ull << size) - 1) << shift;
-+    TCGv_i64 t = tcg_temp_new_i64();
+     o->out = o->in2;
+-    o->g_out = o->g_in2;
+     o->in2 = NULL;
+-    o->g_in2 = false;
  
--    assert(!o->g_in2);
--    tcg_gen_shli_i64(o->in2, o->in2, shift);
--    tcg_gen_or_i64(o->out, o->in1, o->in2);
-+    tcg_gen_shli_i64(t, o->in2, shift);
-+    tcg_gen_or_i64(o->out, o->in1, t);
+     switch (s->base.tb->flags & FLAG_MASK_ASC) {
+     case PSW_ASC_PRIMARY >> FLAG_MASK_PSW_SHIFT:
+@@ -3202,11 +3197,8 @@ static DisasJumpType op_movx(DisasContext *s, DisasOps *o)
+ {
+     o->out = o->in1;
+     o->out2 = o->in2;
+-    o->g_out = o->g_in1;
+-    o->g_out2 = o->g_in2;
+     o->in1 = NULL;
+     o->in2 = NULL;
+-    o->g_in1 = o->g_in2 = false;
+     return DISAS_NEXT;
+ }
  
-     /* Produce the CC from only the bits manipulated.  */
-     tcg_gen_andi_i64(cc_dst, o->out, mask);
-@@ -4832,10 +4832,10 @@ static DisasJumpType op_xori(DisasContext *s, DisasOps *o)
-     int shift = s->insn->data & 0xff;
-     int size = s->insn->data >> 8;
-     uint64_t mask = ((1ull << size) - 1) << shift;
-+    TCGv_i64 t = tcg_temp_new_i64();
+@@ -3708,7 +3700,6 @@ static DisasJumpType op_rosbg(DisasContext *s, DisasOps *o)
+     /* If this is a test-only form, arrange to discard the result.  */
+     if (i3 & 0x80) {
+         o->out = tcg_temp_new_i64();
+-        o->g_out = false;
+     }
  
--    assert(!o->g_in2);
--    tcg_gen_shli_i64(o->in2, o->in2, shift);
--    tcg_gen_xor_i64(o->out, o->in1, o->in2);
-+    tcg_gen_shli_i64(t, o->in2, shift);
-+    tcg_gen_xor_i64(o->out, o->in1, t);
+     i3 &= 63;
+@@ -4874,7 +4865,6 @@ static DisasJumpType op_zero2(DisasContext *s, DisasOps *o)
+ {
+     o->out = tcg_const_i64(0);
+     o->out2 = o->out;
+-    o->g_out2 = true;
+     return DISAS_NEXT;
+ }
  
-     /* Produce the CC from only the bits manipulated.  */
-     tcg_gen_andi_i64(cc_dst, o->out, mask);
+@@ -5142,7 +5132,6 @@ static void prep_new_x(DisasContext *s, DisasOps *o)
+ static void prep_r1(DisasContext *s, DisasOps *o)
+ {
+     o->out = regs[get_field(s, r1)];
+-    o->g_out = true;
+ }
+ #define SPEC_prep_r1 0
+ 
+@@ -5151,7 +5140,6 @@ static void prep_r1_P(DisasContext *s, DisasOps *o)
+     int r1 = get_field(s, r1);
+     o->out = regs[r1];
+     o->out2 = regs[r1 + 1];
+-    o->g_out = o->g_out2 = true;
+ }
+ #define SPEC_prep_r1_P SPEC_r1_even
+ 
+@@ -5375,7 +5363,6 @@ static void in1_r1(DisasContext *s, DisasOps *o)
+ static void in1_r1_o(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = regs[get_field(s, r1)];
+-    o->g_in1 = true;
+ }
+ #define SPEC_in1_r1_o 0
+ 
+@@ -5409,7 +5396,6 @@ static void in1_r1p1(DisasContext *s, DisasOps *o)
+ static void in1_r1p1_o(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = regs[get_field(s, r1) + 1];
+-    o->g_in1 = true;
+ }
+ #define SPEC_in1_r1p1_o SPEC_r1_even
+ 
+@@ -5464,7 +5450,6 @@ static void in1_r3(DisasContext *s, DisasOps *o)
+ static void in1_r3_o(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = regs[get_field(s, r3)];
+-    o->g_in1 = true;
+ }
+ #define SPEC_in1_r3_o 0
+ 
+@@ -5595,7 +5580,6 @@ static void in1_m1_64(DisasContext *s, DisasOps *o)
+ static void in2_r1_o(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = regs[get_field(s, r1)];
+-    o->g_in2 = true;
+ }
+ #define SPEC_in2_r1_o 0
+ 
+@@ -5630,7 +5614,6 @@ static void in2_r2(DisasContext *s, DisasOps *o)
+ static void in2_r2_o(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = regs[get_field(s, r2)];
+-    o->g_in2 = true;
+ }
+ #define SPEC_in2_r2_o 0
+ 
 -- 
 2.34.1
 
