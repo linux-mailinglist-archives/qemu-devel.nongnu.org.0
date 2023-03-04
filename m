@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D94B6AAA57
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 15:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B976AAA5C
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 15:14:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYSbJ-0001V7-Sd; Sat, 04 Mar 2023 09:11:05 -0500
+	id 1pYSdx-0003Se-MF; Sat, 04 Mar 2023 09:13:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pYSbI-0001Us-3H
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:11:04 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pYSdv-0003S1-6g
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:13:47 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pYSbG-000401-C6
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:11:03 -0500
-Received: by mail-pl1-x636.google.com with SMTP id a9so5588076plh.11
- for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 06:11:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pYSdt-0004NM-90
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:13:46 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id p6so3100464pga.0
+ for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 06:13:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677939060;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QAhbs9J0BYIWq0pB92VFIQ/ihobOfBkJ7O8nbefTO5s=;
- b=q0QFHx0HfFbJzgJW+WaAFkKVAeJt+XWDOqlRT0Q6ppfnAsJieofPzaL+NNjtSU/PV1
- qjxDjeez/sOr6oXPMJqF11SbqxTxxZJc5LZe/tbPENfTZpVusg3lEiVIie1CLsPD4m4d
- 4kfi1S/quHD1AsG3Vy52P23GwfaN+cCDc3Y5aB53prmtOpmSa52/Z4mQdiuRORbO2sy9
- 2icZcMXPxKw293cCfgZX1kY12Ro2LIuU1SutRIrRXXI+ADuUbtXwFvlIwvOsOL7oYGXZ
- AnjdPmpCk9Pkko5QM188JAal3GK2fxppOllYH4+kzIXaa4e4PQ1PIMKJ9WyHtzl2JEex
- Va/Q==
+ d=linaro.org; s=google; t=1677939223;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=zb11CQtK2fqqMSYnqxOo7WYpC13kjjp3NLuPFJs3JR0=;
+ b=fkmFzfMqxn3RzIMsYhdsQEOFLR29eXlkiAPn9G+cwTmo9UJV2rvWHurV0GNmgIjcnB
+ M4/TvbssSMFmwkIBORP7tb2NfcJKEOeElMkUIJXr2tdDrSHCkjmujjb7KxqP1pjtdrl5
+ 0aAhbf/WIDoUB6BWvOlET5DO2xQDTLGi40AUcGZ7LpKcmTCXsN2DUk93jkJh0epbnF9J
+ +O5gxSTNjZgHZkSIKhq7kIwAnErrFuoWDEkFZGxBeAm1JNa0/2bRUIvRwyfnmw8z7Iec
+ qLlotvYiQaHbrotOVkY0+UtHBq+Dtn0jr3fZBVExNtX0kYR1Y6zsg0PcxmtoaeyRJRGu
+ zygw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677939060;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QAhbs9J0BYIWq0pB92VFIQ/ihobOfBkJ7O8nbefTO5s=;
- b=j1RJVfPo5my8q5RAjpqMYkNHMO5ifJX2bpfEtRjCy2Ui9LDFKpG0vCqv6BxySyn9ZQ
- GaryhdRpNd6Urq+znXKaBdJ3Aq6Ap7k0ZQbg0KrDXkRglNCvxlzoDl1LAKGdtrwCmDEu
- lsWOahpwGyNCnzudVXsx0obPD/kXuIuxjGXukPX2JOQ060/rSizjkp+CfcMarV7CL8f3
- lI7a3PS9aoIHUWW8x/YQ0hE1B/x2R2JUqE9woOAecQMUmw8KQAQwwgGp9go0VnVO9EsK
- pS0OOq0p2hjrbcc72srOAhyQ1az26E51u2jPJDt+FiEQd37Rvje0766H5JL0T8i+D8lY
- Of1A==
-X-Gm-Message-State: AO0yUKWD06DG7CPxSjnHLk7IWcuO1S9+4x1H29H2acyYfn05qLmTn3RI
- eeIOOD/flJcAG3ZAy5ZMzDrwvcouOmuj7g==
-X-Google-Smtp-Source: AK7set8fo83di/WTebBz5zvdsTCENs74lcpCsr4hTq6Tvvl6CCuLwahA1EWW+e/GTCUJUZlEiYpBnA==
-X-Received: by 2002:a17:90a:fe8c:b0:237:64dc:4b65 with SMTP id
- co12-20020a17090afe8c00b0023764dc4b65mr5460743pjb.21.1677939060371; 
- Sat, 04 Mar 2023 06:11:00 -0800 (PST)
-Received: from [192.168.0.115] ([113.173.97.170])
- by smtp.gmail.com with ESMTPSA id
- t10-20020a17090a4e4a00b002371e2ac56csm3090655pjl.32.2023.03.04.06.10.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Mar 2023 06:10:59 -0800 (PST)
-Message-ID: <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
-Date: Sat, 4 Mar 2023 21:10:54 +0700
+ d=1e100.net; s=20210112; t=1677939223;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zb11CQtK2fqqMSYnqxOo7WYpC13kjjp3NLuPFJs3JR0=;
+ b=PNGJcF1VjZdFu4rqeFvBAcvEG9ojRq4hdVilKZ0PM5UdOgKMZbqEitN+a7Lwy3oKMS
+ vl/UGWyWuiFU8l0UQ0ECxa4r4KuQ5X0/7QlbYujvlDErc5EwaNgr+7QX3qDQvb5ctlAc
+ n0fbJH/FrqTKa1coS3LY5UtrY0zZBPJKdY7FznEryz8NO+7swgQOZkRnPg2slj3pk86F
+ vZNxyFxGipVES/EN2cXp3Rhkdrwd2dXzMYfLNmUTZkLkW//0Jx9wMTzQ735qGxlYdNcP
+ L51ktBWl/CIkQ92N832wj5XeGSeA8sXIdHjSYppYGuKSmV12mZhsM8hs0gLBlxeEV4cd
+ V+1g==
+X-Gm-Message-State: AO0yUKWtpJlKktLcdacKyHrNm5x+oi6g2PvnsNRbk5jLNzaCx7YOM7rt
+ DsJ05iyo7b7bcnYV77ILWa9NhvsmsxP9jNVTSJ5jHw==
+X-Google-Smtp-Source: AK7set8NGqMTWHgvRkl/LlMgeOOrncjNfZPgQ1ltMjPAGYlrOzPUM6byJ+mafhiUaKE5mLW2KvuD3pDyOn90dj+uzWc=
+X-Received: by 2002:a05:6a00:1d9f:b0:5a8:aaa1:6c05 with SMTP id
+ z31-20020a056a001d9f00b005a8aaa16c05mr4032422pfw.2.1677939223496; Sat, 04 Mar
+ 2023 06:13:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+References: <20230304114043.121024-1-shentey@gmail.com>
+ <9fe57041-7b4c-5cec-cb7e-f91b5403eb53@eik.bme.hu>
+In-Reply-To: <9fe57041-7b4c-5cec-cb7e-f91b5403eb53@eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 4 Mar 2023 14:13:32 +0000
+Message-ID: <CAFEAcA9RUoW89ATMxNOy7y9WqoJaTUX2Sk=WoXVS+4ODOds9mg@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Fix recent PIC -> CPU interrupt wiring regressions
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paul Burton <paulburton@kernel.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>, 
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org, 
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230221160500.30336-1-minhquangbui99@gmail.com>
- <20230221160500.30336-2-minhquangbui99@gmail.com>
- <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
- <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
- <20230227170759.12297901@imammedo.users.ipa.redhat.com>
- <f24683be-f3a7-34fe-279a-11d01e696bbc@gmail.com>
- <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
-Content-Language: en-US
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,98 +96,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/28/23 23:39, Igor Mammedov wrote:
-> On Tue, 28 Feb 2023 21:34:33 +0700
-> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
-> 
->> On 2/27/23 23:07, Igor Mammedov wrote:
->>> On Sat, 25 Feb 2023 17:15:17 +0700
->>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
->>>    
->>>> On 2/24/23 21:29, Igor Mammedov wrote:
->>>>> On Tue, 21 Feb 2023 23:04:57 +0700
->>>>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
->>>>>       
->>>>>> This commit refactors APIC registers read/write function to support both
->>>>>> MMIO read/write in xAPIC mode and MSR read/write in x2APIC mode. Also,
->>>>>> support larger APIC ID, self IPI, new IPI destination determination in
->>>>>> x2APIC mode.
->>>>>>
->>>>>> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
->>>>>> ---
->>>>>>     hw/intc/apic.c                  | 211 +++++++++++++++++++++++++-------
->>>>>>     hw/intc/apic_common.c           |   2 +-
->>>>>>     include/hw/i386/apic.h          |   5 +-
->>>>>>     include/hw/i386/apic_internal.h |   2 +-
->>>>>>     4 files changed, 172 insertions(+), 48 deletions(-)
->>>>>>
->>>>>> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
->>>>>> index 2d3e55f4e2..205d5923ec 100644
->>>>>> --- a/hw/intc/apic.c
->>>>>> +++ b/hw/intc/apic.c
->>>>>> @@ -30,6 +30,7 @@
->>>>>>     #include "hw/i386/apic-msidef.h"
->>>>>>     #include "qapi/error.h"
->>>>>>     #include "qom/object.h"
->>>>>> +#include "tcg/helper-tcg.h"
->>>>>>     
->>>>>>     #define MAX_APICS 255
->>>>>
->>>>> I'm curious how does it work without increasing ^^^?
->>>>
->>>> Hmm, my commit message is not entirely correct. In this series, some
->>>> operations (send IPI, IPI destination determination) have been updated
->>>> to support x2APIC mode. However, the emulated APIC still doesn't support
->>>> APIC ID larger than 255 because currently, we use a fixed length (255 +
->>>> 1) array to manage local APICs. So to support larger APIC ID, I think we
->>>> need to find any way to manage those, as the possible allocated APIC ID
->>>> range is large and maybe the allocated APIC ID is sparse which makes
->>>> fixed length array so wasteful.
->>> how much sparse it is?
->>
->> As far as I know, QEMU allows to set CPU's APIC ID, so user can pass a
->> very sparse APIC ID array.
-> 
-> I don't think that it does permit this (if it does it's a bug that should be fixed).
-> 
-> As far as I'm aware QEMU derives apic_id from '-smp' and possibly cpu type
-> (there was some differences between Intel and AMD in how apic id was encoded
-> notably AMD having threads or cores that lead to sparse apic id), though I don't
-> remember current state of affairs in x86 cpu topo code.
-> 
->>> benefits of simple static array is simplicity in management and O(1) access time.
->>> QEMU does know in advance max apic id so we can size array by dynamically
->>> allocating it when 1st apic is created. Or if IDs are too sparse
->>> switch to another structure to keep mapping.
->>
->> I totally agree with this.
->>
->> I admit that my main focus on this series is to make x2APIC mode
->> function correctly with TCG accelerator, so I skip the part of extending
->> the support for higher APIC ID.
-> the tricky part in such half approach is making sure that the code is
-> 'correct' and won't lead to exploits.
-> It would be easier to review if it was completed solution instead of partial.
+On Sat, 4 Mar 2023 at 13:30, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Sat, 4 Mar 2023, Bernhard Beschow wrote:
+> > A recent series [1] attempted to remove some PIC -> CPU interrupt indirections.
+> > This inadvertantly caused NULL qemu_irqs to be passed to the i8259 because the
+> > qemu_irqs aren't initialized at that time yet. This series provides a fix by
+> > initializing the qemu_irq of the respective south bridges before they
+> > are passed to i2859_init().
+> >
+> > Furthermore -- as an optional extension -- this series also fixes some usability
+> > issues in the API for creating multifunction PCI devices.
+> >
+> > The series is structured as follows: The first three commits fix the
+> > regressions, the last two fix the public API for creating multifunction PCI
+> > devices.
+> >
+> > [1] https://lore.kernel.org/qemu-devel/20230302224058.43315-1-philmd@linaro.org/
+> >
+> > Bernhard Beschow (5):
+> >  hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt
+> >  hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt
+> >  hw/ppc/prep: Fix wiring of PIC -> CPU interrupt
+> >  hw/pci/pci: Remove multifunction parameter from
+> >    pci_create_simple_multifunction()
+> >  hw/pci/pci: Remove multifunction parameter from
+> >    pci_new_multifunction()
+>
+> I'd postopne the last two API change patches to the next release. Ideally
+> the device itself should know if it's multifunction or not and the board
+> instantiating it should not do anything different than instantiating a
+> single function device so we's only need pci_new or pci_create_simple
+> without multifunction parameter or variant. So my question is why do we
+> need these at all and could this be simplified more? But there's not
+> enough time to answer that now so I'd ask to leave these alone for now and
+> come back to this in next devel cycle.
+>
+> The other 3 patches fix a breakaga in current master so can be considered
+> but I'd need to know a decision if this will be taken or a revert as I
+> need to rebase my pending patches accordingly. A maintainer please speak
+> up here.
 
-I looked around and found the way to dynamically allocate local_apics array
+If we're happy that patches 1-3 fix the regressions and look OK
+code-wise then applying them is probably the simplest thing.
 
-	void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
-	{
-		if (!kvm_irqchip_in_kernel()) {
-         		apic_set_max_apic_id(x86ms->apic_id_limit);
-     		}
-
-	}
-
-We already calculated apic_id_limit before creating CPU and local APIC 
-so we can use that number to dynamically allocated local_apics.
-
-However, there are still problems while trying to extending support to 
-APIC ID larger than 255 because there are many places assume APIC ID is 
-8-bit long. One of that is interrupt remapping which returns 32-bit 
-destination ID but uses MSI (which has 8-bit destination) to send to 
-APIC. I will look more into this.
-
-Thanks,
-Quang Minh.
+thanks
+-- PMM
 
