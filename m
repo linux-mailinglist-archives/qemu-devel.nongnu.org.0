@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FFB6AAA54
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 15:00:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D246AAA55
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 15:01:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYSQi-0001mx-Qf; Sat, 04 Mar 2023 09:00:08 -0500
+	id 1pYSRR-0002Lo-2w; Sat, 04 Mar 2023 09:00:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYSQg-0001mZ-5r
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:00:06 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ id 1pYSR3-0001vK-Hi
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:00:37 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYSQe-0001Vg-Dc
- for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:00:05 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id cp12so3176580pfb.5
- for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 06:00:03 -0800 (PST)
+ id 1pYSR0-0001iN-E8
+ for qemu-devel@nongnu.org; Sat, 04 Mar 2023 09:00:27 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id s18so3056904pgq.1
+ for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 06:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677938403;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VzctX7FWfeWGAi+HDiPeRGwFwXaY6/VUBKSw63TTYuc=;
- b=ApqJKceAZmPAnlFN8ILhQQY3nQFPoI0X761MG6cKuamiZ88uVtOhGOH9BqFr285XM5
- jVdZ4Zw7llJL6HlUvEuknLfdeettJ6O+d740i+HTpJCwObvrde2ULxAQdMCWfuxKNef4
- BAQCeMurUNWK8BzUWYIyRPZ7KkRTHjkgeNFcz6ARc6UZTcC1A5euO5xWYsbFzZP2Exw/
- mD5hqT5GHloInk4FR5eeyC2ZLcADb06eLMfZ4Ad6GQ5nNKu6xV65BRLtiILTP1SCuj1f
- lQR6EV3VJ5hhD6WN/hz/CeM2eRpvLio+MhcONTsEe0Vvbt7eMn9ng46ZHpBa5JJLBBqa
- 2z4g==
+ d=linaro.org; s=google; t=1677938425;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NeiQphHlMzktu9vt0AmjRkGANH9Jn3FuteNn0G+SIuU=;
+ b=y76eYiixNVszC2oY/+uqIdX75MU3JbSe1wUqsfVJmof1O39Q7af9ZCz8bnenJDqqxf
+ Ds39bfyHMnKbN3V44h8DHgwkAMV8d1HU7mssIaC3LLpSI0gLe8CdMzHMYeLkoPaYqOFf
+ ts1X4f8D8tMMnTx8kMQKeXUynH7+jfPZyerNHom+Si9sHjoVMOPrJGp3ymqKmkNssdSs
+ VsS4aSNlFBWfHN8aO0a/mAd0sVKkNRLseetNuNu23xa4OgquS0hzUbBBiknNaSRao5xn
+ RaPc8Au+vaYHQu+8Y9vFPNKWCXpM0ziryXqFVjwKPYIsvJC33fTX8WoJL/q1s2AgYiJ0
+ Zu5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677938403;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VzctX7FWfeWGAi+HDiPeRGwFwXaY6/VUBKSw63TTYuc=;
- b=epW/Mmy/vVgjql0MiInCbP/+0722b+ZbXfilb0eZp8obeZWwHALoYLJEszxqr1QqGz
- EY4dis0UKDF1/2XIb6lH9ME39rHkt028LYbf/Uz5bpJWqNPSIrXbLvjfDWKEMk+PDMd4
- OMzzxns16dJhSWWrVZ0m/ujuQ38AO7GiuptUhd66ZE+hR5fw6Gk+2L5pfprAeqYU3MUH
- WTOlCO6wUgfVOlstT5py7pYfmVDnYRymtb8XhEf2KZjJrK0+7Wxjvzcj1UncdVNTH9jB
- kNMmgcgP/OizjPjhf+6kDKeTUsgtnki+lk6T7zP+EqXWat8YioCC4/8eJE4nhZZFK4fH
- /eGg==
-X-Gm-Message-State: AO0yUKXfa60t9QR+j1qJv80/DZmTZdHnxDjpDSL1pcb0sKmBkXuae1sH
- QmSjkEdJsJIrNIqwfTZoyNYAPnisb8pVHfIQJb5xcw==
-X-Google-Smtp-Source: AK7set8KPSos8JNhZdcCg9FF7+p5tDYFj1N+F/SP/9R5hZlcPhpadIgs5PCSJ9F+5JSNfhsTMs4M24D2lAzPl80evsI=
-X-Received: by 2002:a63:a80c:0:b0:503:a7:d244 with SMTP id
- o12-20020a63a80c000000b0050300a7d244mr1632203pgf.9.1677938402912; 
- Sat, 04 Mar 2023 06:00:02 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677938425;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NeiQphHlMzktu9vt0AmjRkGANH9Jn3FuteNn0G+SIuU=;
+ b=rt5NQ65zuiO2UN50fYxaYf8Y0cot4BRvdIgPCz9oWsjSVJ8E78ZDIMxvSCL1rrAUKx
+ Uh3nSdajUfZjxr/F0dEBpgevqPgP+8YPOSjbZef1Rt+BdVuGpaC6R5NCw9mtsEnCCE0f
+ vhBW+z98ttYqJ1s3ZuqdfPFtga7J6gptQvCGKzDpk3VKR8+lsCJwIhze2fjB+Ml1/ja5
+ KkDf9y2rOxyiMzORW3OzPNCyiZLo/vRnD9sd9KBpkH8qKeD5bbBOBN1HSwJiOyNyRv4+
+ Hh3bUqhDbCFBfkL2276DpTJ1VJGEgv/z2PPamUbWzP/oSwmBubSkNEbQQ6p4TJohQUrr
+ RzcA==
+X-Gm-Message-State: AO0yUKXvEDOJEqffxYSxRyQtsCDLAKxgDJAly0Rgp535i2+uujv+eBf2
+ yilXqBUSPfJeMi0t8kjU22WQQ+RiNltbJH3dLt32Zrh7ynMaxtap
+X-Google-Smtp-Source: AK7set+1xndq+NSYxoZMiQKRxho+50HkDwkVbR4ns8/BAXjp0t8FmPFwa+SANeTe0pFQGktyP8FxiNhhWiwFUFtF//U=
+X-Received: by 2002:a63:f0a:0:b0:502:f5c8:a00c with SMTP id
+ e10-20020a630f0a000000b00502f5c8a00cmr1560055pgl.9.1677938425060; Sat, 04 Mar
+ 2023 06:00:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20230303024103.356250-1-gaosong@loongson.cn>
-In-Reply-To: <20230303024103.356250-1-gaosong@loongson.cn>
+References: <20230302174206.2434673-1-clg@kaod.org>
+In-Reply-To: <20230302174206.2434673-1-clg@kaod.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 4 Mar 2023 13:59:51 +0000
-Message-ID: <CAFEAcA8CUcX3+B26GUbonoWCh+7+eC0ARs1v0W5-1x1LT_2pJA@mail.gmail.com>
-Subject: Re: [PULL 0/5] loongarch-to-apply queue
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org
+Date: Sat, 4 Mar 2023 14:00:13 +0000
+Message-ID: <CAFEAcA_htipnv3SC+DgSW+pHuTedw9RXtAW-TDFv8NZuxX3+JQ@mail.gmail.com>
+Subject: Re: [PULL 00/11] aspeed queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,32 +85,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 02:41, Song Gao <gaosong@loongson.cn> wrote:
+On Thu, 2 Mar 2023 at 17:42, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The following changes since commit 262312d7ba6e2966acedb4f9c134fd19176b4083:
+> The following changes since commit a2b5f8b8ab7b2c947823088103a40f0ff11fe0=
+6b:
 >
->   Merge tag 'pull-testing-next-010323-1' of https://gitlab.com/stsquad/qemu into staging (2023-03-02 13:02:53 +0000)
+>   Merge tag 'pull-tcg-20230301' of https://gitlab.com/rth7680/qemu into s=
+taging (2023-03-01 19:19:20 +0000)
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20230303
+>   https://github.com/legoater/qemu/ tags/pull-aspeed-20230302
 >
-> for you to fetch changes up to 0d588c4f999699a430b32c563fe9ccc1710b8fd7:
+> for you to fetch changes up to b22a2d409b1acfdf0d63d1bb3595194ceb3d94da:
 >
->   hw/loongarch/virt: add system_powerdown hmp command support (2023-03-03 09:37:30 +0800)
->
-> ----------------------------------------------------------------
-> pull-loongarch-20230303
+>   aspeed/smc: Replace SysBus IRQs with GPIO lines (2023-03-02 13:57:50 +0=
+100)
 >
 > ----------------------------------------------------------------
-> Bibo Mao (1):
->       hw/loongarch/virt: rename PCH_PIC_IRQ_OFFSET with VIRT_GSI_BASE
+> aspeed queue:
 >
-> Song Gao (4):
->       loongarch: Add smbios command line option.
->       docs/system/loongarch: update loongson3.rst and rename it to virt.rst
->       target/loongarch: Implement Chip Configuraiton Version Register(0x0000)
->       hw/loongarch/virt: add system_powerdown hmp command support
+> * fix for the Aspeed I2C slave mode
+> * a new I2C echo device from Klaus and its associated test in avocado.
+> * initial SoC cleanups to allow the use of block devices instead of
+>   drives on the command line.
+> * new facebook machines and eeprom fixes for the Fuji
+> * readline fix
 
 
 Applied, thanks.
