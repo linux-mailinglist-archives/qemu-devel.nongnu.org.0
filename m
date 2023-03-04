@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B4D6AA954
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA2F6AA953
 	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 12:42:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYQGC-0003Tq-IN; Sat, 04 Mar 2023 06:41:08 -0500
+	id 1pYQGG-0003VX-Bn; Sat, 04 Mar 2023 06:41:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQG5-0003TG-Nq; Sat, 04 Mar 2023 06:41:01 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ id 1pYQG5-0003TH-OG; Sat, 04 Mar 2023 06:41:01 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pYQG3-0008Sh-W1; Sat, 04 Mar 2023 06:41:01 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id o12so20144330edb.9;
- Sat, 04 Mar 2023 03:40:57 -0800 (PST)
+ id 1pYQG3-0008St-Vz; Sat, 04 Mar 2023 06:41:01 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id o12so20144429edb.9;
+ Sat, 04 Mar 2023 03:40:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677930056;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=06gg4nj5t96ACPHTw2gBHN9uS53R5IPT6zk8wxzhNFU=;
- b=UzVPvPSBAN0dNiy0GhdwdWBf02+6XVqYEm+q+9xVQciQ8V+CaSotPF3lIHVbeGBxrK
- hA+esXZ/ZtKP9aoWyqmsWYhN6N+bHyFCo9Cee6p9qiGtGo90X297mdz9gP6Az09OTBHD
- 0dvJ4WGIQkHt3iNQQxH2kojNHqXVC3a+Ogdsjuhax2LdXeiVAJWyXw8U2nAkjHU6IYKE
- h/gfRV4HHSUK0OOFObZnTwh+16s1Sw8e26V2YmtnSwX0cOI9fQEQT+vskcWsrYBhxdDd
- MeOqyBySDTMsL7hDpyB9OOxbb8Iu6QdOudI42FNaeehAXofr0sEGppUM2ZWMZLixJmgE
- pirA==
+ d=gmail.com; s=20210112; t=1677930057;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=auw8G+UNlizKXHkb7A+0ZKw2fJCrhI3+d5OFW1QmeMc=;
+ b=EOqxc6X6YRqXhiRUSG1ZmYqkMoJ2wI5THCAoB32ZIDDW0ZoL8ljBWiNknsDV+OUAkE
+ rBm5BL7D04LY4Ay12gscJtwQcn4uDHyocjStHPY2zqe5WEG7nrLFTVBnZzRNbe6a2Vh3
+ iuT8jfxM1XBvpHeKd+c+GhvjocB3e/qhMHXGsVikQBA622gsa+ixqY6CTDFnYzHSP622
+ i+CmAi57eggGa+RlLYDSlvbECv1XaVoRSGpo8aNfKqTvg5kNzg4K+Dq0Uu5QTscMWoKu
+ /DkJrhZOmA/s2EZLjCule6OcCPyEG/FN6y3BkxVWPdCOLNjqsYjjA+hbzZKgdt0E667E
+ ZJDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677930056;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=06gg4nj5t96ACPHTw2gBHN9uS53R5IPT6zk8wxzhNFU=;
- b=4g3BuJbYDkVkke7j5PCSuNKQ3F41rlE9uCwwrd2k5qrJ7CfkeenshuwdLK7Z7Xz7sf
- hHqf0Qh+zo12CHI0yx4ljyZpY7lTeEerQ0zWw2YbU+92Kse6kcOZgyy/3vQRkHk0M6rb
- cQB31qciqw8c/iCl4GtWDfjfvWQW+ZCfR9mS6V93QwhG5ASMWD2wpuLCV8AmDmyuiLEX
- n/y8tz5KmoKQLexNqE3YZErOo4yb3pzNrAVQx7q/yoXTNaA8uJKWR21SpXKwBHO2NTVL
- U4JcBZ4aFBrwEOHXrpGgaq2mOhPepSk9wS6qP99RRrLAI9HQHLOV834Eb7XHsioAcifK
- vyCg==
-X-Gm-Message-State: AO0yUKVUoPHNbaj0mBHyd0QlitcS6xLmFGHGx3CCrPp52urLHTSWnJjM
- egPwySnP/CR2To5Bbg7sywMQjFvTHpY=
-X-Google-Smtp-Source: AK7set8oq/jds1IUJgmPrYtyTvvsZWTU8RWewZuoxo0eb2MzgQdC5i+9CSGtCru4zHvujv3oHVg2Yg==
-X-Received: by 2002:a17:906:fd8c:b0:8f7:d5c0:c71d with SMTP id
- xa12-20020a170906fd8c00b008f7d5c0c71dmr6595282ejb.60.1677930056039; 
- Sat, 04 Mar 2023 03:40:56 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677930057;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=auw8G+UNlizKXHkb7A+0ZKw2fJCrhI3+d5OFW1QmeMc=;
+ b=xrqArD1OKD7vNVNaPiwpq/nT+fhC1NF8RsPYFeFvoPjJyAZWhTswF5HLuYRqypU6hK
+ 6WUnv5kGBAPfzqK/3OLGdW3bpOqGErxDwH6pjk+43rHSo8us8wWwx3ANlKjx6TLoo9rn
+ z+Ga/+KmpFnoZigLoHpMExP7RATF8xxnmW1m+CcBg4VMyfwFf7k1IYALb6S1pHM/02ek
+ NbWcsQ4eZXiWeh2rSRgj9qg5BQ4c3eyUt7//0bFgjm3DVI90sWv/auBDwEiNamo2bU6y
+ 9w7tX2/MeOtX6jU8fBK0OyAIfsJv+Cqat0ELYTS5cYbl8yYTWNkMrgh9gBNb2l9epoDJ
+ TxLw==
+X-Gm-Message-State: AO0yUKUo6efnqGNHbPT+Pf5o+2LkfQFl/eyu1lrSKnhMtEqhSc0KU3NU
+ Gpm+4fpI5B4Kac7oLXCfdt4uUwxrGX8=
+X-Google-Smtp-Source: AK7set9O3s38jTClmVaiSPY7awBwg4IbqQ40dkAg4YAe6G79BruDJrkqLtSngvF7x9z2HIsUqSM2Fg==
+X-Received: by 2002:a17:907:c783:b0:87d:f29:3a16 with SMTP id
+ tz3-20020a170907c78300b0087d0f293a16mr4998405ejc.34.1677930057246; 
+ Sat, 04 Mar 2023 03:40:57 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-077-183-004-175.77.183.pool.telefonica.de. [77.183.4.175])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a17090686c600b008c44438734csm1993248ejy.113.2023.03.04.03.40.54
+ j6-20020a17090686c600b008c44438734csm1993248ejy.113.2023.03.04.03.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Mar 2023 03:40:55 -0800 (PST)
+ Sat, 04 Mar 2023 03:40:56 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
@@ -68,15 +69,16 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 0/5] Fix recent PIC -> CPU interrupt wiring regressions
-Date: Sat,  4 Mar 2023 12:40:38 +0100
-Message-Id: <20230304114043.121024-1-shentey@gmail.com>
+Subject: [PATCH 1/5] hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt
+Date: Sat,  4 Mar 2023 12:40:39 +0100
+Message-Id: <20230304114043.121024-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230304114043.121024-1-shentey@gmail.com>
+References: <20230304114043.121024-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,52 +101,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A recent series [1] attempted to remove some PIC -> CPU interrupt indirecti=
-ons.=0D
-This inadvertantly caused NULL qemu_irqs to be passed to the i8259 because =
-the=0D
-qemu_irqs aren't initialized at that time yet. This series provides a fix b=
-y=0D
-initializing the qemu_irq of the respective south bridges before they=0D
-are passed to i2859_init().=0D
-=0D
-Furthermore -- as an optional extension -- this series also fixes some usab=
-ility=0D
-issues in the API for creating multifunction PCI devices.=0D
-=0D
-The series is structured as follows: The first three commits fix the=0D
-regressions, the last two fix the public API for creating multifunction PCI=
-=0D
-devices.=0D
-=0D
-[1] https://lore.kernel.org/qemu-devel/20230302224058.43315-1-philmd@linaro=
-.org/=0D
-=0D
-Bernhard Beschow (5):=0D
-  hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt=0D
-  hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt=0D
-  hw/ppc/prep: Fix wiring of PIC -> CPU interrupt=0D
-  hw/pci/pci: Remove multifunction parameter from=0D
-    pci_create_simple_multifunction()=0D
-  hw/pci/pci: Remove multifunction parameter from=0D
-    pci_new_multifunction()=0D
-=0D
- include/hw/pci/pci.h |  4 +---=0D
- hw/alpha/dp264.c     |  8 +++++---=0D
- hw/i386/pc_piix.c    |  2 +-=0D
- hw/i386/pc_q35.c     | 10 +++++-----=0D
- hw/isa/vt82c686.c    |  3 ++-=0D
- hw/mips/boston.c     |  3 +--=0D
- hw/mips/fuloong2e.c  |  9 +++++----=0D
- hw/mips/malta.c      |  2 +-=0D
- hw/pci-host/sabre.c  |  6 ++----=0D
- hw/pci/pci.c         | 18 ++++++++++++------=0D
- hw/ppc/pegasos2.c    |  9 +++++----=0D
- hw/ppc/prep.c        |  4 +++-=0D
- hw/sparc64/sun4u.c   |  5 ++---=0D
- 13 files changed, 45 insertions(+), 38 deletions(-)=0D
-=0D
--- =0D
-2.39.2=0D
-=0D
+Commit bb98e0f59cde ("hw/isa/vt82c686: Remove intermediate IRQ forwarder")
+passes s->cpu_intr to i8259_init() in via_isa_realize() directly. However,
+s->cpu_intr isn't initialized yet since that happens after the south
+bridge's pci_realize_and_unref() in board code. Fix this by initializing s-
+>cpu_intr before realizing the south bridge.
+
+Fixes: bb98e0f59cde ("hw/isa/vt82c686: Remove intermediate IRQ forwarder")
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/isa/vt82c686.c   |  3 ++-
+ hw/mips/fuloong2e.c |  9 +++++----
+ hw/ppc/pegasos2.c   | 10 ++++++----
+ 3 files changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index f4c40965cd..8900d87f59 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -578,6 +578,8 @@ static void via_isa_init(Object *obj)
+     object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
+     object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
+     object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
++
++    qdev_init_gpio_out(DEVICE(obj), &s->cpu_intr, 1);
+ }
+ 
+ static const TypeInfo via_isa_info = {
+@@ -606,7 +608,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     ISABus *isa_bus;
+     int i;
+ 
+-    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+     isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
+                           errp);
+ 
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index cfc8ca6ae4..30944f8fe7 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -295,14 +295,15 @@ static void mips_fuloong2e_init(MachineState *machine)
+     pci_bus = bonito_init((qemu_irq *)&(env->irq[2]));
+ 
+     /* South bridge -> IP5 */
+-    pci_dev = pci_create_simple_multifunction(pci_bus,
+-                                              PCI_DEVFN(FULOONG2E_VIA_SLOT, 0),
+-                                              true, TYPE_VT82C686B_ISA);
++    pci_dev = pci_new_multifunction(PCI_DEVFN(FULOONG2E_VIA_SLOT, 0), true,
++                                    TYPE_VT82C686B_ISA);
++    qdev_connect_gpio_out(DEVICE(pci_dev), 0, env->irq[5]);
++    pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
++
+     object_property_add_alias(OBJECT(machine), "rtc-time",
+                               object_resolve_path_component(OBJECT(pci_dev),
+                                                             "rtc"),
+                               "date");
+-    qdev_connect_gpio_out(DEVICE(pci_dev), 0, env->irq[5]);
+ 
+     dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "ide"));
+     pci_ide_create_devs(PCI_DEVICE(dev));
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 7cc375df05..b0ada9c963 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -159,13 +159,15 @@ static void pegasos2_init(MachineState *machine)
+     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+ 
+     /* VIA VT8231 South Bridge (multifunction PCI device) */
+-    via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
+-                                                 true, TYPE_VT8231_ISA));
++    via = OBJECT(pci_new_multifunction(PCI_DEVFN(12, 0), true,
++                                       TYPE_VT8231_ISA));
++    qdev_connect_gpio_out(DEVICE(via), 0,
++                          qdev_get_gpio_in_named(pm->mv, "gpp", 31));
++    pci_realize_and_unref(PCI_DEVICE(via), pci_bus, &error_fatal);
++
+     object_property_add_alias(OBJECT(machine), "rtc-time",
+                               object_resolve_path_component(via, "rtc"),
+                               "date");
+-    qdev_connect_gpio_out(DEVICE(via), 0,
+-                          qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+ 
+     dev = PCI_DEVICE(object_resolve_path_component(via, "ide"));
+     pci_ide_create_devs(dev);
+-- 
+2.39.2
+
 
