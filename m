@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5736AA762
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6F26AA761
 	for <lists+qemu-devel@lfdr.de>; Sat,  4 Mar 2023 02:45:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYGxA-00071O-TC; Fri, 03 Mar 2023 20:44:52 -0500
+	id 1pYGxF-000722-FQ; Fri, 03 Mar 2023 20:44:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pYGx9-00071B-LU
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:51 -0500
+ id 1pYGxC-00071n-LJ
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:54 -0500
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pYGx7-0005mQ-Ny
- for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:51 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ id 1pYGxA-0005nZ-OC
+ for qemu-devel@nongnu.org; Fri, 03 Mar 2023 20:44:54 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 323LZZTB023780; Sat, 4 Mar 2023 01:44:48 GMT
+ 3241hwEo015725; Sat, 4 Mar 2023 01:44:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=PYvffhJeqghnbX1YeU8rdpMLDEz1j85B0a2RRv4ozZ8=;
- b=xaZnDcizhckqn1dhwcpeMBcQTJRUR0r0dBtrwnSbufkJ6WD0P/ujQ79tUFTXw8eeip89
- vORzQlW6tLeD5C4rLpqozBtB39DNda1997mnxBSpD0RA6BUQMOglDtgZacWqNCpSgvXW
- 3yAjqXle6mBBv/luEbHr2+mHbofjl0oK5kS67sw+REsczZEIBh/gn80jBnK+CmHkdp2F
- U2vOD4Pqb0QeUxod4YAvcozd/i8UTlOTI60QgqhnT6NSfX7+4g6A5RU/3B0w1AaKeVc4
- 0A+8SWjJHL/8egr4Nh259K0dk7jalfHb+NorF1T2xecUBD32H2jKMBj1tvwio29I7ixr wg== 
+ bh=KOegUf8ho1EKTnum2BepF5VWFtkK3WmKYKSCk6PtILc=;
+ b=NGzEuHG0FJpTm9mf8+23oba2trVoL1c1m6CYcNxYxvS8ODruIVG8N4DCjONw/vyyMacp
+ uOgcoq6wrKpJ4VtxSDOvM3E0Yd/TdaIRc5PYfdUjnJqKupckDU5TUAnkxfUf+2IRgugz
+ 9lxfzYzLtpEF1ijoVtmJ29e1/c9GkskD/zJEAr0bBMW+Nc3v8MNiBcqs7CfXBLpdZ26K
+ P6FLR3TdJr3kL1ThwRLMPlNNMr8wC2wx5dFjlOnQ5ITzRhzi1Qv94KeAfFbr+KQ6/pJG
+ QwLAidoUQcORYBLy3Sgq1XORB1BbJsL5rbNDfjvaZI9aEBAgYPyXwbxsAfhTeE9xF/WC jQ== 
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nyba7rhby-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p3vk18021-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 04 Mar 2023 01:44:48 +0000
+ Sat, 04 Mar 2023 01:44:50 +0000
 Received: from pps.filterd
  (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 3241Xd8W015487; Sat, 4 Mar 2023 01:44:46 GMT
+ with ESMTP id 3241XTp1014975; Sat, 4 Mar 2023 01:44:49 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p3ve8g7cv-1
+ 3p3ve8g7du-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 04 Mar 2023 01:44:46 +0000
+ Sat, 04 Mar 2023 01:44:49 +0000
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3241YZ0l016769;
- Sat, 4 Mar 2023 01:44:46 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3241YZ0n016769;
+ Sat, 4 Mar 2023 01:44:48 GMT
 Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-185-117.vpn.oracle.com
  [10.175.185.117])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3p3ve8g73b-8; Sat, 04 Mar 2023 01:44:46 +0000
+ 3p3ve8g73b-9; Sat, 04 Mar 2023 01:44:48 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -60,9 +60,10 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
  Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
  Joao Martins <joao.m.martins@oracle.com>, Avihai Horon <avihaih@nvidia.com>
-Subject: [PATCH v3 07/13] vfio/common: Record DMA mapped IOVA ranges
-Date: Sat,  4 Mar 2023 01:43:37 +0000
-Message-Id: <20230304014343.33646-8-joao.m.martins@oracle.com>
+Subject: [PATCH v3 08/13] vfio/common: Add device dirty page tracking
+ start/stop
+Date: Sat,  4 Mar 2023 01:43:38 +0000
+Message-Id: <20230304014343.33646-9-joao.m.martins@oracle.com>
 In-Reply-To: <20230304014343.33646-1-joao.m.martins@oracle.com>
 References: <20230304014343.33646-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
@@ -72,11 +73,11 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  definitions=2023-03-03_07,2023-03-03_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  bulkscore=0 suspectscore=0
- adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
+ adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=889 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2303040011
-X-Proofpoint-ORIG-GUID: ylx_mCpb41Gv3mOisAH75_OP5ZVpHTVz
-X-Proofpoint-GUID: ylx_mCpb41Gv3mOisAH75_OP5ZVpHTVz
+X-Proofpoint-GUID: cJG5Ty6waptXB2UhNLqWVjP7tiVWy7gb
+X-Proofpoint-ORIG-GUID: cJG5Ty6waptXB2UhNLqWVjP7tiVWy7gb
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -101,119 +102,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to the device DMA logging uAPI, IOVA ranges to be logged by
-the device must be provided all at once upon DMA logging start.
+Add device dirty page tracking start/stop functionality. This uses the
+device DMA logging uAPI to start and stop dirty page tracking by device.
 
-As preparation for the following patches which will add device dirty
-page tracking, keep a record of all DMA mapped IOVA ranges so later they
-can be used for DMA logging start.
-
-Note that when vIOMMU is enabled DMA mapped IOVA ranges are not tracked.
-This is due to the dynamic nature of vIOMMU DMA mapping/unmapping.
+Device dirty page tracking is used only if all devices within a
+container support device dirty page tracking.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 ---
- hw/vfio/common.c              | 84 +++++++++++++++++++++++++++++++++++
- hw/vfio/trace-events          |  1 +
- include/hw/vfio/vfio-common.h | 11 +++++
- 3 files changed, 96 insertions(+)
+ hw/vfio/common.c              | 166 +++++++++++++++++++++++++++++++++-
+ hw/vfio/trace-events          |   1 +
+ include/hw/vfio/vfio-common.h |   2 +
+ 3 files changed, 166 insertions(+), 3 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index ed908e303dbb..d84e5fd86bb4 100644
+index d84e5fd86bb4..aa0df0604704 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -44,6 +44,7 @@
- #include "migration/blocker.h"
- #include "migration/qemu-file.h"
- #include "sysemu/tpm.h"
-+#include "qemu/iova-tree.h"
- 
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -1313,11 +1314,94 @@ static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
-     return ret;
+@@ -453,6 +453,22 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+     return true;
  }
  
-+/*
-+ * Called for the dirty tracking memory listener to calculate the iova/end
-+ * for a given memory region section. The checks here, replicate the logic
-+ * in vfio_listener_region_{add,del}() used for the same purpose. And thus
-+ * both listener should be kept in sync.
-+ */
-+static bool vfio_get_section_iova_range(VFIOContainer *container,
-+                                        MemoryRegionSection *section,
-+                                        hwaddr *out_iova, hwaddr *out_end)
++static bool vfio_devices_all_device_dirty_tracking(VFIOContainer *container)
 +{
-+    Int128 llend;
-+    hwaddr iova;
++    VFIOGroup *group;
++    VFIODevice *vbasedev;
 +
-+    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
-+    llend = int128_make64(section->offset_within_address_space);
-+    llend = int128_add(llend, section->size);
-+    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
-+
-+    if (int128_ge(int128_make64(iova), llend)) {
-+        return false;
++    QLIST_FOREACH(group, &container->group_list, container_next) {
++        QLIST_FOREACH(vbasedev, &group->device_list, next) {
++            if (!vbasedev->dirty_pages_supported) {
++                return false;
++            }
++        }
 +    }
 +
-+    *out_iova = iova;
-+    *out_end = int128_get64(llend) - 1;
 +    return true;
 +}
 +
-+static void vfio_dirty_tracking_update(MemoryListener *listener,
-+                                       MemoryRegionSection *section)
+ /*
+  * Check if all VFIO devices are running and migration is active, which is
+  * essentially equivalent to the migration being in pre-copy phase.
+@@ -1395,15 +1411,152 @@ static void vfio_dirty_tracking_init(VFIOContainer *container)
+     qemu_mutex_destroy(&container->tracking_mutex);
+ }
+ 
++static int vfio_devices_dma_logging_set(VFIOContainer *container,
++                                        struct vfio_device_feature *feature)
 +{
-+    VFIOContainer *container = container_of(listener, VFIOContainer,
-+                                            tracking_listener);
-+    VFIODirtyTrackingRange *range = &container->tracking_range;
-+    hwaddr max32 = (1ULL << 32) - 1ULL;
-+    hwaddr iova, end;
++    bool status = (feature->flags & VFIO_DEVICE_FEATURE_MASK) ==
++                  VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
++    VFIODevice *vbasedev;
++    VFIOGroup *group;
++    int ret = 0;
 +
-+    if (!vfio_listener_valid_section(section) ||
-+        !vfio_get_section_iova_range(container, section, &iova, &end)) {
-+        return;
-+    }
++    QLIST_FOREACH(group, &container->group_list, container_next) {
++        QLIST_FOREACH(vbasedev, &group->device_list, next) {
++            if (vbasedev->dirty_tracking == status) {
++                continue;
++            }
 +
-+    WITH_QEMU_LOCK_GUARD(&container->tracking_mutex) {
-+        if (iova < max32 && end <= max32) {
-+                if (range->min32 > iova) {
-+                    range->min32 = iova;
-+                }
-+                if (range->max32 < end) {
-+                    range->max32 = end;
-+                }
-+                trace_vfio_device_dirty_tracking_update(iova, end,
-+                                            range->min32, range->max32);
-+        } else {
-+                if (!range->min64 || range->min64 > iova) {
-+                    range->min64 = iova;
-+                }
-+                if (range->max64 < end) {
-+                    range->max64 = end;
-+                }
-+                trace_vfio_device_dirty_tracking_update(iova, end,
-+                                            range->min64, range->max64);
++            ret = ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature);
++            if (ret) {
++                ret = -errno;
++                error_report("%s: Failed to set DMA logging %s, err %d (%s)",
++                             vbasedev->name, status ? "start" : "stop", ret,
++                             strerror(errno));
++                goto out;
++            }
++            vbasedev->dirty_tracking = status;
 +        }
 +    }
-+    return;
++
++out:
++    return ret;
 +}
 +
-+static const MemoryListener vfio_dirty_tracking_listener = {
-+    .name = "vfio-tracking",
-+    .region_add = vfio_dirty_tracking_update,
-+};
-+
-+static void vfio_dirty_tracking_init(VFIOContainer *container)
++static int vfio_devices_dma_logging_stop(VFIOContainer *container)
 +{
-+    memset(&container->tracking_range, 0, sizeof(container->tracking_range));
-+    qemu_mutex_init(&container->tracking_mutex);
-+    container->tracking_listener = vfio_dirty_tracking_listener;
-+    memory_listener_register(&container->tracking_listener,
-+                             container->space->as);
-+    memory_listener_unregister(&container->tracking_listener);
-+    qemu_mutex_destroy(&container->tracking_mutex);
++    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature),
++                              sizeof(uint64_t))] = {};
++    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
++
++    feature->argsz = sizeof(buf);
++    feature->flags = VFIO_DEVICE_FEATURE_SET;
++    feature->flags |= VFIO_DEVICE_FEATURE_DMA_LOGGING_STOP;
++
++    return vfio_devices_dma_logging_set(container, feature);
++}
++
++static struct vfio_device_feature *
++vfio_device_feature_dma_logging_start_create(VFIOContainer *container)
++{
++    struct vfio_device_feature *feature;
++    size_t feature_size;
++    struct vfio_device_feature_dma_logging_control *control;
++    struct vfio_device_feature_dma_logging_range *ranges;
++    VFIODirtyTrackingRange *tracking = &container->tracking_range;
++
++    feature_size = sizeof(struct vfio_device_feature) +
++                   sizeof(struct vfio_device_feature_dma_logging_control);
++    feature = g_try_malloc0(feature_size);
++    if (!feature) {
++        errno = ENOMEM;
++        return NULL;
++    }
++    feature->argsz = feature_size;
++    feature->flags = VFIO_DEVICE_FEATURE_SET;
++    feature->flags |= VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
++
++    control = (struct vfio_device_feature_dma_logging_control *)feature->data;
++    control->page_size = qemu_real_host_page_size();
++
++    /*
++     * DMA logging uAPI guarantees to support at least a number of ranges that
++     * fits into a single host kernel base page.
++     */
++    control->num_ranges = !!tracking->max32 + !!tracking->max64;
++    ranges = g_try_new0(struct vfio_device_feature_dma_logging_range,
++                        control->num_ranges);
++    if (!ranges) {
++        g_free(feature);
++        errno = ENOMEM;
++
++        return NULL;
++    }
++
++    control->ranges = (__aligned_u64)ranges;
++    if (tracking->max32) {
++        ranges->iova = tracking->min32;
++        ranges->length = (tracking->max32 - tracking->min32) + 1;
++        ranges++;
++    }
++    if (tracking->max64) {
++        ranges->iova = tracking->min64;
++        ranges->length = (tracking->max64 - tracking->min64) + 1;
++    }
++
++    trace_vfio_device_dirty_tracking_start(control->num_ranges,
++                                           tracking->min32, tracking->max32,
++                                           tracking->min64, tracking->max64);
++
++    return feature;
++}
++
++static void vfio_device_feature_dma_logging_start_destroy(
++    struct vfio_device_feature *feature)
++{
++    struct vfio_device_feature_dma_logging_control *control =
++        (struct vfio_device_feature_dma_logging_control *)feature->data;
++    struct vfio_device_feature_dma_logging_range *ranges =
++        (struct vfio_device_feature_dma_logging_range *)control->ranges;
++
++    g_free(ranges);
++    g_free(feature);
++}
++
++static int vfio_devices_dma_logging_start(VFIOContainer *container)
++{
++    struct vfio_device_feature *feature;
++    int ret = 0;
++
++    vfio_dirty_tracking_init(container);
++    feature = vfio_device_feature_dma_logging_start_create(container);
++    if (!feature) {
++        return -errno;
++    }
++
++    ret = vfio_devices_dma_logging_set(container, feature);
++    if (ret) {
++        vfio_devices_dma_logging_stop(container);
++    }
++
++    vfio_device_feature_dma_logging_start_destroy(feature);
++
++    return ret;
 +}
 +
  static void vfio_listener_log_global_start(MemoryListener *listener)
@@ -221,59 +284,62 @@ index ed908e303dbb..d84e5fd86bb4 100644
      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
      int ret;
  
-+    vfio_dirty_tracking_init(container);
-+
-     ret = vfio_set_dirty_page_tracking(container, true);
+-    vfio_dirty_tracking_init(container);
++    if (vfio_devices_all_device_dirty_tracking(container)) {
++        ret = vfio_devices_dma_logging_start(container);
++    } else {
++        ret = vfio_set_dirty_page_tracking(container, true);
++    }
+ 
+-    ret = vfio_set_dirty_page_tracking(container, true);
      if (ret) {
++        error_report("vfio: Could not start dirty page tracking, err: %d (%s)",
++                     ret, strerror(-ret));
          vfio_set_migration_error(ret);
+     }
+ }
+@@ -1413,8 +1566,15 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
+     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+     int ret;
+ 
+-    ret = vfio_set_dirty_page_tracking(container, false);
++    if (vfio_devices_all_device_dirty_tracking(container)) {
++        ret = vfio_devices_dma_logging_stop(container);
++    } else {
++        ret = vfio_set_dirty_page_tracking(container, false);
++    }
++
+     if (ret) {
++        error_report("vfio: Could not stop dirty page tracking, err: %d (%s)",
++                     ret, strerror(-ret));
+         vfio_set_migration_error(ret);
+     }
+ }
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 669d9fe07cd9..d97a6de17921 100644
+index d97a6de17921..7a7e0cfe5b23 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -104,6 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_wi
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+@@ -105,6 +105,7 @@ vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t si
  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-+vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" - 0x%"PRIx64"]"
+ vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" - 0x%"PRIx64"]"
++vfio_device_dirty_tracking_start(int nr_ranges, uint64_t min32, uint64_t max32, uint64_t min64, uint64_t max64) "nr_ranges %d 32:[0x%"PRIx64" - 0x%"PRIx64"], 64:[0x%"PRIx64" - 0x%"PRIx64"]"
  vfio_disconnect_container(int fd) "close container->fd=%d"
  vfio_put_group(int fd) "close group->fd=%d"
  vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 87524c64a443..96791add2719 100644
+index 96791add2719..1cbbccd91e11 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -23,6 +23,7 @@
+@@ -154,6 +154,8 @@ typedef struct VFIODevice {
+     VFIOMigration *migration;
+     Error *migration_blocker;
+     OnOffAuto pre_copy_dirty_page_tracking;
++    bool dirty_pages_supported;
++    bool dirty_tracking;
+ } VFIODevice;
  
- #include "exec/memory.h"
- #include "qemu/queue.h"
-+#include "qemu/iova-tree.h"
- #include "qemu/notify.h"
- #include "ui/console.h"
- #include "hw/display/ramfb.h"
-@@ -68,6 +69,13 @@ typedef struct VFIOMigration {
-     size_t data_buffer_size;
- } VFIOMigration;
- 
-+typedef struct VFIODirtyTrackingRange {
-+    hwaddr min32;
-+    hwaddr max32;
-+    hwaddr min64;
-+    hwaddr max64;
-+} VFIODirtyTrackingRange;
-+
- typedef struct VFIOAddressSpace {
-     AddressSpace *as;
-     QLIST_HEAD(, VFIOContainer) containers;
-@@ -89,6 +97,9 @@ typedef struct VFIOContainer {
-     uint64_t max_dirty_bitmap_size;
-     unsigned long pgsizes;
-     unsigned int dma_max_mappings;
-+    VFIODirtyTrackingRange tracking_range;
-+    QemuMutex tracking_mutex;
-+    MemoryListener tracking_listener;
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-     QLIST_HEAD(, VFIOGroup) group_list;
+ struct VFIODeviceOps {
 -- 
 2.17.2
 
