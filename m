@@ -2,81 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D856B814C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 20:00:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E62C6B82C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:29:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbnO9-0001cq-1Q; Mon, 13 Mar 2023 14:59:17 -0400
+	id 1pbomF-0003W5-Hu; Mon, 13 Mar 2023 16:28:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pbnO2-0001bp-CW
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:59:10 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pbnO0-0003X6-PZ
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:59:10 -0400
-Received: by mail-oi1-x231.google.com with SMTP id bi17so10184732oib.3
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 11:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678733946;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MTMJ+SrhxZD4DKXmnrOsTcVGLhAtWwxOjLuwczOyqDU=;
- b=cCvYtFLbFts8HhwVpsz0wVhGEpdonvapAu64bNoZUPXYcR1AFghs/QpldkgDdJLm+x
- mT2W6Y6IyO2trR43fOSWREf+Uk9gkHS9WSTl7AForemh82ASB3W5IJ+7LgGPzvZI6fPl
- f7+PuoOcGlk1mf/zEHRoCb6aFK34oomsROnt0ZPY9RTSf4XK00Shbce6eGQaxzNTFfDl
- 3FoapUFTv/p08+uLj3H2pieydPuYKblDsJGz48jqEKMgY+uJZBhFaTTRMq/++qZIEGKO
- IWHwynWsUvTOeW7T0+RKqBRFqGqyCqcTHGrrpiEfAwuRR6gRcUkAzzglC1tE1gF+9+Wk
- 23mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678733946;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MTMJ+SrhxZD4DKXmnrOsTcVGLhAtWwxOjLuwczOyqDU=;
- b=MXWCWI5bX+UYd27dhiAYTuzKJIQGqhXyurCFcSztp9vMC8fOgj4LOZEgAA+pHhuYWv
- Ndorh8j8L1VEbyWaRamgEM1DHAph1m5t7K+FzqIvIAEmFpAdyv0ZhVVoKBJTrIP0Jxm/
- fWq42VnQ6Tt6Fji2Km2NHuZL0OIXA48/u0dCNrpla5EObVabiZCykh2owwsd0QO9O10W
- yqlRXxI4ebRdSyEwk78wJwHH5j8KVw9oM+VKcr8k+RYr2E6G/wHE8SuRCrRYbkQ2DdnR
- 26sJ0oYqeX8PdjCsqGLfjeWS9FZsDs/Ez+52TgisVB7UyebT2bnuM6CV3NSFUEy0l4wf
- 9MjQ==
-X-Gm-Message-State: AO0yUKVgOLGPKo6nPak4WxWQqD0B2aqUuApxJowjGm4ESfP8HrXT0kX9
- Nlfj2VEqhWpPySbx/EGSF8evjtKnXmfj20S3Pp4=
-X-Google-Smtp-Source: AK7set//XSYbKLjEBY+OZR62kiLOr+GztVAsCbx4aBjX3o+KwEC4WTBKmx03VbODFR0wKJ8ntyRYqg==
-X-Received: by 2002:a54:4005:0:b0:384:10dd:41c with SMTP id
- x5-20020a544005000000b0038410dd041cmr15747467oie.49.1678733946689; 
- Mon, 13 Mar 2023 11:59:06 -0700 (PDT)
-Received: from stoup.. ([50.232.40.61]) by smtp.gmail.com with ESMTPSA id
- i30-20020a4a6f5e000000b00525ccc4caadsm245044oof.4.2023.03.13.11.59.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 11:59:06 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1pbmW0-0001de-83; Mon, 13 Mar 2023 14:03:20 -0400
+Received: from mail-b.sr.ht ([173.195.146.151])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1pbmVy-0002yj-IS; Mon, 13 Mar 2023 14:03:19 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id D09A711F294;
+ Mon, 13 Mar 2023 18:03:14 +0000 (UTC)
+From: ~abordado <abordado@git.sr.ht>
+Date: Sun, 05 Mar 2023 14:34:37 +0000
+Subject: [PATCH qemu v2] linux-user: Emulate /proc/cpuinfo output for riscv
+Message-ID: <167873059442.9885.15152085316575248452-0@git.sr.ht>
+X-Mailer: git.sr.ht
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v3 73/91] target/arm: Improve trans_BFCI
-Date: Mon, 13 Mar 2023 11:59:03 -0700
-Message-Id: <20230313185903.400351-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230313185903.400351-1-richard.henderson@linaro.org>
-References: <20230313185903.400351-1-richard.henderson@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-riscv@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 13 Mar 2023 16:28:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,56 +56,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~abordado <afonsobordado@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reorg temporary usage so that we can use tcg_constant_i32.
-tcg_gen_deposit_i32 already has a width == 32 special case,
-so remove the check here.
+From: Afonso Bordado <afonsobordado@gmail.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+RISC-V does not expose all extensions via hwcaps, thus some userspace
+applications may want to query these via /proc/cpuinfo.
+
+Currently when querying this file the host's file is shown instead
+which is slightly confusing. Emulate a basic /proc/cpuinfo file
+with mmu info and an ISA string.
+
+Changes from V1:
+
+- Call `g_free` on ISA string.
+- Use `riscv_cpu_cfg` API.
+- Query `cpu_env->xl` to check for RV32.
+
+Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
+Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/arm/tcg/translate.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ linux-user/syscall.c              | 34 +++++++++++++++++++++++++++++--
+ tests/tcg/riscv64/Makefile.target |  1 +
+ tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++
+ 3 files changed, 63 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/riscv64/cpuinfo.c
 
-diff --git a/target/arm/tcg/translate.c b/target/arm/tcg/translate.c
-index b70b628000..2cb9368b1b 100644
---- a/target/arm/tcg/translate.c
-+++ b/target/arm/tcg/translate.c
-@@ -7261,8 +7261,8 @@ static bool trans_UBFX(DisasContext *s, arg_UBFX *a)
- 
- static bool trans_BFCI(DisasContext *s, arg_BFCI *a)
- {
--    TCGv_i32 tmp;
-     int msb = a->msb, lsb = a->lsb;
-+    TCGv_i32 t_in, t_rd;
-     int width;
- 
-     if (!ENABLE_ARCH_6T2) {
-@@ -7277,16 +7277,14 @@ static bool trans_BFCI(DisasContext *s, arg_BFCI *a)
-     width = msb + 1 - lsb;
-     if (a->rn == 15) {
-         /* BFC */
--        tmp = tcg_const_i32(0);
-+        t_in = tcg_constant_i32(0);
-     } else {
-         /* BFI */
--        tmp = load_reg(s, a->rn);
-+        t_in = load_reg(s, a->rn);
-     }
--    if (width != 32) {
--        TCGv_i32 tmp2 = load_reg(s, a->rd);
--        tcg_gen_deposit_i32(tmp, tmp2, tmp, lsb, width);
--    }
--    store_reg(s, a->rd, tmp);
-+    t_rd = load_reg(s, a->rd);
-+    tcg_gen_deposit_i32(t_rd, t_rd, t_in, lsb, width);
-+    store_reg(s, a->rd, t_rd);
-     return true;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24cea6fb6a..0388f8b0b0 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8230,7 +8230,8 @@ void target_exception_dump(CPUArchState *env, const cha=
+r *fmt, int code)
  }
- 
--- 
-2.34.1
-
+=20
+ #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN || \
+-    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
++    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) ||=
+ \
++    defined(TARGET_RISCV)
+ static int is_proc(const char *filename, const char *entry)
+ {
+     return strcmp(filename, entry) =3D=3D 0;
+@@ -8308,6 +8309,35 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+ }
+ #endif
+=20
++#if defined(TARGET_RISCV)
++static int open_cpuinfo(CPUArchState *cpu_env, int fd)
++{
++    int i;
++    int num_cpus =3D sysconf(_SC_NPROCESSORS_ONLN);
++    RISCVCPU *cpu =3D env_archcpu(cpu_env);
++    const RISCVCPUConfig *cfg =3D riscv_cpu_cfg((CPURISCVState *) cpu_env);
++    char *isa_string =3D riscv_isa_string(cpu);
++    const char *mmu;
++
++    if (cfg->mmu) {
++        mmu =3D (cpu_env->xl =3D=3D MXL_RV32) ? "sv32"  : "sv48";
++    } else {
++        mmu =3D "none";
++    }
++
++    for (i =3D 0; i < num_cpus; i++) {
++        dprintf(fd, "processor\t: %d\n", i);
++        dprintf(fd, "hart\t\t: %d\n", i);
++        dprintf(fd, "isa\t\t: %s\n", isa_string);
++        dprintf(fd, "mmu\t\t: %s\n", mmu);
++        dprintf(fd, "uarch\t\t: qemu\n\n");
++    }
++
++    g_free(isa_string);
++    return 0;
++}
++#endif
++
+ #if defined(TARGET_M68K)
+ static int open_hardware(CPUArchState *cpu_env, int fd)
+ {
+@@ -8332,7 +8362,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, =
+const char *pathname, int
+ #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN
+         { "/proc/net/route", open_net_route, is_proc },
+ #endif
+-#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
++#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
+         { "/proc/cpuinfo", open_cpuinfo, is_proc },
+ #endif
+ #if defined(TARGET_M68K)
+diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.t=
+arget
+index cc3ed65ffd..df93a2ce1f 100644
+--- a/tests/tcg/riscv64/Makefile.target
++++ b/tests/tcg/riscv64/Makefile.target
+@@ -4,6 +4,7 @@
+ VPATH +=3D $(SRC_PATH)/tests/tcg/riscv64
+ TESTS +=3D test-div
+ TESTS +=3D noexec
++TESTS +=3D cpuinfo
+=20
+ # Disable compressed instructions for test-noc
+ TESTS +=3D test-noc
+diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
+new file mode 100644
+index 0000000000..296abd0a8c
+--- /dev/null
++++ b/tests/tcg/riscv64/cpuinfo.c
+@@ -0,0 +1,30 @@
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <assert.h>
++
++#define BUFFER_SIZE 1024
++
++int main(void)
++{
++    char buffer[BUFFER_SIZE];
++    FILE *fp =3D fopen("/proc/cpuinfo", "r");
++    assert(fp !=3D NULL);
++
++    while (fgets(buffer, BUFFER_SIZE, fp) !=3D NULL) {
++        if (strstr(buffer, "processor") !=3D NULL) {
++            assert(strstr(buffer, "processor\t: ") =3D=3D buffer);
++        } else if (strstr(buffer, "hart") !=3D NULL) {
++            assert(strstr(buffer, "hart\t\t: ") =3D=3D buffer);
++        } else if (strstr(buffer, "isa") !=3D NULL) {
++            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") =
+=3D=3D 0);
++        } else if (strstr(buffer, "mmu") !=3D NULL) {
++            assert(strcmp(buffer, "mmu\t\t: sv48\n") =3D=3D 0);
++        } else if (strstr(buffer, "uarch") !=3D NULL) {
++            assert(strcmp(buffer, "uarch\t\t: qemu\n") =3D=3D 0);
++        }
++    }
++
++    fclose(fp);
++    return 0;
++}
+--=20
+2.34.7
 
