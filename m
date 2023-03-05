@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9836AB1C9
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 19:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE7D6AB1D3
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 20:12:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYtXu-0008ND-Kh; Sun, 05 Mar 2023 13:57:22 -0500
+	id 1pYtlT-0003aF-7N; Sun, 05 Mar 2023 14:11:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYtXp-0008Mu-HP
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 13:57:17 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pYtlM-0003Zx-NU
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:11:17 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYtXn-0005xz-T1
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 13:57:17 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id i5so7976413pla.2
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 10:57:15 -0800 (PST)
+ id 1pYtlL-00082B-5d
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:11:16 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ m20-20020a17090ab79400b00239d8e182efso11062732pjr.5
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 11:11:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678042633;
+ d=linaro.org; s=google; t=1678043473;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=grZdQwxZ4xuizrpLlEKQHo5YXvWK8LBNd/q3E3r31wM=;
- b=Ayo/S8JnAtrTj/C/hU9ueq6hjUDqX9kTbuK3dmVseuWtU6PrywVGRjs9JYE+FO01a/
- tMFkr6TpcVaKrRtoYL7OfHNsAj4if1DPYI3ESJTcUXXaDPBolSnEn6m5JxwDKGZg6fxm
- UbFdlw6CPp+I4thy6VVq+4/bXHfnRbuTRZ/A63yuqgykDymZDYnUPEmg3rCiszuaoiKY
- /IUz0m5q9MI09aovv5Tg5w9knSaexN8muMt8FwREXs2YK9cqMj9oen+V6BZSrMoLZfJh
- EvvKtaUL1XV06ncGRg1586BDrMQrmCkIw4d5fk+Er/tMJB8aQQttIDXlM+o+5ATqbC9p
- IjSA==
+ bh=1H3PzSqUSs6DiBLRaPEq4X0P9jgyJQ/nWTC9BA47OVk=;
+ b=Iu8HmQnCjvs0TjElmo1SMhx2xVnrdAojnTxYc125qSJ4mAv5OFdr9r5bBZ7ZABhojX
+ Eu/Zi/SOphok8tGeSb/sSLeZbqt6xYem0DijWZODOndtvZyn+0rlrbsUjtxdNe+gfSzr
+ iuuIJWB5n1ysg8YQ+xiSAdiFON6Zr4cX33opnPNS4MxEk2JvNLism1fB9PiqpMmihccB
+ 2hhUhpd/l2pq1+G7X+PX1ohADBk4/pajQA9UzqEglZ326fj/P5It11QRMxOrnbNNBt33
+ T7CFn8dUOE50nuIGOHMGX/rhfIRf6mFb3rUNbIhyZbQ2E+a3PYdXzPaofXfi3LD7dudE
+ 4r5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678042633;
+ d=1e100.net; s=20210112; t=1678043473;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=grZdQwxZ4xuizrpLlEKQHo5YXvWK8LBNd/q3E3r31wM=;
- b=lNa0P34oMJwfTAfIXq3eHHO6RBha1mT6C/YoyEvYpI8JeaPKm2tVYzQgvwMMOlEYZM
- pgSXs2bHHCHudBWAxO7KVPYQJBom5sJvjQWim+MApun7UIKm+XBtLLV1D/KZjU3eMGJ5
- cpyB2zj4w0QnVd77BbIRuEYW0P0AptOl14WqnceY08gT95bVGqey4zyFobOXwpQ9bHDo
- GJm9RMYA/fKNzF+veakFE85lo0R9mrPnPUn62xDufufCKZ4QuX0WazuwuxM/6g2+o3CT
- rADQ1nrhDAtH2aqIG17doaJ2LIO0cezK5qFITJjB7kYMVvbeKkW6kdi+huu42d5YmioC
- nclw==
-X-Gm-Message-State: AO0yUKUYRn0omR2GaAMb0Q3RvPkqe/VMdzAPJn82Rt+4/7lkBErqo0iM
- AwqODhespr75xx6l/vrC9Z4ajw==
-X-Google-Smtp-Source: AK7set+kDMNno1Uvb8G9QVL1RMr0u6oGamkhQQHpjmzCP+oT1PH3w1dEF1RK1YyG8Pb4yaWx6Pm9ng==
-X-Received: by 2002:a05:6a20:5483:b0:cd:47dc:82b5 with SMTP id
- i3-20020a056a20548300b000cd47dc82b5mr12199739pzk.21.1678042633327; 
- Sun, 05 Mar 2023 10:57:13 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:2a33:4111:eaee:9caf?
- ([2602:ae:154a:9f01:2a33:4111:eaee:9caf])
+ bh=1H3PzSqUSs6DiBLRaPEq4X0P9jgyJQ/nWTC9BA47OVk=;
+ b=KXvG6GyZYoo6mQI12YZ3Vw4cC2sSDXQ/20oALWZGciokALomJeMJqWwMScZheJzi2Y
+ xY95FRwIgkNQe0wK9Hfz4FaX7xvKWjiwJuhUk6IRbZzEaBDyfZ+Uq1SHxGBm3E77U1YU
+ 8mh1v2lbw8TUu5LsO0KPFkOxicatjCNtQAYw00x2o4bZr0AoaF6zgYNJVOuA/ReaCW/E
+ 0kcnWrcATCtZHhQwXFEvE9MwES6tE3ftp+uf65iIAtLVcJJDwrrG+Tg2O/pr+iv0W1j5
+ HCC+fdM9jZblUKZumNL8mZrSMtTbuN8bYNL0PgZlz6eDMLVQzoadJKKKjU11IeB088bv
+ UEIA==
+X-Gm-Message-State: AO0yUKUI7jOfcFSDU//JMeYE3MUmhFwQw2s40wpXpJBm+4QeUjEMkv+i
+ lpYys1sLMI4uoJ4kQ/JN0WcVUA==
+X-Google-Smtp-Source: AK7set+Fh1XJPcLWlGy7s6EfaTOxRwYbxgMhzzv8E6oKIL9HybnLLL/HzGaQQdtkSGFqh4QMIWee2Q==
+X-Received: by 2002:a05:6a21:78a1:b0:cd:3069:28cd with SMTP id
+ bf33-20020a056a2178a100b000cd306928cdmr9933376pzc.39.1678043473216; 
+ Sun, 05 Mar 2023 11:11:13 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:d15:390f:de71:e264?
+ ([2602:ae:154a:9f01:d15:390f:de71:e264])
  by smtp.gmail.com with ESMTPSA id
- x20-20020a62fb14000000b005d6fcd8f9desm4986920pfm.94.2023.03.05.10.57.12
+ e5-20020a62ee05000000b00608dae58695sm4817000pfi.209.2023.03.05.11.11.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Mar 2023 10:57:12 -0800 (PST)
-Message-ID: <4e6733c8-6bd8-9b35-df35-80ac5a729ace@linaro.org>
-Date: Sun, 5 Mar 2023 10:57:11 -0800
+ Sun, 05 Mar 2023 11:11:12 -0800 (PST)
+Message-ID: <80432864-ed30-36fd-55f9-a6b1362365a2@linaro.org>
+Date: Sun, 5 Mar 2023 11:11:10 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 1/8] qatomic: add smp_mb__before/after_rmw()
+Subject: Re: [PATCH 2/8] qemu-thread-posix: cleanup, fix, document QemuEvent
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: gshan@redhat.com, eesposit@redhat.com, david@redhat.com,
  stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
 References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-2-pbonzini@redhat.com>
+ <20230303171939.237819-3-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230303171939.237819-2-pbonzini@redhat.com>
+In-Reply-To: <20230303171939.237819-3-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,46 +98,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/3/23 09:19, Paolo Bonzini wrote:
-> This nasty difference between Linux and C11 read-modify-write operations
-> has already caused issues in util/async.c and more are being found.
-> Provide something similar to Linux smp_mb__before/after_atomic(); this
-> has the double function of documenting clearly why there is a memory
-> barrier, and avoiding a double barrier on x86 and s390x systems.
+> QemuEvent is currently broken on ARM due to missing memory barriers
+> after qatomic_*().  Apart from adding the memory barrier, a closer look
+> reveals some unpaired memory barriers too.  Document more clearly what
+> is going on, and remove optimizations that I couldn't quite prove to
+> be correct.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   util/qemu-thread-posix.c | 64 ++++++++++++++++++++++++++++------------
+>   1 file changed, 45 insertions(+), 19 deletions(-)
 
-It does make me question our choice to use neither the Linux nor the C11 model.
-
-> +      +--------------------------------+
-> +      | QEMU (incorrect)               |
-> +      +================================+
-> +      | ::                             |
-> +      |                                |
-> +      |   a = qatomic_fetch_add(&x, 2);|
-> +      |   smp_mb__after_rmw();         |
-> +      |   b = qatomic_read(&y);        |
-> +      +--------------------------------+
-
-Correct, surely.
-
-> +/*
-> + * SEQ_CST is weaker than the older __sync_* builtins and Linux
-> + * kernel read-modify-write atomics.  Provide a macro to obtain
-> + * the same semantics.
-> + */
-> +#if !defined(QEMU_SANITIZE_THREAD) && \
-> +    (defined(__i386__) || defined(__x86_64__) || defined(__s390x__))
-> +# define smp_mb__before_rmw() signal_barrier()
-> +# define smp_mb__after_rmw() signal_barrier()
-> +#else
-> +# define smp_mb__before_rmw() smp_mb()
-> +# define smp_mb__after_rmw() smp_mb()
-> +#endif
-
-I notice you never actually use smp_mb__before_rmw(), but I suppose since we're trying to 
-mirror smp_mb__before(), we should keep the interface whole.
-
-Other than the "incorrect" above,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
