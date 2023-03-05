@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DAF6AAE9C
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 09:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB426AAE9E
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 09:50:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYk04-0000ox-AK; Sun, 05 Mar 2023 03:45:48 -0500
+	id 1pYk3l-0001qs-BI; Sun, 05 Mar 2023 03:49:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pYjzk-0000k2-RF; Sun, 05 Mar 2023 03:45:28 -0500
+ id 1pYk3k-0001qa-51; Sun, 05 Mar 2023 03:49:36 -0500
 Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pYjzi-0001Gk-RF; Sun, 05 Mar 2023 03:45:28 -0500
+ id 1pYk3i-00021i-NO; Sun, 05 Mar 2023 03:49:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
  s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
  Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=1xHedHjJQbbL/esM2fTGRJYL0S9fcg1GwIr7aaxHfrI=; b=c7z2KtoOMTTnMEz42SvZFCszd/
- HJyFqmfchovuXGrKqdu07qgOoVDnbw3qRHusq9TaxrmYV+dIlLD7XdvmysbvhmwngFpz13u3l9I6j
- rvCn1f16ibOUUqSq23lboFChueESuMFwsxXeqAiVLXhZfrSLsjjzCd+28DlOMN+xvLFPjx1ReyGLQ
- QpxuWy9NAbdcBEaGZ1sg0M8SrnzCRG0h52hGhZS0RKpV6Bt2XcWEu/aWfJey4iPRWzJANWT+zVJ5m
- GrMk5MSgUYE9/lura2Jjli0jSEo4b3sQEyyb54g5eduL94uDKpZ5zhmTq16CEiwuSnbKzavPHNA50
- 8tP1ttFw==;
+ bh=oEISQ1BfHwYx1j9chjZWF4H3DuFNS9Lk8DZW+8tnHuc=; b=pOidGulYgK0F9MPMnQzs/zhWrF
+ 7tWNwxT0duS6zOLKmHLlYiTvzVHBXkSNYfdz9DhU9GmW0dBLKLKOdcZbhg3u7mV6ErSvR5j/kw+Wl
+ 07Jd8h7cyFRT1aby2eucCp2JybNB9iIvw9td+hCCTrUxakakQf2mmh4AWYzwnrQML549JmWrgAaXv
+ 43hTKmqj/FpwB1Emfbf8dPi44FGsnvsGd7cuV0YzbNqfZuNPL5bpjlIhGX0rZcnqj+XZ9fz1/gbWU
+ 52g8xXL034LO7kUdu6KxsMimHkVaGChyhv8Rt1XeU+UkPscvjt2Y9TaAo0jD2KzgLyp/GAGmvhwRf
+ Hnh75GLA==;
 Received: from [102.39.141.34] (helo=pc220518)
  by lounge.grep.be with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <w@uter.be>)
- id 1pYjze-0005Lc-Dm; Sun, 05 Mar 2023 09:45:22 +0100
+ id 1pYk3c-00071F-MW; Sun, 05 Mar 2023 09:49:28 +0100
 Received: from wouter by pc220518 with local (Exim 4.96)
- (envelope-from <w@uter.be>) id 1pYjzX-000SAt-0T;
- Sun, 05 Mar 2023 10:45:15 +0200
-Date: Sun, 5 Mar 2023 10:45:15 +0200
+ (envelope-from <w@uter.be>) id 1pYk3V-000Scs-1S;
+ Sun, 05 Mar 2023 10:49:21 +0200
+Date: Sun, 5 Mar 2023 10:49:21 +0200
 From: Wouter Verhelst <w@uter.be>
 To: Eric Blake <eblake@redhat.com>
 Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
  libguestfs@redhat.com
-Subject: Re: [PATCH v2 2/6] spec: Tweak description of maximum block size
-Message-ID: <ZARWm7/vh0gMdjEC@pc220518.home.grep.be>
+Subject: Re: [PATCH v2 3/6] spec: Add NBD_OPT_EXTENDED_HEADERS
+Message-ID: <ZARXkaG3cq9bi4XF@pc220518.home.grep.be>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
  <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-3-eblake@redhat.com>
- <Y/ThgdLldvb5rpwA@pc220518.home.grep.be>
- <20230303222653.xivvmvilswu3lii3@redhat.com>
+ <20221114224655.2186173-4-eblake@redhat.com>
+ <Y/XlHhLWwm2pZ4RL@pc220518.home.grep.be>
+ <20230303223641.utbls7mggek7quqx@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303222653.xivvmvilswu3lii3@redhat.com>
+In-Reply-To: <20230303223641.utbls7mggek7quqx@redhat.com>
 X-Speed: Gates' Law: Every 18 months, the speed of software halves.
 Organization: none
 Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
@@ -77,118 +77,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 03, 2023 at 04:26:53PM -0600, Eric Blake wrote:
-> On Tue, Feb 21, 2023 at 05:21:37PM +0200, Wouter Verhelst wrote:
-> > Hi Eric,
+On Fri, Mar 03, 2023 at 04:36:41PM -0600, Eric Blake wrote:
+> On Wed, Feb 22, 2023 at 11:49:18AM +0200, Wouter Verhelst wrote:
+> > On Mon, Nov 14, 2022 at 04:46:52PM -0600, Eric Blake wrote:
+[...]
+> > > +  Note that even when extended headers are in use, the client MUST be
+> > > +  prepared for the server to use either the compact or extended chunk
+> > > +  type, regardless of whether the client's hinted effect length was
+> > > +  more or less than 32 bits; but the server MUST use exactly one of
+> > > +  the two chunk types per negotiated metacontext ID.
 > > 
-> > Busy days, busy times. Sorry about the insane delays here.
+> > Is this last paragraph really a good idea? I would think it makes more
+> > sense to require the new format if we're already required to support it
+> > on both sides anyway.
 > 
-> No problem; I've been tackling other things in the meantime too, so
-> this extension has taken far longer than I planned for more reasons
-> than just slow review time.
-> 
-> > 
-> > On Mon, Nov 14, 2022 at 04:46:51PM -0600, Eric Blake wrote:
-> > > Commit 9f30fedb improved the spec to allow non-payload requests that
-> > > exceed any advertised maximum block size.  Take this one step further
-> > > by permitting the server to use NBD_EOVERFLOW as a hint to the client
-> > > when a request is oversize (while permitting NBD_EINVAL for
-> > > back-compat), and by rewording the text to explicitly call out that
-> > > what is being advertised is the maximum payload length, not maximum
-> > > block size.  This becomes more important when we add 64-bit
-> > > extensions, where it becomes possible to extend `NBD_CMD_BLOCK_STATUS`
-> > > to have both an effect length (how much of the image does the client
-> > > want status on - may be larger than 32 bits) and an optional payload
-> > > length (a way to filter the response to a subset of negotiated
-> > > metadata contexts).  In the shorter term, it means that a server may
-> > > (but not must) accept a read request larger than the maximum block
-> > > size if it can use structured replies to keep each chunk of the
-> > > response under the maximum payload limits.
-> > > ---
-> > >  doc/proto.md | 127 +++++++++++++++++++++++++++++----------------------
-> > >  1 file changed, 73 insertions(+), 54 deletions(-)
-> > > 
-> > > diff --git a/doc/proto.md b/doc/proto.md
-> > > index 8f08583..53c334a 100644
-> > > --- a/doc/proto.md
-> > > +++ b/doc/proto.md
-> > > @@ -745,8 +745,8 @@ text unless the client insists on TLS.
-> > > 
-> > >  During transmission phase, several operations are constrained by the
-> > >  export size sent by the final `NBD_OPT_EXPORT_NAME` or `NBD_OPT_GO`,
-> > > -as well as by three block size constraints defined here (minimum,
-> > > -preferred, and maximum).
-> > > +as well as by three block size constraints defined here (minimum
-> > > +block, preferred block, and maximum payload).
-> > > 
-> > >  If a client can honour server block size constraints (as set out below
-> > >  and under `NBD_INFO_BLOCK_SIZE`), it SHOULD announce this during the
-> > > @@ -772,15 +772,15 @@ learn the server's constraints without committing to them.
-> > > 
-> > >  If block size constraints have not been advertised or agreed on
-> > >  externally, then a server SHOULD support a default minimum block size
-> > > -of 1, a preferred block size of 2^12 (4,096), and a maximum block size
-> > > -that is effectively unlimited (0xffffffff, or the export size if that
-> > > -is smaller), while a client desiring maximum interoperability SHOULD
-> > > -constrain its requests to a minimum block size of 2^9 (512), and limit
-> > > -`NBD_CMD_READ` and `NBD_CMD_WRITE` commands to a maximum block size of
-> > > -2^25 (33,554,432).  A server that wants to enforce block sizes other
-> > > -than the defaults specified here MAY refuse to go into transmission
-> > > -phase with a client that uses `NBD_OPT_EXPORT_NAME` (via a hard
-> > > -disconnect) or which uses `NBD_OPT_GO` without requesting
-> > > +of 1, a preferred block size of 2^12 (4,096), and a maximum block
-> > > +payload size that is at least 2^25 (33,554,432) (even if the export
-> > > +size is smaller); while a client desiring maximum interoperability
-> > > +SHOULD constrain its requests to a minimum block size of 2^9 (512),
-> > > +and limit `NBD_CMD_READ` and `NBD_CMD_WRITE` commands to a maximum
-> > > +block size of 2^25 (33,554,432).  A server that wants to enforce block
-> > > +sizes other than the defaults specified here MAY refuse to go into
-> > > +transmission phase with a client that uses `NBD_OPT_EXPORT_NAME` (via
-> > > +a hard disconnect) or which uses `NBD_OPT_GO` without requesting
-> > 
-> > This does more than what the commit message says: it also limits payload
-> > size from 0xffffffff to 2^25. We already have a "A server that desires
-> > maximum interoperability" clause that mentions the 2^25, so I'm not
-> > entirely sure why we need to restrict that for the default cause.
-> > 
-> > Remember, apart from specifying how something should be implemented, the
-> > spec also documents current and historic behavior. I am probably
-> > convinced that it makes more sense to steer people towards limiting to
-> > 2^25, but it should be done in such a way that servers which accept a
-> > 0xffffffff block size are not suddenly noncompliant. I don't think this
-> > does that.
-> 
-> I'll have to play more with the wording here.  A client shouldn't send
-> larger write requests to a server without knowing the server will
-> accept it (because traditional servers disconnect instead - the
-> alternative is to read the client's entire payload, and the larger the
-> payload is, the longer that takes - the client is starving the server
-> from serving other clients by making it chew through data).
+> My proof of implementation was easier to code when I didn't have to
+> resize the block status reply sizing in the same patch as adding the
+> 64-bit headers.  But if you think requiring the 64-bit reply type
+> always (and forbidding the 32-bit reply) when extended headers are in
+> force, that's also possible.
 
-Well, in the case of a preforking server (like nbd-server), that isn't
-really the case, the client is instead only starving itself. But yeah.
-
->  But sending larger read requests MAY be tolerated by a server that
->  sends a graceful error message ("you requested more than I'm willing
->  to send, but my error response is short so the connection can stay
->  open"), even if several historical implementations have also hung up
->  at that point (at least qemu implements a malloc() call for both read
->  and writes; reads populate the buffer from the client, writes
->  populate the buffer to send back to the client - the connection is
->  aborted when the malloc() is not attempted because it exceeds 2^25
->  bytes).
-
-Yeah, nbd-server does that too, except for the abortion. At least intentionally
-so; again, since it's a preforking server, the worst that can happen here is
-that it gets an ENOMEM, at which point it will just die, which causes the
-client to lose its connection and nothing else.
-
-> But I also see your point about not declaring a server non-compliant
-> merely because it allows for a larger payload, nor a client that sends
-> larger payloads to a known-happy server that accepts those payloads.
-> nbdkit historically chose 64M as its limits instead of qemu's 32M.
-
-Right, thanks.
+Intuitively, this sounds off. It would seem to me that it's easier to do
+if you don't have to have a conditional on each received data packet.
+But maybe I'm missing something -- I haven't done an implementation yet,
+anyway.
 
 -- 
      w@uter.{be,co.za}
