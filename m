@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602E56AB19C
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 18:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A73D6AB1B4
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 19:22:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYsOp-0005iZ-1e; Sun, 05 Mar 2023 12:43:55 -0500
+	id 1pYsy9-0006sK-M0; Sun, 05 Mar 2023 13:20:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYsOm-0005iN-J3
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 12:43:52 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pYsy7-0006rW-MY
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 13:20:23 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pYsOl-0002cr-4r
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 12:43:52 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id p20so7764700plw.13
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 09:43:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pYsy5-0000QF-Uh
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 13:20:23 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id x34so7655777pjj.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 10:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678038230;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VI9Ygl0uIAOTyS8+RtbqZGQaBrHsiULM5wHvTYeuXbA=;
- b=PHHg/8reQXOMx5kqNDdD1cyoINEasH7aq5NvJ4rztOnn0I5uvy/diVqYfGQ5zDrDC4
- 7ARWo/0vun6R7ofuWugU+iWU3w+CsNMMDAI9wdvVaOjMA0hCKdQ7ZyMpON+oPvVykLsc
- DuqKd45dCDYa+OJi/Tp8nVHLGdyZ/TEyCqUgYcAxVx6e/h/0nWKdP1HWM/BtOiF/Uw6r
- Lztj66CPiKdGWyTEKCOydkhlzqurgiXFfCcWJbE3UHAk5R1UahkEUXFv97EvVQKFUjQI
- 5zBLEFkBAHx6X9uSYTd4jPIESVh2TavHMvsiCX43P96edFVcdFNRn+7MOcADN3vhZGXD
- JhEw==
+ d=linaro.org; s=google; t=1678040420;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lyXSLQqti9nE4kw5qxiCnq2I8gdlNlF3gU6pRJMziuY=;
+ b=fBkeIiDIIfinFaNSJjhhi4VvfY3WAjDiUjiZ58LPgcUUliOqmOBXT+0hhX3hWfHXCP
+ vN/J7grBXa7VU6azXoRHPOMSGUDg+4RkYjK9SK7lejqqjKydPD2OGWvfkL6194jMoDB5
+ x8LXCdrWDbJqqbqYIcqLsWOZX16OdoaTt5Ed3ZUoIV5epcT7H0ioGWBvye2ephXpJqaA
+ +kn03LPSQDI8tiFT/0SHmMVCZHsLzdjd1ZxLF4cjeOnOyZ8qlwDfv2Z2iFkObvTATtN9
+ JLQFz7rvsR96HYkPAO/DYc/5rGbNWMcnNHh3mgxE3Vml6R04poiRuG3mJToYw/NlHjaY
+ ifUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678038230;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VI9Ygl0uIAOTyS8+RtbqZGQaBrHsiULM5wHvTYeuXbA=;
- b=kji1GhWXeCZ/ii8zoX8aKX7QH4yEHpquEGpxGTqQInncw32SVZkIKZzKY7Py20nyjI
- KlMxrWYl25zy6WiE//eBl7M6WXvqZgIg4MPcUEjS4UMH/cb/P7zEWiie1WL6cz9BJmWb
- UnJtaqHHd8M7C6xL3OKnmQwyXMU/LZOd6uta3GtFMUE1zRMJ8blG8G5r8k7JWG1dPscU
- YYZ4ycWIAYGqhH33932GdOQSkcVejXlbIEN5uVvqV4eoTx/wgC/gndVqWJxPPF5VU5Pf
- AMS+F/Vp4eH+JaTiYuWM5T5NbegeIjAhNb4fe3Hfm204ILoq23Fxj7eyXr2J/10AfRuP
- P0zA==
-X-Gm-Message-State: AO0yUKUTfCfd194XZDg0jqcy/Shmgy/ZENdiWVgq/BmIC46k3UZk1d10
- L4c6XWW0lRkcSOecXIE4q3DcmgIKpzncg+nJhGxa0gZ3QDIQUf0s
-X-Google-Smtp-Source: AK7set8tymoYD73Uek3JlcQdSK0+hf6JLJ+emI0q4tI2lWvn8rS0ukFPFFamUH/2gRpo4zcL1M6wSwE+TWn/mc2fLyU=
-X-Received: by 2002:a17:903:1243:b0:19a:b151:eb83 with SMTP id
- u3-20020a170903124300b0019ab151eb83mr3162844plh.13.1678038229762; Sun, 05 Mar
- 2023 09:43:49 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678040420;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lyXSLQqti9nE4kw5qxiCnq2I8gdlNlF3gU6pRJMziuY=;
+ b=VsM+ZJw9rRjsVP+9LezJqy/lUD9RVzDvq+yCEPcM0AB1JdUEJiOaNKLASTVq8OcdQS
+ SGxnhiWTQaiOZyuLOFyJ/UlMvDlck6U3RMg0r09CVPxvSf9g/CyEIJHpbOOTk4sZY3JI
+ CE1Ykvxyojx4RI/05USrwizGWMjOBT1YxUVOD6SID6zOv9JVWj7csPLKSGl0HLcziRWA
+ JeUxX8DTqZ4pro9Zv1lk2JRyIj4tnTLGB+32LDEsK+RTRhbuji/SazUXUxWRS2H7gW7Z
+ RUqAtpP4rKy/qaQu0ZnIACgG1DqHmCkpJmX68snh+P5EYK4NjgaX8YHBjeLUgburXrEr
+ 26yQ==
+X-Gm-Message-State: AO0yUKWZGxJlHZgom3dmXxL5rutC+paiu2L/PPRutbB9IZbhii/iQ1PF
+ V6XnABEVw/rPrG/SWWg1OjAjbQ==
+X-Google-Smtp-Source: AK7set8BDeJMLyQAsLJw6Ags15lZafbYJdUjGtumq70AgZXGgjeARm4zFKQl/+AMSvi1AnN7CMGGeg==
+X-Received: by 2002:a17:902:e812:b0:19c:da7f:a237 with SMTP id
+ u18-20020a170902e81200b0019cda7fa237mr10975773plg.5.1678040419910; 
+ Sun, 05 Mar 2023 10:20:19 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:2a33:4111:eaee:9caf?
+ ([2602:ae:154a:9f01:2a33:4111:eaee:9caf])
+ by smtp.gmail.com with ESMTPSA id
+ iw3-20020a170903044300b0019ca68ef7c3sm5048918plb.74.2023.03.05.10.20.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Mar 2023 10:20:19 -0800 (PST)
+Message-ID: <fc6aae1a-8425-be5e-40b4-f3abc6536b9d@linaro.org>
+Date: Sun, 5 Mar 2023 10:20:17 -0800
 MIME-Version: 1.0
-References: <20230304181900.1097116-1-richard.henderson@linaro.org>
- <20230304181900.1097116-2-richard.henderson@linaro.org>
-In-Reply-To: <20230304181900.1097116-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 5 Mar 2023 17:43:38 +0000
-Message-ID: <CAFEAcA-Ht=90ZEvGetA4j28b+xAqcqgo0PPvEyMOs3Pgwm7SCg@mail.gmail.com>
-Subject: Re: [PATCH v3 01/20] target/i386: Drop tcg_temp_free
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 03/13] accel/tcg: Store some tlb flags in CPUTLBEntryFull
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20230223204342.1093632-1-richard.henderson@linaro.org>
+ <20230223204342.1093632-4-richard.henderson@linaro.org>
+ <CAFEAcA9jhHX7r9FcB8ZyGimN3XGLX=rEONC3jYK=n2JTmj+SSg@mail.gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9jhHX7r9FcB8ZyGimN3XGLX=rEONC3jYK=n2JTmj+SSg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,15 +96,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 4 Mar 2023 at 18:19, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Translators are no longer required to free tcg temporaries.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 3/3/23 08:45, Peter Maydell wrote:
+>> +
+>> +    if (wp_flags & BP_MEM_WRITE) {
+>> +        write_flags |= TLB_WATCHPOINT;
+>> +    }
+>> +    tlb_set_compare(full, &tn, vaddr_page, write_flags, MMU_DATA_STORE,
+>> +                    (prot & PAGE_WRITE) && !(prot & PAGE_WRITE_INV));
+> 
+> So in the old code, if PAGE_WRITE_INV then we set up the
+> addr_write field as normal, it just also has the TLB_INVALID_MASK bit
+> set. In the new code we won't do that, we'll set addr_write to -1.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Gah.  I must have had some sort of rebase fumble, because I know I fixed this, and the 
+WRITE_INV test should be above, not in the predicate.
 
-thanks
--- PMM
+
+r~
 
