@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648CD6AB224
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 21:48:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47976AB258
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 21:59:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYvG6-0006V2-FZ; Sun, 05 Mar 2023 15:47:06 -0500
+	id 1pYvQR-0000vp-He; Sun, 05 Mar 2023 15:57:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pYvG3-0006Su-UA
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 15:47:03 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pYvG1-0006Pi-VN
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 15:47:03 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id ky4so8187843plb.3
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 12:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678049219;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=3my9w5dZJEPiGf5Jw/70zkeUmR4DkwSaOGoJgZWxWRo=;
- b=b+owVsXSSt0Dtel41Yc4W4raHDXCJodCUYVLzWsiGJ/2YXlHU1i1oDXQQSU2B1xnFB
- 9yk6/h5lerhI/GsyGhIMc4DimT2Ih+Z9YES51n6cR3HgmEtoxjmAheaOmgSW5HTwa8w5
- 9NeQmB/EEchE2iYEhcVZxlF5NPYmlp/6HWjlgpH1WDDX5EZ4aKZKJA94W6TWuSbYzBXm
- ibzu8+/5+su0ErEyOo2LWwhgnR8BMV3pjI/DvISbJiXuLih0CWG4ysKAl4M5vbmewd1K
- d8jO6pO/3KwuVzCIddmYMVZZ+hyewXIN/HxFfjNCbTL2lUJPPPyEStJzVqGzSsi/fmIb
- zo7Q==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pYvQN-0000vJ-9y
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 15:57:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pYvQL-00083b-DZ
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 15:57:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678049859;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OpvrqEtHQRPp0WqSMAKEWF2hKPliqsd1ycTE3IrijxA=;
+ b=AwDFP15nTveOhZgPmNfE7OjbRe/b1zoJcG5h0GP85Q4BqTnPiQqCT/N8/DW7YtS3z90Qku
+ uQZS2GJkD4Y+0Wf+nWbmCsx/OFyhoPbAqWtZyTAwGD/ywVEj8RtlOvjcVW1SBid1iYPcyD
+ syrjJwmhaed0GpRMiVUIBqXpE4q/BqY=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-150-syUQ0MUzNIa1igOH8c_uHw-1; Sun, 05 Mar 2023 15:57:37 -0500
+X-MC-Unique: syUQ0MUzNIa1igOH8c_uHw-1
+Received: by mail-io1-f72.google.com with SMTP id
+ c13-20020a0566022d0d00b0074cc4ed52d9so4362668iow.18
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 12:57:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678049219;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3my9w5dZJEPiGf5Jw/70zkeUmR4DkwSaOGoJgZWxWRo=;
- b=qrEw3JOsEQtovhzGFoDKJsS7+V08bcrZVpn90QOg3EfB9vfSHgri9M+ZNAsc7z/AGf
- kjU836M8BBjIs1t9Arp736Tkwl+3zUBR2O5MBgax0vNQ5EOXTfo3D8pBSQ+9mJzRKEtP
- yVGdHcqHKyKySEDypA4RRb9+/w7SCLNTwtlQXkdBb3yZh9X4QjAYy2kEvD9kPuiaV1Y8
- sasEsS3begfW+K26jQWBbuWfCvdDY7NTKSaHlsGLqrO1y3lwRcTK4ixPLxYeAmas9Czu
- hgtGhsqBRu/TsgNiUiy5cY/cpAIhUcXWwLJPksO8LQK96y7n/8q/UZTm/hdEx4DaDMrZ
- S/xQ==
-X-Gm-Message-State: AO0yUKWyhwsjMj0Btzn/ea3HPF8/Dt/r23oOwWXqSMitxT34fC4hJ2Gc
- gUz9ahKykBde8nBfKbYk0xcYANcJMgHV70HUEKw=
-X-Google-Smtp-Source: AK7set/n3c8/B5a9hXAc/E1l9Iz9ah18U8/yNd2FTAglrv5y1Zvqq7Ln9vDFEY+/dTgwNHhPWtuytQ==
-X-Received: by 2002:a17:90b:3890:b0:23a:6d16:8e36 with SMTP id
- mu16-20020a17090b389000b0023a6d168e36mr9191616pjb.12.1678049219409; 
- Sun, 05 Mar 2023 12:46:59 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- v7-20020a63f847000000b00502f20aa4desm4969605pgj.70.2023.03.05.12.46.58
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OpvrqEtHQRPp0WqSMAKEWF2hKPliqsd1ycTE3IrijxA=;
+ b=YpqRmhvpJEl1FsrS575nnWTJJ6+egB6+Y43cSp5aStPIEpvpB6EBWOgj4VaWQDFSe7
+ QV3w9oRE4XlCUdBEsyXyEi4e99wCtUMacfo/dzfDmfymmhxk6kpCVhAm05TWIi2cAtgt
+ wdEva2D2rM5In4bYeOEvk+7cjaHS4yd2csfSVhiFFk+5renAEFu2sSSUCtDi+Bwpvds6
+ OSCfCd1P+ghPo6NGMLm0TRk0Bo0cW3cBfOVkfSJhvjZg4zy6lEoOSKoIW+9cczSDZV25
+ ZEr0j5/Y3dCPIfYCTqQa036gm7zfUeRhkHx9Vkx9PeCeWjFA+d0ASuMui9JsF9txNCm2
+ nmZA==
+X-Gm-Message-State: AO0yUKUAYst1QN7uGTVQofTvmGq90IejHFSZ3GiAtPHtytaB47nM1St/
+ BOfFKWtEQErhd/QBJBY/dxXRMRxO4WUAc9fh4O4tz0d7z1cYI+RMAwjnaMcU5FDTlzoGfKZVcGp
+ P90huU7caLBIeupA=
+X-Received: by 2002:a6b:e70b:0:b0:74c:99e8:5a83 with SMTP id
+ b11-20020a6be70b000000b0074c99e85a83mr6299773ioh.9.1678049856698; 
+ Sun, 05 Mar 2023 12:57:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set8G7qDUL70iptEJyqY+vhrhIrpkEv72TAh7JeU7OKQpL2L0VggCX0JS0drHrxw80EeHVZ6JHA==
+X-Received: by 2002:a6b:e70b:0:b0:74c:99e8:5a83 with SMTP id
+ b11-20020a6be70b000000b0074c99e85a83mr6299766ioh.9.1678049856393; 
+ Sun, 05 Mar 2023 12:57:36 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ v4-20020a5ec104000000b0073fe9d412fasm2665550iol.33.2023.03.05.12.57.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 12:46:58 -0800 (PST)
-Date: Sun, 05 Mar 2023 12:46:58 -0800 (PST)
-X-Google-Original-Date: Sun, 05 Mar 2023 12:46:06 PST (-0800)
-Subject: Re: [PATCH] [PATCH] disas/riscv Fix ctzw disassemble
-In-Reply-To: <20230217151459.54649-1-ivan.klokov@syntacore.com>
-CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, ivan.klokov@syntacore.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: ivan.klokov@syntacore.com
-Message-ID: <mhng-b7567a6d-04f6-4562-a43d-4c32cf50e331@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ Sun, 05 Mar 2023 12:57:35 -0800 (PST)
+Date: Sun, 5 Mar 2023 13:57:34 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>
+Subject: Re: [PATCH v3 00/13] vfio/migration: Device dirty page tracking
+Message-ID: <20230305135734.71d54dd1.alex.williamson@redhat.com>
+In-Reply-To: <20230304014343.33646-1-joao.m.martins@oracle.com>
+References: <20230304014343.33646-1-joao.m.martins@oracle.com>
+Organization: Red Hat
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,66 +102,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Feb 2023 07:14:59 PST (-0800), ivan.klokov@syntacore.com wrote:
-> Due to typo in opcode list, ctzw is disassembled as clzw instruction.
->
-> Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
-> ---
->  disas/riscv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/disas/riscv.c b/disas/riscv.c
-> index ddda687c13..d0639cd047 100644
-> --- a/disas/riscv.c
-> +++ b/disas/riscv.c
-> @@ -1644,7 +1644,7 @@ const rv_opcode_data opcode_data[] = {
->      { "minu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
->      { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
->      { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-> -    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> +    { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->      { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->      { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+On Sat,  4 Mar 2023 01:43:30 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-Thanks, this is queue up on riscv-to-apply.next -- I think I managed to 
-get all the reviews and such from the mailing list, it got a bit 
-confused.
+> Hey,
+> 
+> Presented herewith a series based on the basic VFIO migration protocol v2
+> implementation [1].
+> 
+> It is split from its parent series[5] to solely focus on device dirty
+> page tracking. Device dirty page tracking allows the VFIO device to
+> record its DMAs and report them back when needed. This is part of VFIO
+> migration and is used during pre-copy phase of migration to track the
+> RAM pages that the device has written to and mark those pages dirty, so
+> they can later be re-sent to target.
+> 
+> Device dirty page tracking uses the DMA logging uAPI to discover device
+> capabilities, to start and stop tracking, and to get dirty page bitmap
+> report. Extra details and uAPI definition can be found here [3].
+> 
+> Device dirty page tracking operates in VFIOContainer scope. I.e., When
+> dirty tracking is started, stopped or dirty page report is queried, all
+> devices within a VFIOContainer are iterated and for each of them device
+> dirty page tracking is started, stopped or dirty page report is queried,
+> respectively.
+> 
+> Device dirty page tracking is used only if all devices within a
+> VFIOContainer support it. Otherwise, VFIO IOMMU dirty page tracking is
+> used, and if that is not supported as well, memory is perpetually marked
+> dirty by QEMU. Note that since VFIO IOMMU dirty page tracking has no HW
+> support, the last two usually have the same effect of perpetually
+> marking all pages dirty.
+> 
+> Normally, when asked to start dirty tracking, all the currently DMA
+> mapped ranges are tracked by device dirty page tracking. If using a
+> vIOMMU we block live migration. It's temporary and a separate series is
+> going to add support for it. Thus this series focus on getting the
+> ground work first.
+> 
+> The series is organized as follows:
+> 
+> - Patches 1-7: Fix bugs and do some preparatory work required prior to
+>   adding device dirty page tracking.
+> - Patches 8-10: Implement device dirty page tracking.
+> - Patch 11: Blocks live migration with vIOMMU.
+> - Patches 12-13 enable device dirty page tracking and document it.
+> 
+> Comments, improvements as usual appreciated.
 
-Here's what I've got:
+Still some CI failures:
 
-commit 270629024df1f9f4e704ce8325f958858c5cbff7
-gpg: Signature made Sun 05 Mar 2023 12:43:52 PM PST
-gpg:                using RSA key 2B3C3747446843B24A943A7A2E1319F35FBB1889
-gpg:                issuer "palmer@dabbelt.com"
-gpg: Good signature from "Palmer Dabbelt <palmer@dabbelt.com>" [ultimate]
-gpg:                 aka "Palmer Dabbelt <palmer@rivosinc.com>" [ultimate]
-Author: Ivan Klokov <ivan.klokov@syntacore.com>
-Date:   Fri Feb 17 18:14:59 2023 +0300
+https://gitlab.com/alex.williamson/qemu/-/pipelines/796657474
 
-    disas/riscv Fix ctzw disassemble
-    
-    Due to typo in opcode list, ctzw is disassembled as clzw instruction.
-    
-    Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
-    Fixes: 02c1b569a15b ("disas/riscv: Add Zb[abcs] instructions")
-    Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-    Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-    Message-ID: <20230217151459.54649-1-ivan.klokov@syntacore.com>
-    Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+The docker failures are normal, afaict the rest are not.  Thanks,
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index ddda687c13..54455aaaa8 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -1645,7 +1645,7 @@ const rv_opcode_data opcode_data[] = {
-     { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+Alex
 
 
