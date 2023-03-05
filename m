@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5616AAE80
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 08:42:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E676AAE82
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 08:47:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYj08-0002RK-VR; Sun, 05 Mar 2023 02:41:49 -0500
+	id 1pYj4M-0004mU-Tu; Sun, 05 Mar 2023 02:46:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pYj06-0002RA-9r
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 02:41:46 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pYj4J-0004m5-O9; Sun, 05 Mar 2023 02:46:07 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pYj04-000756-2d
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 02:41:45 -0500
-Received: by mail-wr1-x429.google.com with SMTP id g3so5913398wri.6
- for <qemu-devel@nongnu.org>; Sat, 04 Mar 2023 23:41:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pYj4H-0007oc-NV; Sun, 05 Mar 2023 02:46:07 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ o38-20020a05600c512600b003e8320d1c11so4491749wms.1; 
+ Sat, 04 Mar 2023 23:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678002102;
+ d=gmail.com; s=20210112; t=1678002362;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BFv1ZVhGZzADJt39TiMInkThidBmBk/uc/lnbYlWeys=;
- b=csIfqS/smzPN3mdRWyS2iE85gFENHlWmN1J6cPw7zFUD4mj1tajGO4bcU3b7PqENzF
- HFa5L/kxHflcYjHs3p4mB3iRuEyM3ReFUG4Z3ZoE9c6bzdPO+ZAoiaU4X0EUtwAc1VBV
- PJeAkW9FXO0xU23wjVrjxM0NcyccYButVYVxLxU/BvpiUHPrPHnyIvhAExWiXopvzNdK
- 8nEQJmo5D7wFt55ZbDRWLq/T4vOrTzG2f61F1lehHK3bP4lSelZNu5Uo1s1qbCjEeJJK
- KlMceVKCK43mD8lYRwgpQcOBmqB7y3g4cHl+KuCgwFQK3i7QQh5kNDmadlH4fovk0DMj
- EMhQ==
+ bh=DCoePLllw7iHMhcUCMFzvuRZ1jZVzAcpgvZ4ynSbjAk=;
+ b=WIkm6wXWyDf6NNR05r64ogjdCS4MSRcrg+pUixRyC8NWljXuH+dOZH+raX3IiZFZ+x
+ 2iwA03JsHUEc4ru6q/JwEq8H6T7CHvcE/g80STPu9xgcIasgVLPvd62MjGuXERza9+2e
+ IFuVCspgooeUrZvvwmCFhG+yDI08b72kSXwIwHeuM+0uB+IdRgWBa2Y5kOI1MghyXUWf
+ JaoJRVDP6prjTDS70TnWzByDU43SloJODLXF3Wu33vzgUcbWoTWFFrWi5xGToCbyiN76
+ Zd9z05iDhpWnx2dULYUNd7yffC/5Q+YpbFTYYEiUGUhlty8mFxxPbJEzP/nxUnhHDbhq
+ Z34g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678002102;
+ d=1e100.net; s=20210112; t=1678002362;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BFv1ZVhGZzADJt39TiMInkThidBmBk/uc/lnbYlWeys=;
- b=gGxNIxB6x99DQ1T+Ov4OPse8TaRHIZJ3Mm1+qBlFHjSm7a1LO+y3kcOBBFpaGmvbiO
- Sz4rk5V3daJ93kypHs9/ttHKoKa5hlw9Rk/EV9FlGlFjaliIQVPyRJypZYlH5GruLru3
- 4TJrKRkJeGl/euKU7chAz/qNxRgpsxYCDst8dlptA3ufbUbgaIwyGIbwBjJSgiCUVQg0
- pajggo4Ch6tCGGxTpOS2UBAC0qxzCrryDaoaScH6CFLeCJIeJOk9BLYf64jakeKsfuUb
- UzSzdq4a8tDb0vbo05XJTd70kHxwfCNnYu22NDQpXAWV2iP7V2x69YcxAWkf12bMTIL0
- WNSA==
-X-Gm-Message-State: AO0yUKXXXbeK4NhFHJlCBmd2Esus2VPa+Srr2VZH3vvHLgU53UWzhUCm
- alEaORYAlpTLleVuWVQw+yg=
-X-Google-Smtp-Source: AK7set+kHC7u70nYybhgheObpyusylRZhlbLRrHwMwA04LDLxsC0RgPQx2uPlolmeV+/rupt7FJ3bA==
-X-Received: by 2002:adf:eec2:0:b0:2c5:9c7a:866 with SMTP id
- a2-20020adfeec2000000b002c59c7a0866mr5146896wrp.51.1678002102399; 
- Sat, 04 Mar 2023 23:41:42 -0800 (PST)
+ bh=DCoePLllw7iHMhcUCMFzvuRZ1jZVzAcpgvZ4ynSbjAk=;
+ b=3Fr/hpEcTLpG/6V62Xs5/ypA+n2ZKn01/tG771IjVTvgTOv9J2crLte88ZDHJ8RMZ8
+ NlsAafqTmQb/CbKvQYLokstptQ5v9ILBAupLTKYhOXCWTGUhFKMNicy9MNe0C3KkOD9F
+ I4HoD1QKgV4wyMNoHBVaUTZj+BdD8HvGtcqGhjZYIt31SpN+Czyqf52DqbmJsTuPGg8J
+ XwZx7K1cbo7WwMx8qfqI2J7gt6ISIQudkIJPz6hbn0gyDXxuQHnk765uHI5/55Z6KOsI
+ aT5qmuUlhsKI4JP6w6vbbX3wyqXzM4rbeI1k67+RywQBnCbulZmLT77SVj8O6gX59yiK
+ YfKg==
+X-Gm-Message-State: AO0yUKXohUTLRrgJIbF5CQ+dRLAdrhykG6CC/NwzxCJREh+39zJ2JZB6
+ keTQq5zC3aU6x1P6d/97o0ZvLMc/j9k=
+X-Google-Smtp-Source: AK7set+wuHBIYuQl5Ko4eXn2SQy4cMu/U5uzKXdtUqp/+iC+lPWYGL6Ya4D0i3g8M/yDzYkfZE+ueA==
+X-Received: by 2002:a05:600c:4708:b0:3eb:20f6:2d5c with SMTP id
+ v8-20020a05600c470800b003eb20f62d5cmr6313692wmo.35.1678002362356; 
+ Sat, 04 Mar 2023 23:46:02 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-078-054-176-138.78.54.pool.telefonica.de.
  [78.54.176.138]) by smtp.gmail.com with ESMTPSA id
- b12-20020adff24c000000b002c556a4f1casm6676568wrp.42.2023.03.04.23.41.41
+ z4-20020a056000110400b002ce3b31753fsm5735915wrw.26.2023.03.04.23.46.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Mar 2023 23:41:42 -0800 (PST)
-Date: Sun, 05 Mar 2023 07:41:33 +0000
+ Sat, 04 Mar 2023 23:46:02 -0800 (PST)
+Date: Sun, 05 Mar 2023 07:45:55 +0000
 From: Bernhard Beschow <shentey@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+To: qemu-devel@nongnu.org
+CC: Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH 00/12] Q35 PCI host fixes and QOM cleanup
-In-Reply-To: <16134200-0C75-4FFE-834D-6E081D7CA96E@gmail.com>
-References: <20230214131441.101760-1-shentey@gmail.com>
- <A090A42F-D368-4671-9C91-716DD2D7CA64@gmail.com>
- <20230301164900-mutt-send-email-mst@kernel.org>
- <16134200-0C75-4FFE-834D-6E081D7CA96E@gmail.com>
-Message-ID: <9B20E043-A476-481A-B437-B9CFAC371FB7@gmail.com>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v4 0/9] PC cleanups
+In-Reply-To: <776DAC15-E708-47BF-9EF6-D511731DF56D@gmail.com>
+References: <20230213162004.2797-1-shentey@gmail.com>
+ <776DAC15-E708-47BF-9EF6-D511731DF56D@gmail.com>
+Message-ID: <4A6D076C-5091-42A5-BB83-695B5BF2F04D@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,138 +102,181 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 2=2E M=C3=A4rz 2023 21:54:56 UTC schrieb Bernhard Beschow <shentey@gmai=
+Am 13=2E Februar 2023 16:45:05 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>
+>
+>Am 13=2E Februar 2023 16:19:55 UTC schrieb Bernhard Beschow <shentey@gmai=
 l=2Ecom>:
->
->
->Am 1=2E M=C3=A4rz 2023 21:49:37 UTC schrieb "Michael S=2E Tsirkin" <mst@r=
-edhat=2Ecom>:
->>On Tue, Feb 21, 2023 at 03:39:28PM +0000, Bernhard Beschow wrote:
->>>=20
->>>=20
->>> Am 14=2E Februar 2023 13:14:29 UTC schrieb Bernhard Beschow <shentey@g=
-mail=2Ecom>:
->>> >This series mostly cleans up QOM-related initialization code=2E It al=
-so performs
->>> >
->>> >some modernization and fixing=2E
->>> >
->>> >
->>> >
->>> >The first patch originates from "PC and ICH9 clanups" series [1] whic=
-h has been
->>> >
->>> >dropped in v3 in favor of another series [2]=2E Review comments in [2=
-] suggest it
->>> >
->>> >needs more work, so bring the patch back here=2E
->>> >
->>> >
->>> >
->>> >Patch 2 fixes a clangd warning and patch 3 modernizes usage of the me=
-mory API=2E
->>> >
->>> >
->>> >
->>> >Patches 4-9 clean up initialization code=2E
->>> >
->>> >
->>> >
->>> >The last four patches also clean up initialization code with the last=
- patch
->>> >
->>> >doing the actual cleanup=2E
->>> >
->>>=20
->>> Ping
+>>This series contains some cleanups I came across when working on the PC
+=
+>>
+>>machines=2E It consists of reducing the usage of global variables and el=
+iminating
+>>
+>>some redundancies=2E
 >>
 >>
->>sent some comments=2E
+>>
+>>One notable change is that the SMRAM memory region gets moved from the i=
+440fx
+>>
+>>and q35 host bridges into the x86 machine=2E This will simplify cleaning=
+ up these
+>>
+>>host bridges which will be done in a separate series=2E Note that the mo=
+vement of
+>>
+>>the SMRAM memory region apparently doesn't change migration ABI for the =
+pc and
+>>
+>>q35 machines (see below)=2E
+>>
+>>
+>>
+>>Testing done:
+>>
+>>* `make check`
+>>
+>>' `make check-avocado`
+>>
+>>* `qemu-system-x86_64 -M q35 -m 2G -cdrom \
+>>
+>>   manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
+>>
+>>* `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21=2E3=2E2-220704-l=
+inux515=2Eiso`
+>>
+>>* Confirm that JSON representation of migration files (pc & q35) are emp=
+ty:
+>>
+>>  1=2E Create four migration files {pc,q35}-{before,after}=2Emig by runn=
+ing
+>>
+>>     `qemu-system-x86_64 -M {pc,q35} -S` with QEMU built from master and=
+ from
+>>
+>>     this series=2E
+>>
+>>  2=2E Run `=2E/scripts/analyze-migration=2Epy -d desc -f *=2Emig > *=2E=
+json` on the four
+>>
+>>     files
+>>
+>>  3=2E Compare the diffs -> both are empty
+>>
+>>
+>>
+>>v4:
+>>
+>>* Remove ram_memory variable in pc_q35 completely (Zoltan)
+>>
 >
->I'll look into it over the weekend=2E I'm quite busy right now=2E
+>The last two patches still need review=2E Comments welcome!
 
-Forgot to mention: v2 is out!
+Ping
+
+Can we queue the reviewed patches (all but the last two) already?
+
+Thanks,
+Bernhard
 
 >
->Best regards,
->Bernhard
->
->>Philippe was reviewing related patches maybe
->>he wants to poke at these too=2E
 >>
->>> >
->>> >
->>> >Based-on: <20230213162004=2E2797-1-shentey@gmail=2Ecom>
->>> >
->>> >         "[PATCH v4 0/9] PC cleanups"
->>> >
->>> >
->>> >
->>> >Testing done:
->>> >
->>> >* `make check`
->>> >
->>> >* `make check-avocado`
->>> >
->>> >* `qemu-system-x86_64 -M q35 -m 2G -cdrom \
->>> >
->>> >     manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
->>> >
->>> >
->>> >
->>> >[1] https://lore=2Ekernel=2Eorg/qemu-devel/20230131115326=2E12454-1-s=
-hentey@gmail=2Ecom/
->>> >
->>> >[2] https://lore=2Ekernel=2Eorg/qemu-devel/20230203180914=2E49112-1-p=
-hilmd@linaro=2Eorg/
->>> >
->>> >
->>> >
->>> >Bernhard Beschow (12):
->>> >
->>> >  hw/i386/pc_q35: Resolve redundant q35_host variable
->>> >
->>> >  hw/pci-host/q35: Fix contradicting =2Eendianness assignment
->>> >
->>> >  hw/pci-host/q35: Use memory_region_set_address() also for
->>> >
->>> >    tseg_blackhole
->>> >
->>> >  hw/pci-host/q35: Initialize PCMachineState::bus in board code
->>> >
->>> >  hw/pci-host/q35: Initialize "bypass-iommu" property from board code
->>> >
->>> >  hw/pci-host/q35: Initialize properties just once
->>> >
->>> >  hw/pci-host/q35: Initialize PCI hole boundaries just once
->>> >
->>> >  hw/pci-host/q35: Turn PCI hole properties into class properties
->>> >
->>> >  hw/pci-host/q35: Rename local variable to more idiomatic "phb"
->>> >
->>> >  hw/pci-host/q35: Propagate to errp rather than doing error_fatal
->>> >
->>> >  hw/pci-host/q35: Merge mch_realize() into q35_host_realize()
->>> >
->>> >  hw/pci-host/q35: Move MemoryRegion pointers to host device
->>> >
->>> >
->>> >
->>> > include/hw/pci-host/q35=2Eh |  17 +-
->>> >
->>> > hw/i386/pc_q35=2Ec          |  33 ++--
->>> >
->>> > hw/pci-host/q35=2Ec         | 325 ++++++++++++++++++----------------=
-----
->>> >
->>> > 3 files changed, 178 insertions(+), 197 deletions(-)
->>> >
->>> >
->>> >
->>> >-- >
->>> >2=2E39=2E1
->>> >
->>> >
->>> >
+>>
+>>v3:
+>>
+>>* Add three patches regarding init_pam() and SMRAM=2E
+>>
+>>* Drop 'hw/i386/pc_q35: Resolve redundant q35_host variable' since Phil =
+posted
+>>
+>>  a similar patch in a more comprehensive series:
+>>
+>>  https://lore=2Ekernel=2Eorg/qemu-devel/20230203180914=2E49112-13-philm=
+d@linaro=2Eorg/
+>>
+>>* Drop 'hw/isa/lpc_ich9: Reuse memory and io address space of PCI bus' s=
+ince
+>>
+>>  it inadvertantly changed the memory hierarchy=2E
+>>
+>>* Drop ICH9 cleanups again in favor of a separate series=2E
+>>
+>>
+>>
+>>v2:
+>>
+>>* Factor out 'hw/i386/pc_q35: Reuse machine parameter' from 'hw/i386/pc_=
+q35:
+>>
+>>  Resolve redundant q35_host variable' (Zoltan)
+>>
+>>* Lower type of phb to Object in 'hw/i386/pc_q35: Resolve redundant q35_=
+host
+>>
+>>  variable' (Zoltan)
+>>
+>>* Add ICH9 cleanups
+>>
+>>
+>>
+>>Bernhard Beschow (9):
+>>
+>>  hw/pci-host/i440fx: Inline sysbus_add_io()
+>>
+>>  hw/pci-host/q35: Inline sysbus_add_io()
+>>
+>>  hw/i386/pc_q35: Reuse machine parameter
+>>
+>>  hw/i386/pc_{q35,piix}: Reuse MachineClass::desc as SMB product name
+>>
+>>  hw/i386/pc_{q35,piix}: Minimize usage of get_system_memory()
+>>
+>>  hw/i386/pc: Initialize ram_memory variable directly
+>>
+>>  hw/pci-host/pam: Make init_pam() usage more readable
+>>
+>>  hw/i386/x86: Make TYPE_X86_MACHINE the owner of smram
+>>
+>>  target/i386/tcg/sysemu/tcg-cpu: Avoid own opinion about smram size
+>>
+>>
+>>
+>> include/hw/i386/pc=2Eh             |  1 -
+>>
+>> include/hw/i386/x86=2Eh            |  2 ++
+>>
+>> include/hw/pci-host/i440fx=2Eh     |  7 ++++---
+>>
+>> include/hw/pci-host/pam=2Eh        |  5 +++--
+>>
+>> include/hw/pci-host/q35=2Eh        |  4 +++-
+>>
+>> hw/i386/pc=2Ec                     |  2 --
+>>
+>> hw/i386/pc_piix=2Ec                | 10 +++++-----
+>>
+>> hw/i386/pc_q35=2Ec                 | 17 +++++++++--------
+>>
+>> hw/i386/x86=2Ec                    |  4 ++++
+>>
+>> hw/pci-host/i440fx=2Ec             | 28 +++++++++++++---------------
+>>
+>> hw/pci-host/pam=2Ec                | 12 ++++++------
+>>
+>> hw/pci-host/q35=2Ec                | 31 ++++++++++++++++---------------=
+
+>>
+>> target/i386/tcg/sysemu/tcg-cpu=2Ec |  3 +--
+>>
+>> 13 files changed, 66 insertions(+), 60 deletions(-)
+>>
+>>
+>>
+>>-- >
+>>2=2E39=2E1
+>>
+>>
 >>
 
