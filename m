@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AB86AB1EC
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 20:40:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B472C6AB21D
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 21:40:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYuDY-0003hB-Ez; Sun, 05 Mar 2023 14:40:25 -0500
+	id 1pYv8a-0001Vn-Qf; Sun, 05 Mar 2023 15:39:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYuDN-0003fr-Hq
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:40:15 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pYv8Q-0001PG-6H
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 15:39:11 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYuDM-000415-0b
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:40:13 -0500
-Received: by mail-pl1-x642.google.com with SMTP id ky4so8060962plb.3
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 11:40:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pYv8M-0004fr-Or
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 15:39:09 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ me6-20020a17090b17c600b0023816b0c7ceso11252511pjb.2
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 12:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678045210;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=q8V6VN4dIg5GeMwdP9RwHnaEWv8+L81LouLBxL9MY+g=;
- b=C46tVgYD0tBn2HRpEVSwcaKM2/Cv8fp8DJORRC26AcI9Bl9iwuPYaCavEB4JVKMvyg
- v4YrcZ9YvN5O7yEreY/KyDsfat23lCcHKc2iD4nVLp8Tu56G2onAvnOE2lAJoNnv+Pc/
- S68scFmUmHVvusyXI0SWLw7O+FXrvGRMR+s7KaNCv6Qhp6uTFh2J1pvWP2Toq9pWL5eG
- TUzmZZ2J8tDy1jgnIaXx9PSOvUYa2Ka86eGKIxL6AbpKV6s0liP2kpGAfp34i7xZYrr1
- a6py3kq2MiIeHfOXngzr3WL92bNi6N+2bioTCzjp1+mpxMXhZhxFPJrARBRqraRJIEFo
- f79w==
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678048744;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=1yOeOb3OgQfoFWMOvX2ozSQrG1Fv9IUQw/5CYws80dI=;
+ b=cox3woIwMJRyJZoHOWfiSY5swb5Oco22h39YkyxS06PN8upNtpWfIZkK0ExyHdFFYM
+ 4aF/t3XesWOHZ6X8cxn4Np3PgWgUgHbMzWC5le7mWnO+OZ/vJzzbitzv/i+ql+WMxzHO
+ DUvuyC2yGoPvWszzRSNagaxC37bTjO8CJ0bZPzWHny/Punn//2I1lXZXvI73DOOE+PKe
+ 6q/2NLCl+edPVZqxK+CAcDFz9fb8PHt67eOxQMfdZC2ZiyjQfUFSy/3SF4Z9XJ0U03La
+ aUd9lVJaCQrro3fM8rL9YtGN87slB+hQc6BwSSvtEgHogvi4CrYBlAUbmK6JHZrKMllo
+ tFAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678045210;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q8V6VN4dIg5GeMwdP9RwHnaEWv8+L81LouLBxL9MY+g=;
- b=qicyEH9RVZwflYiUnhIQ2rxdOrJ1dQWwOf7vhTFIusL1Si/eLSTCaAtqTYVdzzrx3O
- XeM47KBjWw0UoSev4kFHqthTPRhWZcQlPoMaHmW9jrTG9CHUqWRHezZJrzZidNsGKXsZ
- x83sDdSnYRQZfSdu4ZVqkBRHc0MDpcezH/fDQodygR8sZwZPc7sPZFJkEsO2J7+ld7dr
- TeH2B5RvDbC1KsVgls2XvzGLTRyfdSS/WaNn8hJOCCB66wjROt8JyqIo1+wfAlHUNxIh
- 7C0KdOgFUEgS6YvkDPQnkhJMDo4raxKxj6EwQ9gTynU8z/HgGicpguYVB5VTRXuPUgCO
- +1pA==
-X-Gm-Message-State: AO0yUKXmSeTSepaqKEL53VaEQsnSLzG4N8zpJYzkt73RGf0qrhpCyxNf
- hN+Wv4GYdOiu9wBG1GjDfQonBA==
-X-Google-Smtp-Source: AK7set/v7ljAzLLK4ANI25nBgB9h2D83/3bYvB26/HfWdOBDuqXby9sTKpmZ10EE/6rY7DT9wg6ezg==
-X-Received: by 2002:a05:6a20:6a0c:b0:cc:a93:2b82 with SMTP id
- p12-20020a056a206a0c00b000cc0a932b82mr11174767pzk.58.1678045210213; 
- Sun, 05 Mar 2023 11:40:10 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:d15:390f:de71:e264?
- ([2602:ae:154a:9f01:d15:390f:de71:e264])
- by smtp.gmail.com with ESMTPSA id
- c18-20020aa781d2000000b005a8b4dcd21asm5059067pfn.15.2023.03.05.11.40.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Mar 2023 11:40:09 -0800 (PST)
-Message-ID: <890c61a1-a25f-e8a9-5ff7-db49b05b6935@linaro.org>
-Date: Sun, 5 Mar 2023 11:40:07 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 8/8] physmem: add missing memory barrier
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: gshan@redhat.com, eesposit@redhat.com, david@redhat.com,
- stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
-References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-9-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230303171939.237819-9-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ d=1e100.net; s=20210112; t=1678048744;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1yOeOb3OgQfoFWMOvX2ozSQrG1Fv9IUQw/5CYws80dI=;
+ b=E17MTpp7hMnubgakOctXr1/iWqLZ6hAHjcrXj9S0chlwED2pV2GJMCf3D50PY2epFG
+ somT7xnKxxIgl1exnisUrZp4/i2QLHk45KA8b8Vk5uipbTYuLxK7CaEVDWTVK8OBKYMk
+ L9yyPV55CnQRHI6sCrbLUtRMMARiGtC29X8u1wouY0QJGZatyRNdzTKcUoLp3vnxQILb
+ tD7+EtTzyuRW2w7lcwpxXZbw6dASBGuypnwjm5caC5u6nPGtFKrXhS6FkChVuSPm5H6d
+ geK0pByDu5Lxa7aqNvIK/y/btgDFcnLeG29Vop9NOm6ZSUvxEove+ItY9AjmWP0FNLX/
+ n+dA==
+X-Gm-Message-State: AO0yUKWs8cfmcPcBIkiFWBxDuam1ppC9dBCADWdTQ3aCDPSSNH8otWsU
+ +Ts7+mRvBeZId9G+yFRpHedtew==
+X-Google-Smtp-Source: AK7set8A+m5OCGkAWmTui85/5WBXxWg4lsnjCR4Z0xkCgb/LgRaCiHphlXgW3ZPAD7UoRVHau7hZ5g==
+X-Received: by 2002:a17:90b:4c06:b0:22b:f0d4:9e1e with SMTP id
+ na6-20020a17090b4c0600b0022bf0d49e1emr9474546pjb.8.1678048744536; 
+ Sun, 05 Mar 2023 12:39:04 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ z6-20020a17090abd8600b00233b18e6fb3sm4613481pjr.1.2023.03.05.12.39.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Mar 2023 12:39:04 -0800 (PST)
+Date: Sun, 05 Mar 2023 12:39:04 -0800 (PST)
+X-Google-Original-Date: Sun, 05 Mar 2023 12:30:12 PST (-0800)
+Subject: Re: [PATCH 1/1] hw/riscv/virt.c: add cbom-block-size fdt property
+In-Reply-To: <cc29c762-16e7-8a72-7ad9-b9fd6535c1c1@codethink.co.uk>
+CC: dbarboza@ventanamicro.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
+ apatel@ventanamicro.com
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: ben.dooks@codethink.co.uk
+Message-ID: <mhng-822a81e9-cdbe-465e-bc14-b24e7f3cade4@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,37 +91,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/3/23 09:19, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   softmmu/physmem.c | 3 +++
->   1 file changed, 3 insertions(+)
+On Thu, 02 Mar 2023 00:37:10 PST (-0800), ben.dooks@codethink.co.uk wrote:
+> On 01/03/2023 21:59, Daniel Henrique Barboza wrote:
+>> From: Anup Patel <apatel@ventanamicro.com>
+>>
+>> The cbom-block-size fdt property property is used to inform the OS about
+>> the blocksize in bytes for the Zicbom cache operations.
+>>
+>> Linux documents it in Documentation/devicetree/bindings/riscv/cpus.yaml
+>> as:
+>>
+>>    riscv,cbom-block-size:
+>>      $ref: /schemas/types.yaml#/definitions/uint32
+>>      description:
+>>        The blocksize in bytes for the Zicbom cache operations.
+>>
+>> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+>> ---
+>>   hw/riscv/virt.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+>> index 49acb57da4..31b55cc62f 100644
+>> --- a/hw/riscv/virt.c
+>> +++ b/hw/riscv/virt.c
+>> @@ -244,6 +244,12 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+>>           name = riscv_isa_string(cpu_ptr);
+>>           qemu_fdt_setprop_string(ms->fdt, cpu_name, "riscv,isa", name);
+>>           g_free(name);
+>> +
+>> +        if (cpu_ptr->cfg.ext_icbom) {
+>> +            qemu_fdt_setprop_cell(ms->fdt, cpu_name, "riscv,cbom-block-size",
+>> +                                  cpu_ptr->cfg.cbom_blocksize);
+>> +        }
+>> +
+>>           qemu_fdt_setprop_string(ms->fdt, cpu_name, "compatible", "riscv");
+>>           qemu_fdt_setprop_string(ms->fdt, cpu_name, "status", "okay");
+>>           qemu_fdt_setprop_cell(ms->fdt, cpu_name, "reg",
+>
+> You'll need the same for riscv,cboz-block-size as well.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 47143edb4f6c..a6efd8e8dd11 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2927,6 +2927,8 @@ void cpu_register_map_client(QEMUBH *bh)
->       qemu_mutex_lock(&map_client_list_lock);
->       client->bh = bh;
->       QLIST_INSERT_HEAD(&map_client_list, client, link);
-> +    /* Write map_client_list before reading in_use.  */
-> +    smp_mb();
->       if (!qatomic_read(&bounce.in_use)) {
->           cpu_notify_map_clients_locked();
->       }
-> @@ -3116,6 +3118,7 @@ void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
->       qemu_vfree(bounce.buffer);
->       bounce.buffer = NULL;
->       memory_region_unref(bounce.mr);
-> +    /* Clear in_use before reading map_client_list.  */
->       qatomic_mb_set(&bounce.in_use, false);
->       cpu_notify_map_clients();
->   }
-
+Thanks.  There's a v2 over here 
+<https://lore.kernel.org/qemu-devel/20230302091406.407824-1-dbarboza@ventanamicro.com/> 
+that adds both.  The subject changed for the v2.
 
