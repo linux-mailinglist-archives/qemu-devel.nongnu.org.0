@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC46B6AB1E2
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 20:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AB86AB1EC
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 20:40:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYu9m-0002AK-UO; Sun, 05 Mar 2023 14:36:30 -0500
+	id 1pYuDY-0003hB-Ez; Sun, 05 Mar 2023 14:40:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYu9k-0002A3-Mb
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:36:28 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pYuDN-0003fr-Hq
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:40:15 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYu9j-0003VY-7O
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:36:28 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- p3-20020a17090ad30300b0023a1cd5065fso7024910pju.0
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 11:36:26 -0800 (PST)
+ id 1pYuDM-000415-0b
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 14:40:13 -0500
+Received: by mail-pl1-x642.google.com with SMTP id ky4so8060962plb.3
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 11:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678044985;
+ d=linaro.org; s=google; t=1678045210;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=i7Bml0enZKea1ASVMp87cpL2X0fx2QbH5EQoc4hZHy4=;
- b=C//Mu7D0ca/8lVo0ZkV1lvTStvsqsD8Fe1nMncSvn4y33ycWxyj1/ihxxRsIzjt/It
- q0Lx8yOYNZIeDX8ix5GqwEkXpKVlJ5atav4tfaMSb+VWhn8puTLTCYUGWEWQd/IgjUeb
- 22Ej5nehZxuP03Fbwz7buj2l/SOeXLKSdv9X6LgdjiCBtzKj5+EQbPok5YhLdxX46rai
- tkXzAKUQcebpUTH1dwrVk14pX1U37RZ0e8suW1fy/oXPRUaL03t9pzao9e38Bx+J4164
- D+T55P3vURftqkkG1Lt3AMgHXjZXnz/Oky8/vp3VXzJq84Nef4+L/Q7xGx++s2GKwtv6
- +3CA==
+ bh=q8V6VN4dIg5GeMwdP9RwHnaEWv8+L81LouLBxL9MY+g=;
+ b=C46tVgYD0tBn2HRpEVSwcaKM2/Cv8fp8DJORRC26AcI9Bl9iwuPYaCavEB4JVKMvyg
+ v4YrcZ9YvN5O7yEreY/KyDsfat23lCcHKc2iD4nVLp8Tu56G2onAvnOE2lAJoNnv+Pc/
+ S68scFmUmHVvusyXI0SWLw7O+FXrvGRMR+s7KaNCv6Qhp6uTFh2J1pvWP2Toq9pWL5eG
+ TUzmZZ2J8tDy1jgnIaXx9PSOvUYa2Ka86eGKIxL6AbpKV6s0liP2kpGAfp34i7xZYrr1
+ a6py3kq2MiIeHfOXngzr3WL92bNi6N+2bioTCzjp1+mpxMXhZhxFPJrARBRqraRJIEFo
+ f79w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678044985;
+ d=1e100.net; s=20210112; t=1678045210;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i7Bml0enZKea1ASVMp87cpL2X0fx2QbH5EQoc4hZHy4=;
- b=5pVkZ58U/sRkaK8IYcdwjHCUpO5753Uj3kgT86ug5tWOeH+PQ6HtgMaJpUBjqNmJKD
- FA0NVlCbGVv2jSwumrPDlORH/h+IDh9JJbhwXDpBpyJWbWWwn3f15iA0OlAd1YztzhEc
- gbUTmWVp90Qz1RAm5E3CBD2/XBrhn8IKSA2SDMtHaXgdYTi8wrQO2nket+K5+Sopyjnq
- cLfS5XqjHkfEt91cTg5K9C1PIvHpCdqfjCB4tzAzJomijPIiJwUkou2Ex3ltV9Xj5Lwp
- sZHcIBVNn8rL9LnjALaUb7c9FWViybuw6yVJWnI6mIp7r5CeNZXJ0GUlL29CNtNULBDj
- NUdQ==
-X-Gm-Message-State: AO0yUKX05pItXmaUREtrvJoqZr1nLqy/x2zl74SqEmWIH1TRE1N7MSHo
- qEjQzSIRTH6AGASImPjv7p/WKA==
-X-Google-Smtp-Source: AK7set8NjqmxQ9fK+xJ6vtY0pB68fzwLcSlCLx3sTeo4t9xyn6NOBbM8ej3+LlAM/XD5oKbf937ITQ==
-X-Received: by 2002:a17:902:ab90:b0:19d:1e33:a60d with SMTP id
- f16-20020a170902ab9000b0019d1e33a60dmr7574014plr.25.1678044985583; 
- Sun, 05 Mar 2023 11:36:25 -0800 (PST)
+ bh=q8V6VN4dIg5GeMwdP9RwHnaEWv8+L81LouLBxL9MY+g=;
+ b=qicyEH9RVZwflYiUnhIQ2rxdOrJ1dQWwOf7vhTFIusL1Si/eLSTCaAtqTYVdzzrx3O
+ XeM47KBjWw0UoSev4kFHqthTPRhWZcQlPoMaHmW9jrTG9CHUqWRHezZJrzZidNsGKXsZ
+ x83sDdSnYRQZfSdu4ZVqkBRHc0MDpcezH/fDQodygR8sZwZPc7sPZFJkEsO2J7+ld7dr
+ TeH2B5RvDbC1KsVgls2XvzGLTRyfdSS/WaNn8hJOCCB66wjROt8JyqIo1+wfAlHUNxIh
+ 7C0KdOgFUEgS6YvkDPQnkhJMDo4raxKxj6EwQ9gTynU8z/HgGicpguYVB5VTRXuPUgCO
+ +1pA==
+X-Gm-Message-State: AO0yUKXmSeTSepaqKEL53VaEQsnSLzG4N8zpJYzkt73RGf0qrhpCyxNf
+ hN+Wv4GYdOiu9wBG1GjDfQonBA==
+X-Google-Smtp-Source: AK7set/v7ljAzLLK4ANI25nBgB9h2D83/3bYvB26/HfWdOBDuqXby9sTKpmZ10EE/6rY7DT9wg6ezg==
+X-Received: by 2002:a05:6a20:6a0c:b0:cc:a93:2b82 with SMTP id
+ p12-20020a056a206a0c00b000cc0a932b82mr11174767pzk.58.1678045210213; 
+ Sun, 05 Mar 2023 11:40:10 -0800 (PST)
 Received: from ?IPV6:2602:ae:154a:9f01:d15:390f:de71:e264?
  ([2602:ae:154a:9f01:d15:390f:de71:e264])
  by smtp.gmail.com with ESMTPSA id
- ka14-20020a170903334e00b0019ccded6a46sm5090249plb.228.2023.03.05.11.36.24
+ c18-20020aa781d2000000b005a8b4dcd21asm5059067pfn.15.2023.03.05.11.40.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Mar 2023 11:36:25 -0800 (PST)
-Message-ID: <ea7a70b3-829c-9725-f960-f942b68d5279@linaro.org>
-Date: Sun, 5 Mar 2023 11:36:22 -0800
+ Sun, 05 Mar 2023 11:40:09 -0800 (PST)
+Message-ID: <890c61a1-a25f-e8a9-5ff7-db49b05b6935@linaro.org>
+Date: Sun, 5 Mar 2023 11:40:07 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 7/8] qemu-coroutine-lock: add smp_mb__after_rmw()
+Subject: Re: [PATCH 8/8] physmem: add missing memory barrier
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: gshan@redhat.com, eesposit@redhat.com, david@redhat.com,
  stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
 References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-8-pbonzini@redhat.com>
+ <20230303171939.237819-9-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230303171939.237819-8-pbonzini@redhat.com>
+In-Reply-To: <20230303171939.237819-9-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,23 +97,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/3/23 09:19, Paolo Bonzini wrote:
-> mutex->from_push and mutex->handoff in qemu-coroutine-lock implement
-> the familiar pattern:
-> 
->     write a                                  write b
->     smp_mb()                                 smp_mb()
->     read b                                   read a
-> 
-> The memory barrier is required by the C memory model even after a
-> SEQ_CST read-modify-write operation such as QSLIST_INSERT_HEAD_ATOMIC.
-> Add it and avoid the unclear qatomic_mb_read() operation.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   util/qemu-coroutine-lock.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+>   softmmu/physmem.c | 3 +++
+>   1 file changed, 3 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+> 
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 47143edb4f6c..a6efd8e8dd11 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2927,6 +2927,8 @@ void cpu_register_map_client(QEMUBH *bh)
+>       qemu_mutex_lock(&map_client_list_lock);
+>       client->bh = bh;
+>       QLIST_INSERT_HEAD(&map_client_list, client, link);
+> +    /* Write map_client_list before reading in_use.  */
+> +    smp_mb();
+>       if (!qatomic_read(&bounce.in_use)) {
+>           cpu_notify_map_clients_locked();
+>       }
+> @@ -3116,6 +3118,7 @@ void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
+>       qemu_vfree(bounce.buffer);
+>       bounce.buffer = NULL;
+>       memory_region_unref(bounce.mr);
+> +    /* Clear in_use before reading map_client_list.  */
+>       qatomic_mb_set(&bounce.in_use, false);
+>       cpu_notify_map_clients();
+>   }
+
 
