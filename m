@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1366AB19A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 18:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCF56AB19B
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 18:43:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYsGQ-00037u-9L; Sun, 05 Mar 2023 12:35:14 -0500
+	id 1pYsNZ-0004zZ-EB; Sun, 05 Mar 2023 12:42:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pYsGL-00036p-3s
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 12:35:09 -0500
-Received: from mailout12.t-online.de ([194.25.134.22])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pYsGJ-0000vi-2Y
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 12:35:08 -0500
-Received: from fwd74.dcpf.telekom.de (fwd74.aul.t-online.de [10.223.144.100])
- by mailout12.t-online.de (Postfix) with SMTP id 60482FC70;
- Sun,  5 Mar 2023 18:35:01 +0100 (CET)
-Received: from [192.168.211.200] ([84.175.228.75]) by fwd74.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pYsGD-2DRygj0; Sun, 5 Mar 2023 18:35:01 +0100
-Message-ID: <d34d7510-56c2-e681-25de-58a368c179ee@t-online.de>
-Date: Sun, 5 Mar 2023 18:35:00 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pYsNW-0004z2-2r
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 12:42:34 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pYsNT-0002PL-Jh
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 12:42:32 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 130so4202453pgg.3
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 09:42:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678038139;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=thQWhSJiyjxgla1yzR36+aQfkzlNMaRAC/3Ew+D0BIU=;
+ b=WizpzVvERdQjrs5Wgkoi2SNj+F5o3LKz8XXxUE+YTrhDGysNMP5HWisD26nDpR/JjD
+ 0MUHHSBwMDUDW8WF5yPjiLT+WojQAfWSvK4NRykYCWFSQJxOPqCZrrEddMkhNA1LGN27
+ 8xAi95gJ3EWLi0jAj3B8c514tOaAuLQ3pT7dHI05ipZ8maGQ34oCGwjCC3A0QaFc9ubs
+ 5OVeQAT6o1SRfyEIahAuryXX25X44V1H9j1fMhxsI3TurFsm7+AXqDlG5PUMB0g9XeYr
+ pgtalrBbLHvpxTTtoAQvrDf4PSMZ1sHHl2MdFTYHkyKid1NkSIpR1F9X3+qys2wzFQB4
+ uBSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678038139;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=thQWhSJiyjxgla1yzR36+aQfkzlNMaRAC/3Ew+D0BIU=;
+ b=N/GDAk+3Uh1pWvu3Lr42+c7hhn28k3IjFgI624VbUHCCs+73uiJvqx5f7wzHC1zv9D
+ bUUsYf59Rjnr87R+/JY5f4FqErLvWKE3iVy96jfgwS8P12jYqAwv47RuS0V9C13xhSQs
+ C+mmvIxHZLlWqEaMrTjbPyw4vyjWXYWbLYUHq1+Jp7c1ruS0VzIkw1Htly3t5Grt+UJK
+ 4jeVvYmiyK8f9CVUridi5cTxZwUskzFeJpIg92HjULMTCSQtaByF4+8qC0x9lLtFmZKg
+ J80iC8gjX1Q+ZaVnECb+k5JGQIZB6NzvAbi5nKesgjHN6m20jSAkD7NxJzrSzANSbSMX
+ z6ng==
+X-Gm-Message-State: AO0yUKUbmS9o5tTGwF8+BIWmVvulHWb297N61TdK2ZBAAGd5Vo07FPOY
+ jrsE6b+DlVF+S9GYbs0uXj3/gXN8ksDUzBzZTuZYng==
+X-Google-Smtp-Source: AK7set/60sMPl+MEkC8vjji95EerLgwl8zXN1VVd6PT/+a8jnDGACA1RKLHG8UbNPH1xf4N/5hcvuJyqUvC06RZIECc=
+X-Received: by 2002:a62:ce4e:0:b0:5a9:c22e:7764 with SMTP id
+ y75-20020a62ce4e000000b005a9c22e7764mr3417591pfg.5.1678038139081; Sun, 05 Mar
+ 2023 09:42:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 00/11] audio: more improvements
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
-Content-Language: en-US
-In-Reply-To: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1678037701-B0828007-4774BFA6/0/0 CLEAN NORMAL
-X-TOI-MSGID: d46fc75b-5994-4036-a464-f3c7aef4b709
-Received-SPF: none client-ip=194.25.134.22; envelope-from=vr_qemu@t-online.de;
- helo=mailout12.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20230304181900.1097116-1-richard.henderson@linaro.org>
+ <20230304181900.1097116-19-richard.henderson@linaro.org>
+In-Reply-To: <20230304181900.1097116-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 5 Mar 2023 17:42:07 +0000
+Message-ID: <CAFEAcA-WRYi-KN06motQp2Pk086AOqvRNZrDmh_V6LCNeN9Cww@mail.gmail.com>
+Subject: Re: [PATCH v3 18/20] target/tricore: Drop tcg_temp_free
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,69 +84,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping. Is there anything left to do to get this patch series merged for 
-8.0? All patches are reviewed.
+On Sat, 4 Mar 2023 at 18:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Translators are no longer required to free tcg temporaries.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> ---
+>  target/tricore/translate.c | 540 +------------------------------------
+>  1 file changed, 4 insertions(+), 536 deletions(-)
 
-With best regards,
-Volker
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> A few patches from my audio patch queue.
->
-> Patches 1 - 2:
-> If a guest selects an unsupported sample rate, an error message is 
-> currently shown. The first patch takes care to suppress the error 
-> message and reports with the qemu_log_mask(LOG_UNIMP, ...) function 
-> that this is not supported. The second patch is needed because there 
-> are two code paths to reach the qemu_log_mask() function in the 
-> audio_pcm_sw_alloc_resources_* functions. The second path prints an 
-> additional error message up to now.
->
-> For more background information:
-> https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg04940.html
->
-> Patches 3 - 4:
-> General improvements.
->
-> Patches 5 - 9:
-> These patches remove the audio_calloc() function. The GLib g_new0 
-> macro is a better replacement for audio_calloc(). There's one 
-> exception where g_malloc0() fits better.
->
-> Patches 10 - 11:
-> Audio playback and recording with the ALSA audio backend currently 
-> doesn't work well with the default audio settings.
->
-> v2: Address Daniel's comments
->
-> [PATCH v2 07/11] audio/audio_template: use g_malloc0() to replace 
-> audio_calloc()
-> The n_bytes argument of g_malloc0() is now always > 0 at this call site.
->
-> [PATCH v2 08/11] audio/audio_template: use g_new0() to replace 
-> audio_calloc()
-> Check samples for negative values. It's possible to have negative 
-> samples due to overflows or unsigned to signed conversions. Patch 
-> 01/11 takes care of samples == 0.
->
-> Volker Rümelin (11):
->   audio: log unimplemented audio device sample rates
->   audio: don't show unnecessary error messages
->   audio: rename hardware store to backend
->   audio: remove unused #define AUDIO_STRINGIFY
->   audio/mixeng: use g_new0() instead of audio_calloc()
->   audio/alsaaudio: use g_new0() instead of audio_calloc()
->   audio/audio_template: use g_malloc0() to replace audio_calloc()
->   audio/audio_template: use g_new0() to replace audio_calloc()
->   audio: remove audio_calloc() function
->   alsaaudio: change default playback settings
->   alsaaudio: reintroduce default recording settings
->
->  audio/alsaaudio.c      | 27 ++++++-----------
->  audio/audio.c          | 26 +---------------
->  audio/audio_int.h      |  8 ++---
->  audio/audio_template.h | 68 ++++++++++++++++++++++--------------------
->  audio/mixeng.c         |  7 +----
->  5 files changed, 48 insertions(+), 88 deletions(-)
->
-
+thanks
+-- PMM
 
