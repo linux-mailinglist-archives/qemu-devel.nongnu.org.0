@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBA56AAEA0
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 09:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945246AAED7
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 10:43:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYk4P-00029h-VH; Sun, 05 Mar 2023 03:50:17 -0500
+	id 1pYktC-0006DT-1u; Sun, 05 Mar 2023 04:42:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pYk4N-00027h-Pl; Sun, 05 Mar 2023 03:50:15 -0500
-Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pYk4M-0002Ke-83; Sun, 05 Mar 2023 03:50:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
- s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Tp4pZPSq6rNgQROm93gbPxqatAHIwtyqkMWTrPcWtx8=; b=Inwd9MfClmxCwozKE0+vNUL+0q
- j8dv/8/A8DzAhtvpRwotI5gelU1g5wANzoHfqz58gMiE/NdPbwR4sIiTeQEym5En5Y1zgdAqfm/K7
- Jq2IShLUHnx/kMZiNa3n4KgrRRQLVnGN3oR/DhqLWNUp4eHEwGGCpPN07MTf7JBWTmObZTxAIic7m
- YXAWCTCYdrNtdDciJuKJQc72gjEwZCjzuDWW8dWbmRNL61yePuad3lgZTRg0Lj/wSiLcSO+PRmXju
- FsTjTSRLZC11E2017CTur+Hs9jfNGnxPX4h9FK37kHJFsaaJE7nO+PVHYBQ64d3vdJPb41N5mVrgf
- frI/Jt4g==;
-Received: from [102.39.141.34] (helo=pc220518)
- by lounge.grep.be with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <w@uter.be>)
- id 1pYk4I-0007IE-3K; Sun, 05 Mar 2023 09:50:10 +0100
-Received: from wouter by pc220518 with local (Exim 4.96)
- (envelope-from <w@uter.be>) id 1pYk4A-000Shz-2e;
- Sun, 05 Mar 2023 10:50:02 +0200
-Date: Sun, 5 Mar 2023 10:50:02 +0200
-From: Wouter Verhelst <w@uter.be>
-To: Eric Blake <eblake@redhat.com>
-Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- libguestfs@redhat.com
-Subject: Re: [PATCH v2 5/6] spec: Introduce NBD_FLAG_BLOCK_STATUS_PAYLOAD
-Message-ID: <ZARXutZx3uhr0oPy@pc220518.home.grep.be>
-References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-6-eblake@redhat.com>
- <Y/Xo+DGAYSZ4bQvK@pc220518.home.grep.be>
- <20230303224038.sxhd6enenp4v7gpa@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230303224038.sxhd6enenp4v7gpa@redhat.com>
-X-Speed: Gates' Law: Every 18 months, the speed of software halves.
-Organization: none
-Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
- helo=lounge.grep.be
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1pYktA-0006D7-0M
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 04:42:44 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1pYkt8-0003pV-Ds
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 04:42:43 -0500
+Received: by mail-pl1-x631.google.com with SMTP id i10so7111557plr.9
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 01:42:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sifive.com; s=google; t=1678009360;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GlgkKu1CRJZr5VGiduBiYlhIVjAqnmbX22PzeLyT940=;
+ b=NDv1hXxikpePKHGjgvBJJAP8eWeaqnMPkbs3DmzHxQjpZfcr/slY5WNrVyt1ytjF0c
+ cQA8dTYSVwekejbJvm0go6neLD3TbJANnddxJOxluC2F5mQ/T/SY13RAhjqKk8fMu57b
+ Ar5lRr+YpAn8WdfXD2lZQVfHJIdmbqOdQ0dAUHO19TFITmRnJUlrqQuRPJ1GGO4Eo9vs
+ s79gqQ61VuNQ968yi08WZJ86w3TSPfWrHCFNCZd3fNsaWTjLOrTlJIujpCszA+6epqq2
+ 9Tq+Vko/5Aoaptz12BUZ6rj9vnzzIOfGVs4jVeYGhMTPQwvNSWUsEETguYKMmfEo+JZ4
+ rUQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678009360;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GlgkKu1CRJZr5VGiduBiYlhIVjAqnmbX22PzeLyT940=;
+ b=4IlACWzee1iVnXQLQ6gEIDzHBJZ0Pq41w7tgk3HyjO6DyNk07LRxWU9QUEG7YePIbJ
+ ZuUm3qAwtqe23pfnnCm9naMkjHS2BE/yZJEVm2kifodmxTFC1ZbyqISRSvzDesFWlOrI
+ j1fQDAZdiw9yS/bySCI1FiJz7gICH94IO7lJfF4VEGuQc0M9KRZAYhuhJRMEY3gTsAKn
+ gLfgUeIG5jg1IB4uUlV4fy7LBptVJPNtoeTzJfL9qt0cXxnzdAXGzQsvh5w+fVpPM0tB
+ z7OIZl33Uz5u9muMyYU6kUy+V6LnZrnszECeczJdqYxAn9zS131a3VWgv7f+LdNeN8bt
+ NW9A==
+X-Gm-Message-State: AO0yUKUq5AaRl5N+EyZ6i+5R5QnB1khnV41zfhptVf02u2VhFmITYerO
+ iWEjvjGyuDmqkjOUL7xo0rTRdnKFldC8jgDFAk0JQ9/0s3LtBHCwbWkGj1BWM0GTIWYSysTS0nz
+ C7i2/03FfUPX/udfalpryyInR9e5AmCM6QcDkqnud4FugXG3wJcDwALSfoDsufSFVV9DeRlUb
+X-Google-Smtp-Source: AK7set/TYjE8e3MR4nPsemIxxy7S9bR+y+UDF5cuUBAEnsB1IjUPY2PM5FrPkE1PnklRgpy5SpB9jg==
+X-Received: by 2002:a17:903:2290:b0:19c:dbce:dce8 with SMTP id
+ b16-20020a170903229000b0019cdbcedce8mr9389284plh.15.1678009360281; 
+ Sun, 05 Mar 2023 01:42:40 -0800 (PST)
+Received: from hsinchu25.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a170902d20300b0019adbef6a63sm4448469ply.235.2023.03.05.01.42.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Mar 2023 01:42:39 -0800 (PST)
+From: Jim Shu <jim.shu@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Jim Shu <jim.shu@sifive.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: [PATCH 1/2] target/riscv: Expose "virt" register for GDB for reads
+Date: Sun,  5 Mar 2023 09:42:28 +0000
+Message-Id: <20230305094231.1616-1-jim.shu@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=jim.shu@sifive.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,53 +94,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 03, 2023 at 04:40:38PM -0600, Eric Blake wrote:
-> On Wed, Feb 22, 2023 at 12:05:44PM +0200, Wouter Verhelst wrote:
-> > On Mon, Nov 14, 2022 at 04:46:54PM -0600, Eric Blake wrote:
-> > >  #### Simple reply message
-> > > 
-> > > @@ -1232,6 +1235,19 @@ The field has the following format:
-> > >    will be faster than a regular write). Clients MUST NOT set the
-> > >    `NBD_CMD_FLAG_FAST_ZERO` request flag unless this transmission flag
-> > >    is set.
-> > > +- bit 12, `NBD_FLAG_BLOCK_STATUS_PAYLOAD`: Indicates that the server
-> > > +  understands the use of the `NBD_CMD_FLAG_PAYLOAD_LEN` flag to
-> > > +  `NBD_CMD_BLOCK_STATUS` to allow the client to request that the
-> > > +  server filters its response to a specific subset of negotiated
-> > > +  metacontext ids passed in via a client payload, rather than the
-> > > +  default of replying to all metacontext ids. Servers MUST NOT
-> > > +  advertise this bit unless the client successfully negotiates
-> > > +  extended headers via `NBD_OPT_EXTENDED_HEADERS`, and SHOULD NOT
-> > > +  advertise this bit in response to `NBD_OPT_EXPORT_NAME` or
-> > > +  `NBD_OPT_GO` if the client does not negotiate metacontexts with
-> > > +  `NBD_OPT_SET_META_CONTEXT`; clients SHOULD NOT set the
-> > > +  `NBD_CMD_FLAG_PAYLOAD_LEN` flag for `NBD_CMD_BLOCK_STATUS` unless
-> > > +  this transmission flag is set.
-> > 
-> > Given that we are introducing this at the same time as the extended
-> > headers (and given that we're running out of available flags in this
-> > 16-bit field), isn't it better to make the ability to understand
-> > PAYLOAD_LEN be implied by extended headers? Or is there a use case for
-> > implementing extended headers but not a payload length on
-> > CMD_BLOCK_STATUS that I'm missing?
-> 
-> In my proof of implementation, this was a distinct feature addition on
-> top of 64-bit headers.
-> 
-> It is easy to write a server that does not want to deal with a client
-> payload on a block status request (for example, a server that only
-> knows about one metacontext, and therefore never needs to deal with a
-> client wanting a subset of negotiated metacontexts).  Forcing a server
-> to have to support a client-side filtering request on block status
-> commands, merely because the server now supports 64-bit lengths,
-> seemed like a stretch too far, which is why I decided to use a feature
-> bit for this one.
+This patch enables a debugger to read current virtualization mode via
+virtual "virt" register. After it, we could get full current privilege
+mode via both "priv" and "virt" register.
 
-Okay, yes, that makes sense. Thanks.
+Extend previous commit ab9056ff9bdb3f95db6e7a666d10522d289f14ec to
+support H-extension.
 
+Signed-off-by: Jim Shu <jim.shu@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+---
+ gdb-xml/riscv-32bit-virtual.xml |  1 +
+ gdb-xml/riscv-64bit-virtual.xml |  1 +
+ target/riscv/gdbstub.c          | 12 ++++++++----
+ 3 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/gdb-xml/riscv-32bit-virtual.xml b/gdb-xml/riscv-32bit-virtual.xml
+index 905f1c555d..d44b6ca2dc 100644
+--- a/gdb-xml/riscv-32bit-virtual.xml
++++ b/gdb-xml/riscv-32bit-virtual.xml
+@@ -8,4 +8,5 @@
+ <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+ <feature name="org.gnu.gdb.riscv.virtual">
+   <reg name="priv" bitsize="32"/>
++  <reg name="virt" bitsize="32"/>
+ </feature>
+diff --git a/gdb-xml/riscv-64bit-virtual.xml b/gdb-xml/riscv-64bit-virtual.xml
+index 62d86c237b..7c9b63d5b6 100644
+--- a/gdb-xml/riscv-64bit-virtual.xml
++++ b/gdb-xml/riscv-64bit-virtual.xml
+@@ -8,4 +8,5 @@
+ <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+ <feature name="org.gnu.gdb.riscv.virtual">
+   <reg name="priv" bitsize="64"/>
++  <reg name="virt" bitsize="64"/>
+ </feature>
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 6048541606..1755fd9d51 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -187,13 +187,17 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
+ 
+ static int riscv_gdb_get_virtual(CPURISCVState *cs, GByteArray *buf, int n)
+ {
+-    if (n == 0) {
+ #ifdef CONFIG_USER_ONLY
++    if (n >= 0 && n <= 1) {
+         return gdb_get_regl(buf, 0);
++    }
+ #else
++    if (n == 0) {
+         return gdb_get_regl(buf, cs->priv);
+-#endif
++    } else if (n == 1) {
++        return gdb_get_regl(buf, riscv_cpu_virt_enabled(cs));
+     }
++#endif
+     return 0;
+ }
+ 
+@@ -328,13 +332,13 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+     case MXL_RV32:
+         gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+                                  riscv_gdb_set_virtual,
+-                                 1, "riscv-32bit-virtual.xml", 0);
++                                 2, "riscv-32bit-virtual.xml", 0);
+         break;
+     case MXL_RV64:
+     case MXL_RV128:
+         gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+                                  riscv_gdb_set_virtual,
+-                                 1, "riscv-64bit-virtual.xml", 0);
++                                 2, "riscv-64bit-virtual.xml", 0);
+         break;
+     default:
+         g_assert_not_reached();
 -- 
-     w@uter.{be,co.za}
-wouter@{grep.be,fosdem.org,debian.org}
+2.17.1
 
-I will have a Tin-Actinium-Potassium mixture, thanks.
 
