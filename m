@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591BC6AAEF2
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 11:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5A56AAF06
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 11:27:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYlJ5-0003sv-Md; Sun, 05 Mar 2023 05:09:31 -0500
+	id 1pYlZB-0007Ew-8b; Sun, 05 Mar 2023 05:26:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pYlJ3-0003sf-Lt
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 05:09:29 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pYlZ9-0007EZ-5j
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 05:26:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pYlJ0-0007zW-QJ
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 05:09:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pYlZ4-0002jx-HK
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 05:26:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678010963;
+ s=mimecast20190719; t=1678011961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=D3VYHQ4PlqwkN8xjpHytmxDsbfPL+rHNcX9cwZegjfY=;
- b=KzggmZBYiX1M+sLKt0z1NHZqNj59Rt5C23XJIGDEnQh3G43ehAXKGIdUK0bq7iXF5b8hQj
- CnoqKlpE2HQuXyZmhfY16CmcwR67haVxXarz2I70VuZw3RAEFgv1+0e8SjBGI3EuGmZiNR
- zPDQT9DcIFZvCA4veuSuSLow6ZGxz6c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PGyyHi6P+HWUT3daphuhNll3VnybjufIzkbL4BmY1JI=;
+ b=NM145ndNZHab2qNaHmiwER9viV5Sg56GvaRLy+eCOvrscA1uZkJo8wUtB+/Hwwkkiv0LbB
+ uar1FJuxIC1/VvFhLUWiGS6CEINe21rZhIh/0agOaouUqlkLMEEI8nBT8Ml8vvvA3q0id/
+ Cl4KWHkAjKL1xr7WFJ+fWWZ65TItj+M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-223-DltraFMuPBONqz5yHXQhMQ-1; Sun, 05 Mar 2023 05:09:22 -0500
-X-MC-Unique: DltraFMuPBONqz5yHXQhMQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r7-20020a05600c35c700b003eb3f2c4fb4so2614012wmq.6
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 02:09:22 -0800 (PST)
+ us-mta-227-Lc87l1-qMuSRAtmarDJzYQ-1; Sun, 05 Mar 2023 05:25:59 -0500
+X-MC-Unique: Lc87l1-qMuSRAtmarDJzYQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x3-20020a5d6503000000b002c8c421fdfaso942641wru.15
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 02:25:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678010962;
+ d=1e100.net; s=20210112; t=1678011958;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=D3VYHQ4PlqwkN8xjpHytmxDsbfPL+rHNcX9cwZegjfY=;
- b=oVvj1Eth3kCugfvnyTUKBBRwmax0KHO5UG7qbzkHGrbHWLK9YehyUk3dIiEBDAHhUx
- piGHh/+Q33ycBRuaflBKbY8MuPXc+htdWQ46Meko4N8hC/mLdTjURxQNdlYEirK3eWKJ
- EvJkOZQEOvQfnS5f426Yp4qC1qEzenbs5cwUAcCUjbblDC2nAttN5JaxVV32oZxx2gl1
- bLWYtrIV6Dxv3LWCq7F8/BpHKs8mUrdZaWK21JIan8wlaEmBl75UPSlWqTcTjq086t49
- bT2v6oBsJtGtAZw+vpkCyezirxXyMxcyMCqarRXemI50Cv7QfpEYy2A2atU7/uys7iUh
- +1xA==
-X-Gm-Message-State: AO0yUKVbfFAEPGI4ThK9YcKHHKghdXUYi4thAqSYzD7iLYnK+jwjlwCl
- g3pXew3tRuSXmdH4OCTatM8v1y2Mt3ZZtycvbaMwIP74q64tqtvDF9qcYqrHwLo9sTerfPkvats
- 8kbL1VMhNe2mvXWA=
-X-Received: by 2002:a05:600c:3548:b0:3dc:5390:6499 with SMTP id
- i8-20020a05600c354800b003dc53906499mr6655965wmq.1.1678010961885; 
- Sun, 05 Mar 2023 02:09:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set+URKRXmC0GV0fTXjL81xKWzVQj26hG/dXpwdaDR1u1LGow4fctGbG6Wpqp7X3ADBGEtfaHBQ==
-X-Received: by 2002:a05:600c:3548:b0:3dc:5390:6499 with SMTP id
- i8-20020a05600c354800b003dc53906499mr6655945wmq.1.1678010961586; 
- Sun, 05 Mar 2023 02:09:21 -0800 (PST)
+ bh=PGyyHi6P+HWUT3daphuhNll3VnybjufIzkbL4BmY1JI=;
+ b=jXGR/TDU6QH1xxaMs7Sw909tUObeykmYZH02W/D6b1PRefnRlRPFsnEVmfdgBpyNVK
+ fKPpHdnthXCK+gRANCj2e8ZDrOcPVbrWPW8VncfXrjBqZp6q8EIy9Mn5FfR8x2a1ryLB
+ IRyj/jGY+xUrj7SSPn5MXQvDev0ACkblpzHg2czNMiI+Nr9mR/oVSzmHixWT6kp6uG9r
+ X8k/CrZ7FpltQmxmTQuKxO8Qp3lKJaREUXC4G/5LKD+VTUw4zQnOYiulg8hOpk6rP9RN
+ XngKXnXIkEK36CyL375iD7XyQab7lKOwHtMJG1sQtJjolxOlvcUhUzQ7BAL3ZbymoLHm
+ fllg==
+X-Gm-Message-State: AO0yUKVvEBI3H3JSJb2UBqglDJvMSS46LQoU68mRz/+nXO0udL7yBW6x
+ bWgyohnAghhquMNYV2F2O675P4sBaz9q+7bWrAbbfDToRV5xS40T7c2WPatwPGpIsicy0Kvwyem
+ lKTXsXKumrT0X4vI=
+X-Received: by 2002:a05:600c:1c20:b0:3eb:3945:d3f9 with SMTP id
+ j32-20020a05600c1c2000b003eb3945d3f9mr6755476wms.4.1678011958725; 
+ Sun, 05 Mar 2023 02:25:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set+CFh3cFlhhtVuYk3BNjRY6Lgukz0wp6kbvQzCASKP6N9SKEnzBXlVoenItaa//fu+j/apzRQ==
+X-Received: by 2002:a05:600c:1c20:b0:3eb:3945:d3f9 with SMTP id
+ j32-20020a05600c1c2000b003eb3945d3f9mr6755463wms.4.1678011958461; 
+ Sun, 05 Mar 2023 02:25:58 -0800 (PST)
 Received: from redhat.com ([2.52.23.160]) by smtp.gmail.com with ESMTPSA id
- w34-20020a05600c09a200b003e21f959453sm7279615wmp.32.2023.03.05.02.09.19
+ l3-20020a1c7903000000b003e7c89b3514sm10594854wme.23.2023.03.05.02.25.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 02:09:21 -0800 (PST)
-Date: Sun, 5 Mar 2023 05:09:17 -0500
+ Sun, 05 Mar 2023 02:25:58 -0800 (PST)
+Date: Sun, 5 Mar 2023 05:25:55 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v4 0/9] PC cleanups
-Message-ID: <20230305050831-mutt-send-email-mst@kernel.org>
-References: <20230213162004.2797-1-shentey@gmail.com>
- <776DAC15-E708-47BF-9EF6-D511731DF56D@gmail.com>
- <4A6D076C-5091-42A5-BB83-695B5BF2F04D@gmail.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PULL 14/53] virtio-rng-pci: fix transitional migration compat
+ for vectors
+Message-ID: <20230305052533-mutt-send-email-mst@kernel.org>
+References: <20230302082343.560446-1-mst@redhat.com>
+ <20230302082343.560446-15-mst@redhat.com>
+ <456fa17c-71b6-8aec-c38c-d7fbc907e150@msgid.tls.msk.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4A6D076C-5091-42A5-BB83-695B5BF2F04D@gmail.com>
+In-Reply-To: <456fa17c-71b6-8aec-c38c-d7fbc907e150@msgid.tls.msk.ru>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,172 +97,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Mar 05, 2023 at 07:45:55AM +0000, Bernhard Beschow wrote:
+On Sat, Mar 04, 2023 at 11:03:20PM +0300, Michael Tokarev wrote:
+> 02.03.2023 11:25, Michael S. Tsirkin wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > In bad9c5a516 ("virtio-rng-pci: fix migration compat for vectors") I
+> > fixed the virtio-rng-pci migration compatibility, but it was discovered
+> > that we also need to fix the other aliases of the device for the
+> > transitional cases.
+> > 
+> > Fixes: 9ea02e8f1 ('virtio-rng-pci: Allow setting nvectors, so we can use MSI-X')
+> > bz: https://bugzilla.redhat.com/show_bug.cgi?id=2162569
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Message-Id: <20230207174944.138255-1-dgilbert@redhat.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >   hw/core/machine.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index f29e700ee4..1cf6822e06 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -47,6 +47,8 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+> >   GlobalProperty hw_compat_7_1[] = {
+> >       { "virtio-device", "queue_reset", "false" },
+> >       { "virtio-rng-pci", "vectors", "0" },
+> > +    { "virtio-rng-pci-transitional", "vectors", "0" },
+> > +    { "virtio-rng-pci-non-transitional", "vectors", "0" },
+> >   };
 > 
+> If we consider this one for 7.2 stable, the previous change here, which
+> added "virtio-rng-pci" right before the lines being added, should also
+> be picked up, which is bad9c5a5166fd5e3a892b7b0477cf2f4bd3a959a:
+>  From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>  Date: Mon, 9 Jan 2023 10:58:09 +0000
+>  Subject: virtio-rng-pci: fix migration compat for vectors
 > 
-> Am 13. Februar 2023 16:45:05 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-> >
-> >
-> >Am 13. Februar 2023 16:19:55 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-> >>This series contains some cleanups I came across when working on the PC
-> >>
-> >>machines. It consists of reducing the usage of global variables and eliminating
-> >>
-> >>some redundancies.
-> >>
-> >>
-> >>
-> >>One notable change is that the SMRAM memory region gets moved from the i440fx
-> >>
-> >>and q35 host bridges into the x86 machine. This will simplify cleaning up these
-> >>
-> >>host bridges which will be done in a separate series. Note that the movement of
-> >>
-> >>the SMRAM memory region apparently doesn't change migration ABI for the pc and
-> >>
-> >>q35 machines (see below).
-> >>
-> >>
-> >>
-> >>Testing done:
-> >>
-> >>* `make check`
-> >>
-> >>' `make check-avocado`
-> >>
-> >>* `qemu-system-x86_64 -M q35 -m 2G -cdrom \
-> >>
-> >>   manjaro-kde-21.3.2-220704-linux515.iso`
-> >>
-> >>* `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
-> >>
-> >>* Confirm that JSON representation of migration files (pc & q35) are empty:
-> >>
-> >>  1. Create four migration files {pc,q35}-{before,after}.mig by running
-> >>
-> >>     `qemu-system-x86_64 -M {pc,q35} -S` with QEMU built from master and from
-> >>
-> >>     this series.
-> >>
-> >>  2. Run `./scripts/analyze-migration.py -d desc -f *.mig > *.json` on the four
-> >>
-> >>     files
-> >>
-> >>  3. Compare the diffs -> both are empty
-> >>
-> >>
-> >>
-> >>v4:
-> >>
-> >>* Remove ram_memory variable in pc_q35 completely (Zoltan)
-> >>
-> >
-> >The last two patches still need review. Comments welcome!
-> 
-> Ping
-> 
-> Can we queue the reviewed patches (all but the last two) already?
+> Should the two both be included in -stable, or both omitted?
 > 
 > Thanks,
-> Bernhard
+> 
+> /mjt
 
-Philippe objected to patch 1 - he suggested using
-pci_address_space_io.
+I'd say include.
 
-
-
-
-> >
-> >>
-> >>
-> >>v3:
-> >>
-> >>* Add three patches regarding init_pam() and SMRAM.
-> >>
-> >>* Drop 'hw/i386/pc_q35: Resolve redundant q35_host variable' since Phil posted
-> >>
-> >>  a similar patch in a more comprehensive series:
-> >>
-> >>  https://lore.kernel.org/qemu-devel/20230203180914.49112-13-philmd@linaro.org/
-> >>
-> >>* Drop 'hw/isa/lpc_ich9: Reuse memory and io address space of PCI bus' since
-> >>
-> >>  it inadvertantly changed the memory hierarchy.
-> >>
-> >>* Drop ICH9 cleanups again in favor of a separate series.
-> >>
-> >>
-> >>
-> >>v2:
-> >>
-> >>* Factor out 'hw/i386/pc_q35: Reuse machine parameter' from 'hw/i386/pc_q35:
-> >>
-> >>  Resolve redundant q35_host variable' (Zoltan)
-> >>
-> >>* Lower type of phb to Object in 'hw/i386/pc_q35: Resolve redundant q35_host
-> >>
-> >>  variable' (Zoltan)
-> >>
-> >>* Add ICH9 cleanups
-> >>
-> >>
-> >>
-> >>Bernhard Beschow (9):
-> >>
-> >>  hw/pci-host/i440fx: Inline sysbus_add_io()
-> >>
-> >>  hw/pci-host/q35: Inline sysbus_add_io()
-> >>
-> >>  hw/i386/pc_q35: Reuse machine parameter
-> >>
-> >>  hw/i386/pc_{q35,piix}: Reuse MachineClass::desc as SMB product name
-> >>
-> >>  hw/i386/pc_{q35,piix}: Minimize usage of get_system_memory()
-> >>
-> >>  hw/i386/pc: Initialize ram_memory variable directly
-> >>
-> >>  hw/pci-host/pam: Make init_pam() usage more readable
-> >>
-> >>  hw/i386/x86: Make TYPE_X86_MACHINE the owner of smram
-> >>
-> >>  target/i386/tcg/sysemu/tcg-cpu: Avoid own opinion about smram size
-> >>
-> >>
-> >>
-> >> include/hw/i386/pc.h             |  1 -
-> >>
-> >> include/hw/i386/x86.h            |  2 ++
-> >>
-> >> include/hw/pci-host/i440fx.h     |  7 ++++---
-> >>
-> >> include/hw/pci-host/pam.h        |  5 +++--
-> >>
-> >> include/hw/pci-host/q35.h        |  4 +++-
-> >>
-> >> hw/i386/pc.c                     |  2 --
-> >>
-> >> hw/i386/pc_piix.c                | 10 +++++-----
-> >>
-> >> hw/i386/pc_q35.c                 | 17 +++++++++--------
-> >>
-> >> hw/i386/x86.c                    |  4 ++++
-> >>
-> >> hw/pci-host/i440fx.c             | 28 +++++++++++++---------------
-> >>
-> >> hw/pci-host/pam.c                | 12 ++++++------
-> >>
-> >> hw/pci-host/q35.c                | 31 ++++++++++++++++---------------
-> >>
-> >> target/i386/tcg/sysemu/tcg-cpu.c |  3 +--
-> >>
-> >> 13 files changed, 66 insertions(+), 60 deletions(-)
-> >>
-> >>
-> >>
-> >>-- >
-> >>2.39.1
-> >>
-> >>
-> >>
+-- 
+MST
 
 
