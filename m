@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB426AAE9E
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 09:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBA56AAEA0
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Mar 2023 09:50:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYk3l-0001qs-BI; Sun, 05 Mar 2023 03:49:37 -0500
+	id 1pYk4P-00029h-VH; Sun, 05 Mar 2023 03:50:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pYk3k-0001qa-51; Sun, 05 Mar 2023 03:49:36 -0500
+ id 1pYk4N-00027h-Pl; Sun, 05 Mar 2023 03:50:15 -0500
 Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pYk3i-00021i-NO; Sun, 05 Mar 2023 03:49:35 -0500
+ id 1pYk4M-0002Ke-83; Sun, 05 Mar 2023 03:50:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
  s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
  Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=oEISQ1BfHwYx1j9chjZWF4H3DuFNS9Lk8DZW+8tnHuc=; b=pOidGulYgK0F9MPMnQzs/zhWrF
- 7tWNwxT0duS6zOLKmHLlYiTvzVHBXkSNYfdz9DhU9GmW0dBLKLKOdcZbhg3u7mV6ErSvR5j/kw+Wl
- 07Jd8h7cyFRT1aby2eucCp2JybNB9iIvw9td+hCCTrUxakakQf2mmh4AWYzwnrQML549JmWrgAaXv
- 43hTKmqj/FpwB1Emfbf8dPi44FGsnvsGd7cuV0YzbNqfZuNPL5bpjlIhGX0rZcnqj+XZ9fz1/gbWU
- 52g8xXL034LO7kUdu6KxsMimHkVaGChyhv8Rt1XeU+UkPscvjt2Y9TaAo0jD2KzgLyp/GAGmvhwRf
- Hnh75GLA==;
+ bh=Tp4pZPSq6rNgQROm93gbPxqatAHIwtyqkMWTrPcWtx8=; b=Inwd9MfClmxCwozKE0+vNUL+0q
+ j8dv/8/A8DzAhtvpRwotI5gelU1g5wANzoHfqz58gMiE/NdPbwR4sIiTeQEym5En5Y1zgdAqfm/K7
+ Jq2IShLUHnx/kMZiNa3n4KgrRRQLVnGN3oR/DhqLWNUp4eHEwGGCpPN07MTf7JBWTmObZTxAIic7m
+ YXAWCTCYdrNtdDciJuKJQc72gjEwZCjzuDWW8dWbmRNL61yePuad3lgZTRg0Lj/wSiLcSO+PRmXju
+ FsTjTSRLZC11E2017CTur+Hs9jfNGnxPX4h9FK37kHJFsaaJE7nO+PVHYBQ64d3vdJPb41N5mVrgf
+ frI/Jt4g==;
 Received: from [102.39.141.34] (helo=pc220518)
  by lounge.grep.be with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <w@uter.be>)
- id 1pYk3c-00071F-MW; Sun, 05 Mar 2023 09:49:28 +0100
+ id 1pYk4I-0007IE-3K; Sun, 05 Mar 2023 09:50:10 +0100
 Received: from wouter by pc220518 with local (Exim 4.96)
- (envelope-from <w@uter.be>) id 1pYk3V-000Scs-1S;
- Sun, 05 Mar 2023 10:49:21 +0200
-Date: Sun, 5 Mar 2023 10:49:21 +0200
+ (envelope-from <w@uter.be>) id 1pYk4A-000Shz-2e;
+ Sun, 05 Mar 2023 10:50:02 +0200
+Date: Sun, 5 Mar 2023 10:50:02 +0200
 From: Wouter Verhelst <w@uter.be>
 To: Eric Blake <eblake@redhat.com>
 Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
  libguestfs@redhat.com
-Subject: Re: [PATCH v2 3/6] spec: Add NBD_OPT_EXTENDED_HEADERS
-Message-ID: <ZARXkaG3cq9bi4XF@pc220518.home.grep.be>
+Subject: Re: [PATCH v2 5/6] spec: Introduce NBD_FLAG_BLOCK_STATUS_PAYLOAD
+Message-ID: <ZARXutZx3uhr0oPy@pc220518.home.grep.be>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
  <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-4-eblake@redhat.com>
- <Y/XlHhLWwm2pZ4RL@pc220518.home.grep.be>
- <20230303223641.utbls7mggek7quqx@redhat.com>
+ <20221114224655.2186173-6-eblake@redhat.com>
+ <Y/Xo+DGAYSZ4bQvK@pc220518.home.grep.be>
+ <20230303224038.sxhd6enenp4v7gpa@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303223641.utbls7mggek7quqx@redhat.com>
+In-Reply-To: <20230303224038.sxhd6enenp4v7gpa@redhat.com>
 X-Speed: Gates' Law: Every 18 months, the speed of software halves.
 Organization: none
 Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
@@ -77,30 +77,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 03, 2023 at 04:36:41PM -0600, Eric Blake wrote:
-> On Wed, Feb 22, 2023 at 11:49:18AM +0200, Wouter Verhelst wrote:
-> > On Mon, Nov 14, 2022 at 04:46:52PM -0600, Eric Blake wrote:
-[...]
-> > > +  Note that even when extended headers are in use, the client MUST be
-> > > +  prepared for the server to use either the compact or extended chunk
-> > > +  type, regardless of whether the client's hinted effect length was
-> > > +  more or less than 32 bits; but the server MUST use exactly one of
-> > > +  the two chunk types per negotiated metacontext ID.
+On Fri, Mar 03, 2023 at 04:40:38PM -0600, Eric Blake wrote:
+> On Wed, Feb 22, 2023 at 12:05:44PM +0200, Wouter Verhelst wrote:
+> > On Mon, Nov 14, 2022 at 04:46:54PM -0600, Eric Blake wrote:
+> > >  #### Simple reply message
+> > > 
+> > > @@ -1232,6 +1235,19 @@ The field has the following format:
+> > >    will be faster than a regular write). Clients MUST NOT set the
+> > >    `NBD_CMD_FLAG_FAST_ZERO` request flag unless this transmission flag
+> > >    is set.
+> > > +- bit 12, `NBD_FLAG_BLOCK_STATUS_PAYLOAD`: Indicates that the server
+> > > +  understands the use of the `NBD_CMD_FLAG_PAYLOAD_LEN` flag to
+> > > +  `NBD_CMD_BLOCK_STATUS` to allow the client to request that the
+> > > +  server filters its response to a specific subset of negotiated
+> > > +  metacontext ids passed in via a client payload, rather than the
+> > > +  default of replying to all metacontext ids. Servers MUST NOT
+> > > +  advertise this bit unless the client successfully negotiates
+> > > +  extended headers via `NBD_OPT_EXTENDED_HEADERS`, and SHOULD NOT
+> > > +  advertise this bit in response to `NBD_OPT_EXPORT_NAME` or
+> > > +  `NBD_OPT_GO` if the client does not negotiate metacontexts with
+> > > +  `NBD_OPT_SET_META_CONTEXT`; clients SHOULD NOT set the
+> > > +  `NBD_CMD_FLAG_PAYLOAD_LEN` flag for `NBD_CMD_BLOCK_STATUS` unless
+> > > +  this transmission flag is set.
 > > 
-> > Is this last paragraph really a good idea? I would think it makes more
-> > sense to require the new format if we're already required to support it
-> > on both sides anyway.
+> > Given that we are introducing this at the same time as the extended
+> > headers (and given that we're running out of available flags in this
+> > 16-bit field), isn't it better to make the ability to understand
+> > PAYLOAD_LEN be implied by extended headers? Or is there a use case for
+> > implementing extended headers but not a payload length on
+> > CMD_BLOCK_STATUS that I'm missing?
 > 
-> My proof of implementation was easier to code when I didn't have to
-> resize the block status reply sizing in the same patch as adding the
-> 64-bit headers.  But if you think requiring the 64-bit reply type
-> always (and forbidding the 32-bit reply) when extended headers are in
-> force, that's also possible.
+> In my proof of implementation, this was a distinct feature addition on
+> top of 64-bit headers.
+> 
+> It is easy to write a server that does not want to deal with a client
+> payload on a block status request (for example, a server that only
+> knows about one metacontext, and therefore never needs to deal with a
+> client wanting a subset of negotiated metacontexts).  Forcing a server
+> to have to support a client-side filtering request on block status
+> commands, merely because the server now supports 64-bit lengths,
+> seemed like a stretch too far, which is why I decided to use a feature
+> bit for this one.
 
-Intuitively, this sounds off. It would seem to me that it's easier to do
-if you don't have to have a conditional on each received data packet.
-But maybe I'm missing something -- I haven't done an implementation yet,
-anyway.
+Okay, yes, that makes sense. Thanks.
 
 -- 
      w@uter.{be,co.za}
