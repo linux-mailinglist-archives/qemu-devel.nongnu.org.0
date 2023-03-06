@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C106AC158
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113046AC16B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:36:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZAwj-0007C2-Ue; Mon, 06 Mar 2023 08:32:10 -0500
+	id 1pZAxV-00009h-Eb; Mon, 06 Mar 2023 08:32:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZAwd-0006xv-Rl
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:32:06 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZAxE-0008Rp-JJ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:32:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZAwc-0007md-Ib
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:32:03 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZAx9-0007qQ-Lz
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:32:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678109521;
+ s=mimecast20190719; t=1678109555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mbnG/TdhIZseXFyfbeaV12irrNZqUSFLC6mTYOuyqFE=;
- b=fVn4QZ/BtTyklnD4G1pXn18wajlp356xkxWkzRPPkgaru/d0lLqU2+LCAkN6mXwxAEu5pE
- 49QzBXoBMoAKke8OIQnAJ/IYBZ8Af3tORoAq7OcY10VvtobGTQH+9P5qLxCSdoKUfPXiS3
- NAzeCd7C6mK/zefRRipunNtiaRzZQUQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bQ/d6FPBdg3DjSS+95NX/ArLYTVsr8UH80cpgrExax8=;
+ b=N16y8MISJzGuwnS/nzOMAfCD/GOG5TMQK66KxF2HUQQbx+9rTvRTa+dOxPIiaz7h7GC9tD
+ pop07MGeerU4arpyfMPBNB/oNKdJv7caZMFo2TqSSYv2/0lbQcxMJXSN+mMIWtyPFfkbZW
+ lEaAhpsMVUC1ckq4QACa7jyiOSXiVHg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-260-x4-hjADSOFSv4CRwpMVVqA-1; Mon, 06 Mar 2023 08:32:00 -0500
-X-MC-Unique: x4-hjADSOFSv4CRwpMVVqA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k36-20020a05600c1ca400b003eac86e4387so6747415wms.8
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:32:00 -0800 (PST)
+ us-mta-554-ZTuBZgm4PwKxH0NUZGnBOQ-1; Mon, 06 Mar 2023 08:32:33 -0500
+X-MC-Unique: ZTuBZgm4PwKxH0NUZGnBOQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ y11-20020a056000168b00b002ce179d1b90so1490992wrd.23
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:32:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678109519;
+ d=1e100.net; s=20210112; t=1678109552;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=mbnG/TdhIZseXFyfbeaV12irrNZqUSFLC6mTYOuyqFE=;
- b=kUXe5LWPxgt5g6X8Kmx0iQD+DWYndrla4y7TmFqCsnIAesv6qQ6CG7IwF6wPREHK44
- a0Y6dLTQQ+ln8A7PZZyyRGOevpuQDwlQDkOupuZ+PJ7hn7Tslz+uYDjmmn0wP2u5j6Uc
- 9s8U0EdajqxNJHgDof3ecPNx8FzQ8q7+Bzrj06B8jVQRUS7iE9zuVY2QY73q3GwrOydS
- KYuSfBR2jvNuwwThGLmi1EmPNC4jUM/4ItzSfTcTGmVJdM7W3NFjs4Tav6ICCqPcxPKs
- n2Zps0YyQCArBAGi1UFuN0XNrsNrRgKIvBSXu84o9D5gpTIdNpZS3SryqWdN9PlHcii7
- IkYw==
-X-Gm-Message-State: AO0yUKUBt7KEEdAdQ8jRedVjuOQnVghjHaWQQsit3e5YGZxCCFeUdkBd
- wlQKxjpswVB5sWWyuoQHl+ZCPz+w/0bmJyouxdgXHQ5Oqly73ZNO6GRYBhsB+gMmEbGEQvqwAZ0
- sUpNT1Bc3qHT6vNQ=
-X-Received: by 2002:adf:ec47:0:b0:2c7:e48:8ca3 with SMTP id
- w7-20020adfec47000000b002c70e488ca3mr7077352wrn.0.1678109519515; 
- Mon, 06 Mar 2023 05:31:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set/Hg3iwlrQuenJbSgoCxrb5JIoyBOKCEPi7O+yurYei4iTQY2WGmc9qYcdQnyjxZjDNr111ag==
-X-Received: by 2002:adf:ec47:0:b0:2c7:e48:8ca3 with SMTP id
- w7-20020adfec47000000b002c70e488ca3mr7077341wrn.0.1678109519322; 
- Mon, 06 Mar 2023 05:31:59 -0800 (PST)
+ bh=bQ/d6FPBdg3DjSS+95NX/ArLYTVsr8UH80cpgrExax8=;
+ b=6puu68npIUHHoQ3w6r8O59dOyzmql9sxy9MCYuZwrx/eBw9ji9SDWMRrJnohjczy/x
+ aFUaO+a7yDf/KJG2GprbtVZX38fp0WbaHOnrqZszl0Q0a1QDZNNdI/Nib38j+AVeAydF
+ zdE5i819MzIZX66UdFnjjUw5sgrC4nM3DtWpfxyw0AYh6QpXQVPqL2S9L77xX1LH43fy
+ urV1shaV/xySFBJS6OD1FboHe1kJncwkr/9GD2hmTVAHKSRZR9oggoYqlaq4++0Otvjl
+ rjDTxrHbmXjfAexy8BRhU/rONpU20AiuhdokQ2/ZwSIEeZEsGO1QaKfJprAYUKYAZQWy
+ kcSw==
+X-Gm-Message-State: AO0yUKVXdQMdxEGx1u9/hx9bUTeUjYnRfVdDjiWp+w83rqTC1Za0BKDJ
+ vSbpGHPQi7VYBOIdzVXHWa0KHsDX38+6vjyM9UVSCUSpXSHHYXD3ZT4HLKVnS+fi1ni0EaddRyu
+ q/7OBlY9T3tuSkxqBzsoDiX8=
+X-Received: by 2002:a05:600c:470a:b0:3eb:3843:9f31 with SMTP id
+ v10-20020a05600c470a00b003eb38439f31mr9476797wmo.10.1678109552651; 
+ Mon, 06 Mar 2023 05:32:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set+5xpbH1vFm3mAyplWjFtZCJrhf8gaXA40UOinWqUzNogoSFNSW6bbAXKCs+2JIs/VE6LRXrg==
+X-Received: by 2002:a05:600c:470a:b0:3eb:3843:9f31 with SMTP id
+ v10-20020a05600c470a00b003eb38439f31mr9476774wmo.10.1678109552264; 
+ Mon, 06 Mar 2023 05:32:32 -0800 (PST)
 Received: from ?IPV6:2003:cb:c704:3500:b8a3:191c:eae:cc05?
  (p200300cbc7043500b8a3191c0eaecc05.dip0.t-ipconnect.de.
  [2003:cb:c704:3500:b8a3:191c:eae:cc05])
  by smtp.gmail.com with ESMTPSA id
- n5-20020a5d4c45000000b002c55306f6edsm9557224wrt.54.2023.03.06.05.31.58
+ n8-20020a05600c304800b003e21f01c426sm10130353wmh.9.2023.03.06.05.32.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 05:31:58 -0800 (PST)
-Message-ID: <4e06d45f-abd2-046f-042a-dc3d3c05d721@redhat.com>
-Date: Mon, 6 Mar 2023 14:31:58 +0100
+ Mon, 06 Mar 2023 05:32:31 -0800 (PST)
+Message-ID: <aeae4381-0c56-4196-bb86-71b54618a1f6@redhat.com>
+Date: Mon, 6 Mar 2023 14:32:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 4/8] edu: add smp_mb__after_rmw()
+Subject: Re: [PATCH 6/8] aio-wait: switch to smp_mb__after_rmw()
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: gshan@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
  cohuck@redhat.com, eauger@redhat.com
 References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-5-pbonzini@redhat.com>
+ <20230303171939.237819-7-pbonzini@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20230303171939.237819-5-pbonzini@redhat.com>
+In-Reply-To: <20230303171939.237819-7-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
@@ -106,12 +106,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 03.03.23 18:19, Paolo Bonzini wrote:
-> Ensure ordering between clearing the COMPUTING flag and checking
-> IRQFACT, and between setting the IRQFACT flag and checking
-> COMPUTING.  This ensures that no wakeups are lost.
+> The barrier comes after an atomic increment, so it is enough to use
+> smp_mb__after_rmw(); this avoids a double barrier on x86 systems.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
+>   include/block/aio-wait.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+> index dd9a7f6461ef..da13357bb8cf 100644
+> --- a/include/block/aio-wait.h
+> +++ b/include/block/aio-wait.h
+> @@ -85,7 +85,7 @@ extern AioWait global_aio_wait;
+>       /* Increment wait_->num_waiters before evaluating cond. */     \
+>       qatomic_inc(&wait_->num_waiters);                              \
+>       /* Paired with smp_mb in aio_wait_kick(). */                   \
+> -    smp_mb();                                                      \
+> +    smp_mb__after_rmw();                                           \
+>       if (ctx_ && in_aio_context_home_thread(ctx_)) {                \
+>           while ((cond)) {                                           \
+>               aio_poll(ctx_, true);                                  \
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
