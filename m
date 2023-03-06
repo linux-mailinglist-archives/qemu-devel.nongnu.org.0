@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1657D6AB93C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 10:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521926AB949
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 10:08:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ6lG-00006e-PT; Mon, 06 Mar 2023 04:04:02 -0500
+	id 1pZ6oa-0001t4-HG; Mon, 06 Mar 2023 04:07:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZ6kp-0008VN-1g; Mon, 06 Mar 2023 04:03:39 -0500
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZ6kl-0002dQ-Cc; Mon, 06 Mar 2023 04:03:34 -0500
-Received: from localhost.localdomain (unknown [180.165.240.213])
- by APP-01 (Coremail) with SMTP id qwCowADX8NRUrAVkS7fuCw--.45017S3;
- Mon, 06 Mar 2023 17:03:18 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 1/1] hw/riscv: Add signature dump function for spike to run
- ACT tests
-Date: Mon,  6 Mar 2023 17:03:14 +0800
-Message-Id: <20230306090314.74626-2-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230306090314.74626-1-liweiwei@iscas.ac.cn>
-References: <20230306090314.74626-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1pZ6oX-0001rw-OQ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:07:25 -0500
+Received: from mga01.intel.com ([192.55.52.88])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1pZ6oU-0003dq-Fn
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:07:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678093642; x=1709629642;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to; bh=frlYEQZFWPF4uZ9+ItkLzNObS7eez2CchKc6ZDSQIc8=;
+ b=Cd2Pz2Sj4odReC673YpW405na/csXygJlUmMbWzenJB4MYvbWpD46Vbp
+ UeQ3+yh5jt2AEeyHkkbdcLkEhEOW0ME2kvmFvnbFWAT9yJYMhCnci8nyR
+ jRpPhhjKNSenXTQ1GGyJNJF4BaTZ9AkPrUt3U2HK0x6hY0M3PVSLbWco8
+ l7JtSeSridF7g1mIQTdMS82PFXQhUuO8MCMrvFPWWYPRsKCNEZ88Cf4EP
+ ScFxPJmCtYiCPST0+E9TR9JL4y9NJhv2Y7BbTy8Fzo6s2BS/cV8CUDuze
+ jfCqK8W0NRXAO0M9vz2ad95rU8Cg62BivEUPq3XIHafuSRHXpjR9oJFdZ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="363120046"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+ d="scan'208,217";a="363120046"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2023 01:07:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="669363878"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+ d="scan'208,217";a="669363878"
+Received: from wangwei-desk.sh.intel.com (HELO [10.239.159.137])
+ ([10.239.159.137])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2023 01:07:07 -0800
+Content-Type: multipart/alternative;
+ boundary="------------uvxlCCAxGYsMSLnvx1m3jht9"
+Message-ID: <4a218f8d-1094-2130-8c96-a09f07fc8f23@intel.com>
+Date: Mon, 6 Mar 2023 17:11:36 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADX8NRUrAVkS7fuCw--.45017S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF1DXF15KF1xCF1DAF43KFg_yoWrWF15pF
- s3GFn8Cry5JFn3JFnxtw18ua1rGws3J3W7KrsxCw18Zan8WFy7Aan7ta45Zan8GFWxZa1U
- JFWDGFy3KF45Zw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBE14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
- 8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
- IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
- Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
- xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
- 6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
- Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
- Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
- IF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUqAp5UUUUU
- =
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: KVM developers conference call agenda
+Content-Language: en-US
+To: juan.quintela@gmail.com, afaerber@suse.de, ale@rev.ng, anjo@rev.ng,
+ bazulay@redhat.com, bbauman@redhat.com, chao.p.peng@linux.intel.com,
+ cjia@nvidia.com, cw@f00f.org, david.edmondson@oracle.com,
+ Eric Northup <digitaleric@google.com>, dustin.kirkland@canonical.com,
+ eblake@redhat.com, edgar.iglesias@gmail.com, elena.ufimtseva@oracle.com,
+ eric.auger@redhat.com, f4bug@amsat.org,
+ Felipe Franciosi <felipe.franciosi@nutanix.com>,
+ "iggy@theiggy.com" <iggy@kws1.com>, Warner Losh <wlosh@bsdimp.com>,
+ jan.kiszka@web.de, jgg@nvidia.com, jidong.xiao@gmail.com,
+ jjherne@linux.vnet.ibm.com, joao.m.martins@oracle.com,
+ konrad.wilk@oracle.com, kvm@vger.kernel.org, mburton@qti.qualcomm.com,
+ mdean@redhat.com, mimu@linux.vnet.ibm.com, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, quintela@redhat.com, richard.henderson@linaro.org,
+ shameerali.kolothum.thodi@huawei.com, stefanha@gmail.com, z.huo@139.com,
+ zwu.kernel@gmail.com, dgilbert@redhat.com
+References: <calendar-639eb22a-8fff-44ce-996b-11c83fd721e8@google.com>
+From: Wei Wang <wei.w.wang@intel.com>
+In-Reply-To: <calendar-639eb22a-8fff-44ce-996b-11c83fd721e8@google.com>
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=wei.w.wang@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,133 +95,1551 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add signature and signature-granularity properties in spike to specify the target
-signatrue file and the line size for signature data.
+This is a multi-part message in MIME format.
+--------------uvxlCCAxGYsMSLnvx1m3jht9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Recgonize the signature section between begin_signature and end_signature symbols
-when loading elf of ACT tests. Then dump signature data in signature section just
-before the ACT tests exit.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- hw/char/riscv_htif.c | 39 ++++++++++++++++++++++++++++++++++++++-
- hw/riscv/spike.c     | 16 ++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+On 2/21/23 21:46, juan.quintela@gmail.com wrote:
+> KVM developers conference call
+>
+>
+> Hi for today call:
+> Trivial stuff (less that 5mins each)
+> - should we record the sessions
+> - should we have the call every week.
+> We have on the backburner:
+> * TDX migration
+>
+Hi Juan,
+Can I get 30 min (or more if no more other topics)  in tomorrow's call to
+continue the discussion on TDX live migration?
+I also did some investigation on the previous comments about MigTD-to-MigTD
+communication (remove socat), and have an update to discuss.
 
-diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index 098de50e35..2a82ed8500 100644
---- a/hw/char/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -29,6 +29,8 @@
- #include "chardev/char-fe.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
-+#include "exec/address-spaces.h"
-+#include "sysemu/dma.h"
- 
- #define RISCV_DEBUG_HTIF 0
- #define HTIF_DEBUG(fmt, ...)                                                   \
-@@ -51,7 +53,10 @@
- /* PK system call number */
- #define PK_SYS_WRITE            64
- 
--static uint64_t fromhost_addr, tohost_addr;
-+extern const char *sig_file;
-+extern uint8_t line_size;
-+
-+static uint64_t fromhost_addr, tohost_addr, sig_addr, sig_len;
- 
- void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-                           uint64_t st_size)
-@@ -68,6 +73,10 @@ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-             error_report("HTIF tohost must be 8 bytes");
-             exit(1);
-         }
-+    } else if (strcmp("begin_signature", st_name) == 0) {
-+        sig_addr = st_value;
-+    } else if (strcmp("end_signature", st_name) == 0) {
-+        sig_len = st_value - sig_addr;
-     }
- }
- 
-@@ -161,6 +170,34 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
-         /* frontend syscall handler, shutdown and exit code support */
-         if (cmd == HTIF_SYSTEM_CMD_SYSCALL) {
-             if (payload & 0x1) {
-+                /* Dump signature data to sig_file if specified */
-+                if (sig_file) {
-+                    char *sig_data = g_malloc(sig_len);
-+                    dma_memory_read(&address_space_memory, sig_addr, sig_data,
-+                                    sig_len, MEMTXATTRS_UNSPECIFIED);
-+                    FILE *signature = fopen(sig_file, "w");
-+                    if (signature == NULL) {
-+                        error_report("open %s: %s", sig_file,
-+                                     strerror(errno));
-+                        exit(1);
-+                    }
-+
-+                    for (int i = 0; i < sig_len; i += line_size) {
-+                        for (int j = line_size; j > 0; j--) {
-+                            if (i + j <= sig_len) {
-+                                fprintf(signature, "%02x",
-+                                        sig_data[i + j - 1] & 0xff);
-+                            } else {
-+                                fprintf(signature, "%02x", 0);
-+                            }
-+                        }
-+                        fprintf(signature, "\n");
-+                    }
-+
-+                    fclose(signature);
-+                    g_free(sig_data);
-+                }
-+
-                 /* exit code */
-                 int exit_code = payload >> 1;
-                 exit(exit_code);
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index a584d5b3a2..eaa7f54fd6 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -41,6 +41,9 @@
- 
- #include <libfdt.h>
- 
-+const char *sig_file;
-+uint8_t line_size = 16;
-+
- static const MemMapEntry spike_memmap[] = {
-     [SPIKE_MROM] =     {     0x1000,     0xf000 },
-     [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
-@@ -332,6 +335,11 @@ static void spike_board_init(MachineState *machine)
-                  htif_custom_base);
- }
- 
-+static void spike_set_signature(Object *obj, const char *val, Error **errp)
-+{
-+    sig_file = g_strdup(val);
-+}
-+
- static void spike_machine_instance_init(Object *obj)
- {
- }
-@@ -350,6 +358,14 @@ static void spike_machine_class_init(ObjectClass *oc, void *data)
-     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
-     mc->numa_mem_supported = true;
-     mc->default_ram_id = "riscv.spike.ram";
-+    object_class_property_add_str(oc, "signature", NULL, spike_set_signature);
-+    object_class_property_set_description(oc, "signature",
-+                                          "File to write ACT test signature");
-+    object_class_property_add_uint8_ptr(oc, "signature-granularity",
-+                                        &line_size, OBJ_PROP_FLAG_WRITE);
-+    object_class_property_set_description(oc, "signature-granularity",
-+                                          "Size of each line in ACT signature "
-+                                          "file");
- }
- 
- static const TypeInfo spike_machine_typeinfo = {
--- 
-2.25.1
+Thanks,
+Wei
 
+> * VFIO/VPDA/Vhost migration
+> * Single binary qemu
+>
+>
+> The future of icount
+>
+> Do we have an agenda for next weeks KVM call yet? If there is space I'd
+> like to take some time to discuss the future direction of icount.
+>
+> Specifically I believe there might be some proposals for how we could
+> support icount with MTTCG worth discussing. From my point of view icount
+> provides too things:
+>
+> - a sense of time vaguely related to execution rather than wall clock
+> - determinism
+>
+> I would love to divorce the former from icount and punt it to plugins.
+> The plugin would be free to instrument as heavily or lightly as it sees
+> fit and provide its best guess as to guest time on demand. I wrote this
+> idea up as a card in Linaro's JIRA if anyone is interested:
+>
+> https://linaro.atlassian.net/browse/QEMU-481
+>
+> Being able to punt cost modelling and sense of time into plugins would
+> allow the core icount support to concentrate on determinism. Then any
+> attempt to enable icount for MTTCG would then have to ensure it stays
+> deterministic.
+>
+> Richard and I have discussed the problem a few times and weren't sure it
+> was solvable but I'm totally open to hearing ideas on how to do it.
+> Fundamentally I think we would have to ensure any TB's doing IO would
+> have to execute in an exclusive context. The TCG code already has
+> mechanisms to ensure all IO is only done at the end of blocks so it
+> doesn't seem a huge leap to ensure we execute those blocks exclusively.
+> However there is still the problem of what to do about other pure
+> computation threads getting ahead or behind of the IO blocks on
+> subsequent runs.
+>
+> KVM developers conference call
+> Tuesday 2023-02-21 ⋅ 15:00 – 16:00 (Central European Time - Madrid)
+> If you need call details, please contact me: quintela@redhat.com
+>
+>
+>     Location
+>
+> https://meet.jit.si/kvmcallmeeting
+> View map 
+> <https://www.google.com/url?q=https%3A%2F%2Fmeet.jit.si%2Fkvmcallmeeting&sa=D&ust=1677419160000000&usg=AOvVaw0heTI2pkoiDPVZgv6XFxlS>
+>
+>
+>     Guests
+>
+> Philippe Mathieu-Daudé <mailto:f4bug@amsat.org>
+> Joao Martins <mailto:joao.m.martins@oracle.com>
+> quintela@redhat.com <mailto:quintela@redhat.com>
+> Meirav Dean <mailto:mdean@redhat.com>
+> Felipe Franciosi <mailto:felipe@nutanix.com>
+> afaerber@suse.de <mailto:afaerber@suse.de>
+> bazulay@redhat.com <mailto:bazulay@redhat.com>
+> bbauman@redhat.com <mailto:bbauman@redhat.com>
+> cw@f00f.org <mailto:cw@f00f.org>
+> dustin.kirkland@canonical.com <mailto:dustin.kirkland@canonical.com>
+> eblake@redhat.com <mailto:eblake@redhat.com>
+> edgar.iglesias@gmail.com <mailto:edgar.iglesias@gmail.com>
+> Eric Northup <mailto:digitaleric@google.com>
+> eric.auger@redhat.com <mailto:eric.auger@redhat.com>
+> iggy@theiggy.com <mailto:iggy@theiggy.com>
+> jan.kiszka@web.de <mailto:jan.kiszka@web.de>
+> jidong.xiao@gmail.com <mailto:jidong.xiao@gmail.com>
+> jjherne@linux.vnet.ibm.com <mailto:jjherne@linux.vnet.ibm.com>
+> mimu@linux.vnet.ibm.com <mailto:mimu@linux.vnet.ibm.com>
+> Peter Maydell <mailto:peter.maydell@linaro.org>
+> richard.henderson@linaro.org <mailto:richard.henderson@linaro.org>
+> stefanha@gmail.com <mailto:stefanha@gmail.com>
+> Warner Losh <mailto:imp@bsdimp.com>
+> z.huo@139.com <mailto:z.huo@139.com>
+> zwu.kernel@gmail.com <mailto:zwu.kernel@gmail.com>
+> Jason Gunthorpe <mailto:jgg@nvidia.com>
+> Neo Jia <mailto:cjia@nvidia.com>
+> David Edmondson <mailto:david.edmondson@oracle.com>
+> Elena Ufimtseva <mailto:elena.ufimtseva@oracle.com>
+> Konrad Wilk <mailto:konrad.wilk@oracle.com>
+> ale@rev.ng <mailto:ale@rev.ng>
+> anjo@rev.ng <mailto:anjo@rev.ng>
+> Shameerali Kolothum Thodi <mailto:shameerali.kolothum.thodi@huawei.com>
+> Wang, Wei W <mailto:wei.w.wang@intel.com>
+> Chao Peng <mailto:chao.p.peng@linux.intel.com>
+> kvm-devel <mailto:kvm@vger.kernel.org>
+> qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org>
+> mburton@qti.qualcomm.com <mailto:mburton@qti.qualcomm.com>
+>
+
+--------------uvxlCCAxGYsMSLnvx1m3jht9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <div class="moz-cite-prefix">On 2/21/23 21:46,
+      <a class="moz-txt-link-abbreviated" href="mailto:juan.quintela@gmail.com">juan.quintela@gmail.com</a> wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:calendar-639eb22a-8fff-44ce-996b-11c83fd721e8@google.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title></title>
+      <!--[if !mso]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+      <style>body, html {
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+      }body {
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }#outlook a {
+        padding: 0;
+      }.ReadMsgBody {
+        width: 100%;
+      }.ExternalClass {
+        width: 100%;
+      }.ExternalClass * {
+        line-height: 100%;
+      }table,
+      td {
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }img {
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }p {
+        display: block;
+        margin: 13px 0;
+      }</style>
+      <!--[if !mso]><!-->
+      <style></style>
+      <!--<![endif]-->
+      <!--[if mso]>
+          <xml>
+          <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+          </o:OfficeDocumentSettings>
+          </xml>
+          <![endif]-->
+      <!--[if lte mso 11]>
+          <style>
+            .outlook-group-fix { width:100% !important; }
+          </style>
+    <![endif]-->
+      <!--[if !mso]><!-- -->
+      <style>body, html {font-family:Roboto,Helvetica,Arial,sans-serif;}@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+}@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+}@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+}@font-face {
+  font-family: 'Material Icons Extended';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/s/materialiconsextended/v149/kJEjBvgX7BgnkSrUwT8UnLVc38YydejYY-oE_LvM.ttf) format('truetype');
+}@font-face {
+  font-family: 'Google Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/s/googlematerialicons/v130/Gw6kwdfw6UnXLJCcmafZyFRXb3BL9rvi0QZG3g.otf) format('opentype');
+}.google-material-icons {
+  font-family: 'Google Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}@font-face {
+  font-family: 'Google Material Icons Filled';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/s/googlematerialiconsfilled/v96/WWXFlimHYg6HKI3TavMkbKdhBmDvgach8TVpeGsuueSZJH4.otf) format('opentype');
+}.google-material-icons-filled {
+  font-family: 'Google Material Icons Filled';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/s/googlesans/v14/4UaGrENHsxJlGDuGo1OIlL3Owps.ttf) format('truetype');
+}@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/s/googlesans/v14/4UabrENHsxJlGDuGo1OIlLU94YtzCwM.ttf) format('truetype');
+}@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/s/googlesans/v14/4UabrENHsxJlGDuGo1OIlLV154tzCwM.ttf) format('truetype');
+}</style><!--<![endif]-->
+      <style>.body-container {
+          padding-left: 16px;
+          padding-right: 16px;
+        }</style>
+      <style>u+.body .body-container,
+        body[data-outlook-cycle] .body-container,
+        #MessageViewBody .body-container {
+          padding-left: 0;
+          padding-right: 0;
+        }</style>
+      <style></style>
+      <style>.appointment-buttons th {
+        display: block;
+        clear: both;
+        float: left;
+        margin-top: 12px;
+      }.appointment-buttons th a {
+        float: left;
+      }#MessageViewBody .appointment-buttons th {
+       margin-top: 24px;
+      }</style>
+      <style></style>
+      <style>.main-container-inner,
+      .info-bar-inner {
+        padding: 12px 16px !important;
+      }.main-column-table-ltr {
+        padding-right: 0 !important;
+      }.main-column-table-rtl {
+        padding-left: 0 !important;
+      }.primary-text {
+        color: #3c4043 !important;
+      }.secondary-text,
+      .phone-number a {
+        color: #70757a !important;
+      }.accent-text {
+        color: #1a73e8 !important;
+      }.accent-text-dark {
+        color: #185abc !important;
+      }.grey-button-text,
+      .attachment-chip a {
+        color: #5f6368 !important;
+      }.primary-button {
+        background-color: #1a73e8 !important;
+      }.primary-button-text {
+        color: #fff !important;
+      }.underline-on-hover:hover {
+        text-decoration: underline !important;
+      }.grey-infobar-text {
+        color: #202124 !important;
+      }</style>
+      <style></style>
+      <!--[if !mso]><!-->
+      <style>.prevent-link a {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+      }</style>
+      <!--<![endif]-->
+      <!--[if mso | IE]>
+      <style>
+        .main-container-inner {
+          padding: 24px 32px !important;
+        }
+
+        .info-bar-inner {
+          padding: 12px 32px !important;
+        }
+
+        .cse-banner .encryption-icon {
+          /* We use the IE workaround instead. */
+          background-image: none !important;
+        }
+
+        .cse-banner .encryption-icon .ms-fallback {
+          display: block !important;
+        }
+
+        /* NB: Some MS clients ignore dark-scheme styling and apply their own, so there's nothing we can do to help there. */
+        @media (prefers-color-scheme: dark) {
+          .cse-banner:not([class^="x_"]) .encryption-icon .ms-fallback {
+            display: none !important;
+          }
+
+          .cse-banner:not([class^="x_"]) .encryption-icon .ms-fallback-dark {
+            display: block !important;
+          }
+        }
+      </style>
+    <![endif]--> <span itemscope=""
+        itemtype="http://schema.org/InformAction"><span
+          style="display:none" itemprop="about" itemscope=""
+          itemtype="http://schema.org/EmailMessage">
+          <meta itemprop="description" content="juan.quintela@gmail.com:
+            Hi for today call: Trivial stuff (less that 5mins each) -
+            should we record the sessions - should we have the call
+            every week. We have on the backburner: * TDX migration *
+            VFIO/VPDA/Vhost migration * Single binary qemu The future of
+            icount Do we have an agenda for next weeks KVM call yet? If
+            there is space I'd like to take some time to discuss the
+            future direction of icount. Specifically I believe there
+            might be some proposals for how we could support icount with
+            MTTCG worth discussing. From my point of view icount
+            provides too things: - a sense of time vaguely related to
+            execution rather than wall clock - determinism I would love
+            to divorce the former from icount and punt it to plugins.
+            The plugin would be free to instrument as heavily or lightly
+            as it sees fit and provide its best guess as to guest time
+            on demand. I wrote this idea up as a card in Linaro's JIRA
+            if anyone is interested:
+            https://linaro.atlassian.net/browse/QEMU-481 Being able to
+            punt cost modelling and sense of time into plugins would
+            allow the core icount support to concentrate on determinism.
+            Then any attempt to enable icount for MTTCG would then have
+            to ensure it stays deterministic. Richard and I have
+            discussed the problem a few times and weren't sure it was
+            solvable but I'm totally open to hearing ideas on how to do
+            it. Fundamentally I think we would have to ensure any TB's
+            doing IO would have to execute in an exclusive context. The
+            TCG code already has mechanisms to ensure all IO is only
+            done at the end of blocks so it doesn't seem a huge leap to
+            ensure we execute those blocks exclusively. However there is
+            still the problem of what to do about other pure computation
+            threads getting ahead or behind of the IO blocks on
+            subsequent runs.">
+        </span><span itemprop="object" itemscope=""
+          itemtype="http://schema.org/Event">
+          <meta itemprop="eventStatus"
+            content="http://schema.org/EventScheduled">
+          <span itemprop="publisher" itemscope=""
+            itemtype="http://schema.org/Organization">
+            <meta itemprop="name" content="Google Calendar">
+          </span>
+          <meta itemprop="eventId/googleCalendar"
+            content="5dt5ji87j5qrc00o63ktq7ghou_20230221T140000Z">
+          <span style="display: none; font-size: 1px; color: #fff;
+            line-height: 1px; height: 0; max-height: 0; width: 0;
+            max-width: 0; opacity: 0; overflow: hidden;" itemprop="name">KVM
+            developers conference call</span><span aria-hidden="true"><time
+              itemprop="startDate" datetime="20230221T140000Z"></time><time
+              itemprop="endDate" datetime="20230221T150000Z"></time></span>
+          <table role="presentation" style="width:100%;"
+            class="body-container" cellspacing="0" cellpadding="0"
+            border="0" align="center">
+            <tbody>
+              <tr>
+                <td style="" class="" align="left"><!--[if mso | IE]><table border="0" cellpadding="0" cellspacing="0" role="presentation"><tr><td height="16" style="height:16px;"><![endif]-->
+                  <div style="height:16px;" aria-hidden="true">   </div>
+                  <!--[if mso | IE]></td></tr></table><![endif]-->
+                  <table role="presentation" style="width:100%;"
+                    class="" cellspacing="0" cellpadding="0" border="0"
+                    align="center">
+                    <tbody>
+                      <tr>
+                        <td style="" class="" align="left"><span
+                            itemscope=""
+                            itemtype="http://schema.org/EmailMessage">
+                            <p itemprop="description"><br>
+                              Hi for today call:<br>
+                              Trivial stuff (less that 5mins each)<br>
+                              - should we record the sessions<br>
+                              - should we have the call every week.<br>
+                              We have on the backburner:<br>
+                              * TDX migration<br>
+                            </p>
+                          </span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </span></span></blockquote>
+    Hi Juan,<br>
+    Can I get 30 min (or more if no more other topics)  in tomorrow's
+    call to<br>
+    continue the discussion on TDX live migration?<br>
+    I also did some investigation on the previous comments about
+    MigTD-to-MigTD<br>
+    communication (remove socat), and have an update to discuss.<br>
+    <br>
+    Thanks,<br>
+    Wei<br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:calendar-639eb22a-8fff-44ce-996b-11c83fd721e8@google.com"><span
+        itemscope="" itemtype="http://schema.org/InformAction"><span
+          itemprop="object" itemscope=""
+          itemtype="http://schema.org/Event">
+          <table role="presentation" style="width:100%;"
+            class="body-container" cellspacing="0" cellpadding="0"
+            border="0" align="center">
+            <tbody>
+              <tr>
+                <td style="" class="" align="left">
+                  <table role="presentation" style="width:100%;"
+                    class="" cellspacing="0" cellpadding="0" border="0"
+                    align="center">
+                    <tbody>
+                      <tr>
+                        <td style="" class="" align="left"><span
+                            itemscope=""
+                            itemtype="http://schema.org/EmailMessage">
+                            <p itemprop="description"> * VFIO/VPDA/Vhost
+                              migration<br>
+                              * Single binary qemu</p>
+                            <p><br>
+                              The future of icount</p>
+                            <p>Do we have an agenda for next weeks KVM
+                              call yet? If there is space I'd<br>
+                              like to take some time to discuss the
+                              future direction of icount.</p>
+                            <p>Specifically I believe there might be
+                              some proposals for how we could<br>
+                              support icount with MTTCG worth
+                              discussing. From my point of view icount<br>
+                              provides too things:</p>
+                            <p> - a sense of time vaguely related to
+                              execution rather than wall clock<br>
+                              - determinism </p>
+                            <p>I would love to divorce the former from
+                              icount and punt it to plugins.<br>
+                              The plugin would be free to instrument as
+                              heavily or lightly as it sees<br>
+                              fit and provide its best guess as to guest
+                              time on demand. I wrote this<br>
+                              idea up as a card in Linaro's JIRA if
+                              anyone is interested:</p>
+                            <p> <a
+                                href="https://linaro.atlassian.net/browse/QEMU-481"
+                                moz-do-not-send="true"
+                                class="moz-txt-link-freetext">https://linaro.atlassian.net/browse/QEMU-481</a>
+                            </p>
+                            <p>Being able to punt cost modelling and
+                              sense of time into plugins would<br>
+                              allow the core icount support to
+                              concentrate on determinism. Then any<br>
+                              attempt to enable icount for MTTCG would
+                              then have to ensure it stays<br>
+                              deterministic.</p>
+                            <p>Richard and I have discussed the problem
+                              a few times and weren't sure it<br>
+                              was solvable but I'm totally open to
+                              hearing ideas on how to do it.<br>
+                              Fundamentally I think we would have to
+                              ensure any TB's doing IO would<br>
+                              have to execute in an exclusive context.
+                              The TCG code already has<br>
+                              mechanisms to ensure all IO is only done
+                              at the end of blocks so it<br>
+                              doesn't seem a huge leap to ensure we
+                              execute those blocks exclusively.<br>
+                              However there is still the problem of what
+                              to do about other pure<br>
+                              computation threads getting ahead or
+                              behind of the IO blocks on<br>
+                              subsequent runs.<br>
+                            </p>
+                          </span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table role="presentation" style="width:100%;"
+                    class="" cellspacing="0" cellpadding="0" border="0"
+                    align="center">
+                    <tbody>
+                      <tr>
+                        <td style="border: solid 1px #dadce0;
+                          border-radius: 8px; direction: rtl; font-size:
+                          0; padding: 24px 32px; text-align: left;
+                          vertical-align: top;"
+                          class="main-container-inner"><!--[if mso | IE]><table border="0" cellpadding="0" cellspacing="0" role="presentation"><tr><![endif]-->
+                          <div class="" style="font-size: 13px;
+                            text-align: left; direction: ltr; display:
+                            inline-block; vertical-align: top; width:
+                            100%;overflow: hidden; word-wrap:
+                            break-word;">
+                            <table role="presentation"
+                              class="main-column-table-ltr"
+                              style="padding-right: 32px; padding-left:
+                              0;;table-layout: fixed;" width="100%"
+                              cellspacing="0" cellpadding="0" border="0">
+                              <tbody>
+                                <tr>
+                                  <td class="main-column-td"
+                                    style="padding:0;
+                                    vertical-align:top;">
+                                    <table role="presentation"
+                                      style="table-layout: fixed;"
+                                      width="100%" cellspacing="0"
+                                      cellpadding="0" border="0">
+                                      <tbody>
+                                        <tr>
+                                          <td style="font-size: 0;
+                                            padding: 0; text-align:
+                                            left; word-break:
+                                            break-word;;padding-bottom:2px;">
+                                            <div style="font-family:
+                                              'Google Sans', Roboto,
+                                              sans-serif;font-weight:
+                                              400; font-size: 22px;
+                                              line-height: 28px;color:
+                                              #3c4043; text-decoration:
+                                              none;"
+                                              class="primary-text"
+                                              role="presentation"><span
+                                                itemprop="name">KVM
+                                                developers conference
+                                                call</span></div>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td style="font-size: 0;
+                                            padding: 0; text-align:
+                                            left; word-break:
+                                            break-word;;padding-bottom:24px;">
+                                            <div style="font-family:
+                                              Roboto,
+                                              sans-serif;font-style:
+                                              normal; font-weight: 400;
+                                              font-size: 14px;
+                                              line-height: 20px;
+                                              letter-spacing:
+                                              0.2px;color: #3c4043;
+                                              text-decoration: none;"
+                                              class="primary-text"
+                                              role="presentation"><span
+                                                aria-hidden="true"><time
+                                                  itemprop="startDate"
+                                                  datetime="20230221T140000Z"></time><time
+                                                  itemprop="endDate"
+                                                  datetime="20230221T150000Z"></time></span><span>Tuesday
+                                                2023-02-21 ⋅ 15:00 –
+                                                16:00 (Central European
+                                                Time - Madrid)</span></div>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td style="font-size: 0;
+                                            padding: 0; text-align:
+                                            left; word-break:
+                                            break-word;;padding-bottom:24px;">
+                                            <div style="font-family:
+                                              Roboto,
+                                              sans-serif;font-style:
+                                              normal; font-weight: 400;
+                                              font-size: 14px;
+                                              line-height: 20px;
+                                              letter-spacing:
+                                              0.2px;color: #3c4043;
+                                              text-decoration: none;"
+                                              class="primary-text"
+                                              role="presentation"><span>If
+                                                you need call details,
+                                                please contact me: <a
+                                                  href="mailto:quintela@redhat.com"
+                                                  target="_blank"
+                                                  moz-do-not-send="true"
+class="moz-txt-link-freetext">quintela@redhat.com</a></span>
+                                              <meta
+                                                itemprop="description"
+                                                content="If you need
+                                                call details, please
+                                                contact me:
+                                                quintela@redhat.com">
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td style="font-size: 0;
+                                            padding: 0; text-align:
+                                            left; word-break:
+                                            break-word;;padding-bottom:24px;">
+                                            <div style="font-family:
+                                              Roboto,
+                                              sans-serif;font-style:
+                                              normal; font-weight: 400;
+                                              font-size: 14px;
+                                              line-height: 20px;
+                                              letter-spacing:
+                                              0.2px;color: #3c4043;
+                                              text-decoration: none;"
+                                              class="primary-text"
+                                              role="presentation">
+                                              <table role="presentation"
+                                                style="padding-bottom:
+                                                4px;" cellspacing="0"
+                                                cellpadding="0"
+                                                border="0">
+                                                <tbody>
+                                                  <tr>
+                                                    <td>
+                                                      <h2
+                                                        class="primary-text"
+style="font-size: 14px;color: #3c4043; text-decoration:
+                                                        none;font-weight:
+700;-webkit-font-smoothing: antialiased;margin: 0; padding: 0;">Location</h2>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                              <span itemprop="location"
+                                                itemscope=""
+                                                itemtype="http://schema.org/Place"><span
+                                                  itemprop="name"
+                                                  class="primary-text
+                                                  notranslate"
+                                                  style="font-family:
+                                                  Roboto,
+                                                  sans-serif;font-style:
+                                                  normal; font-weight:
+                                                  400; font-size: 14px;
+                                                  line-height: 20px;
+                                                  letter-spacing:
+                                                  0.2px;color: #3c4043;
+                                                  text-decoration:
+                                                  none;"><a class="moz-txt-link-freetext" href="https://meet.jit.si/kvmcallmeeting">https://meet.jit.si/kvmcallmeeting</a></span><br>
+                                                <a
+href="https://www.google.com/url?q=https%3A%2F%2Fmeet.jit.si%2Fkvmcallmeeting&amp;sa=D&amp;ust=1677419160000000&amp;usg=AOvVaw0heTI2pkoiDPVZgv6XFxlS"
+                                                  class="accent-text
+                                                  underline-on-hover"
+                                                  style="display:
+                                                  inline-block;;color:
+                                                  #1a73e8;
+                                                  text-decoration:
+                                                  none;font-weight:
+                                                  700;" target="_blank"
+                                                  itemprop="map"
+                                                  moz-do-not-send="true">View
+                                                  map</a></span></div>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td style="font-size: 0;
+                                            padding: 0; text-align:
+                                            left; word-break:
+                                            break-word;;padding-bottom:24px;">
+                                            <div style="font-family:
+                                              Roboto,
+                                              sans-serif;font-style:
+                                              normal; font-weight: 400;
+                                              font-size: 14px;
+                                              line-height: 20px;
+                                              letter-spacing:
+                                              0.2px;color: #3c4043;
+                                              text-decoration: none;"
+                                              class="primary-text"
+                                              role="presentation">
+                                              <table role="presentation"
+                                                style="padding-bottom:
+                                                4px;" cellspacing="0"
+                                                cellpadding="0"
+                                                border="0">
+                                                <tbody>
+                                                  <tr>
+                                                    <td>
+                                                      <h2
+                                                        class="primary-text"
+style="font-size: 14px;color: #3c4043; text-decoration:
+                                                        none;font-weight:
+700;-webkit-font-smoothing: antialiased;margin: 0; padding: 0;">Guests</h2>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                              <div
+                                                style="padding-bottom:
+                                                4px; text-align:
+                                                left;;color: #3c4042;">
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:f4bug@amsat.org"
+moz-do-not-send="true">Philippe Mathieu-Daudé</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="f4bug@amsat.org">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:joao.m.martins@oracle.com"
+moz-do-not-send="true">Joao Martins</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="joao.m.martins@oracle.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:quintela@redhat.com"
+moz-do-not-send="true">quintela@redhat.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="quintela@redhat.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:mdean@redhat.com"
+moz-do-not-send="true">Meirav Dean</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="mdean@redhat.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:felipe@nutanix.com"
+moz-do-not-send="true">Felipe Franciosi</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="felipe@nutanix.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:afaerber@suse.de"
+moz-do-not-send="true">afaerber@suse.de</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="afaerber@suse.de">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:bazulay@redhat.com"
+moz-do-not-send="true">bazulay@redhat.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="bazulay@redhat.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:bbauman@redhat.com"
+moz-do-not-send="true">bbauman@redhat.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="bbauman@redhat.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:cw@f00f.org"
+moz-do-not-send="true">cw@f00f.org</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="cw@f00f.org">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:dustin.kirkland@canonical.com"
+moz-do-not-send="true">dustin.kirkland@canonical.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="dustin.kirkland@canonical.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:eblake@redhat.com"
+moz-do-not-send="true">eblake@redhat.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="eblake@redhat.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:edgar.iglesias@gmail.com"
+moz-do-not-send="true">edgar.iglesias@gmail.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="edgar.iglesias@gmail.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:digitaleric@google.com"
+moz-do-not-send="true">Eric Northup</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="digitaleric@google.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:eric.auger@redhat.com"
+moz-do-not-send="true">eric.auger@redhat.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="eric.auger@redhat.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:iggy@theiggy.com"
+moz-do-not-send="true">iggy@theiggy.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="iggy@theiggy.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:jan.kiszka@web.de"
+moz-do-not-send="true">jan.kiszka@web.de</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="jan.kiszka@web.de">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:jidong.xiao@gmail.com"
+moz-do-not-send="true">jidong.xiao@gmail.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="jidong.xiao@gmail.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:jjherne@linux.vnet.ibm.com"
+moz-do-not-send="true">jjherne@linux.vnet.ibm.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="jjherne@linux.vnet.ibm.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:mimu@linux.vnet.ibm.com"
+moz-do-not-send="true">mimu@linux.vnet.ibm.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="mimu@linux.vnet.ibm.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:peter.maydell@linaro.org"
+moz-do-not-send="true">Peter Maydell</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="peter.maydell@linaro.org">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:richard.henderson@linaro.org"
+moz-do-not-send="true">richard.henderson@linaro.org</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="richard.henderson@linaro.org">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:stefanha@gmail.com"
+moz-do-not-send="true">stefanha@gmail.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="stefanha@gmail.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:imp@bsdimp.com"
+moz-do-not-send="true">Warner Losh</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="imp@bsdimp.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:z.huo@139.com"
+moz-do-not-send="true">z.huo@139.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="z.huo@139.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:zwu.kernel@gmail.com"
+moz-do-not-send="true">zwu.kernel@gmail.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="zwu.kernel@gmail.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:jgg@nvidia.com"
+moz-do-not-send="true">Jason Gunthorpe</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="jgg@nvidia.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:cjia@nvidia.com"
+moz-do-not-send="true">Neo Jia</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="cjia@nvidia.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:david.edmondson@oracle.com"
+moz-do-not-send="true">David Edmondson</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="david.edmondson@oracle.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:elena.ufimtseva@oracle.com"
+moz-do-not-send="true">Elena Ufimtseva</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="elena.ufimtseva@oracle.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:konrad.wilk@oracle.com"
+moz-do-not-send="true">Konrad Wilk</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="konrad.wilk@oracle.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:ale@rev.ng"
+moz-do-not-send="true">ale@rev.ng</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="ale@rev.ng">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:anjo@rev.ng"
+moz-do-not-send="true">anjo@rev.ng</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="anjo@rev.ng">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:shameerali.kolothum.thodi@huawei.com"
+moz-do-not-send="true">Shameerali Kolothum Thodi</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="shameerali.kolothum.thodi@huawei.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:wei.w.wang@intel.com"
+moz-do-not-send="true">Wang, Wei W</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="wei.w.wang@intel.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:chao.p.peng@linux.intel.com"
+moz-do-not-send="true">Chao Peng</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="chao.p.peng@linux.intel.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover" style="display:
+                                                        inline-block;;color:
+                                                        #3c4043;
+                                                        text-decoration:
+                                                        none;"
+                                                        href="mailto:kvm@vger.kernel.org"
+moz-do-not-send="true">kvm-devel</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="kvm@vger.kernel.org">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:qemu-devel@nongnu.org"
+moz-do-not-send="true">qemu-devel@nongnu.org</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="qemu-devel@nongnu.org">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                                <div><span
+                                                    itemprop="attendee"
+                                                    itemscope=""
+                                                    itemtype="http://schema.org/Person"><span
+                                                      itemprop="name"
+                                                      class="notranslate"><a
+class="primary-text underline-on-hover moz-txt-link-freetext"
+                                                        style="display:
+inline-block;;color: #3c4043; text-decoration: none;"
+                                                        href="mailto:mburton@qti.qualcomm.com"
+moz-do-not-send="true">mburton@qti.qualcomm.com</a></span>
+                                                    <meta
+                                                      itemprop="email"
+                                                      content="mburton@qti.qualcomm.com">
+                                                  </span><span
+                                                    class="secondary-text"
+                                                    style="color:
+                                                    #70757a;
+                                                    text-decoration:
+                                                    none;"></span></div>
+                                              </div>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!--[if mso | IE]></tr></table><![endif]--></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </span></span>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------uvxlCCAxGYsMSLnvx1m3jht9--
 
