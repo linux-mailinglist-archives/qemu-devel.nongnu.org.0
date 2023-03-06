@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C1A6AC102
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA51D6AC10C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:32:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZAvy-0002wl-AW; Mon, 06 Mar 2023 08:31:22 -0500
+	id 1pZAvy-0002vD-0n; Mon, 06 Mar 2023 08:31:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAuw-0002EV-Ov
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:19 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAuy-0002Fe-CA
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:22 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAuu-0007Tq-Po
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:18 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAuw-0007UB-Gw
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678109416;
+ s=mimecast20190719; t=1678109417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZl4S/shIyvcK8HyBWvvznRmTrxATnoSSf5yfmCaFQ0=;
- b=ay+dpSv7QHRAC+UEZ0uDHTwW+c3Qcatdv+qBRvI7qk9iO62Dxp4r35oI9wYCMUxI04OPOM
- KPajODPNyIgzkVgtg1hkSNV6ZL8sqUwAObfikQ/ZlZKMGWrHOehC0QzVc9lLcjCstcEFfQ
- DbFeR28ihKbXgYvQYGp2KYayGnugY/o=
+ bh=9tnOOPBlv8niq6Z/b140HdDHwlS3o7YiJrCtF6qcku4=;
+ b=Ky6/c4A5oaMEFaeI7PM3YxIqUU7zJ3ruigF8o+IcuyMhr0XL5Np46a/e287ZBKawjqema0
+ msrT4KaAS5uIqegxK4lKnsSoAgYkq0zMxMVWBI8F/OzXiRhsgqezvbbiu2QQXQv/aBtF+c
+ u6shP6+4DOzFQ9t1VDUAFjxUbpAVV0E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-298-tPzlOAdhMMKTJtebWSydlQ-1; Mon, 06 Mar 2023 08:30:14 -0500
-X-MC-Unique: tPzlOAdhMMKTJtebWSydlQ-1
+ us-mta-214-tUIB-QDiN6yd_XsUUuE9Og-1; Mon, 06 Mar 2023 08:30:15 -0500
+X-MC-Unique: tUIB-QDiN6yd_XsUUuE9Og-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D46D811E9C;
- Mon,  6 Mar 2023 13:30:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B112802D2E;
+ Mon,  6 Mar 2023 13:30:15 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13E0B4014CF3;
- Mon,  6 Mar 2023 13:30:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0A974014CF3;
+ Mon,  6 Mar 2023 13:30:14 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/16] tests/qtest/readconfig-test: Allow testing for arbitrary
- memory sizes
-Date: Mon,  6 Mar 2023 14:29:58 +0100
-Message-Id: <20230306133002.418421-13-thuth@redhat.com>
+Subject: [PULL 13/16] tests/qtest: Move mkimg() and have_qemu_img() from
+ libqos to libqtest
+Date: Mon,  6 Mar 2023 14:29:59 +0100
+Message-Id: <20230306133002.418421-14-thuth@redhat.com>
 In-Reply-To: <20230306133002.418421-1-thuth@redhat.com>
 References: <20230306133002.418421-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -76,48 +76,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make test_x86_memdev_resp() more flexible by allowing arbitrary
-memory sizes as parameter here.
+These two functions can be useful for other qtests beside the
+qos-test, too, so move them to libqtest instead.
 
-Message-Id: <20230228211533.201837-5-thuth@redhat.com>
+Message-Id: <20230228211533.201837-6-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/readconfig-test.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/qtest/libqos/libqos.h |  2 --
+ tests/qtest/libqtest.h      | 21 +++++++++++++++
+ tests/qtest/libqos/libqos.c | 49 +---------------------------------
+ tests/qtest/libqtest.c      | 52 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 74 insertions(+), 50 deletions(-)
 
-diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
-index 2160603880..533623f638 100644
---- a/tests/qtest/readconfig-test.c
-+++ b/tests/qtest/readconfig-test.c
-@@ -48,7 +48,7 @@ static QTestState *qtest_init_with_config(const char *cfgdata)
-     return qts;
+diff --git a/tests/qtest/libqos/libqos.h b/tests/qtest/libqos/libqos.h
+index 12d05b2365..c04950e2b1 100644
+--- a/tests/qtest/libqos/libqos.h
++++ b/tests/qtest/libqos/libqos.h
+@@ -27,8 +27,6 @@ QOSState *qtest_boot(QOSOps *ops, const char *cmdline_fmt, ...)
+     G_GNUC_PRINTF(2, 3);
+ void qtest_common_shutdown(QOSState *qs);
+ void qtest_shutdown(QOSState *qs);
+-bool have_qemu_img(void);
+-void mkimg(const char *file, const char *fmt, unsigned size_mb);
+ void mkqcow2(const char *file, unsigned size_mb);
+ void migrate(QOSState *from, QOSState *to, const char *uri);
+ void prepare_blkdebug_script(const char *debug_fn, const char *event);
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+index fcf1c3c3b3..3380cc1f54 100644
+--- a/tests/qtest/libqtest.h
++++ b/tests/qtest/libqtest.h
+@@ -832,4 +832,25 @@ void qtest_qom_set_bool(QTestState *s, const char *path, const char *property,
+  * Returns: Value retrieved from property.
+  */
+ bool qtest_qom_get_bool(QTestState *s, const char *path, const char *property);
++
++/**
++ * have_qemu_img:
++ *
++ * Returns: true if "qemu-img" is available.
++ */
++bool have_qemu_img(void);
++
++/**
++ * mkimg:
++ * @file: File name of the image that should be created
++ * @fmt: Format, e.g. "qcow2" or "raw"
++ * @size_mb: Size of the image in megabytes
++ *
++ * Create a disk image with qemu-img. Note that the QTEST_QEMU_IMG
++ * environment variable must point to the qemu-img file.
++ *
++ * Returns: true if the image has been created successfully.
++ */
++bool mkimg(const char *file, const char *fmt, unsigned size_mb);
++
+ #endif
+diff --git a/tests/qtest/libqos/libqos.c b/tests/qtest/libqos/libqos.c
+index 5ffda080ec..5c0fa1f7c5 100644
+--- a/tests/qtest/libqos/libqos.c
++++ b/tests/qtest/libqos/libqos.c
+@@ -137,56 +137,9 @@ void migrate(QOSState *from, QOSState *to, const char *uri)
+     migrate_allocator(&from->alloc, &to->alloc);
  }
  
--static void test_x86_memdev_resp(QObject *res)
-+static void test_x86_memdev_resp(QObject *res, const char *mem_id, int size)
+-bool have_qemu_img(void)
+-{
+-    char *rpath;
+-    const char *path = getenv("QTEST_QEMU_IMG");
+-    if (!path) {
+-        return false;
+-    }
+-
+-    rpath = realpath(path, NULL);
+-    if (!rpath) {
+-        return false;
+-    } else {
+-        free(rpath);
+-        return true;
+-    }
+-}
+-
+-void mkimg(const char *file, const char *fmt, unsigned size_mb)
+-{
+-    gchar *cli;
+-    bool ret;
+-    int rc;
+-    GError *err = NULL;
+-    char *qemu_img_path;
+-    gchar *out, *out2;
+-    char *qemu_img_abs_path;
+-
+-    qemu_img_path = getenv("QTEST_QEMU_IMG");
+-    g_assert(qemu_img_path);
+-    qemu_img_abs_path = realpath(qemu_img_path, NULL);
+-    g_assert(qemu_img_abs_path);
+-
+-    cli = g_strdup_printf("%s create -f %s %s %uM", qemu_img_abs_path,
+-                          fmt, file, size_mb);
+-    ret = g_spawn_command_line_sync(cli, &out, &out2, &rc, &err);
+-    if (err || !g_spawn_check_exit_status(rc, &err)) {
+-        fprintf(stderr, "%s\n", err->message);
+-        g_error_free(err);
+-    }
+-    g_assert(ret && !err);
+-
+-    g_free(out);
+-    g_free(out2);
+-    g_free(cli);
+-    free(qemu_img_abs_path);
+-}
+-
+ void mkqcow2(const char *file, unsigned size_mb)
  {
-     Visitor *v;
-     g_autoptr(MemdevList) memdevs = NULL;
-@@ -63,8 +63,8 @@ static void test_x86_memdev_resp(QObject *res)
-     g_assert(!memdevs->next);
- 
-     memdev = memdevs->value;
--    g_assert_cmpstr(memdev->id, ==, "ram");
--    g_assert_cmpint(memdev->size, ==, 200 * MiB);
-+    g_assert_cmpstr(memdev->id, ==, mem_id);
-+    g_assert_cmpint(memdev->size, ==, size * MiB);
- 
-     visit_free(v);
+-    return mkimg(file, "qcow2", size_mb);
++    g_assert_true(mkimg(file, "qcow2", size_mb));
  }
-@@ -80,7 +80,7 @@ static void test_x86_memdev(void)
-     qts = qtest_init_with_config(cfgdata);
-     /* Test valid command */
-     resp = qtest_qmp(qts, "{ 'execute': 'query-memdev' }");
--    test_x86_memdev_resp(qdict_get(resp, "return"));
-+    test_x86_memdev_resp(qdict_get(resp, "return"), "ram", 200);
-     qobject_unref(resp);
  
-     qtest_quit(qts);
+ void prepare_blkdebug_script(const char *debug_fn, const char *event)
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 2bfd460531..eaa1e8185f 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -1625,3 +1625,55 @@ bool qtest_qom_get_bool(QTestState *s, const char *path, const char *property)
+ 
+     return b;
+ }
++
++bool have_qemu_img(void)
++{
++    char *rpath;
++    const char *path = getenv("QTEST_QEMU_IMG");
++    if (!path) {
++        return false;
++    }
++
++    rpath = realpath(path, NULL);
++    if (!rpath) {
++        return false;
++    } else {
++        free(rpath);
++        return true;
++    }
++}
++
++bool mkimg(const char *file, const char *fmt, unsigned size_mb)
++{
++    gchar *cli;
++    bool ret;
++    int rc;
++    GError *err = NULL;
++    char *qemu_img_path;
++    gchar *out, *out2;
++    char *qemu_img_abs_path;
++
++    qemu_img_path = getenv("QTEST_QEMU_IMG");
++    if (!qemu_img_path) {
++        return false;
++    }
++    qemu_img_abs_path = realpath(qemu_img_path, NULL);
++    if (!qemu_img_abs_path) {
++        return false;
++    }
++
++    cli = g_strdup_printf("%s create -f %s %s %uM", qemu_img_abs_path,
++                          fmt, file, size_mb);
++    ret = g_spawn_command_line_sync(cli, &out, &out2, &rc, &err);
++    if (err || !g_spawn_check_exit_status(rc, &err)) {
++        fprintf(stderr, "%s\n", err->message);
++        g_error_free(err);
++    }
++
++    g_free(out);
++    g_free(out2);
++    g_free(cli);
++    free(qemu_img_abs_path);
++
++    return ret && !err;
++}
 -- 
 2.31.1
 
