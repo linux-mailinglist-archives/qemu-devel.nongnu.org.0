@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6D06AB3BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F25C6AB3CA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:42:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYytw-0004SQ-6s; Sun, 05 Mar 2023 19:40:29 -0500
+	id 1pYyuX-0004eP-6h; Sun, 05 Mar 2023 19:41:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYytc-0004PD-Ky
+ id 1pYytd-0004PW-IA
  for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:40:09 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYyta-0006Zj-JS
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:40:08 -0500
-Received: by mail-pl1-x636.google.com with SMTP id n6so8512168plf.5
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 16:40:05 -0800 (PST)
+ id 1pYytb-0006a4-FV
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:40:09 -0500
+Received: by mail-pl1-x629.google.com with SMTP id a9so8472282plh.11
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 16:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678063204;
+ d=linaro.org; s=google; t=1678063205;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=07DvNEQN6ya7xMt+CBzeTMYjrYnBsPy3UDNRCngWab0=;
- b=Et2xGaVAX4RotZoTpBUqE3H/QTN0Xqsl5bZh4XT4WnqAe6S6WKmMyWCAdZ4WjUvRhM
- nt4o3+avggl98xAGo5GqLV3jhZtu2PL19DVNr2rmD77qXbWtFJq5iT0Tuf1swsc4Y6fY
- tTkLYVs1f+ypwmNeT9R2SwabCOQQ5eYoWI7GnYKT4PbHv4+QWbtkKMrCxLdMXd9Hdg/X
- N/II07RDDOxZcMv/9B6B8zfjhiIpdPHa1VSXSCEodBcTk63/rWo4Tk0Ho8T+CNylv1Ms
- OY5xHWzQ2VH2GK/yhBV9hZrNR99wZ9NN4sJs9bI6tgQx6hn/Ak2cTnBUyf0HLaJdnxXK
- E1zg==
+ bh=BsXc6Cmx7iuP3bN7OQpA2UDgKrcwbdd6ecVFTRW8v7k=;
+ b=omO201Ag4i/K0jubwF1Jjx9BS+xCCS73t9tcsY5mGbPJ1Vo0PN4hZqQUKQ8ioSWDTR
+ 6o5J3baN91G9TE7EHRWXJC+8oQuGnN9ZjNgynYUJTbDo/E/UM07u+0J6TYA2HMHzQYFy
+ hKWA7hvyTjJ5TUXIotLu93D7imKgwj5vfcolw7bkfyUIF5UCjVv+31Qwf6+18dvn1lHl
+ nnGy8m0c7UytAVng0t+f+/NIJT2Mj0Hln2KE3BN0FNq7E94OTB3Lz1gLitqllPFu8yds
+ 0mp8TB5mXQvB22Z7OcSWHwle6x4dR21t1XoUoZBKPSsAow92roP6x0VjLLpHfjTDaoKf
+ j7yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678063204;
+ d=1e100.net; s=20210112; t=1678063205;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=07DvNEQN6ya7xMt+CBzeTMYjrYnBsPy3UDNRCngWab0=;
- b=Za/l+Y3eC+DrsoLiOcmLeo5dSW9q5pLnHVmUC5B9SB/ufntdIzGHoLJQt04bKjgoUo
- 7t24WqUKTHwPhiW7Oiys3JhTVRq51cb0a8QYt0IetAmGy86hXcz2DPd22hEiylwJmpn+
- qf3GQwvo8e59JnDsMjoobe31o06c/UhIfVDwV/39HlbxHjBQbDhuOpqOGdFOrzSLxom6
- cIe1d2SZ0xCk45mxRLMUOyy6+Hs7b1LI4YeCmtJ3jZJ9/gTneOLt5DrmosKWDHPrky6S
- Iu2VoNm4GgYFOn2gF54tP/kJ65Kkd5PGMshizAj7wGHaIT4Jz/7vMIAyl10kKmMRKHv2
- 0Q0w==
-X-Gm-Message-State: AO0yUKXa+BgEKFNGMd15xdGTP6HU8wPMmqkqoys0qwsUtqmeuaska1fp
- tMGrkgY8Z23cxi+8bnSznTTl/abF+f9edrXbs8xlVA==
-X-Google-Smtp-Source: AK7set8HtOreUuvlU3oJBqFwkWbzpF3Ps9fS+d7XwnNPi26qQwI/Ommd8loCqENtnNl0bvQB8OS/sg==
-X-Received: by 2002:a17:90b:2241:b0:237:29b1:1893 with SMTP id
- hk1-20020a17090b224100b0023729b11893mr9005258pjb.46.1678063204640; 
- Sun, 05 Mar 2023 16:40:04 -0800 (PST)
+ bh=BsXc6Cmx7iuP3bN7OQpA2UDgKrcwbdd6ecVFTRW8v7k=;
+ b=WUCtKw5D0K9YkNWzDgm0PfZ8440M7K5wE7fTJsIBNT/L5bC23WXCrWQn+mcyvkA+yN
+ hwDkbR30Ux0a416uzCb61k4p7VdoxTpfoN+/EJr5JZBUPyV4K3+aUSsA5P4/uUo5YYTk
+ JIpyu936SgvYGzkhwQpqarVJA2FFpxfkgp5pzVsKVO7BZw9PNSpo35pKfKlr5RTtKEz1
+ GfwQCi7R6F5n5o7AMKPZbQRuu4ijAL70uPK4ZLFu6GOWjUZyB1JBfiwLW2WXpvqUpTvX
+ rkP9wZZbJossbeabJu9CmjafPTi+s0u3IpnCJvpann5CFMxACywajsGPl34a+Bs/AVWw
+ bdEg==
+X-Gm-Message-State: AO0yUKWNBZBlAoyDDrsKUec2GwnpFsQGu4yrRotyrwxtUhuQTO5nmISC
+ lYaHBN4jX7AiBHXfV6n0oQ4VPea6MScC87x3QYF7HA==
+X-Google-Smtp-Source: AK7set9G+g37JXcZrzst5PID5mty+xQv6FWtsfkQv283JJx5SCf4l68ZT2pJV64c6sfKOgGT70EATw==
+X-Received: by 2002:a17:90a:190d:b0:230:7a31:b9a6 with SMTP id
+ 13-20020a17090a190d00b002307a31b9a6mr9852718pjg.7.1678063205539; 
+ Sun, 05 Mar 2023 16:40:05 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
  r13-20020a17090b050d00b002372106a5c2sm6567901pjz.37.2023.03.05.16.40.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 16:40:04 -0800 (PST)
+ Sun, 05 Mar 2023 16:40:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 10/84] tcg/i386: Mark Win64 call-saved vector regs as reserved
-Date: Sun,  5 Mar 2023 16:38:40 -0800
-Message-Id: <20230306003954.1866998-11-richard.henderson@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 11/84] tcg: Decode the operand to INDEX_op_mb in dumps
+Date: Sun,  5 Mar 2023 16:38:41 -0800
+Message-Id: <20230306003954.1866998-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306003954.1866998-1-richard.henderson@linaro.org>
 References: <20230306003954.1866998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,40 +92,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While we do not include these in tcg_target_reg_alloc_order,
-and therefore they ought never be allocated, it seems safer
-to mark them reserved as well.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.c.inc | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tcg/tcg.c | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 028ece62a0..4060a35cf6 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -4218,6 +4218,19 @@ static void tcg_target_init(TCGContext *s)
- 
-     s->reserved_regs = 0;
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_CALL_STACK);
-+#ifdef _WIN64
-+    /* These are call saved, and we don't save them, so don't use them. */
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM6);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM7);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM8);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM9);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM10);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM11);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM12);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM13);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM14);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_XMM15);
-+#endif
- }
- 
- typedef struct {
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index cd8f356adb..f9e1afd926 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -2192,6 +2192,85 @@ static void tcg_dump_ops(TCGContext *s, FILE *f, bool have_prefs)
+                                   arg_label(op->args[k])->id);
+                 i++, k++;
+                 break;
++            case INDEX_op_mb:
++                {
++                    TCGBar membar = op->args[k];
++                    const char *b_op, *m_op;
++
++                    switch (membar & TCG_BAR_SC) {
++                    case 0:
++                        b_op = "none";
++                        break;
++                    case TCG_BAR_LDAQ:
++                        b_op = "acq";
++                        break;
++                    case TCG_BAR_STRL:
++                        b_op = "rel";
++                        break;
++                    case TCG_BAR_SC:
++                        b_op = "seq";
++                        break;
++                    default:
++                        g_assert_not_reached();
++                    }
++
++                    switch (membar & TCG_MO_ALL) {
++                    case 0:
++                        m_op = "none";
++                        break;
++                    case TCG_MO_LD_LD:
++                        m_op = "rr";
++                        break;
++                    case TCG_MO_LD_ST:
++                        m_op = "rw";
++                        break;
++                    case TCG_MO_ST_LD:
++                        m_op = "wr";
++                        break;
++                    case TCG_MO_ST_ST:
++                        m_op = "ww";
++                        break;
++                    case TCG_MO_LD_LD | TCG_MO_LD_ST:
++                        m_op = "rr+rw";
++                        break;
++                    case TCG_MO_LD_LD | TCG_MO_ST_LD:
++                        m_op = "rr+wr";
++                        break;
++                    case TCG_MO_LD_LD | TCG_MO_ST_ST:
++                        m_op = "rr+ww";
++                        break;
++                    case TCG_MO_LD_ST | TCG_MO_ST_LD:
++                        m_op = "rw+wr";
++                        break;
++                    case TCG_MO_LD_ST | TCG_MO_ST_ST:
++                        m_op = "rw+ww";
++                        break;
++                    case TCG_MO_ST_LD | TCG_MO_ST_ST:
++                        m_op = "wr+ww";
++                        break;
++                    case TCG_MO_LD_LD | TCG_MO_LD_ST | TCG_MO_ST_LD:
++                        m_op = "rr+rw+wr";
++                        break;
++                    case TCG_MO_LD_LD | TCG_MO_LD_ST | TCG_MO_ST_ST:
++                        m_op = "rr+rw+ww";
++                        break;
++                    case TCG_MO_LD_LD | TCG_MO_ST_LD | TCG_MO_ST_ST:
++                        m_op = "rr+wr+ww";
++                        break;
++                    case TCG_MO_LD_ST | TCG_MO_ST_LD | TCG_MO_ST_ST:
++                        m_op = "rw+wr+ww";
++                        break;
++                    case TCG_MO_ALL:
++                        m_op = "all";
++                        break;
++                    default:
++                        g_assert_not_reached();
++                    }
++
++                    col += ne_fprintf(f, "%s%s:%s", (k ? "," : ""), b_op, m_op);
++                    i++, k++;
++                }
++                break;
+             default:
+                 break;
+             }
 -- 
 2.34.1
 
