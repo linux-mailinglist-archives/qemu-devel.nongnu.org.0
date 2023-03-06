@@ -2,136 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D866AC9B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786D36AC9D2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:24:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZEX2-0006sc-HU; Mon, 06 Mar 2023 12:21:52 -0500
+	id 1pZEYk-0001gI-K0; Mon, 06 Mar 2023 12:23:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pZEX0-0006oW-Gu
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:21:50 -0500
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZEYi-0001fN-Ma
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:23:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pZEWy-0007Zm-TA
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:21:50 -0500
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230306172148usoutp0266fbfe25d648e97725e74ee1c4d175ed~J5EH-OAIN2801728017usoutp02h;
- Mon,  6 Mar 2023 17:21:48 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20230306172148usoutp0266fbfe25d648e97725e74ee1c4d175ed~J5EH-OAIN2801728017usoutp02h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1678123308;
- bh=H2it2XComyhed/Ktkk/8iKc/Xzxi3tX70yy9BOsk5RQ=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=n5tOhcrErGxVCre/TwO46XbztwX1vcM/F2oO2rM0uxeO+xVnkSeTHtNXK6YrjvJ5H
- XbBPmaKMB/Y9rPAn/2v7DAjFQUX/ZnBJmxpn/mNZMn3quSFwIgMXiDgqPwOb+FvSOO
- vA1T05GS2038zNVkEaJMO7cSPjSk+/TjllMEQVSk=
-Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
- [203.254.195.109]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230306172148uscas1p257044c62a225c2617f0046b568e7113b~J5EHzz8Y_3131231312uscas1p2_;
- Mon,  6 Mar 2023 17:21:48 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
- ussmges1new.samsung.com (USCPEMTA) with SMTP id 64.39.06976.B2126046; Mon, 
- 6 Mar 2023 12:21:47 -0500 (EST)
-Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
- [203.254.195.89]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230306172146uscas1p2e9446294d8b850a1bbcd0e0d4302b603~J5EGM6vNf1373213732uscas1p2B;
- Mon,  6 Mar 2023 17:21:46 +0000 (GMT)
-X-AuditID: cbfec36d-afdff70000011b40-6a-6406212b6380
-Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.145]) by
- ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id E4.D3.11378.92126046; Mon, 
- 6 Mar 2023 12:21:46 -0500 (EST)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Mon, 6 Mar 2023 09:21:45 -0800
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
- SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Mon,
- 6 Mar 2023 09:21:45 -0800
-From: Fan Ni <fan.ni@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Michael Roth <michael.roth@amd.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, Dave Jiang
- <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>,
- =?iso-8859-1?Q?Daniel_P_=2E_Berrang=E9?= <berrange@redhat.com>, Eric Blake
- <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, Thomas
- Huth <thuth@redhat.com>
-Subject: Re: [RESEND PATCH v6 2/8] hw/pci/aer: Add missing routing for AER
- errors
-Thread-Topic: [RESEND PATCH v6 2/8] hw/pci/aer: Add missing routing for AER
- errors
-Thread-Index: AQHZTQw/G6QD+/yG8UOd0ZzVQiEZ/K7ujEIA
-Date: Mon, 6 Mar 2023 17:21:45 +0000
-Message-ID: <20230306172144.GB1489326@bgt-140510-bm03>
-In-Reply-To: <20230302133709.30373-3-Jonathan.Cameron@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <3A3BC774316E5341B79BEF4DA8EA2634@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZEYg-0008H3-Uu
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:23:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678123414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aD4hSbFkVi4Gf21BQmYFZNBk6r/AgTRo79NadtomHjM=;
+ b=akJQwRoO23XsdF4aMWW55rlIkRxF/FWm1+J5tafJXx6uuC3hwpZids4OLZmw8BZdQlHr2O
+ O2pjws0egvYkQ2+z/JsKf9TqKtqzMvjUpI+b6rcMEACgPLRdxlz0HMsZzYvC7Zj0qfwW75
+ zzNg5TOF7XoKn80q8oEWlKbaNQCDMXU=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-250-vAsBmO5CMa6ZC1SH8Ur5ZQ-1; Mon, 06 Mar 2023 12:23:32 -0500
+X-MC-Unique: vAsBmO5CMa6ZC1SH8Ur5ZQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ pm17-20020ad446d1000000b0057256b237b9so5885256qvb.16
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 09:23:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678123412;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aD4hSbFkVi4Gf21BQmYFZNBk6r/AgTRo79NadtomHjM=;
+ b=TLcVIZXbyIDhWz9oBN5O4AkQ1AUFU8waeBQOdPuurJKIcLWme3C5Eo+WxuErPCEqXl
+ NrJbLIJNuZoyqd8/rZrr6j0PLt5ZbzmSiR9adPKXnpr2qZdjGRVx9OB2EYNfPtvfbSoV
+ +OyfNqGVLzW2t3geO+jH6RVmi18zR7Gm11endPURk7j4Jci+FmsFYwJwXbiNiCgVquXg
+ jwohVPhwRIMWlEa5mO5Z7zuGlNa6RMMAGjyL+PSlitiW+5LjRQFkEYxWfN0IZk88twap
+ TnCLJn0phJO/rQXQUB1wRZ96dtTTSfrptONGZ6l1phlHAMVtLFS8iNIirJ1hLf24mv6E
+ 6EvA==
+X-Gm-Message-State: AO0yUKWyFLo77UTuxD+UXH3MKJc+1Uy67xrLWq1uRZzRdLy+BHwJlsjo
+ ZKUYRQz+wLr8Tm4/1jjpIS+TJRjQyDDdF1KP1sN2u3mLJl+aUOiD89nIY0ioqs3m5e9fL9gneL7
+ g1HR73E1TsBBlU3Y=
+X-Received: by 2002:a05:622a:120a:b0:3bf:d238:6ca with SMTP id
+ y10-20020a05622a120a00b003bfd23806camr18714194qtx.68.1678123412190; 
+ Mon, 06 Mar 2023 09:23:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set94gZr06n0grJyI7bPD9ZyY8AeOD82NORyMez1tFyp4xmCW6tKjSIrLYmU3riociqN9MzXT5A==
+X-Received: by 2002:a05:622a:120a:b0:3bf:d238:6ca with SMTP id
+ y10-20020a05622a120a00b003bfd23806camr18714173qtx.68.1678123411949; 
+ Mon, 06 Mar 2023 09:23:31 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ y12-20020ac8704c000000b003bfb6ddc49dsm7982265qtm.1.2023.03.06.09.23.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 09:23:31 -0800 (PST)
+Message-ID: <b3c061f5-662f-8303-c8f8-2788979d70e8@redhat.com>
+Date: Mon, 6 Mar 2023 18:23:29 +0100
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEKsWRmVeSWpSXmKPExsWy7djX87raimwpBrObzC3uPr7AZjF/7X0W
- izdv1jBZnLjZyGYx8e16Vov9T5+zWKxaeI3N4vysUywWhzeeYbJY0NbOarHm/iFWi99rHzNZ
- /P/1CshdIWxxvHcHi8XKYzYOAh6tl/6yeeycdZfdo+XIW1aPxXteMnncubaHzePJtc1MHu/3
- XWXz+LxJLoAjissmJTUnsyy1SN8ugSvj3Ga5gh98FTsfNTI3MJ7l7mLk5JAQMJFY8HEhaxcj
- F4eQwEpGiY9717BDOK1MEvtmzGfsYuQAq/qzyRsivpZR4sjh/UwQzkdGiUkXvzGDjBISWMoo
- cb6xFsRmE1CU2Ne1nQ3EFhEwknh3YxIjSAOzwB5WiY8z5rODJIQFgiW+ffsFlGAHKgqReB4G
- U77v601GEJtFQEXi6e9HLCA2r4CZxOb1z5lAbE4BR4mv/bfAxjMKiEl8P7UGLM4sIC5x68l8
- JojPBCUWzd7DDGGLSfzb9ZANwlaUuP/9JTtEvZ7EjalT2CBsO4k3XTuh4toSyxa+ZobYKyhx
- cuYTFoheSYmDK26wgLwiIbCcU2LHs1VQCReJlqMnoJZJS1y9PpUZEnDJEqs+ckGEcyTmL9kC
- VW4tsfDPeqYJjCqzkJw9C8lJs5CcNAvJSbOQnLSAkXUVo3hpcXFuemqxYV5quV5xYm5xaV66
- XnJ+7iZGYDI8/e9w7g7GHbc+6h1iZOJgPMQowcGsJMJb9Zs1RYg3JbGyKrUoP76oNCe1+BCj
- NAeLkjivoe3JZCGB9MSS1OzU1ILUIpgsEwenVANTT9p8pcsPHBkXLTGrnrLiH1OHcKzWBMUH
- R04uq/67je20geDde48PSrI4PQxfz+jEMaUvMOL1EcnC676hZ2e4PDeqK5gVbvXi5Vcnm5SM
- P18vNImW/FS4pVc7+Yy/5J6QINHfkw2XWsS3tPd2V+3XPL718/zkIsWt7KkdF/c+VFP7ufR8
- 0nPJxn8iK/mybQ7Z27D1PH2u+ev4yrfGz/+VOx5WVUg6/pvLleO7k4WGiTP/P8d1b6znflVi
- 3GR1UsP6NO+clz1CtdpPPmnZiTJ4bV/LdVjNZeeFJQvtJkoEv92aa9fVKMzlvH364ysMLFb2
- nv9KFCrFrljNUH3wn010q1Yun+/rH6VrFHbMi01SYinOSDTUYi4qTgQANHFhffUDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LJbGCaqKulyJZi8PIeh8XdxxfYLOavvc9i
- 8ebNGiaLEzcb2Swmvl3ParH/6XMWi1ULr7FZnJ91isXi8MYzTBYL2tpZLdbcP8Rq8XvtYyaL
- /79eAbkrhC2O9+5gsVh5zMZBwKP10l82j52z7rJ7tBx5y+qxeM9LJo871/aweTy5tpnJ4/2+
- q2wenzfJBXBEcdmkpOZklqUW6dslcGWc2yxX8IOvYuejRuYGxrPcXYwcHBICJhJ/Nnl3MXJx
- CAmsZpT4u/kLaxcjJ5DzkVFi0lwbiMRSRolZDYeYQRJsAooS+7q2s4HYIgJGEu9uTGIEKWIW
- 2MUq8Xjpc3aQhLBAsMS3b78YIYpCJB7vfgXXsO/rTbA4i4CKxNPfj1hAbF4BM4nN658zQWwu
- lzgx6QbYFZwCjhJf+2+B9TIKiEl8P7UGrIZZQFzi1pP5YLaEgIDEkj3nmSFsUYmXj/+xQtiK
- Eve/v2SHqNeTuDF1ChuEbSfxpmsnVFxbYtnC18wQNwhKnJz5hAWiV1Li4IobLBOA/kaybhaS
- UbOQjJqFZNQsJKMWMLKuYhQvLS7OTa8oNsxLLdcrTswtLs1L10vOz93ECEwmp/8djtzBePTW
- R71DjEwcjIcYJTiYlUR4q36zpgjxpiRWVqUW5ccXleakFh9ilOZgURLnFXKdGC8kkJ5Ykpqd
- mlqQWgSTZeLglGpgctu9e2KkduOB0MWxVxTXsUsq7v68TOF5efe/vVeaf+5tTp32+HOmkvC7
- /vTdTAoN7D99H16QS2K5bKrqP6mMMfw9l8rHFLF1RUtW3xew2ybaO0uR7b/xWSfmxTwc19mn
- Lqz7U6v1WLwjlPWH64n/p6P/b1o/7a5b8WOFh/azja/Ou807f3qHmFDbxa3i99SZxJ4KMoo/
- uv74g/Cd1XfY1x5f2NF/00Chf3G8102bcJWsftFlprw5KhMaM67q/7xk11nDr2vryrJzm3+Q
- aZFA8sdljNeX1IV+OvCSL+Wdm1Co4PxIu8YZh3N3vNpt67O5+R3ryY7HrzWMp3u7XnoQvCq2
- gyHXluXEBz9dnlnsSizFGYmGWsxFxYkA+uVuvJUDAAA=
-X-CMS-MailID: 20230306172146uscas1p2e9446294d8b850a1bbcd0e0d4302b603
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230306172146uscas1p2e9446294d8b850a1bbcd0e0d4302b603
-References: <20230302133709.30373-1-Jonathan.Cameron@huawei.com>
- <20230302133709.30373-3-Jonathan.Cameron@huawei.com>
- <CGME20230306172146uscas1p2e9446294d8b850a1bbcd0e0d4302b603@uscas1p2.samsung.com>
-Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
- helo=mailout2.w2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 00/13] vfio/migration: Device dirty page tracking
+Content-Language: en-US
+To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+References: <20230304014343.33646-1-joao.m.martins@oracle.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230304014343.33646-1-joao.m.martins@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,54 +103,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 01:37:03PM +0000, Jonathan Cameron wrote:
-> PCIe r6.0 Figure 6-3 "Pseudo Logic Diagram for Selected Error Message Con=
-trol
-> and Status Bits" includes a right hand branch under "All PCI Express devi=
-ces"
-> that allows for messages to be generated or sent onwards without SERR#
-> being set as long as the appropriate per error class bit in the PCIe
-> Device Control Register is set.
->=20
-> Implement that branch thus enabling routing of ERR_COR, ERR_NONFATAL
-> and ERR_FATAL under OSes that set these bits appropriately (e.g. Linux)
->=20
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> ---
+On 3/4/23 02:43, Joao Martins wrote:
+> Hey,
+> 
+> Presented herewith a series based on the basic VFIO migration protocol v2
+> implementation [1].
+> 
+> It is split from its parent series[5] to solely focus on device dirty
+> page tracking. Device dirty page tracking allows the VFIO device to
+> record its DMAs and report them back when needed. This is part of VFIO
+> migration and is used during pre-copy phase of migration to track the
+> RAM pages that the device has written to and mark those pages dirty, so
+> they can later be re-sent to target.
+> 
+> Device dirty page tracking uses the DMA logging uAPI to discover device
+> capabilities, to start and stop tracking, and to get dirty page bitmap
+> report. Extra details and uAPI definition can be found here [3].
+> 
+> Device dirty page tracking operates in VFIOContainer scope. I.e., When
+> dirty tracking is started, stopped or dirty page report is queried, all
+> devices within a VFIOContainer are iterated and for each of them device
+> dirty page tracking is started, stopped or dirty page report is queried,
+> respectively.
+> 
+> Device dirty page tracking is used only if all devices within a
+> VFIOContainer support it. Otherwise, VFIO IOMMU dirty page tracking is
+> used, and if that is not supported as well, memory is perpetually marked
+> dirty by QEMU. Note that since VFIO IOMMU dirty page tracking has no HW
+> support, the last two usually have the same effect of perpetually
+> marking all pages dirty.
+> 
+> Normally, when asked to start dirty tracking, all the currently DMA
+> mapped ranges are tracked by device dirty page tracking. If using a
+> vIOMMU we block live migration. It's temporary and a separate series is
+> going to add support for it. Thus this series focus on getting the
+> ground work first.
+> 
+> The series is organized as follows:
+> 
+> - Patches 1-7: Fix bugs and do some preparatory work required prior to
+>    adding device dirty page tracking.
+> - Patches 8-10: Implement device dirty page tracking.
+> - Patch 11: Blocks live migration with vIOMMU.
+> - Patches 12-13 enable device dirty page tracking and document it.
+> 
+> Comments, improvements as usual appreciated.
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
+It would be helpful to have some feed back from Avihai on the new patches
+introduced in v3 or v4 before merging.
 
->  hw/pci/pcie_aer.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-> index 909e027d99..103667c368 100644
-> --- a/hw/pci/pcie_aer.c
-> +++ b/hw/pci/pcie_aer.c
-> @@ -192,8 +192,16 @@ static void pcie_aer_update_uncor_status(PCIDevice *=
-dev)
->  static bool
->  pcie_aer_msg_alldev(PCIDevice *dev, const PCIEAERMsg *msg)
->  {
-> +    uint16_t devctl =3D pci_get_word(dev->config + dev->exp.exp_cap +
-> +                                   PCI_EXP_DEVCTL);
->      if (!(pcie_aer_msg_is_uncor(msg) &&
-> -          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR)))=
- {
-> +          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR)) =
-&&
-> +        !((msg->severity =3D=3D PCI_ERR_ROOT_CMD_NONFATAL_EN) &&
-> +          (devctl & PCI_EXP_DEVCTL_NFERE)) &&
-> +        !((msg->severity =3D=3D PCI_ERR_ROOT_CMD_COR_EN) &&
-> +          (devctl & PCI_EXP_DEVCTL_CERE)) &&
-> +        !((msg->severity =3D=3D PCI_ERR_ROOT_CMD_FATAL_EN) &&
-> +          (devctl & PCI_EXP_DEVCTL_FERE))) {
->          return false;
->      }
-> =20
-> --=20
-> 2.37.2
->=20
-> =
+Also, (being curious) did you test migration with a TCG guest ?
+
+Thanks,
+
+C.
+
 
