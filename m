@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC056AB6BA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CCD6AB6CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 08:11:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ4nH-0003Uw-Pd; Mon, 06 Mar 2023 01:57:59 -0500
+	id 1pZ4zU-0000Yp-IZ; Mon, 06 Mar 2023 02:10:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pZ4nE-0003H1-7q; Mon, 06 Mar 2023 01:57:56 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ4zO-0000Yb-9x
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:10:30 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pZ4nB-0001Xp-55; Mon, 06 Mar 2023 01:57:55 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id j3so4955771wms.2;
- Sun, 05 Mar 2023 22:57:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ4zM-0005dK-AC
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:10:29 -0500
+Received: by mail-wr1-x433.google.com with SMTP id e13so7685695wro.10
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 23:10:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678085871;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ROFUnSEnxl2TBbaUggpz+pLim4EObH1XxtmbpnXyJeg=;
- b=Gbf8w6PRqq708WiAvYvwlPfs5m8rsncJHY9mRJRFaxhWeDWuefsu+1pOF1jXGvIATD
- XIZZSyRIAJj9HMutgd4aFmCKB/RIopiUGts/ahdTQbxn9fWvkC5wgn2+vzTzXmlmqgEP
- REmePisHCwZDNofp8eLyqWczEjD6EHLAaVK2C4Gsecj3CVKwR5HkeBHjbXAyFpmfX3iE
- psyFdJWThPqwxQbQXWZAU4wL8npiCd8KES5Or5rCGMxD72lkFzMcqxfF+Rm6VBirH8BN
- mngwZv9tIyUHlIalgi/rhEl3JLnXW76ZfHL/GqdoJ82MtSJTv+NLSTXfjdEP0wzNLf+i
- xhGA==
+ d=linaro.org; s=google; t=1678086626;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pSYLxdWZesqfClWwp31wlW+QVMk0EmZd5d0x3Go+MS0=;
+ b=TpUfib+hy4tf7zH5xaLqzIktBaMOXxN0b14bDpyvykylhU9u1z5iydzHUf4VRTYsqu
+ 3IAK0gL8Nuu8GVvYjwa4H6PboTuoo9BgDkyAesmcbZKfGQ0P42LZNGLVOw3WJUl7iYyM
+ 4t2GaJ13oubrbbPIcWQL10g9PpJacMP/3TIr2nXAzBDF4LD6TE5As0yiypHnFHM/b8RR
+ PVSWZN3I1+OAjn9Pa6OLhxfVOprvWKW/bZOgpW85+gbb9NdYMaj0njtO/hnl1lDkMjzQ
+ dM1tWBC08tWBtlPwI024ceyTP3WHlQW4Mj/Zk/K93ZvwQrJ3IBFe7RRp4dmatkvj4q9s
+ vA2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678085871;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ROFUnSEnxl2TBbaUggpz+pLim4EObH1XxtmbpnXyJeg=;
- b=NNFbpq7pUYdwpCaHqdEwvD1BzFXwriAToLRkjaIjcncNLZEGYt7nqNxFlBSqT3F7/2
- D5JMxuOllSGVIDaGABWcVZkqD57+VL/KhRvR+DZA0kUnx+hA+K8FVYc/Q30oxIWLrDDI
- FpCdFmpduzPfJRi35C9hhE84qDmuemu6/IO+rxqDjZi4q/ZTFOLXQrrf1oYFvetG8ZnS
- 0TZ4+8eu3ze3PrzgxECkypZjl2yzhQEczbgeIZz9dkWS+AdSVXtrb7KpPqM9xpDTVxJm
- ApnRUJfRlT+0T4t+PreFG8lzDFIYL5XA0CcqfVytU8DBuFoRRRTthZAe5kGYo75T8OJ8
- Va3Q==
-X-Gm-Message-State: AO0yUKX6AgT6YynEErKtaAnezqcm1WmRLjKIx+4583Namrl22Jj8BHIt
- 0cfJ/h7ENXLkbsHSAN7IKLE=
-X-Google-Smtp-Source: AK7set/ewuiHEzHh0iNpNycKs2yqLUJROAcfJdLlFmRBzPoo1sqPEaflKKKVkeHTFCDfSgScIPDHiA==
-X-Received: by 2002:a05:600c:4f15:b0:3eb:3998:36fa with SMTP id
- l21-20020a05600c4f1500b003eb399836famr8243613wmq.29.1678085871042; 
- Sun, 05 Mar 2023 22:57:51 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-183-189-218.77.183.pool.telefonica.de.
- [77.183.189.218]) by smtp.gmail.com with ESMTPSA id
- p16-20020a05600c359000b003e209b45f6bsm14294231wmq.29.2023.03.05.22.57.50
+ d=1e100.net; s=20210112; t=1678086626;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pSYLxdWZesqfClWwp31wlW+QVMk0EmZd5d0x3Go+MS0=;
+ b=X6C6b1tSfR73fTVx3O28QAd3nRp2XJB3YLW8PSGZ2TzPcYXHh1Gr4kWcqleCuh738F
+ We8vim1FWfwQ0g0AZzHPLZSilbuv8c0a9FPil4k0Y2WBuKqdzM7nBeMd9qcGOzQnXICU
+ ywW0Yjs9xJj7vjKTo0IoO8cIVubf3fpW//AuWDDL8Juszj2mhWxp9lxdyGyl703PVYYr
+ L7HYwygT7zM+Uqg9gr8zT1b6haJCuUfei5bt6SpaZpxHvuuLMWZ1IaExI7Uab/l/eI5c
+ GLauYnbJRUx2Digex9Gk90yVQd5jlfrhnlVUjLq4DsKgBoKACMwkn5OQwt3uFAsoadNk
+ sSVQ==
+X-Gm-Message-State: AO0yUKWF79T9sRbxKHl3CZpFhA8q2+cdyJ3Pl+hmMf54mZ5LE9TU1vCu
+ 6SzlBJl/XdxHIvXdYLMN7QzGIA==
+X-Google-Smtp-Source: AK7set8WMHEh+m+y7cvpwirjCsrzSw3z03KHwivgCOGzH45pkyZUbZlTCowHtBCo/0bO06sbYP7OFg==
+X-Received: by 2002:a05:6000:1087:b0:2c5:5349:22c1 with SMTP id
+ y7-20020a056000108700b002c5534922c1mr9297073wrw.5.1678086626158; 
+ Sun, 05 Mar 2023 23:10:26 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w9-20020a05600018c900b002c5a1bd5280sm8935891wrq.95.2023.03.05.23.10.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Mar 2023 22:57:50 -0800 (PST)
-Date: Mon, 06 Mar 2023 06:57:41 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v4 1/9] hw/pci-host/i440fx: Inline sysbus_add_io()
-In-Reply-To: <3ABCEE15-F73D-498F-8D95-F17B78795E14@gmail.com>
-References: <20230213162004.2797-1-shentey@gmail.com>
- <20230213162004.2797-2-shentey@gmail.com>
- <f865212d-6a08-8f9e-5ddd-6fe037fc5fa9@linaro.org>
- <3ABCEE15-F73D-498F-8D95-F17B78795E14@gmail.com>
-Message-ID: <EA2E3787-179C-4A50-9305-969404D09702@gmail.com>
+ Sun, 05 Mar 2023 23:10:25 -0800 (PST)
+Message-ID: <283cc237-2510-ca86-e773-e49942ec924b@linaro.org>
+Date: Mon, 6 Mar 2023 08:10:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x32c.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/5] tcg: Elide memory barriers implied by the host
+ memory model
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+References: <20230306015710.1868853-1-richard.henderson@linaro.org>
+ <20230306015710.1868853-3-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230306015710.1868853-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,73 +92,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 6/3/23 02:57, Richard Henderson wrote:
+> Reduce the set of required barriers to those needed by
+> the host right from the beginning.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/tcg-op.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Am 22=2E Februar 2023 18:05:51 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
->
->
->Am 22=2E Februar 2023 10:58:08 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
-<philmd@linaro=2Eorg>:
->>On 13/2/23 17:19, Bernhard Beschow wrote:
->>> sysbus_add_io() just wraps memory_region_add_subregion() while also
->>> obscuring where the memory is attached=2E So use
->>> memory_region_add_subregion() directly and attach it to the existing
->>> memory region s->bus->address_space_io which is set as an alias to
->>> get_system_io() by the pc machine=2E
->>>=20
->>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>> Reviewed-by: Thomas Huth <thuth@redhat=2Ecom>
->>> ---
->>>   hw/pci-host/i440fx=2Ec | 5 +++--
->>>   1 file changed, 3 insertions(+), 2 deletions(-)
->>>=20
->>> diff --git a/hw/pci-host/i440fx=2Ec b/hw/pci-host/i440fx=2Ec
->>> index 262f82c303=2E=2E9c6882d3fc 100644
->>> --- a/hw/pci-host/i440fx=2Ec
->>> +++ b/hw/pci-host/i440fx=2Ec
->>> @@ -27,6 +27,7 @@
->>>   #include "qemu/range=2Eh"
->>>   #include "hw/i386/pc=2Eh"
->>>   #include "hw/pci/pci=2Eh"
->>> +#include "hw/pci/pci_bus=2Eh"
->>>   #include "hw/pci/pci_host=2Eh"
->>>   #include "hw/pci-host/i440fx=2Eh"
->>>   #include "hw/qdev-properties=2Eh"
->>> @@ -217,10 +218,10 @@ static void i440fx_pcihost_realize(DeviceState *=
-dev, Error **errp)
->>>       PCIHostState *s =3D PCI_HOST_BRIDGE(dev);
->>>       SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
->>>   -    sysbus_add_io(sbd, 0xcf8, &s->conf_mem);
->>> +    memory_region_add_subregion(s->bus->address_space_io, 0xcf8, &s->=
-conf_mem);
->>
->>To avoid accessing internal fields we should stick to the PCI API:
->>
->>    memory_region_add_subregion(pci_address_space_io(PCI_DEVICE(dev)),
->>                                0xcf8, &s->conf_mem);
->
->dev is of type PCIHostState which derives from SysBusDevice, not PCIDevic=
-e=2E AFAICS there is no getter implemented on PCIBus=2E
-
-Ping
-
->
->>
->>>       sysbus_init_ioports(sbd, 0xcf8, 4);
->>>   -    sysbus_add_io(sbd, 0xcfc, &s->data_mem);
->>> +    memory_region_add_subregion(s->bus->address_space_io, 0xcfc, &s->=
-data_mem);
->>>       sysbus_init_ioports(sbd, 0xcfc, 4);
->>
->>Now all classes implementing PCI_HOST_BRIDGE register conf/data in I/O
->>space, so this could be a pattern justifying reworking a bit the
->>PCIHostBridgeClass or adding an helper in "hw/pci/pci_host=2Eh" to do
->>that generically=2E
->
->What do you mean exactly? There are PCI hosts spawning two PCI buses and =
-therefore have two such spaces=2E
->
->Best regards,
->Bernhard
 
