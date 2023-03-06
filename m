@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65396AD0FB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B426AD115
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:06:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIse-0001x0-FA; Mon, 06 Mar 2023 17:00:28 -0500
+	id 1pZIwX-0006Iw-5m; Mon, 06 Mar 2023 17:04:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZIsZ-0001wg-OF; Mon, 06 Mar 2023 17:00:24 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZIsX-0006Jd-7f; Mon, 06 Mar 2023 17:00:23 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E33057457E7;
- Mon,  6 Mar 2023 23:00:05 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8F81A745720; Mon,  6 Mar 2023 23:00:05 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8E09E7456E3;
- Mon,  6 Mar 2023 23:00:05 +0100 (CET)
-Date: Mon, 6 Mar 2023 23:00:05 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Bernhard Beschow <shentey@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
-In-Reply-To: <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
-Message-ID: <8e57aba8-64c4-d773-fdb3-37e07401f52c@eik.bme.hu>
-References: <cover.1678105081.git.balaton@eik.bme.hu>
- <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
- <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pZIwV-0006GQ-N9
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:27 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pZIwT-0006nf-E4
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:27 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ me6-20020a17090b17c600b0023816b0c7ceso14628123pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140263;
+ h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:to:cc:subject:date:message-id:reply-to;
+ bh=14uPfJspXFxhR3+JPnfl/MwVSK2Hq2CRqo5BnAXm5qU=;
+ b=oqAAFl0Q7fcCfzwWPWus6SEElvJCbuZKOKTcMROpjpBHqqYQW6tNlHzW4j3roTP34D
+ inA9s6mz1vZzm1oeiWB056+xnAh9rkH8ZwhFO3f/+lDsJEgQyeJeZccWNNGXT9dQmH3M
+ qz1N5Wa5QHhZAoBZTWJ17tIqLk16a0OgQbgOHlFEWEsuX4ZM4xefrcLDNqMf9PwLL/lS
+ wkzwfbemOlTn6MtthZj+0SmBeOu9p8ikcCaASEdZIpPnLPrDXsRwGUxlxM7k7JDFQBUe
+ mQy0lypt+TXjVqTEymQpnom/jBZTIcr3hplRlO5vZ+W7WCjikz/WUxFcwV6+XVecjdiX
+ +jXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678140263;
+ h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+ :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=14uPfJspXFxhR3+JPnfl/MwVSK2Hq2CRqo5BnAXm5qU=;
+ b=pjPQkeoCmHUTnjXIJqWWvXbmDeNw2C7lTFHacXGkzH37p8HB+Z1+EmltPKPGelfbFJ
+ KgKeXZSLli5bA8AI2962uV1gG/zzDVlMsctZP3l1qFIDXXoxQLOQriXuIxozBeruTfjh
+ cVMhC2fNj4qgTk34t6y+KSLofjmq1bT7zAinHvhG4/nYyY3jTrIG/IYwblHWFL68AXKy
+ t7R7JYz0G4wzlCgQ2blF9E9m/83hsrtUuGA/H8kr3eGSi199xlhHrmPSVawYkTuG+D0C
+ 14LcbhvT7keAcn3oyZjxc1hL8aL75PzAlBJAkE+mDmbjOk5YFQwtOjIGcRyQaTqdAwp5
+ TSSQ==
+X-Gm-Message-State: AO0yUKVABepIpRbFQ2oFhORz+tQZlPHMnJymiwWA+hdU2U+0rzdstOdt
+ KdLV4I1oA2JVoIc0SrIZ71iJtA==
+X-Google-Smtp-Source: AK7set/qkcLeM5vrXoFrbV5ADeV/8NIxzEjSakfFVO/XC2tsVGPuzXIWnqHqGNyAvsLxlIZNab5CMA==
+X-Received: by 2002:a05:6a20:258a:b0:cb:7958:7071 with SMTP id
+ k10-20020a056a20258a00b000cb79587071mr14158601pzd.19.1678140263185; 
+ Mon, 06 Mar 2023 14:04:23 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ x8-20020aa79188000000b005dc70330d9bsm6735611pfa.26.2023.03.06.14.04.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 14:04:22 -0800 (PST)
+Subject: [PULL 00/22] Sixth RISC-V PR for 8.0
+Date: Mon,  6 Mar 2023 14:02:37 -0800
+Message-Id: <20230306220259.7748-1-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,174 +86,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
-> On 06/03/2023 12:33, BALATON Zoltan wrote:
->> According to the PegasosII schematics the PCI interrupt lines are
->> connected to both the gpp pins of the Mv64361 north bridge and the
->> PINT pins of the VT8231 south bridge so guests can get interrupts from
->> either of these. So far we only had the MV64361 connections which
->> worked for on board devices but for additional PCI devices (such as
->> network or sound card added with -device) guest OSes expect interrupt
->> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
->> VT8231 ISA bridge. After the previous patches we can now model this
->> and also remove the board specific connection from mv64361. Also
->> configure routing of these lines when using Virtual Open Firmware to
->> match board firmware for guests that expect this.
->> 
->> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> Tested-by: Rene Engel <ReneEngel80@emailn.de>
->> ---
->>   hw/pci-host/mv64361.c |  4 ----
->>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
->>   2 files changed, 25 insertions(+), 5 deletions(-)
->> 
->> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
->> index 298564f1f5..19e8031a3f 100644
->> --- a/hw/pci-host/mv64361.c
->> +++ b/hw/pci-host/mv64361.c
->> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error 
->> **errp)
->>       }
->>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
->>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
->> -    /* FIXME: PCI IRQ connections may be board specific */
->> -    for (i = 0; i < PCI_NUM_PINS; i++) {
->> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
->> -    }
->>   }
->>     static void mv64361_reset(DeviceState *dev)
->> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
->> index b0ada9c963..ded5dc2dc9 100644
->> --- a/hw/ppc/pegasos2.c
->> +++ b/hw/ppc/pegasos2.c
->> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
->>       MachineState parent_obj;
->>       PowerPCCPU *cpu;
->>       DeviceState *mv;
->> +    qemu_irq mv_pirq[PCI_NUM_PINS];
->> +    qemu_irq via_pirq[PCI_NUM_PINS];
->>       Vof *vof;
->>       void *fdt_blob;
->>       uint64_t kernel_addr;
->> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
->>       }
->>   }
->>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
->> +{
->> +    Pegasos2MachineState *pm = opaque;
->> +
->> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
->> +    qemu_set_irq(pm->mv_pirq[n], level);
->> +    qemu_set_irq(pm->via_pirq[n], level);
->> +}
->> +
->
-> Can you explain a bit more about how the PCI interrupt lines are connected to 
-> both the MV64361 and VT8231? The reason for asking is that I see a similar
+The following changes since commit 2946e1af2704bf6584f57d4e3aec49d1d5f3ecc0:
 
-I think I already did that in previous replies but I try again. In 
-pagasosII schematics at https://www.powerdeveloper.org/platforms/pegasos/schematics
+  configure: Disable thread-safety warnings on macOS (2023-03-04 14:03:46 +0000)
 
-Sheet 2 Marvell System Controller shows PINTA-D are connected to MV64361 
-MPP12-15 pins that are also called GPP in the docs (I think these are 
-referred to as either Multi Purpose or General Purpose Pins).
+are available in the Git repository at:
 
-Sheet 18 VIA VT8231 Southbridge shows INTR_A-D connected to VT8231 PINTA-D 
-pins, which are connected to INTA-D on sheet 13 PCI Top Level. Sheet 1 Top 
-Level Pegasos shows that Sheet 13 INTA-D are connected to Sheet 2 PINTA-D.
+  https://gitlab.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230306
 
-> pattern in the bonito board, but there I can't see how those lines would be 
-> used because they can also raise a CPU interrupt, yet it is a different one 
-> compared to the 8259.
+for you to fetch changes up to 47fc340010335bc2549bc1f07e5fd85d86a2b9f9:
 
-Both the MV64361 and VT8231 have interrupt mask registers which allow the 
-guest to choose where it wants an interrupt from. I guess different guests 
-could use one or the other, unlikely they would use both but they could 
-even do that if they wanted. I guess in bonito it's also maskable so the 
-guest could set up irqs by programing the apprpriate north and south 
-bridge registers. A guest which has ISA drivers (probably most) may likely 
-want to route them to ISA IRQs in the VIA chip. Maybe this strange 
-behaviour has to do with Windows compatibility and standards back then 
-which never really took off like CHRP for PPC.
+  MAINTAINERS: Add entry for RISC-V ACPI (2023-03-06 11:35:08 -0800)
 
-> Given that we know from Bernhard's tests that the fuloong2e board works with 
-> pci_bus_irqs() included in via_isa_realize() which overwrites the bonito 
-> equivalent, I'm wondering if the mv_pirq array is actually needed at all and 
-> whether it may just be a debugging aid? Certainly it makes things simpler to 
-> just route everything to the VIA device.
+----------------------------------------------------------------
+Sixth RISC-V PR for 8.0
 
-In any case calling pci_bus_irqs in the VIA device would be wrong and 
-connections should be made here by the board as that correctly models the 
-hardware separating components and allows different boards to use the chip 
-model in the future. I remember that I've implemenred connections to 
-MV64361 for something but I don't remember which guest so as this already 
-works and models what the schematics say I see no reason not to have it 
-or remove it.
+* Support for the Zicbiom, ZCicboz, and Zicbop extensions.
+* OpenSBI has been updated to version 1.2, see
+  <https://github.com/riscv-software-src/opensbi/releases/tag/v1.2> for
+  the release notes.
+* Support for setting the virtual address width (ie, sv39/sv48/sv57) on
+  the command line.
+* Support for ACPI on RISC-V.
 
-Regards,
-BALATON Zoltan
+----------------------------------------------------------------
+Sorry for the flurry of late pull requests, but we had a few stragglers
+(ACPI due to reviews and OpenSBI due to the CI failures, the others I'd
+largely just missed).  I don't intend on sending anything else for the
+soft freeze, this is already well past late enough for me ;)
 
->>   static void pegasos2_init(MachineState *machine)
->>   {
->>       Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
->> @@ -106,7 +117,7 @@ static void pegasos2_init(MachineState *machine)
->>       I2CBus *i2c_bus;
->>       const char *fwname = machine->firmware ?: PROM_FILENAME;
->>       char *filename;
->> -    int sz;
->> +    int i, sz;
->>       uint8_t *spd_data;
->>         /* init CPU */
->> @@ -156,7 +167,11 @@ static void pegasos2_init(MachineState *machine)
->>       /* Marvell Discovery II system controller */
->>       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
->>                             qdev_get_gpio_in(DEVICE(pm->cpu), 
->> PPC6xx_INPUT_INT)));
->> +    for (i = 0; i < PCI_NUM_PINS; i++) {
->> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
->> +    }
->>       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
->> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
->
-> This doesn't make sense to me either, since the PCI bus IRQs should be owned 
-> by the device that contains the PCI bus and not the board.
->
->>       /* VIA VT8231 South Bridge (multifunction PCI device) */
->>       via = OBJECT(pci_new_multifunction(PCI_DEVFN(12, 0), true,
->> @@ -164,6 +179,9 @@ static void pegasos2_init(MachineState *machine)
->>       qdev_connect_gpio_out(DEVICE(via), 0,
->>                             qdev_get_gpio_in_named(pm->mv, "gpp", 31));
->>       pci_realize_and_unref(PCI_DEVICE(via), pci_bus, &error_fatal);
->> +    for (i = 0; i < PCI_NUM_PINS; i++) {
->> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
->> +    }
->>         object_property_add_alias(OBJECT(machine), "rtc-time",
->>                                 object_resolve_path_component(via, "rtc"),
->> @@ -269,6 +287,12 @@ static void pegasos2_machine_reset(MachineState 
->> *machine, ShutdownCause reason)
->>                                 PCI_INTERRUPT_LINE, 2, 0x9);
->>       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
->>                                 0x50, 1, 0x2);
->> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
->> +                              0x55, 1, 0x90);
->> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
->> +                              0x56, 1, 0x99);
->> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
->> +                              0x57, 1, 0x90);
->>         pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
->>                                 PCI_INTERRUPT_LINE, 2, 0x109);
->
-> This should be a separate commit because it's not part of the PCI interrupt 
-> routing as per my comment at 
-> https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg00193.html.
->
->
-> ATB,
->
-> Mark.
->
->
+I'm not exactly sure what happened, but this tag managed to pass CI
+<https://gitlab.com/palmer-dabbelt/qemu/-/pipelines/797833683> despite
+me not really doing anything to fix the timeouts -- hopefully that was
+just a result of me having gotten unlucky or missing a larger timeout in
+my fork, but sorry if I've managed to screw something up.
+
+I have no merge conflicts and the tests are passing locally.  I've got a
+CI run here
+<https://gitlab.com/palmer-dabbelt/qemu/-/pipelines/797922220>, but I
+figured I'd just send this now given that I had one pass from just the
+tag.
+
+----------------------------------------------------------------
+Alexandre Ghiti (5):
+      riscv: Pass Object to register_cpu_props instead of DeviceState
+      riscv: Change type of valid_vm_1_10_[32|64] to bool
+      riscv: Allow user to set the satp mode
+      riscv: Introduce satp mode hw capabilities
+      riscv: Correctly set the device-tree entry 'mmu-type'
+
+Anup Patel (1):
+      hw/riscv/virt.c: add cbo[mz]-block-size fdt properties
+
+Bin Meng (1):
+      roms/opensbi: Upgrade from v1.1 to v1.2
+
+Christoph Muellner (3):
+      target/riscv: implement Zicboz extension
+      target/riscv: implement Zicbom extension
+      target/riscv: add Zicbop cbo.prefetch{i, r, m} placeholder
+
+Ivan Klokov (1):
+      disas/riscv Fix ctzw disassemble
+
+Mayuresh Chitale (2):
+      target/riscv: cpu: Implement get_arch_id callback
+      hw: intc: Use cpu_by_arch_id to fetch CPU state
+
+Palmer Dabbelt (1):
+      gitlab/opensbi: Move to docker:stable
+
+Sunil V L (8):
+      hw/riscv/virt: Add OEM_ID and OEM_TABLE_ID fields
+      hw/riscv/virt: Add a switch to disable ACPI
+      hw/riscv/virt: Add memmap pointer to RiscVVirtState
+      hw/riscv/virt: Enable basic ACPI infrastructure
+      hw/riscv/virt: virt-acpi-build.c: Add RINTC in MADT
+      hw/riscv/virt: virt-acpi-build.c: Add RHCT Table
+      hw/riscv/virt.c: Initialize the ACPI tables
+      MAINTAINERS: Add entry for RISC-V ACPI
+
+ .gitlab-ci.d/opensbi.yml                       |   4 +-
+ .gitlab-ci.d/opensbi/Dockerfile                |   1 +
+ MAINTAINERS                                    |  18 +-
+ disas/riscv.c                                  |   2 +-
+ hw/intc/riscv_aclint.c                         |  16 +-
+ hw/intc/riscv_aplic.c                          |   4 +-
+ hw/intc/riscv_imsic.c                          |   6 +-
+ hw/riscv/Kconfig                               |   1 +
+ hw/riscv/meson.build                           |   1 +
+ hw/riscv/virt-acpi-build.c                     | 416 +++++++++++++++++++++++++
+ hw/riscv/virt.c                                |  70 ++++-
+ include/hw/riscv/virt.h                        |   6 +
+ pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 117704 -> 123072 bytes
+ pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 115344 -> 121800 bytes
+ roms/opensbi                                   |   2 +-
+ target/riscv/cpu.c                             | 303 +++++++++++++++++-
+ target/riscv/cpu.h                             |  29 ++
+ target/riscv/csr.c                             |  29 +-
+ target/riscv/helper.h                          |   5 +
+ target/riscv/insn32.decode                     |  16 +-
+ target/riscv/insn_trans/trans_rvzicbo.c.inc    |  57 ++++
+ target/riscv/op_helper.c                       | 135 ++++++++
+ target/riscv/translate.c                       |   1 +
+ 23 files changed, 1061 insertions(+), 61 deletions(-)
+ create mode 100644 hw/riscv/virt-acpi-build.c
+ create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
+
 
