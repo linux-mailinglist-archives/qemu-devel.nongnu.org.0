@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F5C6AB755
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 08:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8677C6AB7DB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 08:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ5ik-0001EX-23; Mon, 06 Mar 2023 02:57:22 -0500
+	id 1pZ5jw-0001zA-PZ; Mon, 06 Mar 2023 02:58:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pZ5ii-0001E1-8k
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:57:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pZ5ie-0004sj-80
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:57:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678089434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mo5NRFqqj7VFhwMPCDbBVwA07RQ77KPhZ8sQ6fb9zbU=;
- b=avsOhLtUZX/DfiMka56XKVY4htf/DP0oCQxI+hR1FzIPW+WDOeHois7POW9vp5W3HWSHiM
- lIq69WXbFbPi9jWq9tCX3xr3j4qbhqTpLTv0ZiR1IAX3lXig+uWV5uKRQhGf5hhpbfA9ot
- DTINR3AyzQl6rUpYHlOsAXPBYqkqi6M=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-660-3znyt35pODW6NQ2a3M2Bmw-1; Mon, 06 Mar 2023 02:57:13 -0500
-X-MC-Unique: 3znyt35pODW6NQ2a3M2Bmw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h11-20020a0564020e8b00b004e59d4722a3so2408144eda.6
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 23:57:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5js-0001ul-E0
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:58:32 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5jq-0004yg-OI
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:58:32 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o11-20020a05600c4fcb00b003eb33ea29a8so4619993wmq.1
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 23:58:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678089508;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UIzQ0OaM9PaRVaL01acGbe8YbP0Yzs6DQjOHiFxexeA=;
+ b=pt8pItXDjap3srIajs80nMk8a0BsE2GnoVAMPuIgSrAT61YNAJiSvRqQBKz+Qxog1i
+ 7mXLcTj9nz758HhEdW0r6MWLfnIU/Jzv2i7iuztS9x8hvhpIfvcEFSHcNHYkdTh5sQ+U
+ vVXuttG280VJoYo0pmR8aKtyhBKkbeu50UDORqOiOeMd5kwHEeVdVxZW4W1yPd2g35Kc
+ Mb6DB0fRLxg0Rk4MSpjQRQQqDSyXV3pOy5uF2aLil6gQZdM8Htr1Y2+lKB7IuxIDr5fM
+ NQSVg6Qspp9ibJ6IpCh1PxU/3+0zVbkz5+uU7yNqxEcW31qvABFQcUBy3esy/uVj6mg1
+ HVsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Mo5NRFqqj7VFhwMPCDbBVwA07RQ77KPhZ8sQ6fb9zbU=;
- b=w+JT3xzB76LYo3g1o2iRjg+at/DWNu6WZ7tsidaHc2OXRjumy25vys1KvGfi/HeoJ1
- 65HdEHDLZlgqdvhGh5bm+WzYLCrwjBTFfo/YddjajcDkqa7/BtbWaNOfS22qYsJtJtih
- eSbmUx2hN4T5SvX2xwZ9uio/D1KW8n0zNQmT1Ga5DGWZ+6Jpc4Jj8dZZgWZidGFVskTG
- 9LSK2Hh5kPeJ9wiqPsvhqw5Hqjz9DdhY7k7BdwrW52vtnxkPWnXxNokvVUAHTWHe7Dqr
- vOh7ApA9vB0pvwAW61hvBCe4hVxMkoadGuurKYd6h0os3Me4pzsgvP4NydQq6J5nUh7B
- gstA==
-X-Gm-Message-State: AO0yUKV/Lap0hU7yXW9IVxXdvFZLLQFbKRXAAdmek94iB1v3HxSG5Nck
- hZQFwWTOqdLwR8aX79y/uo3c/9BGUcmd/wuUMBTU5pZwmLRYv00kj+x1GheQW2rctlfNE/bfA1e
- AsE7waEv7HGMIMO2buOVJDgue8bYcdkA=
-X-Received: by 2002:a17:906:64d:b0:8d1:57cf:ef3c with SMTP id
- t13-20020a170906064d00b008d157cfef3cmr4407954ejb.2.1678089432020; 
- Sun, 05 Mar 2023 23:57:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set/WbjSC1sNwLCoDuVwUCaxShiJykDjcrbWfJWsJ8U51uIXI+nYEBUqFFanYxC8iA4n7m/p9ab6hwgHjEDfPrVs=
-X-Received: by 2002:a17:906:64d:b0:8d1:57cf:ef3c with SMTP id
- t13-20020a170906064d00b008d157cfef3cmr4407932ejb.2.1678089431710; Sun, 05 Mar
- 2023 23:57:11 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678089508;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UIzQ0OaM9PaRVaL01acGbe8YbP0Yzs6DQjOHiFxexeA=;
+ b=y1yJBrnHiVYMgHA3ttJqviB8XVg2GeL2hAxII6Q5/ACWzu1rwU8FGHjno8KIEN/+v7
+ Qd7TewvzcTDaWUsD+ZB7HFYUI/qkHQUldjTo9OSMq6oo4yI1AxfoLf7AocS2QZ4EvTPE
+ Clq9QJwOiLx4eEYlBCUTTqug5SW/Osc/1kCIQEfbrTZuY5BOeUt8kxtluRNbGwZ2wZa+
+ j0PeCMdfXjsFVMXAWpspay2swlL/67sY838PhKpizVrIAhJt06WXwkMGntG73AkAB9XU
+ dtYBttUyQJ8w293yvtFhJW/Uaf713r/ZkM1Ppm44RH8MGKwPcPb1viZ1Xi3sBUiP5jSS
+ H/VA==
+X-Gm-Message-State: AO0yUKUx6MfYVPGz4AP1ThoeJzAZB1bnN7aFo2pQJDsiVIbw9InTMSce
+ FP51HmaVUQD+EzoBKpGrNNXeMFrsE/zLgUJsbH8=
+X-Google-Smtp-Source: AK7set9wDclS6ghG5+DwqFBBWUtTZBgxvkeZ0Qdm3+uhBP68Jn59shPeSS/tXuOGAb1EQJwhxKGhhw==
+X-Received: by 2002:a05:600c:3108:b0:3ea:ea6b:f9ad with SMTP id
+ g8-20020a05600c310800b003eaea6bf9admr8336357wmo.31.1678089508721; 
+ Sun, 05 Mar 2023 23:58:28 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ z1-20020adff1c1000000b002c70c99db74sm9078164wro.86.2023.03.05.23.58.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Mar 2023 23:58:28 -0800 (PST)
+Message-ID: <c6319ec6-6dec-b619-b23a-6306877a34d3@linaro.org>
+Date: Mon, 6 Mar 2023 08:58:27 +0100
 MIME-Version: 1.0
-References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
- <20230221124802.4103554-13-marcandre.lureau@redhat.com>
- <bded165f-39de-c84e-38c4-755f99ec6f92@linux.ibm.com>
-In-Reply-To: <bded165f-39de-c84e-38c4-755f99ec6f92@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 6 Mar 2023 11:57:00 +0400
-Message-ID: <CAMxuvax7uPYSB6FWiEDmoq3uFgN6hcKxaXYCKqeod=sMBk5vsA@mail.gmail.com>
-Subject: Re: [PATCH v3 12/16] slirp: unregister the win32 SOCKET
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, qemu-arm@nongnu.org, 
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, armbru@redhat.com, 
- Peter Maydell <peter.maydell@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>, 
- Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>, 
- Hanna Reitz <hreitz@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007a8fcf05f636a405"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 9/9] accel/tcg: Pass last not end to
+ tb_invalidate_phys_range
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230306021307.1879483-1-richard.henderson@linaro.org>
+ <20230306021307.1879483-10-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230306021307.1879483-10-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,128 +92,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007a8fcf05f636a405
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 6/3/23 03:13, Richard Henderson wrote:
+> Pass the address of the last byte to be changed, rather than
+> the first address past the last byte.  This avoids overflow
+> when the last page of the address space is involved.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/exec/exec-all.h   |  2 +-
+>   accel/tcg/tb-maint.c      | 31 ++++++++++++++++---------------
+>   accel/tcg/translate-all.c |  2 +-
+>   accel/tcg/user-exec.c     |  2 +-
+>   softmmu/physmem.c         |  2 +-
+>   5 files changed, 20 insertions(+), 19 deletions(-)
 
-Hi
-
-On Thu, Mar 2, 2023 at 10:45=E2=80=AFPM Stefan Berger <stefanb@linux.ibm.co=
-m> wrote:
-
->
->
-> On 2/21/23 07:47, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Presumably, this is what should happen when the SOCKET is to be removed=
-.
-> > (it probably worked until now because closesocket() does it implicitly,
-> > but we never now how the slirp library could use the SOCKET later)
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   net/slirp.c | 4 +++-
-> >   1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/net/slirp.c b/net/slirp.c
-> > index 0730a935ba..a7c35778a6 100644
-> > --- a/net/slirp.c
-> > +++ b/net/slirp.c
-> > @@ -259,7 +259,9 @@ static void net_slirp_register_poll_fd(int fd, void
-> *opaque)
-> >
-> >   static void net_slirp_unregister_poll_fd(int fd, void *opaque)
-> >   {
-> > -    /* no qemu_fd_unregister */
-> > +#ifdef WIN32
-> The majority of code seems to use _WIN32. Not sure what is 'right'.
->
->
-Both should be correct. I think I like the "WIN32" version better though
-(see also
-https://stackoverflow.com/questions/662084/whats-the-difference-between-the=
--win32-and-win32-defines-in-c
-)
-
-
-> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
->
->
-thanks
-
-
-> > +    qemu_socket_unselect(fd, NULL);
-> > +#endif
-> >   }
-> >
-> >   static void net_slirp_notify(void *opaque)
->
->
-
---0000000000007a8fcf05f636a405
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 2, 2023 at 10:45=E2=80=
-=AFPM Stefan Berger &lt;<a href=3D"mailto:stefanb@linux.ibm.com">stefanb@li=
-nux.ibm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-<br>
-On 2/21/23 07:47, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"=
-_blank">marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Presumably, this is what should happen when the SOCKET is to be remove=
-d.<br>
-&gt; (it probably worked until now because closesocket() does it implicitly=
-,<br>
-&gt; but we never now how the slirp library could use the SOCKET later)<br>
-&gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0net/slirp.c | 4 +++-<br>
-&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/net/slirp.c b/net/slirp.c<br>
-&gt; index 0730a935ba..a7c35778a6 100644<br>
-&gt; --- a/net/slirp.c<br>
-&gt; +++ b/net/slirp.c<br>
-&gt; @@ -259,7 +259,9 @@ static void net_slirp_register_poll_fd(int fd, voi=
-d *opaque)<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0static void net_slirp_unregister_poll_fd(int fd, void *opa=
-que)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt; -=C2=A0 =C2=A0 /* no qemu_fd_unregister */<br>
-&gt; +#ifdef WIN32<br>
-The majority of code seems to use _WIN32. Not sure what is &#39;right&#39;.=
-<br>
-<br></blockquote><div><br></div><div>Both should be correct. I think I like=
- the &quot;WIN32&quot; version better though=C2=A0 (see also <a href=3D"htt=
-ps://stackoverflow.com/questions/662084/whats-the-difference-between-the-wi=
-n32-and-win32-defines-in-c">https://stackoverflow.com/questions/662084/what=
-s-the-difference-between-the-win32-and-win32-defines-in-c</a>)</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Reviewed-by: Stefan Berger &lt;<a href=3D"mailto:stefanb@linux.ibm.com" tar=
-get=3D"_blank">stefanb@linux.ibm.com</a>&gt;<br>
-<br></blockquote><div><br></div><div>thanks</div><div>=C2=A0<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 qemu_socket_unselect(fd, NULL);<br>
-&gt; +#endif<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0static void net_slirp_notify(void *opaque)<br>
-<br>
-</blockquote></div></div>
-
---0000000000007a8fcf05f636a405--
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
