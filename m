@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9B86AC4BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:24:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1751C6AC4C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:25:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCgE-0005fX-6l; Mon, 06 Mar 2023 10:23:14 -0500
+	id 1pZChu-0008Gm-LU; Mon, 06 Mar 2023 10:24:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pZCgD-0005f8-1V
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:23:13 -0500
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e])
+ id 1pZChs-0008FW-M2
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:24:56 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pZCgB-00082U-5r
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:23:12 -0500
-Received: by mail-lj1-x22e.google.com with SMTP id y14so10042950ljq.4
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:23:10 -0800 (PST)
+ id 1pZChp-0008IS-ET
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:24:56 -0500
+Received: by mail-ed1-x530.google.com with SMTP id j11so20604757edq.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull.eu; s=google; t=1678116189;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=vrull.eu; s=google; t=1678116291;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4mcInI/4U4N6i5DJo3tcvri06NK+P9/SIGrxpJh3TAU=;
- b=gb8AzOeyPIH5AqZSzzbITXzU1Wyh9mIrObM64pUiVgVJdZqfviDF5v30nT1TDafm7L
- ycWERpMXOZpTTFcVOo3I1U3vs/l8EJ0g4B9PMgI/cfj1+c/0/q1zP5PV70OUO2TJvSzp
- li5MgYXoOu+U3SmKCDTxfdaMEKvV9WbjYS5voArWifOd6EhaKI2PAhjxzue71MFjgc7/
- 0DaHK2NvuNIDz9koeWWRwkvgCyKYJKXaKnqyBbQkDcok0tgs9g8BrwZn55wMSIOfmvkd
- y5gYeidthQz6gfoCXc6yUvi4Ya0v+JWHYfPfGBsnygB2APBvAVLixxbFve5p7HUs5A8o
- 34oA==
+ bh=UXk2zAZIF5A8nLVx93to/YoJ1+R6Z8OU21uPcRQzvmA=;
+ b=kmC/J0TDJcJ1hQe8WWbUt2NQZdD/kSRulE1epOCzFLiD0ozXSkUxFl0FTl84Q1yiPS
+ zgi4/akatx3fCO2luDt3CKg9LyhIXg9ln9TEwxmMHPahq4fqYkz2kHIYkq5WIfs1dhwp
+ KFbXektbKzQXeYVljVldbBmmUQ8nJFFt/EUEapsqJtNZlZN86Hfsww4Ec1cK9Cmm13YJ
+ G3eBTONJJPuYWJ7OzCTnLeKrk+rEGbBNDFV7wOjFdJNJJr7Bh9kzzvceh9PkRd4MpOAj
+ CoSgLEePHi8FgaIj2oktnHsXIyiMFC76c9OodbHPlmaeqCkwdQZhzdliTqeO906IWPND
+ ICow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678116189;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1678116291;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4mcInI/4U4N6i5DJo3tcvri06NK+P9/SIGrxpJh3TAU=;
- b=J5/zQEJRoHQn97qkjlmEvMcgSTS48q3B/lfrZDx+SExHuC7pq3QfvTgkPP5TAgqP5C
- 52euAL9+oVBDFwpZZ9RZKw3Nio0B8Rvvxk9vUm4fQ6ranGJxLpl4JMjR/t9HmkUYxnBp
- QrljdmYaDQMrAS8s8+7AhgnJacfINy1JM9QPponcvlYbODoPrSMuXELpH36OC3K2gBcc
- 9EPim6OAg0d7TrtmZOxNJi6QboT32mCbV3+CrlvNR+LTfvTNuxAWEpwteTgf4aCSlYED
- I5huBSNEe3f1FjbyimS4IEreZl+iWcGbugqEVtEU04C6ILY9v7Un7QOi6i5lO7xxMTEp
- MVkA==
-X-Gm-Message-State: AO0yUKVW+ql5ur2TGNjrAifVT+XJhas9FFVUC+Mxyn8t5drNsE1XAy48
- czN8IZjM8S9oXJdJ8DB3pdnqAyIi6scW8aEjwX51uQ==
-X-Google-Smtp-Source: AK7set/wno6+QSqenjvLCpViE2qXZ1LsDrKpQZhr9pQThcjJ7Fqy6r0TiL5dqaY9gV796hzuNDMT/w==
-X-Received: by 2002:a2e:7d0e:0:b0:295:c454:7579 with SMTP id
- y14-20020a2e7d0e000000b00295c4547579mr3058686ljc.33.1678116188911; 
- Mon, 06 Mar 2023 07:23:08 -0800 (PST)
-Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id
- r19-20020a2e9953000000b00293534d9760sm1751058ljj.127.2023.03.06.07.23.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 07:23:08 -0800 (PST)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Cc: Christoph Muellner <christoph.muellner@vrull.eu>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-Subject: [PATCH v4 2/2] target/riscv: redirect XVentanaCondOps to use the
- Zicond functions
-Date: Mon,  6 Mar 2023 16:23:03 +0100
-Message-Id: <20230306152303.281313-2-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230306152303.281313-1-philipp.tomsich@vrull.eu>
-References: <20230306152303.281313-1-philipp.tomsich@vrull.eu>
+ bh=UXk2zAZIF5A8nLVx93to/YoJ1+R6Z8OU21uPcRQzvmA=;
+ b=kJ6BECFYN9Ugn61OoSbrOidDAWMXCn3UgL56kNWaYFqTfNTnKMh5l+qCwX0KiukDuD
+ TL/0vXRRLVtc4KgSr/hbpiyITs/LW/Rbh/FDJvsLfPE+iGWdwH1rt7kzRyZC1w7o1S5M
+ /zR4wrGoIzpGkscg7hmd+GKXkDhQs7gnWQIyWuk00DyVoRZBpaJi3d6PE45pThJjwGNZ
+ VdsduXomEgj5qm4oEfZMhDcHnWZb338D5TtqENHt9Jc09lPGBG11q0wKmT9KO8cUKMdA
+ m7GCrrRABb8+2P/SID5h21FIQMVccYtNBr3M/5BcmznHSmNfy6Hwf2dFccJQdbxQbpRu
+ cNsA==
+X-Gm-Message-State: AO0yUKVjTU5lgKdKcWn5rzaNhvFFCjWw78cTt0kUkpCupum2iRz6PpsP
+ XN9YYOWETgkgpX39ZKWbYwcdnnqi6097q2+GJNefvg==
+X-Google-Smtp-Source: AK7set9Ie6QHIt4V/hi+a2X4ntTMQhU6P0EnTwoEYFN0s2t1MdgDkBzJuJXog/ucvIa/JS2VKFWXsgUtQM5Be3zU8CM=
+X-Received: by 2002:a50:bae3:0:b0:4c0:ef64:9299 with SMTP id
+ x90-20020a50bae3000000b004c0ef649299mr6065568ede.5.1678116291533; Mon, 06 Mar
+ 2023 07:24:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22e.google.com
+References: <20230207143944.1883400-1-philipp.tomsich@vrull.eu>
+ <CAKmqyKNRSFDxhw0jJ=DZcpWCJoziAJP4dnVA7csm2=JU7fHtDQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKNRSFDxhw0jJ=DZcpWCJoziAJP4dnVA7csm2=JU7fHtDQ@mail.gmail.com>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Mon, 6 Mar 2023 16:24:40 +0100
+Message-ID: <CAAeLtUD9_noa-j77_kjKwVfUQvEF=m+8QMN8K2+cxM=Bjxn4aA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] target/riscv: add Zicond as an experimental
+ extension
+To: Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org, Kito Cheng <kito.cheng@sifive.com>, 
+ Christoph Muellner <christoph.muellner@vrull.eu>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,88 +90,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Zicond standard extension implements the same instruction
-semantics as XVentanaCondOps, although using different mnemonics and
-opcodes.
+Alistair,
 
-Point XVentanaCondOps to the (newly implemented) Zicond implementation
-to reduce the future maintenance burden.
+On Mon, 6 Mar 2023 at 05:53, Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Wed, Feb 8, 2023 at 12:40=E2=80=AFAM Philipp Tomsich
+> <philipp.tomsich@vrull.eu> wrote:
+> >
+> > This implements the Zicond (conditional integer operations) extension,
+> > as of version 1.0-draft-20230120 as an experimental extension in QEMU
+> > ("x-zicond").
+> >
+> > The Zicond extension acts as a building block for branchless sequences
+> > including conditional-{arithmetic,logic,select,move}.  Refer to the
+> > specification for usage scenarios and application guidance.
+> >
+> > The following instructions constitute Zicond:
+> >   - czero.eqz rd, rs1, rs2  =3D>  rd =3D (rs2 =3D=3D 0) ? 0 : rs1
+> >   - czero.nez rd, rs1, rs2  =3D>  rd =3D (rs2 !=3D 0) ? 0 : rs1
+> >
+> > See
+> >   https://github.com/riscv/riscv-zicond/releases/download/v1.0-draft-20=
+230120/riscv-zicond_1.0-draft-20230120.pdf
+> > for the (current version of the) Zicond specification and usage details=
+.
+> >
+> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+>
+> Sorry about this.
+>
+> It looks like while I was out a different patch implementing this
+> extension was applied. I think this patch just fell through the cracks
+> as it was sent before I left and before Palmer took over.
+>
+> The second patch is still useful though, if you rebase it on the
+> current master and resend it I can apply it.
 
-Also updating MAINTAINERS as trans_xventanacondops.c.inc.
+Rebased onto master and resent as v4.
+Given that the second patch depends on the first one (i.e., the entire
+shared logic), I kept this as two separate changes (one to refactor
+Zicond; one to reuse it in XVentanaCondOps).
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
----
+Thanks,
+Philipp.
 
-(no changes since v3)
-
-Changes in v3:
-- Don't downgrade to "Odd Fixes", but rather to "Maintained" (we are
-  not being paid to look after this, but will look after it
-  nonetheless).
-
-Changes in v2:
-- Calls into the gen_czero_{eqz,nez} helpers instead of calling
-  trans_czero_{eqz,nez} to bypass the require-check and ensure that
-  XVentanaCondOps can be enabled/disabled independently of Zicond.
-
- MAINTAINERS                                    |  2 +-
- .../insn_trans/trans_xventanacondops.c.inc     | 18 +++---------------
- 2 files changed, 4 insertions(+), 16 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 011fd85a09..1ad3c6fc9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -311,7 +311,7 @@ F: target/riscv/xthead*.decode
- RISC-V XVentanaCondOps extension
- M: Philipp Tomsich <philipp.tomsich@vrull.eu>
- L: qemu-riscv@nongnu.org
--S: Supported
-+S: Maintained
- F: target/riscv/XVentanaCondOps.decode
- F: target/riscv/insn_trans/trans_xventanacondops.c.inc
- 
-diff --git a/target/riscv/insn_trans/trans_xventanacondops.c.inc b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-index 16849e6d4e..38c15f2825 100644
---- a/target/riscv/insn_trans/trans_xventanacondops.c.inc
-+++ b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-@@ -1,7 +1,7 @@
- /*
-  * RISC-V translation routines for the XVentanaCondOps extension.
-  *
-- * Copyright (c) 2021-2022 VRULL GmbH.
-+ * Copyright (c) 2021-2023 VRULL GmbH.
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms and conditions of the GNU General Public License,
-@@ -16,24 +16,12 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
- 
--static bool gen_vt_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
--{
--    TCGv dest = dest_gpr(ctx, a->rd);
--    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
--    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
--
--    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
--
--    gen_set_gpr(ctx, a->rd, dest);
--    return true;
--}
--
- static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
- {
--    return gen_vt_condmask(ctx, a, TCG_COND_NE);
-+    return gen_logic(ctx, a, gen_czero_eqz);
- }
- 
- static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
- {
--    return gen_vt_condmask(ctx, a, TCG_COND_EQ);
-+    return gen_logic(ctx, a, gen_czero_nez);
- }
--- 
-2.34.1
-
+>
+>
+> Alistair
+>
+> > ---
+> >
+> > Changes in v3:
+> > - don't add this to MAINTAINERS, as it is an official extension
+> >
+> > Changes in v2:
+> > - gates availability of the instructions through a REQUIRE_ZICOND
+> >   macro (these were previously always enabled)
+> >
+> >  target/riscv/cpu.c                           |  4 ++
+> >  target/riscv/cpu.h                           |  1 +
+> >  target/riscv/insn32.decode                   |  4 ++
+> >  target/riscv/insn_trans/trans_rvzicond.c.inc | 54 ++++++++++++++++++++
+> >  target/riscv/translate.c                     |  1 +
+> >  5 files changed, 64 insertions(+)
+> >  create mode 100644 target/riscv/insn_trans/trans_rvzicond.c.inc
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 14a7027095..98177d8328 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -73,6 +73,7 @@ struct isa_ext_data {
+> >  static const struct isa_ext_data isa_edata_arr[] =3D {
+> >      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+> >      ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
+> > +    ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
+> >      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+> >      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifence=
+i),
+> >      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zih=
+intpause),
+> > @@ -1097,6 +1098,9 @@ static Property riscv_cpu_extensions[] =3D {
+> >      DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+> >      DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
+> >
+> > +    /* Zicond 1.0-draft-20230120 */
+> > +    DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
+> > +
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index bcf0826753..aaf3acb753 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -446,6 +446,7 @@ struct RISCVCPUConfig {
+> >      bool ext_zkt;
+> >      bool ext_ifencei;
+> >      bool ext_icsr;
+> > +    bool ext_zicond;
+> >      bool ext_zihintpause;
+> >      bool ext_smstateen;
+> >      bool ext_sstc;
+> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> > index b7e7613ea2..ca812c2f7a 100644
+> > --- a/target/riscv/insn32.decode
+> > +++ b/target/riscv/insn32.decode
+> > @@ -890,3 +890,7 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 =
+@r2
+> >  # *** RV32 Zksed Standard Extension ***
+> >  sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
+> >  sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
+> > +
+> > +# *** Zicond Standard Extension ***
+> > +czero_eqz   0000111 ..... ..... 101 ..... 0110011 @r
+> > +czero_nez   0000111 ..... ..... 111 ..... 0110011 @r
+> > diff --git a/target/riscv/insn_trans/trans_rvzicond.c.inc b/target/risc=
+v/insn_trans/trans_rvzicond.c.inc
+> > new file mode 100644
+> > index 0000000000..20e9694a2c
+> > --- /dev/null
+> > +++ b/target/riscv/insn_trans/trans_rvzicond.c.inc
+> > @@ -0,0 +1,54 @@
+> > +/*
+> > + * RISC-V translation routines for the XVentanaCondOps extension.
+> > + *
+> > + * Copyright (c) 2022 VRULL GmbH.
+> > + *
+> > + * This program is free software; you can redistribute it and/or modif=
+y it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but WITH=
+OUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY =
+or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licen=
+se for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License a=
+long with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#define REQUIRE_ZICOND(ctx) do {                 \
+> > +    if (!ctx->cfg_ptr->ext_zicond) {             \
+> > +        return false;                            \
+> > +    }                                            \
+> > +} while (0)
+> > +
+> > +/* Emits "$rd =3D ($rs2 <cond> $zero) ? $zero : $rs1" */
+> > +static inline void gen_czero(TCGv dest, TCGv src1, TCGv src2, TCGCond =
+cond)
+> > +{
+> > +    TCGv zero =3D tcg_constant_tl(0);
+> > +    tcg_gen_movcond_tl(cond, dest, src2, zero, zero, src1);
+> > +}
+> > +
+> > +static inline void gen_czero_eqz(TCGv dest, TCGv src1, TCGv src2)
+> > +{
+> > +    gen_czero(dest, src1, src2, TCG_COND_EQ);
+> > +}
+> > +
+> > +static inline void gen_czero_nez(TCGv dest, TCGv src1, TCGv src2)
+> > +{
+> > +    gen_czero(dest, src1, src2, TCG_COND_NE);
+> > +}
+> > +
+> > +static bool trans_czero_eqz(DisasContext *ctx, arg_r *a)
+> > +{
+> > +    REQUIRE_ZICOND(ctx);
+> > +
+> > +    return gen_logic(ctx, a, gen_czero_eqz);
+> > +}
+> > +
+> > +static bool trans_czero_nez(DisasContext *ctx, arg_r *a)
+> > +{
+> > +    REQUIRE_ZICOND(ctx);
+> > +
+> > +    return gen_logic(ctx, a, gen_czero_nez);
+> > +}
+> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> > index 01cc30a365..93850938ae 100644
+> > --- a/target/riscv/translate.c
+> > +++ b/target/riscv/translate.c
+> > @@ -1076,6 +1076,7 @@ static uint32_t opcode_at(DisasContextBase *dcbas=
+e, target_ulong pc)
+> >  #include "insn_trans/trans_rvv.c.inc"
+> >  #include "insn_trans/trans_rvb.c.inc"
+> >  #include "insn_trans/trans_rvzawrs.c.inc"
+> > +#include "insn_trans/trans_rvzicond.c.inc"
+> >  #include "insn_trans/trans_rvzfh.c.inc"
+> >  #include "insn_trans/trans_rvk.c.inc"
+> >  #include "insn_trans/trans_privileged.c.inc"
+> > --
+> > 2.34.1
+> >
+> >
 
