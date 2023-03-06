@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AE46ABD24
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 11:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8DF6ABD42
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 11:49:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ8Jj-0003Au-5P; Mon, 06 Mar 2023 05:43:43 -0500
+	id 1pZ8P7-0004TF-1L; Mon, 06 Mar 2023 05:49:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pZ8Jh-0003Am-Hu
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:43:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pZ8P4-0004T3-R5
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:49:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pZ8Jf-0008PC-Hs
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:43:41 -0500
+ id 1pZ8P2-0000qm-Jo
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:49:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678099417;
+ s=mimecast20190719; t=1678099751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZB/InglhwNwIJG1WeiMSsZpctgRvOdQUB5CnJc2vCZU=;
- b=cKEpNCzKIuAtOvZPmaGviikGfZXsouC2zZFCiaoNhNXzt2/H/7M4MjiYfUVUeUK0V364FG
- ytpZ3ZF07XcUIiucctcaHqUADKFW8Vk9W4t1iwW+P7AatZsiiP6AWzEi1hXxHWjF1G8hn4
- AJz1VTwGsLmNTd4qnTqLOh7S7CT7Fnc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P0zC/MHh705edAj9G4N3TFL4OyYppxQvZt8gmGf12bs=;
+ b=hVO8kUuPG8Aq4Xi6d0V+VC41SntfejhLQtErB+zOxYY2L4FtKpIOXnKmmYRZr06WerkIio
+ QKpsmVtF041eRcBDIs3TjMhgPI807HCXoPRKl0z7Hzibpp+lRij0emL3fnyuXZRLO7UOGy
+ 4na9R5w/DYcC6ExakSpd67Mtgt49O5I=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-384-C1rwMn2BMG6V2zw7ThLExQ-1; Mon, 06 Mar 2023 05:43:35 -0500
-X-MC-Unique: C1rwMn2BMG6V2zw7ThLExQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- ea22-20020a05620a489600b00742cec04043so5171091qkb.7
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 02:43:35 -0800 (PST)
+ us-mta-619-KbL2syqkPlipvdmS1mRHtg-1; Mon, 06 Mar 2023 05:49:09 -0500
+X-MC-Unique: KbL2syqkPlipvdmS1mRHtg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ c13-20020a05620a0ced00b007422bf7c4aeso5209986qkj.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 02:49:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678099415;
+ d=1e100.net; s=20210112; t=1678099748;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZB/InglhwNwIJG1WeiMSsZpctgRvOdQUB5CnJc2vCZU=;
- b=bI+vfaaRZfZPoJleT7RLGxawpzb/StRF/Syfq0M8uXgegnbf0PoUkbFhG1MtuN/GMD
- bRI7FJKmzQdD3SyeA+XMZHprlgEnzcj1c33aowjomz+nW8X3SxNWJr/v4gvQHwKcUusD
- R8R3Hpc5o/+ux3aR69YEMXS91OOLCzaGxdJsTBI/yltgHQ2AnVTog1WGjZjuK4tYCsaA
- l3h3s6JivB7Uzqhj2q53N1+NblSpLFZ+XqW6hCDkiBQ2bfiA2iKqHZpshnFgJsOSxbex
- iUKxxqzfCqUT8XA4aW/KbLDUT4IJ9IQcTZLiEz+X5L13vQ0CZkzpiJP/z518JJpOBtMh
- DzmQ==
-X-Gm-Message-State: AO0yUKVP8TYRGELFBTPH2VGwG6gO03wndoIIU4hiEKo7VxogxsamHOR9
- NnFWjHe9fTuLlWtwtSB4hZy5ktEIUGMR/S7e7A1ppcIO02USzOsYs8NfXVjVz26dUARr098ntTr
- 9nY2WxQoBBmaUQ/s=
-X-Received: by 2002:ac8:5b85:0:b0:3bf:d0d2:142d with SMTP id
- a5-20020ac85b85000000b003bfd0d2142dmr15268223qta.24.1678099415453; 
- Mon, 06 Mar 2023 02:43:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set9kKMv7+PKlZ5IXPsM52rdoAecY75YxjUZ/R5Kb0Z4lHTdnPF7K4u3qFa0fn+2ETGZg0zh15Q==
-X-Received: by 2002:ac8:5b85:0:b0:3bf:d0d2:142d with SMTP id
- a5-20020ac85b85000000b003bfd0d2142dmr15268210qta.24.1678099415207; 
- Mon, 06 Mar 2023 02:43:35 -0800 (PST)
+ bh=P0zC/MHh705edAj9G4N3TFL4OyYppxQvZt8gmGf12bs=;
+ b=hHEur3x/WDZAjbyVTE+h5awiZ2s0eyX+ChPK10QxWyeOE3B2flvEZpW2lU4+HEKzA7
+ 42zz/bJ24LjKtIuEgUB3Gox2V6Lv4pqM5l780aoMErjJrJjmaRGzb80E8393fpzfw8Tv
+ 2Da4NNdPSEYGbVJU6QHcg9Fel3WLRqDnae4JDhCHEwwKX3ELtRkesD6Sk8MpHG3vTK1U
+ gA8/kNfhegpZfOXpxyv93IzcOYq0a8GdRWvXOK28rnw+bLBZH03WBaDqP/XobMX897/U
+ LUwQNLEwZMotu/niPLK8XxH+iydgBmhA7rnljXGxsob2jFGnQGKRCxnofhxoXjC4AmPe
+ pDrw==
+X-Gm-Message-State: AO0yUKUPiIKRyKrAGUe3tfUIDhd/8WzSG7+P3CkEkc6KgsQA92uXV+u2
+ 2jaBPVRQy7enDWzIQ2uQIsAlFO6M0zP6PHmWaYw5GjhMRVds3w/Tmg8XQNXlV+Z81UQ6JLJPfYc
+ nQJzzZApJceen5IysFm+j144=
+X-Received: by 2002:a05:622a:42:b0:3b9:a4cf:313f with SMTP id
+ y2-20020a05622a004200b003b9a4cf313fmr17621034qtw.29.1678099748661; 
+ Mon, 06 Mar 2023 02:49:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set+fytS4JwdgtZpGk0wRlmecyupMqIbOXrWshfo6s4CY/obmsTQEQpEAvYnwPzD7WC4mlvG2Hw==
+X-Received: by 2002:a05:622a:42:b0:3b9:a4cf:313f with SMTP id
+ y2-20020a05622a004200b003b9a4cf313fmr17621016qtw.29.1678099748357; 
+ Mon, 06 Mar 2023 02:49:08 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
  by smtp.gmail.com with ESMTPSA id
- b6-20020ac801c6000000b003bd1a798f76sm7273645qtg.37.2023.03.06.02.43.33
+ b1-20020ac84f01000000b003bb8c60cdf1sm7299579qte.78.2023.03.06.02.49.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 02:43:34 -0800 (PST)
-Date: Mon, 6 Mar 2023 11:43:31 +0100
+ Mon, 06 Mar 2023 02:49:07 -0800 (PST)
+Date: Mon, 6 Mar 2023 11:49:05 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Bui Quang Minh <minhquangbui99@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S . Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
-Message-ID: <20230306114331.531c9cd2@imammedo.users.ipa.redhat.com>
-In-Reply-To: <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
-References: <20230221160500.30336-1-minhquangbui99@gmail.com>
- <20230221160500.30336-2-minhquangbui99@gmail.com>
- <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
- <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
- <20230227170759.12297901@imammedo.users.ipa.redhat.com>
- <f24683be-f3a7-34fe-279a-11d01e696bbc@gmail.com>
- <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
- <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, berrange@redhat.com
+Subject: Re: [PATCH 00/33] pci(pc/q35): acpi-index support on
+ non-hotpluggable slots
+Message-ID: <20230306114905.5f421412@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230302182046-mutt-send-email-mst@kernel.org>
+References: <20230224153812.4176226-1-imammedo@redhat.com>
+ <20230302055544-mutt-send-email-mst@kernel.org>
+ <20230302130716.5afb85a6@imammedo.users.ipa.redhat.com>
+ <20230302182046-mutt-send-email-mst@kernel.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,110 +103,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 4 Mar 2023 21:10:54 +0700
-Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+On Thu, 2 Mar 2023 18:21:28 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> On 2/28/23 23:39, Igor Mammedov wrote:
-> > On Tue, 28 Feb 2023 21:34:33 +0700
-> > Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+> On Thu, Mar 02, 2023 at 01:07:16PM +0100, Igor Mammedov wrote:
+> > On Thu, 2 Mar 2023 05:59:16 -0500
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
 > >   
-> >> On 2/27/23 23:07, Igor Mammedov wrote:  
-> >>> On Sat, 25 Feb 2023 17:15:17 +0700
-> >>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
-> >>>      
-> >>>> On 2/24/23 21:29, Igor Mammedov wrote:  
-> >>>>> On Tue, 21 Feb 2023 23:04:57 +0700
-> >>>>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
-> >>>>>         
-> >>>>>> This commit refactors APIC registers read/write function to support both
-> >>>>>> MMIO read/write in xAPIC mode and MSR read/write in x2APIC mode. Also,
-> >>>>>> support larger APIC ID, self IPI, new IPI destination determination in
-> >>>>>> x2APIC mode.
-> >>>>>>
-> >>>>>> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
-> >>>>>> ---
-> >>>>>>     hw/intc/apic.c                  | 211 +++++++++++++++++++++++++-------
-> >>>>>>     hw/intc/apic_common.c           |   2 +-
-> >>>>>>     include/hw/i386/apic.h          |   5 +-
-> >>>>>>     include/hw/i386/apic_internal.h |   2 +-
-> >>>>>>     4 files changed, 172 insertions(+), 48 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-> >>>>>> index 2d3e55f4e2..205d5923ec 100644
-> >>>>>> --- a/hw/intc/apic.c
-> >>>>>> +++ b/hw/intc/apic.c
-> >>>>>> @@ -30,6 +30,7 @@
-> >>>>>>     #include "hw/i386/apic-msidef.h"
-> >>>>>>     #include "qapi/error.h"
-> >>>>>>     #include "qom/object.h"
-> >>>>>> +#include "tcg/helper-tcg.h"
-> >>>>>>     
-> >>>>>>     #define MAX_APICS 255  
-> >>>>>
-> >>>>> I'm curious how does it work without increasing ^^^?  
-> >>>>
-> >>>> Hmm, my commit message is not entirely correct. In this series, some
-> >>>> operations (send IPI, IPI destination determination) have been updated
-> >>>> to support x2APIC mode. However, the emulated APIC still doesn't support
-> >>>> APIC ID larger than 255 because currently, we use a fixed length (255 +
-> >>>> 1) array to manage local APICs. So to support larger APIC ID, I think we
-> >>>> need to find any way to manage those, as the possible allocated APIC ID
-> >>>> range is large and maybe the allocated APIC ID is sparse which makes
-> >>>> fixed length array so wasteful.  
-> >>> how much sparse it is?  
-> >>
-> >> As far as I know, QEMU allows to set CPU's APIC ID, so user can pass a
-> >> very sparse APIC ID array.  
+> > > On Fri, Feb 24, 2023 at 04:37:39PM +0100, Igor Mammedov wrote:  
+> > > > Series extends acpi-index support to host-bridge(s) and bridges
+> > > > with disabled hotplug (either explicitly or implicitly).
+> > > > Whats new (it is still limited to 'pc' and 'q35' machines),
+> > > > acpi-index now works for non-hotpluggable slots/nics:
+> > > >  * q35: host-bridge
+> > > >  * pc: host-bridge with disabled hotplug
+> > > >        'PIIX4_PM.acpi-root-pci-hotplug=off'
+> > > >  * non-hotpluggable multifunction nics
+> > > >  * on non-hotpluggable slots with native hotplug (i.e. without ACPI PCI hotplug)
+> > > >        PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off
+> > > >        ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+> > > >      + pcie-root-port,hotplug=off | pci-bridge,shpc=off
+> > > > 
+> > > > where it doesn't work (and never will):
+> > > >  * on hotplugged ports/bridges
+> > > >  * on hotpluggable ports/bridges with native hotplug
+> > > > 
+> > > > 1-11/33:  fixes for bugs or odd behavior
+> > > > 13-23/33: non-hotplug/multifunction acpi-index enabling
+> > > > 28-33/33: cleanups 
+> > > > all of that is peppered by extra acpi tests or extensions to existing ones    
+> > > 
+> > > dropped because viot was wrong.
+> > > Pls rebase fix up and repost.  
 > > 
-> > I don't think that it does permit this (if it does it's a bug that should be fixed).
-> > 
-> > As far as I'm aware QEMU derives apic_id from '-smp' and possibly cpu type
-> > (there was some differences between Intel and AMD in how apic id was encoded
-> > notably AMD having threads or cores that lead to sparse apic id), though I don't
-> > remember current state of affairs in x86 cpu topo code.
+> > I'll rebase on top of your recent pull req with c471eb4f4044 commit reverted
+> > to get properly updated tables.
+> > Partial table rebuilds are fragile anyways, should we make rebuild ignore
+> > checks the commit introduced?  
+> 
+> Not sure how you mean.
+
+I'm not sure either, but I ended up reverting offending commit
+as Fabiano suggested for now and rebasing on top your tree + revert.
+
+Later on if we are to reintroduce selective testcases, we need to
+think about how to make tables rebuild force all tests regardless
+of it.
+
+> 
+> > PS:
+> > Does the rest of the series look fine to you?  
+> 
+> It does, was going to merge.
+> 
 > >   
-> >>> benefits of simple static array is simplicity in management and O(1) access time.
-> >>> QEMU does know in advance max apic id so we can size array by dynamically
-> >>> allocating it when 1st apic is created. Or if IDs are too sparse
-> >>> switch to another structure to keep mapping.  
-> >>
-> >> I totally agree with this.
-> >>
-> >> I admit that my main focus on this series is to make x2APIC mode
-> >> function correctly with TCG accelerator, so I skip the part of extending
-> >> the support for higher APIC ID.  
-> > the tricky part in such half approach is making sure that the code is
-> > 'correct' and won't lead to exploits.
-> > It would be easier to review if it was completed solution instead of partial.  
-> 
-> I looked around and found the way to dynamically allocate local_apics array
-> 
-> 	void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
-> 	{
-> 		if (!kvm_irqchip_in_kernel()) {
->          		apic_set_max_apic_id(x86ms->apic_id_limit);
->      		}
-> 
-> 	}
-> 
-> We already calculated apic_id_limit before creating CPU and local APIC 
-> so we can use that number to dynamically allocated local_apics.
-> 
-> However, there are still problems while trying to extending support to 
-> APIC ID larger than 255 because there are many places assume APIC ID is 
-> 8-bit long.
-that's what I was concerned about (i.e. just enabling x2apic without fixing
-with all code that just assumes 8bit apicid).
-
-> One of that is interrupt remapping which returns 32-bit 
-> destination ID but uses MSI (which has 8-bit destination) to send to 
-> APIC. I will look more into this.
-
-Thanks!
-
-> 
-> Thanks,
-> Quang Minh.
+> > > 
+> > > 
+> > > Apropos I still think we should split up DSDT to several
+> > > SSDTs, in a way that multiple tests share some SSDTs.
+> > > This way it will be more common than a change only affects one table
+> > > and it's easier to merge things.
+> > > 
+> > > For example, how about moving CXL things to an SSDT?
+> > > 
+> > >   
+> > > > Somewhat tested with RHEL9.0 and WS2022.
+> > > > 
+> > > > What's in queue:
+> > > >  * PXB support 
+> > > >  * microvm and arm/virt support
+> > > > all of above only for non-hotpluggable slots as I don't really want to
+> > > > pull there complicated APCI PCI hotplug.
+> > > > 
+> > > > gitlab tree: https://gitlab.com/imammedo/qemu/-/tree/acpi_index_non_hotplug
+> > > > CI: https://gitlab.com/imammedo/qemu/-/pipelines/787263630
+> > > >  it's red but only due to unrelated curl breakage in msys* targets,
+> > > >  the rest is green
+> > > > 
+> > > > Igor Mammedov (33):
+> > > >   tests: acpi: whitelist new q35.noacpihp test and pc.hpbrroot
+> > > >   tests: acpi: add test_acpi_q35_tcg_no_acpi_hotplug test and extend
+> > > >     test_acpi_piix4_no_acpi_pci_hotplug
+> > > >   tests: acpi: update expected blobs
+> > > >   tests: acpi: whitelist q35/DSDT.multi-bridge before extending testcase
+> > > >   tests: acpi: extend multi-bridge case with case
+> > > >     'root-port,id=HOHP,hotplug=off root-port,bus=NOHP'
+> > > >   x86: pcihp: fix missing PCNT callchain when intermediate root-port has
+> > > >     'hotplug=off' set
+> > > >   tests: acpi: whitelist pc/DSDT.hpbrroot and pc/DSDT.hpbridge tests
+> > > >   x86: pcihp: fix missing bridge AML when intermediate root-port has
+> > > >     'hotplug=off' set
+> > > >   tests: acpi: update expected blobs
+> > > >   pcihp: piix4: do not redirect hotplug controller to piix4 when ACPI
+> > > >     hotplug is disabled
+> > > >   pci: fix 'hotplugglable' property behavior
+> > > >   tests: acpi: whitelist DSDT blobs before isolating PCI _DSM func 0
+> > > >     prolog
+> > > >   pcihp: move PCI _DSM function 0 prolog into separate function
+> > > >   tests: acpi: update expected blobs
+> > > >   tests: acpi: whitelist DSDT before adding EDSM method
+> > > >   acpi: pci: add EDSM method to DSDT
+> > > >   tests: acpi: update expected blobs
+> > > >   tests: acpi: whitelist DSDT before adding device with acpi-index to
+> > > >     testcases
+> > > >   tests: acpi: add device with acpi-index on non-hotpluggble bus
+> > > >   acpi: pci: support acpi-index for non-hotpluggable devices
+> > > >   tests: acpi: update expected blobs
+> > > >   tests: acpi: whitelist DSDT before exposing non zero functions
+> > > >   acpi: pci: describe all functions on populated slots
+> > > >   tests: acpi: update expected blobs
+> > > >   tests: acpi: whitelist DSDT before adding non-0 function device with
+> > > >     acpi-index to testcases
+> > > >   tests: acpi: add non zero function device with acpi-index on
+> > > >     non-hotpluggble bus
+> > > >   tests: acpi: update expected blobs
+> > > >   pci: move acpi-index uniqueness check to generic PCI device code
+> > > >   acpi: pci: drop BSEL usage when deciding that device isn't
+> > > >     hotpluggable
+> > > >   acpi: pci: move BSEL into build_append_pcihp_slots()
+> > > >   acpi: pci: move out ACPI PCI hotplug generator from generic slot
+> > > >     generator build_append_pci_bus_devices()
+> > > >   pcihp: move fields enabling hotplug into AcpiPciHpState
+> > > >   pcihp: add ACPI PCI hotplug specific is_hotpluggable_bus() callback
+> > > > 
+> > > >  include/hw/acpi/ich9.h                        |   1 +
+> > > >  include/hw/acpi/pcihp.h                       |  11 +-
+> > > >  include/hw/acpi/piix4.h                       |   2 -
+> > > >  include/hw/hotplug.h                          |   2 +
+> > > >  include/hw/qdev-core.h                        |  13 +-
+> > > >  hw/acpi/acpi-pci-hotplug-stub.c               |   9 +-
+> > > >  hw/acpi/ich9.c                                |  21 +-
+> > > >  hw/acpi/pci-bridge.c                          |  14 +-
+> > > >  hw/acpi/pcihp.c                               | 112 +++--------
+> > > >  hw/acpi/piix4.c                               |  33 ++--
+> > > >  hw/i386/acpi-build.c                          | 179 +++++++++++++-----
+> > > >  hw/isa/lpc_ich9.c                             |   1 +
+> > > >  hw/pci/pci.c                                  |  57 ++++++
+> > > >  hw/pci/pcie_port.c                            |   8 +
+> > > >  tests/data/acpi/pc/DSDT                       | Bin 6360 -> 6488 bytes
+> > > >  tests/data/acpi/pc/DSDT.acpierst              | Bin 6283 -> 6411 bytes
+> > > >  tests/data/acpi/pc/DSDT.acpihmat              | Bin 7685 -> 7813 bytes
+> > > >  tests/data/acpi/pc/DSDT.bridge                | Bin 12487 -> 12615 bytes
+> > > >  tests/data/acpi/pc/DSDT.cphp                  | Bin 6824 -> 6952 bytes
+> > > >  tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8014 -> 8142 bytes
+> > > >  tests/data/acpi/pc/DSDT.hpbridge              | Bin 6289 -> 6451 bytes
+> > > >  tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3081 -> 3343 bytes
+> > > >  tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6432 -> 6560 bytes
+> > > >  tests/data/acpi/pc/DSDT.memhp                 | Bin 7719 -> 7847 bytes
+> > > >  tests/data/acpi/pc/DSDT.nohpet                | Bin 6218 -> 6346 bytes
+> > > >  tests/data/acpi/pc/DSDT.numamem               | Bin 6366 -> 6494 bytes
+> > > >  tests/data/acpi/pc/DSDT.roothp                | Bin 9745 -> 9873 bytes
+> > > >  tests/data/acpi/q35/DSDT                      | Bin 8252 -> 8361 bytes
+> > > >  tests/data/acpi/q35/DSDT.acpierst             | Bin 8269 -> 8378 bytes
+> > > >  tests/data/acpi/q35/DSDT.acpihmat             | Bin 9577 -> 9686 bytes
+> > > >  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8531 -> 8640 bytes
+> > > >  tests/data/acpi/q35/DSDT.applesmc             | Bin 8298 -> 8407 bytes
+> > > >  tests/data/acpi/q35/DSDT.bridge               | Bin 11481 -> 11590 bytes
+> > > >  tests/data/acpi/q35/DSDT.core-count2          | Bin 32392 -> 32501 bytes
+> > > >  tests/data/acpi/q35/DSDT.cphp                 | Bin 8716 -> 8825 bytes
+> > > >  tests/data/acpi/q35/DSDT.cxl                  | Bin 9578 -> 9687 bytes
+> > > >  tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9906 -> 10015 bytes
+> > > >  tests/data/acpi/q35/DSDT.ipmibt               | Bin 8327 -> 8436 bytes
+> > > >  tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8340 -> 8449 bytes
+> > > >  tests/data/acpi/q35/DSDT.ivrs                 | Bin 8269 -> 8378 bytes
+> > > >  tests/data/acpi/q35/DSDT.memhp                | Bin 9611 -> 9720 bytes
+> > > >  tests/data/acpi/q35/DSDT.mmio64               | Bin 9382 -> 9491 bytes
+> > > >  tests/data/acpi/q35/DSDT.multi-bridge         | Bin 12337 -> 12770 bytes
+> > > >  tests/data/acpi/q35/DSDT.noacpihp             | Bin 0 -> 8248 bytes
+> > > >  tests/data/acpi/q35/DSDT.nohpet               | Bin 8110 -> 8219 bytes
+> > > >  tests/data/acpi/q35/DSDT.numamem              | Bin 8258 -> 8367 bytes
+> > > >  tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8353 -> 8462 bytes
+> > > >  tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8858 -> 8967 bytes
+> > > >  tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8884 -> 8993 bytes
+> > > >  tests/data/acpi/q35/DSDT.viot                 | Bin 9361 -> 9486 bytes
+> > > >  tests/data/acpi/q35/DSDT.xapic                | Bin 35615 -> 35724 bytes
+> > > >  tests/qtest/bios-tables-test.c                |  50 ++++-
+> > > >  52 files changed, 341 insertions(+), 172 deletions(-)
+> > > >  create mode 100644 tests/data/acpi/q35/DSDT.noacpihp
+> > > > 
+> > > > -- 
+> > > > 2.39.1    
+> > >   
 > 
 
 
