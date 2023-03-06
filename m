@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41D66AC542
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8D96AC584
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:36:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCqL-0001wQ-VP; Mon, 06 Mar 2023 10:33:41 -0500
+	id 1pZCrM-0003yz-IS; Mon, 06 Mar 2023 10:34:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCqJ-0001rF-Vk
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:33:40 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZCrJ-0003yO-Ge
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:41 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCqH-00021E-Bs
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:33:39 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id q16so9265241wrw.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:33:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZCrH-00027j-H4
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:41 -0500
+Received: by mail-wm1-x331.google.com with SMTP id c18so5930761wmr.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:34:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678116816;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lbbLOVKHkRk+7r2ZXiU6jTEDatttkJTN2y6ZqqHi/iY=;
- b=WBut2yjki4D/8GxNBXuQ4xpHzc2pFLXqSGTQ+UaK/hYqivzjz9OppNrQIsInxmDa2T
- uai3o1i1XdbpFr49bTlPOfBDBMPxCX2PSUpDVQFLTA175ts1XkxfQmCpDzQk1X0i6Ufl
- qT1yfEAgvzycuq4iUbOYcs9z/PvZvx+yxnOurYGbXaylqwId7I8NgQmz9QV2cc3fU78A
- zHHwr8sPcUY9M2h3/Q/QOi/X/AbFCjSLCURMPyLddYSJ/lW+Yhy9VYnYS27ivSOJ7i10
- lu8Poc0cWSLeA0oyVVbR4tYlyZVChcjehMdblz+H4b5qvIIDnt3dCgjbID15TLKslj1w
- LTKA==
+ d=linaro.org; s=google; t=1678116878;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kNxEpbpzuEvIgoWhqEaVpuVuKpGVmLN3bzaspIgl5VA=;
+ b=ytHzKxsSols1pkTnRTG2mbdcE8w1Cn2Vu4q2dPGD83+6pT1DIMfscC48gc1MzB57AX
+ IH2Z7aYWMX0m26dnOFThtFHJfrMxkc/hqTCVqfowPBlIuWFfxL7kqmonejwYsnPE5wlf
+ SJMnpGgd1av1rJyp6CJPJv4LO/xoeqF/5bK6Xz403CZCLlsGx6LvtJLmNgHaMj6wR2Yz
+ mPL6gpQpQfSvyZukJ8MjfimFRsTVfkiJ7lgFKGopWwExWsNXqGeb2Gbe8KGvzwbWjSo2
+ 8+sXlAHELRqslWwTEUszlI07VfdBgyEpuhjIOpUdgr0HAhPJm/wANfvq4pOfW/5vHUnN
+ QP6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678116816;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lbbLOVKHkRk+7r2ZXiU6jTEDatttkJTN2y6ZqqHi/iY=;
- b=Vqp2ehpSXWSM2U7gXGvrWbIMzgKurFINUcHXTWZeeEss2fKhjSNbEZ5+BzcyBor81A
- 3W8ht70Q7C5eFAaQ6AYZW/lfMr6FT7GEjYVhGuYvA/HcVFyAb9dw6uuNjtBq5gugSez3
- J6NiqN7b37ry83OqPh2/xS32GmjCjG/sVm/bQ6iwFJ0Rqsm4EbselG8WHR8LqjUtU9zE
- 1p9A44GShpOt0C/uPMbJNWyYxEYEe8MPJQqKe/3K/TLavNrIpgP7kNMY9X2SWgxEFVya
- KU+5K1aAE+kQLmThXPX+IcAFn5T5giNt+vgTTDnsPqTt5BEHV44JgxEFvVYROODwyCEb
- eSzw==
-X-Gm-Message-State: AO0yUKW7gCf4RpVAcVrc5H9QC+C8BiHqAhh/W9CXh/GB25xXtwNqjFVd
- 0Yz6jCT9n1mluC1+AtSRdKwL2Q==
-X-Google-Smtp-Source: AK7set93eR4s6ApmqtRwumq5vkBLQUPTC6cGIrdzi6kW94fot2ggfQ2myzo2lDeeSZ5GowAjIHO4Zg==
-X-Received: by 2002:adf:f8c7:0:b0:2c5:52c3:3f05 with SMTP id
- f7-20020adff8c7000000b002c552c33f05mr7133749wrq.37.1678116815989; 
- Mon, 06 Mar 2023 07:33:35 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o6-20020a5d6706000000b002c573778432sm9932658wru.102.2023.03.06.07.33.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 07:33:35 -0800 (PST)
-Message-ID: <e668a393-c709-b2a9-5836-0a39e41f8944@linaro.org>
-Date: Mon, 6 Mar 2023 16:33:33 +0100
+ d=1e100.net; s=20210112; t=1678116878;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kNxEpbpzuEvIgoWhqEaVpuVuKpGVmLN3bzaspIgl5VA=;
+ b=KB67cM53hOShK+ECS9zcaRXfhwmIupIy8FZBYhk4JGkPMizrw6EUexGVs+50oDGwkM
+ 0kmD29AbC4TG2jZySSd859Mzv/YxtvAWhhVzgK+kSO69snKdzNC9VwnTq22IlMZbyXGN
+ LlSBpjXEfiDcX7ehtZqNLe27/Dfl7iPCh7a7idO+sL5EKgVNyM12YObz5Z5A+hOESVmK
+ dC4VAC8xu+XSrlJwLnh7bTUAYmIruWGZl3Vm/+roevs8SbzxcJZ2zhOC67kd2XAtMZde
+ qyvybkCSJqY6z2Vlc3rbfV7MI99ITcaXL0vfb8u6V2uWg2oIAJCjxKtDOZhi7hZu12Cj
+ MSUg==
+X-Gm-Message-State: AO0yUKX503vKfZ+450/tnsmID3lMZKJs8cUV4TbdRmW4Fk0XwCQ6b4/e
+ QdMy1LwhP5s3pnM5RmQfHs5Gb1p+UWugZcnAT+g=
+X-Google-Smtp-Source: AK7set9TXbShslN/vbkECkiaDs12P3qk6fvTl4A5YEOLAqXnegpgLxe5IdJoB1OtfI24BtljEdNn7A==
+X-Received: by 2002:a05:600c:3b10:b0:3eb:399d:ab18 with SMTP id
+ m16-20020a05600c3b1000b003eb399dab18mr10229450wms.35.1678116877804; 
+ Mon, 06 Mar 2023 07:34:37 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ v7-20020a05600c444700b003eb0d6f48f3sm15287432wmn.27.2023.03.06.07.34.37
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 07:34:37 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/21] target-arm queue
+Date: Mon,  6 Mar 2023 15:34:14 +0000
+Message-Id: <20230306153435.490894-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 68/70] tcg: Replace tcg_const_i64 in tcg-op.c
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-69-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-69-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,14 +87,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:42, Richard Henderson wrote:
-> These three instances got missed in previous conversion.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/tcg-op.c | 12 +++---------
->   1 file changed, 3 insertions(+), 9 deletions(-)
+The following changes since commit f003dd8d81f7d88f4b1f8802309eaa76f6eb223a:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+  Merge tag 'pull-tcg-20230305' of https://gitlab.com/rth7680/qemu into staging (2023-03-06 10:20:04 +0000)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230306
+
+for you to fetch changes up to 2ddc45954f97cd1d7ee5cbca0def05e980d1da9f:
+
+  hw: arm: allwinner-h3: Fix and complete H3 i2c devices (2023-03-06 15:31:24 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * allwinner-h3: Fix I2C controller model for Sun6i SoCs
+ * allwinner-h3: Add missing i2c controllers
+ * Expose M-profile system registers to gdbstub
+ * Expose pauth information to gdbstub
+ * Support direct boot for Linux/arm64 EFI zboot images
+ * Fix incorrect stage 2 MMU setup validation
+
+----------------------------------------------------------------
+Ard Biesheuvel (1):
+      hw: arm: Support direct boot for Linux/arm64 EFI zboot images
+
+David Reiss (2):
+      target/arm: Export arm_v7m_mrs_control
+      target/arm: Export arm_v7m_get_sp_ptr
+
+Richard Henderson (16):
+      target/arm: Normalize aarch64 gdbstub get/set function names
+      target/arm: Unexport arm_gen_dynamic_sysreg_xml
+      target/arm: Move arm_gen_dynamic_svereg_xml to gdbstub64.c
+      target/arm: Split out output_vector_union_type
+      target/arm: Simplify register counting in arm_gen_dynamic_svereg_xml
+      target/arm: Hoist pred_width in arm_gen_dynamic_svereg_xml
+      target/arm: Fix svep width in arm_gen_dynamic_svereg_xml
+      target/arm: Add name argument to output_vector_union_type
+      target/arm: Simplify iteration over bit widths
+      target/arm: Create pauth_ptr_mask
+      target/arm: Implement gdbstub pauth extension
+      target/arm: Implement gdbstub m-profile systemreg and secext
+      target/arm: Handle m-profile in arm_is_secure
+      target/arm: Stub arm_hcr_el2_eff for m-profile
+      target/arm: Diagnose incorrect usage of arm_is_secure subroutines
+      target/arm: Rewrite check_s2_mmu_setup
+
+qianfan Zhao (2):
+      hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on SUN6i SoCs
+      hw: arm: allwinner-h3: Fix and complete H3 i2c devices
+
+ configs/targets/aarch64-linux-user.mak    |   2 +-
+ configs/targets/aarch64-softmmu.mak       |   2 +-
+ configs/targets/aarch64_be-linux-user.mak |   2 +-
+ include/hw/arm/allwinner-h3.h             |   6 +
+ include/hw/i2c/allwinner-i2c.h            |   6 +
+ include/hw/loader.h                       |  19 ++
+ target/arm/cpu.h                          |  17 +-
+ target/arm/internals.h                    |  34 +++-
+ hw/arm/allwinner-h3.c                     |  29 +++-
+ hw/arm/boot.c                             |   6 +
+ hw/core/loader.c                          |  91 ++++++++++
+ hw/i2c/allwinner-i2c.c                    |  26 ++-
+ target/arm/gdbstub.c                      | 278 ++++++++++++++++++------------
+ target/arm/gdbstub64.c                    | 175 ++++++++++++++++++-
+ target/arm/helper.c                       |   3 +
+ target/arm/ptw.c                          | 173 +++++++++++--------
+ target/arm/tcg/m_helper.c                 |  90 +++++-----
+ target/arm/tcg/pauth_helper.c             |  26 ++-
+ gdb-xml/aarch64-pauth.xml                 |  15 ++
+ 19 files changed, 742 insertions(+), 258 deletions(-)
+ create mode 100644 gdb-xml/aarch64-pauth.xml
 
