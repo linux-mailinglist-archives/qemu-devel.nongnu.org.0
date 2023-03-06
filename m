@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBCE6ABF85
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E556ABF97
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:34:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ9yd-0000DX-Jr; Mon, 06 Mar 2023 07:30:03 -0500
+	id 1pZA2A-0004VE-Gz; Mon, 06 Mar 2023 07:33:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ9xX-0007m4-CN
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:28:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ9xV-0003O4-6L
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:28:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678105732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hmnVpN1pnMlbwAzSetIJsAtY9mzJIDmDABMnuHCGvIo=;
- b=IOrx4ZXNvj/eLGRZNgqr3xaGX3AGKhLREPp/jkoJ9w/vns9KW2Uc5LnTOxCRyHctatfocR
- KrUZu+x1NgKGBSOleFrnLaSo6Vq4GGeeMcV2gsPj7QWUULFBlloRF6M90qkLZk/8UOWivv
- /oZ+Y+OfBUSlxmqkUh/QyBk9jk9/CVw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-rO_DXviIMJabsmVB_8LLjg-1; Mon, 06 Mar 2023 07:28:49 -0500
-X-MC-Unique: rO_DXviIMJabsmVB_8LLjg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DAD1685CCE1;
- Mon,  6 Mar 2023 12:28:48 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9CAF1121314;
- Mon,  6 Mar 2023 12:28:47 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Roth <michael.roth@amd.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH v4 11/11] QMP/HMP: only actually implement getfd on
- CONFIG_POSIX
-Date: Mon,  6 Mar 2023 16:27:51 +0400
-Message-Id: <20230306122751.2355515-12-marcandre.lureau@redhat.com>
-In-Reply-To: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
-References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZA1a-00040Z-KB
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:33:07 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZA1X-000467-Ld
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:33:06 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h11so8630054wrm.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:33:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678105982;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qDZhTZZrCjlFbqJSdwRIo2BMiBc16c/C9lqRcswNAPE=;
+ b=QcLoukipamXjsati7EzR6hYirDGIZutk8KpfhGgUIvuVGsm6v8AdmkVMTKzN6ED5aW
+ N3se87wpWKTCuerj8w7LT1Gk2W8utxutx6XBrEUrTWv/FZurcTf+qJU6NaXBIH1p5P4Y
+ Rhd+dtnd/qMBvXFEargUcn8EQEvBtd955BALrHNJZe54F57s2BocT282S+jExzVy6Hfl
+ CFK4V4AqkBVhnPUFbYBoEF0f0gZj/+kiA2W3WhwaD7hC3sc+5gqjjDqmXWR2PMlyLKQS
+ CQWQ+hvyY87axJLMCvQhN38PlBfKed6C5k2wBUTMKaT9iKECAlwIRsawxOdwAJ3Mitww
+ WsWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678105982;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qDZhTZZrCjlFbqJSdwRIo2BMiBc16c/C9lqRcswNAPE=;
+ b=XfwCZho4BXfgonXxdK+XsX+hBOXWmHfdxif145+hgiYLgkzowMvREL0t9/4EU5q+hd
+ f6sYnF1pxJ/W1bRrvn0CUoaJH6YvM5FxqR4En6pZmLBX8HRzhk0jemUdVooh63ZjoOgm
+ zBL6aK+RhceiWAnXj0BM7JOi4rBobssY6PQuak29h9dCIRGGCFpuhHy/tu4EYe2ugsMy
+ g+zsKcCjCwEukSUirFV9c70yYE2UgPCAQJ44LhDzLdXJi90+fje3yqarh9h2eksEB/KL
+ DQU7buzPJFh6lC7RFK6uR3DZ+JQsgxDou60z5Je4LW/LTEtr1bxvdtYm4T66FjFrYcpo
+ H2SA==
+X-Gm-Message-State: AO0yUKWS1Ti7hYWEEwZeOoGreijqykc0VhguucQgl3qfvWvkmLo8vY1N
+ UayUulRx+oJc4r4ctUuytWpxQA==
+X-Google-Smtp-Source: AK7set/xQ037bVX4T0FrAWjxS2TG/6LWFVlBhS0PQ5TXAxFAv4GKDZPOf6DhitFGmOqaXJAoahLJgw==
+X-Received: by 2002:adf:e506:0:b0:2ce:3d6c:9a03 with SMTP id
+ j6-20020adfe506000000b002ce3d6c9a03mr5810311wrm.19.1678105981754; 
+ Mon, 06 Mar 2023 04:33:01 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ b8-20020a5d4d88000000b002c70e60eb40sm9838920wru.11.2023.03.06.04.33.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 04:33:01 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 119C71FFB7;
+ Mon,  6 Mar 2023 12:33:01 +0000 (GMT)
+References: <20230301125211.278808-1-williamvdvelde@gmail.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Willem van de Velde <williamvdvelde@gmail.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] Add qemu qcode support for keys F13 to F24
+Date: Mon, 06 Mar 2023 12:30:37 +0000
+In-reply-to: <20230301125211.278808-1-williamvdvelde@gmail.com>
+Message-ID: <87y1oaqcua.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,93 +94,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Currently, the function will simply fail if ancillary fds are not
-provided, for ex on unsupported platforms.
+Willem van de Velde <williamvdvelde@gmail.com> writes:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- qapi/misc.json     | 2 +-
- monitor/fds.c      | 2 ++
- monitor/hmp-cmds.c | 2 ++
- hmp-commands.hx    | 2 ++
- 4 files changed, 7 insertions(+), 1 deletion(-)
+> To be able to use the function keys F13 to F24 these should be defined in=
+ de keycodemapdb and added to the qapi.
+> The keycodemapdb is updated in its own repository, this patch enables the=
+ use of those keys within qemu.
+>
+> Signed-off-by: Willem van de Velde <williamvdvelde@gmail.com>
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 031c94050c..96c053e305 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -273,7 +273,7 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'getfd', 'data': {'fdname': 'str'} }
-+{ 'command': 'getfd', 'data': {'fdname': 'str'}, 'if': 'CONFIG_POSIX' }
- 
- ##
- # @get-win32-socket:
-diff --git a/monitor/fds.c b/monitor/fds.c
-index 9ed4197358..d86c2c674c 100644
---- a/monitor/fds.c
-+++ b/monitor/fds.c
-@@ -98,6 +98,7 @@ static bool monitor_add_fd(Monitor *mon, int fd, const char *fdname, Error **err
-     return true;
- }
- 
-+#ifdef CONFIG_POSIX
- void qmp_getfd(const char *fdname, Error **errp)
- {
-     Monitor *cur_mon = monitor_cur();
-@@ -111,6 +112,7 @@ void qmp_getfd(const char *fdname, Error **errp)
- 
-     monitor_add_fd(cur_mon, fd, fdname, errp);
- }
-+#endif
- 
- void qmp_closefd(const char *fdname, Error **errp)
- {
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 34bd8c67d7..6c559b48c8 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -192,6 +192,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
- 
-+#ifdef CONFIG_POSIX
- void hmp_getfd(Monitor *mon, const QDict *qdict)
- {
-     const char *fdname = qdict_get_str(qdict, "fdname");
-@@ -200,6 +201,7 @@ void hmp_getfd(Monitor *mon, const QDict *qdict)
-     qmp_getfd(fdname, &err);
-     hmp_handle_error(mon, err);
- }
-+#endif
- 
- void hmp_closefd(Monitor *mon, const QDict *qdict)
- {
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index b87c250e23..bb85ee1d26 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1486,6 +1486,7 @@ SRST
-   Inject an MCE on the given CPU (x86 only).
- ERST
- 
-+#ifdef CONFIG_POSIX
-     {
-         .name       = "getfd",
-         .args_type  = "fdname:s",
-@@ -1501,6 +1502,7 @@ SRST
-   mechanism on unix sockets, it is stored using the name *fdname* for
-   later use by other monitor commands.
- ERST
-+#endif
- 
-     {
-         .name       = "closefd",
--- 
-2.39.2
+Adding maintainer to CC list so this doesn't get lost.
 
+For reference from:
+https://qemu.readthedocs.io/en/latest/devel/submitting-a-patch.html#cc-the-=
+relevant-maintainer
+
+  git config sendemail.cccmd 'scripts/get_maintainer.pl --nogit-fallback'
+
+will configure git send-email to do this automatically.
+
+> ---
+>  qapi/ui.json    | 15 ++++++++++++++-
+>  ui/keycodemapdb |  2 +-
+>  2 files changed, 15 insertions(+), 2 deletions(-)
+>
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 0abba3e930..98322342f7 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -886,6 +886,19 @@
+>  # @lang1: since 6.1
+>  # @lang2: since 6.1
+>  #
+> +# @f13: since 8.0
+> +# @f14: since 8.0
+> +# @f15: since 8.0
+> +# @f16: since 8.0
+> +# @f17: since 8.0
+> +# @f18: since 8.0
+> +# @f19: since 8.0
+> +# @f20: since 8.0
+> +# @f21: since 8.0
+> +# @f22: since 8.0
+> +# @f23: since 8.0
+> +# @f24: since 8.0
+> +#
+>  # 'sysrq' was mistakenly added to hack around the fact that
+>  # the ps2 driver was not generating correct scancodes sequences
+>  # when 'alt+print' was pressed. This flaw is now fixed and the
+> @@ -918,7 +931,7 @@
+>              'volumeup', 'volumedown', 'mediaselect',
+>              'mail', 'calculator', 'computer',
+>              'ac_home', 'ac_back', 'ac_forward', 'ac_refresh', 'ac_bookma=
+rks',
+> -            'lang1', 'lang2' ] }
+> +            'lang1', 'lang2','f13','f14','f15','f16','f17','f18','f19','=
+f20','f21','f22','f23','f24' ] }
+>=20=20
+>  ##
+>  # @KeyValueKind:
+> diff --git a/ui/keycodemapdb b/ui/keycodemapdb
+> index d21009b1c9..f5772a62ec 160000
+> --- a/ui/keycodemapdb
+> +++ b/ui/keycodemapdb
+> @@ -1 +1 @@
+> -Subproject commit d21009b1c9f94b740ea66be8e48a1d8ad8124023
+> +Subproject commit f5772a62ec52591ff6870b7e8ef32482371f22c6
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
