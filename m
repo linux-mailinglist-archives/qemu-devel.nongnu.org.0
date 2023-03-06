@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD496AB6AB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63306AB6AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:56:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ4iX-00043h-9F; Mon, 06 Mar 2023 01:53:07 -0500
+	id 1pZ4iO-0003o7-NR; Mon, 06 Mar 2023 01:52:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4iG-0003cs-EO
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:49 -0500
+ id 1pZ4iI-0003em-Cb
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4iE-0000YZ-Ob
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:48 -0500
+ id 1pZ4iG-0000Yn-E2
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678085566;
+ s=mimecast20190719; t=1678085567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qs85+lNX1CIt1d17yJJi1YhLfEiUe41EDq6IGo6LhSY=;
- b=JTTU+zcd1+myU7XevjFhh4bQVNyZLK/YI7+zlU+UbnPsR+O48J7FWZjpyMk2sD40ODZmY3
- cOXCSvpPtkpowF+fTIPLLeZIwSYsagtYBlg+ErnkvhIcC/2rS52kK6s0HPQ/3yJODhYSMx
- xlv3AltwmclniZdluSaggqa3Y/5tJCs=
+ bh=v9U2rnkH56RGiYZ1YG5+/56tL3XbQI3JHqSlBjinnv4=;
+ b=RDPagj6G8cR7g/6Cz9c8AKp9n5v7wP+PgCp2ztDB+cKRSDPq73zmOi7PlJZZsJra0Wkmu8
+ QzLI8YShbLtR9/W9sk4aSdivKgnu8JfXLG9q23OpFiKQYnDygG7xDLkFOTNZIGZuypf7Xk
+ SoIoQCPJbh6tcVxO5OlZGvC6ndv176Q=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-186-rLDtAhNLOL20WXgMjy0OVw-1; Mon, 06 Mar 2023 01:52:42 -0500
-X-MC-Unique: rLDtAhNLOL20WXgMjy0OVw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-354-h8ktXhfBOzO537ZV36JH7Q-1; Mon, 06 Mar 2023 01:52:46 -0500
+X-MC-Unique: h8ktXhfBOzO537ZV36JH7Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03570811E6E;
- Mon,  6 Mar 2023 06:52:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE998101A521;
+ Mon,  6 Mar 2023 06:52:45 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 41D07175AD;
- Mon,  6 Mar 2023 06:52:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 265E240C83B6;
+ Mon,  6 Mar 2023 06:52:44 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 08/27] audio/audio_template: use g_malloc0() to replace
+Subject: [PULL 09/27] audio/audio_template: use g_new0() to replace
  audio_calloc()
-Date: Mon,  6 Mar 2023 10:51:43 +0400
-Message-Id: <20230306065202.2160066-9-marcandre.lureau@redhat.com>
+Date: Mon,  6 Mar 2023 10:51:44 +0400
+Message-Id: <20230306065202.2160066-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 References: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,79 +85,89 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Use g_malloc0() as a direct replacement for audio_calloc().
+Replace audio_calloc() with the equivalent g_new0().
 
-Since the type of the parameter n_bytes of the function g_malloc0()
-is unsigned, the type of the variables voice_size_out and
-voice_size_in has been changed to size_t. This means that the
-function argument no longer has to be checked for negative values.
+With a n_structs argument >= 1, g_new0() never returns NULL.
+Also remove the unnecessary NULL checks.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20230121094735.11644-7-vr_qemu@t-online.de>
+Message-Id: <20230121094735.11644-8-vr_qemu@t-online.de>
 ---
- audio/audio_int.h      |  4 ++--
- audio/audio_template.h | 18 ++++++++----------
- 2 files changed, 10 insertions(+), 12 deletions(-)
+ audio/audio_template.h | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 4632cdf9cc..ce2d6bf92c 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -151,8 +151,8 @@ struct audio_driver {
-     int can_be_default;
-     int max_voices_out;
-     int max_voices_in;
--    int voice_size_out;
--    int voice_size_in;
-+    size_t voice_size_out;
-+    size_t voice_size_in;
-     QLIST_ENTRY(audio_driver) next;
- };
- 
 diff --git a/audio/audio_template.h b/audio/audio_template.h
-index dfa440f778..592866f14a 100644
+index 592866f14a..980e1f4bd0 100644
 --- a/audio/audio_template.h
 +++ b/audio/audio_template.h
-@@ -40,7 +40,7 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
-                                               struct audio_driver *drv)
- {
-     int max_voices = glue (drv->max_voices_, TYPE);
--    int voice_size = glue (drv->voice_size_, TYPE);
-+    size_t voice_size = glue(drv->voice_size_, TYPE);
- 
-     if (glue (s->nb_hw_voices_, TYPE) > max_voices) {
-         if (!max_voices) {
-@@ -63,8 +63,8 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
+@@ -115,6 +115,12 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+ #else
+     samples = (int64_t)sw->HWBUF->size * sw->ratio >> 32;
+ #endif
++    if (audio_bug(__func__, samples < 0)) {
++        dolog("Can not allocate buffer for `%s' (%d samples)\n",
++              SW_NAME(sw), samples);
++        return -1;
++    }
++
+     if (samples == 0) {
+         HW *hw = sw->hw;
+         size_t f_fe_min;
+@@ -129,12 +135,7 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+         return -1;
      }
  
-     if (audio_bug(__func__, voice_size && !max_voices)) {
--        dolog ("drv=`%s' voice_size=%d max_voices=0\n",
--               drv->name, voice_size);
-+        dolog("drv=`%s' voice_size=%zu max_voices=0\n",
-+              drv->name, voice_size);
-     }
- }
- 
-@@ -273,13 +273,11 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
-         return NULL;
-     }
- 
--    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
--    if (!hw) {
--        dolog ("Can not allocate voice `%s' size %d\n",
--               drv->name, glue (drv->voice_size_, TYPE));
--        return NULL;
+-    sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+-    if (!sw->buf) {
+-        dolog ("Could not allocate buffer for `%s' (%d samples)\n",
+-               SW_NAME (sw), samples);
+-        return -1;
 -    }
--
-+    /*
-+     * Since glue(s->nb_hw_voices_, TYPE) is != 0, glue(drv->voice_size_, TYPE)
-+     * is guaranteed to be != 0. See the audio_init_nb_voices_* functions.
-+     */
-+    hw = g_malloc0(glue(drv->voice_size_, TYPE));
-     hw->s = s;
-     hw->pcm_ops = drv->pcm_ops;
++    sw->buf = g_new0(st_sample, samples);
+ 
+ #ifdef DAC
+     sw->rate = st_rate_start (sw->info.freq, sw->hw->info.freq);
+@@ -425,34 +426,28 @@ static SW *glue(audio_pcm_create_voice_pair_, TYPE)(
+         hw_as = *as;
+     }
+ 
+-    sw = audio_calloc(__func__, 1, sizeof(*sw));
+-    if (!sw) {
+-        dolog ("Could not allocate soft voice `%s' (%zu bytes)\n",
+-               sw_name ? sw_name : "unknown", sizeof (*sw));
+-        goto err1;
+-    }
++    sw = g_new0(SW, 1);
+     sw->s = s;
+ 
+     hw = glue(audio_pcm_hw_add_, TYPE)(s, &hw_as);
+     if (!hw) {
+         dolog("Could not create a backend for voice `%s'\n", sw_name);
+-        goto err2;
++        goto err1;
+     }
+ 
+     glue (audio_pcm_hw_add_sw_, TYPE) (hw, sw);
+ 
+     if (glue (audio_pcm_sw_init_, TYPE) (sw, hw, sw_name, as)) {
+-        goto err3;
++        goto err2;
+     }
+ 
+     return sw;
+ 
+-err3:
++err2:
+     glue (audio_pcm_hw_del_sw_, TYPE) (sw);
+     glue (audio_pcm_hw_gc_, TYPE) (&hw);
+-err2:
+-    g_free (sw);
+ err1:
++    g_free(sw);
+     return NULL;
+ }
  
 -- 
 2.39.2
