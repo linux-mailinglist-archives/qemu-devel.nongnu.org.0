@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018156AD013
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 22:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8AE6AD024
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 22:25:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIEr-0000RJ-HN; Mon, 06 Mar 2023 16:19:21 -0500
+	id 1pZIK8-0002yd-Ha; Mon, 06 Mar 2023 16:24:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZIEp-0000Qw-6O
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:19:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZIEm-0006Re-PX
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:19:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678137554;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tYGA8u6FFZ9qbPNa59d0CijpTYUzBuj5C7MlWir/UBc=;
- b=fOeh+a3CG+f7CSOdclofBZuRH/9/vCOlUCmk1QUtJSaC9tgq8Nfbd4yA4moa5orhMuRYSA
- /ON7Ox2h/ZPfXZbStNcXXcnwgBivX+EFvrMPRlAa3RoHuYIQUp/T6WUqaKO9qE6rE35kjW
- EAeMTw+D/q72eYZ6c00UhNOGiMNZ6kU=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-121-oQ-DV6iEMuqeFgoQHT3Z_Q-1; Mon, 06 Mar 2023 16:19:13 -0500
-X-MC-Unique: oQ-DV6iEMuqeFgoQHT3Z_Q-1
-Received: by mail-il1-f200.google.com with SMTP id
- y2-20020a929502000000b0031707c6b348so5969793ilh.8
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 13:19:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pZIK7-0002yQ-F2
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:24:47 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pZIK5-0007rb-Q9
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:24:47 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id
+ me6-20020a17090b17c600b0023816b0c7ceso14526114pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 13:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678137884;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ct3Vxi3JL8VTltpME0NZyangJ9MCSNlxQkRorA4180o=;
+ b=W1zhzjDy2LL9ctpWJ9ZXKPmbguPrwywWGVKiKkbeaFKve0xfsNVXBzX19CKuxVTxzM
+ /M3uvjyLMyrS17TQoZqEceyUEUJbelrqzOhFQJ6UQOvfVl17uUI8UuQh17bYV8cRX071
+ r7kJG4NsDTWwAW/PypBtsa8rZvBEdVsReri0kQP5zJkUAhYHCWhrcZL3Vwm9warUrgf4
+ j/JVn/JeYTPur0gIpQIntI3sHQ6p9XPunuEnbd0IDBivgPMruWdLGDLRlLLkPXJWHK64
+ U/R204dfLK2XWQjLn9clESHY94b4vLEKZT03ef1zpNT7V1yEKuqH36VURncA4XF4TWTb
+ DnoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678137552;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tYGA8u6FFZ9qbPNa59d0CijpTYUzBuj5C7MlWir/UBc=;
- b=MBTwyjEpqIv9gKWUkE9KCVAYlwUC3vVeiw3i4tnixmO02QjV+o4yYlnWUNtkk+jQAh
- l1UFz0qBKlORpP4j8Y8/b2Z0NDHEiBH11AQcIT0OCqLN9rrOlmyAzKGdVCskZfDc/fcn
- vCj4H4AGxMhU0cLdKvlqp6GXSe7jdmjNtTNz2BcpdvhoSnILNBL+SdOMFfxwjYX8N7cU
- nPKFHrpUpgMPu+m2wL0w8PgkRFTN8JFYLU9efZCIHb+5EwXrell5Hz4dYIbOMFrDPa0F
- pZXx85EfCzfQ1Rk8Und/ALWJU1tyYEkrtZrly1RQPfEFZ4iFPnZUgAKK1cJrvQpZDvpC
- 5AnA==
-X-Gm-Message-State: AO0yUKW9MsYEAdnSxjr1f+l+co1OH61D2PQbd4m+8Cri6QGbL7/x0YMi
- n29IB+R48DzZHnWeLv+WenKeeZddeGETYFnVb3qeOXLLHrcQcP0A5+nT2r8qVtUNq7He29Jg+6/
- JusPFOFEg7M7IPSI=
-X-Received: by 2002:a05:6e02:1e04:b0:317:93dc:1122 with SMTP id
- g4-20020a056e021e0400b0031793dc1122mr10757534ila.14.1678137552605; 
- Mon, 06 Mar 2023 13:19:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set/WnO9pPkhXxZt2uAsp1FNvYYXqMSdiUCPmlvfG1nG+rPM7Vw8EjlQ6Q06UJiPGFdn1KO3Kcw==
-X-Received: by 2002:a05:6e02:1e04:b0:317:93dc:1122 with SMTP id
- g4-20020a056e021e0400b0031793dc1122mr10757521ila.14.1678137552334; 
- Mon, 06 Mar 2023 13:19:12 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- r16-20020a92d450000000b00316e39f1285sm3068617ilm.82.2023.03.06.13.19.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 13:19:11 -0800 (PST)
-Date: Mon, 6 Mar 2023 14:19:09 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>,
- qemu-devel@nongnu.org, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v3 00/13] vfio/migration: Device dirty page tracking
-Message-ID: <20230306141909.20c17a7e.alex.williamson@redhat.com>
-In-Reply-To: <f04bc012-96ad-fb6c-6edf-9afefc8607e7@redhat.com>
-References: <20230304014343.33646-1-joao.m.martins@oracle.com>
- <20230305135734.71d54dd1.alex.williamson@redhat.com>
- <d8c298a7-41a3-49bf-6c5c-b071b1398160@oracle.com>
- <20230305191913.562b7a85.alex.williamson@redhat.com>
- <73116eef-872b-5845-4a95-01d6155f288e@oracle.com>
- <f04bc012-96ad-fb6c-6edf-9afefc8607e7@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ d=1e100.net; s=20210112; t=1678137884;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ct3Vxi3JL8VTltpME0NZyangJ9MCSNlxQkRorA4180o=;
+ b=SLbTNLtSzbamSxCX14pxy72bez13sYyItcxn75GYTI+fkqmeJJvhOTqBPcT4rzGO2P
+ YifJo0tfHeakqW80t4mng5XewRHiNyPK5ufuPTHfePRj9abWCyA2ynUwgyjLbEdCWWkf
+ QLOXN/WrL3bdwxY5VbOqDFXuXAcayhFjZ8FXteZZvyI4j51Gl5+TAAaVI4nZgzWTTpZr
+ UP2dLjLXRhg2QbmOOmpGAntCE46JZFRhhUV4CGNFiDXncemJma3NcpG1BpeNV8jRHG99
+ D9GYQhbk4byxXNT3Vu+3rH1EEYyAT8WwY2HKC1AqW0mFmHNZM08W/dHHvEeoUkgTlKcn
+ pyyQ==
+X-Gm-Message-State: AO0yUKXR0vWSto5DBzIx+JnN79yqraIWIHomRLLg9c2qpOVTlw3f0bMV
+ qwIO6Je7f6kJV4CLOaTvuCn/Fw==
+X-Google-Smtp-Source: AK7set8vMndnU6DJRfEijGhzqtTTbpTUVmGay7re3ZTqHsG8RBFdMUw1VjsHqqVvi5SWUSq6gQVRxQ==
+X-Received: by 2002:a17:903:187:b0:199:1996:71ec with SMTP id
+ z7-20020a170903018700b00199199671ecmr14923238plg.16.1678137883901; 
+ Mon, 06 Mar 2023 13:24:43 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:7632:29c7:3cce:bec3?
+ ([2602:ae:154a:9f01:7632:29c7:3cce:bec3])
+ by smtp.gmail.com with ESMTPSA id
+ ji20-20020a170903325400b0019c93a9a854sm7093115plb.213.2023.03.06.13.24.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 13:24:43 -0800 (PST)
+Message-ID: <004c0c81-958c-ba34-a743-6f2a4a4d133a@linaro.org>
+Date: Mon, 6 Mar 2023 13:24:41 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/9] linux-user: Diagnose incorrect -R size
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20230306021307.1879483-1-richard.henderson@linaro.org>
+ <20230306021307.1879483-2-richard.henderson@linaro.org>
+ <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,123 +97,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023 12:05:06 +0100
-C=C3=A9dric Le Goater <clg@redhat.com> wrote:
+On 3/6/23 04:56, Peter Maydell wrote:
+> On Mon, 6 Mar 2023 at 02:14, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Zero is the value for 'off', and should not be used with -R.
+>> We have been enforcing host page alignment for the non-R
+>> fallback of MAX_RESERVED_VA, but failing to enforce for -R.
+> 
+> I'm pretty sure we have users who specifically use "-R 0" to
+> ask for "definitely turn off any reserved VA".
+> Here's a random example from an old gcc bug report:
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60681
+> and somebody using it via the environment variable:
+> https://www.openembedded.org/pipermail/openembedded-core/2015-January/100572.html
 
-> On 3/6/23 10:45, Joao Martins wrote:
-> > On 06/03/2023 02:19, Alex Williamson wrote: =20
-> >> On Sun, 5 Mar 2023 23:33:35 +0000
-> >> Joao Martins <joao.m.martins@oracle.com> wrote:
-> >> =20
-> >>> On 05/03/2023 20:57, Alex Williamson wrote: =20
-> >>>> On Sat,  4 Mar 2023 01:43:30 +0000
-> >>>> Joao Martins <joao.m.martins@oracle.com> wrote:
-> >>>>     =20
-> >>>>> Hey,
-> >>>>>
-> >>>>> Presented herewith a series based on the basic VFIO migration proto=
-col v2
-> >>>>> implementation [1].
-> >>>>>
-> >>>>> It is split from its parent series[5] to solely focus on device dir=
-ty
-> >>>>> page tracking. Device dirty page tracking allows the VFIO device to
-> >>>>> record its DMAs and report them back when needed. This is part of V=
-FIO
-> >>>>> migration and is used during pre-copy phase of migration to track t=
-he
-> >>>>> RAM pages that the device has written to and mark those pages dirty=
-, so
-> >>>>> they can later be re-sent to target.
-> >>>>>
-> >>>>> Device dirty page tracking uses the DMA logging uAPI to discover de=
-vice
-> >>>>> capabilities, to start and stop tracking, and to get dirty page bit=
-map
-> >>>>> report. Extra details and uAPI definition can be found here [3].
-> >>>>>
-> >>>>> Device dirty page tracking operates in VFIOContainer scope. I.e., W=
-hen
-> >>>>> dirty tracking is started, stopped or dirty page report is queried,=
- all
-> >>>>> devices within a VFIOContainer are iterated and for each of them de=
-vice
-> >>>>> dirty page tracking is started, stopped or dirty page report is que=
-ried,
-> >>>>> respectively.
-> >>>>>
-> >>>>> Device dirty page tracking is used only if all devices within a
-> >>>>> VFIOContainer support it. Otherwise, VFIO IOMMU dirty page tracking=
- is
-> >>>>> used, and if that is not supported as well, memory is perpetually m=
-arked
-> >>>>> dirty by QEMU. Note that since VFIO IOMMU dirty page tracking has n=
-o HW
-> >>>>> support, the last two usually have the same effect of perpetually
-> >>>>> marking all pages dirty.
-> >>>>>
-> >>>>> Normally, when asked to start dirty tracking, all the currently DMA
-> >>>>> mapped ranges are tracked by device dirty page tracking. If using a
-> >>>>> vIOMMU we block live migration. It's temporary and a separate serie=
-s is
-> >>>>> going to add support for it. Thus this series focus on getting the
-> >>>>> ground work first.
-> >>>>>
-> >>>>> The series is organized as follows:
-> >>>>>
-> >>>>> - Patches 1-7: Fix bugs and do some preparatory work required prior=
- to
-> >>>>>    adding device dirty page tracking.
-> >>>>> - Patches 8-10: Implement device dirty page tracking.
-> >>>>> - Patch 11: Blocks live migration with vIOMMU.
-> >>>>> - Patches 12-13 enable device dirty page tracking and document it.
-> >>>>>
-> >>>>> Comments, improvements as usual appreciated. =20
-> >>>>
-> >>>> Still some CI failures:
-> >>>>
-> >>>> https://gitlab.com/alex.williamson/qemu/-/pipelines/796657474
-> >>>>
-> >>>> The docker failures are normal, afaict the rest are not.  Thanks,
-> >>>>     =20
-> >>>
-> >>> Ugh, sorry
-> >>>
-> >>> The patch below scissors mark (and also attached as a file) fixes tho=
-se build
-> >>> issues. I managed to reproduce on i386 target builds, and these chang=
-es fix my
-> >>> 32-bit build.
-> >>>
-> >>> I don't have a working Gitlab setup[*] though to trigger the CI to en=
-able to
-> >>> wealth of targets it build-tests. If you could kindly test the patch =
-attached in
-> >>> a new pipeline (applied on top of the branch you just build) below to=
- understand
-> >>> if the CI gets happy. I will include these changes in the right patch=
-es (patch 8
-> >>> and 10) for the v4 spin. =20
-> >>
-> >> Looks like this passes:
-> >>
-> >> https://gitlab.com/alex.williamson/qemu/-/pipelines/796750136
-> >> =20
-> > Great, I've staged this fixes in patches 8&10!
-> >=20
-> > I have a sliver of hope that we might still make it by soft freeze (tom=
-orrow?).
-> > If you think it can still make it, should the rest of the series is goo=
-d, then I
-> > can follow up v4 today/tomorrow. Thoughts? =20
->=20
-> I would say, wait and see if a v4 is needed first. These changes are
-> relatively easy to fold in.
+Odd.
 
-I think we have enough changes and fixes to post a v4 once you're happy
-with it.  We should have tomorrow, the 7th to get final reviews and
-post a pull request.  Thanks,
+Well, it won't actually have the effect of "definitely turn off", it will merely leave 
+things as per the default, which *will* enable reserved va for 32-bit guests on 64-bit hosts.
 
-Alex
+The only remaining question is whether we diagnose this oddness or silently accept it.  It 
+feels like someone playing with options they don't actually understand and an error is 
+warranted.
 
+
+r~
 
