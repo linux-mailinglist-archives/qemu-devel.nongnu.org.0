@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46EAC6AC33D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAB86AC33B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:29:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBqS-0001XA-N9; Mon, 06 Mar 2023 09:29:44 -0500
+	id 1pZBqH-0001Sp-5k; Mon, 06 Mar 2023 09:29:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenbaozi@phytium.com.cn>)
- id 1pZBqP-0001Wc-PY; Mon, 06 Mar 2023 09:29:41 -0500
-Received: from azure-sdnproxy.icoremail.net ([20.231.56.155])
- by eggs.gnu.org with smtp (Exim 4.90_1)
- (envelope-from <chenbaozi@phytium.com.cn>)
- id 1pZBqM-0004I6-HO; Mon, 06 Mar 2023 09:29:41 -0500
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
- by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwD3apxD+QVkavEyAQ--.8916S2;
- Mon, 06 Mar 2023 22:31:31 +0800 (CST)
-Received: from smtpclient.apple (unknown [113.246.80.233])
- by mail (Coremail) with SMTP id AQAAfwDHFL6_+AVkdowAAA--.543S3;
- Mon, 06 Mar 2023 22:29:20 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH 1/2] target/arm: Add Neoverse-N1 registers
-From: Chen Baozi <chenbaozi@phytium.com.cn>
-In-Reply-To: <CAFEAcA-Ce4qpLjCmzVjuKmLM-RnNfW4rAtD_xMJPjM8U309S6Q@mail.gmail.com>
-Date: Mon, 6 Mar 2023 22:29:09 +0800
-Cc: qemu-devel@nongnu.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <253B993A-2ECE-42A3-83B0-908831D49D91@phytium.com.cn>
-References: <20230303161518.3411149-1-chenbaozi@phytium.com.cn>
- <20230303161518.3411149-2-chenbaozi@phytium.com.cn>
- <CAFEAcA-Ce4qpLjCmzVjuKmLM-RnNfW4rAtD_xMJPjM8U309S6Q@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
-X-CM-TRANSID: AQAAfwDHFL6_+AVkdowAAA--.543S3
-X-CM-SenderInfo: hfkh0updr2xqxsk13x1xpou0fpof0/1tbiAQAKEWQE4IkIqgAAsx
-Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=chenbaozi@
- phytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjvJXoW3ArW5Ww4DXr1DuF4kAw1UWrg_yoW7Wr15pF
- nrGFn8WFyjqrsxJa1kAw1UCan5Aa1Fkr1jkrZFgr9a9Fn3J398Kr1qg345KF98G3W8J34F
- 9a1jqrW29343ZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
- UUUUU
-Received-SPF: pass client-ip=20.231.56.155;
- envelope-from=chenbaozi@phytium.com.cn; helo=azure-sdnproxy.icoremail.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBqD-0001SV-Fv
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:29:30 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBqB-0004HU-Qu
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:29:29 -0500
+Received: by mail-wr1-x435.google.com with SMTP id j2so8999507wrh.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 06:29:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678112961;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+7n02+RiJuaRrHex3UL5+IdjqGKfpotIDVhbhTo8+P8=;
+ b=hUdAq29mBchPraSLErUKwt1Oey+/Q6nzPn7PaHDrOWzSq91wGynQaZERx/Q/F6g0Fl
+ SY2bjc0LteLto3joK8ptMsaZh0n2s5cCA+UiojPX7jrEhbX0vpW0QpPaMXOKWKh5rwFC
+ A73KAQ17ZJqYE0JpqNxU6rHMIv0/5rUFW1qA5V1OubJmWJ6iYG7kGqgNtIqqYb8GBH93
+ Cioag24B9nEI7WXxC8VjdZ6+aYry9pzP1iNhotqqIcN5bsQsCoPVhmdkn86ZNIhihWAi
+ JSvkOE1Wq+9uVn6ZJV48kXsR2YIwQZVDPLULOfSzRWg18HOThEtNVX0KBjlZlCvAja1y
+ 6d8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678112961;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+7n02+RiJuaRrHex3UL5+IdjqGKfpotIDVhbhTo8+P8=;
+ b=oOJvLQX8XJvIo8DW1IANe29qrpB3eFmtP/WoyIBDdxBC7/j4RCGVrrKu0Gm3GMcjlA
+ UVbB3/I8rp/SvvTqJmhrFYrE4KO68JTEfe6pVW5Eflf+5XGyKVQAmITvK0w0b8mv6Qlb
+ bU2PSzUTT510s/mmMA//6WS4iCLj+Hp4I8vvpduql1qhHkvcelvTS8txrRU9XUlYRIKO
+ p/H2BbLOcHLpgpJUQ/yjK2mtskR07SYxwBbRxrsrSMXZYR6G2+/vMFjZu2tbbmU57Obe
+ w7dsGpwpmHjtIZkxjK/7x/EANCVfTnQ/g0HZWWqHu44eUmbWUa6tNSM6+fyYNir1kIAP
+ gjDQ==
+X-Gm-Message-State: AO0yUKXX6wX1sKDFjV3iyU8Dc3RfcampMc9nttInpAdbM9/bHlLmLZYV
+ SNOj9+xZDK2KQhA/VAYK2PyRZ34gksWbNJ6eT6k=
+X-Google-Smtp-Source: AK7set8AWRWq4EJlSlpVXXyAv91LHIOHqw9pXaKrZZsw3LH0FKdxre2til6Rb/wM1RKxZ4u4HZBRJw==
+X-Received: by 2002:a5d:6a88:0:b0:2c9:a342:28ff with SMTP id
+ s8-20020a5d6a88000000b002c9a34228ffmr6771404wru.42.1678112961548; 
+ Mon, 06 Mar 2023 06:29:21 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ e18-20020adffc52000000b002ca864b807csm10004262wrs.0.2023.03.06.06.29.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 06:29:21 -0800 (PST)
+Message-ID: <4b5c9662-c609-8b52-ebd0-cbc461c751f7@linaro.org>
+Date: Mon, 6 Mar 2023 15:29:20 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PULL 13/23] target/loongarch: Update README
+Content-Language: en-US
+To: qemu-devel@nongnu.org, Song Gao <gaosong@loongson.cn>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20220704093357.983255-1-richard.henderson@linaro.org>
+ <20220704093357.983255-14-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20220704093357.983255-14-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,176 +93,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Peter,
+Hi Gao,
 
-> On Mar 6, 2023, at 19:33, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
-> On Fri, 3 Mar 2023 at 16:15, Chen Baozi <chenbaozi@phytium.com.cn> =
-wrote:
->>=20
->> Add implementation defined registers for neoverse-n1 which
->> would be accessed by TF-A.
->>=20
->> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
->> ---
->> target/arm/cpu64.c     |  2 ++
->> target/arm/cpu_tcg.c   | 62 =
-++++++++++++++++++++++++++++++++++++++++++
->> target/arm/internals.h |  2 ++
->> 3 files changed, 66 insertions(+)
->>=20
->> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
->> index 4066950da1..a6ae7cafac 100644
->> --- a/target/arm/cpu64.c
->> +++ b/target/arm/cpu64.c
->> @@ -1094,6 +1094,8 @@ static void aarch64_neoverse_n1_initfn(Object =
-*obj)
->>=20
->>     /* =46rom D5.1 AArch64 PMU register summary */
->>     cpu->isar.reset_pmcr_el0 =3D 0x410c3000;
->> +
->> +    define_neoverse_n1_cp_reginfo(cpu);
->> }
->>=20
->> static void aarch64_host_initfn(Object *obj)
->> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
->> index df0c45e523..6a1bb56b25 100644
->> --- a/target/arm/cpu_tcg.c
->> +++ b/target/arm/cpu_tcg.c
->> @@ -150,6 +150,68 @@ void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU =
-*cpu)
->> {
->>     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
->> }
->> +
->> +static const ARMCPRegInfo neoverse_n1_cp_reginfo[] =3D {
->> +    { .name =3D "ATCR_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 7, .opc2 =3D =
-0,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "ATCR_EL2", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 4, .crn =3D 15, .crm =3D 7, .opc2 =3D =
-0,
->> +      .access =3D PL2_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "ATCR_EL3", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 6, .crn =3D 15, .crm =3D 7, .opc2 =3D =
-0,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "ATCR_EL12", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 5, .crn =3D 15, .crm =3D 7, .opc2 =3D =
-0,
->> +      .access =3D PL2_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "AVTCR_EL2", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 4, .crn =3D 15, .crm =3D 7, .opc2 =3D =
-1,
->> +      .access =3D PL2_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUACTLR_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 1, .opc2 =3D =
-0,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUACTLR2_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 1, .opc2 =3D =
-1,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUACTLR3_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 1, .opc2 =3D =
-2,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUCFR_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 0, .opc2 =3D =
-0,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->=20
-> .PL1_R -- this register is read-only.
->=20
-> If we report bit 2 as 1 ("the DSU SCU is not present"), does
-> TF-A pay attention to that and not try to access the DSU
-> related registers you define in patch 2 ? If so, it would
-> probably be nicer to say "no DSU" and not have to define
-> dummy registers for it...
-
-Aha! Yes, TF-A does have a function =E2=80=9Cis_scu_present_in_dsu" to =
-check this bit.
-
-I=E2=80=99ll work another version to fix them all (as well as the =
-following issues).
-
-Thanks.
-
-Baozi.
-
->=20
->> +    { .name =3D "CPUECTLR_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 1, .opc2 =3D =
-4,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D =
-0x961563010 },
->> +    { .name =3D "CPUPCR_EL3", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 6, .crn =3D 15, .crm =3D 8, .opc2 =3D =
-1,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUPMR_EL3", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 6, .crn =3D 15, .crm =3D 8, .opc2 =3D =
-3,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUPOR_EL3", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 6, .crn =3D 15, .crm =3D 8, .opc2 =3D =
-2,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUPSELR_EL3", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 6, .crn =3D 15, .crm =3D 8, .opc2 =3D =
-0,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "CPUPWRCTLR_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 2, .opc2 =3D =
-7,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +    { .name =3D "ERXPFGCDN_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 2, .opc2 =3D =
-2,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->=20
-> Shouldn't this be PL1_RW ?
->=20
->> +    { .name =3D "ERXPFGCTL_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 2, .opc2 =3D =
-1,
->> +      .access =3D PL3_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->=20
-> Also PL1_RW.
->=20
->> +    { .name =3D "ERXPFGF_EL1", .state =3D ARM_CP_STATE_AA64,
->> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 15, .crm =3D 2, .opc2 =3D =
-0,
->> +      .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 =
-},
->> +};
->> +
->> +void define_neoverse_n1_cp_reginfo(ARMCPU *cpu)
->> +{
->> +    define_arm_cp_regs(cpu, neoverse_n1_cp_reginfo);
->> +}
->> #endif /* !CONFIG_USER_ONLY */
->=20
-> thanks
-> -- PMM
+On 4/7/22 11:33, Richard Henderson wrote:
+> From: Song Gao <gaosong@loongson.cn>
+> 
+> Add linux-user emulation introduction
+> 
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220624031049.1716097-14-gaosong@loongson.cn>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/loongarch/README | 39 +++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 37 insertions(+), 2 deletions(-)
 
 
+> +- Linux-user emulation
+> +
+> +  We already support Linux user emulation. We can use LoongArch cross-tools to build LoongArch executables on X86 machines,
+> +  and We can also use qemu-loongarch64 to run LoongArch executables.
+> +
+> +  1. Config cross-tools env.
+> +
+> +     see System emulation.
+> +
+> +  2. Test tests/tcg/multiarch.
+> +
+> +     ./configure  --static  --prefix=/usr  --disable-werror --target-list="loongarch64-linux-user" --enable-debug
+
+Why are we recommending to build this particular target with
+--disable-werror, what is the problem?
+
+> +
+> +     cd build
+> +
+> +     make && make check-tcg
 
