@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BB86AB403
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A227F6AB41E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:54:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYyyU-0004g4-M7; Sun, 05 Mar 2023 19:45:10 -0500
+	id 1pYyyh-0005Q9-LR; Sun, 05 Mar 2023 19:45:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYyxp-0003Ia-Jx
+ id 1pYyxp-0003I9-2L
  for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:44:30 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYyxn-0007O1-41
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:44:29 -0500
-Received: by mail-pf1-x441.google.com with SMTP id x7so2744808pff.7
+ id 1pYyxn-0007EH-2o
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:44:28 -0500
+Received: by mail-pl1-x635.google.com with SMTP id u5so8502886plq.7
  for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 16:44:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678063465;
+ d=linaro.org; s=google; t=1678063466;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2AoNvu8I4z7Xdp2eVIB5eQeZgr3wNDZj21v804wGPHs=;
- b=Mlqfmb3B0Xwid+XG8yUqXuExtXtecMdAL83gRwNMf97pggJa4hqthQecq84O9ipXNx
- 68KSeuamd8PvA2R8+C9aQivA9NgHDyq+7t6M4JQdr5pM3354b8CNXWNQlYPCDW6AYb5r
- KCT+P06VitriqCXf3w9tm1+On1JIfu6a9IE+TlD2l1zCfO5w1EjvbIEJgV651rn0jQis
- Jo2sICVAybrFa/QoMxU1QsbUEjo2keP9378l3YfCfagmRpS9b7vhjeEgcsRiX7pb908V
- nB2tcXbnf0CG6zDdMiD0H4CK5s9Nces8V0c/sR6ga+Km38kJ4idhliMazhv3j+1pC7H/
- 39PQ==
+ bh=CmJCObHY2dv33Ryu7MP1aLpwOl0ktyPiZQ7uZiMYs+s=;
+ b=HBeUon/GwqS9d0zuZP8nA6+wIIXsVTQS3Jlk4c6oM9DCW5dWfbv+ZBTK6hzcbDIh/O
+ ACTJNSTDY790/i2Ww+/wlgvAGOf2OIQpbdIuWxlG2lj3W+0B+AWFClFFsJklkxnkVfeq
+ mvtqGtdANYH1ot3J95/tEsYcYqGplynM1/2w/m4ebIEDAyWh+0VkcOCZ/Z1WtEwnVNFa
+ lYb6kYmE5uWztEfso/ZHGtsOydR7FMe5HwZdciSjRTF5Ce/NSahESs0YOQhF4UL+CbUl
+ FVZEGcDC/IMGO0vE84JzIl2sVkoVM2LDG+PwKzcVkgEIXF83dHv7KE4aXexhoULu9PfP
+ 3UPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678063465;
+ d=1e100.net; s=20210112; t=1678063466;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2AoNvu8I4z7Xdp2eVIB5eQeZgr3wNDZj21v804wGPHs=;
- b=CxNFfS9WxQCP3r9v1spUIBWfClyqjrYSORhGIjssN6FkAreeng8V9PU3Jhm5yVbDQi
- iAsczJ9+JjIiJaMTTr1JgDUNjAb6eatgpsFZbcm2Ne8Fp1Qgsw1rcLzkEjZKFMxo1zrY
- 6CnMFTW0SaQzgcdPvvHjmFxJewoq8HkY1VKlzPjFmYhgzpZSltJD8+WF7l9bNVCdqJgi
- PWCeg3YG7nI14e1otAl4Xt2Iz0KgJ5zQhRf6PlhimYjpMOaigeK5dS7t/CluHnPTAOn2
- 2bmqJhbxcDTzFfl22X7uA2e3bEFFVui8Q31H/1XHgknKai5q1iNcuxJ2HM/7AyQVdBLC
- oP+g==
-X-Gm-Message-State: AO0yUKW2g5Kx40AmaZcecgqLBfh8mHvDhVOhR/T9pFF7i/QeT6RbQZsH
- I2nW8/ZOGEjG/8uadIGBBkvfh4Zf23pJ4RGJXINw8JEi
-X-Google-Smtp-Source: AK7set+LlKGbjITwVszZCir2+Sx2I5431QesPzp5LWV94LfATM4xR3JBkvagxE1Q6mK26bdE3tLwFg==
-X-Received: by 2002:aa7:98de:0:b0:5df:3aa1:10c5 with SMTP id
- e30-20020aa798de000000b005df3aa110c5mr8254954pfm.14.1678063465432; 
- Sun, 05 Mar 2023 16:44:25 -0800 (PST)
+ bh=CmJCObHY2dv33Ryu7MP1aLpwOl0ktyPiZQ7uZiMYs+s=;
+ b=XEPh6KMxUp/T81OhxFTYKU15/fGxKXqY2GaiZ+Wu5LzFzOLPvDZ5KI1Vbl9YWPkORp
+ PGuiyufgTeTsvlxGdr6RD5mCeaOH0jIbsAbYI1GWXp3ldPVcM+MOK+gDx5FiiYUVoM8g
+ aJ7mAQGTgxvpqVixgRrRrPcDysHDAZlLLX1L/EgP6XpNcRiDwlIfYlJ780iGfGTRfh7q
+ lBEX98oLHAY2hFWAfc5dXMJIInzzLnq4M4miZqby6pchoFhva2PCZnKrYe67CQLUaQg7
+ F2pw3PYYRoeB/oF9VA7LewyYBqAT9b3io26jTK5Vc1Dr/oydHtqXSOtsOwRrpQl0IR1L
+ PEyg==
+X-Gm-Message-State: AO0yUKUaxe/+Wf5YJw9RKWu6stGbW11Xp8b6rk22GBwqBNLIHxUpPpsK
+ cTQ4Ws+sWwxE9jes1HHvTz+NslXgaBiWxnkngRTBNg==
+X-Google-Smtp-Source: AK7set/YjsvbEYr2eC1604scVRpq0L6ryEAlQF7ArqyOpvDQh04xyisABk1EZjXcll3KhlNLHo+Ghg==
+X-Received: by 2002:a05:6a20:8f1b:b0:c6:b993:69a4 with SMTP id
+ b27-20020a056a208f1b00b000c6b99369a4mr10151980pzk.23.1678063466246; 
+ Sun, 05 Mar 2023 16:44:26 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
- x52-20020a056a000bf400b005895f9657ebsm5045726pfu.70.2023.03.05.16.44.24
+ x52-20020a056a000bf400b005895f9657ebsm5045726pfu.70.2023.03.05.16.44.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 05 Mar 2023 16:44:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 78/84] target/sparc: Avoid tcg_const_{tl,i32}
-Date: Sun,  5 Mar 2023 16:39:48 -0800
-Message-Id: <20230306003954.1866998-79-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PULL 79/84] target/xtensa: Tidy translate_bb
+Date: Sun,  5 Mar 2023 16:39:49 -0800
+Message-Id: <20230306003954.1866998-80-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306003954.1866998-1-richard.henderson@linaro.org>
 References: <20230306003954.1866998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,285 +91,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All remaining uses are strictly read-only.
+Replace ifdefs with C, tcg_const_i32 with tcg_constant_i32.
+We only need a single temporary for this.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/translate.c | 80 +++++++++++++++++++---------------------
- 1 file changed, 38 insertions(+), 42 deletions(-)
+ target/xtensa/translate.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 814f3f8b1e..5ee293326c 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -550,7 +550,7 @@ static inline void gen_op_mulscc(TCGv dst, TCGv src1, TCGv src2)
-     if (!(env->y & 1))
-         T1 = 0;
-     */
--    zero = tcg_const_tl(0);
-+    zero = tcg_constant_tl(0);
-     tcg_gen_andi_tl(cpu_cc_src, src1, 0xffffffff);
-     tcg_gen_andi_tl(r_temp, cpu_y, 0x1);
-     tcg_gen_andi_tl(cpu_cc_src2, src2, 0xffffffff);
-@@ -928,8 +928,8 @@ static void gen_branch_n(DisasContext *dc, target_ulong pc1)
-         tcg_gen_mov_tl(cpu_pc, cpu_npc);
- 
-         tcg_gen_addi_tl(cpu_npc, cpu_npc, 4);
--        t = tcg_const_tl(pc1);
--        z = tcg_const_tl(0);
-+        t = tcg_constant_tl(pc1);
-+        z = tcg_constant_tl(0);
-         tcg_gen_movcond_tl(TCG_COND_NE, cpu_npc, cpu_cond, z, t, cpu_npc);
- 
-         dc->pc = DYNAMIC_PC;
-@@ -938,9 +938,9 @@ static void gen_branch_n(DisasContext *dc, target_ulong pc1)
- 
- static inline void gen_generic_branch(DisasContext *dc)
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 3ea50d8bc3..e3fcd50691 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -1406,19 +1406,15 @@ static void translate_b(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_bb(DisasContext *dc, const OpcodeArg arg[],
+                          const uint32_t par[])
  {
--    TCGv npc0 = tcg_const_tl(dc->jump_pc[0]);
--    TCGv npc1 = tcg_const_tl(dc->jump_pc[1]);
--    TCGv zero = tcg_const_tl(0);
-+    TCGv npc0 = tcg_constant_tl(dc->jump_pc[0]);
-+    TCGv npc1 = tcg_constant_tl(dc->jump_pc[1]);
-+    TCGv zero = tcg_constant_tl(0);
- 
-     tcg_gen_movcond_tl(TCG_COND_NE, cpu_npc, cpu_cond, zero, npc0, npc1);
- }
-@@ -981,18 +981,14 @@ static inline void save_state(DisasContext *dc)
- 
- static void gen_exception(DisasContext *dc, int which)
- {
--    TCGv_i32 t;
--
-     save_state(dc);
--    t = tcg_const_i32(which);
--    gen_helper_raise_exception(cpu_env, t);
-+    gen_helper_raise_exception(cpu_env, tcg_constant_i32(which));
-     dc->base.is_jmp = DISAS_NORETURN;
- }
- 
- static void gen_check_align(TCGv addr, int mask)
- {
--    TCGv_i32 r_mask = tcg_const_i32(mask);
--    gen_helper_check_align(cpu_env, addr, r_mask);
-+    gen_helper_check_align(cpu_env, addr, tcg_constant_i32(mask));
+-#if TARGET_BIG_ENDIAN
+-    TCGv_i32 bit = tcg_const_i32(0x80000000u);
+-#else
+-    TCGv_i32 bit = tcg_const_i32(0x00000001u);
+-#endif
+     TCGv_i32 tmp = tcg_temp_new_i32();
++
+     tcg_gen_andi_i32(tmp, arg[1].in, 0x1f);
+-#if TARGET_BIG_ENDIAN
+-    tcg_gen_shr_i32(bit, bit, tmp);
+-#else
+-    tcg_gen_shl_i32(bit, bit, tmp);
+-#endif
+-    tcg_gen_and_i32(tmp, arg[0].in, bit);
++    if (TARGET_BIG_ENDIAN) {
++        tcg_gen_shr_i32(tmp, tcg_constant_i32(0x80000000u), tmp);
++    } else {
++        tcg_gen_shl_i32(tmp, tcg_constant_i32(0x00000001u), tmp);
++    }
++    tcg_gen_and_i32(tmp, arg[0].in, tmp);
+     gen_brcondi(dc, par[0], tmp, 0, arg[2].imm);
  }
  
- static inline void gen_mov_pc_npc(DisasContext *dc)
-@@ -1074,7 +1070,7 @@ static void gen_compare(DisasCompare *cmp, bool xcc, unsigned int cond,
-         cmp->cond = logic_cond[cond];
-     do_compare_dst_0:
-         cmp->is_bool = false;
--        cmp->c2 = tcg_const_tl(0);
-+        cmp->c2 = tcg_constant_tl(0);
- #ifdef TARGET_SPARC64
-         if (!xcc) {
-             cmp->c1 = tcg_temp_new();
-@@ -1127,7 +1123,7 @@ static void gen_compare(DisasCompare *cmp, bool xcc, unsigned int cond,
-         cmp->cond = TCG_COND_NE;
-         cmp->is_bool = true;
-         cmp->c1 = r_dst = tcg_temp_new();
--        cmp->c2 = tcg_const_tl(0);
-+        cmp->c2 = tcg_constant_tl(0);
- 
-         switch (cond) {
-         case 0x0:
-@@ -1192,7 +1188,7 @@ static void gen_fcompare(DisasCompare *cmp, unsigned int cc, unsigned int cond)
-     cmp->cond = TCG_COND_NE;
-     cmp->is_bool = true;
-     cmp->c1 = r_dst = tcg_temp_new();
--    cmp->c2 = tcg_const_tl(0);
-+    cmp->c2 = tcg_constant_tl(0);
- 
-     switch (cc) {
-     default:
-@@ -1307,7 +1303,7 @@ static void gen_compare_reg(DisasCompare *cmp, int cond, TCGv r_src)
-     cmp->cond = tcg_invert_cond(gen_tcg_cond_reg[cond]);
-     cmp->is_bool = false;
-     cmp->c1 = r_src;
--    cmp->c2 = tcg_const_tl(0);
-+    cmp->c2 = tcg_constant_tl(0);
- }
- 
- static inline void gen_cond_reg(TCGv r_dst, int cond, TCGv r_src)
-@@ -1908,7 +1904,7 @@ static void gen_swap(DisasContext *dc, TCGv dst, TCGv src,
- 
- static void gen_ldstub(DisasContext *dc, TCGv dst, TCGv addr, int mmu_idx)
- {
--    TCGv m1 = tcg_const_tl(0xff);
-+    TCGv m1 = tcg_constant_tl(0xff);
-     gen_address_mask(dc, addr);
-     tcg_gen_atomic_xchg_tl(dst, addr, m1, mmu_idx, MO_UB);
- }
-@@ -2163,8 +2159,8 @@ static void gen_ld_asi(DisasContext *dc, TCGv dst, TCGv addr,
-         break;
-     default:
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(memop);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(memop);
- 
-             save_state(dc);
- #ifdef TARGET_SPARC64
-@@ -2217,7 +2213,7 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
-         {
-             TCGv saddr = tcg_temp_new();
-             TCGv daddr = tcg_temp_new();
--            TCGv four = tcg_const_tl(4);
-+            TCGv four = tcg_constant_tl(4);
-             TCGv_i32 tmp = tcg_temp_new_i32();
-             int i;
- 
-@@ -2236,8 +2232,8 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
- #endif
-     default:
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(memop & MO_SIZE);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(memop & MO_SIZE);
- 
-             save_state(dc);
- #ifdef TARGET_SPARC64
-@@ -2313,15 +2309,15 @@ static void gen_ldstub_asi(DisasContext *dc, TCGv dst, TCGv addr, int insn)
-         if (tb_cflags(dc->base.tb) & CF_PARALLEL) {
-             gen_helper_exit_atomic(cpu_env);
-         } else {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(MO_UB);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(MO_UB);
-             TCGv_i64 s64, t64;
- 
-             save_state(dc);
-             t64 = tcg_temp_new_i64();
-             gen_helper_ld_asi(t64, cpu_env, addr, r_asi, r_mop);
- 
--            s64 = tcg_const_i64(0xff);
-+            s64 = tcg_constant_i64(0xff);
-             gen_helper_st_asi(cpu_env, addr, s64, r_asi, r_mop);
- 
-             tcg_gen_trunc_i64_tl(dst, t64);
-@@ -2382,7 +2378,7 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
- 
-             /* The first operation checks required alignment.  */
-             memop = da.memop | MO_ALIGN_64;
--            eight = tcg_const_tl(8);
-+            eight = tcg_constant_tl(8);
-             for (i = 0; ; ++i) {
-                 tcg_gen_qemu_ld_i64(cpu_fpr[rd / 2 + i], addr,
-                                     da.mem_idx, memop);
-@@ -2409,8 +2405,8 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
- 
-     default:
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(da.memop);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(da.memop);
- 
-             save_state(dc);
-             /* According to the table in the UA2011 manual, the only
-@@ -2491,7 +2487,7 @@ static void gen_stf_asi(DisasContext *dc, TCGv addr,
- 
-             /* The first operation checks required alignment.  */
-             memop = da.memop | MO_ALIGN_64;
--            eight = tcg_const_tl(8);
-+            eight = tcg_constant_tl(8);
-             for (i = 0; ; ++i) {
-                 tcg_gen_qemu_st_i64(cpu_fpr[rd / 2 + i], addr,
-                                     da.mem_idx, memop);
-@@ -2566,8 +2562,8 @@ static void gen_ldda_asi(DisasContext *dc, TCGv addr, int insn, int rd)
-            real hardware allows others.  This can be seen with e.g.
-            FreeBSD 10.3 wrt ASI_IC_TAG.  */
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(da.memop);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(da.memop);
-             TCGv_i64 tmp = tcg_temp_new_i64();
- 
-             save_state(dc);
-@@ -2625,8 +2621,8 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
-         /* ??? In theory we've handled all of the ASIs that are valid
-            for stda, and this should raise DAE_invalid_asi.  */
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(da.memop);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(da.memop);
-             TCGv_i64 t64 = tcg_temp_new_i64();
- 
-             /* See above.  */
-@@ -2686,8 +2682,8 @@ static void gen_ldda_asi(DisasContext *dc, TCGv addr, int insn, int rd)
-         break;
-     default:
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(MO_UQ);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(MO_UQ);
- 
-             save_state(dc);
-             gen_helper_ld_asi(t64, cpu_env, addr, r_asi, r_mop);
-@@ -2724,7 +2720,7 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
-            as a cacheline-style operation.  */
-         {
-             TCGv d_addr = tcg_temp_new();
--            TCGv eight = tcg_const_tl(8);
-+            TCGv eight = tcg_constant_tl(8);
-             int i;
- 
-             tcg_gen_andi_tl(d_addr, addr, -8);
-@@ -2736,8 +2732,8 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
-         break;
-     default:
-         {
--            TCGv_i32 r_asi = tcg_const_i32(da.asi);
--            TCGv_i32 r_mop = tcg_const_i32(MO_UQ);
-+            TCGv_i32 r_asi = tcg_constant_i32(da.asi);
-+            TCGv_i32 r_mop = tcg_constant_i32(MO_UQ);
- 
-             save_state(dc);
-             gen_helper_st_asi(cpu_env, addr, t64, r_asi, r_mop);
-@@ -2786,7 +2782,7 @@ static void gen_fmovs(DisasContext *dc, DisasCompare *cmp, int rd, int rs)
-     s1 = gen_load_fpr_F(dc, rs);
-     s2 = gen_load_fpr_F(dc, rd);
-     dst = gen_dest_fpr_F(dc);
--    zero = tcg_const_i32(0);
-+    zero = tcg_constant_i32(0);
- 
-     tcg_gen_movcond_i32(TCG_COND_NE, dst, c32, zero, s1, s2);
- 
-@@ -3217,7 +3213,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                         TCGv_i32 r_const;
- 
-                         r_tickptr = tcg_temp_new_ptr();
--                        r_const = tcg_const_i32(dc->mem_idx);
-+                        r_const = tcg_constant_i32(dc->mem_idx);
-                         tcg_gen_ld_ptr(r_tickptr, cpu_env,
-                                        offsetof(CPUSPARCState, tick));
-                         if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
-@@ -3269,7 +3265,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                         TCGv_i32 r_const;
- 
-                         r_tickptr = tcg_temp_new_ptr();
--                        r_const = tcg_const_i32(dc->mem_idx);
-+                        r_const = tcg_constant_i32(dc->mem_idx);
-                         tcg_gen_ld_ptr(r_tickptr, cpu_env,
-                                        offsetof(CPUSPARCState, stick));
-                         if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
-@@ -3399,7 +3395,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                         TCGv_i32 r_const;
- 
-                         r_tickptr = tcg_temp_new_ptr();
--                        r_const = tcg_const_i32(dc->mem_idx);
-+                        r_const = tcg_constant_i32(dc->mem_idx);
-                         tcg_gen_ld_ptr(r_tickptr, cpu_env,
-                                        offsetof(CPUSPARCState, tick));
-                         if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
 -- 
 2.34.1
 
