@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989306AD319
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998956AD31A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:00:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZKkD-0003XU-8z; Mon, 06 Mar 2023 18:59:53 -0500
+	id 1pZKkk-0003kx-3v; Mon, 06 Mar 2023 19:00:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZKk9-0003Up-Ef
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:59:50 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZKk6-0001mP-Oz
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:59:49 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id j2so10523023wrh.9
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 15:59:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678147185;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Hehao85AxNJpHmbvnxI3tvwfUWkZ/dCDh20dyCPMOjE=;
- b=ouSZr0+iQ1xU2Pyd7v3vYwbO6GjwE71OeMi+wiZXOTuoSClqFo8vZyg09IkaB0ZUWZ
- Pn3JaLQ/dB+XS27lBDPguaVaTGoPikJmmh05Bwo7Fjj/dd2LJaLtdbQ8UV2Qx5bv6p/j
- PXTF1zvuHGrhgr1keHhSTppMVZXSwesph56T4IWWGeVLrWnmJgaPJiickNC8vanhgch1
- Ye5zPh08kENn1Fh5jA/jNLwgp3zC9UpwrfyuDgDxMnll+KV+oDd2DO/QwKKwGexTg1pV
- ujUv6dVa4pU6esPEEN4QBBbJl73Jl8xFgKPGxnMqW7TDm2OWeC082/5H3kkcKTv2hlN4
- Fbbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678147185;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Hehao85AxNJpHmbvnxI3tvwfUWkZ/dCDh20dyCPMOjE=;
- b=kpUcoIHLh6ppEdVhvXY7w5nxkpWGrjRA59MBak6iaQYPH22k8BEN8fLVFSIcryZIYR
- bxf0qW1qD6QA/As35YvGsAYzrEjxGB3ZyiojFYRva2N2sNYDYuSVN4N7NL9yJiuI03+5
- 727j6rNmnywSjLW4IQEnyAWixJwlEMZR3nRlbLvz84TPWA03/w5sZRo4SplW613mG3VK
- LCHlyXtamsKn8cnPWNHr3ro9SEERXQxY3qjb7is2gB//2SwIQrgz3gUROLgAmzrRlLWD
- L+YXpaL5t6SwgNxSkjOkprvkZxB7kFQLSlTtfsiqiUJDerWCB0LlGUO/0HJQy9T5abfC
- n2lQ==
-X-Gm-Message-State: AO0yUKWWPsTEyWLeLKf93/3+jT/q9E2PwmSxo/jsc2vcqFKTKsy42q/A
- EUZYYMoidNXHnPOg6r5QFEDTpQ==
-X-Google-Smtp-Source: AK7set+YOabg2h42F3GXqGgl6oQSZdvjh+mr94A9u0irh0ASttfQEtZpAKPrfzUmSDRoZq7jwQiQ7A==
-X-Received: by 2002:adf:e34c:0:b0:2ca:8995:38d with SMTP id
- n12-20020adfe34c000000b002ca8995038dmr8969477wrj.16.1678147185120; 
- Mon, 06 Mar 2023 15:59:45 -0800 (PST)
-Received: from [192.168.1.115] (138.red-88-29-178.dynamicip.rima-tde.net.
- [88.29.178.138]) by smtp.gmail.com with ESMTPSA id
- r8-20020a5d4e48000000b002c5d3f0f737sm11161923wrt.30.2023.03.06.15.59.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 15:59:44 -0800 (PST)
-Message-ID: <2a5155cf-c840-7599-7860-b8c4f3809ed6@linaro.org>
-Date: Tue, 7 Mar 2023 00:59:39 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZKkg-0003hi-AW; Mon, 06 Mar 2023 19:00:24 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZKke-00023L-8m; Mon, 06 Mar 2023 19:00:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/ycp0007RUoLKixvEsQS0wYwIg3XL8ZZEofrv4F+th0=; b=q3gYcFreWk1+Bph3pJS+6AJfko
+ j0oEFl+84TNs0kDPEBLtWdGijdCMFvArruwcrD7hhBBD7TriZb3UuGgCofEkq8BYSf+Y040gzytlE
+ oxht7JxUxfm6PdyoZqfXqrxhmjVl6dLZD/ggnfVh7+0BuDw+HhB/j4z1sE8rj09kvGgIgjjSwxpgj
+ 3jjHEr1aUFkiZroNxaIYlGQrCTD3g1jPVEjFMTm3hrdc7PjaxyCRfCZ7Jb2EypJGsL1oWTV/2eSws
+ FPWLY0/8NvkxDOGjPFzuelXA6ruuGUl4KsdYXmtGy5w18Xslcx8N1CcVNbT4/q3PYkqLnv22KHHuA
+ oOrk1M0g8tNWFGB+ddLciVrdw1cWiXtaDQ18gD8KEUBJ18qrY+tmHtk7m8TB3qjGQXRyIAodV7Lpg
+ 9XMunVfSw4qi6uLkbWxe2yHCR7kbf5n3GyjvkdjXWHPpAB+Bhdmn3kX98s56Ha0juZut1I9W608B1
+ ryLExHsjxtyVjl+r8TvdJWDf1IP7YQBPQeKoQYdSwoTaqAU6JTNGE/rNH9naeLihcVXqiGFKqGQwG
+ AO1pLiuqTRRE4VNcTvRbiFpL6STFUnUIfJ0wQm5rhs55z0zwJ0F5HmVD5xzowjhFIy6Iu4Jg8KP2v
+ SiVT2KHA/8rw9MQRM6rk9yRpr8OOPoT8k6by/damI=;
+Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZKjh-0000xc-SU; Mon, 06 Mar 2023 23:59:22 +0000
+Message-ID: <3497a0d0-49d5-f884-51ee-6e2ab22c77b1@ilande.co.uk>
+Date: Mon, 6 Mar 2023 23:59:57 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 28/70] target/m68k: Avoid tcg_const_* throughout
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-29-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-29-richard.henderson@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, Eduardo Habkost <eduardo@habkost.net>,
+ qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230304114043.121024-1-shentey@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230304114043.121024-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/5] Fix recent PIC -> CPU interrupt wiring regressions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,16 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:41, Richard Henderson wrote:
-> All remaining uses are strictly read-only.
+On 04/03/2023 11:40, Bernhard Beschow wrote:
+
+> A recent series [1] attempted to remove some PIC -> CPU interrupt indirections.
+> This inadvertantly caused NULL qemu_irqs to be passed to the i8259 because the
+> qemu_irqs aren't initialized at that time yet. This series provides a fix by
+> initializing the qemu_irq of the respective south bridges before they
+> are passed to i2859_init().
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/translate.c | 158 ++++++++++++++++++++--------------------
->   1 file changed, 77 insertions(+), 81 deletions(-)
+> Furthermore -- as an optional extension -- this series also fixes some usability
+> issues in the API for creating multifunction PCI devices.
+> 
+> The series is structured as follows: The first three commits fix the
+> regressions, the last two fix the public API for creating multifunction PCI
+> devices.
+> 
+> [1] https://lore.kernel.org/qemu-devel/20230302224058.43315-1-philmd@linaro.org/
+> 
+> Bernhard Beschow (5):
+>    hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt
+>    hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt
+>    hw/ppc/prep: Fix wiring of PIC -> CPU interrupt
+>    hw/pci/pci: Remove multifunction parameter from
+>      pci_create_simple_multifunction()
+>    hw/pci/pci: Remove multifunction parameter from
+>      pci_new_multifunction()
+> 
+>   include/hw/pci/pci.h |  4 +---
+>   hw/alpha/dp264.c     |  8 +++++---
+>   hw/i386/pc_piix.c    |  2 +-
+>   hw/i386/pc_q35.c     | 10 +++++-----
+>   hw/isa/vt82c686.c    |  3 ++-
+>   hw/mips/boston.c     |  3 +--
+>   hw/mips/fuloong2e.c  |  9 +++++----
+>   hw/mips/malta.c      |  2 +-
+>   hw/pci-host/sabre.c  |  6 ++----
+>   hw/pci/pci.c         | 18 ++++++++++++------
+>   hw/ppc/pegasos2.c    |  9 +++++----
+>   hw/ppc/prep.c        |  4 +++-
+>   hw/sparc64/sun4u.c   |  5 ++---
+>   13 files changed, 45 insertions(+), 38 deletions(-)
 
-A bit tedious, I hope I didn't miss anything.
+Thanks for doing this! The patches basically look good, the only minor niggle is that 
+normally wiring of gpios is done *after* realize() for consistency because some 
+qdev_init_gpio_*() functions may use a property to define the gpio array size.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Having said that it is a nice tidy-up, so I'd be okay with patches 1-3 if you added a 
+small comment above the qdev_connect_gpio_out() lines pointing out that this is a 
+temporary solution (hack?) until the 8259 device is converted to use gpios.
 
+However given that Phil wrote the patches I'd wait for him to decide whether he'd 
+prefer a plain revert over the changes in this series before going ahead with a v2.
+
+Finally I think patches 4-5 are good, however given how close we are to freeze I'd 
+drop them for now and present them as a separate series at the start of the 8.1 dev 
+cycle when everyone has a bit more breathing space.
+
+
+ATB,
+
+Mark.
 
