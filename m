@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8AE6AD024
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 22:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067EB6AD033
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 22:27:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIK8-0002yd-Ha; Mon, 06 Mar 2023 16:24:48 -0500
+	id 1pZIMg-00042n-NO; Mon, 06 Mar 2023 16:27:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZIK7-0002yQ-F2
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:24:47 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZIK5-0007rb-Q9
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:24:47 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id
- me6-20020a17090b17c600b0023816b0c7ceso14526114pjb.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 13:24:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678137884;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ct3Vxi3JL8VTltpME0NZyangJ9MCSNlxQkRorA4180o=;
- b=W1zhzjDy2LL9ctpWJ9ZXKPmbguPrwywWGVKiKkbeaFKve0xfsNVXBzX19CKuxVTxzM
- /M3uvjyLMyrS17TQoZqEceyUEUJbelrqzOhFQJ6UQOvfVl17uUI8UuQh17bYV8cRX071
- r7kJG4NsDTWwAW/PypBtsa8rZvBEdVsReri0kQP5zJkUAhYHCWhrcZL3Vwm9warUrgf4
- j/JVn/JeYTPur0gIpQIntI3sHQ6p9XPunuEnbd0IDBivgPMruWdLGDLRlLLkPXJWHK64
- U/R204dfLK2XWQjLn9clESHY94b4vLEKZT03ef1zpNT7V1yEKuqH36VURncA4XF4TWTb
- DnoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678137884;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ct3Vxi3JL8VTltpME0NZyangJ9MCSNlxQkRorA4180o=;
- b=SLbTNLtSzbamSxCX14pxy72bez13sYyItcxn75GYTI+fkqmeJJvhOTqBPcT4rzGO2P
- YifJo0tfHeakqW80t4mng5XewRHiNyPK5ufuPTHfePRj9abWCyA2ynUwgyjLbEdCWWkf
- QLOXN/WrL3bdwxY5VbOqDFXuXAcayhFjZ8FXteZZvyI4j51Gl5+TAAaVI4nZgzWTTpZr
- UP2dLjLXRhg2QbmOOmpGAntCE46JZFRhhUV4CGNFiDXncemJma3NcpG1BpeNV8jRHG99
- D9GYQhbk4byxXNT3Vu+3rH1EEYyAT8WwY2HKC1AqW0mFmHNZM08W/dHHvEeoUkgTlKcn
- pyyQ==
-X-Gm-Message-State: AO0yUKXR0vWSto5DBzIx+JnN79yqraIWIHomRLLg9c2qpOVTlw3f0bMV
- qwIO6Je7f6kJV4CLOaTvuCn/Fw==
-X-Google-Smtp-Source: AK7set8vMndnU6DJRfEijGhzqtTTbpTUVmGay7re3ZTqHsG8RBFdMUw1VjsHqqVvi5SWUSq6gQVRxQ==
-X-Received: by 2002:a17:903:187:b0:199:1996:71ec with SMTP id
- z7-20020a170903018700b00199199671ecmr14923238plg.16.1678137883901; 
- Mon, 06 Mar 2023 13:24:43 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:7632:29c7:3cce:bec3?
- ([2602:ae:154a:9f01:7632:29c7:3cce:bec3])
- by smtp.gmail.com with ESMTPSA id
- ji20-20020a170903325400b0019c93a9a854sm7093115plb.213.2023.03.06.13.24.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 13:24:43 -0800 (PST)
-Message-ID: <004c0c81-958c-ba34-a743-6f2a4a4d133a@linaro.org>
-Date: Mon, 6 Mar 2023 13:24:41 -0800
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZIMc-00042I-Sa; Mon, 06 Mar 2023 16:27:22 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZIMZ-0008S9-To; Mon, 06 Mar 2023 16:27:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IrV3w46kQJrgFDuf5pFy0xCxmf+MwWGs44GH0NtivTY=; b=MagJ9EUs3q1R4Iqg4/ohyWvw6L
+ Un1rw/re675b8MF7ACbYFPXdAzjzGjuXkIihtRKxA03iju3JclIPK67JrDv9beyleRHxGazWk4g3k
+ 4Y+yNErvvmefedHpMe9KnTgEzKeIrOl4GSAu9wyrSwDGjuSf+rHfiJFfY0R6399fLPAk5PjJfJZ/6
+ Cwd+pQjleT9ZiBwwtzE6qIyceAwRArO2v5xZyYe1rbYZj68EYqQbvDbdBgb5F3lGs2uMBoWqi1fbr
+ J/NUPj0TNyV/dYOG3IcQjB199jcWJpeI6B9h2oW50XTShqHHl6lhQhIuB5B6EQ21oCXdf7tvjsdte
+ ktqzL+ud5hnY5VyGSEbfm7/m++soFp0tMKz2sGQh+zGqMSQnjx7eWfULVJTbHRjypRbKWO8P43ldZ
+ l2iJqbQL3ItbfweUJIr51LU6Wk9NPwljpdGsg/gLSpTde11/n+cxwCAPJ2nv/ep70HFCc2NwrFtbQ
+ HgJOoFHCow3XZdFT1HTtoryeFoBp/Mx0txH+dFxhGBXYqoP5wIGTVmv4X2AShMAn9/PBd0R7uIhhN
+ kxNrX+VLRHQiEUYC7jzoYuNUVk+o6rNPrg69iBYX6gTAFX6p9QOXjNSgmpLxA5masFTupBD1vSy9c
+ 0nS8XS7lihuDi0nP/tHJNhzi1LD4zmyQou5k0uTPU=;
+Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZILp-000CmM-TR; Mon, 06 Mar 2023 21:26:38 +0000
+Message-ID: <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
+Date: Mon, 6 Mar 2023 21:27:06 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/9] linux-user: Diagnose incorrect -R size
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20230306021307.1879483-1-richard.henderson@linaro.org>
- <20230306021307.1879483-2-richard.henderson@linaro.org>
- <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ ReneEngel80@emailn.de
+References: <cover.1678105081.git.balaton@eik.bme.hu>
+ <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,30 +83,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/6/23 04:56, Peter Maydell wrote:
-> On Mon, 6 Mar 2023 at 02:14, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Zero is the value for 'off', and should not be used with -R.
->> We have been enforcing host page alignment for the non-R
->> fallback of MAX_RESERVED_VA, but failing to enforce for -R.
+On 06/03/2023 12:33, BALATON Zoltan wrote:
+
+> According to the PegasosII schematics the PCI interrupt lines are
+> connected to both the gpp pins of the Mv64361 north bridge and the
+> PINT pins of the VT8231 south bridge so guests can get interrupts from
+> either of these. So far we only had the MV64361 connections which
+> worked for on board devices but for additional PCI devices (such as
+> network or sound card added with -device) guest OSes expect interrupt
+> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+> VT8231 ISA bridge. After the previous patches we can now model this
+> and also remove the board specific connection from mv64361. Also
+> configure routing of these lines when using Virtual Open Firmware to
+> match board firmware for guests that expect this.
 > 
-> I'm pretty sure we have users who specifically use "-R 0" to
-> ask for "definitely turn off any reserved VA".
-> Here's a random example from an old gcc bug report:
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60681
-> and somebody using it via the environment variable:
-> https://www.openembedded.org/pipermail/openembedded-core/2015-January/100572.html
+> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+> ---
+>   hw/pci-host/mv64361.c |  4 ----
+>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+>   2 files changed, 25 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+> index 298564f1f5..19e8031a3f 100644
+> --- a/hw/pci-host/mv64361.c
+> +++ b/hw/pci-host/mv64361.c
+> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
+>       }
+>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+> -    /* FIXME: PCI IRQ connections may be board specific */
+> -    for (i = 0; i < PCI_NUM_PINS; i++) {
+> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+> -    }
+>   }
+>   
+>   static void mv64361_reset(DeviceState *dev)
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index b0ada9c963..ded5dc2dc9 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+>       MachineState parent_obj;
+>       PowerPCCPU *cpu;
+>       DeviceState *mv;
+> +    qemu_irq mv_pirq[PCI_NUM_PINS];
+> +    qemu_irq via_pirq[PCI_NUM_PINS];
+>       Vof *vof;
+>       void *fdt_blob;
+>       uint64_t kernel_addr;
+> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+>       }
+>   }
+>   
+> +static void pegasos2_pci_irq(void *opaque, int n, int level)
+> +{
+> +    Pegasos2MachineState *pm = opaque;
+> +
+> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
+> +    qemu_set_irq(pm->mv_pirq[n], level);
+> +    qemu_set_irq(pm->via_pirq[n], level);
+> +}
+> +
 
-Odd.
+Can you explain a bit more about how the PCI interrupt lines are connected to both 
+the MV64361 and VT8231? The reason for asking is that I see a similar pattern in the 
+bonito board, but there I can't see how those lines would be used because they can 
+also raise a CPU interrupt, yet it is a different one compared to the 8259.
 
-Well, it won't actually have the effect of "definitely turn off", it will merely leave 
-things as per the default, which *will* enable reserved va for 32-bit guests on 64-bit hosts.
+Given that we know from Bernhard's tests that the fuloong2e board works with 
+pci_bus_irqs() included in via_isa_realize() which overwrites the bonito equivalent, 
+I'm wondering if the mv_pirq array is actually needed at all and whether it may just 
+be a debugging aid? Certainly it makes things simpler to just route everything to the 
+VIA device.
 
-The only remaining question is whether we diagnose this oddness or silently accept it.  It 
-feels like someone playing with options they don't actually understand and an error is 
-warranted.
+>   static void pegasos2_init(MachineState *machine)
+>   {
+>       Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
+> @@ -106,7 +117,7 @@ static void pegasos2_init(MachineState *machine)
+>       I2CBus *i2c_bus;
+>       const char *fwname = machine->firmware ?: PROM_FILENAME;
+>       char *filename;
+> -    int sz;
+> +    int i, sz;
+>       uint8_t *spd_data;
+>   
+>       /* init CPU */
+> @@ -156,7 +167,11 @@ static void pegasos2_init(MachineState *machine)
+>       /* Marvell Discovery II system controller */
+>       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+>                             qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
+> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
+> +    }
+>       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+
+This doesn't make sense to me either, since the PCI bus IRQs should be owned by the 
+device that contains the PCI bus and not the board.
+
+>       /* VIA VT8231 South Bridge (multifunction PCI device) */
+>       via = OBJECT(pci_new_multifunction(PCI_DEVFN(12, 0), true,
+> @@ -164,6 +179,9 @@ static void pegasos2_init(MachineState *machine)
+>       qdev_connect_gpio_out(DEVICE(via), 0,
+>                             qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+>       pci_realize_and_unref(PCI_DEVICE(via), pci_bus, &error_fatal);
+> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
+> +    }
+>   
+>       object_property_add_alias(OBJECT(machine), "rtc-time",
+>                                 object_resolve_path_component(via, "rtc"),
+> @@ -269,6 +287,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
+>                                 PCI_INTERRUPT_LINE, 2, 0x9);
+>       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+>                                 0x50, 1, 0x2);
+> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+> +                              0x55, 1, 0x90);
+> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+> +                              0x56, 1, 0x99);
+> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+> +                              0x57, 1, 0x90);
+>   
+>       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
+>                                 PCI_INTERRUPT_LINE, 2, 0x109);
+
+This should be a separate commit because it's not part of the PCI interrupt routing 
+as per my comment at https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg00193.html.
 
 
-r~
+ATB,
+
+Mark.
 
