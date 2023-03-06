@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B166AC1C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284106AC1DE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:51:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBD4-0002pn-Dy; Mon, 06 Mar 2023 08:49:02 -0500
+	id 1pZBEs-00056m-D6; Mon, 06 Mar 2023 08:50:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1pZBCx-0002ke-Qe
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:49:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1pZBCw-0003jG-3d
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:48:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678110533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=03mR9ejaWocg7Ib6/dl+bzxwahc7bm4b+rJsBMEbL/M=;
- b=BzJTUP0Wb251hAT9+zT/S8zkR0TmrG9Im3n7YGs95J2I7Sp5ur7pUTaSM3MSHcuik4PPIo
- K+9qcYkTsYGLE5BJKCJb9pdL8cqOi7kvhOjblX2Cmijb8O2YyaA2DsI7sd2m44I7hoylNG
- AhM+KOG8ItQXQOirF9h0T6NpeXnGscg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-26-vDSqJd-2ORuwi-r9G7xrmA-1; Mon, 06 Mar 2023 08:48:50 -0500
-X-MC-Unique: vDSqJd-2ORuwi-r9G7xrmA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- u28-20020a05620a085c00b0073b88cae2f5so5381860qku.8
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:48:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBES-00055t-5z
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:50:30 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBEP-00044H-Eu
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:50:27 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t15so8876531wrz.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:50:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678110617;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=R6EY7YLlxUlNircTEBcEM7bEjeHXHZddnC6H8JIHLFo=;
+ b=VXN5/NSysX8D8XNoV6nEc/9ce7fxc2EDcC26U4QTj6SVBuvQAI9eUS66JVEANwkNZc
+ 3OfOuRKbN9V9KDqMaowNV/Tr4fvSoo6olfCoEH6+xEbGyHwXNok0b429zQLANTZYON++
+ oDHCqkxjN8CJDWJcrnsF2wrq8Zc0Lzl931NIpMEdR/IyXOU2sfTIDFZVmB5qYUIlk1nt
+ D4QouQ8bz636QbxvMKfN+UfTxNMX96YFbCgK4M6C12P4jVTmnIoVlj5TiNcahHp/FOQM
+ Zb3O4XTlu19ZSNibpf1iWA6AX06hYR1fwCMAy8wxB1GYz3iqB8r6p8QCg4VWYz1NUJ8Q
+ qlSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678110530;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=03mR9ejaWocg7Ib6/dl+bzxwahc7bm4b+rJsBMEbL/M=;
- b=tRj4UWvsZyv6p9im309LXcPtbvonZkn4NuX+ekUsvPEdSXhE+RxwqPJ0aiOeJg8NN4
- xU/PWJ7GXVFLEVJY7BJdC5dtB8wjBZo33A97uLb+RvpSkdHj/2OG2/oHvg4M/l3SvPVO
- mmXJV8Ivj80imxqVnRgPBGucf5qsCH4wyVush5hjbDbs3D2hCp7zdPjHJgEjTHJfPK3g
- InxDNyL5qqU83xBmiDyPiQgTRRv3zhMlYipcTYf3T1uIKcBT9QpTk94Gv7fcNdlCu98b
- MD9H3u/xMwaLv1q3/CQrvGqvh1gyZ9MIi8GvOWmZr3lGvP84F48PD/IKH40vAwIXP+Nw
- hsWw==
-X-Gm-Message-State: AO0yUKVX0wWHq3FqhYm9k3Cc5jMHuthZEjCu2Zb+X7/BB35n6Ya1PMHY
- iK6ix+Sqdxf0DLy7RnIZ7UDuY0GQpMC/4dtZR/ywaz6MTZozgYjb7jkdgR2Ngn00LP8ovtk9CKo
- 2KkMd+UGALND114pNeXJ1qrxT7XX2UqE=
-X-Received: by 2002:a05:6214:1927:b0:56b:ee5a:89f0 with SMTP id
- es7-20020a056214192700b0056bee5a89f0mr2878570qvb.7.1678110529750; 
- Mon, 06 Mar 2023 05:48:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set9XlW6qh9UVZegaOqagqGBYzDymxUkaQdxGTaqPJWaaSnSMBDIjIZlsmZmFgABopULN+fQXpo2HAHtXUdmoFvU=
-X-Received: by 2002:a05:6214:1927:b0:56b:ee5a:89f0 with SMTP id
- es7-20020a056214192700b0056bee5a89f0mr2878561qvb.7.1678110529330; Mon, 06 Mar
- 2023 05:48:49 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678110617;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=R6EY7YLlxUlNircTEBcEM7bEjeHXHZddnC6H8JIHLFo=;
+ b=01TiZsabjt23sYA99o13jH04gwoh2MI2IsFoiAOGd9+fQtrHYvIt8zA6H/jrsJqcZs
+ WohTOVrjc5NjfZLq4Ut1OZoNm5TlVpaIo/dzq2rltk+FnHVESuD12NdQkwpxpRwbhd9n
+ jSOW+v8XTbWuZpvIMkvaQwM/O0vx/Xz0iEHj95dB5JgPpcZ98ACAGOwE+gj8ZixMBazz
+ 1RkUaxsm26G3AWuUgjgla6k31hAhT9zsY7Ij38qybfvzRoPioNME7ZYUVO7vRwxo2k+d
+ Fumn9EzYLpNAde+72VzXbr5Js8PSQezeln3J2ckZ7DIaTfC2hooJ5frkbQwhunNYI69L
+ dEeA==
+X-Gm-Message-State: AO0yUKXYXKL3gl604pC0x15T672OlyhFC3xOgrVzf2UOJ8W2mlCkfrHA
+ yXDEWkTbYSFA3R9OWQYkS+fzqw==
+X-Google-Smtp-Source: AK7set9UbgrvIdLIPulF12kQsi9CGnXFBVEunbE1HNKw5sgMMDnFmOWwptesGbGgshDNr5jB6BwK0Q==
+X-Received: by 2002:adf:fa4a:0:b0:2c7:d56:7d72 with SMTP id
+ y10-20020adffa4a000000b002c70d567d72mr6104765wrr.19.1678110617503; 
+ Mon, 06 Mar 2023 05:50:17 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ a7-20020a5d4d47000000b002c5706f7c6dsm9945140wru.94.2023.03.06.05.50.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 05:50:17 -0800 (PST)
+Message-ID: <a58527ed-1573-75e8-62ad-3123951d93fa@linaro.org>
+Date: Mon, 6 Mar 2023 14:50:15 +0100
 MIME-Version: 1.0
-References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-2-eblake@redhat.com>
- <f350f0ec-34b1-dca7-5bb0-344a6832f327@yandex-team.ru>
- <20230303221740.pdwc6jtozstntih7@redhat.com>
- <ZARVwVaRJbgvv/fO@pc220518.home.grep.be>
-In-Reply-To: <ZARVwVaRJbgvv/fO@pc220518.home.grep.be>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Mon, 6 Mar 2023 15:48:33 +0200
-Message-ID: <CAMRbyyvmbjuZWw1tvTf8SX-0odn79kcPCMoevuS_2WM3shNrkA@mail.gmail.com>
-Subject: Re: [Libguestfs] [PATCH v2 1/6] spec: Recommend cap on
- NBD_REPLY_TYPE_BLOCK_STATUS length
-To: Wouter Verhelst <w@uter.be>
-Cc: Eric Blake <eblake@redhat.com>, libguestfs@redhat.com, nbd@other.debian.org,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 20/70] target/hppa: Avoid tcg_const_i64 in trans_fid_f
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
+ ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
+ tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+References: <20230227054233.390271-1-richard.henderson@linaro.org>
+ <20230227054233.390271-21-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230227054233.390271-21-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,42 +94,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Mar 5, 2023 at 10:42=E2=80=AFAM Wouter Verhelst <w@uter.be> wrote:
->
-> On Fri, Mar 03, 2023 at 04:17:40PM -0600, Eric Blake wrote:
-> > On Fri, Dec 16, 2022 at 10:32:01PM +0300, Vladimir Sementsov-Ogievskiy =
-wrote:
-> > > s-o-b line missed.
-> >
-> > I'm not sure if the NBD project has a strict policy on including one,
-> > but I don't mind adding it.
->
-> I've never required it, mostly because it's something that I myself
-> always forget, too, so, *shrug*.
->
-> (if there were a way in git to make it add that automatically, that
-> would help; I've looked but haven't found it)
+On 27/2/23 06:41, Richard Henderson wrote:
+> Use a C test instead of a pre-processor test for the id.
+> Use tcg_constant_i64 instead of tcg_const_i64.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/hppa/translate.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
 
-What I'm using in all projects that require signed-off-by is:
-
-$ cat .git/hooks/commit-msg
-#!/bin/sh
-
-# Add Signed-off-by trailer.
-sob=3D$(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/=
-p')
-git interpret-trailers --in-place --trailer "$sob" "$1"
-
-You can also use a pre-commit hook but the commit-msg hook is more
-convenient.
-
-And in github you can add the DCO application to the project:
-https://github.com/apps/dco
-
-Once installed it will check that all commits are signed off, and
-provide helpful error
-messages to contributors.
-
-Nir
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
