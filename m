@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34E56AD11D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1546AD127
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:08:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIwe-0006Vl-F3; Mon, 06 Mar 2023 17:04:36 -0500
+	id 1pZIwd-0006UV-4K; Mon, 06 Mar 2023 17:04:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwa-0006Sh-LU
+ id 1pZIwa-0006SE-54
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:32 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwX-0006of-AS
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:32 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id n6so12091252plf.5
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:28 -0800 (PST)
+ id 1pZIwY-0006oz-FZ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:31 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id p20so12036783plw.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140268;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140269;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QloEwsr5BkemagEysCPfIB5DRHvIdaBMSjfI8BNJNQg=;
- b=ZnT0yRfLG2VAHrCgmtFMMrLB1ReFBo3enBxLnW2Ds8rubKYE83CCoNidh6IYzOCNmO
- QUxQ99JMuveCM0KZnqP1zRIYOE/fH59rF9vb4ska8j0tnr5XaUmY6tX6cs+TNlV92Bzb
- drGE33d4iGKuULOvhZ5J7A3hEoOxVNyGmnw7xTKTKd1H5oY7fy6ZrGNTDTTR4C4pzUiD
- XhYITs4NSIWMM1Vv/Aahs58WXFilPkwI6KpzJfiteD/0QRrMS1LDGk87FsZK9QK8CGTr
- G7r1fiOH96kYICsJBJFy5ZT81sDoDivlZodSWJQaEe3sSf9Dph04wHlghRTBh06Yo0LS
- 22lg==
+ bh=w2GsuBqezAObm8K6pvzmGWqlGyI6qx54Ha8z5VsFlJI=;
+ b=XF6aVZiFaDSCfpv5i6wpSJrbo1wnAk4Lg/YKTGAvUNFcnLLFpgYn9j44C25MAnRuKX
+ 8KCV+rP2Z97dav/lxzZBLrcCwGWto0kC0i/0wZURYB2Qw5trGhIKMBDqeaO3n6KXmsUp
+ pgbKlJ3X5AQ20+tBo0tO5XWp5Tuj9ZiQgW8JuXX7mqug/umxWE4VE6mowBEpJhJYTyJT
+ IafQ5KHov2DSR3kj2kQLLJUhV6mp7N5EKqMIsuza4PPX9S8pEK0UmOKxFk+u7E0Bwl/s
+ jeI7/JYSX+/4um8n6GfhQOcV/1Yf/VvyfcfXKYcFxcUevlaytfUbdAlad1IBnHS8MzZB
+ M8OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678140268;
+ d=1e100.net; s=20210112; t=1678140269;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QloEwsr5BkemagEysCPfIB5DRHvIdaBMSjfI8BNJNQg=;
- b=R7q35W+yQle7Ki/B3VvT3TBdYbGZTvfQ+jM2Snrb59qi6PZ9ARDKic4qH1ZKCWakfM
- mKIgNZNp9RVlmx6HmskMvnREz/Kof5YaJ5eTbh+gTG2I4OcI2v+j2jrJY/RKzNn1hQNx
- mNSVK+wt6qOp8uNoYRI85Os64Nm1upMcArAct6MiBFJesZ2geTZ64k5tf1AZtnZa9Oh1
- NzGMOSqhJHE1dZfsO9psEgY/joajwY+/Pss9gTCTzKt8jHFnr3KBQA6Uu2T1v6D3DcKR
- jcJq7cTDcYvgJ9uHLx8rNHAamEmFKUfXVdDtsZKIRzjhjkeuOi+dAILO9qyX3Fu0Lnfh
- KcPQ==
-X-Gm-Message-State: AO0yUKVdWqg0AEb6n9VSeiOqs5+LNolxyA3+KvwJ933ljQO2SDfRwBj+
- +s+d6j0mV0R9ds/wCICdNLgtyQ==
-X-Google-Smtp-Source: AK7set8hGRfwLg4elq/ztg+OqJDi5YdHmKsUIndBuz4qFZcnz1FZceVxgHNd/MvF6gxOHz6kKfIgiw==
-X-Received: by 2002:a17:903:2788:b0:19e:78b7:2f4e with SMTP id
- jw8-20020a170903278800b0019e78b72f4emr10942791plb.46.1678140267949; 
- Mon, 06 Mar 2023 14:04:27 -0800 (PST)
+ bh=w2GsuBqezAObm8K6pvzmGWqlGyI6qx54Ha8z5VsFlJI=;
+ b=XSER1KA3GQitwrdk0VtrpdClhjxVCaH/ddJKyzioDyKNuUOWJXqPphmDcl1WcVvIkU
+ vIkIZVkq5UFDVz4QcU61Vyjx9aCH8QicdJKbNpuoOa7M6SCI+6hxq70+pJ/t81YTujMa
+ +7Va8E4JhN2/5QedIMNk4cbcx09j9ex63j/sfJHXYMagVGroMbQ7cw1JSgeGyQjifsPh
+ w1uEl+1YBNbdS+vuDHGZp1yM7rPO5HAcN25oxwKI6nXcQF867YYsd9STCL6ANMFwW6+r
+ zpmYbjCW2TY0n3Rk7E6Ksg8BBjJvmsdXRWOPslLxEayh4qZDMFqEFaBhmhvqg7bNnnBH
+ FO5g==
+X-Gm-Message-State: AO0yUKWcGv+q2z+0XgVgqf6Fx2DUksPV7YpapOwhir2BW2/YF262n0fa
+ I+6TTQb60hNc25X1xrYiAM7T+w==
+X-Google-Smtp-Source: AK7set86m3SSi3ZuVxAuZrx9wDlNf0KSiK8B16jm2xwyheb+OYFz3XtHidI/Gt1Fudk4Kp6TCPeDAA==
+X-Received: by 2002:a17:90a:e7c6:b0:234:8950:6d1f with SMTP id
+ kb6-20020a17090ae7c600b0023489506d1fmr13217071pjb.11.1678140269144; 
+ Mon, 06 Mar 2023 14:04:29 -0800 (PST)
 Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- ky14-20020a170902f98e00b0019ee042602bsm56661plb.92.2023.03.06.14.04.27
+ h9-20020a17090acf0900b00219752c8ea5sm6336914pju.37.2023.03.06.14.04.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 14:04:27 -0800 (PST)
-Subject: [PULL 04/22] hw/riscv/virt.c: add cbo[mz]-block-size fdt properties
-Date: Mon,  6 Mar 2023 14:02:41 -0800
-Message-Id: <20230306220259.7748-5-palmer@rivosinc.com>
+ Mon, 06 Mar 2023 14:04:28 -0800 (PST)
+Subject: [PULL 05/22] disas/riscv Fix ctzw disassemble
+Date: Mon,  6 Mar 2023 14:02:42 -0800
+Message-Id: <20230306220259.7748-6-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
 References: <20230306220259.7748-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>, Andrew Jones <ajones@ventanamicro.com>, 
+ Ivan Klokov <ivan.klokov@syntacore.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bmeng@tinylab.org>, Palmer Dabbelt <palmer@rivosinc.com>
+ Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=palmer@rivosinc.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,62 +91,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Anup Patel <apatel@ventanamicro.com>
+From: Ivan Klokov <ivan.klokov@syntacore.com>
 
-The cbom-block-size fdt property property is used to inform the OS about
-the blocksize in bytes for the Zicbom cache operations. Linux documents
-it in Documentation/devicetree/bindings/riscv/cpus.yaml
-as:
+Due to typo in opcode list, ctzw is disassembled as clzw instruction.
 
-  riscv,cbom-block-size:
-    $ref: /schemas/types.yaml#/definitions/uint32
-    description:
-      The blocksize in bytes for the Zicbom cache operations.
-
-cboz-block-size has the same role but for the Zicboz extension, i.e.
-informs the size in bytes for Zicboz cache operations. Linux support
-for it is under review/approval in [1]. Patch 3 of that series describes
-cboz-block-size as:
-
-  riscv,cboz-block-size:
-    $ref: /schemas/types.yaml#/definitions/uint32
-    description:
-      The blocksize in bytes for the Zicboz cache operations.
-
-[1] https://lore.kernel.org/all/20230224162631.405473-1-ajones@ventanamicro.com/
-
-Cc: Andrew Jones <ajones@ventanamicro.com>
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Message-ID: <20230302091406.407824-2-dbarboza@ventanamicro.com>
+Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
+Fixes: 02c1b569a15b ("disas/riscv: Add Zb[abcs] instructions")
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Message-ID: <20230217151459.54649-1-ivan.klokov@syntacore.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- hw/riscv/virt.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ disas/riscv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 4f8191860b..7f70fa11a1 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -249,6 +249,17 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         name = riscv_isa_string(cpu_ptr);
-         qemu_fdt_setprop_string(ms->fdt, cpu_name, "riscv,isa", name);
-         g_free(name);
-+
-+        if (cpu_ptr->cfg.ext_icbom) {
-+            qemu_fdt_setprop_cell(ms->fdt, cpu_name, "riscv,cbom-block-size",
-+                                  cpu_ptr->cfg.cbom_blocksize);
-+        }
-+
-+        if (cpu_ptr->cfg.ext_icboz) {
-+            qemu_fdt_setprop_cell(ms->fdt, cpu_name, "riscv,cboz-block-size",
-+                                  cpu_ptr->cfg.cboz_blocksize);
-+        }
-+
-         qemu_fdt_setprop_string(ms->fdt, cpu_name, "compatible", "riscv");
-         qemu_fdt_setprop_string(ms->fdt, cpu_name, "status", "okay");
-         qemu_fdt_setprop_cell(ms->fdt, cpu_name, "reg",
+diff --git a/disas/riscv.c b/disas/riscv.c
+index ddda687c13..54455aaaa8 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -1645,7 +1645,7 @@ const rv_opcode_data opcode_data[] = {
+     { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
 -- 
 2.39.2
 
