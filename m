@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C7E6AB477
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 02:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956096AB490
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 03:14:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ06M-00049E-Mb; Sun, 05 Mar 2023 20:57:22 -0500
+	id 1pZ0Lh-0003Dy-Gr; Sun, 05 Mar 2023 21:13:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ06I-00048E-Qd
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 20:57:21 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pZ0Lg-0003Dg-4m
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:12 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ06H-0003J0-6V
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 20:57:18 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- m20-20020a17090ab79400b00239d8e182efso11666698pjr.5
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 17:57:16 -0800 (PST)
+ id 1pZ0Le-0005zN-EU
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:11 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so11776229pjh.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 18:13:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678067835;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E6K0A7+gP/89i/KNPQ80KDpl9+S1ffSQBzdgEVtW8JI=;
- b=e6RWv3NqSAhyAeDfi8dKnE7WtFnz1kS9U2xxHD8ZATNBf1piM8vfdR9dJ7ptdK9fMT
- TTxdke6cdlqhZZExygK0gg+Y4p+Qbi5YY4Ml6UcX1fooREdpGlYPjL6GjgZ2IQYfmkot
- +4DAb0BzskOsID+fm7vJv3qyqg6/llK83BnKFLHAuMwU0ZzKVmH0nlBawc/dPqfyglWf
- 6KxgLDLAzvAoioJC06hQ8wjBZJAoPUZPhkmR3R/c/0kUjv/BrqQZ6R6BLjRVNlkYZlCP
- zPXagO1gq11es5j80Q5E1wE0Z7G0h30Pp+I5JWuvvUAMcI8AAFWUn+jpJZRowBBp0Bvy
- cMow==
+ d=linaro.org; s=google; t=1678068788;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YpKGSzqdAWertsr358P7xKFALs53lceR67hobAtE4GU=;
+ b=oxmj9TNKFbSWusim5jtJQHO7PBdWuk4VeFLP0F3ColnFyHc6uVkfHdmctJ3ZdLbYFJ
+ muiluNqjUaOsOhLYPy5y8Vs8kPnt/GO9lNERCFkZ84ZCwnJQBNOw0vtCWP7af0SJ96ff
+ aIWSnQvUOUlqZtLy/5p7a71mbic0nBpI0Ywip+GinDxq1xGbfuffLWCa9fDLTIHAk1R+
+ zEHvvK6XI2GkhnGZEIxoalxZxQjIc+G193MlB9AFq6jJGvpcMGILloo23vMPnTqaUdHn
+ LW9gAKJleJO0DFCjnmKVA7ad96kCo8Sbm0fekbvjXPteLojwkh73PhbUyddjXdFjnGXY
+ qd/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678067835;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E6K0A7+gP/89i/KNPQ80KDpl9+S1ffSQBzdgEVtW8JI=;
- b=dj33N4sJhaSIwIKaddOs/x9O+1qgz72WIoCfmmJ7VJHuPQqxfSOCZ4zDB0Wz4X+vvR
- 1BhiwHn3oNmpX/4u9ygWUAu1sUy1OFq1IjycFzySGjm1H12w7W0/d6p1DClcvmFcH17b
- 2gkv8F9RAXPUwvdoYtsU9N07tTLgqfYg+ai9CNdPNDVjWhyHJWUeDoD6TMBUIhIMcVzq
- DT3Hv+sgLLsZCH0XWOLq1s7XqixQPcfmfsWPUxXllBohUg/YU1eQfz3AyGWuGivmxjxm
- FVxr25gSA7dyc3xxXyWfjomjp+6y6eI2uSq1IVMOKNZxySJdWmymHW6JoB066YjeJNHo
- E6iA==
-X-Gm-Message-State: AO0yUKUrK9uayfhAddZRNlFRjUF7MfjbgPpcMrUFdTGsJTI2LzyH0/HR
- StfloFiPTj6EgUlVbucfP09vyXah/KYex5YIY9zQLw==
-X-Google-Smtp-Source: AK7set9Sp56KPQW0tiTm7egHOmrZzmN0L1GpKOafqy/0m1lMjjMcR7cCEA14VOfcPVkQ7Cb4I+xrew==
-X-Received: by 2002:a05:6a20:12d4:b0:cc:beae:c2c2 with SMTP id
- v20-20020a056a2012d400b000ccbeaec2c2mr10998055pzg.1.1678067835676; 
- Sun, 05 Mar 2023 17:57:15 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678068788;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YpKGSzqdAWertsr358P7xKFALs53lceR67hobAtE4GU=;
+ b=De4gfxaPRqtlUQ3USjIWK9FKOH4bnwqsDmVS8UyJtFWKq2IwvxxIYtmxx0o3t+m474
+ Nu17N5H5VAV5yktsdvmMez9+q/k8jmGUEHWDM24A1XPHHzBsUi2XRqq+iI8XedarTsZd
+ 2Hiu9WB4sX6m4x9Al7yUpotMgSB5YBem3BqMWBrEQhMd1XF9tz0z80Ocr4kogllC8W4C
+ syPsaHHhDfOeMwpGq1fuijiJEV3EtwW6TtNhT+AjovNwBCErl7sF+TSBtuz6igiJo7av
+ s+739NNXvZePQCLxh/nnTTbqpCCy+2Qv8JFoqvj+sUZcn6TxfoMBeuANoMpx5FYp/stE
+ FkvQ==
+X-Gm-Message-State: AO0yUKVP6l2nY+XspURuJay1cLqzEEEAWgFr2ed4FVSnyJOXyMKlhDGm
+ mp1uFhKs2UhYtYlucFdJZtipeF53J+izLdU+wb+3Yg==
+X-Google-Smtp-Source: AK7set+DF1ioCxck36SUOm6MdVAGp26EmPvEwFz5ZAhUYXVtOyX4vsw2dzG/SV62zHTpoxvA5rv93w==
+X-Received: by 2002:a17:90a:4d88:b0:23a:6d45:128 with SMTP id
+ m8-20020a17090a4d8800b0023a6d450128mr10259584pjh.39.1678068788588; 
+ Sun, 05 Mar 2023 18:13:08 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
- g23-20020aa78197000000b0061949fe3beasm2921056pfi.22.2023.03.05.17.57.15
+ d18-20020a630e12000000b005030136314dsm5048434pgl.71.2023.03.05.18.13.07
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 17:57:15 -0800 (PST)
+ Sun, 05 Mar 2023 18:13:08 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-Subject: [PATCH v2 5/5] accel/tcg: Remove check_tcg_memory_orders_compatible
-Date: Sun,  5 Mar 2023 17:57:10 -0800
-Message-Id: <20230306015710.1868853-6-richard.henderson@linaro.org>
+Subject: [PATCH 0/9] accel/tcg: Fix page_set_flags and related [#1528]
+Date: Sun,  5 Mar 2023 18:12:58 -0800
+Message-Id: <20230306021307.1879483-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230306015710.1868853-1-richard.henderson@linaro.org>
-References: <20230306015710.1868853-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,76 +87,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We now issue host memory barriers to match the guest memory order.
-Continue to disable MTTCG only if the guest has not been ported.
+The primary issue is that of overflow, where "end" for the last
+page of the 32-bit address space overflows to 0.  The fix is to
+use "last" instead, which can always be represented.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/tcg-all.c | 34 ++++++++--------------------------
- 1 file changed, 8 insertions(+), 26 deletions(-)
+This requires that we adjust reserved_va as well, because of
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 604efd1b18..f6b44548cc 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -61,33 +61,20 @@ DECLARE_INSTANCE_CHECKER(TCGState, TCG_STATE,
-  * they can set the appropriate CONFIG flags in ${target}-softmmu.mak
-  *
-  * Once a guest architecture has been converted to the new primitives
-- * there are two remaining limitations to check.
-- *
-- * - The guest can't be oversized (e.g. 64 bit guest on 32 bit host)
-- * - The host must have a stronger memory order than the guest
-- *
-- * It may be possible in future to support strong guests on weak hosts
-- * but that will require tagging all load/stores in a guest with their
-- * implicit memory order requirements which would likely slow things
-- * down a lot.
-+ * there is one remaining limitation to check:
-+ *   - The guest can't be oversized (e.g. 64 bit guest on 32 bit host)
-  */
- 
--static bool check_tcg_memory_orders_compatible(void)
--{
--    return tcg_req_mo(TCG_MO_ALL) == 0;
--}
--
- static bool default_mttcg_enabled(void)
- {
-     if (icount_enabled() || TCG_OVERSIZED_GUEST) {
-         return false;
--    } else {
--#ifdef TARGET_SUPPORTS_MTTCG
--        return check_tcg_memory_orders_compatible();
--#else
--        return false;
--#endif
-     }
-+#if defined(TARGET_SUPPORTS_MTTCG) && defined(TCG_GUEST_DEFAULT_MO)
-+    return true;
-+#else
-+    return false;
-+#endif
- }
- 
- static void tcg_accel_instance_init(Object *obj)
-@@ -150,15 +137,10 @@ static void tcg_set_thread(Object *obj, const char *value, Error **errp)
-         } else if (icount_enabled()) {
-             error_setg(errp, "No MTTCG when icount is enabled");
-         } else {
--#ifndef TARGET_SUPPORTS_MTTCG
-+#if !(defined(TARGET_SUPPORTS_MTTCG) && defined(TCG_GUEST_DEFAULT_MO))
-             warn_report("Guest not yet converted to MTTCG - "
-                         "you may get unexpected results");
- #endif
--            if (!check_tcg_memory_orders_compatible()) {
--                warn_report("Guest expects a stronger memory ordering "
--                            "than the host provides");
--                error_printf("This may cause strange/hard to debug errors\n");
--            }
-             s->mttcg_enabled = true;
-         }
-     } else if (strcmp(value, "single") == 0) {
+-/*
+- * There are a number of places where we assign reserved_va to a variable
+- * of type abi_ulong and expect it to fit.  Avoid the last page.
+- */
+-#   define MAX_RESERVED_VA  (0xfffffffful & TARGET_PAGE_MASK)
+
+and the related
+
+-        /*
+-         * reserved_va must be aligned with the host page size
+-         * as it is used with mmap()
+-         */
+-        reserved_va = local_max_va & qemu_host_page_mask;
+
+whereby we avoided the final (host | guest) page of the address space
+because of said overflow.  With the change in representation, we can
+always use UINT32_MAX as the end of the 32-bit address space.
+
+This was observable on ppc64le (or any other 64k page host) not being
+able to load any arm32 binary, because the COMMPAGE goes at 0xffff0000,
+which violated that last host page problem above.
+
+The issue is resolved in patch 4, but the rest clean up other interfaces
+with the same issue.  I'm not touching any interfaces that use start+len
+instead of start+end.
+
+
+r~
+
+
+Richard Henderson (9):
+  linux-user: Diagnose incorrect -R size
+  linux-user: Rename max_reserved_va in main
+  include/exec: Replace reserved_va with max_reserved_va
+  accel/tcg: Pass last not end to page_set_flags
+  accel/tcg: Pass last not end to page_reset_target_data
+  accel/tcg: Pass last not end to PAGE_FOR_EACH_TB
+  accel/tcg: Pass last not end to page_collection_lock
+  accel/tcg: Pass last not end to tb_invalidate_phys_page_range__locked
+  accel/tcg: Pass last not end to tb_invalidate_phys_range
+
+ include/exec/cpu-all.h      | 19 ++++++--
+ include/exec/exec-all.h     |  2 +-
+ linux-user/arm/target_cpu.h |  2 +-
+ accel/tcg/tb-maint.c        | 95 +++++++++++++++++++------------------
+ accel/tcg/translate-all.c   |  2 +-
+ accel/tcg/user-exec.c       | 25 +++++-----
+ bsd-user/main.c             | 18 +++----
+ bsd-user/mmap.c             | 18 +++----
+ bsd-user/signal.c           |  4 +-
+ linux-user/elfload.c        | 47 +++++++++---------
+ linux-user/main.c           | 44 +++++++++--------
+ linux-user/mmap.c           | 38 +++++++--------
+ linux-user/signal.c         |  4 +-
+ linux-user/syscall.c        |  4 +-
+ softmmu/physmem.c           |  2 +-
+ target/arm/cpu.c            |  2 +-
+ 16 files changed, 169 insertions(+), 157 deletions(-)
+
 -- 
 2.34.1
 
