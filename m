@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C290D6AB3DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:45:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA6E6AB3CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:42:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYyuh-0005pX-Ab; Sun, 05 Mar 2023 19:41:15 -0500
+	id 1pYyuD-0004Xq-28; Sun, 05 Mar 2023 19:40:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYyts-0004UT-6T
+ id 1pYytt-0004Ug-4x
  for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:40:25 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYytq-0006gN-8c
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:40:23 -0500
-Received: by mail-pl1-x634.google.com with SMTP id p6so8576253plf.0
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 16:40:21 -0800 (PST)
+ id 1pYytr-0006hr-AY
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:40:24 -0500
+Received: by mail-pl1-x629.google.com with SMTP id p6so8576281plf.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 16:40:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678063221;
+ d=linaro.org; s=google; t=1678063222;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xREb4bgbPINwX5RgnJpEwYA+di3Eou4XHpCG6/4nfXA=;
- b=UAT/c574aWGRapvevvPid3tyzRrFuw+6GVQ9MKdk6x9zm7xLrwU8KhqsXrZJgpiSYg
- lQejJGxcyUlTryg93XhLFLv/7tFCS64yCzlYDddX5CuWp3WIZGwjXhJC9rrsbbU/EJBF
- UYQ1fzCLsP/LQtVkwwQJXHSel9geTAj1yp9zD0D3Sg1iApFlYg2N5g8E6NcXJnfaRmO5
- 1h09Jpf4qobhhzgdmvDu1+VHZtt5ieemh3xdTizINowvhgEnBxI9XnaMIJbC89avGxQx
- mLLI2kr1k+sEWG2COyI2dIkaPZsZMcSD8ksq6BHqjwz8abNZHzvKqV+pv1W4elcZUjHR
- N3tA==
+ bh=gG2oKG/kLJGas2vlZnz5XZRX0MzlnRR2HnANmQM92r0=;
+ b=YSIpKqC0APOEDLQirg71w5eMI5gpOgD0d5kjUbBh+ZdHgI6Ug3pa8oUR8ID/IzZ1h6
+ a6NeErCEhZlm1p3bz/GfozCUDkPT63ITbBCYkouQZPQxurPt0JXzzCfbp9BPpP24anFT
+ vdZTpHiTZAPvX3Q/q6bYM8OOTY98SJ+WnDAmWK0V1NCybvTTcngOh2rI1Ac35U3Cvw9l
+ ZnbwtECs8JRTQ0dEYAmt3b1V8mh0bt4HM6V2VdydciwFNzu/vZQ6aB1de8ICqjL/6Kw/
+ 16J7/O9bC7zenxtsTRTPv6K4i1AmY1GDliwGlbvtpZQR7SJNH+5cx8kul2EOti8i6mXV
+ 8CRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678063221;
+ d=1e100.net; s=20210112; t=1678063222;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xREb4bgbPINwX5RgnJpEwYA+di3Eou4XHpCG6/4nfXA=;
- b=FjhIUgME3TLuHRiOBzQfPEb0uKdfvWv/swRT6+xjAm2nMKP6b4qGN3rgCzObCg+Ufa
- cBoLSDoTdBU0C1GUibhkmY8C5pwAXauWBGjZfKnq4Am9UBB4LGeFN5ESDKfB1sJKYenl
- 3Sq4fKPGiN3B0Xoga/O/rgDAKCkqfas6vBFN/MEZZAiJfGXkBhYZK+DV61HbCwnPkoQ0
- dQ2xZt08CNhpqYPpbApDQ32+KsK6GQ13Ij21kToXowGCT1g9ec3SGj+YPbjcHs6Tv5yG
- yolOmj2KZJgNZeGQGeDOZIu+354CMgEZ8IJA29oQdt9JAHhavy+spfV0oUKzdX+/klkW
- D3Lg==
-X-Gm-Message-State: AO0yUKWH3cNS/ITigVIv8wmpIgE5GiQ1jFe7O4UfDT6uwDGdhcZ3icHv
- 2v5sa0z8Uo+y3HC1L8fTnJt1pTvYiAEfHjNGEjT/4g==
-X-Google-Smtp-Source: AK7set/JTCcBjA/wFj/+Mw5ttYIGsCWtd7OIIvg1Nr5VqXziFHj45xpE7/iLmz19u8zBGuF7Ltmhrg==
-X-Received: by 2002:a17:90b:3b51:b0:237:e1d2:c662 with SMTP id
- ot17-20020a17090b3b5100b00237e1d2c662mr9742055pjb.14.1678063220903; 
- Sun, 05 Mar 2023 16:40:20 -0800 (PST)
+ bh=gG2oKG/kLJGas2vlZnz5XZRX0MzlnRR2HnANmQM92r0=;
+ b=j6Ybad2Ai3jejlBPZ84Y1gY1SCv2Hb17zeVnywAXe480nQiV3wdWeQC8LpiyO/9olX
+ Vr8pWBLFAHU+qBCaQWXLlG5m90XArFSL3LLtLIC6ulGXoWQd4zFPUVfEgx/AFpGqn4jS
+ DyxRHBHRCslwC1CPKJRiw0ruZ5FS/uon5yXuTSRAoN/IOS9KXztO+kjY1RNfi1Giscwn
+ YH7hHNQ4aBPcFtKKJo3uK16nWMjIjL+/wg6N+XMxAswq+/2KKwwNiOqzs+dbq07SGje6
+ +eHJIHQYuXQh283pCTemlb/iO6KOZuDC8bD9uPxMRGFBG++tp+5M5DJzxEznragRVlvC
+ s2UQ==
+X-Gm-Message-State: AO0yUKUFAvZCNgXwSjxE0QiKcoBlKMGt5TVidGsJeXAmrJzj9SZDHtWf
+ jqL9nW//6syq1hfzblabuDLJF6CMKmK3kdrU5SqWSg==
+X-Google-Smtp-Source: AK7set/oxpiAvlpoLMWNoFbhydNrtMZDmT1Xr2oCc20HQN/9To6ggpD6IJvHPanJ3qT769Q8dcaFnQ==
+X-Received: by 2002:a17:90b:3b4f:b0:237:5dc6:ce14 with SMTP id
+ ot15-20020a17090b3b4f00b002375dc6ce14mr9492354pjb.7.1678063221727; 
+ Sun, 05 Mar 2023 16:40:21 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
- r13-20020a17090b050d00b002372106a5c2sm6567901pjz.37.2023.03.05.16.40.20
+ r13-20020a17090b050d00b002372106a5c2sm6567901pjz.37.2023.03.05.16.40.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 16:40:20 -0800 (PST)
+ Sun, 05 Mar 2023 16:40:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org
-Subject: [PULL 28/84] target/arm: Drop tcg_temp_free from translator.h
-Date: Sun,  5 Mar 2023 16:38:58 -0800
-Message-Id: <20230306003954.1866998-29-richard.henderson@linaro.org>
+Subject: [PULL 29/84] target/avr: Drop DisasContext.free_skip_var0
+Date: Sun,  5 Mar 2023 16:38:59 -0800
+Message-Id: <20230306003954.1866998-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306003954.1866998-1-richard.henderson@linaro.org>
 References: <20230306003954.1866998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,34 +90,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Translators are no longer required to free tcg temporaries.
+Translators are no longer required to free tcg temporaries,
+therefore there's no need to record for later freeing.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/tcg/translate.h | 2 --
- 1 file changed, 2 deletions(-)
+ target/avr/translate.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-diff --git a/target/arm/tcg/translate.h b/target/arm/tcg/translate.h
-index a5dd518903..20f3ca7aca 100644
---- a/target/arm/tcg/translate.h
-+++ b/target/arm/tcg/translate.h
-@@ -331,7 +331,6 @@ static inline void set_pstate_bits(uint32_t bits)
-     tcg_gen_ld_i32(p, cpu_env, offsetof(CPUARMState, pstate));
-     tcg_gen_ori_i32(p, p, bits);
-     tcg_gen_st_i32(p, cpu_env, offsetof(CPUARMState, pstate));
--    tcg_temp_free_i32(p);
- }
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index e40d8e9681..e7f0e2bbe3 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -107,11 +107,6 @@ struct DisasContext {
+      *     tcg_gen_brcond_tl(skip_cond, skip_var0, skip_var1, skip_label);
+      * }
+      *
+-     * if (free_skip_var0) {
+-     *     tcg_temp_free(skip_var0);
+-     *     free_skip_var0 = false;
+-     * }
+-     *
+      * translate(ctx);
+      *
+      * if (skip_label) {
+@@ -121,7 +116,6 @@ struct DisasContext {
+     TCGv skip_var0;
+     TCGv skip_var1;
+     TCGCond skip_cond;
+-    bool free_skip_var0;
+ };
  
- /* Clear bits within PSTATE.  */
-@@ -344,7 +343,6 @@ static inline void clear_pstate_bits(uint32_t bits)
-     tcg_gen_ld_i32(p, cpu_env, offsetof(CPUARMState, pstate));
-     tcg_gen_andi_i32(p, p, ~bits);
-     tcg_gen_st_i32(p, cpu_env, offsetof(CPUARMState, pstate));
--    tcg_temp_free_i32(p);
- }
+ void avr_cpu_tcg_init(void)
+@@ -1375,7 +1369,6 @@ static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
  
- /* If the singlestep state is Active-not-pending, advance to Active-pending. */
+     ctx->skip_cond = TCG_COND_EQ;
+     ctx->skip_var0 = tcg_temp_new();
+-    ctx->free_skip_var0 = true;
+ 
+     tcg_gen_andi_tl(ctx->skip_var0, Rr, 1 << a->bit);
+     return true;
+@@ -1391,7 +1384,6 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
+ 
+     ctx->skip_cond = TCG_COND_NE;
+     ctx->skip_var0 = tcg_temp_new();
+-    ctx->free_skip_var0 = true;
+ 
+     tcg_gen_andi_tl(ctx->skip_var0, Rr, 1 << a->bit);
+     return true;
+@@ -1410,7 +1402,6 @@ static bool trans_SBIC(DisasContext *ctx, arg_SBIC *a)
+     tcg_gen_andi_tl(temp, temp, 1 << a->bit);
+     ctx->skip_cond = TCG_COND_EQ;
+     ctx->skip_var0 = temp;
+-    ctx->free_skip_var0 = true;
+ 
+     return true;
+ }
+@@ -1428,7 +1419,6 @@ static bool trans_SBIS(DisasContext *ctx, arg_SBIS *a)
+     tcg_gen_andi_tl(temp, temp, 1 << a->bit);
+     ctx->skip_cond = TCG_COND_NE;
+     ctx->skip_var0 = temp;
+-    ctx->free_skip_var0 = true;
+ 
+     return true;
+ }
+@@ -2886,10 +2876,6 @@ static bool canonicalize_skip(DisasContext *ctx)
+         ctx->skip_cond = TCG_COND_NE;
+         break;
+     }
+-    if (ctx->free_skip_var0) {
+-        tcg_temp_free(ctx->skip_var0);
+-        ctx->free_skip_var0 = false;
+-    }
+     ctx->skip_var0 = cpu_skip;
+     return true;
+ }
+@@ -2944,7 +2930,6 @@ static void avr_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+              * This ensures that cpu_skip is non-zero after the label
+              * if and only if the skipped insn itself sets a skip.
+              */
+-            ctx->free_skip_var0 = true;
+             ctx->skip_var0 = tcg_temp_new();
+             tcg_gen_mov_tl(ctx->skip_var0, cpu_skip);
+             tcg_gen_movi_tl(cpu_skip, 0);
+@@ -2956,10 +2941,6 @@ static void avr_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                               ctx->skip_var1, skip_label);
+             ctx->skip_var1 = NULL;
+         }
+-        if (ctx->free_skip_var0) {
+-            tcg_temp_free(ctx->skip_var0);
+-            ctx->free_skip_var0 = false;
+-        }
+         ctx->skip_cond = TCG_COND_NEVER;
+         ctx->skip_var0 = NULL;
+     }
 -- 
 2.34.1
 
