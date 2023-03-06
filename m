@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FC46ABF37
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FF06ABF38
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:12:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ9g9-0007HS-B2; Mon, 06 Mar 2023 07:10:57 -0500
+	id 1pZ9he-0008Ma-Ks; Mon, 06 Mar 2023 07:12:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZ9g0-0007Gw-M5; Mon, 06 Mar 2023 07:10:49 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZ9fx-0007WG-Ju; Mon, 06 Mar 2023 07:10:48 -0500
-Received: from [192.168.0.120] (unknown [180.165.240.213])
- by APP-05 (Coremail) with SMTP id zQCowABXX5s02AVkCtE4DA--.9143S2;
- Mon, 06 Mar 2023 20:10:29 +0800 (CST)
-Message-ID: <5032e9ed-b8ef-cc0e-e122-1ec09fc00cf3@iscas.ac.cn>
-Date: Mon, 6 Mar 2023 20:10:28 +0800
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZ9hb-0008M3-7d
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:12:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZ9hZ-0007qz-ES
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:12:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678104744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ba4Xudlxo5/Y1yaJF2J3Fv4s4bdF3zkVeGFIWNZmZEA=;
+ b=eOrweTQTdfBvdVOrzqZ4RRJxmM9dSK3Rtygm5w7khFiUdETT8sW50AHEyOuRYsOajuF4Yf
+ l4a7kHKxOfkM4UzG+JUNr1M3aR3Q3buttRrTEjKK2+iDukz93ffzuIOLxMW++cZJ1Tkunx
+ YQgGLWjh5RyZgpzMr49iqE8pu94x0dw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-108-vvJvoYgaMX2RKrU5Q-v1hg-1; Mon, 06 Mar 2023 07:12:22 -0500
+X-MC-Unique: vvJvoYgaMX2RKrU5Q-v1hg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c7-20020a7bc847000000b003e00be23a70so6677765wml.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:12:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678104741;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ba4Xudlxo5/Y1yaJF2J3Fv4s4bdF3zkVeGFIWNZmZEA=;
+ b=RsGKdp6F3g0rsE4V8W5LokNKY1Yy3rW8PR4RHwfnkL7umUTtEh2krPs+g5o7Y/4KaD
+ Bf+Kjd4E0nRPfyCAyCPLzt/GO46A7s6noF2OvVn8XvQ80SVyHYsX7S5FgpNnamUaaNI1
+ mPVcwE7VjcsSh8DcBprCmUObNk8WVWLB6oKy+awMNphRLKV2M1RnLLPyEObmrtxhQFhh
+ +cNIKqSyPgnLn/VW+SnZpOtgU4fde7oHbBf3i1WY4Gi7gjfhPEWT5WnG42rMjh4VwJhp
+ eLcIMzV4soXce1HVKENgz8u64ZrDS1RKPnjSDxmd3FkdyCXu0SeP5p0tJkOkUvDhJMyp
+ ahPw==
+X-Gm-Message-State: AO0yUKX8Yidx40wzL8dxDL5+TCsBxWg4MzIvk86U3hm0o2LrFXj/jtuj
+ zSrLr7X4jAdjHsAdILl6RUL6D0UM/3PSDRsMiks2DzUXjNG4rrIrtyvnnoSiEEibae0TdH1dapd
+ dCv8RfPpcVtY/8hc=
+X-Received: by 2002:adf:f8d1:0:b0:2c7:1483:88d6 with SMTP id
+ f17-20020adff8d1000000b002c7148388d6mr6101888wrq.23.1678104741773; 
+ Mon, 06 Mar 2023 04:12:21 -0800 (PST)
+X-Google-Smtp-Source: AK7set/U2WpKByTys4bbf0HRUF2cam6KU++3pktYIZys9mp0LZSz0dvxEnKZb0kYmXW2b51ofPfu8Q==
+X-Received: by 2002:adf:f8d1:0:b0:2c7:1483:88d6 with SMTP id
+ f17-20020adff8d1000000b002c7148388d6mr6101874wrq.23.1678104741480; 
+ Mon, 06 Mar 2023 04:12:21 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ z1-20020adff1c1000000b002c70c99db74sm9722756wro.86.2023.03.06.04.12.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 04:12:21 -0800 (PST)
+Date: Mon, 6 Mar 2023 12:12:19 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PULL 14/53] virtio-rng-pci: fix transitional migration compat
+ for vectors
+Message-ID: <ZAXYo5I/8OR49PqF@work-vm>
+References: <20230302082343.560446-1-mst@redhat.com>
+ <20230302082343.560446-15-mst@redhat.com>
+ <456fa17c-71b6-8aec-c38c-d7fbc907e150@msgid.tls.msk.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/1] hw/riscv: Add signature dump function for spike to
- run ACT tests
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230306090314.74626-1-liweiwei@iscas.ac.cn>
- <20230306090314.74626-2-liweiwei@iscas.ac.cn>
- <6dd0199c-c3e0-a466-67b3-dab92df587d2@linux.alibaba.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <6dd0199c-c3e0-a466-67b3-dab92df587d2@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABXX5s02AVkCtE4DA--.9143S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gr45Jr17Xw45KrW8Zr18Krg_yoW3Xw4Dpr
- 1kJr1UJryUJr1kJr17Jr1UJFy5Jr1UJw1UJr1rXF1UJr4UJr1jqr1UXr1jgr1UJr48Jr1U
- Jr1UJrnrZr1UJr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
- c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <456fa17c-71b6-8aec-c38c-d7fbc907e150@msgid.tls.msk.ru>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,169 +102,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+* Michael Tokarev (mjt@tls.msk.ru) wrote:
+> 02.03.2023 11:25, Michael S. Tsirkin wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > In bad9c5a516 ("virtio-rng-pci: fix migration compat for vectors") I
+> > fixed the virtio-rng-pci migration compatibility, but it was discovered
+> > that we also need to fix the other aliases of the device for the
+> > transitional cases.
+> > 
+> > Fixes: 9ea02e8f1 ('virtio-rng-pci: Allow setting nvectors, so we can use MSI-X')
+> > bz: https://bugzilla.redhat.com/show_bug.cgi?id=2162569
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Message-Id: <20230207174944.138255-1-dgilbert@redhat.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >   hw/core/machine.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index f29e700ee4..1cf6822e06 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -47,6 +47,8 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+> >   GlobalProperty hw_compat_7_1[] = {
+> >       { "virtio-device", "queue_reset", "false" },
+> >       { "virtio-rng-pci", "vectors", "0" },
+> > +    { "virtio-rng-pci-transitional", "vectors", "0" },
+> > +    { "virtio-rng-pci-non-transitional", "vectors", "0" },
+> >   };
+> 
+> If we consider this one for 7.2 stable, the previous change here, which
+> added "virtio-rng-pci" right before the lines being added, should also
+> be picked up, which is bad9c5a5166fd5e3a892b7b0477cf2f4bd3a959a:
+>  From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>  Date: Mon, 9 Jan 2023 10:58:09 +0000
+>  Subject: virtio-rng-pci: fix migration compat for vectors
+> 
+> Should the two both be included in -stable, or both omitted?
 
-On 2023/3/6 19:00, LIU Zhiwei wrote:
->
-> On 2023/3/6 17:03, Weiwei Li wrote:
->> Add signature and signature-granularity properties in spike to 
->> specify the target
->> signatrue file and the line size for signature data.
->>
->> Recgonize the signature section between begin_signature and 
->> end_signature symbols
->> when loading elf of ACT tests. Then dump signature data in signature 
->> section just
->> before the ACT tests exit.
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   hw/char/riscv_htif.c | 39 ++++++++++++++++++++++++++++++++++++++-
->>   hw/riscv/spike.c     | 16 ++++++++++++++++
->>   2 files changed, 54 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
->> index 098de50e35..2a82ed8500 100644
->> --- a/hw/char/riscv_htif.c
->> +++ b/hw/char/riscv_htif.c
->> @@ -29,6 +29,8 @@
->>   #include "chardev/char-fe.h"
->>   #include "qemu/timer.h"
->>   #include "qemu/error-report.h"
->> +#include "exec/address-spaces.h"
->> +#include "sysemu/dma.h"
->>     #define RISCV_DEBUG_HTIF 0
->>   #define HTIF_DEBUG(fmt, 
->> ...)                                                   \
->> @@ -51,7 +53,10 @@
->>   /* PK system call number */
->>   #define PK_SYS_WRITE            64
->>   -static uint64_t fromhost_addr, tohost_addr;
->> +extern const char *sig_file;
->> +extern uint8_t line_size;
->> +
-> Why not declare them in riscv_htif.h and include them in 
-> hw/riscv/spike.c?
+I think both included; however note the warning in the original patch
+(that's also true in this one); live migration from an unpatched world
+to the patched would will break, but it fixes live migration from older
+Qemu; you get to pick your favourite breakage.
 
-Do you mean the above "extern ..." declaration? It's OK to move them to 
-riscv_hitf.h.
+Dave
 
-However, we can not move the definition in spike.c to riscv_htif.h. 
-Otherwise, it'll trigger
-
-multiple definition error.
-
->> +static uint64_t fromhost_addr, tohost_addr, sig_addr, sig_len;
->>     void htif_symbol_callback(const char *st_name, int st_info, 
->> uint64_t st_value,
->>                             uint64_t st_size)
->> @@ -68,6 +73,10 @@ void htif_symbol_callback(const char *st_name, int 
->> st_info, uint64_t st_value,
->>               error_report("HTIF tohost must be 8 bytes");
->>               exit(1);
->>           }
->> +    } else if (strcmp("begin_signature", st_name) == 0) {
->> +        sig_addr = st_value;
->> +    } else if (strcmp("end_signature", st_name) == 0) {
->> +        sig_len = st_value - sig_addr;
->>       }
->>   }
->>   @@ -161,6 +170,34 @@ static void htif_handle_tohost_write(HTIFState 
->> *s, uint64_t val_written)
->>           /* frontend syscall handler, shutdown and exit code support */
->>           if (cmd == HTIF_SYSTEM_CMD_SYSCALL) {
->>               if (payload & 0x1) {
->> +                /* Dump signature data to sig_file if specified */
->> +                if (sig_file) {
->> +                    char *sig_data = g_malloc(sig_len);
->> +                    dma_memory_read(&address_space_memory, sig_addr, 
->> sig_data,
->> +                                    sig_len, MEMTXATTRS_UNSPECIFIED);
->> +                    FILE *signature = fopen(sig_file, "w");
->> +                    if (signature == NULL) {
->> +                        error_report("open %s: %s", sig_file,
->> +                                     strerror(errno));
->> +                        exit(1);
->> +                    }
->> +
->> +                    for (int i = 0; i < sig_len; i += line_size) {
->> +                        for (int j = line_size; j > 0; j--) {
->> +                            if (i + j <= sig_len) {
->> +                                fprintf(signature, "%02x",
->> +                                        sig_data[i + j - 1] & 0xff);
->
-> Not sure about the order. Otherwise, 
-
-It will put the higher data(at higher address) before the lower data in 
-the same line,
-
-just as the htif logic in riscv-isa-sim(spike).
-
-Regards,
-
-Weiwei Li
-
->
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->
-> Zhiwei
->
->> +                            } else {
->> +                                fprintf(signature, "%02x", 0);
->> +                            }
->> +                        }
->> +                        fprintf(signature, "\n");
->> +                    }
->> +
->> +                    fclose(signature);
->> +                    g_free(sig_data);
->> +                }
->> +
->>                   /* exit code */
->>                   int exit_code = payload >> 1;
->>                   exit(exit_code);
->> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
->> index a584d5b3a2..eaa7f54fd6 100644
->> --- a/hw/riscv/spike.c
->> +++ b/hw/riscv/spike.c
->> @@ -41,6 +41,9 @@
->>     #include <libfdt.h>
->>   +const char *sig_file;
->> +uint8_t line_size = 16;
->> +
->>   static const MemMapEntry spike_memmap[] = {
->>       [SPIKE_MROM] =     {     0x1000,     0xf000 },
->>       [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
->> @@ -332,6 +335,11 @@ static void spike_board_init(MachineState *machine)
->>                    htif_custom_base);
->>   }
->>   +static void spike_set_signature(Object *obj, const char *val, 
->> Error **errp)
->> +{
->> +    sig_file = g_strdup(val);
->> +}
->> +
->>   static void spike_machine_instance_init(Object *obj)
->>   {
->>   }
->> @@ -350,6 +358,14 @@ static void spike_machine_class_init(ObjectClass 
->> *oc, void *data)
->>       mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
->>       mc->numa_mem_supported = true;
->>       mc->default_ram_id = "riscv.spike.ram";
->> +    object_class_property_add_str(oc, "signature", NULL, 
->> spike_set_signature);
->> +    object_class_property_set_description(oc, "signature",
->> +                                          "File to write ACT test 
->> signature");
->> +    object_class_property_add_uint8_ptr(oc, "signature-granularity",
->> +                                        &line_size, 
->> OBJ_PROP_FLAG_WRITE);
->> +    object_class_property_set_description(oc, "signature-granularity",
->> +                                          "Size of each line in ACT 
->> signature "
->> +                                          "file");
->>   }
->>     static const TypeInfo spike_machine_typeinfo = {
+> Thanks,
+> 
+> /mjt
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
