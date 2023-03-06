@@ -2,55 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6114C6ABD9C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 12:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6156ABD9A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 12:02:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ8ai-0001vi-MI; Mon, 06 Mar 2023 06:01:16 -0500
+	id 1pZ8aj-00022i-MH; Mon, 06 Mar 2023 06:01:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pZ8aK-0001g6-Jf; Mon, 06 Mar 2023 06:01:00 -0500
-Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZ8af-0001s7-5y
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:01:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pZ8aH-0002m0-Fp; Mon, 06 Mar 2023 06:00:51 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VdFNMm6_1678100432; 
-Received: from 30.221.97.6(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VdFNMm6_1678100432) by smtp.aliyun-inc.com;
- Mon, 06 Mar 2023 19:00:33 +0800
-Message-ID: <6dd0199c-c3e0-a466-67b3-dab92df587d2@linux.alibaba.com>
-Date: Mon, 6 Mar 2023 19:00:35 +0800
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZ8ad-0002pg-Kr
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:01:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678100470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yLYCxC9QXh8QBvj1S0Uhg7Of4cDY0hV5I/2B9IuNIj0=;
+ b=RhMEBlJyzpKaRUrb4tytz4o/azbCscZQWuR7jJJl1a1NhX3NIOIT+6soRGTndTLIumJvfW
+ 7O+jhP9TFcOblOm8AGBsw9YUoZuB+6ztNBvR/P63N94ppFH378hrUhJuyRedP4f/lwKq0W
+ 2ivo2ETcWJPuZUOpWqEoCxUNP8VfQr8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-223-y2nQvWfCMNi--8FiVlXDUg-1; Mon, 06 Mar 2023 06:01:08 -0500
+X-MC-Unique: y2nQvWfCMNi--8FiVlXDUg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r7-20020a05600c35c700b003eb3f2c4fb4so3587632wmq.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 03:01:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678100467;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yLYCxC9QXh8QBvj1S0Uhg7Of4cDY0hV5I/2B9IuNIj0=;
+ b=uyKd1a/AwR51PEJiSyP/5opA7Y4ST3YiGr0Y8UXVqCLsWgMbj9bEF6HhAU5/7YRETa
+ y+k6RINMI5EetSadccNdqazZcV/I4CDNYwsMUbULfAzUiyaYDDz+65sc+ipqQMduH3Wn
+ e/tQoZu3h+hzfikihjNJxdYE7D15aLuXMsX/EacO+98lf2CELeZh1ush3uFsEQe6l6Rg
+ S9MlFhHqVc3G3a2nAjj25AVghuQgVhNsR7/yV7E+3J0ontFpqh745efzvs8SPwuZfAix
+ BcGvyA5EdaqdozdTzXH36xgWgvRzJSjhn6NIUAgAoYsmfObNvMh3FShob7FvWWwAUDX7
+ U4gA==
+X-Gm-Message-State: AO0yUKW27eiG6QrV5bHXzzOED583RkyAfIrAM4eaSXDNqcLDt0DoWeL8
+ aFwNl6jv2/32VarxyjIHHbtw+D4RAHjWLeLEdM6/7yKt5tni7P7yazBzz3yqKKiSiCvbMyOr2JO
+ sT5+7XjRlXjhiP5g=
+X-Received: by 2002:a05:600c:3ba6:b0:3ea:e7f6:fc2e with SMTP id
+ n38-20020a05600c3ba600b003eae7f6fc2emr9021830wms.6.1678100467755; 
+ Mon, 06 Mar 2023 03:01:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set8sea1QofiUw28PDWjbBfwOYJKHlGaTpLkdHrpAnTdKBh6iHGT2i1W0kKgWOGjIY6juaEzMNg==
+X-Received: by 2002:a05:600c:3ba6:b0:3ea:e7f6:fc2e with SMTP id
+ n38-20020a05600c3ba600b003eae7f6fc2emr9021810wms.6.1678100467438; 
+ Mon, 06 Mar 2023 03:01:07 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:3500:b8a3:191c:eae:cc05?
+ (p200300cbc7043500b8a3191c0eaecc05.dip0.t-ipconnect.de.
+ [2003:cb:c704:3500:b8a3:191c:eae:cc05])
+ by smtp.gmail.com with ESMTPSA id
+ k7-20020a05600c080700b003e21ba8684dsm9958370wmp.26.2023.03.06.03.01.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 03:01:06 -0800 (PST)
+Message-ID: <9c36a0d4-1db4-0ddf-d13c-34ad68ba859f@redhat.com>
+Date: Mon, 6 Mar 2023 12:01:06 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 1/1] hw/riscv: Add signature dump function for spike to
- run ACT tests
+Subject: Re: [PATCH v3 14/20] target/s390x: Drop tcg_temp_free from
+ translate_vx.c.inc
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230306090314.74626-1-liweiwei@iscas.ac.cn>
- <20230306090314.74626-2-liweiwei@iscas.ac.cn>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230306090314.74626-2-liweiwei@iscas.ac.cn>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-s390x@nongnu.org
+References: <20230304181900.1097116-1-richard.henderson@linaro.org>
+ <20230304181900.1097116-15-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230304181900.1097116-15-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=115.124.30.101;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-101.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,140 +106,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2023/3/6 17:03, Weiwei Li wrote:
-> Add signature and signature-granularity properties in spike to specify the target
-> signatrue file and the line size for signature data.
->
-> Recgonize the signature section between begin_signature and end_signature symbols
-> when loading elf of ACT tests. Then dump signature data in signature section just
-> before the ACT tests exit.
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+On 04.03.23 19:18, Richard Henderson wrote:
+> Translators are no longer required to free tcg temporaries.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/char/riscv_htif.c | 39 ++++++++++++++++++++++++++++++++++++++-
->   hw/riscv/spike.c     | 16 ++++++++++++++++
->   2 files changed, 54 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-> index 098de50e35..2a82ed8500 100644
-> --- a/hw/char/riscv_htif.c
-> +++ b/hw/char/riscv_htif.c
-> @@ -29,6 +29,8 @@
->   #include "chardev/char-fe.h"
->   #include "qemu/timer.h"
->   #include "qemu/error-report.h"
-> +#include "exec/address-spaces.h"
-> +#include "sysemu/dma.h"
->   
->   #define RISCV_DEBUG_HTIF 0
->   #define HTIF_DEBUG(fmt, ...)                                                   \
-> @@ -51,7 +53,10 @@
->   /* PK system call number */
->   #define PK_SYS_WRITE            64
->   
-> -static uint64_t fromhost_addr, tohost_addr;
-> +extern const char *sig_file;
-> +extern uint8_t line_size;
-> +
-Why not declare them in riscv_htif.h and include them in hw/riscv/spike.c?
-> +static uint64_t fromhost_addr, tohost_addr, sig_addr, sig_len;
->   
->   void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
->                             uint64_t st_size)
-> @@ -68,6 +73,10 @@ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
->               error_report("HTIF tohost must be 8 bytes");
->               exit(1);
->           }
-> +    } else if (strcmp("begin_signature", st_name) == 0) {
-> +        sig_addr = st_value;
-> +    } else if (strcmp("end_signature", st_name) == 0) {
-> +        sig_len = st_value - sig_addr;
->       }
->   }
->   
-> @@ -161,6 +170,34 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
->           /* frontend syscall handler, shutdown and exit code support */
->           if (cmd == HTIF_SYSTEM_CMD_SYSCALL) {
->               if (payload & 0x1) {
-> +                /* Dump signature data to sig_file if specified */
-> +                if (sig_file) {
-> +                    char *sig_data = g_malloc(sig_len);
-> +                    dma_memory_read(&address_space_memory, sig_addr, sig_data,
-> +                                    sig_len, MEMTXATTRS_UNSPECIFIED);
-> +                    FILE *signature = fopen(sig_file, "w");
-> +                    if (signature == NULL) {
-> +                        error_report("open %s: %s", sig_file,
-> +                                     strerror(errno));
-> +                        exit(1);
-> +                    }
-> +
-> +                    for (int i = 0; i < sig_len; i += line_size) {
-> +                        for (int j = line_size; j > 0; j--) {
-> +                            if (i + j <= sig_len) {
-> +                                fprintf(signature, "%02x",
-> +                                        sig_data[i + j - 1] & 0xff);
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: qemu-s390x@nongnu.org
+> ---
+>   target/s390x/tcg/translate_vx.c.inc | 143 ----------------------------
+>   1 file changed, 143 deletions(-)
 
-Not sure about the order. Otherwise,
+that's a pleasant surprise
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Acked-by: David Hildenbrand <david@redhat.com>
 
-Zhiwei
+-- 
+Thanks,
 
-> +                            } else {
-> +                                fprintf(signature, "%02x", 0);
-> +                            }
-> +                        }
-> +                        fprintf(signature, "\n");
-> +                    }
-> +
-> +                    fclose(signature);
-> +                    g_free(sig_data);
-> +                }
-> +
->                   /* exit code */
->                   int exit_code = payload >> 1;
->                   exit(exit_code);
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index a584d5b3a2..eaa7f54fd6 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -41,6 +41,9 @@
->   
->   #include <libfdt.h>
->   
-> +const char *sig_file;
-> +uint8_t line_size = 16;
-> +
->   static const MemMapEntry spike_memmap[] = {
->       [SPIKE_MROM] =     {     0x1000,     0xf000 },
->       [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
-> @@ -332,6 +335,11 @@ static void spike_board_init(MachineState *machine)
->                    htif_custom_base);
->   }
->   
-> +static void spike_set_signature(Object *obj, const char *val, Error **errp)
-> +{
-> +    sig_file = g_strdup(val);
-> +}
-> +
->   static void spike_machine_instance_init(Object *obj)
->   {
->   }
-> @@ -350,6 +358,14 @@ static void spike_machine_class_init(ObjectClass *oc, void *data)
->       mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
->       mc->numa_mem_supported = true;
->       mc->default_ram_id = "riscv.spike.ram";
-> +    object_class_property_add_str(oc, "signature", NULL, spike_set_signature);
-> +    object_class_property_set_description(oc, "signature",
-> +                                          "File to write ACT test signature");
-> +    object_class_property_add_uint8_ptr(oc, "signature-granularity",
-> +                                        &line_size, OBJ_PROP_FLAG_WRITE);
-> +    object_class_property_set_description(oc, "signature-granularity",
-> +                                          "Size of each line in ACT signature "
-> +                                          "file");
->   }
->   
->   static const TypeInfo spike_machine_typeinfo = {
+David / dhildenb
+
 
