@@ -2,101 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3666ABD68
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 11:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205FB6ABD71
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 11:56:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ8TF-0007nj-1l; Mon, 06 Mar 2023 05:53:33 -0500
+	id 1pZ8Vz-0000ID-8r; Mon, 06 Mar 2023 05:56:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pZ8TC-0007m3-35; Mon, 06 Mar 2023 05:53:30 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pZ8TA-0001Tx-Ej; Mon, 06 Mar 2023 05:53:29 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3269aJAo031863; Mon, 6 Mar 2023 10:53:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=VSRFycv6EmsVky2itRCebapdHWdMwy2mqOmL20tJ+h0=;
- b=qpW+jIxvD7e+1uXEdlye/vudfRgFEr6kyyQA4gjZpIvk6MoqM2/3zAVDCzWgU+2t7kMw
- ly91ivf+tPqQ7Lt1Vr7P0vhY2VkvCbNKI38qNuHSoXhZtRn+hIQnL+JFi/5uEZimdDgw
- VV7r8J08CkTIQDfNTQCuk1agaATWWb7NuPFmLmuRDZAN6/4T+ZfGcLo40G3n3cgUeqIh
- 6NaHSlWHy/rNJJm1mFeBR9HopjPFAjwnAPEi0fSCmtNoi3Y2IVuvOm2KJskHFsG7E3Zt
- 3LsknA4V6zXkMxbWDJ+lpEpqSfb8xc5LxmddYODd35CSjCSrLFGiy0kdvb6nKdRbjXm7 /Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p4u1jdg42-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 10:53:25 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 326Ans9S016898;
- Mon, 6 Mar 2023 10:53:24 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p4u1jdg3a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 10:53:24 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 325K7tv9005745;
- Mon, 6 Mar 2023 10:53:22 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3p41brak4e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 10:53:22 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 326ArJnp28705260
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Mar 2023 10:53:19 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D10AF20043;
- Mon,  6 Mar 2023 10:53:19 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC39C2004D;
- Mon,  6 Mar 2023 10:53:18 +0000 (GMT)
-Received: from [9.171.79.58] (unknown [9.171.79.58])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  6 Mar 2023 10:53:18 +0000 (GMT)
-Message-ID: <6551d845ae434dd73758a16d7982146874a852f1.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 16/20] target/s390x: Remove assert vs g_in2
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-s390x@nongnu.org
-Date: Mon, 06 Mar 2023 11:53:18 +0100
-In-Reply-To: <20230304181900.1097116-17-richard.henderson@linaro.org>
-References: <20230304181900.1097116-1-richard.henderson@linaro.org>
- <20230304181900.1097116-17-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZ8Vu-0000HH-6B
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:56:19 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZ8Vr-000222-NV
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:56:17 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ qa18-20020a17090b4fd200b0023750b675f5so12753016pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 02:56:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678100173;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6+WoYORE9OMrBiSUYAnQLFIV76lFUiJemJwY5hzx2c8=;
+ b=zP/OAoG7Vp5q6gaNv8q8YGgfhpLYHkbeUQMaVIuEolHyYKThc7F0M7WyonthCsjA6F
+ GQ/p8qhRGlETfIVWL4Srw+VaTkE3z5LBA6l0doox8zyVBUgaYCe6pZEHFuHRfLknSbPG
+ abfa6UGuGCRksu1ftCkHfOID2/p8vCPYTtA9yaJp9CdCfYgFqWWeryv+iwRIVImrTWpW
+ arve414bDeNDBpSg3UspvWlYdvXcU7iYQ3oBjcJ6PlOaEdQ1qlLyMOnyAgzpGcIo98L6
+ 9zp0R+EG4EztxFIWrIhO7brO/yoQnuMtP3aWyliZh4mDoR5B4btzuO4jwdE+rOTpe+a2
+ cboA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678100173;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6+WoYORE9OMrBiSUYAnQLFIV76lFUiJemJwY5hzx2c8=;
+ b=pGThImx2oG/kI9fvOMQEKy4EgDvfx7D2hNh8Ot8E/O+03GbvFtBx5mUTovywzX5ytM
+ +9ujKWkm4Mn+pzQ8iZtpvmOubOL5hgQ1lxJG5gSi4GANixx4/2PX8AwJ11AiilT23RzK
+ W39VqJzkRSPeiu/t3deg84YNf2b7idJdz/nJA56o1uqZyE32b91r1vUkLdruLn8NZXc1
+ wpMVFsUwmunb6r0yt0bPjcUvcakHQ4jzRhtc8g0zcrAaxTm8OCI1FYbQ3eNw3xfvGSH5
+ jXqn8cQNtKI5ZzFbRSTDKDgibCMKhTEQ/JEHt+E3V507UW2wNJNw+4uuIhoAcvnRhcaK
+ N8dQ==
+X-Gm-Message-State: AO0yUKU8OWu4fD0C7bBWaaiMG7QVo+z/e4Rhn1FY8k0Oz6g9C8Ozd9S3
+ eETsP2MgLnNOpjrBQck1VXYFFiUf/3a0llsqKeCOcQ==
+X-Google-Smtp-Source: AK7set9+yutBX+OqK3KGkW5gqvHtNOjzkIRwTukQYFL+fFCA4XEfEfa1Na/z07VLIUzGpR7+ZnlTIXqg88/61jvQUFE=
+X-Received: by 2002:a17:90a:dd86:b0:233:be3d:8a42 with SMTP id
+ l6-20020a17090add8600b00233be3d8a42mr3674365pjv.0.1678100172949; Mon, 06 Mar
+ 2023 02:56:12 -0800 (PST)
+MIME-Version: 1.0
+References: <20230303160109.3626966-1-ardb@kernel.org>
+In-Reply-To: <20230303160109.3626966-1-ardb@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Mar 2023 10:56:01 +0000
+Message-ID: <CAFEAcA9v5QsPjt3u8SrXx60-5KXrPRrOcZG6DnnA=hknMHvU8w@mail.gmail.com>
+Subject: Re: [PATCH v2] hw: arm: Support direct boot for Linux/arm64 EFI zboot
+ images
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IXi1ohw8rr1LRYBbWVHaVcO-loJZkH5p
-X-Proofpoint-ORIG-GUID: xeiFKPccSCSMuhVdcY6ugYGPz9yaGuXz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_03,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- clxscore=1015 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=943
- malwarescore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303060091
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,19 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 2023-03-04 at 10:18 -0800, Richard Henderson wrote:
-> These were trying to determine if o->in2 was available for
-> use as a temporary.=C2=A0 It's better to just allocate a new one.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Fri, 3 Mar 2023 at 16:01, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> Fedora 39 will ship its arm64 kernels in the new generic EFI zboot
+> format, using gzip compression for the payload.
+>
+> For doing EFI boot in QEMU, this is completely transparent, as the
+> firmware or bootloader will take care of this. However, for direct
+> kernel boot without firmware, we will lose the ability to boot such
+> distro kernels unless we deal with the new format directly.
+>
+> EFI zboot images contain metadata in the header regarding the placement
+> of the compressed payload inside the image, and the type of compression
+> used. This means we can wire up the existing gzip support without too
+> much hassle, by parsing the header and grabbing the payload from inside
+> the loaded zboot image.
+>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 > ---
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: qemu-s390x@nongnu.org
-> ---
-> =C2=A0target/s390x/tcg/translate.c | 20 ++++++++++----------
-> =C2=A01 file changed, 10 insertions(+), 10 deletions(-)
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+
+
+Applied to target-arm.next, thanks.
+
+-- PMM
 
