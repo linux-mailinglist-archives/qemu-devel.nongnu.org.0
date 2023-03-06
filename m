@@ -2,95 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8AF6ACA04
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D916ACA4B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:29:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZEaU-0002oq-51; Mon, 06 Mar 2023 12:25:26 -0500
+	id 1pZEdc-0004xj-FI; Mon, 06 Mar 2023 12:28:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1pZEaS-0002oT-DG
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:25:24 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from
+ <BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZEdV-0004xT-BL
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:28:33 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1pZEaQ-0000V9-Vb
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:25:24 -0500
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32652mfO027385; Mon, 6 Mar 2023 17:25:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=qcppdkim1;
- bh=gfhc6dHXxVBFwbcJwt6skudsWvWsrwWNNioS3/GuVxw=;
- b=QrTSxFBe33ndvYFQrKvDEYtF2ker4DpozfTDU43uIZoVj3mm92MQSDJ5DxZzvR4pDg8c
- wNR7WFaR7goHaVV+bVOoEKwceLltBMZs7Gq6t1jhGdTCztX08ugaS+4NSeJukuMJ1DVI
- ViwtlKiqz5bXNiNK6m7E08DCNC/ayTFrzx4lYCu3g0iTldeUSW3CMs8leUKdZEZpn4O0
- n0P3pQAiN4uljDNOnZ3DlmtZ1nVOaHug1klCKg8LSRxN958S13tejK/WGMKEOnCq6dgG
- jTCIKKLHAtYQH0ufb+Ei7a7lEAQ5G8uW1Ky/1NupfjzQy/KONnixy9ve7at2DOvg5ZeQ OA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p4g3mva5x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 17:25:19 +0000
-Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 326HPIrg015604; 
- Mon, 6 Mar 2023 17:25:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3p4fjssa40-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 17:25:18 +0000
-Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 326HPHXS015598;
- Mon, 6 Mar 2023 17:25:17 GMT
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.204.221])
- by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 326HPHTx015597
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 17:25:17 +0000
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
- id 56EFB67E; Mon,  6 Mar 2023 09:25:17 -0800 (PST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH] Hexagon (target/hexagon) Restore
- --disable-hexagon-idef-parser build
-Date: Mon,  6 Mar 2023 09:25:15 -0800
-Message-Id: <20230306172515.346813-1-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from
+ <BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZEdS-0001Uu-6h
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:28:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=WsaQKL1H7SfI6JewaucFawuIeJ4F19d1lRkdYgtGbdk=; b=DDIKejscf8auUaIoavcmwlNOvR
+ do7ViZAXAcK+PyzBdHZLQRaXPkkPp0wdo5a3rOnHwViGfn50kz3vw/O6c/He3RrG38X6G+YbJqLLI
+ 2zasX8ffyVfiLAq2h1yer0EEufX/Zmkks710wEDsphVDdplJEe+fqYqC1EFhI2csm+elQMkrCdESw
+ 6NdEW7adkEdhTlsNkDCIajf86amTgn7i3BKroo5iRCCqabXcFQrXEjIzPFWwcDQOKa2IcVGTgvkzZ
+ 1Voo72aHHLLV802vwIWHsC/6CVeVlec+UtHA30IHqBjSHuZTSzRmsWIqGa8Y6cLZhy+dEI2uefkh+
+ 1S/XJeqg==;
+Received: from [2001:8b0:10b:5:c09:fa3d:b1cb:4d7e]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pZEdO-005WwN-0N; Mon, 06 Mar 2023 17:28:26 +0000
+Message-ID: <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
+Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
+ IRQ, on RTE update
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>
+Date: Mon, 06 Mar 2023 17:28:24 +0000
+In-Reply-To: <ZAYXUKUtU9ipksUq@x1n>
+References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
+ <ZAUZYkChWfwCcfSn@x1n> <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
+ <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
+ <ZAYXUKUtU9ipksUq@x1n>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-vuVVvu/mCMwFT+kTiH0x"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ZiXbW_rWLM5SkMsbbAAM3eqjPjDC8Psp
-X-Proofpoint-GUID: ZiXbW_rWLM5SkMsbbAAM3eqjPjDC8Psp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_10,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- suspectscore=0 mlxscore=0 clxscore=1015 adultscore=0 malwarescore=0
- phishscore=0 mlxlogscore=692 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2303060154
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,27 +79,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VGhlIC0tZGlzYWJsZS1oZXhhZ29uLWlkZWYtcGFyc2VyIGNvbmZpZ3VyYXRpb24gd2FzIGJyb2tl
-biBieSB0aGlzIHBhdGNoCjJmZWFjZjYwYzIzYmE2ICh0YXJnZXQvaGV4YWdvbjogRHJvcCB0Y2df
-dGVtcF9mcmVlIGZyb20gQyBjb2RlKQoKVGhhdCBjb25maWcgaXMgbm90IHRlc3RlZCBieSBDSQoK
-Rml4IGlzIHNpbXBsZTogTWFyayBhIGZldyBUQ0d2IHZhcmlhYmxlcyBhcyB1bnVzZWQKClNpZ25l
-ZC1vZmYtYnk6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4KLS0tCiB0YXJn
-ZXQvaGV4YWdvbi9nZW5fdGNnLmggfCA4ICsrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNl
-cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL2dl
-bl90Y2cuaCBiL3RhcmdldC9oZXhhZ29uL2dlbl90Y2cuaAppbmRleCBiMmU3ODgwYjVjLi5iMTk1
-NWEwOGYwIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmgKKysrIGIvdGFyZ2V0
-L2hleGFnb24vZ2VuX3RjZy5oCkBAIC00MTksMTYgKzQxOSwxNiBAQAogCiAjZGVmaW5lIGZHRU5f
-VENHX1NUT1JFKFNIT1JUQ09ERSkgXAogICAgIGRvIHsgXAotICAgICAgICBUQ0d2IEhBTEYgPSB0
-Y2dfdGVtcF9uZXcoKTsgXAotICAgICAgICBUQ0d2IEJZVEUgPSB0Y2dfdGVtcF9uZXcoKTsgXAor
-ICAgICAgICBUQ0d2IEhBTEYgR19HTlVDX1VOVVNFRCA9IHRjZ190ZW1wX25ldygpOyBcCisgICAg
-ICAgIFRDR3YgQllURSBHX0dOVUNfVU5VU0VEID0gdGNnX3RlbXBfbmV3KCk7IFwKICAgICAgICAg
-U0hPUlRDT0RFOyBcCiAgICAgfSB3aGlsZSAoMCkKIAogI2RlZmluZSBmR0VOX1RDR19TVE9SRV9w
-Y3IoU0hJRlQsIFNUT1JFKSBcCiAgICAgZG8geyBcCiAgICAgICAgIFRDR3YgaXJlZyA9IHRjZ190
-ZW1wX25ldygpOyBcCi0gICAgICAgIFRDR3YgSEFMRiA9IHRjZ190ZW1wX25ldygpOyBcCi0gICAg
-ICAgIFRDR3YgQllURSA9IHRjZ190ZW1wX25ldygpOyBcCisgICAgICAgIFRDR3YgSEFMRiBHX0dO
-VUNfVU5VU0VEID0gdGNnX3RlbXBfbmV3KCk7IFwKKyAgICAgICAgVENHdiBCWVRFIEdfR05VQ19V
-TlVTRUQgPSB0Y2dfdGVtcF9uZXcoKTsgXAogICAgICAgICB0Y2dfZ2VuX21vdl90bChFQSwgUnhW
-KTsgXAogICAgICAgICBnZW5fcmVhZF9pcmVnKGlyZWcsIE11ViwgU0hJRlQpOyBcCiAgICAgICAg
-IGdlbl9oZWxwZXJfZmNpcmNhZGQoUnhWLCBSeFYsIGlyZWcsIE11ViwgaGV4X2dwcltIRVhfUkVH
-X0NTMCArIE11Tl0pOyBcCi0tIAoyLjI1LjEKCg==
+
+--=-vuVVvu/mCMwFT+kTiH0x
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 2023-03-06 at 11:39 -0500, Peter Xu wrote:
+> On Mon, Mar 06, 2023 at 09:25:35AM +0000, David Woodhouse wrote:
+> > I think if we want to fix the lack of IR translation faults from the
+> > IOMMU, we have to change this anyway.
+> >=20
+> > At the very least, it can only use KVM to deliver the IRQ if there *is*
+> > a valid translation. And if not, it needs to ask the IOMMU to
+> > retranslate, with a 'delivering_now' flag indicating that the fault
+> > should be raised because this isn't a preemptive translation in
+> > advance.
+>=20
+> I see that as a separate problem of what this patch wants to (rightfully)
+> fix.=C2=A0
+>=20
+
+Agreed. Which is why I didn't just rip the kvm_set_irq() out and call
+it fixed, and put that discussion below the ^--- cutoff.
+
+>  I also agree we'll need that if e.g. we want to support ioapic in
+> kvm.
+>
+> Sorry in advancie since I don't think I have the whole picture here.=C2=
+=A0 Could
+> you remind me the whole purpose of having such?=C2=A0 Is that for part of=
+ Xen's
+> effort?
+>=20
+> It was a long time ago, but IIRC such mechanism wasn't implemented when w=
+e
+> worked on vIOMMU IR initially, because at least at that time the "keeping
+> kvm irq routes always updated when IRQ entries modified" was good enough
+> for qemu to work with IR.
+>=20
+> The only outlier was in-kernel ioapic, but there was a talk from Google
+> showing that in kernel ioapic brought mostly nothing good but more exposu=
+re
+> on attack surface.=C2=A0 It does sound reasonable since fast devices shou=
+ldn't
+> use ioapic at all to me, so IIRC the plan was split irqchip should be
+> always optimal hence no immediate concern of not supporting IR with
+> in-kernel ioapic.=C2=A0 But I definitely can miss important things along =
+the
+> way.
+
+Indeed, I don't think we care about the in-kernel I/OAPIC. I don't
+think we care about the kernel knowing about e.g. "GSI #11" at all. We
+can just deliver it as MSI (for the I/OAPIC) or using KVM_INTERRUPT and
+the interrupt window as we do for the PIC. Which is why I'd happily rip
+that out and let it be delivered via the APIC intercept at 0xfeexxxxx.
+
+The existing code which just keeps IRQ routes updated when they're
+valid is kind of OK, and well-behaved guests can function. But it isn't
+*right* in the case where they aren't valid.
+
+What *ought* to happen is that the IOMMU should raise a fault at the
+moment the interrupt occurs, if the translation isn't valid. And we
+don't have that at all.
+
+As for why I care? I don't really *need* it, as I have everything I
+need for Xen PIRQ support already merged in=20
+https://gitlab.com/qemu-project/qemu/-/commit/6096cf7877
+
+So while the thread at
+https://lore.kernel.org/qemu-devel/aaef9961d210ac1873153bf3cf01d984708744fc=
+.camel@infradead.org/
+was partly driven by expecting to need this for Xen PIRQ support
+(because in $DAYJOB I did those things in the other order and the PIRQ
+support ended up just being a trivial different translator like the
+IOMMU's IR)... I'd still quite like to fix it up in QEMU anyway, just
+for correctness and fidelity in the faulting cases.
+
+We can do more efficient invalidation too, rather than blowing away the
+entire routing table every time. Just disconnect the IRQFD for the
+specific interrupts that get invalidated, and let them get fixed up
+again next time they occur.
+
+--=-vuVVvu/mCMwFT+kTiH0x
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA2MTcyODI0WjAvBgkqhkiG9w0BCQQxIgQgeOmhKb4Q
+dGE337keG9fJmValfVlttx4aAOFUvCCvxgQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCwyDsoe9cqSv/nDxJj931x53xxBdDXPFk6
+Ka+o56ivU5oB9YwVSQuvR6s3PjQz3s4/3d2B/ElJMSmzMZJk+WG1kOEE/+EvCwLh73CoGjwfZCkZ
+sFhNHqE6ctHy8coY73rTVtbJM+p06NdnSY0d52mMmXVvo7MfnD2iUpblq8GFCAnWMG4U4q241x6u
+VWTY2wCsfiFeM+pidGXyJgyfV5EGl1jv/HTiibqZRewAEpTdKtEyVkjW8P0mUqWIjqeL4TB4d8em
+TvyuQVyU+VnHvfatxZ/WEu4UkD6ok/eVf8LqqWWx8cFnMacnLxmEWRnOM5VQpKAoJ6mGYs9ceMY4
+jRB8FPRMhx+08I6ZE0DiFnhjX1oZXpg+N1J7mjJlMfoioA2+N2dUl9isLAKk/92buF3PjUmtBQNf
+o3uy/wHq3PWKDOMpsmlQM5hvMvAb3sE49c1l99zbZcfmpE5lwFciNrWEGBxLM6p08OraxVXZp2Sk
+AlXfYJRl8QwdA9+k8C7zrxSJn3nqCitwxZu4sqe00hqHwaGhuYnwumad6JenCzRSjjSCmZu1ALrT
+3itouafekbTgt/w7lJH4Wl0OChTnDHz8t1Sqz9BUwb+Tk45GWSsT+CL79ccfDmdRMoWDJq9rED+Q
+WKQTgUK6MUwZugqy7Qa2Ys3dpod4CJofTzQwTvuEIwAAAAAAAA==
+
+
+--=-vuVVvu/mCMwFT+kTiH0x--
 
