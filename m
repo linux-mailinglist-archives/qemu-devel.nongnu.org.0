@@ -2,90 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724C06AB9B7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 10:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DB96AB9BA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 10:26:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ74K-0008P6-7v; Mon, 06 Mar 2023 04:23:44 -0500
+	id 1pZ76U-0000r6-Iw; Mon, 06 Mar 2023 04:25:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ74G-0008OF-PJ
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:23:40 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ74F-00078s-AG
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:23:40 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- j19-20020a05600c191300b003eb3e1eb0caso7684822wmq.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 01:23:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678094618;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aM8yQzb6WKbL4bzQLxP0iSUvbhpnXZWifDlyLE6JbHY=;
- b=ZxBUzWA1U7RyUWDqxC8pGR7cVnnCrSZXVCvfwxorachb08lbZyZrYAjYalqafHALrT
- B3eNncZcnTZMDiL9RjkbXDMZOhxLRLuVt7x4iiw4UZ85K4wYAtion+vHicS1CdEu+Yag
- MYJtH98F6kQEsgRu8DtzdPCd6twm4WdaUsXoFw+2EOOt6lmj+2qvRYC6XjpBIDKwlK59
- lSnRayLtoFSZZHIHKQ2Vs0u8a06YQ1YFp+LDxIrjWDdkCZEf4jbvfePO4KKAMuuLaLs5
- a0X7dDGDc99KcilueL9vQmMnOEnUNI+HsybZrZQY4m/f0KcKhNiaDMbWeiJXutOEDU8S
- 9hsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678094618;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aM8yQzb6WKbL4bzQLxP0iSUvbhpnXZWifDlyLE6JbHY=;
- b=PWalwbG1vYHU2z6FkmHU92JWsnjO4YGY0BjNdgT3TVKItpqTY3IfbNJ4zHWTxp7qnZ
- QaNuHWApBv0/TS8W2BFk3M3wuNipPbCkZuxhXkmQDVPoe2AOH788JAoIEYS5AWwKd4sY
- C9DBrg0HZJsiSiaSWpSK8+2ac8/db/tvaLtQEqItzQfwc+7rvc7wCI807P2Co57S0cpD
- ByFolUD6TGdrtNZ4NKOZkXD/ja9XRWyurZmMw5kvy3mSoli7Nl0DDpH7IEpsfgtKY2zr
- Mu8ZBu/lChJhECoHtOYR8Awt+Jnsok+lBefVCIX3zjo63U4lwCXsmjIlR0W6atmRaUcZ
- XYXQ==
-X-Gm-Message-State: AO0yUKW/j95ytDP7RkBBslJ3nfpNAsSR0P/Czpyv9YKob0Trekrhf3r5
- eumxYdKgmpbxOiqiINkrlh0AXg==
-X-Google-Smtp-Source: AK7set/YyrDokolJUA9eTExju2L4Xl1IwIifBnQdVPnxauD6XSY0IMli53ULjRHCUm4ngW3ahZKDIQ==
-X-Received: by 2002:a05:600c:3c85:b0:3ea:f05b:50cc with SMTP id
- bg5-20020a05600c3c8500b003eaf05b50ccmr9296892wmb.8.1678094617810; 
- Mon, 06 Mar 2023 01:23:37 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ip21-20020a05600ca69500b003eb596cbc54sm9757477wmb.0.2023.03.06.01.23.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 01:23:37 -0800 (PST)
-Message-ID: <bd6266de-59c0-65c0-6e4a-04312f590dd1@linaro.org>
-Date: Mon, 6 Mar 2023 10:23:33 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZ76Q-0000pF-I7
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:25:55 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZ76K-0007l4-AV
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:25:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=9mq6XMWTinJyRUFaSTQH+EAInNGeLd9mtT7ZXMysa3o=; b=ryh/Fohk60hr6Ac8yZn48gvDXS
+ mv49xI/USVWMnJUidmK0mgwwXzt/vr9K6+tw8FwwfiUuquZFyd5NB3vbLrbn2aq5qXrVJv1jpjpPv
+ nWAj31U+Bes6UAShcdrTBp65bIN/yGsQrk1CpnumutWXYVU5KHXjyoS4Cdelahc8LiPWGXG0u9/5v
+ uSyeUnoAz67flLxOXV8TZPQ+A8FATboOaE1DAansJgk15Wf2vspT/ZUFwA8J5EqA52tzewD4uIE2j
+ +qoKhRrO3RZBiooNgZ7mtB4n/gXGnrj4umd5Zv3vLV94fPHaiyNWksTXs2kq2ae9fgFkbKTUeuQ0B
+ YmBp1s6g==;
+Received: from [2001:8b0:10b:5:4950:406a:71e1:41ec]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pZ767-005Dlo-NI; Mon, 06 Mar 2023 09:25:36 +0000
+Message-ID: <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
+Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
+ IRQ, on RTE update
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>
+Date: Mon, 06 Mar 2023 09:25:35 +0000
+In-Reply-To: <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
+References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
+ <ZAUZYkChWfwCcfSn@x1n> <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-r1nom6VhSEp6/jK4rHJQ"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 4/5] docs/about/deprecated: Deprecate 32-bit arm hosts
- for system emulation
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-References: <20230306084658.29709-1-thuth@redhat.com>
- <20230306084658.29709-5-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230306084658.29709-5-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,21 +77,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/3/23 09:46, Thomas Huth wrote:
-> For running QEMU in system emulation mode, the user needs a rather
-> strong host system, i.e. not only an embedded low-frequency controller.
-> All recent beefy arm host machines should support 64-bit now, it's
-> unlikely that anybody is still seriously using QEMU on a 32-bit arm
-> CPU, so we deprecate the 32-bit arm hosts here to finally save use
-> some time and precious CI minutes.
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   docs/about/deprecated.rst | 9 +++++++++
->   1 file changed, 9 insertions(+)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+--=-r1nom6VhSEp6/jK4rHJQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, 2023-03-06 at 06:51 +0000, David Woodhouse wrote:
+> On 5 March 2023 22:36:18 GMT, Peter Xu <peterx@redhat.com> wrote:
+> > On Sun, Mar 05, 2023 at 06:43:42PM +0000,=20
+> > > ---
+> > > Alternative fixes might have been just to remove the part in
+> > > ioapic_service() which delivers the IRQ via kvm_set_irq() because
+> > > surely delivering as MSI ought to work just fine anyway in all cases?
+> > > That code lacks a comment justifying its existence.
+> >=20
+> > Didn't check all details, but AFAIU there're still some different paths
+> > triggered so at least it looks still clean to use the path it's for.
+> >=20
+> > E.g., I think if someone traces kvm_set_irq() in kernel this specific i=
+rq
+> > triggered right after unmasking might seem to be missed misterously (bu=
+t
+> > actually it was not).
+>=20
+> Hm, not sure that's a reason we care about. The I/OAPIC is purely a
+> device to turn line interrupts into MSIs. Which these days need to be
+> translated by IOMMU interrupt remapping device models in userspace. I
+> don't think a user has any valid reason to expect that the kernel
+> will even know about any GSIs with any specific numbers. Tracing on
+> that in the kernel would making some dodgy assumptions.
+
+I think if we want to fix the lack of IR translation faults from the
+IOMMU, we have to change this anyway.
+
+At the very least, it can only use KVM to deliver the IRQ if there *is*
+a valid translation. And if not, it needs to ask the IOMMU to
+retranslate, with a 'delivering_now' flag indicating that the fault
+should be raised because this isn't a preemptive translation in
+advance.
+
+
+
+--=-r1nom6VhSEp6/jK4rHJQ
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA2MDkyNTM1WjAvBgkqhkiG9w0BCQQxIgQg5XhWqqKf
+vMO/ekKkiTU3+aBYhtI8BENFfR/KEADQXaQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA5oGRZyEm+ZbOrU5feDJz4u8vuQEZzlfJg
+WnEgxqb1BlOBsijiD5qxr+2G3lbks586ZJL9c5P5TO9DJIy2Luiod6NPLl2lKNDZXjg0DjFUUGfH
+O8IYe5qHYkscE9JG5DsSBIcrBfLEGoxTT1vvtZr8abqvXit4o03rlv3wSk1XXTmjzcaP027hO48Q
+af5XpmWHnkqh6jUPfmyaU0TwNx8JqVtj7qCZwVlHWxnP+6xhLBpErcctBluMOnxRcAGXCKPJEyvJ
+S1Le0d2eso+Ri9/W8mguY//fBKcN6GfDlJaY6jpEj/gAei8fJ0bq9PErYHfCDJ9+lEOsGkqz5Ejr
+sQHj2FeX9NLSVJVbsm4M/WMvjlq8hXTekbRlN4z53BaSKOmese+VVXPPf0kQW4RvVSjTndxz5z/C
+c6cdwgq3suzFR6HARfyF2zHcxV0UbtUKLJ6nGd9k9uy5OrpHEm6tI4lfiguIT7HkmNLMXkQY8Evp
+sFHDfFiWKx83+KDlTiFQY9OgWdDCi9BBqlalZv6AizqV94oFjAvgZyvXY+9ev7Mb38rbbyReDPRo
+/Lw6pXpklV9p7x14BONyAN7X0hIF05adGma/k/T5w+d6UK5O6yPK4TeNCgr1gxBTauVQpVQF/e6M
+jWFd+cuRC08kVmVpt38qVYzlcWsqc14hYTM4vlMsYgAAAAAAAA==
+
+
+--=-r1nom6VhSEp6/jK4rHJQ--
 
