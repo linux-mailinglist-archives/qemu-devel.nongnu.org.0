@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557736ABF9E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592816ABFA8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:37:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZA3e-0005sK-VM; Mon, 06 Mar 2023 07:35:15 -0500
+	id 1pZA58-0008BI-8j; Mon, 06 Mar 2023 07:36:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZA2E-0005UA-Pr; Mon, 06 Mar 2023 07:33:46 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ id 1pZA2G-0005XD-Fp; Mon, 06 Mar 2023 07:34:13 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZA2C-00049J-Bt; Mon, 06 Mar 2023 07:33:46 -0500
+ id 1pZA2E-00049n-Qr; Mon, 06 Mar 2023 07:33:48 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C2DD3746376;
- Mon,  6 Mar 2023 13:33:32 +0100 (CET)
+ by localhost (Postfix) with SMTP id DBA03746377;
+ Mon,  6 Mar 2023 13:33:33 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9BBD074633D; Mon,  6 Mar 2023 13:33:32 +0100 (CET)
-Message-Id: <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
+ id A7D6E74633D; Mon,  6 Mar 2023 13:33:33 +0100 (CET)
+Message-Id: <929eb3ffddd66f0a6c701dcfc95c8f13a5c71a33.1678105081.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1678105081.git.balaton@eik.bme.hu>
 References: <cover.1678105081.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
+Subject: [PATCH v8 5/6] hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -36,15 +36,15 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
  ReneEngel80@emailn.de
-Date: Mon,  6 Mar 2023 13:33:32 +0100 (CET)
+Date: Mon,  6 Mar 2023 13:33:33 +0100 (CET)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,116 +60,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to the PegasosII schematics the PCI interrupt lines are
-connected to both the gpp pins of the Mv64361 north bridge and the
-PINT pins of the VT8231 south bridge so guests can get interrupts from
-either of these. So far we only had the MV64361 connections which
-worked for on board devices but for additional PCI devices (such as
-network or sound card added with -device) guest OSes expect interrupt
-from the ISA IRQ 9 where the firmware routes these PCI interrupts in
-VT8231 ISA bridge. After the previous patches we can now model this
-and also remove the board specific connection from mv64361. Also
-configure routing of these lines when using Virtual Open Firmware to
-match board firmware for guests that expect this.
+From: Bernhard Beschow <shentey@gmail.com>
 
-This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+According to the PCI specification, PCI_INTERRUPT_LINE shall have no
+effect on hardware operations. Now that the VIA south bridges implement
+the internal PCI interrupt router let's be more conformant to the PCI
+specification.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Rene Engel <ReneEngel80@emailn.de>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/pci-host/mv64361.c |  4 ----
- hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
- 2 files changed, 25 insertions(+), 5 deletions(-)
+ hw/usb/vt82c686-uhci-pci.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
-index 298564f1f5..19e8031a3f 100644
---- a/hw/pci-host/mv64361.c
-+++ b/hw/pci-host/mv64361.c
-@@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
-     }
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
-     qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
--    /* FIXME: PCI IRQ connections may be board specific */
--    for (i = 0; i < PCI_NUM_PINS; i++) {
--        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index 46a901f56f..b4884c9011 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -1,17 +1,7 @@
+ #include "qemu/osdep.h"
+-#include "hw/irq.h"
+ #include "hw/isa/vt82c686.h"
+ #include "hcd-uhci.h"
+ 
+-static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
+-{
+-    UHCIState *s = opaque;
+-    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
+-    if (irq > 0 && irq < 15) {
+-        via_isa_set_irq(pci_get_function_0(&s->dev), irq, level);
 -    }
- }
- 
- static void mv64361_reset(DeviceState *dev)
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index b0ada9c963..ded5dc2dc9 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -73,6 +73,8 @@ struct Pegasos2MachineState {
-     MachineState parent_obj;
-     PowerPCCPU *cpu;
-     DeviceState *mv;
-+    qemu_irq mv_pirq[PCI_NUM_PINS];
-+    qemu_irq via_pirq[PCI_NUM_PINS];
-     Vof *vof;
-     void *fdt_blob;
-     uint64_t kernel_addr;
-@@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
-     }
- }
- 
-+static void pegasos2_pci_irq(void *opaque, int n, int level)
-+{
-+    Pegasos2MachineState *pm = opaque;
-+
-+    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
-+    qemu_set_irq(pm->mv_pirq[n], level);
-+    qemu_set_irq(pm->via_pirq[n], level);
-+}
-+
- static void pegasos2_init(MachineState *machine)
+-}
+-
+ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
  {
-     Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
-@@ -106,7 +117,7 @@ static void pegasos2_init(MachineState *machine)
-     I2CBus *i2c_bus;
-     const char *fwname = machine->firmware ?: PROM_FILENAME;
-     char *filename;
--    int sz;
-+    int i, sz;
-     uint8_t *spd_data;
+     UHCIState *s = UHCI(dev);
+@@ -25,8 +15,6 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + 0xc0, 0x00002000);
  
-     /* init CPU */
-@@ -156,7 +167,11 @@ static void pegasos2_init(MachineState *machine)
-     /* Marvell Discovery II system controller */
-     pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-                           qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-+        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
-+    }
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
-+    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+     usb_uhci_common_realize(dev, errp);
+-    object_unref(s->irq);
+-    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
+ }
  
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
-     via = OBJECT(pci_new_multifunction(PCI_DEVFN(12, 0), true,
-@@ -164,6 +179,9 @@ static void pegasos2_init(MachineState *machine)
-     qdev_connect_gpio_out(DEVICE(via), 0,
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
-     pci_realize_and_unref(PCI_DEVICE(via), pci_bus, &error_fatal);
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-+        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
-+    }
- 
-     object_property_add_alias(OBJECT(machine), "rtc-time",
-                               object_resolve_path_component(via, "rtc"),
-@@ -269,6 +287,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
-                               PCI_INTERRUPT_LINE, 2, 0x9);
-     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-                               0x50, 1, 0x2);
-+    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-+                              0x55, 1, 0x90);
-+    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-+                              0x56, 1, 0x99);
-+    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-+                              0x57, 1, 0x90);
- 
-     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
-                               PCI_INTERRUPT_LINE, 2, 0x109);
+ static UHCIInfo uhci_info[] = {
 -- 
 2.30.8
 
