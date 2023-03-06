@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE8E6ABE3F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 12:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ECC6ABE4A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 12:36:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ96R-0003HH-OH; Mon, 06 Mar 2023 06:34:03 -0500
+	id 1pZ98p-00054S-WD; Mon, 06 Mar 2023 06:36:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZ96F-0003Gf-52
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:33:52 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZ96C-0008Ts-L9
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:33:50 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- ce8-20020a17090aff0800b0023a61cff2c6so7378398pjb.0
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 03:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678102427;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dekmBCFs5J9OoDF3Z8Vg/w4o7AGZapFqDp/kYDBFUbs=;
- b=B8jt4zoRQQTGd1W5/9UIHpe5x/PEo+tWY1abfMqw54K7BsfoaVt8Qy75yHqCAJUOJ9
- 6F/Bx2d1CmsiaEjcPcPqV356sBXuz+fNyUJsX3nTKUofgHzXeoXBhLpK/hHqfHSJF6Jo
- vLBAJKaJf19HVgZplI1fYMvfex0/211/C7idEWq9nc4D8TVzgS3Q6DRf9NAH88NSkUsr
- d/0IlR7vZxjO3+pIVxG6ZmbhC+fu9wwNaxXZSCZAIiqGV15nek6eXA3E8P/W6OnrXgaM
- CHQEZ38nBWgoUldP/u7unvSpDx3T06rpUxziCpIsMIo7U0rpn9uS08br0aQepIqwoOqk
- Ry+w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ98k-000542-U0
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:36:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ98j-0000Y3-Eo
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:36:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678102584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k88LDjBowl8ShJrSQQkB5Wn3wGgQZsAH1ROlv/5TxBU=;
+ b=XEJbxX4NIczaqQI6awZXss0E+StdmZ30h1o6WvKgT5ZgWFYq2H9q0+cU75dOhrW+Jge+ER
+ zyVaxmXPwYLEt4nV11GhoXAWOXqi9WK/Mr+X9RUWfxdoWMCFYsQhLIS8ckBuARxyVFoC/S
+ jhZE9wCb3Fs8om++hA8//0cu3WJXyzg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-552-bJyYyvBJM5GVcZalG1-vgg-1; Mon, 06 Mar 2023 06:36:23 -0500
+X-MC-Unique: bJyYyvBJM5GVcZalG1-vgg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e17-20020a05600c219100b003e21fa60ec1so3632388wme.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 03:36:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678102427;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dekmBCFs5J9OoDF3Z8Vg/w4o7AGZapFqDp/kYDBFUbs=;
- b=oJnhHoFs43TwSOr0IGBa5lBh5GMCBKWbagrd/1UHdu5I/YuyesnF8fywHCXZJyCZva
- YXf0vVYsIbUI4+wFZU+4jXUwO5cqjJhEB09DvFVmuckoHw+5+Mi5LcdwzM5Ll4L6Gnsu
- klVwcV/1FQYdGoA5HZAVciPdfIvCvCNvQvWJ5UoZX01SAg22tuFTu15F/UtPLT1AsUyc
- 8bYl/IYuQCk3Gvh5cz+9wG59kWKbIBHbnFM3QLM75OgYqmBOtsNW4ynjUDdhTFwHERTp
- sEC3SiN+Pl6xSs84FKYqEsnOaoTHRfh9LwDFXs7uoVhN65rW+JmV8QLhzE853Lp0+DVb
- kcnQ==
-X-Gm-Message-State: AO0yUKUhFoYEWubeRnapPkr+FQAkTMcUID71SgxUS0kh+GGxv/1+H+yv
- 9bbScFakW9C38uqzh6NwMpufI7vrP+v7+v6ONxrV4g==
-X-Google-Smtp-Source: AK7set+S0Jit5MPQsovj1psuATYyaXesHtMTduh46F1JNDH+fbW0WguOzxctOJ6wkTw2Do5gE9QIqSKFye7UCCYAHYc=
-X-Received: by 2002:a17:902:ab05:b0:198:ec76:e249 with SMTP id
- ik5-20020a170902ab0500b00198ec76e249mr4312301plb.13.1678102427155; Mon, 06
- Mar 2023 03:33:47 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678102582;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k88LDjBowl8ShJrSQQkB5Wn3wGgQZsAH1ROlv/5TxBU=;
+ b=QNdnXHNe3+x1kOyNPhOI+dNrHR/bVGs+jhP0bPFaeydna2a12vHYmNo864HPofqp5Z
+ jmfPwnImD/kH9v4x4qD4WtYoBUnSTIkVRUKbr+N9u9dv4dLnDJjKuJ+usPEAFct44SME
+ mUgq2AVg00HqQNEhnnYJilIllcz+PtkLrsqx7O8g5ZHy2fQOAo+k59EWu7ipTL8k/ysR
+ zPWvx/+E+uCiQW+ty9ZUYDl61gRI1Nmfb+g266RdY3op+vRRd6s7gvhpVkfxXkbEWn2v
+ SWnWKTxMTDBXMtmI9v5p0ahoBQ1SLxEIpiQ5Nh2EABbjeoEdui4HrneIpLAI1Osl4OBL
+ 2xCQ==
+X-Gm-Message-State: AO0yUKUquHHu5BRU7Urnub0tkqIznol5ZKGiFPTbUmfq9Lln//OIbTqt
+ 8CPFy6IcrzFfDQ3SOexH3/LHEZ+xMkTQQR3OAAipoxjnOA1y8l7zvkTt+DOgEEeWyaDI+sblSlx
+ iaNR6K1xQ3tONedM=
+X-Received: by 2002:adf:f387:0:b0:2c7:acc:8636 with SMTP id
+ m7-20020adff387000000b002c70acc8636mr6702631wro.37.1678102582761; 
+ Mon, 06 Mar 2023 03:36:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set+9LfuSM3n2GuSDJLx8XR2EY0KcsK0M/rSGfrY4uPWVGVKxZUtOCEy3RldwmZsdcOmCMEANyw==
+X-Received: by 2002:adf:f387:0:b0:2c7:acc:8636 with SMTP id
+ m7-20020adff387000000b002c70acc8636mr6702616wro.37.1678102582512; 
+ Mon, 06 Mar 2023 03:36:22 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-59.web.vodafone.de.
+ [109.43.177.59]) by smtp.gmail.com with ESMTPSA id
+ e5-20020a5d5945000000b002c3f9404c45sm9636194wri.7.2023.03.06.03.36.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 03:36:21 -0800 (PST)
+Message-ID: <fd14583a-9c72-8703-2586-73422abaa59c@redhat.com>
+Date: Mon, 6 Mar 2023 12:36:20 +0100
 MIME-Version: 1.0
-References: <20230303161518.3411149-1-chenbaozi@phytium.com.cn>
- <20230303161518.3411149-2-chenbaozi@phytium.com.cn>
-In-Reply-To: <20230303161518.3411149-2-chenbaozi@phytium.com.cn>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Mar 2023 11:33:36 +0000
-Message-ID: <CAFEAcA-Ce4qpLjCmzVjuKmLM-RnNfW4rAtD_xMJPjM8U309S6Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/arm: Add Neoverse-N1 registers
-To: Chen Baozi <chenbaozi@phytium.com.cn>
-Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] virtio: refresh vring region cache after updating a
+ virtqueue size
+Content-Language: en-US
+To: =?UTF-8?Q?Carlos_L=c3=b3pez?= <clopez@suse.de>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "open list:virtio-ccw" <qemu-s390x@nongnu.org>
+References: <20230302101447.4499-1-clopez@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230302101447.4499-1-clopez@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,118 +106,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 16:15, Chen Baozi <chenbaozi@phytium.com.cn> wrote:
->
-> Add implementation defined registers for neoverse-n1 which
-> would be accessed by TF-A.
->
-> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
+On 02/03/2023 11.14, Carlos López wrote:
+> When a virtqueue size is changed by the guest via
+> virtio_queue_set_num(), its region cache is not automatically updated.
+> If the size was increased, this could lead to accessing the cache out
+> of bounds. For example, in vring_get_used_event():
+> 
+>      static inline uint16_t vring_get_used_event(VirtQueue *vq)
+>      {
+>          return vring_avail_ring(vq, vq->vring.num);
+>      }
+> 
+>      static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
+>      {
+>          VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
+>          hwaddr pa = offsetof(VRingAvail, ring[i]);
+> 
+>          if (!caches) {
+>              return 0;
+>          }
+> 
+>          return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
+>      }
+> 
+> vq->vring.num will be greater than caches->avail.len, which will
+> trigger a failed assertion down the call path of
+> virtio_lduw_phys_cached().
+> 
+> Fix this by calling virtio_queue_update_rings() after
+> virtio_queue_set_num() if we are not already calling
+> virtio_queue_set_rings().
+> 
+> Signed-off-by: Carlos López <clopez@suse.de>
 > ---
->  target/arm/cpu64.c     |  2 ++
->  target/arm/cpu_tcg.c   | 62 ++++++++++++++++++++++++++++++++++++++++++
->  target/arm/internals.h |  2 ++
->  3 files changed, 66 insertions(+)
->
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 4066950da1..a6ae7cafac 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -1094,6 +1094,8 @@ static void aarch64_neoverse_n1_initfn(Object *obj)
->
->      /* From D5.1 AArch64 PMU register summary */
->      cpu->isar.reset_pmcr_el0 = 0x410c3000;
-> +
-> +    define_neoverse_n1_cp_reginfo(cpu);
->  }
->
->  static void aarch64_host_initfn(Object *obj)
-> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> index df0c45e523..6a1bb56b25 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -150,6 +150,68 @@ void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu)
->  {
->      define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
->  }
-> +
-> +static const ARMCPRegInfo neoverse_n1_cp_reginfo[] = {
-> +    { .name = "ATCR_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 7, .opc2 = 0,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "ATCR_EL2", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 4, .crn = 15, .crm = 7, .opc2 = 0,
-> +      .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "ATCR_EL3", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 7, .opc2 = 0,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "ATCR_EL12", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 5, .crn = 15, .crm = 7, .opc2 = 0,
-> +      .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "AVTCR_EL2", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 4, .crn = 15, .crm = 7, .opc2 = 1,
-> +      .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUACTLR_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 0,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUACTLR2_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 1,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUACTLR3_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 2,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUCFR_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 0, .opc2 = 0,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+>   hw/s390x/virtio-ccw.c   | 1 +
+>   hw/virtio/virtio-mmio.c | 5 ++---
+>   hw/virtio/virtio-pci.c  | 1 +
+>   3 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> index e33e5207ab..89891ac58a 100644
+> --- a/hw/s390x/virtio-ccw.c
+> +++ b/hw/s390x/virtio-ccw.c
+> @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
+>                   return -EINVAL;
+>               }
+>               virtio_queue_set_num(vdev, index, num);
+> +            virtio_queue_update_rings(vdev, index);
+>           } else if (virtio_queue_get_num(vdev, index) > num) {
+>               /* Fail if we don't have a big enough queue. */
+>               return -EINVAL;
 
-.PL1_R -- this register is read-only.
+FWIW, s390 part:
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-If we report bit 2 as 1 ("the DSU SCU is not present"), does
-TF-A pay attention to that and not try to access the DSU
-related registers you define in patch 2 ? If so, it would
-probably be nicer to say "no DSU" and not have to define
-dummy registers for it...
-
-> +    { .name = "CPUECTLR_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 4,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0x961563010 },
-> +    { .name = "CPUPCR_EL3", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 1,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUPMR_EL3", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 3,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUPOR_EL3", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 2,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUPSELR_EL3", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 0,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "CPUPWRCTLR_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 7,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "ERXPFGCDN_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 2,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-
-Shouldn't this be PL1_RW ?
-
-> +    { .name = "ERXPFGCTL_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 1,
-> +      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-
-Also PL1_RW.
-
-> +    { .name = "ERXPFGF_EL1", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 0,
-> +      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-> +};
-> +
-> +void define_neoverse_n1_cp_reginfo(ARMCPU *cpu)
-> +{
-> +    define_arm_cp_regs(cpu, neoverse_n1_cp_reginfo);
-> +}
->  #endif /* !CONFIG_USER_ONLY */
-
-thanks
--- PMM
 
