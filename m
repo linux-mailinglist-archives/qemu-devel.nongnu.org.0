@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A66AC360
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034096AC36A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:36:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBvM-0006Q5-P4; Mon, 06 Mar 2023 09:34:48 -0500
+	id 1pZBvM-0006QM-UH; Mon, 06 Mar 2023 09:34:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pZBvI-0006OO-8W; Mon, 06 Mar 2023 09:34:46 -0500
+ id 1pZBvJ-0006OW-Vr; Mon, 06 Mar 2023 09:34:46 -0500
 Received: from out3-smtp.messagingengine.com ([66.111.4.27])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pZBvG-0005UM-7H; Mon, 06 Mar 2023 09:34:44 -0500
+ id 1pZBvI-0005Uy-HW; Mon, 06 Mar 2023 09:34:45 -0500
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 321B85C0277;
- Mon,  6 Mar 2023 09:34:41 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id AAC055C02BE;
+ Mon,  6 Mar 2023 09:34:43 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 06 Mar 2023 09:34:41 -0500
+ by compute5.internal (MEProxy); Mon, 06 Mar 2023 09:34:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1678113281; x=
- 1678199681; bh=AoJcLbOjjsqShe+hmnUOhuScOjXiV9Lpwp3DsSQHk+o=; b=K
- Prd1LIPxrx6jVaUFJTESSaIJKH0dIYcp0anlfbyV7s3H/RORfsjybXiOYbcGq0ob
- 0TLYBdrvOwh5tJNuHwh1U4B6kSu8pofNzvW/IStFaCoyZCEvIjWPFibh9Xgql5zj
- 3559+mhGvQHIZmTA332Hcd2opAARLckSwrD40VJ9PlweELs3Py4b7s2uTUeQ12lg
- 2SaNSw5tahiAzn7C7sHoadMkj2A+gJ+MGor2Xdiil1jLARIgKWehHiqoRW3A+Ca2
- j+BMXslXNzA6HOJB6ZLaKb7IyzVXsdfVsjw9ceONIfA0/q5JNp9qOh6aDV5yb9dk
- jtJRwwlnAdZurZDql9h9A==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1678113283; x=
+ 1678199683; bh=sfzU2rLzlJm2OF2cme98RYLx8G1VEL+GN5OZplAGtRM=; b=u
+ FMfXSBl30OyeGBp3wjDcF7JhDpD+2b/Nv+AbqWM2DcRh33OdVF5yR7rlTTD4vEZP
+ Z0XvQp04sELIx28+SfM6bTojbHKD7KDGCgbw9uwYQe+GKt8CrA0hh++wN1efwFo0
+ XWoWP2Pac1mmSmgAPe7jLKBh7Q72JewPIR4vLA8qNeNVM/7YZPA6jXi8UQlC+igB
+ jC93Jaymrp+KaK4+52J3+XhDbWqssbanVjTckrvz+RjKL/4Z1HmfwRZkTA2lg3jE
+ wAJw2rF25v+LPHm6b21OLrqCnQxta1q7mqbjDDCdragiR2UUPmnu4xg9io86L5SO
+ J/QJBwq6Q+3scv6lROU8w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1678113281; x=
- 1678199681; bh=AoJcLbOjjsqShe+hmnUOhuScOjXiV9Lpwp3DsSQHk+o=; b=p
- fe0IcdwqhEJgqA2BsyzOc5aEXSRHTEFFpX2LItLkQKdixYqvVWo/mgdOkIVggMP9
- +dYxyLHU4xC6b3zCn5PpOd5mqPCgrOZ0hHpqoewNge8DjOxcAERn+TnwHBaFglwg
- lGpHbvnSRAZM3a+iFgvJ98ktk1ndVvJoF/FJHzbSKMzC7a7HGg+6KFkOOrW9UuTC
- jU2fHI9cDnQgziZ0z8De1MuHgX0hmzm4GocDxdFVVtm9POSX3AeSRbIhiPb1d3HT
- /Rbhjdtmsiuet9u0YHhaYBlDifNyuTjaXKHUFe+uifrCmiXsx/415p1yEXPW9YOM
- jFiwf5iytL6I1U0YWhOBQ==
-X-ME-Sender: <xms:AfoFZHmQnknfje4rLVhJrFwBOeyOQYNL7zMZWAWw7xF8_crAhzgxsA>
- <xme:AfoFZK1V0jMNDPCm7Lh5lMnpcTln8zji5syCxPN1wwYH001J3hkVUjPcdRbnzW66p
- 59dcV3rshyJ2c26Zb0>
-X-ME-Received: <xmr:AfoFZNpAZAIT6i5hh9VHKZ8GWaXVMkI09LVE207LhLLp-jJ7Yj3sMuZYxAigcbofQA6dxi4SGB90XTcOiP80seGfMAl341sXxvlovbU>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1678113283; x=
+ 1678199683; bh=sfzU2rLzlJm2OF2cme98RYLx8G1VEL+GN5OZplAGtRM=; b=M
+ dqlo1xMxsYYbSntI0IsAfIoTm/1exHB8s3N73VnNdk13584L+Tne+rdM+6GcbfnX
+ q74gSu99EBuWkCnHZffQoXS0rsclvtxiqYtVvrG4WdGS7MjPWed0x9PDwSyKGHgc
+ 5fsarN3CMAg2Hcgki2t3fHCphJrJX7Ktp35rV/e2U+/yyL+utmy+/6uCaL9UHpFq
+ 280XYgkLKTlpiaSpu7NNPmM0n0Tlj6vB/DvMJWfZtBbOPHgQGR//hIhRryuwzroq
+ JEm0PZfrfwt5DlP3hsbNX3k1ot+A7vBu+jMLnl+xXZYNIsTZYQ9rrqZphDBFknkG
+ y244G6t4xGzPIi9xva/YA==
+X-ME-Sender: <xms:A_oFZLLP7x2s5LX4fzacLaC-nb_jNYQtBunqTKHbe76mfkGpfrZaTA>
+ <xme:A_oFZPJ2w08g1LQmjx2_InLF49bY0UqWqVSCdbCW9Pd_KmfJF-pVNvy4P93_BNW_-
+ m2oHF24xmwYHcH5Odg>
+X-ME-Received: <xmr:A_oFZDtpjw3GsrBQ-SuQ0vtYKBfT2SeW5-s4Kc-1r11zNiesPMr0tSqMZ5v8XP6XV2CP9hnvLqQ-qRrjm2oo2eA5wR0PfSFgRi0xvgo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtkedgfeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,13 +57,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtkedgfeekucetufdoteggod
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
  udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:AfoFZPnkzjBaNbubP8KBlCoXoSD33a35OQNkcN2tzBX8o5myB0Sc1Q>
- <xmx:AfoFZF34nun8XHPbLAy49XPB-JtfH1bVgGQI1_qLytKA-CY-AVfl5A>
- <xmx:AfoFZOvpdWhICcQBkUT3dvP8fAPxuvV9MTA8F-l57C1dv9xUFH5mgA>
- <xmx:AfoFZOtb2Ik238NvyYIiwVOZdRbruXjfHnRfd9r1wSvb2-3ylafAjA>
+X-ME-Proxy: <xmx:A_oFZEY84g9mwWERItrZkqDWZnu6iBj7MVvxYvA-UXJZL2GfnF3uBQ>
+ <xmx:A_oFZCZSRoZ1HYe7WmB8-i2M91IahRaNDG7jojrFmWZ6YL3z0nKatA>
+ <xmx:A_oFZIC6rYkhBj3DIDcjBcSzMEvaof6SZkEL1Au0Zgb9QyC1wnn67A>
+ <xmx:A_oFZPS5Ha6nBsrwMghOLbyzP1C0wjPLPGhpwFiQyfpSxCeyodq89w>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Mar 2023 09:34:39 -0500 (EST)
+ 6 Mar 2023 09:34:41 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
@@ -72,23 +72,24 @@ Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- Joel Granados <j.granados@samsung.com>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 1/5] hw/nvme: move adjustment of data_units{read,written}
-Date: Mon,  6 Mar 2023 15:34:29 +0100
-Message-Id: <20230306143433.10351-2-its@irrelevant.dk>
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL 2/5] hw/nvme: store a pointer to the NvmeSubsystem in the
+ NvmeNamespace
+Date: Mon,  6 Mar 2023 15:34:30 +0100
+Message-Id: <20230306143433.10351-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306143433.10351-1-its@irrelevant.dk>
 References: <20230306143433.10351-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2470; i=k.jensen@samsung.com;
- h=from:subject; bh=KpSFv221ENOzRh4hLzCplOfU3hk5j+akPNWluv6GEyc=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQF+fiWOZTclcfhdnIIamhZbT88tj47gIF4n
- SCODl/pCV2f9IkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkBfn4AAoJEE3hrzFt
- Tw3pmbsH/1w7Pq7wcV9Lr4/trsbDGAqdAxMcCWKGASDFM1mUto68QMODdgysf+jEbn4jzJ3b/o2
- UsMz69IWNOdaePS5/5VO5HO8J1/MbQ4pshGIrKwWjh9S+LY3lzr+OkMt4SgAhaYAgkseOQmE6y2
- hs49kfQC91bezbHvWNnyY3MyMVFig0C9NpHLjBTj54wWKRXwOqMOj8rkIuBLXJPCLuotop5nbVS
- OCHXm/X+JfTKCpR24lsc4mJe++949vh17OdrmYtOB5YhmNa1SJRM/CumwX7v4gzPB1hze39bBdw
- J2EXDSK/5iL7rpj+NdxlGrWX+0CCh1g45hle1Ad7T9eZ9V6TzE3Y1anR
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1196; i=k.jensen@samsung.com;
+ h=from:subject; bh=TsWhXMqC3vOl1XSTCVLpOn22OdD3mS9gO5gOTakgK+Y=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQF+fjnSPNaSqioAG9ggBVU4E+fi9zgKbeEd
+ yLyBOPYceg+yokBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkBfn4AAoJEE3hrzFt
+ Tw3pvJgIALgM39WeTg2p3c0s6mkp9F0MaU/aIJmr17HU6YJK13ZBP7GUx1nA33abPk62bBktYoC
+ n6luchEt4jeZIIgJ1ajzyeDPDEjckhWQTMeueBIdKlmTAXUawqpk8erGP0s0lSE1kVuV7L7WzN2
+ O053XQnArHVVAOCo9PMe1mYpwqQnM7ofALl6TMPQYdhp6ff6HXWQLXNJcgbh0hkBtnf82LAjO9B
+ UqfsSIIdqHdEXCZatvgnn7+5OLSCFv7+B3x5ddArebHHCPKfjymoPoWqHG9I2rW3I7cn+gTSuKt
+ PZllT3EVazy8qFThuWNTnPngETLY2FxhjqbvJpr36mFgM/XlaHthlqxT
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -116,60 +117,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joel Granados <j.granados@samsung.com>
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-Move the rounding of bytes read/written into nvme_smart_log which
-reports in units of 512 bytes, rounded up in thousands. This is in
-preparation for adding the Endurance Group Information log page which
-reports in units of billions, rounded up.
+Each NvmeNamespace can be used by serveral controllers,
+but a NvmeNamespace can at most belong to a single NvmeSubsystem.
+Store a pointer to the NvmeSubsystem, if the namespace was realized
+with a NvmeSubsystem.
 
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Joel Granados <j.granados@samsung.com>
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/nvme/ns.c   | 1 +
+ hw/nvme/nvme.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index f25cc2c235e9..99b92ff20b9a 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -4386,8 +4386,8 @@ static void nvme_set_blk_stats(NvmeNamespace *ns, struct nvme_stats *stats)
- {
-     BlockAcctStats *s = blk_get_stats(ns->blkconf.blk);
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 62a1f97be010..8ebab4fbceaf 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -561,6 +561,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+         if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
+             return;
+         }
++        ns->subsys = subsys;
+     }
  
--    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
--    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
-+    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ];
-+    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE];
-     stats->read_commands += s->nr_ops[BLOCK_ACCT_READ];
-     stats->write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
- }
-@@ -4401,6 +4401,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     uint32_t trans_len;
-     NvmeNamespace *ns;
-     time_t current_ms;
-+    uint64_t u_read, u_written;
+     if (nvme_ns_setup(ns, errp)) {
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 16da27a69bfb..5d221073ac68 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -167,6 +167,7 @@ typedef struct NvmeNamespace {
+     int32_t         nr_active_zones;
  
-     if (off >= sizeof(smart)) {
-         return NVME_INVALID_FIELD | NVME_DNR;
-@@ -4427,10 +4428,11 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     trans_len = MIN(sizeof(smart) - off, buf_len);
-     smart.critical_warning = n->smart_critical_warning;
+     NvmeNamespaceParams params;
++    NvmeSubsystem *subsys;
  
--    smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
--                                                        1000));
--    smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_written,
--                                                           1000));
-+    u_read = DIV_ROUND_UP(stats.units_read >> BDRV_SECTOR_BITS, 1000);
-+    u_written = DIV_ROUND_UP(stats.units_written >> BDRV_SECTOR_BITS, 1000);
-+
-+    smart.data_units_read[0] = cpu_to_le64(u_read);
-+    smart.data_units_written[0] = cpu_to_le64(u_written);
-     smart.host_read_commands[0] = cpu_to_le64(stats.read_commands);
-     smart.host_write_commands[0] = cpu_to_le64(stats.write_commands);
- 
+     struct {
+         uint32_t err_rec;
 -- 
 2.39.2
 
