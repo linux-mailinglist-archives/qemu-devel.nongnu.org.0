@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894EF6ABF78
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F996ABF87
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:31:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ9xD-0007WF-Bn; Mon, 06 Mar 2023 07:28:35 -0500
+	id 1pZ9yD-0008NA-Pq; Mon, 06 Mar 2023 07:29:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ9x4-0007Vl-P4
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:28:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pZ9xR-0007em-Eb
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:28:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ9x3-0003L4-6M
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:28:26 -0500
+ id 1pZ9xP-0003Lr-8v
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:28:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678105704;
+ s=mimecast20190719; t=1678105726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xTm8ubhtiWH/BhSjPXGZ796rUO6Hs5QQEafZA9VVO60=;
- b=f7TFiutBMIWeA3aXy8IHJ7oAihFpS43zYtY9l34mZKXmjPeQTH6Bx+UzqFXko+RxasQAlu
- qlaXBTrqthOU+yakISXdvDb9uyuahIPc74R2UPcsIIDcMOKELoL0GAuVYW+FGpdBiaHMEq
- KFEvN0ZFQj5kITfdM6raYRhm1YrfSwY=
+ bh=bu0nSiCU+C/5t2FSu0ntDv4BlvxCta95wWhADz5BY5k=;
+ b=eOROC2bRuutca29AbTERF4k78qc2N6pYBtljbNoA1OA2EiovXxCMBf88quvKRzxOIML7uo
+ HYyQ5VMGsEcoLEm3doegq9AkGjBcTaaAoCwnce8IzZVtC16wmTlcyNY3ht47Bvv5pN5m0D
+ 9afouVnIFhJa8qAW0oQZSxPAP1+nvBA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-UHUvcAxjMmCyjNX2jDzSBA-1; Mon, 06 Mar 2023 07:28:21 -0500
-X-MC-Unique: UHUvcAxjMmCyjNX2jDzSBA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-591-hXOhZz99OHi_qz8bOu_QBQ-1; Mon, 06 Mar 2023 07:28:39 -0500
+X-MC-Unique: hXOhZz99OHi_qz8bOu_QBQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22B6F3811F25;
- Mon,  6 Mar 2023 12:28:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE0E71C04325;
+ Mon,  6 Mar 2023 12:28:30 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CB9640C10FA;
- Mon,  6 Mar 2023 12:28:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1736940C83B6;
+ Mon,  6 Mar 2023 12:28:23 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -56,16 +56,17 @@ Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH v4 06/11] monitor: release the lock before calling close()
-Date: Mon,  6 Mar 2023 16:27:46 +0400
-Message-Id: <20230306122751.2355515-7-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 07/11] qapi/gen: run C code through clang-format,
+ if possible
+Date: Mon,  6 Mar 2023 16:27:47 +0400
+Message-Id: <20230306122751.2355515-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
 References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,45 +93,67 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-As per comment, presumably to avoid syscall in critical section.
+Make the resulting code even prettier, if possible.
 
-Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- monitor/fds.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/qapi/gen.py        | 15 ++++++++++++++-
+ scripts/qapi/introspect.py |  2 ++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/fds.c b/monitor/fds.c
-index 26b39a0ce6..7daf1064e1 100644
---- a/monitor/fds.c
-+++ b/monitor/fds.c
-@@ -80,7 +80,8 @@ void qmp_getfd(const char *fdname, Error **errp)
-         return;
-     }
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index b5a8d03e8e..c0ec9aa412 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -14,6 +14,7 @@
+ from contextlib import contextmanager
+ import os
+ import re
++import subprocess
+ from typing import (
+     Dict,
+     Iterator,
+@@ -133,6 +134,7 @@ def build_params(arg_type: Optional[QAPISchemaObjectType],
+ class QAPIGenCCode(QAPIGen):
+     def __init__(self, fname: str):
+         super().__init__(fname)
++        self.skip_format: bool = False
+         self._start_if: Optional[Tuple[QAPISchemaIfCond, str, str]] = None
  
--    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
-+    /* See close() call below. */
-+    qemu_mutex_lock(&cur_mon->mon_lock);
-     QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-         if (strcmp(monfd->name, fdname) != 0) {
-             continue;
-@@ -88,6 +89,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+     def start_if(self, ifcond: QAPISchemaIfCond) -> None:
+@@ -149,7 +151,18 @@ def end_if(self) -> None:
  
-         tmp_fd = monfd->fd;
-         monfd->fd = fd;
-+        qemu_mutex_unlock(&cur_mon->mon_lock);
-         /* Make sure close() is outside critical section */
-         close(tmp_fd);
-         return;
-@@ -98,6 +100,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-     monfd->fd = fd;
+     def get_content(self) -> str:
+         assert self._start_if is None
+-        return super().get_content()
++
++        text = super().get_content()
++        if not self.skip_format:
++            try:
++                text = subprocess.run(["clang-format"],
++                                      input=text,
++                                      text=True,
++                                      capture_output=True,
++                                      check=True).stdout
++            except FileNotFoundError:
++                pass
++        return text
  
-     QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-+    qemu_mutex_unlock(&cur_mon->mon_lock);
- }
  
- void qmp_closefd(const char *fdname, Error **errp)
+ class QAPIGenC(QAPIGenCCode):
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index 67c7d89aae..1a8cac37ef 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -174,6 +174,8 @@ def __init__(self, prefix: str, unmask: bool):
+         super().__init__(
+             prefix, 'qapi-introspect',
+             ' * QAPI/QMP schema introspection', __doc__)
++        # for some reasons, the generated code is making clang-format go crazy
++        self._genc.skip_format = True
+         self._unmask = unmask
+         self._schema: Optional[QAPISchema] = None
+         self._trees: List[Annotated[SchemaInfo]] = []
 -- 
 2.39.2
 
