@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C4A6AC58D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5696AC581
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:35:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCra-0004I8-FE; Mon, 06 Mar 2023 10:34:58 -0500
+	id 1pZCs7-0005rn-CX; Mon, 06 Mar 2023 10:35:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZCrY-0004Fh-8U
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:56 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZCrW-00029T-GC
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:55 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- j19-20020a05600c1c1300b003e9b564fae9so8488845wms.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:34:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678116893;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=AGvJ/+azoSfvbLgBtU0OVWx+UNPYGoxdaOuHi65PSgM=;
- b=fpbTlwWYYoWygDUytIlUL8CCvs8bPYKhK5NN4ia4MK5Wy09VMJswKAUagxwcz3M0E8
- 4L4QFT2MwMak3tX8HY1atnOoaaeiS6H1ziPZ+yNjiYY7F6/Djo9afh1jt+U8W4oyYkkL
- Ft51O6tz8kTQntzJOpRZ+BwIxxWtSMIXjNC7NsJawTT7TSDhg48yyZV1bgXTzgzlQKsf
- s6Si/lQ4+sAe1EhMXgBeBW45lJDuNFEVQrQh8BRufrzEAACyIgo9NUEzg+lXRifjBnol
- tt0QQthyFPC7x5W8Vfloz2I4MOp9QJJNbRKYdlBI3xAsfess1BBI+/B+b1Yaf09bBo6v
- yASA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678116893;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AGvJ/+azoSfvbLgBtU0OVWx+UNPYGoxdaOuHi65PSgM=;
- b=Y+/nep4cFlla+MGKiGhRK5lVuRNiy8ED5fIvveiVP+AtGsS0yBZQcclBvU2+/CnvV0
- 3u2jdqcJzQlqVnvDXWdArar196hbhrtqdcSLUPHMHTJkS5VX93lgfh/+sQltF/iIyWjL
- MSPZqTBgc69JGAGCYsE+P2dca6w69B7XQTfSWJkmcmXrA5bLJ+AJLx97XU0o+rreTq3t
- mNfpue7QVr77nInvPSkkDXb+tdoJ63t/h+D8HzahhLUrsS/cRYZZORdTcBNzl3NJdOCq
- OsHz455Mr7xS/RC48f8abyF4CMcF8mFlK+J/atm3cNKQ9yWPR5Do2ECU2xOjPSuLBDzy
- wvnA==
-X-Gm-Message-State: AO0yUKUYsmWyT7daNj+l8D+lj+GlV2cZlJgHc2MKEzG68UJYfaI0Mqvz
- XmRejM1VvZZa9D7yHG+0B7WBEOxvGrsStGB0E8U=
-X-Google-Smtp-Source: AK7set/Ov66OucYv2v4zPP+WCoooLMGeb86ORpi6mQZFUQLvSAdZxInYkUcpcUqetuLO3Bt2StW/lw==
-X-Received: by 2002:a05:600c:3153:b0:3ea:f73e:9d8c with SMTP id
- h19-20020a05600c315300b003eaf73e9d8cmr9960394wmo.16.1678116893785; 
- Mon, 06 Mar 2023 07:34:53 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c444700b003eb0d6f48f3sm15287432wmn.27.2023.03.06.07.34.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 07:34:53 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] hw: arm: allwinner-h3: Fix and complete H3 i2c devices
-Date: Mon,  6 Mar 2023 15:34:35 +0000
-Message-Id: <20230306153435.490894-22-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230306153435.490894-1-peter.maydell@linaro.org>
-References: <20230306153435.490894-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pZCs4-0005lO-5G
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:35:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pZCs2-0002U9-96
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:35:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678116925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RhktDrmgHXbh+B4QkEdlxbs0OpCbKljBE7TnSqUmdxc=;
+ b=cTQ8CDFfeVPbEtSZPevnk9F6DMJyGIXgiKEm43n8U/9BaEkbqnXUdRXNi4cSwHChwqmYfU
+ FVCnCxQYZFiRNnEgUrPQwc/h0VoMofQmkEK/l6iy3gGE+/AvubmTzSi7atFiMy7lnDrylK
+ pG88wGodZ+YKsQXvNWqzf5zZMMK3xH8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-L6-SOzn1OAGkVQ6bHCSKTQ-1; Mon, 06 Mar 2023 10:35:15 -0500
+X-MC-Unique: L6-SOzn1OAGkVQ6bHCSKTQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F6BD8027FD;
+ Mon,  6 Mar 2023 15:34:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B131A492C14;
+ Mon,  6 Mar 2023 15:34:53 +0000 (UTC)
+Date: Mon, 6 Mar 2023 10:34:51 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org,
+ Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
+ Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Liu Jiang <gerry@linux.alibaba.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH V2] docs: vhost-user: Add Xen specific memory mapping
+ support
+Message-ID: <20230306153451.GB51288@fedora>
+References: <7c3c120bcf2cf023e873800fd3f55239dd302e38.1678100850.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6o3hguOYtNtqX5if"
+Content-Disposition: inline
+In-Reply-To: <7c3c120bcf2cf023e873800fd3f55239dd302e38.1678100850.git.viresh.kumar@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,137 +88,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: qianfan Zhao <qianfanguijin@163.com>
 
-Allwinner h3 has 4 twi(i2c) devices named twi0, twi1, twi2 and r_twi.
-The registers are compatible with TYPE_AW_I2C_SUN6I, write 1 to clear
-control register's INT_FLAG bit.
+--6o3hguOYtNtqX5if
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
-Reviewed-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/allwinner-h3.h |  6 ++++++
- hw/arm/allwinner-h3.c         | 29 +++++++++++++++++++++++++----
- 2 files changed, 31 insertions(+), 4 deletions(-)
+On Mon, Mar 06, 2023 at 04:40:24PM +0530, Viresh Kumar wrote:
+> The current model of memory mapping at the back-end works fine where a
+> standard call to mmap() (for the respective file descriptor) is enough
+> before the front-end can start accessing the guest memory.
+>=20
+> There are other complex cases though where the back-end needs more
+> information and simple mmap() isn't enough. For example Xen, a type-1
+> hypervisor, currently supports memory mapping via two different methods,
+> foreign-mapping (via /dev/privcmd) and grant-dev (via /dev/gntdev). In
+> both these cases, the back-end needs to call mmap() and ioctl(), and
+> need to pass extra information via the ioctl(), like the Xen domain-id
+> of the guest whose memory we are trying to map.
+>=20
+> Add a new protocol feature, 'VHOST_USER_PROTOCOL_F_XEN_MMAP', which lets
+> the back-end know about the additional memory mapping requirements.
+> When this feature is negotiated, the front-end can send the
+> 'VHOST_USER_SET_XEN_MMAP' message type to provide the additional
+> information to the back-end.
+>=20
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+> V1->V2:
+> - Make the custom mmap feature Xen specific, instead of being generic.
+> - Clearly define which memory regions are impacted by this change.
+> - Allow VHOST_USER_SET_XEN_MMAP to be called multiple times.
+> - Additional Bit(2) property in flags.
+>=20
+>  docs/interop/vhost-user.rst | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>=20
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index 3f18ab424eb0..8be5f5eae941 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -258,6 +258,24 @@ Inflight description
+> =20
+>  :queue size: a 16-bit size of virtqueues
+> =20
+> +Xen mmap description
+> +^^^^^^^^^^^^^^^^^^^^
+> +
+> ++-------+-------+
+> +| flags | domid |
+> ++-------+-------+
+> +
+> +:flags: 64-bit bit field
+> +
+> +- Bit 0 is set for Xen foreign memory memory mapping.
+> +- Bit 1 is set for Xen grant memory memory mapping.
+> +- Bit 2 is set if the back-end can directly map additional memory (like
+> +  descriptor buffers or indirect descriptors, which aren't part of alrea=
+dy
+> +  shared memory regions) without the need of front-end sending an additi=
+onal
+> +  memory region first.
 
-diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
-index 1d7ce205890..59e0f822d2d 100644
---- a/include/hw/arm/allwinner-h3.h
-+++ b/include/hw/arm/allwinner-h3.h
-@@ -84,6 +84,8 @@ enum {
-     AW_H3_DEV_UART3,
-     AW_H3_DEV_EMAC,
-     AW_H3_DEV_TWI0,
-+    AW_H3_DEV_TWI1,
-+    AW_H3_DEV_TWI2,
-     AW_H3_DEV_DRAMCOM,
-     AW_H3_DEV_DRAMCTL,
-     AW_H3_DEV_DRAMPHY,
-@@ -93,6 +95,7 @@ enum {
-     AW_H3_DEV_GIC_VCPU,
-     AW_H3_DEV_RTC,
-     AW_H3_DEV_CPUCFG,
-+    AW_H3_DEV_R_TWI,
-     AW_H3_DEV_SDRAM
- };
- 
-@@ -133,6 +136,9 @@ struct AwH3State {
-     AwSidState sid;
-     AwSdHostState mmc0;
-     AWI2CState i2c0;
-+    AWI2CState i2c1;
-+    AWI2CState i2c2;
-+    AWI2CState r_twi;
-     AwSun8iEmacState emac;
-     AwRtcState rtc;
-     GICState gic;
-diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-index bfce3c8d92a..69d0ad6f50e 100644
---- a/hw/arm/allwinner-h3.c
-+++ b/hw/arm/allwinner-h3.c
-@@ -54,6 +54,8 @@ const hwaddr allwinner_h3_memmap[] = {
-     [AW_H3_DEV_UART2]      = 0x01c28800,
-     [AW_H3_DEV_UART3]      = 0x01c28c00,
-     [AW_H3_DEV_TWI0]       = 0x01c2ac00,
-+    [AW_H3_DEV_TWI1]       = 0x01c2b000,
-+    [AW_H3_DEV_TWI2]       = 0x01c2b400,
-     [AW_H3_DEV_EMAC]       = 0x01c30000,
-     [AW_H3_DEV_DRAMCOM]    = 0x01c62000,
-     [AW_H3_DEV_DRAMCTL]    = 0x01c63000,
-@@ -64,6 +66,7 @@ const hwaddr allwinner_h3_memmap[] = {
-     [AW_H3_DEV_GIC_VCPU]   = 0x01c86000,
-     [AW_H3_DEV_RTC]        = 0x01f00000,
-     [AW_H3_DEV_CPUCFG]     = 0x01f01c00,
-+    [AW_H3_DEV_R_TWI]      = 0x01f02400,
-     [AW_H3_DEV_SDRAM]      = 0x40000000
- };
- 
-@@ -107,8 +110,6 @@ struct AwH3Unimplemented {
-     { "uart1",     0x01c28400, 1 * KiB },
-     { "uart2",     0x01c28800, 1 * KiB },
-     { "uart3",     0x01c28c00, 1 * KiB },
--    { "twi1",      0x01c2b000, 1 * KiB },
--    { "twi2",      0x01c2b400, 1 * KiB },
-     { "scr",       0x01c2c400, 1 * KiB },
-     { "gpu",       0x01c40000, 64 * KiB },
-     { "hstmr",     0x01c60000, 4 * KiB },
-@@ -123,7 +124,6 @@ struct AwH3Unimplemented {
-     { "r_prcm",    0x01f01400, 1 * KiB },
-     { "r_twd",     0x01f01800, 1 * KiB },
-     { "r_cir-rx",  0x01f02000, 1 * KiB },
--    { "r_twi",     0x01f02400, 1 * KiB },
-     { "r_uart",    0x01f02800, 1 * KiB },
-     { "r_pio",     0x01f02c00, 1 * KiB },
-     { "r_pwm",     0x01f03800, 1 * KiB },
-@@ -151,8 +151,11 @@ enum {
-     AW_H3_GIC_SPI_UART2     =  2,
-     AW_H3_GIC_SPI_UART3     =  3,
-     AW_H3_GIC_SPI_TWI0      =  6,
-+    AW_H3_GIC_SPI_TWI1      =  7,
-+    AW_H3_GIC_SPI_TWI2      =  8,
-     AW_H3_GIC_SPI_TIMER0    = 18,
-     AW_H3_GIC_SPI_TIMER1    = 19,
-+    AW_H3_GIC_SPI_R_TWI     = 44,
-     AW_H3_GIC_SPI_MMC0      = 60,
-     AW_H3_GIC_SPI_EHCI0     = 72,
-     AW_H3_GIC_SPI_OHCI0     = 73,
-@@ -227,7 +230,10 @@ static void allwinner_h3_init(Object *obj)
- 
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_AW_RTC_SUN6I);
- 
--    object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C);
-+    object_initialize_child(obj, "twi0",  &s->i2c0,  TYPE_AW_I2C_SUN6I);
-+    object_initialize_child(obj, "twi1",  &s->i2c1,  TYPE_AW_I2C_SUN6I);
-+    object_initialize_child(obj, "twi2",  &s->i2c2,  TYPE_AW_I2C_SUN6I);
-+    object_initialize_child(obj, "r_twi", &s->r_twi, TYPE_AW_I2C_SUN6I);
- }
- 
- static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-@@ -432,6 +438,21 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0,
-                        qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI0));
- 
-+    sysbus_realize(SYS_BUS_DEVICE(&s->i2c1), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c1), 0, s->memmap[AW_H3_DEV_TWI1]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c1), 0,
-+                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI1));
-+
-+    sysbus_realize(SYS_BUS_DEVICE(&s->i2c2), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c2), 0, s->memmap[AW_H3_DEV_TWI2]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c2), 0,
-+                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI2));
-+
-+    sysbus_realize(SYS_BUS_DEVICE(&s->r_twi), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->r_twi), 0, s->memmap[AW_H3_DEV_R_TWI]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->r_twi), 0,
-+                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_R_TWI));
-+
-     /* Unimplemented devices */
-     for (i = 0; i < ARRAY_SIZE(unimplemented); i++) {
-         create_unimplemented_device(unimplemented[i].device_name,
--- 
-2.34.1
+I don't understand what Bit 2 does. Can you rephrase this? It's unclear
+to me how additional memory can be mapped without a memory region
+(especially the fd) is sent?
+
+> +
+> +:domid: a 64-bit Xen hypervisor specific domain id.
+> +
+>  C structure
+>  -----------
+> =20
+> @@ -867,6 +885,7 @@ Protocol features
+>    #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
+>    #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+>    #define VHOST_USER_PROTOCOL_F_STATUS               16
+> +  #define VHOST_USER_PROTOCOL_F_XEN_MMAP             17
+> =20
+>  Front-end message types
+>  -----------------------
+> @@ -1422,6 +1441,23 @@ Front-end message types
+>    query the back-end for its device status as defined in the Virtio
+>    specification.
+> =20
+> +``VHOST_USER_SET_XEN_MMAP``
+> +  :id: 41
+> +  :equivalent ioctl: N/A
+> +  :request payload: Xen mmap description
+> +  :reply payload: N/A
+> +
+> +  When the ``VHOST_USER_PROTOCOL_F_XEN_MMAP`` protocol feature has been
+> +  successfully negotiated, this message is submitted by the front-end to=
+ set the
+> +  Xen hypervisor specific memory mapping configurations at the back-end.=
+  These
+> +  configurations should be used to mmap memory regions, virtqueues, desc=
+riptors
+> +  and descriptor buffers. The front-end must send this message before any
+> +  memory-regions are sent to the back-end via ``VHOST_USER_SET_MEM_TABLE=
+`` or
+> +  ``VHOST_USER_ADD_MEM_REG`` message types. The front-end can send this =
+message
+> +  multiple times, if different mmap configurations are required for diff=
+erent
+> +  memory regions, where the most recent ``VHOST_USER_SET_XEN_MMAP`` must=
+ be used
+> +  by the back-end to map any newly shared memory regions.
+
+This message modifies the behavior of subsequent
+VHOST_USER_SET_MEM_TABLE and VHOST_USER_ADD_MEM_REG messages. The memory
+region structs can be extended and then VHOST_USER_SET_XEN_MMAP isn't
+needed.
+
+In other words:
+
+  When VHOST_USER_PROTOCOL_F_XEN_MMAP is negotiated, each "Memory
+  regions description" and "Single memory region description" has the
+  following additional fields appended:
+
+  +----------------+-------+
+  | xen_mmap_flags | domid |
+  +----------------+-------+
+
+  :xen_mmap_flags: 64-bit bit field
+  :domid: a 64-bit Xen hypervisor specific domain id.
+
+Stefan
+
+--6o3hguOYtNtqX5if
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQGCBsACgkQnKSrs4Gr
+c8ioqggAr0sNzP6odV6D7q20EAu0U8ebHThXN5TfZ1O1jznw1m3Elh711LqjSR95
+EMzBureA2VwAyjXwVMLcA557T71x1e7yaFBaw0EIn1sbQaX0yjUlWZq0RiR4JKbw
+JL84hDrdkgZtX+Vixgp+rfRBs8qyzSBmC8F0zlhJOgkEob0D42hsNPohZIKj2g3a
+cmUEXIrrGswJ5gYyP/j0OT587jybv4MA08r/jssdjYniqvZk7Ud3gcnen2pzTLyk
+B6c/fjZK7a6nqf3LQSssQ5xbQR4mbQ9UTdkzh1jyT7v3B/3dWnnBviWftlvMjSDR
+PZ4DkjIcicxpP2QEr9tK1qBSqf2K8g==
+=pUBT
+-----END PGP SIGNATURE-----
+
+--6o3hguOYtNtqX5if--
 
 
