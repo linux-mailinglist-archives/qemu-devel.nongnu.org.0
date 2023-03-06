@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FAE6AC98C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533186AC994
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:16:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZEPW-00009e-F2; Mon, 06 Mar 2023 12:14:06 -0500
+	id 1pZERI-000245-2p; Mon, 06 Mar 2023 12:15:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pZEPQ-0008V6-Bm
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:14:02 -0500
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pZEPO-0004xS-NP
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:14:00 -0500
-Received: by mail-lf1-x12f.google.com with SMTP id g17so13732522lfv.4
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 09:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678122837;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=AFiIub8XE/3t+YIcf9GDFhgI+Gh55WxmhVjHooAGFXQ=;
- b=mJCAHhWRZKmPh493Sl1ZEWwidUEevb8hiyjWvY8OSzNLa2yP4cO14I7CrN1RPsGKzl
- yZyvjx59V+JO3wA++zn8NBZLWQ8nVsysoNhtxFdvbZAl1Ebun4UzaSPvWRNJeOU69clQ
- lYe5mhULCb5mymWFDidZ3zyNhdzNA1Gqv8EvVP6AH6Mwfizd20UA1ZEzwMUhv5mipLti
- wrT7KyicfmEaprx2eZ54fnUne/bU3IpK5tkROX+19naTuFVvT1XaGLh8i2+VMgqGE/TR
- 2ayiqTvIwk7I0sg1aGZ2gli29+vTJHuzE2JhTPn0J67JjZc6ZZEw3UBl2wLFBZYZW9eC
- kfXw==
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZERB-00021z-45
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:15:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZER9-0005i7-DQ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:15:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678122946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+O0fU7wnprllsTYtZ8XsaUgPcIX8iIiCmBTy+dCjP0s=;
+ b=Otg/sr478Eob0VTjKB649BOOWG400TEcyy47cBvvYJmsKFZl/7fTq4UqyyTXIHntzZJ4mS
+ /u3xkkKkh3uEuTIBC1r3oaiAsMp5GaJtxr8anJRrxQpC/3c3a/UJ0XcufZp9dRJoLzZtW0
+ +I9dAGvoVvtWBTRRf6d0vl1a6rJxLVY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-crY0MPXVPYyqHgGeUAZGDw-1; Mon, 06 Mar 2023 12:15:44 -0500
+X-MC-Unique: crY0MPXVPYyqHgGeUAZGDw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n6-20020a5d51c6000000b002ca3c48ba46so1641090wrv.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 09:15:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678122837;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AFiIub8XE/3t+YIcf9GDFhgI+Gh55WxmhVjHooAGFXQ=;
- b=FH2FVv7rRIFwRq5nAz/XrBB6ZL4Nh+Wp/C3prPb6vl5717MCE8tcnzp7hImqlPYsQ6
- LHVsF/saRiFfVrPKuvxwnnTwBASAcElpfH+mNsRJHPDSM4xaeybfm0vPj7qSfUA0+sps
- GhixDTjjfghzpHyXhsi2/j2/x8bufKIF1KDBlwUb9oAtxeQFg+cbRTzadiAKCPQcQAg2
- /TKkt6LzDiTyEAkl9d5ttNH60t4d93UC6+SpEpWzqqwLWgDB/QazknzQmWDWKkSp+gCi
- n81ncatG4OweC2Z6KLWL5vXJJqCbjnSTmsB2sC7lY/E6J71f9Bz1zUGHmIBYiCrOxEBt
- Fu2A==
-X-Gm-Message-State: AO0yUKXLzcdAcgHboKqn1pzVgAuojdzqDEhFXiaDRa1RLTaabSIwzxIU
- E2mNN0dcoYdRee8LL/MVJ4UEjQ==
-X-Google-Smtp-Source: AK7set9isyzIUK1LZ2NCprp7pwgUPqxJaMVBuJ0phlDakmJzsDodoJm+GGt6Mc8+8H3KG/Ttl54yiA==
-X-Received: by 2002:ac2:46f8:0:b0:4e0:a7cb:33fd with SMTP id
- q24-20020ac246f8000000b004e0a7cb33fdmr2710445lfo.27.1678122836696; 
- Mon, 06 Mar 2023 09:13:56 -0800 (PST)
-Received: from [192.168.200.206] (83.11.36.13.ipv4.supernova.orange.pl.
- [83.11.36.13]) by smtp.gmail.com with ESMTPSA id
- a11-20020a05651c030b00b002959aecb63bsm1793544ljp.53.2023.03.06.09.13.55
+ d=1e100.net; s=20210112; t=1678122943;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+O0fU7wnprllsTYtZ8XsaUgPcIX8iIiCmBTy+dCjP0s=;
+ b=Bu8kRpTHoG1KXgWfNcvSL1ZfZ9y8Xc5GUMShsC6wxeqFhtLYrEGADiUnP8IDT9xgD/
+ XLTaHvVQGNokJoqZHvTDlR4agr1U0KL5y18zgsGsO2AtCbglCN+zlMKA6/AglMJhLc2x
+ WZgRbMACQsKHVCK/bxZVOTwji3PnY4dM07xslgsfxVBujABlc16tAh7ouJ2t+wluzAhO
+ lNJKm/ik1y+wohqicTbjrlPZbLzyWInrj7VWheOPULjxoru2JULDZqCIDSD9a2yguE8P
+ tLRAZmU4rnYMSXC4hcWL3fXCOKx8f1CtUsIH0RgvIH/Wbht31BN6LiXtqQdsnAqLcYR+
+ CGaQ==
+X-Gm-Message-State: AO0yUKVnIY6upaIcHek5wOHHoMgcx0qoLDZX4xpvv4KhW5wh6KsJHiAk
+ 0Vs2axrq6B0jsz04ZTlIQnXwUUxOjRUr2CoBJfAO4J56aAMg6AAq80Eqj1ZgfNIKmsrKnXBdQs0
+ ztnNLpNi0jToaxiQ=
+X-Received: by 2002:adf:fcc9:0:b0:2c7:15fc:9262 with SMTP id
+ f9-20020adffcc9000000b002c715fc9262mr7715979wrs.3.1678122943206; 
+ Mon, 06 Mar 2023 09:15:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set9f8h9nd2cr+1F35dNWF7iPJOMh+FYkaqEZkxeXpaOgchujyqVNGj69xMXrPJ9eRLy8cr9Udg==
+X-Received: by 2002:adf:fcc9:0:b0:2c7:15fc:9262 with SMTP id
+ f9-20020adffcc9000000b002c715fc9262mr7715957wrs.3.1678122942900; 
+ Mon, 06 Mar 2023 09:15:42 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ f9-20020adfdb49000000b002c59c6abc10sm10577150wrj.115.2023.03.06.09.15.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 09:13:56 -0800 (PST)
-Message-ID: <5f8a1a7a-2971-029e-adc2-eef8a3c121ab@linaro.org>
-Date: Mon, 6 Mar 2023 18:13:55 +0100
+ Mon, 06 Mar 2023 09:15:42 -0800 (PST)
+Message-ID: <6ac284df-144d-a71d-5d65-6b14969fdf7b@redhat.com>
+Date: Mon, 6 Mar 2023 18:15:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2] target/arm: Add Neoverse-N1 registers
-Content-Language: pl-PL, en-GB, en-HK
-To: Peter Maydell <peter.maydell@linaro.org>,
- Chen Baozi <chenbaozi@phytium.com.cn>
-Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-References: <20230306151243.3877250-1-chenbaozi@phytium.com.cn>
- <CAFEAcA8BJO2iVG_KQaFBV0hvAmWn4cV-vC8QA5CC+iChMuHyXA@mail.gmail.com>
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-In-Reply-To: <CAFEAcA8BJO2iVG_KQaFBV0hvAmWn4cV-vC8QA5CC+iChMuHyXA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/13] docs/devel: Document VFIO device dirty page
+ tracking
+Content-Language: en-US
+To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+References: <20230304014343.33646-1-joao.m.martins@oracle.com>
+ <20230304014343.33646-14-joao.m.martins@oracle.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230304014343.33646-14-joao.m.martins@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-lf1-x12f.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,21 +105,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-W dniu 6.03.2023 o 16:37, Peter Maydell pisze:
- > On Mon, 6 Mar 2023 at 15:12, Chen Baozi <chenbaozi@phytium.com.cn> wrote:
- >>
- >> Add implementation defined registers for neoverse-n1 which
- >> would be accessed by TF-A. Since there is no DSU in Qemu,
- >> CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
- >>
- >> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
- >> Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
- >
- > Did Marcin test this version of the patch ?
+On 3/4/23 02:43, Joao Martins wrote:
+> From: Avihai Horon <avihaih@nvidia.com>
+> 
+> Adjust the VFIO dirty page tracking documentation and add a section to
+> describe device dirty page tracking.
+> 
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>   docs/devel/vfio-migration.rst | 46 +++++++++++++++++++++++------------
+>   1 file changed, 31 insertions(+), 15 deletions(-)
+> 
+> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+> index c214c73e2818..1b68ccf11529 100644
+> --- a/docs/devel/vfio-migration.rst
+> +++ b/docs/devel/vfio-migration.rst
+> @@ -59,22 +59,37 @@ System memory dirty pages tracking
+>   ----------------------------------
+>   
+>   A ``log_global_start`` and ``log_global_stop`` memory listener callback informs
+> -the VFIO IOMMU module to start and stop dirty page tracking. A ``log_sync``
+> -memory listener callback marks those system memory pages as dirty which are
+> -used for DMA by the VFIO device. The dirty pages bitmap is queried per
+> -container. All pages pinned by the vendor driver through external APIs have to
+> -be marked as dirty during migration. When there are CPU writes, CPU dirty page
+> -tracking can identify dirtied pages, but any page pinned by the vendor driver
+> -can also be written by the device. There is currently no device or IOMMU
+> -support for dirty page tracking in hardware.
+> +the VFIO dirty tracking module to start and stop dirty page tracking. A
+> +``log_sync`` memory listener callback queries the dirty page bitmap from the
+> +dirty tracking module and marks system memory pages which were DMA-ed by the
+> +VFIO device as dirty. The dirty page bitmap is queried per container.
+> +
+> +Currently there are two ways dirty page tracking can be done:
+> +(1) Device dirty tracking:
+> +In this method the device is responsible to log and report its DMAs. This
+> +method can be used only if the device is capable of tracking its DMAs.
+> +Discovering device capability, starting and stopping dirty tracking, and
+> +syncing the dirty bitmaps from the device are done using the DMA logging uAPI.
+> +More info about the uAPI can be found in the comments of the
+> +``vfio_device_feature_dma_logging_control`` and
+> +``vfio_device_feature_dma_logging_report`` structures in the header file
+> +linux-headers/linux/vfio.h.
+> +
+> +(2) VFIO IOMMU module:
+> +In this method dirty tracking is done by IOMMU. However, there is currently no
+> +IOMMU support for dirty page tracking. For this reason, all pages are
+> +perpetually marked dirty, unless the device driver pins pages through external
+> +APIs in which case only those pinned pages are perpetually marked dirty.
+> +
+> +If the above two methods are not supported, all pages are perpetually marked
+> +dirty by QEMU.
+>   
+>   By default, dirty pages are tracked during pre-copy as well as stop-and-copy
+> -phase. So, a page pinned by the vendor driver will be copied to the destination
+> -in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
+> -it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
+> -finding dirty pages continuously, then it understands that even in stop-and-copy
+> -phase, it is likely to find dirty pages and can predict the downtime
+> -accordingly.
+> +phase. So, a page marked as dirty will be copied to the destination in both
+> +phases. Copying dirty pages in pre-copy phase helps QEMU to predict if it can
+> +achieve its downtime tolerances. If QEMU during pre-copy phase keeps finding
+> +dirty pages continuously, then it understands that even in stop-and-copy phase,
+> +it is likely to find dirty pages and can predict the downtime accordingly.
+>   
+>   QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
+>   which disables querying the dirty bitmap during pre-copy phase. If it is set to
+> @@ -89,7 +104,8 @@ phase of migration. In that case, the unmap ioctl returns any dirty pages in
+>   that range and QEMU reports corresponding guest physical pages dirty. During
+>   stop-and-copy phase, an IOMMU notifier is used to get a callback for mapped
+>   pages and then dirty pages bitmap is fetched from VFIO IOMMU modules for those
+> -mapped ranges.
+> +mapped ranges. If device dirty tracking is enabled with vIOMMU, live migration
+> +will be blocked.
 
-Hard to test it without updating TF-A first to not use DSU. Older TF-A 
-starts and then hangs.
+There is a limitation with multiple devices also.
 
-Waiting for Chen to provide patch to TF-A and will test.
+Thanks,
+
+C.
+
+>   
+>   Flow of state changes during Live migration
+>   ===========================================
 
 
