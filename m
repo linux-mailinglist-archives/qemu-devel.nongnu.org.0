@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B17E6ACFAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 22:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E51A6ACFB3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 22:02:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZHvs-0000gx-He; Mon, 06 Mar 2023 15:59:44 -0500
+	id 1pZHxj-0001lT-Og; Mon, 06 Mar 2023 16:01:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZHvq-0000gL-GT
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 15:59:42 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZHvo-0002ct-Qd
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 15:59:42 -0500
-Received: by mail-pg1-x543.google.com with SMTP id d6so6407842pgu.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 12:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678136379;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kL3nB96TTOBWD0VXNbthw2THlSiLt6pqGu0TGvBd21I=;
- b=GnvRzX9a24acvwNwCyRIqog4sL72XGYh7VPrOkMukh1R7et2sVR/ORdYMDfgmkgULc
- lvJG0Rxd+7G1mPifEKGF9b3/FwX7Uc+yOhdWDFhbjrjwzMFaYxwqcUkYdPI7O9MVj8yv
- nQMICC0Ze3dSZ51Mk4CIbYoY7CtO4iMRQmkScphUXTvEVwpKljlGZ/gcT4N4jdUjbZFz
- jz4D1Sp99UaEPyWmwreT6lo5Kp7oWUvOujrTfy/WNWgW1TRXefbkWXzEulrIBaPam+Wv
- DwR3xspkocnYb8eCW5TYBrYT0S4u4gvTCFNKosG23qcdYpCrdyNxqO9OfRqabAnuRLlL
- I9mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678136379;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kL3nB96TTOBWD0VXNbthw2THlSiLt6pqGu0TGvBd21I=;
- b=paXYEYTYQAmAJJJcRlqJUJMJUcEYsdYIY5GYd1vrTetOTtcPiAW3+1/rUlfklBtc/E
- w2iNzTnu6LeVfRbAr7OR6LCSYKq5dj1v70ugfchCOobPxKDnef1mefEHyUTW9+V/X/VQ
- m5uXKfuKe65GAazLqcm1lhS0NCvkCj9zbvl95KQSuL6grB3LG8aJ7KRUbFR3SWmAofmw
- GkyXN/GYX/mniUJwTXi2PF0VcL86cWkDkD7lzTIefbXbfql4mvQ8PCikqX8S9bIWJ3MO
- QAOz4MFgsMwE0HM85+60M6E6o6TOfMfqJl1BgBj4Pa9KAsLb2dZyzxDiqFWXgdMFsPjQ
- qjfA==
-X-Gm-Message-State: AO0yUKVHN1gQjZ1Xy+D6N6zCILlJ3iLTpv4GkA9soTghs0qgfNmDLwxr
- cbDE0iEo0TgaF3jjWGHIJLttNQ==
-X-Google-Smtp-Source: AK7set8fRSzwOSZGVekZMuaAIaK7wEwcxuOmJKhXGOGuukCLq3RznqfSZktA39fq/5wtRRu22uxweg==
-X-Received: by 2002:aa7:98de:0:b0:5df:3aa1:10c5 with SMTP id
- e30-20020aa798de000000b005df3aa110c5mr10509137pfm.14.1678136379135; 
- Mon, 06 Mar 2023 12:59:39 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:7632:29c7:3cce:bec3?
- ([2602:ae:154a:9f01:7632:29c7:3cce:bec3])
- by smtp.gmail.com with ESMTPSA id
- i2-20020aa787c2000000b005b34d81b010sm6867808pfo.91.2023.03.06.12.59.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 12:59:38 -0800 (PST)
-Message-ID: <8e162045-a39a-9e9e-ff49-e4fb08e20c6d@linaro.org>
-Date: Mon, 6 Mar 2023 12:59:36 -0800
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pZHxN-0001kb-DL
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:01:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pZHxK-00032h-32
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 16:01:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678136469;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kPYBE/F6bekEqc0cSEsdGjcBYe3qKfSfbLdt6PWZI/s=;
+ b=HxRkY8RtPXfJDQDMm6ynGURQbMk/5gKe1IaWe7a7uI0lKLKvMdEgKhyEI/U97BBw1YRvUN
+ KER9oG3WoD8PHvzXGMYbmBgOhADkXo2tWca6n84aSvciMJnrEBEhltsIz5/8jx2DD+skMV
+ SQl4Ic5MfU+PZdT7R0OxwpywwnqaAF0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-xTSztFXwNr2l7veolSIa3Q-1; Mon, 06 Mar 2023 16:01:06 -0500
+X-MC-Unique: xTSztFXwNr2l7veolSIa3Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D620E3814588;
+ Mon,  6 Mar 2023 21:01:05 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4009CC16029;
+ Mon,  6 Mar 2023 21:01:04 +0000 (UTC)
+Date: Mon, 6 Mar 2023 16:01:03 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/3] block: make BlockBackend->quiesce_counter atomic
+Message-ID: <20230306210103.GD78491@fedora>
+References: <20230227205704.1910562-1-stefanha@redhat.com>
+ <20230227205704.1910562-2-stefanha@redhat.com>
+ <aae7c810-dcfb-d4b0-7da9-20c96f7f5a75@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v1 1/2] target/s390x: Fix emulation of C(G)HRL
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>, Ilya Leoshkevich
- <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <20230306205554.2070579-1-nsg@linux.ibm.com>
- <20230306205554.2070579-2-nsg@linux.ibm.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230306205554.2070579-2-nsg@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sogQrIhmF8g9Qvoz"
+Content-Disposition: inline
+In-Reply-To: <aae7c810-dcfb-d4b0-7da9-20c96f7f5a75@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,51 +82,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/6/23 12:55, Nina Schoetterl-Glausch wrote:
-> The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
-> halfword, it does not have the same size as the first operand.
-> 
-> Fixes: a7e836d5eb ("target-s390: Convert COMPARE, COMPARE LOGICAL")
-> Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-> ---
->   target/s390x/tcg/insn-data.h.inc | 4 ++--
->   target/s390x/tcg/translate.c     | 7 +++++++
->   2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
-> index 9d2d35f084..6fe8ca5143 100644
-> --- a/target/s390x/tcg/insn-data.h.inc
-> +++ b/target/s390x/tcg/insn-data.h.inc
-> @@ -199,8 +199,8 @@
->       C(0xe55c, CHSI,    SIL,   GIE, m1_32s, i2, 0, 0, 0, cmps64)
->       C(0xe558, CGHSI,   SIL,   GIE, m1_64, i2, 0, 0, 0, cmps64)
->   /* COMPARE HALFWORD RELATIVE LONG */
-> -    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_32s, 0, 0, 0, cmps32)
-> -    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_64, 0, 0, 0, cmps64)
-> +    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps32)
-> +    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps64)
->   /* COMPARE HIGH */
->       C(0xb9cd, CHHR,    RRE,   HW,  r1_sr32, r2_sr32, 0, 0, 0, cmps32)
->       C(0xb9dd, CHLR,    RRE,   HW,  r1_sr32, r2_o, 0, 0, 0, cmps32)
-> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-> index 811049ea28..60b1254bb2 100644
-> --- a/target/s390x/tcg/translate.c
-> +++ b/target/s390x/tcg/translate.c
-> @@ -5974,6 +5974,13 @@ static void in2_m2_64a(DisasContext *s, DisasOps *o)
->   #define SPEC_in2_m2_64a 0
->   #endif
->   
-> +static void in2_mri2_16s(DisasContext *s, DisasOps *o)
-> +{
-> +    in2_ri2(s, o);
-> +    tcg_gen_qemu_ld16s(o->in2, o->in2, get_mem_index(s));
-> +}
-> +#define SPEC_in2_mri2_16s 0
 
-This is incorrect.  See
+--sogQrIhmF8g9Qvoz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://patchew.org/QEMU/20230227054233.390271-1-richard.henderson@linaro.org/20230227054233.390271-51-richard.henderson@linaro.org/
+On Fri, Mar 03, 2023 at 04:29:54PM +0100, Hanna Czenczek wrote:
+> On 27.02.23 21:57, Stefan Hajnoczi wrote:
+> > The main loop thread increments/decrements BlockBackend->quiesce_counter
+> > when drained sections begin/end. The counter is read in the I/O code
+> > path. Therefore this field is used to communicate between threads
+> > without a lock.
+> >=20
+> > Use qatomic_set()/qatomic_read() to make it clear that this field is
+> > accessed by multiple threads.
+> >=20
+> > Acquire/release are not necessary because the BlockBackend->in_flight
+> > counter already uses sequentially consistent accesses and running I/O
+> > requests hold that counter when blk_wait_while_drained() is called.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >   block/block-backend.c | 18 +++++++++++-------
+> >   1 file changed, 11 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/block/block-backend.c b/block/block-backend.c
+> > index 278b04ce69..f00bf2ab35 100644
+> > --- a/block/block-backend.c
+> > +++ b/block/block-backend.c
+>=20
+> [...]
+>=20
+> > @@ -2568,7 +2568,9 @@ static void blk_root_drained_begin(BdrvChild *chi=
+ld)
+> >       BlockBackend *blk =3D child->opaque;
+> >       ThrottleGroupMember *tgm =3D &blk->public.throttle_group_member;
+> > -    if (++blk->quiesce_counter =3D=3D 1) {
+> > +    int new_counter =3D qatomic_read(&blk->quiesce_counter) + 1;
+> > +    qatomic_set(&blk->quiesce_counter, new_counter);
+> > +    if (new_counter =3D=3D 1) {
+> >           if (blk->dev_ops && blk->dev_ops->drained_begin) {
+> >               blk->dev_ops->drained_begin(blk->dev_opaque);
+> >           }
+>=20
+> [...]
+>=20
+> > @@ -2597,12 +2599,14 @@ static bool blk_root_drained_poll(BdrvChild *ch=
+ild)
+>=20
+> [...]
+>=20
+> >       assert(blk->public.throttle_group_member.io_limits_disabled);
+> >       qatomic_dec(&blk->public.throttle_group_member.io_limits_disabled=
+);
+> > -    if (--blk->quiesce_counter =3D=3D 0) {
+> > +    int new_counter =3D qatomic_read(&blk->quiesce_counter) - 1;
+> > +    qatomic_set(&blk->quiesce_counter, new_counter);
+>=20
+> I don=E2=80=99t quite understand why you decided not to use simple atomic
+> increments/decrements with just SeqCst in these places.=C2=A0 Maybe it is=
+ fine
+> this way, but it isn=E2=80=99t trivial to see.=C2=A0 As far as I understa=
+nd, these aren=E2=80=99t
+> hot paths, so I don=E2=80=99t think we=E2=80=99d lose performance by usin=
+g fully atomic
+> operations here.
 
+Good idea. It would be much easier to read.
 
-r~
+Stefan
+
+--sogQrIhmF8g9Qvoz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQGVI8ACgkQnKSrs4Gr
+c8grqAf9HBOJ38MRsU7VFkvCbOEhJJjEe50BYxf+JYJbkf2MKWxAsKNbRcAeE8wt
+bnTh3lHJl3/Z5Kfh26e42xosZOffiL+2jYZC0dg1pDO32vIcE5ETvPpZasxBfwcA
+7a8juPDdTGwXbeUHG6k7vqTkwCZ/cEK7VMXWawHhWa2tlHiQIX9fn2rN+19SNXZr
+yi8rpLbn7ITU7Jut9SntdoiLGa4fdpJ9ycd+yXuRtZfwsHksiE0Fo2KycZu9wtZh
+HRdpnGwPRw+hv9IXe1b0P1x4ElnHdd/YT6OgwEiPIObnz5MBW1GteMOBFAL2Apx8
+g9Cn/7jrzvaAHKbbSOFQd09gp33cyA==
+=isyc
+-----END PGP SIGNATURE-----
+
+--sogQrIhmF8g9Qvoz--
+
 
