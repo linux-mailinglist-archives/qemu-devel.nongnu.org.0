@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ABF6ACB6A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:54:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3C36ACB5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:53:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1R-0005lH-Sr; Mon, 06 Mar 2023 12:53:17 -0500
+	id 1pZF13-0004zv-Ml; Mon, 06 Mar 2023 12:52:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1D-0005BA-Dl
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:04 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF10-0004vr-Mv
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:52:50 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF17-0002rB-OF
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:03 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF0x-0002rS-PH
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:52:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ru5ZETDw6K9ESdWyPr/KMQQb8K4b+eo19w4JN34bfGw=; b=cIB+R5IVjohwduGIx+Oga/Banh
- +uiOUmvCA/jxc58sT8S48h3BZJcbIi+9dQimHmA+ebEgUFYUji7g5oPuHkGvNhhI1PUMCezbs2FmV
- klFut9+GPOuRU76/eVpl+diStAgL/D69BMaQtG1ArmrlKhFSzw8iSwa2a97kydzWttac=;
+ bh=gnt/pmfVQz9gBUgLfo7IQuAZGGT6uI45yOO23aJ/SlY=; b=fOw6Ad2BWP73DDWn6DWtoshX+w
+ L7RYbjhgDsXIHn2vftIdhHZ0DQ/udNe4yGzU5A1HGxn4FOcRZr+fxtWB3GTnBOCmL1iEDqTWQWYL7
+ a20C/IiBxpfC1VuRbjerl2qQ1ka8qkJ1yMyFYUHZeN3ySnNyhbcu1/+9wvxUkzpYypwY=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH 10/23] target/m68k: Remove `NB_MMU_MODES` define
-Date: Mon,  6 Mar 2023 18:52:17 +0100
-Message-Id: <20230306175230.7110-11-anjo@rev.ng>
+Subject: [PATCH 11/23] target/microblaze: Remove `NB_MMU_MODES` define
+Date: Mon,  6 Mar 2023 18:52:18 +0100
+Message-Id: <20230306175230.7110-12-anjo@rev.ng>
 In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 References: <20230306175230.7110-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,20 +66,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/m68k/cpu-param.h | 1 -
- 1 file changed, 1 deletion(-)
+ target/microblaze/cpu-param.h | 1 -
+ target/microblaze/cpu.h       | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/m68k/cpu-param.h b/target/m68k/cpu-param.h
-index 44a8d193f0..39dcbcece8 100644
---- a/target/m68k/cpu-param.h
-+++ b/target/m68k/cpu-param.h
-@@ -17,6 +17,5 @@
+diff --git a/target/microblaze/cpu-param.h b/target/microblaze/cpu-param.h
+index 5e54ea0108..9770b0eb52 100644
+--- a/target/microblaze/cpu-param.h
++++ b/target/microblaze/cpu-param.h
+@@ -28,6 +28,5 @@
+ 
+ /* FIXME: MB uses variable pages down to 1K but linux only uses 4k.  */
  #define TARGET_PAGE_BITS 12
- #define TARGET_PHYS_ADDR_SPACE_BITS 32
- #define TARGET_VIRT_ADDR_SPACE_BITS 32
--#define NB_MMU_MODES 2
+-#define NB_MMU_MODES 3
  
  #endif
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index f66df02226..88324d0bc1 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -394,7 +394,7 @@ void mb_tcg_init(void);
+ #define MMU_NOMMU_IDX   0
+ #define MMU_KERNEL_IDX  1
+ #define MMU_USER_IDX    2
+-/* See NB_MMU_MODES further up the file.  */
++/* See NB_MMU_MODES in cpu-defs.h. */
+ 
+ #include "exec/cpu-all.h"
+ 
 -- 
 2.39.1
 
