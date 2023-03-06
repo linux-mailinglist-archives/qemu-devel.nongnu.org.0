@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21CD6AB40A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4D76AB41D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:54:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYyyU-0004hC-NS; Sun, 05 Mar 2023 19:45:10 -0500
+	id 1pYyyZ-0004ul-4r; Sun, 05 Mar 2023 19:45:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYyxn-000365-LR
+ id 1pYyxn-000370-Og
  for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:44:28 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pYyxk-0007NB-Uj
+ id 1pYyxl-0007LA-DA
  for qemu-devel@nongnu.org; Sun, 05 Mar 2023 19:44:27 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id l1so8172331pjt.2
+Received: by mail-pf1-x42a.google.com with SMTP id ay18so4730236pfb.2
  for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 16:44:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678063463;
+ d=linaro.org; s=google; t=1678063464;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vDlCQf31Dj36OEy3Cca/pO3Iy86ZejFTu+whXqMUGRY=;
- b=rewc1ra1+C8sHHZScuEgVjCaFs8OnqiKvqGkodWfEkHmwTga5f5yBAIv+HNJUQBULi
- cmKqf0xdO787PFMV+ZrhXGIx2ody2GJEiUsi3c61qAbu3umWhcFebnhT1LUgjmPVGX6W
- xV1elTSPxVRtFZgJU/lnjxhjRe18cvABh0PGErAcfCeWaiHEk/AKmP7h1WwIGc7W8ylF
- MwT9pywfpB5HiRv0jKG8YoKHfyu/ifc0pYvPxBYjnfZICe9Tm/E9/lojV5qpetNoAJPF
- 5EN1IU0sNJ28PHtkZ8XccJ1ErvlEFkuCjhiuj6UVYItgyvT5+fL1tAHgs0CBav8Vdaip
- l2UA==
+ bh=we4F9PkfB77P75KJaS8X1iUxCu8Fq4F1ACBDQfQuXBI=;
+ b=n4MhOMKGJdZAaoZ/menHRlf6G2EYg4iUzWQLucBkvzHH+fcKDB6MLsmL3pTOcpJjMB
+ GVvmIH6GhsPZy2w4alFXY394kJberJzw3UDs5CmxFnQiGGbK76Lw/pRLgvnQpMh6wSDi
+ 9xfikuZmyCntfxs1+iUJMIZlXeNP4HCaR/Sv6ucWGwL/84GquWS+4O2dKMXOFepTmbs3
+ YRBv26IvCfOnmlIYnb5+fR8H44BxAnhSfqYcVwhf7ZXh4Cvy3u8bKYf/WAVtPygAbqD0
+ F0km6La0LSbBM8bjdOZdGcw69Vf3T5XVFvacxgydflLvAsl8VzJKzIdkRC0aSMJbXfYR
+ xmCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678063463;
+ d=1e100.net; s=20210112; t=1678063464;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vDlCQf31Dj36OEy3Cca/pO3Iy86ZejFTu+whXqMUGRY=;
- b=Ja252khoINBin1THPTc8afPJeuTo27bIP2+7CWStIX7hX5Ee4OD7K3WdnyXNQft9e7
- k1DKrSxw9CWtd3XEYNQDpIZsQSGtLZRERt01ZQGFO7NgiMwbsOLz3vXRoct1H4UYV3VW
- Jj82lKyyLynpGDnKqHGObSfq3Rw55tofLk5bEr8zwF2VZe+tE/2zgVpoVi88TIXGN1SW
- xVCVQKZoBtSLWeQ/fep/skGW4t9XAX5lOqTeGU6nmH6dQN4sESxYB1Yltl0uLney4xsw
- pbFhAZbWNCpLDUvGR488hWHwhWH8vl2fAk+5eAe8KZirApFXoz/fV4Y+6VxexVSj/ktn
- STSA==
-X-Gm-Message-State: AO0yUKUc/eFTaiTgLMJDFEvqDmJE5DDP1/k1wM4AFmeMN9dMYusMxL/O
- yRaHkF0huTDbbt+ly1MSLP5a6sl/8zjfUIaV+oHdPA==
-X-Google-Smtp-Source: AK7set+oE0Jj89nVt58SlzpYwvqbQf0wBa3yTGpX5SNfWYnNMe79RbTJbTxjNz8ATLLeK6LmxjGOZQ==
-X-Received: by 2002:a05:6a20:4904:b0:cc:f057:d3e2 with SMTP id
- ft4-20020a056a20490400b000ccf057d3e2mr8966512pzb.9.1678063463594; 
- Sun, 05 Mar 2023 16:44:23 -0800 (PST)
+ bh=we4F9PkfB77P75KJaS8X1iUxCu8Fq4F1ACBDQfQuXBI=;
+ b=O+Qpf/vkPqCRcnfQMsudii/JwiXqd0aRVvqlqvgDvss+61YEd3QG+Mo7mnUmmDpSjx
+ ghssbG562CX+LaSCSE+0g6GQGHabVZ/G1UjnCOrXnyamwFXu7Qp2fQj46vui2P5h3iQt
+ DrpO1ZsuxZGPVoX0ZhNnbmCOggrOZLex1tbte86s/vRmm8KcjQIrqtKrBltt6vCeOy+r
+ aPRCE7CLEXk0g0n4mKCwfO4iSHiga6neFpESKhUq0QejKAxBok24Yth68ZDkvldZNfyb
+ NJbdpw5Qr2Un9QhIErjpBtM9KZd5+wrY5qNpDddFfYdWfeXGJB0t0NVWOhiebDwbsJxB
+ SF5Q==
+X-Gm-Message-State: AO0yUKUQrrHNUfS6RaICFUQItycZU4bMVL06oTE//uW3+7O9+YJKAcnQ
+ kBdhhmHMheu9ls3RyuyyiMxUyh7NrWiK892UmrHHyA==
+X-Google-Smtp-Source: AK7set/jhJbA1YZ1n+qsYPxY7PsGsPAvXBhJZLhR6JbQbQGYjWabAUWWHQi6/FtasfsIFSTwxRXWAg==
+X-Received: by 2002:aa7:9ed1:0:b0:5e0:316a:1fef with SMTP id
+ r17-20020aa79ed1000000b005e0316a1fefmr6961187pfq.15.1678063464444; 
+ Sun, 05 Mar 2023 16:44:24 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
- x52-20020a056a000bf400b005895f9657ebsm5045726pfu.70.2023.03.05.16.44.22
+ x52-20020a056a000bf400b005895f9657ebsm5045726pfu.70.2023.03.05.16.44.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 16:44:23 -0800 (PST)
+ Sun, 05 Mar 2023 16:44:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 76/84] target/riscv: Avoid tcg_const_*
-Date: Sun,  5 Mar 2023 16:39:46 -0800
-Message-Id: <20230306003954.1866998-77-richard.henderson@linaro.org>
+Subject: [PULL 77/84] target/s390x: Split out gen_ri2
+Date: Sun,  5 Mar 2023 16:39:47 -0800
+Message-Id: <20230306003954.1866998-78-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306003954.1866998-1-richard.henderson@linaro.org>
 References: <20230306003954.1866998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,59 +92,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All uses are strictly read-only.
+Use tcg_constant_i64.  Adjust in2_mri2_* to allocate a new
+temporary for the output, using gen_ri2 for the address.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c                  | 4 ++--
- target/riscv/insn_trans/trans_rvv.c.inc   | 4 ++--
- target/riscv/insn_trans/trans_rvzfh.c.inc | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ target/s390x/tcg/translate.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0485abbf7a..93909207d2 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -201,8 +201,8 @@ static void gen_nanbox_h(TCGv_i64 out, TCGv_i64 in)
-  */
- static void gen_check_nanbox_h(TCGv_i64 out, TCGv_i64 in)
- {
--    TCGv_i64 t_max = tcg_const_i64(0xffffffffffff0000ull);
--    TCGv_i64 t_nan = tcg_const_i64(0xffffffffffff7e00ull);
-+    TCGv_i64 t_max = tcg_constant_i64(0xffffffffffff0000ull);
-+    TCGv_i64 t_nan = tcg_constant_i64(0xffffffffffff7e00ull);
- 
-     tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 811049ea28..21a57d5eb2 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -5886,9 +5886,14 @@ static void in2_a2(DisasContext *s, DisasOps *o)
  }
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index fa3f16eddd..f2e3d38515 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -209,8 +209,8 @@ static bool trans_vsetvli(DisasContext *s, arg_vsetvli *a)
+ #define SPEC_in2_a2 0
  
- static bool trans_vsetivli(DisasContext *s, arg_vsetivli *a)
++static TCGv gen_ri2(DisasContext *s)
++{
++    return tcg_constant_i64(s->base.pc_next + (int64_t)get_field(s, i2) * 2);
++}
++
+ static void in2_ri2(DisasContext *s, DisasOps *o)
  {
--    TCGv s1 = tcg_const_tl(a->rs1);
--    TCGv s2 = tcg_const_tl(a->zimm);
-+    TCGv s1 = tcg_constant_tl(a->rs1);
-+    TCGv s2 = tcg_constant_tl(a->zimm);
-     return do_vsetivli(s, a->rd, s1, s2);
+-    o->in2 = tcg_const_i64(s->base.pc_next + (int64_t)get_field(s, i2) * 2);
++    o->in2 = gen_ri2(s);
  }
+ #define SPEC_in2_ri2 0
  
-diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-index d2012c2841..74dde37ff7 100644
---- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -299,7 +299,7 @@ static bool trans_fsgnjn_h(DisasContext *ctx, arg_fsgnjn_h *a)
-          * Replace bit 15 in rs1 with inverse in rs2.
-          * This formulation retains the nanboxing of rs1.
-          */
--        mask = tcg_const_i64(~MAKE_64BIT_MASK(15, 1));
-+        mask = tcg_constant_i64(~MAKE_64BIT_MASK(15, 1));
-         tcg_gen_not_i64(rs2, rs2);
-         tcg_gen_andc_i64(rs2, rs2, mask);
-         tcg_gen_and_i64(dest, mask, rs1);
+@@ -5976,29 +5981,29 @@ static void in2_m2_64a(DisasContext *s, DisasOps *o)
+ 
+ static void in2_mri2_16u(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, o);
+-    tcg_gen_qemu_ld16u(o->in2, o->in2, get_mem_index(s));
++    o->in2 = tcg_temp_new_i64();
++    tcg_gen_qemu_ld16u(o->in2, gen_ri2(s), get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_16u 0
+ 
+ static void in2_mri2_32s(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, o);
+-    tcg_gen_qemu_ld32s(o->in2, o->in2, get_mem_index(s));
++    o->in2 = tcg_temp_new_i64();
++    tcg_gen_qemu_ld32s(o->in2, gen_ri2(s), get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_32s 0
+ 
+ static void in2_mri2_32u(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, o);
+-    tcg_gen_qemu_ld32u(o->in2, o->in2, get_mem_index(s));
++    o->in2 = tcg_temp_new_i64();
++    tcg_gen_qemu_ld32u(o->in2, gen_ri2(s), get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_32u 0
+ 
+ static void in2_mri2_64(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, o);
+-    tcg_gen_qemu_ld64(o->in2, o->in2, get_mem_index(s));
++    o->in2 = tcg_temp_new_i64();
++    tcg_gen_qemu_ld64(o->in2, gen_ri2(s), get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_64 0
+ 
 -- 
 2.34.1
 
