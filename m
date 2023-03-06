@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338B96AD2F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 00:43:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BF56AD305
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 00:51:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZKTw-0006bU-5l; Mon, 06 Mar 2023 18:43:04 -0500
+	id 1pZKaB-0008V4-NO; Mon, 06 Mar 2023 18:49:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZKTu-0006Zf-3l; Mon, 06 Mar 2023 18:43:02 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZKTs-0007Yd-7H; Mon, 06 Mar 2023 18:43:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VPiFLdgoU9LDSytgqBYKnZH6X4DxLbwYYUV1tWbzhaA=; b=hkcdTBkv0d1p3u2EDuxUliAdsB
- Ij4YoLoa4jgrl+BNrqcW7HCDhJmlk7C/SRjmGsDzRYhdLrxzgW6TvmeAdgT3Hf1YOMEWePpQafinl
- 21vfv739g5JstDEZztITXo8xy7noiKEm2F22R0lEfeTI3uXMO1QNfUMuUIPeon+Wm1pW+D6TYEo+f
- e6X0OQqm5KK+7zc+FsEI3WedwRrlwFfQe6LjkJ2Ef2suLc++ktWN90nqWoIuw1FA892UJl+oW5kdW
- wbWt5xrV6XsOpV7CXKDWtr/PAWLLuSd4dOgaqYNjO55puUzRo472e/NSHzzDPpuPYj1C+RpCHNtnC
- 8T468GR9RFGWT/naYdvbNUIUOcBMLYjQoJxl2AThW/WU6nL+OiytCxqXPB/rd6lFn0ZeolS89lOB0
- NxFmD1vlpM+t9HqbyW8zyux8KaaV8ePk/bU4zv5f1EZ2V1ydqrIJVeF/UIS54wJYQTzrvUqnfqYZO
- 128La00Umqh2IwIFt/s3jNiRIDafmTxuAac4YFbMMvOSvKIDs6NSoxCN6XVW+2qbqEYnCod7ie835
- KpBePPvVxy4orUJOaE3+djDWpDaS9nIf0DuiTtf0Weo84xDDA8Ag5AW2fYWNlzU3siz7jtGIAjRp1
- 31vpbWLbUMqQ7A4l0kSlWNi8pBzH6M0L3AyiNIfxI=;
-Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZKT8-0000sK-T6; Mon, 06 Mar 2023 23:42:19 +0000
-Message-ID: <0ca8d3d3-2e42-a8c0-ed59-bc543e4149bd@ilande.co.uk>
-Date: Mon, 6 Mar 2023 23:42:50 +0000
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZKa9-0008Ty-F0
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:49:29 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZKa7-0008Qx-V8
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:49:29 -0500
+Received: by mail-wm1-x334.google.com with SMTP id j3so6774649wms.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 15:49:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678146566;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bThY2eI5Ds5muPeAlltRAb1kZcFCFT3Ulo1RmRXTQWE=;
+ b=bn3ZY8abyq0sk5r4wQEr+W1aa3KEgSS/GTvBKzl0txVHtI/1V1tBm+RSQdnDVBdYNR
+ sRB6cj7E2HYk4iJ3B5eyt/18ryMK/FbCiDsDZh9LIG5Cz3tE9b/4NZ8VeZCt5RQK5X22
+ 7vMKV7b4GBE8ByNk7YAuOyJrX/5FOUIplJUawty4gc4hmiIg3a9+rospsteWLOR+3Vee
+ zjaapfP2Pq3Y+3yGSFqYjihNl9C9vbOnD/xnJOJR90YzOAB3if6REgA/M3fCbjZ6Mgpt
+ WW2L7tja/USBaDBXVsgTvdaGKDvIIBWFNWQFDG2QuBlh18az2c0Z0sGOOYPYaHIlykge
+ d3KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678146566;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bThY2eI5Ds5muPeAlltRAb1kZcFCFT3Ulo1RmRXTQWE=;
+ b=n5F1tKYomPzxJ/jQAXnK87sB2imy0/myIb1ais3TKAnSu9ObtV7fijWt3KjxdQdtx/
+ 0BpNk3OnNVvUCaSLMJ/LdtSNxuHjBX4QHo/I+qRhVnayeSxlvk9Bwa5jwIO3Ya8ilLlT
+ mZy0NUUhLtrbJfygE4HPSjaxJoAxpG1cLmOgqMxr5EABzIukED+zSMqLM7v/QlpWM/RR
+ dfz1k8iMA9VwvmHAOgBePXFQ2wYSjIyLNJ0krkXt/PEyPXtUebvGD7fwNCfE+2ZESeU0
+ oKE6uJ1qO+504L2wlp6cdddHlaasZeZZ2Qv1ralku1i1+KecLpQY32nq7lbZAIPYcHYc
+ JYgA==
+X-Gm-Message-State: AO0yUKUdczXJKuhc7JG+qqugQFG2BYni34HBDAS+MFopCPDIOZfkMnvH
+ OGTLZhrL1kbldAjsCdQNNK+TqQ==
+X-Google-Smtp-Source: AK7set9gNFvs/N7ZO9QtD161x4zzg6TMcg8RJFB3O4Sa+Okqg/TqGEVjGevKF71OhfDfXuNGmU8P9A==
+X-Received: by 2002:a05:600c:19d2:b0:3eb:37ce:4c38 with SMTP id
+ u18-20020a05600c19d200b003eb37ce4c38mr11102440wmq.3.1678146566306; 
+ Mon, 06 Mar 2023 15:49:26 -0800 (PST)
+Received: from [192.168.1.115] (138.red-88-29-178.dynamicip.rima-tde.net.
+ [88.29.178.138]) by smtp.gmail.com with ESMTPSA id
+ m7-20020a7bcb87000000b003dc4a47605fsm15212311wmi.8.2023.03.06.15.49.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 15:49:25 -0800 (PST)
+Message-ID: <2ba8d293-9f86-9ed6-f8b9-e8c930f13e8a@linaro.org>
+Date: Tue, 7 Mar 2023 00:49:21 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 13/70] target/avr: Avoid use of tcg_const_i32 throughout
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de
-References: <cover.1678105081.git.balaton@eik.bme.hu>
- <23370610213adb60877c3751f954b203fe2fa775.1678105081.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <23370610213adb60877c3751f954b203fe2fa775.1678105081.git.balaton@eik.bme.hu>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
+ ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
+ tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+References: <20230227054233.390271-1-richard.henderson@linaro.org>
+ <20230227054233.390271-14-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230227054233.390271-14-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v8 3/6] hw/isa/vt82c686: Implement PCI IRQ routing
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,111 +95,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/03/2023 12:33, BALATON Zoltan wrote:
-
-> The real VIA south bridges implement a PCI IRQ router which is configured
-> by the BIOS or the OS. In order to respect these configurations, QEMU
-> needs to implement it as well. The real chip may allow routing IRQs from
-> internal functions independently of PCI interrupts but since guests
-> usually configute it to a single shared interrupt we don't model that
-> here for simplicity.
+On 27/2/23 06:41, Richard Henderson wrote:
+> All remaining uses are strictly read-only.
 > 
-> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
-> 
-> Suggested-by: Bernhard Beschow <shentey@gmail.com>
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/isa/vt82c686.c | 42 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 42 insertions(+)
-> 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 8900d87f59..3383ab7e2d 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -600,6 +600,46 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
->       qemu_set_irq(s->isa_irqs_in[n], level);
->   }
->   
-> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
-> +{
-> +    switch (irq_num) {
-> +    case 0:
-> +        return s->dev.config[0x55] >> 4;
-> +    case 1:
-> +        return s->dev.config[0x56] & 0xf;
-> +    case 2:
-> +        return s->dev.config[0x56] >> 4;
-> +    case 3:
-> +        return s->dev.config[0x57] >> 4;
-> +    }
-> +    return 0;
-> +}
-> +
-> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
-> +{
-> +    ViaISAState *s = opaque;
-> +    PCIBus *bus = pci_get_bus(&s->dev);
-> +    int i, pic_level, pic_irq = via_isa_get_pci_irq(s, irq_num);
-> +
-> +    /* IRQ 0: disabled, IRQ 2,8,13: reserved */
-> +    if (!pic_irq) {
-> +        return;
-> +    }
-> +    if (unlikely(pic_irq == 2 || pic_irq == 8 || pic_irq == 13)) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid ISA IRQ routing");
-> +    }
-> +
-> +    /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-> +    pic_level = 0;
-> +    for (i = 0; i < PCI_NUM_PINS; i++) {
-> +        if (pic_irq == via_isa_get_pci_irq(s, i)) {
-> +            pic_level |= pci_bus_get_irq_level(bus, i);
-> +        }
-> +    }
-> +    /* Now we change the pic irq level according to the via irq mappings. */
-> +    qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
-> +}
-> +
->   static void via_isa_realize(PCIDevice *d, Error **errp)
->   {
->       ViaISAState *s = VIA_ISA(d);
-> @@ -620,6 +660,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->       i8254_pit_init(isa_bus, 0x40, 0, NULL);
->       i8257_dma_init(isa_bus, 0);
->   
-> +    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", PCI_NUM_PINS);
-> +
->       /* RTC */
->       qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
->       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>   target/avr/translate.c | 30 +++++++++++++++---------------
+>   1 file changed, 15 insertions(+), 15 deletions(-)
 
-Writing my previous response where I asked about the additional PCI interrupt 
-connections to the MV64361, I realised that if you forget about the Northbridge 
-component for a moment then things start to make a bit more sense.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-At the moment we have 3 different scenarios:
-
-    1) ISA IRQ -> 8259 for all ISA devices
-
-    2) ISA IRQ -> 8259 *OR*
-       PCI IRQ -> PCI IRQ router -> 8259 for the PCI-IDE device
-
-    3) PCI IRQ -> PCI IRQ router -> 8259 for PCI devices
-
-When you look at it this way it is easy to see for case 3 that the PCI IRQ routing 
-mechanism is handled by *_set_irq() and *_map_irq() callbacks. And so with that in 
-mind, re-reading the VIA datasheet I came up with the following PoC for discussion: 
-https://github.com/mcayland/qemu/commits/via-poc.
-
-It needs a bit of work, but at first glance it ticks all the boxes in that the PCI 
-bus IRQs are all internal to the VIA southbridge (no global via_isa_set_irq() 
-function and no overriding of PCI bus IRQs), there are separate legacy and PCI IRQs 
-for the via-ide device, and the PCI IRQ routing bears at least a passing resemblance 
-to the datasheet.
-
-
-ATB,
-
-Mark.
 
