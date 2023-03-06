@@ -2,84 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C126AC49D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD6B6AC4A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:18:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCZA-0000Fv-Ty; Mon, 06 Mar 2023 10:15:56 -0500
+	id 1pZCaw-0002Nu-Cx; Mon, 06 Mar 2023 10:17:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCZ8-0000Bu-RB
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:15:54 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCZ6-0006Y3-4H
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:15:54 -0500
-Received: by mail-wr1-x436.google.com with SMTP id bw19so9157376wrb.13
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678115750;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yRQl9IavSP2ECC7Npy1kkvDd7fq8yF3XjhXOCTQ7O94=;
- b=YquRDKbKEtYWh2bDDkqMNyQreLSxV4TO/zSf+aL6uxzZPmB/VPMKvw23JlSZ7TKT2t
- Xfv/wAgD3jbXBNqUpiVkNHoccaGMi7v7QFK8m/jR9yySZG7Y3kCZopRJdrvQtfjr3K/Q
- Y9pvgboZPkj44EY6xbwzsSIft1ThrNplVhqg/El6vN0yY0GmKB3Xaneb6s2b7LiBDedM
- u3XRqtbjMNbYdmMt5V0+pzAisjju9HKET16dnBWmUIL7ZE+VxuRZfRYodQ9EPvlROzFX
- 9ytFi2q0/AxIJwOAT5ljYLwvDFtm21FYSJfwD9KyCI3gpuwnnxEWnRi0fA1NyGChwUDB
- dsuA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZCat-0002FF-Er
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:17:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZCar-0006u0-DN
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:17:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678115860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+xC3BPfy/X5CcjNFKPFn3eUtCx3zupeD+xmlNl152Bs=;
+ b=Yhk5mi8s5wlHYMvoFaAwlovMEikQ8b9JfHmu9ja8T6CK9cOOLl4AdE6c7buA40Cz+iSbBv
+ WlalnXcjMaxJXhVhNOYhpqcxDZwBMbOeIwwo+pXa3sovZUioeEeyIdu2xYkntFY2nczNco
+ zJMbZg94bt773IFzQQFiiABNf3jmYqw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-310-QxTOu3qQPV6dZEjXAnNNvg-1; Mon, 06 Mar 2023 10:17:37 -0500
+X-MC-Unique: QxTOu3qQPV6dZEjXAnNNvg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e22-20020a05600c219600b003e000facbb1so6866798wme.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:17:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678115750;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yRQl9IavSP2ECC7Npy1kkvDd7fq8yF3XjhXOCTQ7O94=;
- b=mAi26NNrv+nuEXkRfBlRdqk0czcrYKA2PT8Hx0fu913GXSosEudGJikHFosBINH08V
- pBo91MXUcTsSqaNykoR/kN+6MzowgPBD0g5svBV34m3BwK7qRv5w3PnLg+d8/fzaJJJI
- pznXqusZUtVuD+vFufbyMm7j2IkYgWyOdj/VPJtPO33yXPgzdYxVTrQGRQWCJk0BJViJ
- clNvZTnMm7iQboe81KyudhrtPCWramY8YFQZxPDG9Es3fDgBNjB9+o4HF7ieFgsG+qEm
- qz+yNc/j0MnNHtXljo8CekzqfjpMWlH9bLI7zx39ce4ml+5fqIa6LAhbasvvtVlQgx6I
- QsdQ==
-X-Gm-Message-State: AO0yUKUEB2JydQXRLLb2QalVtDkSjuR9Xr8DuWClsCaTiuFAlVz2xUJP
- SvMwTdcnLsApNt9sx31K/fyxdQ==
-X-Google-Smtp-Source: AK7set+37np1BJ1mhdQXd/QD/bscRr/zPqmnUVof8TjkCv+PNp1z7+lduk7lnkA9tutnLDPccK/Osg==
-X-Received: by 2002:adf:f20d:0:b0:2c7:e60:a41d with SMTP id
- p13-20020adff20d000000b002c70e60a41dmr7235515wro.61.1678115750559; 
- Mon, 06 Mar 2023 07:15:50 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n1-20020adffe01000000b002c4084d3472sm10349148wrr.58.2023.03.06.07.15.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 07:15:50 -0800 (PST)
-Message-ID: <c5541883-df72-90ac-88d3-ecc01c78058d@linaro.org>
-Date: Mon, 6 Mar 2023 16:15:47 +0100
+ d=1e100.net; s=20210112; t=1678115856;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+xC3BPfy/X5CcjNFKPFn3eUtCx3zupeD+xmlNl152Bs=;
+ b=OWCaQChTN57ifvcRa9Xe5dRYMM7ah0wKTSLXWv5kNeqGANuyzwAN2zlq75yt3FETpa
+ rH0es/BH3lVdp/PpgczB4l5cck1IkySx27oI5nhMwY6ouCpLGiQIrB2vfAV/7H4yb5do
+ vc6MFAAbOklIwVquHWwsq42+qmdKmAx6Dtb8fIjYxjakySx2CywtsodpXZOqfFqeLxcF
+ t05wqXNpDdktY/leOqsfnAuWedLQqSfXlemoRjVnuwuX6d0BPucoU2Y6MeiHsq1X0jvP
+ oAvbTMgEOc/+ad/tAGhvUFFBpOjXOYWx0D13VIrfuicyeoGVByDy5TqMfx5UdLnG9lHI
+ 6HxA==
+X-Gm-Message-State: AO0yUKWHcnfC46ybFObR4RsjSzfSVR6c7ZLIaPzrk6RQGAQA1qq05QSK
+ qchSMvbzN5DSXieKUTyMb8jGSR8SkqI8oeH7taQA5pQLW3Bbi6sMJNKotwa32kNpvXJESbDHf/T
+ f/yVojU4dn9ejOHg=
+X-Received: by 2002:a05:600c:4ecf:b0:3eb:399d:ab1a with SMTP id
+ g15-20020a05600c4ecf00b003eb399dab1amr9131339wmq.21.1678115855854; 
+ Mon, 06 Mar 2023 07:17:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set+wFMgWrF3cYBlKLMWL75eNncwPHd0fnChJwYBNUWLP2mjh5RW1j/Z823X0eNFc9zTjY5DhCw==
+X-Received: by 2002:a05:600c:4ecf:b0:3eb:399d:ab1a with SMTP id
+ g15-20020a05600c4ecf00b003eb399dab1amr9131327wmq.21.1678115855583; 
+ Mon, 06 Mar 2023 07:17:35 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ l3-20020a5d4103000000b002c55521903bsm10043552wrp.51.2023.03.06.07.17.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 07:17:35 -0800 (PST)
+Date: Mon, 6 Mar 2023 15:17:32 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
+ qemu-devel@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+Message-ID: <ZAYEDBpoXp29IqBK@work-vm>
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
+ <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
+ <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
+ <CAFEAcA-U568vrLKHegfKQWu1RfUCRjdOKZQMoFXSde1yk4V3Wg@mail.gmail.com>
+ <53ca67e4-fb2f-17ac-2087-9faa7aba5187@redhat.com>
+ <ZAXuRp4p7heAbFtF@work-vm> <ZAXx5VerHrVQbSwU@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 10/70] target/arm: Avoid tcg_const_ptr in
- handle_vec_simd_sqshrn
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-11-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+In-Reply-To: <ZAXx5VerHrVQbSwU@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,16 +112,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:41, Richard Henderson wrote:
-> It is easy enough to use mov instead of or-with-zero
-> and relying on the optimizer to fold away the or.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Mon, Mar 06, 2023 at 01:44:38PM +0000, Dr. David Alan Gilbert wrote:
+> > * Thomas Huth (thuth@redhat.com) wrote:
+> > > On 03/03/2023 13.05, Peter Maydell wrote:
+> > > > On Fri, 3 Mar 2023 at 11:29, Thomas Huth <thuth@redhat.com> wrote:
+> > > > > 
+> > > > > On 03/03/2023 12.18, Peter Maydell wrote:
+> > > > > > On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
+> > > > > > > 
+> > > > > > > Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > > > > > > On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
+> > > > > > > > > migration-test has been flaky for a long time, both in CI and
+> > > > > > > > > otherwise:
+> > > > > > > > > 
+> > > > > > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+> > > > > > > > > (a FreeBSD job)
+> > > > > > > > >     32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
+> > > > > > > > > 
+> > > > > > > > > on a local macos x86 box:
+> > > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > > > What is really weird with this failure is that:
+> > > > > > > - it only happens on non-x86
+> > > > > > 
+> > > > > > No, I have seen it on x86 macos, and x86 OpenBSD
+> > > > > > 
+> > > > > > > - on code that is not arch dependent
+> > > > > > > - on cancel, what we really do there is close fd's for the multifd
+> > > > > > >     channel threads to get out of the recv, i.e. again, nothing that
+> > > > > > >     should be arch dependent.
+> > > > > > 
+> > > > > > I'm pretty sure that it tends to happen when the machine that's
+> > > > > > running the test is heavily loaded. You probably have a race condition.
+> > > > > 
+> > > > > I think I can second that. IIRC I've seen it a couple of times on my x86
+> > > > > laptop when running "make check -j$(nproc) SPEED=slow" here.
+> > > > 
+> > > > And another on-x86 failure case, just now, on the FreeBSD x86 CI job:
+> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3870165180
+> > > 
+> > > And FWIW, I just saw this while doing "make vm-build-netbsd J=4":
+> > > 
+> > > ▶  31/645 ERROR:../src/tests/qtest/migration-test.c:1841:test_migrate_auto_converge: 'got_stop' should be FALSE ERROR
+> > 
+> > That one is kind of interesting; this is an auto converge test - so it
+> > tries to setup migration so it won't finish, to check that the auto
+> > converge kicks in.  Except in this case the migration *did* finish
+> > without the autoconverge (significantly) kicking in.
+> > 
+> > So I guess any of:
+> >   a) The CPU thread never got much CPU time so not much dirtying
+> > happened.
+> >   b) The bandwidth calculations might be bad enough/course enough
+> > that it's passing the (very low) bandwidth limit due to bad
+> > approximation at bandwidth needed.
+> >   c) The autoconverge jump happens fast enough for that loop
+> > to hit the got_stop in the loop time of that loop.
+> > 
+> > I guess we could:
+> >   i) Reduce the usleep in test_migrate_auto_converge
+> >     (So it is more likely to correctly drop out of that loop
+> >     as soon as autoconverge kicks in)
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/translate-a64.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
+> The CPU time spent by the dirtying guest CPUs should dominate
+> here, so we can afford to reduce that timeout down a bit to
+> be more responsive.
+> 
+> >   ii) Reduce inc_pct so that autoconverge kicks in slower
+> >   iii) Reduce max-bandwidth in migrate_ensure_non_converge
+> >      even further.
+> 
+> migrate_ensure_non_converge is trying to guarantee non-convergance,
+> but obviously we're only achieving a probibalistic chance of
+> non-converage. To get the probably closer to 100% we should make
+> it massively smaller, say 100kbs instead of 30mbs.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Interestingly that doesn't work; I've not quite worked out why yet; I
+pushed it to 30kbps and it got stuck in the basic fd test.  My guess is
+that it's starving something so it never makes any forward progress.
 
+Dave
+
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
