@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10D26AC5C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:43:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD8B6AC5C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:44:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCzi-0007tv-Of; Mon, 06 Mar 2023 10:43:22 -0500
+	id 1pZD03-00083J-QV; Mon, 06 Mar 2023 10:43:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZCzg-0007td-Cx
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:43:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZCze-0003lF-RV
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:43:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678117398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=/sVTpxLjMbVG79ZO01fDupC01lyU0SDOavPHu/iysxY=;
- b=b2zsOio6NtSerRsgdlzC6nCrsMAkw1YoZ+GumEx+cjC+kQwhOkjT6kimHKyHF5AOTqBvi2
- meKpXMP8vP268m7bc3RLEPfqf87q8BcmycJJQAKhX3uvcQX4o/n64K1pQeUmgl0nRTrxGP
- TV1628SdDewhCyumPDQQ3ASDws5QYQ4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323-3SDrFTq5NDWcAT4o_w1XVA-1; Mon, 06 Mar 2023 10:43:14 -0500
-X-MC-Unique: 3SDrFTq5NDWcAT4o_w1XVA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 98560185A7A4;
- Mon,  6 Mar 2023 15:43:14 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A683A1121314;
- Mon,  6 Mar 2023 15:43:13 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [RFC PATCH] target/i386: Set family/model/stepping of the "max" CPU
- according to LM bit
-Date: Mon,  6 Mar 2023 16:43:11 +0100
-Message-Id: <20230306154311.476458-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZD02-00082m-L5
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:43:42 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZD00-0003nC-Bw
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:43:42 -0500
+Received: by mail-pg1-x533.google.com with SMTP id y19so5802856pgk.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:43:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678117419;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=F2rIuIzeQjQU6QZpMhrypLZXkxARjX9ri2kzsNKD58M=;
+ b=uZZ2U/DeaKY7Yasu8fbCf6bF721FUnmzxurM8v3B+omxv2iCnNno/nI7hjJAxc1KqL
+ gMsNBkqDzotoHgb95Dcfhwp0yFYOBYpnXZHIZPB9ZIKt1y3hjkF1hlvBCH/9D0pG7lZp
+ PIvbZeAasKUJXi1QRy4au7Ne5MkKUunp6725TUkCgDGhHeFWBboq7afA49zloS+FP5IA
+ 2V7LaNst0nfBVPVPQ3q01FR4PQO/clm8d0G077qCPiW5cp6O3KsAuTJPSd46Mj3qnI5K
+ B85ekyJRBgTZkVAhM30oaJjPLtkOdC8S30F/q+2TdVW+Z7vF8ATCZlpN0WxWdue1Pr7Q
+ 4gMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678117419;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F2rIuIzeQjQU6QZpMhrypLZXkxARjX9ri2kzsNKD58M=;
+ b=hA0YAwcu+GLW8mzyyAZojlooeTzsUi5TcL9v1vhZ7gwmok70VQe1HN7U9JRtQC50Qu
+ t8oB/bfFcYbvcJMaj5bwtgwEraXfNhzVGJuresW2FRsBYs2Exs00dUYSNdfmQOuW8fe7
+ ccAoh+Y5+OuTamC6Yz5ceAFCDNhfuVfm6JNdXwAqMhKoS+wyoG6lb1hI3b4tO+vGNTgH
+ yErShQR++zh58uFgRS21AUEZLNAdvUcWUQ5lX/VND1KYOJcbyUji4ARIXJ8CGu0pnOH/
+ YYuvRDAL0Xs2omJDmaI30iRyowtPTswf+P0lSLnndP36gc6gXcX4ntrnNo6nQSlXBYgF
+ NjOg==
+X-Gm-Message-State: AO0yUKXTKAs2aRI8CMW/guDnc7PE/h0jz6zhAbcnPN2MlLTlwNfeK0Ri
+ +ZH2wElvJxIyKkA1V6bDPn1QsaJ+UwyUt0h0xDOqOA==
+X-Google-Smtp-Source: AK7set/AKWmnbQ94R6/HM51wjxL6hX8wDunzD1taDcxanbyf7Lgdmf12ItcC+HwDo/Or13Ib7pb0kHigvvJ/wfIDbhM=
+X-Received: by 2002:a63:ee12:0:b0:503:2583:effb with SMTP id
+ e18-20020a63ee12000000b005032583effbmr4034731pgi.9.1678117418670; Mon, 06 Mar
+ 2023 07:43:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230306151243.3877250-1-chenbaozi@phytium.com.cn>
+In-Reply-To: <20230306151243.3877250-1-chenbaozi@phytium.com.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Mar 2023 15:43:27 +0000
+Message-ID: <CAFEAcA8saKA2zHXpPLHVSB3ya=HFG2ayPZCvD3BUut76NAmQCw@mail.gmail.com>
+Subject: Re: [PATCH v2] target/arm: Add Neoverse-N1 registers
+To: Chen Baozi <chenbaozi@phytium.com.cn>
+Cc: qemu-devel@nongnu.org, Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>, 
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,88 +84,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We want to get rid of the "#ifdef TARGET_X86_64" compile-time switch
-in the long run, so we can drop the separate compilation of the
-"qemu-system-i386" binary one day - but we then still need a way to
-run a guest with max. CPU settings in 32-bit mode. So the "max" CPU
-should determine its family/model/stepping settings according to the
-"large mode" (LM) CPU feature bit during runtime, so that it is
-possible to run "qemu-system-x86_64 -cpu max,lm=off" and still get
-a sane family/model/stepping setting for the guest CPU.
+On Mon, 6 Mar 2023 at 15:12, Chen Baozi <chenbaozi@phytium.com.cn> wrote:
+>
+> Add implementation defined registers for neoverse-n1 which
+> would be accessed by TF-A. Since there is no DSU in Qemu,
+> CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
+>
+> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
+> Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> ---
+>  target/arm/cpu64.c     |  2 ++
+>  target/arm/cpu_tcg.c   | 62 ++++++++++++++++++++++++++++++++++++++++++
+>  target/arm/internals.h |  2 ++
+>  3 files changed, 66 insertions(+)
 
-To be able to check the LM bit, we have to move the code that sets
-up these properties to a "realize" function, since the LM setting is
-not available yet when the "instance_init" function is being called.
+We should add a comment here:
+  /*
+   * Report CPUCFR_EL1.SCU as 1, as we do not implement the DSU
+   * (and in particular its system registers).
+   */
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- target/i386/cpu.c | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+If that's the only issue with this version of the patch
+I'll fix it up when I add this into target-arm.next.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index cab1e2a957..fe3b78fc95 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -44,6 +44,8 @@
- #include "disas/capstone.h"
- #include "cpu-internal.h"
- 
-+static void x86_cpu_realizefn(DeviceState *dev, Error **errp);
-+
- /* Helpers for building CPUID[2] descriptors: */
- 
- struct CPUID2CacheDescriptorInfo {
-@@ -4315,6 +4317,25 @@ static Property max_x86_cpu_properties[] = {
-     DEFINE_PROP_END_OF_LIST()
- };
- 
-+static void max_x86_cpu_realize(DeviceState *dev, Error **errp)
-+{
-+    Object *obj = OBJECT(dev);
-+
-+    if (!object_property_get_int(obj, "family", &error_abort)) {
-+        if (X86_CPU(obj)->env.features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-+            object_property_set_int(obj, "family", 15, &error_abort);
-+            object_property_set_int(obj, "model", 107, &error_abort);
-+            object_property_set_int(obj, "stepping", 1, &error_abort);
-+        } else {
-+            object_property_set_int(obj, "family", 6, &error_abort);
-+            object_property_set_int(obj, "model", 6, &error_abort);
-+            object_property_set_int(obj, "stepping", 3, &error_abort);
-+        }
-+    }
-+
-+    x86_cpu_realizefn(dev, errp);
-+}
-+
- static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -4326,6 +4347,7 @@ static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
-         "Enables all features supported by the accelerator in the current host";
- 
-     device_class_set_props(dc, max_x86_cpu_properties);
-+    dc->realize = max_x86_cpu_realize;
- }
- 
- static void max_x86_cpu_initfn(Object *obj)
-@@ -4344,15 +4366,6 @@ static void max_x86_cpu_initfn(Object *obj)
-      */
-     object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
-                             &error_abort);
--#ifdef TARGET_X86_64
--    object_property_set_int(OBJECT(cpu), "family", 15, &error_abort);
--    object_property_set_int(OBJECT(cpu), "model", 107, &error_abort);
--    object_property_set_int(OBJECT(cpu), "stepping", 1, &error_abort);
--#else
--    object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
--    object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
--    object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
--#endif
-     object_property_set_str(OBJECT(cpu), "model-id",
-                             "QEMU TCG CPU version " QEMU_HW_VERSION,
-                             &error_abort);
--- 
-2.31.1
+> +    { .name = "CPUCFR_EL1", .state = ARM_CP_STATE_AA64,
+> +      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 0, .opc2 = 0,
+> +      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 4 },
 
+thanks
+-- PMM
 
