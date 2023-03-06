@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE17F6ACD0C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 19:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8B46ACD10
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 19:52:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZFth-0000vH-0f; Mon, 06 Mar 2023 13:49:21 -0500
+	id 1pZFwE-0002Jf-2J; Mon, 06 Mar 2023 13:51:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZFtU-0000uU-Oj
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 13:49:10 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZFwA-0002IQ-U4
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 13:51:55 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZFtR-0008Id-6Z
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 13:49:07 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id l25so9885777wrb.3
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 10:49:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZFw8-0000qV-FE
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 13:51:54 -0500
+Received: by mail-wr1-x433.google.com with SMTP id h11so9879678wrm.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 10:51:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678128543;
+ d=linaro.org; s=google; t=1678128711;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=KKhsRC0+zHTrOXNnMQcEKda+hfFNb/nS4UWr7vej2zM=;
- b=XZtl9WhLwsRb1zT+1TfSjC/W/merp+L6PgB3yyWAHrjZOg8Pztx5FYfF2kl+Ak6KRm
- jCYpTlivbvCCoO3+JpV6olct4GLQN5CpLpj/ukLGBDDq/lN/U7ZGvXW1dzTI6ebj12xa
- daR7VEMzv7lsPNwMjcOHF7XJCylf1GMpf6Qu5OaRyL+uLXADxzZ+8PMDZircuLwNrby3
- 3iH4YjxPs3aSE2j8YD0mOpDNIzmNgTtIIL57g+QUu2eVt9XtIw0ur0NUHfNzC4zutOUE
- Sb3j4x5fc9I3q1M7ZpN1Ge1F5YZlqh9qBx7Gy/4xbwq5HSxRwzOnmrW2RXBPHrOAV7fn
- 4ojQ==
+ bh=c/tlE3De+NcClRJ4yakXKKrLShgZOUc/RvC69ZgGgzM=;
+ b=dN2k6xNN5LcVHcnDM62Ywap99n3cwd6NlCL5FbO4igb6t99yqBS5mtOI2XBAc5nJV8
+ Nw3/NMfHq0PTWtovBqlpx2pNg0TTW6zSuivNrbvF9jC9eD0jEWC4Z7dhV5vpzBo/572H
+ EWdf/quvoeoAZqeJyFWlpkNP3hDBn22WTSUAw+djwHfZXu3pktg2+QxccaMj4TdwOiM2
+ 0TCterLDHLJ38Cr43mgtVj5V7hJCVZtM3PpcmQubJUeB18EP8PDL691EQzkcNgoCoDft
+ pRNE6HT9b1jBD2ZZdpq0xmpcTJM0qDdkRtoLPrhGy3HQ8yZccNeVnlNgtkjIIptWXed+
+ lPrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678128543;
+ d=1e100.net; s=20210112; t=1678128711;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KKhsRC0+zHTrOXNnMQcEKda+hfFNb/nS4UWr7vej2zM=;
- b=oKypPahZfk9KWSc0nsF+7gz4AJITQMjrRHZwTFlPEf3gTEgvbuPHcLcFZo2SG9Qeqy
- wB+ud+fzV6iTF1sCG92U7p+P5ntoAGnqaBNW/HVWFskpHpfku3XS1ucqXgwJuEnYGkfH
- OIfcolvElLY9zjHg9f7sAVrZfret6Qq677D0y/XFwb+V6LBKRbSPXWzJzt1l+ttgFA1k
- DjpEvTB3i1Mpq4CpFSsp/s5FFcmZ27O/+1NV2ppDb4kyq2NEFY/pL50aP2d4tGQcc0zx
- tY/EBnkq1Z1djsf7cFDl2DB9xsVgtKmrsYUUiBdJLj9TdX9d3MhARrvmTAjqYhk04y/M
- js2g==
-X-Gm-Message-State: AO0yUKVbBBb/nQlS44f1ct2Hyk/XkSaM65/fxW9p2ybZLLzG/XCr3xif
- MjHxP/SzxYlwmKkXPHUTQfTSbQ==
-X-Google-Smtp-Source: AK7set+7RaObm2mh41jioaBgiif4R6DmW4LV7sinBgZNOSCI0NybUvA5IxlWyBZTVsnhz+BeHkSJPQ==
-X-Received: by 2002:a5d:680d:0:b0:2c5:6cfe:aabf with SMTP id
- w13-20020a5d680d000000b002c56cfeaabfmr7297312wru.9.1678128542745; 
- Mon, 06 Mar 2023 10:49:02 -0800 (PST)
+ bh=c/tlE3De+NcClRJ4yakXKKrLShgZOUc/RvC69ZgGgzM=;
+ b=HAoE2Lhf/PWORigKYiNulE6HovFHcUbsZ8U5Nf7oXo14KrOpclaU5K9mhsCHI5WbyI
+ aHGt/Bpr+96x5M20Ywk7lXIoaycRHT52WOkew1tikzu4CzFescRJrEmuoZi2J/eCQpeQ
+ RBttaXRAokUNSocErJDxd3b+y7Dt97HC4BrZULEPUkT30kC7H6213wDCVQjVccDMsUd5
+ OZEFENXhErWUt3NQR17pVC6A7itUPS3IWvCSPqAaydNzz3kDPRHkARUiIRKm6PZh3GzC
+ eVTElnmcDvpoFdBJE06DvpaqRa0bbv2NWjQKWnxYOdQcY0u6iqbWW9YD2HSw5ZtrzPzg
+ X6iQ==
+X-Gm-Message-State: AO0yUKVbpxmY83DXKxaAR991YL66fDBIboFlS9Ul1DHGP+uoKzK2ll0r
+ R1/JUF4orrPLYhIIWCY2E6kVqg==
+X-Google-Smtp-Source: AK7set8A2Reso0iyhHI8SqX+vTHVAqlFnydBqsMPjSfE0lnPwxQu1hp0wJd1AMQoaCEQBuZiiL/5kw==
+X-Received: by 2002:a5d:5312:0:b0:2ca:c865:51b3 with SMTP id
+ e18-20020a5d5312000000b002cac86551b3mr6251068wrv.12.1678128710763; 
+ Mon, 06 Mar 2023 10:51:50 -0800 (PST)
 Received: from [192.168.165.175] (98.red-95-127-39.staticip.rima-tde.net.
  [95.127.39.98]) by smtp.gmail.com with ESMTPSA id
- w17-20020adfd4d1000000b002c6d0462163sm10614180wrk.100.2023.03.06.10.48.59
+ k5-20020adfe8c5000000b002c56179d39esm10703491wrn.44.2023.03.06.10.51.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 10:49:02 -0800 (PST)
-Message-ID: <0be0019e-58da-3438-654c-2fabe0e7c5cd@linaro.org>
-Date: Mon, 6 Mar 2023 19:48:58 +0100
+ Mon, 06 Mar 2023 10:51:50 -0800 (PST)
+Message-ID: <836e5815-022b-4daf-c5aa-3d12501190ad@linaro.org>
+Date: Mon, 6 Mar 2023 19:51:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 01/23] include/exec: Set default `NB_MMU_MODES` to 16
+Subject: Re: [PATCH 03/23] target/arm: Remove `NB_MMU_MODES` define
 Content-Language: en-US
 To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
@@ -69,13 +69,13 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
 References: <20230306175230.7110-1-anjo@rev.ng>
- <20230306175230.7110-2-anjo@rev.ng>
+ <20230306175230.7110-4-anjo@rev.ng>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230306175230.7110-2-anjo@rev.ng>
+In-Reply-To: <20230306175230.7110-4-anjo@rev.ng>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,43 +101,20 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 6/3/23 18:52, Anton Johansson wrote:
 > Signed-off-by: Anton Johansson <anjo@rev.ng>
 > ---
->   include/exec/cpu-defs.h | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
+>   target/arm/cpu-param.h | 2 --
+>   1 file changed, 2 deletions(-)
 > 
-> diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-> index be920d4208..69cd62c19b 100644
-> --- a/include/exec/cpu-defs.h
-> +++ b/include/exec/cpu-defs.h
-> @@ -36,9 +36,6 @@
->   #ifndef TARGET_LONG_BITS
->   # error TARGET_LONG_BITS must be defined in cpu-param.h
->   #endif
-> -#ifndef NB_MMU_MODES
-> -# error NB_MMU_MODES must be defined in cpu-param.h
-> -#endif
->   #ifndef TARGET_PHYS_ADDR_SPACE_BITS
->   # error TARGET_PHYS_ADDR_SPACE_BITS must be defined in cpu-param.h
->   #endif
-> @@ -55,6 +52,14 @@
->   # endif
+> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+> index b7bde18986..b3b35f7aa1 100644
+> --- a/target/arm/cpu-param.h
+> +++ b/target/arm/cpu-param.h
+> @@ -45,6 +45,4 @@
+>       bool guarded;
 >   #endif
 >   
-> +/*
-> + * Fix the maxiumum number of mmu modes to 16.  This is larger than all current
-> + * targets, and also the maximum supported by the softmmu tlb api.
+> -#define NB_MMU_MODES 12
+> -
 
-Typo "maximum".
-
-I'd keep "larger than all current targets, and also" for the commit 
-description and not commit as comment in the code.
-
-> + */
-> +#ifndef NB_MMU_MODES
-> +#define NB_MMU_MODES 16
-> +#endif
-> +
->   #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
->   
->   /* target_ulong is the type of a virtual address */
+We need to update the comment previous to ARMMMUIdx typedef.
 
 
