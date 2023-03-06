@@ -2,86 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D87B6AB8D5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9DA6AB8FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:59:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ6Zy-0004NB-Gf; Mon, 06 Mar 2023 03:52:22 -0500
+	id 1pZ6fd-0005wm-93; Mon, 06 Mar 2023 03:58:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pZ6Zt-0004L5-5w
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:52:17 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pZ6Zr-0007n8-Lv
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:52:16 -0500
-Received: by mail-ed1-x529.google.com with SMTP id o12so35239365edb.9
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 00:52:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678092733;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=YH3W1xqKKBWY/KcpFgZaZQu85P/63mKD/Wkl+AdW+QY=;
- b=O6wRyLD5HBnZERXsPBULeV/By6zvSmtB5+pVxm+J69FmKD0TW3PYf8lbogl2XFH2QR
- NMDQwl2qp5IWGVuOAFauSR3P6xBcSQaDhpS1rAN5Ek5H/Z8XOlCNlCOq+jBPqe2bnASC
- y7/PwHFwHMYgcW+41Nwbs47EZJnPlVMQMKvlR6yKaI//ndxoYJNc324CHeWWyIZap+bq
- sbA6rYGpx6UqeKK39mZLcA2GvHRh4R3HKYr559ZcYAaupIOYR7l5weLlYaX3ykA69VYh
- RB97P9Wrwd2vP7tHm3vEodNsAZ0NMjN387Wm+jX7JytYWFwv9GpBN3QUF+UUji6bkJVi
- S8tQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ6fa-0005vx-Ht
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:58:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ6fZ-0001OF-5Q
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:58:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678093088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n7YtnBpvBKl377KqxvNv9VDwfLhjo+E2/WSynndvQhA=;
+ b=PUE16JTEf8e6j5tYp1ceXqRK2FWIL3JnVaN8e18QHIOgL9T9fLdV/ZuTg6I+1GPwS1CmCI
+ EntEMlUiZHVZMZ5xK1o4wVZrEbIqkwG0OxaGMnXTWVL11Fel8dtItUsand9IZk91/XIVTL
+ Fi+L3tG/oP+MsNwwexrLymWZ3CpyOMg=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-645-4sOyvpNlM9CeGx3W-HsnEw-1; Mon, 06 Mar 2023 03:58:06 -0500
+X-MC-Unique: 4sOyvpNlM9CeGx3W-HsnEw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ w16-20020ac843d0000000b003bfe50a4105so4840776qtn.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 00:58:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678092733;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YH3W1xqKKBWY/KcpFgZaZQu85P/63mKD/Wkl+AdW+QY=;
- b=GmGdRfMyiBUTx/ArCTtENlcN3eB71XLTzDJJaCxOzgpiAMqyyZcmmWDpRfMiewQxjx
- VnJl70+NicAiw9fxTuvurnzgfqhJx4GMr+ixCJOQdDTRlH1sc3DIpZrCWdQIu7Aa9LYc
- dx1LSuL7UhDaMJGKDEfjxrHR4tgZFuLq1iX2pf9KeJAywN+uU/C0e4dUcmoIsqF0Z0Le
- CgiVTwnZQq1jVFa6+6RRZy4JtHFOsUOdjH+cM2yldZhxm3t1hpDl4fo/5mXlk9HLgtwR
- fHftbqqqL21gBGV5vZQfZ/GA8F+iBX+IOgb1bDmEVT9plU9aO7Ev2OQYTOy6V9QplWL1
- /Uqw==
-X-Gm-Message-State: AO0yUKUSqzQm4Sb9zenYvZS4LF9VPih97YfvG/qUCkoK9gis+PWCD9ij
- 09zDm2bw6jucJlZjCskuyfzFag==
-X-Google-Smtp-Source: AK7set96Eg5erHaNoscwZIKROQzx2BfnOLJMQosciRU9EGOzZqiNaVEhHqttNrZFwYO8GxFuyoxxeQ==
-X-Received: by 2002:a17:906:da82:b0:88f:9f5e:f40 with SMTP id
- xh2-20020a170906da8200b0088f9f5e0f40mr14564027ejb.68.1678092733515; 
- Mon, 06 Mar 2023 00:52:13 -0800 (PST)
-Received: from [192.168.200.206] (83.11.36.13.ipv4.supernova.orange.pl.
- [83.11.36.13]) by smtp.gmail.com with ESMTPSA id
- lo2-20020a170906fa0200b008e09deb6610sm4239576ejb.200.2023.03.06.00.52.12
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=n7YtnBpvBKl377KqxvNv9VDwfLhjo+E2/WSynndvQhA=;
+ b=aiTN1Kswe0D2k4k0vmD3d0mEmsuqcHJzmyuuX9AD0o/l4siHfGNx1VgVhdEASqpWku
+ ZB0GiSLvfj+Lo8t6w4SNt3KxU3187zyllopPUFssPUMXqfYwmuGh26pDjHoeb6z/M7Wt
+ tzHcsn2Xb6++n0iswfE7NDAYh4ScDQFgScxHQwnvxZomQkww2hf94/jrgYu3xP5Asd/P
+ 900K50Zg2yD/noAG3qhSS2OWMOlvKdlF7/7iR3umKMP2fjvZ432Ec0qJ4VzljZ+WMMv8
+ lIp1hY1BiMk721IzXLWXJqav4KbANxRYRon3/m31vfCJV13TFhG1YiipKC1xiGcv0YSS
+ D+1g==
+X-Gm-Message-State: AO0yUKWl2pi9IUcS3xcj7xUSp7VNi/mMRJ2ON26yDCsv0vA4nqjh592+
+ MnnFyQB3BoLl1fIJ4yGazCFr/abrb6745miWi2q05CAj6ERa4Umrh2us8B4P8fRbKjt0CicYk3/
+ pPpl1Fu+KUu6phEQ=
+X-Received: by 2002:ac8:5c4a:0:b0:3bf:d0ac:5ba9 with SMTP id
+ j10-20020ac85c4a000000b003bfd0ac5ba9mr17852448qtj.7.1678093086513; 
+ Mon, 06 Mar 2023 00:58:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set/qIAuTXrC3VgHPeaWSGQgZGCNxYf0eRKhFIPLWyFH1dZKk5o98na0ckx8kqOxjr4Gs1vDB1g==
+X-Received: by 2002:ac8:5c4a:0:b0:3bf:d0ac:5ba9 with SMTP id
+ j10-20020ac85c4a000000b003bfd0ac5ba9mr17852433qtj.7.1678093086222; 
+ Mon, 06 Mar 2023 00:58:06 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-59.web.vodafone.de.
+ [109.43.177.59]) by smtp.gmail.com with ESMTPSA id
+ x22-20020a05620a0b5600b006ee8874f5fasm6927706qkg.53.2023.03.06.00.58.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 00:52:13 -0800 (PST)
-Message-ID: <19ba6bdf-a676-f25b-1fa4-5c4e64e17c9b@linaro.org>
-Date: Mon, 6 Mar 2023 09:52:11 +0100
+ Mon, 06 Mar 2023 00:58:05 -0800 (PST)
+Message-ID: <0d2a9e13-850e-d140-d63e-a940148bdccc@redhat.com>
+Date: Mon, 6 Mar 2023 09:57:58 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] target/arm: Add Neoverse-N1 registers
-Content-Language: pl-PL, en-GB, en-HK
-To: Chen Baozi <chenbaozi@phytium.com.cn>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-References: <20230303161518.3411149-1-chenbaozi@phytium.com.cn>
- <20230303161518.3411149-2-chenbaozi@phytium.com.cn>
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-In-Reply-To: <20230303161518.3411149-2-chenbaozi@phytium.com.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers
+ <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
+References: <69963eba-d001-150c-71d4-b2b23bfed4d1@msgid.tls.msk.ru>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: stable releases
+In-Reply-To: <69963eba-d001-150c-71d4-b2b23bfed4d1@msgid.tls.msk.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,24 +100,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-W dniu 3.03.2023 o 17:15, Chen Baozi pisze:
-> Add implementation defined registers for neoverse-n1 which
-> would be accessed by TF-A.
+On 05/03/2023 11.27, Michael Tokarev wrote:
+> Hi!
 > 
-> Signed-off-by: Chen Baozi<chenbaozi@phytium.com.cn>
+> For a few qemu major releases already, we did not have any stable minor 
+> releases.
+> I'd love to change that, in order to consolidate efforts and to make better
+> software in the end.  But I need some (hopefully minor) help here.
+> 
+> I collected changes from qemu/master which apparently should go to -stable.
+> Published at git://isrv.corpit.ru/qemu.git , branch stable-7.2-staging
+> (probably should publish it on github or gitlab).
+> This contains stuff which I use on Debian in qemu package, which is based
+> on 7.2 version now.  The last 18 patches are not in Debian package yet,
+> going to push it today or tomorrow.
+> 
+> If nothing, this can be used as a base for actual 7.2.1 stable release,
+> maybe with more changes added (or some changes removed).
+> 
+> The help which I need is to be able to run some wider testing. Debian is
+> a relatively good testbed, and it is used by qemu already in terms of
+> bullseye-backports to run other tests, so it should be good, but I'd
+> love to have wider coverage still. Maybe some CI stuff which qemu has
+> for master, if not only just before actual release.
 
-Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+I'd suggest to get a gitlab.com account, and fork the qemu repository there. 
+Then you can run the CI on your own by pushing your patch to your forked 
+repository.
 
-~ # cat /proc/cpuinfo
-processor       : 0
-BogoMIPS        : 125.00
-Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics 
-fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp ssbs
-CPU implementer : 0x41
-CPU architecture: 8
-CPU variant     : 0x4
-CPU part        : 0xd0c
-CPU revision    : 1
+You can also get some test additional coverage by running the avocado tests 
+with "make check-avocado" ... but beware that this downloads quite some 
+hundreds of MBs from the internet. And some tests are known to fail, so it's 
+maybe best to run them on the plain 7.2.0 tag first to see what works for 
+you and what does not work properly.
 
-I used TF-A with Chen's N1 patches, EDK2 upstream and Debian 6.1.12 kernel.
+> And as usual, this needs help in picking up changes which should go to
+> stable. But this is something which is always needed anyway.
+> 
+> Let's resurrect qemu-stable :)
+
+Please make sure to CC: qemu-stable and Michael Roth - I hope he can give 
+some directions for this effort.
+
+  Thomas
+
 
