@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DDB6AD144
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03396AD178
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:24:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZJ68-0007o0-8y; Mon, 06 Mar 2023 17:14:24 -0500
+	id 1pZJF0-0001UG-2B; Mon, 06 Mar 2023 17:23:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZJ65-0007nW-KS; Mon, 06 Mar 2023 17:14:21 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZJEx-0001U8-MK
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:23:31 -0500
+Received: from mout.kundenserver.de ([212.227.126.135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZJ63-0000bE-IM; Mon, 06 Mar 2023 17:14:21 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AAF2B74633D;
- Mon,  6 Mar 2023 23:14:05 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 674B974632B; Mon,  6 Mar 2023 23:14:05 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 660737457E7;
- Mon,  6 Mar 2023 23:14:05 +0100 (CET)
-Date: Mon, 6 Mar 2023 23:14:05 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Bernhard Beschow <shentey@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
-In-Reply-To: <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
-Message-ID: <01c02da7-ce82-80cf-c7e7-27b7f6e36bdd@eik.bme.hu>
-References: <cover.1678105081.git.balaton@eik.bme.hu>
- <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
- <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZJEw-0002Ca-2t
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:23:31 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N95mR-1qbyPo0qoB-0167rS; Mon, 06 Mar 2023 23:23:27 +0100
+Message-ID: <3ed248db-c521-6ac4-72b5-3f61a0743c9a@vivier.eu>
+Date: Mon, 6 Mar 2023 23:23:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user: Fix access to /proc/self/exe
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20221205113825.20615-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221205113825.20615-1-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:DVyadmli0RhAIZrk7+uisNDge3qO8T4LbYqNjjyIdqAQIwOXeuC
+ RuhOoQsPe26owW6aE5n9OsAZ0HddIZzzJeytV/RXQ9XsS9Dl6AbtOHZBoshmc0c0ga+X1bX
+ mUV6JFhPK3LAzuIace/se+V1m0UsW6gQAcyvawq9oMrcB6P7GwfA4Jx01fFiZVVTkI9qYUU
+ aQVOvfMbwNQ3P/+SptsPg==
+UI-OutboundReport: notjunk:1;M01:P0:MnVEsKNc078=;StM8Suco8pU6J4aPcax57Uqg6FW
+ FUEv/fpo8NfqaT3QCJ00krUfPwtvIkjfgHMPMnneqmP6eOunZTQNgBhBRc2zQyngcIKj4hygm
+ ZT8uNMQQPDfGv6p6CNR2yH5toCPNae83yD1fkJ7zzlJQaWASCJiWk2xOjSzWutYqRERiZSmPR
+ 6EM2G3/zbfclCDrYbdgyfkl5yfPBMRJWUoiJKx1p3Qnmj5m1VF0x+qL1egUI6g/S1YBSsBPP2
+ kkFHOTaEeQh1A9wNtmnfqDMegG8V/vIIpyw8Z0YnlclfMHpobb0p5adk8saNxWLQawHV1xn7z
+ 4KnMHIWOq/fu4EMz/EL5/vNBigsU593DxEtZZI1id0tDOoYSq8obM+HR/YWj0AOgiyZuB5nSX
+ pMHzUgQ4lAXmY9RerriOCzMseamMPwFz6NJgxXFONlmTJPfiQdaXQ5QKo5dL3/Aran/Xwzy5P
+ 3VbHAhaSAJL+ilt9Ai8u6qEBO3MO4zBXUBvAyzQGU7uhBe+VGBd1aNKgl9wPKZ900KLkpZvga
+ xaDLIBMuK0upZoYzu2Ljo+TegrA9XtBtKf5NsyMLsnG5dHQQpldlXN3ADIgvRsCeMOPNUkbbJ
+ CsPpR/XX9UaXtN/uCSGQAztUDA52yD7wsJLR9z2hGVoun3rZYEuZu078+sVhs15OCaxHU2ZJh
+ TJMWrWvKD6s6QtMNmcBJFGVe9gXgoBhn8VzHBAmRGA==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,95 +70,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
-> On 06/03/2023 12:33, BALATON Zoltan wrote:
->> According to the PegasosII schematics the PCI interrupt lines are
->> connected to both the gpp pins of the Mv64361 north bridge and the
->> PINT pins of the VT8231 south bridge so guests can get interrupts from
->> either of these. So far we only had the MV64361 connections which
->> worked for on board devices but for additional PCI devices (such as
->> network or sound card added with -device) guest OSes expect interrupt
->> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
->> VT8231 ISA bridge. After the previous patches we can now model this
->> and also remove the board specific connection from mv64361. Also
->> configure routing of these lines when using Virtual Open Firmware to
->> match board firmware for guests that expect this.
->> 
->> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> Tested-by: Rene Engel <ReneEngel80@emailn.de>
->> ---
->>   hw/pci-host/mv64361.c |  4 ----
->>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
->>   2 files changed, 25 insertions(+), 5 deletions(-)
->> 
->> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
->> index 298564f1f5..19e8031a3f 100644
->> --- a/hw/pci-host/mv64361.c
->> +++ b/hw/pci-host/mv64361.c
->> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error 
->> **errp)
->>       }
->>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
->>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
->> -    /* FIXME: PCI IRQ connections may be board specific */
->> -    for (i = 0; i < PCI_NUM_PINS; i++) {
->> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
->> -    }
->>   }
->>     static void mv64361_reset(DeviceState *dev)
->> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
->> index b0ada9c963..ded5dc2dc9 100644
->> --- a/hw/ppc/pegasos2.c
->> +++ b/hw/ppc/pegasos2.c
->> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
->>       MachineState parent_obj;
->>       PowerPCCPU *cpu;
->>       DeviceState *mv;
->> +    qemu_irq mv_pirq[PCI_NUM_PINS];
->> +    qemu_irq via_pirq[PCI_NUM_PINS];
->>       Vof *vof;
->>       void *fdt_blob;
->>       uint64_t kernel_addr;
->> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
->>       }
->>   }
->>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
->> +{
->> +    Pegasos2MachineState *pm = opaque;
->> +
->> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
->> +    qemu_set_irq(pm->mv_pirq[n], level);
->> +    qemu_set_irq(pm->via_pirq[n], level);
->> +}
->> +
->
-> Can you explain a bit more about how the PCI interrupt lines are connected to 
-> both the MV64361 and VT8231? The reason for asking is that I see a similar 
-> pattern in the bonito board, but there I can't see how those lines would be 
-> used because they can also raise a CPU interrupt, yet it is a different one 
-> compared to the 8259.
->
-> Given that we know from Bernhard's tests that the fuloong2e board works with 
-> pci_bus_irqs() included in via_isa_realize() which overwrites the bonito 
-> equivalent, I'm wondering if the mv_pirq array is actually needed at all and
+Le 05/12/2022 à 12:38, Helge Deller a écrit :
+> When accsssing /proc/self/exe from a userspace program, linux-user tries
+> to resolve the name via realpath(), which may fail if the process
+> changed the working directory in the meantime.
+> 
+> An example:
+> - a userspace program ist started with ./testprogram
+> - the program runs chdir("/tmp")
+> - then the program calls readlink("/proc/self/exe")
+> - linux-user tries to run realpath("./testprogram") which fails
+>    because ./testprogram isn't in /tmp
+> - readlink() will return -ENOENT back to the program
+> 
+> Avoid this issue by resolving the full path name of the started process
+> at startup of linux-user and store it in real_exec_path[]. This then
+> simplifies the emulation of readlink() and readlinkat() as well, because
+> they can simply copy the path string to userspace.
+> 
+> I noticed this bug because the testsuite of the debian package "pandoc"
+> failed on linux-user while it succeeded on real hardware.  The full log
+> is here:
+> https://buildd.debian.org/status/fetch.php?pkg=pandoc&arch=hppa&ver=2.17.1.1-1.1%2Bb1&stamp=1670153210&raw=0
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> ---
+>   linux-user/main.c    |  6 ++++++
+>   linux-user/syscall.c | 34 ++++++++++------------------------
+>   2 files changed, 16 insertions(+), 24 deletions(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index aedd707459..e7e53f7d5e 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -64,6 +64,7 @@
+>   #endif
+> 
+>   char *exec_path;
+> +char real_exec_path[PATH_MAX];
+> 
+>   int singlestep;
+>   static const char *argv0;
+> @@ -744,6 +745,11 @@ int main(int argc, char **argv, char **envp)
+>           }
+>       }
+> 
+> +    /* Resolve executable file name to full path name */
+> +    if (realpath(exec_path, real_exec_path)) {
+> +        exec_path = real_exec_path;
+> +    }
+> +
+>       /*
+>        * get binfmt_misc flags
+>        * but only if not already done by parse_args() above
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 0468a1bad7..71ae867024 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -10011,18 +10011,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>                   /* Short circuit this for the magic exe check. */
+>                   ret = -TARGET_EINVAL;
+>               } else if (is_proc_myself((const char *)p, "exe")) {
+> -                char real[PATH_MAX], *temp;
+> -                temp = realpath(exec_path, real);
+> -                /* Return value is # of bytes that we wrote to the buffer. */
+> -                if (temp == NULL) {
+> -                    ret = get_errno(-1);
+> -                } else {
+> -                    /* Don't worry about sign mismatch as earlier mapping
+> -                     * logic would have thrown a bad address error. */
+> -                    ret = MIN(strlen(real), arg3);
+> -                    /* We cannot NUL terminate the string. */
+> -                    memcpy(p2, real, ret);
+> -                }
+> +	        /* Don't worry about sign mismatch as earlier mapping
+> +	         * logic would have thrown a bad address error. */
+> +                ret = MIN(strlen(exec_path), arg3);
+> +                /* We cannot NUL terminate the string. */
+> +                memcpy(p2, exec_path, ret);
+>               } else {
+>                   ret = get_errno(readlink(path(p), p2, arg3));
+>               }
+> @@ -10043,18 +10036,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>                   /* Short circuit this for the magic exe check. */
+>                   ret = -TARGET_EINVAL;
+>               } else if (is_proc_myself((const char *)p, "exe")) {
+> -                char real[PATH_MAX], *temp;
+> -                temp = realpath(exec_path, real);
+> -                /* Return value is # of bytes that we wrote to the buffer. */
+> -                if (temp == NULL) {
+> -                    ret = get_errno(-1);
+> -                } else {
+> -                    /* Don't worry about sign mismatch as earlier mapping
+> -                     * logic would have thrown a bad address error. */
+> -                    ret = MIN(strlen(real), arg4);
+> -                    /* We cannot NUL terminate the string. */
+> -                    memcpy(p2, real, ret);
+> -                }
+> +	        /* Don't worry about sign mismatch as earlier mapping
+> +	         * logic would have thrown a bad address error. */
+> +                ret = MIN(strlen(exec_path), arg4);
+> +                /* We cannot NUL terminate the string. */
+> +                memcpy(p2, exec_path, ret);
+>               } else {
+>                   ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+>               }
+> --
+> 2.38.1
+> 
+> 
 
-Also I'd be cautious of tests on fuloong2e unless it was done with binary 
-known to work on real machine as we have found before that those binaries 
-for the real machine expect IDE to use IRQ 14/15 like pegasos2 guests but 
-the e.g. the default config in Linux would also work with native IRQs as 
-documented in the datasheet but that's apparently not how it really works 
-on real hardware (proven by binaries written for and tested on real 
-hardware did not work with the model which followed the datasheet) so we 
-had to change that later to match hardware. You may remember this, it was 
-found around the time when we tested via-ide with different guests and 
-some worked some didn't with the native mode IRQs. This suggests that 
-datasheets and tests with code not verified to work on real hardware is 
-unreliable (so are PCI standards that the VIA chip apparently does not 
-follow). So I'd only trust guests that were running on the real machine.
-
-Regards,
-BALATON Zoltan
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
