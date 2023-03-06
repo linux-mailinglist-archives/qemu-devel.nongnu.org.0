@@ -2,79 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3421C6AB38F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 00:45:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1676AB3AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 01:24:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pYy2S-0000vR-R1; Sun, 05 Mar 2023 18:45:12 -0500
+	id 1pYydZ-0000a5-Ee; Sun, 05 Mar 2023 19:23:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pYy2Q-0000ul-FT
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 18:45:10 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pYy2O-0007Ji-AJ
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 18:45:10 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id bo22so8064004pjb.4
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 15:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678059906;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=AChv+aZEEc9jg147GbiI56ZSDqX5vlK6xVOAdvqnWBA=;
- b=08pr26//uW0H/wa5qagW43EHmIWAIhTYGkwO6pMSTgiXkixBFMgGztVLsM31hutb0U
- CeR9+lxHb5xQsTmDNlnE/GUsbL4t1VcH9r7sMr0D4ZcpUGtJDcvRVIatVS1pjzE0MVel
- mShi2em8Gzh4DmUyEbdHa82C5v4ENxkoCdIxywUVNDTe8efer3Dw13rEovxKwa7jNfQo
- HIfBhBDPBdvJjK+FB4mGvL0sEoRGU+NVLJPgZnyF7wPWmMLv8C4IGw23Q9dz4+9WfqjQ
- 1qLwOwx1D5D/M1KpuCK4Zl/MWzosPQSqO4td9YRp+6/NUqUS878a8MKNxJVzv3NH7ekt
- 4Xog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678059906;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AChv+aZEEc9jg147GbiI56ZSDqX5vlK6xVOAdvqnWBA=;
- b=OkIRnVnXLi/ocnp9mCO81cCeLSlFW9Kfp/KNP1AUFSF/vfWouqCGslmbMnQocbhWYe
- +PNHEELRUBJRB3Lr9I0GGjtjVSN93gh/BcsLqUR6Uifcz41Rb+7bSfFaHKgjJoxXPcQG
- n+BRbqsyOQnTvH0Z4mJgsTERskH8KrTI33MEI7FIhZ6WS8oBFAULOaM8Fkmt2EDDnkbA
- IDQ0BwNeR5SL0gD9VngwVgEu3PZiYT63mxDRhy6r4dt8t05HJny+D+GqnHC+3BpSLc37
- EQWzAJGeyoox80Y703l1iPpH67WX9s2svyliUmPaSpEa6etXPE9JTJnANabGWYjCgBcw
- NVLA==
-X-Gm-Message-State: AO0yUKUFd8WMF1Zlk2/t+LngDE9dFK/r0B8NG106nu7+gPPKwPYhESmv
- nFIm9BNiT4jlUsMf3FSstWhXcQ==
-X-Google-Smtp-Source: AK7set/Ctv+RdSQ829mKTYZ30xKY+bAZ/vdhiRDZkrXD/DbnJFsD8KpbgZqk9Bm02PKrwuSAyezmTQ==
-X-Received: by 2002:a05:6a20:7348:b0:cc:9010:9ed with SMTP id
- v8-20020a056a20734800b000cc901009edmr10427227pzc.31.1678059906138; 
- Sun, 05 Mar 2023 15:45:06 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- d25-20020aa78159000000b005cdf83e4513sm5155616pfn.145.2023.03.05.15.45.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 15:45:05 -0800 (PST)
-Date: Sun, 05 Mar 2023 15:45:05 -0800 (PST)
-X-Google-Original-Date: Sun, 05 Mar 2023 15:44:14 PST (-0800)
-Subject: Re: [PATCH V5 0/8] Add basic ACPI support for risc-v virt
-In-Reply-To: <20230302091212.999767-1-sunilvl@ventanamicro.com>
-CC: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
- liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com, 
- zhiwei_liu@linux.alibaba.com, ajones@ventanamicro.com, apatel@ventanamicro.com,
- Atish Patra <atishp@rivosinc.com>, sunilvl@ventanamicro.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: sunilvl@ventanamicro.com, imammedo@redhat.com
-Message-ID: <mhng-7afa2599-95f6-43e9-a968-9e7e4f939faa@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x1034.google.com
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pYydX-0000ZZ-3g; Sun, 05 Mar 2023 19:23:31 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pYydU-0003z8-IF; Sun, 05 Mar 2023 19:23:30 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id AFF7D74632B;
+ Mon,  6 Mar 2023 01:23:14 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 59118745720; Mon,  6 Mar 2023 01:23:14 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 56FAF7456E3;
+ Mon,  6 Mar 2023 01:23:14 +0100 (CET)
+Date: Mon, 6 Mar 2023 01:23:14 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ ReneEngel80@emailn.de
+Subject: Re: [PATCH v7 3/6] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <FF990389-63CC-46EF-A2ED-DB7D1E306270@gmail.com>
+Message-ID: <2cdcaf09-121f-c3a1-ed75-6ed3949941c0@eik.bme.hu>
+References: <cover.1678023358.git.balaton@eik.bme.hu>
+ <2c1aa2fad58fffa4e26e8e271243ed30ecd9d41d.1678023358.git.balaton@eik.bme.hu>
+ <BB2359B3-F746-4D2D-BBB7-7FC744D5718A@gmail.com>
+ <33eebf66-d4d1-d25f-dbd8-2fdefa0fe211@eik.bme.hu>
+ <FF990389-63CC-46EF-A2ED-DB7D1E306270@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-1209400201-1678062194=:86500"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,88 +66,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 02 Mar 2023 01:12:04 PST (-0800), sunilvl@ventanamicro.com wrote:
-> This series adds the basic ACPI support for the RISC-V virt machine.
-> Currently only RINTC interrupt controller specification is approved by the
-> UEFI forum. External interrupt controller support in ACPI is in progress.
->
-> This adds support for RINTC and RHCT tables as specified in below ECR links
-> which are approved by UEFI forum.
-> RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xSEqK2l/view
-> RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR-tia/view
->
-> These changes are also available @
-> https://github.com/vlsunil/qemu/tree/acpi_b1_us_review_V5
->
-> Changes since V4:
-> 	1) Used possible_cpus to create cpu topology in DSDT, MADT and RHCT as
->            per Igor's feedback.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Thanks.  These all look good to me, but given that Igor had some 
-feedback on the v4 and it's pretty much just been weekend since t hese 
-went out I'm going to hold off until tomorrow before merging anything.  
-They're all staged and passing the tests on my end, so everything's good 
-as far as I'm concerned.
+--3866299591-1209400201-1678062194=:86500
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
->         2) Moved MAINTAINER entries below ACPI/SMBIOS entry as per Drew's
->            feedback
-> Changes since V3:
-> 	1) Added back acpi_align_size() wrapper as per Drew's feedback
-> 	2) Updated RB tags
+On Sun, 5 Mar 2023, Bernhard Beschow wrote:
+> Am 5. März 2023 17:08:30 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Sun, 5 Mar 2023, Bernhard Beschow wrote:
+>>> Am 5. März 2023 14:05:49 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>>>> The real VIA south bridges implement a PCI IRQ router which is configured
+>>>> by the BIOS or the OS. In order to respect these configurations, QEMU
+>>>> needs to implement it as well. The real chip may allow routing IRQs from
+>>>> internal functions independently of PCI interrupts but since guests
+>>>> usually configute it to a single shared interrupt we don't model that
+>>>> here for simplicity.
+>>>>
+>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+>>>>
+>>>> Suggested-by: Bernhard Beschow <shentey@gmail.com>
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>>>> ---
+>>>> hw/isa/vt82c686.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>>>> 1 file changed, 42 insertions(+)
+>>>>
+>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>> index 8900d87f59..e5aa467506 100644
+>>>> --- a/hw/isa/vt82c686.c
+>>>> +++ b/hw/isa/vt82c686.c
+>>>> @@ -600,6 +600,46 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
+>>>>     qemu_set_irq(s->isa_irqs_in[n], level);
+>>>> }
+>>>>
+>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>>>> +{
+>>>> +    switch (irq_num) {
+>>>> +    case 0:
+>>>> +        return s->dev.config[0x55] >> 4;
+>>>> +    case 1:
+>>>> +        return s->dev.config[0x56] & 0xf;
+>>>> +    case 2:
+>>>> +        return s->dev.config[0x56] >> 4;
+>>>> +    case 3:
+>>>> +        return s->dev.config[0x57] >> 4;
+>>>> +    }
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
+>>>> +{
+>>>> +    ViaISAState *s = opaque;
+>>>> +    PCIBus *bus = pci_get_bus(&s->dev);
+>>>> +    int i, pic_level, pic_irq = via_isa_get_pci_irq(s, irq_num);
+>>>> +
+>>>> +    /* IRQ 0 and 15 mean disabled, IRQ 2 is reserved */
+>>>
+>>> The vt82c686b datasheet mentions that IRQs 2, 8 and 13 are reserved (-> guest errors) while only 0 means disabled. I think below code should reflect this.
+>>
+>> We can't because 8 and 13 are allowed for USB and ac97 but 15 means disabled for those. My original implementation would have allowed to implement that but this one from you mixes everyting with the PIRQ pins
 >
-> Changes since V2:
-> 	1) Squashed commits and updated commit message as per feedback from Daniel.
-> 	2) Addressed comments from Drew.
-> 	3) Updated tags.
+> What I think should be done is not to mix the PIRQ pins with the IRQ 
+> lines.
+
+I thought the same and implemented it that way first allowing this 
+function to take interrupt source so it can know where the IRQ is coming 
+from and then map the internal functions and PIRQ pins independently. That 
+way it could also check for different Disabled and Reserved values. But 
+then you've replaced that with this patch which does mix PIRQ with 
+internal functions as those will also come in through this function. The 
+internal functions aren't PCi devices but you've forced them to be 
+modelled that way. Now there's no way to separately check different 
+reserved and disabled IRQs for those and using the PIRQ restrictions here 
+would be wrong as that would restrict the internal functions beyond what's 
+documented. It's more likely a guest would set an allowed interrupt for 
+the internal functions than it is to map a PCI IRQ to 0, 2 or 14/15 as it 
+would ilkely not boot at all because that messes up timer, cascade or IDE. 
+Therefore I'm quite sure you'll never find a guest that would trigger 
+these checks you're now wanting me to add.
+
+> I.e. we should only stick to the PCI IRQ routing register 
+> descriptions being implemented here. See how IRQs 8 & 13 are missing for 
+> PCI usage in section "IRQ resources" of page 3-22 in 
+> https://cdn.viaembedded.com/eol_products/docs/epia-v/user_manual/epia-v_manual_v1.2.pdf 
+> (manual of a main board using the VT8231).
+
+IRQs 1 and 6 are also missing from that list so why not check for those 
+then? Enough is enough. What are you trying to prove here? This is useless 
+nitpicking now. Reserved likely means that real hardware does not check 
+and would allow you to mess things up so we don't have to do anytihng with 
+that here either. Do you actually have a use for such checks or you just 
+can't let this patch go? This was tested as it is and any last minute 
+change is increasing the chance of breaking it so I'd stay with this now 
+as this could be changed later if you show me a guest that needs a check 
+for reserved IRQ 8 and 13 here but at this point we don't have time to 
+re-test this series again.
+
+Regards,
+BALATON Zoltan
+
+> Best regards,
+> Bernhard
 >
-> Changes since V1:
-> 	1) Addressed comments from Bin Meng.
-> 	2) Made acpi switch default AUTO similar to other architectures.
-> 	3) Re-based and added RB and ACKs.
+>> so we can't implement different reserved/disabled values for different IRQ sources so this is the best we can do. IRQ 0 is already handled as disabled by the code below.
+>>
+>> Regards,
+>> BALATON Zoltan
+>>
+>>>> +    if (unlikely(pic_irq == 0 || pic_irq == 2 || pic_irq > 14)) {
+>>>> +        if (pic_irq == 2) {
+>>>> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid ISA IRQ routing");
+>>>> +        }
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+>>>> +    pic_level = 0;
+>>>> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+>>>> +        if (pic_irq == via_isa_get_pci_irq(s, i)) {
+>>>> +            pic_level |= pci_bus_get_irq_level(bus, i);
+>>>> +        }
+>>>> +    }
+>>>> +    /* Now we change the pic irq level according to the via irq mappings. */
+>>>> +    qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
+>>>> +}
+>>>> +
+>>>> static void via_isa_realize(PCIDevice *d, Error **errp)
+>>>> {
+>>>>     ViaISAState *s = VIA_ISA(d);
+>>>> @@ -620,6 +660,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>>>>     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>>>>     i8257_dma_init(isa_bus, 0);
+>>>>
+>>>> +    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", PCI_NUM_PINS);
+>>>> +
+>>>>     /* RTC */
+>>>>     qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+>>>>     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>>>
+>>>
 >
-> The series is tested using SBI HVC console and initrd.
 >
-> Test instructions:
-> 1) Build Qemu with ACPI support (this series)
->
-> 2) Build EDK2 as per instructions in
-> https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
->
-> 3) Build Linux with ACPI support using below branch
-> https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V2
-> after enabling SBI HVC and SBI earlycon options.
->
-> CONFIG_RISCV_SBI_V01=y
-> CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
-> CONFIG_HVC_RISCV_SBI=y
->
-> 4) Build buildroot.
->
-> Run with below command.
-> qemu-system-riscv64   -nographic \
-> -drive file=Build/RiscVVirtQemu/RELEASE_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1 \
-> -machine virt -smp 16 -m 2G \
-> -kernel arch/riscv/boot/Image \
-> -initrd buildroot/output/images/rootfs.cpio \
-> -append "root=/dev/ram ro console=hvc0 earlycon=sbi"
->
->
-> Sunil V L (8):
->   hw/riscv/virt: Add OEM_ID and OEM_TABLE_ID fields
->   hw/riscv/virt: Add a switch to disable ACPI
->   hw/riscv/virt: Add memmap pointer to RiscVVirtState
->   hw/riscv/virt: Enable basic ACPI infrastructure
->   hw/riscv/virt: virt-acpi-build.c: Add RINTC in MADT
->   hw/riscv/virt: virt-acpi-build.c: Add RHCT Table
->   hw/riscv/virt.c: Initialize the ACPI tables
->   MAINTAINERS: Add entry for RISC-V ACPI
->
->  MAINTAINERS                |  18 +-
->  hw/riscv/Kconfig           |   1 +
->  hw/riscv/meson.build       |   1 +
->  hw/riscv/virt-acpi-build.c | 416 +++++++++++++++++++++++++++++++++++++
->  hw/riscv/virt.c            |  40 ++++
->  include/hw/riscv/virt.h    |   6 +
->  6 files changed, 476 insertions(+), 6 deletions(-)
->  create mode 100644 hw/riscv/virt-acpi-build.c
+--3866299591-1209400201-1678062194=:86500--
 
