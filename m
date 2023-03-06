@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EC56ACB7E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B986ACB7D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1U-00068z-Sy; Mon, 06 Mar 2023 12:53:20 -0500
+	id 1pZF1V-0006Eq-OI; Mon, 06 Mar 2023 12:53:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1P-0005di-JN
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1P-0005df-JV
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:15 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1M-0002wh-8h
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1M-0002wy-68
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,9 +22,9 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=cYBattuE9IXozugsaJPNnp4UpAHyDghsEY6YJLX4n8E=; b=nxCKC0CjCDMwmTgRidDStSJ60V
- MGirP6C5s2Wn9D7fI386f8TPsDP5BE9JSr81V2erDLuza70nKwPSQuYXr9NB9uavJ03MbGmUiH+lo
- E8PRpLdoEBNFIZ7mZ68gZLmcaCC5yzq2Z8eAB022hOWYf1T/oMhephHeN7oh9EX+dF7g=;
+ bh=XXmiKX+mOhfD/SMM6Fd3farQ29O0Rc1EzfyAD97PPXs=; b=D3L2OMNAC2uq8tCAIWqs67a6kl
+ 8GkYrMtdbk7MF1xvXSJxw3BD7hZHd8INFFBYAXI1INJMd/dUvaCUuiZxrYlC9+tLdmgadJ32JiwGV
+ hJIUkhS6LKMSzccI+HI6y3D0l7pagV94XtVM0LACuw271Ctk6rZ1l3fotVOERtgeAbGo=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH 22/23] target/xtensa: Remove `NB_MMU_MODES` define
-Date: Mon,  6 Mar 2023 18:52:29 +0100
-Message-Id: <20230306175230.7110-23-anjo@rev.ng>
+Subject: [PATCH 23/23] include/exec: Remove guards around `NB_MMU_MODES`
+Date: Mon,  6 Mar 2023 18:52:30 +0100
+Message-Id: <20230306175230.7110-24-anjo@rev.ng>
 In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 References: <20230306175230.7110-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,20 +66,23 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/xtensa/cpu-param.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/exec/cpu-defs.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/xtensa/cpu-param.h b/target/xtensa/cpu-param.h
-index b53e9a3e08..b1da0555de 100644
---- a/target/xtensa/cpu-param.h
-+++ b/target/xtensa/cpu-param.h
-@@ -16,6 +16,5 @@
- #else
- #define TARGET_VIRT_ADDR_SPACE_BITS 32
- #endif
--#define NB_MMU_MODES 4
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index 69cd62c19b..40e72c4f08 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -56,9 +56,7 @@
+  * Fix the maxiumum number of mmu modes to 16.  This is larger than all current
+  * targets, and also the maximum supported by the softmmu tlb api.
+  */
+-#ifndef NB_MMU_MODES
+ #define NB_MMU_MODES 16
+-#endif
  
- #endif
+ #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
+ 
 -- 
 2.39.1
 
