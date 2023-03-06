@@ -2,155 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D364D6AC374
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD506AC378
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:38:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBxu-0003WJ-FW; Mon, 06 Mar 2023 09:37:26 -0500
+	id 1pZByQ-00048v-UJ; Mon, 06 Mar 2023 09:37:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZBxr-0003VB-2x
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:37:23 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ id 1pZByA-00044P-Np
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:37:42 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZBxo-0006Lk-Di
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:37:22 -0500
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ id 1pZBy8-0006P5-QI
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:37:42 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 326CxPO4021965; Mon, 6 Mar 2023 14:37:17 GMT
+ 326Cwphm008345; Mon, 6 Mar 2023 14:37:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=95BRIE5PNJ7qqcoPcHfmJJgMGvbEbpRQeCnVrFBBEPI=;
- b=LLfGb43f58pPfnWr+pAzPZIJHC3awbwrYnSD3uZVZuryrOpfhqroUV6R+PHluloKZ+wl
- ffijFRu+CwbtzpqmtRpo2OzLDeWWmHGkIAJINHcP0xzcF2ntyD+mWvIRnKE4o15XqUX2
- 3JRoUYWCQakGQR74BLBHIrp/qiA79RVgtJdCfpJz9bybFKFcXomi8JhV/KBLPvN6MH1o
- uHI+UhZr62kqxmiGsIW9Uxo+e2cEo8deuXpM7+XJzJrH/hYWovC/tVO3qrEnwAMfvu2Q
- bgsfGwx/yRBvvKWUOIhnckLdcWh/oetzh11Aufn1C731tCAqay/GuNWi2nuLsvObpVsD Qw== 
+ bh=I/UMM4PFpEzX2TsBtY1W5+YFaHP93JZCBzX1ipaHrL4=;
+ b=jLSbtPRjy/npPhijedIZfhHcQF+Fk54kL1DYc5S+oOZliHP9arhrW4sEjF/qdt+S+32k
+ wmXDHCVq5M5m0pp6/9TNiIvMwjBrcFQ9UtTpn4Kl7cDtFoxA1MF30rpWlBbQV3vOAx38
+ 4Kq1MOELuONopPffheS7+RpmGBAw3jRTZa3y5FKLJnvAR1gIf8h0HZBU7OUERs7cmFYa
+ E9V0V7G/jWM0vppbLJhCZm12DHn9FvgI1EU2INpoRV+WFfc0KkzPgwj/iqYb1kHVjrHh
+ LuTDOVXjKJbHGnLr78loDtR738g1MvXCT3pyb8NGImLhyTnkXIRhPr2EAgN8JFQ8QU32 2A== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p418xu1dy-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p4168k1d7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Mar 2023 14:37:17 +0000
+ Mon, 06 Mar 2023 14:37:39 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 326Dod4X037521; Mon, 6 Mar 2023 14:37:14 GMT
+ with ESMTP id 326E6bIZ037535; Mon, 6 Mar 2023 14:37:38 GMT
 Received: from nam02-dm3-obe.outbound.protection.outlook.com
- (mail-dm3nam02lp2048.outbound.protection.outlook.com [104.47.56.48])
+ (mail-dm3nam02lp2047.outbound.protection.outlook.com [104.47.56.47])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p4txd2jgq-1
+ 3p4txd2k0q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Mar 2023 14:37:14 +0000
+ Mon, 06 Mar 2023 14:37:38 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EbChFuSoJv4SkB3gn3sA8GZiC687oPuKI+9icCxMaGS063DkicixhKTWh0HEfg4jtqnwz1Rn+oZP7Oo4sJFF4OogJoAe54wOwiAYIJBzyDRbNaZMwLi9P7bwdbtE5HDRwlfxNiuQd4mk83asI+GxcnUKkrbki3YfKmKbOrnGUJx+uAmEY5HSN9kzfJ2d7z7vqDxuqja3Ku+UUhFvNdGcdasDPk/BDy5LQ8mjuyET4nzUSU+PpIZKzrWST+Xk+cJxHAtNL167yrmF6VSWuzCkL8jBfBUQz6ET4CJSXm/CrH76r8Xzbii9KwzP6FYA5fQBTHtcSFt45UF+hm3Kqoa6OQ==
+ b=TDcdeWiRP1yh87iMu7ha+5sk6GcbyhDC2IbCo3VoVl4K07K9smSc7zXIqUTG9SacS8weO/0GUA4tiuKH3pocgwm3s14Os3aBJ1PlnQaXpUY2sPrwVSD+hdzsPi2CSQeKA12MZtMo4Dr8pM6/McdEcA2BR3vjr12U+DXV2F/kXewhYm76h7KPFHLp7QE+yerujPHz9b9tCt1rrYCC2f7TnjOLIhtsnXJnK2L+W6ucZxK5W/uO3UiBN1eSehSzTOvATLGyOzuqy0A41niJy1VnBAWp9ltMIYbiDd26h2UilX9xJo3wDYSVZy0/FCbvrVhw4huQ2q8NjDb61vJh0OEnlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=95BRIE5PNJ7qqcoPcHfmJJgMGvbEbpRQeCnVrFBBEPI=;
- b=moFhV4cvcL3KItxA/TIRd3cy2ykVdHfNALuCY23MGzYrdxlQHZpndLd2MbCG0sblWZyMz/MLBdp+XVk7nSX+y2lkWrTiIp4YcYkC3wWNYKwMWRCdBWzcMhP8VgBP9ok/8xrSU/qEnqU5pXexWMiQFLjKRnruvEnN9Rg74DDLkwlMvkiNqupFpe3HsWw+0z0U8GFAj31NmeffR9/A+GzmR1oe+iUiEmRQcQ+u5qPxQ7gzXKXrGn1Y7NJVfl+wVILvLDLf8ApZCrd2dFhG5ikPfyHHVaRTR5KQ1fo3nH3NOxvvgw0T16ZuKVcb+j6KPV/beXnNnZ8Nr1kBtntzEZqq5Q==
+ bh=I/UMM4PFpEzX2TsBtY1W5+YFaHP93JZCBzX1ipaHrL4=;
+ b=EDEZtutTQwtSXVczEDtlMrIwCdOIhmnWb/V2Sm77PhR2fmdSHUdJBN80zEd40JL/aISTPK0dYz6Dbmbe7FqAxPiQv4se7WNFK+91vDLPmy5g+TphSklvHAAtUKGGWacZLfx7QGU9wLkFh/1HHMElSn5HFRlPk5XfWlBFPnhDCgQE+tujwkSAPL071I7v8LycCbdLjIXKW+7MI6hLM7QXKM3/1vxXDN2IFsMfi6VHxedyzXJcqGeL43hX6nANX/GmAhnh94I+azEnSMPo4ImS+aUD40YyuHKHlIu3oZfycWIkWENw2/p5yDSUzB2z8zFLBsI16itq01BvsiZPsF/DnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=95BRIE5PNJ7qqcoPcHfmJJgMGvbEbpRQeCnVrFBBEPI=;
- b=xIY5rg5oQriGgdtCJtaAfkKSeQ5xo+Wlwhwl3r/TmzO3Quo2azo2KO8E2zK0CS3w2L9SJ9iIUK78pO7HzL8SC7Y/F4Vb6koAjfPpFp/OQcUv6pZTZGJA+CFzIS+ss3OOG7t8fO2C+6gSmPFExM6M5/2lc4yMQZkXDNywyQFbvOE=
+ bh=I/UMM4PFpEzX2TsBtY1W5+YFaHP93JZCBzX1ipaHrL4=;
+ b=wFO9OuaZx4H2djjHV+Dqpsa4SqIGigP0u8i5AF24U5S44jbJ6oTTujWkoJIy1sPxp/ompO0mfHk+DCvn5kK+3r0IdyNtUGeANGOC2pHpD6fIiyREMQ4j8qRlCueubcmCfx5og7zKDdOf39ALOmCqIAMrHdGPU2ikw+LtVqvYuTY=
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
  by BLAPR10MB5281.namprd10.prod.outlook.com (2603:10b6:208:30f::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.11; Mon, 6 Mar
- 2023 14:37:12 +0000
+ 2023 14:37:36 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::9b30:898b:e552:8823]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::9b30:898b:e552:8823%6]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
- 14:37:12 +0000
-Message-ID: <1e41f0d1-5b65-4a90-c8ac-16177d6460a6@oracle.com>
-Date: Mon, 6 Mar 2023 14:37:04 +0000
-Subject: Re: [PATCH v3 07/13] vfio/common: Record DMA mapped IOVA ranges
+ 14:37:36 +0000
+Message-ID: <0e9b026a-1bbc-4970-a47d-e021a37222f8@oracle.com>
+Date: Mon, 6 Mar 2023 14:37:30 +0000
+Subject: Re: [PATCH v3 04/13] vfio/common: Add VFIOBitmap and alloc function
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>, qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
  Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
- qemu-devel@nongnu.org
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
 References: <20230304014343.33646-1-joao.m.martins@oracle.com>
- <20230304014343.33646-8-joao.m.martins@oracle.com>
- <2d1677ea-4895-f7e9-a6dd-0973cd270e5b@redhat.com>
+ <20230304014343.33646-5-joao.m.martins@oracle.com>
+ <b83fceb6-7d9b-1b04-dd60-38cd0ddf5c44@redhat.com>
 From: Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <2d1677ea-4895-f7e9-a6dd-0973cd270e5b@redhat.com>
+In-Reply-To: <b83fceb6-7d9b-1b04-dd60-38cd0ddf5c44@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO6P123CA0007.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::9) To BLAPR10MB4835.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO6P123CA0002.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:338::6) To BLAPR10MB4835.namprd10.prod.outlook.com
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BLAPR10MB4835:EE_|BLAPR10MB5281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d64a065-27ef-460a-4a00-08db1e504586
+X-MS-Office365-Filtering-Correlation-Id: 18363d3f-0b76-4838-dac1-08db1e505432
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hAs8cXtr+yyokv2B3iPEC+JoPlNKw3LlSDTILwOJHzjhina7td8Xs/NZSE8lHDqz5EOUevdMqWvYPZsp12Lud92eUQyND4s2tI6lGC3uCdquBQMxxm/RJ+JOWdmFF+SEWHwJ56Xuyd7c4Tzm5BnDayV4FG9s54oegd1mlMur/01d/lGBwVHXzkYxJ4XG+x+Dic68mGAAA/jmgduoApGMZ3TxZ7EzmVqE7eaEviii1jeinmK+usRz22W8drRrcxRTiz8B4ExIk2UZxnLvOx8vpa58Mb45bkZKsvtiUeUAAgG/ITh7WfAUwOKszfncFquhE3JvggBilnZPs34Z2w1EAwN9ujunFTXGkd9/VRvNw7cB7oYAebDuSFfq1MWmax5O830QOBPw1Xjmkqd3fMjVMcuqrLs1cpItsbQK61E2O5OvVUi1xnKmr7Yt3pNqHlHByt7rc6bK6prrC8TLZduCeBHjUXsSL8h6aIJywH8V6nlnRZ5YIsLJ9u9snCStrxVGWJH+jAP0NJ7rFTJvQcbUSr0z0UoK89t47S/upuckUnYSCGXPDVCJOSbXjX1sv5dPo8UqXmMo3rgkVekTxDgPvDhkIwVGxDud3KX0LCgGhDQ+YLxU8tlwKzNCVSAI0GUeMzaggyKyAUQxh5pm3HMIsRMqNd1DEap7HBqaZKFaTLiixW9GQh2pf5XqVjvEykMDJM8GJGDA3yPDktIPSbE5OQ==
+X-Microsoft-Antispam-Message-Info: jr0+pfrKpohvkAzYAhNsfZLHnlQQ+RdBiWkaMWgW01Sz4N0mA3S9U49NkQF1u7lLhkNI7Bg99nx8jSFK0tohWL3ZXdhNIjxEUSAdKqPEtC5Z/iL780le8Lwi50KPyII8PIfAHffU8ehzMJLZ1xQggn20UhC7hyi4eDStOJ+s7Obwpxh/PBtSUOSSjqhdN/6X+TCh9ofqrh02M+2Wu7EgsAb/4qojG7gLG9ZV3iGKGhweYxl+WjIF7xA2qkY5y2FPVYiIwuorxa2AGWuh92BXDARqiFrzfI8LSpF9VAZ8wLYPI6vmUo5vQec8u5Xwadt70GXf0oCPGCsAh86t6FAz5XER+BxdJ1j+7tfuVAmXjcrwKniuDEAou0mCkEvjnPM6TMNisyBffpC8d0k/9aURbt0qBeRQROFI+gZFDBc8fghMDFKMcS8essf5pltiBF3IXkvIx5TdMO+SiPicVCufW/Hm/FzH8YrbN33crmq+hNa3xbDjNw9BKw+RgIOhQdLzMp2O/sHYT3g3p7kxoGFgnl8cleMLXXfHTx+2ZPE41vegYCpwxGRYl5B63ZQiJEtUBS9rDsHV50TvAyAG31N9GFkFD5CXtT5Fbhmj3Frzguj+CSHU9t/Q2DFYKMiUwmEUyyAcx5xCPmrAVnQNpn+kYLmDXWMpk+hJIx1LW5h74D8fYdZrTo0iCg0xGn/F9ulfo7Vnr/uQJTwyy6Au0LgmHA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(136003)(39860400002)(366004)(396003)(376002)(451199018)(31686004)(5660300002)(8936002)(66556008)(66476007)(66946007)(2906002)(6916009)(8676002)(4326008)(54906003)(316002)(478600001)(36756003)(66574015)(6666004)(26005)(6506007)(6486002)(53546011)(6512007)(2616005)(41300700001)(31696002)(86362001)(83380400001)(186003)(38100700002)(45980500001);
+ SFS:(13230025)(346002)(136003)(39860400002)(366004)(396003)(376002)(451199018)(31686004)(5660300002)(8936002)(66556008)(66476007)(66946007)(2906002)(8676002)(4326008)(54906003)(316002)(478600001)(36756003)(6666004)(26005)(6506007)(6486002)(53546011)(6512007)(2616005)(41300700001)(31696002)(86362001)(83380400001)(186003)(38100700002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0ZPZGF3N2dqbkJIUzJOQTh4Q3lmbEZmQWg4bnFmRHNHQ3BpTGc5d3hMVm40?=
- =?utf-8?B?ck13Z1lUQm8yRmVMa3ZLNHlOdm5PUy8yZXc2VVZZWlVPR1BNWDU2V3d3RW0r?=
- =?utf-8?B?SGlPekc2VkF4ME9uNmJjNDcvVG04TXl0cDIyMkFvY004ME05VDJVZWpZWHNi?=
- =?utf-8?B?YWdXWmM2TmRITE43OXduR1g5aEV0S1VESnk3cnVhSkljNDBiUlFLbkhJSWVr?=
- =?utf-8?B?MWpZckFtcHZDR1RyZmlkVG9WN21BemJwcHFZWm1PVDg2clgzNmhweG5BWDBT?=
- =?utf-8?B?dWhyN3dvYWQveXhSZ1pyMXlvVE12ckJZNWo5N0hWZy9zOWpNTURxTHpuZWl0?=
- =?utf-8?B?aFRhajBVVXBwb3ZLYkdnZXRURVBkcTFaWjFlcFBRTTZVeXZSRVdWazlMWHVZ?=
- =?utf-8?B?dTFsUER1b1h3cjljUE96R0ZOUUVUN3NpN08yV1NXQklTWFU1Ry9FMktpSTNt?=
- =?utf-8?B?ZnkwNGV4L2FFdlVZbDdqLzAwMzM2YXVuQWF1cE5ucTQ5VXp2cEhWN3BRSGlr?=
- =?utf-8?B?LytRZm1PMEtKV2xnbU82UlFSZ2J0ajJNL01BSVBxejIzNkVURmNKRVQ1dndM?=
- =?utf-8?B?cVBsdktmMmlaMGtnNWh1WTdwVXJuL3JLRXZlRUpHelhVVktmSEtjUlZWd1BK?=
- =?utf-8?B?d3hlVm94UG5lMjU5NVozVjl2ZDV5NFVFbWp0QlhUdUpnZkJ1dEZLN3Z3cmgv?=
- =?utf-8?B?d0MxQzRGMlhZNnR3ZDZ5TVNwTUgyMm91RzVZeHFhQWczVVhIRU8vUVJmZWpM?=
- =?utf-8?B?NmdkVUdsaEtyQ3NVYWdicFZIZkNWSWV4MEt2a3hoNnBxZUZCRTBnUUd4TVFS?=
- =?utf-8?B?UnJ2aHQweFlQT0luMW9YdUl4NiszVzJCZWVTSE00QTJpVG5FSVNRL1BuL3ZI?=
- =?utf-8?B?OVlWd0xpM1Q3dFFqck13RzhvVFZMWkwwMnI5RnRVQ2ZTaytLUUN0eWZQNG1l?=
- =?utf-8?B?VkExMmlrNkx3NHJUdnNab2Nva3Fha0xoR2E1aW55WHpKTmNXQncrS3RUd3R1?=
- =?utf-8?B?T25XNEZyUE0xT1pOQjBNQm9maGV0NGlkSlNvT3NJRmVnNG8ra3kyb1ZFbi9j?=
- =?utf-8?B?K1QxbXFjaGYyNFRvU2NHc2VaS01rT0oveVFLU2UxZEJSTk4yakozTzlkNnBC?=
- =?utf-8?B?QWtTeTlpMTFxSVkvbVpFN3p5YkNHQXNLQXdPblF5UWZBSjlXbmtoNGlYZ1p5?=
- =?utf-8?B?NVlHTWZackpuNnlrN2VqdWlsby8vUmdnMFVGR1hwSnMzZ0hZU1RYbnFoaE9y?=
- =?utf-8?B?N08zckZVZXdqb3dLSXd6WXNxTDdYZEs1a3VhQmxTWE5vM3VnNW56SWoxZjMz?=
- =?utf-8?B?aGpISnYySHFybGtYZVFsQTg5SmpaNmFHV0VKTGhpaXNHS1ZkQ0tieHF2azlh?=
- =?utf-8?B?VW1aSHhoQ242WDNqWnpDQjhaQS9OMGRZUFNtdjZ2dEFZNHFOL1AyNEVEbEY4?=
- =?utf-8?B?OEdrZENSYnhiZGVSQUUxQ1F2ZTRIQ002bkw1V1Zpc1JXRlFlVHZpN2JEZEZB?=
- =?utf-8?B?Qk90akZocTFFSmtUcGpCUXEyK3Z0amgzeEdlRm92KzZPVnpyaE1IQ3FENFpG?=
- =?utf-8?B?TFRsWmlTZU5aZEk2V2RsbFF0b0tHaTlNd2VYNVRKV1N2VDY3aVcwckxHZ29r?=
- =?utf-8?B?Z2N3VjhCaEpZdE00bkR6bHNEb05PQkpwQzhZaGRNUEs4MEtTLzJuWkJvNmdG?=
- =?utf-8?B?SWY3SE9wdXVhUmluM1dpd0xEdjVrNlRiNEdiTVBYdTRramsyeUJTdTRLU2t2?=
- =?utf-8?B?UWphaEMvR3BRdnFDOTVpMVJqalM0MFRsSzAyMHU2OHZML252WDhMTkxtZ0Vr?=
- =?utf-8?B?Wm1Bc2RUaWJNYVQwLytubTY3N0cyRmdJdktxZWU3M0pZQnVDZ3UrQWlWY3cw?=
- =?utf-8?B?QVFjelBET0tUZ202bDJkVGZNSjk3NjVpdWZ5ajNGdCtMWWo2Vy9QNklmTGcw?=
- =?utf-8?B?Tnd0ekJCNUxmblJEMkFQMWNmQ0c0QUdBMEhYc3NsZGg0M3ZZejk5c3ZHeHpx?=
- =?utf-8?B?NklqQnlZZkxFVWx5dWpMbDMzR3VZY0dycWxzbmNXeER4T0crV2hKOEJ6TXJm?=
- =?utf-8?B?MDl1VWUraSsyR2xzS0o1TDVCWnRaR3pwTjNCWVVxV0J4T3B0N1pxYXhxZitw?=
- =?utf-8?B?anZJaVZoNUpnbHk5VlVuOHcvdnNJQTBzYUF4alNlMnlaR29PaXRIbFJNMlVM?=
- =?utf-8?B?L1E9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnpZaStva2lnOEVraUJzYTY0dzdaMDJjOTR2MG1raVFrMC9PbXB4c2ZRRFNP?=
+ =?utf-8?B?endHN3B4eGNrdTF4OFlpdHBzRDBQUEdlNmtGeGt3QjJiTWczNk1kR2pTTnpi?=
+ =?utf-8?B?NHVoK1RXQnFIU0ZEN21xc1A2N3NqR2lJY2FsenFMZk0wOUNFMFpzNzNZVXZF?=
+ =?utf-8?B?MGM4dE45eFAzSFFRdjZ2M2pJV3FpQWJmcWVsVGhZaVg1alRSTm4zUW1EVEVj?=
+ =?utf-8?B?dWo2bFVoRGNRWkEvZ2pYeXc4WEI1Nk54Q1hZVTExRHNzeEFQSjBnY3d1OEh3?=
+ =?utf-8?B?N3p1NTROeUU5SElUS1Naa2kyNEFzMGU2Ris1Vm1GK0dLT3dnOGxoam1USnFJ?=
+ =?utf-8?B?cFhNYmtodWNlMWk4ekZnN1NDWlhCT3VJVVNCWFgxbU5LUUJkUDJ1RmpqRHZM?=
+ =?utf-8?B?TkRaQlBJck5mdzQxM2YrdFpkZ3BiWERQc0JJbmRraUQvUkZlTzVtT1dYekJS?=
+ =?utf-8?B?dVA3UytGVTZwV3dhRTZqYlFjTFE0alI4bHloOHhUTjFaeUNUZ3NldmN0aW9I?=
+ =?utf-8?B?dTlrcUlXMDhJc25WU2M5d2RaL0VyTDZ2MUZHSThBdmNJUG45MVk1OVEvWGVx?=
+ =?utf-8?B?ekJQMmtvWTdnZTV0dUxTK2ZjOHJaUXpua0VGc3ZaWk9vRTBmZU9KelFqZ1do?=
+ =?utf-8?B?Uy9BS0pmQ0w4L2JIVHdFSVN6VzFMNkl0aWdVTklPaU1wSWJLQkJtVkEvWTZJ?=
+ =?utf-8?B?elo3ejRHRlNPUThEVGQvcSt4WE94NFhTS2trV1ZsdEpja2VWdzBVLzF5dzN1?=
+ =?utf-8?B?bGthTHFlbEpNcnpQcXQ0Ukk4K0NQaVZ2VGUyYlEzR3JtSnVqWlZkTnhEUU03?=
+ =?utf-8?B?Y25FYlBPYis3a3pHMVdRVWhBeFI3RTF6WkNDelJMTStZdDFQUVdlQStUSjZu?=
+ =?utf-8?B?a0JKMjlnZU9WQjlsZHY0OGtoQTVjK3dkbmR3c21SNFpnd1k3b2pjQ1dwbzd3?=
+ =?utf-8?B?U2FBUDd1a043MnpMcitramRTd3QzdEt3blNQWlRYVXNuZ1ZNM3FRRW9yTFc3?=
+ =?utf-8?B?cnF0Z2FZb2p5ZjVxQSsyNG9wSW5aRUJBM3hHZ2FLVVN2eEhzV2FHMEs1V3NG?=
+ =?utf-8?B?bENsbTNDQTgzbkkwc3VXc0wzdGtMc25ERUU1UmlmaC9sT1ZJWG9tODN0cEZO?=
+ =?utf-8?B?WWV1TURCMzliMTZaUU9sMTJaQ3Z5WGVMRnpWZXRoSlZVN1hlSmRGaG1WM2Z4?=
+ =?utf-8?B?VjZuajFyOUpPRkpCMVB3WHh2R1Q5YThKZTE5WFV5K3BOVTNtdFJTTVV4OU1z?=
+ =?utf-8?B?bFdQMGRDcndmTHZsQmJHVFZNRjRUSVVoS2s0a1IxcElJZnQwa0tNQklkSXhp?=
+ =?utf-8?B?TnJqYVVja1dEZmN2MFlpTG02czJ3QU5Ob3dDK004aCt3b29nTDVUejJrTkMr?=
+ =?utf-8?B?ZjZJc1V3QjNGS3pVQ0k2SVhLSytodXZPem93SlZyZUN5aDhVRnpwdkN5dU5W?=
+ =?utf-8?B?cTZKYnBQTEVwT0VUdG9sZi9jNUc3M1ZVWit0alVGMEpxUHpTd3NvcDRWSlZr?=
+ =?utf-8?B?bUt4cEVrZUdLQ1laOUh5V1hQSzcxSlkreUx4WlJaSG9WQ0p0T3NWcEFtblNM?=
+ =?utf-8?B?am1oa1BLdHJMazYranpsZDQ1ODdsWElzSDdaMUs0YThkZklKdHRFTUVtdlNZ?=
+ =?utf-8?B?cnpRdXJaQVVNbFdxSGdaZ21VdHN4QVpjOW1FWlBUdHNyTGZsYy8vKy9qYjdE?=
+ =?utf-8?B?dHhReHFkQ3dKcVdWVkNqY2dBMWxpcmlWWFNsYStya25nS3NvcUV1TGdVbGVq?=
+ =?utf-8?B?VmlqRXNaRVhjTW1RV1JGcUlaY1VYWVBKU0NVbEpZME42Sk52QXA4MXRqN293?=
+ =?utf-8?B?YUNGWGtPNEZWQkV1K3pyMC8vc3kyeUtNYks2T2p2UjUzd2pJNWlrSUlLWHVp?=
+ =?utf-8?B?VDhBeTNWOXRtM3BuckNvOEw2cGtxSDJ5Vk1JUUNyUkd4OTVITXg0dTRHWXYv?=
+ =?utf-8?B?cXBDNVJ6OTVFTWxYanBpSStnWTluUmZhMGc4V3k1bVRXbFJ6VldjQVUvNVcw?=
+ =?utf-8?B?bStYVTJ6emE4dVNubDFtT2NKUkxkT0F3enh2TEYrUWQySEJ4MWtDaE1oOWEv?=
+ =?utf-8?B?MG14UXZWMllKYjNONnA4cjZTTUllUXU4Mk1sVjloYWlvMUtia3krREMvVHVD?=
+ =?utf-8?B?TGV1OS9YWGpTMk42NjdtV09MV1M1NU1ZRG1aN3dpK2NYTWdwdTE0aVMrbXBu?=
+ =?utf-8?B?NGc9PQ==?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: f0kHnt30OXLjjiuVOxQOxb6GYAkP964ZJkehCXvTd/GeEEekdy4QJ162GEYIDdAEWSbl8zgwF3sNqrJjdMnuhzSQn+PYgZZ21VJ1gpZXA3K/R0GPmrNi/SB58NXrNKNyxla9Rj/glBbmgc/Ps3E7neIUs41ULRuRUlPCo3IQjHEqod4JhYfvXSTnIYvTFIBCcO1HGVmAwDc4BsO8dAia3POV6AjGnm9vKbcg2JOVehi/DwUKau2+yKJFozz+2S6+xNvvA0zmp9FQVR6JjBr/tWui7Oh1yoRvtvxwTxlVvOlNRUd7myX6Mv5TSQlwLKfiAoMuzw/jdG+AkLTrXR258e5dPL3ZXOyLB0MmHDo8+Qh6ycmRdYihYE4TN7q/7FNItI4pNdab7oAeyRhLljAwGxjcw0jV+uyEqZnFgN4Dq0zCBbJS6358TgpyWTiLfxQ5gL4a4nMktidDxE0uVszLp8htX1x72E1xRSK5EaknvQW1zjZgE9BQYE4Ga5vTOqbmCoYHKzByn3oYiTxAR2mRy0sO1iplBHlx3SL8P6zbHDXr3cG9UL+mx+wU/48S7k/pi9tuIuTO91OM99NOzoVTYDufenWwSgh0KkA0w3rNVf0vqfFGgfsE5+X7/n3LCSISXcs24KuZyhecUDg10++dRY6xkANA3zpz8/ueNfDKXJjPI2E8hGyo4rTIsfK/ZGZxQF3JdXtNR2RRcLpf8A06/aqtLaTMzQkB5EqdyWgYePKRWST65Hn0GBYsA0mFKk1XIPNxQMJLQJ2dgzOD1Y4Ub2gfGTsr8V5JXhG/J4TO2XyX3mNBgStrLZY2fE9wCFLL
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: LMYxENEsIN29vTmtPWzEpT8Z7hYDMQ0u9TGZo7pVbNkrNJ751RozJVB/HZ7NA5HSm6cNarghLZcnuYZgDmIiyMzWJxkX1y/mXGJIaWxFAidcjlmUWK5qNLu1p5oz8WLWFd0JOk2DeP7YWvETbxuDkaRMGgpLctIs2VwpvU6e0kJRmNgcjda0n3Fia9SOpjzAp5zS0XH5w+Ja7djx6efWZDGc4rq03kyK5b9+W9bWv49Nme3H4uryXxHnibvWdKPR5Iv+66YZD/kIDHkrQKcvaMlV7fv2JGzNMscXonHB2WUY7ojokLpJqxAYKOwBI9tYoDWL+bxX4MMjggojyPBth5FW655tRSVuUZ8Kfjt2v4eLZfdGbVEGfQpRsClOYMjfTVPCaT8cszwjiqfMrkKM6m9PqIHf2NW4z0fUobz4QUvVHBnm4Xh5eJoQ0urDCKrfeEsOgdqjogu4jbic+FavbyYu10dvj0216sDrrdKzbVZEYlE571evPQ0plyrgEonFaUflt5i9nORxHdTBs4AIfMwSG+AjK9nKLTyvsNX6yoVza3HePE5MUPF1B34eZTeZHcycguP0kiykunfzrY4fJB/lzom+ycn+WTleqSuIFocS/OhBFba8I6Ps1zyjyZEJNSR5ZnyjgAYG4q6XW3+2xfTlZhcmYqWx+5IevlS9ShdZbun8A5KwLvkk0URcnXrhgSlMWTkls+b4F7hfDNGUD/DIRiZgka8UHtLEWJaWyYWixTIQ3koVmAc4Rw6mmPUutVIa9rM3T3zGl/9KxZr9ofQRd2CpMJihtLH7t/LdepqRC6J0I30rb5+JqRTNaqvi
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d64a065-27ef-460a-4a00-08db1e504586
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18363d3f-0b76-4838-dac1-08db1e505432
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 14:37:11.8671 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 14:37:36.3142 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yH314PoM21cl6QTKvpH3xNTy5OFftCZp3sJeSUnYqRXkdM3SlK8DdwzjMe7yFQn+lFnk2oEViUg8k1NJ9Bmafzm5w3SI9gfNVh8FkzVcfd4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: qAXL3i0XheT1jD9ahDLhRGRdZ8ZyfQ0Ikh5BaeqG/jkkvAG4RriDUUmZlSDw4TzjT5UiF400p1WncJdvyUI+Cjpa8fcU3puFVYzBBTRMM7o=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5281
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
@@ -160,10 +159,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  spamscore=0 suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2303060128
-X-Proofpoint-GUID: 7v7cf6xjuYr08xLgFf_s-7FxyK0dGXT9
-X-Proofpoint-ORIG-GUID: 7v7cf6xjuYr08xLgFf_s-7FxyK0dGXT9
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: BUc9O9YrIpeURHyubPT9kAduN7xgiqpt
+X-Proofpoint-ORIG-GUID: BUc9O9YrIpeURHyubPT9kAduN7xgiqpt
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -186,204 +185,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/03/2023 13:41, Cédric Le Goater wrote:
+
+
+On 06/03/2023 13:20, Cédric Le Goater wrote:
 > On 3/4/23 02:43, Joao Martins wrote:
->> According to the device DMA logging uAPI, IOVA ranges to be logged by
->> the device must be provided all at once upon DMA logging start.
+>> From: Avihai Horon <avihaih@nvidia.com>
 >>
->> As preparation for the following patches which will add device dirty
->> page tracking, keep a record of all DMA mapped IOVA ranges so later they
->> can be used for DMA logging start.
+>> There are already two places where dirty page bitmap allocation and
+>> calculations are done in open code. With device dirty page tracking
+>> being added in next patches, there are going to be even more places.
 >>
->> Note that when vIOMMU is enabled DMA mapped IOVA ranges are not tracked.
->> This is due to the dynamic nature of vIOMMU DMA mapping/unmapping.
+>> To avoid code duplication, introduce VFIOBitmap struct and corresponding
+>> alloc function and use them where applicable.
 >>
 >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 >> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
->> ---
->>   hw/vfio/common.c              | 84 +++++++++++++++++++++++++++++++++++
->>   hw/vfio/trace-events          |  1 +
->>   include/hw/vfio/vfio-common.h | 11 +++++
->>   3 files changed, 96 insertions(+)
+> 
+> One minor comment, only in case you respin,
+> 
+> Reviewed-by: Cédric Le Goater <clg@redhat.com>
+> 
+
+Thanks!
+
+>>   hw/vfio/common.c | 75 +++++++++++++++++++++++++++++-------------------
+>>   1 file changed, 46 insertions(+), 29 deletions(-)
 >>
 >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index ed908e303dbb..d84e5fd86bb4 100644
+>> index 4c801513136a..151e7f40b73d 100644
 >> --- a/hw/vfio/common.c
 >> +++ b/hw/vfio/common.c
->> @@ -44,6 +44,7 @@
->>   #include "migration/blocker.h"
->>   #include "migration/qemu-file.h"
->>   #include "sysemu/tpm.h"
->> +#include "qemu/iova-tree.h"
->>     VFIOGroupList vfio_group_list =
->>       QLIST_HEAD_INITIALIZER(vfio_group_list);
->> @@ -1313,11 +1314,94 @@ static int vfio_set_dirty_page_tracking(VFIOContainer
->> *container, bool start)
+>> @@ -320,6 +320,27 @@ const MemoryRegionOps vfio_region_ops = {
+>>    * Device state interfaces
+>>    */
+>>   +typedef struct {
+>> +    unsigned long *bitmap;
+>> +    hwaddr size;
+>> +    hwaddr pages;
+>> +} VFIOBitmap;
+>> +
+>> +static int vfio_bitmap_alloc(VFIOBitmap *vbmap, hwaddr size)
+>> +{
+>> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
+>> +    vbmap->size = ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> +                                         BITS_PER_BYTE;
+>> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
+>> +    if (!vbmap->bitmap) {
+>> +        errno = ENOMEM;
+>> +
+>> +        return -errno;
+> 
+> vfio_bitmap_alloc() could simply return ENOMEM now.
+> 
+Gotcha.
+
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   bool vfio_mig_active(void)
+>>   {
+>>       VFIOGroup *group;
+>> @@ -468,9 +489,14 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>   {
+>>       struct vfio_iommu_type1_dma_unmap *unmap;
+>>       struct vfio_bitmap *bitmap;
+>> -    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
+>> +    VFIOBitmap vbmap;
+>>       int ret;
+>>   +    ret = vfio_bitmap_alloc(&vbmap, size);
+>> +    if (ret) {
+>> +        return -errno;
+>> +    }
+>> +
+>>       unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+>>         unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
+>> @@ -484,35 +510,28 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>        * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
+>>        * to qemu_real_host_page_size.
+>>        */
+>> -
+>>       bitmap->pgsize = qemu_real_host_page_size();
+>> -    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> -                   BITS_PER_BYTE;
+>> +    bitmap->size = vbmap.size;
+>> +    bitmap->data = (__u64 *)vbmap.bitmap;
+>>   -    if (bitmap->size > container->max_dirty_bitmap_size) {
+>> -        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64,
+>> -                     (uint64_t)bitmap->size);
+>> +    if (vbmap.size > container->max_dirty_bitmap_size) {
+>> +        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64, vbmap.size);
+>>           ret = -E2BIG;
+>>           goto unmap_exit;
+>>       }
+>>   -    bitmap->data = g_try_malloc0(bitmap->size);
+>> -    if (!bitmap->data) {
+>> -        ret = -ENOMEM;
+>> -        goto unmap_exit;
+>> -    }
+>> -
+>>       ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
+>>       if (!ret) {
+>> -        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
+>> -                iotlb->translated_addr, pages);
+>> +        cpu_physical_memory_set_dirty_lebitmap(vbmap.bitmap,
+>> +                iotlb->translated_addr, vbmap.pages);
+>>       } else {
+>>           error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
+>>       }
+>>   -    g_free(bitmap->data);
+>>   unmap_exit:
+>>       g_free(unmap);
+>> +    g_free(vbmap.bitmap);
+>> +
 >>       return ret;
 >>   }
->>   +/*
->> + * Called for the dirty tracking memory listener to calculate the iova/end
->> + * for a given memory region section. The checks here, replicate the logic
->> + * in vfio_listener_region_{add,del}() used for the same purpose. And thus
->> + * both listener should be kept in sync.
->> + */
->> +static bool vfio_get_section_iova_range(VFIOContainer *container,
->> +                                        MemoryRegionSection *section,
->> +                                        hwaddr *out_iova, hwaddr *out_end)
->> +{
->> +    Int128 llend;
->> +    hwaddr iova;
->> +
->> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
->> +    llend = int128_make64(section->offset_within_address_space);
->> +    llend = int128_add(llend, section->size);
->> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
->> +
->> +    if (int128_ge(int128_make64(iova), llend)) {
->> +        return false;
->> +    }
->> +
->> +    *out_iova = iova;
->> +    *out_end = int128_get64(llend) - 1;
->> +    return true;
->> +}
->> +
->> +static void vfio_dirty_tracking_update(MemoryListener *listener,
->> +                                       MemoryRegionSection *section)
->> +{
->> +    VFIOContainer *container = container_of(listener, VFIOContainer,
->> +                                            tracking_listener);
->> +    VFIODirtyTrackingRange *range = &container->tracking_range;
->> +    hwaddr max32 = (1ULL << 32) - 1ULL;
->> +    hwaddr iova, end;
->> +
->> +    if (!vfio_listener_valid_section(section) ||
->> +        !vfio_get_section_iova_range(container, section, &iova, &end)) {
->> +        return;
->> +    }
->> +
->> +    WITH_QEMU_LOCK_GUARD(&container->tracking_mutex) {
->> +        if (iova < max32 && end <= max32) {
->> +                if (range->min32 > iova) {
->> +                    range->min32 = iova;
->> +                }
->> +                if (range->max32 < end) {
->> +                    range->max32 = end;
->> +                }
->> +                trace_vfio_device_dirty_tracking_update(iova, end,
->> +                                            range->min32, range->max32);
->> +        } else {
->> +                if (!range->min64 || range->min64 > iova) {
->> +                    range->min64 = iova;
->> +                }
->> +                if (range->max64 < end) {
->> +                    range->max64 = end;
->> +                }
->> +                trace_vfio_device_dirty_tracking_update(iova, end,
->> +                                            range->min64, range->max64);
->> +        }
->> +    }
->> +    return;
->> +}
->> +
->> +static const MemoryListener vfio_dirty_tracking_listener = {
->> +    .name = "vfio-tracking",
->> +    .region_add = vfio_dirty_tracking_update,
->> +};
->> +
->> +static void vfio_dirty_tracking_init(VFIOContainer *container)
->> +{
->> +    memset(&container->tracking_range, 0, sizeof(container->tracking_range));
->> +    qemu_mutex_init(&container->tracking_mutex);
->> +    container->tracking_listener = vfio_dirty_tracking_listener;
->> +    memory_listener_register(&container->tracking_listener,
->> +                             container->space->as);
-> 
-> The following unregister+destroy calls seem to belong to a _fini routine.
-> Am I missing something ?
-> 
-The thinking is that once we register the memory listener, it will iterate
-over all the sections and once that is finished the memory_listener_register
-returns. So the state we initialize here isn't needed anyelse other than to
-create the range and hence we destroy it right away. It was at container_init()
-but it was unnecessary overhead to keep around if it's *only* needed when we
-start/stop dirty tracking.
-
-So the reason I don't add a _fini method is because there's no need to teardown
-the state anywhere else other than this function.
-
-I would argue that maybe I don't need the mutex at all as this is all serialized...
-
-> Thanks,
-> 
-> C.
-> 
->> +    memory_listener_unregister(&container->tracking_listener);
->> +    qemu_mutex_destroy(&container->tracking_mutex);
->> +}
->> +
->>   static void vfio_listener_log_global_start(MemoryListener *listener)
+>>   @@ -1329,7 +1348,7 @@ static int vfio_get_dirty_bitmap(VFIOContainer
+>> *container, uint64_t iova,
 >>   {
->>       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+>>       struct vfio_iommu_type1_dirty_bitmap *dbitmap;
+>>       struct vfio_iommu_type1_dirty_bitmap_get *range;
+>> -    uint64_t pages;
+>> +    VFIOBitmap vbmap;
 >>       int ret;
->>   +    vfio_dirty_tracking_init(container);
+>>         if (!container->dirty_pages_supported) {
+>> @@ -1339,6 +1358,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer
+>> *container, uint64_t iova,
+>>           return 0;
+>>       }
+>>   +    ret = vfio_bitmap_alloc(&vbmap, size);
+>> +    if (ret) {
+>> +        return -errno;
+>> +    }
 >> +
->>       ret = vfio_set_dirty_page_tracking(container, true);
+>>       dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
+>>         dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
+>> @@ -1353,15 +1377,8 @@ static int vfio_get_dirty_bitmap(VFIOContainer
+>> *container, uint64_t iova,
+>>        * to qemu_real_host_page_size.
+>>        */
+>>       range->bitmap.pgsize = qemu_real_host_page_size();
+>> -
+>> -    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size();
+>> -    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> -                                         BITS_PER_BYTE;
+>> -    range->bitmap.data = g_try_malloc0(range->bitmap.size);
+>> -    if (!range->bitmap.data) {
+>> -        ret = -ENOMEM;
+>> -        goto err_out;
+>> -    }
+>> +    range->bitmap.size = vbmap.size;
+>> +    range->bitmap.data = (__u64 *)vbmap.bitmap;
+>>         ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
 >>       if (ret) {
->>           vfio_set_migration_error(ret);
->> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->> index 669d9fe07cd9..d97a6de17921 100644
->> --- a/hw/vfio/trace-events
->> +++ b/hw/vfio/trace-events
->> @@ -104,6 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t
->> iova, uint64_t offset_wi
->>   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova,
->> uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64"
->> is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
->>   vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING
->> region_del 0x%"PRIx64" - 0x%"PRIx64
->>   vfio_listener_region_del(uint64_t start, uint64_t end) "region_del
->> 0x%"PRIx64" - 0x%"PRIx64
->> +vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min,
->> uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" -
->> 0x%"PRIx64"]"
->>   vfio_disconnect_container(int fd) "close container->fd=%d"
->>   vfio_put_group(int fd) "close group->fd=%d"
->>   vfio_get_device(const char * name, unsigned int flags, unsigned int
->> num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
->> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
->> index 87524c64a443..96791add2719 100644
->> --- a/include/hw/vfio/vfio-common.h
->> +++ b/include/hw/vfio/vfio-common.h
->> @@ -23,6 +23,7 @@
->>     #include "exec/memory.h"
->>   #include "qemu/queue.h"
->> +#include "qemu/iova-tree.h"
->>   #include "qemu/notify.h"
->>   #include "ui/console.h"
->>   #include "hw/display/ramfb.h"
->> @@ -68,6 +69,13 @@ typedef struct VFIOMigration {
->>       size_t data_buffer_size;
->>   } VFIOMigration;
->>   +typedef struct VFIODirtyTrackingRange {
->> +    hwaddr min32;
->> +    hwaddr max32;
->> +    hwaddr min64;
->> +    hwaddr max64;
->> +} VFIODirtyTrackingRange;
->> +
->>   typedef struct VFIOAddressSpace {
->>       AddressSpace *as;
->>       QLIST_HEAD(, VFIOContainer) containers;
->> @@ -89,6 +97,9 @@ typedef struct VFIOContainer {
->>       uint64_t max_dirty_bitmap_size;
->>       unsigned long pgsizes;
->>       unsigned int dma_max_mappings;
->> +    VFIODirtyTrackingRange tracking_range;
->> +    QemuMutex tracking_mutex;
->> +    MemoryListener tracking_listener;
->>       QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->>       QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->>       QLIST_HEAD(, VFIOGroup) group_list;
+>> @@ -1372,14 +1389,14 @@ static int vfio_get_dirty_bitmap(VFIOContainer
+>> *container, uint64_t iova,
+>>           goto err_out;
+>>       }
+>>   -    cpu_physical_memory_set_dirty_lebitmap((unsigned long
+>> *)range->bitmap.data,
+>> -                                            ram_addr, pages);
+>> +    cpu_physical_memory_set_dirty_lebitmap(vbmap.bitmap, ram_addr,
+>> +                                           vbmap.pages);
+>>         trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
+>>                                   range->bitmap.size, ram_addr);
+>>   err_out:
+>> -    g_free(range->bitmap.data);
+>>       g_free(dbitmap);
+>> +    g_free(vbmap.bitmap);
+>>         return ret;
+>>   }
 > 
 
