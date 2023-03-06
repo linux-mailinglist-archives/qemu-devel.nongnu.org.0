@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90E66AD1A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:34:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897DA6AD1A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:34:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZJOU-0004Ia-3x; Mon, 06 Mar 2023 17:33:22 -0500
+	id 1pZJOZ-0004KN-S2; Mon, 06 Mar 2023 17:33:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZJOR-0004Hq-Nr
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:33:19 -0500
+ id 1pZJOY-0004Jw-F4
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:33:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZJOQ-0003SW-2D
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:33:19 -0500
+ id 1pZJOX-0003WV-6x
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:33:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678141997;
+ s=mimecast20190719; t=1678142003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ea/eA4r/ivqEoDm9dQVXxGefx6FzskYoNsC2bXbbhBw=;
- b=d6o3sv0bPtV5kSpBygAj2D/uyje5cnnnXzEwHt14vihdLryjwRuvM/jRUZMDkjWFlPiPqE
- 0nRbXfkKerfmc0ESCKl2URujJV9RRARZ8LQgxJ9jCac3fhNt5Czmjkq7eJXgqIEpLO+7Jn
- Suv+rpSfx7kXtXgf6sUytE2s7yNmv0I=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GB/aIT12DbaEHGWq5+K6q22+aJN75bKBTA3rUyP93OQ=;
+ b=Sv5Cy95W3dmfhtGTM2Cc55dDi6XI9kP9/ZvQWy73+LTKAGM7PeMzjxq89NHC0I/Ki252Xf
+ 8cIDAPJ6dd4LYENUzvs6MqEj15kiOiAXE4PDHGc2PRPE53rF0g4KAzJybDbP7LHO/0gvmC
+ tof3VtnPeGjMT4W/XdfrzHK5q7umyY4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-240-3TMIAxsBNNesuafQuM2p1Q-1; Mon, 06 Mar 2023 17:33:16 -0500
-X-MC-Unique: 3TMIAxsBNNesuafQuM2p1Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- h11-20020a0564020e8b00b004e59d4722a3so5773364eda.6
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:33:15 -0800 (PST)
+ us-mta-556-BXTIud4LNIy5ZqvI1bLCEg-1; Mon, 06 Mar 2023 17:33:22 -0500
+X-MC-Unique: BXTIud4LNIy5ZqvI1bLCEg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ fi8-20020a056402550800b004a26cc7f6cbso15893287edb.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:33:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678141993;
+ d=1e100.net; s=20210112; t=1678141996;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ea/eA4r/ivqEoDm9dQVXxGefx6FzskYoNsC2bXbbhBw=;
- b=nZPqDKG6t6w6d94mHDCbI/R/4YDYupNpqLXMVv2zwkEgYBUUhwTAupTxfvG3FXve5v
- CA3Jqe8NK7T44+pwCqiTCZH/Yh75VMIG7FhzIA6u9Mi9XR+606GEoLboQPX8uShQ8KhJ
- Cpxc7UEB9frynILiCIR2kJ8B/R+G/eRNVx+JdiP5li8EbVTd2xiiD5traLR8C4TrrXyb
- jDVllqJueq8mHDcZAMjPiZq3bBVbdrWsEmFTTy6QGWI79iAfW6oDBkesKT0K7IF8grAf
- 1IumdWDl8zY6CfYy01t1cDeZ2W1djc0qcKZL/bac7Hli+86GPHqpEZDov4aZNvRgprE7
- tNFQ==
-X-Gm-Message-State: AO0yUKWg9Sofx7lbAFodM3jDf8/YhJn4DG4+1ail+7ri1B1FW+M6m2z/
- 8p9LspnusH4LBav/CIfPsu266D2QEwYnT36n+8uhCsuzTAo3kyGxGa6V05PQ41pA0L7+vw8Mhww
- oKFY9XaC7UHFPECVMAXDvqsPLcJp2gRa87CFP3/eVAS4cR7lhEAQW6M/QoWyVGENQtEWSYmytdj
- k=
-X-Received: by 2002:a17:906:7803:b0:8e3:8543:8ebe with SMTP id
- u3-20020a170906780300b008e385438ebemr12370036ejm.57.1678141993014; 
- Mon, 06 Mar 2023 14:33:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set9sDpYEm0dwQAaG51+E6njNrSXZs72zCc1ES84kkYdDatGBBreMnPnTXWYnCBB33RjcpZ0PHA==
-X-Received: by 2002:a17:906:7803:b0:8e3:8543:8ebe with SMTP id
- u3-20020a170906780300b008e385438ebemr12370018ejm.57.1678141992616; 
- Mon, 06 Mar 2023 14:33:12 -0800 (PST)
+ bh=GB/aIT12DbaEHGWq5+K6q22+aJN75bKBTA3rUyP93OQ=;
+ b=NjhmPu19kEDqRCXuDbOgtCHNLFid/6Gy7slOfmSK63MvRJIPBiYekb2AJ7WjB4Cmu3
+ cND2x/qdJLj27SoG5DNLqfT/0XLWSzWSSiTW1Ptf8cLA/gPllKTjEyRp/dj7nI27Kl7T
+ 7Vp4f1fxO22l9N9yEiX/OZKBsSjieks12RTbmBH3N06BF2CKkZYKI2gXGyjoASP/HD50
+ rJ4EFyievCfKuGapndvmZiV+KvX392AmVaV6z3r1UnbDjfsYEN0T652hUO8nK49hZ8zc
+ HI+O516kXuyAn0XThvXQprbGXQCdn8t2IoYu7iIy4HBu6OvLV3/F0JCItR/Z7yr340EW
+ 1fpA==
+X-Gm-Message-State: AO0yUKW65d5hQABHyhaXG+L4EzFOkVImykd+E4GooByB/leP2zHaUff+
+ EMFg1r9qrn2Scl9ujy2BjcZLpG4TqOP+ZeyklPcxxVWZlXfWn3a9NKmwf5xzOS1bWEXA5EezxaH
+ ITMKzkbIhjz2EhEc+S8uC3+lfMdoLy5ns7Dg9nbQ3EeOuH1lflUZAgmSY+yjjpUf6gW8o9lHYfO
+ U=
+X-Received: by 2002:a05:6402:1506:b0:4ac:c7b3:8c27 with SMTP id
+ f6-20020a056402150600b004acc7b38c27mr11397646edw.28.1678141996650; 
+ Mon, 06 Mar 2023 14:33:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set+1PUB99owqGLZbY5HtyeUmr+oXHKPNfsARiRrh+urcWVgcEf70EWrJGpVA450CIczlJKBjxg==
+X-Received: by 2002:a05:6402:1506:b0:4ac:c7b3:8c27 with SMTP id
+ f6-20020a056402150600b004acc7b38c27mr11397619edw.28.1678141996344; 
+ Mon, 06 Mar 2023 14:33:16 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- z71-20020a509e4d000000b004c2158e87e6sm5682498ede.97.2023.03.06.14.33.11
+ v12-20020a50c40c000000b004bb810e0b87sm5798597edf.39.2023.03.06.14.33.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 14:33:11 -0800 (PST)
+ Mon, 06 Mar 2023 14:33:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: gshan@redhat.com, eesposit@redhat.com, david@redhat.com,
  stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com,
  richard.henderson@linaro.org
-Subject: [PATCH v2 1/9] qatomic: add smp_mb__before/after_rmw()
-Date: Mon,  6 Mar 2023 23:32:58 +0100
-Message-Id: <20230306223306.84383-2-pbonzini@redhat.com>
+Subject: [PATCH v2 2/9] qemu-thread-posix: cleanup, fix, document QemuEvent
+Date: Mon,  6 Mar 2023 23:32:59 +0100
+Message-Id: <20230306223306.84383-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230306223306.84383-1-pbonzini@redhat.com>
 References: <20230306223306.84383-1-pbonzini@redhat.com>
@@ -102,156 +102,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On ARM, seqcst loads and stores (which QEMU does not use) are compiled
-respectively as LDAR and STLR instructions.  Even though LDAR is
-also used for load-acquire operations, it also waits for all STLRs to
-leave the store buffer.  Thus, LDAR and STLR alone are load-acquire
-and store-release operations, but LDAR also provides store-against-load
-ordering as long as the previous store is a STLR.
-
-Compare this to ARMv7, where store-release is DMB+STR and load-acquire
-is LDR+DMB, but an additional DMB is needed between store-seqcst and
-load-seqcst (e.g. DMB+STR+DMB+LDR+DMB); or with x86, where MOV provides
-load-acquire and store-release semantics and the two can be reordered.
-
-Likewise, on ARM sequentially consistent read-modify-write operations only
-need to use LDAXR and STLXR respectively for the load and the store, while
-on x86 they need to use the stronger LOCK prefix.
-
-In a strange twist of events, however, the _stronger_ semantics
-of the ARM instructions can end up causing bugs on ARM, not on x86.
-The problems occur when seqcst atomics are mixed with relaxed atomics.
-
-QEMU's atomics try to bridge the Linux API (that most of the developers
-are familiar with) and the C11 API, and the two have a substantial
-difference:
-
-- in Linux, strongly-ordered atomics such as atomic_add_return() affect
-  the global ordering of _all_ memory operations, including for example
-  READ_ONCE()/WRITE_ONCE()
-
-- in C11, sequentially consistent atomics (except for seq-cst fences)
-  only affect the ordering of sequentially consistent operations.
-  In particular, since relaxed loads are done with LDR on ARM, they are
-  not ordered against seqcst stores (which are done with STLR).
-
-QEMU implements high-level synchronization primitives with the idea that
-the primitives contain the necessary memory barriers, and the callers can
-use relaxed atomics (qatomic_read/qatomic_set) or even regular accesses.
-This is very much incompatible with the C11 view that seqcst accesses
-are only ordered against other seqcst accesses, and requires using seqcst
-fences as in the following example:
-
-   qatomic_set(&y, 1);            qatomic_set(&x, 1);
-   smp_mb();                      smp_mb();
-   ... qatomic_read(&x) ...       ... qatomic_read(&y) ...
-
-When a qatomic_*() read-modify write operation is used instead of one
-or both stores, developers that are more familiar with the Linux API may
-be tempted to omit the smp_mb(), which will work on x86 but not on ARM.
-
-This nasty difference between Linux and C11 read-modify-write operations
-has already caused issues in util/async.c and more are being found.
-Provide something similar to Linux smp_mb__before/after_atomic(); this
-has the double function of documenting clearly why there is a memory
-barrier, and avoiding a double barrier on x86 and s390x systems.
-
-The new macro can already be put to use in qatomic_mb_set().
+QemuEvent is currently broken on ARM due to missing memory barriers
+after qatomic_*().  Apart from adding the memory barrier, a closer look
+reveals some unpaired memory barriers too.  Document more clearly what
+is going on.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/atomics.rst | 26 +++++++++++++++++++++-----
- include/qemu/atomic.h  | 17 ++++++++++++++++-
- 2 files changed, 37 insertions(+), 6 deletions(-)
+ util/qemu-thread-posix.c | 69 ++++++++++++++++++++++++++++------------
+ 1 file changed, 49 insertions(+), 20 deletions(-)
 
-diff --git a/docs/devel/atomics.rst b/docs/devel/atomics.rst
-index 7957310071d9..633df65a97bc 100644
---- a/docs/devel/atomics.rst
-+++ b/docs/devel/atomics.rst
-@@ -27,7 +27,8 @@ provides macros that fall in three camps:
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index 93d250579741..02f674b207cc 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -384,13 +384,21 @@ void qemu_event_destroy(QemuEvent *ev)
  
- - weak atomic access and manual memory barriers: ``qatomic_read()``,
-   ``qatomic_set()``, ``smp_rmb()``, ``smp_wmb()``, ``smp_mb()``,
--  ``smp_mb_acquire()``, ``smp_mb_release()``, ``smp_read_barrier_depends()``;
-+  ``smp_mb_acquire()``, ``smp_mb_release()``, ``smp_read_barrier_depends()``,
-+  ``smp_mb__before_rmw()``, ``smp_mb__after_rmw()``;
- 
- - sequentially consistent atomic access: everything else.
- 
-@@ -472,7 +473,7 @@ and memory barriers, and the equivalents in QEMU:
-   sequential consistency.
- 
- - in QEMU, ``qatomic_read()`` and ``qatomic_set()`` do not participate in
--  the total ordering enforced by sequentially-consistent operations.
-+  the ordering enforced by read-modify-write operations.
-   This is because QEMU uses the C11 memory model.  The following example
-   is correct in Linux but not in QEMU:
- 
-@@ -488,9 +489,24 @@ and memory barriers, and the equivalents in QEMU:
-   because the read of ``y`` can be moved (by either the processor or the
-   compiler) before the write of ``x``.
- 
--  Fixing this requires an ``smp_mb()`` memory barrier between the write
--  of ``x`` and the read of ``y``.  In the common case where only one thread
--  writes ``x``, it is also possible to write it like this:
-+  Fixing this requires a full memory barrier between the write of ``x`` and
-+  the read of ``y``.  QEMU provides ``smp_mb__before_rmw()`` and
-+  ``smp_mb__after_rmw()``; they act both as an optimization,
-+  avoiding the memory barrier on processors where it is unnecessary,
-+  and as a clarification of this corner case of the C11 memory model:
+ void qemu_event_set(QemuEvent *ev)
+ {
+-    /* qemu_event_set has release semantics, but because it *loads*
++    assert(ev->initialized);
 +
-+      +--------------------------------+
-+      | QEMU (correct)                 |
-+      +================================+
-+      | ::                             |
-+      |                                |
-+      |   a = qatomic_fetch_add(&x, 2);|
-+      |   smp_mb__after_rmw();         |
-+      |   b = qatomic_read(&y);        |
-+      +--------------------------------+
++    /*
++     * Pairs with both qemu_event_reset() and qemu_event_wait().
++     *
++     * qemu_event_set has release semantics, but because it *loads*
+      * ev->value we need a full memory barrier here.
+      */
+-    assert(ev->initialized);
+     smp_mb();
+     if (qatomic_read(&ev->value) != EV_SET) {
+-        if (qatomic_xchg(&ev->value, EV_SET) == EV_BUSY) {
++        int old = qatomic_xchg(&ev->value, EV_SET);
 +
-+  In the common case where only one thread writes ``x``, it is also possible
-+  to write it like this:
++        /* Pairs with memory barrier in kernel futex_wait system call.  */
++        smp_mb__after_rmw();
++        if (old == EV_BUSY) {
+             /* There were waiters, wake them up.  */
+             qemu_futex_wake(ev, INT_MAX);
+         }
+@@ -399,18 +407,19 @@ void qemu_event_set(QemuEvent *ev)
  
-       +--------------------------------+
-       | QEMU (correct)                 |
-diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
-index 874134fd19ae..f85834ee8b20 100644
---- a/include/qemu/atomic.h
-+++ b/include/qemu/atomic.h
-@@ -245,6 +245,20 @@
- #define smp_wmb()   smp_mb_release()
- #define smp_rmb()   smp_mb_acquire()
- 
-+/*
-+ * SEQ_CST is weaker than the older __sync_* builtins and Linux
-+ * kernel read-modify-write atomics.  Provide a macro to obtain
-+ * the same semantics.
-+ */
-+#if !defined(QEMU_SANITIZE_THREAD) && \
-+    (defined(__i386__) || defined(__x86_64__) || defined(__s390x__))
-+# define smp_mb__before_rmw() signal_barrier()
-+# define smp_mb__after_rmw() signal_barrier()
-+#else
-+# define smp_mb__before_rmw() smp_mb()
-+# define smp_mb__after_rmw() smp_mb()
-+#endif
+ void qemu_event_reset(QemuEvent *ev)
+ {
+-    unsigned value;
+-
+     assert(ev->initialized);
+-    value = qatomic_read(&ev->value);
+-    smp_mb_acquire();
+-    if (value == EV_SET) {
+-        /*
+-         * If there was a concurrent reset (or even reset+wait),
+-         * do nothing.  Otherwise change EV_SET->EV_FREE.
+-         */
+-        qatomic_or(&ev->value, EV_FREE);
+-    }
 +
- /* qatomic_mb_read/set semantics map Java volatile variables. They are
-  * less expensive on some platforms (notably POWER) than fully
-  * sequentially consistent operations.
-@@ -259,7 +273,8 @@
- #if !defined(QEMU_SANITIZE_THREAD) && \
-     (defined(__i386__) || defined(__x86_64__) || defined(__s390x__))
- /* This is more efficient than a store plus a fence.  */
--# define qatomic_mb_set(ptr, i)  ((void)qatomic_xchg(ptr, i))
-+# define qatomic_mb_set(ptr, i) \
-+    ({ (void)qatomic_xchg(ptr, i); smp_mb__after_rmw(); })
- #else
- # define qatomic_mb_set(ptr, i) \
-    ({ qatomic_store_release(ptr, i); smp_mb(); })
++    /*
++     * If there was a concurrent reset (or even reset+wait),
++     * do nothing.  Otherwise change EV_SET->EV_FREE.
++     */
++    qatomic_or(&ev->value, EV_FREE);
++
++    /*
++     * Order reset before checking the condition in the caller.
++     * Pairs with the first memory barrier in qemu_event_set().
++     */
++    smp_mb__after_rmw();
+ }
+ 
+ void qemu_event_wait(QemuEvent *ev)
+@@ -418,20 +427,40 @@ void qemu_event_wait(QemuEvent *ev)
+     unsigned value;
+ 
+     assert(ev->initialized);
+-    value = qatomic_read(&ev->value);
+-    smp_mb_acquire();
++
++    /*
++     * qemu_event_wait must synchronize with qemu_event_set even if it does
++     * not go down the slow path, so this load-acquire is needed that
++     * synchronizes with the first memory barrier in qemu_event_set().
++     *
++     * If we do go down the slow path, there is no requirement at all: we
++     * might miss a qemu_event_set() here but ultimately the memory barrier in
++     * qemu_futex_wait() will ensure the check is done correctly.
++     */
++    value = qatomic_load_acquire(&ev->value);
+     if (value != EV_SET) {
+         if (value == EV_FREE) {
+             /*
+-             * Leave the event reset and tell qemu_event_set that there
+-             * are waiters.  No need to retry, because there cannot be
+-             * a concurrent busy->free transition.  After the CAS, the
+-             * event will be either set or busy.
++             * Leave the event reset and tell qemu_event_set that there are
++             * waiters.  No need to retry, because there cannot be a concurrent
++             * busy->free transition.  After the CAS, the event will be either
++             * set or busy.
++             *
++             * This cmpxchg doesn't have particular ordering requirements if it
++             * succeeds (moving the store earlier can only cause qemu_event_set()
++             * to issue _more_ wakeups), the failing case needs acquire semantics
++             * like the load above.
+              */
+             if (qatomic_cmpxchg(&ev->value, EV_FREE, EV_BUSY) == EV_SET) {
+                 return;
+             }
+         }
++
++        /*
++         * This is the final check for a concurrent set, so it does need
++         * a smp_mb() pairing with the second barrier of qemu_event_set().
++         * The barrier is inside the FUTEX_WAIT system call.
++         */
+         qemu_futex_wait(ev, EV_BUSY);
+     }
+ }
 -- 
 2.39.1
 
