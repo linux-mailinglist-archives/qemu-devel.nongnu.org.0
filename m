@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB416AD111
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D286AD118
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:06:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIwc-0006Tr-9E; Mon, 06 Mar 2023 17:04:34 -0500
+	id 1pZIwb-0006Sp-EP; Mon, 06 Mar 2023 17:04:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwY-0006Pe-2S
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:30 -0500
+ id 1pZIwZ-0006R9-2z
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:31 -0500
 Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwV-0006o4-FR
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:29 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so14632429pjb.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:26 -0800 (PST)
+ id 1pZIwW-0006oH-Co
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:30 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id y2so11289860pjg.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140266;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140267;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=US+5OoBQkoCZJIuGPRy29aaMfRBm+JA5f0rSBQf0uH4=;
- b=BjOJzGXu/rIgaEHRCk+bCaGJCT+XTrPfMsbe3ibARoqtv8jmkBdSjY1QM/zwGHkiCd
- 0Scx4hSKRDCx1MDmKniziq0/MZI7/YZMNFhmNaMijHVuBLtrvdNYqw1bcoXWsGvWIZI1
- w4QXCTQn2uSXe+E6B/Tufd7BUJv7y6X3RB3pUDHAVLSwhpjZoX+cUuknZDJrQaqm33n8
- uLzpTuQ/HY1WbIi1yFBKtrK8rMWru46YIFLPqz+zGlfRW/sgA0uwQGju124D/T/niTgK
- WRwIxNI8gCn7DiTixJCltYocX33mUMnawDhPdGmRkw8+GMZvoqm7cGW7l6snpH7veUyd
- ENEA==
+ bh=od8NCbufkDb5gUqPx2kp94RSNhCnehuQbOwnqQsEv5c=;
+ b=dNHEcIrcpv20IqHbf70FgXLFMcGeYA+JY/7Wv5JwbYg0CWgUoNHA0+5tOMcWZRwZJp
+ cSlJNmNliaEFjUC5itm0utbXLuLwEOj3nM0VqpsdHYLw/BzrPa7nCSNgahZ8oBS7DtPU
+ aVt6K897tXkuiWOgINXpFZ2YtBz8A5hy2eZj3avriVP0MNdZMn7uafCtm/LHSGCIF2pv
+ jr2m404+a+g/AhwPzJuNqr0Jwx47hMa/SUd+L8fBCBEkqI82TjLSDjHoMzGShgN31MrS
+ ZN+m/mcESjDQgpzyLU83KpXVs879pKkAtgQS8mogpUfBiF/HeoCLm+pf2/QzKV0DzrYS
+ z7tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678140266;
+ d=1e100.net; s=20210112; t=1678140267;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=US+5OoBQkoCZJIuGPRy29aaMfRBm+JA5f0rSBQf0uH4=;
- b=RGzRY539jclJ8wV33FP6wmGt1cS8Idyd4Qgd8IEo7FjvEsgtXLUPij3ZEMda7Gl4hX
- +0S8Jwv2/KwchPxJwe5+Mta49l2gbMgJJvqg6Ir/MfC8SjNsCCXLyb7Pc5MTXxJmPuhn
- fmq5CpKfyDd7fk+DUOa/c8Z9mwhJH8CLG6+akHREU92Tb8CI7j5Rx8l7XmbYjxLhth4I
- Qykyl7j5XCKgBaLwakolv4xJpWvYJo/0U02zB0OA7b6ClUrGUij5J/wqsvnoFL70YWhs
- hW4qFj9aW2Y5g+qO9keHY5u1JF+iphE+S878Sma3/UF7OqK06Lxsnuomu+Ztzy5p0O/4
- /OcA==
-X-Gm-Message-State: AO0yUKX/IDyEL9A0fqaKFutXexKZmlcU6sT02jshZkYMzRjFhO3MUuh0
- 7qLoGux9UbvOGgojx/8DWm4gjQ==
-X-Google-Smtp-Source: AK7set9uR6zM2X4wDaDrTH3akPANfHnQpsbY28jWjnrA0tswnA/tyEdE5e5po4ZJ9tNr/Ocubs92KQ==
-X-Received: by 2002:a17:903:1c9:b0:19e:6fd5:f4fa with SMTP id
- e9-20020a17090301c900b0019e6fd5f4famr12423835plh.69.1678140265493; 
- Mon, 06 Mar 2023 14:04:25 -0800 (PST)
+ bh=od8NCbufkDb5gUqPx2kp94RSNhCnehuQbOwnqQsEv5c=;
+ b=cKza+bx6j6oC/pTKsWFywvw41u1whV/RJRli7D5YxPwUVfXVuJ1prEHvx4Cji56yvW
+ X8d0eiud9Ur0JVpUIsj8R668lEIV05Dij2qHrAVx1g5OEjKbGM4hdN/p+VxAOxKAV5+O
+ jNdrby67AN5sy4CSZgtCJTfIATWg3LzlSNJfkp38g5Bipu8/qdJHyEvG/pEICSs11L3D
+ DKzAqji4xkSeMQa/IjiVBmu7Ye8AoyDusDVdPJqjzU6sSMIn6+lhpe7tP5C1EpR7/u/o
+ PrzzQWg+ydDY4ZCndnQDMBlzrYBBn5VWREe779xLtDI9PamzydIWdU4RSpn8x1fiCEhA
+ Vfjw==
+X-Gm-Message-State: AO0yUKWzLQFX/ifgzkqSrFcXvVQYAHpr+3pC/E+i55E/MG99wxvj7aHa
+ vVJskZ/rNfTaCKU4Uw1sMeMIow==
+X-Google-Smtp-Source: AK7set+QgAnraCJACFnueJZsEjK2HU7JR9QMn6lzDxiVB1DAMmcEz4XZLBg17zSrcTGqiwmcJvm3vw==
+X-Received: by 2002:a17:902:dac8:b0:19a:9833:6f8 with SMTP id
+ q8-20020a170902dac800b0019a983306f8mr15538080plx.35.1678140266871; 
+ Mon, 06 Mar 2023 14:04:26 -0800 (PST)
 Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- km11-20020a17090327cb00b0019a75ea08e5sm7202627plb.33.2023.03.06.14.04.24
+ p4-20020a170902780400b00192b23b8451sm7101574pll.108.2023.03.06.14.04.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 14:04:25 -0800 (PST)
-Subject: [PULL 02/22] target/riscv: implement Zicbom extension
-Date: Mon,  6 Mar 2023 14:02:39 -0800
-Message-Id: <20230306220259.7748-3-palmer@rivosinc.com>
+ Mon, 06 Mar 2023 14:04:26 -0800 (PST)
+Subject: [PULL 03/22] target/riscv: add Zicbop cbo.prefetch{i, r,
+ m} placeholder
+Date: Mon,  6 Mar 2023 14:02:40 -0800
+Message-Id: <20230306220259.7748-4-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
 References: <20230306220259.7748-1-palmer@rivosinc.com>
@@ -65,10 +65,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Christoph Muellner <cmuellner@linux.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Weiwei Li <liweiwei@iscas.ac.cn>, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
+ Philipp Tomsich <philipp.tomsich@vrull.eu>, 
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Palmer Dabbelt <palmer@rivosinc.com>
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
@@ -96,237 +96,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Christoph Muellner <cmuellner@linux.com>
 
-Zicbom is the Cache-Block Management extension defined in the already
-ratified RISC-V Base Cache Management Operation (CBO) ISA extension [1].
+The cmo.prefetch instructions are nops for QEMU (no emulation of the
+memory hierarchy, no illegal instructions, no permission faults, no
+traps).
 
-The extension contains three instructions: cbo.clean, cbo.flush and
-cbo.inval. All of them must be implemented in the same group as LQ and
-cbo.zero due to overlapping patterns.
+Add a comment noting where they would be decoded in case cbo.prefetch
+instructions become relevant in the future.
 
-All these instructions can throw a Illegal Instruction/Virtual
-Instruction exception, similar to the existing cbo.zero. The same
-check_zicbo_envcfg() is used to handle these exceptions.
-
-Aside from that, these instructions also need to handle page faults and
-guest page faults. This is done in a new check_zicbom_access() helper.
-
-As with Zicboz, the cache block size for Zicbom is also configurable.
-Note that the spec determines that Zicbo[mp] and Zicboz can have
-different cache sizes (Section 2.7 of [1]), so we also include a
-'cbom_blocksize' to go along with the existing 'cboz_blocksize'. They
-are set to the same size, so unless users want to play around with the
-settings both sizes will be the same.
-
-[1] https://github.com/riscv/riscv-CMOs/blob/master/specifications/cmobase-v1.0.1.pdf
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Signed-off-by: Christoph Muellner <cmuellner@linux.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-ID: <20230224132536.552293-4-dbarboza@ventanamicro.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <20230224132536.552293-5-dbarboza@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c                          |  3 +
- target/riscv/cpu.h                          |  2 +
- target/riscv/helper.h                       |  2 +
- target/riscv/insn32.decode                  |  5 ++
- target/riscv/insn_trans/trans_rvzicbo.c.inc | 27 +++++++++
- target/riscv/op_helper.c                    | 67 +++++++++++++++++++++
- 6 files changed, 106 insertions(+)
+ target/riscv/insn32.decode | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ab6c127859..3e8f21a47d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -75,6 +75,7 @@ struct isa_ext_data {
- static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
-     ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
-+    ISA_EXT_DATA_ENTRY(zicbom, true, PRIV_VERSION_1_12_0, ext_icbom),
-     ISA_EXT_DATA_ENTRY(zicboz, true, PRIV_VERSION_1_12_0, ext_icboz),
-     ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
-     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-@@ -1168,6 +1169,8 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
-     DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
- 
-+    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
-+    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize, 64),
-     DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
-     DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize, 64),
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 73c9832fb7..b5b5425b99 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -434,6 +434,7 @@ struct RISCVCPUConfig {
-     bool ext_zkt;
-     bool ext_ifencei;
-     bool ext_icsr;
-+    bool ext_icbom;
-     bool ext_icboz;
-     bool ext_zicond;
-     bool ext_zihintpause;
-@@ -487,6 +488,7 @@ struct RISCVCPUConfig {
-     char *vext_spec;
-     uint16_t vlen;
-     uint16_t elen;
-+    uint16_t cbom_blocksize;
-     uint16_t cboz_blocksize;
-     bool mmu;
-     bool pmp;
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index ce165821b8..37b54e0991 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -98,6 +98,8 @@ DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fclass_h, TCG_CALL_NO_RWG_SE, tl, env, i64)
- 
- /* Cache-block operations */
-+DEF_HELPER_2(cbo_clean_flush, void, env, tl)
-+DEF_HELPER_2(cbo_inval, void, env, tl)
- DEF_HELPER_2(cbo_zero, void, env, tl)
- 
- /* Special functions */
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a471adcea0..282e41aa3e 100644
+index 282e41aa3e..73d5d1b045 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -181,6 +181,11 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
- ldu      ............   ..... 111 ..... 0000011 @i
- {
-   [
-+    # *** RV32 Zicbom Standard Extension ***
-+    cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
-+    cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
-+    cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
-+
-     # *** RV32 Zicboz Standard Extension ***
-     cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
-   ]
-diff --git a/target/riscv/insn_trans/trans_rvzicbo.c.inc b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-index feabc28342..7df9c30b58 100644
---- a/target/riscv/insn_trans/trans_rvzicbo.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-@@ -16,12 +16,39 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#define REQUIRE_ZICBOM(ctx) do {    \
-+    if (!ctx->cfg_ptr->ext_icbom) { \
-+        return false;               \
-+    }                               \
-+} while (0)
-+
- #define REQUIRE_ZICBOZ(ctx) do {    \
-     if (!ctx->cfg_ptr->ext_icboz) { \
-         return false;               \
-     }                               \
- } while (0)
- 
-+static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
-+{
-+    REQUIRE_ZICBOM(ctx);
-+    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
-+    return true;
-+}
-+
-+static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
-+{
-+    REQUIRE_ZICBOM(ctx);
-+    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
-+    return true;
-+}
-+
-+static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
-+{
-+    REQUIRE_ZICBOM(ctx);
-+    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
-+    return true;
-+}
-+
- static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
- {
-     REQUIRE_ZICBOZ(ctx);
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index d0217b6a98..84ee018f7d 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -191,6 +191,73 @@ void helper_cbo_zero(CPURISCVState *env, target_ulong address)
-     }
- }
- 
-+/*
-+ * check_zicbom_access
-+ *
-+ * Check access permissions (LOAD, STORE or FETCH as specified in
-+ * section 2.5.2 of the CMO specification) for Zicbom, raising
-+ * either store page-fault (non-virtualized) or store guest-page
-+ * fault (virtualized).
-+ */
-+static void check_zicbom_access(CPURISCVState *env,
-+                                target_ulong address,
-+                                uintptr_t ra)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+    int mmu_idx = cpu_mmu_index(env, false);
-+    uint16_t cbomlen = cpu->cfg.cbom_blocksize;
-+    void *phost;
-+    int ret;
-+
-+    /* Mask off low-bits to align-down to the cache-block. */
-+    address &= ~(cbomlen - 1);
-+
-+    /*
-+     * Section 2.5.2 of cmobase v1.0.1:
-+     *
-+     * "A cache-block management instruction is permitted to
-+     * access the specified cache block whenever a load instruction
-+     * or store instruction is permitted to access the corresponding
-+     * physical addresses. If neither a load instruction nor store
-+     * instruction is permitted to access the physical addresses,
-+     * but an instruction fetch is permitted to access the physical
-+     * addresses, whether a cache-block management instruction is
-+     * permitted to access the cache block is UNSPECIFIED."
-+     */
-+    ret = probe_access_flags(env, address, cbomlen, MMU_DATA_LOAD,
-+                             mmu_idx, true, &phost, ra);
-+    if (ret != TLB_INVALID_MASK) {
-+        /* Success: readable */
-+        return;
-+    }
-+
-+    /*
-+     * Since not readable, must be writable. On failure, store
-+     * fault/store guest amo fault will be raised by
-+     * riscv_cpu_tlb_fill(). PMP exceptions will be caught
-+     * there as well.
-+     */
-+    probe_write(env, address, cbomlen, mmu_idx, ra);
-+}
-+
-+void helper_cbo_clean_flush(CPURISCVState *env, target_ulong address)
-+{
-+    uintptr_t ra = GETPC();
-+    check_zicbo_envcfg(env, MENVCFG_CBCFE, ra);
-+    check_zicbom_access(env, address, ra);
-+
-+    /* We don't emulate the cache-hierarchy, so we're done. */
-+}
-+
-+void helper_cbo_inval(CPURISCVState *env, target_ulong address)
-+{
-+    uintptr_t ra = GETPC();
-+    check_zicbo_envcfg(env, MENVCFG_CBIE, ra);
-+    check_zicbom_access(env, address, ra);
-+
-+    /* We don't emulate the cache-hierarchy, so we're done. */
-+}
-+
- #ifndef CONFIG_USER_ONLY
- 
- target_ulong helper_sret(CPURISCVState *env)
+@@ -134,6 +134,7 @@ addi     ............     ..... 000 ..... 0010011 @i
+ slti     ............     ..... 010 ..... 0010011 @i
+ sltiu    ............     ..... 011 ..... 0010011 @i
+ xori     ............     ..... 100 ..... 0010011 @i
++# cbo.prefetch_{i,r,m} instructions are ori with rd=x0 and not decoded.
+ ori      ............     ..... 110 ..... 0010011 @i
+ andi     ............     ..... 111 ..... 0010011 @i
+ slli     00000. ......    ..... 001 ..... 0010011 @sh
 -- 
 2.39.2
 
