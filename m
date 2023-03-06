@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FF06ABF38
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6DC6ABF39
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:13:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ9he-0008Ma-Ks; Mon, 06 Mar 2023 07:12:30 -0500
+	id 1pZ9i1-0000A8-4N; Mon, 06 Mar 2023 07:12:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pZ9hb-0008M3-7d
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:12:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ9ht-0008WC-7X
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:12:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pZ9hZ-0007qz-ES
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:12:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ9ho-0007tQ-ED
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:12:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678104744;
+ s=mimecast20190719; t=1678104759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ba4Xudlxo5/Y1yaJF2J3Fv4s4bdF3zkVeGFIWNZmZEA=;
- b=eOrweTQTdfBvdVOrzqZ4RRJxmM9dSK3Rtygm5w7khFiUdETT8sW50AHEyOuRYsOajuF4Yf
- l4a7kHKxOfkM4UzG+JUNr1M3aR3Q3buttRrTEjKK2+iDukz93ffzuIOLxMW++cZJ1Tkunx
- YQgGLWjh5RyZgpzMr49iqE8pu94x0dw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lNRC5KeZgVIm2t34gtnh/F1Mql0HJ/48tnxQknNqR1w=;
+ b=gh2LxmKg52KW3yRR7xe1D9jE5JKuiZapRSZLX3MKZlCXJkTM8plLoGA2SgiUAXNAf553hi
+ XcwpXgoRsO6DyDEDznAiThJaBHhnfJJf3GXwYlK+Ra875sHMFcYlC1OwJEPL+ELe1avU99
+ nMbLAJ33vuAcQ42XsINs4ysUvKq2nbY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-108-vvJvoYgaMX2RKrU5Q-v1hg-1; Mon, 06 Mar 2023 07:12:22 -0500
-X-MC-Unique: vvJvoYgaMX2RKrU5Q-v1hg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c7-20020a7bc847000000b003e00be23a70so6677765wml.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:12:22 -0800 (PST)
+ us-mta-327-rlzzGfj_NyKPYKxAjheijQ-1; Mon, 06 Mar 2023 07:12:38 -0500
+X-MC-Unique: rlzzGfj_NyKPYKxAjheijQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 15-20020a056000156f00b002ca79db6d42so1425216wrz.18
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:12:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678104741;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ba4Xudlxo5/Y1yaJF2J3Fv4s4bdF3zkVeGFIWNZmZEA=;
- b=RsGKdp6F3g0rsE4V8W5LokNKY1Yy3rW8PR4RHwfnkL7umUTtEh2krPs+g5o7Y/4KaD
- Bf+Kjd4E0nRPfyCAyCPLzt/GO46A7s6noF2OvVn8XvQ80SVyHYsX7S5FgpNnamUaaNI1
- mPVcwE7VjcsSh8DcBprCmUObNk8WVWLB6oKy+awMNphRLKV2M1RnLLPyEObmrtxhQFhh
- +cNIKqSyPgnLn/VW+SnZpOtgU4fde7oHbBf3i1WY4Gi7gjfhPEWT5WnG42rMjh4VwJhp
- eLcIMzV4soXce1HVKENgz8u64ZrDS1RKPnjSDxmd3FkdyCXu0SeP5p0tJkOkUvDhJMyp
- ahPw==
-X-Gm-Message-State: AO0yUKX8Yidx40wzL8dxDL5+TCsBxWg4MzIvk86U3hm0o2LrFXj/jtuj
- zSrLr7X4jAdjHsAdILl6RUL6D0UM/3PSDRsMiks2DzUXjNG4rrIrtyvnnoSiEEibae0TdH1dapd
- dCv8RfPpcVtY/8hc=
-X-Received: by 2002:adf:f8d1:0:b0:2c7:1483:88d6 with SMTP id
- f17-20020adff8d1000000b002c7148388d6mr6101888wrq.23.1678104741773; 
- Mon, 06 Mar 2023 04:12:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set/U2WpKByTys4bbf0HRUF2cam6KU++3pktYIZys9mp0LZSz0dvxEnKZb0kYmXW2b51ofPfu8Q==
-X-Received: by 2002:adf:f8d1:0:b0:2c7:1483:88d6 with SMTP id
- f17-20020adff8d1000000b002c7148388d6mr6101874wrq.23.1678104741480; 
- Mon, 06 Mar 2023 04:12:21 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- z1-20020adff1c1000000b002c70c99db74sm9722756wro.86.2023.03.06.04.12.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 04:12:21 -0800 (PST)
-Date: Mon, 6 Mar 2023 12:12:19 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PULL 14/53] virtio-rng-pci: fix transitional migration compat
- for vectors
-Message-ID: <ZAXYo5I/8OR49PqF@work-vm>
-References: <20230302082343.560446-1-mst@redhat.com>
- <20230302082343.560446-15-mst@redhat.com>
- <456fa17c-71b6-8aec-c38c-d7fbc907e150@msgid.tls.msk.ru>
+ d=1e100.net; s=20210112; t=1678104757;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lNRC5KeZgVIm2t34gtnh/F1Mql0HJ/48tnxQknNqR1w=;
+ b=3jyFQVzWLQRsGdbd729myAa8Oyz0gTSFM4zMM28hct+AOaTfjgSd8VN27rt5bk7vt4
+ 9Ktwo8PVKLPj1m66YsykRmNHpBlsaagrLr6Z1XTGXiO1G4ZPfY5h3f0c/Wf/IAKXffLK
+ yuP7IPl9Y1ygBcMIV9DMnnNZpSvpwHUk1EBcOMOpkHc8XPRVXASPrDd25EEH2euV41b/
+ om6afjsQ4EWwGxXKDuhs3SEXgTxn1sFEswL8Ur8AWFXo7UrWIaUgbaw6Zx3X5ztv/bAw
+ SL+rvhK5uSJkjGyqBrpZXKA7TV60iBXF+MjwCV4NXQT5HiAH0JEUySKR/xyOH95UtFmm
+ ThrQ==
+X-Gm-Message-State: AO0yUKW+FeESXnt0SkHz+jktcMmUiBg67klwNO2dQwr317i0UAvFy2la
+ Dx58XLMfG8jePuH13+aHeQL2DnlM/K3c0fq+mRpAg3pRmoDP6Ds17nTSBsPmnlM4F8yHd08tf3A
+ A1EPIkDPT/yaMObc=
+X-Received: by 2002:a05:600c:4f09:b0:3eb:42fa:39d6 with SMTP id
+ l9-20020a05600c4f0900b003eb42fa39d6mr8956890wmq.14.1678104757036; 
+ Mon, 06 Mar 2023 04:12:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set+3TjxhIrw26JuONkGZ4H+IAlKLfoRgpbfn5zeSD5Xygxyg4AUZoahvjPYCBYE4hAYj6dLlYg==
+X-Received: by 2002:a05:600c:4f09:b0:3eb:42fa:39d6 with SMTP id
+ l9-20020a05600c4f0900b003eb42fa39d6mr8956874wmq.14.1678104756766; 
+ Mon, 06 Mar 2023 04:12:36 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-59.web.vodafone.de.
+ [109.43.177.59]) by smtp.gmail.com with ESMTPSA id
+ p10-20020a5d68ca000000b002c59e001631sm9924661wrw.77.2023.03.06.04.12.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 04:12:36 -0800 (PST)
+Message-ID: <bfd4dc1e-0472-483a-1195-37b6c2ca37b4@redhat.com>
+Date: Mon, 6 Mar 2023 13:12:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <456fa17c-71b6-8aec-c38c-d7fbc907e150@msgid.tls.msk.ru>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: jrossi@linux.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: frankja@linux.ibm.com, jjherne@linux.ibm.com
+References: <20230221174548.1866861-1-jrossi@linux.ibm.com>
+ <20230221174548.1866861-2-jrossi@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RESEND PATCH 1/1] pc-bios: Add support for List-Directed IPL
+ from ECKD DASD
+In-Reply-To: <20230221174548.1866861-2-jrossi@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,58 +101,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Michael Tokarev (mjt@tls.msk.ru) wrote:
-> 02.03.2023 11:25, Michael S. Tsirkin wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > In bad9c5a516 ("virtio-rng-pci: fix migration compat for vectors") I
-> > fixed the virtio-rng-pci migration compatibility, but it was discovered
-> > that we also need to fix the other aliases of the device for the
-> > transitional cases.
-> > 
-> > Fixes: 9ea02e8f1 ('virtio-rng-pci: Allow setting nvectors, so we can use MSI-X')
-> > bz: https://bugzilla.redhat.com/show_bug.cgi?id=2162569
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Message-Id: <20230207174944.138255-1-dgilbert@redhat.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >   hw/core/machine.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index f29e700ee4..1cf6822e06 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -47,6 +47,8 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-> >   GlobalProperty hw_compat_7_1[] = {
-> >       { "virtio-device", "queue_reset", "false" },
-> >       { "virtio-rng-pci", "vectors", "0" },
-> > +    { "virtio-rng-pci-transitional", "vectors", "0" },
-> > +    { "virtio-rng-pci-non-transitional", "vectors", "0" },
-> >   };
+On 21/02/2023 18.45, jrossi@linux.ibm.com wrote:
+> From: Jared Rossi <jrossi@linux.ibm.com>
 > 
-> If we consider this one for 7.2 stable, the previous change here, which
-> added "virtio-rng-pci" right before the lines being added, should also
-> be picked up, which is bad9c5a5166fd5e3a892b7b0477cf2f4bd3a959a:
->  From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->  Date: Mon, 9 Jan 2023 10:58:09 +0000
->  Subject: virtio-rng-pci: fix migration compat for vectors
+> Check for a List Directed IPL Boot Record, which would supersede the CCW type
+> entries.  If the record is valid, proceed to use the new style pointers
+> and perform LD-IPL. Each block pointer is interpreted as either an LD-IPL
+> pointer or a legacy CCW pointer depending on the type of IPL initiated.
 > 
-> Should the two both be included in -stable, or both omitted?
+> In either case CCW- or LD-IPL is transparent to the user and will boot the same
+> image regardless of which set of pointers is used. Because the interactive boot
+> menu is only written with the old style pointers, the menu will be disabled for
+> List Directed IPL from ECKD DASD.
+> 
+> If the LD-IPL fails, retry the IPL using the CCW type pointers.
+> 
+> If no LD-IPL boot record is found, simply perform CCW type IPL as usual.
+> 
+> Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
+> 
+> ---
+>   pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
+>   pc-bios/s390-ccw/bootmap.h |  30 ++++++-
+>   2 files changed, 148 insertions(+), 39 deletions(-)
 
-I think both included; however note the warning in the original patch
-(that's also true in this one); live migration from an unpatched world
-to the patched would will break, but it fixes live migration from older
-Qemu; you get to pick your favourite breakage.
+Ok, the patch survived my local regression testing, and it also looks good 
+enough to me for inclusion, so I'll queue it for my
+final pull request before the QEMU 8.0 soft freeze tomorrow.
 
-Dave
-
-> Thanks,
-> 
-> /mjt
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  Thomas
 
 
