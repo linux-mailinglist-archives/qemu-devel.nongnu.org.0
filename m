@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8EE6ACB99
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1816ACB7C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1Q-0005dN-AM; Mon, 06 Mar 2023 12:53:16 -0500
+	id 1pZF1T-00060v-Il; Mon, 06 Mar 2023 12:53:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1F-0005GQ-QE
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:06 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1H-0005Ig-6W
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:11 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1D-0002vG-MH
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:05 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1F-0002vw-Fx
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=/u4C0joOeNxkoQyvdStL/R2XdyaBAcCN2k+su9t/uC4=; b=hsMvlgMytSK6gnF9GyWfuNklCL
- pSZ8wQPeGx+xT6MgYYqo1/tBWMjJCZH5hQNtrIh3YlbodDNbghwVk+d9L2Ztcgy6utzmC5yOxjKw4
- jacLnoAhuXFIT5o/9jhHpw0eE/qfEo9eQMqw9X8IINlj2Kj351TAEa9beUHhFXkLWd8I=;
+ bh=d1ZHHRerp9M1Z2yIoBPolmCXHfX74caNCSPbvIHbALE=; b=A2u3tao9n1mTulgT6vWZ65joz5
+ sa1nkiIeCTXLTUJr8FTpjzHE6lmtXDLai7JOTJSCPqB3omppmGRlSun3svkhcjxBfvgJH1brXDEpR
+ ZnGHluaPb1Iy+RvKfhI3fUMfJ1Of6euz+g0UgtJiJ9hYjabPfrdUcy3L+1xdhGZxJ1dQ=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH 19/23] target/sh4: Remove `NB_MMU_MODES` define
-Date: Mon,  6 Mar 2023 18:52:26 +0100
-Message-Id: <20230306175230.7110-20-anjo@rev.ng>
+Subject: [PATCH 20/23] target/sparc: Remove `NB_MMU_MODES` define
+Date: Mon,  6 Mar 2023 18:52:27 +0100
+Message-Id: <20230306175230.7110-21-anjo@rev.ng>
 In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 References: <20230306175230.7110-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,18 +66,25 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/sh4/cpu-param.h | 1 -
- 1 file changed, 1 deletion(-)
+ target/sparc/cpu-param.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/sh4/cpu-param.h b/target/sh4/cpu-param.h
-index 98a02509bb..a7cdb7edb6 100644
---- a/target/sh4/cpu-param.h
-+++ b/target/sh4/cpu-param.h
-@@ -16,6 +16,5 @@
+diff --git a/target/sparc/cpu-param.h b/target/sparc/cpu-param.h
+index 72ddc4a34f..cb11980404 100644
+--- a/target/sparc/cpu-param.h
++++ b/target/sparc/cpu-param.h
+@@ -16,13 +16,11 @@
+ # else
+ #  define TARGET_VIRT_ADDR_SPACE_BITS 44
+ # endif
+-# define NB_MMU_MODES 6
  #else
+ # define TARGET_LONG_BITS 32
+ # define TARGET_PAGE_BITS 12 /* 4k */
+ # define TARGET_PHYS_ADDR_SPACE_BITS 36
  # define TARGET_VIRT_ADDR_SPACE_BITS 32
+-# define NB_MMU_MODES 3
  #endif
--#define NB_MMU_MODES 2
  
  #endif
 -- 
