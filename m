@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D736AC367
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A66AC360
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:35:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBvN-0006Qz-FA; Mon, 06 Mar 2023 09:34:49 -0500
+	id 1pZBvM-0006Q5-P4; Mon, 06 Mar 2023 09:34:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pZBvH-0006OM-7X; Mon, 06 Mar 2023 09:34:46 -0500
+ id 1pZBvI-0006OO-8W; Mon, 06 Mar 2023 09:34:46 -0500
 Received: from out3-smtp.messagingengine.com ([66.111.4.27])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pZBvE-0005U3-Hm; Mon, 06 Mar 2023 09:34:42 -0500
+ id 1pZBvG-0005UM-7H; Mon, 06 Mar 2023 09:34:44 -0500
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id E48D35C0325;
- Mon,  6 Mar 2023 09:34:38 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 321B85C0277;
+ Mon,  6 Mar 2023 09:34:41 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 06 Mar 2023 09:34:38 -0500
+ by compute5.internal (MEProxy); Mon, 06 Mar 2023 09:34:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:content-type
- :date:date:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1678113278; x=
- 1678199678; bh=GNHVHrXGYIf1YPviKyoay8iuZi9yqmLHup42Ic+lrEk=; b=G
- Y7/92Ul4qTNjm2D5daTcWyadQ+USUhUZAwQAXPXsJJ5QJPeMxfwBwwrzbcJM63YL
- cYl3qjRCdbM8oOFRUvpAPtCHrTw5meWJZiyP50teYoelljMrmDPBL1nXMaToOxzK
- kcBDU0O9ASb2QNFrtEKodNQmoZBCn8hoanexoD42LlchAvUgH87szOt+4uKEu4g9
- rEhjRCAZIAVPuojdxIoz1PEsVp8kV6TFvD1bI7KqhkMuWMND2A7t6340StsbbB5V
- 00xkpmTyDweUqhN9CwiosKfkbhXXb9FNaLvZV5BmmsuCevf9MWrCCzAXtomlkdoz
- ZAVdoi7A6uoMX5D9O+F0A==
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1678113281; x=
+ 1678199681; bh=AoJcLbOjjsqShe+hmnUOhuScOjXiV9Lpwp3DsSQHk+o=; b=K
+ Prd1LIPxrx6jVaUFJTESSaIJKH0dIYcp0anlfbyV7s3H/RORfsjybXiOYbcGq0ob
+ 0TLYBdrvOwh5tJNuHwh1U4B6kSu8pofNzvW/IStFaCoyZCEvIjWPFibh9Xgql5zj
+ 3559+mhGvQHIZmTA332Hcd2opAARLckSwrD40VJ9PlweELs3Py4b7s2uTUeQ12lg
+ 2SaNSw5tahiAzn7C7sHoadMkj2A+gJ+MGor2Xdiil1jLARIgKWehHiqoRW3A+Ca2
+ j+BMXslXNzA6HOJB6ZLaKb7IyzVXsdfVsjw9ceONIfA0/q5JNp9qOh6aDV5yb9dk
+ jtJRwwlnAdZurZDql9h9A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; t=1678113278; x=1678199678; bh=G
- NHVHrXGYIf1YPviKyoay8iuZi9yqmLHup42Ic+lrEk=; b=s2ljxkc74NyuCyHqu
- dos1zUq8tWerX/lwEvnF/Qw4slClZvre+otzwGqf70HFbdDiKHe5ygpYP5kDLgea
- lzvMuDJ49N/9T0fIuP7UmY8JkMGyESugsrg2qFxp7GTL9dqfU/dj1R9IAOkKpwKI
- y5DANfhaZRSEz+9ng0w/3c50BvemyYyEyLDnlLOmek3sRCdGIDArTPs/UPfWJiQv
- hMwERXYpt/yhfxrUEvI1paVrG1FUFxKK0A0Aa1xQ8Me6ib2ZqdyEPosYhIssjOjt
- CdQ4eSKQaQ/cXZsp+3NWTQWmr7b9v4OKNrZUR+HwyqZwL43GEJA1174jxj+q3do5
- IhwuQ==
-X-ME-Sender: <xms:_fkFZM1vN6lTtekjf5InDar1Okm5ARUFMNkKpZJ0fhKiZQD-phTsjQ>
- <xme:_fkFZHHk_vnEqYgECNpn0DK2mit8Ok2EjSYZF0pb7Nq9BSvbTRP_yXXLs1FNXj8tF
- odOmO_00KiFxK2mWGQ>
-X-ME-Received: <xmr:_fkFZE4iUQBPCpjckR4z4qeyL5iaQCbeZ8fsXODqp6NXDGM73SWOaVCmB0SOOXre8Y6tRW4sdSkFnsg0yuvsYPs-ATJ_PxFn51OXpEM>
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1678113281; x=
+ 1678199681; bh=AoJcLbOjjsqShe+hmnUOhuScOjXiV9Lpwp3DsSQHk+o=; b=p
+ fe0IcdwqhEJgqA2BsyzOc5aEXSRHTEFFpX2LItLkQKdixYqvVWo/mgdOkIVggMP9
+ +dYxyLHU4xC6b3zCn5PpOd5mqPCgrOZ0hHpqoewNge8DjOxcAERn+TnwHBaFglwg
+ lGpHbvnSRAZM3a+iFgvJ98ktk1ndVvJoF/FJHzbSKMzC7a7HGg+6KFkOOrW9UuTC
+ jU2fHI9cDnQgziZ0z8De1MuHgX0hmzm4GocDxdFVVtm9POSX3AeSRbIhiPb1d3HT
+ /Rbhjdtmsiuet9u0YHhaYBlDifNyuTjaXKHUFe+uifrCmiXsx/415p1yEXPW9YOM
+ jFiwf5iytL6I1U0YWhOBQ==
+X-ME-Sender: <xms:AfoFZHmQnknfje4rLVhJrFwBOeyOQYNL7zMZWAWw7xF8_crAhzgxsA>
+ <xme:AfoFZK1V0jMNDPCm7Lh5lMnpcTln8zji5syCxPN1wwYH001J3hkVUjPcdRbnzW66p
+ 59dcV3rshyJ2c26Zb0>
+X-ME-Received: <xmr:AfoFZNpAZAIT6i5hh9VHKZ8GWaXVMkI09LVE207LhLLp-jJ7Yj3sMuZYxAigcbofQA6dxi4SGB90XTcOiP80seGfMAl341sXxvlovbU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtkedgfeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefhgeetffffteegfeevueeiieeujefhvdekleejvefhffdugedtveejieejtddt
- geenucffohhmrghinhepghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:_fkFZF0bKZAaNPVwvvCdhilW-Zh81qiPAQ-gRvuC8mNo1RasRCq_SA>
- <xmx:_fkFZPH4FWzSxAKtEYgazGMoEJK40go5_5madlWXOYjVMHup627cJw>
- <xmx:_fkFZO8gFsCCA5yzIEVwbkT-5YfZR5XybxhUfap2IOCFoYyvr0Kdlw>
- <xmx:_vkFZGDN30_mWd2wcFH_2dVmjdizvn6EYEu_h-J-UBucYVeijAN2_A>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
+ udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:AfoFZPnkzjBaNbubP8KBlCoXoSD33a35OQNkcN2tzBX8o5myB0Sc1Q>
+ <xmx:AfoFZF34nun8XHPbLAy49XPB-JtfH1bVgGQI1_qLytKA-CY-AVfl5A>
+ <xmx:AfoFZOvpdWhICcQBkUT3dvP8fAPxuvV9MTA8F-l57C1dv9xUFH5mgA>
+ <xmx:AfoFZOtb2Ik238NvyYIiwVOZdRbruXjfHnRfd9r1wSvb2-3ylafAjA>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Mar 2023 09:34:35 -0500 (EST)
+ 6 Mar 2023 09:34:39 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
@@ -72,22 +72,23 @@ Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 0/5] hw/nvme updates
-Date: Mon,  6 Mar 2023 15:34:28 +0100
-Message-Id: <20230306143433.10351-1-its@irrelevant.dk>
+ Joel Granados <j.granados@samsung.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL 1/5] hw/nvme: move adjustment of data_units{read,written}
+Date: Mon,  6 Mar 2023 15:34:29 +0100
+Message-Id: <20230306143433.10351-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.39.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230306143433.10351-1-its@irrelevant.dk>
+References: <20230306143433.10351-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1435; i=k.jensen@samsung.com;
- h=from:subject; bh=HeR/NLfbjVObeUo0lesSBsNowTErLPQ0mKmSo7CG+bw=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQF+fjxjaEMuJ+ftcaxWDMB+tuMvdLuHiBOm
- ipcuFLZ2fWK84kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkBfn4AAoJEE3hrzFt
- Tw3pIp8H/j/ea7aPdcXnZ7hso+99paJWN0TL5XgwqT4oEm9JcBROtFOarmd27CTZ0Bu5SJYl20f
- 5rKbMImsgjIRu0AUlGoOJ/l7LNWOCZ4Fzgg/KBwNCjojmTVkjnnBZ9xa3/EU0KZIA4o9x0RGMck
- FvRqEMNb+HWjU++WPoFN1uh8rj7IFseYXi63WTXO5+dihNDr4meeolrcBKVJXs68RcQI1bj2DgP
- QScV1lQ9dWFVRritqA5L9lxDgXDwUtdiiZB+2y86tJYgyXGRnzzOnEKu8//bwOOFjvAI/3N4GdM
- uP4sRsJuZBhl3Lz2lGv1ch0CAuY68VHfAEuq4ErOK7IYayCAdpv8Uau0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2470; i=k.jensen@samsung.com;
+ h=from:subject; bh=KpSFv221ENOzRh4hLzCplOfU3hk5j+akPNWluv6GEyc=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQF+fiWOZTclcfhdnIIamhZbT88tj47gIF4n
+ SCODl/pCV2f9IkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkBfn4AAoJEE3hrzFt
+ Tw3pmbsH/1w7Pq7wcV9Lr4/trsbDGAqdAxMcCWKGASDFM1mUto68QMODdgysf+jEbn4jzJ3b/o2
+ UsMz69IWNOdaePS5/5VO5HO8J1/MbQ4pshGIrKwWjh9S+LY3lzr+OkMt4SgAhaYAgkseOQmE6y2
+ hs49kfQC91bezbHvWNnyY3MyMVFig0C9NpHLjBTj54wWKRXwOqMOj8rkIuBLXJPCLuotop5nbVS
+ OCHXm/X+JfTKCpR24lsc4mJe++949vh17OdrmYtOB5YhmNa1SJRM/CumwX7v4gzPB1hze39bBdw
+ J2EXDSK/5iL7rpj+NdxlGrWX+0CCh1g45hle1Ad7T9eZ9V6TzE3Y1anR
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -115,54 +116,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Joel Granados <j.granados@samsung.com>
 
-Hi,
+Move the rounding of bytes read/written into nvme_smart_log which
+reports in units of 512 bytes, rounded up in thousands. This is in
+preparation for adding the Endurance Group Information log page which
+reports in units of billions, rounded up.
 
-The following changes since commit f003dd8d81f7d88f4b1f8802309eaa76f6eb223a:
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Joel Granados <j.granados@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-  Merge tag 'pull-tcg-20230305' of https://gitlab.com/rth7680/qemu into staging (2023-03-06 10:20:04 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/birkelund/qemu.git tags/nvme-next-pull-request
-
-for you to fetch changes up to 73064edfb864743cde2c08f319609344af02aeb3:
-
-  hw/nvme: flexible data placement emulation (2023-03-06 15:28:02 +0100)
-
-----------------------------------------------------------------
-hw/nvme updates
-
-* basic support for directives
-* simple support for endurance groups
-* emulation of flexible data placement (tp4146)
-
-----------------------------------------------------------------
-
-Gollu Appalanaidu (1):
-  hw/nvme: basic directives support
-
-Jesper Devantier (1):
-  hw/nvme: flexible data placement emulation
-
-Joel Granados (1):
-  hw/nvme: move adjustment of data_units{read,written}
-
-Klaus Jensen (1):
-  hw/nvme: add basic endurance group support
-
-Niklas Cassel (1):
-  hw/nvme: store a pointer to the NvmeSubsystem in the NvmeNamespace
-
- hw/nvme/ctrl.c       | 802 ++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/ns.c         | 147 ++++++++
- hw/nvme/nvme.h       |  92 ++++-
- hw/nvme/subsys.c     |  94 ++++-
- hw/nvme/trace-events |   1 +
- include/block/nvme.h | 236 ++++++++++++-
- 6 files changed, 1345 insertions(+), 27 deletions(-)
-
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index f25cc2c235e9..99b92ff20b9a 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4386,8 +4386,8 @@ static void nvme_set_blk_stats(NvmeNamespace *ns, struct nvme_stats *stats)
+ {
+     BlockAcctStats *s = blk_get_stats(ns->blkconf.blk);
+ 
+-    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
+-    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
++    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ];
++    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE];
+     stats->read_commands += s->nr_ops[BLOCK_ACCT_READ];
+     stats->write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
+ }
+@@ -4401,6 +4401,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     uint32_t trans_len;
+     NvmeNamespace *ns;
+     time_t current_ms;
++    uint64_t u_read, u_written;
+ 
+     if (off >= sizeof(smart)) {
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -4427,10 +4428,11 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     trans_len = MIN(sizeof(smart) - off, buf_len);
+     smart.critical_warning = n->smart_critical_warning;
+ 
+-    smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
+-                                                        1000));
+-    smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_written,
+-                                                           1000));
++    u_read = DIV_ROUND_UP(stats.units_read >> BDRV_SECTOR_BITS, 1000);
++    u_written = DIV_ROUND_UP(stats.units_written >> BDRV_SECTOR_BITS, 1000);
++
++    smart.data_units_read[0] = cpu_to_le64(u_read);
++    smart.data_units_written[0] = cpu_to_le64(u_written);
+     smart.host_read_commands[0] = cpu_to_le64(stats.read_commands);
+     smart.host_write_commands[0] = cpu_to_le64(stats.write_commands);
+ 
 -- 
 2.39.2
 
