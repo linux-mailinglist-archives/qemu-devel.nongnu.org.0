@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D2F6AC7D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 17:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6876AC7F5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 17:30:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZDdg-0003nf-GM; Mon, 06 Mar 2023 11:24:40 -0500
+	id 1pZDib-0007Wc-RZ; Mon, 06 Mar 2023 11:29:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pZDdS-0003i0-1E
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:24:26 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pZDdO-0002wz-NK
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:24:25 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so13675653pjb.3
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 08:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678119851;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=6605cSGO0aT8cSaArIWf5XMIupsaSVls55jNincpbCI=;
- b=HUf79zQQVux4Hrf/rvD7P9AeDJGPLr6XfrQPmhB9++TipQe6LCVVm6TNsCnaUnLFOD
- TSAvjgNtQaTrrkEz9r3wg45znT09naJ1px+OqaZE0BIaIgcV6L1AyrG4is2bN+esBA7M
- +1zuta+IPp/iArI6t1ZxDfgr5RnSVSmNEKIA3XX9zV5zmLhT6pJL2jUktD/Xdhk7BMZc
- bYjEO8AFqlwCvtSZtbO3O6d74Chrmua2sQn33VYPl6gIq6U3t8c5EhnddDAZH+dVmWfj
- PSeVfWa5LGG1OTfK5eJ2XOuxAwYAV0JpoKtnBngDG8g2atqpcsiM8NzW+uaDJFg4JLXp
- Qssg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZDiZ-0007WO-Qe
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:29:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZDiX-0003ok-Qr
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:29:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678120180;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type: content-transfer-encoding:content-transfer-encoding;
+ bh=DYFP8HuE+yaNzeKTTTVNqRqJhb/S7jiZ0JcSofqiuRU=;
+ b=SM+dgYotPcIyJwBMcjTrixQXUUZy7N1HohFGAoJIXdl6jLlWUke/zfiC4Oo8T8b0XbnfOW
+ PEffQY5Y8KVs1GA2yt+um0uDJuIhIEDIEU5Y013jIBkolRbqgP1OeWLsJMUWCstxoh9YKj
+ gfwcdbqKcPfkUDaXJUf7ZFSE/teAChk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-478-Qa814mcDPVWkIq3_X3xLfw-1; Mon, 06 Mar 2023 11:29:38 -0500
+X-MC-Unique: Qa814mcDPVWkIq3_X3xLfw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w11-20020a05640234cb00b004b3247589b3so14887862edc.23
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 08:29:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678119851;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6605cSGO0aT8cSaArIWf5XMIupsaSVls55jNincpbCI=;
- b=Mu1CHq+D4OjvdaBpzKnEyajG9zBYE2IfGMcGRgP/9BwmyHXxGhM+Y9/Z96ZIXIT7i6
- Dl8J2dvBLRK9Ko9s/S6EpQ3TiEeD4fealwwiPSVGa+uK5QIp1ZXHkmwVlO2AgCQf/nEn
- Xk99MiFMpjkjgmgHHf4lq8DCl6/MiBFe8y2Mpf8WqF5EXS/SCSrnL5v9t+un1PvtnIF/
- FLFS8zLUpmpliCNTwaFcpWhChhc5MDqlQqqDYKBfO+Ep9417BfjTeayJ6ddOx8OIPEgL
- aPC2c/7AuWXJnmb5kwTPXgiLCW83MfW7GkCpdBHJbaO1KXXA8fDLH3eBcvZ21K+Escz9
- ZF3g==
-X-Gm-Message-State: AO0yUKWScgx/TNiCfUez46IIODy03yyWag2zKn7wnz/K+4LunBhuOm1N
- IRVpV7njqz/FZJvn/6nUCcQDdQ==
-X-Google-Smtp-Source: AK7set/JUnZABrLnSHTkxvicyHw8+tBi7V4PnIpcBeILxUE05Faj+afoc2l9Yn/Q9fVeYcMYIfNkyw==
-X-Received: by 2002:a17:902:eac2:b0:19c:fa22:e98a with SMTP id
- p2-20020a170902eac200b0019cfa22e98amr11212992pld.8.1678119850773; 
- Mon, 06 Mar 2023 08:24:10 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- jh5-20020a170903328500b0019a983f0119sm6903133plb.307.2023.03.06.08.24.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 08:24:10 -0800 (PST)
-Date: Mon, 06 Mar 2023 08:24:10 -0800 (PST)
-X-Google-Original-Date: Mon, 06 Mar 2023 08:23:21 PST (-0800)
-Subject: Re: [PATCH v11 0/5] riscv: Allow user to set the satp mode
-In-Reply-To: <CAHVXubiCH=X-gi37DFpOFWsNn=-vPnKe4SV2Gnt6P-r1SFLKPQ@mail.gmail.com>
-CC: dbarboza@ventanamicro.com, Alistair Francis <Alistair.Francis@wdc.com>,
- bin.meng@windriver.com, ajones@ventanamicro.com, frank.chang@sifive.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: alexghiti@rivosinc.com
-Message-ID: <mhng-161312ff-359b-463e-bafd-e48aae6491c7@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ d=1e100.net; s=20210112; t=1678120177;
+ h=content-transfer-encoding:subject:reply-to:from:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DYFP8HuE+yaNzeKTTTVNqRqJhb/S7jiZ0JcSofqiuRU=;
+ b=YKzJA+TGpNcG+1MOkbVO/jenSAq/IVDpvfBSzJy4mnEwGQb+Ipkd1BFqblQ8QwHGJs
+ No172V4gKqjTcmQWBFhg7TXWNjtBeMVb3pFI05dEF9oM1OtcvAhx7d2BjUwI1eE/kRX0
+ MchFQI3TiEP9j4Lb1OUXLDtnUzZcAswTyMDKG7wqCwmvESt8alqC2l//NQFfQ24nQHtZ
+ Y8bqsQR+k394PuK57PlH70wkkfx+FB+kgWc8Yi1FQhTiUHQpHQeNNnDCKlL/VDswuZXW
+ bAKcTSbITV4AVK5Fr5NBAk2/L+pTxsfmWQ6blnM7RBJ3iYW8szNE/oK3hbEFN3gLBd1Z
+ 38lA==
+X-Gm-Message-State: AO0yUKWRE7Mc52VzwZa2R+n9liuAIdk/Lh7YB5NJKkn+ZCJl7LWVRcpX
+ PJC3x3wwBO36YZuU5CVdfSLkNQKfrMiGIeRkIa1bRHkai/+CLNtSr3lFka6oUSHP23Jfvh5idZg
+ kbf+7Iq1bB9eoKwM39pWMET9wqLpWnvRDlsjt/pbZFJZ3CJ1oamlzRODubq9hc+t7COuaCJvnEL
+ E=
+X-Received: by 2002:a17:906:da89:b0:8b1:7de6:e292 with SMTP id
+ xh9-20020a170906da8900b008b17de6e292mr14890423ejb.9.1678120177401; 
+ Mon, 06 Mar 2023 08:29:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set/wyuFHbxDX/+lcHjnLlx2Nkm7CeI7Shdjq4qxCXPT/2t+nGQRlBbeQ12jrS6iK7BAuPFccfg==
+X-Received: by 2002:a17:906:da89:b0:8b1:7de6:e292 with SMTP id
+ xh9-20020a170906da8900b008b17de6e292mr14890395ejb.9.1678120177010; 
+ Mon, 06 Mar 2023 08:29:37 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ fx14-20020a1709069e8e00b008e56a0d546csm4734899ejc.123.2023.03.06.08.29.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 08:29:36 -0800 (PST)
+Message-ID: <52e4dfe2-128e-2a1a-b627-6aceebfbb5b0@redhat.com>
+Date: Mon, 6 Mar 2023 17:29:35 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Content-Language: en-US
+To: qemu-devel <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: KVM Forum 2023: Call for presentations
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,141 +96,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: "kvm-forum-2023-pc@redhat.com" <kvm-forum-2023-pc@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 06 Mar 2023 00:33:20 PST (-0800), alexghiti@rivosinc.com wrote:
-> Hi Palmer,
->
-> On Mon, Mar 6, 2023 at 12:34 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->>
->> On Fri, 03 Mar 2023 05:12:47 PST (-0800), alexghiti@rivosinc.com wrote:
->> > This introduces new properties to allow the user to set the satp mode,
->> > see patch 3 for full syntax. In addition, it prevents cpus to boot in a
->> > satp mode they do not support (see patch 4).
->> >
->> > base-commit: commit c61d1a066cb6 ("Merge tag 'for-upstream' of
->> > https://gitlab.com/bonzini/qemu into staging")
->>
->> I have that, but I still got some merge conflicts.  I've put that here
->> <https://github.com/palmer-dabbelt/qemu/tree/set-satp> for now, pending
->> Daniel's response below.
->
-> Weird, I have just tried again and it applied cleanly on the
-> base-commit I mentioned, I tried to cherry-pick a few patches, even
-> commit d4ea71170432 ("target/riscv: introduce riscv_cpu_cfg()") does
-> not break the merge.
+###########################
+KVM Forum 2023
+June 14-15, 2023
+Brno, Czech Republic
+https://kvm-forum.qemu.org/
+###########################
 
-Weird, I'm just using b4 to pick up the patches from lore so not sure 
-what's up.
+KVM Forum is an annual event that presents a rare opportunity for 
+developers and users to discuss the state of Linux virtualization 
+technology and plan for the challenges ahead. Sessions include updates 
+on the state of the KVM virtualization stack, planning for the future, 
+and many opportunities for attendees to collaborate.
 
-> Anyway, FWIW I checked the patches on the set-satp branch again, and
-> your merge seems ok.
+This year's event will be held in Brno, Czech Republic on June 14-15, 
+2023.  It will be in-person only and will be held right before the 
+DevConf.CZ open source community conference.
 
-OK, I picked those onto riscv-to-apply.next and everything looks fine on 
-my end.
+June 14 will be at least partly dedicated to a hackathon or "day of 
+BoFs". This will provide time for people to get together and discuss 
+strategic decisions, as well as other topics that are best solved within 
+smaller groups.
 
->
->>
->> >
->> > v11:
->> > - rebase on top of master
->> > - Added RB/AB from Frank and Alistair
->> > - Use VM_1_10_XX directly instead of satp_mode_from_str, from Frank
->> > - Set satp mode max for thead c906 to sv39
->>
->> Daniel: It looks like the feedback on v10 included dropping the first
->> patch
->> <https://lore.kernel.org/qemu-devel/66d80b94-5941-31f3-995f-e9666a91fbb7@ventanamicro.com/T/#macdb6c5232bd8c082966107d7b44aaaec9b29ad6>.
->> Sorry if I'm just misunderstanding, but it looks to me like that patch
->> is still useful and the v11 doesn't even build without it.
->
-> No, the first commit is a preparatory commit for the series, it is required.
 
-Ya, that's what I'm seeing too.  It's in the queue before the rest.
+CALL FOR PRESENTATIONS
+======================
 
-Thanks!
+We encourage you to submit presentations at 
+https://kvm-forum.qemu.org/2023/cfp.  Suggested topics include:
 
->
->
->>
->> >
->> > v10:
->> > - Fix user mode build by surrounding satp handling with #ifndef
->> >   CONFIG_USER_ONLY, Frank
->> > - Fix AB/RB from Frank and Alistair
->> >
->> > v9:
->> > - Move valid_vm[i] up, Andrew
->> > - Fixed expansion of the bitmap map, Bin
->> > - Rename set_satp_mode_default into set_satp_mode_default_map, Bin
->> > - Remove outer parenthesis and alignment, Bin
->> > - Fix qemu32 build failure, Bin
->> > - Fixed a few typos, Bin
->> > - Add RB from Andrew and Bin
->> >
->> > v8:
->> > - Remove useless !map check, Andrew
->> > - Add RB from Andrew
->> >
->> > v7:
->> > - Expand map to contain all valid modes, Andrew
->> > - Fix commit log for patch 3, Andrew
->> > - Remove is_32_bit argument from set_satp_mode_default, Andrew
->> > - Move and fixed comment, Andrew
->> > - Fix satp_mode_map_max in riscv_cpu_satp_mode_finalize which was set
->> >   too early, Alex
->> > - Remove is_32_bit argument from set_satp_mode_max_supported, Andrew
->> > - Use satp_mode directly instead of a string in
->> >   set_satp_mode_max_supported, Andrew
->> > - Swap the patch introducing supported bitmap and the patch that sets
->> >   sv57 in the dt, Andrew
->> > - Add various RB from Andrew and Alistair, thanks
->> >
->> > v6:
->> > - Remove the valid_vm check in validate_vm and add it to the finalize function
->> >   so that map already contains the constraint, Alex
->> > - Add forgotten mbare to satp_mode_from_str, Alex
->> > - Move satp mode properties handling to riscv_cpu_satp_mode_finalize, Andrew
->> > - Only add satp mode properties corresponding to the cpu, and then remove the
->> >   check against valid_vm_1_10_32/64 in riscv_cpu_satp_mode_finalize,
->> >   Andrew/Alistair/Alex
->> > - Move mmu-type setting to its own patch, Andrew
->> > - patch 5 is new and is a fix, Alex
->> >
->> > v5:
->> > - Simplify v4 implementation by leveraging valid_vm_1_10_32/64, as
->> >   suggested by Andrew
->> > - Split the v4 patch into 2 patches as suggested by Andrew
->> > - Lot of other minor corrections, from Andrew
->> > - Set the satp mode N by disabling the satp mode N + 1
->> > - Add a helper to set satp mode from a string, as suggested by Frank
->> >
->> > v4:
->> > - Use custom boolean properties instead of OnOffAuto properties, based
->> >   on ARMVQMap, as suggested by Andrew
->> >
->> > v3:
->> > - Free sv_name as pointed by Bin
->> > - Replace satp-mode with boolean properties as suggested by Andrew
->> > - Removed RB from Atish as the patch considerably changed
->> >
->> > v2:
->> > - Use error_setg + return as suggested by Alistair
->> > - Add RB from Atish
->> > - Fixed checkpatch issues missed in v1
->> > - Replaced Ludovic email address with the rivos one
->> >
->> > Alexandre Ghiti (5):
->> >   riscv: Pass Object to register_cpu_props instead of DeviceState
->> >   riscv: Change type of valid_vm_1_10_[32|64] to bool
->> >   riscv: Allow user to set the satp mode
->> >   riscv: Introduce satp mode hw capabilities
->> >   riscv: Correctly set the device-tree entry 'mmu-type'
->> >
->> >  hw/riscv/virt.c    |  19 +--
->> >  target/riscv/cpu.c | 288 ++++++++++++++++++++++++++++++++++++++++++---
->> >  target/riscv/cpu.h |  25 ++++
->> >  target/riscv/csr.c |  29 +++--
->> >  4 files changed, 323 insertions(+), 38 deletions(-)
+* Scalability and Optimization
+
+* Hardening and security
+
+* Confidential computing
+
+* Testing
+
+* KVM and the Linux Kernel:
+   * New Features and Ports
+   * Device Passthrough: VFIO, mdev, vDPA
+   * Network Virtualization
+   * Virtio and vhost
+
+* Virtual Machine Monitors and Management:
+   * VMM Implementation: APIs, Live Migration, Performance Tuning, etc.
+   * Multi-process VMMs: vhost-user, vfio-user, QEMU Storage Daemon
+   * QEMU without KVM: Hypervisor.framework and other hypervisors
+   * Managing KVM: Libvirt, KubeVirt, Kata Containers
+
+* Emulation:
+   * New Devices, Boards and Architectures
+   * CPU Emulation and Binary Translation
+
+
+IMPORTANT DATES
+===============
+
+The deadline for submitting presentations is April 2, 2023 - 11:59 PM PDT.
+
+Accepted speakers will be notified on April 17, 2023.
+
+
+ATTENDING KVM FORUM
+===================
+
+Admission to KVM Forum and DevConf.CZ is free. However, registration is 
+required and the number of attendees is limited by the space available 
+at the venue. You can register for KVM Forum 2023 at
+
+    https://kvm-forum.qemu.org/2023/register/
+
+The DevConf.CZ program will feature technical talks on a variety of 
+topics, including cloud and virtualization infrastructure—so make sure 
+to register for DevConf.CZ as well if you would like to attend.
+
+We are committed to fostering an open and welcoming environment at our 
+conference. Participants are expected to abide by the Devconf.cz code of 
+conduct and media policy:
+
+    https://www.devconf.info/coc/
+    https://www.devconf.info/media-policy/
+
+
+GETTING TO BRNO
+===============
+
+Brno has a small international airport with flights from London 
+(Stansted) and other European cities.
+
+Other nearby airports include Vienna, Bratislava and Prague. Travelling 
+to Brno is easiest from Vienna Schwechat Airport, from where there are 
+direct buses operated by RegioJet:
+
+    https://regiojet.com/?fromLocationId=10204055&toLocationId=10202002
+
+More detailed information will be posted on the DevConf.CZ website 
+closer to the conference.
+
+
+CONTACTS
+========
+
+Reach out to us should you have any questions. The program committee may 
+be contacted as a group via email: kvm-forum-2023-pc@redhat.com.
+
 
