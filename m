@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C8A6AC329
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212E66AC32B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:26:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBlq-0005yA-Tg; Mon, 06 Mar 2023 09:24:58 -0500
+	id 1pZBms-0006jn-VN; Mon, 06 Mar 2023 09:26:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZBla-0005vs-B9
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:24:43 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZBlW-00039j-Br
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:24:41 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id 132so5602291pgh.13
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 06:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678112675;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=w9up3E/zaBdle4smgSLjNuwhRW4+exZxbv50CbyMUP4=;
- b=mK0VUPxgp2VpUtL32wJ0r7iuaIJeAELmTRBeDHTDRDSYm9O1uF+Nbd6od5K8agQTZi
- 9DyKfh2lqDhFBd7SpASTXOPZ4XYCWyGrRfvGXY4YazfxganrdGvwkg0lD9PovB6s92HP
- GDBDzqvR4zdD6HQbGJsyGl5PW3RIwJSA/AZn0URYyaWT2MchicN3nRc99qYCgstkHkZq
- Bnld/hxj4YzL6e1nd/87KTD0spvTrA3Xf6mtxmH9euLj1zU4qEDciyGqURaKPJxgh1sc
- L0k7Y2HnnzHkw9yZkI3J/UUYi5zWb/HumOyT3DbUMGyXWo0NYlK4JZDyoe4STV4iixsE
- fhZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678112675;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w9up3E/zaBdle4smgSLjNuwhRW4+exZxbv50CbyMUP4=;
- b=3QaBIm6VPUeMSWjGXjs5by0UdZ+a9J1w1FeGVm+LTk4rIo9oQOogEM2Q+HaACCxG7Q
- S8R1siumJioYf3eMk93nGwxwxUXNgf+fiPIStQEKyCfgNLOmT0NG0sHaZhoxdoy3suXy
- JA7E5rncNOnugyuPa9Jr0/Af4x/rwfMTLAPW12GEtzAvuwxcDJEyW30EN+AcEKpb2A1G
- glbFf0Mb64m4XP/VAyN0SuIYffOzXUaYBwkOBpuWUiTGFCe06hehF2zKVePvWJ8RVgI8
- LaG4J9VBjz7b1c+u+6af4hVykmF7cR8lqurUJYEdySvuK0+izwMgaeDrk97HmlklXLAn
- ttsQ==
-X-Gm-Message-State: AO0yUKW1n6VyUWzoK3Uh5z1mEkZyjW6lnYiGT9aMFkc5EDj3JxiAFRcD
- VHD4fncyVpo4PAUvUSitShwT2++2Aa3ujZBw+sgomw==
-X-Google-Smtp-Source: AK7set8bgMgBiQhv5n6jrtW/Svv4TiV/nkmUxZIpI9ct+AvyxZEZeFT58FhdfukNNQc4vsFg/pJZ/EQNbuhrig3Lod8=
-X-Received: by 2002:a63:7d03:0:b0:503:4a2c:5f0 with SMTP id
- y3-20020a637d03000000b005034a2c05f0mr3528676pgc.9.1678112674831; Mon, 06 Mar
- 2023 06:24:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pZBmn-0006iu-ER
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:26:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pZBml-0003dY-NP
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:25:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678112754;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jUmBo2n1j7rGIkJNVwLu/Dgr9Lj3pQ6jxLfoS+Lw8+0=;
+ b=it8nzNIx9jpVh6qjHtlzkEm2hBnUbBoonwmqG74tfD8QqOCQzYqj28St7gO0F5AsmFbyKe
+ iskErvIGynbmpe+/bXevDUJl4s5gokLFHUHd2TQu6UpI0but14pgoPq+hFWsd6SZgBU+fd
+ Qugt8BHjHP0YBQJcgJYOPU8E3K5DRmQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-E3cSk3IdM4S-H1nnc8DTYQ-1; Mon, 06 Mar 2023 09:25:52 -0500
+X-MC-Unique: E3cSk3IdM4S-H1nnc8DTYQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66FFA80D0F9;
+ Mon,  6 Mar 2023 14:25:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9512C16029;
+ Mon,  6 Mar 2023 14:25:48 +0000 (UTC)
+Date: Mon, 6 Mar 2023 14:25:46 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: Re: [PATCH v4 2/5] docs/about/deprecated: Deprecate the
+ qemu-system-i386 binary
+Message-ID: <ZAX36kyxT2aEg4DF@redhat.com>
+References: <20230306084658.29709-1-thuth@redhat.com>
+ <20230306084658.29709-3-thuth@redhat.com>
+ <ZAWx5eBskd1cItDx@redhat.com>
+ <a97c8b6d-8e58-82b5-d73f-72a7061fb5d4@redhat.com>
+ <ZAXzUIs6wODe7/hf@redhat.com>
+ <7f1501ba-f875-b227-8d7e-f43e69b2ab8d@redhat.com>
 MIME-Version: 1.0
-References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-5-pbonzini@redhat.com>
- <CAFEAcA961ZHCLAp2ZiZZ2iURFt7_FdcN_1rFtzJNdHs-sesHFg@mail.gmail.com>
- <71ed58bd-fb24-4eab-6638-a6a88676201b@redhat.com>
-In-Reply-To: <71ed58bd-fb24-4eab-6638-a6a88676201b@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Mar 2023 14:24:23 +0000
-Message-ID: <CAFEAcA9SfBnBaAL3P2VPGh0Mjx59Fgp+RP1vdLtezruT=Sh4aA@mail.gmail.com>
-Subject: Re: [PATCH 4/8] edu: add smp_mb__after_rmw()
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, gshan@redhat.com, eesposit@redhat.com, 
- david@redhat.com, stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7f1501ba-f875-b227-8d7e-f43e69b2ab8d@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,35 +91,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023 at 14:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 3/6/23 14:38, Peter Maydell wrote:
-> > On Fri, 3 Mar 2023 at 17:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >>
-> >> Ensure ordering between clearing the COMPUTING flag and checking
-> >> IRQFACT, and between setting the IRQFACT flag and checking
-> >> COMPUTING.  This ensures that no wakeups are lost.
-> >>
-> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> >
-> > Why is this device even messing around with multiple
-> > threads and atomics anyway ??
->
-> Because it is an example of deferring device work to another thread,
-> just like on real hardware it may be deferred to an on-device
-> microcontroller or CPU.
+On Mon, Mar 06, 2023 at 03:18:23PM +0100, Thomas Huth wrote:
+> On 06/03/2023 15.06, Daniel P. Berrangé wrote:
+> > On Mon, Mar 06, 2023 at 02:48:16PM +0100, Thomas Huth wrote:
+> > > On 06/03/2023 10.27, Daniel P. Berrangé wrote:
+> > > > On Mon, Mar 06, 2023 at 09:46:55AM +0100, Thomas Huth wrote:
+> > > > > [...] If a 32-bit CPU guest
+> > > > > +environment should be enforced, you can switch off the "long mode" CPU
+> > > > > +flag, e.g. with ``-cpu max,lm=off``.
+> > > > 
+> > > > I had the idea to check this today and this is not quite sufficient,
+> > > [...]
+> > > > A further difference is that qemy-system-i686 does not appear to enable
+> > > > the 'syscall' flag, but I've not figured out where that difference is
+> > > > coming from in the code.
+> > > 
+> > > I think I just spotted this by accident in target/i386/cpu.c
+> > > around line 637:
+> > > 
+> > > #ifdef TARGET_X86_64
+> > > #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
+> > > #else
+> > > #define TCG_EXT2_X86_64_FEATURES 0
+> > > #endif
+> > 
+> > Hmm, so right now the difference between qemu-system-i386 and
+> > qemu-system-x86_64 is based on compile time conditionals. So we
+> > have the burden of building everything twice and also a burden
+> > of testing everything twice.
+> > 
+> > If we eliminate qemu-system-i386 we get rid of our own burden,
+> > but users/mgmt apps need to adapt to force qemu-system-x86_64
+> > to present a 32-bit system.
+> > 
+> > What about if we had qemu-system-i386 be a hardlink to
+> > qemu-system-x86_64, and then changed behaviour based off the
+> > executed binary name ?
+> 
+> We could also simply provide a shell script that runs:
+> 
+>  qemu-system-x86_64 -cpu qemu32 $*
+> 
+> ... that'd sounds like the simplest solution to me.
 
-If we want to be able to do that, we should probably have
-infrastructure and higher-level primitives for it that
-don't require device authors to be super-familiar with
-QEMU's memory model and barriers... The fact there are only
-half a dozen other uses of qemu_thread_create() under hw/
-suggests that in practice we don't really need to do this
-very often, though.
+That woudn't do the right thing if the user ran 'qemu-system-i386 -cpu max'
+because their '-cpu max' would override the -cpu arg in the shell script
+that forced 32-bit mode.
 
-thanks
--- PMM
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
