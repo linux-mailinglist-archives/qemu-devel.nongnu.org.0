@@ -2,81 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23576ABD1C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 11:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AE46ABD24
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 11:44:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ8Hv-0001uQ-QL; Mon, 06 Mar 2023 05:41:51 -0500
+	id 1pZ8Jj-0003Au-5P; Mon, 06 Mar 2023 05:43:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pZ8Ht-0001u1-Jk
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:41:49 -0500
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pZ8Hr-0008B1-Rh
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:41:49 -0500
-Received: by mail-lj1-x230.google.com with SMTP id x6so9136706ljq.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 02:41:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678099305;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vdb+Oa3DdY5Q34maZ2y9hOtaeB4aNumFo5zJRK6Zwic=;
- b=LXeWP1bt7jI+ZGWLevFaorqsGHAAXR8nrnfyS4h396p87zUWQJOF9r4hE9CkQwpXKy
- TP4+Ll+k/kmOLgH/4IeV+zTSlN2MWQbMm41VOpG0sxw75v55V2m3MzihvPW/G2jzk2I5
- ZV+tjusAIyWoeb72TOaT/+B6SPB1Bsx7VZZv6a8LB6qploZZTU218igV5vRjNgVkzMge
- fRFG/u9m4bPwv8UKmt9wzZuPxnyUdTL1HUmOdPOZBrU1JF0Bx5OoWbxMVlgujcWi+9j8
- RZH5N7KZtSZNp6D7gvHLX6R9fCYv1kMt4S/NLgCHWtvtYSHrNeoF+6KzTb65MPMm0kYl
- 4o4A==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pZ8Jh-0003Am-Hu
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:43:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pZ8Jf-0008PC-Hs
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 05:43:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678099417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZB/InglhwNwIJG1WeiMSsZpctgRvOdQUB5CnJc2vCZU=;
+ b=cKEpNCzKIuAtOvZPmaGviikGfZXsouC2zZFCiaoNhNXzt2/H/7M4MjiYfUVUeUK0V364FG
+ ytpZ3ZF07XcUIiucctcaHqUADKFW8Vk9W4t1iwW+P7AatZsiiP6AWzEi1hXxHWjF1G8hn4
+ AJz1VTwGsLmNTd4qnTqLOh7S7CT7Fnc=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-384-C1rwMn2BMG6V2zw7ThLExQ-1; Mon, 06 Mar 2023 05:43:35 -0500
+X-MC-Unique: C1rwMn2BMG6V2zw7ThLExQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ ea22-20020a05620a489600b00742cec04043so5171091qkb.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 02:43:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678099305;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1678099415;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vdb+Oa3DdY5Q34maZ2y9hOtaeB4aNumFo5zJRK6Zwic=;
- b=lH2G0haJRKRioUaNn2RXRC7KTuAOk007dUS7uOnmRKMDptnuOJnrEjRx1lZAWtt1/E
- ut77lOq6MpUiSARKinJnjPm4FnTaPunCbUnjED1+4Tt9b3SzLaxKILIPMcv55qd2iEpN
- VkIMdq1DaeljX3m7ue4PLLq/GuVsB5DIDvFJ23dp2AWUeY4nKfMzRDbmTXXV9koB5JGe
- EzYTkrjhIzpPdJdz9NyYZBsT7A2TsYEd0v4FRB/We9Zi82TGbXkHDP4vfb/ob0uR2z44
- lHgTv4CtazCOSCb/T3UNOaqOmYc26i+wlAIBylnHMej1KqG+nXZCM9+BLus6uC3Fmgzo
- KMmQ==
-X-Gm-Message-State: AO0yUKUAnWXzxDifsRgmqRjtEx+/QLVaPzHc7MhFQwIzmJvLTMfAijMg
- Q2HY5wdtvm700CveOwMij5gStiO1z+vX1UF2BDM=
-X-Google-Smtp-Source: AK7set9XedOoIeNfexxCa9zaiJwPG8ercFlAF1RCA8h63GcKlHhXoRj8HWx7M9/f2sKvlaWZ5FMJqOkkcBt9Ebc+QJg=
-X-Received: by 2002:a05:651c:10a2:b0:295:8ef2:871d with SMTP id
- k2-20020a05651c10a200b002958ef2871dmr3067268ljn.4.1678099305369; Mon, 06 Mar
- 2023 02:41:45 -0800 (PST)
+ bh=ZB/InglhwNwIJG1WeiMSsZpctgRvOdQUB5CnJc2vCZU=;
+ b=bI+vfaaRZfZPoJleT7RLGxawpzb/StRF/Syfq0M8uXgegnbf0PoUkbFhG1MtuN/GMD
+ bRI7FJKmzQdD3SyeA+XMZHprlgEnzcj1c33aowjomz+nW8X3SxNWJr/v4gvQHwKcUusD
+ R8R3Hpc5o/+ux3aR69YEMXS91OOLCzaGxdJsTBI/yltgHQ2AnVTog1WGjZjuK4tYCsaA
+ l3h3s6JivB7Uzqhj2q53N1+NblSpLFZ+XqW6hCDkiBQ2bfiA2iKqHZpshnFgJsOSxbex
+ iUKxxqzfCqUT8XA4aW/KbLDUT4IJ9IQcTZLiEz+X5L13vQ0CZkzpiJP/z518JJpOBtMh
+ DzmQ==
+X-Gm-Message-State: AO0yUKVP8TYRGELFBTPH2VGwG6gO03wndoIIU4hiEKo7VxogxsamHOR9
+ NnFWjHe9fTuLlWtwtSB4hZy5ktEIUGMR/S7e7A1ppcIO02USzOsYs8NfXVjVz26dUARr098ntTr
+ 9nY2WxQoBBmaUQ/s=
+X-Received: by 2002:ac8:5b85:0:b0:3bf:d0d2:142d with SMTP id
+ a5-20020ac85b85000000b003bfd0d2142dmr15268223qta.24.1678099415453; 
+ Mon, 06 Mar 2023 02:43:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set9kKMv7+PKlZ5IXPsM52rdoAecY75YxjUZ/R5Kb0Z4lHTdnPF7K4u3qFa0fn+2ETGZg0zh15Q==
+X-Received: by 2002:ac8:5b85:0:b0:3bf:d0d2:142d with SMTP id
+ a5-20020ac85b85000000b003bfd0d2142dmr15268210qta.24.1678099415207; 
+ Mon, 06 Mar 2023 02:43:35 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id
+ b6-20020ac801c6000000b003bd1a798f76sm7273645qtg.37.2023.03.06.02.43.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 02:43:34 -0800 (PST)
+Date: Mon, 6 Mar 2023 11:43:31 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Bui Quang Minh <minhquangbui99@gmail.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, "Michael S . Tsirkin" <mst@redhat.com>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
+Message-ID: <20230306114331.531c9cd2@imammedo.users.ipa.redhat.com>
+In-Reply-To: <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
+References: <20230221160500.30336-1-minhquangbui99@gmail.com>
+ <20230221160500.30336-2-minhquangbui99@gmail.com>
+ <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
+ <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
+ <20230227170759.12297901@imammedo.users.ipa.redhat.com>
+ <f24683be-f3a7-34fe-279a-11d01e696bbc@gmail.com>
+ <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
+ <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230302131848.1527460-1-marcandre.lureau@redhat.com>
- <ZAW7DcpRDcGF2VQx@redhat.com>
- <CAMxuvazE-=uUQZ73spaYBC1ZvyucGNiSdqc3FY1Xrp3Uese2jQ@mail.gmail.com>
- <ZAXBTCEOYBp5WTo8@redhat.com>
-In-Reply-To: <ZAXBTCEOYBp5WTo8@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 6 Mar 2023 14:41:33 +0400
-Message-ID: <CAJ+F1CK3JjRwA2w=FQ2Vd2Rc-sBa2GwJh-1R+ig==c1SJek_xg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Add meson wrap fallback for slirp & dtc
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,85 +109,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On Sat, 4 Mar 2023 21:10:54 +0700
+Bui Quang Minh <minhquangbui99@gmail.com> wrote:
 
-On Mon, Mar 6, 2023 at 2:33 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
->
-> On Mon, Mar 06, 2023 at 02:19:25PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Mon, Mar 6, 2023 at 2:06=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrang=
-e@redhat.com>
-> > wrote:
-> >
-> > > On Thu, Mar 02, 2023 at 05:18:44PM +0400, marcandre.lureau@redhat.com
-> > > wrote:
-> > > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > > >
-> > > > Hi,
-> > > >
-> > > > Meson "wrap" is a mechanism to build dependencies that doesn't rely=
- on
-> > > git
-> > > > submodules and integrate external dependencies as subproject()s.
-> > > >
-> > > > This offers developpers a simpler way to build QEMU with missing sy=
-stem
-> > > > dependencies (ex, libslirp in my case), but also simplify the fallb=
-ack
-> > > build
-> > > > definition of dtc/libfdt.
-> > >
-> > > Do we actually need this facility though ? We've already determined
-> > > that every platform we need has libslirp now, and IIUC Thomas determi=
-ned
-> > > recently that dtc is also available everywhere we need it to be.
-> > >
-> >
-> > The main benefit is for developers: you have the source code of
-> > QEMU-related projects with the source tree. Code navigation, debugging,=
- or
-> > various build tests are easier (compilation flags, static build etc). Y=
-ou
-> > don't have to "pollute" your system with (what could be) QEMU-specific
-> > libraries.
->
-> That's pushing developers to use builds of 3rd party libararies
-> that don't actually match what our users are going to end up
-> deploying with though.
+> On 2/28/23 23:39, Igor Mammedov wrote:
+> > On Tue, 28 Feb 2023 21:34:33 +0700
+> > Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+> >   
+> >> On 2/27/23 23:07, Igor Mammedov wrote:  
+> >>> On Sat, 25 Feb 2023 17:15:17 +0700
+> >>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+> >>>      
+> >>>> On 2/24/23 21:29, Igor Mammedov wrote:  
+> >>>>> On Tue, 21 Feb 2023 23:04:57 +0700
+> >>>>> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+> >>>>>         
+> >>>>>> This commit refactors APIC registers read/write function to support both
+> >>>>>> MMIO read/write in xAPIC mode and MSR read/write in x2APIC mode. Also,
+> >>>>>> support larger APIC ID, self IPI, new IPI destination determination in
+> >>>>>> x2APIC mode.
+> >>>>>>
+> >>>>>> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
+> >>>>>> ---
+> >>>>>>     hw/intc/apic.c                  | 211 +++++++++++++++++++++++++-------
+> >>>>>>     hw/intc/apic_common.c           |   2 +-
+> >>>>>>     include/hw/i386/apic.h          |   5 +-
+> >>>>>>     include/hw/i386/apic_internal.h |   2 +-
+> >>>>>>     4 files changed, 172 insertions(+), 48 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+> >>>>>> index 2d3e55f4e2..205d5923ec 100644
+> >>>>>> --- a/hw/intc/apic.c
+> >>>>>> +++ b/hw/intc/apic.c
+> >>>>>> @@ -30,6 +30,7 @@
+> >>>>>>     #include "hw/i386/apic-msidef.h"
+> >>>>>>     #include "qapi/error.h"
+> >>>>>>     #include "qom/object.h"
+> >>>>>> +#include "tcg/helper-tcg.h"
+> >>>>>>     
+> >>>>>>     #define MAX_APICS 255  
+> >>>>>
+> >>>>> I'm curious how does it work without increasing ^^^?  
+> >>>>
+> >>>> Hmm, my commit message is not entirely correct. In this series, some
+> >>>> operations (send IPI, IPI destination determination) have been updated
+> >>>> to support x2APIC mode. However, the emulated APIC still doesn't support
+> >>>> APIC ID larger than 255 because currently, we use a fixed length (255 +
+> >>>> 1) array to manage local APICs. So to support larger APIC ID, I think we
+> >>>> need to find any way to manage those, as the possible allocated APIC ID
+> >>>> range is large and maybe the allocated APIC ID is sparse which makes
+> >>>> fixed length array so wasteful.  
+> >>> how much sparse it is?  
+> >>
+> >> As far as I know, QEMU allows to set CPU's APIC ID, so user can pass a
+> >> very sparse APIC ID array.  
+> > 
+> > I don't think that it does permit this (if it does it's a bug that should be fixed).
+> > 
+> > As far as I'm aware QEMU derives apic_id from '-smp' and possibly cpu type
+> > (there was some differences between Intel and AMD in how apic id was encoded
+> > notably AMD having threads or cores that lead to sparse apic id), though I don't
+> > remember current state of affairs in x86 cpu topo code.
+> >   
+> >>> benefits of simple static array is simplicity in management and O(1) access time.
+> >>> QEMU does know in advance max apic id so we can size array by dynamically
+> >>> allocating it when 1st apic is created. Or if IDs are too sparse
+> >>> switch to another structure to keep mapping.  
+> >>
+> >> I totally agree with this.
+> >>
+> >> I admit that my main focus on this series is to make x2APIC mode
+> >> function correctly with TCG accelerator, so I skip the part of extending
+> >> the support for higher APIC ID.  
+> > the tricky part in such half approach is making sure that the code is
+> > 'correct' and won't lead to exploits.
+> > It would be easier to review if it was completed solution instead of partial.  
+> 
+> I looked around and found the way to dynamically allocate local_apics array
+> 
+> 	void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+> 	{
+> 		if (!kvm_irqchip_in_kernel()) {
+>          		apic_set_max_apic_id(x86ms->apic_id_limit);
+>      		}
+> 
+> 	}
+> 
+> We already calculated apic_id_limit before creating CPU and local APIC 
+> so we can use that number to dynamically allocated local_apics.
+> 
+> However, there are still problems while trying to extending support to 
+> APIC ID larger than 255 because there are many places assume APIC ID is 
+> 8-bit long.
+that's what I was concerned about (i.e. just enabling x2apic without fixing
+with all code that just assumes 8bit apicid).
 
-The combinations of versions used by developers is already virtually
-limitless. I don't think adding a specific upstream version/revision
-to the mix is making the situation worse. It could be even the
-opposite, if we manage to build an "official" static version of qemu
-for example (with specific dependencies).
+> One of that is interrupt remapping which returns 32-bit 
+> destination ID but uses MSI (which has 8-bit destination) to send to 
+> APIC. I will look more into this.
 
->
-> > > So why would we want to continue to special case these two libraries,
-> > > out of all the many many many other libraries we also have deps on.
-> > >
-> >
-> > They are more often updated, or developped with QEMU? For the reasons I
-> > listed, I would welcome more wrapped subprojects.
->
-> I don't think that they actually have more frequent updates that other
-> libraries. In any case from QEMU's POV it doesn't matter how often upstre=
-am
-> does releases. We're targetting the existing versions available in the OS
-> and so don't want to use bleeding edge upstream releases.
+Thanks!
 
-That doesn't change that policy.
+> 
+> Thanks,
+> Quang Minh.
+> 
 
->
-> This also significantly expands our testing matrix. For each library
-> we have the possiblity that users have the distro version vs the wrapped
-> version. That is many new combinations users are exposed to, that we are
-> realistically never going to have the bandwidth to test in CI.
-
-yes, I would consider this a tier 2 support, since it aims at
-developers, and not having to cover it in CI.
-
---=20
-Marc-Andr=C3=A9 Lureau
 
