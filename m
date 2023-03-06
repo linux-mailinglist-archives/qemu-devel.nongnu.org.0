@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC42F6AB697
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:53:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3E96AB69D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:53:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ4i4-0003Kl-4K; Mon, 06 Mar 2023 01:52:36 -0500
+	id 1pZ4i6-0003MF-GJ; Mon, 06 Mar 2023 01:52:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4hw-0003DH-KB
+ id 1pZ4hw-0003Dc-Lg
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4ht-0000VX-Sw
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:27 -0500
+ id 1pZ4ht-0000Vh-TD
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678085534;
+ s=mimecast20190719; t=1678085538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RoT2ocySfuUdupR8Y1c2SMrsgYF+Xh1R9POvfIB59Yc=;
- b=fqYDICEGcpH8XPT650Rc60srB6J7O9ey88ZFypWQMVHzA7qaY+qfU4Ru0/HT2MVWUlArby
- vgs1yBECHmjkw1LtsVsTnTpJgcXHL5o9L4lux9lhAkaxa8Vq4ONREuvOs+UKjWgWh90eoW
- 0ktddUIRSI8sxxWfVQjRsGSSRadQ/Bk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RTVBPGWDXMSiGlBN4LJCAIMna71BvDdy9/poKt2/1Gs=;
+ b=LSUucOx6AxGNubS+onOhJFb78wDWcxc9Nbne6b5DcgIcHV1wjh0SJ5aweJOcQdh4Kn1Jv/
+ TzL4yePELyetxUaHdYpExfSUo/JpSeEz00SQ7Mg7gA6IU3EDNtdALFfc02fgQr+VTtavJs
+ 5hGRmBEHgUuiAmbYUBk3zB1bIuRYH0s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607--gGierQTNRyZZUH_f21nfw-1; Mon, 06 Mar 2023 01:52:11 -0500
-X-MC-Unique: -gGierQTNRyZZUH_f21nfw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-659-tFiDXoJAOF-dkScaXoVzGw-1; Mon, 06 Mar 2023 01:52:15 -0500
+X-MC-Unique: tFiDXoJAOF-dkScaXoVzGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0DEC848D91;
- Mon,  6 Mar 2023 06:52:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27F443C10681;
+ Mon,  6 Mar 2023 06:52:15 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 205E6C16029;
- Mon,  6 Mar 2023 06:52:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEAAF2026D76;
+ Mon,  6 Mar 2023 06:52:13 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: [PULL 01/27] MAINTAINERS: add myself to ui/ and audio/
-Date: Mon,  6 Mar 2023 10:51:36 +0400
-Message-Id: <20230306065202.2160066-2-marcandre.lureau@redhat.com>
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: [PULL 02/27] audio: log unimplemented audio device sample rates
+Date: Mon,  6 Mar 2023 10:51:37 +0400
+Message-Id: <20230306065202.2160066-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 References: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,38 +82,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-Helping out with patch review & queue handling.
+Some emulated audio devices allow guests to select very low
+sample rates that the audio subsystem doesn't support. The lowest
+supported sample rate depends on the audio backend used and in
+most cases can be changed with various -audiodev arguments. Until
+now, the audio_bug function emits an error message similar to the
+following error message
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230207085610.1033536-1-marcandre.lureau@redhat.com>
+A bug was just triggered in audio_calloc
+Save all your work and restart without audio
+I am sorry
+Context:
+audio_pcm_sw_alloc_resources_out passed invalid arguments to
+ audio_calloc
+nmemb=0 size=16 (len=0)
+audio: Could not allocate buffer for `ac97.po' (0 samples)
+
+and the audio subsystem continues without sound for the affected
+device.
+
+The fact that the selected sample rate is not supported is not a
+guest error. Instead of displaying an error message, the missing
+audio support is now logged. Simply continuing without sound is
+correct, since the audio stream won't transport anything
+reasonable at such high resample ratios anyway.
+
+The AUD_open_* functions return NULL like before. The opened
+audio device will not be registered in the audio subsystem and
+consequently the audio frontend callback functions will not be
+called. The AUD_read and AUD_write functions return early in this
+case. This is necessary because, for example, the Sound Blaster 16
+emulation calls AUD_write from the DMA callback function.
+
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20230121094735.11644-1-vr_qemu@t-online.de>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ audio/audio_template.h | 13 +++++++++++++
+ audio/audio.c          |  1 +
+ 2 files changed, 14 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 011fd85a09..da29661b37 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2490,6 +2490,7 @@ Subsystems
- ----------
- Overall Audio backends
- M: Gerd Hoffmann <kraxel@redhat.com>
-+M: Marc-André Lureau <marcandre.lureau@redhat.com>
- S: Odd Fixes
- F: audio/
- X: audio/alsaaudio.c
-@@ -2785,6 +2786,7 @@ F: docs/spice-port-fqdn.txt
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 42b4712acb..dbfb4fee4c 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -115,6 +115,19 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+ #else
+     samples = (int64_t)sw->HWBUF->size * sw->ratio >> 32;
+ #endif
++    if (samples == 0) {
++        HW *hw = sw->hw;
++        size_t f_fe_min;
++
++        /* f_fe_min = ceil(1 [frames] * f_be [Hz] / size_be [frames]) */
++        f_fe_min = (hw->info.freq + HWBUF->size - 1) / HWBUF->size;
++        qemu_log_mask(LOG_UNIMP,
++                      AUDIO_CAP ": The guest selected a " NAME " sample rate"
++                      " of %d Hz for %s. Only sample rates >= %zu Hz are"
++                      " supported.\n",
++                      sw->info.freq, sw->name, f_fe_min);
++        return -1;
++    }
  
- Graphics
- M: Gerd Hoffmann <kraxel@redhat.com>
-+M: Marc-André Lureau <marcandre.lureau@redhat.com>
- S: Odd Fixes
- F: ui/
- F: include/ui/
+     sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+     if (!sw->buf) {
+diff --git a/audio/audio.c b/audio/audio.c
+index 4290309d18..81f5c0bb1e 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -33,6 +33,7 @@
+ #include "qapi/qapi-visit-audio.h"
+ #include "qapi/qapi-commands-audio.h"
+ #include "qemu/cutils.h"
++#include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qemu/help_option.h"
+ #include "sysemu/sysemu.h"
 -- 
 2.39.2
 
