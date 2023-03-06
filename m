@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C916AC302
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C8A6AC329
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:26:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBhg-0003mo-Mr; Mon, 06 Mar 2023 09:20:40 -0500
+	id 1pZBlq-0005yA-Tg; Mon, 06 Mar 2023 09:24:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZBhf-0003m7-50
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:20:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZBhd-0002So-N9
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:20:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678112437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rs2OAgaBFXxs73i+ItIWzD5wC8CptROjlg7LQbvYKxg=;
- b=XbKyJRmAfkoiQ4jIndHXO3ZNM0epY/UC3vuS3hQEeKALylh62RLbBwqRRkhPGPSilLTjE4
- XS40QgbL4xEcnnWllFVlk0Lp242cqbmk216IYSCH7ULGZG73QL2yBA/7vk2Umtt8qH7sX7
- dlC4dvlGYCq6ZjG+pD7L8ww/PV4jk6M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-17-6GwzP-llN4ayYSjfufNvOA-1; Mon, 06 Mar 2023 09:20:35 -0500
-X-MC-Unique: 6GwzP-llN4ayYSjfufNvOA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- d35-20020a056402402300b004e37aed9832so4684214eda.18
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 06:20:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZBla-0005vs-B9
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:24:43 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZBlW-00039j-Br
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:24:41 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id 132so5602291pgh.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 06:24:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678112675;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=w9up3E/zaBdle4smgSLjNuwhRW4+exZxbv50CbyMUP4=;
+ b=mK0VUPxgp2VpUtL32wJ0r7iuaIJeAELmTRBeDHTDRDSYm9O1uF+Nbd6od5K8agQTZi
+ 9DyKfh2lqDhFBd7SpASTXOPZ4XYCWyGrRfvGXY4YazfxganrdGvwkg0lD9PovB6s92HP
+ GDBDzqvR4zdD6HQbGJsyGl5PW3RIwJSA/AZn0URYyaWT2MchicN3nRc99qYCgstkHkZq
+ Bnld/hxj4YzL6e1nd/87KTD0spvTrA3Xf6mtxmH9euLj1zU4qEDciyGqURaKPJxgh1sc
+ L0k7Y2HnnzHkw9yZkI3J/UUYi5zWb/HumOyT3DbUMGyXWo0NYlK4JZDyoe4STV4iixsE
+ fhZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678112434;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rs2OAgaBFXxs73i+ItIWzD5wC8CptROjlg7LQbvYKxg=;
- b=eJmRwGjRgGuOddVxIk19tyxn8pjYHugMrNGGY4i7x7L5Z013lnhXPzjsJjAS2bsogC
- CyUdFEXNcncM97Bnt4Lj24Nz8PTu3jELNt26kpFWTLAKZ+PlKZ4uHe1cPOiZD9/MD0je
- tm/zicDpc22RIPu4Z55wMZyihki9OV1m0T8Z4C2NH5Wcry1VYOjo0twyjUy3/i/ucekX
- AExyWYRDPGDL7A7l9cRr0UdTqGhu7nk/s0Ful+So52FxgAIE2dMu+kARkO0ZZ2QYxVeh
- 9qg77uvb+IXG7ecNAP5iQQi7fYbnxjYXwKrxTv0h3J+flqFNI6pqEpkHRUeHI0FmuSL8
- dKCw==
-X-Gm-Message-State: AO0yUKXwYGmJtxUezZRTd/DFCzMzeOFLKQTM8VGHZvPJLFI4/pBqx7Q3
- +FCeLXpioV1K1MAfqKarbD8J+mHBjuTlwWLLB8kaSEfHwkGuOsDRddZlZ9v2wYwZ/BTXo5LR85H
- fEKXJ8L16HCEfTe4=
-X-Received: by 2002:a17:907:8e9a:b0:86a:833d:e7d8 with SMTP id
- tx26-20020a1709078e9a00b0086a833de7d8mr12030857ejc.17.1678112434689; 
- Mon, 06 Mar 2023 06:20:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set+QQT2Ml8LBOBv3SaVCQx2LPD3NTpbvN8ey0qyHVeUydqBD4WV/HsZQbz1ZEpDQZLHMwpAitQ==
-X-Received: by 2002:a17:907:8e9a:b0:86a:833d:e7d8 with SMTP id
- tx26-20020a1709078e9a00b0086a833de7d8mr12030837ejc.17.1678112434360; 
- Mon, 06 Mar 2023 06:20:34 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- de19-20020a1709069bd300b008ec4333fd65sm4630752ejc.188.2023.03.06.06.20.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 06:20:33 -0800 (PST)
-Message-ID: <5123f794-0d28-bfb6-3e79-41cfb70a9318@redhat.com>
-Date: Mon, 6 Mar 2023 15:20:32 +0100
+ d=1e100.net; s=20210112; t=1678112675;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w9up3E/zaBdle4smgSLjNuwhRW4+exZxbv50CbyMUP4=;
+ b=3QaBIm6VPUeMSWjGXjs5by0UdZ+a9J1w1FeGVm+LTk4rIo9oQOogEM2Q+HaACCxG7Q
+ S8R1siumJioYf3eMk93nGwxwxUXNgf+fiPIStQEKyCfgNLOmT0NG0sHaZhoxdoy3suXy
+ JA7E5rncNOnugyuPa9Jr0/Af4x/rwfMTLAPW12GEtzAvuwxcDJEyW30EN+AcEKpb2A1G
+ glbFf0Mb64m4XP/VAyN0SuIYffOzXUaYBwkOBpuWUiTGFCe06hehF2zKVePvWJ8RVgI8
+ LaG4J9VBjz7b1c+u+6af4hVykmF7cR8lqurUJYEdySvuK0+izwMgaeDrk97HmlklXLAn
+ ttsQ==
+X-Gm-Message-State: AO0yUKW1n6VyUWzoK3Uh5z1mEkZyjW6lnYiGT9aMFkc5EDj3JxiAFRcD
+ VHD4fncyVpo4PAUvUSitShwT2++2Aa3ujZBw+sgomw==
+X-Google-Smtp-Source: AK7set8bgMgBiQhv5n6jrtW/Svv4TiV/nkmUxZIpI9ct+AvyxZEZeFT58FhdfukNNQc4vsFg/pJZ/EQNbuhrig3Lod8=
+X-Received: by 2002:a63:7d03:0:b0:503:4a2c:5f0 with SMTP id
+ y3-20020a637d03000000b005034a2c05f0mr3528676pgc.9.1678112674831; Mon, 06 Mar
+ 2023 06:24:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 3/8] qemu-thread-win32: cleanup, fix, document QemuEvent
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Cc: gshan@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
- cohuck@redhat.com, eauger@redhat.com
 References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-4-pbonzini@redhat.com>
- <080ab2d0-1a6f-47e9-0f3f-33f5ef98d411@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <080ab2d0-1a6f-47e9-0f3f-33f5ef98d411@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+ <20230303171939.237819-5-pbonzini@redhat.com>
+ <CAFEAcA961ZHCLAp2ZiZZ2iURFt7_FdcN_1rFtzJNdHs-sesHFg@mail.gmail.com>
+ <71ed58bd-fb24-4eab-6638-a6a88676201b@redhat.com>
+In-Reply-To: <71ed58bd-fb24-4eab-6638-a6a88676201b@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Mar 2023 14:24:23 +0000
+Message-ID: <CAFEAcA9SfBnBaAL3P2VPGh0Mjx59Fgp+RP1vdLtezruT=Sh4aA@mail.gmail.com>
+Subject: Re: [PATCH 4/8] edu: add smp_mb__after_rmw()
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, gshan@redhat.com, eesposit@redhat.com, 
+ david@redhat.com, stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,42 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/6/23 14:31, David Hildenbrand wrote:
->>
->> -    smp_mb_acquire();
->> -    if (value == EV_SET) {
->> -        /* If there was a concurrent reset (or even reset+wait),
->> -         * do nothing.  Otherwise change EV_SET->EV_FREE.
->> -         */
->> -        qatomic_or(&ev->value, EV_FREE);
->> -    }
->> +
-> 
-> [had the same thought on patch #2]
-> 
-> IIUC, the "read first" is an optimization to not unconditionally dirty 
-> the cache-line. But I assume we don't particularly care about that 
-> optimization on the reset path.
+On Mon, 6 Mar 2023 at 14:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 3/6/23 14:38, Peter Maydell wrote:
+> > On Fri, 3 Mar 2023 at 17:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>
+> >> Ensure ordering between clearing the COMPUTING flag and checking
+> >> IRQFACT, and between setting the IRQFACT flag and checking
+> >> COMPUTING.  This ensures that no wakeups are lost.
+> >>
+> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> >
+> > Why is this device even messing around with multiple
+> > threads and atomics anyway ??
+>
+> Because it is an example of deferring device work to another thread,
+> just like on real hardware it may be deferred to an on-device
+> microcontroller or CPU.
 
-Thinking more about it, the intended usage of QemuEvent is either
+If we want to be able to do that, we should probably have
+infrastructure and higher-level primitives for it that
+don't require device authors to be super-familiar with
+QEMU's memory model and barriers... The fact there are only
+half a dozen other uses of qemu_thread_create() under hw/
+suggests that in practice we don't really need to do this
+very often, though.
 
-     qemu_event_reset();
-     if (!check()) {
-          qemu_event_wait());
-     }
-
-or
-
-     if (!check()) {
-         qemu_event_reset();
-         if (!check()) {
-              qemu_event_wait());
-         }
-     }
-
-If we don't care on the reset path we care much less on the wait path. 
-Should I remove it and go straight to the cmpxchg, just for peace of mind?
-
-Paolo
-
+thanks
+-- PMM
 
