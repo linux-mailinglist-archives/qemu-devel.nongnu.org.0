@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7236AB7ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE4C6AB7F6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:09:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ5rz-0005H5-Im; Mon, 06 Mar 2023 03:06:55 -0500
+	id 1pZ5to-0006gY-LB; Mon, 06 Mar 2023 03:08:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5rx-0005AX-BZ
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:06:53 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5rv-0006YX-M8
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:06:53 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id q16so7846862wrw.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 00:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678090010;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gaT7dqRDUOSuvcXvQ3WrPmljE4XGecFYj7GQ+PTG+hU=;
- b=i61xSKWgoThNQUZRwbMyqmRoslSgsdqOoI0pViLTCn9Hp8uT7wqRR00O/8E2j55FbN
- 8wyD/093A9DVvRAAd++TI5bSLDsbCcEiKKquUjWwV+fSGwiia3wc8wLNLcTKvuAZjxd+
- b+HUM7nYyMqDsHUnhv5S2srBy9S1/uVI+fxkJu0utefufgtNVbaf/rRuhSAy0Of1Rn1s
- OSViuLaiyz6wwKE7KUH8WvpGyehjTEAcMSf2a/y5Sh3iBqUZ240ReY98+geFKdgB+ZTH
- k+qpNIldGBOlXWN6K47BVv6d1xmkpFJSE6NwzHBjviZw+lJy+ubNs5jvM8dGJAWHIew2
- izLA==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pZ5tk-0006gF-Nu
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:08:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pZ5tj-0006qd-Av
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:08:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678090122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kqy6fbSmP/E0Ec01gKm1PxPNrukPZvjAV93d2I4SPH0=;
+ b=WjwIUL8/zwN5LzAUAdedIe91xsRWv8Z8WCtVKueHF/yYrW707IXm0VUon5oLiqFMhk7wB0
+ L9TOEu3DRCx1zu2wTgkHc8IXxbz5iv1ui0m+gZHU5PP19B7uNlbtTaZKqDmygwAHwz8hny
+ sbISEnZ2c16b03wqcoFNvjrGacCayQg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-626-TrrH-7IWMPeT0eQBOX5mmw-1; Mon, 06 Mar 2023 03:08:41 -0500
+X-MC-Unique: TrrH-7IWMPeT0eQBOX5mmw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ dn8-20020a05640222e800b004bd35dd76a9so12664830edb.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 00:08:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678090010;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gaT7dqRDUOSuvcXvQ3WrPmljE4XGecFYj7GQ+PTG+hU=;
- b=ibDbUVTNNhklt+/KvS7hkXHBthlxn3fj18On2VeBxCcPK13Lgmb6eIZBxIOTYaXpXU
- lN83tN7XjEE3TH4rxFobmP7NCvbf6zztNBkrYO2OvhPmd0zOyxLYaLpOzRjxcxlmen3o
- G4/Y4VW1hJNkTawxhwiieFlAz4OEiO2h1cGxM/fgFe+vm9nm1huY/HuIzEK4Uogw9FVG
- 3ysOkzjUnGwzVGiwRvqn7G8dnfhz5vDip0K6WlDl1E9B9HxAwqPM6aQcqyXWblTg0KnG
- MlOLYWTPyMLVNm41Vnef/gTYbnpHdPVo3kNXsYhvxi7YO32PW5DvQxft0FgmVT6/LdCq
- NhEg==
-X-Gm-Message-State: AO0yUKVrbT+sJXnaWsMoVTDrcxu/szckh4mrXoXTuI07auznw0u2l4aB
- fPSuWMrYhdF5Zcb2EcCfKDB1PVle03j7FJ9XegY=
-X-Google-Smtp-Source: AK7set+ulPrM4KS/YzRoGN7+FVUUu19WF5Ptx0yQv1vFzIqTlbkLrdduXBn6E3WA8QSTOd4k7GjXYg==
-X-Received: by 2002:a05:6000:1189:b0:2cc:4dac:fe39 with SMTP id
- g9-20020a056000118900b002cc4dacfe39mr6303971wrx.12.1678090009928; 
- Mon, 06 Mar 2023 00:06:49 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g15-20020a5d554f000000b002c5526234d2sm9177127wrw.8.2023.03.06.00.06.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 00:06:49 -0800 (PST)
-Message-ID: <16306572-e3e7-06d6-f7f4-e4b3299764eb@linaro.org>
-Date: Mon, 6 Mar 2023 09:06:47 +0100
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kqy6fbSmP/E0Ec01gKm1PxPNrukPZvjAV93d2I4SPH0=;
+ b=FgTmzu8lJFcMhAxQmdRPugdeHoHk3Ac2mRA9oGElBEpB4G3rTVdd59n8a6jF+I01T/
+ akB6OFcnbwe+n3QhNwFIxx+9VoyvZnP3jeMsTiErjv7ErJ46SiiWH+EM0RQC3GoPGjOd
+ UcKlHJ7cobtr9atJWxEXa0nZAPV+WVR2O3UnTxewuMuOnIr9BrlltraqKac0RuCqtcRr
+ mPR0//0Q77lAskxm1xoFIcox3fuXNgF8oOVQ2ElCOjx0YkJD8DgZXn3k/ABIl7q4RQIy
+ mXpRWDRnRc5+P4BjY+pp5vsEW820vCkNHpjyN/yrBh6r22vFBDiBXdD22RfLUPSpYPD5
+ lp+Q==
+X-Gm-Message-State: AO0yUKUmk4gMlVJ4Yn8Z/gWBh4pGPhHCQ3e+M3hpuDZXWKPR+3goj8B7
+ 16TvEE5ByOfhkYLJnW+uKf9O8HgrsT5oTN4Cvw6aPTGVJNVvScDcH67uytiTLd59dDh3yv5Ljrg
+ x2fBaJORg4wPjwtNa4IdfR6TlPODlZOI=
+X-Received: by 2002:a17:906:388d:b0:877:e539:810b with SMTP id
+ q13-20020a170906388d00b00877e539810bmr4726134ejd.2.1678090120010; 
+ Mon, 06 Mar 2023 00:08:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set9J67mXdhvh26behEOQCYIDZHv6Kbs2eBG04TZT2apYkbICrELng2Mj+SxJk4MgknWf4B68tk+/qCcNcWaLrNY=
+X-Received: by 2002:a17:906:388d:b0:877:e539:810b with SMTP id
+ q13-20020a170906388d00b00877e539810bmr4726116ejd.2.1678090119757; Mon, 06 Mar
+ 2023 00:08:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 00/20] tcg: drop tcg_temp_free from translators
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230304181900.1097116-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230304181900.1097116-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
+ <CAMxuvawu4EWKpw_8sHGU-hVKeX_wZzpWqaRJo6kjbkYB45VWjw@mail.gmail.com>
+ <cd4d82c4-6161-493b-073b-235141d6337a@redhat.com>
+In-Reply-To: <cd4d82c4-6161-493b-073b-235141d6337a@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 6 Mar 2023 12:08:28 +0400
+Message-ID: <CAMxuvawL9VEGC5HL9OMwXhxeVY_qSKFfORsMaW9OeV=tQ0OH1A@mail.gmail.com>
+Subject: Re: [PATCH v3 00/16] win32: do not mix SOCKET and fd space
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+ Jason Wang <jasowang@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ qemu-arm@nongnu.org, 
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, armbru@redhat.com, 
+ Peter Maydell <peter.maydell@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>, 
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>, 
+ Hanna Reitz <hreitz@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000007d4fd805f636cd6e"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,34 +102,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 19:18, Richard Henderson wrote:
+--0000000000007d4fd805f636cd6e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Richard Henderson (20):
->    target/i386: Drop tcg_temp_free
->    target/mips: Drop tcg_temp_free from micromips_translate.c.inc
->    target/mips: Drop tcg_temp_free from mips16e_translate.c.inc
->    target/mips: Drop tcg_temp_free from msa_translate.c
->    target/mips: Drop tcg_temp_free from mxu_translate.c
->    target/mips: Drop tcg_temp_free from nanomips_translate.c.inc
->    target/mips: Drop tcg_temp_free from octeon_translate.c
->    target/mips: Drop tcg_temp_free from translate_addr_const.c
->    target/mips: Drop tcg_temp_free from tx79_translate.c
->    target/mips: Fix trans_mult_acc return
->    target/mips: Drop tcg_temp_free from vr54xx_translate.c
->    target/mips: Drop tcg_temp_free from translate.c
->    target/s390x: Drop free_compare
->    target/s390x: Drop tcg_temp_free from translate_vx.c.inc
->    target/s390x: Drop tcg_temp_free from translate.c
->    target/s390x: Remove assert vs g_in2
->    target/s390x: Remove g_out, g_out2, g_in1, g_in2 from DisasContext
->    target/tricore: Drop tcg_temp_free
->    tracing: remove transform.py
->    tcg: Create tcg/tcg-temp-internal.h
+Hi Paolo
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Mon, Mar 6, 2023 at 12:05=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com>=
+ wrote:
 
->   26 files changed, 128 insertions(+), 1954 deletions(-)
+> On 3/2/23 15:09, Marc-Andr=C3=A9 Lureau wrote:
+> >
+> >
+> >     v3:
+> >     - fix closesocket() to prevent CloseHandle() from close()
+> >     - fix direct closesocket() usage (#undef closesocket before)
+> >     - add a test for &error_warn
+> >     - add r-b tags
+> >
+> > ping  (I am missing reviews, thanks)
+>
+> I'm going to queue this series today if that's fine for you---thanks for
+> reminding!
+>
+>
+Great, thanks! (I suppose you'll drop "RFC: build-sys: add slirp.wrap", and
+perhaps queue the other meson/wrap series instead)
 
-:)
+--0000000000007d4fd805f636cd6e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Paolo<br></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 6, 2023 at 12:05=
+=E2=80=AFPM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzi=
+ni@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On 3/2/23 15:09, Marc-Andr=C3=A9 Lureau wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0v3:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- fix closesocket() to prevent CloseHandle() from c=
+lose()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- fix direct closesocket() usage (#undef closesocke=
+t before)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- add a test for &amp;error_warn<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- add r-b tags<br>
+&gt; <br>
+&gt; ping=C2=A0 (I am missing reviews, thanks)<br>
+<br>
+I&#39;m going to queue this series today if that&#39;s fine for you---thank=
+s for <br>
+reminding!<br>
+<br></blockquote><div><br></div><div>Great, thanks! (I suppose you&#39;ll d=
+rop &quot;RFC: build-sys: add slirp.wrap&quot;, and perhaps queue the other=
+ meson/wrap series instead)</div></div></div>
+
+--0000000000007d4fd805f636cd6e--
+
 
