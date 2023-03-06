@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049996AB9D1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 10:27:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA6C6AB9D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 10:28:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ77p-0001WB-0Q; Mon, 06 Mar 2023 04:27:21 -0500
+	id 1pZ78j-0002Eo-2F; Mon, 06 Mar 2023 04:28:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pZ77j-0001Vk-UL
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:27:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pZ77g-0008GE-67
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:27:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678094830;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RVCxoISPsMUUVKX9jBhQfLyhrTTxfK/FPc4RIMTqVfU=;
- b=VFUr4viTTY1MKxnUvosvWDJVgfykQ0yWrgMTmTREHEDpiTUrbl313MY4MG4iV0jSleSo7k
- rWT9qf6rmHd4rxrm378XP8vEzDu1AkJcCvtzsgFlMX28E3KLrkJJNoEV/5mXv0CqnnWe8B
- vD7bC1ZHBGObOKO/tyWWXZRDQjC8Zvk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498-tuDuK4RnONuyfVEmCP4RgA-1; Mon, 06 Mar 2023 04:27:07 -0500
-X-MC-Unique: tuDuK4RnONuyfVEmCP4RgA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFFE1811E6E;
- Mon,  6 Mar 2023 09:27:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79A0140CF8F0;
- Mon,  6 Mar 2023 09:27:03 +0000 (UTC)
-Date: Mon, 6 Mar 2023 09:27:01 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: Re: [PATCH v4 2/5] docs/about/deprecated: Deprecate the
- qemu-system-i386 binary
-Message-ID: <ZAWx5eBskd1cItDx@redhat.com>
-References: <20230306084658.29709-1-thuth@redhat.com>
- <20230306084658.29709-3-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ78g-0002EI-DA
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:28:14 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ78e-0008VY-E2
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 04:28:14 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id bx12so8026320wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 01:28:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678094890;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5s0F1cdvps8I8nSuwMb6XvtNrdfzPS2PRwuoK7+makQ=;
+ b=RugbGA0rnsoWCWtCyBCvIhFRadcTe87wqtgHPd8+BMvWQkORXv12x+HD85d+z/lDdu
+ xUufpygyQBKg1Im6/xJG9xoff8sCzZJNj608p1H9WjQCmrFYg2Sq+IhuZrey5MWNPBbO
+ dIbjLEsoJXLijqGFZPYoHBIwRWbz5+KPbJvfn3fS0++2A/OP5xztWYTtlzFZlZ6k7ha9
+ btIqq7ljtvSN7fsUksGnyPUG7CkItykIsyGZmWl1/1CgcQuyOFoKpcfLnyrzS9zA1/09
+ kuavgCO9V4R6JZP1Tvn8aBO/D+e2uItc8sM8g6gfNQsmvqyCgtQBCqIu9uwEGlf1fmXh
+ czBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678094890;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5s0F1cdvps8I8nSuwMb6XvtNrdfzPS2PRwuoK7+makQ=;
+ b=ZWC3OQoYxpCJmU71Kpu4RV0qjrd35yzbDVZlW0HntpVMJ7lGUDbT8QkWMiveWWO/VI
+ Ai2kMME6gfdUsYYExCoOQDoSd9EBUMzRvcEjeW5dnukjH5XJvb0xqBmAksfWbAAvcrAR
+ JCZJ+MXFSilulORkaXDwcPDRB6+yDHx/Ml6hwHIAjWS3NwbJ95UdLWAy4QxHOfRYpURg
+ FGzh0SBxizdvIOUs5ckac9Q7ReWSmqWf72y9q7XFPB0EP6BqivtFFUgpHIzifgpnLNbJ
+ n6HvsmnjaPjvnOjOy0Ze6jAvLuPSNujQeKSVI09ZJK5osKXdHYU4DansjDr5XYhtnwhH
+ SjxQ==
+X-Gm-Message-State: AO0yUKXsixwYw8Zpv7DTA3u4H0AyTXTz8hFmcriYBKK5WvKTuaLklgp9
+ UmrKKQvEyMYnL45mNjxlS+IlHg==
+X-Google-Smtp-Source: AK7set9aB3sq5IESpBhTkSjVY4Fi24IFnrnHKB5m7vxe4nkkJ+wSwxYlxZvwvxBOFm0WzxF7SYqFtQ==
+X-Received: by 2002:adf:f44a:0:b0:2c9:ee50:b295 with SMTP id
+ f10-20020adff44a000000b002c9ee50b295mr6428123wrp.28.1678094890587; 
+ Mon, 06 Mar 2023 01:28:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ o16-20020a056000011000b002c703d59fa7sm9300826wrx.12.2023.03.06.01.28.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 01:28:10 -0800 (PST)
+Message-ID: <9749067b-4a66-8177-23f9-69ca0b5af253@linaro.org>
+Date: Mon, 6 Mar 2023 10:28:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230306084658.29709-3-thuth@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v5 13/16] fsdev: Disable proxy fs driver on Windows
+Content-Language: en-US
+To: Bin Meng <bin.meng@windriver.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org
+Cc: Guohuai Shi <guohuai.shi@windriver.com>
+References: <20230220100815.1624266-1-bin.meng@windriver.com>
+ <20230220100815.1624266-14-bin.meng@windriver.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230220100815.1624266-14-bin.meng@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,80 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 06, 2023 at 09:46:55AM +0100, Thomas Huth wrote:
-> Aside from not supporting KVM on 32-bit hosts, the qemu-system-x86_64
-> binary is a proper superset of the qemu-system-i386 binary. With the
-> 32-bit host support being deprecated, it is now also possible to
-> deprecate the qemu-system-i386 binary.
+On 20/2/23 11:08, Bin Meng wrote:
+> From: Guohuai Shi <guohuai.shi@windriver.com>
 > 
-> With regards to 32-bit KVM support in the x86 Linux kernel,
-> the developers confirmed that they do not need a recent
-> qemu-system-i386 binary here:
+> We don't plan to support 'proxy' file system driver for 9pfs on
+> Windows. Disable it for Windows build.
 > 
->  https://lore.kernel.org/kvm/Y%2ffkTs5ajFy0hP1U@google.com/
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  docs/about/deprecated.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
 > 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 1ca9dc33d6..c4fcc6b33c 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -34,6 +34,20 @@ deprecating the build option and no longer defend it in CI. The
->  ``--enable-gcov`` build option remains for analysis test case
->  coverage.
->  
-> +``qemu-system-i386`` binary (since 8.0)
-> +'''''''''''''''''''''''''''''''''''''''
-> +
-> +The ``qemu-system-i386`` binary was mainly useful for running with KVM
-> +on 32-bit x86 hosts, but most Linux distributions already removed their
-> +support for 32-bit x86 kernels, so hardly anybody still needs this. The
-> +``qemu-system-x86_64`` binary is a proper superset and can be used to
-> +run 32-bit guests by selecting a 32-bit CPU model, including KVM support
-> +on x86_64 hosts. Thus users are recommended to reconfigure their systems
-> +to use the ``qemu-system-x86_64`` binary instead. If a 32-bit CPU guest
-> +environment should be enforced, you can switch off the "long mode" CPU
-> +flag, e.g. with ``-cpu max,lm=off``.
+>   fsdev/qemu-fsdev.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
+> index 3da64e9f72..58e0710fbb 100644
+> --- a/fsdev/qemu-fsdev.c
+> +++ b/fsdev/qemu-fsdev.c
+> @@ -89,6 +89,7 @@ static FsDriverTable FsDrivers[] = {
+>               NULL
+>           },
+>       },
+> +#ifndef CONFIG_WIN32
+>       {
+>           .name = "proxy",
+>           .ops = &proxy_ops,
+> @@ -100,6 +101,7 @@ static FsDriverTable FsDrivers[] = {
+>               NULL
+>           },
+>       },
+> +#endif
+>   };
 
-I had the idea to check this today and this is not quite sufficient,
-because we have code that changes the family/model/stepping for
-'max' which is target dependent:
-
-#ifdef TARGET_X86_64
-    object_property_set_int(OBJECT(cpu), "family", 15, &error_abort);
-    object_property_set_int(OBJECT(cpu), "model", 107, &error_abort);
-    object_property_set_int(OBJECT(cpu), "stepping", 1, &error_abort);
-#else
-    object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
-    object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
-    object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
-#endif
-
-The former is a 64-bit AMD model and the latter is a 32-bit model.
-
-Seems LLVM was sensitive to this distinction to some extent:
-
-   https://gitlab.com/qemu-project/qemu/-/issues/191
-
-
-A further difference is that qemy-system-i686 does not appear to enable
-the 'syscall' flag, but I've not figured out where that difference is
-coming from in the code.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Probably the meson changes moving '9p-proxy.c' in hw/9pfs/meson.build
+(patch 16) belong here.
 
