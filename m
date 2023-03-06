@@ -2,136 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEF76ACB7F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105D26ACB97
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:56:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1h-0007OI-S7; Mon, 06 Mar 2023 12:53:33 -0500
+	id 1pZF3y-0007x5-1P; Mon, 06 Mar 2023 12:55:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pZF1f-0007BQ-DM
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:31 -0500
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ (Exim 4.90_1) (envelope-from
+ <BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZF3o-0007rX-MO
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:55:45 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pZF1d-0003E2-Mf
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:31 -0500
-Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230306175328usoutp02a615a62c0d4b85c96d386c5859157e07~J5fxpiZF12344523445usoutp02N;
- Mon,  6 Mar 2023 17:53:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20230306175328usoutp02a615a62c0d4b85c96d386c5859157e07~J5fxpiZF12344523445usoutp02N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1678125208;
- bh=9X9GgHqHRXwYJkwmqid2segpwTyYcVSBs4Qglq2t1F0=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=uvzvfZB6CUxc58c0xGW9kNsqarHQYN5EWZ0gW/2Vdu41bPbtpPkhtFYfytFUMEg8C
- 4e6SyYIo6Z+8TMOQIdbBANHWJAHtEpYgSOYqtUBeczCXIJ3wquw6vnisYi44XriuTJ
- HpmUpgybr/FIYJ4Yfblbf2d0vf0hnuxAf1dUJ3Ls=
-Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
- [203.254.195.112]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230306175328uscas1p19e18d0001957cbbcbc177a1180766e64~J5fxepptR2738027380uscas1p13;
- Mon,  6 Mar 2023 17:53:28 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges3new.samsung.com (USCPEMTA) with SMTP id FE.84.12196.89826046; Mon, 
- 6 Mar 2023 12:53:28 -0500 (EST)
-Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
- [203.254.195.92]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230306175327uscas1p15622b1d859a60b2cc5d9df70182e35fe~J5fxJZvdr1854418544uscas1p1y;
- Mon,  6 Mar 2023 17:53:27 +0000 (GMT)
-X-AuditID: cbfec370-5b3ff70000012fa4-ba-64062898cce0
-Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.145]) by
- ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id 68.A7.11346.79826046; Mon, 
- 6 Mar 2023 12:53:27 -0500 (EST)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Mon, 6 Mar 2023 09:53:27 -0800
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
- SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Mon,
- 6 Mar 2023 09:53:27 -0800
-From: Fan Ni <fan.ni@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Michael Roth <michael.roth@amd.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, Dave Jiang
- <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>,
- =?iso-8859-1?Q?Daniel_P_=2E_Berrang=E9?= <berrange@redhat.com>, Eric Blake
- <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, Thomas
- Huth <thuth@redhat.com>
-Subject: Re: [RESEND PATCH v6 7/8] hw/pci/aer: Make PCIE AER error injection
- facility available for other emulation to use.
-Thread-Topic: [RESEND PATCH v6 7/8] hw/pci/aer: Make PCIE AER error
- injection facility available for other emulation to use.
-Thread-Index: AQHZTQypFWLDKomDHUGIgneSD56y4a7ulR0A
-Date: Mon, 6 Mar 2023 17:53:27 +0000
-Message-ID: <20230306175326.GG1489326@bgt-140510-bm03>
-In-Reply-To: <20230302133709.30373-8-Jonathan.Cameron@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <A669D60850CA6047B9033D144657909A@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from
+ <BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZF3m-00048C-2Q
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:55:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=LtahFXzbJnIbiAdcHdapkoaiC4KM8gb+Wek/GKqAXJU=; b=ULtHelCSlgntQnBKOyfIiDyQvl
+ cBXxMpffynB38T02fNIQsWyD+Uo5JnwpFD35R4gMzijDFm9vlnw4LPjvaFdfFwv/x5GSc2VC0eKeJ
+ 6BjnR5gyv0R6A/nbJcaeMOTMyYBs/7f+pV5Uzaz35IvGzR+3DaMrq5JIr1LpIFqtSvAOb6q+UIcr9
+ vTLJKR61g+d9oLTj/qCpHR+R12HxZpZsDAAAhD4zpKbhclMzyvcx4WjB1gPz3YbR1Zf8umalGL8e3
+ 3EtFCMUDnIJzoMkr8mOI+fS9YZigebGYAAEJEhYD3Y9TESyGefHxKc/fei8yvhkFiB3qhDjgwxB34
+ gU4fjqPA==;
+Received: from [2001:8b0:10b:5:c09:fa3d:b1cb:4d7e]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pZF3g-005Y92-6U; Mon, 06 Mar 2023 17:55:36 +0000
+Message-ID: <a075a3620c729a798694528a97729f9a25f5304b.camel@infradead.org>
+Subject: Re: [PATCH 0/4] Support x2APIC mode with TCG accelerator
+From: David Woodhouse <dwmw2@infradead.org>
+To: Bui Quang Minh <minhquangbui99@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, 
+ "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Date: Mon, 06 Mar 2023 17:55:35 +0000
+In-Reply-To: <20230221160500.30336-1-minhquangbui99@gmail.com>
+References: <20230221160500.30336-1-minhquangbui99@gmail.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-lQDS0J8Qb7LtXXjXJsb4"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCKsWRmVeSWpSXmKPExsWy7djXc7ozNNhSDGY3cVrcfXyBzWL+2vss
- Fm/erGGyOHGzkc1i4tv1rBb7nz5nsVi18BqbxflZp1gsDm88w2SxoK2d1WLN/UOsFr/XPmay
- +P/rFZC7QtjieO8OFouVx2wcBDxaL/1l89g56y67R8uRt6wei/e8ZPK4c20Pm8eTa5uZPN7v
- u8rm8XmTXABHFJdNSmpOZllqkb5dAlfGg312Bb+5K648a2FrYNzJ2cXIySEhYCLR1j2BuYuR
- i0NIYCWjxKGp/xkhnFYmiW3nFrLBVG3ftxvMFhJYyyixdaoqRNFHRol1Vz9CtS9llNiyZhMT
- SBWbgKLEvq7tYB0iAkYS725MAhvLLLCHVeLjjPnsXYwcHMICtRKtm4Uhauokmjfdhat/cKmZ
- FcRmEVCR+HegD8zmFTCTWPL/ElgNp4CjxJ5Xa8F2MQqISXw/tQbMZhYQl7j1ZD4TxNWCEotm
- 72GGsMUk/u16CPWNosT97y/ZIer1JG5MncIGYdtJLFo5nQXC1pZYtvA1M8ReQYmTM5+wQPRK
- ShxccYMF5BcJgdWcEos2T2CHSLhIfP/yhhXClpaYvuYyC8iPEgLJEqs+ckGEcyTmL9kCNcda
- YuGf9UwTGFVmITl7FpKTZiE5aRaSk2YhOWkBI+sqRvHS4uLc9NRi47zUcr3ixNzi0rx0veT8
- 3E2MwIR4+t/hgh2Mt2591DvEyMTBeIhRgoNZSYS36jdrihBvSmJlVWpRfnxRaU5q8SFGaQ4W
- JXFeQ9uTyUIC6YklqdmpqQWpRTBZJg5OqQamaJFqPbeQapEXXSUv7bZFS7TPLq7KEWt5XinF
- NJt9u4LWlaW7zbiO/z11591kfcHJzV49kk/EKzZdKUuQnvfQT0nHWa2GZcL1VbaOxu4BL+/k
- 177W+M+WpFB4+LPYbhs9gT1cDL+q+ucHXJFVFtrkXeHppLzbrXypjlNkw6aI/V6OIX0dW1Qc
- d21lrmL5Z5w3y/fMWruI6xPfJQbcFnKz0XQUP/rFsvxuq4IB3+61DZYL5Iwe77r67sy2SYlq
- V7TtbYNmbjq1wO1p2+Ulm0T/SzL9YUksLtBd4ZZysTi0TFe1havVbfrshof913c8dJouLsbG
- uS3IpebXl5YlZ/6VzC1Zbn921ia17O3lekosxRmJhlrMRcWJABqAFtb3AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmleLIzCtJLcpLzFFi42LJbGCaqDtdgy3FYNNPA4u7jy+wWcxfe5/F
- 4s2bNUwWJ242sllMfLue1WL/0+csFqsWXmOzOD/rFIvF4Y1nmCwWtLWzWqy5f4jV4vfax0wW
- /3+9AnJXCFsc793BYrHymI2DgEfrpb9sHjtn3WX3aDnyltVj8Z6XTB53ru1h83hybTOTx/t9
- V9k8Pm+SC+CI4rJJSc3JLEst0rdL4Mp4sM+u4Dd3xZVnLWwNjDs5uxg5OSQETCS279vN1sXI
- xSEksJpR4uOzyVDOR0aJk7+fs0I4Sxkl7hx8ywbSwiagKLGvazuYLSJgJPHuxiRGkCJmgV2s
- Eo+XPmfvYuTgEBaolWjdLAxRUydxofcSI0z9g0vNrCA2i4CKxL8DfWA2r4CZxJL/l8BmCgmU
- S/w7/gAszingKLHn1VomEJtRQEzi+6k1YDazgLjErSfzmSBeEJBYsuc8M4QtKvHy8T9WCFtR
- 4v73l+wQ9XoSN6ZOYYOw7SQWrZzOAmFrSyxb+JoZ4gZBiZMzn7BA9EpKHFxxg2UCo8QsJOtm
- IRk1C8moWUhGzUIyagEj6ypG8dLi4tz0imLjvNRyveLE3OLSvHS95PzcTYzAdHL63+GYHYz3
- bn3UO8TIxMF4iFGCg1lJhLfqN2uKEG9KYmVValF+fFFpTmrxIUZpDhYlcV6P2InxQgLpiSWp
- 2ampBalFMFkmDk6pBiY3o8oLO1Xv1mh43Kz/H2wqJTTr640XVk9KcqLen3Q8tHNGjJP9avG4
- mTrrVB6bVU7jmzC1IUtZ80tJU47zlLsH9kZufcGfenjlxbMvSxeWa7U0OU7SzFRoehpmWpJy
- tGV135uaqHNcnRrHnugEsvpe2rb5cPO8vW/2W5of3ekfHMfHpioWbbp31Ron+/dblz5vmjvD
- /8Jpyw+mp6ovzFZ9fGLepr3/TL2vlbh+fL7pvd3Wxw2J57n+71rtP0fx7l/DxVrta3om9UXf
- P5aZzst2n2f74+UmJxTdvKcEu7G8CLzpuN5rv190Xn3JxtxVi6ap3ZxnZH/1Y9y5wweN3DfF
- ef8v2VPp+mLNZvG+ZYsKlFiKMxINtZiLihMBYrl9DZYDAAA=
-X-CMS-MailID: 20230306175327uscas1p15622b1d859a60b2cc5d9df70182e35fe
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230306175327uscas1p15622b1d859a60b2cc5d9df70182e35fe
-References: <20230302133709.30373-1-Jonathan.Cameron@huawei.com>
- <20230302133709.30373-8-Jonathan.Cameron@huawei.com>
- <CGME20230306175327uscas1p15622b1d859a60b2cc5d9df70182e35fe@uscas1p1.samsung.com>
-Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
- helo=mailout2.w2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+ff41e94de7101eaa820e+7134+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,44 +77,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02, 2023 at 01:37:08PM +0000, Jonathan Cameron wrote:
-> This infrastructure will be reused for CXL RAS error injection
-> in patches that follow.
->=20
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  hw/pci/pci-internal.h     | 1 -
->  include/hw/pci/pcie_aer.h | 1 +
->  2 files changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/pci/pci-internal.h b/hw/pci/pci-internal.h
-> index 2ea356bdf5..a7d6d8a732 100644
-> --- a/hw/pci/pci-internal.h
-> +++ b/hw/pci/pci-internal.h
-> @@ -20,6 +20,5 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, i=
-nt indent);
-> =20
->  int pcie_aer_parse_error_string(const char *error_name,
->                                  uint32_t *status, bool *correctable);
-> -int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
-> =20
->  #endif
-> diff --git a/include/hw/pci/pcie_aer.h b/include/hw/pci/pcie_aer.h
-> index 65e71d98fe..1234fdc4e2 100644
-> --- a/include/hw/pci/pcie_aer.h
-> +++ b/include/hw/pci/pcie_aer.h
-> @@ -100,4 +100,5 @@ void pcie_aer_root_write_config(PCIDevice *dev,
->                                  uint32_t addr, uint32_t val, int len,
->                                  uint32_t root_cmd_prev);
-> =20
-> +int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
->  #endif /* QEMU_PCIE_AER_H */
-> --=20
-> 2.37.2
->=20
->=20
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
+--=-lQDS0J8Qb7LtXXjXJsb4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 2023-02-21 at 23:04 +0700, Bui Quang Minh wrote:
+> This series implements x2APIC mode in userspace local APIC and the
+> RDMSR/WRMSR helper to access x2APIC registers in x2APIC mode. With this
+> series, we can now boot up Linux kernel in x2APIC with TCG accelerator.
+>=20
+> Bui Quang Minh (4):
+> =C2=A0 apic: add support for x2APIC mode
+> =C2=A0 i386/tcg: implement x2APIC registers MSR access
+> =C2=A0 intel_iommu: allow Extended Interrupt Mode when using userspace lo=
+cal
+> =C2=A0=C2=A0=C2=A0 APIC
+> =C2=A0 test/avocado: test Linux boot up in x2APIC with userspace local AP=
+IC
+
+Please can you ensure CPUID 0x0B is correctly populated with the APIC
+ID (and other information) when X2APIC is enabled?
+
+--=-lQDS0J8Qb7LtXXjXJsb4
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA2MTc1NTM1WjAvBgkqhkiG9w0BCQQxIgQgBxcGtSeg
+ephXfiGr6v+RX5XHoIhIa7y0BjGJkIki07cwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCLI2ryBGUe/ftEOP9NhbXbmZAj6fF0h9Oi
+4nhLzAmAQ446oDr2ENKnEVJo08E+g1RvESUh2gDEMUsdunNEi/whFn8ZCYyI2xPHYpU66sxMs/84
+jtem/tv2ILQNJOn2DMSbxxr/6U2Q94BhCyU6MtUgCUjAHjDd9YGRJmgQJ4HiveLU27zrvhz7fVs9
+9hZ7xTOFONVMTy/M1phmyieaMX0mPrEGjTQyissmLEwP3O//1w+jImKfcawz0dY2NfwPSHyuiguU
+PvX7XZBkSHiy7URDE0SsraqnV0RXGjHRMXD92Cmq/Ha68HS+BcwNzZMLC6zp9YquHzjRQDTVDBt0
+2BTu+X3J5KGEEIAyNGqFAoHcBJ9N/t/ESBCBoPleHD6SEA0wxwY0LxSVgGg4y4uLwHImBtdoWm4L
+BXBE4KEqSnanNMFdDV36NqWGAy6rOVJupZ9hNWi+j5NN1XktN6hj7k/KGZWgVk+Sky3cK+zSHG3A
+BNTUB3Ly+JV1w4lKCFZHFJqW6Ch3izxXAYocSqJubSXO4aWsn0xYpetihURDKMtMfv8tu8OWXYy/
+L9hpQPvz5exSguCeczmWaZss/6nboL7W9sejU307VdmmfbFc35x7V7tFg8IRFom+fmltqSnzG8eF
+luO+ZnkmH822QBQmRTgOEhsEsEg8j+cI4WP5WTnJwQAAAAAAAA==
+
+
+--=-lQDS0J8Qb7LtXXjXJsb4--
 
