@@ -2,101 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD6B6AC4A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15B56AC4A7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:18:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCaw-0002Nu-Cx; Mon, 06 Mar 2023 10:17:46 -0500
+	id 1pZCbC-0002up-SD; Mon, 06 Mar 2023 10:18:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pZCat-0002FF-Er
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:17:44 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZCb7-0002or-1N
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:17:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pZCar-0006u0-DN
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:17:43 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZCb5-0006wX-K4
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:17:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678115860;
+ s=mimecast20190719; t=1678115874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+xC3BPfy/X5CcjNFKPFn3eUtCx3zupeD+xmlNl152Bs=;
- b=Yhk5mi8s5wlHYMvoFaAwlovMEikQ8b9JfHmu9ja8T6CK9cOOLl4AdE6c7buA40Cz+iSbBv
- WlalnXcjMaxJXhVhNOYhpqcxDZwBMbOeIwwo+pXa3sovZUioeEeyIdu2xYkntFY2nczNco
- zJMbZg94bt773IFzQQFiiABNf3jmYqw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KDb6hUTpnFsKcz/2qalS3Rnm5NElLo0zA543ex3rVU4=;
+ b=Hu4Yp1czjGScgXK/7La7jhW7SpFyqz9ciaUJQ0gzKh0v7YHm80VTzaMq0DWKca19jDml57
+ FkAb66MRP33y9/P6fYLNfcIRt4jNmgJVuBttjB9WrVM0elis7swKzSXGKxwo5b6SduA87g
+ 76U5OfPlNtW9qQq0WttJQ5qDTog6ZZM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-310-QxTOu3qQPV6dZEjXAnNNvg-1; Mon, 06 Mar 2023 10:17:37 -0500
-X-MC-Unique: QxTOu3qQPV6dZEjXAnNNvg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- e22-20020a05600c219600b003e000facbb1so6866798wme.9
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:17:37 -0800 (PST)
+ us-mta-668-FTaB3_PwNuyorckiNLN9hw-1; Mon, 06 Mar 2023 10:17:49 -0500
+X-MC-Unique: FTaB3_PwNuyorckiNLN9hw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b1-20020aa7dc01000000b004ad062fee5eso14131441edu.17
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:17:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678115856;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+xC3BPfy/X5CcjNFKPFn3eUtCx3zupeD+xmlNl152Bs=;
- b=OWCaQChTN57ifvcRa9Xe5dRYMM7ah0wKTSLXWv5kNeqGANuyzwAN2zlq75yt3FETpa
- rH0es/BH3lVdp/PpgczB4l5cck1IkySx27oI5nhMwY6ouCpLGiQIrB2vfAV/7H4yb5do
- vc6MFAAbOklIwVquHWwsq42+qmdKmAx6Dtb8fIjYxjakySx2CywtsodpXZOqfFqeLxcF
- t05wqXNpDdktY/leOqsfnAuWedLQqSfXlemoRjVnuwuX6d0BPucoU2Y6MeiHsq1X0jvP
- oAvbTMgEOc/+ad/tAGhvUFFBpOjXOYWx0D13VIrfuicyeoGVByDy5TqMfx5UdLnG9lHI
- 6HxA==
-X-Gm-Message-State: AO0yUKWHcnfC46ybFObR4RsjSzfSVR6c7ZLIaPzrk6RQGAQA1qq05QSK
- qchSMvbzN5DSXieKUTyMb8jGSR8SkqI8oeH7taQA5pQLW3Bbi6sMJNKotwa32kNpvXJESbDHf/T
- f/yVojU4dn9ejOHg=
-X-Received: by 2002:a05:600c:4ecf:b0:3eb:399d:ab1a with SMTP id
- g15-20020a05600c4ecf00b003eb399dab1amr9131339wmq.21.1678115855854; 
- Mon, 06 Mar 2023 07:17:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set+wFMgWrF3cYBlKLMWL75eNncwPHd0fnChJwYBNUWLP2mjh5RW1j/Z823X0eNFc9zTjY5DhCw==
-X-Received: by 2002:a05:600c:4ecf:b0:3eb:399d:ab1a with SMTP id
- g15-20020a05600c4ecf00b003eb399dab1amr9131327wmq.21.1678115855583; 
- Mon, 06 Mar 2023 07:17:35 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a5d4103000000b002c55521903bsm10043552wrp.51.2023.03.06.07.17.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 07:17:35 -0800 (PST)
-Date: Mon, 6 Mar 2023 15:17:32 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
- qemu-devel@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] tests/qtest/migration-test: Disable
- migration/multifd/tcp/plain/cancel
-Message-ID: <ZAYEDBpoXp29IqBK@work-vm>
-References: <20230302172211.4146376-1-peter.maydell@linaro.org>
- <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
- <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
- <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
- <CAFEAcA-U568vrLKHegfKQWu1RfUCRjdOKZQMoFXSde1yk4V3Wg@mail.gmail.com>
- <53ca67e4-fb2f-17ac-2087-9faa7aba5187@redhat.com>
- <ZAXuRp4p7heAbFtF@work-vm> <ZAXx5VerHrVQbSwU@redhat.com>
+ d=1e100.net; s=20210112; t=1678115867;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KDb6hUTpnFsKcz/2qalS3Rnm5NElLo0zA543ex3rVU4=;
+ b=F4/P0RIK6fCS3H5FoyIODS+udAqUqjSdFfZ1kO+G2l872krYEtckxftQXzQZnkjzjJ
+ kFqozNWE7hAw1Okvs6mUgpFnXJh367LFzAxAbcvQ/VKkY4mWL9eGUqBFDnKNt888IRGp
+ wAkES3Ewz+IFUCAIT+LGqRLbw/NSuk3Cagc98Inu/sO0i1qTVjwxbXJN9CXF/+v/libn
+ UIhDq04qlMiGTVsRD7hpaabOIg3fGeNbE82BE6lrjDA8/08nM7pA+yuyvfnk/eD08Ik/
+ n+HStbuY7gbLKBUVhgn/E8nJtG2OdtBtKhYY9rJwopQIxbN/fEZtneZ1t+pFX06twKnp
+ Srrw==
+X-Gm-Message-State: AO0yUKWCs1AjmAqGMXQRVvZ5IBJuK6TEjb3heqif73IHMd6yoM4UtwkL
+ 1roDoq4k1IHxx9NNig4g2KB/BNeJVfWXaoZemv09/8zAiVql5bKa0rtSvVta6VqCe3ivIMzF/oj
+ rKmQHZIxDaBefGwM=
+X-Received: by 2002:a05:6402:1512:b0:4c2:6b68:c126 with SMTP id
+ f18-20020a056402151200b004c26b68c126mr9688692edw.8.1678115867135; 
+ Mon, 06 Mar 2023 07:17:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set9FA+Fd/cgbvboenVUeBzSp/pspsHus1x6T/AHXyDBgnRb1a1E+cGn4Ol4ALBcoXcELVoaFjg==
+X-Received: by 2002:a05:6402:1512:b0:4c2:6b68:c126 with SMTP id
+ f18-20020a056402151200b004c26b68c126mr9688673edw.8.1678115866838; 
+ Mon, 06 Mar 2023 07:17:46 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ s26-20020a50ab1a000000b004bf999f8e57sm5209872edc.19.2023.03.06.07.17.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 07:17:46 -0800 (PST)
+Message-ID: <090dd36c-e0dd-6933-abbe-ff4d7715e73e@redhat.com>
+Date: Mon, 6 Mar 2023 16:17:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 3/8] qemu-thread-win32: cleanup, fix, document QemuEvent
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: gshan@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
+ cohuck@redhat.com, eauger@redhat.com
+References: <20230303171939.237819-1-pbonzini@redhat.com>
+ <20230303171939.237819-4-pbonzini@redhat.com>
+ <080ab2d0-1a6f-47e9-0f3f-33f5ef98d411@redhat.com>
+ <5123f794-0d28-bfb6-3e79-41cfb70a9318@redhat.com>
+ <b6e703b4-d89e-e74e-985e-1d0f483719a4@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <b6e703b4-d89e-e74e-985e-1d0f483719a4@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZAXx5VerHrVQbSwU@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,97 +107,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Mon, Mar 06, 2023 at 01:44:38PM +0000, Dr. David Alan Gilbert wrote:
-> > * Thomas Huth (thuth@redhat.com) wrote:
-> > > On 03/03/2023 13.05, Peter Maydell wrote:
-> > > > On Fri, 3 Mar 2023 at 11:29, Thomas Huth <thuth@redhat.com> wrote:
-> > > > > 
-> > > > > On 03/03/2023 12.18, Peter Maydell wrote:
-> > > > > > On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
-> > > > > > > 
-> > > > > > > Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > > > > > > On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
-> > > > > > > > > migration-test has been flaky for a long time, both in CI and
-> > > > > > > > > otherwise:
-> > > > > > > > > 
-> > > > > > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
-> > > > > > > > > (a FreeBSD job)
-> > > > > > > > >     32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
-> > > > > > > > > 
-> > > > > > > > > on a local macos x86 box:
-> > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > > What is really weird with this failure is that:
-> > > > > > > - it only happens on non-x86
-> > > > > > 
-> > > > > > No, I have seen it on x86 macos, and x86 OpenBSD
-> > > > > > 
-> > > > > > > - on code that is not arch dependent
-> > > > > > > - on cancel, what we really do there is close fd's for the multifd
-> > > > > > >     channel threads to get out of the recv, i.e. again, nothing that
-> > > > > > >     should be arch dependent.
-> > > > > > 
-> > > > > > I'm pretty sure that it tends to happen when the machine that's
-> > > > > > running the test is heavily loaded. You probably have a race condition.
-> > > > > 
-> > > > > I think I can second that. IIRC I've seen it a couple of times on my x86
-> > > > > laptop when running "make check -j$(nproc) SPEED=slow" here.
-> > > > 
-> > > > And another on-x86 failure case, just now, on the FreeBSD x86 CI job:
-> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3870165180
-> > > 
-> > > And FWIW, I just saw this while doing "make vm-build-netbsd J=4":
-> > > 
-> > > ▶  31/645 ERROR:../src/tests/qtest/migration-test.c:1841:test_migrate_auto_converge: 'got_stop' should be FALSE ERROR
-> > 
-> > That one is kind of interesting; this is an auto converge test - so it
-> > tries to setup migration so it won't finish, to check that the auto
-> > converge kicks in.  Except in this case the migration *did* finish
-> > without the autoconverge (significantly) kicking in.
-> > 
-> > So I guess any of:
-> >   a) The CPU thread never got much CPU time so not much dirtying
-> > happened.
-> >   b) The bandwidth calculations might be bad enough/course enough
-> > that it's passing the (very low) bandwidth limit due to bad
-> > approximation at bandwidth needed.
-> >   c) The autoconverge jump happens fast enough for that loop
-> > to hit the got_stop in the loop time of that loop.
-> > 
-> > I guess we could:
-> >   i) Reduce the usleep in test_migrate_auto_converge
-> >     (So it is more likely to correctly drop out of that loop
-> >     as soon as autoconverge kicks in)
+On 3/6/23 15:32, David Hildenbrand wrote:
+>>
+>> Thinking more about it, the intended usage of QemuEvent is either
+>>
+>>       qemu_event_reset();
+>>       if (!check()) {
+>>            qemu_event_wait());
+>>       }
+>>
+>> or
+>>
+>>       if (!check()) {
+>>           qemu_event_reset();
+>>           if (!check()) {
+>>                qemu_event_wait());
+>>           }
+>>       }
+>>
+>> If we don't care on the reset path we care much less on the wait path.
+>> Should I remove it and go straight to the cmpxchg, just for peace of 
+>> mind?
 > 
-> The CPU time spent by the dirtying guest CPUs should dominate
-> here, so we can afford to reduce that timeout down a bit to
-> be more responsive.
-> 
-> >   ii) Reduce inc_pct so that autoconverge kicks in slower
-> >   iii) Reduce max-bandwidth in migrate_ensure_non_converge
-> >      even further.
-> 
-> migrate_ensure_non_converge is trying to guarantee non-convergance,
-> but obviously we're only achieving a probibalistic chance of
-> non-converage. To get the probably closer to 100% we should make
-> it massively smaller, say 100kbs instead of 30mbs.
+> Sounds reasonable to me at could simplify qemu_event_wait a bit.
 
-Interestingly that doesn't work; I've not quite worked out why yet; I
-pushed it to 30kbps and it got stuck in the basic fd test.  My guess is
-that it's starving something so it never makes any forward progress.
+Hmm, it does avoid a whole system call in the Windows case, so I prefer 
+to keep it.  And I prefer to keep the load-acquire on the fast path too, 
+I don't think it's needed in the actual uses of QemuEvent but it's safer 
+in case it's used as "just a boolean".
 
-Dave
-
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Paolo
 
 
