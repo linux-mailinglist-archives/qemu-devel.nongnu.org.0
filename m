@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE636ACDE6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 20:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1560C6ACDE9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 20:23:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZGNe-0008Ga-OI; Mon, 06 Mar 2023 14:20:18 -0500
+	id 1pZGQU-0001qm-O9; Mon, 06 Mar 2023 14:23:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZGNc-0008GR-QI
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:20:16 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZGNa-0002zd-0p
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:20:16 -0500
-Received: by mail-pg1-x529.google.com with SMTP id s18so6248153pgq.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 11:20:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678130407;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vy2X/wDobrSSt9JIvAht3xPI15OvFeu5j/URzAiXbs8=;
- b=mRxfkJmAlNu/SLYsycUOBD/3ynpdjYJj1HTTmhUX6zPEv+5xtaJDcQrSRt98afYfkY
- rpJVmxm62cjQJblxup2fqbTDAmnqx8U53BR/a1eVFecHbWlmBFKzHupO49LmhSsi+HL0
- QJ3C5Lz1EsF1SPloiSN0ScTgymQdtG6t0lLhUyjmD4U/U7fDTnCy7xBTB3JskFkHQY3D
- bxnMLLQylAsOONjDcEUA23/vmWDpzZuYMB40JNT+OT1xXb/ODpdQgmynS4E8VY4l/cd3
- +ZYA4CNv0P/bietscYR2h1vOUgBy34O3MATR5UcWlWuAI1prkavzfxFjIESdLANUbJR4
- 1RuQ==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZGQE-0001ps-Mf
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:23:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZGQC-000461-AJ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:22:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678130573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NAQuPHBBQsIbfFsraNiDYf7xFYrgWLzIucRs/FebMbU=;
+ b=TEEifCFiyvSP0UwDEY7uw3jpboTZ1wy+nf/jMrwsPxDBgad23XN1TWIPqh3e7qO5Mp8ZBH
+ BSocyTQkgnjMChIGCF/hWCXqzSEMNf8rwftqK0KQTPvC9pzGeSTESeD+JK/v2dXkY9+JRp
+ GTFUTun1UpksSsi7eBZ0j8Qjfv/J0HE=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-402-o7SSZ-OsO6u1mpBPsC_8Mw-1; Mon, 06 Mar 2023 14:22:52 -0500
+X-MC-Unique: o7SSZ-OsO6u1mpBPsC_8Mw-1
+Received: by mail-il1-f199.google.com with SMTP id
+ d3-20020a056e02050300b00317999dcfb1so5873268ils.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 11:22:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678130407;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vy2X/wDobrSSt9JIvAht3xPI15OvFeu5j/URzAiXbs8=;
- b=z/B57MmbnKDP0GgUvMM4FRUOwKo8oaTUjnzAhcttF6omMRtxCeQ252PN5wJpapDDIS
- NzcCulkNcIWB3/fIFOsTRZ0Ir1jzBUUBvsgwbFHlXwGq3obzxAFDIi5FiMiaFooZx3lQ
- sJiOZjKGw+2mZyc11uyNiPs4XtzHJ0M9fDISDKa8si1qOhYNezkPw4Sas3IJuFDzCQHS
- I1XlGyTlqv3DSA1SXx50A1rVym5EllZMe+axjKRtH7gcZOGf9NeOxlR1mDZi8ag86a6p
- aMKbR512Ib7w23fft2OdzW8P08ahffMXP8sWvoGxk9WM5XU8xQiVPVcbktYnwQUoDQSK
- WmPA==
-X-Gm-Message-State: AO0yUKU9Kf6B+arXsdJoIG48en+WHWtm5qwQxB6Smi2w1720xNzhJ4aT
- Byv3RLciFQY76T5qrdKARyzlCA==
-X-Google-Smtp-Source: AK7set99vVmv1YkdV/anLPs4TeaGxQovSOIYy6/NoeVpf8dLBgTVsLVWDdvobrnPVS8R1h9Jw9KY6w==
-X-Received: by 2002:a62:1d13:0:b0:590:7330:353c with SMTP id
- d19-20020a621d13000000b005907330353cmr12353365pfd.6.1678130407607; 
- Mon, 06 Mar 2023 11:20:07 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:7632:29c7:3cce:bec3?
- ([2602:ae:154a:9f01:7632:29c7:3cce:bec3])
- by smtp.gmail.com with ESMTPSA id
- n4-20020a62e504000000b005a79596c795sm6620996pff.29.2023.03.06.11.20.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 11:20:07 -0800 (PST)
-Message-ID: <17eeac43-a5ac-c90a-f8ab-cbd8d65b6539@linaro.org>
-Date: Mon, 6 Mar 2023 11:20:05 -0800
+ d=1e100.net; s=20210112; t=1678130572;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NAQuPHBBQsIbfFsraNiDYf7xFYrgWLzIucRs/FebMbU=;
+ b=XUeOqeNcBBM35B33kq5u7fu17dvIGXm48ESilLngHXVhfxRj/DzOMkBnuNPE9pt5iH
+ recwprCB074YL5geBh7sDGHiTxWJka++yBaiDpB9BEJ1Btzz9cSl/aokq7B6Z7gOlXAx
+ v6oLNpOebDSfVo77Gu0y38tWa8TGcC8Iqe0pKNlxPjK6krDakaK2VbXN86Bz0f+ymO/e
+ QvzpRdo4VuVv4tvV3lMAvRQbtVOLE627J7K4wv4zv2j0npx2MpFZPCniUd4C8kPSThJW
+ B5gQ0n3XQaFG2nzorw49/T1xCg38alhOqTqKMr1m0aXvnbbzdesDLJkm/hjRoHVq88YH
+ PBIw==
+X-Gm-Message-State: AO0yUKXYBIdhuOk199rUYLpzHbwf6P046BskDsB61pvYtlS13WGcvFJZ
+ 5AoX2waFURFqmsW43EaWN2QXIV27I8MZYwSyIr7QafUAXJ8JH0fzz14qO6igTMwHzpgmdzu77yP
+ 56vtJ/8I48VSfrnk=
+X-Received: by 2002:a92:7414:0:b0:315:2eec:4055 with SMTP id
+ p20-20020a927414000000b003152eec4055mr7111224ilc.11.1678130571911; 
+ Mon, 06 Mar 2023 11:22:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set+u5Gkkw9G5gJQZRwQWl+Gg6jDLEKA2kDZU3YnG4bXdQ4DfHGZJexG9Z6BJgjeOBFwvBtGiiQ==
+X-Received: by 2002:a92:7414:0:b0:315:2eec:4055 with SMTP id
+ p20-20020a927414000000b003152eec4055mr7111213ilc.11.1678130571652; 
+ Mon, 06 Mar 2023 11:22:51 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ r16-20020a92d450000000b00316e39f1285sm3002910ilm.82.2023.03.06.11.22.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 11:22:51 -0800 (PST)
+Date: Mon, 6 Mar 2023 12:22:49 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+Subject: Re: [PATCH v3 10/13] vfio/common: Add device dirty page bitmap sync
+Message-ID: <20230306122249.5f9d9656.alex.williamson@redhat.com>
+In-Reply-To: <20230304014343.33646-11-joao.m.martins@oracle.com>
+References: <20230304014343.33646-1-joao.m.martins@oracle.com>
+ <20230304014343.33646-11-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 03/70] target/arm: Improve arm_rmode_to_sf
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-4-richard.henderson@linaro.org>
- <7b1fa1fa-5e00-90eb-29dd-413448167456@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <7b1fa1fa-5e00-90eb-29dd-413448167456@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,30 +103,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/6/23 06:00, Philippe Mathieu-Daudé wrote:
-> On 27/2/23 06:41, Richard Henderson wrote:
->> Use proper enumeration types for input and output.
->> Use a const array to perform the mapping, with an
->> assert that the input is valid.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/arm/internals.h     | 12 +++++++++---
->>   target/arm/translate-mve.c |  2 +-
->>   target/arm/vfp_helper.c    | 33 ++++++++-------------------------
->>   3 files changed, 18 insertions(+), 29 deletions(-)
-...
->> +static inline FloatRoundMode arm_rmode_to_sf(ARMFPRounding rmode)
->> +{
->> +    assert((unsigned)rmode < ARRAY_SIZE(arm_rmode_to_sf_map));
->> +    return arm_rmode_to_sf_map[rmode];
->> +}
+On Sat,  4 Mar 2023 01:43:40 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
+
+> Add device dirty page bitmap sync functionality. This uses the device
+> DMA logging uAPI to sync dirty page bitmap from the device.
 > 
-> Is the inlining justified?
+> Device dirty page bitmap sync is used only if all devices within a
+> container support device dirty page tracking.
+> 
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/vfio/common.c | 88 +++++++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 79 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index b0c7d03279ab..5b8456975e97 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -342,6 +342,9 @@ static int vfio_bitmap_alloc(VFIOBitmap *vbmap, hwaddr size)
+>      return 0;
+>  }
+>  
+> +static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+> +                                 uint64_t size, ram_addr_t ram_addr);
+> +
+>  bool vfio_mig_active(void)
+>  {
+>      VFIOGroup *group;
+> @@ -565,10 +568,16 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>          .iova = iova,
+>          .size = size,
+>      };
+> +    bool need_dirty_sync = false;
+> +    int ret;
+> +
+> +    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
+> +        if (!vfio_devices_all_device_dirty_tracking(container) &&
+> +            container->dirty_pages_supported) {
+> +            return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+> +        }
+>  
+> -    if (iotlb && container->dirty_pages_supported &&
+> -        vfio_devices_all_running_and_mig_active(container)) {
+> -        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+> +        need_dirty_sync = true;
+>      }
+>  
+>      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+> @@ -594,10 +603,12 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>          return -errno;
+>      }
+>  
+> -    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
+> -        cpu_physical_memory_set_dirty_range(iotlb->translated_addr, size,
+> -                                            tcg_enabled() ? DIRTY_CLIENTS_ALL :
+> -                                            DIRTY_CLIENTS_NOCODE);
+> +    if (need_dirty_sync) {
+> +        ret = vfio_get_dirty_bitmap(container, iova, size,
+> +                                    iotlb->translated_addr);
+> +        if (ret) {
+> +            return ret;
+> +        }
+>      }
+>  
+>      return 0;
+> @@ -1579,6 +1590,58 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
+>      }
+>  }
+>  
+> +static int vfio_device_dma_logging_report(VFIODevice *vbasedev, hwaddr iova,
+> +                                          hwaddr size, void *bitmap)
+> +{
+> +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
+> +                        sizeof(struct vfio_device_feature_dma_logging_report),
+> +                        sizeof(__aligned_u64))] = {};
+> +    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
+> +    struct vfio_device_feature_dma_logging_report *report =
+> +        (struct vfio_device_feature_dma_logging_report *)feature->data;
+> +
+> +    report->iova = iova;
+> +    report->length = size;
+> +    report->page_size = qemu_real_host_page_size();
+> +    report->bitmap = (__aligned_u64)bitmap;
+> +
+> +    feature->argsz = sizeof(buf);
+> +    feature->flags =
+> +        VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
 
-It's in a header file, so required.
+Nit, the series is inconsistent between initializing flags as above and
+as:
 
-r~
+    feature->flags = VFIO_DEVICE_FEATURE_GET;
+    feature->flags |= VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
 
+My personal preference would be more like:
+
+    feature->flags = VFIO_DEVICE_FEATURE_GET |
+                     VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
+
+Thanks,
+Alex
+
+> +
+> +    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
+> +        return -errno;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
+> +                                           VFIOBitmap *vbmap, hwaddr iova,
+> +                                           hwaddr size)
+> +{
+> +    VFIODevice *vbasedev;
+> +    VFIOGroup *group;
+> +    int ret;
+> +
+> +    QLIST_FOREACH(group, &container->group_list, container_next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            ret = vfio_device_dma_logging_report(vbasedev, iova, size,
+> +                                                 vbmap->bitmap);
+> +            if (ret) {
+> +                error_report("%s: Failed to get DMA logging report, iova: "
+> +                             "0x%" HWADDR_PRIx ", size: 0x%" HWADDR_PRIx
+> +                             ", err: %d (%s)",
+> +                             vbasedev->name, iova, size, ret, strerror(-ret));
+> +
+> +                return ret;
+> +            }
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static int vfio_query_dirty_bitmap(VFIOContainer *container, VFIOBitmap *vbmap,
+>                                     hwaddr iova, hwaddr size)
+>  {
+> @@ -1619,10 +1682,12 @@ static int vfio_query_dirty_bitmap(VFIOContainer *container, VFIOBitmap *vbmap,
+>  static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>                                   uint64_t size, ram_addr_t ram_addr)
+>  {
+> +    bool all_device_dirty_tracking =
+> +        vfio_devices_all_device_dirty_tracking(container);
+>      VFIOBitmap vbmap;
+>      int ret;
+>  
+> -    if (!container->dirty_pages_supported) {
+> +    if (!container->dirty_pages_supported && !all_device_dirty_tracking) {
+>          cpu_physical_memory_set_dirty_range(ram_addr, size,
+>                                              tcg_enabled() ? DIRTY_CLIENTS_ALL :
+>                                              DIRTY_CLIENTS_NOCODE);
+> @@ -1634,7 +1699,12 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>          return -errno;
+>      }
+>  
+> -    ret = vfio_query_dirty_bitmap(container, &vbmap, iova, size);
+> +    if (all_device_dirty_tracking) {
+> +        ret = vfio_devices_query_dirty_bitmap(container, &vbmap, iova, size);
+> +    } else {
+> +        ret = vfio_query_dirty_bitmap(container, &vbmap, iova, size);
+> +    }
+> +
+>      if (ret) {
+>          goto out;
+>      }
 
 
