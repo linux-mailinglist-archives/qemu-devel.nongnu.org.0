@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27236AB8C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74B66AB8CF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:50:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ6Vb-00071j-Eu; Mon, 06 Mar 2023 03:47:51 -0500
+	id 1pZ6Vb-00071m-LB; Mon, 06 Mar 2023 03:47:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ6V3-0006uy-1S
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:47:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ6V9-0006vE-U8
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:47:29 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ6V1-00069S-8Y
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:47:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZ6V7-0006Al-17
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:47:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678092434;
+ s=mimecast20190719; t=1678092439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oOdHjT9I3a98EaTtzARQkAnvMgS9UeiFJMCcEWuHsDg=;
- b=DjAt4GJOOkGvRm5K2/rky9P1UeeDEp6qpryOkVblpWoOtXgwMuYKQ+21PLrkd2NLmkqTsL
- bleh6d+LTi/u/I6AUnmVMQe9N/A4AsVXlT1sgW/MNrOLlA3PPpb2xqKUAIaM8xu0QYjbiY
- a2kmrqa+nTE2lDSkR9O+X4bpmI7u8yA=
+ bh=Tu4fLVUa5CKH9yGWFtuNR/Tn/c+l+6gsZNxsu/a/pnc=;
+ b=BPn8sAEMbU2TXTCkmMZXa9h1ALDmtGBlaSEhG9HNhAbTM5kUWD9Ps3mmOZwsJsAscCx6P4
+ ji0C+/MHjLvIpH+y5TdVUp+H2P4tt1nYUVOxPrE0XadQUVDNYHCMDfJfRP19iSnvmHL0o9
+ Ord8lz+Pz71t+CPbpDofLpuR8YY1VEQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-1imUG1pVNKuXUSYHpP6cUQ-1; Mon, 06 Mar 2023 03:47:11 -0500
-X-MC-Unique: 1imUG1pVNKuXUSYHpP6cUQ-1
+ us-mta-67-cbgnrg-hNoiPEn6lO3Smbg-1; Mon, 06 Mar 2023 03:47:14 -0500
+X-MC-Unique: cbgnrg-hNoiPEn6lO3Smbg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9BDFA101A52E;
- Mon,  6 Mar 2023 08:47:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54444185A7A4;
+ Mon,  6 Mar 2023 08:47:13 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46752175AD;
- Mon,  6 Mar 2023 08:47:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF4AC440DE;
+ Mon,  6 Mar 2023 08:47:10 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
@@ -50,10 +50,10 @@ Cc: Markus Armbruster <armbru@redhat.com>,
  xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
  Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: [PATCH v4 3/5] gitlab-ci.d/crossbuilds: Drop the i386 system
- emulation job
-Date: Mon,  6 Mar 2023 09:46:56 +0100
-Message-Id: <20230306084658.29709-4-thuth@redhat.com>
+Subject: [PATCH v4 4/5] docs/about/deprecated: Deprecate 32-bit arm hosts for
+ system emulation
+Date: Mon,  6 Mar 2023 09:46:57 +0100
+Message-Id: <20230306084658.29709-5-thuth@redhat.com>
 In-Reply-To: <20230306084658.29709-1-thuth@redhat.com>
 References: <20230306084658.29709-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,41 +84,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hardly anybody still uses 32-bit x86 environments for running QEMU with
-full system emulation, so let's stop wasting our scarce CI minutes with
-this job.
-
-(There are still the 32-bit MinGW and TCI jobs around for having
-some compile test coverage on 32-bit)
+For running QEMU in system emulation mode, the user needs a rather
+strong host system, i.e. not only an embedded low-frequency controller.
+All recent beefy arm host machines should support 64-bit now, it's
+unlikely that anybody is still seriously using QEMU on a 32-bit arm
+CPU, so we deprecate the 32-bit arm hosts here to finally save use
+some time and precious CI minutes.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 10 ----------
- 1 file changed, 10 deletions(-)
+ docs/about/deprecated.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index d3a31a2112..a25cb87ae4 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -43,16 +43,6 @@ cross-arm64-user:
-   variables:
-     IMAGE: debian-arm64-cross
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index c4fcc6b33c..f0de517dc2 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -220,6 +220,15 @@ be an effective use of its limited resources, and thus intends to discontinue
+ it. Since all recent x86 hardware from the past >10 years is capable of the
+ 64-bit x86 extensions, a corresponding 64-bit OS should be used instead.
  
--cross-i386-system:
--  extends:
--    - .cross_system_build_job
--    - .cross_test_artifacts
--  needs:
--    job: i386-fedora-cross-container
--  variables:
--    IMAGE: fedora-i386-cross
--    MAKE_CHECK_ARGS: check-qtest
--
- cross-i386-user:
-   extends:
-     - .cross_user_build_job
++System emulation on 32-bit arm hosts (since 8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''
++
++Since QEMU needs a strong host machine for running full system emulation, and
++all recent powerful arm hosts support 64-bit, the QEMU project deprecates the
++support for running any system emulation on 32-bit arm hosts in general. Use
++64-bit arm hosts for system emulation instead. (Note: "user" mode emulation
++continuous to be supported on 32-bit arm hosts, too)
++
+ 
+ QEMU API (QAPI) events
+ ----------------------
 -- 
 2.31.1
 
