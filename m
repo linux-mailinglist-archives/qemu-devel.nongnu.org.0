@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBF26AC12C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5716AC107
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:31:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZAvz-0003D6-8u; Mon, 06 Mar 2023 08:31:23 -0500
+	id 1pZAw9-00041T-CR; Mon, 06 Mar 2023 08:31:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAur-0002D8-3M
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAus-0002DD-9e
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAup-0007SA-5m
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAuq-0007Sb-R2
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678109410;
+ s=mimecast20190719; t=1678109411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HgXaHNsLm/w0+NNQN3ylAOHNHJXv0PQ+tu0A8yysIzc=;
- b=ZJJm4X79MIHAEY41n2kQoJZ/kfe/BG5q69zRVm0rzN7cimbE1ApL4zrL+uJMz6mqBzNMQw
- imJQNteCduENxkwSGpmzjYtAJCqsJX9C2JHcspavU06LcI2KKamWUdVxLoq9OK16Zo7JPd
- 7o3qArt16OjuVXdtfpUKBkP+sLAzzOs=
+ bh=3JaVZcW7ml3Z0VKLkzj7DxkyKBCJ1V5N6R1yW9jgnos=;
+ b=hn78AGQR/YkTh6Ldmf/eQPSq1Hg2f1U5Q2m6Se9qsXiWrdPMWc94UPXlwTa9FRBiNqU2SP
+ ilQoMXfYPL/J6OHYzU8B87JZrbPZ3YEaxegK8Mt8DePJEKR0QVTT5hBDzz4Y4Yk+OhwE5b
+ uKyb5Wl0Q2uN4CecIPpWZMoFJpcaL/c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-D1zTRuMhNMmLxO3m-bCa1w-1; Mon, 06 Mar 2023 08:30:07 -0500
-X-MC-Unique: D1zTRuMhNMmLxO3m-bCa1w-1
+ us-mta-102-eBpK0OGOMsGBtxuazBTo6g-1; Mon, 06 Mar 2023 08:30:08 -0500
+X-MC-Unique: eBpK0OGOMsGBtxuazBTo6g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6200848D9B;
- Mon,  6 Mar 2023 13:30:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F6FB100F909;
+ Mon,  6 Mar 2023 13:30:07 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3130640C10FA;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16F5640C1106;
  Mon,  6 Mar 2023 13:30:06 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/16] test: Check vnc enable before compiling vnc test
-Date: Mon,  6 Mar 2023 14:29:49 +0100
-Message-Id: <20230306133002.418421-4-thuth@redhat.com>
+Subject: [PULL 04/16] include/hw/i386: Clean up includes in x86.h
+Date: Mon,  6 Mar 2023 14:29:50 +0100
+Message-Id: <20230306133002.418421-5-thuth@redhat.com>
 In-Reply-To: <20230306133002.418421-1-thuth@redhat.com>
 References: <20230306133002.418421-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,38 +75,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Juan Quintela <quintela@redhat.com>
+nmi.h and notify.h are not needed here, drop them to speed up
+the compiling a little bit.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20230301104450.1017-1-quintela@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20230210111438.1114600-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/meson.build | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ include/hw/i386/x86.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 29a4efb4c2..62eecf2edf 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -309,10 +309,12 @@ qtests = {
-   'netdev-socket': files('netdev-socket.c', '../unit/socket-helpers.c'),
- }
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 0b337a036c..da19ae1546 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -18,10 +18,8 @@
+ #define HW_I386_X86_H
  
--gvnc = dependency('gvnc-1.0', required: false)
--if gvnc.found()
--  qtests += {'vnc-display-test': [gvnc]}
--  qtests_generic += [ 'vnc-display-test' ]
-+if vnc.found()
-+  gvnc = dependency('gvnc-1.0', required: false)
-+  if gvnc.found()
-+    qtests += {'vnc-display-test': [gvnc]}
-+    qtests_generic += [ 'vnc-display-test' ]
-+  endif
- endif
+ #include "exec/hwaddr.h"
+-#include "qemu/notify.h"
  
- if dbus_display
+ #include "hw/boards.h"
+-#include "hw/nmi.h"
+ #include "hw/intc/ioapic.h"
+ #include "hw/isa/isa.h"
+ #include "qom/object.h"
 -- 
 2.31.1
 
