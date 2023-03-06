@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED146AD10F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514046AD11B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:07:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIwp-0006wJ-EM; Mon, 06 Mar 2023 17:04:47 -0500
+	id 1pZIwr-0006xG-BX; Mon, 06 Mar 2023 17:04:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwm-0006pf-EJ
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:44 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pZIwo-0006w2-HI
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:46 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwj-0006o4-CF
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:44 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so14633046pjb.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:40 -0800 (PST)
+ id 1pZIwk-0006rT-Ra
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:46 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id oj5so11277431pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140280;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140281;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Wlc9g6KD2LM0ddX3th0tOXGUo8tsCbK+gfNej91LZN4=;
- b=kZ70qK4zJde8jI/9dOyj4YJ7dNwAPEFNItH19wyCUC2uFNf1qi/GALtPqvm9esWCwe
- 3YHbuYvzY6EediOjg9wJ0JzxdN2OQPwLad1sfUrmDpxjkOKAuLJSD9Ca+Um7K7nUdtZi
- eHKRUnLUEwNXeQ3FSJ0pV0+CcZvolJUKmNFQZfCqPGXu/qFoBxASVBrZ/a8uXbw1odlZ
- 319iP6ZapOv13781YzSyGxV2D1rIxXWfba1esAMC+GmjO28FmOjcS7DmYVtxh1ooCZKJ
- UVgAI6lzWimlaEGbXYiBaqOETSr09besf92KoLE1w2C/Z28W7OHty0CinUz6byKP4dnr
- ldEg==
+ bh=YemHXp4yitN2wSol7YVy8zJZd9cScsdwZhzDdjeY07I=;
+ b=jKSdoV3plVihkMrhsB9QCbXTVXtUNiHEmFXMBmA4M4NwXE3Fu6oG3UX1BcTfEEslkR
+ FSV+FaqmHdOnBxtmsz99TFZg6uHnTPV5zggCqUA1bEkcbnaac3rNeWS4Vdfa6oZBezso
+ 7KidFOIWBgeYDniINYLGsIOjazEQR8IWUsmUXCPOq7ZAdXpDhOSkg2Y6OBQ2Ybi3JByE
+ dB7mKjZaETKA8QjLxGR9GRuIzwMHk3KNZQ91MW9i545RujwrOglTSGrxUabuxs72K+Ys
+ yl0wAKgu2XDa9AdtQ/tZVeYg8zkyzst4QSGNcXLsvvaCpPyhxWpfrdVgNr7rfmC9CYwN
+ vpgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678140280;
+ d=1e100.net; s=20210112; t=1678140281;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wlc9g6KD2LM0ddX3th0tOXGUo8tsCbK+gfNej91LZN4=;
- b=dgUGo7CDSpq6+0pxjqJKDmv0dYRR8u/AGAHYVapO+Mt1QXgkRl/wP8dyzqGfMFXFyj
- OMNqIjjjYGTTpV9jl0TTdaWiPPIam3p/BvAc3hn4INsBOMhSaNZ4F21R4wYNxE+cDwyB
- vmfPlfvcV3GJa6y2M61bciPly0E1olbH3ghaZorcubnklTZ7mzRruVw5RCtoALZQ8qO8
- fmjzt6e+2NLauC0CSUSUoxhBVfktt1kK1Gd1LvauFWlAQSHIUTBOOukGyiX8xXYCvs/N
- hQBw9o2p2MF16TcCnRTKVzJm8bYW1yXjZpFwaxtWkWP6wEbkpemi2N8FeoZtJ798/P+C
- p0hw==
-X-Gm-Message-State: AO0yUKVDpoz5JUVxWO6qvAcMJrFk/IZjsSS2PDlO98puv6p94Q5/IjBM
- I8U9Qo0pQZJh8lqeGkZBjTR6Tg==
-X-Google-Smtp-Source: AK7set+JLV2xCpawa4aIXDHzdTpzNfS6IXHOKo2etX7cu4lVD+ka8xriYAoIOfEiLXEaDa6kv1ti7A==
-X-Received: by 2002:a05:6a20:a111:b0:cc:7967:8a71 with SMTP id
- q17-20020a056a20a11100b000cc79678a71mr13162785pzk.59.1678140280479; 
- Mon, 06 Mar 2023 14:04:40 -0800 (PST)
+ bh=YemHXp4yitN2wSol7YVy8zJZd9cScsdwZhzDdjeY07I=;
+ b=nE0QcYF0HKTB/Oj7Cpmp+DBhQGy/X6mxqMyM2Z0XvcilN+Ea3oHPkeoreXsYFWVs59
+ VE6c2F/nSWqrdbv35ZFHY7+5tbrLlcGWCH95TidMCXVyqEpvJrt7SCNEZVQvP399dbrR
+ FNqPsuDqlEN9pC5/M9xA/vPIGfjk1NXAgzqmGH42wR4+AsmT/VKpCwIzRnzGgKYqQwO3
+ DHmL/7GRkOkQt7GuJolE10ZFqMsTbcaXFuSBi8m3dY1g8Rm7aQtkVXpMQJ0qEbu2Gll5
+ 7CUcIAXZLAvo6HLeqpKGjAZ2MfnsT3i5D+eOFfZ5M68diK7Kg5hGAUULXLLb/68MQfZF
+ e5wg==
+X-Gm-Message-State: AO0yUKWMZxHHmE+w4pqqXnJbAg72gZj4TJE6QtNQPhgVvnVtrcblUXNR
+ vgEUMZKKuFhPHiwJPKpM3S+gYg==
+X-Google-Smtp-Source: AK7set8LONE2uMQFdjA1tbaUbEntm3mRp2ZO5SxIDW+JfTEH9MAjC9KYaE8+7yj8WE6UezUbOyxxPg==
+X-Received: by 2002:a17:902:dad0:b0:19e:baa1:26bd with SMTP id
+ q16-20020a170902dad000b0019ebaa126bdmr7601206plx.13.1678140281517; 
+ Mon, 06 Mar 2023 14:04:41 -0800 (PST)
 Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- t13-20020aa7938d000000b0058837da69edsm6655813pfe.128.2023.03.06.14.04.40
+ lc11-20020a170902fa8b00b0019edfeed50bsm84713plb.296.2023.03.06.14.04.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 14:04:40 -0800 (PST)
-Subject: [PULL 14/22] riscv: Correctly set the device-tree entry 'mmu-type'
-Date: Mon,  6 Mar 2023 14:02:51 -0800
-Message-Id: <20230306220259.7748-15-palmer@rivosinc.com>
+ Mon, 06 Mar 2023 14:04:41 -0800 (PST)
+Subject: [PULL 15/22] hw/riscv/virt: Add OEM_ID and OEM_TABLE_ID fields
+Date: Mon,  6 Mar 2023 14:02:52 -0800
+Message-Id: <20230306220259.7748-16-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
 References: <20230306220259.7748-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- Andrew Jones <ajones@ventanamicro.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng@tinylab.org>,
- Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@rivosinc.com>
+ Sunil V L <sunilvl@ventanamicro.com>, Bin Meng <bmeng@tinylab.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Andrew Jones <ajones@ventanamicro.com>, Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,60 +91,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
+From: Sunil V L <sunilvl@ventanamicro.com>
 
-The 'mmu-type' should reflect what the hardware is capable of so use the
-new satp_mode field in RISCVCPUConfig to do that.
+ACPI needs OEM_ID and OEM_TABLE_ID for the machine. Add these fields
+in the RISCVVirtState structure and initialize with default values.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-ID: <20230303131252.892893-6-alexghiti@rivosinc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Message-ID: <20230302091212.999767-2-sunilvl@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- hw/riscv/virt.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ hw/riscv/virt.c         | 5 +++++
+ include/hw/riscv/virt.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 7f70fa11a1..26eb81d036 100644
+index 26eb81d036..5a059489b5 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -228,8 +228,9 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-     int cpu;
-     uint32_t cpu_phandle;
-     MachineState *ms = MACHINE(s);
--    char *name, *cpu_name, *core_name, *intc_name;
-+    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
-     bool is_32_bit = riscv_is_32bit(&s->soc[0]);
-+    uint8_t satp_mode_max;
+@@ -49,6 +49,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci-host/gpex.h"
+ #include "hw/display/ramfb.h"
++#include "hw/acpi/aml-build.h"
  
-     for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
-         RISCVCPU *cpu_ptr = &s->soc[socket].harts[cpu];
-@@ -239,13 +240,15 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         cpu_name = g_strdup_printf("/cpus/cpu@%d",
-             s->soc[socket].hartid_base + cpu);
-         qemu_fdt_add_subnode(ms->fdt, cpu_name);
--        if (cpu_ptr->cfg.mmu) {
--            qemu_fdt_setprop_string(ms->fdt, cpu_name, "mmu-type",
--                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
--        } else {
--            qemu_fdt_setprop_string(ms->fdt, cpu_name, "mmu-type",
--                                    "riscv,none");
--        }
+ /*
+  * The virt machine physical address space used by some of the devices
+@@ -1528,6 +1529,10 @@ static void virt_machine_init(MachineState *machine)
+ 
+ static void virt_machine_instance_init(Object *obj)
+ {
++    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
 +
-+        satp_mode_max = satp_mode_max_from_map(
-+            s->soc[socket].harts[cpu].cfg.satp_mode.map);
-+        sv_name = g_strdup_printf("riscv,%s",
-+                                  satp_mode_str(satp_mode_max, is_32_bit));
-+        qemu_fdt_setprop_string(ms->fdt, cpu_name, "mmu-type", sv_name);
-+        g_free(sv_name);
-+
-+
-         name = riscv_isa_string(cpu_ptr);
-         qemu_fdt_setprop_string(ms->fdt, cpu_name, "riscv,isa", name);
-         g_free(name);
++    s->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
++    s->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+ }
+ 
+ static char *virt_get_aia_guests(Object *obj, Error **errp)
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index b3d26135c0..6c7885bf89 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -56,6 +56,8 @@ struct RISCVVirtState {
+     bool have_aclint;
+     RISCVVirtAIAType aia_type;
+     int aia_guests;
++    char *oem_id;
++    char *oem_table_id;
+ };
+ 
+ enum {
 -- 
 2.39.2
 
