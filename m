@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5C96ACB8D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6EC56ACB7E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1V-00069Z-4S; Mon, 06 Mar 2023 12:53:21 -0500
+	id 1pZF1U-00068z-Sy; Mon, 06 Mar 2023 12:53:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1L-0005Q7-F3
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:13 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1P-0005di-JN
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:15 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1K-0002wP-5Z
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:11 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1M-0002wh-8h
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Txk6KxcUBXT5gZc2Xxp6P/O2NbUmxQiX9UXVGsYe+Iw=; b=po0RwSbXYIpvuU7E/eA1vrguen
- bJCJEFLtzRgMlhhw3oKR0i1ey529YfuNk496ew41jSVPG1QIvJMw8/vuTT7wnTysXf4voU7zBgGQp
- 3+hUub9RK0D7tGyBmZBT5Eryrsm8NeVcY/U9tP4QGguM9ez6Uzv8qjpqfQV7PKGFH4f8=;
+ bh=cYBattuE9IXozugsaJPNnp4UpAHyDghsEY6YJLX4n8E=; b=nxCKC0CjCDMwmTgRidDStSJ60V
+ MGirP6C5s2Wn9D7fI386f8TPsDP5BE9JSr81V2erDLuza70nKwPSQuYXr9NB9uavJ03MbGmUiH+lo
+ E8PRpLdoEBNFIZ7mZ68gZLmcaCC5yzq2Z8eAB022hOWYf1T/oMhephHeN7oh9EX+dF7g=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH 21/23] target/tricore: Remove `NB_MMU_MODES` define
-Date: Mon,  6 Mar 2023 18:52:28 +0100
-Message-Id: <20230306175230.7110-22-anjo@rev.ng>
+Subject: [PATCH 22/23] target/xtensa: Remove `NB_MMU_MODES` define
+Date: Mon,  6 Mar 2023 18:52:29 +0100
+Message-Id: <20230306175230.7110-23-anjo@rev.ng>
 In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 References: <20230306175230.7110-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,18 +66,18 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/tricore/cpu-param.h | 1 -
+ target/xtensa/cpu-param.h | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/target/tricore/cpu-param.h b/target/tricore/cpu-param.h
-index 2727913047..e29d551dd6 100644
---- a/target/tricore/cpu-param.h
-+++ b/target/tricore/cpu-param.h
-@@ -12,6 +12,5 @@
- #define TARGET_PAGE_BITS 14
- #define TARGET_PHYS_ADDR_SPACE_BITS 32
+diff --git a/target/xtensa/cpu-param.h b/target/xtensa/cpu-param.h
+index b53e9a3e08..b1da0555de 100644
+--- a/target/xtensa/cpu-param.h
++++ b/target/xtensa/cpu-param.h
+@@ -16,6 +16,5 @@
+ #else
  #define TARGET_VIRT_ADDR_SPACE_BITS 32
--#define NB_MMU_MODES 3
+ #endif
+-#define NB_MMU_MODES 4
  
  #endif
 -- 
