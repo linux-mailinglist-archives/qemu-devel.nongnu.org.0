@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E4E6AC85B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 17:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072926AC86C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 17:43:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZDsQ-0005Vm-6H; Mon, 06 Mar 2023 11:39:54 -0500
+	id 1pZDvL-00081R-S2; Mon, 06 Mar 2023 11:42:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pZDsN-0005JN-Iz
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:39:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pZDsL-0005r7-Rt
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:39:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678120788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CCoHfPlUz/5zP35W6Ct5KxJjOY9DIhJVEZPb5DtvIZw=;
- b=KR1HzDAKPzapMu5ybtWF4Ac2oeElOM0VwH1izdCbkTXD22P9j4+46qn7pa6ZFJrWkWcLba
- jVPn9tKSaweU+/y2QV968D8oFUyTbz6648PggUebUUoVld791mKw3XVO+Uep9GeXyMzsF6
- 7psD+wTFAEqwVd0Ixaec7NtLeZpPASQ=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-i-FribvgN2SFXV0o0D6nOg-1; Mon, 06 Mar 2023 11:39:47 -0500
-X-MC-Unique: i-FribvgN2SFXV0o0D6nOg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- p7-20020ac84607000000b003b9b6101f65so5480067qtn.11
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 08:39:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZDv2-0007y6-T0
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:42:39 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZDv0-0006aj-6T
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 11:42:36 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso8677644wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 08:42:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678120952;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=s4EZJ7fWZhvw9acDihty55MxGkbAV1MCj25rENm13mM=;
+ b=mfOG+QkfA3s6v9zvI26rZGobpCth7Ozt1ypK5XgnUB4pkHj8x0BZqsi13qpaNUN3/H
+ 7RexV90ejLy29zpBJx0vGt8xAVyL7FGvuFUdUEAizI2mURU1c0OcNbgSZEEJo+p9/kCd
+ jFfyeoIE/phMXXzhprrvymxZXrlEnNr3Llc8hRpgDw5Skhv85ELDZEGEaBDPU7DJy34b
+ p55wuwEa4fgGncTlanNOY1vLq8kWTYR1cU9gE5D/IFWHaQwKr4NLwofjkdtOgVeq3iJQ
+ X/IiKgkejHOCqA6419n8yny8AABJ/cAVTSnphTnEsd2PKgd3IlYLRPcPDq/vrRuAwY+U
+ Mpdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678120787;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CCoHfPlUz/5zP35W6Ct5KxJjOY9DIhJVEZPb5DtvIZw=;
- b=m0BFkCk5GxU5qfIM6gYLSm6XhnaMnI8arFHpz8tUYPDUlSksIMxM/C8Q6DTpjSHu04
- r/GkqQondyQ/jd0X9LV9VgKtI1wCVOiezP13xpaq/A/sr0b7puSYBaCnRNGTkyiQBMTG
- ar+K2ZDdWGLFMYEn9b2P9DD7IyXSJIQXFOy4zYqJFWyuka0rKXb2gdLmblVmqH34t/ZI
- HNto8ImCRPKX3nVHv1fYGhW/ElS6yNTVfCBDaq5QpoFTxv3VIKkU3fJAm9gOvr4BHEpV
- t2YZ2khAcBRZyrbMoafk6WxBhclRK3GbTsaOJU2diQMlYWoxP7GjahLWbIRcYhX5YIgA
- 4mjw==
-X-Gm-Message-State: AO0yUKWLYLtg9FyUDH4oLtneplQoeYHkHxA76jmmk5ZkFGsoT1YqeoCT
- t+dHwrO1mlZ0MdcA/05BGWCLiPFDMe/bQ5v8s0ehp0GwF755IMe7WuS22+hS0U4kzRK5iMBBnNx
- /FEQTUaLlmODuQPw=
-X-Received: by 2002:ac8:5f4c:0:b0:3bf:b0c6:497b with SMTP id
- y12-20020ac85f4c000000b003bfb0c6497bmr21207340qta.2.1678120786672; 
- Mon, 06 Mar 2023 08:39:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set9TReKw+aCJdnryHDYpheVUbA0Wj+ifVCu9khePNFZeoyJ6rh1QA19mfDQcKRscUnMCdNFm4w==
-X-Received: by 2002:ac8:5f4c:0:b0:3bf:b0c6:497b with SMTP id
- y12-20020ac85f4c000000b003bfb0c6497bmr21207308qta.2.1678120786398; 
- Mon, 06 Mar 2023 08:39:46 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- a191-20020ae9e8c8000000b007423843d879sm7692119qkg.93.2023.03.06.08.39.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 08:39:45 -0800 (PST)
-Date: Mon, 6 Mar 2023 11:39:44 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
- IRQ, on RTE update
-Message-ID: <ZAYXUKUtU9ipksUq@x1n>
-References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
- <ZAUZYkChWfwCcfSn@x1n>
- <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
- <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
+ d=1e100.net; s=20210112; t=1678120952;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s4EZJ7fWZhvw9acDihty55MxGkbAV1MCj25rENm13mM=;
+ b=hYk1pjEt+864T4HpWWhPTSwAaSyelwLJ9i91ItrJ4fKAxSbIQu8AMMUfpLPVXGtOj6
+ 3pgrhd7bQOpb4APJ7l/5hDFWveWi3T+19iSpraft0ePDGEj7812cHf3NUbUKLcnl00P+
+ 2hckGUBgQohGWvGeTUz8f7wGHec++lcAba9yiZGXie/VsNLjJNqPW6ycXSMgDPXSJQGH
+ jXSRsrKLs2+KAqVP7hPavac29U/taMr/FsQywEfpSPSBEgMBNa0GnIdmqIVHkSW2dHoe
+ APjaaM6ugBbytJci7IBrmDbgYd32vitDUlwIMHIPtN0r/MYfkRLnq7SkiRIRGO6FEd+c
+ eAyQ==
+X-Gm-Message-State: AO0yUKWOkEAPlEPFyXO0SvPt+m7XrR0N941BBGe7lzsXZzRiP8kl6xtZ
+ eciuQn4LJnoc3Vl8Sq4N/FQnfQ==
+X-Google-Smtp-Source: AK7set+fbHjJsT1zpPRykBp1wtG921i5dkFPnbCS+A74KUO759Muh2j/LdgQm7Es/chaDvDRNjel4w==
+X-Received: by 2002:a05:600c:4f0c:b0:3ea:c100:f18d with SMTP id
+ l12-20020a05600c4f0c00b003eac100f18dmr10066515wmq.9.1678120952419; 
+ Mon, 06 Mar 2023 08:42:32 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ t21-20020a1c7715000000b003e2096da239sm13974921wmi.7.2023.03.06.08.42.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 08:42:31 -0800 (PST)
+Message-ID: <50b4c547-7237-9b4d-2cbe-653a5a403210@linaro.org>
+Date: Mon, 6 Mar 2023 17:42:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/2] hw/mips: Add MIPS virt board
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20230304223803.55764-1-jiaxun.yang@flygoat.com>
+ <20230304223803.55764-3-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230304223803.55764-3-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,63 +91,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 06, 2023 at 09:25:35AM +0000, David Woodhouse wrote:
-> On Mon, 2023-03-06 at 06:51 +0000, David Woodhouse wrote:
-> > On 5 March 2023 22:36:18 GMT, Peter Xu <peterx@redhat.com> wrote:
-> > > On Sun, Mar 05, 2023 at 06:43:42PM +0000, 
-> > > > ---
-> > > > Alternative fixes might have been just to remove the part in
-> > > > ioapic_service() which delivers the IRQ via kvm_set_irq() because
-> > > > surely delivering as MSI ought to work just fine anyway in all cases?
-> > > > That code lacks a comment justifying its existence.
-> > > 
-> > > Didn't check all details, but AFAIU there're still some different paths
-> > > triggered so at least it looks still clean to use the path it's for.
-> > > 
-> > > E.g., I think if someone traces kvm_set_irq() in kernel this specific irq
-> > > triggered right after unmasking might seem to be missed misterously (but
-> > > actually it was not).
-> > 
-> > Hm, not sure that's a reason we care about. The I/OAPIC is purely a
-> > device to turn line interrupts into MSIs. Which these days need to be
-> > translated by IOMMU interrupt remapping device models in userspace. I
-> > don't think a user has any valid reason to expect that the kernel
-> > will even know about any GSIs with any specific numbers. Tracing on
-> > that in the kernel would making some dodgy assumptions.
+On 4/3/23 23:38, Jiaxun Yang wrote:
+> MIPS virt board is design to utilize existing VirtIO infrastures
+> but also comptitable with MIPS's existing internal simulation tools.
 > 
-> I think if we want to fix the lack of IR translation faults from the
-> IOMMU, we have to change this anyway.
+> It includes virtio-pci, virtio-mmio, pcie gpex, flash rom, fw_cfg,
+> goldfish-rtc and MIPS CPS system.
 > 
-> At the very least, it can only use KVM to deliver the IRQ if there *is*
-> a valid translation. And if not, it needs to ask the IOMMU to
-> retranslate, with a 'delivering_now' flag indicating that the fault
-> should be raised because this isn't a preemptive translation in
-> advance.
+> It should be able to cooperate with any MIPS CPU cores.
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+> v1:
+>   - Rename to virt board
+>   - Convert BIOS flash to ROM
+>   - Cleanups
+> v2:
+>   - Fix fdt flash
+>   - Remove UP variant
+> ---
+>   MAINTAINERS                             |   7 +
+>   configs/devices/mips-softmmu/common.mak |   1 +
+>   docs/system/target-mips.rst             |  22 +
+>   hw/mips/Kconfig                         |  17 +
+>   hw/mips/meson.build                     |   1 +
+>   hw/mips/virt.c                          | 916 ++++++++++++++++++++++++
+>   6 files changed, 964 insertions(+)
+>   create mode 100644 hw/mips/virt.c
 
-I see that as a separate problem of what this patch wants to (rightfully)
-fix.  I also agree we'll need that if e.g. we want to support ioapic in
-kvm.
 
-Sorry in advancie since I don't think I have the whole picture here.  Could
-you remind me the whole purpose of having such?  Is that for part of Xen's
-effort?
 
-It was a long time ago, but IIRC such mechanism wasn't implemented when we
-worked on vIOMMU IR initially, because at least at that time the "keeping
-kvm irq routes always updated when IRQ entries modified" was good enough
-for qemu to work with IR.
+> diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+> index da3a37e215ec..8a753ec2aee2 100644
+> --- a/hw/mips/Kconfig
+> +++ b/hw/mips/Kconfig
+> @@ -59,5 +59,22 @@ config MIPS_BOSTON
+>       select AHCI_ICH9
+>       select SERIAL
+>   
+> +config MIPS_VIRT
+> +    bool
+> +    imply PCI_DEVICES
+> +    imply VIRTIO_VGA
+> +    imply TEST_DEVICES
+> +    select MIPS_CPS
+> +    select MIPS_TRICKBOX
+> +    select SERIAL
+> +    select FW_CFG_MIPS
+> +    select GOLDFISH_RTC
+> +    select PCI
+> +    select PCI_EXPRESS_GENERIC_BRIDGE
+> +    select PFLASH_CFI01
+> +    select VIRTIO_MMIO
+> +    select FW_CFG_DMA
+> +    select PLATFORM_BUS
+> +
+>   config FW_CFG_MIPS
+>       bool
+> diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+> index 900613fc087f..5670c939fa7b 100644
+> --- a/hw/mips/meson.build
+> +++ b/hw/mips/meson.build
+> @@ -1,6 +1,7 @@
+>   mips_ss = ss.source_set()
+>   mips_ss.add(files('bootloader.c', 'mips_int.c'))
+>   mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
+> +mips_ss.add(when: 'CONFIG_MIPS_VIRT', if_true: files('virt.c'))
+>   mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
+>   mips_ss.add(when: 'CONFIG_MALTA', if_true: files('malta.c'))
+>   mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
+> diff --git a/hw/mips/virt.c b/hw/mips/virt.c
+> new file mode 100644
+> index 000000000000..e4359f930104
+> --- /dev/null
+> +++ b/hw/mips/virt.c
+> @@ -0,0 +1,916 @@
+> +// SPDX-License-Identifier: LGPL-2.1-or-later
 
-The only outlier was in-kernel ioapic, but there was a talk from Google
-showing that in kernel ioapic brought mostly nothing good but more exposure
-on attack surface.  It does sound reasonable since fast devices shouldn't
-use ioapic at all to me, so IIRC the plan was split irqchip should be
-always optimal hence no immediate concern of not supporting IR with
-in-kernel ioapic.  But I definitely can miss important things along the
-way.
+Besides the // comment which is not QEMU style, can we
+use GPL-2.0-or-later for files used by final binaries?
+IIUC LGPL is for lib-erizable files such (lib)tcg.
 
-Thanks,
+> +#include "qom/object.h"
+> +#include <libfdt.h>
+> +
+> +#define TYPE_MIPS_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
 
--- 
-Peter Xu
+So now every variant requires libfdt available on the host,
+otherwise building with --target-list=mips-softmmu,mipsel-softmmu
+on a host without libfdt:
 
+../../hw/mips/virt.c:47:10: fatal error: 'libfdt.h' file not found
+#include <libfdt.h>
+          ^~~~~~~~~~
+
+So we can use:
+-- >8 --
+diff --git a/configs/targets/mips-softmmu.mak 
+b/configs/targets/mips-softmmu.mak
+index 7787a4d94c..a5c1db82c9 100644
+--- a/configs/targets/mips-softmmu.mak
++++ b/configs/targets/mips-softmmu.mak
+@@ -2,3 +2,4 @@ TARGET_ARCH=mips
+  TARGET_ALIGNED_ONLY=y
+  TARGET_BIG_ENDIAN=y
+  TARGET_SUPPORTS_MTTCG=y
++TARGET_NEED_FDT=y
+diff --git a/configs/targets/mips64-softmmu.mak 
+b/configs/targets/mips64-softmmu.mak
+index 568d66650c..398e0fc244 100644
+--- a/configs/targets/mips64-softmmu.mak
++++ b/configs/targets/mips64-softmmu.mak
+@@ -2,3 +2,4 @@ TARGET_ARCH=mips64
+  TARGET_BASE_ARCH=mips
+  TARGET_ALIGNED_ONLY=y
+  TARGET_BIG_ENDIAN=y
++TARGET_NEED_FDT=y
+diff --git a/configs/targets/mipsel-softmmu.mak 
+b/configs/targets/mipsel-softmmu.mak
+index c7c41f4fb7..3ddebca575 100644
+--- a/configs/targets/mipsel-softmmu.mak
++++ b/configs/targets/mipsel-softmmu.mak
+@@ -1,3 +1,4 @@
+  TARGET_ARCH=mips
+  TARGET_ALIGNED_ONLY=y
+  TARGET_SUPPORTS_MTTCG=y
++TARGET_NEED_FDT=y
+---
+
+But if we can't install libfdt (non-root?) then we can't build any MIPS
+target.
+
+$ git grep -l TARGET_NEED_FDT configs/targets/*softmmu.mak | wc -l
+       18
+$ git grep -L TARGET_NEED_FDT configs/targets/*softmmu.mak | wc -l
+       13
+
+I guess that's OK...
 
