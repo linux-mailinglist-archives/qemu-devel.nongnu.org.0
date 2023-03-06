@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA636AB636
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0866AB695
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:53:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ3xY-0001T3-C3; Mon, 06 Mar 2023 01:04:32 -0500
+	id 1pZ4hH-00030O-4I; Mon, 06 Mar 2023 01:51:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pZ3xX-0001SJ-15
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:04:31 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pZ3xU-0001LR-He
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:04:30 -0500
-Received: by mail-ed1-x536.google.com with SMTP id j11so14305054edq.4
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 22:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4SFtyOBVKvI12MCJJcTSwtK3iJvl0bWaYPxsg1raFj0=;
- b=j1a6o7CJk8CHNS3AFSLdkCmPk9vn6GylGnT6Mva8zjfpcj0lnGxMTqdAGtHic+1Fb9
- b1wRbUJueN7cvyDxD4eD+Nikini5W2fcts7n/zmD5yJxhDQLg4dlHZ8diixcOIG5n2Cj
- pUafMOBpPCG8njbZOcY20xZUOt0Q2mVkR0xhqINsPGlmDj47joGdfP3KC+vx44+uwtc6
- 0fORcOk6WHtpgpzUPDHsD0q5C6xf3NVACg1EeANU/bIjiMXfI9FLkxLTCHKfcuOg5/MJ
- v+GWZlJFTqTrccyvXWucUKyyoCuwnZ3iiHKJwW3LZnwN8e/eWHGL9IMoE78O/rzu72ZN
- 39Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4SFtyOBVKvI12MCJJcTSwtK3iJvl0bWaYPxsg1raFj0=;
- b=IqZgvMIOXJbjnppVh6+K6DTJBS79QQ7QuV2rx+MmtbeY8DKCv0awVx6hxGSMLYJ+pZ
- RqyYxHndv/1OIOEY5Vox5Z3Y9uGwt/rhj1xfwbYjofslioyh8wXQ2MmI4eJ3qhvT2AeZ
- p+Vj5HN75FtZPYxWUpdKc/RXh50/D3V2F78Pfk3e4Qs6hl/FRDrkDTYncRPUzvhtvu9g
- oZFKGzFupqbmhiNny1SI1TbgSz0IFxLFxWJLs32JnNdOu3o4aK8zcQQ7EL8Ep2KnWVJQ
- YcrMKf1bwg2fY0aCHMx+ONQeTgoYdjAlaod/8eBW8ZNBR1TlXYeUFOjRlRNxLoQjOAdD
- EtbA==
-X-Gm-Message-State: AO0yUKVkPwuNVwelYB7OPApDaV5v0WaR2EUs/6uVVhKqVxt53o9yx8yS
- qnU10pibbcl75tiPyL1qR/WY3gCkCETOeNsvUJo=
-X-Google-Smtp-Source: AK7set99rqMnrjrxY7d+SNLgLcDEaUPy9MFUhRoQGeXqq6JuHnhc9ZqytSt7JrpkuWBdM4uUgisf8xJ4tsrM352hyyE=
-X-Received: by 2002:a17:906:b48:b0:8b1:3cdf:29cd with SMTP id
- v8-20020a1709060b4800b008b13cdf29cdmr4561399ejg.6.1678082666083; Sun, 05 Mar
- 2023 22:04:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <BATV+b085a62f4b871f41f4ed+7134+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZ4h8-0002zy-H8
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:51:38 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+b085a62f4b871f41f4ed+7134+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZ4h6-0000Sd-6w
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:51:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=fcYi2MNTgSDDO47/RF6w2cSg4x0caNM0L6Fby7MJ8xs=; b=JREu4C0sZqcFjV0HKfk9KmfnBW
+ FZZKWwg7A4umHx33cI3gDxkH8FPqhTP3/mZYn0G/VAvj8KAxPUh+g6x+ajT7sgQTUhlu8pc0xvvuj
+ APy9iCXWR8nRX9+53K1efUj5lhXoWcZXKhNn7nKaOpnI/ckq19y5dv4YdOtqgeWEkL2VWdnadshwf
+ OLs6PaXMKHp/5nvAe15xGFbBulTeM5PYTlFd56TqVU/s4mvrxOoBIDhU/e6RRSSCYaL8m34UlRJuQ
+ r9eNgiFS289YUm06TTijWH4bC/VZwO1EmFOY+t0kxRw03ubZ6HpTQY9fDoSIAtJ8VYoqARUomzuX2
+ Tzvi03PA==;
+Received: from [2001:8b0:10b:5:649f:dc23:cf1f:79bb] (helo=[IPv6:::1])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pZ4gn-00Gb9m-0F; Mon, 06 Mar 2023 06:51:17 +0000
+Date: Mon, 06 Mar 2023 06:51:16 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Xu <peterx@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_hw/intc/ioapic=3A_Update_KVM_rou?=
+ =?US-ASCII?Q?tes_before_redelivering_IRQ=2C_on_RTE_update?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <ZAUZYkChWfwCcfSn@x1n>
+References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
+ <ZAUZYkChWfwCcfSn@x1n>
+Message-ID: <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
 MIME-Version: 1.0
-References: <20230220100815.1624266-1-bin.meng@windriver.com>
-In-Reply-To: <20230220100815.1624266-1-bin.meng@windriver.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 6 Mar 2023 14:04:14 +0800
-Message-ID: <CAEUhbmXSiq9pRfUUSfAUyd_4cZEL=H6hc=J128VOCWOmX5wg9w@mail.gmail.com>
-Subject: Re: [PATCH v5 00/16] hw/9pfs: Add 9pfs support for Windows
-To: Bin Meng <bin.meng@windriver.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+b085a62f4b871f41f4ed+7134+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,47 +76,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 20, 2023 at 6:10=E2=80=AFPM Bin Meng <bin.meng@windriver.com> w=
-rote:
->
-> At present there is no Windows support for 9p file system.
-> This series adds initial Windows support for 9p file system.
->
-> 'local' file system backend driver is supported on Windows,
-> including open, read, write, close, rename, remove, etc.
-> All security models are supported. The mapped (mapped-xattr)
-> security model is implemented using NTFS Alternate Data Stream
-> (ADS) so the 9p export path shall be on an NTFS partition.
->
-> 'synth' driver is adapted for Windows too so that we can now
-> run qtests on Windows for 9p related regression testing.
->
-> Example command line to test:
->   "-fsdev local,path=3Dc:\msys64,security_model=3Dmapped,id=3Dp9 -device =
-virtio-9p-pci,fsdev=3Dp9,mount_tag=3Dp9fs"
->
-> Changes in v5:
-> - rework Windows specific xxxdir() APIs implementation
->
-> Bin Meng (2):
->   hw/9pfs: Update helper qemu_stat_rdev()
->   hw/9pfs: Add a helper qemu_stat_blksize()
->
-> Guohuai Shi (14):
->   hw/9pfs: Add missing definitions for Windows
->   hw/9pfs: Implement Windows specific utilities functions for 9pfs
->   hw/9pfs: Replace the direct call to xxxdir() APIs with a wrapper
->   hw/9pfs: Implement Windows specific xxxdir() APIs
->   hw/9pfs: Update the local fs driver to support Windows
->   hw/9pfs: Support getting current directory offset for Windows
->   hw/9pfs: Disable unsupported flags and features for Windows
->   hw/9pfs: Update v9fs_set_fd_limit() for Windows
->   hw/9pfs: Add Linux error number definition
->   hw/9pfs: Translate Windows errno to Linux value
->   fsdev: Disable proxy fs driver on Windows
->   hw/9pfs: Update synth fs driver for Windows
->   tests/qtest: virtio-9p-test: Adapt the case for win32
->   meson.build: Turn on virtfs for Windows
 
-Ping?
+
+On 5 March 2023 22:36:18 GMT, Peter Xu <peterx@redhat=2Ecom> wrote:
+>On Sun, Mar 05, 2023 at 06:43:42PM +0000,=20
+>> ---
+>> Alternative fixes might have been just to remove the part in
+>> ioapic_service() which delivers the IRQ via kvm_set_irq() because
+>> surely delivering as MSI ought to work just fine anyway in all cases?
+>> That code lacks a comment justifying its existence=2E
+>
+>Didn't check all details, but AFAIU there're still some different paths
+>triggered so at least it looks still clean to use the path it's for=2E
+>
+>E=2Eg=2E, I think if someone traces kvm_set_irq() in kernel this specific=
+ irq
+>triggered right after unmasking might seem to be missed misterously (but
+>actually it was not)=2E
+
+Hm, not sure that's a reason we care about=2E The I/OAPIC is purely a devi=
+ce to turn line interrupts into MSIs=2E Which these days need to be transla=
+ted by IOMMU interrupt remapping device models in userspace=2E I don't thin=
+k a user has any valid reason to expect that the kernel will even know abou=
+t any GSIs with any specific numbers=2E Tracing on that in the kernel would=
+ making some dodgy assumptions=2E
 
