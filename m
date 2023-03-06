@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55576AC57E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2476AC579
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:35:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCrZ-0004GJ-Jv; Mon, 06 Mar 2023 10:34:57 -0500
+	id 1pZCrb-0004IU-4O; Mon, 06 Mar 2023 10:34:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZCrX-0004CO-BB
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:55 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pZCrY-0004Fi-93
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:56 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZCrV-0002CT-Ah
+ id 1pZCrW-0002Cr-CL
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:55 -0500
-Received: by mail-wr1-x435.google.com with SMTP id e13so9229767wro.10
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:34:52 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id
+ t25-20020a1c7719000000b003eb052cc5ccso8471109wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:34:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678116892;
+ d=linaro.org; s=google; t=1678116893;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4qRma+FaBHwuFNRAoeQ01NejW3D8pi+OySt7ClbAjqQ=;
- b=eGOJnN8O4hnnSifLG90yJFBZ6Y8AV9HqmgS5h114aVnu2vBARpwkbIEAhG6eN8T4Ry
- Ezk0Jr7l1du43AqVCvXMS/eQ80JjgUXr4OUPtoAusONic05zcHoB9IXX6qJnkswXGUQq
- hFkyregVZppw+KpbXz4WvixZxOt9LWNul2g7Uybbib87wwZlMi8NDqtMyIHSlrs0wB4L
- eKbwj4g93ff34zHbDOMfgMltEzeWtxgmdIJJ69c8+5d+UkG7/Q8Czo5V11lIJAiB2T12
- WsL+3q8kVCRGS8vKG/N38hO1WlEeg2nV4zl6x9wNumZeCyjHprQkhFOPy+2XEkuu6bpC
- Kv6A==
+ :reply-to; bh=qP31mD2ZS9cywB36oY9I1cHer7hGLsKWqOnGtaEqcws=;
+ b=KY8Jxcs3UI0Nm+W1ZrckE00wI8UrOmssOijRD/rDNJi6UukE6VY6aYr/3D0qemNh44
+ R/Tfqio2nFd9bJicIkloKYVYX3fmsFZdJ4at5VKzhr070OOfxnOQUctCYPKWo2f0yaF3
+ HEh+InizFxQS+yJk+3tglKVoPZDwVtFMMV+0ASDhYUoBrHxiXvTsT5olhN/ZVIFj1vbK
+ 5YPoF2+k7nvaExv1ud16mr47Rj2mK86kKCdVv2rBSjvo9Q2+GHyeaz5tjcs86Ml19Dqe
+ 5PnwDSeTRp/xyToe6oJQw2fDhAOmKz53TNqx7q3GpdWIbA1gwbhdbonMPhI3O4WBLjRz
+ s2Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678116892;
+ d=1e100.net; s=20210112; t=1678116893;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4qRma+FaBHwuFNRAoeQ01NejW3D8pi+OySt7ClbAjqQ=;
- b=ztg4RrqsxrPqKX3UqocnoJaSGrr7oDf5LUbcuhI86nHnnYQATSqwKgr0YLf2zINgIO
- 2wEOKkcyKP0Q5rNZJVd95Pg9HCeyuyiq23+1z47a3ErUTnWg4DhtnvUYoObHZoDlEjk3
- rs30ruhv7LXd6FvQ3SpPAt4ktIrrupF8Eb1VUOy/1mshJooOSSzy9iwv3SvOIDZGlSvI
- H6DQYthsi1B2f0HK2YqejODqlAwMecrkAwRYpOU5P+l7xpxR9vhV3DCdlS6UR4Kjj484
- sQaC/n2tlPX9+JHJjNcalAiC0SfmVYma09yZ36g0HC13EzAXNhLdb2q3FusHlxHpA7aQ
- MHGA==
-X-Gm-Message-State: AO0yUKXfPHx3oGDxjiWmTJAroeYKy3TvkBnklwvxv0zEaS2vG/I7/i17
- 1Y5xrKctZo/KEM79noFXJC3UGoMDjGAWrTei8Lg=
-X-Google-Smtp-Source: AK7set+nZWihpINJpyFe/J3RxmgxkEQy9tCQgisc1irJ9dRVKXOy+JRIcEw22SU3MYL/t2U36c2PWA==
-X-Received: by 2002:adf:ef84:0:b0:2c7:e406:67d8 with SMTP id
- d4-20020adfef84000000b002c7e40667d8mr7779486wro.35.1678116892064; 
+ bh=qP31mD2ZS9cywB36oY9I1cHer7hGLsKWqOnGtaEqcws=;
+ b=ZDWDDi7pnJOSJox3WjQ58HdY1obdt4iB9joCz3aY86gWbX0voQa2ioWqzyQnICATef
+ LofMp+PGqmSbK65B8sD/1wZLGMnbk6xJskCQBDH/oCN8P1y2uONesiy1UEZmwbDKob6J
+ Ej+4WD9JK8bOp5yvz0av9qJ5bQJTQCfGYfIklvNN+N5mFjGZvp64prhsukHVJOLz2wFm
+ 7AfaXgsRgnOfezTWA2z36343rXcypzODSUq/igRhoyZK/pVD1cA7tnsoYXn//KU1cGtB
+ xOb8b28DWkUMFEXIOyxXP2rCrItOVuJ+XLYGxJMjKdVcxIo20wqhvBqIVzJIshnLs3Li
+ MhRw==
+X-Gm-Message-State: AO0yUKUxNCXt3O6A/RCc/vUW1NMhPYTvcnDEJtWDaBoMe43HUfB1fT3q
+ 93mS7LHtW99K9vHunIq2mvI7JrRoUQLWHPit/bE=
+X-Google-Smtp-Source: AK7set+o86oKnYHiiP6uJAFFrg2nwrB3uNakmqdBUuYWRUs7bcxJuAHoOxJQk1oSjhQ7Ur/gTgqPzg==
+X-Received: by 2002:a05:600c:4f15:b0:3eb:3998:36fa with SMTP id
+ l21-20020a05600c4f1500b003eb399836famr9643198wmq.29.1678116892965; 
  Mon, 06 Mar 2023 07:34:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c444700b003eb0d6f48f3sm15287432wmn.27.2023.03.06.07.34.51
+ v7-20020a05600c444700b003eb0d6f48f3sm15287432wmn.27.2023.03.06.07.34.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 07:34:51 -0800 (PST)
+ Mon, 06 Mar 2023 07:34:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/21] hw: arm: Support direct boot for Linux/arm64 EFI zboot
- images
-Date: Mon,  6 Mar 2023 15:34:33 +0000
-Message-Id: <20230306153435.490894-20-peter.maydell@linaro.org>
+Subject: [PULL 20/21] hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on SUN6i SoCs
+Date: Mon,  6 Mar 2023 15:34:34 +0000
+Message-Id: <20230306153435.490894-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306153435.490894-1-peter.maydell@linaro.org>
 References: <20230306153435.490894-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,186 +90,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ard Biesheuvel <ardb@kernel.org>
+From: qianfan Zhao <qianfanguijin@163.com>
 
-Fedora 39 will ship its arm64 kernels in the new generic EFI zboot
-format, using gzip compression for the payload.
+TWI_CNTR_INT_FLAG is W1C(write 1 to clear and write 0 has non-effect)
+register on SUN6i based SoCs, we should lower interrupt when the guest
+set this bit.
 
-For doing EFI boot in QEMU, this is completely transparent, as the
-firmware or bootloader will take care of this. However, for direct
-kernel boot without firmware, we will lose the ability to boot such
-distro kernels unless we deal with the new format directly.
+The linux kernel will hang in irq handler(mv64xxx_i2c_intr) if no
+device connected on the i2c bus, next is the trace log:
 
-EFI zboot images contain metadata in the header regarding the placement
-of the compressed payload inside the image, and the type of compression
-used. This means we can wire up the existing gzip support without too
-much hassle, by parsing the header and grabbing the payload from inside
-the loaded zboot image.
+allwinner_i2c_write write   CNTR(0x0c): 0xc4 A_ACK BUS_EN INT_EN
+allwinner_i2c_write write   CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
+allwinner_i2c_read  read    CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
+allwinner_i2c_read  read    STAT(0x10): 0x20 STAT_M_ADDR_WR_NACK
+allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
+allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
+allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
+allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
+allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
+...
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-Message-id: 20230303160109.3626966-1-ardb@kernel.org
+Fix it.
+
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+Reviewed-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+Tested-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: tweaked comment formatting, fixed checkpatch nits]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/loader.h | 19 ++++++++++
- hw/arm/boot.c       |  6 +++
- hw/core/loader.c    | 91 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 116 insertions(+)
+ include/hw/i2c/allwinner-i2c.h |  6 ++++++
+ hw/i2c/allwinner-i2c.c         | 26 ++++++++++++++++++++++++--
+ 2 files changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/loader.h b/include/hw/loader.h
-index 1384796a4b3..c4c14170ea3 100644
---- a/include/hw/loader.h
-+++ b/include/hw/loader.h
-@@ -86,6 +86,25 @@ ssize_t load_image_gzipped_buffer(const char *filename, uint64_t max_sz,
-                                   uint8_t **buffer);
- ssize_t load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz);
+diff --git a/include/hw/i2c/allwinner-i2c.h b/include/hw/i2c/allwinner-i2c.h
+index 4f378b86ba1..0e325d265ee 100644
+--- a/include/hw/i2c/allwinner-i2c.h
++++ b/include/hw/i2c/allwinner-i2c.h
+@@ -28,6 +28,10 @@
+ #include "qom/object.h"
  
-+/**
-+ * unpack_efi_zboot_image:
-+ * @buffer: pointer to a variable holding the address of a buffer containing the
-+ *          image
-+ * @size: pointer to a variable holding the size of the buffer
-+ *
-+ * Check whether the buffer contains a EFI zboot image, and if it does, extract
-+ * the compressed payload and decompress it into a new buffer. If successful,
-+ * the old buffer is freed, and the *buffer and size variables pointed to by the
-+ * function arguments are updated to refer to the newly populated buffer.
-+ *
-+ * Returns 0 if the image could not be identified as a EFI zboot image.
-+ * Returns -1 if the buffer contents were identified as a EFI zboot image, but
-+ * unpacking failed for any reason.
-+ * Returns the size of the decompressed payload if decompression was performed
-+ * successfully.
-+ */
-+ssize_t unpack_efi_zboot_image(uint8_t **buffer, int *size);
+ #define TYPE_AW_I2C "allwinner.i2c"
 +
- #define ELF_LOAD_FAILED       -1
- #define ELF_LOAD_NOT_ELF      -2
- #define ELF_LOAD_WRONG_ARCH   -3
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 1e021c4a340..50e5141116b 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -926,6 +926,12 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-             return -1;
-         }
-         size = len;
++/** Allwinner I2C sun6i family and newer (A31, H2+, H3, etc) */
++#define TYPE_AW_I2C_SUN6I    TYPE_AW_I2C "-sun6i"
 +
-+        /* Unpack the image if it is a EFI zboot image */
-+        if (unpack_efi_zboot_image(&buffer, &size) < 0) {
-+            g_free(buffer);
-+            return -1;
-+        }
-     }
+ OBJECT_DECLARE_SIMPLE_TYPE(AWI2CState, AW_I2C)
  
-     /* check the arm64 magic header value -- very old kernels may not have it */
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 173f8f67f6e..cd53235fed9 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -857,6 +857,97 @@ ssize_t load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz)
-     return bytes;
- }
+ #define AW_I2C_MEM_SIZE         0x24
+@@ -50,6 +54,8 @@ struct AWI2CState {
+     uint8_t srst;
+     uint8_t efr;
+     uint8_t lcr;
++
++    bool irq_clear_inverted;
+ };
  
-+/* The PE/COFF MS-DOS stub magic number */
-+#define EFI_PE_MSDOS_MAGIC        "MZ"
+ #endif /* ALLWINNER_I2C_H */
+diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
+index a4359658362..f24c3ac6f0c 100644
+--- a/hw/i2c/allwinner-i2c.c
++++ b/hw/i2c/allwinner-i2c.c
+@@ -357,10 +357,16 @@ static void allwinner_i2c_write(void *opaque, hwaddr offset,
+                 s->stat = STAT_FROM_STA(STAT_IDLE);
+                 s->cntr &= ~TWI_CNTR_M_STP;
+             }
+-            if ((s->cntr & TWI_CNTR_INT_FLAG) == 0) {
+-                /* Interrupt flag cleared */
 +
-+/*
-+ * The Linux header magic number for a EFI PE/COFF
-+ * image targetting an unspecified architecture.
-+ */
-+#define EFI_PE_LINUX_MAGIC        "\xcd\x23\x82\x81"
++            if (!s->irq_clear_inverted && !(s->cntr & TWI_CNTR_INT_FLAG)) {
++                /* Write 0 to clear this flag */
++                qemu_irq_lower(s->irq);
++            } else if (s->irq_clear_inverted && (s->cntr & TWI_CNTR_INT_FLAG)) {
++                /* Write 1 to clear this flag */
++                s->cntr &= ~TWI_CNTR_INT_FLAG;
+                 qemu_irq_lower(s->irq);
+             }
 +
-+/*
-+ * Bootable Linux kernel images may be packaged as EFI zboot images, which are
-+ * self-decompressing executables when loaded via EFI. The compressed payload
-+ * can also be extracted from the image and decompressed by a non-EFI loader.
-+ *
-+ * The de facto specification for this format is at the following URL:
-+ *
-+ * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/firmware/efi/libstub/zboot-header.S
-+ *
-+ * This definition is based on Linux upstream commit 29636a5ce87beba.
-+ */
-+struct linux_efi_zboot_header {
-+    uint8_t     msdos_magic[2];         /* PE/COFF 'MZ' magic number */
-+    uint8_t     reserved0[2];
-+    uint8_t     zimg[4];                /* "zimg" for Linux EFI zboot images */
-+    uint32_t    payload_offset;         /* LE offset to compressed payload */
-+    uint32_t    payload_size;           /* LE size of the compressed payload */
-+    uint8_t     reserved1[8];
-+    char        compression_type[32];   /* Compression type, NUL terminated */
-+    uint8_t     linux_magic[4];         /* Linux header magic */
-+    uint32_t    pe_header_offset;       /* LE offset to the PE header */
-+};
-+
-+/*
-+ * Check whether *buffer points to a Linux EFI zboot image in memory.
-+ *
-+ * If it does, attempt to decompress it to a new buffer, and free the old one.
-+ * If any of this fails, return an error to the caller.
-+ *
-+ * If the image is not a Linux EFI zboot image, do nothing and return success.
-+ */
-+ssize_t unpack_efi_zboot_image(uint8_t **buffer, int *size)
+             if ((s->cntr & TWI_CNTR_A_ACK) == 0) {
+                 if (STAT_TO_STA(s->stat) == STAT_M_DATA_RX_ACK) {
+                     s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
+@@ -451,9 +457,25 @@ static const TypeInfo allwinner_i2c_type_info = {
+     .class_init = allwinner_i2c_class_init,
+ };
+ 
++static void allwinner_i2c_sun6i_init(Object *obj)
 +{
-+    const struct linux_efi_zboot_header *header;
-+    uint8_t *data = NULL;
-+    int ploff, plsize;
-+    ssize_t bytes;
++    AWI2CState *s = AW_I2C(obj);
 +
-+    /* ignore if this is too small to be a EFI zboot image */
-+    if (*size < sizeof(*header)) {
-+        return 0;
-+    }
-+
-+    header = (struct linux_efi_zboot_header *)*buffer;
-+
-+    /* ignore if this is not a Linux EFI zboot image */
-+    if (memcmp(&header->msdos_magic, EFI_PE_MSDOS_MAGIC, 2) != 0 ||
-+        memcmp(&header->zimg, "zimg", 4) != 0 ||
-+        memcmp(&header->linux_magic, EFI_PE_LINUX_MAGIC, 4) != 0) {
-+        return 0;
-+    }
-+
-+    if (strcmp(header->compression_type, "gzip") != 0) {
-+        fprintf(stderr,
-+                "unable to handle EFI zboot image with \"%.*s\" compression\n",
-+                (int)sizeof(header->compression_type) - 1,
-+                header->compression_type);
-+        return -1;
-+    }
-+
-+    ploff = ldl_le_p(&header->payload_offset);
-+    plsize = ldl_le_p(&header->payload_size);
-+
-+    if (ploff < 0 || plsize < 0 || ploff + plsize > *size) {
-+        fprintf(stderr, "unable to handle corrupt EFI zboot image\n");
-+        return -1;
-+    }
-+
-+    data = g_malloc(LOAD_IMAGE_MAX_GUNZIP_BYTES);
-+    bytes = gunzip(data, LOAD_IMAGE_MAX_GUNZIP_BYTES, *buffer + ploff, plsize);
-+    if (bytes < 0) {
-+        fprintf(stderr, "failed to decompress EFI zboot image\n");
-+        g_free(data);
-+        return -1;
-+    }
-+
-+    g_free(*buffer);
-+    *buffer = g_realloc(data, bytes);
-+    *size = bytes;
-+    return bytes;
++    s->irq_clear_inverted = true;
 +}
 +
- /*
-  * Functions for reboot-persistent memory regions.
-  *  - used for vga bios and option roms.
++static const TypeInfo allwinner_i2c_sun6i_type_info = {
++    .name = TYPE_AW_I2C_SUN6I,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AWI2CState),
++    .instance_init = allwinner_i2c_sun6i_init,
++    .class_init = allwinner_i2c_class_init,
++};
++
+ static void allwinner_i2c_register_types(void)
+ {
+     type_register_static(&allwinner_i2c_type_info);
++    type_register_static(&allwinner_i2c_sun6i_type_info);
+ }
+ 
+ type_init(allwinner_i2c_register_types)
 -- 
 2.34.1
 
