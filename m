@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE976AC44B
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADE16AC44A
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:03:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCLt-00049V-83; Mon, 06 Mar 2023 10:02:13 -0500
+	id 1pZCMj-0005GD-Tq; Mon, 06 Mar 2023 10:03:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCLk-0003m5-DY
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:02:09 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCLi-0003as-Pu
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:02:04 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- l7-20020a05600c1d0700b003eb5e6d906bso5363860wms.5
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:02:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678114922;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TrHfJ9xm9yKvmeoI1ItBdAApvnWF94r7m+svFZjZ1OU=;
- b=Ud3q0WhCG5JQJTCggjbCHJCzQM2JRo2XpFn7Gqqpk1xxc7jznfj0aw7JyZz+kZm1uV
- eoZv071PxcFJE/Ow5LooWhb1cAJwK9Qb+QsOl+ZnmtnGkRD2ICITvtUAGYquouklizGK
- g5J4dTkjsiFsDDWOSirErW779V2W9AuQBbcAI5a5wx+kPks5nW53wtTvS5JoW9c5h3s7
- eSuKzV+As8QVVSWRoAtQf3VsUBwYDLvByMLppPQrWdsnoune2Guwe4Zd3xDkoFAEQLwi
- PvEZX7EbXHmUnla6UQJCUcFiNYDsTiCe7ceLA5OCNhjj6bn3T/I2QeGwYtUCPRHRFzGK
- EFOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678114922;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TrHfJ9xm9yKvmeoI1ItBdAApvnWF94r7m+svFZjZ1OU=;
- b=BRXUZtqqDGY6RNV7QNYLKBNaMMdOILJAJGcLie/T9g0MQybzRmhVzenHIsC8skT8gi
- lsc/u+hgBvFkJ8e2dpvCnB4LvGVQZmRBNjjQ2sBWx3ks7NBLRa+m+Q/9ODa2QDQB9nr3
- w3dNA4+DOhN37gKx7npYh1frdTFsQ5AdtQe8rM1jcnHMsTfDVyf1hHeS+eFyc/uIdSrl
- WSqa3hBQSQieuSHLGbnUO8cwYwFZDoVlFutBB/1q71w5FgeDw3IhUM6RixE4WflVulrf
- dZP1QiWpSXchkQbikXd90Ll1dFmfAcgtdnOn3NngH4gQMVwO3e3gMP5L35aqJY5hjCOk
- 0jeA==
-X-Gm-Message-State: AO0yUKVzcE6ZFI/bDh1c0zx1DYLQBlE5HoecrNrHwCMFumVc4Rcza9wk
- pizMbXQBN9CpMrFCrMVbQIgn6w==
-X-Google-Smtp-Source: AK7set+Wwbf9sZXaEKQ2h7WE+6VO+BYUO/6iKc+TmVy5cdtyCIFgNUY8i3jUaQQ3ABqECFbjx6w7Qw==
-X-Received: by 2002:a05:600c:4593:b0:3dc:4313:fd1e with SMTP id
- r19-20020a05600c459300b003dc4313fd1emr8788068wmo.34.1678114921653; 
- Mon, 06 Mar 2023 07:02:01 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o33-20020a05600c512100b003e209186c07sm16365863wms.19.2023.03.06.07.02.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 07:02:01 -0800 (PST)
-Message-ID: <f8647ca9-1fc1-f45b-5f85-dc58bde9500c@linaro.org>
-Date: Mon, 6 Mar 2023 16:01:59 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZCMh-00057v-Js
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:03:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZCMf-0003jR-Sk
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:03:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678114976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nh+sapTe5tY64U2Nv0Bwmk18zR+Qscm4Feq2vh1jlTI=;
+ b=FQ1Ngb/KopWQqOIComLXRpXWDXsXjNhg65CPOfhhH2ZZysCEjIJmKRpOFZc3aeeou4NIfc
+ cwQL0YsAkKluI7ONfJ+MxlkpdAnHJh4NM6qGUoAM+XgXO8nNscNthFHCrHD3N3uAwdzAn5
+ TPk/YOJWH5etx0Rj1L67f5K68o8HTt4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-99-mdkfogrQO2-JpRmW6rVpGw-1; Mon, 06 Mar 2023 10:02:54 -0500
+X-MC-Unique: mdkfogrQO2-JpRmW6rVpGw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B221885625;
+ Mon,  6 Mar 2023 15:02:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22ED5175AD;
+ Mon,  6 Mar 2023 15:02:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E717C21E6A1F; Mon,  6 Mar 2023 16:02:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Gerd Hoffmann
+ <kraxel@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Michael Roth
+ <michael.roth@amd.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,  Wainer dos Santos Moschetta
+ <wainersm@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Daniel P.
+ =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Eric Blake <eblake@redhat.com>,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v4 05/11] qmp: 'add_client' actually expects sockets
+References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
+ <20230306122751.2355515-6-marcandre.lureau@redhat.com>
+Date: Mon, 06 Mar 2023 16:02:38 +0100
+In-Reply-To: <20230306122751.2355515-6-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Mon, 6 Mar 2023 16:27:45 +0400")
+Message-ID: <877cvtkjn5.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 64/70] target/xtensa: Avoid tcg_const_i32 in translate_l32r
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-65-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-65-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,15 +91,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:42, Richard Henderson wrote:
-> Use addi on the addition side and tcg_constant_i32 on the other.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+marcandre.lureau@redhat.com writes:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
+> actually expect a socket kind or will fail in different ways at runtime.
+>
+> Throw an error early if the given 'add_client' fd is not a socket, and
+> close it to avoid leaks.
+>
+> This allows to replace the close() call with a more correct & portable
+> closesocket() version.
+>
+> (this will allow importing sockets on Windows with a specialized command
+> in the following patch, while keeping the remaining monitor associated
+> sockets/add_client code & usage untouched)
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->   target/xtensa/translate.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>  qapi/misc.json     | 3 +++
+>  monitor/qmp-cmds.c | 7 +++++++
+>  2 files changed, 10 insertions(+)
+>
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 27ef5a2b20..f0217cfba0 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -14,6 +14,9 @@
+>  # Allow client connections for VNC, Spice and socket based
+>  # character devices to be passed in to QEMU via SCM_RIGHTS.
+>  #
+> +# If the FD associated with @fdname is not a socket, the command will fa=
+il and
+> +# the FD will be closed.
+> +#
+>  # @protocol: protocol name. Valid names are "vnc", "spice", "@dbus-displ=
+ay" or
+>  #            the name of a character device (eg. from -chardev id=3DXXXX)
+>  #
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 859012aef4..9f7751beeb 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -14,6 +14,7 @@
+>   */
+>=20=20
+>  #include "qemu/osdep.h"
+> +#include "qemu/sockets.h"
+>  #include "monitor-internal.h"
+>  #include "monitor/qdev.h"
+>  #include "monitor/qmp-helpers.h"
+> @@ -139,6 +140,12 @@ void qmp_add_client(const char *protocol, const char=
+ *fdname,
+>          return;
+>      }
+>=20=20
+> +    if (!fd_is_socket(fd)) {
+> +        error_setg(errp, "add_client expects a socket");
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Let's mention the parameter name: "parameter @fdname must name a
+socket".
 
+> +        close(fd);
+> +        return;
+> +    }
+> +
+>      for (i =3D 0; i < ARRAY_SIZE(protocol_table); i++) {
+>          if (!strcmp(protocol, protocol_table[i].name)) {
+>              if (!protocol_table[i].add_client(fd, has_skipauth, skipauth,
+
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
