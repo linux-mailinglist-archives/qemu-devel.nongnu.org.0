@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909086ABDFF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 12:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4D86ABE18
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 12:23:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ8pK-0006Ns-OK; Mon, 06 Mar 2023 06:16:22 -0500
+	id 1pZ8v7-0007bk-G8; Mon, 06 Mar 2023 06:22:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZ8pH-0006NI-My
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:16:19 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZ8pF-0005OP-Ea
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 06:16:19 -0500
-Received: by mail-pf1-x434.google.com with SMTP id y10so5476898pfi.8
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 03:16:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678101375;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LKbzwY4KSixpXabg4F8wzj3zvJt68nAYpChLwgrHmng=;
- b=ds9rptCneOIwZMMNuHSoAC+Zraqu0S85hdeeUPyHvHCQeh/nVgAuHobHtY/e/ALo48
- CyqfmNxMefrjWw4M3nisXSs7R3kYGjhgDVCg+6N/yJzGbvP0GN9IveEnkw65uhWQ1zOy
- /AkGu+A5w8FBO8OtM77wKHAholdDyaaLWBcNqmAa/mutFL7dt85DWGVevhQDZTEt6h0o
- aR7YqGNJ69nh7mvqQuTWHmHWX0R01nJ4OFX0+f5v2kwHFRPhOEIpQ0wmGN1BYXMNKXDV
- gRiDyjc2KV8xg5blQw8+SeUnxg7txzKOt8gKM+/CGdzlkNDusih1VUlyj5WFp89PFHnO
- d9Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678101375;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LKbzwY4KSixpXabg4F8wzj3zvJt68nAYpChLwgrHmng=;
- b=Kt+Xi/HPZjG2GRem9ZVsBTaiZmoYvYZ4ezsYhHCo2Csc3C48gflZY9ff8jw2QjfN6l
- 4wELfn3iQVY2C5QJp47sCwZu06BfEe5KR6zVY/yvxggpayTXxACutEqDzp95V3458k4y
- uR5CMZl2SwlVYpOaL3LrJgCEvpnB3limU59v3mS/pi9QOdQyM+kRy9Bkc3P/vX5o7dku
- 0dVlp0HI8Ye3ItaNfTPiuCdtr15iMKK0hfD0VO4AMnrtfH7mwzVM1UMOndRH782Oq4gL
- jH/qJxmhR77sVpuCb2pnHP+vwzuOY/Zyfi5tMP1sl4icE3/9HiNAz1rhQGGAAGjLgjIq
- 4EfA==
-X-Gm-Message-State: AO0yUKUhaactuuMJmd9pgNbEdW5p4w+GlG65KE3giL5rUa2E1iZ/gNxx
- pnWt7/IhjbVstIzEljACZONwAf3LxBTsyvB+79Vq6e/gingYIm53
-X-Google-Smtp-Source: AK7set847hkx8/8vZC9p142DcuQ6LED3JN7+ncCJDF9NG7yivyvELyupUiEukLPdIRGPutXKxQmfnDwsEkDS/AqckLg=
-X-Received: by 2002:a05:6a00:1d9f:b0:5a8:aaa1:6c05 with SMTP id
- z31-20020a056a001d9f00b005a8aaa16c05mr6308945pfw.2.1678101375424; Mon, 06 Mar
- 2023 03:16:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pZ8v1-0007bW-FW; Mon, 06 Mar 2023 06:22:15 -0500
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pZ8uy-00069B-Uw; Mon, 06 Mar 2023 06:22:15 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VdFENpR_1678101721; 
+Received: from 30.221.97.6(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VdFENpR_1678101721) by smtp.aliyun-inc.com;
+ Mon, 06 Mar 2023 19:22:02 +0800
+Message-ID: <301aa4d5-0e0d-12a7-1884-aab94e881882@linux.alibaba.com>
+Date: Mon, 6 Mar 2023 19:22:03 +0800
 MIME-Version: 1.0
-References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Mar 2023 11:16:03 +0000
-Message-ID: <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
-Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
-To: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/2] target/riscv: Expose "virt" register for GDB for reads
+To: Jim Shu <jim.shu@sifive.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+References: <20230305094231.1616-1-jim.shu@sifive.com>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230305094231.1616-1-jim.shu@sifive.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.99;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-99.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,49 +67,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Mar 2023 at 18:36, Peter Maydell <peter.maydell@linaro.org> wrote:
+
+On 2023/3/5 17:42, Jim Shu wrote:
+> This patch enables a debugger to read current virtualization mode via
+> virtual "virt" register. After it, we could get full current privilege
+> mode via both "priv" and "virt" register.
 >
-> I've noticed that test-blockjob seems to fail intermittently
-> on the msys2-64bit job:
+> Extend previous commit ab9056ff9bdb3f95db6e7a666d10522d289f14ec to
+> support H-extension.
 >
-> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
-> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
-> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   gdb-xml/riscv-32bit-virtual.xml |  1 +
+>   gdb-xml/riscv-64bit-virtual.xml |  1 +
+>   target/riscv/gdbstub.c          | 12 ++++++++----
+>   3 files changed, 10 insertions(+), 4 deletions(-)
 >
-> Sample output:
-> | 53/89 ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
-> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
-> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
->
-> I haven't looked at whether these jobs all failed on the
-> same subtest or whether there is better info lurking in
-> some log file in the pipeline's artefacts.
+> diff --git a/gdb-xml/riscv-32bit-virtual.xml b/gdb-xml/riscv-32bit-virtual.xml
+> index 905f1c555d..d44b6ca2dc 100644
+> --- a/gdb-xml/riscv-32bit-virtual.xml
+> +++ b/gdb-xml/riscv-32bit-virtual.xml
+> @@ -8,4 +8,5 @@
+>   <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>   <feature name="org.gnu.gdb.riscv.virtual">
+>     <reg name="priv" bitsize="32"/>
+> +  <reg name="virt" bitsize="32"/>
+>   </feature>
+> diff --git a/gdb-xml/riscv-64bit-virtual.xml b/gdb-xml/riscv-64bit-virtual.xml
+> index 62d86c237b..7c9b63d5b6 100644
+> --- a/gdb-xml/riscv-64bit-virtual.xml
+> +++ b/gdb-xml/riscv-64bit-virtual.xml
+> @@ -8,4 +8,5 @@
+>   <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>   <feature name="org.gnu.gdb.riscv.virtual">
+>     <reg name="priv" bitsize="64"/>
+> +  <reg name="virt" bitsize="64"/>
+>   </feature>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 6048541606..1755fd9d51 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -187,13 +187,17 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
+>   
+>   static int riscv_gdb_get_virtual(CPURISCVState *cs, GByteArray *buf, int n)
+>   {
+> -    if (n == 0) {
+>   #ifdef CONFIG_USER_ONLY
+> +    if (n >= 0 && n <= 1) {
+>           return gdb_get_regl(buf, 0);
+> +    }
+>   #else
+> +    if (n == 0) {
+>           return gdb_get_regl(buf, cs->priv);
+> -#endif
+> +    } else if (n == 1) {
+> +        return gdb_get_regl(buf, riscv_cpu_virt_enabled(cs));
+>       }
+> +#endif
+>       return 0;
+>   }
+>   
+> @@ -328,13 +332,13 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>       case MXL_RV32:
+>           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>                                    riscv_gdb_set_virtual,
+> -                                 1, "riscv-32bit-virtual.xml", 0);
+> +                                 2, "riscv-32bit-virtual.xml", 0);
+>           break;
+>       case MXL_RV64:
+>       case MXL_RV128:
+>           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>                                    riscv_gdb_set_virtual,
+> -                                 1, "riscv-64bit-virtual.xml", 0);
+> +                                 2, "riscv-64bit-virtual.xml", 0);
 
-Here's an intermittent failure from my macos x86 machine:
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-172/621 qemu:unit / test-blockjob
-           ERROR           0.26s   killed by signal 6 SIGABRT
-11:03:46 MALLOC_PERTURB_=176
-G_TEST_SRCDIR=/Users/pm215/src/qemu-for-merges/tests/unit
-G_TEST_BUILDDIR=/Users/pm215/src/qemu-for-merges/build/all/tests/unit
-/Users/pm215/src/qemu-for-merges/build/all/tests/unit/test-blockjob
---tap -k
------------------------------------ output -----------------------------------
-stdout:
-# random seed: R02S8c79d6e1c01ce0b25475b2210a253242
-1..9
-# Start of blockjob tests
-ok 1 /blockjob/ids
-stderr:
-Assertion failed: (job->status == JOB_STATUS_STANDBY), function
-test_complete_in_standby, file ../../tests/unit/test-blockjob.c, line
-499.
+Zhiwei
 
-
-TAP parsing error: Too few tests run (expected 9, got 1)
-(test program exited with status code -6)
-------------------------------------------------------------------------------
-
-thanks
--- PMM
+>           break;
+>       default:
+>           g_assert_not_reached();
 
