@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05756AC100
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5F16AC12D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:33:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZAvN-0002K2-Li; Mon, 06 Mar 2023 08:30:47 -0500
+	id 1pZAvV-0002Ki-CH; Mon, 06 Mar 2023 08:30:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAup-0002D4-Ab
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAus-0002DB-1i
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAuk-0007Qd-Nl
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:08 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZAup-0007RR-6A
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:30:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678109406;
+ s=mimecast20190719; t=1678109408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YD/2xAVdvNh3GDjefnOF1kDE08ljDBS1wY6GgQ0LnrI=;
- b=c7KPeh4T/uWztt9TyIsIfU55efrPtYyYOR21n6pM2bwB8HHVKeO6brp0GQRe892utyzghL
- ZtTnUMCRKF5XKgKoaWBvsXB/HU8DL34uDu04niTCh0sfNlXEIHbA0uV4+n1aQrttjE0dh7
- bz910hopO400VMA/IWaPGjQrTm/cfxw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jHPa0rm1AU7E2rxqP9YpAcfulea+NzcuonwymZX2s8o=;
+ b=QNyyG82+yvwgS2UWyMULUEmH49aiSBUbbB5wEC6AA3k0arMKgJeuxS7EzWtR0TcvrTKlB8
+ 8PriQ4CgApZWjwXli/dAb83FKsmsEj0wQYH9b/sEKNke9Ldcc2c4BAwF6uDFWw39xxSJhx
+ f+yq+PZMy4s10W9oN8THoq7ic8G1t04=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-182-pn2Kb7ubO9Krucc3SDQaJQ-1; Mon, 06 Mar 2023 08:30:04 -0500
-X-MC-Unique: pn2Kb7ubO9Krucc3SDQaJQ-1
+ us-mta-300-ZcPwHsQhOqmeHpwEMtfh0Q-1; Mon, 06 Mar 2023 08:30:05 -0500
+X-MC-Unique: ZcPwHsQhOqmeHpwEMtfh0Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C0C438149A3;
- Mon,  6 Mar 2023 13:30:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01692857AA1;
+ Mon,  6 Mar 2023 13:30:05 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9191240C10FA;
- Mon,  6 Mar 2023 13:30:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CF8640C10FA;
+ Mon,  6 Mar 2023 13:30:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/16] Final tests,
- s390x and misc updates before the soft freeze
-Date: Mon,  6 Mar 2023 14:29:46 +0100
-Message-Id: <20230306133002.418421-1-thuth@redhat.com>
+Subject: [PULL 01/16] docs/about/build-platforms: Refine the distro support
+ policy
+Date: Mon,  6 Mar 2023 14:29:47 +0100
+Message-Id: <20230306133002.418421-2-thuth@redhat.com>
+In-Reply-To: <20230306133002.418421-1-thuth@redhat.com>
+References: <20230306133002.418421-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -74,73 +76,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- Hi Peter!
+For long-term distributions that release a new version only very
+seldom, we limit the support to five years after the initial release.
+Otherwise, we might need to support distros like openSUSE 15 for
+up to 7 or even more years in total due to our "two more years
+after the next major release" rule, which is just way too much to
+handle in a project like QEMU that only has limited human resources.
 
-The following changes since commit 2946e1af2704bf6584f57d4e3aec49d1d5f3ecc0:
+Message-Id: <20230223193257.1068205-1-thuth@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/about/build-platforms.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  configure: Disable thread-safety warnings on macOS (2023-03-04 14:03:46 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-06
-
-for you to fetch changes up to cb161e95334dd9ba6835dbe8a8a60a2a87ddfe7e:
-
-  pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix (2023-03-06 12:05:10 +0100)
-
-----------------------------------------------------------------
-* Refine the distro support policy
-* Deprecate 32-bit x86 and arm hosts for system emulation
-* Check bison version to be >= 3.0
-* Compile vnc test only if vnc is really enabled
-* Check some configs in docs/config/ via the readconfig-test
-* s390x: Add support for list-directed IPL from ECKD DASD
-
-----------------------------------------------------------------
-Jared Rossi (1):
-      pc-bios: Add support for List-Directed IPL from ECKD DASD
-
-Juan Quintela (1):
-      test: Check vnc enable before compiling vnc test
-
-Matheus Tavares Bernardino (1):
-      Hexagon (meson.build): define min bison version
-
-Thomas Huth (13):
-      docs/about/build-platforms: Refine the distro support policy
-      include/hw/i386: Clean up includes in x86.h
-      docs/about/deprecated: Deprecate 32-bit x86 hosts for system emulation
-      gitlab-ci.d/crossbuilds: Drop the i386 system emulation job
-      docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation
-      gitlab-ci.d/crossbuilds: Drop the 32-bit arm system emulation jobs
-      tests/qtest/readconfig: Rework test_object_rng_resp into a generic function
-      tests/qtest/readconfig: Test docs/config/ich9-ehci-uhci.cfg
-      docs/config: Set the "kvm" accelerator via "[accel]" section
-      tests/qtest/readconfig-test: Allow testing for arbitrary memory sizes
-      tests/qtest: Move mkimg() and have_qemu_img() from libqos to libqtest
-      tests/qtest/readconfig: Test docs/config/q35-emulated.cfg
-      pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix
-
- docs/about/build-platforms.rst       |   3 +-
- docs/about/deprecated.rst            |  20 ++++
- docs/config/mach-virt-graphical.cfg  |   4 +-
- docs/config/mach-virt-serial.cfg     |   4 +-
- docs/config/q35-emulated.cfg         |   2 +
- docs/config/q35-virtio-graphical.cfg |   2 +
- docs/config/q35-virtio-serial.cfg    |   2 +
- configure                            |   1 +
- include/hw/i386/x86.h                |   2 -
- pc-bios/s390-ccw/bootmap.h           |  30 +++++-
- tests/qtest/libqos/libqos.h          |   2 -
- tests/qtest/libqtest.h               |  21 +++++
- pc-bios/s390-ccw/bootmap.c           | 157 ++++++++++++++++++++++++-------
- tests/qtest/libqos/libqos.c          |  49 +---------
- tests/qtest/libqtest.c               |  52 +++++++++++
- tests/qtest/readconfig-test.c        | 175 ++++++++++++++++++++++++++++++++---
- .gitlab-ci.d/crossbuilds.yml         |  24 -----
- pc-bios/s390-ccw.img                 | Bin 42608 -> 42608 bytes
- target/hexagon/meson.build           |   2 +-
- tests/qtest/meson.build              |  10 +-
- 20 files changed, 428 insertions(+), 134 deletions(-)
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index 20b97c3310..89cae5a6bb 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -67,7 +67,8 @@ Non-supported architectures may be removed in the future following the
+ Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
+ -----------------------------------------
+ 
+-The project aims to support the most recent major version at all times. Support
++The project aims to support the most recent major version at all times for
++up to five years after its initial release. Support
+ for the previous major version will be dropped 2 years after the new major
+ version is released or when the vendor itself drops support, whichever comes
+ first. In this context, third-party efforts to extend the lifetime of a distro
+-- 
+2.31.1
 
 
