@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A306AC382
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C6A6AC38C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:41:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBzZ-0005hv-Ka; Mon, 06 Mar 2023 09:39:09 -0500
+	id 1pZC1O-0007nQ-6V; Mon, 06 Mar 2023 09:41:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pZBzW-0005hm-Gg
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:39:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pZC1M-0007mY-Fa; Mon, 06 Mar 2023 09:41:00 -0500
+Received: from forwardcorp1a.mail.yandex.net
+ ([2a02:6b8:c0e:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pZBzU-0006a9-VW
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:39:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678113543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KvwBrqlYLSgRYlLD9r1fbJPuh1IYkfg+rVXkMnOvXIM=;
- b=bKYG4dsjuPcatL+v+mj+7HsWjkBaOoWFxqGKb8BaroC01ymEs/Co2+IID01ZUECUsG4lmB
- HR4JeCfCEQmKqFSQnlY4BkTPJNOYDCGD6++b6iCPcVdKdNb1YqFGhNehA/zP7HQZaHYN0j
- lHeOI5f4+o7dB1mFiHq70vu3JzwA4GM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-msyQ8z72NMSy_1rJLYKqdg-1; Mon, 06 Mar 2023 09:38:59 -0500
-X-MC-Unique: msyQ8z72NMSy_1rJLYKqdg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05854858F09
- for <qemu-devel@nongnu.org>; Mon,  6 Mar 2023 14:38:59 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DA7D2026D4B;
- Mon,  6 Mar 2023 14:38:58 +0000 (UTC)
-Date: Mon, 6 Mar 2023 09:38:56 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, gshan@redhat.com, eesposit@redhat.com,
- david@redhat.com, cohuck@redhat.com, eauger@redhat.com
-Subject: Re: [PATCH 6/8] aio-wait: switch to smp_mb__after_rmw()
-Message-ID: <20230306143856.GA51288@fedora>
-References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-7-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pZC1J-0007Gm-95; Mon, 06 Mar 2023 09:41:00 -0500
+Received: from mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3786:0:640:7c97:0])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id B39B35FDDB;
+ Mon,  6 Mar 2023 17:40:42 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b71c::1:25] (unknown
+ [2a02:6b8:b081:b71c::1:25])
+ by mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id geboE10Oka60-EWjtdtF4; Mon, 06 Mar 2023 17:40:42 +0300
+X-Yandex-Fwd: 1
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net;
+ dkim=pass
+Message-ID: <cff356c5-b3a7-130b-e4b9-837fca47be79@yandex-team.ru>
+Date: Mon, 6 Mar 2023 17:40:42 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+P2yTTlLIhP94FEM"
-Content-Disposition: inline
-In-Reply-To: <20230303171939.237819-7-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 02/43] migration: Pass migrate_caps_check() the old and
+ new caps
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hailiang Zhang <zhanghailiang@xfusion.com>, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+References: <20230302163410.11399-1-quintela@redhat.com>
+ <20230302163410.11399-3-quintela@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230302163410.11399-3-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,38 +72,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 02.03.23 19:33, Juan Quintela wrote:
+> We used to pass the old capabilities array and the new
+> capabilities as a list.
+> 
+> Signed-off-by: Juan Quintela<quintela@redhat.com>
 
---+P2yTTlLIhP94FEM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-On Fri, Mar 03, 2023 at 06:19:37PM +0100, Paolo Bonzini wrote:
-> The barrier comes after an atomic increment, so it is enough to use
-> smp_mb__after_rmw(); this avoids a double barrier on x86 systems.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/block/aio-wait.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---+P2yTTlLIhP94FEM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQF+wAACgkQnKSrs4Gr
-c8iJywf/dNocRuREiR1kReaxntPhqXfwH2jXfXNX8gq/Mq9CcBTF5VoU/pbcCt+5
-+sdXQtyBjPJqlBrHTWdfOCPKE2NmR1ZKSKf0VrfQIFWhGmpIthsvLd4h31b7pY22
-EEbtvw1peKF3k7r3X4CqHE3HphwlZnQWQepbnLDo51GrarIJxqVKr1OrAqpFE8wE
-me5gdEEhYoaB8wNe8aPCp8HmY9O9GcHfYzD5W4HZbbVcF+CBFrYfDCQvlxPjKHrz
-sAZgZJt8nkjZdPBKSb3un6XsIp7FluStguMDG4uCn0PHO9ipOh+1vODMalcgTeCJ
-YlzKQyN0fzFurQXVXAkXlCiimtlH0g==
-=FDHq
------END PGP SIGNATURE-----
-
---+P2yTTlLIhP94FEM--
+-- 
+Best regards,
+Vladimir
 
 
