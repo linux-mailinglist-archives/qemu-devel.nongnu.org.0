@@ -2,105 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0976AC5A9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:39:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56A66AC5AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:39:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCvv-0003PE-OK; Mon, 06 Mar 2023 10:39:27 -0500
+	id 1pZCvx-0003cr-06; Mon, 06 Mar 2023 10:39:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1pZCvj-0002yU-54; Mon, 06 Mar 2023 10:39:17 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1pZCvh-00035z-5E; Mon, 06 Mar 2023 10:39:14 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 326EYDnR019563; Mon, 6 Mar 2023 15:39:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+aPtDNou6rnMXsW/afZM+S4fOWWmBDMLVgwZsKbN110=;
- b=Wx0Eid7tKY5owO0rjkZUIPrOekxjF77R7EL/+sVQjy78FRbK1lbfLQwv4bM9zNLACw0H
- WvuEjaUXBS8DZI9XOmaZ6fME4wlftPbEm5dfSglylzWprbgorv+jaUtvXr8bH7m5oKYM
- 0JWOhoPFqfPaZHlr1IC7NWtnl1aw0VxeZ7psWuVTKHuXQdGxk8Nh+wTKCodQ71dUNpq+
- yG6iuK8frPfSzA3DSsMFi/AexbXFfX95HTmQ6EwMhHv9C8dgaHXjoc6NUnZivIubRAX5
- cqQ0um5z+BC5RVg3KPOil5BxYL8tb5PIN5sO272KL+v3s7VOBynd4N/4nxqj/1OimnvH pQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p513epyq6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 15:39:08 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 326EDtBk017119;
- Mon, 6 Mar 2023 15:39:08 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p513epypq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 15:39:08 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 326DZOSf015411;
- Mon, 6 Mar 2023 15:39:07 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3p4199hccx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 15:39:07 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
- [10.39.53.231])
- by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 326Fd5ck56689052
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Mar 2023 15:39:06 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B9F3458060;
- Mon,  6 Mar 2023 15:39:05 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F73558050;
- Mon,  6 Mar 2023 15:39:05 +0000 (GMT)
-Received: from [9.160.121.157] (unknown [9.160.121.157])
- by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Mon,  6 Mar 2023 15:39:04 +0000 (GMT)
-Message-ID: <45624698-8dc9-f14c-ee0f-e338eb254dd0@linux.ibm.com>
-Date: Mon, 6 Mar 2023 10:39:03 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCvu-0003Gu-Br
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:39:26 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCvs-00036s-Np
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:39:26 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso5476486wmo.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:39:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678117163;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UtVjH2sDogYueOKls5bNvgQLXSqTejDIJIH5fHS98zE=;
+ b=DTxFRPXcb4SCyM3BKWwZ9I/mBqmVJ2p1/u6uTbsEpblXloYGrDz4ajswRUWzMLNV4y
+ d6i8pVIRS6lmB4st7Kr3mQaXZdnS3WMwoG0+RE8Am/vCo8JxdeLsBQv9Zn+yrY9yRkfZ
+ rNp2o8SqJ1n3CBseWCsJP7H3mYgt/4Kg+vzfhknd1r6e5codD/cTftQFlVzYb1rLn60t
+ 0iOxG+96EWZS++cCCSU2ZbxCtZ3JNp3gOfhHFhQ8NJjn63JhiURUK2NjGVzAtz69vy8l
+ V2nPA/b7I34YgKM2WKZeG/nxWtG3+8sLNMG7iN4oJtnvnyKmom8H9+UioyFg3ZRIy7FK
+ V7Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678117163;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UtVjH2sDogYueOKls5bNvgQLXSqTejDIJIH5fHS98zE=;
+ b=vNyK4I62npdHqAI8gI+DWeVgYIPBOtwMvAClX9Cz2pUgk13AELjMvuokfugeyfjG3K
+ a0Tsxra0KhWRA58fM0IJvJT7JdVDI4o3diJRPkv2wfClii1OtK9LsTItij4QxI6Pf3pM
+ 0RP7Qu0J+aPvvxSLp7I9My3VeB8up4Enh9A/iO/eOBAXI7g45XNQI0Ift+788ldk3Fvv
+ HJiJHTpWHMeRmmUEGYS5Y9C0CpHgbjHXYK+H03w6m2iwIHcxgpvzSEd6wy1uGuSRZF1x
+ 18livjfSGodCjZRoEQ/oolP8teB6PZYj49j16PsDwt8CoTI47S64jYtZlFQUby41juvS
+ bvXQ==
+X-Gm-Message-State: AO0yUKVOgftZDLzRbvMamVCJ9nYHdh+YBSoOjoKaRonoGK8Sv+SLhl1q
+ ZqsPhTUtY8v7vfJHtjowgOgE7A==
+X-Google-Smtp-Source: AK7set8/OodzGNJTsy63o8faeEs5uo449LqjKZLGVZm4wpOATIr/4N8u5hM+qnFU9OsFIY92tNBPvQ==
+X-Received: by 2002:a05:600c:3c9d:b0:3eb:598d:6494 with SMTP id
+ bg29-20020a05600c3c9d00b003eb598d6494mr10401598wmb.16.1678117163444; 
+ Mon, 06 Mar 2023 07:39:23 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q30-20020a05600c331e00b003dc5b59ed7asm10362405wmp.11.2023.03.06.07.39.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 07:39:23 -0800 (PST)
+Message-ID: <f8e7b83a-f8da-d2ca-022f-033a960a26d7@linaro.org>
+Date: Mon, 6 Mar 2023 16:39:21 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RESEND PATCH 1/1] pc-bios: Add support for List-Directed IPL
- from ECKD DASD
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 59/70] target/tricore: Use setcondi instead of explicit
+ allocation
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Cc: frankja@linux.ibm.com, jjherne@linux.ibm.com
-References: <20230221174548.1866861-1-jrossi@linux.ibm.com>
- <20230221174548.1866861-2-jrossi@linux.ibm.com>
- <bfd4dc1e-0472-483a-1195-37b6c2ca37b4@redhat.com>
-From: Jared Rossi <jrossi@linux.ibm.com>
-In-Reply-To: <bfd4dc1e-0472-483a-1195-37b6c2ca37b4@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
+ ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
+ tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+References: <20230227054233.390271-1-richard.henderson@linaro.org>
+ <20230227054233.390271-60-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230227054233.390271-60-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: CYu2ybMGgv9OqDj6hM4zXe4ssoT5OGXv
-X-Proofpoint-GUID: -3vEtV4jY4CRCPz_xXm8ptBNUqwj1UrF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_08,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- bulkscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1011
- suspectscore=0 mlxlogscore=999 phishscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303060137
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jrossi@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,45 +96,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Sounds good.  Thanks Thomas.
+On 27/2/23 06:42, Richard Henderson wrote:
+> This removes the only use of temp.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/tricore/translate.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
 
-Regards,
-Jared Rossi
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-On 3/6/23 7:12 AM, Thomas Huth wrote:
-> On 21/02/2023 18.45, jrossi@linux.ibm.com wrote:
->> From: Jared Rossi <jrossi@linux.ibm.com>
->>
->> Check for a List Directed IPL Boot Record, which would supersede the 
->> CCW type
->> entries.  If the record is valid, proceed to use the new style pointers
->> and perform LD-IPL. Each block pointer is interpreted as either an 
->> LD-IPL
->> pointer or a legacy CCW pointer depending on the type of IPL initiated.
->>
->> In either case CCW- or LD-IPL is transparent to the user and will 
->> boot the same
->> image regardless of which set of pointers is used. Because the 
->> interactive boot
->> menu is only written with the old style pointers, the menu will be 
->> disabled for
->> List Directed IPL from ECKD DASD.
->>
->> If the LD-IPL fails, retry the IPL using the CCW type pointers.
->>
->> If no LD-IPL boot record is found, simply perform CCW type IPL as usual.
->>
->> Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
->>
->> ---
->>   pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
->>   pc-bios/s390-ccw/bootmap.h |  30 ++++++-
->>   2 files changed, 148 insertions(+), 39 deletions(-)
->
-> Ok, the patch survived my local regression testing, and it also looks 
-> good enough to me for inclusion, so I'll queue it for my
-> final pull request before the QEMU 8.0 soft freeze tomorrow.
->
->  Thomas
->
+
 
