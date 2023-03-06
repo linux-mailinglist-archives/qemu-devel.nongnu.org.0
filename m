@@ -2,92 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786D36AC9D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8AF6ACA04
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:25:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZEYk-0001gI-K0; Mon, 06 Mar 2023 12:23:38 -0500
+	id 1pZEaU-0002oq-51; Mon, 06 Mar 2023 12:25:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZEYi-0001fN-Ma
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:23:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pZEaS-0002oT-DG
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:25:24 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZEYg-0008H3-Uu
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:23:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678123414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aD4hSbFkVi4Gf21BQmYFZNBk6r/AgTRo79NadtomHjM=;
- b=akJQwRoO23XsdF4aMWW55rlIkRxF/FWm1+J5tafJXx6uuC3hwpZids4OLZmw8BZdQlHr2O
- O2pjws0egvYkQ2+z/JsKf9TqKtqzMvjUpI+b6rcMEACgPLRdxlz0HMsZzYvC7Zj0qfwW75
- zzNg5TOF7XoKn80q8oEWlKbaNQCDMXU=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-250-vAsBmO5CMa6ZC1SH8Ur5ZQ-1; Mon, 06 Mar 2023 12:23:32 -0500
-X-MC-Unique: vAsBmO5CMa6ZC1SH8Ur5ZQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- pm17-20020ad446d1000000b0057256b237b9so5885256qvb.16
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 09:23:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678123412;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aD4hSbFkVi4Gf21BQmYFZNBk6r/AgTRo79NadtomHjM=;
- b=TLcVIZXbyIDhWz9oBN5O4AkQ1AUFU8waeBQOdPuurJKIcLWme3C5Eo+WxuErPCEqXl
- NrJbLIJNuZoyqd8/rZrr6j0PLt5ZbzmSiR9adPKXnpr2qZdjGRVx9OB2EYNfPtvfbSoV
- +OyfNqGVLzW2t3geO+jH6RVmi18zR7Gm11endPURk7j4Jci+FmsFYwJwXbiNiCgVquXg
- jwohVPhwRIMWlEa5mO5Z7zuGlNa6RMMAGjyL+PSlitiW+5LjRQFkEYxWfN0IZk88twap
- TnCLJn0phJO/rQXQUB1wRZ96dtTTSfrptONGZ6l1phlHAMVtLFS8iNIirJ1hLf24mv6E
- 6EvA==
-X-Gm-Message-State: AO0yUKWyFLo77UTuxD+UXH3MKJc+1Uy67xrLWq1uRZzRdLy+BHwJlsjo
- ZKUYRQz+wLr8Tm4/1jjpIS+TJRjQyDDdF1KP1sN2u3mLJl+aUOiD89nIY0ioqs3m5e9fL9gneL7
- g1HR73E1TsBBlU3Y=
-X-Received: by 2002:a05:622a:120a:b0:3bf:d238:6ca with SMTP id
- y10-20020a05622a120a00b003bfd23806camr18714194qtx.68.1678123412190; 
- Mon, 06 Mar 2023 09:23:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set94gZr06n0grJyI7bPD9ZyY8AeOD82NORyMez1tFyp4xmCW6tKjSIrLYmU3riociqN9MzXT5A==
-X-Received: by 2002:a05:622a:120a:b0:3bf:d238:6ca with SMTP id
- y10-20020a05622a120a00b003bfd23806camr18714173qtx.68.1678123411949; 
- Mon, 06 Mar 2023 09:23:31 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
- by smtp.gmail.com with ESMTPSA id
- y12-20020ac8704c000000b003bfb6ddc49dsm7982265qtm.1.2023.03.06.09.23.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 09:23:31 -0800 (PST)
-Message-ID: <b3c061f5-662f-8303-c8f8-2788979d70e8@redhat.com>
-Date: Mon, 6 Mar 2023 18:23:29 +0100
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pZEaQ-0000V9-Vb
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:25:24 -0500
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32652mfO027385; Mon, 6 Mar 2023 17:25:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=gfhc6dHXxVBFwbcJwt6skudsWvWsrwWNNioS3/GuVxw=;
+ b=QrTSxFBe33ndvYFQrKvDEYtF2ker4DpozfTDU43uIZoVj3mm92MQSDJ5DxZzvR4pDg8c
+ wNR7WFaR7goHaVV+bVOoEKwceLltBMZs7Gq6t1jhGdTCztX08ugaS+4NSeJukuMJ1DVI
+ ViwtlKiqz5bXNiNK6m7E08DCNC/ayTFrzx4lYCu3g0iTldeUSW3CMs8leUKdZEZpn4O0
+ n0P3pQAiN4uljDNOnZ3DlmtZ1nVOaHug1klCKg8LSRxN958S13tejK/WGMKEOnCq6dgG
+ jTCIKKLHAtYQH0ufb+Ei7a7lEAQ5G8uW1Ky/1NupfjzQy/KONnixy9ve7at2DOvg5ZeQ OA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p4g3mva5x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Mar 2023 17:25:19 +0000
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 326HPIrg015604; 
+ Mon, 6 Mar 2023 17:25:18 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3p4fjssa40-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Mar 2023 17:25:18 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 326HPHXS015598;
+ Mon, 6 Mar 2023 17:25:17 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.204.221])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 326HPHTx015597
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Mar 2023 17:25:17 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
+ id 56EFB67E; Mon,  6 Mar 2023 09:25:17 -0800 (PST)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH] Hexagon (target/hexagon) Restore
+ --disable-hexagon-idef-parser build
+Date: Mon,  6 Mar 2023 09:25:15 -0800
+Message-Id: <20230306172515.346813-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 00/13] vfio/migration: Device dirty page tracking
-Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-References: <20230304014343.33646-1-joao.m.martins@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230304014343.33646-1-joao.m.martins@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: ZiXbW_rWLM5SkMsbbAAM3eqjPjDC8Psp
+X-Proofpoint-GUID: ZiXbW_rWLM5SkMsbbAAM3eqjPjDC8Psp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-06_10,2023-03-06_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ phishscore=0 mlxlogscore=692 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303060154
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,59 +106,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/4/23 02:43, Joao Martins wrote:
-> Hey,
-> 
-> Presented herewith a series based on the basic VFIO migration protocol v2
-> implementation [1].
-> 
-> It is split from its parent series[5] to solely focus on device dirty
-> page tracking. Device dirty page tracking allows the VFIO device to
-> record its DMAs and report them back when needed. This is part of VFIO
-> migration and is used during pre-copy phase of migration to track the
-> RAM pages that the device has written to and mark those pages dirty, so
-> they can later be re-sent to target.
-> 
-> Device dirty page tracking uses the DMA logging uAPI to discover device
-> capabilities, to start and stop tracking, and to get dirty page bitmap
-> report. Extra details and uAPI definition can be found here [3].
-> 
-> Device dirty page tracking operates in VFIOContainer scope. I.e., When
-> dirty tracking is started, stopped or dirty page report is queried, all
-> devices within a VFIOContainer are iterated and for each of them device
-> dirty page tracking is started, stopped or dirty page report is queried,
-> respectively.
-> 
-> Device dirty page tracking is used only if all devices within a
-> VFIOContainer support it. Otherwise, VFIO IOMMU dirty page tracking is
-> used, and if that is not supported as well, memory is perpetually marked
-> dirty by QEMU. Note that since VFIO IOMMU dirty page tracking has no HW
-> support, the last two usually have the same effect of perpetually
-> marking all pages dirty.
-> 
-> Normally, when asked to start dirty tracking, all the currently DMA
-> mapped ranges are tracked by device dirty page tracking. If using a
-> vIOMMU we block live migration. It's temporary and a separate series is
-> going to add support for it. Thus this series focus on getting the
-> ground work first.
-> 
-> The series is organized as follows:
-> 
-> - Patches 1-7: Fix bugs and do some preparatory work required prior to
->    adding device dirty page tracking.
-> - Patches 8-10: Implement device dirty page tracking.
-> - Patch 11: Blocks live migration with vIOMMU.
-> - Patches 12-13 enable device dirty page tracking and document it.
-> 
-> Comments, improvements as usual appreciated.
-
-It would be helpful to have some feed back from Avihai on the new patches
-introduced in v3 or v4 before merging.
-
-Also, (being curious) did you test migration with a TCG guest ?
-
-Thanks,
-
-C.
-
+VGhlIC0tZGlzYWJsZS1oZXhhZ29uLWlkZWYtcGFyc2VyIGNvbmZpZ3VyYXRpb24gd2FzIGJyb2tl
+biBieSB0aGlzIHBhdGNoCjJmZWFjZjYwYzIzYmE2ICh0YXJnZXQvaGV4YWdvbjogRHJvcCB0Y2df
+dGVtcF9mcmVlIGZyb20gQyBjb2RlKQoKVGhhdCBjb25maWcgaXMgbm90IHRlc3RlZCBieSBDSQoK
+Rml4IGlzIHNpbXBsZTogTWFyayBhIGZldyBUQ0d2IHZhcmlhYmxlcyBhcyB1bnVzZWQKClNpZ25l
+ZC1vZmYtYnk6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4KLS0tCiB0YXJn
+ZXQvaGV4YWdvbi9nZW5fdGNnLmggfCA4ICsrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNl
+cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL2dl
+bl90Y2cuaCBiL3RhcmdldC9oZXhhZ29uL2dlbl90Y2cuaAppbmRleCBiMmU3ODgwYjVjLi5iMTk1
+NWEwOGYwIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmgKKysrIGIvdGFyZ2V0
+L2hleGFnb24vZ2VuX3RjZy5oCkBAIC00MTksMTYgKzQxOSwxNiBAQAogCiAjZGVmaW5lIGZHRU5f
+VENHX1NUT1JFKFNIT1JUQ09ERSkgXAogICAgIGRvIHsgXAotICAgICAgICBUQ0d2IEhBTEYgPSB0
+Y2dfdGVtcF9uZXcoKTsgXAotICAgICAgICBUQ0d2IEJZVEUgPSB0Y2dfdGVtcF9uZXcoKTsgXAor
+ICAgICAgICBUQ0d2IEhBTEYgR19HTlVDX1VOVVNFRCA9IHRjZ190ZW1wX25ldygpOyBcCisgICAg
+ICAgIFRDR3YgQllURSBHX0dOVUNfVU5VU0VEID0gdGNnX3RlbXBfbmV3KCk7IFwKICAgICAgICAg
+U0hPUlRDT0RFOyBcCiAgICAgfSB3aGlsZSAoMCkKIAogI2RlZmluZSBmR0VOX1RDR19TVE9SRV9w
+Y3IoU0hJRlQsIFNUT1JFKSBcCiAgICAgZG8geyBcCiAgICAgICAgIFRDR3YgaXJlZyA9IHRjZ190
+ZW1wX25ldygpOyBcCi0gICAgICAgIFRDR3YgSEFMRiA9IHRjZ190ZW1wX25ldygpOyBcCi0gICAg
+ICAgIFRDR3YgQllURSA9IHRjZ190ZW1wX25ldygpOyBcCisgICAgICAgIFRDR3YgSEFMRiBHX0dO
+VUNfVU5VU0VEID0gdGNnX3RlbXBfbmV3KCk7IFwKKyAgICAgICAgVENHdiBCWVRFIEdfR05VQ19V
+TlVTRUQgPSB0Y2dfdGVtcF9uZXcoKTsgXAogICAgICAgICB0Y2dfZ2VuX21vdl90bChFQSwgUnhW
+KTsgXAogICAgICAgICBnZW5fcmVhZF9pcmVnKGlyZWcsIE11ViwgU0hJRlQpOyBcCiAgICAgICAg
+IGdlbl9oZWxwZXJfZmNpcmNhZGQoUnhWLCBSeFYsIGlyZWcsIE11ViwgaGV4X2dwcltIRVhfUkVH
+X0NTMCArIE11Tl0pOyBcCi0tIAoyLjI1LjEKCg==
 
