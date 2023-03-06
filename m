@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF656ACB7B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFC86ACB63
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:53:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1O-00055b-7A; Mon, 06 Mar 2023 12:53:14 -0500
+	id 1pZF12-0004y7-Fu; Mon, 06 Mar 2023 12:52:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF10-0004vv-NF
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:52:50 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF0z-0004pk-Bj
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:52:49 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF0x-0002oS-PI
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:52:50 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF0x-0002oR-O2
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:52:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Yg4N8M0YuVektefTPNVshttbd/b83/WGRjiDGFNaXsE=; b=ciCRzqd2prFURUII4tLztHhmNR
- zwiqTAL0a6LgOuHHugjVh0lF25eckaWPfGh0SLHe01+meiwBwPdYMm4PHDSHZYFWmiV1qD3DLkzB6
- SndVtGERkuGtRXRP2TpZQ3f88hOgFGzj8Ekkf8jPBOZYRamIw10gf9f0ih9wk7eA4QAg=;
+ bh=ALqlIIzDE5NNX0pwatzlCtWgb8yH6SDXHiCDV62k+Qk=; b=Qa1k1EmQdjTVZk4QTiuyoGa3s5
+ E1qpRBOrH3C30pUeVIeNZci2Hzmu5h5pU/rrMBT0X36cp5hpXw02opB5K//cIId1dTx3oQLP7oNnH
+ ObqbOy9vLGyfXEnF4iRAJEb2dxpCbP6ZU6J9diKODzGKQ0bzp3/qm2sKKb16RGYYONqA=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH 01/23] include/exec: Set default `NB_MMU_MODES` to 16
-Date: Mon,  6 Mar 2023 18:52:08 +0100
-Message-Id: <20230306175230.7110-2-anjo@rev.ng>
+Subject: [PATCH 02/23] target/alpha: Remove `NB_MMU_MODES` define
+Date: Mon,  6 Mar 2023 18:52:09 +0100
+Message-Id: <20230306175230.7110-3-anjo@rev.ng>
 In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 References: <20230306175230.7110-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,38 +66,20 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- include/exec/cpu-defs.h | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ target/alpha/cpu-param.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index be920d4208..69cd62c19b 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -36,9 +36,6 @@
- #ifndef TARGET_LONG_BITS
- # error TARGET_LONG_BITS must be defined in cpu-param.h
- #endif
--#ifndef NB_MMU_MODES
--# error NB_MMU_MODES must be defined in cpu-param.h
--#endif
- #ifndef TARGET_PHYS_ADDR_SPACE_BITS
- # error TARGET_PHYS_ADDR_SPACE_BITS must be defined in cpu-param.h
- #endif
-@@ -55,6 +52,14 @@
- # endif
- #endif
+diff --git a/target/alpha/cpu-param.h b/target/alpha/cpu-param.h
+index 17cd14e590..68c46f7998 100644
+--- a/target/alpha/cpu-param.h
++++ b/target/alpha/cpu-param.h
+@@ -15,6 +15,4 @@
+ #define TARGET_PHYS_ADDR_SPACE_BITS  44
+ #define TARGET_VIRT_ADDR_SPACE_BITS  (30 + TARGET_PAGE_BITS)
  
-+/*
-+ * Fix the maxiumum number of mmu modes to 16.  This is larger than all current
-+ * targets, and also the maximum supported by the softmmu tlb api.
-+ */
-+#ifndef NB_MMU_MODES
-+#define NB_MMU_MODES 16
-+#endif
-+
- #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
- 
- /* target_ulong is the type of a virtual address */
+-#define NB_MMU_MODES 3
+-
+ #endif
 -- 
 2.39.1
 
