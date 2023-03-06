@@ -2,80 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADE16AC44A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB6B6AC464
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:06:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCMj-0005GD-Tq; Mon, 06 Mar 2023 10:03:05 -0500
+	id 1pZCQJ-000892-0a; Mon, 06 Mar 2023 10:06:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZCMh-00057v-Js
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:03:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZCQH-00088r-DN
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:06:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZCMf-0003jR-Sk
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:03:03 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZCQF-0004IK-UL
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:06:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678114976;
+ s=mimecast20190719; t=1678115202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nh+sapTe5tY64U2Nv0Bwmk18zR+Qscm4Feq2vh1jlTI=;
- b=FQ1Ngb/KopWQqOIComLXRpXWDXsXjNhg65CPOfhhH2ZZysCEjIJmKRpOFZc3aeeou4NIfc
- cwQL0YsAkKluI7ONfJ+MxlkpdAnHJh4NM6qGUoAM+XgXO8nNscNthFHCrHD3N3uAwdzAn5
- TPk/YOJWH5etx0Rj1L67f5K68o8HTt4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-99-mdkfogrQO2-JpRmW6rVpGw-1; Mon, 06 Mar 2023 10:02:54 -0500
-X-MC-Unique: mdkfogrQO2-JpRmW6rVpGw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B221885625;
- Mon,  6 Mar 2023 15:02:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22ED5175AD;
- Mon,  6 Mar 2023 15:02:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E717C21E6A1F; Mon,  6 Mar 2023 16:02:38 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Gerd Hoffmann
- <kraxel@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Michael Roth
- <michael.roth@amd.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,  Wainer dos Santos Moschetta
- <wainersm@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Daniel P.
- =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Eric Blake <eblake@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 05/11] qmp: 'add_client' actually expects sockets
-References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
- <20230306122751.2355515-6-marcandre.lureau@redhat.com>
-Date: Mon, 06 Mar 2023 16:02:38 +0100
-In-Reply-To: <20230306122751.2355515-6-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Mon, 6 Mar 2023 16:27:45 +0400")
-Message-ID: <877cvtkjn5.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=H8taTCi/xo9FbyIdO/UEkBHjnmIbpy7veZzv7Ya4O9c=;
+ b=g0eKJtyQpykxZxQPVcFIujhSyZZ53PbTvRA8DA9rEA/5KrFr2J1+x8mWNQYU3bQAHaouYW
+ uzKaROK7n5NYVpVCXHMjxxpYbRs9Wx+rgZJg9OC9qxr95ktdQmwbiAe4K4cjHfwXEMXyY2
+ zyy6POcyOgq9iNc35KEa8RjsGQr/ma4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-S1_G0nkkP1iR1-YVFWYcUg-1; Mon, 06 Mar 2023 10:06:37 -0500
+X-MC-Unique: S1_G0nkkP1iR1-YVFWYcUg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b7-20020a056402350700b004d2a3d5cd3fso9048552edd.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:06:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678115188;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=H8taTCi/xo9FbyIdO/UEkBHjnmIbpy7veZzv7Ya4O9c=;
+ b=LDX1wRlRYKTOcrIyo9WAwtzR6SRdDzUuu09hlh/1pCZzZAOXFEV3+/b6KbMVuZ8SOl
+ Xa+z9uV7fjbsKQZrvZYzWuHOC4vtcoogF4SrqjJYJfYT8QVMhEm1fUuPf+XIGOlNJ1s/
+ 5yI2BnaTumYAEosXbEtxDNFVJQHFd3Wy8KiHgcoUI2jkj6TdLdTgBFlx1WPE2gqqnovl
+ /s7kvw6NrYjBdBzsEtgfzRalCXxVYceUKNXRuTumyyQNPV7q8v8fv6S2mqV1xDKY7Bwe
+ 8WcgSFFt7rJEIP9aI7BCio7B0hPTPFxeO3wEAUnZ0mXdZPAIJr/RZZhuollscYp5azHI
+ HkUA==
+X-Gm-Message-State: AO0yUKXdV/KDLu527+UfpfzzBfejvqXOFprJOHE5zs0u/JjjMGVfTGSj
+ 09Jy92zL4tfs8+Yywxf3r1fTYNSMqcqWVliuoUsUXTSOWJe0TYyfGUDGm9dFcZ9d38OxnNua4Lr
+ hug7++tXtav2Kpjs=
+X-Received: by 2002:a17:907:d14:b0:8f6:711b:8d67 with SMTP id
+ gn20-20020a1709070d1400b008f6711b8d67mr16517548ejc.26.1678115188047; 
+ Mon, 06 Mar 2023 07:06:28 -0800 (PST)
+X-Google-Smtp-Source: AK7set+eit1sHJcN93TKcJqyF+btXXJgYKcOZR2aKJuiPk/0OKGs3tNyIaCrii7zfl4ruw9I9PThow==
+X-Received: by 2002:a17:907:d14:b0:8f6:711b:8d67 with SMTP id
+ gn20-20020a1709070d1400b008f6711b8d67mr16517515ejc.26.1678115187729; 
+ Mon, 06 Mar 2023 07:06:27 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ fy5-20020a170906b7c500b008b17662e1f7sm4706440ejb.53.2023.03.06.07.06.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 07:06:27 -0800 (PST)
+Message-ID: <c756dc04-0b37-a02c-7359-1636e1c7256c@redhat.com>
+Date: Mon, 6 Mar 2023 16:06:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 4/8] edu: add smp_mb__after_rmw()
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, gshan@redhat.com, eesposit@redhat.com,
+ david@redhat.com, stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
+References: <20230303171939.237819-1-pbonzini@redhat.com>
+ <20230303171939.237819-5-pbonzini@redhat.com>
+ <CAFEAcA961ZHCLAp2ZiZZ2iURFt7_FdcN_1rFtzJNdHs-sesHFg@mail.gmail.com>
+ <71ed58bd-fb24-4eab-6638-a6a88676201b@redhat.com>
+ <CAFEAcA9SfBnBaAL3P2VPGh0Mjx59Fgp+RP1vdLtezruT=Sh4aA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFEAcA9SfBnBaAL3P2VPGh0Mjx59Fgp+RP1vdLtezruT=Sh4aA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,77 +107,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-marcandre.lureau@redhat.com writes:
+On 3/6/23 15:24, Peter Maydell wrote:
+>>> Why is this device even messing around with multiple
+>>> threads and atomics anyway ??
+>> Because it is an example of deferring device work to another thread,
+>> just like on real hardware it may be deferred to an on-device
+>> microcontroller or CPU.
+> If we want to be able to do that, we should probably have
+> infrastructure and higher-level primitives for it that
+> don't require device authors to be super-familiar with
+> QEMU's memory model and barriers... The fact there are only
+> half a dozen other uses of qemu_thread_create() under hw/
+> suggests that in practice we don't really need to do this
+> very often, though.
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
-> actually expect a socket kind or will fail in different ways at runtime.
->
-> Throw an error early if the given 'add_client' fd is not a socket, and
-> close it to avoid leaks.
->
-> This allows to replace the close() call with a more correct & portable
-> closesocket() version.
->
-> (this will allow importing sockets on Windows with a specialized command
-> in the following patch, while keeping the remaining monitor associated
-> sockets/add_client code & usage untouched)
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  qapi/misc.json     | 3 +++
->  monitor/qmp-cmds.c | 7 +++++++
->  2 files changed, 10 insertions(+)
->
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 27ef5a2b20..f0217cfba0 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -14,6 +14,9 @@
->  # Allow client connections for VNC, Spice and socket based
->  # character devices to be passed in to QEMU via SCM_RIGHTS.
->  #
-> +# If the FD associated with @fdname is not a socket, the command will fa=
-il and
-> +# the FD will be closed.
-> +#
->  # @protocol: protocol name. Valid names are "vnc", "spice", "@dbus-displ=
-ay" or
->  #            the name of a character device (eg. from -chardev id=3DXXXX)
->  #
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 859012aef4..9f7751beeb 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -14,6 +14,7 @@
->   */
->=20=20
->  #include "qemu/osdep.h"
-> +#include "qemu/sockets.h"
->  #include "monitor-internal.h"
->  #include "monitor/qdev.h"
->  #include "monitor/qmp-helpers.h"
-> @@ -139,6 +140,12 @@ void qmp_add_client(const char *protocol, const char=
- *fdname,
->          return;
->      }
->=20=20
-> +    if (!fd_is_socket(fd)) {
-> +        error_setg(errp, "add_client expects a socket");
+Yes, you're totally right about that.  I have never needed this kind of 
+higher-level primitive so I haven't thought much about what it would 
+look like.
 
-Let's mention the parameter name: "parameter @fdname must name a
-socket".
+The usage of barriers isn't great, but all this patch does is correctness...
 
-> +        close(fd);
-> +        return;
-> +    }
-> +
->      for (i =3D 0; i < ARRAY_SIZE(protocol_table); i++) {
->          if (!strcmp(protocol, protocol_table[i].name)) {
->              if (!protocol_table[i].add_client(fd, has_skipauth, skipauth,
-
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Paolo
 
 
