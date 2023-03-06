@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7026AB6A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A46F6AB6AA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:56:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ4jJ-0007jo-4a; Mon, 06 Mar 2023 01:53:53 -0500
+	id 1pZ4jK-0007tP-Qd; Mon, 06 Mar 2023 01:53:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4jG-0007Rm-3X
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:50 -0500
+ id 1pZ4jH-0007g5-Pg
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4jE-0000iK-J8
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:49 -0500
+ id 1pZ4jG-0000jD-2y
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678085627;
+ s=mimecast20190719; t=1678085629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tf6vk0J2A9SG+DdZ+7X7ukWjXXOcBJkt01MctJforQo=;
- b=Mp1mI9Oi4SZRfYPyEztXXApxVLFgW0D2F0RL9uQHkqaPxpywAgNhUTkledGEpVTnO8hIZx
- vvuM48ok++ORRtbbEV9kA5pufixZwt3fMJqJD6kWTxJAOXIs7GGZ+H6N5HPqoZhPELWJEe
- EPZsHDPK+BLbtne/mshpnNf+2RVps9k=
+ bh=8NqWQI79MCAj9hoRz4fbSI9k2RbTZEpAHjv0JP+qiFE=;
+ b=XezDOlpBZMjlqSsqpO0bPNr7cA6s4eTBv4QiVEQGrrXNoGDqqqIsvReFAcKz1aZe1M8KRT
+ eCQBAtRahfznTRmzYk3eW7ospUC19iRhGNIRlcnXYctmxeH+1z6Kc/pK48AVDA+3CN4Md7
+ 2dtqjnV+rdMFgkSGJDGAA05Iw+7LVJo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-VLTiCfzNMGq7t6AJwMF_uw-1; Mon, 06 Mar 2023 01:53:44 -0500
-X-MC-Unique: VLTiCfzNMGq7t6AJwMF_uw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-271-94OgoeOXNtq1KQ3nNXd-KA-1; Mon, 06 Mar 2023 01:53:48 -0500
+X-MC-Unique: 94OgoeOXNtq1KQ3nNXd-KA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDB538588E3;
- Mon,  6 Mar 2023 06:53:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9A7985A588;
+ Mon,  6 Mar 2023 06:53:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5AF9492C14;
- Mon,  6 Mar 2023 06:53:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0337D492C3E;
+ Mon,  6 Mar 2023 06:53:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 22/27] audio: replace the resampling loop in audio_pcm_sw_read()
-Date: Mon,  6 Mar 2023 10:51:57 +0400
-Message-Id: <20230306065202.2160066-23-marcandre.lureau@redhat.com>
+Subject: [PULL 23/27] audio: rename variables in audio_pcm_sw_read()
+Date: Mon,  6 Mar 2023 10:51:58 +0400
+Message-Id: <20230306065202.2160066-24-marcandre.lureau@redhat.com>
 In-Reply-To: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 References: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,107 +84,67 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Replace the resampling loop in audio_pcm_sw_read() with the new
-function audio_pcm_sw_resample_in(). Unlike the old resample
-loop the new function will try to consume input frames even if
-the output buffer is full. This is necessary when downsampling
-to avoid reading less audio frames than calculated in advance.
-The loop was unrolled to avoid complicated loop control conditions
-in this case.
+The audio_pcm_sw_read() function uses a few very unspecific
+variable names. Rename them for better readability.
+
+ret => total_out
+total => total_in
+size => buf_len
+samples => frames_out_max
 
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20230224190555.7409-10-vr_qemu@t-online.de>
+Message-Id: <20230224190555.7409-11-vr_qemu@t-online.de>
 ---
- audio/audio.c | 59 ++++++++++++++++++++++++++++++---------------------
- 1 file changed, 35 insertions(+), 24 deletions(-)
+ audio/audio.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index e18b5e98c5..9e9c03a42e 100644
+index 9e9c03a42e..22c36d6660 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -543,11 +543,43 @@ static size_t audio_pcm_hw_conv_in(HWVoiceIn *hw, void *pcm_buf, size_t samples)
- /*
-  * Soft voice (capture)
-  */
-+static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
-+    size_t frames_in_max, size_t frames_out_max,
-+    size_t *total_in, size_t *total_out)
-+{
-+    HWVoiceIn *hw = sw->hw;
-+    struct st_sample *src, *dst;
-+    size_t live, rpos, frames_in, frames_out;
-+
-+    live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-+    rpos = audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
-+
-+    /* resample conv_buf from rpos to end of buffer */
-+    src = hw->conv_buf.buffer + rpos;
-+    frames_in = MIN(frames_in_max, hw->conv_buf.size - rpos);
-+    dst = sw->resample_buf.buffer;
-+    frames_out = frames_out_max;
-+    st_rate_flow(sw->rate, src, dst, &frames_in, &frames_out);
-+    rpos += frames_in;
-+    *total_in = frames_in;
-+    *total_out = frames_out;
-+
-+    /* resample conv_buf from start of buffer if there are input frames left */
-+    if (frames_in_max - frames_in && rpos == hw->conv_buf.size) {
-+        src = hw->conv_buf.buffer;
-+        frames_in = frames_in_max - frames_in;
-+        dst += frames_out;
-+        frames_out = frames_out_max - frames_out;
-+        st_rate_flow(sw->rate, src, dst, &frames_in, &frames_out);
-+        *total_in += frames_in;
-+        *total_out += frames_out;
-+    }
-+}
-+
- static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+@@ -576,10 +576,10 @@ static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
+     }
+ }
+ 
+-static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
++static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len)
  {
      HWVoiceIn *hw = sw->hw;
--    size_t samples, live, ret = 0, swlim, isamp, osamp, rpos, total = 0;
--    struct st_sample *src, *dst = sw->resample_buf.buffer;
-+    size_t samples, live, ret, swlim, total;
+-    size_t samples, live, ret, swlim, total;
++    size_t live, frames_out_max, swlim, total_in, total_out;
  
      live = hw->total_samples_captured - sw->total_hw_samples_acquired;
      if (!live) {
-@@ -558,33 +590,12 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+@@ -590,20 +590,20 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
          return 0;
      }
  
--    rpos = audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
--
-     samples = size / sw->info.bytes_per_frame;
+-    samples = size / sw->info.bytes_per_frame;
++    frames_out_max = buf_len / sw->info.bytes_per_frame;
  
      swlim = (live * sw->ratio) >> 32;
-     swlim = MIN (swlim, samples);
+-    swlim = MIN (swlim, samples);
++    swlim = MIN(swlim, frames_out_max);
  
--    while (swlim) {
--        src = hw->conv_buf.buffer + rpos;
--        if (hw->conv_buf.pos > rpos) {
--            isamp = hw->conv_buf.pos - rpos;
--        } else {
--            isamp = hw->conv_buf.size - rpos;
--        }
--
--        if (!isamp) {
--            break;
--        }
--        osamp = swlim;
--
--        st_rate_flow (sw->rate, src, dst, &isamp, &osamp);
--        swlim -= osamp;
--        rpos = (rpos + isamp) % hw->conv_buf.size;
--        dst += osamp;
--        ret += osamp;
--        total += isamp;
--    }
-+    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
+-    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
++    audio_pcm_sw_resample_in(sw, live, swlim, &total_in, &total_out);
  
      if (!hw->pcm_ops->volume_in) {
-         mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
+-        mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
++        mixeng_volume(sw->resample_buf.buffer, total_out, &sw->vol);
+     }
++    sw->clip(buf, sw->resample_buf.buffer, total_out);
+ 
+-    sw->clip(buf, sw->resample_buf.buffer, ret);
+-    sw->total_hw_samples_acquired += total;
+-    return ret * sw->info.bytes_per_frame;
++    sw->total_hw_samples_acquired += total_in;
++    return total_out * sw->info.bytes_per_frame;
+ }
+ 
+ /*
 -- 
 2.39.2
 
