@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F526AC2A0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B70E6AC2AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 15:12:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBYL-0000Cm-GD; Mon, 06 Mar 2023 09:11:01 -0500
+	id 1pZBYq-00020T-Fi; Mon, 06 Mar 2023 09:11:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZBY5-0008Rk-2N
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:10:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZBY3-0008PA-Kl
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:10:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678111842;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JvANkIPkV53Rok8miS0/Oe18jae1iOMUXDLf1AXkKl0=;
- b=awFWJd1vvlslprOPe1jHuRkqqy5Hm5SM2VoEmDeGtDHNJmL9nc1rlBWu/EIGem9koIG/rw
- Ox38+KHIn9deJcsedLVboj62E6pu1K2WT+o57Ax18R+n5teeMU9h923amG/L1BglAwpe0m
- eZTVs2mIomflx7mdXYO+STPYL32T+IU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-43-bjssi6tmPBeguq6FkOpx6Q-1; Mon, 06 Mar 2023 09:10:41 -0500
-X-MC-Unique: bjssi6tmPBeguq6FkOpx6Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- u10-20020a056402064a00b004c689813557so13791111edx.10
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 06:10:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBYo-0001zP-Nj
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:11:30 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBYk-0000G9-Pa
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 09:11:30 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id h14so8959901wru.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 06:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678111885;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=o2J+WpL6f5/gX8dQgrpUvb62UwCJ7P8wIM58S091AtQ=;
+ b=cbtfAAN2ENRlH4NcZdWMJ5vb7vnThZKHrwKx39aM82Tc0lYjZEICyEr/A1Czvlsk6u
+ 2IGDE/09m44PkzGnZfv8lQXKzla0kpWR+HKuCr7RBk/J6/sReVPCY+QNYEXILYbUIM53
+ Vmf4rWP+Po29hJEvmWfbVwe/Hf7EVVIVztGZ8vWGPA7tCQusK3MrkzsV/wFnov+jqYLo
+ tN7hJ/0kvn2xdfjdLsDMOKNKNmnLDHzThnha/NLhUJGUEf/q8RVNTe7kAP0DvBFPW/ud
+ 1x0HbY3TwCaeOCXpGmx5GZyPMslOy5zqiGZiY8gBJwWmz59vvh9dJXNf4uF72+fNiX/I
+ 9Cgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678111839;
+ d=1e100.net; s=20210112; t=1678111885;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JvANkIPkV53Rok8miS0/Oe18jae1iOMUXDLf1AXkKl0=;
- b=ohrNKAaH0hk/gPoVzzZuhtZTqqKVJE8gicfe6VE5la5vpq1nrKzuSI364FqFgfP4Bu
- 8HjRfCfGD+oSxWYZ46MG/mANq0a8PE0emHmIyxFT0al/XDF15NZseig1jfkuuegoSZQs
- LO96+5T+uv0sQZ0ouqTy1P+6Pstt6uS0OjOfEAamOnDoeCMdzfwCYDlPeSqRgvg+yz0J
- tD52zcu1Nju7+SuKSc9kaqYZ6yvVP/VvvGlLl+o7OSSokfSz2H5PrUlBdynn3YuJtp7i
- 0G4IkwvNBKppU+rTBN8qodOh8ju4AEmm9kRO4hSGuMSpSmQ+vH827l0QrYs8mkOlOws4
- Na0A==
-X-Gm-Message-State: AO0yUKWzmiKaZLatwz7PYnjnfXq6q0paC2HWjvGSePecT4W/W6ct6ySh
- VHBQwnIuuX7EzfKsIsNvuMfPWI35eBWO6pK7BiiDhX8tqnmNy7jGmure+C/O/9bdLSq9rfNZHvZ
- TxwXqMPO93wJnOv36/nGDGWo=
-X-Received: by 2002:a17:907:a0d2:b0:8b0:f277:5cde with SMTP id
- hw18-20020a170907a0d200b008b0f2775cdemr9656525ejc.32.1678111839718; 
- Mon, 06 Mar 2023 06:10:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set8S3UNfmSYtp7mdk0qFxN32OVy3e/DiPkk6LqB1TRCpJtA+L2Y6h4SM7mVFb86V4JRcFMoJ8g==
-X-Received: by 2002:a17:907:a0d2:b0:8b0:f277:5cde with SMTP id
- hw18-20020a170907a0d200b008b0f2775cdemr9656507ejc.32.1678111839418; 
- Mon, 06 Mar 2023 06:10:39 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- bo6-20020a170906d04600b008eb5877a221sm4619137ejb.75.2023.03.06.06.10.38
+ bh=o2J+WpL6f5/gX8dQgrpUvb62UwCJ7P8wIM58S091AtQ=;
+ b=40lQqmEavocULsFp3XX4VG7QdfipAx9KTq/Fu0lS9/mSUtpKMvhFP3qJIRTclWJhDf
+ eCUxbuwL1+UJ5Q1Jvoj6dnvx8MsVe4usiWnmSovPWJY7cFDimFa2WZqrywkqSLo+WMof
+ 5z3Hzhvm89+CZyvHebzKdki34B9BRZyBXXAtHl6FIN9RTSNgdleUTftEawIvNx/qd2XP
+ NDViy6Ae4WZLDrs4l54KmnBaLc9lWznBsIrLboqBV7nXIHRGZ4AWiiJfWksMCmdBh//e
+ B/SWO2OPhR2w8AzgUkUWsycB3YN5pbf1EQ2hxpeQxgJkfyE0MHhv78j2U7hLMUHbKDOt
+ OOlA==
+X-Gm-Message-State: AO0yUKVT4IVM7/bRr0baPZMaI14zyQESLnrBrEcDM+qKzYJ8OCC301FY
+ IV6F3EaQYuxwHRlDTlZdOLl8Hg==
+X-Google-Smtp-Source: AK7set+bdHMdPl6c+7t2IMGJ1bzwGQdkU84vq/LlhIm3grQATa/TlKVyXppTE8lUlzpBp3SxOMoDXQ==
+X-Received: by 2002:adf:ee12:0:b0:2cb:3b68:3c1c with SMTP id
+ y18-20020adfee12000000b002cb3b683c1cmr6669275wrn.14.1678111885048; 
+ Mon, 06 Mar 2023 06:11:25 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w7-20020a5d6087000000b002c567b58e9asm10143135wrt.56.2023.03.06.06.11.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 06:10:38 -0800 (PST)
-Message-ID: <71ed58bd-fb24-4eab-6638-a6a88676201b@redhat.com>
-Date: Mon, 6 Mar 2023 15:10:38 +0100
+ Mon, 06 Mar 2023 06:11:24 -0800 (PST)
+Message-ID: <69d3e5e4-a563-61a6-c3e0-8a6ef026ac8f@linaro.org>
+Date: Mon, 6 Mar 2023 15:11:23 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 4/8] edu: add smp_mb__after_rmw()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [Qemu-devel] [PULL 11/29] target/riscv: Convert RV32F insns to
+ decodetree
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, gshan@redhat.com, eesposit@redhat.com,
- david@redhat.com, stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
-References: <20230303171939.237819-1-pbonzini@redhat.com>
- <20230303171939.237819-5-pbonzini@redhat.com>
- <CAFEAcA961ZHCLAp2ZiZZ2iURFt7_FdcN_1rFtzJNdHs-sesHFg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA961ZHCLAp2ZiZZ2iURFt7_FdcN_1rFtzJNdHs-sesHFg@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Peer Adelt <peer.adelt@hni.uni-paderborn.de>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+References: <20190312131526.14710-1-palmer@sifive.com>
+ <20190312131526.14710-12-palmer@sifive.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20190312131526.14710-12-palmer@sifive.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,34 +95,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/6/23 14:38, Peter Maydell wrote:
-> On Fri, 3 Mar 2023 at 17:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> Ensure ordering between clearing the COMPUTING flag and checking
->> IRQFACT, and between setting the IRQFACT flag and checking
->> COMPUTING.  This ensures that no wakeups are lost.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Hi Palmer, Bastian,
+
+(old patch)
+
+On 12/3/19 14:15, Palmer Dabbelt wrote:
+> From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 > 
-> Why is this device even messing around with multiple
-> threads and atomics anyway ??
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> Signed-off-by: Peer Adelt <peer.adelt@hni.uni-paderborn.de>
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> ---
+>   target/riscv/insn32.decode              |  35 +++
+>   target/riscv/insn_trans/trans_rvf.inc.c | 379 ++++++++++++++++++++++++
+>   target/riscv/translate.c                |   1 +
+>   3 files changed, 415 insertions(+)
+>   create mode 100644 target/riscv/insn_trans/trans_rvf.inc.c
 
-Because it is an example of deferring device work to another thread, 
-just like on real hardware it may be deferred to an on-device 
-microcontroller or CPU.
 
-In particular, in this case I think it is useful to show a pitfall that 
-is present in emulated hardware (where all loads and stores ultimately 
-go through a store buffer and CPU cache) and not in real hardware (where 
-I/O registers are always uncached).
+> +static bool trans_fmv_x_w(DisasContext *ctx, arg_fmv_x_w *a)
+> +{
+> +    /* NOTE: This was FMV.X.S in an earlier version of the ISA spec! */
+> +    REQUIRE_FPU;
+> +    REQUIRE_EXT(ctx, RVF);
+> +
+> +    TCGv t0 = tcg_temp_new();
+> +
+> +#if defined(TARGET_RISCV64)
 
-> I'm quite tempted to suggest we should deprecate-and-drop
-> this; it's not real hardware, it doesn't do anything
-> useful, and it's not a good model to follow if you're
-> implementing some other device.
+Just noticed this while reviewing Richard's "tcg: Remove tcg_const_*'
+recent series, shouldn't be this #if condition inverted?
 
-I'm okay with deprecating it but I think it has educational value.
-
-Paolo
+> +    tcg_gen_ext32s_tl(t0, cpu_fpr[a->rs1]);
+> +#else
+> +    tcg_gen_extrl_i64_i32(t0, cpu_fpr[a->rs1]);
+> +#endif
+> +
+> +    gen_set_gpr(a->rd, t0);
+> +    tcg_temp_free(t0);
+> +
+> +    return true;
+> +}
 
 
