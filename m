@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144E16ACA56
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD67B6ACAC5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:38:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZEeW-0005oP-DB; Mon, 06 Mar 2023 12:29:36 -0500
+	id 1pZElh-0003cQ-Vf; Mon, 06 Mar 2023 12:37:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pZEeU-0005nj-8o
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:29:34 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZElc-0003bQ-Rx
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:36:58 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pZEeS-0001nS-Fi
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:29:33 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id x3so41762662edb.10
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 09:29:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZEla-0004bC-PJ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:36:56 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ o38-20020a05600c512600b003e8320d1c11so5867521wms.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 09:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678123770;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=myUG5+r1VnqjDEN4fvHq0OgH/f12TDnGLeqBIBa4mzs=;
- b=Cqd8obIZVO6kd8Tpwl9m25s88Z2kGMcVM8QUaYScdmUz08DhJe1KYuQ2mTKA0966w7
- SGPa9lC6czNepxQWiFvda+Ehq5WDRJH39L0cBHeVH3lqLCmc4NA2vRqiDJoSjJsN19L1
- LRzRdpoKjMzKnW/uwTUPRKmXbdllY+S/ZP2ZK2Ykz0xwDvVr3woRpM5Cec4T00udYTmE
- xPS+ydQlr9xTcdVKGuRmzBtgApoz1c6Xa9YfZ7TuhXd8hVW7xUxEMFYFo+KyPAP3js0P
- V5LjaJ10acdPYKX4IYWa+0FS1q4zMe/ht28nGRITYS1qw8Qhhmblqqt5IoAlL10yjbBV
- I5Eg==
+ d=linaro.org; s=google; t=1678124212;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pTMEryfBI9v7U5KdIDwXmVrJoPnoH+VPpcXIQQmDQn8=;
+ b=DxZHwjUn24aT8JMnp3HgiZCl8p1iJSQm9/rSpVMTA8aHxh3UizRQWhfmmroqiLMM9S
+ 41YhpIpCCCGQwjaGfCyGDnXEEVisvb5c6eIvc/692cCPnJa3d48kev67oMgj7STMvabB
+ 3LZdyU3uoaaBu7/f66lpQLrR/u9rts0STUcfNkNVap3Iz8MfkyOlE82MF49DlX7x2bQP
+ ZOn0O7hzlJPmSe4gMkoZarowGgNrGxyJmoIVVdEasfgvXNdf5D2WlSbp16ABB3vhDFnv
+ wOxW2RYn+i/jjUHhN4WKISvJtvrB4C7sweEWVG5eAM0Hyi8nRNt4PQ0Sf/dwLphiq8+m
+ NX0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678123770;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=myUG5+r1VnqjDEN4fvHq0OgH/f12TDnGLeqBIBa4mzs=;
- b=bPAxzs5LcU0os2pRucYD5EoHJxIjKnuvQDWkX6HpFNqwxCzqSv7szOt3oQBtdb5qbY
- f47iio9+5Ff0KLP3H4i88A1U3Px0Ww6qm79E3eP791vXRpMtxKNcX6SNcJRr0UF3YcGc
- 20McrQts3ShhkY2cVrv66IkPdXXXFU+JBqivDXPxBYTFmhq7RP0Su07PgIcjJbQtTsvO
- xzMLtIa39A2L+fPE7QCY4TEfexKgtppYAsLjDrOrqXq6yjXgc0WwLLbxb3mrVBaqAjhI
- zRczC6MEa+Jys6a1C6p29Sl58aWbAo6zA7sMlSzCxh9nyp8zh2giTuR3I2cWhW37Vfmn
- ZPHg==
-X-Gm-Message-State: AO0yUKVsTMAvI1JgPyCMcRE9Yva5PPPx5mBf0ukaIF58xPb8CV11FOHr
- DXRi05xTcvttZw5ilBf8mmM3ew==
-X-Google-Smtp-Source: AK7set+k3JSWbXq6OLBE8J3l0KhZl0tfT9U7vOoDkmrO3j4X1ZnILmRuRkm+nDcBmUcPYo1E4qRNMA==
-X-Received: by 2002:aa7:d952:0:b0:4aa:a280:55b5 with SMTP id
- l18-20020aa7d952000000b004aaa28055b5mr11019213eds.20.1678123770350; 
- Mon, 06 Mar 2023 09:29:30 -0800 (PST)
-Received: from [192.168.200.206] (83.11.36.13.ipv4.supernova.orange.pl.
- [83.11.36.13]) by smtp.gmail.com with ESMTPSA id
- e19-20020a50a693000000b004ad61135698sm5396328edc.13.2023.03.06.09.29.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 09:29:29 -0800 (PST)
-Message-ID: <a7192c74-be6b-fae5-b282-619d39380da7@linaro.org>
-Date: Mon, 6 Mar 2023 18:29:28 +0100
+ d=1e100.net; s=20210112; t=1678124212;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=pTMEryfBI9v7U5KdIDwXmVrJoPnoH+VPpcXIQQmDQn8=;
+ b=rMZqCOHo2YXK71eBbJggZptpVjuB7YG9xJVfSnNoo+tuxTzONcP2BBK5ANL5KXIfpE
+ faa2KIl+GsQMSOAAvSbck/G9C5Oy97A3qwc4GIAC8foxlbwKsIOkM3If7g3sG2TOe4Nj
+ GFAU7203Sa31CCRWY1a5qjqky32OMvvgBPdQ0AHjb+AKAmP7utzPUbqDOXEaubzn2/03
+ y5qfgQ/ufUcmGRVceKcBTyY7Gv6EoAnIbCvunR5LHSMD5nTvIaq3JFzV48ZtzlQ0/q88
+ BLpvqhJcN4UsxFwhEj89/m9O/OsdU2LlNYEZ2uf9755qxX7y4uAjkmIelAx2p26CBpKS
+ Yamw==
+X-Gm-Message-State: AO0yUKUWlmFsme7oLi0cC6c/5d8U/pHklKyioGKvXIr325KkIQUPun3Q
+ gZnNVAANPfjimOY7lGetZKEEqg==
+X-Google-Smtp-Source: AK7set+czts0Yo9pN7BwqElfCJ3YsNhoA22OnzTHxIM/p6Yj/XxgOQpvskXp3bgTd43Dt6EKEh0j7Q==
+X-Received: by 2002:a05:600c:1c9e:b0:3ea:f883:180 with SMTP id
+ k30-20020a05600c1c9e00b003eaf8830180mr9749624wms.7.1678124212264; 
+ Mon, 06 Mar 2023 09:36:52 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ m18-20020a05600c3b1200b003db0ad636d1sm15799239wms.28.2023.03.06.09.36.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 09:36:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 847FD1FFB7;
+ Mon,  6 Mar 2023 17:36:51 +0000 (GMT)
+References: <5c50db42136d4a908b261c66b132b043@yadro.com>
+ <87cz5p98ms.fsf@linaro.org> <65ac5ab41cf74b109d0298c1fd777f63@yadro.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mikhail Tyutin <m.tyutin@yadro.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, "erdnaxe@crans.org" <erdnaxe@crans.org>,
+ "ma.mandourr@gmail.com" <ma.mandourr@gmail.com>
+Subject: Re: [PATCH v2] TCG plugin API extension to read guest memory
+ content by an address
+Date: Mon, 06 Mar 2023 17:35:01 +0000
+In-reply-to: <65ac5ab41cf74b109d0298c1fd777f63@yadro.com>
+Message-ID: <87ttyxrdcc.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] target/arm: Add Neoverse-N1 registers
-Content-Language: pl-PL, en-GB, en-HK
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Chen Baozi <chenbaozi@phytium.com.cn>
-Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-References: <20230306151243.3877250-1-chenbaozi@phytium.com.cn>
- <CAFEAcA8BJO2iVG_KQaFBV0hvAmWn4cV-vC8QA5CC+iChMuHyXA@mail.gmail.com>
- <5f8a1a7a-2971-029e-adc2-eef8a3c121ab@linaro.org>
-Organization: Linaro
-In-Reply-To: <5f8a1a7a-2971-029e-adc2-eef8a3c121ab@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-ed1-x52b.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,38 +99,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-W dniu 6.03.2023 o 18:13, Marcin Juszkiewicz pisze:
-> W dniu 6.03.2023 o 16:37, Peter Maydell pisze:
->  > On Mon, 6 Mar 2023 at 15:12, Chen Baozi <chenbaozi@phytium.com.cn> 
-> wrote:
->  >>
->  >> Add implementation defined registers for neoverse-n1 which
->  >> would be accessed by TF-A. Since there is no DSU in Qemu,
->  >> CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
->  >>
->  >> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
->  >> Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
->  >
->  > Did Marcin test this version of the patch ?
-> 
-> Hard to test it without updating TF-A first to not use DSU. Older TF-A 
-> starts and then hangs.
-> 
-> Waiting for Chen to provide patch to TF-A and will test.
 
+Mikhail Tyutin <m.tyutin@yadro.com> writes:
 
-Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+>> Not sure what happened with the formatting of this patch, I think there
+>> is an html part getting in the way.
+> I guess line ends were messed up somewhere on my side. Will try to figure=
+ out the root cause.
+>
+>
+>> > +    qemu_plugin_vcpu_read_phys_mem(vcpuIndex, vaddr, memContent,
+>> > size);
+>>=20
+>> So the problem with this approach is the memory value you read here may =
+not be
+>> the same as the value that was read by the instruction. This could
+>> because of a few reasons:
+>>=20
+>>   - an mmio write changes underlying memory layout
+>>   - another thread changes memory after the access
+>>=20
+>> I think a better way to get this information would be to register a new
+>> type of call-back which can duplicate the value in the store/load and
+>> pass it directly to the callback. It might even be worth just fixing up
+>> the existing callback and breaking compatibility rather than having two
+>> callback types?
+>>=20
+>> We didn't do this originally as we were being cautious about any
+>> attempts to use plugins to workaround the GPL for doing HW emulation -
+>> however I don't think adding the memory values to the callbacks greatly
+>> increases that risk.
+>>=20
+>> --
+>> Alex Benn=C3=A9e
+>> Virtualisation Tech Lead @ Linaro
+>
+> Do you mean concurrent access to the same memory block by multiple
+> threads?
 
-Adding neoverse_n_common.S turned out to be enough:
+Yes - although we also see MMU changes updating a mapping for a given
+vaddr -> phys address.
 
-~ # cat /proc/cpuinfo
-processor       : 0
-BogoMIPS        : 125.00
-Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics 
-fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp ssbs
-CPU implementer : 0x41
-CPU architecture: 8
-CPU variant     : 0x4
-CPU part        : 0xd0c
-CPU revision    : 1
+>
+> I think , for guest threads/cores if we observe mismatch of memory conten=
+t read by a plugin and instruction
+> itself, then it should clearly indicate that guest software has true data=
+ race problem sitting somewhere
+> in its code. Otherwise other threads would wait on a synchronization obje=
+ct to let current thread
+> perform both memory operations (plugin callback + instruction).
+
+Other threads don't pause at all (unless you do something in the plugin
+to force that)
+
+> On the other hand, concurrent access
+> using atomic operation will indeed cause either plugin or instruction to =
+read invalid memory content.
+>
+> Isn=E2=80=99t it the same problem as we face in case of GDB attached to r=
+unning Qemu instance (gdbserver) and
+> asking it to read some memory? How is it solved there?
+
+Yes and it's not solved except usually most interactions with the guest
+during debugging are while the system is paused.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
