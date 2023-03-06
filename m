@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320886AC1C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B166AC1C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:49:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZBD3-0002nk-Oe; Mon, 06 Mar 2023 08:49:01 -0500
+	id 1pZBD4-0002pn-Dy; Mon, 06 Mar 2023 08:49:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBCR-0002cP-Ok
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:48:24 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZBCP-0003bJ-7N
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:48:23 -0500
-Received: by mail-wr1-x432.google.com with SMTP id bx12so8845638wrb.11
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:48:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678110499;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bY0W063cVUeBO6Zy5flXsy/MS0XG4b0EthfuVGWoFXc=;
- b=WqUKRhGACjXDM4/x5e5Wk5wlU5XAyGwbDvc3p5i03Y+x5+BrLaO4JNkCrTsGadVXly
- x1nHp0tic5cp/h5OO5CQRtBTuka86wLronwowNj9qhZGmnQ5t8ieM9nY4ELyNvurGTKn
- dxv+2njFo3IZAcrFjMC0x5/rjxcadPsL9Leu9nO9I2AzYwPdKrdbvFZtYTDsfQYbYCeS
- 5U2GAPPAloA8kwZnN06xrBTiSvJlF0C66u6U5+YUiuJDruARyXE9jaq+jbrhONAZn214
- CIdrjoSdgogTxUrNrpCaMJFd7syr2zBDmvW3rF7co/G3vwIIWnsfmZ7cA9CXiwSlXyUb
- z2Ig==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1pZBCx-0002ke-Qe
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:49:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1pZBCw-0003jG-3d
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:48:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678110533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=03mR9ejaWocg7Ib6/dl+bzxwahc7bm4b+rJsBMEbL/M=;
+ b=BzJTUP0Wb251hAT9+zT/S8zkR0TmrG9Im3n7YGs95J2I7Sp5ur7pUTaSM3MSHcuik4PPIo
+ K+9qcYkTsYGLE5BJKCJb9pdL8cqOi7kvhOjblX2Cmijb8O2YyaA2DsI7sd2m44I7hoylNG
+ AhM+KOG8ItQXQOirF9h0T6NpeXnGscg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-vDSqJd-2ORuwi-r9G7xrmA-1; Mon, 06 Mar 2023 08:48:50 -0500
+X-MC-Unique: vDSqJd-2ORuwi-r9G7xrmA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ u28-20020a05620a085c00b0073b88cae2f5so5381860qku.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:48:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678110499;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bY0W063cVUeBO6Zy5flXsy/MS0XG4b0EthfuVGWoFXc=;
- b=kmGDZHYhXBgYjgn6vCYBP/PHf5nkkZ1u4MFAoDtRbZ4gA6DjtQX1G/lnlWhPnz43bd
- 05QEVby26S8HJE6AGlvlBC3jAV9Foy6bpPP5Zf952OoE4VpRxlX4fTiO15urqlNnoW2z
- 802LLRlK66kqpmY0uixtdchQhjDV/v0Z3HPi+5VJ4LkOThwU/g2f/0Y8R5hrwgXxi8Tn
- zMailqVVcvSj7lg8K5NCdt49cOmaIp0oHDzHVMuusBnoUUmxLX6cBJNsTV19AydohiUp
- kL8k8A5BpcVeRVUFQsy1B5bB6mT8GNLiEeYtLpJKcYndFbe18RmTAgmnaRINPgk28VMY
- necg==
-X-Gm-Message-State: AO0yUKVGwd6iuxECXYYzBqUeuO2rvIHCLlfVlklugOLJHevm772cZr+1
- RsOEF9pSWjBdbj5Lwk37YI8EiQ==
-X-Google-Smtp-Source: AK7set/iV5GpYNhIwoCKEMvT4cY2jANqUt48bTb5CgS1e2tXRdgA+wbH3v18xhuuMexDa4hadpDQAQ==
-X-Received: by 2002:a5d:6e02:0:b0:2c6:e827:21c1 with SMTP id
- h2-20020a5d6e02000000b002c6e82721c1mr6478456wrz.50.1678110499396; 
- Mon, 06 Mar 2023 05:48:19 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m5-20020a5d4a05000000b002c706c754fesm9638645wrq.32.2023.03.06.05.48.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 05:48:19 -0800 (PST)
-Message-ID: <64d51c6e-f898-d1ab-b30c-4e3b6d394eef@linaro.org>
-Date: Mon, 6 Mar 2023 14:48:17 +0100
+ d=1e100.net; s=20210112; t=1678110530;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=03mR9ejaWocg7Ib6/dl+bzxwahc7bm4b+rJsBMEbL/M=;
+ b=tRj4UWvsZyv6p9im309LXcPtbvonZkn4NuX+ekUsvPEdSXhE+RxwqPJ0aiOeJg8NN4
+ xU/PWJ7GXVFLEVJY7BJdC5dtB8wjBZo33A97uLb+RvpSkdHj/2OG2/oHvg4M/l3SvPVO
+ mmXJV8Ivj80imxqVnRgPBGucf5qsCH4wyVush5hjbDbs3D2hCp7zdPjHJgEjTHJfPK3g
+ InxDNyL5qqU83xBmiDyPiQgTRRv3zhMlYipcTYf3T1uIKcBT9QpTk94Gv7fcNdlCu98b
+ MD9H3u/xMwaLv1q3/CQrvGqvh1gyZ9MIi8GvOWmZr3lGvP84F48PD/IKH40vAwIXP+Nw
+ hsWw==
+X-Gm-Message-State: AO0yUKVX0wWHq3FqhYm9k3Cc5jMHuthZEjCu2Zb+X7/BB35n6Ya1PMHY
+ iK6ix+Sqdxf0DLy7RnIZ7UDuY0GQpMC/4dtZR/ywaz6MTZozgYjb7jkdgR2Ngn00LP8ovtk9CKo
+ 2KkMd+UGALND114pNeXJ1qrxT7XX2UqE=
+X-Received: by 2002:a05:6214:1927:b0:56b:ee5a:89f0 with SMTP id
+ es7-20020a056214192700b0056bee5a89f0mr2878570qvb.7.1678110529750; 
+ Mon, 06 Mar 2023 05:48:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set9XlW6qh9UVZegaOqagqGBYzDymxUkaQdxGTaqPJWaaSnSMBDIjIZlsmZmFgABopULN+fQXpo2HAHtXUdmoFvU=
+X-Received: by 2002:a05:6214:1927:b0:56b:ee5a:89f0 with SMTP id
+ es7-20020a056214192700b0056bee5a89f0mr2878561qvb.7.1678110529330; Mon, 06 Mar
+ 2023 05:48:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 46/70] target/rx: Use tcg_gen_abs_i32
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-47-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-47-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224655.2186173-1-eblake@redhat.com>
+ <20221114224655.2186173-2-eblake@redhat.com>
+ <f350f0ec-34b1-dca7-5bb0-344a6832f327@yandex-team.ru>
+ <20230303221740.pdwc6jtozstntih7@redhat.com>
+ <ZARVwVaRJbgvv/fO@pc220518.home.grep.be>
+In-Reply-To: <ZARVwVaRJbgvv/fO@pc220518.home.grep.be>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Mon, 6 Mar 2023 15:48:33 +0200
+Message-ID: <CAMRbyyvmbjuZWw1tvTf8SX-0odn79kcPCMoevuS_2WM3shNrkA@mail.gmail.com>
+Subject: Re: [Libguestfs] [PATCH v2 1/6] spec: Recommend cap on
+ NBD_REPLY_TYPE_BLOCK_STATUS length
+To: Wouter Verhelst <w@uter.be>
+Cc: Eric Blake <eblake@redhat.com>, libguestfs@redhat.com, nbd@other.debian.org,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,14 +101,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:42, Richard Henderson wrote:
-> Remove the local definition of rx_abs.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/rx/translate.c | 12 +-----------
->   1 file changed, 1 insertion(+), 11 deletions(-)
+On Sun, Mar 5, 2023 at 10:42=E2=80=AFAM Wouter Verhelst <w@uter.be> wrote:
+>
+> On Fri, Mar 03, 2023 at 04:17:40PM -0600, Eric Blake wrote:
+> > On Fri, Dec 16, 2022 at 10:32:01PM +0300, Vladimir Sementsov-Ogievskiy =
+wrote:
+> > > s-o-b line missed.
+> >
+> > I'm not sure if the NBD project has a strict policy on including one,
+> > but I don't mind adding it.
+>
+> I've never required it, mostly because it's something that I myself
+> always forget, too, so, *shrug*.
+>
+> (if there were a way in git to make it add that automatically, that
+> would help; I've looked but haven't found it)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+What I'm using in all projects that require signed-off-by is:
+
+$ cat .git/hooks/commit-msg
+#!/bin/sh
+
+# Add Signed-off-by trailer.
+sob=3D$(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/=
+p')
+git interpret-trailers --in-place --trailer "$sob" "$1"
+
+You can also use a pre-commit hook but the commit-msg hook is more
+convenient.
+
+And in github you can add the DCO application to the project:
+https://github.com/apps/dco
+
+Once installed it will check that all commits are signed off, and
+provide helpful error
+messages to contributors.
+
+Nir
 
 
