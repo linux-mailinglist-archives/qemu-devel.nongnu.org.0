@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74EB6AD10E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DDB6AD144
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:15:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIx9-0007tP-ES; Mon, 06 Mar 2023 17:05:07 -0500
+	id 1pZJ68-0007o0-8y; Mon, 06 Mar 2023 17:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIx2-0007QE-II
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:05:00 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIws-0006sG-Al
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:52 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so10096379pjz.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140289;
- h=to:from:cc:content-transfer-encoding:mime-version:references
- :in-reply-to:message-id:date:subject:from:to:cc:subject:date
- :message-id:reply-to;
- bh=47W96iQ+SkG3dvh8kZCFx6LTiVa4sba31wGpFSZ1JEg=;
- b=u2sT4RhWeHNcuok2Zaibp/0qEyvYi7pzcJLdZVYtTF4tNyoXTcSFGHliuJypI8WhhO
- tJFxalLLF2T+xf6sYZY5OqCs7bezCexXIX4TS0UMd8N0uncUnBqT61OMV86RBjpxLxq4
- i//OdDPLeWePHeUfbpuMtOl6FTzKkSw8GCp9KzoBnctK00lI+cfo9/r67FYi485Mc1nr
- Dq3ge4rhNuAUZgfqkm57UZFjvebtTLECx9BO8id/g7p93QGuuJFQEVG21baS7hHJq+/Y
- U96hrz/fDHi1Ci7gOc7TcJmoZWvFPw38qZVORs7Kw+9/Hj8fCyww47R/DhZxSSDQxNTo
- ElKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678140289;
- h=to:from:cc:content-transfer-encoding:mime-version:references
- :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=47W96iQ+SkG3dvh8kZCFx6LTiVa4sba31wGpFSZ1JEg=;
- b=Pidnd9PrjrVn05EE4W9Ti+WUKaCuf0S02V25apZY2jbKp0MeO0Cl4ymRpRKn+p1oVL
- EzEV5+A+Eu51Xn7yty7eQtjdITPOxEl4BCCbk7m1bhh0H85BQ8X3VeIcINrXcoVWz7u0
- iaqktFgsdqgWFw6BAh1WWZLr2IuvNdeRHaUD/c3r+XbL2mWePwSjEBMYSDfndF00Dxjc
- 38TN2IQbJJnraA0cGdfCjLJxh+C4E5s2N/S34a2MZPY9eHO+t8jb8CkL1wajknIBP8dG
- +4UfUhIyCAtHsShDwbgm1ZKH1wXUal9XhKd659FLhJL6ul71yXORYsyY449Jm5xjKDot
- zXuA==
-X-Gm-Message-State: AO0yUKV0RCfW7sGFu5lbuIh+LrU90KFo/LHVMxHqNqwXA/9z88hNeNAh
- C2Lwd+58NVLZpkKUQltimCIUsw==
-X-Google-Smtp-Source: AK7set8rFf0x6ITod2sUsRYquKxHVbqXN3JqwpRDRBo1fL+SESiG/HEbG/wjs+wRa8InsBzFPekD6w==
-X-Received: by 2002:a17:903:32cf:b0:19d:1d32:fbe with SMTP id
- i15-20020a17090332cf00b0019d1d320fbemr14890417plr.20.1678140289558; 
- Mon, 06 Mar 2023 14:04:49 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- w14-20020a170902e88e00b0019e88d9bed3sm7142069plg.210.2023.03.06.14.04.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 14:04:49 -0800 (PST)
-Subject: [PULL 22/22] MAINTAINERS: Add entry for RISC-V ACPI
-Date: Mon,  6 Mar 2023 14:02:59 -0800
-Message-Id: <20230306220259.7748-23-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
-References: <20230306220259.7748-1-palmer@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZJ65-0007nW-KS; Mon, 06 Mar 2023 17:14:21 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZJ63-0000bE-IM; Mon, 06 Mar 2023 17:14:21 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id AAF2B74633D;
+ Mon,  6 Mar 2023 23:14:05 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 674B974632B; Mon,  6 Mar 2023 23:14:05 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 660737457E7;
+ Mon,  6 Mar 2023 23:14:05 +0100 (CET)
+Date: Mon, 6 Mar 2023 23:14:05 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Bernhard Beschow <shentey@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ ReneEngel80@emailn.de
+Subject: Re: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
+In-Reply-To: <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
+Message-ID: <01c02da7-ce82-80cf-c7e7-27b7f6e36bdd@eik.bme.hu>
+References: <cover.1678105081.git.balaton@eik.bme.hu>
+ <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
+ <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Sunil V L <sunilvl@ventanamicro.com>, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Andrew Jones <ajones@ventanamicro.com>, Palmer Dabbelt <palmer@rivosinc.com>
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1030.google.com
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,59 +64,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Sunil V L <sunilvl@ventanamicro.com>
+On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
+> On 06/03/2023 12:33, BALATON Zoltan wrote:
+>> According to the PegasosII schematics the PCI interrupt lines are
+>> connected to both the gpp pins of the Mv64361 north bridge and the
+>> PINT pins of the VT8231 south bridge so guests can get interrupts from
+>> either of these. So far we only had the MV64361 connections which
+>> worked for on board devices but for additional PCI devices (such as
+>> network or sound card added with -device) guest OSes expect interrupt
+>> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+>> VT8231 ISA bridge. After the previous patches we can now model this
+>> and also remove the board specific connection from mv64361. Also
+>> configure routing of these lines when using Virtual Open Firmware to
+>> match board firmware for guests that expect this.
+>> 
+>> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>> ---
+>>   hw/pci-host/mv64361.c |  4 ----
+>>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+>>   2 files changed, 25 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+>> index 298564f1f5..19e8031a3f 100644
+>> --- a/hw/pci-host/mv64361.c
+>> +++ b/hw/pci-host/mv64361.c
+>> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error 
+>> **errp)
+>>       }
+>>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+>>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+>> -    /* FIXME: PCI IRQ connections may be board specific */
+>> -    for (i = 0; i < PCI_NUM_PINS; i++) {
+>> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+>> -    }
+>>   }
+>>     static void mv64361_reset(DeviceState *dev)
+>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>> index b0ada9c963..ded5dc2dc9 100644
+>> --- a/hw/ppc/pegasos2.c
+>> +++ b/hw/ppc/pegasos2.c
+>> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+>>       MachineState parent_obj;
+>>       PowerPCCPU *cpu;
+>>       DeviceState *mv;
+>> +    qemu_irq mv_pirq[PCI_NUM_PINS];
+>> +    qemu_irq via_pirq[PCI_NUM_PINS];
+>>       Vof *vof;
+>>       void *fdt_blob;
+>>       uint64_t kernel_addr;
+>> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+>>       }
+>>   }
+>>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
+>> +{
+>> +    Pegasos2MachineState *pm = opaque;
+>> +
+>> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
+>> +    qemu_set_irq(pm->mv_pirq[n], level);
+>> +    qemu_set_irq(pm->via_pirq[n], level);
+>> +}
+>> +
+>
+> Can you explain a bit more about how the PCI interrupt lines are connected to 
+> both the MV64361 and VT8231? The reason for asking is that I see a similar 
+> pattern in the bonito board, but there I can't see how those lines would be 
+> used because they can also raise a CPU interrupt, yet it is a different one 
+> compared to the 8259.
+>
+> Given that we know from Bernhard's tests that the fuloong2e board works with 
+> pci_bus_irqs() included in via_isa_realize() which overwrites the bonito 
+> equivalent, I'm wondering if the mv_pirq array is actually needed at all and
 
-RISC-V ACPI related functionality for virt machine is added in
-virt-acpi-build.c. Add the maintainer entry after moving the
-ARM ACPI entry under the main ACPI entry.
+Also I'd be cautious of tests on fuloong2e unless it was done with binary 
+known to work on real machine as we have found before that those binaries 
+for the real machine expect IDE to use IRQ 14/15 like pegasos2 guests but 
+the e.g. the default config in Linux would also work with native IRQs as 
+documented in the datasheet but that's apparently not how it really works 
+on real hardware (proven by binaries written for and tested on real 
+hardware did not work with the model which followed the datasheet) so we 
+had to change that later to match hardware. You may remember this, it was 
+found around the time when we tested via-ide with different guests and 
+some worked some didn't with the native mode IRQs. This suggests that 
+datasheets and tests with code not verified to work on real hardware is 
+unreliable (so are PCI standards that the VIA chip apparently does not 
+follow). So I'd only trust guests that were running on the real machine.
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Message-ID: <20230302091212.999767-9-sunilvl@ventanamicro.com>
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
----
- MAINTAINERS | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 011fd85a09..26bf14b57b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -999,12 +999,6 @@ S: Maintained
- F: hw/ssi/xlnx-versal-ospi.c
- F: include/hw/ssi/xlnx-versal-ospi.h
- 
--ARM ACPI Subsystem
--M: Shannon Zhao <shannon.zhaosl@gmail.com>
--L: qemu-arm@nongnu.org
--S: Maintained
--F: hw/arm/virt-acpi-build.c
--
- STM32F100
- M: Alexandre Iooss <erdnaxe@crans.org>
- L: qemu-arm@nongnu.org
-@@ -1892,6 +1886,18 @@ F: docs/specs/acpi_nvdimm.rst
- F: docs/specs/acpi_pci_hotplug.rst
- F: docs/specs/acpi_hw_reduced_hotplug.rst
- 
-+ARM ACPI Subsystem
-+M: Shannon Zhao <shannon.zhaosl@gmail.com>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/virt-acpi-build.c
-+
-+RISC-V ACPI Subsystem
-+M: Sunil V L <sunilvl@ventanamicro.com>
-+L: qemu-riscv@nongnu.org
-+S: Maintained
-+F: hw/riscv/virt-acpi-build.c
-+
- ACPI/VIOT
- M: Jean-Philippe Brucker <jean-philippe@linaro.org>
- S: Supported
--- 
-2.39.2
-
+Regards,
+BALATON Zoltan
 
