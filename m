@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F736AB49B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 03:19:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D196AB4E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 04:05:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ0Rf-00036z-D6; Sun, 05 Mar 2023 21:19:23 -0500
+	id 1pZ18H-0004Wf-Pc; Sun, 05 Mar 2023 22:03:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZ0Rd-00035b-3r
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:19:21 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pZ18C-0004WO-Gz
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 22:03:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZ0Rb-0006sI-9D
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:19:20 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pZ18A-0004fD-R0
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 22:03:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678069158;
+ s=mimecast20190719; t=1678071797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vGxVTFqgZJQvKGV/mS7dcGqHGKPakYtwGXnWdI4Avv4=;
- b=NDxI4w0uuOKpFZqFfmMIZdlLZ7NacOPxOcRawu5NfUDEhJwE110VkLuZ1EcudylPFQPEcX
- KnXj3paStbCPPE9nicKZEhSTv2YeYWnAjb6fHkcblCE3U5efwbnY/fYaGUoQkMpXMVs75H
- 0cysoNlF0bz/Tp9Z3+RCynTynV3Oo0I=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uA6g2nAS0wmmT1tEfHMDdfkavXyPHtBShc6ZLJV6Uu0=;
+ b=LeD6FgadPjnmDWlaCnrW1SsjwdHYAqgXWADxokBFvAng6dWoHnvGehigidl6qXU/9/t2a+
+ LsifJWxvXYYSsadPSH/8s92UCy2nxaidgW0yb9vukIYgfK9z5YX+Ju5mXgvpAqXXsvfWaq
+ g3sDDbnTl0ySCjwuZB+v5GwGAIl8UHM=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-213-8t42qFeGMV-DZZdTVboV0A-1; Sun, 05 Mar 2023 21:19:16 -0500
-X-MC-Unique: 8t42qFeGMV-DZZdTVboV0A-1
-Received: by mail-io1-f69.google.com with SMTP id
- y6-20020a056602120600b0074c87f954bfso4675266iot.4
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 18:19:16 -0800 (PST)
+ us-mta-215-RKHaBCfCObyld4Lo-xptAw-1; Sun, 05 Mar 2023 22:03:16 -0500
+X-MC-Unique: RKHaBCfCObyld4Lo-xptAw-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ w5-20020a4a9785000000b0052521223553so2409909ooi.2
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 19:03:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vGxVTFqgZJQvKGV/mS7dcGqHGKPakYtwGXnWdI4Avv4=;
- b=cvePkJeJA+sRTZEirOX9hLDirVxUS5X6IbZUt1L9GSs1yUjNGfJLbfxFTkHlW9NYb1
- oX7BTb9AfXSA789kXvFG075heeVHVJ8assz0GfdL8yKbLyuzQe0HOPVCUBDSBRTtohkD
- CZacsXJ/mkedD7YRyi5L25I+Ebu8x47KcCaqHizZeu4gVl2trawf5n6Rf1DU6yPBqiid
- EHQeEVABz55P5y1mIs2DdJ/qZI1KqS1zyNP3ormuIATgagSVrGiq8FGYnQK4eMO1l1q9
- RuXoSab/nCur8KwvuvFwkNiGKrxnz5IwslVz9JnTCUwkmT5ajjcefMlOvew4NcUOqRM/
- ox+w==
-X-Gm-Message-State: AO0yUKV8ON1ytFuIUhwfldXOWFlwLIuqmzCW90rCzH9VKv2TcugzMlhw
- hqJ5ynWkaGb2teKWSEui/xyIre/oB+pImn1BKjqWBZUrNG6Lsqs9m0p6OL3/c99dHaoYpgdMT/X
- QyfyEeST6X6smm28=
-X-Received: by 2002:a05:6e02:188f:b0:317:9c76:db61 with SMTP id
- o15-20020a056e02188f00b003179c76db61mr11091940ilu.12.1678069156096; 
- Sun, 05 Mar 2023 18:19:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set9OdyYe4DVk72Fkfr1OHHa4wfFZ6/nnjZ/SRB8DRciUqiJey73an4B+fJbmJa6R5Pjp1IS31g==
-X-Received: by 2002:a05:6e02:188f:b0:317:9c76:db61 with SMTP id
- o15-20020a056e02188f00b003179c76db61mr11091925ilu.12.1678069155772; 
- Sun, 05 Mar 2023 18:19:15 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- j17-20020a02a691000000b0039deb26853csm2877084jam.10.2023.03.05.18.19.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 18:19:15 -0800 (PST)
-Date: Sun, 5 Mar 2023 19:19:13 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>
-Subject: Re: [PATCH v3 00/13] vfio/migration: Device dirty page tracking
-Message-ID: <20230305191913.562b7a85.alex.williamson@redhat.com>
-In-Reply-To: <d8c298a7-41a3-49bf-6c5c-b071b1398160@oracle.com>
-References: <20230304014343.33646-1-joao.m.martins@oracle.com>
- <20230305135734.71d54dd1.alex.williamson@redhat.com>
- <d8c298a7-41a3-49bf-6c5c-b071b1398160@oracle.com>
-Organization: Red Hat
+ d=1e100.net; s=20210112; t=1678071795;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uA6g2nAS0wmmT1tEfHMDdfkavXyPHtBShc6ZLJV6Uu0=;
+ b=zt3nilNb69MD61BrtyPy5Fkcu9PZnw76yy9oo1LIx00vmb0n395whlzpg1VarwWBiZ
+ ixXBWokukcZV9HxEFPKg++i/ze4+/8JttHv6IZ4cmgbl3vkntIpC0kfrB4ZCiidhKCo4
+ WJEUbxG0D3Wd5BgCaVX7uha/yvBiwpyTGKapQHG9LebCl1ZF35lzdVQ/0Aj7Tfxe0kR5
+ /A5Ivkon9lhLxzfLiZdVZNQtcLjunciNOa51myNLPVHfkvO1YwX+jG6f0Hwr4A0HVxS8
+ VfKSp6cqgw8Zgmu4MCpWG/HvE9e9wVyw9aXrWVKx+tbUO7gcUSzX7vJ2KK0y4k6s8Zqp
+ JRrQ==
+X-Gm-Message-State: AO0yUKVoRtBYZCQYZkroz4s4lkpXhK26OCtedhNRM2qK5iOaD1oMSm1U
+ ZTtcTr7XnnWzQ8ND1pXxX+UjzMpG9jLf3ZLWvkoDYMavTYQAfQu9D8dmJs1wdtCXDK4ZAzVFEn9
+ NGUahPkw0NGrP+HPQYVCEED7Br4FbnjM=
+X-Received: by 2002:a05:6870:a2c2:b0:176:4a71:6fdc with SMTP id
+ w2-20020a056870a2c200b001764a716fdcmr3321340oak.9.1678071795412; 
+ Sun, 05 Mar 2023 19:03:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ohjmeJD0+ry67BMMaAPQKt7hr0lowjry3pErT63kVMolIAfDSAu0fvVX9DrGsMymTLKvDM8rqvql+5wA1uZc=
+X-Received: by 2002:a05:6870:a2c2:b0:176:4a71:6fdc with SMTP id
+ w2-20020a056870a2c200b001764a716fdcmr3321328oak.9.1678071795175; Sun, 05 Mar
+ 2023 19:03:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+References: <20230213184338.46712-1-philmd@linaro.org>
+ <20230213184338.46712-10-philmd@linaro.org>
+ <f7d73036-5b85-6945-68a7-19539b5c53e4@linaro.org>
+In-Reply-To: <f7d73036-5b85-6945-68a7-19539b5c53e4@linaro.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 6 Mar 2023 11:03:04 +0800
+Message-ID: <CACGkMEvKDrN1Vz33Jk5TGYOKRE+1ZLdLx9J9WJ7ZJ2y02=omLA@mail.gmail.com>
+Subject: Re: [PATCH v3 09/14] hw/net/tulip: Finish QOM conversion
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ qemu-block@nongnu.org, 
+ Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@163.com>, 
+ Thomas Huth <thuth@redhat.com>, Cao jin <caoj.fnst@cn.fujitsu.com>, 
+ xiaoqiang zhao <zxq_yx_007@163.com>, Sven Schnelle <svens@stackframe.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,7 +84,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,82 +100,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 5 Mar 2023 23:33:35 +0000
-Joao Martins <joao.m.martins@oracle.com> wrote:
+On Tue, Feb 28, 2023 at 9:39=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> Hi Jason, do you Ack this patch?
 
-> On 05/03/2023 20:57, Alex Williamson wrote:
-> > On Sat,  4 Mar 2023 01:43:30 +0000
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >   
-> >> Hey,
-> >>
-> >> Presented herewith a series based on the basic VFIO migration protocol v2
-> >> implementation [1].
-> >>
-> >> It is split from its parent series[5] to solely focus on device dirty
-> >> page tracking. Device dirty page tracking allows the VFIO device to
-> >> record its DMAs and report them back when needed. This is part of VFIO
-> >> migration and is used during pre-copy phase of migration to track the
-> >> RAM pages that the device has written to and mark those pages dirty, so
-> >> they can later be re-sent to target.
-> >>
-> >> Device dirty page tracking uses the DMA logging uAPI to discover device
-> >> capabilities, to start and stop tracking, and to get dirty page bitmap
-> >> report. Extra details and uAPI definition can be found here [3].
-> >>
-> >> Device dirty page tracking operates in VFIOContainer scope. I.e., When
-> >> dirty tracking is started, stopped or dirty page report is queried, all
-> >> devices within a VFIOContainer are iterated and for each of them device
-> >> dirty page tracking is started, stopped or dirty page report is queried,
-> >> respectively.
-> >>
-> >> Device dirty page tracking is used only if all devices within a
-> >> VFIOContainer support it. Otherwise, VFIO IOMMU dirty page tracking is
-> >> used, and if that is not supported as well, memory is perpetually marked
-> >> dirty by QEMU. Note that since VFIO IOMMU dirty page tracking has no HW
-> >> support, the last two usually have the same effect of perpetually
-> >> marking all pages dirty.
-> >>
-> >> Normally, when asked to start dirty tracking, all the currently DMA
-> >> mapped ranges are tracked by device dirty page tracking. If using a
-> >> vIOMMU we block live migration. It's temporary and a separate series is
-> >> going to add support for it. Thus this series focus on getting the
-> >> ground work first.
-> >>
-> >> The series is organized as follows:
-> >>
-> >> - Patches 1-7: Fix bugs and do some preparatory work required prior to
-> >>   adding device dirty page tracking.
-> >> - Patches 8-10: Implement device dirty page tracking.
-> >> - Patch 11: Blocks live migration with vIOMMU.
-> >> - Patches 12-13 enable device dirty page tracking and document it.
-> >>
-> >> Comments, improvements as usual appreciated.  
-> > 
-> > Still some CI failures:
-> > 
-> > https://gitlab.com/alex.williamson/qemu/-/pipelines/796657474
-> > 
-> > The docker failures are normal, afaict the rest are not.  Thanks,
-> >   
-> 
-> Ugh, sorry
-> 
-> The patch below scissors mark (and also attached as a file) fixes those build
-> issues. I managed to reproduce on i386 target builds, and these changes fix my
-> 32-bit build.
-> 
-> I don't have a working Gitlab setup[*] though to trigger the CI to enable to
-> wealth of targets it build-tests. If you could kindly test the patch attached in
-> a new pipeline (applied on top of the branch you just build) below to understand
-> if the CI gets happy. I will include these changes in the right patches (patch 8
-> and 10) for the v4 spin.
+Yes.
 
-Looks like this passes:
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-https://gitlab.com/alex.williamson/qemu/-/pipelines/796750136
+Thanks
 
-Thanks,
-Alex
+>
+> On 13/2/23 19:43, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Use the TULIP() and DEVICE() QOM type-checking macros.
+> > Remove uses of DO_UPCAST().
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> > ---
+> >   hw/net/tulip.c | 20 +++++++++++---------
+> >   1 file changed, 11 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+> > index 915e5fb595..990507859d 100644
+> > --- a/hw/net/tulip.c
+> > +++ b/hw/net/tulip.c
+> > @@ -19,7 +19,10 @@
+> >   #include "net/eth.h"
+> >
+> >   struct TULIPState {
+> > +    /*< private >*/
+> >       PCIDevice dev;
+> > +    /*< public >*/
+> > +
+> >       MemoryRegion io;
+> >       MemoryRegion memory;
+> >       NICConf c;
+> > @@ -959,7 +962,7 @@ static void tulip_fill_eeprom(TULIPState *s)
+> >
+> >   static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
+> >   {
+> > -    TULIPState *s =3D DO_UPCAST(TULIPState, dev, pci_dev);
+> > +    TULIPState *s =3D TULIP(pci_dev);
+> >       uint8_t *pci_conf;
+> >
+> >       pci_conf =3D s->dev.config;
+> > @@ -967,7 +970,7 @@ static void pci_tulip_realize(PCIDevice *pci_dev, E=
+rror **errp)
+> >
+> >       qemu_macaddr_default_if_unset(&s->c.macaddr);
+> >
+> > -    s->eeprom =3D eeprom93xx_new(&pci_dev->qdev, 64);
+> > +    s->eeprom =3D eeprom93xx_new(DEVICE(pci_dev), 64);
+> >       tulip_fill_eeprom(s);
+> >
+> >       memory_region_init_io(&s->io, OBJECT(&s->dev), &tulip_ops, s,
+> > @@ -983,27 +986,26 @@ static void pci_tulip_realize(PCIDevice *pci_dev,=
+ Error **errp)
+> >
+> >       s->nic =3D qemu_new_nic(&net_tulip_info, &s->c,
+> >                             object_get_typename(OBJECT(pci_dev)),
+> > -                          pci_dev->qdev.id, s);
+> > +                          DEVICE(pci_dev)->id, s);
+> >       qemu_format_nic_info_str(qemu_get_queue(s->nic), s->c.macaddr.a);
+> >   }
+> >
+> >   static void pci_tulip_exit(PCIDevice *pci_dev)
+> >   {
+> > -    TULIPState *s =3D DO_UPCAST(TULIPState, dev, pci_dev);
+> > +    TULIPState *s =3D TULIP(pci_dev);
+> >
+> >       qemu_del_nic(s->nic);
+> >       qemu_free_irq(s->irq);
+> > -    eeprom93xx_free(&pci_dev->qdev, s->eeprom);
+> > +    eeprom93xx_free(DEVICE(s), s->eeprom);
+> >   }
+> >
+> >   static void tulip_instance_init(Object *obj)
+> >   {
+> > -    PCIDevice *pci_dev =3D PCI_DEVICE(obj);
+> > -    TULIPState *d =3D DO_UPCAST(TULIPState, dev, pci_dev);
+> > +    TULIPState *s =3D TULIP(obj);
+> >
+> > -    device_add_bootindex_property(obj, &d->c.bootindex,
+> > +    device_add_bootindex_property(obj, &s->c.bootindex,
+> >                                     "bootindex", "/ethernet-phy@0",
+> > -                                  &pci_dev->qdev);
+> > +                                  DEVICE(obj));
+> >   }
+> >
+> >   static Property tulip_properties[] =3D {
+>
 
 
