@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FCA6AB48E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 03:14:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3D16AB493
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 03:14:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ0Lk-0003FK-TZ; Sun, 05 Mar 2023 21:13:16 -0500
+	id 1pZ0Lm-0003KL-Et; Sun, 05 Mar 2023 21:13:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ0Lj-0003Ev-Gj
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:15 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pZ0Lk-0003FQ-Lj
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:16 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ0Lh-00060k-QH
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:15 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so7532210pjz.1
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 18:13:13 -0800 (PST)
+ id 1pZ0Li-0005zN-Ot
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:16 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so11776391pjh.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 18:13:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678068793;
+ d=linaro.org; s=google; t=1678068794;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Klh00VTjYiHdsz8hSod/ulyCtvR28jPMZcquCoiGcz8=;
- b=yoDol88z3w+ojWU/TgShyN70KXJFbeFuw+heV/K8nLPT02DLWPPnaHZIGkwmSlllTl
- o02nzbjWnudxtJ6Q4BUTIQoRLvZJkIuwCQOsUINKYOBxxQpMKAZJ89m+K3NtyVeOC/eL
- /fSFNd3KSJw+/OrFBZ5Wro/uG5GBMGLeNOfmKP1D4Z6y0hjLmUWgrsa8M+pmUIyLaR9o
- WmYA+IpkOZBJzlOF+9hf8xE0vHo2OM0iHThZ6ZLvAWIC0ZsdQJ+ELJPMllqqr2ZsMGs/
- fkaz7sCgrYRkJs4/22/t85Bnih78XoEKNM4DutuCQxS3V9dZhazj1sinsMmC1qhWd3BS
- zq5A==
+ :reply-to; bh=E6BOJx4r1pYVT6Z+5FzgOYkiXq4HsL5PEr5po56LIKU=;
+ b=TEoGNawG74Fb/VR3i5ZHWnjlMBzlwP/7llGFD3QLD/3Dk23+mmHIzPcZpFQo9RQpea
+ VbB655ZbOHm85akL0OI1HW/G1CeibN6dUzEqDRT3OeIO39/7VJFauyETzrsi+mx7SVxz
+ csVxkm/cSSGh/TJyypwZnnB9DxeUg6cXmoLnuvJW8flD8rtZyzmLcd1v0rpxFB+Rg2wA
+ C5BsVeqMtJS+cdm6pPQQJZN9mfrGagc5BdRfOJPKVVk0Kc3cjTAr0taEZZX2yhxuCyC5
+ v1MizcA9nRP9qMOw4WtWTxGiP4uqYFu9edwXWw4I/dvV3rFOrL5sygSrAZcFw9DJIbk2
+ KW7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678068793;
+ d=1e100.net; s=20210112; t=1678068794;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Klh00VTjYiHdsz8hSod/ulyCtvR28jPMZcquCoiGcz8=;
- b=0ditqXp9mYwRuZY4TmBkM0yv7jdHCRaewnA+1kYJSS98t/IwMutHVbBX4qWbQ9nSPx
- ICR+g488FoXKxHqWfygLzt4l/teAvpW11HA0BPgHM3Bcw4FN0o34INErEZ2BhP0zqQ/O
- v4+/fsBwxhcrKh5mbTDzfTut/zCABa/YDuypyVPDTGRannk3yOKSTHw92yscjX53pI3D
- jckOg92iqgEThrgVZEhRjpEx+mbUEI94FUMAQw6+JyZzZ7UwG/98/9+DxktdrzDsee25
- Di1VnHOY7gsp5UzP4/q3SNebhaK5sOXWFLDr59lanO9NId73mWSCLP0b/Wc/UW4ruYNQ
- MqcQ==
-X-Gm-Message-State: AO0yUKWnX6wlSKTB8C5H2EG/h910oKlFAfo2XkASFrmjHuMfmR2JbWLg
- jPfK29I0ln88O1OsP9YSMCFzljf1f3pi+MX/OWD3+Q==
-X-Google-Smtp-Source: AK7set9KJr9fujDKmRvHE5QLpTWXsgdvDmQI8bMgRTQ0OaGymHCXYKu2mq8yNfvfR27wdbmNj9vV7A==
-X-Received: by 2002:a17:903:492:b0:19e:773b:2215 with SMTP id
- jj18-20020a170903049200b0019e773b2215mr9317480plb.36.1678068792995; 
- Sun, 05 Mar 2023 18:13:12 -0800 (PST)
+ bh=E6BOJx4r1pYVT6Z+5FzgOYkiXq4HsL5PEr5po56LIKU=;
+ b=KcuqKy71z8RW5KSJWWDGx1WEKniDdQQ3wFW3+dPjMLJ74sFxdg5YE25wZjSi2sZ3Nb
+ JaxHmFkHsR33SfYcDWTkgPCBOXCkP4wPbENJlx/ihW4UmQdyMXZi0UFl4tY6SegOarnA
+ uEPQiC9cSwH9WmN0ZpfnglxkBx8CzC5BihplCXEsHeQ0t77sq4sXyqlRUjbQZPXmDt+p
+ 4dKU52ho+Aw+GWYctSR4P7ph7X8QiD2WBn7D1zIdMaejIYUcV1Ts11VB9za35/nWEy9W
+ XskvDTuxepmCkzET/G6gZVFIZuGD0c78t/lKlB4qK/m7UA3ENXDujPwoQM34Fzp6S4fJ
+ jx+w==
+X-Gm-Message-State: AO0yUKVcyiMJ60lRcliWgItR/2FfWzH/9LiHofqDbr4Bs3icM85L1bls
+ LDevJ4YISYm1LyORxHfiXW0AvNo+6lXQ3v9aOfOmmw==
+X-Google-Smtp-Source: AK7set9r4jzRfwoe0G5C7oX/rUzmACNJSt2icrT9wyX4ZWrNkbOVcXf40slXSrOzk4V2gOKm9MC13g==
+X-Received: by 2002:a05:6a20:7d9d:b0:cd:91bc:a9af with SMTP id
+ v29-20020a056a207d9d00b000cd91bca9afmr10380897pzj.58.1678068793980; 
+ Sun, 05 Mar 2023 18:13:13 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
- d18-20020a630e12000000b005030136314dsm5048434pgl.71.2023.03.05.18.13.12
+ d18-20020a630e12000000b005030136314dsm5048434pgl.71.2023.03.05.18.13.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 18:13:12 -0800 (PST)
+ Sun, 05 Mar 2023 18:13:13 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] accel/tcg: Pass last not end to page_reset_target_data
-Date: Sun,  5 Mar 2023 18:13:03 -0800
-Message-Id: <20230306021307.1879483-6-richard.henderson@linaro.org>
+Subject: [PATCH 6/9] accel/tcg: Pass last not end to PAGE_FOR_EACH_TB
+Date: Sun,  5 Mar 2023 18:13:04 -0800
+Message-Id: <20230306021307.1879483-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306021307.1879483-1-richard.henderson@linaro.org>
 References: <20230306021307.1879483-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,78 +96,109 @@ when the last page of the address space is involved.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h |  2 +-
- accel/tcg/user-exec.c  | 11 +++++------
- linux-user/mmap.c      |  2 +-
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ accel/tcg/tb-maint.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 748764459c..a8cb4c905d 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -286,7 +286,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index efefa08ee1..745912e60a 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -125,29 +125,29 @@ static void tb_remove(TranslationBlock *tb)
+ }
  
- int page_get_flags(target_ulong address);
- void page_set_flags(target_ulong start, target_ulong last, int flags);
--void page_reset_target_data(target_ulong start, target_ulong end);
-+void page_reset_target_data(target_ulong start, target_ulong last);
- int page_check_range(target_ulong start, target_ulong len, int flags);
+ /* TODO: For now, still shared with translate-all.c for system mode. */
+-#define PAGE_FOR_EACH_TB(start, end, pagedesc, T, N)    \
+-    for (T = foreach_tb_first(start, end),              \
+-         N = foreach_tb_next(T, start, end);            \
++#define PAGE_FOR_EACH_TB(start, last, pagedesc, T, N)   \
++    for (T = foreach_tb_first(start, last),             \
++         N = foreach_tb_next(T, start, last);           \
+          T != NULL;                                     \
+-         T = N, N = foreach_tb_next(N, start, end))
++         T = N, N = foreach_tb_next(N, start, last))
  
- /**
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 035f8096b2..20b6fc2f6e 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -508,7 +508,7 @@ void page_set_flags(target_ulong start, target_ulong last, int flags)
-     }
+ typedef TranslationBlock *PageForEachNext;
  
-     if (!flags || reset) {
--        page_reset_target_data(start, last + 1);
-+        page_reset_target_data(start, last);
-         inval_tb |= pageflags_unset(start, last);
-     }
-     if (flags) {
-@@ -814,15 +814,14 @@ typedef struct TargetPageDataNode {
- 
- static IntervalTreeRoot targetdata_root;
- 
--void page_reset_target_data(target_ulong start, target_ulong end)
-+void page_reset_target_data(target_ulong start, target_ulong last)
+ static PageForEachNext foreach_tb_first(tb_page_addr_t start,
+-                                        tb_page_addr_t end)
++                                        tb_page_addr_t last)
  {
-     IntervalTreeNode *n, *next;
--    target_ulong last;
+-    IntervalTreeNode *n = interval_tree_iter_first(&tb_root, start, end - 1);
++    IntervalTreeNode *n = interval_tree_iter_first(&tb_root, start, last);
+     return n ? container_of(n, TranslationBlock, itree) : NULL;
+ }
+ 
+ static PageForEachNext foreach_tb_next(PageForEachNext tb,
+                                        tb_page_addr_t start,
+-                                       tb_page_addr_t end)
++                                       tb_page_addr_t last)
+ {
+     IntervalTreeNode *n;
+ 
+     if (tb) {
+-        n = interval_tree_iter_next(&tb->itree, start, end - 1);
++        n = interval_tree_iter_next(&tb->itree, start, last);
+         if (n) {
+             return container_of(n, TranslationBlock, itree);
+         }
+@@ -318,7 +318,7 @@ struct page_collection {
+ };
+ 
+ typedef int PageForEachNext;
+-#define PAGE_FOR_EACH_TB(start, end, pagedesc, tb, n) \
++#define PAGE_FOR_EACH_TB(start, last, pagedesc, tb, n) \
+     TB_FOR_EACH_TAGGED((pagedesc)->first_tb, tb, n, page_next)
+ 
+ #ifdef CONFIG_DEBUG_TCG
+@@ -993,10 +993,11 @@ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
+ {
+     TranslationBlock *tb;
+     PageForEachNext n;
++    tb_page_addr_t last = end - 1;
  
      assert_memory_lock();
  
--    start = start & TARGET_PAGE_MASK;
--    last = TARGET_PAGE_ALIGN(end) - 1;
-+    start &= TARGET_PAGE_MASK;
-+    last |= ~TARGET_PAGE_MASK;
- 
-     for (n = interval_tree_iter_first(&targetdata_root, start, last),
-          next = n ? interval_tree_iter_next(n, start, last) : NULL;
-@@ -885,7 +884,7 @@ void *page_get_target_data(target_ulong address)
-     return t->data[(page - region) >> TARGET_PAGE_BITS];
- }
- #else
--void page_reset_target_data(target_ulong start, target_ulong end) { }
-+void page_reset_target_data(target_ulong start, target_ulong last) { }
- #endif /* TARGET_PAGE_DATA_SIZE */
- 
- /* The softmmu versions of these helpers are in cputlb.c.  */
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 9cf85f4090..c153277afb 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -946,7 +946,7 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
-         if (can_passthrough_madvise(start, end)) {
-             ret = get_errno(madvise(g2h_untagged(start), len, advice));
-             if ((advice == MADV_DONTNEED) && (ret == 0)) {
--                page_reset_target_data(start, start + len);
-+                page_reset_target_data(start, start + len - 1);
-             }
-         }
+-    PAGE_FOR_EACH_TB(start, end, unused, tb, n) {
++    PAGE_FOR_EACH_TB(start, last, unused, tb, n) {
+         tb_phys_invalidate__locked(tb);
      }
+ }
+@@ -1028,6 +1029,7 @@ bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
+     bool current_tb_modified;
+     TranslationBlock *tb;
+     PageForEachNext n;
++    tb_page_addr_t last;
+ 
+     /*
+      * Without precise smc semantics, or when outside of a TB,
+@@ -1044,10 +1046,11 @@ bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
+     assert_memory_lock();
+     current_tb = tcg_tb_lookup(pc);
+ 
++    last = addr | ~TARGET_PAGE_MASK;
+     addr &= TARGET_PAGE_MASK;
+     current_tb_modified = false;
+ 
+-    PAGE_FOR_EACH_TB(addr, addr + TARGET_PAGE_SIZE, unused, tb, n) {
++    PAGE_FOR_EACH_TB(addr, last, unused, tb, n) {
+         if (current_tb == tb &&
+             (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
+             /*
+@@ -1089,12 +1092,13 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
+     bool current_tb_modified = false;
+     TranslationBlock *current_tb = retaddr ? tcg_tb_lookup(retaddr) : NULL;
+ #endif /* TARGET_HAS_PRECISE_SMC */
++    tb_page_addr_t last G_GNUC_UNUSED = end - 1;
+ 
+     /*
+      * We remove all the TBs in the range [start, end[.
+      * XXX: see if in some cases it could be faster to invalidate all the code
+      */
+-    PAGE_FOR_EACH_TB(start, end, p, tb, n) {
++    PAGE_FOR_EACH_TB(start, last, p, tb, n) {
+         /* NOTE: this is subtle as a TB may span two physical pages */
+         if (n == 0) {
+             /* NOTE: tb_end may be after the end of the page, but
 -- 
 2.34.1
 
