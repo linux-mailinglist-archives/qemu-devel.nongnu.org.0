@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794BA6AB699
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD496AB6AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:56:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ4iM-0003gB-1I; Mon, 06 Mar 2023 01:52:54 -0500
+	id 1pZ4iX-00043h-9F; Mon, 06 Mar 2023 01:53:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4iA-0003Vk-6u
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pZ4iG-0003cs-EO
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4i8-0000Xy-Ia
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:41 -0500
+ id 1pZ4iE-0000YZ-Ob
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:52:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678085559;
+ s=mimecast20190719; t=1678085566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fG9U1MaaUWFTE10JMj8Gyb8MxHvQncPQmeyyT/rFDkA=;
- b=UF6giT3g+2Y3cGq+R65fbFGySSiY/tFGTjJIdeNehXUX4bdcqfjB+QXakeWWd8Fs/P6UBk
- BaFxcsRRokLo4Da0unEq2q5TUm/i9d7InWixLY3Y0GZby5kWfwmENcWuJKmE6vxXNSOYsy
- RxT+IngYzEkVPcneWnJn0bJA0mblX54=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Qs85+lNX1CIt1d17yJJi1YhLfEiUe41EDq6IGo6LhSY=;
+ b=JTTU+zcd1+myU7XevjFhh4bQVNyZLK/YI7+zlU+UbnPsR+O48J7FWZjpyMk2sD40ODZmY3
+ cOXCSvpPtkpowF+fTIPLLeZIwSYsagtYBlg+ErnkvhIcC/2rS52kK6s0HPQ/3yJODhYSMx
+ xlv3AltwmclniZdluSaggqa3Y/5tJCs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-kbyWYvhJNkaruk27mrp2Iw-1; Mon, 06 Mar 2023 01:52:38 -0500
-X-MC-Unique: kbyWYvhJNkaruk27mrp2Iw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-186-rLDtAhNLOL20WXgMjy0OVw-1; Mon, 06 Mar 2023 01:52:42 -0500
+X-MC-Unique: rLDtAhNLOL20WXgMjy0OVw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02CE13C10681;
- Mon,  6 Mar 2023 06:52:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03570811E6E;
+ Mon,  6 Mar 2023 06:52:42 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F20612166B26;
- Mon,  6 Mar 2023 06:52:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41D07175AD;
+ Mon,  6 Mar 2023 06:52:40 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 07/27] audio/alsaaudio: use g_new0() instead of audio_calloc()
-Date: Mon,  6 Mar 2023 10:51:42 +0400
-Message-Id: <20230306065202.2160066-8-marcandre.lureau@redhat.com>
+Subject: [PULL 08/27] audio/audio_template: use g_malloc0() to replace
+ audio_calloc()
+Date: Mon,  6 Mar 2023 10:51:43 +0400
+Message-Id: <20230306065202.2160066-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 References: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,38 +85,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Replace audio_calloc() with the equivalent g_new0().
+Use g_malloc0() as a direct replacement for audio_calloc().
 
-The value of the g_new0() argument count is >= 1, which means
-g_new0() will never return NULL. Also remove the unnecessary
-NULL check.
+Since the type of the parameter n_bytes of the function g_malloc0()
+is unsigned, the type of the variables voice_size_out and
+voice_size_in has been changed to size_t. This means that the
+function argument no longer has to be checked for negative values.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20230121094735.11644-6-vr_qemu@t-online.de>
+Message-Id: <20230121094735.11644-7-vr_qemu@t-online.de>
 ---
- audio/alsaaudio.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ audio/audio_int.h      |  4 ++--
+ audio/audio_template.h | 18 ++++++++----------
+ 2 files changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 714bfb6453..5f50dfa0bf 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -222,11 +222,7 @@ static int alsa_poll_helper (snd_pcm_t *handle, struct pollhlp *hlp, int mask)
-         return -1;
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 4632cdf9cc..ce2d6bf92c 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -151,8 +151,8 @@ struct audio_driver {
+     int can_be_default;
+     int max_voices_out;
+     int max_voices_in;
+-    int voice_size_out;
+-    int voice_size_in;
++    size_t voice_size_out;
++    size_t voice_size_in;
+     QLIST_ENTRY(audio_driver) next;
+ };
+ 
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index dfa440f778..592866f14a 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -40,7 +40,7 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
+                                               struct audio_driver *drv)
+ {
+     int max_voices = glue (drv->max_voices_, TYPE);
+-    int voice_size = glue (drv->voice_size_, TYPE);
++    size_t voice_size = glue(drv->voice_size_, TYPE);
+ 
+     if (glue (s->nb_hw_voices_, TYPE) > max_voices) {
+         if (!max_voices) {
+@@ -63,8 +63,8 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
      }
  
--    pfds = audio_calloc ("alsa_poll_helper", count, sizeof (*pfds));
--    if (!pfds) {
--        dolog ("Could not initialize poll mode\n");
--        return -1;
--    }
-+    pfds = g_new0(struct pollfd, count);
+     if (audio_bug(__func__, voice_size && !max_voices)) {
+-        dolog ("drv=`%s' voice_size=%d max_voices=0\n",
+-               drv->name, voice_size);
++        dolog("drv=`%s' voice_size=%zu max_voices=0\n",
++              drv->name, voice_size);
+     }
+ }
  
-     err = snd_pcm_poll_descriptors (handle, pfds, count);
-     if (err < 0) {
+@@ -273,13 +273,11 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
+         return NULL;
+     }
+ 
+-    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
+-    if (!hw) {
+-        dolog ("Can not allocate voice `%s' size %d\n",
+-               drv->name, glue (drv->voice_size_, TYPE));
+-        return NULL;
+-    }
+-
++    /*
++     * Since glue(s->nb_hw_voices_, TYPE) is != 0, glue(drv->voice_size_, TYPE)
++     * is guaranteed to be != 0. See the audio_init_nb_voices_* functions.
++     */
++    hw = g_malloc0(glue(drv->voice_size_, TYPE));
+     hw->s = s;
+     hw->pcm_ops = drv->pcm_ops;
+ 
 -- 
 2.39.2
 
