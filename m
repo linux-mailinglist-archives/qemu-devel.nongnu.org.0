@@ -2,147 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5476AD2CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 00:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624896AD2E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 00:38:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZKCp-0007PW-8n; Mon, 06 Mar 2023 18:25:23 -0500
+	id 1pZKOD-0001Im-4A; Mon, 06 Mar 2023 18:37:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pZKCn-0007PN-4R
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:25:21 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZKOB-0001Id-50
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:37:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pZKCl-0005As-6n
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:25:20 -0500
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 326N6CBM013083; Mon, 6 Mar 2023 23:25:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=C3Td006AXr3lxn1XAhMD6Rr2Xzhre+U6WWBwNVjA9I0=;
- b=cjfptzq/zPylI+C2CAQtYCEskILFppBHqEy+/9cE6zH2YKtpi5addK3oyRWQR+zBPt9T
- wHUsD2c90xkb8nqoYUlGuUhq1WDIXcWrcvJed7AlH5QvYDdIicpK0STpEl96Ekek0QeQ
- pDsKdCjQ7I65uZ0CYsqSBcN410PNWN2FzvatTUYqzRGU2YsHi9TDjFB7E0IJ3M7AOWuy
- hb7Ei5d55UqspOkmXp+ZHEhyJQK+KH+CE2TJUaCU7RTnagVbbAyAwAau2b+HqKuRniAk
- 6z+p65cBF62j0aoE79yP+qwTmKRObDrbHeqejWU1i0W2rbXCm+W/QTZrfMHyEg6IfurF SQ== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2103.outbound.protection.outlook.com [104.47.55.103])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p415hx9cn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Mar 2023 23:25:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HqtxNyMiDq11d7HCnDuVR4fKYiLDjdYlPlN6SdYbgSLSXAW9DXOREr3bZSGeP+VwZl5PJyLkAKgjYYiZfRc4MiyQEf+YQI3Q2e+6mel+0Nw0tAFHO9zbUVnePcZwVGdtNn0IPyakKu5OJSQ2KVdkPxIKJra7ZDYu8f7MvVEPrVTV3uzbcuQULHPNKVzOQccIy505EJuWysA+SZN1VaaM2AEiD24mA+G2vWn3J9lWtBGY+ePy+KuaAJMSCI/XHr7DBC/cb+NRdUrMoXQg1c/PQ+jM143CkdqtMuIMEKX0zuHxMSYkuxQ2+YU+POZ/ReUTqu/LbNfL1XoIpEgZcNrCPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C3Td006AXr3lxn1XAhMD6Rr2Xzhre+U6WWBwNVjA9I0=;
- b=mH3mnf1uGO+L6wO5BuOV+DuibFCiHEAwcuOU2IM4zFumckyx/ym2XAIaFjWcNy/P8nhlmOnD8/yiFvhzlXXHMjmMijh9jz0QuSHTZgPGRzRw+iOjiKtGqFD80CCehXyAx+RUA/ADCqGxdpLoPq2Hvkw4zYYMMqxEN2WuoJWkT96sJ66BKZIUT123DWrxna68w2k1o8zD/A2lKujMgMTb2Vw5B9sXrob45ruFn7OTp6v8Qd3D64evMFiVr4l01VD/RzxcM847rzVrzPZZVt8b/Wgf65GdaRIVjNR73dqmbjHoB0jT+OanQEZNzBBWbi8ZaNUHy3eW6djzzkGlTndxRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by SA1PR02MB8655.namprd02.prod.outlook.com
- (2603:10b6:806:1fe::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
- 2023 23:25:11 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda%5]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
- 23:25:11 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] target/hexagon/idef-parser: Elide mov in gen_pred_assign
-Thread-Topic: [PATCH] target/hexagon/idef-parser: Elide mov in gen_pred_assign
-Thread-Index: AQHZUH8HltRajcjH8Em0tOzssYrbpK7uZGew
-Date: Mon, 6 Mar 2023 23:25:11 +0000
-Message-ID: <SN4PR0201MB88087CE89364B4DF9C14C855DEB69@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230306225724.2105263-1-richard.henderson@linaro.org>
-In-Reply-To: <20230306225724.2105263-1-richard.henderson@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|SA1PR02MB8655:EE_
-x-ms-office365-filtering-correlation-id: 2185aff1-1e22-4de1-c5e4-08db1e9a084b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dQZ59iqlZBg3i/kg4CmdN4cySeTQExG9TMIzob2PaEtAio4Wk027CflLy4Px1Xaj+KJinHFYZAFwlA82lqnXrn8mnEGWeWOlWdqRmj8GIoUss7d8ZU5iwFgRVUqs2Y153V5gyIOquuoELNpaadz4y74JPhE9D+nwDugZj8LiOplZadqNMn9rP3cBoatfAOejHWwNHPJKS1ER0wq7lRHKfJMIQ22NHxd1uM8W82lwwopfVZ2DlgxEkfqbMMiJxcvITCBnMsIO0qjs/TLhG07g4JYKNpet6/XwwjgZQt0ryeHKKohWrEespxviFysIx+G1st6RCjUCR+LkhePWLUTQk+MT15fg1JEEQh53bg0ruJ3QoXbJ34yWIViwhaoMZtM2uU1KXAzYEVQGmU5a9+mYVwH0kJcCrsc43JWd3l2KMGj6O/FfEf29MJtxGW722UKQCj0fznEtHvxaF4Oa5q/C7th1IWd+k9JICbiU2kONsCTDiGYx8a1Fi7SoZUrsB8cMHk++fNMTFaeiFcUAUNJumsJa5yrLlng9h5fhdXhO9sKCci39BhFeaxqUg/mAVUyASMbFTTgJBtz/KLaad0tOnM7G4/rdmZUHDVgA1UVCbqQAwLgXlE6CS65oMvuUrcDw+idhaLxSnx4HhGZyy1wkljB7+9h3UL0mf6a0ccJNgxJkSYngiGxEnnnCM0q3aGTsd3M+7zTMLI5BdE15N0tU8A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(366004)(396003)(39860400002)(136003)(376002)(451199018)(38100700002)(86362001)(38070700005)(122000001)(33656002)(5660300002)(2906002)(64756008)(66946007)(66556008)(76116006)(41300700001)(66446008)(66476007)(8676002)(8936002)(52536014)(186003)(26005)(9686003)(53546011)(83380400001)(6506007)(110136005)(316002)(55016003)(478600001)(7696005)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?O5fgqnCYp8msACWZn8/cEQiU7xrX3cDbjhPx+epx37v+HpIVqyLMj8cFO5zc?=
- =?us-ascii?Q?DQbH4FFolT8Lrd84/IytsrZDHMGmnsx5TaOLECBzlKU0+H7ELDfy9oGqAFu6?=
- =?us-ascii?Q?De++NkfllasKJYV8QFOKNkBSlTzCsvPt38Bzo1CwOaraiOUOlL4YZqju0LHt?=
- =?us-ascii?Q?ObiY9xGwhpLpNSvBUGZ7/p5XoWfOSZofAe8XQOqDc9U3DwKYo3xWmq+i0s7Y?=
- =?us-ascii?Q?DTpS/Mhh1YLKnZ/hcWgJ4z+81JReLbnlGKKbvvpP6VuPfnBjUFgCkfDCuh4R?=
- =?us-ascii?Q?aYr6brYcCqXwqcGnWoddZj6fEo+f95dwxSjffwqA+aVYK20QmPCbNY+i0O3p?=
- =?us-ascii?Q?57Jp+As+omn2OacXF5RkbaQIMYnnaRj6XPAt/mKCJWbk9yyb+E2P9lPk0vJ5?=
- =?us-ascii?Q?vRHP9yzUAIIvajW8YZ80Kvj3RVA2I8Gm2WgknOy9ZTZJaM5ORpseO1SBfNkC?=
- =?us-ascii?Q?d5UQOKxQhM6xHFhXnHh4rx2S1eoHT53zf+zQac6B6x1wHSPV2U7LwfefjRjF?=
- =?us-ascii?Q?Mw2CXRyB+uaIyeAwrAWKOp1aL5x7cdXNFlg33eIFeKvoS8ioKoHYdgRmhsCH?=
- =?us-ascii?Q?t6tizhI/HtMTfw1Xs4LfXLaOV1rPKt16WydofAgN0YnwW9Lev06AOI0+j+lC?=
- =?us-ascii?Q?mq5ragkRwmX9OLnH2NHifLnn8AnGZF/lWW0E28CktLBEcGo6iGrH8IwlHOje?=
- =?us-ascii?Q?RYB6NCHFnwq3gqUv0kDL2knEp6RT6Bc6ARI2NHHm7oRR6eC6QMLLaOxdrto0?=
- =?us-ascii?Q?kNfx8whQkUBkrfwcD4o6niKQohwebNdn9N8MzOO2NHHkLH1DLhJ0ypwFk4M8?=
- =?us-ascii?Q?IDSwUPtBr406vXnfR5SOHp8Ee9QBmloMkQNjxYXoYMqBZXzLvfy4Wkmq618L?=
- =?us-ascii?Q?2QxcgSfb+E1yhObFeTKxa9XR9DEDCd4sa0XfT0Z2MQuJzKOTSsFThFTyZAek?=
- =?us-ascii?Q?4glDJccw8z8HpiDk4A3cw3ywirMB9gNFqZr7OZ8r0YxiMtxcVRS4VHpC15Ti?=
- =?us-ascii?Q?cNbhMMIe/37lfrlLg99JTxuYlWiN8mU4va0fAJjGgNBe/7Qr2O2RM769rEgp?=
- =?us-ascii?Q?QEomsmSiMbZUfqeW6AITlhUReHw6vb2Ci8UfI+8B6Ij2yeiHGNrrnPvkOriv?=
- =?us-ascii?Q?3VCmHBEx3xptkHQSvXCuI5srOWay9ovtuVbrNSvwe7M7+ok7X506bw7jgGSS?=
- =?us-ascii?Q?KEoRwoDythu2nBR7xUi7SoxjGCTUjkHfOftpG0Ed4/HvPqM6/B4NR5vC6NXf?=
- =?us-ascii?Q?3vFkvbAQkJOFS2NTFyahx6xETqgsHT/H+t3T/bCZ+wxIT503pOC3a2vRfkIB?=
- =?us-ascii?Q?eOo42y3+pVWUue0G/Osidac9rAmUy+gPwnBUvvSC8qTNXDQgxHlnLMoyBxIC?=
- =?us-ascii?Q?U+21T4w0MV0fYnhbtcv39wy+1sfh0vnVRWHye6jRD4mSntbBhXydkA3o/aD0?=
- =?us-ascii?Q?sHChq3lXAovjdehgFCC71UXoQPn0J4XhoyQPOMt87QLt2WHqxkBHOjBBgTf+?=
- =?us-ascii?Q?pxwOo0JUKNzE/pbMsRWfG9Ihkd23Qm5fQ6aaye9w2xOWWmNEOILRRCst9Kab?=
- =?us-ascii?Q?jPV1j0lOjaHVW3L1vJ/vdVNzDcGCtfhIgpRoRTz0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZKO9-0006iL-6C
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 18:37:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678145823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FsqsK6bjdvJknSRA5xyMBGxB6+yUwOmdGvgwj33omG8=;
+ b=hh80foX0++59+yJMbI9WnUokQtb5MaBocICbAhtTCgeT8141czcrh63Mj6y2r/1A+M7sCk
+ y5DY9rdyKrS13V8RkmmkbveTj41impp8o4x+nemzwEkh0zS2MqR5mymGigx/8OROJ6baD/
+ /qRXQTuGmHwXDxxK4vBKMuX82ORXaY8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-544-LKgPmd0ZPZqY7FPuWAjOCg-1; Mon, 06 Mar 2023 18:37:02 -0500
+X-MC-Unique: LKgPmd0ZPZqY7FPuWAjOCg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w11-20020a05640234cb00b004b3247589b3so16370092edc.23
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 15:37:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678145821;
+ h=content-transfer-encoding:in-reply-to:subject:references:cc:to:from
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FsqsK6bjdvJknSRA5xyMBGxB6+yUwOmdGvgwj33omG8=;
+ b=Mc2+UMTYZcbjn21trAJqVd6u57H5CffNlb/Jb29Utj3VAm2d5K90xVCfspTyPhjYGh
+ cjec5u4dsJSlTp0JIAVTyop+RJSd3RUtDlhho1yftiqbYpewdLhH/tDZ3fOgCx/2j678
+ j9bkIeHnh6z1W8BB/zE03m0AF9dPpe1wXkl7Yt3nUI6ze3KDbG5MK9Ujv31r/4o05lK1
+ ylMy8beN27I2MlLcsZCzNpCbjV2DsADL+CFxcanTbHZZKmSEwPPVDowNQPe18SYQFifg
+ /MQqCNtCSLH7YAEq6b6LI46VHwzgfT0N7gVsglXYFLB6rTYeobm8h8Hu7XZtklbtBYon
+ smpg==
+X-Gm-Message-State: AO0yUKXv43eRDCOPzogSKfCa/AkPqcU1DD3h1jS8ql7FzGIUdVeoXVxr
+ Rc0/rYadQPfCmmYWsJkazo/0+2lkPF7vWLnScBPj12ZODZRn/zm/XRN3wiYUGcTadRRbUU1zAvp
+ 1IJqtJohZjulCSRs=
+X-Received: by 2002:a17:907:320a:b0:87a:ee05:f7b with SMTP id
+ xg10-20020a170907320a00b0087aee050f7bmr15455329ejb.24.1678145820972; 
+ Mon, 06 Mar 2023 15:37:00 -0800 (PST)
+X-Google-Smtp-Source: AK7set85iLtDr1CBEk38/tTSQZ+w4k/l+mKlr8ssJetcowZluGfMmolOipFk7HPmUwpTRvt+BvYGgg==
+X-Received: by 2002:a17:907:320a:b0:87a:ee05:f7b with SMTP id
+ xg10-20020a170907320a00b0087aee050f7bmr15455314ejb.24.1678145820638; 
+ Mon, 06 Mar 2023 15:37:00 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ uo17-20020a170907cc1100b008b17ed98d05sm5160005ejc.120.2023.03.06.15.36.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 15:36:59 -0800 (PST)
+Message-ID: <e101b894-c722-8def-f591-20fada45795c@redhat.com>
+Date: Tue, 7 Mar 2023 00:36:59 +0100
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: TvhNDfSk6H6A/dC5mtp6xJH9H3kt7uQ3LH/oVf+c4ZCn855RIU+nFtBRPhDOzs2iwU3VPoBsLNrmQnXUv1n7q2859tCK+ycO2NhIwTSxtuEmzVCfE5S41iu11j+oyPLNGFNYoCHz35hm2wzbphsu0M+91fURmaarvpHetxBeH8iPAtsI/FtxY24gLNlkPRl+ojCBAeTeqo9Pypo066Wn1NQ9mYHfnlsrWwU06O8J8ePboLcOuvevbSDFtXxKnZ7ViAoC8LpeMnXqB/xHcog16GcmreykAxc35kjZknnsIq1jEEp2OLq1f4RiJ4uxSj6Mpvfg+RrLebYOzU22x/w2gyAVRnLVRhk3zvZDyoPfjzHXaQqG083LQrz37Sd1C0Sp5OozXFdK0qmp+BCtDlxApR6l1DYIjN5wywuhgN3iWvYxXbje1h2Sd33GBLt0RWnq11VRQJ06/GfWyYlk+vcMmI0bdJBjlpRtkzhKieaEbkHheISS49AloJbqTQ8sT6mFOGjG9f8FRDsZU/7xcRvrj8SZEXi/I8eTofTiwlQAOwj1Ya04TS8Ju1ro1I8PJ7oX7GfA4e9PVY/wAGsu2E9rYUeRS5/DouBzWDcpfvoiUrv6GDiXDn2E+DEAolf98y369Ox6MlP2JO3d7ggc/9DGPm0mJa6voOSZjxhJvNGkpQtdRYavtJFHj+GaWCBBnYifXksAqJK0ltWlvbiPnuWtiQSK3hJZsPILyPyStyZwcOUra/N0bpgxZEaGlEEH8gT5TBOCGODOuDRlsW/1zfK9er/HIrORiPFkcRBFdzIRQBo=
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2185aff1-1e22-4de1-c5e4-08db1e9a084b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 23:25:11.5881 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BjG8R9M8UYvSllICUJLa0fgtyuiMmoRxVzyNL1LuDWc+NjtZNMpyk9ze4Nku6Lj0pXeZOXKDdBtoyq8BMe0k5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR02MB8655
-X-Proofpoint-ORIG-GUID: tEo5AlRZZUut3ZsESgahHE6-Y1MXr8LN
-X-Proofpoint-GUID: tEo5AlRZZUut3ZsESgahHE6-Y1MXr8LN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_14,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- adultscore=0 mlxlogscore=848 suspectscore=0 spamscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303060203
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Content-Language: en-US
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
+ <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
+ <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
+ <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
+ <20220119041842-mutt-send-email-mst@kernel.org>
+ <20220222094021-mutt-send-email-mst@kernel.org>
+ <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
+ <20230220172659-mutt-send-email-mst@kernel.org>
+ <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
+ <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
+ <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
+ <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
+ <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+In-Reply-To: <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -158,50 +117,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/6/23 23:56, Paolo Bonzini wrote:
+> On 2/21/23 13:55, BALATON Zoltan wrote:
+>>
+>> To get that menu with Shut Down, first Quit the installer then again 
+>> right click or click on background first to get the menu of the 
+>> Ambient desktop. I also see an error from the firmware at the beginning:
+>> Initializing KBD...00000012    FAILED.
+>> when it's broken and it says Done without the hex number when it 
+>> works. (Two other FAILED messages about clock chip is normal as we 
+>> don't emulate that but all others should be green.)
+> 
+> Ok, I've reproduced it.  The mouse is a bit flaky but using the keyboard 
+> for everything except right clicking works better.
 
+Now the OS doesn't boot anymore, it doesn't get to the point where it 
+initializes the VGA.  I got some quick logs with .impl.min_access_size 
+to 1, to understand what the firmware (but not the OS) does.  With this 
+at least I could confirm that your patch is wrong:
 
-> -----Original Message-----
-> From: Richard Henderson <richard.henderson@linaro.org>
-> Sent: Monday, March 6, 2023 3:57 PM
-> To: qemu-devel@nongnu.org
-> Cc: Taylor Simpson <tsimpson@quicinc.com>
-> Subject: [PATCH] target/hexagon/idef-parser: Elide mov in gen_pred_assign
->=20
-> Merge mov with andi.
->=20
-> Suggested-by: Taylor Simpson <tsimpson@quicinc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/hexagon/idef-parser/parser-helpers.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/target/hexagon/idef-parser/parser-helpers.c
-> b/target/hexagon/idef-parser/parser-helpers.c
-> index e1a55412c8..7b494c2f9e 100644
-> --- a/target/hexagon/idef-parser/parser-helpers.c
-> +++ b/target/hexagon/idef-parser/parser-helpers.c
-> @@ -1722,9 +1722,7 @@ void gen_pred_assign(Context *c, YYLTYPE *locp,
-> HexValue *left_pred,
->          *left_pred =3D gen_tmp(c, locp, 32, UNSIGNED);
->      }
->      /* Extract first 8 bits, and store new predicate value */
-> -    OUT(c, locp, "tcg_gen_mov_i32(", left_pred, ", ", &r, ");\n");
-> -    OUT(c, locp, "tcg_gen_andi_i32(", left_pred, ", ", left_pred,
-> -        ", 0xff);\n");
-> +    OUT(c, locp, "tcg_gen_andi_i32(", left_pred, ", ", &r, ", 0xff);\n")=
-;
->      if (is_direct) {
->          OUT(c, locp, "gen_log_pred_write(ctx, ", pred_id, ", ", left_pre=
-d,
->              ");\n");
-> --
-> 2.34.1
+cnt 1 1 write 80
+evt 3 1 write 1         // enable timer
+evt 0 2 read
+evt 0 2 write 1         // just writes again the same value
+evt 1 1 write
+evt 1 1 write 0
 
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Since you have both 1-size and 2-size writes, and the 2-byte 
+reads/writes are done with byte swapping instructions lhbrx and sthbrx, 
+your patch would cause 0x100 to be read and written on the third and 
+fourth lines.
 
-Queued for Hexagon pull request
+Likewise, any 4-byte read of the timer port would be byte swapped.
 
-Thanks,
-Taylor
+The solution is a patch similar to mine, applied to both evt and cnt; 
+while perhaps tmr can be left as is and only accept 4-byte reads, I 
+don't know.  I'll try to come up with something that can be tested at 
+least with the firmware.
+
+Paolo
 
 
