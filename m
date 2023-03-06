@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C5E6ABFB1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307886ABFBC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:40:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZA5i-0001K2-VX; Mon, 06 Mar 2023 07:37:23 -0500
+	id 1pZA89-0006bl-2O; Mon, 06 Mar 2023 07:39:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZA5K-0000jQ-59
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:36:58 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pZA87-0006bd-NR
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:39:51 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZA5H-0004dZ-V8
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:36:57 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- ce8-20020a17090aff0800b0023a61cff2c6so7481766pjb.0
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:36:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678106214;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8bOq3s8mJlTPBrkDKEosfGpF47Iu0auGKo/FZjfAVos=;
- b=TzVJhsQxLd/0qFkj/sjOxg2DbuSx5gVvf+iQCIOqaIvwbyj2IBKGKhGftfIF6gddUi
- FzhN2BFDfmGLiWMwtDbwFpTsdqFshRsEuN5tUs4tUWDkGElERgUj61OApBd3dRNgaJVu
- M0dAxIgOgMkZ4zyzItMoNpXOjn1eInDWrAeO7Bo8SQYRHw0pC49rJl5gTkLiVtSyA1y3
- UR+OlpI+jgueypHtQQb8s2CzSTbsZc4/keQKUDaQe9VG1Jc5eA/blo5SIsIFmGbXV17a
- Vq72MMxY+AKD+87YxtV6vvx1EuNYqSmN4dHhCzsTrx3nmdwX69uUOvHmFlWTB61avjGX
- 3+pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678106214;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8bOq3s8mJlTPBrkDKEosfGpF47Iu0auGKo/FZjfAVos=;
- b=2Qf7VSQ1QVJA/KAiDXlPfnSWP9/ZonVoZcuTJMWsvtR6Ib2coR+RPYHzRyFSG1/b3L
- F3JoWFZj8ZcZ4CX0r2CqQImGsUSYHrrFDah9v4Om7DP2+VnBvC2DJA7hv55jUdfZyLhq
- zmQKJakJfvgx+yrW9Bew0A/cq24Kihr/ZGodtOPyZvyPBrrnxr54uerI1jxODxdQlIyj
- pIScIur6flDycIV03lHrm3IJO6IeInuAOaIxaUVYZyns7A/ura0z117R4OgLl0QBmWqM
- YmHQgYcWNXcdDWghZ4Ff6TRC47WrGnc4e9mc/PgGrmXYkL19QlFmhfaxZS7RMz6K6IjT
- PImg==
-X-Gm-Message-State: AO0yUKWMpfrX47ASQLA1kevuS5v73/GmF4F3T1JtYAdYyhxVVWFIhwrj
- amz0MtXi0z4McGedOM78cAUoiS1k9G9ZtVNJBjYYJg==
-X-Google-Smtp-Source: AK7set9H7AMPO2OXHeXNUeh9elnRDKUjWD+sWHRlRJX880nZmsTaQbmk8u5zbh+PiOa7CE0yW99P1Co64LLIrkbL58g=
-X-Received: by 2002:a17:903:258f:b0:19a:98ea:5ef1 with SMTP id
- jb15-20020a170903258f00b0019a98ea5ef1mr4197511plb.13.1678106214377; Mon, 06
- Mar 2023 04:36:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pZA85-00051B-Rb
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:39:51 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 02174223DB;
+ Mon,  6 Mar 2023 12:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1678106386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hcnHdHMW7gGUqvBJQB1yYJVViNvQSxDBgt8bxteD4sI=;
+ b=Gdh6fOB1vgbGqN0N78OtBuQk/7dMnqMyrXL9Ue6jchPiMEaHv50WNaLMn61hPqgFa1SjI9
+ /36+sWb/VkDxxL66SwddG78MNjLPLq9q+ket7EXF8cXBpvSzycvrVGg+HvE73Uegyugo5V
+ 0/lN57nB+ZWrY0E5cBtSVKOvrOt3ZZg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1678106386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hcnHdHMW7gGUqvBJQB1yYJVViNvQSxDBgt8bxteD4sI=;
+ b=mbphcret8cNlwJ7jO7fsW206/+yJTg7w6++8KhRGuc0/VFcJJB1biNhuVhZcFblYIXUbHA
+ 0oUM9gA1QIVBtIDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8294F13A66;
+ Mon,  6 Mar 2023 12:39:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /CvOEhHfBWRARAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Mar 2023 12:39:45 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
+ qemu-devel@nongnu.org, philmd@linaro.org, tsimpson@quicinc.com
+Subject: Re: hexagon: check-tcg rebuilding up to date image
+In-Reply-To: <87jzzw3c6r.fsf@linaro.org>
+References: <3ccca5373de05be28b861c0e9e780c709703f0f7.1677862556.git.quic_mathbern@quicinc.com>
+ <87mt4twl2l.fsf@suse.de> <87jzzw3c6r.fsf@linaro.org>
+Date: Mon, 06 Mar 2023 09:39:43 -0300
+Message-ID: <87ilfevysw.fsf@suse.de>
 MIME-Version: 1.0
-References: <20230228003713.861168-1-richard.henderson@linaro.org>
- <20230228003713.861168-3-richard.henderson@linaro.org>
-In-Reply-To: <20230228003713.861168-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Mar 2023 12:36:43 +0000
-Message-ID: <CAFEAcA__Pz+jPZYzVQttxD9bcZD6yiVJM9zyw0oZbW7jSyGC0g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] target/arm: Dump ZA[] when active
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,16 +86,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 28 Feb 2023 at 00:37, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Always print each matrix row whole, one per line, so that we
-> get the entire matrix in the proper shape.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Fabiano Rosas <farosas@suse.de> writes:
+>
+>> Matheus Tavares Bernardino <quic_mathbern@quicinc.com> writes:
+>>
+>>> Hi,
+>>>
+>>> We noticed that local `make check-tcg` is rebuilding the docker image
+>>> for qemu-hexagon at every run, whereas previously it would say "Image is
+>>> up to date" and move on.
+>>>
+>>> This was changed at 0b1a649047 (tests/docker: use direct RUNC call to
+>>> build containers, 2023-02-28), where we started to no longer use
+>>> docker.py and its image_matches_dockerfile() to skip image builds.
+>>>
+>>> Is this new behavior by design? Or perhaps do we have some local
+>>> docker misconfiguration that is not correctly using caches?
+>>
+>> Hi,
+>>
+>> We started relying on docker for the cache. Are you using docker or
+>> podman? There should be a RUNC variable in config-host.mak that you can
+>> check.
+>>
+>> And for the record, which version of either podman or docker?
+>>
+>>
+>> Alex,=20
+>>
+>> I think we might need to add DOCKER_BUILDKIT=3D1 $(RUNC) ... to properly
+>> make use of caching with docker. As for podman, I'm seeing conflicting
+>> information on the web as to whether it even supports caching.
+>
+> As opposed to --build-arg BUILDKIT_INLINE_CACHE=3D1 or both?
 
-thanks
--- PMM
+Both. As I understand it, DOCKER_BUILDKIT=3D1 enables buildkit and
+BUILDKIT_INLINE_CACHE=3D1 embeds metadata in the image so that when you
+push/pull the metadata goes along (as opposed to having the cache as a
+separate artifact from the image).
 
