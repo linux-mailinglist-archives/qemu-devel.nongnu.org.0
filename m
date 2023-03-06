@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B53A6AD12A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB416AD111
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:05:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIwa-0006SC-Ss; Mon, 06 Mar 2023 17:04:32 -0500
+	id 1pZIwc-0006Tr-9E; Mon, 06 Mar 2023 17:04:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwY-0006PN-3a
+ id 1pZIwY-0006Pe-2S
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:30 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pZIwT-0006nv-Sr
+ id 1pZIwV-0006o4-FR
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:29 -0500
-Received: by mail-pl1-x629.google.com with SMTP id i10so12065717plr.9
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:25 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ cp7-20020a17090afb8700b0023756229427so14632429pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140264;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140266;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RWP/2kCpSB46CivaMD7MPcbRO0hHoZv0vKKzTF/veqA=;
- b=cBaKTPa5cpoLXucbCjWp1M8XnwS4DlbdHHXBNRVFxfjuju4ahJ7CpZwnjUKTcSxb4w
- cALmwzLPmbSd7lGrupOnIt3vkFHHhaxopNCFnLDNtziQsmw/6ossaUtxh4Kq64RGEyGe
- 751NId8uDtSNy1/X6/dmEDXbMWtSrutWaTJUQL05J3evWNS9967ktX/5D4G+AAFnQe8P
- 46kJ4RCIe/iq3Av38gdm8g7Bz+vrj4qORJqduLBfIoGIrYIZdpjgh+G64pjNgOD5sU3s
- QgCCRNmxWt3DAieDFbMWs75Mga3kDKN7f2RLD7l3CSbWc4tbPzDWU0wVPT+ywVgV3Iwa
- bNwg==
+ bh=US+5OoBQkoCZJIuGPRy29aaMfRBm+JA5f0rSBQf0uH4=;
+ b=BjOJzGXu/rIgaEHRCk+bCaGJCT+XTrPfMsbe3ibARoqtv8jmkBdSjY1QM/zwGHkiCd
+ 0Scx4hSKRDCx1MDmKniziq0/MZI7/YZMNFhmNaMijHVuBLtrvdNYqw1bcoXWsGvWIZI1
+ w4QXCTQn2uSXe+E6B/Tufd7BUJv7y6X3RB3pUDHAVLSwhpjZoX+cUuknZDJrQaqm33n8
+ uLzpTuQ/HY1WbIi1yFBKtrK8rMWru46YIFLPqz+zGlfRW/sgA0uwQGju124D/T/niTgK
+ WRwIxNI8gCn7DiTixJCltYocX33mUMnawDhPdGmRkw8+GMZvoqm7cGW7l6snpH7veUyd
+ ENEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678140264;
+ d=1e100.net; s=20210112; t=1678140266;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RWP/2kCpSB46CivaMD7MPcbRO0hHoZv0vKKzTF/veqA=;
- b=Uar+uzvhBJqco7NamxeXwBW8ewkAt9FE6/84u44kJtLY2YLeySKikt0FKcQx+jYgfV
- 3sHRwkNdpyookyt2ZkzSOlQf8xz0gVllz0kQansqGU5XKsn4Y/FN2f59Pf0WmdyVtaJM
- LzMFARIdJLWC4djO/kjPdcAOFPgB75EXUjYzVoGBylrK9xFvpYLJx2ys91NPBbP18e7J
- m5cJ0yk5VZFUQvii1sGqyRkMb6nXIwDQ1XM3FWkvoyMeOihj8kSzbygLrgkAKzdktdrZ
- m+XzgBUzca1Oyv14EEy9pHXsbqQXltE3sA/1LorDl7Aq1D0N1qP5e1d7SEbEEqQvKBcf
- heww==
-X-Gm-Message-State: AO0yUKXWVvIvObTSXLCoPBWXq0PKrBuyoUmmZ8nB3kIt0VFQvRMt7OFB
- AXrmkTqFLFEhTjdK+SF0OQjfpw==
-X-Google-Smtp-Source: AK7set/RejL/3XNrN+TVb3rzYDGTsRKz5Vp171NvN8ammBxfj750mvvOApNVrWGMsfXptu21y4MUyA==
-X-Received: by 2002:a05:6a20:8e28:b0:cd:7fcf:11a6 with SMTP id
- y40-20020a056a208e2800b000cd7fcf11a6mr12018828pzj.48.1678140264346; 
- Mon, 06 Mar 2023 14:04:24 -0800 (PST)
+ bh=US+5OoBQkoCZJIuGPRy29aaMfRBm+JA5f0rSBQf0uH4=;
+ b=RGzRY539jclJ8wV33FP6wmGt1cS8Idyd4Qgd8IEo7FjvEsgtXLUPij3ZEMda7Gl4hX
+ +0S8Jwv2/KwchPxJwe5+Mta49l2gbMgJJvqg6Ir/MfC8SjNsCCXLyb7Pc5MTXxJmPuhn
+ fmq5CpKfyDd7fk+DUOa/c8Z9mwhJH8CLG6+akHREU92Tb8CI7j5Rx8l7XmbYjxLhth4I
+ Qykyl7j5XCKgBaLwakolv4xJpWvYJo/0U02zB0OA7b6ClUrGUij5J/wqsvnoFL70YWhs
+ hW4qFj9aW2Y5g+qO9keHY5u1JF+iphE+S878Sma3/UF7OqK06Lxsnuomu+Ztzy5p0O/4
+ /OcA==
+X-Gm-Message-State: AO0yUKX/IDyEL9A0fqaKFutXexKZmlcU6sT02jshZkYMzRjFhO3MUuh0
+ 7qLoGux9UbvOGgojx/8DWm4gjQ==
+X-Google-Smtp-Source: AK7set9uR6zM2X4wDaDrTH3akPANfHnQpsbY28jWjnrA0tswnA/tyEdE5e5po4ZJ9tNr/Ocubs92KQ==
+X-Received: by 2002:a17:903:1c9:b0:19e:6fd5:f4fa with SMTP id
+ e9-20020a17090301c900b0019e6fd5f4famr12423835plh.69.1678140265493; 
+ Mon, 06 Mar 2023 14:04:25 -0800 (PST)
 Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- g9-20020aa78189000000b0061a942c8b62sm3565506pfi.43.2023.03.06.14.04.23
+ km11-20020a17090327cb00b0019a75ea08e5sm7202627plb.33.2023.03.06.14.04.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 14:04:24 -0800 (PST)
-Subject: [PULL 01/22] target/riscv: implement Zicboz extension
-Date: Mon,  6 Mar 2023 14:02:38 -0800
-Message-Id: <20230306220259.7748-2-palmer@rivosinc.com>
+ Mon, 06 Mar 2023 14:04:25 -0800 (PST)
+Subject: [PULL 02/22] target/riscv: implement Zicbom extension
+Date: Mon,  6 Mar 2023 14:02:39 -0800
+Message-Id: <20230306220259.7748-3-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
 References: <20230306220259.7748-1-palmer@rivosinc.com>
@@ -65,13 +66,13 @@ Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Christoph Muellner <cmuellner@linux.com>,
  Richard Henderson <richard.henderson@linaro.org>, 
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
- Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@rivosinc.com>
+ Weiwei Li <liweiwei@iscas.ac.cn>, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,252 +96,237 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Christoph Muellner <cmuellner@linux.com>
 
-The RISC-V base cache management operation (CBO) ISA extension has been
-ratified. It defines three extensions: Cache-Block Management, Cache-Block
-Prefetch and Cache-Block Zero. More information about the spec can be
-found at [1].
+Zicbom is the Cache-Block Management extension defined in the already
+ratified RISC-V Base Cache Management Operation (CBO) ISA extension [1].
 
-Let's start by implementing the Cache-Block Zero extension, Zicboz. It
-uses the cbo.zero instruction that, as with all CBO instructions that
-will be added later, needs to be implemented in an overlap group with
-the LQ instruction due to overlapping patterns.
+The extension contains three instructions: cbo.clean, cbo.flush and
+cbo.inval. All of them must be implemented in the same group as LQ and
+cbo.zero due to overlapping patterns.
 
-cbo.zero throws a Illegal Instruction/Virtual Instruction exception
-depending on CSR state. This is also the case for the remaining cbo
-instructions we're going to add next, so create a check_zicbo_envcfg()
-that will be used by all Zicbo[mz] instructions.
+All these instructions can throw a Illegal Instruction/Virtual
+Instruction exception, similar to the existing cbo.zero. The same
+check_zicbo_envcfg() is used to handle these exceptions.
+
+Aside from that, these instructions also need to handle page faults and
+guest page faults. This is done in a new check_zicbom_access() helper.
+
+As with Zicboz, the cache block size for Zicbom is also configurable.
+Note that the spec determines that Zicbo[mp] and Zicboz can have
+different cache sizes (Section 2.7 of [1]), so we also include a
+'cbom_blocksize' to go along with the existing 'cboz_blocksize'. They
+are set to the same size, so unless users want to play around with the
+settings both sizes will be the same.
 
 [1] https://github.com/riscv/riscv-CMOs/blob/master/specifications/cmobase-v1.0.1.pdf
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Signed-off-by: Christoph Muellner <cmuellner@linux.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <20230224132536.552293-3-dbarboza@ventanamicro.com>
+Message-ID: <20230224132536.552293-4-dbarboza@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c                          |  4 ++
+ target/riscv/cpu.c                          |  3 +
  target/riscv/cpu.h                          |  2 +
- target/riscv/helper.h                       |  3 +
- target/riscv/insn32.decode                  | 10 ++-
- target/riscv/insn_trans/trans_rvzicbo.c.inc | 30 +++++++++
- target/riscv/op_helper.c                    | 68 +++++++++++++++++++++
- target/riscv/translate.c                    |  1 +
- 7 files changed, 117 insertions(+), 1 deletion(-)
- create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
+ target/riscv/helper.h                       |  2 +
+ target/riscv/insn32.decode                  |  5 ++
+ target/riscv/insn_trans/trans_rvzicbo.c.inc | 27 +++++++++
+ target/riscv/op_helper.c                    | 67 +++++++++++++++++++++
+ 6 files changed, 106 insertions(+)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 5bc0005cc7..ab6c127859 100644
+index ab6c127859..3e8f21a47d 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
 @@ -75,6 +75,7 @@ struct isa_ext_data {
  static const struct isa_ext_data isa_edata_arr[] = {
      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
      ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
-+    ISA_EXT_DATA_ENTRY(zicboz, true, PRIV_VERSION_1_12_0, ext_icboz),
++    ISA_EXT_DATA_ENTRY(zicbom, true, PRIV_VERSION_1_12_0, ext_icbom),
+     ISA_EXT_DATA_ENTRY(zicboz, true, PRIV_VERSION_1_12_0, ext_icboz),
      ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-@@ -1167,6 +1168,9 @@ static Property riscv_cpu_extensions[] = {
+@@ -1168,6 +1169,8 @@ static Property riscv_cpu_extensions[] = {
      DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
      DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
  
-+    DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
-+    DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize, 64),
-+
-     DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
++    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
++    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize, 64),
+     DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
+     DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize, 64),
  
-     /* Vendor-specific custom extensions */
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 665b4c60b0..73c9832fb7 100644
+index 73c9832fb7..b5b5425b99 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
 @@ -434,6 +434,7 @@ struct RISCVCPUConfig {
      bool ext_zkt;
      bool ext_ifencei;
      bool ext_icsr;
-+    bool ext_icboz;
++    bool ext_icbom;
+     bool ext_icboz;
      bool ext_zicond;
      bool ext_zihintpause;
-     bool ext_smstateen;
-@@ -486,6 +487,7 @@ struct RISCVCPUConfig {
+@@ -487,6 +488,7 @@ struct RISCVCPUConfig {
      char *vext_spec;
      uint16_t vlen;
      uint16_t elen;
-+    uint16_t cboz_blocksize;
++    uint16_t cbom_blocksize;
+     uint16_t cboz_blocksize;
      bool mmu;
      bool pmp;
-     bool epmp;
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 0497370afd..ce165821b8 100644
+index ce165821b8..37b54e0991 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -97,6 +97,9 @@ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
+@@ -98,6 +98,8 @@ DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
  DEF_HELPER_FLAGS_2(fclass_h, TCG_CALL_NO_RWG_SE, tl, env, i64)
  
-+/* Cache-block operations */
-+DEF_HELPER_2(cbo_zero, void, env, tl)
-+
+ /* Cache-block operations */
++DEF_HELPER_2(cbo_clean_flush, void, env, tl)
++DEF_HELPER_2(cbo_inval, void, env, tl)
+ DEF_HELPER_2(cbo_zero, void, env, tl)
+ 
  /* Special functions */
- DEF_HELPER_2(csrr, tl, env, int)
- DEF_HELPER_3(csrw, void, env, int, tl)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index fb537e922e..a471adcea0 100644
+index a471adcea0..282e41aa3e 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -179,7 +179,15 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
- 
- # *** RV128I Base Instruction Set (in addition to RV64I) ***
+@@ -181,6 +181,11 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
  ldu      ............   ..... 111 ..... 0000011 @i
--lq       ............   ..... 010 ..... 0001111 @i
-+{
-+  [
-+    # *** RV32 Zicboz Standard Extension ***
-+    cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
-+  ]
+ {
+   [
++    # *** RV32 Zicbom Standard Extension ***
++    cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
++    cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
++    cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
 +
-+  # *** RVI128 lq ***
-+  lq       ............   ..... 010 ..... 0001111 @i
-+}
- sq       ............   ..... 100 ..... 0100011 @s
- addid    ............  .....  000 ..... 1011011 @i
- sllid    000000 ......  ..... 001 ..... 1011011 @sh6
+     # *** RV32 Zicboz Standard Extension ***
+     cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
+   ]
 diff --git a/target/riscv/insn_trans/trans_rvzicbo.c.inc b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-new file mode 100644
-index 0000000000..feabc28342
---- /dev/null
+index feabc28342..7df9c30b58 100644
+--- a/target/riscv/insn_trans/trans_rvzicbo.c.inc
 +++ b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-@@ -0,0 +1,30 @@
-+/*
-+ * RISC-V translation routines for the RISC-V CBO Extension.
-+ *
-+ * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define REQUIRE_ZICBOZ(ctx) do {    \
-+    if (!ctx->cfg_ptr->ext_icboz) { \
+@@ -16,12 +16,39 @@
+  * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#define REQUIRE_ZICBOM(ctx) do {    \
++    if (!ctx->cfg_ptr->ext_icbom) { \
 +        return false;               \
 +    }                               \
 +} while (0)
 +
-+static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
+ #define REQUIRE_ZICBOZ(ctx) do {    \
+     if (!ctx->cfg_ptr->ext_icboz) { \
+         return false;               \
+     }                               \
+ } while (0)
+ 
++static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
 +{
-+    REQUIRE_ZICBOZ(ctx);
-+    gen_helper_cbo_zero(cpu_env, cpu_gpr[a->rs1]);
++    REQUIRE_ZICBOM(ctx);
++    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
 +    return true;
 +}
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 9c0b91c88f..d0217b6a98 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -3,6 +3,7 @@
-  *
-  * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
-  * Copyright (c) 2017-2018 SiFive, Inc.
-+ * Copyright (c) 2022      VRULL GmbH
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms and conditions of the GNU General Public License,
-@@ -123,6 +124,73 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
-     return int128_getlo(rv);
- }
- 
 +
-+/*
-+ * check_zicbo_envcfg
-+ *
-+ * Raise virtual exceptions and illegal instruction exceptions for
-+ * Zicbo[mz] instructions based on the settings of [mhs]envcfg as
-+ * specified in section 2.5.1 of the CMO specification.
-+ */
-+static void check_zicbo_envcfg(CPURISCVState *env, target_ulong envbits,
-+                                uintptr_t ra)
++static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
 +{
-+#ifndef CONFIG_USER_ONLY
-+    if ((env->priv < PRV_M) && !get_field(env->menvcfg, envbits)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
-+    }
-+
-+    if (riscv_cpu_virt_enabled(env) &&
-+        (((env->priv < PRV_H) && !get_field(env->henvcfg, envbits)) ||
-+         ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)))) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, ra);
-+    }
-+
-+    if ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
-+    }
-+#endif
++    REQUIRE_ZICBOM(ctx);
++    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
++    return true;
 +}
 +
-+void helper_cbo_zero(CPURISCVState *env, target_ulong address)
++static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
++{
++    REQUIRE_ZICBOM(ctx);
++    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
++    return true;
++}
++
+ static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
+ {
+     REQUIRE_ZICBOZ(ctx);
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d0217b6a98..84ee018f7d 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -191,6 +191,73 @@ void helper_cbo_zero(CPURISCVState *env, target_ulong address)
+     }
+ }
+ 
++/*
++ * check_zicbom_access
++ *
++ * Check access permissions (LOAD, STORE or FETCH as specified in
++ * section 2.5.2 of the CMO specification) for Zicbom, raising
++ * either store page-fault (non-virtualized) or store guest-page
++ * fault (virtualized).
++ */
++static void check_zicbom_access(CPURISCVState *env,
++                                target_ulong address,
++                                uintptr_t ra)
 +{
 +    RISCVCPU *cpu = env_archcpu(env);
-+    uint16_t cbozlen = cpu->cfg.cboz_blocksize;
 +    int mmu_idx = cpu_mmu_index(env, false);
-+    uintptr_t ra = GETPC();
-+    void *mem;
-+
-+    check_zicbo_envcfg(env, MENVCFG_CBZE, ra);
++    uint16_t cbomlen = cpu->cfg.cbom_blocksize;
++    void *phost;
++    int ret;
 +
 +    /* Mask off low-bits to align-down to the cache-block. */
-+    address &= ~(cbozlen - 1);
++    address &= ~(cbomlen - 1);
 +
 +    /*
-+     * cbo.zero requires MMU_DATA_STORE access. Do a probe_write()
-+     * to raise any exceptions, including PMP.
++     * Section 2.5.2 of cmobase v1.0.1:
++     *
++     * "A cache-block management instruction is permitted to
++     * access the specified cache block whenever a load instruction
++     * or store instruction is permitted to access the corresponding
++     * physical addresses. If neither a load instruction nor store
++     * instruction is permitted to access the physical addresses,
++     * but an instruction fetch is permitted to access the physical
++     * addresses, whether a cache-block management instruction is
++     * permitted to access the cache block is UNSPECIFIED."
 +     */
-+    mem = probe_write(env, address, cbozlen, mmu_idx, ra);
-+
-+    if (likely(mem)) {
-+        memset(mem, 0, cbozlen);
-+    } else {
-+        /*
-+         * This means that we're dealing with an I/O page. Section 4.2
-+         * of cmobase v1.0.1 says:
-+         *
-+         * "Cache-block zero instructions store zeros independently
-+         * of whether data from the underlying memory locations are
-+         * cacheable."
-+         *
-+         * Write zeros in address + cbozlen regardless of not being
-+         * a RAM page.
-+         */
-+        for (int i = 0; i < cbozlen; i++) {
-+            cpu_stb_mmuidx_ra(env, address + i, 0, mmu_idx, ra);
-+        }
++    ret = probe_access_flags(env, address, cbomlen, MMU_DATA_LOAD,
++                             mmu_idx, true, &phost, ra);
++    if (ret != TLB_INVALID_MASK) {
++        /* Success: readable */
++        return;
 +    }
++
++    /*
++     * Since not readable, must be writable. On failure, store
++     * fault/store guest amo fault will be raised by
++     * riscv_cpu_tlb_fill(). PMP exceptions will be caught
++     * there as well.
++     */
++    probe_write(env, address, cbomlen, mmu_idx, ra);
++}
++
++void helper_cbo_clean_flush(CPURISCVState *env, target_ulong address)
++{
++    uintptr_t ra = GETPC();
++    check_zicbo_envcfg(env, MENVCFG_CBCFE, ra);
++    check_zicbom_access(env, address, ra);
++
++    /* We don't emulate the cache-hierarchy, so we're done. */
++}
++
++void helper_cbo_inval(CPURISCVState *env, target_ulong address)
++{
++    uintptr_t ra = GETPC();
++    check_zicbo_envcfg(env, MENVCFG_CBIE, ra);
++    check_zicbom_access(env, address, ra);
++
++    /* We don't emulate the cache-hierarchy, so we're done. */
 +}
 +
  #ifndef CONFIG_USER_ONLY
  
  target_ulong helper_sret(CPURISCVState *env)
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index a8d516ca3e..fa8bd79cef 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1105,6 +1105,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
- #include "insn_trans/trans_rvb.c.inc"
- #include "insn_trans/trans_rvzicond.c.inc"
- #include "insn_trans/trans_rvzawrs.c.inc"
-+#include "insn_trans/trans_rvzicbo.c.inc"
- #include "insn_trans/trans_rvzfh.c.inc"
- #include "insn_trans/trans_rvk.c.inc"
- #include "insn_trans/trans_privileged.c.inc"
 -- 
 2.39.2
 
