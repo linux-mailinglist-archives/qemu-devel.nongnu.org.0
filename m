@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC876ABFD6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B276ABFDB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:50:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZAGf-0008DY-9k; Mon, 06 Mar 2023 07:48:41 -0500
+	id 1pZAHV-0000SS-2T; Mon, 06 Mar 2023 07:49:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pZAGN-0008DP-8V
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:48:23 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pZAGK-0006Eo-EV
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:48:23 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id p20so10099867plw.13
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:48:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1678106891;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OPu8ZZ0y72IxJZKOgq/89ugSi03TqACHmQO0qu+3NX8=;
- b=WWRr13v06teKcCL69V1R+hzfPARs2iT77sAsuc448QMSPypNHnsn2Zteq7V9RhL52W
- 55PNRJF1SK31OWg5gFi04MK8/d5wSEHzY5N0h4NAmAajvc81YLvXNcanS/M6EbjHNyBP
- glNQka3YLx7eiTjj74InP2kHcKiQDlMhW01n+dlfvC0MpQvH46UyhPF3MSZSn5/ftrfY
- nmckNLdly/jgf/DHUJAGWzCgIGNIu8216tb2VHmOLfsoNQZYsee2zC7ylB92YobuaW4S
- 8BeH+2bZrUzjUna0PddFCqs4GMbGjogmvLvLuwTPWodn0k+PoAAMMTFWaN1olFo3L/m4
- ze9g==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pZAHS-0000Ru-7V
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:49:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pZAHQ-0006TR-BF
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:49:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678106967;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w4Q1K98zRZThQ1a4Yk28HkVvwqCoS8yWmJVCxOH1ehQ=;
+ b=gkjmIt1aiBdf8WwdRDotsyXKkvSpLivArDrF5SNjnPG2X4j+rJj9YTrWalA589NcEVP4Zh
+ P7OzyTtfsFviMG96qWzbbBdvljtUsBt9J7FZ4miFyAy6FhRdh0VAGjDMkv3EwhOQry6Lze
+ apjy2QkfjZc8TvidLZfS8H700cinjUE=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-156-JTKlEwE8N3CbPkMxsEVufQ-1; Mon, 06 Mar 2023 07:49:26 -0500
+X-MC-Unique: JTKlEwE8N3CbPkMxsEVufQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ ef20-20020a0562140a7400b004c72d0e92bcso5383619qvb.12
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:49:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678106891;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=OPu8ZZ0y72IxJZKOgq/89ugSi03TqACHmQO0qu+3NX8=;
- b=wySf3llC8k+bDPP42BDhTFBy1rCYK/Sdte4UpQ34Vt1iqG30WQPsPr5Dv5sP+uk424
- Lts0riikV3n3J8qgF6EEE8FrLPR3YVivdlyazk6VFbv9abthBSBFTOPWEFGqBYwnRBvM
- bg9IZdY88gbIXqqo5xtrbJ5+uC9lO+34wFrdn5QbiSddlZ7hLVZiEfFQ4OCdEeVPuzQB
- LVlyvFVTTCWMwucTYNa092DgRHJJY1zmwhiRdwbPhZInp8pl8KNmZo7lLPX/GtauKAZ2
- 6DCx6sVtM7qQETDp+0n1eWbbcip6HD/G7KYRpjMXrJbvyBD/BV9ximNkm//vi6Y1FaDi
- 6Vog==
-X-Gm-Message-State: AO0yUKXXavCnZodAwRTturYyigkbEX9aK9z1WDtIgVe8oBhbsGQmI8+C
- JIWh1XmyO+V717AZD7d37xSZww==
-X-Google-Smtp-Source: AK7set+L8sT3+9HkNu88wTjOmEPsrrsmb679ugVAKwTC/iCA5xLxCRO5WM8KJohqE7Bq4+aUODAO4Q==
-X-Received: by 2002:a17:90b:1d0f:b0:234:2485:6743 with SMTP id
- on15-20020a17090b1d0f00b0023424856743mr10840270pjb.3.1678106891426; 
- Mon, 06 Mar 2023 04:48:11 -0800 (PST)
-Received: from [10.94.53.13] ([139.177.225.249])
+ d=1e100.net; s=20210112; t=1678106966;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=w4Q1K98zRZThQ1a4Yk28HkVvwqCoS8yWmJVCxOH1ehQ=;
+ b=ZZ78QQSC0os1bRDrGBwQQgBJ8UbEyqxxtrl2LT0ywWX7I/7/9kW/QhiVDVhr98uWCd
+ Fude5rO8R+N9zrKwvwVG4srwraGK6r0yPLfPdad0xbiD+xhtbMsXVOV0k86jW+Nyw5wQ
+ n+xI1FDucAUSBfDAZ3099YyazGzGbH/JRwi9tmSaBqZ+cM+iDQXqp1OKxfXrq/m7kcOu
+ p+zJPbp1njh8c3AJ7YmF4P3SgVeMAQQs0O2RsoDbKMxs2NsICEARBWBH5fneE7iujBAA
+ I/Cg8CiGJquJkwQRsVKrB5LA2ASCHbVyAFGXLe+vqBX7lNsxm6cd2S5328FljmO+9j3s
+ vX6g==
+X-Gm-Message-State: AO0yUKXO3Q1OWICalV9iB0iON5bmF6gpXcL4/BttQA1qH4vm87UnTTmd
+ GQE+0i9sfRTRBsxvaXaf2bK5DOiVF4TfU/5wLweUGitWKQ6UhINd7FVwqsQEo6ZGHNtO7ldYPmq
+ +v4hVQkKLEgMhXgQ=
+X-Received: by 2002:a05:622a:174d:b0:3bf:b8b9:1b45 with SMTP id
+ l13-20020a05622a174d00b003bfb8b91b45mr18041280qtk.41.1678106965834; 
+ Mon, 06 Mar 2023 04:49:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set8a+VJA/x2mCoMoA56e2WuE5n7dZxN5tZmo3jYJYPX+s3PKfj8enuW7RzIvpkLmq2jHGziU7w==
+X-Received: by 2002:a05:622a:174d:b0:3bf:b8b9:1b45 with SMTP id
+ l13-20020a05622a174d00b003bfb8b91b45mr18041251qtk.41.1678106965530; 
+ Mon, 06 Mar 2023 04:49:25 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
  by smtp.gmail.com with ESMTPSA id
- y20-20020a17090abd1400b00234e6d2de3dsm5898903pjr.11.2023.03.06.04.48.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 04:48:11 -0800 (PST)
-Message-ID: <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
-Date: Mon, 6 Mar 2023 20:48:05 +0800
+ w17-20020ac84d11000000b003b86b99690fsm7400511qtv.62.2023.03.06.04.49.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 04:49:25 -0800 (PST)
+Date: Mon, 6 Mar 2023 13:49:21 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Wang, Lei" <lei4.wang@intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com
+Subject: Re: [PATCH v3 0/6] Support for new CPU model SapphireRapids
+Message-ID: <20230306134921.1a47eb36@imammedo.users.ipa.redhat.com>
+In-Reply-To: <22fde3ed-a4e7-db65-2e8a-ce6346fe6ac0@intel.com>
+References: <20230106083826.5384-1-lei4.wang@intel.com>
+ <20230202120533.37972585@imammedo.users.ipa.redhat.com>
+ <22fde3ed-a4e7-db65-2e8a-ce6346fe6ac0@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
- non-iterable vmstate
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- zhouyibo@bytedance.com
-References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
- <ZAUSPo9bJO0udf9p@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <ZAUSPo9bJO0udf9p@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_LOCAL_NOVOWEL=0.5,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,114 +102,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Peter,
+On Tue, 7 Feb 2023 10:50:56 +0800
+"Wang, Lei" <lei4.wang@intel.com> wrote:
 
-On 2023/3/6 上午6:05, Peter Xu wrote:
-> Hi, Chuang,
->
-> On Fri, Mar 03, 2023 at 06:56:50PM +0800, Chuang Xu wrote:
->> Sorry to forget to update the test results in the last patch of v6.
->>
->> In this version:
->>
->> - add peter's patch.
->> - split mr_do_commit() from mr_commit().
->> - adjust the sanity check in address_space_to_flatview().
->> - rebase to latest upstream.
->> - replace 8260 with 8362 as testing host.
->> - update the latest test results.
->>
->> Here I list some cases which will trigger do_commit() in address_space_to_flatview():
+> On 2/2/2023 7:05 PM, Igor Mammedov wrote:
+> > On Fri,  6 Jan 2023 00:38:20 -0800
+> > Lei Wang <lei4.wang@intel.com> wrote:
+> >   
+> >> This series aims to add a new CPU model SapphireRapids, and tries to
+> >> address the problem stated in
+> >> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#mcf67dbd1ad37c65d7988c36a2b267be9afd2fb30,
+> >> so that named CPU model can define its own AMX values, and QEMU won't
+> >> pass the wrong AMX values to KVM in future platforms if they have
+> >> different values supported.
+> >>
+> >> The original patch is
+> >> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#u.  
+> > 
+> > MultiBitFeatureInfo looks like an interesting
+> > idea but among fixing whatever issues this has atm,
+> > you'd probably need to introduce a new  qdev_bitfield property
+> > infrastructure so that such features could be treated like any
+> > other qdev properties.
+> > Also when MultiBitFeatureInfo is added, one should convert all
+> > other usecases where it's applicable (not only for new code)
+> > so that we would end up with consolidated approach instead of
+> > zoo mess.
+> > 
+> > I'm not sure all MultiBitFeatureInfo complexity is necessary
+> > just for adding a new CPU model, I'd rather use ad hoc approach
+> > that we were using before for non boolean features.  
+> 
+> Hi, Igor. I do not quite understand what does the "ad hoc approach" mean,
 
-I ran qtest cases and used systemtap to trace those do_commit().
+by ah hoc I've mean instead of introducing MultiBitFeatureInfo
+try to opencode fixups and checks for AMX properties.
+(we do have a number of of such cpuid 'features')
+For example look at [x]level (it's just a case MultiBitFeatureInfo that takes 32 bits).
+Yes that would be ugly but much less complicated than new infrastructure.
 
->>
->> 1.virtio_load->virtio_init_region_cache
->> 2.virtio_load->virtio_set_features_nocheck
-> What is this one specifically?  I failed to see quickly why this needs to
-> reference the flatview.
+And when/if  MultiBitFeatureInfo is ready for usage, you can convert
+cpu models to it (AMX and all other 'legacy' features that were open coded).
 
-0x560f3bb26510 : memory_region_transaction_do_commit+0x0/0x1c0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bb26e45 : address_space_get_flatview+0x95/0x100 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bb296b6 : memory_listener_register+0xf6/0x300 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3baec59f : virtio_device_realize+0x12f/0x1a0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb3b1f : device_set_realized+0x2ff/0x660 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb6ec6 : property_set_bool+0x46/0x70 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb9173 : object_property_set+0x73/0x100 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbbc1ef : object_property_set_qobject+0x2f/0x50 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb93e4 : object_property_set_bool+0x34/0xa0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3b9830d9 : virtio_pci_realize+0x299/0x4e0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3b901204 : pci_qdev_realize+0x7e4/0x1090 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb3b1f : device_set_realized+0x2ff/0x660 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb6ec6 : property_set_bool+0x46/0x70 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb9173 : object_property_set+0x73/0x100 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbbc1ef : object_property_set_qobject+0x2f/0x50 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bbb93e4 : object_property_set_bool+0x34/0xa0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3b99e4a0 : qdev_device_add_from_qdict+0xb00/0xc40 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3bac0c75 : virtio_net_set_features+0x385/0x490 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3baec238 : virtio_set_features_nocheck+0x58/0x70 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x560f3baf1e9e : virtio_load+0x33e/0x820 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-
->
->> 3.vapic_post_load
-> Same confusion to this one..
-
-0x557a57b0e510 : memory_region_transaction_do_commit+0x0/0x1c0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x557a57b0e9b5 : memory_region_find_rcu+0x2e5/0x310 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x557a57b11165 : memory_region_find+0x55/0xf0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x557a57a07638 : vapic_prepare+0x58/0x250 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-0x557a57a07a7b : vapic_post_load+0x1b/0x80 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-
->
->> 4.tcg_commit
-> This is not enabled if kvm is on, right?
-
-Yes.
-
-I obtained these results from qtests. And some qtests enabled tcg.😁
-
->
->> 5.ahci_state_post_load
->>
->> During my test, virtio_init_region_cache() will frequently trigger
->> do_commit() in address_space_to_flatview(), which will reduce the
->> optimization  effect of v6 compared with v1.
-> IIU above 1 & 4 could leverage one address_space_to_flatview_rcu() which
-> can keep the old semantics of address_space_to_flatview() by just assert
-> rcu read lock and do qatomic_rcu_read() (e.g., tcg_commit() will run again
-> at last stage of vm load).  Not sure how much it'll help.
-
-This can really improve the performance of the existing patch, which is
-basically the same as that of v1, but it needs to add address_space_to_flatview_rcu()
-and address_space_get_flatview_rcu(). I have also considered this, but will
-others find it confusing? Because there will be to_flatview(), to_flatview_raw()
-and to_flatview_rcu()..
-
->
-> You may also want to have a look at the other patch to optimize ioeventfd
-> commit here; I think that'll also speed up vm load but not sure how much
-> your series can further do upon:
->
-> https://lore.kernel.org/all/20230228142514.2582-1-longpeng2@huawei.com/
->
-> Thanks,
-
-Here are the latest test results:
-
-test info:
-- Host
-   - Intel(R) Xeon(R) Platinum 8362 CPU
-   - Mellanox Technologies MT28841
-- VM
-   - 32 CPUs 128GB RAM VM
-   - 8 16-queue vhost-net device
-   - 16 4-queue vhost-user-blk device.
-
-			time of loading non-iterable vmstate
-before		 			112 ms
-long's patch applied			103 ms
-my patch applied	 	 	 44 ms
-both applied		 	 	 39 ms
-add as_to_flat_rcu			 19 ms
+> currently if we specify a multi-bit non-boolean CPUID value which is different
+> from the host value to CPU model, e.g., consider the following scenario:
+> 
+> - KVM **ONLY** supports value 5 (101) and,
+> - QEMU user want to pass value 3 (011) to it,
+> 
+> and follow the current logic:
+> 
+>     uint64_t unavailable_features = requested_features & ~host_feat;
+> 
+> then:
+> 
+> 1. The warning message will be messy and not intuitive:
+> 
+> requested_features bit 1 is 1 and host_feat bit 1 is 0, so it will warn on this
+> non-sense bit.
+> 
+> 
+> 2. Some CPUID bits will "leak" into the final CPUID passed to KVM:
+> 
+> requested_features bit 0 is 1 and host_feat bit 0 is also 1, so it will pass
+> this CPUID bit to host, the request_features value is 3 (011), finally we get 1
+> (001), this is not we want.
+> 
+> Am I understanding it correctly?
+> 
+> > 
+> > And then try to develop MultiBitFeatureInfo & co as a separate
+> > series to demonstrate how much it will improve current
+> > cpu models definitions.
+> > 
+> > PS:
+> >  'make check-acceptance' are broken with this
+> >   
+> >> ---
+> >>
+> >> Changelog:
+> >>
+> >> v3:
+> >>  - Rebase on the latest QEMU (d1852caab131ea898134fdcea8c14bc2ee75fbe9).
+> >>  - v2: https://lore.kernel.org/qemu-devel/20221102085256.81139-1-lei4.wang@intel.com/
+> >>
+> >> v2:
+> >>  - Fix when passing all zeros of AMX-related CPUID, QEMU will warn
+> >>    unsupported.
+> >>  - Remove unnecessary function definition and make code cleaner.
+> >>  - Fix some typos.
+> >>  - v1: https://lore.kernel.org/qemu-devel/20221027020036.373140-1-lei4.wang@intel.com/T/#t
+> >>
+> >>
+> >> Lei Wang (6):
+> >>   i386: Introduce FeatureWordInfo for AMX CPUID leaf 0x1D and 0x1E
+> >>   i386: Remove unused parameter "uint32_t bit" in
+> >>     feature_word_description()
+> >>   i386: Introduce new struct "MultiBitFeatureInfo" for multi-bit
+> >>     features
+> >>   i386: Mask and report unavailable multi-bit feature values
+> >>   i386: Initialize AMX CPUID leaves with corresponding env->features[]
+> >>     leaves
+> >>   i386: Add new CPU model SapphireRapids
+> >>
+> >>  target/i386/cpu-internal.h |  11 ++
+> >>  target/i386/cpu.c          | 311 +++++++++++++++++++++++++++++++++++--
+> >>  target/i386/cpu.h          |  16 ++
+> >>  3 files changed, 322 insertions(+), 16 deletions(-)
+> >>
+> >>
+> >> base-commit: d1852caab131ea898134fdcea8c14bc2ee75fbe9  
+> >   
+> 
 
 
