@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6166AD104
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69146AD125
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 23:08:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZIv1-0003rh-FX; Mon, 06 Mar 2023 17:02:55 -0500
+	id 1pZIwg-0006Zm-A8; Mon, 06 Mar 2023 17:04:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZIuy-0003mc-UV
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:02:52 -0500
-Received: from mout.kundenserver.de ([212.227.126.134])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZIux-0006j8-70
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:02:52 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mk0e8-1qJc6O2wO0-00kQfb; Mon, 06 Mar 2023 23:02:44 +0100
-Message-ID: <58f463ba-ff12-e0a4-5bf8-8c9e361ae647@vivier.eu>
-Date: Mon, 6 Mar 2023 23:02:43 +0100
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pZIwc-0006UW-Pj
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:34 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pZIwa-0006pt-Tc
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 17:04:34 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ ce8-20020a17090aff0800b0023a61cff2c6so219387pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 14:04:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678140271;
+ h=to:from:cc:content-transfer-encoding:mime-version:references
+ :in-reply-to:message-id:date:subject:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mbqFcrDJKQyMd5mS2b0pUWsHV6dPfEh5r93Laun+DQc=;
+ b=SCBt6FqDujAydx5nRG0uohOYNxI+QmURBeowSsrRd0awl2yXPEsyCGzqWaDpw/j7UO
+ CYAAOgd5V1Mv06MGxu4YcinYZ6Gt2yM6xNfXEXQWosJJZmqbQgSArnv0s+n0F4yJqjxm
+ 1MJOeLjt0K3yRkssxVMrrfqafaMfY+HIrjQWiKr4tRbqzgPFxW6+fa4DgdJv5SlEMsfg
+ mXpCG+GcuRu0LrO9rnS4j+oUWQJyXiqscJdltQ5CzVM4mpBWJ00PRU1+TmimjNhX4acr
+ GDqe5ggRYEcNRi0uqAyTyPLE6NFpf8UBt4olx6cO4Vsy8lR3xaIgZzGXkrU7DM4346cs
+ SEDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678140271;
+ h=to:from:cc:content-transfer-encoding:mime-version:references
+ :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mbqFcrDJKQyMd5mS2b0pUWsHV6dPfEh5r93Laun+DQc=;
+ b=j8Vwo5pnvyWZxTRczVWIqtOANMLH4ZRdxYm2bCYlZFyqRNHwjFrAWqRt5xp33rvDlt
+ TRw7O910O9bm6ztfUSrkzAuFhSpir3ZLXMQzWsd1mAQc1LpYdH6QJhQ3LOWrjrEuOtcL
+ o1ApVMEYhx9I4slvgb00vfkJWnNvQHGui+QVMZSQ0p0jwpQf+sSpMdR97IR2NNlam9wg
+ xxwetQ95yi0lo74m5qXuGP1Pib0IBfV5m0IU0YFdN/yOn7WAK1AXF6NNMXRzZprlwGet
+ qGBnyv1bHux+MTAhsgj5ATjnqW8wZv9zyvMd15wK1vjIPHyLRqO4vtgKlwSB+L69qBjy
+ eLCw==
+X-Gm-Message-State: AO0yUKWRW35b8M41FD3TpUKjkLaoU69Z3bcDl9ytkgvqy4ZbR0QbbNcz
+ ITclv6dCc7AOHJjDsEEb6/U11w==
+X-Google-Smtp-Source: AK7set+k0rcnVkX/AnahiQH5ck9EzFxz4qWwnAUxGlkugTuam6WXVIVOFHjkU0U0WGxOdJyL3J5syw==
+X-Received: by 2002:a17:90b:1c87:b0:234:d78:9b4c with SMTP id
+ oo7-20020a17090b1c8700b002340d789b4cmr12700523pjb.18.1678140271427; 
+ Mon, 06 Mar 2023 14:04:31 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ y31-20020a63181f000000b004f27761a9e7sm6438336pgl.12.2023.03.06.14.04.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 14:04:31 -0800 (PST)
+Subject: [PULL 07/22] hw: intc: Use cpu_by_arch_id to fetch CPU state
+Date: Mon,  6 Mar 2023 14:02:44 -0800
+Message-Id: <20230306220259.7748-8-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
+References: <20230306220259.7748-1-palmer@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 3/4] linux-user: add target to host netlink conversions
-Content-Language: fr
-To: Mathis Marion <Mathis.Marion@silabs.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
- <jerome.pouiller@silabs.com>
-References: <20230220085822.626798-1-Mathis.Marion@silabs.com>
- <20230220085822.626798-4-Mathis.Marion@silabs.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230220085822.626798-4-Mathis.Marion@silabs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:01anwgNK6y/RCkZzJldQ9igcwIkH0Xtj1rOEJBoFfcVW9Un6aS9
- 1hyt1NTYvHGeftFwhxiB61ozs72Eh51s7K5PIFMBxoYaRscm+T5SeQVG6pWy10tqljoOVTa
- ZTn4Spm/U+wHZbg3/MHB7Ab5SbNdUbyfGpa7yfmpjTNMeWjA45Iiu9ibcmCtZI8Q+Jm+YRs
- 4LcWYP4cAHH69eMOK1P/g==
-UI-OutboundReport: notjunk:1;M01:P0:+/Iwg/jd/aU=;4KwIKM7ufDPfn5qtljqI3dUMXfq
- ElBZYAIrA7MG7HEb626PRlfQhnMVI+TK8zCZyNUIGcxug0D+RQrYbSuYlzzHi5r303fehbCpH
- PANKBsJcB6NAzDj1wzdS66mEO9WHqnQb76NH3w1RBgRLwYhmJpKYobbCR6T1JQPJh8LsPNKzr
- Ifzx3luwZPLbgibVkWL4yVUbZBuh8AWGXesfVFEFnwarM5YhFOH1Hza4Zze2Fof2lOvavG2CM
- OTncwmMHZFzybEnHU/EdF07bebR/KR0fKgPwuJegJQEjS1r3M98jPhIH1p+uUdKlJCYKCuw8U
- Hmzvt9fvB3dbgEbCHSf+LAVGB2osORWoqIqb7R/sgM/dJWyLwI9lgscD4q/Mn/x8mG7ojjXL/
- 4rZW0igcmN1kM0GhCMKB5j1b/DZEi2zq5uBy38zWLwVA/5XI3clDCvOIaPB4UvSiBVlEYnKjs
- CE1Gv+5dghBVbJChg+yEMI87uEFXyBUMC58N+uTasmDywTSF+lHENzElE4LUNIajMLsgcHiUU
- HzfkjWPe6F+5QMSDoafDJsZ0+l3JYU3eiecYsA2YXy9+8SajECiIQVohrxjGeVEpz83LA3pKF
- nObhL+bjEDTV9f7SPWc7kSrnZG+z3PVRGU6YGFu8VbX4I1vQXyzh/bDF1hp6/cyV6KTXrTvc1
- jWDwwJggBjTzkYKnR3PMKA8hl+DKS+g/RBJWbj6kSQ==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
+ Mayuresh Chitale <mchitale@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,111 +93,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 20/02/2023 à 09:58, Mathis Marion a écrit :
-> From: Mathis Marion <mathis.marion@silabs.com>
-> 
-> Added conversions for:
-> - IFLA_MTU
-> - IFLA_TXQLEN
-> - IFLA_AF_SPEC AF_INET6 IFLA_INET6_ADDR_GEN_MODE
-> These relate to the libnl functions rtnl_link_set_mtu,
-> rtnl_link_set_txqlen, and rtnl_link_inet6_set_addr_gen_mode.
-> 
-> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
-> ---
->   linux-user/fd-trans.c | 62 +++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 62 insertions(+)
-> 
-> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-> index 146aaaafaa..4852a75d9d 100644
-> --- a/linux-user/fd-trans.c
-> +++ b/linux-user/fd-trans.c
-> @@ -1284,6 +1284,49 @@ static inline abi_long host_to_target_nlmsg_route(struct nlmsghdr *nlh,
->       return host_to_target_for_each_nlmsg(nlh, len, host_to_target_data_route);
->   }
->   
-> +static abi_long target_to_host_for_each_nlattr(struct nlattr *nlattr,
-> +                                               size_t len,
-> +                                               abi_long (*target_to_host_nlattr)
-> +                                                        (struct nlattr *))
-> +{
-> +    unsigned short aligned_nla_len;
-> +    abi_long ret;
-> +
-> +    while (len > sizeof(struct nlattr)) {
-> +        if (tswap16(nlattr->nla_len) < sizeof(struct rtattr) ||
-> +            tswap16(nlattr->nla_len) > len) {
-> +            break;
-> +        }
-> +        nlattr->nla_len = tswap16(nlattr->nla_len);
-> +        nlattr->nla_type = tswap16(nlattr->nla_type);
-> +        ret = target_to_host_nlattr(nlattr);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +
-> +        aligned_nla_len = NLA_ALIGN(nlattr->nla_len);
-> +        if (aligned_nla_len >= len) {
-> +            break;
-> +        }
-> +        len -= aligned_nla_len;
-> +        nlattr = (struct nlattr *)(((char *)nlattr) + aligned_nla_len);
-> +    }
-> +    return 0;
-> +}
-> +
-> +static abi_long target_to_host_data_inet6_nlattr(struct nlattr *nlattr)
-> +{
-> +    switch (nlattr->nla_type) {
-> +    /* uint8_t */
-> +    case QEMU_IFLA_INET6_ADDR_GEN_MODE:
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "Unknown target AF_INET6 type: %d\n",
-> +                      nlattr->nla_type);
-> +    }
-> +    return 0;
-> +}
-> +
->   static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
->                                                  size_t len,
->                                                  abi_long (*target_to_host_rtattr)
-> @@ -1314,16 +1357,35 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
->       return 0;
->   }
->   
-> +static abi_long target_to_host_data_spec_nlattr(struct nlattr *nlattr)
-> +{
-> +    switch (nlattr->nla_type) {
-> +    case AF_INET6:
-> +        return target_to_host_for_each_nlattr(NLA_DATA(nlattr), nlattr->nla_len,
-> +                                              target_to_host_data_inet6_nlattr);
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "Unknown target AF_SPEC type: %d\n",
-> +                      nlattr->nla_type);
-> +        break;
-> +    }
-> +    return 0;
-> +}
-> +
->   static abi_long target_to_host_data_link_rtattr(struct rtattr *rtattr)
->   {
->       uint32_t *u32;
->   
->       switch (rtattr->rta_type) {
->       /* uint32_t */
-> +    case QEMU_IFLA_MTU:
-> +    case QEMU_IFLA_TXQLEN:
->       case QEMU_IFLA_EXT_MASK:
->           u32 = RTA_DATA(rtattr);
->           *u32 = tswap32(*u32);
->           break;
-> +    case QEMU_IFLA_AF_SPEC:
-> +        return target_to_host_for_each_nlattr(RTA_DATA(rtattr), rtattr->rta_len,
-> +                                              target_to_host_data_spec_nlattr);
->       default:
->           qemu_log_mask(LOG_UNIMP, "Unknown target QEMU_IFLA type: %d\n",
->                         rtattr->rta_type);
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Qemu_get_cpu uses the logical CPU id assigned during init to fetch the
+CPU state. However APLIC, IMSIC and ACLINT contain registers and states
+which are specific to physical hart Ids. The hart Ids in any given system
+might be sparse and hence calls to qemu_get_cpu need to be replaced by
+cpu_by_arch_id which performs lookup based on the sparse physical hart IDs.
+
+Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Message-ID: <20230303065055.915652-3-mchitale@ventanamicro.com>
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+---
+ hw/intc/riscv_aclint.c | 16 ++++++++--------
+ hw/intc/riscv_aplic.c  |  4 ++--
+ hw/intc/riscv_imsic.c  |  6 +++---
+ 3 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
+index eee04643cb..b466a6abaf 100644
+--- a/hw/intc/riscv_aclint.c
++++ b/hw/intc/riscv_aclint.c
+@@ -130,7 +130,7 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
+         addr < (mtimer->timecmp_base + (mtimer->num_harts << 3))) {
+         size_t hartid = mtimer->hartid_base +
+                         ((addr - mtimer->timecmp_base) >> 3);
+-        CPUState *cpu = qemu_get_cpu(hartid);
++        CPUState *cpu = cpu_by_arch_id(hartid);
+         CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+         if (!env) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+@@ -173,7 +173,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+         addr < (mtimer->timecmp_base + (mtimer->num_harts << 3))) {
+         size_t hartid = mtimer->hartid_base +
+                         ((addr - mtimer->timecmp_base) >> 3);
+-        CPUState *cpu = qemu_get_cpu(hartid);
++        CPUState *cpu = cpu_by_arch_id(hartid);
+         CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+         if (!env) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+@@ -231,7 +231,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+ 
+         /* Check if timer interrupt is triggered for each hart. */
+         for (i = 0; i < mtimer->num_harts; i++) {
+-            CPUState *cpu = qemu_get_cpu(mtimer->hartid_base + i);
++            CPUState *cpu = cpu_by_arch_id(mtimer->hartid_base + i);
+             CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+             if (!env) {
+                 continue;
+@@ -292,7 +292,7 @@ static void riscv_aclint_mtimer_realize(DeviceState *dev, Error **errp)
+     s->timecmp = g_new0(uint64_t, s->num_harts);
+     /* Claim timer interrupt bits */
+     for (i = 0; i < s->num_harts; i++) {
+-        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(s->hartid_base + i));
++        RISCVCPU *cpu = RISCV_CPU(cpu_by_arch_id(s->hartid_base + i));
+         if (riscv_cpu_claim_interrupts(cpu, MIP_MTIP) < 0) {
+             error_report("MTIP already claimed");
+             exit(1);
+@@ -372,7 +372,7 @@ DeviceState *riscv_aclint_mtimer_create(hwaddr addr, hwaddr size,
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+ 
+     for (i = 0; i < num_harts; i++) {
+-        CPUState *cpu = qemu_get_cpu(hartid_base + i);
++        CPUState *cpu = cpu_by_arch_id(hartid_base + i);
+         RISCVCPU *rvcpu = RISCV_CPU(cpu);
+         CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+         riscv_aclint_mtimer_callback *cb =
+@@ -407,7 +407,7 @@ static uint64_t riscv_aclint_swi_read(void *opaque, hwaddr addr,
+ 
+     if (addr < (swi->num_harts << 2)) {
+         size_t hartid = swi->hartid_base + (addr >> 2);
+-        CPUState *cpu = qemu_get_cpu(hartid);
++        CPUState *cpu = cpu_by_arch_id(hartid);
+         CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+         if (!env) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+@@ -430,7 +430,7 @@ static void riscv_aclint_swi_write(void *opaque, hwaddr addr, uint64_t value,
+ 
+     if (addr < (swi->num_harts << 2)) {
+         size_t hartid = swi->hartid_base + (addr >> 2);
+-        CPUState *cpu = qemu_get_cpu(hartid);
++        CPUState *cpu = cpu_by_arch_id(hartid);
+         CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+         if (!env) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+@@ -545,7 +545,7 @@ DeviceState *riscv_aclint_swi_create(hwaddr addr, uint32_t hartid_base,
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+ 
+     for (i = 0; i < num_harts; i++) {
+-        CPUState *cpu = qemu_get_cpu(hartid_base + i);
++        CPUState *cpu = cpu_by_arch_id(hartid_base + i);
+         RISCVCPU *rvcpu = RISCV_CPU(cpu);
+ 
+         qdev_connect_gpio_out(dev, i,
+diff --git a/hw/intc/riscv_aplic.c b/hw/intc/riscv_aplic.c
+index cfd007e629..cd7efc4ad4 100644
+--- a/hw/intc/riscv_aplic.c
++++ b/hw/intc/riscv_aplic.c
+@@ -833,7 +833,7 @@ static void riscv_aplic_realize(DeviceState *dev, Error **errp)
+ 
+         /* Claim the CPU interrupt to be triggered by this APLIC */
+         for (i = 0; i < aplic->num_harts; i++) {
+-            RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(aplic->hartid_base + i));
++            RISCVCPU *cpu = RISCV_CPU(cpu_by_arch_id(aplic->hartid_base + i));
+             if (riscv_cpu_claim_interrupts(cpu,
+                 (aplic->mmode) ? MIP_MEIP : MIP_SEIP) < 0) {
+                 error_report("%s already claimed",
+@@ -966,7 +966,7 @@ DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
+ 
+     if (!msimode) {
+         for (i = 0; i < num_harts; i++) {
+-            CPUState *cpu = qemu_get_cpu(hartid_base + i);
++            CPUState *cpu = cpu_by_arch_id(hartid_base + i);
+ 
+             qdev_connect_gpio_out_named(dev, NULL, i,
+                                         qdev_get_gpio_in(DEVICE(cpu),
+diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
+index 4d4d5b50ca..fea3385b51 100644
+--- a/hw/intc/riscv_imsic.c
++++ b/hw/intc/riscv_imsic.c
+@@ -316,8 +316,8 @@ static const MemoryRegionOps riscv_imsic_ops = {
+ static void riscv_imsic_realize(DeviceState *dev, Error **errp)
+ {
+     RISCVIMSICState *imsic = RISCV_IMSIC(dev);
+-    RISCVCPU *rcpu = RISCV_CPU(qemu_get_cpu(imsic->hartid));
+-    CPUState *cpu = qemu_get_cpu(imsic->hartid);
++    RISCVCPU *rcpu = RISCV_CPU(cpu_by_arch_id(imsic->hartid));
++    CPUState *cpu = cpu_by_arch_id(imsic->hartid);
+     CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+ 
+     imsic->num_eistate = imsic->num_pages * imsic->num_irqs;
+@@ -413,7 +413,7 @@ DeviceState *riscv_imsic_create(hwaddr addr, uint32_t hartid, bool mmode,
+                                 uint32_t num_pages, uint32_t num_ids)
+ {
+     DeviceState *dev = qdev_new(TYPE_RISCV_IMSIC);
+-    CPUState *cpu = qemu_get_cpu(hartid);
++    CPUState *cpu = cpu_by_arch_id(hartid);
+     uint32_t i;
+ 
+     assert(!(addr & (IMSIC_MMIO_PAGE_SZ - 1)));
+-- 
+2.39.2
+
 
