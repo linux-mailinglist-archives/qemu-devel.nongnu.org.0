@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FEA6AB492
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 03:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9896AB48A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 03:14:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ0Lp-0003PU-MF; Sun, 05 Mar 2023 21:13:21 -0500
+	id 1pZ0Lq-0003RK-EQ; Sun, 05 Mar 2023 21:13:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ0Lm-0003My-Tg
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:18 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pZ0Ln-0003Nh-QG
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:19 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ0Ll-00062c-5a
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:18 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so11733897pjb.1
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 18:13:16 -0800 (PST)
+ id 1pZ0Ll-00062m-RL
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 21:13:19 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ ce8-20020a17090aff0800b0023a61cff2c6so6513085pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 18:13:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678068796;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hueqYlY00i1W4vP3ESdohw7VNMjowjLFHkyPNqqchh8=;
- b=L7sEcQ+g15DfEM5vfV2YcrIPLAB7rLnVn+yC5NOreQ3KoxvRVvvrL2hCIiIw3OV674
- ecsR2Wu8KYut9J09F1kLtLEEBot/7FcycLpSqmEkRBEi4GiL4BbrEQZGamxVVjNBEg6n
- zkEfuNNkA0whES8D5VB9gk6wyR4Ti6pppdqHs9T+TWoTTe2NiP9mgigKuId/G95T8hFX
- nkoWYBDaNXGwlEa1LII08CWCLTPAE775YY6KIJTkYWYf1lJpUAa8W+bkRAHSoclhbWe3
- ctQo1AXxHRp/I+nv3YMztoruB3Je4QTOUeIuoIb2rkbmVs+5slXnY2CN7Fv2VvEOXAC/
- XQ3w==
+ :reply-to; bh=QVanyJTWx9kYUSCDwvXPA8IbvB2BsZd8rvitNx43raw=;
+ b=ayvQl+8YGbvYwzu2VfbWJMzKY8re4mA2CxS2K3aBpu72UB+sqLcOYucprBaDy5ys4H
+ kmLv9nZoKvU3GV4bk5S6rbtM9tflB16OlU+3GgC7gPbNMVEUxsvl1Tsbew7g6JtYhY5a
+ R8YRWJDsvb76J3sw4bZaYeauBSwG7qZEYgM3Zn3RhC/KsyujDfGhfqxTzSyGjPK1tQ5O
+ v3cxxr2j/mwKOXf15QWyw4hH7o3PsQ2gmawAUY54DqzII3sIXEEyScu29zIRPK5kf+ma
+ i6n+2hIKCTpx4YuflWG8sxfLXdTGEt0rJx+rywYP4c2cUlEGKo+fW+zbQNKCuCgkNUuw
+ N2/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678068796;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hueqYlY00i1W4vP3ESdohw7VNMjowjLFHkyPNqqchh8=;
- b=PIq47nVlaqCjmMmiljGGLUMtYc3mVIflK02+abeYXxmqAshohEXxRiDOefFsu1xglt
- ZGM//QKZjM8vljzQnrUA9IFe52malsl0r6aaTKCfgWIJkjrodwlbNRfPahTGCR1GPSY2
- g+D/vuqAFQVLde/WnRBr1FCezAQ0ZfmSZW8E3tnX6AU5X5dEKHGVHErL/mnlYwGVxhcS
- LWlnlfuuBKEhffgg6YrpEy4g5VeACCLb9o2mhv54hG/mW93d2OiwlmAFX9fV/QFPTKJI
- Lpwf6TTeM96VmOtZZ45bQKAKpnC8aflHrWR+U2HHbDqWeUN+yfBg4VRjEjJcskVwooIc
- l7UQ==
-X-Gm-Message-State: AO0yUKUAkydmJlTpvRAS0drPDrpB1LNS0AtUDnFjl8/rIVA8sjI4FbHW
- PQJWbxyetNXBOiSsIOuZyNzCKSiVBq22K9ago0g48A==
-X-Google-Smtp-Source: AK7set8QKhjpcrlh7mu+1x0A6FPi/um2ILowedUGh62+XN6jQISGRNhPc6sShFjzqm7vsMNCj3+7yg==
-X-Received: by 2002:a05:6a20:12d4:b0:cc:beae:c2c2 with SMTP id
- v20-20020a056a2012d400b000ccbeaec2c2mr11047746pzg.1.1678068795739; 
- Sun, 05 Mar 2023 18:13:15 -0800 (PST)
+ bh=QVanyJTWx9kYUSCDwvXPA8IbvB2BsZd8rvitNx43raw=;
+ b=NeYKWKsI39uXSv+g2EzRD0ft3tO0caQbkKuk2dq21P+clC7lpTuYNWJdcHzmr3skvi
+ 9kiIvEy5q2uzoLgI7yuFGksiwDNanZMNSmw1iCLzYTQJmO2EBdHMya0Qcpg1sBkS77iX
+ n1VOUk4B6/oIEXensCPYvFbJEL7OE528YFsZrCyY7fAGYlVk2nODGr10GFhDA+PEqnO4
+ D5dEUNgCxsiOYzYtwHbr0Jdm5Ps5/VmVVcEqLfE9+EsUgj8POPGpDQXA5Bs/Qp/XAsfA
+ sxbbLXFYrYktoEBJiRj+ZPhrid3VWWjFT5YMhJnqUVNljuqXVBE93qybRxYk3Ags8VhE
+ Ybgw==
+X-Gm-Message-State: AO0yUKUePve9jWExzCDhewZjRXQjZuBHEOwsZZ7bgUq6D1S/yQHHIKwI
+ 7Zk6oTj2FnCFV4/CW3V+DI31/noUfoPrkZi8tdxwpg==
+X-Google-Smtp-Source: AK7set/bsDRz/09sB/qg+oGkEdNT+SF2X9cjh6EDw7GrWHiRKLGJzy5p1t7CeSHHXEI7/miUnPIMVw==
+X-Received: by 2002:a05:6a20:a021:b0:ad:def6:af3 with SMTP id
+ p33-20020a056a20a02100b000addef60af3mr8494129pzj.57.1678068796563; 
+ Sun, 05 Mar 2023 18:13:16 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
  d18-20020a630e12000000b005030136314dsm5048434pgl.71.2023.03.05.18.13.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Mar 2023 18:13:15 -0800 (PST)
+ Sun, 05 Mar 2023 18:13:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] accel/tcg: Pass last not end to
- tb_invalidate_phys_page_range__locked
-Date: Sun,  5 Mar 2023 18:13:06 -0800
-Message-Id: <20230306021307.1879483-9-richard.henderson@linaro.org>
+Subject: [PATCH 9/9] accel/tcg: Pass last not end to tb_invalidate_phys_range
+Date: Sun,  5 Mar 2023 18:13:07 -0800
+Message-Id: <20230306021307.1879483-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306021307.1879483-1-richard.henderson@linaro.org>
 References: <20230306021307.1879483-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,91 +94,140 @@ Pass the address of the last byte to be changed, rather than
 the first address past the last byte.  This avoids overflow
 when the last page of the address space is involved.
 
-Properly truncate tb_last to the end of the page; the comment about
-tb_end being past the end of the page being ok is not correct,
-considering overflow.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tb-maint.c | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+ include/exec/exec-all.h   |  2 +-
+ accel/tcg/tb-maint.c      | 31 ++++++++++++++++---------------
+ accel/tcg/translate-all.c |  2 +-
+ accel/tcg/user-exec.c     |  2 +-
+ softmmu/physmem.c         |  2 +-
+ 5 files changed, 20 insertions(+), 19 deletions(-)
 
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index e09254333d..58d37276d9 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -679,7 +679,7 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
+ #endif
+ void tb_flush(CPUState *cpu);
+ void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
+-void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end);
++void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t last);
+ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+ 
+ /* GETPC is the true target of the return instruction that we'll execute.  */
 diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index c4e15c5591..a93c4c3ef7 100644
+index a93c4c3ef7..19f88fd048 100644
 --- a/accel/tcg/tb-maint.c
 +++ b/accel/tcg/tb-maint.c
-@@ -1082,35 +1082,33 @@ bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
- static void
- tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-                                       PageDesc *p, tb_page_addr_t start,
--                                      tb_page_addr_t end,
-+                                      tb_page_addr_t last,
-                                       uintptr_t retaddr)
+@@ -989,11 +989,10 @@ TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+  * Called with mmap_lock held for user-mode emulation.
+  * NOTE: this function must not be called while a TB is running.
+  */
+-void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
++void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t last)
  {
      TranslationBlock *tb;
--    tb_page_addr_t tb_start, tb_end;
      PageForEachNext n;
- #ifdef TARGET_HAS_PRECISE_SMC
-     bool current_tb_modified = false;
-     TranslationBlock *current_tb = retaddr ? tcg_tb_lookup(retaddr) : NULL;
- #endif /* TARGET_HAS_PRECISE_SMC */
--    tb_page_addr_t last G_GNUC_UNUSED = end - 1;
+-    tb_page_addr_t last = end - 1;
  
-     /*
--     * We remove all the TBs in the range [start, end[.
-+     * We remove all the TBs in the range [start, last].
-      * XXX: see if in some cases it could be faster to invalidate all the code
-      */
-     PAGE_FOR_EACH_TB(start, last, p, tb, n) {
-+        tb_page_addr_t tb_start, tb_last;
-+
-         /* NOTE: this is subtle as a TB may span two physical pages */
-+        tb_start = tb_page_addr0(tb);
-+        tb_last = tb_start + tb->size - 1;
-         if (n == 0) {
--            /* NOTE: tb_end may be after the end of the page, but
--               it is not a problem */
--            tb_start = tb_page_addr0(tb);
--            tb_end = tb_start + tb->size;
-+            tb_last = MIN(tb_last, tb_start | ~TARGET_PAGE_MASK);
-         } else {
-             tb_start = tb_page_addr1(tb);
--            tb_end = tb_start + ((tb_page_addr0(tb) + tb->size)
--                                 & ~TARGET_PAGE_MASK);
-+            tb_last = tb_start + (tb_last & ~TARGET_PAGE_MASK);
-         }
--        if (!(tb_end <= start || tb_start >= end)) {
-+        if (!(tb_last < start || tb_start > last)) {
- #ifdef TARGET_HAS_PRECISE_SMC
-             if (current_tb == tb &&
-                 (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
-@@ -1163,7 +1161,7 @@ void tb_invalidate_phys_page(tb_page_addr_t addr)
+     assert_memory_lock();
+ 
+@@ -1009,11 +1008,11 @@ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
+  */
+ void tb_invalidate_phys_page(tb_page_addr_t addr)
+ {
+-    tb_page_addr_t start, end;
++    tb_page_addr_t start, last;
+ 
      start = addr & TARGET_PAGE_MASK;
-     last = addr | ~TARGET_PAGE_MASK;
-     pages = page_collection_lock(start, last);
--    tb_invalidate_phys_page_range__locked(pages, p, start, last + 1, 0);
-+    tb_invalidate_phys_page_range__locked(pages, p, start, last, 0);
-     page_collection_unlock(pages);
- }
- 
-@@ -1190,7 +1188,7 @@ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
-             continue;
-         }
-         assert_page_locked(pd);
--        tb_invalidate_phys_page_range__locked(pages, pd, start, bound, 0);
-+        tb_invalidate_phys_page_range__locked(pages, pd, start, bound - 1, 0);
-     }
-     page_collection_unlock(pages);
- }
-@@ -1210,7 +1208,7 @@ static void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
-     }
- 
-     assert_page_locked(p);
--    tb_invalidate_phys_page_range__locked(pages, p, start, start + len, ra);
-+    tb_invalidate_phys_page_range__locked(pages, p, start, start + len - 1, ra);
+-    end = start + TARGET_PAGE_SIZE;
+-    tb_invalidate_phys_range(start, end);
++    last = addr | ~TARGET_PAGE_MASK;
++    tb_invalidate_phys_range(start, last);
  }
  
  /*
+@@ -1167,28 +1166,30 @@ void tb_invalidate_phys_page(tb_page_addr_t addr)
+ 
+ /*
+  * Invalidate all TBs which intersect with the target physical address range
+- * [start;end[. NOTE: start and end may refer to *different* physical pages.
++ * [start;last]. NOTE: start and end may refer to *different* physical pages.
+  * 'is_cpu_write_access' should be true if called from a real cpu write
+  * access: the virtual CPU will exit the current TB if code is modified inside
+  * this TB.
+  */
+-void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
++void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t last)
+ {
+     struct page_collection *pages;
+-    tb_page_addr_t next;
++    tb_page_addr_t index, index_last;
+ 
+-    pages = page_collection_lock(start, end - 1);
+-    for (next = (start & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
+-         start < end;
+-         start = next, next += TARGET_PAGE_SIZE) {
+-        PageDesc *pd = page_find(start >> TARGET_PAGE_BITS);
+-        tb_page_addr_t bound = MIN(next, end);
++    pages = page_collection_lock(start, last);
++
++    index_last = last >> TARGET_PAGE_BITS;
++    for (index = start >> TARGET_PAGE_BITS; index <= index_last; index++) {
++        PageDesc *pd = page_find(index);
++        tb_page_addr_t bound;
+ 
+         if (pd == NULL) {
+             continue;
+         }
+         assert_page_locked(pd);
+-        tb_invalidate_phys_page_range__locked(pages, pd, start, bound - 1, 0);
++        bound = (index << TARGET_PAGE_BITS) | ~TARGET_PAGE_MASK;
++        bound = MIN(bound, last);
++        tb_invalidate_phys_page_range__locked(pages, pd, start, bound, 0);
+     }
+     page_collection_unlock(pages);
+ }
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 4b5abc0f44..4500d78a16 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -570,7 +570,7 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
+         cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+         addr = get_page_addr_code(env, pc);
+         if (addr != -1) {
+-            tb_invalidate_phys_range(addr, addr + 1);
++            tb_invalidate_phys_range(addr, addr);
+         }
+     }
+ }
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 20b6fc2f6e..a7e0c3e2f4 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -516,7 +516,7 @@ void page_set_flags(target_ulong start, target_ulong last, int flags)
+                                         ~(reset ? 0 : PAGE_STICKY));
+     }
+     if (inval_tb) {
+-        tb_invalidate_phys_range(start, last + 1);
++        tb_invalidate_phys_range(start, last);
+     }
+ }
+ 
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 47143edb4f..abebf5b963 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2521,7 +2521,7 @@ static void invalidate_and_set_dirty(MemoryRegion *mr, hwaddr addr,
+     }
+     if (dirty_log_mask & (1 << DIRTY_MEMORY_CODE)) {
+         assert(tcg_enabled());
+-        tb_invalidate_phys_range(addr, addr + length);
++        tb_invalidate_phys_range(addr, addr + length - 1);
+         dirty_log_mask &= ~(1 << DIRTY_MEMORY_CODE);
+     }
+     cpu_physical_memory_set_dirty_range(addr, length, dirty_log_mask);
 -- 
 2.34.1
 
