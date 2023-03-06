@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D90F6AB475
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F2B6AB474
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 02:58:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ06H-000482-R1; Sun, 05 Mar 2023 20:57:21 -0500
+	id 1pZ06H-000484-PP; Sun, 05 Mar 2023 20:57:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ06E-000464-Su
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 20:57:14 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
+ id 1pZ06F-00046D-D3
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 20:57:15 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZ06D-0003Hy-3p
- for qemu-devel@nongnu.org; Sun, 05 Mar 2023 20:57:14 -0500
-Received: by mail-pl1-x642.google.com with SMTP id p20so8611089plw.13
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 17:57:12 -0800 (PST)
+ id 1pZ06D-0003I4-U7
+ for qemu-devel@nongnu.org; Sun, 05 Mar 2023 20:57:15 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id a7so4764262pfx.10
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 17:57:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678067831;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wHs/bH1luqdLkjJy4I5mesCZM/XI8jWuxWxyW0Pam5E=;
- b=LBl9nwMwcKoTEF6dKIrBfuhWAA6evD6yzpCCbslSSyLZ9GI6JZc81J2GyKO6zW+3ET
- 9/lsdOqJTb3ato93qYgznWB9Dpx8aU9c+NlosHTBDuRW/llBvE7V/Ozo3ghGjbUNvgtk
- WHN19ycyENZgmsUUI3UnQHYtP0J0jeq7iGFMqZWLLFNA37I0JiqWkAC02Nq/3D2SOJ4O
- vz3F5pwOtHaU5Q+2syQsqC36/Sh4Eo1+h9U7PhmYg8aStghjNmM81FrErfMzeo0sVZ3G
- BR+jtyVvP8PVQ1W1N9ZtejzI4K/wOOI5/Rll+RV0p63T4R1magsaOQwTQK+ze1enimi2
- uuzg==
+ d=linaro.org; s=google; t=1678067832;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Bb1MvQENYvqwlCsbLz4Q8O0K4bvqjmgK92p9rz/GLeU=;
+ b=kupcKo6JPyAPlg1eWkBYKaD/AbifcgsbO4jsMG9gJCqO1p+GrRMlKV5pfs0y4+c1gv
+ JO34AVUzjfji7+YFKh3i7zOJpX+qOYPF7YWTNpGu0uIwaWXbGi5ftg6XPw4+8BL34rfn
+ UvDvrzXSAWd9Xf9riaR9kPVze4CmqHCjirgiLFQy00JZK8IFYPqsgbOT0fKNwfxgQkPG
+ E9FDVmFWYBm2OKcN1x1CHvJIdfYADhpWH6A7j4oMCoKclxSWSD722HJgYU7mdxnwQ3hr
+ Ff2NHDOwHMNvaHUS9HvyFdWtEpH67KCfvqrZIP8phSEgLyha20qbb3QM9VQkEAXboTgh
+ MVbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678067831;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wHs/bH1luqdLkjJy4I5mesCZM/XI8jWuxWxyW0Pam5E=;
- b=ZlwO4knMCbjHaMoApOHvTkLiYa62lInjXrDO7uPp+4wuNHqORur4t3v2DsVv8gH1b7
- nWTp/X0BClPVI6KeA8w24Bq85R34nHhno96h9hJbbbF7BIRXhFuXSPbMZSZ2EiEbyo66
- /W5aPOjI1paXWcn/Ai4dzTXuV4tcR759iwwHsViW6sFUHufLhI4Gj6a6+9HZ6pph+GQ7
- xKD88uJfpFNLlZE9/IAwpKmvfvKvt+cKfsnY0sH/zsxGCqqcrNA1Z0fdiGSffPB6XAa2
- rmemy0ix6Sx9wZqaw3D85f/8UcHtRTf+dgGLqlAqos/k2fwbmnqLP0xpUBzlU+gjoFr4
- BWJw==
-X-Gm-Message-State: AO0yUKUctY+JQt9EJ4sIP41lYi7jqL9dWGQ6263Lf4BHD1pVBhR4uLaL
- KOFbtRPeS5mhJMEOoZ02n6oW0x+M5nIgx73O5jKzzTX4
-X-Google-Smtp-Source: AK7set8QlFSTIiWSFq608Gk2CrcSmow4ErWxgp2bK5pLRrA1SmVVJVDVNoijRLqJyVEZLHQ3CSUljg==
-X-Received: by 2002:a05:6a20:3b03:b0:cc:3bf0:ed91 with SMTP id
- c3-20020a056a203b0300b000cc3bf0ed91mr8315557pzh.51.1678067831516; 
- Sun, 05 Mar 2023 17:57:11 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678067832;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Bb1MvQENYvqwlCsbLz4Q8O0K4bvqjmgK92p9rz/GLeU=;
+ b=X+iJ+uD9wOToknWCgEG2mRIPosBhdh3GVfmI2X1c5oZ88sLo+aSh2Vw0xk3b4uGtvS
+ WxSjSNxS3xCr2yJXATJUljLWO4bySQqs3P0tZtmbICT/an2h3NM+0iDPmDTT8Ksr1o9t
+ Bhhu7MZT4WolCUlLn2OvIL5IwWh/7BUZRloLDw+dCjmgsHKzNCrNj4PyzhamI6T/fYar
+ JsyrVEW6NcE5LeYEYVLIa4/dStncFUlWtlSpkPTQZTfxu7ygIC2xEFVA35zYVv32NK0E
+ ZyAVqYUoMFcl7598L/IZcfP2n3PYjk1/t3+k/VFQrhO6eBa4GUn/Ae6kZGiyES5x1fCl
+ D1LA==
+X-Gm-Message-State: AO0yUKX9f/GlvTc122mdDbAb8UoUPeX2K2kLUVGoACoVu+axWP0E13pY
+ x7/ir9P0j1/JM3bIGKI53BqKxYDLvS1yIDDSwmrgnQ==
+X-Google-Smtp-Source: AK7set9Iml6+iq1nGwThPXPqzQdcYfUGmlSi68U8Z/LtaipgTblZHvCCx0CzoZ/9q2bBaDDhrsz8xQ==
+X-Received: by 2002:aa7:9583:0:b0:5a9:b7e3:2ed6 with SMTP id
+ z3-20020aa79583000000b005a9b7e32ed6mr10140523pfj.17.1678067832308; 
+ Sun, 05 Mar 2023 17:57:12 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:87cc:49bb:2900:c08b])
  by smtp.gmail.com with ESMTPSA id
- g23-20020aa78197000000b0061949fe3beasm2921056pfi.22.2023.03.05.17.57.10
+ g23-20020aa78197000000b0061949fe3beasm2921056pfi.22.2023.03.05.17.57.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 05 Mar 2023 17:57:11 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 0/5] tcg: Issue memory barriers for guest memory model
-Date: Sun,  5 Mar 2023 17:57:05 -0800
-Message-Id: <20230306015710.1868853-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/5] tcg: Do not elide memory barriers for !CF_PARALLEL
+Date: Sun,  5 Mar 2023 17:57:06 -0800
+Message-Id: <20230306015710.1868853-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230306015710.1868853-1-richard.henderson@linaro.org>
+References: <20230306015710.1868853-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,35 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Version 1 was very nearly 2 years ago:
-https://lore.kernel.org/qemu-devel/20210316220735.2048137-1-richard.henderson@linaro.org/
+The virtio devices require proper memory ordering between
+the vcpus and the iothreads.
 
-I didn't persue it at the time because at the time it didn't actually
-fix the s390x-on-aarch64 problems.  I'm re-posting this now because
-of Paolo's "missing barriers on ARM" patch set.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg-op.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-It was never very easy to trigger the s390x problem, but with the two
-patch sets I've been unable to do so all day.
-
-
-
-r~
-
-
-Richard Henderson (5):
-  tcg: Do not elide memory barriers for !CF_PARALLEL
-  tcg: Elide memory barriers implied by the host memory model
-  tcg: Create tcg_req_mo
-  tcg: Add host memory barriers to cpu_ldst.h interfaces
-  accel/tcg: Remove check_tcg_memory_orders_compatible
-
- include/tcg/tcg.h     | 34 ++++++++++++++++++++++++++++++++++
- accel/tcg/cputlb.c    |  2 ++
- accel/tcg/tcg-all.c   | 38 ++++++++------------------------------
- accel/tcg/user-exec.c | 14 ++++++++++++++
- tcg/tcg-op.c          | 19 +++++++++++--------
- 5 files changed, 69 insertions(+), 38 deletions(-)
-
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 77658a88f0..75fdcdaac7 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -102,9 +102,13 @@ void tcg_gen_br(TCGLabel *l)
+ 
+ void tcg_gen_mb(TCGBar mb_type)
+ {
+-    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {
+-        tcg_gen_op1(INDEX_op_mb, mb_type);
+-    }
++    /*
++     * It is tempting to elide the barrier in a single-threaded context
++     * (i.e. !(cflags & CF_PARALLEL)), however, even with a single cpu
++     * we have i/o threads running in parallel, and lack of memory order
++     * can result in e.g. virtio queue entries being read incorrectly.
++     */
++    tcg_gen_op1(INDEX_op_mb, mb_type);
+ }
+ 
+ /* 32 bit ops */
 -- 
 2.34.1
 
