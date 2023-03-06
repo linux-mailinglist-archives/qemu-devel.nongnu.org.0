@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754B96ABFA9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:37:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C5E6ABFB1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:38:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZA5W-0000cn-SJ; Mon, 06 Mar 2023 07:37:11 -0500
+	id 1pZA5i-0001K2-VX; Mon, 06 Mar 2023 07:37:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZA49-0007WI-Jf
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:35:47 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+ id 1pZA5K-0000jQ-59
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:36:58 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZA48-0004W8-0M
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:35:45 -0500
-Received: by mail-pf1-x433.google.com with SMTP id fa28so5620844pfb.12
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:35:43 -0800 (PST)
+ id 1pZA5H-0004dZ-V8
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:36:57 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ ce8-20020a17090aff0800b0023a61cff2c6so7481766pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:36:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678106142;
+ d=linaro.org; s=google; t=1678106214;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0VRxSNypHOH0Bluy3jMq6gcyyg4Fi5FYQQHSGnySsR4=;
- b=uITNMdsNO4EsyY8muVsB2z14c1EQhdYaOxIeETIDWs/IOPQAxhrJblQWyYycSSaW4j
- xhBu83e1WUH+nrhpKxnb6PM80AZM1Ni/4TYfyzSZreMmcc3CR3aQ0MVL9h1eA0JpEGsH
- P2ug9whj/isSKJMZ2gB2G3zKNjpq7bjwKtcOwnlKeZlDSYOGsQQUMBnsSYU2dUqayDts
- KfoRKet3Dnb+6cfrtnexUmoi5w1lraYMztdL3dF22HQm3ja7XXD7rzmc66SSobDTFD/1
- wcLwcKVTQnF+Ux8gO5ncDlzgo1RiZ8/EHrnDhlw9Cubb3L+EEdt78Gp3XrnkEj2hhpgq
- JMvA==
+ bh=8bOq3s8mJlTPBrkDKEosfGpF47Iu0auGKo/FZjfAVos=;
+ b=TzVJhsQxLd/0qFkj/sjOxg2DbuSx5gVvf+iQCIOqaIvwbyj2IBKGKhGftfIF6gddUi
+ FzhN2BFDfmGLiWMwtDbwFpTsdqFshRsEuN5tUs4tUWDkGElERgUj61OApBd3dRNgaJVu
+ M0dAxIgOgMkZ4zyzItMoNpXOjn1eInDWrAeO7Bo8SQYRHw0pC49rJl5gTkLiVtSyA1y3
+ UR+OlpI+jgueypHtQQb8s2CzSTbsZc4/keQKUDaQe9VG1Jc5eA/blo5SIsIFmGbXV17a
+ Vq72MMxY+AKD+87YxtV6vvx1EuNYqSmN4dHhCzsTrx3nmdwX69uUOvHmFlWTB61avjGX
+ 3+pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678106142;
+ d=1e100.net; s=20210112; t=1678106214;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0VRxSNypHOH0Bluy3jMq6gcyyg4Fi5FYQQHSGnySsR4=;
- b=bwu+7jTz66U8TT/UT0pbCMTai9Ne0nCWsnhnEodgRiguLQB7ulNLU5Eepgn5vOEux0
- 40UAfuTLmN9iaIlmIp89+/AmgZrh1Sclw7lQrylXDr9sdxxaY//f+QbXs7bj0X7AWUpz
- dZLmbZ0MKM6D4gz8H/FMyq5eb8wCDglXobPeKmBJvQuvJzEmljWNDbwZtgAQK2g4P2Pp
- ZaTTx/f8pE+HFPVK2PNH8u05H2roVy5j08LAX0sxCMiVoCVtFYQiXkmaWZyAwTLacAwx
- 5J8XQZFJCDDqVgeS4Lrf7DfNCTHzv6JSjNQ+s32fgoR+okC0C3S7uylb0ECmoPHLDDjt
- 0qig==
-X-Gm-Message-State: AO0yUKWx4HY2DZFb21u84hUD9SAspAijGKu9ObrptQjQ95UzSITWLj7J
- xl76GV0b92FdP7t1UFFi1O4//VOUKFpfrboPD8LDlvRZ9FDlrPcE
-X-Google-Smtp-Source: AK7set9kP8cq/9dJEO9a2T1ychjqZX2zi/l6wxPUlaBH9MwiYyqCcdFs437HBXR8TDfMMOn+reBq8Qb/VpXvLFsl+00=
-X-Received: by 2002:a63:8c17:0:b0:503:7be0:ea51 with SMTP id
- m23-20020a638c17000000b005037be0ea51mr3674862pgd.9.1678106142565; Mon, 06 Mar
- 2023 04:35:42 -0800 (PST)
+ bh=8bOq3s8mJlTPBrkDKEosfGpF47Iu0auGKo/FZjfAVos=;
+ b=2Qf7VSQ1QVJA/KAiDXlPfnSWP9/ZonVoZcuTJMWsvtR6Ib2coR+RPYHzRyFSG1/b3L
+ F3JoWFZj8ZcZ4CX0r2CqQImGsUSYHrrFDah9v4Om7DP2+VnBvC2DJA7hv55jUdfZyLhq
+ zmQKJakJfvgx+yrW9Bew0A/cq24Kihr/ZGodtOPyZvyPBrrnxr54uerI1jxODxdQlIyj
+ pIScIur6flDycIV03lHrm3IJO6IeInuAOaIxaUVYZyns7A/ura0z117R4OgLl0QBmWqM
+ YmHQgYcWNXcdDWghZ4Ff6TRC47WrGnc4e9mc/PgGrmXYkL19QlFmhfaxZS7RMz6K6IjT
+ PImg==
+X-Gm-Message-State: AO0yUKWMpfrX47ASQLA1kevuS5v73/GmF4F3T1JtYAdYyhxVVWFIhwrj
+ amz0MtXi0z4McGedOM78cAUoiS1k9G9ZtVNJBjYYJg==
+X-Google-Smtp-Source: AK7set9H7AMPO2OXHeXNUeh9elnRDKUjWD+sWHRlRJX880nZmsTaQbmk8u5zbh+PiOa7CE0yW99P1Co64LLIrkbL58g=
+X-Received: by 2002:a17:903:258f:b0:19a:98ea:5ef1 with SMTP id
+ jb15-20020a170903258f00b0019a98ea5ef1mr4197511plb.13.1678106214377; Mon, 06
+ Mar 2023 04:36:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20230228003713.861168-1-richard.henderson@linaro.org>
- <20230228003713.861168-2-richard.henderson@linaro.org>
-In-Reply-To: <20230228003713.861168-2-richard.henderson@linaro.org>
+ <20230228003713.861168-3-richard.henderson@linaro.org>
+In-Reply-To: <20230228003713.861168-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Mar 2023 12:35:31 +0000
-Message-ID: <CAFEAcA84LMWr3qjHuE7YWnWfFUXqMs18PB5qnf6kfALejt4-=g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] target/arm: Avoid splitting Zregs across lines in dump
+Date: Mon, 6 Mar 2023 12:36:43 +0000
+Message-ID: <CAFEAcA__Pz+jPZYzVQttxD9bcZD6yiVJM9zyw0oZbW7jSyGC0g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] target/arm: Dump ZA[] when active
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,13 +88,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Tue, 28 Feb 2023 at 00:37, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Allow the line length to extend to 548 columns.  While annoyingly wide,
-> it's still less confusing than the continuations we print.  Also, the
-> default VL used by Linux (and max for A64FX) uses only 140 columns.
+> Always print each matrix row whole, one per line, so that we
+> get the entire matrix in the proper shape.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.c | 36 ++++++++++++++----------------------
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
