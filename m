@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2476AC579
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C4A6AC58D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:36:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCrb-0004IU-4O; Mon, 06 Mar 2023 10:34:59 -0500
+	id 1pZCra-0004I8-FE; Mon, 06 Mar 2023 10:34:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZCrY-0004Fi-93
+ id 1pZCrY-0004Fh-8U
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:56 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZCrW-0002Cr-CL
+ id 1pZCrW-00029T-GC
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:34:55 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- t25-20020a1c7719000000b003eb052cc5ccso8471109wmi.4
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:34:53 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so8488845wms.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:34:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678116893;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qP31mD2ZS9cywB36oY9I1cHer7hGLsKWqOnGtaEqcws=;
- b=KY8Jxcs3UI0Nm+W1ZrckE00wI8UrOmssOijRD/rDNJi6UukE6VY6aYr/3D0qemNh44
- R/Tfqio2nFd9bJicIkloKYVYX3fmsFZdJ4at5VKzhr070OOfxnOQUctCYPKWo2f0yaF3
- HEh+InizFxQS+yJk+3tglKVoPZDwVtFMMV+0ASDhYUoBrHxiXvTsT5olhN/ZVIFj1vbK
- 5YPoF2+k7nvaExv1ud16mr47Rj2mK86kKCdVv2rBSjvo9Q2+GHyeaz5tjcs86Ml19Dqe
- 5PnwDSeTRp/xyToe6oJQw2fDhAOmKz53TNqx7q3GpdWIbA1gwbhdbonMPhI3O4WBLjRz
- s2Iw==
+ :reply-to; bh=AGvJ/+azoSfvbLgBtU0OVWx+UNPYGoxdaOuHi65PSgM=;
+ b=fpbTlwWYYoWygDUytIlUL8CCvs8bPYKhK5NN4ia4MK5Wy09VMJswKAUagxwcz3M0E8
+ 4L4QFT2MwMak3tX8HY1atnOoaaeiS6H1ziPZ+yNjiYY7F6/Djo9afh1jt+U8W4oyYkkL
+ Ft51O6tz8kTQntzJOpRZ+BwIxxWtSMIXjNC7NsJawTT7TSDhg48yyZV1bgXTzgzlQKsf
+ s6Si/lQ4+sAe1EhMXgBeBW45lJDuNFEVQrQh8BRufrzEAACyIgo9NUEzg+lXRifjBnol
+ tt0QQthyFPC7x5W8Vfloz2I4MOp9QJJNbRKYdlBI3xAsfess1BBI+/B+b1Yaf09bBo6v
+ yASA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678116893;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qP31mD2ZS9cywB36oY9I1cHer7hGLsKWqOnGtaEqcws=;
- b=ZDWDDi7pnJOSJox3WjQ58HdY1obdt4iB9joCz3aY86gWbX0voQa2ioWqzyQnICATef
- LofMp+PGqmSbK65B8sD/1wZLGMnbk6xJskCQBDH/oCN8P1y2uONesiy1UEZmwbDKob6J
- Ej+4WD9JK8bOp5yvz0av9qJ5bQJTQCfGYfIklvNN+N5mFjGZvp64prhsukHVJOLz2wFm
- 7AfaXgsRgnOfezTWA2z36343rXcypzODSUq/igRhoyZK/pVD1cA7tnsoYXn//KU1cGtB
- xOb8b28DWkUMFEXIOyxXP2rCrItOVuJ+XLYGxJMjKdVcxIo20wqhvBqIVzJIshnLs3Li
- MhRw==
-X-Gm-Message-State: AO0yUKUxNCXt3O6A/RCc/vUW1NMhPYTvcnDEJtWDaBoMe43HUfB1fT3q
- 93mS7LHtW99K9vHunIq2mvI7JrRoUQLWHPit/bE=
-X-Google-Smtp-Source: AK7set+o86oKnYHiiP6uJAFFrg2nwrB3uNakmqdBUuYWRUs7bcxJuAHoOxJQk1oSjhQ7Ur/gTgqPzg==
-X-Received: by 2002:a05:600c:4f15:b0:3eb:3998:36fa with SMTP id
- l21-20020a05600c4f1500b003eb399836famr9643198wmq.29.1678116892965; 
- Mon, 06 Mar 2023 07:34:52 -0800 (PST)
+ bh=AGvJ/+azoSfvbLgBtU0OVWx+UNPYGoxdaOuHi65PSgM=;
+ b=Y+/nep4cFlla+MGKiGhRK5lVuRNiy8ED5fIvveiVP+AtGsS0yBZQcclBvU2+/CnvV0
+ 3u2jdqcJzQlqVnvDXWdArar196hbhrtqdcSLUPHMHTJkS5VX93lgfh/+sQltF/iIyWjL
+ MSPZqTBgc69JGAGCYsE+P2dca6w69B7XQTfSWJkmcmXrA5bLJ+AJLx97XU0o+rreTq3t
+ mNfpue7QVr77nInvPSkkDXb+tdoJ63t/h+D8HzahhLUrsS/cRYZZORdTcBNzl3NJdOCq
+ OsHz455Mr7xS/RC48f8abyF4CMcF8mFlK+J/atm3cNKQ9yWPR5Do2ECU2xOjPSuLBDzy
+ wvnA==
+X-Gm-Message-State: AO0yUKUYsmWyT7daNj+l8D+lj+GlV2cZlJgHc2MKEzG68UJYfaI0Mqvz
+ XmRejM1VvZZa9D7yHG+0B7WBEOxvGrsStGB0E8U=
+X-Google-Smtp-Source: AK7set/Ov66OucYv2v4zPP+WCoooLMGeb86ORpi6mQZFUQLvSAdZxInYkUcpcUqetuLO3Bt2StW/lw==
+X-Received: by 2002:a05:600c:3153:b0:3ea:f73e:9d8c with SMTP id
+ h19-20020a05600c315300b003eaf73e9d8cmr9960394wmo.16.1678116893785; 
+ Mon, 06 Mar 2023 07:34:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c444700b003eb0d6f48f3sm15287432wmn.27.2023.03.06.07.34.52
+ v7-20020a05600c444700b003eb0d6f48f3sm15287432wmn.27.2023.03.06.07.34.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 07:34:52 -0800 (PST)
+ Mon, 06 Mar 2023 07:34:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/21] hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on SUN6i SoCs
-Date: Mon,  6 Mar 2023 15:34:34 +0000
-Message-Id: <20230306153435.490894-21-peter.maydell@linaro.org>
+Subject: [PULL 21/21] hw: arm: allwinner-h3: Fix and complete H3 i2c devices
+Date: Mon,  6 Mar 2023 15:34:35 +0000
+Message-Id: <20230306153435.490894-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230306153435.490894-1-peter.maydell@linaro.org>
 References: <20230306153435.490894-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,112 +92,134 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: qianfan Zhao <qianfanguijin@163.com>
 
-TWI_CNTR_INT_FLAG is W1C(write 1 to clear and write 0 has non-effect)
-register on SUN6i based SoCs, we should lower interrupt when the guest
-set this bit.
-
-The linux kernel will hang in irq handler(mv64xxx_i2c_intr) if no
-device connected on the i2c bus, next is the trace log:
-
-allwinner_i2c_write write   CNTR(0x0c): 0xc4 A_ACK BUS_EN INT_EN
-allwinner_i2c_write write   CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
-allwinner_i2c_read  read    CNTR(0x0c): 0xcc A_ACK INT_FLAG BUS_EN INT_EN
-allwinner_i2c_read  read    STAT(0x10): 0x20 STAT_M_ADDR_WR_NACK
-allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
-allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
-allwinner_i2c_write write   CNTR(0x0c): 0x54 A_ACK M_STP BUS_EN
-allwinner_i2c_write write   CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    CNTR(0x0c): 0x4c A_ACK INT_FLAG BUS_EN
-allwinner_i2c_read  read    STAT(0x10): 0xf8 STAT_IDLE
-...
-
-Fix it.
+Allwinner h3 has 4 twi(i2c) devices named twi0, twi1, twi2 and r_twi.
+The registers are compatible with TYPE_AW_I2C_SUN6I, write 1 to clear
+control register's INT_FLAG bit.
 
 Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 Reviewed-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Tested-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/i2c/allwinner-i2c.h |  6 ++++++
- hw/i2c/allwinner-i2c.c         | 26 ++++++++++++++++++++++++--
- 2 files changed, 30 insertions(+), 2 deletions(-)
+ include/hw/arm/allwinner-h3.h |  6 ++++++
+ hw/arm/allwinner-h3.c         | 29 +++++++++++++++++++++++++----
+ 2 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/i2c/allwinner-i2c.h b/include/hw/i2c/allwinner-i2c.h
-index 4f378b86ba1..0e325d265ee 100644
---- a/include/hw/i2c/allwinner-i2c.h
-+++ b/include/hw/i2c/allwinner-i2c.h
-@@ -28,6 +28,10 @@
- #include "qom/object.h"
- 
- #define TYPE_AW_I2C "allwinner.i2c"
-+
-+/** Allwinner I2C sun6i family and newer (A31, H2+, H3, etc) */
-+#define TYPE_AW_I2C_SUN6I    TYPE_AW_I2C "-sun6i"
-+
- OBJECT_DECLARE_SIMPLE_TYPE(AWI2CState, AW_I2C)
- 
- #define AW_I2C_MEM_SIZE         0x24
-@@ -50,6 +54,8 @@ struct AWI2CState {
-     uint8_t srst;
-     uint8_t efr;
-     uint8_t lcr;
-+
-+    bool irq_clear_inverted;
+diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+index 1d7ce205890..59e0f822d2d 100644
+--- a/include/hw/arm/allwinner-h3.h
++++ b/include/hw/arm/allwinner-h3.h
+@@ -84,6 +84,8 @@ enum {
+     AW_H3_DEV_UART3,
+     AW_H3_DEV_EMAC,
+     AW_H3_DEV_TWI0,
++    AW_H3_DEV_TWI1,
++    AW_H3_DEV_TWI2,
+     AW_H3_DEV_DRAMCOM,
+     AW_H3_DEV_DRAMCTL,
+     AW_H3_DEV_DRAMPHY,
+@@ -93,6 +95,7 @@ enum {
+     AW_H3_DEV_GIC_VCPU,
+     AW_H3_DEV_RTC,
+     AW_H3_DEV_CPUCFG,
++    AW_H3_DEV_R_TWI,
+     AW_H3_DEV_SDRAM
  };
  
- #endif /* ALLWINNER_I2C_H */
-diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
-index a4359658362..f24c3ac6f0c 100644
---- a/hw/i2c/allwinner-i2c.c
-+++ b/hw/i2c/allwinner-i2c.c
-@@ -357,10 +357,16 @@ static void allwinner_i2c_write(void *opaque, hwaddr offset,
-                 s->stat = STAT_FROM_STA(STAT_IDLE);
-                 s->cntr &= ~TWI_CNTR_M_STP;
-             }
--            if ((s->cntr & TWI_CNTR_INT_FLAG) == 0) {
--                /* Interrupt flag cleared */
-+
-+            if (!s->irq_clear_inverted && !(s->cntr & TWI_CNTR_INT_FLAG)) {
-+                /* Write 0 to clear this flag */
-+                qemu_irq_lower(s->irq);
-+            } else if (s->irq_clear_inverted && (s->cntr & TWI_CNTR_INT_FLAG)) {
-+                /* Write 1 to clear this flag */
-+                s->cntr &= ~TWI_CNTR_INT_FLAG;
-                 qemu_irq_lower(s->irq);
-             }
-+
-             if ((s->cntr & TWI_CNTR_A_ACK) == 0) {
-                 if (STAT_TO_STA(s->stat) == STAT_M_DATA_RX_ACK) {
-                     s->stat = STAT_FROM_STA(STAT_M_DATA_RX_NACK);
-@@ -451,9 +457,25 @@ static const TypeInfo allwinner_i2c_type_info = {
-     .class_init = allwinner_i2c_class_init,
+@@ -133,6 +136,9 @@ struct AwH3State {
+     AwSidState sid;
+     AwSdHostState mmc0;
+     AWI2CState i2c0;
++    AWI2CState i2c1;
++    AWI2CState i2c2;
++    AWI2CState r_twi;
+     AwSun8iEmacState emac;
+     AwRtcState rtc;
+     GICState gic;
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index bfce3c8d92a..69d0ad6f50e 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -54,6 +54,8 @@ const hwaddr allwinner_h3_memmap[] = {
+     [AW_H3_DEV_UART2]      = 0x01c28800,
+     [AW_H3_DEV_UART3]      = 0x01c28c00,
+     [AW_H3_DEV_TWI0]       = 0x01c2ac00,
++    [AW_H3_DEV_TWI1]       = 0x01c2b000,
++    [AW_H3_DEV_TWI2]       = 0x01c2b400,
+     [AW_H3_DEV_EMAC]       = 0x01c30000,
+     [AW_H3_DEV_DRAMCOM]    = 0x01c62000,
+     [AW_H3_DEV_DRAMCTL]    = 0x01c63000,
+@@ -64,6 +66,7 @@ const hwaddr allwinner_h3_memmap[] = {
+     [AW_H3_DEV_GIC_VCPU]   = 0x01c86000,
+     [AW_H3_DEV_RTC]        = 0x01f00000,
+     [AW_H3_DEV_CPUCFG]     = 0x01f01c00,
++    [AW_H3_DEV_R_TWI]      = 0x01f02400,
+     [AW_H3_DEV_SDRAM]      = 0x40000000
  };
  
-+static void allwinner_i2c_sun6i_init(Object *obj)
-+{
-+    AWI2CState *s = AW_I2C(obj);
-+
-+    s->irq_clear_inverted = true;
-+}
-+
-+static const TypeInfo allwinner_i2c_sun6i_type_info = {
-+    .name = TYPE_AW_I2C_SUN6I,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AWI2CState),
-+    .instance_init = allwinner_i2c_sun6i_init,
-+    .class_init = allwinner_i2c_class_init,
-+};
-+
- static void allwinner_i2c_register_types(void)
- {
-     type_register_static(&allwinner_i2c_type_info);
-+    type_register_static(&allwinner_i2c_sun6i_type_info);
+@@ -107,8 +110,6 @@ struct AwH3Unimplemented {
+     { "uart1",     0x01c28400, 1 * KiB },
+     { "uart2",     0x01c28800, 1 * KiB },
+     { "uart3",     0x01c28c00, 1 * KiB },
+-    { "twi1",      0x01c2b000, 1 * KiB },
+-    { "twi2",      0x01c2b400, 1 * KiB },
+     { "scr",       0x01c2c400, 1 * KiB },
+     { "gpu",       0x01c40000, 64 * KiB },
+     { "hstmr",     0x01c60000, 4 * KiB },
+@@ -123,7 +124,6 @@ struct AwH3Unimplemented {
+     { "r_prcm",    0x01f01400, 1 * KiB },
+     { "r_twd",     0x01f01800, 1 * KiB },
+     { "r_cir-rx",  0x01f02000, 1 * KiB },
+-    { "r_twi",     0x01f02400, 1 * KiB },
+     { "r_uart",    0x01f02800, 1 * KiB },
+     { "r_pio",     0x01f02c00, 1 * KiB },
+     { "r_pwm",     0x01f03800, 1 * KiB },
+@@ -151,8 +151,11 @@ enum {
+     AW_H3_GIC_SPI_UART2     =  2,
+     AW_H3_GIC_SPI_UART3     =  3,
+     AW_H3_GIC_SPI_TWI0      =  6,
++    AW_H3_GIC_SPI_TWI1      =  7,
++    AW_H3_GIC_SPI_TWI2      =  8,
+     AW_H3_GIC_SPI_TIMER0    = 18,
+     AW_H3_GIC_SPI_TIMER1    = 19,
++    AW_H3_GIC_SPI_R_TWI     = 44,
+     AW_H3_GIC_SPI_MMC0      = 60,
+     AW_H3_GIC_SPI_EHCI0     = 72,
+     AW_H3_GIC_SPI_OHCI0     = 73,
+@@ -227,7 +230,10 @@ static void allwinner_h3_init(Object *obj)
+ 
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_AW_RTC_SUN6I);
+ 
+-    object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C);
++    object_initialize_child(obj, "twi0",  &s->i2c0,  TYPE_AW_I2C_SUN6I);
++    object_initialize_child(obj, "twi1",  &s->i2c1,  TYPE_AW_I2C_SUN6I);
++    object_initialize_child(obj, "twi2",  &s->i2c2,  TYPE_AW_I2C_SUN6I);
++    object_initialize_child(obj, "r_twi", &s->r_twi, TYPE_AW_I2C_SUN6I);
  }
  
- type_init(allwinner_i2c_register_types)
+ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+@@ -432,6 +438,21 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0,
+                        qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI0));
+ 
++    sysbus_realize(SYS_BUS_DEVICE(&s->i2c1), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c1), 0, s->memmap[AW_H3_DEV_TWI1]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c1), 0,
++                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI1));
++
++    sysbus_realize(SYS_BUS_DEVICE(&s->i2c2), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c2), 0, s->memmap[AW_H3_DEV_TWI2]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c2), 0,
++                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_TWI2));
++
++    sysbus_realize(SYS_BUS_DEVICE(&s->r_twi), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->r_twi), 0, s->memmap[AW_H3_DEV_R_TWI]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->r_twi), 0,
++                       qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_R_TWI));
++
+     /* Unimplemented devices */
+     for (i = 0; i < ARRAY_SIZE(unimplemented); i++) {
+         create_unimplemented_device(unimplemented[i].device_name,
 -- 
 2.34.1
 
