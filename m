@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D256AB6A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1757C6AB6AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 07:56:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ4ij-0004k9-GC; Mon, 06 Mar 2023 01:53:17 -0500
+	id 1pZ4in-0005FQ-Ey; Mon, 06 Mar 2023 01:53:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4ie-0004dl-Tv
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:13 -0500
+ id 1pZ4il-00057C-25
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZ4id-0000cT-9O
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:12 -0500
+ id 1pZ4ij-0000cs-Iz
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 01:53:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678085590;
+ s=mimecast20190719; t=1678085597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D2FQpTcG1yhg6uUjwvVLwrL4wtemMxEs9MOgcxFL1hE=;
- b=Q1Viuui0xqLJu3WO1zH0em5joLveBAx9iTeLNQ4I/Stx49hH8W8HDab6tkSCGl9ZDnyFHS
- mh7jY8NpFZYpLv1RAoYV3g+/V7b/6TG9MOX9Qu2Rgx4zKwtlTL1RTfKDV7ULKTYPgA8sW/
- SHPsdSQ5qC8Up+qXY03dzEn396EfBl0=
+ bh=sQ9+mo9N6X1dx7pB9GOrfGo4mTgvCi6rRd/ddPf4sk8=;
+ b=f0vwBkZP96swREZ6KaUzQHXkMcUn7muu1VpAT326LAI2ldedBjr84rczxIFpzoQhI404Oq
+ T0OylF9flm7ffXWIMRPl74VPKMuje/rypCI0epY+hv+gzOWuWAaoirPo1cMaleZ7x42kOy
+ XT0qIihgppGHzViPC0h5f+IoH8+zMNs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-x86T3C7QNH-5JYGz5puodA-1; Mon, 06 Mar 2023 01:53:07 -0500
-X-MC-Unique: x86T3C7QNH-5JYGz5puodA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-486-l5lh--aBPlKbJgv0fEymUw-1; Mon, 06 Mar 2023 01:53:12 -0500
+X-MC-Unique: l5lh--aBPlKbJgv0fEymUw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDD3C885620;
- Mon,  6 Mar 2023 06:53:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A9A4803513;
+ Mon,  6 Mar 2023 06:53:12 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99CAB492C14;
- Mon,  6 Mar 2023 06:53:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7416F40C10FA;
+ Mon,  6 Mar 2023 06:53:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 14/27] audio: change type and name of the resample buffer
-Date: Mon,  6 Mar 2023 10:51:49 +0400
-Message-Id: <20230306065202.2160066-15-marcandre.lureau@redhat.com>
+Subject: [PULL 15/27] audio: make the resampling code greedy
+Date: Mon,  6 Mar 2023 10:51:50 +0400
+Message-Id: <20230306065202.2160066-16-marcandre.lureau@redhat.com>
 In-Reply-To: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 References: <20230306065202.2160066-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,135 +84,73 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Change the type of the resample buffer from struct st_sample *
-to STSampleBuffer. Also change the name from buf to resample_buf
-for better readability.
+Read the maximum possible number of audio frames instead of the
+minimum necessary number of frames when the audio stream is
+downsampled and the output buffer is limited. This makes the
+function symmetrical to upsampling when the input buffer is
+limited. The maximum possible number of frames is written here.
 
-The new variables resample_buf.size and resample_buf.pos will be
-used after the next patches. There is no functional change.
+With this change it's easier to calculate the exact number of
+audio frames the resample function will read or write. These two
+functions will be introduced later.
 
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20230224190555.7409-2-vr_qemu@t-online.de>
+Message-Id: <20230224190555.7409-3-vr_qemu@t-online.de>
 ---
- audio/audio_int.h      |  4 ++--
- audio/audio_template.h | 10 ++++++----
- audio/audio.c          | 15 ++++++++-------
- 3 files changed, 16 insertions(+), 13 deletions(-)
+ audio/rate_template.h | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 061845dcc2..8b163e1759 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -109,7 +109,7 @@ struct SWVoiceOut {
-     struct audio_pcm_info info;
-     t_sample *conv;
-     int64_t ratio;
--    struct st_sample *buf;
-+    STSampleBuffer resample_buf;
-     void *rate;
-     size_t total_hw_samples_mixed;
-     int active;
-@@ -129,7 +129,7 @@ struct SWVoiceIn {
-     int64_t ratio;
-     void *rate;
-     size_t total_hw_samples_acquired;
--    struct st_sample *buf;
-+    STSampleBuffer resample_buf;
-     f_sample *clip;
-     HWVoiceIn *hw;
-     char *name;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index dd87170cbd..a0b653f52c 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -95,13 +95,13 @@ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
+diff --git a/audio/rate_template.h b/audio/rate_template.h
+index b432719ebb..6648f0d2e5 100644
+--- a/audio/rate_template.h
++++ b/audio/rate_template.h
+@@ -40,8 +40,6 @@ void NAME (void *opaque, struct st_sample *ibuf, struct st_sample *obuf,
+     int64_t t;
+ #endif
  
- static void glue (audio_pcm_sw_free_resources_, TYPE) (SW *sw)
- {
--    g_free (sw->buf);
-+    g_free(sw->resample_buf.buffer);
-+    sw->resample_buf.buffer = NULL;
-+    sw->resample_buf.size = 0;
- 
-     if (sw->rate) {
-         st_rate_stop (sw->rate);
-     }
+-    ilast = rate->ilast;
 -
--    sw->buf = NULL;
-     sw->rate = NULL;
- }
+     istart = ibuf;
+     iend = ibuf + *isamp;
  
-@@ -138,7 +138,9 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
-         return -1;
+@@ -59,15 +57,17 @@ void NAME (void *opaque, struct st_sample *ibuf, struct st_sample *obuf,
+         return;
      }
  
--    sw->buf = g_new0(st_sample, samples);
-+    sw->resample_buf.buffer = g_new0(st_sample, samples);
-+    sw->resample_buf.size = samples;
-+    sw->resample_buf.pos = 0;
+-    while (obuf < oend) {
++    /* without input samples, there's nothing to do */
++    if (ibuf >= iend) {
++        *osamp = 0;
++        return;
++    }
  
- #ifdef DAC
-     sw->rate = st_rate_start (sw->info.freq, sw->hw->info.freq);
-diff --git a/audio/audio.c b/audio/audio.c
-index a0b54e4a2e..a399147486 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -555,7 +555,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
- {
-     HWVoiceIn *hw = sw->hw;
-     size_t samples, live, ret = 0, swlim, isamp, osamp, rpos, total = 0;
--    struct st_sample *src, *dst = sw->buf;
-+    struct st_sample *src, *dst = sw->resample_buf.buffer;
+-        /* Safety catch to make sure we have input samples.  */
+-        if (ibuf >= iend) {
+-            break;
+-        }
++    ilast = rate->ilast;
  
-     live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-     if (!live) {
-@@ -595,10 +595,10 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-     }
+-        /* read as many input samples so that ipos > opos */
++    while (true) {
  
-     if (!hw->pcm_ops->volume_in) {
--        mixeng_volume (sw->buf, ret, &sw->vol);
-+        mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
-     }
- 
--    sw->clip (buf, sw->buf, ret);
-+    sw->clip(buf, sw->resample_buf.buffer, ret);
-     sw->total_hw_samples_acquired += total;
-     return ret * sw->info.bytes_per_frame;
- }
-@@ -706,10 +706,10 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     samples = ((int64_t)MIN(dead, hw_free) << 32) / sw->ratio;
-     samples = MIN(samples, size / sw->info.bytes_per_frame);
-     if (samples) {
--        sw->conv(sw->buf, buf, samples);
-+        sw->conv(sw->resample_buf.buffer, buf, samples);
- 
-         if (!sw->hw->pcm_ops->volume_out) {
--            mixeng_volume(sw->buf, samples, &sw->vol);
-+            mixeng_volume(sw->resample_buf.buffer, samples, &sw->vol);
++        /* read as many input samples so that ipos > opos */
+         while (rate->ipos <= (rate->opos >> 32)) {
+             ilast = *ibuf++;
+             rate->ipos++;
+@@ -78,6 +78,11 @@ void NAME (void *opaque, struct st_sample *ibuf, struct st_sample *obuf,
+             }
          }
-     }
  
-@@ -724,7 +724,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-         osamp = blck;
-         st_rate_flow_mix (
-             sw->rate,
--            sw->buf + pos,
-+            sw->resample_buf.buffer + pos,
-             sw->hw->mix_buf.buffer + wpos,
-             &isamp,
-             &osamp
-@@ -1061,7 +1061,8 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
-                 size_t bytes = to_write * hw->info.bytes_per_frame;
-                 size_t written;
++        /* make sure that the next output sample can be written */
++        if (obuf >= oend) {
++            break;
++        }
++
+         icur = *ibuf;
  
--                sw->buf = hw->mix_buf.buffer + rpos2;
-+                sw->resample_buf.buffer = hw->mix_buf.buffer + rpos2;
-+                sw->resample_buf.size = to_write;
-                 written = audio_pcm_sw_write (sw, NULL, bytes);
-                 if (written - bytes) {
-                     dolog("Could not mix %zu bytes into a capture "
+         /* wrap ipos and opos around long before they overflow */
 -- 
 2.39.2
 
