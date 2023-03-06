@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6516ACB6D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8136ACB8C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 18:55:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZF1R-0005hz-CM; Mon, 06 Mar 2023 12:53:17 -0500
+	id 1pZF1T-0005vc-37; Mon, 06 Mar 2023 12:53:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1E-0005ER-Jz
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:05 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF1E-0005ET-LR
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:06 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF18-0002s7-QY
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pZF19-0002sc-L1
  for qemu-devel@nongnu.org; Mon, 06 Mar 2023 12:53:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,9 +22,9 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ZAupzlnUclK2s+NC5DxuWwlH/1CHgx7bGvjrw4ZLzjQ=; b=LMojOcvkoI/sYeclwYnB9/mreV
- qJ4yRV37H0GPHjqOksLVXS0WUQwAb1uzIHB/5IIjGJAjPgd+zNUHxWpLDA4SKsDNXSkCILbFGAajR
- 9RtXmbCNi10sWUKO8EIY2ePNGRZ4sI2yvw6RomhF+AsBzCjP8lHaTb2nIUseb0IsJevY=;
+ bh=/gASnio0EmukQBORXKYIHOVlTLp5WsCz4/xI3AIM7Q0=; b=RpYdH1stYpJYVcPpOFsYDZzZLt
+ GLqllAaP7MZJDu0VmyAwP/R542VAipurjdRVKo5VJL9alk0x4ZZAghY4gwz4kL/pwH3Z0l4MkKF3n
+ c2snyBdYPIMJKNkN+flJ2Rqb3ZUmKVO+syhgwpWYulGS8YzvMW32+4Iuc46WXXZgf/BQ=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH 13/23] target/nios2: Remove `NB_MMU_MODES` define
-Date: Mon,  6 Mar 2023 18:52:20 +0100
-Message-Id: <20230306175230.7110-14-anjo@rev.ng>
+Subject: [PATCH 14/23] target/openrisc: Remove `NB_MMU_MODES` define
+Date: Mon,  6 Mar 2023 18:52:21 +0100
+Message-Id: <20230306175230.7110-15-anjo@rev.ng>
 In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 References: <20230306175230.7110-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,18 +66,18 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/nios2/cpu-param.h | 1 -
+ target/openrisc/cpu-param.h | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/target/nios2/cpu-param.h b/target/nios2/cpu-param.h
-index 177d720864..767bba4b7b 100644
---- a/target/nios2/cpu-param.h
-+++ b/target/nios2/cpu-param.h
-@@ -16,6 +16,5 @@
- #else
- # define TARGET_VIRT_ADDR_SPACE_BITS 32
- #endif
--#define NB_MMU_MODES 2
+diff --git a/target/openrisc/cpu-param.h b/target/openrisc/cpu-param.h
+index 73be699f36..3f08207485 100644
+--- a/target/openrisc/cpu-param.h
++++ b/target/openrisc/cpu-param.h
+@@ -12,6 +12,5 @@
+ #define TARGET_PAGE_BITS 13
+ #define TARGET_PHYS_ADDR_SPACE_BITS 32
+ #define TARGET_VIRT_ADDR_SPACE_BITS 32
+-#define NB_MMU_MODES 3
  
  #endif
 -- 
