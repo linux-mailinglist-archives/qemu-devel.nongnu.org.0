@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB5A6AC5AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A23186AC5A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 16:39:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZCvP-0000oa-UR; Mon, 06 Mar 2023 10:38:55 -0500
+	id 1pZCvu-00033B-8D; Mon, 06 Mar 2023 10:39:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCvO-0000fG-1R
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:38:54 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZCvL-00034C-3H
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:38:53 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- l7-20020a05600c4f0700b003e79fa98ce1so5454741wmq.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 07:38:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678117129;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mchCrK2cxJeE1WoyED0JTKD2bax1zh0H5EZHRUKvisE=;
- b=Ojv3ZLEb48W4RRvXubgF47Eam3WFv1Eq+vvoebokuD275FU5dxebCNhdMn0IgeA/Q+
- D4gJmv53gShL8DFl0Vx8cNXd+W9V+U+M0QXGI0r9OjQTZ3rp/X0zswcYzqNMDB3Rgew/
- Vq8IvoVDsBK9NRI3FKpVTokvRyPlKUgLTUvSQgOEi6KLPU+JPPdtRkGDZ1OoDW3VAJWm
- nrwj0YaW3kX5pbSKlVinIbSy2HX9TKlcGq0dSVYdos99zhou3OJrD9pkiOpUB6XK7VE1
- oAmc8gZwy/cN1JWWYBmbu4NjWweaH20bN4yj+83B8JcEp6vv/OR5jL3BSKHBIaWtHB2T
- ll/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678117129;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mchCrK2cxJeE1WoyED0JTKD2bax1zh0H5EZHRUKvisE=;
- b=Le7/CO6aIXM2UPJMlPNGkWQpcHh5FwOa0u67rWnRlqmAjMHPX6XAa0Zx7ri/iTCqUe
- gVP2Go0Ljf4GxzL4j3RTYdX7K702AiokFZey1YVOhpHRmRVVxZUdKGeUCGEj2p+6oZJZ
- LSgf3Y2Nz2LX6zj04RN+zwv9SPeAbTU8qcYP8SFZ4wEQEo2SIRRRsZh/XSI3ROuAXnFo
- 61eTEYZ8o/G32cwA8rdAuD03c42aTcg1AJc5aNc0SL+vIgpDp5ecdbeMniU9YoBq+AvR
- 0go2PabV3UCsDHItE35fvqsYr5JEsvjyjgRoFZ+Y0lkfKmXQOw2wbnVaaa/g2xeJY80O
- OfiQ==
-X-Gm-Message-State: AO0yUKUuKMN3wLzti5Y0nm2PQaOQOFzHSoDuHPLiKZgrVs2Ldkm4XKvf
- jXsmt/Rmg/png9+K+JRlWeHaBw==
-X-Google-Smtp-Source: AK7set/R9UD+wDZ3x531Y4U4wMI4OSZ5VUBpwjkhjYkSDEdQY/G0ZExkhIZ+/TUbyHw4aN9el3WViQ==
-X-Received: by 2002:a05:600c:3505:b0:3ea:f883:53ea with SMTP id
- h5-20020a05600c350500b003eaf88353eamr9053672wmq.7.1678117129625; 
- Mon, 06 Mar 2023 07:38:49 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- c2-20020a5d63c2000000b002c8ed82c56csm10367575wrw.116.2023.03.06.07.38.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 07:38:49 -0800 (PST)
-Message-ID: <4ab2e07e-1add-d521-eba5-b81292912b4c@linaro.org>
-Date: Mon, 6 Mar 2023 16:38:47 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pZCvd-0002tG-1p
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:39:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pZCvb-00035p-FF
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 10:39:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678117146;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IupN4GsOD8BIWOVkIfa5qjLFuxUOau62oPzeyZ/hfas=;
+ b=Ap8yIs8+YSIKSImFBNEK9pK3QUzSfstg3Dh1K6m7s+WZ5IsWH/X8XkEelTY/y7ehf7qD+q
+ fPYtqBPpluxHIOGmrYxsTXBgZZLi/2GXmt1UJlnoBLfzk9yqTxhbOP6ZR9pFsKWRTTxwhv
+ AFBuC6mfShEbUj46miEMaGl75UxnkgE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-575-TUEqcquqOvmCnYrFOzfjfg-1; Mon, 06 Mar 2023 10:39:04 -0500
+X-MC-Unique: TUEqcquqOvmCnYrFOzfjfg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6098F1802CE4
+ for <qemu-devel@nongnu.org>; Mon,  6 Mar 2023 15:39:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DB011121314;
+ Mon,  6 Mar 2023 15:39:03 +0000 (UTC)
+Date: Mon, 6 Mar 2023 15:39:01 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, thuth@redhat.com, quintela@redhat.com
+Subject: Re: [PATCH] tests/migration: Tweek auto converge limits check
+Message-ID: <ZAYJFZq71nIRy6V3@redhat.com>
+References: <20230306152612.52291-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 57/70] target/tricore: Rename t_off10 and use
- tcg_constant_i32
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-58-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-58-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+In-Reply-To: <20230306152612.52291-1-dgilbert@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,18 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:42, Richard Henderson wrote:
-> While temp3 could simply be initialized with tcg_constant_i32,
-> the renaming makes the purpose clearer.
+On Mon, Mar 06, 2023 at 03:26:12PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Thomas found an autoconverge test failure where the
+> migration completed before the autoconverge had kicked in.
+> 
+> To try and avoid this again:
+>   a) Reduce the usleep in test_migrate_auto_converge
+>     so that it should exit quicker when autoconverge kicks in
+>   b) Make the loop exit immediately rather than have the sleep
+>      when it does start autoconverge, otherwise the autoconverge
+>      might succeed during the sleep.
+>   c) Reduce inc_pct so auto converge happens more slowly
+>   d) Reduce the max-bandwidth in migrate_ensure_non_converge
+>     to make the ensure more ensure.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->   target/tricore/translate.c | 56 ++++++++++++++++++--------------------
->   1 file changed, 27 insertions(+), 29 deletions(-)
+>  tests/qtest/migration-test.c | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
