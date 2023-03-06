@@ -2,91 +2,173 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550296ACE53
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 20:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408BF6ACE54
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 20:43:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZGjB-0004Eo-7d; Mon, 06 Mar 2023 14:42:33 -0500
+	id 1pZGjK-00054z-Sp; Mon, 06 Mar 2023 14:42:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZGj5-00049d-Ct
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:42:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1pZGjI-0004xR-7V
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:42:40 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZGj3-0003Qb-0A
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:42:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678131743;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mnjCF/fMpmbj8JDZJS4fqGGX7hlApQEtMlSHGJBTSvg=;
- b=Je8IfEGvbhjB3wOaOe612kiaUHLYM6IgCnPmffrrIKAHl8wVOdxW9qRJ9iYE73N73xeyne
- Nm4opBtr7x9vvSzh5tzeSxUcrN80gDtl81J8VyvAnVUXiKxup/7Ql1iHLtQQcG3braynLZ
- d3FJg99YniIbnvDQOdbp5npJL8uL9bo=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-KvDw5fNOOkqbkBXvR6IYbQ-1; Mon, 06 Mar 2023 14:42:21 -0500
-X-MC-Unique: KvDw5fNOOkqbkBXvR6IYbQ-1
-Received: by mail-il1-f200.google.com with SMTP id
- y2-20020a929502000000b0031707c6b348so5841389ilh.8
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 11:42:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678131741;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mnjCF/fMpmbj8JDZJS4fqGGX7hlApQEtMlSHGJBTSvg=;
- b=WcfGSPePKk8jTn7NPOQovyRiiN7cSQlEXcKCOdRzEqFCGf2dPPJ0gSDESTN0PYfGHp
- gkBzFEqmWJhGijrEkl2LHmVy0pzJFTUyYdb3LXb7SH3E7irvC5RDh7HYPZhdOYf9RDOC
- Kfj2GXfW/CLGdK0Y1P6RGPpUlRPl8tMDHb3qlZZexu6hlqqb05l9cN0EBsadKFt4NqHk
- LQLJUULmlOfWhkXeW8d8IoFpni4oOvfH7A68XBM6Zxk0WguomJXawUbq3DxE0E2nXuPU
- 0S6IXn5fucRpLN8m8Eg89Gw6clNLW3D9rNG10csCsh2DXSPlZ8V2PNWCu8+VuZBVE0xL
- 0irw==
-X-Gm-Message-State: AO0yUKUcdrr0PQ07NEQfFlGmzMK5PrcT5HEahthlrdd6qlNQMP7w4QJ+
- 17/7YdeaOy5ffaE1a1/dBD9Gw2fE62qAn/9F72pVrYKfvjhaABPGxuF8z0dQ2jxC5sVAWJS/VhA
- TixHKdjXY10XD3d4=
-X-Received: by 2002:a05:6e02:20e6:b0:318:abd1:da42 with SMTP id
- q6-20020a056e0220e600b00318abd1da42mr10088105ilv.12.1678131741219; 
- Mon, 06 Mar 2023 11:42:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set+wn3sMXac2Rri8T4XA6yoD8G5bcKqtXQqzrCIubR1vy4qLMpVU+3UGnT4DxnVbgjxKuJJhXg==
-X-Received: by 2002:a05:6e02:20e6:b0:318:abd1:da42 with SMTP id
- q6-20020a056e0220e600b00318abd1da42mr10088092ilv.12.1678131740895; 
- Mon, 06 Mar 2023 11:42:20 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- u10-20020a02cb8a000000b003ea1dbd00d6sm3422701jap.70.2023.03.06.11.42.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 11:42:20 -0800 (PST)
-Date: Mon, 6 Mar 2023 12:42:19 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>
-Subject: Re: [PATCH v3 11/13] vfio/migration: Block migration with vIOMMU
-Message-ID: <20230306124219.3ad325aa.alex.williamson@redhat.com>
-In-Reply-To: <20230304014343.33646-12-joao.m.martins@oracle.com>
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1pZGjG-0003Tw-6H
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 14:42:39 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 326IdjqH032418; Mon, 6 Mar 2023 19:42:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=AUOhIxZhhA7xcjBIuokIvX14peIA5ABs3pFuR95C8dA=;
+ b=hN42ybRJu6k2cgj1yX/mchna1sLGmEW7nMBBIJBpW5dGtOThB9gholqN1B0K7Z6+Vy8g
+ 8BWQ7SkLHJsYT1RecabiwTlnfp+Ytj5Dt7zaViMb3fgmAEkWama7ftTnIVA/6bVXfhMU
+ X0mjk4DH4efdGgUTn6tKStUjRVWmkT8u85oz19VhVafPOU25rBStUIjajw6k/ZBkad0J
+ YWmCVoHlwMj2nrRaE7oBz1tpv92pJxpGXlv/c2LQyqdejDPN3x6Mhli6tAJwlEeu0eiW
+ CHcsLyTELBRdjnOpiB73ikYqZSQiMyPEKkUv6yh+tqqe/wQIIia0qFiH96VBN+gtngst 2w== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p5nn904ab-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 06 Mar 2023 19:42:36 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 326HlR1r024351; Mon, 6 Mar 2023 19:42:35 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3p4u056q8b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 06 Mar 2023 19:42:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cU94wXFIJeTXDVfMa7i6Jv/fIGievYMUPCIbGIrLc9umMG9s3dRuUYs8WDJzR05cAtAoYW9yV0s9hvP1FsXapquZfgNY9IOElQL8fDvLo5LcdZ1z4uE4kzNYeNzLJKjUJbw9aFAIGUjpI8LxPA0yKXwF8PH56OvikoV5Y3y584xnPMapWB92ggMcMA+GEkda/a3xzk4l5x1ueYqggwR0+Uaz/mVRMznmo85b/v0q1Icxp63wyoNKoLdU9azGeyid4bCtnvO3WIOGsJ1A5TiuD4TdAaOuH3kCU5fsCN293iYXcF2ZA5JUQ3nFWfyGMnpKVY3lcdJV1d8yH1/HpxB72Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AUOhIxZhhA7xcjBIuokIvX14peIA5ABs3pFuR95C8dA=;
+ b=CMefd1p81B6tviW32xX+4FG6s1Pizin82t+XBlydH3j2VSplYYn+naXQjj4iLS0MMkay5+z9JWxOQAB2WhUOF6l6dnZ07Vde7F1mBCSE8Nkfvnk51Z4xenuaot6NWrzO8darJ2kW7o0ld2rNwdtAQm5oZh9vwJMifEkp218BB9S/q+TSDdK9o+Wl//kccu9Te9FD4kc6RfQhY1xaC826moReXzB8+0zZsJ33GNPWN+6p8Q2MzfXKQU9c9aSbuktXabpsJrvo+ab2lWzlMcx944jnjPHNw1cF5joN+ZTr94h7+8HPCTBsDiEAyKUiQLasQKIAgtHUMetrZE8QVLv0ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AUOhIxZhhA7xcjBIuokIvX14peIA5ABs3pFuR95C8dA=;
+ b=UVTT72Xj8P0NtI3Dmmtl6u6nWpnLBOambcL19ls4iJPwqPIGjGTW2mDHciaB8cGDQZE+//Hdd3dAG8mmAopNH4Plr2IlyVqn74QLgFVC5hm78OfMu+Reo+cUirUT2nlhejQPjqdVt8yTmvXf6hTEtjeleQPjDsYywva5RglAr2c=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by BLAPR10MB4818.namprd10.prod.outlook.com (2603:10b6:208:30e::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
+ 2023 19:42:33 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::9b30:898b:e552:8823]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::9b30:898b:e552:8823%6]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
+ 19:42:33 +0000
+Message-ID: <5db61b0d-9c35-b668-01c4-7b05c3d899a3@oracle.com>
+Date: Mon, 6 Mar 2023 19:42:25 +0000
+Subject: Re: [PATCH v3 10/13] vfio/common: Add device dirty page bitmap sync
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
 References: <20230304014343.33646-1-joao.m.martins@oracle.com>
- <20230304014343.33646-12-joao.m.martins@oracle.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ <20230304014343.33646-11-joao.m.martins@oracle.com>
+ <20230306122249.5f9d9656.alex.williamson@redhat.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+In-Reply-To: <20230306122249.5f9d9656.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-ClientProxiedBy: LO2P265CA0185.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a::29) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BLAPR10MB4835:EE_|BLAPR10MB4818:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa7ecbee-b257-4739-ca13-08db1e7aeddd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gEvRkwxWmzF25D3FRf/vOuAMJmlonfzVzfbHowvzi/92kozcRvvgS93fC1h/D8APQhiZwF0Z36u5kgAKbbqRbnGXL/oDkj/uCtDDbC3Cjhkuad/6hKNKydWJn9UP0W+XYlF9AGhNDf/s6bf4cHiFGqHs7oqjMC2n7bDl72PbjC4aUDzHUCYqyTu7HglSLs+XifR5sfk5pg+iClqWGnoFFQybAoTBEUTXluuEJEclqBIqxl2xXYGroxVrq2VdFFusbcYYPogvF8esyETS76bgvwS0SRRJ1SMNWToYmbZBswoXj8Rkcakk3T/hvBlqZ9GJe9uT2e5xUonQM1qwiTO1Z3F/2V/DahKch1wSmHF9AQczwdlkqwK8Do3iMSdCJNl+acmhdgkCZ5k9NjvyqWHlK8DNKAmW6ggsR+aScvWOHhaNmjTcGnbXi/3Z7oYhnzBLZ1CE8NYfC1mxwEI/dWsgCNE8uGNu18mCuIQpKKiv8mTCoGAzrGgZwiQwLYXjdqoearNil1VnyZfXBcOvwEhYwaMqfngzRvxJf3Yq1zeZOjlyX4HnEVxmS34FS0TyxqmYtSLla5MHDWdAQCjgnr5rknaKIZ4QqoQVuW5Xm3WBd5axmHWuTVopTZNENDO37azh7623x+nrmRuW5qbsGEJvlarMbIErR8l19zlRu72Z/mzyDJqzfZP3XQ85HTmWoEo6huhr7DeRUkWyMx3Rw+bVLrmiWx8uJXNI2WOYue2KgFVlC6qqOsegMo7JfwjE4Y6SR3e77w+qoTSJazMT/MUPKw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(39860400002)(396003)(346002)(376002)(136003)(366004)(451199018)(31686004)(66476007)(66946007)(8676002)(54906003)(6486002)(478600001)(66556008)(316002)(6916009)(5660300002)(41300700001)(4326008)(31696002)(86362001)(36756003)(6506007)(186003)(6512007)(6666004)(26005)(38100700002)(53546011)(83380400001)(2616005)(8936002)(2906002)(14143004)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUZ2M016ajRzKzQ3VThDcS8wRks4T2s4OXgremZEeU14Tkx3UndOWHlHa3RG?=
+ =?utf-8?B?QUM4WFJYUXRqUGZaMWx5RUw0RTM4M3BNbWpQMHk2QkZ2YjFwR3J5TkpJQ0xB?=
+ =?utf-8?B?ZVhlbFNUYlJJL3hLc3lLa3RoS0FkVjZuSk9QczI1bUZLR0xJaUFJZVFLTG9T?=
+ =?utf-8?B?VitVV3g4WG15aGQ2RDh1QjIzMzgzbjZaRlMwT2doZ1pVZ1AxbmUvZklYV25k?=
+ =?utf-8?B?eWwydUFUc3M0NEREenVpNlVqQ2xmRno0cG9UbnVLM0lrNzY5eEJqbXc1aE1W?=
+ =?utf-8?B?aDNIMTJteUZUU1N6aTRaclRvV21XOVhxOC9vTHB5ZlhDWFp5NnBiYkdTK1dF?=
+ =?utf-8?B?MUprZlNzZU5CamVpVWZHYUlLZjlRTjJ2VUpETWRGeUpqR0xodlRCalIycFFl?=
+ =?utf-8?B?cXo4UHEydDVWUk15VTA4czlWb3RMUy93YmdVTmRVTXZqM0ExbEUvODNldFhh?=
+ =?utf-8?B?OVk5VW82b2RxaHJ6MUZkWDJBMzV5cTh6SXdGMUFDQWVqazE4dytBN1hsN0pM?=
+ =?utf-8?B?ZGpxb09JdWNhMkJHVlo2OGp5V2o5MkwvbDVYbzFuNjI5M2VXSDNySlpJcWJ0?=
+ =?utf-8?B?akJVY2tkNTkyTjFBTXBXVEpoK2xMOG1NeEVnSTR1Y0RBWFFTQjd4L1NqaDZ4?=
+ =?utf-8?B?b0FSZ3dxcU52TGxYNVd2QXZtU24wQWp3bWozUy9KOUlPSVY3WG5Zejc0eU9H?=
+ =?utf-8?B?b0ZGWmJHZm9tSXJ3WFAvWU52ZTJ2OHJGckhQeXgzamRtWjljTEZBdXY0YWtL?=
+ =?utf-8?B?ZjFqWjhqNDR6SHFDZmg5T1VIK0M5YXU5S1NiWDNBUDhHaHhxZlgvblRhLzJs?=
+ =?utf-8?B?Y0JiY01OYnVPc1hhL08zajVSWElDd3lEb2tkb0VQWGpOSXZYNWMrcE9SQnZ2?=
+ =?utf-8?B?V1lZcFFqSTdWdm5xR0xYYVYxM2xqUDlOZVd4bC9Ib3RCckJyaUY1VmJ2UDBT?=
+ =?utf-8?B?am84Zzg4NHNQZ3hVZHN3UDlOQUtvNEYxaHo5aHl1TXZBN01XU0c4QmkyY1FD?=
+ =?utf-8?B?cW5JTGZtMUN0aWhNWjBjNUdSMWI0Y3JDK01zMGZkL1UyR0g4R0ZwbFRYaWV6?=
+ =?utf-8?B?bTBrSWJaNWJmTHVpU0Z3Y3JGblAvZDNROUM4RGpvaUV0RDJncXh0UE40U0hk?=
+ =?utf-8?B?WHMxWGREZXhvcXFrNWdTcGF6Z1FJREcxTlJkQ1gyU1RKZms1T1ZudkRISVdr?=
+ =?utf-8?B?RnFxMzhZWkVhOFFoL1Y2anBDUnpvVUNXVmlkcU05THdzUy9NK3JLN2dRcERt?=
+ =?utf-8?B?ZGUxc01zUEtURUFQVnY0M084c3ZlYXI3QkRjTVhvUG9WWloyQVI2cmJCQmFX?=
+ =?utf-8?B?L01vYXpaRkVGOU5pLy8zamVVaytEaWJsZ3YyZitRL0xDQTc2WEtMU2p5L0tM?=
+ =?utf-8?B?WlBXVFJwZitEZ0ZOdnVGaWNuUU44WmQwMHJIdGY4ZisrTm9LV3hHMTNRUk13?=
+ =?utf-8?B?US9ENk1yUUx2Q1dlOGVpS241bXA3TE1GdW9CdFRxWDR1OWdmRWRZR0J3QXNF?=
+ =?utf-8?B?OW9POGFEZFEyVkpqWVduVEZSRVJLV1lGeEJFY3V0SHJyY2h6ZlZSYklUcUtr?=
+ =?utf-8?B?b1dBK3NUbThlWmIyMWJiVG1TRG50WExHRXR5NUwydzBRSVR0Q1pwMWJWZ2Rm?=
+ =?utf-8?B?eE9WcnR3Y01rZTIvcGMwenRsSFF6NS95ekI5ZmxDdDBJVzBZSS9BYzk3anE1?=
+ =?utf-8?B?SzRjWWRwc3NTRWxveElnbnUwa0ExTkM5Z0tSVk5pbE4rYjhDZ1pnOCtmaURn?=
+ =?utf-8?B?U2I1ZWp4d0dRL2JtMC9qTHJOSXpPNFpzQk5kY1h2U0R5a0I4eFQ5UzAxaXpD?=
+ =?utf-8?B?MjVxUHVSakJ4MFk0SUNUdmpuRW1xZ2tQVGhURGlidktpUWdsSmRvVko3bU9m?=
+ =?utf-8?B?UVE4Z3IrbTMwMDltMndnSzU0T28zTU1WV1FFeUk1RFNHQm5XVjBSRG5JZGlG?=
+ =?utf-8?B?Q0MxV2c5SEpoSytMT1JnbitwekJXOFIzSktjalBDbGN2MzBwNFJ2ZnNmZEhv?=
+ =?utf-8?B?WFc3RXNmMy82VFNqYWJ2blNkWTRIZEZpblZZcjlNajgrT3lCdklBNGprOTJn?=
+ =?utf-8?B?STdRendsZE83MVQyVzhyd2NMNk14TFZKT2ZVRDlDNUR3ZSt6aUdGRVZrL28v?=
+ =?utf-8?B?endqdW9SK2pOU0ZSL3NFaThVajBSd3IvN1YzRmNiNzVZZVg4cGxrblBwNk0y?=
+ =?utf-8?B?R2c9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 9srEqG0hsYrCTvNG/Olgb/Vf+yeEwdfH8MTYBsL3r5JT2EmrKZGVtEhT/VsvOtHPEcKqslxs4Nn6Y4DRgshIzn9IM+5H5z3xG+IGPV81/8eeS3eivOVD7Sme4pLpc7pP1Ok1RJco+zwpL+WDxMluENTdobupomPGz0q5wWCqce9tr2ToPYgzWMQChh7whj8KZ3yFO0PpkaWDGywQUdDiw2FHdteTgQ/3fsb2xNhV3/uoCFHOEh9oRKqBfR2hAlHfHETcvlRN7YkVEYSSweSs+LCUrdQn/m2oI7briRrQ2mtahJFznENBYYY8VD49wjtG25w04fMtfxbKNEIkMrLJx8zzOPO4z/L4lLGPfwYZ4wMCakl/Bf1Ys+VAJjEKXsfThtk9gFgjNiU+dzx2gDvvIN7lqOov7WcSPSwLrOlw9+LZFMiTXL/2uSrx+EzcdXNnfPe45DJPH67emtkwpT54Qti8Qdo8yabjj/V16iMDkR3TOgJYu6f3wG9JFMN0NNPfqWgwJHgMcLx/PTEXL58JJzxFA1LQ9Plw8arLqVU/AmZv2mO4I0sEO5dWN3yVsTCJH+BgFntd2BWgf0zERVXQ48iqqR+BOGe3Uzy2gtGVhnmO/C0UBCe6Cgq0zCiizC0NbSObBZqLn9mWEi0XZ9gxYgMYK/JjKp5jEP8P2bBEyxqGBTLiM1eJ9Tox/dfd7ObdayhzkKd8cVuLBBTaWRuySqkr6sfVlDG91ZuDQnwRdF5H9pIXUEC5w6j/F7yt8b88agaqFReO81EVq4u1zYdnAU5/GPuZibm1tfTWM2K6whhehNU1hgk67NGf6xqLkTGR
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa7ecbee-b257-4739-ca13-08db1e7aeddd
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 19:42:33.0211 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FFRE7GtTSCaqtucpluz9InTxQzCvt+Q7rVB61emUN4XWshkRukwpLG+CK4QnmfY2y9kIoesNHPF31Kn55RAmDPNOlUORG9FLUnXlVuZ1zTo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4818
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-06_12,2023-03-06_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303060171
+X-Proofpoint-GUID: X2_uu1_WoTSEBIHp93t2OCouqrAY50Yd
+X-Proofpoint-ORIG-GUID: X2_uu1_WoTSEBIHp93t2OCouqrAY50Yd
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,154 +185,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat,  4 Mar 2023 01:43:41 +0000
-Joao Martins <joao.m.martins@oracle.com> wrote:
 
-> Migrating with vIOMMU will require either tracking maximum
-> IOMMU supported address space (e.g. 39/48 address width on Intel)
-> or range-track current mappings and dirty track the new ones
-> post starting dirty tracking. This will be done as a separate
-> series, so add a live migration blocker until that is fixed.
+
+On 06/03/2023 19:22, Alex Williamson wrote:
+> On Sat,  4 Mar 2023 01:43:40 +0000
+> Joao Martins <joao.m.martins@oracle.com> wrote:
 > 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  hw/vfio/common.c              | 51 +++++++++++++++++++++++++++++++++++
->  hw/vfio/migration.c           |  6 +++++
->  include/hw/vfio/vfio-common.h |  2 ++
->  3 files changed, 59 insertions(+)
+>> Add device dirty page bitmap sync functionality. This uses the device
+>> DMA logging uAPI to sync dirty page bitmap from the device.
+>>
+>> Device dirty page bitmap sync is used only if all devices within a
+>> container support device dirty page tracking.
+>>
+>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+>> ---
+>>  hw/vfio/common.c | 88 +++++++++++++++++++++++++++++++++++++++++++-----
+>>  1 file changed, 79 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index b0c7d03279ab..5b8456975e97 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -342,6 +342,9 @@ static int vfio_bitmap_alloc(VFIOBitmap *vbmap, hwaddr size)
+>>      return 0;
+>>  }
+>>  
+>> +static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>> +                                 uint64_t size, ram_addr_t ram_addr);
+>> +
+>>  bool vfio_mig_active(void)
+>>  {
+>>      VFIOGroup *group;
+>> @@ -565,10 +568,16 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>>          .iova = iova,
+>>          .size = size,
+>>      };
+>> +    bool need_dirty_sync = false;
+>> +    int ret;
+>> +
+>> +    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
+>> +        if (!vfio_devices_all_device_dirty_tracking(container) &&
+>> +            container->dirty_pages_supported) {
+>> +            return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+>> +        }
+>>  
+>> -    if (iotlb && container->dirty_pages_supported &&
+>> -        vfio_devices_all_running_and_mig_active(container)) {
+>> -        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+>> +        need_dirty_sync = true;
+>>      }
+>>  
+>>      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+>> @@ -594,10 +603,12 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>>          return -errno;
+>>      }
+>>  
+>> -    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
+>> -        cpu_physical_memory_set_dirty_range(iotlb->translated_addr, size,
+>> -                                            tcg_enabled() ? DIRTY_CLIENTS_ALL :
+>> -                                            DIRTY_CLIENTS_NOCODE);
+>> +    if (need_dirty_sync) {
+>> +        ret = vfio_get_dirty_bitmap(container, iova, size,
+>> +                                    iotlb->translated_addr);
+>> +        if (ret) {
+>> +            return ret;
+>> +        }
+>>      }
+>>  
+>>      return 0;
+>> @@ -1579,6 +1590,58 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
+>>      }
+>>  }
+>>  
+>> +static int vfio_device_dma_logging_report(VFIODevice *vbasedev, hwaddr iova,
+>> +                                          hwaddr size, void *bitmap)
+>> +{
+>> +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
+>> +                        sizeof(struct vfio_device_feature_dma_logging_report),
+>> +                        sizeof(__aligned_u64))] = {};
+>> +    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
+>> +    struct vfio_device_feature_dma_logging_report *report =
+>> +        (struct vfio_device_feature_dma_logging_report *)feature->data;
+>> +
+>> +    report->iova = iova;
+>> +    report->length = size;
+>> +    report->page_size = qemu_real_host_page_size();
+>> +    report->bitmap = (__aligned_u64)bitmap;
+>> +
+>> +    feature->argsz = sizeof(buf);
+>> +    feature->flags =
+>> +        VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
 > 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 5b8456975e97..9b909f856722 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -365,6 +365,7 @@ bool vfio_mig_active(void)
->  }
->  
->  static Error *multiple_devices_migration_blocker;
-> +static Error *giommu_migration_blocker;
->  
->  static unsigned int vfio_migratable_device_num(void)
->  {
-> @@ -416,6 +417,56 @@ void vfio_unblock_multiple_devices_migration(void)
->      multiple_devices_migration_blocker = NULL;
->  }
->  
-> +static unsigned int vfio_use_iommu_device_num(void)
-> +{
-> +    VFIOGroup *group;
-> +    VFIODevice *vbasedev;
-> +    unsigned int device_num = 0;
-> +
-> +    QLIST_FOREACH(group, &vfio_group_list, next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            if (vbasedev->group->container->space->as !=
-> +                                    &address_space_memory) {
-> +                device_num++;
-> +            }
-> +        }
-> +    }
-> +
-> +    return device_num;
-> +}
+> Nit, the series is inconsistent between initializing flags as above and
+> as:
+> 
+>     feature->flags = VFIO_DEVICE_FEATURE_GET;
+>     feature->flags |= VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
+> 
+> My personal preference would be more like:
+> 
+>     feature->flags = VFIO_DEVICE_FEATURE_GET |
+>                      VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
+>
 
-I'm not sure why we're counting devices since nobody uses that data,
-but couldn't this be even more simple and efficient by walking the
-vfio_address_spaces list?
+I'll switch the overall style to the latter.
 
-static bool vfio_viommu_preset(void)
-{
-    VFIOAddressSpace *space;
-
-    QLIST_FOREACH(space, &vfio_address_spaces, list) {
-        if (space->as != &address_space_memory) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-> +
-> +int vfio_block_giommu_migration(Error **errp)
-> +{
-> +    int ret;
-> +
-> +    if (giommu_migration_blocker ||
-> +        !vfio_use_iommu_device_num()) {
-> +        return 0;
-> +    }
-> +
-> +    error_setg(&giommu_migration_blocker,
-> +               "Migration is currently not supported with vIOMMU enabled");
-> +    ret = migrate_add_blocker(giommu_migration_blocker, errp);
-> +    if (ret < 0) {
-> +        error_free(giommu_migration_blocker);
-> +        giommu_migration_blocker = NULL;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +void vfio_unblock_giommu_migration(void)
-> +{
-> +    if (!giommu_migration_blocker ||
-> +        vfio_use_iommu_device_num()) {
-> +        return;
-> +    }
-> +
-> +    migrate_del_blocker(giommu_migration_blocker);
-> +    error_free(giommu_migration_blocker);
-> +    giommu_migration_blocker = NULL;
-> +}
-> +
->  static void vfio_set_migration_error(int err)
->  {
->      MigrationState *ms = migrate_get_current();
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index a2c3d9bade7f..3e75868ae7a9 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -634,6 +634,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
->          return ret;
->      }
->  
-> +    ret = vfio_block_giommu_migration(errp);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
->      trace_vfio_migration_probe(vbasedev->name);
->      return 0;
->  
-> @@ -659,6 +664,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
->          unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
->          vfio_migration_exit(vbasedev);
->          vfio_unblock_multiple_devices_migration();
-> +        vfio_unblock_giommu_migration();
-
-Hmm, this actually gets called from vfio_exitfn(), doesn't all the
-group, device, address space unlinking happen in
-vfio_instance_finalize()?  Has this actually been tested to remove the
-blocker?  And why is this a _finalize() function when it's called from
-an exit callback?  Thanks,
-
-Alex
-
->      }
->  
->      if (vbasedev->migration_blocker) {
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 1cbbccd91e11..38e44258925b 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -233,6 +233,8 @@ extern VFIOGroupList vfio_group_list;
->  bool vfio_mig_active(void);
->  int vfio_block_multiple_devices_migration(Error **errp);
->  void vfio_unblock_multiple_devices_migration(void);
-> +int vfio_block_giommu_migration(Error **errp);
-> +void vfio_unblock_giommu_migration(void);
->  int64_t vfio_mig_bytes_transferred(void);
->  
->  #ifdef CONFIG_LINUX
-
+> Thanks,
+> Alex
+> 
+>> +
+>> +    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
+>> +        return -errno;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
+>> +                                           VFIOBitmap *vbmap, hwaddr iova,
+>> +                                           hwaddr size)
+>> +{
+>> +    VFIODevice *vbasedev;
+>> +    VFIOGroup *group;
+>> +    int ret;
+>> +
+>> +    QLIST_FOREACH(group, &container->group_list, container_next) {
+>> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+>> +            ret = vfio_device_dma_logging_report(vbasedev, iova, size,
+>> +                                                 vbmap->bitmap);
+>> +            if (ret) {
+>> +                error_report("%s: Failed to get DMA logging report, iova: "
+>> +                             "0x%" HWADDR_PRIx ", size: 0x%" HWADDR_PRIx
+>> +                             ", err: %d (%s)",
+>> +                             vbasedev->name, iova, size, ret, strerror(-ret));
+>> +
+>> +                return ret;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>  static int vfio_query_dirty_bitmap(VFIOContainer *container, VFIOBitmap *vbmap,
+>>                                     hwaddr iova, hwaddr size)
+>>  {
+>> @@ -1619,10 +1682,12 @@ static int vfio_query_dirty_bitmap(VFIOContainer *container, VFIOBitmap *vbmap,
+>>  static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>                                   uint64_t size, ram_addr_t ram_addr)
+>>  {
+>> +    bool all_device_dirty_tracking =
+>> +        vfio_devices_all_device_dirty_tracking(container);
+>>      VFIOBitmap vbmap;
+>>      int ret;
+>>  
+>> -    if (!container->dirty_pages_supported) {
+>> +    if (!container->dirty_pages_supported && !all_device_dirty_tracking) {
+>>          cpu_physical_memory_set_dirty_range(ram_addr, size,
+>>                                              tcg_enabled() ? DIRTY_CLIENTS_ALL :
+>>                                              DIRTY_CLIENTS_NOCODE);
+>> @@ -1634,7 +1699,12 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>          return -errno;
+>>      }
+>>  
+>> -    ret = vfio_query_dirty_bitmap(container, &vbmap, iova, size);
+>> +    if (all_device_dirty_tracking) {
+>> +        ret = vfio_devices_query_dirty_bitmap(container, &vbmap, iova, size);
+>> +    } else {
+>> +        ret = vfio_query_dirty_bitmap(container, &vbmap, iova, size);
+>> +    }
+>> +
+>>      if (ret) {
+>>          goto out;
+>>      }
+> 
 
