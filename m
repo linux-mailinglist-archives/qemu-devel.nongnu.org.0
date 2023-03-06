@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E556ABF97
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533426ABF92
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 13:34:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZA2A-0004VE-Gz; Mon, 06 Mar 2023 07:33:43 -0500
+	id 1pZA1o-0003zu-Fj; Mon, 06 Mar 2023 07:33:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZA1a-00040Z-KB
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:33:07 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZA0y-0003MF-UI
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:32:31 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZA1X-000467-Ld
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:33:06 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id h11so8630054wrm.5
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:33:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZA0x-00040V-8i
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 07:32:28 -0500
+Received: by mail-pf1-x434.google.com with SMTP id y10so5623378pfi.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 04:32:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678105982;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qDZhTZZrCjlFbqJSdwRIo2BMiBc16c/C9lqRcswNAPE=;
- b=QcLoukipamXjsati7EzR6hYirDGIZutk8KpfhGgUIvuVGsm6v8AdmkVMTKzN6ED5aW
- N3se87wpWKTCuerj8w7LT1Gk2W8utxutx6XBrEUrTWv/FZurcTf+qJU6NaXBIH1p5P4Y
- Rhd+dtnd/qMBvXFEargUcn8EQEvBtd955BALrHNJZe54F57s2BocT282S+jExzVy6Hfl
- CFK4V4AqkBVhnPUFbYBoEF0f0gZj/+kiA2W3WhwaD7hC3sc+5gqjjDqmXWR2PMlyLKQS
- CQWQ+hvyY87axJLMCvQhN38PlBfKed6C5k2wBUTMKaT9iKECAlwIRsawxOdwAJ3Mitww
- WsWQ==
+ d=linaro.org; s=google; t=1678105946;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QS9CEUO8FZB2RyDklnlhMkm6qwIfweSLqP97zJJaVkk=;
+ b=GNesPDMJlFbxiJuDE/xqtT066X6DciBJYPfUvmIKkAZYiYrrnsc2t2aUeoDASwgLzH
+ 6vmnOOuqJaC4CLIX/gtd+sVbYmyvbxqMUXzrPMB+vrPV7Yk6WR0s8YhPqTZRREYKqLxE
+ V74vovnjpxux0L+Sj8x9QFj/zqQpqKVatwiDAuhhecQ+dFZSf5doWxnKjge1nLLeO5RO
+ FUe3HPAVBcS/QJV/e06ksXr1XeMG11h2hUKb2kwzA9BtEbF1H7xvmk8ymNVbayRgyPUj
+ euSIMbnAEfeJs+yUbRq6AZ/7Gkp1M4FXW7XZFI8ilSlwAHU8sFZjwP735d7WipBkJPif
+ x3+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678105982;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=qDZhTZZrCjlFbqJSdwRIo2BMiBc16c/C9lqRcswNAPE=;
- b=XfwCZho4BXfgonXxdK+XsX+hBOXWmHfdxif145+hgiYLgkzowMvREL0t9/4EU5q+hd
- f6sYnF1pxJ/W1bRrvn0CUoaJH6YvM5FxqR4En6pZmLBX8HRzhk0jemUdVooh63ZjoOgm
- zBL6aK+RhceiWAnXj0BM7JOi4rBobssY6PQuak29h9dCIRGGCFpuhHy/tu4EYe2ugsMy
- g+zsKcCjCwEukSUirFV9c70yYE2UgPCAQJ44LhDzLdXJi90+fje3yqarh9h2eksEB/KL
- DQU7buzPJFh6lC7RFK6uR3DZ+JQsgxDou60z5Je4LW/LTEtr1bxvdtYm4T66FjFrYcpo
- H2SA==
-X-Gm-Message-State: AO0yUKWS1Ti7hYWEEwZeOoGreijqykc0VhguucQgl3qfvWvkmLo8vY1N
- UayUulRx+oJc4r4ctUuytWpxQA==
-X-Google-Smtp-Source: AK7set/xQ037bVX4T0FrAWjxS2TG/6LWFVlBhS0PQ5TXAxFAv4GKDZPOf6DhitFGmOqaXJAoahLJgw==
-X-Received: by 2002:adf:e506:0:b0:2ce:3d6c:9a03 with SMTP id
- j6-20020adfe506000000b002ce3d6c9a03mr5810311wrm.19.1678105981754; 
- Mon, 06 Mar 2023 04:33:01 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a5d4d88000000b002c70e60eb40sm9838920wru.11.2023.03.06.04.33.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 04:33:01 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 119C71FFB7;
- Mon,  6 Mar 2023 12:33:01 +0000 (GMT)
-References: <20230301125211.278808-1-williamvdvelde@gmail.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Willem van de Velde <williamvdvelde@gmail.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] Add qemu qcode support for keys F13 to F24
-Date: Mon, 06 Mar 2023 12:30:37 +0000
-In-reply-to: <20230301125211.278808-1-williamvdvelde@gmail.com>
-Message-ID: <87y1oaqcua.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1678105946;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QS9CEUO8FZB2RyDklnlhMkm6qwIfweSLqP97zJJaVkk=;
+ b=F6YsJfDKfCVZIaGvj67omk1pHR26y1/WnKapcRrFiS6+YwkaKNjN2lXYFLqJfURSF8
+ QV8PD6FOaR05ySbaMBvB1mpOyPrT5P0OpkYDcZmuOC2g5izu8M6AOb2nlyqveaGpSoF9
+ hw/V7M1scEJF3qF7T+I9yZpXJLhbWG8xgZ2bTwbmCXe0vPXVs4XEXMsKp5SJWjxW4m3W
+ aujMAcz/xD8qaTbIjNtJXAWe58CMwe4DhRspCuE1adxkSDJand/MpRfy0lTqgBeedAFb
+ Ri6k6S0g1CPeQkl5GMDtRwjmx8ugZPj5pGROX6LvDXWp7i9f5bCKzLZZ/SIvS6QuV4TJ
+ sQXg==
+X-Gm-Message-State: AO0yUKWtjejK0i79xiohkgbXRQIQZ+cxOpDwHv0DTRfLsOM5UgjCxPxj
+ 73WV4MXaxsYdqucVywGMYZJQlpGWzOvQzZC/FvlKQA==
+X-Google-Smtp-Source: AK7set/I9aJxj+oILfrLWHnig1+jzBe9ATAlUUXCcuSNYKEc/Fp7/DaCAIVSLOZ/aH88u9FeUqx/vENlq1wUPUBWwgU=
+X-Received: by 2002:a63:2953:0:b0:502:ecb9:4f23 with SMTP id
+ bu19-20020a632953000000b00502ecb94f23mr3710579pgb.5.1678105945809; Mon, 06
+ Mar 2023 04:32:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+References: <20230303161518.3411149-1-chenbaozi@phytium.com.cn>
+ <20230303161518.3411149-3-chenbaozi@phytium.com.cn>
+In-Reply-To: <20230303161518.3411149-3-chenbaozi@phytium.com.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Mar 2023 12:32:14 +0000
+Message-ID: <CAFEAcA-4bTZcLXONgQECoO293xifX8ocRNNzSZfg2Bbycnh8PA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/arm: Add DynamIQ Shared Unit control registers
+To: Chen Baozi <chenbaozi@phytium.com.cn>
+Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,76 +84,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Willem van de Velde <williamvdvelde@gmail.com> writes:
-
-> To be able to use the function keys F13 to F24 these should be defined in=
- de keycodemapdb and added to the qapi.
-> The keycodemapdb is updated in its own repository, this patch enables the=
- use of those keys within qemu.
+On Fri, 3 Mar 2023 at 16:16, Chen Baozi <chenbaozi@phytium.com.cn> wrote:
 >
-> Signed-off-by: Willem van de Velde <williamvdvelde@gmail.com>
-
-Adding maintainer to CC list so this doesn't get lost.
-
-For reference from:
-https://qemu.readthedocs.io/en/latest/devel/submitting-a-patch.html#cc-the-=
-relevant-maintainer
-
-  git config sendemail.cccmd 'scripts/get_maintainer.pl --nogit-fallback'
-
-will configure git send-email to do this automatically.
-
-> ---
->  qapi/ui.json    | 15 ++++++++++++++-
->  ui/keycodemapdb |  2 +-
->  2 files changed, 15 insertions(+), 2 deletions(-)
+> DynamIQ Shared Unit (DSU) contains system control registers in the SCU
+> and L3 logic which are implemented as the system registers for the cores
+> in the cluster. Add DSU control registers and enable it to the supported
+> cores.
 >
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 0abba3e930..98322342f7 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -886,6 +886,19 @@
->  # @lang1: since 6.1
->  # @lang2: since 6.1
->  #
-> +# @f13: since 8.0
-> +# @f14: since 8.0
-> +# @f15: since 8.0
-> +# @f16: since 8.0
-> +# @f17: since 8.0
-> +# @f18: since 8.0
-> +# @f19: since 8.0
-> +# @f20: since 8.0
-> +# @f21: since 8.0
-> +# @f22: since 8.0
-> +# @f23: since 8.0
-> +# @f24: since 8.0
-> +#
->  # 'sysrq' was mistakenly added to hack around the fact that
->  # the ps2 driver was not generating correct scancodes sequences
->  # when 'alt+print' was pressed. This flaw is now fixed and the
-> @@ -918,7 +931,7 @@
->              'volumeup', 'volumedown', 'mediaselect',
->              'mail', 'calculator', 'computer',
->              'ac_home', 'ac_back', 'ac_forward', 'ac_refresh', 'ac_bookma=
-rks',
-> -            'lang1', 'lang2' ] }
-> +            'lang1', 'lang2','f13','f14','f15','f16','f17','f18','f19','=
-f20','f21','f22','f23','f24' ] }
->=20=20
->  ##
->  # @KeyValueKind:
-> diff --git a/ui/keycodemapdb b/ui/keycodemapdb
-> index d21009b1c9..f5772a62ec 160000
-> --- a/ui/keycodemapdb
-> +++ b/ui/keycodemapdb
-> @@ -1 +1 @@
-> -Subproject commit d21009b1c9f94b740ea66be8e48a1d8ad8124023
-> +Subproject commit f5772a62ec52591ff6870b7e8ef32482371f22c6
+> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
 
+This looks OK if we need it, but as I mentioned in my comments
+on patch 1, I'd like to see if we can avoid having to have it...
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+thanks
+-- PMM
 
