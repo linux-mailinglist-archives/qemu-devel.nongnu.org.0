@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE4C6AB7F6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483596AB86C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 09:35:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ5to-0006gY-LB; Mon, 06 Mar 2023 03:08:48 -0500
+	id 1pZ6I5-0004bp-CC; Mon, 06 Mar 2023 03:33:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pZ5tk-0006gF-Nu
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:08:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pZ5tj-0006qd-Av
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:08:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678090122;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kqy6fbSmP/E0Ec01gKm1PxPNrukPZvjAV93d2I4SPH0=;
- b=WjwIUL8/zwN5LzAUAdedIe91xsRWv8Z8WCtVKueHF/yYrW707IXm0VUon5oLiqFMhk7wB0
- L9TOEu3DRCx1zu2wTgkHc8IXxbz5iv1ui0m+gZHU5PP19B7uNlbtTaZKqDmygwAHwz8hny
- sbISEnZ2c16b03wqcoFNvjrGacCayQg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-TrrH-7IWMPeT0eQBOX5mmw-1; Mon, 06 Mar 2023 03:08:41 -0500
-X-MC-Unique: TrrH-7IWMPeT0eQBOX5mmw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- dn8-20020a05640222e800b004bd35dd76a9so12664830edb.13
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 00:08:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pZ6Hu-0004bN-8s
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:33:45 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pZ6Hl-0003hu-5v
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 03:33:39 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so7567911wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 00:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678091611;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ibF4ybF4Ws8o4T9oAIQ18WOYdCEg4Mfe/uDfEQIPEes=;
+ b=euAixTX8dR788iaS+DRb7O2ZJVJFVj7SjpBLqScqcxAgZmdxXJRkOPD5+v2B0jj73J
+ W3WEOGbe5y2i6m15dba7W6uG2tkQwdDxvpkLm7FoRs5aJTOWGFU8hdw3/43d12slYKfY
+ 8h1TNBo92MIQjKvGxVjvV/hOoNfCbHslzWqRrrb2SQKLLTBlJUvG02K2jgoog6/aPtYV
+ JSir5OmXCTQq5NWQlatCl7r476Wt/yiqXAoF2qi1rq7YgjhZxaycXeVK2+DdVu1FulJS
+ k5BjZcbWtR3oNEkQBww9Al6dUBEgJiqIe5sz3vnLmRp2SXltPng0XPwxCN41qx8VcdpX
+ uWmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kqy6fbSmP/E0Ec01gKm1PxPNrukPZvjAV93d2I4SPH0=;
- b=FgTmzu8lJFcMhAxQmdRPugdeHoHk3Ac2mRA9oGElBEpB4G3rTVdd59n8a6jF+I01T/
- akB6OFcnbwe+n3QhNwFIxx+9VoyvZnP3jeMsTiErjv7ErJ46SiiWH+EM0RQC3GoPGjOd
- UcKlHJ7cobtr9atJWxEXa0nZAPV+WVR2O3UnTxewuMuOnIr9BrlltraqKac0RuCqtcRr
- mPR0//0Q77lAskxm1xoFIcox3fuXNgF8oOVQ2ElCOjx0YkJD8DgZXn3k/ABIl7q4RQIy
- mXpRWDRnRc5+P4BjY+pp5vsEW820vCkNHpjyN/yrBh6r22vFBDiBXdD22RfLUPSpYPD5
- lp+Q==
-X-Gm-Message-State: AO0yUKUmk4gMlVJ4Yn8Z/gWBh4pGPhHCQ3e+M3hpuDZXWKPR+3goj8B7
- 16TvEE5ByOfhkYLJnW+uKf9O8HgrsT5oTN4Cvw6aPTGVJNVvScDcH67uytiTLd59dDh3yv5Ljrg
- x2fBaJORg4wPjwtNa4IdfR6TlPODlZOI=
-X-Received: by 2002:a17:906:388d:b0:877:e539:810b with SMTP id
- q13-20020a170906388d00b00877e539810bmr4726134ejd.2.1678090120010; 
- Mon, 06 Mar 2023 00:08:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set9J67mXdhvh26behEOQCYIDZHv6Kbs2eBG04TZT2apYkbICrELng2Mj+SxJk4MgknWf4B68tk+/qCcNcWaLrNY=
-X-Received: by 2002:a17:906:388d:b0:877:e539:810b with SMTP id
- q13-20020a170906388d00b00877e539810bmr4726116ejd.2.1678090119757; Mon, 06 Mar
- 2023 00:08:39 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678091611;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ibF4ybF4Ws8o4T9oAIQ18WOYdCEg4Mfe/uDfEQIPEes=;
+ b=GdIei77drQJkXnSU1RQLT41FVfWUndv9i+7iJEzSji6BGoxzkV8WeGHftTdJeZCyGR
+ fk8wWI4oxtGCY5A3oxv31cXNWuMiPKqW1lRFHuihddsP2Vj9U6VZERS6ToA9b+Z4JMVD
+ UePMX99Xsa55RYa6ckdpEeX71NpC9sZVe9t3JRfda/rly4XjWE85NhGhuXYGX5lGX6cb
+ iVkCjbfgXcqK6b8O7CDDd4ZFd3hnFKpIuRa6EUMRRM1sXpzP+DCmKz8W5ReGIDQFZFTz
+ NwzM3iwQNIwaAc6lyse5jZB2svrYxtBn2No1TaxMqOZv1WPOb8Em7neETG0FU6S/GDDm
+ hing==
+X-Gm-Message-State: AO0yUKVhsPn8kk6FypAgxBIGTMajYcCvaTPnP5reOQHPMvacr+p0tnAt
+ SG+OmnlLQLkK0YqO5RUQyC6qqWXZtXKZXVsatJCHsg==
+X-Google-Smtp-Source: AK7set/1OWB18GVh5BErNM9qT+SHtKXtoSTHQf2af7R9Nbyn99UUJMdIs+aijevLfnXACJbCpJgXp8sOWJxrdFafV+0=
+X-Received: by 2002:a05:600c:a695:b0:3df:97cf:4593 with SMTP id
+ ip21-20020a05600ca69500b003df97cf4593mr2052544wmb.6.1678091610761; Mon, 06
+ Mar 2023 00:33:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
- <CAMxuvawu4EWKpw_8sHGU-hVKeX_wZzpWqaRJo6kjbkYB45VWjw@mail.gmail.com>
- <cd4d82c4-6161-493b-073b-235141d6337a@redhat.com>
-In-Reply-To: <cd4d82c4-6161-493b-073b-235141d6337a@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 6 Mar 2023 12:08:28 +0400
-Message-ID: <CAMxuvawL9VEGC5HL9OMwXhxeVY_qSKFfORsMaW9OeV=tQ0OH1A@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] win32: do not mix SOCKET and fd space
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Jason Wang <jasowang@redhat.com>, Michael Roth <michael.roth@amd.com>,
- qemu-arm@nongnu.org, 
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, armbru@redhat.com, 
- Peter Maydell <peter.maydell@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>, 
- Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>, 
- Hanna Reitz <hreitz@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007d4fd805f636cd6e"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230303131252.892893-1-alexghiti@rivosinc.com>
+ <mhng-4e784c07-e2bb-40f9-a42c-d4b3c331ddba@palmer-ri-x1c9a>
+In-Reply-To: <mhng-4e784c07-e2bb-40f9-a42c-d4b3c331ddba@palmer-ri-x1c9a>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Mon, 6 Mar 2023 09:33:20 +0100
+Message-ID: <CAHVXubiCH=X-gi37DFpOFWsNn=-vPnKe4SV2Gnt6P-r1SFLKPQ@mail.gmail.com>
+Subject: Re: [PATCH v11 0/5] riscv: Allow user to set the satp mode
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: dbarboza@ventanamicro.com, Alistair Francis <Alistair.Francis@wdc.com>, 
+ bin.meng@windriver.com, ajones@ventanamicro.com, frank.chang@sifive.com, 
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,62 +88,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007d4fd805f636cd6e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Palmer,
 
-Hi Paolo
-
-On Mon, Mar 6, 2023 at 12:05=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com>=
+On Mon, Mar 6, 2023 at 12:34=E2=80=AFAM Palmer Dabbelt <palmer@dabbelt.com>=
  wrote:
-
-> On 3/2/23 15:09, Marc-Andr=C3=A9 Lureau wrote:
-> >
-> >
-> >     v3:
-> >     - fix closesocket() to prevent CloseHandle() from close()
-> >     - fix direct closesocket() usage (#undef closesocket before)
-> >     - add a test for &error_warn
-> >     - add r-b tags
-> >
-> > ping  (I am missing reviews, thanks)
 >
-> I'm going to queue this series today if that's fine for you---thanks for
-> reminding!
+> On Fri, 03 Mar 2023 05:12:47 PST (-0800), alexghiti@rivosinc.com wrote:
+> > This introduces new properties to allow the user to set the satp mode,
+> > see patch 3 for full syntax. In addition, it prevents cpus to boot in a
+> > satp mode they do not support (see patch 4).
+> >
+> > base-commit: commit c61d1a066cb6 ("Merge tag 'for-upstream' of
+> > https://gitlab.com/bonzini/qemu into staging")
 >
+> I have that, but I still got some merge conflicts.  I've put that here
+> <https://github.com/palmer-dabbelt/qemu/tree/set-satp> for now, pending
+> Daniel's response below.
+
+Weird, I have just tried again and it applied cleanly on the
+base-commit I mentioned, I tried to cherry-pick a few patches, even
+commit d4ea71170432 ("target/riscv: introduce riscv_cpu_cfg()") does
+not break the merge.
+
+Anyway, FWIW I checked the patches on the set-satp branch again, and
+your merge seems ok.
+
 >
-Great, thanks! (I suppose you'll drop "RFC: build-sys: add slirp.wrap", and
-perhaps queue the other meson/wrap series instead)
+> >
+> > v11:
+> > - rebase on top of master
+> > - Added RB/AB from Frank and Alistair
+> > - Use VM_1_10_XX directly instead of satp_mode_from_str, from Frank
+> > - Set satp mode max for thead c906 to sv39
+>
+> Daniel: It looks like the feedback on v10 included dropping the first
+> patch
+> <https://lore.kernel.org/qemu-devel/66d80b94-5941-31f3-995f-e9666a91fbb7@=
+ventanamicro.com/T/#macdb6c5232bd8c082966107d7b44aaaec9b29ad6>.
+> Sorry if I'm just misunderstanding, but it looks to me like that patch
+> is still useful and the v11 doesn't even build without it.
 
---0000000000007d4fd805f636cd6e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+No, the first commit is a preparatory commit for the series, it is required=
+.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Paolo<br></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 6, 2023 at 12:05=
-=E2=80=AFPM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzi=
-ni@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On 3/2/23 15:09, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0v3:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- fix closesocket() to prevent CloseHandle() from c=
-lose()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- fix direct closesocket() usage (#undef closesocke=
-t before)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- add a test for &amp;error_warn<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- add r-b tags<br>
-&gt; <br>
-&gt; ping=C2=A0 (I am missing reviews, thanks)<br>
-<br>
-I&#39;m going to queue this series today if that&#39;s fine for you---thank=
-s for <br>
-reminding!<br>
-<br></blockquote><div><br></div><div>Great, thanks! (I suppose you&#39;ll d=
-rop &quot;RFC: build-sys: add slirp.wrap&quot;, and perhaps queue the other=
- meson/wrap series instead)</div></div></div>
 
---0000000000007d4fd805f636cd6e--
-
+>
+> >
+> > v10:
+> > - Fix user mode build by surrounding satp handling with #ifndef
+> >   CONFIG_USER_ONLY, Frank
+> > - Fix AB/RB from Frank and Alistair
+> >
+> > v9:
+> > - Move valid_vm[i] up, Andrew
+> > - Fixed expansion of the bitmap map, Bin
+> > - Rename set_satp_mode_default into set_satp_mode_default_map, Bin
+> > - Remove outer parenthesis and alignment, Bin
+> > - Fix qemu32 build failure, Bin
+> > - Fixed a few typos, Bin
+> > - Add RB from Andrew and Bin
+> >
+> > v8:
+> > - Remove useless !map check, Andrew
+> > - Add RB from Andrew
+> >
+> > v7:
+> > - Expand map to contain all valid modes, Andrew
+> > - Fix commit log for patch 3, Andrew
+> > - Remove is_32_bit argument from set_satp_mode_default, Andrew
+> > - Move and fixed comment, Andrew
+> > - Fix satp_mode_map_max in riscv_cpu_satp_mode_finalize which was set
+> >   too early, Alex
+> > - Remove is_32_bit argument from set_satp_mode_max_supported, Andrew
+> > - Use satp_mode directly instead of a string in
+> >   set_satp_mode_max_supported, Andrew
+> > - Swap the patch introducing supported bitmap and the patch that sets
+> >   sv57 in the dt, Andrew
+> > - Add various RB from Andrew and Alistair, thanks
+> >
+> > v6:
+> > - Remove the valid_vm check in validate_vm and add it to the finalize f=
+unction
+> >   so that map already contains the constraint, Alex
+> > - Add forgotten mbare to satp_mode_from_str, Alex
+> > - Move satp mode properties handling to riscv_cpu_satp_mode_finalize, A=
+ndrew
+> > - Only add satp mode properties corresponding to the cpu, and then remo=
+ve the
+> >   check against valid_vm_1_10_32/64 in riscv_cpu_satp_mode_finalize,
+> >   Andrew/Alistair/Alex
+> > - Move mmu-type setting to its own patch, Andrew
+> > - patch 5 is new and is a fix, Alex
+> >
+> > v5:
+> > - Simplify v4 implementation by leveraging valid_vm_1_10_32/64, as
+> >   suggested by Andrew
+> > - Split the v4 patch into 2 patches as suggested by Andrew
+> > - Lot of other minor corrections, from Andrew
+> > - Set the satp mode N by disabling the satp mode N + 1
+> > - Add a helper to set satp mode from a string, as suggested by Frank
+> >
+> > v4:
+> > - Use custom boolean properties instead of OnOffAuto properties, based
+> >   on ARMVQMap, as suggested by Andrew
+> >
+> > v3:
+> > - Free sv_name as pointed by Bin
+> > - Replace satp-mode with boolean properties as suggested by Andrew
+> > - Removed RB from Atish as the patch considerably changed
+> >
+> > v2:
+> > - Use error_setg + return as suggested by Alistair
+> > - Add RB from Atish
+> > - Fixed checkpatch issues missed in v1
+> > - Replaced Ludovic email address with the rivos one
+> >
+> > Alexandre Ghiti (5):
+> >   riscv: Pass Object to register_cpu_props instead of DeviceState
+> >   riscv: Change type of valid_vm_1_10_[32|64] to bool
+> >   riscv: Allow user to set the satp mode
+> >   riscv: Introduce satp mode hw capabilities
+> >   riscv: Correctly set the device-tree entry 'mmu-type'
+> >
+> >  hw/riscv/virt.c    |  19 +--
+> >  target/riscv/cpu.c | 288 ++++++++++++++++++++++++++++++++++++++++++---
+> >  target/riscv/cpu.h |  25 ++++
+> >  target/riscv/csr.c |  29 +++--
+> >  4 files changed, 323 insertions(+), 38 deletions(-)
 
