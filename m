@@ -2,93 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A606AC1A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:42:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6D86AC1B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 14:45:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZB6E-00055A-2J; Mon, 06 Mar 2023 08:41:58 -0500
+	id 1pZB90-0007sb-V4; Mon, 06 Mar 2023 08:44:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZB68-00051t-7l
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:41:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZB8x-0007s9-0I
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:44:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZB66-0001aY-3T
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:41:51 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZB8u-0002JU-NZ
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 08:44:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678110108;
+ s=mimecast20190719; t=1678110283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SVNpmVOpztHaHl4r5j3ZvjfXZhmsMGytMF45RMDATS8=;
- b=T3YLoNmNILjywoOUUQ6AYbUpz3BRsjTj/suAA8nuQRnW9z87DowuaAVwnmQ2Kx1nNoROAr
- nQo/lB+o+807cF2BGmyST9FBoN9aHpxl+aurKapXp/+SVvw7x/mIVlUUgH8L8BzMLWCLtH
- 3k2tqWMfPD8rtqmcPLc0C9+Gm+EM9dA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/bjN8gy4ob0i5jaHoXQeB/kjCj4xMpnLdM6pIicILGU=;
+ b=Aw4lDmBYCoS+IDDl8lxAZ8/M5IR6LqRsSc6XLHhWmf664VI4W4/9pcdWN4BdkiZ7MtLUp9
+ 4emdV4+mPRt4LJIkrSZcY2tWJ4C30IhZLXqMAKC8yfoZDtoHtvNU+XwvTESBo4o4B5NzXD
+ bE0lTF2IPVxXxSdVOBl7CZWWpUUOxa4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-446-6vAV-Y88NQ-lys6iQqI8nw-1; Mon, 06 Mar 2023 08:41:47 -0500
-X-MC-Unique: 6vAV-Y88NQ-lys6iQqI8nw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- m25-20020ae9e019000000b007421ddd945eso5315146qkk.6
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:41:47 -0800 (PST)
+ us-mta-111-9tZRxL3ANOWXbf9SD8W99Q-1; Mon, 06 Mar 2023 08:44:42 -0500
+X-MC-Unique: 9tZRxL3ANOWXbf9SD8W99Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l14-20020a5d526e000000b002cd851d79b2so1473254wrc.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 05:44:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678110107;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SVNpmVOpztHaHl4r5j3ZvjfXZhmsMGytMF45RMDATS8=;
- b=CVrCBVst6D/GifIypZ7nBA0xu5qCN+rUd7bhAMJrQ5D1UPT8nDXn4ethvIOHFkotTJ
- 6hD7xJtA11yCJfeOk2YVaijQzMQcyD8PSjgjV8n/2C4V/BV212LmmIUrymRbDq8gMxZL
- bCCWwBp5H0kgUYCy4HtajU6QsMaSGeM6VroTRHMutez34gp8GRPPxDZ5FaYVTijfMeqg
- PqB1bccejMawC9YAEToDSWeuw4HalfSMng6bGLbxc29wK70/A/tK/Sex5wOEVcCE746K
- CtPpTHv+RovnAkSAR5v6vMsteaqv8UukSHrb0NNx1V7Sq11pIfINOb6uPsNiGXi13JpU
- mryQ==
-X-Gm-Message-State: AO0yUKUe8yaGNIB5wvu72XTo0IOTBlFm2QUVX4Kf484r6M7YRMT79N3i
- AoCj2kgaoU0RHEJZ4S0kKH9z+oe/bjzrC5stUGrtRRrh9mX2hrX7E98sCg4Hg+nXNvZfc8FAc0g
- weT9J1IRUKR5gRHk=
-X-Received: by 2002:ac8:4e4d:0:b0:3c0:14ec:bfc0 with SMTP id
- e13-20020ac84e4d000000b003c014ecbfc0mr17503326qtw.22.1678110107133; 
- Mon, 06 Mar 2023 05:41:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set/wsr3AR7xag+hye4vF9lOyvWe2YN3asYIZswp1G2Mu2RBBiJP/4snKCUBbWgc0zr42rjuyig==
-X-Received: by 2002:ac8:4e4d:0:b0:3c0:14ec:bfc0 with SMTP id
- e13-20020ac84e4d000000b003c014ecbfc0mr17503302qtw.22.1678110106915; 
- Mon, 06 Mar 2023 05:41:46 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ d=1e100.net; s=20210112; t=1678110281;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/bjN8gy4ob0i5jaHoXQeB/kjCj4xMpnLdM6pIicILGU=;
+ b=UgeM7ZHqFFBI4rk2t9p+xV0dyQcvxwgf6O/Pty6AT6/svkaI7P+VDQjAyKkdcbXCKY
+ PohMMNlcA9TQeG2VorOp+3fq30AC1wA7pErMPqNcruwNmt9T49bTM28WnfnNFjNPGhno
+ t9YG2L5ygf6dac+pTUegqRF24BhrHAaRIcJyZIwZo2kJzNExlomYs0o6wzyJoC6Xd9nf
+ u6Fwph6MTUBlt0dS08VgOuBTIybI3qEYOzlGq/Z1eSKoTGvEbvu+XOMl8IsubIO/a4Zx
+ KH61A8T58iEZJGbIr22ZWn6AzaqKFwprgvNVagAv8jIlfLQSBixd0y8SK1PYUxaRFTUH
+ UkEw==
+X-Gm-Message-State: AO0yUKUbk8WAb5TSflVTcUx3JHBVIy8BJMT0/uzj/YEdm5LRJF9piEtp
+ tfLDASYBDej6xzsdfHFqBpOguthvfUXag6yjyIQgNDrYW+J2uL48/MKDCJvWzN9+NDH2JQGkOY+
+ Tp9zgdGxPlALJYi0=
+X-Received: by 2002:adf:f04a:0:b0:2ca:e8c2:6d25 with SMTP id
+ t10-20020adff04a000000b002cae8c26d25mr6959249wro.60.1678110281289; 
+ Mon, 06 Mar 2023 05:44:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set9MPi3TYZgxEeKUP6Nb5Wq06OggHReKEaMPeSb9wJJdXdCTbCgWGRUijzy1YXNDOr6yQIqyjA==
+X-Received: by 2002:adf:f04a:0:b0:2ca:e8c2:6d25 with SMTP id
+ t10-20020adff04a000000b002cae8c26d25mr6959239wro.60.1678110280985; 
+ Mon, 06 Mar 2023 05:44:40 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a05620a121300b007424376ca4bsm7433562qkj.18.2023.03.06.05.41.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 05:41:46 -0800 (PST)
-Message-ID: <2d1677ea-4895-f7e9-a6dd-0973cd270e5b@redhat.com>
-Date: Mon, 6 Mar 2023 14:41:43 +0100
+ m14-20020adffe4e000000b002c54c8e70b1sm10142871wrs.9.2023.03.06.05.44.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 05:44:40 -0800 (PST)
+Date: Mon, 6 Mar 2023 13:44:38 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+Message-ID: <ZAXuRp4p7heAbFtF@work-vm>
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <ZADeLNaltLAZ9BU8@redhat.com> <87edq6i4jf.fsf@secure.mitica>
+ <CAFEAcA8aKkFse_nfoKSPA--QdQnB1xVZyMQoQWfqpf4yyxtzDA@mail.gmail.com>
+ <188bd1ff-4ea2-6d92-2b6e-6f19af3df232@redhat.com>
+ <CAFEAcA-U568vrLKHegfKQWu1RfUCRjdOKZQMoFXSde1yk4V3Wg@mail.gmail.com>
+ <53ca67e4-fb2f-17ac-2087-9faa7aba5187@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 07/13] vfio/common: Record DMA mapped IOVA ranges
-Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-References: <20230304014343.33646-1-joao.m.martins@oracle.com>
- <20230304014343.33646-8-joao.m.martins@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230304014343.33646-8-joao.m.martins@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <53ca67e4-fb2f-17ac-2087-9faa7aba5187@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,187 +111,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/4/23 02:43, Joao Martins wrote:
-> According to the device DMA logging uAPI, IOVA ranges to be logged by
-> the device must be provided all at once upon DMA logging start.
+* Thomas Huth (thuth@redhat.com) wrote:
+> On 03/03/2023 13.05, Peter Maydell wrote:
+> > On Fri, 3 Mar 2023 at 11:29, Thomas Huth <thuth@redhat.com> wrote:
+> > > 
+> > > On 03/03/2023 12.18, Peter Maydell wrote:
+> > > > On Fri, 3 Mar 2023 at 09:10, Juan Quintela <quintela@redhat.com> wrote:
+> > > > > 
+> > > > > Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > > > > On Thu, Mar 02, 2023 at 05:22:11PM +0000, Peter Maydell wrote:
+> > > > > > > migration-test has been flaky for a long time, both in CI and
+> > > > > > > otherwise:
+> > > > > > > 
+> > > > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+> > > > > > > (a FreeBSD job)
+> > > > > > >     32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
+> > > > > > > 
+> > > > > > > on a local macos x86 box:
+> > > > 
+> > > > 
+> > > > 
+> > > > > What is really weird with this failure is that:
+> > > > > - it only happens on non-x86
+> > > > 
+> > > > No, I have seen it on x86 macos, and x86 OpenBSD
+> > > > 
+> > > > > - on code that is not arch dependent
+> > > > > - on cancel, what we really do there is close fd's for the multifd
+> > > > >     channel threads to get out of the recv, i.e. again, nothing that
+> > > > >     should be arch dependent.
+> > > > 
+> > > > I'm pretty sure that it tends to happen when the machine that's
+> > > > running the test is heavily loaded. You probably have a race condition.
+> > > 
+> > > I think I can second that. IIRC I've seen it a couple of times on my x86
+> > > laptop when running "make check -j$(nproc) SPEED=slow" here.
+> > 
+> > And another on-x86 failure case, just now, on the FreeBSD x86 CI job:
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3870165180
 > 
-> As preparation for the following patches which will add device dirty
-> page tracking, keep a record of all DMA mapped IOVA ranges so later they
-> can be used for DMA logging start.
+> And FWIW, I just saw this while doing "make vm-build-netbsd J=4":
 > 
-> Note that when vIOMMU is enabled DMA mapped IOVA ranges are not tracked.
-> This is due to the dynamic nature of vIOMMU DMA mapping/unmapping.
+> ▶  31/645 ERROR:../src/tests/qtest/migration-test.c:1841:test_migrate_auto_converge: 'got_stop' should be FALSE ERROR
+
+That one is kind of interesting; this is an auto converge test - so it
+tries to setup migration so it won't finish, to check that the auto
+converge kicks in.  Except in this case the migration *did* finish
+without the autoconverge (significantly) kicking in.
+
+So I guess any of:
+  a) The CPU thread never got much CPU time so not much dirtying
+happened.
+  b) The bandwidth calculations might be bad enough/course enough
+that it's passing the (very low) bandwidth limit due to bad
+approximation at bandwidth needed.
+  c) The autoconverge jump happens fast enough for that loop
+to hit the got_stop in the loop time of that loop.
+
+I guess we could:
+  i) Reduce the usleep in test_migrate_auto_converge
+    (So it is more likely to correctly drop out of that loop
+    as soon as autoconverge kicks in)
+  ii) Reduce inc_pct so that autoconverge kicks in slower
+  iii) Reduce max-bandwidth in migrate_ensure_non_converge
+     even further.
+
+Dave
+
+>  31/645 qemu:qtest+qtest-i386 / qtest-i386/migration-test                                  ERROR          25.21s   killed by signal 6 SIGABRT
+> > > > QTEST_QEMU_BINARY=./qemu-system-i386 MALLOC_PERTURB_=35 G_TEST_DBUS_DAEMON=/home/qemu/qemu-test.fYHKFz/src/tests/dbus-vmstate-daemon.sh QTEST_QEMU_IMG=./qemu-img /home/qemu/qemu-test.fYHKFz/build/tests/qtest/migration-test --tap -k
+> ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+> stderr:
+> qemu: thread naming not supported on this host
+> qemu: thread naming not supported on this host
+> qemu: thread naming not supported on this host
+> qemu: thread naming not supported on this host
+> qemu: thread naming not supported on this host
+> qemu: thread naming not supported on this host
+> **
+> ERROR:../src/tests/qtest/migration-test.c:1841:test_migrate_auto_converge: 'got_stop' should be FALSE
 > 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->   hw/vfio/common.c              | 84 +++++++++++++++++++++++++++++++++++
->   hw/vfio/trace-events          |  1 +
->   include/hw/vfio/vfio-common.h | 11 +++++
->   3 files changed, 96 insertions(+)
+> (test program exited with status code -6)
 > 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ed908e303dbb..d84e5fd86bb4 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -44,6 +44,7 @@
->   #include "migration/blocker.h"
->   #include "migration/qemu-file.h"
->   #include "sysemu/tpm.h"
-> +#include "qemu/iova-tree.h"
->   
->   VFIOGroupList vfio_group_list =
->       QLIST_HEAD_INITIALIZER(vfio_group_list);
-> @@ -1313,11 +1314,94 @@ static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
->       return ret;
->   }
->   
-> +/*
-> + * Called for the dirty tracking memory listener to calculate the iova/end
-> + * for a given memory region section. The checks here, replicate the logic
-> + * in vfio_listener_region_{add,del}() used for the same purpose. And thus
-> + * both listener should be kept in sync.
-> + */
-> +static bool vfio_get_section_iova_range(VFIOContainer *container,
-> +                                        MemoryRegionSection *section,
-> +                                        hwaddr *out_iova, hwaddr *out_end)
-> +{
-> +    Int128 llend;
-> +    hwaddr iova;
-> +
-> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
-> +    llend = int128_make64(section->offset_within_address_space);
-> +    llend = int128_add(llend, section->size);
-> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
-> +
-> +    if (int128_ge(int128_make64(iova), llend)) {
-> +        return false;
-> +    }
-> +
-> +    *out_iova = iova;
-> +    *out_end = int128_get64(llend) - 1;
-> +    return true;
-> +}
-> +
-> +static void vfio_dirty_tracking_update(MemoryListener *listener,
-> +                                       MemoryRegionSection *section)
-> +{
-> +    VFIOContainer *container = container_of(listener, VFIOContainer,
-> +                                            tracking_listener);
-> +    VFIODirtyTrackingRange *range = &container->tracking_range;
-> +    hwaddr max32 = (1ULL << 32) - 1ULL;
-> +    hwaddr iova, end;
-> +
-> +    if (!vfio_listener_valid_section(section) ||
-> +        !vfio_get_section_iova_range(container, section, &iova, &end)) {
-> +        return;
-> +    }
-> +
-> +    WITH_QEMU_LOCK_GUARD(&container->tracking_mutex) {
-> +        if (iova < max32 && end <= max32) {
-> +                if (range->min32 > iova) {
-> +                    range->min32 = iova;
-> +                }
-> +                if (range->max32 < end) {
-> +                    range->max32 = end;
-> +                }
-> +                trace_vfio_device_dirty_tracking_update(iova, end,
-> +                                            range->min32, range->max32);
-> +        } else {
-> +                if (!range->min64 || range->min64 > iova) {
-> +                    range->min64 = iova;
-> +                }
-> +                if (range->max64 < end) {
-> +                    range->max64 = end;
-> +                }
-> +                trace_vfio_device_dirty_tracking_update(iova, end,
-> +                                            range->min64, range->max64);
-> +        }
-> +    }
-> +    return;
-> +}
-> +
-> +static const MemoryListener vfio_dirty_tracking_listener = {
-> +    .name = "vfio-tracking",
-> +    .region_add = vfio_dirty_tracking_update,
-> +};
-> +
-> +static void vfio_dirty_tracking_init(VFIOContainer *container)
-> +{
-> +    memset(&container->tracking_range, 0, sizeof(container->tracking_range));
-> +    qemu_mutex_init(&container->tracking_mutex);
-> +    container->tracking_listener = vfio_dirty_tracking_listener;
-> +    memory_listener_register(&container->tracking_listener,
-> +                             container->space->as);
-
-The following unregister+destroy calls seem to belong to a _fini routine.
-Am I missing something ?
-
-Thanks,
-
-C.
-
-> +    memory_listener_unregister(&container->tracking_listener);
-> +    qemu_mutex_destroy(&container->tracking_mutex);
-> +}
-> +
->   static void vfio_listener_log_global_start(MemoryListener *listener)
->   {
->       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
->       int ret;
->   
-> +    vfio_dirty_tracking_init(container);
-> +
->       ret = vfio_set_dirty_page_tracking(container, true);
->       if (ret) {
->           vfio_set_migration_error(ret);
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 669d9fe07cd9..d97a6de17921 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -104,6 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_wi
->   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
->   vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
->   vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-> +vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" - 0x%"PRIx64"]"
->   vfio_disconnect_container(int fd) "close container->fd=%d"
->   vfio_put_group(int fd) "close group->fd=%d"
->   vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 87524c64a443..96791add2719 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -23,6 +23,7 @@
->   
->   #include "exec/memory.h"
->   #include "qemu/queue.h"
-> +#include "qemu/iova-tree.h"
->   #include "qemu/notify.h"
->   #include "ui/console.h"
->   #include "hw/display/ramfb.h"
-> @@ -68,6 +69,13 @@ typedef struct VFIOMigration {
->       size_t data_buffer_size;
->   } VFIOMigration;
->   
-> +typedef struct VFIODirtyTrackingRange {
-> +    hwaddr min32;
-> +    hwaddr max32;
-> +    hwaddr min64;
-> +    hwaddr max64;
-> +} VFIODirtyTrackingRange;
-> +
->   typedef struct VFIOAddressSpace {
->       AddressSpace *as;
->       QLIST_HEAD(, VFIOContainer) containers;
-> @@ -89,6 +97,9 @@ typedef struct VFIOContainer {
->       uint64_t max_dirty_bitmap_size;
->       unsigned long pgsizes;
->       unsigned int dma_max_mappings;
-> +    VFIODirtyTrackingRange tracking_range;
-> +    QemuMutex tracking_mutex;
-> +    MemoryListener tracking_listener;
->       QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->       QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->       QLIST_HEAD(, VFIOGroup) group_list;
+>  Thomas
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
