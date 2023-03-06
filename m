@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961B56AB743
+	by mail.lfdr.de (Postfix) with ESMTPS id 976746AB744
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Mar 2023 08:51:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZ5bl-0004oG-OE; Mon, 06 Mar 2023 02:50:09 -0500
+	id 1pZ5cL-0005Aq-RR; Mon, 06 Mar 2023 02:50:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5bi-0004na-Ey
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:50:06 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5cJ-00053g-7x
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:50:43 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5bd-0003gq-0H
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:50:02 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t15so7787364wrz.7
- for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 23:50:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZ5cH-0003vs-Bq
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 02:50:42 -0500
+Received: by mail-wr1-x434.google.com with SMTP id h14so7804737wru.4
+ for <qemu-devel@nongnu.org>; Sun, 05 Mar 2023 23:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678088998;
+ d=linaro.org; s=google; t=1678089039;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=TrYXg0Pb1hUZPPzGszvn8OfNeHYh0Bv020GMdjKeXxY=;
- b=rrfM0nUp04lpjLUCe865tt6xbah9g+9KmK/Lx2InhtgNXZMlvVtB+2rqCmEQqOyaHu
- fHwDagZM+FI3Q5Q0HueBMooZRjwrIDxNVRm8n/B7Z3DRhQQzrluhhTRSEuoifcQD/VPY
- FDLRD9zsvKw0gph391W7TxPWIWz5IAm+CNZTZSMCHwWNW3Z0E5znCGATYYy+a2Hs2JkE
- RRELC3B2EzaER8VKacOCrr4c2RP/ytXcMztOeQZW9n7CjShcjPNeMmMeuuSZKMsx1Re+
- fnvdW71nZpZRqTclxcWPv4DVCquqQE9ltD+Q6erVIzdWnyn56rw8bjcH+sKNMYRXsaqM
- 7sRQ==
+ bh=SQ12Ou/rd7Koioh0p3SxqdxhNnqRQWslilaQfFTsKWE=;
+ b=kvhMLPGKYmqCnlPKHD8eVd7KXb06GSexMxGt8GQEUHDfIVkrjJzXdBkF1d/EVuA7ZQ
+ W8JwCVbfcvJK2zQYXiMDwf/+icqRIlXYEHCUCtfK5LMaDyuVqiu8Klbh+kcIzZhS7FaA
+ fM0hxH9nUOdcItkMSM18bKDMdfezbTfCldxfrgDD88Iy5dDMqGN25mDEoT9oaINy3/SM
+ lrqcqdMwfggGoX/X2GspjkmlS4s+ZQYKetoMPaCKoLR4RBXvngi39cu0QhDVWsDIMTZB
+ YxVZGRihubMvbEEYGu8KaP4kTjL3PVcxenEVe4tkBYXpDPzATQvJXm5I1f6GmmashPQS
+ j0YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678088998;
+ d=1e100.net; s=20210112; t=1678089039;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TrYXg0Pb1hUZPPzGszvn8OfNeHYh0Bv020GMdjKeXxY=;
- b=j4TkFTXydp4+eMck2UHQAvjUkrUIIN0dqrAsMv7zb881T9wWr7xoAgIsPZ8vXdj0cD
- Gv6ogwuWAB3Lc+Iw39HeUl68pfFhVd6KPFq2MYDw3/Q4a3aU7OsVmDeoyyZsloV/zhEd
- dy94GR9d2XOS6+KO4zgJxCFz7RcAHUC/il8GG00GzJ32TC3aay7foxzK+fPQ+s/Bs98/
- cSm4Z/Dh1EUOhH2iKROMqTIZGQp0BGakcJePiZa1fIX7YESDc4448gYq+SOi5Md/072K
- 8ACpq+CsFk0JquoTuEWL6g9GbVWroIVM+AGv9rnm0MnTacvvljwag2OLPVXLCfSN8Jek
- HmhQ==
-X-Gm-Message-State: AO0yUKUAoNeAulCUkeL3btZ5+ntynGPWykjST1O6skKzO2dDG0aYPFZw
- KG5mdwIJ9YJlDYWY8zTcTLYGBQ==
-X-Google-Smtp-Source: AK7set8SZ0YLgmY/tJJQnj3f5o8OGCddPl04dBLH+8rzFEn2VZmk8LG844MJhLlvTn3yqsneoSN9GA==
-X-Received: by 2002:adf:fb10:0:b0:2c5:4c5e:412b with SMTP id
- c16-20020adffb10000000b002c54c5e412bmr8717750wrr.23.1678088998215; 
- Sun, 05 Mar 2023 23:49:58 -0800 (PST)
+ bh=SQ12Ou/rd7Koioh0p3SxqdxhNnqRQWslilaQfFTsKWE=;
+ b=hpY5gVmGznchQ+WCg+WbSdMXM9IfwEv/iUjBjQOwGYPyJK8VdPGYSUSNA+PiOKdbv1
+ 4hHkyyBHGzwFeQrFQz03wG5xx7EOoSPpGHNGMr9pHv6ojCosyEBvjFdoC/a6vrX/y7FV
+ PzqbkZMMGIlGgA9Nde78X1foFQXWY5zI+Ke92jEo43FSopGvoPgkSt65yNC0tWjiHaHN
+ zvqb2AjFY+B3WWFbr38zK6CnJdrEFFgSq7XVlxS+CsI6xjMhGI31asvzZLjgHdgPJANF
+ 9882Ag4zviezNRg2+fXQShp5fWosb72vrxim+6bfw8+ZQtrm89UpErAyQj9WcG9MA0ts
+ jy6w==
+X-Gm-Message-State: AO0yUKWAVTL65Utn3RanNt+f3c9pllHc1SPuvQDWFx3j+m1G55SWWip3
+ 94U0DrM+52plOnWoVaFFBI1TgA==
+X-Google-Smtp-Source: AK7set/Jo0fH0O8EGf09WVCTom7GUkXwhbfE4hX/teO4pc/4XfpNhW6gNjpQzJlDmhhb15tJcNm7Wg==
+X-Received: by 2002:a5d:52c2:0:b0:2c7:fc61:1676 with SMTP id
+ r2-20020a5d52c2000000b002c7fc611676mr6627882wrv.7.1678089039700; 
+ Sun, 05 Mar 2023 23:50:39 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- v38-20020a05600c4da600b003eb68bb61c8sm8975326wmp.3.2023.03.05.23.49.57
+ z4-20020adfd0c4000000b002c5493a17efsm8995509wrh.25.2023.03.05.23.50.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Mar 2023 23:49:57 -0800 (PST)
-Message-ID: <130713a2-4671-36fc-b8c8-21ba2c3d8f3b@linaro.org>
-Date: Mon, 6 Mar 2023 08:49:56 +0100
+ Sun, 05 Mar 2023 23:50:39 -0800 (PST)
+Message-ID: <36cbefc5-4443-d2aa-2fd8-b7dedeefc53f@linaro.org>
+Date: Mon, 6 Mar 2023 08:50:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 4/9] accel/tcg: Pass last not end to page_set_flags
+Subject: Re: [PATCH 5/9] accel/tcg: Pass last not end to page_reset_target_data
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20230306021307.1879483-1-richard.henderson@linaro.org>
- <20230306021307.1879483-5-richard.henderson@linaro.org>
+ <20230306021307.1879483-6-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230306021307.1879483-5-richard.henderson@linaro.org>
+In-Reply-To: <20230306021307.1879483-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,16 +95,12 @@ On 6/3/23 03:13, Richard Henderson wrote:
 > the first address past the last byte.  This avoids overflow
 > when the last page of the address space is involved.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1528
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
 >   include/exec/cpu-all.h |  2 +-
->   accel/tcg/user-exec.c  | 16 +++++++---------
->   bsd-user/mmap.c        |  6 +++---
->   linux-user/elfload.c   | 11 ++++++-----
->   linux-user/mmap.c      | 16 ++++++++--------
->   linux-user/syscall.c   |  4 ++--
->   6 files changed, 27 insertions(+), 28 deletions(-)
+>   accel/tcg/user-exec.c  | 11 +++++------
+>   linux-user/mmap.c      |  2 +-
+>   3 files changed, 7 insertions(+), 8 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
