@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3C06AD59A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 04:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39AF6AD5B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 04:30:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZNrp-0007Yf-UN; Mon, 06 Mar 2023 22:19:58 -0500
+	id 1pZO16-0001s5-Qx; Mon, 06 Mar 2023 22:29:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pZNrn-0007Wt-Ah
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 22:19:55 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pZNrl-0000um-8L
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 22:19:54 -0500
-Received: by mail-ed1-x534.google.com with SMTP id i34so47075707eda.7
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 19:19:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jms.id.au; s=google; t=1678159191;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KHkEQfhDP2+6ap6if/zRr7Qe01YuxG6dIfzVLIdCRiA=;
- b=Ej7aHhTrG3duwMFfIFxneXo2wrZvB76bZ+U6RQTbDYbWqV//Fhy1+a9Mgl48NgTQe1
- +rJHMhqXte4u3xff/Zvz5W+Ik+G3RdHBccSSJasyIwlrzyB8Z01eqAwhIgfXhYJ4d9y5
- T3Qe7mqyGTspCzdJKjwJElqg8aIKdrtLhIkuc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678159191;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KHkEQfhDP2+6ap6if/zRr7Qe01YuxG6dIfzVLIdCRiA=;
- b=6DGkyHKoIbovwa76hLWDXpvFPLD8kvdvc+/ZQJ6bWtlGHMsRv4kDvELjcV+45C55AJ
- VgmWfjSmSl+4TSOvWqxYiQQv9UqIXyhz+XJpukVIKU7xVj1y4Zl95RFG2yVULUigw0GF
- xlijiL3NS5oGiofIUVZkMoVABCLpwybh4akgKURtIu/L1TwfrVcM1gmNHXe8sGL422Xg
- 2Td5VYA1efLq5//NznKnrP5XiJnFENRkXMuW0qhY/o/HlqjiltDQHrfc72xoMRdppfOo
- E3RSh0TMpox/NspkZWI+yQN39egagAXlnXnFClfFhqv4qD/77W5lEMtPpdbmYyDXMM+j
- 8ReQ==
-X-Gm-Message-State: AO0yUKU0DaPoyiudXavgU5ON/Y3NxZc6726i2wt1e1yq85+vJyg0CWcI
- hxrx7ldZR1pR4eFejtZ83dNUTfCpzMo/eclKZC8=
-X-Google-Smtp-Source: AK7set8LraGBNFfXJycXs5pjq2jsl2eBIyU6x0XeEud3ksP9BoB//IqapIHSq+99NdN2A4Xs5FCRz8TTXmK9ahWB3BY=
-X-Received: by 2002:a17:906:329b:b0:8f7:f3d4:942c with SMTP id
- 27-20020a170906329b00b008f7f3d4942cmr6484392ejw.7.1678159190590; Mon, 06 Mar
- 2023 19:19:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pZO13-0001qo-T3; Mon, 06 Mar 2023 22:29:29 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pZO11-0002ab-49; Mon, 06 Mar 2023 22:29:29 -0500
+Received: from localhost.localdomain (unknown [180.165.240.213])
+ by APP-05 (Coremail) with SMTP id zQCowAAnLemNrwZkRKOODA--.34193S2;
+ Tue, 07 Mar 2023 11:29:19 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 0/1] hw/riscv: Add ACT related support
+Date: Tue,  7 Mar 2023 11:29:14 +0800
+Message-Id: <20230307032915.10059-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230306021307.1879483-1-richard.henderson@linaro.org>
-In-Reply-To: <20230306021307.1879483-1-richard.henderson@linaro.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 Mar 2023 03:19:37 +0000
-Message-ID: <CACPK8XdHr4ws=0aZJvkgaF0U231MJRuyHx7i35gF4uHKCtOkbw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] accel/tcg: Fix page_set_flags and related [#1528]
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, ninad@linux.ibm.com, 
- Andrew Geissler <geissonator@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_CSS=0.1 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAnLemNrwZkRKOODA--.34193S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFyrKF48JF4fWw47XF4fKrg_yoW3ZFXEgr
+ 4xAFZ3XrW7XayDGa4akF4Fk34akayrtryxJFy5Wr4UG3y8Cr17Ars2krySg34kArW3W34a
+ vr1DJF97Aw1aqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+ 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+ 8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+ 8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+ ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+ 0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoO
+ J5UUUUU
+X-Originating-IP: [180.165.240.213]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,47 +74,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023 at 02:14, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The primary issue is that of overflow, where "end" for the last
-> page of the 32-bit address space overflows to 0.  The fix is to
-> use "last" instead, which can always be represented.
->
-> This requires that we adjust reserved_va as well, because of
->
-> -/*
-> - * There are a number of places where we assign reserved_va to a variable
-> - * of type abi_ulong and expect it to fit.  Avoid the last page.
-> - */
-> -#   define MAX_RESERVED_VA  (0xfffffffful & TARGET_PAGE_MASK)
->
-> and the related
->
-> -        /*
-> -         * reserved_va must be aligned with the host page size
-> -         * as it is used with mmap()
-> -         */
-> -        reserved_va = local_max_va & qemu_host_page_mask;
->
-> whereby we avoided the final (host | guest) page of the address space
-> because of said overflow.  With the change in representation, we can
-> always use UINT32_MAX as the end of the 32-bit address space.
->
-> This was observable on ppc64le (or any other 64k page host) not being
-> able to load any arm32 binary, because the COMMPAGE goes at 0xffff0000,
-> which violated that last host page problem above.
->
-> The issue is resolved in patch 4, but the rest clean up other interfaces
-> with the same issue.  I'm not touching any interfaces that use start+len
-> instead of start+end.
+ACT tests play an important role in riscv tests. This patch tries to
+add related support to run ACT tests.
 
-Thanks for looking at this Richard. I gave it a spin on a ppc64le host
-and it resolved the assert.
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-act-upstream-v3
 
-Tested-by: Joel Stanley <joel@jms.id.au>
+The ACT tests can be run on qemu-system-riscv32/64 with machine argument
+"-M spike,signature=<FILE>,signature-granularity=<granurity>".
 
-Cheers,
+v3:
+* move definition of signature related parameters from spike.c to riscv_htif.c
 
-Joel
+v2：
+* move "extern ..." declaration from riscv_htif.c to riscv_htif.h
+
+Weiwei Li (1):
+  hw/riscv: Add signature dump function for spike to run ACT tests
+
+ hw/char/riscv_htif.c         | 39 +++++++++++++++++++++++++++++++++++-
+ hw/riscv/spike.c             | 13 ++++++++++++
+ include/hw/char/riscv_htif.h |  3 +++
+ 3 files changed, 54 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
 
