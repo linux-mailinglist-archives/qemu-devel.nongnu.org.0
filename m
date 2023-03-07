@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C671D6AE599
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE176AE5AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:59:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZgP-0007PG-4q; Tue, 07 Mar 2023 10:56:57 -0500
+	id 1pZZig-0002s3-5N; Tue, 07 Mar 2023 10:59:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZgM-0007DJ-St
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:56:54 -0500
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZie-0002rv-CV
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:59:16 -0500
+Received: from mout.kundenserver.de ([212.227.126.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZgL-0000em-7j
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:56:54 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZic-0000wR-PU
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:59:16 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MVe5c-1pypmA489s-00RVYJ; Tue, 07 Mar 2023 16:56:51 +0100
-Message-ID: <3902d4eb-9158-19aa-3686-bf04b0f5a85c@vivier.eu>
-Date: Tue, 7 Mar 2023 16:56:49 +0100
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MkHhB-1qJeyr3xeb-00kexF; Tue, 07 Mar 2023 16:59:09 +0100
+Message-ID: <b42db7d5-b8f9-ec6f-e47d-bf67d1db9471@vivier.eu>
+Date: Tue, 7 Mar 2023 16:59:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 00/15] linux-user/sparc: Handle missing traps
+Subject: Re: [PATCH v3 1/2] linux-user: fix sockaddr_in6 endianness
 Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230216054516.1267305-1-richard.henderson@linaro.org>
+To: Mathis Marion <Mathis.Marion@silabs.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
+ <jerome.pouiller@silabs.com>
+References: <20230307154256.101528-1-Mathis.Marion@silabs.com>
+ <20230307154256.101528-2-Mathis.Marion@silabs.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230216054516.1267305-1-richard.henderson@linaro.org>
+In-Reply-To: <20230307154256.101528-2-Mathis.Marion@silabs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NnFSX8zwEvTxsFHVjB8nBZPdJnVddZ2PWSXELUXKCyJ7uzSCzBo
- dKZoM1CO6NNsoOAtI6pWUBOxezfvGs2t0z4aLgSNFkbeUdBi5NObEhGPa8QX5fgR9B63BWn
- MMfyKxIVe1j8EkSMu2JC0fRkcppg/hb3Nj3qesdaXvT1hvSDB4pSPwdSzVKTeOHCFWOBfnY
- dOIW7/R6aPKIdQOk0dyRA==
-UI-OutboundReport: notjunk:1;M01:P0:utR3bs6ay5M=;onTyAvWtldKn/LoMWVGs9jNAYc+
- MmYZOvcrruKNMx8P6gt7aHflWXnI7TGuTTZpM83kGoi8uq98/QPnEUUoxreZVQJLGQcRRFPPy
- 44eG+uHHk3SP9PorWogbUe9z4lHPujYqt7g6HTBv4DsOQ9om8gNtweZNfR8MqukUfSGMU4cbm
- eyZZGE6BOKCiMQ+1hZQsZWrNo6Iy90QytsYvWPqR4Z2OqNhLlSP+d2cdVkRjjCXyVxPnOT2NB
- mp7CWmRvwrvpTsfpCBqJ81cp6n6gTyJPSQdsZoWD7KQhrKMyHljyidqeIf5dDPHcd7T5y4dEt
- 9CYyONntHdekH9jVNrdYxXTNZD3f1SGq3bgL6OmbfCj3cU/kDNl6TW27HQiHA3R+0ahqsYu9q
- OOqMZ9vkUhLgLM7tT+lX6zpd9etX9+fTk3s7J9JmkvYZOrmPFWduOXH1M9NAigk806uGEV8cp
- nbOT8sJcpSZQYX+e7BOHSa9R5/C3ZZWoA4YsWL5SRqQDE35+eU9adGnBm/DwxHqdtGwuhHDTy
- uGkZPDLM1m/bMqekfjp+eneVuUsvJUtPOpaDeQJh9bL0hSR0dxMsqdzrRJHFVvzdQz2lrlamI
- pP7mFYzGFwdfn2uk8WiTkN+1KuETOLBpknRmy4BAjTU7Izm3VcktpH9ptBWiBl0NsjOSUE8lE
- DkLDxbg4oszbHRcQU/FEUMHPMnBsvh5hHMk7WlnNXw==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:PRZKyhQxfxR1fllwTg/HuT7EP3TWuH9IJGoxy371MPbDqL7AJ+d
+ j++NriOBo9bClvaa5MPVMHfbETCpeB4OMZ5/brTXkCS+3HUC6rd0PjsMk4p9fUqAv49Teqg
+ Cxa9QShfJNSquBZk/1wa6AKNg3cCS/UEB9LiNDHMsIZRBtHgeIB3UYbcGmTyDJUHPdMQ2Gh
+ dStMWpn5ZSwqjGBEDaJyQ==
+UI-OutboundReport: notjunk:1;M01:P0:d0OvRTaKLVo=;khMxHc/YoUIX3AL9jNh1EZLovAn
+ yUJxSTHFUulNU1w06uJBM5tfE0qAhsqAGqXgd7N9F+j28YshNC5AB6JKyhGL0ChOfGN3cnkF7
+ ALMIL9qMuBZK3LmRjOJC55yKn5gXTmKwHKO6B9/bJ0mwxhZ6Chi60khkRGgSZxKwUEGvth42w
+ 4P00lsiGo1dBm23HwHsLZixMECTYrlVc38m0ZeCIo2uBGDYcf6Lrq0OxUuidy1soehcdyAQ8A
+ EgZ6oV/9Kia04mI92xRTVhA2btzFfqnkaOwcuNqipWX8qpmsS4BR7CoKBQBH94/0XV3x+NdvY
+ gEKHcQ2FSFLHX8tFS3fELseaTLR0b/tqKv8Q/iwRJAmNJFX7A5smBiHV4SPCeXvxavmumRJHK
+ me6WQi0OkrDQ2bbZ6NaPcuzmJY3TvLKGaaf/9kyBFWXnrMmv0hEtA8t0aKQVmXS1D6l4Uj6u+
+ r6DQTDJjhUi0Kh226VahqdiXyL0oXvD0U202fpoIjLhUSuPhjgUEjQ0YOPWfCn6q0BQm5/za7
+ 5vSrwiUd8zBkfPhp0Uk6Db18ZnksFieZwN6/YI5q8pqMh+oPyz7Cn6vhJMSU53xlx1/srA5Mx
+ JcccMR1LckVX5/8sjqF8aKBPsfjczNiBx3ndTrDNdS0kJAuN6pWBfgApnWa1KZRnTX1MRiFoU
+ 2LMjk0tWVVDJyDbCuUk8409dAIONW/sqmUSyN2qnHg==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,48 +74,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Richard,
+Le 07/03/2023 à 16:42, Mathis Marion a écrit :
+> From: Mathis Marion <mathis.marion@silabs.com>
+> 
+> The sin6_scope_id field uses the host byte order, so there is a
+> conversion to be made when host and target endianness differ.
+> 
+> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
+> ---
+>   linux-user/syscall.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 247e20572d..bafa77d353 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1713,6 +1713,11 @@ static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
+>   	lladdr = (struct target_sockaddr_ll *)addr;
+>   	lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
+>   	lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
+> +    } else if (sa_family == AF_INET6) {
+> +        struct sockaddr_in6 *in6addr;
+> +
+> +        in6addr = (struct sockaddr_in6 *)addr;
+> +        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
+>       }
+>       unlock_user(target_saddr, target_addr, 0);
+>   
 
-I don't have the time to review your series, do you want I queue it in the linux-user branch and I 
-keep it if it passes my test suite?
-
-Thanks,
-Laurent
-
-Le 16/02/2023 à 06:45, Richard Henderson a écrit :
-> Lots of missing trap codes for cpu_loop().
-> 
-> Changes for v2:
->    - Fix v8plus syscall trap.
->    - New patch to unify syscall error return via C flag.
-> 
-> 
-> r~
-> 
-> 
-> Richard Henderson (15):
->    linux-user/sparc: Raise SIGILL for all unhandled software traps
->    linux-user/sparc: Tidy syscall trap
->    linux-user/sparc: Tidy syscall error return
->    linux-user/sparc: Use TT_TRAP for flush windows
->    linux-user/sparc: Tidy window spill/fill traps
->    linux-user/sparc: Fix sparc64_{get,set}_context traps
->    linux-user/sparc: Handle software breakpoint trap
->    linux-user/sparc: Handle division by zero traps
->    linux-user/sparc: Handle getcc, setcc, getpsr traps
->    linux-user/sparc: Handle priviledged opcode trap
->    linux-user/sparc: Handle privilidged action trap
->    linux-user/sparc: Handle coprocessor disabled trap
->    linux-user/sparc: Handle unimplemented flush trap
->    linux-user/sparc: Handle floating-point exceptions
->    linux-user/sparc: Handle tag overflow traps
-> 
->   linux-user/sparc/target_signal.h |   2 +-
->   linux-user/syscall_defs.h        |   5 +
->   target/sparc/cpu.h               |   3 +-
->   linux-user/sparc/cpu_loop.c      | 190 ++++++++++++++++++++++++-------
->   linux-user/sparc/signal.c        |  36 +++---
->   5 files changed, 175 insertions(+), 61 deletions(-)
-> 
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
