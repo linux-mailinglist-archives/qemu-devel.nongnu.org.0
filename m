@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70C66AFAB5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21806AFAB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:48:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZh2L-000181-9h; Tue, 07 Mar 2023 18:48:05 -0500
+	id 1pZh2S-0001LX-5M; Tue, 07 Mar 2023 18:48:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2J-000173-Cf
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:03 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2Q-0001Hn-JD
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:10 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2H-0002ha-FE
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:03 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- j19-20020a05600c1c1300b003e9b564fae9so176808wms.2
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2O-0002kH-PS
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:10 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id v16so13844939wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678232880;
+ d=linaro.org; s=google; t=1678232886;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/rE0urdUg8ztCeuYXEZ0c5lKROu4bt0tiIslFCNA6KE=;
- b=GDhLHwXi3QjkymivHhG25sAsjjzHeLXUz9xNPuGTmEZLQSGjw2mqG8Ddkq+RiWZcbf
- 1Lxl3AZ0ESDNN66NgVdGec0O3jm8HnxHZg1L0F0vxh6Dc3cO48duqOcwSQlcvi95uug3
- t1F6Rcw+maoXiPdELw/rnIRi9WlvWqg+26x/sgD/37lkBh1iE93yYWxmB/pHVNztV6pc
- EuxzODzUtKCGI++P2xKjQCHKN6R3wES9Z7CdyGr4DCTZILM3R8vpyKW6IeQo/2D6rtbD
- tzRY+MhIPE/uNdsQ2h4/DvSijR/8YfQ8EFTRwLoadJyGa6Yu/Ezm+DGLe/INiAfhtBBX
- 8n8w==
+ bh=Wq29WJt1laPzE2bHEihgtyn5T2vm3Jo6XB+Kog9d3Iw=;
+ b=w1Gy5vsUEfSqRnLfEPGbFFWtL86IBn3FwT3iBIF8AvZjsrofTQHbaJrHAsobCOZc5X
+ K2NEt59of3uLkdmJhP+QUuk4phOovugZzHj7ygBhCbU7y6KFQR0zrONAB5MkmnvdRM27
+ CB3j17FdRcoXSwSZlWHTBUssb8pjyzFZZ/0KA+ucUpgN2cry3i39PSsYSKwU6UhmnA5W
+ dlyl1r2Qk8x+d/PcbAiuNVMTDSesEnKfXmsMfOeUeZDxqicVgGlxlVbHi5EvgiTAFEgp
+ eLS8TTG2o/uNk98vy99gZXVS1aQ3AriLV+dhNAqZCDQV02HenfzeddN0ZAzP8aYrRqgo
+ mJTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678232880;
+ d=1e100.net; s=20210112; t=1678232886;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/rE0urdUg8ztCeuYXEZ0c5lKROu4bt0tiIslFCNA6KE=;
- b=BFzKYJnN+Pl4tBUmB0hCiybcW1sgcde3/+4hGodYB9PZUbQAUBESdSMCpwaL4tdAf5
- 5wumf9SZmiF+mhfqILVz4m5qC/BQT7v0/3uMWGeYu+yroeL2O27SZsbOl/WftzQVz6kL
- L4LDdvMPduus2QYigw9a8vd3xph9Y4tuAyB4+bNXIduJqnabDi+j/bq/3j6PldcTunqj
- BeJ7DYW+9J6yH1Fr33ceeRMhUWS78hxA45tolhs2KYHuU5xVgMWuuxi6D5xfpRl/PHje
- 31B08E8htY0i8MmfkwAV6McqCozRS1a8freM5cpc3pJhsBOUlBfMnAewsnpFmG5YJoqJ
- XjYw==
-X-Gm-Message-State: AO0yUKWJcm3IWBgp+HoP/2GVLEu7qHGCTh/6bfq+d5VvzZyYKIiF5iwP
- BnaaadjssjXH0TT7PSd1VoBIzpS+28QozY10+Is=
-X-Google-Smtp-Source: AK7set9QSK6uLtK87NsklnOsIKpAViWwu5PcIhKeN8GGqFeu15n/68mgQeyfLVgOmRHz3qAouxVLRw==
-X-Received: by 2002:a05:600c:3549:b0:3eb:55d2:9c4c with SMTP id
- i9-20020a05600c354900b003eb55d29c4cmr11470040wmq.16.1678232880551; 
- Tue, 07 Mar 2023 15:48:00 -0800 (PST)
+ bh=Wq29WJt1laPzE2bHEihgtyn5T2vm3Jo6XB+Kog9d3Iw=;
+ b=N7smRDV0GWk9zcYl/GhgbC5xKess6QaDZtv0mrpFNV0vL5hTBJepgyyUntNhJ4zv6n
+ Pb7gxyVUo591+hy85CzYncf5VdqVQAECmcM1UPuwS9o0J6SWTpgPWbtsIX4EGesd9DjK
+ aoTgG/Mvp+IAWD36/Kpgi0WO5n2QsxbbSsoNcgmswfSd2Ze5fwkLZGBMDjxijy7l4tVI
+ CmaQ/A4UgkG9s/prqA/VE5KFCtRxty1lKGrIU/NiQ3mn9Duj3vu5hDI7Q4T9NOU1PFpu
+ wdCJheSlqDdo0zYEY5MUHossl8iRndof2OkxTa6C14XDm86LGpB4akMVMjM8x2igRR4D
+ lDuQ==
+X-Gm-Message-State: AO0yUKXUaEBcmCF8NjtDSR+HdDQo0AQriv2pwjRrPY1vdLfnxBu0XWnA
+ 6vQseEmnNQF6qY5dRSPx4cMQzm29l76roTQzxNs=
+X-Google-Smtp-Source: AK7set96lqYGxmJMa1ktJzF0cfxhkzACLk/7Qb/McBsMDNSoPmyA+xUwHqsSmWXjdiMk3hYhbrMu6A==
+X-Received: by 2002:a5d:664e:0:b0:2cd:defe:cfd3 with SMTP id
+ f14-20020a5d664e000000b002cddefecfd3mr11249576wrw.30.1678232886458; 
+ Tue, 07 Mar 2023 15:48:06 -0800 (PST)
 Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
  [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
- l36-20020a05600c08a400b003eb39e60ec9sm13614767wmp.36.2023.03.07.15.47.59
+ l13-20020adfe58d000000b002c569acab1esm13729260wrm.73.2023.03.07.15.48.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Mar 2023 15:48:00 -0800 (PST)
+ Tue, 07 Mar 2023 15:48:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PULL 08/20] hw/mips/itu: Pass SAAR using QOM link property
-Date: Wed,  8 Mar 2023 00:46:59 +0100
-Message-Id: <20230307234711.55375-9-philmd@linaro.org>
+ Thomas Huth <thuth@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
+Subject: [PULL 09/20] Revert "hw/isa/i82378: Remove intermediate IRQ forwarder"
+Date: Wed,  8 Mar 2023 00:47:00 +0100
+Message-Id: <20230307234711.55375-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230307234711.55375-1-philmd@linaro.org>
 References: <20230307234711.55375-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,187 +92,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QOM objects shouldn't access each other internals fields
-except using the QOM API.
+To be 'usable', QDev objects (which are QOM objects) must be
+1/ initialized (at this point their properties can be modified), then
+2/ realized (properties are consumed).
+Some devices (objects) might depend on other devices. When creating
+the 'QOM composition tree', parent objects can't be 'realized' until
+all their children are. We might also have circular dependencies.
+A common circular dependency occurs with IRQs. Device (A) has an
+output IRQ wired to device (B), and device (B) has one to device (A).
+When (A) is realized and connects its IRQ to an unrealized (B), the
+IRQ handler on (B) is not yet created. QEMU pass IRQ between objects
+as pointer. When (A) poll (B)'s IRQ, it is NULL. Later (B) is realized
+and its IRQ pointers are populated, but (A) keeps a reference to a
+NULL pointer.
+A common pattern to bypass this circular limitation is to use 'proxy'
+objects. Proxy (P) is created (and realized) before (A) and (B). Then
+(A) and (B) can be created in different order, it doesn't matter: (P)
+pointers are already populated.
 
-mips_cps_realize() instantiates a TYPE_MIPS_ITU object, and
-directly sets the 'saar' pointer:
+Commit cef2e7148e ("hw/isa/i82378: Remove intermediate IRQ forwarder")
+neglected the QOM/QDev circular dependency issue, and removed the
+'proxy' between the southbridge, its PCI functions and the interrupt
+controller, resulting in PCI functions wiring output IRQs to
+'NULL', leading to guest failures (IRQ never delivered) [1] [2].
 
-   if (saar_present) {
-       s->itu.saar = &env->CP0_SAAR;
-   }
+Since we are entering feature freeze, it is safer to revert the
+offending patch until we figure a way to strengthen our APIs.
 
-In order to avoid that, pass the MIPS_CPU object via a QOM
-link property, and set the 'saar' pointer in mips_itu_realize().
+[1] https://lore.kernel.org/qemu-devel/928a8552-ab62-9e6c-a492-d6453e338b9d@redhat.com/
+[2] https://lore.kernel.org/qemu-devel/cover.1677628524.git.balaton@eik.bme.hu/
 
+This reverts commit cef2e7148e32d61338de0220619d308bf42af770.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Inspired-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <20230203113650.78146-10-philmd@linaro.org>
 ---
- hw/mips/cps.c              | 23 ++++++-----------------
- hw/misc/mips_itu.c         | 26 ++++++++++++++++++--------
- include/hw/misc/mips_itu.h |  5 ++---
- 3 files changed, 26 insertions(+), 28 deletions(-)
+ hw/isa/i82378.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 38acc57468..2b5269ebf1 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -66,20 +66,17 @@ static bool cpu_mips_itu_supported(CPUMIPSState *env)
- static void mips_cps_realize(DeviceState *dev, Error **errp)
- {
-     MIPSCPSState *s = MIPS_CPS(dev);
--    CPUMIPSState *env;
--    MIPSCPU *cpu;
--    int i;
-     target_ulong gcr_base;
-     bool itu_present = false;
--    bool saar_present = false;
+diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
+index 233059c6dc..5432ab5065 100644
+--- a/hw/isa/i82378.c
++++ b/hw/isa/i82378.c
+@@ -47,6 +47,12 @@ static const VMStateDescription vmstate_i82378 = {
+     },
+ };
  
-     if (!clock_get(s->clock)) {
-         error_setg(errp, "CPS input clock is not connected to an output clock");
-         return;
-     }
- 
--    for (i = 0; i < s->num_vp; i++) {
--        cpu = MIPS_CPU(object_new(s->cpu_type));
-+    for (int i = 0; i < s->num_vp; i++) {
-+        MIPSCPU *cpu = MIPS_CPU(object_new(s->cpu_type));
-+        CPUMIPSState *env = &cpu->env;
- 
-         /* All VPs are halted on reset. Leave powering up to CPC. */
-         if (!object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
-@@ -97,7 +94,6 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-         cpu_mips_irq_init_cpu(cpu);
-         cpu_mips_clock_init(cpu);
- 
--        env = &cpu->env;
-         if (cpu_mips_itu_supported(env)) {
-             itu_present = true;
-             /* Attach ITC Tag to the VP */
-@@ -107,22 +103,15 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-         qemu_register_reset(main_cpu_reset, cpu);
-     }
- 
--    cpu = MIPS_CPU(first_cpu);
--    env = &cpu->env;
--    saar_present = (bool)env->saarp;
--
-     /* Inter-Thread Communication Unit */
-     if (itu_present) {
-         object_initialize_child(OBJECT(dev), "itu", &s->itu, TYPE_MIPS_ITU);
-+        object_property_set_link(OBJECT(&s->itu), "cpu[0]",
-+                                 OBJECT(first_cpu), &error_abort);
-         object_property_set_uint(OBJECT(&s->itu), "num-fifo", 16,
-                                 &error_abort);
-         object_property_set_uint(OBJECT(&s->itu), "num-semaphores", 16,
-                                 &error_abort);
--        object_property_set_bool(OBJECT(&s->itu), "saar-present", saar_present,
--                                 &error_abort);
--        if (saar_present) {
--            s->itu.saar = &env->CP0_SAAR;
--        }
-         if (!sysbus_realize(SYS_BUS_DEVICE(&s->itu), errp)) {
-             return;
-         }
-@@ -158,7 +147,7 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-                             sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->gic), 0));
- 
-     /* Global Configuration Registers */
--    gcr_base = env->CP0_CMGCRBase << 4;
-+    gcr_base = MIPS_CPU(first_cpu)->env.CP0_CMGCRBase << 4;
- 
-     object_initialize_child(OBJECT(dev), "gcr", &s->gcr, TYPE_MIPS_GCR);
-     object_property_set_uint(OBJECT(&s->gcr), "num-vp", s->num_vp,
-diff --git a/hw/misc/mips_itu.c b/hw/misc/mips_itu.c
-index a06cdd10ea..0eda302db4 100644
---- a/hw/misc/mips_itu.c
-+++ b/hw/misc/mips_itu.c
-@@ -93,10 +93,10 @@ void itc_reconfigure(MIPSITUState *tag)
-     uint64_t size = (1 * KiB) + (am[1] & ITC_AM1_ADDR_MASK_MASK);
-     bool is_enabled = (am[0] & ITC_AM0_EN_MASK) != 0;
- 
--    if (tag->saar_present) {
--        address = ((*(uint64_t *) tag->saar) & 0xFFFFFFFFE000ULL) << 4;
--        size = 1ULL << ((*(uint64_t *) tag->saar >> 1) & 0x1f);
--        is_enabled = *(uint64_t *) tag->saar & 1;
-+    if (tag->saar) {
-+        address = (tag->saar[0] & 0xFFFFFFFFE000ULL) << 4;
-+        size = 1ULL << ((tag->saar[0] >> 1) & 0x1f);
-+        is_enabled = tag->saar[0] & 1;
-     }
- 
-     memory_region_transaction_begin();
-@@ -157,7 +157,7 @@ static inline ITCView get_itc_view(hwaddr addr)
- static inline int get_cell_stride_shift(const MIPSITUState *s)
- {
-     /* Minimum interval (for EntryGain = 0) is 128 B */
--    if (s->saar_present) {
-+    if (s->saar) {
-         return 7 + ((s->icr0 >> ITC_ICR0_BLK_GRAIN) &
-                     ITC_ICR0_BLK_GRAIN_MASK);
-     } else {
-@@ -515,6 +515,7 @@ static void mips_itu_init(Object *obj)
- static void mips_itu_realize(DeviceState *dev, Error **errp)
- {
-     MIPSITUState *s = MIPS_ITU(dev);
-+    CPUMIPSState *env;
- 
-     if (s->num_fifo > ITC_FIFO_NUM_MAX) {
-         error_setg(errp, "Exceed maximum number of FIFO cells: %d",
-@@ -526,6 +527,15 @@ static void mips_itu_realize(DeviceState *dev, Error **errp)
-                    s->num_semaphores);
-         return;
-     }
-+    if (!s->cpu0) {
-+        error_setg(errp, "Missing 'cpu[0]' property");
-+        return;
-+    }
++static void i82378_request_out0_irq(void *opaque, int irq, int level)
++{
++    I82378State *s = opaque;
++    qemu_set_irq(s->cpu_intr, level);
++}
 +
-+    env = &s->cpu0->env;
-+    if (env->saarp) {
-+        s->saar = env->CP0_SAAR;
-+    }
- 
-     s->cell = g_new(ITCStorageCell, get_num_cells(s));
- }
-@@ -534,8 +544,8 @@ static void mips_itu_reset(DeviceState *dev)
+ static void i82378_request_pic_irq(void *opaque, int irq, int level)
  {
-     MIPSITUState *s = MIPS_ITU(dev);
+     DeviceState *dev = opaque;
+@@ -88,7 +94,9 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
+      */
  
--    if (s->saar_present) {
--        *(uint64_t *) s->saar = 0x11 << 1;
-+    if (s->saar) {
-+        s->saar[0] = 0x11 << 1;
-         s->icr0 = get_num_cells(s) << ITC_ICR0_CELL_NUM;
-     } else {
-         s->ITCAddressMap[0] = 0;
-@@ -553,7 +563,7 @@ static Property mips_itu_properties[] = {
-                       ITC_FIFO_NUM_MAX),
-     DEFINE_PROP_UINT32("num-semaphores", MIPSITUState, num_semaphores,
-                       ITC_SEMAPH_NUM_MAX),
--    DEFINE_PROP_BOOL("saar-present", MIPSITUState, saar_present, false),
-+    DEFINE_PROP_LINK("cpu[0]", MIPSITUState, cpu0, TYPE_MIPS_CPU, MIPSCPU *),
-     DEFINE_PROP_END_OF_LIST(),
- };
+     /* 2 82C59 (irq) */
+-    s->isa_irqs_in = i8259_init(isabus, s->cpu_intr);
++    s->isa_irqs_in = i8259_init(isabus,
++                                qemu_allocate_irq(i82378_request_out0_irq,
++                                                  s, 0));
+     isa_bus_register_input_irqs(isabus, s->isa_irqs_in);
  
-diff --git a/include/hw/misc/mips_itu.h b/include/hw/misc/mips_itu.h
-index ab6d286c38..35218b2d14 100644
---- a/include/hw/misc/mips_itu.h
-+++ b/include/hw/misc/mips_itu.h
-@@ -72,9 +72,8 @@ struct MIPSITUState {
-     uint64_t icr0;
- 
-     /* SAAR */
--    bool saar_present;
--    void *saar;
--
-+    uint64_t *saar;
-+    MIPSCPU *cpu0;
- };
- 
- /* Get ITC Configuration Tag memory region. */
+     /* 1 82C54 (pit) */
 -- 
 2.38.1
 
