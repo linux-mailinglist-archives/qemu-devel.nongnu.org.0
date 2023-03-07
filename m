@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5616AFAC4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515E86AFACA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:55:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZh6s-0006Rw-Cq; Tue, 07 Mar 2023 18:52:46 -0500
+	id 1pZh9A-0007xP-Jm; Tue, 07 Mar 2023 18:55:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh6q-0006RU-DC
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:52:44 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh6o-0003Tr-Ib
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:52:43 -0500
-Received: by mail-wm1-x333.google.com with SMTP id j3so8841786wms.2
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678233161;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OeqDnrkpR8eKYeFXwI12oKUiIRH+naxX7cmxeFhmdqE=;
- b=aJcZDoZd5iqplicuDjsivEFGVHjTQU4N+J/hqaZh/k+t4wUHSiuIWjy3lmHooGm61y
- TmDwFMnTuzxlvebVavMSFe9tl34QMwnn2GRMGl1uQ75nFb4Fmp+LzHT2Amha6vtBaav0
- C0SSRrsw0uBVEmiD57EBb/l5M7i15gVaKo62tysGt0/0Rm8go+7SoLQGjbLw6OCTP4XQ
- dWEY6+ZOBNZT4aYtOqJo5Z/4ZMztWRNvwDV20h4fYCCSZBLcpo71E71rDEApm8ZojdGl
- 5oslgS2gNLL8DQehYlWibanpJZczV03p147RQ3gWt7vM5NF49JOdKNbqGs1pGyuureTW
- UCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678233161;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OeqDnrkpR8eKYeFXwI12oKUiIRH+naxX7cmxeFhmdqE=;
- b=xM6wxzYCMQTB5YpB2K6z/xPV5LUYgvAfmZN5b+NmSU2xOroIsIlvS4+jzDT44b+rLS
- vO4zJunDdL4EYh7Pq8S3XieKNkMbfcHr22ovBqm72HHEy4PgBNDulw9/HPoCoJaqhrT0
- am1PvD2jq6BhBrfl8TxfX12I5/JnkmRMgUYy3bmKXIw29TM1dCCcTx1pzYjSmf152nFP
- SDWXhIUDceXsI5UKnBIKpdliYKAUed6y80IKdo2nqJFoz8g9zM33sCThANNscdetta9q
- xy4m5LzLFTsrEp+xG8tClr+vnys8qDIVoTLXaTKTKDYApJXEFTYU0FDQgpZld6ilI6Ki
- 1vgw==
-X-Gm-Message-State: AO0yUKWVa9/8uGPcXP8nu33bPnthCU9/Iy/d6SIR21OrXExc7+iTnFg6
- W/N62K/5r7MiagRgF5u6y/fi9A==
-X-Google-Smtp-Source: AK7set/bczpxxfR5zId8m7GcqfiRD82kZqnZUCS0SGd81Ev2X2yAe42LUvn57JmQS31K48RANyVlHg==
-X-Received: by 2002:a05:600c:548e:b0:3eb:248f:a13e with SMTP id
- iv14-20020a05600c548e00b003eb248fa13emr15323719wmb.22.1678233161014; 
- Tue, 07 Mar 2023 15:52:41 -0800 (PST)
-Received: from [192.168.10.175] (57.red-88-29-179.dynamicip.rima-tde.net.
- [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
- t14-20020a05600c450e00b003e1fee8baacsm19004244wmo.25.2023.03.07.15.52.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 15:52:40 -0800 (PST)
-Message-ID: <27d01c39-190a-28a6-b161-b79d3492229c@linaro.org>
-Date: Wed, 8 Mar 2023 00:52:38 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZh98-0007vE-St
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:55:06 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZh96-0003vP-L6
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:55:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=iF0K1D3TimhnfmLN95AQOPCbn33PGQoGPgX9+u7U+KY=; b=OYOe/JqbKnYe4YqcHK/0a83gn0
+ SB31I/cdqL0MMVW4N4DG7c0yZtDTxQUhutNzW6b5bzogapmelvPhax+ox+rCTMJAB3HdTO5Lj4Kgg
+ TYYZcE6H/WKSyyfjrJ0WNslmUpoo5Pii1qSy24c4Q7XwoTWnHIv11K1wr2uEkKi0r/XcFB0STght4
+ ySxo7fowGoeX95O/lkS1VTzZ4TomRCwoFI2azI1tRPd7T6OTU+BFWudqnWjH2aHOOLYQtYiDC6rvN
+ D751M/7SqR9/vHT3JrwW7G1tp2dR4SKmP8YmBdYb5ozIkCsGQTmSI1XL0jGtAWmEMSN8IZZyrDNBd
+ b0la1IT9P6HKmKZi6oYbBdOUq2LV6RoEgFfMIHagk6yIRPri4rt9KyWbosseb/RuIooIZh8+2cOkP
+ wqy/v+4JgTDSpzk5jhnok5XvxI5XzIzMzcwWoZQ5mY/I0VYWvO7CVxKtx0zXFSNZc8ScbL9opwIX5
+ g6uHPjlhUQRm4hJoq2B2b/d8X9M+dLHMbv+FTnQMtyMk05A2aImsMiVLo3mRLEx/MD/d0yoYFIln+
+ LhSHtxnsxWyMdiXaGqI8XaPMFSOmO+23q3GYjwWP8IoixvynzHSxU6tCTyMi75UPsmH7btYSxkzZf
+ c6ZIWh/SDh6KV/ifm3Ph4cRVJoqLvrhswNS3TS5JA=;
+Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZh8O-000BuW-UN; Tue, 07 Mar 2023 23:54:24 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Date: Tue,  7 Mar 2023 23:54:54 +0000
+Message-Id: <20230307235455.282070-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: sh4-linux-user compile failure
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>, richard.henderson@linaro.org, anjo@rev.ng
-References: <83144281-4b2d-4bd6-b8f3-345e4b795f5a@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <83144281-4b2d-4bd6-b8f3-345e4b795f5a@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 0/1] qemu-openbios queue 20230307
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,23 +74,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/3/23 00:46, Mark Cave-Ayland wrote:
-> Hi Richard/Anton,
-> 
-> It looks as if a compile failure has crept into sh4-linux-user, most 
-> likely related to the recent TARGET_TB_PCREL/CF_PCREL changes:
+The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
 
+  Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
 
-> In file included from ../accel/tcg/tb-hash.h:26,
->                   from ../accel/tcg/tb-maint.c:28:
-> ../accel/tcg/tb-jmp-cache.h:24:5: error: "TARGET_TB_PCREL" is not 
-> defined, evaluates to 0 [-Werror=undef]
->     24 | #if TARGET_TB_PCREL
->        |     ^~~~~~~~~~~~~~~
+are available in the Git repository at:
 
-Your tree seems desync / out of date:
+  https://github.com/mcayland/qemu.git tags/qemu-openbios-20230307
 
-$ git grep TARGET_TB_PCREL a2b5f8b8ab
-$
+for you to fetch changes up to fff1aaf4451231ac680aa278e9fafc4f8b69ff57:
 
+  roms/openbios: update OpenBIOS images to af97fd7a built from submodule (2023-03-07 22:30:06 +0000)
+
+----------------------------------------------------------------
+qemu-openbios queue
+
+----------------------------------------------------------------
+Mark Cave-Ayland (1):
+      roms/openbios: update OpenBIOS images to af97fd7a built from submodule
+
+ pc-bios/openbios-ppc     | Bin 677196 -> 677196 bytes
+ pc-bios/openbios-sparc32 | Bin 382080 -> 382080 bytes
+ pc-bios/openbios-sparc64 | Bin 1593408 -> 1593408 bytes
+ roms/openbios            |   2 +-
+ 4 files changed, 1 insertion(+), 1 deletion(-)
 
