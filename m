@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0A96AF273
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296766AF26F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:53:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZcQN-0002OL-Pm; Tue, 07 Mar 2023 13:52:35 -0500
+	id 1pZcQU-0002PR-F2; Tue, 07 Mar 2023 13:52:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcQM-0002Nz-EY
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:52:34 -0500
+ id 1pZcQR-0002Oy-WC
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:52:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcQK-0002Mc-Rh
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:52:34 -0500
+ id 1pZcQQ-0002NL-6f
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:52:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678215152;
+ s=mimecast20190719; t=1678215157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JiOQoOY5JA9BdluRm0BxQI4ALQpYOPwxR+GokN95GBk=;
- b=IarHvDjh/7tbusseiS7wRU7PUXivzkpIuhMaKtRRbNQclgDsGCU0osTGC75S9ITka0MyOH
- C8f86sIDIyClnPs12oV4j+AQTdZfo/jBclnsKQkDT5QupXweFu7R0S4yDKMr+4aYPrnXQK
- hE4OfMUjqwgAdT6Bc1fecbtfImP1zyw=
+ bh=wrowRLGvFgS8kMBiT0mfI3mJAnQ0R32bsLNl0uUtT/k=;
+ b=Ml3SHOdENd/L7FQyDDflQxFJSYR5/Vm78rXYBXxLfG9OzVIP59bCjaQoDeUwGp6nE9CObV
+ kEFn7Kd9lfmO4KuF5qNAqFC4ccGl61LsJeIoY3mA8OLu0DPT371m69QPBsQ4R9UY3et4mW
+ /wEOrWN6nAcqG9dy9CbhI4BiqvyICMw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-f4NBV8U4OpiKOKyNXXX89w-1; Tue, 07 Mar 2023 13:52:30 -0500
-X-MC-Unique: f4NBV8U4OpiKOKyNXXX89w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-116-2rOQISV3NDuYv-UumBdHmA-1; Tue, 07 Mar 2023 13:52:36 -0500
+X-MC-Unique: 2rOQISV3NDuYv-UumBdHmA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8D32803471;
- Tue,  7 Mar 2023 18:52:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5787101A55E;
+ Tue,  7 Mar 2023 18:52:35 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.22.16.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E171492B00;
- Tue,  7 Mar 2023 18:52:29 +0000 (UTC)
-Subject: [PULL 02/17] vfio/common: Fix wrong %m usages
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32D1918EC6;
+ Tue,  7 Mar 2023 18:52:35 +0000 (UTC)
+Subject: [PULL 03/17] vfio/common: Abort migration if dirty log
+ start/stop/sync fails
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com,
  joao.m.martins@oracle.com
-Date: Tue, 07 Mar 2023 11:52:28 -0700
-Message-ID: <167821514893.619792.13457829790132771978.stgit@omen>
+Date: Tue, 07 Mar 2023 11:52:34 -0700
+Message-ID: <167821515483.619792.15631606345509251278.stgit@omen>
 In-Reply-To: <167821508699.619792.1719671327865445814.stgit@omen>
 References: <167821508699.619792.1719671327865445814.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,96 +84,184 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Avihai Horon <avihaih@nvidia.com>
 
-There are several places where the %m conversion is used if one of
-vfio_dma_map(), vfio_dma_unmap() or vfio_get_dirty_bitmap() fail.
+If VFIO dirty pages log start/stop/sync fails during migration,
+migration should be aborted as pages dirtied by VFIO devices might not
+be reported properly.
 
-The %m usage in these places is wrong since %m relies on errno value while
-the above functions don't report errors via errno.
+This is not the case today, where in such scenario only an error is
+printed.
 
-Fix it by using strerror() with the returned value instead.
+Fix it by aborting migration in the above scenario.
 
+Fixes: 758b96b61d5c ("vfio/migrate: Move switch of dirty tracking into vfio_memory_listener")
+Fixes: b6dd6504e303 ("vfio: Add vfio_listener_log_sync to mark dirty pages")
+Fixes: 9e7b0442f23a ("vfio: Add ioctl to get dirty pages bitmap during dma unmap")
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
-Link: https://lore.kernel.org/r/20230307125450.62409-3-joao.m.martins@oracle.com
+Link: https://lore.kernel.org/r/20230307125450.62409-4-joao.m.martins@oracle.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c |   29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ hw/vfio/common.c |   53 +++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 45 insertions(+), 8 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 9fc305448fa2..4d26e9cccf91 100644
+index 4d26e9cccf91..4c801513136a 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -703,17 +703,17 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-                            read_only);
-         if (ret) {
-             error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
--                         "0x%"HWADDR_PRIx", %p) = %d (%m)",
-+                         "0x%"HWADDR_PRIx", %p) = %d (%s)",
+@@ -42,6 +42,7 @@
+ #include "migration/migration.h"
+ #include "migration/misc.h"
+ #include "migration/blocker.h"
++#include "migration/qemu-file.h"
+ #include "sysemu/tpm.h"
+ 
+ VFIOGroupList vfio_group_list =
+@@ -390,6 +391,19 @@ void vfio_unblock_multiple_devices_migration(void)
+     multiple_devices_migration_blocker = NULL;
+ }
+ 
++static void vfio_set_migration_error(int err)
++{
++    MigrationState *ms = migrate_get_current();
++
++    if (migration_is_setup_or_active(ms->state)) {
++        WITH_QEMU_LOCK_GUARD(&ms->qemu_file_lock) {
++            if (ms->to_dst_file) {
++                qemu_file_set_error(ms->to_dst_file, err);
++            }
++        }
++    }
++}
++
+ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+ {
+     VFIOGroup *group;
+@@ -680,6 +694,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     if (iotlb->target_as != &address_space_memory) {
+         error_report("Wrong target AS \"%s\", only system memory is allowed",
+                      iotlb->target_as->name ? iotlb->target_as->name : "none");
++        vfio_set_migration_error(-EINVAL);
+         return;
+     }
+ 
+@@ -714,6 +729,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                          "0x%"HWADDR_PRIx") = %d (%s)",
                           container, iova,
--                         iotlb->addr_mask + 1, vaddr, ret);
-+                         iotlb->addr_mask + 1, vaddr, ret, strerror(-ret));
-         }
-     } else {
-         ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
-         if (ret) {
-             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
--                         "0x%"HWADDR_PRIx") = %d (%m)",
-+                         "0x%"HWADDR_PRIx") = %d (%s)",
-                          container, iova,
--                         iotlb->addr_mask + 1, ret);
-+                         iotlb->addr_mask + 1, ret, strerror(-ret));
+                          iotlb->addr_mask + 1, ret, strerror(-ret));
++            vfio_set_migration_error(ret);
          }
      }
  out:
-@@ -1095,8 +1095,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                        vaddr, section->readonly);
-     if (ret) {
-         error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
--                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
--                   container, iova, int128_get64(llsize), vaddr, ret);
-+                   "0x%"HWADDR_PRIx", %p) = %d (%s)",
-+                   container, iova, int128_get64(llsize), vaddr, ret,
-+                   strerror(-ret));
-         if (memory_region_is_ram_device(section->mr)) {
-             /* Allow unexpected mappings not to be fatal for RAM devices */
-             error_report_err(err);
-@@ -1228,16 +1229,18 @@ static void vfio_listener_region_del(MemoryListener *listener,
-             ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-             if (ret) {
-                 error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
--                             "0x%"HWADDR_PRIx") = %d (%m)",
--                             container, iova, int128_get64(llsize), ret);
-+                             "0x%"HWADDR_PRIx") = %d (%s)",
-+                             container, iova, int128_get64(llsize), ret,
-+                             strerror(-ret));
-             }
-             iova += int128_get64(llsize);
-         }
-         ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-         if (ret) {
-             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
--                         "0x%"HWADDR_PRIx") = %d (%m)",
--                         container, iova, int128_get64(llsize), ret);
-+                         "0x%"HWADDR_PRIx") = %d (%s)",
-+                         container, iova, int128_get64(llsize), ret,
-+                         strerror(-ret));
-         }
+@@ -1259,7 +1275,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     }
+ }
+ 
+-static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
++static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+ {
+     int ret;
+     struct vfio_iommu_type1_dirty_bitmap dirty = {
+@@ -1267,7 +1283,7 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+     };
+ 
+     if (!container->dirty_pages_supported) {
+-        return;
++        return 0;
      }
  
-@@ -1384,9 +1387,9 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     if (start) {
+@@ -1278,23 +1294,34 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+ 
+     ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
+     if (ret) {
++        ret = -errno;
+         error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+                      dirty.flags, errno);
+     }
++
++    return ret;
+ }
+ 
+ static void vfio_listener_log_global_start(MemoryListener *listener)
+ {
+     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++    int ret;
+ 
+-    vfio_set_dirty_page_tracking(container, true);
++    ret = vfio_set_dirty_page_tracking(container, true);
++    if (ret) {
++        vfio_set_migration_error(ret);
++    }
+ }
+ 
+ static void vfio_listener_log_global_stop(MemoryListener *listener)
+ {
+     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++    int ret;
+ 
+-    vfio_set_dirty_page_tracking(container, false);
++    ret = vfio_set_dirty_page_tracking(container, false);
++    if (ret) {
++        vfio_set_migration_error(ret);
++    }
+ }
+ 
+ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+@@ -1370,19 +1397,18 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     VFIOContainer *container = giommu->container;
+     hwaddr iova = iotlb->iova + giommu->iommu_offset;
+     ram_addr_t translated_addr;
++    int ret = -EINVAL;
+ 
+     trace_vfio_iommu_map_dirty_notify(iova, iova + iotlb->addr_mask);
+ 
+     if (iotlb->target_as != &address_space_memory) {
+         error_report("Wrong target AS \"%s\", only system memory is allowed",
+                      iotlb->target_as->name ? iotlb->target_as->name : "none");
+-        return;
++        goto out;
+     }
+ 
+     rcu_read_lock();
+     if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
+-        int ret;
+-
+         ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
                                      translated_addr);
          if (ret) {
-             error_report("vfio_iommu_map_dirty_notify(%p, 0x%"HWADDR_PRIx", "
--                         "0x%"HWADDR_PRIx") = %d (%m)",
--                         container, iova,
--                         iotlb->addr_mask + 1, ret);
-+                         "0x%"HWADDR_PRIx") = %d (%s)",
-+                         container, iova, iotlb->addr_mask + 1, ret,
-+                         strerror(-ret));
+@@ -1393,6 +1419,11 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
          }
      }
      rcu_read_unlock();
++
++out:
++    if (ret) {
++        vfio_set_migration_error(ret);
++    }
+ }
+ 
+ static int vfio_ram_discard_get_dirty_bitmap(MemoryRegionSection *section,
+@@ -1485,13 +1516,19 @@ static void vfio_listener_log_sync(MemoryListener *listener,
+         MemoryRegionSection *section)
+ {
+     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++    int ret;
+ 
+     if (vfio_listener_skipped_section(section)) {
+         return;
+     }
+ 
+     if (vfio_devices_all_dirty_tracking(container)) {
+-        vfio_sync_dirty_bitmap(container, section);
++        ret = vfio_sync_dirty_bitmap(container, section);
++        if (ret) {
++            error_report("vfio: Failed to sync dirty bitmap, err: %d (%s)", ret,
++                         strerror(-ret));
++            vfio_set_migration_error(ret);
++        }
+     }
+ }
+ 
 
 
 
