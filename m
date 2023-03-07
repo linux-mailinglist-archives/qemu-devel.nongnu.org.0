@@ -2,66 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123F06AD5BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 04:30:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1C56AD5E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 04:55:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZO16-0001rF-U4; Mon, 06 Mar 2023 22:29:32 -0500
+	id 1pZOOJ-0001Fw-2h; Mon, 06 Mar 2023 22:53:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZO13-0001qp-W2; Mon, 06 Mar 2023 22:29:30 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZO11-0002ac-4F; Mon, 06 Mar 2023 22:29:29 -0500
-Received: from localhost.localdomain (unknown [180.165.240.213])
- by APP-05 (Coremail) with SMTP id zQCowAAnLemNrwZkRKOODA--.34193S3;
- Tue, 07 Mar 2023 11:29:19 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 1/1] hw/riscv: Add signature dump function for spike to run
- ACT tests
-Date: Tue,  7 Mar 2023 11:29:15 +0800
-Message-Id: <20230307032915.10059-2-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230307032915.10059-1-liweiwei@iscas.ac.cn>
-References: <20230307032915.10059-1-liweiwei@iscas.ac.cn>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
+ id 1pZOOH-0001FT-HW
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 22:53:29 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
+ id 1pZOOE-0006cP-TE
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 22:53:29 -0500
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3273QxAC026962; Mon, 6 Mar 2023 19:53:22 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=XcaKtPe9q1YLMKCW6yQgutl4kq6uqJJ9K3JVCP5unkk=;
+ b=QLPtioIiX6vKXX1KgWehk44V/CF0amEo2t/RYPpPug+5dcCmCb8yKVRMvov1+6qXpz9v
+ ocdJUjOu5bxCst+O8E7C8G4AcnVqYLvMxfPvMFUGmLAtMtUT+X1TIRbz5buGurZ0/Cxk
+ G07hjnIGG21G8PmPXaoNY+X+MwxI87jOOGqK85jiAL0gqweXWUrlTByftjxPJagmcV1f
+ Av09EnNhbCB2vayjesjljyyjZacHuxu0byl21EHdzJJ5jAbT7C0toEIG3FHohADqid2Z
+ 0SSbC2/WpWviI5EE4o/ujln7ztMGlt9LvLYQf1wgNGl4Ys5UggkppA7YsnRV3beAFXHT 5Q== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3p466mmr5b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Mar 2023 19:53:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eX9Ry8xvNIY3UQIMlTbUCK87YiE0OEUlDqE3bmYLd8ZnQBiikj9CP2QIhl/xcq4l09gKOaomrhJA5Y/lQt3Jcut0+CXDJZ0bIKr7oGH08l/iwCLPNi7dwM7VDaIYWVk7WFqTPGR6Chy3dCz/67KvZEbJHztVg5lVMhVfk8TAHTlKAKOuJSnAkMj2D74v5k9+F8RDe4EglxowtNdWK/VFbBxNf5/DDyu11Yvle07v2PKwaTUx8JN6uc3nTR7+OU1oDwRU5c2aYKO3VyWX1BNdV+/l1jWh0cfN1OF3FrMuIy48RarTm98WWwEG4VSqAjTdd5wjyC/OOWoBczcq1PSVpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XcaKtPe9q1YLMKCW6yQgutl4kq6uqJJ9K3JVCP5unkk=;
+ b=D17w3YU9lTmnKyc+g5gejyzpQgJVeKa0sN/PEsoWOTs3gXquOSlLO/dU07R2t/PJwRg/cmgbf+eTmQvJym0nHsws8jkSdL+/d6vp2xuO1E2COqkIKDP692Oovsicnqb6lZwE+tz7uzMPUOgsWLdM5fXXRdYq7N1pMqnHhxwAjPhdFufJA49/bkFKiPcZKASLh3/60OYpl/Cxg3Ar56Nio6Qf5XXkl1K48v4zZfVTzKNcnb11SoumQZgIpK3kPdWlTj3B5w7LKL0nsxExjiaH6WOuGUu8s8DIigIIzu8+O8C05aBHDGUP2hLFzx81AM3ekYSdrIwMYGbHSXlqJ7PgPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XcaKtPe9q1YLMKCW6yQgutl4kq6uqJJ9K3JVCP5unkk=;
+ b=ss8FcNAYdUTVDUxpFu+bO5owgKgc1FohRp2RNnCBuV/FZruSnc3IxvREEkymZhmVOuQ6ZuSLosSE42odjFHppinvjx4Yfx9bjUp+TTXw0Djvk1KuQBJJ84Vf1ZkMWkdxmPJAr+Lg2Nd5HOswv66fHqw3OGhMWi2tuuC6eBG3+twjVJJkTTYw8f2/cTa86DJ0qhOfKWHYStR5iB2o+UBKTGnoWBZA7AAAzRO5uqE25GsIilMqF0hEoZWhsdgYFENytYi7L0RU3uqJEhzkpLr/9wbOZK9cJlLD9r7100YirvS0gsGyJPl0bmhy5QHcmdj6Op2NsUW4exYbvd7KQ+VbEw==
+Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
+ by SJ0PR02MB7806.namprd02.prod.outlook.com (2603:10b6:a03:322::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Tue, 7 Mar
+ 2023 03:53:17 +0000
+Received: from BYAPR02MB4343.namprd02.prod.outlook.com
+ ([fe80::70fd:8d15:bab8:29d6]) by BYAPR02MB4343.namprd02.prod.outlook.com
+ ([fe80::70fd:8d15:bab8:29d6%6]) with mapi id 15.20.6156.028; Tue, 7 Mar 2023
+ 03:53:17 +0000
+Message-ID: <74dd1f3a-3b57-98bb-8095-70265130ad66@nutanix.com>
+Date: Tue, 7 Mar 2023 09:23:06 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 3/3] qapi: allow unions to contain further unions
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230223134027.2294640-1-berrange@redhat.com>
+ <20230223134027.2294640-4-berrange@redhat.com>
+From: Het Gala <het.gala@nutanix.com>
+In-Reply-To: <20230223134027.2294640-4-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAnLemNrwZkRKOODA--.34193S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF1DXrWfZF1fuF1UGr4rKrg_yoWrZrWxpF
- s3CFnxuryUJFn3GFnxtw1xua1rGan5W3W2krnxuw1rZFs8WFyUAa97t3W5Za98Grs2vF45
- ArWDKF9xKa15Zw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUP014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
- IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
- wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
- 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
- xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
- 1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbec_DUU
- UUU==
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: MA1P287CA0012.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a00:35::13) To BYAPR02MB4343.namprd02.prod.outlook.com
+ (2603:10b6:a03:57::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|SJ0PR02MB7806:EE_
+X-MS-Office365-Filtering-Correlation-Id: 147696ce-dc73-48e1-dda6-08db1ebf7bc9
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SKQCQBDyeVuJ3dU6ZkHcN6R1syA8tU1Ig6xFqe/xjetVrVPwgwJ/tcTZqfsCM9NgoXr47BHee79maLm9v/tzQ8YoYE7ZLPcIGnCDSDKvQJ4+0PhKcJgJPTV02GRpoGPni3G7m/jLGHom7cRTJpvkXHoA8OfFiT4jSuO9ewBkj8TNBAQNbYX2ds07pIyqp86vYRB2hE/B/F35ktdvX1Th1EPN0CnIU7KtUZkX5h7uvQrwXEUD8jMtvkdzDsoxTEcWbixbalO/vIsF/DFW4THwWnOLgFL1wc8W/yYYJVi2jaT1xGPkEGO5UBbWIDXbjfZxrcrm13XWaVMbJDgJoRynuBOrkcficOOopwhfqE7e5h7ZIDiQK67lh11KSwCu7hs1wfJNsg2Fq/qdHvjh8+0tMaMIE/iEcMybvAecPVTg0kTPqUsGb1TNR03WAtKfb+94/JSXJHks8xHjhRPUbYdDjwulhued7qwf5pJRL8Gq4vGlHw1dlBQ0ZG94ebHPusqhUmM7EoX3fDEJyzqGTFbWa0MBwc2YTHO9E9rCvOo2o1q8FoJo6m4tp/1uP1FWmWnZHJZ4g4txQaZgsSkvELfh+7xICc00Iv0V8H15J6Bls7JEqAHwi0BoBc39chmyutssReW5ZRJjllSVg76cfJk1eXwJZ2Ka6ep+ZMs5E72XiiKaOZE2Zw678QaaWeCq2E8GKzi9xOyps0x8n643cID1G8T4txgdjik4/YY96Knusxo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(346002)(39860400002)(136003)(376002)(366004)(451199018)(186003)(2906002)(6666004)(38100700002)(5660300002)(66946007)(8936002)(8676002)(41300700001)(4326008)(30864003)(66476007)(53546011)(44832011)(66556008)(478600001)(26005)(6512007)(2616005)(6486002)(36756003)(54906003)(316002)(86362001)(31696002)(83380400001)(31686004)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzJVR2xmekE5MVJmbXl4Q083STYzbEVkUktBZkVSbzBRT1JmTmtqRnJKbSts?=
+ =?utf-8?B?OVYxNFpEbzNCVCttRkFBUVZIQjg0c0J4YWlDYVpwdjgzcWdoTVNkTWxkQWpR?=
+ =?utf-8?B?WGRlcFh3d0gvKzB3S2Fwc0xxWHQ2NktIQmpUY3lpOTQ4L1lycDRtZkQvbWVB?=
+ =?utf-8?B?RllSZlJQNnZ4Q1hMdk5TUytEd1lrQmJHb3lMWTdWeTgwOWZ4NEg3RE5LdjRo?=
+ =?utf-8?B?VFBQR09ybHdTUWZ4NkVubmJBZzhrYUVVK1Y3RDM0cGN2T2lmM1F5cnpuaG1r?=
+ =?utf-8?B?RDBvT2VVVHRocHpjYkNlTkgwcFBrdTNuSDhJN1RIcVBFZjlQaWdaa1B1N0M2?=
+ =?utf-8?B?cFZWR3o2ekpZc0VjeFhaWmdOa2pQUk1yVTlwOUJwVFlTUUp0WEk1T2tnNGVB?=
+ =?utf-8?B?Z1AwMWdmVCtoMWlMOW5QU2ZJZjdlLzYwSWd1UXdTZnlDSE0wSWMwR1RCYUFm?=
+ =?utf-8?B?SlpsZW4yd2o1SWFMNWFja1VvVTJKZVY4WFBCZVFjSFVTU0dHMWVvQklpZFZl?=
+ =?utf-8?B?V0ZkY3lrZXljeVE5K3R4enpWMHJnWjNDSDBqNVVMRGVsTmZad2VaaDBuRXJq?=
+ =?utf-8?B?ODJ4RW8zNVhMUlJVYzFDNnBIRG04YUozQXRJdUVCL2VidUNiN05qSGRuY0Vl?=
+ =?utf-8?B?akgrRTJaOGl2aFZYT1lzc1ZKTzNPb0Y4eXhCZnZrQkZTYzhLbDdGVndibVJ3?=
+ =?utf-8?B?NUpudTVNWTZ5UHVBUEhrWUNvQzhUeVoraG1DRTdXWVQzZ1lJcklrV3ZORU9q?=
+ =?utf-8?B?OGFHYjlhTk9HZEQ4MCs1TUk2U2sxTGZDYUdkOG5pcWVjVVE1TW44SnlITWl5?=
+ =?utf-8?B?MVJVR2JZcWRKTWVsMGtHZzlRVVlmTXBVeGRWSmNhTGt6U3hiM0JDNTlCNFhx?=
+ =?utf-8?B?NFQvRzN3QndJbHpsSklRaDJOYTJzNnFocklaSVdCUDB4VFhYZVZPQWZRTUVP?=
+ =?utf-8?B?Um5FT2szYTVwcFlHcWw1cXdMRU80TmxJWkJBejQ3dllISXhCZUp1M1JGcHVB?=
+ =?utf-8?B?Znl1UXAvcldxbUMvQzhYczNtMEhtVCsrRUtOR25FSEJMR0o2NlAvWE9xOHlY?=
+ =?utf-8?B?Sll1dGtTZjBOOWpMSXIwbXAvc28ydWtKWEdVZFkycngwQ0QrQW5wWEZ6WjJh?=
+ =?utf-8?B?eEpHTkN6UzFLdFFRbUdKWFFEUVQwby9Dc1dxdjNJaCtOUCtNZVFxN3VRWEU5?=
+ =?utf-8?B?YWorYkpGWkNuOEJ4cDM5SnByVklBcGp5ZS9ObndvajRrN1dvWXFmdWNYOWNP?=
+ =?utf-8?B?RGJybVd3a3QxNzBZNVlzU1d0OExFU1A2SjJUb29yMUNEQ3UrS1IvQnN3TEd4?=
+ =?utf-8?B?QVJJbi90MHl1bS8zT2FYZmZQWGcraUNqa3hKU1RIR0ZMYkNpMGNyWk1WbllC?=
+ =?utf-8?B?K0Y5ZmduMkhEWCtobVR6U0FKbjlHRDl4S1VtSXczTis3V1gwdHhYdFYrK0Va?=
+ =?utf-8?B?R1VaRGRIOHVrK0c4MDllYVZkOTBkdWMyVnA0M2hDQnVPMkd3VTAzMUk4REha?=
+ =?utf-8?B?aDR0bkdlY2pCYks1d0IxVXh6dDRQUTE0b0p4RjBQbmZpMXpHajkzRmhPOXhr?=
+ =?utf-8?B?YSs4L0ExdGtlOXVETjZqNDdyRHlpbDJEV3NhV0o1NmlndFVob0tBRlFBUTJm?=
+ =?utf-8?B?ZHZDYXlPRko4QmdjbkhIOHVhdncwWXVzZlV2WUo5OWZLTUdIYklNTTZHejJm?=
+ =?utf-8?B?SC8vRmJQcm5SaFh2SWhQR0F3T1ljdmt6SnBRQU1aaHJKeVd2c2NNMldYQTgz?=
+ =?utf-8?B?Y2NqTzNDM0JUYTNWVCsvTjRrcS9ob1JjK1Z5U1AwcGZGU3IzQzVNQ2habmtG?=
+ =?utf-8?B?Q1pXNFZuZHFqL053a2h6MFFQUC9XVmlDVWZXOWQ2ZjhwbnRxMzJ1RlFYZXRp?=
+ =?utf-8?B?ejZtbnBhR2J0cnczMmdhcXdQclFQQW1qUkpiSEJEV3NDQVgxbjhncWdtRUZj?=
+ =?utf-8?B?VjIyL1UzcU1MMVhjNUlDMWdnN0lmWUhNT2lHUWVyOFZJdDdQNDlHWDZtUExV?=
+ =?utf-8?B?WEFBQmhMb2lrNEpjZVhSZmdESUFRSlpBL2NUT2dJQnFwVXJJakFuc2tYdXV6?=
+ =?utf-8?B?Zmx5QkllWEhsd0dtUjhSeWxra1hiV2NqemZCMS9QRDNBVVVJZzFaUzdBdC9u?=
+ =?utf-8?B?eUR0S09VNkszcUtIUmVHelNSNDhKL056dlRRYUhjL1plc2ExNGlKc0hTNXVn?=
+ =?utf-8?B?VlE9PQ==?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 147696ce-dc73-48e1-dda6-08db1ebf7bc9
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 03:53:17.2158 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jVQOw5xzecSrKdA16xx8j2C88bejSd+GACf5bwT/7o5JbKZJi0Uj2Lef7av+C4OUKy0XHgDlzibxUOA89nBX8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7806
+X-Proofpoint-ORIG-GUID: TZw2Cy4KzqIHQ3-U7rm8Wnx67NuTwSb5
+X-Proofpoint-GUID: TZw2Cy4KzqIHQ3-U7rm8Wnx67NuTwSb5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-06_14,2023-03-06_01,2023-02-09_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12; envelope-from=het.gala@nutanix.com;
+ helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,139 +169,400 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add signature and signature-granularity properties in spike to specify the target
-signatrue file and the line size for signature data.
+Hi,
 
-Recgonize the signature section between begin_signature and end_signature symbols
-when loading elf of ACT tests. Then dump signature data in signature section just
-before the ACT tests exit.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
----
- hw/char/riscv_htif.c         | 39 +++++++++++++++++++++++++++++++++++-
- hw/riscv/spike.c             | 13 ++++++++++++
- include/hw/char/riscv_htif.h |  3 +++
- 3 files changed, 54 insertions(+), 1 deletion(-)
+On 23/02/23 7:10 pm, Daniel P. Berrangé wrote:
+> This extends the QAPI schema validation to permit unions inside unions,
+> provided the checks for clashing fields pass.
+>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   scripts/qapi/schema.py                        |  6 +-
+>   tests/qapi-schema/meson.build                 |  2 +
+>   tests/qapi-schema/qapi-schema-test.json       | 32 ++++++++++
+>   tests/qapi-schema/qapi-schema-test.out        | 29 ++++++++++
+>   .../union-invalid-union-subfield.err          |  2 +
+>   .../union-invalid-union-subfield.json         | 30 ++++++++++
+>   .../union-invalid-union-subfield.out          |  0
+>   .../union-invalid-union-subtype.err           |  2 +
+>   .../union-invalid-union-subtype.json          | 29 ++++++++++
+>   .../union-invalid-union-subtype.out           |  0
+>   tests/unit/test-qobject-input-visitor.c       | 47 +++++++++++++++
+>   tests/unit/test-qobject-output-visitor.c      | 58 +++++++++++++++++++
+>   12 files changed, 234 insertions(+), 3 deletions(-)
+>   create mode 100644 tests/qapi-schema/union-invalid-union-subfield.err
+>   create mode 100644 tests/qapi-schema/union-invalid-union-subfield.json
+>   create mode 100644 tests/qapi-schema/union-invalid-union-subfield.out
+>   create mode 100644 tests/qapi-schema/union-invalid-union-subtype.err
+>   create mode 100644 tests/qapi-schema/union-invalid-union-subtype.json
+>   create mode 100644 tests/qapi-schema/union-invalid-union-subtype.out
+>
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 6c481ab0c0..5c4457f789 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -465,9 +465,10 @@ def check(self, schema):
+>       # on behalf of info, which is not necessarily self.info
+>       def check_clash(self, info, seen):
+>           assert self._checked
+> -        assert not self.variants       # not implemented
+>           for m in self.members:
+>               m.check_clash(info, seen)
+> +        if self.variants:
+> +            self.variants.check_clash(info, seen)
+>   
+>       def connect_doc(self, doc=None):
+>           super().connect_doc(doc)
+> @@ -652,8 +653,7 @@ def check(self, schema, seen):
+>                           self.info,
+>                           "branch '%s' is not a value of %s"
+>                           % (v.name, self.tag_member.type.describe()))
+> -                if (not isinstance(v.type, QAPISchemaObjectType)
+> -                        or v.type.variants):
+> +                if not isinstance(v.type, QAPISchemaObjectType):
+>                       raise QAPISemError(
+>                           self.info,
+>                           "%s cannot use %s"
+> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+> index d85b14f28c..1591eb322b 100644
+> --- a/tests/qapi-schema/meson.build
+> +++ b/tests/qapi-schema/meson.build
+> @@ -194,6 +194,8 @@ schemas = [
+>     'union-invalid-data.json',
+>     'union-invalid-discriminator.json',
+>     'union-invalid-if-discriminator.json',
+> +  'union-invalid-union-subfield.json',
+> +  'union-invalid-union-subtype.json',
+>     'union-no-base.json',
+>     'union-optional-discriminator.json',
+>     'union-string-discriminator.json',
+> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+> index ba7302f42b..40f1a3d88d 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -114,6 +114,38 @@
+>   { 'struct': 'UserDefC',
+>     'data': { 'string1': 'str', 'string2': 'str' } }
+>   
+> +# this tests that unions can contain other unions in their branches
+> +{ 'enum': 'TestUnionEnum',
+> +  'data': [ 'value-a', 'value-b' ] }
+> +
+> +{ 'enum': 'TestUnionEnumA',
+> +  'data': [ 'value-a1', 'value-a2' ] }
+> +
+> +{ 'struct': 'TestUnionTypeA1',
+> +  'data': { 'integer': 'int',
+> +            'name': 'str'} }
+> +
+> +{ 'struct': 'TestUnionTypeA2',
+> +  'data': { 'integer': 'int',
+> +            'size': 'int' } }
+> +
+> +{ 'union': 'TestUnionTypeA',
+> +  'base': { 'type-a': 'TestUnionEnumA' },
+> +  'discriminator': 'type-a',
+> +  'data': { 'value-a1': 'TestUnionTypeA1',
+> +            'value-a2': 'TestUnionTypeA2' } }
+> +
+> +{ 'struct': 'TestUnionTypeB',
+> +  'data': { 'integer': 'int',
+> +            'onoff': 'bool' } }
+> +
+> +{ 'union': 'TestUnionInUnion',
+> +  'base': { 'type': 'TestUnionEnum' },
+> +  'discriminator': 'type',
+> +  'data': { 'value-a': 'TestUnionTypeA',
+> +            'value-b': 'TestUnionTypeB' } }
+> +
+> +
+>   # for testing use of 'number' within alternates
+>   { 'alternate': 'AltEnumBool', 'data': { 'e': 'EnumOne', 'b': 'bool' } }
+>   { 'alternate': 'AltEnumNum', 'data': { 'e': 'EnumOne', 'n': 'number' } }
+> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+> index 043d75c655..9fe1038944 100644
+> --- a/tests/qapi-schema/qapi-schema-test.out
+> +++ b/tests/qapi-schema/qapi-schema-test.out
+> @@ -105,6 +105,35 @@ alternate UserDefAlternate
+>   object UserDefC
+>       member string1: str optional=False
+>       member string2: str optional=False
+> +enum TestUnionEnum
+> +    member value-a
+> +    member value-b
+> +enum TestUnionEnumA
+> +    member value-a1
+> +    member value-a2
+> +object TestUnionTypeA1
+> +    member integer: int optional=False
+> +    member name: str optional=False
+> +object TestUnionTypeA2
+> +    member integer: int optional=False
+> +    member size: int optional=False
+> +object q_obj_TestUnionTypeA-base
+> +    member type-a: TestUnionEnumA optional=False
+> +object TestUnionTypeA
+> +    base q_obj_TestUnionTypeA-base
+> +    tag type-a
+> +    case value-a1: TestUnionTypeA1
+> +    case value-a2: TestUnionTypeA2
+> +object TestUnionTypeB
+> +    member integer: int optional=False
+> +    member onoff: bool optional=False
+> +object q_obj_TestUnionInUnion-base
+> +    member type: TestUnionEnum optional=False
+> +object TestUnionInUnion
+> +    base q_obj_TestUnionInUnion-base
+> +    tag type
+> +    case value-a: TestUnionTypeA
+> +    case value-b: TestUnionTypeB
+>   alternate AltEnumBool
+>       tag type
+>       case e: EnumOne
+> diff --git a/tests/qapi-schema/union-invalid-union-subfield.err b/tests/qapi-schema/union-invalid-union-subfield.err
+> new file mode 100644
+> index 0000000000..43574dea79
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subfield.err
+> @@ -0,0 +1,2 @@
+> +union-invalid-union-subfield.json: In union 'TestUnion':
+> +union-invalid-union-subfield.json:25: member 'teeth' of type 'TestTypeFish' collides with base member 'teeth' of type 'TestUnion-base'
+> diff --git a/tests/qapi-schema/union-invalid-union-subfield.json b/tests/qapi-schema/union-invalid-union-subfield.json
+> new file mode 100644
+> index 0000000000..e1639d3a96
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subfield.json
+> @@ -0,0 +1,30 @@
+> +# Clash between common member and union variant's variant member
+> +# Base's member 'teeth' clashes with TestTypeFish's
+> +
+> +{ 'enum': 'TestEnum',
+> +  'data': [ 'animals', 'plants' ] }
+> +
+> +{ 'enum': 'TestAnimals',
+> +  'data': [ 'fish', 'birds'] }
+> +
+> +{ 'struct': 'TestTypeFish',
+> +  'data': { 'scales': 'int', 'teeth': 'int' } }
+> +
+> +{ 'struct': 'TestTypeBirds',
+> +  'data': { 'feathers': 'int' } }
+> +
+> +{ 'union': 'TestTypeAnimals',
+> +  'base': { 'atype': 'TestAnimals' },
+> +  'discriminator': 'atype',
+> +  'data': { 'fish': 'TestTypeFish',
+> +            'birds': 'TestTypeBirds' } }
+> +
+> +{ 'struct': 'TestTypePlants',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'union': 'TestUnion',
+> +  'base': { 'type': 'TestEnum',
+> +            'teeth': 'int' },
+> +  'discriminator': 'type',
+> +  'data': { 'animals': 'TestTypeAnimals',
+> +            'plants': 'TestTypePlants' } }
+> diff --git a/tests/qapi-schema/union-invalid-union-subfield.out b/tests/qapi-schema/union-invalid-union-subfield.out
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/qapi-schema/union-invalid-union-subtype.err b/tests/qapi-schema/union-invalid-union-subtype.err
+> new file mode 100644
+> index 0000000000..e45f330cec
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subtype.err
+> @@ -0,0 +1,2 @@
+> +union-invalid-union-subtype.json: In union 'TestUnion':
+> +union-invalid-union-subtype.json:25: base member 'type' of type 'TestTypeA-base' collides with base member 'type' of type 'TestUnion-base'
+> diff --git a/tests/qapi-schema/union-invalid-union-subtype.json b/tests/qapi-schema/union-invalid-union-subtype.json
+> new file mode 100644
+> index 0000000000..ce1de51d8d
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subtype.json
+> @@ -0,0 +1,29 @@
+> +# Clash between common member and union variant's common member
+> +# Base's member 'type' clashes with TestTypeA's
+> +
+> +{ 'enum': 'TestEnum',
+> +  'data': [ 'value-a', 'value-b' ] }
+> +
+> +{ 'enum': 'TestEnumA',
+> +  'data': [ 'value-a1', 'value-a2' ] }
+> +
+> +{ 'struct': 'TestTypeA1',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'struct': 'TestTypeA2',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'union': 'TestTypeA',
+> +  'base': { 'type': 'TestEnumA' },
+> +  'discriminator': 'type',
+> +  'data': { 'value-a1': 'TestTypeA1',
+> +            'value-a2': 'TestTypeA2' } }
+> +
+> +{ 'struct': 'TestTypeB',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'union': 'TestUnion',
+> +  'base': { 'type': 'TestEnum' },
+> +  'discriminator': 'type',
+> +  'data': { 'value-a': 'TestTypeA',
+> +            'value-b': 'TestTypeB' } }
+> diff --git a/tests/qapi-schema/union-invalid-union-subtype.out b/tests/qapi-schema/union-invalid-union-subtype.out
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/unit/test-qobject-input-visitor.c b/tests/unit/test-qobject-input-visitor.c
+> index 77fbf985be..9b3e2dbe14 100644
+> --- a/tests/unit/test-qobject-input-visitor.c
+> +++ b/tests/unit/test-qobject-input-visitor.c
+> @@ -706,6 +706,51 @@ static void test_visitor_in_union_flat(TestInputVisitorData *data,
+>       g_assert(&base->enum1 == &tmp->enum1);
+>   }
+>   
+> +static void test_visitor_in_union_in_union(TestInputVisitorData *data,
+> +                                           const void *unused)
+> +{
+> +    Visitor *v;
+> +    g_autoptr(TestUnionInUnion) tmp = NULL;
+> +
+> +    v = visitor_input_test_init(data,
+> +                                "{ 'type': 'value-a', "
+> +                                "  'type-a': 'value-a1', "
+> +                                "  'integer': 2, "
+> +                                "  'name': 'fish' }");
+> +
+> +    visit_type_TestUnionInUnion(v, NULL, &tmp, &error_abort);
+> +    g_assert_cmpint(tmp->type, ==, TEST_UNION_ENUM_VALUE_A);
+> +    g_assert_cmpint(tmp->u.value_a.type_a, ==, TEST_UNION_ENUMA_VALUE_A1);
+> +    g_assert_cmpint(tmp->u.value_a.u.value_a1.integer, ==, 2);
+> +    g_assert_cmpint(strcmp(tmp->u.value_a.u.value_a1.name, "fish"), ==, 0);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +    v = visitor_input_test_init(data,
+> +                                "{ 'type': 'value-a', "
+> +                                "  'type-a': 'value-a2', "
+> +                                "  'integer': 1729, "
+> +                                "  'size': 87539319 }");
+> +
+> +    visit_type_TestUnionInUnion(v, NULL, &tmp, &error_abort);
+> +    g_assert_cmpint(tmp->type, ==, TEST_UNION_ENUM_VALUE_A);
+> +    g_assert_cmpint(tmp->u.value_a.type_a, ==, TEST_UNION_ENUMA_VALUE_A2);
+> +    g_assert_cmpint(tmp->u.value_a.u.value_a2.integer, ==, 1729);
+> +    g_assert_cmpint(tmp->u.value_a.u.value_a2.size, ==, 87539319);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +    v = visitor_input_test_init(data,
+> +                                "{ 'type': 'value-b', "
+> +                                "  'integer': 1729, "
+> +                                "  'onoff': true }");
+> +
+> +    visit_type_TestUnionInUnion(v, NULL, &tmp, &error_abort);
+> +    g_assert_cmpint(tmp->type, ==, TEST_UNION_ENUM_VALUE_B);
+> +    g_assert_cmpint(tmp->u.value_b.integer, ==, 1729);
+> +    g_assert_cmpint(tmp->u.value_b.onoff, ==, true);
+> +}
+> +
+>   static void test_visitor_in_alternate(TestInputVisitorData *data,
+>                                         const void *unused)
+>   {
+> @@ -1216,6 +1261,8 @@ int main(int argc, char **argv)
+>                              NULL, test_visitor_in_null);
+>       input_visitor_test_add("/visitor/input/union-flat",
+>                              NULL, test_visitor_in_union_flat);
+> +    input_visitor_test_add("/visitor/input/union-in-union",
+> +                           NULL, test_visitor_in_union_in_union);
+>       input_visitor_test_add("/visitor/input/alternate",
+>                              NULL, test_visitor_in_alternate);
+>       input_visitor_test_add("/visitor/input/errors",
+> diff --git a/tests/unit/test-qobject-output-visitor.c b/tests/unit/test-qobject-output-visitor.c
+> index 7f054289fe..1535b3ad17 100644
+> --- a/tests/unit/test-qobject-output-visitor.c
+> +++ b/tests/unit/test-qobject-output-visitor.c
+> @@ -352,6 +352,62 @@ static void test_visitor_out_union_flat(TestOutputVisitorData *data,
+>       qapi_free_UserDefFlatUnion(tmp);
+>   }
+>   
+> +static void test_visitor_out_union_in_union(TestOutputVisitorData *data,
+> +                                            const void *unused)
+> +{
+> +    QDict *qdict;
+> +
+> +    TestUnionInUnion *tmp = g_new0(TestUnionInUnion, 1);
+> +    tmp->type = TEST_UNION_ENUM_VALUE_A;
+> +    tmp->u.value_a.type_a = TEST_UNION_ENUMA_VALUE_A1;
+> +    tmp->u.value_a.u.value_a1.integer = 42;
+> +    tmp->u.value_a.u.value_a1.name = g_strdup("fish");
+> +
+> +    visit_type_TestUnionInUnion(data->ov, NULL, &tmp, &error_abort);
+> +    qdict = qobject_to(QDict, visitor_get(data));
+> +    g_assert(qdict);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type"), ==, "value-a");
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type-a"), ==, "value-a1");
+> +    g_assert_cmpint(qdict_get_int(qdict, "integer"), ==, 42);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "name"), ==, "fish");
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +
+> +    visitor_reset(data);
+> +    tmp = g_new0(TestUnionInUnion, 1);
+> +    tmp->type = TEST_UNION_ENUM_VALUE_A;
+> +    tmp->u.value_a.type_a = TEST_UNION_ENUMA_VALUE_A2;
+> +    tmp->u.value_a.u.value_a2.integer = 1729;
+> +    tmp->u.value_a.u.value_a2.size = 87539319;
+> +
+> +    visit_type_TestUnionInUnion(data->ov, NULL, &tmp, &error_abort);
+> +    qdict = qobject_to(QDict, visitor_get(data));
+> +    g_assert(qdict);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type"), ==, "value-a");
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type-a"), ==, "value-a2");
+> +    g_assert_cmpint(qdict_get_int(qdict, "integer"), ==, 1729);
+> +    g_assert_cmpint(qdict_get_int(qdict, "size"), ==, 87539319);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +
+> +    visitor_reset(data);
+> +    tmp = g_new0(TestUnionInUnion, 1);
+> +    tmp->type = TEST_UNION_ENUM_VALUE_B;
+> +    tmp->u.value_b.integer = 1729;
+> +    tmp->u.value_b.onoff = true;
+> +
+> +    visit_type_TestUnionInUnion(data->ov, NULL, &tmp, &error_abort);
+> +    qdict = qobject_to(QDict, visitor_get(data));
+> +    g_assert(qdict);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type"), ==, "value-b");
+> +    g_assert_cmpint(qdict_get_int(qdict, "integer"), ==, 1729);
+> +    g_assert_cmpint(qdict_get_bool(qdict, "onoff"), ==, true);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +}
+> +
+>   static void test_visitor_out_alternate(TestOutputVisitorData *data,
+>                                          const void *unused)
+>   {
+> @@ -586,6 +642,8 @@ int main(int argc, char **argv)
+>                               &out_visitor_data, test_visitor_out_list_qapi_free);
+>       output_visitor_test_add("/visitor/output/union-flat",
+>                               &out_visitor_data, test_visitor_out_union_flat);
+> +    output_visitor_test_add("/visitor/output/union-in-union",
+> +                            &out_visitor_data, test_visitor_out_union_in_union);
+>       output_visitor_test_add("/visitor/output/alternate",
+>                               &out_visitor_data, test_visitor_out_alternate);
+>       output_visitor_test_add("/visitor/output/null",
 
-diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index 098de50e35..297c98c215 100644
---- a/hw/char/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -29,6 +29,8 @@
- #include "chardev/char-fe.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
-+#include "exec/address-spaces.h"
-+#include "sysemu/dma.h"
- 
- #define RISCV_DEBUG_HTIF 0
- #define HTIF_DEBUG(fmt, ...)                                                   \
-@@ -51,7 +53,10 @@
- /* PK system call number */
- #define PK_SYS_WRITE            64
- 
--static uint64_t fromhost_addr, tohost_addr;
-+const char *sig_file;
-+uint8_t line_size = 16;
-+
-+static uint64_t fromhost_addr, tohost_addr, sig_addr, sig_len;
- 
- void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-                           uint64_t st_size)
-@@ -68,6 +73,10 @@ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-             error_report("HTIF tohost must be 8 bytes");
-             exit(1);
-         }
-+    } else if (strcmp("begin_signature", st_name) == 0) {
-+        sig_addr = st_value;
-+    } else if (strcmp("end_signature", st_name) == 0) {
-+        sig_len = st_value - sig_addr;
-     }
- }
- 
-@@ -161,6 +170,34 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
-         /* frontend syscall handler, shutdown and exit code support */
-         if (cmd == HTIF_SYSTEM_CMD_SYSCALL) {
-             if (payload & 0x1) {
-+                /* Dump signature data to sig_file if specified */
-+                if (sig_file) {
-+                    char *sig_data = g_malloc(sig_len);
-+                    dma_memory_read(&address_space_memory, sig_addr, sig_data,
-+                                    sig_len, MEMTXATTRS_UNSPECIFIED);
-+                    FILE *signature = fopen(sig_file, "w");
-+                    if (signature == NULL) {
-+                        error_report("open %s: %s", sig_file,
-+                                     strerror(errno));
-+                        exit(1);
-+                    }
-+
-+                    for (int i = 0; i < sig_len; i += line_size) {
-+                        for (int j = line_size; j > 0; j--) {
-+                            if (i + j <= sig_len) {
-+                                fprintf(signature, "%02x",
-+                                        sig_data[i + j - 1] & 0xff);
-+                            } else {
-+                                fprintf(signature, "%02x", 0);
-+                            }
-+                        }
-+                        fprintf(signature, "\n");
-+                    }
-+
-+                    fclose(signature);
-+                    g_free(sig_data);
-+                }
-+
-                 /* exit code */
-                 int exit_code = payload >> 1;
-                 exit(exit_code);
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index a584d5b3a2..2c5546560a 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -332,6 +332,11 @@ static void spike_board_init(MachineState *machine)
-                  htif_custom_base);
- }
- 
-+static void spike_set_signature(Object *obj, const char *val, Error **errp)
-+{
-+    sig_file = g_strdup(val);
-+}
-+
- static void spike_machine_instance_init(Object *obj)
- {
- }
-@@ -350,6 +355,14 @@ static void spike_machine_class_init(ObjectClass *oc, void *data)
-     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
-     mc->numa_mem_supported = true;
-     mc->default_ram_id = "riscv.spike.ram";
-+    object_class_property_add_str(oc, "signature", NULL, spike_set_signature);
-+    object_class_property_set_description(oc, "signature",
-+                                          "File to write ACT test signature");
-+    object_class_property_add_uint8_ptr(oc, "signature-granularity",
-+                                        &line_size, OBJ_PROP_FLAG_WRITE);
-+    object_class_property_set_description(oc, "signature-granularity",
-+                                          "Size of each line in ACT signature "
-+                                          "file");
- }
- 
- static const TypeInfo spike_machine_typeinfo = {
-diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-index 5958c5b986..df493fdf6b 100644
---- a/include/hw/char/riscv_htif.h
-+++ b/include/hw/char/riscv_htif.h
-@@ -40,6 +40,9 @@ typedef struct HTIFState {
-     uint64_t pending_read;
- } HTIFState;
- 
-+extern const char *sig_file;
-+extern uint8_t line_size;
-+
- /* HTIF symbol callback */
- void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-     uint64_t st_size);
--- 
-2.25.1
+The changes look good to me. I have tried to built migrate QAPI changes 
+on top of Daniel's v1 changes, and it was successful.
 
+Once Markus and other maintainers approves this patchset, I can post v4 
+version of 'migrate' qapi changes on top of this change.
+
+Looking forward for replies on this patchset :)
+
+Regards,
+Het Gala
 
