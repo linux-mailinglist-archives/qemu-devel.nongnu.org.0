@@ -2,95 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F626ADC6C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616F96ADC6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:52:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZUv6-0000B5-PS; Tue, 07 Mar 2023 05:51:48 -0500
+	id 1pZUvI-0000GB-7Y; Tue, 07 Mar 2023 05:52:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZUv4-0000Aa-5v
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:51:46 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pZUvE-0000Bx-J0
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:51:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZUv2-0008Dl-S2
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:51:45 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pZUv9-0008E4-VH
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:51:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678186304;
+ s=mimecast20190719; t=1678186311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e6GGopRCseNGNt9T3f/XAl8tBdjLi4GcQ0MVsE4LQmU=;
- b=dSid7wyuBJ1K6vtdh2rqIi3WvyURB1qHGyprJqH9q/o8iPH24tu8+IF5POFM1b112hV18o
- yrGoIFsWd2oOVFOQK9Q5aQizUe7umxSwLPQMWTvWKIu6kzbFq4fripSIhyoLrHTMWlXRtr
- j/4MAzJi/r/MUm3hALohAPTepuznds0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o5jvonjECihz1WGXXygyjA7yvQlq1DKaejebIwhgxtQ=;
+ b=DY4G2fHukjFv+vRhugxsIJIxT2kp9PwPbQKQG4nsAdOyVQsr6CudlT0Gmxas0WIrtPJU8B
+ nCgLUbpYys93AFlG451spoP4t61uPuJsISQhNBx510e64qvn5OcijQBllEAGK6XhES+SWM
+ 9ebMpqWq78/FhBSFQK7P2ZiPrLp5WSs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-642-HxYsaufnOUOD_LD5AtYMUQ-1; Tue, 07 Mar 2023 05:51:42 -0500
-X-MC-Unique: HxYsaufnOUOD_LD5AtYMUQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u5-20020a5d6da5000000b002cd82373455so2073098wrs.9
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 02:51:42 -0800 (PST)
+ us-mta-228-_yUo0R0pOQeEVFRWpBBlBA-1; Tue, 07 Mar 2023 05:51:49 -0500
+X-MC-Unique: _yUo0R0pOQeEVFRWpBBlBA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ev6-20020a056402540600b004bc2358ac04so18520435edb.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 02:51:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678186302;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=e6GGopRCseNGNt9T3f/XAl8tBdjLi4GcQ0MVsE4LQmU=;
- b=WlMrqAJYNFdtNgYeg2e0R+5M0iGMoiy/Sk4sbyzieJ06l0rXY5o4UR2qp/jQpz6W0i
- 4C6VM9ahCdkYUVLhTvIO2414MayDoFsuKwqMWPl/xOjwTYslYIGaa1bZ2ictD7pQ0EKj
- kTo7et/95+44z+7HcntMrj9yCzk1bueait8/0uphqZYKpiZ2c6jvyHUzVfOiw46zUPwr
- TvtAlQlGds0ksSUQKYHrq3mi6P0b6GrFrytD6ucwuWzD/V3BXiI1qHo+OzQI2G/BKc69
- GY5wybQtz5Xllos6VNuwmXbxTm5QekZsiOrMStinVKnzDyjPlu8BL4lEnuOBulr8LhE4
- KYTg==
-X-Gm-Message-State: AO0yUKUkb3QKP1A0zgjWZQho8FQhnjpgeSiUKNWf5Pr0zLGMxnEga8dq
- oIV22zxSh7trvxkGKEOfEEethSL+oIw7NoMVtLLfJhM4LzuXeomxmL8BqcRUuv1MkRpChKV3XUK
- Wu7Qx3kaokcvbIgM=
-X-Received: by 2002:a05:600c:5008:b0:3df:e41f:8396 with SMTP id
- n8-20020a05600c500800b003dfe41f8396mr11881855wmr.37.1678186301836; 
- Tue, 07 Mar 2023 02:51:41 -0800 (PST)
-X-Google-Smtp-Source: AK7set/iNYTB1FBqTCU9sXFNdlQ/5dMi1llwc77IJ6Eg0ErLEPeYK4wC7CKolFdwitgg38Mh2xOf4g==
-X-Received: by 2002:a05:600c:5008:b0:3df:e41f:8396 with SMTP id
- n8-20020a05600c500800b003dfe41f8396mr11881839wmr.37.1678186301555; 
- Tue, 07 Mar 2023 02:51:41 -0800 (PST)
-Received: from ?IPV6:2003:cb:c707:a100:e20:41da:c49b:8974?
- (p200300cbc707a1000e2041dac49b8974.dip0.t-ipconnect.de.
- [2003:cb:c707:a100:e20:41da:c49b:8974])
- by smtp.gmail.com with ESMTPSA id
- ip21-20020a05600ca69500b003eb596cbc54sm12774504wmb.0.2023.03.07.02.51.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 02:51:41 -0800 (PST)
-Message-ID: <541aaa46-bef8-363d-e068-3f9adf253daa@redhat.com>
-Date: Tue, 7 Mar 2023 11:51:40 +0100
+ d=1e100.net; s=20210112; t=1678186308;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o5jvonjECihz1WGXXygyjA7yvQlq1DKaejebIwhgxtQ=;
+ b=iX0buw0oHuQxgtTLBQSzLK3eyddi3c95Owuf+ReV0345KnqRYADIPCTQ680n8LR12W
+ xeEp14RUyIw8u2weU7CmYFd8wKE4ZaZzU32FdZP4OScwxHrShDqK5NbucdRT8l7nFFhw
+ PLPJo6YxxERX6+XMQrzPgPyv4I9jlXnkMsZzCTJ5w/HloAwv3gYREguWD3ZjqOQ6Phbn
+ k82XtjxkAyHtEMVoZ6rnm0/TlKO4J3JXAldjeGGRG/2FZXiXH2930lXZ+/ebU4NhHV9t
+ GQpAeWxD/to8NMN7edJ4QxB6E3uSMNPs6UmHD2bjf+xmSwt8bpu2K7vD+p27xKLhShwU
+ CWGQ==
+X-Gm-Message-State: AO0yUKVl0JHTMnEdX3ptzVDDsmvCMhto/PCfowutqJuClsC3isLNREMs
+ vJsD4yWQ/Ltyk414m3TQyVOH1GKem3US4FnN6IUsvpKm8IaYeLYCGtNFShU4PqucOIuPapneo0F
+ 1CYOUw3qwYhZYe5A=
+X-Received: by 2002:aa7:cfc2:0:b0:4bf:f9f4:9b1e with SMTP id
+ r2-20020aa7cfc2000000b004bff9f49b1emr12548879edy.4.1678186308672; 
+ Tue, 07 Mar 2023 02:51:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Vp9At1cOPLGmvNISTfaCc7fQTXJ6z0LrCHj60TzlPrx91ifjEdXonl7aJbSS/3hecQGopkA==
+X-Received: by 2002:aa7:cfc2:0:b0:4bf:f9f4:9b1e with SMTP id
+ r2-20020aa7cfc2000000b004bff9f49b1emr12548869edy.4.1678186308393; 
+ Tue, 07 Mar 2023 02:51:48 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ n24-20020a509358000000b004af5001c7ecsm6490522eda.12.2023.03.07.02.51.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 02:51:47 -0800 (PST)
+Date: Tue, 7 Mar 2023 11:51:47 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, "Dr . David Alan Gilbert"
+ <dgilbert@redhat.com>, Tiwei Bie <tiwei.bie@intel.com>
+Subject: Re: [PATCH v1 1/2] vhost: Defer filtering memory sections until
+ building the vhost memory structure
+Message-ID: <20230307115147.42df4ba0@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230216114752.198627-2-david@redhat.com>
+References: <20230216114752.198627-1-david@redhat.com>
+ <20230216114752.198627-2-david@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 9/9] async: clarify usage of barriers in the polling
- case
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: gshan@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
- cohuck@redhat.com, eauger@redhat.com, richard.henderson@linaro.org
-References: <20230306223306.84383-1-pbonzini@redhat.com>
- <20230306223306.84383-10-pbonzini@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230306223306.84383-10-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,50 +103,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06.03.23 23:33, Paolo Bonzini wrote:
-> Explain that aio_context_notifier_poll() relies on
-> aio_notify_accept() to catch all the memory writes that were
-> done before ctx->notified was set to true.
+On Thu, 16 Feb 2023 12:47:51 +0100
+David Hildenbrand <david@redhat.com> wrote:
+
+> Having multiple devices, some filtering memslots and some not filtering
+> memslots, messes up the "used_memslot" accounting. If we'd have a device
+> the filters out less memory sections after a device that filters out more,
+> we'd be in trouble, because our memslot checks stop working reliably.
+> For example, hotplugging a device that filters out less memslots might end
+> up passing the checks based on max vs. used memslots, but can run out of
+> memslots when getting notified about all memory sections.
+
+an hypothetical example of such case would be appreciated
+(I don't really get how above can happen, perhaps more detailed explanation
+would help)
+ 
+> Further, it will be helpful in memory device context in the near future
+> to know that a RAM memory region section will consume a memslot, and be
+> accounted for in the used vs. free memslots, such that we can implement
+> reservation of memslots for memory devices properly. Whether a device
+> filters this out and would theoretically still have a free memslot is
+> then hidden internally, making overall vhost memslot accounting easier.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Let's filter the memslots when creating the vhost memory array,
+> accounting all RAM && !ROM memory regions as "used_memslots" even if
+> vhost_user isn't interested in anonymous RAM regions, because it needs
+> an fd.
+> 
+> When a device actually filters out regions (which should happen rarely
+> in practice), we might detect a layout change although only filtered
+> regions changed. We won't bother about optimizing that for now.
+> 
+> Note: we cannot simply filter out the region and count them as
+> "filtered" to add them to used, because filtered regions could get
+> merged and result in a smaller effective number of memslots. Further,
+> we won't touch the hmp/qmp virtio introspection output.
+What output exactly you are talking about?
+
+PS:
+If we drop vhost_dev::memm the bulk of this patch would go away
+
+side questions:
+do we have MemorySection merging on qemu's kvm side?
+also does KVM merge merge memslots?
+ 
+> Fixes: 988a27754bbb ("vhost: allow backends to filter memory sections")
+> Cc: Tiwei Bie <tiwei.bie@intel.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   util/async.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
+>  hw/virtio/vhost.c | 79 +++++++++++++++++++++++++++++++++--------------
+>  1 file changed, 55 insertions(+), 24 deletions(-)
 > 
-> diff --git a/util/async.c b/util/async.c
-> index e4b494150e7d..21016a1ac7c1 100644
-> --- a/util/async.c
-> +++ b/util/async.c
-> @@ -474,8 +474,9 @@ void aio_notify_accept(AioContext *ctx)
->       qatomic_set(&ctx->notified, false);
->   
->       /*
-> -     * Write ctx->notified before reading e.g. bh->flags.  Pairs with smp_wmb
-> -     * in aio_notify.
-> +     * Order reads of ctx->notified (in aio_context_notifier_poll()) and the
-> +     * above clearing of ctx->notified before reads of e.g. bh->flags.  Pairs
-> +     * with smp_wmb() in aio_notify.
->        */
->       smp_mb();
->   }
-> @@ -498,6 +499,11 @@ static bool aio_context_notifier_poll(void *opaque)
->       EventNotifier *e = opaque;
->       AioContext *ctx = container_of(e, AioContext, notifier);
->   
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index eb8c4c378c..b7fb960fa9 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -219,8 +219,13 @@ static void vhost_log_sync_range(struct vhost_dev *dev,
+>      int i;
+>      /* FIXME: this is N^2 in number of sections */
+>      for (i = 0; i < dev->n_mem_sections; ++i) {
+> -        MemoryRegionSection *section = &dev->mem_sections[i];
+> -        vhost_sync_dirty_bitmap(dev, section, first, last);
+> +        MemoryRegionSection *mrs = &dev->mem_sections[i];
+> +
+> +        if (dev->vhost_ops->vhost_backend_mem_section_filter &&
+> +            !dev->vhost_ops->vhost_backend_mem_section_filter(dev, mrs)) {
+> +            continue;
+> +        }
+> +        vhost_sync_dirty_bitmap(dev, mrs, first, last);
+>      }
+>  }
+>  
+> @@ -503,12 +508,6 @@ static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection *section)
+>              return false;
+>          }
+>  
+> -        if (dev->vhost_ops->vhost_backend_mem_section_filter &&
+> -            !dev->vhost_ops->vhost_backend_mem_section_filter(dev, section)) {
+> -            trace_vhost_reject_section(mr->name, 2);
+> -            return false;
+> -        }
+> -
+>          trace_vhost_section(mr->name);
+>          return true;
+>      } else {
+> @@ -525,6 +524,43 @@ static void vhost_begin(MemoryListener *listener)
+>      dev->n_tmp_sections = 0;
+>  }
+>  
+> +static void vhost_realloc_vhost_memory(struct vhost_dev *dev,
+> +                                       unsigned int nregions)
+> +{
+> +    const size_t size = offsetof(struct vhost_memory, regions) +
+> +                        nregions * sizeof dev->mem->regions[0];
+> +
+> +    dev->mem = g_realloc(dev->mem, size);
+> +    dev->mem->nregions = nregions;
+> +}
+> +
+> +static void vhost_rebuild_vhost_memory(struct vhost_dev *dev)
+> +{
+> +    unsigned int nregions = 0;
+> +    int i;
+> +
+> +    vhost_realloc_vhost_memory(dev, dev->n_mem_sections);
+> +    for (i = 0; i < dev->n_mem_sections; i++) {
+> +        struct MemoryRegionSection *mrs = dev->mem_sections + i;
+> +        struct vhost_memory_region *cur_vmr;
+> +
+> +        if (dev->vhost_ops->vhost_backend_mem_section_filter &&
+> +            !dev->vhost_ops->vhost_backend_mem_section_filter(dev, mrs)) {
+> +            continue;
+> +        }
+> +        cur_vmr = dev->mem->regions + nregions;
+> +        nregions++;
+> +
+> +        cur_vmr->guest_phys_addr = mrs->offset_within_address_space;
+> +        cur_vmr->memory_size     = int128_get64(mrs->size);
+> +        cur_vmr->userspace_addr  =
+> +            (uintptr_t)memory_region_get_ram_ptr(mrs->mr) +
+> +            mrs->offset_within_region;
+> +        cur_vmr->flags_padding   = 0;
+> +    }
+> +    vhost_realloc_vhost_memory(dev, nregions);
+> +}
+> +
+>  static void vhost_commit(MemoryListener *listener)
+>  {
+>      struct vhost_dev *dev = container_of(listener, struct vhost_dev,
+> @@ -532,7 +568,6 @@ static void vhost_commit(MemoryListener *listener)
+>      MemoryRegionSection *old_sections;
+>      int n_old_sections;
+>      uint64_t log_size;
+> -    size_t regions_size;
+>      int r;
+>      int i;
+>      bool changed = false;
+> @@ -564,23 +599,19 @@ static void vhost_commit(MemoryListener *listener)
+>          goto out;
+>      }
+>  
+> -    /* Rebuild the regions list from the new sections list */
+> -    regions_size = offsetof(struct vhost_memory, regions) +
+> -                       dev->n_mem_sections * sizeof dev->mem->regions[0];
+> -    dev->mem = g_realloc(dev->mem, regions_size);
+> -    dev->mem->nregions = dev->n_mem_sections;
 > +    /*
-> +     * No need for load-acquire because we just want to kick the
-> +     * event loop.  aio_notify_accept() takes care of synchronizing
-> +     * the event loop with the producers.
+> +     * Globally track the used memslots *without* device specific
+> +     * filtering. This way, we always know how many memslots are required
+> +     * when devices with differing filtering requirements get mixed, and
+> +     * all RAM memory regions of memory devices will consume memslots.
 > +     */
->       return qatomic_read(&ctx->notified);
->   }
->   
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
+>      used_memslots = dev->mem->nregions;
+> -    for (i = 0; i < dev->n_mem_sections; i++) {
+> -        struct vhost_memory_region *cur_vmr = dev->mem->regions + i;
+> -        struct MemoryRegionSection *mrs = dev->mem_sections + i;
+>  
+> -        cur_vmr->guest_phys_addr = mrs->offset_within_address_space;
+> -        cur_vmr->memory_size     = int128_get64(mrs->size);
+> -        cur_vmr->userspace_addr  =
+> -            (uintptr_t)memory_region_get_ram_ptr(mrs->mr) +
+> -            mrs->offset_within_region;
+> -        cur_vmr->flags_padding   = 0;
+> -    }
+> +    /*
+> +     * Rebuild the regions list from the new sections list, filtering out all
+> +     * sections that this device is not interested in.
+> +     */
+> +    vhost_rebuild_vhost_memory(dev);
+>  
+>      if (!dev->started) {
+>          goto out;
 
 
