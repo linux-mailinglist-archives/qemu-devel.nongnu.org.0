@@ -2,98 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3F06ADF09
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21486ADF48
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:57:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZWij-0002O0-Mq; Tue, 07 Mar 2023 07:47:09 -0500
+	id 1pZWqz-0005Mm-FV; Tue, 07 Mar 2023 07:55:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZWiR-0002NV-O5
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:46:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1pZWqw-0005Lk-RX
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:38 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZWiH-0003k0-QQ
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:46:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678193200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x3VggtoNgBJJ7f1/6g47sDR9LNlh45zModSWyn5pvBk=;
- b=YAtB13PNxiYddNCUqk4WC06gl2KJUcd/3+2yll180HzPwuk3NVqMr160eANpzQpePsdMW5
- jrJxDKXFsZLJJ2EzpdvWTTthQVyfLQeB4bK95yaQwPoSy0U7g28/4WA7taT/gEe3mnIBt2
- DPj8REPTWsBwZWXOl2qXEsTLgK5B5js=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-sEeLeNOhPdKjHzhwuso0bA-1; Tue, 07 Mar 2023 07:46:39 -0500
-X-MC-Unique: sEeLeNOhPdKjHzhwuso0bA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p22-20020a7bcc96000000b003e2036a1516so8213357wma.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 04:46:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678193198;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=x3VggtoNgBJJ7f1/6g47sDR9LNlh45zModSWyn5pvBk=;
- b=d1eQE8SCy51+HD2sZjs+QoGkjR9nidPy0TchxMRjANKd8kFEkaJEtxk+Ejv/nJiy6b
- McClY5daDuZvROQRMcjM5f9PyuUoiVJ9h9QvCaHpbs5bNEaau9X+h1nPbMDsHP4S557g
- ChW8nDyH8KxUmZJV/eQLFSMsfTwshREzSIlUgX6Vk5JE6PxOpol082asN8XZfzFB4unh
- RIPVg4nM+NK4oWtPYX0GGhJ35lJh5v4GA80fu6Rd0E6L1MEm1+6F1aj5eyDc2srypgL6
- cyaoO4fgCiepPG9mETpuR7y5buVn43gyDS7XyjF+Wnddwo1MszeToLqXDr1Z/vynm40L
- qfSw==
-X-Gm-Message-State: AO0yUKUACP9D2Sgqi6/oag6bdqKmXrqcnJuvFbP2XBTV1ybRvgaDFqTH
- pbrmyDceju7jwYd3YfLW/0wNWY8hLcE59w75AZZcBkR1BH10eMVY2Z4DqO6qsPSEdLtXh+/KidW
- B/AC2lYS/O6dx+48=
-X-Received: by 2002:a05:600c:19cf:b0:3db:5f1:53a5 with SMTP id
- u15-20020a05600c19cf00b003db05f153a5mr12784647wmq.20.1678193198081; 
- Tue, 07 Mar 2023 04:46:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set9K8gv/CNbGJK4WWH1CEE71HIEZ4y7tg0jGcJ7Vvc9wqKy7DBZ94VRMIPPF6Q/031bDsufYew==
-X-Received: by 2002:a05:600c:19cf:b0:3db:5f1:53a5 with SMTP id
- u15-20020a05600c19cf00b003db05f153a5mr12784622wmq.20.1678193197631; 
- Tue, 07 Mar 2023 04:46:37 -0800 (PST)
-Received: from ?IPV6:2003:cb:c707:a100:e20:41da:c49b:8974?
- (p200300cbc707a1000e2041dac49b8974.dip0.t-ipconnect.de.
- [2003:cb:c707:a100:e20:41da:c49b:8974])
- by smtp.gmail.com with ESMTPSA id
- c10-20020a05600c170a00b003db0bb81b6asm12696486wmn.1.2023.03.07.04.46.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 04:46:37 -0800 (PST)
-Message-ID: <fad9136f-08d3-3fd9-71a1-502069c000cf@redhat.com>
-Date: Tue, 7 Mar 2023 13:46:36 +0100
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1pZWqt-00052v-Rb
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:38 -0500
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32784EAD032061; Tue, 7 Mar 2023 12:55:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2022-7-12;
+ bh=fLbsFowIYoqdL/+HqdpYcek35ndENAz9a7nae20ADjo=;
+ b=qEig5/PLYEp+1dr7fnEc4wq/B40MxNDSeelUw7xj8Uurfw6YTkvuWaAYF5x4ZZ2sNrf3
+ iRSnfAWe493m6HxR4ErJWx5M+Q7UXdP2P7abmIynJQGWC3PEloI+tJxD6LR/HzGkc/Kd
+ +nxENMTEFyojzTZIWGKLB6M1IJpYN1Mp+bq32Yu3WDnailRyDBCZdMapI0qU1rWkC+ID
+ xlr9ixQ9mCvMIOQq2VX9QZZAonKH7Q4J/ycMSeyqZpNufrzgApj9oFwsnda1HPSoO8N6
+ /TcUwKJQaziGjJRyRAW3VLDRA2XmkUXLHTFLGrXFjFuvf1ktVZMHOoxsyK1QAZBuNX/T jA== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p418xwdhv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Mar 2023 12:55:33 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 327C8dmp029280; Tue, 7 Mar 2023 12:55:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3p4u1eyej6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Mar 2023 12:55:31 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 327CtV4x004358;
+ Tue, 7 Mar 2023 12:55:31 GMT
+Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-196-64.vpn.oracle.com
+ [10.175.196.64])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 3p4u1eyefv-1; Tue, 07 Mar 2023 12:55:31 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Cedric Le Goater <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v5 00/15] vfio/migration: Device dirty page tracking
+Date: Tue,  7 Mar 2023 12:54:35 +0000
+Message-Id: <20230307125450.62409-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Tiwei Bie <tiwei.bie@intel.com>
-References: <20230216114752.198627-1-david@redhat.com>
- <20230216114752.198627-2-david@redhat.com>
- <20230307115147.42df4ba0@imammedo.users.ipa.redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 1/2] vhost: Defer filtering memory sections until
- building the vhost memory structure
-In-Reply-To: <20230307115147.42df4ba0@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-07_06,2023-03-07_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303070117
+X-Proofpoint-GUID: jN98GFO6Zxgwv9N1mBfwVb59q0JbLszN
+X-Proofpoint-ORIG-GUID: jN98GFO6Zxgwv9N1mBfwVb59q0JbLszN
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,113 +101,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07.03.23 11:51, Igor Mammedov wrote:
-> On Thu, 16 Feb 2023 12:47:51 +0100
-> David Hildenbrand <david@redhat.com> wrote:
-> 
->> Having multiple devices, some filtering memslots and some not filtering
->> memslots, messes up the "used_memslot" accounting. If we'd have a device
->> the filters out less memory sections after a device that filters out more,
->> we'd be in trouble, because our memslot checks stop working reliably.
->> For example, hotplugging a device that filters out less memslots might end
->> up passing the checks based on max vs. used memslots, but can run out of
->> memslots when getting notified about all memory sections.
-> 
-> an hypothetical example of such case would be appreciated
-> (I don't really get how above can happen, perhaps more detailed explanation
-> would help)
+Hey,
 
-Thanks for asking! AFAIKT, it's mostly about hot-adding first a vhost devices
-that filters (and messes up used_memslots), and then messing with memslots that
-get filtered out,
+Presented herewith a series based on the basic VFIO migration protocol v2
+implementation [1].
 
-$ sudo rmmod vhost
-$ sudo modprobe vhost max_mem_regions=4
+It is split from its parent series[5] to solely focus on device dirty
+page tracking. Device dirty page tracking allows the VFIO device to
+record its DMAs and report them back when needed. This is part of VFIO
+migration and is used during pre-copy phase of migration to track the
+RAM pages that the device has written to and mark those pages dirty, so
+they can later be re-sent to target.
 
-// startup guest with virtio-net device
-...
+Device dirty page tracking uses the DMA logging uAPI to discover device
+capabilities, to start and stop tracking, and to get dirty page bitmap
+report. Extra details and uAPI definition can be found here [3].
 
-// hotplug a NVDIMM, resulting in used_memslots=4
-echo "object_add memory-backend-ram,id=mem0,size=128M" | sudo nc -U /var/tmp/mon_src; echo ""
-echo "device_add nvdimm,id=nvdimm0,memdev=mem0" | sudo nc -U /var/tmp/mon_src
+Device dirty page tracking operates in VFIOContainer scope. I.e., When
+dirty tracking is started, stopped or dirty page report is queried, all
+devices within a VFIOContainer are iterated and for each of them device
+dirty page tracking is started, stopped or dirty page report is queried,
+respectively.
 
-// hotplug vhost-user device that overwrites "used_memslots=3"
-echo "device_add vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs,bus=root" | sudo nc -U /var/tmp/mon_src
+Device dirty page tracking is used only if all devices within a
+VFIOContainer support it. Otherwise, VFIO IOMMU dirty page tracking is
+used, and if that is not supported as well, memory is perpetually marked
+dirty by QEMU. Note that since VFIO IOMMU dirty page tracking has no HW
+support, the last two usually have the same effect of perpetually
+marking all pages dirty.
 
-// hotplug another NVDIMM
-echo "object_add memory-backend-ram,id=mem1,size=128M" | sudo nc -U /var/tmp/mon_src; echo ""
-echo "device_add pc-dimm,id=nvdimm1,memdev=mem1" | sudo nc -U /var/tmp/mon_src
+Normally, when asked to start dirty tracking, all the currently DMA
+mapped ranges are tracked by device dirty page tracking. If using a
+vIOMMU we block live migration. It's temporary and a separate series is
+going to add support for it. Thus this series focus on getting the
+ground work first.
 
-// vvhost will fail to update the memslots
-vhost_set_mem_table failed: Argument list too long (7)
+The series is organized as follows:
 
+- Patches 1-8: Fix bugs and do some preparatory work required prior to
+  adding device dirty page tracking.
+- Patches 9-11: Implement device dirty page tracking.
+- Patch 13: Blocks live migration with vIOMMU.
+- Patches 14-15 Detect device dirty page tracking and document it.
 
-So we tricked used_memslots to be smaller than it actually has to be, because
-we're ignoring the memslots filtered out by the vhost-user device.
+Comments, improvements as usual appreciated.
 
+Thanks,
+	Joao
 
-Now, this is all far from relevant in practice as of now I think, and
-usually would indicate user errors already (memory that's not shared with
-vhost-user?).
+Changes from v4 [7]:
+- Add a new patch which consolidates all region skips into a single
+     tracepoint
+  (*new* patch 6)
+- Add a name to vfio_listener_valid_section() to be able to use the new
+     tracepoint
+  (patch 7, 9)
+- Use the new vfio_get_section_iova_range() in region_del listener too
+  Remove stale comment
+  (patch 8)
+- Rename VFIODirtyRanges to VFIODirtyRangesListener
+  Rename VFIODirtyTrackingRange to VFIODirtyRanges
+  Move both of these types to be private in vfio/common.c
+  Allocate VFIODirtyRangesListener in the stack in vfio_dirty_tracking_init() 
+    while passing instead a VFIODirtyRange argument, as the ranges is the
+    only thing we care about
+  Fix range check which would exclude UINT32_MAX - 1 from tracking
+  Remove the !range->min64 check
+  Simplify the dirty tracking listener update for readability
+  (patch 9)
+- Fix various comment messages
+- Remove unneeded ret variable in vfio_devices_dma_logging_stop() and
+  fix the error message
+  (patch 10)
+- Fix one remnant style issue of initializing features::flags
+  (patch 14)
+- Add Rbs in patches 5, 6, 14.
 
-It might gets more relevant when virtio-mem dynamically adds/removes memslots and
-relies on precise tracking of used vs. free memslots.
+Changes from v3 [6]:
+- Added Rbs in patches 4,5,6, 13,14;
+ (Did not add the other because they suffered a lot of changes)
+- Fix the unblocker of live migration by moving the vfio_unblock_giommu_migration
+into vfio_instance_finalize()
+- Refactor/Simplify the test for vIOMMU enabled
+  (patch 12)
+- Change the style of how we set features::flags
+  (patch 9, 11)
+- Return -ENOMEM in vfio_bitmap_alloc(), and change callsites to return
+  ret instead of errno
+  (patch 4)
+- Remove iova-tree includes
+- Initialize range min{32,64} to UINT{32,64}_MAX to better calculate the
+  minimum range without assumptions.
+- Add commentary into why we unregister the memory listener
+- Add commentary about the dual-split of ranges
+- Removed the mutex because the memory listener is all serialized
+- Move out the vfio_section_get_iova_range() into its own patch and
+  make vfio_listener_region_add() use it too.
+- Add a VFIODirtyRanges struct which is allocated from the stack as
+  opposed to being stored in the container and make the listener be
+  registered with it.
+- Remove stale paragraph from commit message
+  (patch 8)
+- Unroll vfio_device_dma_logging_set() to its own code in start() which
+fails early and returns, and stop() which is void and we never return
+early.
 
+Changes from v2 [5]:
+- Split initial dirty page tracking support from the parent series to
+  split into smaller parts.
+- Replace an IOVATree with a simple two range setup: one range for 32-bit
+  another one for 64-bit address space. After discussions it was sorted out
+  this way due to unnecessary complexity of IOVAtree while being more
+  efficient too without stressing so much of the UAPI limits. (patch 7 and 8) 
+- For now exclude vIOMMU, and so add a live migration blocker if a
+  vIOMMU is passed in. This will be followed up with vIOMMU support in
+  a separate series. (patch 10)
+- Add new patches to reuse most helpers used across memory listeners.
+  This is useful for reusal when recording DMA ranges.  (patch 5 and 6)
+- Adjust Documentation to avoid mentioning the vIOMMU and instead
+  claim that vIOMMU with device dirty page tracking is blocked. Cedric
+  gave a Rb, but I've dropped taking into consideration the split and no
+  vIOMMU support (patch 13)
+- Improve VFIOBitmap to avoid allocating a 16byte structure to
+  place it on the stack. Remove the free helper function. (patch 4)
+- Fixing the compilation issues (patch 8 and 10). Possibly not 100%
+  addressed as I am still working out the env to repro it.
 
-But maybe I should just ignore that case and live a happy life instead, it's
-certainly hard to even trigger right now :)
+Changes from v1 [4]:
+- Rebased on latest master branch. As part of it, made some changes in
+  pre-copy to adjust it to Juan's new patches:
+  1. Added a new patch that passes threshold_size parameter to
+     .state_pending_{estimate,exact}() handlers.
+  2. Added a new patch that refactors vfio_save_block().
+  3. Changed the pre-copy patch to cache and report pending pre-copy
+     size in the .state_pending_estimate() handler.
+- Removed unnecessary P2P code. This should be added later on when P2P
+  support is added. (Alex)
+- Moved the dirty sync to be after the DMA unmap in vfio_dma_unmap()
+  (patch #11). (Alex)
+- Stored vfio_devices_all_device_dirty_tracking()'s value in a local
+  variable in vfio_get_dirty_bitmap() so it can be re-used (patch #11).
+- Refactored the viommu device dirty tracking ranges creation code to
+  make it clearer (patch #15).
+- Changed overflow check in vfio_iommu_range_is_device_tracked() to
+  emphasize that we specifically check for 2^64 wrap around (patch #15).
+- Added R-bs / Acks.
 
->   
->> Further, it will be helpful in memory device context in the near future
->> to know that a RAM memory region section will consume a memslot, and be
->> accounted for in the used vs. free memslots, such that we can implement
->> reservation of memslots for memory devices properly. Whether a device
->> filters this out and would theoretically still have a free memslot is
->> then hidden internally, making overall vhost memslot accounting easier.
->>
->> Let's filter the memslots when creating the vhost memory array,
->> accounting all RAM && !ROM memory regions as "used_memslots" even if
->> vhost_user isn't interested in anonymous RAM regions, because it needs
->> an fd.
->>
->> When a device actually filters out regions (which should happen rarely
->> in practice), we might detect a layout change although only filtered
->> regions changed. We won't bother about optimizing that for now.
->>
->> Note: we cannot simply filter out the region and count them as
->> "filtered" to add them to used, because filtered regions could get
->> merged and result in a smaller effective number of memslots. Further,
->> we won't touch the hmp/qmp virtio introspection output.
-> What output exactly you are talking about?
+[1] https://lore.kernel.org/qemu-devel/167658846945.932837.1420176491103357684.stgit@omen/
+[2] https://lore.kernel.org/kvm/20221206083438.37807-3-yishaih@nvidia.com/
+[3] https://lore.kernel.org/netdev/20220908183448.195262-4-yishaih@nvidia.com/
+[4] https://lore.kernel.org/qemu-devel/20230126184948.10478-1-avihaih@nvidia.com/
+[5] https://lore.kernel.org/qemu-devel/20230222174915.5647-1-avihaih@nvidia.com/
+[6] https://lore.kernel.org/qemu-devel/20230304014343.33646-1-joao.m.martins@oracle.com/
+[7] https://lore.kernel.org/qemu-devel/20230307020258.58215-1-joao.m.martins@oracle.com/ 
 
-hw/virtio/virtio-qmp.c:qmp_x_query_virtio_status
+Avihai Horon (6):
+  vfio/common: Fix error reporting in vfio_get_dirty_bitmap()
+  vfio/common: Fix wrong %m usages
+  vfio/common: Abort migration if dirty log start/stop/sync fails
+  vfio/common: Add VFIOBitmap and alloc function
+  vfio/common: Extract code from vfio_get_dirty_bitmap() to new function
+  docs/devel: Document VFIO device dirty page tracking
 
-Prints hdev->n_mem_sections and hdev->n_tmp_sections. I won't be
-touching that (debug) output.
+Joao Martins (9):
+  vfio/common: Add helper to validate iova/end against hostwin
+  vfio/common: Use a single tracepoint for skipped sections
+  vfio/common: Consolidate skip/invalid section into helper
+  vfio/common: Add helper to consolidate iova/end calculation
+  vfio/common: Record DMA mapped IOVA ranges
+  vfio/common: Add device dirty page tracking start/stop
+  vfio/common: Add device dirty page bitmap sync
+  vfio/migration: Block migration with vIOMMU
+  vfio/migration: Query device dirty page tracking support
 
-> 
-> PS:
-> If we drop vhost_dev::memm the bulk of this patch would go away
-
-Yes, unfortunately we can't I think.
-
-> 
-> side questions:
-> do we have MemorySection merging on qemu's kvm side?
-
-Yes, we properly merge in flatview_simplify(). It's all about handling holes
-in huge pages IIUC.
-
-> also does KVM merge merge memslots?
-
-No, for good reasons not. Mapping more than we're instructed to map via a notifier
-sounds is kind-of hacky already. But I guess there is no easy way around it (e.g., if
-mapping that part of memory doesn't work, we'd have to bounce the reads/writes
-through QEMU instead).
+ docs/devel/vfio-migration.rst |  46 ++-
+ hw/vfio/common.c              | 699 +++++++++++++++++++++++++++-------
+ hw/vfio/migration.c           |  20 +
+ hw/vfio/pci.c                 |   1 +
+ hw/vfio/trace-events          |   5 +-
+ include/hw/vfio/vfio-common.h |   4 +
+ 6 files changed, 628 insertions(+), 147 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.17.2
 
 
