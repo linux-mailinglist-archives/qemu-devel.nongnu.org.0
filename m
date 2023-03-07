@@ -2,93 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D906AE454
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD10B6AE444
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:17:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZ4V-0005F4-0w; Tue, 07 Mar 2023 10:17:47 -0500
+	id 1pZZ4J-00057w-Hd; Tue, 07 Mar 2023 10:17:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZZ4T-0005EX-0K
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:17:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZ4E-00056i-4I
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:17:31 -0500
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZZ4R-0000Yt-7t
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:17:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678202262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GLGfwkZwn0a6pm8XxswMb0TUwk+PR8d66gGklXbZ7us=;
- b=V+gvGOSQQkO+S+yL2wYbyZ1AvaRuPsW6RBoErbtYo3btHGBH+kvzW/tBP2Wn1SDOjG+UbX
- MnP5zYyxzSBuaRLt6hokrbiNKzaxg4faa80lsgEoFt0yn8D50RSVb+Suxg4sxCaJJ6eFv+
- ixLr5h2QtbU5qc3aFP26Z419NXNbKww=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-381-0Zb1pSjFPRO_Lol8PBomwg-1; Tue, 07 Mar 2023 10:17:23 -0500
-X-MC-Unique: 0Zb1pSjFPRO_Lol8PBomwg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso4900969wmi.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:17:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678202220;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GLGfwkZwn0a6pm8XxswMb0TUwk+PR8d66gGklXbZ7us=;
- b=Wh0W70Buyh/IGnZVRuYlNBFgVdIU0HsFKoJWNvCEA6k9SvbyiLZFGNaqobQnuLg69i
- 4eBliOU4/dxGsI6niB6UWcb+c+0EAe9I/NV9IHOGAQ3hicerMXc9MOoVjO5+7yFKOSwO
- PQ2I1C0JigrIfjnYFOFMAke2CK95cVH7CLZQGqSOMWxJIp8cQ4GNBC9GnfHcgZiGRdJb
- L2Rd5mH1GTt3kfuYm3396LNdjjsaMG8xhLbQoSFt8Hg5unCY9v5XcdJDym+dq5+FRciu
- 2/Lje3ds5X6BeaIePlXKRqQB8rh0Ll6jGKs5bWgZ+l7f7GoklpleyYl+iIWUJjxm2e34
- i2Aw==
-X-Gm-Message-State: AO0yUKWR4nKQJiLVeAnncOk5nbe506TGeTYnMq+HmdpQrQ+FyscyYFyn
- 3YxIQvhAEzoXD3s3XRHUbiD6Wb0FkBNjbc7TC6555mRe+8Vkfz2lFgVHun8ssgaxdW27cAKKQCR
- yn5Bf1DKOj2p3Rbk=
-X-Received: by 2002:a05:600c:444c:b0:3eb:39e2:915b with SMTP id
- v12-20020a05600c444c00b003eb39e2915bmr12900177wmn.31.1678202220292; 
- Tue, 07 Mar 2023 07:17:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set89Ev+lTHX1T7RkUgw09R71L19NcN5ann+8PfmLbJqL6B0FNtmVOEYuiH8k/y1k7ibf+Rfg/A==
-X-Received: by 2002:a05:600c:444c:b0:3eb:39e2:915b with SMTP id
- v12-20020a05600c444c00b003eb39e2915bmr12900159wmn.31.1678202220021; 
- Tue, 07 Mar 2023 07:17:00 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
- by smtp.gmail.com with ESMTPSA id
- hg13-20020a05600c538d00b003d9aa76dc6asm16939357wmb.0.2023.03.07.07.16.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 07:16:59 -0800 (PST)
-Message-ID: <0485a249-bca6-f753-8acb-86fb7a2997cd@redhat.com>
-Date: Tue, 7 Mar 2023 16:16:58 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZ4A-0000Tq-Eo
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:17:29 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MUGyh-1pz6Zj0hud-00RKFd; Tue, 07 Mar 2023 16:17:24 +0100
+Message-ID: <0b0c8820-3c45-9335-5506-7ed1c85fa3f8@vivier.eu>
+Date: Tue, 7 Mar 2023 16:17:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v5 12/15] vfio/common: Add device dirty page bitmap sync
-Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-References: <20230307125450.62409-1-joao.m.martins@oracle.com>
- <20230307125450.62409-13-joao.m.martins@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230307125450.62409-13-joao.m.martins@oracle.com>
+Subject: Re: [PATCH] linux-user: Provide print_raw_param64() for 64-bit values
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <Y9lNbFNyRSUhhrHa@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <Y9lNbFNyRSUhhrHa@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:y/3ZHFIYPcmiosYQ9VzsPmhiHz/WFtRa2oGicFwBf7eHIfTiAWj
+ hLpsHJLvpYT/1DlHBPXthjRIbD+ICG7ssmEAz+9JfavFRZ/v1ETS6drwZlI7bkqTyqWt7Nd
+ tvuV/ASXbDqI8QQtkunqohVzDL8/ryZTQGjy6jDvR4QxtFWj7kg5q51UiWuYeAGXoLF1CH9
+ LOLDn7LC/FLtF8OLxnG8A==
+UI-OutboundReport: notjunk:1;M01:P0:YJxoh22trm0=;Aie4fOJWoWjSJjvC9AY/xDTXhP9
+ 0iq3B2cTiC/aGuF7TGHVjkntJtctHoaYx2SE80Cnc3DAbnPBPJSvBMBr4HE03TuExUmVAUNNJ
+ iWp71oO7MwS/PqcqkRabB72A2VTQVLhiP50eSFkhD4ATtMD0omD8VpWczLMgRCMxhzDkyDJKR
+ iLVYsBbjh4qVek3G9jRHUxECUquDYhh62onZGrKX/84lbAOACyu7C53E0NnA7GvPpyeBUbAW2
+ 7/Pc0u1F5AHhN5RGeebUeRMaMSCrpJECjH5Z+7ZxugzqUEFbijAm95KdidecqL69XKdGJHczN
+ SakquLpsD4CFwS7AI/0BpamcYFalCM/cJEvlqpIN+DBQHpfWmUYkYDdLKpuTNGctLqjVhSXEM
+ vL3oAgj5weuzvjc3RKh2u2fxIE/f57e4HOfCWZZo8YcTrELtd/e/6JvxSsUqnxLl2WYqKkmSB
+ Dl9f+6AjHHBYJwGPIRh8sVG5pnsZizccufJP7mn4PgK8XxP89a+g6C4zyALberP1+FFIklIWs
+ 7Az1HqDu2CvWcAYjuWQ3AhnLrhQI5cEDcfHbj8pKVj+GMbo0qzji0aCb6JVvU/YWPqWJIL7IR
+ Xkr0XzJwzm30mGRr9Va6pIlCrgLjvX+Rv+9S+TDQuXe4eGvWx8PKuXOqpSZoSvBdWCt+fNUz0
+ ZJbAlAGnuBL/Dr6lewAa5RuI6V5kaXlD59+WKhozPw==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,164 +70,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 13:54, Joao Martins wrote:
-> Add device dirty page bitmap sync functionality. This uses the device
-> DMA logging uAPI to sync dirty page bitmap from the device.
+Le 31/01/2023 à 18:18, Helge Deller a écrit :
+> Add a new function print_raw_param64() to print 64-bit values in the
+> same way as print_raw_param(). This prevents that qemu_log() is used to
+> work around the problem that print_raw_param() can only print 32-bit
+> values when compiled for 32-bit targets.
 > 
-> Device dirty page bitmap sync is used only if all devices within a
-> container support device dirty page tracking.
+> Additionally convert the existing 64-bit users in print_timespec64(),
+> print_rlimit64() and print_preadwrite64() over to this new function and
+> drop some unneccessary spaces.
 > 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Suggested-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 379536f5c9..35d22be027 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -81,6 +81,7 @@ UNUSED static void print_syscall_epilogue(const struct syscallname *);
+>   UNUSED static void print_string(abi_long, int);
+>   UNUSED static void print_buf(abi_long addr, abi_long len, int last);
+>   UNUSED static void print_raw_param(const char *, abi_long, int);
+> +UNUSED static void print_raw_param64(const char *, long long, int last);
+>   UNUSED static void print_timeval(abi_ulong, int);
+>   UNUSED static void print_timespec(abi_ulong, int);
+>   UNUSED static void print_timespec64(abi_ulong, int);
+> @@ -1615,6 +1616,19 @@ print_raw_param(const char *fmt, abi_long param, int last)
+>       qemu_log(format, param);
+>   }
+> 
+> +/*
+> + * Same as print_raw_param() but prints out raw 64-bit parameter.
+> + */
+> +static void
+> +print_raw_param64(const char *fmt, long long param, int last)
+> +{
+> +    char format[64];
+> +
+> +    (void) snprintf(format, sizeof (format), "%s%s", fmt, get_comma(last));
+> +    qemu_log(format, param);
+> +}
+> +
+> +
+>   static void
+>   print_pointer(abi_long p, int last)
+>   {
+> @@ -1691,10 +1705,8 @@ print_timespec64(abi_ulong ts_addr, int last)
+>               print_pointer(ts_addr, last);
+>               return;
+>           }
+> -        qemu_log("{tv_sec = %lld"
+> -                 ",tv_nsec = %lld}%s",
+> -                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->tv_nsec),
+> -                 get_comma(last));
+> +        print_raw_param64("{tv_sec=%" PRId64, tswap64(ts->tv_sec), 0);
+> +        print_raw_param64("tv_nsec=%" PRId64 "}", tswap64(ts->tv_nsec), last);
+>           unlock_user(ts, ts_addr, 0);
+>       } else {
+>           qemu_log("NULL%s", get_comma(last));
+> @@ -3814,10 +3826,9 @@ print_rlimit64(abi_ulong rlim_addr, int last)
+>               print_pointer(rlim_addr, last);
+>               return;
+>           }
+> -        qemu_log("{rlim_cur = %lld, rlim_max = %lld}%s",
+> -                 (long long)tswap64(rl->rlim_cur),
+> -                 (long long)tswap64(rl->rlim_max),
+> -                 get_comma(last));
+> +        print_raw_param64("{rlim_cur=%" PRId64, tswap64(rl->rlim_cur), 0);
+> +        print_raw_param64("rlim_max=%" PRId64 "}", tswap64(rl->rlim_max),
+> +                            last);
+>           unlock_user(rl, rlim_addr, 0);
+>       } else {
+>           qemu_log("NULL%s", get_comma(last));
+> @@ -3838,7 +3849,7 @@ print_preadwrite64(CPUArchState *cpu_env, const struct syscallname *name,
+>       print_raw_param("%d", arg0, 0);
+>       print_pointer(arg1, 0);
+>       print_raw_param("%d", arg2, 0);
+> -    qemu_log("%lld", (long long)target_offset64(arg3, arg4));
+> +    print_raw_param64("%" PRId64, target_offset64(arg3, arg4), 1);
+>       print_syscall_epilogue(name);
+>   }
+>   #endif
+> 
 
-
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
+Applied to my linux-user-for-8.0 branch.
 
 Thanks,
-
-C.
-
-> ---
->   hw/vfio/common.c | 88 +++++++++++++++++++++++++++++++++++++++++++-----
->   1 file changed, 79 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 1f97a8a3db18..2639b393a781 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -339,6 +339,9 @@ static int vfio_bitmap_alloc(VFIOBitmap *vbmap, hwaddr size)
->       return 0;
->   }
->   
-> +static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-> +                                 uint64_t size, ram_addr_t ram_addr);
-> +
->   bool vfio_mig_active(void)
->   {
->       VFIOGroup *group;
-> @@ -562,10 +565,16 @@ static int vfio_dma_unmap(VFIOContainer *container,
->           .iova = iova,
->           .size = size,
->       };
-> +    bool need_dirty_sync = false;
-> +    int ret;
-> +
-> +    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
-> +        if (!vfio_devices_all_device_dirty_tracking(container) &&
-> +            container->dirty_pages_supported) {
-> +            return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-> +        }
->   
-> -    if (iotlb && container->dirty_pages_supported &&
-> -        vfio_devices_all_running_and_mig_active(container)) {
-> -        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-> +        need_dirty_sync = true;
->       }
->   
->       while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
-> @@ -591,10 +600,12 @@ static int vfio_dma_unmap(VFIOContainer *container,
->           return -errno;
->       }
->   
-> -    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
-> -        cpu_physical_memory_set_dirty_range(iotlb->translated_addr, size,
-> -                                            tcg_enabled() ? DIRTY_CLIENTS_ALL :
-> -                                            DIRTY_CLIENTS_NOCODE);
-> +    if (need_dirty_sync) {
-> +        ret = vfio_get_dirty_bitmap(container, iova, size,
-> +                                    iotlb->translated_addr);
-> +        if (ret) {
-> +            return ret;
-> +        }
->       }
->   
->       return 0;
-> @@ -1595,6 +1606,58 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
->       }
->   }
->   
-> +static int vfio_device_dma_logging_report(VFIODevice *vbasedev, hwaddr iova,
-> +                                          hwaddr size, void *bitmap)
-> +{
-> +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
-> +                        sizeof(struct vfio_device_feature_dma_logging_report),
-> +                        sizeof(__u64))] = {};
-> +    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
-> +    struct vfio_device_feature_dma_logging_report *report =
-> +        (struct vfio_device_feature_dma_logging_report *)feature->data;
-> +
-> +    report->iova = iova;
-> +    report->length = size;
-> +    report->page_size = qemu_real_host_page_size();
-> +    report->bitmap = (__u64)(uintptr_t)bitmap;
-> +
-> +    feature->argsz = sizeof(buf);
-> +    feature->flags = VFIO_DEVICE_FEATURE_GET |
-> +                     VFIO_DEVICE_FEATURE_DMA_LOGGING_REPORT;
-> +
-> +    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
-> +        return -errno;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
-> +                                           VFIOBitmap *vbmap, hwaddr iova,
-> +                                           hwaddr size)
-> +{
-> +    VFIODevice *vbasedev;
-> +    VFIOGroup *group;
-> +    int ret;
-> +
-> +    QLIST_FOREACH(group, &container->group_list, container_next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            ret = vfio_device_dma_logging_report(vbasedev, iova, size,
-> +                                                 vbmap->bitmap);
-> +            if (ret) {
-> +                error_report("%s: Failed to get DMA logging report, iova: "
-> +                             "0x%" HWADDR_PRIx ", size: 0x%" HWADDR_PRIx
-> +                             ", err: %d (%s)",
-> +                             vbasedev->name, iova, size, ret, strerror(-ret));
-> +
-> +                return ret;
-> +            }
-> +        }
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->   static int vfio_query_dirty_bitmap(VFIOContainer *container, VFIOBitmap *vbmap,
->                                      hwaddr iova, hwaddr size)
->   {
-> @@ -1635,10 +1698,12 @@ static int vfio_query_dirty_bitmap(VFIOContainer *container, VFIOBitmap *vbmap,
->   static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->                                    uint64_t size, ram_addr_t ram_addr)
->   {
-> +    bool all_device_dirty_tracking =
-> +        vfio_devices_all_device_dirty_tracking(container);
->       VFIOBitmap vbmap;
->       int ret;
->   
-> -    if (!container->dirty_pages_supported) {
-> +    if (!container->dirty_pages_supported && !all_device_dirty_tracking) {
->           cpu_physical_memory_set_dirty_range(ram_addr, size,
->                                               tcg_enabled() ? DIRTY_CLIENTS_ALL :
->                                               DIRTY_CLIENTS_NOCODE);
-> @@ -1650,7 +1715,12 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->           return ret;
->       }
->   
-> -    ret = vfio_query_dirty_bitmap(container, &vbmap, iova, size);
-> +    if (all_device_dirty_tracking) {
-> +        ret = vfio_devices_query_dirty_bitmap(container, &vbmap, iova, size);
-> +    } else {
-> +        ret = vfio_query_dirty_bitmap(container, &vbmap, iova, size);
-> +    }
-> +
->       if (ret) {
->           goto out;
->       }
+Laurent
 
 
