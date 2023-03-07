@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2806AF1C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473F06AF271
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:53:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZcKE-0008CC-DY; Tue, 07 Mar 2023 13:46:14 -0500
+	id 1pZcQF-0002MU-8U; Tue, 07 Mar 2023 13:52:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZcKB-0008BU-Rn
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:46:11 -0500
-Received: from mout.kundenserver.de ([212.227.126.187])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZcQD-0002ML-JD
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:52:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZcK9-0001D7-UM
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:46:11 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M9nhF-1pcejD31oD-005si7; Tue, 07 Mar 2023 19:45:58 +0100
-Message-ID: <56f36a12-0672-e57f-6a6f-42e074d82611@vivier.eu>
-Date: Tue, 7 Mar 2023 19:45:56 +0100
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZcQB-0002M9-CZ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:52:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678215141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MqQ0rdolTfFHyt9Qd+G8wcy/1/4uuRW9L1BjW0J6kV4=;
+ b=TbQvn634jJepws4HX0rL4fgd8maGpxM1UGFGFEJjhbzYIbs05KLt9KlTN5tQVBZAqlVS59
+ CnZJe/QrnOqSC9RWUaGVZorcka15GyvK1UfaCzy3/WRHWp03+HK7Hr9TSfsDON5UCzvBQ0
+ 6jzBnXOPzW8ydymMDtlthIxasZPBUO0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-513-rkadwFxQPl25okDGidnRTA-1; Tue, 07 Mar 2023 13:52:18 -0500
+X-MC-Unique: rkadwFxQPl25okDGidnRTA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0360D1815CF2;
+ Tue,  7 Mar 2023 18:52:18 +0000 (UTC)
+Received: from [172.30.41.16] (unknown [10.22.16.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DEE618EC6;
+ Tue,  7 Mar 2023 18:52:17 +0000 (UTC)
+Subject: [PULL 00/17] VFIO updates for 8.0
+From: Alex Williamson <alex.williamson@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com,
+ joao.m.martins@oracle.com
+Date: Tue, 07 Mar 2023 11:52:17 -0700
+Message-ID: <167821508699.619792.1719671327865445814.stgit@omen>
+User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] linux-user: fix bug about incorrect base addresss of gdt
- on i386 and x86_64
-Content-Language: fr
-To: fanwj@mail.ustc.edu.cn, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
-References: <4172b90.58b08.18631b77860.Coremail.fanwj@mail.ustc.edu.cn>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <4172b90.58b08.18631b77860.Coremail.fanwj@mail.ustc.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:n/q+H1HnhHC8ViVRMwMdwJQldYRNkABMBjVQpklF5QFDgnTvD3o
- Ba3AyRXcYCngCPD191cJmtq8nAi/zWoOcZ4Rfqh36FmkFoG4MHVDwR7RLFsA/aSAFpNZhXE
- qFkKm9koO3RL3xs2JAjF+9gG2FGiB4oCEnx02TMofAMuNXK9JhqWdS0/Zosr3uPT3r2RvfZ
- ro0cZ7GXOPEGb252W0fXg==
-UI-OutboundReport: notjunk:1;M01:P0:6/Rwywv0IoI=;IZB6pD90sKmfL1MxwoNA2sO0UpZ
- RycfbbxAlqm6cDZD46+khBX2cqskdnfWNqNWHyCBhn0CevZVZ6XdB0XXRjBaHrGiOsqm7HbIc
- kCEUJcg2xh/kNc5ILfz5ZqJucHKcqIo4GaiHLFCLOPxq3Us+lGgpJNnvSzTKHuSQJ8LEJNCIJ
- ywwvqxzNqPAQC/9akKVqcznQ0y8NxieqUw8CdId9CiwdwMT6eWkcZ1mjnDOCtSAsuhwBpvZXO
- cdwZ14Q0jSZ4FCOgAR9RXw47hei14xQF9gJ3SBAxr4NkphOEyfCshlz5gKmIM+BueSceo7U5Q
- mLIjhycSNr/Rpu780ATyZMaf0HC6B99voOTRhrkobhioHo6Wv3fBLcf+eQfGgLbQ/N/Wf2BEE
- 14UFiFlSNZfqnEdM3dWjya0Qb+8y3XOPfpQr60+uNfVSHO+2JQvt/VjOgSmd7hlvpjNY7x15c
- L/JacbKk+geB1WeRjctqOmeEESOMr+iOCZDIZUa3wRjonknHwJtar3zjHyvxX/MLzsWUJSBnX
- M6wkitZF7cbY8y2enkX1YN0Q9Ah7VZw3qObOHHaG7NntXvfWISBbHz33V9qHfe/WfMGQoDCIo
- 74r1JwqRGdhwsJdqN8pl/fWiNsBs4pkPeATQBvLfVElPU0lR6G3vrWBp0ylLvnquttIYbSUwx
- YAPYrN7ypvgui9osRmPf0ggPH81Y4GmQSTngZN/2KQ==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,60 +78,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 08/02/2023 à 16:49, fanwj@mail.ustc.edu.cn a écrit :
-> On linux user mode, CPUX86State::gdt::base from Different CPUX86State Objects have same value, It is incorrect! Every CPUX86State::gdt::base Must points to independent memory space.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1405
-> Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
-> ---
->   linux-user/i386/cpu_loop.c | 9 +++++++++
->   linux-user/main.c          | 7 +++++++
->   2 files changed, 16 insertions(+)
-> 
-> diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-> index 865413c..48511cd 100644
-> --- a/linux-user/i386/cpu_loop.c
-> +++ b/linux-user/i386/cpu_loop.c
-> @@ -314,8 +314,17 @@ void cpu_loop(CPUX86State *env)
->       }
->   }
->   
-> +static void target_cpu_free(void *obj)
-> +{
-> +    CPUArchState* env = ((CPUState*)obj)->env_ptr;
-> +    target_munmap(env->gdt.base, sizeof(uint64_t) * TARGET_GDT_ENTRIES);
-> +    g_free(obj);
-> +}
-> +
->   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
->   {
-> +    CPUState* cpu = env_cpu(env);
-> +    OBJECT(cpu)->free = target_cpu_free;
->       env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
->       env->hflags |= HF_PE_MASK | HF_CPL_MASK;
->       if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index a17fed0..3acd9b4 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -234,6 +234,13 @@ CPUArchState *cpu_copy(CPUArchState *env)
->   
->       new_cpu->tcg_cflags = cpu->tcg_cflags;
->       memcpy(new_env, env, sizeof(CPUArchState));
-> +#if defined(TARGET_I386) || defined(TARGET_X86_64)
-> +    new_env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
-> +                                    PROT_READ|PROT_WRITE,
-> +                                    MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-> +    memcpy((void*)g2h_untagged(new_env->gdt.base), (void*)g2h_untagged(env->gdt.base), sizeof(uint64_t) * TARGET_GDT_ENTRIES);
-> +    OBJECT(new_cpu)->free = OBJECT(cpu)->free;
-> +#endif
->   
->       /* Clone all break/watchpoints.
->          Note: Once we support ptrace with hw-debug register access, make sure
+The following changes since commit c29a2f40cd5d1fdad4632b48343cd968db041a44:
 
-Applied to my linux-user-for-8.0 branch.
+  Merge tag 'pull-target-arm-20230306' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-03-07 09:58:43 +0000)
 
-Thanks,
-Laurent
+are available in the Git repository at:
+
+  https://gitlab.com/alex.williamson/qemu.git tags/vfio-updates-20230307.1
+
+for you to fetch changes up to 969dae5448eaa2914be5b974f9e0311b3f95ee2c:
+
+  vfio: Fix vfio_get_dev_region() trace event (2023-03-07 11:19:07 -0700)
+
+----------------------------------------------------------------
+VFIO updates for 8.0
+
+ * Device level dirty page tracking support for vfio migration, as well as
+   various cleanups and consolidations. (Avihai Horon, Joao Martins)
+
+ * Trivial cleanup of migration entry points. (Alex Williamson)
+
+ * Fix trace event typo. (Cédric Le Goater)
+
+----------------------------------------------------------------
+Alex Williamson (1):
+      vfio/migration: Rename entry points
+
+Avihai Horon (6):
+      vfio/common: Fix error reporting in vfio_get_dirty_bitmap()
+      vfio/common: Fix wrong %m usages
+      vfio/common: Abort migration if dirty log start/stop/sync fails
+      vfio/common: Add VFIOBitmap and alloc function
+      vfio/common: Extract code from vfio_get_dirty_bitmap() to new function
+      docs/devel: Document VFIO device dirty page tracking
+
+Cédric Le Goater (1):
+      vfio: Fix vfio_get_dev_region() trace event
+
+Joao Martins (9):
+      vfio/common: Add helper to validate iova/end against hostwin
+      vfio/common: Use a single tracepoint for skipped sections
+      vfio/common: Consolidate skip/invalid section into helper
+      vfio/common: Add helper to consolidate iova/end calculation
+      vfio/common: Record DMA mapped IOVA ranges
+      vfio/common: Add device dirty page tracking start/stop
+      vfio/common: Add device dirty page bitmap sync
+      vfio/migration: Block migration with vIOMMU
+      vfio/migration: Query device dirty page tracking support
+
+ docs/devel/vfio-migration.rst |  46 ++-
+ hw/vfio/common.c              | 699 ++++++++++++++++++++++++++++++++++--------
+ hw/vfio/migration.c           |  28 +-
+ hw/vfio/pci.c                 |   5 +-
+ hw/vfio/trace-events          |   7 +-
+ include/hw/vfio/vfio-common.h |   8 +-
+ 6 files changed, 637 insertions(+), 156 deletions(-)
 
 
