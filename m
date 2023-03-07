@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44AC6ADD5A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628CE6ADD54
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:30:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVVF-0007Vs-9g; Tue, 07 Mar 2023 06:29:09 -0500
+	id 1pZVVh-0008Jh-Bp; Tue, 07 Mar 2023 06:29:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZVV4-0007PV-1X
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:28:59 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZVVe-0008IB-Le
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:29:34 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZVUw-0005hI-3j
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:28:56 -0500
-Received: by mail-wr1-x436.google.com with SMTP id v16so11825574wrn.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:28:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZVVc-0005mw-NI
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:29:34 -0500
+Received: by mail-wr1-x432.google.com with SMTP id r18so11780012wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678188528;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=09uqZm0w18GChoUZWmG8uQ1lR/P11PH+uuK+IHEB5NE=;
- b=OSOYkBjI7TC+Rm2aaHOSqHqWHa7HylcG523CaFhQiH6wt0GvgOMdduYPHz24MPbFBY
- A2aK7Gca5+7GRKyJHRNA60/7+B+d25TQodCJ6iAbkYFR/tnJp8B8RX5o83XpMldgr9BP
- dlTKCeUCDDJoG91LoM/U9eaPig118njBDp97Iovex+0y0HM9mRFIWg0CHXKxZlHdJ4Xa
- F0eT2QFaElaAzUnIqDK0T8iqrXqWc8qWAn3JwfdbU4H1RGBiUdzv47yjrraX114+9wA7
- kWnNAAJlBdJu/g77+SZRE5Ze6fMjgCWOex6RwaKwdJ5iX1ePW9MFFQNG9zCYhrolCPgh
- 740Q==
+ d=gmail.com; s=20210112; t=1678188571;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZH3Q1fiViFkedD/SohivkdCJBORP2dYkWAHXGgMGnQU=;
+ b=bYEbe4alNTH1brr9NksFnpytF/v98dG4TityAnXFRd3UU9kGlZ8UU+bDJyB4rPUXeH
+ FZk/u1LeYUF20rcQTfoylIOq3XwjiX7ONG2mu9d/i1BKKQqI7gbR5PdrmuJP8qRwBg1/
+ J97r28ac6C8rV6Qunq4gSIlgLRrVGMIVrzPqGY8gmM+tghAAzeNmnE7xdr9oFvqw323n
+ kBxN+ZDNU/18BspzG6coku5fsrSrNT5HohGKIV3/UxKAhVUlowyFtP5C6K9aV4l5h8mJ
+ 1HbW87lwLYrk6smoHY+sGHkyvUG4q5haVvY//U/kHukHN8s50WEWwX66ae8D8VINW8pr
+ s31g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678188528;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=09uqZm0w18GChoUZWmG8uQ1lR/P11PH+uuK+IHEB5NE=;
- b=NV4OlT7TUHb1QxZBxJj71fm7Z4m2v2WXUEtY8ZAsjElAaCF1eaXUIDw6ClJ2CRz1oA
- fjMps0in3GttUYi9dUtAFNP9sbfyMqLBhTjnafjJH9dGUVoFULI+mPjnisaPLfcMAjZd
- nkshyfVdpa1ASTd9ozrGNvfL8XAFNvvhvVEJrljQ7MqI23I9tTOfdrITL4gtcEFSq4Zk
- SX7IMBqCgb5iDbAYSiPfP/1S+J0jqwingpW7S/HZuzJ+3f8iKhgFq4eAv+68vRsMd8Bc
- OJx9ArxqhKAmY1fTjv5/Lh67DK8llLFu5owF2zEc5cYy2kBOz4Sw45Ge8f+WhnysMBcT
- d4lw==
-X-Gm-Message-State: AO0yUKU7D+It6lDNlZ+9Ja98aDe7IXIWLKVCFDBUkkIn0/nnXEiWGEBy
- dTDUUD0soonvpwPsXP6Bkc/X1y0wQXD2fSNjRo8=
-X-Google-Smtp-Source: AK7set9L84RdvQtYkRSddaSiBNWOguNL89sydAgmRWoaQipbeDgRPoBcVF8Y7n/6aZITuqcxpwCZ/g==
-X-Received: by 2002:adf:eece:0:b0:2c6:2ac4:66ee with SMTP id
- a14-20020adfeece000000b002c62ac466eemr9425099wrp.39.1678188528453; 
- Tue, 07 Mar 2023 03:28:48 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1678188571;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZH3Q1fiViFkedD/SohivkdCJBORP2dYkWAHXGgMGnQU=;
+ b=4/3Jkvwrrhd/NgKSb86/YHRlB9q0P3MmySCsZwLzbGD4QAUsE9K4WTfNEQNRMk+G6i
+ p/97pK5ZFwe4T6tS6RBKWV5Kzhx6LfCif4Sn+Tn/Z2nWzWfFjRwwZKrnLLGEJQ7Th4Mt
+ 3qIqu6HyIOv62JHjzqk24/N6lSZM9xddPzFBHxieXqNo9CKUtlG5P5dl6CeecSCL2rH+
+ ofkXWga96pFcC5iCIBfhKX7d5JacEDrCtVpSMGxoBuOoj7iJ/sWYhGJL/9v7QdSxvTol
+ 1w0TbVRSAL01YD4fA61cw3uYVa+mdH+cDoO3CPV/4EBlurekDz7iBy69ozOH+jW7EvY9
+ 3IAg==
+X-Gm-Message-State: AO0yUKVvJ4L3O/jEkVWDdqvodQcbLDQVuj/+rnKokFuAgrZVxZew88Gr
+ 1YWygYdw2a0IUj23OIFB1l8=
+X-Google-Smtp-Source: AK7set8Lclo21+j8Gxl4MN8i0MzUImFNsiKxJ2ypaJRJ+vZG5Jq1AaAuRc/IUvQQUn8nANF098S2og==
+X-Received: by 2002:adf:e8cd:0:b0:2cb:3660:44e with SMTP id
+ k13-20020adfe8cd000000b002cb3660044emr9034590wrn.66.1678188571284; 
+ Tue, 07 Mar 2023 03:29:31 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
  by smtp.gmail.com with ESMTPSA id
- f2-20020adfdb42000000b002c54fb024b2sm12192159wrj.61.2023.03.07.03.28.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 03:28:47 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2EF1B1FFBF;
- Tue,  7 Mar 2023 11:28:46 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: kvmarm@lists.cs.columbia.edu
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Andrew Jones <andrew.jones@linux.dev>, Paolo Bonzini <pbonzini@redhat.com>,
- kvmarm@lists.linux.dev, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [kvm-unit-tests PATCH v10 7/7] arm/tcg-test: some basic TCG
- exercising tests
-Date: Tue,  7 Mar 2023 11:28:45 +0000
-Message-Id: <20230307112845.452053-8-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230307112845.452053-1-alex.bennee@linaro.org>
-References: <20230307112845.452053-1-alex.bennee@linaro.org>
+ c10-20020adffb0a000000b002ce72cff2ecsm2753413wrr.72.2023.03.07.03.29.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 03:29:30 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <b7ef693a-5586-fe65-9825-15655a7ec67b@xen.org>
+Date: Tue, 7 Mar 2023 11:29:29 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 03/25] hw/xen: Implement XenStore watches
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-4-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-4-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,873 +98,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These tests are not really aimed at KVM at all but exist to stretch
-QEMU's TCG code generator. In particular these exercise the ability of
-the TCG to:
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> Starts out fairly simple: a hash table of watches based on the path.
+> 
+> Except there can be multiple watches on the same path, so the watch ends
+> up being a simple linked list, and the head of that list is in the hash
+> table. Which makes removal a bit of a PITA but it's not so bad; we just
+> special-case "I had to remove the head of the list and now I have to
+> replace it in / remove it from the hash table". And if we don't remove
+> the head, it's a simple linked-list operation.
+> 
+> We do need to fire watches on *deleted* nodes, so instead of just a simple
+> xs_node_unref() on the topmost victim, we need to recurse down and fire
+> watches on them all.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xenstore_impl.c | 253 +++++++++++++++++++++++++++++++++---
+>   tests/unit/test-xs-node.c   |  85 ++++++++++++
+>   2 files changed, 323 insertions(+), 15 deletions(-)
+> 
 
-  * Chain TranslationBlocks together (tight)
-  * Handle heavy usage of the tb_jump_cache (paged)
-  * Pathological case of computed local jumps (computed)
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-In addition the tests can be varied by adding IPI IRQs or SMC sequences
-into the mix to stress the tcg_exit and invalidation mechanisms.
+... with one suggestion...
 
-To explicitly stress the tb_flush() mechanism you can use the mod/rounds
-parameters to force more frequent tb invalidation. Combined with setting
--tb-size 1 in QEMU to limit the code generation buffer size.
+[snip]
+> +    /* Check for duplicates */
+> +    w = g_hash_table_lookup(s->watches, abspath);
+> +    while (w) {
+> +        if (!g_strcmp0(token, w->token) &&  opaque == w->cb_opaque &&
+> +            fn == w->cb && dom_id == w->dom_id) {
+> +            return EEXIST;
+> +        }
+> +        w = w->next;
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211118184650.661575-11-alex.bennee@linaro.org>
+I think you could stash a tail pointer here...
 
----
-v9
-  - moved back to unittests.cfg
-  - fixed some missing accel tags
-  - s/printf/report_info/
-  - clean up some comment blocks
----
- arm/Makefile.arm     |   2 +
- arm/Makefile.arm64   |   2 +
- arm/Makefile.common  |   1 +
- arm/tcg-test-asm.S   | 171 ++++++++++++++++++++++
- arm/tcg-test-asm64.S | 170 ++++++++++++++++++++++
- arm/tcg-test.c       | 340 +++++++++++++++++++++++++++++++++++++++++++
- arm/unittests.cfg    |  84 +++++++++++
- 7 files changed, 770 insertions(+)
- create mode 100644 arm/tcg-test-asm.S
- create mode 100644 arm/tcg-test-asm64.S
- create mode 100644 arm/tcg-test.c
+> +    }
+> +
+> +    if (dom_id && s->nr_domu_watches >= XS_MAX_WATCHES) {
+> +        return E2BIG;
+> +    }
+> +
+> +    w = g_new0(XsWatch, 1);
+> +    w->token = g_strdup(token);
+> +    w->cb = fn;
+> +    w->cb_opaque = opaque;
+> +    w->dom_id = dom_id;
+> +    w->rel_prefix = strlen(abspath) - strlen(path);
+> +
+> +    l = g_hash_table_lookup(s->watches, abspath);
 
-diff --git a/arm/Makefile.arm b/arm/Makefile.arm
-index 01fd4c7b..6af61033 100644
---- a/arm/Makefile.arm
-+++ b/arm/Makefile.arm
-@@ -37,4 +37,6 @@ tests =
- 
- include $(SRCDIR)/$(TEST_DIR)/Makefile.common
- 
-+$(TEST_DIR)/tcg-test.elf: $(cstart.o) $(TEST_DIR)/tcg-test.o $(TEST_DIR)/tcg-test-asm.o
-+
- arch_clean: arm_clean
-diff --git a/arm/Makefile.arm64 b/arm/Makefile.arm64
-index 42e18e77..72da5033 100644
---- a/arm/Makefile.arm64
-+++ b/arm/Makefile.arm64
-@@ -35,5 +35,7 @@ tests += $(TEST_DIR)/debug.flat
- 
- include $(SRCDIR)/$(TEST_DIR)/Makefile.common
- 
-+$(TEST_DIR)/tcg-test.elf: $(cstart.o) $(TEST_DIR)/tcg-test.o $(TEST_DIR)/tcg-test-asm64.o
-+
- arch_clean: arm_clean
- 	$(RM) lib/arm64/.*.d
-diff --git a/arm/Makefile.common b/arm/Makefile.common
-index 0a2bdcfc..0b81fa72 100644
---- a/arm/Makefile.common
-+++ b/arm/Makefile.common
-@@ -14,6 +14,7 @@ tests-common += $(TEST_DIR)/pl031.flat
- tests-common += $(TEST_DIR)/tlbflush-code.flat
- tests-common += $(TEST_DIR)/locking-test.flat
- tests-common += $(TEST_DIR)/barrier-litmus-test.flat
-+tests-common += $(TEST_DIR)/tcg-test.flat
- 
- tests-all = $(tests-common) $(tests)
- all: directories $(tests-all)
-diff --git a/arm/tcg-test-asm.S b/arm/tcg-test-asm.S
-new file mode 100644
-index 00000000..f58fac08
---- /dev/null
-+++ b/arm/tcg-test-asm.S
-@@ -0,0 +1,171 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * TCG Test assembler functions for armv7 tests.
-+ *
-+ * Copyright (C) 2016, Linaro Ltd, Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * These helper functions are written in pure asm to control the size
-+ * of the basic blocks and ensure they fit neatly into page
-+ * aligned chunks. The pattern of branches they follow is determined by
-+ * the 32 bit seed they are passed. It should be the same for each set.
-+ *
-+ * Calling convention
-+ *  - r0, iterations
-+ *  - r1, jump pattern
-+ *  - r2-r3, scratch
-+ *
-+ * Returns r0
-+ */
-+
-+.arm
-+
-+.section .text
-+
-+/*
-+ * Tight - all blocks should quickly be patched and should run
-+ * very fast unless irqs or smc gets in the way
-+ */
-+
-+.global tight_start
-+tight_start:
-+        subs    r0, r0, #1
-+        beq     tight_end
-+
-+        ror     r1, r1, #1
-+        tst     r1, #1
-+        beq     tightA
-+        b       tight_start
-+
-+tightA:
-+        subs    r0, r0, #1
-+        beq     tight_end
-+
-+        ror     r1, r1, #1
-+        tst     r1, #1
-+        beq     tightB
-+        b       tight_start
-+
-+tightB:
-+        subs    r0, r0, #1
-+        beq     tight_end
-+
-+        ror     r1, r1, #1
-+        tst     r1, #1
-+        beq     tight_start
-+        b       tightA
-+
-+.global tight_end
-+tight_end:
-+        mov     pc, lr
-+
-+/*
-+ * Computed jumps cannot be hardwired into the basic blocks so each one
-+ * will either cause an exit for the main execution loop or trigger an
-+ * inline look up for the next block.
-+ *
-+ * There is some caching which should ameliorate the cost a little.
-+ */
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+        .global computed_start
-+computed_start:
-+        subs    r0, r0, #1
-+        beq     computed_end
-+
-+        /* Jump table */
-+        ror     r1, r1, #1
-+        and     r2, r1, #1
-+        adr     r3, computed_jump_table
-+        ldr     r2, [r3, r2, lsl #2]
-+        mov     pc, r2
-+
-+        b       computed_err
-+
-+computed_jump_table:
-+        .word   computed_start
-+        .word   computedA
-+
-+computedA:
-+        subs    r0, r0, #1
-+        beq     computed_end
-+
-+        /* Jump into code */
-+        ror     r1, r1, #1
-+        and     r2, r1, #1
-+        adr     r3, 1f
-+        add	r3, r2, lsl #2
-+        mov     pc, r3
-+1:      b       computed_start
-+        b       computedB
-+
-+        b       computed_err
-+
-+
-+computedB:
-+        subs    r0, r0, #1
-+        beq     computed_end
-+        ror     r1, r1, #1
-+
-+        /* Conditional register load */
-+        adr     r3, computedA
-+        tst     r1, #1
-+        adreq   r3, computed_start
-+        mov     pc, r3
-+
-+        b       computed_err
-+
-+computed_err:
-+        mov     r0, #1
-+        .global computed_end
-+computed_end:
-+        mov     pc, lr
-+
-+
-+/*
-+ * Page hoping
-+ *
-+ * Each block is in a different page, hence the blocks never get joined
-+ */
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+        .global paged_start
-+paged_start:
-+        subs    r0, r0, #1
-+        beq     paged_end
-+
-+        ror     r1, r1, #1
-+        tst     r1, #1
-+        beq     pagedA
-+        b       paged_start
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+pagedA:
-+        subs    r0, r0, #1
-+        beq     paged_end
-+
-+        ror     r1, r1, #1
-+        tst     r1, #1
-+        beq     pagedB
-+        b       paged_start
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+pagedB:
-+        subs    r0, r0, #1
-+        beq     paged_end
-+
-+        ror     r1, r1, #1
-+        tst     r1, #1
-+        beq     paged_start
-+        b       pagedA
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+.global paged_end
-+paged_end:
-+        mov     pc, lr
-+
-+.global test_code_end
-+test_code_end:
-diff --git a/arm/tcg-test-asm64.S b/arm/tcg-test-asm64.S
-new file mode 100644
-index 00000000..e69a8c72
---- /dev/null
-+++ b/arm/tcg-test-asm64.S
-@@ -0,0 +1,170 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * TCG Test assembler functions for armv8 tests.
-+ *
-+ * Copyright (C) 2016, Linaro Ltd, Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * These helper functions are written in pure asm to control the size
-+ * of the basic blocks and ensure they fit neatly into page
-+ * aligned chunks. The pattern of branches they follow is determined by
-+ * the 32 bit seed they are passed. It should be the same for each set.
-+ *
-+ * Calling convention
-+ *  - x0, iterations
-+ *  - x1, jump pattern
-+ *  - x2-x3, scratch
-+ *
-+ * Returns x0
-+ */
-+
-+.section .text
-+
-+/*
-+ * Tight - all blocks should quickly be patched and should run
-+ * very fast unless irqs or smc gets in the way
-+ */
-+
-+.global tight_start
-+tight_start:
-+        subs    x0, x0, #1
-+        beq     tight_end
-+
-+        ror     x1, x1, #1
-+        tst     x1, #1
-+        beq     tightA
-+        b       tight_start
-+
-+tightA:
-+        subs    x0, x0, #1
-+        beq     tight_end
-+
-+        ror     x1, x1, #1
-+        tst     x1, #1
-+        beq     tightB
-+        b       tight_start
-+
-+tightB:
-+        subs    x0, x0, #1
-+        beq     tight_end
-+
-+        ror     x1, x1, #1
-+        tst     x1, #1
-+        beq     tight_start
-+        b       tightA
-+
-+.global tight_end
-+tight_end:
-+        ret
-+
-+/*
-+ * Computed jumps cannot be hardwired into the basic blocks so each one
-+ * will either cause an exit for the main execution loop or trigger an
-+ * inline look up for the next block.
-+ *
-+ * There is some caching which should ameliorate the cost a little.
-+ */
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+        .global computed_start
-+computed_start:
-+        subs    x0, x0, #1
-+        beq     computed_end
-+
-+        /* Jump table */
-+        ror     x1, x1, #1
-+        and     x2, x1, #1
-+        adr     x3, computed_jump_table
-+        ldr     x2, [x3, x2, lsl #3]
-+        br      x2
-+
-+        b       computed_err
-+
-+computed_jump_table:
-+        .quad   computed_start
-+        .quad   computedA
-+
-+computedA:
-+        subs    x0, x0, #1
-+        beq     computed_end
-+
-+        /* Jump into code */
-+        ror     x1, x1, #1
-+        and     x2, x1, #1
-+        adr     x3, 1f
-+        add	x3, x3, x2, lsl #2
-+        br      x3
-+1:      b       computed_start
-+        b       computedB
-+
-+        b       computed_err
-+
-+
-+computedB:
-+        subs    x0, x0, #1
-+        beq     computed_end
-+        ror     x1, x1, #1
-+
-+        /* Conditional register load */
-+        adr     x2, computedA
-+        adr     x3, computed_start
-+        tst     x1, #1
-+        csel    x2, x3, x2, eq
-+        br      x2
-+
-+        b       computed_err
-+
-+computed_err:
-+        mov     x0, #1
-+        .global computed_end
-+computed_end:
-+        ret
-+
-+
-+/*
-+ * Page hoping
-+ *
-+ * Each block is in a different page, hence the blocks never get joined
-+ */
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+        .global paged_start
-+paged_start:
-+        subs    x0, x0, #1
-+        beq     paged_end
-+
-+        ror     x1, x1, #1
-+        tst     x1, #1
-+        beq     pagedA
-+        b       paged_start
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+pagedA:
-+        subs    x0, x0, #1
-+        beq     paged_end
-+
-+        ror     x1, x1, #1
-+        tst     x1, #1
-+        beq     pagedB
-+        b       paged_start
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+pagedB:
-+        subs    x0, x0, #1
-+        beq     paged_end
-+
-+        ror     x1, x1, #1
-+        tst     x1, #1
-+        beq     paged_start
-+        b       pagedA
-+
-+        /* Align << 13 == 4096 byte alignment */
-+        .align 13
-+.global paged_end
-+paged_end:
-+        ret
-+
-+.global test_code_end
-+test_code_end:
-diff --git a/arm/tcg-test.c b/arm/tcg-test.c
-new file mode 100644
-index 00000000..d04d56e4
---- /dev/null
-+++ b/arm/tcg-test.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * ARM TCG Tests
-+ *
-+ * These tests are explicitly aimed at stretching the QEMU TCG engine.
-+ */
-+
-+#include <libcflat.h>
-+#include <asm/processor.h>
-+#include <asm/smp.h>
-+#include <asm/cpumask.h>
-+#include <asm/barrier.h>
-+#include <asm/mmu.h>
-+#include <asm/gic.h>
-+
-+#include <prng.h>
-+
-+#define MAX_CPUS 8
-+
-+/* These entry points are in the assembly code */
-+extern int tight_start(uint32_t count, uint32_t pattern);
-+extern int computed_start(uint32_t count, uint32_t pattern);
-+extern int paged_start(uint32_t count, uint32_t pattern);
-+extern uint32_t tight_end;
-+extern uint32_t computed_end;
-+extern uint32_t paged_end;
-+extern unsigned long test_code_end;
-+
-+typedef int (*test_fn)(uint32_t count, uint32_t pattern);
-+
-+typedef struct {
-+	const char *test_name;
-+	bool       should_pass;
-+	test_fn    start_fn;
-+	uint32_t   *code_end;
-+} test_descr_t;
-+
-+/* Test array */
-+static test_descr_t tests[] = {
-+       /*
-+	* Tight chain.
-+	*
-+	* These are a bunch of basic blocks that have fixed branches in
-+	* a page aligned space. The branches taken are decided by a
-+	* psuedo-random bitmap for each CPU.
-+	*
-+	* Once the basic blocks have been chained together by the TCG they
-+	* should run until they reach their block count. This will be the
-+	* most efficient mode in which generated code is run. The only other
-+	* exits will be caused by interrupts or TB invalidation.
-+	*/
-+	{ "tight", true, tight_start, &tight_end },
-+	/*
-+	 * Computed jumps.
-+	 *
-+	 * A bunch of basic blocks which just do computed jumps so the basic
-+	 * block is never chained but they are all within a page (maybe not
-+	 * required). This will exercise the cache lookup but not the new
-+	 * generation.
-+	 */
-+	{ "computed", true, computed_start, &computed_end },
-+	/*
-+	 * Page ping pong.
-+	 *
-+	 * Have the blocks are separated by PAGE_SIZE so they can never
-+	 * be chained together.
-+	 *
-+	 */
-+	{ "paged", true, paged_start, &paged_end}
-+};
-+
-+static test_descr_t *test;
-+
-+static int iterations = 1000000;
-+static int rounds = 1000;
-+static int mod_freq = 5;
-+static uint32_t pattern[MAX_CPUS];
-+
-+/* control flags */
-+static int smc;
-+static int irq;
-+static int check_irq;
-+
-+/* IRQ accounting */
-+#define MAX_IRQ_IDS 16
-+static int irqv;
-+static unsigned long irq_sent_ts[MAX_CPUS][MAX_CPUS][MAX_IRQ_IDS];
-+
-+static int irq_recv[MAX_CPUS];
-+static int irq_sent[MAX_CPUS];
-+static int irq_overlap[MAX_CPUS];  /* if ts > now, i.e a race */
-+static int irq_slow[MAX_CPUS];  /* if delay > threshold */
-+static unsigned long irq_latency[MAX_CPUS]; /* cumulative time */
-+
-+static int errors[MAX_CPUS];
-+
-+static cpumask_t smp_test_complete;
-+
-+static cpumask_t ready;
-+
-+static void wait_on_ready(void)
-+{
-+	cpumask_set_cpu(smp_processor_id(), &ready);
-+	while (!cpumask_full(&ready))
-+		cpu_relax();
-+}
-+
-+/*
-+ * This triggers TCGs SMC detection by writing values to the executing
-+ * code pages. We are not actually modifying the instructions and the
-+ * underlying code will remain unchanged. However this should trigger
-+ * invalidation of the Translation Blocks
-+ */
-+
-+static void trigger_smc_detection(uint32_t *start, uint32_t *end)
-+{
-+	volatile uint32_t *ptr = start;
-+
-+	while (ptr < end) {
-+		uint32_t inst = *ptr;
-+		*ptr++ = inst;
-+	}
-+}
-+
-+/* Handler for receiving IRQs */
-+
-+static void irq_handler(struct pt_regs *regs __unused)
-+{
-+	unsigned long then, now = get_cntvct();
-+	int cpu = smp_processor_id();
-+	u32 irqstat = gic_read_iar();
-+	u32 irqnr = gic_iar_irqnr(irqstat);
-+
-+	if (irqnr != GICC_INT_SPURIOUS) {
-+		unsigned int src_cpu = (irqstat >> 10) & 0x7;
-+
-+		gic_write_eoir(irqstat);
-+		irq_recv[cpu]++;
-+
-+		then = irq_sent_ts[src_cpu][cpu][irqnr];
-+
-+		if (then > now) {
-+			irq_overlap[cpu]++;
-+		} else {
-+			unsigned long latency = (now - then);
-+
-+			if (latency > 30000)
-+				irq_slow[cpu]++;
-+			else
-+				irq_latency[cpu] += latency;
-+		}
-+	}
-+}
-+
-+/*
-+ * This triggers cross-CPU IRQs. Each IRQ should cause the basic block
-+ * execution to finish the main run-loop get entered again.
-+ */
-+static int send_cross_cpu_irqs(int this_cpu, int irq)
-+{
-+	int cpu, sent = 0;
-+	cpumask_t mask;
-+
-+	cpumask_copy(&mask, &cpu_present_mask);
-+
-+	for_each_present_cpu(cpu) {
-+		if (cpu != this_cpu) {
-+			irq_sent_ts[this_cpu][cpu][irq] = get_cntvct();
-+			cpumask_clear_cpu(cpu, &mask);
-+			sent++;
-+		}
-+	}
-+
-+	gic_ipi_send_mask(irq, &mask);
-+
-+	return sent;
-+}
-+
-+static void do_test(void)
-+{
-+	int cpu = smp_processor_id();
-+	int i, irq_id = 0;
-+
-+	report_info("CPU%d: online and setting up with pattern 0x%"PRIx32,
-+		    cpu, pattern[cpu]);
-+
-+	if (irq) {
-+		gic_enable_defaults();
-+#ifdef __arm__
-+		install_exception_handler(EXCPTN_IRQ, irq_handler);
-+#else
-+		install_irq_handler(EL1H_IRQ, irq_handler);
-+#endif
-+		local_irq_enable();
-+
-+		wait_on_ready();
-+	}
-+
-+	for (i = 0; i < rounds; i++) {
-+		/* Enter the blocks */
-+		errors[cpu] += test->start_fn(iterations, pattern[cpu]);
-+
-+		if ((i + cpu) % mod_freq == 0) {
-+			if (smc)
-+				trigger_smc_detection((uint32_t *) test->start_fn,
-+						      test->code_end);
-+
-+			if (irq) {
-+				irq_sent[cpu] += send_cross_cpu_irqs(cpu, irq_id);
-+				irq_id++;
-+				irq_id = irq_id % 15;
-+			}
-+		}
-+	}
-+
-+	/* ensure everything complete before we finish */
-+	smp_wmb();
-+
-+	cpumask_set_cpu(cpu, &smp_test_complete);
-+	if (cpu != 0)
-+		halt();
-+}
-+
-+static void report_irq_stats(int cpu)
-+{
-+	int recv = irq_recv[cpu];
-+	int race = irq_overlap[cpu];
-+	int slow = irq_slow[cpu];
-+
-+	unsigned long avg_latency = irq_latency[cpu] / (recv - (race + slow));
-+
-+	report_info("CPU%d: %d irqs (%d races, %d slow,  %ld ticks avg latency)",
-+		    cpu, recv, race, slow, avg_latency);
-+}
-+
-+
-+static void setup_and_run_tcg_test(void)
-+{
-+	static const unsigned char seed[] = "tcg-test";
-+	struct isaac_ctx prng_context;
-+	int cpu;
-+	int total_err = 0, total_sent = 0, total_recv = 0;
-+
-+	isaac_init(&prng_context, &seed[0], sizeof(seed));
-+
-+	/* boot other CPUs */
-+	for_each_present_cpu(cpu) {
-+		pattern[cpu] = isaac_next_uint32(&prng_context);
-+
-+		if (cpu == 0)
-+			continue;
-+
-+		smp_boot_secondary(cpu, do_test);
-+	}
-+
-+	do_test();
-+
-+	while (!cpumask_full(&smp_test_complete))
-+		cpu_relax();
-+
-+	/* Ensure everything completes before we check the data */
-+	smp_mb();
-+
-+	/* Now total up errors and irqs */
-+	for_each_present_cpu(cpu) {
-+		total_err += errors[cpu];
-+		total_sent += irq_sent[cpu];
-+		total_recv += irq_recv[cpu];
-+
-+		if (check_irq)
-+			report_irq_stats(cpu);
-+	}
-+
-+	if (check_irq)
-+		report(total_sent == total_recv && total_err == 0,
-+		       "%d IRQs sent, %d received, %d errors\n",
-+		       total_sent, total_recv, total_err == 0);
-+	else
-+		report(total_err == 0, "%d errors, IRQs not checked", total_err);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int i;
-+	unsigned int j;
-+
-+	for (i = 0; i < argc; i++) {
-+		char *arg = argv[i];
-+
-+		for (j = 0; j < ARRAY_SIZE(tests); j++) {
-+			if (strcmp(arg, tests[j].test_name) == 0)
-+				test = &tests[j];
-+		}
-+
-+		/* Test modifiers */
-+		if (strstr(arg, "mod=") != NULL) {
-+			char *p = strstr(arg, "=");
-+
-+			mod_freq = atol(p+1);
-+		}
-+
-+		if (strstr(arg, "rounds=") != NULL) {
-+			char *p = strstr(arg, "=");
-+
-+			rounds = atol(p+1);
-+		}
-+
-+		if (strcmp(arg, "smc") == 0) {
-+			unsigned long test_start = (unsigned long) &tight_start;
-+			unsigned long test_end = (unsigned long) &test_code_end;
-+
-+			smc = 1;
-+			mmu_set_range_ptes(mmu_idmap, test_start, test_start,
-+					   test_end, __pgprot(PTE_WBWA));
-+
-+			report_prefix_push("smc");
-+		}
-+
-+		if (strcmp(arg, "irq") == 0) {
-+			irq = 1;
-+			if (!gic_init())
-+				report_abort("No supported gic present!");
-+			irqv = gic_version();
-+			report_prefix_push("irq");
-+		}
-+
-+		if (strcmp(arg, "check_irq") == 0)
-+			check_irq = 1;
-+	}
-+
-+	if (test) {
-+		/* ensure args visible to all cores */
-+		smp_mb();
-+		setup_and_run_tcg_test();
-+	} else {
-+		report(false, "Unknown test");
-+	}
-+
-+	return report_summary();
-+}
-diff --git a/arm/unittests.cfg b/arm/unittests.cfg
-index 3d73e308..5b46ff5b 100644
---- a/arm/unittests.cfg
-+++ b/arm/unittests.cfg
-@@ -361,3 +361,87 @@ smp = 2
- extra_params = -append 'sal_barrier'
- groups = nodefault mttcg barrier
- 
-+# TCG Tests
-+[tcg::tight]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'tight'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::tight-smc]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'tight smc' -accel tcg,tb-size=1
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::tight-irq]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'tight irq'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::tight-smc-irq]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'tight smc irq'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::computed]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'computed'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::computed-smc]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'computed smc'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::computed-irq]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'computed irq'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::computed-smc-irq]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'computed smc irq'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::paged]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'paged'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::paged-smc]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'paged smc'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::paged-irq]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'paged irq'
-+groups = nodefault mttcg
-+accel = tcg
-+
-+[tcg::paged-smc-irq]
-+file = tcg-test.flat
-+smp = $(($MAX_SMP>4?4:$MAX_SMP))
-+extra_params = -append 'paged smc irq'
-+groups = nodefault mttcg
-+accel = tcg
--- 
-2.39.2
+... to avoid the duplicate hash lookup here.
+
+> +    if (l) {
+> +        w->next = l->next;
+> +        l->next = w;
+> +    } else {
+> +        g_hash_table_insert(s->watches, g_strdup(abspath), w);
+> +    }
+> +    if (dom_id) {
+> +        s->nr_domu_watches++;
+> +    }
+> +
+> +    /* A new watch should fire immediately */
+> +    fn(opaque, path, token);
+> +
+> +    return 0;
+> +}
 
 
