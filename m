@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8486AE33D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B4A6AE33B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:49:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYcI-0008Fr-R6; Tue, 07 Mar 2023 09:48:38 -0500
+	id 1pZYcL-0008Hs-Au; Tue, 07 Mar 2023 09:48:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1pZYcF-00088b-QW
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:36 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1pZYcC-0002dl-9z
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:35 -0500
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 327B49OS027144; Tue, 7 Mar 2023 14:48:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=IGZ8SmwZmjNfDmHY8dPAxPsivs4xiKqYe+7+ZUu8DAo=;
- b=STZE4WEG22NlsnW4dcic8g52bZk+O4yr1yl4RD5pHgdTC1gyr5gqiH5yNLkoCnLkkZz3
- Vwvbk4VfXsurYKCdiC9IYxv26XpZzhVyahhHhi9TfhUvrf4gz0l2s46IvwE5GFC/Kxgd
- nRX3vjVPgRCKi1V9GH4F4Iz+46g8qT+cIa7a6P88w7ITjphcGwqLXZdx0nN6HXmOHGAb
- 8XmMVU+uWJuhzkfJhhQbOYtjhtux2P1+ncem94JChWPdPpLLTqUCSqTlM4y8Hva/tFF1
- NDAtXURDMiA0vPhg0LykgZA1jPOIJQpCIPsK4yohCiptVQmyvl8oRZqB960TN5KORP4Y 4g== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p4g3my43k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Mar 2023 14:48:29 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 327EmR6E017770
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 7 Mar 2023 14:48:28 GMT
-Received: from NASANPPMTA02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Tue, 7 Mar 2023 06:48:25 -0800
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: <qemu-devel@nongnu.org>
-CC: <quintela@redhat.com>, <bcain@quicinc.com>, <dgilbert@redhat.com>,
- <ling1.xu@intel.com>, <zhou.zhao@intel.com>, <jun.i.jin@intel.com>
-Subject: [PATCH 2/2] migration/xbzrle: fix out-of-bounds write with axv512
-Date: Tue, 7 Mar 2023 11:48:09 -0300
-Message-ID: <f39b6a7f46cda2d1ca196d0b4d59c2f2b59af21e.1678199971.git.quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1678199971.git.quic_mathbern@quicinc.com>
-References: <cover.1678199971.git.quic_mathbern@quicinc.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYcJ-0008HK-IZ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:39 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYcG-0002eU-Rt
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:39 -0500
+Received: by mail-wr1-x433.google.com with SMTP id q16so12394860wrw.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678200515;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qJV8X1ahMrwunc4I9nebCaoiX6hr9jR3+0dd1Yu8Uhk=;
+ b=CrhWd3j/9hc/yzuu/AXDjfdbsI6i9Gul7zANq1FlfIjwYGAFkAVP9Fg3BP5uwQslNp
+ hppBNBYJ402bnr6+mDBcrGND/dAXnEvibsFKH806PuoKguTQx2DilO6gy8jNgVGsQ4UR
+ 8tDS5uJxlUejZOcefYZhiN+chK2KjW9QppOpaHZXQ8Cbi5TBWeb5i0GjoPCvYxhWCPc1
+ IZCjO6v7FRg07CcFR0J+Fuf7IKncGDNRKwzOb+9PGDNJRPa1Hk9zz5f0gChXcdFzIl1L
+ IAvPZpj9WWtXRzjlCcHPqNlXIGB/EarWHgBhXmbBxDR9YioSmSVr4Rsmx4WmemO4d1Bv
+ xzMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678200515;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qJV8X1ahMrwunc4I9nebCaoiX6hr9jR3+0dd1Yu8Uhk=;
+ b=m/r74YCzNgJuOaAd1iU6RFSuFbZ1NyZKxhMgxCtOZXAlLZVIpQgaDQ9r6lDt6cSSAd
+ bJYBCl7Si4+xO8KvZ//kaRrWyGMqVdVQLlSGEdCDwD8Hfp2uZY0PK3nuLsQ0DcROOQux
+ 975U7A4rvbJT3sA7DEmAI2pbn5+agCh6ID2cphsgN6TzQmVv3SJC+ufQLh/hRu4yV6sz
+ fO1vtzg6o1gfZBPVl6pAmNB4pt9i/jQv1EYTlsNtA42nrsfHZqMuTIKvI29PbVlxtYHJ
+ E0Fz4qHUyhFj6/SRdPEVlHvnE0evVsdEtziywlKEmrpjIvcN/+0pX9klcevh2GQrPtcJ
+ QgIA==
+X-Gm-Message-State: AO0yUKXlQz7yMAQHyenytVSawycFMnaHCav5HqQtCdscnTbB43fBtTYp
+ SKrow/tiKV4wLEr3/KBOm7s=
+X-Google-Smtp-Source: AK7set+QLpMeKjKDmL7zyyrzOxGL27KoFw6yVMrfR59U9/0wom9sKE5L/9llGVFsGi4zqDHS0OChcw==
+X-Received: by 2002:adf:dc90:0:b0:2c5:4c1f:3c9 with SMTP id
+ r16-20020adfdc90000000b002c54c1f03c9mr8856131wrj.49.1678200515429; 
+ Tue, 07 Mar 2023 06:48:35 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id
+ o16-20020a056000011000b002c703d59fa7sm12750392wrx.12.2023.03.07.06.48.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 06:48:35 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <9aba8f4d-0572-b6b4-44c8-a4f5f88e1477@xen.org>
+Date: Tue, 7 Mar 2023 14:48:34 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: jRB3hrhC0MN-u_fEHx5QC91qFa8JAzGu
-X-Proofpoint-GUID: jRB3hrhC0MN-u_fEHx5QC91qFa8JAzGu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-07_08,2023-03-07_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- suspectscore=0 mlxscore=0 clxscore=1015 adultscore=0 malwarescore=0
- phishscore=0 mlxlogscore=857 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2303070132
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=quic_mathbern@quicinc.com; helo=mx0b-0031df01.pphosted.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 15/25] hw/xen: Use XEN_PAGE_SIZE in PV backend
+ drivers
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-16-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-16-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,66 +99,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-xbzrle_encode_buffer_avx512() checks for overflows too scarcely in its
-outer loop, causing out-of-bounds writes:
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> XC_PAGE_SIZE comes from the actual Xen libraries, while XEN_PAGE_SIZE is
+> provided by QEMU itself in xen_backend_ops.h. For backends which may be
+> built for emulation mode, use the latter.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/block/dataplane/xen-block.c |  8 ++++----
+>   hw/display/xenfb.c             | 12 ++++++------
+>   hw/net/xen_nic.c               | 12 ++++++------
+>   hw/usb/xen-usb.c               |  8 ++++----
+>   4 files changed, 20 insertions(+), 20 deletions(-)
+> 
 
-$ ../configure --target-list=aarch64-softmmu --enable-sanitizers --enable-avx512bw
-$ make tests/unit/test-xbzrle && ./tests/unit/test-xbzrle
-
-==5518==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62100000b100 at pc 0x561109a7714d bp 0x7ffed712a440 sp 0x7ffed712a430
-WRITE of size 1 at 0x62100000b100 thread T0
-    #0 0x561109a7714c in uleb128_encode_small ../util/cutils.c:831
-    #1 0x561109b67f6a in xbzrle_encode_buffer_avx512 ../migration/xbzrle.c:275
-    #2 0x5611099a7428 in test_encode_decode_overflow ../tests/unit/test-xbzrle.c:153
-    #3 0x7fb2fb65a58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
-    #4 0x7fb2fb65a333  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a333)
-    #5 0x7fb2fb65aa79 in g_test_run_suite (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7aa79)
-    #6 0x7fb2fb65aa94 in g_test_run (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7aa94)
-    #7 0x5611099a3a23 in main ../tests/unit/test-xbzrle.c:218
-    #8 0x7fb2fa78c082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082)
-    #9 0x5611099a608d in _start (/qemu/build/tests/unit/test-xbzrle+0x28408d)
-
-0x62100000b100 is located 0 bytes to the right of 4096-byte region [0x62100000a100,0x62100000b100)
-allocated by thread T0 here:
-    #0 0x7fb2fb823a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
-    #1 0x7fb2fb637ef0 in g_malloc0 (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x57ef0)
-
-Fix that by performing the overflow check in the inner loop, instead.
-
-Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
----
- migration/xbzrle.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/migration/xbzrle.c b/migration/xbzrle.c
-index 21b92d4eae..c6f8b20917 100644
---- a/migration/xbzrle.c
-+++ b/migration/xbzrle.c
-@@ -197,10 +197,6 @@ int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
-     __m512i r = _mm512_set1_epi32(0);
- 
-     while (count512s) {
--        if (d + 2 > dlen) {
--            return -1;
--        }
--
-         int bytes_to_check = 64;
-         uint64_t mask = 0xffffffffffffffff;
-         if (count512s == 1) {
-@@ -216,6 +212,9 @@ int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
- 
-         bool is_same = (comp & 0x1);
-         while (bytes_to_check) {
-+            if (d + 2 > dlen) {
-+                return -1;
-+            }
-             if (is_same) {
-                 if (nzrun_len) {
-                     d += uleb128_encode_small(dst + d, nzrun_len);
--- 
-2.39.1
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
