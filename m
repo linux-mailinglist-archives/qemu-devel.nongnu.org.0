@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43196AD460
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7576AD464
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:05:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZMfj-0006ox-I9; Mon, 06 Mar 2023 21:03:23 -0500
+	id 1pZMfm-0006qB-8i; Mon, 06 Mar 2023 21:03:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZMfi-0006om-58
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:22 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ id 1pZMfj-0006pB-S5
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:23 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZMfg-0004va-8C
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:21 -0500
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ id 1pZMfi-0004vq-2O
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:23 -0500
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 326NxYWS029931; Tue, 7 Mar 2023 02:03:18 GMT
+ 326NwvMu022239; Tue, 7 Mar 2023 02:03:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=GiBCAPHsWsCaxFjIYhTKruwe4Yu7rgg+z8yv2dJvMcY=;
- b=CGjtzdBMaVjzTbfIk8c3QG/jeMampZF2JU5SFshK1VDVNmMpfts8v1Ef1itluFVdcXd8
- B1Jkb0t4Y2wfrSGV0edi9vnznjXebDv/kQZ9USkfNQloImz1ZJEyDXgFGfYuao7qhhXw
- SRy1kJj8oUavfZcZEV6Y9SgoK+5u7l6kTPkXnZYTT7W6srb71V2aMQmFaaxNg5cisxr5
- RKMTZpo7FqMo27eMCDwG7I16eyKfCKqLFlVmKvc6nMyB8DW43B2cAiul72of+s54bZE5
- n2Suaiuidvq6ntglf48B4bI5WQJD3M0aR1/WNL+kpNE7jaZSZGAbV5u+hvneDlq3zlC8 2g== 
+ bh=5w+UzqUbMx72jclmr5DPxhul0r8RPY8u0pJnKNlmPBc=;
+ b=uBxyy+l7NGEGFziJdI4NF1Qq+Kjs9F2Y5zhoLFBSWSBhyjQbSIFvXxjhvveJlexksArn
+ cH5HJxMrS0MWCqNpWPpCvusXbmfr92PJ3Y81oyfUACJonjU1d96bokSO7GZWJSpF/tZf
+ gi5HgYYU0ZaQ4LarSE4lezQNwKjyOfLUVUPnHMmRj9AOhUcE9rfq8wO0UW2Fj9/OWrtV
+ 0jcTs7IqoPddCyF5M2tMdH32ugv4PBo6XUVT/WyEK+urIGiDS3lFnUovL0jeN3fao3v/
+ tYMMS4eeqtCXrQ93Qxct0nJ8oQISqFAIV2plQ+DCUg5BUv9Fivca1TXlRKyqE653ZRlF 1A== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p418xvfdx-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p415hvfny-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 02:03:18 +0000
+ Tue, 07 Mar 2023 02:03:21 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 32720Oo8036910; Tue, 7 Mar 2023 02:03:16 GMT
+ with ESMTP id 3271svPk037115; Tue, 7 Mar 2023 02:03:20 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p4txdubn3-1
+ 3p4txdubpk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 02:03:16 +0000
+ Tue, 07 Mar 2023 02:03:20 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32723564016763;
- Tue, 7 Mar 2023 02:03:16 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32723566016763;
+ Tue, 7 Mar 2023 02:03:19 GMT
 Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-187-101.vpn.oracle.com
  [10.175.187.101])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3p4txdubf4-4; Tue, 07 Mar 2023 02:03:15 +0000
+ 3p4txdubf4-5; Tue, 07 Mar 2023 02:03:19 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -61,10 +61,9 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v4 03/14] vfio/common: Abort migration if dirty log
- start/stop/sync fails
-Date: Tue,  7 Mar 2023 02:02:47 +0000
-Message-Id: <20230307020258.58215-4-joao.m.martins@oracle.com>
+Subject: [PATCH v4 04/14] vfio/common: Add VFIOBitmap and alloc function
+Date: Tue,  7 Mar 2023 02:02:48 +0000
+Message-Id: <20230307020258.58215-5-joao.m.martins@oracle.com>
 In-Reply-To: <20230307020258.58215-1-joao.m.martins@oracle.com>
 References: <20230307020258.58215-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
@@ -78,10 +77,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  spamscore=0 suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2303070016
-X-Proofpoint-GUID: -AK5jGLT1qYDwaMq-VrVu5avUbFwuFH_
-X-Proofpoint-ORIG-GUID: -AK5jGLT1qYDwaMq-VrVu5avUbFwuFH_
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: 05cykTDuLbYrQSE6x7rxvbo_hbLotKHY
+X-Proofpoint-ORIG-GUID: 05cykTDuLbYrQSE6x7rxvbo_hbLotKHY
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -106,182 +105,167 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Avihai Horon <avihaih@nvidia.com>
 
-If VFIO dirty pages log start/stop/sync fails during migration,
-migration should be aborted as pages dirtied by VFIO devices might not
-be reported properly.
+There are already two places where dirty page bitmap allocation and
+calculations are done in open code. With device dirty page tracking
+being added in next patches, there are going to be even more places.
 
-This is not the case today, where in such scenario only an error is
-printed.
+To avoid code duplication, introduce VFIOBitmap struct and corresponding
+alloc function and use them where applicable.
 
-Fix it by aborting migration in the above scenario.
-
-Fixes: 758b96b61d5c ("vfio/migrate: Move switch of dirty tracking into vfio_memory_listener")
-Fixes: b6dd6504e303 ("vfio: Add vfio_listener_log_sync to mark dirty pages")
-Fixes: 9e7b0442f23a ("vfio: Add ioctl to get dirty pages bitmap during dma unmap")
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
 ---
- hw/vfio/common.c | 53 ++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 45 insertions(+), 8 deletions(-)
+ hw/vfio/common.c | 73 +++++++++++++++++++++++++++++-------------------
+ 1 file changed, 44 insertions(+), 29 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 4d26e9cccf91..4c801513136a 100644
+index 4c801513136a..cec3de08d2b4 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -42,6 +42,7 @@
- #include "migration/migration.h"
- #include "migration/misc.h"
- #include "migration/blocker.h"
-+#include "migration/qemu-file.h"
- #include "sysemu/tpm.h"
+@@ -320,6 +320,25 @@ const MemoryRegionOps vfio_region_ops = {
+  * Device state interfaces
+  */
  
- VFIOGroupList vfio_group_list =
-@@ -390,6 +391,19 @@ void vfio_unblock_multiple_devices_migration(void)
-     multiple_devices_migration_blocker = NULL;
- }
- 
-+static void vfio_set_migration_error(int err)
-+{
-+    MigrationState *ms = migrate_get_current();
++typedef struct {
++    unsigned long *bitmap;
++    hwaddr size;
++    hwaddr pages;
++} VFIOBitmap;
 +
-+    if (migration_is_setup_or_active(ms->state)) {
-+        WITH_QEMU_LOCK_GUARD(&ms->qemu_file_lock) {
-+            if (ms->to_dst_file) {
-+                qemu_file_set_error(ms->to_dst_file, err);
-+            }
-+        }
++static int vfio_bitmap_alloc(VFIOBitmap *vbmap, hwaddr size)
++{
++    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
++    vbmap->size = ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
++                                         BITS_PER_BYTE;
++    vbmap->bitmap = g_try_malloc0(vbmap->size);
++    if (!vbmap->bitmap) {
++        return -ENOMEM;
 +    }
++
++    return 0;
 +}
 +
- static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+ bool vfio_mig_active(void)
  {
      VFIOGroup *group;
-@@ -680,6 +694,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-     if (iotlb->target_as != &address_space_memory) {
-         error_report("Wrong target AS \"%s\", only system memory is allowed",
-                      iotlb->target_as->name ? iotlb->target_as->name : "none");
-+        vfio_set_migration_error(-EINVAL);
-         return;
+@@ -468,9 +487,14 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+ {
+     struct vfio_iommu_type1_dma_unmap *unmap;
+     struct vfio_bitmap *bitmap;
+-    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
++    VFIOBitmap vbmap;
+     int ret;
+ 
++    ret = vfio_bitmap_alloc(&vbmap, size);
++    if (ret) {
++        return ret;
++    }
++
+     unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+ 
+     unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
+@@ -484,35 +508,28 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+      * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
+      * to qemu_real_host_page_size.
+      */
+-
+     bitmap->pgsize = qemu_real_host_page_size();
+-    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+-                   BITS_PER_BYTE;
++    bitmap->size = vbmap.size;
++    bitmap->data = (__u64 *)vbmap.bitmap;
+ 
+-    if (bitmap->size > container->max_dirty_bitmap_size) {
+-        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64,
+-                     (uint64_t)bitmap->size);
++    if (vbmap.size > container->max_dirty_bitmap_size) {
++        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64, vbmap.size);
+         ret = -E2BIG;
+         goto unmap_exit;
      }
  
-@@ -714,6 +729,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-                          "0x%"HWADDR_PRIx") = %d (%s)",
-                          container, iova,
-                          iotlb->addr_mask + 1, ret, strerror(-ret));
-+            vfio_set_migration_error(ret);
-         }
+-    bitmap->data = g_try_malloc0(bitmap->size);
+-    if (!bitmap->data) {
+-        ret = -ENOMEM;
+-        goto unmap_exit;
+-    }
+-
+     ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
+     if (!ret) {
+-        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
+-                iotlb->translated_addr, pages);
++        cpu_physical_memory_set_dirty_lebitmap(vbmap.bitmap,
++                iotlb->translated_addr, vbmap.pages);
+     } else {
+         error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
      }
- out:
-@@ -1259,7 +1275,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
-     }
+ 
+-    g_free(bitmap->data);
+ unmap_exit:
+     g_free(unmap);
++    g_free(vbmap.bitmap);
++
+     return ret;
  }
  
--static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
-+static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+@@ -1329,7 +1346,7 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
  {
+     struct vfio_iommu_type1_dirty_bitmap *dbitmap;
+     struct vfio_iommu_type1_dirty_bitmap_get *range;
+-    uint64_t pages;
++    VFIOBitmap vbmap;
      int ret;
-     struct vfio_iommu_type1_dirty_bitmap dirty = {
-@@ -1267,7 +1283,7 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
-     };
  
      if (!container->dirty_pages_supported) {
--        return;
-+        return 0;
+@@ -1339,6 +1356,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+         return 0;
      }
  
-     if (start) {
-@@ -1278,23 +1294,34 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
- 
-     ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
-     if (ret) {
-+        ret = -errno;
-         error_report("Failed to set dirty tracking flag 0x%x errno: %d",
-                      dirty.flags, errno);
-     }
++    ret = vfio_bitmap_alloc(&vbmap, size);
++    if (ret) {
++        return ret;
++    }
 +
-+    return ret;
- }
+     dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
  
- static void vfio_listener_log_global_start(MemoryListener *listener)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+    int ret;
- 
--    vfio_set_dirty_page_tracking(container, true);
-+    ret = vfio_set_dirty_page_tracking(container, true);
-+    if (ret) {
-+        vfio_set_migration_error(ret);
-+    }
- }
- 
- static void vfio_listener_log_global_stop(MemoryListener *listener)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+    int ret;
- 
--    vfio_set_dirty_page_tracking(container, false);
-+    ret = vfio_set_dirty_page_tracking(container, false);
-+    if (ret) {
-+        vfio_set_migration_error(ret);
-+    }
- }
- 
- static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-@@ -1370,19 +1397,18 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-     VFIOContainer *container = giommu->container;
-     hwaddr iova = iotlb->iova + giommu->iommu_offset;
-     ram_addr_t translated_addr;
-+    int ret = -EINVAL;
- 
-     trace_vfio_iommu_map_dirty_notify(iova, iova + iotlb->addr_mask);
- 
-     if (iotlb->target_as != &address_space_memory) {
-         error_report("Wrong target AS \"%s\", only system memory is allowed",
-                      iotlb->target_as->name ? iotlb->target_as->name : "none");
--        return;
-+        goto out;
-     }
- 
-     rcu_read_lock();
-     if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
--        int ret;
+     dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
+@@ -1353,15 +1375,8 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+      * to qemu_real_host_page_size.
+      */
+     range->bitmap.pgsize = qemu_real_host_page_size();
 -
-         ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
-                                     translated_addr);
-         if (ret) {
-@@ -1393,6 +1419,11 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-         }
+-    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size();
+-    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+-                                         BITS_PER_BYTE;
+-    range->bitmap.data = g_try_malloc0(range->bitmap.size);
+-    if (!range->bitmap.data) {
+-        ret = -ENOMEM;
+-        goto err_out;
+-    }
++    range->bitmap.size = vbmap.size;
++    range->bitmap.data = (__u64 *)vbmap.bitmap;
+ 
+     ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+     if (ret) {
+@@ -1372,14 +1387,14 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+         goto err_out;
      }
-     rcu_read_unlock();
-+
-+out:
-+    if (ret) {
-+        vfio_set_migration_error(ret);
-+    }
+ 
+-    cpu_physical_memory_set_dirty_lebitmap((unsigned long *)range->bitmap.data,
+-                                            ram_addr, pages);
++    cpu_physical_memory_set_dirty_lebitmap(vbmap.bitmap, ram_addr,
++                                           vbmap.pages);
+ 
+     trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
+                                 range->bitmap.size, ram_addr);
+ err_out:
+-    g_free(range->bitmap.data);
+     g_free(dbitmap);
++    g_free(vbmap.bitmap);
+ 
+     return ret;
  }
- 
- static int vfio_ram_discard_get_dirty_bitmap(MemoryRegionSection *section,
-@@ -1485,13 +1516,19 @@ static void vfio_listener_log_sync(MemoryListener *listener,
-         MemoryRegionSection *section)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+    int ret;
- 
-     if (vfio_listener_skipped_section(section)) {
-         return;
-     }
- 
-     if (vfio_devices_all_dirty_tracking(container)) {
--        vfio_sync_dirty_bitmap(container, section);
-+        ret = vfio_sync_dirty_bitmap(container, section);
-+        if (ret) {
-+            error_report("vfio: Failed to sync dirty bitmap, err: %d (%s)", ret,
-+                         strerror(-ret));
-+            vfio_set_migration_error(ret);
-+        }
-     }
- }
- 
 -- 
 2.17.2
 
