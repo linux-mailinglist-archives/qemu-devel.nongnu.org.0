@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8026AD81B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99E26AD812
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:13:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZRUV-0006zH-9H; Tue, 07 Mar 2023 02:12:07 -0500
+	id 1pZRUR-0006ma-Ss; Tue, 07 Mar 2023 02:12:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZRTn-0005nl-Qz
+ id 1pZRTo-0005nz-1C
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:11:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZRTm-0005ss-7y
+ id 1pZRTm-0005t4-8h
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:11:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1678173081;
@@ -24,33 +24,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BLatR455SQenKyYVpWh240L3nFv0DcBK5c+gRwnaS90=;
- b=bhiKQV8/W7NQahjZdRJv8TEZWWt3PbHfIuOhSJvy/gvU6Jq6SzAkquoIXk3VLPxhwxQeoz
- YvDMBCorOixTK5YHz1urq1X2Z5bGzUm17dw8JXP7Ca1QK/fnWxprnJ443Hxc6w63yh/hln
- c0c7o2OV7vauK5KDj1p+BhYEP5WBVgM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JcyiYnvGgawhqpXMi/hKtFZZl6mKyXeQycfGfT+K0ZQ=;
+ b=jLH6a5SAPZZdPaK6sLXRt6ImW5g40ldogdlwm6L28V27GapHNlP3PAh9Nd/m7++9yjHK6q
+ LFAeYTVA0X28PIgRZw+dLEVNw4LwOWJGRbLN3ZwAEigos/2ds7E1q47s1k49yp59zV78do
+ jCbOeCIuXDjmyq36xo2LZWJcN8z2Xuw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-2QLa0Ci8M82W98dJh4-tUg-1; Tue, 07 Mar 2023 02:11:17 -0500
-X-MC-Unique: 2QLa0Ci8M82W98dJh4-tUg-1
+ us-mta-613-q1kpXDBvPrKD7vJS7TzUjw-1; Tue, 07 Mar 2023 02:11:20 -0500
+X-MC-Unique: q1kpXDBvPrKD7vJS7TzUjw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6397B85A588;
- Tue,  7 Mar 2023 07:11:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07A0B1C08968;
+ Tue,  7 Mar 2023 07:11:20 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-78.pek2.redhat.com [10.72.12.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BE6440C10FA;
- Tue,  7 Mar 2023 07:11:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F82F40C10FA;
+ Tue,  7 Mar 2023 07:11:17 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 49/51] hw/net/eepro100: Remove instance
- EEPRO100State::has_extended_tcb_support
-Date: Tue,  7 Mar 2023 15:08:14 +0800
-Message-Id: <20230307070816.34833-50-jasowang@redhat.com>
+Subject: [PULL 50/51] hw/net/eepro100: Remove instance's EEPRO100State::device
+Date: Tue,  7 Mar 2023 15:08:15 +0800
+Message-Id: <20230307070816.34833-51-jasowang@redhat.com>
 In-Reply-To: <20230307070816.34833-1-jasowang@redhat.com>
 References: <20230307070816.34833-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -83,54 +82,71 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-'has_extended_tcb_support' is accessed read-only and is present
-in the class definition. No need to duplicate it in the instance
-state. Directly access the class field.
+'device' is accessed read-only and is present in the class
+definition. No need to duplicate it in the instance state.
+Directly access the class field.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/eepro100.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/net/eepro100.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index ab20558..d775790 100644
+index d775790..bce3776 100644
 --- a/hw/net/eepro100.c
 +++ b/hw/net/eepro100.c
-@@ -292,7 +292,6 @@ struct EEPRO100State {
+@@ -263,7 +263,6 @@ struct EEPRO100State {
+     /* region must not be saved by nic_save. */
+     uint16_t mdimem[32];
+     eeprom_t *eeprom;
+-    uint32_t device;            /* device variant */
+     /* (cu_base + cu_offset) address the next command block in the command block list. */
+     uint32_t cu_base;           /* CU base address */
+     uint32_t cu_offset;         /* CU address offset */
+@@ -591,6 +590,9 @@ static void e100_pci_reset(DeviceState *dev)
  
-     /* Quasi static device properties (no need to save them). */
-     uint16_t stats_size;
--    bool has_extended_tcb_support;
- };
- 
- /* Word indices in EEPROM. */
-@@ -511,7 +510,6 @@ static void e100_pci_reset(DeviceState *dev)
-     pci_set_byte(pci_conf + PCI_MAX_LAT, 0x18);
- 
-     s->stats_size = info->stats_size;
--    s->has_extended_tcb_support = info->has_extended_tcb_support;
- 
-     switch (device) {
-     case i82550:
-@@ -746,6 +744,8 @@ static void read_cb(EEPRO100State *s)
- 
- static void tx_command(EEPRO100State *s)
+ static void nic_selective_reset(EEPRO100State * s)
  {
 +    EEPRO100Class *ek = EEPRO100_GET_CLASS(s);
 +    const E100PCIDeviceInfo *info = ek->info;
-     const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     uint32_t tbd_array = s->tx.tbd_array_addr;
-     uint16_t tcb_bytes = s->tx.tcb_bytes & 0x3fff;
-@@ -782,7 +782,7 @@ static void tx_command(EEPRO100State *s)
-         uint16_t tx_buffer_size;
-         uint16_t tx_buffer_el;
++
+     size_t i;
+     uint16_t *eeprom_contents = eeprom93xx_data(s->eeprom);
+ #if 0
+@@ -598,8 +600,9 @@ static void nic_selective_reset(EEPRO100State * s)
+ #endif
+     memcpy(eeprom_contents, s->conf.macaddr.a, 6);
+     eeprom_contents[EEPROM_ID] = EEPROM_ID_VALID;
+-    if (s->device == i82557B || s->device == i82557C)
++    if (info->device == i82557B || info->device == i82557C) {
+         eeprom_contents[5] = 0x0100;
++    }
+     eeprom_contents[EEPROM_PHY_ID] = 1;
+     uint16_t sum = 0;
+     for (i = 0; i < EEPROM_SIZE - 1; i++) {
+@@ -1794,7 +1797,7 @@ static const VMStateDescription vmstate_eepro100 = {
+         VMSTATE_UNUSED(19*4),
+         VMSTATE_UINT16_ARRAY(mdimem, EEPRO100State, 32),
+         /* The eeprom should be saved and restored by its own routines. */
+-        VMSTATE_UINT32(device, EEPRO100State),
++        VMSTATE_UNUSED(sizeof(uint32_t)), /* was device variant */
+         /* TODO check device. */
+         VMSTATE_UINT32(cu_base, EEPRO100State),
+         VMSTATE_UINT32(cu_offset, EEPRO100State),
+@@ -1848,12 +1851,9 @@ static NetClientInfo net_eepro100_info = {
+ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
+-    EEPRO100Class *ek = EEPRO100_GET_CLASS(s);
  
--        if (s->has_extended_tcb_support && !(s->configuration[6] & BIT(4))) {
-+        if (info->has_extended_tcb_support && !(s->configuration[6] & BIT(4))) {
-             /* Extended Flexible TCB. */
-             for (; tbd_count < 2; tbd_count++) {
-                 ldl_le_pci_dma(&s->dev, tbd_address, &tx_buffer_address, attrs);
+     TRACE(OTHER, logout("\n"));
+ 
+-    s->device = ek->info->device;
+-
+     /* Add 64 * 2 EEPROM. i82557 and i82558 support a 64 word EEPROM,
+      * i82559 and later support 64 or 256 word EEPROM. */
+     s->eeprom = eeprom93xx_new(&pci_dev->qdev, EEPROM_SIZE);
 -- 
 2.7.4
 
