@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AEF6AE0FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3AB6AE10B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:47:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXcP-0007nj-Nj; Tue, 07 Mar 2023 08:44:41 -0500
+	id 1pZXeR-0000Pm-RS; Tue, 07 Mar 2023 08:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pZXcN-0007nC-Gx
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:44:39 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZXeP-0000P7-Dj
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:46:45 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pZXcL-0006O5-Qr
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:44:39 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZXeM-0006mC-70
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:46:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678196673;
+ s=mimecast20190719; t=1678196801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dmiQHpWKfZyLhC5SVl0VMC30MyvCnk/7F+JlRSX6IZ0=;
- b=TxH8P045fb028t9Cl9KOU86AYENGZMVC2HDfF5XAJKKO7/wRd5rWmyfV8/bt3PQMI4xFTa
- iHNBcDcBjk8binvIzhJsX6McpZ0JiMURAh2IjCvDGWgNcF2chEZyrMrP8zy9IZl9EbBHXO
- 88C7bnG+LwN1l6edsH0pbhAo4Rw4mBM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-581-D1U0RYS9MBCsjP7irAAc3A-1; Tue, 07 Mar 2023 08:44:31 -0500
-X-MC-Unique: D1U0RYS9MBCsjP7irAAc3A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- ee15-20020a056402290f00b004f059728d91so1991220edb.23
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:44:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678196671;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dmiQHpWKfZyLhC5SVl0VMC30MyvCnk/7F+JlRSX6IZ0=;
- b=khsWB4JWTNRWjoisQWqvZhTAbi518Eh+TWErf6dgHQE1iOy1yUiBMOnvN6iuT9vBHU
- ewp3v88dvZ30jFoa08AP9rtCMzRkrnPRkfMN+XiSI4DLaQElTVm1NXLpLFWcSF29q9gm
- w0rdF3PszU3WF8Uw0ki2EAE8mKPXPLZ4C0QbJVzsztFGMa45wVcOZpuMpCgZgC2L25zg
- kb3Z5fP3j8iRTTp45bedxgBEHjqEgOoHLFWa+K+iq8BOPiRWFW7D4BrP0fpTTx41uUaP
- jiOQh5vAv4sOEfB7XXpUUzQey73Tyhm3cF2YkicENrPngio2Y6dVJxg7JU1Z6e0yuags
- dg9Q==
-X-Gm-Message-State: AO0yUKU0w9KgaHEWAMBPSkCWwJdsyvHIkN4yH/pYLzOqLcEBy2bBrTPt
- RmLjTL5Lxr6h3Ad4PTZ2/5GZaiFRGBWG2yFgZUG5lItRsUF1cWLDS0N/73T2QXoG/eMDNDXgfq8
- lZnauc1d6j+DlKfo=
-X-Received: by 2002:a17:907:961c:b0:8b1:811e:cd30 with SMTP id
- gb28-20020a170907961c00b008b1811ecd30mr18455616ejc.22.1678196670815; 
- Tue, 07 Mar 2023 05:44:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set9v9uFbT1blvcyGBi/2zVQsCSG9jPURmeS3XNCJUaX+6+dHBBdESdxFYfOqMP5Pn3ET4mX7gw==
-X-Received: by 2002:a17:907:961c:b0:8b1:811e:cd30 with SMTP id
- gb28-20020a170907961c00b008b1811ecd30mr18455593ejc.22.1678196670529; 
- Tue, 07 Mar 2023 05:44:30 -0800 (PST)
-Received: from ?IPV6:2003:cf:d729:7d22:58d:9cdf:192f:c786?
- (p200300cfd7297d22058d9cdf192fc786.dip0.t-ipconnect.de.
- [2003:cf:d729:7d22:58d:9cdf:192f:c786])
- by smtp.gmail.com with ESMTPSA id
- u7-20020a50d507000000b004acc6cbc451sm6780774edi.36.2023.03.07.05.44.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:44:30 -0800 (PST)
-Message-ID: <97638730-0dfa-918b-3c66-7874171b3e5c@redhat.com>
-Date: Tue, 7 Mar 2023 14:44:29 +0100
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W25gsiAZTv46K/qWyVTuM0ZKdgOwwr2gwSjPjYN7X74=;
+ b=i0qZUo1nTx6usEYyTHpRXYjFZ4pnIa0XKL9qjANwbbk+McIdmQ3GTUBMagZRe4kV5B0nDL
+ oGSya7+p0g7jRIMi/ggy8/sNh6+zz7NH7zCg1ZQUeVec631T4aeOw6LcK0niLWct/vxMRW
+ DTVTZabUK3YTOR9skESPd5sIbBrPUKc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-29-S69cLu6iMUSRdQXzR6CqXA-1; Tue, 07 Mar 2023 08:46:39 -0500
+X-MC-Unique: S69cLu6iMUSRdQXzR6CqXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66210196EF89;
+ Tue,  7 Mar 2023 13:46:39 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE31D4010E7B;
+ Tue,  7 Mar 2023 13:46:38 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL v2 00/13] Final tests,
+ s390x and misc updates before the soft freeze
+Date: Tue,  7 Mar 2023 14:46:31 +0100
+Message-Id: <20230307134631.571908-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Deadlock with ide_issue_trim and draining
-Content-Language: en-US
-To: Fiona Ebner <f.ebner@proxmox.com>, QEMU Developers <qemu-devel@nongnu.org>
-Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <1e3813b6-f2d0-9bd5-a270-e5835c13b495@proxmox.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <1e3813b6-f2d0-9bd5-a270-e5835c13b495@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,62 +74,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07.03.23 13:22, Fiona Ebner wrote:
-> Hi,
-> I am suspecting that commit 7e5cdb345f ("ide: Increment BB in-flight
-> counter for TRIM BH") introduced an issue in combination with draining.
->
->  From a debug session on a costumer's machine I gathered the following
-> information:
-> * The QEMU process hangs in aio_poll called during draining and doesn't
-> progress.
-> * The in_flight counter for the BlockDriverState is 0 and for the
-> BlockBackend it is 1.
-> * There is a blk_aio_pdiscard_entry request in the BlockBackend's
-> queued_requests.
-> * The drive is attached via ahci.
->
-> I suspect that something like the following happened:
->
-> 1. ide_issue_trim is called, and increments the in_flight counter.
-> 2. ide_issue_trim_cb calls blk_aio_pdiscard.
-> 3. somebody else starts draining.
-> 4. ide_issue_trim_cb is called as the completion callback for
-> blk_aio_pdiscard.
-> 5. ide_issue_trim_cb issues yet another blk_aio_pdiscard request.
-> 6. The request is added to the wait queue via blk_wait_while_drained,
-> because draining has been started.
-> 7. Nobody ever decrements the in_flight counter and draining can't finish.
+ Hi Peter!
 
-Sounds about right.
+The following changes since commit c29a2f40cd5d1fdad4632b48343cd968db041a44:
 
-> The issue occurs very rarely and is difficult to reproduce, but with the
-> help of GDB, I'm able to do it rather reliably:
-> 1. Use GDB to break on blk_aio_pdiscard.
-> 2. Run mkfs.ext4 on a huge disk in the guest.
-> 3. Issue a drive-backup QMP command after landing on the breakpoint.
-> 4. Continue a few times in GDB.
-> 5. After that I can observe the same situation as described above.
->
-> I'd be happy about suggestions for how to fix it. Unfortunately, I don't
-> see a clear-cut way at the moment. The only idea I have right now is to
-> change the code to issue all discard requests at the same time, but I
-> fear there might pitfalls with that?
+  Merge tag 'pull-target-arm-20230306' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-03-07 09:58:43 +0000)
 
-The point of 7e5cdb345f was that we need any in-flight count to 
-accompany a set s->bus->dma->aiocb.  While blk_aio_pdiscard() is 
-happening, we don’t necessarily need another count.  But we do need it 
-while there is no blk_aio_pdiscard().
+are available in the Git repository at:
 
-ide_issue_trim_cb() returns in two cases (and, recursively through its 
-callers, leaves s->bus->dma->aiocb set):
-1. After calling blk_aio_pdiscard(), which will keep an in-flight count,
-2. After calling replay_bh_schedule_event() (i.e. qemu_bh_schedule()), 
-which does not keep an in-flight count.
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-07
 
-Perhaps we just need to move the blk_inc_in_flight() above the 
-replay_bh_schedule_event() call?
+for you to fetch changes up to 7687cd2b99454bd289c8854eec2653cb855cad67:
 
-Hanna
+  pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix (2023-03-07 14:30:43 +0100)
+
+----------------------------------------------------------------
+* Refine the distro support policy
+* Deprecate 32-bit x86 and arm hosts for system emulation
+* Check bison version to be >= 3.0
+* Compile vnc test only if vnc is really enabled
+* Check docs/config/ich9-ehci-uhci.cfg via the readconfig-test
+* s390x: Add support for list-directed IPL from ECKD DASD
+
+----------------------------------------------------------------
+
+v2: Dropped the readconfig patches that caused trouble in the CI
+
+Jared Rossi (1):
+      pc-bios: Add support for List-Directed IPL from ECKD DASD
+
+Juan Quintela (1):
+      test: Check vnc enable before compiling vnc test
+
+Matheus Tavares Bernardino (1):
+      Hexagon (meson.build): define min bison version
+
+Thomas Huth (10):
+      docs/about/build-platforms: Refine the distro support policy
+      include/hw/i386: Clean up includes in x86.h
+      docs/about/deprecated: Deprecate 32-bit x86 hosts for system emulation
+      gitlab-ci.d/crossbuilds: Drop the i386 system emulation job
+      docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation
+      gitlab-ci.d/crossbuilds: Drop the 32-bit arm system emulation jobs
+      tests/qtest/readconfig: Rework test_object_rng_resp into a generic function
+      tests/qtest/readconfig: Test docs/config/ich9-ehci-uhci.cfg
+      docs/config: Set the "kvm" accelerator via "[accel]" section
+      pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix
+
+ docs/about/build-platforms.rst       |   3 +-
+ docs/about/deprecated.rst            |  20 +++++
+ docs/config/mach-virt-graphical.cfg  |   4 +-
+ docs/config/mach-virt-serial.cfg     |   4 +-
+ docs/config/q35-emulated.cfg         |   2 +
+ docs/config/q35-virtio-graphical.cfg |   2 +
+ docs/config/q35-virtio-serial.cfg    |   2 +
+ configure                            |   1 +
+ include/hw/i386/x86.h                |   2 -
+ pc-bios/s390-ccw/bootmap.h           |  30 ++++++-
+ pc-bios/s390-ccw/bootmap.c           | 157 +++++++++++++++++++++++++++--------
+ tests/qtest/readconfig-test.c        |  36 ++++++--
+ .gitlab-ci.d/crossbuilds.yml         |  24 ------
+ pc-bios/s390-ccw.img                 | Bin 42608 -> 42608 bytes
+ target/hexagon/meson.build           |   2 +-
+ tests/qtest/meson.build              |  10 ++-
+ 16 files changed, 219 insertions(+), 80 deletions(-)
 
 
