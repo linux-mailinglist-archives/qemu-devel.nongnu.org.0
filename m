@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CCC6AEDAD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7856AEDB8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:06:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbe2-0002k8-Uy; Tue, 07 Mar 2023 13:02:38 -0500
+	id 1pZbe2-0002fa-B1; Tue, 07 Mar 2023 13:02:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbdz-0002Tz-Sa
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:35 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pZbdy-0002ET-3J
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:34 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbdx-00016l-Ha
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:35 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u5so15000676plq.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:33 -0800 (PST)
+ id 1pZbdw-000140-8G
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:33 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so17336562pjg.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678212152;
+ d=linaro.org; s=google; t=1678212151;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZGdssTM5FFStDTk3qaptWiJPUcWyzQtJiakVLNRJBj0=;
- b=Tu3HQQEQIcWTc3vBxn+HloKvI7UFsJUCSkVdTOf2lNz+AkbujhsWy8clxFq8Cil992
- 0k52QNo9Awyfl0RLrGvSQB0rkor8FzWdSaG9nNjV+mfRjSaPQd5owM1U1KtesR8LM2pC
- zadKrjVn5MiUs21efxyrjHx10bY33Q4LL1vcW0SAe+VSxLTXwng4ctBBJuzSY4J+PaDW
- su9C/YLpP2fhuehyAiqPRrIyWEGzVf2PGARAZUjGwBC3NnUJKqlyNq4RJN7NoIYhZ1WD
- OeTUBg/vu1EiH3YrHQ9mdSs2oyniBWRBc7F1+Wnr6a1y5+dnNOeELVmDEKEXhP1JFmNb
- Au7A==
+ bh=HqVYTGWT7jeQfdWYdhIL5u6To2oyL4lphfw9D9/1xXA=;
+ b=orErRXQlSKyjl7CqloHs/lubCy6ze1a29pVvI7b02zk5TRDYqACj1qWHR3C7eDRZx5
+ J2/L/yB27coaXZOcHERdvRR5DL31vPQNco1P2DP/TvcTEtRuWHl+5uSblrUDjnPqghWH
+ kgYaa8Cc+Uhv83dK0bn9CtwyobVDuYsO5jusvEOIy50A2MkPtM1QtTL/AYLVf8LLW+0o
+ d3s1KVaGAsr0oLLfXKeiQgSw4sgcR6bc0L0NYHNj8x0z9cmCQ583ng9NR+JicIJwzXiH
+ Cma+dtderHE0oHPpJMeixr9fYh+IrXpZUKpvLoysjoHcUBxMqqdt1PJ4VHn9kpLklzO1
+ R8Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678212152;
+ d=1e100.net; s=20210112; t=1678212151;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZGdssTM5FFStDTk3qaptWiJPUcWyzQtJiakVLNRJBj0=;
- b=n2iOcHPgZQYSWDdK/QG0fRO7dF8Yk37oruOuKFzu7HWB7vBgOLQTojP5UW7+DHDjP0
- XP7nVKGgLl6nnaGo/uKN1090Fr+hLoQ6496ix+CPBZk3GYSdk8+E8P65OUFpWwLb/XOr
- Xk32gkpXK75sYcU744F4GJ6QDXPcjBTYo7BHJH/uKiXovMtV4hwmhH7BanhYGcAE2rt5
- kFd5PqW56l0YTbJWIclgn7mpHP1Z8YEiIkT0MoSJFFJjE45zLnGnY2L+AOpJLkB+jARb
- 45SaoV4ExuBnwQSHIoGLamXVw9IhHVQAczLPKxMYFR24heCimiAN2NCIHRPuCwjMRxkE
- CqIg==
-X-Gm-Message-State: AO0yUKX9ytLs72Y+dUEQofBA0O90WFQ8ON/t6us6THfAgGLyp+/ZZpid
- PbRe/E7jYRu3X048xMN9Le3vMnXitIPgKIRys1o=
-X-Google-Smtp-Source: AK7set++Dfq5+1zXU2Tfho4I4zshcYNzvUwiztMiwjax+kCOPKTS/HQ5pEWBAGmMXoDxIkIZHLP+eA==
-X-Received: by 2002:a17:902:7c8e:b0:19e:2860:3ae8 with SMTP id
- y14-20020a1709027c8e00b0019e28603ae8mr13881518pll.33.1678212150464; 
- Tue, 07 Mar 2023 10:02:30 -0800 (PST)
+ bh=HqVYTGWT7jeQfdWYdhIL5u6To2oyL4lphfw9D9/1xXA=;
+ b=xSTMVqqup7n/t+kUCDKZudr9Mk9gU4ES0LjXCT1+eglrubGnuLf1EaTOH2k+VlvUkE
+ 0H5SWf0EmbHOp8sFSGZhHo/ntFWSCffNXAcdLAPOdUKDyLf854mw2H5ZgAoWN4+70b7X
+ bOxOAwgGAz/DWnuO3zzx/iAqaPlnYslgRfP++tyQqnqtQNSME/AF+qlJswp3j0j/Jj42
+ W50jv/wYyIvp6yTYBxQZ4jZRA36dM1XViymAVV4vB9TnOyWoD8rovqQSzwAu8AsL3z9v
+ O+jd35Gk8N7L10TgV/KRvHxoPueoCAlj8oxXLxx8urs6EgA72wTZ5wnAAZZVl35O1s0l
+ uHzQ==
+X-Gm-Message-State: AO0yUKW2l5+wsW0XSpMPwkmqTlvJlKqBIGM3r9xrX1bEqC48CPqPLphM
+ R3Or8aXGkTsJ/Zghq9lpRaeS6F/4VqqoC+LDx6E=
+X-Google-Smtp-Source: AK7set99iNAc4SoKX83yxrv0A+cA5bvBk+nnBnh9w1kD7p94/nVIG7D7nJgNu28onA14Fjyy10SwWg==
+X-Received: by 2002:a05:6a20:3d05:b0:cd:9da2:ebed with SMTP id
+ y5-20020a056a203d0500b000cd9da2ebedmr19051042pzi.43.1678212151370; 
+ Tue, 07 Mar 2023 10:02:31 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.29
+ z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:02:30 -0800 (PST)
+ Tue, 07 Mar 2023 10:02:31 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 51/67] target/mips: Avoid tcg_const_* throughout
-Date: Tue,  7 Mar 2023 09:58:32 -0800
-Message-Id: <20230307175848.2508955-52-richard.henderson@linaro.org>
+Subject: [PULL 52/67] target/ppc: Split out gen_vx_vmul10
+Date: Tue,  7 Mar 2023 09:58:33 -0800
+Message-Id: <20230307175848.2508955-53-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307175848.2508955-1-richard.henderson@linaro.org>
 References: <20230307175848.2508955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,322 +93,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All remaining uses are strictly read-only.
+Move the body out of this large macro.
+Use tcg_constant_i64.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/mxu_translate.c           |  4 +-
- target/mips/tcg/translate.c               | 56 +++++++++++------------
- target/mips/tcg/tx79_translate.c          |  4 +-
- target/mips/tcg/micromips_translate.c.inc |  4 +-
- target/mips/tcg/nanomips_translate.c.inc  | 16 ++++---
- 5 files changed, 43 insertions(+), 41 deletions(-)
+ target/ppc/translate/vmx-impl.c.inc | 95 +++++++++++++++--------------
+ 1 file changed, 49 insertions(+), 46 deletions(-)
 
-diff --git a/target/mips/tcg/mxu_translate.c b/target/mips/tcg/mxu_translate.c
-index 8703b0cef4..bdd20709c0 100644
---- a/target/mips/tcg/mxu_translate.c
-+++ b/target/mips/tcg/mxu_translate.c
-@@ -1072,7 +1072,7 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
-         uint32_t XRx = XRb ? XRb : XRc;
-         /* ...and do half-word-wise max/min with one operand 0 */
-         TCGv_i32 t0 = tcg_temp_new();
--        TCGv_i32 t1 = tcg_const_i32(0);
-+        TCGv_i32 t1 = tcg_constant_i32(0);
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 05ba9c9492..ee656d6a44 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -171,53 +171,56 @@ static void gen_mtvscr(DisasContext *ctx)
+     gen_helper_mtvscr(cpu_env, val);
+ }
  
-         /* the left half-word first */
-         tcg_gen_andi_i32(t0, mxu_gpr[XRx - 1], 0xFFFF0000);
-@@ -1163,7 +1163,7 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
-         uint32_t XRx = XRb ? XRb : XRc;
-         /* ...and do byte-wise max/min with one operand 0 */
-         TCGv_i32 t0 = tcg_temp_new();
--        TCGv_i32 t1 = tcg_const_i32(0);
-+        TCGv_i32 t1 = tcg_constant_i32(0);
-         int32_t i;
++static void gen_vx_vmul10(DisasContext *ctx, bool add_cin, bool ret_carry)
++{
++    TCGv_i64 t0;
++    TCGv_i64 t1;
++    TCGv_i64 t2;
++    TCGv_i64 avr;
++    TCGv_i64 ten, z;
++
++    if (unlikely(!ctx->altivec_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_VPU);
++        return;
++    }
++
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
++    t2 = tcg_temp_new_i64();
++    avr = tcg_temp_new_i64();
++    ten = tcg_constant_i64(10);
++    z = tcg_constant_i64(0);
++
++    if (add_cin) {
++        get_avr64(avr, rA(ctx->opcode), false);
++        tcg_gen_mulu2_i64(t0, t1, avr, ten);
++        get_avr64(avr, rB(ctx->opcode), false);
++        tcg_gen_andi_i64(t2, avr, 0xF);
++        tcg_gen_add2_i64(avr, t2, t0, t1, t2, z);
++        set_avr64(rD(ctx->opcode), avr, false);
++    } else {
++        get_avr64(avr, rA(ctx->opcode), false);
++        tcg_gen_mulu2_i64(avr, t2, avr, ten);
++        set_avr64(rD(ctx->opcode), avr, false);
++    }
++
++    if (ret_carry) {
++        get_avr64(avr, rA(ctx->opcode), true);
++        tcg_gen_mulu2_i64(t0, t1, avr, ten);
++        tcg_gen_add2_i64(t0, avr, t0, t1, t2, z);
++        set_avr64(rD(ctx->opcode), avr, false);
++        set_avr64(rD(ctx->opcode), z, true);
++    } else {
++        get_avr64(avr, rA(ctx->opcode), true);
++        tcg_gen_mul_i64(t0, avr, ten);
++        tcg_gen_add_i64(avr, t0, t2);
++        set_avr64(rD(ctx->opcode), avr, true);
++    }
++}
++
+ #define GEN_VX_VMUL10(name, add_cin, ret_carry)                         \
+-static void glue(gen_, name)(DisasContext *ctx)                         \
+-{                                                                       \
+-    TCGv_i64 t0;                                                        \
+-    TCGv_i64 t1;                                                        \
+-    TCGv_i64 t2;                                                        \
+-    TCGv_i64 avr;                                                       \
+-    TCGv_i64 ten, z;                                                    \
+-                                                                        \
+-    if (unlikely(!ctx->altivec_enabled)) {                              \
+-        gen_exception(ctx, POWERPC_EXCP_VPU);                           \
+-        return;                                                         \
+-    }                                                                   \
+-                                                                        \
+-    t0 = tcg_temp_new_i64();                                            \
+-    t1 = tcg_temp_new_i64();                                            \
+-    t2 = tcg_temp_new_i64();                                            \
+-    avr = tcg_temp_new_i64();                                           \
+-    ten = tcg_const_i64(10);                                            \
+-    z = tcg_const_i64(0);                                               \
+-                                                                        \
+-    if (add_cin) {                                                      \
+-        get_avr64(avr, rA(ctx->opcode), false);                         \
+-        tcg_gen_mulu2_i64(t0, t1, avr, ten);                            \
+-        get_avr64(avr, rB(ctx->opcode), false);                         \
+-        tcg_gen_andi_i64(t2, avr, 0xF);                                 \
+-        tcg_gen_add2_i64(avr, t2, t0, t1, t2, z);                       \
+-        set_avr64(rD(ctx->opcode), avr, false);                         \
+-    } else {                                                            \
+-        get_avr64(avr, rA(ctx->opcode), false);                         \
+-        tcg_gen_mulu2_i64(avr, t2, avr, ten);                           \
+-        set_avr64(rD(ctx->opcode), avr, false);                         \
+-    }                                                                   \
+-                                                                        \
+-    if (ret_carry) {                                                    \
+-        get_avr64(avr, rA(ctx->opcode), true);                          \
+-        tcg_gen_mulu2_i64(t0, t1, avr, ten);                            \
+-        tcg_gen_add2_i64(t0, avr, t0, t1, t2, z);                       \
+-        set_avr64(rD(ctx->opcode), avr, false);                         \
+-        set_avr64(rD(ctx->opcode), z, true);                            \
+-    } else {                                                            \
+-        get_avr64(avr, rA(ctx->opcode), true);                          \
+-        tcg_gen_mul_i64(t0, avr, ten);                                  \
+-        tcg_gen_add_i64(avr, t0, t2);                                   \
+-        set_avr64(rD(ctx->opcode), avr, true);                          \
+-    }                                                                   \
+-}                                                                       \
++    static void glue(gen_, name)(DisasContext *ctx)                     \
++    { gen_vx_vmul10(ctx, add_cin, ret_carry); }
  
-         /* the leftmost byte (byte 3) first */
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index bec0a26c83..7f1f12e0c7 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -2099,14 +2099,14 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-         gen_store_gpr(t1, rt);
-         break;
-     case OPC_LDPC:
--        t1 = tcg_const_tl(pc_relative_pc(ctx));
-+        t1 = tcg_constant_tl(pc_relative_pc(ctx));
-         gen_op_addr_add(ctx, t0, t0, t1);
-         tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEUQ);
-         gen_store_gpr(t0, rt);
-         break;
- #endif
-     case OPC_LWPC:
--        t1 = tcg_const_tl(pc_relative_pc(ctx));
-+        t1 = tcg_constant_tl(pc_relative_pc(ctx));
-         gen_op_addr_add(ctx, t0, t0, t1);
-         tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TESL);
-         gen_store_gpr(t0, rt);
-@@ -2733,7 +2733,7 @@ static void gen_cond_move(DisasContext *ctx, uint32_t opc,
- 
-     t0 = tcg_temp_new();
-     gen_load_gpr(t0, rt);
--    t1 = tcg_const_tl(0);
-+    t1 = tcg_constant_tl(0);
-     t2 = tcg_temp_new();
-     gen_load_gpr(t2, rs);
-     switch (opc) {
-@@ -3084,8 +3084,8 @@ static void gen_r6_muldiv(DisasContext *ctx, int opc, int rd, int rs, int rt)
-         break;
-     case R6_OPC_DIVU:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_ext32u_tl(t0, t0);
-             tcg_gen_ext32u_tl(t1, t1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-@@ -3095,8 +3095,8 @@ static void gen_r6_muldiv(DisasContext *ctx, int opc, int rd, int rs, int rt)
-         break;
-     case R6_OPC_MODU:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_ext32u_tl(t0, t0);
-             tcg_gen_ext32u_tl(t1, t1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-@@ -3175,16 +3175,16 @@ static void gen_r6_muldiv(DisasContext *ctx, int opc, int rd, int rs, int rt)
-         break;
-     case R6_OPC_DDIVU:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-             tcg_gen_divu_i64(cpu_gpr[rd], t0, t1);
-         }
-         break;
-     case R6_OPC_DMODU:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-             tcg_gen_remu_i64(cpu_gpr[rd], t0, t1);
-         }
-@@ -3248,8 +3248,8 @@ static void gen_div1_tx79(DisasContext *ctx, uint32_t opc, int rs, int rt)
-         break;
-     case MMI_OPC_DIVU1:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_ext32u_tl(t0, t0);
-             tcg_gen_ext32u_tl(t1, t1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-@@ -3304,8 +3304,8 @@ static void gen_muldiv(DisasContext *ctx, uint32_t opc,
-         break;
-     case OPC_DIVU:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_ext32u_tl(t0, t0);
-             tcg_gen_ext32u_tl(t1, t1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-@@ -3355,8 +3355,8 @@ static void gen_muldiv(DisasContext *ctx, uint32_t opc,
-         break;
-     case OPC_DDIVU:
-         {
--            TCGv t2 = tcg_const_tl(0);
--            TCGv t3 = tcg_const_tl(1);
-+            TCGv t2 = tcg_constant_tl(0);
-+            TCGv t3 = tcg_constant_tl(1);
-             tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-             tcg_gen_divu_i64(cpu_LO[acc], t0, t1);
-             tcg_gen_remu_i64(cpu_HI[acc], t0, t1);
-@@ -4908,7 +4908,7 @@ static void gen_bshfl(DisasContext *ctx, uint32_t op2, int rt, int rd)
-     case OPC_WSBH:
-         {
-             TCGv t1 = tcg_temp_new();
--            TCGv t2 = tcg_const_tl(0x00FF00FF);
-+            TCGv t2 = tcg_constant_tl(0x00FF00FF);
- 
-             tcg_gen_shri_tl(t1, t0, 8);
-             tcg_gen_and_tl(t1, t1, t2);
-@@ -4928,7 +4928,7 @@ static void gen_bshfl(DisasContext *ctx, uint32_t op2, int rt, int rd)
-     case OPC_DSBH:
-         {
-             TCGv t1 = tcg_temp_new();
--            TCGv t2 = tcg_const_tl(0x00FF00FF00FF00FFULL);
-+            TCGv t2 = tcg_constant_tl(0x00FF00FF00FF00FFULL);
- 
-             tcg_gen_shri_tl(t1, t0, 8);
-             tcg_gen_and_tl(t1, t1, t2);
-@@ -4940,7 +4940,7 @@ static void gen_bshfl(DisasContext *ctx, uint32_t op2, int rt, int rd)
-     case OPC_DSHD:
-         {
-             TCGv t1 = tcg_temp_new();
--            TCGv t2 = tcg_const_tl(0x0000FFFF0000FFFFULL);
-+            TCGv t2 = tcg_constant_tl(0x0000FFFF0000FFFFULL);
- 
-             tcg_gen_shri_tl(t1, t0, 16);
-             tcg_gen_and_tl(t1, t1, t2);
-@@ -8451,7 +8451,7 @@ static void gen_mftr(CPUMIPSState *env, DisasContext *ctx, int rt, int rd,
-             case 5:
-             case 6:
-             case 7:
--                gen_helper_mftc0_configx(t0, cpu_env, tcg_const_tl(sel));
-+                gen_helper_mftc0_configx(t0, cpu_env, tcg_constant_tl(sel));
-                 break;
-             default:
-                 goto die;
-@@ -9477,7 +9477,7 @@ static inline void gen_movcf_ps(DisasContext *ctx, int fs, int fd,
- static void gen_sel_s(DisasContext *ctx, enum fopcode op1, int fd, int ft,
-                       int fs)
- {
--    TCGv_i32 t1 = tcg_const_i32(0);
-+    TCGv_i32 t1 = tcg_constant_i32(0);
-     TCGv_i32 fp0 = tcg_temp_new_i32();
-     TCGv_i32 fp1 = tcg_temp_new_i32();
-     TCGv_i32 fp2 = tcg_temp_new_i32();
-@@ -9510,7 +9510,7 @@ static void gen_sel_s(DisasContext *ctx, enum fopcode op1, int fd, int ft,
- static void gen_sel_d(DisasContext *ctx, enum fopcode op1, int fd, int ft,
-                       int fs)
- {
--    TCGv_i64 t1 = tcg_const_i64(0);
-+    TCGv_i64 t1 = tcg_constant_i64(0);
-     TCGv_i64 fp0 = tcg_temp_new_i64();
-     TCGv_i64 fp1 = tcg_temp_new_i64();
-     TCGv_i64 fp2 = tcg_temp_new_i64();
-@@ -11508,7 +11508,7 @@ void gen_addiupc(DisasContext *ctx, int rx, int imm,
- static void gen_cache_operation(DisasContext *ctx, uint32_t op, int base,
-                                 int16_t offset)
- {
--    TCGv_i32 t0 = tcg_const_i32(op);
-+    TCGv_i32 t0 = tcg_constant_i32(op);
-     TCGv t1 = tcg_temp_new();
-     gen_base_offset_addr(ctx, t1, base, offset);
-     gen_helper_cache(cpu_env, t1, t0);
-@@ -11852,7 +11852,7 @@ static void gen_mipsdsp_arith(DisasContext *ctx, uint32_t op1, uint32_t op2,
-         case OPC_PRECR_SRA_PH_W:
-             check_dsp_r2(ctx);
-             {
--                TCGv_i32 sa_t = tcg_const_i32(v2);
-+                TCGv_i32 sa_t = tcg_constant_i32(v2);
-                 gen_helper_precr_sra_ph_w(cpu_gpr[ret], sa_t, v1_t,
-                                           cpu_gpr[ret]);
-                 break;
-@@ -11860,7 +11860,7 @@ static void gen_mipsdsp_arith(DisasContext *ctx, uint32_t op1, uint32_t op2,
-         case OPC_PRECR_SRA_R_PH_W:
-             check_dsp_r2(ctx);
-             {
--                TCGv_i32 sa_t = tcg_const_i32(v2);
-+                TCGv_i32 sa_t = tcg_constant_i32(v2);
-                 gen_helper_precr_sra_r_ph_w(cpu_gpr[ret], sa_t, v1_t,
-                                             cpu_gpr[ret]);
-                 break;
-@@ -12049,14 +12049,14 @@ static void gen_mipsdsp_arith(DisasContext *ctx, uint32_t op1, uint32_t op2,
-         case OPC_PRECR_SRA_QH_PW:
-             check_dsp_r2(ctx);
-             {
--                TCGv_i32 ret_t = tcg_const_i32(ret);
-+                TCGv_i32 ret_t = tcg_constant_i32(ret);
-                 gen_helper_precr_sra_qh_pw(v2_t, v1_t, v2_t, ret_t);
-                 break;
-             }
-         case OPC_PRECR_SRA_R_QH_PW:
-             check_dsp_r2(ctx);
-             {
--                TCGv_i32 sa_v = tcg_const_i32(ret);
-+                TCGv_i32 sa_v = tcg_constant_i32(ret);
-                 gen_helper_precr_sra_r_qh_pw(v2_t, v1_t, v2_t, sa_v);
-                 break;
-             }
-diff --git a/target/mips/tcg/tx79_translate.c b/target/mips/tcg/tx79_translate.c
-index d46bc73972..3a45a1bfea 100644
---- a/target/mips/tcg/tx79_translate.c
-+++ b/target/mips/tcg/tx79_translate.c
-@@ -243,8 +243,8 @@ static bool trans_parallel_compare(DisasContext *ctx, arg_r *a,
-         return true;
-     }
- 
--    c0 = tcg_const_tl(0);
--    c1 = tcg_const_tl(0xffffffff);
-+    c0 = tcg_constant_tl(0);
-+    c1 = tcg_constant_tl(0xffffffff);
-     ax = tcg_temp_new_i64();
-     bx = tcg_temp_new_i64();
-     t0 = tcg_temp_new_i64();
-diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
-index 23f80d4315..e8b193aeda 100644
---- a/target/mips/tcg/micromips_translate.c.inc
-+++ b/target/mips/tcg/micromips_translate.c.inc
-@@ -704,8 +704,8 @@ static void gen_ldst_multiple(DisasContext *ctx, uint32_t opc, int reglist,
- 
-     gen_base_offset_addr(ctx, t0, base, offset);
- 
--    t1 = tcg_const_tl(reglist);
--    t2 = tcg_const_i32(ctx->mem_idx);
-+    t1 = tcg_constant_tl(reglist);
-+    t2 = tcg_constant_i32(ctx->mem_idx);
- 
-     save_cpu_state(ctx, 1);
-     switch (opc) {
-diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index b3df7fec40..9398e28000 100644
---- a/target/mips/tcg/nanomips_translate.c.inc
-+++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -3359,7 +3359,7 @@ static void gen_pool32a5_nanomips_insn(DisasContext *ctx, int opc,
-         case 0:
-             /* PRECR_SRA_PH_W */
-             {
--                TCGv_i32 sa_t = tcg_const_i32(rd);
-+                TCGv_i32 sa_t = tcg_constant_i32(rd);
-                 gen_helper_precr_sra_ph_w(v1_t, sa_t, v1_t,
-                                           cpu_gpr[rt]);
-                 gen_store_gpr(v1_t, rt);
-@@ -3368,7 +3368,7 @@ static void gen_pool32a5_nanomips_insn(DisasContext *ctx, int opc,
-         case 1:
-             /* PRECR_SRA_R_PH_W */
-             {
--                TCGv_i32 sa_t = tcg_const_i32(rd);
-+                TCGv_i32 sa_t = tcg_constant_i32(rd);
-                 gen_helper_precr_sra_r_ph_w(v1_t, sa_t, v1_t,
-                                             cpu_gpr[rt]);
-                 gen_store_gpr(v1_t, rt);
-@@ -3864,10 +3864,12 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-             check_nms(ctx);
-             if (rt != 0) {
-                 TCGv t0 = tcg_temp_new();
--                TCGv_i32 shift = tcg_const_i32(extract32(ctx->opcode, 0, 5));
--                TCGv_i32 shiftx = tcg_const_i32(extract32(ctx->opcode, 7, 4)
--                                                << 1);
--                TCGv_i32 stripe = tcg_const_i32(extract32(ctx->opcode, 6, 1));
-+                TCGv_i32 shift =
-+                    tcg_constant_i32(extract32(ctx->opcode, 0, 5));
-+                TCGv_i32 shiftx =
-+                    tcg_constant_i32(extract32(ctx->opcode, 7, 4) << 1);
-+                TCGv_i32 stripe =
-+                    tcg_constant_i32(extract32(ctx->opcode, 6, 1));
- 
-                 gen_load_gpr(t0, rs);
-                 gen_helper_rotx(cpu_gpr[rt], t0, shift, shiftx, stripe);
-@@ -4500,7 +4502,7 @@ static int decode_isa_nanomips(CPUMIPSState *env, DisasContext *ctx)
- 
-     /* make sure instructions are on a halfword boundary */
-     if (ctx->base.pc_next & 0x1) {
--        TCGv tmp = tcg_const_tl(ctx->base.pc_next);
-+        TCGv tmp = tcg_constant_tl(ctx->base.pc_next);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPUMIPSState, CP0_BadVAddr));
-         generate_exception_end(ctx, EXCP_AdEL);
-         return 2;
+ GEN_VX_VMUL10(vmul10uq, 0, 0);
+ GEN_VX_VMUL10(vmul10euq, 1, 0);
 -- 
 2.34.1
 
