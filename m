@@ -2,61 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F966AE435
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC516AE439
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:15:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZ0e-0001sJ-N8; Tue, 07 Mar 2023 10:13:48 -0500
+	id 1pZZ1a-0002YN-3m; Tue, 07 Mar 2023 10:14:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZZ0T-0001rr-3M; Tue, 07 Mar 2023 10:13:38 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZZ1X-0002X1-8d
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:14:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZZ0M-0008Ci-Oq; Tue, 07 Mar 2023 10:13:34 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4B8737457E7;
- Tue,  7 Mar 2023 16:13:13 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E5F79745720; Tue,  7 Mar 2023 16:13:12 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E3BC57456E3;
- Tue,  7 Mar 2023 16:13:12 +0100 (CET)
-Date: Tue, 7 Mar 2023 16:13:12 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Bernhard Beschow <shentey@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de, qemu-devel@nongnu.org, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v8 3/6] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <87cz5kr73v.fsf@linaro.org>
-Message-ID: <8868aae3-1d8e-0f14-0f76-614acaf0d746@eik.bme.hu>
-References: <cover.1678105081.git.balaton@eik.bme.hu>
- <23370610213adb60877c3751f954b203fe2fa775.1678105081.git.balaton@eik.bme.hu>
- <0ca8d3d3-2e42-a8c0-ed59-bc543e4149bd@ilande.co.uk>
- <3cbf9e02-5660-18dd-783b-9f9f09fe35bb@eik.bme.hu>
- <64b06dd7-4dbe-5f5b-3808-34acbf64b354@ilande.co.uk>
- <1ba22339-71f6-14a4-c138-05e31e169e0a@eik.bme.hu> <87cz5kr73v.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pZZ1V-0008Le-He
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:14:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678202078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=THHWHbOSSU+X6oUaQmIHY6uOAP6kggZVNFl6RTuqrPQ=;
+ b=cZ3B00gLC+xWUUFzwjE3KZQsa35gIOWbSM1e3tOD/W+gJ+tuG4algs60DAulFPg6r9D8Rn
+ 47XyY4xoC6W896441mAvmv+rfWTVr8WNmNjL9VIy70+zJz1ZnNsfdM4wiGczdQMDQExyzA
+ nRLyGSi5nRUzs95LjE6oZ+EUVFKmMQY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-593-wMa609MaM1ebJ0CzjC2Esg-1; Tue, 07 Mar 2023 10:14:24 -0500
+X-MC-Unique: wMa609MaM1ebJ0CzjC2Esg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ev6-20020a056402540600b004bc2358ac04so19581566edb.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:14:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678202048;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=THHWHbOSSU+X6oUaQmIHY6uOAP6kggZVNFl6RTuqrPQ=;
+ b=gP9dlcu7C3T6cy4JCKBrpYRtxhW43xQbDQLsfQFEN5/wo7utEJZ6VzX9zh6dkvbubf
+ zIPXdPfVdX2LHMfqTn65utJquQaCol/fnH7xmaqVetyROqqHvMAiAdDhS01EVeyqxOub
+ DMAyif3s5hYiEt9ot4NWopIcAajPdmKDpDKTcQr66K/ztVxBAf7zdpIe+CG4FNwHfjaB
+ 9AuNFUbde0i2HcoH/zEMHTKIbbZYXN9AwQ2+QjW+xR27Nn9ZGr8jgE442ZSDTZQFHQj3
+ h6sOltGG5sdMzj4aUDSA4JJjWbXrKcSJvg5Uhne3WNWK3YG+la07/sdidxqkX3NH82kR
+ 5mDQ==
+X-Gm-Message-State: AO0yUKX+gejMEiVwgxOvwnp+hdlefwW/lTnBIZKfBdzeiOCrKjY/XYXv
+ lwBwKe8uBsM/uotCmwGN64l8hGhZT/vmLbw6keyOTyJSrtOkuZRKQgeCxDBd51w1RDi0fPzIdhE
+ VtsTWhFBFJJ0E+sM=
+X-Received: by 2002:a17:907:a602:b0:8ae:e82a:3230 with SMTP id
+ vt2-20020a170907a60200b008aee82a3230mr15047234ejc.70.1678202048398; 
+ Tue, 07 Mar 2023 07:14:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set9M4FLh/6Kf5NEe8KgMBbpLT6WX0YRPLzAiylzXL4TzhSCK5J3mVyKLNjALdc9vvUUms06cHA==
+X-Received: by 2002:a17:907:a602:b0:8ae:e82a:3230 with SMTP id
+ vt2-20020a170907a60200b008aee82a3230mr15047210ejc.70.1678202048064; 
+ Tue, 07 Mar 2023 07:14:08 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:4783:a68:c1ee:15c5?
+ ([2001:b07:6468:f312:4783:a68:c1ee:15c5])
+ by smtp.googlemail.com with ESMTPSA id
+ bo19-20020a170906d05300b008cae50b0115sm6183570ejb.87.2023.03.07.07.14.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 07:14:07 -0800 (PST)
+Message-ID: <357c8c40-8b16-d53c-c453-b8cebe4a312f@redhat.com>
+Date: Tue, 7 Mar 2023 16:14:06 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-1092065267-1678200001=:65948"
-Content-ID: <eb70ee48-3273-f6d0-429d-3b56baed4151@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
+ <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
+ <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
+ <20220119041842-mutt-send-email-mst@kernel.org>
+ <20220222094021-mutt-send-email-mst@kernel.org>
+ <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
+ <20230220172659-mutt-send-email-mst@kernel.org>
+ <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
+ <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
+ <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
+ <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
+ <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
+ <e101b894-c722-8def-f591-20fada45795c@redhat.com>
+ <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
+ <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
+ <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
+ <e0a958ec-fa18-0d13-48db-10feea159491@redhat.com>
+ <68f3c8a7-c990-00c0-4872-68acee86c28c@eik.bme.hu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <68f3c8a7-c990-00c0-4872-68acee86c28c@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,235 +122,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1092065267-1678200001=:65948
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <2705e51b-a0e8-6f20-0b5a-526db9b854a4@eik.bme.hu>
-
-On Tue, 7 Mar 2023, Alex Benn�e wrote:
-> BALATON Zoltan <balaton@eik.bme.hu> writes:
->> On Tue, 7 Mar 2023, Mark Cave-Ayland wrote:
->>> On 07/03/2023 00:20, BALATON Zoltan wrote:
->>>> On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
->>>>> On 06/03/2023 12:33, BALATON Zoltan wrote:
-> <snip>
->>>> Given that we only have a few hours left until the freeze I hope
->>>> you're not proposing to drop this series and postpone all this to
->>>> the next release,
->
-> This sort of passive aggressive framing isn't helpful or conducive to
-> collaboration. We should be striving to merge code based on the merits
-> of the patches not on how close we are to a given release.
->
->>>> only that we do this clean up in the next devel
->>>> cycle. You were away when this series were on the list for review
->>>> so this is a bit late now for a big rewrite. (Especially that what
->>>> you propose is a variant of the original I've submitted that I had
->>>> to change due to other review comments.)
->>>> Since this version was tested and works please accept this for QEMU
->>>> 8.0 now then we can work out your idea in the next devel cycle but
->>>> until then this version allows people to run AmigaOS on pegasos2
->>>> with sound which is the goal I want to achieve for QEMU 8.0 and
->>>> does not introduce any change to via-ide which was good enough for
->>>> the last two years so it should be good enough for a few more
->>>> months.
->>>
->>> My understanding from the thread was that testing shows there are
->>> still hangs when using sound/USB/IDE simultaneously with this
->>> series, no? Or has that now been fixed?
+On 3/7/23 13:54, BALATON Zoltan wrote:
+>> evt 3 1 write 1      // enable timer
+>> evt 0 2 read
+>> evt 0 2 write 1      // just writes again the same value, clearing sts
 >>
->> No. This series fiixes sound/USB/PCI interrupts which is needed to get
->> AmigaOS work and be usable on pegasos2. The hang Bernhard found with
->> usb-mouse was only affecting MorphOS with this series which uses level
->> sensitive mode of i8259 which wasn't implemented. Patch 2 in this
->> series thanks to David Woodhouse fixes that (so did my work around
->> before that patch) and MorphOS on pegasos2 is not a priority as it
->> already runs on mac99 so what I'd like to make work here is AmigaOS
->> for which it's the only G4 CPU platform now. This is important as it's
->> much faster than the PPC440 version and may be able to run with KVM
->> eventually but to find that out this should get in first so people can
->> start to test it. We can always improve it later including
->> implementing a better model of IRQ routing in VT8231. What we have in
->> this series now works for all guests and all important patches have
->> been tested and now reviewed. So I hope Philippe can pick this up and
->> then we have time for this discussion afterwards.
->
-> We shouldn't make perfect the enemy of the good. If the changes are well
-> localised, reviewed and tested and importantly don't introduce
-> regressions then we shouldn't hold things up purely on the basis of a
-> not meeting a preferred style* of an individual maintainer. Obviously
-> the barrier for entry rises as the impact on the rest of the code base
-> increases. We have more than enough experience of introducing new APIs
-> and regretting it later to be understandably cautious in this regard.
->
-> (* as opposed to documented coding style which is a valid reason to
-> reject patches)
->
->>> I completely understand it can be frustrating not getting patches
->>> merged, but often as developers on less popular machines it can take
->>> a long time. My perspective here is that both you and Bernhard have
->>> out-of-tree patches for using the VIA southbridges, and during
->>> review Bernhard has raised legitimate review questions based upon
->>> his experience.
->>
->> Those review questions have been addressed, I've accepted Bernhard's
->> alternative patch even though I think it's not entirely correct and
->> although the first series was already tested I've re-done that based
->> on Bernhard's idea and asked Rene to test all of it again. That's when
->> you came along a few days before the freeze and blocking this without
->> even fully understanding what it's about. That is what's frustrating.
->
-> While using Based-on gives enough information to reconstruct a final
-> tree perhaps it would be simpler to post a full series relative to
-> master to make for easier review and merging?
+>> I am quite confident that the second guess is correct, because "write 
+>> the same value that was read" only makes sense for evt_sts and not for 
+>> evt_en.
+> 
+> It could also make sense if the guest is trying to flip a bit that's 
+> already set or cleared.
 
-The last version v9 I've sent today is based on master without any other 
-dependency but it wasn't decided until today what fix will be taken for an 
-issue in master that was introduced independntly of this series a week ago 
-and I had to rebase this on all propsed fixes for that change until it 
-finally turned out I should not target the fix I was prevously was told to 
-do.
+No, I checked what the guest actually does and it's read followed 
+immediately by a write, with no other ALU values in the middle.
 
->>> To me it makes sense to resolve these outstanding issues first to
->>> provide a solution that works for everyone, rather than pushing to
->>> merge a series that
->>
->> There are no issues to resolvc regatding functionality. All versions
->> of this series that I have submitted were tested and are working and
->> achieve the goal to make it possible to run AmigaOS on pegasos2 and
->> get sound with MorphOS which are not yet possible currently. Nobody
->> showed these patches would break anything (which would be surprising
->> anyway as these are only used by pegasos2 and fuloong2e the latter of
->> which has never been finished so only still around to have a way to
->> test these components independent of pegasos2). A solution for
->> everyone would be to merge this series now so they can use it in QEMU
->> 8.0 then we have time to improve it and make the model conteptually
->> more correct but there are no missing functionality that would prevent
->> guests from running with this series so no reason to keep this out
->> now.
->
-> Regressions would be a good reason to avoid premature merging.
->
->>> still has reliability issues and where there is lack of consensus
->>> between developers. The worst case scenario to me is that these
->>> patches get merged, people report that QEMU is unreliable for
->>> AmigaOS, and then we end up repeating this entire process yet again
->>> several months down the line when Bernhard submits his series for
->>> upstream.
->
-> Do we have any indication that AmigaOS (I assume as a guest) is less
-> reliable on this series? Is this an area where it can only be confirmed
-> by manual testing?
+> AFAIU the device is little endian (VT8231 is a PCI device and primarily 
+> a PC part so it's expected to be little endian) but the guest also knows 
+> this and writes byte swaped values to it. But since the memory region is 
+> set to LITTLE_ENDIAN and we're on a big endian CPU QEMU will byte swap 
+> it again which it should not do as the guest already did that.
 
-AmigaOS runs well on this series and can use PCI cards which it cannot on 
-current master. The goal of this series is to allow that because otherwise 
-it cannot use network and sound without which it's not really usable. With 
-this series it finally can be used as shown on the video by Rene who 
-tested it and I posted before.
+It's the opposite.
 
-> I'm not sure we can gate things on a manual test only a few people can
-> run. This is an argument for improving our testing coverage.
+The CPU first swaps the value that was in the register, when it executes 
+sthbrx instructions.  With DEVICE_LITTLE_ENDIAN, QEMU does the second 
+swap and restores the value that was in the register.  With 
+DEVICE_NATIVE_ENDIAN it happens to fix the cases that matter for your 
+testcase, but it breaks others.
 
-It needs a license for AmigaOS Pegasos 2 version to test with that but 
-this series also fixes PCI IRQs for Linux so the same could be tested by 
-adding a network card to a Linux guest. But Mark did not run any tests 
-just ctiticised based on looking at the patches so not sure it's a 
-question of patch coverage in this case.
+>> This means that the first write is almost certainly to evt_en.  On a 
+>> little-endian machine the write would set bit 8 of evt.en (power 
+>> button), but what about a big-endian machine like yours?  Should it 
+>> set bit 0 or bit 8? If it's bit 0 (which resides at offset 2 according 
+>> to the device), who flips the low bit of the address?  Why is bit 0 
+>> flipped but not bit 1?
+> 
+> I think the guest already writes byte swapped value so it should work 
+> the same as on little endian machine but the QEMU memory layer gets in 
+> the way.
 
->> I don't even know what to say to that. It already took me more time
->> arguing with you about it than writing the whole series. We have
->> pegasos2 in QEMU already which these really small patches that
->> Bernhard now also agrees could be accepted for now would allow to run
->> two more guests and reach usable state with them that is much better
->> than what's possible now and there are several people who can't
->> compile their QEMU from off-tree sources but would happily use it from
->> their distro packages or binaries provided for release versions. But
->> you just don't care about those people or my work and would hold this
->> back indefinitely becuase maybe it could break some off-tree changes
->> not even finished or submitted yet or maybe we will find a bug later.
->
-> Please don't assume peoples motivation in their feedback - its not
-> helpful. We should proceed with the default assumption that everyone
-> wants to improve the project even if opinions on how to do so differ.
->
->> What's the freeze time for if not for finding bugs and fixing them.
->> What's the development window for if not imrpving code already there?
->
-> We fix bugs that might of slipped in during development - we don't
-> knowingly introduce a bug with a promise to fix it during freeze.
+The write in question is "evt addr=3 size=1 value=1" so it's a one-byte 
+write.  There's no byte swapping involved here, rather the question is 
+how the addresses are interpreted.
 
-This series does not introduce any bugs that we know about. All versions 
-I've submitted work equally well without introducing regressions so all 
-the different versions were only necessary to implement the same in 
-different ways not to fix any regressions but to satisfy different views 
-of different people. The regression we now have in master was introduced 
-by a different series that wasn't sufficiently tested before merging. This 
-series now also has a patch to fix that.
+>> - get a real machine, and figure out whether the write to offset 3 
+>> corresponds to the PM timer or the power button.
+> 
+> I don't have real machine but know somebody who does but I'm not sure 
+> what to ast to test on it. Can you describe it what you want to see or 
+> maybe write a sctipt for the fimrware to test it (if you're familiar 
+> enough with Forth for that). I can try to find some more info on this 
+> but so far I was concentrating on other bigger issues. This is a minor 
+> annoyance but would be nice to fix eventually.
 
->> Again this is now tested, reviewed and isn't known to break anything
->> that's already there or even make it less clean, in fact it does make
->> existing code a bit cleaner and fixes some issues so the only problem
->> is that you think there must be a better way doing it or do it more
->> fully than this series does it but you've failed to say that during
->> review because you were away.
->>
->> Philippe, Peter or any other maintainer please put an end on this
->> suffering and submit a pull request with any version of this series
->> (as I've said all versions I've sent are tested and working) now so we
->> have it working and then we can rewrite it later however Mark wants in
->> the future but let not make people who want to use it wait because of
->> unreasonable concerns. Putting this off to wait until some other
->> unfinished and unrelated machine is written just makes no sense.
->
-> I've added the PC machine maintainers to the CC because AFAICT they are
-> also maintainers for the systems touched here. From my point of view if
-> the maintainers of the affected subsystems are happy, code is reviewed
-> and there are no known regressions then there isn't a barrier to getting
-> this code merged.
+I didn't even have an idea that Forth was involved, honestly, or how to 
+write Forth code for this machine that I barely know exists. :)
 
-The only patch that touches pc machine is the i8259 LTIM patch from David 
-which is only needed for MorphOS as nothing else uses that mode of the 
-i8259 PIC so if you can't decide on that one patch then just drop it and 
-merge the rest of the series which is enough for AmigaOS to work. That 
-patch being a bug fix could also wait a bit more, no reason to delay the 
-whole series because of this patch.
+>> - continue the trace up to the point the OS runs, and see if you get 
+>> some clues similar to the one above that placed evt_sts at offset 2.
 
+I'll try this once the machine is back in shape.
 
-I've said it before but here it is again to make it clearer:
+Paolo
 
-v9-0001-hw-display-sm501-Add-debug-property-to-control-pi.patch
-v9-0002-hw-intc-i8259-Implement-legacy-LTIM-Edge-Level-Ba.patch
-
-The above two are optional but would be nice to have. Patch 1 adds a debug 
-aid for testing sm501 emulation, patch 2 is only needed for MorphOS on 
-pegasos2 which is less important than getting AmigaOS to work.
-
-v9-0003-Revert-hw-isa-vt82c686-Remove-intermediate-IRQ-fo.patch
-
-This fixes up Philippe's series which caused me to need to rebase the 
-series several times.
-
-v9-0004-hw-isa-vt82c686-Implement-PCI-IRQ-routing.patch
-v9-0005-hw-ppc-pegasos2-Fix-PCI-interrupt-routing.patch
-v9-0006-hw-usb-vt82c686-uhci-pci-Use-PCI-IRQ-routing.patch
-
-These three are needed to fix PCI interrupts on pegasos2 and is the 
-minimum we need for AmigaOS (with some fix for current breakage like the 
-revert above).
-
-v9-0007-hw-audio-via-ac97-Basic-implementation-of-audio-p.patch
-
-This one implements audio output for pegasos2 but AmigaOS can use a sound 
-card instead with the above PCI IRQ patches so this could be optional but 
-since it's reviewed and tested no reason to not merge it but it depends on 
-the other patches before.
-
-Are there any more questions or concerns that I shuold answer about these?
-
-Regards,
-BALATON Zoltan
---3866299591-1092065267-1678200001=:65948--
 
