@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B616AFABE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAC16AFAB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:49:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZh2l-0002eC-57; Tue, 07 Mar 2023 18:48:31 -0500
+	id 1pZh2u-0003wV-3Q; Tue, 07 Mar 2023 18:48:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2i-0002Sj-CC
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:28 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2s-0003hS-Ad
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:38 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2g-0002mt-EI
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:28 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id q16so13796251wrw.2
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2m-0002rs-FM
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:37 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h14so13790413wru.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678232904;
+ d=linaro.org; s=google; t=1678232910;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nlUn/qxhfZToqYocMyFXsIpQiyWQahr0nRRfrh2Btes=;
- b=KCBxNQM1Hm2K8ZGthIToX99ecwzDUcMKC84LdiFPS8I/AWhgoKE5CliIev7Kz77ZUt
- 87pWl45IS4voC1uPIPPmlPYHbQT29py9gxEjj1qINI86+9UgVjg6bpFDOXxs2Qp5x+sa
- leyB0ecysGpwMo8kxivtpCVkalmxfBPBzGnCfn+8mz6ybs6X073aSsKDxVE/pz+0Kbw6
- 3HF0MRRLmTAXPoTOWOO5Cp48Z7D1HotcAR8zgz7osWKULshVVLkQCspfaZcydgWEQNB6
- DteMtswRVlSLqT3AMiFYG3nHM40pIWfk0ZVob2QyTXZtOwo5t//QlUAOtQunbzaVwP9T
- 15+g==
+ bh=9irWQw02oFu2/D4ty32J7zQYkGSYrUOUK9Or1m5BKRM=;
+ b=gwSjzS98wh68Fu2g62z1JKcKVOswblHKob2VT9JjOtYDq22LbtmKNaDA1fJtv2W1AT
+ EV4PEnfHsvXV9fkZFHjfFey4bEm7elIRc/4o+ejCRKE9e7IICyYX2gxAIqVWa3nsR/6t
+ jceI8fB1gGrP9Fot83WgeMN7M/DOrivjLLFqZ+87zq6cwjwgNW3E/X2hgLDIA3fluhRL
+ 7rnXMz4v8wm1FMnhnQV2aMwxGVEcglLmU8y+nw1+eDeflXOJqADkJJV3KA1On/JMN0M/
+ vE9v2XBsHflvT4892HG+KM8JRDa5iTt/w1i7yYIAtrm5djlTqFbe2aCgvLVt6L2qDtJP
+ 3HXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678232904;
+ d=1e100.net; s=20210112; t=1678232910;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nlUn/qxhfZToqYocMyFXsIpQiyWQahr0nRRfrh2Btes=;
- b=1VD1eKVXgEsXAE66eqGQJ/q4+KhNC5pZPB4beS4XqE0gtsPfgg99VUjg/Sb+dvZvnx
- V00Vho1X7s91PUvDnmSCtzqReEmvUkSMPAoca6q4dieho/3vkEs0+gr/wg7Kq5pB0tsv
- L/TXePIvj8zke5Oool28q1FfOari9e0ZYr+OCSb7yFAd+c+a4YGAz5x1/bLoA8C0Gjl2
- kPboPJIxPFI3M8oDlN7ZuoTZrsMTUYk0pCCTSw51bpPhKc2tB5cMjHwb8ZvyuqEPgV4p
- O7LmyHdI938H0J2iYm2Sz2v1ME7AknaIFwZZ5SWqrG+byKtf/nLxqprNlwbcZOoLUUDo
- YsQQ==
-X-Gm-Message-State: AO0yUKVpCWtC6ZTTvAzuP4xakWTZQqAo1/KIpRNjNLLpJZhZvhp0P+u4
- oMCOx8Xbh/WDIBrCLtuqUwzRTibphR9E/cm1oEY=
-X-Google-Smtp-Source: AK7set9xe3+cdB61kabZiT06gL0AcxH2Mitd1NDH1oobUwpd3rg/mIZwuAmBTN0UBEhJA6NnyC0Pog==
-X-Received: by 2002:a5d:66ce:0:b0:2c7:8f73:7700 with SMTP id
- k14-20020a5d66ce000000b002c78f737700mr10486088wrw.39.1678232904680; 
- Tue, 07 Mar 2023 15:48:24 -0800 (PST)
+ bh=9irWQw02oFu2/D4ty32J7zQYkGSYrUOUK9Or1m5BKRM=;
+ b=hn8AT+FRxbWjSXLQVW+ZZcpens+KvnOPo8QYWWdDDb4ZNrYUlHyDT2MyGDYoE74eU/
+ yAFNLX+80iDFjA2YAYbn5FItuEH0siMXetKfobDA7AgVJwofAKD98K+wDrDo2xnb/+7p
+ LiZWuwqSeHBvvzRsvxtbTrdjb3XLxzvAqJU+7OYQiNgzvOG00DwhbvN4YQTKAK+FhDh+
+ cP/0iJF9MnsH4bVvPvp2MP8Ceb5jCzUUgpskMYjKOlCfP+vv5WuNVMs6wMYaup/bfjMx
+ uv/mpXm/jtS4H+Ky7kyydPRrX/LUSlmmtGEjfVZwyx2KafnvY48IlvKNA5xy1ZNcQiaQ
+ bW1w==
+X-Gm-Message-State: AO0yUKVWREodBLC/duBYcNN6RExy80hVz5RV4OZ++twrqJivuKCGWo5p
+ cdLb+7v27Eid2lLubrJAF0VwXYShqGV8ANmhEPw=
+X-Google-Smtp-Source: AK7set9bUKjH516OYKwJDpYTcQvI7vZMOtaGlCpgvrDtdOORegST9Wycc1+PP+mlKDEPdmeA4OKwoA==
+X-Received: by 2002:a05:6000:1041:b0:2c6:e91d:1359 with SMTP id
+ c1-20020a056000104100b002c6e91d1359mr9832855wrx.61.1678232910583; 
+ Tue, 07 Mar 2023 15:48:30 -0800 (PST)
 Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
  [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
- j2-20020a5d6042000000b002c70d269b4esm13467895wrt.91.2023.03.07.15.48.23
+ o13-20020a5d670d000000b002c8476dde7asm13706104wru.114.2023.03.07.15.48.29
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Mar 2023 15:48:24 -0800 (PST)
+ Tue, 07 Mar 2023 15:48:30 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, David Woodhouse <dwmw2@infradead.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
+Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ Bernhard Beschow <shentey@gmail.com>, Rene Engel <ReneEngel80@emailn.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 12/20] hw/intc/i8259: Implement legacy LTIM Edge/Level Bank
- Select
-Date: Wed,  8 Mar 2023 00:47:03 +0100
-Message-Id: <20230307234711.55375-13-philmd@linaro.org>
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PULL 13/20] hw/isa/vt82c686: Implement PCI IRQ routing
+Date: Wed,  8 Mar 2023 00:47:04 +0100
+Message-Id: <20230307234711.55375-14-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230307234711.55375-1-philmd@linaro.org>
 References: <20230307234711.55375-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,135 +92,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw2@infradead.org>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Back in the mists of time, before EISA came along and required per-pin
-level control in the ELCR register, the i8259 had a single chip-wide
-level-mode control in bit 3 of ICW1.
+The real VIA south bridges implement a PCI IRQ router which is configured
+by the BIOS or the OS. In order to respect these configurations, QEMU
+needs to implement it as well. The real chip may allow routing IRQs from
+internal functions independently of PCI interrupts but since guests
+usually configute it to a single shared interrupt we don't model that
+here for simplicity.
 
-Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
-disabled', but apparently MorphOS is using it in the version of the
-i8259 which is in the Pegasos2 board as part of the VT8231 chipset.
+Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
 
-It's easy enough to implement, and I think it's harmless enough to do so
-unconditionally.
-
-Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-[balaton: updated commit message as asked by author]
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Suggested-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
+Reviewed-by: Bernhard Beschow <shentey@gmail.com>
+Tested-by: Rene Engel <ReneEngel80@emailn.de>
+Message-Id: <fbb016c7d0e19093335c237e15f5f6c62c4393b4.1678188711.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/intc/i8259.c                 | 10 ++++------
- hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
- include/hw/isa/i8259_internal.h |  1 +
- 3 files changed, 28 insertions(+), 7 deletions(-)
+ hw/isa/vt82c686.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 17910f3bcb..bbae2d87f4 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
-     }
- #endif
- 
--    if (s->elcr & mask) {
-+    if (s->ltim || (s->elcr & mask)) {
-         /* level triggered */
-         if (level) {
-             s->irr |= mask;
-@@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
-         s->isr |= (1 << irq);
-     }
-     /* We don't clear a level sensitive interrupt here */
--    if (!(s->elcr & (1 << irq))) {
-+    if (!s->ltim && !(s->elcr & (1 << irq))) {
-         s->irr &= ~(1 << irq);
-     }
-     pic_update_irq(s);
-@@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
-     PICCommonState *s = PIC_COMMON(dev);
- 
-     s->elcr = 0;
-+    s->ltim = 0;
-     pic_init_reset(s);
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 01e0148967..71da316052 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -604,6 +604,46 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+     qemu_set_irq(s->cpu_intr, level);
  }
  
-@@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
-             s->init_state = 1;
-             s->init4 = val & 1;
-             s->single_mode = val & 2;
--            if (val & 0x08) {
--                qemu_log_mask(LOG_UNIMP,
--                              "i8259: level sensitive irq not supported\n");
--            }
-+            s->ltim = val & 8;
-         } else if (val & 0x08) {
-             if (val & 0x04) {
-                 s->poll = 1;
-diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
-index af2e4a2241..c931dc2d07 100644
---- a/hw/intc/i8259_common.c
-+++ b/hw/intc/i8259_common.c
-@@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
-     s->special_fully_nested_mode = 0;
-     s->init4 = 0;
-     s->single_mode = 0;
--    /* Note: ELCR is not reset */
-+    /* Note: ELCR and LTIM are not reset */
- }
- 
- static int pic_dispatch_pre_save(void *opaque)
-@@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
-                    s->special_fully_nested_mode);
- }
- 
-+static bool ltim_state_needed(void *opaque)
++static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
 +{
-+    PICCommonState *s = PIC_COMMON(opaque);
-+
-+    return !!s->ltim;
++    switch (irq_num) {
++    case 0:
++        return s->dev.config[0x55] >> 4;
++    case 1:
++        return s->dev.config[0x56] & 0xf;
++    case 2:
++        return s->dev.config[0x56] >> 4;
++    case 3:
++        return s->dev.config[0x57] >> 4;
++    }
++    return 0;
 +}
 +
-+static const VMStateDescription vmstate_pic_ltim = {
-+    .name = "i8259/ltim",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = ltim_state_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(ltim, PICCommonState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
++{
++    ViaISAState *s = opaque;
++    PCIBus *bus = pci_get_bus(&s->dev);
++    int i, pic_level, pic_irq = via_isa_get_pci_irq(s, irq_num);
 +
- static const VMStateDescription vmstate_pic_common = {
-     .name = "i8259",
-     .version_id = 1,
-@@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
-         VMSTATE_UINT8(single_mode, PICCommonState),
-         VMSTATE_UINT8(elcr, PICCommonState),
-         VMSTATE_END_OF_LIST()
-+    },
-+    .subsections = (const VMStateDescription*[]) {
-+        &vmstate_pic_ltim,
-+        NULL
-     }
- };
++    /* IRQ 0: disabled, IRQ 2,8,13: reserved */
++    if (!pic_irq) {
++        return;
++    }
++    if (unlikely(pic_irq == 2 || pic_irq == 8 || pic_irq == 13)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid ISA IRQ routing");
++    }
++
++    /* The pic level is the logical OR of all the PCI irqs mapped to it. */
++    pic_level = 0;
++    for (i = 0; i < PCI_NUM_PINS; i++) {
++        if (pic_irq == via_isa_get_pci_irq(s, i)) {
++            pic_level |= pci_bus_get_irq_level(bus, i);
++        }
++    }
++    /* Now we change the pic irq level according to the via irq mappings. */
++    qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
++}
++
+ static void via_isa_realize(PCIDevice *d, Error **errp)
+ {
+     ViaISAState *s = VIA_ISA(d);
+@@ -627,6 +667,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
  
-diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
-index 155b098452..f9dcc4163e 100644
---- a/include/hw/isa/i8259_internal.h
-+++ b/include/hw/isa/i8259_internal.h
-@@ -61,6 +61,7 @@ struct PICCommonState {
-     uint8_t single_mode; /* true if slave pic is not initialized */
-     uint8_t elcr; /* PIIX edge/trigger selection*/
-     uint8_t elcr_mask;
-+    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
-     qemu_irq int_out[1];
-     uint32_t master; /* reflects /SP input pin */
-     uint32_t iobase;
++    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", PCI_NUM_PINS);
++
+     /* RTC */
+     qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
 -- 
 2.38.1
 
