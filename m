@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054E56AF66A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646D46AF66F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:11:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZdap-0005Vv-5Z; Tue, 07 Mar 2023 15:07:27 -0500
+	id 1pZdeA-0008La-BO; Tue, 07 Mar 2023 15:10:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pZdam-0005VC-2W
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:07:24 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pZdak-0006sR-Av
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:07:23 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id B0DB93200AA4;
- Tue,  7 Mar 2023 15:07:18 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 07 Mar 2023 15:07:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1678219638; x=1678306038; bh=zlUwmYWb8l8mLhKneVr12s0w+LZ9RS7m/Qi
- QNA1A4Us=; b=g7SSwJ5+iWDrG4Cr4Wmb5obPmHnxyR1d5v5HxkbYz4ScD3dpgV7
- xgBVbWlNIlepv2907F/ThtCeHllYjwoTPigSWazevuRpUCYvYGTQACMlz/7sgT1O
- 0JYMV/33G8hh/vHPD5eeps4wFau2Gmt0yxzzA5b0ZjodVubEssvzOp/YiDIivwPA
- 1o3geDpHCAqu0RmwapUzvXcBadGQgv0ggiACl80AgP64k2Bo9BfdhKRlDOY/IOuS
- EQMWoOh/G+7e42KyV9MVpu3SDo4dcFdybv/OT/E7AtW4QVROgp0GjktuS03opBKj
- 8zLF9jSY4z6tQtmYv4XAosj060BJvUMn6xw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1678219638; x=1678306038; bh=zlUwmYWb8l8mLhKneVr12s0w+LZ9RS7m/Qi
- QNA1A4Us=; b=EDxlHpLVIKKoqEfF0b2hGKzoBN1YRpztO1mGDK8xsmN672GVINr
- Z1/qNDczWbZ1kabRPt8SR8DhepdL5mxBxITfZBtP+VcZzkTNcyOyyJVxd9K+fbCQ
- 0IwpBddWL66FGWj4jNEzBgu8erlK6nfSnCxKYlLMddCRaJ6/PPc+nQwCIk6TYvvy
- AM6SAPEh70Xzhc1yRtGzL17Y39EAgw3lJAckA6LPlRaXt9xELIDJEL0qtdFKbLHk
- mXgYQYXjd0IHHVpUQPUFdyGR2Ivy9zQamZ1Og4TgWhyRrSTQ17tHYNNUZq8W5PtT
- 5T+AlOD3nG++7WBb8UyE7ozord202bPY7yg==
-X-ME-Sender: <xms:dpkHZPMi88uV7r8MbQ2aF3HI44QdHdqqnDnr3lq9z7qa7zd09KxEeA>
- <xme:dpkHZJ9P5oHpvSVF2302vTVwP-7arCP49MxDhBLqDSeZPXpvVCLKgbQngG3rSJJum
- yMF33On5Weq93pWM2w>
-X-ME-Received: <xmr:dpkHZOQYjXojPIfH_xUYdGtjFV1bdnS6Q_ZTiTud1ddYG65q7WcyG8jyNMpcuiANuYYi>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddguddvjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhi
- rgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqe
- enucggtffrrghtthgvrhhnpedutdejffetteefkeejieehfeeuieeguedtveeijeeviefh
- ffelvdfgudeihfdvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
- hlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:dpkHZDvdg-GXbYaCL99RrSP6rOb5bA4FQuMx-Ws3Yhx3_U28K1aNfA>
- <xmx:dpkHZHf4j9bnd4PikZKz-c1T8fcjsTraSMZLvFvxfv99X0gyfcIT8A>
- <xmx:dpkHZP1QInWIRJeHVII56zYFcpgFT-dEFwRaNXObiOHho4XBBa3PIQ>
- <xmx:dpkHZHnu5svAkzobyTYX736gh6r90I3x6bJwL6wGZG8Jd301dFBJ4Q>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Mar 2023 15:07:17 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH v2 0/2] MIPS Virt machine
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <67f67c63-3706-cb3f-94a8-beea99f62c05@linaro.org>
-Date: Tue, 7 Mar 2023 20:07:12 +0000
-Cc: QEMU devel <qemu-devel@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F2FD4D49-9513-4147-B8A2-07048C055A75@flygoat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZde8-0008LR-EY
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:10:52 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZde6-0007YD-QG
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:10:52 -0500
+Received: by mail-wm1-x329.google.com with SMTP id p16so8571030wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:10:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678219848;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tEmrmTSsUw/B63z0rYyXtotJcFguEAbMNiNFGvqd/hg=;
+ b=UpS64CSfbXfJmi7zHIbjmW4PEeYiukr3wh8srFKePJXPAQwzrY5kEWD4TO66cspfEr
+ 7VzlIRx8c5Ig1hH6OcJbj+0zv4R7sC+vaw8GBDsrT5jksaHHNX56FXrvQIAyk8JRMVs+
+ q1znF3U7td36P1ywCNt/xlj4J/cEKhoou53KBsJmSoY7pFioHq4U3pxzHeLgLBrmBlb8
+ JCKkKvAWWjcnjirROqJShwnif28DZli6mGAZS97uy1clV2hj1E0yHsPKpc7DqdXJWRSo
+ 0F19MWip4z3O+iebsxaXzFx6J/diArDC96m6bg89nrR4H3eA/OPaJjFZY76LDgTeQ2v1
+ rcyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678219848;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tEmrmTSsUw/B63z0rYyXtotJcFguEAbMNiNFGvqd/hg=;
+ b=pIlVTNM+hQZb/vkyYc+LIk4w9fmTTrjhcjofBcwBeil7Ho4AwVvX61HTxH8+Acjj/X
+ UHn19oVxUysdJjC2fS2jNYjhfEcNpFuimO7fLELNTWZzPhfvrlucRUJt53617+Mj2I1Q
+ KUXRzgDNiPE9BrqEF8CQDMO3ud9P6d6GrAlZIQ45fRSAKI8QwqW3ruZFitylm5Mxe9or
+ QVl3dx18U3qPHytEOgDRAuN/OdZxB0QYbbCzV6KcnWyBymrHp5n03M8NSt1JThvIc3us
+ sitNFst1Lxa/yyQCyl5K1hzdH6CAMilK0U2a1FMfFSmsxjEAEJrOYDHdj+h0tw4JOF0S
+ nPNQ==
+X-Gm-Message-State: AO0yUKV73mkwOHvMEL3osUURCbL0f/QqbPqF2iLil0CnfITZZyY1fHsX
+ u3+Qc6z4G/U08Dv63tSR+WqJGQ==
+X-Google-Smtp-Source: AK7set8k65mbxD/65dA8OVGUkLmbapwzzLEoeJ2OsIHML0cTkpRdBtJqTp91DlzrNx+dUfGmld2IcQ==
+X-Received: by 2002:a05:600c:3549:b0:3eb:55d2:9c4c with SMTP id
+ i9-20020a05600c354900b003eb55d29c4cmr11089942wmq.16.1678219848599; 
+ Tue, 07 Mar 2023 12:10:48 -0800 (PST)
+Received: from [192.168.1.115] (126.red-88-28-13.dynamicip.rima-tde.net.
+ [88.28.13.126]) by smtp.gmail.com with ESMTPSA id
+ l21-20020a05600c47d500b003e11ad0750csm13399508wmo.47.2023.03.07.12.10.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 12:10:48 -0800 (PST)
+Message-ID: <93c0a866-74e8-8fad-07cf-79e964b73d84@linaro.org>
+Date: Tue, 7 Mar 2023 21:10:45 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/2] hw/mips: Add MIPS virt board
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20230304223803.55764-1-jiaxun.yang@flygoat.com>
- <67f67c63-3706-cb3f-94a8-beea99f62c05@linaro.org>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
-Received-SPF: pass client-ip=64.147.123.20;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ <20230304223803.55764-3-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230304223803.55764-3-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,39 +91,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/3/23 23:38, Jiaxun Yang wrote:
+> MIPS virt board is design to utilize existing VirtIO infrastures
+> but also comptitable with MIPS's existing internal simulation tools.
+> 
+> It includes virtio-pci, virtio-mmio, pcie gpex, flash rom, fw_cfg,
+> goldfish-rtc and MIPS CPS system.
+> 
+> It should be able to cooperate with any MIPS CPU cores.
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+> v1:
+>   - Rename to virt board
+>   - Convert BIOS flash to ROM
+>   - Cleanups
+> v2:
+>   - Fix fdt flash
+>   - Remove UP variant
+> ---
+>   MAINTAINERS                             |   7 +
+>   configs/devices/mips-softmmu/common.mak |   1 +
+>   docs/system/target-mips.rst             |  22 +
+>   hw/mips/Kconfig                         |  17 +
+>   hw/mips/meson.build                     |   1 +
+>   hw/mips/virt.c                          | 916 ++++++++++++++++++++++++
+>   6 files changed, 964 insertions(+)
+>   create mode 100644 hw/mips/virt.c
 
 
-> 2023=E5=B9=B43=E6=9C=887=E6=97=A5 15:01=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On 4/3/23 23:38, Jiaxun Yang wrote:
->> Hi there,
->> This patchset is to add a new machine type for MIPS architecture, =
-which
->> is purely a VirtIO machine.
->=20
->> Jiaxun Yang (2):
->>  hw/misc: Add MIPS Trickbox device
->>  hw/mips: Add MIPS virt board
-> Thanks, applied with following changes:
+> +static void virt_machine_init(MachineState *machine)
+> +{
+> +    MIPSVirtState *s = MIPS_VIRT_MACHINE(machine);
+> +    MemoryRegion *system_memory = get_system_memory();
+> +    const MemMapEntry *memmap = virt_memmap;
+> +    int i;
+> +
+> +    s->cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
+> +    clock_set_hz(s->cpuclk, VIRT_CPU_REF_CLK_FREQ);
+> +
+> +    s->cps = MIPS_CPS(qdev_new(TYPE_MIPS_CPS));
+> +    object_property_set_str(OBJECT(s->cps), "cpu-type", machine->cpu_type,
+> +                            &error_fatal);
+> +    object_property_set_int(OBJECT(s->cps), "num-core", machine->smp.cpus,
+> +                            &error_fatal);
+> +    qdev_connect_clock_in(DEVICE(s->cps), "clk-in", s->cpuclk);
+> +    sysbus_realize(SYS_BUS_DEVICE(s->cps), &error_fatal);
 
-Thanks for those clean-ups!
+qemu-system-mips64el: Property 'mips-cps.num-core' not found
 
->=20
-> - remove pointless mask in mips_trickbox_write(),
-> - declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE(),
-> - declare machine type using DEFINE_TYPES(),
-> - do not select PCI in Kconfig,
+I'm worried. I suppose you want this property:
 
-Hmm, PCI is sort of mandatory for this machine, any reason not to select =
-it?
+   DEFINE_PROP_UINT32("num-vp", MIPSCPSState, num_vp, 1),
 
-> - compile virt.o using fdt flags in meson.build,
-> - use HWADDR_PRIx,
-> - name MachineState variable 'ms',
-> - fix conflict in docs/system/target-mips.rst,
-> - fix style
-
-Thanks.
-- Jiaxun=
+Is your series based on mainstream QEMU?
 
