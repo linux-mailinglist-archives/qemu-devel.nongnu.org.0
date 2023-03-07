@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3325F6AE8F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6133C6AE8DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:19:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZaxB-0002q6-RC; Tue, 07 Mar 2023 12:18:21 -0500
+	id 1pZaxK-0003bF-Vq; Tue, 07 Mar 2023 12:18:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZawu-00023V-1D
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:05 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZawx-00025W-U8
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:11 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZawq-0007SY-DG
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:03 -0500
+ <BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZawu-0007T7-4e
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=XcYyUSsIZ5DPXUpEedwRKiEDlpl47E4QL1UmqvKuII4=; b=jvJ9tQPOuJFebkKg0V5juiyKzZ
- Z18YSLGfJnU9igUISRf0/QJHVt7YjMz3LewFIiIll+SUOvBRWnbnKFf3BLM9yc6AF5pF4xgpI43LY
- efHoDwmsDbrT0iQxWT0h75pdfB6ZnSkHMQT1/zUWOdXz2Mk4wIilc6mTL7s3KKXN9e1FoqscD/BA3
- sPUhcQdD1LcxFmEwE88G8bDG4X3oy2ov26Xt+Th2BpoLudNgSEcDApvZ+QhAHEB2WndhTksTLJulE
- 52+f4OX+1PbdaO79BmzslXXqBjQQQqzccx9q4USKSprjMaKzJzFBpe3Kzd1vT6PEtH1RpNkHhjf1y
- MXG/AN1A==;
+ bh=82Q+BiWXMrz+wFyySB5DKlF6CrKphRlXsFH1yff2od4=; b=PV0iIlvQ0PObvRlCYaPk06cUgT
+ TbDC2JYH3cGCMkH7zPjkYjcGSHbaugSG7K/gFzGLdVdnX6ewAqC6LZnyN32NmNanpXAxXHEW70Buw
+ +J36U9JBwCFeqgkNwup0cB+HKgoUrMnTx1blyQjSF5pbr8J09w2rbo5iUkKbw5bPighuahZxlxavl
+ f2mWehzyELxxrM3ZyxC/5QfPLK6dZI/9UgGhZNNlqTMPIHfb9FpQobHjwf6oP00jkUbIAY5XGdLcC
+ bFwkvcBuwu8267gAoFf1w/dLJAtWhEPBnr2U8KAn6OaNmWmGyamIYyiwk9ktGln7WMPgkWVjHIR78
+ b52nbg4A==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZawk-006ay6-Bg; Tue, 07 Mar 2023 17:17:54 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pZawk-00H60D-1l; Tue, 07 Mar 2023 17:17:54 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pZawk-009chn-1B; Tue, 07 Mar 2023 17:17:54 +0000
+ Linux)) id 1pZawk-009chr-1N; Tue, 07 Mar 2023 17:17:54 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -45,20 +45,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 19/27] hw/xen: Only advertise ring-page-order for xen-block
- if gnttab supports it
-Date: Tue,  7 Mar 2023 17:17:42 +0000
-Message-Id: <20230307171750.2293175-20-dwmw2@infradead.org>
+Subject: [PATCH v2 20/27] hw/xen: Hook up emulated implementation for event
+ channel operations
+Date: Tue,  7 Mar 2023 17:17:43 +0000
+Message-Id: <20230307171750.2293175-21-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230307171750.2293175-1-dwmw2@infradead.org>
 References: <20230307171750.2293175-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -83,45 +83,60 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Whem emulating Xen, multi-page grants are distinctly non-trivial and we
-have elected not to support them for the time being. Don't advertise
-them to the guest.
+We provided the backend-facing evtchn functions very early on as part of
+the core Xen platform support, since things like timers and xenstore need
+to use them.
+
+By what may or may not be an astonishing coincidence, those functions
+just *happen* all to have exactly the right function prototypes to slot
+into the evtchn_backend_ops table and be called by the PV backends.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/block/xen-block.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ hw/i386/kvm/xen_evtchn.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 87299615e3..f5a744589d 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -83,7 +83,8 @@ static void xen_block_connect(XenDevice *xendev, Error **errp)
-             g_free(ring_ref);
-             return;
-         }
--    } else if (order <= blockdev->props.max_ring_page_order) {
-+    } else if (qemu_xen_gnttab_can_map_multi() &&
-+               order <= blockdev->props.max_ring_page_order) {
-         unsigned int i;
+diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
+index 886fbf6b3b..98a7b85047 100644
+--- a/hw/i386/kvm/xen_evtchn.c
++++ b/hw/i386/kvm/xen_evtchn.c
+@@ -34,6 +34,7 @@
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+ #include "hw/irq.h"
++#include "hw/xen/xen_backend_ops.h"
  
-         nr_ring_ref = 1 << order;
-@@ -255,8 +256,12 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
-     }
+ #include "xen_evtchn.h"
+ #include "xen_overlay.h"
+@@ -278,6 +279,17 @@ static const TypeInfo xen_evtchn_info = {
+     .class_init    = xen_evtchn_class_init,
+ };
  
-     xen_device_backend_printf(xendev, "feature-flush-cache", "%u", 1);
--    xen_device_backend_printf(xendev, "max-ring-page-order", "%u",
--                              blockdev->props.max_ring_page_order);
++static struct evtchn_backend_ops emu_evtchn_backend_ops = {
++    .open = xen_be_evtchn_open,
++    .bind_interdomain = xen_be_evtchn_bind_interdomain,
++    .unbind = xen_be_evtchn_unbind,
++    .close = xen_be_evtchn_close,
++    .get_fd = xen_be_evtchn_fd,
++    .notify = xen_be_evtchn_notify,
++    .unmask = xen_be_evtchn_unmask,
++    .pending = xen_be_evtchn_pending,
++};
 +
-+    if (qemu_xen_gnttab_can_map_multi()) {
-+        xen_device_backend_printf(xendev, "max-ring-page-order", "%u",
-+                                  blockdev->props.max_ring_page_order);
-+    }
+ static void gsi_assert_bh(void *opaque)
+ {
+     struct vcpu_info *vi = kvm_xen_get_vcpu_info_hva(0);
+@@ -318,6 +330,9 @@ void xen_evtchn_create(void)
+     s->nr_pirq_inuse_words = DIV_ROUND_UP(s->nr_pirqs, 64);
+     s->pirq_inuse_bitmap = g_new0(uint64_t, s->nr_pirq_inuse_words);
+     s->pirq = g_new0(struct pirq_info, s->nr_pirqs);
 +
-     xen_device_backend_printf(xendev, "info", "%u", blockdev->info);
++    /* Set event channel functions for backend drivers to use */
++    xen_evtchn_ops = &emu_evtchn_backend_ops;
+ }
  
-     xen_device_frontend_printf(xendev, "virtual-device", "%lu",
+ void xen_evtchn_connect_gsis(qemu_irq *system_gsis)
 -- 
 2.39.0
 
