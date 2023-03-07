@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D0A6ADEFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A536ADF01
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:44:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZWe5-0005dS-CJ; Tue, 07 Mar 2023 07:42:22 -0500
+	id 1pZWfr-00086H-V1; Tue, 07 Mar 2023 07:44:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZWe3-0005aP-OS
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:42:19 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZWe2-0002rV-5R
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:42:19 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so16371599pjb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 04:42:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678192937;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p7tvJcFT6FZorBL747CXlGploW1SnIjFPEW25jOs89g=;
- b=pg40ZRH1hwMGzftArdjcEPrUwVqtOS0N9zxRlkFvozHUXtkejdS7o7VJnglurJIav3
- a6irH2P2H+shKSB/FiJIAltPSWVtDS0BeHwPZO99SokE/Ck3sp2vETpOi0GCKXT66ihF
- llAK9VMxCbqe8ZwwwJNOFnT4ZD9c2I54yUukyScbJXAv8nx9lEzC0RFRTz4GO+R1RuUu
- Vi4LsJvln4mqlskjuQiwVM7GUUZT1D6ddpxuJJcaNc8G0CVJMvG2D1jUWXVu+qGIqwpU
- d9iXGlKiiDEKiyxH+oCew/3xrkIQPP2R5Mg6Pk2EVnchyQ4bvxu1R9bzvjt0aTLLjnwT
- O0bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678192937;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p7tvJcFT6FZorBL747CXlGploW1SnIjFPEW25jOs89g=;
- b=3Fw0GzkiHFI1J1f32V4145AY7u4ZRMrXJ6O8S4WJuBbOpPop9/rheOfZqHTEfbHmq/
- HdsebcFcJAgsDwTiBPhRVpcaYErMEiyOdciSifLXvgeRaDBxv9KrcNMt+fUj+BWctF4R
- il1L7CazQRZ6aerBU5OcXuCfp6Dh0Mj0+jIeI3FGP3RJ1WCqfh8UTBY6jQfsWUzDLdaU
- sTc5MoFjCRFSNDAskMqESyL6s2NknwiBE2dKEXV+3IyS6n80xAL43vhIejNIJki9o7RW
- BHtbA1DFO4UkcWjxYVbdCoccttDn5b76RjCkTvYAzlifi4DhFOrYNjUklE4ZFtCXenQ1
- dkvw==
-X-Gm-Message-State: AO0yUKVqSxlBKtF9eSoxL17rvoGpw7T5ZhtkxGsd5DLAKUdoHlEPpMop
- YFSHesgN9rsA4Zk8gvaopgzTwE2crNw4psSODYkRQaExLuq/2+4l
-X-Google-Smtp-Source: AK7set8XLliVOueFOflZ1f+jE70AWM/cc7j4k0ts6lsMSBlh1urZDsdtjDPN735GhLLrQvdO1srdlCCaTz8JgJRdSWE=
-X-Received: by 2002:a17:90b:1298:b0:234:87a7:f180 with SMTP id
- fw24-20020a17090b129800b0023487a7f180mr5329232pjb.0.1678192936674; Tue, 07
- Mar 2023 04:42:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20230306153435.490894-1-peter.maydell@linaro.org>
-In-Reply-To: <20230306153435.490894-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Mar 2023 12:42:05 +0000
-Message-ID: <CAFEAcA8Tf6u6qeaWOWHWqEdo7i2JZur7Jg_PYR25j+govzSNwg@mail.gmail.com>
-Subject: Re: [PULL 00/21] target-arm queue
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pZWfq-000856-1R
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:44:10 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pZWfo-00032e-1l
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:44:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=knKEXYSA4AD4zYeVLOOaU1i3D6U5amQSLfWFdEa/DIU=; b=s2LaPrZxfZnEPIcOKd7impy2rh
+ VX7p9YvSaVCvtydhhlWknN4vcSRltglUUc7LB8Jez5ch/JkwEx6YPagotzkI8CHYqrWbulIzXzUxY
+ 0syzq2nByJj+JockMHERetcxtvlhG4U2udkJCHsY62fFFWPZLEXgeKA9ruj1IeNo5lfEFsBgMhxTn
+ lUmFYX2RHnsBmDQCI6mDHXbQOXYhJZIAXKqg3+AZwcGDXzGGPCX+8vi7iQx42qeAe95yCtY7D96my
+ SteMryMFPdpfp9aTUJ48zDzcY4Qb5ZmEa7g+S9OOFpWrrtv4KQkWf7Ul9FfHaRYyI+suWWqlLrdwV
+ KPwYPhzZb7i0FsZ1J+N6dM+fCxuCjZjc5nI68JnxDqD743roJIimJK4fzmDUcCxfTQYFNHwO9VIb7
+ 9o3/alJ/hauQ4bgddfJDUaW00CI06h04o61+gkbuQ0eAmM8ZqiCNBqLCTxgGTnZdH+tK/d/gt57ft
+ SBcXL/Ehqw48Z2nuzTyItbsMSmQ9Suf5bc9RehD1dc58fBcRRAS36KwiJW89e2CVWBWGqq+A4Pl5t
+ 793MFVVvByiTYGZDrUDNFdVAVOl7ei6RWjNQqlAiHdozo5Jwwwaebx6ci1QELSBUIeApeCG8AtZ8L
+ xCRm9qEPR6PpIKKjrqZnduVR6k6nX2UVsXWziXZIU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v5 00/16] hw/9pfs: Add 9pfs support for Windows
+Date: Tue, 07 Mar 2023 13:44:04 +0100
+Message-ID: <2011311.pL4TEuyVgO@silver>
+In-Reply-To: <CAEUhbmXaq=TJ8U+a9xkohacP8OfZyGkuZKxwffrqNKdYE0=OOw@mail.gmail.com>
+References: <20230220100815.1624266-1-bin.meng@windriver.com>
+ <5311946.tteGgEznqY@silver>
+ <CAEUhbmXaq=TJ8U+a9xkohacP8OfZyGkuZKxwffrqNKdYE0=OOw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +69,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023 at 15:34, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit f003dd8d81f7d88f4b1f8802309eaa76f6eb223a:
->
->   Merge tag 'pull-tcg-20230305' of https://gitlab.com/rth7680/qemu into staging (2023-03-06 10:20:04 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230306
->
-> for you to fetch changes up to 2ddc45954f97cd1d7ee5cbca0def05e980d1da9f:
->
->   hw: arm: allwinner-h3: Fix and complete H3 i2c devices (2023-03-06 15:31:24 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * allwinner-h3: Fix I2C controller model for Sun6i SoCs
->  * allwinner-h3: Add missing i2c controllers
->  * Expose M-profile system registers to gdbstub
->  * Expose pauth information to gdbstub
->  * Support direct boot for Linux/arm64 EFI zboot images
->  * Fix incorrect stage 2 MMU setup validation
->
-> ----------------------------------------------------------------
+On Monday, March 6, 2023 3:56:49 PM CET Bin Meng wrote:
+> On Mon, Mar 6, 2023 at 10:15=E2=80=AFPM Christian Schoenebeck
+> <qemu_oss@crudebyte.com> wrote:
+> >
+> > On Monday, February 20, 2023 11:07:59 AM CET Bin Meng wrote:
+> > > At present there is no Windows support for 9p file system.
+> > > This series adds initial Windows support for 9p file system.
+> > >
+> > > 'local' file system backend driver is supported on Windows,
+> > > including open, read, write, close, rename, remove, etc.
+> > > All security models are supported. The mapped (mapped-xattr)
+> > > security model is implemented using NTFS Alternate Data Stream
+> > > (ADS) so the 9p export path shall be on an NTFS partition.
+> > >
+> > > 'synth' driver is adapted for Windows too so that we can now
+> > > run qtests on Windows for 9p related regression testing.
+> > >
+> > > Example command line to test:
+> > >   "-fsdev local,path=3Dc:\msys64,security_model=3Dmapped,id=3Dp9 -dev=
+ice
+> > virtio-9p-pci,fsdev=3Dp9,mount_tag=3Dp9fs"
+> > >
+> > > Changes in v5:
+> > > - rework Windows specific xxxdir() APIs implementation
+> >
+> > I didn't have the chance to look at this v5 yet.
+> >
+> > In general it would help for review to point out in the cover letter wh=
+ich
+> > patch(es) have changed, what decisions you have made and why.
+> >
+> > In this case I guess that's patch 4.
+> >
+>=20
+> Yes, it's patch 4, and v5 is reworked following your comments
+> regarding patch 4 of v4.
+
+:) The point was we only discussed suboptimal individual options (each one
+with pros and cons), not one compelling solution.
+
+Never mind, I'll look at your code changes.
+
+Best regards,
+Christian Schoenebeck
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
