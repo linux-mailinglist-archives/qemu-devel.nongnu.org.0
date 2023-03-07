@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BCE6AE64F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:22:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5A76AE645
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:21:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZa4O-0000c1-B1; Tue, 07 Mar 2023 11:21:44 -0500
+	id 1pZa4O-0000cJ-UO; Tue, 07 Mar 2023 11:21:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZa4L-0000bh-CA
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:21:41 -0500
-Received: from mout.kundenserver.de ([212.227.126.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZa4J-0006yS-Ma
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:21:41 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MUGyh-1pz3Rn3GgF-00RFkB; Tue, 07 Mar 2023 17:21:32 +0100
-Message-ID: <f63f6861-df82-9b5d-70b8-129b15a17492@vivier.eu>
-Date: Tue, 7 Mar 2023 17:21:31 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZa4M-0000br-K0
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:21:42 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZa4K-0006yn-0G
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:21:42 -0500
+Received: by mail-wr1-x434.google.com with SMTP id q16so12725274wrw.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:21:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678206098;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3KZYphWhdVAnvWbr1j7QS/cc1nY/OgAy/9gY36WtPWI=;
+ b=duGi6ChPks1NvHE4h27ex6WPEMMvNMfP2+x1WIy3UlfnGH2+Ij/4ZlcNxSKIhDBKgA
+ AdExmMYXJqNS+04U5BXXrD9W2a/oNousIf/in9oBon62M20O8c2aO4pcc33gXfSIfZcM
+ ZsJMLvXFwkaOJqcJPYE0xpeVRDqaiVpFEmU11bf+f0Yu2gwlZyYDlKcfZ0ZUhzXhfdwL
+ jI2PWs860DotTqcJz0yrRMxRkztlWDc0q4iyfPL0XJyVY4JKHxOb/P0aMgkfNx8x1AvS
+ oHNQ5kLrxeZ/N+FMoSYvUWKGjg25o5/JdntYq3MqIcj3ok7/rE18x5ADMXdqNqhipiFK
+ WT1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678206098;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3KZYphWhdVAnvWbr1j7QS/cc1nY/OgAy/9gY36WtPWI=;
+ b=hJsa3Mq6cPg5ct+lgLgoeAHT6NnbMiw8R9rZ5NuD9VMKz3+jLeMaiYZnVUcMpkt2yS
+ cOFtEPGKg/g8arf+43ixjuVjfQZgvd39P0//aIS3VET1QkNA6p2CiPyhPdWoob/JGY8g
+ oKvNLleEsWs7Hct1pLLffFZ1cHk2SXpkdlGgdfPCZwl5zf86wNkjl1BSfuLJ49mqwAX+
+ EWZFR4Hqt5qurSMs+z/Pmnvk/WEuh0WXd5PTUJUdyg3eWj/6um0+RNMSsNacNfCS5USE
+ bhoIlpgvuhw6VXL9ll9S2vjz7R4wAp50+QYA3BW/KEhWNhkjrqod/IIKymrJTxWQ2vAs
+ N2QA==
+X-Gm-Message-State: AO0yUKVhDFuDGT+6UwK4wSCLIi4sVup8Y6GbtSvM1kLgMbDz1jxBT/wa
+ 6xiV4DY5pnnUNZmMkLWT6II=
+X-Google-Smtp-Source: AK7set8Pip1A75xuZnNQJFUj1hyUMwO0SBfJbPEaTxxl9w7OUPd+9KViTpH6IT8JdSgOGMaYHrsISw==
+X-Received: by 2002:a5d:63c9:0:b0:2c3:d707:7339 with SMTP id
+ c9-20020a5d63c9000000b002c3d7077339mr12850070wrw.6.1678206098214; 
+ Tue, 07 Mar 2023 08:21:38 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
+ by smtp.gmail.com with ESMTPSA id
+ z1-20020adff1c1000000b002c70c99db74sm12995127wro.86.2023.03.07.08.21.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 08:21:37 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <7c77dee8-a7b6-b41a-bf0a-ddec69ad0d48@xen.org>
+Date: Tue, 7 Mar 2023 16:21:36 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] linux-user: Add translation for argument of msync()
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <Y5rMcts4qe15RaVN@p100>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <Y5rMcts4qe15RaVN@p100>
+Subject: Re: [RFC PATCH v1 22/25] hw/xen: Add emulated implementation of
+ XenStore operations
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-23-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-23-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/0uL1x13Wu3rZomLus/YOkWm7E/g5J1mcodALrt2FXI4+w3WxNY
- WdiyYIpTnJ/gLtbYWtOZ6dCtr2b7FTeV0IMJG6GF+d8USS7uTujBuhQZ1MVOPz/+VO3DYBF
- Scq5u5XKpHYVRImdWT1fI7RiUhm6URLVAucIaTTXGKxcBxsZFzVnDcIYDN3mRvju2xiBfy9
- xFMr1pNWumqDBMvD8jt9A==
-UI-OutboundReport: notjunk:1;M01:P0:XkODJwn6czI=;7ZNsILcYJNwqtGbNdOy0bLUpW8K
- wWq2M2tM0ej1nzgBF1B1bQ46H9jZxHhXL5C/dqi7x0YgaBVEgOaasdZuiDa2UUsX9pbHLycBG
- 656ZNg4ZsDvNYiMZ5xmNKP4koFYHSUTvWKG3qxgdcXyMAYLUagYVnnM82I1Jb/896vCeRb5Dr
- te6P22ilH1NcvbflccYSXfgLnXnV+G9Aew8nsPW8z3oOprfQoCVfiyMtrjBOx6UTqeXldvDgk
- AeKSclQIPgB9cqMYZ4do8QJ9JIZi4YjXvOSERi+zBwSJX7mH7SvCohrMyLZkHFvTeSEUn0PV9
- Y3piAmj0bRtHUSrSwUZt8shmHeUAbRkSGFM4WmVUObxBz66z+F0iZHvhO2cGt109kYiAn2NtI
- bZH2EY9i4Z+AyLy3UXOCnLM8vhrkuITnWGXqHYrevQdVgJqADuJZoppJkWBFq2nldJ/40JDE2
- wlYuqoqcSG7VTomGxyP+OfBphi1sOCzGfVpX4NSIW/Fijvc9mhRu8jsdhAapbozTCQoq7x6Y0
- 1Hk3xu3hmwWXIKT8cxAF2/wtuv+EdNw+2tFrocRplfDa7XBdgOfMgwoHQVd+b5PvHc9tbxqlk
- 1OEd8ilVPkDsacjadG6pPPxS5CLcKZKzvChQEm9QPwVbfg5Gw2RhfwEBFan+aX7R9mlN7xrz9
- 43p037bbH93RUiE85ZZ6Uw2hiNbwk2SHVNh0WDGr4w==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,128 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 15/12/2022 à 08:27, Helge Deller a écrit :
-> msync() uses the flags MS_ASYNC, MS_INVALIDATE and MS_SYNC, which differ
-> between platforms, specifcally on alpha and hppa.
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Add a target to host translation for those and wire up a nicer strace
-> output.
+> Now that we have an internal implementation of XenStore, we can populate
+> the xenstore_backend_ops to allow PV backends to talk to it.
 > 
-> This fixes the testsuite of the macaulay2 debian package with a hppa-linux
-> guest on a x86-64 host.
+> Watches can't be processed with immediate callbacks because that would
+> call back into XenBus code recursively. Defer them to a QEMUBH to be run
+> as appropriate from the main loop. We use a QEMUBH per XS handle, and it
+> walks all the watches (there shouldn't be many per handle) to fire any
+> which have pending events. We *could* have done it differently but this
+> allows us to use the same struct watch_event as we have for the guest
+> side, and keeps things relatively simple.
+
+Yes, it's more consistent with watch events on real Xen this way.
+
 > 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
-> diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
-> index cd6e3d70a6..051544f5ab 100644
-> --- a/linux-user/alpha/target_mman.h
-> +++ b/linux-user/alpha/target_mman.h
-> @@ -3,6 +3,10 @@
-> 
->   #define TARGET_MADV_DONTNEED 6
-> 
-> +#define TARGET_MS_ASYNC 1
-> +#define TARGET_MS_SYNC 2
-> +#define TARGET_MS_INVALIDATE 4
-> +
->   #include "../generic/target_mman.h"
-> 
->   #endif
-> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
-> index 1436a3c543..32bf1a52d0 100644
-> --- a/linux-user/generic/target_mman.h
-> +++ b/linux-user/generic/target_mman.h
-> @@ -89,4 +89,17 @@
->   #define TARGET_MADV_DONTNEED_LOCKED 24
->   #endif
-> 
-> +
-> +#ifndef TARGET_MS_ASYNC
-> +#define TARGET_MS_ASYNC 1
-> +#endif
-> +
-> +#ifndef TARGET_MS_INVALIDATE
-> +#define TARGET_MS_INVALIDATE 2
-> +#endif
-> +
-> +#ifndef TARGET_MS_SYNC
-> +#define TARGET_MS_SYNC 4
-> +#endif
-> +
->   #endif
-> diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
-> index 66dd9f7941..f9b6b97032 100644
-> --- a/linux-user/hppa/target_mman.h
-> +++ b/linux-user/hppa/target_mman.h
-> @@ -10,6 +10,10 @@
->   #define TARGET_MADV_WIPEONFORK 71
->   #define TARGET_MADV_KEEPONFORK 72
-> 
-> +#define TARGET_MS_SYNC 1
-> +#define TARGET_MS_ASYNC 2
-> +#define TARGET_MS_INVALIDATE 4
-> +
->   #include "../generic/target_mman.h"
-> 
->   #endif
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index a75101fca1..ac8f872371 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -650,7 +650,7 @@
->   { TARGET_NR_msgsnd, "msgsnd" , NULL, NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_msync
-> -{ TARGET_NR_msync, "msync" , NULL, NULL, NULL },
-> +{ TARGET_NR_msync, "msync" , "%s(%p,%u,%d)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_multiplexer
->   { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index d58e9b8d10..e541fbe09a 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -22,6 +22,7 @@
->   #include "qemu/path.h"
->   #include "qemu/memfd.h"
->   #include "qemu/queue.h"
-> +#include "target_mman.h"
->   #include <elf.h>
->   #include <endian.h>
->   #include <grp.h>
-> @@ -7667,6 +7668,14 @@ static inline int target_to_host_mlockall_arg(int arg)
->   }
->   #endif
-> 
-> +static inline int target_to_host_msync_arg(abi_long arg)
-> +{
-> +    return ((arg & TARGET_MS_ASYNC) ? MS_ASYNC : 0) |
-> +           ((arg & TARGET_MS_INVALIDATE) ? MS_INVALIDATE : 0) |
-> +           ((arg & TARGET_MS_SYNC) ? MS_SYNC : 0) |
-> +           (arg & ~(TARGET_MS_ASYNC | TARGET_MS_INVALIDATE | TARGET_MS_SYNC));
-> +}
-> +
->   #if (defined(TARGET_NR_stat64) || defined(TARGET_NR_lstat64) ||     \
->        defined(TARGET_NR_fstat64) || defined(TARGET_NR_fstatat64) ||  \
->        defined(TARGET_NR_newfstatat))
-> @@ -10163,7 +10172,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           /* ??? msync/mlock/munlock are broken for softmmu.  */
->   #ifdef TARGET_NR_msync
->       case TARGET_NR_msync:
-> -        return get_errno(msync(g2h(cpu, arg1), arg2, arg3));
-> +        return get_errno(msync(g2h(cpu, arg1), arg2,
-> +                               target_to_host_msync_arg(arg3)));
->   #endif
->   #ifdef TARGET_NR_mlock
->       case TARGET_NR_mlock:
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xen_xenstore.c | 273 ++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 269 insertions(+), 4 deletions(-)
 > 
 
-Applied to my linux-user-for-8.0 branch.
-
-Thanks,
-Laurent
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
