@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BD66ADE25
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DC96ADE20
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVx6-00057f-Sa; Tue, 07 Mar 2023 06:57:57 -0500
+	id 1pZVx9-0005Bm-IF; Tue, 07 Mar 2023 06:57:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVx4-0004xT-CF
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pZVx7-0005BD-Re
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVx3-00038z-1p
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:54 -0500
+ id 1pZVx6-00039F-9G
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678190272;
+ s=mimecast20190719; t=1678190275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0RJQY43s2GclWYOsh3Cy5FP1kKhEpDMEydGU9O04K9g=;
- b=At43oeFkS2OFrQy1s/iHWdRgobemu9le/KSd/iRZTVlNgkJhvfFb0SauhVPToPdzMZnjos
- cbnUzwoJ4mb+Jjv+xAonEsgyq2FIjku7mDQlL0zZz1E1VY+C+wJsjvB6iZIMmZpqiQ5saz
- 6+ih7vv+3/CaX6Yf5BEa4s/HjrIGKss=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gz2gPLG/RouFtIjBTzYDNnr40PwbLaGeE0foRR2kE94=;
+ b=iQA+cjAvVj5U/CIYfvAv4wK9rVqgwmCaudH4hSg0wk92gMr6eYreer8Cfr0V5olGclWXAz
+ /r9lv/0kZAiRqS0krXI7yE7OCiEkal2TYrl0uANDBs7GfCH0PvaCxXC/UEXDFmHjqXnPmh
+ yK2efiM9UFMnCMGUH8xl/7d8XJEAzCE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-WYKWQ7SyPrCtCbZXkZHG6w-1; Tue, 07 Mar 2023 06:57:49 -0500
-X-MC-Unique: WYKWQ7SyPrCtCbZXkZHG6w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-139-0NAR3etCNtexxeGVWrBeKA-1; Tue, 07 Mar 2023 06:57:54 -0500
+X-MC-Unique: 0NAR3etCNtexxeGVWrBeKA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0786B85A588;
- Tue,  7 Mar 2023 11:57:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C35F13C1485E;
+ Tue,  7 Mar 2023 11:57:53 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09D05492C14;
- Tue,  7 Mar 2023 11:57:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB4E2C15BA0;
+ Tue,  7 Mar 2023 11:57:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,17 +50,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 15/18] ui/sdl: try to instantiate the matching opengl
- renderer
-Date: Tue,  7 Mar 2023 15:56:34 +0400
-Message-Id: <20230307115637.2464377-16-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 16/18] ui: introduce egl_init()
+Date: Tue,  7 Mar 2023 15:56:35 +0400
+Message-Id: <20230307115637.2464377-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -87,38 +86,148 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-User can still bypass the QEMU choice with SDL_RENDER_DRIVER environment
-variable. (for some reason, specifying a driver disables batching and
-breaks rendering, so enable it explicitly)
+Future patches will introduce EGL support on win32 (too late for 8.0
+though). Having a common place for EGL initialization and error handling
+will make it simpler.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/sdl2.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/ui/egl-helpers.h |  2 ++
+ ui/dbus.c                |  7 +------
+ ui/egl-headless.c        | 16 ++++++++--------
+ ui/egl-helpers.c         | 25 +++++++++++++++++++++++++
+ ui/spice-core.c          |  7 +------
+ 5 files changed, 37 insertions(+), 20 deletions(-)
 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 592eca3e1c..e83ea53628 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -99,7 +99,18 @@ void sdl2_window_create(struct sdl2_console *scon)
-                                          surface_width(scon->surface),
-                                          surface_height(scon->surface),
-                                          flags);
-+    if (scon->opengl) {
-+        const char *driver = "opengl";
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index c92dd90e33..53d953ddf4 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -65,4 +65,6 @@ int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode);
+ EGLContext qemu_egl_init_ctx(void);
+ bool qemu_egl_has_dmabuf(void);
+ 
++bool egl_init(const char *rendernode, DisplayGLMode mode, Error **errp);
 +
-+        if (scon->opts->gl == DISPLAYGL_MODE_ES) {
-+            driver = "opengles2";
-+        }
-+
-+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, driver);
-+        SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
-+    }
-     scon->real_renderer = SDL_CreateRenderer(scon->real_window, -1, 0);
-+
-     if (scon->opengl) {
-         scon->winctx = SDL_GL_CreateContext(scon->real_window);
+ #endif /* EGL_HELPERS_H */
+diff --git a/ui/dbus.c b/ui/dbus.c
+index f529928f0b..ebf03bd84d 100644
+--- a/ui/dbus.c
++++ b/ui/dbus.c
+@@ -451,12 +451,7 @@ early_dbus_init(DisplayOptions *opts)
+     DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
+ 
+     if (mode != DISPLAYGL_MODE_OFF) {
+-        if (egl_rendernode_init(opts->u.dbus.rendernode, mode) < 0) {
+-            error_report("dbus: render node init failed");
+-            exit(1);
+-        }
+-
+-        display_opengl = 1;
++        egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
      }
+ 
+     type_register(&dbus_vc_type_info);
+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
+index ae07e91302..ef70e6a18e 100644
+--- a/ui/egl-headless.c
++++ b/ui/egl-headless.c
+@@ -1,7 +1,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+-#include "sysemu/sysemu.h"
++#include "qapi/error.h"
+ #include "ui/console.h"
+ #include "ui/egl-helpers.h"
+ #include "ui/egl-context.h"
+@@ -191,21 +191,21 @@ static const DisplayGLCtxOps eglctx_ops = {
+ 
+ static void early_egl_headless_init(DisplayOptions *opts)
+ {
+-    display_opengl = 1;
++    DisplayGLMode mode = DISPLAYGL_MODE_ON;
++
++    if (opts->has_gl) {
++        mode = opts->gl;
++    }
++
++    egl_init(opts->u.egl_headless.rendernode, mode, &error_fatal);
+ }
+ 
+ static void egl_headless_init(DisplayState *ds, DisplayOptions *opts)
+ {
+-    DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_ON;
+     QemuConsole *con;
+     egl_dpy *edpy;
+     int idx;
+ 
+-    if (egl_rendernode_init(opts->u.egl_headless.rendernode, mode) < 0) {
+-        error_report("egl: render node init failed");
+-        exit(1);
+-    }
+-
+     for (idx = 0;; idx++) {
+         DisplayGLCtx *ctx;
+ 
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index 10772b6471..36b4fc51d9 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -19,6 +19,8 @@
+ #include "qemu/error-report.h"
+ #include "ui/console.h"
+ #include "ui/egl-helpers.h"
++#include "sysemu/sysemu.h"
++#include "qapi/error.h"
+ 
+ EGLDisplay *qemu_egl_display;
+ EGLConfig qemu_egl_config;
+@@ -569,3 +571,26 @@ EGLContext qemu_egl_init_ctx(void)
+ 
+     return ectx;
+ }
++
++bool egl_init(const char *rendernode, DisplayGLMode mode, Error **errp)
++{
++    ERRP_GUARD();
++
++    if (mode == DISPLAYGL_MODE_OFF) {
++        error_setg(errp, "egl: turning off GL doesn't make sense");
++        return false;
++    }
++
++#ifdef CONFIG_GBM
++    if (egl_rendernode_init(rendernode, mode) < 0) {
++        error_setg(errp, "egl: render node init failed");
++        return false;
++    }
++#else
++    error_setg(errp, "egl: not available on this platform");
++    return false;
++#endif
++
++    display_opengl = 1;
++    return true;
++}
+diff --git a/ui/spice-core.c b/ui/spice-core.c
+index 76f7c2bc3d..b05c830086 100644
+--- a/ui/spice-core.c
++++ b/ui/spice-core.c
+@@ -820,12 +820,7 @@ static void qemu_spice_init(void)
+                          "incompatible with -spice port/tls-port");
+             exit(1);
+         }
+-        if (egl_rendernode_init(qemu_opt_get(opts, "rendernode"),
+-                                DISPLAYGL_MODE_ON) != 0) {
+-            error_report("Failed to initialize EGL render node for SPICE GL");
+-            exit(1);
+-        }
+-        display_opengl = 1;
++        egl_init(qemu_opt_get(opts, "rendernode"), DISPLAYGL_MODE_ON, &error_fatal);
+         spice_opengl = 1;
+     }
+ #endif
 -- 
 2.39.2
 
