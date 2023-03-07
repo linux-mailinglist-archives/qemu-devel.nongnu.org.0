@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC6B6AE42D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F966AE435
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:14:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYyl-0000lN-9y; Tue, 07 Mar 2023 10:11:51 -0500
+	id 1pZZ0e-0001sJ-N8; Tue, 07 Mar 2023 10:13:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYyh-0000hC-K5
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:11:47 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYyc-0007pN-AF
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:11:43 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id bw19so12431316wrb.13
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:11:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678201900;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=T+8ApNJHQCJ5qmUY8gnCiqecvRdjSkKjvVVArvJOI2E=;
- b=DT6mUfYk6lsR0LgzohQ8u+maeyy0fEMfwWZi2WxJKVgOB/Jf86uBhtb91LyNdL+HDO
- ktkOjYTVJr/dv6+aJkciOXobvCbDmR6mlAqZtsz5X7lteJj9VxBy5FKeDcvEnxHIUl7t
- SHoC0bJEbJCig8fKjHlAWxR7S8Op5g0Azxz2R50d0evyhhKGm83FFQHot9eJYKpRmaVC
- gMzpXWV5L0YvcREX2Ce9N8Rl9OSH5Hn9dcc/1oSCoPJrUHtqvdRKOCU1RZ3TsYhbtBrP
- mdrIGBCS68yo6o19c6AtvHnB0DyC2R3sO9AyYhI5fKAGN/QRZaZ8lBxjtBosxrvUAZmh
- OcGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678201900;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T+8ApNJHQCJ5qmUY8gnCiqecvRdjSkKjvVVArvJOI2E=;
- b=yZRn783gOXHguebe7O50CoMcbygPqEP5TUwionW0DQ3fFLGj82qnGq6zUgj8e72nJQ
- q/Q7wF3LnDu7ArROf4z5I7i3H5PrWq3q6Va+rTLnUqSZ41sOd//COxIMsgXcUZqejwdO
- ZkrjZFp8D0GirCveP/2G7UoL1zLjjXI3kjJv+jEzAL/YlCQUI3tczqjxiM5VKulQpQ2T
- 2oKCWDviGm/Xv9f39bsBiNYPP23FLUwVeHCQa5cs0PV8m3It/Qn5oUEFA5YdAqdjG471
- XnLGdvgjAsnyJJnxNsBmNGRqoS2IlH1Q+DgCHEI104Q6wBxzNQAQNpgs2qoVS+bVOIXc
- 2Iyg==
-X-Gm-Message-State: AO0yUKWjmXDiuI/JmIOqqv1uILpfagexTCVRr+GCK3Sl6BpZ9Q2h/O6c
- wA0ubngBTXHHPFWLkY2u/aEB+g==
-X-Google-Smtp-Source: AK7set+w4vXGl8XR7XQ/vn0y4/l5dl1Iu4EL+H7rNOD8VRogeG84qOQKMBjoGX8+QLZr/Iih5BmK2Q==
-X-Received: by 2002:adf:f583:0:b0:2c7:daa:1c56 with SMTP id
- f3-20020adff583000000b002c70daa1c56mr10844910wro.4.1678201900500; 
- Tue, 07 Mar 2023 07:11:40 -0800 (PST)
-Received: from [192.168.248.175] (131.red-95-127-34.staticip.rima-tde.net.
- [95.127.34.131]) by smtp.gmail.com with ESMTPSA id
- k5-20020adfe8c5000000b002c56179d39esm12882208wrn.44.2023.03.07.07.11.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 07:11:39 -0800 (PST)
-Message-ID: <58f899e1-71f6-1ec9-e990-047511e2a84e@linaro.org>
-Date: Tue, 7 Mar 2023 16:11:37 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZZ0T-0001rr-3M; Tue, 07 Mar 2023 10:13:38 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZZ0M-0008Ci-Oq; Tue, 07 Mar 2023 10:13:34 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4B8737457E7;
+ Tue,  7 Mar 2023 16:13:13 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E5F79745720; Tue,  7 Mar 2023 16:13:12 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E3BC57456E3;
+ Tue,  7 Mar 2023 16:13:12 +0100 (CET)
+Date: Tue, 7 Mar 2023 16:13:12 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Bernhard Beschow <shentey@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ ReneEngel80@emailn.de, qemu-devel@nongnu.org, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v8 3/6] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <87cz5kr73v.fsf@linaro.org>
+Message-ID: <8868aae3-1d8e-0f14-0f76-614acaf0d746@eik.bme.hu>
+References: <cover.1678105081.git.balaton@eik.bme.hu>
+ <23370610213adb60877c3751f954b203fe2fa775.1678105081.git.balaton@eik.bme.hu>
+ <0ca8d3d3-2e42-a8c0-ed59-bc543e4149bd@ilande.co.uk>
+ <3cbf9e02-5660-18dd-783b-9f9f09fe35bb@eik.bme.hu>
+ <64b06dd7-4dbe-5f5b-3808-34acbf64b354@ilande.co.uk>
+ <1ba22339-71f6-14a4-c138-05e31e169e0a@eik.bme.hu> <87cz5kr73v.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v9 1/7] hw/display/sm501: Add debug property to control
- pixman usage
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, ReneEngel80@emailn.de
-References: <cover.1678188711.git.balaton@eik.bme.hu>
- <61768ffaefa71b65a657d1365823bd43c7ee9354.1678188711.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <61768ffaefa71b65a657d1365823bd43c7ee9354.1678188711.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ BOUNDARY="3866299591-1092065267-1678200001=:65948"
+Content-ID: <eb70ee48-3273-f6d0-429d-3b56baed4151@eik.bme.hu>
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,48 +72,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/3/23 12:42, BALATON Zoltan wrote:
-> Add a property to allow disabling pixman and always use the fallbacks
-> for different operations which is useful for testing different drawing
-> methods or debugging pixman related issues.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Tested-by: Rene Engel <ReneEngel80@emailn.de>
-> ---
->   hw/display/sm501.c | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1092065267-1678200001=:65948
+Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
+Content-ID: <2705e51b-a0e8-6f20-0b5a-526db9b854a4@eik.bme.hu>
+
+On Tue, 7 Mar 2023, Alex Bennée wrote:
+> BALATON Zoltan <balaton@eik.bme.hu> writes:
+>> On Tue, 7 Mar 2023, Mark Cave-Ayland wrote:
+>>> On 07/03/2023 00:20, BALATON Zoltan wrote:
+>>>> On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
+>>>>> On 06/03/2023 12:33, BALATON Zoltan wrote:
+> <snip>
+>>>> Given that we only have a few hours left until the freeze I hope
+>>>> you're not proposing to drop this series and postpone all this to
+>>>> the next release,
+>
+> This sort of passive aggressive framing isn't helpful or conducive to
+> collaboration. We should be striving to merge code based on the merits
+> of the patches not on how close we are to a given release.
+>
+>>>> only that we do this clean up in the next devel
+>>>> cycle. You were away when this series were on the list for review
+>>>> so this is a bit late now for a big rewrite. (Especially that what
+>>>> you propose is a variant of the original I've submitted that I had
+>>>> to change due to other review comments.)
+>>>> Since this version was tested and works please accept this for QEMU
+>>>> 8.0 now then we can work out your idea in the next devel cycle but
+>>>> until then this version allows people to run AmigaOS on pegasos2
+>>>> with sound which is the goal I want to achieve for QEMU 8.0 and
+>>>> does not introduce any change to via-ide which was good enough for
+>>>> the last two years so it should be good enough for a few more
+>>>> months.
+>>>
+>>> My understanding from the thread was that testing shows there are
+>>> still hangs when using sound/USB/IDE simultaneously with this
+>>> series, no? Or has that now been fixed?
+>>
+>> No. This series fiixes sound/USB/PCI interrupts which is needed to get
+>> AmigaOS work and be usable on pegasos2. The hang Bernhard found with
+>> usb-mouse was only affecting MorphOS with this series which uses level
+>> sensitive mode of i8259 which wasn't implemented. Patch 2 in this
+>> series thanks to David Woodhouse fixes that (so did my work around
+>> before that patch) and MorphOS on pegasos2 is not a priority as it
+>> already runs on mac99 so what I'd like to make work here is AmigaOS
+>> for which it's the only G4 CPU platform now. This is important as it's
+>> much faster than the PPC440 version and may be able to run with KVM
+>> eventually but to find that out this should get in first so people can
+>> start to test it. We can always improve it later including
+>> implementing a better model of IRQ routing in VT8231. What we have in
+>> this series now works for all guests and all important patches have
+>> been tested and now reviewed. So I hope Philippe can pick this up and
+>> then we have time for this discussion afterwards.
+>
+> We shouldn't make perfect the enemy of the good. If the changes are well
+> localised, reviewed and tested and importantly don't introduce
+> regressions then we shouldn't hold things up purely on the basis of a
+> not meeting a preferred style* of an individual maintainer. Obviously
+> the barrier for entry rises as the impact on the rest of the code base
+> increases. We have more than enough experience of introducing new APIs
+> and regretting it later to be understandably cautious in this regard.
+>
+> (* as opposed to documented coding style which is a valid reason to
+> reject patches)
+>
+>>> I completely understand it can be frustrating not getting patches
+>>> merged, but often as developers on less popular machines it can take
+>>> a long time. My perspective here is that both you and Bernhard have
+>>> out-of-tree patches for using the VIA southbridges, and during
+>>> review Bernhard has raised legitimate review questions based upon
+>>> his experience.
+>>
+>> Those review questions have been addressed, I've accepted Bernhard's
+>> alternative patch even though I think it's not entirely correct and
+>> although the first series was already tested I've re-done that based
+>> on Bernhard's idea and asked Rene to test all of it again. That's when
+>> you came along a few days before the freeze and blocking this without
+>> even fully understanding what it's about. That is what's frustrating.
+>
+> While using Based-on gives enough information to reconstruct a final
+> tree perhaps it would be simpler to post a full series relative to
+> master to make for easier review and merging?
+
+The last version v9 I've sent today is based on master without any other 
+dependency but it wasn't decided until today what fix will be taken for an 
+issue in master that was introduced independntly of this series a week ago 
+and I had to rebase this on all propsed fixes for that change until it 
+finally turned out I should not target the fix I was prevously was told to 
+do.
+
+>>> To me it makes sense to resolve these outstanding issues first to
+>>> provide a solution that works for everyone, rather than pushing to
+>>> merge a series that
+>>
+>> There are no issues to resolvc regatding functionality. All versions
+>> of this series that I have submitted were tested and are working and
+>> achieve the goal to make it possible to run AmigaOS on pegasos2 and
+>> get sound with MorphOS which are not yet possible currently. Nobody
+>> showed these patches would break anything (which would be surprising
+>> anyway as these are only used by pegasos2 and fuloong2e the latter of
+>> which has never been finished so only still around to have a way to
+>> test these components independent of pegasos2). A solution for
+>> everyone would be to merge this series now so they can use it in QEMU
+>> 8.0 then we have time to improve it and make the model conteptually
+>> more correct but there are no missing functionality that would prevent
+>> guests from running with this series so no reason to keep this out
+>> now.
+>
+> Regressions would be a good reason to avoid premature merging.
+>
+>>> still has reliability issues and where there is lack of consensus
+>>> between developers. The worst case scenario to me is that these
+>>> patches get merged, people report that QEMU is unreliable for
+>>> AmigaOS, and then we end up repeating this entire process yet again
+>>> several months down the line when Bernhard submits his series for
+>>> upstream.
+>
+> Do we have any indication that AmigaOS (I assume as a guest) is less
+> reliable on this series? Is this an area where it can only be confirmed
+> by manual testing?
+
+AmigaOS runs well on this series and can use PCI cards which it cannot on 
+current master. The goal of this series is to allow that because otherwise 
+it cannot use network and sound without which it's not really usable. With 
+this series it finally can be used as shown on the video by Rene who 
+tested it and I posted before.
+
+> I'm not sure we can gate things on a manual test only a few people can
+> run. This is an argument for improving our testing coverage.
+
+It needs a license for AmigaOS Pegasos 2 version to test with that but 
+this series also fixes PCI IRQs for Linux so the same could be tested by 
+adding a network card to a Linux guest. But Mark did not run any tests 
+just ctiticised based on looking at the patches so not sure it's a 
+question of patch coverage in this case.
+
+>> I don't even know what to say to that. It already took me more time
+>> arguing with you about it than writing the whole series. We have
+>> pegasos2 in QEMU already which these really small patches that
+>> Bernhard now also agrees could be accepted for now would allow to run
+>> two more guests and reach usable state with them that is much better
+>> than what's possible now and there are several people who can't
+>> compile their QEMU from off-tree sources but would happily use it from
+>> their distro packages or binaries provided for release versions. But
+>> you just don't care about those people or my work and would hold this
+>> back indefinitely becuase maybe it could break some off-tree changes
+>> not even finished or submitted yet or maybe we will find a bug later.
+>
+> Please don't assume peoples motivation in their feedback - its not
+> helpful. We should proceed with the default assumption that everyone
+> wants to improve the project even if opinions on how to do so differ.
+>
+>> What's the freeze time for if not for finding bugs and fixing them.
+>> What's the development window for if not imrpving code already there?
+>
+> We fix bugs that might of slipped in during development - we don't
+> knowingly introduce a bug with a promise to fix it during freeze.
+
+This series does not introduce any bugs that we know about. All versions 
+I've submitted work equally well without introducing regressions so all 
+the different versions were only necessary to implement the same in 
+different ways not to fix any regressions but to satisfy different views 
+of different people. The regression we now have in master was introduced 
+by a different series that wasn't sufficiently tested before merging. This 
+series now also has a patch to fix that.
+
+>> Again this is now tested, reviewed and isn't known to break anything
+>> that's already there or even make it less clean, in fact it does make
+>> existing code a bit cleaner and fixes some issues so the only problem
+>> is that you think there must be a better way doing it or do it more
+>> fully than this series does it but you've failed to say that during
+>> review because you were away.
+>>
+>> Philippe, Peter or any other maintainer please put an end on this
+>> suffering and submit a pull request with any version of this series
+>> (as I've said all versions I've sent are tested and working) now so we
+>> have it working and then we can rewrite it later however Mark wants in
+>> the future but let not make people who want to use it wait because of
+>> unreasonable concerns. Putting this off to wait until some other
+>> unfinished and unrelated machine is written just makes no sense.
+>
+> I've added the PC machine maintainers to the CC because AFAICT they are
+> also maintainers for the systems touched here. From my point of view if
+> the maintainers of the affected subsystems are happy, code is reviewed
+> and there are no known regressions then there isn't a barrier to getting
+> this code merged.
+
+The only patch that touches pc machine is the i8259 LTIM patch from David 
+which is only needed for MorphOS as nothing else uses that mode of the 
+i8259 PIC so if you can't decide on that one patch then just drop it and 
+merge the rest of the series which is enough for AmigaOS to work. That 
+patch being a bug fix could also wait a bit more, no reason to delay the 
+whole series because of this patch.
 
 
->   static Property sm501_sysbus_properties[] = {
->       DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
-> +    DEFINE_PROP_UINT8("x-pixman", SM501SysBusState, state.use_pixman, 7),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> @@ -2122,6 +2126,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
->   
->   static Property sm501_pci_properties[] = {
->       DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
-> +    DEFINE_PROP_UINT8("x-pixman", SM501PCIState, state.use_pixman, 7),
+I've said it before but here it is again to make it clearer:
 
-FYI, alternatively:
+v9-0001-hw-display-sm501-Add-debug-property-to-control-pi.patch
+v9-0002-hw-intc-i8259-Implement-legacy-LTIM-Edge-Level-Ba.patch
 
-DEFINE_PROP_BIT("x-pixman-fill", SM501PCIState, state.use_pixman, 0, 1),
-DEFINE_PROP_BIT("x-pixman-blit", SM501PCIState, state.use_pixman, 1, 1),
-DEFINE_PROP_BIT("x-pixman-overlap-blit", SM501PCIState,
-                 state.use_pixman, 2, 1),
+The above two are optional but would be nice to have. Patch 1 adds a debug 
+aid for testing sm501 emulation, patch 2 is only needed for MorphOS on 
+pegasos2 which is less important than getting AmigaOS to work.
 
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> @@ -2162,11 +2167,18 @@ static void sm501_pci_class_init(ObjectClass *klass, void *data)
->       dc->vmsd = &vmstate_sm501_pci;
->   }
->   
-> +static void sm501_pci_init(Object *o)
-> +{
-> +    object_property_set_description(o, "x-pixman", "Use pixman for: "
-> +                                    "1: fill, 2: blit, 4: overlap blit");
-> +}
+v9-0003-Revert-hw-isa-vt82c686-Remove-intermediate-IRQ-fo.patch
 
+This fixes up Philippe's series which caused me to need to rebase the 
+series several times.
+
+v9-0004-hw-isa-vt82c686-Implement-PCI-IRQ-routing.patch
+v9-0005-hw-ppc-pegasos2-Fix-PCI-interrupt-routing.patch
+v9-0006-hw-usb-vt82c686-uhci-pci-Use-PCI-IRQ-routing.patch
+
+These three are needed to fix PCI interrupts on pegasos2 and is the 
+minimum we need for AmigaOS (with some fix for current breakage like the 
+revert above).
+
+v9-0007-hw-audio-via-ac97-Basic-implementation-of-audio-p.patch
+
+This one implements audio output for pegasos2 but AmigaOS can use a sound 
+card instead with the above PCI IRQ patches so this could be optional but 
+since it's reviewed and tested no reason to not merge it but it depends on 
+the other patches before.
+
+Are there any more questions or concerns that I shuold answer about these?
+
+Regards,
+BALATON Zoltan
+--3866299591-1092065267-1678200001=:65948--
 
