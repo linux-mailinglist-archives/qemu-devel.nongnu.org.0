@@ -2,59 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4AC6AE377
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D77A6AE382
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:58:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYjp-0000s9-QM; Tue, 07 Mar 2023 09:56:25 -0500
+	id 1pZYla-0001hI-Aq; Tue, 07 Mar 2023 09:58:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZYjn-0000rV-98
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:56:23 -0500
-Received: from mout.kundenserver.de ([212.227.126.133])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZYjl-0004HW-I7
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:56:23 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MIKs0-1plgE3190O-00EQg0; Tue, 07 Mar 2023 15:56:19 +0100
-Message-ID: <08bdd96d-a4dd-945c-a0e0-61583e4372c8@vivier.eu>
-Date: Tue, 7 Mar 2023 15:56:18 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYlU-0001ge-Up
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:58:08 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYlT-0004kD-8M
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:58:08 -0500
+Received: by mail-wr1-x436.google.com with SMTP id l25so12428195wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678201086;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0EK/FfNQ9hSqSrJdeG4O9BtBV3bH00pWSvIH5yTiLYo=;
+ b=kDk0p3cXqIXD89W5Q2xV+/3i5fgaoiGpWWPOK6yfG5eJlY1TVLDvYcET5PBxeZ3Izk
+ YYnrisgj98WxhkjKCeD3qH9AnyqQx5wBS1gPR5SKhEbXIAqYGHCgp8uN/KaYEL2y5PFN
+ DYxKJO7S/+d/fEoeVgItedNhgF2H/4Eq0PU3s6dEy8D5Ac1KHdBtlQG3zlwoUf/aU0xr
+ 5AF+KId1SREYXmzvhkmxmL3Yn/KRC5oCt4EL+83rIMg3drtVwn6vIYA1Rs74PYnVMl3w
+ ZTb5lHjSYY81wY52o3KsjP11aED9isw2xPcDujXpxGvDOzW9D2/z7Dp9rcY/V6aV8I0m
+ 8uKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678201086;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0EK/FfNQ9hSqSrJdeG4O9BtBV3bH00pWSvIH5yTiLYo=;
+ b=tlctC0IBZuQQJA2URPrPP80oEJ4FLdXRm6RwrD4h+7zatavwbTlmuUHvYc1AlcD7oQ
+ cXFACITjwm4XrxYIzqi7nWAprc0V27ZvsEdryrgceSQUyWgeCBu2ofpE4Nks/+IdXjrZ
+ Iqb9WFmrpMIgGlQc8rfPhjpuIMtwcKZXvBmjliPrP9pIp1GkUaC5QZggjgoeUdtMGdyt
+ mSHUWckNCrlQ5H9HssEw9lFmxqxXDoxxEXoJ9BTqi5RgfFm1S3xrkR4pkGxmuX1eOZOf
+ oTxQGGkD0GAHAtpEBEi8epWzowAbK0iMr2Fs3EUobEQrrZsbAR2p01VG6daAwCzs6KL4
+ 47Aw==
+X-Gm-Message-State: AO0yUKV49xvdhf0N9FX5Qay/OiyjULxuQT1ttAIxEQspYtFyGOi1uH09
+ fEy1gLT8tUMq96UgtskX5IU=
+X-Google-Smtp-Source: AK7set8qc5MLxUC2qp0SHGgbx9XNWBuLmuOg/Y1NGgjFB32DXHGaB+6VhuUilKhRhyJRAH7lxnStYg==
+X-Received: by 2002:a5d:6e42:0:b0:2c5:4c9d:2dab with SMTP id
+ j2-20020a5d6e42000000b002c54c9d2dabmr11004782wrz.10.1678201085713; 
+ Tue, 07 Mar 2023 06:58:05 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id
+ n16-20020a5d67d0000000b002c758fe9689sm12716892wrw.52.2023.03.07.06.58.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 06:58:05 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <2d59aa7e-16f6-bd47-ef6f-dfd227518406@xen.org>
+Date: Tue, 7 Mar 2023 14:58:04 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] linux-user: Add strace for prlimit64() syscall
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20221222190639.124078-1-deller@gmx.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221222190639.124078-1-deller@gmx.de>
+Subject: Re: [RFC PATCH v1 16/25] hw/xen: Rename xen_common.h to xen_native.h
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-17-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-17-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cSgq69ezcgybQM2oEqHFCy5dUj4vliyYFfMacHzjqKaedclx/t6
- FywCxq6L+l2iCXPlOuUEs09MPXigEwLmD4ehhtJk22eSCuUbBg1vfj1NTabDgOCqIX0Hr6G
- +aax4v81fv2dbHOWSyM20DFV8C7fGdChR/AxLZxU63qBDZpuieaQRYpKh4qgY5miTjh6Dlb
- rgGUW99JIYEFtg0xCUvbQ==
-UI-OutboundReport: notjunk:1;M01:P0:QOaZDi29QEs=;R5od6wGMUjQytpPApYZOuarWRzL
- toHOR01bHLRcsVUTPhaP/0w5VKZ/ooMoH1FJ2/gq8bWFitFN3fWdHWiR+hxLZFJ2vw29HAvEd
- LFonEnWJ5Yxxwi3a8FKDih85dPFOL54fBbQBIeOOafjKeRzvSwR+0JkZfVs2SDRP2R/6VAOui
- io38B7gUkaN0Z38WNvr2SJtbDK8DQ1pVhh8hK2AdtQQpYROT/YP8O14lICIKB68GAZSWbFuN/
- Gmxrbtspw21BtvE4ygxa6uM9DrELg+o4C5ZPjhHmOxSYHaCbYTXckcq33z2pwRgKCCTIRX30K
- aHShTrt1Wuzir/hWkbplLoJ1dcdMTzfKnL56Xl2X3F8JYIsrEs16+nHy6nER8ft2iGv4P1JDU
- Ye+bmSDn/I6zX+bRNfbzr/3YWTTbcy+dA6y0pNDb4KTdzsvpIltFGLjej1qoh+OKrXKCqU0lR
- PkFy0t7kRDrcI6JQkDf7O6cCbHwyzPNAfyNXaca6BDHsElAIzMgrm0t2MJ4oE7WPzHGpO+yMM
- sZoeXQ+XieUJmyI7Z6jsSMQkThOEPkmGtd5Qt8KYf+tNfMb0bL9eeF2NmWTFsQwAOHcHbhpwt
- oGmCYOs0Hbl/foldfD5nx3Ck8Jx7DEy0WjJoBcnSjV5j+BXKYHjwXTy6A99nQ68Twm/ekuLSx
- /cWeffdGCcBQx4qa8Fl+mxqsoo1rTa4rtrmQQfT3Zw==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,140 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 22/12/2022 à 20:06, Helge Deller a écrit :
-> Add proper prlimit64() strace output.
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Signed-off-by: Helge Deller <deller@gmx.de>
+> This header is now only for native Xen code, not PV backends that may be
+> used in Xen emulation. Since the toolstack libraries may depend on the
+> specific version of Xen headers that they pull in (and will set the
+> __XEN_TOOLS__ macro to enable internal definitions that they depend on),
+> the rule is that xen_native.h (and thus the toolstack library headers)
+> must be included *before* any of the headers in include/hw/xen/interface.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   linux-user/strace.c    | 89 ++++++++++++++++++++++++++++++++++++++++++
->   linux-user/strace.list |  3 +-
->   2 files changed, 91 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 3ea91084fb..82dc1a1e20 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -3774,6 +3774,95 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
->   }
->   #endif
-> 
-> +#ifdef TARGET_NR_prlimit64
-> +static const char *target_ressource_string(abi_ulong r)
-> +{
-> +    #define RET_RES_ENTRY(res) case TARGET_##res:  return #res;
-> +    switch (r) {
-> +    RET_RES_ENTRY(RLIMIT_AS);
-> +    RET_RES_ENTRY(RLIMIT_CORE);
-> +    RET_RES_ENTRY(RLIMIT_CPU);
-> +    RET_RES_ENTRY(RLIMIT_DATA);
-> +    RET_RES_ENTRY(RLIMIT_FSIZE);
-> +    RET_RES_ENTRY(RLIMIT_LOCKS);
-> +    RET_RES_ENTRY(RLIMIT_MEMLOCK);
-> +    RET_RES_ENTRY(RLIMIT_MSGQUEUE);
-> +    RET_RES_ENTRY(RLIMIT_NICE);
-> +    RET_RES_ENTRY(RLIMIT_NOFILE);
-> +    RET_RES_ENTRY(RLIMIT_NPROC);
-> +    RET_RES_ENTRY(RLIMIT_RSS);
-> +    RET_RES_ENTRY(RLIMIT_RTPRIO);
-> +#ifdef RLIMIT_RTTIME
-> +    RET_RES_ENTRY(RLIMIT_RTTIME);
-> +#endif
-> +    RET_RES_ENTRY(RLIMIT_SIGPENDING);
-> +    RET_RES_ENTRY(RLIMIT_STACK);
-> +    default:
-> +        return NULL;
-> +    }
-> +    #undef RET_RES_ENTRY
-> +}
-> +
-> +static void
-> +print_rlimit64(abi_ulong rlim_addr, int last)
-> +{
-> +    if (rlim_addr) {
-> +        struct target_rlimit64 *rl;
-> +
-> +        rl = lock_user(VERIFY_READ, rlim_addr, sizeof(*rl), 1);
-> +        if (!rl) {
-> +            print_pointer(rlim_addr, last);
-> +            return;
-> +        }
-> +        qemu_log("{rlim_cur = %lld, rlim_max = %lld}%s",
-> +                 (long long)tswap64(rl->rlim_cur),
-> +                 (long long)tswap64(rl->rlim_max),
-> +                 get_comma(last));
-> +        unlock_user(rl, rlim_addr, 0);
-> +    } else {
-> +        qemu_log("NULL%s", get_comma(last));
-> +    }
-> +}
-> +
-> +static void
-> +print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
-> +           abi_long arg0, abi_long arg1, abi_long arg2,
-> +           abi_long arg3, abi_long arg4, abi_long arg5)
-> +{
-> +    const char *rlim_name;
-> +
-> +    print_syscall_prologue(name);
-> +    print_raw_param("%d", arg0, 0);
-> +    rlim_name = target_ressource_string(arg1);
-> +    if (rlim_name) {
-> +        qemu_log("%s,", rlim_name);
-> +    } else {
-> +        print_raw_param("%d", arg1, 0);
-> +    }
-> +    print_rlimit64(arg2, 0);
-> +    print_pointer(arg3, 1);
-> +    print_syscall_epilogue(name);
-> +}
-> +
-> +static void
-> +print_syscall_ret_prlimit64(CPUArchState *cpu_env,
-> +                       const struct syscallname *name,
-> +                       abi_long ret, abi_long arg0, abi_long arg1,
-> +                       abi_long arg2, abi_long arg3, abi_long arg4,
-> +                       abi_long arg5)
-> +{
-> +    if (!print_syscall_err(ret)) {
-> +        qemu_log(TARGET_ABI_FMT_ld, ret);
-> +        if (arg3) {
-> +            qemu_log(" (");
-> +            print_rlimit64(arg3, 1);
-> +            qemu_log(")");
-> +        }
-> +    }
-> +    qemu_log("\n");
-> +}
-> +#endif
-> +
->   #ifdef TARGET_NR_kill
->   static void
->   print_kill(CPUArchState *cpu_env, const struct syscallname *name,
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index ac8f872371..f9254725a1 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -1067,7 +1067,8 @@
->   { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_prlimit64
-> -{ TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
-> +{ TARGET_NR_prlimit64, "prlimit64" , NULL, print_prlimit64,
-> +                    print_syscall_ret_prlimit64 },
->   #endif
->   #ifdef TARGET_NR_process_vm_readv
->   { TARGET_NR_process_vm_readv, "process_vm_readv" , NULL, NULL, NULL },
-> --
-> 2.38.1
-> 
+>   accel/xen/xen-all.c                           |  1 +
+>   hw/9pfs/xen-9p-backend.c                      |  1 +
+>   hw/block/dataplane/xen-block.c                |  3 ++-
+>   hw/block/xen-block.c                          |  1 -
+>   hw/i386/pc_piix.c                             |  4 ++--
+>   hw/i386/xen/xen-hvm.c                         | 11 +++++-----
+>   hw/i386/xen/xen-mapcache.c                    |  2 +-
+>   hw/i386/xen/xen_platform.c                    |  7 +++---
+>   hw/xen/trace-events                           |  2 +-
+>   hw/xen/xen-operations.c                       |  2 +-
+>   hw/xen/xen_pt.c                               |  2 +-
+>   hw/xen/xen_pt.h                               |  2 +-
+>   hw/xen/xen_pt_config_init.c                   |  2 +-
+>   hw/xen/xen_pt_msi.c                           |  4 ++--
+>   include/hw/xen/xen.h                          | 22 ++++++++++++-------
+>   include/hw/xen/{xen_common.h => xen_native.h} | 10 ++++++---
+>   include/hw/xen/xen_pvdev.h                    |  3 ++-
+>   17 files changed, 47 insertions(+), 32 deletions(-)
+>   rename include/hw/xen/{xen_common.h => xen_native.h} (98%)
 > 
 
-Applied to my linux-user-for-8.0 branch.
-
-Thanks,
-Laurent
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
