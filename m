@@ -2,110 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562A86ADD39
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:26:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B856ADD71
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:32:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVSo-0005W1-86; Tue, 07 Mar 2023 06:26:38 -0500
+	id 1pZVYJ-0005X4-To; Tue, 07 Mar 2023 06:32:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZVSl-0005R7-T5
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:26:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
+ id 1pZVYI-0005Wv-KL
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:32:18 -0500
+Received: from mail-mw2nam10on2060.outbound.protection.outlook.com
+ ([40.107.94.60] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZVSk-0005ON-5w
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:26:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678188392;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/jsi+K6Km3f+Jz9erisZlXapXhglaAzpexY0p7NvyUk=;
- b=hme9Ob9B/53XZV8X5Z5i1UNvMAk4X6NLEMeJv5kySxMaQ7SwDeRNoYYSrpkXs5RZP+DkdH
- t3afphb8QS+v1U6qsp3RCwALr+sUbqFWpBBgeK9tiR8fMsHAVmbxPM/nJAcV2QlXmhIQ0K
- RhoD2Ru/Vj6feBqrIIPNvvoK2AtP7Yg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-512-QIKWhzOoMVmRfmVAxpemRQ-1; Tue, 07 Mar 2023 06:26:31 -0500
-X-MC-Unique: QIKWhzOoMVmRfmVAxpemRQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- k12-20020a50c8cc000000b004accf30f6d3so18493042edh.14
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:26:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678188389;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/jsi+K6Km3f+Jz9erisZlXapXhglaAzpexY0p7NvyUk=;
- b=YvkryKFjRrLgc9GASvTJVSk+nzvBiaJxCUGAXV+Fd/n3yPF2CyGQvSFYQel8jSzk6D
- HMBcRsCjnqqyrIVTYJFn/i6e8MxN482OBXpEbKBFQWA1mwk8NBXqHiIu0lrtJUriuz4b
- c0cf5wjgofsYVqTNgwfczACqUWjvGPM29mavGwWCQFGpG7GZllJAJgR9Ea2kAIluhm2J
- PFkhWRELKaweoiPGv7BtGKonajkD8qJl/nA/Bax3Ni0LQL/u+3NdWZtAjTaNXW+lSwPy
- 5i+eRVHItKRn1X8u6SKeMOT18JltPINDobvKmjwxP4w1rQn7ceaWsP4ZuVM8EwwMN9/v
- t2jA==
-X-Gm-Message-State: AO0yUKUZ4vswu9o6gwLWWIca8WkpFD0zZhTkM29QJ9JP4JS+KZ4E8+fX
- Pggc1/6442NtlZbC+DzwUyfttjXokOlj4ExHJUmO60ypFHK7pluTyM/2Wm3k1O+ucrjsNUiZh6k
- pdNe4G258lw7n+jXMmzwRlJw=
-X-Received: by 2002:a17:906:135a:b0:8b1:3038:e81f with SMTP id
- x26-20020a170906135a00b008b13038e81fmr14722704ejb.50.1678188389514; 
- Tue, 07 Mar 2023 03:26:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set9EY1CvcQaNyVmgLvMavYBUvnSXmlGTrd4PS3qfqM0kRmvQm1pWAqKPy7nK9MmP2MPbA+SCsw==
-X-Received: by 2002:a17:906:135a:b0:8b1:3038:e81f with SMTP id
- x26-20020a170906135a00b008b13038e81fmr14722689ejb.50.1678188389220; 
- Tue, 07 Mar 2023 03:26:29 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- a7-20020a170906274700b008b2aba5fb22sm5896759ejd.206.2023.03.07.03.26.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 03:26:28 -0800 (PST)
-Message-ID: <e0a958ec-fa18-0d13-48db-10feea159491@redhat.com>
-Date: Tue, 7 Mar 2023 12:26:27 +0100
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
+ id 1pZVYG-0006Ky-OP
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:32:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nuDAJfIbWnnh+y9ZPFKUCo1eoZlrWv6AsUUg+SfOdcGtff+FJofXQKfP8KNYyFJnso5ylLH7S99NI4wZ3uZfIWDB9hPGcdcJnPRwbXGArpjXD4z6jJM6hePrJvvAEdISs7zA9ZArx7oOl5DGATJZnpyiyxScrJeQqz455AohFOp/wkicfuTX6n2XhaV2tYRrCU7edukXY6WAUDlso679YATRf86SQ4AdMdK+HBfD/RNqP5vjr5pTUI9gSZPn9aZOdlKmqtHdxoyMqkZxKbCyJ4LSeUTghXUe7DgpCAFMKp+vBeAHcDgmHsQ3FHiGJ1XnnG1yWFtj6k+mvY5Ya0J4wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sxLaWS7clImjebujP29chfNWfk+Hbe2hnj+f/38nq9s=;
+ b=oTD3xIp7Oish+n5TwnmhH0I+IfF3XdJTieEMGxSdwDze+WHWCpR5287vjWGBOpzE3neeiCWszhJPI26honpo8Glvy1EB/g+RV14U0U689zGqadNbp35rQs+vH1/hhNgfRl0wk7y7B5h+AQB0taYFVsgO34VhCaiz9yBttkJVMHe63VJd3/gooFZrZFMatQyMs7jDwrXLO20wDX65uZxe5HqhiJmRIyLE6Ah2gO3zujV+R0X99ppXSyg4s9ZKD6SWDypLvLteYAYaSXKAbVfe7e1DLDLZssBhLJDZP+CEeJ8rmVEikvYhdJPMQlz8JEh4FnpJNVAWy8pdFQ8AyC2c6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sxLaWS7clImjebujP29chfNWfk+Hbe2hnj+f/38nq9s=;
+ b=mlK2SI2aU0VMbR/VkrEClXozTT1Ja0E7qGULHxsAEdpgisJCo/UShql/X4l3QR7d64GUW89sZV3JAkXsNhJQpFu70KT2nHsCDg0SwHKHqWl+Ou1YlYmwjbmtMNDpc1Fj/yxqS/ZUWMVEM6ovYoVY4DvlyxNUfg3hxy1mQAkLzBI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=silabs.com;
+Received: from MN2PR11MB4711.namprd11.prod.outlook.com (2603:10b6:208:24e::13)
+ by MN0PR11MB6058.namprd11.prod.outlook.com (2603:10b6:208:376::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Tue, 7 Mar
+ 2023 11:27:10 +0000
+Received: from MN2PR11MB4711.namprd11.prod.outlook.com
+ ([fe80::7c51:672e:ffe:7b74]) by MN2PR11MB4711.namprd11.prod.outlook.com
+ ([fe80::7c51:672e:ffe:7b74%3]) with mapi id 15.20.6156.028; Tue, 7 Mar 2023
+ 11:27:10 +0000
+Message-ID: <5af1e768-820a-68d4-5d98-e4b6fbcc7d90@silabs.com>
+Date: Tue, 7 Mar 2023 12:27:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
- <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
- <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
- <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
- <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
- <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
- <e101b894-c722-8def-f591-20fada45795c@redhat.com>
- <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
- <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
- <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
-Content-Language: en-US
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/4] linux-user: fix sockaddr_in6 endianness
+To: Laurent Vivier <laurent@vivier.eu>,
+ Mathis Marion <Mathis.Marion@silabs.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
+ <jerome.pouiller@silabs.com>
+References: <20230220085822.626798-1-Mathis.Marion@silabs.com>
+ <20230220085822.626798-3-Mathis.Marion@silabs.com>
+ <008ca1be-e4ca-1588-fe85-6be807b48b0b@vivier.eu>
+From: Mathis MARION <mamarion1@silabs.com>
+In-Reply-To: <008ca1be-e4ca-1588-fe85-6be807b48b0b@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PAZP264CA0232.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:238::8) To MN2PR11MB4711.namprd11.prod.outlook.com
+ (2603:10b6:208:24e::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4711:EE_|MN0PR11MB6058:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ff14257-5763-468e-9a66-08db1efee452
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8d6aYZpolrJIWMDl8odxQgM+RbdL8lBdLdDudRdnWantG2bk13H5EcF8nKcbrxtvwi1oONmk3S78rVwf3NyIMjy850v4oWC2guqiclAAbRXTqIT9a6SqnSmaM0yIpehNdlGRiq5HP5Xh9B8nC4KumPfRxww+/xjLThdf/NgGrt97r3X0csrurW+9kq0CK8V/sj4PNx7yBr1TfIsVVXrc9TqFKi3zuLUQ7TfbfQdSUoInHYJJt6YlD8RFmTH19GKpndL29goYJPVeXAmWfpythnEXKz+jxpVRT+VUFzQAr/BPgv/Zx2VAE+rxl4cIKdqEX4piRDAuT3fuwGRQeU4VSI6NiTy4vMEsZ0QSQ8ywM4gQe76danHnBYhAiSwyr/7Tsgf4SOtnqfwdiLYnbIgpXppc0Wgy+T5E5oZr2NicDc9jmN/xmk3gwrgIve0TWvgLhXvmzqoTUg4v0TA2eMqpYHLjhCm1LpfrvjWn4aPfEl/0OvfpP16RLhC5QfU8xAXLxiRF5rcuAd/tnjiU60YsmKuCMeoHqtqm5gX/fpIzIwXiY5pQXa+emI3SVeSjIYInut0gp82zcDQ5ej16M02rlkkVTxdbFkRK8MN0L6EujvHbaAIyyzfUWy6ZFY42eOpUJg0fxtLLa8VgNKSLymigm+YuFS3Qa+aPzJUzNKIaCsRPmK7vrozWpJ5D7kWhl9ki95ke6XEhswJzi6cMsYU9sdb5Fww988r9eDgD58YXFns=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR11MB4711.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(346002)(39860400002)(376002)(396003)(136003)(451199018)(26005)(186003)(66476007)(66556008)(8676002)(5660300002)(66946007)(4326008)(6486002)(478600001)(31696002)(316002)(110136005)(6512007)(6506007)(53546011)(8936002)(36756003)(41300700001)(38100700002)(6666004)(107886003)(2906002)(2616005)(31686004)(83380400001)(66574015)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OE9ESHZIMWdmOHdFTXNiZmVlbGZKa0JnQStHWjlpSzdoYVBoVWk4RG1YclFP?=
+ =?utf-8?B?OFQ4VDZqdEtScm5jM2w5YVhuRU9sekJReE9DKyt0ZllCTHZIblk0MGRHcGx5?=
+ =?utf-8?B?c0x6VlBWdUxSc1I4eGJUYjArb2ZYOXVFSEhCTWhVRXI1NHNxcWt3UkVuUTRo?=
+ =?utf-8?B?SjVBQytPaGowOXdqYUJ6WjBwUGlQODZ0WElKemxXcDRoRk5uQnJsbUxHOWtT?=
+ =?utf-8?B?UXBqWlBoSTlKUHc1c01jRG5wQ1FDWElWMmVUVEhEOFZ2SWptWVdsWGk0QXoz?=
+ =?utf-8?B?Rm5xY0pBYXMyUVVLZ3lMbDI5aSt0Znp4MTNvTE5XUmhvRUVsSGFRVm4xTHc4?=
+ =?utf-8?B?MDluVGd4YlJOcENmREgxanJPTzU3SmkvRzhEbVF0U1krbS9xek43cmV6Nk9K?=
+ =?utf-8?B?RjlvRnZuRGZULytDRjRJS21CcS9uczB4QllrZHFseFduK0xiMTVKbEl2Vlc4?=
+ =?utf-8?B?UjVweEd3dWNPdm81enZndnRPK1ZncEtTS01meUxhMEk2U2R2Rk9JZFZISFhx?=
+ =?utf-8?B?UlBYaUZ0UytPaDkxVWRBajVYN0VEVHd2b2JabHJPeHpqVUhnbmxhdjNsUGRZ?=
+ =?utf-8?B?K09GMG4xTml4SmIwSzk2a04wK3BOZEVxR1Y1YWhMS1YwdFJ1ZENlcW5IT01i?=
+ =?utf-8?B?bmgvbElSU294aWw0MFlCMHdXcTA3NVBRNlNIZWQ2Z25xaEhHOEVPdkpnbXcw?=
+ =?utf-8?B?RGJpQ2dlQUo1MG80aU1BVEFCRnRZdGxLR1QxejhCMVJqSjBHM0ZvbUYrbFhE?=
+ =?utf-8?B?aFN0bUhwaGI5eEhPVE5lWCtFeUhrYXNnaHBwa0pKK3dmQVRaNmQ0N0pLaGw0?=
+ =?utf-8?B?VHNOV2tlQ3RRNE5QdzJRMGU4bjN0TlJLTXFUdUxRRFB1bmNNSWU1M2VWVG9V?=
+ =?utf-8?B?eWVsd0hiWnBWRDNIUStmQXI1Y1ZhUENVTENTdjRTbndxdTlhREJkWWdVWm5m?=
+ =?utf-8?B?QnlEbzB5UFR1cmxIVjdBdmo2NHE2Zzk5cG9JOThmY3Q3dHBqV2l5QSt5Qk5L?=
+ =?utf-8?B?N0YwTEhjblR6aUl3dFF1L0k5dWRUYk5ycDhGSEx1ci9iTlN0WGgvS1dPV0R4?=
+ =?utf-8?B?RllxVUFoelE0alFTVEliQVpZWGdJbFlPeWdCSUVpQ0tjS1p3Nnl2eFM1djQ1?=
+ =?utf-8?B?NWlEeWRTR2lhKzcrZEk1em8vUGV6VHhEb3VvRUMxVEorL1UrRC94QmxaK0Fh?=
+ =?utf-8?B?VnBIVEdDdlQvbStyV0RWd2VsNUlUYzlidVZpNm9BRHQxYjh4alMyd3Q2T1Jp?=
+ =?utf-8?B?LzI5NHZvd09FaEFKREh5bXk5eUlITGxnd0EyTmNzNHlPeGYrMnZPK2hLOWx4?=
+ =?utf-8?B?Rzlmd09HUGpzODdCck5uQ3NJcFdkS1I1MG1lVXpLeFhDbjE3cGphZHBIV0FZ?=
+ =?utf-8?B?V2t1SVZPbzNCN1dHNVlxL1Z2dFJSUmgyaitPOVl0Z091YVMrR3dNYmd4NW92?=
+ =?utf-8?B?TWdod2hzWGE4dzBPbmloNVZ5RjUzdUdjNUZIdUx2dFY0UmZzelgxWFBGY3o0?=
+ =?utf-8?B?RStCUWtTaVN3R21CeUxubXpMbzdOS3Jiakl4NDVFTTZnVjlteHMxU20ra1hD?=
+ =?utf-8?B?VkI2YkI4ZTFLaVBLSFR2Wk5GMWRnYWZldndYZTNDbkFqb0dseTdGbnc5cjVz?=
+ =?utf-8?B?ZHRSeFhUUUNvMTdOaC9vd3VPUm03aTlSVTFqOEg0UnRPL0EwK2F4YXZ6YXJR?=
+ =?utf-8?B?WFc5VGp6SERoU01xRHV5TVNjdisxY0F1MjhYWEZKTlVId0c3Q1BvZ3V6aVdX?=
+ =?utf-8?B?OUw1WVZsd09lcDI5S3hUclY0a2hySGdMQ21sSk5vN3NOVnV0Y2hiMFltL0Mv?=
+ =?utf-8?B?VFJ3T0pYQVd6aUJrQk9mNVovSWhHL2lUQnNNU0RrSmxsSWhsbmdCdXF1TG94?=
+ =?utf-8?B?RE9KSWo2emR0ZTF5eTlLSnRoVy9wQ0RUMjZlaERUNmUwNHZZV2ExKzZEYVgw?=
+ =?utf-8?B?akMvbDBURGZwOTYzN1FnZlhVa3R0b3BuaFE3dEQxR2JGRWMvVXBCYmplNGRw?=
+ =?utf-8?B?Y1FxYWRlbGhZeXdDZHpJRlJuVWdwTVVSSnJmempUSUpXS2tjTG96Y0JnQkdm?=
+ =?utf-8?B?cWVyTEtTWmZEVXBWQUpHOWFHa0FhY0IxRFNMUXVpa2NwUUZteDAxSEhCc29F?=
+ =?utf-8?B?dzhEd09HSFBQRGZXU3I1OFMyOXdSUzFyc0NzRGkrSHZSZmZDSGhJeWFmNWxF?=
+ =?utf-8?B?L2c9PQ==?=
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ff14257-5763-468e-9a66-08db1efee452
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4711.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 11:27:10.6545 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p0XJTzw7tbR9RKjbzLueGtLQ6HUbrnK5oggEcwH2ER6s8TcNccJI4T32NADra0vGqeEjiTdmDjbHfx9vFpBZXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6058
+Received-SPF: pass client-ip=40.107.94.60;
+ envelope-from=Mathis.Marion@silabs.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,66 +150,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 11:01, BALATON Zoltan wrote:
->>
->>> I'm not sure I follow what you mean so I'd need a patch to see then I 
->>> can
->>> test it with the clients I run on pegasos2.
->>
->> Do you have a spec, or pointer to the morphos kernel sources, to 
->> figure out how the hardware works?
+
+
+On 06/03/2023 22:52, Laurent Vivier wrote:
+> CAUTION: This email originated from outside of the organization. Do not 
+> click links or open attachments unless you recognize the sender and know 
+> the content is safe.
 > 
-> No, that's closed source and only available as a demo iso but it's known 
-> to work on real hardware and freely downloadable so is a good test. 
-> (AFAIK those who developed MorphOS had close connection to those who 
-> wrote the firmware for Pegasos II.) Maybe the VT8231 datasheet or 
-> similar parts (we only emulate VT82C686B and VT8231 in QEMU) has some 
-> info on this.
+> 
+> Le 20/02/2023 à 09:58, Mathis Marion a écrit :
+>> From: Mathis Marion <mathis.marion@silabs.com>
+>>
+>> Fields sin6_flowinfo and sin6_scope_id use the host byte order, so there
+>> is a conversion to be made when host and target endianness differ.
+>>
+>> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
+>> ---
+>>   linux-user/syscall.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 58549de125..1a6856abec 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -1713,6 +1713,12 @@ static inline abi_long 
+>> target_to_host_sockaddr(int fd, struct sockaddr *addr,
+>>       lladdr = (struct target_sockaddr_ll *)addr;
+>>       lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
+>>       lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
+>> +    } else if (sa_family == AF_INET6) {
+>> +        struct sockaddr_in6 *in6addr;
+>> +
+>> +        in6addr = (struct sockaddr_in6 *)addr;
+>> +        in6addr->sin6_flowinfo = tswap32(in6addr->sin6_flowinfo);
+> 
+> In /usr/include/linux/in6.h, it's defined as a __be32, so I don't think 
+> we need to change its
+> endianness.
+> 
 
-I agree it's a good test, but it's not clear what it means to do 
-sub-word writes to the register.
+Right.
+Thank you for integrating the other patches! Before I send a v3, do you
+have any comments on patch 4?
 
-For example, in the dump I posted you have:
-
-evt 3 1 write 1      // enable timer
-evt 0 2 read
-evt 0 2 write 1      // just writes again the same value, clearing sts
-
-It's important to note that the comments are just my guess.
-
-Before even looking at the effect of the write, the trace tells us that 
-your patch is incomplete.  With both current QEMU and your patch it 
-would do nothing because addr is not 0 or 2; but since the firmware of 
-your machine does use addr == 3, you need to handle it.  In other words, 
-before looking at this trace, I was wary of accepting your patch because 
-it made no sense to me; but I couldn't exclude that I was missing 
-something.  Now, instead, I am certain it shouldn't be accepted.
-
-I am quite confident that the second guess is correct, because "write 
-the same value that was read" only makes sense for evt_sts and not for 
-evt_en.  We learnt something: no matter what bus this device sits on, it 
-does not flip bit 1 of the address for subword writes.  As I mentioned 
-yesterday, we also observe that the load and store use lhbrx and sthbrx. 
-  Assuming this is not a harmless bug in the firmware, this means the 
-device is indeed little endian.
-
-This means that the first write is almost certainly to evt_en.  On a 
-little-endian machine the write would set bit 8 of evt.en (power 
-button), but what about a big-endian machine like yours?  Should it set 
-bit 0 or bit 8?  If it's bit 0 (which resides at offset 2 according to 
-the device), who flips the low bit of the address?  Why is bit 0 flipped 
-but not bit 1?
-
-You simply cannot fix the emulation of this machine until you can answer 
-the above questions.  If there is no source and no spec, the two ways to 
-do it are:
-
-- get a real machine, and figure out whether the write to offset 3 
-corresponds to the PM timer or the power button.
-
-- continue the trace up to the point the OS runs, and see if you get 
-some clues similar to the one above that placed evt_sts at offset 2.
-
-Paolo
-
+>> +        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
+>>       }
+>>       unlock_user(target_saddr, target_addr, 0);
+>>
+> 
 
