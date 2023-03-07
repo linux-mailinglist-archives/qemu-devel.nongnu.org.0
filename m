@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A134D6AE2DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BD66AE2E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:41:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYUb-0001Js-2U; Tue, 07 Mar 2023 09:40:41 -0500
+	id 1pZYUp-0001f5-N0; Tue, 07 Mar 2023 09:40:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZYUZ-0001Ja-9E
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:40:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZYUX-00018R-Oa
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:40:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678200036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5zsiYS2H5acATYULJQayTICeqDxDLCghLavxPDrv9Ec=;
- b=LUp4yY9KvAmA5ngn/B+WxCJguZAsoJfh3i+oMsiv2JFjW5QPlGDdLWThfBAkd8Z7giPoJO
- 9H3h4qnpKAvOYQxMlxD+cnEuQlaZX4UF3XzG0vLr42LtKLdMXcGogNAHyDHfbheWO2XJRz
- 5I9M8Bpdv1ErTDS6RqhwxlI+WGntT10=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-c7cfaYueM2uRiQMtr9Y7Zw-1; Tue, 07 Mar 2023 09:40:34 -0500
-X-MC-Unique: c7cfaYueM2uRiQMtr9Y7Zw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3322811E6E;
- Tue,  7 Mar 2023 14:40:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A14FBC15BA0;
- Tue,  7 Mar 2023 14:40:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 64D8E21E6A1F; Tue,  7 Mar 2023 15:40:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v2] qapi: give available enum values as error hint
-References: <20230307131434.2509895-1-marcandre.lureau@redhat.com>
-Date: Tue, 07 Mar 2023 15:40:32 +0100
-In-Reply-To: <20230307131434.2509895-1-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 7 Mar 2023 17:14:34 +0400")
-Message-ID: <87zg8o62vz.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYUm-0001du-VV
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:40:52 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYUl-00019T-91
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:40:52 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso7357117wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:40:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678200050;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cd7r0E6egEeOQJKPiGStKR4A/mQxjInl3PZyVX0qqN4=;
+ b=boRiul5MDGRzTHWvmpZKeuB3QNhk9U3VoOjDYMlNZHbzck0rRn7HMVqK8eT0VxhhGh
+ iFB7HJFP4280Jcc8UyvJghLSGOf2182uwqQm8JCSiu5m5hPoJBfviZ2d25Kov3PuU6lW
+ pSKkay3ZOQUtve1U0WcTksrFbtRH3LmZmzwb7bYvEh9I6rrLRVTvJqG9qUBhO/EcoEfE
+ zecP8azTx1dmdX+LxcVETQjhaFNrTsIskJb3cH5ndyBnWsgzEd7oz1KBxaYIroz+90LV
+ eMErCDVSFZlkQRj9pfIaSIaAZAXNoovsAR5g8lc8q2ODcHn4PLo0ewXo/pe8r20njYXg
+ s70g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678200050;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Cd7r0E6egEeOQJKPiGStKR4A/mQxjInl3PZyVX0qqN4=;
+ b=GTtkbPj1hx0wANMvV9CWUMMCJjHQ7U/WWKT4lseXBDxjKUH6yjYWLywPFZ6N2RRzhD
+ mYNo8JcTWtitMxF4pY0eJkX+N0CwzhiK5KjlMxsEammVaWhdG1FeiykiXK8FZa00vwQ/
+ WgWBFw0RM5ObuT9IvuNhLiwIlolWzSO5ig/V44pxFaXyM2NQwlRRclpHwjzOzKQofO5N
+ zo6N062v7kg70DK391XjEquRnbHPpwyikcXpWkdD1EGeJ9nVkbw+Uja3D2DWkYRCN7x8
+ KxC0mv4Lfgx6Ue+vPIZdZDcERhQHwGL1qQnM8/UYrhTl/aJ49zjMzbX6FYNmXT6TIMac
+ bmPw==
+X-Gm-Message-State: AO0yUKUJ5EPEzB9uJ3pr4XCvbtWIA5d7gXZ9n9urmiDY6BhGCtBTlgHM
+ MGxqT5ZHbyxUoc/sF5xE0Zg=
+X-Google-Smtp-Source: AK7set9ka4HjGPxXSbVhfdpPv+uZeUTPWrsODgLJe+MS+2XAXrYwMmCaoipDOHJZ+PqHIYxTcZDr7Q==
+X-Received: by 2002:a05:600c:4f14:b0:3eb:1d0c:ad71 with SMTP id
+ l20-20020a05600c4f1400b003eb1d0cad71mr12613828wmq.23.1678200049812; 
+ Tue, 07 Mar 2023 06:40:49 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id
+ m18-20020a05600c3b1200b003db0ad636d1sm18553965wms.28.2023.03.07.06.40.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 06:40:49 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <470e51bf-5159-fd32-93b5-03f5bdf5f050@xen.org>
+Date: Tue, 7 Mar 2023 14:40:48 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 12/25] hw/xen: Add foreignmem operations to allow
+ redirection to internal emulation
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-13-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-13-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,88 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-marcandre.lureau@redhat.com writes:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> This allows for a more pleasant user experience.
->
-> Before:
-> $ ./qemu-system-x86_64 -display egl-headless,gl=3D
-> qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does not =
-accept value ''
->
-> After:
-> $ ./qemu-system-x86_64 -display egl-headless,gl=3D
-> qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does not =
-accept value ''
-> Available: 'off', 'on', 'core', 'es'
-
-I think "Acceptable values are ..." would go more nicely with "does not
-accept".  What do you think?
-
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
 > ---
->  qapi/qapi-visit-core.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
-> diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-> index 6c13510a2b..45e39ff533 100644
-> --- a/qapi/qapi-visit-core.c
-> +++ b/qapi/qapi-visit-core.c
-> @@ -392,9 +392,25 @@ static bool output_type_enum(Visitor *v, const char =
-*name, int *obj,
->      return visit_type_str(v, name, &enum_str, errp);
->  }
->=20=20
-> +static void error_append_qapi_enum_hint(Error **errp, const QEnumLookup =
-*lookup)
+>   hw/char/xen_console.c            |  8 +++---
+>   hw/display/xenfb.c               | 20 +++++++-------
+>   hw/xen/xen-operations.c          | 45 ++++++++++++++++++++++++++++++++
+>   include/hw/xen/xen_backend_ops.h | 26 ++++++++++++++++++
+>   include/hw/xen/xen_common.h      | 13 ---------
+>   softmmu/globals.c                |  1 +
+>   tests/unit/test-xs-node.c        |  1 +
+>   7 files changed, 88 insertions(+), 26 deletions(-)
+> 
+[snip]
+> diff --git a/include/hw/xen/xen_common.h b/include/hw/xen/xen_common.h
+> index d4d10d3ff1..632ce617cc 100644
+> --- a/include/hw/xen/xen_common.h
+> +++ b/include/hw/xen/xen_common.h
+> @@ -32,19 +32,6 @@ typedef xc_interface xenforeignmemory_handle;
+>   #define xenforeignmemory_open(l, f) xen_xc
+>   #define xenforeignmemory_close(h)
+>   
+> -static inline void *xenforeignmemory_map(xc_interface *h, uint32_t dom,
+> -                                         int prot, size_t pages,
+> -                                         const xen_pfn_t arr[/*pages*/],
+> -                                         int err[/*pages*/])
+> -{
+> -    if (err)
+> -        return xc_map_foreign_bulk(h, dom, prot, arr, err, pages);
+> -    else
+> -        return xc_map_foreign_pages(h, dom, prot, arr, pages);
+> -}
+> -
+> -#define xenforeignmemory_unmap(h, p, s) munmap(p, s * XC_PAGE_SIZE)
+> -
 
-error_append_hint() has Error *const *errp to make it obvious[*] that
-the function does *not* set an error (by assigning to *errp).  We need
-to do the same here.
+Actually, probably best 'static inline' that, or at least put brackets 
+round the 'p' and 's' for safety.
 
-See also commit 49fbc7236dd (error: make Error **errp const where it is
-appropriate).
+With either one of those options chosen...
 
-> +{
-> +    int i;
-> +
-> +    error_append_hint(errp, "Available: ");
-> +    for (i =3D 0; i < lookup->size; i++) {
-> +        error_append_hint(errp, "'%s'", lookup->array[i]);
-> +        if (i + 1 < lookup->size) {
-> +            error_append_hint(errp, ", ");
-> +        }
-> +    }
-> +    error_append_hint(errp, "\n");
-> +}
-> +
-> +
->  static bool input_type_enum(Visitor *v, const char *name, int *obj,
->                              const QEnumLookup *lookup, Error **errp)
->  {
-> +    ERRP_GUARD();
->      int64_t value;
->      g_autofree char *enum_str =3D NULL;
->=20=20
-> @@ -406,6 +422,7 @@ static bool input_type_enum(Visitor *v, const char *n=
-ame, int *obj,
->      if (value < 0) {
->          error_setg(errp, "Parameter '%s' does not accept value '%s'",
->                     name ? name : "null", enum_str);
-> +        error_append_qapi_enum_hint(errp, lookup);
->          return false;
->      }
-
-Both of my review comments could be addressed without a respin.  Up to
-you!
-
-
-[*] Obvious to C language lawyers, I guess.  And also to Coccinelle
-scripts.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
