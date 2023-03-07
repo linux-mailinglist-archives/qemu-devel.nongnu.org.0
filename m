@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD59F6AE14E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B706AE165
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:53:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXhF-0002xC-DQ; Tue, 07 Mar 2023 08:49:41 -0500
+	id 1pZXkD-0006xM-C3; Tue, 07 Mar 2023 08:52:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pZXh0-0002pe-Nt
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:49:28 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZXkB-0006x3-EK
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:52:43 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pZXgx-0007M8-Nb
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:49:25 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id g17so17156280lfv.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:49:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZXkA-00087S-2r
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:52:43 -0500
+Received: by mail-wr1-x429.google.com with SMTP id t15so12181733wrz.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:52:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678196962;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cFaCRirNomk3a+cyiwZtQqj1LT1LXnRZ/pn/9HFUMoE=;
- b=ak6HLoIoIm0n6Q6L1v+srgM3H75dvEgkj/ixanQd6iBaDFHCY/nhZps7UKaoLTUF6+
- DRsO82BUjnr936FKJ7KguBojAPksNH4UCrARH9IEWZiI4pMWLu2plc709IcPY5q5O+fi
- kZCaH47Bta/YFQr3jY1WceIm3NSZigOugmb7Rfd9TSTKiyXsVwW+Ov5FAjjPc+ZpLMMc
- kSFp9xekwaSLyTlraOnxJV0v9d66Y2pOfu/V2Fo/0Bn3KogTapG+2vlPzZ6hgzdWenSx
- hi37foLrjbMDDw0rnbLx1jmeEaQxgg72eMAbnUmXxqS15UKmssa6PFsXSYQ1w3kaxM3d
- wn+g==
+ d=gmail.com; s=20210112; t=1678197157;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IxFlqZr0mGRhmULnOKeJqsxe48v70ZBxJnmwKGFTiO0=;
+ b=VBreMLSBQBTjpHLmYWqbVCZ6vDGTcBjMf8fz7qnwbbAc+FcP7g2m2aPAGuB6WWygHa
+ IPM+YL7p5fjWDzGkwbdqDwb5UzO0mOhcZKK0e1gW6CDlaqdMbJDnKSz2yi8nQt0GUNvr
+ MBHmtWXum96/Gb6aBkLO08EYK/hoQsHHvt94Pq7Oj56MQW0oA22VKmbgBHQc/U66gBfr
+ p1Rk9+qeXSzLmmJ0/F3iAOd30WvBiEMYBq+0fiee22jNeCZeSYqEGCVh9ZmZMJQ3qRQR
+ eMBY6K2G8+h//Gf22KXyG06Z3awpR2GhcYnnr3QhkLNOt2pg5d0up/8VDUU2u7ClGFoc
+ Tyeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678196962;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cFaCRirNomk3a+cyiwZtQqj1LT1LXnRZ/pn/9HFUMoE=;
- b=OsNEv5oLV8PqKADW0aJH6MwWdU05wboF7s61TSeefjNDEfKkGJXRmxOablqwUMggot
- blPZxl68me0abPTFJs69k4qQRwFxcH/Zhv3KNjaeOTLXOhbJVD0RGTRyeJEgFa8Y0e+5
- RWR8Pc/hRXx+8sMueExxoK/QVeBHlE1St+5hVSTv+CX23EasknsVlwrCw3lqyb3MWx3X
- qnvyPLbALXH3wtD9MHuyQMgg/QrD7TN1vvDAp+qiJnQyNFu95tJC/UXzcDnxgYKNx7Aj
- oc/0MCcU5tZPeyBeWjCzgzdTpnvKwhliQYgHoEZ3aNqlNf+pMvx569PvHHPtGYq+fbxE
- ipgQ==
-X-Gm-Message-State: AO0yUKUpF1oqCCjqefLRlrHwAxU72GfJd7JKaMYdwWUsOjNUd/b0ILOw
- o0UmjYaDfyv/oxpVwOpyRjmaAckXMdO7WlbMlUA=
-X-Google-Smtp-Source: AK7set/UbR9DXjFmQlyEq6+pa10pqGLSiUFCLTh2kkQmhcDTbD7f0k9BGydf9y6N5t9d9CHCGdU1A+4NlwF+k+e0B/A=
-X-Received: by 2002:a05:6512:48e:b0:4db:33ed:89eb with SMTP id
- v14-20020a056512048e00b004db33ed89ebmr4556641lfq.5.1678196961780; Tue, 07 Mar
- 2023 05:49:21 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678197157;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IxFlqZr0mGRhmULnOKeJqsxe48v70ZBxJnmwKGFTiO0=;
+ b=UAD/bfPsaBXttVDdj/sJ3jCE0esDunMycxOqnlJHZzEuQv4RXrCB15UYmliW31+hFo
+ jE4CLetycpGp8vWq3sXs7OldMCAK0RTpSCPvTXPIL3rGGdWu4BkXPm3ng9Aph7M88SoL
+ 0ArqVA4SNb/t/Zvbzw4b+SwKfB06iKdPWHfwCQxlVtCOYN48CE2t7jn641yZeQL14WZO
+ axf4wDtdbFMqd/YAREoiKU/u/tNR1+s0S4jGHjza9wKeiPnH9UhqXNu1jU0g7Un4FyEU
+ EPRu+doAlHfBi8t6izjqG0LtJ3M4JK3ZzfvKvw0/6/bRBKXisuu236IF4QAsT4sEY5NE
+ 4T7g==
+X-Gm-Message-State: AO0yUKXKPmDJgZ/DypuMyjVIfRtWUBUYku2/mAsixJJ1mpcQaZSv/WAk
+ z0PCYyua01mZegU+GuMV25M=
+X-Google-Smtp-Source: AK7set+P/VN1nCeaWEXutY2mF6tnycVncnjJOoM/2Q3o42A0amwIajwY37PDToy2KIlE9qMpN1Hwqg==
+X-Received: by 2002:adf:f68a:0:b0:2ca:175b:d850 with SMTP id
+ v10-20020adff68a000000b002ca175bd850mr9346152wrp.11.1678197157288; 
+ Tue, 07 Mar 2023 05:52:37 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id
+ z11-20020a5d654b000000b002c70f5627d5sm12559129wrv.63.2023.03.07.05.52.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 05:52:36 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <b5d3d99a-6d33-1336-7f21-6b7277827d54@xen.org>
+Date: Tue, 7 Mar 2023 13:52:35 +0000
 MIME-Version: 1.0
-References: <20230227215943.114466-1-dbassey@redhat.com>
- <CAJ+F1CKRPVF5ciDQwbaacdozNx27hmo514OONOk3p_LLtB+OBg@mail.gmail.com>
- <CACzuRyxMSnJ9ANgQT+Vt1SK3ETt=TtvtKsA2GNzEpe=AQ6iApQ@mail.gmail.com>
-In-Reply-To: <CACzuRyxMSnJ9ANgQT+Vt1SK3ETt=TtvtKsA2GNzEpe=AQ6iApQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Mar 2023 17:49:10 +0400
-Message-ID: <CAJ+F1CJRXdiv=Denf-q7cQ=X39MQL8X=_4Zf7aB5ozPCGJDY9A@mail.gmail.com>
-Subject: Re: [PATCH v5] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-To: Dorinda Bassey <dbassey@redhat.com>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com, 
- qemu_oss@crudebyte.com, pbonzini@redhat.com, wtaymans@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 08/25] hw/xen: Create initial XenStore nodes
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-9-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-9-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,31 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: Paul Durrant <pdurrant@amazon.com>
+> 
+> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xen_xenstore.c | 70 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 70 insertions(+)
+> 
 
-On Fri, Mar 3, 2023 at 8:06 PM Dorinda Bassey
->> What are those thread_loop_signal() for? Maybe leave a comment?
->
-> the explanation of the function is in the reference header file.
->
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-Yes, I read the reference documentation before asking: "Signal all
-threads waiting with pw_thread_loop_wait."
-(https://docs.pipewire.org/group__pw__thread__loop.html#gaf9bc8dd348d05b095=
-139f5a55ac5a4b0)
-
-Unfortunately, you are not calling pw_thread_loop_wait yourself, so
-that doesn't help me what this is supposed to do. When signaling
-things and expecting a certain state and side-effect from a different
-thread or context, it's nice to document it.
-
-I guess this will break the thread loop? What happens next?
-
-thanks
-
---=20
-Marc-Andr=C3=A9 Lureau
 
