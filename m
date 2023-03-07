@@ -2,90 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97696AE79F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047496AE7AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:59:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZads-0004vG-1J; Tue, 07 Mar 2023 11:58:24 -0500
+	id 1pZaf7-0006Yq-4L; Tue, 07 Mar 2023 11:59:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZadq-0004uf-B8
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:58:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZado-000210-QD
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:58:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678208300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0diYV6H/tPg+PYDa17ivi6KdAzqgnuP2Z4lVzUJHdsQ=;
- b=YXhowiHgzpJFRSYnK+gAyPEhGIpTKF/KvCQ9t4mLLmNl4adrySfxz34necKkQI+hRtaYpC
- QAxy7R/1ThobxA6r2TG2dIxg18Qs5+DHpj/KZh0qO8P1iMtkpJXh8Hiietj3owgsjHDHa/
- cDT96UU5SgpYubrV9Gbvm/52UzzhXlc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-619-VFsW9MQDNgmtUrRk2ZwhmA-1; Tue, 07 Mar 2023 11:58:18 -0500
-X-MC-Unique: VFsW9MQDNgmtUrRk2ZwhmA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- ea22-20020a05620a489600b00742cec04043so7798032qkb.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:58:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZaf4-0006YE-Ok
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:59:38 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZaez-0002J3-8n
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:59:36 -0500
+Received: by mail-wr1-x436.google.com with SMTP id r18so12847239wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:59:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678208369;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FP/kP9sLcpCuLCw0esZoAmg3jKAAmnrlfS+QSo9YyCw=;
+ b=MvOB5b+1KMpQB3yysitnKHhLEb3b2Bv7lHUgfyzXLnywW/ObXguSKIk4RM5p3l6M84
+ c6mnKNCmagmgMIiAgszyrdFuN5fnTEmznbWXIdS8fUE5m5kxCTlExaZpH7L1t61Mzla8
+ 8tZMA6o+bdTKOn7sXUpmDCb85Fe2vG1hks0PQCfcqBp8lUq8x4wI6Q7zXyu2SxbRkK9C
+ gm6RVuSzD2GPCjsTZiE8WWsuEOag6oQZ3DIVzvIClMRUPyXLgDzNUsTshOMVqdSNQITN
+ HQK1RpR/43rEpMl2bQ9rll0x+2Fmm6V6jjLQrQKvvU8yfIhdGohdP5Lb7QK0wfvg+3vs
+ WPSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678208298;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0diYV6H/tPg+PYDa17ivi6KdAzqgnuP2Z4lVzUJHdsQ=;
- b=cRbPs1juezmtm2zorptTbtt9RA+vswbivZDcxKo9W3lXEo3GvNF4g3SlHsa+j7jtvY
- vW3FLU0vjvf6MARS3BLQ0YzAuRuN1CvVqOo3zuqJqxMKZHw37xPtfTvsq/9prIXiAydn
- BuT+rKNOlTxVFsbm0AoTKszvsaFflW8fiYnUnqedz5RLTU3Vhc8RLug7NeFI5yTWIp/W
- OkqWlXn3wEeMpFLgQTOSlpPisSLqLn4x0v4JPak6ne2F35zqxfjjJdctB/eW4DYRaH0/
- /p45t0B99sUz9ugLTl5suAt42zehtfrjf7ha64THxHcd/MLUpa7VGViH1tB4SbBHRSOO
- mBng==
-X-Gm-Message-State: AO0yUKVzdCzQNwjiNJD+Jg7QBBsPwVB3VEdmdlgsKmCOZ/U6Ohi1jxf8
- TV243PtvkUfOA6JlXCmNFX6ky40YvKuS2v5k+1oPSwCvsj9gFs3dxxlFFKTMGIVDy1a4RPRu3gx
- Mq3V7ajkB19Ee4z0=
-X-Received: by 2002:a05:622a:1d1:b0:3c0:14ec:bfb2 with SMTP id
- t17-20020a05622a01d100b003c014ecbfb2mr25543471qtw.20.1678208298095; 
- Tue, 07 Mar 2023 08:58:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set+dgHm6KSXVgofBAnxx9SfaQRESN2rrGxpXSX3WUE0SvFrdmd+8jP8EpLdWy426PJREQ3HIiQ==
-X-Received: by 2002:a05:622a:1d1:b0:3c0:14ec:bfb2 with SMTP id
- t17-20020a05622a01d100b003c014ecbfb2mr25543446qtw.20.1678208297825; 
- Tue, 07 Mar 2023 08:58:17 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ d=1e100.net; s=20210112; t=1678208369;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FP/kP9sLcpCuLCw0esZoAmg3jKAAmnrlfS+QSo9YyCw=;
+ b=bdynuly1yZzyjQUs9O3ZKvdyksbUftyizzq8sFkV1G/JrJTiVkOpvILVOA0BvaT5s3
+ a1oWR4NmQ/KoLWUe+emCEJofWrCJNttCMx+5b7Mov53S/f9MO60XJXN8DRxCJj5vN2BF
+ 7cBONH2xPGXbskFhgheXGt0apRUZCbSi8xZiQzZGUTIwu7Ce5qiKpg5t08JnY2SY4W0v
+ Q3vzvWVhTlsBfE44A9OGheT8E5iuFmLEde4a27MBiFr/zUWTyWemOa4D33mvyJ8y8Etc
+ hRM6lEStGWmre44zrPoPP0cIc+oJkRzlN5Kxzl1Z5s5TiNKaWPO5HeON+0ddV3xckS0G
+ fLAA==
+X-Gm-Message-State: AO0yUKUs/vCloupE8gdbvlxQR7Ddw2GoF2lM9uqWyf7nisE7CuHuva7A
+ kPHCg+UXnx9yxhlL2+kgtaY=
+X-Google-Smtp-Source: AK7set+t/WQFpoA92F2tLgxx4+F1P6LExXIvvbui9CFAkZ48Rz/j1Z8RbWBn/5wh1yoEdzOO1FCiSA==
+X-Received: by 2002:a5d:457c:0:b0:2ce:5106:36ee with SMTP id
+ a28-20020a5d457c000000b002ce510636eemr7359301wrc.27.1678208369023; 
+ Tue, 07 Mar 2023 08:59:29 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
  by smtp.gmail.com with ESMTPSA id
- t22-20020ac85316000000b003b9b8ec742csm9848991qtn.14.2023.03.07.08.58.16
+ c18-20020a5d4cd2000000b002c551f7d452sm13378718wrt.98.2023.03.07.08.59.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 08:58:17 -0800 (PST)
-Message-ID: <2ea1ca0c-008f-5ea2-e0cd-e09bf432415b@redhat.com>
-Date: Tue, 7 Mar 2023 17:58:15 +0100
+ Tue, 07 Mar 2023 08:59:28 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <335a946a-6eae-00e6-b30f-142522cc4c26@xen.org>
+Date: Tue, 7 Mar 2023 16:59:27 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] vfio/migration: Rename entry points
+Subject: Re: [RFC PATCH v1 07/25] hw/xen: Implement core serialize/deserialize
+ methods for xenstore_impl
 Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-Cc: yishaih@nvidia.com, jgg@nvidia.com, joao.m.martins@oracle.com,
- avihaih@nvidia.com
-References: <167820819129.603802.2574672058630378188.stgit@omen>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <167820819129.603802.2574672058630378188.stgit@omen>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-8-dwmw2@infradead.org>
+ <5f03307a80c33b62380128bf3f638d47eca74357.camel@infradead.org>
+ <e1e4f027-25bc-2e1c-4451-b4d304493f16@xen.org>
+ <1ab939956031328a9a16fb4e76417e23f292e6ba.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <1ab939956031328a9a16fb4e76417e23f292e6ba.camel@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,125 +104,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 17:57, Alex Williamson wrote:
-> Pick names that align with the section drivers should use them from,
-> avoiding the confusion of calling a _finalize() function from _exit()
-> and generalizing the actual _finalize() to handle removing the viommu
-> blocker.
+On 07/03/2023 16:52, David Woodhouse wrote:
+> On Tue, 2023-03-07 at 16:39 +0000, Paul Durrant wrote:
+>> On 07/03/2023 16:33, David Woodhouse wrote:
+>>> On Thu, 2023-03-02 at 15:34 +0000, David Woodhouse wrote:
+>>>> From: David Woodhouse <dwmw@amazon.co.uk>
+>>>>
+>>>> In fact I think we want to only serialize the contents of the domain's
+>>>> path in /local/domain/${domid} and leave the rest to be recreated? Will
+>>>> defer to Paul for that.
+>>>>
+>>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+>>>
+>>> Paul, your Reviewed-by: on this one is conspicuous in its absence. I
+>>> mentioned migration in the cover letter — this much is working fine,
+>>> but it's the PV back ends that don't yet work.
+>>>
+>>> I'd quite like to merge the basic serialization/deserialization of
+>>> XenStore itself, with the unit tests.
+>>
+>> The patch is basically ok, I just think the serialization should be
+>> limited to the guest nodes... filtering out those not owned by xen_domid
+>> would probably work for that.
 > 
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> Yeah, so let's just do this (as part of this patch #7) for now:
+> 
+> --- a/hw/i386/kvm/xen_xenstore.c
+> +++ b/hw/i386/kvm/xen_xenstore.c
+> @@ -235,6 +235,7 @@ static int xen_xenstore_post_load(void *opaque, int
+> ver)
+>   
+>   static const VMStateDescription xen_xenstore_vmstate = {
+>       .name = "xen_xenstore",
+> +    .unmigratable = 1, /* The PV back ends don't migrate yet */
+>       .version_id = 1,
+>       .minimum_version_id = 1,
+>       .needed = xen_xenstore_is_needed,
+> 
+> 
+> It means we can't migrate guests even if they're only using fully
+> emulated devices... but I think that's a reasonable limitation until we
+> implement it fully.
+> 
 
-LGTM !
+Ok. With that added...
 
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
-
-Thanks,
-
-C.
-
-> ---
-> 
-> A minor follow-up to Joao's v5 series.
-> 
->   hw/vfio/common.c              |    2 +-
->   hw/vfio/migration.c           |    4 ++--
->   hw/vfio/pci.c                 |    6 +++---
->   include/hw/vfio/vfio-common.h |    6 +++---
->   4 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 2b9bcf70aa36..dddd7a8e40f8 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -447,7 +447,7 @@ int vfio_block_giommu_migration(Error **errp)
->       return ret;
->   }
->   
-> -void vfio_unblock_giommu_migration(void)
-> +void vfio_migration_finalize(void)
->   {
->       if (!giommu_migration_blocker ||
->           vfio_viommu_preset()) {
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 5d1e66f69194..40f5f3d0b194 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -631,7 +631,7 @@ int64_t vfio_mig_bytes_transferred(void)
->       return bytes_transferred;
->   }
->   
-> -int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-> +int vfio_migration_realize(VFIODevice *vbasedev, Error **errp)
->   {
->       int ret = -ENOTSUP;
->   
-> @@ -669,7 +669,7 @@ add_blocker:
->       return ret;
->   }
->   
-> -void vfio_migration_finalize(VFIODevice *vbasedev)
-> +void vfio_migration_exit(VFIODevice *vbasedev)
->   {
->       if (vbasedev->migration) {
->           VFIOMigration *migration = vbasedev->migration;
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 30a271eab38c..ec9a854361ac 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3145,7 +3145,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->       }
->   
->       if (!pdev->failover_pair_id) {
-> -        ret = vfio_migration_probe(vbasedev, errp);
-> +        ret = vfio_migration_realize(vbasedev, errp);
->           if (ret) {
->               error_report("%s: Migration disabled", vbasedev->name);
->           }
-> @@ -3185,7 +3185,7 @@ static void vfio_instance_finalize(Object *obj)
->        */
->       vfio_put_device(vdev);
->       vfio_put_group(group);
-> -    vfio_unblock_giommu_migration();
-> +    vfio_migration_finalize();
->   }
->   
->   static void vfio_exitfn(PCIDevice *pdev)
-> @@ -3204,7 +3204,7 @@ static void vfio_exitfn(PCIDevice *pdev)
->       }
->       vfio_teardown_msi(vdev);
->       vfio_bars_exit(vdev);
-> -    vfio_migration_finalize(&vdev->vbasedev);
-> +    vfio_migration_exit(&vdev->vbasedev);
->   }
->   
->   static void vfio_pci_reset(DeviceState *dev)
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 009bec34c4bc..eed244f25f34 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -223,7 +223,6 @@ bool vfio_mig_active(void);
->   int vfio_block_multiple_devices_migration(Error **errp);
->   void vfio_unblock_multiple_devices_migration(void);
->   int vfio_block_giommu_migration(Error **errp);
-> -void vfio_unblock_giommu_migration(void);
->   int64_t vfio_mig_bytes_transferred(void);
->   
->   #ifdef CONFIG_LINUX
-> @@ -247,7 +246,8 @@ int vfio_spapr_create_window(VFIOContainer *container,
->   int vfio_spapr_remove_window(VFIOContainer *container,
->                                hwaddr offset_within_address_space);
->   
-> -int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
-> -void vfio_migration_finalize(VFIODevice *vbasedev);
-> +int vfio_migration_realize(VFIODevice *vbasedev, Error **errp);
-> +void vfio_migration_exit(VFIODevice *vbasedev);
-> +void vfio_migration_finalize(void);
->   
->   #endif /* HW_VFIO_VFIO_COMMON_H */
-> 
-> 
+Revieweed-by: Paul Durrant <paul@xen.org>
 
 
