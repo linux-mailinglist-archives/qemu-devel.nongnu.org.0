@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3173F6AE2D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05696AE2D2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:39:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYSf-0005Qp-Qd; Tue, 07 Mar 2023 09:38:41 -0500
+	id 1pZYSd-0005Lo-8p; Tue, 07 Mar 2023 09:38:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZYSO-0005I1-RR
+ id 1pZYSO-0005I2-U5
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:38:27 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZYSM-0000ak-2u
+ id 1pZYSN-0000aw-4t
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:38:24 -0500
-Received: by mail-wr1-x431.google.com with SMTP id f11so12336751wrv.8
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:38:21 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id h11so12346730wrm.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:38:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678199900;
+ d=linaro.org; s=google; t=1678199901;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+9R+WJAtyA8SeJ/1as6Ou9Go9GUXAmG0Tw994EVyLcw=;
- b=mfcQAQR+3DsaXY3k/iv9dwnpTr08JdV2kb+X9L4oYq89EIh+n5d1+9N1AaXK4+OR+t
- kg7nioxnlLkbazc9sU0CmMkKgJu0wJcyXaPR7VWFIA5B26U2Dz5bNFdDGQPR4RPRgK1x
- iU9vZyY4Xyk72r1KOWcaW4beYB+TSK8azhr4lUou9MNu4j3OZ5LAoBZZV750wDt7FS0v
- 8HUIK4uYp8RtdVfafJ0w2tZgXykUFnSCm8nWQy2x6WuDrOdJjnl7+or0CCkZuxZCoNhp
- rB9FcU2dlma5bqYskEAaFhCstZgbk1n7rER/719947MR+TyeR843c197W3RIcTfSPj/2
- ydag==
+ bh=DYKwChssZzM1IZQYrvmlzEUEr1CtygQzBbBBtEsY4sU=;
+ b=OPDWWAxtDTtD90LoZ2dEk01ZFs8oSOU906qsitXErE+vAsRfwzy+6pyJVOY4eLDcsR
+ tPiX9HpL3hzC+mTyy61ZONhBWuHk/D8eKOyosoGWPAm8sCk4g6EXYwdrLvrEZmy5Mano
+ hxudaJQaUcNHYPwyrU8P8oYGLnaXRrwmVhXNB6oeNwJrqva01d4T5OAeevgvKbD/q4yP
+ cHXKxd64+FN9Ac+HU9f67UrBhx7x7BRlK7VWdVk26sXykijUeKOd+3AMkrx5Tuvz6rpN
+ 5DvN8nMI2rJGIevFkFqVCQ8kexhsD//GK4UPP5la8kjyyrXLXU5hzayYuCXBBxeb5a4l
+ mn4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678199900;
+ d=1e100.net; s=20210112; t=1678199901;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+9R+WJAtyA8SeJ/1as6Ou9Go9GUXAmG0Tw994EVyLcw=;
- b=llSRPtFO0oMB2TwqDALlFhfK0go0SIH0I3+vP7ltBJaI9rSmfLownEflNl1/I2ujiv
- Tc/jjDIMKzqvw/fj13cs2JC2by716Y4yH9m1D6DPfoWgSeTtk/+knQ4JfNcPdv+s+YFt
- 2vnnDI68hIw2mkxPJVLwxN3yEVJ3hhn5siJAGnmeEtxuy2GhVS4lOZkNAbDSC2r2A3IJ
- pIzQ3anbl8cOVhaUcSorz0+1egoXADoPrPodC3FoU4bJpRaK7sXxYDs1glf0EA02CyAG
- zkBRsFBGuVkX1lyVhE/DTrHcM1px2JlaUlBgJ+1UtNXodgXq1SFsrbfrGaVsOsN08tNz
- cnug==
-X-Gm-Message-State: AO0yUKWgxDqhD40N+3FVAyT5498AOGJ6YJ1GDsfOVIQheLm38pYi7nrP
- APwvk5dgX8Sx28rWmqmWyieU2w==
-X-Google-Smtp-Source: AK7set9Xx6AIqBJh6ewhxjr/CR024kPBpC+DH3UaVGmCdrNUVs3XDshGuSq5Zdn35bdpIPajUPfkTw==
-X-Received: by 2002:adf:e888:0:b0:2c7:f56:28d9 with SMTP id
- d8-20020adfe888000000b002c70f5628d9mr10329444wrm.54.1678199900417; 
- Tue, 07 Mar 2023 06:38:20 -0800 (PST)
+ bh=DYKwChssZzM1IZQYrvmlzEUEr1CtygQzBbBBtEsY4sU=;
+ b=tJWhvY4TEu/tRYX0X+eEkMVK+1ALbtS5wOerWdp4ZUGqqJHVL/Jfk/yOTI7UP+e9kE
+ +MCuvt+ZNagiXBuml/oEnYS5VY8QOpozP6dVonnBAXVAkY7YO4AgRYy4yfpfhOCHWUf0
+ JXSQnbImlJyA2oUyJQIZYf2STXhHIf6uYIKNCQEhPZT3cT6GDWyBv/nTmipZhwJ6hUB+
+ o0K9bjgWUsf3acS/6o3PkdLQY6wa8jZeUkS1pz5QOwGJdGhj8leVzQ06QKequ+xBTA2F
+ XF4ituSIs0qNm6Dbc3zDzZiNYNKJLAjXfuZNRSK6OlYfV+rxtobfGMnFRt9I8ImfWfm4
+ bs6A==
+X-Gm-Message-State: AO0yUKX9skTPylWMWfx6A7HltvvdFvQvoas+806t57XGya9vG8JF70W3
+ kJk3TUxlSL0t7Fcdxo5I9xNWdg==
+X-Google-Smtp-Source: AK7set9yX8DufC2qxuu7+6X6yH6bnqbATGn0NuvqgamUM9JBk5VYy227Be1hSPRyQ72OiA89ob1e2w==
+X-Received: by 2002:a5d:614d:0:b0:2c7:d6a:cca9 with SMTP id
+ y13-20020a5d614d000000b002c70d6acca9mr9626436wrt.23.1678199901232; 
+ Tue, 07 Mar 2023 06:38:21 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a5d4d47000000b002c5706f7c6dsm12771855wru.94.2023.03.07.06.38.19
+ s10-20020adfea8a000000b002c7e1a39adcsm12855848wrm.23.2023.03.07.06.38.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Mar 2023 06:38:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 94A8D1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id AD2291FFBB;
  Tue,  7 Mar 2023 14:38:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -71,18 +71,18 @@ Cc: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Fabiano Rosas <farosas@suse.de>, Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH 2/5] tests/docker: all add DOCKER_BUILDKIT to RUNC environment
-Date: Tue,  7 Mar 2023 14:38:16 +0000
-Message-Id: <20230307143819.510186-3-alex.bennee@linaro.org>
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH 3/5] scripts/ci: add libslirp-devel to build-environment
+Date: Tue,  7 Mar 2023 14:38:17 +0000
+Message-Id: <20230307143819.510186-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307143819.510186-1-alex.bennee@linaro.org>
 References: <20230307143819.510186-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,28 +105,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It seems we also need to pass DOCKER_BUILDKIT as an argument to docker
-itself to get the full benefit of caching.
+Without libslip enabled we won't have user networking which means the
+KVM tests won't run.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Suggested-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/ci/org.centos/stream/8/build-environment.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 54ed77f671..9401525325 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -39,7 +39,7 @@ docker-qemu-src: $(DOCKER_SRC_COPY)
- # General rule for building docker images.
- docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 	  $(call quiet-command,			\
--		$(RUNC) build				\
-+		DOCKER_BUILDKIT=1 $(RUNC) build		\
- 		$(if $V,,--quiet)			\
- 		$(if $(NOCACHE),--no-cache,		\
- 			$(if $(DOCKER_REGISTRY),--cache-from $(DOCKER_REGISTRY)/qemu/$*)) \
+diff --git a/scripts/ci/org.centos/stream/8/build-environment.yml b/scripts/ci/org.centos/stream/8/build-environment.yml
+index 0d094d70c3..1ead77e2cb 100644
+--- a/scripts/ci/org.centos/stream/8/build-environment.yml
++++ b/scripts/ci/org.centos/stream/8/build-environment.yml
+@@ -55,6 +55,7 @@
+           - librados-devel
+           - librbd-devel
+           - libseccomp-devel
++          - libslirp-devel
+           - libssh-devel
+           - libxkbcommon-devel
+           - lzo-devel
 -- 
 2.39.2
 
