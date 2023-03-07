@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518936AFAB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B616AFABE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:50:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZh2g-0002HL-UV; Tue, 07 Mar 2023 18:48:26 -0500
+	id 1pZh2l-0002eC-57; Tue, 07 Mar 2023 18:48:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2c-00025L-RM
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:23 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2i-0002Sj-CC
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:28 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2a-0002lv-HJ
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:22 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id h11so13782060wrm.5
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2g-0002mt-EI
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:28 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id q16so13796251wrw.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678232898;
+ d=linaro.org; s=google; t=1678232904;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Xvj99jsqKpWqw2VGx7NNL/c4aCRXSRyUMEP0I5BD120=;
- b=tk5tpBGXCQOJEbWnjDZLm3IYxOrBV0aglKCQriBhh19w/RZSMBaRTQA93vUB7GG4f+
- YJc9OIpmhDhRO0F6Nz7BxUZ096rqgz7Y4HM9BNjy+j3TbcNetgquNoNrk8rgj6NCGffI
- cczyHeFQgrIKqxhRy5F3PiKgwGv5fX7yMaA9l+qIby1TozuqM/TW8fNc/JP2aUO/mxzF
- St4pdTKW2zCzpxnsPtc2FEEMMXoWtGViEmd/PQpZhX/9Q27A+izXmf+mBssh2ENrgmxd
- EHc+JO94oqxZIKHIfOPumHBbyoB+9uYWY93ZXmxdeInbdvqoLD0n1tIQViF6tUkaSrki
- VVFA==
+ bh=nlUn/qxhfZToqYocMyFXsIpQiyWQahr0nRRfrh2Btes=;
+ b=KCBxNQM1Hm2K8ZGthIToX99ecwzDUcMKC84LdiFPS8I/AWhgoKE5CliIev7Kz77ZUt
+ 87pWl45IS4voC1uPIPPmlPYHbQT29py9gxEjj1qINI86+9UgVjg6bpFDOXxs2Qp5x+sa
+ leyB0ecysGpwMo8kxivtpCVkalmxfBPBzGnCfn+8mz6ybs6X073aSsKDxVE/pz+0Kbw6
+ 3HF0MRRLmTAXPoTOWOO5Cp48Z7D1HotcAR8zgz7osWKULshVVLkQCspfaZcydgWEQNB6
+ DteMtswRVlSLqT3AMiFYG3nHM40pIWfk0ZVob2QyTXZtOwo5t//QlUAOtQunbzaVwP9T
+ 15+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678232898;
+ d=1e100.net; s=20210112; t=1678232904;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Xvj99jsqKpWqw2VGx7NNL/c4aCRXSRyUMEP0I5BD120=;
- b=LsHVqTVVQSgGHZCJsZfLehekUhCH9V5Q8uQ4d7z+rhEIVrCEJEiM7F0FujoTLqZfKV
- xRf/WdyKvCvCcczPn2W6Y0R1x6V2Q9YtfE4UaFh14eb5IQ9hOwMNMjFtDag1LRUKs/xe
- J1rrsdqpsKhd0nq28EYSHhsNkMDD8e7fP8UzV8tVPQPf/Jq/x43nXCTnCfI5tN8qxpbL
- 4dlJtS4CD2GUKFaZ4HkYPpQoknha2gv0TrQz84+gg2e8Oep0ZkUpBG2p1eHnquXWoeDF
- hPxwjX1LO4ncY7BUq04jWeIOyGtGkSjQcAAfwfgWmAMpMGZK3vugD+Y1Ze//KBfKDfvc
- FT0A==
-X-Gm-Message-State: AO0yUKUeDTwzFrAbkoN0YLjsBRixRb/eQl3gXWPCwk+7pxoHSph2N7II
- rqYPRi2E4W3GjKcKTYmPvbMVxnqkbg+sOpkHyEA=
-X-Google-Smtp-Source: AK7set/2rPmjEDnm1Oqiu1p5hSqKSRltc3dqeWt5fRSlveFGOsRfqP4UsntKlxkJ5t+yX+GVB38Ibw==
-X-Received: by 2002:adf:ea47:0:b0:2cb:4df5:932d with SMTP id
- j7-20020adfea47000000b002cb4df5932dmr9905820wrn.22.1678232898702; 
- Tue, 07 Mar 2023 15:48:18 -0800 (PST)
+ bh=nlUn/qxhfZToqYocMyFXsIpQiyWQahr0nRRfrh2Btes=;
+ b=1VD1eKVXgEsXAE66eqGQJ/q4+KhNC5pZPB4beS4XqE0gtsPfgg99VUjg/Sb+dvZvnx
+ V00Vho1X7s91PUvDnmSCtzqReEmvUkSMPAoca6q4dieho/3vkEs0+gr/wg7Kq5pB0tsv
+ L/TXePIvj8zke5Oool28q1FfOari9e0ZYr+OCSb7yFAd+c+a4YGAz5x1/bLoA8C0Gjl2
+ kPboPJIxPFI3M8oDlN7ZuoTZrsMTUYk0pCCTSw51bpPhKc2tB5cMjHwb8ZvyuqEPgV4p
+ O7LmyHdI938H0J2iYm2Sz2v1ME7AknaIFwZZ5SWqrG+byKtf/nLxqprNlwbcZOoLUUDo
+ YsQQ==
+X-Gm-Message-State: AO0yUKVpCWtC6ZTTvAzuP4xakWTZQqAo1/KIpRNjNLLpJZhZvhp0P+u4
+ oMCOx8Xbh/WDIBrCLtuqUwzRTibphR9E/cm1oEY=
+X-Google-Smtp-Source: AK7set9xe3+cdB61kabZiT06gL0AcxH2Mitd1NDH1oobUwpd3rg/mIZwuAmBTN0UBEhJA6NnyC0Pog==
+X-Received: by 2002:a5d:66ce:0:b0:2c7:8f73:7700 with SMTP id
+ k14-20020a5d66ce000000b002c78f737700mr10486088wrw.39.1678232904680; 
+ Tue, 07 Mar 2023 15:48:24 -0800 (PST)
 Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
  [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
- j18-20020a5d6052000000b002c53f6c7599sm13407673wrt.29.2023.03.07.15.48.17
+ j2-20020a5d6042000000b002c70d269b4esm13467895wrt.91.2023.03.07.15.48.23
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Mar 2023 15:48:18 -0800 (PST)
+ Tue, 07 Mar 2023 15:48:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- Rene Engel <ReneEngel80@emailn.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 11/20] hw/display/sm501: Add debug property to control pixman
- usage
-Date: Wed,  8 Mar 2023 00:47:02 +0100
-Message-Id: <20230307234711.55375-12-philmd@linaro.org>
+Cc: qemu-ppc@nongnu.org, David Woodhouse <dwmw2@infradead.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 12/20] hw/intc/i8259: Implement legacy LTIM Edge/Level Bank
+ Select
+Date: Wed,  8 Mar 2023 00:47:03 +0100
+Message-Id: <20230307234711.55375-13-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230307234711.55375-1-philmd@linaro.org>
 References: <20230307234711.55375-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,102 +94,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: David Woodhouse <dwmw2@infradead.org>
 
-Add a property to allow disabling pixman and always use the fallbacks
-for different operations which is useful for testing different drawing
-methods or debugging pixman related issues.
+Back in the mists of time, before EISA came along and required per-pin
+level control in the ELCR register, the i8259 had a single chip-wide
+level-mode control in bit 3 of ICW1.
 
+Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
+disabled', but apparently MorphOS is using it in the version of the
+i8259 which is in the Pegasos2 board as part of the VT8231 chipset.
+
+It's easy enough to implement, and I think it's harmless enough to do so
+unconditionally.
+
+Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+[balaton: updated commit message as asked by author]
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Tested-by: Rene Engel <ReneEngel80@emailn.de>
-Message-Id: <61768ffaefa71b65a657d1365823bd43c7ee9354.1678188711.git.balaton@eik.bme.hu>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/display/sm501.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ hw/intc/i8259.c                 | 10 ++++------
+ hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
+ include/hw/isa/i8259_internal.h |  1 +
+ 3 files changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 17835159fc..dbabbc4339 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -465,6 +465,7 @@ typedef struct SM501State {
-     uint32_t last_width;
-     uint32_t last_height;
-     bool do_full_update; /* perform a full update next time */
-+    uint8_t use_pixman;
-     I2CBus *i2c_bus;
+diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+index 17910f3bcb..bbae2d87f4 100644
+--- a/hw/intc/i8259.c
++++ b/hw/intc/i8259.c
+@@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
+     }
+ #endif
  
-     /* mmio registers */
-@@ -827,7 +828,7 @@ static void sm501_2d_operation(SM501State *s)
-                 de = db + (width + (height - 1) * dst_pitch) * bypp;
-                 overlap = (db < se && sb < de);
-             }
--            if (overlap) {
-+            if (overlap && (s->use_pixman & BIT(2))) {
-                 /* pixman can't do reverse blit: copy via temporary */
-                 int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
-                 uint32_t *tmp = tmp_buf;
-@@ -852,13 +853,15 @@ static void sm501_2d_operation(SM501State *s)
-                 if (tmp != tmp_buf) {
-                     g_free(tmp);
-                 }
--            } else {
-+            } else if (!overlap && (s->use_pixman & BIT(1))) {
-                 fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
-                                        (uint32_t *)&s->local_mem[dst_base],
-                                        src_pitch * bypp / sizeof(uint32_t),
-                                        dst_pitch * bypp / sizeof(uint32_t),
-                                        8 * bypp, 8 * bypp, src_x, src_y,
-                                        dst_x, dst_y, width, height);
-+            } else {
-+                fallback = true;
-             }
-             if (fallback) {
-                 uint8_t *sp = s->local_mem + src_base;
-@@ -891,7 +894,7 @@ static void sm501_2d_operation(SM501State *s)
-             color = cpu_to_le16(color);
-         }
+-    if (s->elcr & mask) {
++    if (s->ltim || (s->elcr & mask)) {
+         /* level triggered */
+         if (level) {
+             s->irr |= mask;
+@@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
+         s->isr |= (1 << irq);
+     }
+     /* We don't clear a level sensitive interrupt here */
+-    if (!(s->elcr & (1 << irq))) {
++    if (!s->ltim && !(s->elcr & (1 << irq))) {
+         s->irr &= ~(1 << irq);
+     }
+     pic_update_irq(s);
+@@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
+     PICCommonState *s = PIC_COMMON(dev);
  
--        if ((width == 1 && height == 1) ||
-+        if (!(s->use_pixman & BIT(0)) || (width == 1 && height == 1) ||
-             !pixman_fill((uint32_t *)&s->local_mem[dst_base],
-                          dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
-                          dst_x, dst_y, width, height, color)) {
-@@ -2035,6 +2038,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
- 
- static Property sm501_sysbus_properties[] = {
-     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
-+    DEFINE_PROP_UINT8("x-pixman", SM501SysBusState, state.use_pixman, 7),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -2122,6 +2126,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
- 
- static Property sm501_pci_properties[] = {
-     DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
-+    DEFINE_PROP_UINT8("x-pixman", SM501PCIState, state.use_pixman, 7),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -2162,11 +2167,18 @@ static void sm501_pci_class_init(ObjectClass *klass, void *data)
-     dc->vmsd = &vmstate_sm501_pci;
+     s->elcr = 0;
++    s->ltim = 0;
+     pic_init_reset(s);
  }
  
-+static void sm501_pci_init(Object *o)
+@@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
+             s->init_state = 1;
+             s->init4 = val & 1;
+             s->single_mode = val & 2;
+-            if (val & 0x08) {
+-                qemu_log_mask(LOG_UNIMP,
+-                              "i8259: level sensitive irq not supported\n");
+-            }
++            s->ltim = val & 8;
+         } else if (val & 0x08) {
+             if (val & 0x04) {
+                 s->poll = 1;
+diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
+index af2e4a2241..c931dc2d07 100644
+--- a/hw/intc/i8259_common.c
++++ b/hw/intc/i8259_common.c
+@@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
+     s->special_fully_nested_mode = 0;
+     s->init4 = 0;
+     s->single_mode = 0;
+-    /* Note: ELCR is not reset */
++    /* Note: ELCR and LTIM are not reset */
+ }
+ 
+ static int pic_dispatch_pre_save(void *opaque)
+@@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
+                    s->special_fully_nested_mode);
+ }
+ 
++static bool ltim_state_needed(void *opaque)
 +{
-+    object_property_set_description(o, "x-pixman", "Use pixman for: "
-+                                    "1: fill, 2: blit, 4: overlap blit");
++    PICCommonState *s = PIC_COMMON(opaque);
++
++    return !!s->ltim;
 +}
 +
- static const TypeInfo sm501_pci_info = {
-     .name          = TYPE_PCI_SM501,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(SM501PCIState),
-     .class_init    = sm501_pci_class_init,
-+    .instance_init = sm501_pci_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-         { },
++static const VMStateDescription vmstate_pic_ltim = {
++    .name = "i8259/ltim",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = ltim_state_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8(ltim, PICCommonState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_pic_common = {
+     .name = "i8259",
+     .version_id = 1,
+@@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
+         VMSTATE_UINT8(single_mode, PICCommonState),
+         VMSTATE_UINT8(elcr, PICCommonState),
+         VMSTATE_END_OF_LIST()
++    },
++    .subsections = (const VMStateDescription*[]) {
++        &vmstate_pic_ltim,
++        NULL
+     }
+ };
+ 
+diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
+index 155b098452..f9dcc4163e 100644
+--- a/include/hw/isa/i8259_internal.h
++++ b/include/hw/isa/i8259_internal.h
+@@ -61,6 +61,7 @@ struct PICCommonState {
+     uint8_t single_mode; /* true if slave pic is not initialized */
+     uint8_t elcr; /* PIIX edge/trigger selection*/
+     uint8_t elcr_mask;
++    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
+     qemu_irq int_out[1];
+     uint32_t master; /* reflects /SP input pin */
+     uint32_t iobase;
 -- 
 2.38.1
 
