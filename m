@@ -2,69 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50236AE338
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E196AE342
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:49:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYcg-0000Yp-8H; Tue, 07 Mar 2023 09:49:02 -0500
+	id 1pZYdM-00020Y-RV; Tue, 07 Mar 2023 09:49:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZYcc-0000Tv-Jh
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:58 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZYd3-0001jv-VI
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:49:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZYca-0002h9-Bj
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=3VK1x/GnUv1bomVR2NRjy7iGAlY+aJ7tdAAZjUR68Jo=; b=RjRcz05+naI3gpqz2yM1NJMAc2
- PqqXpLGxOfuL/dO6eI4+awHwqRk6kISjaClxgdEX4WR+8Z5rDwZ9j/GyuFoq48hAMUN6L2z1O918o
- ZXJPw12PF5yvnodZYYKBoghJFSgqfnKUAurT+pBQG66Ta1nXho2feA6DWcogJ3OV99J9Y9IdR/Vl2
- xSpLUlK3lK6uUTcJdv3xeJNFqSLiHJaAcoyD+3Xlan7UI+TTNLkTn+zZbBWVnIoQxxXwyzAoVcR16
- qeENCz6wa6iAMnXDKxf99reioYXEMEnME3Bj7zV48AyBYq+DBdU9DB/VQZzF5UYTV84ciYLAfFIZy
- mA+cEeWg==;
-Received: from [2001:8b0:10b:5:640c:634b:db90:9c87]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZYcT-006UYR-8P; Tue, 07 Mar 2023 14:48:49 +0000
-Message-ID: <bac842b0b1ea81e5aee922f3864bf57b99c515d4.camel@infradead.org>
-Subject: Re: [RFC PATCH v1 12/25] hw/xen: Add foreignmem operations to allow
- redirection to internal emulation
-From: David Woodhouse <dwmw2@infradead.org>
-To: paul@xen.org, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
- <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>,  xen-devel@lists.xenproject.org
-Date: Tue, 07 Mar 2023 14:48:47 +0000
-In-Reply-To: <470e51bf-5159-fd32-93b5-03f5bdf5f050@xen.org>
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-13-dwmw2@infradead.org>
- <470e51bf-5159-fd32-93b5-03f5bdf5f050@xen.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-FoqbE/HMUlB5H1Dh7um1"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZYd0-0002jf-9S
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:49:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678200561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hErew4xCQ0oFbGFLB+n8FzaWNApBiUo2CwGM/EXYvvI=;
+ b=LMI4h6zBc22oTMITNRula3IQjrDpqo2D5pN355bhNCS43O6vIt/E+b5+aUvAY/S7kYfF8h
+ TgjpODqYWlRPT20sABdoszmzq8U0Lt1nFfT45BupojIUwPASecxljCmYxMEC7Cfhk+G/Ua
+ n1DHFoGUqNAeWX055233blHXCu5buzA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-463-o25E5vHaN56A9Ojz_GcJHg-1; Tue, 07 Mar 2023 09:49:19 -0500
+X-MC-Unique: o25E5vHaN56A9Ojz_GcJHg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m10-20020adfe94a000000b002cdc5eac0d0so2261135wrn.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:49:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678200559;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hErew4xCQ0oFbGFLB+n8FzaWNApBiUo2CwGM/EXYvvI=;
+ b=ePFtV/PTMMnc2Y7PRorS6Am/unFd+4EvLAK37/lhYI0r5w1vHCSrkEis8b4HK9+RYf
+ zuMe6EUCixcC+RIJMs+FCn0s8RpL4nWXbHfBqMQ2Nz5PhCb+EMnDUg29tCI0x/+6JDlb
+ IXL5kmyYHgsGdrecNSEOOGPLyoP5coRLSXDZVlz8s6LGARUROf91j9mwpmFKePASgOR+
+ DGM0erVbo35Jj1vGYH83hV0P8EYVz8MJXZOEaeJeFBscvGWY8jJwK5+KlUTxNHjQcFMm
+ D2uv9pSSMfAaC16Tp3d49h8mplPP7IXKw7a4rpCrDIHDmZmZXgLb/4F8AzJ8WHCo+6bt
+ aVjA==
+X-Gm-Message-State: AO0yUKUnlbvU78XHPY/ZtG68/jtxDBcFyu6GN/n8w24GUjsJtC/dBjt+
+ h0obghfDreK20S5mDOYHz4iX09LL5r7B1zGxV8LULKeyCBX6w6NkXTqHnMU/3O9NmOsWdMdq8PM
+ JeOS+a9J780OB19g=
+X-Received: by 2002:a5d:480c:0:b0:2c5:512c:f499 with SMTP id
+ l12-20020a5d480c000000b002c5512cf499mr9974412wrq.27.1678200558806; 
+ Tue, 07 Mar 2023 06:49:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set/TLPMpZFjonr/cwL28FxyHuWb+yG7BLXt3i2xtnsf3AqSuy9hqxJqyprEy059AJtWGc5sjbA==
+X-Received: by 2002:a5d:480c:0:b0:2c5:512c:f499 with SMTP id
+ l12-20020a5d480c000000b002c5512cf499mr9974399wrq.27.1678200558528; 
+ Tue, 07 Mar 2023 06:49:18 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ n1-20020adffe01000000b002c4084d3472sm12976678wrr.58.2023.03.07.06.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 06:49:18 -0800 (PST)
+Message-ID: <f58e2f7f-e763-9e03-91f8-6a7ba9bbcf79@redhat.com>
+Date: Tue, 7 Mar 2023 15:49:17 +0100
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 10/15] vfio/common: Add device dirty page tracking
+ start/stop
+Content-Language: en-US
+To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+References: <20230307125450.62409-1-joao.m.martins@oracle.com>
+ <20230307125450.62409-11-joao.m.martins@oracle.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230307125450.62409-11-joao.m.martins@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,140 +105,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/7/23 13:54, Joao Martins wrote:
+> Add device dirty page tracking start/stop functionality. This uses the
+> device DMA logging uAPI to start and stop dirty page tracking by device.
+> 
+> Device dirty page tracking is used only if all devices within a
+> container support device dirty page tracking.
+> 
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>   hw/vfio/common.c              | 173 +++++++++++++++++++++++++++++++++-
+>   hw/vfio/trace-events          |   1 +
+>   include/hw/vfio/vfio-common.h |   2 +
+>   3 files changed, 171 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 811502dbc97c..80f2d287bab5 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -450,6 +450,22 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+>       return true;
+>   }
+>   
+> +static bool vfio_devices_all_device_dirty_tracking(VFIOContainer *container)
+> +{
+> +    VFIOGroup *group;
+> +    VFIODevice *vbasedev;
+> +
+> +    QLIST_FOREACH(group, &container->group_list, container_next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            if (!vbasedev->dirty_pages_supported) {
+> +                return false;
+> +            }
+> +        }
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>   /*
+>    * Check if all VFIO devices are running and migration is active, which is
+>    * essentially equivalent to the migration being in pre-copy phase.
+> @@ -1407,16 +1423,156 @@ static void vfio_dirty_tracking_init(VFIOContainer *container,
+>       memory_listener_unregister(&dirty.listener);
+>   }
+>   
+> +static void vfio_devices_dma_logging_stop(VFIOContainer *container)
+> +{
+> +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature),
+> +                              sizeof(uint64_t))] = {};
+> +    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
+> +    VFIODevice *vbasedev;
+> +    VFIOGroup *group;
+> +
+> +    feature->argsz = sizeof(buf);
+> +    feature->flags = VFIO_DEVICE_FEATURE_SET |
+> +                     VFIO_DEVICE_FEATURE_DMA_LOGGING_STOP;
+> +
+> +    QLIST_FOREACH(group, &container->group_list, container_next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            if (!vbasedev->dirty_tracking) {
+> +                continue;
+> +            }
+> +
+> +            if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
+> +                warn_report("%s: Failed to stop DMA logging, err %d (%s)",
+> +                             vbasedev->name, -errno, strerror(errno));
+> +            }
+> +            vbasedev->dirty_tracking = false;
+> +        }
+> +    }
+> +}
+> +
+> +static struct vfio_device_feature *
+> +vfio_device_feature_dma_logging_start_create(VFIOContainer *container,
+> +                                             VFIODirtyRanges *tracking)
+> +{
+> +    struct vfio_device_feature *feature;
+> +    size_t feature_size;
+> +    struct vfio_device_feature_dma_logging_control *control;
+> +    struct vfio_device_feature_dma_logging_range *ranges;
+> +
+> +    feature_size = sizeof(struct vfio_device_feature) +
+> +                   sizeof(struct vfio_device_feature_dma_logging_control);
+> +    feature = g_try_malloc0(feature_size);
+> +    if (!feature) {
+> +        errno = ENOMEM;
+> +        return NULL;
+> +    }
+> +    feature->argsz = feature_size;
+> +    feature->flags = VFIO_DEVICE_FEATURE_SET |
+> +                     VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
+> +
+> +    control = (struct vfio_device_feature_dma_logging_control *)feature->data;
+> +    control->page_size = qemu_real_host_page_size();
+> +
+> +    /*
+> +     * DMA logging uAPI guarantees to support at least a number of ranges that
+> +     * fits into a single host kernel base page.
+> +     */
+> +    control->num_ranges = !!tracking->max32 + !!tracking->max64;
+> +    ranges = g_try_new0(struct vfio_device_feature_dma_logging_range,
+> +                        control->num_ranges);
+> +    if (!ranges) {
+> +        g_free(feature);
+> +        errno = ENOMEM;
+> +
+> +        return NULL;
+> +    }
+> +
+> +    control->ranges = (__u64)(uintptr_t)ranges;
+> +    if (tracking->max32) {
+> +        ranges->iova = tracking->min32;
+> +        ranges->length = (tracking->max32 - tracking->min32) + 1;
 
---=-FoqbE/HMUlB5H1Dh7um1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+May be using REAL_HOST_PAGE_ALIGN would be cleaner. Same below. That
+can be fixed inline if so.
 
-On Tue, 2023-03-07 at 14:40 +0000, Paul Durrant wrote:
->=20
-> > -
-> > -#define xenforeignmemory_unmap(h, p, s) munmap(p, s * XC_PAGE_SIZE)
-> > -
->=20
-> Actually, probably best 'static inline' that, or at least put brackets=
-=20
-> round the 'p' and 's' for safety.
->=20
-That's the one we're *removing* :)
+Thanks,
 
-> With either one of those options chosen...
->=20
-> Reviewed-by: Paul Durrant <paul@xen.org>
+C.
 
-Taking that anyway.
+> +        ranges++;
+> +    }
+> +    if (tracking->max64) {
+> +        ranges->iova = tracking->min64;
+> +        ranges->length = (tracking->max64 - tracking->min64) + 1;
+> +    }
+> +
+> +    trace_vfio_device_dirty_tracking_start(control->num_ranges,
+> +                                           tracking->min32, tracking->max32,
+> +                                           tracking->min64, tracking->max64);
+> +
+> +    return feature;
+> +}
+> +
+> +static void vfio_device_feature_dma_logging_start_destroy(
+> +    struct vfio_device_feature *feature)
+> +{
+> +    struct vfio_device_feature_dma_logging_control *control =
+> +        (struct vfio_device_feature_dma_logging_control *)feature->data;
+> +    struct vfio_device_feature_dma_logging_range *ranges =
+> +        (struct vfio_device_feature_dma_logging_range *)(uintptr_t) control->ranges;
+> +
+> +    g_free(ranges);
+> +    g_free(feature);
+> +}
+> +
+> +static int vfio_devices_dma_logging_start(VFIOContainer *container)
+> +{
+> +    struct vfio_device_feature *feature;
+> +    VFIODirtyRanges ranges;
+> +    VFIODevice *vbasedev;
+> +    VFIOGroup *group;
+> +    int ret = 0;
+> +
+> +    vfio_dirty_tracking_init(container, &ranges);
+> +    feature = vfio_device_feature_dma_logging_start_create(container,
+> +                                                           &ranges);
+> +    if (!feature) {
+> +        return -errno;
+> +    }
+> +
+> +    QLIST_FOREACH(group, &container->group_list, container_next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            if (vbasedev->dirty_tracking) {
+> +                continue;
+> +            }
+> +
+> +            ret = ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature);
+> +            if (ret) {
+> +                ret = -errno;
+> +                error_report("%s: Failed to start DMA logging, err %d (%s)",
+> +                             vbasedev->name, ret, strerror(errno));
+> +                goto out;
+> +            }
+> +            vbasedev->dirty_tracking = true;
+> +        }
+> +    }
+> +
+> +out:
+> +    if (ret) {
+> +        vfio_devices_dma_logging_stop(container);
+> +    }
+> +
+> +    vfio_device_feature_dma_logging_start_destroy(feature);
+> +
+> +    return ret;
+> +}
+> +
+>   static void vfio_listener_log_global_start(MemoryListener *listener)
+>   {
+>       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> -    VFIODirtyRanges ranges;
+>       int ret;
+>   
+> -    vfio_dirty_tracking_init(container, &ranges);
+> +    if (vfio_devices_all_device_dirty_tracking(container)) {
+> +        ret = vfio_devices_dma_logging_start(container);
+> +    } else {
+> +        ret = vfio_set_dirty_page_tracking(container, true);
+> +    }
+>   
+> -    ret = vfio_set_dirty_page_tracking(container, true);
+>       if (ret) {
+> +        error_report("vfio: Could not start dirty page tracking, err: %d (%s)",
+> +                     ret, strerror(-ret));
+>           vfio_set_migration_error(ret);
+>       }
+>   }
+> @@ -1424,10 +1580,17 @@ static void vfio_listener_log_global_start(MemoryListener *listener)
+>   static void vfio_listener_log_global_stop(MemoryListener *listener)
+>   {
+>       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> -    int ret;
+> +    int ret = 0;
+> +
+> +    if (vfio_devices_all_device_dirty_tracking(container)) {
+> +        vfio_devices_dma_logging_stop(container);
+> +    } else {
+> +        ret = vfio_set_dirty_page_tracking(container, false);
+> +    }
+>   
+> -    ret = vfio_set_dirty_page_tracking(container, false);
+>       if (ret) {
+> +        error_report("vfio: Could not stop dirty page tracking, err: %d (%s)",
+> +                     ret, strerror(-ret));
+>           vfio_set_migration_error(ret);
+>       }
+>   }
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index dd9fd7b9bddb..bee95dbd977a 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -104,6 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_wi
+>   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>   vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" - 0x%"PRIx64"]"
+> +vfio_device_dirty_tracking_start(int nr_ranges, uint64_t min32, uint64_t max32, uint64_t min64, uint64_t max64) "nr_ranges %d 32:[0x%"PRIx64" - 0x%"PRIx64"], 64:[0x%"PRIx64" - 0x%"PRIx64"]"
+>   vfio_disconnect_container(int fd) "close container->fd=%d"
+>   vfio_put_group(int fd) "close group->fd=%d"
+>   vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 87524c64a443..9551d2d43025 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -143,6 +143,8 @@ typedef struct VFIODevice {
+>       VFIOMigration *migration;
+>       Error *migration_blocker;
+>       OnOffAuto pre_copy_dirty_page_tracking;
+> +    bool dirty_pages_supported;
+> +    bool dirty_tracking;
+>   } VFIODevice;
+>   
+>   struct VFIODeviceOps {
 
---=-FoqbE/HMUlB5H1Dh7um1
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA3MTQ0ODQ3WjAvBgkqhkiG9w0BCQQxIgQgfOhaNgUX
-r6APDYEwIvSj6LoIyq58d40gEt4k6uBop1Ewgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgArryNwfE8fQRDDjy41kT6Fk/IMDEE/8zD0
-X9psIyxKx7ESNWsP8ba/0OfL4exst0plb73IxJDLh2GTQNErpF/seq+0zlxzG83VOMbFj/awbWDb
-UoIIMnAbi2311wnVKb+uaaZbdd0CX9A4mu7aUGsp31vVC7SW+lVhke1d0NsOPV/gy6pcBxbkhUHL
-3rceXeHfaTVOgJguTNc0svinvU2YQlBMSUjKc48mlwLP/sEsSBuVbmr++nQFBLpC/8uPwiWE9XHX
-ghbN3UQaY0Ooq4MGjMJ8bOB0u+4FY0tVR1oMV6y3n0MPYk22HMPh8Y9VtTbR5dbWZNFAVkxiqb7I
-sGsLQo54xrWKaIoq/bkxIC/KjGk/2MkieZq/QQnrghk6v8NaBu7thbmvCOczZ0JoLZXDy+a5KCS3
-2QWH9SmSW5mxYkKkcNQj871NTPj+iLcp8cr7Hr2FrcmwXNXmTq8MM6sQl60zfyU3NtUpIppk5yF9
-sITfxFR6HQmrl+t6amQZa9t5n123oFgnv06SHLWX0CIje+FnOCn8LCx1LCF8ROp5JWDR4u72YzmI
-y+pH/3JUjfQkiNxROvdD7TUEitNwILfryXqjLSvCKZshWZH1H7tHuxrZhStFB3397oKgvyGF6sIa
-S/eyQeXPUEk4Vcma/o0/wHmEbjQOe7rWWO5GHk2qcAAAAAAAAA==
-
-
---=-FoqbE/HMUlB5H1Dh7um1--
 
