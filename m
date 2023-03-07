@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628CE6ADD54
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A656ADD79
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:33:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVVh-0008Jh-Bp; Tue, 07 Mar 2023 06:29:37 -0500
+	id 1pZVYu-0006D5-Lm; Tue, 07 Mar 2023 06:32:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZVVe-0008IB-Le
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:29:34 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZVVc-0005mw-NI
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:29:34 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r18so11780012wrx.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:29:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678188571;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZH3Q1fiViFkedD/SohivkdCJBORP2dYkWAHXGgMGnQU=;
- b=bYEbe4alNTH1brr9NksFnpytF/v98dG4TityAnXFRd3UU9kGlZ8UU+bDJyB4rPUXeH
- FZk/u1LeYUF20rcQTfoylIOq3XwjiX7ONG2mu9d/i1BKKQqI7gbR5PdrmuJP8qRwBg1/
- J97r28ac6C8rV6Qunq4gSIlgLRrVGMIVrzPqGY8gmM+tghAAzeNmnE7xdr9oFvqw323n
- kBxN+ZDNU/18BspzG6coku5fsrSrNT5HohGKIV3/UxKAhVUlowyFtP5C6K9aV4l5h8mJ
- 1HbW87lwLYrk6smoHY+sGHkyvUG4q5haVvY//U/kHukHN8s50WEWwX66ae8D8VINW8pr
- s31g==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZVYs-0006CR-RT
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:32:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pZVYr-0006Qj-II
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:32:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678188772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oDak3hqXUVmktsW1RUf94xaJaP+8v4PfakmakNoI5Vc=;
+ b=jAmmm1JKlbOjJjRLNf2b41cpih+U6CDtIqu9B7NtmiymuqFmZKj3SJKBpZ5W5AVqT/6L+F
+ CKmMhKFBQR0vcLbEALEXqqbQQai6TgoWiJg+Sfql7wpdD25WEj2P4jkujY8c7wLXc/NNmq
+ iv0VwAHUC5TVswfb3VOn1vdU+WQYKCg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-479-bUPJBKarNui8vxHABrQswQ-1; Tue, 07 Mar 2023 06:32:51 -0500
+X-MC-Unique: bUPJBKarNui8vxHABrQswQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r14-20020a0560001b8e00b002cdb76f7e80so2131751wru.19
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:32:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678188571;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZH3Q1fiViFkedD/SohivkdCJBORP2dYkWAHXGgMGnQU=;
- b=4/3Jkvwrrhd/NgKSb86/YHRlB9q0P3MmySCsZwLzbGD4QAUsE9K4WTfNEQNRMk+G6i
- p/97pK5ZFwe4T6tS6RBKWV5Kzhx6LfCif4Sn+Tn/Z2nWzWfFjRwwZKrnLLGEJQ7Th4Mt
- 3qIqu6HyIOv62JHjzqk24/N6lSZM9xddPzFBHxieXqNo9CKUtlG5P5dl6CeecSCL2rH+
- ofkXWga96pFcC5iCIBfhKX7d5JacEDrCtVpSMGxoBuOoj7iJ/sWYhGJL/9v7QdSxvTol
- 1w0TbVRSAL01YD4fA61cw3uYVa+mdH+cDoO3CPV/4EBlurekDz7iBy69ozOH+jW7EvY9
- 3IAg==
-X-Gm-Message-State: AO0yUKVvJ4L3O/jEkVWDdqvodQcbLDQVuj/+rnKokFuAgrZVxZew88Gr
- 1YWygYdw2a0IUj23OIFB1l8=
-X-Google-Smtp-Source: AK7set8Lclo21+j8Gxl4MN8i0MzUImFNsiKxJ2ypaJRJ+vZG5Jq1AaAuRc/IUvQQUn8nANF098S2og==
-X-Received: by 2002:adf:e8cd:0:b0:2cb:3660:44e with SMTP id
- k13-20020adfe8cd000000b002cb3660044emr9034590wrn.66.1678188571284; 
- Tue, 07 Mar 2023 03:29:31 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
+ d=1e100.net; s=20210112; t=1678188770;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oDak3hqXUVmktsW1RUf94xaJaP+8v4PfakmakNoI5Vc=;
+ b=Tz+dwr2aFSS5LzELjXgtY3EspO05D/wJvsV4WhptQk8H4RR7BfbPoDgDXEWFkaOzR1
+ qWCsIt0ssMji64bP0I9wn5uSKZjrtbeM8MLqowcnlMcF2m0X2XYegcKyy3VMEtc+/jrb
+ i6BtTbrRzLwqLaBJRgKPJnSTscCYy7ihvkH3K7x01pWTW3F36ohlIqbr22Sp/VQV5Yxx
+ jTJ5xqsbfs4HO1NCGjhmzlcGxD9LfMAuJGwDMcv/0XV5S5jK85LEAi/sg6+40Hv8SpER
+ SuaGKdc+W891ouXttc4Em0uBfpT2jVR73JAhZFLeeTUl08xJbp5/D+tt7LvJ0GbtkEan
+ 0oFA==
+X-Gm-Message-State: AO0yUKXe6rlKTHwIqxmNxKeEinmBQO2xcblIgfEYauenXhKgOou9hzV2
+ q11oFZjCZTWI2TsSje5Zhyz/XamPJ5Q80ZaHPp11fR+KOCwq+OGZ/ctY5Ks5fNAAOwT8Ndu1Eol
+ oDoBF8AzUYUhWZPQ=
+X-Received: by 2002:a1c:750a:0:b0:3dc:4fd7:31f7 with SMTP id
+ o10-20020a1c750a000000b003dc4fd731f7mr11872558wmc.41.1678188770233; 
+ Tue, 07 Mar 2023 03:32:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+vCZrgD2dz0Z6VzHob1dA/76UaOCKfchpZtKmFARXY0bl6Tv+Rzxr8Sxq47rpYCtnTY5qTmA==
+X-Received: by 2002:a1c:750a:0:b0:3dc:4fd7:31f7 with SMTP id
+ o10-20020a1c750a000000b003dc4fd731f7mr11872543wmc.41.1678188769988; 
+ Tue, 07 Mar 2023 03:32:49 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- c10-20020adffb0a000000b002ce72cff2ecsm2753413wrr.72.2023.03.07.03.29.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 03:29:30 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <b7ef693a-5586-fe65-9825-15655a7ec67b@xen.org>
-Date: Tue, 7 Mar 2023 11:29:29 +0000
+ x12-20020a5d650c000000b002c557f82e27sm12132607wru.99.2023.03.07.03.32.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 03:32:49 -0800 (PST)
+Date: Tue, 7 Mar 2023 11:32:47 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Steve Sistare <steven.sistare@oracle.com>, quintela@redhat.com
+Cc: qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH V2] migration: fix populate_vfio_info
+Message-ID: <ZAcg39dY/kPK1Vjz@work-vm>
+References: <1675796553-235469-1-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 03/25] hw/xen: Implement XenStore watches
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-4-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230302153435.1170111-4-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x432.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1675796553-235469-1-git-send-email-steven.sistare@oracle.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,80 +101,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 15:34, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+* Steve Sistare (steven.sistare@oracle.com) wrote:
+> Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
+> CONFIG_VFIO.  Without it, the 'info migrate' command never returns
+> info about vfio.
 > 
-> Starts out fairly simple: a hash table of watches based on the path.
-> 
-> Except there can be multiple watches on the same path, so the watch ends
-> up being a simple linked list, and the head of that list is in the hash
-> table. Which makes removal a bit of a PITA but it's not so bad; we just
-> special-case "I had to remove the head of the list and now I have to
-> replace it in / remove it from the hash table". And if we don't remove
-> the head, it's a simple linked-list operation.
-> 
-> We do need to fire watches on *deleted* nodes, so instead of just a simple
-> xs_node_unref() on the topmost victim, we need to recurse down and fire
-> watches on them all.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Fixes: 43bd0bf30f ("migration: Move populate_vfio_info() into a separate file")
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   hw/i386/kvm/xenstore_impl.c | 253 +++++++++++++++++++++++++++++++++---
->   tests/unit/test-xs-node.c   |  85 ++++++++++++
->   2 files changed, 323 insertions(+), 15 deletions(-)
+>  migration/target.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/migration/target.c b/migration/target.c
+> index 907ebf0..00ca007 100644
+> --- a/migration/target.c
+> +++ b/migration/target.c
+> @@ -8,6 +8,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qapi/qapi-types-migration.h"
+>  #include "migration.h"
+> +#include CONFIG_DEVICES
+>  
+>  #ifdef CONFIG_VFIO
+>  #include "hw/vfio/vfio-common.h"
+> @@ -17,7 +18,6 @@ void populate_vfio_info(MigrationInfo *info)
+>  {
+>  #ifdef CONFIG_VFIO
+>      if (vfio_mig_active()) {
+> -        info->has_vfio = true;
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Why this removal?
 
-... with one suggestion...
+Dave
 
-[snip]
-> +    /* Check for duplicates */
-> +    w = g_hash_table_lookup(s->watches, abspath);
-> +    while (w) {
-> +        if (!g_strcmp0(token, w->token) &&  opaque == w->cb_opaque &&
-> +            fn == w->cb && dom_id == w->dom_id) {
-> +            return EEXIST;
-> +        }
-> +        w = w->next;
-
-I think you could stash a tail pointer here...
-
-> +    }
-> +
-> +    if (dom_id && s->nr_domu_watches >= XS_MAX_WATCHES) {
-> +        return E2BIG;
-> +    }
-> +
-> +    w = g_new0(XsWatch, 1);
-> +    w->token = g_strdup(token);
-> +    w->cb = fn;
-> +    w->cb_opaque = opaque;
-> +    w->dom_id = dom_id;
-> +    w->rel_prefix = strlen(abspath) - strlen(path);
-> +
-> +    l = g_hash_table_lookup(s->watches, abspath);
-
-... to avoid the duplicate hash lookup here.
-
-> +    if (l) {
-> +        w->next = l->next;
-> +        l->next = w;
-> +    } else {
-> +        g_hash_table_insert(s->watches, g_strdup(abspath), w);
-> +    }
-> +    if (dom_id) {
-> +        s->nr_domu_watches++;
-> +    }
-> +
-> +    /* A new watch should fire immediately */
-> +    fn(opaque, path, token);
-> +
-> +    return 0;
-> +}
+>          info->vfio = g_malloc0(sizeof(*info->vfio));
+>          info->vfio->transferred = vfio_mig_bytes_transferred();
+>      }
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
