@@ -2,95 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F356AE36B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4AC6AE377
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:56:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYj8-0000Aq-Oe; Tue, 07 Mar 2023 09:55:42 -0500
+	id 1pZYjp-0000s9-QM; Tue, 07 Mar 2023 09:56:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pZYj6-00008i-W9
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:55:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZYjn-0000rV-98
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:56:23 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pZYj5-0004AQ-MK
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:55:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678200937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0j8M9++z4TYW1EadNTIGB1llO2/qg+02n4l606k/QDM=;
- b=Hy4tAnt4/5OylHUbfFfHXbOo9LI7+cxSqOq2ivzYGCMeanXeqJ3r1oh6QiYlhMgaxxikJ0
- RhcwcccBokJpT/OPy3ScOTMHL0dHSUCquxX/sSDoAJI058u+aThZFtn0iAtQilIrBH13VF
- IvRYlabLruwikm86vNGwQyBClR65FJo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-371-PQmHb4cENqWsM0c7VgOpHg-1; Tue, 07 Mar 2023 09:55:36 -0500
-X-MC-Unique: PQmHb4cENqWsM0c7VgOpHg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- o3-20020a5d6483000000b002cc4fe0f7fcso2249735wri.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:55:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678200935;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0j8M9++z4TYW1EadNTIGB1llO2/qg+02n4l606k/QDM=;
- b=C4fWuV6zPkEz8G7o6wqppurruJXJLH/j5+xT7UBwNfZrcYxDWG1lMdeWbh5VMhILzk
- vsfWWv75XieIahEiqWsqDksqx77rU6aotbGUvKVtgdv/P/47qWxFXV6ZbkZL/do3WN9x
- 752z9MeNCq1O3105Pa6CpB36pHzq7kgIjGKIOrZH8LEHodbtqmNpf7R5ImwdZizrHJ+9
- IrqWJtitk3/C6fbguUK59/ErCjm8mVFfyxds1iPbXlXEr9YdDK6hgeGF3PBHHXWa8eUz
- EtuKeQqmEs2LGAwp8z7DQQEswqHolQZxxDPUejE7pZO3EPcj0Im5fX1NQN/LG3AxeBmh
- P0Pw==
-X-Gm-Message-State: AO0yUKXI7hHkeUPspXtEUpUTYSzUxYw/PMmeOrI+Idj+18SQbbtd33ER
- Lx+xKDNOIf0Hg8EksFmEHLJwpvFHT442S48RQICYlD11G5GgkFncNYJ6myCtUmWo2XAVfG40drU
- 8Fu4SeVFiAB7+npg=
-X-Received: by 2002:a5d:460b:0:b0:2c9:a800:7d08 with SMTP id
- t11-20020a5d460b000000b002c9a8007d08mr9476782wrq.43.1678200935403; 
- Tue, 07 Mar 2023 06:55:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set9zVUQe9tob9qu/vfejQNMTZlkJP/L90Xg+aLCaeMXFZp8yI0Bg1PTQ0/1xOFTFvtMm+vyPyg==
-X-Received: by 2002:a5d:460b:0:b0:2c9:a800:7d08 with SMTP id
- t11-20020a5d460b000000b002c9a8007d08mr9476773wrq.43.1678200935097; 
- Tue, 07 Mar 2023 06:55:35 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- p10-20020a5d68ca000000b002c59e001631sm13066954wrw.77.2023.03.07.06.55.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 06:55:34 -0800 (PST)
-Date: Tue, 7 Mar 2023 14:55:32 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Cc: quintela@redhat.com, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH V2] migration: fix populate_vfio_info
-Message-ID: <ZAdQZBQUvA1BAunT@work-vm>
-References: <1675796553-235469-1-git-send-email-steven.sistare@oracle.com>
- <ZAcg39dY/kPK1Vjz@work-vm>
- <0f3dcc76-45b5-ad62-1c03-e2fcc58aa701@oracle.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZYjl-0004HW-I7
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:56:23 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIKs0-1plgE3190O-00EQg0; Tue, 07 Mar 2023 15:56:19 +0100
+Message-ID: <08bdd96d-a4dd-945c-a0e0-61583e4372c8@vivier.eu>
+Date: Tue, 7 Mar 2023 15:56:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user: Add strace for prlimit64() syscall
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20221222190639.124078-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221222190639.124078-1-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f3dcc76-45b5-ad62-1c03-e2fcc58aa701@oracle.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Provags-ID: V03:K1:cSgq69ezcgybQM2oEqHFCy5dUj4vliyYFfMacHzjqKaedclx/t6
+ FywCxq6L+l2iCXPlOuUEs09MPXigEwLmD4ehhtJk22eSCuUbBg1vfj1NTabDgOCqIX0Hr6G
+ +aax4v81fv2dbHOWSyM20DFV8C7fGdChR/AxLZxU63qBDZpuieaQRYpKh4qgY5miTjh6Dlb
+ rgGUW99JIYEFtg0xCUvbQ==
+UI-OutboundReport: notjunk:1;M01:P0:QOaZDi29QEs=;R5od6wGMUjQytpPApYZOuarWRzL
+ toHOR01bHLRcsVUTPhaP/0w5VKZ/ooMoH1FJ2/gq8bWFitFN3fWdHWiR+hxLZFJ2vw29HAvEd
+ LFonEnWJ5Yxxwi3a8FKDih85dPFOL54fBbQBIeOOafjKeRzvSwR+0JkZfVs2SDRP2R/6VAOui
+ io38B7gUkaN0Z38WNvr2SJtbDK8DQ1pVhh8hK2AdtQQpYROT/YP8O14lICIKB68GAZSWbFuN/
+ Gmxrbtspw21BtvE4ygxa6uM9DrELg+o4C5ZPjhHmOxSYHaCbYTXckcq33z2pwRgKCCTIRX30K
+ aHShTrt1Wuzir/hWkbplLoJ1dcdMTzfKnL56Xl2X3F8JYIsrEs16+nHy6nER8ft2iGv4P1JDU
+ Ye+bmSDn/I6zX+bRNfbzr/3YWTTbcy+dA6y0pNDb4KTdzsvpIltFGLjej1qoh+OKrXKCqU0lR
+ PkFy0t7kRDrcI6JQkDf7O6cCbHwyzPNAfyNXaca6BDHsElAIzMgrm0t2MJ4oE7WPzHGpO+yMM
+ sZoeXQ+XieUJmyI7Z6jsSMQkThOEPkmGtd5Qt8KYf+tNfMb0bL9eeF2NmWTFsQwAOHcHbhpwt
+ oGmCYOs0Hbl/foldfD5nx3Ck8Jx7DEy0WjJoBcnSjV5j+BXKYHjwXTy6A99nQ68Twm/ekuLSx
+ /cWeffdGCcBQx4qa8Fl+mxqsoo1rTa4rtrmQQfT3Zw==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,52 +70,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Steven Sistare (steven.sistare@oracle.com) wrote:
-> On 3/7/2023 6:32 AM, Dr. David Alan Gilbert wrote:
-> > * Steve Sistare (steven.sistare@oracle.com) wrote:
-> >> Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
-> >> CONFIG_VFIO.  Without it, the 'info migrate' command never returns
-> >> info about vfio.
-> >>
-> >> Fixes: 43bd0bf30f ("migration: Move populate_vfio_info() into a separate file")
-> >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> >> Reviewed-by: Marc-Andr� Lureau <marcandre.lureau@redhat.com>
-> >> ---
-> >>  migration/target.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/migration/target.c b/migration/target.c
-> >> index 907ebf0..00ca007 100644
-> >> --- a/migration/target.c
-> >> +++ b/migration/target.c
-> >> @@ -8,6 +8,7 @@
-> >>  #include "qemu/osdep.h"
-> >>  #include "qapi/qapi-types-migration.h"
-> >>  #include "migration.h"
-> >> +#include CONFIG_DEVICES
-> >>  
-> >>  #ifdef CONFIG_VFIO
-> >>  #include "hw/vfio/vfio-common.h"
-> >> @@ -17,7 +18,6 @@ void populate_vfio_info(MigrationInfo *info)
-> >>  {
-> >>  #ifdef CONFIG_VFIO
-> >>      if (vfio_mig_active()) {
-> >> -        info->has_vfio = true;
-> > 
-> > Why this removal?
+Le 22/12/2022 à 20:06, Helge Deller a écrit :
+> Add proper prlimit64() strace output.
 > 
-> The has_vfio member was removed by:
->   720a252c2651 ("qapi migration: Elide redundant has_FOO in generated C")
-> The stale reference was not noticed at the time because the ifdef was never true.
-
-Oh ok, that makes sense,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> - Steve
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> ---
+>   linux-user/strace.c    | 89 ++++++++++++++++++++++++++++++++++++++++++
+>   linux-user/strace.list |  3 +-
+>   2 files changed, 91 insertions(+), 1 deletion(-)
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 3ea91084fb..82dc1a1e20 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -3774,6 +3774,95 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
+>   }
+>   #endif
+> 
+> +#ifdef TARGET_NR_prlimit64
+> +static const char *target_ressource_string(abi_ulong r)
+> +{
+> +    #define RET_RES_ENTRY(res) case TARGET_##res:  return #res;
+> +    switch (r) {
+> +    RET_RES_ENTRY(RLIMIT_AS);
+> +    RET_RES_ENTRY(RLIMIT_CORE);
+> +    RET_RES_ENTRY(RLIMIT_CPU);
+> +    RET_RES_ENTRY(RLIMIT_DATA);
+> +    RET_RES_ENTRY(RLIMIT_FSIZE);
+> +    RET_RES_ENTRY(RLIMIT_LOCKS);
+> +    RET_RES_ENTRY(RLIMIT_MEMLOCK);
+> +    RET_RES_ENTRY(RLIMIT_MSGQUEUE);
+> +    RET_RES_ENTRY(RLIMIT_NICE);
+> +    RET_RES_ENTRY(RLIMIT_NOFILE);
+> +    RET_RES_ENTRY(RLIMIT_NPROC);
+> +    RET_RES_ENTRY(RLIMIT_RSS);
+> +    RET_RES_ENTRY(RLIMIT_RTPRIO);
+> +#ifdef RLIMIT_RTTIME
+> +    RET_RES_ENTRY(RLIMIT_RTTIME);
+> +#endif
+> +    RET_RES_ENTRY(RLIMIT_SIGPENDING);
+> +    RET_RES_ENTRY(RLIMIT_STACK);
+> +    default:
+> +        return NULL;
+> +    }
+> +    #undef RET_RES_ENTRY
+> +}
+> +
+> +static void
+> +print_rlimit64(abi_ulong rlim_addr, int last)
+> +{
+> +    if (rlim_addr) {
+> +        struct target_rlimit64 *rl;
+> +
+> +        rl = lock_user(VERIFY_READ, rlim_addr, sizeof(*rl), 1);
+> +        if (!rl) {
+> +            print_pointer(rlim_addr, last);
+> +            return;
+> +        }
+> +        qemu_log("{rlim_cur = %lld, rlim_max = %lld}%s",
+> +                 (long long)tswap64(rl->rlim_cur),
+> +                 (long long)tswap64(rl->rlim_max),
+> +                 get_comma(last));
+> +        unlock_user(rl, rlim_addr, 0);
+> +    } else {
+> +        qemu_log("NULL%s", get_comma(last));
+> +    }
+> +}
+> +
+> +static void
+> +print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
+> +           abi_long arg0, abi_long arg1, abi_long arg2,
+> +           abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    const char *rlim_name;
+> +
+> +    print_syscall_prologue(name);
+> +    print_raw_param("%d", arg0, 0);
+> +    rlim_name = target_ressource_string(arg1);
+> +    if (rlim_name) {
+> +        qemu_log("%s,", rlim_name);
+> +    } else {
+> +        print_raw_param("%d", arg1, 0);
+> +    }
+> +    print_rlimit64(arg2, 0);
+> +    print_pointer(arg3, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +
+> +static void
+> +print_syscall_ret_prlimit64(CPUArchState *cpu_env,
+> +                       const struct syscallname *name,
+> +                       abi_long ret, abi_long arg0, abi_long arg1,
+> +                       abi_long arg2, abi_long arg3, abi_long arg4,
+> +                       abi_long arg5)
+> +{
+> +    if (!print_syscall_err(ret)) {
+> +        qemu_log(TARGET_ABI_FMT_ld, ret);
+> +        if (arg3) {
+> +            qemu_log(" (");
+> +            print_rlimit64(arg3, 1);
+> +            qemu_log(")");
+> +        }
+> +    }
+> +    qemu_log("\n");
+> +}
+> +#endif
+> +
+>   #ifdef TARGET_NR_kill
+>   static void
+>   print_kill(CPUArchState *cpu_env, const struct syscallname *name,
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index ac8f872371..f9254725a1 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -1067,7 +1067,8 @@
+>   { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+>   #endif
+>   #ifdef TARGET_NR_prlimit64
+> -{ TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
+> +{ TARGET_NR_prlimit64, "prlimit64" , NULL, print_prlimit64,
+> +                    print_syscall_ret_prlimit64 },
+>   #endif
+>   #ifdef TARGET_NR_process_vm_readv
+>   { TARGET_NR_process_vm_readv, "process_vm_readv" , NULL, NULL, NULL },
+> --
+> 2.38.1
+> 
+> 
+
+Applied to my linux-user-for-8.0 branch.
+
+Thanks,
+Laurent
 
 
