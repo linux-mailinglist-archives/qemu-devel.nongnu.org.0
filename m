@@ -2,84 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13D96AD33B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEC66AD33C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:20:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZL38-0006i2-SX; Mon, 06 Mar 2023 19:19:26 -0500
+	id 1pZL4J-0007Lf-VQ; Mon, 06 Mar 2023 19:20:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZL33-0006hG-9S
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:19:22 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZL2z-0005D0-RW
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:19:20 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id k37so6827111wms.0
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 16:19:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678148356;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SqdsILCaxyD5q9MmfIvFe7Uk40Cg52xItVmecJLLHZw=;
- b=FmdbJQUPbz1N5HG4AOsZP+aJx5z1UpMAU9p1xzLX7okoWYN1oYYPoPlqF1BO/NyxsH
- ZiUwlYtMQsyn/UMqzQqzze6DF0ke8147jyoQIaAAhJ0aUlQgxplqpHLB8czbIWiBnQpa
- ttZYRW5ow2m5CPK5Le04cN5+ZQ6/h01GPA9HEN9c4vHPM1zSnIjbiSe8Opkz2D5hPCCT
- 7UCl/CBrC3j7SUEDC+ffZVzqeMj4KFhlkjG2Dfrb+eb+4k6Mti1LDO+CjfHvuQ3OnZjb
- OJNcIsFAr1s+Jn9virZ1mwRDZnLOJM0zB5KUaY3ntmEsv4yjca7BhCdIoRE7V6ovXumL
- bNsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678148356;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SqdsILCaxyD5q9MmfIvFe7Uk40Cg52xItVmecJLLHZw=;
- b=RiYinlx6TiZGQaXnaLPfvoFQDKQ8zmnTGbeAFfNPl59sbXrM00LkMw24JP8H5gObAf
- rwXbKj5zpK3mN0otxLbL+CV7FvS40qvKBojmOekqx+V8QD+NNzJyu5A6BLPrPYiuhR5Q
- M8T5x82z5TqksyFNXszYRsWwd5H5ZSLVhWcHdZXUlYwH+coj0dXwEuaw4yRr7Mgdq9jc
- aSpiMM0K9esGVcJGS8K3+wdXCdc7dDvDywvd047q4sSxXMpMbOelyaqpYxe+u9Lb0ZIO
- v8fgLu4NkGK78LRKC8MssneL6TL7HKH1FXvh4hVljebmzpqqNWNzj6Z1VTsTrR+3Niu3
- OySg==
-X-Gm-Message-State: AO0yUKXH01IE6hyca8t5E5g7uz3kw2yzEvzjHLzXd8G7Yj1UGDz/mHUA
- H4RNbSW9Dj/vG+OCPBPHYLOT1w==
-X-Google-Smtp-Source: AK7set/QS/j9UpHpC+kn6JoQ1Y0mzefyZLBeo6l+ye29snZONxIjUwnwBUMRHve1D6m6xJNfj4AUeg==
-X-Received: by 2002:a05:600c:1c20:b0:3dc:5b88:e6dd with SMTP id
- j32-20020a05600c1c2000b003dc5b88e6ddmr11946725wms.10.1678148356032; 
- Mon, 06 Mar 2023 16:19:16 -0800 (PST)
-Received: from [192.168.1.115] (138.red-88-29-178.dynamicip.rima-tde.net.
- [88.29.178.138]) by smtp.gmail.com with ESMTPSA id
- w7-20020a05600c474700b003e204fdb160sm16286552wmo.3.2023.03.06.16.19.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 16:19:15 -0800 (PST)
-Message-ID: <38504dfd-e253-0efe-2188-b4b43a7bffe2@linaro.org>
-Date: Tue, 7 Mar 2023 01:19:11 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZL44-0007LD-C1; Mon, 06 Mar 2023 19:20:25 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZL42-0005Wy-1M; Mon, 06 Mar 2023 19:20:24 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id AC9CB74634B;
+ Tue,  7 Mar 2023 01:20:07 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6A86974633D; Tue,  7 Mar 2023 01:20:07 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 68D1B74632B;
+ Tue,  7 Mar 2023 01:20:07 +0100 (CET)
+Date: Tue, 7 Mar 2023 01:20:07 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Bernhard Beschow <shentey@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ ReneEngel80@emailn.de
+Subject: Re: [PATCH v8 3/6] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <0ca8d3d3-2e42-a8c0-ed59-bc543e4149bd@ilande.co.uk>
+Message-ID: <3cbf9e02-5660-18dd-783b-9f9f09fe35bb@eik.bme.hu>
+References: <cover.1678105081.git.balaton@eik.bme.hu>
+ <23370610213adb60877c3751f954b203fe2fa775.1678105081.git.balaton@eik.bme.hu>
+ <0ca8d3d3-2e42-a8c0-ed59-bc543e4149bd@ilande.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 56/70] target/tricore: Split t_n as constant from temp as
- variable
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-57-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-57-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,357 +64,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:42, Richard Henderson wrote:
-> As required, allocate temp separately.
+On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
+> On 06/03/2023 12:33, BALATON Zoltan wrote:
+>> The real VIA south bridges implement a PCI IRQ router which is configured
+>> by the BIOS or the OS. In order to respect these configurations, QEMU
+>> needs to implement it as well. The real chip may allow routing IRQs from
+>> internal functions independently of PCI interrupts but since guests
+>> usually configute it to a single shared interrupt we don't model that
+>> here for simplicity.
+>> 
+>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+>> 
+>> Suggested-by: Bernhard Beschow <shentey@gmail.com>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>> ---
+>>   hw/isa/vt82c686.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 42 insertions(+)
+>> 
+>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>> index 8900d87f59..3383ab7e2d 100644
+>> --- a/hw/isa/vt82c686.c
+>> +++ b/hw/isa/vt82c686.c
+>> @@ -600,6 +600,46 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
+>>       qemu_set_irq(s->isa_irqs_in[n], level);
+>>   }
+>>   +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>> +{
+>> +    switch (irq_num) {
+>> +    case 0:
+>> +        return s->dev.config[0x55] >> 4;
+>> +    case 1:
+>> +        return s->dev.config[0x56] & 0xf;
+>> +    case 2:
+>> +        return s->dev.config[0x56] >> 4;
+>> +    case 3:
+>> +        return s->dev.config[0x57] >> 4;
+>> +    }
+>> +    return 0;
+>> +}
+>> +
+>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
+>> +{
+>> +    ViaISAState *s = opaque;
+>> +    PCIBus *bus = pci_get_bus(&s->dev);
+>> +    int i, pic_level, pic_irq = via_isa_get_pci_irq(s, irq_num);
+>> +
+>> +    /* IRQ 0: disabled, IRQ 2,8,13: reserved */
+>> +    if (!pic_irq) {
+>> +        return;
+>> +    }
+>> +    if (unlikely(pic_irq == 2 || pic_irq == 8 || pic_irq == 13)) {
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid ISA IRQ routing");
+>> +    }
+>> +
+>> +    /* The pic level is the logical OR of all the PCI irqs mapped to it. 
+>> */
+>> +    pic_level = 0;
+>> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+>> +        if (pic_irq == via_isa_get_pci_irq(s, i)) {
+>> +            pic_level |= pci_bus_get_irq_level(bus, i);
+>> +        }
+>> +    }
+>> +    /* Now we change the pic irq level according to the via irq mappings. 
+>> */
+>> +    qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
+>> +}
+>> +
+>>   static void via_isa_realize(PCIDevice *d, Error **errp)
+>>   {
+>>       ViaISAState *s = VIA_ISA(d);
+>> @@ -620,6 +660,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>>       i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>>       i8257_dma_init(isa_bus, 0);
+>>   +    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", 
+>> PCI_NUM_PINS);
+>> +
+>>       /* RTC */
+>>       qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+>>       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>
+> Writing my previous response where I asked about the additional PCI interrupt 
+> connections to the MV64361, I realised that if you forget about the 
+> Northbridge component for a moment then things start to make a bit more 
+> sense.
+>
+> At the moment we have 3 different scenarios:
+>
+>   1) ISA IRQ -> 8259 for all ISA devices
+>
+>   2) ISA IRQ -> 8259 *OR*
+>      PCI IRQ -> PCI IRQ router -> 8259 for the PCI-IDE device
+>
+>   3) PCI IRQ -> PCI IRQ router -> 8259 for PCI devices
+>
+> When you look at it this way it is easy to see for case 3 that the PCI IRQ 
+> routing mechanism is handled by *_set_irq() and *_map_irq() callbacks. And so 
+> with that in mind, re-reading the VIA datasheet I came up with the following 
+> PoC for discussion: https://github.com/mcayland/qemu/commits/via-poc.
 
-Hmm not quite accurate; this patch contains functions
-which don't require separate temp and belong to the
-next "All remaining uses are strictly read-only."
-patch.
+At first glance this is basically what I had in v1 of this series just 
+using PCI function numbers instead of an enum to find the IRQ source.
 
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/tricore/translate.c | 268 +++++++++++++++++++------------------
->   1 file changed, 140 insertions(+), 128 deletions(-)
+> It needs a bit of work, but at first glance it ticks all the boxes in that 
+> the PCI bus IRQs are all internal to the VIA southbridge (no global 
+> via_isa_set_irq() function and no overriding of PCI bus IRQs), there are 
+> separate legacy and PCI IRQs for the via-ide device, and the PCI IRQ routing 
+> bears at least a passing resemblance to the datasheet.
 
+Given that we only have a few hours left until the freeze I hope you're 
+not proposing to drop this series and postpone all this to the next 
+release, only that we do this clean up in the next devel cycle. You were 
+away when this series were on the list for review so this is a bit late 
+now for a big rewrite. (Especially that what you propose is a variant of 
+the original I've submitted that I had to change due to other review 
+comments.)
 
-> @@ -647,22 +649,22 @@ static inline void
->   gen_maddsum_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->                 TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
+Since this version was tested and works please accept this for QEMU 8.0 
+now then we can work out your idea in the next devel cycle but until then 
+this version allows people to run AmigaOS on pegasos2 with sound which is 
+the goal I want to achieve for QEMU 8.0 and does not introduce any change 
+to via-ide which was good enough for the last two years so it should be 
+good enough for a few more months.
 
-"strictly read-only"
-
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->       TCGv_i64 temp64_3 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_concat_i32_i64(temp64_3, r1_low, r1_high);
-
-
-
-> @@ -752,22 +756,22 @@ static inline void
->   gen_maddsums_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->                  TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
-
-Ditto,
-
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->   
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_sari_i64(temp64_2, temp64, 32); /* high */
-> @@ -785,22 +789,22 @@ static inline void
->   gen_maddm_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->              TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
-
-etc...
-
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->       TCGv_i64 temp64_3 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mulm_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_concat_i32_i64(temp64_2, r1_low, r1_high);
-> @@ -813,21 +817,21 @@ static inline void
->   gen_maddms_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->              TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mulm_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_concat_i32_i64(temp64_2, r1_low, r1_high);
-> @@ -839,20 +843,20 @@ static inline void
->   gen_maddr64_h(TCGv ret, TCGv r1_low, TCGv r1_high, TCGv r2, TCGv r3, uint32_t n,
->                 uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       gen_helper_addr_h(ret, cpu_env, temp64, r1_low, r1_high);
-> @@ -872,21 +876,22 @@ gen_maddr32_h(TCGv ret, TCGv r1, TCGv r2, TCGv r3, uint32_t n, uint32_t mode)
-
-
-
-> @@ -899,20 +904,20 @@ static inline void
->   gen_maddr64s_h(TCGv ret, TCGv r1_low, TCGv r1_high, TCGv r2, TCGv r3,
->                  uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       gen_helper_addr_h_ssov(ret, cpu_env, temp64, r1_low, r1_high);
-
-
-> @@ -1604,21 +1612,21 @@ static inline void
->   gen_msubms_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->                TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mulm_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mulm_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mulm_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_concat_i32_i64(temp64_2, r1_low, r1_high);
-> @@ -1630,20 +1638,20 @@ static inline void
->   gen_msubr64_h(TCGv ret, TCGv r1_low, TCGv r1_high, TCGv r2, TCGv r3, uint32_t n,
->                 uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       gen_helper_subr_h(ret, cpu_env, temp64, r1_low, r1_high);
-> @@ -1664,20 +1672,20 @@ static inline void
->   gen_msubr64s_h(TCGv ret, TCGv r1_low, TCGv r1_high, TCGv r2, TCGv r3,
->                  uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       gen_helper_subr_h_ssov(ret, cpu_env, temp64, r1_low, r1_high);
-> @@ -1912,10 +1920,10 @@ gen_msubs64_q(TCGv rl, TCGv rh, TCGv arg1_low, TCGv arg1_high, TCGv arg2,
->                TCGv arg3, uint32_t n)
->   {
->       TCGv_i64 r1 = tcg_temp_new_i64();
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->   
->       tcg_gen_concat_i32_i64(r1, arg1_low, arg1_high);
-> -    gen_helper_msub64_q_ssov(r1, cpu_env, r1, arg2, arg3, temp);
-> +    gen_helper_msub64_q_ssov(r1, cpu_env, r1, arg2, arg3, t_n);
->       tcg_gen_extr_i64_i32(rl, rh, r1);
->   }
->   
-
-
-> @@ -1949,22 +1958,22 @@ static inline void
->   gen_msubadm_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->                 TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->       TCGv_i64 temp64_3 = tcg_temp_new_i64();
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_concat_i32_i64(temp64_3, r1_low, r1_high);
-
-
-
-> @@ -2041,22 +2052,22 @@ static inline void
->   gen_msubadms_h(TCGv ret_low, TCGv ret_high, TCGv r1_low, TCGv r1_high, TCGv r2,
->                  TCGv r3, uint32_t n, uint32_t mode)
->   {
-> -    TCGv temp = tcg_const_i32(n);
-> +    TCGv t_n = tcg_constant_i32(n);
->       TCGv_i64 temp64 = tcg_temp_new_i64();
->       TCGv_i64 temp64_2 = tcg_temp_new_i64();
->   
->       switch (mode) {
->       case MODE_LL:
-> -        GEN_HELPER_LL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_LU:
-> -        GEN_HELPER_LU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_LU(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UL:
-> -        GEN_HELPER_UL(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UL(mul_h, temp64, r2, r3, t_n);
->           break;
->       case MODE_UU:
-> -        GEN_HELPER_UU(mul_h, temp64, r2, r3, temp);
-> +        GEN_HELPER_UU(mul_h, temp64, r2, r3, t_n);
->           break;
->       }
->       tcg_gen_sari_i64(temp64_2, temp64, 32); /* high */
-Regardless you split this patch, move parts to the
-next patch, or keep as-is:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+Regards,
+BALATON Zoltan
 
