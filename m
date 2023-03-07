@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54D66AF6D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39CE6AF6E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:44:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZe5k-000441-EI; Tue, 07 Mar 2023 15:39:24 -0500
+	id 1pZeA2-0000B3-71; Tue, 07 Mar 2023 15:43:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe5i-00040B-5Q
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:39:22 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZeA0-00009T-9X
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:43:48 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe5g-0004bx-P0
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:39:21 -0500
-Received: by mail-wm1-x336.google.com with SMTP id p26so8612544wmc.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:39:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe9y-0005Tm-IZ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:43:48 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l7-20020a05600c1d0700b003eb5e6d906bso7998089wms.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:43:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678221559;
+ d=linaro.org; s=google; t=1678221825;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fsvX7xMr2C4RwleQpBCzme5Q1yRxqK3Cguvci9S3CTg=;
- b=lnfGrRj1KZn9kgBOvKQhtCitGzmucBi4A5diiVPZBZyyF3fndDFVlGY1S5HD8CXOKU
- PYFCLyLZW48ZEJpf/+SDkbWiGIM6A2A8gpuWAQTrNFVv5Nvz7t8YF9n41xLvj8SSPCEA
- Lil3pAs1D0ncq1tGJe3kGTpwIlHmqz1wKhdEgxyMN6/WLHFKNKBhQw+BN/2PzWA/YFSX
- T+mRcGoKuzv+RIgkv7O65phfLbGSG/ypiS3+1w7doT0/3ECLY0DXUS/neHnhmiu4hiEI
- yBo5k4Ncf8sY/3VDeGteECPObraFVdH7RIUPXgCGeP+8qoGHqhaEXRpDftuGE8bh306L
- kunw==
+ bh=veYUbNuxMNHS9GsRvwWC1zH3IoLuwXWqx3zd4Xf94bw=;
+ b=k7R2mHUwQZIVeQzDRL/gqut5R0OHcBurrtgnxvFQgwaDP3FySfieth99Dt/s9I8hzh
+ EmWVVnfyFeRYtlP7zpzrnzQv96GHVK1uMzDdMuHI/lW/0G/QBrFlSQTfXcBxYnWmA9pi
+ EjHdxXtXglKnKGyyj/5zk9agFu+x+4/qUnJp2MRxoZDzAAGLn18gZTAvgST7g+i82tsP
+ MuW+fEArtS/xgrASLwuzFg9AjgMWvl3j6wWi2MCQxTMMKxDgxzhBiM4j78tt1vuZeidU
+ YUQxakb0IJVSFPIIG/eNjgyglSsY1z31W6W9K+h3Az/MrfBVFayRn/omFAj63Uxaxw/4
+ uM5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678221559;
+ d=1e100.net; s=20210112; t=1678221825;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fsvX7xMr2C4RwleQpBCzme5Q1yRxqK3Cguvci9S3CTg=;
- b=fd1P3hX/CaQqVO4cwjN+5zOhAqnNxIYDZ3BW4HGYeVeaRaq9Vi+/gtm9DIEbddRwEN
- iH9eoA1aDUUJRyNSdvBFs7a+FbcJn4dsIS+MU4096Hmc0teEhi6ka+IdFaLEPeQsezU0
- r0la367uJ6Olqjx3T50FX7GOQ26jxF8BmbK62C47pZLdh0QkBKbYU0x+vH+yMHUg1hw8
- gWeOcgC7ERqFcP6dCktyBmi8duUlUuLmpwXpPR6dAxJL6qro/iJ/Sl7wmXiM7Jny/wrh
- /fDIeBJAqje3ETeFtGpumZINy/x9CbdYhG0aKijKXm+UzrB1A/QKkob0UKKiGEzKDCwJ
- KRRw==
-X-Gm-Message-State: AO0yUKV/hv4cPso1HHKBWfVOamu90qnZY5YFjBLXQLFQejupgbzZWtei
- 8u+k10DDqOn6vZiVp8S6fD8Uvw==
-X-Google-Smtp-Source: AK7set+Mbp9lAYL18OYRAK5E5GtExwmBLGXI9vUJm4eIcy+I0u3BP0x5ot4lvPrGuf6S6ms8YlDeCA==
-X-Received: by 2002:a05:600c:45c8:b0:3ea:ed4d:38fc with SMTP id
- s8-20020a05600c45c800b003eaed4d38fcmr14985809wmo.31.1678221559197; 
- Tue, 07 Mar 2023 12:39:19 -0800 (PST)
+ bh=veYUbNuxMNHS9GsRvwWC1zH3IoLuwXWqx3zd4Xf94bw=;
+ b=BmEjJHPzQ7xN16FUfJe2u5jXLcXE5stkXmpM7yxHuuPiidIYGypzpOIaPqgprw1+UF
+ Bl+h0m9w1+UvkDL8FgzbrAPU7gwks8rGahlmyIGET+O48FBWLygsFsw2e3ElQ5BvF6Lk
+ gmq55+XSaJysZcuc7cGZCxsUVRoDrXrBR7Zz/ziApZhnyUL92WhN+s6qom2EWXqyGBTv
+ vxPmnO+Vcwg6DDRLJwviHtS3N1rHiZGzBSnPug/e48cSlHZTjv9j+NglKzwqH7Yz9YDM
+ xFxuY42jFWOfoHuVS4qW1bjBgfyu0qkuB7nHOHtN6aPxzWv9TY+lqG8XMZyZg4dQGUmt
+ oSHw==
+X-Gm-Message-State: AO0yUKUCZ/YdTOChUkVdbGDFRk2uPCnLwhGrwAr2TZO4Fgxu+nu8EbhL
+ pRAfvIRUwH0EOxuma/Kq6NyhZQ==
+X-Google-Smtp-Source: AK7set+8O8yLgbOo71x0MbjxRmocYOvVgn1njmVu9rPbH7Bt++J3N+XaNaexaywQ6PjpLIWGXNzXQw==
+X-Received: by 2002:a05:600c:3b0c:b0:3eb:2b88:999f with SMTP id
+ m12-20020a05600c3b0c00b003eb2b88999fmr13476972wms.5.1678221824760; 
+ Tue, 07 Mar 2023 12:43:44 -0800 (PST)
 Received: from [192.168.1.115] (126.red-88-28-13.dynamicip.rima-tde.net.
  [88.28.13.126]) by smtp.gmail.com with ESMTPSA id
- t25-20020a05600c329900b003eb5ce1b734sm14478463wmp.7.2023.03.07.12.39.17
+ f32-20020a05600c492000b003eaf666cbe0sm13736793wmp.27.2023.03.07.12.43.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 12:39:18 -0800 (PST)
-Message-ID: <7a489b63-dbd9-9a99-5878-dfda2c98e9ad@linaro.org>
-Date: Tue, 7 Mar 2023 21:39:16 +0100
+ Tue, 07 Mar 2023 12:43:44 -0800 (PST)
+Message-ID: <4b67f103-0df3-891c-2a0f-466a82e89732@linaro.org>
+Date: Tue, 7 Mar 2023 21:43:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 6/6] monitor: convert monitor_cleanup() to
- AIO_WAIT_WHILE_UNLOCKED()
+Subject: Re: [PULL 00/51] Net patches
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-7-stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230307070816.34833-1-jasowang@redhat.com>
+ <CAFEAcA_Pctm1m30Cm2Q2cpyp9JmNgej5nB0ovZGtjfFHU2R9SQ@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230301205801.2453491-7-stefanha@redhat.com>
+In-Reply-To: <CAFEAcA_Pctm1m30Cm2Q2cpyp9JmNgej5nB0ovZGtjfFHU2R9SQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,18 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 21:58, Stefan Hajnoczi wrote:
-> monitor_cleanup() is called from the main loop thread. Calling
-> AIO_WAIT_WHILE(qemu_get_aio_context(), ...) from the main loop thread is
-> equivalent to AIO_WAIT_WHILE_UNLOCKED(NULL, ...) because neither unlocks
-> the AioContext and the latter's assertion that we're in the main loop
-> succeeds.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   monitor/monitor.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+On 7/3/23 18:01, Peter Maydell wrote:
+> On Tue, 7 Mar 2023 at 07:08, Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> The following changes since commit 817fd33836e73812df2f1907612b57750fcb9491:
+>>
+>>    Merge tag 'audio-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    https://github.com/jasowang/qemu.git tags/net-pull-request
+>>
+>> for you to fetch changes up to c19b566a3898510ec2b3e881b3fb78614b240414:
+>>
+>>    hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100() (2023-03-07 14:55:39 +0800)
+>>
+>> ----------------------------------------------------------------
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> build-oss-fuzz failed on something involving fuzzing eepro100:
+> https://gitlab.com/qemu-project/qemu/-/jobs/3889073821
+Jason, please drop my patches. I'll look at that failure.
 
