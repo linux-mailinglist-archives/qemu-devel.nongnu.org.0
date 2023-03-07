@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D751B6AE359
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:51:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCCE6AE337
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:49:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYeS-0004MT-VH; Tue, 07 Mar 2023 09:50:52 -0500
+	id 1pZYbu-0007zz-FT; Tue, 07 Mar 2023 09:48:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZYeQ-0004KH-MH; Tue, 07 Mar 2023 09:50:50 -0500
-Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYbl-0007zk-Um
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:06 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZYeO-0002Hk-PC; Tue, 07 Mar 2023 09:50:50 -0500
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-176e43eb199so5167178fac.7; 
- Tue, 07 Mar 2023 06:50:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYbj-0002S1-4P
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:48:04 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p16so7911399wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678200354;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KbqjfikkWLNcO2J7aU3q2f0tEWq+EM6cr0gmD+7P8oA=;
- b=WkGYWFxaw7gTcrh2LwSIzhb4DUDOVS1UdSSRC5cM2GDKcr3x/Jsd4mbtyG5nnm6cpE
- FMU/T4bHth9PYCIS0Z8d72qS3rRm0wZmQOsAjyhnPMVq3R9GRt03elkWXY0ZRvGrX4FF
- jnpbG/4g8NmHViy8o0/KoN6KWlDOkTAcTHWH5E0Dzpa52V9ZjjsFGr4lCIxugP10O55Y
- /XkQUjL3xUC1GT5KYwteKCoelLbZt2cw2pfl8N0ES7Xt2dINRfJuRisVhJP87TDAqG5r
- 4eUtJH13l50XuaNU+TxtlbcpqUJqWNWOouNuMRM58gNG8fp7yLe1MOmFjYLnKDbyA+Dj
- oGqQ==
+ d=gmail.com; s=20210112; t=1678200454;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8pvI8mWRtOffX7ZweM8Bm3DrCuqAqcnBQHi5XLhLR0g=;
+ b=alYzenEzUp2r8Vy229p1P745TTWU2+ZbX8TzLWtvWRpPTXeMlGbQOHk4ZajY3xz/6N
+ GzUHEl4YuqPe4t8Hl5ZNwZ8LELWkAFQhvfbYQm1DUZYbd619DH1lg6g7XPPUWe7Y2fV/
+ +fQCuSVMU0L/57kbsIA7seQry9CANI0eKyWWb/qw99ndtV4jh9eIm0f25Ug8xHU4KCPk
+ Kdggq0ySW+815Q28xTYIn8fck+oqEZF69IJUlk//i+ydQAtNhybPiLTNLGDL/zHZNp7n
+ VWWu1qG70u8osSODE0VnTfW/dPdKFFN8TrhbwcHv8nNMOclRBRSP5n6CF15/JoC4kr40
+ rXLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678200354;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KbqjfikkWLNcO2J7aU3q2f0tEWq+EM6cr0gmD+7P8oA=;
- b=RNXBWceHkFhPMfZhIlk09veSqu/A8ehD5/TCI4spqgdRj5OYVp9C1Lp08UCdTPn4aO
- haCUxjdbR2kPY+t7fOvoTnpKkWB/MCkqQr3FK2gG9GyEzDKGDlMLWioH9+RMBh5RcJ5b
- n3pgPxu4G3344swUjkC1onKqCCp1iLk30mhHlP7bWWRyHTxDhX4t0r34XvDqSAXXMbeK
- arUcdIGSIxTKEzS1odYR+tiO9QAC1DtaszKeAuKeYgQeqQYaJh1h5lPWEppFpWsdRu7N
- JnrnXTe4iwZRQg7BgJW3AAjwnzRkSMfeC1dZUXHwjGIPs0iffIpdQQFxPbuJymjTVHrs
- S/eQ==
-X-Gm-Message-State: AO0yUKWIiTNRNwS+TiM7QbND41e8l4ODAl8aT5nmrrz7mhi1fIa+fn0r
- bgMBkRcTDEUJf1EmZcSPhwY=
-X-Google-Smtp-Source: AK7set+1pEKwZ0x9u4XifuFv3BUms2W+uBBT11PPJ7WyC1AAPzjFzYFiO23tKQunMtH/00OVPmAIHA==
-X-Received: by 2002:a05:6870:219d:b0:163:b0c5:8730 with SMTP id
- l29-20020a056870219d00b00163b0c58730mr8835723oae.12.1678200353956; 
- Tue, 07 Mar 2023 06:45:53 -0800 (PST)
-Received: from [192.168.68.107] ([177.189.53.31])
+ d=1e100.net; s=20210112; t=1678200454;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8pvI8mWRtOffX7ZweM8Bm3DrCuqAqcnBQHi5XLhLR0g=;
+ b=4Sl7Ut9ZS9aspAr45gAsw+1tgA5d+QQYhqJ9ZayuKZDD1tIwfS0tutXTRfaTtKYhoJ
+ phJFyLy0wmUjlfGNF67kbO7B33+2zpbWgaZF3iwVfCOjjw9nSx41gMLHG770YrYHHG49
+ 1FxBAIiqdUjn3HIXv2g1208eqKsgvJUF4RzTVktBbdP6I86E62dHm1F5prKT7fV49awK
+ za26q5a6nnkmwb/Xi3HCxdJqkyBe0lCSE1CO4I/jLf71ZO/q71CvVqUvRMwIp13CoCHy
+ MGYsHkxYPBfp6os76ZYtOsPwwJWl2bBWLJ95QpVDuPu646NZvyCflC391/7luJ8zlraC
+ UgRA==
+X-Gm-Message-State: AO0yUKWGq1wwCa5IiIeyiGWNm1T/82Qby8W58GUErPXbmuczZz7cRocM
+ PvNEwMthKo3dITq2+sZra1M=
+X-Google-Smtp-Source: AK7set/PT9wHI1ZQ1RmWcMUPmH0kMfiSHl/cQ+QojdbC2iTtmbOaNW0Ly8PRdtS5cR5yr13JA4Auag==
+X-Received: by 2002:a05:600c:1992:b0:3e2:9b4:4303 with SMTP id
+ t18-20020a05600c199200b003e209b44303mr13106588wmq.19.1678200454574; 
+ Tue, 07 Mar 2023 06:47:34 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
  by smtp.gmail.com with ESMTPSA id
- v51-20020a056870957300b0017289a068c0sm5139150oal.46.2023.03.07.06.45.50
+ t25-20020a05600c329900b003eb5ce1b734sm13767030wmp.7.2023.03.07.06.47.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 06:45:53 -0800 (PST)
-Message-ID: <5bd37e9e-8008-6ce4-bb85-71e6461d99df@gmail.com>
-Date: Tue, 7 Mar 2023 11:45:49 -0300
+ Tue, 07 Mar 2023 06:47:34 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <43bf286f-4b3e-5956-25b1-4ab527657fbb@xen.org>
+Date: Tue, 7 Mar 2023 14:47:33 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v9 2/7] hw/intc/i8259: Implement legacy LTIM Edge/Level
- Bank Select
+Subject: Re: [RFC PATCH v1 14/25] hw/xen: Move xenstore_store_pv_console_info
+ to xen_console.c
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, BALATON Zoltan
- <balaton@eik.bme.hu>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <cover.1678188711.git.balaton@eik.bme.hu>
- <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
- <10178ae9-e306-0885-a14a-20fc651a8494@gmail.com>
- <d24b46ee8fba84f9c7a7d8b8f66d07cc60516989.camel@infradead.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <d24b46ee8fba84f9c7a7d8b8f66d07cc60516989.camel@infradead.org>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-15-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-15-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::35;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,35 +99,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/7/23 10:39, David Woodhouse wrote:
-> On Tue, 2023-03-07 at 10:36 -0300, Daniel Henrique Barboza wrote:
->>
->> Checkpatch will nag about it claiming that we need spaces between
->> '*'. The maintainer can fix it in-tree though.
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> I saw that and explicitly didn't care. 3/5 of the existing examples
-> within the tree look like that one — which is how the docs tell us to
-> do it — so I figured checkpatch could just be sad.
-
-Regardless of how much we care about checkpatch happiness my r-b stands.
-
-Peter said we can ignore it in this case, so yeah, checkpatch will probably
-take a L.
-
-
-Thanks,
-
-
-Daniel
-
+> There's no need for this to be in the Xen accel code, and as we want to
+> use the Xen console support with KVM-emulated Xen we'll want to have a
+> platform-agnostic version of it. Make it use GString to build up the
+> path while we're at it.
 > 
->> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   accel/xen/xen-all.c   | 61 -------------------------------------------
+>   hw/char/xen_console.c | 45 +++++++++++++++++++++++++++++--
+>   include/hw/xen/xen.h  |  2 --
+>   3 files changed, 43 insertions(+), 65 deletions(-)
 > 
-> Thanks.
-	
+
+Reviewed-by: Paul Durrant <paul@xen.org>
+
 
