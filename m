@@ -2,56 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62706ADCD2
+	by mail.lfdr.de (Postfix) with ESMTPS id AC56C6ADCD1
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:08:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZV9h-0002s8-3E; Tue, 07 Mar 2023 06:06:53 -0500
+	id 1pZV9f-0002op-7x; Tue, 07 Mar 2023 06:06:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZV9e-0002oV-92; Tue, 07 Mar 2023 06:06:50 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZV9b-00027K-OC; Tue, 07 Mar 2023 06:06:49 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 96F5E746335;
- Tue,  7 Mar 2023 12:06:31 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2C6DD7457E7; Tue,  7 Mar 2023 12:06:31 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2B192745720;
- Tue,  7 Mar 2023 12:06:31 +0100 (CET)
-Date: Tue, 7 Mar 2023 12:06:31 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Bernhard Beschow <shentey@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
-In-Reply-To: <b36612d2-b890-8480-0cd2-7625a142e730@ilande.co.uk>
-Message-ID: <7c26061a-300a-827b-b3a0-472fea551c62@eik.bme.hu>
-References: <cover.1678105081.git.balaton@eik.bme.hu>
- <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
- <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
- <8e57aba8-64c4-d773-fdb3-37e07401f52c@eik.bme.hu>
- <b36612d2-b890-8480-0cd2-7625a142e730@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZV9X-0002kA-5y
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:06:44 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZV9U-00026q-AE
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:06:42 -0500
+Received: by mail-wr1-x434.google.com with SMTP id j2so11685534wrh.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678187198;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8Xm1VwzWgTPcWbgPlKD6HLYH02iSnLyXyYGt1phCGsg=;
+ b=QJyLWr0RhhL83tglfF5m32CNeRNXKmfAh2BtxaSD6qiAccfug8/fh32OZGBCrEGHKY
+ nuTJRZvnMGK/L+a6YTsSIlv6A5ZydlHzIrSvzEN8ltGZoX2EgemKYrlpe9w3dCFDC+Oe
+ ikoGqnQOcQPzK8wMYAfTxnqUo+yt4l8bcnteHt+KTqfoYsFnG5HOZ41CyY/NwyThLxq9
+ pZTNisvhaeE1G/+zAPloip6kjTwaiQWYvuU/jyyPWGRZIdUEh/xdRpmG8n9UYEG1v18e
+ R/ICz8Dtchi+DxjRFQ4iHPJesPUikaWyAzcpQ+SIrfr1Mg7u1IfrzF+b4WcU81TTU8qo
+ qpAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678187198;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8Xm1VwzWgTPcWbgPlKD6HLYH02iSnLyXyYGt1phCGsg=;
+ b=UC2gI0yxj5JO8GdV8g1fIuu9npCD105QI788D7svdjeflo5bK0GHY0LDgzr6FnaAkm
+ 1ss64/BevZNFzhKq7qillxNdxs2wKbUfx4Eh/DcyyD/30y7ideM+4D9vaq9NThq4wjFW
+ bMwLsrOiqGnGsctS811nCvLgeU4J2wnNGs62VIzkc1pPlGhr2xPLKgj4mmFOcFzcSOoC
+ xMEtNmXgibiMp/AHrFyjXPbrVHqGu4PFJ9UVETtvpaWpy0j+HlFN8/Gd5j0hhvxOpVDV
+ ccF9QAdWSHcX7fNeVS7YGhADx+Vv74HGfM0IdBAd84DnPO/0zOdFZT5WNm+zogiCrfBV
+ TSTw==
+X-Gm-Message-State: AO0yUKVDMRVHm46eFBksrPNCkHSQYKJqQp7skNmwG0qLPbZcGaSfQRsB
+ oyeN2ID3p4bl7PHETXOAH+pwZw==
+X-Google-Smtp-Source: AK7set+qUjQvBjlSi6mWgknWVSPnI8P4lzcnUXVPB0QsjCsgCt6bGpAHCpfRnXKuBPb4XQp7UL+DQA==
+X-Received: by 2002:a5d:4563:0:b0:2cd:8a2e:14e with SMTP id
+ a3-20020a5d4563000000b002cd8a2e014emr10657539wrc.34.1678187198313; 
+ Tue, 07 Mar 2023 03:06:38 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n10-20020a5d660a000000b002c70ce264bfsm12385957wru.76.2023.03.07.03.06.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 03:06:37 -0800 (PST)
+Message-ID: <3d45bde8-9dbb-856b-b7f2-d1b1ff16bf6e@linaro.org>
+Date: Tue, 7 Mar 2023 12:06:35 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2079695254-1678187191=:97852"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 0/5] Fix recent PIC -> CPU interrupt wiring regressions
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, Eduardo Habkost <eduardo@habkost.net>,
+ qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230304114043.121024-1-shentey@gmail.com>
+ <3497a0d0-49d5-f884-51ee-6e2ab22c77b1@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <3497a0d0-49d5-f884-51ee-6e2ab22c77b1@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,149 +101,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Bernhard, Mark,
 
---3866299591-2079695254-1678187191=:97852
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On 7/3/23 00:59, Mark Cave-Ayland wrote:
+> On 04/03/2023 11:40, Bernhard Beschow wrote:
+> 
+>> A recent series [1] attempted to remove some PIC -> CPU interrupt 
+>> indirections.
+>> This inadvertantly caused NULL qemu_irqs to be passed to the i8259 
+>> because the
+>> qemu_irqs aren't initialized at that time yet. This series provides a 
+>> fix by
+>> initializing the qemu_irq of the respective south bridges before they
+>> are passed to i2859_init().
+>>
+>> Furthermore -- as an optional extension -- this series also fixes some 
+>> usability
+>> issues in the API for creating multifunction PCI devices.
+>>
+>> The series is structured as follows: The first three commits fix the
+>> regressions, the last two fix the public API for creating 
+>> multifunction PCI
+>> devices.
+>>
+>> [1] 
+>> https://lore.kernel.org/qemu-devel/20230302224058.43315-1-philmd@linaro.org/
+>>
+>> Bernhard Beschow (5):
+>>    hw/isa/vt82c686: Fix wiring of PIC -> CPU interrupt
+>>    hw/alpha/dp264: Fix wiring of PIC -> CPU interrupt
+>>    hw/ppc/prep: Fix wiring of PIC -> CPU interrupt
+>>    hw/pci/pci: Remove multifunction parameter from
+>>      pci_create_simple_multifunction()
+>>    hw/pci/pci: Remove multifunction parameter from
+>>      pci_new_multifunction()
+>>
+>>   include/hw/pci/pci.h |  4 +---
+>>   hw/alpha/dp264.c     |  8 +++++---
+>>   hw/i386/pc_piix.c    |  2 +-
+>>   hw/i386/pc_q35.c     | 10 +++++-----
+>>   hw/isa/vt82c686.c    |  3 ++-
+>>   hw/mips/boston.c     |  3 +--
+>>   hw/mips/fuloong2e.c  |  9 +++++----
+>>   hw/mips/malta.c      |  2 +-
+>>   hw/pci-host/sabre.c  |  6 ++----
+>>   hw/pci/pci.c         | 18 ++++++++++++------
+>>   hw/ppc/pegasos2.c    |  9 +++++----
+>>   hw/ppc/prep.c        |  4 +++-
+>>   hw/sparc64/sun4u.c   |  5 ++---
+>>   13 files changed, 45 insertions(+), 38 deletions(-)
+> 
+> Thanks for doing this! The patches basically look good, the only minor 
+> niggle is that normally wiring of gpios is done *after* realize() for 
+> consistency because some qdev_init_gpio_*() functions may use a property 
+> to define the gpio array size.
 
-On Tue, 7 Mar 2023, Mark Cave-Ayland wrote:
-> On 06/03/2023 22:00, BALATON Zoltan wrote:
->> On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
->>> On 06/03/2023 12:33, BALATON Zoltan wrote:
->>>> According to the PegasosII schematics the PCI interrupt lines are
->>>> connected to both the gpp pins of the Mv64361 north bridge and the
->>>> PINT pins of the VT8231 south bridge so guests can get interrupts from
->>>> either of these. So far we only had the MV64361 connections which
->>>> worked for on board devices but for additional PCI devices (such as
->>>> network or sound card added with -device) guest OSes expect interrupt
->>>> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
->>>> VT8231 ISA bridge. After the previous patches we can now model this
->>>> and also remove the board specific connection from mv64361. Also
->>>> configure routing of these lines when using Virtual Open Firmware to
->>>> match board firmware for guests that expect this.
->>>> 
->>>> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
->>>> 
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
->>>> ---
->>>>   hw/pci-host/mv64361.c |  4 ----
->>>>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
->>>>   2 files changed, 25 insertions(+), 5 deletions(-)
->>>> 
->>>> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
->>>> index 298564f1f5..19e8031a3f 100644
->>>> --- a/hw/pci-host/mv64361.c
->>>> +++ b/hw/pci-host/mv64361.c
->>>> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error 
->>>> **errp)
->>>>       }
->>>>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
->>>>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
->>>> -    /* FIXME: PCI IRQ connections may be board specific */
->>>> -    for (i = 0; i < PCI_NUM_PINS; i++) {
->>>> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
->>>> -    }
->>>>   }
->>>>     static void mv64361_reset(DeviceState *dev)
->>>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
->>>> index b0ada9c963..ded5dc2dc9 100644
->>>> --- a/hw/ppc/pegasos2.c
->>>> +++ b/hw/ppc/pegasos2.c
->>>> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
->>>>       MachineState parent_obj;
->>>>       PowerPCCPU *cpu;
->>>>       DeviceState *mv;
->>>> +    qemu_irq mv_pirq[PCI_NUM_PINS];
->>>> +    qemu_irq via_pirq[PCI_NUM_PINS];
->>>>       Vof *vof;
->>>>       void *fdt_blob;
->>>>       uint64_t kernel_addr;
->>>> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
->>>>       }
->>>>   }
->>>>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
->>>> +{
->>>> +    Pegasos2MachineState *pm = opaque;
->>>> +
->>>> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
->>>> +    qemu_set_irq(pm->mv_pirq[n], level);
->>>> +    qemu_set_irq(pm->via_pirq[n], level);
->>>> +}
->>>> +
->>> 
->>> Can you explain a bit more about how the PCI interrupt lines are connected 
->>> to both the MV64361 and VT8231? The reason for asking is that I see a 
->>> similar
->> 
->> I think I already did that in previous replies but I try again. In 
->> pagasosII schematics at 
->> https://www.powerdeveloper.org/platforms/pegasos/schematics
->> 
->> Sheet 2 Marvell System Controller shows PINTA-D are connected to MV64361 
->> MPP12-15 pins that are also called GPP in the docs (I think these are 
->> referred to as either Multi Purpose or General Purpose Pins).
->> 
->> Sheet 18 VIA VT8231 Southbridge shows INTR_A-D connected to VT8231 PINTA-D 
->> pins, which are connected to INTA-D on sheet 13 PCI Top Level. Sheet 1 Top 
->> Level Pegasos shows that Sheet 13 INTA-D are connected to Sheet 2 PINTA-D.
->> 
->>> pattern in the bonito board, but there I can't see how those lines would 
->>> be used because they can also raise a CPU interrupt, yet it is a different 
->>> one compared to the 8259.
->> 
->> Both the MV64361 and VT8231 have interrupt mask registers which allow the 
->> guest to choose where it wants an interrupt from. I guess different guests 
->> could use one or the other, unlikely they would use both but they could 
->> even do that if they wanted. I guess in bonito it's also maskable so the 
->> guest could set up irqs by programing the apprpriate north and south bridge 
->> registers. A guest which has ISA drivers (probably most) may likely want to 
->> route them to ISA IRQs in the VIA chip. Maybe this strange behaviour has to 
->> do with Windows compatibility and standards back then which never really 
->> took off like CHRP for PP
->> 
->>> Given that we know from Bernhard's tests that the fuloong2e board works 
->>> with pci_bus_irqs() included in via_isa_realize() which overwrites the 
->>> bonito equivalent, I'm wondering if the mv_pirq array is actually needed 
->>> at all and whether it may just be a debugging aid? Certainly it makes 
->>> things simpler to just route everything to the VIA device.
->> 
->> In any case calling pci_bus_irqs in the VIA device would be wrong and 
->> connections 
->
-> Why? In general the PCI bus should be managed completely internally and not 
-> exposed to the board. This should certainly be the case for the VIA chipsets 
-> which can be used across multiple QEMU machines.
+Sorry this took me so long. The series LGTM too, but I wanted to well
+understand the overall problem and run more tests.
+Bernhard noticed that the bug is that we access the qdev gpios _before_
+the device is realized.
 
-The PCI bus belongs to the Mv64361 so can't be managed by VT8231 
-internally which is a south bridge and a PCI device. The datasheet clearly 
-says it has pins for PCI interrupts that it can route to ISA interrupts 
-which is what I've modelled. Other times you want me to model every 
-unnecessary detail of a chip with QDev but in this case you'd be OK to 
-break things by replacing IRQs of a bus this device is connected to and 
-not even owning? I can't follow what you think.
+The (undocumented) sysbus_connect_irq() API -- which calls
+qdev_connect_gpio_out() -- is expected to be called _after_
+DeviceRealize.
 
->> should be made here by the board as that correctly models the hardware 
->> separating components and allows different boards to use the chip model in 
->> the future. I remember that I've implemenred connections to MV64361 for 
->> something but I don't remember which guest so as this already works and 
->> models what the schematics say I see no reason not to have it or remove it.
->
-> That doesn't really help much I'm afraid - are the extra pirq lines required 
-> or not? If so, which guest OS are they being used for? This information 
-> should be included in the commit message and a code comment, as if you don't 
-> document things like this you risk someone attempting a tidy-up refactoring 
-> which will break your guest OS.
+Bernhard's fix is to call qdev_connect_gpio_out() _before_
+DeviceRealize.
 
-My understanding of the schematics is what I've written and it matches the 
-code now so I'm happy with that. I'll make sure that no refactoring will 
-break guests I care about and removing this could break something while 
-leaving doesn't.
+> Having said that it is a nice tidy-up, so I'd be okay with patches 1-3 
+> if you added a small comment above the qdev_connect_gpio_out() lines 
+> pointing out that this is a temporary solution (hack?) until the 8259 
+> device is converted to use gpios.
 
-Regards,
-BALATON Zoltan
---3866299591-2079695254-1678187191=:97852--
+I agree, while this works, it is a "temporary solution" until we decide
+and clarify the QDev/SysBus APIs w.r.t. IRQs.
+
+> However given that Phil wrote the patches I'd wait for him to decide 
+> whether he'd prefer a plain revert over the changes in this series 
+> before going ahead with a v2.
+
+As discussed with Peter / Mark / David on IRC, a revert is wiser for
+this release.
 
