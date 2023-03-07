@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263896AE592
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5B86AE59B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:57:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZfW-0006KU-Sq; Tue, 07 Mar 2023 10:56:03 -0500
+	id 1pZZfZ-0006N0-TF; Tue, 07 Mar 2023 10:56:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=rbq/=67=kaod.org=clg@ozlabs.org>)
- id 1pZZfS-0006IS-0o; Tue, 07 Mar 2023 10:55:58 -0500
+ id 1pZZfW-0006Ke-Bq; Tue, 07 Mar 2023 10:56:02 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=rbq/=67=kaod.org=clg@ozlabs.org>)
- id 1pZZfP-0000RQ-CS; Tue, 07 Mar 2023 10:55:57 -0500
+ id 1pZZfU-0000Tq-N9; Tue, 07 Mar 2023 10:56:02 -0500
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PWKmK344Hz4xDq;
- Wed,  8 Mar 2023 02:55:45 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PWKmM5VVhz4xDv;
+ Wed,  8 Mar 2023 02:55:47 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PWKmH4KP4z4x8y;
- Wed,  8 Mar 2023 02:55:43 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PWKmK6lLwz4x8y;
+ Wed,  8 Mar 2023 02:55:45 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 4/5] hw/arm/aspeed: Added TMP421 type sensor's support in
- tiogapass
-Date: Tue,  7 Mar 2023 16:55:27 +0100
-Message-Id: <20230307155528.3655534-5-clg@kaod.org>
+Subject: [PULL 5/5] hw/arm/aspeed: Modified BMC FRU byte data in yosemitev2
+Date: Tue,  7 Mar 2023 16:55:28 +0100
+Message-Id: <20230307155528.3655534-6-clg@kaod.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307155528.3655534-1-clg@kaod.org>
 References: <20230307155528.3655534-1-clg@kaod.org>
@@ -67,33 +66,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 
-Added TMP421 type sensor support in tiogapass platform.
+Modified BMC FRU data in yosemite v2 platform.
 
-Tested: Tested and verified in tiogapass platform.
+Tested: Tested and Verified in yosemitev2 platform.
 
+Fixes: 34f73a81e6 ("hw/arm/aspeed: Adding new machine Yosemitev2 in QEMU")
 Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20230307103334.3586755-1-pkarthikeyan1509@gmail.com>
+Message-Id: <20230307104833.3587947-1-pkarthikeyan1509@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/arm/aspeed_eeprom.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 7b5e603bc4..c1f2b9cfca 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -547,6 +547,10 @@ static void tiogapass_bmc_i2c_init(AspeedMachineState *bmc)
-     at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x54, 128 * KiB);
-     at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 6), 0x54, 128 * KiB,
-                           tiogapass_bmc_fruid, tiogapass_bmc_fruid_len);
-+    /* TMP421 */
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "tmp421", 0x1f);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp421", 0x4f);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp421", 0x4e);
- }
- 
- static void create_pca9552(AspeedSoCState *soc, int bus_id, int addr)
+diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
+index 2fb2d5dbb7..dc33a88a54 100644
+--- a/hw/arm/aspeed_eeprom.c
++++ b/hw/arm/aspeed_eeprom.c
+@@ -101,17 +101,17 @@ const uint8_t fby35_bmc_fruid[] = {
+ /* Yosemite V2 BMC FRU */
+ const uint8_t yosemitev2_bmc_fruid[] = {
+     0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
+-    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
+-    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
+-    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
++    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x61,
++    0x73, 0x65, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x20, 0x4d, 0x50, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
+     0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
+-    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x2e, 0x30, 0x20, 0x45, 0x56, 0x54,
+-    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
++    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x20, 0x4d, 0x50, 0x00, 0x00, 0x00,
++    0x00, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+     0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
+     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
 -- 
 2.39.2
 
