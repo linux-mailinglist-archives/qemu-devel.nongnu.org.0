@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503106AF79B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7156AF7A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:31:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZesC-0004i4-2r; Tue, 07 Mar 2023 16:29:28 -0500
+	id 1pZesA-0004hT-T5; Tue, 07 Mar 2023 16:29:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZes9-0004gb-RT
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:25 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pZes8-0004fg-9B
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:24 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZes7-0000vN-Jt
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:25 -0500
-Received: by mail-wr1-x429.google.com with SMTP id l25so13544905wrb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:23 -0800 (PST)
+ id 1pZes6-0000v5-Iq
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:23 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r18so13539869wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678224562;
+ d=linaro.org; s=google; t=1678224560;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/dgrZxBZjvVgu+WR5QPTfRJwGQ+2dnFZRaQ/MxvpN2k=;
- b=eB1i/a1UAen8O9mSdtdLh+0HbmW29FBbTzyAq61/zaikdXbwVSFGNFYLNBxSMZ1AZo
- zy1ix83Kyx3SvOF2kmJ5gLScfgv0+KlWsUL6UhOtiZHb9VZwzjcecc28cg5sXzAexnSq
- F9aWcHekUX/zT6nlLCea9Ax4S9f7Lx2yao67mTYL9drTIfJay6lz/kKd06fJhCtXHJsV
- kmhoq8opDjecJtOC22naOyZDXsapMNUet+U6MM4pa3UvgiY3RePIAadMQN/E4wV7brpU
- skzSQflU9bBR42j4/rvB/G3KBzfVhXcpzOxSj2gMOw2G1shsGR3VpnyfgBZUs/hLXHIJ
- iuVw==
+ bh=zl004Ztdx+ncMhjo78lnbFMoRF4r79GXD1PmC56py4I=;
+ b=cdg7macd9u+5luzgJQ2QFOtqP6xusVqOyiA9NdbwXgCcTeeV9O7XGN1zs9/VmP7/uV
+ qKabDY0fEmP2JN3CX+4QyFqkT3RVLuC4Ei8bzqVV7Fu22kVu/sIu1qnhHYNM6sAG6Red
+ DSNMgOEnuAdnnCE6oKtm1zbuE8BOHJoXiiPZn+3KDupNlExFlhaUGGUXMy933F9g9S0k
+ s0QbYI0oAsWwgtx3O3cGPhtG0pMxMawux2thXxz6wXsZCyeJsPQ5Z5QZxQJ+JkjEK/kZ
+ LFKv3Ozmd/qljpjdcHy0cUpW5bSbTMVEEg+ElysJfO4e5GYA2tcee0BodM93cy7qzpGR
+ Nv3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678224562;
+ d=1e100.net; s=20210112; t=1678224560;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/dgrZxBZjvVgu+WR5QPTfRJwGQ+2dnFZRaQ/MxvpN2k=;
- b=iS9x6lNh51CM3+oPTpKJalFsjlmARreQ+8QTi0xoyd/yVpEzi8xX/nkRKOUoYMCZ4D
- k7qTH2N3UgiErgmKzIOI0uF9qq1rIIav1FTJrkqCqHl+pGgjGeb1XoA5UUhHMOaHt6SB
- sDlFxD6KJ8ixPFECJ1DMaB8JT6IQzkBEYygnHBKsKzNY4FgdtjkLqPtFeJwkykDsuaYu
- PdOFUgp0ungWo6ZybtFIzC3FO9QrBgS+tYFksn04rMRHByO2VrcFKJaV/I5QdU3oVua7
- ZoblqddtpUBpLb8kNR2HOJI7x2Pw5kpL3s03mDH7Jv2wRH7pN67M18HRvcUoiwAz7hQ9
- 6PHQ==
-X-Gm-Message-State: AO0yUKWG44udzQVqsm2X3yFtpYKhf5kPV9rkBATIK3zXxpQv54W89NLS
- K6Q0upVk9nod+IGsS8vPJc8cwQ==
-X-Google-Smtp-Source: AK7set8PZ8x6VSuDBzym0IoaHoJ1WENgtRsOQjTrWfAEjpNFocNz29AmnJRSvSwRUhJejzN7eT8vTg==
-X-Received: by 2002:a5d:46c8:0:b0:2ca:101e:1056 with SMTP id
- g8-20020a5d46c8000000b002ca101e1056mr10691383wrs.1.1678224561934; 
- Tue, 07 Mar 2023 13:29:21 -0800 (PST)
+ bh=zl004Ztdx+ncMhjo78lnbFMoRF4r79GXD1PmC56py4I=;
+ b=PpV07+MOcnvekujYDSdNXU5iW28YCR4Fb2HTP8WwK8NWFpDZ8I/xhMDo3JecZBLLLj
+ rOCp1KSETyYOlJvy4Ofa4K6OfIqPVJ9jcSHBrTtPhiHBLhSsns8DelRi3M22xOvCRkXM
+ M4e4JFd21r3lRd4Cy48w4G6nwK99tuHRUd9nFpVjxdDz+orv9ROMQPsiub9XvyPqnWNU
+ UPCaPX6FeOcXLegY22ANk5KXqzRxdUNk9ZeKIupP8eBROzNi1PyBQqW/xFKihF3YCPy0
+ +mQ3ZQ+K+tfpul8B/dL4qxBiFPpFH+NmbJvpXhMEm0LMb7frGAD0MBhv0bm90aNYXYVH
+ 5+wQ==
+X-Gm-Message-State: AO0yUKU9AwkiDzgszruNpY7HJU6nOfeuhdMoEgc48ddzK/30Yq0/Q+uw
+ VdlgYrxYH/C+F9VmIKgsz9pRcw==
+X-Google-Smtp-Source: AK7set8QzQAX2Q3tkWOyZA3bC605wlCnothUQ/JTp1uAJsalvow55diwK705ezyKM40A1TAPLswuRw==
+X-Received: by 2002:adf:fe90:0:b0:2bf:b199:c7eb with SMTP id
+ l16-20020adffe90000000b002bfb199c7ebmr9348108wrr.54.1678224560549; 
+ Tue, 07 Mar 2023 13:29:20 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- n16-20020a5d67d0000000b002c758fe9689sm13432474wrw.52.2023.03.07.13.29.20
+ s17-20020adfea91000000b002c6e8cb612fsm13267973wrm.92.2023.03.07.13.29.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Mar 2023 13:29:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 41F961FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 5A05C1FFD8;
  Tue,  7 Mar 2023 21:21:43 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 28/30] stubs: split semihosting_get_target from system only
- stubs
-Date: Tue,  7 Mar 2023 21:21:37 +0000
-Message-Id: <20230307212139.883112-29-alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 29/30] gdbstub: Build syscall.c once
+Date: Tue,  7 Mar 2023 21:21:38 +0000
+Message-Id: <20230307212139.883112-30-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307212139.883112-1-alex.bennee@linaro.org>
 References: <20230307212139.883112-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DIET_1=0.001, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
@@ -98,62 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As we are about to have a common syscalls.c for gdbstub we need to
-stub out one semihosting helper function for all targets.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+There is no longer anything target specific.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230307170405.796822-1-alex.bennee@linaro.org>
+Message-Id: <20230303025805.625589-29-richard.henderson@linaro.org>
 
-diff --git a/stubs/semihost-all.c b/stubs/semihost-all.c
-new file mode 100644
-index 0000000000..a2a1fc9c6f
---- /dev/null
-+++ b/stubs/semihost-all.c
-@@ -0,0 +1,17 @@
-+/*
-+ * Semihosting Stubs for all targets
-+ *
-+ * Copyright (c) 2023 Linaro Ltd
-+ *
-+ * Stubs for all targets that don't actually do semihosting.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "semihosting/semihost.h"
-+
-+SemihostingTarget semihosting_get_target(void)
-+{
-+    return SEMIHOSTING_TARGET_AUTO;
-+}
-diff --git a/stubs/semihost.c b/stubs/semihost.c
-index d65c9fd5dc..aad7a70353 100644
---- a/stubs/semihost.c
-+++ b/stubs/semihost.c
-@@ -28,11 +28,6 @@ bool semihosting_enabled(bool is_user)
-     return false;
- }
+diff --git a/gdbstub/syscalls.c b/gdbstub/syscalls.c
+index 9f479010b1..02e3a8f74c 100644
+--- a/gdbstub/syscalls.c
++++ b/gdbstub/syscalls.c
+@@ -2,9 +2,7 @@
+  * GDB Syscall Handling
+  *
+  * GDB can execute syscalls on the guests behalf, currently used by
+- * the various semihosting extensions. As this interfaces with a guest
+- * ABI we need to build it per-guest (although in reality its a 32 or
+- * 64 bit target_ulong that is the only difference).
++ * the various semihosting extensions.
+  *
+  * Copyright (c) 2003-2005 Fabrice Bellard
+  * Copyright (c) 2023 Linaro Ltd
+@@ -14,7 +12,6 @@
  
--SemihostingTarget semihosting_get_target(void)
--{
--    return SEMIHOSTING_TARGET_AUTO;
--}
--
- /*
-  * All the rest are empty subs. We could g_assert_not_reached() but
-  * that adds extra weight to the final binary. Waste not want not.
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 7657467a5d..b2b5956d97 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -61,4 +61,5 @@ if have_system
- else
-   stub_ss.add(files('qdev.c'))
- endif
-+stub_ss.add(files('semihost-all.c'))
- stub_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_false: files('vfio-user-obj.c'))
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+-#include "cpu.h"
+ #include "semihosting/semihost.h"
+ #include "sysemu/runstate.h"
+ #include "gdbstub/user.h"
+diff --git a/gdbstub/meson.build b/gdbstub/meson.build
+index d679c7ab86..bd5c5cd67d 100644
+--- a/gdbstub/meson.build
++++ b/gdbstub/meson.build
+@@ -31,8 +31,7 @@ user_ss.add(gdb_user)
+ gdb_softmmu = declare_dependency(link_whole: libgdb_softmmu)
+ softmmu_ss.add(gdb_softmmu)
+ 
+-# These have to built to the target ABI
+-specific_ss.add(files('syscalls.c'))
++common_ss.add(files('syscalls.c'))
+ 
+ # The user-target is specialised by the guest
+ specific_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-target.c'))
 -- 
 2.39.2
 
