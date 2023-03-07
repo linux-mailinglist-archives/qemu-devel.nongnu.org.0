@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877BF6AF80A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B906AF85D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 23:16:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZfE6-0001Ml-QN; Tue, 07 Mar 2023 16:52:06 -0500
+	id 1pZfaL-0005io-Rn; Tue, 07 Mar 2023 17:15:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZfE4-0001Ly-7M; Tue, 07 Mar 2023 16:52:04 -0500
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZfaC-0005hj-D8
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 17:14:57 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZfE2-0005Xz-C7; Tue, 07 Mar 2023 16:52:03 -0500
-Received: by mail-oi1-x236.google.com with SMTP id s41so10740630oiw.13;
- Tue, 07 Mar 2023 13:52:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZfaA-0001JU-H2
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 17:14:56 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ d41-20020a05600c4c2900b003e9e066550fso64631wmp.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 14:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678225920;
+ d=linaro.org; s=google; t=1678227291;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6PD57IzsERyb0ZaPhEhMgWoh9I40jDB0YKs1BENhvqc=;
- b=ogZ5KK9QXTxAdsN3haxh/LfXjkUWZz1a29UQJ+3vYkj4Rl+Ovawa055/+fmNVSl2zd
- zxf++lssrXYCBrAHXivIG88NnC2k2FuLySin2atUVrgexehjMyAEFSREKBiUbmLlpUJW
- 3NShsSVRQxVitXgIrX7NLBv0A568VDZ/0DeUScJcbSBwanH5DpRy5cRxXFsdVr2BNpie
- tFKzTCT3JtMnOTxR8D0JVz21rAdVSPtbgf0+N2zQy6cx0hAADKFfCbHt4FH36l5kf7On
- /f2feU57lXyyPGGCO37HAA+u22L+LSK27EreHdDSg5Dkg1oFs/qUfcs380YV/5bxPJ0T
- HYXA==
+ bh=eOv48FgVEhYe6GqBjJkUC+FBPNo2gNENsFHWr4+hpjs=;
+ b=mrUEdNxEGa2zu7VAeN2g01Txv2sXtDXgTYg2EsY0pO0GUktIUgy/hJmfBjFbtQWNjw
+ RtwYy5Y8RUK7j80IxlnZoc+FnUF+3iMtf7EY92jW2NdMDcO43xDStMGXPQy6KF5hhWzK
+ dVxT1OqS0g6/CJjQbMEQxAqvVTd5c/VZxAY/+EpCeCThfeZk2mr3TdKM4p+P10ILfqwZ
+ gq2nG75LM9u5bevKyhXygvrCWZfbV1OBA9Shn4Hk0eOhwhz69lRmzN8tcTN3b9Onxu8P
+ pLUrZ/N10ppaJD/d06VnED+4SE0aL3Rkh/0SuLtNtTVOUR4x2BXEt/bmYDfer8enSL6x
+ XxJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678225920;
+ d=1e100.net; s=20210112; t=1678227291;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6PD57IzsERyb0ZaPhEhMgWoh9I40jDB0YKs1BENhvqc=;
- b=PbI1WB+TsODPCuOKhzCSLDwyh8HDk7nUyTkAHGQaJ5yF7j3RfKyYcu9wJVvmTdvM4H
- 0CzIRU1zv2bUjKbcOEvEHabPuvnUNKUMVmRkFatKC3ABWY3Nn+wqagNS7lM80db6ELqZ
- c1wKl/1sX/YIK3qfsVyd5yBeS4uphgS92Ry3mEyY4iH2rX/7VKinaapNC5tW1aLAlCVK
- YoCdEktdKzQJkT8f7DXT415k1wBGQbod4A2foSlHaX6PBqxtiYyUoQMjgyVK2F+Ticwz
- DrGWd3uR1PLuPcNUvd9BiY9guWve3XkCVJc83eDcVFl9WIzrbkQkt97YmzdnT7oe3A6I
- R/8A==
-X-Gm-Message-State: AO0yUKVQxJwqa0Q+Ke+OXlOv+v2ik3cRb4QPtOL2yFPLh616OcMztE0Y
- tqwFW8pTjBl6yJgmA7OBIeM=
-X-Google-Smtp-Source: AK7set+DiY6He2YHqk1rFOOqnmY14H/AQiyvRpU8uhEmCNvKDT+l8fnBWoCQy2c4VG/OHZwq8I378g==
-X-Received: by 2002:a54:4789:0:b0:378:2762:2770 with SMTP id
- o9-20020a544789000000b0037827622770mr7584976oic.15.1678225920534; 
- Tue, 07 Mar 2023 13:52:00 -0800 (PST)
-Received: from [192.168.68.107] ([177.189.53.31])
- by smtp.gmail.com with ESMTPSA id
- r8-20020a0568080aa800b00383cc29d6b2sm5558590oij.51.2023.03.07.13.51.58
+ bh=eOv48FgVEhYe6GqBjJkUC+FBPNo2gNENsFHWr4+hpjs=;
+ b=PfxLf0FYNd0iG9z+B6rw6RC3+ZodJ194O7G502XdBTDCmkISTfHuGPuIwqy7eU5sOj
+ mAL3Jjdq0gslcfHp1hz1uJYqXPQeUFbX9RXEtPDx7AW8sb2/w2UUUlshrrVNV/oMt+ZT
+ jQLLdH+ns3N28eRuYfvr1Mcgg3BKgI594OvEOYLJRESccaZmGFY/LEAJUdXnHNkTq2nf
+ PaWZh4UhgR/nP/QJ7RdKfJaAdBm7lSqipl+Ry1ixvm55gDD64tdfvLJg5TWykdnN6fpM
+ Ed9o4x7vbGfL4mDTEeqYBY7jFSr5OBn3vAFEV52gFuPnLO6NbiBLcSWbwrsefQ4kfLat
+ uX1w==
+X-Gm-Message-State: AO0yUKWqG5LNe5klB3KN6KgcVTReZrjD4C23OdpUc312TU/EQqJloHM+
+ aqMODiwYOcFSKxKjhbwdqGqpMQ==
+X-Google-Smtp-Source: AK7set/1W9GL3/pkcpAq7a81lWmufDJ5i1F1DbJxz6fHWA0skUEsyEXrHuYQMiUPPm8eOPxA5Yxjlg==
+X-Received: by 2002:a05:600c:474c:b0:3eb:2de8:b74e with SMTP id
+ w12-20020a05600c474c00b003eb2de8b74emr14818086wmo.27.1678227291283; 
+ Tue, 07 Mar 2023 14:14:51 -0800 (PST)
+Received: from [192.168.1.115] (52.red-88-28-28.dynamicip.rima-tde.net.
+ [88.28.28.52]) by smtp.gmail.com with ESMTPSA id
+ g40-20020a05600c4ca800b003eb3933ef10sm13708744wmp.46.2023.03.07.14.14.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 13:52:00 -0800 (PST)
-Message-ID: <4951ac67-2bfd-b6db-4cb6-94d7ead96325@gmail.com>
-Date: Tue, 7 Mar 2023 18:51:56 -0300
+ Tue, 07 Mar 2023 14:14:50 -0800 (PST)
+Message-ID: <ff0a52c6-53b2-4a81-8973-feda894998d1@linaro.org>
+Date: Tue, 7 Mar 2023 23:14:48 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 20/25] target/ppc: Rewrite trans_ADDG6S
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 0/2] MIPS Virt machine
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org
-References: <20230307183503.2512684-1-richard.henderson@linaro.org>
- <20230307183503.2512684-21-richard.henderson@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20230307183503.2512684-21-richard.henderson@linaro.org>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: QEMU devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
+References: <20230304223803.55764-1-jiaxun.yang@flygoat.com>
+ <67f67c63-3706-cb3f-94a8-beea99f62c05@linaro.org>
+ <F2FD4D49-9513-4147-B8A2-07048C055A75@flygoat.com>
+ <d300dc97-557c-a0ca-0206-02068655135c@linaro.org>
+ <db670377-a390-4ff6-14d1-30ab531141bd@linaro.org>
+ <817CBBB7-83EB-4A9F-9D61-0A75CAEE7FAC@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <817CBBB7-83EB-4A9F-9D61-0A75CAEE7FAC@flygoat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,90 +97,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/7/23 15:34, Richard Henderson wrote:
-> Compute all carry bits in parallel instead of a loop.
+On 7/3/23 22:21, Jiaxun Yang wrote:
+>> 2023年3月7日 21:07，Philippe Mathieu-Daudé <philmd@linaro.org> 写道：
+>> On 7/3/23 21:14, Philippe Mathieu-Daudé wrote:
+>>> On 7/3/23 21:07, Jiaxun Yang wrote:
+>>>>> 2023年3月7日 15:01，Philippe Mathieu-Daudé <philmd@linaro.org> 写道：
+>>>>> On 4/3/23 23:38, Jiaxun Yang wrote:
+>>>>>> Hi there,
+>>>>>> This patchset is to add a new machine type for MIPS architecture, which
+>>>>>> is purely a VirtIO machine.
+>>>>>
+>>>>>> Jiaxun Yang (2):
+>>>>>>    hw/misc: Add MIPS Trickbox device
+>>>>>>    hw/mips: Add MIPS virt board
+>>>>> Thanks, applied with following changes:
+>>>>
+>>>> Thanks for those clean-ups!
+>>
+>> Unfortunately I have to drop this due to the libfdt
+>> dependency, which fails the --disable-fdt job:
+>> https://gitlab.com/philmd/qemu/-/jobs/3890587748
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> Perhaps we should just select TARGET_NEED_FDT for all MIPS variants?
 
-Hmmmm the function was added by 6addef4d27268 9 months ago. All tcg ops you used
-here were available back then.
+Yes, but then the 'build-without-defaults' job which cover
+mips64-softmmu fails:
 
-I guess this existing implementation was an oversight on our end.
+../../meson.build:2809:2: ERROR: Problem encountered: fdt not available 
+but required by targets mipsel-softmmu
 
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: qemu-ppc@nongnu.org
-> ---
->   target/ppc/translate/fixedpoint-impl.c.inc | 44 +++++++++++-----------
->   1 file changed, 23 insertions(+), 21 deletions(-)
-> 
-> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-> index 20ea484c3d..02d86b77a8 100644
-> --- a/target/ppc/translate/fixedpoint-impl.c.inc
-> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -484,33 +484,35 @@ static bool trans_PEXTD(DisasContext *ctx, arg_X *a)
->   
->   static bool trans_ADDG6S(DisasContext *ctx, arg_X *a)
->   {
-> -    const uint64_t carry_bits = 0x1111111111111111ULL;
-> -    TCGv t0, t1, carry, zero = tcg_constant_tl(0);
-> +    const target_ulong carry_bits = (target_ulong)-1 / 0xf;
-> +    TCGv in1, in2, carryl, carryh, tmp;
-> +    TCGv zero = tcg_constant_tl(0);
->   
->       REQUIRE_INSNS_FLAGS2(ctx, BCDA_ISA206);
->   
-> -    t0 = tcg_temp_new();
-> -    t1 = tcg_const_tl(0);
-> -    carry = tcg_const_tl(0);
-> +    in1 = cpu_gpr[a->ra];
-> +    in2 = cpu_gpr[a->rb];
-> +    tmp = tcg_temp_new();
-> +    carryl = tcg_temp_new();
-> +    carryh = tcg_temp_new();
->   
-> -    for (int i = 0; i < 16; i++) {
-> -        tcg_gen_shri_tl(t0, cpu_gpr[a->ra], i * 4);
-> -        tcg_gen_andi_tl(t0, t0, 0xf);
-> -        tcg_gen_add_tl(t1, t1, t0);
-> +    /* Addition with carry. */
-> +    tcg_gen_add2_tl(carryl, carryh, in1, zero, in2, zero);
-> +    /* Addition without carry. */
-> +    tcg_gen_xor_tl(tmp, in1, in2);
-> +    /* Difference between the two is carry in to each bit. */
-> +    tcg_gen_xor_tl(carryl, carryl, tmp);
->   
-> -        tcg_gen_shri_tl(t0, cpu_gpr[a->rb], i * 4);
-> -        tcg_gen_andi_tl(t0, t0, 0xf);
-> -        tcg_gen_add_tl(t1, t1, t0);
-> +    /*
-> +     * The carry-out that we're looking for is the carry-in to
-> +     * the next nibble.  Shift the double-word down one nibble,
-> +     * which puts all of the bits back into one word.
-> +     */
-> +    tcg_gen_extract2_tl(carryl, carryl, carryh, 4);
->   
-> -        tcg_gen_andi_tl(t1, t1, 0x10);
-> -        tcg_gen_setcond_tl(TCG_COND_NE, t1, t1, zero);
-> -
-> -        tcg_gen_shli_tl(t0, t1, i * 4);
-> -        tcg_gen_or_tl(carry, carry, t0);
-> -    }
-> -
-> -    tcg_gen_xori_tl(carry, carry, (target_long)carry_bits);
-> -    tcg_gen_muli_tl(cpu_gpr[a->rt], carry, 6);
-> +    /* Invert, isolate the carry bits, and produce 6's. */
-> +    tcg_gen_andc_tl(carryl, tcg_constant_tl(carry_bits), carryl);
-> +    tcg_gen_muli_tl(cpu_gpr[a->rt], carryl, 6);
->       return true;
->   }
->   
+It is easy to update the job, but these are too many changes and
+the gitlab change need to be reviewed.
 
