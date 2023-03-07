@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696F46AD367
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:38:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089826AD39A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 02:00:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZLKW-0001ao-SQ; Mon, 06 Mar 2023 19:37:24 -0500
+	id 1pZLf1-0006tk-2v; Mon, 06 Mar 2023 19:58:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZLKS-0001Y7-KM
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:37:21 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pZLez-0006tc-Tb
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:58:33 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZLKQ-0000IS-Dk
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:37:19 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- ay29-20020a05600c1e1d00b003e9f4c2b623so9412250wmb.3
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 16:37:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pZLex-0003FV-3w
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:58:33 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ x20-20020a17090a8a9400b00233ba727724so193927pjn.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 16:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678149436;
+ d=linaro.org; s=google; t=1678150709;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ICnPhU6cHn0twhF/CUf4hoGgm/p7umHBuM4TowPzpDA=;
- b=NmvSR9kg1zwpXasWQuA4g9cj+Ngm8LW9Kzeuj16zvxhK19LXslMk23ZJ8vfMFEdSo7
- 05d+ERCTImX6PkU0M28BPQnEQdpf4E+8eLTmZ2XDRQllfyUlnXfuQp+uklSK3HU4Sc+X
- vPjRarj4K7sCcj8nGH/DuCR46AUhew1DBVaXK78ugKTqt1P1FGWZw8jX8p3YRMmRBg2R
- V5sO6SplFTdOxn47wsxNf/5L553YLk+CeWiRSPJX5uT5hyLWUtcsRBuLrQuUK1brlx20
- KZtm2vtRF44MHU/kC/bZaVBaHjtDAMTcUqThCaXpCUjGck1gjH4rAnNG2cbyfQCumaG8
- oABQ==
+ bh=a2QIhxZoHezJe9TL966snnmASNMSKKzci8qpOKKo5UA=;
+ b=Y+84U49YouS3YjJCEwpOcQSYEeD+uAC6xDtTLHmN+bzbLQVPAcJ7R3wzMLCkoPc88+
+ EfLvYlYq7F7jV3PuGU8TkvT2SnMCCweUjLyXMvdH06aZ+blJGXABStH+l68eiRYlLZkL
+ D4RiBClBfczboA8MpO9WMT8pyaNdn46yNWea/meV7gkQ0VTc8PqZD+2xFMrp66QEJ6MI
+ OiFpa175JF3AAJ4E4+40I1ShCMQViK+orKZbJMDVX9M3xhri4CNY8eQ7R7TwfgNrtZ1I
+ wz6Le3Vdim2ZhpDvGU15t4nFd62YsfMBcGaY1UoomMqQcQ6aAlBU5NtuE/4bUZaHQCYA
+ kYqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678149436;
+ d=1e100.net; s=20210112; t=1678150709;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ICnPhU6cHn0twhF/CUf4hoGgm/p7umHBuM4TowPzpDA=;
- b=5w0c+/clzk0XfLapBLkMAwbNSbxBp4jzbpe8tp+qeGTw/t2axx2jXXM/ocfaeZVe5j
- T2vhTh2uWy/dRZZloGL1rKCkd/CFUsCSNWFOqXO+neDO7WDtgSQg9nCjDfNPkQOTkiCV
- /brx/llzo3MOXNXOd6v3oljla9pxMEQEMSCvlMmxvNVXxCNIHKZr2uPApLwk4Cr3EayI
- 4NpyFqD3BnGOwyuO/bI7qfAciPWw647eAQue9chw3dSA4jW1KQybBb/YhYoAJU5BK+rx
- xDhVSIaTyepLC9KBG7e7q9+grKaXiv93P+Xf6O5tm7FDkBWjZxM1v35LOHFrzc3SeanW
- g/wQ==
-X-Gm-Message-State: AO0yUKX53OlabYeZJJKZTkyfBjFSXPYooe6c7Ndh7gOtW0leY7ERgr+9
- 5TUnbZDC3PJ9svin4h4NNR2WsA==
-X-Google-Smtp-Source: AK7set/HjGFBbAw3cKfMPPyEuOkqIhgQ399VTchnCbNnzp3TYEVzKgdbSpqwe3mdl9mA/X/UagqZKw==
-X-Received: by 2002:a05:600c:4f15:b0:3eb:3998:36fa with SMTP id
- l21-20020a05600c4f1500b003eb399836famr10927932wmq.29.1678149436676; 
- Mon, 06 Mar 2023 16:37:16 -0800 (PST)
-Received: from [192.168.1.115] (138.red-88-29-178.dynamicip.rima-tde.net.
- [88.29.178.138]) by smtp.gmail.com with ESMTPSA id
- r22-20020a05600c435600b003eae73ee4a1sm11439258wme.17.2023.03.06.16.37.13
+ bh=a2QIhxZoHezJe9TL966snnmASNMSKKzci8qpOKKo5UA=;
+ b=zwLS9JKkRzqdvMTLrLF36uTa7ZyQiCBbri1kQ4HXjf6jPQjxfCQf/3iknaMOyTEcPn
+ xqOTLvEpCrJqBaSevsaOW0yS33eNK2dJCpncbMhMhCw7GPFgOFVBwWc9qJVfhrdlyJPx
+ +NeJQe05YJvOqKO/UXxFpzk/fePnaLe3Ec1gCUDdZSS0WnXEuLgNGvySfkB8I7cH9xcw
+ jdxHyObMPaunEEk+4W6xz20NVIVyP/VnaHMYUeaMpLPLEMDZkkxXG85x1eanGP/h4+iM
+ +BzpfTh0qKN/hoyiMmru5mGeIagFcgUQQ6ZR5IfDdJEpKeG++pRsbKg7LFnBVDkSpaTF
+ H6rg==
+X-Gm-Message-State: AO0yUKV1D6j3gCuaQY7PbYkAsRITVmZEX39RvEVzSZoIiF+LgWXHHgnd
+ /TceAjZXPdTACLGb2SPyimmlOQ==
+X-Google-Smtp-Source: AK7set/ZXCI4/e+UkitugTXE/DVF4edbv4WBs5vCHBMU1EGSZlCTlQFMJUzN5PRK+WkOD5jAON48aw==
+X-Received: by 2002:a17:90b:180d:b0:22b:b375:ec3f with SMTP id
+ lw13-20020a17090b180d00b0022bb375ec3fmr13719923pjb.21.1678150709065; 
+ Mon, 06 Mar 2023 16:58:29 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:a31d:20ef:5db3:4465?
+ ([2602:ae:154a:9f01:a31d:20ef:5db3:4465])
+ by smtp.gmail.com with ESMTPSA id
+ v14-20020a17090a6b0e00b00233b5d6b4b5sm8145033pjj.16.2023.03.06.16.58.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 16:37:16 -0800 (PST)
-Message-ID: <0115ca07-70f3-91c7-8d89-c4b51b833428@linaro.org>
-Date: Tue, 7 Mar 2023 01:37:11 +0100
+ Mon, 06 Mar 2023 16:58:28 -0800 (PST)
+Message-ID: <03a8daa2-aec0-c92c-6bd5-16cd5ef13b24@linaro.org>
+Date: Mon, 6 Mar 2023 16:58:26 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 23/70] target/i386: Avoid use of tcg_const_* throughout
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 00/23] Fix NB_MMU_MODES to 16
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230227054233.390271-1-richard.henderson@linaro.org>
- <20230227054233.390271-24-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227054233.390271-24-richard.henderson@linaro.org>
+To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
+Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net,
+ peter.maydell@linaro.org, mrolnik@gmail.com, tsimpson@quicinc.com,
+ gaosong@loongson.cn, yangxiaojuan@loongson.cn, edgar.iglesias@gmail.com,
+ philmd@linaro.org, shorne@gmail.com, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com,
+ ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
+ atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
+References: <20230306175230.7110-1-anjo@rev.ng>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230306175230.7110-1-anjo@rev.ng>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,15 +101,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 06:41, Richard Henderson wrote:
-> All uses are strictly read-only.  Most of the obviously so,
-> as direct arguments to gen_helper_*.
+On 3/6/23 09:52, Anton Johansson wrote:
+> This patchset fixes NB_MMU_MODES to 16 for all targets, meaning the
+> macro is no longer target-specific.  16 mmu modes is large enough to
+> cover all currently supported targets (12 arm, 10 ppc, ...), and is the
+> maxiumum supported by the softmmu tlb api.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/i386/tcg/translate.c | 83 +++++++++++++++++++------------------
->   1 file changed, 42 insertions(+), 41 deletions(-)
+> As mentioned by Richard in response to our RFC, softmmu tlbs are
+> dynamically resized and so the overhead of an unused mmu index is fairly
+> low.
+> 
+> The grand goal is to allow for heterogeneous QEMU binaries
+> consisting of multiple frontends.
+> 
+> RFC: https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg04518.html
+> 
+> Anton Johansson (23):
+>    include/exec: Set default `NB_MMU_MODES` to 16
+>    target/alpha: Remove `NB_MMU_MODES` define
+>    target/arm: Remove `NB_MMU_MODES` define
+>    target/avr: Remove `NB_MMU_MODES` define
+>    target/cris: Remove `NB_MMU_MODES` define
+>    target/hexagon: Remove `NB_MMU_MODES` define
+>    target/hppa: Remove `NB_MMU_MODES` define
+>    target/i386: Remove `NB_MMU_MODES` define
+>    target/loongarch: Remove `NB_MMU_MODES` define
+>    target/m68k: Remove `NB_MMU_MODES` define
+>    target/microblaze: Remove `NB_MMU_MODES` define
+>    target/mips: Remove `NB_MMU_MODES` define
+>    target/nios2: Remove `NB_MMU_MODES` define
+>    target/openrisc: Remove `NB_MMU_MODES` define
+>    target/ppc: Remove `NB_MMU_MODES` define
+>    target/riscv: Remove `NB_MMU_MODES` define
+>    target/rx: Remove `NB_MMU_MODES` define
+>    target/s390x: Remove `NB_MMU_MODES` define
+>    target/sh4: Remove `NB_MMU_MODES` define
+>    target/sparc: Remove `NB_MMU_MODES` define
+>    target/tricore: Remove `NB_MMU_MODES` define
+>    target/xtensa: Remove `NB_MMU_MODES` define
+>    include/exec: Remove guards around `NB_MMU_MODES`
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks, queued to tcg-next.
 
+
+r~
 
