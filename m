@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601636AE0B5
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E18F6AE0B6
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:37:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXUh-0008Dg-2p; Tue, 07 Mar 2023 08:36:44 -0500
+	id 1pZXUx-0000PS-IN; Tue, 07 Mar 2023 08:36:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZXUb-0008DO-Vb
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:36:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZXUa-0005Is-3g
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:36:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678196195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z6caRF6e4NyIgAAn6fLla0fT3otbzOkBHnyQwqtsT08=;
- b=bYByA+rOuasfe1ERS4iAJek6zAO5IakpDFUQ0z/N0tx6tECiUg9r/FxVvKAT+wyWSEIEof
- FYqyfQoZE+TUoHHzOvj4+GO00RL5CWLMsqwg08mzPZE9h8XkJBwjTbqi6dvLN1yZdkSp0q
- qvYedecaXuVG7IOE551tk/cyMWAVgQI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-484-STuSgZ9ZPAm4Zq_W0M-gbQ-1; Tue, 07 Mar 2023 08:36:33 -0500
-X-MC-Unique: STuSgZ9ZPAm4Zq_W0M-gbQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 4-20020a05600c024400b003eb2e295c05so4827412wmj.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:36:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pZXUt-0000M8-BK; Tue, 07 Mar 2023 08:36:57 -0500
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pZXUn-0005JM-QU; Tue, 07 Mar 2023 08:36:53 -0500
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-176d1a112bfso6226455fac.5; 
+ Tue, 07 Mar 2023 05:36:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678196205;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bmsyqhiLDd4j3vJiTqVF0j3sJ6qyHH5ZY8Q8nNXKrKE=;
+ b=LJQO+dZQjO2h6HKug4qX/7kr5Ib8yOWXHG9ZBKxBiwJ+oAedi+vPdn3AOKoF4oGFuD
+ YzPt1uWouPnV1NugF3DVtMlDbbTvUuUYrktx13HTUR9K5sAHpc8ylWyc5PCAXT2yEj5F
+ WlN4CpV2+gyabpd6QLORB4aEIIsDaSRM3qM+yiegIte9QLaouev/rxJgLAScfreCGY2C
+ NGv5vCqjtZw9SwSwi/xFp7SqxWC5qu4drm9+lPrH8Y133CM+YH4Yj+GYxhRwr7qh0GFo
+ vb73cHGunSfXUT3MzzragNF+6FcSGBEiHz7BHhs73jRH1ftyklf3sIiMQPOZpo4itjQe
+ B8xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678196192;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1678196205;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z6caRF6e4NyIgAAn6fLla0fT3otbzOkBHnyQwqtsT08=;
- b=wh03kkEcvfxwpL41yUxD4e7coDXu1QLtT+Cv2iYnBX8gFLc91w2w0xyeLxEG0G8SBV
- zuZVygTeeP2L5/93sfJGKTDjaZWjWbEkOzxcjeowAwSLoP/XySkIpVAloVzP9B74yS1p
- 7PenpcUhEQony4AwFQogZcZkTnYNz5XURytFcq95J0JzRBRvnLxudU/M4P0bgxv1W6p3
- ulBXyRPQ5W3b23lUiPfVoVidNKAlALLvgn+Mhy+pX+9jhEq+37bo2JT2B0m6QVVnYx/8
- nWudPrDRJ2RNtaPaV9mD0cc5Q8vcE0WqDzz8FQLZCFEw4+8UCnCtHtHzg+1pSlUDK/sN
- LEbQ==
-X-Gm-Message-State: AO0yUKW6oL6H9WxuK4XPmJ7uDoOYZIiVDEch5+sbqsg2INzawJ1j7p3M
- mr1Q4TES5guuR2fGBaha58RO1Ffad0UKmeSxYp1hbmVXWy2fLX+FP8+5cCLRjm9gtOADYwBLqDg
- Pi6pKbqGWQQfw1uBk3V3yWDc=
-X-Received: by 2002:a05:600c:4ecb:b0:3e7:b17f:9af1 with SMTP id
- g11-20020a05600c4ecb00b003e7b17f9af1mr13169220wmq.22.1678196192575; 
- Tue, 07 Mar 2023 05:36:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set/xwV6sVCM9c4p/s/VSQAvIFudixLwlptPW+yozhAd4X6qthYJIfHmISdysTjF1e3x2XzovKw==
-X-Received: by 2002:a05:600c:4ecb:b0:3e7:b17f:9af1 with SMTP id
- g11-20020a05600c4ecb00b003e7b17f9af1mr13169199wmq.22.1678196192299; 
- Tue, 07 Mar 2023 05:36:32 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ bh=bmsyqhiLDd4j3vJiTqVF0j3sJ6qyHH5ZY8Q8nNXKrKE=;
+ b=e9zqBT+wPm7UI1kq0ySNuHTXa88ZmwMS5Va9Dy+j90n4lyyFcIe3SPryyJp+2ScSJH
+ Tvn5Jb+r436O6GNaVj+yiyDnQwIgmCFwJNCmXJx24+Z88LzKmv6XDsqi2FtCgAvslPu3
+ gyjlKqkfu18wq3qz0+XPuVXne2fZNaS4eWlTIxT2uxu/35FAbEn0tOAb9YblxtOjsBRb
+ DihsWxau0rJTqHZdqq25w6AJcI1/ugY+CTyApG2UadLa8yLf3pTQZrf0BO0yFhWhmisZ
+ UYH5bA23ZekO4XkTfzOTB/ouEbJpWqhaExxdSvdP8ghjKT3G5haDp7UiqCVUwU1aDWW3
+ pyNA==
+X-Gm-Message-State: AO0yUKUTzkdod9M73GKbfqEijPfiiObYa7AffwnCYjV2YrfulvfzxJdi
+ 1jqnpxu+/WSpXCQJ2FdDvtU=
+X-Google-Smtp-Source: AK7set8iiZhC/wFCAtSEZhViY+mKhGorBepewdpws3NeSMuShcwkeC/unisaHYS/uVeIKwnEeEUvIQ==
+X-Received: by 2002:a05:6871:14d:b0:176:6c0b:cd5c with SMTP id
+ z13-20020a056871014d00b001766c0bcd5cmr9981857oab.22.1678196204481; 
+ Tue, 07 Mar 2023 05:36:44 -0800 (PST)
+Received: from [192.168.68.107] ([177.189.53.31])
  by smtp.gmail.com with ESMTPSA id
- f2-20020a5d50c2000000b002c704271b05sm12450244wrt.66.2023.03.07.05.36.31
+ ec52-20020a0568708c3400b0017297d93c7csm5124730oab.22.2023.03.07.05.36.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:36:31 -0800 (PST)
-Message-ID: <c419c84d-12fc-fff0-3af9-04582860b89b@redhat.com>
-Date: Tue, 7 Mar 2023 14:36:31 +0100
+ Tue, 07 Mar 2023 05:36:44 -0800 (PST)
+Message-ID: <10178ae9-e306-0885-a14a-20fc651a8494@gmail.com>
+Date: Tue, 7 Mar 2023 10:36:39 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v5 09/15] vfio/common: Record DMA mapped IOVA ranges
+Subject: Re: [PATCH v9 2/7] hw/intc/i8259: Implement legacy LTIM Edge/Level
+ Bank Select
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ ReneEngel80@emailn.de, David Woodhouse <dwmw2@infradead.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <cover.1678188711.git.balaton@eik.bme.hu>
+ <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
 Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-References: <20230307125450.62409-1-joao.m.martins@oracle.com>
- <20230307125450.62409-10-joao.m.martins@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230307125450.62409-10-joao.m.martins@oracle.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,145 +99,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 13:54, Joao Martins wrote:
-> According to the device DMA logging uAPI, IOVA ranges to be logged by
-> the device must be provided all at once upon DMA logging start.
+
+
+On 3/7/23 08:42, BALATON Zoltan wrote:
+> From: David Woodhouse <dwmw2@infradead.org>
 > 
-> As preparation for the following patches which will add device dirty
-> page tracking, keep a record of all DMA mapped IOVA ranges so later they
-> can be used for DMA logging start.
+> Back in the mists of time, before EISA came along and required per-pin
+> level control in the ELCR register, the i8259 had a single chip-wide
+> level-mode control in bit 3 of ICW1.
 > 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
+> disabled', but apparently MorphOS is using it in the version of the
+> i8259 which is in the Pegasos2 board as part of the VT8231 chipset.
+> 
+> It's easy enough to implement, and I think it's harmless enough to do so
+> unconditionally.
+> 
+> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+> [balaton: updated commit message as asked by author]
+> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/vfio/common.c     | 85 ++++++++++++++++++++++++++++++++++++++++++++
->   hw/vfio/trace-events |  1 +
->   2 files changed, 86 insertions(+)
+>   hw/intc/i8259.c                 | 10 ++++------
+>   hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
+>   include/hw/isa/i8259_internal.h |  1 +
+>   3 files changed, 28 insertions(+), 7 deletions(-)
 > 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 63831eab78a1..811502dbc97c 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1325,11 +1325,96 @@ static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
->       return ret;
+> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+> index 17910f3bcb..bbae2d87f4 100644
+> --- a/hw/intc/i8259.c
+> +++ b/hw/intc/i8259.c
+> @@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
+>       }
+>   #endif
+>   
+> -    if (s->elcr & mask) {
+> +    if (s->ltim || (s->elcr & mask)) {
+>           /* level triggered */
+>           if (level) {
+>               s->irr |= mask;
+> @@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
+>           s->isr |= (1 << irq);
+>       }
+>       /* We don't clear a level sensitive interrupt here */
+> -    if (!(s->elcr & (1 << irq))) {
+> +    if (!s->ltim && !(s->elcr & (1 << irq))) {
+>           s->irr &= ~(1 << irq);
+>       }
+>       pic_update_irq(s);
+> @@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
+>       PICCommonState *s = PIC_COMMON(dev);
+>   
+>       s->elcr = 0;
+> +    s->ltim = 0;
+>       pic_init_reset(s);
 >   }
 >   
-> +typedef struct VFIODirtyRanges {
-> +    hwaddr min32;
-> +    hwaddr max32;
-> +    hwaddr min64;
-> +    hwaddr max64;
-> +} VFIODirtyRanges;
-> +
-> +typedef struct VFIODirtyRangesListener {
-> +    VFIOContainer *container;
-> +    VFIODirtyRanges ranges;
-
-I would have introduced a pointer instead, to avoid the memcpy.
-
-Anyhow, this is minor.
-
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
-
-Thanks,
-
-C.
-
-
-> +    MemoryListener listener;
-> +} VFIODirtyRangesListener;
-> +
-> +static void vfio_dirty_tracking_update(MemoryListener *listener,
-> +                                       MemoryRegionSection *section)
+> @@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
+>               s->init_state = 1;
+>               s->init4 = val & 1;
+>               s->single_mode = val & 2;
+> -            if (val & 0x08) {
+> -                qemu_log_mask(LOG_UNIMP,
+> -                              "i8259: level sensitive irq not supported\n");
+> -            }
+> +            s->ltim = val & 8;
+>           } else if (val & 0x08) {
+>               if (val & 0x04) {
+>                   s->poll = 1;
+> diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
+> index af2e4a2241..c931dc2d07 100644
+> --- a/hw/intc/i8259_common.c
+> +++ b/hw/intc/i8259_common.c
+> @@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
+>       s->special_fully_nested_mode = 0;
+>       s->init4 = 0;
+>       s->single_mode = 0;
+> -    /* Note: ELCR is not reset */
+> +    /* Note: ELCR and LTIM are not reset */
+>   }
+>   
+>   static int pic_dispatch_pre_save(void *opaque)
+> @@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
+>                      s->special_fully_nested_mode);
+>   }
+>   
+> +static bool ltim_state_needed(void *opaque)
 > +{
-> +    VFIODirtyRangesListener *dirty = container_of(listener,
-> +                                                  VFIODirtyRangesListener,
-> +                                                  listener);
-> +    VFIODirtyRanges *range = &dirty->ranges;
-> +    hwaddr iova, end, *min, *max;
+> +    PICCommonState *s = PIC_COMMON(opaque);
 > +
-> +    if (!vfio_listener_valid_section(section, "tracking_update") ||
-> +        !vfio_get_section_iova_range(dirty->container, section,
-> +                                     &iova, &end, NULL)) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * The address space passed to the dirty tracker is reduced to two ranges:
-> +     * one for 32-bit DMA ranges, and another one for 64-bit DMA ranges.
-> +     * The underlying reports of dirty will query a sub-interval of each of
-> +     * these ranges.
-> +     *
-> +     * The purpose of the dual range handling is to handle known cases of big
-> +     * holes in the address space, like the x86 AMD 1T hole. The alternative
-> +     * would be an IOVATree but that has a much bigger runtime overhead and
-> +     * unnecessary complexity.
-> +     */
-> +    min = (end <= UINT32_MAX) ? &range->min32 : &range->min64;
-> +    max = (end <= UINT32_MAX) ? &range->max32 : &range->max64;
-> +
-> +    if (*min > iova) {
-> +        *min = iova;
-> +    }
-> +    if (*max < end) {
-> +        *max = end;
-> +    }
-> +
-> +    trace_vfio_device_dirty_tracking_update(iova, end, *min, *max);
-> +    return;
+> +    return !!s->ltim;
 > +}
 > +
-> +static const MemoryListener vfio_dirty_tracking_listener = {
-> +    .name = "vfio-tracking",
-> +    .region_add = vfio_dirty_tracking_update,
+> +static const VMStateDescription vmstate_pic_ltim = {
+> +    .name = "i8259/ltim",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = ltim_state_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8(ltim, PICCommonState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
 > +};
 > +
-> +static void vfio_dirty_tracking_init(VFIOContainer *container,
-> +                                     VFIODirtyRanges *ranges)
-> +{
-> +    VFIODirtyRangesListener dirty;
-> +
-> +    memset(&dirty, 0, sizeof(dirty));
-> +    dirty.ranges.min32 = UINT32_MAX;
-> +    dirty.ranges.min64 = UINT64_MAX;
-> +    dirty.listener = vfio_dirty_tracking_listener;
-> +    dirty.container = container;
-> +
-> +    memory_listener_register(&dirty.listener,
-> +                             container->space->as);
-> +
-> +    *ranges = dirty.ranges;
-> +
-> +    /*
-> +     * The memory listener is synchronous, and used to calculate the range
-> +     * to dirty tracking. Unregister it after we are done as we are not
-> +     * interested in any follow-up updates.
-> +     */
-> +    memory_listener_unregister(&dirty.listener);
-> +}
-> +
->   static void vfio_listener_log_global_start(MemoryListener *listener)
->   {
->       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> +    VFIODirtyRanges ranges;
->       int ret;
->   
-> +    vfio_dirty_tracking_init(container, &ranges);
-> +
->       ret = vfio_set_dirty_page_tracking(container, true);
->       if (ret) {
->           vfio_set_migration_error(ret);
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 7173e6a5c721..dd9fd7b9bddb 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -103,6 +103,7 @@ vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr
->   vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uintptr_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_size=0x%"PRIxPTR
->   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
->   vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-> +vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" - 0x%"PRIx64"]"
->   vfio_disconnect_container(int fd) "close container->fd=%d"
->   vfio_put_group(int fd) "close group->fd=%d"
->   vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
+>   static const VMStateDescription vmstate_pic_common = {
+>       .name = "i8259",
+>       .version_id = 1,
+> @@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
+>           VMSTATE_UINT8(single_mode, PICCommonState),
+>           VMSTATE_UINT8(elcr, PICCommonState),
+>           VMSTATE_END_OF_LIST()
+> +    },
+> +    .subsections = (const VMStateDescription*[]) {
 
+Checkpatch will nag about it claiming that we need spaces between '*'. The maintainer
+can fix it in-tree though.
+
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+> +        &vmstate_pic_ltim,
+> +        NULL
+>       }
+>   };
+>   
+> diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
+> index 155b098452..f9dcc4163e 100644
+> --- a/include/hw/isa/i8259_internal.h
+> +++ b/include/hw/isa/i8259_internal.h
+> @@ -61,6 +61,7 @@ struct PICCommonState {
+>       uint8_t single_mode; /* true if slave pic is not initialized */
+>       uint8_t elcr; /* PIIX edge/trigger selection*/
+>       uint8_t elcr_mask;
+> +    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
+>       qemu_irq int_out[1];
+>       uint32_t master; /* reflects /SP input pin */
+>       uint32_t iobase;
 
