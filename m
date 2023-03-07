@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F1B6AF291
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E306B6AF287
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:53:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZcQu-0002qS-0q; Tue, 07 Mar 2023 13:53:08 -0500
+	id 1pZcQx-0002r4-IB; Tue, 07 Mar 2023 13:53:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcQr-0002px-Av
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:05 -0500
+ id 1pZcQv-0002qg-Dm
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:09 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcQp-0002Ru-Nl
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:05 -0500
+ id 1pZcQt-0002V4-SM
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678215183;
+ s=mimecast20190719; t=1678215187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nOyaqTinm0bxnMy6KGLDs0ByGxFENSRFLdipnmmg0A4=;
- b=UKT3xj1IE0iHc/VyRrZxG1Ow1zLEWiWDXIVAxTWH3AUufuQhhJDvkwkE9rWLJQPZ8icjh0
- iScp5wGBzhdrYm2MwTV/z9y/xqA+IEzODxW5N0zln5fzSYg8h0YKNAmStDlbuPU+/5bMKA
- ThsNSg4s7OVxMgfeKLsegvrlo5eGT8E=
+ bh=2TFV2gewErDB/rs/5Hn2jPe4NJtuvDYjYPFLxyPJ/c8=;
+ b=bjqPbWkLE3aadmV6zmW8TSNbJy6SNTpI4wsH+kUsHLDJbp6YjMJZ2EiUW6S/rqfmOtZoJM
+ ztFfkhQrh9JBJkMW4gaDtlsXwGHLK/FK4JzRMiAePpWClTPVVTGHxF+wRGS/yfFtOi2wH/
+ ySV+Rbh5UvWmosHyAtQd317a/6//T2E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-CRw1o4jiPCiy33itl7ukKA-1; Tue, 07 Mar 2023 13:52:59 -0500
-X-MC-Unique: CRw1o4jiPCiy33itl7ukKA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-31-JzZIq0-tNt6OfViemb_3SQ-1; Tue, 07 Mar 2023 13:53:05 -0500
+X-MC-Unique: JzZIq0-tNt6OfViemb_3SQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A832858F09;
- Tue,  7 Mar 2023 18:52:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A4708828C1;
+ Tue,  7 Mar 2023 18:53:05 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.22.16.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3F094029A7A;
- Tue,  7 Mar 2023 18:52:58 +0000 (UTC)
-Subject: [PULL 07/17] vfio/common: Consolidate skip/invalid section into helper
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8D042026D4B;
+ Tue,  7 Mar 2023 18:53:04 +0000 (UTC)
+Subject: [PULL 08/17] vfio/common: Add helper to consolidate iova/end
+ calculation
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com,
  joao.m.martins@oracle.com
-Date: Tue, 07 Mar 2023 11:52:58 -0700
-Message-ID: <167821517842.619792.8405486677850724595.stgit@omen>
+Date: Tue, 07 Mar 2023 11:53:04 -0700
+Message-ID: <167821518431.619792.12932302611023643451.stgit@omen>
 In-Reply-To: <167821508699.619792.1719671327865445814.stgit@omen>
 References: <167821508699.619792.1719671327865445814.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,105 +84,92 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-The checks are replicated against region_add and region_del
-and will be soon added in another memory listener dedicated
-for dirty tracking.
-
-Move these into a new helper for avoid duplication.
+In preparation to be used in device dirty tracking, move the code that
+calculate a iova/end range from the container/section.  This avoids
+duplication on the common checks across listener callbacks.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
-Reviewed-by: Avihai Horon <avihaih@nvidia.com>
-Link: https://lore.kernel.org/r/20230307125450.62409-8-joao.m.martins@oracle.com
+Link: https://lore.kernel.org/r/20230307125450.62409-9-joao.m.martins@oracle.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c |   55 +++++++++++++++++++++++-------------------------------
- 1 file changed, 23 insertions(+), 32 deletions(-)
+ hw/vfio/common.c |   41 +++++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 1cb62efa9743..d38b7c1969b9 100644
+index d38b7c1969b9..63831eab78a1 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -933,23 +933,15 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+@@ -962,6 +962,31 @@ static bool vfio_listener_valid_section(MemoryRegionSection *section,
      return true;
  }
  
--static void vfio_listener_region_add(MemoryListener *listener,
--                                     MemoryRegionSection *section)
-+static bool vfio_listener_valid_section(MemoryRegionSection *section,
-+                                        const char *name)
- {
--    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
--    hwaddr iova, end;
--    Int128 llend, llsize;
--    void *vaddr;
--    int ret;
--    VFIOHostDMAWindow *hostwin;
--    Error *err = NULL;
--
-     if (vfio_listener_skipped_section(section)) {
--        trace_vfio_listener_region_skip("region_add",
-+        trace_vfio_listener_region_skip(name,
-                 section->offset_within_address_space,
-                 section->offset_within_address_space +
-                 int128_get64(int128_sub(section->size, int128_one())));
--        return;
-+        return false;
-     }
- 
-     if (unlikely((section->offset_within_address_space &
-@@ -964,6 +956,24 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                          section->offset_within_region,
-                          qemu_real_host_page_size());
-         }
++static bool vfio_get_section_iova_range(VFIOContainer *container,
++                                        MemoryRegionSection *section,
++                                        hwaddr *out_iova, hwaddr *out_end,
++                                        Int128 *out_llend)
++{
++    Int128 llend;
++    hwaddr iova;
++
++    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
++    llend = int128_make64(section->offset_within_address_space);
++    llend = int128_add(llend, section->size);
++    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
++
++    if (int128_ge(int128_make64(iova), llend)) {
 +        return false;
 +    }
 +
++    *out_iova = iova;
++    *out_end = int128_get64(int128_sub(llend, int128_one()));
++    if (out_llend) {
++        *out_llend = llend;
++    }
 +    return true;
 +}
 +
-+static void vfio_listener_region_add(MemoryListener *listener,
-+                                     MemoryRegionSection *section)
-+{
-+    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+    hwaddr iova, end;
-+    Int128 llend, llsize;
-+    void *vaddr;
-+    int ret;
-+    VFIOHostDMAWindow *hostwin;
-+    Error *err = NULL;
-+
-+    if (!vfio_listener_valid_section(section, "region_add")) {
+ static void vfio_listener_region_add(MemoryListener *listener,
+                                      MemoryRegionSection *section)
+ {
+@@ -977,12 +1002,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
          return;
      }
  
-@@ -1182,26 +1192,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
-     int ret;
-     bool try_unmap = true;
- 
--    if (vfio_listener_skipped_section(section)) {
--        trace_vfio_listener_region_skip("region_del",
--                section->offset_within_address_space,
--                section->offset_within_address_space +
--                int128_get64(int128_sub(section->size, int128_one())));
--        return;
--    }
+-    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+-    llend = int128_make64(section->offset_within_address_space);
+-    llend = int128_add(llend, section->size);
+-    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
 -
--    if (unlikely((section->offset_within_address_space &
--                  ~qemu_real_host_page_mask()) !=
--                 (section->offset_within_region & ~qemu_real_host_page_mask()))) {
--        if (!vfio_known_safe_misalignment(section)) {
--            error_report("%s received unaligned region %s iova=0x%"PRIx64
--                         " offset_within_region=0x%"PRIx64
--                         " qemu_real_host_page_size=0x%"PRIxPTR,
--                         __func__, memory_region_name(section->mr),
--                         section->offset_within_address_space,
--                         section->offset_within_region,
--                         qemu_real_host_page_size());
--        }
-+    if (!vfio_listener_valid_section(section, "region_del")) {
+-    if (int128_ge(int128_make64(iova), llend)) {
++    if (!vfio_get_section_iova_range(container, section, &iova, &end, &llend)) {
+         if (memory_region_is_ram_device(section->mr)) {
+             trace_vfio_listener_region_add_no_dma_map(
+                 memory_region_name(section->mr),
+@@ -992,7 +1012,6 @@ static void vfio_listener_region_add(MemoryListener *listener,
+         }
          return;
      }
+-    end = int128_get64(int128_sub(llend, int128_one()));
+ 
+     if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
+         hwaddr pgsize = 0;
+@@ -1219,15 +1238,9 @@ static void vfio_listener_region_del(MemoryListener *listener,
+          */
+     }
+ 
+-    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+-    llend = int128_make64(section->offset_within_address_space);
+-    llend = int128_add(llend, section->size);
+-    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
+-
+-    if (int128_ge(int128_make64(iova), llend)) {
++    if (!vfio_get_section_iova_range(container, section, &iova, &end, &llend)) {
+         return;
+     }
+-    end = int128_get64(int128_sub(llend, int128_one()));
+ 
+     llsize = int128_sub(llend, int128_make64(iova));
  
 
 
