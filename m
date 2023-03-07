@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7BD6AE291
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50FA6AE293
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:33:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYMx-0007me-Gk; Tue, 07 Mar 2023 09:32:47 -0500
+	id 1pZYNc-0000Cg-0G; Tue, 07 Mar 2023 09:33:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYMu-0007mE-Os
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:32:44 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZYNY-0000A1-W2
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:33:25 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYMs-0007cZ-Pa
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:32:44 -0500
-Received: by mail-wr1-x433.google.com with SMTP id h11so12327635wrm.5
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:32:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZYNX-0007oG-6R
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:33:24 -0500
+Received: by mail-pf1-x435.google.com with SMTP id y10so8139466pfi.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678199561;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RLOggDsG1fKszbHRzs4LIIJfZUkmgEgqNtSYBJzrf64=;
- b=gyfrTIEGTW3q7dWFsbr5o2ZefagN2pQ/SNey4NI/42Q8pVBM/V4Jmk6MLHi7S+UzTb
- GN2mYSnu55PIRkGX31jGx4MSnMELPvb5xk+5ExEmx0TAd+N/JY/H2tTHxjoPpxR76pA2
- j8EACGJDgM6MMpX65OOf2cctLO+ug7tPxsaZiCScpSJ/wr8/o2RsQbZxuccLdLHEk89I
- lDkgouleKMddXHI4zdX1CKefjbziAKoQCqykuPsAU+XmllBreyzB+t/N8LgziOuPY3+e
- rEuU5g12Krg5Bg8Ihar/QrAD6yqA337hUGPOm63rpSBqvCzrqHDAguFxXV9VgB5bGaPb
- eZnw==
+ d=linaro.org; s=google; t=1678199601;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=w9wxrfQuiOQGYwkZ1LO/qi8Lyo3pJL8fsSmvzQ1AN5M=;
+ b=dMJU7lLZF68m+jqptwWb8v/spbf7EIzBJWcyuL739l3CSt2rAXTOgxmihKz9xT+uIR
+ vv8Erz5qzR5IBgKoxXwnvgDvw6N4OS63I0LuuFN0Fpnxn0crRegUysicc7AcESgCB8eJ
+ n8925baDLHEqgp/UzmiJ486V7P860mIP6IZwwdlXstYKOjibMEXYC37HwhZ+DbO5QIHp
+ er3aoEjGNNLhOiP+3NSCOTppsFX6N3C7KA7R8MISKL0oNFN4DZrPc2GC4qbLVvkWKA7k
+ N4Li8gu4upqyypLqrSJWBmMQFwNf0kDXshOOqKZ4akSMpHsj4X68KQW5CBQ6ILdOhOXj
+ TfRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678199561;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RLOggDsG1fKszbHRzs4LIIJfZUkmgEgqNtSYBJzrf64=;
- b=1/BH0dWDxHkXoIw0pIGg0S8dn7jpy1OOQPR3vxnJofH87c9ejKazgfRN0JBQEixrT4
- 7lo05TbBI36Kl5ICWKW97bQ/2J7/qF/a32kCdaVNoQtJfSHSCKhPuULq9KvDzRFFh8Xt
- 05QjmQxpf05qak4TOMzD/CrLuh7Vvthb0yPp4jB6WFR3c8m0caDoDZckVLR7te+3cc6J
- mMy0CJPmVD+J/zUzriXn/Ioxhd57zn5EG7I0qxz7AV7IcjsuNFtoE3P1qvKZO+vYoGz8
- 8OJo+dzl1cei1KAeIsS/DMWyDTN0WVhsfCkjYED1sIE6yK3BmffQwIH2KX+dMbCfxZVF
- 0w2Q==
-X-Gm-Message-State: AO0yUKX/XxOr2t6dHbQ4CC+Cmil3CFzVOoxz9dgWJ6zTl+o2QfjcqVBz
- GZVXiUeG/aI7wQ5SHmQ40B1FHg==
-X-Google-Smtp-Source: AK7set9Dn8k0OZ7Z1yW+yxb8E5bi6/cNGje26r9dNxXBwJ7M05WIRjzI4fMPvY4SLrQnXHn/F5HpOA==
-X-Received: by 2002:a5d:630a:0:b0:2cb:5b58:75e with SMTP id
- i10-20020a5d630a000000b002cb5b58075emr9174527wru.5.1678199560910; 
- Tue, 07 Mar 2023 06:32:40 -0800 (PST)
-Received: from [192.168.248.175] (131.red-95-127-34.staticip.rima-tde.net.
- [95.127.34.131]) by smtp.gmail.com with ESMTPSA id
- f2-20020a5d4dc2000000b002be5bdbe40csm12594530wru.27.2023.03.07.06.32.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 06:32:40 -0800 (PST)
-Message-ID: <a720d85a-8c16-f075-4525-ecf6ebbdd8fc@linaro.org>
-Date: Tue, 7 Mar 2023 15:32:38 +0100
+ d=1e100.net; s=20210112; t=1678199601;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w9wxrfQuiOQGYwkZ1LO/qi8Lyo3pJL8fsSmvzQ1AN5M=;
+ b=rGrwSpsqhr6RTP0z3TW0QOBl7+NHomkhySgashOYgHhwF5fI4bBaiNYk9vRIUUkN+0
+ vULrCAcWuO/zdsrfLpb+SSxqYWoKHpsvN3kOe+Is9bKqB8rdpgllENjeeAO/yCs+hHU/
+ IWKeOCyuNBjZnP535sHJ6JjCzXTYnSLfKnbyojQmhZ6gHBx6mei5SjKM7IpXdWq4W/kL
+ A74r7uNHbIgBwHxVtkzC8Fjn+fHYHtpX9g4X8g4AbXp1aqwu9n1orJ6qLWO3gVJ4AKiO
+ Hg9tmBZHOcwStyuuSeAmA6wWKtyKtTw/wKm/lg++o7hTVZG4x1HxLf7kL2SVr/w96abL
+ qTwQ==
+X-Gm-Message-State: AO0yUKU3ddGIZX14M+cjij3uBcVMP5WI5Usxz/+RqstNl4NopSr9M06U
+ BJoisQozgEcNey2wa47DEcH1o0+2MZoh7WfPPnANLw==
+X-Google-Smtp-Source: AK7set9HwUiGL/++1QpjqJA9rF66ui8/GJtXuvlS8DZibUg0wjuwmk9rnSRaTiBGu+HsNDlbDzLA5kGcWhYhkEGZ9ME=
+X-Received: by 2002:a63:a80c:0:b0:4fc:2369:811 with SMTP id
+ o12-20020a63a80c000000b004fc23690811mr4807205pgf.6.1678199601290; Tue, 07 Mar
+ 2023 06:33:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] hw/mips: Add MIPS virt board
-Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20230304223803.55764-1-jiaxun.yang@flygoat.com>
- <20230304223803.55764-3-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230304223803.55764-3-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+References: <20230306220259.7748-1-palmer@rivosinc.com>
+In-Reply-To: <20230306220259.7748-1-palmer@rivosinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Mar 2023 14:33:09 +0000
+Message-ID: <CAFEAcA_0GdN1_1Q+0URiQOa11PAS31rxvRiEoVBnsy7mdvWrfw@mail.gmail.com>
+Subject: Re: [PULL 00/22] Sixth RISC-V PR for 8.0
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,71 +83,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 23:38, Jiaxun Yang wrote:
-> MIPS virt board is design to utilize existing VirtIO infrastures
-> but also comptitable with MIPS's existing internal simulation tools.
-> 
-> It includes virtio-pci, virtio-mmio, pcie gpex, flash rom, fw_cfg,
-> goldfish-rtc and MIPS CPS system.
-> 
-> It should be able to cooperate with any MIPS CPU cores.
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
-> v1:
->   - Rename to virt board
->   - Convert BIOS flash to ROM
->   - Cleanups
-> v2:
->   - Fix fdt flash
->   - Remove UP variant
-> ---
->   MAINTAINERS                             |   7 +
->   configs/devices/mips-softmmu/common.mak |   1 +
->   docs/system/target-mips.rst             |  22 +
->   hw/mips/Kconfig                         |  17 +
->   hw/mips/meson.build                     |   1 +
->   hw/mips/virt.c                          | 916 ++++++++++++++++++++++++
->   6 files changed, 964 insertions(+)
->   create mode 100644 hw/mips/virt.c
+On Mon, 6 Mar 2023 at 22:04, Palmer Dabbelt <palmer@rivosinc.com> wrote:
+>
+> The following changes since commit 2946e1af2704bf6584f57d4e3aec49d1d5f3ecc0:
+>
+>   configure: Disable thread-safety warnings on macOS (2023-03-04 14:03:46 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230306
+>
+> for you to fetch changes up to 47fc340010335bc2549bc1f07e5fd85d86a2b9f9:
+>
+>   MAINTAINERS: Add entry for RISC-V ACPI (2023-03-06 11:35:08 -0800)
+>
+> ----------------------------------------------------------------
+> Sixth RISC-V PR for 8.0
+>
+> * Support for the Zicbiom, ZCicboz, and Zicbop extensions.
+> * OpenSBI has been updated to version 1.2, see
+>   <https://github.com/riscv-software-src/opensbi/releases/tag/v1.2> for
+>   the release notes.
+> * Support for setting the virtual address width (ie, sv39/sv48/sv57) on
+>   the command line.
+> * Support for ACPI on RISC-V.
+>
+> ----------------------------------------------------------------
+> Sorry for the flurry of late pull requests, but we had a few stragglers
+> (ACPI due to reviews and OpenSBI due to the CI failures, the others I'd
+> largely just missed).  I don't intend on sending anything else for the
+> soft freeze, this is already well past late enough for me ;)
+>
+> I'm not exactly sure what happened, but this tag managed to pass CI
+> <https://gitlab.com/palmer-dabbelt/qemu/-/pipelines/797833683> despite
+> me not really doing anything to fix the timeouts -- hopefully that was
+> just a result of me having gotten unlucky or missing a larger timeout in
+> my fork, but sorry if I've managed to screw something up.
+>
+> I have no merge conflicts and the tests are passing locally.  I've got a
+> CI run here
+> <https://gitlab.com/palmer-dabbelt/qemu/-/pipelines/797922220>, but I
+> figured I'd just send this now given that I had one pass from just the
+> tag.
+>
 
 
-> +static void gen_firmware(void *p, hwaddr kernel_entry, hwaddr fdt_addr)
-> +{
-> +    uint64_t regaddr;
-> +    const MemMapEntry *memmap = virt_memmap;
-> +
-> +    /* Move CM GCRs */
-> +    regaddr = cpu_mips_phys_to_kseg1(NULL, GCR_BASE_ADDR + GCR_BASE_OFS),
+Applied, thanks.
 
-Eh this is odd C...
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-> +    bl_gen_write_ulong(&p, regaddr, memmap[VIRT_CM].base);
-> +
-> +    /* Move & enable GIC GCRs */
-> +    regaddr = cpu_mips_phys_to_kseg1(NULL, memmap[VIRT_CM].base +
-> +                                                GCR_GIC_BASE_OFS),
-> +    bl_gen_write_ulong(&p, regaddr,
-> +                        memmap[VIRT_GIC].base | GCR_GIC_BASE_GICEN_MSK);
-> +
-> +    /* Move & enable CPC GCRs */
-> +    regaddr = cpu_mips_phys_to_kseg1(NULL, memmap[VIRT_CM].base +
-> +                                                GCR_CPC_BASE_OFS),
-> +    bl_gen_write_ulong(&p, regaddr,
-> +                        memmap[VIRT_CPC].base | GCR_CPC_BASE_CPCEN_MSK);
-> +
-> +    /*
-> +     * Setup argument registers to follow the UHI boot protocol:
-> +     *
-> +     * a0/$4 = -2
-> +     * a1/$5 = virtual address of FDT
-> +     * a2/$6 = 0
-> +     * a3/$7 = 0
-> +     */
-> +    bl_gen_jump_kernel(&p,
-> +                       true, 0, true, (int32_t)-2,
-> +                       true, fdt_addr, true, 0, true, 0,
-> +                       kernel_entry);
-> +}
-
+-- PMM
 
