@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD10B6AE444
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6F56AE483
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:22:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZ4J-00057w-Hd; Tue, 07 Mar 2023 10:17:35 -0500
+	id 1pZZ8Q-0008L4-3r; Tue, 07 Mar 2023 10:21:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZ4E-00056i-4I
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:17:31 -0500
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZZ8N-0008KY-Jr
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:21:47 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZ4A-0000Tq-Eo
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:17:29 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MUGyh-1pz6Zj0hud-00RKFd; Tue, 07 Mar 2023 16:17:24 +0100
-Message-ID: <0b0c8820-3c45-9335-5506-7ed1c85fa3f8@vivier.eu>
-Date: Tue, 7 Mar 2023 16:17:23 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZZ8L-0001Xx-GA
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:21:47 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 308DC74634B;
+ Tue,  7 Mar 2023 16:21:31 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E68D5746335; Tue,  7 Mar 2023 16:21:30 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E440E746346;
+ Tue,  7 Mar 2023 16:21:30 +0100 (CET)
+Date: Tue, 7 Mar 2023 16:21:30 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Paolo Bonzini <pbonzini@redhat.com>
+cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+In-Reply-To: <357c8c40-8b16-d53c-c453-b8cebe4a312f@redhat.com>
+Message-ID: <f16d495e-3f7b-d253-601f-c2566c49e521@eik.bme.hu>
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
+ <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
+ <20220119041842-mutt-send-email-mst@kernel.org>
+ <20220222094021-mutt-send-email-mst@kernel.org>
+ <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
+ <20230220172659-mutt-send-email-mst@kernel.org>
+ <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
+ <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
+ <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
+ <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
+ <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
+ <e101b894-c722-8def-f591-20fada45795c@redhat.com>
+ <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
+ <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
+ <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
+ <e0a958ec-fa18-0d13-48db-10feea159491@redhat.com>
+ <68f3c8a7-c990-00c0-4872-68acee86c28c@eik.bme.hu>
+ <357c8c40-8b16-d53c-c453-b8cebe4a312f@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] linux-user: Provide print_raw_param64() for 64-bit values
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <Y9lNbFNyRSUhhrHa@p100>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <Y9lNbFNyRSUhhrHa@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:y/3ZHFIYPcmiosYQ9VzsPmhiHz/WFtRa2oGicFwBf7eHIfTiAWj
- hLpsHJLvpYT/1DlHBPXthjRIbD+ICG7ssmEAz+9JfavFRZ/v1ETS6drwZlI7bkqTyqWt7Nd
- tvuV/ASXbDqI8QQtkunqohVzDL8/ryZTQGjy6jDvR4QxtFWj7kg5q51UiWuYeAGXoLF1CH9
- LOLDn7LC/FLtF8OLxnG8A==
-UI-OutboundReport: notjunk:1;M01:P0:YJxoh22trm0=;Aie4fOJWoWjSJjvC9AY/xDTXhP9
- 0iq3B2cTiC/aGuF7TGHVjkntJtctHoaYx2SE80Cnc3DAbnPBPJSvBMBr4HE03TuExUmVAUNNJ
- iWp71oO7MwS/PqcqkRabB72A2VTQVLhiP50eSFkhD4ATtMD0omD8VpWczLMgRCMxhzDkyDJKR
- iLVYsBbjh4qVek3G9jRHUxECUquDYhh62onZGrKX/84lbAOACyu7C53E0NnA7GvPpyeBUbAW2
- 7/Pc0u1F5AHhN5RGeebUeRMaMSCrpJECjH5Z+7ZxugzqUEFbijAm95KdidecqL69XKdGJHczN
- SakquLpsD4CFwS7AI/0BpamcYFalCM/cJEvlqpIN+DBQHpfWmUYkYDdLKpuTNGctLqjVhSXEM
- vL3oAgj5weuzvjc3RKh2u2fxIE/f57e4HOfCWZZo8YcTrELtd/e/6JvxSsUqnxLl2WYqKkmSB
- Dl9f+6AjHHBYJwGPIRh8sVG5pnsZizccufJP7mn4PgK8XxP89a+g6C4zyALberP1+FFIklIWs
- 7Az1HqDu2CvWcAYjuWQ3AhnLrhQI5cEDcfHbj8pKVj+GMbo0qzji0aCb6JVvU/YWPqWJIL7IR
- Xkr0XzJwzm30mGRr9Va6pIlCrgLjvX+Rv+9S+TDQuXe4eGvWx8PKuXOqpSZoSvBdWCt+fNUz0
- ZJbAlAGnuBL/Dr6lewAa5RuI6V5kaXlD59+WKhozPw==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-478380890-1678202490=:65948"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,93 +80,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 31/01/2023 à 18:18, Helge Deller a écrit :
-> Add a new function print_raw_param64() to print 64-bit values in the
-> same way as print_raw_param(). This prevents that qemu_log() is used to
-> work around the problem that print_raw_param() can only print 32-bit
-> values when compiled for 32-bit targets.
-> 
-> Additionally convert the existing 64-bit users in print_timespec64(),
-> print_rlimit64() and print_preadwrite64() over to this new function and
-> drop some unneccessary spaces.
-> 
-> Suggested-by: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 379536f5c9..35d22be027 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -81,6 +81,7 @@ UNUSED static void print_syscall_epilogue(const struct syscallname *);
->   UNUSED static void print_string(abi_long, int);
->   UNUSED static void print_buf(abi_long addr, abi_long len, int last);
->   UNUSED static void print_raw_param(const char *, abi_long, int);
-> +UNUSED static void print_raw_param64(const char *, long long, int last);
->   UNUSED static void print_timeval(abi_ulong, int);
->   UNUSED static void print_timespec(abi_ulong, int);
->   UNUSED static void print_timespec64(abi_ulong, int);
-> @@ -1615,6 +1616,19 @@ print_raw_param(const char *fmt, abi_long param, int last)
->       qemu_log(format, param);
->   }
-> 
-> +/*
-> + * Same as print_raw_param() but prints out raw 64-bit parameter.
-> + */
-> +static void
-> +print_raw_param64(const char *fmt, long long param, int last)
-> +{
-> +    char format[64];
-> +
-> +    (void) snprintf(format, sizeof (format), "%s%s", fmt, get_comma(last));
-> +    qemu_log(format, param);
-> +}
-> +
-> +
->   static void
->   print_pointer(abi_long p, int last)
->   {
-> @@ -1691,10 +1705,8 @@ print_timespec64(abi_ulong ts_addr, int last)
->               print_pointer(ts_addr, last);
->               return;
->           }
-> -        qemu_log("{tv_sec = %lld"
-> -                 ",tv_nsec = %lld}%s",
-> -                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->tv_nsec),
-> -                 get_comma(last));
-> +        print_raw_param64("{tv_sec=%" PRId64, tswap64(ts->tv_sec), 0);
-> +        print_raw_param64("tv_nsec=%" PRId64 "}", tswap64(ts->tv_nsec), last);
->           unlock_user(ts, ts_addr, 0);
->       } else {
->           qemu_log("NULL%s", get_comma(last));
-> @@ -3814,10 +3826,9 @@ print_rlimit64(abi_ulong rlim_addr, int last)
->               print_pointer(rlim_addr, last);
->               return;
->           }
-> -        qemu_log("{rlim_cur = %lld, rlim_max = %lld}%s",
-> -                 (long long)tswap64(rl->rlim_cur),
-> -                 (long long)tswap64(rl->rlim_max),
-> -                 get_comma(last));
-> +        print_raw_param64("{rlim_cur=%" PRId64, tswap64(rl->rlim_cur), 0);
-> +        print_raw_param64("rlim_max=%" PRId64 "}", tswap64(rl->rlim_max),
-> +                            last);
->           unlock_user(rl, rlim_addr, 0);
->       } else {
->           qemu_log("NULL%s", get_comma(last));
-> @@ -3838,7 +3849,7 @@ print_preadwrite64(CPUArchState *cpu_env, const struct syscallname *name,
->       print_raw_param("%d", arg0, 0);
->       print_pointer(arg1, 0);
->       print_raw_param("%d", arg2, 0);
-> -    qemu_log("%lld", (long long)target_offset64(arg3, arg4));
-> +    print_raw_param64("%" PRId64, target_offset64(arg3, arg4), 1);
->       print_syscall_epilogue(name);
->   }
->   #endif
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Applied to my linux-user-for-8.0 branch.
+--3866299591-478380890-1678202490=:65948
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Thanks,
-Laurent
+On Tue, 7 Mar 2023, Paolo Bonzini wrote:
+> On 3/7/23 13:54, BALATON Zoltan wrote:
+>>> evt 3 1 write 1      // enable timer
+>>> evt 0 2 read
+>>> evt 0 2 write 1      // just writes again the same value, clearing sts
+>>> 
+>>> I am quite confident that the second guess is correct, because "write the 
+>>> same value that was read" only makes sense for evt_sts and not for evt_en.
+>> 
+>> It could also make sense if the guest is trying to flip a bit that's 
+>> already set or cleared.
+>
+> No, I checked what the guest actually does and it's read followed immediately 
+> by a write, with no other ALU values in the middle.
+>
+>> AFAIU the device is little endian (VT8231 is a PCI device and primarily a 
+>> PC part so it's expected to be little endian) but the guest also knows this 
+>> and writes byte swaped values to it. But since the memory region is set to 
+>> LITTLE_ENDIAN and we're on a big endian CPU QEMU will byte swap it again 
+>> which it should not do as the guest already did that.
+>
+> It's the opposite.
+>
+> The CPU first swaps the value that was in the register, when it executes 
+> sthbrx instructions.  With DEVICE_LITTLE_ENDIAN, QEMU does the second swap 
+> and restores the value that was in the register.  With DEVICE_NATIVE_ENDIAN 
+> it happens to fix the cases that matter for your testcase, but it breaks 
+> others.
+>
+>>> This means that the first write is almost certainly to evt_en.  On a 
+>>> little-endian machine the write would set bit 8 of evt.en (power button), 
+>>> but what about a big-endian machine like yours?  Should it set bit 0 or 
+>>> bit 8? If it's bit 0 (which resides at offset 2 according to the device), 
+>>> who flips the low bit of the address?  Why is bit 0 flipped but not bit 1?
+>> 
+>> I think the guest already writes byte swapped value so it should work the 
+>> same as on little endian machine but the QEMU memory layer gets in the way.
+>
+> The write in question is "evt addr=3 size=1 value=1" so it's a one-byte 
+> write.  There's no byte swapping involved here, rather the question is how 
+> the addresses are interpreted.
+>
+>>> - get a real machine, and figure out whether the write to offset 3 
+>>> corresponds to the PM timer or the power button.
+>> 
+>> I don't have real machine but know somebody who does but I'm not sure what 
+>> to ast to test on it. Can you describe it what you want to see or maybe 
+>> write a sctipt for the fimrware to test it (if you're familiar enough with 
+>> Forth for that). I can try to find some more info on this but so far I was 
+>> concentrating on other bigger issues. This is a minor annoyance but would 
+>> be nice to fix eventually.
+>
+> I didn't even have an idea that Forth was involved, honestly, or how to write 
+> Forth code for this machine that I barely know exists. :)
 
+It's supposed to be CHRP compatible which mandates OpenFirmware so it 
+should work about the same as similar IBM and Apple machines but those are 
+also kind of obscure. If you can describe what you want tested I can try 
+to make that a script and ask somebody to run it on real machine but I'm 
+not sure what to test.
+
+Regards,
+BALATON Zoltan
+
+>>> - continue the trace up to the point the OS runs, and see if you get some 
+>>> clues similar to the one above that placed evt_sts at offset 2.
+>
+> I'll try this once the machine is back in shape.
+>
+> Paolo
+>
+>
+--3866299591-478380890-1678202490=:65948--
 
