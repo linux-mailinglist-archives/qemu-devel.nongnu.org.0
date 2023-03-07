@@ -2,88 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A208C6AF697
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2708D6AF6B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:28:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZdnq-0001nw-J5; Tue, 07 Mar 2023 15:20:54 -0500
+	id 1pZduK-0005tu-SD; Tue, 07 Mar 2023 15:27:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZdnh-0001mD-5J
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:20:46 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from
+ <3Mp4HZAYKCrMlXTgcVZhhZeX.VhfjXfn-WXoXeghgZgn.hkZ@flex--seanjc.bounces.google.com>)
+ id 1pZduI-0005rB-Da
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:27:34 -0500
+Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZdne-0001Jv-00
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:20:44 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- j19-20020a05600c191300b003eb3e1eb0caso11230106wmq.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:20:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <3Mp4HZAYKCrMlXTgcVZhhZeX.VhfjXfn-WXoXeghgZgn.hkZ@flex--seanjc.bounces.google.com>)
+ id 1pZduG-0002Q2-Ny
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:27:34 -0500
+Received: by mail-pj1-x1049.google.com with SMTP id
+ q61-20020a17090a1b4300b00237d2fb8400so8632759pjq.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:27:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678220440;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=//KTGqo1ZbuvwkeVCqTamRYcpCZggzKkeREBxxg498A=;
- b=ZcjdPGGFbiU+FQEvZm/+Ra9cB4jMByi+fSjS17RGnN0pX3/JjeBjEmTXeE9tWvlRNm
- +xiAqhshb9ZnJxgTn2mk6gr6gf1HHD0e/JGRM5LvY5BFnBoANAbP7zZId0TUNmiov3JA
- cq2fnyUO82aBdwEc9skq/DPossrB5DU7QJj1pJeEW0RdeaFPSgk4DkL64ywSyiDoSD7u
- a5VPRtWNkBu9dFBTb5Of0EwURgyMvTrP3IxqxNrZsK4CRBQNhsgw1x7PdC4TVV6iHO6p
- mrS30etFQn3vluKuTQE6GJMlLP7s0jkBdNgmZNliVOsJGsIYuCcM5Y+1LgbwgQTCQ1RW
- MeFQ==
+ d=google.com; s=20210112; t=1678220850;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WGcASroMdccxdn62Jjtjh8PVnJGDXhBcjr99ONuCvY4=;
+ b=OwwLfDPKljzAkPvlj0S/FrolNQFkMYhVCSYaPZA6BhlyFeubRSg3vonk6akM+nwgAx
+ dcS6vYx/LWgfF4nSPN+n5wRbJl1+oX04X/RQuea86YN+QKQuGEhXA8GHTKbpJNljgVbg
+ 1tgLB7KavCS6Q8io76xaUiHKm29QSamSGbG7VBUDlQZNg7fOcC8uJ1SLfFlvvf38+NHp
+ H0+zdtAOsLWl91QdOI5eJY+EmcNzqsXqCw01IvZ9IrObznTsFWqkSsLtumj8X2Gb549e
+ mgTJkRz7STcC9OGGE966xqlp75dxFmI9JO9DcpLgaboo61ZXNHLGYkcot+ahXB1p5gKf
+ Im0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678220440;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=//KTGqo1ZbuvwkeVCqTamRYcpCZggzKkeREBxxg498A=;
- b=IPETwRoYA6dAp1WA5Zyh3205Yxpr33nF1JjG/rR5ptpRFhKfa7lpaplMELZkSan+NW
- yYBlodCtBTOzaYIVVfjXa5mFYJwR2HZwhgnJDaC1HPPf42LjRvFQKeEPgu1FJh6sCIRL
- yOc5h9YTJWldsJCjOIn1F2afLKZrdxs/jiPrP+fZf2l6u2395Imy6YwOIeHGmwox8mWC
- JzEnavMRfN5SYOA6GoA4KKe91NX0oK3F4niv2odQqFSbpjCGRKjY/bo6Yw2/q9yn6sS5
- VvJtadd4ixHcRNkzNOJLQ+DeadGvHEbnkMqgtywbLVcTJMkENskHWA1BGu3x621h/dgv
- /egw==
-X-Gm-Message-State: AO0yUKUOUiUl9g+lauSD9JtrcgnXaTqfCd709xj3eSRg1ZPwL0YsAptF
- GpGCYSG728Disw4utRqeEssG8w==
-X-Google-Smtp-Source: AK7set+3DpOcP7xHfRowsfuVV2o2eM9Iw1P8Yp9l56Ty1WWUasOSFy0fQ9J+M8AoONGrOrdA4Yksww==
-X-Received: by 2002:a05:600c:3c85:b0:3ea:f05b:50cc with SMTP id
- bg5-20020a05600c3c8500b003eaf05b50ccmr14928023wmb.8.1678220440099; 
- Tue, 07 Mar 2023 12:20:40 -0800 (PST)
-Received: from [192.168.1.115] (126.red-88-28-13.dynamicip.rima-tde.net.
- [88.28.13.126]) by smtp.gmail.com with ESMTPSA id
- o42-20020a05600c33aa00b003e215a796fasm13566660wmp.34.2023.03.07.12.20.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 12:20:39 -0800 (PST)
-Message-ID: <c53bca89-53d3-11ca-a768-dc7e9143e7b1@linaro.org>
-Date: Tue, 7 Mar 2023 21:20:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PULL 00/27] Enable PV backends with Xen/KVM emulation
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-References: <20230307182707.2298618-1-dwmw2@infradead.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307182707.2298618-1-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ d=1e100.net; s=20210112; t=1678220850;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WGcASroMdccxdn62Jjtjh8PVnJGDXhBcjr99ONuCvY4=;
+ b=mfSct78xGpOVNGgcbqJhhdZFlVkMyVp7URUFGOAS3Hnirhhylo2Xw0KwTmwEH8aVVL
+ G7OwXwl2GonX5/KyARmmWhFB8trnCp+P7amnU5vjJ9848twDaaDJiJclqjYJLe3A7AEN
+ 7Tk6RAjwMfAtfzQvo9LTMxbDvEmK27u1YcSHJzJHNcKxxUrHLoKexRbYc41fABzwXxi3
+ nT+f++fwPCrx0e/fTZFHLPrbRiMVarNqjnPM5MmdwoPhNHf90T06htqNesIs4eFTmoZ1
+ aF6ZssTbbnkj+QjtGlu3GDbjOKW0VdO/6A9VoowgmDvDE6f6XEscCAw/KedbUZYHkf84
+ HD6A==
+X-Gm-Message-State: AO0yUKXBHNRe2MFjTyJjZ6b6o+HRPK8XgBVJAIuPnJPu0fTCm2/oCI7w
+ TYKk55pPPlrv6oTaTEAyCUjeeI99qJM=
+X-Google-Smtp-Source: AK7set9n+PBGh5X4bHcHssSmlZaRESH4dUDPeHJTAkKKGP+YbNHu8+uM5MNsGFpRsbe7uC0L5WQKdFmMJ3c=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a63:2948:0:b0:503:7bcd:9806 with SMTP id
+ bu8-20020a632948000000b005037bcd9806mr5442294pgb.4.1678220850029; Tue, 07 Mar
+ 2023 12:27:30 -0800 (PST)
+Date: Tue, 7 Mar 2023 12:27:28 -0800
+In-Reply-To: <diqzcz5kz85e.fsf@ackerleytng-cloudtop.c.googlers.com>
+Mime-Version: 1.0
+References: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+ <diqzcz5kz85e.fsf@ackerleytng-cloudtop.c.googlers.com>
+Message-ID: <ZAeeMA9pPYwFiuaX@google.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com, 
+ wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org, 
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de, 
+ naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, bfields@fieldses.org, 
+ akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
+ steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
+ vannapurve@google.com, yu.c.zhang@linux.intel.com, 
+ kirill.shutemov@linux.intel.com, luto@kernel.org, jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ qperret@google.com, tabba@google.com, michael.roth@amd.com, mhocko@suse.com, 
+ wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
+ envelope-from=3Mp4HZAYKCrMlXTgcVZhhZeX.VhfjXfn-WXoXeghgZgn.hkZ@flex--seanjc.bounces.google.com;
+ helo=mail-pj1-x1049.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,66 +105,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi David,
+Please trim your replies so that readers don't need to scan through a hundred or
+so lines of quotes just to confirm there's nothing there.
 
-On 7/3/23 19:26, David Woodhouse wrote:
-> The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
+On Tue, Mar 07, 2023, Ackerley Tng wrote:
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
 > 
->    Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
+> > Register/unregister private memslot to fd-based memory backing store
+> > restrictedmem and implement the callbacks for restrictedmem_notifier:
+> >    - invalidate_start()/invalidate_end() to zap the existing memory
+> >      mappings in the KVM page table.
+> >    - error() to request KVM_REQ_MEMORY_MCE and later exit to userspace
+> >      with KVM_EXIT_SHUTDOWN.
 > 
-> are available in the Git repository at:
+> > Expose KVM_MEM_PRIVATE for memslot and KVM_MEMORY_ATTRIBUTE_PRIVATE for
+> > KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to userspace but either are
+> > controlled by kvm_arch_has_private_mem() which should be rewritten by
+> > architecture code.
 > 
->    git://git.infradead.org/users/dwmw2/qemu.git refs/tags/xenfv-2
+> Could we perhaps rename KVM_MEM_PRIVATE to KVM_MEM_PROTECTED, to be in
+> line with KVM_X86_PROTECTED_VM?
 > 
-> for you to fetch changes up to 154eac37190c4d80d29b09c226abd899e397530f:
+> I feel that a memslot that has the KVM_MEM_PRIVATE flag need not always
+> be private; It can sometimes be providing memory that is shared and
+> also accessible from the host.
 > 
->    docs: Update Xen-on-KVM documentation for PV disk support (2023-03-07 17:04:30 +0000)
+> KVM_MEMORY_ATTRIBUTE_PRIVATE is fine as-is because this flag is set when
+> the guest memory is meant to be backed by private memory.
 > 
+> KVM_MEMORY_EXIT_FLAG_PRIVATE is also okay because the flag is used to
+> indicate when the memory error is caused by a private access (as opposed
+> to a shared access).
 > 
-> Tested-by: Paul Durrant <paul@xen.org>
-> ... on real Xen (master branch, 4.18) with a Debian guest.
+> kvm_slot_can_be_private() could perhaps be renamed kvm_is_protected_slot()?
 
-This tag only appears in the cover letter, and is missing in each patch.
-It would have been acceptable if it were in the PR tag, but
-the tag (which for some reason isn't displayed in your cover letter)
-is simply "PV back end support for emulated Xen".
+No to this suggestion.  I agree that KVM_MEM_PRIVATE is a bad name, but
+kvm_is_protected_slot() is just as wrong.  The _only_ thing that the flag controls
+is whether whether or not the memslot has an fd that is bound to restricted memory.
+The memslot itself is not protected in any way, and if the entire memslot is mapped
+shared, then the data backed by the memslot isn't protected either.
 
-You can fetch a series with tag applied with b4:
-https://github.com/mricon/b4
-
-You can post signed PR with easily with git-publish:
-https://github.com/stefanha/git-publish
-
-> ----------------------------------------------------------------
-> David Woodhouse (23):
->        hw/xen: Add xenstore wire implementation and implementation stubs
->        hw/xen: Add basic XenStore tree walk and write/read/directory support
->        hw/xen: Implement XenStore watches
->        hw/xen: Implement XenStore transactions
->        hw/xen: Watches on XenStore transactions
->        hw/xen: Implement core serialize/deserialize methods for xenstore_impl
->        hw/xen: Add evtchn operations to allow redirection to internal emulation
->        hw/xen: Add gnttab operations to allow redirection to internal emulation
->        hw/xen: Pass grant ref to gnttab unmap operation
->        hw/xen: Add foreignmem operations to allow redirection to internal emulation
->        hw/xen: Move xenstore_store_pv_console_info to xen_console.c
->        hw/xen: Use XEN_PAGE_SIZE in PV backend drivers
->        hw/xen: Rename xen_common.h to xen_native.h
->        hw/xen: Build PV backend drivers for CONFIG_XEN_BUS
->        hw/xen: Only advertise ring-page-order for xen-block if gnttab supports it
->        hw/xen: Hook up emulated implementation for event channel operations
->        hw/xen: Add emulated implementation of grant table operations
->        hw/xen: Add emulated implementation of XenStore operations
->        hw/xen: Map guest XENSTORE_PFN grant in emulated Xenstore
->        hw/xen: Implement soft reset for emulated gnttab
->        i386/xen: Initialize Xen backends from pc_basic_device_init() for emulation
->        MAINTAINERS: Add entry for Xen on KVM emulation
->        docs: Update Xen-on-KVM documentation for PV disk support
-> 
-> Paul Durrant (4):
->        hw/xen: Implement XenStore permissions
->        hw/xen: Create initial XenStore nodes
->        hw/xen: Add xenstore operations to allow redirection to internal emulation
->        hw/xen: Avoid crash when backend watch fires too early
-
+What about KVM_MEM_CAN_BE_PRIVATE?  KVM_MEM_PRIVATIZABLE is more succinct, but
+AFAICT that's a made up word, and IMO is unnecessarily fancy.
 
