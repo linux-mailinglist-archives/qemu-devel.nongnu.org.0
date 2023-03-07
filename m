@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7AD6AE264
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0AE6AE26A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:29:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYIq-0004E7-MY; Tue, 07 Mar 2023 09:28:32 -0500
+	id 1pZYJJ-0004u6-4a; Tue, 07 Mar 2023 09:29:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZYIo-00046p-Jz
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:28:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1pZYJG-0004nw-Sv
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:28:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZYIn-0006kU-8Z
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:28:30 -0500
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1pZYJE-0006nZ-Pp
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:28:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678199308;
+ s=mimecast20190719; t=1678199336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=viOYvhqAi9AWAtfl8i+QVP7XsjpDQIZoMyQhFwRy47g=;
- b=EWpfwCg75JriRIJJGFlaGgRCqKxkkKuzCkOa/TKHqsoG9LJ90v9VHLD0CclQwyOyrfGedg
- H6McOY8gUrYxBAR2ENEgboLu4+CSgHpBfLdn4LKaOvCNWbM+UQg9xw3HKrCdcYCBlNA+7q
- DZ46O+d1tBTBCaatYjKYPxn1Dt42lGo=
+ bh=eynDZAmXCjTZ1netBQRQ8ZmHJGv2SI9S8DXFOKd9A8c=;
+ b=M9e+GCc2HkKM0Ja90PPQKYqLuztzgpDHCDWT+8fHTYH9TqnSuAYEzV17rF3u20GB4cL/5K
+ zI7saLLOv71x3bjlU4y/dSBn9oZf/7CIsvVcb2M/+JFNrP3E7rXoZx3y1uIaL10NqIPf1s
+ O1hnywJPYkmTxGoB1LL/wU+FbcgLl2M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-GLgts6XlPaOANo-X-3JySg-1; Tue, 07 Mar 2023 09:28:25 -0500
-X-MC-Unique: GLgts6XlPaOANo-X-3JySg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-600-WSpqV_bsM9aEOIp-cyUMlQ-1; Tue, 07 Mar 2023 09:28:52 -0500
+X-MC-Unique: WSpqV_bsM9aEOIp-cyUMlQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64F17811E6E;
- Tue,  7 Mar 2023 14:28:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3ECE135454;
- Tue,  7 Mar 2023 14:28:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1E8D521E6A1F; Tue,  7 Mar 2023 15:28:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Paolo
- Bonzini <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH] qapi: give available enum values in error string
-References: <20230307112212.2437449-1-marcandre.lureau@redhat.com>
- <87ttyw91mw.fsf@pond.sub.org>
- <CAMxuvawaO1jzXQBqFONuu8OfXovGgjAoOfirU1-GB_F=R++9Jg@mail.gmail.com>
-Date: Tue, 07 Mar 2023 15:28:24 +0100
-In-Reply-To: <CAMxuvawaO1jzXQBqFONuu8OfXovGgjAoOfirU1-GB_F=R++9Jg@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Tue, 7 Mar 2023
- 17:11:44 +0400")
-Message-ID: <878rg87i0n.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E43C855309;
+ Tue,  7 Mar 2023 14:28:52 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.45.242.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B95D4C15BA0;
+ Tue,  7 Mar 2023 14:28:50 +0000 (UTC)
+Date: Tue, 7 Mar 2023 15:28:46 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Markus Armbruster <armbru@pond.sub.org>
+Cc: libvir-list@redhat.com, Andrea Bolognani <abologna@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Subject: Re: query-command-line-options (was: [PATCH 1/7] qemu: capabilities:
+ Introduce QEMU_CAPS_MACHINE_ACPI)
+Message-ID: <ZAdKHkUIKjPLhFn7@angien.pipo.sk>
+References: <cover.1677511354.git.pkrempa@redhat.com>
+ <8718b22eda052662087087b4ce659b054974c9e0.1677511354.git.pkrempa@redhat.com>
+ <CABJz62PHsQHiyo06PtfcDeS1LddYyDw2pC_seObtZcLR5cPQyQ@mail.gmail.com>
+ <Y/zng8+7s05O0tRd@angien.pipo.sk>
+ <CABJz62OMWXAx_ExYqvvg1DvcHkiP+SkwNMQZ+56QwoHpsNBqGA@mail.gmail.com>
+ <87jzzsc320.fsf_-_@pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87jzzsc320.fsf_-_@pond.sub.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,28 +85,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
-
+On Tue, Mar 07, 2023 at 10:40:23 +0100, Markus Armbruster wrote:
+> [Resent with cc: qemu-devel and adjusted subject, sorry for the noise]
+> 
+> abologna at redhat.com (Andrea Bolognani) writes:
+> 
+> > On Mon, Feb 27, 2023 at 06:25:23PM +0100, Peter Krempa wrote:
+> >> On Mon, Feb 27, 2023 at 08:44:57 -0800, Andrea Bolognani wrote:
 
 [...]
 
-> We hit an interesting limit of the API though, because error_setg() with
-> &error_fatal will fail immediately before append_hint().
->
-> But we can work around it by using a ERRP_GUARD() !
+> > Another example I've found is "smp-opts", which seems to be used to
+> > implement the -smp option. Once again, in the JSON we find "smp-opts"
+> > instead of "smp".
+> >
+> > I think it would be worthwile to check with the QEMU developers and
+> > make sure that they're aware of this behavior. Is it intended? Is it
+> > documented anywhere? It certainly seems extremely confusing to me.
+> 
+> query-command-line-options has... issues.
+> 
+> First, it's generally[*] limited to options that use QemuOpts.
+> 
+> Second, it reports configuration group names, which are often, but not
+> always the same as the option name.  The exceptions you just have to
+> know.  Group name "acpi" vs. option name "acpitable" is one.
 
-error.h again:
+Ah! so that's where 'acpi' comes from.
 
-     * Create an error and add additional explanation:
-     *     error_setg(errp, "invalid quark");
-     *     error_append_hint(errp, "Valid quarks are up, down, strange, "
-     *                       "charm, top, bottom.\n");
----> * This may require use of ERRP_GUARD(); more on that below.
+> 
+> Third, information on option parameters can be incomplete, or missing
+> entirely.
+> 
+> Fourth, even when it's there, it's often insufficiently detailed.
+> 
+> These are design issues.  I believe the command cannot be fixed, only
+> replaced.
+> 
+> See my talk "QEMU interface introspection: From hacks to
+> solutions", KVM Forum 2015.
+> Video at https://www.youtube.com/watch?v=IEa8Ao8_B9o
+> Slides at http://www.linux-kvm.org/images/7/7a/02x05-Aspen-Markus_Armbruster-QEMU_interface_introspection.pdf
+> 
+> Questions?
 
-;)
+In the end I've dropped the patch detecting the presence of the 'acpi'
+option of -machine as queried via query-command-line-options, as we need
+to know it per-machine type.  That is now reported by qemu in
+query-machines, so we don't need to add more querying from
+query-command-line options.
 
-> sending v2
+In fact I strive to eliminate it after your suggestions, but we can't
+still detect the few outstanding flags from anywhere else.
 
-Thanks!
+List of currently outstanding queries using query-command-line-options:
+
+    { "fsdev", "multidevs", QEMU_CAPS_FSDEV_MULTIDEVS },
+    { "machine", "hpet", QEMU_CAPS_MACHINE_HPET },
+    { "sandbox", NULL, QEMU_CAPS_SECCOMP_SANDBOX },
+    { "spice", NULL, QEMU_CAPS_SPICE },
+    { "spice", "gl", QEMU_CAPS_SPICE_GL },
+    { "spice", "rendernode", QEMU_CAPS_SPICE_RENDERNODE },
+    { "vnc", "power-control", QEMU_CAPS_VNC_POWER_CONTROL },
+
 
 
