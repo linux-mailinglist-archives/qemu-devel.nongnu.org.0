@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7166ADE1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709956ADE21
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVwi-0002d6-EH; Tue, 07 Mar 2023 06:57:32 -0500
+	id 1pZVwk-0002hN-Fl; Tue, 07 Mar 2023 06:57:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwb-0002aR-Tt
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:26 -0500
+ id 1pZVwh-0002dZ-SM
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwa-00035e-4F
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:25 -0500
+ id 1pZVwg-00036S-Iy
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678190243;
+ s=mimecast20190719; t=1678190249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gm6H6AmvoABX8Fjg8D0FXSGcIYjEDAuaAHHlb20Ak1U=;
- b=dAlelEkVL2viDgZj7UyIaMTz/ioqKUXNTSNUqnC/fkL5Fqd+qYBvwUGKgRT5uPbiqLV5j0
- 7id+mMYNyTPI557oMauuDjk7oC0H+JgTMjF5lRIOymMikg3dJ8w5n3/HrDWaj2yEByJM4r
- jKoKcBdviAY7ztb4KWyQzXX/i9Hge2A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VU2GS+OJItwdmT7dr8MxEEEEbWfKF5GqYz/ZMnZtEzw=;
+ b=TFFa2nTor60fmXz8pN6kt4/5qaw9yXfqO72eFkkj2zQvMN0Hr8nv0/S+PIuP8TXUtbMoFN
+ qGk8vz6iN3Zw7aijOu9qkxtn91G1oUlIKEvkOcq1QiGCHRjene1sNPI0cEAUv4XAGVCyS0
+ VoxQGF2mlkN0poaqYZxnCpRou1X5T90=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-dUHfZXy0OteebxK0EHImJw-1; Tue, 07 Mar 2023 06:57:21 -0500
-X-MC-Unique: dUHfZXy0OteebxK0EHImJw-1
+ us-mta-280-ztbGUdpVP7SLgKeZDZaiEw-1; Tue, 07 Mar 2023 06:57:26 -0500
+X-MC-Unique: ztbGUdpVP7SLgKeZDZaiEw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A26208828C2;
- Tue,  7 Mar 2023 11:57:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 57415280AA24;
+ Tue,  7 Mar 2023 11:57:26 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D8EC40CF8EE;
- Tue,  7 Mar 2023 11:57:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D46F400DFA1;
+ Tue,  7 Mar 2023 11:57:24 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,9 +50,9 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 09/18] ui: set cursor upon listener registration
-Date: Tue,  7 Mar 2023 15:56:28 +0400
-Message-Id: <20230307115637.2464377-10-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 10/18] ui: set cursor position upon listener registration
+Date: Tue,  7 Mar 2023 15:56:29 +0400
+Message-Id: <20230307115637.2464377-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -88,23 +88,41 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console.c | 3 +++
- 1 file changed, 3 insertions(+)
+ ui/console.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/ui/console.c b/ui/console.c
-index 0dccbdd4be..7b808f080e 100644
+index 7b808f080e..8fc18c44bf 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1662,6 +1662,9 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-         con = active_console;
+@@ -95,6 +95,7 @@ struct QemuConsole {
+     QemuUIInfo ui_info;
+     QEMUTimer *ui_timer;
+     QEMUCursor *cursor;
++    int cursor_x, cursor_y, cursor_on;
+     const GraphicHwOps *hw_ops;
+     void *hw;
+ 
+@@ -1665,6 +1666,9 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+     if (con->cursor && dcl->ops->dpy_cursor_define) {
+         dcl->ops->dpy_cursor_define(dcl, con->cursor);
      }
-     displaychangelistener_display_console(dcl, con, dcl->con ? &error_fatal : NULL);
-+    if (con->cursor && dcl->ops->dpy_cursor_define) {
-+        dcl->ops->dpy_cursor_define(dcl, con->cursor);
++    if (dcl->ops->dpy_mouse_set) {
++        dcl->ops->dpy_mouse_set(dcl, con->cursor_x, con->cursor_y, con->cursor_on);
 +    }
      text_console_update_cursor(NULL);
  }
  
+@@ -1909,6 +1913,9 @@ void dpy_mouse_set(QemuConsole *con, int x, int y, int on)
+     DisplayState *s = con->ds;
+     DisplayChangeListener *dcl;
+ 
++    con->cursor_x = x;
++    con->cursor_y = y;
++    con->cursor_on = on;
+     if (!qemu_console_is_visible(con)) {
+         return;
+     }
 -- 
 2.39.2
 
