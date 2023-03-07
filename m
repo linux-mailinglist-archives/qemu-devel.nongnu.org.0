@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A87F6AE20A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3626AE20B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:19:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZY9b-0004z3-Bc; Tue, 07 Mar 2023 09:18:59 -0500
+	id 1pZY9W-0004pM-Nq; Tue, 07 Mar 2023 09:18:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZY9N-0004pK-LW; Tue, 07 Mar 2023 09:18:50 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZY9K-0004ix-Bx
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:18:43 -0500
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZY9K-0004ZO-Ew; Tue, 07 Mar 2023 09:18:45 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AB90274635C;
- Tue,  7 Mar 2023 15:18:25 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6A549746346; Tue,  7 Mar 2023 15:18:25 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6843874633D;
- Tue,  7 Mar 2023 15:18:25 +0100 (CET)
-Date: Tue, 7 Mar 2023 15:18:25 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de, David Woodhouse <dwmw2@infradead.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v9 2/7] hw/intc/i8259: Implement legacy LTIM Edge/Level
- Bank Select
-In-Reply-To: <10178ae9-e306-0885-a14a-20fc651a8494@gmail.com>
-Message-ID: <9586c673-80ef-f8ee-7713-3d8fbd71a4b4@eik.bme.hu>
-References: <cover.1678188711.git.balaton@eik.bme.hu>
- <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
- <10178ae9-e306-0885-a14a-20fc651a8494@gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZY9G-0004ZK-I4
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:18:40 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MuVOM-1qPrYJ3Mtm-00rV2G; Tue, 07 Mar 2023 15:18:33 +0100
+Message-ID: <88ec0341-92fb-f3b5-796e-23a0c6f8c390@vivier.eu>
+Date: Tue, 7 Mar 2023 15:18:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+ <AB7D213A-2A88-42E5-B142-BA6127103FCF@flygoat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <AB7D213A-2A88-42E5-B142-BA6127103FCF@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:7ncHMZUzSXIv8yhJD+3zTZiHfHPbDQG1rI+Yt3WVW+Z35cw1bOD
+ 7Th1NNPxT0OUDz+3Se5xo57/e1hMMIxSSiqbHUuh0Jfk9ui8up/XctBD8mZpd8NaGNkMgOG
+ g3x1LKVuF4mA49Vdt7JsscZYsy3rNIqQq6GnvxGPIneqwa2utjE6tx/xFIq+h/qMB3zKzcD
+ j3u4mcFTgWGfSElOcQcQg==
+UI-OutboundReport: notjunk:1;M01:P0:2RHkXnn9UpI=;u7m28m+J0neeEB+tbt7DwNjjY+/
+ vgQUAbBBuXG9w8Y/XbUE8AXmvrW1CJfwDEw5kbNCDDtseEz5WC/0Vfh233PDNtXTjNX7kpO2b
+ Lm1WmI3T7khq5cEtGCwDVib8S4de13o1gKUTGnrCOZkaBAyd0fpMKEclKkl8gXKXLJiJSs2OU
+ YAA2AQlP9Ks6XBAAfDmdOJbUeapVD34IMvxNUGuJ+lElmQav8lhlp9CIynqn3X2XTaU5PuF/7
+ q1e7tLlXXBT/SJazREXSWOQmajBxpuJo+Qtq1Xmdzluw+zjpChD1HY+LEUhBwKpeyPkSEE/6+
+ lJKCjXfsqgxffAWT5SlG8M/y6UjOeWvt3Xc9cdFQCSeb3JhXY0m6ssMEWYl2aJYzeM7MpGh0m
+ xvwDTI3gq6tuNI4+brqFFOtWd7rFZ2So448eGyuRKVUm09ZyqysgXcSJv/gl2JpRfGWSwHaJj
+ VYYAIc/WFLCKvlBgnc5pc5iP2GBPFIhndHjAZiEKVYnuGekoDikJfFZZpSgjtQr3l4j5cvg+Y
+ fFpN6SZTiHiwNvWMDTzZgqOHBmbhxLBn+9eX2r6wMf1DNDrFzYATBRykxnfbWf4U/4zDR5HUL
+ /IH6/BapARzDORNTQItTKXaranEB+6lMl2HnOKZr0VEIoJmliR0HMJOm3h7AOMdWEcHhxSms3
+ +3vVkxbv/eZfIatyEkn7+g/XQiqn9dOsLeiryzhbpA==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,147 +73,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Mar 2023, Daniel Henrique Barboza wrote:
-> On 3/7/23 08:42, BALATON Zoltan wrote:
->> From: David Woodhouse <dwmw2@infradead.org>
->> 
->> Back in the mists of time, before EISA came along and required per-pin
->> level control in the ELCR register, the i8259 had a single chip-wide
->> level-mode control in bit 3 of ICW1.
->> 
->> Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
->> disabled', but apparently MorphOS is using it in the version of the
->> i8259 which is in the Pegasos2 board as part of the VT8231 chipset.
->> 
->> It's easy enough to implement, and I think it's harmless enough to do so
+Phil (or someone else that knows mips), could you review?
+
+With one review I will apply to my linux-user branch.
+
+Thanks,
+Laurent
+
+Le 22/02/2023 à 11:28, Jiaxun Yang a écrit :
+> Ping？
+> 
+>> 2023年2月11日 17:34，Jiaxun Yang <jiaxun.yang@flygoat.com> 写道：
+>>
+>> Previously switchable NaN2008 requires fcsr31.nan2008 to be writable
+>> for guest. However as per MIPS arch spec this bit can never be writable.
+>> This cause NaN2008 ELF to be rejected by QEMU.
+>>
+>> NaN2008 can be enabled on R2~R5 processors, just make it available
 >> unconditionally.
->> 
->> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
->> [balaton: updated commit message as asked by author]
->> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 >> ---
->>   hw/intc/i8259.c                 | 10 ++++------
->>   hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
->>   include/hw/isa/i8259_internal.h |  1 +
->>   3 files changed, 28 insertions(+), 7 deletions(-)
->> 
->> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
->> index 17910f3bcb..bbae2d87f4 100644
->> --- a/hw/intc/i8259.c
->> +++ b/hw/intc/i8259.c
->> @@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int 
->> level)
->>       }
->>   #endif
->>   -    if (s->elcr & mask) {
->> +    if (s->ltim || (s->elcr & mask)) {
->>           /* level triggered */
->>           if (level) {
->>               s->irr |= mask;
->> @@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
->>           s->isr |= (1 << irq);
->>       }
->>       /* We don't clear a level sensitive interrupt here */
->> -    if (!(s->elcr & (1 << irq))) {
->> +    if (!s->ltim && !(s->elcr & (1 << irq))) {
->>           s->irr &= ~(1 << irq);
->>       }
->>       pic_update_irq(s);
->> @@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
->>       PICCommonState *s = PIC_COMMON(dev);
->>         s->elcr = 0;
->> +    s->ltim = 0;
->>       pic_init_reset(s);
->>   }
->>   @@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr 
->> addr64,
->>               s->init_state = 1;
->>               s->init4 = val & 1;
->>               s->single_mode = val & 2;
->> -            if (val & 0x08) {
->> -                qemu_log_mask(LOG_UNIMP,
->> -                              "i8259: level sensitive irq not 
->> supported\n");
->> -            }
->> +            s->ltim = val & 8;
->>           } else if (val & 0x08) {
->>               if (val & 0x04) {
->>                   s->poll = 1;
->> diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
->> index af2e4a2241..c931dc2d07 100644
->> --- a/hw/intc/i8259_common.c
->> +++ b/hw/intc/i8259_common.c
->> @@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
->>       s->special_fully_nested_mode = 0;
->>       s->init4 = 0;
->>       s->single_mode = 0;
->> -    /* Note: ELCR is not reset */
->> +    /* Note: ELCR and LTIM are not reset */
->>   }
->>     static int pic_dispatch_pre_save(void *opaque)
->> @@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider 
->> *obj, Monitor *mon)
->>                      s->special_fully_nested_mode);
->>   }
->>   +static bool ltim_state_needed(void *opaque)
->> +{
->> +    PICCommonState *s = PIC_COMMON(opaque);
->> +
->> +    return !!s->ltim;
->> +}
->> +
->> +static const VMStateDescription vmstate_pic_ltim = {
->> +    .name = "i8259/ltim",
->> +    .version_id = 1,
->> +    .minimum_version_id = 1,
->> +    .needed = ltim_state_needed,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_UINT8(ltim, PICCommonState),
->> +        VMSTATE_END_OF_LIST()
->> +    }
->> +};
->> +
->>   static const VMStateDescription vmstate_pic_common = {
->>       .name = "i8259",
->>       .version_id = 1,
->> @@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
->>           VMSTATE_UINT8(single_mode, PICCommonState),
->>           VMSTATE_UINT8(elcr, PICCommonState),
->>           VMSTATE_END_OF_LIST()
->> +    },
->> +    .subsections = (const VMStateDescription*[]) {
->
-> Checkpatch will nag about it claiming that we need spaces between '*'. The 
-> maintainer
-> can fix it in-tree though.
+>> linux-user/mips/cpu_loop.c | 3 +--
+>> 1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+>> index d5c1c7941d..b5c2ca4a3e 100644
+>> --- a/linux-user/mips/cpu_loop.c
+>> +++ b/linux-user/mips/cpu_loop.c
+>> @@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+>>      }
+>>      if (((info->elf_flags & EF_MIPS_NAN2008) != 0) !=
+>>          ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) != 0)) {
+>> -        if ((env->active_fpu.fcr31_rw_bitmask &
+>> -              (1 << FCR31_NAN2008)) == 0) {
+>> +        if (!(env->insn_flags & ISA_MIPS_R2)) {
+>>              fprintf(stderr, "ELF binary's NaN mode not supported by CPU\n");
+>>              exit(1);
+>>          }
+>> -- 
+>> 2.37.1 (Apple Git-137.1)
+>>
+> 
+> 
 
-I had that before in another patch but was told this is a checkpatch false 
-positive I can disregard.
-
-Regards,
-BALATON Zoltan
-
->
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->
->> +        &vmstate_pic_ltim,
->> +        NULL
->>       }
->>   };
->>   diff --git a/include/hw/isa/i8259_internal.h 
->> b/include/hw/isa/i8259_internal.h
->> index 155b098452..f9dcc4163e 100644
->> --- a/include/hw/isa/i8259_internal.h
->> +++ b/include/hw/isa/i8259_internal.h
->> @@ -61,6 +61,7 @@ struct PICCommonState {
->>       uint8_t single_mode; /* true if slave pic is not initialized */
->>       uint8_t elcr; /* PIIX edge/trigger selection*/
->>       uint8_t elcr_mask;
->> +    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
->>       qemu_irq int_out[1];
->>       uint32_t master; /* reflects /SP input pin */
->>       uint32_t iobase;
->
->
 
