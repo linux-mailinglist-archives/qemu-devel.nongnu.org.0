@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823B26AED6A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6826AED5F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:03:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbe0-0002Ta-Db; Tue, 07 Mar 2023 13:02:36 -0500
+	id 1pZbdz-0002I2-Cx; Tue, 07 Mar 2023 13:02:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbdw-00023X-QP
+ id 1pZbdw-000211-IY
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:32 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbdu-000162-CD
+ id 1pZbdu-000168-W2
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:32 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so12663552pjz.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:29 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id l1so14053913pjt.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678212149;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U8rif0RLRHAMqLdd9rziHE6jMH6xFjgxRsaUqlYQd/c=;
- b=U87Neg0K3/YltY2JITO/gIC8HFFwvtitZfrnqYBKeWw+uQfUak3jfTcr1+owWPIGyA
- /qmi1G98q3qZUYv5KVpcjpkYDK2DB+3l65NXto1pWiwpo0a3cWfne6a/9ZdA4NUEtrrn
- xQ2uyfKYwbq5Uven7JyR2wH1BRFvgD+GetQoEknIlPq4Sz/Ryn2G+9aI9aSoJHmHJ90k
- onzJFSbj9MiSMLi+uaLeEgQ4Oks/V4H5QzAaia97KeJFxRmw+/OlQkaQGI/2gCHX9vaK
- XneGSFAl8hAqWWMNaw0I1DcvQeN+UJvzvP153L+X/pDQbnYDUAo+7qFje4vA/BO/oAMy
- F/bQ==
+ bh=rcuJr89Um9ZQm83hbx1WksiHpOi+HBEPUpFiijHAPBs=;
+ b=L1IUq84itcHp91FvRu1SI8DPa3b5NLZEkkS03vl+O4GQ2T/H6bAgHailCdIWeYF989
+ FnmA8UyL6Uxey1xV5ChMa8mr/UcEw1lsDYzYmUiX4fxHrqSDCv4aFFb2zuEuAE9LZ4oZ
+ t/2tqhix5z6Ey02n0u3ewVs6gekl4QlKtu7pE5hf2MXsmgvAPXDArTqtPfWwF6Mj2oLH
+ M5ruQM2K1sgHuB+hilYBT3Cm9igMFWSBNMKDReuQ2ZgGp5HQ8n5/DdQ92xapaetLm9oD
+ E0mBgGwNvVJcvHOsYYg2DJwMOLERa3Dni0EotFBFfnTew3kr51SFDgXVN3lmqDD/8B6x
+ 6Q6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678212149;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U8rif0RLRHAMqLdd9rziHE6jMH6xFjgxRsaUqlYQd/c=;
- b=E8H7J0mjV0mA62/MN6M+YRJSGHrL0W9FHyvpjLZjQZHnspXhFq+bTvfM09C2a7a1UK
- iFgGV+h5b6zHsjLP5A3ofYd3K/gzLl899cWU6qBouPcpAp5XhaB2TKSoBCA3bS5LV8KK
- Poy0YMJ3ePxKTf0Ox5h29nBcO22sQAbYl2fLW6bPAUtes4qrHFewosrq/6zfJ7ii80kd
- sZdOX7O2lO5y2RWsJCXJe5hawz/lcdELPgBF/XIXcBWD8XGvLSehtqucjS+s/HdyiHK3
- AHXPgWKtEWgjRoFMbS6Yx/wKIA16niql9oWRu4r6ZSdNiQkbCEd021iMQvi5vHtJaiQB
- n1tg==
-X-Gm-Message-State: AO0yUKU3qzdf5Xr4yj0HG3s5zmOj3I4SV4Cr+XOxSbSVDxqvDAEgBKX7
- GBTCPTLLMjpjcfwOarz4MxscfBMTWbe685MJt7Q=
-X-Google-Smtp-Source: AK7set930BmrdVyfaiOPP1521QGFQjSoZ/zU/int5IZR6d123doNPaqg8GtT9qJ4PI8/0G6UoOLJEw==
-X-Received: by 2002:a05:6a20:441d:b0:cc:4118:75f4 with SMTP id
- ce29-20020a056a20441d00b000cc411875f4mr16138828pzb.0.1678212148939; 
- Tue, 07 Mar 2023 10:02:28 -0800 (PST)
+ bh=rcuJr89Um9ZQm83hbx1WksiHpOi+HBEPUpFiijHAPBs=;
+ b=WSgfLCs9pMW9mnGvks+0gJpGhC3cH/SMZBAVGbIbb+S1a/o4JJ2AVOXOcgJPM7+0/N
+ 3MeYxG5GZOZ01KualNLPbhB3aD80eG1zTQtawkrsdzhTRAEPgvvkWdXtlPAJHa3z337w
+ 7NV8Ia+3U4hCPocPeoz2VigiQ2l8C/NW8RcLXyyGqORuTh8uwWqVGJjNLeSId8GLqC5r
+ k1i3bJ7dZh4ratot4HtV/GJQsX0uDSD7STIHRG/UNUv2KjrCudsWP5sKKL+5ZS2kWjbp
+ Tx94DpuGgup6gZ5kGHh4bF/WtRqxabDDqxk2kpt3VP4COM2KQ+J+o8koLUmSldMU92Z7
+ z7XQ==
+X-Gm-Message-State: AO0yUKWC1bXnaQTbaOf8TojDRPClvKhv66uis82XJo9nF+Q2pWL+4MjS
+ 1JlKVySRpGVihZzNrgxMzwz1KvKOx2c6Yf/3lc4=
+X-Google-Smtp-Source: AK7set+/9XpG9o7DKlPrA8TfIJf7H2gltn12AipUKEVkT6nBlzP5wYeMKA+nBNmyPKOvcCLhbjjGFw==
+X-Received: by 2002:a05:6a21:6da7:b0:cc:c69b:f7f1 with SMTP id
+ wl39-20020a056a216da700b000ccc69bf7f1mr20500712pzb.15.1678212149665; 
+ Tue, 07 Mar 2023 10:02:29 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.28
+ z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:02:28 -0800 (PST)
+ Tue, 07 Mar 2023 10:02:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 49/67] target/mips: Split out gen_lxr
-Date: Tue,  7 Mar 2023 09:58:30 -0800
-Message-Id: <20230307175848.2508955-50-richard.henderson@linaro.org>
+Subject: [PULL 50/67] target/mips: Avoid tcg_const_tl in gen_r6_ld
+Date: Tue,  7 Mar 2023 09:58:31 -0800
+Message-Id: <20230307175848.2508955-51-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307175848.2508955-1-richard.henderson@linaro.org>
 References: <20230307175848.2508955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,187 +92,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Common subroutine for LDR and LWR.
-Use tcg_constant_tl of ~1 instead of tcg_const_tl of 0x..fe.
+Allocate a separate temp for modification.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/translate.c | 116 +++++++++++++-----------------------
- 1 file changed, 40 insertions(+), 76 deletions(-)
+ target/mips/tcg/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index f8ea7a54a3..5c5660da5a 100644
+index 5c5660da5a..bec0a26c83 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -2021,11 +2021,39 @@ static void gen_lxl(DisasContext *ctx, TCGv reg, TCGv addr,
-     tcg_gen_or_tl(reg, t0, t1);
+@@ -2964,8 +2964,8 @@ static void gen_HILO(DisasContext *ctx, uint32_t opc, int acc, int reg)
+ static inline void gen_r6_ld(target_long addr, int reg, int memidx,
+                              MemOp memop)
+ {
+-    TCGv t0 = tcg_const_tl(addr);
+-    tcg_gen_qemu_ld_tl(t0, t0, memidx, memop);
++    TCGv t0 = tcg_temp_new();
++    tcg_gen_qemu_ld_tl(t0, tcg_constant_tl(addr), memidx, memop);
+     gen_store_gpr(t0, reg);
  }
  
-+/* LWR or LDR, depending on MemOp. */
-+static void gen_lxr(DisasContext *ctx, TCGv reg, TCGv addr,
-+                     int mem_idx, MemOp mop)
-+{
-+    int size = memop_size(mop);
-+    int sizem1 = size - 1;
-+    TCGv t0 = tcg_temp_new();
-+    TCGv t1 = tcg_temp_new();
-+
-+    /*
-+     * Do a byte access to possibly trigger a page
-+     * fault with the unaligned address.
-+     */
-+    tcg_gen_qemu_ld_tl(t1, addr, mem_idx, MO_UB);
-+    tcg_gen_andi_tl(t1, addr, sizem1);
-+    if (cpu_is_bigendian(ctx)) {
-+        tcg_gen_xori_tl(t1, t1, sizem1);
-+    }
-+    tcg_gen_shli_tl(t1, t1, 3);
-+    tcg_gen_andi_tl(t0, addr, ~sizem1);
-+    tcg_gen_qemu_ld_tl(t0, t0, mem_idx, mop);
-+    tcg_gen_shr_tl(t0, t0, t1);
-+    tcg_gen_xori_tl(t1, t1, size * 8 - 1);
-+    tcg_gen_shl_tl(t1, tcg_constant_tl(~1), t1);
-+    tcg_gen_and_tl(t1, reg, t1);
-+    tcg_gen_or_tl(reg, t0, t1);
-+}
-+
- /* Load */
- static void gen_ld(DisasContext *ctx, uint32_t opc,
-                    int rt, int base, int offset)
- {
--    TCGv t0, t1, t2;
-+    TCGv t0, t1;
-     int mem_idx = ctx->mem_idx;
- 
-     if (rt == 0 && ctx->insn_flags & (INSN_LOONGSON2E | INSN_LOONGSON2F |
-@@ -2066,26 +2094,9 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-         break;
-     case OPC_LDR:
-         t1 = tcg_temp_new();
--        /*
--         * Do a byte access to possibly trigger a page
--         * fault with the unaligned address.
--         */
--        tcg_gen_qemu_ld_tl(t1, t0, mem_idx, MO_UB);
--        tcg_gen_andi_tl(t1, t0, 7);
--        if (cpu_is_bigendian(ctx)) {
--            tcg_gen_xori_tl(t1, t1, 7);
--        }
--        tcg_gen_shli_tl(t1, t1, 3);
--        tcg_gen_andi_tl(t0, t0, ~7);
--        tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEUQ);
--        tcg_gen_shr_tl(t0, t0, t1);
--        tcg_gen_xori_tl(t1, t1, 63);
--        t2 = tcg_const_tl(0xfffffffffffffffeull);
--        tcg_gen_shl_tl(t2, t2, t1);
-         gen_load_gpr(t1, rt);
--        tcg_gen_and_tl(t1, t1, t2);
--        tcg_gen_or_tl(t0, t0, t1);
--        gen_store_gpr(t0, rt);
-+        gen_lxr(ctx, t1, t0, mem_idx, MO_TEUQ);
-+        gen_store_gpr(t1, rt);
-         break;
-     case OPC_LDPC:
-         t1 = tcg_const_tl(pc_relative_pc(ctx));
-@@ -2153,27 +2164,10 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-         /* fall through */
-     case OPC_LWR:
-         t1 = tcg_temp_new();
--        /*
--         * Do a byte access to possibly trigger a page
--         * fault with the unaligned address.
--         */
--        tcg_gen_qemu_ld_tl(t1, t0, mem_idx, MO_UB);
--        tcg_gen_andi_tl(t1, t0, 3);
--        if (cpu_is_bigendian(ctx)) {
--            tcg_gen_xori_tl(t1, t1, 3);
--        }
--        tcg_gen_shli_tl(t1, t1, 3);
--        tcg_gen_andi_tl(t0, t0, ~3);
--        tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEUL);
--        tcg_gen_shr_tl(t0, t0, t1);
--        tcg_gen_xori_tl(t1, t1, 31);
--        t2 = tcg_const_tl(0xfffffffeull);
--        tcg_gen_shl_tl(t2, t2, t1);
-         gen_load_gpr(t1, rt);
--        tcg_gen_and_tl(t1, t1, t2);
--        tcg_gen_or_tl(t0, t0, t1);
--        tcg_gen_ext32s_tl(t0, t0);
--        gen_store_gpr(t0, rt);
-+        gen_lxr(ctx, t1, t0, mem_idx, MO_TEUL);
-+        tcg_gen_ext32s_tl(t1, t1);
-+        gen_store_gpr(t1, rt);
-         break;
-     case OPC_LLE:
-         mem_idx = MIPS_HFLAG_UM;
-@@ -4150,7 +4144,7 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
- static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-                                int rs, int rd)
- {
--    TCGv t0, t1, t2;
-+    TCGv t0, t1;
-     TCGv_i32 fp0;
- #if defined(TARGET_MIPS64)
-     int lsq_rt1 = ctx->opcode & 0x1f;
-@@ -4225,29 +4219,12 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-         case OPC_GSLWRC1:
-             check_cp1_enabled(ctx);
-             gen_base_offset_addr(ctx, t0, rs, shf_offset);
--            t1 = tcg_temp_new();
--            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
--            tcg_gen_andi_tl(t1, t0, 3);
--            if (cpu_is_bigendian(ctx)) {
--                tcg_gen_xori_tl(t1, t1, 3);
--            }
--            tcg_gen_shli_tl(t1, t1, 3);
--            tcg_gen_andi_tl(t0, t0, ~3);
--            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
--            tcg_gen_shr_tl(t0, t0, t1);
--            tcg_gen_xori_tl(t1, t1, 31);
--            t2 = tcg_const_tl(0xfffffffeull);
--            tcg_gen_shl_tl(t2, t2, t1);
-             fp0 = tcg_temp_new_i32();
-             gen_load_fpr32(ctx, fp0, rt);
-+            t1 = tcg_temp_new();
-             tcg_gen_ext_i32_tl(t1, fp0);
--            tcg_gen_and_tl(t1, t1, t2);
--            tcg_gen_or_tl(t0, t0, t1);
--#if defined(TARGET_MIPS64)
--            tcg_gen_extrl_i64_i32(fp0, t0);
--#else
--            tcg_gen_ext32s_tl(fp0, t0);
--#endif
-+            gen_lxr(ctx, t1, t0, ctx->mem_idx, MO_TEUL);
-+            tcg_gen_trunc_tl_i32(fp0, t1);
-             gen_store_fpr32(ctx, fp0, rt);
-             break;
- #if defined(TARGET_MIPS64)
-@@ -4263,22 +4240,9 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-             check_cp1_enabled(ctx);
-             gen_base_offset_addr(ctx, t0, rs, shf_offset);
-             t1 = tcg_temp_new();
--            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
--            tcg_gen_andi_tl(t1, t0, 7);
--            if (cpu_is_bigendian(ctx)) {
--                tcg_gen_xori_tl(t1, t1, 7);
--            }
--            tcg_gen_shli_tl(t1, t1, 3);
--            tcg_gen_andi_tl(t0, t0, ~7);
--            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUQ);
--            tcg_gen_shr_tl(t0, t0, t1);
--            tcg_gen_xori_tl(t1, t1, 63);
--            t2 = tcg_const_tl(0xfffffffffffffffeull);
--            tcg_gen_shl_tl(t2, t2, t1);
-             gen_load_fpr64(ctx, t1, rt);
--            tcg_gen_and_tl(t1, t1, t2);
--            tcg_gen_or_tl(t0, t0, t1);
--            gen_store_fpr64(ctx, t0, rt);
-+            gen_lxr(ctx, t1, t0, ctx->mem_idx, MO_TEUQ);
-+            gen_store_fpr64(ctx, t1, rt);
-             break;
- #endif
-         default:
 -- 
 2.34.1
 
