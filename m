@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E18F6AE0B6
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BAF6AE0B7
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:37:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXUx-0000PS-IN; Tue, 07 Mar 2023 08:36:59 -0500
+	id 1pZXVR-0000tI-1b; Tue, 07 Mar 2023 08:37:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZXUt-0000M8-BK; Tue, 07 Mar 2023 08:36:57 -0500
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ id 1pZXVN-0000n9-BM; Tue, 07 Mar 2023 08:37:25 -0500
+Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZXUn-0005JM-QU; Tue, 07 Mar 2023 08:36:53 -0500
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-176d1a112bfso6226455fac.5; 
- Tue, 07 Mar 2023 05:36:48 -0800 (PST)
+ id 1pZXVL-0005OH-4s; Tue, 07 Mar 2023 08:37:25 -0500
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ t5-20020a4ac885000000b005251f70a740so2030788ooq.8; 
+ Tue, 07 Mar 2023 05:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678196205;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20210112; t=1678196236;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=bmsyqhiLDd4j3vJiTqVF0j3sJ6qyHH5ZY8Q8nNXKrKE=;
- b=LJQO+dZQjO2h6HKug4qX/7kr5Ib8yOWXHG9ZBKxBiwJ+oAedi+vPdn3AOKoF4oGFuD
- YzPt1uWouPnV1NugF3DVtMlDbbTvUuUYrktx13HTUR9K5sAHpc8ylWyc5PCAXT2yEj5F
- WlN4CpV2+gyabpd6QLORB4aEIIsDaSRM3qM+yiegIte9QLaouev/rxJgLAScfreCGY2C
- NGv5vCqjtZw9SwSwi/xFp7SqxWC5qu4drm9+lPrH8Y133CM+YH4Yj+GYxhRwr7qh0GFo
- vb73cHGunSfXUT3MzzragNF+6FcSGBEiHz7BHhs73jRH1ftyklf3sIiMQPOZpo4itjQe
- B8xA==
+ bh=7cHp75bl58rVaE32pv7MovvxG2J2YQy3UU3Z3YlN9D0=;
+ b=NE42GkqGYmQqDzpOmcOfTnsGoaXUdObpRYh31GNJVhEMzizQeJ7ZsNrMlueh7STSAH
+ yTczQutD9hbzw6eOjVT7x2wOTVtoGK3HNBuAipBUrJe2zpwuT8kL3oWq8YzsBhPVEdB3
+ pcu5iOgqw4QGoNuHOULTHBmo8dEZFCDIjUPXqBfsoxx1jt77Ga3bwnGKw6K2Vol1pgjY
+ UEXbuI4Rl7z6/JoKKsXXQlPqauSOKetGGDP2U6xsyfSYNu6XN3gt26kyyfgHBEG+KSqh
+ YjZtGiMosed7qHJRY5I7n3aTFej+rDyhFBbGkIhZlM31YHtPyNtu39TCcQMqYMyX0ACW
+ OyUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678196205;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1678196236;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bmsyqhiLDd4j3vJiTqVF0j3sJ6qyHH5ZY8Q8nNXKrKE=;
- b=e9zqBT+wPm7UI1kq0ySNuHTXa88ZmwMS5Va9Dy+j90n4lyyFcIe3SPryyJp+2ScSJH
- Tvn5Jb+r436O6GNaVj+yiyDnQwIgmCFwJNCmXJx24+Z88LzKmv6XDsqi2FtCgAvslPu3
- gyjlKqkfu18wq3qz0+XPuVXne2fZNaS4eWlTIxT2uxu/35FAbEn0tOAb9YblxtOjsBRb
- DihsWxau0rJTqHZdqq25w6AJcI1/ugY+CTyApG2UadLa8yLf3pTQZrf0BO0yFhWhmisZ
- UYH5bA23ZekO4XkTfzOTB/ouEbJpWqhaExxdSvdP8ghjKT3G5haDp7UiqCVUwU1aDWW3
- pyNA==
-X-Gm-Message-State: AO0yUKUTzkdod9M73GKbfqEijPfiiObYa7AffwnCYjV2YrfulvfzxJdi
- 1jqnpxu+/WSpXCQJ2FdDvtU=
-X-Google-Smtp-Source: AK7set8iiZhC/wFCAtSEZhViY+mKhGorBepewdpws3NeSMuShcwkeC/unisaHYS/uVeIKwnEeEUvIQ==
-X-Received: by 2002:a05:6871:14d:b0:176:6c0b:cd5c with SMTP id
- z13-20020a056871014d00b001766c0bcd5cmr9981857oab.22.1678196204481; 
- Tue, 07 Mar 2023 05:36:44 -0800 (PST)
+ bh=7cHp75bl58rVaE32pv7MovvxG2J2YQy3UU3Z3YlN9D0=;
+ b=eU/51Sz1+IzNffaqtLt3TqLIwHGj5IaWClgtwhRuu+wXw1fAo2FrtljU0gvxWIUJeI
+ 4IO7i5O0CMYOFZ2Y3ecYVG4Z1CQ1w4j6tCM1yCGe/JhHoLUJ7l1HqnHLIMv/KCnQHL9A
+ 13n9hzNUcb27WxjdVjEquURJuSoUt2rXFny9+cVTV/pN2L/4U1gy1FfiVa4ZjNYRMkX2
+ X+eXcoTfZts/iUJo6qa/ClLW+sjmq6W9SExAH3OhQqad+aLS/E7zHdgu+nCjgzrMdQ5c
+ f4bZAP62fF6RQjbmd07hX0TaTCfeJfOrn2OIcjSVvS8tggCGArW1vOeQzqNesCWoPP0p
+ /Sxg==
+X-Gm-Message-State: AO0yUKVMIqfo7iYlBTdDreNFZqiiRTJVtlgmMBO9DCmbP0zjY5ZTg3Pm
+ 3M8EvzlBh5mMI+nUWAChqtQ=
+X-Google-Smtp-Source: AK7set8bvyy8fwc27S0y1mJBSAXBCKSf9osCzoQ+qqt2/RVpvbqyZoIzMBGKAGwcFw9M5jyYrUnjUw==
+X-Received: by 2002:a4a:98d1:0:b0:49f:8941:ffed with SMTP id
+ b17-20020a4a98d1000000b0049f8941ffedmr5663893ooj.9.1678196236058; 
+ Tue, 07 Mar 2023 05:37:16 -0800 (PST)
 Received: from [192.168.68.107] ([177.189.53.31])
  by smtp.gmail.com with ESMTPSA id
- ec52-20020a0568708c3400b0017297d93c7csm5124730oab.22.2023.03.07.05.36.41
+ t8-20020a056830082800b006884c42a38asm5391650ots.41.2023.03.07.05.37.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:36:44 -0800 (PST)
-Message-ID: <10178ae9-e306-0885-a14a-20fc651a8494@gmail.com>
-Date: Tue, 7 Mar 2023 10:36:39 -0300
+ Tue, 07 Mar 2023 05:37:15 -0800 (PST)
+Message-ID: <7cdd5734-c753-6600-c691-46d417866f0c@gmail.com>
+Date: Tue, 7 Mar 2023 10:37:12 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v9 2/7] hw/intc/i8259: Implement legacy LTIM Edge/Level
- Bank Select
+Subject: Re: [PATCH v9 3/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
+ forwarder"
+Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de, David Woodhouse <dwmw2@infradead.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ ReneEngel80@emailn.de
 References: <cover.1678188711.git.balaton@eik.bme.hu>
- <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
-Content-Language: en-US
+ <2878ea6ebe4713fe9b8f2ab777b58b5e5f10fe5b.1678188711.git.balaton@eik.bme.hu>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
+In-Reply-To: <2878ea6ebe4713fe9b8f2ab777b58b5e5f10fe5b.1678188711.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -102,137 +101,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 On 3/7/23 08:42, BALATON Zoltan wrote:
-> From: David Woodhouse <dwmw2@infradead.org>
+> This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
+> keeping the rename of a state field but reverting other cahanges which
+> break interrupts on pegasos2.
 > 
-> Back in the mists of time, before EISA came along and required per-pin
-> level control in the ELCR register, the i8259 had a single chip-wide
-> level-mode control in bit 3 of ICW1.
-> 
-> Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
-> disabled', but apparently MorphOS is using it in the version of the
-> i8259 which is in the Pegasos2 board as part of the VT8231 chipset.
-> 
-> It's easy enough to implement, and I think it's harmless enough to do so
-> unconditionally.
-> 
-> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-> [balaton: updated commit message as asked by author]
-> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/intc/i8259.c                 | 10 ++++------
->   hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
->   include/hw/isa/i8259_internal.h |  1 +
->   3 files changed, 28 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-> index 17910f3bcb..bbae2d87f4 100644
-> --- a/hw/intc/i8259.c
-> +++ b/hw/intc/i8259.c
-> @@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
->       }
->   #endif
->   
-> -    if (s->elcr & mask) {
-> +    if (s->ltim || (s->elcr & mask)) {
->           /* level triggered */
->           if (level) {
->               s->irr |= mask;
-> @@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
->           s->isr |= (1 << irq);
->       }
->       /* We don't clear a level sensitive interrupt here */
-> -    if (!(s->elcr & (1 << irq))) {
-> +    if (!s->ltim && !(s->elcr & (1 << irq))) {
->           s->irr &= ~(1 << irq);
->       }
->       pic_update_irq(s);
-> @@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
->       PICCommonState *s = PIC_COMMON(dev);
->   
->       s->elcr = 0;
-> +    s->ltim = 0;
->       pic_init_reset(s);
->   }
->   
-> @@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
->               s->init_state = 1;
->               s->init4 = val & 1;
->               s->single_mode = val & 2;
-> -            if (val & 0x08) {
-> -                qemu_log_mask(LOG_UNIMP,
-> -                              "i8259: level sensitive irq not supported\n");
-> -            }
-> +            s->ltim = val & 8;
->           } else if (val & 0x08) {
->               if (val & 0x04) {
->                   s->poll = 1;
-> diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
-> index af2e4a2241..c931dc2d07 100644
-> --- a/hw/intc/i8259_common.c
-> +++ b/hw/intc/i8259_common.c
-> @@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
->       s->special_fully_nested_mode = 0;
->       s->init4 = 0;
->       s->single_mode = 0;
-> -    /* Note: ELCR is not reset */
-> +    /* Note: ELCR and LTIM are not reset */
->   }
->   
->   static int pic_dispatch_pre_save(void *opaque)
-> @@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
->                      s->special_fully_nested_mode);
->   }
->   
-> +static bool ltim_state_needed(void *opaque)
-> +{
-> +    PICCommonState *s = PIC_COMMON(opaque);
-> +
-> +    return !!s->ltim;
-> +}
-> +
-> +static const VMStateDescription vmstate_pic_ltim = {
-> +    .name = "i8259/ltim",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = ltim_state_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT8(ltim, PICCommonState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->   static const VMStateDescription vmstate_pic_common = {
->       .name = "i8259",
->       .version_id = 1,
-> @@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
->           VMSTATE_UINT8(single_mode, PICCommonState),
->           VMSTATE_UINT8(elcr, PICCommonState),
->           VMSTATE_END_OF_LIST()
-> +    },
-> +    .subsections = (const VMStateDescription*[]) {
-
-Checkpatch will nag about it claiming that we need spaces between '*'. The maintainer
-can fix it in-tree though.
-
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-> +        &vmstate_pic_ltim,
-> +        NULL
->       }
->   };
+>   hw/isa/vt82c686.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index f4c40965cd..01e0148967 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -598,15 +598,23 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
+>       qemu_set_irq(s->isa_irqs_in[n], level);
+>   }
 >   
-> diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
-> index 155b098452..f9dcc4163e 100644
-> --- a/include/hw/isa/i8259_internal.h
-> +++ b/include/hw/isa/i8259_internal.h
-> @@ -61,6 +61,7 @@ struct PICCommonState {
->       uint8_t single_mode; /* true if slave pic is not initialized */
->       uint8_t elcr; /* PIIX edge/trigger selection*/
->       uint8_t elcr_mask;
-> +    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
->       qemu_irq int_out[1];
->       uint32_t master; /* reflects /SP input pin */
->       uint32_t iobase;
+> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+> +{
+> +    ViaISAState *s = opaque;
+> +    qemu_set_irq(s->cpu_intr, level);
+> +}
+> +
+>   static void via_isa_realize(PCIDevice *d, Error **errp)
+>   {
+>       ViaISAState *s = VIA_ISA(d);
+>       DeviceState *dev = DEVICE(d);
+>       PCIBus *pci_bus = pci_get_bus(d);
+> +    qemu_irq *isa_irq;
+>       ISABus *isa_bus;
+>       int i;
+>   
+>       qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+>       isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
+>                             errp);
+>   
+> @@ -614,7 +622,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>           return;
+>       }
+>   
+> -    s->isa_irqs_in = i8259_init(isa_bus, s->cpu_intr);
+> +    s->isa_irqs_in = i8259_init(isa_bus, *isa_irq);
+>       isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
+>       i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>       i8257_dma_init(isa_bus, 0);
 
