@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C35F6AF743
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1276AF744
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:11:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZeZu-0008F8-Fr; Tue, 07 Mar 2023 16:10:34 -0500
+	id 1pZeZv-0008Mf-Q1; Tue, 07 Mar 2023 16:10:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZeZh-0008AL-Vj
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:10:22 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZeZm-0008Gm-SZ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:10:29 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZeZc-0004bD-Iw
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:10:17 -0500
-Received: by mail-wr1-x433.google.com with SMTP id bw19so13457235wrb.13
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:10:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZeZk-0004ia-Gv
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:10:25 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so8046267wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:10:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678223415;
+ d=linaro.org; s=google; t=1678223423;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EkkB333YZvUy2IaSBtkIRn45qlW7wK0pjNEcMzwLsXg=;
- b=uYWsK4QZJruFoZGaGFHiRXIbaRnEsjtyjC0penxgTYXfKDbicy5DMzo9LTtSQWqJlZ
- Qoc7bmoLJsQhFkLJTtIznleomkbmcC7a0KVdaf3XueeyvvJcJvUb9aiBIT9OWRhe5pv0
- VZv9gDivYbQJi/awkYup9fYc1dLUCyVgv0SKSiJlkq40QsoFtYoPNspzydTW3D+6+0b6
- gvb8FhLPPd9Pf9H8zSUp267rwGglxKrx7+Qx33pnXGHKtGmEld3kV7HmWH3aWUplgSRo
- Jkx3iDwlV1zqjrs1w/7egsCMGKdGf6nwYHTOdP/14RTjfXAE7ssNwfGy6tbscK7Idb1o
- fjeA==
+ bh=YCV5LOyTGgtdFU+4CWvcWi585a8IvRRksARVtWjnWmg=;
+ b=UmbMv2R7Ahy/0wo//L3Ub1jCL/J1rQnc1lG6xIUNdceM/IfHQ1W+LMF1IkaMkCmH1K
+ /DaZ7oGoWjk2lLVICJ3HT1Z/Qq3322+9o/LgBTi1Se+OP2kaG4/aoJyioe/z5lDd5umB
+ f7MHK2M401toOvzV08bSIKAYka40GoiKQ4cP8u5nnJEu3v8kSJbaToeqCeaWTM39PD7g
+ jNbD6W96PbRY8nI9LuWE8XDsX5oV+ieD7ODkMQkDNdMArppnRhGykJWFnyv0NNEpKTn9
+ y8kALfkImyp3UOtRY7wNanCZcW+OfQCIwovcqFlU6OogiiKUYvoX0p9F9xpwXjhV5b4S
+ tGmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678223415;
+ d=1e100.net; s=20210112; t=1678223423;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EkkB333YZvUy2IaSBtkIRn45qlW7wK0pjNEcMzwLsXg=;
- b=2LAIkC6i1hhoK7ImoJOXULqpNdmQ+XCS6YBoh3U4yhieAwQXIp4Cfip7SxqkHnpjGP
- STKMDWkBWi4/iErseJIolowTrALHBFa7ZvPWgqp3Yys24SBLmWUzylv0fsuOF7LEpz8t
- mE5YxGd/3s3u4gLtShTbqrwoCHW9bSjZS/FyXid/nMmo/zLpXMPauR7I7AkGoP0BBLzI
- f8BEfgZwLsgT69xX4TeTYmEN4pnKhfNh4Ei0g5ig0CfLaoOgRxeZDoo5OcnmR/Ng/YRx
- IoiaEb8vkiM/x/XhgZ75/ba9fgaLVl++3pfq2UB+ZQ4r2K4Rbg+LLTVDTQsjDoofeZOk
- zhVg==
-X-Gm-Message-State: AO0yUKUd7+Oy0awA216Q7PSDOGrqG8ecW+GjO43oyF/GCe2NDmN6zS1N
- J1ux3x28ktP1DtRe5mogkj1qVg==
-X-Google-Smtp-Source: AK7set/dphL/hzhwZO6TlzD72Y+pDSHtUPlm+rpp3hTOFuRXqoy0jkCI2x32Nj3PAdYn1geIBZSW4w==
-X-Received: by 2002:adf:eec2:0:b0:2c5:9c7a:866 with SMTP id
- a2-20020adfeec2000000b002c59c7a0866mr11229574wrp.51.1678223415004; 
- Tue, 07 Mar 2023 13:10:15 -0800 (PST)
+ bh=YCV5LOyTGgtdFU+4CWvcWi585a8IvRRksARVtWjnWmg=;
+ b=uLOgG0PGxszWN+bocGfZ7xPiyfI9hOEbmoMpNKHus5FNIWnK+Qho3CGCu5Wewajc+i
+ yorcUqh9F2tHVJoSESesM4hWEJrgrQoWd5hFqV9xfCFDgBhx/b2B1dMDUKPOFZhoXoCE
+ ssSf0mL3GPCO7SjDD5Z08+KA6DRETAqb4yshDQVPEym9JaWgTzU0tiElBSQoJ2yPNf9P
+ 09jgapB49/ufE1rT7eR0bEybJgkYNwqi5pprbRyiIJPiFT402oUKJz6nD29BcylupOl8
+ 5YpWI/218DbjucQ8K1Rw5N/WqN3d10Dm74PpSMQ0yJWTiH4B6lzj852PQ2zo4G1JvL7E
+ 8nKA==
+X-Gm-Message-State: AO0yUKWJtzj9MjYjKze8shuyH3tIUU6T0IadHUQ4r9rfDpUmgKCDR2Qh
+ 3MaHV83vbOszutBvcX1gtq2qfg==
+X-Google-Smtp-Source: AK7set8wp8f9j7OUfoKzkuiFmYNz9d9olNCl9pKaztX6oTDciKI2MOEhptAjH3nqP5VbZLaz4FaGKA==
+X-Received: by 2002:a05:600c:470c:b0:3ea:f710:bdad with SMTP id
+ v12-20020a05600c470c00b003eaf710bdadmr13958543wmo.29.1678223423106; 
+ Tue, 07 Mar 2023 13:10:23 -0800 (PST)
 Received: from [192.168.1.115] (126.red-88-28-13.dynamicip.rima-tde.net.
  [88.28.13.126]) by smtp.gmail.com with ESMTPSA id
- c16-20020a5d4cd0000000b002be0b1e556esm13331947wrt.59.2023.03.07.13.10.13
+ j40-20020a05600c1c2800b003dd1bd0b915sm19515162wms.22.2023.03.07.13.10.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 13:10:14 -0800 (PST)
-Message-ID: <384fa57d-9bb8-f045-e019-563dffa75b59@linaro.org>
-Date: Tue, 7 Mar 2023 22:10:12 +0100
+ Tue, 07 Mar 2023 13:10:22 -0800 (PST)
+Message-ID: <83cb9ac3-717a-0690-f28d-5f9fc74521b9@linaro.org>
+Date: Tue, 7 Mar 2023 22:10:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/3] block: make BlockBackend->quiesce_counter atomic
+Subject: Re: [PATCH v2 2/3] block: make BlockBackend->disable_request_queuing
+ atomic
 Content-Language: en-US
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20230307210427.269214-1-stefanha@redhat.com>
- <20230307210427.269214-2-stefanha@redhat.com>
+ <20230307210427.269214-3-stefanha@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307210427.269214-2-stefanha@redhat.com>
+In-Reply-To: <20230307210427.269214-3-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,26 +97,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 7/3/23 22:04, Stefan Hajnoczi wrote:
-> The main loop thread increments/decrements BlockBackend->quiesce_counter
-> when drained sections begin/end. The counter is read in the I/O code
-> path. Therefore this field is used to communicate between threads
-> without a lock.
-> 
-> Acquire/release are not necessary because the BlockBackend->in_flight
-> counter already uses sequentially consistent accesses and running I/O
-> requests hold that counter when blk_wait_while_drained() is called.
-> qatomic_read() can be used.
-> 
-> Use qatomic_fetch_inc()/qatomic_fetch_dec() for modifications even
-> though sequentially consistent atomic accesses are not strictly required
-> here. They are, however, nicer to read than multiple calls to
-> qatomic_read() and qatomic_set(). Since beginning and ending drain is
-> not a hot path the extra cost doesn't matter.
+> This field is accessed by multiple threads without a lock. Use explicit
+> qatomic_read()/qatomic_set() calls. There is no need for acquire/release
+> because blk_set_disable_request_queuing() doesn't provide any
+> guarantees (it helps that it's used at BlockBackend creation time and
+> not when there is I/O in flight).
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
 > ---
->   block/block-backend.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>   block/block-backend.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
