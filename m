@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD4F6AE677
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A516AE69A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:32:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZaBY-0000KT-Ab; Tue, 07 Mar 2023 11:29:08 -0500
+	id 1pZaDo-0002WG-9Y; Tue, 07 Mar 2023 11:31:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZaBW-0000Jm-Ho
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:29:06 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pZaDl-0002V3-Pb
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:31:25 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZaBV-0000ab-0i
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:29:06 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id h14so12740500wru.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:29:04 -0800 (PST)
+ id 1pZaDk-0001Fd-01
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:31:25 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso7595953wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:31:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678206543;
+ d=gmail.com; s=20210112; t=1678206682;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=c8ddAlTHBUNSR2bNxJW07ioEGpTXoCqR+vwpPP+MbAw=;
- b=jqfLFA4Eo6KW+dzLA5mmFko9S+yhbN343Pj5B74cM5z3miV7pc4udKzMR+7c7t1CxJ
- NcyjUzXsl81EnbHGKnrJjDm/xXczws69lR04kgxH0clbrxAYNOYmN/Pl8/MwGikdoty0
- agymsT/GGuZjPCg5bjqwi2VLyr5w5IadNkbggqXQjXk4mKleQz7zbCLRC6bDN2chaDVF
- m19Z4LlmTA2w7ekPlSIuaciV6SOJ+2sAZTM8pZ3NQJwXz3fN0+/WikqBfhyghQRdKET8
- E4OQPiWX7qMFk5vz0nKXDFBQ9AoFnJ9O4pRtbTnvQJngXkug/Q3NmzpUH15s4Zvw3DOJ
- PMBw==
+ bh=l8PPHIiqZxa3L0uXzrMAf95TuF6VyLOpGaQVqR/kzng=;
+ b=ShQTB23gTN45msD948o2BBk8KBe9YJifn3GhToqW84Qu3D3E4HeaiuXZHrLlw6SUe3
+ H/02Y9dOtBR4N5EQVyG2n9ipP1U/PdYU70K+Id9NNOSczAKuob3DJ9edC0o+IxhnupfS
+ 8DUJKJ/lhOBY0h+bRKeab7TzwljNwXDLNb5RyK6F3ECP4JzTG8/ZEaJazUJ9F59iB0Tx
+ VmyEJCsfLK0AfWhbm/B0zdboBomQDvpfqiZNQYTEmBm9hDcGBLeS5r/GBB6G7gp7510M
+ ZDN9NdLVjtbK9R9h9xlv+wjz2KmmZ/fq4MMDNvEjy41LwLd75ag0aPuvA70k/xB3uUqo
+ yzhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678206543;
+ d=1e100.net; s=20210112; t=1678206682;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c8ddAlTHBUNSR2bNxJW07ioEGpTXoCqR+vwpPP+MbAw=;
- b=d5hgaOcB8xjnymffh0ZvHA+fLdbH0sa+fpgn4wh+6jmRHQfez9si9v7pe/r4M/xvLj
- V0NOv/7O8zewrZdhfcwXh+XanSvVZd2GCZsBmJ2jmzpzMKSnZyvGUMJ/BIkqJ5D6onQd
- oC5I7VCRIFGmnejmd34FBTO++ncobLUX9bwNiPEVviAG4+WtAd2SABTxrBGCoPuqf0Px
- s1y4s6d0NPU4dwypV4nJR7sD9PzSHZANnc/Hour8URgJCAOhlUL7MjJh/k7XulZsnkT9
- 3TnubctEilQJ/zs8JE5ME3jZk7xeHmo6EG7RcLbAyA36ptFIaipGa+ZFDW56+6CpLfkL
- qzKw==
-X-Gm-Message-State: AO0yUKVJlUECrVjEI/zIAMGzECLcQgnKaODJIxhkK/OIK8dVqBpcnTZx
- SSPrbbMiO146ScumGgxeBzY=
-X-Google-Smtp-Source: AK7set+Uykg24wX57cV5HATWYP9Pi3m1/igUgMzlaXoDtRCqnCQ049TPB17XBWPfdk0NGL4xtLeN5w==
-X-Received: by 2002:a5d:5548:0:b0:2c7:2cf4:baff with SMTP id
- g8-20020a5d5548000000b002c72cf4baffmr10862293wrw.70.1678206543496; 
- Tue, 07 Mar 2023 08:29:03 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ bh=l8PPHIiqZxa3L0uXzrMAf95TuF6VyLOpGaQVqR/kzng=;
+ b=aEnXAoDEbZteLgU22M2IruAAiRHxzKbg77l9X34r/8FXVwZjxUhhdPzBwM1J9CZ4hi
+ oG8RHkPfrXH148BCPpPMy9osfgYXHc8Kyl8kBvb+zXq8qEZEVW/u6U0iSs651uzXPd1q
+ UdNHcNUutyVMwITntVbQ0zZjY+Jqi5l0CFzGq3XWH4Gd0Yh8nE2uucc71UYbzE0rLzNX
+ aPpcyQDEm1fX+X38ytdwWRdYTkn1CRikfG+QLIl3c36Y0CAc7diAZa2wPcLgKbMGUUaQ
+ bKq2o5dHtPyWcSKuAYazuXP0dt9uu61o1XLaCDoXQiv0P0YAzn75MOeoaBAW0u2iLshV
+ uDdQ==
+X-Gm-Message-State: AO0yUKWIUbmvGc1YK7v6PIsSSQiWUPhysZWuwZV+Jpb17ehTtL8dUGC7
+ UHOym9pQvVPFHFMRx85Pd5A=
+X-Google-Smtp-Source: AK7set9YFZieeppgaH6M5VkSwbWJwsbmNo2aCJV0mrnxq2RJI0LIPvzDXyCZPWYdggIvhWNebxOjaw==
+X-Received: by 2002:a05:600c:4fc2:b0:3eb:37ce:4c3e with SMTP id
+ o2-20020a05600c4fc200b003eb37ce4c3emr13739027wmq.16.1678206682265; 
+ Tue, 07 Mar 2023 08:31:22 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a5d63c2000000b002c8ed82c56csm13295109wrw.116.2023.03.07.08.29.02
+ j21-20020a05600c075500b003e0238d9101sm13175109wmn.31.2023.03.07.08.31.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 08:29:03 -0800 (PST)
+ Tue, 07 Mar 2023 08:31:21 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <8354e562-bbe5-d239-27a8-ed26bf537d5a@xen.org>
-Date: Tue, 7 Mar 2023 16:29:01 +0000
+Message-ID: <3a32f2e4-b45f-ed78-3f0b-acc7050488d5@xen.org>
+Date: Tue, 7 Mar 2023 16:31:20 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 24/25] hw/xen: Implement soft reset for emulated
- gnttab
+Subject: Re: [RFC PATCH v1 25/25] i386/xen: Initialize Xen backends from
+ pc_basic_device_init() for emulation
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -73,13 +74,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-25-dwmw2@infradead.org>
+ <20230302153435.1170111-26-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230302153435.1170111-25-dwmw2@infradead.org>
+In-Reply-To: <20230302153435.1170111-26-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,20 +107,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 02/03/2023 15:34, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> This is only part of it; we will also need to get the PV back end drivers
-> to tear down their own mappings (or do it for them, but they kind of need
-> to stop using the pointers too).
+> Now that all the work is done to enable the PV backends to work without
+> actual Xen, instantiate the bus from pc_basic_device_init() for emulated
+> mode.
 > 
-> Some more work on the actual PV back ends and xen-bus code is going to be
-> needed to really make soft reset and migration fully functional, and this
-> part is the basis for that.
+> This allows us finally to launch an emulated Xen guest with PV disk.
+> 
+>     qemu-system-x86_64 -serial mon:stdio -M q35 -cpu host -display none \
+>       -m 1G -smp 2 -accel kvm,xen-version=0x4000a,kernel-irqchip=split \
+>       -kernel bzImage -append "console=ttyS0 root=/dev/xvda1" \
+>       -drive file=/var/lib/libvirt/images/fedora28.qcow2,if=none,id=disk \
+>       -device xen-disk,drive=disk,vdev=xvda
+> 
+> If we use -M pc instead of q35, we can even add an IDE disk and boot a
+> guest image normally through grub. But q35 gives us AHCI and that isn't
+> unplugged by the Xen magic, so the guests ends up seeing "both" disks.
 > 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/i386/kvm/xen_gnttab.c  | 26 ++++++++++++++++++++++++--
->   hw/i386/kvm/xen_gnttab.h  |  1 +
->   target/i386/kvm/xen-emu.c |  5 +++++
->   3 files changed, 30 insertions(+), 2 deletions(-)
+>   hw/i386/pc.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
