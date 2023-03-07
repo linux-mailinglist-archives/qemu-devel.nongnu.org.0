@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16636AE89F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:17:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AF06AE8A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:18:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZawF-0001cA-BO; Tue, 07 Mar 2023 12:17:23 -0500
+	id 1pZawP-0001da-20; Tue, 07 Mar 2023 12:17:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZawB-0001bj-Aq
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:17:21 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pZawM-0001cr-C5
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:17:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZaw6-0007LQ-Nw
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:17:16 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pZawK-0007N8-O6
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:17:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678209433;
+ s=mimecast20190719; t=1678209448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ER4qvU4Y4hq6DSBzg/vtM7MEQGEsZEw+3ZjDKD+BOc=;
- b=YeOG8f4ZYEB6LIYyhIQrvIAQrSFRQwdIrBRXQC8JTFlHXjEbwuXGmI+RsFWfqPSIoEOuWz
- q8k7vml8jK5xy8II51uFa3EPnFiXGUgBRMvbuACGraAJ3VcXfgIyj02kVJnBo+AAbdQY5R
- Rmw5SVvee7FTHHjOc8lbXshL0aIcNwk=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-Lx56OtkoP2Ca9fiNd8s-zA-1; Tue, 07 Mar 2023 12:17:10 -0500
-X-MC-Unique: Lx56OtkoP2Ca9fiNd8s-zA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- jh21-20020a0562141fd500b0053c23b938a0so7813556qvb.17
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:17:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678209428;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+ER4qvU4Y4hq6DSBzg/vtM7MEQGEsZEw+3ZjDKD+BOc=;
- b=0vcCVbimu06FrKzmhhCXpIz2s3daA227eWbkVr7WFuwm5qxmPwfSRBe9BcgZ1+ArQ3
- 32OvmaIox+PrWiyLVKtgDUYktJzJ3j7PDb5UHbSfcI3OimrnFFaLqEmRAlppXYVXCOiY
- ZjaphpKhDZ6uQ9CCIS7S9dZVFkGKAYHjKizxOaquCZcc8S3isuTE+mR+1v+nGW+goZRm
- aPv2NfoNbQCPqbvb//Y3N6I0v1qSJf/ki/JM3LMuWJYylSKco5Z3EDSLjqlnpqAoDqgA
- 4kDIQuxEZb8msWWGk0lUAwblDyX08C+khCcb0CFVCDg1pfiWC7JObdwMOeDQAx8fco9Z
- X39Q==
-X-Gm-Message-State: AO0yUKVD0HXhP6W4hOhpEsflalkNIAB/7/3OYCUbz7mz0oXLFxPw29+K
- VeOhVEzgDz3IPo9msL44/7HxkPzbGXAiWusRnvq3dEGzrit6/s4G1V4tlI8YHVHSoTEM2i5Rbz4
- ZCOGt0rLAMf/TJ0Q=
-X-Received: by 2002:a05:6214:250d:b0:56e:ab08:670d with SMTP id
- gf13-20020a056214250d00b0056eab08670dmr26624194qvb.42.1678209428467; 
- Tue, 07 Mar 2023 09:17:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set8YoSQd8vTBvwSN1q9nsRHoDPo7f5rdYX5DEDZVtqQiSKm2te4+86g3XVKjGbdZ0la90IBqpQ==
-X-Received: by 2002:a05:6214:250d:b0:56e:ab08:670d with SMTP id
- gf13-20020a056214250d00b0056eab08670dmr26624160qvb.42.1678209428132; 
- Tue, 07 Mar 2023 09:17:08 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
- by smtp.gmail.com with ESMTPSA id
- f8-20020a05620a280800b0074269db4699sm9955804qkp.46.2023.03.07.09.17.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 09:17:07 -0800 (PST)
-Message-ID: <5d527fcb-6b66-226b-e5ff-a5814c8f5d7a@redhat.com>
-Date: Tue, 7 Mar 2023 18:17:00 +0100
+ bh=sRrosd99JiWrFqzZKPL2kqhEm/oz2BqdFsRR8BMO8ug=;
+ b=ivOjOFRKJyBB0MxAKUZ8x7POrGF48vnDPL7YtmbTLQQlCaM+9jA/5Us3N5rw3/nHMnEP0T
+ oDpz47bN483xPbaMLJONm++97VwGUdAXYaToo62ygob5taOcATV0FGG2978knSJ1GFeTgT
+ 3yt3oyzgJpXN69vTqx1NeKftYYp2Ru0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-634-cdsFPBMCNgeKVMdVQh2PxA-1; Tue, 07 Mar 2023 12:17:26 -0500
+X-MC-Unique: cdsFPBMCNgeKVMdVQh2PxA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E1213C0F227;
+ Tue,  7 Mar 2023 17:17:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D5FCC492B00;
+ Tue,  7 Mar 2023 17:17:23 +0000 (UTC)
+Date: Tue, 7 Mar 2023 18:17:22 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 1/6] block: don't acquire AioContext lock in
+ bdrv_drain_all()
+Message-ID: <ZAdxog0T8XkSSUZd@redhat.com>
+References: <20230301205801.2453491-1-stefanha@redhat.com>
+ <20230301205801.2453491-2-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] vfio/migration: Rename entry points
-Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-Cc: yishaih@nvidia.com, jgg@nvidia.com, joao.m.martins@oracle.com,
- avihaih@nvidia.com
-References: <167820819129.603802.2574672058630378188.stgit@omen>
- <167820912978.606734.12740287349119694623.stgit@omen>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <167820912978.606734.12740287349119694623.stgit@omen>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301205801.2453491-2-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,140 +81,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 18:13, Alex Williamson wrote:
-> Pick names that align with the section drivers should use them from,
-> avoiding the confusion of calling a _finalize() function from _exit()
-> and generalizing the actual _finalize() to handle removing the viommu
-> blocker.
+Am 01.03.2023 um 21:57 hat Stefan Hajnoczi geschrieben:
+> There is no need for the AioContext lock in bdrv_drain_all() because
+> nothing in AIO_WAIT_WHILE() needs the lock and the condition is atomic.
 > 
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> ---
-> 
-> v2: ...but there's already a vfio_migration_exit(), it should really
->      just be inlined, but for minimally invasive change, just rename to
->      vfio_migration_free().
+> Note that the NULL AioContext argument to AIO_WAIT_WHILE() is odd. In
+> the future it can be removed.
 
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
+It can be removed for all callers that run in the main loop context. For
+code running in an iothread, it's still important to pass a non-NULL
+context. This makes me doubt that the ctx parameter can really be
+removed without changing more.
 
-Thanks,
+Is your plan to remove the if from AIO_WAIT_WHILE_INTERNAL(), too, and
+to poll qemu_get_current_aio_context() instead of ctx_ or the main
+context?
 
-C.
+> There is an assertion in
+> AIO_WAIT_WHILE() that checks that we're in the main loop AioContext and
+> we would lose that check by dropping the argument. However, that was a
+> precursor to the GLOBAL_STATE_CODE()/IO_CODE() macros and is now a
+> duplicate check. So I think we won't lose much by dropping it, but let's
+> do a few more AIO_WAIT_WHILE_UNLOCKED() coversions of this sort to
+> confirm this is the case.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-> 
->   hw/vfio/common.c              |    2 +-
->   hw/vfio/migration.c           |    8 ++++----
->   hw/vfio/pci.c                 |    6 +++---
->   include/hw/vfio/vfio-common.h |    6 +++---
->   4 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 2b9bcf70aa36..dddd7a8e40f8 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -447,7 +447,7 @@ int vfio_block_giommu_migration(Error **errp)
->       return ret;
->   }
->   
-> -void vfio_unblock_giommu_migration(void)
-> +void vfio_migration_finalize(void)
->   {
->       if (!giommu_migration_blocker ||
->           vfio_viommu_preset()) {
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 5d1e66f69194..1a1a8659c859 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -521,7 +521,7 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
->       }
->   }
->   
-> -static void vfio_migration_exit(VFIODevice *vbasedev)
-> +static void vfio_migration_free(VFIODevice *vbasedev)
->   {
->       g_free(vbasedev->migration);
->       vbasedev->migration = NULL;
-> @@ -631,7 +631,7 @@ int64_t vfio_mig_bytes_transferred(void)
->       return bytes_transferred;
->   }
->   
-> -int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-> +int vfio_migration_realize(VFIODevice *vbasedev, Error **errp)
->   {
->       int ret = -ENOTSUP;
->   
-> @@ -669,7 +669,7 @@ add_blocker:
->       return ret;
->   }
->   
-> -void vfio_migration_finalize(VFIODevice *vbasedev)
-> +void vfio_migration_exit(VFIODevice *vbasedev)
->   {
->       if (vbasedev->migration) {
->           VFIOMigration *migration = vbasedev->migration;
-> @@ -677,7 +677,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
->           remove_migration_state_change_notifier(&migration->migration_state);
->           qemu_del_vm_change_state_handler(migration->vm_state);
->           unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
-> -        vfio_migration_exit(vbasedev);
-> +        vfio_migration_free(vbasedev);
->           vfio_unblock_multiple_devices_migration();
->       }
->   
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 30a271eab38c..ec9a854361ac 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3145,7 +3145,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->       }
->   
->       if (!pdev->failover_pair_id) {
-> -        ret = vfio_migration_probe(vbasedev, errp);
-> +        ret = vfio_migration_realize(vbasedev, errp);
->           if (ret) {
->               error_report("%s: Migration disabled", vbasedev->name);
->           }
-> @@ -3185,7 +3185,7 @@ static void vfio_instance_finalize(Object *obj)
->        */
->       vfio_put_device(vdev);
->       vfio_put_group(group);
-> -    vfio_unblock_giommu_migration();
-> +    vfio_migration_finalize();
->   }
->   
->   static void vfio_exitfn(PCIDevice *pdev)
-> @@ -3204,7 +3204,7 @@ static void vfio_exitfn(PCIDevice *pdev)
->       }
->       vfio_teardown_msi(vdev);
->       vfio_bars_exit(vdev);
-> -    vfio_migration_finalize(&vdev->vbasedev);
-> +    vfio_migration_exit(&vdev->vbasedev);
->   }
->   
->   static void vfio_pci_reset(DeviceState *dev)
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 009bec34c4bc..eed244f25f34 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -223,7 +223,6 @@ bool vfio_mig_active(void);
->   int vfio_block_multiple_devices_migration(Error **errp);
->   void vfio_unblock_multiple_devices_migration(void);
->   int vfio_block_giommu_migration(Error **errp);
-> -void vfio_unblock_giommu_migration(void);
->   int64_t vfio_mig_bytes_transferred(void);
->   
->   #ifdef CONFIG_LINUX
-> @@ -247,7 +246,8 @@ int vfio_spapr_create_window(VFIOContainer *container,
->   int vfio_spapr_remove_window(VFIOContainer *container,
->                                hwaddr offset_within_address_space);
->   
-> -int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
-> -void vfio_migration_finalize(VFIODevice *vbasedev);
-> +int vfio_migration_realize(VFIODevice *vbasedev, Error **errp);
-> +void vfio_migration_exit(VFIODevice *vbasedev);
-> +void vfio_migration_finalize(void);
->   
->   #endif /* HW_VFIO_VFIO_COMMON_H */
-> 
-> 
+Yes, it seems that we don't lose much, except maybe some consistency in
+the intermediate state. The commit message could state a bit more
+directly what we gain, though. Since you mention removing the parameter
+as a future possibility, I assume that's the goal with it, but I
+wouldn't be sure just from reading the commit message.
+
+Kevin
 
 
