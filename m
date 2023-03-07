@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D8A6AF6CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDC66AF6D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 21:39:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZe4K-0001di-VW; Tue, 07 Mar 2023 15:37:56 -0500
+	id 1pZe5W-0003vm-MP; Tue, 07 Mar 2023 15:39:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe4I-0001ao-Hu
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:37:54 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe5U-0003vM-UF
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:39:08 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe4G-0004RD-OS
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:37:54 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j2so13395639wrh.9
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:37:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZe5T-0004ZQ-D2
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 15:39:08 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso8023731wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 12:39:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678221471;
+ d=linaro.org; s=google; t=1678221546;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rQCYV4Ql1Re39uGZ/jkhiRQWtiscq6iKZGb+ImDYu7Q=;
- b=KWkeUzhvfYMA0IXBKdhz57Nss4CzPLEwNf4tuFVZ95T5hfq1NdWkw4nq6MKzQ9jvQC
- +y3/O5DtuYWxTHewaDP5/1Zr3RSqo7U/xQskvHFEF1hbXVz5tdFqCy0pTtLvowEE5LO5
- fik9xWpLhHTPZdNsQam0SJa4K/4Dijr7PtizKFcM4QuJQV3z1Ck3Y8IFWh+f0p3sGSRb
- 1GTokFVWieCehTFaKkpn2ngB5s+32wg2VKjv7WqtZ8hy86mJvjnRYdgRhn5zNLGPZuWY
- 7Nd9oGXtuEyok/sJR7q669imzPJFWJS6Dexu/yOS5cf2dlDNdWa0yln0iZb4s1xrC6AV
- P+pg==
+ bh=a/rqsVMNuJupCpEyswfSq/qV9BebDB5LoWl72JHZFyk=;
+ b=at7n2+dUMczbyJaPjqYxSwcOqXVhpCU1/Q+PTucoqTl4QoYzxHgLBXxflJnOuUclYk
+ 7F3HCu47aP8DvDzA1f49D86pljvfc9Vh7nK0MFjOEv04QfPZvb1WKFjPBDWFJ1DdG/hs
+ MqC/Ekgt2pHMHCePBYw99PB2VWOJhl29ZfdPoSqBcyCNetctsw3CiOA0SJbPpq1HedJI
+ TIqmFUTEJ9V+FNNnQgXwkaiGhuGz7gFXEVQ9eFYJzl2TLaf5vnfWXecYP1CegTmj8xlr
+ fB6q2hp30KIx8/98H0ZXXpN1TLI6b3Jt909X+1HjR4vb39JuPDdTadZOBgY2TgPoMYSH
+ VqWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678221471;
+ d=1e100.net; s=20210112; t=1678221546;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rQCYV4Ql1Re39uGZ/jkhiRQWtiscq6iKZGb+ImDYu7Q=;
- b=tUq3vqeC5jVJFLyQyU+A6Uf5SbZmQPVimbmswAX4qqCW9B4btcEIlEd+xb8wStAPMe
- 6XPdN4FjcyKMM5EzDl92uuOPwffWHAw4tyMuz1bbg9rox6klZOcnGX9n7Eg2aK21FhC9
- LqxR2l4ddkC5SAYOUIbCdi2kke3YOatZjYKiNYBB7ucN75q4sAqbQtxhtFMsUcbaTgYg
- R9p+9FNR5SewEHgH1NFc4YZ62PqWSw4tlGgAZJl69djDso+8+I+07ayY8DYUTJF9gKU3
- 4JiBbSQXfNakGiP2K3LHb9SP9diqQUs7vGW9SuTgK94w1H4hZnkh1bT4qilWXHs+MsHa
- /iBQ==
-X-Gm-Message-State: AO0yUKW8uZTEI+9Y1yQPJ5UafsUQeDZdGiQIG9LvmVg1NzIcVy1i8FfZ
- qSqjLHHtkTl0d0VciRarbGFBFg==
-X-Google-Smtp-Source: AK7set9res6n7CfRECrhw/8riALDYGZa98bYlelzDf5UTBODH+1feJY9FGPHkYofNWceS+XsS5MySw==
-X-Received: by 2002:a5d:6789:0:b0:2c8:dc70:ab13 with SMTP id
- v9-20020a5d6789000000b002c8dc70ab13mr10482075wru.18.1678221471324; 
- Tue, 07 Mar 2023 12:37:51 -0800 (PST)
+ bh=a/rqsVMNuJupCpEyswfSq/qV9BebDB5LoWl72JHZFyk=;
+ b=HsWmBSdxII2wpPLXrGtGs6Fk6hhXJO2WSI0BWM5kdDn+E8XlN3Wvt61IJku4b+9SUG
+ 4uqYoCp1y/JRZDLwbdbnZYqWtImsRRPdxB+ycBh27yYUIrUeSS5Lko1+L3rQdK6rGlr0
+ 48fZak2DPsBYRswnl2iZZhhctcIr74lF7/zYR2c3zkdKijBwgFeNgdds8Xi/RT4zt+rn
+ 8w2tmZBSFRTkTDAOozf3Jd6io/i7nZY5gmFLkUqPN4n8O8m11qwB0gzU2rGgaHke28bQ
+ 0stYAfUlmmG8yK/yoMEyruAe9Qj2NIYcFBEqJX66Rv8uuGGHA2SIc2Jv72eyxno+bGEo
+ 6SvA==
+X-Gm-Message-State: AO0yUKVfWSRLroS8nYag/Qeo/tZusq5SCnHLtHXbHpt9PHzB3PUTx5dY
+ MCWTMBIq5zzg4PeqJlJ6dhzmSg==
+X-Google-Smtp-Source: AK7set+mN12nK9BsCVmaJszp7DjSQDPhXcpRGPzY3pHlpK5BZUjB10ilG4HBqmkTZJJ2TRLc0Njftg==
+X-Received: by 2002:a05:600c:45d2:b0:3eb:42fa:39d5 with SMTP id
+ s18-20020a05600c45d200b003eb42fa39d5mr14542416wmo.29.1678221546131; 
+ Tue, 07 Mar 2023 12:39:06 -0800 (PST)
 Received: from [192.168.1.115] (126.red-88-28-13.dynamicip.rima-tde.net.
  [88.28.13.126]) by smtp.gmail.com with ESMTPSA id
- p10-20020a5d68ca000000b002c59e001631sm13707173wrw.77.2023.03.07.12.37.49
+ g12-20020a05600c310c00b003dc49e0132asm19592851wmo.1.2023.03.07.12.39.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 12:37:50 -0800 (PST)
-Message-ID: <4181d07d-8b70-ae9c-3926-300e0ae31897@linaro.org>
-Date: Tue, 7 Mar 2023 21:37:48 +0100
+ Tue, 07 Mar 2023 12:39:05 -0800 (PST)
+Message-ID: <297beda7-cc88-778f-1ccd-5725501a7cf3@linaro.org>
+Date: Tue, 7 Mar 2023 21:39:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 4/6] block: convert bdrv_drain_all_begin() to
+Subject: Re: [PATCH 5/6] hmp: convert handle_hmp_command() to
  AIO_WAIT_WHILE_UNLOCKED()
 Content-Language: en-US
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
@@ -68,13 +69,13 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>
 References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-5-stefanha@redhat.com>
+ <20230301205801.2453491-6-stefanha@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230301205801.2453491-5-stefanha@redhat.com>
+In-Reply-To: <20230301205801.2453491-6-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,29 +98,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 21:57, Stefan Hajnoczi wrote:
-> Since the AioContext argument was already NULL, AIO_WAIT_WHILE() was
-> never going to unlock the AioContext. Therefore it is possible to
-> replace AIO_WAIT_WHILE() with AIO_WAIT_WHILE_UNLOCKED().
+On 1/3/23 21:58, Stefan Hajnoczi wrote:
+> The HMP monitor runs in the main loop thread. Calling
+> AIO_WAIT_WHILE(qemu_get_aio_context(), ...) from the main loop thread is
+> equivalent to AIO_WAIT_WHILE_UNLOCKED(NULL, ...) because neither unlocks
+> the AioContext and the latter's assertion that we're in the main loop
+> succeeds.
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   block/io.c | 2 +-
+>   monitor/hmp.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block/io.c b/block/io.c
-> index 8974d46941..db438c7657 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -520,7 +520,7 @@ void bdrv_drain_all_begin(void)
->       bdrv_drain_all_begin_nopoll();
->   
->       /* Now poll the in-flight requests */
-> -    AIO_WAIT_WHILE(NULL, bdrv_drain_all_poll());
-> +    AIO_WAIT_WHILE_UNLOCKED(NULL, bdrv_drain_all_poll());
->   
->       while ((bs = bdrv_next_all_states(bs))) {
->           bdrv_drain_assert_idle(bs);
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
