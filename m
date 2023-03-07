@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4EC6ADDCC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5A06ADDC8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:43:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZViG-000329-NB; Tue, 07 Mar 2023 06:42:36 -0500
+	id 1pZViH-00032W-5m; Tue, 07 Mar 2023 06:42:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZViE-0002zU-5n; Tue, 07 Mar 2023 06:42:34 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ id 1pZViF-00031S-Ew; Tue, 07 Mar 2023 06:42:35 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZViC-00082T-Gb; Tue, 07 Mar 2023 06:42:33 -0500
+ id 1pZViD-00082W-TY; Tue, 07 Mar 2023 06:42:35 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E070A74633D;
- Tue,  7 Mar 2023 12:42:18 +0100 (CET)
+ by localhost (Postfix) with SMTP id D696874635C;
+ Tue,  7 Mar 2023 12:42:19 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B1F92746335; Tue,  7 Mar 2023 12:42:18 +0100 (CET)
-Message-Id: <3f09b2dd109d19851d786047ad5c2ff459c90cd7.1678188711.git.balaton@eik.bme.hu>
+ id B960C746335; Tue,  7 Mar 2023 12:42:19 +0100 (CET)
+Message-Id: <2878ea6ebe4713fe9b8f2ab777b58b5e5f10fe5b.1678188711.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1678188711.git.balaton@eik.bme.hu>
 References: <cover.1678188711.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v9 2/7] hw/intc/i8259: Implement legacy LTIM Edge/Level Bank
- Select
+Subject: [PATCH v9 3/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
+ forwarder"
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -36,17 +36,16 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de, David Woodhouse <dwmw2@infradead.org>,
- Michael S. Tsirkin <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue,  7 Mar 2023 12:42:18 +0100 (CET)
+ ReneEngel80@emailn.de
+Date: Tue,  7 Mar 2023 12:42:19 +0100 (CET)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,132 +61,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw2@infradead.org>
+This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
+keeping the rename of a state field but reverting other cahanges which
+break interrupts on pegasos2.
 
-Back in the mists of time, before EISA came along and required per-pin
-level control in the ELCR register, the i8259 had a single chip-wide
-level-mode control in bit 3 of ICW1.
-
-Even in the PIIX3 datasheet from 1996 this is documented as 'This bit is
-disabled', but apparently MorphOS is using it in the version of the
-i8259 which is in the Pegasos2 board as part of the VT8231 chipset.
-
-It's easy enough to implement, and I think it's harmless enough to do so
-unconditionally.
-
-Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-[balaton: updated commit message as asked by author]
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/intc/i8259.c                 | 10 ++++------
- hw/intc/i8259_common.c          | 24 +++++++++++++++++++++++-
- include/hw/isa/i8259_internal.h |  1 +
- 3 files changed, 28 insertions(+), 7 deletions(-)
+ hw/isa/vt82c686.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 17910f3bcb..bbae2d87f4 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -133,7 +133,7 @@ static void pic_set_irq(void *opaque, int irq, int level)
-     }
- #endif
- 
--    if (s->elcr & mask) {
-+    if (s->ltim || (s->elcr & mask)) {
-         /* level triggered */
-         if (level) {
-             s->irr |= mask;
-@@ -167,7 +167,7 @@ static void pic_intack(PICCommonState *s, int irq)
-         s->isr |= (1 << irq);
-     }
-     /* We don't clear a level sensitive interrupt here */
--    if (!(s->elcr & (1 << irq))) {
-+    if (!s->ltim && !(s->elcr & (1 << irq))) {
-         s->irr &= ~(1 << irq);
-     }
-     pic_update_irq(s);
-@@ -224,6 +224,7 @@ static void pic_reset(DeviceState *dev)
-     PICCommonState *s = PIC_COMMON(dev);
- 
-     s->elcr = 0;
-+    s->ltim = 0;
-     pic_init_reset(s);
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index f4c40965cd..01e0148967 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -598,15 +598,23 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
+     qemu_set_irq(s->isa_irqs_in[n], level);
  }
  
-@@ -243,10 +244,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
-             s->init_state = 1;
-             s->init4 = val & 1;
-             s->single_mode = val & 2;
--            if (val & 0x08) {
--                qemu_log_mask(LOG_UNIMP,
--                              "i8259: level sensitive irq not supported\n");
--            }
-+            s->ltim = val & 8;
-         } else if (val & 0x08) {
-             if (val & 0x04) {
-                 s->poll = 1;
-diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
-index af2e4a2241..c931dc2d07 100644
---- a/hw/intc/i8259_common.c
-+++ b/hw/intc/i8259_common.c
-@@ -51,7 +51,7 @@ void pic_reset_common(PICCommonState *s)
-     s->special_fully_nested_mode = 0;
-     s->init4 = 0;
-     s->single_mode = 0;
--    /* Note: ELCR is not reset */
-+    /* Note: ELCR and LTIM are not reset */
- }
- 
- static int pic_dispatch_pre_save(void *opaque)
-@@ -144,6 +144,24 @@ static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
-                    s->special_fully_nested_mode);
- }
- 
-+static bool ltim_state_needed(void *opaque)
++static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
 +{
-+    PICCommonState *s = PIC_COMMON(opaque);
-+
-+    return !!s->ltim;
++    ViaISAState *s = opaque;
++    qemu_set_irq(s->cpu_intr, level);
 +}
 +
-+static const VMStateDescription vmstate_pic_ltim = {
-+    .name = "i8259/ltim",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = ltim_state_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(ltim, PICCommonState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_pic_common = {
-     .name = "i8259",
-     .version_id = 1,
-@@ -168,6 +186,10 @@ static const VMStateDescription vmstate_pic_common = {
-         VMSTATE_UINT8(single_mode, PICCommonState),
-         VMSTATE_UINT8(elcr, PICCommonState),
-         VMSTATE_END_OF_LIST()
-+    },
-+    .subsections = (const VMStateDescription*[]) {
-+        &vmstate_pic_ltim,
-+        NULL
-     }
- };
+ static void via_isa_realize(PCIDevice *d, Error **errp)
+ {
+     ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     PCIBus *pci_bus = pci_get_bus(d);
++    qemu_irq *isa_irq;
+     ISABus *isa_bus;
+     int i;
  
-diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
-index 155b098452..f9dcc4163e 100644
---- a/include/hw/isa/i8259_internal.h
-+++ b/include/hw/isa/i8259_internal.h
-@@ -61,6 +61,7 @@ struct PICCommonState {
-     uint8_t single_mode; /* true if slave pic is not initialized */
-     uint8_t elcr; /* PIIX edge/trigger selection*/
-     uint8_t elcr_mask;
-+    uint8_t ltim; /* Edge/Level Bank Select (pre-PIIX, chip-wide) */
-     qemu_irq int_out[1];
-     uint32_t master; /* reflects /SP input pin */
-     uint32_t iobase;
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+     isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
+                           errp);
+ 
+@@ -614,7 +622,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+         return;
+     }
+ 
+-    s->isa_irqs_in = i8259_init(isa_bus, s->cpu_intr);
++    s->isa_irqs_in = i8259_init(isa_bus, *isa_irq);
+     isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
 -- 
 2.30.8
 
