@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A3D6AF0D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:37:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2806AF1C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:47:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZc9o-0003qC-DU; Tue, 07 Mar 2023 13:35:28 -0500
+	id 1pZcKE-0008CC-DY; Tue, 07 Mar 2023 13:46:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZc9m-0003p2-KW
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:26 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZc9k-0007nq-UK
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:26 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so17432342pjb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678214124;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XyxL9T8UjZxQ4CAYfGW8p+3sQmOt2OC3gGYPJjY7kcM=;
- b=lB4KlHsonoaXbms8du1y0UkntDeDsFHTwJYemIHSuNZKijdk6JsetMPYsDauhxghv9
- m5e4KJbRvczGt2EMXAujKDCLpJUFTimJhx8uhQaXWoKPbPPvRkYl1mKj7If/7y6D6FMD
- vf4Pa20npeAaWXiBHqH5pNAZxiJ++W/4VUEAbnlClFDySW4aKJTR7lxXeKLpwBTmZGGr
- 0QwOdRG/JU+qa3oGScXylzdCZXQWwBIAqW/8l8AgUItBkiNfXJRxE51Mu99OQT9PuQsQ
- 4bmEkbVeTM4J8jC3QroEZGuf8+wiw0CnpVK+flCheG0kyXIUVDu3K/yO7rc15nXgo7LD
- 1mUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678214124;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XyxL9T8UjZxQ4CAYfGW8p+3sQmOt2OC3gGYPJjY7kcM=;
- b=a8ehRb8r5FwFNqv0J52rKsTmXsFqU1IO4h3HpPLAScC7JvoVeytFAdZ7EolE2IITql
- IUSpV4TuYj1EtjcQgXLbRzIJDtakj14lCMHBMEkrWNvsLTJI3bQ/CeMoNDK5NsHT2fet
- lxpgS4Fi3vGn0OT+oR04uWPKk6WuNdIhzutW2fKnQqsy9FHQWR0fE2ctx0bGJZEBfWMA
- 7HZRjwW6/kn0CP2G6vCW3yH7WHgmgS1voGhprlJKtcnVbV1DYqrHJlDx8kOMriDrhPX2
- d7fHrgAXMFfvyXAUZ+lt4RP1lrijx6hVylRIiewIM3zLoWCWD8eHArJ03xDGeRXyAC4g
- XpCw==
-X-Gm-Message-State: AO0yUKVi6stOcBzClndJJZuLcSy21PupkW8ivo39gXr4wkB3i7x4e/pX
- RQoKj1ZpZQEeQlFFKix74z8aXE9qIqOLypgVJXs=
-X-Google-Smtp-Source: AK7set+nwDvPB8gr6EoQjYMXGeCpKc9iQMBIrorLlTeN5lm60B4MUpzMlV0bmNqeR+buxXM4oqfiqg==
-X-Received: by 2002:a17:90b:3883:b0:230:1acb:191f with SMTP id
- mu3-20020a17090b388300b002301acb191fmr17254853pjb.32.1678214124184; 
- Tue, 07 Mar 2023 10:35:24 -0800 (PST)
-Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
- by smtp.gmail.com with ESMTPSA id
- q1-20020a17090a1b0100b0022c0a05229fsm7757940pjq.41.2023.03.07.10.35.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:35:23 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 25/25] tcg: Drop tcg_const_*
-Date: Tue,  7 Mar 2023 10:35:03 -0800
-Message-Id: <20230307183503.2512684-26-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230307183503.2512684-1-richard.henderson@linaro.org>
-References: <20230307183503.2512684-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZcKB-0008BU-Rn
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:46:11 -0500
+Received: from mout.kundenserver.de ([212.227.126.187])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZcK9-0001D7-UM
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:46:11 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M9nhF-1pcejD31oD-005si7; Tue, 07 Mar 2023 19:45:58 +0100
+Message-ID: <56f36a12-0672-e57f-6a6f-42e074d82611@vivier.eu>
+Date: Tue, 7 Mar 2023 19:45:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user: fix bug about incorrect base addresss of gdt
+ on i386 and x86_64
+Content-Language: fr
+To: fanwj@mail.ustc.edu.cn, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+References: <4172b90.58b08.18631b77860.Coremail.fanwj@mail.ustc.edu.cn>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <4172b90.58b08.18631b77860.Coremail.fanwj@mail.ustc.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:n/q+H1HnhHC8ViVRMwMdwJQldYRNkABMBjVQpklF5QFDgnTvD3o
+ Ba3AyRXcYCngCPD191cJmtq8nAi/zWoOcZ4Rfqh36FmkFoG4MHVDwR7RLFsA/aSAFpNZhXE
+ qFkKm9koO3RL3xs2JAjF+9gG2FGiB4oCEnx02TMofAMuNXK9JhqWdS0/Zosr3uPT3r2RvfZ
+ ro0cZ7GXOPEGb252W0fXg==
+UI-OutboundReport: notjunk:1;M01:P0:6/Rwywv0IoI=;IZB6pD90sKmfL1MxwoNA2sO0UpZ
+ RycfbbxAlqm6cDZD46+khBX2cqskdnfWNqNWHyCBhn0CevZVZ6XdB0XXRjBaHrGiOsqm7HbIc
+ kCEUJcg2xh/kNc5ILfz5ZqJucHKcqIo4GaiHLFCLOPxq3Us+lGgpJNnvSzTKHuSQJ8LEJNCIJ
+ ywwvqxzNqPAQC/9akKVqcznQ0y8NxieqUw8CdId9CiwdwMT6eWkcZ1mjnDOCtSAsuhwBpvZXO
+ cdwZ14Q0jSZ4FCOgAR9RXw47hei14xQF9gJ3SBAxr4NkphOEyfCshlz5gKmIM+BueSceo7U5Q
+ mLIjhycSNr/Rpu780ATyZMaf0HC6B99voOTRhrkobhioHo6Wv3fBLcf+eQfGgLbQ/N/Wf2BEE
+ 14UFiFlSNZfqnEdM3dWjya0Qb+8y3XOPfpQr60+uNfVSHO+2JQvt/VjOgSmd7hlvpjNY7x15c
+ L/JacbKk+geB1WeRjctqOmeEESOMr+iOCZDIZUa3wRjonknHwJtar3zjHyvxX/MLzsWUJSBnX
+ M6wkitZF7cbY8y2enkX1YN0Q9Ah7VZw3qObOHHaG7NntXvfWISBbHz33V9qHfe/WfMGQoDCIo
+ 74r1JwqRGdhwsJdqN8pl/fWiNsBs4pkPeATQBvLfVElPU0lR6G3vrWBp0ylLvnquttIYbSUwx
+ YAPYrN7ypvgui9osRmPf0ggPH81Y4GmQSTngZN/2KQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,94 +72,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These functions are no longer used.
+Le 08/02/2023 à 16:49, fanwj@mail.ustc.edu.cn a écrit :
+> On linux user mode, CPUX86State::gdt::base from Different CPUX86State Objects have same value, It is incorrect! Every CPUX86State::gdt::base Must points to independent memory space.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1405
+> Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
+> ---
+>   linux-user/i386/cpu_loop.c | 9 +++++++++
+>   linux-user/main.c          | 7 +++++++
+>   2 files changed, 16 insertions(+)
+> 
+> diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+> index 865413c..48511cd 100644
+> --- a/linux-user/i386/cpu_loop.c
+> +++ b/linux-user/i386/cpu_loop.c
+> @@ -314,8 +314,17 @@ void cpu_loop(CPUX86State *env)
+>       }
+>   }
+>   
+> +static void target_cpu_free(void *obj)
+> +{
+> +    CPUArchState* env = ((CPUState*)obj)->env_ptr;
+> +    target_munmap(env->gdt.base, sizeof(uint64_t) * TARGET_GDT_ENTRIES);
+> +    g_free(obj);
+> +}
+> +
+>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+>   {
+> +    CPUState* cpu = env_cpu(env);
+> +    OBJECT(cpu)->free = target_cpu_free;
+>       env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
+>       env->hflags |= HF_PE_MASK | HF_CPL_MASK;
+>       if (env->features[FEAT_1_EDX] & CPUID_SSE) {
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index a17fed0..3acd9b4 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -234,6 +234,13 @@ CPUArchState *cpu_copy(CPUArchState *env)
+>   
+>       new_cpu->tcg_cflags = cpu->tcg_cflags;
+>       memcpy(new_env, env, sizeof(CPUArchState));
+> +#if defined(TARGET_I386) || defined(TARGET_X86_64)
+> +    new_env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
+> +                                    PROT_READ|PROT_WRITE,
+> +                                    MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
+> +    memcpy((void*)g2h_untagged(new_env->gdt.base), (void*)g2h_untagged(env->gdt.base), sizeof(uint64_t) * TARGET_GDT_ENTRIES);
+> +    OBJECT(new_cpu)->free = OBJECT(cpu)->free;
+> +#endif
+>   
+>       /* Clone all break/watchpoints.
+>          Note: Once we support ptrace with hw-debug register access, make sure
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg-op.h |  4 ----
- include/tcg/tcg.h    |  6 ------
- tcg/tcg.c            | 16 ----------------
- 3 files changed, 26 deletions(-)
+Applied to my linux-user-for-8.0 branch.
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 70856147c5..dff17c7072 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -1089,9 +1089,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_extract_tl tcg_gen_extract_i64
- #define tcg_gen_sextract_tl tcg_gen_sextract_i64
- #define tcg_gen_extract2_tl tcg_gen_extract2_i64
--#define tcg_const_tl tcg_const_i64
- #define tcg_constant_tl tcg_constant_i64
--#define tcg_const_local_tl tcg_const_local_i64
- #define tcg_gen_movcond_tl tcg_gen_movcond_i64
- #define tcg_gen_add2_tl tcg_gen_add2_i64
- #define tcg_gen_sub2_tl tcg_gen_sub2_i64
-@@ -1205,9 +1203,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_extract_tl tcg_gen_extract_i32
- #define tcg_gen_sextract_tl tcg_gen_sextract_i32
- #define tcg_gen_extract2_tl tcg_gen_extract2_i32
--#define tcg_const_tl tcg_const_i32
- #define tcg_constant_tl tcg_constant_i32
--#define tcg_const_local_tl tcg_const_local_i32
- #define tcg_gen_movcond_tl tcg_gen_movcond_i32
- #define tcg_gen_add2_tl tcg_gen_add2_i32
- #define tcg_gen_sub2_tl tcg_gen_sub2_i32
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index d620012c48..5cfaa53938 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -996,10 +996,6 @@ void tcg_remove_ops_after(TCGOp *op);
- 
- void tcg_optimize(TCGContext *s);
- 
--/* Allocate a new temporary and initialize it with a constant. */
--TCGv_i32 tcg_const_i32(int32_t val);
--TCGv_i64 tcg_const_i64(int64_t val);
--
- /*
-  * Locate or create a read-only temporary that is a constant.
-  * This kind of temporary need not be freed, but for convenience
-@@ -1021,10 +1017,8 @@ TCGv_vec tcg_constant_vec(TCGType type, unsigned vece, int64_t val);
- TCGv_vec tcg_constant_vec_matching(TCGv_vec match, unsigned vece, int64_t val);
- 
- #if UINTPTR_MAX == UINT32_MAX
--# define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i32((intptr_t)(x)))
- # define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i32((intptr_t)(x)))
- #else
--# define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i64((intptr_t)(x)))
- # define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i64((intptr_t)(x)))
- #endif
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index d2993826c8..bb52bc060b 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1445,22 +1445,6 @@ TCGv_vec tcg_constant_vec_matching(TCGv_vec match, unsigned vece, int64_t val)
-     return tcg_constant_vec(t->base_type, vece, val);
- }
- 
--TCGv_i32 tcg_const_i32(int32_t val)
--{
--    TCGv_i32 t0;
--    t0 = tcg_temp_new_i32();
--    tcg_gen_movi_i32(t0, val);
--    return t0;
--}
--
--TCGv_i64 tcg_const_i64(int64_t val)
--{
--    TCGv_i64 t0;
--    t0 = tcg_temp_new_i64();
--    tcg_gen_movi_i64(t0, val);
--    return t0;
--}
--
- /* Return true if OP may appear in the opcode stream.
-    Test the runtime variable that controls each opcode.  */
- bool tcg_op_supported(TCGOpcode op)
--- 
-2.34.1
+Thanks,
+Laurent
 
 
