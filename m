@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8537A6ADE24
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056636ADE26
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:59:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVx5-0004zQ-Hl; Tue, 07 Mar 2023 06:57:55 -0500
+	id 1pZVwx-00043S-V2; Tue, 07 Mar 2023 06:57:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVx2-0004nw-Ij
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:52 -0500
+ id 1pZVwv-0003tY-JU
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:45 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVx1-00038i-7T
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:52 -0500
+ id 1pZVwu-00037q-5j
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678190270;
+ s=mimecast20190719; t=1678190263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U/4V+AvA/fQKPJ8Z8PltJAtGmk5zVH0xY1utFsaz2fw=;
- b=In2bw4vFUgTj3/k0ofw8TQwK6J84e/bFhFKjMRT19RubopKTBSlIpqgeUh6Qesglt1Lw5S
- oiyqMiuJXLDEcLCNhKRhLuQOvhc1G+HQBj0VvH1fzR8nARLScNrC3NSPoRVpDTKU9AYAay
- UVYvlAC3nl3XhEgB1fQnmHX8rfvZbsU=
+ bh=tGh20aFBMd/ysU+6R1OS2Y6iV2bWlbvY0yYLpsHUyYU=;
+ b=iAhoi3vJ0CR590cXy6XwyAW6zTvXErM1HRXaNpffI2KZOdSBmwNxkudyT//xw13IWHv/NO
+ /o5Rrb8WG2WNgk/pLqTGN1ZAAqVruL1rIO8+Ye5oKAVC1WGA1OS5b1VXJ9NO1D/u1f0pwe
+ gX3GKbTh+m31YQ5+QbFldidz4p8thrs=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-mywbVT2dOdGpE-d--tZ5FQ-1; Tue, 07 Mar 2023 06:57:36 -0500
-X-MC-Unique: mywbVT2dOdGpE-d--tZ5FQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-382-uz0S8PTQNW-X9zRGS3GigQ-1; Tue, 07 Mar 2023 06:57:40 -0500
+X-MC-Unique: uz0S8PTQNW-X9zRGS3GigQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1375438221C9;
- Tue,  7 Mar 2023 11:57:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 251EC280A323;
+ Tue,  7 Mar 2023 11:57:40 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DC1B400F8FA;
- Tue,  7 Mar 2023 11:57:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49FC52166B26;
+ Tue,  7 Mar 2023 11:57:38 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,16 +50,15 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 12/18] ui/shader: fix #version directive must occur on
- first line
-Date: Tue,  7 Mar 2023 15:56:31 +0400
-Message-Id: <20230307115637.2464377-13-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 13/18] ui/egl: print EGL error, helping debugging
+Date: Tue,  7 Mar 2023 15:56:32 +0400
+Message-Id: <20230307115637.2464377-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -87,42 +86,100 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-ANGLE fails to compile shaders otherwise.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/shader/texture-blit-flip.vert | 1 -
- ui/shader/texture-blit.frag      | 1 -
- ui/shader/texture-blit.vert      | 1 -
- 3 files changed, 3 deletions(-)
+ ui/egl-helpers.c | 54 ++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 48 insertions(+), 6 deletions(-)
 
-diff --git a/ui/shader/texture-blit-flip.vert b/ui/shader/texture-blit-flip.vert
-index ba081fa5a6..f7a448d229 100644
---- a/ui/shader/texture-blit-flip.vert
-+++ b/ui/shader/texture-blit-flip.vert
-@@ -1,4 +1,3 @@
--
- #version 300 es
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index 3a88245b67..10772b6471 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -26,6 +26,48 @@ DisplayGLMode qemu_egl_mode;
  
- in vec2  in_position;
-diff --git a/ui/shader/texture-blit.frag b/ui/shader/texture-blit.frag
-index bfa202c22b..8ed95a46b6 100644
---- a/ui/shader/texture-blit.frag
-+++ b/ui/shader/texture-blit.frag
-@@ -1,4 +1,3 @@
--
- #version 300 es
+ /* ------------------------------------------------------------------ */
  
- uniform sampler2D image;
-diff --git a/ui/shader/texture-blit.vert b/ui/shader/texture-blit.vert
-index 6fe2744d68..fb48d70665 100644
---- a/ui/shader/texture-blit.vert
-+++ b/ui/shader/texture-blit.vert
-@@ -1,4 +1,3 @@
--
- #version 300 es
++#if defined(CONFIG_X11) || defined(CONFIG_GBM)
++static const char *egl_get_error_string(void)
++{
++    EGLint error = eglGetError();
++
++    switch (error) {
++        case EGL_SUCCESS:
++            return "EGL_SUCCESS";
++        case EGL_NOT_INITIALIZED:
++            return "EGL_NOT_INITIALIZED";
++        case EGL_BAD_ACCESS:
++            return "EGL_BAD_ACCESS";
++        case EGL_BAD_ALLOC:
++            return "EGL_BAD_ALLOC";
++        case EGL_BAD_ATTRIBUTE:
++            return "EGL_BAD_ATTRIBUTE";
++        case EGL_BAD_CONTEXT:
++            return "EGL_BAD_CONTEXT";
++        case EGL_BAD_CONFIG:
++            return "EGL_BAD_CONFIG";
++        case EGL_BAD_CURRENT_SURFACE:
++            return "EGL_BAD_CURRENT_SURFACE";
++        case EGL_BAD_DISPLAY:
++            return "EGL_BAD_DISPLAY";
++        case EGL_BAD_SURFACE:
++            return "EGL_BAD_SURFACE";
++        case EGL_BAD_MATCH:
++            return "EGL_BAD_MATCH";
++        case EGL_BAD_PARAMETER:
++            return "EGL_BAD_PARAMETER";
++        case EGL_BAD_NATIVE_PIXMAP:
++            return "EGL_BAD_NATIVE_PIXMAP";
++        case EGL_BAD_NATIVE_WINDOW:
++            return "EGL_BAD_NATIVE_WINDOW";
++        case EGL_CONTEXT_LOST:
++            return "EGL_CONTEXT_LOST";
++        default:
++            return "Unknown EGL error";
++    }
++}
++#endif
++
+ static void egl_fb_delete_texture(egl_fb *fb)
+ {
+     if (!fb->delete_texture) {
+@@ -438,20 +480,20 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dpy,
  
- in vec2  in_position;
+     qemu_egl_display = qemu_egl_get_display(dpy, platform);
+     if (qemu_egl_display == EGL_NO_DISPLAY) {
+-        error_report("egl: eglGetDisplay failed");
++        error_report("egl: eglGetDisplay failed: %s", egl_get_error_string());
+         return -1;
+     }
+ 
+     b = eglInitialize(qemu_egl_display, &major, &minor);
+     if (b == EGL_FALSE) {
+-        error_report("egl: eglInitialize failed");
++        error_report("egl: eglInitialize failed: %s", egl_get_error_string());
+         return -1;
+     }
+ 
+     b = eglBindAPI(gles ?  EGL_OPENGL_ES_API : EGL_OPENGL_API);
+     if (b == EGL_FALSE) {
+-        error_report("egl: eglBindAPI failed (%s mode)",
+-                     gles ? "gles" : "core");
++        error_report("egl: eglBindAPI failed (%s mode): %s",
++                     gles ? "gles" : "core", egl_get_error_string());
+         return -1;
+     }
+ 
+@@ -459,8 +501,8 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dpy,
+                         gles ? conf_att_gles : conf_att_core,
+                         &qemu_egl_config, 1, &n);
+     if (b == EGL_FALSE || n != 1) {
+-        error_report("egl: eglChooseConfig failed (%s mode)",
+-                     gles ? "gles" : "core");
++        error_report("egl: eglChooseConfig failed (%s mode): %s",
++                     gles ? "gles" : "core", egl_get_error_string());
+         return -1;
+     }
+ 
 -- 
 2.39.2
 
