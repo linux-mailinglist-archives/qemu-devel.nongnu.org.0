@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B346AE7E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:04:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92386AE7E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:06:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZak2-0006qk-8H; Tue, 07 Mar 2023 12:04:46 -0500
+	id 1pZal1-0007pV-OC; Tue, 07 Mar 2023 12:05:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pZak0-0006o3-Qj
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:04:44 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pZakz-0007pC-IP
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:05:45 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pZajz-0003z6-8X
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:04:44 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pZaky-0004Ss-40
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:05:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678208682;
+ s=mimecast20190719; t=1678208743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/LkzJRldjbXVb4PRNDwl3L1pyeSW3DLggNQrhMLGrAM=;
- b=CF2L+DOiOoiHDgWYw6lcRlfvcgO91M8Crfb+E6jAg/eIQXpFlTkmcpV6MYwdKYumKOZuXF
- VNUhBlsFY+13gRaH3B1p56xyzBZAkM7eXig0ztjWc8RgXl0RBBXg2WVGGCRlgD74z202WW
- 5ziSzji6SfXtZ3XSrUVoDjASZ8KxqjI=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-0BkllWKPNZafMW0ApwFYBg-1; Tue, 07 Mar 2023 12:04:39 -0500
-X-MC-Unique: 0BkllWKPNZafMW0ApwFYBg-1
-Received: by mail-qv1-f70.google.com with SMTP id
- z3-20020ad44143000000b005771ea56ab6so7822729qvp.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:04:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678208678;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/LkzJRldjbXVb4PRNDwl3L1pyeSW3DLggNQrhMLGrAM=;
- b=iC8JM0TBpNznup737JObtWDoOGrUb2eZRWLsGJ3cSDz2tWPGwQTwdfJ0uyxf8ecXgd
- Mi83gjWry9yRaKtuzh970ucHmepbad08utcz6ct23oplWCq7JzT5OwFqe2WgCehZd/E7
- 7yZL+lkSD+WIGWpMLx3FeWXWEXpzEYpfVxT6D8BLUJKLgYiJDGbyBxjmaXA0wvjGnMzo
- x4Xd0N+Q6BYWpZR9Hmwdklz8T2Lw/CnMIHgmDgPvQSn4Xol53eZvbELHs+8jx6leb0xQ
- zhEoPb2Pub/TyIEI6couF3J8ivXjlUryB+1iOq2JspZhvH9v8G9mcFc3jNFT3YMGY5Ox
- G1WA==
-X-Gm-Message-State: AO0yUKXwD0A+GdCGcRW4O978W2GK4j3XkUTutqEWayqoHzhZQYsCTnkz
- 4C26JscbYPj6T3i+Szo7AbemcF9TH+GCr6YGuZ+4LEKWEkIWeswKSaIRV4baCxdrCbvGtFVmDX4
- FcyAZl42wCpFgDkY=
-X-Received: by 2002:a0c:b39c:0:b0:571:f805:67ee with SMTP id
- t28-20020a0cb39c000000b00571f80567eemr25319012qve.3.1678208678580; 
- Tue, 07 Mar 2023 09:04:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set8PiHUuZ417R7aXbkeD3vzo6g2iy3JTHQRcHj2kf0dOURl1t2aOkjMmtI42NhlBNbscjcOIUw==
-X-Received: by 2002:a0c:b39c:0:b0:571:f805:67ee with SMTP id
- t28-20020a0cb39c000000b00571f80567eemr25318989qve.3.1678208678334; 
- Tue, 07 Mar 2023 09:04:38 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- g186-20020a37b6c3000000b007430494ab92sm9730302qkf.67.2023.03.07.09.04.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 09:04:37 -0800 (PST)
-Date: Tue, 7 Mar 2023 12:04:36 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- zhouyibo@bytedance.com
-Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
- non-iterable vmstate
-Message-ID: <ZAdupAAJjbSbJiss@x1n>
-References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
- <ZAUSPo9bJO0udf9p@x1n>
- <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
- <ZAZRn9eNG1TEoEl1@x1n>
- <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
+ bh=OMp5CS3WyQQRgGmWIRtAf3rhbAWIQqY19k/zVdZ/qyI=;
+ b=cDRQwQGFRxqgaBOvQoKGtZc52s4D2FBmDMgDdDDZXzgsvvch8/9CVec14WRm/Shk56C5mM
+ MqLLUf0LNiywIv1FuYm3S0S7u1qPICYDCRKsGpO9oL29k5iPdy8T2OuCQTKjQ23zVW4ZMc
+ 7t/ccbC2S2uGf/mOztkXxlstVpWF8vQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-490-30gskanPONSc-JvUP8Y7DQ-1; Tue, 07 Mar 2023 12:05:40 -0500
+X-MC-Unique: 30gskanPONSc-JvUP8Y7DQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C77A1100F90F;
+ Tue,  7 Mar 2023 17:05:37 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80E4AC15BA0;
+ Tue,  7 Mar 2023 17:05:37 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andrea Bolognani <abologna@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric Auger
+ <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan
+ Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
+In-Reply-To: <CAFEAcA-Q6hzgW-B52X5XEtZsvBX64qSr9wSKizLVYu58mPdXKw@mail.gmail.com>
+Organization: Red Hat GmbH
+References: <20230228150216.77912-1-cohuck@redhat.com>
+ <20230228150216.77912-2-cohuck@redhat.com>
+ <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
+ <874jr4dbcr.fsf@redhat.com>
+ <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
+ <87sfeoblsa.fsf@redhat.com>
+ <CAFEAcA8z9mS55oBySDYA6PHB=qcRQRH1Aa4WJidG8B=n+6CyEQ@mail.gmail.com>
+ <87cz5rmdlg.fsf@redhat.com>
+ <CAFEAcA-Q6hzgW-B52X5XEtZsvBX64qSr9wSKizLVYu58mPdXKw@mail.gmail.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Tue, 07 Mar 2023 18:05:36 +0100
+Message-ID: <877cvsh4pr.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,49 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 07, 2023 at 09:24:31PM +0800, Chuang Xu wrote:
-> > Why do we need address_space_get_flatview_rcu()?  I'm not sure whether you
-> 
-> address_space_cahce_init() uses address_space_get_flatview() to acquire
-> a ref-ed flatview. If we want to use address_space_to_flatview_rcu() and
-> make the flatview ref-ed, maybe we need to add address_space_get_flatview_rcu()?
-> Or if we use address_space_to_flatview_rcu() directly, then we'll get a
-> unref-ed flatview, I'm not sure wheather it's safe in other cases.. At least
-> I don't want the assertion to be triggered one day.
+On Thu, Mar 02 2023, Peter Maydell <peter.maydell@linaro.org> wrote:
 
-No we can't touch that, afaict.  It was a real fix (447b0d0b9e) to a real
-bug.
+> On Thu, 2 Mar 2023 at 14:29, Cornelia Huck <cohuck@redhat.com> wrote:
+>>
+>> On Thu, Mar 02 2023, Peter Maydell <peter.maydell@linaro.org> wrote:
+>> > I think having MTE in the specific case of KVM behave differently
+>> > to how we've done all these existing properties and how we've
+>> > done MTE for TCG would be confusing. The simplest thing is to just
+>> > follow the existing UI for TCG MTE.
+>> >
+>> > The underlying reason for this is that MTE in general is not a feature
+>> > only of the CPU, but also of the whole system design. It happens
+>> > that KVM gives us tagged RAM "for free" but that's an oddity
+>> > of the KVM implementation -- in real hardware there needs to
+>> > be system level support for tagging.
+>>
+>> Hm... the Linux kernel actually seems to consider MTE to be a cpu
+>> feature (at least, it lists it in the cpu features).
+>>
+>> So, is your suggestion to use the 'mte' prop of the virt machine to mean
+>> "enable all prereqs for MTE, i.e. allocate tag memory for TCG and enable
+>> MTE in the kernel for KVM"? For TCG, we'll get MTE for the max cpu
+>> model; for KVM, we'd get MTE for host (== max), but I'm wondering what
+>> should happen if we get named cpu models and the user specifies one
+>> where we won't have MTE (i.e. some pre-8.5 one)?
+>
+> I think we can probably cross that bridge when we get to it,
+> but I imagine the semantics would be "cortex-foo plus MTE"
+> (in the same way that -cpu cortex-foo,+x,-y can add and
+> subtract features from a baseline).
 
-What I meant is we make address_space_get_flatview() always use
-address_space_to_flatview_rcu().
+While implementing this, I realized another thing that I had managed to
+miss before: With tcg, we'll start out with mte=3 and downgrade to mte=0
+if we don't have tag memory. With kvm, enabling mte can at most give us
+the mte version that the host exposes, so setting mte=on for the machine
+might give as well mte=2 in the end [which I still need to implement by
+querying the host support, I guess.] This means we have slightly
+different semantics for tcg and kvm; but more importantly, we need to
+implement something for compat handling.
 
-I think it's safe, if you see the current callers of it (after my patch 1
-fixed version applied):
-
-memory_region_sync_dirty_bitmap[2249] view = address_space_get_flatview(as);
-memory_region_update_coalesced_range[2457] view = address_space_get_flatview(as);
-memory_region_clear_dirty_bitmap[2285] view = address_space_get_flatview(as);
-mtree_info_flatview[3418]      view = address_space_get_flatview(as);
-address_space_cache_init[3350] cache->fv = address_space_get_flatview(as);
-
-Case 5 is what we're targeting for which I think it's fine. Logically any
-commit() hook should just use address_space_get_flatview_raw() to reference
-the flatview, but at least address_space_cache_init() is also called in
-non-BQL sections, so _rcu is the only thing we can use here, iiuc..
-
-Case 1-3 is never called during vm load, so I think it's safe.
-
-Case 4 can be accessing stalled flatview but I assume fine since it's just
-for debugging. E.g. if someone tries "info mtree -f" during vm loading
-after your patch applied, then one can see stalled info.  I don't think it
-can even happen because so far "info mtree" should also take BQL.. so it'll
-be blocked until vm load completes.
-
-The whole thing is still tricky.  I didn't yet make my mind through on how
-to make it very clean, I think it's slightly beyond what this series does
-and I need some more thinkings (or suggestions from others).
-
--- 
-Peter Xu
+The Linux kernel distinguishes between 'mte' and 'mte3', and KVM exposes
+the MTE cap if mte >=2. Do we need two props as well? If yes, what about
+tcg?
 
 
