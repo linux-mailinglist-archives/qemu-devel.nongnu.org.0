@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2AD6ADA06
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 10:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267916ADA66
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 10:32:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZTQ6-0006Ia-R9; Tue, 07 Mar 2023 04:15:42 -0500
+	id 1pZTen-0002oP-Ps; Tue, 07 Mar 2023 04:30:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
- id 1pZTPn-000697-JY
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:15:25 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
- id 1pZTPk-0000HW-Hl
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:15:22 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so9913632wmb.5
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 01:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shadow-tech.20210112.gappssmtp.com; s=20210112; t=1678180517;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=G8EqAAFfT7bMBtlZsef438IsU/VoDt2L5j0Ru/LDWeA=;
- b=fWbg5Rf4vzq/FTpD+DoZBMejuBI1HWGzKyrE0mrPcUGcjHddEZU8jqiytN6XwMlbG6
- 7xUfY64ms+ZGN0y0smBNX8wxByWa8GJk0gTIOA+lAWhXOiDAk00l5kditoUS1VVyDaR0
- Es/MXkeLfJZ89wRvLHudRTT/IlpuOr1aixJsodi0N6qu5LOIUpfKTJBGgQU9si3KNXQk
- Ebh7EIqSaUXAyQSC1DXG1rMbc2Qr7eMcA++FMp/RQZZBGeO4RTNx4lAzfO1ovGG7nX80
- +6P7R5FbKBX8Qzqv/nsLiH//Y7nnhCD8wXtH5+fwJGN2qIfLiRTcbS2vf7V6Gvn5NdVI
- Pc8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678180517;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G8EqAAFfT7bMBtlZsef438IsU/VoDt2L5j0Ru/LDWeA=;
- b=RwfqYmDaY3EqpQPyv24r8bphyNS/W74z5dJM/ZuV+CImBv00pMu0AYp2qjAK94Xx2e
- fXl04uIfUgMfnN8ITPSGlkU5Gdpzluxjta1ktvi4Ms39dvv7VNoAfyW/k+RgxSPmDrQp
- lEHG5IIBUpKduzpgRrQIJb2mxsb0DS5tKGiWwqKoSyWUEDYca4FXDgyEUl34kTo0y4sI
- 33BIUJXUHanIE9h2QRp5f/6dqZsU80hApTv8LTlAGn2C6GoA+w61iCEUTGSygCZt0uJK
- AQ5sMpg4LFSx5l5QaAvZplaum2fdcQwp4b5KI5+Yw9BX1isHgz0qQ6Yv+Cu3J9eZWjsz
- wupQ==
-X-Gm-Message-State: AO0yUKWnRPeAR9yXjCD/F7wjG5xJBit5Cg59+v6vnjC9IGjQ6YTAIGpr
- IdtTZSoXW5qQURhYAYcTSdKOhA==
-X-Google-Smtp-Source: AK7set/XigBXudtrm4Fc5D4VSfbYc1c4Gug/i5wlXALXla7QYvJUwfWT2voXH0w0AO2CPRcXgastrg==
-X-Received: by 2002:a7b:c8d9:0:b0:3eb:2067:1141 with SMTP id
- f25-20020a7bc8d9000000b003eb20671141mr12235982wml.38.1678180516995; 
- Tue, 07 Mar 2023 01:15:16 -0800 (PST)
-Received: from localhost ([2a01:e34:ec43:fd01:c66b:5ea5:9a7:c104])
- by smtp.gmail.com with ESMTPSA id
- o13-20020a5d670d000000b002c8476dde7asm12047768wru.114.2023.03.07.01.15.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 01:15:16 -0800 (PST)
-Date: Tue, 7 Mar 2023 10:15:15 +0100
-From: Antoine Damhet <antoine.damhet@shadow.tech>
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
- charles.frey@shadow.tech, berrange@redhat.com
-Subject: Re: [PATCH] io/channel-tls: plug memory leakage on GSource
-Message-ID: <20230307091515.e6am2hwzz5fxrna6@cole.xdbob.net>
-References: <98f750b6ded2dd2e8d0e4ffc9935d3d6e0cd59f4.1678144392.git.quic_mathbern@quicinc.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZTek-0002mk-4C
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:30:50 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZTei-0003ZU-4c
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:30:49 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N63mC-1qfwKb277w-016M8X; Tue, 07 Mar 2023 10:30:45 +0100
+Message-ID: <c6d6c3f7-f7fd-afc1-7f64-c8bfe1f8193e@vivier.eu>
+Date: Tue, 7 Mar 2023 10:30:42 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wb22qbrmgis53vw4"
-Content-Disposition: inline
-In-Reply-To: <98f750b6ded2dd2e8d0e4ffc9935d3d6e0cd59f4.1678144392.git.quic_mathbern@quicinc.com>
-Received-SPF: permerror client-ip=2a00:1450:4864:20::32e;
- envelope-from=antoine.damhet@shadow.tech; helo=mail-wm1-x32e.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user: Fix access to /proc/self/exe
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20221205113825.20615-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221205113825.20615-1-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:RqjLcq+dOUBbC6GHs/mBnpRqG0t2PuGpJje6R+cszglkhAkN+z5
+ U750RMXw2i+GauQYz0N760StZd9NyVXfmsTS6NsryCGbWtHvorQH9L7vX83EDlO4Zab/lLI
+ 2CqJpJdW30lqYypwiyGZZU7PcE2kH3hqSRRUcYPSdiDBZ3w7IsPqDG7tZOeP+3TngTI/yIH
+ IKFCMCXxW58SBr6PchiOg==
+UI-OutboundReport: notjunk:1;M01:P0:/69BHPMQINc=;tzHlY2f/afV0Iadc3v4hrii4V38
+ hEEImGzZEQjUuXtLnuq+gr4o67KZmQfguWDmSKRFphMHsxAAC0bshEkL1W+a3sCAqfO+ZDx5Q
+ ZRtHw51OInNKkxEjNO4m191bIW4ruF1oFePuu3Qj8/fAaNbPYq2ITlo+zJeADdfiJfwK9Z294
+ q4BlP+svDRk47P4DWqN/PRe5lISXZukmwGfeAeV/YOGZS0tZoBehiwq/ySKrCw4sDrf7bIrHn
+ xBagISIsCJYW/8eK9L0TzTwvSk3jMhcizzCgUtMTe0z/Y5MTx5lRIo/4BcMIl3f74il4CdJmv
+ 8d1t3YVCr9t29P1StvSWTauJe/t7jPkpLcQ98BT9FISTF+XK/nPYtSf7VV3T5EFmv4GLy6GQh
+ ZOw4zYeRN0WiM6lBwN4mQkc77I3S/LFJnAeUjgHEdI9cqjK+mmTd+9KWPVq3q2kjEfCCpqZ1w
+ 518HJHdlH4PS+eDHeb0/ZtTriQHHrupxwg2pcG0qd/bLMzKZ5j6GPLKcC/psM6OgDQLPVkQbR
+ ikU1t/6eh+jHb42Zr3SWBAhpMpeFCl9rgyNLBQ7IE11ViHflPsCuoWQ8wn8s4wI8YlWsFzNMR
+ fQr1oFK4ue1NoJhjD3xtimo9xA5I4c454ewtWF1Rc/ZJATDV7YvAgz2ModW/Wgc2I+K5+WYsj
+ CCp0c+5iPh982qLcEnl136UVyvFJSegepH+n5XI6pA==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,105 +70,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---wb22qbrmgis53vw4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Nice catch !
-
-On Mon, Mar 06, 2023 at 08:15:21PM -0300, Matheus Tavares Bernardino wrote:
-> This leakage can be seen through test-io-channel-tls:
->=20
-> $ ../configure --target-list=3Daarch64-softmmu --enable-sanitizers
-> $ make ./tests/unit/test-io-channel-tls
-> $ ./tests/unit/test-io-channel-tls
->=20
-> Indirect leak of 104 byte(s) in 1 object(s) allocated from:
->     #0 0x7f81d1725808 in __interceptor_malloc ../../../../src/libsanitize=
-r/asan/asan_malloc_linux.cc:144
->     #1 0x7f81d135ae98 in g_malloc (/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-+0x57e98)
->     #2 0x55616c5d4c1b in object_new_with_propv ../qom/object.c:795
->     #3 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
->     #4 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-chan=
-nel-tls.c:70
->     #5 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channe=
-l-tls.c:158
->     #6 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
->=20
-> Indirect leak of 32 byte(s) in 1 object(s) allocated from:
->     #0 0x7f81d1725a06 in __interceptor_calloc ../../../../src/libsanitize=
-r/asan/asan_malloc_linux.cc:153
->     #1 0x7f81d1472a20 in gnutls_dh_params_init (/lib/x86_64-linux-gnu/lib=
-gnutls.so.30+0x46a20)
->     #2 0x55616c6485ff in qcrypto_tls_creds_x509_load ../crypto/tlscredsx5=
-09.c:634
->     #3 0x55616c648ba2 in qcrypto_tls_creds_x509_complete ../crypto/tlscre=
-dsx509.c:694
->     #4 0x55616c5e1fea in user_creatable_complete ../qom/object_interfaces=
-=2Ec:28
->     #5 0x55616c5d4c8c in object_new_with_propv ../qom/object.c:807
->     #6 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
->     #7 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-chan=
-nel-tls.c:70
->     #8 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channe=
-l-tls.c:158
->     #9 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
->=20
-> ...
->=20
-> SUMMARY: AddressSanitizer: 49143 byte(s) leaked in 184 allocation(s).
->=20
-> The docs for `g_source_add_child_source(source, child_source)` says
-> "source will hold a reference on child_source while child_source is
-> attached to it." Therefore, we should unreference the child source at
-> `qio_channel_tls_read_watch()` after attaching it to `source`. With this
-> change, ./tests/unit/test-io-channel-tls shows no leakages.
->=20
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-
-Reviewed-by: Antoine Damhet <antoine.damhet@shadow.tech>
-
+Le 05/12/2022 à 12:38, Helge Deller a écrit :
+> When accsssing /proc/self/exe from a userspace program, linux-user tries
+> to resolve the name via realpath(), which may fail if the process
+> changed the working directory in the meantime.
+> 
+> An example:
+> - a userspace program ist started with ./testprogram
+> - the program runs chdir("/tmp")
+> - then the program calls readlink("/proc/self/exe")
+> - linux-user tries to run realpath("./testprogram") which fails
+>    because ./testprogram isn't in /tmp
+> - readlink() will return -ENOENT back to the program
+> 
+> Avoid this issue by resolving the full path name of the started process
+> at startup of linux-user and store it in real_exec_path[]. This then
+> simplifies the emulation of readlink() and readlinkat() as well, because
+> they can simply copy the path string to userspace.
+> 
+> I noticed this bug because the testsuite of the debian package "pandoc"
+> failed on linux-user while it succeeded on real hardware.  The full log
+> is here:
+> https://buildd.debian.org/status/fetch.php?pkg=pandoc&arch=hppa&ver=2.17.1.1-1.1%2Bb1&stamp=1670153210&raw=0
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->  io/channel-tls.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/io/channel-tls.c b/io/channel-tls.c
-> index 8052945ba0..5a7a3d48d6 100644
-> --- a/io/channel-tls.c
-> +++ b/io/channel-tls.c
-> @@ -446,6 +446,7 @@ qio_channel_tls_read_watch(QIOChannelTLS *tioc, GSour=
-ce *source)
->      object_ref(OBJECT(tioc));
-> =20
->      g_source_add_child_source(source, child);
-> +    g_source_unref(child);
->  }
-> =20
->  static GSource *qio_channel_tls_create_watch(QIOChannel *ioc,
-> --=20
-> 2.37.2
->=20
+>   linux-user/main.c    |  6 ++++++
+>   linux-user/syscall.c | 34 ++++++++++------------------------
+>   2 files changed, 16 insertions(+), 24 deletions(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index aedd707459..e7e53f7d5e 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -64,6 +64,7 @@
+>   #endif
+> 
+>   char *exec_path;
+> +char real_exec_path[PATH_MAX];
+> 
+>   int singlestep;
+>   static const char *argv0;
+> @@ -744,6 +745,11 @@ int main(int argc, char **argv, char **envp)
+>           }
+>       }
+> 
+> +    /* Resolve executable file name to full path name */
+> +    if (realpath(exec_path, real_exec_path)) {
+> +        exec_path = real_exec_path;
+> +    }
+> +
+>       /*
+>        * get binfmt_misc flags
+>        * but only if not already done by parse_args() above
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 0468a1bad7..71ae867024 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -10011,18 +10011,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>                   /* Short circuit this for the magic exe check. */
+>                   ret = -TARGET_EINVAL;
+>               } else if (is_proc_myself((const char *)p, "exe")) {
+> -                char real[PATH_MAX], *temp;
+> -                temp = realpath(exec_path, real);
+> -                /* Return value is # of bytes that we wrote to the buffer. */
+> -                if (temp == NULL) {
+> -                    ret = get_errno(-1);
+> -                } else {
+> -                    /* Don't worry about sign mismatch as earlier mapping
+> -                     * logic would have thrown a bad address error. */
+> -                    ret = MIN(strlen(real), arg3);
+> -                    /* We cannot NUL terminate the string. */
+> -                    memcpy(p2, real, ret);
+> -                }
+> +	        /* Don't worry about sign mismatch as earlier mapping
+> +	         * logic would have thrown a bad address error. */
+> +                ret = MIN(strlen(exec_path), arg3);
+> +                /* We cannot NUL terminate the string. */
+> +                memcpy(p2, exec_path, ret);
+>               } else {
+>                   ret = get_errno(readlink(path(p), p2, arg3));
+>               }
+> @@ -10043,18 +10036,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>                   /* Short circuit this for the magic exe check. */
+>                   ret = -TARGET_EINVAL;
+>               } else if (is_proc_myself((const char *)p, "exe")) {
+> -                char real[PATH_MAX], *temp;
+> -                temp = realpath(exec_path, real);
+> -                /* Return value is # of bytes that we wrote to the buffer. */
+> -                if (temp == NULL) {
+> -                    ret = get_errno(-1);
+> -                } else {
+> -                    /* Don't worry about sign mismatch as earlier mapping
+> -                     * logic would have thrown a bad address error. */
+> -                    ret = MIN(strlen(real), arg4);
+> -                    /* We cannot NUL terminate the string. */
+> -                    memcpy(p2, real, ret);
+> -                }
+> +	        /* Don't worry about sign mismatch as earlier mapping
+> +	         * logic would have thrown a bad address error. */
+> +                ret = MIN(strlen(exec_path), arg4);
+> +                /* We cannot NUL terminate the string. */
+> +                memcpy(p2, exec_path, ret);
+>               } else {
+>                   ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+>               }
+> --
+> 2.38.1
+> 
+> 
 
---=20
-Antoine 'xdbob' Damhet
+Applied to my linux-user-for-8.0 branch.
 
---wb22qbrmgis53vw4
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Laurent
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAmQHAJ8ACgkQ3AmjLzzl
-jz75hQgAghPYBlNR7QDzGDa60cmCdbzfwIOmELkM+ghY0ryZJND3xmAT/8l1CR+l
-RE2kr/lNHcR1GAw5zoygbMG9PgMSQvEnNP1Eq+pQzXDGmLw2ukVMuVtKZPyDECTD
-pMD8pm6iQ8N4vat6zVvdiJ1wgs3KR7eCGAzmsmIAXk/WCDNArMBhehbHEPfAgZjS
-0J84DNtunsioxw1cDxMBWIqihatE8iA/dmx8Sb11JBJDT8KTCL5Z2yH7oke33GIq
-/Jx9VAkeZxuk5DlFDxqzFvRFklGAqM6gzYok9WK/c5YOUdqpVraV6XA4NQ9pivxV
-4fbFznwDIJBuUNOjojT08wrymzH7yQ==
-=UNhY
------END PGP SIGNATURE-----
-
---wb22qbrmgis53vw4--
 
