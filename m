@@ -2,55 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E4C6AD4B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6926AD4E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:41:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZNA8-00005r-4S; Mon, 06 Mar 2023 21:34:48 -0500
+	id 1pZNGA-0002EJ-Us; Mon, 06 Mar 2023 21:41:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pZNA4-000059-Lm; Mon, 06 Mar 2023 21:34:44 -0500
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZNG8-00025B-NB
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:41:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pZNA1-0001R9-Rh; Mon, 06 Mar 2023 21:34:44 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R521e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VdJLSfx_1678156474; 
-Received: from 30.32.93.50(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VdJLSfx_1678156474) by smtp.aliyun-inc.com;
- Tue, 07 Mar 2023 10:34:34 +0800
-Message-ID: <d6d230a5-2d99-7660-e1ce-3e49d04e30f8@linux.alibaba.com>
-Date: Tue, 7 Mar 2023 10:34:34 +0800
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZNG6-0002YV-Vq
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:41:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678156857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZuFvTQcUuaioBIv36PnvqcW0MhvuZgPzuvc9d503NVw=;
+ b=KexxXrZMhVLna4j6yVRJMCujU+QZMJ712eABDLtffbOt+kqnuKZ61c8J8tP4AZApp3EQTy
+ wQLn5ePLOJpDDgRmKY3Izbbyg5iXmI1N2dJzkIWoQn4TRgsPKg8n0HZjqNNco96YdgqmvK
+ 2ETFM/IadmoRj7EcVlCJRrZJgU4jBBQ=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-42-exaD1SKANd62I-kIycKTgw-1; Mon, 06 Mar 2023 21:40:56 -0500
+X-MC-Unique: exaD1SKANd62I-kIycKTgw-1
+Received: by mail-il1-f200.google.com with SMTP id
+ l5-20020a92d8c5000000b00316f26477d6so6309769ilo.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 18:40:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678156855;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZuFvTQcUuaioBIv36PnvqcW0MhvuZgPzuvc9d503NVw=;
+ b=KeMZn1Pjwl2pqSsvHx8QYOuweMy4WVrP9S0SN2LsP2w4JPCqQgY6UISRrtkzsWkW1X
+ S8jVOlxEiwPAgkYtU1onuYkKHXwQsYk67Rm/rvrFxQkFYGRRtmp2CgxhzVvu3CX75mco
+ JCs/h/a0t5zK6LvbBMn4491ezSB8AI2j/4mgaAk0TMUbuyYVKFdYBhrZy0kZyJp5eSYw
+ DxJHwBhxleZbV/Z4XCzF97tCRa3uXXo4FyxkoS7wHsVUCtRC0sS2wypALe9o06QapFaO
+ V+gxMP18n+xsmNPYll+iLg2SHf9IXGM/59ltGb/11pu5E442J/clTQXoXkEsIv7g6RWp
+ i+Hw==
+X-Gm-Message-State: AO0yUKX6obXZlrPdgMI8+ylpmSlpccUo6tpxTgzs2kJdiWimjpyc1ynO
+ Yy9W+myopTe3i28KmSzB05i1a0mTAGkl0grgLkyJnyFRLk9SwC3753IIVQAqxfPhE9CBimT+p68
+ xFFCerAyU4M6v0PE=
+X-Received: by 2002:a05:6e02:20c7:b0:315:3036:4da with SMTP id
+ 7-20020a056e0220c700b00315303604damr11157175ilq.30.1678156855209; 
+ Mon, 06 Mar 2023 18:40:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set+gsyIRoTjQnwHRxD7oFfiSxvHNP2pBaeRZLNBJ0QBLZC20m3aZtcAWX/brWC00v82Wu8YUSw==
+X-Received: by 2002:a05:6e02:20c7:b0:315:3036:4da with SMTP id
+ 7-20020a056e0220c700b00315303604damr11157157ilq.30.1678156854871; 
+ Mon, 06 Mar 2023 18:40:54 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ m2-20020a056638224200b003a9595b7e3asm3753464jas.46.2023.03.06.18.40.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 18:40:54 -0800 (PST)
+Date: Mon, 6 Mar 2023 19:40:53 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+Subject: Re: [PATCH v4 07/14] vfio/common: Add helper to consolidate
+ iova/end calculation
+Message-ID: <20230306194053.36cbfe12.alex.williamson@redhat.com>
+In-Reply-To: <20230307020258.58215-8-joao.m.martins@oracle.com>
+References: <20230307020258.58215-1-joao.m.martins@oracle.com>
+ <20230307020258.58215-8-joao.m.martins@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH qemu] linux-user: Emulate /proc/cpuinfo output for riscv
-Content-Language: en-US
-To: ~abordado <afonsobordado@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-References: <167811752616.21558.7117682501860352029-0@git.sr.ht>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <167811752616.21558.7117682501860352029-0@git.sr.ht>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.124;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-124.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,141 +104,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue,  7 Mar 2023 02:02:51 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-On 2023/3/5 22:34, ~abordado wrote:
-> From: Afonso Bordado <afonsobordado@gmail.com>
->
-> RISC-V does not expose all extensions via hwcaps, thus some userspace
-> applications may want to query these via /proc/cpuinfo.
->
-> Currently when querying this file the host's file is shown instead
-> which is slightly confusing. Emulate a basic /proc/cpuinfo file
-> with mmu info and an ISA sting.
->
-> Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
+> In preparation to be used in device dirty tracking, move the code that
+> calculates a iova/end range from the container/section.  This avoids
+> duplication on the common checks across listener callbacks.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 > ---
->   linux-user/syscall.c              | 32 +++++++++++++++++++++++++++++--
->   tests/tcg/riscv64/Makefile.target |  1 +
->   tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++++
->   3 files changed, 61 insertions(+), 2 deletions(-)
->   create mode 100644 tests/tcg/riscv64/cpuinfo.c
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index a6c426d73c..eda2bc5df0 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8183,7 +8183,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->   }
->   
->   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
-> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
-> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
-> +    defined(TARGET_RISCV)
->   static int is_proc(const char *filename, const char *entry)
->   {
->       return strcmp(filename, entry) == 0;
-> @@ -8261,6 +8262,33 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->   }
->   #endif
->   
-> +#if defined(TARGET_RISCV)
-> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>  hw/vfio/common.c | 37 ++++++++++++++++++++++++++++++-------
+>  1 file changed, 30 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 54b4a4fc7daf..3a6491dbc523 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -961,6 +961,35 @@ static bool vfio_listener_valid_section(MemoryRegionSection *section)
+>      return true;
+>  }
+>  
+> +/*
+> + * Called for the dirty tracking memory listener to calculate the iova/end
+> + * for a given memory region section.
+> + */
+> +static bool vfio_get_section_iova_range(VFIOContainer *container,
+> +                                        MemoryRegionSection *section,
+> +                                        hwaddr *out_iova, hwaddr *out_end,
+> +                                        Int128 *out_llend)
 > +{
-> +    int i;
-> +    int num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> +    RISCVCPU *cpu = env_archcpu(cpu_env);
-
-Use this API:
-
-riscv_cpu_cfg(CPURISCVState *)
-
-> +    char *isa_string = riscv_isa_string(cpu);
-> +    bool is_32_bit = riscv_cpu_xlen(&cpu->env) == 32;
-
-Remove this statement.
-
-> +    const char *mmu;
+> +    Int128 llend;
+> +    hwaddr iova;
 > +
-> +    if (cpu->cfg.mmu) {
-> +        mmu = (is_32_bit) ? "sv32" : "sv48";
-
-mmu = (cpu_env->xl == MXL_RV32) ? "sv32"  : "sv48"
-
-Zhiwei
-
-> +    } else {
-> +        mmu = "none";
+> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+> +    llend = int128_make64(section->offset_within_address_space);
+> +    llend = int128_add(llend, section->size);
+> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
+> +
+> +    if (int128_ge(int128_make64(iova), llend)) {
+> +        return false;
 > +    }
 > +
-> +    for (i = 0; i < num_cpus; i++) {
-> +        dprintf(fd, "processor\t: %d\n", i);
-> +        dprintf(fd, "hart\t\t: %d\n", i);
-> +        dprintf(fd, "isa\t\t: %s\n", isa_string);
-> +        dprintf(fd, "mmu\t\t: %s\n", mmu);
-> +        dprintf(fd, "uarch\t\t: qemu\n\n");
+> +    *out_iova = iova;
+> +    *out_end = int128_get64(int128_sub(llend, int128_one()));
+> +    if (out_llend) {
+> +        *out_llend = llend;
 > +    }
-> +    return 0;
+> +    return true;
 > +}
-> +#endif
 > +
->   #if defined(TARGET_M68K)
->   static int open_hardware(CPUArchState *cpu_env, int fd)
->   {
-> @@ -8285,7 +8313,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
->   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
->           { "/proc/net/route", open_net_route, is_proc },
->   #endif
-> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
-> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
->           { "/proc/cpuinfo", open_cpuinfo, is_proc },
->   #endif
->   #if defined(TARGET_M68K)
-> diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
-> index cc3ed65ffd..df93a2ce1f 100644
-> --- a/tests/tcg/riscv64/Makefile.target
-> +++ b/tests/tcg/riscv64/Makefile.target
-> @@ -4,6 +4,7 @@
->   VPATH += $(SRC_PATH)/tests/tcg/riscv64
->   TESTS += test-div
->   TESTS += noexec
-> +TESTS += cpuinfo
->   
->   # Disable compressed instructions for test-noc
->   TESTS += test-noc
-> diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
-> new file mode 100644
-> index 0000000000..296abd0a8c
-> --- /dev/null
-> +++ b/tests/tcg/riscv64/cpuinfo.c
-> @@ -0,0 +1,30 @@
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <assert.h>
-> +
-> +#define BUFFER_SIZE 1024
-> +
-> +int main(void)
-> +{
-> +    char buffer[BUFFER_SIZE];
-> +    FILE *fp = fopen("/proc/cpuinfo", "r");
-> +    assert(fp != NULL);
-> +
-> +    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
-> +        if (strstr(buffer, "processor") != NULL) {
-> +            assert(strstr(buffer, "processor\t: ") == buffer);
-> +        } else if (strstr(buffer, "hart") != NULL) {
-> +            assert(strstr(buffer, "hart\t\t: ") == buffer);
-> +        } else if (strstr(buffer, "isa") != NULL) {
-> +            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0);
-> +        } else if (strstr(buffer, "mmu") != NULL) {
-> +            assert(strcmp(buffer, "mmu\t\t: sv48\n") == 0);
-> +        } else if (strstr(buffer, "uarch") != NULL) {
-> +            assert(strcmp(buffer, "uarch\t\t: qemu\n") == 0);
-> +        }
-> +    }
-> +
-> +    fclose(fp);
-> +    return 0;
-> +}
+>  static void vfio_listener_region_add(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+> @@ -976,12 +1005,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>          return;
+>      }
+>  
+> -    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+> -    llend = int128_make64(section->offset_within_address_space);
+> -    llend = int128_add(llend, section->size);
+> -    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask()));
+> -
+> -    if (int128_ge(int128_make64(iova), llend)) {
+> +    if (!vfio_get_section_iova_range(container, section, &iova, &end, &llend)) {
+>          if (memory_region_is_ram_device(section->mr)) {
+>              trace_vfio_listener_region_add_no_dma_map(
+>                  memory_region_name(section->mr),
+> @@ -991,7 +1015,6 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>          }
+>          return;
+>      }
+> -    end = int128_get64(int128_sub(llend, int128_one()));
+>  
+>      if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
+>          hwaddr pgsize = 0;
+
+Shouldn't this convert vfio_listener_region_del() too?  Thanks,
+
+Alex
+
 
