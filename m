@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403316AD96D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 09:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206516AD98E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 09:50:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZSu6-00058f-02; Tue, 07 Mar 2023 03:42:38 -0500
+	id 1pZT0L-000778-DS; Tue, 07 Mar 2023 03:49:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZSu1-00058P-JB
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:42:33 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pZT0I-00076I-SV
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:49:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZSty-0003Fb-TU
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:42:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=0JRGd9zUdQNiRK6t0/Oj6I7vSg22vKQjEFO5u39ayeg=; b=DnEF4yGhX8yWxMegKD/cO7C1jh
- 3kC9VCxnXOidoRnEGUtxRRgHs0QcC21fDxU9F6cj/W+q4gZbyIRpI77AHXdcR9gCwLK60a9w7Mi8s
- 8wKX1473qWmt+u1UOkIQmVJjpXS3FPVdaBXAK6z/1/KHp7GIHw17/6+AVaI0YAWXLRs+X0ET09A1W
- eNtmtp7TcpkbNzKT9oS3QCSVkxm6brKI3yFOHixO/AfruwDCzy2Yl3dfEOE3ck85QNw+PVe1mTi3D
- geKuAvmt3DtVkuwWnZ33LoJ0zoHIiRJkqhwRFR6g5+SiYEUJn2bFUk/t2pR9UIp1HwulxqR6ONJGv
- w+9L4tiQ==;
-Received: from [2001:8b0:10b:5:c09:fa3d:b1cb:4d7e]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZStn-006AtH-8x; Tue, 07 Mar 2023 08:42:19 +0000
-Message-ID: <0f25af10f21de2a36f4748f20d457dca5bce1f64.camel@infradead.org>
-Subject: Re: [SeaBIOS] Re: [SeaBIOS PATCH] xen: require Xen info structure
- at 0x1000 to detect Xen
-From: David Woodhouse <dwmw2@infradead.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: seabios <seabios@seabios.org>, xen-devel
- <xen-devel@lists.xenproject.org>,  qemu-devel <qemu-devel@nongnu.org>, paul
- <paul@xen.org>
-Date: Tue, 07 Mar 2023 08:42:18 +0000
-In-Reply-To: <20230202091031.xmnao56wziptjak2@sirius.home.kraxel.org>
-References: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
- <Y9scWQ/ASMCrY/uM@morn>
- <fd3259a2765d4b33ccf7baea320ac798bab63159.camel@infradead.org>
- <20230202091031.xmnao56wziptjak2@sirius.home.kraxel.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-p2zbuCuHG2EzAnYWyp4u"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pZT0H-0004Cu-3f
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:49:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678178939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4o8Z3sHuwTtx8prePtJoV3k2Hn+d3pREWZFBnTNLXdk=;
+ b=iyMH+yKwHmZXQsIHReagBCiF38dJQzGz+q6paKMsYjAFpU/ztfbsJ5i6UkjdC26EnVKoRm
+ HqmwrzVlJRcSmX78FRKQF+qUn0SW6pQvADSJ6aqrV1T3gL4M84OlxpPhnExlPzozBPH7a1
+ h341qAzAWSsyFdC0UGoxyZy31RxnHCw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-470-KGqDzuNoOP2cGVkCORkgaw-1; Tue, 07 Mar 2023 03:48:56 -0500
+X-MC-Unique: KGqDzuNoOP2cGVkCORkgaw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0971800B23;
+ Tue,  7 Mar 2023 08:48:55 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E1CE492C14;
+ Tue,  7 Mar 2023 08:48:52 +0000 (UTC)
+Date: Tue, 7 Mar 2023 09:48:51 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v5 1/4] linux-aio: use LinuxAioState from the running
+ thread
+Message-ID: <ZAb6c+Nz7jVvNylN@redhat.com>
+References: <20230203131731.851116-1-eesposit@redhat.com>
+ <20230203131731.851116-2-eesposit@redhat.com>
+ <Y/96WsnkiZEb0+kf@fedora>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="M6J8iEGIJTXqqXLM"
+Content-Disposition: inline
+In-Reply-To: <Y/96WsnkiZEb0+kf@fedora>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,145 +91,193 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-p2zbuCuHG2EzAnYWyp4u
-Content-Type: text/plain; charset="UTF-8"
+--M6J8iEGIJTXqqXLM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2023-02-02 at 10:10 +0100, Gerd Hoffmann wrote:
-> > Thanks, Kevin.
+Am 01.03.2023 um 17:16 hat Stefan Hajnoczi geschrieben:
+> On Fri, Feb 03, 2023 at 08:17:28AM -0500, Emanuele Giuseppe Esposito wrot=
+e:
+> > Remove usage of aio_context_acquire by always submitting asynchronous
+> > AIO to the current thread's LinuxAioState.
 > >=20
-> > I'd like to get the rest of the Xen platform support in to qemu 8.0
-> > if
-> > possible. Which is currently scheduled for March.
+> > In order to prevent mistakes from the caller side, avoid passing LinuxA=
+ioState
+> > in laio_io_{plug/unplug} and laio_co_submit, and document the functions
+> > to make clear that they work in the current thread's AioContext.
 > >=20
-> > Is there likely to be a SeaBIOS release before then which Gerd
-> > would
-> > pull into qemu anyway, or should I submit a submodule update to a
-> > snapshot of today's tree? That would just pull in this commit, and
-> > the
-> > one other fix that's in the SeaBIOS tree since 1.16.1?
+> > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> > ---
+> >  include/block/aio.h               |  4 ----
+> >  include/block/raw-aio.h           | 18 ++++++++++++------
+> >  include/sysemu/block-backend-io.h |  6 ++++++
+> >  block/file-posix.c                | 10 +++-------
+> >  block/linux-aio.c                 | 29 +++++++++++++++++------------
+> >  5 files changed, 38 insertions(+), 29 deletions(-)
+> >=20
+> > diff --git a/include/block/aio.h b/include/block/aio.h
+> > index 8fba6a3584..b6b396cfcb 100644
+> > --- a/include/block/aio.h
+> > +++ b/include/block/aio.h
+> > @@ -208,10 +208,6 @@ struct AioContext {
+> >      struct ThreadPool *thread_pool;
+> > =20
+> >  #ifdef CONFIG_LINUX_AIO
+> > -    /*
+> > -     * State for native Linux AIO.  Uses aio_context_acquire/release f=
+or
+> > -     * locking.
+> > -     */
+> >      struct LinuxAioState *linux_aio;
+> >  #endif
+> >  #ifdef CONFIG_LINUX_IO_URING
+> > diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+> > index f8cda9df91..db614472e6 100644
+> > --- a/include/block/raw-aio.h
+> > +++ b/include/block/raw-aio.h
+> > @@ -49,14 +49,20 @@
+> >  typedef struct LinuxAioState LinuxAioState;
+> >  LinuxAioState *laio_init(Error **errp);
+> >  void laio_cleanup(LinuxAioState *s);
+> > -int coroutine_fn laio_co_submit(BlockDriverState *bs, LinuxAioState *s=
+, int fd,
+> > -                                uint64_t offset, QEMUIOVector *qiov, i=
+nt type,
+> > -                                uint64_t dev_max_batch);
+> > +
+> > +/* laio_co_submit: submit I/O requests in the thread's current AioCont=
+ext. */
+> > +int coroutine_fn laio_co_submit(int fd, uint64_t offset, QEMUIOVector =
+*qiov,
+> > +                                int type, uint64_t dev_max_batch);
+> > +
+> >  void laio_detach_aio_context(LinuxAioState *s, AioContext *old_context=
+);
+> >  void laio_attach_aio_context(LinuxAioState *s, AioContext *new_context=
+);
+> > -void laio_io_plug(BlockDriverState *bs, LinuxAioState *s);
+> > -void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s,
+> > -                    uint64_t dev_max_batch);
+> > +
+> > +/*
+> > + * laio_io_plug/unplug work in the thread's current AioContext, theref=
+ore the
+> > + * caller must ensure that they are paired in the same IOThread.
+> > + */
+> > +void laio_io_plug(void);
+> > +void laio_io_unplug(uint64_t dev_max_batch);
+> >  #endif
+> >  /* io_uring.c - Linux io_uring implementation */
+> >  #ifdef CONFIG_LINUX_IO_URING
+> > diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-b=
+ackend-io.h
+> > index 031a27ba10..d41698ccc5 100644
+> > --- a/include/sysemu/block-backend-io.h
+> > +++ b/include/sysemu/block-backend-io.h
+> > @@ -74,8 +74,14 @@ void blk_iostatus_set_err(BlockBackend *blk, int err=
+or);
+> >  int blk_get_max_iov(BlockBackend *blk);
+> >  int blk_get_max_hw_iov(BlockBackend *blk);
+> > =20
+> > +/*
+> > + * blk_io_plug/unplug are thread-local operations. This means that mul=
+tiple
+> > + * IOThreads can simultaneously call plug/unplug, but the caller must =
+ensure
+> > + * that each unplug() is called in the same IOThread of the matching p=
+lug().
+> > + */
+> >  void blk_io_plug(BlockBackend *blk);
+> >  void blk_io_unplug(BlockBackend *blk);
+> > +
+> >  AioContext *blk_get_aio_context(BlockBackend *blk);
+> >  BlockAcctStats *blk_get_stats(BlockBackend *blk);
+> >  void *blk_aio_get(const AIOCBInfo *aiocb_info, BlockBackend *blk,
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index fa227d9d14..fa99d1c25a 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -2095,10 +2095,8 @@ static int coroutine_fn raw_co_prw(BlockDriverSt=
+ate *bs, uint64_t offset,
+> >  #endif
+> >  #ifdef CONFIG_LINUX_AIO
+> >      } else if (s->use_linux_aio) {
+> > -        LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(=
+bs));
+> >          assert(qiov->size =3D=3D bytes);
+> > -        return laio_co_submit(bs, aio, s->fd, offset, qiov, type,
+> > -                              s->aio_max_batch);
+> > +        return laio_co_submit(s->fd, offset, qiov, type, s->aio_max_ba=
+tch);
 >=20
-> Tagging 1.16.2 in time for the qemu 8.0 should not be a problem given
-> that we have only bugfixes in master.=C2=A0 Roughly around soft freeze is
-> probably a good time for that.
+> I'm having second thoughts here. This is correct in an IOThread today,
+> but the main loop thread case concerns me:
+>=20
+> This patch changes behavior when the main loop or vCPU thread submits
+> I/O. Before, the IOThread's LinuxAioState would be used. Now the main
+> loop's LinuxAioState will be used instead and aio callbacks will be
+> invoked in the main loop thread instead of the IOThread.
 
-That's, erm, at the *end* of today 2023-03-07, and the freeze happens
-only *after* Paul has reviewed the phase 2 Xen PV back end support,
-right?
+You mean we have a device that has a separate iothread, but a request is
+submitted from the main thread? This isn't even allowed today; if a node
+is in an iothread, all I/O must be submitted from that iothread. Do you
+know any code that does submit I/O from the main thread instead?
 
-https://wiki.qemu.org/Planning/8.0
+> This change will be fine when QEMU block layer support is complete, but
+> will does it already work today?
+>=20
+> When blk_preadv() is called from a non-coroutine in the main loop thread
+> then the coroutine is spawned in the IOThread today. So we avoid the
+> issue.
+>=20
+> But when blk_preadv() is called from a coroutine in the main loop thread
+> we'll have multi-queue activity (I/O being processed in both the main
+> loop thread and IOThread).
 
---=-p2zbuCuHG2EzAnYWyp4u
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+That's a bug then. But calling blk_*() from coroutine context should be
+quite rare anyway in the current code. I can think of .run in the block
+jobs and possible some exports.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA3MDg0MjE4WjAvBgkqhkiG9w0BCQQxIgQgm2dmIEqK
-7u48nGOsa2GmWmKnd0JmUmgdXdNDAGLNvC8wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBLoh5CTBhCNBAoCNWFqJPZwiHLP4jljfc7
-TmNMg7Na/p8v1ZoZKTUNsbuBFq4ziAUNfH++3eUXUE06e/p4BC7hnfpg77xAT3WfgpxdSyHy1LnX
-ojctdgnlSjISN4tacm5Xjuo3L4go9Ma1TkqpUaG+I1wcmyyoVJTHmxe20Z3KwvX/H+/pwh16bQYn
-T3r4xggnEHxSf4Bv0kNtSWuOkqGor2xz1YNb6iJOmb+ot91q6yG7DfQE/09PKUBjkWIHJTXYx+3c
-aHMU1t+e+dtBYJDqXUrMe/WHsxU4ahsVyIZ/9DBVogQMQil26inoZjEeVSiuBbGbeg2wClpLeu79
-l0LoMIszXH91rKP93ICEFMWtHmq6eFrtnS0oxyKduWNLr2lGDRo/UTnEIn3u504zAAOrlocGW2LM
-9b8nAIWKHinaZw/Wemk0T84zY78A3xM/u/szNGlkEPeXOFiawSmv41QejHBi4BtO2YKaEa38axIw
-QkVkK8E9xuZbvqeFSTskR/pbW3S+Uq0/5sfEoX9X2y4xlixYKac9D0oc5CDooJIPBgMRpRM1nnsB
-JC5tqYkUw9UcbgSbXueXl8EkyIqzhD9HB1apUA8e24QGqeow37ANafFaoi9i+QkNKAJPeuCfTP+0
-C7TH3uFXoMjTUTm8rotC9VIC58rQH2mX2Td2xSfnAgAAAAAAAA==
+Actually, we may have a bug in the export code. blk_exp_add() enables
+support for changing iothreads only depending on whether the user
+requested it, but doesn't check if the export driver actually supports
+it. Most do, but FUSE just ignores AioContext changes (it does use the
+initial iothread of the node, though, not always the main thread).
 
+> I like this patch series and think it's the right thing to do, but I'm
+> not sure if it's safe to do this yet. We first need to be sure all aio
+> callbacks are thread-safe (may are already, but there are probably
+> still some that are not).
 
---=-p2zbuCuHG2EzAnYWyp4u--
+I would argue that if we do have buggy code like this, the new code is
+probably better than the old one because getting callbacks scheduled in
+a different thread is the more surprising behaviour. It's probably done
+by code that doesn't expect to ever run in iothreads, so staying in the
+main loop certainly feels safer.
+
+Kevin
+
+--M6J8iEGIJTXqqXLM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmQG+nIACgkQfwmycsiP
+L9ZEwA//X12BTkk8sHnsd34+6abo8qwu+3hWMQqZ9t2W7GINa4m8F++OEITloEka
+6ilWCPnWli4b0Ue3n9gy38G2f0odBlrK1XoA6YwPF91e6h4UuNBqeuA03F6BMF8C
+WHOKi7q6D6wWB6taQypBdNUH3OzOoJReVsdQ9lBK8FUw27+02rRs7KDFUwpHd/lD
+A6aM9cBlCH6hyHB3h69jf52YAftSCbvZZtAHMv8tZQgpFwX8z5mxMbG9Kj3YWM//
++QPOJp1OG6Gm4KjfrTLYko3dHKyqvKW4HMYmo7uHCrGIssuMRgzxmY3MDSNbJMXL
+b6wFyLPQFfp/f7OIEM0AcoNfCUV/SxaJ4Sa0rqNELCaoqC7kFOy4F8gIYxZ7sgYT
+axqu9D0IEAjeG6MS+bahWOcH7KUatjOLj1j1PxAJgDgSZ2QfZ8Mc3z7iBVwCdJZD
+21s4oc3i4AmdoorYNSFmaudnWSzJR+1K9jAL09O0a2XvVs/YbkFeLDTvv1VU8yJV
+f93eAV5ZRR+zcTalAjiK+ghpeY9buY/5SuSdo5zZ14YSU6fd0J6vSm4EOIbnyNCG
+2BQVTsjmnlQPwM0NMk3CwSvW/9Sb/usHCgDMQVmTvR1XPCHGWBughXnoMRdil7qg
+ldDfUUaoaRrh0WIS8rFhGgWib3Mflbi+Sd9O5F3Toch+Zas8mk0=
+=IG+6
+-----END PGP SIGNATURE-----
+
+--M6J8iEGIJTXqqXLM--
+
 
