@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB426AD426
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 02:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4CF6AD43F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 02:48:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZMKF-0000Y2-PA; Mon, 06 Mar 2023 20:41:11 -0500
+	id 1pZMQG-0003dr-LL; Mon, 06 Mar 2023 20:47:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <roqueh@google.com>) id 1pZMKD-0000Xi-TL
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 20:41:09 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <roqueh@google.com>) id 1pZMKA-00010T-P2
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 20:41:09 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id t11so15253793lfr.1
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 17:41:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1678153264;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=5u1INfFDElPf8bSzdh94F3s5MJGHsk4zt6U/aCCObNY=;
- b=pZYDQgJlYvxtdqp+6QQqWhkPWRsmEXw8p8J5kpUfBr+7inKNFXZ5i/6N41F4Sknn3k
- XW8G6nc1CavR+jdwg34RBcOeeqR4iIyZW4ddbDqRCbXdPrd40l0QTFTc6UOGvZK4VNTh
- kVcv+4+EcdeF9RBzF2VmuCvMZX9Dc04yMHCLAi2tt/BZ86yTvDI5M5oJtkhQ6mkBFgY6
- Z4fa7YIsmUKtp+SuhaKLB/qeokTJPCw3L+80n9L/yHR22v+e9jwptr15GXRNNqiQj+c6
- kGMq7ECBLolpdcB3mY7O+PCoKs5/v/ZQYdELskHjICBDqW8vjseMm8gk/YD+csZYoaAw
- nBOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678153264;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5u1INfFDElPf8bSzdh94F3s5MJGHsk4zt6U/aCCObNY=;
- b=b63s2kgiandVOlLt7WvS+35EL2uzGlkO9TTDxBaYDfKC+aHHZ/bZY1hNu/A0ZImHdt
- ITeKJOrX9qzzAq9MpBtuLgjTkmHFA2/dX0ITURdYU+aaAnObwsOfYHU1HrpnP3WWOt41
- d8iuRDcJaKDWzRZunNxr4IcFK1220XFeqkA1Q662wBfsQo5wDk6xBeRPuvLurppvH0r+
- v9M2L2KHxE0cyzFnigcPe/rbZJhYMctIY6GON8xyAv4ndgrNHOAbM1l6OwgbF4hWEmT7
- cGXpJz/ShL2vdijMePjnY9kuaL4WlACR2r7aTRZtzz3J6m/MBUUNsRSJDZbfwcL/GR3z
- 9MFw==
-X-Gm-Message-State: AO0yUKVAth4F6tQYkyUIAOKl904A9tLuwRL8dHXwRQS348vr49MxqUcq
- mHa3P/WWqRL/UCnjAdJa54s4qG8yiiIM1LeLbvhPGDb6giFYccmwO+c5dA==
-X-Google-Smtp-Source: AK7set+sTnX5nc7ONziYszTQc5U9VNNN9R66XezguvYca7T/xJFiBQZKdjUp2Gg93WcqVZNJj+6KEVAoNd361uBLBJE=
-X-Received: by 2002:ac2:52a8:0:b0:4d5:ca32:7bba with SMTP id
- r8-20020ac252a8000000b004d5ca327bbamr3894157lfm.1.1678153263464; Mon, 06 Mar
- 2023 17:41:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pZMQD-0003dc-Sn; Mon, 06 Mar 2023 20:47:21 -0500
+Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pZMQA-0001uM-VI; Mon, 06 Mar 2023 20:47:21 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R981e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VdJ4Q6C_1678153628; 
+Received: from 192.168.3.95(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VdJ4Q6C_1678153628) by smtp.aliyun-inc.com;
+ Tue, 07 Mar 2023 09:47:09 +0800
+Message-ID: <36217124-138c-d7ca-2322-5b5d40c31fb2@linux.alibaba.com>
+Date: Tue, 7 Mar 2023 09:47:08 +0800
 MIME-Version: 1.0
-From: Roque Arcudia Hernandez <roqueh@google.com>
-Date: Mon, 6 Mar 2023 17:40:52 -0800
-Message-ID: <CAKbPEtZ5DiSb-avGpBX_+C6vk8dacBnEpTEtiPFV1WZ4Xk7Oqg@mail.gmail.com>
-Subject: Adding Implementation Defined ARM cpu registers
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000026ae4b05f6458137"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=roqueh@google.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/1] hw/riscv: Add signature dump function for spike to
+ run ACT tests
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230306090314.74626-1-liweiwei@iscas.ac.cn>
+ <20230306090314.74626-2-liweiwei@iscas.ac.cn>
+ <6dd0199c-c3e0-a466-67b3-dab92df587d2@linux.alibaba.com>
+ <5032e9ed-b8ef-cc0e-e122-1ec09fc00cf3@iscas.ac.cn>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <5032e9ed-b8ef-cc0e-e122-1ec09fc00cf3@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.119;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-119.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,79 +68,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000026ae4b05f6458137
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On 2023/3/6 20:10, liweiwei wrote:
+>
+> On 2023/3/6 19:00, LIU Zhiwei wrote:
+>>
+>> On 2023/3/6 17:03, Weiwei Li wrote:
+>>> Add signature and signature-granularity properties in spike to 
+>>> specify the target
+>>> signatrue file and the line size for signature data.
+>>>
+>>> Recgonize the signature section between begin_signature and 
+>>> end_signature symbols
+>>> when loading elf of ACT tests. Then dump signature data in signature 
+>>> section just
+>>> before the ACT tests exit.
+>>>
+>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>> ---
+>>>   hw/char/riscv_htif.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>>>   hw/riscv/spike.c     | 16 ++++++++++++++++
+>>>   2 files changed, 54 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
+>>> index 098de50e35..2a82ed8500 100644
+>>> --- a/hw/char/riscv_htif.c
+>>> +++ b/hw/char/riscv_htif.c
+>>> @@ -29,6 +29,8 @@
+>>>   #include "chardev/char-fe.h"
+>>>   #include "qemu/timer.h"
+>>>   #include "qemu/error-report.h"
+>>> +#include "exec/address-spaces.h"
+>>> +#include "sysemu/dma.h"
+>>>     #define RISCV_DEBUG_HTIF 0
+>>>   #define HTIF_DEBUG(fmt, 
+>>> ...)                                                   \
+>>> @@ -51,7 +53,10 @@
+>>>   /* PK system call number */
+>>>   #define PK_SYS_WRITE            64
+>>>   -static uint64_t fromhost_addr, tohost_addr;
+>>> +extern const char *sig_file;
+>>> +extern uint8_t line_size;
+>>> +
+>> Why not declare them in riscv_htif.h and include them in 
+>> hw/riscv/spike.c?
+>
+> Do you mean the above "extern ..." declaration? It's OK to move them 
+> to riscv_hitf.h.
 
-I'm dealing with a problem in which I need to add support for some
-neoverse-v2 registers defined as implementation defined in the TRM of the
-core.
+No， I mean define them in riscv_htif.c and declare them in riscv_htif.h.
 
-In file helper.c I can see the decision of whether or not a register is
-implemented is based mainly in function calls arm_feature(env,
-ARM_FEATURE_*) or cpu_isar_feature(<feature>, cpu).
+Zhiwei
 
-The main feature I'm interested in is actually protected by a call
-to cpu_isar_feature but the neoverse-v2 needs extra IMP_ registers for
-extra configuration of the feature.
-
-I cannot find any example of a set of registers that depend on a particular
-cpu. What I'm currently doing is defining a function to know if it is that
-particular core and add more registers for the feature:
-
-    if (cpu_isar_feature(<feature>, cpu)) {
-        define_arm_cp_regs(cpu, <feature>_reginfo);
-        if (is_neoverse_v2_core(cpu)) {
-            /* Add extra registers */
-        }
-    }
-
-Where my helper function is defined as:
-
-static bool is_neoverse_v2_core(ARMCPU *cpu)
-{
-    /* Looking for Neoverse-V2 Part Num 0b110101001111 */
-    const uint64_t neoverse_v2_partnum = 0xd4f;
-    uint64_t partnum = FIELD_EX64(cpu->midr, MIDR_EL1, PARTNUM);
-    return (partnum == neoverse_v2_partnum);
-}
-
-Is this ok? Otherwise what is your recommendation?
-
-Thanks
-
-Roque
-
---00000000000026ae4b05f6458137
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div><br></div><div>I&#39;m dealing with a problem i=
-n which I need to add support=C2=A0for some neoverse-v2 registers defined a=
-s implementation defined in the TRM of the core.</div><div><br></div><div>I=
-n file helper.c I can see the decision of whether or not a register is impl=
-emented is based mainly in function calls arm_feature(env, ARM_FEATURE_*) o=
-r=C2=A0cpu_isar_feature(&lt;feature&gt;, cpu).</div><div><br></div><div>The=
- main feature I&#39;m interested in is actually protected by a call to=C2=
-=A0cpu_isar_feature but the neoverse-v2 needs extra IMP_ registers for extr=
-a configuration of the feature.</div><div><br></div><div>I cannot find any =
-example of a set of registers that depend on a particular cpu. What I&#39;m=
- currently doing is defining a function to know if it is that particular co=
-re and add more registers for the feature:</div><div><br></div><div>=C2=A0 =
-=C2=A0 if (cpu_isar_feature(&lt;feature&gt;, cpu)) {<br>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 define_arm_cp_regs(cpu, &lt;feature&gt;_reginfo);<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 if (is_neoverse_v2_core(cpu)) {<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 /* Add extra registers */<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>=C2=A0 =C2=A0 }<br></div><div><br></div><div>Where my helper funct=
-ion is defined as:</div><div><br></div><div>static bool is_neoverse_v2_core=
-(ARMCPU *cpu)<br>{<br>=C2=A0 =C2=A0 /* Looking for Neoverse-V2 Part Num 0b1=
-10101001111 */<br>=C2=A0 =C2=A0 const uint64_t neoverse_v2_partnum =3D 0xd4=
-f;<br>=C2=A0 =C2=A0 uint64_t partnum =3D FIELD_EX64(cpu-&gt;midr, MIDR_EL1,=
- PARTNUM);<br>=C2=A0 =C2=A0 return (partnum =3D=3D neoverse_v2_partnum);<br=
->}<br></div><div><br></div><div>Is this ok? Otherwise what is your recommen=
-dation?</div><div><br></div><div>Thanks</div><div><br></div><div>Roque</div=
-><div><br></div></div>
-
---00000000000026ae4b05f6458137--
+>
+> However, we can not move the definition in spike.c to riscv_htif.h. 
+> Otherwise, it'll trigger
+>
+> multiple definition error.
+>
+>>> +static uint64_t fromhost_addr, tohost_addr, sig_addr, sig_len;
+>>>     void htif_symbol_callback(const char *st_name, int st_info, 
+>>> uint64_t st_value,
+>>>                             uint64_t st_size)
+>>> @@ -68,6 +73,10 @@ void htif_symbol_callback(const char *st_name, 
+>>> int st_info, uint64_t st_value,
+>>>               error_report("HTIF tohost must be 8 bytes");
+>>>               exit(1);
+>>>           }
+>>> +    } else if (strcmp("begin_signature", st_name) == 0) {
+>>> +        sig_addr = st_value;
+>>> +    } else if (strcmp("end_signature", st_name) == 0) {
+>>> +        sig_len = st_value - sig_addr;
+>>>       }
+>>>   }
+>>>   @@ -161,6 +170,34 @@ static void 
+>>> htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
+>>>           /* frontend syscall handler, shutdown and exit code 
+>>> support */
+>>>           if (cmd == HTIF_SYSTEM_CMD_SYSCALL) {
+>>>               if (payload & 0x1) {
+>>> +                /* Dump signature data to sig_file if specified */
+>>> +                if (sig_file) {
+>>> +                    char *sig_data = g_malloc(sig_len);
+>>> + dma_memory_read(&address_space_memory, sig_addr, sig_data,
+>>> +                                    sig_len, MEMTXATTRS_UNSPECIFIED);
+>>> +                    FILE *signature = fopen(sig_file, "w");
+>>> +                    if (signature == NULL) {
+>>> +                        error_report("open %s: %s", sig_file,
+>>> +                                     strerror(errno));
+>>> +                        exit(1);
+>>> +                    }
+>>> +
+>>> +                    for (int i = 0; i < sig_len; i += line_size) {
+>>> +                        for (int j = line_size; j > 0; j--) {
+>>> +                            if (i + j <= sig_len) {
+>>> +                                fprintf(signature, "%02x",
+>>> +                                        sig_data[i + j - 1] & 0xff);
+>>
+>> Not sure about the order. Otherwise, 
+>
+> It will put the higher data(at higher address) before the lower data 
+> in the same line,
+>
+> just as the htif logic in riscv-isa-sim(spike).
+>
+> Regards,
+>
+> Weiwei Li
+>
+>>
+>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>>
+>> Zhiwei
+>>
+>>> +                            } else {
+>>> +                                fprintf(signature, "%02x", 0);
+>>> +                            }
+>>> +                        }
+>>> +                        fprintf(signature, "\n");
+>>> +                    }
+>>> +
+>>> +                    fclose(signature);
+>>> +                    g_free(sig_data);
+>>> +                }
+>>> +
+>>>                   /* exit code */
+>>>                   int exit_code = payload >> 1;
+>>>                   exit(exit_code);
+>>> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+>>> index a584d5b3a2..eaa7f54fd6 100644
+>>> --- a/hw/riscv/spike.c
+>>> +++ b/hw/riscv/spike.c
+>>> @@ -41,6 +41,9 @@
+>>>     #include <libfdt.h>
+>>>   +const char *sig_file;
+>>> +uint8_t line_size = 16;
+>>> +
+>>>   static const MemMapEntry spike_memmap[] = {
+>>>       [SPIKE_MROM] =     {     0x1000,     0xf000 },
+>>>       [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
+>>> @@ -332,6 +335,11 @@ static void spike_board_init(MachineState 
+>>> *machine)
+>>>                    htif_custom_base);
+>>>   }
+>>>   +static void spike_set_signature(Object *obj, const char *val, 
+>>> Error **errp)
+>>> +{
+>>> +    sig_file = g_strdup(val);
+>>> +}
+>>> +
+>>>   static void spike_machine_instance_init(Object *obj)
+>>>   {
+>>>   }
+>>> @@ -350,6 +358,14 @@ static void 
+>>> spike_machine_class_init(ObjectClass *oc, void *data)
+>>>       mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
+>>>       mc->numa_mem_supported = true;
+>>>       mc->default_ram_id = "riscv.spike.ram";
+>>> +    object_class_property_add_str(oc, "signature", NULL, 
+>>> spike_set_signature);
+>>> +    object_class_property_set_description(oc, "signature",
+>>> +                                          "File to write ACT test 
+>>> signature");
+>>> +    object_class_property_add_uint8_ptr(oc, "signature-granularity",
+>>> +                                        &line_size, 
+>>> OBJ_PROP_FLAG_WRITE);
+>>> +    object_class_property_set_description(oc, "signature-granularity",
+>>> +                                          "Size of each line in ACT 
+>>> signature "
+>>> +                                          "file");
+>>>   }
+>>>     static const TypeInfo spike_machine_typeinfo = {
 
