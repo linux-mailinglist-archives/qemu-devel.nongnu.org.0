@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C186AD469
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8283A6AD462
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:05:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZMfr-0006qo-P9; Mon, 06 Mar 2023 21:03:31 -0500
+	id 1pZMfv-0006s1-0x; Mon, 06 Mar 2023 21:03:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZMfm-0006qP-GZ
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:26 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ id 1pZMfs-0006rC-A1
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:32 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZMfk-0004w7-TE
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:26 -0500
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+ id 1pZMfo-0004wJ-KV
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:03:31 -0500
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 326Nwk6i021487; Tue, 7 Mar 2023 02:03:24 GMT
+ 326NxYsM030050; Tue, 7 Mar 2023 02:03:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=j8Gk6mLjlQ2gE15Bhh0tmCiIiPoQ6uZ8kpS/YiwQP18=;
- b=OCwb6HhYI8CMo4rB03Mr9bhDj/twYRpW/5JZ8TfydLEPhqGKiWN9Ryf5cgwppxnRW7cy
- yt/7N/mWeQbvZjAdbTj+sYOg471Yfoz5XgY8YBYZaTQ6qeVU9FsggjyG/Crh+Pb2TiwI
- m+3xpMTQ7TyLFOsugCMzlgR68HTJvsq/lhDWkfJQc9hNWjbQUfAxLkVKhezT+StPzkth
- 4T7/9zXNXGqfeVddTFRtFN7O1vk4FUpEhFCxoSFaCZFv0apLfXngU6joC7VzQNJNkhMJ
- QLJ3drP0TikqhOMY1Bd38EjQH950dYpCsYjhykrsxfvZJqqtg/21IRMBzZwHONeL/td7 4g== 
+ bh=U424iuqvq3TR9AV41TeI7ouo9ejdeHYzTj2iwoghSbo=;
+ b=UlIaSMpX8gHQsTMitBCVmC8c5KGNc7h26sOFZYuxNb+LCO12UgMrO+gNu+sdVKlMW0Iq
+ iDunWdJVVLv9DmL/96kfdx35Jy+zrAzebFW/WMgSLBg0jCRtr2F7G0JSY9qAjW1Xa7KK
+ 9MSpfNuZ99cpkW1ETfHU6M1V9NRUMhD9p1C2LcYKBv8VYCsXW6uahQoxknSIr3VdIXz+
+ gSaMyZp7oEG0sRIrb6YMC6XQ5p3RrzVCwGFtGFBCG9PTubNN8YYEtkjUAOy4dLXNow5e
+ rJHZNPlUduTZFmRj1107pKVHyXtBiz9uxE26ngRMLz7hLGVYKb1aZ5SxTq4L7sx/7Czn Tg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p415hvfp0-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p418xvfe3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 02:03:23 +0000
+ Tue, 07 Mar 2023 02:03:27 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 3271UTZu038062; Tue, 7 Mar 2023 02:03:23 GMT
+ with ESMTP id 3271UTZv038062; Tue, 7 Mar 2023 02:03:25 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p4txdubqu-1
+ 3p4txdubsf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 02:03:23 +0000
+ Tue, 07 Mar 2023 02:03:25 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32723568016763;
- Tue, 7 Mar 2023 02:03:22 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3272356A016763;
+ Tue, 7 Mar 2023 02:03:25 GMT
 Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-187-101.vpn.oracle.com
  [10.175.187.101])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3p4txdubf4-6; Tue, 07 Mar 2023 02:03:22 +0000
+ 3p4txdubf4-7; Tue, 07 Mar 2023 02:03:25 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -61,10 +61,10 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v4 05/14] vfio/common: Add helper to validate iova/end against
- hostwin
-Date: Tue,  7 Mar 2023 02:02:49 +0000
-Message-Id: <20230307020258.58215-6-joao.m.martins@oracle.com>
+Subject: [PATCH v4 06/14] vfio/common: Consolidate skip/invalid section into
+ helper
+Date: Tue,  7 Mar 2023 02:02:50 +0000
+Message-Id: <20230307020258.58215-7-joao.m.martins@oracle.com>
 In-Reply-To: <20230307020258.58215-1-joao.m.martins@oracle.com>
 References: <20230307020258.58215-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
@@ -75,13 +75,13 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  definitions=2023-03-06_14,2023-03-06_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  mlxscore=0 adultscore=0
- spamscore=0 suspectscore=0 mlxlogscore=807 phishscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 mlxlogscore=641 phishscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2303070016
-X-Proofpoint-GUID: 3WSAd1SCr42PhhB-FcgIePdpULg-geo_
-X-Proofpoint-ORIG-GUID: 3WSAd1SCr42PhhB-FcgIePdpULg-geo_
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: PV3J8wcV388D5fSPhlNIQMdn5BLiLfZ-
+X-Proofpoint-ORIG-GUID: PV3J8wcV388D5fSPhlNIQMdn5BLiLfZ-
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -104,87 +104,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In preparation to be used in device dirty tracking, move the code that
-finds the container host DMA window against a iova range.  This avoids
-duplication on the common checks across listener callbacks.
+The checks are replicated against region_add and region_del
+and will be soon added in another memory listener dedicated
+for dirty tracking.
+
+Move these into a new helper for avoid duplication.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
 ---
- hw/vfio/common.c | 38 ++++++++++++++++++++------------------
- 1 file changed, 20 insertions(+), 18 deletions(-)
+ hw/vfio/common.c | 52 +++++++++++++++++++-----------------------------
+ 1 file changed, 21 insertions(+), 31 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index cec3de08d2b4..99acb998eb14 100644
+index 99acb998eb14..54b4a4fc7daf 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -901,6 +901,22 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
-     g_free(vrdl);
+@@ -933,23 +933,14 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+     return true;
  }
  
-+static VFIOHostDMAWindow *vfio_find_hostwin(VFIOContainer *container,
-+                                            hwaddr iova, hwaddr end)
-+{
-+    VFIOHostDMAWindow *hostwin;
-+    bool hostwin_found = false;
-+
-+    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
-+        if (hostwin->min_iova <= iova && end <= hostwin->max_iova) {
-+            hostwin_found = true;
-+            break;
-+        }
-+    }
-+
-+    return hostwin_found ? hostwin : NULL;
-+}
-+
- static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+-static void vfio_listener_region_add(MemoryListener *listener,
+-                                     MemoryRegionSection *section)
++static bool vfio_listener_valid_section(MemoryRegionSection *section)
  {
-     MemoryRegion *mr = section->mr;
-@@ -926,7 +942,6 @@ static void vfio_listener_region_add(MemoryListener *listener,
-     void *vaddr;
-     int ret;
-     VFIOHostDMAWindow *hostwin;
--    bool hostwin_found;
-     Error *err = NULL;
- 
+-    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+-    hwaddr iova, end;
+-    Int128 llend, llsize;
+-    void *vaddr;
+-    int ret;
+-    VFIOHostDMAWindow *hostwin;
+-    Error *err = NULL;
+-
      if (vfio_listener_skipped_section(section)) {
-@@ -1027,15 +1042,8 @@ static void vfio_listener_region_add(MemoryListener *listener,
- #endif
+         trace_vfio_listener_region_add_skip(
+                 section->offset_within_address_space,
+                 section->offset_within_address_space +
+                 int128_get64(int128_sub(section->size, int128_one())));
+-        return;
++        return false;
      }
  
--    hostwin_found = false;
--    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
--        if (hostwin->min_iova <= iova && end <= hostwin->max_iova) {
--            hostwin_found = true;
--            break;
--        }
+     if (unlikely((section->offset_within_address_space &
+@@ -964,6 +955,24 @@ static void vfio_listener_region_add(MemoryListener *listener,
+                          section->offset_within_region,
+                          qemu_real_host_page_size());
+         }
++        return false;
++    }
++
++    return true;
++}
++
++static void vfio_listener_region_add(MemoryListener *listener,
++                                     MemoryRegionSection *section)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++    hwaddr iova, end;
++    Int128 llend, llsize;
++    void *vaddr;
++    int ret;
++    VFIOHostDMAWindow *hostwin;
++    Error *err = NULL;
++
++    if (!vfio_listener_valid_section(section)) {
+         return;
+     }
+ 
+@@ -1182,26 +1191,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     int ret;
+     bool try_unmap = true;
+ 
+-    if (vfio_listener_skipped_section(section)) {
+-        trace_vfio_listener_region_del_skip(
+-                section->offset_within_address_space,
+-                section->offset_within_address_space +
+-                int128_get64(int128_sub(section->size, int128_one())));
+-        return;
 -    }
 -
--    if (!hostwin_found) {
-+    hostwin = vfio_find_hostwin(container, iova, end);
-+    if (!hostwin) {
-         error_setg(&err, "Container %p can't map guest IOVA region"
-                    " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx, container, iova, end);
-         goto fail;
-@@ -1237,15 +1245,9 @@ static void vfio_listener_region_del(MemoryListener *listener,
-     if (memory_region_is_ram_device(section->mr)) {
-         hwaddr pgmask;
-         VFIOHostDMAWindow *hostwin;
--        bool hostwin_found = false;
- 
--        QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
--            if (hostwin->min_iova <= iova && end <= hostwin->max_iova) {
--                hostwin_found = true;
--                break;
--            }
+-    if (unlikely((section->offset_within_address_space &
+-                  ~qemu_real_host_page_mask()) !=
+-                 (section->offset_within_region & ~qemu_real_host_page_mask()))) {
+-        if (!vfio_known_safe_misalignment(section)) {
+-            error_report("%s received unaligned region %s iova=0x%"PRIx64
+-                         " offset_within_region=0x%"PRIx64
+-                         " qemu_real_host_page_size=0x%"PRIxPTR,
+-                         __func__, memory_region_name(section->mr),
+-                         section->offset_within_address_space,
+-                         section->offset_within_region,
+-                         qemu_real_host_page_size());
 -        }
--        assert(hostwin_found); /* or region_add() would have failed */
-+        hostwin = vfio_find_hostwin(container, iova, end);
-+        assert(hostwin); /* or region_add() would have failed */
++    if (!vfio_listener_valid_section(section)) {
+         return;
+     }
  
-         pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
-         try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
 -- 
 2.17.2
 
