@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB466ADE1E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98446ADE23
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVwG-00028M-Kq; Tue, 07 Mar 2023 06:57:04 -0500
+	id 1pZVwM-0002Ei-6z; Tue, 07 Mar 2023 06:57:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwD-00026G-Uz
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:02 -0500
+ id 1pZVwK-00028l-4U
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwC-00031N-1I
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:01 -0500
+ id 1pZVwI-00033f-HZ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678190219;
+ s=mimecast20190719; t=1678190225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hmg13HbxJwHg24durNrODulsq2BuE/jBI17HBX3LcJQ=;
- b=cQ6R/s6ajCngplVpV/K6gyWhShWlT+zCAge/gv14ePuHEvgG5AqbSvDzBsJLsHx3uctjVg
- jM+Q9EvnWjsrvUDm2uHOPlQxGJasdJsML7dPzXtaJSFs1/iz2YrwA3IN8LCbCXrWZh7/nV
- xYZG857K0UEZtZ2LSXUOij1GoehtdLg=
+ bh=MO2aoZ44E6myoCFN2vgXYm+jOHocGXEpoXAwrcahkY8=;
+ b=DN/pr2b6CenLEX7btLaYUz51xeQgSQbp8a8tZqa81a6ciH1qwVD0/zkpJTEaUVwgOzCYdb
+ Bc8eXiol3lzdd4v+wZDaY/sBLHHyZ1/T4ZVuPj3xbFIlmKHLF4+Ofh76P54h30JeEyylBH
+ KdWWyTl4tls2f1gjviLpvffBzPMh8Lc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-33-W6-FqCG8P4Ks4-LYnLLE_g-1; Tue, 07 Mar 2023 06:56:58 -0500
-X-MC-Unique: W6-FqCG8P4Ks4-LYnLLE_g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-377-yPvzkbgTMhmNF5Lrz_sRwg-1; Tue, 07 Mar 2023 06:57:02 -0500
+X-MC-Unique: yPvzkbgTMhmNF5Lrz_sRwg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7B68280AA24;
- Tue,  7 Mar 2023 11:56:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6261A280AA23;
+ Tue,  7 Mar 2023 11:57:02 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F7CE492B00;
- Tue,  7 Mar 2023 11:56:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F5B2140EBF4;
+ Tue,  7 Mar 2023 11:57:00 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,16 +50,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 04/18] ui/dbus: set mouse is-absolute during console
- creation
-Date: Tue,  7 Mar 2023 15:56:23 +0400
-Message-Id: <20230307115637.2464377-5-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 05/18] meson: ensure dbus-display generated code is built
+ before other units
+Date: Tue,  7 Mar 2023 15:56:24 +0400
+Message-Id: <20230307115637.2464377-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -87,48 +87,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+It's simply by luck that dbus-display header is built first before the
+other units using it.
+
+With sourceset, I can't find an easier way out than declaring an extra
+dependency for dbus-display1 generate code.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/dbus-console.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ ui/meson.build | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/ui/dbus-console.c b/ui/dbus-console.c
-index 0bfaa2298d..f77bc49d2e 100644
---- a/ui/dbus-console.c
-+++ b/ui/dbus-console.c
-@@ -411,15 +411,21 @@ dbus_mouse_release(DBusDisplayConsole *ddc,
-     return DBUS_METHOD_INVOCATION_HANDLED;
- }
+diff --git a/ui/meson.build b/ui/meson.build
+index 612ea2325b..0b2d0d21d1 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -83,7 +83,9 @@ if dbus_display
+                                           '--interface-prefix', 'org.qemu.',
+                                           '--c-namespace', 'QemuDBus',
+                                           '--generate-c-code', '@BASENAME@'])
+-  dbus_ss.add(when: [gio, pixman, opengl, gbm],
++  dbus_display1_lib = static_library('dbus-display1', dbus_display1, dependencies: gio)
++  dbus_display1_dep = declare_dependency(link_with: dbus_display1_lib, include_directories: include_directories('.'))
++  dbus_ss.add(when: [gio, pixman, opengl, gbm, dbus_display1_dep],
+               if_true: [files(
+                 'dbus-chardev.c',
+                 'dbus-clipboard.c',
+@@ -91,7 +93,7 @@ if dbus_display
+                 'dbus-error.c',
+                 'dbus-listener.c',
+                 'dbus.c',
+-              ), dbus_display1])
++              )])
+   ui_modules += {'dbus' : dbus_ss}
+ endif
  
-+static void
-+dbus_mouse_update_is_absolute(DBusDisplayConsole *ddc)
-+{
-+    g_object_set(ddc->iface_mouse,
-+                 "is-absolute", qemu_input_is_absolute(),
-+                 NULL);
-+}
-+
- static void
- dbus_mouse_mode_change(Notifier *notify, void *data)
- {
-     DBusDisplayConsole *ddc =
-         container_of(notify, DBusDisplayConsole, mouse_mode_notifier);
- 
--    g_object_set(ddc->iface_mouse,
--                 "is-absolute", qemu_input_is_absolute(),
--                 NULL);
-+    dbus_mouse_update_is_absolute(ddc);
- }
- 
- int dbus_display_console_get_index(DBusDisplayConsole *ddc)
-@@ -492,6 +498,7 @@ dbus_display_console_new(DBusDisplay *display, QemuConsole *con)
-     register_displaychangelistener(&ddc->dcl);
-     ddc->mouse_mode_notifier.notify = dbus_mouse_mode_change;
-     qemu_add_mouse_mode_change_notifier(&ddc->mouse_mode_notifier);
-+    dbus_mouse_update_is_absolute(ddc);
- 
-     return ddc;
- }
 -- 
 2.39.2
 
