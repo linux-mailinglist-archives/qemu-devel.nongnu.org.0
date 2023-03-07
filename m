@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A976AE6B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:34:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1BE6AE6D6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:38:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZaG8-0004wi-NP; Tue, 07 Mar 2023 11:33:52 -0500
+	id 1pZaK9-0007cl-P9; Tue, 07 Mar 2023 11:38:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZaG7-0004wX-4R
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:33:51 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZaG5-0001vH-OT
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:33:50 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- o11-20020a05600c4fcb00b003eb33ea29a8so7591867wmq.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:33:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678206828;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ODFEs4lutUTOCTS0JRQfAjh1n5tVkNHNlTQgykdjlWU=;
- b=euFBFA8ao983NrMKIHWhxAbynR1JGS3jYgumyhV2/wexzrjon0cPEgodhRoTsOo0++
- uEsyiBumQRrttc4yK0Qk/9FBnwlH7oHywmHABJ3QkLWjnRFq52NRQoGoF+fyfYXPumL2
- lW7FFl2aVS+JymtkTW1Ifd3+I3ZE6rnOaT4bEl1ti5d0ublxOzzBpdke4qyCMQZRTpjr
- NC9pfR57CVLdiHfGPNVcB0KhicmBfrQsn2LRWLjC3IBhnGM7UH4aaVmSdxqcNcuD+tu9
- ZgMtMiy0cz4brWk55qszXn5Q/QdkRUnyl2wAcJctr04RofF4+GnRyzAk0/ENkiX7/NfE
- QlIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678206828;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ODFEs4lutUTOCTS0JRQfAjh1n5tVkNHNlTQgykdjlWU=;
- b=lhmmhA12ErDZrDD2uyRXitFDeHy0bjKRWkIyz2TZou6KbKVmQv3qLRuokI39ABBtL9
- xkjlBCMY/52HKv3MKbUlmqYuNCw/1oGKlesThQUJGNRd3/q5/iEHCKCw0gZKiyfuvqtO
- G+30GPesRgR3w+6oBCU6a2wN0fR2XpcH1Nhz3P5zLhMjt+UqPPktCLxOod76H+2ORoae
- 6BTRtI+wiVvHXNh1zqu84+Gg/04i6OnnTc9NFQ+ZHUjCOxvUtcgYFCrZQRFuLi7sm/mu
- IvTCZoQceMNla54KSg/4e0iZUpw4sr84vVn2kdECO615pg2rpYeyZtbC8EXXapd3BeDU
- bkBQ==
-X-Gm-Message-State: AO0yUKV+J7KTIQATSPnK5lL8fBWuOnrNUdvO6GHx3iZK2bXfVgvD7GXa
- JuflhSnYxH4qXE1skDTdR5Q=
-X-Google-Smtp-Source: AK7set9Shid+xe129rlKccGUCdhMNEfOKP/gPOmnbV6whCjg2xYZnzh5gGuDGn58tYqNC8a5Gw9Wxw==
-X-Received: by 2002:a05:600c:1906:b0:3eb:3c76:c23c with SMTP id
- j6-20020a05600c190600b003eb3c76c23cmr13341051wmq.3.1678206828227; 
- Tue, 07 Mar 2023 08:33:48 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
- by smtp.gmail.com with ESMTPSA id
- l38-20020a05600c1d2600b003dc434b39c7sm3421568wms.0.2023.03.07.08.33.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 08:33:47 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <9e660371-c77d-1db0-56f0-26c5acfaae9d@xen.org>
-Date: Tue, 7 Mar 2023 16:33:46 +0000
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZaK7-0007aH-Gx
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:37:59 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZaK5-0003Nr-Ov
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:37:59 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DF34D211D2;
+ Tue,  7 Mar 2023 16:37:51 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 7 Mar
+ 2023 17:37:51 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S00137bf3014-d49a-4b2d-9f0f-35ae05992ebc,
+ D586700EEA543FC8D630564B717DAE7078976E4F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <ef54354e-f3c6-37a9-1ddd-42caca106b44@kaod.org>
+Date: Tue, 7 Mar 2023 17:37:50 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 27/25] docs: Update Xen-on-KVM documentation for PV
- disk support
+Subject: Re: [PULL 2/5] pflash: Fix blk_pread_nonzeroes()
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <1de346bcc550da15f43c9efe05cb98ea57260df2.camel@infradead.org>
-Organization: Xen Project
-In-Reply-To: <1de346bcc550da15f43c9efe05cb98ea57260df2.camel@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>
+References: <20230307155528.3655534-1-clg@kaod.org>
+ <20230307155528.3655534-3-clg@kaod.org>
+ <be44cfd0-d107-76a3-abe5-fba82d15a646@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <be44cfd0-d107-76a3-abe5-fba82d15a646@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 00ca6a21-b2ce-436c-bd50-87ee1f7e3e44
+X-Ovh-Tracer-Id: 7520729905972612003
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeikeehkeehheejgfffkeffveegleduffeiteejuefgfedtjeekgefgveffveeigfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpkhifohhlfhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,19 +72,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/03/2023 16:22, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On 3/7/23 17:22, Philippe Mathieu-Daudé wrote:
+> On 7/3/23 16:55, Cédric Le Goater wrote:
+>> From: Kevin Wolf <kwolf@redhat.com>
+>>
+>> Commit a4b15a8b introduced a new function blk_pread_nonzeroes(). Instead
+>> of reading directly from the root node of the BlockBackend, it reads
+>> from its 'file' child node. This can happen to mostly work for raw
+>> images (as long as the 'raw' format driver is in use, but not actually
+>> doing anything), but it breaks everything else.
+>>
+>> Fix it to read from the root node instead.
+>>
+>> Fixes: a4b15a8b9ef25b44fa92a4825312622600c1f37c
 > 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   docs/system/i386/xen.rst | 30 +++++++++++++++++++++++-------
->   1 file changed, 23 insertions(+), 7 deletions(-)
+> You missed:
 > 
+> Tested-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+> Fixes: a4b15a8b9e ("pflash: Only read non-zero parts of backend image")
+> 
+> by 3min:
+> https://lore.kernel.org/qemu-devel/c5c82d88-df2a-e968-4d81-0da1cfa2ab09@maciej.szmigiero.name/
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+
+yes :) I waited for the CI to complete and didn't check my email before
+sending. If I respin, I will fix.
+
+C.
+
+
+> 
+>> Reported-by: Cédric Le Goater <clg@kaod.org>
+>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> Message-Id: <20230307140230.59158-1-kwolf@redhat.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   hw/block/block.c | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/hw/block/block.c b/hw/block/block.c
+>> index af0710e477..9f52ee6e72 100644
+>> --- a/hw/block/block.c
+>> +++ b/hw/block/block.c
+>> @@ -39,8 +39,7 @@ static int blk_pread_nonzeroes(BlockBackend *blk, hwaddr size, void *buf)
+>>               return ret;
+>>           }
+>>           if (!(ret & BDRV_BLOCK_ZERO)) {
+>> -            ret = bdrv_pread(bs->file, offset, bytes,
+>> -                             (uint8_t *) buf + offset, 0);
+>> +            ret = blk_pread(blk, offset, bytes, (uint8_t *) buf + offset, 0);
+>>               if (ret < 0) {
+>>                   return ret;
+>>               }
+> 
 
 
