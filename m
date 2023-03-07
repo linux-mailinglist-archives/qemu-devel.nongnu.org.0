@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9A06ADD52
+	by mail.lfdr.de (Postfix) with ESMTPS id E621D6ADD53
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:29:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVVF-0007Uk-1H; Tue, 07 Mar 2023 06:29:09 -0500
+	id 1pZVVE-0007Ub-SV; Tue, 07 Mar 2023 06:29:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZVUx-0007HW-TP
+ id 1pZVUx-0007HV-Sn
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:28:51 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZVUu-0005gF-Cd
+ id 1pZVUu-0005gD-9W
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:28:51 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- j19-20020a05600c191300b003eb3e1eb0caso10184374wmq.1
+Received: by mail-wm1-x330.google.com with SMTP id c18so7532932wmr.3
  for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678188526;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kfSglnpBNn9ufA2bE48Fm1KqCuy3CFXTGjlu6UUQwrs=;
- b=S4H+6ccP9I7lVPvNVrT7cP5NTyYxHGhxbTuyHVYhAJVawrOyG8nXMgvmFys3ebNnBq
- bngtJezZN/wZh+sTV0OZ0biXBusrBSKnwOqGiL8Ne7Fp7Q0lsweWR7JidKkvCs5SsiRO
- KoZ45olrXeXqVirLeDveteizromLyhjZVhc56v6HiefRWkT8fidtT2rvJTVZff/aWLaU
- Wk+rJxuz9wRP8Jeo5pT8HoijeYZKMFLNQG8qmRV7DuOBFMmsnY4yZlS2OKc0+gpuWBMP
- VqLI2KNyQFejFDoeKHCOXSWarODVsn2vBUJKAH6ZixK5JD6FCX6n7YsyEzIBiFQx7136
- bwiA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yM2KjYGD7orZo6AEu6pU16rn3FTr1UxycOe1pdtgZ0A=;
+ b=CuiKwmsUbs1gOBp7lmR93X4YFwAkwCqLH18nTj+qtUxbAcM4ElK5XPZq14ef1z2OaC
+ NZsa4V8rz9PS2Vf/wHAa3u4O+gdlkogCyqk9Ih17YShaYv+sqfmI8w/sHyXKafRXgZW5
+ SpOruP7QCCOYG8nZdxqxKv5JTBsWbR60HcKBLPDqxPISm2VS8QhPp6n5/hM3s5/ayBXl
+ nbNdWT9Dcyq8j6SwPf5kKtQCXtVKhayMdh4PVKBrH1h2T/C43gjQRpQnFgqu5gs0OJ26
+ 5dF0hiipnwxX4XxnQl6wdxr+zvFvppsa8Afjdpc36n3ZkdRI8irs/SPQ+Z+023zV/zZK
+ b6dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678188526;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kfSglnpBNn9ufA2bE48Fm1KqCuy3CFXTGjlu6UUQwrs=;
- b=OgEDATle13rvW3y9tNsWrPWpBv9zsq5RP4br2IGoNLLhcne93XyYs4AswDdavCVOxr
- 2trzkmQ/ZG+fr15n47dTd2m9HFCXaAwd5Wpep9pY0v+NkRYBHGQGG6VvVKtGixltDPHY
- vEPO3bOmShmDo8/FrDor4JgxIpEL77H1UoKMgDtkeCk6jMyNbGvJkpxUAfqQu2B10X1p
- FNm0EYUtQeBtlJ59fGrrPrMqQ1P/EU5w0TlTyoRFtb4ivm5RigSAiiqX/h7prTG8Ixyr
- 6Hh0Ge3do4XMLTfE24IK5/DQAEWzxvFksT8lRQ9FlTSouNeFwcbguhcuR7wHs3lOlYh3
- WdFQ==
-X-Gm-Message-State: AO0yUKVdYqNxqXEnSe6jwzbTHNjLIlSGIitUI4GxavLkYSbhnzeyAUsr
- OExMccUZzS6jUSxQTENqbBnuUQ==
-X-Google-Smtp-Source: AK7set+T1Pst0DnK4EjtQJNnqDEk2vblrvArfmuuy5f/wc+IDQ13UHyHQsZKH6slzFOJWxg9s613iQ==
-X-Received: by 2002:a05:600c:3d18:b0:3eb:98aa:54cd with SMTP id
- bh24-20020a05600c3d1800b003eb98aa54cdmr8661502wmb.17.1678188526395; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yM2KjYGD7orZo6AEu6pU16rn3FTr1UxycOe1pdtgZ0A=;
+ b=7oqIwX7d3hY/ci8KynziEeb8QngdT4tjQQtdwfuciA0EplQrcOznjHeAgWm33czi9R
+ NUQGh93zzAaIsxbbHvNsDpNp5fOAc2hC3jnV86AfvH7RSUKueP1kHgF+TykhxcZ46uLu
+ VFd3PONhuou51jBy2ZNWMUvvsoNzFZe1c4RDgmGyke808JZnt+chanoh++fwweNiAPTp
+ UcB5QQwchdZKcV91FtYpzLbmkyU74gK7cHz0s264XLarWuITBX5aoTQI8TczEgwAj185
+ oUes1Tn+TDbR3NBPn8QuN3+2aDTfy9nF6qDuI3q9DMDko2f4hWyC3V6XisqSn80lpRKH
+ xxhQ==
+X-Gm-Message-State: AO0yUKWuy4NaLtO3s8aNX9Fi7FVYRk2dFykfuhwejfnMeaOL1YtQQqfv
+ jPNfsIUqIwGbyKSrJIhS+RB/xQ==
+X-Google-Smtp-Source: AK7set88BxEHbelSNh6ps8DSC6iaP2PD0fl51x4goNDO94VTcB1EXG+zzvc+L+VzA474e1nRXT5I/A==
+X-Received: by 2002:a05:600c:35d2:b0:3ea:f6c4:5f2a with SMTP id
+ r18-20020a05600c35d200b003eaf6c45f2amr11517830wmq.17.1678188526216; 
  Tue, 07 Mar 2023 03:28:46 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- bi25-20020a05600c3d9900b003e89e3284fasm16533357wmb.36.2023.03.07.03.28.45
+ h6-20020a1ccc06000000b003e118684d56sm17047627wmb.45.2023.03.07.03.28.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Mar 2023 03:28:45 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 88A981FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 9FED91FFB8;
  Tue,  7 Mar 2023 11:28:45 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: kvmarm@lists.cs.columbia.edu
@@ -64,15 +64,17 @@ Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Andrew Jones <andrew.jones@linux.dev>, Paolo Bonzini <pbonzini@redhat.com>,
  kvmarm@lists.linux.dev, qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [kvm-unit-tests PATCH v10 0/7] MTTCG sanity tests for ARM
-Date: Tue,  7 Mar 2023 11:28:38 +0000
-Message-Id: <20230307112845.452053-1-alex.bennee@linaro.org>
+Subject: [kvm-unit-tests PATCH v10 1/7] Makefile: add GNU global tags support
+Date: Tue,  7 Mar 2023 11:28:39 +0000
+Message-Id: <20230307112845.452053-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230307112845.452053-1-alex.bennee@linaro.org>
+References: <20230307112845.452053-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,66 +97,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I last had a go at getting these up-streamed at the end of 2021 so
-its probably worth having another go. From the last iteration a
-number of the groundwork patches did get merged:
+If you have ctags you might as well offer gtags as a target.
 
-  Subject: [kvm-unit-tests PATCH v9 0/9] MTTCG sanity tests for ARM
-  Date: Thu,  2 Dec 2021 11:53:43 +0000
-  Message-Id: <20211202115352.951548-1-alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20211118184650.661575-4-alex.bennee@linaro.org>
 
-So this leaves a minor gtags patch, adding the isaac RNG library which
-would also be useful for other users, see:
+---
+v10
+  - update .gitignore
+---
+ Makefile   | 5 ++++-
+ .gitignore | 3 +++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-  Subject: [kvm-unit-tests PATCH v3 11/27] lib: Add random number generator
-  Date: Tue, 22 Nov 2022 18:11:36 +0200
-  Message-Id: <20221122161152.293072-12-mlevitsk@redhat.com>
-
-Otherwise there are a few minor checkpatch tweaks.
-
-I would still like to enable KVM unit tests inside QEMU as things like
-the x86 APIC tests are probably a better fit for unit testing TCG
-emulation than booting a whole OS with various APICs enabled.
-
-Alex Bennée (7):
-  Makefile: add GNU global tags support
-  add .gitpublish metadata
-  lib: add isaac prng library from CCAN
-  arm/tlbflush-code: TLB flush during code execution
-  arm/locking-tests: add comprehensive locking test
-  arm/barrier-litmus-tests: add simple mp and sal litmus tests
-  arm/tcg-test: some basic TCG exercising tests
-
- Makefile                  |   5 +-
- arm/Makefile.arm          |   2 +
- arm/Makefile.arm64        |   2 +
- arm/Makefile.common       |   6 +-
- lib/arm/asm/barrier.h     |  19 ++
- lib/arm64/asm/barrier.h   |  50 +++++
- lib/prng.h                |  83 +++++++
- lib/prng.c                | 163 ++++++++++++++
- arm/tcg-test-asm.S        | 171 +++++++++++++++
- arm/tcg-test-asm64.S      | 170 ++++++++++++++
- arm/barrier-litmus-test.c | 450 ++++++++++++++++++++++++++++++++++++++
- arm/locking-test.c        | 321 +++++++++++++++++++++++++++
- arm/spinlock-test.c       |  87 --------
- arm/tcg-test.c            | 340 ++++++++++++++++++++++++++++
- arm/tlbflush-code.c       | 209 ++++++++++++++++++
- arm/unittests.cfg         | 170 ++++++++++++++
- .gitignore                |   3 +
- .gitpublish               |  18 ++
- 18 files changed, 2180 insertions(+), 89 deletions(-)
- create mode 100644 lib/prng.h
- create mode 100644 lib/prng.c
- create mode 100644 arm/tcg-test-asm.S
- create mode 100644 arm/tcg-test-asm64.S
- create mode 100644 arm/barrier-litmus-test.c
- create mode 100644 arm/locking-test.c
- delete mode 100644 arm/spinlock-test.c
- create mode 100644 arm/tcg-test.c
- create mode 100644 arm/tlbflush-code.c
- create mode 100644 .gitpublish
-
+diff --git a/Makefile b/Makefile
+index 6ed5deac..f22179de 100644
+--- a/Makefile
++++ b/Makefile
+@@ -145,6 +145,9 @@ cscope:
+ 		-name '*.[chsS]' -exec realpath --relative-base=$(CURDIR) {} \; | sort -u > ./cscope.files
+ 	cscope -bk
+ 
+-.PHONY: tags
++.PHONY: tags gtags
+ tags:
+ 	ctags -R
++
++gtags:
++	gtags
+diff --git a/.gitignore b/.gitignore
+index 33529b65..4d5f460f 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -12,6 +12,9 @@ tags
+ patches
+ .stgit-*
+ cscope.*
++GPATH
++GRTAGS
++GTAGS
+ *.swp
+ /lib/asm
+ /lib/config.h
 -- 
 2.39.2
 
