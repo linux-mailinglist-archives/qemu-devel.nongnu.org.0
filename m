@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E58C6ADE22
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41BD66ADE25
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:59:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVx0-0004RR-Kp; Tue, 07 Mar 2023 06:57:50 -0500
+	id 1pZVx6-00057f-Sa; Tue, 07 Mar 2023 06:57:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwx-00049d-Uc
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:47 -0500
+ id 1pZVx4-0004xT-CF
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVww-000386-D8
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:47 -0500
+ id 1pZVx3-00038z-1p
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678190265;
+ s=mimecast20190719; t=1678190272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=68pvYe/0fh7+ksxqpXN2pdkgide/UfgXPlMTgTXTWvY=;
- b=LQhT8dhwFAFJ3KMI4n2yd+ALMCPGPghLbqf9aFpBgAS2x9832Lue3Fg71xjoI/1B93/36N
- y5Os68MG08pw/3gU0+G/UGenJrW/4NhX2IWbyOe9fFlG+WlHt0erxZzYVxFdEH4E4/OTh6
- bYNVYfthV/l3ysZOvO8gnLneUJNpdo4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0RJQY43s2GclWYOsh3Cy5FP1kKhEpDMEydGU9O04K9g=;
+ b=At43oeFkS2OFrQy1s/iHWdRgobemu9le/KSd/iRZTVlNgkJhvfFb0SauhVPToPdzMZnjos
+ cbnUzwoJ4mb+Jjv+xAonEsgyq2FIjku7mDQlL0zZz1E1VY+C+wJsjvB6iZIMmZpqiQ5saz
+ 6+ih7vv+3/CaX6Yf5BEa4s/HjrIGKss=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-Wyh7NAucMX2Kw4U79PJLqQ-1; Tue, 07 Mar 2023 06:57:44 -0500
-X-MC-Unique: Wyh7NAucMX2Kw4U79PJLqQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-624-WYKWQ7SyPrCtCbZXkZHG6w-1; Tue, 07 Mar 2023 06:57:49 -0500
+X-MC-Unique: WYKWQ7SyPrCtCbZXkZHG6w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 757583823A03;
- Tue,  7 Mar 2023 11:57:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0786B85A588;
+ Tue,  7 Mar 2023 11:57:49 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B8C82166B26;
- Tue,  7 Mar 2023 11:57:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09D05492C14;
+ Tue,  7 Mar 2023 11:57:47 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,15 +50,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 14/18] ui/sdl: add optional logging when _SDL_DEBUG is set
-Date: Tue,  7 Mar 2023 15:56:33 +0400
-Message-Id: <20230307115637.2464377-15-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 15/18] ui/sdl: try to instantiate the matching opengl
+ renderer
+Date: Tue,  7 Mar 2023 15:56:34 +0400
+Message-Id: <20230307115637.2464377-16-marcandre.lureau@redhat.com>
 In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,45 +87,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Apparently, there is no environment variable you can set for libsdl to
-enable logging.
-
-(similar to _VNC_DEBUG)
+User can still bypass the QEMU choice with SDL_RENDER_DRIVER environment
+variable. (for some reason, specifying a driver disables batching and
+breaks rendering, so enable it explicitly)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/sdl2.h | 2 ++
- ui/sdl2.c         | 4 ++++
- 2 files changed, 6 insertions(+)
+ ui/sdl2.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/ui/sdl2.h b/include/ui/sdl2.h
-index 8fb7e08262..6fea36db82 100644
---- a/include/ui/sdl2.h
-+++ b/include/ui/sdl2.h
-@@ -6,6 +6,8 @@
- 
- #include <SDL.h>
- 
-+/* #define _SDL_DEBUG 1 */
-+
- /* with Alpine / muslc SDL headers pull in directfb headers
-  * which in turn trigger warning about redundant decls for
-  * direct_waitqueue_deinit.
 diff --git a/ui/sdl2.c b/ui/sdl2.c
-index f259e4c4d1..592eca3e1c 100644
+index 592eca3e1c..e83ea53628 100644
 --- a/ui/sdl2.c
 +++ b/ui/sdl2.c
-@@ -841,6 +841,10 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-     }
- #endif
- 
-+#ifdef _SDL_DEBUG
-+    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
-+#endif
+@@ -99,7 +99,18 @@ void sdl2_window_create(struct sdl2_console *scon)
+                                          surface_width(scon->surface),
+                                          surface_height(scon->surface),
+                                          flags);
++    if (scon->opengl) {
++        const char *driver = "opengl";
 +
-     if (SDL_Init(SDL_INIT_VIDEO)) {
-         fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
-                 SDL_GetError());
++        if (scon->opts->gl == DISPLAYGL_MODE_ES) {
++            driver = "opengles2";
++        }
++
++        SDL_SetHint(SDL_HINT_RENDER_DRIVER, driver);
++        SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
++    }
+     scon->real_renderer = SDL_CreateRenderer(scon->real_window, -1, 0);
++
+     if (scon->opengl) {
+         scon->winctx = SDL_GL_CreateContext(scon->real_window);
+     }
 -- 
 2.39.2
 
