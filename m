@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C2A6AF7BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:32:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A057C6AF79C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:30:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZesE-0004k8-25; Tue, 07 Mar 2023 16:29:30 -0500
+	id 1pZesC-0004i5-5u; Tue, 07 Mar 2023 16:29:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZesB-0004im-Uf
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:27 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pZes9-0004gV-Lm
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:25 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZes8-0000vs-OQ
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:27 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id j2so13507153wrh.9
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:24 -0800 (PST)
+ id 1pZes6-0000v7-LV
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:25 -0500
+Received: by mail-wr1-x434.google.com with SMTP id l25so13544872wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678224563;
+ d=linaro.org; s=google; t=1678224561;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LZeCHk68iWaLLkMw4vDpg7elkprCEF+0ZWj+B5JRkJo=;
- b=kGCWJAapuCGA5FxAfCq1o0K4gq+Q2VmR32uprwF8uota1mHg8GtGr6L7xP1zlLVkVS
- WXn4J1tdjXWTNqwCNsQhVMh0JS83R0xNE3iLFeFAvdxG1kCDo3tAMg3Pkgg9jmpoIVWp
- ppz1hx69/gPrw8cegktXxkCV30EI0KhsQtyoDJannXB3uKLPhkbpHD0b1gxPY/uGuPiF
- WJeA9GEez8p/0R0gbpQ+DGrZnc4dMqO4I8sxG9yie3MK+ckYEQe4TuSXaJ0X9G95DL9O
- yF5fFX0fBSCN+7WJV1cpadUaqPHLLTqajANliLPohxegWLPN2G/3GOdKdt6IdgGrlQCF
- OP1Q==
+ bh=/UJFR9YSQYJuT5oOotPCg6xiwzMZMMvlKZkAiVaMoUI=;
+ b=GumiT++mtfmGD6OGjDXH5QhxOjZS83IeSqkHu+ZIa0g7HVkdzab22NUPY86fy4BL8k
+ 6qamsdnow2kwHNp7OOaZaFK9SIpaJ+YGSXVsChxU1w5uEW/ePMUkNy68jYY+3v5JSm5x
+ za6xxV5tqULgBRFMo8OYjBrOCjx52P4UVe5N8yH24BJtk3XrWc1Oakfey/TyIIcc7TLS
+ frVsDE431uTRCdUQZUo91Bnlai1vzTsTtLJRCPnY2Wel7Ot7e5bSUbzX2EFynJNKhpwu
+ x8EBheXseyG8xy9+rziQQnyct4/OoyRDpnYUGXZaKL9FkUjz14UwdPWb5pM91kX0Jzm0
+ GzJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678224563;
+ d=1e100.net; s=20210112; t=1678224561;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LZeCHk68iWaLLkMw4vDpg7elkprCEF+0ZWj+B5JRkJo=;
- b=tS5Vn1oJ1X7aO/RfwvWtILxVU9ouD/5YzVj3Q/iK9O7+te0upXeDhhcgYdldieWWZE
- 57xs5uUKBHHN99SWweeIXLSWdDNLYZn/27Zze0bUIgyu/pYDNKvH/masOIppUTLGS6n0
- GnVrNpXwrV0jMJU/V6PoUubdc+97f50mi5ccEEXxOzkm+c5bqXJt/hz/4EzjKyg9ckDw
- Q3ZGjbs7VEMHuCv3kME8xwY3VWGesyNbrB98p9HQy4h3mrQ73EvxjYtIyFw9ph7dfc1v
- jJmVqFL/rzVLBHWBXlf8CSh8BpwxFJeQlHEES8eD4hmq5XX55Xt39ZtVTzNnuXVty5GM
- a5Pg==
-X-Gm-Message-State: AO0yUKXauy3ElwuvQj25ZOKW0JehlatiB1/klnzkIN5VBw+sZAphaaEc
- QePWipRjhNRWkx5SEBNK2VrX6w==
-X-Google-Smtp-Source: AK7set9JuB9QfyJ8Ro/ybfIU1KK1l1NnWYa5jbxHpZfmzl/fXGnwtxjEPurd6PGu4rMxLEL/d66ltQ==
-X-Received: by 2002:a5d:4006:0:b0:2c7:1c36:3c67 with SMTP id
- n6-20020a5d4006000000b002c71c363c67mr9765058wrp.23.1678224563215; 
- Tue, 07 Mar 2023 13:29:23 -0800 (PST)
+ bh=/UJFR9YSQYJuT5oOotPCg6xiwzMZMMvlKZkAiVaMoUI=;
+ b=bQ0uS/TMX5AXqiX4OedwG8O40EsOBF0hatUzfu1m2j/ElhjEWo+1iNFKcUI5kz12J7
+ 3CnhEr1RgFOmpCuk8XLx2VHzkFgDQkeZv/J/P8ILoVU69b+cQern80iIItJW8IjHEA1P
+ EzkUB8RCFaohU3i1YpN6FA+g3n11jxrRBtVJLjMccFHhpEq6uru4o2j57LgnKRDBaS+L
+ W7NHWT/ovv+oKDu/KZSJzFLTfX0WXYB4/yDhVsQIsVzUsoxYVF54GYSUCPv8haMWvG9P
+ lYidPZH4YaN89DvV3NV6SJI9JAYn6KehFZF7s8qazew186V8NYYiMaARCNN6XkDvFXJo
+ ThlA==
+X-Gm-Message-State: AO0yUKVVkeUDvavgq9xAofMkGnverfleTX3cqmW+Evg66koNy6dWB13i
+ 2oQaOLeVkLC9egITBRThcLmLQw==
+X-Google-Smtp-Source: AK7set8WNTZ873FSDejITc1otjv7BiR9wliehvnubaEvQ7CA+WMpGtA+tJh1PHliqhV5tu/9MveWTg==
+X-Received: by 2002:a5d:5544:0:b0:242:1809:7e17 with SMTP id
+ g4-20020a5d5544000000b0024218097e17mr10701170wrw.6.1678224560730; 
+ Tue, 07 Mar 2023 13:29:20 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- e15-20020a5d500f000000b002c561805a4csm13562033wrt.45.2023.03.07.13.29.21
+ o16-20020a056000011000b002c703d59fa7sm13477322wrx.12.2023.03.07.13.29.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 13:29:21 -0800 (PST)
+ Tue, 07 Mar 2023 13:29:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EAAF71FFD1;
- Tue,  7 Mar 2023 21:21:42 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0E83A1FFD2;
+ Tue,  7 Mar 2023 21:21:43 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 25/30] gdbstub: split out softmmu/user specifics for syscall
- handling
-Date: Tue,  7 Mar 2023 21:21:34 +0000
-Message-Id: <20230307212139.883112-26-alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 26/30] gdbstub: Remove gdb_do_syscallv
+Date: Tue,  7 Mar 2023 21:21:35 +0000
+Message-Id: <20230307212139.883112-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307212139.883112-1-alex.bennee@linaro.org>
 References: <20230307212139.883112-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,121 +96,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Most of the syscall code is config agnostic aside from the size of
-target_ulong. In preparation for the next patch move the final bits
-of specialisation into the appropriate user and softmmu helpers.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+This function is unused, except to implement gdb_do_syscall.
+Fold the implementations together.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230302190846.2593720-26-alex.bennee@linaro.org>
-Message-Id: <20230303025805.625589-26-richard.henderson@linaro.org>
+Message-Id: <20230303025805.625589-27-richard.henderson@linaro.org>
 
-diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index 8db61f7fb4..94ddff4495 100644
---- a/gdbstub/internals.h
-+++ b/gdbstub/internals.h
-@@ -195,6 +195,9 @@ bool gdb_handled_syscall(void);
- void gdb_disable_syscalls(void);
- void gdb_syscall_reset(void);
+diff --git a/include/gdbstub/syscalls.h b/include/gdbstub/syscalls.h
+index 5851a2c706..243eaf8ce4 100644
+--- a/include/gdbstub/syscalls.h
++++ b/include/gdbstub/syscalls.h
+@@ -91,17 +91,6 @@ typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
+  */
+ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
  
-+/* user/softmmu specific syscall handling */
-+void gdb_syscall_handling(const char *syscall_packet);
-+
- /*
-  * Break/Watch point support - there is an implementation for softmmu
-  * and user mode.
-diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
-index d3152fb6e7..22ecd09d04 100644
---- a/gdbstub/softmmu.c
-+++ b/gdbstub/softmmu.c
-@@ -103,6 +103,20 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent event)
-     }
- }
- 
-+/*
-+ * In softmmu mode we stop the VM and wait to send the syscall packet
-+ * until notification that the CPU has stopped. This must be done
-+ * because if the packet is sent now the reply from the syscall
-+ * request could be received while the CPU is still in the running
-+ * state, which can cause packets to be dropped and state transition
-+ * 'T' packets to be sent while the syscall is still being processed.
-+ */
-+void gdb_syscall_handling(const char *syscall_packet)
-+{
-+    vm_stop(RUN_STATE_DEBUG);
-+    qemu_cpu_kick(gdbserver_state.c_cpu);
-+}
-+
- static void gdb_vm_state_change(void *opaque, bool running, RunState state)
- {
-     CPUState *cpu = gdbserver_state.c_cpu;
+-/**
+- * gdb_do_syscallv:
+- * @cb: function to call when the system call has completed
+- * @fmt: gdb syscall format string
+- * @va: arguments to interpolate into @fmt
+- *
+- * As gdb_do_syscall, but taking a va_list rather than a variable
+- * argument list.
+- */
+-void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
+-
+ /**
+  * use_gdb_syscalls() - report if GDB should be used for syscalls
+  *
 diff --git a/gdbstub/syscalls.c b/gdbstub/syscalls.c
-index 46537938d5..6189940005 100644
+index 6189940005..fdc68e452a 100644
 --- a/gdbstub/syscalls.c
 +++ b/gdbstub/syscalls.c
-@@ -105,9 +105,7 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
+@@ -93,24 +93,26 @@ bool gdb_handled_syscall(void)
+  *   %lx - 64-bit argument printed in hex.
+  *   %s  - string pointer (target_ulong) and length (int) pair.
+  */
+-void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
++void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
+ {
+-    char *p;
+-    char *p_end;
+-    target_ulong addr;
+-    uint64_t i64;
++    char *p, *p_end;
++    va_list va;
+ 
+     if (!gdb_attached()) {
+         return;
      }
  
      gdbserver_syscall_state.current_syscall_cb = cb;
--#ifndef CONFIG_USER_ONLY
--    vm_stop(RUN_STATE_DEBUG);
--#endif
-+
-     p = &gdbserver_syscall_state.syscall_buf[0];
-     p_end = &gdbserver_syscall_state.syscall_buf[sizeof(gdbserver_syscall_state.syscall_buf)];
++    va_start(va, fmt);
+ 
+-    p = &gdbserver_syscall_state.syscall_buf[0];
+-    p_end = &gdbserver_syscall_state.syscall_buf[sizeof(gdbserver_syscall_state.syscall_buf)];
++    p = gdbserver_syscall_state.syscall_buf;
++    p_end = p + sizeof(gdbserver_syscall_state.syscall_buf);
      *(p++) = 'F';
-@@ -142,27 +140,8 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
-         }
+     while (*fmt) {
+         if (*fmt == '%') {
++            target_ulong addr;
++            uint64_t i64;
++
+             fmt++;
+             switch (*fmt++) {
+             case 'x':
+@@ -141,16 +143,8 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
      }
      *p = 0;
--#ifdef CONFIG_USER_ONLY
--    gdb_put_packet(gdbserver_syscall_state.syscall_buf);
--    /*
--     * Return control to gdb for it to process the syscall request.
--     * Since the protocol requires that gdb hands control back to us
--     * using a "here are the results" F packet, we don't need to check
--     * gdb_handlesig's return value (which is the signal to deliver if
--     * execution was resumed via a continue packet).
--     */
--    gdb_handlesig(gdbserver_state.c_cpu, 0);
--#else
--    /*
--     * In this case wait to send the syscall packet until notification that
--     * the CPU has stopped.  This must be done because if the packet is sent
--     * now the reply from the syscall request could be received while the CPU
--     * is still in the running state, which can cause packets to be dropped
--     * and state transition 'T' packets to be sent while the syscall is still
--     * being processed.
--     */
--    qemu_cpu_kick(gdbserver_state.c_cpu);
--#endif
-+
+ 
+-    gdb_syscall_handling(gdbserver_syscall_state.syscall_buf);
+-}
+-
+-void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
+-{
+-    va_list va;
+-
+-    va_start(va, fmt);
+-    gdb_do_syscallv(cb, fmt, va);
+     va_end(va);
 +    gdb_syscall_handling(gdbserver_syscall_state.syscall_buf);
  }
  
- void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
-diff --git a/gdbstub/user.c b/gdbstub/user.c
-index 3da410e221..80488b6bb9 100644
---- a/gdbstub/user.c
-+++ b/gdbstub/user.c
-@@ -472,3 +472,17 @@ void gdb_breakpoint_remove_all(CPUState *cs)
- {
-     cpu_breakpoint_remove_all(cs, BP_GDB);
- }
-+
-+/*
-+ * For user-mode syscall support we send the system call immediately
-+ * and then return control to gdb for it to process the syscall request.
-+ * Since the protocol requires that gdb hands control back to us
-+ * using a "here are the results" F packet, we don't need to check
-+ * gdb_handlesig's return value (which is the signal to deliver if
-+ * execution was resumed via a continue packet).
-+ */
-+void gdb_syscall_handling(const char *syscall_packet)
-+{
-+    gdb_put_packet(syscall_packet);
-+    gdb_handlesig(gdbserver_state.c_cpu, 0);
-+}
+ /*
 -- 
 2.39.2
 
