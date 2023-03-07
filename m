@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92386AE7E5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CA56AE7E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:06:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZal1-0007pV-OC; Tue, 07 Mar 2023 12:05:47 -0500
+	id 1pZalb-0000tH-Ew; Tue, 07 Mar 2023 12:06:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pZakz-0007pC-IP
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:05:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pZaky-0004Ss-40
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:05:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678208743;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OMp5CS3WyQQRgGmWIRtAf3rhbAWIQqY19k/zVdZ/qyI=;
- b=cDRQwQGFRxqgaBOvQoKGtZc52s4D2FBmDMgDdDDZXzgsvvch8/9CVec14WRm/Shk56C5mM
- MqLLUf0LNiywIv1FuYm3S0S7u1qPICYDCRKsGpO9oL29k5iPdy8T2OuCQTKjQ23zVW4ZMc
- 7t/ccbC2S2uGf/mOztkXxlstVpWF8vQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-30gskanPONSc-JvUP8Y7DQ-1; Tue, 07 Mar 2023 12:05:40 -0500
-X-MC-Unique: 30gskanPONSc-JvUP8Y7DQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C77A1100F90F;
- Tue,  7 Mar 2023 17:05:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80E4AC15BA0;
- Tue,  7 Mar 2023 17:05:37 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andrea Bolognani <abologna@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric Auger
- <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan
- Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
-In-Reply-To: <CAFEAcA-Q6hzgW-B52X5XEtZsvBX64qSr9wSKizLVYu58mPdXKw@mail.gmail.com>
-Organization: Red Hat GmbH
-References: <20230228150216.77912-1-cohuck@redhat.com>
- <20230228150216.77912-2-cohuck@redhat.com>
- <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
- <874jr4dbcr.fsf@redhat.com>
- <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
- <87sfeoblsa.fsf@redhat.com>
- <CAFEAcA8z9mS55oBySDYA6PHB=qcRQRH1Aa4WJidG8B=n+6CyEQ@mail.gmail.com>
- <87cz5rmdlg.fsf@redhat.com>
- <CAFEAcA-Q6hzgW-B52X5XEtZsvBX64qSr9wSKizLVYu58mPdXKw@mail.gmail.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Tue, 07 Mar 2023 18:05:36 +0100
-Message-ID: <877cvsh4pr.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pZalZ-0000qj-7u
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:06:21 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pZalX-0004eE-Oe
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:06:21 -0500
+Received: by mail-pg1-x531.google.com with SMTP id 16so7990947pge.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678208778;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sM9mzhwMpxvqc17xoOdvEiXjlDhBIgSrv1BU/zZq9bk=;
+ b=WeyiKyFem4A9WXdq4RDoCXuabLw7tHJQw9CW6W6VX1yLf33FiJuvj2Mt+0yMmgxNxA
+ 1ZaLTnSx7sEvW4OU6jhEurZCuv2McSg2/ZH6HALnV2q2VxCPmj5RnXdr2+nE3JADKg0g
+ wrJA7MtIcZuKF9uIXFdHqXwmk0EsWZu9/5yq3dLB9lVlf4dqo+xgc63blvwSL51vDDb+
+ uQwPQjcIg+FlI0YYgB4wpHPWWpALncJG75M8mKzG2Ntg75pn1jzSaSnXr15xQA6xzNoM
+ iwOywJ9MoEILTONSD5Akj3jlcU1yC0Haw9tbe1Vg9XkgH3T+9fxIOJuKaFp5EcMEwe4V
+ NPvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678208778;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sM9mzhwMpxvqc17xoOdvEiXjlDhBIgSrv1BU/zZq9bk=;
+ b=z+IXZt+h/ffQYFov/kfHM0b7zZ5XlDSRXJ/48yGk4ShZyJSIgTJ+GpSbJ6AZu9sgt6
+ h8MTP+l9PS+DOC134yh8cpdvEdbIaxTpsiOzKtQ4iNAiNQ0AvQBzVbYcXbbR2GheMN95
+ ud+GiOjpZcTZ9NiFRHb1o20JU50luVs975exHYTNPsGe3enGtpyyNS/gma+Tpb4E7cGS
+ LtL5kbr4SE2hWAKvrKUekOn8Tb1Ulo5Cxzr4MSO1eieHh/DrVdGhYwjWMt4hWmOQYBTq
+ 3hxt7GvxbiWzAXXf+Wb0PuYNwrXeL3Py1QhN2CSQvrrmFtQsIelNon9/GD4qszZpWYuC
+ MkMw==
+X-Gm-Message-State: AO0yUKVKzv8lC8rxWIk5OikrJs9lKgbHoIppPGjiR3E64UQpYry5Ylk0
+ /6/kyPog2DpTP02T6pi1+YXWIA==
+X-Google-Smtp-Source: AK7set8jdyZtTx8+ztU0JpTj0upf5NKVsptdBPoZ8PEkDKL9kTEGuDcfqCByBx6UivwTkoReFzJVvA==
+X-Received: by 2002:a62:644:0:b0:5d5:9350:ae05 with SMTP id
+ 65-20020a620644000000b005d59350ae05mr11228503pfg.32.1678208777913; 
+ Tue, 07 Mar 2023 09:06:17 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb?
+ ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
+ by smtp.gmail.com with ESMTPSA id
+ e18-20020aa78c52000000b005e5861932c9sm8137079pfd.129.2023.03.07.09.06.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 09:06:17 -0800 (PST)
+Message-ID: <f90610f8-d6ab-f9b1-1375-5941a621ee42@linaro.org>
+Date: Tue, 7 Mar 2023 09:06:15 -0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH] stubs: split semihosting_get_target from system only
+ stubs
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+References: <20230307170405.796822-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230307170405.796822-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,48 +96,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 02 2023, Peter Maydell <peter.maydell@linaro.org> wrote:
+On 3/7/23 09:04, Alex Bennée wrote:
+> As we are about to have a common syscalls.c for gdbstub we need to
+> stub out one semihosting helper function for all targets.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Richard Henderson<richard.henderson@linaro.org>
+> ---
+>   stubs/semihost-all.c | 17 +++++++++++++++++
+>   stubs/semihost.c     |  5 -----
+>   stubs/meson.build    |  1 +
+>   3 files changed, 18 insertions(+), 5 deletions(-)
+>   create mode 100644 stubs/semihost-all.c
 
-> On Thu, 2 Mar 2023 at 14:29, Cornelia Huck <cohuck@redhat.com> wrote:
->>
->> On Thu, Mar 02 2023, Peter Maydell <peter.maydell@linaro.org> wrote:
->> > I think having MTE in the specific case of KVM behave differently
->> > to how we've done all these existing properties and how we've
->> > done MTE for TCG would be confusing. The simplest thing is to just
->> > follow the existing UI for TCG MTE.
->> >
->> > The underlying reason for this is that MTE in general is not a feature
->> > only of the CPU, but also of the whole system design. It happens
->> > that KVM gives us tagged RAM "for free" but that's an oddity
->> > of the KVM implementation -- in real hardware there needs to
->> > be system level support for tagging.
->>
->> Hm... the Linux kernel actually seems to consider MTE to be a cpu
->> feature (at least, it lists it in the cpu features).
->>
->> So, is your suggestion to use the 'mte' prop of the virt machine to mean
->> "enable all prereqs for MTE, i.e. allocate tag memory for TCG and enable
->> MTE in the kernel for KVM"? For TCG, we'll get MTE for the max cpu
->> model; for KVM, we'd get MTE for host (== max), but I'm wondering what
->> should happen if we get named cpu models and the user specifies one
->> where we won't have MTE (i.e. some pre-8.5 one)?
->
-> I think we can probably cross that bridge when we get to it,
-> but I imagine the semantics would be "cortex-foo plus MTE"
-> (in the same way that -cpu cortex-foo,+x,-y can add and
-> subtract features from a baseline).
+We could name the file after the function that it implements, rather than "all".  But 
+either way,
 
-While implementing this, I realized another thing that I had managed to
-miss before: With tcg, we'll start out with mte=3 and downgrade to mte=0
-if we don't have tag memory. With kvm, enabling mte can at most give us
-the mte version that the host exposes, so setting mte=on for the machine
-might give as well mte=2 in the end [which I still need to implement by
-querying the host support, I guess.] This means we have slightly
-different semantics for tcg and kvm; but more importantly, we need to
-implement something for compat handling.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The Linux kernel distinguishes between 'mte' and 'mte3', and KVM exposes
-the MTE cap if mte >=2. Do we need two props as well? If yes, what about
-tcg?
 
+r~
 
