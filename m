@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B936ADD89
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8206ADDAC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:40:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVag-00071u-30; Tue, 07 Mar 2023 06:34:46 -0500
+	id 1pZVfK-0000Jl-E7; Tue, 07 Mar 2023 06:39:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pZVac-00071f-E0
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:34:44 -0500
+ id 1pZVfH-0000JT-OC
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:39:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pZVaa-0006eA-T2
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:34:42 -0500
+ id 1pZVfF-0007WS-To
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:39:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678188880;
+ s=mimecast20190719; t=1678189167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3m88D14NzxA1mBnq68ziktzDuYb0rPg5lBn0bgWPdSQ=;
- b=bZZYHXjKtiDiZK/DWQ6IkpLV5TBAXnpIETWPGYuMavJsKiXwhs3eblY87awGuxnDp7unCl
- uNYr+KpqO9679abCgJhb+IXZiaIZfXMOqUSzlb1RikUWSodp6x1CHEIwD3N20satf08Pql
- 2MCB1fswKPVEIR9MlvbPBq4ZYtT+X88=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oGv/2bbHbGH3YbyckOnCzJ+hSm0Bw/cY9Kj8ZN/JqCE=;
+ b=gjwZ3Y7adSXecduWo+sR/tlhi8jjPJFvXQ2+hCJNkjPA5TtFG8dkGsqy2xJfB8rJ8KaHQS
+ sLMA4vXBfq7hlRChYU+Wh7NNKUWkJ+9v3eB6qy0xmfXb59dCWUw3uGfjtQo4HSgWFbqeFU
+ iHTa7vgEwDmR4D5299Hdg1qDBFPlKoQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-2aqTuTQ2NyWKeqCYNCV8pA-1; Tue, 07 Mar 2023 06:34:39 -0500
-X-MC-Unique: 2aqTuTQ2NyWKeqCYNCV8pA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z14-20020a05640235ce00b004e07ddbc2f8so9807206edc.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:34:38 -0800 (PST)
+ us-mta-191-Q6fJoQmoNeu1sdCPhsEjNQ-1; Tue, 07 Mar 2023 06:39:24 -0500
+X-MC-Unique: Q6fJoQmoNeu1sdCPhsEjNQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ q13-20020a5085cd000000b004af50de0bcfso18754840edh.15
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:39:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678188878;
+ d=1e100.net; s=20210112; t=1678189163;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3m88D14NzxA1mBnq68ziktzDuYb0rPg5lBn0bgWPdSQ=;
- b=j7BwhvteAnEEHR8cQuuQbPCNUwxVo4G89EKtvISBE6XYc9w7FZSqvYOr7vx07J2Hwg
- aKe5OjodFi7NtdIHzuqjgi6/l32i2RtO9ZjnV8LmdbT5HRfQzFbqYt6/UDhVGXPqVMbB
- ooq9jGL28D3hGcf2QJZPZ7eeFHffObyqXOxHR/KmnekaGEwOYURM+YewLqPdUUJFYkD8
- 4SliILN+Q8GEKQ1qq8T+d9ethlhyTZdZNrDpAj73l3zDE+XfpFJfYNGeRAqdAgredS0Z
- pujIH7EXllDAQhX/2asgSrMbdILbcA19OUwICyuKugKZa0EOQMcWfNxoHzGgMK3zwtEx
- t3Cw==
-X-Gm-Message-State: AO0yUKWPgY3i/qPJk8ohXuAsCky/EmuLf89426xbQbUdW4Eerp2HuupJ
- qWen7JbnhIabJY9Mwbf9lpxr/0bG5EE1ZOkDZucqDDPF4/pIOS1651PQZRa6Ste7WGRr6VymDnN
- MrbZE3RGcg0dOszU=
-X-Received: by 2002:a17:907:787:b0:8dd:76d5:a82 with SMTP id
- xd7-20020a170907078700b008dd76d50a82mr19274904ejb.47.1678188877887; 
- Tue, 07 Mar 2023 03:34:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set8MHEcTSpShPv5PKodYmQ8ckP2O6cFDeJeound+8jbgcjVk2AAmIkvODTiZmt7FQ6ZSIZoSTQ==
-X-Received: by 2002:a17:907:787:b0:8dd:76d5:a82 with SMTP id
- xd7-20020a170907078700b008dd76d50a82mr19274883ejb.47.1678188877630; 
- Tue, 07 Mar 2023 03:34:37 -0800 (PST)
+ bh=oGv/2bbHbGH3YbyckOnCzJ+hSm0Bw/cY9Kj8ZN/JqCE=;
+ b=kHUT6YCKNyCd4DzOlf1WilXHyIJF/szC0NQcuztxwB+VBU0612Js4uR/FuZc3Egyg7
+ rpC9cnjN6XgYQLqcGSbDfGW17XvlLyPzpaM68IGEjt1RASzq7JUJNHYG1q5uzBOiAI/x
+ rBohFG2lkPlSvxOyFCwnypaaJR4AHrZy/XyQaJCPqj0ScnK7nJ1uf4oW1jvv4BqWnLoH
+ eAvNUKD9UZj+KMyGMP5dwWI7cDgBUqUiOmZpWDdikCiTSrQ5L2iZjcqvDWSAA4vTnp4/
+ qqdbzsIoXUWPj8vjDK3/2dNJ1uQc/EyUxlI+1RgsAkl9CHjdOfEUN1+F6Jqk4RQgtTzU
+ b9jA==
+X-Gm-Message-State: AO0yUKVVcTPKcIPzpjKz3YmTkgRD1xsqxLbGmCPAYOaMYE5YkWOcRvCM
+ q8s9dSKPXVtkX1w3LTVJ8lNuNLKYsQ1/6O1XMQaFOZPCfru/QuMfj74jkAXOpFx+8/6N872B1PM
+ J+c9yaQlk4DF/M24=
+X-Received: by 2002:a17:907:a47:b0:8f0:143d:fa4b with SMTP id
+ be7-20020a1709070a4700b008f0143dfa4bmr18201936ejc.7.1678189163544; 
+ Tue, 07 Mar 2023 03:39:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set/bhLKwNYPcUOIU+WhUYwKbwTblVIazehNUij5sz2tsELsk5Q6M8kT1dpdS+sXq+wKF1l+xUw==
+X-Received: by 2002:a17:907:a47:b0:8f0:143d:fa4b with SMTP id
+ be7-20020a1709070a4700b008f0143dfa4bmr18201914ejc.7.1678189163256; 
+ Tue, 07 Mar 2023 03:39:23 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- d6-20020a1709064c4600b008eb5b085075sm5880160ejw.122.2023.03.07.03.34.36
+ 27-20020a170906005b00b008b175c46867sm5944505ejg.116.2023.03.07.03.39.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 03:34:37 -0800 (PST)
-Date: Tue, 7 Mar 2023 12:34:36 +0100
+ Tue, 07 Mar 2023 03:39:22 -0800 (PST)
+Date: Tue, 7 Mar 2023 12:39:22 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Bui Quang Minh <minhquangbui99@gmail.com>, qemu-devel@nongnu.org, Paolo
- Bonzini <pbonzini@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S . Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
-Message-ID: <20230307123436.75034f80@imammedo.users.ipa.redhat.com>
-In-Reply-To: <9da78e3b051ce3d9c857b793fe879f917cb518cb.camel@infradead.org>
+To: Bui Quang Minh <minhquangbui99@gmail.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, "Michael S . Tsirkin" <mst@redhat.com>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH 4/4] test/avocado: test Linux boot up in x2APIC with
+ userspace local APIC
+Message-ID: <20230307123922.438a3a22@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230221160500.30336-5-minhquangbui99@gmail.com>
 References: <20230221160500.30336-1-minhquangbui99@gmail.com>
- <20230221160500.30336-2-minhquangbui99@gmail.com>
- <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
- <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
- <20230227170759.12297901@imammedo.users.ipa.redhat.com>
- <f24683be-f3a7-34fe-279a-11d01e696bbc@gmail.com>
- <20230228173954.6a7b6c4f@imammedo.users.ipa.redhat.com>
- <71d9e801-80b2-d5ed-4c02-b328f0b175d4@gmail.com>
- <20230306114331.531c9cd2@imammedo.users.ipa.redhat.com>
- <96f1f670d576dbb1969055353b9e7b5a8632a4c8.camel@infradead.org>
- <f348f44d-1f27-58df-22e6-dfd015588a1a@gmail.com>
- <9da78e3b051ce3d9c857b793fe879f917cb518cb.camel@infradead.org>
+ <20230221160500.30336-5-minhquangbui99@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -114,92 +104,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 06 Mar 2023 16:50:29 +0000
-David Woodhouse <dwmw2@infradead.org> wrote:
+On Tue, 21 Feb 2023 23:05:00 +0700
+Bui Quang Minh <minhquangbui99@gmail.com> wrote:
 
-> On Mon, 2023-03-06 at 23:39 +0700, Bui Quang Minh wrote:
-> > On 3/6/23 22:51, David Woodhouse wrote: =20
-> > > On Mon, 2023-03-06 at 11:43 +0100, Igor Mammedov wrote: =20
-> > > > > However, there are still problems while trying to extending suppo=
-rt to
-> > > > > APIC ID larger than 255 because there are many places assume APIC=
- ID is
-> > > > > 8-bit long. =20
-> > > >=20
-> > > > that's what I was concerned about (i.e. just enabling x2apic withou=
-t fixing
-> > > > with all code that just assumes 8bit apicid). =20
-> > >=20
-> > > Even before you extend the physical APIC IDs past 254 or 255, there's
-> > > still the issue that 255 isn't a broadcast in X2APIC mode. And that
-> > > *logical* addressing will use more than 8 bits even when the physical
-> > > IDs are lower.
-> > >  =20
-> > > > > One of that is interrupt remapping which returns 32-bit
-> > > > > destination ID but uses MSI (which has 8-bit destination) to send=
- to
-> > > > > APIC. I will look more into this. =20
-> > >=20
-> > > The translated 'output' from the interrupt remapping doesn't "use MSI=
-",
-> > > in the sense of a write transaction which happens to go to addresses =
-in
-> > > the 0x00000000FEExxxxx range. The *input* to interrupt remapping comes
-> > > from that intercept.
-> > >=20
-> > > The output is already "known" to be an MSI message, with a full 64-bit
-> > > address and 32-bit data, and the KVM API puts the high 24 bits of the
-> > > target APIC ID into the high word of the address.
-> > >=20
-> > > If you look at the "generic" x86_iommu_irq_to_msi_message() in
-> > > hw/intc/x86-iommu.c you'll see it's also using the same trick:
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 msg.__addr_hi =3D irq->dest & 0xffffff00; =20
-> >=20
-> > Yeah, I see that trick too, with this hunk and temporarily disable=20
-> > broadcast destination id 0xff in physical mode, I am able to boot Linux=
-=20
-> > with 255 CPUs (I can't see how to use few CPUs but configure with high=
-=20
-> > APIC ID) =20
->=20
-> I never worked out how to explicitly assign high APIC IDs but you can
-> at least spread them out by explicitly setting the topology to
-> something weird like sockets=3D17,cores=3D3,threads=3D3 so that some APIC=
- IDs
-> get skipped.
->=20
-> Of course, that doesn't let you exercise the interesting corner case of
-> physical APIC ID 0xff though. I wonder if there's a way of doing it
-> such that only CPU#0 and CPU#255 are *online* at boot, even if the rest
-> theoretically exist?=20
+> Simple test to check Linux boot up in x2APIC with userspace local APIC and
+> TCG accelerator.
 
-you can have arbitrary (withing -smp limits) vcpu at startup time by
-using -device foo-cpu-type,topo-ids-here (modulo auto-created ones on
-behalf -smp X value)
+just an idea, while booting linux would give some coverage,
+we probably would get much better coverage by using apic test case
+from kvm unit test:
+  https://gitlab.com/kvm-unit-tests/kvm-unit-tests/-/blob/master/x86/apic.c
 
-Possible vcpus for given -M/-smp/-cpu combination one can get using
-hotpluggable-cpus HMP command or its QMP counterpart.
-=20
-> > @@ -814,7 +816,12 @@ static void apic_send_msi(MSIMessage *msi)
-> > =C2=A0 {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t addr =3D msi->address;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t data =3D msi->data;
-> > -=C2=A0=C2=A0=C2=A0 uint8_t dest =3D (addr & MSI_ADDR_DEST_ID_MASK) >> =
-MSI_ADDR_DEST_ID_SHIFT;
-> > +=C2=A0=C2=A0=C2=A0 uint32_t dest =3D (addr & MSI_ADDR_DEST_ID_MASK) >>=
- MSI_ADDR_DEST_ID_SHIFT;
-> > +=C2=A0=C2=A0=C2=A0 /*
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 * The higher 3 bytes of destination id is sto=
-red in higher word of
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 * msi address. See x86_iommu_irq_to_msi_messa=
-ge()
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > +=C2=A0=C2=A0=C2=A0 dest =3D dest | (addr >> 32);
-> >=20
-> > I am reading the manual now, looks like broadcast destination id in=20
-> > x2APIC is 0xffff_ffff in both physical and logic mode. =20
->=20
-> Yep, that looks about right.
+> 
+> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
+> ---
+>  tests/avocado/tcg_x2apic.py | 91 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 91 insertions(+)
+>  create mode 100644 tests/avocado/tcg_x2apic.py
+> 
+> diff --git a/tests/avocado/tcg_x2apic.py b/tests/avocado/tcg_x2apic.py
+> new file mode 100644
+> index 0000000000..ff4f27017c
+> --- /dev/null
+> +++ b/tests/avocado/tcg_x2apic.py
+> @@ -0,0 +1,91 @@
+> +# x2APIC with TCG accelerator tests
+> +# Based on intel_iommu.py, INTEL_IOMMU Functional tests
+> +#
+> +# Copyright (c) Bui Quang Minh <minhquangbui99@gmail.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later. See the COPYING file in the top-level directory.
+> +import os
+> +
+> +from avocado import skipIf
+> +from avocado_qemu import LinuxTest
+> +
+> +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> +class TCGx2APIC(LinuxTest):
+> +    """
+> +    :avocado: tags=arch:x86_64
+> +    :avocado: tags=distro:fedora
+> +    :avocado: tags=distro_version:31
+> +    :avocado: tags=machine:q35
+> +    :avocado: tags=accel:tcg
+> +    :avocado: tags=x2apic
+> +    """
+> +
+> +    IOMMU_ADDON = ',iommu_platform=on,disable-modern=off,disable-legacy=on'
+> +    kernel_path = None
+> +    initrd_path = None
+> +    kernel_params = None
+> +
+> +    def set_up_boot(self):
+> +        path = self.download_boot()
+> +        self.vm.add_args('-device', 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
+> +                         'drive=drv0,id=virtio-disk0,bootindex=1,'
+> +                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
+> +        self.vm.add_args('-device', 'virtio-gpu-pci' + self.IOMMU_ADDON)
+> +        self.vm.add_args('-drive',
+> +                         'file=%s,if=none,cache=writethrough,id=drv0' % path)
+> +
+> +    def setUp(self):
+> +        super(TCGx2APIC, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
+> +
+> +    def add_common_args(self):
+> +        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
+> +        self.vm.add_args('-object',
+> +                         'rng-random,id=rng0,filename=/dev/urandom')
+> +
+> +    def common_vm_setup(self, custom_kernel=None):
+> +        self.require_accelerator('tcg')
+> +        self.add_common_args()
+> +        self.vm.add_args('-accel', 'tcg')
+> +        self.vm.add_args('-device', 'intel-iommu,intremap=on,eim=on')
+> +        self.vm.add_args('-cpu', 'qemu64,+x2apic')
+> +
+> +        if custom_kernel is None:
+> +            return
+> +
+> +        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
+> +        initrd_url = self.distro.pxeboot_url + 'initrd.img'
+> +        self.kernel_path = self.fetch_asset(kernel_url)
+> +        self.initrd_path = self.fetch_asset(initrd_url)
+> +
+> +    def run_and_check(self):
+> +        if self.kernel_path:
+> +            self.vm.add_args('-kernel', self.kernel_path,
+> +                             '-append', self.kernel_params,
+> +                             '-initrd', self.initrd_path)
+> +        self.launch_and_wait()
+> +        self.ssh_command('cat /proc/cmdline')
+> +        self.ssh_command('dmesg | grep "x2apic enabled"')
+> +
+> +    def test_physical_x2apic(self):
+> +        """
+> +        :avocado: tags=physical_x2apic
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +
+> +        self.kernel_params = (self.distro.default_kernel_params +
+> +                              ' quiet intel_iommu=on x2apic_phys')
+> +        self.run_and_check()
+> +        self.ssh_command('dmesg | grep "Switched APIC routing to physical x2apic"')
+> +
+> +    def test_cluster_x2apic(self):
+> +        """
+> +        :avocado: tags=cluster_x2apic
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.kernel_params = (self.distro.default_kernel_params +
+> +                              ' quiet intel_iommu=on')
+> +        self.run_and_check()
+> +        self.ssh_command('dmesg | grep "Switched APIC routing to cluster x2apic"')
 
 
