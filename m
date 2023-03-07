@@ -2,92 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E466AD7A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 07:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EB86AD7FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:10:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZR7j-0003XZ-G4; Tue, 07 Mar 2023 01:48:35 -0500
+	id 1pZRRB-0007Uc-Tk; Tue, 07 Mar 2023 02:08:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZR7a-0003VY-IF
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 01:48:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pZRR6-0007UP-7l
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:08:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZR7Y-00022X-CC
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 01:48:26 -0500
+ id 1pZRR4-0005Hf-5P
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:08:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678171702;
+ s=mimecast20190719; t=1678172913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R3M1AL7gGt3kJiG4+gSZXGyHp5vbuknmiuJBLx39/J8=;
- b=Rhal8AH9gE+lLdFlrDeySGsKqwO6v4BoGefT8Qb4n8On9xXHDyj1tHtA8x1dcjobtIqnYs
- jFYKPe4o1i1SXIakGLoC/niZ8X8KQtX2PodAoEbReJZkhCfv8Wp5chnqexL7slyFrXEmBy
- 9lV6uOIH8UYYAUAgr9xy/C7IRsKrkRo=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-128-qEdihOMyMUCbB6dbu3uE6g-1; Tue, 07 Mar 2023 01:48:20 -0500
-X-MC-Unique: qEdihOMyMUCbB6dbu3uE6g-1
-Received: by mail-oo1-f72.google.com with SMTP id
- m14-20020a4add0e000000b0052010e01597so3643145oou.5
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 22:48:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678171700;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R3M1AL7gGt3kJiG4+gSZXGyHp5vbuknmiuJBLx39/J8=;
- b=7VgE+VmDYerviZR7QLt9CSBkajRHB71n9AhINXnxhZ4XlJ0Z4jiY9qyG7C1d8c3yB4
- qoRKyd/HVtoaVxZtIGGp57R2v22I7KuTC7XbYnFCugALGxdPwHbIiAZvan90DVMb62hQ
- JrQLDM2MetlJbZCatieqp34oDOV2INOpNZl9fnDkobXxQtFl4ym/GHdYijll2M2hvhM9
- iQ3M19JdXx8WpjGA2Nw1q286QKydR7N3BC/FOYCq+GqfPTvxVQxfAC7wUQUWVI5sRShZ
- 5u+q7HyMfCiRCFXGR2bWpWrorB0OaElXhZlHBmRfdJZut4P/cCLMF/LKVdBA5R5k/d8n
- dm5A==
-X-Gm-Message-State: AO0yUKUDw2G/9UI/2kFdUndGuUUyH9eQhl0YLjs9Zjz91nAiwsqEBnjO
- ckaSqYV9mFDh1GUfBqt9El73c1RUY92DGwyTHi5HPM8xJ1OVI/NsFzsZzGOtRe/3QP8uVWUFJXS
- 6PvWqW3msdQtmPZPkECV9wIRppey6ZxA=
-X-Received: by 2002:a4a:928d:0:b0:51a:ac8f:b6f9 with SMTP id
- i13-20020a4a928d000000b0051aac8fb6f9mr4684074ooh.1.1678171700122; 
- Mon, 06 Mar 2023 22:48:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set/i6lz3SO48I0zqOqq1M5y/nEDvYw4GjBBFJf8XBLTK9DyWX6AqMQ5gGaoE0ZScm6+KeNY1SCsUEuP+cPYswoA=
-X-Received: by 2002:a4a:928d:0:b0:51a:ac8f:b6f9 with SMTP id
- i13-20020a4a928d000000b0051aac8fb6f9mr4684064ooh.1.1678171699855; Mon, 06 Mar
- 2023 22:48:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-13-eperezma@redhat.com>
- <2367dcff-e8c3-c3ca-378a-e9e67e10710a@redhat.com>
- <CACGkMEs13RdzLfU8nZwHT0YsZ_hXy47or4t9jkHCoJ1EVa3q9w@mail.gmail.com>
- <CAJaqyWcUMwchHZ66=o+aayVvsAT78iOnWo0g3jbg4A1TiAupfQ@mail.gmail.com>
- <69983de5-7cb7-02a1-8869-0977ff2928b2@redhat.com>
- <CAJaqyWfoTO26=aeWbWBBqM-kJpa+4ZtWNxwp2nFmZ9L14BoPqA@mail.gmail.com>
- <CACGkMEv-2-wj8xhimgX_iwOP1cuTsVKYgp2UTat6Xyg5QTURmw@mail.gmail.com>
- <CAJaqyWdHZJ7ty57=V=CAg_8hB-DQ4K77QPJpJux39nEFPY0+DQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWdHZJ7ty57=V=CAg_8hB-DQ4K77QPJpJux39nEFPY0+DQ@mail.gmail.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VyrL0rARfXF42lkdqUJPDk3D8DkKsmjHEZQVr+GxgwU=;
+ b=Psmh9f+o+2iB0x7PKM/m7xhD0b+sQ1QGY8VtUXquPWyR/BWaAt0vGkvbFP4kGV7p27scWK
+ MMFXemTA6mwB73px3IA7c3PpDX9myRzG3DODrz3x02d6LQF0mZOWijPKx50IAOxKHnDKc/
+ FIOjvmUwbzY2g0phDUaJm+jFOYWC+Y8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-209-vfugHPeEOJKZupZ2S6wSLg-1; Tue, 07 Mar 2023 02:08:31 -0500
+X-MC-Unique: vfugHPeEOJKZupZ2S6wSLg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38A45101A521;
+ Tue,  7 Mar 2023 07:08:31 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-78.pek2.redhat.com [10.72.12.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EA8940C10FA;
+ Tue,  7 Mar 2023 07:08:29 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 7 Mar 2023 14:48:08 +0800
-Message-ID: <CACGkMEv=LJqkWnEvDT+2gewJpnxvaSuN49K99Ou=rk5dY5wFXQ@mail.gmail.com>
-Subject: Re: [PATCH v4 12/15] vdpa: block migration if device has unsupported
- features
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
- Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>, 
- Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Cc: Jason Wang <jasowang@redhat.com>
+Subject: [PULL 00/51] Net patches
+Date: Tue,  7 Mar 2023 15:07:25 +0800
+Message-Id: <20230307070816.34833-1-jasowang@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -111,176 +76,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 6, 2023 at 7:33=E2=80=AFPM Eugenio Perez Martin <eperezma@redha=
-t.com> wrote:
->
-> On Mon, Mar 6, 2023 at 4:42=E2=80=AFAM Jason Wang <jasowang@redhat.com> w=
-rote:
-> >
-> > On Fri, Mar 3, 2023 at 4:58=E2=80=AFPM Eugenio Perez Martin <eperezma@r=
-edhat.com> wrote:
-> > >
-> > > On Fri, Mar 3, 2023 at 4:48 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > > >
-> > > >
-> > > > =E5=9C=A8 2023/3/2 03:32, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > > > > On Mon, Feb 27, 2023 at 9:20 AM Jason Wang <jasowang@redhat.com> =
-wrote:
-> > > > >> On Mon, Feb 27, 2023 at 4:15=E2=80=AFPM Jason Wang <jasowang@red=
-hat.com> wrote:
-> > > > >>>
-> > > > >>> =E5=9C=A8 2023/2/24 23:54, Eugenio P=C3=A9rez =E5=86=99=E9=81=
-=93:
-> > > > >>>> A vdpa net device must initialize with SVQ in order to be migr=
-atable at
-> > > > >>>> this moment, and initialization code verifies some conditions.=
-  If the
-> > > > >>>> device is not initialized with the x-svq parameter, it will no=
-t expose
-> > > > >>>> _F_LOG so the vhost subsystem will block VM migration from its
-> > > > >>>> initialization.
-> > > > >>>>
-> > > > >>>> Next patches change this, so we need to verify migration condi=
-tions
-> > > > >>>> differently.
-> > > > >>>>
-> > > > >>>> QEMU only supports a subset of net features in SVQ, and it can=
-not
-> > > > >>>> migrate state that cannot track or restore in the destination.=
-  Add a
-> > > > >>>> migration blocker if the device offer an unsupported feature.
-> > > > >>>>
-> > > > >>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > >>>> ---
-> > > > >>>> v3: add mirgation blocker properly so vhost_dev can handle it.
-> > > > >>>> ---
-> > > > >>>>    net/vhost-vdpa.c | 12 ++++++++----
-> > > > >>>>    1 file changed, 8 insertions(+), 4 deletions(-)
-> > > > >>>>
-> > > > >>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > >>>> index 4f983df000..094dc1c2d0 100644
-> > > > >>>> --- a/net/vhost-vdpa.c
-> > > > >>>> +++ b/net/vhost-vdpa.c
-> > > > >>>> @@ -795,7 +795,8 @@ static NetClientState *net_vhost_vdpa_init=
-(NetClientState *peer,
-> > > > >>>>                                           int nvqs,
-> > > > >>>>                                           bool is_datapath,
-> > > > >>>>                                           bool svq,
-> > > > >>>> -                                       struct vhost_vdpa_iova=
-_range iova_range)
-> > > > >>>> +                                       struct vhost_vdpa_iova=
-_range iova_range,
-> > > > >>>> +                                       uint64_t features)
-> > > > >>>>    {
-> > > > >>>>        NetClientState *nc =3D NULL;
-> > > > >>>>        VhostVDPAState *s;
-> > > > >>>> @@ -818,7 +819,10 @@ static NetClientState *net_vhost_vdpa_ini=
-t(NetClientState *peer,
-> > > > >>>>        s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> > > > >>>>        s->vhost_vdpa.iova_range =3D iova_range;
-> > > > >>>>        s->vhost_vdpa.shadow_data =3D svq;
-> > > > >>>> -    if (!is_datapath) {
-> > > > >>>> +    if (queue_pair_index =3D=3D 0) {
-> > > > >>>> +        vhost_vdpa_net_valid_svq_features(features,
-> > > > >>>> +                                          &s->vhost_vdpa.migr=
-ation_blocker);
-> > > > >>>
-> > > > >>> Since we do validation at initialization, is this necessary to =
-valid
-> > > > >>> once again in other places?
-> > > > >> Ok, after reading patch 13, I think the question is:
-> > > > >>
-> > > > >> The validation seems to be independent to net, can we valid it o=
-nce
-> > > > >> during vhost_vdpa_init()?
-> > > > >>
-> > > > > vhost_vdpa_net_valid_svq_features also checks for net features. I=
-n
-> > > > > particular, all the non transport features must be in
-> > > > > vdpa_svq_device_features.
-> > > > >
-> > > > > This is how we protect that the device / guest will never negotia=
-te
-> > > > > things like VLAN filtering support, as SVQ still does not know ho=
-w to
-> > > > > restore at the destination.
-> > > > >
-> > > > > In the VLAN filtering case CVQ is needed to restore VLAN, so it i=
-s
-> > > > > covered by patch 11/15. But other future features may need suppor=
-t for
-> > > > > restoring it in the destination.
-> > > >
-> > > >
-> > > > I wonder how hard to have a general validation code let net specifi=
-c
-> > > > code to advertise a blacklist to avoid code duplication.
-> > > >
-> > >
-> > > A blacklist does not work here, because I don't know if SVQ needs
-> > > changes for future feature bits that are still not in / proposed to
-> > > the standard.
-> >
-> > Could you give me an example for this?
-> >
->
-> Maybe I'm not understanding your blacklist proposal. I'm going to
-> explain my thoughts on it with a few examples.
->
-> SVQ was merged in qemu before VIRTIO_F_RING_RESET, and there are some
-> proposals like VIRTIO_NET_F_NOTF_COAL or VIRTIO_F_PARTIAL_ORDER in the
-> virtio-comment list.
->
-> If we had gone with the blacklist approach back then, the blacklist
-> would contain all the features of Virtio standard but the one we do
-> support in SVQ, isn't it? Then, VIRTIO_F_RING_RESET would get merged,
-> and SVQ would claim it supports it, but it is not true.
+The following changes since commit 817fd33836e73812df2f1907612b57750fcb9491:
 
-To solve this, the general SVQ code can have a whitelist for transport feat=
-ures?
+  Merge tag 'audio-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
 
->
-> The same can happen with the other two features.
-> VIRTIO_NET_F_NOTF_COAL will be required to migrate coalescence
-> parameters, but it is not supported for the moment. _F_PARTIAL_ORDER
-> will also require changes to hw/virtio/vhost-shadow-virtqueue.c code,
-> since SVQ it's the "driver" in charge of the SVQ vring.
->
-> Most of the changes will only require small changes to support sending
-> the CVQ message in the destination and to track the state change
-> parsing CVQ, or no changes at all (like for supporting
-> VIRTIO_NET_F_SPEED_DUPLEX). But SVQ cannot claim it supports it
-> anyway.
->
-> The only alternative I can think of is to actually block new proposals
-> (like past VIRTIO_F_RING_RESET) until they either do the changes on
-> SVQ too or add a blacklist item. I think it is too intrusive.
-> Especially on this stage of SVQ where not even all QEMU features are
-> supported. Maybe we can reevaluate it in Q3 or Q4 for example?
+are available in the git repository at:
 
-Yes, the change is not a must just want to see if we can simply do anything=
-.
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
->
->
-> > >
-> > > Regarding the code duplication, do you mean to validate transport
-> > > features and net specific features in one shot, instead of having a
-> > > dedicated function for SVQ transport?
-> >
-> > Nope.
-> >
->
-> Please expand, maybe I can do something to solve it :).
+for you to fetch changes up to c19b566a3898510ec2b3e881b3fb78614b240414:
 
-Sure, I just want to make sure we are talking about the same thing
-before I can expand :)
+  hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100() (2023-03-07 14:55:39 +0800)
 
-Thanks
+----------------------------------------------------------------
 
->
-> Thanks!
->
+----------------------------------------------------------------
+Akihiko Odaki (43):
+      e1000e: Fix the code style
+      hw/net: Add more MII definitions
+      fsl_etsec: Use hw/net/mii.h
+      e1000: Use hw/net/mii.h
+      e1000: Mask registers when writing
+      e1000e: Introduce E1000E_LOW_BITS_SET_FUNC
+      e1000e: Mask registers when writing
+      e1000: Use more constant definitions
+      e1000e: Use more constant definitions
+      e1000: Use memcpy to intialize registers
+      e1000e: Use memcpy to intialize registers
+      e1000e: Remove pending interrupt flags
+      e1000e: Improve software reset
+      e1000: Configure ResettableClass
+      e1000e: Configure ResettableClass
+      e1000e: Introduce e1000_rx_desc_union
+      e1000e: Set MII_ANER_NWAY
+      e1000e: Remove extra pointer indirection
+      net: Check L4 header size
+      e1000x: Alter the signature of e1000x_is_vlan_packet
+      net: Strip virtio-net header when dumping
+      hw/net/net_tx_pkt: Automatically determine if virtio-net header is used
+      hw/net/net_rx_pkt: Remove net_rx_pkt_has_virt_hdr
+      e1000e: Perform software segmentation for loopback
+      hw/net/net_tx_pkt: Implement TCP segmentation
+      hw/net/net_tx_pkt: Check the payload length
+      e1000e: Do not assert when MSI-X is disabled later
+      MAINTAINERS: Add Akihiko Odaki as a e1000e reviewer
+      MAINTAINERS: Add e1000e test files
+      e1000e: Combine rx traces
+      e1000: Count CRC in Tx statistics
+      e1000e: Count CRC in Tx statistics
+      net/eth: Report if headers are actually present
+      e1000e: Implement system clock
+      net/eth: Introduce EthL4HdrProto
+      pcie: Introduce pcie_sriov_num_vfs
+      e1000: Split header files
+      Intrdocue igb device emulation
+      tests/qtest/e1000e-test: Fabricate ethernet header
+      tests/qtest/libqos/e1000e: Export macreg functions
+      igb: Introduce qtest for igb device
+      tests/avocado: Add igb test
+      docs/system/devices/igb: Add igb documentation
+
+Philippe Mathieu-Daudé (7):
+      hw/net/eepro100: Abort if pci_add_capability() ever fail
+      hw/net/eepro100: Introduce TYPE_EEPRO100 QOM abstract parent
+      hw/net/eepro100: Convert reset handler to DeviceReset
+      hw/net/eepro100: Pass E100PCIDeviceInfo as class init data
+      hw/net/eepro100: Remove instance EEPRO100State::has_extended_tcb_support
+      hw/net/eepro100: Remove instance's EEPRO100State::device
+      hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100()
+
+Shreesh Adiga (1):
+      ebpf: fix compatibility with libbpf 1.0+
+
+ MAINTAINERS                                        |   13 +
+ docs/system/device-emulation.rst                   |    1 +
+ docs/system/devices/igb.rst                        |   71 +
+ ebpf/rss.bpf.skeleton.h                            | 1171 ++++--
+ hw/core/machine.c                                  |    1 +
+ hw/net/Kconfig                                     |    5 +
+ hw/net/e1000.c                                     |  259 +-
+ hw/net/e1000_common.h                              |  102 +
+ hw/net/e1000_regs.h                                |  958 +----
+ hw/net/e1000e.c                                    |  102 +-
+ hw/net/e1000e_core.c                               |  719 ++--
+ hw/net/e1000e_core.h                               |   70 +-
+ hw/net/e1000x_common.c                             |   38 +-
+ hw/net/e1000x_common.h                             |  133 +-
+ hw/net/e1000x_regs.h                               |  967 +++++
+ hw/net/eepro100.c                                  |  149 +-
+ hw/net/fsl_etsec/etsec.c                           |   11 +-
+ hw/net/fsl_etsec/etsec.h                           |   17 -
+ hw/net/fsl_etsec/miim.c                            |    5 +-
+ hw/net/igb.c                                       |  615 +++
+ hw/net/igb_common.h                                |  146 +
+ hw/net/igb_core.c                                  | 4077 ++++++++++++++++++++
+ hw/net/igb_core.h                                  |  146 +
+ hw/net/igb_regs.h                                  |  648 ++++
+ hw/net/igbvf.c                                     |  327 ++
+ hw/net/meson.build                                 |    2 +
+ hw/net/net_rx_pkt.c                                |  102 +-
+ hw/net/net_rx_pkt.h                                |   31 +-
+ hw/net/net_tx_pkt.c                                |  332 +-
+ hw/net/net_tx_pkt.h                                |   27 +-
+ hw/net/trace-events                                |   50 +-
+ hw/net/virtio-net.c                                |   85 +-
+ hw/net/vmxnet3.c                                   |   58 +-
+ hw/pci/pcie_sriov.c                                |    5 +
+ include/hw/net/mii.h                               |   14 +-
+ include/hw/pci/pcie_sriov.h                        |    3 +
+ include/net/eth.h                                  |   15 +-
+ include/net/net.h                                  |    6 +
+ net/dump.c                                         |   11 +-
+ net/eth.c                                          |  118 +-
+ net/net.c                                          |   18 +
+ net/tap.c                                          |   16 +
+ scripts/ci/org.centos/stream/8/x86_64/test-avocado |    1 +
+ tests/avocado/igb.py                               |   38 +
+ tests/qtest/e1000e-test.c                          |   25 +-
+ tests/qtest/fuzz/generic_fuzz_configs.h            |    5 +
+ tests/qtest/igb-test.c                             |  243 ++
+ tests/qtest/libqos/e1000e.c                        |   12 -
+ tests/qtest/libqos/e1000e.h                        |   14 +
+ tests/qtest/libqos/igb.c                           |  185 +
+ tests/qtest/libqos/meson.build                     |    1 +
+ tests/qtest/meson.build                            |    1 +
+ tools/ebpf/Makefile.ebpf                           |    8 +-
+ tools/ebpf/rss.bpf.c                               |   43 +-
+ 54 files changed, 9829 insertions(+), 2391 deletions(-)
+ create mode 100644 docs/system/devices/igb.rst
+ create mode 100644 hw/net/e1000_common.h
+ create mode 100644 hw/net/e1000x_regs.h
+ create mode 100644 hw/net/igb.c
+ create mode 100644 hw/net/igb_common.h
+ create mode 100644 hw/net/igb_core.c
+ create mode 100644 hw/net/igb_core.h
+ create mode 100644 hw/net/igb_regs.h
+ create mode 100644 hw/net/igbvf.c
+ create mode 100644 tests/avocado/igb.py
+ create mode 100644 tests/qtest/igb-test.c
+ create mode 100644 tests/qtest/libqos/igb.c
+
 
 
