@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E7B6ADB99
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:17:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2860D6ADBA0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:18:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZUMs-0000rP-U1; Tue, 07 Mar 2023 05:16:26 -0500
+	id 1pZUOJ-0001jG-C2; Tue, 07 Mar 2023 05:17:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZUMn-0000qe-I8
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:16:23 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZUNo-0001QY-22
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:17:25 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZUMl-0002OG-Sm
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:16:21 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- p23-20020a05600c1d9700b003ead4835046so663313wms.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 02:16:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pZUNe-0002RF-SL
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:17:17 -0500
+Received: by mail-pl1-x636.google.com with SMTP id y11so13550285plg.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 02:17:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678184178;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=T5ZpNmkE1FFYNggiZcm9H8J5/bcUXG3yxX7TJU0EuN0=;
- b=RaeMcHQkWI6vRVqt8t/UeMYSA+07yLqaTBzSJ4qRK9wdsi/9f3K3rImZNgQG9Gdjyx
- gXhpqNpf5BtFc9OSQWQU2XUoNy26lkfifKbarXeyv8fB5ULBQ/6/tAtkVu0VI5K49ENK
- kjCNu8dwPbDtRc3VlZW8NbT0CtkMn/BYz2HwY168LWPSBY1CJoHOuID8kRB6/K16j2kv
- fGaVXELdO2HRys8RQ/bd2aTVFWaAJ/ug9wPx1TZwaynRkzdxKaCWWwWzJPGyaskG8yaQ
- SSTBjeOm+QPJgU+mHDvti4ABwu9B0urENuJ4GcEJ19tcWViN68do4KbhfR0jZmjUfhCh
- ePMA==
+ d=linaro.org; s=google; t=1678184233;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0aJCYfjof5yqU5N/p/BDGQFJzggOGX4MicDt1pfCeqc=;
+ b=yoVCBprk0BzBUf3mDcGobFaF3fGDZlURwiNVAH8f5/hk+2r26kMzmeUuGeIfVI8ya8
+ /Eg+Ln/pbJLSHC3nYuNrpg+fmJF64U5m1KrIvvWOLVU9qd4o42b2QduwbW52DTrAQsX7
+ /U3gAffc3DSKohDSelV5GY8QGkHjZ6CSAppsmWx9BFUIKGucxeAhoWT2wX+LB0n3sLHp
+ HIveZxxAUQNy/9YeR+1yPsTaAlTh6Ar1TEY7v/jtlttpyW6pHw2Q/fF4naLADhKKWDPB
+ yGcx6HAmiAxes1SVwAioAr+vcZpKTX/9uUgxh5YaDUu9mmYMOjkGZ9KWk6BjqgBTJxnY
+ tRfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678184178;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T5ZpNmkE1FFYNggiZcm9H8J5/bcUXG3yxX7TJU0EuN0=;
- b=0YuzZxztRhIu7qJf46p8l53TtVgAe7wbXZxvuOXWcQ2NtO7Ea56uGKUYkE6k8eM2Km
- gOeGGqCbwJLENxmDTVZV8O5tHgiQdbqTNfI+c6oh9gy2U64WGAJfn9gxx05IG1ud7kiD
- CjOpiva+ZwLLJl1Dh1AliMveV6UC57crxeDAA/AthI4p95HSXAbBICn5h6Bfwt2VPzGt
- nLq8wuxO1qc7osCx0UQiafCnwQhfCSKC9fNXRrZ/niayE1KqGsIG/GxYfMQQ7qRlmEO4
- OOl18Wnq1U3xRmCEJbcwKMr0nwDVICcllMNkmU6UTdh/38To6H8EQJfhy+Y6RDSNpuMc
- 0Idw==
-X-Gm-Message-State: AO0yUKVBsDTuUl4I0LEAXDTgCj8GcnWPDoxz1a0Cn7kB7Nzs51lIPUeZ
- cPYYUwRXVZqkMCSynvlSbg94Ag==
-X-Google-Smtp-Source: AK7set+BGPIkJt7PI05EQWapwWgnl0fiKAieNzreYJ4qGCZa6Y5f+ss9WUh+g4SRavEHW97FAWxP/Q==
-X-Received: by 2002:a05:600c:19d4:b0:3df:3bd6:63e5 with SMTP id
- u20-20020a05600c19d400b003df3bd663e5mr11940579wmq.12.1678184178112; 
- Tue, 07 Mar 2023 02:16:18 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x9-20020a5d60c9000000b002c70d97af78sm11956779wrt.85.2023.03.07.02.16.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 02:16:17 -0800 (PST)
-Message-ID: <37edd5b4-5fee-59a2-5a71-b3f25f78f0c9@linaro.org>
-Date: Tue, 7 Mar 2023 11:16:16 +0100
+ d=1e100.net; s=20210112; t=1678184233;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0aJCYfjof5yqU5N/p/BDGQFJzggOGX4MicDt1pfCeqc=;
+ b=YXwzvVrju2xbc0aOMGg4Fqleo6lw/qOx1KZRi7zkZwaK+98CPTmsXfVupy3LW7WH+b
+ nY2lHAIMz+RDMIy2SPHxZlP1E2MZi7vIfJ8qmttpoO0Cd89M8QSKamcr488yWBKvpvKw
+ 8BwlkadD0PahTK8ZcpIoDN4Joyb9sWspr7IRz7KFqP3QoV/O5hbHMleiUiR4O3A3v8mo
+ HeLgdxb8NH/9+3dDrsRCOvgfFWtV/z/KiTLLq0Z8JzOBZnylxFi4shbchv9uZP4fDoxk
+ Tn0k36irfHcLSL3J4/DmaCpemmILJJtTJ+OhWqeRIydxpmAGANz0ysYXx60dL6dkV37H
+ y/Qw==
+X-Gm-Message-State: AO0yUKXY2qKDF4NgEd2KhR6RRO3REu9aNmyP56IukgfPxw6vn8dj/H1J
+ X/TE2yjzc0f43VQI5xqH1R8VgsnyU72W7X/ugmTfQ/UGDwMhLHsO
+X-Google-Smtp-Source: AK7set/odXeACyvjdg3adUkdkEOE7OBpEeamPKxa5alE3Q0kNWNSGsRX9UIKAhRR1QLwd8I2OEsOvA444j7iqwo/JQY=
+X-Received: by 2002:a17:90a:9512:b0:237:50b6:9a09 with SMTP id
+ t18-20020a17090a951200b0023750b69a09mr5247483pjo.0.1678184232345; Tue, 07 Mar
+ 2023 02:17:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] io/channel-tls: plug memory leakage on GSource
-Content-Language: en-US
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
- qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, antoine.damhet@shadow.tech,
- charles.frey@shadow.tech, berrange@redhat.com
-References: <98f750b6ded2dd2e8d0e4ffc9935d3d6e0cd59f4.1678144392.git.quic_mathbern@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <98f750b6ded2dd2e8d0e4ffc9935d3d6e0cd59f4.1678144392.git.quic_mathbern@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+References: <20230306021307.1879483-1-richard.henderson@linaro.org>
+ <20230306021307.1879483-2-richard.henderson@linaro.org>
+ <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
+ <004c0c81-958c-ba34-a743-6f2a4a4d133a@linaro.org>
+ <CAFEAcA8M+1jSK4+gzA6rkoQQY579RuBpMDM9eQk=aN5gPhHNbw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8M+1jSK4+gzA6rkoQQY579RuBpMDM9eQk=aN5gPhHNbw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Mar 2023 10:17:01 +0000
+Message-ID: <CAFEAcA_dYmf-6kF58CvrcvL+NjpXYaau+_=vRJPuOXEuNYmEeA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] linux-user: Diagnose incorrect -R size
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,65 +87,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/3/23 00:15, Matheus Tavares Bernardino wrote:
-> This leakage can be seen through test-io-channel-tls:
-> 
-> $ ../configure --target-list=aarch64-softmmu --enable-sanitizers
-> $ make ./tests/unit/test-io-channel-tls
-> $ ./tests/unit/test-io-channel-tls
-> 
-> Indirect leak of 104 byte(s) in 1 object(s) allocated from:
->      #0 0x7f81d1725808 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:144
->      #1 0x7f81d135ae98 in g_malloc (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x57e98)
->      #2 0x55616c5d4c1b in object_new_with_propv ../qom/object.c:795
->      #3 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
->      #4 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-channel-tls.c:70
->      #5 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channel-tls.c:158
->      #6 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
-> 
-> Indirect leak of 32 byte(s) in 1 object(s) allocated from:
->      #0 0x7f81d1725a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
->      #1 0x7f81d1472a20 in gnutls_dh_params_init (/lib/x86_64-linux-gnu/libgnutls.so.30+0x46a20)
->      #2 0x55616c6485ff in qcrypto_tls_creds_x509_load ../crypto/tlscredsx509.c:634
->      #3 0x55616c648ba2 in qcrypto_tls_creds_x509_complete ../crypto/tlscredsx509.c:694
->      #4 0x55616c5e1fea in user_creatable_complete ../qom/object_interfaces.c:28
->      #5 0x55616c5d4c8c in object_new_with_propv ../qom/object.c:807
->      #6 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
->      #7 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-channel-tls.c:70
->      #8 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channel-tls.c:158
->      #9 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
-> 
-> ...
-> 
-> SUMMARY: AddressSanitizer: 49143 byte(s) leaked in 184 allocation(s).
-> 
-> The docs for `g_source_add_child_source(source, child_source)` says
-> "source will hold a reference on child_source while child_source is
-> attached to it." Therefore, we should unreference the child source at
-> `qio_channel_tls_read_watch()` after attaching it to `source`. With this
-> change, ./tests/unit/test-io-channel-tls shows no leakages.
-> 
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> ---
->   io/channel-tls.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/io/channel-tls.c b/io/channel-tls.c
-> index 8052945ba0..5a7a3d48d6 100644
-> --- a/io/channel-tls.c
-> +++ b/io/channel-tls.c
-> @@ -446,6 +446,7 @@ qio_channel_tls_read_watch(QIOChannelTLS *tioc, GSource *source)
->       object_ref(OBJECT(tioc));
->   
->       g_source_add_child_source(source, child);
-> +    g_source_unref(child);
+On Tue, 7 Mar 2023 at 10:12, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 6 Mar 2023 at 21:24, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > On 3/6/23 04:56, Peter Maydell wrote:
+> > > On Mon, 6 Mar 2023 at 02:14, Richard Henderson
+> > > <richard.henderson@linaro.org> wrote:
+> > >>
+> > >> Zero is the value for 'off', and should not be used with -R.
+> > >> We have been enforcing host page alignment for the non-R
+> > >> fallback of MAX_RESERVED_VA, but failing to enforce for -R.
+> > >
+> > > I'm pretty sure we have users who specifically use "-R 0" to
+> > > ask for "definitely turn off any reserved VA".
+> > > Here's a random example from an old gcc bug report:
+> > > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60681
+> > > and somebody using it via the environment variable:
+> > > https://www.openembedded.org/pipermail/openembedded-core/2015-January/100572.html
+> >
+> > Odd.
+> >
+> > Well, it won't actually have the effect of "definitely turn off", it will merely leave
+> > things as per the default, which *will* enable reserved va for 32-bit guests on 64-bit hosts.
+> >
+> > The only remaining question is whether we diagnose this oddness or silently accept it.  It
+> > feels like someone playing with options they don't actually understand and an error is
+> > warranted.
+>
+> I'm pretty sure I've issued the advice "turn off the reserved
+> area stuff with -R 0" in the past, for working around various
+> QEMU bugs where it wasn't able to allocate the whole reserved
+> area it wanted to but the guest program didn't actually care.
 
-Or declare child with 'g_autoptr(GSource)'. The difference is
-only a matter of style, so I'll let Daniel to decide what is
-preferred. Regardless:
+It looks like we (inadvertently) broke "-R 0 means turn off"
+in 2019 with commit dc18baaef36d95e5; prior to that the
+64-on-32 default was set by the initial value of the global
+variable and could be overridden on the command line. After
+that we ended up doing the default-value stuff after the
+command line was parsed instead.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
->   }
-
+thanks
+-- PMM
 
