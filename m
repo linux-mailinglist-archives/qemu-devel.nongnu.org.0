@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2C56ADB85
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:13:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158756ADB88
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:13:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZUJW-0006QM-Di; Tue, 07 Mar 2023 05:12:58 -0500
+	id 1pZUJf-0006RL-IM; Tue, 07 Mar 2023 05:13:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZUJV-0006QB-43
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:12:57 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pZUJT-0001ml-FZ
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:12:56 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id z11so7674218pfh.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 02:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678183974;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/S7vCmQ6oJN2iQJtVl5RQSnCFa0uuxr0FbbyEc/0Ke8=;
- b=sduZ3+ft2DDqIUu91Ljz34pt5AI7XPcRtb2RnMdmD9rbCkbnKUI/y6obbBPDWpOFE7
- CNXQNPbJZQLD9X9lQ96Ga1Q2ZmNh0EUVpXqIHFl3yiKQRlxYxoVykrIzh7sD386BM4vd
- hKJqD/EGGkawLMfx65N+80EzFkHsbd8yi+9R8L4gPtosBqhRz/ADOzeQTLizvxbCAowN
- i0VU0cKpjrM7EQtUEjSRuacnozpjZlHwS5s0jgnlBlx7aCDKkZSTuKvsgx+80EndC8kB
- TWNux2q8cSacsV/KoCmplmTayvmts0OEfc7S1ABlT5TtKz8ZqERIRzh39ArpN31QhA8X
- 5TJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678183974;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/S7vCmQ6oJN2iQJtVl5RQSnCFa0uuxr0FbbyEc/0Ke8=;
- b=wa60w9tM+wK0yeDN+h2zV74lTg6OLAmDkecubz/Jjwk3gilRItZRiWvt0O+F4scHFm
- TzZ1VtWB/CXEr13y2iFtxszeeYUwEdA8WHa/yx0FkArp94GP60jvliLw0uPapxGIaVbe
- ftJpdB1Qumm82DWybXOrQXyj6wBmykJ+Ydzuh4ptM2XFGicVmpRKxk+n8+TMcQT2RuPR
- eF28dFgRccbFQui1UWxrp7LdE1MoACuNXckE/3ds7P4jjlJzUSxy8VM9ASnfV9a2yGZM
- vSbjXWBISbP2PUKpWDzCIWfrgf0ksY97JikzdmcdhvgDQQqGSLE8/Wx5PYFSM7p+pL2F
- SH3w==
-X-Gm-Message-State: AO0yUKXvB0xmd4U8XV0qLydPfaWE5DZlBXlbtW0jD56yX5CnoSYFmSC/
- mzKQT+rQ/Tk7RXMjP3q18s8e3aZlFJoH32cNt7cH4Q==
-X-Google-Smtp-Source: AK7set/DAmMRBxt9q21PdIGl06T5622px6EJS7zPKulaIVTblfBqmk7SKGn8ld6k/8IWEqwiyL/QBwYGPhB/di+s5Nc=
-X-Received: by 2002:a62:ce4c:0:b0:606:63cd:506c with SMTP id
- y73-20020a62ce4c000000b0060663cd506cmr5940320pfg.1.1678183973922; Tue, 07 Mar
- 2023 02:12:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZUJc-0006Qp-WF
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:13:05 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZUJb-0001mf-9B
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:13:04 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.84])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1705E211A6;
+ Tue,  7 Mar 2023 10:12:51 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 7 Mar
+ 2023 11:12:50 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0038016aaf0-ce34-45fa-a87b-22cfefe40537,
+ D586700EEA543FC8D630564B717DAE7078976E4F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f6be2cb3-b4bd-7e53-647c-1d6922f2eb5c@kaod.org>
+Date: Tue, 7 Mar 2023 11:12:49 +0100
 MIME-Version: 1.0
-References: <20230306021307.1879483-1-richard.henderson@linaro.org>
- <20230306021307.1879483-2-richard.henderson@linaro.org>
- <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
- <004c0c81-958c-ba34-a743-6f2a4a4d133a@linaro.org>
-In-Reply-To: <004c0c81-958c-ba34-a743-6f2a4a4d133a@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Mar 2023 10:12:42 +0000
-Message-ID: <CAFEAcA8M+1jSK4+gzA6rkoQQY579RuBpMDM9eQk=aN5gPhHNbw@mail.gmail.com>
-Subject: Re: [PATCH 1/9] linux-user: Diagnose incorrect -R size
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1] Added TMP421 type sensor's support in yosemitev2
+Content-Language: en-US
+To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
+ <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20230307095239.3583613-1-pkarthikeyan1509@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230307095239.3583613-1-pkarthikeyan1509@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: d2fe0abe-98a7-4600-95ff-ffdb1e029365
+X-Ovh-Tracer-Id: 1018376469284424486
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepteeghedugeeiffekfedtlefftdejleefgeegteelgfdujeeggfefieevuedtffehnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhkrghrthhhihhkvgihrghnudehtdelsehgmhgrihhlrdgtohhmpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,38 +73,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Mar 2023 at 21:24, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/6/23 04:56, Peter Maydell wrote:
-> > On Mon, 6 Mar 2023 at 02:14, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> Zero is the value for 'off', and should not be used with -R.
-> >> We have been enforcing host page alignment for the non-R
-> >> fallback of MAX_RESERVED_VA, but failing to enforce for -R.
-> >
-> > I'm pretty sure we have users who specifically use "-R 0" to
-> > ask for "definitely turn off any reserved VA".
-> > Here's a random example from an old gcc bug report:
-> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60681
-> > and somebody using it via the environment variable:
-> > https://www.openembedded.org/pipermail/openembedded-core/2015-January/100572.html
->
-> Odd.
->
-> Well, it won't actually have the effect of "definitely turn off", it will merely leave
-> things as per the default, which *will* enable reserved va for 32-bit guests on 64-bit hosts.
->
-> The only remaining question is whether we diagnose this oddness or silently accept it.  It
-> feels like someone playing with options they don't actually understand and an error is
-> warranted.
+On 3/7/23 10:52, Karthikeyan Pasupathi wrote:
+> Added TMP421 type support in yosemite v2 platform.
+> 
+> Tested: Tested and verified in yosemite V2 platform.
+> 
+> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 
-I'm pretty sure I've issued the advice "turn off the reserved
-area stuff with -R 0" in the past, for working around various
-QEMU bugs where it wasn't able to allocate the whole reserved
-area it wanted to but the guest program didn't actually care.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-thanks
--- PMM
+Thanks,
+
+C.
+
+
+> ---
+>   hw/arm/aspeed.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 86601cb1a5..7b5e603bc4 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -524,6 +524,11 @@ static void yosemitev2_bmc_i2c_init(AspeedMachineState *bmc)
+>       at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x51, 128 * KiB);
+>       at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 128 * KiB,
+>                             yosemitev2_bmc_fruid, yosemitev2_bmc_fruid_len);
+> +    /* TMP421 */
+> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "tmp421", 0x1f);
+> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp421", 0x4e);
+> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp421", 0x4f);
+> +
+>   }
+>   
+>   static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+
 
