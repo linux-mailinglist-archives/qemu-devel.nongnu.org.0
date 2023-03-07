@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0AE6AE26A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BDE6AE271
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:31:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYJJ-0004u6-4a; Tue, 07 Mar 2023 09:29:01 -0500
+	id 1pZYKq-0006Ju-E0; Tue, 07 Mar 2023 09:30:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1pZYJG-0004nw-Sv
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:28:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1pZYJE-0006nZ-Pp
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:28:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678199336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eynDZAmXCjTZ1netBQRQ8ZmHJGv2SI9S8DXFOKd9A8c=;
- b=M9e+GCc2HkKM0Ja90PPQKYqLuztzgpDHCDWT+8fHTYH9TqnSuAYEzV17rF3u20GB4cL/5K
- zI7saLLOv71x3bjlU4y/dSBn9oZf/7CIsvVcb2M/+JFNrP3E7rXoZx3y1uIaL10NqIPf1s
- O1hnywJPYkmTxGoB1LL/wU+FbcgLl2M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-WSpqV_bsM9aEOIp-cyUMlQ-1; Tue, 07 Mar 2023 09:28:52 -0500
-X-MC-Unique: WSpqV_bsM9aEOIp-cyUMlQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E43C855309;
- Tue,  7 Mar 2023 14:28:52 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.45.242.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B95D4C15BA0;
- Tue,  7 Mar 2023 14:28:50 +0000 (UTC)
-Date: Tue, 7 Mar 2023 15:28:46 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Markus Armbruster <armbru@pond.sub.org>
-Cc: libvir-list@redhat.com, Andrea Bolognani <abologna@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Subject: Re: query-command-line-options (was: [PATCH 1/7] qemu: capabilities:
- Introduce QEMU_CAPS_MACHINE_ACPI)
-Message-ID: <ZAdKHkUIKjPLhFn7@angien.pipo.sk>
-References: <cover.1677511354.git.pkrempa@redhat.com>
- <8718b22eda052662087087b4ce659b054974c9e0.1677511354.git.pkrempa@redhat.com>
- <CABJz62PHsQHiyo06PtfcDeS1LddYyDw2pC_seObtZcLR5cPQyQ@mail.gmail.com>
- <Y/zng8+7s05O0tRd@angien.pipo.sk>
- <CABJz62OMWXAx_ExYqvvg1DvcHkiP+SkwNMQZ+56QwoHpsNBqGA@mail.gmail.com>
- <87jzzsc320.fsf_-_@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYKo-0006IP-3A
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:30:34 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYKm-0007Fn-J6
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:30:33 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso10573744wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678199431;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lI7njEETZfbtZhY4ryxwf6AgQBevQ9BycQ5nRxlv40E=;
+ b=KDLHCAg4VKsV4+wx8FZLc475Kq2fcW7k97rBoPbbr1Xg2RRbP6bAg17fcMHKJYynxj
+ qvncC0Nz1cb+s+xbRvEExVUm4lV6btuFoRVvbtd0tCQy031r7m3+LexBc5oaBgeh3Rd1
+ DQzEwQqDOtfMSl4KAoSzQCBZCECh03FWxkUOU0o/utqO4X2qFL9Fn/y5zO8SCFcjmE8V
+ at/btXNafsNNGjnbfkKDV0ycU5G9lf8pB9g/LyygV2Hf9s6Z1fmTysKT2LS3ya/kC1P/
+ 4bOKVayyvLFpqUXnlCaEZ166v73Ikhq+pS+5rzpxeVxrESS4T1eaBYSRUcSI++tlRY+m
+ CQow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678199431;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lI7njEETZfbtZhY4ryxwf6AgQBevQ9BycQ5nRxlv40E=;
+ b=zLNHagLMCszee5O0IUXWxYdgNFESoQ+VxLEC1ajJ+HASiuAQp8cpJhBVXR9yxbcQzr
+ WB+s0zsYeEoNGqwsQ/GPPqgVNiuCaBdkAdQSX/2brullxFeY7+FPBdyd6X8/+7+eEdng
+ a7oE0wqwCMHm9tvyJ5aVMVCCya1xBfLE4SBs93Sjn4dxkl5sYPxBcTPpZK1oIh7bpph0
+ +Ij7Jb5RqP1TI/tIsS+Ou0/mXuzj8HhBUGsaE5xRj3D/hFzejr3gOdIlzlvBEAC83HOf
+ f6l+u0lakW2TZK8flafgCSL14rmpFcHiF0K8JsfSr8MBY/RZlf1gYDjbPk7TsWdK2XQl
+ MAdg==
+X-Gm-Message-State: AO0yUKWLjmchQXTHIPBfrEybe52/6cv7HLPfXERcbSN42M3EgTnil3JB
+ KnP6baem2KuKPScJPaktUOg=
+X-Google-Smtp-Source: AK7set/r76LMNSw/ok5klQNRFQSycL7zdWrfke+YueXkMJLikpP0WP8+eAAfuOPN4RdwZR/Seb/1uQ==
+X-Received: by 2002:a05:600c:45d3:b0:3e7:cee4:f8a with SMTP id
+ s19-20020a05600c45d300b003e7cee40f8amr13037923wmo.29.1678199430711; 
+ Tue, 07 Mar 2023 06:30:30 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id
+ v12-20020a05600c12cc00b003de2fc8214esm12845019wmd.20.2023.03.07.06.30.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 06:30:30 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <4c5938c7-dc09-435d-1da3-6e9842c64d21@xen.org>
+Date: Tue, 7 Mar 2023 14:30:29 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87jzzsc320.fsf_-_@pond.sub.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 11/25] hw/xen: Pass grant ref to gnttab unmap
+ operation
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-12-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-12-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,71 +100,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 07, 2023 at 10:40:23 +0100, Markus Armbruster wrote:
-> [Resent with cc: qemu-devel and adjusted subject, sorry for the noise]
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> abologna at redhat.com (Andrea Bolognani) writes:
+> The previous commit introduced redirectable gnttab operations fairly
+> much like-for-like, with the exception of the extra arguments to the
+> ->open() call which were always NULL/0 anyway.
 > 
-> > On Mon, Feb 27, 2023 at 06:25:23PM +0100, Peter Krempa wrote:
-> >> On Mon, Feb 27, 2023 at 08:44:57 -0800, Andrea Bolognani wrote:
+> This *changes* the arguments to the ->unmap() operation to include the
+> original ref# that was mapped. Under real Xen it isn't necessary; all we
+> need to do from QEMU is munmap(), then the kernel will release the grant,
+> and Xen does the tracking/refcounting for the guest.
+> 
+> When we have emulated grant tables though, we need to do all that for
+> ourselves. So let's have the back ends keep track of what they mapped
+> and pass it in to the ->unmap() method for us.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/9pfs/xen-9p-backend.c            |  7 ++++---
+>   hw/block/dataplane/xen-block.c      |  1 +
+>   hw/char/xen_console.c               |  2 +-
+>   hw/net/xen_nic.c                    | 13 ++++++++-----
+>   hw/usb/xen-usb.c                    | 21 ++++++++++++++++-----
+>   hw/xen/xen-bus.c                    |  4 ++--
+>   hw/xen/xen-legacy-backend.c         |  4 ++--
+>   hw/xen/xen-operations.c             |  9 ++++++++-
+>   include/hw/xen/xen-bus.h            |  2 +-
+>   include/hw/xen/xen-legacy-backend.h |  6 +++---
+>   include/hw/xen/xen_backend_ops.h    |  7 ++++---
+>   11 files changed, 50 insertions(+), 26 deletions(-)
+> 
 
-[...]
-
-> > Another example I've found is "smp-opts", which seems to be used to
-> > implement the -smp option. Once again, in the JSON we find "smp-opts"
-> > instead of "smp".
-> >
-> > I think it would be worthwile to check with the QEMU developers and
-> > make sure that they're aware of this behavior. Is it intended? Is it
-> > documented anywhere? It certainly seems extremely confusing to me.
-> 
-> query-command-line-options has... issues.
-> 
-> First, it's generally[*] limited to options that use QemuOpts.
-> 
-> Second, it reports configuration group names, which are often, but not
-> always the same as the option name.  The exceptions you just have to
-> know.  Group name "acpi" vs. option name "acpitable" is one.
-
-Ah! so that's where 'acpi' comes from.
-
-> 
-> Third, information on option parameters can be incomplete, or missing
-> entirely.
-> 
-> Fourth, even when it's there, it's often insufficiently detailed.
-> 
-> These are design issues.  I believe the command cannot be fixed, only
-> replaced.
-> 
-> See my talk "QEMU interface introspection: From hacks to
-> solutions", KVM Forum 2015.
-> Video at https://www.youtube.com/watch?v=IEa8Ao8_B9o
-> Slides at http://www.linux-kvm.org/images/7/7a/02x05-Aspen-Markus_Armbruster-QEMU_interface_introspection.pdf
-> 
-> Questions?
-
-In the end I've dropped the patch detecting the presence of the 'acpi'
-option of -machine as queried via query-command-line-options, as we need
-to know it per-machine type.  That is now reported by qemu in
-query-machines, so we don't need to add more querying from
-query-command-line options.
-
-In fact I strive to eliminate it after your suggestions, but we can't
-still detect the few outstanding flags from anywhere else.
-
-List of currently outstanding queries using query-command-line-options:
-
-    { "fsdev", "multidevs", QEMU_CAPS_FSDEV_MULTIDEVS },
-    { "machine", "hpet", QEMU_CAPS_MACHINE_HPET },
-    { "sandbox", NULL, QEMU_CAPS_SECCOMP_SANDBOX },
-    { "spice", NULL, QEMU_CAPS_SPICE },
-    { "spice", "gl", QEMU_CAPS_SPICE_GL },
-    { "spice", "rendernode", QEMU_CAPS_SPICE_RENDERNODE },
-    { "vnc", "power-control", QEMU_CAPS_VNC_POWER_CONTROL },
-
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
