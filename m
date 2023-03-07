@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA296AF0D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:36:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329FB6AF0BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:36:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZc9j-0003lt-2R; Tue, 07 Mar 2023 13:35:23 -0500
+	id 1pZc9j-0003mY-TF; Tue, 07 Mar 2023 13:35:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZc9g-0003hr-Ps
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:20 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1pZc9h-0003kJ-OJ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:21 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZc9f-0007nq-5u
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:20 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so17432089pjb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:35:18 -0800 (PST)
+ id 1pZc9f-0007pH-VC
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:21 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id p6so15187255plf.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:35:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678214118;
+ d=linaro.org; s=google; t=1678214119;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CpYXE3rWCu2KbWEioPzYgbPFHINqSc7H2uYvcHXK0eo=;
- b=NMkgx4Ld0ATd2AqtDTJZgfElu2xPdGuvDFhAwrf+wwzjalfg61x5UGR/NhAPN2cf34
- X4yQ96yITnfbS+F+PWItSgNAM0d1SiooyQx9GyFWK0NkSPrBLnKVg8YCDB0YHvh0JdSQ
- 1+hmjoynyYvRssUmnf1UWaigd5D3IkkiGnjdZC7PytBVx5xL3vKgmXVz7OpeqzDWcytC
- BXBze4e2aWlTPKixgPrynS3EqH1sIFJhxP7W6qSDoY/8O283NHPUmxQfUokKnhobpj0Y
- BBp13daASeM9VWERUqf+QDrhlvtIoZ1B9R53TwvZ5hUJ2Qawx20cg9g3k8IOwBu0DVU5
- yrQw==
+ bh=YlBTOJV1hh3a1cn6MWiBu2NRUMEpbWBiiyC1zmA0wSE=;
+ b=JrruKltrnD+ae4XwiJQD3PQd18pWL5Og91XndComSmIDLI7B1snFk53BKt1iUT2LKP
+ PZhCrxo5RFkbGYglEIoLdYGFBDvNAen5MVZ3kq7eMpdmuQ5lzSjfqwFHcOEO83NW+mRH
+ dqtUl369S0x2DMMbuhGJGntKQ+L9ZeolkAqjcIb0gOFOtjvMPXGNjwS2cxgW9dka+hPy
+ JH5JUfSU4+zUwqIrEfq2FJ2faYNCWZbP1pSHf5+wU6bqhMsXlKONTzgZt74oFNkFv9Nn
+ pTYVDSiLWcLnvkDoViAmqsik06LIwDD2DmGvTi3ymNJgKwRbJCVHI0B/SBCNxYU4Zwit
+ 3VBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678214118;
+ d=1e100.net; s=20210112; t=1678214119;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CpYXE3rWCu2KbWEioPzYgbPFHINqSc7H2uYvcHXK0eo=;
- b=RpF+6B5iXIMRC4G4OUPiB/3H2HESQvvcvph5bozn8r6b/oJBtWf1B23X0t+EutW/PQ
- NUY1WvCobJ4IOjszXFqO9DsTH6dRyrZbRWuTw5FcAxDAeT3I41M7BWE4/CGWCfxr7F6y
- MZy3HGXEcfxgVcN+6FAOxrC8hUKry7OhDA/9BTIfaGZ5ZKLwxmQz7/gesPM5zRyhdhMH
- TNfwSMWPFoWBmqDZDi7UmgGdPM2BitvKv5PoSNEsBmow5FO8u/YMxvKlYkMFjfWNuyeR
- ZCBraCQjrpFa++rcQzjPYcngQ8B5gStYZWztdLhYApYM2YacZ/i+SUDgzF/QTZW3zPUp
- 4x2g==
-X-Gm-Message-State: AO0yUKXYIDLpMSpu9l0QfWFID7t8aSg59G5c0jbLti1v5GB7e8UJRW4v
- ICUUsg4uHXbYn9lIAVyaYmhuHJ3WxA1P0iSLCfQ=
-X-Google-Smtp-Source: AK7set9UE30OKhmoJ9NsF5cKbeXa814TVpW9eWqyV2Zo4cJFiJ/sqJYwmoLJ3yYgn/pzmJkgOi7CEQ==
-X-Received: by 2002:a17:90a:4bca:b0:230:a195:b8ac with SMTP id
- u10-20020a17090a4bca00b00230a195b8acmr16147459pjl.7.1678214117905; 
- Tue, 07 Mar 2023 10:35:17 -0800 (PST)
+ bh=YlBTOJV1hh3a1cn6MWiBu2NRUMEpbWBiiyC1zmA0wSE=;
+ b=PpJz3Pa0oaUXFqslZX7x0aTBnznpraZPRjVfXCLYT7IydxmDUaWRNDXD1tlyFfRIVr
+ nCC1mCH87Wvs2enhTm/kj2YNaM16R9bNejycKzDJ1t1LCNIW32uJM0zsYYMwmFvzrbmC
+ S27kVJh7ZBnF3hJqRsvNCRAPNJFEYT20nywiSufGreU9PK85XfHm6bZBStMgcaRwDSYZ
+ 4cUmKUBr9t9IcJgOndiJGmcFJZw/rrEwFtJmiOMAPFpPUl0vYnuuwUXPTQNHmQuNKG7l
+ FD073XlFjUyPyz3qQcpIVCDVQwwibw/NKzJzvpiSqAL9k41+OsbhqOBpSHUAppDifCbn
+ OfpQ==
+X-Gm-Message-State: AO0yUKVee7LWCmfM+epwbYgBTI6RLHVmpEQkHp/Hw4DnHYabC5+BW6l6
+ FoTMqoanJr7vtmyLH3GyO+/NCK/NVN+gqDH2AbU=
+X-Google-Smtp-Source: AK7set8ctAbPu23Cv7eSq2fwtc1Mw9tm+K9+dPNqa31pv0HIW1bgAb0mP+2WtTfq+skd3tOff4XJqA==
+X-Received: by 2002:a17:90b:4a48:b0:234:106a:34b7 with SMTP id
+ lb8-20020a17090b4a4800b00234106a34b7mr15264079pjb.46.1678214118680; 
+ Tue, 07 Mar 2023 10:35:18 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
- q1-20020a17090a1b0100b0022c0a05229fsm7757940pjq.41.2023.03.07.10.35.17
+ q1-20020a17090a1b0100b0022c0a05229fsm7757940pjq.41.2023.03.07.10.35.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:35:17 -0800 (PST)
+ Tue, 07 Mar 2023 10:35:18 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
  qemu-ppc@nongnu.org
-Subject: [PATCH v2 17/25] target/ppc: Avoid tcg_const_* in vsx-impl.c.inc
-Date: Tue,  7 Mar 2023 10:34:55 -0800
-Message-Id: <20230307183503.2512684-18-richard.henderson@linaro.org>
+Subject: [PATCH v2 18/25] target/ppc: Avoid tcg_const_* in fp-impl.c.inc
+Date: Tue,  7 Mar 2023 10:34:56 -0800
+Message-Id: <20230307183503.2512684-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307183503.2512684-1-richard.henderson@linaro.org>
 References: <20230307183503.2512684-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,7 +94,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All remaining uses are strictly read-only.
+All uses are strictly read-only.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
@@ -105,118 +104,89 @@ Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: Greg Kurz <groug@kaod.org>
 Cc: qemu-ppc@nongnu.org
 ---
- target/ppc/translate/vsx-impl.c.inc | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ target/ppc/translate/fp-impl.c.inc | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 9916784e64..0f5b0056f1 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -154,7 +154,7 @@ static void gen_lxvdsx(DisasContext *ctx)
- static void gen_bswap16x8(TCGv_i64 outh, TCGv_i64 outl,
-                           TCGv_i64 inh, TCGv_i64 inl)
- {
--    TCGv_i64 mask = tcg_const_i64(0x00FF00FF00FF00FF);
-+    TCGv_i64 mask = tcg_constant_i64(0x00FF00FF00FF00FF);
-     TCGv_i64 t0 = tcg_temp_new_i64();
-     TCGv_i64 t1 = tcg_temp_new_i64();
- 
-@@ -825,7 +825,7 @@ static bool trans_XSCVQPDP(DisasContext *ctx, arg_X_tb_rc *a)
-     REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-     REQUIRE_VSX(ctx);
- 
--    ro = tcg_const_i32(a->rc);
-+    ro = tcg_constant_i32(a->rc);
- 
-     xt = gen_avr_ptr(a->rt);
-     xb = gen_avr_ptr(a->rb);
-@@ -860,7 +860,7 @@ static void gen_##name(DisasContext *ctx)                                     \
-         gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-         return;                                                               \
-     }                                                                         \
--    opc = tcg_const_i32(ctx->opcode);                                         \
-+    opc = tcg_constant_i32(ctx->opcode);                                      \
-     gen_helper_##name(cpu_env, opc);                                          \
- }
- 
-@@ -900,7 +900,7 @@ static void gen_##name(DisasContext *ctx)                                     \
-         gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-         return;                                                               \
-     }                                                                         \
--    opc = tcg_const_i32(ctx->opcode);                                         \
-+    opc = tcg_constant_i32(ctx->opcode);                                      \
-     xa = gen_vsr_ptr(xA(ctx->opcode));                                        \
-     xb = gen_vsr_ptr(xB(ctx->opcode));                                        \
-     gen_helper_##name(cpu_env, opc, xa, xb);                                  \
-@@ -915,7 +915,7 @@ static void gen_##name(DisasContext *ctx)                                     \
-         gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-         return;                                                               \
-     }                                                                         \
--    opc = tcg_const_i32(ctx->opcode);                                         \
-+    opc = tcg_constant_i32(ctx->opcode);                                      \
-     xb = gen_vsr_ptr(xB(ctx->opcode));                                        \
-     gen_helper_##name(cpu_env, opc, xb);                                      \
- }
-@@ -929,7 +929,7 @@ static void gen_##name(DisasContext *ctx)                                     \
-         gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-         return;                                                               \
-     }                                                                         \
--    opc = tcg_const_i32(ctx->opcode);                                         \
-+    opc = tcg_constant_i32(ctx->opcode);                                      \
-     xt = gen_vsr_ptr(rD(ctx->opcode) + 32);                                   \
-     xa = gen_vsr_ptr(rA(ctx->opcode) + 32);                                   \
-     xb = gen_vsr_ptr(rB(ctx->opcode) + 32);                                   \
-@@ -945,7 +945,7 @@ static void gen_##name(DisasContext *ctx)                                     \
-         gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-         return;                                                               \
-     }                                                                         \
--    opc = tcg_const_i32(ctx->opcode);                                         \
-+    opc = tcg_constant_i32(ctx->opcode);                                      \
-     xt = gen_vsr_ptr(rD(ctx->opcode) + 32);                                   \
-     xb = gen_vsr_ptr(rB(ctx->opcode) + 32);                                   \
-     gen_helper_##name(cpu_env, opc, xt, xb);                                  \
-@@ -960,7 +960,7 @@ static void gen_##name(DisasContext *ctx)                                     \
-         gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-         return;                                                               \
-     }                                                                         \
--    opc = tcg_const_i32(ctx->opcode);                                         \
-+    opc = tcg_constant_i32(ctx->opcode);                                      \
-     xa = gen_vsr_ptr(rA(ctx->opcode) + 32);                                   \
-     xb = gen_vsr_ptr(rB(ctx->opcode) + 32);                                   \
-     gen_helper_##name(cpu_env, opc, xa, xb);                                  \
-@@ -1994,8 +1994,8 @@ static void gen_xsxsigdp(DisasContext *ctx)
-     exp = tcg_temp_new_i64();
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+index d5d88e7d49..57d8437851 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -348,7 +348,7 @@ static void gen_fcmpo(DisasContext *ctx)
      t0 = tcg_temp_new_i64();
      t1 = tcg_temp_new_i64();
--    zr = tcg_const_i64(0);
--    nan = tcg_const_i64(2047);
-+    zr = tcg_constant_i64(0);
-+    nan = tcg_constant_i64(2047);
- 
-     get_cpu_vsr(t1, xB(ctx->opcode), true);
-     tcg_gen_extract_i64(exp, t1, 52, 11);
-@@ -2026,8 +2026,8 @@ static void gen_xsxsigqp(DisasContext *ctx)
-     get_cpu_vsr(xbl, rB(ctx->opcode) + 32, false);
-     exp = tcg_temp_new_i64();
+     gen_reset_fpstatus();
+-    crf = tcg_const_i32(crfD(ctx->opcode));
++    crf = tcg_constant_i32(crfD(ctx->opcode));
+     get_fpr(t0, rA(ctx->opcode));
+     get_fpr(t1, rB(ctx->opcode));
+     gen_helper_fcmpo(cpu_env, t0, t1, crf);
+@@ -368,7 +368,7 @@ static void gen_fcmpu(DisasContext *ctx)
      t0 = tcg_temp_new_i64();
--    zr = tcg_const_i64(0);
--    nan = tcg_const_i64(32767);
-+    zr = tcg_constant_i64(0);
-+    nan = tcg_constant_i64(32767);
+     t1 = tcg_temp_new_i64();
+     gen_reset_fpstatus();
+-    crf = tcg_const_i32(crfD(ctx->opcode));
++    crf = tcg_constant_i32(crfD(ctx->opcode));
+     get_fpr(t0, rA(ctx->opcode));
+     get_fpr(t1, rB(ctx->opcode));
+     gen_helper_fcmpu(cpu_env, t0, t1, crf);
+@@ -541,7 +541,7 @@ static void gen_mcrfs(DisasContext *ctx)
+     tcg_gen_andi_i64(tnew_fpscr, tnew_fpscr,
+                      ~((0xF << shift) & FP_EX_CLEAR_BITS));
+     /* FEX and VX need to be updated, so don't set fpscr directly */
+-    tmask = tcg_const_i32(1 << nibble);
++    tmask = tcg_constant_i32(1 << nibble);
+     gen_helper_store_fpscr(cpu_env, tnew_fpscr, tmask);
+ }
  
-     tcg_gen_extract_i64(exp, xbh, 48, 15);
-     tcg_gen_movi_i64(t0, 0x0001000000000000);
-@@ -2193,8 +2193,8 @@ static void gen_xvxsigdp(DisasContext *ctx)
-     get_cpu_vsr(xbl, xB(ctx->opcode), false);
-     exp = tcg_temp_new_i64();
-     t0 = tcg_temp_new_i64();
--    zr = tcg_const_i64(0);
--    nan = tcg_const_i64(2047);
-+    zr = tcg_constant_i64(0);
-+    nan = tcg_constant_i64(2047);
- 
-     tcg_gen_extract_i64(exp, xbh, 52, 11);
-     tcg_gen_movi_i64(t0, 0x0010000000000000);
+@@ -681,9 +681,7 @@ static void gen_mtfsb0(DisasContext *ctx)
+     crb = 31 - crbD(ctx->opcode);
+     gen_reset_fpstatus();
+     if (likely(crb != FPSCR_FEX && crb != FPSCR_VX)) {
+-        TCGv_i32 t0;
+-        t0 = tcg_const_i32(crb);
+-        gen_helper_fpscr_clrbit(cpu_env, t0);
++        gen_helper_fpscr_clrbit(cpu_env, tcg_constant_i32(crb));
+     }
+     if (unlikely(Rc(ctx->opcode) != 0)) {
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+@@ -703,9 +701,7 @@ static void gen_mtfsb1(DisasContext *ctx)
+     crb = 31 - crbD(ctx->opcode);
+     /* XXX: we pretend we can only do IEEE floating-point computations */
+     if (likely(crb != FPSCR_FEX && crb != FPSCR_VX && crb != FPSCR_NI)) {
+-        TCGv_i32 t0;
+-        t0 = tcg_const_i32(crb);
+-        gen_helper_fpscr_setbit(cpu_env, t0);
++        gen_helper_fpscr_setbit(cpu_env, tcg_constant_i32(crb));
+     }
+     if (unlikely(Rc(ctx->opcode) != 0)) {
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+@@ -733,10 +729,12 @@ static void gen_mtfsf(DisasContext *ctx)
+         gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
+         return;
+     }
+-    if (l) {
+-        t0 = tcg_const_i32((ctx->insns_flags2 & PPC2_ISA205) ? 0xffff : 0xff);
++    if (!l) {
++        t0 = tcg_constant_i32(flm << (w * 8));
++    } else if (ctx->insns_flags2 & PPC2_ISA205) {
++        t0 = tcg_constant_i32(0xffff);
+     } else {
+-        t0 = tcg_const_i32(flm << (w * 8));
++        t0 = tcg_constant_i32(0xff);
+     }
+     t1 = tcg_temp_new_i64();
+     get_fpr(t1, rB(ctx->opcode));
+@@ -767,8 +765,8 @@ static void gen_mtfsfi(DisasContext *ctx)
+         return;
+     }
+     sh = (8 * w) + 7 - bf;
+-    t0 = tcg_const_i64(((uint64_t)FPIMM(ctx->opcode)) << (4 * sh));
+-    t1 = tcg_const_i32(1 << sh);
++    t0 = tcg_constant_i64(((uint64_t)FPIMM(ctx->opcode)) << (4 * sh));
++    t1 = tcg_constant_i32(1 << sh);
+     gen_helper_store_fpscr(cpu_env, t0, t1);
+     if (unlikely(Rc(ctx->opcode) != 0)) {
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
 -- 
 2.34.1
 
