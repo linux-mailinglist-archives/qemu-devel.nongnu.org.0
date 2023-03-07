@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB83D6AED7E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:04:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A1A6AEE23
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:09:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbeD-0004DE-NP; Tue, 07 Mar 2023 13:02:49 -0500
+	id 1pZbim-0007QL-K4; Tue, 07 Mar 2023 13:07:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbe9-0003sd-V0
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:46 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pZbiZ-0007Bn-PM
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:07:19 -0500
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbe8-000162-A9
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:45 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so12664238pjz.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pZbiX-0002EL-Vj
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:07:19 -0500
+Received: by mail-lj1-x232.google.com with SMTP id h3so14050563lja.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678212163;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9ldzdR2EfTmKQwO2Sl/PN1z7zGGl5r/t6qa5lRBzrCg=;
- b=bXeYP/b8EzHAL2wN0u1rHxHeSGXpy7xU62x8vyBlEPZpFNyzeO+sLJIKqOkGl8lCUe
- 9ZTFWPIgyV4IAEIHxzLNDexyvmrnSAc/OrPSTIKQ8e843u4FyrODUd3vhp/W8vMdSSBk
- IopCFH2H1ibXnBmjNFCyaJ5KvnEQMB67gH+PFu7KqczRQCtjih4if0TJ5SoSlWDVuKV1
- tWgFxqjbmo0pkcKhrIKQ9X3Z7OlFafMTGd92QQHY21FB0/lip06At+vGhw9F+g/4kVrf
- 9ArwosA4gws4K2ixowLc6ImF5McMciItu3+5kgcucKwhW9fMvvJt5U5rrK6XbyE1+T5H
- qBHA==
+ d=vrull.eu; s=google; t=1678212435;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=m0Gxou+MGW9a2T5xEFkWg+NJvqC5ilJod1fsR9xzHRs=;
+ b=MiQwGfryy2uCiGYDMzn9W+PIyCF59i73uwrv7uK7ZCk1Ji2HqWBYjD7cH1T8/Rmk45
+ hFKje7veDss/g4yzsiUMMVy9hlxas6aLw30vqB5iVUPHa+H+hlNU+c+cdY1LRz2ygUk4
+ nrXzA69DSu1zMhM5cHmqQyf/XAUP2HnWLisZIiLcLJi+rA1LRpsSUgGhPDXsAGi58VDs
+ pgoPozbYkBJ9c9ARF5FJh/uSB9J4fso12IsLPvtC+Y8+4Y3TWcsectzYAylE2IwvU6ak
+ mP/12nnLfhEXHcTo2IDKcr7YsZU7CCdLZbkIKp2o1LMJu0bL+zYXvF4+VLJL72p567Pd
+ kElw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678212163;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9ldzdR2EfTmKQwO2Sl/PN1z7zGGl5r/t6qa5lRBzrCg=;
- b=U4SymvP5zNqFsxjh2plNcm0N6HA+dI1lzFyI2DmC7mVZnbtOUpHgD7/BAXmtN3tKDL
- Rtrz8rz+sCR3QnZT+IH8fjwT2XHH+6Bd2AmjcpkRhRPLXkn6RB/eKgnJci/mUWCAEnle
- 2Yd4iha3d6KS0G2+VvbpZikKf4HHDiHi2ov+YB6fzCf2EZo/9o1vHcJ2mdwrrBkNOBUG
- eywdg6cg0Pj7y1u+1W4AR8mCPDkHRVHgX8VHl9ucvwS5Ga8IBKO4tLqZEnW5a8wYmh8z
- OM6+FiNXVS8016mn5lrUKV+B5mxC54WQ+VHlrlmLGnOGW7IBnarDwc630t6wDkPQd0AB
- ZFwQ==
-X-Gm-Message-State: AO0yUKUllUxYLFeUSbNlouPeTkx2zjFCDVrLaOTNebQlX0QlSasZWxDP
- eLxowAY8bM65Che13SYHKedeGPUPMi9I6bsFhrk=
-X-Google-Smtp-Source: AK7set+nrqZ/0XHuywxgd6Ec/6t0YXNxr8DK9AxctUYVC/0W8Cb1i7D19zycwHJjvyrFNc0k+O6xMw==
-X-Received: by 2002:a05:6a20:7785:b0:c7:13be:6de9 with SMTP id
- c5-20020a056a20778500b000c713be6de9mr12063400pzg.14.1678212163483; 
- Tue, 07 Mar 2023 10:02:43 -0800 (PST)
-Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
+ d=1e100.net; s=20210112; t=1678212435;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m0Gxou+MGW9a2T5xEFkWg+NJvqC5ilJod1fsR9xzHRs=;
+ b=bGDevH7SZ9+UkZTxB4SIPyZ0L1s0Ei5/5jRV50GbrtFF3Fw6X/VrwKJcDy/KphIgY0
+ YebSaEfKQ/0nfeKn7njgXTia5mBdiodfyltTg+vf1LC4KjynL6tUu5G6+CvEPnSv703H
+ W99XVtf1www2pbSoz63LvNTdP8jSULKAIRoAKl6PKmHdlvhUhc3GXyEyXOgeKzkXs2Yg
+ VzK1fPuK7qiMdx2MzJopISDl93M56DldqhyDSP/1WEP5Qh4pSB77zMhcoGCAeK9a4oDY
+ DoCzjv6v1vgzSplkLVtB0SF8yA+8asMi04mhijDylAe9kgMEMRfjkIPvbtH9gB3j0x6L
+ 9k5A==
+X-Gm-Message-State: AO0yUKU/ixaWRuGMqxa01iKNkuukFtbRURXRZgiNB4ookDQs/LxIS4Wt
+ nUblkv9ymktM7QmG1IgEbLH1GKlDMMrl8WPcGM4=
+X-Google-Smtp-Source: AK7set+So6Qua6e46w2AotCeBx+bnBmhwig6n+LkDFnWF/LN9+KL/M7z5N4PtsCfy+xF4vrTyTgohg==
+X-Received: by 2002:a2e:9984:0:b0:293:45f1:c1a6 with SMTP id
+ w4-20020a2e9984000000b0029345f1c1a6mr3972804lji.0.1678212434714; 
+ Tue, 07 Mar 2023 10:07:14 -0800 (PST)
+Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.42
+ f13-20020a2eb5ad000000b0028b6e922ba1sm2266952ljn.30.2023.03.07.10.07.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:02:43 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Tue, 07 Mar 2023 10:07:14 -0800 (PST)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 67/67] tcg: Replace tcg_const_i64 in tcg-op.c
-Date: Tue,  7 Mar 2023 09:58:48 -0800
-Message-Id: <20230307175848.2508955-68-richard.henderson@linaro.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Christoph Muellner <christoph.muellner@vrull.eu>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
+Subject: [PATCH v5 0/2] target/riscv: refactor Zicond and reuse in
+ XVentanaCondOps
+Date: Tue,  7 Mar 2023 19:07:06 +0100
+Message-Id: <20230307180708.302867-1-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230307175848.2508955-1-richard.henderson@linaro.org>
-References: <20230307175848.2508955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,51 +92,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These three instances got missed in previous conversion.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tcg-op.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+After the original Zicond support was stuck/fell through the cracks on
+the mailing list at v3 (and a different implementation was merged in
+the meanwhile), we now refactor Zicond and then reuse it in
+XVentanaCondOps.
 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 1a039a292c..ddab20a6a6 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -1563,9 +1563,7 @@ void tcg_gen_muli_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     } else if (is_power_of_2(arg2)) {
-         tcg_gen_shli_i64(ret, arg1, ctz64(arg2));
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_mul_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_mul_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
-@@ -1962,9 +1960,7 @@ void tcg_gen_clzi_i64(TCGv_i64 ret, TCGv_i64 arg1, uint64_t arg2)
-         tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
-         tcg_temp_free_i32(t);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_clz_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_clz_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
-@@ -2016,9 +2012,7 @@ void tcg_gen_ctzi_i64(TCGv_i64 ret, TCGv_i64 arg1, uint64_t arg2)
-         tcg_gen_ctpop_i64(ret, t);
-         tcg_temp_free_i64(t);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_ctz_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_ctz_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
+
+Philipp Tomsich (2):
+  target/riscv: refactor Zicond support
+  target/riscv: redirect XVentanaCondOps to use the Zicond functions
+
+ MAINTAINERS                                   |  2 +-
+ target/riscv/insn_trans/trans_rvzicond.c.inc  | 36 +++++++++++--------
+ .../insn_trans/trans_xventanacondops.c.inc    | 18 ++--------
+ 3 files changed, 25 insertions(+), 31 deletions(-)
+
 -- 
 2.34.1
 
