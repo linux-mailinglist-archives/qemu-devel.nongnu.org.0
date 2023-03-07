@@ -2,87 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941A96AE068
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526866AE078
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:27:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXJD-0002rk-LK; Tue, 07 Mar 2023 08:24:51 -0500
+	id 1pZXLa-0003d7-1X; Tue, 07 Mar 2023 08:27:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pZXJB-0002px-DT
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:24:49 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pZXJ9-0002aL-1v
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:24:48 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id u5so13993169plq.7
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1678195478;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GrlnJz2e1OmyaXOiYF9Ju0XXfOkFqC5OfX8DCZG+Lc0=;
- b=jtishNFtK4kwklV8DBCB4bm77pcxu/NsYTV7kyN4djOoNyR2gaa6a8uPalMXZMED/a
- GTTUmK74nbeTv82P0rYAAKugWyqhv9s5HtvYDBDudmfILkBZ8s/nplT2S4N0vAZjV+KX
- eIvzssTuDCHLoZUioXTjGH0l8/1XifMaDk6Leo1XgQm7Mr8KXAlLpnVLx6y/4VmM5UNQ
- SnahQ0AsNoygRvZzx3xGzDjmrsN9IUmd+GqDJbD/IMMLp3vMg3+VQE1W3gZSOp4JR/eS
- ea5ExMHNTWn7/56/v5BnMlz4UHeGI6HnL5Y92QzVwKBru77RY5z0C5AH6eiIKthTilbb
- NhmQ==
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZXLY-0003cx-3l
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:27:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZXLW-00039b-HY
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:27:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678195633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6FxhsYmCihwGx2mcknYU1JyxzHadOgp99jDW/rqGw8A=;
+ b=a05AXUjiBkM5tXxd5hGSDAp4GFkp2l3QuSWrCE2g1K3JCX9RI41uSbS/bsyrpKjDgckR8U
+ yL/VdaJHK/pPtla8b/JJhfnx3/MRYZGMnltXTFho64oMMZen6gkh1iZ8W0zb/GezqrziOq
+ yX+oaRY0LT8nnwTlR7zi/TzGewS0vIY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-232-uanmye7BMym0qAdnt-IavQ-1; Tue, 07 Mar 2023 08:27:12 -0500
+X-MC-Unique: uanmye7BMym0qAdnt-IavQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ 8-20020a370508000000b00724fd33cb3eso7356660qkf.14
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:27:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678195478;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=GrlnJz2e1OmyaXOiYF9Ju0XXfOkFqC5OfX8DCZG+Lc0=;
- b=QDcRuV2ALzbGCwUeFOi3Exj6hbi4ioub+vGfy9VO0EDhYModwm0RekVckJYnz434oB
- XaG51BdnP8Wnt4XyCz/YUgukOWYBwfyGkbFScCAz8cTu4z2ZgvNu65mVqXlcrFgblOxi
- oTDtN2KC4EJrCzRv+bbqzgbPSo9Xdnz470dsouiUaN8Yq2NQq3yY/dLUrnbJuF1cxlxh
- aicXpf2Pw4PGMiwUq2owAnFtm7GgsZ0kjGe1S94HvgeRxBVK3I3fCxRq44FP4sHNkNGy
- hvrK9bAM5v1djAd1N5CdyHiKZ328WXT9vVfNxWEcpI8TNnPVJzMv7EHBWioEcBw7W8Pk
- VKFQ==
-X-Gm-Message-State: AO0yUKW3ikOSEe/7kWApsC9UKr1HNaAydI6VRch5sP3w+l+KbcRio58G
- 0+ZcG2G+cZpNU1awFBvhix08/A==
-X-Google-Smtp-Source: AK7set+xJV9qloDowcZTMrjNGg1IfI/EWFILoOCG7GGVqwHB4xO30FAx4+mHEJGkKACCGGXPgm2fNg==
-X-Received: by 2002:a17:903:1247:b0:19e:e39b:6d90 with SMTP id
- u7-20020a170903124700b0019ee39b6d90mr1996982plh.25.1678195477871; 
- Tue, 07 Mar 2023 05:24:37 -0800 (PST)
-Received: from [10.200.8.54] ([139.177.225.253])
+ d=1e100.net; s=20210112; t=1678195631;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6FxhsYmCihwGx2mcknYU1JyxzHadOgp99jDW/rqGw8A=;
+ b=Lv/yUfcTBl/jeVstTX/fOp5BUAoqzcKJWZwMRYguI+8Zb4sWnr60KHd5AeSKrU4NQ2
+ Lrybo4ESAhgTqKlccM+kDlnVG621C2j2J/fXganExNHG4jLM6YQHrqHWoH1c9BftYUAX
+ ZhYR2m1UHfA2GPOvSM5bAEPkxlrcsyeY8mQYmFZyNwHG4MEImNwK032Qy7IJDzNhHzEX
+ bgQnSF5rrSJursLsBQdpxH1gQler7bqpNJdJn0rnVf8nTNgEvttwnaXx9z1EctmqEDr/
+ pQNi2az44rk0uI5eQfZjlvsQkcEHgBqEYoL/EXC1sjTEOOJnHnKYeImdfYgCAak3/ZsC
+ 0Ueg==
+X-Gm-Message-State: AO0yUKUYmFDGNx1k9x0eqM0sOw/OhAgW8NFZFnXCQ+UlJihNvpAt2OgK
+ /l2wP/JdlV6DkCQqgawAAaS8O62db/EkooVNqqRf13huZFjW0WiRqYfzZLBmLwzeslkLTLJ37xR
+ nfAZXLP27APgM6cw=
+X-Received: by 2002:a05:622a:54f:b0:3b8:6c68:e6d with SMTP id
+ m15-20020a05622a054f00b003b86c680e6dmr22349474qtx.13.1678195631782; 
+ Tue, 07 Mar 2023 05:27:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set+cKOYsu+9SYIuqohnizoBXgXUkogK4NfflwxRCEivejo2eHFtZ7TMJz2Vq+5Ylx6I+6uPhyw==
+X-Received: by 2002:a05:622a:54f:b0:3b8:6c68:e6d with SMTP id
+ m15-20020a05622a054f00b003b86c680e6dmr22349451qtx.13.1678195631531; 
+ Tue, 07 Mar 2023 05:27:11 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
  by smtp.gmail.com with ESMTPSA id
- w22-20020a1709029a9600b0018963b8e131sm8362251plp.290.2023.03.07.05.24.34
+ j10-20020ac8440a000000b003b82a07c4d6sm9447103qtn.84.2023.03.07.05.27.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:24:37 -0800 (PST)
-Message-ID: <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
-Date: Tue, 7 Mar 2023 21:24:31 +0800
+ Tue, 07 Mar 2023 05:27:11 -0800 (PST)
+Message-ID: <eeb850c5-8da2-d1c2-65ea-13050051ff4f@redhat.com>
+Date: Tue, 7 Mar 2023 14:27:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
- non-iterable vmstate
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- zhouyibo@bytedance.com
-References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
- <ZAUSPo9bJO0udf9p@x1n> <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
- <ZAZRn9eNG1TEoEl1@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <ZAZRn9eNG1TEoEl1@x1n>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 06/15] vfio/common: Use a single tracepoint for skipped
+ sections
+Content-Language: en-US
+To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+References: <20230307125450.62409-1-joao.m.martins@oracle.com>
+ <20230307125450.62409-7-joao.m.martins@oracle.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230307125450.62409-7-joao.m.martins@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_LOCAL_NOVOWEL=0.5,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,95 +105,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Peter,
+On 3/7/23 13:54, Joao Martins wrote:
+> In preparation to turn more of the memory listener checks into
+> common functions, one of the affected places is how we trace when
+> sections are skipped. Right now there is one for each. Change it
+> into one single tracepoint `vfio_listener_region_skip` which receives
+> a name which refers to the callback i.e. region_add and region_del.
+> 
+> Suggested-by: Avihai Horon <avihaih@nvidia.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 
-On 2023/3/7 上午4:48, Peter Xu wrote:
-> On Mon, Mar 06, 2023 at 08:48:05PM +0800, Chuang Xu wrote:
->> Hi, Peter,
->>
->> On 2023/3/6 上午6:05, Peter Xu wrote:
->>>> 1.virtio_load->virtio_init_region_cache
->>>> 2.virtio_load->virtio_set_features_nocheck
->>> What is this one specifically?  I failed to see quickly why this needs to
->>> reference the flatview.
->> 0x560f3bb26510 : memory_region_transaction_do_commit+0x0/0x1c0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bb26e45 : address_space_get_flatview+0x95/0x100 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bb296b6 : memory_listener_register+0xf6/0x300 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3baec59f : virtio_device_realize+0x12f/0x1a0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb3b1f : device_set_realized+0x2ff/0x660 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb6ec6 : property_set_bool+0x46/0x70 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb9173 : object_property_set+0x73/0x100 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbbc1ef : object_property_set_qobject+0x2f/0x50 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb93e4 : object_property_set_bool+0x34/0xa0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3b9830d9 : virtio_pci_realize+0x299/0x4e0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3b901204 : pci_qdev_realize+0x7e4/0x1090 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb3b1f : device_set_realized+0x2ff/0x660 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb6ec6 : property_set_bool+0x46/0x70 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb9173 : object_property_set+0x73/0x100 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbbc1ef : object_property_set_qobject+0x2f/0x50 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bbb93e4 : object_property_set_bool+0x34/0xa0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3b99e4a0 : qdev_device_add_from_qdict+0xb00/0xc40 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3bac0c75 : virtio_net_set_features+0x385/0x490 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3baec238 : virtio_set_features_nocheck+0x58/0x70 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x560f3baf1e9e : virtio_load+0x33e/0x820 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-> I think this one can also be avoided.  Basically any memory listener
-> related op can avoid referencing the latest flatview because even if it's
-> during depth>0 it'll be synced again when depth==0.
->
->>>> 3.vapic_post_load
->>> Same confusion to this one..
->> 0x557a57b0e510 : memory_region_transaction_do_commit+0x0/0x1c0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x557a57b0e9b5 : memory_region_find_rcu+0x2e5/0x310 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x557a57b11165 : memory_region_find+0x55/0xf0 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x557a57a07638 : vapic_prepare+0x58/0x250 [/data00/migration/qemu-open/build/qemu-system-x86_64]
->> 0x557a57a07a7b : vapic_post_load+0x1b/0x80 [/data00/migration/qemu-open/build/qemu-system-x86_64]
-> AFAIU this one is the other one that truly need to reference the latest
-> flatview; the other one is (5) on AHCI.  It's a pity that it uses
-> memory_region_find_rcu() even if it must already have BQL so it's kind of
-> unclear (and enforced commit should never need to happen with RCU
-> logically..).
->
->>>> 4.tcg_commit
->>> This is not enabled if kvm is on, right?
->> Yes.
->>
->> I obtained these results from qtests. And some qtests enabled tcg.😁
->>
->>>> 5.ahci_state_post_load
->>>>
->>>> During my test, virtio_init_region_cache() will frequently trigger
->>>> do_commit() in address_space_to_flatview(), which will reduce the
->>>> optimization  effect of v6 compared with v1.
->>> IIU above 1 & 4 could leverage one address_space_to_flatview_rcu() which
->>> can keep the old semantics of address_space_to_flatview() by just assert
->>> rcu read lock and do qatomic_rcu_read() (e.g., tcg_commit() will run again
->>> at last stage of vm load).  Not sure how much it'll help.
->> This can really improve the performance of the existing patch, which is
->> basically the same as that of v1, but it needs to add address_space_to_flatview_rcu()
->> and address_space_get_flatview_rcu(). I have also considered this, but will
->> others find it confusing? Because there will be to_flatview(), to_flatview_raw()
->> and to_flatview_rcu()..
-> Why do we need address_space_get_flatview_rcu()?  I'm not sure whether you
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
 
-address_space_cahce_init() uses address_space_get_flatview() to acquire
-a ref-ed flatview. If we want to use address_space_to_flatview_rcu() and
-make the flatview ref-ed, maybe we need to add address_space_get_flatview_rcu()?
-Or if we use address_space_to_flatview_rcu() directly, then we'll get a
-unref-ed flatview, I'm not sure wheather it's safe in other cases.. At least
-I don't want the assertion to be triggered one day.
+Thanks,
 
-> mean the two calls in memory listener add/del, if so would you consider a
-> fixup that I attached in this reply and squash it into patch 1 of mine?  I
-> assume that'll also remove case (2) above, and also remove the need to have
-> address_space_get_flatview_rcu().
+C.
 
-Later fixed in v7.
-
->
-> Having address_space_to_flatview_rcu() alone is fine to me (which is
-> actually the original address_space_to_flatview).  Again IMHO it should
-> only be called in the case where a stall flatview doesn't hurt.
->
-Thanks!
+> ---
+>   hw/vfio/common.c     | 4 ++--
+>   hw/vfio/trace-events | 3 +--
+>   2 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 99acb998eb14..1cb62efa9743 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -945,7 +945,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>       Error *err = NULL;
+>   
+>       if (vfio_listener_skipped_section(section)) {
+> -        trace_vfio_listener_region_add_skip(
+> +        trace_vfio_listener_region_skip("region_add",
+>                   section->offset_within_address_space,
+>                   section->offset_within_address_space +
+>                   int128_get64(int128_sub(section->size, int128_one())));
+> @@ -1183,7 +1183,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>       bool try_unmap = true;
+>   
+>       if (vfio_listener_skipped_section(section)) {
+> -        trace_vfio_listener_region_del_skip(
+> +        trace_vfio_listener_region_skip("region_del",
+>                   section->offset_within_address_space,
+>                   section->offset_within_address_space +
+>                   int128_get64(int128_sub(section->size, int128_one())));
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 669d9fe07cd9..7173e6a5c721 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -96,13 +96,12 @@ vfio_pci_igd_lpc_bridge_enabled(const char *name) "%s"
+>   vfio_region_write(const char *name, int index, uint64_t addr, uint64_t data, unsigned size) " (%s:region%d+0x%"PRIx64", 0x%"PRIx64 ", %d)"
+>   vfio_region_read(char *name, int index, uint64_t addr, unsigned size, uint64_t data) " (%s:region%d+0x%"PRIx64", %d) = 0x%"PRIx64
+>   vfio_iommu_map_notify(const char *op, uint64_t iova_start, uint64_t iova_end) "iommu %s @ 0x%"PRIx64" - 0x%"PRIx64
+> -vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add 0x%"PRIx64" - 0x%"PRIx64
+> +vfio_listener_region_skip(const char *name, uint64_t start, uint64_t end) "SKIPPING %s 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+>   vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+>   vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uintptr_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_size=0x%"PRIxPTR
+>   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+> -vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_disconnect_container(int fd) "close container->fd=%d"
+>   vfio_put_group(int fd) "close group->fd=%d"
 
 
