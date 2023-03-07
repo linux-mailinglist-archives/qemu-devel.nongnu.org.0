@@ -2,90 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8116AE026
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:16:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2546AE033
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:19:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXAz-0004fF-HY; Tue, 07 Mar 2023 08:16:21 -0500
+	id 1pZXD5-0005z5-8s; Tue, 07 Mar 2023 08:18:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZXAx-0004ek-2g
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:16:19 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZXAv-0000t4-7C
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:16:18 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l7-20020a05600c1d0700b003eb5e6d906bso7159933wms.5
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:16:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678194975;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NFum2acnD9qYIwVa4tN5V4rmj4o+XnW3TVVaSWehf/Q=;
- b=SZwu487hPaxa1Ml6JrIRmk1SY/X8d1XEVA1jvsk+qGJqyzpAGGs9uOKiVrUZep6KgC
- 9joBlBXOePTp4l1Ul9zRJ6OScp+nUDimFrAcgK1umvqbMRDW8iU/QdVo7vT11uqrxmgW
- FZKOgl0HA9zzzg7ldT8D+wDOwqhqj6idTeX8casyH7OhHPnypet9OLHo+cvzxHhXS2Al
- QeUHwUq7uYT1aChO4csj3cWZsYbeVmILH8HI0OmGqxBgndZvD7yfBqWZrMzr4LHicCak
- 3qOnEMyM1QlEnqhbuI8jS1I6v2elutXpeNlz1BIOVOBPUH+0meavW0W+Bb7Cx6EyzA4G
- 70qA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pZXD3-0005yD-5A
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:18:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pZXD1-0001AR-GV
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:18:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678195106;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=fZXlBc6lyZ1c6TnC6FQTVuc3F72zR+pjVNdoPMqVdpU=;
+ b=CbY/x0ESYWtdkF5hYo3mimw0ZYb7zAmS6HcVtio9wl/KHwkQnv1699Dm8TgNSGRsIExhBd
+ jzn0e01SnYev23JfkFm8BXkjJm3RcGiVRWOAlr55Wmu1tROFhg1dNeItyElWcAtjKidHG8
+ dKl+DKVd93qyCK2X/W2m2L+aGOU3Ock=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-214-bLY8P4TCMFmilb52SVOOtQ-1; Tue, 07 Mar 2023 08:18:25 -0500
+X-MC-Unique: bLY8P4TCMFmilb52SVOOtQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m31-20020a05600c3b1f00b003e9de8c95easo4797952wms.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:18:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678194975;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NFum2acnD9qYIwVa4tN5V4rmj4o+XnW3TVVaSWehf/Q=;
- b=kuZAaVq6qA4UVc5JPEMl13Q6gAW4cYpJ9swnXs6AgAuEy04aJyHSSwXiCG+KqKeOM4
- medtEIp6LxXqvf0III/8GU5oiFWo3Qde06dz3MTdSNTjRQrb/uAl5rDbhq6Mi2+FSpTa
- fRmybkCSesmWThfEwnFnK407ouIbWmMzEM4s9YKQICW9JobuyL0ppiC50pwwABcJ5N6m
- McufU8ThBKvW3YTH9a0feT4hlnN7a1agWDZP+84+XgXt+QjnlLWEwloZ3I0s4YB8fzk9
- K61X0+DW5W9fzH5ofyTZMUwNntwZIQS6pLeR6Xks/SVR2BS/cp/ENnIlxOgTfmYBKqNf
- EQKg==
-X-Gm-Message-State: AO0yUKUhRHKrcI/X0Br1lqwMqkjxjMO3JtDbxfA9gqpPnCK2YOrNDT8k
- NrS4V1v5w0uEBhMgHJPXBPM=
-X-Google-Smtp-Source: AK7set/3FVQWrAPQv/TXVvlTUtHXEfMHwVBFmnk+0VpesCeDk1kQ6VPtR483XrvlOZgc5jZ/Tz2uWA==
-X-Received: by 2002:a05:600c:1c05:b0:3eb:2e32:72c3 with SMTP id
- j5-20020a05600c1c0500b003eb2e3272c3mr13181892wms.22.1678194974851; 
- Tue, 07 Mar 2023 05:16:14 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
- by smtp.gmail.com with ESMTPSA id
- f5-20020a7bc8c5000000b003e896d953a8sm16951714wml.17.2023.03.07.05.16.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:16:14 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <58ab28a8-ac77-889f-fb5a-aec140811889@xen.org>
-Date: Tue, 7 Mar 2023 13:16:13 +0000
+ d=1e100.net; s=20210112; t=1678195104;
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fZXlBc6lyZ1c6TnC6FQTVuc3F72zR+pjVNdoPMqVdpU=;
+ b=If9lKgktAZZ+k/201P1jlxWP2xpjspoBWp5q7S2Dg0tTW0JCDPq9h9v7KUEBfZAQpl
+ S5b6juyNHMK5QPMwqUbzhFmBaRmBHC2MAKls6o/cPnCnxlqoPIrCFvZ6fL4QwFu13843
+ hZZprjEi4TpB2eX7TySYVo8TpCiV+/nf9L6XK3UkKa3MKJ7/pUs72bWE5vP1jQpuet79
+ h0nbN7AptY0KU2pPQRBfne+AD9ZLcXTVCEf7tzKcpbtaKhyxD5pV1UBLXQeFuC09AAdK
+ 3DQlqoEqcJOU0NFxAUSiGbc7jniJubJi1N86y6ABTJbNNd9D6sjYBRH3LdOe355CHivn
+ kVQw==
+X-Gm-Message-State: AO0yUKWP0cxKUBydXPFSO6AGun9dU1UX52uk/riOF0r1iOwcg2PB9MEI
+ 9K/sETdPR05hnap+S5h/z05S93NscRuW4OW4Kxhiy8DTAPPSmfiO575SlgkN6bszEjrJiGrkwIU
+ ZB17bNlaHtFZUJLS8ur4pGwKZS0dCwaVyf7SI8m27r0tz7pnVnH2UxXoS308EgcwUjpSxUYd++4
+ fWPQ==
+X-Received: by 2002:a05:600c:1990:b0:3e2:20c7:6553 with SMTP id
+ t16-20020a05600c199000b003e220c76553mr12918643wmq.13.1678195103866; 
+ Tue, 07 Mar 2023 05:18:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set9qqcuKyXfe8vdjQpA9gaFeQPQjWpqpLIBNPq4OIFWyyhUZaXXjLreRGq4C5WS1fj/Pp2kzaQ==
+X-Received: by 2002:a05:600c:1990:b0:3e2:20c7:6553 with SMTP id
+ t16-20020a05600c199000b003e220c76553mr12918620wmq.13.1678195103511; 
+ Tue, 07 Mar 2023 05:18:23 -0800 (PST)
+Received: from redhat.com ([46.136.252.15]) by smtp.gmail.com with ESMTPSA id
+ l21-20020a05600c47d500b003e11ad0750csm12584213wmo.47.2023.03.07.05.18.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 05:18:22 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org, kvm-devel <kvm@vger.kernel.org>
+Subject: QEMU/KVM call minutes for 2022-02-21
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 07 Mar 2023 14:18:21 +0100
+Message-ID: <87356gk8de.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 04/25] hw/xen: Implement XenStore transactions
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-5-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230302153435.1170111-5-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32d.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,37 +89,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 15:34, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> Given that the whole thing supported copy on write from the beginning,
-> transactions end up being fairly simple. On starting a transaction, just
-> take a ref of the existing root; swap it back in on a successful commit.
-> 
-> The main tree has a transaction ID too, and we keep a record of the last
-> transaction ID given out. if the main tree is ever modified when it isn't
-> the latest, it gets a new transaction ID.
-> 
-> A commit can only succeed if the main tree hasn't moved on since it was
-> forked. Strictly speaking, the XenStore protocol allows a transaction to
-> succeed as long as nothing *it* read or wrote has changed in the interim,
-> but no implementations do that; *any* change is sufficient to abort a
-> transaction.
-> 
-> This does not yet fire watches on the changed nodes on a commit. That bit
-> is more fun and will come in a follow-on commit.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/kvm/xenstore_impl.c | 150 ++++++++++++++++++++++++++++++++++--
->   tests/unit/test-xs-node.c   | 118 ++++++++++++++++++++++++++++
->   2 files changed, 262 insertions(+), 6 deletions(-)
-> 
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Hi
+
+Sorry for the delay, some of the topics of the previous call:
+
+Record of sessions:
+- What do peple think?
+
+  This makes things easier for people that can't attend due to whatever
+  reason.  Mainly TZ problems.
+
+- Should we do another one next week?  Which one?
+  TDX migration
+  VFIO/VPDA/Vhost migration
+  qemu single binary
+
+
+- The future of icount
+
+icount and determism
+
+determinism with icount: imposible
+icount without determisim: interesting and useful
+
+can we consider and icount while also doing a multithread.  Probably
+yes and lots of advantages in lot of fields.
+
+
+icount now simple implementation of decrementing a counter each time
+one block is executed.
+
+Now looks like a 50Mhz cpu.
+instrument with plugins different parts of qemu
+rigth now tcg plugins only do passive "things"
+be able to intrument small things.
+
+icount in main code only for counting insttructions.  Everything else to plugins.
+
+Use round robin to make multithread/core deterministic.  Help with debugging CPU's.
+
+Plugins that control the flow of time.  Is that ok with the community.
+
+Use this to glue two emulators together?
+
+
+
+Do we have an agenda for next weeks KVM call yet? If there is space I'd
+like to take some time to discuss the future direction of icount.
+
+Specifically I believe there might be some proposals for how we could
+support icount with MTTCG worth discussing. From my point of view icount
+provides too things:
+
+  - a sense of time vaguely related to execution rather than wall clock
+  - determinism 
+
+I would love to divorce the former from icount and punt it to plugins.
+The plugin would be free to instrument as heavily or lightly as it sees
+fit and provide its best guess as to guest time on demand. I wrote this
+idea up as a card in Linaro's JIRA if anyone is interested:
+
+  https://linaro.atlassian.net/browse/QEMU-481  
+
+Being able to punt cost modelling and sense of time into plugins would
+allow the core icount support to concentrate on determinism. Then any
+attempt to enable icount for MTTCG would then have to ensure it stays
+deterministic.
+
+Richard and I have discussed the problem a few times and weren't sure it
+was solvable but I'm totally open to hearing ideas on how to do it.
+Fundamentally I think we would have to ensure any TB's doing IO would
+have to execute in an exclusive context. The TCG code already has
+mechanisms to ensure all IO is only done at the end of blocks so it
+doesn't seem a huge leap to ensure we execute those blocks exclusively.
+However there is still the problem of what to do about other pure
+computation threads getting ahead or behind of the IO blocks on
+subsequent runs.
+
+Anyway does anyone else have ideas to bring to the discussion?
+
+Later, Juan.
 
 
