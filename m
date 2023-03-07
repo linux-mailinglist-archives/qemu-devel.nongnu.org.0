@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE536AE35D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FAA6AE35F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:54:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYhn-00066I-1K; Tue, 07 Mar 2023 09:54:19 -0500
+	id 1pZYhw-000679-Ik; Tue, 07 Mar 2023 09:54:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pZYhk-00065v-F9
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:54:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pZYhi-0003jM-PZ
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:54:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678200854;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H+UNacq+tee6UxBhu71vdhjg5WRUd4Ya5L32W3o6mks=;
- b=JjJFbkD3b5awFt62o2GytiNoJVaTbdzomhqihuLY52Zf0vYuv8M3zfiGsKMRL2HA32Pboc
- qV74hmk21dofmMMCnbuJmZJrBM8azQvzfPo4pOtIj1KA5D2tRoW60U2ZtO6m9ro2Oc6Eub
- 9V6rDWRJbAEEjQfJfEsO7wKCr2amyMk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-w-CrgoblP1uVgrR54a8ERA-1; Tue, 07 Mar 2023 09:54:12 -0500
-X-MC-Unique: w-CrgoblP1uVgrR54a8ERA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CBDA8027FD;
- Tue,  7 Mar 2023 14:54:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB2A8492C14;
- Tue,  7 Mar 2023 14:54:09 +0000 (UTC)
-Date: Tue, 7 Mar 2023 14:54:07 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 09/11] libqtest: make qtest_qmp_add_client work on win32
-Message-ID: <ZAdQD7pIFlAFp3CR@redhat.com>
-References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
- <20230306122751.2355515-10-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYhu-00066l-H5
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:54:26 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZYhr-0003kx-UY
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:54:26 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ d41-20020a05600c4c2900b003e9e066550fso7353910wmp.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:54:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678200862;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zdxSf6SnonAAwLmy54FpkIbxFn6Qi3VVeANxs4vZxrg=;
+ b=bibefQLATF40wYnR5zViShOZ89NAvBfsEeNNinDWOv5sbqm//7xkftpPqmOYl5jh/3
+ q2r0COCaVa6QuJ/q3xNydDdH3MYKZlRpobyfxVBdZuZgRECwq/4XDVghXE9glnLo2L+l
+ Pe4Lr5sAbI6XGtbP/HGuKYVoxhcG94Z6ei3LXeEG+CtqyPe28dmoJ7oBvZD1hOpqUjJ8
+ Tx6Fj660MUZVLfF/eJ/WTgh0JmdRUl87WwduKkXLwbagPAEmcDwVJWEu5IRw4wWp2rjX
+ 5ZxIHk6zJwBTW36hiHXdiuf8tifDQhYoN/4aIKJID2iSF7o92pc1hOPhNjxmpRwlTBz/
+ +QnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678200862;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zdxSf6SnonAAwLmy54FpkIbxFn6Qi3VVeANxs4vZxrg=;
+ b=rhYLN0SeY5U9xbWI50sLp59nxUV5tzN7IkWUQNZ8+6euIvJ/1AsHhNbWHFp21SOFvp
+ I6xCsWrV3au8VIyI3Lf8muGwTUezkpt2eIQdnpGXAvj5miyBLRnSq5kCkvkLj/K7ragm
+ kdmVEUeP3nyHvB0Q0PLP21obDyC4ZXsEImwJmAT0WbCz1hfv/k2ulAcpfNecJRl8mycS
+ QKHAYN5O12Ab+Tp1DEAIiW4TwC2AFYdqH4ZoOlIcndypsTOhpjF5dwipkeh6Ey0kM+B/
+ 1zKRoXjUsKL27hJg6zC4n5uVWToXT8vUOYady+/okKsVkq3Sh55M5ORQ4+B42huNVw3x
+ 9XCA==
+X-Gm-Message-State: AO0yUKUiYEBXOZZzDUHE4ALkun/nJ04yOnJt4gnZ2ZzUKDCA/bdd5N8w
+ x52/RYRcqKBBHsZbFZc/5MI=
+X-Google-Smtp-Source: AK7set8iCKTQBnGbDNjKai95sv5yqanRu3s4h7W0GOaj7zxXgfCOXEduXIziA7ZdHqZF4BIIyAlBCw==
+X-Received: by 2002:a05:600c:4751:b0:3eb:2e66:8 with SMTP id
+ w17-20020a05600c475100b003eb2e660008mr13423737wmo.35.1678200862386; 
+ Tue, 07 Mar 2023 06:54:22 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id
+ h17-20020a05600c351100b003e4326a6d53sm18436678wmq.35.2023.03.07.06.54.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 06:54:21 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <f121c025-2203-70b7-c20d-aed40b88faa4@xen.org>
+Date: Tue, 7 Mar 2023 14:54:20 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230306122751.2355515-10-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 12/25] hw/xen: Add foreignmem operations to allow
+ redirection to internal emulation
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-13-dwmw2@infradead.org>
+ <470e51bf-5159-fd32-93b5-03f5bdf5f050@xen.org>
+ <bac842b0b1ea81e5aee922f3864bf57b99c515d4.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <bac842b0b1ea81e5aee922f3864bf57b99c515d4.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,30 +102,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 06, 2023 at 04:27:49PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 07/03/2023 14:48, David Woodhouse wrote:
+> On Tue, 2023-03-07 at 14:40 +0000, Paul Durrant wrote:
+>>
+>>> -
+>>> -#define xenforeignmemory_unmap(h, p, s) munmap(p, s * XC_PAGE_SIZE)
+>>> -
+>>
+>> Actually, probably best 'static inline' that, or at least put brackets
+>> round the 'p' and 's' for safety.
+>>
+> That's the one we're *removing* :)
 > 
-> Use the "get-win32-socket" function to pass an opened socket to QEMU,
-> instead of using "getfd", which relies on socket ancillary FD message
-> passing.
+
+D'oh... so we are :-)
+
+>> With either one of those options chosen...
+>>
+>> Reviewed-by: Paul Durrant <paul@xen.org>
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  tests/qtest/libqtest.h |  5 ++---
->  tests/qtest/libqtest.c | 18 ++++++++++++++++--
->  2 files changed, 18 insertions(+), 5 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Taking that anyway.
 
 
