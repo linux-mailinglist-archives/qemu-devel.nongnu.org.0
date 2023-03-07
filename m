@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99E26AD812
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54516AD842
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:18:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZRUR-0006ma-Ss; Tue, 07 Mar 2023 02:12:03 -0500
+	id 1pZRUO-0006hA-Se; Tue, 07 Mar 2023 02:12:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZRTo-0005nz-1C
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:11:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pZRTr-0005og-Ab
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:11:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZRTm-0005t4-8h
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:11:23 -0500
+ id 1pZRTp-0005tM-Ni
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:11:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678173081;
+ s=mimecast20190719; t=1678173084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JcyiYnvGgawhqpXMi/hKtFZZl6mKyXeQycfGfT+K0ZQ=;
- b=jLH6a5SAPZZdPaK6sLXRt6ImW5g40ldogdlwm6L28V27GapHNlP3PAh9Nd/m7++9yjHK6q
- LFAeYTVA0X28PIgRZw+dLEVNw4LwOWJGRbLN3ZwAEigos/2ds7E1q47s1k49yp59zV78do
- jCbOeCIuXDjmyq36xo2LZWJcN8z2Xuw=
+ bh=HLLjG5kOCNoyaewDXrK36oNt9Rl+dEqttWCJ+eMA080=;
+ b=cmzzdtZ6GUSnjg5LmSBdbXHD49Eu0NZEuYuucy6NE7ndpqRkMchxHhk82ixU04qpKkWRKN
+ 4mcd+XnyfESsp1iqr4DYnR1KItvxxJwU9/GYnYDvTXElfL9/Bsh/MXGz3/WLsKtdz0IL6V
+ KnHZVRBghTYZu49k7r3YGEOliQs4058=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-q1kpXDBvPrKD7vJS7TzUjw-1; Tue, 07 Mar 2023 02:11:20 -0500
-X-MC-Unique: q1kpXDBvPrKD7vJS7TzUjw-1
+ us-mta-656-JpOXkSc7MXatiKaiRnY8tw-1; Tue, 07 Mar 2023 02:11:22 -0500
+X-MC-Unique: JpOXkSc7MXatiKaiRnY8tw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07A0B1C08968;
- Tue,  7 Mar 2023 07:11:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E8612808E62;
+ Tue,  7 Mar 2023 07:11:22 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-78.pek2.redhat.com [10.72.12.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F82F40C10FA;
- Tue,  7 Mar 2023 07:11:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA7E8400F8FA;
+ Tue,  7 Mar 2023 07:11:20 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 50/51] hw/net/eepro100: Remove instance's EEPRO100State::device
-Date: Tue,  7 Mar 2023 15:08:15 +0800
-Message-Id: <20230307070816.34833-51-jasowang@redhat.com>
+Subject: [PULL 51/51] hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by
+ EEPRO100()
+Date: Tue,  7 Mar 2023 15:08:16 +0800
+Message-Id: <20230307070816.34833-52-jasowang@redhat.com>
 In-Reply-To: <20230307070816.34833-1-jasowang@redhat.com>
 References: <20230307070816.34833-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,71 +83,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-'device' is accessed read-only and is present in the class
-definition. No need to duplicate it in the instance state.
-Directly access the class field.
+Use the EEPRO100() QOM type-checking macro to avoid DO_UPCAST().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/eepro100.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/net/eepro100.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index d775790..bce3776 100644
+index bce3776..6db15f1 100644
 --- a/hw/net/eepro100.c
 +++ b/hw/net/eepro100.c
-@@ -263,7 +263,6 @@ struct EEPRO100State {
-     /* region must not be saved by nic_save. */
-     uint16_t mdimem[32];
-     eeprom_t *eeprom;
--    uint32_t device;            /* device variant */
-     /* (cu_base + cu_offset) address the next command block in the command block list. */
-     uint32_t cu_base;           /* CU base address */
-     uint32_t cu_offset;         /* CU address offset */
-@@ -591,6 +590,9 @@ static void e100_pci_reset(DeviceState *dev)
+@@ -1834,7 +1834,7 @@ static const VMStateDescription vmstate_eepro100 = {
  
- static void nic_selective_reset(EEPRO100State * s)
+ static void pci_nic_uninit(PCIDevice *pci_dev)
  {
-+    EEPRO100Class *ek = EEPRO100_GET_CLASS(s);
-+    const E100PCIDeviceInfo *info = ek->info;
-+
-     size_t i;
-     uint16_t *eeprom_contents = eeprom93xx_data(s->eeprom);
- #if 0
-@@ -598,8 +600,9 @@ static void nic_selective_reset(EEPRO100State * s)
- #endif
-     memcpy(eeprom_contents, s->conf.macaddr.a, 6);
-     eeprom_contents[EEPROM_ID] = EEPROM_ID_VALID;
--    if (s->device == i82557B || s->device == i82557C)
-+    if (info->device == i82557B || info->device == i82557C) {
-         eeprom_contents[5] = 0x0100;
-+    }
-     eeprom_contents[EEPROM_PHY_ID] = 1;
-     uint16_t sum = 0;
-     for (i = 0; i < EEPROM_SIZE - 1; i++) {
-@@ -1794,7 +1797,7 @@ static const VMStateDescription vmstate_eepro100 = {
-         VMSTATE_UNUSED(19*4),
-         VMSTATE_UINT16_ARRAY(mdimem, EEPRO100State, 32),
-         /* The eeprom should be saved and restored by its own routines. */
--        VMSTATE_UINT32(device, EEPRO100State),
-+        VMSTATE_UNUSED(sizeof(uint32_t)), /* was device variant */
-         /* TODO check device. */
-         VMSTATE_UINT32(cu_base, EEPRO100State),
-         VMSTATE_UINT32(cu_offset, EEPRO100State),
-@@ -1848,12 +1851,9 @@ static NetClientInfo net_eepro100_info = {
+-    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
++    EEPRO100State *s = EEPRO100(pci_dev);
+ 
+     vmstate_unregister(VMSTATE_IF(&pci_dev->qdev), s->vmstate, s);
+     g_free(s->vmstate);
+@@ -1850,7 +1850,7 @@ static NetClientInfo net_eepro100_info = {
+ 
  static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
  {
-     EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
--    EEPRO100Class *ek = EEPRO100_GET_CLASS(s);
+-    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
++    EEPRO100State *s = EEPRO100(pci_dev);
  
      TRACE(OTHER, logout("\n"));
  
--    s->device = ek->info->device;
--
-     /* Add 64 * 2 EEPROM. i82557 and i82558 support a 64 word EEPROM,
-      * i82559 and later support 64 or 256 word EEPROM. */
-     s->eeprom = eeprom93xx_new(&pci_dev->qdev, EEPROM_SIZE);
+@@ -1891,7 +1891,7 @@ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
+ 
+ static void eepro100_instance_init(Object *obj)
+ {
+-    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, PCI_DEVICE(obj));
++    EEPRO100State *s = EEPRO100(obj);
+     device_add_bootindex_property(obj, &s->conf.bootindex,
+                                   "bootindex", "/ethernet-phy@0",
+                                   DEVICE(s));
 -- 
 2.7.4
 
