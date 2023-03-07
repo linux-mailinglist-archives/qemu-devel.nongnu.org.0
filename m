@@ -2,100 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00486ADCD3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9FE6ADD10
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:15:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVAP-0003lp-2E; Tue, 07 Mar 2023 06:07:37 -0500
+	id 1pZVGh-0007PH-UL; Tue, 07 Mar 2023 06:14:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZVAM-0003ay-4q
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:07:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pZVAJ-00029s-W9
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:07:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678187241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d3k1u/Geca9Wh03fryn16slek5asgRrPJXd6TgI1ZRE=;
- b=Q1tsF6zBjoSKE4JPCDKmLO8FdwT3MpvIzdr+dBZiEmKIjwDNgSTJ3UMxWxtZvextJRLETf
- 0KsdJk8WHNyiRVUTDTRJx2S7kgwcJ0upCLp2sw1dBnDi0CkYbzurNyZCS0JPzKKUgqbr2H
- i5vIJFsrF9PjzykOeLLB26DnU/2/fm4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-335-i7j2BFEgN761EnQFDemJBA-1; Tue, 07 Mar 2023 06:07:12 -0500
-X-MC-Unique: i7j2BFEgN761EnQFDemJBA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d14-20020adfa34e000000b002bfc062eaa8so2128036wrb.20
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:07:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZVGf-0007Es-TE
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:14:05 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZVGd-00038R-Pr
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:14:05 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t15so11713479wrz.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678187642;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+UfWWeab53Q03jZDtXQ+5Yh0vqFB94sHitv/tkqXpLU=;
+ b=dv8vTJjwqtTjXs3u3XBxY8Imbr19fxW4hvcJCbEr4fv5qf7FHyVcArSx1WAAKIrnZg
+ RwlJVPSOgwspaKLI7tNJFUrfsISnDvmrnLjDJgjloTs9Rm5qFLKtJ7f3AwfjOPcz/n24
+ RqsOoNYbwCEk5IOL3AIBrcU8FCwnZiVDyfA8HcoDQI1KAWFIejtD38v57p/sDfksIeJj
+ Zl/JVsxC13Jcwxyk6ApSHFlvh60IgB5pO3QIrsS+z3H1GhHj3/GwB5yr8rD8QylF0khM
+ 9O/yRVLU2QTK9POMEMh174whFAcf7knPFxr0d+eFD60K3LnmO/D0msrzdbFLd9ya8MPD
+ iFSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678187231;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d3k1u/Geca9Wh03fryn16slek5asgRrPJXd6TgI1ZRE=;
- b=ptjwS/X1qbtb30R3PHGIrr9Zaqm0OA7TbiNa3gh06mTCzWVuC8jJOMrNDc7MiFAyQQ
- wFbBcNS5r6PoLMwcvu/FM/AuUqRAyllcKL9tY4ZEHkLVMoVQghErTqebPIU7y/TbUeWC
- n++7/7cFxsn7AJC/jRX8QPaH/MhePskZ9vqjHg6OSLwfgkEprlTtHcPvgKyJKBUkfNC+
- qfhDJN2oHt7FT0LZWtxD8rHJufkaWqaAS4VIW2NNDw4tRieMm+1ykzGZHDaWoUfKLjgy
- wKMKq3UjYbwMKlLSfZrrKb83mITEdLWgXi8sL+kFpk3rfElG2bCg+k2GeDGXHsChuRWw
- SuGg==
-X-Gm-Message-State: AO0yUKXKkp7f87usm2nTciiiPHsizp6lNs6oG0S6g4mo85PnKPJjlLqd
- iC2r4+oDLXAqNDS6s+VJpQlJB7PC9hLY8kel1gTLpVG+wFWp/qzYfZuSKfQulw2XUFI1twndknS
- S1Zxyipvzed8/MAU=
-X-Received: by 2002:adf:d850:0:b0:2c5:a742:572f with SMTP id
- k16-20020adfd850000000b002c5a742572fmr8912516wrl.49.1678187231224; 
- Tue, 07 Mar 2023 03:07:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set9SEMa2u2mJehWpfbx9h/RneXpGzyPm3lTUlKWewTl1tUJy+/7fbawT4j7TR8L/R+HpRp/ruQ==
-X-Received: by 2002:adf:d850:0:b0:2c5:a742:572f with SMTP id
- k16-20020adfd850000000b002c5a742572fmr8912502wrl.49.1678187230974; 
- Tue, 07 Mar 2023 03:07:10 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ d=1e100.net; s=20210112; t=1678187642;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+UfWWeab53Q03jZDtXQ+5Yh0vqFB94sHitv/tkqXpLU=;
+ b=eBWgwZxh5u/TL6lP+8tKK8fR0KbVj8qxzyFgX4dFax/5KNPfaidzRBptynkHzESvOv
+ y9FiCmis0qi0mWWNx377rpOtwCeeUa5pwUu6NacM2eYhrGhD1LpoOV1xAej8a4LAKUGT
+ P8/0jTHGkDVP3ChOnpbGniD+IV6nFSMbgjn3DRKcQN9I7UIPaRQDA96UFtpU2qSB7qCr
+ aA8hUxy+iut9nmpyVJ9UJdZtrbSQttVyPv+uMs3i33zSmbOqt1Qbm8WCmq9XxbmxrrB9
+ DKKA6pw4ZlMOpu8gCi5fO3hwuXA5zKAWxzDFHlMI7jiMnApiFsiy8LjWS1oYfO27NK6q
+ ACfw==
+X-Gm-Message-State: AO0yUKWm7Q+C5J53JNueMnMlb9HaqZr6zRdhjP6Bmb6L2B+lrEmRu+55
+ mmmGOoupKh3OGK6e6eZkisI=
+X-Google-Smtp-Source: AK7set9YJQPgeJ4SYTMx8cCML/BVjgNf7J5REgSM4A5jb0VULVqcnJA3hCJjLkMEK5Knls1hRwlMjQ==
+X-Received: by 2002:a5d:43d0:0:b0:2ca:8ae5:ea2 with SMTP id
+ v16-20020a5d43d0000000b002ca8ae50ea2mr7831817wrr.40.1678187642054; 
+ Tue, 07 Mar 2023 03:14:02 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
  by smtp.gmail.com with ESMTPSA id
- j4-20020adfff84000000b002cda9aa1dc1sm12334931wrr.111.2023.03.07.03.07.10
+ s10-20020adfea8a000000b002c7e1a39adcsm12438895wrm.23.2023.03.07.03.14.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 03:07:10 -0800 (PST)
-Message-ID: <f865312e-2f8c-c037-a8d2-34b82c8c1709@redhat.com>
-Date: Tue, 7 Mar 2023 12:07:09 +0100
+ Tue, 07 Mar 2023 03:14:01 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <5d2f10e0-cfa2-38f8-2d4f-0ef1926d9054@xen.org>
+Date: Tue, 7 Mar 2023 11:14:00 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v4 06/14] vfio/common: Consolidate skip/invalid section
- into helper
+Subject: Re: [RFC PATCH v1 02/25] hw/xen: Add basic XenStore tree walk and
+ write/read/directory support
 Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Avihai Horon <avihaih@nvidia.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, qemu-devel@nongnu.org,
- Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-References: <20230307020258.58215-1-joao.m.martins@oracle.com>
- <20230307020258.58215-7-joao.m.martins@oracle.com>
- <8ef23f46-a5c7-2723-42e3-6f5efa7f993d@nvidia.com>
- <e9773720-77e5-4e93-3b24-e01dbbefc817@redhat.com>
- <4c6fad10-a71f-7b8f-87d5-09c57b0cfc70@oracle.com>
- <a7cfce4f-80a8-7af8-da29-1cea93d3ebbc@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <a7cfce4f-80a8-7af8-da29-1cea93d3ebbc@oracle.com>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-3-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-3-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,75 +99,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 12:00, Joao Martins wrote:
-> On 07/03/2023 10:22, Joao Martins wrote:
->> On 07/03/2023 09:47, Cédric Le Goater wrote:
->>> On 3/7/23 10:13, Avihai Horon wrote:
->>>> On 07/03/2023 4:02, Joao Martins wrote:
->>>>> External email: Use caution opening links or attachments
->>>>>
->>>>> The checks are replicated against region_add and region_del
->>>>> and will be soon added in another memory listener dedicated
->>>>> for dirty tracking.
->>>>>
->>>>> Move these into a new helper for avoid duplication.
->>>>>
->>>>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
->>>>> Reviewed-by: Cédric Le Goater <clg@redhat.com>
->>>>> ---
->>>>>    hw/vfio/common.c | 52 +++++++++++++++++++-----------------------------
->>>>>    1 file changed, 21 insertions(+), 31 deletions(-)
->>>>>
->>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>>>> index 99acb998eb14..54b4a4fc7daf 100644
->>>>> --- a/hw/vfio/common.c
->>>>> +++ b/hw/vfio/common.c
->>>>> @@ -933,23 +933,14 @@ static bool
->>>>> vfio_known_safe_misalignment(MemoryRegionSection *section)
->>>>>        return true;
->>>>>    }
->>>>>
->>>>> -static void vfio_listener_region_add(MemoryListener *listener,
->>>>> -                                     MemoryRegionSection *section)
->>>>> +static bool vfio_listener_valid_section(MemoryRegionSection *section)
->>>>>    {
->>>>> -    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
->>>>> -    hwaddr iova, end;
->>>>> -    Int128 llend, llsize;
->>>>> -    void *vaddr;
->>>>> -    int ret;
->>>>> -    VFIOHostDMAWindow *hostwin;
->>>>> -    Error *err = NULL;
->>>>> -
->>>>>        if (vfio_listener_skipped_section(section)) {
->>>>>            trace_vfio_listener_region_add_skip(
->>>>>                    section->offset_within_address_space,
->>>>>                    section->offset_within_address_space +
->>>>>                    int128_get64(int128_sub(section->size, int128_one())));
->>>>
->>>> The original code uses two different traces depending on add or del --
->>>> trace_vfio_listener_region_{add,del}_skip.
->>>> Should we combine the two traces into a single trace? If the distinction is
->>>> important then maybe pass a flag or the caller name to indicate whether it's
->>>> add, del or dirty tracking update?
->>>
->>> I think introducing a new trace event 'trace_vfio_listener_region_skip'
->>> to replace 'trace_vfio_listener_region_add_skip' above should be enough.
->>>
->> OK, I'll introduce a predecessor patch to change the name.
->>
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Albeit this trace_vfio_listener_region_skip will have a new argument which the
-> caller passes e.g. region_add, region_skip, tracking_update.
+> This is a fairly simple implementation of a copy-on-write tree.
+> 
+> The node walk function starts off at the root, with 'inplace == true'.
+> If it ever encounters a node with a refcount greater than one (including
+> the root node), then that node is shared with other trees, and cannot
+> be modified in place, so the inplace flag is cleared and we copy on
+> write from there on down.
+> 
+> Xenstore write has 'mkdir -p' semantics and will create the intermediate
+> nodes if they don't already exist, so in that case we flip the inplace
+> flag back to true as as populated the newly-created nodes.
 
-yes. That's fine. The important part is to be able to select a family
-of events with '-trace vfio_listener_region*'
+Something has gone wrong with the comment there... 'as we populate' perhaps?
 
-Thanks,
+> 
+> We put a copy of the absolute path into the buffer in the struct walk_op,
+> with *two* NUL terminators at the end. As xs_node_walk() goes down the
+> tree, it replaces the next '/' separator with a NUL so that it can use
+> the 'child name' in place. The next recursion down then puts the '/'
+> back and repeats the exercise for the next path element... if it doesn't
+> hit that *second* NUL termination which indicates the true end of the
+> path.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xenstore_impl.c | 527 +++++++++++++++++++++++++++++++++++-
+>   tests/unit/meson.build      |   1 +
+>   tests/unit/test-xs-node.c   | 197 ++++++++++++++
+>   3 files changed, 718 insertions(+), 7 deletions(-)
+>   create mode 100644 tests/unit/test-xs-node.c
+> 
 
-C.
+With the comment fixed...
+
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
