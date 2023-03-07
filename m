@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D216AED94
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84796AED1D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:01:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbaY-00064v-Ui; Tue, 07 Mar 2023 12:59:02 -0500
+	id 1pZbaV-00060Z-5x; Tue, 07 Mar 2023 12:58:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbaU-00060k-Mn
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:58:58 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pZbaT-0005zO-Dn
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:58:57 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbaR-0000Cq-Uf
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:58:58 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id y2so14026010pjg.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:58:54 -0800 (PST)
+ id 1pZbaR-0000Cz-Um
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:58:57 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ u3-20020a17090a450300b00239db6d7d47so12616440pjg.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:58:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678211933;
+ d=linaro.org; s=google; t=1678211934;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pY1TUb+G/BtfexTgidsHKfcaqjVC/yh2llEERSh6exc=;
- b=RNe1sruNb3n38EqdylaAHa6oLIIJkEhLdfp/lf6VbEr4B5olFszg/ZwAopKZLqs2Rr
- 6VStQJoLOeIdAwamqd6Kc9bUBEr66UEcvd+Hvpsvyvy56LItXLJgPAmPrIHHoYqB4upW
- LKPVN2Ta9S+2FupZd7la0B7DRnlMEuUJktLZKH65v50px51LrUQurqAAGSkd8Nc12VEv
- cLzsPgmcgtX303KdJm9SvW2ULE4J74tig2jZ2Uh7UY+EVRVpd/IdX78QToGYTfJoo2np
- nhH+lIBT80WKGCPKRDUAnXz8Z0Isgb1kMbQqF+6ZuJ+AMuvukdNLgatGY0mUtypktEB8
- 4E0Q==
+ bh=CjockYhWelpkA89u8rBpdCNAuPTh1O+y0bM/jqR+q/Q=;
+ b=EDCzMcJIKjVcP4YNXksm1U2VvxQTYSvdbk+q1JhqsXAMR1YAjskite80gBVZINURde
+ fMhlkxALtBlw56CRG8xchi50B3uUO2r+4GB7pEgDmnZQJknWlADtYNgPRnASwAyS8VFC
+ cBOaTm4UnV6PPO7zFGfJT4RATnrifEBn8YG35odb1/SQP2fcrnHEH4XHqbD9QcwQr9Bq
+ R59omYH9+GrxJbeMesBbmIJ78YusNFEyxHU98DfnoQbfKICv4AHRA0BIURKEQ+sV1Skw
+ +eQVJd0iZTHeqTZyvZGSN0cxl79PaaQBrJI7sYqWvFBghUFDTe40Mw/LHmQtyw4chkfR
+ hG4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678211933;
+ d=1e100.net; s=20210112; t=1678211934;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pY1TUb+G/BtfexTgidsHKfcaqjVC/yh2llEERSh6exc=;
- b=bfz6vNOR5MdmpnQS/HOeWo3MNeatOzewccPDEsOf/BzqJinyhdNYgYe0x9zdR8q0hS
- fxpXIxWTN5X16pHJUds5rPjTSOyAVGXgZE8bmU9c8OvlNl1OCbACeupNifegT4bPJkrq
- zon5me5r1M2tTiVxhXuEuny1zPWWV3jndUYouyi14R9LmNOTwF72+izEfrwn5fRlXB7s
- qF1xLSNCHYU5tUzvMmR8qSjgYIGkusd23Ii8d+81Fw7e3EGfFkjCTnj8as2hhRgDcTFS
- tR9Wyhob9Tn0J8v5gWiBZLdD0MSA5az3Ow7BNJ0KwlhWuPzokqR4wqfRkufCEf2/AuoO
- V83g==
-X-Gm-Message-State: AO0yUKVel7LXfIR8tFZL1FOIUf2rOlIBJ+2SBmw4UoKdBQML0DexWg0N
- T344p3Gnz+gpL+Y4FP8iEsaAzf6LjgJG+OHPftU=
-X-Google-Smtp-Source: AK7set+uZro5DpJnFYm4NB5MLf/Ggd8cz0Eh03ZrvB0baBTpl+qcm8Ux00BVQrc7UlQet68QSjEhLA==
-X-Received: by 2002:a17:902:f684:b0:19e:68b0:b06a with SMTP id
- l4-20020a170902f68400b0019e68b0b06amr19575700plg.50.1678211933426; 
- Tue, 07 Mar 2023 09:58:53 -0800 (PST)
+ bh=CjockYhWelpkA89u8rBpdCNAuPTh1O+y0bM/jqR+q/Q=;
+ b=VrRNhmBa1afK7lvwpXvW5W8QrcMlhVeaX4gnPF47DX4yr+h8Dez0TAltIOQYHKNSMH
+ revS48u/ePdCisqnJDdcsb5U8CSM8U0LulfXfu/oEco0OsK4NtZLrfY7+tR0BE52f4D9
+ 15VTVzHv1FsG2YNV44Hl9nHB8CxbXECrpMjyVq6tLt2DFpBiw49z+aF2MvpMC7iQtGXh
+ MxzjS/RcOiFVKsTY7jjj50zFBkkzkM0KR4yJNLNItTJgzm93e0lsU7SqhfjjgyS1kmVZ
+ 0p+R0tFCNRUczC8clTkGN2gtHfuGRukDk7EC/JOa7AOkEA3udedJaeTwRfKB6HViwXAV
+ bpnA==
+X-Gm-Message-State: AO0yUKVrEK4NbGQpXwYvdkpF+Wa0OzBkgXktM/KianVSpNRahO7RsN3b
+ FjRMBnhqDJ9KTtc+th/V6h77J6lkIjLQXKUcGhw=
+X-Google-Smtp-Source: AK7set9X5LRmG8CG1PLSroH/7Nlxn1lfV3aMe9ePcpicWF1J9eb97+t+Hj4jOcL3oRl7B4EDX2MEHA==
+X-Received: by 2002:a17:903:32c8:b0:19e:2298:c53d with SMTP id
+ i8-20020a17090332c800b0019e2298c53dmr18169360plr.10.1678211934306; 
+ Tue, 07 Mar 2023 09:58:54 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
- bd6-20020a170902830600b00198e397994bsm8661802plb.136.2023.03.07.09.58.52
+ bd6-20020a170902830600b00198e397994bsm8661802plb.136.2023.03.07.09.58.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Mar 2023 09:58:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 05/67] target/mips: Drop tcg_temp_free from octeon_translate.c
-Date: Tue,  7 Mar 2023 09:57:46 -0800
-Message-Id: <20230307175848.2508955-6-richard.henderson@linaro.org>
+Subject: [PULL 06/67] target/mips: Drop tcg_temp_free from
+ translate_addr_const.c
+Date: Tue,  7 Mar 2023 09:57:47 -0800
+Message-Id: <20230307175848.2508955-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307175848.2508955-1-richard.henderson@linaro.org>
 References: <20230307175848.2508955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,87 +99,29 @@ Translators are no longer required to free tcg temporaries.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/octeon_translate.c | 23 -----------------------
- 1 file changed, 23 deletions(-)
+ target/mips/tcg/translate_addr_const.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/target/mips/tcg/octeon_translate.c b/target/mips/tcg/octeon_translate.c
-index 6a207d2e7e..103c304d10 100644
---- a/target/mips/tcg/octeon_translate.c
-+++ b/target/mips/tcg/octeon_translate.c
-@@ -40,8 +40,6 @@ static bool trans_BBIT(DisasContext *ctx, arg_BBIT *a)
-     ctx->hflags |= MIPS_HFLAG_BC;
-     ctx->btarget = ctx->base.pc_next + 4 + a->offset * 4;
-     ctx->hflags |= MIPS_HFLAG_BDS32;
+diff --git a/target/mips/tcg/translate_addr_const.c b/target/mips/tcg/translate_addr_const.c
+index 96f483418e..a510da406c 100644
+--- a/target/mips/tcg/translate_addr_const.c
++++ b/target/mips/tcg/translate_addr_const.c
+@@ -30,10 +30,6 @@ bool gen_lsa(DisasContext *ctx, int rd, int rt, int rs, int sa)
+     tcg_gen_shli_tl(t0, t0, sa + 1);
+     tcg_gen_add_tl(cpu_gpr[rd], t0, t1);
+     tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
 -
--    tcg_temp_free(t0);
-     return true;
- }
- 
-@@ -61,10 +59,6 @@ static bool trans_BADDU(DisasContext *ctx, arg_BADDU *a)
- 
-     tcg_gen_add_tl(t0, t0, t1);
-     tcg_gen_andi_i64(cpu_gpr[a->rd], t0, 0xff);
--
--    tcg_temp_free(t0);
 -    tcg_temp_free(t1);
+-    tcg_temp_free(t0);
 -
      return true;
  }
  
-@@ -83,10 +77,6 @@ static bool trans_DMUL(DisasContext *ctx, arg_DMUL *a)
-     gen_load_gpr(t1, a->rt);
- 
-     tcg_gen_mul_i64(cpu_gpr[a->rd], t0, t1);
--
--    tcg_temp_free(t0);
+@@ -54,8 +50,5 @@ bool gen_dlsa(DisasContext *ctx, int rd, int rt, int rs, int sa)
+     gen_load_gpr(t1, rt);
+     tcg_gen_shli_tl(t0, t0, sa + 1);
+     tcg_gen_add_tl(cpu_gpr[rd], t0, t1);
 -    tcg_temp_free(t1);
--
-     return true;
- }
- 
-@@ -103,8 +93,6 @@ static bool trans_EXTS(DisasContext *ctx, arg_EXTS *a)
-     gen_load_gpr(t0, a->rs);
-     tcg_gen_sextract_tl(t0, t0, a->p, a->lenm1 + 1);
-     gen_store_gpr(t0, a->rt);
--    tcg_temp_free(t0);
--
-     return true;
- }
- 
-@@ -121,8 +109,6 @@ static bool trans_CINS(DisasContext *ctx, arg_CINS *a)
-     gen_load_gpr(t0, a->rs);
-     tcg_gen_deposit_z_tl(t0, t0, a->p, a->lenm1 + 1);
-     gen_store_gpr(t0, a->rt);
--    tcg_temp_free(t0);
--
-     return true;
- }
- 
-@@ -142,8 +128,6 @@ static bool trans_POP(DisasContext *ctx, arg_POP *a)
-     }
-     tcg_gen_ctpop_tl(t0, t0);
-     gen_store_gpr(t0, a->rd);
--    tcg_temp_free(t0);
--
-     return true;
- }
- 
-@@ -167,10 +151,6 @@ static bool trans_SEQNE(DisasContext *ctx, arg_SEQNE *a)
-     } else {
-         tcg_gen_setcond_tl(TCG_COND_EQ, cpu_gpr[a->rd], t1, t0);
-     }
--
--    tcg_temp_free(t0);
--    tcg_temp_free(t1);
--
-     return true;
- }
- 
-@@ -194,8 +174,5 @@ static bool trans_SEQNEI(DisasContext *ctx, arg_SEQNEI *a)
-     } else {
-         tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_gpr[a->rt], t0, imm);
-     }
--
 -    tcg_temp_free(t0);
 -
      return true;
