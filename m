@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3AB6AE10B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD59F6AE14E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:50:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXeR-0000Pm-RS; Tue, 07 Mar 2023 08:46:47 -0500
+	id 1pZXhF-0002xC-DQ; Tue, 07 Mar 2023 08:49:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZXeP-0000P7-Dj
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:46:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZXeM-0006mC-70
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:46:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678196801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=W25gsiAZTv46K/qWyVTuM0ZKdgOwwr2gwSjPjYN7X74=;
- b=i0qZUo1nTx6usEYyTHpRXYjFZ4pnIa0XKL9qjANwbbk+McIdmQ3GTUBMagZRe4kV5B0nDL
- oGSya7+p0g7jRIMi/ggy8/sNh6+zz7NH7zCg1ZQUeVec631T4aeOw6LcK0niLWct/vxMRW
- DTVTZabUK3YTOR9skESPd5sIbBrPUKc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-S69cLu6iMUSRdQXzR6CqXA-1; Tue, 07 Mar 2023 08:46:39 -0500
-X-MC-Unique: S69cLu6iMUSRdQXzR6CqXA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66210196EF89;
- Tue,  7 Mar 2023 13:46:39 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE31D4010E7B;
- Tue,  7 Mar 2023 13:46:38 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 00/13] Final tests,
- s390x and misc updates before the soft freeze
-Date: Tue,  7 Mar 2023 14:46:31 +0100
-Message-Id: <20230307134631.571908-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pZXh0-0002pe-Nt
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:49:28 -0500
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pZXgx-0007M8-Nb
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:49:25 -0500
+Received: by mail-lf1-x12c.google.com with SMTP id g17so17156280lfv.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 05:49:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678196962;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cFaCRirNomk3a+cyiwZtQqj1LT1LXnRZ/pn/9HFUMoE=;
+ b=ak6HLoIoIm0n6Q6L1v+srgM3H75dvEgkj/ixanQd6iBaDFHCY/nhZps7UKaoLTUF6+
+ DRsO82BUjnr936FKJ7KguBojAPksNH4UCrARH9IEWZiI4pMWLu2plc709IcPY5q5O+fi
+ kZCaH47Bta/YFQr3jY1WceIm3NSZigOugmb7Rfd9TSTKiyXsVwW+Ov5FAjjPc+ZpLMMc
+ kSFp9xekwaSLyTlraOnxJV0v9d66Y2pOfu/V2Fo/0Bn3KogTapG+2vlPzZ6hgzdWenSx
+ hi37foLrjbMDDw0rnbLx1jmeEaQxgg72eMAbnUmXxqS15UKmssa6PFsXSYQ1w3kaxM3d
+ wn+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678196962;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cFaCRirNomk3a+cyiwZtQqj1LT1LXnRZ/pn/9HFUMoE=;
+ b=OsNEv5oLV8PqKADW0aJH6MwWdU05wboF7s61TSeefjNDEfKkGJXRmxOablqwUMggot
+ blPZxl68me0abPTFJs69k4qQRwFxcH/Zhv3KNjaeOTLXOhbJVD0RGTRyeJEgFa8Y0e+5
+ RWR8Pc/hRXx+8sMueExxoK/QVeBHlE1St+5hVSTv+CX23EasknsVlwrCw3lqyb3MWx3X
+ qnvyPLbALXH3wtD9MHuyQMgg/QrD7TN1vvDAp+qiJnQyNFu95tJC/UXzcDnxgYKNx7Aj
+ oc/0MCcU5tZPeyBeWjCzgzdTpnvKwhliQYgHoEZ3aNqlNf+pMvx569PvHHPtGYq+fbxE
+ ipgQ==
+X-Gm-Message-State: AO0yUKUpF1oqCCjqefLRlrHwAxU72GfJd7JKaMYdwWUsOjNUd/b0ILOw
+ o0UmjYaDfyv/oxpVwOpyRjmaAckXMdO7WlbMlUA=
+X-Google-Smtp-Source: AK7set/UbR9DXjFmQlyEq6+pa10pqGLSiUFCLTh2kkQmhcDTbD7f0k9BGydf9y6N5t9d9CHCGdU1A+4NlwF+k+e0B/A=
+X-Received: by 2002:a05:6512:48e:b0:4db:33ed:89eb with SMTP id
+ v14-20020a056512048e00b004db33ed89ebmr4556641lfq.5.1678196961780; Tue, 07 Mar
+ 2023 05:49:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230227215943.114466-1-dbassey@redhat.com>
+ <CAJ+F1CKRPVF5ciDQwbaacdozNx27hmo514OONOk3p_LLtB+OBg@mail.gmail.com>
+ <CACzuRyxMSnJ9ANgQT+Vt1SK3ETt=TtvtKsA2GNzEpe=AQ6iApQ@mail.gmail.com>
+In-Reply-To: <CACzuRyxMSnJ9ANgQT+Vt1SK3ETt=TtvtKsA2GNzEpe=AQ6iApQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 7 Mar 2023 17:49:10 +0400
+Message-ID: <CAJ+F1CJRXdiv=Denf-q7cQ=X39MQL8X=_4Zf7aB5ozPCGJDY9A@mail.gmail.com>
+Subject: Re: [PATCH v5] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+To: Dorinda Bassey <dbassey@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com, 
+ qemu_oss@crudebyte.com, pbonzini@redhat.com, wtaymans@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,69 +88,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- Hi Peter!
+Hi
 
-The following changes since commit c29a2f40cd5d1fdad4632b48343cd968db041a44:
+On Fri, Mar 3, 2023 at 8:06 PM Dorinda Bassey
+>> What are those thread_loop_signal() for? Maybe leave a comment?
+>
+> the explanation of the function is in the reference header file.
+>
 
-  Merge tag 'pull-target-arm-20230306' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-03-07 09:58:43 +0000)
+Yes, I read the reference documentation before asking: "Signal all
+threads waiting with pw_thread_loop_wait."
+(https://docs.pipewire.org/group__pw__thread__loop.html#gaf9bc8dd348d05b095=
+139f5a55ac5a4b0)
 
-are available in the Git repository at:
+Unfortunately, you are not calling pw_thread_loop_wait yourself, so
+that doesn't help me what this is supposed to do. When signaling
+things and expecting a certain state and side-effect from a different
+thread or context, it's nice to document it.
 
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-07
+I guess this will break the thread loop? What happens next?
 
-for you to fetch changes up to 7687cd2b99454bd289c8854eec2653cb855cad67:
+thanks
 
-  pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix (2023-03-07 14:30:43 +0100)
-
-----------------------------------------------------------------
-* Refine the distro support policy
-* Deprecate 32-bit x86 and arm hosts for system emulation
-* Check bison version to be >= 3.0
-* Compile vnc test only if vnc is really enabled
-* Check docs/config/ich9-ehci-uhci.cfg via the readconfig-test
-* s390x: Add support for list-directed IPL from ECKD DASD
-
-----------------------------------------------------------------
-
-v2: Dropped the readconfig patches that caused trouble in the CI
-
-Jared Rossi (1):
-      pc-bios: Add support for List-Directed IPL from ECKD DASD
-
-Juan Quintela (1):
-      test: Check vnc enable before compiling vnc test
-
-Matheus Tavares Bernardino (1):
-      Hexagon (meson.build): define min bison version
-
-Thomas Huth (10):
-      docs/about/build-platforms: Refine the distro support policy
-      include/hw/i386: Clean up includes in x86.h
-      docs/about/deprecated: Deprecate 32-bit x86 hosts for system emulation
-      gitlab-ci.d/crossbuilds: Drop the i386 system emulation job
-      docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation
-      gitlab-ci.d/crossbuilds: Drop the 32-bit arm system emulation jobs
-      tests/qtest/readconfig: Rework test_object_rng_resp into a generic function
-      tests/qtest/readconfig: Test docs/config/ich9-ehci-uhci.cfg
-      docs/config: Set the "kvm" accelerator via "[accel]" section
-      pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix
-
- docs/about/build-platforms.rst       |   3 +-
- docs/about/deprecated.rst            |  20 +++++
- docs/config/mach-virt-graphical.cfg  |   4 +-
- docs/config/mach-virt-serial.cfg     |   4 +-
- docs/config/q35-emulated.cfg         |   2 +
- docs/config/q35-virtio-graphical.cfg |   2 +
- docs/config/q35-virtio-serial.cfg    |   2 +
- configure                            |   1 +
- include/hw/i386/x86.h                |   2 -
- pc-bios/s390-ccw/bootmap.h           |  30 ++++++-
- pc-bios/s390-ccw/bootmap.c           | 157 +++++++++++++++++++++++++++--------
- tests/qtest/readconfig-test.c        |  36 ++++++--
- .gitlab-ci.d/crossbuilds.yml         |  24 ------
- pc-bios/s390-ccw.img                 | Bin 42608 -> 42608 bytes
- target/hexagon/meson.build           |   2 +-
- tests/qtest/meson.build              |  10 ++-
- 16 files changed, 219 insertions(+), 80 deletions(-)
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
