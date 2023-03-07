@@ -2,140 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B706AD9FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 10:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2AD6ADA06
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 10:16:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZTOo-0005k3-1o; Tue, 07 Mar 2023 04:14:22 -0500
+	id 1pZTQ6-0006Ia-R9; Tue, 07 Mar 2023 04:15:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pZTOj-0005jp-MR
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:14:17 -0500
-Received: from mail-bn8nam04on20621.outbound.protection.outlook.com
- ([2a01:111:f400:7e8d::621]
- helo=NAM04-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pZTOh-0008O4-Fx
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:14:17 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=krlEemu882kB4h3yybSrCcByw39NLSlFA2+32Lxv5MHAIbtjlxLHqfZR3jBK4VOEEMVlJBzx9cyhoc2jPZhHZAXv2RpBB4XSn1vHNJPsO06ZxFASPE/7gk/O2gqicAGWHPQN4g4BcXxygbZD3/qtFX33GDcHmtasqEoQQT0My09jHRJP5qDE1VDM9jNs7g6u93S3v4CqaX6BELiWmr6Uu2uwZcdMKw3/fTZ7ywDWoKH1T7Bv0tErvCDrLOwTpv61o9Ux4fO9Zx/jzPjZy8Qdat0bHJb1Xm3AhSwdSQIg9SOgayNstSBaAIxw5/uxhJ70GUASWdhTmfi4sQd3GtsuUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MBdXrUu/fxXC/2jnwVVNBma/y/594A3+mB5670Io5jc=;
- b=bPvz1+myytna32gf5Io4nrovgEf/lXgR4v835suAWtr8RKhaSqKRATA8mZUPPKuM2iatyBIqhKDu+eyAkCcTRG6rC46CDXGxSJ5bgTwIEhCns13DgICJGhAoYrd5RCsnp92W3a45AZku84rXG+47sa+/bLYjGBUQlvUlzK+jMcc1sOoi8rVkfO8nvy/zSfZbotX5uaHKZKePkpCWqvT8zQTSqWLsJU0SlPcd5IbOd3hTORAKFXte9g+7ufU2JO6Bi4kihxjafxm2M6Jt43r27EStURCXU4PMnKMpS2rqheTMWtaPb27pCPAs6L8EmStRl93OYdQIy092H9iCglL5Qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MBdXrUu/fxXC/2jnwVVNBma/y/594A3+mB5670Io5jc=;
- b=I+AF//JWvYqcxFPJXfIWIoXK8iDxC5CQrwmgHQfSXnJIZacNWJMgzVacng0sSqiZwkc5FMkCLN/m8bKHlSFFFmqcNs7ygJL5sMfdEbuw68bOFsmdAYjjnIfNEMsCm2ZnSYO7O687ry4Gf4BY1xrPsr4QKtdX3zUokaiP1hbwa0Wk9VDilbDgTsvtAgAVHtP76U3qbVq0w3IqXr9TisNHYVRHfiakWhODSlZuhdLUrAqpFQX6RK5t+avkLCbxN50seVown2F4eTJBb//doMcZP5EEnCesMZ9+33IsEws7fJxYQDJzaH0iXJzLgZTn2nFpF1ja761CaqqLhvZhHeJvqw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB5544.namprd12.prod.outlook.com (2603:10b6:a03:1d9::22)
- by DM4PR12MB5246.namprd12.prod.outlook.com (2603:10b6:5:399::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Tue, 7 Mar
- 2023 09:14:11 +0000
-Received: from BY5PR12MB5544.namprd12.prod.outlook.com
- ([fe80::423c:5fb4:a0f0:e918]) by BY5PR12MB5544.namprd12.prod.outlook.com
- ([fe80::423c:5fb4:a0f0:e918%7]) with mapi id 15.20.6156.029; Tue, 7 Mar 2023
- 09:14:11 +0000
-Message-ID: <8ef23f46-a5c7-2723-42e3-6f5efa7f993d@nvidia.com>
-Date: Tue, 7 Mar 2023 11:13:58 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 06/14] vfio/common: Consolidate skip/invalid section
- into helper
-Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Cedric Le Goater <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-References: <20230307020258.58215-1-joao.m.martins@oracle.com>
- <20230307020258.58215-7-joao.m.martins@oracle.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20230307020258.58215-7-joao.m.martins@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0595.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:295::12) To BY5PR12MB5544.namprd12.prod.outlook.com
- (2603:10b6:a03:1d9::22)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
+ id 1pZTPn-000697-JY
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:15:25 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
+ id 1pZTPk-0000HW-Hl
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 04:15:22 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so9913632wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 01:15:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shadow-tech.20210112.gappssmtp.com; s=20210112; t=1678180517;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=G8EqAAFfT7bMBtlZsef438IsU/VoDt2L5j0Ru/LDWeA=;
+ b=fWbg5Rf4vzq/FTpD+DoZBMejuBI1HWGzKyrE0mrPcUGcjHddEZU8jqiytN6XwMlbG6
+ 7xUfY64ms+ZGN0y0smBNX8wxByWa8GJk0gTIOA+lAWhXOiDAk00l5kditoUS1VVyDaR0
+ Es/MXkeLfJZ89wRvLHudRTT/IlpuOr1aixJsodi0N6qu5LOIUpfKTJBGgQU9si3KNXQk
+ Ebh7EIqSaUXAyQSC1DXG1rMbc2Qr7eMcA++FMp/RQZZBGeO4RTNx4lAzfO1ovGG7nX80
+ +6P7R5FbKBX8Qzqv/nsLiH//Y7nnhCD8wXtH5+fwJGN2qIfLiRTcbS2vf7V6Gvn5NdVI
+ Pc8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678180517;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G8EqAAFfT7bMBtlZsef438IsU/VoDt2L5j0Ru/LDWeA=;
+ b=RwfqYmDaY3EqpQPyv24r8bphyNS/W74z5dJM/ZuV+CImBv00pMu0AYp2qjAK94Xx2e
+ fXl04uIfUgMfnN8ITPSGlkU5Gdpzluxjta1ktvi4Ms39dvv7VNoAfyW/k+RgxSPmDrQp
+ lEHG5IIBUpKduzpgRrQIJb2mxsb0DS5tKGiWwqKoSyWUEDYca4FXDgyEUl34kTo0y4sI
+ 33BIUJXUHanIE9h2QRp5f/6dqZsU80hApTv8LTlAGn2C6GoA+w61iCEUTGSygCZt0uJK
+ AQ5sMpg4LFSx5l5QaAvZplaum2fdcQwp4b5KI5+Yw9BX1isHgz0qQ6Yv+Cu3J9eZWjsz
+ wupQ==
+X-Gm-Message-State: AO0yUKWnRPeAR9yXjCD/F7wjG5xJBit5Cg59+v6vnjC9IGjQ6YTAIGpr
+ IdtTZSoXW5qQURhYAYcTSdKOhA==
+X-Google-Smtp-Source: AK7set/XigBXudtrm4Fc5D4VSfbYc1c4Gug/i5wlXALXla7QYvJUwfWT2voXH0w0AO2CPRcXgastrg==
+X-Received: by 2002:a7b:c8d9:0:b0:3eb:2067:1141 with SMTP id
+ f25-20020a7bc8d9000000b003eb20671141mr12235982wml.38.1678180516995; 
+ Tue, 07 Mar 2023 01:15:16 -0800 (PST)
+Received: from localhost ([2a01:e34:ec43:fd01:c66b:5ea5:9a7:c104])
+ by smtp.gmail.com with ESMTPSA id
+ o13-20020a5d670d000000b002c8476dde7asm12047768wru.114.2023.03.07.01.15.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 01:15:16 -0800 (PST)
+Date: Tue, 7 Mar 2023 10:15:15 +0100
+From: Antoine Damhet <antoine.damhet@shadow.tech>
+To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
+ charles.frey@shadow.tech, berrange@redhat.com
+Subject: Re: [PATCH] io/channel-tls: plug memory leakage on GSource
+Message-ID: <20230307091515.e6am2hwzz5fxrna6@cole.xdbob.net>
+References: <98f750b6ded2dd2e8d0e4ffc9935d3d6e0cd59f4.1678144392.git.quic_mathbern@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB5544:EE_|DM4PR12MB5246:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb8db3ff-ef23-4a18-8849-08db1eec4fe4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QSFzwMrks356RnYQH8KlRm55AL7uPuGr9e21586wagUJcHyOg2Vm02zhMz35aKshkITd/gl+rHMpDyYWDV0Fanh+dtm33xe+ISBFq63ifNg0WhYq1qOkXo+n9zqjUi8OSbv3+gXxAqLEiaxrcildmceJVVgJI5znGq0lB5FrwCvaMjxh55XrhvtbbsqyX4X+PaGVSI7J9oT6yECb23+agQioNor7O3fUO0VA6Eqxc+Slgkb6gWN7gADJzE8IRBpP0NB+ahQn9Z3X/ro5TMixUtKkpJcGOxIfxVAemWNA+QZ6dIwyh4UaVWwvgApAybNO/eK17UKS0z9zxsgfWQLpJu9t2/jgwy+Mw9H3Ng1neBZ2BsYc3Ry9cv9pCYitr3HJdGhL3EbVNuT8tU32CNb3gBMtdUb6wLOUaavvSPkYNHiQfhq+L8W2WO5RI4QZzbhqi5BboP+FlfoTpnw77sZRbMBVtKARNs9LfWfCtA9qiGDJwXz0eRzHpgxIdjyIs8pDCo0gq9TUpZVfgyva2YGeO1jzvQS54OiU4XsWXHV0AZHAgjpdQpoeLtuGAkte0VFke7HBl4HFuF8p8E/b+vFosTC0RJ0seam8QFRkTLiT5j+COaMK0V4MqarDDf5XvF0FkGexLaTiOgVcnJdZxVbekzwhnpgz5h0mvJTijATlfqNfTrMSLjSpWxGqJki06UM90mujMwUPbZNLmAqG8WbXWlWvx87mO4VyBG/JYem83o4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB5544.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(366004)(346002)(376002)(39860400002)(136003)(451199018)(36756003)(83380400001)(66574015)(107886003)(53546011)(26005)(41300700001)(6506007)(186003)(5660300002)(6666004)(6512007)(6486002)(2616005)(8936002)(2906002)(86362001)(66556008)(4326008)(66946007)(8676002)(31696002)(66476007)(316002)(38100700002)(54906003)(478600001)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEJZU0tlNVYwQnZISWd0cFpHYW5RSGtKbERSS0UrWHFXek9JUEpNUmJKcWMr?=
- =?utf-8?B?SFBMcUFTS25aWkdQSjc3KzR2UXNTdkJwMS8vM2tYN2ZUZnNmUDAvWnRhSHFi?=
- =?utf-8?B?bFdFYnRhSi9pMnZtT3NwcXlGcktyWmRuL3dvc04rdGROblVJV2ozZDluWWFn?=
- =?utf-8?B?ZzlBUUNucGtnby83WGJsREwzODdhMytDMlNNcnZTWTF1L0VoR2pMWGtWamtI?=
- =?utf-8?B?Nm1kZ2ErK1hEQlJ3ajlnMmhnMVltUnJXcHczS1lkSEpOYVIwaFRSVVd3ZjJ5?=
- =?utf-8?B?WWwwQnR0Y0cxTkVuaktweDZVSmtCYUNUNExEYzVGeUVYZ1VTUWNlS0d3SnJl?=
- =?utf-8?B?T2hJSFRkL2NHWlVkaGhrcGd5YU9ISTMvSUlaSitUaTFmVEl4VkFxcnptSDVn?=
- =?utf-8?B?V0NRSWFDMWVBMXFhY04zTjhvcEJmZEpGZjBrL2tLMUdydFhSU0g3MCsvbmN2?=
- =?utf-8?B?TWUySTRhVTAzVDYwd3F6T2dtWHIvTm5ka1dFNVhuUlVITW1VSjcyZ3k1R3VS?=
- =?utf-8?B?RTVIZURibDJoaGlJQ2NTS25XSzM0NGpCNVZKUjEvV1ZpTXB6WDVTOWEzQ1dq?=
- =?utf-8?B?MUwyMEpHK0Q0cTZXVTcrSlo2NzFCUVI3RVJLS3pDUVFEK1lNVFJOT3BrTnVw?=
- =?utf-8?B?VkZPUmZaNkRkMHV6dURXK3BNalYxSXg5Y2dVdm9WaFFPNlVuZFhRL1dreExk?=
- =?utf-8?B?Yjl5ejNEaWhFM3hWdGk2K1doN1NTdXNsNUR6TEZmZ2I2QmpIRndVRkJjZi84?=
- =?utf-8?B?dTVqWXRUcEFMWWE4MlFUSEpBdXNnZUc5Rnd4Z3BQbTNyakE2YjhxV1NyMEZG?=
- =?utf-8?B?cXk5ZjFMNmZVZzVUTHdIMG9rTjNLVnFTWE1kU1Q1SlJvVHZVS2NlVG0wOGUy?=
- =?utf-8?B?SG1FUGFkVEEvNE5kR0pCWDJybWhPZWZqWDhKbFpOQlBUUllic056Um0rQUQ4?=
- =?utf-8?B?VjBHNkRkUmZzY2JEQWRJL3VXSkF0QXVUSXRHc1JtTnNvcFZ3ZlJvN2dNSlA5?=
- =?utf-8?B?OW9EY3EzR3Jrc2NvZTc2cmx4V1NCb0hDbVhSSGJTY3F5RzJzY1ZHZ1JaenAy?=
- =?utf-8?B?N2krYTZKbkY4ams0bE4ydExTMW1GUXdkN0FreUEvbjhXSkZETHlDNVlMTTM3?=
- =?utf-8?B?VzhsODJySlZGRmd5d3RNU1QrZWgyN3FXZWhWUmFFYzNsVVZDYVBWaGN3Njhh?=
- =?utf-8?B?eHFWVmRoRXhFQUZWcktnZy9KTkVieXcvUUt6Zk5RRi9zZFhHc3laNDRUQlll?=
- =?utf-8?B?bmFPN2tGcmZZYmM2cVZXSmt2Y2REZzVUdGZFYi9TUEFnYUxDeWdmYXRucnlE?=
- =?utf-8?B?VlJCTDdGb1hnNXltcVFPRGpSR2FMK0h4MVZPd2NzYU4xU0xBbWlYQllnczB5?=
- =?utf-8?B?cUdlTmwydWY3QWZMZXFKLzI4NVBEY3hUcjJGM2FLNG1jSzZYaUkySmgxREpu?=
- =?utf-8?B?UXVlTGpydjg2dmlWN2xRVVAvUi9nbWhiMWU4Qk51aGp3ZzUrajhQaHlReHIr?=
- =?utf-8?B?MWc0UitCVDZKVXJXZy9BV1lPVDl0VjF1Tm5ObDZzdUFQM21OLytyWFRYNGxm?=
- =?utf-8?B?VDRKWHBJRjNub1lrTnNPbHMyTzhrb0pPU3VoNlVRTUJJU1lyODEzNXg0dVlU?=
- =?utf-8?B?SThpSWNXdnpmN3hVTjQwaVFPOTM2NVdDNEZLdDV0SmRhVlY3YXNUWWp3YkNG?=
- =?utf-8?B?QmZDaTZtMkU0Z05XSkZWVFpTWG85L0pWSlQzNTR1Sm5aNDZVcmxmWVU5b2ky?=
- =?utf-8?B?SmViZHZqK1M4YkZzL2p6TlpURFNiU1BpWTBrQnZZdmZhTGVtUm9hWEhWcFRn?=
- =?utf-8?B?eEpLRXlsY0hYblVQNW9NZFpJdDdLK1pZM0cxWkIrM0QzM0YzMUtuZm9DYjNB?=
- =?utf-8?B?cnRzcVUyZU9Vd0R2Sk1aOUpxQlVRYUJ5NWpvYUYyQ2VHc2dhNzJISE5aRzNl?=
- =?utf-8?B?QWM0WW9kRnV5TmhFLzVxc08yOGxPbkwyVTYwVlRDVlFuUXRpWEF1aWZZWTFo?=
- =?utf-8?B?aWQzc0xabEVPZjRDTVB6REFrYWxtTnk1S3MveU1mc1dIbHJIZTJ3SkJ0QS9X?=
- =?utf-8?B?SFUrN3NWNW1FODlzbFg0NnlvU2Vwa2VTVkIrZXY2Q1F0N2xTa1luZVBRRVU5?=
- =?utf-8?Q?uxmPofe4kgWQj0VIImswomO7y?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb8db3ff-ef23-4a18-8849-08db1eec4fe4
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB5544.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 09:14:10.7517 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U93NUBnFXn6v5p+BcKFi8rnvFeAJcaEdXJPf7vKMyBiz2q30/1k0pIamOtp4Rm5XwwsoZ+fMWOatwjxXimgMPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5246
-Received-SPF: softfail client-ip=2a01:111:f400:7e8d::621;
- envelope-from=avihaih@nvidia.com;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wb22qbrmgis53vw4"
+Content-Disposition: inline
+In-Reply-To: <98f750b6ded2dd2e8d0e4ffc9935d3d6e0cd59f4.1678144392.git.quic_mathbern@quicinc.com>
+Received-SPF: permerror client-ip=2a00:1450:4864:20::32e;
+ envelope-from=antoine.damhet@shadow.tech; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,119 +92,104 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 07/03/2023 4:02, Joao Martins wrote:
-> External email: Use caution opening links or attachments
->
->
-> The checks are replicated against region_add and region_del
-> and will be soon added in another memory listener dedicated
-> for dirty tracking.
->
-> Move these into a new helper for avoid duplication.
->
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Reviewed-by: Cédric Le Goater <clg@redhat.com>
+--wb22qbrmgis53vw4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Nice catch !
+
+On Mon, Mar 06, 2023 at 08:15:21PM -0300, Matheus Tavares Bernardino wrote:
+> This leakage can be seen through test-io-channel-tls:
+>=20
+> $ ../configure --target-list=3Daarch64-softmmu --enable-sanitizers
+> $ make ./tests/unit/test-io-channel-tls
+> $ ./tests/unit/test-io-channel-tls
+>=20
+> Indirect leak of 104 byte(s) in 1 object(s) allocated from:
+>     #0 0x7f81d1725808 in __interceptor_malloc ../../../../src/libsanitize=
+r/asan/asan_malloc_linux.cc:144
+>     #1 0x7f81d135ae98 in g_malloc (/lib/x86_64-linux-gnu/libglib-2.0.so.0=
++0x57e98)
+>     #2 0x55616c5d4c1b in object_new_with_propv ../qom/object.c:795
+>     #3 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
+>     #4 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-chan=
+nel-tls.c:70
+>     #5 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channe=
+l-tls.c:158
+>     #6 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
+>=20
+> Indirect leak of 32 byte(s) in 1 object(s) allocated from:
+>     #0 0x7f81d1725a06 in __interceptor_calloc ../../../../src/libsanitize=
+r/asan/asan_malloc_linux.cc:153
+>     #1 0x7f81d1472a20 in gnutls_dh_params_init (/lib/x86_64-linux-gnu/lib=
+gnutls.so.30+0x46a20)
+>     #2 0x55616c6485ff in qcrypto_tls_creds_x509_load ../crypto/tlscredsx5=
+09.c:634
+>     #3 0x55616c648ba2 in qcrypto_tls_creds_x509_complete ../crypto/tlscre=
+dsx509.c:694
+>     #4 0x55616c5e1fea in user_creatable_complete ../qom/object_interfaces=
+=2Ec:28
+>     #5 0x55616c5d4c8c in object_new_with_propv ../qom/object.c:807
+>     #6 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
+>     #7 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-chan=
+nel-tls.c:70
+>     #8 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channe=
+l-tls.c:158
+>     #9 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
+>=20
+> ...
+>=20
+> SUMMARY: AddressSanitizer: 49143 byte(s) leaked in 184 allocation(s).
+>=20
+> The docs for `g_source_add_child_source(source, child_source)` says
+> "source will hold a reference on child_source while child_source is
+> attached to it." Therefore, we should unreference the child source at
+> `qio_channel_tls_read_watch()` after attaching it to `source`. With this
+> change, ./tests/unit/test-io-channel-tls shows no leakages.
+>=20
+> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+
+Reviewed-by: Antoine Damhet <antoine.damhet@shadow.tech>
+
 > ---
->   hw/vfio/common.c | 52 +++++++++++++++++++-----------------------------
->   1 file changed, 21 insertions(+), 31 deletions(-)
->
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 99acb998eb14..54b4a4fc7daf 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -933,23 +933,14 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
->       return true;
->   }
->
-> -static void vfio_listener_region_add(MemoryListener *listener,
-> -                                     MemoryRegionSection *section)
-> +static bool vfio_listener_valid_section(MemoryRegionSection *section)
->   {
-> -    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> -    hwaddr iova, end;
-> -    Int128 llend, llsize;
-> -    void *vaddr;
-> -    int ret;
-> -    VFIOHostDMAWindow *hostwin;
-> -    Error *err = NULL;
-> -
->       if (vfio_listener_skipped_section(section)) {
->           trace_vfio_listener_region_add_skip(
->                   section->offset_within_address_space,
->                   section->offset_within_address_space +
->                   int128_get64(int128_sub(section->size, int128_one())));
+>  io/channel-tls.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/io/channel-tls.c b/io/channel-tls.c
+> index 8052945ba0..5a7a3d48d6 100644
+> --- a/io/channel-tls.c
+> +++ b/io/channel-tls.c
+> @@ -446,6 +446,7 @@ qio_channel_tls_read_watch(QIOChannelTLS *tioc, GSour=
+ce *source)
+>      object_ref(OBJECT(tioc));
+> =20
+>      g_source_add_child_source(source, child);
+> +    g_source_unref(child);
+>  }
+> =20
+>  static GSource *qio_channel_tls_create_watch(QIOChannel *ioc,
+> --=20
+> 2.37.2
+>=20
 
-The original code uses two different traces depending on add or del -- 
-trace_vfio_listener_region_{add,del}_skip.
-Should we combine the two traces into a single trace? If the distinction 
-is important then maybe pass a flag or the caller name to indicate 
-whether it's add, del or dirty tracking update?
+--=20
+Antoine 'xdbob' Damhet
 
-But other than that:
+--wb22qbrmgis53vw4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Reviewed-by: Avihai Horon <avihaih@nvidia.com>
+-----BEGIN PGP SIGNATURE-----
 
-Thanks.
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAmQHAJ8ACgkQ3AmjLzzl
+jz75hQgAghPYBlNR7QDzGDa60cmCdbzfwIOmELkM+ghY0ryZJND3xmAT/8l1CR+l
+RE2kr/lNHcR1GAw5zoygbMG9PgMSQvEnNP1Eq+pQzXDGmLw2ukVMuVtKZPyDECTD
+pMD8pm6iQ8N4vat6zVvdiJ1wgs3KR7eCGAzmsmIAXk/WCDNArMBhehbHEPfAgZjS
+0J84DNtunsioxw1cDxMBWIqihatE8iA/dmx8Sb11JBJDT8KTCL5Z2yH7oke33GIq
+/Jx9VAkeZxuk5DlFDxqzFvRFklGAqM6gzYok9WK/c5YOUdqpVraV6XA4NQ9pivxV
+4fbFznwDIJBuUNOjojT08wrymzH7yQ==
+=UNhY
+-----END PGP SIGNATURE-----
 
-> -        return;
-> +        return false;
->       }
->
->       if (unlikely((section->offset_within_address_space &
-> @@ -964,6 +955,24 @@ static void vfio_listener_region_add(MemoryListener *listener,
->                            section->offset_within_region,
->                            qemu_real_host_page_size());
->           }
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +static void vfio_listener_region_add(MemoryListener *listener,
-> +                                     MemoryRegionSection *section)
-> +{
-> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> +    hwaddr iova, end;
-> +    Int128 llend, llsize;
-> +    void *vaddr;
-> +    int ret;
-> +    VFIOHostDMAWindow *hostwin;
-> +    Error *err = NULL;
-> +
-> +    if (!vfio_listener_valid_section(section)) {
->           return;
->       }
->
-> @@ -1182,26 +1191,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
->       int ret;
->       bool try_unmap = true;
->
-> -    if (vfio_listener_skipped_section(section)) {
-> -        trace_vfio_listener_region_del_skip(
-> -                section->offset_within_address_space,
-> -                section->offset_within_address_space +
-> -                int128_get64(int128_sub(section->size, int128_one())));
-> -        return;
-> -    }
-> -
-> -    if (unlikely((section->offset_within_address_space &
-> -                  ~qemu_real_host_page_mask()) !=
-> -                 (section->offset_within_region & ~qemu_real_host_page_mask()))) {
-> -        if (!vfio_known_safe_misalignment(section)) {
-> -            error_report("%s received unaligned region %s iova=0x%"PRIx64
-> -                         " offset_within_region=0x%"PRIx64
-> -                         " qemu_real_host_page_size=0x%"PRIxPTR,
-> -                         __func__, memory_region_name(section->mr),
-> -                         section->offset_within_address_space,
-> -                         section->offset_within_region,
-> -                         qemu_real_host_page_size());
-> -        }
-> +    if (!vfio_listener_valid_section(section)) {
->           return;
->       }
->
-> --
-> 2.17.2
->
+--wb22qbrmgis53vw4--
 
