@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E13D6AE1FF
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2BA6AE1FE
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:16:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZY6T-0002Eo-43; Tue, 07 Mar 2023 09:15:45 -0500
+	id 1pZY79-0002nU-CK; Tue, 07 Mar 2023 09:16:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZY6Q-0002Dt-Se
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:15:43 -0500
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZY6x-0002XY-CW
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:16:22 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZY6O-00049x-Sj
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:15:42 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.97])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E927920C1E;
- Tue,  7 Mar 2023 14:15:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 7 Mar
- 2023 15:15:36 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0021af7615d-ebbb-433e-93a6-cbb2011ab3ad,
- D586700EEA543FC8D630564B717DAE7078976E4F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <afed603f-8807-8e50-53cc-604a7c7cf8e5@kaod.org>
-Date: Tue, 7 Mar 2023 15:15:30 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZY6u-0004EV-4s
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:16:15 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M3loZ-1pYilO0Wpf-000wbA; Tue, 07 Mar 2023 15:16:09 +0100
+Message-ID: <3ace5d96-0784-f2ad-4e0f-892c3984331a@vivier.eu>
+Date: Tue, 7 Mar 2023 15:16:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PULL 03/38] pflash: Only read non-zero parts of backend image
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, "Maciej S. Szmigiero"
- <mail@maciej.szmigiero.name>
-CC: <qemu-block@nongnu.org>, <peter.maydell@linaro.org>,
- <qemu-devel@nongnu.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, <kraxel@redhat.com>
-References: <20230120122633.84983-1-kwolf@redhat.com>
- <20230120122633.84983-4-kwolf@redhat.com>
- <be61e573-1713-472c-899e-ac51b8a22345@kaod.org> <Y+IN+xWlJUl6I2u9@redhat.com>
- <d09135a0-8ca7-d8af-bcf9-677e839b9d17@kaod.org> <Y+JIlj5BxP6vDFjG@redhat.com>
- <5fb3fd72-3bd8-4895-62dd-2d504188faf2@kaod.org>
- <c699bca1-194f-d35e-eb22-7f77e92be605@maciej.szmigiero.name>
- <ZAdDbe+B/ulQdkFI@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <ZAdDbe+B/ulQdkFI@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH] linux-user: fill out task state in /proc/self/stat
+Content-Language: fr
+To: Andreas Schwab <schwab@suse.de>
+Cc: qemu-devel@nongnu.org
+References: <mvmedq2kxoe.fsf@suse.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <mvmedq2kxoe.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: a96dfdd1-94aa-4049-8e98-db33fa399037
-X-Ovh-Tracer-Id: 5118340976614738793
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeikeehkeehheejgfffkeffveegleduffeiteejuefgfedtjeekgefgveffveeigfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhifohhlfhesrhgvughhrghtrdgtohhmpdhmrghilhesmhgrtghivghjrdhsiihmihhgihgvrhhordhnrghmvgdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhkrhgrgigvlhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehge
- ekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
+X-Provags-ID: V03:K1:MnJPtCkP8vYH1AA/YgHrqgkY5/fPYt00ejduxBCBTpm1pABileE
+ qHLx/+DHBq6GOsnqc5VQPGm/Fz1tKxVhH81o6FDDiDU43vYR1J9enVzk7AfIqAOWzadckk0
+ lIfe5G/NZm5SBLDXAw9s4kwObVCuOMTXEsk5GB1NkT7Tq1Cr9nrBd7IoihIgSUVLH1NuwuV
+ mcd01PZUx0LEqnzkvPy2g==
+UI-OutboundReport: notjunk:1;M01:P0:HZ9P+FmGicA=;2aM7Be2h3TkADimS0Jzp2qOC0eQ
+ XFwPdRsoyM2qcxIhbz7qyJSI2cO6caAJyxh4HAj/qpDvV3TyejarZ6XwZOmAPjY0Fk7v0XZtE
+ 2BD3vP3wZV/RuJdakpeqt3GkSHc6VunpFLKW9a8h4OU2UDHX/Bg9rRtErxezVtuupcEXJegVm
+ A+ObOKGd/6VF8Ze1So+Gi50Cd0kVZXAQZk6sXtC8b9QT9CqtZgnt6CcRpcya+Q9W0evNn8gii
+ VUkLhifqLDH4W6RuXtJiwMTdX7GaIbLCyGcaoPO2dWv2wW8ea0+aHG24pXWRxVNlaWSH+1gfx
+ Em5YDOApbcF31fVyqi5xd9oIgjO833TYuro5Vo+WsHrhVqlIQ2cvL2Jn+Or9e+jyAFyxL6Z++
+ EQxyq62iwBdl7YmhMIfcVx7MCFUnrjwoP6DxCb+tBIKwBm6dV2OhQhkwT9xc4J01YEWSB4Nob
+ bRbLAEOwkGK3ZiiSpV09AD91D77rn6ikw7BxzvB7NuWGaZY7KAOSTYr/7hJn98NXblvtW9Ac7
+ AdUV+qoZYSVb3z12K4LzaZGmTpREn7jgXkdl1kiCGX+RfV9pflAz3DSUhPYztrRKiAEO97/NV
+ V4Um83EL3MljsH4hf4Em+k0EfycuEajcxWktSZlffOilBmnGeLWiFc+4jX9gsR/+ux/NIbQM6
+ A8zrnXr7qDMBSNAfyqZdmmPvKAaNLag5GCfRh1Crzg==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,101 +71,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 15:00, Kevin Wolf wrote:
-> Am 03.03.2023 um 23:51 hat Maciej S. Szmigiero geschrieben:
->> On 8.02.2023 12:19, Cédric Le Goater wrote:
->>> On 2/7/23 13:48, Kevin Wolf wrote:
->>>> Am 07.02.2023 um 10:19 hat Cédric Le Goater geschrieben:
->>>>> On 2/7/23 09:38, Kevin Wolf wrote:
->>>>>> Am 06.02.2023 um 16:54 hat Cédric Le Goater geschrieben:
->>>>>>> On 1/20/23 13:25, Kevin Wolf wrote:
->>>>>>>> From: Xiang Zheng <zhengxiang9@huawei.com>
->>>>>>>>
->>>>>>>> Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
->>>>>>>> when using persistent UEFI variables on virt board. Actually we only use
->>>>>>>> a very small(non-zero) part of the memory while the rest significant
->>>>>>>> large(zero) part of memory is wasted.
->>>>>>>>
->>>>>>>> So this patch checks the block status and only writes the non-zero part
->>>>>>>> into memory. This requires pflash devices to use sparse files for
->>>>>>>> backends.
->>>>>>>>
->>>>>>>> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
->>>>>>>>
->>>>>>>> [ kraxel: rebased to latest master ]
->>>>>>>>
->>>>>>>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>>>>>>> Message-Id: <20221220084246.1984871-1-kraxel@redhat.com>
->>>>>>>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->>>>>>>> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
->>>>>>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>>>>>>
->>>>>>> This newly merged patch introduces a "regression" when booting an Aspeed
->>>>>>> machine. The following extra m25p80 patch (not yet merged) is required
->>>>>>> for the issue to show:
->>>>>>>
->>>>>>>      https://lore.kernel.org/qemu-devel/20221115151000.2080833-1-clg@kaod.org/
->>>>>>>
->>>>>>> U-Boot fails to find the filesystem in that case.
->>>>>>>
->>>>>>> It can be easily reproduced with the witherspoon-bmc machine and seems
->>>>>>> to be related to the use of a UBI filesystem. Other Aspeed machines not
->>>>>>> using UBI are not impacted.
->>>>>>>
->>>>>>> Here is a tentative fix. I don't know enough the block layer to explain
->>>>>>> what is happening :/
->>>>>>
->>>>>> I was puzzled for a moment, but...
->>>>>>
->>>>>>> @@ -39,7 +39,7 @@ static int blk_pread_nonzeroes(BlockBack
->>>>>>>                 return ret;
->>>>>>>             }
->>>>>>>             if (!(ret & BDRV_BLOCK_ZERO)) {
->>>>>>> -            ret = bdrv_pread(bs->file, offset, bytes,
->>>>>>
->>>>>> 'bs->file' rather than 'bs' really looks wrong. I think replacing that
->>>>>> would already fix the bug you're seeing.
->>>>>>
->>>>>> Just to be sure, how did you configure the block backend? bs->file would
->>>>>> happen to work more or less with raw over file-posix (which is probably
->>>>>> what Gerd tested), but I think it breaks with anything else.
->>>>>
->>>>> The command is  :
->>>>>
->>>>>     $ qemu-system-arm -M witherspoon-bmc -net user \
->>>>>      -drive file=/path/to/file.mtd,format=raw,if=mtd \
->>>>>      -nographic -serial mon:stdio -snapshot
->>>>>
->>>>> If I remove '-snapshot', all works fine.
->>>>
->>>> Ok, that makes sense then. -snapshot creates a temporary qcow2 overlay,
->>>> and then what your guest sees with bs->file is not the virtual disk
->>>> content of the qcow2 image, but the qcow2 file itself.
->>>
->>> yes. Same symptom with pflash devices, TCG and KVM. The guest hangs with -snapshot.
->>>
->>> C.
->>>
->>> qemu-system-aarch64 -M virt -smp 2 -cpu max -accel tcg,thread=multi -nographic -m 2G -drive if=pflash,format=raw,file=/usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw,readonly=on -drive if=pflash,format=raw,file=rhel9-varstore.img -device virtio-net,netdev=net0,bus=pcie.0,addr=0x3 -netdev user,id=net0 -drive file=rhel9-arm64.qcow2,if=none,id=disk,format=qcow2,cache=none -device virtio-blk-device,drive=disk -serial mon:stdio -snapshot
->>>
->>>
->>>
->>
->> +1 here for QEMU + KVM/x86: OVMF CODE file fails to load (is all zeroes)
->> with either "-snapshot" QEMU command line option or even with just "snapshot=on"
->> setting enabled on pflash0.
->>
->> Reverting this patch seems to fix the issue.
+Le 06/03/2023 à 10:59, Andreas Schwab a écrit :
+> Some programs want to match an actual task state character.
 > 
-> Hm, so we know the fix, but nobody has submitted it as an actual patch?
+> Signed-off-by: Andreas Schwab <schwab@suse.de>
+> ---
+>   linux-user/syscall.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 36fffd36ca..eb4c2c3162 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8127,6 +8127,9 @@ static int open_self_stat(CPUArchState *cpu_env, int fd)
+>               gchar *bin = g_strrstr(ts->bprm->argv[0], "/");
+>               bin = bin ? bin + 1 : ts->bprm->argv[0];
+>               g_string_printf(buf, "(%.15s) ", bin);
+> +        } else if (i == 2) {
+> +            /* task state */
+> +            g_string_assign(buf, "R "); /* we are running right now */
+>           } else if (i == 3) {
+>               /* ppid */
+>               g_string_printf(buf, FMT_pid " ", getppid());
 
-Sorry. I thought the solution was more complex and got pulled in other
-tasks ...
-
-> I'll send one...
+Applied to my linux-user-for-8.0 branch.
 
 Thanks,
-
-C.
+Laurent
 
 
