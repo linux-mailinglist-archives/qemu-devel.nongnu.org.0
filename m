@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C546AE75A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BC16AE7A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:59:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZaYm-0000hk-NA; Tue, 07 Mar 2023 11:53:08 -0500
+	id 1pZadF-0003l6-T2; Tue, 07 Mar 2023 11:57:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZaYk-0000h4-IX
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:53:06 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZadC-0003ko-TR
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:57:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZaYi-0000Ui-65
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:53:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=8QAJtqEl3JrDE0j+ts1sCEndEMDItUqUvzvk9KDukco=; b=cx/0jDuvqOqMFC735AeG/aB21f
- KRL/NcapnUQjbHGerQNN0uXN51QJJOI5tujYkshyBFJ4BuKlrqIculUqOHt0U/GMcDfATLp6AQKzk
- Op+veUT7rjqrPfhWvS8kVIjTVWV/jDPBd6hrDZKJ9vBGP8rsUBkkUsewh8cqfllxey2lNSBDY8+bG
- fgb8O1q1DRhuRK7WRpNzAnZGTxgb2AD3vlIxTgjG2IKv9quOYeQhon/eSK5iHA9PBOzOt4Ot6ShFa
- cUcGA2Eq6tMaLAekNrqVGmTSy97s+B4KfKjowwrkUTOvlmP+zgHzmQ2+d27lcAPCTi6DLV0WtqIcr
- U5nF1Hag==;
-Received: from [2001:8b0:10b:5:640c:634b:db90:9c87]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZaYb-006Zxh-MR; Tue, 07 Mar 2023 16:52:58 +0000
-Message-ID: <1ab939956031328a9a16fb4e76417e23f292e6ba.camel@infradead.org>
-Subject: Re: [RFC PATCH v1 07/25] hw/xen: Implement core
- serialize/deserialize methods for xenstore_impl
-From: David Woodhouse <dwmw2@infradead.org>
-To: paul@xen.org, qemu-devel@nongnu.org, Juan Quintela
- <quintela@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
- <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>,  xen-devel@lists.xenproject.org
-Date: Tue, 07 Mar 2023 16:52:56 +0000
-In-Reply-To: <e1e4f027-25bc-2e1c-4451-b4d304493f16@xen.org>
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-8-dwmw2@infradead.org>
- <5f03307a80c33b62380128bf3f638d47eca74357.camel@infradead.org>
- <e1e4f027-25bc-2e1c-4451-b4d304493f16@xen.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-2IMbsYB4D0UAYVqUNWOl"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZadB-0001sS-0q
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:57:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678208259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pC+ug/H1Uxkws8R1QX9zsY5D5DL85e3/lNmN+YkT+9w=;
+ b=hqmM8yTOIaBZCFcBw99OtKMiP10iZDEQBa4Pvgvv7EfDotrbdPd8WTUVos59B38/T7/EsP
+ 1a7AugMKBGFL4zybFHh4mMXVy3etA7YDZleYK8jhd5FQRg7lLAVIw048OvLCY/fxmdUE61
+ 79gxSnE/ckVNpXdDD3npFe4QU9RdZcU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-170-qR42YdGTMFiikOYdfumGpA-1; Tue, 07 Mar 2023 11:57:33 -0500
+X-MC-Unique: qR42YdGTMFiikOYdfumGpA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93580101B44E;
+ Tue,  7 Mar 2023 16:57:24 +0000 (UTC)
+Received: from [172.30.41.16] (unknown [10.22.16.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A0B01121314;
+ Tue,  7 Mar 2023 16:57:24 +0000 (UTC)
+Subject: [PATCH] vfio/migration: Rename entry points
+From: Alex Williamson <alex.williamson@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: alex.williamson@redhat.com, clg@redhat.com, yishaih@nvidia.com,
+ jgg@nvidia.com, joao.m.martins@oracle.com, avihaih@nvidia.com
+Date: Tue, 07 Mar 2023 09:57:23 -0700
+Message-ID: <167820819129.603802.2574672058630378188.stgit@omen>
+User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,169 +78,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Pick names that align with the section drivers should use them from,
+avoiding the confusion of calling a _finalize() function from _exit()
+and generalizing the actual _finalize() to handle removing the viommu
+blocker.
 
---=-2IMbsYB4D0UAYVqUNWOl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
 
-On Tue, 2023-03-07 at 16:39 +0000, Paul Durrant wrote:
-> On 07/03/2023 16:33, David Woodhouse wrote:
-> > On Thu, 2023-03-02 at 15:34 +0000, David Woodhouse wrote:
-> > > From: David Woodhouse <dwmw@amazon.co.uk>
-> > >=20
-> > > In fact I think we want to only serialize the contents of the domain'=
-s
-> > > path in /local/domain/${domid} and leave the rest to be recreated? Wi=
-ll
-> > > defer to Paul for that.
-> > >=20
-> > > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> >=20
-> > Paul, your Reviewed-by: on this one is conspicuous in its absence. I
-> > mentioned migration in the cover letter =E2=80=94 this much is working =
-fine,
-> > but it's the PV back ends that don't yet work.
-> >=20
-> > I'd quite like to merge the basic serialization/deserialization of
-> > XenStore itself, with the unit tests.
->=20
-> The patch is basically ok, I just think the serialization should be=20
-> limited to the guest nodes... filtering out those not owned by xen_domid=
-=20
-> would probably work for that.
+A minor follow-up to Joao's v5 series.
 
-Yeah, so let's just do this (as part of this patch #7) for now:
+ hw/vfio/common.c              |    2 +-
+ hw/vfio/migration.c           |    4 ++--
+ hw/vfio/pci.c                 |    6 +++---
+ include/hw/vfio/vfio-common.h |    6 +++---
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
---- a/hw/i386/kvm/xen_xenstore.c
-+++ b/hw/i386/kvm/xen_xenstore.c
-@@ -235,6 +235,7 @@ static int xen_xenstore_post_load(void *opaque, int
-ver)
-=20
- static const VMStateDescription xen_xenstore_vmstate =3D {
-     .name =3D "xen_xenstore",
-+    .unmigratable =3D 1, /* The PV back ends don't migrate yet */
-     .version_id =3D 1,
-     .minimum_version_id =3D 1,
-     .needed =3D xen_xenstore_is_needed,
-
-
-It means we can't migrate guests even if they're only using fully
-emulated devices... but I think that's a reasonable limitation until we
-implement it fully.
-
-
-
---=-2IMbsYB4D0UAYVqUNWOl
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA3MTY1MjU2WjAvBgkqhkiG9w0BCQQxIgQgx+3IQtT1
-emsAKrdHJOKEenFh+2XirI6v4+6rFi15xa0wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBpez8PJqeaTWKSvqIjFPUTqscccmrxMUlI
-WsYNiIGRcd2YCtJDjV/60uwfVQDYjQHxef5/q1ihfoKe8xCQ5H0ZUw1XyMTNkRFqgPGfJxHNJfwA
-Eumd31DwE3EC56RSeWrvd1dUYQwqWHZpG2aJO7bs84cgc9CwVPWInFXr53j0Mlp1P8Ci+XJLqucL
-NqayAahQSf4ypFvSrix8psBk1JS7o5NHD3K/8xqYzFS8pFnCzSQyeEAQdAeUciOEMUz34PNhnBgB
-8y2Mk1/rt+jLmzIvWEXik2WKjOzhLno3ZnqlbDCteHxxB8nivZgIMZWixOOklIMibevJP0teqZqj
-mhNLPXfXXrEvR+iDf2hsdD3ZsyI947yj7U3+iJKGDCXmft4bOp/GoUCVAWv0sjfHQCvxYmgWyTLm
-3DzLKLxFYSuE5OUc7KWp6vs5DjiG2RGNTz3dWSTpuXyxb3ZXBpuP7mpZxYHQd/ubdB1pomOafRKz
-EOwAcc+ZeCkREXfQeLUq8ceLU/86T3N+1wzCfO3QUAb4HaRoXySjTBdH5E0EDNPHlGPfTijMAyqq
-/V5ZkoKB72pZJme19ElnRTZQZdyaASldUQEdtP8CECt2hn1dTdfqISLPFICitupxoPLCkWHoMxH8
-bKSUht7J2EN9G/PYtG4clZOYfekmRDkeCXfCKIawpAAAAAAAAA==
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 2b9bcf70aa36..dddd7a8e40f8 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -447,7 +447,7 @@ int vfio_block_giommu_migration(Error **errp)
+     return ret;
+ }
+ 
+-void vfio_unblock_giommu_migration(void)
++void vfio_migration_finalize(void)
+ {
+     if (!giommu_migration_blocker ||
+         vfio_viommu_preset()) {
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 5d1e66f69194..40f5f3d0b194 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -631,7 +631,7 @@ int64_t vfio_mig_bytes_transferred(void)
+     return bytes_transferred;
+ }
+ 
+-int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
++int vfio_migration_realize(VFIODevice *vbasedev, Error **errp)
+ {
+     int ret = -ENOTSUP;
+ 
+@@ -669,7 +669,7 @@ add_blocker:
+     return ret;
+ }
+ 
+-void vfio_migration_finalize(VFIODevice *vbasedev)
++void vfio_migration_exit(VFIODevice *vbasedev)
+ {
+     if (vbasedev->migration) {
+         VFIOMigration *migration = vbasedev->migration;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 30a271eab38c..ec9a854361ac 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -3145,7 +3145,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     }
+ 
+     if (!pdev->failover_pair_id) {
+-        ret = vfio_migration_probe(vbasedev, errp);
++        ret = vfio_migration_realize(vbasedev, errp);
+         if (ret) {
+             error_report("%s: Migration disabled", vbasedev->name);
+         }
+@@ -3185,7 +3185,7 @@ static void vfio_instance_finalize(Object *obj)
+      */
+     vfio_put_device(vdev);
+     vfio_put_group(group);
+-    vfio_unblock_giommu_migration();
++    vfio_migration_finalize();
+ }
+ 
+ static void vfio_exitfn(PCIDevice *pdev)
+@@ -3204,7 +3204,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+     }
+     vfio_teardown_msi(vdev);
+     vfio_bars_exit(vdev);
+-    vfio_migration_finalize(&vdev->vbasedev);
++    vfio_migration_exit(&vdev->vbasedev);
+ }
+ 
+ static void vfio_pci_reset(DeviceState *dev)
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 009bec34c4bc..eed244f25f34 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -223,7 +223,6 @@ bool vfio_mig_active(void);
+ int vfio_block_multiple_devices_migration(Error **errp);
+ void vfio_unblock_multiple_devices_migration(void);
+ int vfio_block_giommu_migration(Error **errp);
+-void vfio_unblock_giommu_migration(void);
+ int64_t vfio_mig_bytes_transferred(void);
+ 
+ #ifdef CONFIG_LINUX
+@@ -247,7 +246,8 @@ int vfio_spapr_create_window(VFIOContainer *container,
+ int vfio_spapr_remove_window(VFIOContainer *container,
+                              hwaddr offset_within_address_space);
+ 
+-int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
+-void vfio_migration_finalize(VFIODevice *vbasedev);
++int vfio_migration_realize(VFIODevice *vbasedev, Error **errp);
++void vfio_migration_exit(VFIODevice *vbasedev);
++void vfio_migration_finalize(void);
+ 
+ #endif /* HW_VFIO_VFIO_COMMON_H */
 
 
---=-2IMbsYB4D0UAYVqUNWOl--
 
