@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D926F6ADE2A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8537A6ADE24
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:58:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVwn-0002vf-3x; Tue, 07 Mar 2023 06:57:37 -0500
+	id 1pZVx5-0004zQ-Hl; Tue, 07 Mar 2023 06:57:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwl-0002sM-UN
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pZVx2-0004nw-Ij
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pZVwk-00036k-82
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:35 -0500
+ id 1pZVx1-00038i-7T
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:57:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678190253;
+ s=mimecast20190719; t=1678190270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lu6WC4I8hNO27qRD5ujsocujWgXmoTYqycdVwyHBBEc=;
- b=jWeIcyvEhBWBtqR+YfAMGUN1lCRQZ35fpauA+dGOblfD22GvS3XmW/+ykGR7dE4NbsCVFp
- m13b09hl4fhOyvo9RgKh2fPrCi3RmkD6EM7ngnOCUfHHOLH9S1/KBA47ulot5hBlVEaXBU
- M1/ht/tNs6SFDPwCZXum7yo0/cNIQcA=
+ bh=U/4V+AvA/fQKPJ8Z8PltJAtGmk5zVH0xY1utFsaz2fw=;
+ b=In2bw4vFUgTj3/k0ofw8TQwK6J84e/bFhFKjMRT19RubopKTBSlIpqgeUh6Qesglt1Lw5S
+ oiyqMiuJXLDEcLCNhKRhLuQOvhc1G+HQBj0VvH1fzR8nARLScNrC3NSPoRVpDTKU9AYAay
+ UVYvlAC3nl3XhEgB1fQnmHX8rfvZbsU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-7-tpR4BcJ6MZuQNsbkUlJH2Q-1; Tue, 07 Mar 2023 06:57:32 -0500
-X-MC-Unique: tpR4BcJ6MZuQNsbkUlJH2Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-294-mywbVT2dOdGpE-d--tZ5FQ-1; Tue, 07 Mar 2023 06:57:36 -0500
+X-MC-Unique: mywbVT2dOdGpE-d--tZ5FQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF7623C10ED5;
- Tue,  7 Mar 2023 11:57:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1375438221C9;
+ Tue,  7 Mar 2023 11:57:36 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B61B3112132D;
- Tue,  7 Mar 2023 11:57:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DC1B400F8FA;
+ Tue,  7 Mar 2023 11:57:34 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,16 +50,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 11/18] ui/sdl: get the GL context from the window
-Date: Tue,  7 Mar 2023 15:56:30 +0400
-Message-Id: <20230307115637.2464377-12-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 12/18] ui/shader: fix #version directive must occur on
+ first line
+Date: Tue,  7 Mar 2023 15:56:31 +0400
+Message-Id: <20230307115637.2464377-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,31 +87,42 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-There is no guarantee to have a current GL context here. The current
-code seems to rely on the renderer using a GL backend, and to set a
-current GL context. But this is not always the case, for example if the
-renderer backend is DirectX.
-
-This change is enough to fix using virgl with sdl2 on win32, on my setup.
+ANGLE fails to compile shaders otherwise.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/sdl2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/shader/texture-blit-flip.vert | 1 -
+ ui/shader/texture-blit.frag      | 1 -
+ ui/shader/texture-blit.vert      | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 8cb77416af..f259e4c4d1 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -101,7 +101,7 @@ void sdl2_window_create(struct sdl2_console *scon)
-                                          flags);
-     scon->real_renderer = SDL_CreateRenderer(scon->real_window, -1, 0);
-     if (scon->opengl) {
--        scon->winctx = SDL_GL_GetCurrentContext();
-+        scon->winctx = SDL_GL_CreateContext(scon->real_window);
-     }
-     sdl_update_caption(scon);
- }
+diff --git a/ui/shader/texture-blit-flip.vert b/ui/shader/texture-blit-flip.vert
+index ba081fa5a6..f7a448d229 100644
+--- a/ui/shader/texture-blit-flip.vert
++++ b/ui/shader/texture-blit-flip.vert
+@@ -1,4 +1,3 @@
+-
+ #version 300 es
+ 
+ in vec2  in_position;
+diff --git a/ui/shader/texture-blit.frag b/ui/shader/texture-blit.frag
+index bfa202c22b..8ed95a46b6 100644
+--- a/ui/shader/texture-blit.frag
++++ b/ui/shader/texture-blit.frag
+@@ -1,4 +1,3 @@
+-
+ #version 300 es
+ 
+ uniform sampler2D image;
+diff --git a/ui/shader/texture-blit.vert b/ui/shader/texture-blit.vert
+index 6fe2744d68..fb48d70665 100644
+--- a/ui/shader/texture-blit.vert
++++ b/ui/shader/texture-blit.vert
+@@ -1,4 +1,3 @@
+-
+ #version 300 es
+ 
+ in vec2  in_position;
 -- 
 2.39.2
 
