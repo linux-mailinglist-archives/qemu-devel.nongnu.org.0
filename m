@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5B86AE59B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C671D6AE599
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:57:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZfZ-0006N0-TF; Tue, 07 Mar 2023 10:56:05 -0500
+	id 1pZZgP-0007PG-4q; Tue, 07 Mar 2023 10:56:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=rbq/=67=kaod.org=clg@ozlabs.org>)
- id 1pZZfW-0006Ke-Bq; Tue, 07 Mar 2023 10:56:02 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZgM-0007DJ-St
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:56:54 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=rbq/=67=kaod.org=clg@ozlabs.org>)
- id 1pZZfU-0000Tq-N9; Tue, 07 Mar 2023 10:56:02 -0500
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PWKmM5VVhz4xDv;
- Wed,  8 Mar 2023 02:55:47 +1100 (AEDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PWKmK6lLwz4x8y;
- Wed,  8 Mar 2023 02:55:45 +1100 (AEDT)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 5/5] hw/arm/aspeed: Modified BMC FRU byte data in yosemitev2
-Date: Tue,  7 Mar 2023 16:55:28 +0100
-Message-Id: <20230307155528.3655534-6-clg@kaod.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230307155528.3655534-1-clg@kaod.org>
-References: <20230307155528.3655534-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZZgL-0000em-7j
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:56:54 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MVe5c-1pypmA489s-00RVYJ; Tue, 07 Mar 2023 16:56:51 +0100
+Message-ID: <3902d4eb-9158-19aa-3686-bf04b0f5a85c@vivier.eu>
+Date: Tue, 7 Mar 2023 16:56:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 00/15] linux-user/sparc: Handle missing traps
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230216054516.1267305-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20230216054516.1267305-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=rbq/=67=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-Provags-ID: V03:K1:NnFSX8zwEvTxsFHVjB8nBZPdJnVddZ2PWSXELUXKCyJ7uzSCzBo
+ dKZoM1CO6NNsoOAtI6pWUBOxezfvGs2t0z4aLgSNFkbeUdBi5NObEhGPa8QX5fgR9B63BWn
+ MMfyKxIVe1j8EkSMu2JC0fRkcppg/hb3Nj3qesdaXvT1hvSDB4pSPwdSzVKTeOHCFWOBfnY
+ dOIW7/R6aPKIdQOk0dyRA==
+UI-OutboundReport: notjunk:1;M01:P0:utR3bs6ay5M=;onTyAvWtldKn/LoMWVGs9jNAYc+
+ MmYZOvcrruKNMx8P6gt7aHflWXnI7TGuTTZpM83kGoi8uq98/QPnEUUoxreZVQJLGQcRRFPPy
+ 44eG+uHHk3SP9PorWogbUe9z4lHPujYqt7g6HTBv4DsOQ9om8gNtweZNfR8MqukUfSGMU4cbm
+ eyZZGE6BOKCiMQ+1hZQsZWrNo6Iy90QytsYvWPqR4Z2OqNhLlSP+d2cdVkRjjCXyVxPnOT2NB
+ mp7CWmRvwrvpTsfpCBqJ81cp6n6gTyJPSQdsZoWD7KQhrKMyHljyidqeIf5dDPHcd7T5y4dEt
+ 9CYyONntHdekH9jVNrdYxXTNZD3f1SGq3bgL6OmbfCj3cU/kDNl6TW27HQiHA3R+0ahqsYu9q
+ OOqMZ9vkUhLgLM7tT+lX6zpd9etX9+fTk3s7J9JmkvYZOrmPFWduOXH1M9NAigk806uGEV8cp
+ nbOT8sJcpSZQYX+e7BOHSa9R5/C3ZZWoA4YsWL5SRqQDE35+eU9adGnBm/DwxHqdtGwuhHDTy
+ uGkZPDLM1m/bMqekfjp+eneVuUsvJUtPOpaDeQJh9bL0hSR0dxMsqdzrRJHFVvzdQz2lrlamI
+ pP7mFYzGFwdfn2uk8WiTkN+1KuETOLBpknRmy4BAjTU7Izm3VcktpH9ptBWiBl0NsjOSUE8lE
+ DkLDxbg4oszbHRcQU/FEUMHPMnBsvh5hHMk7WlnNXw==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,49 +70,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+Hi Richard,
 
-Modified BMC FRU data in yosemite v2 platform.
+I don't have the time to review your series, do you want I queue it in the linux-user branch and I 
+keep it if it passes my test suite?
 
-Tested: Tested and Verified in yosemitev2 platform.
+Thanks,
+Laurent
 
-Fixes: 34f73a81e6 ("hw/arm/aspeed: Adding new machine Yosemitev2 in QEMU")
-Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20230307104833.3587947-1-pkarthikeyan1509@gmail.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/arm/aspeed_eeprom.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
-index 2fb2d5dbb7..dc33a88a54 100644
---- a/hw/arm/aspeed_eeprom.c
-+++ b/hw/arm/aspeed_eeprom.c
-@@ -101,17 +101,17 @@ const uint8_t fby35_bmc_fruid[] = {
- /* Yosemite V2 BMC FRU */
- const uint8_t yosemitev2_bmc_fruid[] = {
-     0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
--    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
--    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
--    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x61,
-+    0x73, 0x65, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x20, 0x4d, 0x50, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
-     0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
--    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x2e, 0x30, 0x20, 0x45, 0x56, 0x54,
--    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x20, 0x4d, 0x50, 0x00, 0x00, 0x00,
-+    0x00, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-     0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-     0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
--- 
-2.39.2
+Le 16/02/2023 à 06:45, Richard Henderson a écrit :
+> Lots of missing trap codes for cpu_loop().
+> 
+> Changes for v2:
+>    - Fix v8plus syscall trap.
+>    - New patch to unify syscall error return via C flag.
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (15):
+>    linux-user/sparc: Raise SIGILL for all unhandled software traps
+>    linux-user/sparc: Tidy syscall trap
+>    linux-user/sparc: Tidy syscall error return
+>    linux-user/sparc: Use TT_TRAP for flush windows
+>    linux-user/sparc: Tidy window spill/fill traps
+>    linux-user/sparc: Fix sparc64_{get,set}_context traps
+>    linux-user/sparc: Handle software breakpoint trap
+>    linux-user/sparc: Handle division by zero traps
+>    linux-user/sparc: Handle getcc, setcc, getpsr traps
+>    linux-user/sparc: Handle priviledged opcode trap
+>    linux-user/sparc: Handle privilidged action trap
+>    linux-user/sparc: Handle coprocessor disabled trap
+>    linux-user/sparc: Handle unimplemented flush trap
+>    linux-user/sparc: Handle floating-point exceptions
+>    linux-user/sparc: Handle tag overflow traps
+> 
+>   linux-user/sparc/target_signal.h |   2 +-
+>   linux-user/syscall_defs.h        |   5 +
+>   target/sparc/cpu.h               |   3 +-
+>   linux-user/sparc/cpu_loop.c      | 190 ++++++++++++++++++++++++-------
+>   linux-user/sparc/signal.c        |  36 +++---
+>   5 files changed, 175 insertions(+), 61 deletions(-)
+> 
 
 
