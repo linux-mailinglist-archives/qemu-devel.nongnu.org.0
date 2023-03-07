@@ -2,91 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810386AD525
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B6A6AD534
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 04:00:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZNWQ-0008Br-7m; Mon, 06 Mar 2023 21:57:50 -0500
+	id 1pZNXL-0000Tn-NH; Mon, 06 Mar 2023 21:58:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZNWJ-0008Ba-FU
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:57:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pZNXE-0000A6-OK
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:58:42 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZNWH-0005j6-Hw
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:57:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678157860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jPnsCq3xkJ2EC4RMXyv2umenfxfRQRu8/QvIs4eCuD8=;
- b=gvUfkib3hk66eJ8p65/nQeXayZxZN82XhzV4zHl0N+YuwbLy7PfdwtReNCgmkLDnM1RICp
- fnx+XeBjpVA1uT+nS+hxZQiq1wZ8bIyLB61jV61NH9ACvgnvbKJodJNxFLq/MxJ9/kq0BM
- eFrorLFXdK6W8YBBvUbikhKKnk6RssA=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-507-jqtXQ_ipOvucpzg9fzWnMA-1; Mon, 06 Mar 2023 21:57:38 -0500
-X-MC-Unique: jqtXQ_ipOvucpzg9fzWnMA-1
-Received: by mail-il1-f198.google.com with SMTP id
- k13-20020a056e021a8d00b0031bae68b383so5232851ilv.18
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 18:57:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678157858;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jPnsCq3xkJ2EC4RMXyv2umenfxfRQRu8/QvIs4eCuD8=;
- b=gp9I2RDISPB8eh703Dt2BP5RT4fcoUSfIQXoNkwi35drZeRr3DLJ552wL+G6R1n4Td
- +dt5hmG1z83V5HQsBM0PokwuTUqn1rQiNaJbBhi/uX/Ytq/M0cKRqIvJ7uqWmLskYw1x
- hPFThctFTkP845zF4fgVgPom5lNswE/5qP9eGaYiM7gLxCcctriAlPmJCuT2Q4XjjKnN
- dNBXJOM/OYhUjtCvlEUcwAeTn8e4nrx8Gxbqg3TJ5/p/4IpIo3/AE++aUMKkivXrXuft
- h0gMhmzFsXLVbOfwSzaorplgAckXPzshY4G4FY6jwbFoHjKvJU4ZbzL9E73zjQhfx2P1
- ZWOA==
-X-Gm-Message-State: AO0yUKXGqYZ4tn3Ui6OZkdSpN/+2G18ETBtMgwWwJW2khW7iiX8vrLNe
- uMdF7pEECLnY6m6ZfRF2aK9g00OoIfWNr7b4tVc8j7MOIva/6qxXgjQu9mmIybG01oHwFPjN+Dj
- E/yc8P/Vv5YyzUOA=
-X-Received: by 2002:a05:6e02:1b0b:b0:314:20e6:133c with SMTP id
- i11-20020a056e021b0b00b0031420e6133cmr10220260ilv.3.1678157858159; 
- Mon, 06 Mar 2023 18:57:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set91OX/9rTH9TbTuoXuW3kzP2emYk2U9qfKEjN5MQJozUU28+mil2bNXNgrXiWup8SVb37Erug==
-X-Received: by 2002:a05:6e02:1b0b:b0:314:20e6:133c with SMTP id
- i11-20020a056e021b0b00b0031420e6133cmr10220245ilv.3.1678157857789; 
- Mon, 06 Mar 2023 18:57:37 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- i12-20020a02b68c000000b003a951542b10sm3821146jam.60.2023.03.06.18.57.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 18:57:37 -0800 (PST)
-Date: Mon, 6 Mar 2023 19:57:36 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-Subject: Re: [PATCH v4 08/14] vfio/common: Record DMA mapped IOVA ranges
-Message-ID: <20230306195736.3efc6980.alex.williamson@redhat.com>
-In-Reply-To: <20230307020258.58215-9-joao.m.martins@oracle.com>
-References: <20230307020258.58215-1-joao.m.martins@oracle.com>
- <20230307020258.58215-9-joao.m.martins@oracle.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pZNXA-0005n5-1a
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:58:40 -0500
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3270obCS032160; Tue, 7 Mar 2023 02:58:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=DzrwYl9J1SE3kUMcpWzQ+MH3ogFaNa678XNvxwH9rSM=;
+ b=aqklRVUJhzieXHGN+DtQ7g7PH4q2GwFKT87O4RyYGuZhJZ8ZYk6W8Dxw8ofr8aPRJzoa
+ hsyFYiPcRPsEl4S0EbyosN/OquA+fk69ydrq2Ihmn/B046hJszdFFahOF0bHuCUt9ZSJ
+ nJnswWccs5AHhur8z1nAK9RU/HRBBSqKFExLh8xCQ6/ZEpQX9MmSDiw/wpMToAa/fRrS
+ I7VjMxt/3AtswTotETkLGCEgGELLWTyya8Sb3TUAGpkpHGVYPOBlvuYDpc5PAP10bM7E
+ izrb/E7oT87yD5dyRQwBYa7tGYIBCbFvcwKPzlPEjA1mtMKqTren5JNlfJN8ApdxPWaZ /g== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p41916qp6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Mar 2023 02:58:32 +0000
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3272qoSd018008; 
+ Tue, 7 Mar 2023 02:58:31 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3p4fjsun8h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Mar 2023 02:58:31 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3272wVP8023780;
+ Tue, 7 Mar 2023 02:58:31 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.204.221])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3272wUQP023777
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Mar 2023 02:58:31 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
+ id BDA7467A; Mon,  6 Mar 2023 18:58:30 -0800 (PST)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH v6 00/14] Hexagon: COF overrides, new generator,
+ test/bug update
+Date: Mon,  6 Mar 2023 18:58:14 -0800
+Message-Id: <20230307025828.1612809-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 8ge_Cp4k5NxfjbX-Ts9ohxXiFvDl1b3U
+X-Proofpoint-GUID: 8ge_Cp4k5NxfjbX-Ts9ohxXiFvDl1b3U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-06_14,2023-03-06_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=728
+ clxscore=1015 impostorscore=0 bulkscore=0 spamscore=0 phishscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303070025
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,171 +107,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue,  7 Mar 2023 02:02:52 +0000
-Joao Martins <joao.m.martins@oracle.com> wrote:
-
-> According to the device DMA logging uAPI, IOVA ranges to be logged by
-> the device must be provided all at once upon DMA logging start.
-> 
-> As preparation for the following patches which will add device dirty
-> page tracking, keep a record of all DMA mapped IOVA ranges so later they
-> can be used for DMA logging start.
-> 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  hw/vfio/common.c              | 76 +++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events          |  1 +
->  include/hw/vfio/vfio-common.h | 13 ++++++
->  3 files changed, 90 insertions(+)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 3a6491dbc523..a9b1fc999121 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1334,11 +1334,87 @@ static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
->      return ret;
->  }
->  
-> +static void vfio_dirty_tracking_update(MemoryListener *listener,
-> +                                       MemoryRegionSection *section)
-> +{
-> +    VFIODirtyRanges *dirty = container_of(listener, VFIODirtyRanges, listener);
-> +    VFIODirtyTrackingRange *range = &dirty->ranges;
-> +    hwaddr max32 = UINT32_MAX - 1ULL;
-
-The -1 is wrong here, UINT32_MAX is (2^32 - 1)
-
-> +    hwaddr iova, end;
-> +
-> +    if (!vfio_listener_valid_section(section) ||
-> +        !vfio_get_section_iova_range(dirty->container, section,
-> +                                     &iova, &end, NULL)) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * The address space passed to the dirty tracker is reduced to two ranges:
-> +     * one for 32-bit DMA ranges, and another one for 64-bit DMA ranges.
-> +     * The underlying reports of dirty will query a sub-interval of each of
-> +     * these ranges.
-> +     *
-> +     * The purpose of the dual range handling is to handle known cases of big
-> +     * holes in the address space, like the x86 AMD 1T hole. The alternative
-> +     * would be an IOVATree but that has a much bigger runtime overhead and
-> +     * unnecessary complexity.
-> +     */
-> +    if (iova < max32 && end <= max32) {
-
-Nit, the first test is redundant, iova is necessarily less than end.
-
-> +        if (range->min32 > iova) {
-> +            range->min32 = iova;
-> +        }
-> +        if (range->max32 < end) {
-> +            range->max32 = end;
-> +        }
-> +        trace_vfio_device_dirty_tracking_update(iova, end,
-> +                                    range->min32, range->max32);
-> +    } else {
-> +        if (!range->min64 || range->min64 > iova) {
-
-The first test should be removed, we're initializing min64 to a
-non-zero value now, so if it's zero it's been set and we can't
-de-prioritize that set value.
-
-> +            range->min64 = iova;
-> +        }
-> +        if (range->max64 < end) {
-> +            range->max64 = end;
-> +        }
-> +        trace_vfio_device_dirty_tracking_update(iova, end,
-> +                                    range->min64, range->max64);
-> +    }
-> +
-> +    return;
-> +}
-> +
-> +static const MemoryListener vfio_dirty_tracking_listener = {
-> +    .name = "vfio-tracking",
-> +    .region_add = vfio_dirty_tracking_update,
-> +};
-> +
-> +static void vfio_dirty_tracking_init(VFIOContainer *container,
-> +                                     VFIODirtyRanges *dirty)
-> +{
-> +    memset(dirty, 0, sizeof(*dirty));
-> +    dirty->ranges.min32 = UINT32_MAX;
-> +    dirty->ranges.min64 = UINT64_MAX;
-> +    dirty->listener = vfio_dirty_tracking_listener;
-> +    dirty->container = container;
-> +
-
-I was actually thinking the caller would just pass
-VFIODirtyTrackingRange and VFIODirtyRanges would be allocated on the
-stack here, perhaps both are defined private to this file, but this
-works and we can refine later if we so decide.  Thanks,
-
-Alex
-
-
-> +    memory_listener_register(&dirty->listener,
-> +                             container->space->as);
-> +
-> +    /*
-> +     * The memory listener is synchronous, and used to calculate the range
-> +     * to dirty tracking. Unregister it after we are done as we are not
-> +     * interested in any follow-up updates.
-> +     */
-> +    memory_listener_unregister(&dirty->listener);
-> +}
-> +
->  static void vfio_listener_log_global_start(MemoryListener *listener)
->  {
->      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> +    VFIODirtyRanges dirty;
->      int ret;
->  
-> +    vfio_dirty_tracking_init(container, &dirty);
-> +
->      ret = vfio_set_dirty_page_tracking(container, true);
->      if (ret) {
->          vfio_set_migration_error(ret);
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 669d9fe07cd9..d97a6de17921 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -104,6 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_wi
->  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
->  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
->  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-> +vfio_device_dirty_tracking_update(uint64_t start, uint64_t end, uint64_t min, uint64_t max) "section 0x%"PRIx64" - 0x%"PRIx64" -> update [0x%"PRIx64" - 0x%"PRIx64"]"
->  vfio_disconnect_container(int fd) "close container->fd=%d"
->  vfio_put_group(int fd) "close group->fd=%d"
->  vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 87524c64a443..0f84136cceb5 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -96,6 +96,19 @@ typedef struct VFIOContainer {
->      QLIST_ENTRY(VFIOContainer) next;
->  } VFIOContainer;
->  
-> +typedef struct VFIODirtyTrackingRange {
-> +    hwaddr min32;
-> +    hwaddr max32;
-> +    hwaddr min64;
-> +    hwaddr max64;
-> +} VFIODirtyTrackingRange;
-> +
-> +typedef struct VFIODirtyRanges {
-> +    VFIOContainer *container;
-> +    VFIODirtyTrackingRange ranges;
-> +    MemoryListener listener;
-> +} VFIODirtyRanges;
-> +
->  typedef struct VFIOGuestIOMMU {
->      VFIOContainer *container;
->      IOMMUMemoryRegion *iommu_mr;
-
+VGhlIGlkZWYtcGFyc2VyIHNraXBzIHRoZSBjaGFuZ2Utb2YtZmxvdyAoQ09GKSBpbnN0cnVjdGlv
+bnMsIHNvIGFkZApvdmVycmlkZXMKClRoZSBuZXcgdG9vbGNoYWluIGFsbG93cyB1cyB0byBleGVj
+dXRlIHRoZSBIVlggdGVzdHMKCk5ldyBnZW5lcmF0b3IgZW5hYmxlcyBzaWduaWZpY2FudCBpbXBy
+b3ZlbWVudCB0byBUQ0cgZ2VuZXJhdGlvbiBmb3IKcHJlZGljYXRlZCBpbnN0cnVjdGlvbnMgYnkg
+cmVtb3ZpbmcgdGhlIG5lZWQgZm9yIHNsb3RfY2FuY2VsbGVkCgoqKioqIENoYW5nZXMgaW4gdjIg
+KioqKgpBZGQgYSBuZXcgZ2VuZXJhdG9yIGZvciBhbmFseXplXzx0YWc+IGluc3RydWN0aW9ucy4g
+IFBvdXBsYXRlIHRoZQpEaXNhc0NvbnRleHQgYWhlYWQgb2YgZ2VuZXJhdGluZyBjb2RlLgoKKioq
+KiBDaGFuZ2VzIGluIHYzICoqKioKQ2xlYW51cCBvZiBhbmFseXNpcyBjb2RlOgpBZGRlZCB0ZXN0
+IHVwZGF0ZXMgZW5hYmxlZCBieSBuZXcgdG9vbGNoYWluIGNvbnRhaW5lcgoKKioqKiBDaGFuZ2Vz
+IGluIHY0ICoqKioKQWRkaXRpb25hbCBwYXRjaCBmb3IgYnVnIGZpeApSZW1vdmUgcGt0X2hhc19z
+dG9yZV9zMSBmcm9tIHJ1bnRpbWUgc3RhdGUgd2l0aCBkZWFsbG9jLXJldHVybiBwYXRjaApOZXcg
+cGF0Y2hlcyB0byB1dGlsaXplIG5ldyBhbmFseXplciB0byBpbXByb3ZlIHByZWRpY2F0ZWQgaW5z
+dHJ1Y3Rpb25zCgoqKioqIENoYW5nZXMgaW4gdjUgKioqKgpEb24ndCByZW1vdmUgY29kZSB0aGF0
+IGlzIG5lZWRlZCBmb3IgLS1kaXNhYmxlLWhleGFnb24taWRlZi1wYXJzZXIgY29uZmlnCiAgICBw
+a3RfaGFzX3N0b3JlX3MxIHJ1bnRpbWUgZmllbGQgYW5kIG1lbV9sb2FkWzEyNDhdIGZ1bmN0aW9u
+cwpBZGQgdW5kZXJzdGFuZGluZyBvZiBpZGVmLXBhcnNlciB0byBhbmFseXplcgpBZGRpdGlvbmFs
+IHBhdGNoIHRvIGRldGVybWluZSB3aGVuIHBrdF9oYXNfc3RvcmVfczEgbmVlZHMgdG8gYmUgc2V0
+ClVwZGF0ZSBmR0VOX1RDR188dGFnPiB0byBwcmVzZXJ2ZSAtLWRpc2FibGUtaGV4YWdvbi1pZGVm
+LXBhcnNlciBjb25maWcKICAgIGluIFJlbW92ZSBnZW5fbG9nX3ByZWRpY2F0ZWRfcmVnX3dyaXRl
+W19wYWlyXSBwYXRjaApNb3ZlIHRjZ190ZW1wX2ZyZWVfaTY0IGludG8gZ2VuX2xvZ192cmVnX3dy
+aXRlCkFkZCBnZXRfcmVzdWx0X3FyZWcgZnVuY3Rpb24KCioqKiogQ2hhbmdlcyBpbiB2NiAqKioq
+CkFkZHJlc3MgZmVlZGJhY2sgZnJvbSBBbnRvbiBKb2hhbnNzb24gPGFuam9AcmV2Lm5nPgpBZGFw
+dCB0byBSaWNoYXJkIEhlbmRlcnNvbidzIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPiBy
+ZWNlbnQgcGF0Y2hlcwotIERvbid0IGNhbGwgdGNnX3RlbXBfbG9jYWxfKgotIERvbid0IGNhbGwg
+dGNnX3RlbXBfZnJlZV8qCgoKVGF5bG9yIFNpbXBzb24gKDE0KToKICBIZXhhZ29uICh0YXJnZXQv
+aGV4YWdvbikgQWRkIG92ZXJyaWRlcyBmb3IganVtcHIzMSBpbnN0cnVjdGlvbnMKICBIZXhhZ29u
+ICh0YXJnZXQvaGV4YWdvbikgQWRkIG92ZXJyaWRlcyBmb3IgY2FsbHIKICBIZXhhZ29uICh0YXJn
+ZXQvaGV4YWdvbikgQWRkIG92ZXJyaWRlcyBmb3IgZW5kbG9vcDEvZW5kbG9vcDAxCiAgSGV4YWdv
+biAodGFyZ2V0L2hleGFnb24pIEFkZCBvdmVycmlkZXMgZm9yIGRlYWxsb2MtcmV0dXJuIGluc3Ry
+dWN0aW9ucwogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBbmFseXplIHBhY2tldCBiZWZvcmUg
+Z2VuZXJhdGluZyBUQ0cKICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgRG9uJ3Qgc2V0IHBrdF9o
+YXNfc3RvcmVfczEgd2hlbiBub3QgbmVlZGVkCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFu
+YWx5emUgcGFja2V0IGZvciBIVlgKICBIZXhhZ29uICh0ZXN0cy90Y2cvaGV4YWdvbikgVXBkYXRl
+IHByZWdfYWxpYXMuYwogIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29uKSBSZW1vdmUgX19idWls
+dGluIGZyb20gc2NhdHRlcl9nYXRoZXIKICBIZXhhZ29uICh0ZXN0cy90Y2cvaGV4YWdvbikgRW5h
+YmxlIEhWWCB0ZXN0cwogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBDaGFuZ2Ugc3VidHJhY3Qg
+ZnJvbSB6ZXJvIHRvIGNoYW5nZSBzaWduCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIFJlbW92
+ZSBnZW5fbG9nX3ByZWRpY2F0ZWRfcmVnX3dyaXRlW19wYWlyXQogIEhleGFnb24gKHRhcmdldC9o
+ZXhhZ29uKSBSZWR1Y2UgbWFuaXB1bGF0aW9uIG9mIHNsb3RfY2FuY2VsbGVkCiAgSGV4YWdvbiAo
+dGFyZ2V0L2hleGFnb24pIEltcHJvdmUgY29kZSBnZW4gZm9yIHByZWRpY2F0ZWQgSFZYCiAgICBp
+bnN0cnVjdGlvbnMKCiB0YXJnZXQvaGV4YWdvbi9jcHUuaCAgICAgICAgICAgICAgICAgICAgICAg
+IHwgICA1ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmggICAgICAgICAgICAgICAgICAgIHwg
+IDgyICsrKy0KIHRhcmdldC9oZXhhZ29uL2dlbl90Y2dfaHZ4LmggICAgICAgICAgICAgICAgfCAg
+MTcgKy0KIHRhcmdldC9oZXhhZ29uL21hY3Jvcy5oICAgICAgICAgICAgICAgICAgICAgfCAgMjkg
+Ky0KIHRhcmdldC9oZXhhZ29uL29wX2hlbHBlci5oICAgICAgICAgICAgICAgICAgfCAgIDMgKy0K
+IHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5oICAgICAgICAgICAgICAgICAgfCAgODYgKystLQog
+dGFyZ2V0L2hleGFnb24vYXR0cmlic19kZWYuaC5pbmMgICAgICAgICAgICB8ICAgMSArCiB0YXJn
+ZXQvaGV4YWdvbi9nZW5wdHIuYyAgICAgICAgICAgICAgICAgICAgIHwgMjk2ICsrKysrKy0tLS0t
+CiB0YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9wYXJzZXItaGVscGVycy5jIHwgIDEyICstCiB0
+YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYyAgICAgICAgICAgICAgICAgIHwgIDYwICstLQogdGFy
+Z2V0L2hleGFnb24vdHJhbnNsYXRlLmMgICAgICAgICAgICAgICAgICB8IDI4OCArKysrKystLS0t
+LQogdGVzdHMvdGNnL2hleGFnb24vZnBzdHVmZi5jICAgICAgICAgICAgICAgICB8ICAzMSArLQog
+dGVzdHMvdGNnL2hleGFnb24vcHJlZ19hbGlhcy5jICAgICAgICAgICAgICB8ICAxMCArLQogdGVz
+dHMvdGNnL2hleGFnb24vc2NhdHRlcl9nYXRoZXIuYyAgICAgICAgICB8IDUxMyArKysrKysrKysr
+Ky0tLS0tLS0tLQogdGFyZ2V0L2hleGFnb24vUkVBRE1FICAgICAgICAgICAgICAgICAgICAgICB8
+ICAzMSArLQogdGFyZ2V0L2hleGFnb24vZ2VuX2FuYWx5emVfZnVuY3MucHkgICAgICAgICB8IDI1
+MiArKysrKysrKysrCiB0YXJnZXQvaGV4YWdvbi9nZW5faGVscGVyX2Z1bmNzLnB5ICAgICAgICAg
+IHwgIDE5ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5faGVscGVyX3Byb3Rvcy5weSAgICAgICAgIHwg
+IDEyICstCiB0YXJnZXQvaGV4YWdvbi9nZW5fdGNnX2Z1bmNzLnB5ICAgICAgICAgICAgIHwgMTUy
+ICsrKy0tLQogdGFyZ2V0L2hleGFnb24vaGV4X2NvbW1vbi5weSAgICAgICAgICAgICAgICB8ICAx
+MCArLQogdGFyZ2V0L2hleGFnb24vaWRlZi1wYXJzZXIvaWRlZi1wYXJzZXIubGV4ICB8ICAgNCAr
+LQogdGFyZ2V0L2hleGFnb24vaWRlZi1wYXJzZXIvaWRlZi1wYXJzZXIueSAgICB8ICAgNyArLQog
+dGFyZ2V0L2hleGFnb24vbWVzb24uYnVpbGQgICAgICAgICAgICAgICAgICB8ICAxMSArLQogdGVz
+dHMvdGNnL2hleGFnb24vTWFrZWZpbGUudGFyZ2V0ICAgICAgICAgICB8ICAxMyArLQogMjQgZmls
+ZXMgY2hhbmdlZCwgMTIwMSBpbnNlcnRpb25zKCspLCA3NDMgZGVsZXRpb25zKC0pCiBjcmVhdGUg
+bW9kZSAxMDA3NTUgdGFyZ2V0L2hleGFnb24vZ2VuX2FuYWx5emVfZnVuY3MucHkKCi0tIAoyLjI1
+LjEKCg==
 
