@@ -2,86 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D636AD4B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E4C6AD4B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 03:35:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZN8q-0007oF-Ps; Mon, 06 Mar 2023 21:33:28 -0500
+	id 1pZNA8-00005r-4S; Mon, 06 Mar 2023 21:34:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZN8p-0007nw-BA
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:33:27 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZN8n-0001M5-Rl
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 21:33:27 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id ay18so7187489pfb.2
- for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 18:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678156404;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Amxd7gErfJzZdzaWbBC3XeuwJHMgmNz2nH8AxeGgGgo=;
- b=WtqDtUms/vzjaa6U0frAbqffIqXKL1fB5CivE6TUT5hYi6rLesoecBzLFpMKXkVMOC
- ZjqgO53oV/IExlUFpHPVEoylXin4NfI4rX+sLeBbEWHW+sWT/C/xSf6pk+NzWpUGVVRo
- wOVXA+BCJX8jrmyUAyPnwMNAjawY3rzeBYri+QdJ1+aBgZVrIJ4Dg6oJVEOUilSUTcdP
- AFugSa7/cIQdtulRgrmbIVq6KEqPqEbPxwNps5763JR9hiYHyu2orzSCouNvHAcsWqOW
- gPOOM8rOem6rn/X9pRwngr+VtvzoXDQpprOm+uCUcWLgci93+2P4QtSYSD42iOY6MMT5
- IK8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678156404;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Amxd7gErfJzZdzaWbBC3XeuwJHMgmNz2nH8AxeGgGgo=;
- b=kMNdQ2xKgOYM6aqXF9LPfvRMpiR7lzKNk92SHMo0kyLDUgHNd1t5QG9ZkLH9BMWBRB
- ywKv+zGEUscD7bDWdQgthTA15gZ0UHglenVnFRdO05+8tirbF6McT/I9u3wwSnlHM80l
- w0nBWQ+JlRuJERpj4gLUGmelujaxBMKnNAEtzwnDXlsk3bBhAjhlUL/1YQ0C7/1/Yt4C
- E3UN7vP422mPX1cNMuvD0CZDNcZ6FxoIRp1eWRLWTNvUZcvGQazdT9IP3y6FxJXpE35D
- M9cIcClEvDI9InzyQxXtU+4wmDits6TVv21TCW/jyxa52hFxIEvH1OmsJFiUKI4WyEyI
- 8d8g==
-X-Gm-Message-State: AO0yUKXnEHeMweC/yah9M0o991Gnt2Z1DelC1Nq5DCrXTiewJ1Yxx7A8
- xx/BVLmPPqogdd5Ixj+ltV9IeiOZTGaYJDF9iac=
-X-Google-Smtp-Source: AK7set+M0w8YhV3g3xJ4z4w8/SzfYUUhlpOjjbqiVEXO6xbv62xlr2CqDO1YzAsRQ5bBPtxeuU0Uvw==
-X-Received: by 2002:a62:64cc:0:b0:5db:bade:cf18 with SMTP id
- y195-20020a6264cc000000b005dbbadecf18mr11805140pfb.13.1678156404281; 
- Mon, 06 Mar 2023 18:33:24 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb?
- ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
- by smtp.gmail.com with ESMTPSA id
- 19-20020aa79153000000b005d9984a947bsm6905157pfi.139.2023.03.06.18.33.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 18:33:23 -0800 (PST)
-Message-ID: <86b4c656-330a-fefe-5f8a-93ad01804ed9@linaro.org>
-Date: Mon, 6 Mar 2023 18:33:21 -0800
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pZNA4-000059-Lm; Mon, 06 Mar 2023 21:34:44 -0500
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pZNA1-0001R9-Rh; Mon, 06 Mar 2023 21:34:44 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R521e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VdJLSfx_1678156474; 
+Received: from 30.32.93.50(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VdJLSfx_1678156474) by smtp.aliyun-inc.com;
+ Tue, 07 Mar 2023 10:34:34 +0800
+Message-ID: <d6d230a5-2d99-7660-e1ce-3e49d04e30f8@linux.alibaba.com>
+Date: Tue, 7 Mar 2023 10:34:34 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3] target/arm: Add Neoverse-N1 registers
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH qemu] linux-user: Emulate /proc/cpuinfo output for riscv
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Chen Baozi <chenbaozi@phytium.com.cn>, qemu-devel@nongnu.org
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-References: <20230307021442.3915728-1-chenbaozi@phytium.com.cn>
- <d867ae79-0347-3f72-2dcc-e176ab809842@linaro.org>
-In-Reply-To: <d867ae79-0347-3f72-2dcc-e176ab809842@linaro.org>
+To: ~abordado <afonsobordado@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+References: <167811752616.21558.7117682501860352029-0@git.sr.ht>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <167811752616.21558.7117682501860352029-0@git.sr.ht>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.124;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-124.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,30 +66,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/6/23 18:29, Richard Henderson wrote:
-> On 3/6/23 18:14, Chen Baozi wrote:
->> Add implementation defined registers for neoverse-n1 which
->> would be accessed by TF-A. Since there is no DSU in Qemu,
->> CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
->>
->> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
->> Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
->> ---
->>   target/arm/cpu64.c     |  2 ++
->>   target/arm/cpu_tcg.c   | 66 ++++++++++++++++++++++++++++++++++++++++++
->>   target/arm/internals.h |  2 ++
->>   3 files changed, 70 insertions(+)
-> 
-> You really need to base on upstream master, as these files have moved.
 
-I beg your pardon, my mistake.  Only half of the patch set which moves these files was 
-applied.  I had to do my own rebase around file movement today, but these three are not 
-yet affected.
+On 2023/3/5 22:34, ~abordado wrote:
+> From: Afonso Bordado <afonsobordado@gmail.com>
+>
+> RISC-V does not expose all extensions via hwcaps, thus some userspace
+> applications may want to query these via /proc/cpuinfo.
+>
+> Currently when querying this file the host's file is shown instead
+> which is slightly confusing. Emulate a basic /proc/cpuinfo file
+> with mmu info and an ISA sting.
+>
+> Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
+> ---
+>   linux-user/syscall.c              | 32 +++++++++++++++++++++++++++++--
+>   tests/tcg/riscv64/Makefile.target |  1 +
+>   tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++++
+>   3 files changed, 61 insertions(+), 2 deletions(-)
+>   create mode 100644 tests/tcg/riscv64/cpuinfo.c
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index a6c426d73c..eda2bc5df0 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8183,7 +8183,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+>   }
+>   
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
+> +    defined(TARGET_RISCV)
+>   static int is_proc(const char *filename, const char *entry)
+>   {
+>       return strcmp(filename, entry) == 0;
+> @@ -8261,6 +8262,33 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   }
+>   #endif
+>   
+> +#if defined(TARGET_RISCV)
+> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+> +{
+> +    int i;
+> +    int num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+> +    RISCVCPU *cpu = env_archcpu(cpu_env);
 
-But do be aware that there is a potential conflict out there.
+Use this API:
 
-My comments re the placement of the array still apply.
+riscv_cpu_cfg(CPURISCVState *)
 
+> +    char *isa_string = riscv_isa_string(cpu);
+> +    bool is_32_bit = riscv_cpu_xlen(&cpu->env) == 32;
 
-r~
+Remove this statement.
+
+> +    const char *mmu;
+> +
+> +    if (cpu->cfg.mmu) {
+> +        mmu = (is_32_bit) ? "sv32" : "sv48";
+
+mmu = (cpu_env->xl == MXL_RV32) ? "sv32"  : "sv48"
+
+Zhiwei
+
+> +    } else {
+> +        mmu = "none";
+> +    }
+> +
+> +    for (i = 0; i < num_cpus; i++) {
+> +        dprintf(fd, "processor\t: %d\n", i);
+> +        dprintf(fd, "hart\t\t: %d\n", i);
+> +        dprintf(fd, "isa\t\t: %s\n", isa_string);
+> +        dprintf(fd, "mmu\t\t: %s\n", mmu);
+> +        dprintf(fd, "uarch\t\t: qemu\n\n");
+> +    }
+> +    return 0;
+> +}
+> +#endif
+> +
+>   #if defined(TARGET_M68K)
+>   static int open_hardware(CPUArchState *cpu_env, int fd)
+>   {
+> @@ -8285,7 +8313,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
+>           { "/proc/net/route", open_net_route, is_proc },
+>   #endif
+> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
+>           { "/proc/cpuinfo", open_cpuinfo, is_proc },
+>   #endif
+>   #if defined(TARGET_M68K)
+> diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
+> index cc3ed65ffd..df93a2ce1f 100644
+> --- a/tests/tcg/riscv64/Makefile.target
+> +++ b/tests/tcg/riscv64/Makefile.target
+> @@ -4,6 +4,7 @@
+>   VPATH += $(SRC_PATH)/tests/tcg/riscv64
+>   TESTS += test-div
+>   TESTS += noexec
+> +TESTS += cpuinfo
+>   
+>   # Disable compressed instructions for test-noc
+>   TESTS += test-noc
+> diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
+> new file mode 100644
+> index 0000000000..296abd0a8c
+> --- /dev/null
+> +++ b/tests/tcg/riscv64/cpuinfo.c
+> @@ -0,0 +1,30 @@
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <assert.h>
+> +
+> +#define BUFFER_SIZE 1024
+> +
+> +int main(void)
+> +{
+> +    char buffer[BUFFER_SIZE];
+> +    FILE *fp = fopen("/proc/cpuinfo", "r");
+> +    assert(fp != NULL);
+> +
+> +    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+> +        if (strstr(buffer, "processor") != NULL) {
+> +            assert(strstr(buffer, "processor\t: ") == buffer);
+> +        } else if (strstr(buffer, "hart") != NULL) {
+> +            assert(strstr(buffer, "hart\t\t: ") == buffer);
+> +        } else if (strstr(buffer, "isa") != NULL) {
+> +            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0);
+> +        } else if (strstr(buffer, "mmu") != NULL) {
+> +            assert(strcmp(buffer, "mmu\t\t: sv48\n") == 0);
+> +        } else if (strstr(buffer, "uarch") != NULL) {
+> +            assert(strcmp(buffer, "uarch\t\t: qemu\n") == 0);
+> +        }
+> +    }
+> +
+> +    fclose(fp);
+> +    return 0;
+> +}
 
