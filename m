@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45836AED6D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17456AED78
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:04:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbbP-0007dM-Ap; Tue, 07 Mar 2023 12:59:55 -0500
+	id 1pZbdt-0001Fi-L9; Tue, 07 Mar 2023 13:02:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbav-0006fi-Jf
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:59:27 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pZbdp-0000nS-AV
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:26 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbas-0000LA-Iq
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:59:25 -0500
-Received: by mail-pl1-x633.google.com with SMTP id h8so14979598plf.10
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:59:21 -0800 (PST)
+ id 1pZbdn-000140-9W
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:24 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so17336148pjg.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678211960;
+ d=linaro.org; s=google; t=1678212142;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+dzaTq4Hk7e5zysi1fCZtiBija1HdA1vnsnzcrh5iSw=;
- b=XeLF3vLhXrUNh3TpTRsanq0zbRtXNxNPhYF25Qh+7/jN49Om+pUQf/terH69iSa/te
- tQ5WKXcNdPDBjQJv3PJZ2jzs4Lh28VrrLrH+aKOJqKAZDVqCwPSLIotBQLz7wMxsX51w
- qMZtZf/LKNS5AXSIT2jr0d899Ex0pEcSRJErPiIZC+STyYqtYe5JzUNtfIx8IGADBeCg
- +IC2K49dT7c7DshlzvqjiBXdA3X82jwTaoNj/RHwmzvl2RNW+I/t+ANYeYSXSIBXLK8U
- DbFtwHt9rTN44r48MiSAUaoFi88mnB1dze7lVzA/TbgBdWEr7NVuALqYpxawNUatS2wP
- 6Thw==
+ bh=72Gt8OK2VyLNs6ANnBuBGIXyCtS9CGdXXO6mKP5rivM=;
+ b=A0eY3tz5/QPlbt9sO6LxbjqXFyn3nQ7IkoYS7hJZTbKJ5j5lLk4mAv21o1hq/X7+NR
+ gL+RpwCUsxXpCzP3moYqD/lZ1ReRVQrh42JqfuHFMxnyz41CtySfQFzxQVoAP9Nu6eZL
+ 3jyc/WybVdA4VYnB7y+MO0+6CsNCjtCQkS0FjE1CquvF4JdXoTAP2V4ZtK5tEBZ8xoWY
+ 4Wuxe2ZWbR4RYnf/++Qk1Jn4e1i90bMpREe2hnxZmyx2Y6NN2XM8rgMPRgO/yCbFzlOe
+ d06j0H5Z79U6bQH9VfHLqWpJUeaTBmRoCBhBTbIPwEsd38jAgCF56Zw8pA6eR/rQGVb5
+ VDmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678211960;
+ d=1e100.net; s=20210112; t=1678212142;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+dzaTq4Hk7e5zysi1fCZtiBija1HdA1vnsnzcrh5iSw=;
- b=01gvbrl6AAk7LgovcQ5Li1L2PRr6XmJ23MoevFQPADBMoFE52srw8lt508Alui2Ec3
- Hchz0uHuyGXhDSxrtzi00aNE5hIWZMW00z9LaXkUAzk/mndV5PQv2o+x5bSWa5JxzjBD
- ZYtZtbc2aqe8jt7TDI1IBPbiIgZxckZdvXrfIMjIG2A9d3vo3xEyY6aILOEey+kYUvVX
- WdPfWoaFaQ2hGHQvmY0xhF1GBjsJ35+cK0qZPVNPBYMQvoeybRTjmKuK5lrDwTQeGp/v
- H7O/yb7EBwSxzGRG84ZVPcwSU5Ospm8Q1rEaUQMGlw/MVcyp8deU7M1XMfupg6VQHkW6
- upQg==
-X-Gm-Message-State: AO0yUKW1MH5c6AZxqkLufIED2vE3mRJxMAautjSMS5eqPAi5v0Tm668G
- MA9zLnEdvRZQDKzy6m35G9Yq7knspk3UAcEoYdg=
-X-Google-Smtp-Source: AK7set9ICQNgauL8BX78e5jKZySPs56xfBm10eaeOipWsrsZgV/qVK9YFifnU9liyG2bWD1oA4lSqw==
-X-Received: by 2002:a17:902:f548:b0:19c:947c:8819 with SMTP id
- h8-20020a170902f54800b0019c947c8819mr20211106plf.59.1678211960741; 
- Tue, 07 Mar 2023 09:59:20 -0800 (PST)
+ bh=72Gt8OK2VyLNs6ANnBuBGIXyCtS9CGdXXO6mKP5rivM=;
+ b=M9B4uy0Am/47dOioVhhm8UnW8VaUKMaehMHKHdy5WWgniE3Gm+u7SuTrRe83oEtpkC
+ 0VGGXyAusg3DHsOnIlenaz4Wy3ZX4YY89cYAgAz6k8g7YBuwi3O6g0zebJlZUTvbNm34
+ t+sCPnT2fHvFC6SvwM75DFSeKw55V6xQDi0+Fn3AjzBrmX614fo/sobGemqk9x04/mLn
+ jwpBrZvjPpyFr8CbAam/a3kcsiUU+sDnzPS77nPd4SQMwFdVpcoXJQDI8TcxKmvS5khc
+ K7HebcdjdVTqJEVQDLWVwmzwTzW8K9zOzVhqdJYVTIItnP00N0gRXKykditXqe/pUPRg
+ 8mhw==
+X-Gm-Message-State: AO0yUKX6YqjCz5lCwHB+A+Kuncm9RF6DGhxTbiwxIgMIZXXujVkHqZh1
+ MnLJ/lA+l31uo3NLn5W+yxvugXKJhj1MfQRvBtE=
+X-Google-Smtp-Source: AK7set8zJrsA+5xCKMhk2nXcMRxVHGta8c/jG0XPXZgH8Ij3+skyrxmnLJ16MLjQLjNLqS7dFPqITA==
+X-Received: by 2002:a05:6a20:b712:b0:cc:a1dd:d0c1 with SMTP id
+ fg18-20020a056a20b71200b000cca1ddd0c1mr15370821pzb.50.1678212141969; 
+ Tue, 07 Mar 2023 10:02:21 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
- bd6-20020a170902830600b00198e397994bsm8661802plb.136.2023.03.07.09.59.20
+ z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 09:59:20 -0800 (PST)
+ Tue, 07 Mar 2023 10:02:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 39/67] target/avr: Avoid use of tcg_const_i32 in SBIC, SBIS
-Date: Tue,  7 Mar 2023 09:58:20 -0800
-Message-Id: <20230307175848.2508955-40-richard.henderson@linaro.org>
+Subject: [PULL 40/67] target/avr: Avoid use of tcg_const_i32 throughout
+Date: Tue,  7 Mar 2023 09:58:21 -0800
+Message-Id: <20230307175848.2508955-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307175848.2508955-1-richard.henderson@linaro.org>
 References: <20230307175848.2508955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,55 +93,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The use of separate data/port variables is existing
-practice elsewhere, e.g. SBI, CBI.
+All remaining uses are strictly read-only.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ target/avr/translate.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index b9506a8d86..190d0c3f97 100644
+index 190d0c3f97..a6aeae6dfa 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -1288,12 +1288,13 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
-  */
- static bool trans_SBIC(DisasContext *ctx, arg_SBIC *a)
+@@ -400,7 +400,7 @@ static bool trans_SUB(DisasContext *ctx, arg_SUB *a)
+ static bool trans_SUBI(DisasContext *ctx, arg_SUBI *a)
  {
--    TCGv temp = tcg_const_i32(a->reg);
-+    TCGv data = tcg_temp_new_i32();
+     TCGv Rd = cpu_r[a->rd];
+-    TCGv Rr = tcg_const_i32(a->imm);
++    TCGv Rr = tcg_constant_i32(a->imm);
+     TCGv R = tcg_temp_new_i32();
+ 
+     tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Imm */
+@@ -425,7 +425,7 @@ static bool trans_SBC(DisasContext *ctx, arg_SBC *a)
+     TCGv Rd = cpu_r[a->rd];
+     TCGv Rr = cpu_r[a->rr];
+     TCGv R = tcg_temp_new_i32();
+-    TCGv zero = tcg_const_i32(0);
++    TCGv zero = tcg_constant_i32(0);
+ 
+     tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
+     tcg_gen_sub_tl(R, R, cpu_Cf);
+@@ -453,9 +453,9 @@ static bool trans_SBC(DisasContext *ctx, arg_SBC *a)
+ static bool trans_SBCI(DisasContext *ctx, arg_SBCI *a)
+ {
+     TCGv Rd = cpu_r[a->rd];
+-    TCGv Rr = tcg_const_i32(a->imm);
++    TCGv Rr = tcg_constant_i32(a->imm);
+     TCGv R = tcg_temp_new_i32();
+-    TCGv zero = tcg_const_i32(0);
++    TCGv zero = tcg_constant_i32(0);
+ 
+     tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
+     tcg_gen_sub_tl(R, R, cpu_Cf);
+@@ -637,7 +637,7 @@ static bool trans_COM(DisasContext *ctx, arg_COM *a)
+ static bool trans_NEG(DisasContext *ctx, arg_NEG *a)
+ {
+     TCGv Rd = cpu_r[a->rd];
+-    TCGv t0 = tcg_const_i32(0);
++    TCGv t0 = tcg_constant_i32(0);
+     TCGv R = tcg_temp_new_i32();
+ 
+     tcg_gen_sub_tl(R, t0, Rd); /* R = 0 - Rd */
+@@ -930,19 +930,19 @@ static void gen_jmp_z(DisasContext *ctx)
+ static void gen_push_ret(DisasContext *ctx, int ret)
+ {
+     if (avr_feature(ctx->env, AVR_FEATURE_1_BYTE_PC)) {
+-        TCGv t0 = tcg_const_i32((ret & 0x0000ff));
++        TCGv t0 = tcg_constant_i32(ret & 0x0000ff);
+ 
+         tcg_gen_qemu_st_tl(t0, cpu_sp, MMU_DATA_IDX, MO_UB);
+         tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
+     } else if (avr_feature(ctx->env, AVR_FEATURE_2_BYTE_PC)) {
+-        TCGv t0 = tcg_const_i32((ret & 0x00ffff));
++        TCGv t0 = tcg_constant_i32(ret & 0x00ffff);
+ 
+         tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
+         tcg_gen_qemu_st_tl(t0, cpu_sp, MMU_DATA_IDX, MO_BEUW);
+         tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
+     } else if (avr_feature(ctx->env, AVR_FEATURE_3_BYTE_PC)) {
+-        TCGv lo = tcg_const_i32((ret & 0x0000ff));
+-        TCGv hi = tcg_const_i32((ret & 0xffff00) >> 8);
++        TCGv lo = tcg_constant_i32(ret & 0x0000ff);
++        TCGv hi = tcg_constant_i32((ret & 0xffff00) >> 8);
+ 
+         tcg_gen_qemu_st_tl(lo, cpu_sp, MMU_DATA_IDX, MO_UB);
+         tcg_gen_subi_tl(cpu_sp, cpu_sp, 2);
+@@ -1211,7 +1211,7 @@ static bool trans_CPC(DisasContext *ctx, arg_CPC *a)
+     TCGv Rd = cpu_r[a->rd];
+     TCGv Rr = cpu_r[a->rr];
+     TCGv R = tcg_temp_new_i32();
+-    TCGv zero = tcg_const_i32(0);
++    TCGv zero = tcg_constant_i32(0);
+ 
+     tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
+     tcg_gen_sub_tl(R, R, cpu_Cf);
+@@ -1238,7 +1238,7 @@ static bool trans_CPI(DisasContext *ctx, arg_CPI *a)
+ {
+     TCGv Rd = cpu_r[a->rd];
+     int Imm = a->imm;
+-    TCGv Rr = tcg_const_i32(Imm);
++    TCGv Rr = tcg_constant_i32(Imm);
+     TCGv R = tcg_temp_new_i32();
+ 
+     tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr */
+@@ -2124,7 +2124,7 @@ static bool trans_SPMX(DisasContext *ctx, arg_SPMX *a)
+ static bool trans_IN(DisasContext *ctx, arg_IN *a)
+ {
+     TCGv Rd = cpu_r[a->rd];
+-    TCGv port = tcg_const_i32(a->imm);
++    TCGv port = tcg_constant_i32(a->imm);
+ 
+     gen_helper_inb(Rd, cpu_env, port);
+     return true;
+@@ -2137,7 +2137,7 @@ static bool trans_IN(DisasContext *ctx, arg_IN *a)
+ static bool trans_OUT(DisasContext *ctx, arg_OUT *a)
+ {
+     TCGv Rd = cpu_r[a->rd];
+-    TCGv port = tcg_const_i32(a->imm);
++    TCGv port = tcg_constant_i32(a->imm);
+ 
+     gen_helper_outb(cpu_env, port, Rd);
+     return true;
+@@ -2405,7 +2405,7 @@ static bool trans_SWAP(DisasContext *ctx, arg_SWAP *a)
+ static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
+ {
+     TCGv data = tcg_temp_new_i32();
+-    TCGv port = tcg_const_i32(a->reg);
 +    TCGv port = tcg_constant_i32(a->reg);
  
--    gen_helper_inb(temp, cpu_env, temp);
--    tcg_gen_andi_tl(temp, temp, 1 << a->bit);
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_andi_tl(data, data, 1 << a->bit);
-     ctx->skip_cond = TCG_COND_EQ;
--    ctx->skip_var0 = temp;
-+    ctx->skip_var0 = data;
- 
-     return true;
- }
-@@ -1305,12 +1306,13 @@ static bool trans_SBIC(DisasContext *ctx, arg_SBIC *a)
-  */
- static bool trans_SBIS(DisasContext *ctx, arg_SBIS *a)
+     gen_helper_inb(data, cpu_env, port);
+     tcg_gen_ori_tl(data, data, 1 << a->bit);
+@@ -2420,7 +2420,7 @@ static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
+ static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
  {
--    TCGv temp = tcg_const_i32(a->reg);
-+    TCGv data = tcg_temp_new_i32();
+     TCGv data = tcg_temp_new_i32();
+-    TCGv port = tcg_const_i32(a->reg);
 +    TCGv port = tcg_constant_i32(a->reg);
  
--    gen_helper_inb(temp, cpu_env, temp);
--    tcg_gen_andi_tl(temp, temp, 1 << a->bit);
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_andi_tl(data, data, 1 << a->bit);
-     ctx->skip_cond = TCG_COND_NE;
--    ctx->skip_var0 = temp;
-+    ctx->skip_var0 = data;
- 
-     return true;
- }
+     gen_helper_inb(data, cpu_env, port);
+     tcg_gen_andi_tl(data, data, ~(1 << a->bit));
 -- 
 2.34.1
 
