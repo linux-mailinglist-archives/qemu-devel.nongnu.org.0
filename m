@@ -2,64 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1BE6AE6D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4982E6AE6D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:39:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZaK9-0007cl-P9; Tue, 07 Mar 2023 11:38:01 -0500
+	id 1pZaLD-0000FJ-69; Tue, 07 Mar 2023 11:39:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZaK7-0007aH-Gx
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:37:59 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZaLB-0000EO-8U
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:39:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pZaK5-0003Nr-Ov
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:37:59 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DF34D211D2;
- Tue,  7 Mar 2023 16:37:51 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 7 Mar
- 2023 17:37:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S00137bf3014-d49a-4b2d-9f0f-35ae05992ebc,
- D586700EEA543FC8D630564B717DAE7078976E4F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ef54354e-f3c6-37a9-1ddd-42caca106b44@kaod.org>
-Date: Tue, 7 Mar 2023 17:37:50 +0100
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pZaL9-0003ul-Du
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:39:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678207141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FWMrJp7S9zli1NVRsxNGT/VVEekAWEpWklQv46v7Su4=;
+ b=eFzhYIJixiPAjBhCeSaNAGr9wn6fQD46wFwuAqUV478KMI6AICrv+TKzhA1k7IYewoQjLM
+ YvWYc/Ao7REsTNA9rS74BUqvGBQQYdVkJ+oD/0Qb+nhaxvNk4L6wnG10ghTJu0abfOJW1V
+ 3LIJ74PgvyUCBtHk46D8micKKxC3bAI=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-35-LRIEP-nBNiKuNNppwxL8Fw-1; Tue, 07 Mar 2023 11:38:59 -0500
+X-MC-Unique: LRIEP-nBNiKuNNppwxL8Fw-1
+Received: by mail-il1-f197.google.com with SMTP id
+ j9-20020a056e02220900b0031d93dba5a9so4823361ilf.17
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:38:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678207134;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FWMrJp7S9zli1NVRsxNGT/VVEekAWEpWklQv46v7Su4=;
+ b=EXo8FMzqnDV4o7FXdDXZQ3VvL8BOlbx5pgdH3epVsyYwaaWJP2cgwkWGLfNl0yaHd/
+ OdLgZL1YGP4YUARAK0LMfRJbAw7z2fH91o3+rkM13D3YMsgver0KsL70Z66WeCujm60h
+ nEgi0U5L5IpcYrhZK5PhycfAQB0nBdtTVn5eDC8nGOYT8+AKwuIljqN939yFDZ+EC7D7
+ 9mrNu4TRCBpWcThh14qNj/08ZdLYD/CBWencOceRlnQ/CTO2u0vxWOEZEs8Ax2UA5r20
+ PYbZjSK1/if1g+l4e94PDUwSm2MjVD+famVnRUMZeXYXEPBqk4Y4xc4lqBB1dQZm9reG
+ 0/5Q==
+X-Gm-Message-State: AO0yUKU/FDKXVUugEIiK/Ue1Otu6U2jQEyL3nmWIZkS5bDAe8dnyT9jQ
+ E9Nr3iWZpWJZH6RYnpnOhz4QkQ5KBU3U4skVkq3jUv802QkAy3CQ4Xytln/t5tATDa8RZraYzyX
+ wJC3OTt4NFR2Sc8Q=
+X-Received: by 2002:a05:6e02:de7:b0:315:4a48:aaf with SMTP id
+ m7-20020a056e020de700b003154a480aafmr10978690ilj.14.1678207134522; 
+ Tue, 07 Mar 2023 08:38:54 -0800 (PST)
+X-Google-Smtp-Source: AK7set+maYVm5cekpTU1nTwOV14RDeGKMTMGggaPBWBW6g+WGaMng3ATOAFkIHwmhIGOZhd9TQGVLQ==
+X-Received: by 2002:a05:6e02:de7:b0:315:4a48:aaf with SMTP id
+ m7-20020a056e020de700b003154a480aafmr10978676ilj.14.1678207134218; 
+ Tue, 07 Mar 2023 08:38:54 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ h21-20020a02c735000000b003b7d56593d6sm4231108jao.160.2023.03.07.08.38.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 08:38:53 -0800 (PST)
+Date: Tue, 7 Mar 2023 09:38:51 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Cedric Le Goater <clg@redhat.com>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
+Subject: Re: [PATCH v5 13/15] vfio/migration: Block migration with vIOMMU
+Message-ID: <20230307093851.2d820df0.alex.williamson@redhat.com>
+In-Reply-To: <20230307125450.62409-14-joao.m.martins@oracle.com>
+References: <20230307125450.62409-1-joao.m.martins@oracle.com>
+ <20230307125450.62409-14-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PULL 2/5] pflash: Fix blk_pread_nonzeroes()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>
-References: <20230307155528.3655534-1-clg@kaod.org>
- <20230307155528.3655534-3-clg@kaod.org>
- <be44cfd0-d107-76a3-abe5-fba82d15a646@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <be44cfd0-d107-76a3-abe5-fba82d15a646@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 00ca6a21-b2ce-436c-bd50-87ee1f7e3e44
-X-Ovh-Tracer-Id: 7520729905972612003
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeikeehkeehheejgfffkeffveegleduffeiteejuefgfedtjeekgefgveffveeigfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpkhifohhlfhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,58 +103,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 17:22, Philippe Mathieu-Daudé wrote:
-> On 7/3/23 16:55, Cédric Le Goater wrote:
->> From: Kevin Wolf <kwolf@redhat.com>
->>
->> Commit a4b15a8b introduced a new function blk_pread_nonzeroes(). Instead
->> of reading directly from the root node of the BlockBackend, it reads
->> from its 'file' child node. This can happen to mostly work for raw
->> images (as long as the 'raw' format driver is in use, but not actually
->> doing anything), but it breaks everything else.
->>
->> Fix it to read from the root node instead.
->>
->> Fixes: a4b15a8b9ef25b44fa92a4825312622600c1f37c
-> 
-> You missed:
-> 
-> Tested-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-> Fixes: a4b15a8b9e ("pflash: Only read non-zero parts of backend image")
-> 
-> by 3min:
-> https://lore.kernel.org/qemu-devel/c5c82d88-df2a-e968-4d81-0da1cfa2ab09@maciej.szmigiero.name/
+On Tue,  7 Mar 2023 12:54:48 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
+> Migrating with vIOMMU will require either tracking maximum
+> IOMMU supported address space (e.g. 39/48 address width on Intel)
+> or range-track current mappings and dirty track the new ones
+> post starting dirty tracking. This will be done as a separate
+> series, so add a live migration blocker until that is fixed.
+>=20
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
+> ---
+>  hw/vfio/common.c              | 46 +++++++++++++++++++++++++++++++++++
+>  hw/vfio/migration.c           |  5 ++++
+>  hw/vfio/pci.c                 |  1 +
+>  include/hw/vfio/vfio-common.h |  2 ++
+>  4 files changed, 54 insertions(+)
+>=20
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 2639b393a781..2b9bcf70aa36 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -362,6 +362,7 @@ bool vfio_mig_active(void)
+>  }
+> =20
+>  static Error *multiple_devices_migration_blocker;
+> +static Error *giommu_migration_blocker;
+> =20
+>  static unsigned int vfio_migratable_device_num(void)
+>  {
+> @@ -413,6 +414,51 @@ void vfio_unblock_multiple_devices_migration(void)
+>      multiple_devices_migration_blocker =3D NULL;
+>  }
+> =20
+> +static bool vfio_viommu_preset(void)
+> +{
+> +    VFIOAddressSpace *space;
+> +
+> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
+> +        if (space->as !=3D &address_space_memory) {
+> +            return true;
+> +        }
+> +    }
+> +
+> +    return false;
+> +}
+> +
+> +int vfio_block_giommu_migration(Error **errp)
+> +{
+> +    int ret;
+> +
+> +    if (giommu_migration_blocker ||
+> +        !vfio_viommu_preset()) {
+> +        return 0;
+> +    }
+> +
+> +    error_setg(&giommu_migration_blocker,
+> +               "Migration is currently not supported with vIOMMU enabled=
+");
+> +    ret =3D migrate_add_blocker(giommu_migration_blocker, errp);
+> +    if (ret < 0) {
+> +        error_free(giommu_migration_blocker);
+> +        giommu_migration_blocker =3D NULL;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +void vfio_unblock_giommu_migration(void)
+> +{
+> +    if (!giommu_migration_blocker ||
+> +        vfio_viommu_preset()) {
+> +        return;
+> +    }
+> +
+> +    migrate_del_blocker(giommu_migration_blocker);
+> +    error_free(giommu_migration_blocker);
+> +    giommu_migration_blocker =3D NULL;
+> +}
+> +
+>  static void vfio_set_migration_error(int err)
+>  {
+>      MigrationState *ms =3D migrate_get_current();
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index a2c3d9bade7f..776fd2d7cdf3 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -634,6 +634,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error=
+ **errp)
+>          return ret;
+>      }
+> =20
+> +    ret =3D vfio_block_giommu_migration(errp);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+>      trace_vfio_migration_probe(vbasedev->name);
+>      return 0;
+> =20
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 939dcc3d4a9e..30a271eab38c 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3185,6 +3185,7 @@ static void vfio_instance_finalize(Object *obj)
+>       */
+>      vfio_put_device(vdev);
+>      vfio_put_group(group);
+> +    vfio_unblock_giommu_migration();
+>  }
 
-yes :) I waited for the CI to complete and didn't check my email before
-sending. If I respin, I will fix.
+Hmm, doesn't this mean we're adding the viommu migration blocker in
+common code but only removing it in pci code?  Granted that only PCI
+devices currently have IOMMUs, but ick.  Thanks,
 
-C.
-
-
-> 
->> Reported-by: Cédric Le Goater <clg@kaod.org>
->> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->> Message-Id: <20230307140230.59158-1-kwolf@redhat.com>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   hw/block/block.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/hw/block/block.c b/hw/block/block.c
->> index af0710e477..9f52ee6e72 100644
->> --- a/hw/block/block.c
->> +++ b/hw/block/block.c
->> @@ -39,8 +39,7 @@ static int blk_pread_nonzeroes(BlockBackend *blk, hwaddr size, void *buf)
->>               return ret;
->>           }
->>           if (!(ret & BDRV_BLOCK_ZERO)) {
->> -            ret = bdrv_pread(bs->file, offset, bytes,
->> -                             (uint8_t *) buf + offset, 0);
->> +            ret = blk_pread(blk, offset, bytes, (uint8_t *) buf + offset, 0);
->>               if (ret < 0) {
->>                   return ret;
->>               }
-> 
+Alex
 
 
