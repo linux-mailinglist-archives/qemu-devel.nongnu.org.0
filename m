@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A343A6AE2D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F236AE2D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:39:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYSf-0005P7-3o; Tue, 07 Mar 2023 09:38:41 -0500
+	id 1pZYSV-0005Iy-AJ; Tue, 07 Mar 2023 09:38:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZYSP-0005I3-1G
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:38:26 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pZYSN-0005Hh-LL
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:38:23 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZYSM-0000ag-7A
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:38:24 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso10590878wmb.0
+ id 1pZYSL-0000ah-Sc
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:38:23 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ d41-20020a05600c4c2900b003e9e066550fso7322551wmp.4
  for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:38:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678199900;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fe2e5i1Oo/hYejnJYYGHH9g6ZkTYL+pBlAahG6PXsbo=;
- b=Ymjq3f0kfcTVAxudFaC1TaeVXHDSbAaSXAukNrYyH+koWNpLQrE7gNG7i57J3PnCRN
- XGtEI645YxmblhHDrWfN9tZ0DsdVEQTbVC7/sQI4RZYRbPtFhWj/a6PtIwUgXnosS/i5
- DrXM6rARPu+w66gSpfH0HHiyUgm/ovSOs0pxKYwWTyTTpxkIhLzkjqH/F/gd7Ym4mlP2
- m/2kjDUAiNMElTAA4CiMnq/waqaofAAbM17xOvnkR8YlxiIgr/Iq9vIH7XzixpAEX9ka
- dUDekV7t9cx2WaKrs+rkOvRwaq//0Ad7NkmBL+oFp/RAnC/JJlYaaeKQhWI/KaM4LO0m
- gfTw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yVuBcx8bAraesXJzVw4/vy4BNkiyUUyDJuqC6B8blNU=;
+ b=koA48cWXYvlG5bLr7936ZXfUU4EziMOhDULPie8qBo1f5NZ32LrVhZyonBX6r2EPn5
+ P1df5c1EvPOmuGhGsIr7r5GMBXNPxH8AoDhZPYVKrTZDF5Ju6EfP41OnxM09n0fu5scT
+ SJwjHwxuySGo0tWD/Fx+yhGyTbb4a/vN+++YIjlElRS3iFkWp40CYUBp9nrzDPBwn/5M
+ 1env4Xhz6Gmjlrmq2B6ydE/xg0MeYBPsbR4Gj/k0rGXXctL5gm1D0C8JnsoQydAdAW1I
+ jYmMol7LK2uAgooxXW5qzYIzAfTEDhb80RgSHukM3oyIBlxCqGqVw7+OsBnEFhXSIe9X
+ eD1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678199900;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fe2e5i1Oo/hYejnJYYGHH9g6ZkTYL+pBlAahG6PXsbo=;
- b=0v0aO8DhADRgX8XWbNoaJlm7usAuyUxvH49dRjlfCd9yK1PqWf/KTUeCADQUzPDCvC
- Pv8o+ZsvEg/2nZmwLN58yKA2N8rQaR77IscstM3t9d061SlRu/auSBu0Mk6Vo11NKeLB
- h3fzQx0PH4k2AtoyriKfg1tyTXP3hxs6dB5RQ7qaSvilWCdz5B9y5pk2QvcqJy9btDWG
- EjpgfJWDHKe4jfZhyK4Sx1wEnKUqClawYwKpvExZkTC5sAhosSMU+dom1L7CitNuRDzN
- Agoqpr5vhVd4jTp+gDZEkrHfA5NY7aW9lfE39twrM48fAbm9L+KFuuxZMB3Xjr8BQu1a
- HCuA==
-X-Gm-Message-State: AO0yUKXJSTqbKMhnoQi9L4fFl/DRrH9ZnYDgz/S9ANa6ZBqsvSqVGs+w
- pzsB1zRIYNFwcmOdT/XoWWII8w==
-X-Google-Smtp-Source: AK7set/FXbPLwFKxOjOcAUNyIZQbvaTfKeo3loA+/N9+lSYyQsrAXYjp09OGvgvrntYtIvX7Bo3JsA==
-X-Received: by 2002:a05:600c:474b:b0:3dd:1c46:b92 with SMTP id
- w11-20020a05600c474b00b003dd1c460b92mr14451066wmo.16.1678199900121; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yVuBcx8bAraesXJzVw4/vy4BNkiyUUyDJuqC6B8blNU=;
+ b=bPuuvY6LBSxDHDKs9mex5lhBLLz5n8Us398NUc8BSjP8BN8rQYy7fcyH7rd+KnSdQn
+ Ru2r5S5TC4Vn/tEDT5fRbLQPxJqwYC2WEfIkGw83/TJj/r6AUsRJIqjsDsHUT8XtQ/qX
+ kef105Fqv46L3MlAYJ8A8gj6H3P0U+2aMO/hSeZ8wHUutSEb3k0qM8svNSyWJ7sOmEKj
+ 3hg8216yFWKu9wga+6HQraURZIJDqY4rtchXWNKzjwi0yRxFVn/9YNSSlvKxZXDbwAGB
+ U+2C4fTEjxwAqs16QI2TemA8C/rbcM/NGB2amnwyTkj8FYGceE2RoAilKNUbzBW+gUWG
+ Ov6Q==
+X-Gm-Message-State: AO0yUKW+gJfGkwVIQth1HQlvTbY9LWCgukFI+jZwUt/lJPlJYsGxMOdy
+ hl3+Zbi4xWxRxwNFOeNlrdgaEHttnQg1qLwbCBk=
+X-Google-Smtp-Source: AK7set9z2LccKjide8whhxzgSYNE8q2ss1WHR8pqRuI1uNH6N5XFSW2u6OUSD3T/NxOCuOn2ziBISw==
+X-Received: by 2002:a05:600c:3c8a:b0:3ea:dc39:e8b1 with SMTP id
+ bg10-20020a05600c3c8a00b003eadc39e8b1mr12989854wmb.12.1678199900252; 
  Tue, 07 Mar 2023 06:38:20 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- n37-20020a05600c3ba500b003e2052bad94sm18798790wms.33.2023.03.07.06.38.19
+ hg13-20020a05600c538d00b003d9aa76dc6asm16858715wmb.0.2023.03.07.06.38.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 06:38:19 -0800 (PST)
+ Tue, 07 Mar 2023 06:38:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 60BFA1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 7BD591FFB8;
  Tue,  7 Mar 2023 14:38:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -70,16 +71,20 @@ Cc: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/5] testing/next: docker, ansible
-Date: Tue,  7 Mar 2023 14:38:14 +0000
-Message-Id: <20230307143819.510186-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ qemu-arm@nongnu.org (open list:Virt)
+Subject: [PATCH 1/5] tests/avocado: update AArch64 tests to Alpine 3.17.2
+Date: Tue,  7 Mar 2023 14:38:15 +0000
+Message-Id: <20230307143819.510186-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230307143819.510186-1-alex.bennee@linaro.org>
+References: <20230307143819.510186-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,31 +107,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A quick fix to docker which should help layer re-use. I was also
-trying to get the KVM version of the boot_linux.py tests running on
-the centos8-stream machine so we could disable the TCG equivalents.
-Unfortunately this doesn't help as the TCG versions exercise both the
-fdc emulation and the out-of-kernel APIC emulation. We may not care
-too much about the fdc coverage but it would be awesome if we could
-find a better way of exercising the x86 interrupt controller code than
-running a very slow distro boot.
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 
-Alex Bennée (4):
-  tests/docker: all add DOCKER_BUILDKIT to RUNC environment
-  scripts/ci: add libslirp-devel to build-environment
-  scripts/ci: update gitlab-runner playbook to handle CentOS
-  gitlab: update centos-8-stream job
+To test Alpine boot on SBSA-Ref target we need Alpine Linux
+'standard' image as 'virt' one lacks kernel modules.
 
-Marcin Juszkiewicz (1):
-  tests/avocado: update AArch64 tests to Alpine 3.17.2
+So to minimalize Avocado cache I move test to 'standard' image.
 
- .../custom-runners/centos-stream-8-x86_64.yml | 18 ++++++-----------
- .../org.centos/stream/8/build-environment.yml |  1 +
- scripts/ci/setup/gitlab-runner.yml            | 20 +++++++++++++++++--
- tests/avocado/machine_aarch64_virt.py         |  8 ++++----
- tests/docker/Makefile.include                 |  2 +-
- 5 files changed, 30 insertions(+), 19 deletions(-)
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Message-Id: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
+---
+ tests/avocado/machine_aarch64_virt.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machine_aarch64_virt.py
+index 25dab8dc00..a90dc6ff4b 100644
+--- a/tests/avocado/machine_aarch64_virt.py
++++ b/tests/avocado/machine_aarch64_virt.py
+@@ -38,11 +38,11 @@ def test_alpine_virt_tcg_gic_max(self):
+         :avocado: tags=accel:tcg
+         """
+         iso_url = ('https://dl-cdn.alpinelinux.org/'
+-                   'alpine/v3.16/releases/aarch64/'
+-                   'alpine-virt-3.16.3-aarch64.iso')
++                   'alpine/v3.17/releases/aarch64/'
++                   'alpine-standard-3.17.2-aarch64.iso')
+ 
+         # Alpine use sha256 so I recalculated this myself
+-        iso_sha1 = '0683bc089486d55c91bf6607d5ecb93925769bc0'
++        iso_sha1 = '76284fcd7b41fe899b0c2375ceb8470803eea839'
+         iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
+ 
+         self.vm.set_console()
+@@ -65,7 +65,7 @@ def test_alpine_virt_tcg_gic_max(self):
+         self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
+ 
+         self.vm.launch()
+-        self.wait_for_console_pattern('Welcome to Alpine Linux 3.16')
++        self.wait_for_console_pattern('Welcome to Alpine Linux 3.17')
+ 
+ 
+     def common_aarch64_virt(self, machine):
 -- 
 2.39.2
 
