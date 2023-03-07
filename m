@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727C36AD817
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70336AD82E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:16:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZRSd-0001lJ-CB; Tue, 07 Mar 2023 02:10:11 -0500
+	id 1pZRSh-00029y-Ns; Tue, 07 Mar 2023 02:10:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZRSW-0001K7-Hf
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:10:04 -0500
+ id 1pZRSf-00024E-HN
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:10:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZRSU-0005W3-7i
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:10:04 -0500
+ id 1pZRSc-0005aR-Bd
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 02:10:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678173001;
+ s=mimecast20190719; t=1678173008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o8xSggReEU/nw1c3lruKlg4un0UjiQ6zg6cco5vYTHI=;
- b=KyyypEEHaxepbf/NWftCSHWKKsnJjAHkT7IjJ1jCRf/EidO0TYwvZCEvEQ5oJDcUZYwApV
- kasPn+du/Tv5yLkeFqWnbfRBaCiu7Q36bvxg+Q8xWEw8wuJ1/VQsZK9I63UDeRgOxFANYM
- SkU9ThtZ+HdYR7GzR+tkmSV+H4kfJIU=
+ bh=L0OAKe4TeNY4XcTbpzb3pedDH1GN6xQ+CArnb42Uvh8=;
+ b=N9PuHNK1Rpy4wp0YsECQjw/pJJpm0VB0mfEWjy5SCwTW0C1E7fPqxpLZWGJsH7UVAIenZ0
+ GIpF74HqVnypUyZjrs0cdgMgiItXOLW0RA5afBzR+iXNPfVESDQQhj+BUSKP01vFzI/HEj
+ 11W89UBiiu0xN82CvmrHL9SropxokrI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-EMoBq-r2PgetsL1rPzQlzw-1; Tue, 07 Mar 2023 02:10:00 -0500
-X-MC-Unique: EMoBq-r2PgetsL1rPzQlzw-1
+ us-mta-125-LWFfLnCaMnCENILY1NtZ-g-1; Tue, 07 Mar 2023 02:10:03 -0500
+X-MC-Unique: LWFfLnCaMnCENILY1NtZ-g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C31EB38123A5;
- Tue,  7 Mar 2023 07:09:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 099E33C10C61;
+ Tue,  7 Mar 2023 07:10:03 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-78.pek2.redhat.com [10.72.12.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D243F40C10FA;
- Tue,  7 Mar 2023 07:09:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 028DD4014D1B;
+ Tue,  7 Mar 2023 07:10:00 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 23/51] hw/net/net_rx_pkt: Remove net_rx_pkt_has_virt_hdr
-Date: Tue,  7 Mar 2023 15:07:48 +0800
-Message-Id: <20230307070816.34833-24-jasowang@redhat.com>
+Subject: [PULL 24/51] e1000e: Perform software segmentation for loopback
+Date: Tue,  7 Mar 2023 15:07:49 +0800
+Message-Id: <20230307070816.34833-25-jasowang@redhat.com>
 In-Reply-To: <20230307070816.34833-1-jasowang@redhat.com>
 References: <20230307070816.34833-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -81,204 +81,330 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-When virtio-net header is not set, net_rx_pkt_get_vhdr() returns
-zero-filled virtio_net_hdr, which is actually valid. In fact, tap device
-uses zero-filled virtio_net_hdr when virtio-net header is not provided
-by the peer. Therefore, we can just remove net_rx_pkt_has_virt_hdr() and
-always assume NetTxPkt has a valid virtio-net header.
+e1000e didn't perform software segmentation for loopback if virtio-net
+header is enabled, which is wrong.
+
+To fix the problem, introduce net_tx_pkt_send_custom(), which allows the
+caller to specify whether offloading should be assumed or not.
+
+net_tx_pkt_send_custom() also allows the caller to provide a custom
+sending function. Packets with virtio-net headers and ones without
+virtio-net headers will be provided at the same time so the function
+can choose the preferred version. In case of e1000e loopback, it prefers
+to have virtio-net headers as they allows to skip the checksum
+verification if VIRTIO_NET_HDR_F_DATA_VALID is set.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 16 ++++------------
- hw/net/net_rx_pkt.c  | 11 +----------
- hw/net/net_rx_pkt.h  | 12 +-----------
- hw/net/trace-events  |  1 -
- hw/net/virtio-net.c  |  2 +-
- hw/net/vmxnet3.c     | 12 ++----------
- 6 files changed, 9 insertions(+), 45 deletions(-)
+ hw/net/e1000e_core.c | 27 +++++++++++++++++--
+ hw/net/net_rx_pkt.c  |  7 +++++
+ hw/net/net_rx_pkt.h  |  8 ++++++
+ hw/net/net_tx_pkt.c  | 76 +++++++++++++++++++++++++---------------------------
+ hw/net/net_tx_pkt.h  | 21 ++++++++-------
+ 5 files changed, 88 insertions(+), 51 deletions(-)
 
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 954a007..95245c4 100644
+index 95245c4..ff93547 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -1240,12 +1240,6 @@ e1000e_build_rx_metadata(E1000ECore *core,
-         goto func_exit;
-     }
- 
--    if (!net_rx_pkt_has_virt_hdr(pkt)) {
--        trace_e1000e_rx_metadata_no_virthdr();
--        e1000e_verify_csum_in_sw(core, pkt, status_flags, istcp, isudp);
--        goto func_exit;
--    }
--
-     vhdr = net_rx_pkt_get_vhdr(pkt);
- 
-     if (!(vhdr->flags & VIRTIO_NET_HDR_F_DATA_VALID) &&
-@@ -1671,12 +1665,10 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
- static inline void
- e1000e_rx_fix_l4_csum(E1000ECore *core, struct NetRxPkt *pkt)
- {
--    if (net_rx_pkt_has_virt_hdr(pkt)) {
--        struct virtio_net_hdr *vhdr = net_rx_pkt_get_vhdr(pkt);
-+    struct virtio_net_hdr *vhdr = net_rx_pkt_get_vhdr(pkt);
- 
--        if (vhdr->flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
--            net_rx_pkt_fix_l4_csum(pkt);
--        }
-+    if (vhdr->flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
-+        net_rx_pkt_fix_l4_csum(pkt);
-     }
- }
- 
-@@ -3379,7 +3371,7 @@ e1000e_core_pci_realize(E1000ECore     *core,
-         net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_FRAGS);
-     }
- 
--    net_rx_pkt_init(&core->rx_pkt, core->has_vnet);
-+    net_rx_pkt_init(&core->rx_pkt);
- 
-     e1000x_core_prepare_eeprom(core->eeprom,
-                                eeprom_templ,
-diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
-index 1e1c504..b309c2f 100644
---- a/hw/net/net_rx_pkt.c
-+++ b/hw/net/net_rx_pkt.c
-@@ -30,7 +30,6 @@ struct NetRxPkt {
-     uint32_t tot_len;
-     uint16_t tci;
-     size_t ehdr_buf_len;
--    bool has_virt_hdr;
-     eth_pkt_types_e packet_type;
- 
-     /* Analysis results */
-@@ -48,10 +47,9 @@ struct NetRxPkt {
-     eth_l4_hdr_info  l4hdr_info;
+@@ -61,6 +61,10 @@ union e1000_rx_desc_union {
+     union e1000_rx_desc_packet_split packet_split;
  };
  
--void net_rx_pkt_init(struct NetRxPkt **pkt, bool has_virt_hdr)
-+void net_rx_pkt_init(struct NetRxPkt **pkt)
- {
-     struct NetRxPkt *p = g_malloc0(sizeof *p);
--    p->has_virt_hdr = has_virt_hdr;
-     p->vec = NULL;
-     p->vec_len_total = 0;
-     *pkt = p;
-@@ -472,13 +470,6 @@ bool net_rx_pkt_is_vlan_stripped(struct NetRxPkt *pkt)
-     return pkt->ehdr_buf_len ? true : false;
++static ssize_t
++e1000e_receive_internal(E1000ECore *core, const struct iovec *iov, int iovcnt,
++                        bool has_vnet);
++
+ static inline void
+ e1000e_set_interrupt_cause(E1000ECore *core, uint32_t val);
+ 
+@@ -655,6 +659,15 @@ e1000e_setup_tx_offloads(E1000ECore *core, struct e1000e_tx *tx)
+     return true;
  }
  
--bool net_rx_pkt_has_virt_hdr(struct NetRxPkt *pkt)
--{
--    assert(pkt);
--
--    return pkt->has_virt_hdr;
--}
--
- uint16_t net_rx_pkt_get_vlan_tag(struct NetRxPkt *pkt)
++static void e1000e_tx_pkt_callback(void *core,
++                                   const struct iovec *iov,
++                                   int iovcnt,
++                                   const struct iovec *virt_iov,
++                                   int virt_iovcnt)
++{
++    e1000e_receive_internal(core, virt_iov, virt_iovcnt, true);
++}
++
+ static bool
+ e1000e_tx_pkt_send(E1000ECore *core, struct e1000e_tx *tx, int queue_index)
+ {
+@@ -669,7 +682,8 @@ e1000e_tx_pkt_send(E1000ECore *core, struct e1000e_tx *tx, int queue_index)
+ 
+     if ((core->phy[0][MII_BMCR] & MII_BMCR_LOOPBACK) ||
+         ((core->mac[RCTL] & E1000_RCTL_LBM_MAC) == E1000_RCTL_LBM_MAC)) {
+-        return net_tx_pkt_send_loopback(tx->tx_pkt, queue);
++        return net_tx_pkt_send_custom(tx->tx_pkt, false,
++                                      e1000e_tx_pkt_callback, core);
+     } else {
+         return net_tx_pkt_send(tx->tx_pkt, queue);
+     }
+@@ -1675,6 +1689,13 @@ e1000e_rx_fix_l4_csum(E1000ECore *core, struct NetRxPkt *pkt)
+ ssize_t
+ e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
+ {
++    return e1000e_receive_internal(core, iov, iovcnt, core->has_vnet);
++}
++
++static ssize_t
++e1000e_receive_internal(E1000ECore *core, const struct iovec *iov, int iovcnt,
++                        bool has_vnet)
++{
+     static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
+ 
+     uint32_t n = 0;
+@@ -1696,9 +1717,11 @@ e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
+     }
+ 
+     /* Pull virtio header in */
+-    if (core->has_vnet) {
++    if (has_vnet) {
+         net_rx_pkt_set_vhdr_iovec(core->rx_pkt, iov, iovcnt);
+         iov_ofs = sizeof(struct virtio_net_hdr);
++    } else {
++        net_rx_pkt_unset_vhdr(core->rx_pkt);
+     }
+ 
+     filter_buf = iov->iov_base + iov_ofs;
+diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
+index b309c2f..a53e756 100644
+--- a/hw/net/net_rx_pkt.c
++++ b/hw/net/net_rx_pkt.c
+@@ -463,6 +463,13 @@ void net_rx_pkt_set_vhdr_iovec(struct NetRxPkt *pkt,
+     iov_to_buf(iov, iovcnt, 0, &pkt->virt_hdr, sizeof pkt->virt_hdr);
+ }
+ 
++void net_rx_pkt_unset_vhdr(struct NetRxPkt *pkt)
++{
++    assert(pkt);
++
++    memset(&pkt->virt_hdr, 0, sizeof(pkt->virt_hdr));
++}
++
+ bool net_rx_pkt_is_vlan_stripped(struct NetRxPkt *pkt)
  {
      assert(pkt);
 diff --git a/hw/net/net_rx_pkt.h b/hw/net/net_rx_pkt.h
-index 048e346..7277907 100644
+index 7277907..8b69ddb 100644
 --- a/hw/net/net_rx_pkt.h
 +++ b/hw/net/net_rx_pkt.h
-@@ -37,10 +37,9 @@ void net_rx_pkt_uninit(struct NetRxPkt *pkt);
-  * Init function for rx packet functionality
-  *
-  * @pkt:            packet pointer
-- * @has_virt_hdr:   device uses virtio header
-  *
-  */
--void net_rx_pkt_init(struct NetRxPkt **pkt, bool has_virt_hdr);
-+void net_rx_pkt_init(struct NetRxPkt **pkt);
+@@ -313,6 +313,14 @@ void net_rx_pkt_set_vhdr_iovec(struct NetRxPkt *pkt,
+     const struct iovec *iov, int iovcnt);
  
  /**
-  * returns total length of data attached to rx context
-@@ -215,15 +214,6 @@ uint16_t net_rx_pkt_get_vlan_tag(struct NetRxPkt *pkt);
- bool net_rx_pkt_is_vlan_stripped(struct NetRxPkt *pkt);
- 
- /**
-- * notifies caller if the packet has virtio header
-- *
-- * @pkt:            packet
-- * @ret:            true if packet has virtio header, false otherwize
-- *
-- */
--bool net_rx_pkt_has_virt_hdr(struct NetRxPkt *pkt);
++ * unset vhdr data from packet context
++ *
++ * @pkt:            packet
++ *
++ */
++void net_rx_pkt_unset_vhdr(struct NetRxPkt *pkt);
++
++/**
+  * save packet type in packet context
+  *
+  * @pkt:            packet
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index cf46c84..6afd3f6 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -53,8 +53,6 @@ struct NetTxPkt {
+     uint16_t hdr_len;
+     eth_pkt_types_e packet_type;
+     uint8_t l4proto;
 -
--/**
- * attach scatter-gather data to rx packet
- *
- * @pkt:            packet
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index c98ad12..f7257a0 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -188,7 +188,6 @@ e1000e_rx_metadata_rss(uint32_t rss, uint32_t mrq) "RSS data: rss: 0x%X, mrq: 0x
- e1000e_rx_metadata_ip_id(uint16_t ip_id) "the IPv4 ID is 0x%X"
- e1000e_rx_metadata_ack(void) "the packet is TCP ACK"
- e1000e_rx_metadata_pkt_type(uint32_t pkt_type) "the packet type is %u"
--e1000e_rx_metadata_no_virthdr(void) "the packet has no virt-header"
- e1000e_rx_metadata_virthdr_no_csum_info(void) "virt-header does not contain checksum info"
- e1000e_rx_metadata_l3_cso_disabled(void) "IP4 CSO is disabled"
- e1000e_rx_metadata_l4_cso_disabled(void) "TCP/UDP CSO is disabled"
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 09d5c7a..dda7da2 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3718,7 +3718,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-     QTAILQ_INIT(&n->rsc_chains);
-     n->qdev = dev;
+-    bool is_loopback;
+ };
  
--    net_rx_pkt_init(&n->rx_pkt, false);
-+    net_rx_pkt_init(&n->rx_pkt);
+ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+@@ -508,12 +506,6 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
+     iov_from_buf(iov, iov_len, csum_offset, &csum, sizeof csum);
+ }
  
-     if (virtio_has_feature(n->host_features, VIRTIO_NET_F_RSS)) {
-         virtio_net_load_ebpf(n);
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index eab8fa4..6c6bb2a 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -851,10 +851,6 @@ static void vmxnet3_rx_need_csum_calculate(struct NetRxPkt *pkt,
-     uint8_t *data;
-     int len;
- 
--    if (!net_rx_pkt_has_virt_hdr(pkt)) {
--        return;
--    }
+-enum {
+-    NET_TX_PKT_FRAGMENT_L2_HDR_POS = 0,
+-    NET_TX_PKT_FRAGMENT_L3_HDR_POS,
+-    NET_TX_PKT_FRAGMENT_HEADER_NUM
+-};
 -
-     vhdr = net_rx_pkt_get_vhdr(pkt);
-     if (!VMXNET_FLAG_IS_SET(vhdr->flags, VIRTIO_NET_HDR_F_NEEDS_CSUM)) {
-         return;
-@@ -898,10 +894,6 @@ static void vmxnet3_rx_update_descr(struct NetRxPkt *pkt,
-         rxcd->tci = net_rx_pkt_get_vlan_tag(pkt);
+ #define NET_MAX_FRAG_SG_LIST (64)
+ 
+ static size_t net_tx_pkt_fetch_fragment(struct NetTxPkt *pkt,
+@@ -522,7 +514,7 @@ static size_t net_tx_pkt_fetch_fragment(struct NetTxPkt *pkt,
+     size_t fetched = 0;
+     struct iovec *src = pkt->vec;
+ 
+-    *dst_idx = NET_TX_PKT_FRAGMENT_HEADER_NUM;
++    *dst_idx = NET_TX_PKT_PL_START_FRAG;
+ 
+     while (fetched < IP_FRAG_ALIGN_SIZE(pkt->virt_hdr.gso_size)) {
+ 
+@@ -555,18 +547,22 @@ static size_t net_tx_pkt_fetch_fragment(struct NetTxPkt *pkt,
+     return fetched;
+ }
+ 
+-static inline void net_tx_pkt_sendv(struct NetTxPkt *pkt,
+-    NetClientState *nc, const struct iovec *iov, int iov_cnt)
++static void net_tx_pkt_sendv(
++    void *opaque, const struct iovec *iov, int iov_cnt,
++    const struct iovec *virt_iov, int virt_iov_cnt)
+ {
+-    if (pkt->is_loopback) {
+-        qemu_receive_packet_iov(nc, iov, iov_cnt);
++    NetClientState *nc = opaque;
++
++    if (qemu_get_using_vnet_hdr(nc->peer)) {
++        qemu_sendv_packet(nc, virt_iov, virt_iov_cnt);
+     } else {
+         qemu_sendv_packet(nc, iov, iov_cnt);
+     }
+ }
+ 
+ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+-    NetClientState *nc)
++                                           NetTxPktCallback callback,
++                                           void *context)
+ {
+     struct iovec fragment[NET_MAX_FRAG_SG_LIST];
+     size_t fragment_len = 0;
+@@ -578,6 +574,10 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+     int src_idx =  NET_TX_PKT_PL_START_FRAG, dst_idx;
+     size_t src_offset = 0;
+     size_t fragment_offset = 0;
++    struct virtio_net_hdr virt_hdr = {
++        .flags = pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM ?
++                 VIRTIO_NET_HDR_F_DATA_VALID : 0
++    };
+ 
+     l2_iov_base = pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_base;
+     l2_iov_len = pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_len;
+@@ -585,10 +585,12 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+     l3_iov_len = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len;
+ 
+     /* Copy headers */
+-    fragment[NET_TX_PKT_FRAGMENT_L2_HDR_POS].iov_base = l2_iov_base;
+-    fragment[NET_TX_PKT_FRAGMENT_L2_HDR_POS].iov_len = l2_iov_len;
+-    fragment[NET_TX_PKT_FRAGMENT_L3_HDR_POS].iov_base = l3_iov_base;
+-    fragment[NET_TX_PKT_FRAGMENT_L3_HDR_POS].iov_len = l3_iov_len;
++    fragment[NET_TX_PKT_VHDR_FRAG].iov_base = &virt_hdr;
++    fragment[NET_TX_PKT_VHDR_FRAG].iov_len = sizeof(virt_hdr);
++    fragment[NET_TX_PKT_L2HDR_FRAG].iov_base = l2_iov_base;
++    fragment[NET_TX_PKT_L2HDR_FRAG].iov_len = l2_iov_len;
++    fragment[NET_TX_PKT_L3HDR_FRAG].iov_base = l3_iov_base;
++    fragment[NET_TX_PKT_L3HDR_FRAG].iov_len = l3_iov_len;
+ 
+ 
+     /* Put as much data as possible and send */
+@@ -603,7 +605,9 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+ 
+         eth_fix_ip4_checksum(l3_iov_base, l3_iov_len);
+ 
+-        net_tx_pkt_sendv(pkt, nc, fragment, dst_idx);
++        callback(context,
++                 fragment + NET_TX_PKT_L2HDR_FRAG, dst_idx - NET_TX_PKT_L2HDR_FRAG,
++                 fragment + NET_TX_PKT_VHDR_FRAG, dst_idx - NET_TX_PKT_VHDR_FRAG);
+ 
+         fragment_offset += fragment_len;
+ 
+@@ -614,12 +618,16 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+ 
+ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
+ {
+-    bool using_vnet_hdr = qemu_get_using_vnet_hdr(nc->peer);
++    bool offload = qemu_get_using_vnet_hdr(nc->peer);
++    return net_tx_pkt_send_custom(pkt, offload, net_tx_pkt_sendv, nc);
++}
+ 
++bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
++                            NetTxPktCallback callback, void *context)
++{
+     assert(pkt);
+ 
+-    if (!using_vnet_hdr &&
+-        pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
++    if (!offload && pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
+         net_tx_pkt_do_sw_csum(pkt);
      }
  
--    if (!net_rx_pkt_has_virt_hdr(pkt)) {
--        goto nocsum;
--    }
+@@ -635,28 +643,16 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
+         }
+     }
+ 
+-    if (using_vnet_hdr ||
+-        pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
+-        int index = using_vnet_hdr ?
+-                    NET_TX_PKT_VHDR_FRAG : NET_TX_PKT_L2HDR_FRAG;
++    if (offload || pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
+         net_tx_pkt_fix_ip6_payload_len(pkt);
+-        net_tx_pkt_sendv(pkt, nc, pkt->vec + index,
+-            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - index);
++        callback(context, pkt->vec + NET_TX_PKT_L2HDR_FRAG,
++                 pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - NET_TX_PKT_L2HDR_FRAG,
++                 pkt->vec + NET_TX_PKT_VHDR_FRAG,
++                 pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - NET_TX_PKT_VHDR_FRAG);
+         return true;
+     }
+ 
+-    return net_tx_pkt_do_sw_fragmentation(pkt, nc);
+-}
 -
-     vhdr = net_rx_pkt_get_vhdr(pkt);
-     /*
-      * Checksum is valid when lower level tell so or when lower level
-@@ -1522,7 +1514,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-     /* Preallocate TX packet wrapper */
-     VMW_CFPRN("Max TX fragments is %u", s->max_tx_frags);
-     net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
--    net_rx_pkt_init(&s->rx_pkt, s->peer_has_vhdr);
-+    net_rx_pkt_init(&s->rx_pkt);
+-bool net_tx_pkt_send_loopback(struct NetTxPkt *pkt, NetClientState *nc)
+-{
+-    bool res;
+-
+-    pkt->is_loopback = true;
+-    res = net_tx_pkt_send(pkt, nc);
+-    pkt->is_loopback = false;
+-
+-    return res;
++    return net_tx_pkt_do_sw_fragmentation(pkt, callback, context);
+ }
  
-     /* Read rings memory locations for RX queues */
-     for (i = 0; i < s->rxq_num; i++) {
-@@ -2402,7 +2394,7 @@ static int vmxnet3_post_load(void *opaque, int version_id)
-     VMXNET3State *s = opaque;
+ void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt)
+diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+index 8d3faa4..f57b4e0 100644
+--- a/hw/net/net_tx_pkt.h
++++ b/hw/net/net_tx_pkt.h
+@@ -26,6 +26,8 @@
  
-     net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
--    net_rx_pkt_init(&s->rx_pkt, s->peer_has_vhdr);
-+    net_rx_pkt_init(&s->rx_pkt);
+ struct NetTxPkt;
  
-     if (s->msix_used) {
-         vmxnet3_use_msix_vectors(s, VMXNET3_MAX_INTRS);
++typedef void (* NetTxPktCallback)(void *, const struct iovec *, int, const struct iovec *, int);
++
+ /**
+  * Init function for tx packet functionality
+  *
+@@ -161,15 +163,16 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt);
+ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc);
+ 
+ /**
+-* Redirect packet directly to receive path (emulate loopback phy).
+-* Handles sw offloads if vhdr is not supported.
+-*
+-* @pkt:            packet
+-* @nc:             NetClientState
+-* @ret:            operation result
+-*
+-*/
+-bool net_tx_pkt_send_loopback(struct NetTxPkt *pkt, NetClientState *nc);
++ * Send packet with a custom function.
++ *
++ * @pkt:            packet
++ * @offload:        whether the callback implements offloading
++ * @callback:       a function to be called back for each transformed packet
++ * @context:        a pointer to be passed to the callback.
++ * @ret:            operation result
++ */
++bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
++                            NetTxPktCallback callback, void *context);
+ 
+ /**
+  * parse raw packet data and analyze offload requirements.
 -- 
 2.7.4
 
