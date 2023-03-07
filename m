@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3376AF0EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439386AF0BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:36:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZc9m-0003oi-L2; Tue, 07 Mar 2023 13:35:26 -0500
+	id 1pZc9p-0003r9-0u; Tue, 07 Mar 2023 13:35:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZc9l-0003o4-78
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:25 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pZc9m-0003p4-LO
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:26 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZc9j-0007n7-I6
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:24 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- h11-20020a17090a2ecb00b00237c740335cso12716170pjs.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:35:23 -0800 (PST)
+ id 1pZc9k-0007t6-OX
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:35:26 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id y2so14129344pjg.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678214123;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/kqb+FJ785WyoATSXgO6HwVDPJoq2Vijw5MdWjgOOw4=;
- b=PLyTn2DPGX1LbvfwpQVKnzRmMw2pVKbYayXcBqIIjzdY9OtE4f2TULfb0yVHOA+Zm1
- BGLaxbxA87a0oNZ7F05UfBWUtsnJYpwOg4BCuGgnL0l7qZSOA4scyiX8Sa3fRsVIh8rV
- V8smTHgYiKm2o4IXw6brW+gT/Q1kHyd2UjZLmdtBDjJG41okpdSGaALfJBAPpeiYBVZO
- qIG+DrEH5EGY/FaVvz5sn40O+4mkVcNj83FjyZQyMxH2ccaoUegd4EL+yy1ll4u0U136
- /OuIiq/8sQjraxW1ffgz2tZhySwz3kcYbafXgAMHPDTPDx6GcrIa34FgyCvvkQQgaaIC
- ULXA==
+ bh=VjOIZ5EQv+mPJcXiKX0Fq4Q7ChwmAlVw5eKwrOnmib8=;
+ b=OS7WBG0c8TQ9K4UQDDJuqtfzys+33+GL1RxqUhBJH2sW/XbLnpl0ryedBAYuXnZg70
+ o3n1e/ePMy9dfwQRMzC+BKTJ3MB13b2qwkWTPTH7lEepkdoNK+5kpCLZBBgmxMZV6TGm
+ pdMwm4fBcM/xR1em6iBn92J0KlcwI1cPGcW/WeRlZ7KOnCTEyHpTFFGjTIq58OE/1HZc
+ pMQICVWvYCYoPGfv3Edl7Ik3xI5YBQugA7hSNRay8/E1UT0n7FItJmvfDbIMT3Ot6uy2
+ 31gPHjrd+qpVj/J69s5Ld6cvWcj/ZEspHXx1SppSc19Cwdk5dtLVtFDIpcMwmM3wAaQ9
+ mo5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678214123;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/kqb+FJ785WyoATSXgO6HwVDPJoq2Vijw5MdWjgOOw4=;
- b=UOOV2qxJ1w79trVapl0z9PWB+bi2lDq4SzsD6fvnXkQBdvbODmqeXoNYoLlfoI0U6v
- wMFn+6tBsTCMJmJrHr8MygQ2dKIAaXlNHfsqpML85UftjLYoMuzYYiYQTsYtHd4g1dRF
- She5rPU+PG0D3x99t5VnDdTgVChhT13AYJfzWWy6ndWzJvvcLN6YLx4AZAZlFOUEBrQn
- 5QIUihCsCQ/S46t8gS4XlpFtQJNkhCpdsutMnNbJWYE7ObBZP1a8W8LcMdLAJ/pDzsUt
- pSnYDJLp6NwnwLPqmCHBHt0neJp1QlsM8UAv7k8CxuazlVQZyhWTOHbZ4Sgv6XHsRMuz
- 6CTg==
-X-Gm-Message-State: AO0yUKUik9GZCg59vXpMmQhLE548L5ezFiz8c6fC2dmMIp14REibj/7r
- EFZSLiMNs6VzH+J3ZKcxmc7NWslPxr0et5qpCV0=
-X-Google-Smtp-Source: AK7set9k2PzKcKpVvd96/Hd3u9ETX+MdCb3TyX+vvbRKdiWx/LWptD0y/on1d1z4MgdFfFzyUFfB4Q==
-X-Received: by 2002:a17:90b:3a92:b0:233:b5c2:7d17 with SMTP id
- om18-20020a17090b3a9200b00233b5c27d17mr16025402pjb.23.1678214122749; 
- Tue, 07 Mar 2023 10:35:22 -0800 (PST)
+ bh=VjOIZ5EQv+mPJcXiKX0Fq4Q7ChwmAlVw5eKwrOnmib8=;
+ b=RLe/M2i4RH8+DbszhJITYq54JPNt5hY3jfked82XMivlZhDhxSa+xNhQqf6XqSWnDh
+ 2AnLtK23HFRq3B7rnA5TJWHyxdnB00uri4Vq2UDGxOip5s4FgK9YKE3/K5CEJHc/Wzdd
+ krXn4mNg1+ZvFSs/7BbZxcyUwYmmg54d/oBGwS4I1utMLBR0g/exRA42TcSs2NSs79AB
+ KTwhq1trQ6H2RmZbUub4qit8J/hz+pE42qrqzB8O31tsGz0mf9Bbw4ldnYFEsH+g9SxC
+ VhF13G8Cv4GHNmqUnU4EbLnocQs0aDvxLkocYPx9q2ycL0xWb5HCOEqJLbEaENECntH7
+ OR6w==
+X-Gm-Message-State: AO0yUKWEZ6fvdozXIqcMrIIGqGihqRn3MQiACXThbXEcWpEJscupKy2m
+ AxKNlZefJBsxL1DfAiHbDj+ULpdTaJeAEc/iOBA=
+X-Google-Smtp-Source: AK7set81PjmPgTmLA38MOav1XudqxKeslvvz57JyoxQRGTzGJV5l9LeRFR7B79YJqgs+gGb8tZPRjw==
+X-Received: by 2002:a17:90b:1b0f:b0:233:ce0b:8655 with SMTP id
+ nu15-20020a17090b1b0f00b00233ce0b8655mr16117964pjb.28.1678214123437; 
+ Tue, 07 Mar 2023 10:35:23 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
  q1-20020a17090a1b0100b0022c0a05229fsm7757940pjq.41.2023.03.07.10.35.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:35:22 -0800 (PST)
+ Tue, 07 Mar 2023 10:35:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Subject: [PATCH v2 23/25] target/tricore: Use min/max for saturate
-Date: Tue,  7 Mar 2023 10:35:01 -0800
-Message-Id: <20230307183503.2512684-24-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 24/25] tcg: Drop tcg_const_*_vec
+Date: Tue,  7 Mar 2023 10:35:02 -0800
+Message-Id: <20230307183503.2512684-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307183503.2512684-1-richard.henderson@linaro.org>
 References: <20230307183503.2512684-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,44 +91,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use tcg_constant_i32 for the bounds.
+Replace with tcg_constant_vec*.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
----
- target/tricore/translate.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ include/tcg/tcg.h         |  4 ----
+ tcg/tcg-op-vec.c          | 34 ++--------------------------------
+ tcg/i386/tcg-target.c.inc |  9 ++++-----
+ 3 files changed, 6 insertions(+), 41 deletions(-)
 
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index a3a5263a5d..2646cb3eb5 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -2443,21 +2443,13 @@ gen_msubsui_64(TCGv ret_low, TCGv ret_high, TCGv r1, TCGv r2_low, TCGv r2_high,
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 00c4fbe613..d620012c48 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -999,10 +999,6 @@ void tcg_optimize(TCGContext *s);
+ /* Allocate a new temporary and initialize it with a constant. */
+ TCGv_i32 tcg_const_i32(int32_t val);
+ TCGv_i64 tcg_const_i64(int64_t val);
+-TCGv_vec tcg_const_zeros_vec(TCGType);
+-TCGv_vec tcg_const_ones_vec(TCGType);
+-TCGv_vec tcg_const_zeros_vec_matching(TCGv_vec);
+-TCGv_vec tcg_const_ones_vec_matching(TCGv_vec);
  
- static void gen_saturate(TCGv ret, TCGv arg, int32_t up, int32_t low)
- {
--    TCGv sat_neg = tcg_const_i32(low);
--    TCGv temp = tcg_const_i32(up);
--
--    /* sat_neg = (arg < low ) ? low : arg; */
--    tcg_gen_movcond_tl(TCG_COND_LT, sat_neg, arg, sat_neg, sat_neg, arg);
--
--    /* ret = (sat_neg > up ) ? up  : sat_neg; */
--    tcg_gen_movcond_tl(TCG_COND_GT, ret, sat_neg, temp, temp, sat_neg);
-+    tcg_gen_smax_tl(ret, arg, tcg_constant_i32(low));
-+    tcg_gen_smin_tl(ret, ret, tcg_constant_i32(up));
+ /*
+  * Locate or create a read-only temporary that is a constant.
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index 0f023f42c6..aeeb2435cb 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -229,32 +229,6 @@ void tcg_gen_mov_vec(TCGv_vec r, TCGv_vec a)
+     }
  }
  
- static void gen_saturate_u(TCGv ret, TCGv arg, int32_t up)
+-TCGv_vec tcg_const_zeros_vec(TCGType type)
+-{
+-    TCGv_vec ret = tcg_temp_new_vec(type);
+-    tcg_gen_dupi_vec(MO_64, ret, 0);
+-    return ret;
+-}
+-
+-TCGv_vec tcg_const_ones_vec(TCGType type)
+-{
+-    TCGv_vec ret = tcg_temp_new_vec(type);
+-    tcg_gen_dupi_vec(MO_64, ret, -1);
+-    return ret;
+-}
+-
+-TCGv_vec tcg_const_zeros_vec_matching(TCGv_vec m)
+-{
+-    TCGTemp *t = tcgv_vec_temp(m);
+-    return tcg_const_zeros_vec(t->base_type);
+-}
+-
+-TCGv_vec tcg_const_ones_vec_matching(TCGv_vec m)
+-{
+-    TCGTemp *t = tcgv_vec_temp(m);
+-    return tcg_const_ones_vec(t->base_type);
+-}
+-
+ void tcg_gen_dupi_vec(unsigned vece, TCGv_vec r, uint64_t a)
  {
--    TCGv temp = tcg_const_i32(up);
--    /* sat_neg = (arg > up ) ? up : arg; */
--    tcg_gen_movcond_tl(TCG_COND_GTU, ret, arg, temp, temp, arg);
-+    tcg_gen_umin_tl(ret, arg, tcg_constant_i32(up));
- }
+     TCGTemp *rt = tcgv_vec_temp(r);
+@@ -431,9 +405,7 @@ void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
+     const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
  
- static void gen_shi(TCGv ret, TCGv r1, int32_t shift_count)
+     if (!TCG_TARGET_HAS_not_vec || !do_op2(vece, r, a, INDEX_op_not_vec)) {
+-        TCGv_vec t = tcg_const_ones_vec_matching(r);
+-        tcg_gen_xor_vec(0, r, a, t);
+-        tcg_temp_free_vec(t);
++        tcg_gen_xor_vec(0, r, a, tcg_constant_vec_matching(r, 0, -1));
+     }
+     tcg_swap_vecop_list(hold_list);
+ }
+@@ -446,9 +418,7 @@ void tcg_gen_neg_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
+     hold_list = tcg_swap_vecop_list(NULL);
+ 
+     if (!TCG_TARGET_HAS_neg_vec || !do_op2(vece, r, a, INDEX_op_neg_vec)) {
+-        TCGv_vec t = tcg_const_zeros_vec_matching(r);
+-        tcg_gen_sub_vec(vece, r, t, a);
+-        tcg_temp_free_vec(t);
++        tcg_gen_sub_vec(vece, r, tcg_constant_vec_matching(r, vece, 0), a);
+     }
+     tcg_swap_vecop_list(hold_list);
+ }
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 4060a35cf6..4444eb9234 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -3651,6 +3651,7 @@ static void expand_vec_sari(TCGType type, unsigned vece,
+         break;
+ 
+     case MO_64:
++        t1 = tcg_temp_new_vec(type);
+         if (imm <= 32) {
+             /*
+              * We can emulate a small sign extend by performing an arithmetic
+@@ -3659,24 +3660,22 @@ static void expand_vec_sari(TCGType type, unsigned vece,
+              * does not, so we have to bound the smaller shift -- we get the
+              * same result in the high half either way.
+              */
+-            t1 = tcg_temp_new_vec(type);
+             tcg_gen_sari_vec(MO_32, t1, v1, MIN(imm, 31));
+             tcg_gen_shri_vec(MO_64, v0, v1, imm);
+             vec_gen_4(INDEX_op_x86_blend_vec, type, MO_32,
+                       tcgv_vec_arg(v0), tcgv_vec_arg(v0),
+                       tcgv_vec_arg(t1), 0xaa);
+-            tcg_temp_free_vec(t1);
+         } else {
+             /* Otherwise we will need to use a compare vs 0 to produce
+              * the sign-extend, shift and merge.
+              */
+-            t1 = tcg_const_zeros_vec(type);
+-            tcg_gen_cmp_vec(TCG_COND_GT, MO_64, t1, t1, v1);
++            tcg_gen_cmp_vec(TCG_COND_GT, MO_64, t1,
++                            tcg_constant_vec(type, MO_64, 0), v1);
+             tcg_gen_shri_vec(MO_64, v0, v1, imm);
+             tcg_gen_shli_vec(MO_64, t1, t1, 64 - imm);
+             tcg_gen_or_vec(MO_64, v0, v0, t1);
+-            tcg_temp_free_vec(t1);
+         }
++        tcg_temp_free_vec(t1);
+         break;
+ 
+     default:
 -- 
 2.34.1
 
