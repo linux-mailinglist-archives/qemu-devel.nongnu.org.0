@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAC16AFAB7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589036AFAB8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:49:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZh2u-0003wV-3Q; Tue, 07 Mar 2023 18:48:40 -0500
+	id 1pZh2w-0004CC-7D; Tue, 07 Mar 2023 18:48:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2s-0003hS-Ad
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:38 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2u-000466-B7
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:40 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2m-0002rs-FM
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:37 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id h14so13790413wru.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh2s-0002tK-8s
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:48:40 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j19-20020a05600c191300b003eb3e1eb0caso179195wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:48:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678232910;
+ d=linaro.org; s=google; t=1678232916;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9irWQw02oFu2/D4ty32J7zQYkGSYrUOUK9Or1m5BKRM=;
- b=gwSjzS98wh68Fu2g62z1JKcKVOswblHKob2VT9JjOtYDq22LbtmKNaDA1fJtv2W1AT
- EV4PEnfHsvXV9fkZFHjfFey4bEm7elIRc/4o+ejCRKE9e7IICyYX2gxAIqVWa3nsR/6t
- jceI8fB1gGrP9Fot83WgeMN7M/DOrivjLLFqZ+87zq6cwjwgNW3E/X2hgLDIA3fluhRL
- 7rnXMz4v8wm1FMnhnQV2aMwxGVEcglLmU8y+nw1+eDeflXOJqADkJJV3KA1On/JMN0M/
- vE9v2XBsHflvT4892HG+KM8JRDa5iTt/w1i7yYIAtrm5djlTqFbe2aCgvLVt6L2qDtJP
- 3HXQ==
+ bh=gpJPCmXwquoCWBgXDDE3NqTOd956WcpGbyNKVzShIlk=;
+ b=IEw6CyOer/a0+9gM4WU+FY3dy/0K8DLtHAQHaqrrD4lTo/aNpwCYPfFo9OBZgkU6Zy
+ n2u9DENkELJhO2khxWMUpUb/nn427floF08/vaDEDSwtLHwTMJ06/ysWYPIJbvMSlool
+ T0hBZU3yZV9qbYj2FwcvWnVWJrqVVX/qtibau3tdIy3RyKmkwwANTbTQ/7rDJyq8xqaP
+ i98CtuFcXo4LkwpGP4VsU+czxoLCiibUtYN7VPEtqqA6aGrkvh0uOXunZz8Tdhk95Ytt
+ FMDKsvXoI5qOdNXAsa2u9SF8bSfLDbAh98X+GNSCaLcploNG4BvYp5dhZWfAbPRV7AuW
+ HeuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678232910;
+ d=1e100.net; s=20210112; t=1678232916;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9irWQw02oFu2/D4ty32J7zQYkGSYrUOUK9Or1m5BKRM=;
- b=hn8AT+FRxbWjSXLQVW+ZZcpens+KvnOPo8QYWWdDDb4ZNrYUlHyDT2MyGDYoE74eU/
- yAFNLX+80iDFjA2YAYbn5FItuEH0siMXetKfobDA7AgVJwofAKD98K+wDrDo2xnb/+7p
- LiZWuwqSeHBvvzRsvxtbTrdjb3XLxzvAqJU+7OYQiNgzvOG00DwhbvN4YQTKAK+FhDh+
- cP/0iJF9MnsH4bVvPvp2MP8Ceb5jCzUUgpskMYjKOlCfP+vv5WuNVMs6wMYaup/bfjMx
- uv/mpXm/jtS4H+Ky7kyydPRrX/LUSlmmtGEjfVZwyx2KafnvY48IlvKNA5xy1ZNcQiaQ
- bW1w==
-X-Gm-Message-State: AO0yUKVWREodBLC/duBYcNN6RExy80hVz5RV4OZ++twrqJivuKCGWo5p
- cdLb+7v27Eid2lLubrJAF0VwXYShqGV8ANmhEPw=
-X-Google-Smtp-Source: AK7set9bUKjH516OYKwJDpYTcQvI7vZMOtaGlCpgvrDtdOORegST9Wycc1+PP+mlKDEPdmeA4OKwoA==
-X-Received: by 2002:a05:6000:1041:b0:2c6:e91d:1359 with SMTP id
- c1-20020a056000104100b002c6e91d1359mr9832855wrx.61.1678232910583; 
- Tue, 07 Mar 2023 15:48:30 -0800 (PST)
+ bh=gpJPCmXwquoCWBgXDDE3NqTOd956WcpGbyNKVzShIlk=;
+ b=4hEpudjEX0VK/hvRC96mqImHKyBXJmmG4gkaoyZb3xNNZ82D2/tmH9FDiWSj6ElPDP
+ IK53taUTb/3pu3OdNN9RSdXP70pJZsp12XmOSOZ0G8pOCsYGIXN9latgLR28lGGbIYVf
+ 3MUHEzj5bkLpwU+ZNbL2gjQuAyVJRErYiDbH+e6GwUXnwHSFwZR3chKvd1RBNfVJ0Nk7
+ cE5TplgDXzJ+sImoojRv8p7lFczWiduvMzlqXto+FLsa2MJlfxiAU4Anssq4RBCXUe3l
+ 68dvNxcOpzgFb9NYxXnFNKwhLC14M8RTdzP6SiVVIZ2pdqd4rG0bBsqeHAxPg3NKGAIM
+ jymw==
+X-Gm-Message-State: AO0yUKXm479V+ZvYpWh327dY8gzLWX8Dfh9tD6sEX1voWJD1TjKRlZtu
+ 58ElCuHho3hcPNeokE5K37xCXi/zroNuN1oxUrE=
+X-Google-Smtp-Source: AK7set8LM5/qxpwQjBUUR+G6Miz25iRI9cqbKg1MX3T+c0nHug202Qbl3P3/5yX1ar09h6sC4dc4zQ==
+X-Received: by 2002:a05:600c:5127:b0:3ea:dbdd:66df with SMTP id
+ o39-20020a05600c512700b003eadbdd66dfmr13985794wms.2.1678232916367; 
+ Tue, 07 Mar 2023 15:48:36 -0800 (PST)
 Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
  [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
- o13-20020a5d670d000000b002c8476dde7asm13706104wru.114.2023.03.07.15.48.29
+ v12-20020a05600c12cc00b003de2fc8214esm13810478wmd.20.2023.03.07.15.48.35
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Mar 2023 15:48:30 -0800 (PST)
+ Tue, 07 Mar 2023 15:48:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- Bernhard Beschow <shentey@gmail.com>, Rene Engel <ReneEngel80@emailn.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PULL 13/20] hw/isa/vt82c686: Implement PCI IRQ routing
-Date: Wed,  8 Mar 2023 00:47:04 +0100
-Message-Id: <20230307234711.55375-14-philmd@linaro.org>
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Rene Engel <ReneEngel80@emailn.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 14/20] hw/ppc/pegasos2: Fix PCI interrupt routing
+Date: Wed,  8 Mar 2023 00:47:05 +0100
+Message-Id: <20230307234711.55375-15-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230307234711.55375-1-philmd@linaro.org>
 References: <20230307234711.55375-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,85 +95,115 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The real VIA south bridges implement a PCI IRQ router which is configured
-by the BIOS or the OS. In order to respect these configurations, QEMU
-needs to implement it as well. The real chip may allow routing IRQs from
-internal functions independently of PCI interrupts but since guests
-usually configute it to a single shared interrupt we don't model that
-here for simplicity.
+According to the PegasosII schematics the PCI interrupt lines are
+connected to both the gpp pins of the Mv64361 north bridge and the
+PINT pins of the VT8231 south bridge so guests can get interrupts from
+either of these. So far we only had the MV64361 connections which
+worked for on board devices but for additional PCI devices (such as
+network or sound card added with -device) guest OSes expect interrupt
+from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+VT8231 ISA bridge. After the previous patches we can now model this
+and also remove the board specific connection from mv64361. Also
+configure routing of these lines when using Virtual Open Firmware to
+match board firmware for guests that expect this.
 
-Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
 
-Suggested-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Tested-by: Rene Engel <ReneEngel80@emailn.de>
-Message-Id: <fbb016c7d0e19093335c237e15f5f6c62c4393b4.1678188711.git.balaton@eik.bme.hu>
+Message-Id: <520ff9e6eeef600ee14a4116c0c7b11940cc499c.1678188711.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/vt82c686.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ hw/pci-host/mv64361.c |  4 ----
+ hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 5 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 01e0148967..71da316052 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -604,6 +604,46 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-     qemu_set_irq(s->cpu_intr, level);
+diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+index 298564f1f5..19e8031a3f 100644
+--- a/hw/pci-host/mv64361.c
++++ b/hw/pci-host/mv64361.c
+@@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
+     }
+     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+     qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+-    /* FIXME: PCI IRQ connections may be board specific */
+-    for (i = 0; i < PCI_NUM_PINS; i++) {
+-        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+-    }
  }
  
-+static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
-+{
-+    switch (irq_num) {
-+    case 0:
-+        return s->dev.config[0x55] >> 4;
-+    case 1:
-+        return s->dev.config[0x56] & 0xf;
-+    case 2:
-+        return s->dev.config[0x56] >> 4;
-+    case 3:
-+        return s->dev.config[0x57] >> 4;
-+    }
-+    return 0;
-+}
-+
-+static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
-+{
-+    ViaISAState *s = opaque;
-+    PCIBus *bus = pci_get_bus(&s->dev);
-+    int i, pic_level, pic_irq = via_isa_get_pci_irq(s, irq_num);
-+
-+    /* IRQ 0: disabled, IRQ 2,8,13: reserved */
-+    if (!pic_irq) {
-+        return;
-+    }
-+    if (unlikely(pic_irq == 2 || pic_irq == 8 || pic_irq == 13)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid ISA IRQ routing");
-+    }
-+
-+    /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-+    pic_level = 0;
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-+        if (pic_irq == via_isa_get_pci_irq(s, i)) {
-+            pic_level |= pci_bus_get_irq_level(bus, i);
-+        }
-+    }
-+    /* Now we change the pic irq level according to the via irq mappings. */
-+    qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
-+}
-+
- static void via_isa_realize(PCIDevice *d, Error **errp)
- {
-     ViaISAState *s = VIA_ISA(d);
-@@ -627,6 +667,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
+ static void mv64361_reset(DeviceState *dev)
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 7cc375df05..f1650be5ee 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+     MachineState parent_obj;
+     PowerPCCPU *cpu;
+     DeviceState *mv;
++    qemu_irq mv_pirq[PCI_NUM_PINS];
++    qemu_irq via_pirq[PCI_NUM_PINS];
+     Vof *vof;
+     void *fdt_blob;
+     uint64_t kernel_addr;
+@@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+     }
+ }
  
-+    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", PCI_NUM_PINS);
++static void pegasos2_pci_irq(void *opaque, int n, int level)
++{
++    Pegasos2MachineState *pm = opaque;
 +
-     /* RTC */
-     qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
-     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
++    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
++    qemu_set_irq(pm->mv_pirq[n], level);
++    qemu_set_irq(pm->via_pirq[n], level);
++}
++
+ static void pegasos2_init(MachineState *machine)
+ {
+     Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
+@@ -106,7 +117,7 @@ static void pegasos2_init(MachineState *machine)
+     I2CBus *i2c_bus;
+     const char *fwname = machine->firmware ?: PROM_FILENAME;
+     char *filename;
+-    int sz;
++    int i, sz;
+     uint8_t *spd_data;
+ 
+     /* init CPU */
+@@ -156,11 +167,18 @@ static void pegasos2_init(MachineState *machine)
+     /* Marvell Discovery II system controller */
+     pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+                           qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
++    for (i = 0; i < PCI_NUM_PINS; i++) {
++        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
++    }
+     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
++    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+ 
+     /* VIA VT8231 South Bridge (multifunction PCI device) */
+     via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
+                                                  true, TYPE_VT8231_ISA));
++    for (i = 0; i < PCI_NUM_PINS; i++) {
++        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
++    }
+     object_property_add_alias(OBJECT(machine), "rtc-time",
+                               object_resolve_path_component(via, "rtc"),
+                               "date");
+@@ -267,6 +285,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
+                               PCI_INTERRUPT_LINE, 2, 0x9);
+     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+                               0x50, 1, 0x2);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x55, 1, 0x90);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x56, 1, 0x99);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x57, 1, 0x90);
+ 
+     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
+                               PCI_INTERRUPT_LINE, 2, 0x109);
 -- 
 2.38.1
 
