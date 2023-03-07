@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523A06AE8A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3E66AE90D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:20:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZax9-00025a-0Z; Tue, 07 Mar 2023 12:18:19 -0500
+	id 1pZaxG-0003Gq-Tt; Tue, 07 Mar 2023 12:18:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZaws-00022T-PG
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:03 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZawx-000250-ML
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:11 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZawq-0007Sc-D8
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:02 -0500
+ <BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZawv-0007TA-Ml
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:18:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=4BkL9NyCgm8G9JQUlKfpShNc/FIh4cWQeRocuey9tU8=; b=GeUVdgGSmXJsf28yr1m+YFJgP/
- I4tHijoLmJrTrjvs1rNLLzvJaMez8nnt6Mk6GaUzAhBXARxsG7ZVcxtOpuv4LlW2jLTOv4wyZS7M4
- VdSDxy7zkp3Fl1VuiIhammfD36oC9MFdn4+cXhnk4zVsvhbSQ/rDYutcuLq+ZKJX9+IPpAotMG5zs
- jfvmEPVq/5Fbv/cyvlLMU0q2C7vEe4RcX9qOuGmVwtDEKHT1Xw41lGVyD6YKdRcnIs7A6FR+wNK+O
- yOJiAlQlp+ddkCZj1fCo2bAk6xVImZSk4cjuTq/BNoZ10qtxrCLGZAhCxYmUbKDC2Twd1aGGaMPBL
- s1I0IAiQ==;
+ bh=PkizE0cS/Ha72MbLZ6lRnucXKt4Gr9fG8pUinhpPuTo=; b=PQBkd7F1lelkGwnjB6AU6JqM08
+ uPuEG7Ks8QiYuYLUrk1ODhQ/SQg3Sx4UNpNz8ouAH2Fuo5qpDu4tLT5UguJ6qlSz2wkgC6jZdnWcM
+ 3XFtwCAS5jN3zLOOA0mDHvtchzgEI9ZNjXJjWLWewLnW0Feeov9HJaH2gJk0rNuzrzjH60H5rbmVf
+ lx6TVii51C4zqT2Q8gkWAyO+X5uUg17V555DE8O/rwsll0+zs/1ut/0p6Ty8xJz2Pl98Uap2PtLX5
+ JFxyyOe8qtisLxdNwAQ9VnkIy4g21RVm0K5Iqv1s/uPPPBy0eUZ7V+5DTf2l/NSYAgTfspzmBB5ND
+ X4fFOX7g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZawk-006ayC-MQ; Tue, 07 Mar 2023 17:17:55 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pZawk-00H60G-2s; Tue, 07 Mar 2023 17:17:55 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pZawk-009ciE-2F; Tue, 07 Mar 2023 17:17:54 +0000
+ Linux)) id 1pZawk-009ciI-2R; Tue, 07 Mar 2023 17:17:54 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -45,20 +45,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 25/27] i386/xen: Initialize Xen backends from
- pc_basic_device_init() for emulation
-Date: Tue,  7 Mar 2023 17:17:48 +0000
-Message-Id: <20230307171750.2293175-26-dwmw2@infradead.org>
+Subject: [PATCH v2 26/27] MAINTAINERS: Add entry for Xen on KVM emulation
+Date: Tue,  7 Mar 2023 17:17:49 +0000
+Message-Id: <20230307171750.2293175-27-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230307171750.2293175-1-dwmw2@infradead.org>
 References: <20230307171750.2293175-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -83,53 +82,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Now that all the work is done to enable the PV backends to work without
-actual Xen, instantiate the bus from pc_basic_device_init() for emulated
-mode.
-
-This allows us finally to launch an emulated Xen guest with PV disk.
-
-   qemu-system-x86_64 -serial mon:stdio -M q35 -cpu host -display none \
-     -m 1G -smp 2 -accel kvm,xen-version=0x4000a,kernel-irqchip=split \
-     -kernel bzImage -append "console=ttyS0 root=/dev/xvda1" \
-     -drive file=/var/lib/libvirt/images/fedora28.qcow2,if=none,id=disk \
-     -device xen-disk,drive=disk,vdev=xvda
-
-If we use -M pc instead of q35, we can even add an IDE disk and boot a
-guest image normally through grub. But q35 gives us AHCI and that isn't
-unplugged by the Xen magic, so the guests ends up seeing "both" disks.
-
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/pc.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 7bebea57e3..1489abf010 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -102,6 +102,11 @@
- #include "trace.h"
- #include CONFIG_DEVICES
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5340de0515..640deb2895 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -443,6 +443,15 @@ F: target/i386/kvm/
+ F: target/i386/sev*
+ F: scripts/kvm/vmxcap
  
-+#ifdef CONFIG_XEN_EMU
-+#include "hw/xen/xen-legacy-backend.h"
-+#include "hw/xen/xen-bus.h"
-+#endif
++Xen emulation on X86 KVM CPUs
++M: David Woodhouse <dwmw2@infradead.org>
++M: Paul Durrant <paul@xen.org>
++S: Supported
++F: include/sysemu/kvm_xen.h
++F: target/i386/kvm/xen*
++F: hw/i386/kvm/xen*
++F: tests/avocado/xen_guest.py
 +
- /*
-  * Helper for setting model-id for CPU models that changed model-id
-  * depending on QEMU versions up to QEMU 2.4.
-@@ -1318,6 +1323,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-         if (pcms->bus) {
-             pci_create_simple(pcms->bus, -1, "xen-platform");
-         }
-+        xen_bus_init();
-+        xen_be_init();
-     }
- #endif
- 
+ Guest CPU Cores (other accelerators)
+ ------------------------------------
+ Overall
 -- 
 2.39.0
 
