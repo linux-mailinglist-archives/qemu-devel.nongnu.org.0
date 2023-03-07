@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790A86ADECC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71FB6ADEED
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:41:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZWUI-0006Hc-Oz; Tue, 07 Mar 2023 07:32:14 -0500
+	id 1pZWbO-0002j3-RO; Tue, 07 Mar 2023 07:39:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pZWUF-0006Gi-VD
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:32:12 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pZWUE-0001Sa-4d
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:32:11 -0500
-Received: by mail-lf1-x136.google.com with SMTP id f18so16860977lfa.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 04:32:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678192327;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qHCl1SyfScu4m03cx6vP9ZH4N2i/irpvn56oGmK4udE=;
- b=eo1HzOf1eD5lUmRRYX/nLrjmjlFIqjDQZCCR+j1DK+BZzLH1p6J8SqVRFtJJlSgcoQ
- TzTQbBrfWTxo4LU4ouhWKSdxVV7KWQWl8s4/k09J0v8bf6mgzNSP/Xu/4yA0QQeRxr2m
- WMCTGVcGXQaMLB3HUOiiLtyt3xw+NLwKjHyb1ghMGjyXQwmS7pWUDORBIGTwxnEf3UV9
- Qv/zjboP4G6WYqNe7gmSdRWPI2FnbFgQaQoj0+saQ5NEzNYN8I1kQyhFerBzFFTroKEz
- pvlU+ahNUhTW5HWm/VwuNV2GxvM4L0yrvSgvCXApegsWJbDXSQsTPGyfr9uk7+sviYT1
- 1dqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678192327;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qHCl1SyfScu4m03cx6vP9ZH4N2i/irpvn56oGmK4udE=;
- b=dQxdBqLrPHLA0QRLSXx5zzqmThZvYwvBuKi9PT///pZcbdHQRaOZPiSBWKqNz6xtUV
- 83Qk1dINFNZMfE7Y167BXl5GUt873bYVIdbpD1gtqrv0Bw8l3z2JPSwiKCXSa9quRXVQ
- 2fQ9UJPCGYGFfjtEuH2Qhn/Ia0G3iYwJfeah5yuUf/hrPQoM04YHBUuk4wP9udtyafGC
- 3Iy9/jZ5ZHnGa0pWy3FtNSUWLRGJZz1XS7xE4m2Xv7E3e1oMQfTkuzcpBcIKIOVe0QtM
- 12L34zz5eMXtyO8Cc+XEb2dbDzerGm1TwfpTjL32yf2gNHtNYTFR1IxnQD8A29EytJ/e
- XL3Q==
-X-Gm-Message-State: AO0yUKWf0YsbQthHPp+/oQlUOY1fUXYOLrZOeOBokjwI1afb//PAVLXP
- +CGVX02OZ+bY8UYv9eb95WnNCYYjeQWvlC0HX0I=
-X-Google-Smtp-Source: AK7set9IZuG2zCacNdHFnPGr0Kj4FA3ae5Qt8OGMj2Pese8Y7iINpQlHSXAeqFk7WBfnmh+8ve/Cz4dSymm5kGOCU3A=
-X-Received: by 2002:ac2:4c2e:0:b0:4dd:a025:d8c with SMTP id
- u14-20020ac24c2e000000b004dda0250d8cmr4480281lfq.5.1678192327381; Tue, 07 Mar
- 2023 04:32:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZWbG-0002ii-TN
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:39:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pZWbF-0002OS-2V
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:39:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678192763;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LJBe5yOp/KD+gAqs/3DV8/eUP4wAMsMRzPwW3JQKfJ4=;
+ b=I2RlYVylFvr1uQWaqiKjSqng2Ax0Y9hEsE2CFrr8Q6jwdqaIKPTLqHPg2nL3VZAV1gK+cc
+ fpsfNTcn9G/Pvs5+l8lH/BrmCduzyjazyJYBYSTwjyl52b+lkg95w/lyNXa3u2y6HVmPJT
+ +CD3wDOT+vG0514T8ihkotAhwDdObBQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-112-RqUHwf78P2ial_OztPmeIw-1; Tue, 07 Mar 2023 07:39:21 -0500
+X-MC-Unique: RqUHwf78P2ial_OztPmeIw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED143101A55E;
+ Tue,  7 Mar 2023 12:39:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BB82403570F;
+ Tue,  7 Mar 2023 12:39:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7177C21E6A1F; Tue,  7 Mar 2023 13:39:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Paolo
+ Bonzini <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH] qapi: give available enum values in error string
+References: <20230307112212.2437449-1-marcandre.lureau@redhat.com>
+Date: Tue, 07 Mar 2023 13:39:19 +0100
+In-Reply-To: <20230307112212.2437449-1-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 7 Mar 2023 15:22:11 +0400")
+Message-ID: <87ttyw91mw.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
- <20230306122751.2355515-9-marcandre.lureau@redhat.com>
- <871qm1j2zc.fsf@pond.sub.org>
-In-Reply-To: <871qm1j2zc.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Mar 2023 16:31:55 +0400
-Message-ID: <CAJ+F1CJJYZcTXU7WsxufzSH2iW_-9wiK4VQjK1Qi5yx2b082UA@mail.gmail.com>
-Subject: Re: [PATCH v4 08/11] qmp: add 'get-win32-socket'
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,222 +82,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+marcandre.lureau@redhat.com writes:
 
-On Mon, Mar 6, 2023 at 7:49 PM Markus Armbruster <armbru@redhat.com> wrote:
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> marcandre.lureau@redhat.com writes:
+> This allows for a more pleasant user experience.
 >
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > A process with enough capabilities can duplicate a socket to QEMU. Add =
-a
-> > QMP command to import it and add it to the monitor fd list, so it can b=
-e
-> > later used by other commands.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  qapi/misc.json | 30 ++++++++++++++++++++
-> >  monitor/fds.c  | 76 +++++++++++++++++++++++++++++++++++++++-----------
-> >  2 files changed, 90 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index f0217cfba0..031c94050c 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -275,6 +275,36 @@
-> >  ##
-> >  { 'command': 'getfd', 'data': {'fdname': 'str'} }
-> >
-> > +##
-> > +# @get-win32-socket:
-> > +#
-> > +# Add a socket that was duplicated to QEMU process with WSADuplicateSo=
-cketW()
-> > +# via WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name (=
-the SOCKET
-> > +# is associated with a CRT file descriptor)
+> Before:
+> $ ./qemu-system-x86_64 -display egl-headless,gl=3D
+> qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does not =
+accept value ''
 >
-> Long line.
->
+> After:
+> $ ./qemu-system-x86_64 -display egl-headless,gl=3D
+> qemu-system-x86_64: -display egl-headless,gl=3Dhelp: Parameter 'gl' does
+> not accept value '' (available: 'off', 'on', 'core', 'es')
 
-Ok.. see related .editorconfig patch to make everyone's life easier.
+error.h recommends to user error_append_hint() for this:
 
-> > +#
-> > +# @info: the WSAPROTOCOL_INFOW structure (encoded in base64)
-> > +#
-> > +# @fdname: file descriptor name
-> > +#
-> > +# Returns: Nothing on success
-> > +#
-> > +# Since: 8.0
-> > +#
-> > +# Notes: If @fdname already exists, the file descriptor assigned to
-> > +#        it will be closed and replaced by the received file
-> > +#        descriptor.
-> > +#
-> > +#        The 'closefd' command can be used to explicitly close the
-> > +#        file descriptor when it is no longer needed.
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "get-win32-socket", "arguments": { "info": "abcd123.=
-.", fdname": "skclient" } }
-> > +# <- { "return": {} }
-> > +#
-> > +##
-> > +{ 'command': 'get-win32-socket', 'data': {'info': 'str', 'fdname': 'st=
-r'}, 'if': 'CONFIG_WIN32' }
-> > +
-> >  ##
-> >  # @closefd:
-> >  #
-> > diff --git a/monitor/fds.c b/monitor/fds.c
-> > index 7daf1064e1..9ed4197358 100644
-> > --- a/monitor/fds.c
-> > +++ b/monitor/fds.c
-> > @@ -61,46 +61,55 @@ struct MonFdset {
-> >  static QemuMutex mon_fdsets_lock;
-> >  static QLIST_HEAD(, MonFdset) mon_fdsets;
-> >
-> > -void qmp_getfd(const char *fdname, Error **errp)
-> > +static bool monitor_add_fd(Monitor *mon, int fd, const char *fdname, E=
-rror **errp)
-> >  {
-> > -    Monitor *cur_mon =3D monitor_cur();
-> >      mon_fd_t *monfd;
-> > -    int fd, tmp_fd;
-> > -
-> > -    fd =3D qemu_chr_fe_get_msgfd(&cur_mon->chr);
-> > -    if (fd =3D=3D -1) {
-> > -        error_setg(errp, "No file descriptor supplied via SCM_RIGHTS")=
-;
-> > -        return;
-> > -    }
-> >
-> >      if (qemu_isdigit(fdname[0])) {
-> >          close(fd);
-> >          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "fdname",
-> >                     "a name not starting with a digit");
-> > -        return;
-> > +        return false;
-> >      }
-> >
-> >      /* See close() call below. */
-> > -    qemu_mutex_lock(&cur_mon->mon_lock);
-> > -    QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-> > +    qemu_mutex_lock(&mon->mon_lock);
-> > +    QLIST_FOREACH(monfd, &mon->fds, next) {
-> > +        int tmp_fd;
-> > +
-> >          if (strcmp(monfd->name, fdname) !=3D 0) {
-> >              continue;
-> >          }
-> >
-> >          tmp_fd =3D monfd->fd;
-> >          monfd->fd =3D fd;
-> > -        qemu_mutex_unlock(&cur_mon->mon_lock);
-> > +        qemu_mutex_unlock(&mon->mon_lock);
-> >          /* Make sure close() is outside critical section */
-> >          close(tmp_fd);
-> > -        return;
-> > +        return true;
-> >      }
->
-> Have you considered factoring out the loop searching ->fds?
+ * Create an error and add additional explanation:
+ *     error_setg(errp, "invalid quark");
+ *     error_append_hint(errp, "Valid quarks are up, down, strange, "
+ *                       "charm, top, bottom.\n");
 
-Not really, it doesn't look trivial at first sight because they do
-different things.
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  include/qapi/util.h             |  1 +
+>  qapi/qapi-util.c                | 15 +++++++++++++++
+>  qapi/qapi-visit-core.c          |  7 +++++--
+>  tests/unit/check-qom-proplist.c |  4 ++--
+>  4 files changed, 23 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/qapi/util.h b/include/qapi/util.h
+> index 81a2b13a33..a5363e595d 100644
+> --- a/include/qapi/util.h
+> +++ b/include/qapi/util.h
+> @@ -23,6 +23,7 @@ typedef struct QEnumLookup {
+>  } QEnumLookup;
+>=20=20
+>  const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
+> +char *qapi_enum_available(const QEnumLookup *lookup);
+>  int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
+>                      int def, Error **errp);
+>  bool qapi_bool_parse(const char *name, const char *value, bool *obj,
+> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+> index 63596e11c5..19ba4b695a 100644
+> --- a/qapi/qapi-util.c
+> +++ b/qapi/qapi-util.c
+> @@ -84,6 +84,21 @@ int qapi_enum_parse(const QEnumLookup *lookup, const c=
+har *buf,
+>      return def;
+>  }
+>=20=20
+> +char *qapi_enum_available(const QEnumLookup *lookup)
+> +{
+> +    int i;
+> +    GString *str =3D g_string_new(NULL);
+> +
+> +    for (i =3D 0; i < lookup->size; i++) {
+> +        g_string_append_printf(str, "'%s'", lookup->array[i]);
+> +        if (i + 1 < lookup->size) {
+> +            g_string_append(str, ", ");
+> +        }
+> +    }
+> +
+> +    return g_string_free(str, FALSE);
+> +}
+> +
 
->
-> >
-> >      monfd =3D g_new0(mon_fd_t, 1);
-> >      monfd->name =3D g_strdup(fdname);
-> >      monfd->fd =3D fd;
-> >
-> > -    QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-> > -    qemu_mutex_unlock(&cur_mon->mon_lock);
-> > +    QLIST_INSERT_HEAD(&mon->fds, monfd, next);
-> > +    qemu_mutex_unlock(&mon->mon_lock);
-> > +    return true;
-> > +}
-> > +
-> > +void qmp_getfd(const char *fdname, Error **errp)
-> > +{
-> > +    Monitor *cur_mon =3D monitor_cur();
-> > +    int fd;
-> > +
-> > +    fd =3D qemu_chr_fe_get_msgfd(&cur_mon->chr);
-> > +    if (fd =3D=3D -1) {
-> > +        error_setg(errp, "No file descriptor supplied via SCM_RIGHTS")=
-;
-> > +        return;
-> > +    }
-> > +
-> > +    monitor_add_fd(cur_mon, fd, fdname, errp);
-> >  }
-> >
-> >  void qmp_closefd(const char *fdname, Error **errp)
-> > @@ -214,6 +223,41 @@ error:
-> >      return NULL;
-> >  }
->
-> With the doc comment tidied up:
-> Acked-by: Markus Armbruster <armbru@redhat.com>
->
-> The remainder is greek to me :)
+If we use error_append_hint(), we can fold it into the reusable helper,
+and name the result error_append_qapi_enum_hint().  Easier to use than
+qapi_enum_available(), because the caller doesn't have to free anything.
 
-ok, thanks
+>  bool qapi_bool_parse(const char *name, const char *value, bool *obj, Err=
+or **errp)
+>  {
+>      if (g_str_equal(value, "on") ||
+> diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+> index 6c13510a2b..b887cbf3fd 100644
+> --- a/qapi/qapi-visit-core.c
+> +++ b/qapi/qapi-visit-core.c
+> @@ -404,8 +404,11 @@ static bool input_type_enum(Visitor *v, const char *=
+name, int *obj,
+>=20=20
+>      value =3D qapi_enum_parse(lookup, enum_str, -1, NULL);
+>      if (value < 0) {
+> -        error_setg(errp, "Parameter '%s' does not accept value '%s'",
+> -                   name ? name : "null", enum_str);
+> +        g_autofree char *avail =3D NULL;
+> +
+> +        avail =3D qapi_enum_available(lookup);
+> +        error_setg(errp, "Parameter '%s' does not accept value '%s' (ava=
+ilable: %s)",
+> +                   name ? name : "null", enum_str, avail);
+>          return false;
+>      }
+>=20=20
+> diff --git a/tests/unit/check-qom-proplist.c b/tests/unit/check-qom-propl=
+ist.c
+> index 79d4a8b89d..eb0b215abb 100644
+> --- a/tests/unit/check-qom-proplist.c
+> +++ b/tests/unit/check-qom-proplist.c
+> @@ -488,8 +488,8 @@ static void test_dummy_badenum(void)
+>=20=20
+>      g_assert(dobj =3D=3D NULL);
+>      g_assert(err !=3D NULL);
+> -    g_assert_cmpstr(error_get_pretty(err), =3D=3D,
+> -                    "Parameter 'av' does not accept value 'yeti'");
+> +    g_assert_nonnull(strstr(error_get_pretty(err),
+> +                            "Parameter 'av' does not accept value 'yeti'=
+"));
+>=20=20
+>      g_assert(object_resolve_path_component(parent, "dummy0")
+>               =3D=3D NULL);
 
->
-> >
-> > +#ifdef WIN32
-> > +void qmp_get_win32_socket(const char *infos, const char *fdname, Error=
- **errp)
-> > +{
-> > +    g_autofree WSAPROTOCOL_INFOW *info =3D NULL;
-> > +    gsize len;
-> > +    SOCKET sk;
-> > +    int fd;
-> > +
-> > +    info =3D (void *)g_base64_decode(infos, &len);
-> > +    if (len !=3D sizeof(*info)) {
-> > +        error_setg(errp, "Invalid WSAPROTOCOL_INFOW value");
-> > +        return;
-> > +    }
-> > +
-> > +    sk =3D WSASocketW(FROM_PROTOCOL_INFO,
-> > +                    FROM_PROTOCOL_INFO,
-> > +                    FROM_PROTOCOL_INFO,
-> > +                    info, 0, 0);
-> > +    if (sk =3D=3D INVALID_SOCKET) {
-> > +        error_setg_win32(errp, WSAGetLastError(), "Couldn't import soc=
-ket");
-> > +        return;
-> > +    }
-> > +
-> > +    fd =3D _open_osfhandle(sk, _O_BINARY);
-> > +    if (fd < 0) {
-> > +        error_setg_errno(errp, errno, "Failed to associate a FD with t=
-he SOCKET");
-> > +        closesocket(sk);
-> > +        return;
-> > +    }
-> > +
-> > +    monitor_add_fd(monitor_cur(), fd, fdname, errp);
-> > +}
-> > +#endif
-> > +
-> > +
-> >  void qmp_remove_fd(int64_t fdset_id, bool has_fd, int64_t fd, Error **=
-errp)
-> >  {
-> >      MonFdset *mon_fdset;
->
->
+No need to mess with the test then.
 
+What do you think?
 
---=20
-Marc-Andr=C3=A9 Lureau
 
