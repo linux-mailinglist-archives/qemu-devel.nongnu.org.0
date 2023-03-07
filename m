@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F252B6AE5EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F046AE5ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 17:07:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZpC-0005RY-Gh; Tue, 07 Mar 2023 11:06:02 -0500
+	id 1pZZqL-0007Pd-F5; Tue, 07 Mar 2023 11:07:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pZZpA-0005Qs-Jj
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:06:01 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pZZp8-0002UK-G3
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:06:00 -0500
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:5da4:0:640:ef2d:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 143C55E5C0;
- Tue,  7 Mar 2023 19:05:53 +0300 (MSK)
-Received: from vsementsov-win.yandex-team.ru (unknown
- [2a02:6b8:b081:1223::1:36])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id d5eRk00OeKo0-VB7GE4BT; Tue, 07 Mar 2023 19:05:52 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1678205152; bh=gW/0JMJLXFZEHFqHTlYTalR4SChAVsIvTrcNaeJnXVU=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=Qc8c84BKY/7OnIj1upI5uZNl98UEkW/NzcEIqdW5H+FaprlrR8Eix9l6OSow3PNhZ
- oXD2EdbmoUduYr5WR+4Tff6JDqsiFleZQ6AFxDxI764ZHxN3r5VzkuHhx05cI5rCnu
- cu7xkhy9W9UQ0ZL6P4FZ5sTEmYUX6AjRWuNpxDeE=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru,
- vsementsov@yandex-team.ru, philmd@linaro.org
-Subject: [PATCH v6 4/4] pcie: implement DEVICE_ON event and query-hotplug
-Date: Tue,  7 Mar 2023 19:05:37 +0300
-Message-Id: <20230307160537.2261803-5-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230307160537.2261803-1-vsementsov@yandex-team.ru>
-References: <20230307160537.2261803-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZZqI-0007OO-Sj
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:07:10 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZZqH-0002jL-3T
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 11:07:10 -0500
+Received: by mail-wr1-x435.google.com with SMTP id h14so12659853wru.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 08:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678205227;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0H/+Aloi1KiZg+ye6m8zoXqklBT/IfAyOTQ+13p4YMk=;
+ b=BewN3PtsvMyJwYGyLWpl6bBq+SlhTspcjq9nuGvBobr+QVx8bTyP3XJ4xvE4aHNzuF
+ oY2IhjwWimGjA9WqwI4DUlKDJG8RhHdwDQ+3+jeU5VOnDc0S/5uBxcj9hqUncUr8pTgX
+ 6S5rKNbzO5if6SxeS/FS/+21sQdVQog6/PXIn3uEP4E2EaY5cExY9GadQHeYW412aX2F
+ bYyy9XI2BrkXgy/p5fBIZa4esns5VpvNcmHC8hh1IMd+AP8jPZYQunZj5hkx/c+Anm6k
+ icV7Q0azz6RCP94vazUVzFIUo6oGnVTyu0dfRVe+RtmHJPvzYcT5s9BzWcfekz8dQy9J
+ 3ufg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678205227;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0H/+Aloi1KiZg+ye6m8zoXqklBT/IfAyOTQ+13p4YMk=;
+ b=1RLTEp6dP+JrwG4O+gpvN2l5u0GvbtxRLdtxUImYkIFg3tlFy5iu1vdVJodanjRMJ3
+ 1b/dDIh972Njpk+OucnvN4kqtK+8wJWesvTxEmaFDjgWpkUoKzZZBVbbeoSq0G6lrQCm
+ FmYUfr2Th7z7iTv4/iCNrWrY36rjRDIUrCfZs66lQzaAoI0lquJ5Z53svgEdh+hV+PUf
+ bjoukpZ2VG4aenXmt5AqNLbRI1rwx7ASIhJCFQ7Gfm8FwE0WrTGrnpAqsqiLTm9fd3xP
+ pM7iX6llTWDJrcTgZ8RhdAkGQHUuFmA4goUMTZOAmvNyrjp3psblr9kpItONy6BTv5mm
+ aWag==
+X-Gm-Message-State: AO0yUKVUsgNCbSPnnhEXBIirrdQAtsoM50AQ5aHOj35SIICnvxsFzMDo
+ 44rEb5IOapXTGSTPlVKYQ2Y=
+X-Google-Smtp-Source: AK7set/hEKiuZhAKGXqh7OLuuCFpqLaIldCtdKFsHX1nROkJ2AzPbuOMO1Nn1rjJ9BWUmxmW2ZbrWQ==
+X-Received: by 2002:a5d:4ecb:0:b0:2c7:17e0:54f5 with SMTP id
+ s11-20020a5d4ecb000000b002c717e054f5mr8562529wrv.13.1678205227220; 
+ Tue, 07 Mar 2023 08:07:07 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
+ by smtp.gmail.com with ESMTPSA id
+ j17-20020adff011000000b002c5a1bd527dsm12816184wro.96.2023.03.07.08.07.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 08:07:06 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <ee8f307b-1e0a-6d6c-3edc-8f8262dcfe42@xen.org>
+Date: Tue, 7 Mar 2023 16:07:05 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 21/25] hw/xen: Add emulated implementation of grant
+ table operations
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-22-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-22-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,172 +99,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For PCIe and SHPC hotplug it's important to track led indicators and
-"device-on" status.
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> This is limited to mapping a single grant at a time, because under Xen the
+> pages are mapped *contiguously* into qemu's address space, and that's very
+> hard to do when those pages actually come from anonymous mappings in qemu
+> in the first place.
+> 
+> Eventually perhaps we can look at using shared mappings of actual objects
+> for system RAM, and then we can make new mappings of the same backing
+> store (be it deleted files, shmem, whatever). But for now let's stick to
+> a page at a time.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xen_gnttab.c | 299 ++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 296 insertions(+), 3 deletions(-)
+> 
+[snip]
+> +static uint64_t gnt_ref(XenGnttabState *s, grant_ref_t ref, int prot)
+> +{
+> +    uint16_t mask = GTF_type_mask | GTF_sub_page;
+> +    grant_entry_v1_t gnt, *gnt_p;
+> +    int retries = 0;
+> +
+> +    if (ref >= s->max_frames * ENTRIES_PER_FRAME_V1 ||
+> +        s->map_track[ref] == UINT8_MAX) {
+> +        return INVALID_GPA;
+> +    }
+> +
+> +    if (prot & PROT_WRITE) {
+> +        mask |= GTF_readonly;
+> +    }
+> +
+> +    gnt_p = &s->entries.v1[ref];
+> +
+> +    /*
+> +     * The guest can legitimately be changing the GTF_readonly flag. Allow
 
-At this step implement the prepared infrastructure in PCIe.
+I'd call a guest playing with the ref after setting GTF_permit_access a 
+buggy guest and not bother with the loop.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- include/hw/pci/pcie.h |  2 ++
- hw/pci/pcie.c         | 83 +++++++++++++++++++++++++++++++++++++++++++
- hw/pci/pcie_port.c    |  1 +
- 3 files changed, 86 insertions(+)
+> +     * that, but don't let a malicious guest cause a livelock.
+> +     */
+> +    for (retries = 0; retries < 5; retries++) {
+> +        uint16_t new_flags;
+> +
+> +        /* Read the entry before an atomic operation on its flags */
+> +        gnt = *(volatile grant_entry_v1_t *)gnt_p;
+> +
+> +        if ((gnt.flags & mask) != GTF_permit_access ||
+> +            gnt.domid != DOMID_QEMU) {
+> +            return INVALID_GPA;
+> +        }
+> +
+> +        new_flags = gnt.flags | GTF_reading;
+> +        if (prot & PROT_WRITE) {
+> +            new_flags |= GTF_writing;
+> +        }
+> +
+> +        if (qatomic_cmpxchg(&gnt_p->flags, gnt.flags, new_flags) == gnt.flags) {
 
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 3cc2b15957..f755a7cacb 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -146,4 +146,6 @@ void pcie_cap_slot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                              Error **errp);
- void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp);
-+HotplugInfo *pcie_cap_slot_get_hotplug_state(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp);
- #endif /* QEMU_PCIE_H */
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index b8c24cf45f..a47c95e4b2 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -19,7 +19,10 @@
-  */
- 
- #include "qemu/osdep.h"
-+
-+#include "monitor/qdev.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-events-qdev.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/msix.h"
-@@ -45,6 +48,30 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
-         && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
- }
- 
-+static bool pcie_sltctl_powered_on(uint16_t sltctl)
-+{
-+    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON &&
-+        (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_ON &&
-+        (sltctl & PCI_EXP_SLTCTL_AIC) == PCI_EXP_SLTCTL_ATTN_IND_OFF;
-+}
-+
-+static LedActivity pcie_led_state_to_qapi(uint16_t value)
-+{
-+    switch (value) {
-+    case PCI_EXP_SLTCTL_PWR_IND_ON:
-+    case PCI_EXP_SLTCTL_ATTN_IND_ON:
-+        return LED_ACTIVITY_ON;
-+    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
-+    case PCI_EXP_SLTCTL_ATTN_IND_BLINK:
-+        return LED_ACTIVITY_BLINK;
-+    case PCI_EXP_SLTCTL_PWR_IND_OFF:
-+    case PCI_EXP_SLTCTL_ATTN_IND_OFF:
-+        return LED_ACTIVITY_OFF;
-+    default:
-+        abort();
-+    }
-+}
-+
- /***************************************************************************
-  * pci express capability helper functions
-  */
-@@ -724,6 +751,28 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta)
-     *slt_sta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
- }
- 
-+static void find_child_fn(PCIBus *bus, PCIDevice *dev, void *opaque)
-+{
-+    PCIDevice **child = opaque;
-+
-+    if (!*child) {
-+        *child = dev;
-+    }
-+}
-+
-+/*
-+ * Returns the plugged device or first function of multifunction plugged device
-+ */
-+static PCIDevice *pcie_cap_slot_find_child(PCIDevice *dev)
-+{
-+    PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
-+    PCIDevice *child = NULL;
-+
-+    pci_for_each_device(sec_bus, pci_bus_num(sec_bus), find_child_fn, &child);
-+
-+    return child;
-+}
-+
- void pcie_cap_slot_write_config(PCIDevice *dev,
-                                 uint16_t old_slt_ctl, uint16_t old_slt_sta,
-                                 uint32_t addr, uint32_t val, int len)
-@@ -731,6 +780,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-     uint32_t pos = dev->exp.exp_cap;
-     uint8_t *exp_cap = dev->config + pos;
-     uint16_t sltsta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
-+    DeviceState *child_dev = DEVICE(pcie_cap_slot_find_child(dev));
- 
-     if (ranges_overlap(addr, len, pos + PCI_EXP_SLTSTA, 2)) {
-         /*
-@@ -768,6 +818,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-                         sltsta);
-     }
- 
-+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
-+        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
-+    {
-+        qdev_hotplug_device_on_event(child_dev);
-+    }
-+
-     /*
-      * If the slot is populated, power indicator is off and power
-      * controller is off, it is safe to detach the devices.
-@@ -1100,3 +1156,30 @@ void pcie_acs_reset(PCIDevice *dev)
-         pci_set_word(dev->config + dev->exp.acs_cap + PCI_ACS_CTRL, 0);
-     }
- }
-+
-+HotplugInfo *pcie_cap_slot_get_hotplug_state(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp)
-+{
-+    PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-+    uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-+    uint16_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
-+    uint16_t power_led = sltctl & PCI_EXP_SLTCTL_PIC;
-+    uint16_t attn_led = sltctl & PCI_EXP_SLTCTL_AIC;
-+    uint16_t pcc = sltctl & PCI_EXP_SLTCTL_PCC;
-+    HotplugInfo *res = g_new(HotplugInfo, 1);
-+
-+    *res = (HotplugInfo) {
-+        .type = HOTPLUG_TYPE_PCIE_NATIVE,
-+        .bus = qdev_new_device_and_path(DEVICE(hotplug_pdev)),
-+        .child = qdev_new_device_and_path(dev),
-+        .device_on = dev->device_on_sent,
-+        .u.pcie_native.has_power_led = true,
-+        .u.pcie_native.power_led = pcie_led_state_to_qapi(power_led),
-+        .u.pcie_native.has_attention_led = true,
-+        .u.pcie_native.attention_led = pcie_led_state_to_qapi(attn_led),
-+        .u.pcie_native.has_power_on = true,
-+        .u.pcie_native.power_on = pcc == PCI_EXP_SLTCTL_PWR_ON,
-+    };
-+
-+    return res;
-+}
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index 65a397ad23..8b28efc52d 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -188,6 +188,7 @@ static void pcie_slot_class_init(ObjectClass *oc, void *data)
-     hc->plug = pcie_cap_slot_plug_cb;
-     hc->unplug = pcie_cap_slot_unplug_cb;
-     hc->unplug_request = pcie_cap_slot_unplug_request_cb;
-+    hc->get_hotplug_state = pcie_cap_slot_get_hotplug_state;
- }
- 
- static const TypeInfo pcie_slot_type_info = {
--- 
-2.34.1
+Xen actually does a cmpxchg on both the flags and the domid. We probably 
+ought to fail to set the flags if the guest is playing with the domid 
+but since we're single-tenant it doesn't *really* matter... just a 
+nice-to-have. So...
+
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
