@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8B86AD8EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 09:15:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0156AD8EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 09:16:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZSSk-00061h-RK; Tue, 07 Mar 2023 03:14:23 -0500
+	id 1pZSSm-00062d-TK; Tue, 07 Mar 2023 03:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZSSg-0005zp-Aq; Tue, 07 Mar 2023 03:14:18 -0500
+ id 1pZSSh-00060Q-P9; Tue, 07 Mar 2023 03:14:19 -0500
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pZSSc-0007Jk-Vd; Tue, 07 Mar 2023 03:14:18 -0500
+ id 1pZSSd-0007Jx-28; Tue, 07 Mar 2023 03:14:19 -0500
 Received: from localhost.localdomain (unknown [180.165.240.213])
- by APP-05 (Coremail) with SMTP id zQCowACn0qJN8gZkNe6lDA--.36330S5;
- Tue, 07 Mar 2023 16:14:07 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACn0qJN8gZkNe6lDA--.36330S6;
+ Tue, 07 Mar 2023 16:14:08 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v12 03/10] target/riscv: add support for Zcf extension
-Date: Tue,  7 Mar 2023 16:13:56 +0800
-Message-Id: <20230307081403.61950-4-liweiwei@iscas.ac.cn>
+Subject: [PATCH v12 04/10] target/riscv: add support for Zcd extension
+Date: Tue,  7 Mar 2023 16:13:57 +0800
+Message-Id: <20230307081403.61950-5-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
 References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACn0qJN8gZkNe6lDA--.36330S5
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF43Jry7Xw47JFyrJF4UXFb_yoW8trW3pr
- 18Cay7GrWUAryfA3Z3tF45Xr1UJrs2gry8t3sIyw1kGa1UGFs8Zw1qqr13tr4UXFyvqr1Y
- kF18A39xC3yktrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9m14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
- x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
- 8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
- IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
- Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCFx2
- IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
- 6r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
- AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IY
- s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
- 0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n5UUUUU=
+X-CM-TRANSID: zQCowACn0qJN8gZkNe6lDA--.36330S6
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw1UuFW8GF1kWr4fJrW5KFg_yoW8Kr4xpF
+ 18Cw47GFW5GryfZa13tF43JF4UJFs3Gry8t3sIywn5Gay5GF45Zr1UtFy3tr4UXFWkZr1Y
+ kFyDA39xC395trDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9C14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+ kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+ z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
+ 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+ 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+ IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+ M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrw
+ CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+ 14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+ IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+ x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+ 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQSdkUUUUU=
 X-Originating-IP: [180.165.240.213]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -73,7 +73,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Separate c_flw/c_fsw from flw/fsw to add check for Zcf extension.
+Separate c_fld/c_fsd from fld/fsd to add additional check for
+c.fld{sp}/c.fsd{sp} which is useful for zcmp/zcmt to reuse
+their encodings.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
@@ -81,73 +83,80 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
  target/riscv/insn16.decode              |  8 ++++----
- target/riscv/insn_trans/trans_rvf.c.inc | 18 ++++++++++++++++++
+ target/riscv/insn_trans/trans_rvd.c.inc | 18 ++++++++++++++++++
  2 files changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
-index ccfe59f294..f3ea650325 100644
+index f3ea650325..b62664b6af 100644
 --- a/target/riscv/insn16.decode
 +++ b/target/riscv/insn16.decode
-@@ -109,11 +109,11 @@ sw                110  ... ... .. ... 00 @cs_w
- # *** RV32C and RV64C specific Standard Extension (Quadrant 0) ***
- {
-   ld              011  ... ... .. ... 00 @cl_d
--  flw             011  ... ... .. ... 00 @cl_w
-+  c_flw           011  ... ... .. ... 00 @cl_w
+@@ -97,12 +97,12 @@
  }
  {
-   sd              111  ... ... .. ... 00 @cs_d
--  fsw             111  ... ... .. ... 00 @cs_w
-+  c_fsw           111  ... ... .. ... 00 @cs_w
+   lq              001  ... ... .. ... 00 @cl_q
+-  fld             001  ... ... .. ... 00 @cl_d
++  c_fld           001  ... ... .. ... 00 @cl_d
  }
+ lw                010  ... ... .. ... 00 @cl_w
+ {
+   sq              101  ... ... .. ... 00 @cs_q
+-  fsd             101  ... ... .. ... 00 @cs_d
++  c_fsd           101  ... ... .. ... 00 @cs_d
+ }
+ sw                110  ... ... .. ... 00 @cs_w
  
- # *** RV32/64C Standard Extension (Quadrant 1) ***
-@@ -174,9 +174,9 @@ sw                110 .  .....  ..... 10 @c_swsp
+@@ -148,7 +148,7 @@ addw              100 1 11 ... 01 ... 01 @cs_2
+ slli              000 .  .....  ..... 10 @c_shift2
  {
-   c64_illegal     011 -  00000  ----- 10 # c.ldsp, RES rd=0
-   ld              011 .  .....  ..... 10 @c_ldsp
--  flw             011 .  .....  ..... 10 @c_lwsp
-+  c_flw           011 .  .....  ..... 10 @c_lwsp
+   lq              001  ... ... .. ... 10 @c_lqsp
+-  fld             001 .  .....  ..... 10 @c_ldsp
++  c_fld           001 .  .....  ..... 10 @c_ldsp
  }
  {
-   sd              111 .  .....  ..... 10 @c_sdsp
--  fsw             111 .  .....  ..... 10 @c_swsp
-+  c_fsw           111 .  .....  ..... 10 @c_swsp
+   illegal         010 -  00000  ----- 10 # c.lwsp, RES rd=0
+@@ -166,7 +166,7 @@ slli              000 .  .....  ..... 10 @c_shift2
  }
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-index 052408f45c..9e9fa2087a 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -30,6 +30,12 @@
+ {
+   sq              101  ... ... .. ... 10 @c_sqsp
+-  fsd             101   ......  ..... 10 @c_sdsp
++  c_fsd           101   ......  ..... 10 @c_sdsp
+ }
+ sw                110 .  .....  ..... 10 @c_swsp
+ 
+diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
+index 1597bf31d8..2c51e01c40 100644
+--- a/target/riscv/insn_trans/trans_rvd.c.inc
++++ b/target/riscv/insn_trans/trans_rvd.c.inc
+@@ -31,6 +31,12 @@
      } \
  } while (0)
  
-+#define REQUIRE_ZCF(ctx) do {                  \
-+    if (!ctx->cfg_ptr->ext_zcf) {              \
-+        return false;                          \
-+    }                                          \
++#define REQUIRE_ZCD(ctx) do { \
++    if (!ctx->cfg_ptr->ext_zcd) {  \
++        return false;     \
++    } \
 +} while (0)
 +
- static bool trans_flw(DisasContext *ctx, arg_flw *a)
+ static bool trans_fld(DisasContext *ctx, arg_fld *a)
  {
-     TCGv_i64 dest;
-@@ -61,6 +67,18 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
+     TCGv addr;
+@@ -59,6 +65,18 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
      return true;
  }
  
-+static bool trans_c_flw(DisasContext *ctx, arg_flw *a)
++static bool trans_c_fld(DisasContext *ctx, arg_fld *a)
 +{
-+    REQUIRE_ZCF(ctx);
-+    return trans_flw(ctx, a);
++    REQUIRE_ZCD(ctx);
++    return trans_fld(ctx, a);
 +}
 +
-+static bool trans_c_fsw(DisasContext *ctx, arg_fsw *a)
++static bool trans_c_fsd(DisasContext *ctx, arg_fsd *a)
 +{
-+    REQUIRE_ZCF(ctx);
-+    return trans_fsw(ctx, a);
++    REQUIRE_ZCD(ctx);
++    return trans_fsd(ctx, a);
 +}
 +
- static bool trans_fmadd_s(DisasContext *ctx, arg_fmadd_s *a)
+ static bool trans_fmadd_d(DisasContext *ctx, arg_fmadd_d *a)
  {
      REQUIRE_FPU;
 -- 
