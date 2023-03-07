@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40436AEDB0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462A36AED5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:03:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbdv-0001ip-UB; Tue, 07 Mar 2023 13:02:31 -0500
+	id 1pZbdv-0001eH-Iy; Tue, 07 Mar 2023 13:02:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbdr-0001Ao-9M
+ id 1pZbdr-0001Ac-7d
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:27 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZbdo-00014C-D4
+ id 1pZbdp-00014K-1l
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:02:26 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id y2so14035640pjg.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:23 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so17416136pjh.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 10:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678212143;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NmYtNEOQ8sB74QpilprPqga1omIIlxb74s+3Tcbk60I=;
- b=JhanlYvP4X+3Cu7dQtlEEVUlzrDhhN94NYnA2Q3YmIudR4G+z2WBzxA8DY9OW0cpDi
- +WLdeapZo3l7t/fkLYj/oFNIhjZwLGjKRRhv6Zp6aw7USY6LsrZsVhIO5ifgK9LD8B7j
- +PTCM5x2SVH4cguGOvYOf0wbZrI8n02jXwP9IRwE1J2VPhCZrd4qJL100fFPqAcIf2Gf
- XFPT8pXk99WSydIm7p5RTi59Rhhgdgc5Vpopw5Rfev/Qmr9gT66NOkWahAcz9ct1spZo
- 04WdoLkXk5JyA+1Sxlo7on25k//epW1aerMMMdgtco14x7+L3t7lUKYKmSxo0YZbZq0K
- 0fqA==
+ bh=5FP4phlNuAKGlZMwdRjX+9/17//cy6MzJB0F0PRHIeY=;
+ b=QeX2GBFxBEUKY/XEI5BZ1E7JTPdiFYjVkEgHRmnMHWiV1FBQSW8/QDz17v5wJvioYD
+ VCwvrQ9lYbsTDRtEVV9U25hjzvLKCZkiz3MoK9SRSbPcbvqaO39fnKNQLNoaF8rTXsX5
+ TwKwfNh43QdDO3MuM+BWCf7SPRQ08BOp6swFSDPYJZqWDgIS1Zuyp+vttds47ncY7OG4
+ QJIdxV3RJIhaPHy1WWLUohIg7tZJeBzdeNizjzhHP2v7skb92dhF5CDCA4D+xrYL5l2W
+ eTF7VipV4sYifLlg7Sgg8yViKaHrHzh7NIZh8s9VMcCqn4OGxOYk+msIQJUon3VGNujb
+ lJzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678212143;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NmYtNEOQ8sB74QpilprPqga1omIIlxb74s+3Tcbk60I=;
- b=wzQR5CPO8KdySSInO7GWwOTgNGwyKgFkfdsoIIVlKFXGOncy9c5ix6sP19A5UXNKLi
- Mmivs6jLly+jW4M/b3O6cKNYYMB6xV03QclvjG89GrwE0sxR4HMXN7F6v/WWPIQY9S4o
- YikTrF5tq1mHAWKex4+VhWkTxVPRAuwutmQixndqNQ9jrMbrM5PF3ssflq6WWSgDVrIk
- vooLlWJodtkQYZvRf3OBQqOzAMsgRWkqoEew095u/zAaCi73o+rN4BerF6nglIvZn0x8
- Ks83RP61ObmxlnoTS2m4TORsu2aiuWVxX2zTPtpVWw4wFzSPsDsspJy1VROJKvKHYDxR
- UTCg==
-X-Gm-Message-State: AO0yUKVfpC45PF/CDGToT4rTjBgNoivT9CWL4AkLs8HONxBNMqCnqw33
- N45o2lawHPUKkjMqQ2FxVO8sAWaGcnz/6nkk7VY=
-X-Google-Smtp-Source: AK7set+9MtniwWnUMlUf5kc+FHr53WaXxEZ9bG4EFf4dzfr83v9rSP6mBDdUTiomFUWmetyM7PZ+Jg==
-X-Received: by 2002:a05:6a20:7d95:b0:ce:ca9:ab30 with SMTP id
- v21-20020a056a207d9500b000ce0ca9ab30mr15567481pzj.36.1678212142694; 
- Tue, 07 Mar 2023 10:02:22 -0800 (PST)
+ bh=5FP4phlNuAKGlZMwdRjX+9/17//cy6MzJB0F0PRHIeY=;
+ b=4Zri7ZoKP4QcNfhzdNShT9lwLRR+LZ2zm1MGV/1HBFHVgBfS7sYZgZlE59aMcWJ+jl
+ OJsvCumRYfQZa2g436VsjH2uVjUOlzy/98nZQHJRNqTV8LbX91PGHUhwASwA6bnaNbAc
+ TDkn7fN2GScq6ynaQP5eVVm+VskukIBNksQaHGt+ltvB4ogPBJqNg0/2c6E2TyYDXL2o
+ PTGEcigBHohH1fSYdR4X6O5GyEsuj3D2rpgN1fCxP8cgh/WUP4gCBs872UHo5OREOOId
+ +mJ4r3Bmie5RA63gXhT6AejPv/4Y2LKWagbi2oNchnXodA/zXr4wMuYaaGGc5Bz/YcDR
+ VSCA==
+X-Gm-Message-State: AO0yUKVK1LkYSXbyNMwIo4m6U05df30rHjyLMeQyx+XfUYDLPhuxsOEN
+ oAt80KpkG9Xue+BDIOiB4DIiTXdFo9yq+PeUxF8=
+X-Google-Smtp-Source: AK7set8ReQ7L1qkEKHvQWIohaqn7NqTNd3XkgfxteEbkVO68I/xRqvfTzI6+U+y+ZLKyUUSX8Qf85A==
+X-Received: by 2002:a05:6a20:8416:b0:b8:499d:7c9b with SMTP id
+ c22-20020a056a20841600b000b8499d7c9bmr19287363pzd.51.1678212143468; 
+ Tue, 07 Mar 2023 10:02:23 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:b1e0:bfd9:8b1a:efeb])
  by smtp.gmail.com with ESMTPSA id
  z4-20020a63e544000000b00502fd70b0bdsm8080441pgj.52.2023.03.07.10.02.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 10:02:22 -0800 (PST)
+ Tue, 07 Mar 2023 10:02:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 41/67] target/cris: Avoid use of tcg_const_i32 throughout
-Date: Tue,  7 Mar 2023 09:58:22 -0800
-Message-Id: <20230307175848.2508955-42-richard.henderson@linaro.org>
+Subject: [PULL 42/67] target/hppa: Avoid tcg_const_i64 in trans_fid_f
+Date: Tue,  7 Mar 2023 09:58:23 -0800
+Message-Id: <20230307175848.2508955-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230307175848.2508955-1-richard.henderson@linaro.org>
 References: <20230307175848.2508955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,319 +93,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All remaining uses are strictly read-only.
+Use a C test instead of a pre-processor test for the id.
+Use tcg_constant_i64 instead of tcg_const_i64.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c         | 46 +++++++++++++++------------------
- target/cris/translate_v10.c.inc | 26 +++++++++----------
- 2 files changed, 34 insertions(+), 38 deletions(-)
+ target/hppa/translate.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 5172c9b9b2..b2beb9964d 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -175,10 +175,7 @@ static const int preg_sizes[] = {
- #define t_gen_mov_env_TN(member, tn) \
-     tcg_gen_st_tl(tn, cpu_env, offsetof(CPUCRISState, member))
- #define t_gen_movi_env_TN(member, c) \
--    do { \
--        TCGv tc = tcg_const_tl(c); \
--        t_gen_mov_env_TN(member, tc); \
--    } while (0)
-+    t_gen_mov_env_TN(member, tcg_constant_tl(c))
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index cb4fd1fd62..3ea50d0cec 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -3547,12 +3547,16 @@ static void gen_fcpy_f(TCGv_i32 dst, TCGv_env unused, TCGv_i32 src)
  
- static inline void t_gen_mov_TN_preg(TCGv tn, int r)
+ static bool trans_fid_f(DisasContext *ctx, arg_fid_f *a)
  {
-@@ -268,8 +265,7 @@ static void cris_lock_irq(DisasContext *dc)
- 
- static inline void t_gen_raise_exception(uint32_t index)
- {
--        TCGv_i32 tmp = tcg_const_i32(index);
--        gen_helper_raise_exception(cpu_env, tmp);
-+    gen_helper_raise_exception(cpu_env, tcg_constant_i32(index));
++    uint64_t ret;
++
++    if (TARGET_REGISTER_BITS == 64) {
++        ret = 0x13080000000000ULL; /* PA8700 (PCX-W2) */
++    } else {
++        ret = 0x0f080000000000ULL; /* PA7300LC (PCX-L2) */
++    }
++
+     nullify_over(ctx);
+-#if TARGET_REGISTER_BITS == 64
+-    save_frd(0, tcg_const_i64(0x13080000000000ULL)); /* PA8700 (PCX-W2) */
+-#else
+-    save_frd(0, tcg_const_i64(0x0f080000000000ULL)); /* PA7300LC (PCX-L2) */
+-#endif
++    save_frd(0, tcg_constant_i64(ret));
+     return nullify_end(ctx);
  }
  
- static void t_gen_lsl(TCGv d, TCGv a, TCGv b)
-@@ -277,7 +273,7 @@ static void t_gen_lsl(TCGv d, TCGv a, TCGv b)
-     TCGv t0, t_31;
- 
-     t0 = tcg_temp_new();
--    t_31 = tcg_const_tl(31);
-+    t_31 = tcg_constant_tl(31);
-     tcg_gen_shl_tl(d, a, b);
- 
-     tcg_gen_sub_tl(t0, t_31, b);
-@@ -1250,7 +1246,7 @@ static int dec_addq(CPUCRISState *env, DisasContext *dc)
- 
-     cris_cc_mask(dc, CC_MASK_NZVC);
- 
--    c = tcg_const_tl(dc->op1);
-+    c = tcg_constant_tl(dc->op1);
-     cris_alu(dc, CC_OP_ADD,
-             cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-     return 2;
-@@ -1274,7 +1270,7 @@ static int dec_subq(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("subq %u, $r%u\n", dc->op1, dc->op2);
- 
-     cris_cc_mask(dc, CC_MASK_NZVC);
--    c = tcg_const_tl(dc->op1);
-+    c = tcg_constant_tl(dc->op1);
-     cris_alu(dc, CC_OP_SUB,
-             cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-     return 2;
-@@ -1289,7 +1285,7 @@ static int dec_cmpq(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("cmpq %d, $r%d\n", imm, dc->op2);
-     cris_cc_mask(dc, CC_MASK_NZVC);
- 
--    c = tcg_const_tl(imm);
-+    c = tcg_constant_tl(imm);
-     cris_alu(dc, CC_OP_CMP,
-             cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-     return 2;
-@@ -1304,7 +1300,7 @@ static int dec_andq(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("andq %d, $r%d\n", imm, dc->op2);
-     cris_cc_mask(dc, CC_MASK_NZ);
- 
--    c = tcg_const_tl(imm);
-+    c = tcg_constant_tl(imm);
-     cris_alu(dc, CC_OP_AND,
-             cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-     return 2;
-@@ -1318,7 +1314,7 @@ static int dec_orq(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("orq %d, $r%d\n", imm, dc->op2);
-     cris_cc_mask(dc, CC_MASK_NZ);
- 
--    c = tcg_const_tl(imm);
-+    c = tcg_constant_tl(imm);
-     cris_alu(dc, CC_OP_OR,
-             cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-     return 2;
-@@ -1330,7 +1326,7 @@ static int dec_btstq(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("btstq %u, $r%d\n", dc->op1, dc->op2);
- 
-     cris_cc_mask(dc, CC_MASK_NZ);
--    c = tcg_const_tl(dc->op1);
-+    c = tcg_constant_tl(dc->op1);
-     cris_evaluate_flags(dc);
-     gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
-             c, cpu_PR[PR_CCS]);
-@@ -1945,8 +1941,8 @@ static int dec_move_rs(CPUCRISState *env, DisasContext *dc)
- {
-     TCGv c2, c1;
-     LOG_DIS("move $r%u, $s%u\n", dc->op1, dc->op2);
--    c1 = tcg_const_tl(dc->op1);
--    c2 = tcg_const_tl(dc->op2);
-+    c1 = tcg_constant_tl(dc->op1);
-+    c2 = tcg_constant_tl(dc->op2);
-     cris_cc_mask(dc, 0);
-     gen_helper_movl_sreg_reg(cpu_env, c2, c1);
-     return 2;
-@@ -1955,8 +1951,8 @@ static int dec_move_sr(CPUCRISState *env, DisasContext *dc)
- {
-     TCGv c2, c1;
-     LOG_DIS("move $s%u, $r%u\n", dc->op2, dc->op1);
--    c1 = tcg_const_tl(dc->op1);
--    c2 = tcg_const_tl(dc->op2);
-+    c1 = tcg_constant_tl(dc->op1);
-+    c2 = tcg_constant_tl(dc->op2);
-     cris_cc_mask(dc, 0);
-     gen_helper_movl_reg_sreg(cpu_env, c1, c2);
-     return 2;
-@@ -2237,7 +2233,7 @@ static int dec_test_m(CPUCRISState *env, DisasContext *dc)
-     cris_cc_mask(dc, CC_MASK_NZ);
-     tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
- 
--    c = tcg_const_tl(0);
-+    c = tcg_constant_tl(0);
-     cris_alu(dc, CC_OP_CMP,
-          cpu_R[dc->op2], t[1], c, memsize_zz(dc));
-     do_postinc(dc, memsize);
-@@ -2582,7 +2578,7 @@ static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
-     if (dc->op2 > 15) {
-         abort();
-     }
--    c = tcg_const_tl(dc->pc + 4);
-+    c = tcg_constant_tl(dc->pc + 4);
-     t_gen_mov_preg_TN(dc, dc->op2, c);
- 
-     cris_prepare_jmp(dc, JMP_INDIRECT);
-@@ -2598,7 +2594,7 @@ static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
- 
-     LOG_DIS("jas 0x%x\n", imm);
-     cris_cc_mask(dc, 0);
--    c = tcg_const_tl(dc->pc + 8);
-+    c = tcg_constant_tl(dc->pc + 8);
-     /* Store the return address in Pd.  */
-     t_gen_mov_preg_TN(dc, dc->op2, c);
- 
-@@ -2616,7 +2612,7 @@ static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
- 
-     LOG_DIS("jasc 0x%x\n", imm);
-     cris_cc_mask(dc, 0);
--    c = tcg_const_tl(dc->pc + 8 + 4);
-+    c = tcg_constant_tl(dc->pc + 8 + 4);
-     /* Store the return address in Pd.  */
-     t_gen_mov_preg_TN(dc, dc->op2, c);
- 
-@@ -2632,7 +2628,7 @@ static int dec_jasc_r(CPUCRISState *env, DisasContext *dc)
-     cris_cc_mask(dc, 0);
-     /* Store the return address in Pd.  */
-     tcg_gen_mov_tl(env_btarget, cpu_R[dc->op1]);
--    c = tcg_const_tl(dc->pc + 4 + 4);
-+    c = tcg_constant_tl(dc->pc + 4 + 4);
-     t_gen_mov_preg_TN(dc, dc->op2, c);
-     cris_prepare_jmp(dc, JMP_INDIRECT);
-     return 2;
-@@ -2664,7 +2660,7 @@ static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
- 
-     LOG_DIS("bas 0x%x, $p%u\n", dc->pc + simm, dc->op2);
-     cris_cc_mask(dc, 0);
--    c = tcg_const_tl(dc->pc + 8);
-+    c = tcg_constant_tl(dc->pc + 8);
-     /* Store the return address in Pd.  */
-     t_gen_mov_preg_TN(dc, dc->op2, c);
- 
-@@ -2681,7 +2677,7 @@ static int dec_basc_im(CPUCRISState *env, DisasContext *dc)
- 
-     LOG_DIS("basc 0x%x, $p%u\n", dc->pc + simm, dc->op2);
-     cris_cc_mask(dc, 0);
--    c = tcg_const_tl(dc->pc + 12);
-+    c = tcg_constant_tl(dc->pc + 12);
-     /* Store the return address in Pd.  */
-     t_gen_mov_preg_TN(dc, dc->op2, c);
- 
-@@ -2695,7 +2691,7 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
-     cris_cc_mask(dc, 0);
- 
-     if (dc->op2 == 15) {
--        tcg_gen_st_i32(tcg_const_i32(1), cpu_env,
-+        tcg_gen_st_i32(tcg_constant_i32(1), cpu_env,
-                        -offsetof(CRISCPU, env) + offsetof(CPUState, halted));
-         tcg_gen_movi_tl(env_pc, dc->pc + 2);
-         t_gen_raise_exception(EXCP_HLT);
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-index b03b2ef746..32338bb69b 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -251,7 +251,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             LOG_DIS("moveq %d, $r%d\n", simm, dc->dst);
- 
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(simm);
-+            c = tcg_constant_tl(simm);
-             cris_alu(dc, CC_OP_MOVE, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -259,7 +259,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             LOG_DIS("cmpq %d, $r%d\n", simm, dc->dst);
- 
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(simm);
-+            c = tcg_constant_tl(simm);
-             cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -267,7 +267,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             LOG_DIS("addq %d, $r%d\n", imm, dc->dst);
- 
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(imm);
-+            c = tcg_constant_tl(imm);
-             cris_alu(dc, CC_OP_ADD, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -275,7 +275,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
- 
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(simm);
-+            c = tcg_constant_tl(simm);
-             cris_alu(dc, CC_OP_AND, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -285,7 +285,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             cris_cc_mask(dc, CC_MASK_NZVC);
-             op = imm & (1 << 5);
-             imm &= 0x1f;
--            c = tcg_const_tl(imm);
-+            c = tcg_constant_tl(imm);
-             if (op) {
-                 cris_alu(dc, CC_OP_ASR, cpu_R[dc->dst],
-                           cpu_R[dc->dst], c, 4);
-@@ -305,7 +305,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             }
-             imm &= 0x1f;
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(imm);
-+            c = tcg_constant_tl(imm);
-             cris_alu(dc, op, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -313,7 +313,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             LOG_DIS("subq %d, $r%d\n", imm, dc->dst);
- 
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(imm);
-+            c = tcg_constant_tl(imm);
-             cris_alu(dc, CC_OP_SUB, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -321,7 +321,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-             LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
- 
-             cris_cc_mask(dc, CC_MASK_NZVC);
--            c = tcg_const_tl(simm);
-+            c = tcg_constant_tl(simm);
-             cris_alu(dc, CC_OP_OR, cpu_R[dc->dst],
-                      cpu_R[dc->dst], c, 4);
-             break;
-@@ -1014,7 +1014,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-                 cris_alu_m_alloc_temps(t);
-                 insn_len += dec10_prep_move_m(env, dc, 0, size, t[0]);
-                 tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
--                c = tcg_const_tl(0);
-+                c = tcg_constant_tl(0);
-                 cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
-                          t[0], c, size);
-                 break;
-@@ -1111,7 +1111,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-                 if (dc->mode == CRISV10_MODE_AUTOINC)
-                     insn_len += size;
- 
--                c = tcg_const_tl(dc->pc + insn_len);
-+                c = tcg_constant_tl(dc->pc + insn_len);
-                 t_gen_mov_preg_TN(dc, dc->dst, c);
-                 dc->jmp_pc = imm;
-                 cris_prepare_jmp(dc, JMP_DIRECT);
-@@ -1121,7 +1121,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-                     LOG_DIS("break %d\n", dc->src);
-                     cris_evaluate_flags(dc);
-                     tcg_gen_movi_tl(env_pc, dc->pc + 2);
--                    c = tcg_const_tl(dc->src + 2);
-+                    c = tcg_constant_tl(dc->src + 2);
-                     t_gen_mov_env_TN(trap_vector, c);
-                     t_gen_raise_exception(EXCP_BREAK);
-                     dc->base.is_jmp = DISAS_NORETURN;
-@@ -1130,7 +1130,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-                 LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
-                          dc->opcode, dc->src, dc->dst);
-                 t[0] = tcg_temp_new();
--                c = tcg_const_tl(dc->pc + insn_len);
-+                c = tcg_constant_tl(dc->pc + insn_len);
-                 t_gen_mov_preg_TN(dc, dc->dst, c);
-                 crisv10_prepare_memaddr(dc, t[0], size);
-                 gen_load(dc, env_btarget, t[0], 4, 0);
-@@ -1153,7 +1153,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-             LOG_DIS("jmp pc=%x opcode=%d r%d r%d\n",
-                         dc->pc, dc->opcode, dc->dst, dc->src);
-             tcg_gen_mov_tl(env_btarget, cpu_R[dc->src]);
--            c = tcg_const_tl(dc->pc + insn_len);
-+            c = tcg_constant_tl(dc->pc + insn_len);
-             t_gen_mov_preg_TN(dc, dc->dst, c);
-             cris_prepare_jmp(dc, JMP_INDIRECT);
-             dc->delayed_branch--; /* v10 has no dslot here.  */
 -- 
 2.34.1
 
