@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8566AF298
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A571B6AF29C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:54:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZcRW-0004jJ-5H; Tue, 07 Mar 2023 13:53:46 -0500
+	id 1pZcRg-0006OK-2v; Tue, 07 Mar 2023 13:53:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcRU-0004a0-Bq
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pZcRd-00064M-MS
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcRS-0002Xr-PI
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:44 -0500
+ id 1pZcRb-0002YV-SD
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678215222;
+ s=mimecast20190719; t=1678215231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+jMYkTKJXiR7//0keeDBM6O99yCDK6KTxlStbwzTQmA=;
- b=Gqq0fzdmOhjtyamMQ10fn86B1oXV1CUVQDEL6qrEsFI+DC+6y6+3uxN3E8riwR9ZgV+oMP
- jibXI6raSGpRFJhAbNxQfrTNf0Vlvh/MY7P711puHO3PyiiTa7gC6kYpHYH8NOgrytUKQH
- Oixn6sX2gXDFnaEsNo5vlieGWiTKDy4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UWPYT268JJ7duWbT5LFMEPo6jzoSsBJomX4dyYL3XNg=;
+ b=fFlH0BEmQQZlcxFJKLCS/d/5PfGt/NxKqbCKsQCAPZkWQ1/54ufBdKuK8ES9PVwb+tW+hy
+ xsAUaTQabZVAPWU1hJkstIBLx/eZru5srJZxJPb/q0ivbUd9GJj68v8RiXfqLR9Au7T3Ut
+ FsAZAhuNSDZf6lHbwzo4CsqCSeb7O/Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-tPefz7Z1P6Wv1LDppTWMwQ-1; Tue, 07 Mar 2023 13:53:40 -0500
-X-MC-Unique: tPefz7Z1P6Wv1LDppTWMwQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-222-2P-et4l6MbWkoinlDb1Igw-1; Tue, 07 Mar 2023 13:53:47 -0500
+X-MC-Unique: 2P-et4l6MbWkoinlDb1Igw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65329101A55E;
- Tue,  7 Mar 2023 18:53:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D4C03C218B0;
+ Tue,  7 Mar 2023 18:53:46 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.22.16.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F379E18EC6;
- Tue,  7 Mar 2023 18:53:39 +0000 (UTC)
-Subject: [PULL 14/17] vfio/migration: Query device dirty page tracking support
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D361D40C10FA;
+ Tue,  7 Mar 2023 18:53:45 +0000 (UTC)
+Subject: [PULL 15/17] docs/devel: Document VFIO device dirty page tracking
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com,
  joao.m.martins@oracle.com
-Date: Tue, 07 Mar 2023 11:53:39 -0700
-Message-ID: <167821521962.619792.11433356442234308853.stgit@omen>
+Date: Tue, 07 Mar 2023 11:53:45 -0700
+Message-ID: <167821522548.619792.7501558238966897784.stgit@omen>
 In-Reply-To: <167821508699.619792.1719671327865445814.stgit@omen>
 References: <167821508699.619792.1719671327865445814.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -81,53 +81,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joao Martins <joao.m.martins@oracle.com>
+From: Avihai Horon <avihaih@nvidia.com>
 
-Now that everything has been set up for device dirty page tracking,
-query the device for device dirty page tracking support.
+Adjust the VFIO dirty page tracking documentation and add a section to
+describe device dirty page tracking.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
-Link: https://lore.kernel.org/r/20230307125450.62409-15-joao.m.martins@oracle.com
+Link: https://lore.kernel.org/r/20230307125450.62409-16-joao.m.martins@oracle.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/migration.c |   15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ docs/devel/vfio-migration.rst |   46 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 31 insertions(+), 15 deletions(-)
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 776fd2d7cdf3..5d1e66f69194 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -555,6 +555,19 @@ static int vfio_migration_query_flags(VFIODevice *vbasedev, uint64_t *mig_flags)
-     return 0;
- }
+diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+index c214c73e2818..1b68ccf11529 100644
+--- a/docs/devel/vfio-migration.rst
++++ b/docs/devel/vfio-migration.rst
+@@ -59,22 +59,37 @@ System memory dirty pages tracking
+ ----------------------------------
  
-+static bool vfio_dma_logging_supported(VFIODevice *vbasedev)
-+{
-+    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature),
-+                              sizeof(uint64_t))] = {};
-+    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
+ A ``log_global_start`` and ``log_global_stop`` memory listener callback informs
+-the VFIO IOMMU module to start and stop dirty page tracking. A ``log_sync``
+-memory listener callback marks those system memory pages as dirty which are
+-used for DMA by the VFIO device. The dirty pages bitmap is queried per
+-container. All pages pinned by the vendor driver through external APIs have to
+-be marked as dirty during migration. When there are CPU writes, CPU dirty page
+-tracking can identify dirtied pages, but any page pinned by the vendor driver
+-can also be written by the device. There is currently no device or IOMMU
+-support for dirty page tracking in hardware.
++the VFIO dirty tracking module to start and stop dirty page tracking. A
++``log_sync`` memory listener callback queries the dirty page bitmap from the
++dirty tracking module and marks system memory pages which were DMA-ed by the
++VFIO device as dirty. The dirty page bitmap is queried per container.
 +
-+    feature->argsz = sizeof(buf);
-+    feature->flags = VFIO_DEVICE_FEATURE_PROBE |
-+                     VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
++Currently there are two ways dirty page tracking can be done:
++(1) Device dirty tracking:
++In this method the device is responsible to log and report its DMAs. This
++method can be used only if the device is capable of tracking its DMAs.
++Discovering device capability, starting and stopping dirty tracking, and
++syncing the dirty bitmaps from the device are done using the DMA logging uAPI.
++More info about the uAPI can be found in the comments of the
++``vfio_device_feature_dma_logging_control`` and
++``vfio_device_feature_dma_logging_report`` structures in the header file
++linux-headers/linux/vfio.h.
 +
-+    return !ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature);
-+}
++(2) VFIO IOMMU module:
++In this method dirty tracking is done by IOMMU. However, there is currently no
++IOMMU support for dirty page tracking. For this reason, all pages are
++perpetually marked dirty, unless the device driver pins pages through external
++APIs in which case only those pinned pages are perpetually marked dirty.
 +
- static int vfio_migration_init(VFIODevice *vbasedev)
- {
-     int ret;
-@@ -589,6 +602,8 @@ static int vfio_migration_init(VFIODevice *vbasedev)
-     migration->device_state = VFIO_DEVICE_STATE_RUNNING;
-     migration->data_fd = -1;
++If the above two methods are not supported, all pages are perpetually marked
++dirty by QEMU.
  
-+    vbasedev->dirty_pages_supported = vfio_dma_logging_supported(vbasedev);
-+
-     oid = vmstate_if_get_id(VMSTATE_IF(DEVICE(obj)));
-     if (oid) {
-         path = g_strdup_printf("%s/vfio", oid);
+ By default, dirty pages are tracked during pre-copy as well as stop-and-copy
+-phase. So, a page pinned by the vendor driver will be copied to the destination
+-in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
+-it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
+-finding dirty pages continuously, then it understands that even in stop-and-copy
+-phase, it is likely to find dirty pages and can predict the downtime
+-accordingly.
++phase. So, a page marked as dirty will be copied to the destination in both
++phases. Copying dirty pages in pre-copy phase helps QEMU to predict if it can
++achieve its downtime tolerances. If QEMU during pre-copy phase keeps finding
++dirty pages continuously, then it understands that even in stop-and-copy phase,
++it is likely to find dirty pages and can predict the downtime accordingly.
+ 
+ QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
+ which disables querying the dirty bitmap during pre-copy phase. If it is set to
+@@ -89,7 +104,8 @@ phase of migration. In that case, the unmap ioctl returns any dirty pages in
+ that range and QEMU reports corresponding guest physical pages dirty. During
+ stop-and-copy phase, an IOMMU notifier is used to get a callback for mapped
+ pages and then dirty pages bitmap is fetched from VFIO IOMMU modules for those
+-mapped ranges.
++mapped ranges. If device dirty tracking is enabled with vIOMMU, live migration
++will be blocked.
+ 
+ Flow of state changes during Live migration
+ ===========================================
 
 
 
