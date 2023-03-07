@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0E86AD858
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:33:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E916AD871
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 08:48:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZRnV-0003V4-PK; Tue, 07 Mar 2023 02:31:45 -0500
+	id 1pZS21-0002dG-J4; Tue, 07 Mar 2023 02:46:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1pZRn7-0003Uk-UD; Tue, 07 Mar 2023 02:31:22 -0500
-Received: from forward501a.mail.yandex.net ([2a02:6b8:c0e:500:1:45:d181:d501])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZS1z-0002cI-HI; Tue, 07 Mar 2023 02:46:43 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1pZRn2-0000oQ-Qe; Tue, 07 Mar 2023 02:31:19 -0500
-Received: from vla3-dd49e4181521.qloud-c.yandex.net
- (vla3-dd49e4181521.qloud-c.yandex.net
- [IPv6:2a02:6b8:c15:2588:0:640:dd49:e418])
- by forward501a.mail.yandex.net (Yandex) with ESMTP id 729A15EA58;
- Tue,  7 Mar 2023 10:31:09 +0300 (MSK)
-Received: from mail.yandex.ru (2a02:6b8:c0f:1610:0:640:7294:0
- [2a02:6b8:c0f:1610:0:640:7294:0])
- by vla3-dd49e4181521.qloud-c.yandex.net (mxback/Yandex) with HTTP id
- 5VV3qq0Z48c1-2zKjfJME; Tue, 07 Mar 2023 10:31:09 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
- t=1678174269; bh=6JLO+EAfFclyKbiAvEESAMoKbO4SYqSA6G9b8ENUFNQ=;
- h=Message-Id:References:Date:Cc:Subject:In-Reply-To:To:From;
- b=OtEqxd6nWwkrfxVUMDQzE9iypwqsb7+EJAxmIhiY9bo2CDifAmRkZLFIX8vjkBhlO
- Et9/gwBEkOgqfSZs6RqOORGHmUdMyczY+Pwbeq4+eulD04VQpXXb3Zk3gqY8c5yegB
- M7gxc8CTRBXmZsOpiKgu4yasytcJzemJUxlcIy0o=
-Authentication-Results: vla3-dd49e4181521.qloud-c.yandex.net;
- dkim=pass header.i=@syntacore.com
-Received: by an4sa4silbm64yo4.vla.yp-c.yandex.net with HTTP;
- Tue, 07 Mar 2023 10:31:07 +0300
-From: Ivan Klokov <ivan.klokov@syntacore.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Alistair.Francis@wdc.com" <alistair.francis@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "philipp.tomsich@vrull.eu" <philipp.tomsich@vrull.eu>
-In-Reply-To: <20230227090228.17117-1-ivan.klokov@syntacore.com>
-References: <20230227090228.17117-1-ivan.klokov@syntacore.com>
-Subject: Re: [PATCH] Fix slli_uw decoding
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZS1x-0003Cx-IQ; Tue, 07 Mar 2023 02:46:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CSR3JQqDqtTVv7voyKnPmnEz0OZdUEJwJqESqwPZEwM=; b=ET/68rw10Gg0AKo/3jFyoqAEGI
+ D7d9Pfoo+6B8dVV0WdNv5sSealyavhYvtKJAHuxiryCL0ivZWLU3Hvs0GKsN9oUe9I9vP2IX5kbaY
+ r8qA4ERQoSclazZ4FT+alchPhxKqYsITPfDtzhCoMObxSYRD3qT1sOQlpsTBIi/TUA/zTxtokUxw7
+ q7WwU2rdLoCSMvzh1TdmBWXPLk4zuQqA+JoBOtdnIjXXYZHhZRc/hVzljI1npVLMfHzliE7YGjKSc
+ n6Nx9A8dMmhqhjgD0Bx0M+2sDTbGmHPzPpYwj1/7JMKjuKBaL9upT8LaSUGlXv6kIYCeQAEK911b9
+ RJWpdQi9qzEyc11mfNt8hA8X3Vv1HQUvkv5h0zHjlipK3M4RBPQrD8flz4qiBOPQ6NsnenYnErnxL
+ xGgjuBnaf23J2AWlnqaD6Y2qe7Sxy3CSjzqHAkkuX5Bv1qYNcBv47s6Vf52SbCIXdDVQFpHdl1XkU
+ iF11g8gU7EvaH3dXOXLjOjP+0BFlqna9YkmbfD8lQyO9ryXPepfkLIh8qPrO63xNDVcu0ke+qa0u+
+ ZSq0e5sdA70QBXC9MjgeC02rywOUMebSqrlh1XeEB8+pgknF9IrPtjQa4zeZ6V6FFfh9rE4hZy3ss
+ MxCmMt+ByLpYjUf2OgAdf/Po/7f/VwnVqT225xvLw=;
+Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pZS1F-000499-6q; Tue, 07 Mar 2023 07:46:01 +0000
+Message-ID: <b36612d2-b890-8480-0cd2-7625a142e730@ilande.co.uk>
+Date: Tue, 7 Mar 2023 07:46:33 +0000
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Tue, 07 Mar 2023 10:31:07 +0300
-Message-Id: <66441678174194@mail.yandex.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:d501;
- envelope-from=ivan.klokov@syntacore.com; helo=forward501a.mail.yandex.net
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ ReneEngel80@emailn.de
+References: <cover.1678105081.git.balaton@eik.bme.hu>
+ <42b740d38b810474948b303b0d325dc1aa054224.1678105081.git.balaton@eik.bme.hu>
+ <b9400e40-b0da-c260-068b-4358933f933d@ilande.co.uk>
+ <8e57aba8-64c4-d773-fdb3-37e07401f52c@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <8e57aba8-64c4-d773-fdb3-37e07401f52c@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v8 4/6] hw/ppc/pegasos2: Fix PCI interrupt routing
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,48 +85,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PGRpdj48ZGl2PkhlbGxvIGd1eXMuIEkgd291bGQgYmUgcmVhbGx5IGFwcHJlY2lhdGUgaWYgeW91
-IGxvb2sgdGhpcyBwYXRjaC48L2Rpdj48ZGl2Pkl0IHdvdWxkIGJlIG5pY2UgdG8gbWVyZ2UgaXQg
-dG8gbmV3IHJlbGVhc2UgOC4wPC9kaXY+PC9kaXY+PGRpdj7CoDwvZGl2PjxkaXY+MjcuMDIuMjAy
-MywgMTI6MDIsICJJdmFuIEtsb2tvdiIgJmx0O2l2YW4ua2xva292QHN5bnRhY29yZS5jb20mZ3Q7
-OjwvZGl2PjxibG9ja3F1b3RlPjxwPlRoZSBkZWNvZGluZyBvZiB0aGUgc2xsaV91dyBjdXJyZW50
-bHkgY29udGFpbnMgZGVjb2Rpbmc8YnIgLz5lcnJvcjogc2hhbXQgcGFydCBvZiBvcGNvZGUgaGFz
-IHNpeCBiaXRzLCBub3QgZml2ZS48YnIgLz48YnIgLz5GaXhlcyAzZGUxZmI3MSgidGFyZ2V0L3Jp
-c2N2OiB1cGRhdGUgZGlzYXMuYyBmb3IgeG5vci9vcm4vYW5kbiBhbmQgc2xsaS51dyIpPGJyIC8+
-PGJyIC8+U2lnbmVkLW9mZi1ieTogSXZhbiBLbG9rb3YgJmx0OzxhIGhyZWY9Im1haWx0bzppdmFu
-Lmtsb2tvdkBzeW50YWNvcmUuY29tIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPml2YW4ua2xv
-a292QHN5bnRhY29yZS5jb208L2E+Jmd0OzxiciAvPi0tLTxiciAvPsKgZGlzYXMvcmlzY3YuYyB8
-IDggKysrKy0tLS08YnIgLz7CoDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVs
-ZXRpb25zKC0pPGJyIC8+PGJyIC8+ZGlmZiAtLWdpdCBhL2Rpc2FzL3Jpc2N2LmMgYi9kaXNhcy9y
-aXNjdi5jPGJyIC8+aW5kZXggZGRkYTY4N2MxMy4uMDNjZmVmYjBkMyAxMDA2NDQ8YnIgLz4tLS0g
-YS9kaXNhcy9yaXNjdi5jPGJyIC8+KysrIGIvZGlzYXMvcmlzY3YuYzxiciAvPkBAIC0xNjQ3LDcg
-KzE2NDcsNyBAQCBjb25zdCBydl9vcGNvZGVfZGF0YSBvcGNvZGVfZGF0YVtdID0gezwhLS0gLS0+
-PGJyIC8+wqDCoMKgwqDCoHsgImNsenciLCBydl9jb2RlY19yLCBydl9mbXRfcmRfcnMxLCBOVUxM
-LCAwLCAwLCAwIH0sPGJyIC8+wqDCoMKgwqDCoHsgImNsenciLCBydl9jb2RlY19yLCBydl9mbXRf
-cmRfcnMxLCBOVUxMLCAwLCAwLCAwIH0sPGJyIC8+wqDCoMKgwqDCoHsgImNwb3B3IiwgcnZfY29k
-ZWNfciwgcnZfZm10X3JkX3JzMSwgTlVMTCwgMCwgMCwgMCB9LDxiciAvPi0geyAic2xsaS51dyIs
-IHJ2X2NvZGVjX2lfc2g1LCBydl9mbXRfcmRfcnMxX2ltbSwgTlVMTCwgMCwgMCwgMCB9LDxiciAv
-PisgeyAic2xsaS51dyIsIHJ2X2NvZGVjX2lfc2g2LCBydl9mbXRfcmRfcnMxX2ltbSwgTlVMTCwg
-MCwgMCwgMCB9LDxiciAvPsKgwqDCoMKgwqB7ICJhZGQudXciLCBydl9jb2RlY19yLCBydl9mbXRf
-cmRfcnMxX3JzMiwgTlVMTCwgMCwgMCwgMCB9LDxiciAvPsKgwqDCoMKgwqB7ICJyb2x3IiwgcnZf
-Y29kZWNfciwgcnZfZm10X3JkX3JzMV9yczIsIE5VTEwsIDAsIDAsIDAgfSw8YnIgLz7CoMKgwqDC
-oMKgeyAicm9ydyIsIHJ2X2NvZGVjX3IsIHJ2X2ZtdF9yZF9yczFfcnMyLCBOVUxMLCAwLCAwLCAw
-IH0sPGJyIC8+QEAgLTI2MTcsMTAgKzI2MTcsMTAgQEAgc3RhdGljIHZvaWQgZGVjb2RlX2luc3Rf
-b3Bjb2RlKHJ2X2RlY29kZSAqZGVjLCBydl9pc2EgaXNhKTxiciAvPsKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgc3dpdGNoICgoKGluc3QgJmd0OyZndDsgMTIpICZhbXA7IDBiMTExKSkgezwhLS0g
-LS0+PGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjYXNlIDA6IG9wID0gcnZfb3BfYWRk
-aXc7IGJyZWFrOzxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2FzZSAxOjxiciAvPi0g
-c3dpdGNoICgoKGluc3QgJmd0OyZndDsgMjUpICZhbXA7IDBiMTExMTExMSkpIHs8IS0tIC0tPjxi
-ciAvPisgc3dpdGNoICgoKGluc3QgJmd0OyZndDsgMjYpICZhbXA7IDBiMTExMTExKSkgezwhLS0g
-LS0+PGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNhc2UgMDogb3AgPSBy
-dl9vcF9zbGxpdzsgYnJlYWs7PGJyIC8+LSBjYXNlIDQ6IG9wID0gcnZfb3Bfc2xsaV91dzsgYnJl
-YWs7PGJyIC8+LSBjYXNlIDQ4OjxiciAvPisgY2FzZSAyOiBvcCA9IHJ2X29wX3NsbGlfdXc7IGJy
-ZWFrOzxiciAvPisgY2FzZSAyNDo8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBzd2l0Y2ggKChpbnN0ICZndDsmZ3Q7IDIwKSAmYW1wOyAwYjExMTExKSB7PCEt
-LSAtLT48YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjYXNl
-IDBiMDAwMDA6IG9wID0gcnZfb3BfY2x6dzsgYnJlYWs7PGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2FzZSAwYjAwMDAxOiBvcCA9IHJ2X29wX2N0enc7IGJy
-ZWFrOzwvcD4tLTxiciAvPjIuMzQuMTxiciAvPsKgPC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rpdj48
-ZGl2PsKgPC9kaXY+PGRpdj4tLcKgPC9kaXY+PGRpdj5LaW5kIHJlZ2FyZHMsPC9kaXY+PGRpdj5J
-dmFuIEtsb2tvdjwvZGl2PjxkaXY+wqA8L2Rpdj4=
+On 06/03/2023 22:00, BALATON Zoltan wrote:
+
+> On Mon, 6 Mar 2023, Mark Cave-Ayland wrote:
+>> On 06/03/2023 12:33, BALATON Zoltan wrote:
+>>> According to the PegasosII schematics the PCI interrupt lines are
+>>> connected to both the gpp pins of the Mv64361 north bridge and the
+>>> PINT pins of the VT8231 south bridge so guests can get interrupts from
+>>> either of these. So far we only had the MV64361 connections which
+>>> worked for on board devices but for additional PCI devices (such as
+>>> network or sound card added with -device) guest OSes expect interrupt
+>>> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+>>> VT8231 ISA bridge. After the previous patches we can now model this
+>>> and also remove the board specific connection from mv64361. Also
+>>> configure routing of these lines when using Virtual Open Firmware to
+>>> match board firmware for guests that expect this.
+>>>
+>>> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>>> ---
+>>>   hw/pci-host/mv64361.c |  4 ----
+>>>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+>>>   2 files changed, 25 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+>>> index 298564f1f5..19e8031a3f 100644
+>>> --- a/hw/pci-host/mv64361.c
+>>> +++ b/hw/pci-host/mv64361.c
+>>> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
+>>>       }
+>>>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+>>>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+>>> -    /* FIXME: PCI IRQ connections may be board specific */
+>>> -    for (i = 0; i < PCI_NUM_PINS; i++) {
+>>> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+>>> -    }
+>>>   }
+>>>     static void mv64361_reset(DeviceState *dev)
+>>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>>> index b0ada9c963..ded5dc2dc9 100644
+>>> --- a/hw/ppc/pegasos2.c
+>>> +++ b/hw/ppc/pegasos2.c
+>>> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+>>>       MachineState parent_obj;
+>>>       PowerPCCPU *cpu;
+>>>       DeviceState *mv;
+>>> +    qemu_irq mv_pirq[PCI_NUM_PINS];
+>>> +    qemu_irq via_pirq[PCI_NUM_PINS];
+>>>       Vof *vof;
+>>>       void *fdt_blob;
+>>>       uint64_t kernel_addr;
+>>> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+>>>       }
+>>>   }
+>>>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
+>>> +{
+>>> +    Pegasos2MachineState *pm = opaque;
+>>> +
+>>> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
+>>> +    qemu_set_irq(pm->mv_pirq[n], level);
+>>> +    qemu_set_irq(pm->via_pirq[n], level);
+>>> +}
+>>> +
+>>
+>> Can you explain a bit more about how the PCI interrupt lines are connected to both 
+>> the MV64361 and VT8231? The reason for asking is that I see a similar
+> 
+> I think I already did that in previous replies but I try again. In pagasosII 
+> schematics at https://www.powerdeveloper.org/platforms/pegasos/schematics
+> 
+> Sheet 2 Marvell System Controller shows PINTA-D are connected to MV64361 MPP12-15 
+> pins that are also called GPP in the docs (I think these are referred to as either 
+> Multi Purpose or General Purpose Pins).
+> 
+> Sheet 18 VIA VT8231 Southbridge shows INTR_A-D connected to VT8231 PINTA-D pins, 
+> which are connected to INTA-D on sheet 13 PCI Top Level. Sheet 1 Top Level Pegasos 
+> shows that Sheet 13 INTA-D are connected to Sheet 2 PINTA-D.
+> 
+>> pattern in the bonito board, but there I can't see how those lines would be used 
+>> because they can also raise a CPU interrupt, yet it is a different one compared to 
+>> the 8259.
+> 
+> Both the MV64361 and VT8231 have interrupt mask registers which allow the guest to 
+> choose where it wants an interrupt from. I guess different guests could use one or 
+> the other, unlikely they would use both but they could even do that if they wanted. I 
+> guess in bonito it's also maskable so the guest could set up irqs by programing the 
+> apprpriate north and south bridge registers. A guest which has ISA drivers (probably 
+> most) may likely want to route them to ISA IRQs in the VIA chip. Maybe this strange 
+> behaviour has to do with Windows compatibility and standards back then which never 
+> really took off like CHRP for PP
+>
+>> Given that we know from Bernhard's tests that the fuloong2e board works with 
+>> pci_bus_irqs() included in via_isa_realize() which overwrites the bonito 
+>> equivalent, I'm wondering if the mv_pirq array is actually needed at all and 
+>> whether it may just be a debugging aid? Certainly it makes things simpler to just 
+>> route everything to the VIA device.
+> 
+> In any case calling pci_bus_irqs in the VIA device would be wrong and connections 
+
+Why? In general the PCI bus should be managed completely internally and not exposed 
+to the board. This should certainly be the case for the VIA chipsets which can be 
+used across multiple QEMU machines.
+
+> should be made here by the board as that correctly models the hardware separating 
+> components and allows different boards to use the chip model in the future. I 
+> remember that I've implemenred connections to MV64361 for something but I don't 
+> remember which guest so as this already works and models what the schematics say I 
+> see no reason not to have it or remove it.
+
+That doesn't really help much I'm afraid - are the extra pirq lines required or not? 
+If so, which guest OS are they being used for? This information should be included in 
+the commit message and a code comment, as if you don't document things like this you 
+risk someone attempting a tidy-up refactoring which will break your guest OS.
+
+
+ATB,
+
+Mark.
 
