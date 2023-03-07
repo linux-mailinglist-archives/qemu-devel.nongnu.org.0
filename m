@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAC56AE356
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70786AE35B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:52:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYdx-0003lc-A2; Tue, 07 Mar 2023 09:50:21 -0500
+	id 1pZYg5-0005Fb-RT; Tue, 07 Mar 2023 09:52:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pZYdt-0003l6-Cx
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:50:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZYg4-0005FR-1A
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:52:32 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pZYdr-00035k-GS
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:50:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678200614;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=exv6IBpbIQ6Up2imCps4zSQtC0tCLYvfs4DkWyUNqys=;
- b=bMRLC+PARDfc9dtSgQON3LAtXvK5ONPUYe/IUw0M1iclQN2x9uEYjIEjHPkxy9DtUgILQM
- 8jw6wNoEOYDW2caWhY2aWw3SMMbMfLYhZKc85/9JwcRZoJqycQJ6aRE3p4c9Bsv531LBCo
- EZPqYLVDMtIkibId5BcKLGDaAMk3Sf8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-gBX79MgwPyiO4vxzcd0CBw-1; Tue, 07 Mar 2023 09:50:11 -0500
-X-MC-Unique: gBX79MgwPyiO4vxzcd0CBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1547E87B2A2;
- Tue,  7 Mar 2023 14:50:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C87A81121331;
- Tue,  7 Mar 2023 14:50:08 +0000 (UTC)
-Date: Tue, 7 Mar 2023 14:50:06 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 04/11] osdep: implement qemu_socketpair() for win32
-Message-ID: <ZAdPHkheoRweyYzw@redhat.com>
-References: <20230306122751.2355515-1-marcandre.lureau@redhat.com>
- <20230306122751.2355515-5-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pZYg2-0003Ih-GY
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:52:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=NM5iY4Nn2TQHVHW60ithMLKb9Sk7IdBVcMTvxKsytlo=; b=mCpju/yXxi7M9lVabSMmnR15lS
+ TNNd73gvQ5a3a5ncKSkR+qgP1q0DUwavndqnEkIPjpah/d53CXpOMwpMPR3gyAm4KHsPNOZpGjy/j
+ WTdkXdMirls8AKREHcJnJmh7moo55cWWz8ZCBbDDxF9L0aGe8FzpK5XQ0MQ8sx6JUvxCPvVpPLmLW
+ brE4BLbPJT54Y0JM+sVTgh/E98GC0TmT2YgIWtb6pdkU8Q9z4k+yTGKLHpYeeJXglEcTWaXEtvSYZ
+ 8f5THH3cHLyMCY8VxG7L0z9m7wnFkPw78lv7qZmpa5FqnVFoBvjabKGmsjYhV2GBOmBPya6uudgSe
+ Q28von4g==;
+Received: from [2001:8b0:10b:5:640c:634b:db90:9c87]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pZYfz-006Ug6-R7; Tue, 07 Mar 2023 14:52:28 +0000
+Message-ID: <a5321652a4f0742edfbe8d14154959176d2538a5.camel@infradead.org>
+Subject: Re: [RFC PATCH v1 13/25] hw/xen: Add xenstore operations to allow
+ redirection to internal emulation
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>,  xen-devel@lists.xenproject.org
+Date: Tue, 07 Mar 2023 14:52:27 +0000
+In-Reply-To: <71e68af5-1528-f5c3-221a-5166af9396c6@xen.org>
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-14-dwmw2@infradead.org>
+ <71e68af5-1528-f5c3-221a-5166af9396c6@xen.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-5VaiBU4L8kSd+PiqZGvg"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230306122751.2355515-5-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+9298a7250c90fe94fbb7+7135+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,191 +77,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 06, 2023 at 04:27:44PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Manually implement a socketpair() function, using UNIX sockets and
-> simple peer credential checking.
-> 
-> QEMU doesn't make much use of socketpair, beside vhost-user which is not
-> available for win32 at this point. However, I intend to use it for
-> writing some new portable tests.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/qemu/sockets.h |   2 -
->  util/oslib-win32.c     | 110 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 110 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 2b0698a7c9..d935fd80da 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -15,7 +15,6 @@ int inet_aton(const char *cp, struct in_addr *ia);
->  bool fd_is_socket(int fd);
->  int qemu_socket(int domain, int type, int protocol);
->  
-> -#ifndef WIN32
->  /**
->   * qemu_socketpair:
->   * @domain: specifies a communication domain, such as PF_UNIX
-> @@ -30,7 +29,6 @@ int qemu_socket(int domain, int type, int protocol);
->   * Return 0 on success.
->   */
->  int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
-> -#endif
->  
->  int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
->  /*
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index 29a667ae3d..16f8a67f7e 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -310,6 +310,116 @@ bool qemu_socket_unselect(int sockfd, Error **errp)
->      return qemu_socket_select(sockfd, NULL, 0, errp);
->  }
->  
-> +int qemu_socketpair(int domain, int type, int protocol, int sv[2])
-> +{
-> +    struct sockaddr_un addr = {
-> +        0,
-> +    };
-> +    socklen_t socklen;
-> +    int listener = -1;
-> +    int client = -1;
-> +    int server = -1;
-> +    g_autofree char *path = NULL;
-> +    int tmpfd;
-> +    u_long arg;
-> +    int ret = -1;
-> +
-> +    g_return_val_if_fail(sv != NULL, -1);
-> +
-> +    addr.sun_family = AF_UNIX;
-> +    socklen = sizeof(addr);
-> +
-> +    tmpfd = g_file_open_tmp(NULL, &path, NULL);
-> +    if (tmpfd == -1 || !path) {
-> +        errno = EACCES;
-> +        goto out;
-> +    }
-> +
-> +    close(tmpfd);
-> +
-> +    if (strlen(path) >= sizeof(addr.sun_path)) {
-> +        errno = EINVAL;
-> +        goto out;
-> +    }
-> +
-> +    strncpy(addr.sun_path, path, sizeof(addr.sun_path) - 1);
-> +
-> +    listener = socket(domain, type, protocol);
-> +    if (listener == -1) {
-> +        goto out;
-> +    }
-> +
-> +    if (DeleteFile(path) == 0 && GetLastError() != ERROR_FILE_NOT_FOUND) {
-> +        errno = EACCES;
-> +        goto out;
-> +    }
-> +    g_clear_pointer(&path, g_free);
-> +
-> +    if (bind(listener, (struct sockaddr *)&addr, socklen) == -1) {
-> +        goto out;
-> +    }
-> +
-> +    if (listen(listener, 1) == -1) {
-> +        goto out;
-> +    }
-> +
-> +    client = socket(domain, type, protocol);
-> +    if (client == -1) {
-> +        goto out;
-> +    }
-> +
-> +    arg = 1;
-> +    if (ioctlsocket(client, FIONBIO, &arg) != NO_ERROR) {
-> +        goto out;
-> +    }
-> +
-> +    if (connect(client, (struct sockaddr *)&addr, socklen) == -1 &&
-> +        WSAGetLastError() != WSAEWOULDBLOCK) {
-> +        goto out;
-> +    }
-> +
-> +    server = accept(listener, NULL, NULL);
-> +    if (server == -1) {
-> +        goto out;
-> +    }
 
-In theory at this point 'client' if connect() returned WSAEWOULDBLOCK,
-then at this point it should be fully connected. I wonder if that is
-actually guaranteed though, or should we do something to validate
-there's no race condition ?
+--=-5VaiBU4L8kSd+PiqZGvg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +
-> +    arg = 0;
-> +    if (ioctlsocket(client, FIONBIO, &arg) != NO_ERROR) {
-> +        goto out;
-> +    }
-> +
-> +    arg = 0;
-> +    if (ioctlsocket(client, SIO_AF_UNIX_GETPEERPID, &arg) != NO_ERROR) {
-> +        goto out;
-> +    }
+On Tue, 2023-03-07 at 14:44 +0000, Paul Durrant wrote:
+> On 02/03/2023 15:34, David Woodhouse wrote:
+> > From: Paul Durrant <pdurrant@amazon.com>
+> >=20
+> > Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> > ---
+>=20
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-Maybe this will force a synchronization point ?
+You're reviewing your own code on some of those... :)
 
-Alteratively select() + getsockopt(SO_ERROR) is what we used to
-do to check for connect() completion (logic removed now but can
-be seen in b2587932582333197c88bf663785b19f441989d7)
+Do we need to get review from *another* person listed in MAINTAINERS
+for Xen? Or shall I add my own R-by tags for those ones too?
 
 
 
-> +
-> +    if (arg != GetCurrentProcessId()) {
-> +        errno = EPERM;
-> +        goto out;
-> +    }
-> +
-> +    sv[0] = server;
-> +    server = -1;
-> +    sv[1] = client;
-> +    client = -1;
-> +    ret = 0;
-> +
-> +out:
-> +    if (listener != -1) {
-> +        close(listener);
-> +    }
-> +    if (client != -1) {
-> +        close(client);
-> +    }
-> +    if (server != -1) {
-> +        close(server);
-> +    }
-> +    if (path) {
-> +        DeleteFile(path);
-> +    }
-> +    return ret;
-> +}
-> +
->  #undef connect
->  int qemu_connect_wrap(int sockfd, const struct sockaddr *addr,
->                        socklen_t addrlen)
-> -- 
-> 2.39.2
-> 
+--=-5VaiBU4L8kSd+PiqZGvg
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA3MTQ1MjI3WjAvBgkqhkiG9w0BCQQxIgQgyaGNhqvM
+tYrbjyHuecW0B5ckVDP0OrXDovzKHnBNdp0wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAL4GNtIAZAcbTjnxs45Ba/uLwFu0Wv7ijf
+06KIALZvoHaILqZCUubcsod0Bvtp5ioUZ67EByItywCtuW5uaSo98DFbCAwS5Zf2Ein9mQpufMkl
+ZXiXFDk/H5zmHIBFNhFhPigZ/eiYR3EJDhCBuypK5c8k7rTq/1ByQCodVutMXUh2M60bOkJRRwKU
+TWx925gsIQvx+HyGaDb+hLIn2Y8viiW16C8fBPO0N8QpwWXoO4Q3u2HeG5ywMoIERe1Lg7+ZPvUV
+u+q2npKB71Pc4Hul4Fqix2p4GOoaVv1fN1b4TC0+Qc9RDx7rlQlFGgrV+WxQEARThvhRjWHkxcHb
+h6xsiOZkZRBiYJYW80GGkdNVoncHhe/obO9hb+CvmhZPwNKLLmMa5L6NFATX7ovDX/dNiFAy01XI
+bYF02YTfmf45nrj1MJfwLIyZBoK+MeaiEoEK+TYVG+l/rT243sx+DzNqDHceM9fsFAyXykPFG48m
+THmi+wT1ZzsKIIGJfJGkoB0RoRH15wpsyN99XaeCAGkbN7sInOJxQSPA54nPPtPslKrsz6SENHsz
+3PWtRzMj7u0EtZCNO7Rb/Q1sCIyGwOcy/W38ryEAT3HAxYL0Lp4iZHB7VK8EraV/S6JiylHUQbiS
+SnHSGvTBGRXyZp14xItm3xvko+zY1JHV1DhWO8wEFQAAAAAAAA==
 
+
+--=-5VaiBU4L8kSd+PiqZGvg--
 
