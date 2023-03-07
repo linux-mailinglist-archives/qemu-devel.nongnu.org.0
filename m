@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B136AE3AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B826C6AE3BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:03:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYoj-0003S4-Je; Tue, 07 Mar 2023 10:01:29 -0500
+	id 1pZYqL-0004uH-LA; Tue, 07 Mar 2023 10:03:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYoV-0003RI-TI
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:01:17 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYqJ-0004qH-0O
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:03:07 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYoU-0005eQ-Cp
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:01:15 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- t25-20020a1c7719000000b003eb052cc5ccso10587399wmi.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:01:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZYqH-0005xh-EO
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:03:06 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so10603916wms.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:03:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678201273;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1678201383;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pDAWSr8kpIwBV/zpb0NGws8w5VjCGA8zlP2KHK3Jp44=;
- b=DOXGRLuLKfuhooyqnBR4Yivwz8hxVS4gkTsVJn6DzCzl+RctzWwvF8UgmnSVu9e7oP
- n4ZdR9xe9w0eYCMelhHhCPRl1Ygy5unO0kPWLGimUGbdMJG88fuVeCITFs6rPALJuUqf
- qWcsjDc3EelBAoQSnQCPPp0F9l6uaCDsbur0UDe+iNTXkDE355gR+ES0jFN1MopKlgVq
- N24hlKygJbG5Bs/zx8JfDRC1dWoEFlZo5WL0NH0SfySKlvB75RWFX5JZR9d7l5LvQcws
- +5jUh2jkLiYX9uNvNQ55KvnqIjAgp2NZQH2ATiNSpn38hdFIz+wDlqyZ1L8r8SVOrfKk
- GcBw==
+ bh=HFfba+K4r7ferdfMYP6XjD63fq5PDf401VC8iHOuze0=;
+ b=b0YQeGCUdvnKlpfykroqtYtHmJyDOLeFvXBv6dXmXgL5aormy+eXRviJYYbsZz+wI2
+ ndJmLoqIVyowC9IKHjLJG0EHIKhUaRyFI8CQWXv++ynMaoe+ID+m5+AAHP8NhtuR8jaJ
+ 4fUZ1WhYb2Rd2GkNnoVlj731CtMJYztM6FSqkxmXE2FyfatoZ5Yafhr3jvRQOc0Ecmur
+ 3FhbWEZcmTqdwYJqSyvkvIqMma04fAKa/U6t1Kwr+g4qVxL0FpOlqOpI+DsGluA+ZDkG
+ pQ4TQ7QLWuieIWJGiowdIGNtp0gPSa9ligbcHaM/sc18y6IP/0xo6dRgAER0+T3QRb2v
+ vmjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678201273;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1678201383;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pDAWSr8kpIwBV/zpb0NGws8w5VjCGA8zlP2KHK3Jp44=;
- b=n8Vuj7miAFT2hgrBVe4kgJFddnw4cqbE5p6wfF405QHZE/qFxOnJa6Hg5V3c5s0D/h
- XTzr9ko8XXh0otN5L0/vilnOHcKAXKTZezrc2hZPDOwQInWr4d75yOiBPdEEvEyIjDtk
- geMd31y+bOrux4KPbmKB78pj2/YHhDjvUMLFE7WfVvUwbkf35c9XsSy2rgfq92dy/qTS
- nLqME3ndMNGJzKgEQ/2edzdrZoStifVSPunrfUbxxBCFV8ngvm5iNadgSn9M4Ae3W93y
- PBCA+6jsZ0YAzalkZYfgDIXsm+1RNaG683FZ0HcoFTQpiXXX2w8uCUFwLcTHegyl/htr
- AVog==
-X-Gm-Message-State: AO0yUKXGYp1ugWrDBGcRdvp2MpyKyxMSGVLKF6+ThA0XkWIA6b4FZ38Z
- Okk6NX53+PVvNTti9i0HsD2fbg==
-X-Google-Smtp-Source: AK7set97KKdnTUuw5ixDwqnt0ymMAtGTOQ5BEY2FLpAMZrcGQYn0eWNJvs4xR1y9T/dqB7qGelZD6Q==
-X-Received: by 2002:a05:600c:3549:b0:3eb:323e:de79 with SMTP id
- i9-20020a05600c354900b003eb323ede79mr13466235wmq.6.1678201272724; 
- Tue, 07 Mar 2023 07:01:12 -0800 (PST)
+ bh=HFfba+K4r7ferdfMYP6XjD63fq5PDf401VC8iHOuze0=;
+ b=O4Hnm+77ChdFUbtQhn2RBqqtgeSkMV2ljqNaEFDNlWCYkmIaYE2hmwHnyXP4KIzj1C
+ OhQ3sNWhGYEidCveStUq3+aY17EVfL4AbpyJCsy0JpjQOfzhJJWldFiaR8VbdCvBWyrX
+ +/LkKYffGObvPiKPiA9WNDzYB56L28IYd2jZarwP/eBLnrpRJv6L6qGC83JFiQ9E5WZm
+ WcMX18pABLXb81xXLxVnx/Tyd/G7g7GHgaGlcxcKOtOhb5f4EK4gFnwSrk6BdtPBW17d
+ piw0L/ZXfhFwN/nnXDC863ncEbQzOQ6aNFWWimOWZ1PMNgtJO0zwRvwe50gHei7J0ia2
+ 1hIw==
+X-Gm-Message-State: AO0yUKV6zBzsD5QMtQ7IDL20bLHXAb+ptFAv8QfZn58WUOKRG2xIEQe1
+ 8KS0F3HEU0oLQ4gHfuyg+FsZOo8R7LBN58ctCTs=
+X-Google-Smtp-Source: AK7set9HaK9qp3jb4rpYqy8vNYNuJZcvBX0hZ5IaTsrt9gL0b3iugcy2TvXgystA8yQf6fopcx00CQ==
+X-Received: by 2002:a05:600c:524d:b0:3eb:38a2:2bbc with SMTP id
+ fc13-20020a05600c524d00b003eb38a22bbcmr12377282wmb.7.1678201383413; 
+ Tue, 07 Mar 2023 07:03:03 -0800 (PST)
 Received: from [192.168.248.175] (131.red-95-127-34.staticip.rima-tde.net.
  [95.127.34.131]) by smtp.gmail.com with ESMTPSA id
- p21-20020a05600c431500b003daf672a616sm12949008wme.22.2023.03.07.07.01.11
+ n18-20020adfe352000000b002c567881dbcsm12755381wrj.48.2023.03.07.07.03.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 07:01:12 -0800 (PST)
-Message-ID: <67f67c63-3706-cb3f-94a8-beea99f62c05@linaro.org>
-Date: Tue, 7 Mar 2023 16:01:10 +0100
+ Tue, 07 Mar 2023 07:03:02 -0800 (PST)
+Message-ID: <c6a149f7-6137-5a17-7ccb-2951dfc3a49d@linaro.org>
+Date: Tue, 7 Mar 2023 16:03:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 0/2] MIPS Virt machine
+Subject: Re: [PATCH 1/5] tests/avocado: update AArch64 tests to Alpine 3.17.2
 Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20230304223803.55764-1-jiaxun.yang@flygoat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ "open list:Virt" <qemu-arm@nongnu.org>
+References: <20230307143819.510186-1-alex.bennee@linaro.org>
+ <20230307143819.510186-2-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230304223803.55764-1-jiaxun.yang@flygoat.com>
+In-Reply-To: <20230307143819.510186-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,24 +104,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 23:38, Jiaxun Yang wrote:
-> Hi there,
+On 7/3/23 15:38, Alex Bennée wrote:
+> From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 > 
-> This patchset is to add a new machine type for MIPS architecture, which
-> is purely a VirtIO machine.
+> To test Alpine boot on SBSA-Ref target we need Alpine Linux
+> 'standard' image as 'virt' one lacks kernel modules.
+> 
+> So to minimalize Avocado cache I move test to 'standard' image.
+> 
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> Message-Id: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
+> ---
+>   tests/avocado/machine_aarch64_virt.py | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
-> Jiaxun Yang (2):
->    hw/misc: Add MIPS Trickbox device
->    hw/mips: Add MIPS virt board
-Thanks, applied with following changes:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-- remove pointless mask in mips_trickbox_write(),
-- declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE(),
-- declare machine type using DEFINE_TYPES(),
-- do not select PCI in Kconfig,
-- compile virt.o using fdt flags in meson.build,
-- use HWADDR_PRIx,
-- name MachineState variable 'ms',
-- fix conflict in docs/system/target-mips.rst,
-- fix style
 
