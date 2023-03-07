@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91976AF28E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8566AF298
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:54:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZcRT-0004Ot-Ri; Tue, 07 Mar 2023 13:53:43 -0500
+	id 1pZcRW-0004jJ-5H; Tue, 07 Mar 2023 13:53:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcRR-00045Y-8u
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:41 -0500
+ id 1pZcRU-0004a0-Bq
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pZcRP-0002XY-LT
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:41 -0500
+ id 1pZcRS-0002Xr-PI
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:53:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678215219;
+ s=mimecast20190719; t=1678215222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HDxzIIAmflIxpAmZ+98ffek6UCP+ID0KsU98PZI4+HA=;
- b=OdgDhE7qYEmeYceMlVvR8UJXjVhJKqqXm4u4+JpPLCDVa8h7YKMDc7CbDw+xu87EHZRBU1
- oElE4ofsEQWWXyGitGUD9lGg59jwgFTSxoEeBwDAB5X487tknOpeLdeTMUv9jZC3T8lbIE
- CabFUaGMXpaD26b9JL/l/D991E8qW24=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+jMYkTKJXiR7//0keeDBM6O99yCDK6KTxlStbwzTQmA=;
+ b=Gqq0fzdmOhjtyamMQ10fn86B1oXV1CUVQDEL6qrEsFI+DC+6y6+3uxN3E8riwR9ZgV+oMP
+ jibXI6raSGpRFJhAbNxQfrTNf0Vlvh/MY7P711puHO3PyiiTa7gC6kYpHYH8NOgrytUKQH
+ Oixn6sX2gXDFnaEsNo5vlieGWiTKDy4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-C4suByXdNU-yyl8mWNankg-1; Tue, 07 Mar 2023 13:53:36 -0500
-X-MC-Unique: C4suByXdNU-yyl8mWNankg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-29-tPefz7Z1P6Wv1LDppTWMwQ-1; Tue, 07 Mar 2023 13:53:40 -0500
+X-MC-Unique: tPefz7Z1P6Wv1LDppTWMwQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 863BC3850541;
- Tue,  7 Mar 2023 18:53:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65329101A55E;
+ Tue,  7 Mar 2023 18:53:40 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.22.16.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D551C15BA0;
- Tue,  7 Mar 2023 18:53:34 +0000 (UTC)
-Subject: [PULL 13/17] vfio/migration: Block migration with vIOMMU
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F379E18EC6;
+ Tue,  7 Mar 2023 18:53:39 +0000 (UTC)
+Subject: [PULL 14/17] vfio/migration: Query device dirty page tracking support
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com,
  joao.m.martins@oracle.com
-Date: Tue, 07 Mar 2023 11:53:33 -0700
-Message-ID: <167821521373.619792.5140950265708875301.stgit@omen>
+Date: Tue, 07 Mar 2023 11:53:39 -0700
+Message-ID: <167821521962.619792.11433356442234308853.stgit@omen>
 In-Reply-To: <167821508699.619792.1719671327865445814.stgit@omen>
 References: <167821508699.619792.1719671327865445814.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,128 +83,51 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Migrating with vIOMMU will require either tracking maximum
-IOMMU supported address space (e.g. 39/48 address width on Intel)
-or range-track current mappings and dirty track the new ones
-post starting dirty tracking. This will be done as a separate
-series, so add a live migration blocker until that is fixed.
+Now that everything has been set up for device dirty page tracking,
+query the device for device dirty page tracking support.
 
+Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
-Link: https://lore.kernel.org/r/20230307125450.62409-14-joao.m.martins@oracle.com
+Link: https://lore.kernel.org/r/20230307125450.62409-15-joao.m.martins@oracle.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c              |   46 +++++++++++++++++++++++++++++++++++++++++
- hw/vfio/migration.c           |    5 ++++
- hw/vfio/pci.c                 |    1 +
- include/hw/vfio/vfio-common.h |    2 ++
- 4 files changed, 54 insertions(+)
+ hw/vfio/migration.c |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 334c62585829..539246e332b0 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -362,6 +362,7 @@ bool vfio_mig_active(void)
- }
- 
- static Error *multiple_devices_migration_blocker;
-+static Error *giommu_migration_blocker;
- 
- static unsigned int vfio_migratable_device_num(void)
- {
-@@ -413,6 +414,51 @@ void vfio_unblock_multiple_devices_migration(void)
-     multiple_devices_migration_blocker = NULL;
- }
- 
-+static bool vfio_viommu_preset(void)
-+{
-+    VFIOAddressSpace *space;
-+
-+    QLIST_FOREACH(space, &vfio_address_spaces, list) {
-+        if (space->as != &address_space_memory) {
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
-+int vfio_block_giommu_migration(Error **errp)
-+{
-+    int ret;
-+
-+    if (giommu_migration_blocker ||
-+        !vfio_viommu_preset()) {
-+        return 0;
-+    }
-+
-+    error_setg(&giommu_migration_blocker,
-+               "Migration is currently not supported with vIOMMU enabled");
-+    ret = migrate_add_blocker(giommu_migration_blocker, errp);
-+    if (ret < 0) {
-+        error_free(giommu_migration_blocker);
-+        giommu_migration_blocker = NULL;
-+    }
-+
-+    return ret;
-+}
-+
-+void vfio_unblock_giommu_migration(void)
-+{
-+    if (!giommu_migration_blocker ||
-+        vfio_viommu_preset()) {
-+        return;
-+    }
-+
-+    migrate_del_blocker(giommu_migration_blocker);
-+    error_free(giommu_migration_blocker);
-+    giommu_migration_blocker = NULL;
-+}
-+
- static void vfio_set_migration_error(int err)
- {
-     MigrationState *ms = migrate_get_current();
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index a2c3d9bade7f..776fd2d7cdf3 100644
+index 776fd2d7cdf3..5d1e66f69194 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -634,6 +634,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-         return ret;
-     }
- 
-+    ret = vfio_block_giommu_migration(errp);
-+    if (ret) {
-+        return ret;
-+    }
-+
-     trace_vfio_migration_probe(vbasedev->name);
+@@ -555,6 +555,19 @@ static int vfio_migration_query_flags(VFIODevice *vbasedev, uint64_t *mig_flags)
      return 0;
- 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 939dcc3d4a9e..30a271eab38c 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3185,6 +3185,7 @@ static void vfio_instance_finalize(Object *obj)
-      */
-     vfio_put_device(vdev);
-     vfio_put_group(group);
-+    vfio_unblock_giommu_migration();
  }
  
- static void vfio_exitfn(PCIDevice *pdev)
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 9551d2d43025..009bec34c4bc 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -222,6 +222,8 @@ extern VFIOGroupList vfio_group_list;
- bool vfio_mig_active(void);
- int vfio_block_multiple_devices_migration(Error **errp);
- void vfio_unblock_multiple_devices_migration(void);
-+int vfio_block_giommu_migration(Error **errp);
-+void vfio_unblock_giommu_migration(void);
- int64_t vfio_mig_bytes_transferred(void);
++static bool vfio_dma_logging_supported(VFIODevice *vbasedev)
++{
++    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature),
++                              sizeof(uint64_t))] = {};
++    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
++
++    feature->argsz = sizeof(buf);
++    feature->flags = VFIO_DEVICE_FEATURE_PROBE |
++                     VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
++
++    return !ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature);
++}
++
+ static int vfio_migration_init(VFIODevice *vbasedev)
+ {
+     int ret;
+@@ -589,6 +602,8 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+     migration->device_state = VFIO_DEVICE_STATE_RUNNING;
+     migration->data_fd = -1;
  
- #ifdef CONFIG_LINUX
++    vbasedev->dirty_pages_supported = vfio_dma_logging_supported(vbasedev);
++
+     oid = vmstate_if_get_id(VMSTATE_IF(DEVICE(obj)));
+     if (oid) {
+         path = g_strdup_printf("%s/vfio", oid);
 
 
 
