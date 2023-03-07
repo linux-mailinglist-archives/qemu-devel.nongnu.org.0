@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F176ADF5E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:58:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2486ADF3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:56:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZWs5-0006wv-RX; Tue, 07 Mar 2023 07:56:51 -0500
+	id 1pZWqs-0005L0-LC; Tue, 07 Mar 2023 07:55:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZWrY-0006XR-IG
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:56:21 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZWrW-00058j-Qu
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:56:16 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32783uVZ007683; Tue, 7 Mar 2023 12:56:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=Xel4ecbEPawZ38P8TKB/h9sUQWvBI6R7FLZBmhXQ7Bw=;
- b=kWFTIOxlYmwyIJKMQRKlvKrqLRNM+gNAgnbLFcCllO+kQKpu1wJcgxSWQ7R1im1eOehW
- 4STyuDOLMNYE+0UIPW6Ws99loEoQntvKfqmdT0LES0dLcq0ehQPTS5o7b+5/U8+vQ6O6
- V1dLIsyJcJijuPXSswflfMyIOh3o4tZbjL9bDEcDf2oYJhTW0SzjK6x/JKeRYioIwqeX
- eJFwzP2LkOt8Rc97NZbqcFv9v5c2nico9wMZa2MOO/ugfKLDzFXJ2FUBKxOZMnjulPzg
- kCiW7FrJugxN1v6+yycKKg31E7XxPILefkvCb0P6HJ0rcNiM2enNV5QPFBtCAUAbDQVN cQ== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p5nn91pvq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 12:56:13 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 327C8dnB029280; Tue, 7 Mar 2023 12:56:12 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p4u1eyf7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 12:56:12 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 327CtV5T004358;
- Tue, 7 Mar 2023 12:56:11 GMT
-Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-196-64.vpn.oracle.com
- [10.175.196.64])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3p4u1eyefv-16; Tue, 07 Mar 2023 12:56:11 +0000
-From: Joao Martins <joao.m.martins@oracle.com>
-To: qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Cedric Le Goater <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v5 15/15] docs/devel: Document VFIO device dirty page tracking
-Date: Tue,  7 Mar 2023 12:54:50 +0000
-Message-Id: <20230307125450.62409-16-joao.m.martins@oracle.com>
-In-Reply-To: <20230307125450.62409-1-joao.m.martins@oracle.com>
-References: <20230307125450.62409-1-joao.m.martins@oracle.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pZWqq-0005Ke-CA
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:33 -0500
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pZWqk-000520-OA
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:29 -0500
+Received: by mail-lj1-x22f.google.com with SMTP id h9so13047216ljq.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 04:55:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678193722;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9aQleQiWe19ZAkZ92GkIy9Burn40uenJ82Qm+wR2lqU=;
+ b=B9A85niaAbC+rVBeyI1VxyRdT+BOTe7u8JHzPvJeCc35sLI/GDRil+cRk944Qu259/
+ hLhC3mkoWU0HH4m4/c5DjVWZ1MA5coXL5jq7Gc5fgCjVaRs87qOIpL2iAMATo6ctpwB9
+ UHZt8xOAcITBB1xSQTlDpaTMavyj4l9uDYQV9zD8QU0B2dKw/AkO5OxmdsMY7oNW1q48
+ sctR+qgotEpHMlNiZSXsvQ8mQjUMQZRVqjv8U19xxELKAmSAYM/kR7nqt+sS3XEC6Zw2
+ eEd4r1ksv8k6nPZqXNKAt+v0jtq4+GixDnZ25mI5qpV4k86cWawayVlRsVFvGjKlprHH
+ A88g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678193722;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9aQleQiWe19ZAkZ92GkIy9Burn40uenJ82Qm+wR2lqU=;
+ b=FVFLbCmOoZKckKlZfPa5sXM9WncyeLQgbJeyN/htt39FVNQvNgfoiV5Y5f9tffUxYs
+ 7QCSgbw7nQfpxYlyU39j5N8qzswg5sHzRUBQnmAvitYt1/SwAZxmjEVevHBIqx6Me8Ro
+ RIsWZjDXEQkM8qT5w3VeTDIyyHafBErMnQ6A/Nx7O7Ke+1lEs/96BuWtQqGdRfKsm3kt
+ NPcc9T9bd2yfdeWYC5vzbHNpPQHUL6gGiQA1mCr4Qb5WEnLQ93vo72kCBbi6oqgC0aUd
+ SMU3w4yHnf0Q9xhe1VY5bLPGExW2TkYV6e3SGO02uH0QYOTDwzPs2Zrxbs03EQAddljr
+ Vk4g==
+X-Gm-Message-State: AO0yUKWMD1aEuZ4B2JQwdUmtJJFcwTArqYzjJJwhb8VvgqE1TTMocMKc
+ 309/YwocoZG5CCX1cjf6s9aV7a2UslfObXsUDT0=
+X-Google-Smtp-Source: AK7set8HDu4QdNWGiE7fdh0THcAyJqW+r1MReuhlfu+m8OaTb2Fb9dCVorY6hUqx+z1ITEeWvkt/3Tg7V7ctqb/5c4U=
+X-Received: by 2002:a2e:a4b7:0:b0:295:a8c7:4b3b with SMTP id
+ g23-20020a2ea4b7000000b00295a8c74b3bmr4377325ljm.4.1678193722456; Tue, 07 Mar
+ 2023 04:55:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-07_06,2023-03-07_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 bulkscore=0
- adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=990 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303070117
-X-Proofpoint-GUID: FIGetVEgc3P-rAaqPRilCMbO_Ubuj6L3
-X-Proofpoint-ORIG-GUID: FIGetVEgc3P-rAaqPRilCMbO_Ubuj6L3
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230307123027.2485499-1-marcandre.lureau@redhat.com>
+ <ZAcwtl8N+ruzH4qj@redhat.com>
+In-Reply-To: <ZAcwtl8N+ruzH4qj@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 7 Mar 2023 16:55:11 +0400
+Message-ID: <CAJ+F1CLhu5aJ-eh+gB54AuKjNF=BWtWebgzKFDEBaDJsE5gVvA@mail.gmail.com>
+Subject: Re: [PATCH] .editorconfig: set max line at 70 chars for QAPI files
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,85 +86,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Avihai Horon <avihaih@nvidia.com>
+Hi
 
-Adjust the VFIO dirty page tracking documentation and add a section to
-describe device dirty page tracking.
+On Tue, Mar 7, 2023 at 4:41 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Tue, Mar 07, 2023 at 04:30:27PM +0400, marcandre.lureau@redhat.com wro=
+te:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > This seems to be the preferred style.
+> >
+> > The EditorConfig property is not supported by all editors:
+> > https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properti=
+es#max_line_length
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  .editorconfig | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/.editorconfig b/.editorconfig
+> > index 7303759ed7..8c5ebc6a1b 100644
+> > --- a/.editorconfig
+> > +++ b/.editorconfig
+> > @@ -47,3 +47,4 @@ emacs_mode =3D glsl
+> >  [*.json]
+> >  indent_style =3D space
+> >  emacs_mode =3D python
+> > +max_line_length =3D 70
+>
+> Why 70 as a hard limit ?  I thought QEMU policy was that 80 was a soft
+> limit and we were happy with 90 if it avoided wrapping that would hurt
+> readability.
 
-Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
----
- docs/devel/vfio-migration.rst | 46 +++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 15 deletions(-)
+Markus regularly point out lines over 70 characters:
+https://patchew.org/QEMU/20230306122751.2355515-1-marcandre.lureau@redhat.c=
+om/20230306122751.2355515-9-marcandre.lureau@redhat.com/#871qm1j2zc.fsf@pon=
+d.sub.org
 
-diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
-index c214c73e2818..1b68ccf11529 100644
---- a/docs/devel/vfio-migration.rst
-+++ b/docs/devel/vfio-migration.rst
-@@ -59,22 +59,37 @@ System memory dirty pages tracking
- ----------------------------------
- 
- A ``log_global_start`` and ``log_global_stop`` memory listener callback informs
--the VFIO IOMMU module to start and stop dirty page tracking. A ``log_sync``
--memory listener callback marks those system memory pages as dirty which are
--used for DMA by the VFIO device. The dirty pages bitmap is queried per
--container. All pages pinned by the vendor driver through external APIs have to
--be marked as dirty during migration. When there are CPU writes, CPU dirty page
--tracking can identify dirtied pages, but any page pinned by the vendor driver
--can also be written by the device. There is currently no device or IOMMU
--support for dirty page tracking in hardware.
-+the VFIO dirty tracking module to start and stop dirty page tracking. A
-+``log_sync`` memory listener callback queries the dirty page bitmap from the
-+dirty tracking module and marks system memory pages which were DMA-ed by the
-+VFIO device as dirty. The dirty page bitmap is queried per container.
-+
-+Currently there are two ways dirty page tracking can be done:
-+(1) Device dirty tracking:
-+In this method the device is responsible to log and report its DMAs. This
-+method can be used only if the device is capable of tracking its DMAs.
-+Discovering device capability, starting and stopping dirty tracking, and
-+syncing the dirty bitmaps from the device are done using the DMA logging uAPI.
-+More info about the uAPI can be found in the comments of the
-+``vfio_device_feature_dma_logging_control`` and
-+``vfio_device_feature_dma_logging_report`` structures in the header file
-+linux-headers/linux/vfio.h.
-+
-+(2) VFIO IOMMU module:
-+In this method dirty tracking is done by IOMMU. However, there is currently no
-+IOMMU support for dirty page tracking. For this reason, all pages are
-+perpetually marked dirty, unless the device driver pins pages through external
-+APIs in which case only those pinned pages are perpetually marked dirty.
-+
-+If the above two methods are not supported, all pages are perpetually marked
-+dirty by QEMU.
- 
- By default, dirty pages are tracked during pre-copy as well as stop-and-copy
--phase. So, a page pinned by the vendor driver will be copied to the destination
--in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
--it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
--finding dirty pages continuously, then it understands that even in stop-and-copy
--phase, it is likely to find dirty pages and can predict the downtime
--accordingly.
-+phase. So, a page marked as dirty will be copied to the destination in both
-+phases. Copying dirty pages in pre-copy phase helps QEMU to predict if it can
-+achieve its downtime tolerances. If QEMU during pre-copy phase keeps finding
-+dirty pages continuously, then it understands that even in stop-and-copy phase,
-+it is likely to find dirty pages and can predict the downtime accordingly.
- 
- QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
- which disables querying the dirty bitmap during pre-copy phase. If it is set to
-@@ -89,7 +104,8 @@ phase of migration. In that case, the unmap ioctl returns any dirty pages in
- that range and QEMU reports corresponding guest physical pages dirty. During
- stop-and-copy phase, an IOMMU notifier is used to get a callback for mapped
- pages and then dirty pages bitmap is fetched from VFIO IOMMU modules for those
--mapped ranges.
-+mapped ranges. If device dirty tracking is enabled with vIOMMU, live migration
-+will be blocked.
- 
- Flow of state changes during Live migration
- ===========================================
--- 
-2.17.2
-
+(my default emacs config has fill-column 80, and I use fill-paragraph
+- although sometime I may forget it)
 
