@@ -2,96 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AF36AE7D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEEE6AE7D3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:02:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZag5-0007PB-4U; Tue, 07 Mar 2023 12:00:41 -0500
+	id 1pZagP-0007aX-3Q; Tue, 07 Mar 2023 12:01:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZafw-0007HK-N2
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:00:33 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZafv-0002iy-2Q
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:00:32 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id c18so8246341wmr.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:00:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678208429;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GUDIygacfCGVR8fGo1IJ3EdUPNHwyAGo+roo8APTsNk=;
- b=ph1sfvMxY+XZesLpU7cO7ml/bRJUJG2DNJ7+XYzCof2Z2t+1m3vq5apYJFeYV7Aice
- zfSv7AUvd+MEntffGDYCodsF89eozNPxKdE5O/3ShJU/Fzsb7Cjs7sRdVxhfNb/eT1rX
- mOK2EcUqV6oBobYdaqtKv7z1VtoVpokXETVoOQvlhI75I8/DLXAcGlNz3ZypvOcfAcNs
- PJ/wyx/Y7Agnp3QZHEUuD0wojqHtujpfhaWhd7tGgCc6wVWvWA/gHKTSTZ+5ErvcIVRK
- skFzghgn8xvfJaC9naklym9POMszOYVbhrQwjFxOaIy0GuO/NytKp+xJN76mz/pWdKkL
- i02g==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZagF-0007Vd-QL
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:00:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZagD-0002ms-UT
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:00:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678208449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/nkJwjBBoX2mGSWlBTCLH6Uj3h/eiP6Eof6C1kMm5cA=;
+ b=Ys6pNegtpAL9ZJA/0vw5+MMVJemS7VkGfE9aZSYn+7hgURaqJCewbVRUArr2jEiXnNItzb
+ nKKSTPAMoGwdEuG+vJ5WgArg2BIsyNlA21LqKeYxLI1y1O3e6B7Swnm4WA1PbKmdEj3ggE
+ 6A9jskXxTtoDCNtCenq0dnthyzoCc4o=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-159-vwCJFwCAOmqXYcdcLLSRjg-1; Tue, 07 Mar 2023 12:00:40 -0500
+X-MC-Unique: vwCJFwCAOmqXYcdcLLSRjg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bi27-20020a05600c3d9b00b003e9d0925341so4999878wmb.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:00:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678208429;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GUDIygacfCGVR8fGo1IJ3EdUPNHwyAGo+roo8APTsNk=;
- b=cSPB1zN6k4PK4YpnsL3W1rWG4ySctXeq6XxL3BaYxK2xT9WpO310GRK6d1/L3I1KiM
- LzEyb7A2KdIcG9egWUyzSR/jnx/iqlm6cPVWYjdFjag/msiYhhnYTtfnmmP3H/aKfYvv
- kFFQK9Ur1TDilq0PkBjxBt56vowdX5L4WxgS34iko4cLpHtv5zvqxAoDuZtwEU52kjTa
- ql3maWh+dukx1cAy5dNWcMmtz/V8pk3XNobAv+nIsylUvyn95/iRmAL9Hckulvl5zUev
- EBpnXPvaF3es8LXZqG7jfbDV+IBvibbKjTZi2vlaUsVnd4YYORA5Fe2nHyNQJ/2vujqA
- 0MwQ==
-X-Gm-Message-State: AO0yUKWxzH9EklNy8gfmZMF+BHBSh7OFmaVQY2yCMPeCHfBLq36SLFYf
- zVZ63IJnVOrO4xemGz+nXYc=
-X-Google-Smtp-Source: AK7set88xSK51uoh3VVvDUs/jOF+Gr5Ee1CiOxaq5zxqImeG9T02U2YrY4P93URvNhWTORPq7ylJaw==
-X-Received: by 2002:a05:600c:4751:b0:3eb:578d:decb with SMTP id
- w17-20020a05600c475100b003eb578ddecbmr12283511wmo.28.1678208429602; 
- Tue, 07 Mar 2023 09:00:29 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
- by smtp.gmail.com with ESMTPSA id
- o33-20020a05600c512100b003e209186c07sm20143602wms.19.2023.03.07.09.00.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 09:00:29 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <c97bd1cd-5540-bfb0-0fda-68d2cb6254d0@xen.org>
-Date: Tue, 7 Mar 2023 17:00:28 +0000
+ d=1e100.net; s=20210112; t=1678208439;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/nkJwjBBoX2mGSWlBTCLH6Uj3h/eiP6Eof6C1kMm5cA=;
+ b=FTQCoPhq4THEDONP0E+z9IpH+CC/GYN8ethB6uIyNCUushfSZw33vbxmSsDHqzMhkl
+ Vla4jPSVebzCKkRov2Fy0dM7TfMru8F9GPzkQvOeslFCPXV3OTh4bW2iZHLfOkabpH5z
+ ZGPokgqs6BIuWs8/93FDsSgswz1rE0OIOgwNRmi1rkE1KtlrJbLCBTWnFVok7lidX/N3
+ kqGiWrco22hDaJjgFQa8SsJ6LN65hE+mwvzl3xXgbH+/slIuRCh2ALY9xqIbYgQAS9um
+ pYJ1FGQbPfbZelBXdhO8/QrqnRspNYqywYts4wa4J6U7w16McToDc+GUly3gTU+laiHM
+ 3HgA==
+X-Gm-Message-State: AO0yUKX0ds0PlJeS4S6VTXY05opsbY+lt9vfUjxXLnLeOjHzltgtWRuF
+ lbe2z4nH5woUR9debhkkDgaVf5FQzAh2rYPQLhUttl+OdLSzgBTCzmr+TQJ89nvcZ84bQXpVv3d
+ LTmfmoMepwZed/rA=
+X-Received: by 2002:a05:6000:1809:b0:2c6:e87f:30cc with SMTP id
+ m9-20020a056000180900b002c6e87f30ccmr8777008wrh.48.1678208439373; 
+ Tue, 07 Mar 2023 09:00:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set8JWxo1GtZGT6DA6pupFQCsF2X7wDl3kMB+4n3/DyBf9GarZSPW5WRWiWbnOu5zGU3aU7w6AQ==
+X-Received: by 2002:a05:6000:1809:b0:2c6:e87f:30cc with SMTP id
+ m9-20020a056000180900b002c6e87f30ccmr8776997wrh.48.1678208439004; 
+ Tue, 07 Mar 2023 09:00:39 -0800 (PST)
+Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
+ p10-20020a5d68ca000000b002c59e001631sm13314776wrw.77.2023.03.07.09.00.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 09:00:38 -0800 (PST)
+Date: Tue, 7 Mar 2023 12:00:35 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] virtio: fix reachable assertion due to stale value of
+ cached region size
+Message-ID: <20230307115951-mutt-send-email-mst@kernel.org>
+References: <20230302100358.3613-1-clopez@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 07/25] hw/xen: Implement core serialize/deserialize
- methods for xenstore_impl
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-8-dwmw2@infradead.org>
- <5f03307a80c33b62380128bf3f638d47eca74357.camel@infradead.org>
- <e1e4f027-25bc-2e1c-4451-b4d304493f16@xen.org>
- <1ab939956031328a9a16fb4e76417e23f292e6ba.camel@infradead.org>
- <335a946a-6eae-00e6-b30f-142522cc4c26@xen.org>
-Organization: Xen Project
-In-Reply-To: <335a946a-6eae-00e6-b30f-142522cc4c26@xen.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32e.google.com
+In-Reply-To: <20230302100358.3613-1-clopez@suse.de>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,62 +94,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/03/2023 16:59, Paul Durrant wrote:
-> On 07/03/2023 16:52, David Woodhouse wrote:
->> On Tue, 2023-03-07 at 16:39 +0000, Paul Durrant wrote:
->>> On 07/03/2023 16:33, David Woodhouse wrote:
->>>> On Thu, 2023-03-02 at 15:34 +0000, David Woodhouse wrote:
->>>>> From: David Woodhouse <dwmw@amazon.co.uk>
->>>>>
->>>>> In fact I think we want to only serialize the contents of the domain's
->>>>> path in /local/domain/${domid} and leave the rest to be recreated? 
->>>>> Will
->>>>> defer to Paul for that.
->>>>>
->>>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
->>>>
->>>> Paul, your Reviewed-by: on this one is conspicuous in its absence. I
->>>> mentioned migration in the cover letter — this much is working fine,
->>>> but it's the PV back ends that don't yet work.
->>>>
->>>> I'd quite like to merge the basic serialization/deserialization of
->>>> XenStore itself, with the unit tests.
->>>
->>> The patch is basically ok, I just think the serialization should be
->>> limited to the guest nodes... filtering out those not owned by xen_domid
->>> would probably work for that.
->>
->> Yeah, so let's just do this (as part of this patch #7) for now:
->>
->> --- a/hw/i386/kvm/xen_xenstore.c
->> +++ b/hw/i386/kvm/xen_xenstore.c
->> @@ -235,6 +235,7 @@ static int xen_xenstore_post_load(void *opaque, int
->> ver)
->>   static const VMStateDescription xen_xenstore_vmstate = {
->>       .name = "xen_xenstore",
->> +    .unmigratable = 1, /* The PV back ends don't migrate yet */
->>       .version_id = 1,
->>       .minimum_version_id = 1,
->>       .needed = xen_xenstore_is_needed,
->>
->>
->> It means we can't migrate guests even if they're only using fully
->> emulated devices... but I think that's a reasonable limitation until we
->> implement it fully.
->>
+On Thu, Mar 02, 2023 at 11:03:59AM +0100, Carlos L�pez wrote:
+> In virtqueue_{split,packed}_get_avail_bytes() descriptors are read
+> in a loop via MemoryRegionCache regions and calls to
+> vring_{split,packed}_desc_read() - these take a region cache and the
+> index of the descriptor to be read.
 > 
-> Ok. With that added...
+> For direct descriptors we use a cache provided by the caller, whose
+> size matches that of the virtqueue vring. We limit the number of
+> descriptors we can read by the size of that vring:
 > 
-> Revieweed-by: Paul Durrant <paul@xen.org>
-
-Typoed, sorry...
-
-Reviewed-by: Paul Durrant <paul@xen.org>
-
+>     max = vq->vring.num;
+>     ...
+>     MemoryRegionCache *desc_cache = &caches->desc;
 > 
+> For indirect descriptors, we initialize a new cache and limit the
+> number of descriptors by the size of the intermediate descriptor:
+> 
+>     len = address_space_cache_init(&indirect_desc_cache,
+>                                    vdev->dma_as,
+>                                    desc.addr, desc.len, false);
+>     desc_cache = &indirect_desc_cache;
+>     ...
+>     max = desc.len / sizeof(VRingDesc);
+> 
+> However, the first initialization of `max` is done outside the loop
+> where we process guest descriptors, while the second one is done
+> inside. This means that a sequence of an indirect descriptor followed
+> by a direct one will leave a stale value in `max`. If the second
+> descriptor's `next` field is smaller than the stale value, but
+> greater than the size of the virtqueue ring (and thus the cached
+> region), a failed assertion will be triggered in
+> address_space_read_cached() down the call chain.
+> 
+> Fix this by initializing `max` inside the loop in both functions.
+> 
+> Fixes: 9796d0ac8fb0 ("virtio: use address_space_map/unmap to access descriptors")
+> Signed-off-by: Carlos L�pez <clopez@suse.de>
+> ---
+> v2: simplify patch by removing variable cleanups
+> 
+>  hw/virtio/virtio.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index f35178f5fc..98c4819fcc 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -1069,7 +1069,7 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
+>                              VRingMemoryRegionCaches *caches)
+>  {
+>      VirtIODevice *vdev = vq->vdev;
+> -    unsigned int max, idx;
+> +    unsigned int idx;
+>      unsigned int total_bufs, in_total, out_total;
+>      MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
+>      int64_t len = 0;
+> @@ -1078,13 +1078,12 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
+>      idx = vq->last_avail_idx;
+>      total_bufs = in_total = out_total = 0;
+>  
+> -    max = vq->vring.num;
+> -
+>      while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
+>          MemoryRegionCache *desc_cache = &caches->desc;
+>          unsigned int num_bufs;
+>          VRingDesc desc;
+>          unsigned int i;
+> +        unsigned int max = vq->vring.num;
+>  
+>          num_bufs = total_bufs;
+>  
+> @@ -1206,7 +1205,7 @@ static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
+>                                               VRingMemoryRegionCaches *caches)
+>  {
+>      VirtIODevice *vdev = vq->vdev;
+> -    unsigned int max, idx;
+> +    unsigned int idx;
+>      unsigned int total_bufs, in_total, out_total;
+>      MemoryRegionCache *desc_cache;
+>      MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
+> @@ -1218,14 +1217,14 @@ static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
+>      wrap_counter = vq->last_avail_wrap_counter;
+>      total_bufs = in_total = out_total = 0;
+>  
+> -    max = vq->vring.num;
+> -
+>      for (;;) {
+>          unsigned int num_bufs = total_bufs;
+>          unsigned int i = idx;
+>          int rc;
+> +        unsigned int max = vq->vring.num;
+>  
+>          desc_cache = &caches->desc;
+> +
+
+OK and let's not add cosmetics with a bugfix unnecessarily?
+
+>          vring_packed_desc_read(vdev, &desc, desc_cache, idx, true);
+>          if (!is_desc_avail(desc.flags, wrap_counter)) {
+>              break;
+> -- 
+> 2.35.3
 
 
