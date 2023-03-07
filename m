@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85A06ADF3F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC916ADF43
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:56:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZWqU-0005Ec-U1; Tue, 07 Mar 2023 07:55:10 -0500
+	id 1pZWrY-0006JQ-3G; Tue, 07 Mar 2023 07:56:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZWqS-0005Cg-2i
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:08 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1pZWrR-0006Ht-Q9
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:56:10 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZWqP-0004me-SR
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:07 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D2765746335;
- Tue,  7 Mar 2023 13:54:48 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8F54774634B; Tue,  7 Mar 2023 13:54:48 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8E056746346;
- Tue,  7 Mar 2023 13:54:48 +0100 (CET)
-Date: Tue, 7 Mar 2023 13:54:48 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <e0a958ec-fa18-0d13-48db-10feea159491@redhat.com>
-Message-ID: <68f3c8a7-c990-00c0-4872-68acee86c28c@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
- <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
- <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
- <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
- <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
- <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
- <e101b894-c722-8def-f591-20fada45795c@redhat.com>
- <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
- <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
- <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
- <e0a958ec-fa18-0d13-48db-10feea159491@redhat.com>
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1pZWrQ-00057a-3S
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:56:09 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 327846pG017250; Tue, 7 Mar 2023 12:56:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2022-7-12;
+ bh=KN/Dww0mMuy9Ttz9jfjlfG5UfB60DZEob8ekqMpxEvU=;
+ b=ql7xbu3HBNjVHNAT/+zBjfKgQgHTS1NfoQCWFD7upEUZiBaL31S2p0QXzssboGfBeXZE
+ M29vuND7RZY9UnuDY8b8EHWrj+sdBp9zaxEQTAwFTilJPYMuBW3lBQAWKswLYx2nNBBl
+ iZM8tuhFxPkoT87QaJoxvm2Gx0Ok7gmUjk29MZYrwSXvSNupVRMbcIXunIx9L+v3pV2o
+ ZoeBfycNd22KzwkrAx7DZ+BSdtaMCrZjctKAY1zFZ95RO/g4mdpJ9UnWWn5g+wSF5qkH
+ U57wp4VkRFsguRXPUDlTPfScxLO/ZQThSq0da251saA6hmqx+j9mmuKQW8UwIIFZzB53 jA== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p417cdctr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Mar 2023 12:56:07 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 327CTx97026623; Tue, 7 Mar 2023 12:56:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3p4u1eyf3r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Mar 2023 12:56:06 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 327CtV5P004358;
+ Tue, 7 Mar 2023 12:56:05 GMT
+Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-196-64.vpn.oracle.com
+ [10.175.196.64])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 3p4u1eyefv-14; Tue, 07 Mar 2023 12:56:05 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Cedric Le Goater <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v5 13/15] vfio/migration: Block migration with vIOMMU
+Date: Tue,  7 Mar 2023 12:54:48 +0000
+Message-Id: <20230307125450.62409-14-joao.m.martins@oracle.com>
+In-Reply-To: <20230307125450.62409-1-joao.m.martins@oracle.com>
+References: <20230307125450.62409-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-07_06,2023-03-07_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=703 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303070117
+X-Proofpoint-GUID: H4uRhhZyuCUfj0a4NeivcBYndsA3lODc
+X-Proofpoint-ORIG-GUID: H4uRhhZyuCUfj0a4NeivcBYndsA3lODc
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,93 +103,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Mar 2023, Paolo Bonzini wrote:
-> On 3/7/23 11:01, BALATON Zoltan wrote:
->>>> I'm not sure I follow what you mean so I'd need a patch to see then I can
->>>> test it with the clients I run on pegasos2.
->>> 
->>> Do you have a spec, or pointer to the morphos kernel sources, to figure 
->>> out how the hardware works?
->> 
->> No, that's closed source and only available as a demo iso but it's known to 
->> work on real hardware and freely downloadable so is a good test. (AFAIK 
->> those who developed MorphOS had close connection to those who wrote the 
->> firmware for Pegasos II.) Maybe the VT8231 datasheet or similar parts (we 
->> only emulate VT82C686B and VT8231 in QEMU) has some info on this.
->
-> I agree it's a good test, but it's not clear what it means to do sub-word 
-> writes to the register.
->
-> For example, in the dump I posted you have:
->
-> evt 3 1 write 1      // enable timer
-> evt 0 2 read
-> evt 0 2 write 1      // just writes again the same value, clearing sts
->
-> It's important to note that the comments are just my guess.
->
-> Before even looking at the effect of the write, the trace tells us that your 
-> patch is incomplete.  With both current QEMU and your patch it would do 
-> nothing because addr is not 0 or 2; but since the firmware of your machine 
-> does use addr == 3, you need to handle it.  In other words, before looking at 
-> this trace, I was wary of accepting your patch because it made no sense to 
-> me; but I couldn't exclude that I was missing something.  Now, instead, I am 
-> certain it shouldn't be accepted.
+Migrating with vIOMMU will require either tracking maximum
+IOMMU supported address space (e.g. 39/48 address width on Intel)
+or range-track current mappings and dirty track the new ones
+post starting dirty tracking. This will be done as a separate
+series, so add a live migration blocker until that is fixed.
 
-Well at least that question is cleared then.
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
+---
+ hw/vfio/common.c              | 46 +++++++++++++++++++++++++++++++++++
+ hw/vfio/migration.c           |  5 ++++
+ hw/vfio/pci.c                 |  1 +
+ include/hw/vfio/vfio-common.h |  2 ++
+ 4 files changed, 54 insertions(+)
 
-> I am quite confident that the second guess is correct, because "write the 
-> same value that was read" only makes sense for evt_sts and not for evt_en.
-
-It could also make sense if the guest is trying to flip a bit that's 
-already set or cleared. It could be that the reset value on QEMU is not 
-the same as on hardware or the firmware just runs the same routine on 
-reset and cold start and wants to make sure a bit is in a state it wants 
-it even if it already is that way so it could read value, unconditionally 
-apply mask which in our case does not change the value and write it back.
-
-> We learnt something: no matter what bus this device sits on, it does not flip 
-> bit 1 of the address for subword writes.  As I mentioned yesterday, we also 
-> observe that the load and store use lhbrx and sthbrx.  Assuming this is not a 
-> harmless bug in the firmware, this means the device is indeed little endian.
-
-AFAIU the device is little endian (VT8231 is a PCI device and primarily a 
-PC part so it's expected to be little endian) but the guest also knows 
-this and writes byte swaped values to it. But since the memory region is 
-set to LITTLE_ENDIAN and we're on a big endian CPU QEMU will byte swap it 
-again which it should not do as the guest already did that. Setting it to 
-NATIVE_ENDIAN solves this and it oes not break anything for little endian 
-machines on little endian hosts for sure. The only part I'm not sure about 
-is big endian hosts which I don't have any to test.
-
-> This means that the first write is almost certainly to evt_en.  On a 
-> little-endian machine the write would set bit 8 of evt.en (power button), but 
-> what about a big-endian machine like yours?  Should it set bit 0 or bit 8? 
-> If it's bit 0 (which resides at offset 2 according to the device), who flips 
-> the low bit of the address?  Why is bit 0 flipped but not bit 1?
-
-I think the guest already writes byte swapped value so it should work the 
-same as on little endian machine but the QEMU memory layer gets in the 
-way.
-
-> You simply cannot fix the emulation of this machine until you can answer the 
-> above questions.  If there is no source and no spec, the two ways to do it 
-> are:
->
-> - get a real machine, and figure out whether the write to offset 3 
-> corresponds to the PM timer or the power button.
-
-I don't have real machine but know somebody who does but I'm not sure what 
-to ast to test on it. Can you describe it what you want to see or maybe 
-write a sctipt for the fimrware to test it (if you're familiar enough with 
-Forth for that). I can try to find some more info on this but so far I was 
-concentrating on other bigger issues. This is a minor annoyance but would 
-be nice to fix eventually.
-
-Regards,
-BALATON Zoltan
-
-> - continue the trace up to the point the OS runs, and see if you get some 
-> clues similar to the one above that placed evt_sts at offset 2.
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 2639b393a781..2b9bcf70aa36 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -362,6 +362,7 @@ bool vfio_mig_active(void)
+ }
+ 
+ static Error *multiple_devices_migration_blocker;
++static Error *giommu_migration_blocker;
+ 
+ static unsigned int vfio_migratable_device_num(void)
+ {
+@@ -413,6 +414,51 @@ void vfio_unblock_multiple_devices_migration(void)
+     multiple_devices_migration_blocker = NULL;
+ }
+ 
++static bool vfio_viommu_preset(void)
++{
++    VFIOAddressSpace *space;
++
++    QLIST_FOREACH(space, &vfio_address_spaces, list) {
++        if (space->as != &address_space_memory) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++int vfio_block_giommu_migration(Error **errp)
++{
++    int ret;
++
++    if (giommu_migration_blocker ||
++        !vfio_viommu_preset()) {
++        return 0;
++    }
++
++    error_setg(&giommu_migration_blocker,
++               "Migration is currently not supported with vIOMMU enabled");
++    ret = migrate_add_blocker(giommu_migration_blocker, errp);
++    if (ret < 0) {
++        error_free(giommu_migration_blocker);
++        giommu_migration_blocker = NULL;
++    }
++
++    return ret;
++}
++
++void vfio_unblock_giommu_migration(void)
++{
++    if (!giommu_migration_blocker ||
++        vfio_viommu_preset()) {
++        return;
++    }
++
++    migrate_del_blocker(giommu_migration_blocker);
++    error_free(giommu_migration_blocker);
++    giommu_migration_blocker = NULL;
++}
++
+ static void vfio_set_migration_error(int err)
+ {
+     MigrationState *ms = migrate_get_current();
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index a2c3d9bade7f..776fd2d7cdf3 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -634,6 +634,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+         return ret;
+     }
+ 
++    ret = vfio_block_giommu_migration(errp);
++    if (ret) {
++        return ret;
++    }
++
+     trace_vfio_migration_probe(vbasedev->name);
+     return 0;
+ 
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 939dcc3d4a9e..30a271eab38c 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -3185,6 +3185,7 @@ static void vfio_instance_finalize(Object *obj)
+      */
+     vfio_put_device(vdev);
+     vfio_put_group(group);
++    vfio_unblock_giommu_migration();
+ }
+ 
+ static void vfio_exitfn(PCIDevice *pdev)
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 9551d2d43025..009bec34c4bc 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -222,6 +222,8 @@ extern VFIOGroupList vfio_group_list;
+ bool vfio_mig_active(void);
+ int vfio_block_multiple_devices_migration(Error **errp);
+ void vfio_unblock_multiple_devices_migration(void);
++int vfio_block_giommu_migration(Error **errp);
++void vfio_unblock_giommu_migration(void);
+ int64_t vfio_mig_bytes_transferred(void);
+ 
+ #ifdef CONFIG_LINUX
+-- 
+2.17.2
 
 
