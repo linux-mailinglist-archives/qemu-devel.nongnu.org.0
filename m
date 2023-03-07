@@ -2,87 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BAF6AE0B7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6C26AE0B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 14:38:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZXVR-0000tI-1b; Tue, 07 Mar 2023 08:37:29 -0500
+	id 1pZXVk-0001cU-12; Tue, 07 Mar 2023 08:37:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZXVN-0000n9-BM; Tue, 07 Mar 2023 08:37:25 -0500
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pZXVL-0005OH-4s; Tue, 07 Mar 2023 08:37:25 -0500
-Received: by mail-oo1-xc2e.google.com with SMTP id
- t5-20020a4ac885000000b005251f70a740so2030788ooq.8; 
- Tue, 07 Mar 2023 05:37:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678196236;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7cHp75bl58rVaE32pv7MovvxG2J2YQy3UU3Z3YlN9D0=;
- b=NE42GkqGYmQqDzpOmcOfTnsGoaXUdObpRYh31GNJVhEMzizQeJ7ZsNrMlueh7STSAH
- yTczQutD9hbzw6eOjVT7x2wOTVtoGK3HNBuAipBUrJe2zpwuT8kL3oWq8YzsBhPVEdB3
- pcu5iOgqw4QGoNuHOULTHBmo8dEZFCDIjUPXqBfsoxx1jt77Ga3bwnGKw6K2Vol1pgjY
- UEXbuI4Rl7z6/JoKKsXXQlPqauSOKetGGDP2U6xsyfSYNu6XN3gt26kyyfgHBEG+KSqh
- YjZtGiMosed7qHJRY5I7n3aTFej+rDyhFBbGkIhZlM31YHtPyNtu39TCcQMqYMyX0ACW
- OyUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678196236;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7cHp75bl58rVaE32pv7MovvxG2J2YQy3UU3Z3YlN9D0=;
- b=eU/51Sz1+IzNffaqtLt3TqLIwHGj5IaWClgtwhRuu+wXw1fAo2FrtljU0gvxWIUJeI
- 4IO7i5O0CMYOFZ2Y3ecYVG4Z1CQ1w4j6tCM1yCGe/JhHoLUJ7l1HqnHLIMv/KCnQHL9A
- 13n9hzNUcb27WxjdVjEquURJuSoUt2rXFny9+cVTV/pN2L/4U1gy1FfiVa4ZjNYRMkX2
- X+eXcoTfZts/iUJo6qa/ClLW+sjmq6W9SExAH3OhQqad+aLS/E7zHdgu+nCjgzrMdQ5c
- f4bZAP62fF6RQjbmd07hX0TaTCfeJfOrn2OIcjSVvS8tggCGArW1vOeQzqNesCWoPP0p
- /Sxg==
-X-Gm-Message-State: AO0yUKVMIqfo7iYlBTdDreNFZqiiRTJVtlgmMBO9DCmbP0zjY5ZTg3Pm
- 3M8EvzlBh5mMI+nUWAChqtQ=
-X-Google-Smtp-Source: AK7set8bvyy8fwc27S0y1mJBSAXBCKSf9osCzoQ+qqt2/RVpvbqyZoIzMBGKAGwcFw9M5jyYrUnjUw==
-X-Received: by 2002:a4a:98d1:0:b0:49f:8941:ffed with SMTP id
- b17-20020a4a98d1000000b0049f8941ffedmr5663893ooj.9.1678196236058; 
- Tue, 07 Mar 2023 05:37:16 -0800 (PST)
-Received: from [192.168.68.107] ([177.189.53.31])
- by smtp.gmail.com with ESMTPSA id
- t8-20020a056830082800b006884c42a38asm5391650ots.41.2023.03.07.05.37.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:37:15 -0800 (PST)
-Message-ID: <7cdd5734-c753-6600-c691-46d417866f0c@gmail.com>
-Date: Tue, 7 Mar 2023 10:37:12 -0300
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZXVg-0001QO-4Q
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:37:44 -0500
+Received: from mout.kundenserver.de ([212.227.126.134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZXVe-0005YR-GM
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 08:37:43 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MbTCr-1qAnCN1J5F-00bsW4; Tue, 07 Mar 2023 14:37:30 +0100
+Message-ID: <baa0d31c-ffba-c619-e90a-9e4596342be0@vivier.eu>
+Date: Tue, 7 Mar 2023 14:37:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v9 3/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
- forwarder"
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de
-References: <cover.1678188711.git.balaton@eik.bme.hu>
- <2878ea6ebe4713fe9b8f2ab777b58b5e5f10fe5b.1678188711.git.balaton@eik.bme.hu>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <2878ea6ebe4713fe9b8f2ab777b58b5e5f10fe5b.1678188711.git.balaton@eik.bme.hu>
+Subject: Re: [PATCH v2 2/4] linux-user: fix sockaddr_in6 endianness
+Content-Language: fr
+To: Mathis MARION <mamarion1@silabs.com>,
+ Mathis Marion <Mathis.Marion@silabs.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
+ <jerome.pouiller@silabs.com>
+References: <20230220085822.626798-1-Mathis.Marion@silabs.com>
+ <20230220085822.626798-3-Mathis.Marion@silabs.com>
+ <008ca1be-e4ca-1588-fe85-6be807b48b0b@vivier.eu>
+ <5af1e768-820a-68d4-5d98-e4b6fbcc7d90@silabs.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <5af1e768-820a-68d4-5d98-e4b6fbcc7d90@silabs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2e.google.com
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Oaah1JBEwKPOD7Y6RitDOZAYWDOKI7Hcfz2nJp5zn93dElZHUqq
+ vbC1iCFBFfFAkQEzgOw2pKxURXdW+mU92kJvgxnWlKT0wEnuEyeg4oGXl+tFpVkOyScbGUR
+ GGcR+QimS5BHYPya9yJ4uZW/7MupG47psvKewzSJ3COKLAjrYDz4kRiBCaEmjEhdTWTbo88
+ SqQuOK7YyTcQZZ/ssTy5g==
+UI-OutboundReport: notjunk:1;M01:P0:9SlWUgPhiTY=;Iu6BN10WB437OIUQXtr98pcSrM5
+ oxgD5nAhHxwsgXiBgdN/54tPyY6z10sn/b5XTGFRJbJLZyB4Ton/HDDnLijU6TX4WPSeEn5kT
+ d8MRW2YSIChmJgbxirjKkCMgoHLEKzdpjGajLg/vB42S+kBIqTSXasppfvIkIN4pGWKj5J+jN
+ yxD3mXPtxl22vhowKZyzM5p221Beryw+UKgduH2OiJdz3XNvE5Rr6aol198Y5qilnK60Wi/DI
+ PuAyMiXRiJ5Yf+4v1ZSkS7Eekv04+SNiUapElVoe1jbcc8BBftLRcHVZ6rljZYmUQAJKFVZmE
+ cckJfPUNAGZ27X4Y9GTRfYPEPY4MJI1nPbDlXh9YtAZsUcMeUMRSeR2byWc7sBi2pahCA2A0F
+ 0BC7p/9utVegLN4pX5NliyBxrIY/X6qS00hIeM141IIuaSY24ipFOq7kO3Iv/3zErl0qZdzbL
+ LJBW6MT5gPptZaco6+FxAh+OyPOjDBacuBRg/jZegJGxer2ZgoZPgo1mg72M7vTK4RQVthpRE
+ AInqIVQC3J4r/hDVhwMuiTYTo0i1vusc7I3QAepPiTOyJxV3E5UgOHUiLLc21ZaPV1HNBKkXf
+ /5bXla32jvr7N0Gq40p5XuJJFvu8SsxOqz5wdrZjwDNMiY6ih6yDDtJappdYhSQ1b84TcM1oL
+ qsQKap74gp+SPwaoxfE9icfOQhRJEu5KexiJBZhCMQ==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,56 +77,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/7/23 08:42, BALATON Zoltan wrote:
-> This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
-> keeping the rename of a state field but reverting other cahanges which
-> break interrupts on pegasos2.
+Le 07/03/2023 à 12:27, Mathis MARION a écrit :
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/isa/vt82c686.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index f4c40965cd..01e0148967 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -598,15 +598,23 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
->       qemu_set_irq(s->isa_irqs_in[n], level);
->   }
->   
-> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-> +{
-> +    ViaISAState *s = opaque;
-> +    qemu_set_irq(s->cpu_intr, level);
-> +}
-> +
->   static void via_isa_realize(PCIDevice *d, Error **errp)
->   {
->       ViaISAState *s = VIA_ISA(d);
->       DeviceState *dev = DEVICE(d);
->       PCIBus *pci_bus = pci_get_bus(d);
-> +    qemu_irq *isa_irq;
->       ISABus *isa_bus;
->       int i;
->   
->       qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->       isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
->                             errp);
->   
-> @@ -614,7 +622,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->           return;
->       }
->   
-> -    s->isa_irqs_in = i8259_init(isa_bus, s->cpu_intr);
-> +    s->isa_irqs_in = i8259_init(isa_bus, *isa_irq);
->       isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
->       i8254_pit_init(isa_bus, 0x40, 0, NULL);
->       i8257_dma_init(isa_bus, 0);
+> On 06/03/2023 22:52, Laurent Vivier wrote:
+>> CAUTION: This email originated from outside of the organization. Do not click links or open 
+>> attachments unless you recognize the sender and know the content is safe.
+>>
+>>
+>> Le 20/02/2023 à 09:58, Mathis Marion a écrit :
+>>> From: Mathis Marion <mathis.marion@silabs.com>
+>>>
+>>> Fields sin6_flowinfo and sin6_scope_id use the host byte order, so there
+>>> is a conversion to be made when host and target endianness differ.
+>>>
+>>> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
+>>> ---
+>>>   linux-user/syscall.c | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>> index 58549de125..1a6856abec 100644
+>>> --- a/linux-user/syscall.c
+>>> +++ b/linux-user/syscall.c
+>>> @@ -1713,6 +1713,12 @@ static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
+>>>       lladdr = (struct target_sockaddr_ll *)addr;
+>>>       lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
+>>>       lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
+>>> +    } else if (sa_family == AF_INET6) {
+>>> +        struct sockaddr_in6 *in6addr;
+>>> +
+>>> +        in6addr = (struct sockaddr_in6 *)addr;
+>>> +        in6addr->sin6_flowinfo = tswap32(in6addr->sin6_flowinfo);
+>>
+>> In /usr/include/linux/in6.h, it's defined as a __be32, so I don't think we need to change its
+>> endianness.
+>>
+> 
+> Right.
+> Thank you for integrating the other patches! Before I send a v3, do you
+> have any comments on patch 4?
+> 
+
+Yes, use *_MASK rather than ~*_NESTED. It looks cleaner. I prefer to ignore flags rather than return 
+an error, so on architectures with same endiannes/wordsize it generally works.
+
+Thanks,
+Laurent
+
 
