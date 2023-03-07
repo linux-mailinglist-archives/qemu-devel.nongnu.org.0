@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6F56AE483
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5CE6AE522
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:43:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZ8Q-0008L4-3r; Tue, 07 Mar 2023 10:21:50 -0500
+	id 1pZZSH-00055u-Hn; Tue, 07 Mar 2023 10:42:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZZ8N-0008KY-Jr
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:21:47 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZZ8L-0001Xx-GA
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:21:47 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 308DC74634B;
- Tue,  7 Mar 2023 16:21:31 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E68D5746335; Tue,  7 Mar 2023 16:21:30 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E440E746346;
- Tue,  7 Mar 2023 16:21:30 +0100 (CET)
-Date: Tue, 7 Mar 2023 16:21:30 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <357c8c40-8b16-d53c-c453-b8cebe4a312f@redhat.com>
-Message-ID: <f16d495e-3f7b-d253-601f-c2566c49e521@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
- <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
- <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
- <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
- <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
- <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
- <e101b894-c722-8def-f591-20fada45795c@redhat.com>
- <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
- <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
- <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
- <e0a958ec-fa18-0d13-48db-10feea159491@redhat.com>
- <68f3c8a7-c990-00c0-4872-68acee86c28c@eik.bme.hu>
- <357c8c40-8b16-d53c-c453-b8cebe4a312f@redhat.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZZSF-00051V-7Q
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:42:19 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pZZSD-0006Ez-F3
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:42:18 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id g3so12566675wri.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:42:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678203735;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=74vAKFBA0O9oy4Mbr1O3L34ArgkB/qAg1kxwaQlAB0o=;
+ b=Up9JMJ1NuGmbIjWI1PQBgjgpXokR0rQNWdqG3F2EAI4VibGHEhTYtxdPZl/RbsgrTi
+ w1rYHbKjWUfm/oObh/Ui6afgDTgXtVf81/tc3FXXqEbmVrW4gUzR72i4FmzHAGULLGyw
+ Xp0t1zZMyppOkvEvF6G/AtgKGCSIF3puI1MUheB/pntOlCy576csMbFBBzlueh8pSh13
+ /29oCfgZgG9iWgvL3Nzor3xC3kn7UrPkdwiZ9JZxxyzTkfeqS2WgB3H7FMm3ciywrQuL
+ NYN4sXvUsN5Dys0Bpu3Jqnr6KCqucgeg7Qs+qBHZfGUnhGEhQeyYNMXPcTyjx+6/OiNH
+ v3jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678203735;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=74vAKFBA0O9oy4Mbr1O3L34ArgkB/qAg1kxwaQlAB0o=;
+ b=IVOsz+Eww/WqOFSMAZpFo7Xr+lmHGHRp8ilZfeplVcfkQpdj6lHLuZc03okmK0iqLT
+ gF3rnKH4Ut7/z+6CushO2N0lAsCoItSta7BZ4BFAGSmRY230wcpg6T2xFDEDLLMsbXrG
+ kxHq60mJrBcWiW0y2/Q45v761DwFsTJNsNTM7nZ6n+i2vn3tnteWAVNpoKYbPnVW1T5F
+ y7WbW+HUXlZWBJ+REkkD3dzZlNkDdikBKfOfms2MPy48B85SS1sE9k9o7R47U5RvEuXy
+ IwIKrBGfs8SSNuEZf9FC6RlngP8pmow33mhASLBg5SXFXpqDpIsYjn/wfho8LIfXSdvq
+ h8wA==
+X-Gm-Message-State: AO0yUKWbYLKjwW0pOcMVa59LX5x5dILlZkVvoUspHt6OBjhia+8eadMG
+ vzNTtNsFN9cYw77xxcO5XO0=
+X-Google-Smtp-Source: AK7set9rFAxsWGLDG1Yfv4fXzbVeCS62Wf1GNxeR5INVkKZz/43FKNMtK+CS/JeSbo9jp+1Z+0TQnA==
+X-Received: by 2002:a5d:4c4c:0:b0:2c5:4f06:5fe with SMTP id
+ n12-20020a5d4c4c000000b002c54f0605femr9995845wrt.57.1678203735230; 
+ Tue, 07 Mar 2023 07:42:15 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
+ by smtp.gmail.com with ESMTPSA id
+ f2-20020a5d4dc2000000b002be5bdbe40csm12732476wru.27.2023.03.07.07.42.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 07:42:14 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <8afd13b9-78c3-67d6-c1fc-e5a35260e218@xen.org>
+Date: Tue, 7 Mar 2023 15:42:13 +0000
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-478380890-1678202490=:65948"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v1 17/25] hw/xen: Build PV backend drivers for
+ CONFIG_XEN_BUS
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230302153435.1170111-1-dwmw2@infradead.org>
+ <20230302153435.1170111-18-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230302153435.1170111-18-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,87 +99,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 02/03/2023 15:34, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> Now that we have the redirectable Xen backend operations we can build the
+> PV backends even without the Xen libraries.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/9pfs/meson.build            | 2 +-
+>   hw/block/dataplane/meson.build | 2 +-
+>   hw/block/meson.build           | 2 +-
+>   hw/char/meson.build            | 2 +-
+>   hw/display/meson.build         | 2 +-
+>   hw/usb/meson.build             | 2 +-
+>   hw/xen/meson.build             | 5 ++++-
+>   7 files changed, 10 insertions(+), 7 deletions(-)
+> 
 
---3866299591-478380890-1678202490=:65948
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-On Tue, 7 Mar 2023, Paolo Bonzini wrote:
-> On 3/7/23 13:54, BALATON Zoltan wrote:
->>> evt 3 1 write 1      // enable timer
->>> evt 0 2 read
->>> evt 0 2 write 1      // just writes again the same value, clearing sts
->>> 
->>> I am quite confident that the second guess is correct, because "write the 
->>> same value that was read" only makes sense for evt_sts and not for evt_en.
->> 
->> It could also make sense if the guest is trying to flip a bit that's 
->> already set or cleared.
->
-> No, I checked what the guest actually does and it's read followed immediately 
-> by a write, with no other ALU values in the middle.
->
->> AFAIU the device is little endian (VT8231 is a PCI device and primarily a 
->> PC part so it's expected to be little endian) but the guest also knows this 
->> and writes byte swaped values to it. But since the memory region is set to 
->> LITTLE_ENDIAN and we're on a big endian CPU QEMU will byte swap it again 
->> which it should not do as the guest already did that.
->
-> It's the opposite.
->
-> The CPU first swaps the value that was in the register, when it executes 
-> sthbrx instructions.  With DEVICE_LITTLE_ENDIAN, QEMU does the second swap 
-> and restores the value that was in the register.  With DEVICE_NATIVE_ENDIAN 
-> it happens to fix the cases that matter for your testcase, but it breaks 
-> others.
->
->>> This means that the first write is almost certainly to evt_en.  On a 
->>> little-endian machine the write would set bit 8 of evt.en (power button), 
->>> but what about a big-endian machine like yours?  Should it set bit 0 or 
->>> bit 8? If it's bit 0 (which resides at offset 2 according to the device), 
->>> who flips the low bit of the address?  Why is bit 0 flipped but not bit 1?
->> 
->> I think the guest already writes byte swapped value so it should work the 
->> same as on little endian machine but the QEMU memory layer gets in the way.
->
-> The write in question is "evt addr=3 size=1 value=1" so it's a one-byte 
-> write.  There's no byte swapping involved here, rather the question is how 
-> the addresses are interpreted.
->
->>> - get a real machine, and figure out whether the write to offset 3 
->>> corresponds to the PM timer or the power button.
->> 
->> I don't have real machine but know somebody who does but I'm not sure what 
->> to ast to test on it. Can you describe it what you want to see or maybe 
->> write a sctipt for the fimrware to test it (if you're familiar enough with 
->> Forth for that). I can try to find some more info on this but so far I was 
->> concentrating on other bigger issues. This is a minor annoyance but would 
->> be nice to fix eventually.
->
-> I didn't even have an idea that Forth was involved, honestly, or how to write 
-> Forth code for this machine that I barely know exists. :)
-
-It's supposed to be CHRP compatible which mandates OpenFirmware so it 
-should work about the same as similar IBM and Apple machines but those are 
-also kind of obscure. If you can describe what you want tested I can try 
-to make that a script and ask somebody to run it on real machine but I'm 
-not sure what to test.
-
-Regards,
-BALATON Zoltan
-
->>> - continue the trace up to the point the OS runs, and see if you get some 
->>> clues similar to the one above that placed evt_sts at offset 2.
->
-> I'll try this once the machine is back in shape.
->
-> Paolo
->
->
---3866299591-478380890-1678202490=:65948--
 
