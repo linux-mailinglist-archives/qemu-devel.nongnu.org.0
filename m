@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977AE6ADF3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8969A6ADF41
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 13:56:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZWqz-0005Mt-BQ; Tue, 07 Mar 2023 07:55:41 -0500
+	id 1pZWr2-0005O1-1s; Tue, 07 Mar 2023 07:55:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZWqx-0005M2-7o
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:39 -0500
+ id 1pZWr0-0005Nj-AJ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:42 -0500
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1pZWqv-00053B-Nu
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:38 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ id 1pZWqy-00053h-K2
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 07:55:42 -0500
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32783sst023573; Tue, 7 Mar 2023 12:55:36 GMT
+ 32784CJN032039; Tue, 7 Mar 2023 12:55:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=ph7NhPNJqQFVQZvkebi126vtqIT7j0fmOZoCxa+ciPc=;
- b=ZYtFk1yCue7gAdqys/GJbU9RF16O86frhlMgJ+XeuFUT0MAxpBTfuz+ul5Jpon+odGNY
- iAtbYqbg/2nsWKUcGhglkSTTzcrLrobJPk9ATa3N9Ajd/c0pEZF/WpMgqgDUg7aHrDWl
- SrGW12AKpDcrIJb7taIyoqDOG1o86s7iXNs0ixPghM1nUEneZvTLIyQYWG5smzTM2QpK
- 6rRB1qxwd5HnpEQ0IDeIpZw/lIf7Re1kCi13DwiGYZSNKOKsAnhljaWnEcl8djmLFMbe
- DG0LibrBzufqFloddnq0CkuRPCoNkdCfxGCLMFXBPDK3lP4Anz3t/Tc2wUNyzOH5+rI8 gA== 
+ bh=xk8wvTPv6dJhnVr411G6qxujVLuqM/QjT1VPuR/+yew=;
+ b=JB8hW5XFPl12mStEtYtKzTnZthbzaS35vRnqGFDtxAQ2G56G9x6w5TUJkN6uGBkUzVLv
+ /XnAmm8R5m7VmRX1SWhlLhrBpWD0aU4ThL5ANQCxAevylaWmcMUJvMM0DPwpLyVac/Ek
+ 73cgHGTOWCxRqhB5XhcV861VbbmA6GoYXHDRR4wVUnzA4qkt/li69R6VFGJZ2Ou2/5V5
+ nxk8tuV0+yVDcEyafYnhQ2kYs4kMI2t/zCdhKIt6d6xzm2c2hsDihSXo1zMpddDUV5dy
+ u9/q0vQ6OPrW6joj+/OxEU7qDawj/bG2zbgmnTq8DWaDq/zOi10Btv1TlZ5ichjQtUwc oQ== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p416wnd2d-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p418xwdj2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 12:55:35 +0000
+ Tue, 07 Mar 2023 12:55:38 +0000
 Received: from pps.filterd
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 327BvUiX029145; Tue, 7 Mar 2023 12:55:34 GMT
+ with ESMTP id 327CQi0G026663; Tue, 7 Mar 2023 12:55:37 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3p4u1eyekq-1
+ 3p4u1eyemw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Mar 2023 12:55:34 +0000
+ Tue, 07 Mar 2023 12:55:37 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 327CtV51004358;
- Tue, 7 Mar 2023 12:55:34 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 327CtV53004358;
+ Tue, 7 Mar 2023 12:55:36 GMT
 Received: from joaomart-mac.uk.oracle.com (dhcp-10-175-196-64.vpn.oracle.com
  [10.175.196.64])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3p4u1eyefv-2; Tue, 07 Mar 2023 12:55:33 +0000
+ 3p4u1eyefv-3; Tue, 07 Mar 2023 12:55:36 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -61,10 +61,9 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v5 01/15] vfio/common: Fix error reporting in
- vfio_get_dirty_bitmap()
-Date: Tue,  7 Mar 2023 12:54:36 +0000
-Message-Id: <20230307125450.62409-2-joao.m.martins@oracle.com>
+Subject: [PATCH v5 02/15] vfio/common: Fix wrong %m usages
+Date: Tue,  7 Mar 2023 12:54:37 +0000
+Message-Id: <20230307125450.62409-3-joao.m.martins@oracle.com>
 In-Reply-To: <20230307125450.62409-1-joao.m.martins@oracle.com>
 References: <20230307125450.62409-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
@@ -75,11 +74,11 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  definitions=2023-03-07_06,2023-03-07_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  phishscore=0 bulkscore=0
- adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=852 malwarescore=0
+ adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=908 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2303070117
-X-Proofpoint-GUID: DgA7aiAH0GfbLiVkgYcnwENjbLVUwBfe
-X-Proofpoint-ORIG-GUID: DgA7aiAH0GfbLiVkgYcnwENjbLVUwBfe
+X-Proofpoint-GUID: HNQ7ZkTTCLvr3oy9adfpYJwBM_bpuBPN
+X-Proofpoint-ORIG-GUID: HNQ7ZkTTCLvr3oy9adfpYJwBM_bpuBPN
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -106,27 +105,94 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Avihai Horon <avihaih@nvidia.com>
 
-Return -errno instead of -1 if VFIO_IOMMU_DIRTY_PAGES ioctl fails in
-vfio_get_dirty_bitmap().
+There are several places where the %m conversion is used if one of
+vfio_dma_map(), vfio_dma_unmap() or vfio_get_dirty_bitmap() fail.
+
+The %m usage in these places is wrong since %m relies on errno value while
+the above functions don't report errors via errno.
+
+Fix it by using strerror() with the returned value instead.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
 ---
- hw/vfio/common.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/vfio/common.c | 29 ++++++++++++++++-------------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index bab83c0e55cb..9fc305448fa2 100644
+index 9fc305448fa2..4d26e9cccf91 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -1335,6 +1335,7 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
- 
-     ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+@@ -703,17 +703,17 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                            read_only);
+         if (ret) {
+             error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx", %p) = %d (%m)",
++                         "0x%"HWADDR_PRIx", %p) = %d (%s)",
+                          container, iova,
+-                         iotlb->addr_mask + 1, vaddr, ret);
++                         iotlb->addr_mask + 1, vaddr, ret, strerror(-ret));
+         }
+     } else {
+         ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx") = %d (%m)",
++                         "0x%"HWADDR_PRIx") = %d (%s)",
+                          container, iova,
+-                         iotlb->addr_mask + 1, ret);
++                         iotlb->addr_mask + 1, ret, strerror(-ret));
+         }
+     }
+ out:
+@@ -1095,8 +1095,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
+                        vaddr, section->readonly);
      if (ret) {
-+        ret = -errno;
-         error_report("Failed to get dirty bitmap for iova: 0x%"PRIx64
-                 " size: 0x%"PRIx64" err: %d", (uint64_t)range->iova,
-                 (uint64_t)range->size, errno);
+         error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+-                   container, iova, int128_get64(llsize), vaddr, ret);
++                   "0x%"HWADDR_PRIx", %p) = %d (%s)",
++                   container, iova, int128_get64(llsize), vaddr, ret,
++                   strerror(-ret));
+         if (memory_region_is_ram_device(section->mr)) {
+             /* Allow unexpected mappings not to be fatal for RAM devices */
+             error_report_err(err);
+@@ -1228,16 +1229,18 @@ static void vfio_listener_region_del(MemoryListener *listener,
+             ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+             if (ret) {
+                 error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+-                             "0x%"HWADDR_PRIx") = %d (%m)",
+-                             container, iova, int128_get64(llsize), ret);
++                             "0x%"HWADDR_PRIx") = %d (%s)",
++                             container, iova, int128_get64(llsize), ret,
++                             strerror(-ret));
+             }
+             iova += int128_get64(llsize);
+         }
+         ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx") = %d (%m)",
+-                         container, iova, int128_get64(llsize), ret);
++                         "0x%"HWADDR_PRIx") = %d (%s)",
++                         container, iova, int128_get64(llsize), ret,
++                         strerror(-ret));
+         }
+     }
+ 
+@@ -1384,9 +1387,9 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                                     translated_addr);
+         if (ret) {
+             error_report("vfio_iommu_map_dirty_notify(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx") = %d (%m)",
+-                         container, iova,
+-                         iotlb->addr_mask + 1, ret);
++                         "0x%"HWADDR_PRIx") = %d (%s)",
++                         container, iova, iotlb->addr_mask + 1, ret,
++                         strerror(-ret));
+         }
+     }
+     rcu_read_unlock();
 -- 
 2.17.2
 
