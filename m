@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC496AEF84
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591D86AF03C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 19:29:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZbyK-0005PO-UX; Tue, 07 Mar 2023 13:23:36 -0500
+	id 1pZc21-0006ee-2M; Tue, 07 Mar 2023 13:27:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZbyI-0005Ju-GS
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:23:34 -0500
-Received: from mout.kundenserver.de ([212.227.126.130])
+ (Exim 4.90_1) (envelope-from
+ <BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZc1w-0006dl-VR
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:27:21 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZbyH-00057z-1H
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:23:34 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MSZDt-1q22sT1Z3h-00SuZV; Tue, 07 Mar 2023 19:23:28 +0100
-Message-ID: <8335bd90-d498-e869-4810-b38ef507d4f6@vivier.eu>
-Date: Tue, 7 Mar 2023 19:23:27 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZc1s-0005xT-NF
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 13:27:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=IaNafSRjao+HaQw+ELYtYhkTBjvlc263O8BCVna3wJQ=; b=AqDQak70zR9wTipkqxullPY4kX
+ ZoGJ6bhYui0ncHAA5WTJ6IF2bEtLU3hiavoVEzGKJBVrlYa5rYIOE4CgdTzrlitaLDwvSOLzjPOEv
+ 1fe0qLcdks+wXeorcMBrIKW+eLT+49EPPnnhek5q7IN0NJ+rPxNCzUOnlvows0yrZLRUKwBwlB7V/
+ NUGykSofL946Crl6ODSdlGzB81/sQEgK4yCfSIm9454Br/+ECWLxg8MBLHrKWZ7zR9lirgZlIfw+6
+ NipmUli0AZB93LBghuS1GB6223Ehwpxe2bvIpI7fN9Im22Ui4X13fvgGWErxDHwu+1EgrHE9z6Ra4
+ IV/F7Y4w==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pZc1m-00H8T0-30; Tue, 07 Mar 2023 18:27:11 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pZc1m-009e87-2N; Tue, 07 Mar 2023 18:27:10 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PULL 00/27] Enable PV backends with Xen/KVM emulation
+Date: Tue,  7 Mar 2023 18:26:40 +0000
+Message-Id: <20230307182707.2298618-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 00/15] linux-user/sparc: Handle missing traps
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230216054516.1267305-1-richard.henderson@linaro.org>
- <3902d4eb-9158-19aa-3686-bf04b0f5a85c@vivier.eu>
- <b256f22e-ab10-bc0f-b80c-035f1c9d7cd1@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <b256f22e-ab10-bc0f-b80c-035f1c9d7cd1@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yaRHr1BtpYBu3qpmsHtkXt0urLZ98O+kNs1WuE25vaT1/h5nrkg
- w6OVo8zjpJt0uRbEh4WIKqpxcneOpmWl2f4C+GbyJOA6KRO7kggmRnZNz1sEr9EezNpsULn
- RVz80gR7ogusWn58+DveI3TRyj76p7edfEmRut92AwWLo8jmkIOUP1sAo0fjUPvx2TnBYYO
- YGWrUHtUaQ/ORvxnQ+scQ==
-UI-OutboundReport: notjunk:1;M01:P0:Jpw+21GDWQw=;AXjLXZjBIEeUSz5y2e3jxGV0KqJ
- su2Uiu8eqbH5yOwf4/V/2EfRwcXtFEkm6ovXNIxTy1joTMA2j6EPQKRyGva92HZ4FEMomYe67
- M0CtFlI+/PhN2aEQ6JnHpQBYhPt8I+2ss12fJcUlhpho5iZuCcLKsrVlyKlCNyk9wNCc+zLgh
- 4EVnUiTf/k/VuWWU1ZMGOGX28RVNhkcI8s+cGbq/J2JZOY5X5qWPj+5zD/4Qy3aCTGEbS3kxP
- XRbxmzgtjIfKcaxnCUTeztXn5cauYlggtXuIHGW637bKvzCNi2cmIFGNXMX6NH8HR8VTUSP06
- /MtighgO19dGgP3/YnQkbKFrd/SVA220MCm0WfftsJ8wCr1oOFd2URcuBWiIwerTfprlKvajk
- hHMW7BVW29dj95/mw60DE5BpCBOJT13NUZ1e+Zb7QYpnSxLvKf/Qf3V7codc1trL6bTbfODKr
- yPiZNf/e+Nd/Pd3Yg2uEV7lQ1tktDPNcckK8Z5ySTms9MbeyZczS+nvoD1rGRAmyFWsaQjHZi
- l7kKCir3Q9XBAICwnOXKPwcnOGangs0Tw3dN6JgwsaVhPHg9hPox7aeeNNo92hOA6RrO4B5KL
- J1q+Z/3IBML4iJS7+y/te0JhMsS8kXqNi5xbJnbiJNa4LGGUpbxC9rai1jKgwZ5O6ise2KFwk
- TybKIcv6YShTAcyj2/pGXdM+IIxhszyE9+kCFn2GEA==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+98a25f4d4d04c9e21499+7135+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,18 +77,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 07/03/2023 à 18:07, Richard Henderson a écrit :
-> On 3/7/23 07:56, Laurent Vivier wrote:
->> Hi Richard,
->>
->> I don't have the time to review your series, do you want I queue it in the linux-user branch and I 
->> keep it if it passes my test suite?
-> 
-> Yes please.
->
+The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
 
-Done, except PATCH 1 that is already merged.
+  Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
 
-Thanks,
-Laurent
+are available in the Git repository at:
+
+  git://git.infradead.org/users/dwmw2/qemu.git refs/tags/xenfv-2 
+
+for you to fetch changes up to 154eac37190c4d80d29b09c226abd899e397530f:
+
+  docs: Update Xen-on-KVM documentation for PV disk support (2023-03-07 17:04:30 +0000)
+
+
+Tested-by: Paul Durrant <paul@xen.org>
+... on real Xen (master branch, 4.18) with a Debian guest.
+
+----------------------------------------------------------------
+David Woodhouse (23):
+      hw/xen: Add xenstore wire implementation and implementation stubs
+      hw/xen: Add basic XenStore tree walk and write/read/directory support
+      hw/xen: Implement XenStore watches
+      hw/xen: Implement XenStore transactions
+      hw/xen: Watches on XenStore transactions
+      hw/xen: Implement core serialize/deserialize methods for xenstore_impl
+      hw/xen: Add evtchn operations to allow redirection to internal emulation
+      hw/xen: Add gnttab operations to allow redirection to internal emulation
+      hw/xen: Pass grant ref to gnttab unmap operation
+      hw/xen: Add foreignmem operations to allow redirection to internal emulation
+      hw/xen: Move xenstore_store_pv_console_info to xen_console.c
+      hw/xen: Use XEN_PAGE_SIZE in PV backend drivers
+      hw/xen: Rename xen_common.h to xen_native.h
+      hw/xen: Build PV backend drivers for CONFIG_XEN_BUS
+      hw/xen: Only advertise ring-page-order for xen-block if gnttab supports it
+      hw/xen: Hook up emulated implementation for event channel operations
+      hw/xen: Add emulated implementation of grant table operations
+      hw/xen: Add emulated implementation of XenStore operations
+      hw/xen: Map guest XENSTORE_PFN grant in emulated Xenstore
+      hw/xen: Implement soft reset for emulated gnttab
+      i386/xen: Initialize Xen backends from pc_basic_device_init() for emulation
+      MAINTAINERS: Add entry for Xen on KVM emulation
+      docs: Update Xen-on-KVM documentation for PV disk support
+
+Paul Durrant (4):
+      hw/xen: Implement XenStore permissions
+      hw/xen: Create initial XenStore nodes
+      hw/xen: Add xenstore operations to allow redirection to internal emulation
+      hw/xen: Avoid crash when backend watch fires too early
+
+ MAINTAINERS                                   |    9 +
+ accel/xen/xen-all.c                           |   69 +-
+ docs/system/i386/xen.rst                      |   30 +-
+ hw/9pfs/meson.build                           |    2 +-
+ hw/9pfs/xen-9p-backend.c                      |   32 +-
+ hw/block/dataplane/meson.build                |    2 +-
+ hw/block/dataplane/xen-block.c                |   12 +-
+ hw/block/meson.build                          |    2 +-
+ hw/block/xen-block.c                          |   12 +-
+ hw/char/meson.build                           |    2 +-
+ hw/char/xen_console.c                         |   57 +-
+ hw/display/meson.build                        |    2 +-
+ hw/display/xenfb.c                            |   32 +-
+ hw/i386/kvm/meson.build                       |    1 +
+ hw/i386/kvm/trace-events                      |   15 +
+ hw/i386/kvm/xen_evtchn.c                      |   15 +
+ hw/i386/kvm/xen_gnttab.c                      |  325 ++++-
+ hw/i386/kvm/xen_gnttab.h                      |    1 +
+ hw/i386/kvm/xen_xenstore.c                    | 1251 +++++++++++++++-
+ hw/i386/kvm/xenstore_impl.c                   | 1927 +++++++++++++++++++++++++
+ hw/i386/kvm/xenstore_impl.h                   |   63 +
+ hw/i386/pc.c                                  |    7 +
+ hw/i386/pc_piix.c                             |    4 +-
+ hw/i386/xen/xen-hvm.c                         |   38 +-
+ hw/i386/xen/xen-mapcache.c                    |    2 +-
+ hw/i386/xen/xen_platform.c                    |    7 +-
+ hw/net/xen_nic.c                              |   25 +-
+ hw/usb/meson.build                            |    2 +-
+ hw/usb/xen-usb.c                              |   29 +-
+ hw/xen/meson.build                            |    6 +-
+ hw/xen/trace-events                           |    2 +-
+ hw/xen/xen-bus-helper.c                       |   62 +-
+ hw/xen/xen-bus.c                              |  411 +-----
+ hw/xen/xen-legacy-backend.c                   |  254 +---
+ hw/xen/xen-operations.c                       |  478 ++++++
+ hw/xen/xen_devconfig.c                        |    4 +-
+ hw/xen/xen_pt.c                               |    2 +-
+ hw/xen/xen_pt.h                               |    2 +-
+ hw/xen/xen_pt_config_init.c                   |    2 +-
+ hw/xen/xen_pt_graphics.c                      |    1 -
+ hw/xen/xen_pt_msi.c                           |    4 +-
+ hw/xen/xen_pvdev.c                            |   63 +-
+ include/hw/xen/xen-bus-helper.h               |   26 +-
+ include/hw/xen/xen-bus.h                      |   21 +-
+ include/hw/xen/xen-legacy-backend.h           |   24 +-
+ include/hw/xen/xen.h                          |   24 +-
+ include/hw/xen/xen_backend_ops.h              |  408 ++++++
+ include/hw/xen/{xen_common.h => xen_native.h} |   75 +-
+ include/hw/xen/xen_pvdev.h                    |    6 +-
+ softmmu/globals.c                             |    4 +
+ target/i386/kvm/xen-emu.c                     |    5 +
+ tests/unit/meson.build                        |    1 +
+ tests/unit/test-xs-node.c                     |  871 +++++++++++
+ 53 files changed, 5804 insertions(+), 927 deletions(-)
+ create mode 100644 hw/i386/kvm/xenstore_impl.c
+ create mode 100644 hw/i386/kvm/xenstore_impl.h
+ create mode 100644 hw/xen/xen-operations.c
+ create mode 100644 include/hw/xen/xen_backend_ops.h
+ rename include/hw/xen/{xen_common.h => xen_native.h} (89%)
+ create mode 100644 tests/unit/test-xs-node.c
+
+
 
