@@ -2,99 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6B86AE2EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CA26AE2ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 15:43:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZYWO-0003oU-Tt; Tue, 07 Mar 2023 09:42:32 -0500
+	id 1pZYX7-0004p7-Ng; Tue, 07 Mar 2023 09:43:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZYWM-0003lw-DA
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:42:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZYX6-0004ou-8d
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:43:16 -0500
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZYWL-0001O8-0g
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:42:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678200146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NABdQQJ/xuKdY+s1bn326aYeX4tBG+lYfpCSZKaeLLs=;
- b=Qpx8hlaWPcHo3PQbd6ul+3U/DFd6KYLQ9grz5YTjsJ6WHoN5tu5reX6a2JI9m5kjilFZQ7
- Or3sytOVf8Pbg1oqEOnxeET9/mlvH6xoVNYZH4l7dMi46WqEvlebh44H31JA5J/QTN2VdT
- tB9ICw00ZPmq+ft5uJqvOcXwg4btul8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-673-H7B126PoOPW2fXRD0PyzVg-1; Tue, 07 Mar 2023 09:42:25 -0500
-X-MC-Unique: H7B126PoOPW2fXRD0PyzVg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k20-20020a05600c1c9400b003e2249bd2b4so4869627wms.5
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 06:42:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678200144;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NABdQQJ/xuKdY+s1bn326aYeX4tBG+lYfpCSZKaeLLs=;
- b=BDTwijtd7Va7XrQd9U2DXxP+tefF7QGzYgpTK9rN1GTfN+245Stm64xDHci40j+gus
- V4mXl1zmtFoULag4G8xGQ6JMPFS/LUPS+NMsBooJYImy0hTwdAAtg82C+zQVGeVNLDBe
- RZR2clN8ivEmET1FSAMuzoBXZGPWSaqYRgNWFroUnWjdRJliUsXUveRdzVFqsCWpWKCU
- jDaJZqLqOSih9oI7GxprroYbSyHvuYMATrpyLL6Z4+C8xiVEWMzKwTC9GvylkG1Z4kbo
- wUtAXAL5Y4zCxezi7rQxcQIT12/5liGCWDwCXOhAd71cfQ6k928X8D7AgK6Xouzt8gdH
- tjrw==
-X-Gm-Message-State: AO0yUKXbQvHNszbm0xy3MjPyELfj6TI8fIn3PPl1TsDtczbJf+SOQRp/
- 9UuklKKZAujxLF17o6cW7oE1pI3YPpUOHtH20z13CKi4LvbHI6XviQJ4cP1fvy+XobDCF9WivQL
- HLuhdh58sop33YuE=
-X-Received: by 2002:a05:600c:1c95:b0:3ea:f873:13aa with SMTP id
- k21-20020a05600c1c9500b003eaf87313aamr13789893wms.40.1678200144389; 
- Tue, 07 Mar 2023 06:42:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set/n8JsdmqG60Unt4GqhRVyL3zaW1dj0juuSMQWEUPqbvBQqh8h85kYfATUbGJoLVGaMvcOCRg==
-X-Received: by 2002:a05:600c:1c95:b0:3ea:f873:13aa with SMTP id
- k21-20020a05600c1c9500b003eaf87313aamr13789883wms.40.1678200144111; 
- Tue, 07 Mar 2023 06:42:24 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-96.web.vodafone.de.
- [109.43.177.96]) by smtp.gmail.com with ESMTPSA id
- g11-20020adffc8b000000b002c7b229b1basm12850836wrr.15.2023.03.07.06.42.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 06:42:23 -0800 (PST)
-Message-ID: <87c3eff4-9b15-69fe-3fa2-42dde26b5a91@redhat.com>
-Date: Tue, 7 Mar 2023 15:42:22 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZYX4-0001cE-Cs
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 09:43:15 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MLzWL-1pqoIj1tE9-00HwTk; Tue, 07 Mar 2023 15:43:12 +0100
+Message-ID: <e3b98cbc-5158-d55a-4839-86c2715df357@vivier.eu>
+Date: Tue, 7 Mar 2023 15:43:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 3/5] scripts/ci: add libslirp-devel to build-environment
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230307143819.510186-1-alex.bennee@linaro.org>
- <20230307143819.510186-4-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230307143819.510186-4-alex.bennee@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user: Add strace for prlimit64() syscall
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20221222190639.124078-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221222190639.124078-1-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:CXOclcrBBEggdgKakm9Jn0ZcIgkW8yammlPUIJU884ZNNbvgtps
+ CzpMM01W39QhDYGnXQXwq9gSm8NiM9zTBjiJqMHBNVZo3hBqa2iRwkNeAST8LOlDm4Hdsbq
+ U9wC++245IaFwjKyjyT2mCYhSzVcDEbu30gyv5/Bn/IS79maIEi2fSc11W1syKf9oIICMui
+ xJWhd+Be8Cwi7Bs0HWmjQ==
+UI-OutboundReport: notjunk:1;M01:P0:eKMRYkQpvqA=;utdqVGl8sj+YSVdndDpo5NEGyq3
+ nhTm4jYtHT/xIfEKtPUnztAniQHy0QOJVYl+fjxpBzy6fiBZQVZ03xM9jZWQGSvZ+FDEdkoGQ
+ z9s8+cTOegChNgQWQ1SWAb8QjpT54yPnltvZD43A0QrTMJfaCVtzRSvUF91W1OzLUPQZGlNia
+ czcq4slXmPZJyxiV9YqmTGXfurxVk4GYkSO9Ghg2EcjWi2M8ZuYZJPxyquzrYhT0m5umeHAxs
+ UnmmosgE5DBN9sGi8h2KD7ZGdOSalVlstrpgjcE37omtxKXQUwK1O3vDQYIXlUmHk9BthZzIf
+ sj8qN6Y4EtDjKm+V7TORKJjGNgs6R2ju8w8DM8YbqBgydvVQMvB/ZMELKk9IWM3bdYb5SMm3f
+ 9p1iKOW+MJoFb/C5gJDCZOFpI9JRLh2zSv2LGMKmIEHrTBMrBL9bqqSQ2MXxjx1jVgjgwh65L
+ ZLFsElAkX2GWsmnEkyqnMqCvz5QlAXnH46sAkDO1eYyA/Uz17TjES9BbDIGegnzcDfmJCShE8
+ 2xc3d5kzR28jbm2jev9GILEHfAx6jU4t+/RrvaDQGKuTzisMDkYkBx7/ABvqtreFGINBF6F2b
+ /U+MH/N6v6H9+kCVvldrMyznxx/mdLXfrtlv5vUdoRbYab9YS91PzZhRE7FAziiXRM2MLyYwa
+ m8wuwOx/WxlujJYNIzGZvTaQiu4hvUos8RlAHXcaZg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,28 +70,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/03/2023 15.38, Alex Bennée wrote:
-> Without libslip enabled we won't have user networking which means the
-> KVM tests won't run.
+Le 22/12/2022 à 20:06, Helge Deller a écrit :
+> Add proper prlimit64() strace output.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->   scripts/ci/org.centos/stream/8/build-environment.yml | 1 +
->   1 file changed, 1 insertion(+)
+>   linux-user/strace.c    | 89 ++++++++++++++++++++++++++++++++++++++++++
+>   linux-user/strace.list |  3 +-
+>   2 files changed, 91 insertions(+), 1 deletion(-)
 > 
-> diff --git a/scripts/ci/org.centos/stream/8/build-environment.yml b/scripts/ci/org.centos/stream/8/build-environment.yml
-> index 0d094d70c3..1ead77e2cb 100644
-> --- a/scripts/ci/org.centos/stream/8/build-environment.yml
-> +++ b/scripts/ci/org.centos/stream/8/build-environment.yml
-> @@ -55,6 +55,7 @@
->             - librados-devel
->             - librbd-devel
->             - libseccomp-devel
-> +          - libslirp-devel
->             - libssh-devel
->             - libxkbcommon-devel
->             - lzo-devel
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 3ea91084fb..82dc1a1e20 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -3774,6 +3774,95 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
+>   }
+>   #endif
+> 
+> +#ifdef TARGET_NR_prlimit64
+> +static const char *target_ressource_string(abi_ulong r)
+> +{
+> +    #define RET_RES_ENTRY(res) case TARGET_##res:  return #res;
+> +    switch (r) {
+> +    RET_RES_ENTRY(RLIMIT_AS);
+> +    RET_RES_ENTRY(RLIMIT_CORE);
+> +    RET_RES_ENTRY(RLIMIT_CPU);
+> +    RET_RES_ENTRY(RLIMIT_DATA);
+> +    RET_RES_ENTRY(RLIMIT_FSIZE);
+> +    RET_RES_ENTRY(RLIMIT_LOCKS);
+> +    RET_RES_ENTRY(RLIMIT_MEMLOCK);
+> +    RET_RES_ENTRY(RLIMIT_MSGQUEUE);
+> +    RET_RES_ENTRY(RLIMIT_NICE);
+> +    RET_RES_ENTRY(RLIMIT_NOFILE);
+> +    RET_RES_ENTRY(RLIMIT_NPROC);
+> +    RET_RES_ENTRY(RLIMIT_RSS);
+> +    RET_RES_ENTRY(RLIMIT_RTPRIO);
+> +#ifdef RLIMIT_RTTIME
+> +    RET_RES_ENTRY(RLIMIT_RTTIME);
+> +#endif
+> +    RET_RES_ENTRY(RLIMIT_SIGPENDING);
+> +    RET_RES_ENTRY(RLIMIT_STACK);
+> +    default:
+> +        return NULL;
+> +    }
+> +    #undef RET_RES_ENTRY
+> +}
+> +
+> +static void
+> +print_rlimit64(abi_ulong rlim_addr, int last)
+> +{
+> +    if (rlim_addr) {
+> +        struct target_rlimit64 *rl;
+> +
+> +        rl = lock_user(VERIFY_READ, rlim_addr, sizeof(*rl), 1);
+> +        if (!rl) {
+> +            print_pointer(rlim_addr, last);
+> +            return;
+> +        }
+> +        qemu_log("{rlim_cur = %lld, rlim_max = %lld}%s",
+> +                 (long long)tswap64(rl->rlim_cur),
+> +                 (long long)tswap64(rl->rlim_max),
+> +                 get_comma(last));
+> +        unlock_user(rl, rlim_addr, 0);
+> +    } else {
+> +        qemu_log("NULL%s", get_comma(last));
+> +    }
+> +}
+> +
+> +static void
+> +print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
+> +           abi_long arg0, abi_long arg1, abi_long arg2,
+> +           abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    const char *rlim_name;
+> +
+> +    print_syscall_prologue(name);
+> +    print_raw_param("%d", arg0, 0);
+> +    rlim_name = target_ressource_string(arg1);
+> +    if (rlim_name) {
+> +        qemu_log("%s,", rlim_name);
+> +    } else {
+> +        print_raw_param("%d", arg1, 0);
+> +    }
+> +    print_rlimit64(arg2, 0);
+> +    print_pointer(arg3, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +
+> +static void
+> +print_syscall_ret_prlimit64(CPUArchState *cpu_env,
+> +                       const struct syscallname *name,
+> +                       abi_long ret, abi_long arg0, abi_long arg1,
+> +                       abi_long arg2, abi_long arg3, abi_long arg4,
+> +                       abi_long arg5)
+> +{
+> +    if (!print_syscall_err(ret)) {
+> +        qemu_log(TARGET_ABI_FMT_ld, ret);
+> +        if (arg3) {
+> +            qemu_log(" (");
+> +            print_rlimit64(arg3, 1);
+> +            qemu_log(")");
+> +        }
+> +    }
+> +    qemu_log("\n");
+> +}
+> +#endif
+> +
+>   #ifdef TARGET_NR_kill
+>   static void
+>   print_kill(CPUArchState *cpu_env, const struct syscallname *name,
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index ac8f872371..f9254725a1 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -1067,7 +1067,8 @@
+>   { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+>   #endif
+>   #ifdef TARGET_NR_prlimit64
+> -{ TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
+> +{ TARGET_NR_prlimit64, "prlimit64" , NULL, print_prlimit64,
+> +                    print_syscall_ret_prlimit64 },
+>   #endif
+>   #ifdef TARGET_NR_process_vm_readv
+>   { TARGET_NR_process_vm_readv, "process_vm_readv" , NULL, NULL, NULL },
+> --
+> 2.38.1
+> 
+> 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
