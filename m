@@ -2,91 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747366AE55C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DB46AE575
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:54:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZaD-0002Qx-Te; Tue, 07 Mar 2023 10:50:33 -0500
+	id 1pZZck-0003ck-9t; Tue, 07 Mar 2023 10:53:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZZaB-0002Qm-Ka
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:50:31 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZZaA-0007wN-2m
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:50:31 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id f11so12588071wrv.8
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678204228;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MWSYRcvhv18kO9UycBowWGj3UGWJGjeRF8hkDLddAnw=;
- b=icBuxwslhLrOMTy5I7vm2T2mpZoTCu95iqLT16VD7FbsgbLnAU7F81ux9RFOlYvk/I
- Bgl/zLKiJLUiA1UtahdZEdvyuie9O2N5icBrwjxpVZM7FC1+VTPEk/I2eafVaplatdXy
- U1yDk6zhh8IPl52f9S1Qe9lrdGH0i8PBfzLhXkWmp13hB57juTr1Pc/HFpysX7Sl/Tjj
- iNRsTj02ZQPbENBh6MjMhXU9p2716zhSY6KAj4CeuyAXCSmprnC+yMKZfxIa4uND1IVn
- DB3F81sgje7wl/uA23wo6wMo8wpDAi0kSlXaCB+/qUH1g7RJoEC+DOsS6aEuwGjSeTFC
- thfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678204228;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MWSYRcvhv18kO9UycBowWGj3UGWJGjeRF8hkDLddAnw=;
- b=hEXGlq+UAzPz2dPf+BEBDbmSfS+TcJdkyLLoKRlxoMJV62gWG7B/G657H5rQCyFaEu
- /GwADbHagjVjZbnTqqxXcOlTV4GZDjC+sbJHF0gSP8y4QsMryzcPwAxROJsRPg90J4Xj
- Vcn0SaUehI6vJU9cXl7NGmGz+YPRufKjQz82Tc/0D+LoQWnXe2vjnFkTlmU7/ocWjjyy
- O9iV860xD4Oh1KBA5s0zX6XR9148ZIXkfsPEJgREYQKXkif25AI0wQRrsYI/MtSwitMf
- f2lFXRSGtTCy40iPLVAQQroRrYZpXQcNVECfquqOjSidWMeSDjUZpSz18d7C9sG/YFQO
- ibbg==
-X-Gm-Message-State: AO0yUKVYEZn1gJCZed6oniY1sWbpN9+cSUtfUgBZ7NqMaK4TtFEBQJG9
- ZrpcO8upqp/sWMIjMNP6KdeqkJqdRMRtHw==
-X-Google-Smtp-Source: AK7set+zBrHtpSx4jAXOTaZMvS0yDMKGWu3x+UAp57CUGBYi9lpfuVY0omqDkZ9fEUGBvzuLj5HpjA==
-X-Received: by 2002:adf:dd89:0:b0:2ca:b27:e570 with SMTP id
- x9-20020adfdd89000000b002ca0b27e570mr9804043wrl.15.1678204227863; 
- Tue, 07 Mar 2023 07:50:27 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
- by smtp.gmail.com with ESMTPSA id
- v28-20020a5d591c000000b002c6e8af1037sm12843317wrd.104.2023.03.07.07.50.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 07:50:27 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <fcc36485-5a45-7fbd-e0fc-3904865928b2@xen.org>
-Date: Tue, 7 Mar 2023 15:50:26 +0000
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pZZci-0003cC-0R; Tue, 07 Mar 2023 10:53:08 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pZZcg-0008HD-B0; Tue, 07 Mar 2023 10:53:07 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pZZcO-0003o6-TM; Tue, 07 Mar 2023 16:52:48 +0100
+Message-ID: <c5c82d88-df2a-e968-4d81-0da1cfa2ab09@maciej.szmigiero.name>
+Date: Tue, 7 Mar 2023 16:52:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 20/25] hw/xen: Hook up emulated implementation for
- event channel operations
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-21-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230302153435.1170111-21-dwmw2@infradead.org>
+Subject: Re: [PATCH] pflash: Fix blk_pread_nonzeroes()
+Content-Language: en-US, pl-PL
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: clg@kaod.org, kraxel@redhat.com, berrange@redhat.com,
+ zhengxiang9@huawei.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20230307140230.59158-1-kwolf@redhat.com>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+In-Reply-To: <20230307140230.59158-1-kwolf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,29 +54,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 15:34, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On 7.03.2023 15:02, Kevin Wolf wrote:
+> Commit a4b15a8b introduced a new function blk_pread_nonzeroes(). Instead
+> of reading directly from the root node of the BlockBackend, it reads
+> from its 'file' child node. This can happen to mostly work for raw
+> images (as long as the 'raw' format driver is in use, but not actually
+> doing anything), but it breaks everything else.
 > 
-> We provided the backend-facing evtchn functions very early on as part of
-> the core Xen platform support, since things like timers and xenstore need
-> to use them.
-> 
-> By what may or may not be an astonishing coincidence, those functions
-> just *happen* all to have exactly the right function prototypes to slot
-> into the evtchn_backend_ops table and be called by the PV backends.
+> Fix it to read from the root node instead.
 
-It is indeed an amazing coincidence :-)
+Thanks for preparing the patch.
 
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+It seems to work fine, so:
+Tested-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+
+> Fixes: a4b15a8b9ef25b44fa92a4825312622600c1f37c
+
+I think this should be:
+Fixes: a4b15a8b9e ("pflash: Only read non-zero parts of backend image")
+
+> Reported-by: Cédric Le Goater <clg@kaod.org>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->   hw/i386/kvm/xen_evtchn.c | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
-> 
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Thanks,
+Maciej
+
 
