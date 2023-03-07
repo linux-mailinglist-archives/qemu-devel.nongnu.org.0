@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC326AFAAE
+	by mail.lfdr.de (Postfix) with ESMTPS id 959F06AFAAF
 	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 00:48:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZh1O-0008J8-BD; Tue, 07 Mar 2023 18:47:06 -0500
+	id 1pZh1h-0008NF-15; Tue, 07 Mar 2023 18:47:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZh1I-0008Ie-At
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:47:00 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZh1G-0002bj-Is
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:47:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hn8zDKl0azr+BZgZe2y2ALTtC4U//Kv0tqSqO+Qp4Ss=; b=X+yz9vlLN2f5FRwQnzVxjWkj10
- Gl0sjU9iRC4A5x0N5Y2dCfl4jURLK1/mSw9hy0V73d3gNQdmoGCAbwWAHgcu139A4LFT8F1pzuIJa
- C0wYWl4n/1AXGNRtxiMVZ/EhQ8cYlAFdqjtUk51bY7QxWVzF9rSswe5pLn9FjV11FFKmXrkDrhCqG
- bxC2M3pyjlHVmiPNlpi2LAEXrJxuiffnMBEAgi/LOgylvW++Iwefm+l8T9I9iEkugEvt0HX5T5k7Q
- cOo7GfcN2kpVkYLcZyZBcceLJ+VZNpt5gW0RQieswjE27bCBi6WtZPvBdL/TpSvkOWbrEOy1Iio3z
- 1vukUhRm93Bc6f8BD2heG8SUWkbRk1CxdLotlm0jEcazRI6C8zak+pPYFwO95oScHhn9grfpUAHpd
- rAKhXdaZslAbKYgbBJ9AX3ACAeJELrU+I2YzD5OyEHrtUrsd64vVGaDZgt7Dq9GPt2m2347y5HY9b
- 6i/MfgOvzPpzPDqktrdwpu0P+FOsOfaylzj0Q9JzlA+Faud00Fo9iWZtT9ltczcDIRCK7NYMtkysu
- Gz/aFZ1nF8ki3EmWKLV4V16sfK7HxvK3yI/GqzuVNjdUsVChR0q9hHEaLvRTj/diRwSKeYLcN9pYi
- 51ihFUg4BlTGRteOgvH7LkyQOIvfuVHbJIWJcTWS4=;
-Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZh0a-000Bok-04; Tue, 07 Mar 2023 23:46:16 +0000
-Message-ID: <83144281-4b2d-4bd6-b8f3-345e4b795f5a@ilande.co.uk>
-Date: Tue, 7 Mar 2023 23:46:50 +0000
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh1b-0008Lm-5n
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:47:19 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZh1Y-0002dl-Oc
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:47:18 -0500
+Received: by mail-wr1-x433.google.com with SMTP id l1so13736923wry.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 15:47:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678232834;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RhkH3Zu/yxEN0g7nAHoLic1bBvpCNancBoa/vvcJp4s=;
+ b=uHsB93TaW5yo9XiTeXIL1TCBViogNs9lR/yMFnv0qWi3U+DmVUyOTgG7Hs5AJSfgvR
+ 3exmFpy31FuKux2dkDue7h8zcKJ1YIJfdv15bbfAjJwHXxWLE/muyHUqGCX04TsEnmjo
+ 1M2L9MH9RvQVPGGhzeCa64pTDnRLR5V1dFsTUmBHOdNcOkBh7Ki4nGTGt+qhdwlq4k06
+ M2ia1ycdyPbLmyrMKfP9XoSi8ZFxJ0K1ANLapzxZ29KWXakMG/qG2iALvYv/Uj7asFl0
+ pxD+2+8+4cTVpL9Og2xDlC/aWoA0/QOe02I6gxZrVRyhrm6RKTmv1u0BZmoDzIiqg3Kz
+ kVnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678232834;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RhkH3Zu/yxEN0g7nAHoLic1bBvpCNancBoa/vvcJp4s=;
+ b=e9be5CkdYXxJbJCPpD1UK61xXklsJBash9PIK1rdI34kIBGCs3BVEG2+5GLmzvCszQ
+ M1jMyRu12X1bAnULD+fKKk4idIxCsvcG0wCyLkSG/jij8sFWZ5IcXJlwWJkaDMRDDH/V
+ O3xBbTrYyr2m1/hUjEXx2wHDPiZwjnOhp0mAsQcy8U3ZwkkmtF0LiEASW9hrskCrSBzi
+ g6dMctPWZ7ZzzMoa0QQuWyNRWQEufejijTFl1STf51eAZ2S3Qp6sOokqmE7ceL6trt8a
+ WnTMC3yLJN3NlD3xVXrNL7DKhfOQrdWu1UfYlUABqOhAjL0sXISyAJOvACwrxcyjjq/s
+ Q7Kg==
+X-Gm-Message-State: AO0yUKVv30pC3f1QESNvjr0wTa/FpWWlqeGXU0OFUhvJ+u/Xln0tobx+
+ M/yKFfOGTWFjXeoav1Z3HRIVj/B7nQGQiLHY5VI=
+X-Google-Smtp-Source: AK7set8uR0EFFaRmGA/j09ognTfcBuzrE9hnUVz0UEjv9H4U3zx0oTujCUKA+eRnyFg3QBEfFM8ULA==
+X-Received: by 2002:a5d:4acf:0:b0:2c5:5b9d:70ee with SMTP id
+ y15-20020a5d4acf000000b002c55b9d70eemr10289043wrs.22.1678232833980; 
+ Tue, 07 Mar 2023 15:47:13 -0800 (PST)
+Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
+ [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
+ q10-20020a5d658a000000b002c70851fdd8sm13698818wru.75.2023.03.07.15.47.12
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 07 Mar 2023 15:47:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PULL 00/20] MIPS patches for 2023-03-07
+Date: Wed,  8 Mar 2023 00:46:51 +0100
+Message-Id: <20230307234711.55375-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: qemu-devel <qemu-devel@nongnu.org>, richard.henderson@linaro.org,
- anjo@rev.ng
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: sh4-linux-user compile failure
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,71 +88,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Richard/Anton,
+The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
 
-It looks as if a compile failure has crept into sh4-linux-user, most likely related 
-to the recent TARGET_TB_PCREL/CF_PCREL changes:
+  Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
 
+are available in the Git repository at:
 
-cc -m64 -mcx16 -Ilibqemu-sh4-linux-user.fa.p -I. -I.. -Itarget/sh4 -I../target/sh4 
--I../common-user/host/x86_64 -I../linux-user/include/host/x86_64 
--I../linux-user/include -Ilinux-user -I../linux-user -Ilinux-user/sh4 
--I../linux-user/sh4 -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/glib-2.0 
--I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fdiagnostics-color=auto -Wall 
--Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem 
-/home/build/src/qemu/git/qemu/linux-headers -isystem linux-headers -iquote . -iquote 
-/home/build/src/qemu/git/qemu -iquote /home/build/src/qemu/git/qemu/include -iquote 
-/home/build/src/qemu/git/qemu/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 
--D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing 
--fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing-prototypes -Wstrict-prototypes 
--Wredundant-decls -Wold-style-declaration -Wold-style-definition -Wtype-limits 
--Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body 
--Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2 
--Wmissing-format-attribute -Wno-missing-include-dirs -Wno-shift-negative-value 
--Wno-psabi -fstack-protector-strong -fPIE -isystem../linux-headers 
--isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET="sh4-linux-user-config-target.h"' 
-'-DCONFIG_DEVICES="sh4-linux-user-config-devices.h"' -MD -MQ 
-libqemu-sh4-linux-user.fa.p/accel_tcg_tb-maint.c.o -MF 
-libqemu-sh4-linux-user.fa.p/accel_tcg_tb-maint.c.o.d -o 
-libqemu-sh4-linux-user.fa.p/accel_tcg_tb-maint.c.o -c ../accel/tcg/tb-maint.c
-In file included from ../accel/tcg/tb-hash.h:26,
-                  from ../accel/tcg/tb-maint.c:28:
-../accel/tcg/tb-jmp-cache.h:24:5: error: "TARGET_TB_PCREL" is not defined, evaluates 
-to 0 [-Werror=undef]
-    24 | #if TARGET_TB_PCREL
-       |     ^~~~~~~~~~~~~~~
-../accel/tcg/tb-jmp-cache.h: In function ‘tb_jmp_cache_get_tb’:
-../accel/tcg/tb-jmp-cache.h:33:5: error: "TARGET_TB_PCREL" is not defined, evaluates 
-to 0 [-Werror=undef]
-    33 | #if TARGET_TB_PCREL
-       |     ^~~~~~~~~~~~~~~
-../accel/tcg/tb-jmp-cache.h: In function ‘tb_jmp_cache_get_pc’:
-../accel/tcg/tb-jmp-cache.h:45:5: error: "TARGET_TB_PCREL" is not defined, evaluates 
-to 0 [-Werror=undef]
-    45 | #if TARGET_TB_PCREL
-       |     ^~~~~~~~~~~~~~~
-../accel/tcg/tb-jmp-cache.h:48:12: error: implicit declaration of function ‘tb_pc’ 
-[-Werror=implicit-function-declaration]
-    48 |     return tb_pc(tb);
-       |            ^~~~~
-../accel/tcg/tb-jmp-cache.h:48:12: error: nested extern declaration of ‘tb_pc’ 
-[-Werror=nested-externs]
-../accel/tcg/tb-jmp-cache.h: In function ‘tb_jmp_cache_set’:
-../accel/tcg/tb-jmp-cache.h:56:5: error: "TARGET_TB_PCREL" is not defined, evaluates 
-to 0 [-Werror=undef]
-    56 | #if TARGET_TB_PCREL
-       |     ^~~~~~~~~~~~~~~
-In file included from ../accel/tcg/tb-maint.c:30:
-../accel/tcg/internal.h: In function ‘log_pc’:
-../accel/tcg/internal.h:60:5: error: "TARGET_TB_PCREL" is not defined, evaluates to 0 
-[-Werror=undef]
-    60 | #if TARGET_TB_PCREL
-       |     ^~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
+  https://github.com/philmd/qemu.git tags/mips-misc-20230308
 
+for you to fetch changes up to cb9291e550c58825d6d7a6c9dc877705bd635376:
 
-ATB,
+  log: Remove unneeded new line (2023-03-08 00:37:48 +0100)
 
-Mark.
+----------------------------------------------------------------
+MIPS (and few misc) patches
+
+- MIPS
+  - Remove obsolete "mips" board from target-mips.rst
+  - Fix JALS32/J32/SWM32 instructions for microMIPS
+  - Fix CP0.Config7.WII handling on pre-R6 cores
+
+- HW
+  - Revert "Remove intermediate IRQ forwarder" commits
+  - Implement legacy LTIM Edge/Level Bank Select in Intel 8259 INTC
+  - Improve PCI IRQ routing in VT82C686 / Pegasos II
+  - Basic implementation of VIA AC97 audio playback
+  - Implement 'resume on connection status change' in USB OHCI
+
+- UI
+  - Override windowDidResignKey
+
+- memory
+  - Dump HPA and access type in HMP 'info ramblock'
+
+----------------------------------------------------------------
+
+Akihiko Odaki (1):
+  ui/cocoa: Override windowDidResignKey
+
+BALATON Zoltan (7):
+  Revert "hw/isa/vt82c686: Remove intermediate IRQ forwarder"
+  hw/display/sm501: Add debug property to control pixman usage
+  hw/isa/vt82c686: Implement PCI IRQ routing
+  hw/ppc/pegasos2: Fix PCI interrupt routing
+  hw/audio/via-ac97: Basic implementation of audio playback
+  hw/usb/ohci: Implement resume on connection status change
+  log: Remove unneeded new line
+
+Bernhard Beschow (1):
+  hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
+
+David Woodhouse (1):
+  hw/intc/i8259: Implement legacy LTIM Edge/Level Bank Select
+
+Jiaxun Yang (1):
+  docs/system: Remove "mips" board from target-mips.rst
+
+Marcin Nowakowski (4):
+  target/mips: Fix JALS32/J32 instruction handling for microMIPS
+  target/mips: Fix SWM32 handling for microMIPS
+  target/mips: Implement CP0.Config7.WII bit support
+  target/mips: Set correct CP0.Config[4, 5] values for M14K(c)
+
+Philippe Mathieu-Daudé (4):
+  target/mips: Replace [g_]assert(0) -> g_assert_not_reached()
+  hw/mips: Declare all length properties as unsigned
+  hw/mips/itu: Pass SAAR using QOM link property
+  Revert "hw/isa/i82378: Remove intermediate IRQ forwarder"
+
+Ted Chen (1):
+  memory: Dump HPA and access type of ramblocks
+
+ docs/system/target-mips.rst     |  14 -
+ hw/audio/trace-events           |   6 +
+ hw/audio/via-ac97.c             | 455 +++++++++++++++++++++++++++++++-
+ hw/display/sm501.c              |  18 +-
+ hw/intc/i8259.c                 |  10 +-
+ hw/intc/i8259_common.c          |  24 +-
+ hw/intc/mips_gic.c              |   4 +-
+ hw/isa/i82378.c                 |  10 +-
+ hw/isa/trace-events             |   1 +
+ hw/isa/vt82c686.c               |  54 +++-
+ hw/mips/boston.c                |   2 +-
+ hw/mips/cps.c                   |  35 +--
+ hw/mips/malta.c                 |   2 +-
+ hw/misc/mips_cmgcr.c            |   2 +-
+ hw/misc/mips_itu.c              |  30 ++-
+ hw/pci-host/mv64361.c           |   4 -
+ hw/ppc/pegasos2.c               |  26 +-
+ hw/usb/hcd-ohci.c               |  23 +-
+ hw/usb/vt82c686-uhci-pci.c      |  12 -
+ include/hw/intc/mips_gic.h      |   4 +-
+ include/hw/isa/i8259_internal.h |   1 +
+ include/hw/isa/vt82c686.h       |  25 ++
+ include/hw/misc/mips_cmgcr.h    |   2 +-
+ include/hw/misc/mips_itu.h      |   9 +-
+ softmmu/physmem.c               |  14 +-
+ target/mips/cpu-defs.c.inc      |  13 +-
+ target/mips/cpu.c               |   4 +-
+ target/mips/cpu.h               |   1 +
+ target/mips/sysemu/physaddr.c   |   3 +-
+ target/mips/tcg/ldst_helper.c   |   4 +-
+ target/mips/tcg/msa_helper.c    | 104 ++++----
+ target/mips/tcg/translate.c     |   8 +
+ ui/cocoa.m                      |  11 +-
+ util/log.c                      |   2 +-
+ 34 files changed, 768 insertions(+), 169 deletions(-)
+
+-- 
+2.38.1
 
 
