@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8CA6ADDD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E6E6ADDCE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 12:44:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZVjk-0007O3-Pl; Tue, 07 Mar 2023 06:44:08 -0500
+	id 1pZVjm-0007gq-2Q; Tue, 07 Mar 2023 06:44:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZVja-00073u-2D
+ id 1pZVja-00073v-2S
  for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:44:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pZVjX-0008H2-60
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:43:56 -0500
+ id 1pZVjY-0008HG-7P
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 06:43:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678189433;
+ s=mimecast20190719; t=1678189435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pmv4GODEo+jntdE66L5djocg5OACgVqeZY4tkfhD1zA=;
- b=PMiMP8PY8ysHbmCKZyhCX2tt6pTB4k4kGzA4J7D+Sl2I0pvcp/uMCe8PsqtJbzK6iBjsru
- dXfxyXw89swImGjucmstIuV07FG+d4+KevGjxGDuslcw/HsaA2xGPJ6vDB8bGpmrnF99iV
- H/Dijd+SPK3y6IkGf9a9/RNjtoE5XaQ=
+ bh=39bWtFgENIeu3JJ6L9W2wxYs6vYdhpkQcON8b38w6ew=;
+ b=Xuy2Yg3we7EJ6C5JRwVumSVnrT2m1WvNFJqcWX97R/n0bFzWzxQKFYTJXZwqyuLE28KOLt
+ Jw9gNYQ+vLECxachWtgAHAMa8MxOo2sqyKownOwesoqSwX28zmpUIhzZ5tzc6C7IJqSuWH
+ yZWlWoOi3Qwe7rfLYtECh+nzkLfzIZk=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-460-IFNesTBmN6-ufbNQHsgPjA-1; Tue, 07 Mar 2023 06:43:52 -0500
-X-MC-Unique: IFNesTBmN6-ufbNQHsgPjA-1
+ us-mta-308-kA8BXibsOduf28o8s07nKA-1; Tue, 07 Mar 2023 06:43:54 -0500
+X-MC-Unique: kA8BXibsOduf28o8s07nKA-1
 Received: by mail-ed1-f69.google.com with SMTP id
- p36-20020a056402502400b004bb926a3d54so18415609eda.2
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:43:52 -0800 (PST)
+ v11-20020a056402348b00b004ce34232666so15226805edc.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 03:43:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678189431;
+ d=1e100.net; s=20210112; t=1678189433;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Pmv4GODEo+jntdE66L5djocg5OACgVqeZY4tkfhD1zA=;
- b=rgSTG8dazCBX/lO7saEmorQjqf6zADMA8rJWrIdiWES1/twaVAX2GkNK2Lbr+pNEF+
- q206rFIWLFkbgtT80QGGFaxYOwBGdcCXOoWt3u2dDlaGmUwugwcJdHjhg5GjWgcKnPkG
- yL6YARErrcZp4JwWupmMTDHSPko7sYWMo86hT/YBwbVVCG139RBXaAy+yGXLdpQzgQSt
- JhysqHqjYUqVrPZqmxw/wVnWtbyuYZlPRkJUwx+V8opuZCK3mcuDuj0Un6hsiBJsCOV7
- atr/Gr6HH3cwD4Nlg3u14c+04fOThvCY9TjkOCX9KgpO1oGeh77ngO+pE9Ie4s8/qtXJ
- ayYA==
-X-Gm-Message-State: AO0yUKVP6Q7enWQI6QFWA8ri8QXtrAkvV1ECB+NU5c1Yplx0DT2Jiz3K
- 5JvRtEaSzok6TaLblUk2WKtLTe5XWe1KMd0JKGmu/dlzQeGk+V9/bNzgg3FDqfOs4OUAlEzqT6w
- 69saMj59QfzAZ6kOZUGqXCy07HwDg5YgacMo/aY5WfOL/f7jRUW3CRV2N3Dk3C3LQQ3aFO/pxhJ
- g=
-X-Received: by 2002:a17:907:8e9a:b0:8f1:da18:c6ca with SMTP id
- tx26-20020a1709078e9a00b008f1da18c6camr16932941ejc.3.1678189429980; 
- Tue, 07 Mar 2023 03:43:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set8qWi2Xo795TngyvcTQt/8BsrfCLQZ8ehs072IX9XXWKxBBT3XDOdetj9ou8CfeAX4TAP3oYw==
-X-Received: by 2002:a17:907:8e9a:b0:8f1:da18:c6ca with SMTP id
- tx26-20020a1709078e9a00b008f1da18c6camr16932924ejc.3.1678189429738; 
- Tue, 07 Mar 2023 03:43:49 -0800 (PST)
+ bh=39bWtFgENIeu3JJ6L9W2wxYs6vYdhpkQcON8b38w6ew=;
+ b=uPxyAD11p+TOVdLBHB2eptpm1yQUfPyOARkS2OcpB8OQrEbvj+FCfjmvlR5PqZrN31
+ 60aTrHuqe53mInK6EuVWIKvY4eIpaSG5qUtlQe6Aap24vW/RBFOuULROoSawqkmRYEFU
+ fGQ3RCFOZByXhvy3ZsGXjiSRMaOtj9q+YntOttLDpOPI4DWEAA8uhXhrgNIG18dmBmcs
+ vX45pD2Q8PZMpJvcs9v0WQOW5c6+etggYD8FlJqkRnIthlDqG2wguUpRZbu9Wx5pI8Pb
+ 8AnJAPbTdrk6i4/I3TwZJorVzsn6zJdRoqGoPjL1bn9Ds4n9xSFhj9Fp0rXiRV4F3fQC
+ FHrA==
+X-Gm-Message-State: AO0yUKWNim/30PB+dBIaGf2ehlA9YJLsGylnga3ZBxLo4e+iJtSDU8tn
+ 1Y8/0KY69vU/cFInAfj630riAH9LcCna7GQqdZAmxR2Gwv/JcU3S+1oKthguyKj6g8d0WpmG+0R
+ UBWrf5eDfCLy73J4hAW8z5UMeQ/zmMluzb93VWC3FRzskG/QnRDXt5K8QOo22/VqLxyqedKhJvq
+ 8=
+X-Received: by 2002:a17:906:68c5:b0:8b1:353a:2636 with SMTP id
+ y5-20020a17090668c500b008b1353a2636mr12288240ejr.14.1678189432875; 
+ Tue, 07 Mar 2023 03:43:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set9G/oLSjFAGRFBOCRHc062OoLAnxAwZOgh4mCXP6Z5q0M75x2ASShxENwx/iU0BX8dlO547Yg==
+X-Received: by 2002:a17:906:68c5:b0:8b1:353a:2636 with SMTP id
+ y5-20020a17090668c500b008b1353a2636mr12288222ejr.14.1678189432519; 
+ Tue, 07 Mar 2023 03:43:52 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- gj14-20020a170906e10e00b008df7d2e122dsm5925722ejb.45.2023.03.07.03.43.48
+ n24-20020a1709062bd800b008b17aa6afc8sm5970228ejg.30.2023.03.07.03.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 03:43:49 -0800 (PST)
+ Tue, 07 Mar 2023 03:43:52 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Subject: [PULL 7/9] physmem: add missing memory barrier
-Date: Tue,  7 Mar 2023 12:43:27 +0100
-Message-Id: <20230307114329.158094-8-pbonzini@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 8/9] async: update documentation of the memory barriers
+Date: Tue,  7 Mar 2023 12:43:28 +0100
+Message-Id: <20230307114329.158094-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230307114329.158094-1-pbonzini@redhat.com>
 References: <20230307114329.158094-1-pbonzini@redhat.com>
@@ -101,34 +100,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Ever since commit 8c6b0356b539 ("util/async: make bh_aio_poll() O(1)",
+2020-02-22), synchronization between qemu_bh_schedule() and aio_bh_poll()
+is happening when the bottom half is enqueued in the bh_list; not
+when the flags are set.  Update the documentation to match.
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/physmem.c | 3 +++
- 1 file changed, 3 insertions(+)
+ util/async.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 47143edb4f6c..a6efd8e8dd11 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2927,6 +2927,8 @@ void cpu_register_map_client(QEMUBH *bh)
-     qemu_mutex_lock(&map_client_list_lock);
-     client->bh = bh;
-     QLIST_INSERT_HEAD(&map_client_list, client, link);
-+    /* Write map_client_list before reading in_use.  */
-+    smp_mb();
-     if (!qatomic_read(&bounce.in_use)) {
-         cpu_notify_map_clients_locked();
+diff --git a/util/async.c b/util/async.c
+index 0657b7539777..e4b494150e7d 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -74,14 +74,21 @@ static void aio_bh_enqueue(QEMUBH *bh, unsigned new_flags)
+     unsigned old_flags;
+ 
+     /*
+-     * The memory barrier implicit in qatomic_fetch_or makes sure that:
+-     * 1. idle & any writes needed by the callback are done before the
+-     *    locations are read in the aio_bh_poll.
+-     * 2. ctx is loaded before the callback has a chance to execute and bh
+-     *    could be freed.
++     * Synchronizes with atomic_fetch_and() in aio_bh_dequeue(), ensuring that
++     * insertion starts after BH_PENDING is set.
+      */
+     old_flags = qatomic_fetch_or(&bh->flags, BH_PENDING | new_flags);
++
+     if (!(old_flags & BH_PENDING)) {
++        /*
++         * At this point the bottom half becomes visible to aio_bh_poll().
++         * This insertion thus synchronizes with QSLIST_MOVE_ATOMIC in
++         * aio_bh_poll(), ensuring that:
++         * 1. any writes needed by the callback are visible from the callback
++         *    after aio_bh_dequeue() returns bh.
++         * 2. ctx is loaded before the callback has a chance to execute and bh
++         *    could be freed.
++         */
+         QSLIST_INSERT_HEAD_ATOMIC(&ctx->bh_list, bh, next);
      }
-@@ -3116,6 +3118,7 @@ void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
-     qemu_vfree(bounce.buffer);
-     bounce.buffer = NULL;
-     memory_region_unref(bounce.mr);
-+    /* Clear in_use before reading map_client_list.  */
-     qatomic_mb_set(&bounce.in_use, false);
-     cpu_notify_map_clients();
- }
+ 
+@@ -107,11 +114,8 @@ static QEMUBH *aio_bh_dequeue(BHList *head, unsigned *flags)
+     QSLIST_REMOVE_HEAD(head, next);
+ 
+     /*
+-     * The qatomic_and is paired with aio_bh_enqueue().  The implicit memory
+-     * barrier ensures that the callback sees all writes done by the scheduling
+-     * thread.  It also ensures that the scheduling thread sees the cleared
+-     * flag before bh->cb has run, and thus will call aio_notify again if
+-     * necessary.
++     * Synchronizes with qatomic_fetch_or() in aio_bh_enqueue(), ensuring that
++     * the removal finishes before BH_PENDING is reset.
+      */
+     *flags = qatomic_fetch_and(&bh->flags,
+                               ~(BH_PENDING | BH_SCHEDULED | BH_IDLE));
+@@ -158,6 +162,7 @@ int aio_bh_poll(AioContext *ctx)
+     BHListSlice *s;
+     int ret = 0;
+ 
++    /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
+     QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+ 
+@@ -448,15 +453,15 @@ LuringState *aio_get_linux_io_uring(AioContext *ctx)
+ void aio_notify(AioContext *ctx)
+ {
+     /*
+-     * Write e.g. bh->flags before writing ctx->notified.  Pairs with smp_mb in
+-     * aio_notify_accept.
++     * Write e.g. ctx->bh_list before writing ctx->notified.  Pairs with
++     * smp_mb() in aio_notify_accept().
+      */
+     smp_wmb();
+     qatomic_set(&ctx->notified, true);
+ 
+     /*
+-     * Write ctx->notified before reading ctx->notify_me.  Pairs
+-     * with smp_mb in aio_ctx_prepare or aio_poll.
++     * Write ctx->notified (and also ctx->bh_list) before reading ctx->notify_me.
++     * Pairs with smp_mb() in aio_ctx_prepare or aio_poll.
+      */
+     smp_mb();
+     if (qatomic_read(&ctx->notify_me)) {
 -- 
 2.39.1
 
