@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05C66AD928
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 09:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AFC6AD931
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 09:23:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZSZI-0005JA-Ba; Tue, 07 Mar 2023 03:21:08 -0500
+	id 1pZSan-00067o-P1; Tue, 07 Mar 2023 03:22:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZSZF-0005Ik-Bf
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:21:05 -0500
+ id 1pZSam-00067f-Lo
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:22:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pZSZD-0008RN-3Y
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:21:05 -0500
+ id 1pZSal-0000Ar-Aj
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 03:22:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678177262;
+ s=mimecast20190719; t=1678177358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D/pUDYu+eJJ2TamVhsHY282TxwmLn4vhDXhSxHnUpOA=;
- b=QTMHPth74Wvw77XRe4ltwOyiG+kDv7xJKDS1Z+FAesnx2cZlGzTA10XL0fC6UTJmwwFiJe
- RYsk5DhJnRTAddc0bo+/JWGvfFmwv0NYTewmALo8JwmxIdrqWSl1VPerP/ZJC/HSXg83Nd
- 9FcjUsWC0OT5heXza6IDtjwSSFwP6RM=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wUhDAgUWgg7k/HH7dtJbncU5uaNsGBrjwb2Fw1kdKfs=;
+ b=XA0MgJLhJTdU7kuHw1zGM0H6K0ml8d6A0J4XU8ioIfYJ1lgwhADDjjwYVjT1Waa7/fjKmT
+ 4d6SyZfgldkVlbhbIGBaypUDcNbcaM5yXLHOndn+lBIQTNAT78Xgw17AZVNColOKHCbXN0
+ 2vKqaRI8ZdJjfIIp8wb8+eAq0NQVew8=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-Cvf8OTp3MOOkYRymEABPMA-1; Tue, 07 Mar 2023 03:21:00 -0500
-X-MC-Unique: Cvf8OTp3MOOkYRymEABPMA-1
-Received: by mail-oo1-f71.google.com with SMTP id
- l11-20020a4a350b000000b0052522596fe5so3741053ooa.17
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 00:21:00 -0800 (PST)
+ us-mta-74-v-CayFPJPlyq3rAWSGnS-g-1; Tue, 07 Mar 2023 03:22:37 -0500
+X-MC-Unique: v-CayFPJPlyq3rAWSGnS-g-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ n205-20020acabdd6000000b003846654dd65so5152550oif.19
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 00:22:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678177260;
+ d=1e100.net; s=20210112; t=1678177357;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D/pUDYu+eJJ2TamVhsHY282TxwmLn4vhDXhSxHnUpOA=;
- b=Jrq3Qu6kksDZxMlqvWDRuJhrEmXt5GEGW427Yu/XFPZi/n+Xi9c1uXHKpcDvN/nclN
- n6c1TYH9HYoxpSSDpqRFgxS5WfNLlhNSotdRR0m0hZWewQHG6ous1UlSxDWu4XXYcXVI
- AhrCYgQrubWz+fZE9Erj48KUctTed9xaPQ9Qvp5YM08pUrjoQjtH4n5VlYeQF9bhfIkd
- N3/Ty3H2TQz1qRMM3GkYpl9UtPZ+bloNHfJ0aYbchbCEtoDbaJhTVQz3dHle3uY2B7gM
- VodVKOhcTgHRPebTQN3Q8BsrCzHuCtPy9CSnQqpLATa6tPGvDx9k4y7dKRojCHxSWnRK
- Ob0g==
-X-Gm-Message-State: AO0yUKV9184gqpYnIo+QD1BVRxGq3eTwY7qzTCRiyKqwnTMKoIlLpNPB
- bijuV0Z48gYp833zpEgwZGTRvTFo55fEhHO1vYeu1mPTR2Kb9/H0wdAyRJrl+ReqwR5dffrhduG
- HYLwcAvB+Syq2REA6ZfAAUgZDkTuDDAQ=
-X-Received: by 2002:a05:6808:143:b0:383:fef9:6cac with SMTP id
- h3-20020a056808014300b00383fef96cacmr4526854oie.9.1678177260182; 
- Tue, 07 Mar 2023 00:21:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set/uRoKlpdIpx5PmVJh6dOdx9AxApr/ULUNZ9glHo/5d8zDqyjWqpiFaL5g6DBQtTXNM/UtV8u9f54BaGJ0cNGg=
-X-Received: by 2002:a05:6808:143:b0:383:fef9:6cac with SMTP id
- h3-20020a056808014300b00383fef96cacmr4526825oie.9.1678177259885; Tue, 07 Mar
- 2023 00:20:59 -0800 (PST)
+ bh=wUhDAgUWgg7k/HH7dtJbncU5uaNsGBrjwb2Fw1kdKfs=;
+ b=dEZ/bGkQ9ABtxMZi0BHPCdlbEOnaYlZOBSaGJHVAMf/0FPQ9li0N6zOoIXJbIAJ5v7
+ /vLqCt1Of3ddPSFmDoorz8JV8H9uSq5NCLNUM3Js/ZOj6mnAxjD+EqfuB4w4OLE+ALsd
+ KRMR7p6k4loFz7qAkvK+4+ORbL3/GIMfYhoI1eq1NATcQXcyzyofUfkbtqPBvbHnQBEF
+ vB43phldp2IiIlxfQ5fr3azAonQ47K6pEu5Qsj2vQpV5QrHVPG04Fy4WOs0ew5Hdmosk
+ a0e+YZ6tTsQfl6QzPrFs3JWLLBQJc+cuofK/uT+6QDnfkcZ7tv5+W1ydVBqOjzGQfida
+ pzvw==
+X-Gm-Message-State: AO0yUKVNRs6R0E/lIOJrSdKB+lszWQZX0a+Lo18bxOVcoXOHuWW9xbwL
+ gxFclTWg40faHfRmXiffJVWqljjZU0JqCksGhyW0Q/l4djA+l2LOhgsY6g7yPedW7eMghHGoPME
+ 8KPEfwpF0wN7V2CH8yhcoP/AhZ8/Cg0U=
+X-Received: by 2002:a05:6871:6a99:b0:172:3aea:ecaa with SMTP id
+ zf25-20020a0568716a9900b001723aeaecaamr4389469oab.9.1678177356787; 
+ Tue, 07 Mar 2023 00:22:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set++ulI7kpWSW37zw/ENIGxEGIda8mPBPdCm/W5nXcl4m+7wHVumo1XTjSxZYun/NxI3Dzjnh2jwQ4oWtnhXT6g=
+X-Received: by 2002:a05:6871:6a99:b0:172:3aea:ecaa with SMTP id
+ zf25-20020a0568716a9900b001723aeaecaamr4389465oab.9.1678177356604; Tue, 07
+ Mar 2023 00:22:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20230223105057.144309-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20230223105057.144309-1-akihiko.odaki@daynix.com>
+References: <20230306193209.516011-1-peterx@redhat.com>
+In-Reply-To: <20230306193209.516011-1-peterx@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 7 Mar 2023 16:20:48 +0800
-Message-ID: <CACGkMEtg=+fG1A6gVodO8M4BYH3aMa0a89smsRw9epyYVygS-g@mail.gmail.com>
-Subject: Re: [PATCH v9 0/9] Introduce igb
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny <darren.kenny@oracle.com>, 
- Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- devel@daynix.com, Yan Vugenfirer <yvugenfi@redhat.com>, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>, Gal Hammer <gal.hammer@sap.com>
+Date: Tue, 7 Mar 2023 16:22:25 +0800
+Message-ID: <CACGkMEt9KgYgaO7T3BsGaFY3fv-A4yPCro7OVjt9t+gomWmtcA@mail.gmail.com>
+Subject: Re: [PATCH] vhost: Drop unused eventfd_add|del hooks
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, longpeng2@huawei.com, 
+ "Michael S . Tsirkin" <mst@redhat.com>, Richard Henderson <rth@twiddle.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -108,198 +94,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 6:51=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
-.com> wrote:
+On Tue, Mar 7, 2023 at 3:32=E2=80=AFAM Peter Xu <peterx@redhat.com> wrote:
 >
-> Based-on: <20230223102018.141748-1-akihiko.odaki@daynix.com>
-> ([PATCH v6 00/34] e1000x cleanups (preliminary for IGB))
+> These hooks were introduced in:
 >
-> igb is a family of Intel's gigabit ethernet controllers. This series impl=
-ements
-> 82576 emulation in particular. You can see the last patch for the documen=
-tation.
+> 80a1ea3748 ("memory: move ioeventfd ops to MemoryListener", 2012-02-29)
 >
-> Note that there is another effort to bring 82576 emulation. This series w=
-as
-> developed independently by Sriram Yagnaraman.
-> https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
-
-I've queued this series with some fixes about the compiler warnings
-about the end of statement just after "default:"
-
-It mainly the user of
-
-commit 5bf7f8430247e7bff7e2010de25556aeb6adb548
-Author: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date:   Thu Feb 23 19:50:49 2023 +0900
-
-    net/eth: Introduce EthL4HdrProto
-
-That changes virtio-net, e1000e, and igb. Please check the changes and
-post patches on top if I was wrong.
-
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 239875dd89..4d9679ca0b 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1275,6 +1275,7 @@ e1000e_build_rx_metadata(E1000ECore *core,
-             break;
-
-         default:
-+            break;
-         }
-     } else {
-         trace_e1000e_rx_metadata_l4_cso_disabled();
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index d779c3dc14..a7c7bfdc75 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -1239,6 +1239,7 @@ igb_build_rx_metadata(IGBCore *core,
-             break;
-
-         default:
-+            goto func_exit;
-         }
-     } else {
-         trace_e1000e_rx_metadata_l4_cso_disabled();
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 4b1d387356..3524f02f2e 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1751,6 +1751,7 @@ static uint8_t virtio_net_get_hash_type(bool hasip4,
-             break;
-
-         default:
-+            break;
-         }
-
-         if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv4) {
-@@ -1777,6 +1778,7 @@ static uint8_t virtio_net_get_hash_type(bool hasip4,
-             break;
-
-         default:
-+            break;
-         }
-
-         if (types & VIRTIO_NET_RSS_HASH_TYPE_IP_EX) {
-
-
+> But they seem to be never used.  Drop them.
 >
-> - V8 -> V9:
-> - Rebased.
-> - Added patch "net/eth: Introduce EthL4HdrProto". This is not strictly ne=
-cessary
->   yet but I'm still adding it because it will be necessary soon and it to=
-uches
->   some code common for igb and e1000e.
-> - Replaced Linux internal types in hw/net/igb_regs.h with standard ones.
+> Cc: Richard Henderson <rth@twiddle.net>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+Thanks
+
+> ---
+>  hw/virtio/vhost.c | 14 --------------
+>  1 file changed, 14 deletions(-)
 >
-> V7 -> V8:
-> - Removed obsolete patch
->   "hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr" (C=C3=A9dric Le G=
-oater)
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index eb8c4c378c..c713dc5d9d 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1291,18 +1291,6 @@ void vhost_virtqueue_stop(struct vhost_dev *dev,
+>                         0, virtio_queue_get_desc_size(vdev, idx));
+>  }
 >
-> V6 -> V7:
-> - Reordered statements in igb_receive_internal() so that checksum will be
->   calculated only once and it will be more close to e1000e_receive_intern=
-al().
->
-> V5 -> V6:
-> - Rebased.
-> - Renamed "test" to "packet" in tests/qtest/e1000e-test.c.
-> - Fixed Rx logic so that a Rx pool without enough space won't prevent oth=
-er
->   pools from receiving, based on Sriram Yagnaraman's work.
->
-> V4 -> V5:
-> - Rebased.
-> - Squashed patches to copy from e1000e code and modify it.
-> - Listed the implemented features.
-> - Added a check for interrupts availablity on PF.
-> - Fixed the declaration of igb_receive_internal(). (Sriram Yagnaraman)
->
-> V3 -> V4:
-> - Rebased.
-> - Corrected PCIDevice specified for DMA.
->
-> V2 -> V3:
-> - Rebased.
-> - Fixed PCIDevice reference in hw/net/igbvf.c.
-> - Fixed TX packet switching when VM loopback is enabled.
-> - Fixed VMDq enablement check.
-> - Fixed RX descriptor length parser.
-> - Fixed the definitions of RQDPC readers.
-> - Implemented VLAN VM filter.
-> - Implemented VT_CTL.Def_PL.
-> - Implemented the combination of VMDq and RSS.
-> - Noted that igb is tested with Windows HLK.
->
-> V1 -> V2:
-> - Spun off e1000e general improvements to a distinct series.
-> - Restored vnet_hdr offload as there seems nothing preventing from that.
->
-> Akihiko Odaki (9):
->   net/eth: Introduce EthL4HdrProto
->   pcie: Introduce pcie_sriov_num_vfs
->   e1000: Split header files
->   Intrdocue igb device emulation
->   tests/qtest/e1000e-test: Fabricate ethernet header
->   tests/qtest/libqos/e1000e: Export macreg functions
->   igb: Introduce qtest for igb device
->   tests/avocado: Add igb test
->   docs/system/devices/igb: Add igb documentation
->
->  MAINTAINERS                                   |    9 +
->  docs/system/device-emulation.rst              |    1 +
->  docs/system/devices/igb.rst                   |   71 +
->  hw/net/Kconfig                                |    5 +
->  hw/net/e1000.c                                |    1 +
->  hw/net/e1000_common.h                         |  102 +
->  hw/net/e1000_regs.h                           |  954 +---
->  hw/net/e1000e.c                               |    3 +-
->  hw/net/e1000e_core.c                          |   60 +-
->  hw/net/e1000x_common.c                        |    1 +
->  hw/net/e1000x_common.h                        |   74 -
->  hw/net/e1000x_regs.h                          |  967 ++++
->  hw/net/igb.c                                  |  615 +++
->  hw/net/igb_common.h                           |  146 +
->  hw/net/igb_core.c                             | 4076 +++++++++++++++++
->  hw/net/igb_core.h                             |  146 +
->  hw/net/igb_regs.h                             |  648 +++
->  hw/net/igbvf.c                                |  327 ++
->  hw/net/meson.build                            |    2 +
->  hw/net/net_rx_pkt.c                           |   48 +-
->  hw/net/net_rx_pkt.h                           |    5 +-
->  hw/net/trace-events                           |   40 +-
->  hw/net/virtio-net.c                           |   67 +-
->  hw/net/vmxnet3.c                              |   22 +-
->  hw/pci/pcie_sriov.c                           |    5 +
->  include/hw/pci/pcie_sriov.h                   |    3 +
->  include/net/eth.h                             |    8 +-
->  net/eth.c                                     |   26 +-
->  .../org.centos/stream/8/x86_64/test-avocado   |    1 +
->  tests/avocado/igb.py                          |   38 +
->  tests/qtest/e1000e-test.c                     |   25 +-
->  tests/qtest/fuzz/generic_fuzz_configs.h       |    5 +
->  tests/qtest/igb-test.c                        |  243 +
->  tests/qtest/libqos/e1000e.c                   |   12 -
->  tests/qtest/libqos/e1000e.h                   |   14 +
->  tests/qtest/libqos/igb.c                      |  185 +
->  tests/qtest/libqos/meson.build                |    1 +
->  tests/qtest/meson.build                       |    1 +
->  38 files changed, 7809 insertions(+), 1148 deletions(-)
->  create mode 100644 docs/system/devices/igb.rst
->  create mode 100644 hw/net/e1000_common.h
->  create mode 100644 hw/net/e1000x_regs.h
->  create mode 100644 hw/net/igb.c
->  create mode 100644 hw/net/igb_common.h
->  create mode 100644 hw/net/igb_core.c
->  create mode 100644 hw/net/igb_core.h
->  create mode 100644 hw/net/igb_regs.h
->  create mode 100644 hw/net/igbvf.c
->  create mode 100644 tests/avocado/igb.py
->  create mode 100644 tests/qtest/igb-test.c
->  create mode 100644 tests/qtest/libqos/igb.c
+> -static void vhost_eventfd_add(MemoryListener *listener,
+> -                              MemoryRegionSection *section,
+> -                              bool match_data, uint64_t data, EventNotif=
+ier *e)
+> -{
+> -}
+> -
+> -static void vhost_eventfd_del(MemoryListener *listener,
+> -                              MemoryRegionSection *section,
+> -                              bool match_data, uint64_t data, EventNotif=
+ier *e)
+> -{
+> -}
+> -
+>  static int vhost_virtqueue_set_busyloop_timeout(struct vhost_dev *dev,
+>                                                  int n, uint32_t timeout)
+>  {
+> @@ -1457,8 +1445,6 @@ int vhost_dev_init(struct vhost_dev *hdev, void *op=
+aque,
+>          .log_sync =3D vhost_log_sync,
+>          .log_global_start =3D vhost_log_global_start,
+>          .log_global_stop =3D vhost_log_global_stop,
+> -        .eventfd_add =3D vhost_eventfd_add,
+> -        .eventfd_del =3D vhost_eventfd_del,
+>          .priority =3D 10
+>      };
 >
 > --
 > 2.39.1
