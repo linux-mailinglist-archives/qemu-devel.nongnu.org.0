@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA7F6AE523
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA446AE553
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 16:49:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZZTH-0005Uw-U9; Tue, 07 Mar 2023 10:43:23 -0500
+	id 1pZZYm-00012r-0V; Tue, 07 Mar 2023 10:49:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZZTG-0005Si-4G
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:43:22 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1pZZYi-0000wG-1x
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:49:00 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pZZTE-0006ND-6v
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:43:21 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id v16so12636510wrn.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:43:19 -0800 (PST)
+ id 1pZZYg-0007Wn-8x
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 10:48:59 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t15so12582399wrz.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 07:48:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678203799;
+ d=gmail.com; s=20210112; t=1678204136;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2kGRmcPQfXmhNBAcM1NELXheCNXcNQIOEudfaQKrvbk=;
- b=CKRCeHP9CceVcZiXAWiuW5iGE9iYz2wAJCrxawLyk3t+WwyAE2uZMWmicOYRLqwoE/
- 7VXjn/8bqhfr7VcLV0njk9491mfDjbSEE3a8NSgycDoq1ZzFSyqKz3IKT2fsWMr62utz
- dOrYfcDxy6W2Untx3j7jdsUuhGq1nnhEkMWb1G+VhNnb4rsXCK0NxY4fVnj2D552CjV+
- JZyzEW1VY/bSViSIZbypP5HHdwEUdmXGNlNygua1QfwkRAK2+/Pg1t18+n/1LWBEdKfb
- JtWd+r2yqB2FHbZczUhWZJTkfXPTCcmrrUq6TIN26N5DfEANGRA2XBDb1KRfc7sM7QDv
- zR5w==
+ bh=d4VVf6Ok91yoK/WSdCMtKSGd9K2hkIRITKppkJrbLbk=;
+ b=KK8MTs5ZJ+ZGZsWyZ/FIL+lUClKCa0Q+Z4ogG+cNO02dCzn+vdapYF0FjTEJhOZ4l6
+ i6yx740eVQkzPOleIGEfDPui4Ea0adeL/Du854HyDJH10+bneztjU7QT9M2V8NpEawK8
+ FxLhH+1fiJ1YetEABOE1gC7l2jmUONt0gvRcxGlDaK8iOHJ9ZXtYxkg3kbfW+teyz9+t
+ wPWMCZ4Fm8lVwzZBJYxYUD9iw3EmlSgUbU0A5ZgD1AvVyuZ2W5bKtaCWUmihO7tiIEtd
+ uTqjCs1z3W0dua9HC/CGcLq1clRhBFCyXwkl8HGhwqahIX7GkIn80bNtcUtyvzFlsBri
+ Rr0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678203799;
+ d=1e100.net; s=20210112; t=1678204136;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2kGRmcPQfXmhNBAcM1NELXheCNXcNQIOEudfaQKrvbk=;
- b=ZWBJd/gdfHgGQC5/EdOfn5GlgpGhVl+naw6VPaRmwY9fZLe+NUAg+yv+848Lr+Epu4
- uhOKLGsbslXCvX5zptP2Xhyuo/UIvSoIK7TYBdWPgjzJmym90Rv5+vNBj9H0NiosbxBa
- wtOTYBTp5nK5eiO5pAaGaoi2b6JqOd/ekuvig9R1tPkJe3GHeyvjit0HSFycLIEfljbm
- oO/X0OydoeTwWobddXh9kmjciL7JQMqDM7Zqo/aSTEEuCsf5CbMOOzXgm+3wngq6ljLT
- Q52O6nUCCzS7+2xRgFxej5+R3QSixmpEckzpPzAwAlX0gnyNuVWC7Tca1HeNIFILnK5q
- /TxQ==
-X-Gm-Message-State: AO0yUKX2aSQ3a1Jdf6DjdXNbdnvhjAyjwnNM6GGd41kytAib4yMWfqn3
- cU3WfrqAaOKViZPJsQK7HlI=
-X-Google-Smtp-Source: AK7set+VqiNW2e9+7lxKKxmINTlQmiZWcfel3GBq1alupg3FTk/mwEkf1apbIO7Prt5VWWYGRb+EtQ==
-X-Received: by 2002:a5d:5917:0:b0:2c7:69b:317f with SMTP id
- v23-20020a5d5917000000b002c7069b317fmr9412876wrd.60.1678203798778; 
- Tue, 07 Mar 2023 07:43:18 -0800 (PST)
-Received: from [192.168.25.218] (54-240-197-230.amazon.com. [54.240.197.230])
+ bh=d4VVf6Ok91yoK/WSdCMtKSGd9K2hkIRITKppkJrbLbk=;
+ b=3negkzoj2IdZyI04MccpkouhsLchdOrGZKZ3Zn9YxgzPrlGV+T5ITwtYy+E9TdpKyv
+ Cao+LK26JfHzCChuGBTVxPsw1tjGKBdQOTCfB4p5+VFVnUmFGdHp/KjSpo3SWTO7HPgo
+ BvQ+O5F0ueeAn9uGap6SEdFBRnBjiYaHA8VaY/0QJiZMDLGJfaYsAviHj8OWlqq4goTV
+ mtfNWwxs3yCXDCAeDgmvcTegPCWI13tBjQdVe14yUsZR7oF66bZl/PAjy3blCF+QqDAC
+ sB7UZVu052KvmhDQxzaoirKAdjjWwNOyKw60ZhfBUXt6BSWo1eVKH5xTQyFuZ+vBDuHZ
+ XM3A==
+X-Gm-Message-State: AO0yUKUzUIyjnHtcJBYn4Sv5GfBtfaTrjuPR3VbN64MkYJYkVopG3JrZ
+ m+zgljOf8N8B3AGh/h8jtI8=
+X-Google-Smtp-Source: AK7set9MOYFY9eeCxPLSD/f3wYHB0MRb/Jt+n2KwWMszzZsOIF3uM6kkD/gdT3uc27zfP/zs8NTZdA==
+X-Received: by 2002:adf:eecf:0:b0:2c9:8cd:55a with SMTP id
+ a15-20020adfeecf000000b002c908cd055amr8384078wrp.15.1678204135733; 
+ Tue, 07 Mar 2023 07:48:55 -0800 (PST)
+Received: from [192.168.25.218] (54-240-197-238.amazon.com. [54.240.197.238])
  by smtp.gmail.com with ESMTPSA id
- e5-20020a5d5945000000b002c3f9404c45sm12808536wri.7.2023.03.07.07.43.17
+ h8-20020a5d5048000000b002c592535839sm12810167wrt.17.2023.03.07.07.48.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 07:43:18 -0800 (PST)
+ Tue, 07 Mar 2023 07:48:55 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <66f5a996-7783-ec98-51f4-829a1ab82890@xen.org>
-Date: Tue, 7 Mar 2023 15:43:17 +0000
+Message-ID: <c8638efb-1c83-4394-11d5-2614f531834c@xen.org>
+Date: Tue, 7 Mar 2023 15:48:54 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v1 18/25] hw/xen: Avoid crash when backend watch fires
- too early
+Subject: Re: [RFC PATCH v1 19/25] hw/xen: Only advertise ring-page-order for
+ xen-block if gnttab supports it
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -73,13 +73,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 References: <20230302153435.1170111-1-dwmw2@infradead.org>
- <20230302153435.1170111-19-dwmw2@infradead.org>
+ <20230302153435.1170111-20-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230302153435.1170111-19-dwmw2@infradead.org>
+In-Reply-To: <20230302153435.1170111-20-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,26 +104,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 02/03/2023 15:34, David Woodhouse wrote:
-> From: Paul Durrant <pdurrant@amazon.com>
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> The xen-block code ends up calling aio_poll() through blkconf_geometry(),
-> which means we see watch events during the indirect call to
-> xendev_class->realize() in xen_device_realize(). Unfortunately this call
-> is made before populating the initial frontend and backend device nodes
-> in xenstore and hence xen_block_frontend_changed() (which is called from
-> a watch event) fails to read the frontend's 'state' node, and hence
-> believes the device is being torn down. This in-turn sets the backend
-> state to XenbusStateClosed and causes the device to be deleted before it
-> is fully set up, leading to the crash.
-> By simply moving the call to xendev_class->realize() after the initial
-> xenstore nodes are populated, this sorry state of affairs is avoided.
+> Whem emulating Xen, multi-page grants are distinctly non-trivial and we
+> have elected not to support them for the time being. Don't advertise
+> them to the guest.
 > 
-> Reported-by: David Woodhouse <dwmw@amazon.co.uk>
-> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/xen/xen-bus.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>   hw/block/xen-block.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
