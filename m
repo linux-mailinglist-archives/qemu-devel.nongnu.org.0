@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA916ADB49
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3196ADB4D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 11:04:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZU8d-0007OB-WE; Tue, 07 Mar 2023 05:01:44 -0500
+	id 1pZUAl-0000K1-Ul; Tue, 07 Mar 2023 05:03:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZU8b-0007Nq-C7
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:01:41 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZU8X-00006X-JU
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:01:41 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 503937457E7;
- Tue,  7 Mar 2023 11:01:20 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DDD7C745720; Tue,  7 Mar 2023 11:01:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DB4377456E3;
- Tue,  7 Mar 2023 11:01:19 +0100 (CET)
-Date: Tue, 7 Mar 2023 11:01:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
-Message-ID: <c2b19806-db0f-54b8-ed41-2e74c19d029e@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
- <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
- <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
- <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
- <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
- <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
- <e101b894-c722-8def-f591-20fada45795c@redhat.com>
- <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
- <CABgObfZLuVgG8pPcF1o517z0wSZTk5SmV8Enn=PC8QmOEVou8w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZUAj-0000JR-SG
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:03:53 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZUAi-0000QG-Do
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 05:03:53 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so10007095wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 02:03:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678183430;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6odpsjDKSheFxSV8zVxgWqHdbY9SBpso3wUrL7rbId0=;
+ b=ppG+slDWNcP8cbVrLgoHs9T7tyoIGNUfYtmWrSWkbhgGZvN4aJEGhFmoWwzSQbreIe
+ f7C+59p9mJ6sc7WSD1jLrS83+a0R3JiHP567Elc7SgdSI/LztKvoQlzRS2qoYpq6Bp1T
+ V8YHUeboY88ouXvLh4+qFoT3qpKphaO5V9vvxXNne/ym1USIn1IxXDzZ9d0RBIdtRTdz
+ DmXjSbcZjbEZOL9tfeJf9D4elgOna4h2hnmKdYjGchak1km2qnMnbjHVaQ59V8HxA+Wc
+ P5N9juMjsCGrCYxfXgkf8IhZYnCFshDu20Y9aBHZVbx59FeIAV/7pvfuoPgjkb4T8NEk
+ aFtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678183430;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6odpsjDKSheFxSV8zVxgWqHdbY9SBpso3wUrL7rbId0=;
+ b=rsO0JMpGXBtNHhBlC14uOrqEKQerCPG0qoErKmAUvf6bO6/rVrPv09JI6IxELcwGoD
+ OXh0N5WFjKw0OBY0JBozBldDjGPHouPf1LAWEG4J/G6xmZYrfxhX7keXD0i9Kndyzr3j
+ 02/8/eQkSpzU3fGok0saGNgOFY9ARucmFswkvi8yZN0IOIEbQfP9ETh9XrSO0o3N9uxh
+ lBqCmSjXKE9aeN/fJskCpH7pmXxYcGY2v+GwioGzbgx9RmXjn1RvtzXQu6SfIw9TndeG
+ JqBTxT9sg84Fr+zGhg6snMRSGE5d0YLKAN06nY/o0v2IBFPkPzmWKaJSSDgu9sKTJkrp
+ 7ZGw==
+X-Gm-Message-State: AO0yUKULMJ2H4u06I0O9fwEkw7BM+F5zgvE6qzjY0FloNmgTfCGyNaR8
+ wAduCh3oW2snio15bcYmS0eOGg==
+X-Google-Smtp-Source: AK7set8/8epwsl7Ouiva6mUUV5ZsymnuhjdqTW0IDW54Ji8Lwi7ef85qzdGE2KFoUYqM8YGlJ4AcBQ==
+X-Received: by 2002:a05:600c:4509:b0:3eb:32ff:da8 with SMTP id
+ t9-20020a05600c450900b003eb32ff0da8mr13094827wmo.16.1678183430474; 
+ Tue, 07 Mar 2023 02:03:50 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q10-20020a7bce8a000000b003ea57808179sm16461714wmj.38.2023.03.07.02.03.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 02:03:49 -0800 (PST)
+Message-ID: <bbaedbb6-0d3c-f740-5bc4-d58ebf4ad45d@linaro.org>
+Date: Tue, 7 Mar 2023 11:03:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PULL 13/23] target/loongarch: Update README
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20220704093357.983255-1-richard.henderson@linaro.org>
+ <20220704093357.983255-14-richard.henderson@linaro.org>
+ <4b5c9662-c609-8b52-ebd0-cbc461c751f7@linaro.org>
+ <d0ba9ca0-f038-232b-581a-ac92b21871aa@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <d0ba9ca0-f038-232b-581a-ac92b21871aa@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,21 +96,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Mar 2023, Paolo Bonzini wrote:
-> Il mar 7 mar 2023, 01:06 BALATON Zoltan <balaton@eik.bme.hu> ha scritto:
->> I'm not sure I follow what you mean so I'd need a patch to see then I can
->> test it with the clients I run on pegasos2.
->
-> Do you have a spec, or pointer to the morphos kernel sources, to figure out
-> how the hardware works?
+On 7/3/23 02:53, gaosong wrote:
+> 
+> 在 2023/3/6 下午10:29, Philippe Mathieu-Daudé 写道:
+>>> +- Linux-user emulation
+>>> +
+>>> +  We already support Linux user emulation. We can use LoongArch 
+>>> cross-tools to build LoongArch executables on X86 machines,
+>>> +  and We can also use qemu-loongarch64 to run LoongArch executables.
+>>> +
+>>> +  1. Config cross-tools env.
+>>> +
+>>> +     see System emulation.
+>>> +
+>>> +  2. Test tests/tcg/multiarch.
+>>> +
+>>> +     ./configure  --static  --prefix=/usr  --disable-werror 
+>>> --target-list="loongarch64-linux-user" --enable-debug
+>>
+>> Why are we recommending to build this particular target with
+>> --disable-werror, what is the problem? 
+> This is copied from our old version code.  We need drop it.
 
-No, that's closed source and only available as a demo iso but it's known 
-to work on real hardware and freely downloadable so is a good test. (AFAIK 
-those who developed MorphOS had close connection to those who wrote the 
-firmware for Pegasos II.) Maybe the VT8231 datasheet or similar parts (we 
-only emulate VT82C686B and VT8231 in QEMU) has some info on this.
+Ah OK, good then!
 
-Regards,
-BALATON Zoltan
+Thanks,
+
+Phil.
 
 
