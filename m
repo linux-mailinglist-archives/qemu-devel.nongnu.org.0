@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A057C6AF79C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97B46AF7A5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:31:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZesC-0004i5-5u; Tue, 07 Mar 2023 16:29:28 -0500
+	id 1pZesG-0004lM-Dp; Tue, 07 Mar 2023 16:29:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZes9-0004gV-Lm
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:25 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ id 1pZesD-0004k7-IS
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:29 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZes6-0000v7-LV
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:25 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l25so13544872wrb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:22 -0800 (PST)
+ id 1pZesA-0000wf-Uc
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:29 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id f11so13513097wrv.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678224561;
+ d=linaro.org; s=google; t=1678224565;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/UJFR9YSQYJuT5oOotPCg6xiwzMZMMvlKZkAiVaMoUI=;
- b=GumiT++mtfmGD6OGjDXH5QhxOjZS83IeSqkHu+ZIa0g7HVkdzab22NUPY86fy4BL8k
- 6qamsdnow2kwHNp7OOaZaFK9SIpaJ+YGSXVsChxU1w5uEW/ePMUkNy68jYY+3v5JSm5x
- za6xxV5tqULgBRFMo8OYjBrOCjx52P4UVe5N8yH24BJtk3XrWc1Oakfey/TyIIcc7TLS
- frVsDE431uTRCdUQZUo91Bnlai1vzTsTtLJRCPnY2Wel7Ot7e5bSUbzX2EFynJNKhpwu
- x8EBheXseyG8xy9+rziQQnyct4/OoyRDpnYUGXZaKL9FkUjz14UwdPWb5pM91kX0Jzm0
- GzJw==
+ bh=RFnVylggrOveF5TL9UqBJAa3Obk9uRQsQNg6W7LMavU=;
+ b=ajwaVXPTDXDf9yGrGniWwTaVimiBz5bCkqIj+VBKed1lQnPqXKHrclJsXcjinKCHHC
+ 7W3oquYqr8gErKZBrp1LoLv2FP4X2sJz6Kkf26AZ5yGGqtP3cITrgLvUb07TsGi2mv8S
+ wUGP85IqGPbt9p2ziBkauYZDjWxUhOGUBfLJSp1mlzdJqSRAYcJ3WHtsJR8VZBkGyNKC
+ IEZb+0WUsE9JQhBmmuG6/KkrxQYd8IxLBGoxQdbatnW/QISLtEOLDhK1G5PhTHlWCt2o
+ T8xHxyJ2uDB3MwdqJ31t481eKWKpuklUF1gLBogtdvFf2Ji38hXZKfjCH7PgezqpnNPP
+ Cykw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678224561;
+ d=1e100.net; s=20210112; t=1678224565;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/UJFR9YSQYJuT5oOotPCg6xiwzMZMMvlKZkAiVaMoUI=;
- b=bQ0uS/TMX5AXqiX4OedwG8O40EsOBF0hatUzfu1m2j/ElhjEWo+1iNFKcUI5kz12J7
- 3CnhEr1RgFOmpCuk8XLx2VHzkFgDQkeZv/J/P8ILoVU69b+cQern80iIItJW8IjHEA1P
- EzkUB8RCFaohU3i1YpN6FA+g3n11jxrRBtVJLjMccFHhpEq6uru4o2j57LgnKRDBaS+L
- W7NHWT/ovv+oKDu/KZSJzFLTfX0WXYB4/yDhVsQIsVzUsoxYVF54GYSUCPv8haMWvG9P
- lYidPZH4YaN89DvV3NV6SJI9JAYn6KehFZF7s8qazew186V8NYYiMaARCNN6XkDvFXJo
- ThlA==
-X-Gm-Message-State: AO0yUKVVkeUDvavgq9xAofMkGnverfleTX3cqmW+Evg66koNy6dWB13i
- 2oQaOLeVkLC9egITBRThcLmLQw==
-X-Google-Smtp-Source: AK7set8WNTZ873FSDejITc1otjv7BiR9wliehvnubaEvQ7CA+WMpGtA+tJh1PHliqhV5tu/9MveWTg==
-X-Received: by 2002:a5d:5544:0:b0:242:1809:7e17 with SMTP id
- g4-20020a5d5544000000b0024218097e17mr10701170wrw.6.1678224560730; 
- Tue, 07 Mar 2023 13:29:20 -0800 (PST)
+ bh=RFnVylggrOveF5TL9UqBJAa3Obk9uRQsQNg6W7LMavU=;
+ b=AIJF3E1hQ5MLQT8UKX6T1sGur3hcXB5/gpdv4Js8gnfy3FapdTZkuggx3dYdL1+vo+
+ lO28UN69SfprAd8m42maiEbwOANUMKGak7wFmAnMRZ5jRNcr0ZoaP0xyvPWYzty04Qqe
+ yuz1pb/laMfWUq/1C/jg6gwEdyZe53Hx1yjZuQbRm0HifJjlHpOwbRC6xVKE+wZTEOI+
+ XVchVUgfqMbUzUoaKAd4Fgm3tTHcEG0wMFucaYosSwA9GWmM/f/urcBvAyaUXW9S1OI4
+ TCzAn89QVVsiOgVENIWUR1TLxpvDfEQKjH8/PRBSDLnyjGfoPY+6W/2/14fLqbAPAxR+
+ AlPw==
+X-Gm-Message-State: AO0yUKVd52SiY1pbMVCzwGeoTH3z+GbF04zM46ahCocltmFadhyX56l7
+ YFCMAk5679FFS/bVVPsyvNVGTA==
+X-Google-Smtp-Source: AK7set88t4MJESm8ZhT6OtYl+3/La0DYOUuuuIvYD/MTzqXmMmneOkOFAT/I8Lv0dAAr+VX6mIPqYg==
+X-Received: by 2002:a5d:4892:0:b0:2c9:640f:635b with SMTP id
+ g18-20020a5d4892000000b002c9640f635bmr8797017wrq.56.1678224565175; 
+ Tue, 07 Mar 2023 13:29:25 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- o16-20020a056000011000b002c703d59fa7sm13477322wrx.12.2023.03.07.13.29.20
+ x9-20020a5d60c9000000b002c70d97af78sm13232934wrt.85.2023.03.07.13.29.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 13:29:20 -0800 (PST)
+ Tue, 07 Mar 2023 13:29:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E83A1FFD2;
+ by zen.linaroharston (Postfix) with ESMTP id 271D71FFD4;
  Tue,  7 Mar 2023 21:21:43 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 26/30] gdbstub: Remove gdb_do_syscallv
-Date: Tue,  7 Mar 2023 21:21:35 +0000
-Message-Id: <20230307212139.883112-27-alex.bennee@linaro.org>
+Subject: [PULL 27/30] gdbstub: Adjust gdb_do_syscall to only use uint32_t and
+ uint64_t
+Date: Tue,  7 Mar 2023 21:21:36 +0000
+Message-Id: <20230307212139.883112-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307212139.883112-1-alex.bennee@linaro.org>
 References: <20230307212139.883112-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,89 +99,158 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This function is unused, except to implement gdb_do_syscall.
-Fold the implementations together.
+Pass %x as uint32_t and %lx as uint64_t; pass the address
+of %s as uint64_t and the length as uint32_t.
+
+Add casts in semihosting/syscalls.c from target_ulong to
+uint64_t; add casts from int to uint32_t for clarity.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230303025805.625589-27-richard.henderson@linaro.org>
+Message-Id: <20230303025805.625589-28-richard.henderson@linaro.org>
 
-diff --git a/include/gdbstub/syscalls.h b/include/gdbstub/syscalls.h
-index 5851a2c706..243eaf8ce4 100644
---- a/include/gdbstub/syscalls.h
-+++ b/include/gdbstub/syscalls.h
-@@ -91,17 +91,6 @@ typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
-  */
- void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
- 
--/**
-- * gdb_do_syscallv:
-- * @cb: function to call when the system call has completed
-- * @fmt: gdb syscall format string
-- * @va: arguments to interpolate into @fmt
-- *
-- * As gdb_do_syscall, but taking a va_list rather than a variable
-- * argument list.
-- */
--void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
--
- /**
-  * use_gdb_syscalls() - report if GDB should be used for syscalls
-  *
 diff --git a/gdbstub/syscalls.c b/gdbstub/syscalls.c
-index 6189940005..fdc68e452a 100644
+index fdc68e452a..9f479010b1 100644
 --- a/gdbstub/syscalls.c
 +++ b/gdbstub/syscalls.c
-@@ -93,24 +93,26 @@ bool gdb_handled_syscall(void)
-  *   %lx - 64-bit argument printed in hex.
-  *   %s  - string pointer (target_ulong) and length (int) pair.
-  */
--void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
-+void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
- {
--    char *p;
--    char *p_end;
--    target_ulong addr;
--    uint64_t i64;
-+    char *p, *p_end;
-+    va_list va;
- 
-     if (!gdb_attached()) {
-         return;
-     }
- 
-     gdbserver_syscall_state.current_syscall_cb = cb;
-+    va_start(va, fmt);
- 
--    p = &gdbserver_syscall_state.syscall_buf[0];
--    p_end = &gdbserver_syscall_state.syscall_buf[sizeof(gdbserver_syscall_state.syscall_buf)];
-+    p = gdbserver_syscall_state.syscall_buf;
-+    p_end = p + sizeof(gdbserver_syscall_state.syscall_buf);
+@@ -110,14 +110,14 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
      *(p++) = 'F';
      while (*fmt) {
          if (*fmt == '%') {
-+            target_ulong addr;
-+            uint64_t i64;
-+
+-            target_ulong addr;
+             uint64_t i64;
++            uint32_t i32;
+ 
              fmt++;
              switch (*fmt++) {
              case 'x':
-@@ -141,16 +143,8 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
-     }
-     *p = 0;
+-                addr = va_arg(va, target_ulong);
+-                p += snprintf(p, p_end - p, TARGET_FMT_lx, addr);
++                i32 = va_arg(va, uint32_t);
++                p += snprintf(p, p_end - p, "%" PRIx32, i32);
+                 break;
+             case 'l':
+                 if (*(fmt++) != 'x') {
+@@ -127,9 +127,9 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
+                 p += snprintf(p, p_end - p, "%" PRIx64, i64);
+                 break;
+             case 's':
+-                addr = va_arg(va, target_ulong);
+-                p += snprintf(p, p_end - p, TARGET_FMT_lx "/%x",
+-                              addr, va_arg(va, int));
++                i64 = va_arg(va, uint64_t);
++                i32 = va_arg(va, uint32_t);
++                p += snprintf(p, p_end - p, "%" PRIx64 "/%x" PRIx32, i64, i32);
+                 break;
+             default:
+             bad_format:
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 42080ffdda..68899ebb1c 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -139,46 +139,48 @@ static void gdb_open(CPUState *cs, gdb_syscall_complete_cb complete,
  
--    gdb_syscall_handling(gdbserver_syscall_state.syscall_buf);
--}
--
--void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
--{
--    va_list va;
--
--    va_start(va, fmt);
--    gdb_do_syscallv(cb, fmt, va);
-     va_end(va);
-+    gdb_syscall_handling(gdbserver_syscall_state.syscall_buf);
+     gdb_open_complete = complete;
+     gdb_do_syscall(gdb_open_cb, "open,%s,%x,%x",
+-                   fname, len, (target_ulong)gdb_flags, (target_ulong)mode);
++                   (uint64_t)fname, (uint32_t)len,
++                   (uint32_t)gdb_flags, (uint32_t)mode);
+ }
+ 
+ static void gdb_close(CPUState *cs, gdb_syscall_complete_cb complete,
+                       GuestFD *gf)
+ {
+-    gdb_do_syscall(complete, "close,%x", (target_ulong)gf->hostfd);
++    gdb_do_syscall(complete, "close,%x", (uint32_t)gf->hostfd);
+ }
+ 
+ static void gdb_read(CPUState *cs, gdb_syscall_complete_cb complete,
+                      GuestFD *gf, target_ulong buf, target_ulong len)
+ {
+-    gdb_do_syscall(complete, "read,%x,%x,%x",
+-                   (target_ulong)gf->hostfd, buf, len);
++    gdb_do_syscall(complete, "read,%x,%lx,%lx",
++                   (uint32_t)gf->hostfd, (uint64_t)buf, (uint64_t)len);
+ }
+ 
+ static void gdb_write(CPUState *cs, gdb_syscall_complete_cb complete,
+                       GuestFD *gf, target_ulong buf, target_ulong len)
+ {
+-    gdb_do_syscall(complete, "write,%x,%x,%x",
+-                   (target_ulong)gf->hostfd, buf, len);
++    gdb_do_syscall(complete, "write,%x,%lx,%lx",
++                   (uint32_t)gf->hostfd, (uint64_t)buf, (uint64_t)len);
+ }
+ 
+ static void gdb_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+                       GuestFD *gf, int64_t off, int gdb_whence)
+ {
+     gdb_do_syscall(complete, "lseek,%x,%lx,%x",
+-                   (target_ulong)gf->hostfd, off, (target_ulong)gdb_whence);
++                   (uint32_t)gf->hostfd, off, (uint32_t)gdb_whence);
+ }
+ 
+ static void gdb_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+                        GuestFD *gf)
+ {
+-    gdb_do_syscall(complete, "isatty,%x", (target_ulong)gf->hostfd);
++    gdb_do_syscall(complete, "isatty,%x", (uint32_t)gf->hostfd);
+ }
+ 
+ static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+                       GuestFD *gf, target_ulong addr)
+ {
+-    gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
++    gdb_do_syscall(complete, "fstat,%x,%lx",
++                   (uint32_t)gf->hostfd, (uint64_t)addr);
+ }
+ 
+ static void gdb_stat(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -191,7 +193,8 @@ static void gdb_stat(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+ 
+-    gdb_do_syscall(complete, "stat,%s,%x", fname, len, addr);
++    gdb_do_syscall(complete, "stat,%s,%lx",
++                   (uint64_t)fname, (uint32_t)len, (uint64_t)addr);
+ }
+ 
+ static void gdb_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -203,7 +206,7 @@ static void gdb_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+ 
+-    gdb_do_syscall(complete, "unlink,%s", fname, len);
++    gdb_do_syscall(complete, "unlink,%s", (uint64_t)fname, (uint32_t)len);
+ }
+ 
+ static void gdb_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -223,7 +226,9 @@ static void gdb_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+ 
+-    gdb_do_syscall(complete, "rename,%s,%s", oname, olen, nname, nlen);
++    gdb_do_syscall(complete, "rename,%s,%s",
++                   (uint64_t)oname, (uint32_t)olen,
++                   (uint64_t)nname, (uint32_t)nlen);
+ }
+ 
+ static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -235,13 +240,14 @@ static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+ 
+-    gdb_do_syscall(complete, "system,%s", cmd, len);
++    gdb_do_syscall(complete, "system,%s", (uint64_t)cmd, (uint32_t)len);
+ }
+ 
+ static void gdb_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+                              target_ulong tv_addr, target_ulong tz_addr)
+ {
+-    gdb_do_syscall(complete, "gettimeofday,%x,%x", tv_addr, tz_addr);
++    gdb_do_syscall(complete, "gettimeofday,%lx,%lx",
++                   (uint64_t)tv_addr, (uint64_t)tz_addr);
  }
  
  /*
