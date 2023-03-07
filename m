@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B95F6AF7A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E717F6AF7CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 22:40:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZesG-0004lI-AU; Tue, 07 Mar 2023 16:29:32 -0500
+	id 1pZf1p-0003uE-JH; Tue, 07 Mar 2023 16:39:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZesE-0004kQ-Br
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:30 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pZf1o-0003u6-Gz
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:39:24 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZesA-0000wN-6I
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:29:30 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- o11-20020a05600c4fcb00b003eb33ea29a8so18134wmq.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:29:25 -0800 (PST)
+ id 1pZf1m-0002wy-LQ
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 16:39:24 -0500
+Received: by mail-wr1-x434.google.com with SMTP id j2so13529188wrh.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 13:39:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678224565;
+ d=linaro.org; s=google; t=1678225160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TieInzBnFE7Yp9chdi5Flgnj/QnYhM8Ldq84Bg1J/s4=;
- b=jWwPH3u/3rBrBQINt+yKknAJFYBLdK97EyzxcirpQNkgVTLmhymf9R7N627fNyWSGh
- KIXXYXszxXTqtW3SGlMzJ+IZaQZwnuQgnqhk9iXI+Uqsy5Wau3CB7tIMNYa9uqCwDrDf
- FcG72wAvKDlGYeIXLyy0kTWZmVc+seKCcxG73Qdg8/v+3e7Mocyy1psKYqUzty3Tg6f8
- D11GdYG7+B1ZEjyXQdVYYUUYuY8Hy9B8vk6ZSbJHV47tXYtiVWhxJZI5LrMj/5sasK4R
- 4FchtWVZ8pmIplT4grC+q4blxwlfAEsgZ64grG18FGqLWYNNIU6H+ImD9CCs7ZqlJbs5
- AyZQ==
+ bh=BDCwQpt2b+FEq/4plC2udpKZMAb+w8VXBXnKnibWH1w=;
+ b=oC9hyFMti+/cFFo18kX/JQN341QcvtHuCnUlCk7ZSXzpfrrzzptbPZ/5vroLSGhT30
+ WN7XRue+X79PRFTbZPISMR50bdygAs4swYwkmm4d3vqIAlB3l8q41GSJDy5ySjBu9Wvl
+ tJVoBhf8BOaUQgMFdJI2ecc6N7KL8ELbG1vdIBscuNzKA+1KpdyCfs72yR1Ptah+qMg4
+ 9xl/RzGn5nAMXmGmRCprXqVkbZrLAYsCzDChMxoznme9U7SRCF+k8IoQzvWQvIhk7j9f
+ 0hg1CSm8Qzo2yO7GbQxh9qtov+13TCrv+OiwiHxDRJTJTlUg5lDj2BvgCK3+ihGO47Kf
+ yn0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678224565;
+ d=1e100.net; s=20210112; t=1678225160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TieInzBnFE7Yp9chdi5Flgnj/QnYhM8Ldq84Bg1J/s4=;
- b=5HV8DBSA6d9pcUmkC5JbiP7IMvljyZuGQB1Yiq10/aKj1JrncuHeTfIEI60vIeC6UG
- bjxUii/xyrd1mqfCZ4LC3uv8vfDpZqXxCd2NT1Fgp8NJpcKKlojCPQs1S1OT6lSPNY/B
- T6W2n5embeo9Nyc580aZKwTz6c9zFOZtSTJ19uA4x+SmrO3BTf0MfAXKPXRkIu6CUmuy
- t1D+2AFzJRyS5EZBxZWe4rfIb5PBYwVm13qhhc/ES8y6cNiDIpoipQ89MppqK+j/jw85
- loFFq0sBp0KQ8iXFEFBJQgzRcyYkTpP4K1K+9sZ2ESs7EO0XzU8bBIqgRV8mfq82cbDe
- Zr0w==
-X-Gm-Message-State: AO0yUKVYY/4SVHQYmelKOWwJzfZ9waczFgopeELCiMYodpNEe8frWMMr
- aM7FHIw5PnSLihzseinLKFLV0w==
-X-Google-Smtp-Source: AK7set+HkxRQfdRYhMObDiFv2q/UFLHV+bBrlyk/xMwpWs6YwQKEEG8etnLxnGc8YdX5NdUR5LVg9w==
-X-Received: by 2002:a7b:c5c9:0:b0:3eb:2de9:8aea with SMTP id
- n9-20020a7bc5c9000000b003eb2de98aeamr15158719wmk.35.1678224564577; 
- Tue, 07 Mar 2023 13:29:24 -0800 (PST)
+ bh=BDCwQpt2b+FEq/4plC2udpKZMAb+w8VXBXnKnibWH1w=;
+ b=UI31I0FDBgpF7Bdwy7RAyvsuquXPCInOVaGp2eqoLTr1OkH8sa9nFCHYpvL++qnA+m
+ uEgNuDtk+1VEe0bdr4yagkE2f4qdrTg0RTaip3bumPW0+Z1qppmSOhq/zLDOJeOMs1jk
+ zgdRufHnO2zfA2p+nqkprcOqfRplHzLLMFvqwISzlbGGZ91rRG4ASuc01FmvdZyfaqmA
+ pazDm1IYUiJcH0sAvLPfin8bBpac9fnyek9pYf8gPAMIlFIrgy4BEUtqbtut3Y1h/u6c
+ xNF8psUk7s7Vi8Ei0ly6bcJsXDo2p0iTuG6yfhOC4ZwwQqCx3kzeYOr6ArsXmGYbk/2y
+ nBUg==
+X-Gm-Message-State: AO0yUKWT/P+IE4+oQWU2sOeEDTUQ4v42SBS5zwMsizaZ8UatqkLhYKoQ
+ coxS6sP4IGgvpw+d8XnkfdVNug==
+X-Google-Smtp-Source: AK7set8mNn0YZ9vOq4wc2BE8OiwXWihnEv33Y2vcoOXD3mdmK1Aj8vhrGU/HZpFXuULhJEvifDxQbw==
+X-Received: by 2002:a5d:5489:0:b0:2c5:6182:5f6b with SMTP id
+ h9-20020a5d5489000000b002c561825f6bmr11433308wrv.18.1678225160523; 
+ Tue, 07 Mar 2023 13:39:20 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- q30-20020a05600c331e00b003dc5b59ed7asm13714645wmp.11.2023.03.07.13.29.21
+ u8-20020a5d4688000000b002c5544b3a69sm13685745wrq.89.2023.03.07.13.39.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 13:29:22 -0800 (PST)
+ Tue, 07 Mar 2023 13:39:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 706B01FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 88FB91FFB7;
  Tue,  7 Mar 2023 21:21:42 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>
-Subject: [PULL 21/30] gdbstub: move syscall handling to new file
-Date: Tue,  7 Mar 2023 21:21:30 +0000
-Message-Id: <20230307212139.883112-22-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 22/30] gdbstub: only compile gdbstub twice for whole build
+Date: Tue,  7 Mar 2023 21:21:31 +0000
+Message-Id: <20230307212139.883112-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307212139.883112-1-alex.bennee@linaro.org>
 References: <20230307212139.883112-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,944 +97,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Our GDB syscall support is the last chunk of code that needs target
-specific support so move it to a new file. We take the opportunity to
-move the syscall state into its own singleton instance and add in a
-few helpers for the main gdbstub to interact with the module.
-
-I also moved the gdb_exit() declaration into syscalls.h as it feels
-pretty related and most of the callers of it treat it as such.
+Now we have removed any target specific bits from the core gdbstub
+code we only need to build it twice. We have to jump a few meson hoops
+to manually define the CONFIG_USER_ONLY symbol but it seems to work.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230302190846.2593720-23-alex.bennee@linaro.org>
+Message-Id: <20230303025805.625589-23-richard.henderson@linaro.org>
 
-Message-Id: <20230302190846.2593720-22-alex.bennee@linaro.org>
-Message-Id: <20230303025805.625589-22-richard.henderson@linaro.org>
-
-diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index be0eef4850..8db61f7fb4 100644
---- a/gdbstub/internals.h
-+++ b/gdbstub/internals.h
-@@ -61,8 +61,6 @@ typedef struct GDBState {
-     bool multiprocess;
-     GDBProcess *processes;
-     int process_num;
--    char syscall_buf[256];
--    gdb_syscall_complete_cb current_syscall_cb;
-     GString *str_buf;
-     GByteArray *mem_buf;
-     int sstep_flags;
-@@ -191,6 +189,12 @@ void gdb_handle_query_attached(GArray *params, void *user_ctx); /* both */
- void gdb_handle_query_qemu_phy_mem_mode(GArray *params, void *user_ctx);
- void gdb_handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx);
- 
-+/* sycall handling */
-+void gdb_handle_file_io(GArray *params, void *user_ctx);
-+bool gdb_handled_syscall(void);
-+void gdb_disable_syscalls(void);
-+void gdb_syscall_reset(void);
-+
- /*
-  * Break/Watch point support - there is an implementation for softmmu
-  * and user mode.
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index bb8a3928dd..7d743fe1e9 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -10,98 +10,6 @@
- #define GDB_WATCHPOINT_READ      3
- #define GDB_WATCHPOINT_ACCESS    4
- 
--/* For gdb file i/o remote protocol open flags. */
--#define GDB_O_RDONLY  0
--#define GDB_O_WRONLY  1
--#define GDB_O_RDWR    2
--#define GDB_O_APPEND  8
--#define GDB_O_CREAT   0x200
--#define GDB_O_TRUNC   0x400
--#define GDB_O_EXCL    0x800
--
--/* For gdb file i/o remote protocol errno values */
--#define GDB_EPERM           1
--#define GDB_ENOENT          2
--#define GDB_EINTR           4
--#define GDB_EBADF           9
--#define GDB_EACCES         13
--#define GDB_EFAULT         14
--#define GDB_EBUSY          16
--#define GDB_EEXIST         17
--#define GDB_ENODEV         19
--#define GDB_ENOTDIR        20
--#define GDB_EISDIR         21
--#define GDB_EINVAL         22
--#define GDB_ENFILE         23
--#define GDB_EMFILE         24
--#define GDB_EFBIG          27
--#define GDB_ENOSPC         28
--#define GDB_ESPIPE         29
--#define GDB_EROFS          30
--#define GDB_ENAMETOOLONG   91
--#define GDB_EUNKNOWN       9999
--
--/* For gdb file i/o remote protocol lseek whence. */
--#define GDB_SEEK_SET  0
--#define GDB_SEEK_CUR  1
--#define GDB_SEEK_END  2
--
--/* For gdb file i/o stat/fstat. */
--typedef uint32_t gdb_mode_t;
--typedef uint32_t gdb_time_t;
--
--struct gdb_stat {
--  uint32_t    gdb_st_dev;     /* device */
--  uint32_t    gdb_st_ino;     /* inode */
--  gdb_mode_t  gdb_st_mode;    /* protection */
--  uint32_t    gdb_st_nlink;   /* number of hard links */
--  uint32_t    gdb_st_uid;     /* user ID of owner */
--  uint32_t    gdb_st_gid;     /* group ID of owner */
--  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
--  uint64_t    gdb_st_size;    /* total size, in bytes */
--  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
--  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
--  gdb_time_t  gdb_st_atime;   /* time of last access */
--  gdb_time_t  gdb_st_mtime;   /* time of last modification */
--  gdb_time_t  gdb_st_ctime;   /* time of last change */
--} QEMU_PACKED;
--
--struct gdb_timeval {
--  gdb_time_t tv_sec;  /* second */
--  uint64_t tv_usec;   /* microsecond */
--} QEMU_PACKED;
--
--typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
--
--/**
-- * gdb_do_syscall:
-- * @cb: function to call when the system call has completed
-- * @fmt: gdb syscall format string
-- * ...: list of arguments to interpolate into @fmt
-- *
-- * Send a GDB syscall request. This function will return immediately;
-- * the callback function will be called later when the remote system
-- * call has completed.
-- *
-- * @fmt should be in the 'call-id,parameter,parameter...' format documented
-- * for the F request packet in the GDB remote protocol. A limited set of
-- * printf-style format specifiers is supported:
-- *   %x  - target_ulong argument printed in hex
-- *   %lx - 64-bit argument printed in hex
-- *   %s  - string pointer (target_ulong) and length (int) pair
-- */
--void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
--/**
-- * gdb_do_syscallv:
-- * @cb: function to call when the system call has completed
-- * @fmt: gdb syscall format string
-- * @va: arguments to interpolate into @fmt
-- *
-- * As gdb_do_syscall, but taking a va_list rather than a variable
-- * argument list.
-- */
--void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
--int use_gdb_syscalls(void);
- 
- /* Get or set a register.  Returns the size of the register.  */
- typedef int (*gdb_get_reg_cb)(CPUArchState *env, GByteArray *buf, int reg);
-@@ -120,16 +28,6 @@ void gdb_register_coprocessor(CPUState *cpu,
-  */
- int gdbserver_start(const char *port_or_device);
- 
--/**
-- * gdb_exit: exit gdb session, reporting inferior status
-- * @code: exit code reported
-- *
-- * This closes the session and sends a final packet to GDB reporting
-- * the exit status of the program. It also cleans up any connections
-- * detritus before returning.
-- */
--void gdb_exit(int code);
--
- void gdb_set_stop_cpu(CPUState *cpu);
- 
- /**
-diff --git a/include/gdbstub/syscalls.h b/include/gdbstub/syscalls.h
-new file mode 100644
-index 0000000000..5851a2c706
---- /dev/null
-+++ b/include/gdbstub/syscalls.h
-@@ -0,0 +1,124 @@
-+/*
-+ * GDB Syscall support
-+ *
-+ * Copyright (c) 2023 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: LGPL-2.0+
-+ */
-+
-+#ifndef _SYSCALLS_H_
-+#define _SYSCALLS_H_
-+
-+/* For gdb file i/o remote protocol open flags. */
-+#define GDB_O_RDONLY  0
-+#define GDB_O_WRONLY  1
-+#define GDB_O_RDWR    2
-+#define GDB_O_APPEND  8
-+#define GDB_O_CREAT   0x200
-+#define GDB_O_TRUNC   0x400
-+#define GDB_O_EXCL    0x800
-+
-+/* For gdb file i/o remote protocol errno values */
-+#define GDB_EPERM           1
-+#define GDB_ENOENT          2
-+#define GDB_EINTR           4
-+#define GDB_EBADF           9
-+#define GDB_EACCES         13
-+#define GDB_EFAULT         14
-+#define GDB_EBUSY          16
-+#define GDB_EEXIST         17
-+#define GDB_ENODEV         19
-+#define GDB_ENOTDIR        20
-+#define GDB_EISDIR         21
-+#define GDB_EINVAL         22
-+#define GDB_ENFILE         23
-+#define GDB_EMFILE         24
-+#define GDB_EFBIG          27
-+#define GDB_ENOSPC         28
-+#define GDB_ESPIPE         29
-+#define GDB_EROFS          30
-+#define GDB_ENAMETOOLONG   91
-+#define GDB_EUNKNOWN       9999
-+
-+/* For gdb file i/o remote protocol lseek whence. */
-+#define GDB_SEEK_SET  0
-+#define GDB_SEEK_CUR  1
-+#define GDB_SEEK_END  2
-+
-+/* For gdb file i/o stat/fstat. */
-+typedef uint32_t gdb_mode_t;
-+typedef uint32_t gdb_time_t;
-+
-+struct gdb_stat {
-+  uint32_t    gdb_st_dev;     /* device */
-+  uint32_t    gdb_st_ino;     /* inode */
-+  gdb_mode_t  gdb_st_mode;    /* protection */
-+  uint32_t    gdb_st_nlink;   /* number of hard links */
-+  uint32_t    gdb_st_uid;     /* user ID of owner */
-+  uint32_t    gdb_st_gid;     /* group ID of owner */
-+  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
-+  uint64_t    gdb_st_size;    /* total size, in bytes */
-+  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
-+  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
-+  gdb_time_t  gdb_st_atime;   /* time of last access */
-+  gdb_time_t  gdb_st_mtime;   /* time of last modification */
-+  gdb_time_t  gdb_st_ctime;   /* time of last change */
-+} QEMU_PACKED;
-+
-+struct gdb_timeval {
-+  gdb_time_t tv_sec;  /* second */
-+  uint64_t tv_usec;   /* microsecond */
-+} QEMU_PACKED;
-+
-+typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
-+
-+/**
-+ * gdb_do_syscall:
-+ * @cb: function to call when the system call has completed
-+ * @fmt: gdb syscall format string
-+ * ...: list of arguments to interpolate into @fmt
-+ *
-+ * Send a GDB syscall request. This function will return immediately;
-+ * the callback function will be called later when the remote system
-+ * call has completed.
-+ *
-+ * @fmt should be in the 'call-id,parameter,parameter...' format documented
-+ * for the F request packet in the GDB remote protocol. A limited set of
-+ * printf-style format specifiers is supported:
-+ *   %x  - target_ulong argument printed in hex
-+ *   %lx - 64-bit argument printed in hex
-+ *   %s  - string pointer (target_ulong) and length (int) pair
-+ */
-+void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
-+
-+/**
-+ * gdb_do_syscallv:
-+ * @cb: function to call when the system call has completed
-+ * @fmt: gdb syscall format string
-+ * @va: arguments to interpolate into @fmt
-+ *
-+ * As gdb_do_syscall, but taking a va_list rather than a variable
-+ * argument list.
-+ */
-+void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
-+
-+/**
-+ * use_gdb_syscalls() - report if GDB should be used for syscalls
-+ *
-+ * This is mostly driven by the semihosting mode the user configures
-+ * but assuming GDB is allowed by that we report true if GDB is
-+ * connected to the stub.
-+ */
-+int use_gdb_syscalls(void);
-+
-+/**
-+ * gdb_exit: exit gdb session, reporting inferior status
-+ * @code: exit code reported
-+ *
-+ * This closes the session and sends a final packet to GDB reporting
-+ * the exit status of the program. It also cleans up any connections
-+ * detritus before returning.
-+ */
-+void gdb_exit(int code);
-+
-+#endif /* _SYSCALLS_H_ */
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 179a20c304..c8f998ecec 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -38,6 +38,8 @@
- #include <sys/sysctl.h>
- #include <utime.h>
- 
-+#include "include/gdbstub/syscalls.h"
-+
- #include "qemu.h"
- #include "signal-common.h"
- #include "user/syscall-trace.h"
 diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index f1504af44f..e264ed04e7 100644
+index e264ed04e7..d9e9bf9294 100644
 --- a/gdbstub/gdbstub.c
 +++ b/gdbstub/gdbstub.c
-@@ -29,6 +29,7 @@
- #include "qemu/module.h"
- #include "trace.h"
- #include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #ifdef CONFIG_USER_ONLY
- #include "gdbstub/user.h"
- #else
-@@ -38,7 +39,6 @@
+@@ -39,9 +39,7 @@
  
  #include "sysemu/hw_accel.h"
  #include "sysemu/runstate.h"
--#include "semihosting/semihost.h"
- #include "exec/exec-all.h"
+-#include "exec/exec-all.h"
  #include "exec/replay-core.h"
- #include "exec/tb-flush.h"
-@@ -78,41 +78,6 @@ void gdb_init_gdbserver_state(void)
- 
- bool gdb_has_xml;
- 
--/*
-- * Return true if there is a GDB currently connected to the stub
-- * and attached to a CPU
-- */
--static bool gdb_attached(void)
--{
--    return gdbserver_state.init && gdbserver_state.c_cpu;
--}
--
--static enum {
--    GDB_SYS_UNKNOWN,
--    GDB_SYS_ENABLED,
--    GDB_SYS_DISABLED,
--} gdb_syscall_mode;
--
--/* Decide if either remote gdb syscalls or native file IO should be used. */
--int use_gdb_syscalls(void)
--{
--    SemihostingTarget target = semihosting_get_target();
--    if (target == SEMIHOSTING_TARGET_NATIVE) {
--        /* -semihosting-config target=native */
--        return false;
--    } else if (target == SEMIHOSTING_TARGET_GDB) {
--        /* -semihosting-config target=gdb */
--        return true;
--    }
--
--    /* -semihosting-config target=auto */
--    /* On the first call check if gdb is connected and remember. */
--    if (gdb_syscall_mode == GDB_SYS_UNKNOWN) {
--        gdb_syscall_mode = gdb_attached() ? GDB_SYS_ENABLED : GDB_SYS_DISABLED;
--    }
--    return gdb_syscall_mode == GDB_SYS_ENABLED;
--}
--
- /* writes 2*len+1 bytes in buf */
- void gdb_memtohex(GString *buf, const uint8_t *mem, int len)
- {
-@@ -922,7 +887,7 @@ static void handle_detach(GArray *params, void *user_ctx)
- 
-     if (!gdbserver_state.c_cpu) {
-         /* No more process attached */
--        gdb_syscall_mode = GDB_SYS_DISABLED;
-+        gdb_disable_syscalls();
-         gdb_continue();
-     }
-     gdb_put_packet("OK");
-@@ -1235,60 +1200,6 @@ static void handle_read_all_regs(GArray *params, void *user_ctx)
-     gdb_put_strbuf();
- }
- 
--static void handle_file_io(GArray *params, void *user_ctx)
--{
--    if (params->len >= 1 && gdbserver_state.current_syscall_cb) {
--        uint64_t ret;
--        int err;
--
--        ret = get_param(params, 0)->val_ull;
--        if (params->len >= 2) {
--            err = get_param(params, 1)->val_ull;
--        } else {
--            err = 0;
--        }
--
--        /* Convert GDB error numbers back to host error numbers. */
--#define E(X)  case GDB_E##X: err = E##X; break
--        switch (err) {
--        case 0:
--            break;
--        E(PERM);
--        E(NOENT);
--        E(INTR);
--        E(BADF);
--        E(ACCES);
--        E(FAULT);
--        E(BUSY);
--        E(EXIST);
--        E(NODEV);
--        E(NOTDIR);
--        E(ISDIR);
--        E(INVAL);
--        E(NFILE);
--        E(MFILE);
--        E(FBIG);
--        E(NOSPC);
--        E(SPIPE);
--        E(ROFS);
--        E(NAMETOOLONG);
--        default:
--            err = EINVAL;
--            break;
--        }
--#undef E
--
--        gdbserver_state.current_syscall_cb(gdbserver_state.c_cpu, ret, err);
--        gdbserver_state.current_syscall_cb = NULL;
--    }
--
--    if (params->len >= 3 && get_param(params, 2)->opcode == (uint8_t)'C') {
--        gdb_put_packet("T02");
--        return;
--    }
--
--    gdb_continue();
--}
- 
- static void handle_step(GArray *params, void *user_ctx)
- {
-@@ -1894,7 +1805,7 @@ static int gdb_handle_packet(const char *line_buf)
-     case 'F':
-         {
-             static const GdbCmdParseEntry file_io_cmd_desc = {
--                .handler = handle_file_io,
-+                .handler = gdb_handle_file_io,
-                 .cmd = "F",
-                 .cmd_startswith = 1,
-                 .schema = "L,L,o0"
-@@ -2062,88 +1973,6 @@ void gdb_set_stop_cpu(CPUState *cpu)
-     gdbserver_state.g_cpu = cpu;
- }
- 
--/* Send a gdb syscall request.
--   This accepts limited printf-style format specifiers, specifically:
--    %x  - target_ulong argument printed in hex.
--    %lx - 64-bit argument printed in hex.
--    %s  - string pointer (target_ulong) and length (int) pair.  */
--void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
--{
--    char *p;
--    char *p_end;
--    target_ulong addr;
--    uint64_t i64;
--
--    if (!gdb_attached()) {
--        return;
--    }
--
--    gdbserver_state.current_syscall_cb = cb;
--#ifndef CONFIG_USER_ONLY
--    vm_stop(RUN_STATE_DEBUG);
--#endif
--    p = &gdbserver_state.syscall_buf[0];
--    p_end = &gdbserver_state.syscall_buf[sizeof(gdbserver_state.syscall_buf)];
--    *(p++) = 'F';
--    while (*fmt) {
--        if (*fmt == '%') {
--            fmt++;
--            switch (*fmt++) {
--            case 'x':
--                addr = va_arg(va, target_ulong);
--                p += snprintf(p, p_end - p, TARGET_FMT_lx, addr);
--                break;
--            case 'l':
--                if (*(fmt++) != 'x')
--                    goto bad_format;
--                i64 = va_arg(va, uint64_t);
--                p += snprintf(p, p_end - p, "%" PRIx64, i64);
--                break;
--            case 's':
--                addr = va_arg(va, target_ulong);
--                p += snprintf(p, p_end - p, TARGET_FMT_lx "/%x",
--                              addr, va_arg(va, int));
--                break;
--            default:
--            bad_format:
--                error_report("gdbstub: Bad syscall format string '%s'",
--                             fmt - 1);
--                break;
--            }
--        } else {
--            *(p++) = *(fmt++);
--        }
--    }
--    *p = 0;
--#ifdef CONFIG_USER_ONLY
--    gdb_put_packet(gdbserver_state.syscall_buf);
--    /* Return control to gdb for it to process the syscall request.
--     * Since the protocol requires that gdb hands control back to us
--     * using a "here are the results" F packet, we don't need to check
--     * gdb_handlesig's return value (which is the signal to deliver if
--     * execution was resumed via a continue packet).
--     */
--    gdb_handlesig(gdbserver_state.c_cpu, 0);
--#else
--    /* In this case wait to send the syscall packet until notification that
--       the CPU has stopped.  This must be done because if the packet is sent
--       now the reply from the syscall request could be received while the CPU
--       is still in the running state, which can cause packets to be dropped
--       and state transition 'T' packets to be sent while the syscall is still
--       being processed.  */
--    qemu_cpu_kick(gdbserver_state.c_cpu);
--#endif
--}
--
--void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
--{
--    va_list va;
--
--    va_start(va, fmt);
--    gdb_do_syscallv(cb, fmt, va);
--    va_end(va);
--}
--
- void gdb_read_byte(uint8_t ch)
- {
-     uint8_t reply;
-diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
-index d2863d0663..d3152fb6e7 100644
---- a/gdbstub/softmmu.c
-+++ b/gdbstub/softmmu.c
-@@ -15,6 +15,7 @@
- #include "qemu/error-report.h"
- #include "qemu/cutils.h"
- #include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
+-#include "exec/tb-flush.h"
  #include "exec/hwaddr.h"
- #include "exec/tb-flush.h"
- #include "sysemu/cpus.h"
-@@ -113,9 +114,9 @@ static void gdb_vm_state_change(void *opaque, bool running, RunState state)
-     if (running || gdbserver_state.state == RS_INACTIVE) {
-         return;
-     }
-+
-     /* Is there a GDB syscall waiting to be sent?  */
--    if (gdbserver_state.current_syscall_cb) {
--        gdb_put_packet(gdbserver_state.syscall_buf);
-+    if (gdb_handled_syscall()) {
-         return;
-     }
  
-@@ -384,7 +385,7 @@ int gdbserver_start(const char *device)
-     }
-     gdbserver_state.state = chr ? RS_IDLE : RS_INACTIVE;
-     gdbserver_system_state.mon_chr = mon_chr;
--    gdbserver_state.current_syscall_cb = NULL;
-+    gdb_syscall_reset();
- 
-     return 0;
- }
-diff --git a/gdbstub/syscalls.c b/gdbstub/syscalls.c
-new file mode 100644
-index 0000000000..46537938d5
---- /dev/null
-+++ b/gdbstub/syscalls.c
-@@ -0,0 +1,235 @@
-+/*
-+ * GDB Syscall Handling
-+ *
-+ * GDB can execute syscalls on the guests behalf, currently used by
-+ * the various semihosting extensions. As this interfaces with a guest
-+ * ABI we need to build it per-guest (although in reality its a 32 or
-+ * 64 bit target_ulong that is the only difference).
-+ *
-+ * Copyright (c) 2003-2005 Fabrice Bellard
-+ * Copyright (c) 2023 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: LGPL-2.0+
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "cpu.h"
-+#include "semihosting/semihost.h"
-+#include "sysemu/runstate.h"
-+#include "gdbstub/user.h"
-+#include "gdbstub/syscalls.h"
-+#include "trace.h"
-+#include "internals.h"
-+
-+/* Syscall specific state */
-+typedef struct {
-+    char syscall_buf[256];
-+    gdb_syscall_complete_cb current_syscall_cb;
-+} GDBSyscallState;
-+
-+static GDBSyscallState gdbserver_syscall_state;
-+
-+/*
-+ * Return true if there is a GDB currently connected to the stub
-+ * and attached to a CPU
-+ */
-+static bool gdb_attached(void)
-+{
-+    return gdbserver_state.init && gdbserver_state.c_cpu;
-+}
-+
-+static enum {
-+    GDB_SYS_UNKNOWN,
-+    GDB_SYS_ENABLED,
-+    GDB_SYS_DISABLED,
-+} gdb_syscall_mode;
-+
-+/* Decide if either remote gdb syscalls or native file IO should be used. */
-+int use_gdb_syscalls(void)
-+{
-+    SemihostingTarget target = semihosting_get_target();
-+    if (target == SEMIHOSTING_TARGET_NATIVE) {
-+        /* -semihosting-config target=native */
-+        return false;
-+    } else if (target == SEMIHOSTING_TARGET_GDB) {
-+        /* -semihosting-config target=gdb */
-+        return true;
-+    }
-+
-+    /* -semihosting-config target=auto */
-+    /* On the first call check if gdb is connected and remember. */
-+    if (gdb_syscall_mode == GDB_SYS_UNKNOWN) {
-+        gdb_syscall_mode = gdb_attached() ? GDB_SYS_ENABLED : GDB_SYS_DISABLED;
-+    }
-+    return gdb_syscall_mode == GDB_SYS_ENABLED;
-+}
-+
-+/* called when the stub detaches */
-+void gdb_disable_syscalls(void)
-+{
-+    gdb_syscall_mode = GDB_SYS_DISABLED;
-+}
-+
-+void gdb_syscall_reset(void)
-+{
-+    gdbserver_syscall_state.current_syscall_cb = NULL;
-+}
-+
-+bool gdb_handled_syscall(void)
-+{
-+    if (gdbserver_syscall_state.current_syscall_cb) {
-+        gdb_put_packet(gdbserver_syscall_state.syscall_buf);
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+/*
-+ * Send a gdb syscall request.
-+ *  This accepts limited printf-style format specifiers, specifically:
-+ *   %x  - target_ulong argument printed in hex.
-+ *   %lx - 64-bit argument printed in hex.
-+ *   %s  - string pointer (target_ulong) and length (int) pair.
-+ */
-+void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
-+{
-+    char *p;
-+    char *p_end;
-+    target_ulong addr;
-+    uint64_t i64;
-+
-+    if (!gdb_attached()) {
-+        return;
-+    }
-+
-+    gdbserver_syscall_state.current_syscall_cb = cb;
-+#ifndef CONFIG_USER_ONLY
-+    vm_stop(RUN_STATE_DEBUG);
-+#endif
-+    p = &gdbserver_syscall_state.syscall_buf[0];
-+    p_end = &gdbserver_syscall_state.syscall_buf[sizeof(gdbserver_syscall_state.syscall_buf)];
-+    *(p++) = 'F';
-+    while (*fmt) {
-+        if (*fmt == '%') {
-+            fmt++;
-+            switch (*fmt++) {
-+            case 'x':
-+                addr = va_arg(va, target_ulong);
-+                p += snprintf(p, p_end - p, TARGET_FMT_lx, addr);
-+                break;
-+            case 'l':
-+                if (*(fmt++) != 'x') {
-+                    goto bad_format;
-+                }
-+                i64 = va_arg(va, uint64_t);
-+                p += snprintf(p, p_end - p, "%" PRIx64, i64);
-+                break;
-+            case 's':
-+                addr = va_arg(va, target_ulong);
-+                p += snprintf(p, p_end - p, TARGET_FMT_lx "/%x",
-+                              addr, va_arg(va, int));
-+                break;
-+            default:
-+            bad_format:
-+                error_report("gdbstub: Bad syscall format string '%s'",
-+                             fmt - 1);
-+                break;
-+            }
-+        } else {
-+            *(p++) = *(fmt++);
-+        }
-+    }
-+    *p = 0;
-+#ifdef CONFIG_USER_ONLY
-+    gdb_put_packet(gdbserver_syscall_state.syscall_buf);
-+    /*
-+     * Return control to gdb for it to process the syscall request.
-+     * Since the protocol requires that gdb hands control back to us
-+     * using a "here are the results" F packet, we don't need to check
-+     * gdb_handlesig's return value (which is the signal to deliver if
-+     * execution was resumed via a continue packet).
-+     */
-+    gdb_handlesig(gdbserver_state.c_cpu, 0);
-+#else
-+    /*
-+     * In this case wait to send the syscall packet until notification that
-+     * the CPU has stopped.  This must be done because if the packet is sent
-+     * now the reply from the syscall request could be received while the CPU
-+     * is still in the running state, which can cause packets to be dropped
-+     * and state transition 'T' packets to be sent while the syscall is still
-+     * being processed.
-+     */
-+    qemu_cpu_kick(gdbserver_state.c_cpu);
-+#endif
-+}
-+
-+void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)
-+{
-+    va_list va;
-+
-+    va_start(va, fmt);
-+    gdb_do_syscallv(cb, fmt, va);
-+    va_end(va);
-+}
-+
-+/*
-+ * GDB Command Handlers
-+ */
-+
-+void gdb_handle_file_io(GArray *params, void *user_ctx)
-+{
-+    if (params->len >= 1 && gdbserver_syscall_state.current_syscall_cb) {
-+        uint64_t ret;
-+        int err;
-+
-+        ret = get_param(params, 0)->val_ull;
-+        if (params->len >= 2) {
-+            err = get_param(params, 1)->val_ull;
-+        } else {
-+            err = 0;
-+        }
-+
-+        /* Convert GDB error numbers back to host error numbers. */
-+#define E(X)  case GDB_E##X: err = E##X; break
-+        switch (err) {
-+        case 0:
-+            break;
-+        E(PERM);
-+        E(NOENT);
-+        E(INTR);
-+        E(BADF);
-+        E(ACCES);
-+        E(FAULT);
-+        E(BUSY);
-+        E(EXIST);
-+        E(NODEV);
-+        E(NOTDIR);
-+        E(ISDIR);
-+        E(INVAL);
-+        E(NFILE);
-+        E(MFILE);
-+        E(FBIG);
-+        E(NOSPC);
-+        E(SPIPE);
-+        E(ROFS);
-+        E(NAMETOOLONG);
-+        default:
-+            err = EINVAL;
-+            break;
-+        }
-+#undef E
-+
-+        gdbserver_syscall_state.current_syscall_cb(gdbserver_state.c_cpu,
-+                                                   ret, err);
-+        gdbserver_syscall_state.current_syscall_cb = NULL;
-+    }
-+
-+    if (params->len >= 3 && get_param(params, 2)->opcode == (uint8_t)'C') {
-+        gdb_put_packet("T02");
-+        return;
-+    }
-+
-+    gdb_continue();
-+}
-diff --git a/gdbstub/user.c b/gdbstub/user.c
-index 3f6183e66a..3da410e221 100644
---- a/gdbstub/user.c
-+++ b/gdbstub/user.c
-@@ -15,6 +15,7 @@
- #include "exec/hwaddr.h"
- #include "exec/tb-flush.h"
- #include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "gdbstub/user.h"
- #include "hw/core/cpu.h"
- #include "trace.h"
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 607b6da9fc..fd49d76f45 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -18,7 +18,7 @@
-  */
- #include "qemu/osdep.h"
- #include "accel/tcg/perf.h"
--#include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "qemu.h"
- #include "user-internals.h"
- #ifdef CONFIG_GPROF
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 62d8bae97f..564fe17f75 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -34,6 +34,7 @@
- #include "qemu/osdep.h"
- #include "qemu/timer.h"
- #include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "semihosting/semihost.h"
- #include "semihosting/console.h"
- #include "semihosting/common-semi.h"
-diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-index b05c52f26f..acb86b50dd 100644
---- a/semihosting/guestfd.c
-+++ b/semihosting/guestfd.c
-@@ -9,7 +9,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "semihosting/semihost.h"
- #include "semihosting/guestfd.h"
- #ifdef CONFIG_USER_ONLY
-diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index d69078899a..42080ffdda 100644
---- a/semihosting/syscalls.c
-+++ b/semihosting/syscalls.c
-@@ -7,8 +7,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "exec/gdbstub.h"
- #include "cpu.h"
-+#include "gdbstub/syscalls.h"
- #include "semihosting/guestfd.h"
- #include "semihosting/syscalls.h"
- #include "semihosting/console.h"
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 9b3611d56d..d1e04586db 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -30,7 +30,7 @@
- #include "crypto/cipher.h"
- #include "crypto/init.h"
- #include "exec/cpu-common.h"
--#include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "hw/boards.h"
- #include "migration/misc.h"
- #include "migration/postcopy-ram.h"
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index f753710d7d..88ad9ba814 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -20,7 +20,7 @@
- #include "qemu/osdep.h"
- 
- #include "cpu.h"
--#include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "gdbstub/helpers.h"
- #include "semihosting/syscalls.h"
- #include "semihosting/softmmu-uaccess.h"
-diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
-index 4e6e759057..f3735df7b9 100644
---- a/target/mips/tcg/sysemu/mips-semi.c
-+++ b/target/mips/tcg/sysemu/mips-semi.c
-@@ -20,7 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "qemu/log.h"
--#include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "gdbstub/helpers.h"
- #include "semihosting/softmmu-uaccess.h"
- #include "semihosting/semihost.h"
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index 113b3f22aa..3738774976 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -23,7 +23,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "exec/gdbstub.h"
-+#include "gdbstub/syscalls.h"
- #include "gdbstub/helpers.h"
- #include "semihosting/syscalls.h"
- #include "semihosting/softmmu-uaccess.h"
+ #include "internals.h"
+@@ -1612,7 +1610,7 @@ static const GdbCmdParseEntry gdb_gen_query_table[] = {
+         .cmd_startswith = 1,
+         .schema = "s:l,l0"
+     },
+-#if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX_USER)
++#if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX)
+     {
+         .handler = gdb_handle_query_xfer_auxv,
+         .cmd = "Xfer:auxv:read::",
 diff --git a/gdbstub/meson.build b/gdbstub/meson.build
-index 773bd4b9c9..c876222b9c 100644
+index c876222b9c..d679c7ab86 100644
 --- a/gdbstub/meson.build
 +++ b/gdbstub/meson.build
-@@ -5,6 +5,10 @@
+@@ -4,13 +4,35 @@
+ # types such as hwaddr.
  #
  
- specific_ss.add(files('gdbstub.c'))
+-specific_ss.add(files('gdbstub.c'))
++# We need to build the core gdb code via a library to be able to tweak
++# cflags so:
 +
-+# These have to built to the target ABI
-+specific_ss.add(files('syscalls.c'))
++gdb_user_ss = ss.source_set()
++gdb_softmmu_ss = ss.source_set()
 +
- softmmu_ss.add(files('softmmu.c'))
- user_ss.add(files('user.c'))
++# We build two versions of gdbstub, one for each mode
++gdb_user_ss.add(files('gdbstub.c', 'user.c'))
++gdb_softmmu_ss.add(files('gdbstub.c', 'softmmu.c'))
++
++gdb_user_ss = gdb_user_ss.apply(config_host, strict: false)
++gdb_softmmu_ss = gdb_softmmu_ss.apply(config_host, strict: false)
++
++libgdb_user = static_library('gdb_user',
++                             gdb_user_ss.sources() + genh,
++                             name_suffix: 'fa',
++                             c_args: '-DCONFIG_USER_ONLY')
++
++libgdb_softmmu = static_library('gdb_softmmu',
++                                gdb_softmmu_ss.sources() + genh,
++                                name_suffix: 'fa')
++
++gdb_user = declare_dependency(link_whole: libgdb_user)
++user_ss.add(gdb_user)
++gdb_softmmu = declare_dependency(link_whole: libgdb_softmmu)
++softmmu_ss.add(gdb_softmmu)
  
+ # These have to built to the target ABI
+ specific_ss.add(files('syscalls.c'))
+ 
+-softmmu_ss.add(files('softmmu.c'))
+-user_ss.add(files('user.c'))
+-
+ # The user-target is specialised by the guest
+ specific_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-target.c'))
 -- 
 2.39.2
 
