@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F42386AD322
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C99E6AD32A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 01:08:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZKr1-0007fC-KU; Mon, 06 Mar 2023 19:06:55 -0500
+	id 1pZKs5-0000ht-Oi; Mon, 06 Mar 2023 19:08:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZKqw-0007ch-IH
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:06:51 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pZKqr-000317-4f
- for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:06:48 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C343674635C;
- Tue,  7 Mar 2023 01:06:31 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8BD9374633D; Tue,  7 Mar 2023 01:06:31 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8A09D74632B;
- Tue,  7 Mar 2023 01:06:31 +0100 (CET)
-Date: Tue, 7 Mar 2023 01:06:31 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <e101b894-c722-8def-f591-20fada45795c@redhat.com>
-Message-ID: <48cdc7ae-8e7c-6b6d-76d1-96228ac597c2@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
- <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
- <e3a19d91-b9ef-9352-8f60-35432fdf5d1e@redhat.com>
- <c2bdd618-5077-3b3f-12d0-974cf9757692@eik.bme.hu>
- <04f178bb-2407-232f-e843-386bf04b3024@eik.bme.hu>
- <4714e0f2-ccfb-1e9a-149e-aceefef62a9d@redhat.com>
- <e101b894-c722-8def-f591-20fada45795c@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZKs3-0000go-BK
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:07:59 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZKs1-0003AQ-Ol
+ for qemu-devel@nongnu.org; Mon, 06 Mar 2023 19:07:59 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id l1so10508503wry.12
+ for <qemu-devel@nongnu.org>; Mon, 06 Mar 2023 16:07:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678147675;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=olxyY6TeY0afP9/nd0aNiC52BjH3+WJeqTkksI0OYY0=;
+ b=TdRxaVpVJ3aQ/fZuJhNsFEsgNiHrORGMSyA3qJ3lY6XtODJPGPkJdN1GW3pZ4tJuqK
+ 1ndIF8uC3nd4Awp/8mTHOXUN3ocwO2clzoj1SeZdwBvOHyftWET+tXPVM5jlmAIDPcxV
+ 82Kz5gxroMQS1MWUVEcGAkGuPDq/WOZqUPa2KYj1cAl/lvKK5d1woVLu+z/HW6H0bgVX
+ J63mrtzBTR1HGdk7sb7ehm/SMfQKMd6OAR95SPhGNxrqVxw58BcIXdbBnPnRve9YSfFT
+ Miy2S07acyv7/dqWhS0Mt1XEE2y7Q5HqkIADdHzqTXGYq+zQDfk93fhYPAbPZI8XUg0Z
+ 1Ztw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678147675;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=olxyY6TeY0afP9/nd0aNiC52BjH3+WJeqTkksI0OYY0=;
+ b=5WLRGYyp3YUeMryn5XUqiZLaZdSI3h4OGwVo2vDF1+UgxQ1aYPgojsriFIVBObo+3k
+ 2Y/e0tGlu/S8sOexFsVO8/0SA5MmrSUHwRNgtwndXllE2/WgFEVhWx9GdUiWJjq9SSaV
+ RmBq66cwyTwLu/k0LC9rQkzhPiJvF6oj97Ks6ZS6L51f2heIVyltu3sdgCbWMlNfSKUd
+ P81chP88XVYulEnarE64zxGkDdqy1YQLwaTIZxjxspKtkArrcSkrm+ab1gF0Ro1PGEDg
+ gFa0F+Irg7byBE+W0nJfxomGVysQ+hGEVtmh6b28w4cT1kuuCOxIBkuLGpmIld4Yyl1C
+ l+FQ==
+X-Gm-Message-State: AO0yUKXI4UBhQYC22DMhqw4F3QX3118MIXTb1mc2koVAEPKuP3uYtjgL
+ Op7cWKlyHZ8imXDqBcgnH5ZbfQ==
+X-Google-Smtp-Source: AK7set9N7a6JIoBUcTEN474BFhi9tehkcoaFxrheRDSU6MY9rfwVQMl4mVd3FhCIm1iymN3Lu7lBMw==
+X-Received: by 2002:a5d:4ec2:0:b0:2c5:483f:1580 with SMTP id
+ s2-20020a5d4ec2000000b002c5483f1580mr12537010wrv.12.1678147675711; 
+ Mon, 06 Mar 2023 16:07:55 -0800 (PST)
+Received: from [192.168.1.115] (138.red-88-29-178.dynamicip.rima-tde.net.
+ [88.29.178.138]) by smtp.gmail.com with ESMTPSA id
+ h18-20020a5d4312000000b002c7107ce17fsm11217631wrq.3.2023.03.06.16.07.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 16:07:55 -0800 (PST)
+Message-ID: <89ff5c91-13a8-a9d8-cafd-3fc388a580be@linaro.org>
+Date: Tue, 7 Mar 2023 01:07:51 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2059747351-1678147591=:54516"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 62/70] target/xtensa: Tidy translate_bb
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
+ ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
+ tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+References: <20230227054233.390271-1-richard.henderson@linaro.org>
+ <20230227054233.390271-63-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230227054233.390271-63-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,68 +95,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 27/2/23 06:42, Richard Henderson wrote:
+> Replace ifdefs with C, tcg_const_i32 with tcg_constant_i32.
+> We only need a single temporary for this.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/xtensa/translate.c | 18 +++++++-----------
+>   1 file changed, 7 insertions(+), 11 deletions(-)
 
---3866299591-2059747351-1678147591=:54516
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-On Tue, 7 Mar 2023, Paolo Bonzini wrote:
-> On 3/6/23 23:56, Paolo Bonzini wrote:
->> On 2/21/23 13:55, BALATON Zoltan wrote:
->>> 
->>> To get that menu with Shut Down, first Quit the installer then again right 
->>> click or click on background first to get the menu of the Ambient desktop. 
->>> I also see an error from the firmware at the beginning:
->>> Initializing KBD...00000012    FAILED.
->>> when it's broken and it says Done without the hex number when it works. 
->>> (Two other FAILED messages about clock chip is normal as we don't emulate 
->>> that but all others should be green.)
->> 
->> Ok, I've reproduced it.  The mouse is a bit flaky but using the keyboard 
->> for everything except right clicking works better.
->
-> Now the OS doesn't boot anymore, it doesn't get to the point where it 
-> initializes the VGA.
-
-Sorry, that is a known breakage from a recent series that's not yet fixed. 
-This patch should fix it:
-
-http://patchew.org/QEMU/cover.1677628524.git.balaton@eik.bme.hu/cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu/
-
-or another proposed altenative is here:
-
-http://patchew.org/QEMU/20230304114043.121024-1-shentey@gmail.com/20230304114043.121024-2-shentey@gmail.com/
-
-Either of the above should work.
-
-> I got some quick logs with .impl.min_access_size to 1, 
-> to understand what the firmware (but not the OS) does.  With this at least I 
-> could confirm that your patch is wrong:
->
-> cnt 1 1 write 80
-> evt 3 1 write 1         // enable timer
-> evt 0 2 read
-> evt 0 2 write 1         // just writes again the same value
-> evt 1 1 write
-> evt 1 1 write 0
->
-> Since you have both 1-size and 2-size writes, and the 2-byte reads/writes are 
-> done with byte swapping instructions lhbrx and sthbrx, your patch would cause 
-> 0x100 to be read and written on the third and fourth lines.
->
-> Likewise, any 4-byte read of the timer port would be byte swapped.
->
-> The solution is a patch similar to mine, applied to both evt and cnt; while 
-> perhaps tmr can be left as is and only accept 4-byte reads, I don't know. 
-> I'll try to come up with something that can be tested at least with the 
-> firmware.
-
-I'm not sure I follow what you mean so I'd need a patch to see then I can 
-test it with the clients I run on pegasos2.
-
-Regards,
-BALATON Zoltan
---3866299591-2059747351-1678147591=:54516--
 
