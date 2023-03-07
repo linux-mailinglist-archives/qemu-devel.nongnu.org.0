@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13356AE7DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DB16AE7E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Mar 2023 18:04:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZajC-0004rO-Te; Tue, 07 Mar 2023 12:03:54 -0500
+	id 1pZajs-00068t-HX; Tue, 07 Mar 2023 12:04:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZait-0004aO-2h
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:03:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZaio-0003be-P0
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:03:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678208603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DCgfow+t3H4ZaOyMK6C/8DGLrqK3LFOoXeBF0xOrVGs=;
- b=Ubrq90leBT1CKO9WF5WFHPAkKsV+wpvJJ6/3VBU3KeeIKpzT4QStakq2fJO8wWwi88ALfL
- lVUdVMV/vKm+B3/7yJX7rDW8yqAND84oaWIeOJTFmuz40G2+ZacKE0x1kQl9FadF5Z7urS
- 0vKt+bL3V7qXR13Y1584/npgj/bTy7A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-556-0AnR5DAlOjSspXZgOqDiPg-1; Tue, 07 Mar 2023 12:02:19 -0500
-X-MC-Unique: 0AnR5DAlOjSspXZgOqDiPg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- x18-20020a1c7c12000000b003e1e7d3cf9fso8509051wmc.3
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:02:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZajW-0005yE-Nq
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:04:16 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZajU-0003q7-G8
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 12:04:14 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ t25-20020a1c7719000000b003eb052cc5ccso10866750wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 09:04:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678208650;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xBM/DjzpI+y3ZjCT4Wal/gzOcTCGOW/UQZGqC6Mn2C8=;
+ b=rRvwqqWf2haTfVB4M3EkK71yJUDBo8ztmXWSIkBnTUnpIJ3JDsp9V7bRaMSmaLnH7d
+ vU0H0Hk538txuFjTe7lfebeqzSmSFTBXS2a6IfgHBsNuwMAzwkfHzPr7PDSyoZXYPVZM
+ 1D+HuejSWogVw8RSdMve1J73jIBp2D7cFUlSzXjij0/PIez6BtaBlfHHK8akMGK3Gcoj
+ 9j5BMVdF7zVfaqMAZFL3nC+YnWWMnSZBkMdTjLS3odLvxjD49XmX4sijD8K8NCWXm1Hf
+ 3HHcyduJD9wJOXWg0uCCmMmxIsOWlU6unWJ5PIl+N48l4CMfISyOQOWtBvLYCxMmgtX2
+ 35LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678208519;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DCgfow+t3H4ZaOyMK6C/8DGLrqK3LFOoXeBF0xOrVGs=;
- b=eKClgA3MdisTnMQK0K3NfwhE0KoFuL/GkceGIloDtykeJgZllbDJEjOv1MESFsUMCc
- OAo3u6cv39sxh9fQXtihYQAlFRaL31kuo+8kqPZswE9hg/XmEATeLZT7NLD+Vhq1kxrQ
- Z/TNw+TEOfku8zM0mNvTvMCAg+JpYZ5IbKLbY0UwgcCGHhMuMuIxZzOimeOhXrWJuBAo
- SwXaySGvrqqKl5zCRyO37UueqFxfpu/v/CaERFHpZ0hStBQLgvpyWirMt0SrwMZbCQvW
- 6pFBCMw95a9ZFtTbetdxT6zKCfGX27lPQaPiN5GEGnLexbBPzQRZfDd4AJP9481feeVY
- uebQ==
-X-Gm-Message-State: AO0yUKWrdG/ACK72ponbf9C/aQBSMgPRPwGgE75jgpYcPTy/X3sbn0pG
- EpFpbVwY27fdkhel8Wx22ruzmMlW6GAHAbQsFOSsPbF3jOk7Rxq00HdLmWsNASF8FhvR7FYS2Ms
- nYFH6/TSgp7L+WbX3Koi/Ujc=
-X-Received: by 2002:adf:df8f:0:b0:2c7:1b3d:1fb9 with SMTP id
- z15-20020adfdf8f000000b002c71b3d1fb9mr9715674wrl.50.1678208519314; 
- Tue, 07 Mar 2023 09:01:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set87N3Ar6dR4xj5IagsZlg0vdebK6UB2Q6R8G0MGeHmSpdO9bqa+ZxUCTMeQopWfQvVv1XLG6g==
-X-Received: by 2002:adf:df8f:0:b0:2c7:1b3d:1fb9 with SMTP id
- z15-20020adfdf8f000000b002c71b3d1fb9mr9715650wrl.50.1678208518966; 
- Tue, 07 Mar 2023 09:01:58 -0800 (PST)
-Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- j21-20020a05600c075500b003e0238d9101sm13238011wmn.31.2023.03.07.09.01.57
+ d=1e100.net; s=20210112; t=1678208650;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xBM/DjzpI+y3ZjCT4Wal/gzOcTCGOW/UQZGqC6Mn2C8=;
+ b=TTS+OeftiU8ZYCORxUqHR2b/B9UMaFAStJRBWjSdTUK2RFE20w3iOFMpGwrIoNxp9Q
+ yHEB34/SwtBCRQ1HTtnD154fnEybI+Q2QpGNILQk67b2K6uQbGkafYDRBA1l1rCMVqiZ
+ Oe/JvXw8GrHGN9AwgYcK8OLcvKGTJkqQlZbKkekJO+vsF95E7rGn+iPLU+7JUJNCJkov
+ t+4JOHtxiCtwk9ANwI24BN1D3/W+lHI+Q0Qli6EDjYIlv+nahtbVl7Sh95ZXxknFUqHn
+ 086xB3A3A+DkCjoUZ6NQtWuqzLdmK9bTBimimIhEbavSWAMjiXh0Wbs6lnsyhbxwXxTj
+ qJCw==
+X-Gm-Message-State: AO0yUKUOV9eboMUBboiLILLd7G4vEVViKy6x9zGeol/XQpSbC2sGy75z
+ oaWt6lLH3pKmFXm9GYSIPkonbA==
+X-Google-Smtp-Source: AK7set9xmB1TGZyXtimTPRcW2uFrvwOs2DLvN78wWCl+rUUS0V6SLBijD6G46sgb5MN/+oaCIX0QVw==
+X-Received: by 2002:a05:600c:4750:b0:3eb:395b:8b62 with SMTP id
+ w16-20020a05600c475000b003eb395b8b62mr13830762wmo.39.1678208649811; 
+ Tue, 07 Mar 2023 09:04:09 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ k21-20020a7bc415000000b003e206cc7237sm17342505wmi.24.2023.03.07.09.04.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 09:01:58 -0800 (PST)
-Date: Tue, 7 Mar 2023 12:01:36 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Alvaro Karsz <alvaro.karsz@solid-run.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH for 8.1] vdpa: accept VIRTIO_NET_F_SPEED_DUPLEX in SVQ
-Message-ID: <20230307120103-mutt-send-email-mst@kernel.org>
-References: <20230307170018.260557-1-eperezma@redhat.com>
+ Tue, 07 Mar 2023 09:04:09 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0C2781FFB7;
+ Tue,  7 Mar 2023 17:04:09 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC PATCH] stubs: split semihosting_get_target from system only stubs
+Date: Tue,  7 Mar 2023 17:04:04 +0000
+Message-Id: <20230307170405.796822-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307170018.260557-1-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DIET_1=0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,34 +94,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 07, 2023 at 06:00:18PM +0100, Eugenio PÈrez wrote:
-> There is no reason to block it as it has nothing to do with the vrings.
-> All the support of the feature comes via config space.
-> 
-> Signed-off-by: Eugenio PÈrez <eperezma@redhat.com>
-> Suggested-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
+As we are about to have a common syscalls.c for gdbstub we need to
+stub out one semihosting helper function for all targets.
 
-do we need to version this with machine type btw?
+Signed-off-by: Alex Benn√©e <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+---
+ stubs/semihost-all.c | 17 +++++++++++++++++
+ stubs/semihost.c     |  5 -----
+ stubs/meson.build    |  1 +
+ 3 files changed, 18 insertions(+), 5 deletions(-)
+ create mode 100644 stubs/semihost-all.c
 
-> ---
->  net/vhost-vdpa.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index de5ed8ff22..8b25559320 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -99,7 +99,8 @@ static const uint64_t vdpa_svq_device_features =
->      BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
->      BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
->      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> -    BIT_ULL(VIRTIO_NET_F_STANDBY);
-> +    BIT_ULL(VIRTIO_NET_F_STANDBY) |
-> +    BIT_ULL(VIRTIO_NET_F_SPEED_DUPLEX);
->  
->  #define VHOST_VDPA_NET_CVQ_ASID 1
->  
-> -- 
-> 2.31.1
+diff --git a/stubs/semihost-all.c b/stubs/semihost-all.c
+new file mode 100644
+index 0000000000..a2a1fc9c6f
+--- /dev/null
++++ b/stubs/semihost-all.c
+@@ -0,0 +1,17 @@
++/*
++ * Semihosting Stubs for all targets
++ *
++ * Copyright (c) 2023 Linaro Ltd
++ *
++ * Stubs for all targets that don't actually do semihosting.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "semihosting/semihost.h"
++
++SemihostingTarget semihosting_get_target(void)
++{
++    return SEMIHOSTING_TARGET_AUTO;
++}
+diff --git a/stubs/semihost.c b/stubs/semihost.c
+index d65c9fd5dc..aad7a70353 100644
+--- a/stubs/semihost.c
++++ b/stubs/semihost.c
+@@ -28,11 +28,6 @@ bool semihosting_enabled(bool is_user)
+     return false;
+ }
+ 
+-SemihostingTarget semihosting_get_target(void)
+-{
+-    return SEMIHOSTING_TARGET_AUTO;
+-}
+-
+ /*
+  * All the rest are empty subs. We could g_assert_not_reached() but
+  * that adds extra weight to the final binary. Waste not want not.
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 7657467a5d..b2b5956d97 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -61,4 +61,5 @@ if have_system
+ else
+   stub_ss.add(files('qdev.c'))
+ endif
++stub_ss.add(files('semihost-all.c'))
+ stub_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_false: files('vfio-user-obj.c'))
+-- 
+2.39.2
 
 
