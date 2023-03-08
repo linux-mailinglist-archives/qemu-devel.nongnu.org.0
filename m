@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10796B0FAD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC6D6B0FD5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:08:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8a-0004qi-0v; Wed, 08 Mar 2023 11:59:36 -0500
+	id 1pZx8f-0004uX-12; Wed, 08 Mar 2023 11:59:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8R-0004cM-GP; Wed, 08 Mar 2023 11:59:27 -0500
+ id 1pZx8T-0004lJ-UH; Wed, 08 Mar 2023 11:59:29 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8L-00047J-Q4; Wed, 08 Mar 2023 11:59:27 -0500
+ id 1pZx8M-00047Y-0Q; Wed, 08 Mar 2023 11:59:29 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 1D44A4010D;
- Wed,  8 Mar 2023 19:58:38 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id ED271400B9;
+ Wed,  8 Mar 2023 19:58:56 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id C6FC71FD;
- Wed,  8 Mar 2023 19:58:36 +0300 (MSK)
-Received: (nullmailer pid 2098348 invoked by uid 1000);
- Wed, 08 Mar 2023 16:58:34 -0000
+ by tsrv.corpit.ru (Postfix) with SMTP id BA10092;
+ Wed,  8 Mar 2023 19:58:55 +0300 (MSK)
+Received: (nullmailer pid 2098369 invoked by uid 1000);
+ Wed, 08 Mar 2023 16:58:55 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+Cc: qemu-stable@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 35/47] vhost-user-rng: Back up vqs before cleaning up vhost_dev
-Date: Wed,  8 Mar 2023 19:57:38 +0300
-Message-Id: <20230308165815.2098148-35-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 37/47] virtio-rng-pci: fix transitional migration compat for
+ vectors
+Date: Wed,  8 Mar 2023 19:57:40 +0300
+Message-Id: <20230308165815.2098148-37-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -58,49 +59,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
-the memory pointed by the member.
+In bad9c5a516 ("virtio-rng-pci: fix migration compat for vectors") I
+fixed the virtio-rng-pci migration compatibility, but it was discovered
+that we also need to fix the other aliases of the device for the
+transitional cases.
 
-Fixes: 821d28b88f ("vhost-user-rng: Add vhost-user-rng implementation")
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-Id: <20230130140516.78078-1-akihiko.odaki@daynix.com>
+Fixes: 9ea02e8f1 ('virtio-rng-pci: Allow setting nvectors, so we can use MSI-X')
+bz: https://bugzilla.redhat.com/show_bug.cgi?id=2162569
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20230207174944.138255-1-dgilbert@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit f0dac71596d4b87a1a77d1f4efb6a6adb4730d7b)
+(cherry picked from commit 62bdb8871512076841f4464f7e26efdc7783f78d)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/virtio/vhost-user-rng.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/core/machine.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index f9084cde58..3f7b59ec0d 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -229,6 +229,7 @@ static void vu_rng_device_realize(DeviceState *dev, Error **errp)
-     return;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 77a0a131d1..035d078a74 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -43,6 +43,8 @@
+ GlobalProperty hw_compat_7_1[] = {
+     { "virtio-device", "queue_reset", "false" },
+     { "virtio-rng-pci", "vectors", "0" },
++    { "virtio-rng-pci-transitional", "vectors", "0" },
++    { "virtio-rng-pci-non-transitional", "vectors", "0" },
+ };
+ const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
  
- vhost_dev_init_failed:
-+    g_free(rng->vhost_dev.vqs);
-     virtio_delete_queue(rng->req_vq);
- virtio_add_queue_failed:
-     virtio_cleanup(vdev);
-@@ -239,12 +240,12 @@ static void vu_rng_device_unrealize(DeviceState *dev)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserRNG *rng = VHOST_USER_RNG(dev);
-+    struct vhost_virtqueue *vhost_vqs = rng->vhost_dev.vqs;
- 
-     vu_rng_set_status(vdev, 0);
- 
-     vhost_dev_cleanup(&rng->vhost_dev);
--    g_free(rng->vhost_dev.vqs);
--    rng->vhost_dev.vqs = NULL;
-+    g_free(vhost_vqs);
-     virtio_delete_queue(rng->req_vq);
-     virtio_cleanup(vdev);
-     vhost_user_cleanup(&rng->vhost_user);
 -- 
 2.30.2
 
