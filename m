@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7448B6B091C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2675A6B094F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtrY-0001sS-Mu; Wed, 08 Mar 2023 08:29:50 -0500
+	id 1pZtth-0004OL-Ie; Wed, 08 Mar 2023 08:32:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqv-0001gE-OE
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:09 -0500
-Received: from mout.kundenserver.de ([217.72.192.75])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr6-0001lC-Mm
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:22 -0500
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqt-00064t-Oc
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:09 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr2-00066j-RH
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:20 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MiIhU-1qF1ZH3r3W-00fQuo; Wed, 08
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MQdI8-1pxdH21iVi-00NlTO; Wed, 08
  Mar 2023 14:29:06 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 09/28] linux-user: Add strace for prlimit64() syscall
-Date: Wed,  8 Mar 2023 14:28:38 +0100
-Message-Id: <20230308132857.161793-10-laurent@vivier.eu>
+Cc: Mathis Marion <mathis.marion@silabs.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 10/28] linux-user: fix sockaddr_in6 endianness
+Date: Wed,  8 Mar 2023 14:28:39 +0100
+Message-Id: <20230308132857.161793-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6M5hVxpwRSnHBokNSUPrMKj6YJ0n90k3+RXU9cz0flvJVIc78tA
- yDpardP0hJOx9Lo6MVMcQRV+jicNxSYUU2dmREoYEEfPdK7oZmHS7NKGMW/j6ZQcEuqx7w+
- 48yas+589J/SIf3syAqMwIX6KPvANYC/nQAavaOnYxX7WUryNm5f5Tx2TziOqlQFqUNU/wm
- oQp1ZdXbcdTOGIEFFJ96Q==
-UI-OutboundReport: notjunk:1;M01:P0:LDalLGHIaek=;0tOSvA2Si+/ET+g+YQnizkcByct
- flMenRVnYOcCcbnVe3KcJnb8BFHjrb5QaGR+zLxoDEBXIVCvEW+VY4kCWULw7ZS7P80wmY5Sv
- JQlsJ055enb40zgvNCG4LOdf0fwv2COJbRDFbBlpk6TryY0KjB0RCOnDQ24wz98Ki5SQ/9CPY
- 4TVjzlIEJQZ2Mm16WlgjL+QGVSauPmK9iUbmyHbbJVkRfJ3/F2+gw/WJEe7mhMiEzBeEYIrFS
- 2rPvBwDE6vBWSqm0NW9wNpBz9suZxmA8icMhGdmnIYctavwjOPYrx6JdCuopNHq2Ls/meFHAe
- eLkebMvZl35JeTnd3me96tu6f6MgjT6qcXVLOO/gFChhqACdlYFt3M5gpLn1S2p+GWpn7Q1hg
- WezGrwXceoeIFuSWn60s8Os93poFEer/UoTo7e7FqsEkflubxRJVoHQKh8l6UhmaJm/fyRCSf
- QxgFHRjeQ9wdrBDhsYpVQRAJ9mRGW/bX9LQQldQdwTCTl2BQnHKJVSKaSCXqZK8mHFFS+duQ+
- UXD+hwGhdZ1VuxA/mrkqNnjoMxcOBlW6NQYpqHm3nzT+/3/RHBOExrFrTVAADTjiJ6bsPC1PG
- lcoj0KLSwnN7+Fv9f4XXvZeh2ZATKvawzMebrvqThTYhzcC+uMh8HTgzUoj53WxIsPJotZA2q
- OLSKkciXx8w8IIdjJdMNvN5y1ddzMDHRXnXTdAP9/A==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Hy53xkBdeSLRXJ6pYxuYEEHOz9j/oWvZquYZC5qO8IouMOlyyiW
+ TwCn8cilroAEizwUIbgaiErzZTCY7MzOSxXuG9u/DK5fxjCnWYKYqyYGx2rbVvs+ElOrDDK
+ bNd6TvirFYymjbpdSlK9unSs6VXpKToyLzllQI/+9eIOjnYRmUphKYDsSfCGdsezjuQsuC7
+ /ipSY6S/IUzJuTey7psYw==
+UI-OutboundReport: notjunk:1;M01:P0:0yyqnfcbaH8=;E4Qkf3VIQeOuYl/Z0jMgAvq+E6Y
+ ANBEXO2XPAwmnt1RGkfnP3ZygPq2etPqld+1SF8LmBB8192UiMxaK6OHnL3ztsWdkGKLhKjA6
+ tt1adLvYyE1x3to5MQb/HTUAMnzaSQEvTwJmtBu7xNQFIKkMhv3hTXszvmYd9bbg0qdwwWBqU
+ 9rnkb54Cw7LB+GJ8aEG9Sz7PitjN3aVq6DTBgId8ws1voPmWAG6suVHTN/UT7/nXuTqYm7bvt
+ sI1R7j5qP0MaJkAk9gYe7tJo80j6NyHFKFkD6+bruceb8BxoMdfWPGz0GI09aQDzZNd/7u8dL
+ gsghJS9f8onDzqI3KpzaY7Us6JrIMbPt1eUo7RHDs22J0C5mEe7ysoUGkANWVIryzFOmcFAkR
+ WC1YB8lFGO6d9OXVXVL2kVX8QrUpxpUcgTFfGToO3ML2E2Wq+QXAlAt0XDqOajsa4RSU4SPrk
+ idlXkO3FPzNHXF7ALmWCunPKZO2gJ3WPrFG9j3je6GrC7saScX5dvOp1wONWRCybAmMfnkGej
+ KeBWZcuDZC+1LeIv46q45N7W64vGfp5tP1EIcp+qFd/bgAOlhVGCGMLjeXhI/+N9/3HlQLn3q
+ pjobkPjYPXAwl4h2i2SZYCNz0vNi0yxRiyCYG9J16CpCOU3+a3p6juqBNISINUmNpd1S4Oqkw
+ rvy3+JT7ugGLloeChhFFSMcVzUycEchVdWy6z++q8A==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,133 +71,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Helge Deller <deller@gmx.de>
+From: Mathis Marion <mathis.marion@silabs.com>
 
-Add proper prlimit64() strace output.
+The sin6_scope_id field uses the host byte order, so there is a
+conversion to be made when host and target endianness differ.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221222190639.124078-1-deller@gmx.de>
-[lvivier: use print_raw_param64()]
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230307154256.101528-2-Mathis.Marion@silabs.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 88 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  3 +-
- 2 files changed, 90 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 2cea93aec46e..e9757ed9adee 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -3866,6 +3866,94 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
- }
- #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index bcf409e134b4..1f903dd67cba 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1714,6 +1714,11 @@ static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
+ 	lladdr = (struct target_sockaddr_ll *)addr;
+ 	lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
+ 	lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
++    } else if (sa_family == AF_INET6) {
++        struct sockaddr_in6 *in6addr;
++
++        in6addr = (struct sockaddr_in6 *)addr;
++        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
+     }
+     unlock_user(target_saddr, target_addr, 0);
  
-+#ifdef TARGET_NR_prlimit64
-+static const char *target_ressource_string(abi_ulong r)
-+{
-+    #define RET_RES_ENTRY(res) case TARGET_##res:  return #res;
-+    switch (r) {
-+    RET_RES_ENTRY(RLIMIT_AS);
-+    RET_RES_ENTRY(RLIMIT_CORE);
-+    RET_RES_ENTRY(RLIMIT_CPU);
-+    RET_RES_ENTRY(RLIMIT_DATA);
-+    RET_RES_ENTRY(RLIMIT_FSIZE);
-+    RET_RES_ENTRY(RLIMIT_LOCKS);
-+    RET_RES_ENTRY(RLIMIT_MEMLOCK);
-+    RET_RES_ENTRY(RLIMIT_MSGQUEUE);
-+    RET_RES_ENTRY(RLIMIT_NICE);
-+    RET_RES_ENTRY(RLIMIT_NOFILE);
-+    RET_RES_ENTRY(RLIMIT_NPROC);
-+    RET_RES_ENTRY(RLIMIT_RSS);
-+    RET_RES_ENTRY(RLIMIT_RTPRIO);
-+#ifdef RLIMIT_RTTIME
-+    RET_RES_ENTRY(RLIMIT_RTTIME);
-+#endif
-+    RET_RES_ENTRY(RLIMIT_SIGPENDING);
-+    RET_RES_ENTRY(RLIMIT_STACK);
-+    default:
-+        return NULL;
-+    }
-+    #undef RET_RES_ENTRY
-+}
-+
-+static void
-+print_rlimit64(abi_ulong rlim_addr, int last)
-+{
-+    if (rlim_addr) {
-+        struct target_rlimit64 *rl;
-+
-+        rl = lock_user(VERIFY_READ, rlim_addr, sizeof(*rl), 1);
-+        if (!rl) {
-+            print_pointer(rlim_addr, last);
-+            return;
-+        }
-+        print_raw_param64("{rlim_cur=%" PRId64, tswap64(rl->rlim_cur), 0);
-+        print_raw_param64("rlim_max=%" PRId64 "}", tswap64(rl->rlim_max),
-+                            last);
-+        unlock_user(rl, rlim_addr, 0);
-+    } else {
-+        qemu_log("NULL%s", get_comma(last));
-+    }
-+}
-+
-+static void
-+print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    const char *rlim_name;
-+
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    rlim_name = target_ressource_string(arg1);
-+    if (rlim_name) {
-+        qemu_log("%s,", rlim_name);
-+    } else {
-+        print_raw_param("%d", arg1, 0);
-+    }
-+    print_rlimit64(arg2, 0);
-+    print_pointer(arg3, 1);
-+    print_syscall_epilogue(name);
-+}
-+
-+static void
-+print_syscall_ret_prlimit64(CPUArchState *cpu_env,
-+                       const struct syscallname *name,
-+                       abi_long ret, abi_long arg0, abi_long arg1,
-+                       abi_long arg2, abi_long arg3, abi_long arg4,
-+                       abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        if (arg3) {
-+            qemu_log(" (");
-+            print_rlimit64(arg3, 1);
-+            qemu_log(")");
-+        }
-+    }
-+    qemu_log("\n");
-+}
-+#endif
-+
- #ifdef TARGET_NR_kill
- static void
- print_kill(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d8acbeec6093..f776c73fa04c 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1074,7 +1074,8 @@
- { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_prlimit64
--{ TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
-+{ TARGET_NR_prlimit64, "prlimit64" , NULL, print_prlimit64,
-+                    print_syscall_ret_prlimit64 },
- #endif
- #ifdef TARGET_NR_process_vm_readv
- { TARGET_NR_process_vm_readv, "process_vm_readv" , NULL, NULL, NULL },
 -- 
 2.39.2
 
