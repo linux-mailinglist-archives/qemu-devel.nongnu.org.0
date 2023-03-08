@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1966AFAEF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644466AFB6C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:43:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZhQy-00071k-MQ; Tue, 07 Mar 2023 19:13:32 -0500
+	id 1pZht0-0002F4-0I; Tue, 07 Mar 2023 19:42:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3JtMHZAsKChMtv3xA4xHC6zz77z4x.v759x5D-wxEx4676z6D.7Az@flex--ackerleytng.bounces.google.com>)
- id 1pZhQw-0006wO-Ft
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:13:30 -0500
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3JtMHZAsKChMtv3xA4xHC6zz77z4x.v759x5D-wxEx4676z6D.7Az@flex--ackerleytng.bounces.google.com>)
- id 1pZhQu-0007ou-Fi
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:13:30 -0500
-Received: by mail-yb1-xb49.google.com with SMTP id
- a137-20020a25ca8f000000b0091b90b20cd9so15801372ybg.6
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:13:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1678234406;
- h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=mmMlzzjnms9LP64W1EI4s9J2Aar/VS+/OpXG4YzMt1g=;
- b=DQipY5o6kwt2urMmc3ga0lGBCwLobU1Ifep42NoUNsZIX8Td2En8TfxAl5sbGzyNBB
- LIWsf3t77LSuCc0pGvjcZjIWULi+KlePCMmeN/QbMHXhC1Ixa4kOh+7152WsxGf2VC2d
- Ms1xKb6gHNm+/4O8RDcSjT+AzBbqUzpwW93RRiqm6+BJSL4+2HqKul5reyJxS2qUjQVn
- TjBmoEh1iNCS+lDVRczhTC0nw7EmFFlXj/fUYAlIAjyVh4kOpH9EZLnti4uHp00WyheW
- Vcv6eAX7BJrGIniLd7INUu4OdKbDatMzJF7cbOv0xYoxbaZDVLO31xC6G1jgMlMxSBxo
- JYtg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZhsj-0002D1-Pe
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:42:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZhsh-00059C-Ic
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:42:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678236129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5lOTMXcgnjz2mj+H8b7KETM14cPLs2Dgm6UbrM2tO4M=;
+ b=LOBnDWWJBn61RCp/1PFBlD/N5Z4sj/TFZD2Pb7oLmnB9nGhnKyIWVQBtyydt1Jq6iCmsi3
+ AoSENUn9KH6q0llXDGDmcSWJ7COX7zyLj2chba5sgu4Ly20TPvdUKoWQ0hiJquhWXUfm+k
+ CebEbM5AzYaJmRzUrlDWUSF/wqW8/Rs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-338-pIZoI80FP9-UKMwK_Kcoxg-1; Tue, 07 Mar 2023 19:42:08 -0500
+X-MC-Unique: pIZoI80FP9-UKMwK_Kcoxg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ q13-20020a5085cd000000b004af50de0bcfso21622892edh.15
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:42:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678234406;
- h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mmMlzzjnms9LP64W1EI4s9J2Aar/VS+/OpXG4YzMt1g=;
- b=Qwtodw0Y/aGVtuWwWVrPQyYerwZ696OnxKkP0NoScyShLgt+VYvoEhCIsMPFF5Cp7y
- jgPkWCSkSi0liXjR3dqIrqDumPli3+OxlbmLaHo6P13dAQ/G6MEHktu12ayJUfIiowsD
- n7jntXsaDJT0/BqRtFY0xzRB1LaH2df53fQEh8M7kSlamFkTCO/E6FsDhsAk1u1x3ntj
- gp3StX7tor4Jq41UW+QKdT/h4V+W4zjLFHhQPwCpGIFowBaj8z3ird5m8bDuxvGWdokI
- KmjWyhJm7cl4Ym0uRMOeYuMu2oq4hzfkgFipN3WI8Nqf7wVw4zZq7PYIF8mlcKh8tw1S
- Ye/A==
-X-Gm-Message-State: AO0yUKWOsF+VQtGuue0gSBLwmmL50zaNXdUjQDfuv16J68/Mp5mn8yws
- xkKU/P38LTS18v+aVx59vOE265zQEVKL/LcVBA==
-X-Google-Smtp-Source: AK7set9fM9oqHN6RTfjUl1adN2jlRFEqmkZWFcTMizE5EgbRXDHz1eOesgkblPkKuD6/cVScAGsGMu92G3PJwAt7ew==
-X-Received: from ackerleytng-cloudtop.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6902:145:b0:ac2:a7a7:23c3 with
- SMTP id p5-20020a056902014500b00ac2a7a723c3mr5937614ybh.12.1678234406173;
- Tue, 07 Mar 2023 16:13:26 -0800 (PST)
-Date: Wed, 08 Mar 2023 00:13:24 +0000
-In-Reply-To: <20230128140030.GB700688@chaop.bj.intel.com> (message from Chao
- Peng on Sat, 28 Jan 2023 22:00:30 +0800)
-Mime-Version: 1.0
-Message-ID: <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From: Ackerley Tng <ackerleytng@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: seanjc@google.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com, 
- wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org, 
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de, 
- naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com, 
- hughd@google.com, jlayton@kernel.org, bfields@fieldses.org, 
- akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
- steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
- vannapurve@google.com, yu.c.zhang@linux.intel.com, 
- kirill.shutemov@linux.intel.com, luto@kernel.org, jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- qperret@google.com, tabba@google.com, michael.roth@amd.com, mhocko@suse.com, 
- wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3JtMHZAsKChMtv3xA4xHC6zz77z4x.v759x5D-wxEx4676z6D.7Az@flex--ackerleytng.bounces.google.com;
- helo=mail-yb1-xb49.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ d=1e100.net; s=20210112; t=1678236127;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5lOTMXcgnjz2mj+H8b7KETM14cPLs2Dgm6UbrM2tO4M=;
+ b=sDkJG0nL8q90p4LXcUWPrz4Z6sJWf4/hHzv9C8FcqkQmuYaann9pHdz7y2fx+Vl6dd
+ QeRBdAhfyIU+upMOc/O1ru98DtnmUeFJWwF3Hz+/yv6vP9s5B9VwYrA4OCM2u27oHnMu
+ dNFrWV5YUiR1htCdqspy06lHeHKBNRo5NgFLeAk7Fyo1RFPkrZ5YTvRGGOG8ScLBtupa
+ +kmvu28edK9TSCVPe4JtZZ9/kU7tcxCmfkayYZJpBpJDj1O1fw28FDyXB16YZKLcdYBl
+ zeInKsQC+omp9E8jIBPccLlKSHNeXgpcgcV4LyQlydRk3JGcf8t9sTju7s6sAgRLbJtC
+ gN1g==
+X-Gm-Message-State: AO0yUKWNPituIeg3+xhC2jYsnc/eGGFfCL7sJr4cfrmLDmiJFzoPIDmh
+ Y4By3jYa4CAOFQnZQ2VN5HFkSGNuYPOJUFK3+OO2H2Tsh+nln2BweILuA7b8soosZKTjPv09jcA
+ j4WUHHWZHvJDRIIA=
+X-Received: by 2002:a17:907:7e8a:b0:908:7fed:f0f with SMTP id
+ qb10-20020a1709077e8a00b009087fed0f0fmr19841270ejc.42.1678236126843; 
+ Tue, 07 Mar 2023 16:42:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set/IseVmp0xw6etsm5hx/oIlylk3l+1gSmZY3TIGL1fyBAxSPoBE+QCTqEbBZ69tf7ObFEq0KQ==
+X-Received: by 2002:a17:907:7e8a:b0:908:7fed:f0f with SMTP id
+ qb10-20020a1709077e8a00b009087fed0f0fmr19841240ejc.42.1678236126548; 
+ Tue, 07 Mar 2023 16:42:06 -0800 (PST)
+Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
+ q8-20020a170906940800b008eb89a435c9sm6690731ejx.164.2023.03.07.16.42.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 16:42:05 -0800 (PST)
+Date: Tue, 7 Mar 2023 19:42:02 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yangming <yangming73@huawei.com>
+Cc: "david@redhat.com" <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "wangzhigang (O)" <wangzhigang17@huawei.com>,
+ "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+Subject: Re: [PATCH v2] virtio-balloon: optimize the virtio-balloon on the
+ ARM platform
+Message-ID: <20230307193739-mutt-send-email-mst@kernel.org>
+References: <20230301062642.1058-1-xiqi2@huawei.com>
+ <afd620a5e7c14a0794812e72ba1af545@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afd620a5e7c14a0794812e72ba1af545@huawei.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,78 +99,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+On Wed, Mar 01, 2023 at 06:38:13AM +0000, Yangming wrote:
+> Optimize the virtio-balloon feature on the ARM platform by adding
+> a variable to keep track of the current hot-plugged pc-dimm size,
+> instead of traversing the virtual machine's memory modules to count
+> the current RAM size during the balloon inflation or deflation
+> process. This variable can be updated only when plugging or unplugging
+> the device, which will result in an increase of approximately 60%
+> efficiency of balloon process on the ARM platform.
+> 
+> We tested the total amount of time required for the balloon inflation process on ARM:
+> inflate the balloon to 64GB of a 128GB guest under stress.
+> Before: 102 seconds
+> After: 42 seconds
+> 
+> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+> Signed-off-by: Ming Yang yangming73@huawei.com
+> ---
+> Refactor the code by adding comments and removing unnecessary code.
+> 
+>  hw/mem/pc-dimm.c           |  7 +++++++
+>  hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+>  include/hw/boards.h        |  2 ++
+>  3 files changed, 14 insertions(+), 28 deletions(-)
+> 
+> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+> index 50ef83215c..3f2734a267 100644
+> --- a/hw/mem/pc-dimm.c
+> +++ b/hw/mem/pc-dimm.c
+> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
+>  
+>      memory_device_plug(MEMORY_DEVICE(dimm), machine);
+>      vmstate_register_ram(vmstate_mr, DEVICE(dimm));
+> +    /* count only "real" DIMMs, not NVDIMMs */
+> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
+> +        machine->device_memory->dimm_size += vmstate_mr->size;
+> +    }
+>  }
+>  
+>  void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
 
-> On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
->> On Fri, Dec 02, 2022, Chao Peng wrote:
-> ...
->> Strongly prefer to use similar logic to existing code that detects wraps:
+vmstate_mr->size is Int128 you are not supposed to do math on it.
 
->> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+And generally poking at this struct is a bad idea.
 
->> This is also where I'd like to add the "gfn is aligned to offset" check,  
->> though
->> my brain is too fried to figure that out right now.
+I think memory_region_size will do what you want but not 100% sure.
+Maybe you need to look at the flatview ...
 
-> Used count_trailing_zeros() for this TODO, unsure we have other better
-> approach.
+David?
 
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index afc8c26fa652..fd34c5f7cd2f 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -56,6 +56,7 @@
->   #include <asm/processor.h>
->   #include <asm/ioctl.h>
->   #include <linux/uaccess.h>
-> +#include <linux/count_zeros.h>
 
->   #include "coalesced_mmio.h"
->   #include "async_pf.h"
-> @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct  
-> kvm_memslots *slots, int id,
->   	return false;
->   }
+> @@ -90,6 +94,9 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+>  
+>      memory_device_unplug(MEMORY_DEVICE(dimm), machine);
+>      vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
+> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
+> +        machine->device_memory->dimm_size -= vmstate_mr->size;
+> +    }
+>  }
+>  
+>  static int pc_dimm_slot2bitmap(Object *obj, void *opaque)
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index 746f07c4d2..2814a47cb1 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+>      memcpy(config_data, &config, virtio_balloon_config_size(dev));
+>  }
+>  
+> -static int build_dimm_list(Object *obj, void *opaque)
+> -{
+> -    GSList **list = opaque;
+> -
+> -    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
+> -        DeviceState *dev = DEVICE(obj);
+> -        if (dev->realized) { /* only realized DIMMs matter */
+> -            *list = g_slist_prepend(*list, dev);
+> -        }
+> -    }
+> -
+> -    object_child_foreach(obj, build_dimm_list, opaque);
+> -    return 0;
+> -}
+> -
+>  static ram_addr_t get_current_ram_size(void)
+>  {
+> -    GSList *list = NULL, *item;
+> -    ram_addr_t size = current_machine->ram_size;
+> -
+> -    build_dimm_list(qdev_get_machine(), &list);
+> -    for (item = list; item; item = g_slist_next(item)) {
+> -        Object *obj = OBJECT(item->data);
+> -        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
+> -            size += object_property_get_int(obj, PC_DIMM_SIZE_PROP,
+> -                                            &error_abort);
+> -        }
+> +    MachineState *machine = MACHINE(qdev_get_machine());
+> +    if (machine->device_memory) {
+> +        return machine->ram_size + machine->device_memory->dimm_size;
+> +    } else {
+> +        return machine->ram_size;
+>      }
+> -    g_slist_free(list);
+> -
+> -    return size;
+>  }
+>  
+>  static bool virtio_balloon_page_poison_support(void *opaque)
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 6fbbfd56c8..397ec10468 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -292,10 +292,12 @@ struct MachineClass {
+>   * @base: address in guest physical address space where the memory
+>   * address space for memory devices starts
+>   * @mr: address space container for memory devices
+> + * @dimm_size: the sum of plugged DIMMs' sizes
+>   */
+>  typedef struct DeviceMemoryState {
+>      hwaddr base;
+>      MemoryRegion mr;
+> +    ram_addr_t dimm_size;
+>  } DeviceMemoryState;
+>  
+>  /**
+> -- 
+> 2.33.0
 
-> +/*
-> + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> + */
-> +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> +{
-> +	if (!offset)
-> +		return true;
-> +	if (!gpa)
-> +		return false;
-> +
-> +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-
-Perhaps we could do something like
-
-#define lowest_set_bit(val) (val & -val)
-
-and use
-
-return lowest_set_bit(offset) >= lowest_set_bit(gpa);
-
-Please help me to understand: why must ALIGNMENT(offset) >=
-ALIGNMENT(gpa)? Why is it not sufficient to have both gpa and offset be
-aligned to PAGE_SIZE?
-
-> +}
-> +
->   /*
->    * Allocate some memory and give it an address in the guest physical  
-> address
->    * space.
-> @@ -2128,7 +2142,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
->   	if (mem->flags & KVM_MEM_PRIVATE &&
->   	    (mem->restrictedmem_offset & (PAGE_SIZE - 1) ||
->   	     mem->restrictedmem_offset + mem->memory_size <  
-> mem->restrictedmem_offset ||
-> -	     0 /* TODO: require gfn be aligned with restricted offset */))
-> +	     !kvm_check_rmem_offset_alignment(mem->restrictedmem_offset,
-> +					      mem->guest_phys_addr)))
->   		return -EINVAL;
->   	if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
->   		return -EINVAL;
 
