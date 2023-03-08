@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03E66AFBD9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6136AFBCE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:11:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiKZ-0007oN-OJ; Tue, 07 Mar 2023 20:10:59 -0500
+	id 1pZiKc-0007wP-Fb; Tue, 07 Mar 2023 20:11:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiKY-0007gr-0J
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:10:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiKa-0007w3-Oh
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiKV-0001T7-P1
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:10:57 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiKY-0001Tu-Ll
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237854;
+ s=mimecast20190719; t=1678237858;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1+FyhwZC3NubGUPdRNhrX56hX1Uqb7224tN6zPdm+hQ=;
- b=JSeazQWWs21FT1XqcHZ0goLQ3PLGbLNZCf3Jpz8rysK7J4yfJ1v25/tiSG8iQIZnb8CBM2
- KCxalNPci/Tk0VnWd69n/RP+f7ywcwKpK6lI76ZYmkz6yXQI2Ip7ifdam9g2MTcv+b5El7
- /DcMEkBs2NxUFwxyhnjdbZ6IInU+x/4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=McBtSOGEBTJvsblVq2tLEPlzp+2+oHjiJJpbaZ1J1gc=;
+ b=QARiOaS+JBgS9WL4xhWyLxyaS5udh0DSufG+JUElefyIRaJAnruns5tu2CMOESt4Cx3ta4
+ N1XUDErawdmQyhnbMMoIu8Yh198gtjA2qZhxMB/sNGVBV5CMbfEVoTI/TS7E/rgqSEV2oX
+ mX52L1IMWvFK6KHzzzIjDzNtsie7FDw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-VvDcqF2yMdaDNcq6gzT-LA-1; Tue, 07 Mar 2023 20:10:53 -0500
-X-MC-Unique: VvDcqF2yMdaDNcq6gzT-LA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- bx25-20020a5d5b19000000b002c7ce4ce3c3so2599715wrb.13
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:10:52 -0800 (PST)
+ us-mta-67-ZDQD6XP2NkSWlowl8fgffQ-1; Tue, 07 Mar 2023 20:10:56 -0500
+X-MC-Unique: ZDQD6XP2NkSWlowl8fgffQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j6-20020a05600c1c0600b003eaf882cb85so113772wms.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:10:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237851;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1+FyhwZC3NubGUPdRNhrX56hX1Uqb7224tN6zPdm+hQ=;
- b=zyfkLWJC9ldQojYJmVzFRipOCkHwyrwsXEgW4SlEV/jnC2QX2ede+MoZpMRhduNMfH
- 1kPOLslxKfrvY+D0P9bBLBmol9mw5RdjgyJpmi+r1Nc6lAbd15flnFU3NWXUtQ7TcUUU
- jp5bdNCpsOd2mzmZ5c8MBbaSF7IJAyZ1zkovzihOyEJX2Pd2xMibvKunPG7UccL7BKHy
- 80zMJwztmo9y0j4zGG29KqHjoZflMwe44Y5iVPAkbJRoeMIHwQ8ElSqlDqQvg9pG7hzO
- h+HELGPP75tAJa1gzPf/i3ClZqGm7oEuP/bJ9nR8W1SDSYPhhdMvUQ9kPeFz9380Z+oX
- fXbg==
-X-Gm-Message-State: AO0yUKWud24tXv1mENoP5kqZ7gaQLd1ru6so8DWE1NgU1FbrnZ50gfEt
- QO020uXxm8WYfdpMmq38AQqrTL8OG5TJ4Y339fRiNkza2eokyAR2mId2c9IZ9IN0g0LW65FG/7p
- OqAgSzPcifUlZ2rleDxn/p7z6r7q0/0Yy56AKfu62EroiHonevu0Rh9eHqTYaoZCIWt9i
-X-Received: by 2002:a05:600c:4509:b0:3eb:32ff:da8 with SMTP id
- t9-20020a05600c450900b003eb32ff0da8mr15515608wmo.16.1678237851254; 
- Tue, 07 Mar 2023 17:10:51 -0800 (PST)
-X-Google-Smtp-Source: AK7set/vKjMygiGqKRl5bWb2q+QXu5McvPn8Y97vao79VWHKv3J+JW7nuvddYZsOVJMK//vetoH/bg==
-X-Received: by 2002:a05:600c:4509:b0:3eb:32ff:da8 with SMTP id
- t9-20020a05600c450900b003eb32ff0da8mr15515578wmo.16.1678237850748; 
- Tue, 07 Mar 2023 17:10:50 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678237854;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=McBtSOGEBTJvsblVq2tLEPlzp+2+oHjiJJpbaZ1J1gc=;
+ b=yu5qlTcst+3YRKSSDtALrkYA1N+qgCY3/SUtCdQ5nliSxTqq/+n83TQk+FvSyVeh0y
+ p/Wnw7bB8qyKjCygRmK6gLcQSm6zVN7c/hXke/YHJClPSVtFCL8IQ44Mp3Sm7pujhgRM
+ yv8NGQo/owW8ITXEUrSiPDJtvJQ7gABc71KhY4yEwwHN7iKp983fm5eCkyxBbz7H4xXH
+ ZAc1NFW3/zriQ4nzKHpmFizn21owDtolIiGbcXdWHJfjtW3TJtaLli9K5wLPixqlN1IX
+ ZRZOmSukgc2JS001MUm31r/BskOSH9KBxRztKJ00w+jGdt0IgjcBu9i63lRclQ7MT3Vj
+ ck+A==
+X-Gm-Message-State: AO0yUKVLhIYx+EpD+gz/IAwmAonLKZ5agrDW++by41VB7SYmAWqzDgI1
+ u6BC1UefxCMBeybBJmP7MgUO00Yyo3TuMzhrishSAbUsVU9IVf1qH9U3hjj49Tjg7ZPcaI62tYV
+ UaREjN+4P2AAesKnMgRWMTx/MSkL+3mhEqMz2iY3qVOMObZPTrkYygN4OKSrjEfelSYnM
+X-Received: by 2002:a5d:624a:0:b0:2c8:42b5:8022 with SMTP id
+ m10-20020a5d624a000000b002c842b58022mr8288236wrv.59.1678237854319; 
+ Tue, 07 Mar 2023 17:10:54 -0800 (PST)
+X-Google-Smtp-Source: AK7set8UtbTy9SVhu0dz4ps+FopnDKgWKrkS6ZWJgj9tr3J3ZX6xAkLyF68+uV4ZMxpWkuZKeVXeBA==
+X-Received: by 2002:a5d:624a:0:b0:2c8:42b5:8022 with SMTP id
+ m10-20020a5d624a000000b002c842b58022mr8288217wrv.59.1678237853973; 
+ Tue, 07 Mar 2023 17:10:53 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- o11-20020a05600c4fcb00b003e8f0334db8sm19787595wmq.5.2023.03.07.17.10.49
+ x5-20020a5d4445000000b002c70a0e2cd0sm13666743wrr.101.2023.03.07.17.10.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:10:50 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:10:48 -0500
+ Tue, 07 Mar 2023 17:10:53 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:10:51 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/73] virtio,pc,pci: features, fixes
-Message-ID: <cover.1678237635.git.mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ zhenwei pi <pizhenwei@bytedance.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
+Subject: [PULL 01/73] cryptodev: Introduce cryptodev.json
+Message-ID: <14c9fd1673ac8c6855a93c882870da8403b5a5d6.1678237635.git.mst@redhat.com>
+References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1678237635.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,224 +102,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
+From: zhenwei pi <pizhenwei@bytedance.com>
 
-  Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
+Introduce QCryptodevBackendType in cryptodev.json, also apply this to
+related codes. Then we can drop 'enum CryptoDevBackendOptionsType'.
 
-are available in the Git repository at:
+Note that `CRYPTODEV_BACKEND_TYPE_NONE` is *NOT* used by anywhere, so
+drop it(no 'none' enum in QCryptodevBackendType).
 
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 52062b213c13bd7fff966d36b554c04609c925d6:
-
-  virtio: refresh vring region cache after updating a virtqueue size (2023-03-07 19:51:07 -0500)
-
-----------------------------------------------------------------
-virtio,pc,pci: features, fixes
-
-Several features that landed at the last possible moment:
-
-Passthrough HDM decoder emulation
-Refactor cryptodev
-RAS error emulation and injection
-acpi-index support on non-hotpluggable slots
-Dynamically switch to vhost shadow virtqueues at vdpa net migration
-
-Plus a couple of bugfixes that look important to have in the release.
-
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+Message-Id: <20230301105847.253084-2-pizhenwei@bytedance.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-----------------------------------------------------------------
-Albert Esteve (1):
-      hw/virtio/vhost-user: avoid using unitialized errp
-
-Carlos López (2):
-      virtio: fix reachable assertion due to stale value of cached region size
-      virtio: refresh vring region cache after updating a virtqueue size
-
-Eugenio Pérez (14):
-      vdpa net: move iova tree creation from init to start
-      vdpa: Remember last call fd set
-      vdpa: Negotiate _F_SUSPEND feature
-      vdpa: rewind at get_base, not set_base
-      vdpa: add vhost_vdpa->suspended parameter
-      vdpa: add vhost_vdpa_suspend
-      vdpa: move vhost reset after get vring base
-      vdpa: add vdpa net migration state notifier
-      vdpa: disable RAM block discard only for the first device
-      vdpa net: block migration if the device has CVQ
-      vdpa: block migration if device has unsupported features
-      vdpa: block migration if SVQ does not admit a feature
-      vdpa net: allow VHOST_F_LOG_ALL
-      vdpa: return VHOST_F_LOG_ALL in vhost-vdpa devices
-
-Igor Mammedov (34):
-      Revert "tests/qtest: Check for devices in bios-tables-test"
-      tests: acpi: whitelist new q35.noacpihp test and pc.hpbrroot
-      tests: acpi: add test_acpi_q35_tcg_no_acpi_hotplug test and extend test_acpi_piix4_no_acpi_pci_hotplug
-      tests: acpi: update expected blobs
-      tests: acpi: whitelist q35/DSDT.multi-bridge before extending testcase
-      tests: acpi: extend multi-bridge case with case 'root-port,id=HOHP,hotplug=off root-port,bus=NOHP'
-      x86: pcihp: fix missing PCNT callchain when intermediate root-port has 'hotplug=off' set
-      tests: acpi: whitelist pc/DSDT.hpbrroot and pc/DSDT.hpbridge tests
-      x86: pcihp: fix missing bridge AML when intermediate root-port has 'hotplug=off' set
-      tests: acpi: update expected blobs
-      pcihp: piix4: do not redirect hotplug controller to piix4 when ACPI hotplug is disabled
-      pci: fix 'hotplugglable' property behavior
-      tests: acpi: whitelist DSDT blobs before isolating PCI _DSM func 0 prolog
-      pcihp: move PCI _DSM function 0 prolog into separate function
-      tests: acpi: update expected blobs
-      tests: acpi: whitelist DSDT before adding EDSM method
-      acpi: pci: add EDSM method to DSDT
-      tests: acpi: update expected blobs
-      tests: acpi: whitelist DSDT before adding device with acpi-index to testcases
-      tests: acpi: add device with acpi-index on non-hotpluggble bus
-      acpi: pci: support acpi-index for non-hotpluggable devices
-      tests: acpi: update expected blobs
-      tests: acpi: whitelist DSDT before exposing non zero functions
-      acpi: pci: describe all functions on populated slots
-      tests: acpi: update expected blobs
-      tests: acpi: whitelist DSDT before adding non-0 function device with acpi-index to testcases
-      tests: acpi: add non zero function device with acpi-index on non-hotpluggble bus
-      tests: acpi: update expected blobs
-      pci: move acpi-index uniqueness check to generic PCI device code
-      acpi: pci: drop BSEL usage when deciding that device isn't hotpluggable
-      acpi: pci: move BSEL into build_append_pcihp_slots()
-      acpi: pci: move out ACPI PCI hotplug generator from generic slot generator build_append_pci_bus_devices()
-      pcihp: move fields enabling hotplug into AcpiPciHpState
-      pcihp: add ACPI PCI hotplug specific is_hotpluggable_bus() callback
-
-Jonathan Cameron (10):
-      hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
-      hw/pci/aer: Add missing routing for AER errors
-      hw/pci-bridge/cxl_root_port: Wire up AER
-      hw/pci-bridge/cxl_root_port: Wire up MSI
-      hw/mem/cxl-type3: Add AER extended capability
-      hw/cxl: Fix endian issues in CXL RAS capability defaults / masks
-      hw/pci/aer: Make PCIE AER error injection facility available for other emulation to use.
-      hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
-      hw/pci: Add pcie_count_ds_port() and pcie_find_port_first() helpers
-      hw/pxb-cxl: Support passthrough HDM Decoders unless overridden
-
-Zhenwei Pi (12):
-      cryptodev: Introduce cryptodev.json
-      cryptodev: Remove 'name' & 'model' fields
-      cryptodev: Introduce cryptodev alg type in QAPI
-      cryptodev: Introduce server type in QAPI
-      cryptodev: Introduce 'query-cryptodev' QMP command
-      cryptodev-builtin: Detect akcipher capability
-      hmp: add cryptodev info command
-      cryptodev: Use CryptoDevBackendOpInfo for operation
-      cryptodev: Account statistics
-      cryptodev: support QoS
-      cryptodev: Support query-stats QMP command
-      MAINTAINERS: add myself as the maintainer for cryptodev
-
- qapi/cryptodev.json                           |  89 ++++++
- qapi/cxl.json                                 | 128 ++++++++
- qapi/qapi-schema.json                         |   2 +
- qapi/qom.json                                 |   8 +-
- qapi/stats.json                               |  10 +-
- hw/pci/pci-internal.h                         |   1 -
- include/hw/acpi/ich9.h                        |   1 +
- include/hw/acpi/pcihp.h                       |  11 +-
- include/hw/acpi/piix4.h                       |   2 -
- include/hw/cxl/cxl.h                          |   1 +
- include/hw/cxl/cxl_component.h                |  27 ++
- include/hw/cxl/cxl_device.h                   |  11 +
- include/hw/hotplug.h                          |   2 +
- include/hw/pci/pci_bridge.h                   |   1 +
- include/hw/pci/pcie_aer.h                     |   1 +
- include/hw/pci/pcie_port.h                    |   2 +
- include/hw/pci/pcie_regs.h                    |   3 +
- include/hw/qdev-core.h                        |  13 +-
- include/hw/virtio/vhost-backend.h             |   4 +
- include/hw/virtio/vhost-vdpa.h                |   3 +
- include/monitor/hmp.h                         |   1 +
- include/sysemu/cryptodev.h                    | 113 ++++---
- backends/cryptodev-builtin.c                  |  42 ++-
- backends/cryptodev-hmp-cmds.c                 |  54 ++++
- backends/cryptodev-lkcf.c                     |  19 +-
- backends/cryptodev-vhost-user.c               |  13 +-
- backends/cryptodev-vhost.c                    |   4 +-
- backends/cryptodev.c                          | 433 ++++++++++++++++++++++++--
- hw/acpi/acpi-pci-hotplug-stub.c               |   9 +-
- hw/acpi/ich9.c                                |  21 +-
- hw/acpi/pci-bridge.c                          |  14 +-
- hw/acpi/pcihp.c                               | 112 ++-----
- hw/acpi/piix4.c                               |  33 +-
- hw/cxl/cxl-component-utils.c                  |  20 +-
- hw/cxl/cxl-host.c                             |  31 +-
- hw/i386/acpi-build.c                          | 179 ++++++++---
- hw/isa/lpc_ich9.c                             |   1 +
- hw/mem/cxl_type3.c                            | 294 +++++++++++++++++
- hw/mem/cxl_type3_stubs.c                      |  17 +
- hw/pci-bridge/cxl_root_port.c                 |  64 ++++
- hw/pci-bridge/pci_expander_bridge.c           |  44 ++-
- hw/pci/pci.c                                  |  57 ++++
- hw/pci/pcie_aer.c                             |  14 +-
- hw/pci/pcie_port.c                            |  46 +++
- hw/s390x/virtio-ccw.c                         |   1 +
- hw/virtio/vhost-shadow-virtqueue.c            |   8 +-
- hw/virtio/vhost-user.c                        |   4 +-
- hw/virtio/vhost-vdpa.c                        | 130 +++++---
- hw/virtio/vhost.c                             |   3 +
- hw/virtio/virtio-crypto.c                     |  48 ++-
- hw/virtio/virtio-mmio.c                       |   5 +-
- hw/virtio/virtio-pci.c                        |   1 +
- hw/virtio/virtio.c                            |  11 +-
- net/vhost-vdpa.c                              | 198 ++++++++++--
- stats/stats-hmp-cmds.c                        |   5 +
- stats/stats-qmp-cmds.c                        |   2 +
- tests/qtest/bios-tables-test.c                | 125 +++-----
- MAINTAINERS                                   |   2 +
- backends/meson.build                          |   1 +
- hmp-commands-info.hx                          |  14 +
- hw/mem/meson.build                            |   2 +
- hw/virtio/trace-events                        |   1 +
- qapi/meson.build                              |   2 +
- tests/data/acpi/pc/DSDT                       | Bin 6360 -> 6488 bytes
- tests/data/acpi/pc/DSDT.acpierst              | Bin 6283 -> 6411 bytes
- tests/data/acpi/pc/DSDT.acpihmat              | Bin 7685 -> 7813 bytes
- tests/data/acpi/pc/DSDT.bridge                | Bin 12487 -> 12615 bytes
- tests/data/acpi/pc/DSDT.cphp                  | Bin 6824 -> 6952 bytes
- tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8014 -> 8142 bytes
- tests/data/acpi/pc/DSDT.hpbridge              | Bin 6289 -> 6451 bytes
- tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3081 -> 3343 bytes
- tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6432 -> 6560 bytes
- tests/data/acpi/pc/DSDT.memhp                 | Bin 7719 -> 7847 bytes
- tests/data/acpi/pc/DSDT.nohpet                | Bin 6218 -> 6346 bytes
- tests/data/acpi/pc/DSDT.numamem               | Bin 6366 -> 6494 bytes
- tests/data/acpi/pc/DSDT.roothp                | Bin 9745 -> 9873 bytes
- tests/data/acpi/q35/DSDT                      | Bin 8252 -> 8361 bytes
- tests/data/acpi/q35/DSDT.acpierst             | Bin 8269 -> 8378 bytes
- tests/data/acpi/q35/DSDT.acpihmat             | Bin 9577 -> 9686 bytes
- tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8531 -> 8640 bytes
- tests/data/acpi/q35/DSDT.applesmc             | Bin 8298 -> 8407 bytes
- tests/data/acpi/q35/DSDT.bridge               | Bin 11481 -> 11590 bytes
- tests/data/acpi/q35/DSDT.core-count2          | Bin 32392 -> 32501 bytes
- tests/data/acpi/q35/DSDT.cphp                 | Bin 8716 -> 8825 bytes
- tests/data/acpi/q35/DSDT.cxl                  | Bin 9564 -> 9673 bytes
- tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9906 -> 10015 bytes
- tests/data/acpi/q35/DSDT.ipmibt               | Bin 8327 -> 8436 bytes
- tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8340 -> 8449 bytes
- tests/data/acpi/q35/DSDT.ivrs                 | Bin 8269 -> 8378 bytes
- tests/data/acpi/q35/DSDT.memhp                | Bin 9611 -> 9720 bytes
- tests/data/acpi/q35/DSDT.mmio64               | Bin 9382 -> 9491 bytes
- tests/data/acpi/q35/DSDT.multi-bridge         | Bin 12337 -> 12770 bytes
- tests/data/acpi/q35/DSDT.noacpihp             | Bin 0 -> 8248 bytes
- tests/data/acpi/q35/DSDT.nohpet               | Bin 8110 -> 8219 bytes
- tests/data/acpi/q35/DSDT.numamem              | Bin 8258 -> 8367 bytes
- tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8353 -> 8462 bytes
- tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8858 -> 8967 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8884 -> 8993 bytes
- tests/data/acpi/q35/DSDT.viot                 | Bin 9361 -> 9470 bytes
- tests/data/acpi/q35/DSDT.xapic                | Bin 35615 -> 35724 bytes
- 100 files changed, 2043 insertions(+), 475 deletions(-)
+---
+ qapi/cryptodev.json             | 20 ++++++++++++++++++++
+ qapi/qapi-schema.json           |  1 +
+ include/sysemu/cryptodev.h      | 11 ++---------
+ backends/cryptodev-builtin.c    |  2 +-
+ backends/cryptodev-lkcf.c       |  2 +-
+ backends/cryptodev-vhost-user.c |  4 ++--
+ backends/cryptodev-vhost.c      |  4 ++--
+ MAINTAINERS                     |  1 +
+ qapi/meson.build                |  1 +
+ 9 files changed, 31 insertions(+), 15 deletions(-)
  create mode 100644 qapi/cryptodev.json
- create mode 100644 qapi/cxl.json
- create mode 100644 backends/cryptodev-hmp-cmds.c
- create mode 100644 hw/mem/cxl_type3_stubs.c
- create mode 100644 tests/data/acpi/q35/DSDT.noacpihp
+
+diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
+new file mode 100644
+index 0000000000..b65edbe183
+--- /dev/null
++++ b/qapi/cryptodev.json
+@@ -0,0 +1,20 @@
++# -*- Mode: Python -*-
++# vim: filetype=python
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or later.
++# See the COPYING file in the top-level directory.
++
++##
++# @QCryptodevBackendType:
++#
++# The crypto device backend type
++#
++# @builtin: the QEMU builtin support
++# @vhost-user: vhost-user
++# @lkcf: Linux kernel cryptographic framework
++#
++# Since: 8.0
++##
++{ 'enum': 'QCryptodevBackendType',
++  'prefix': 'QCRYPTODEV_BACKEND_TYPE',
++  'data': ['builtin', 'vhost-user', 'lkcf']}
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index f000b90744..1e923945db 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -95,3 +95,4 @@
+ { 'include': 'pci.json' }
+ { 'include': 'stats.json' }
+ { 'include': 'virtio.json' }
++{ 'include': 'cryptodev.json' }
+diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+index cf9b3f07fe..8d2adda974 100644
+--- a/include/sysemu/cryptodev.h
++++ b/include/sysemu/cryptodev.h
+@@ -25,6 +25,7 @@
+ 
+ #include "qemu/queue.h"
+ #include "qom/object.h"
++#include "qapi/qapi-types-cryptodev.h"
+ 
+ /**
+  * CryptoDevBackend:
+@@ -215,16 +216,8 @@ struct CryptoDevBackendClass {
+                  void *opaque);
+ };
+ 
+-typedef enum CryptoDevBackendOptionsType {
+-    CRYPTODEV_BACKEND_TYPE_NONE = 0,
+-    CRYPTODEV_BACKEND_TYPE_BUILTIN = 1,
+-    CRYPTODEV_BACKEND_TYPE_VHOST_USER = 2,
+-    CRYPTODEV_BACKEND_TYPE_LKCF = 3,
+-    CRYPTODEV_BACKEND_TYPE__MAX,
+-} CryptoDevBackendOptionsType;
+-
+ struct CryptoDevBackendClient {
+-    CryptoDevBackendOptionsType type;
++    QCryptodevBackendType type;
+     char *model;
+     char *name;
+     char *info_str;
+diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
+index cda6ca3b71..8c7c10847d 100644
+--- a/backends/cryptodev-builtin.c
++++ b/backends/cryptodev-builtin.c
+@@ -76,7 +76,7 @@ static void cryptodev_builtin_init(
+               "cryptodev-builtin", NULL);
+     cc->info_str = g_strdup_printf("cryptodev-builtin0");
+     cc->queue_index = 0;
+-    cc->type = CRYPTODEV_BACKEND_TYPE_BUILTIN;
++    cc->type = QCRYPTODEV_BACKEND_TYPE_BUILTIN;
+     backend->conf.peers.ccs[0] = cc;
+ 
+     backend->conf.crypto_services =
+diff --git a/backends/cryptodev-lkcf.c b/backends/cryptodev-lkcf.c
+index 133bd706a4..91e02c0df9 100644
+--- a/backends/cryptodev-lkcf.c
++++ b/backends/cryptodev-lkcf.c
+@@ -226,7 +226,7 @@ static void cryptodev_lkcf_init(CryptoDevBackend *backend, Error **errp)
+     cc = cryptodev_backend_new_client("cryptodev-lkcf", NULL);
+     cc->info_str = g_strdup_printf("cryptodev-lkcf0");
+     cc->queue_index = 0;
+-    cc->type = CRYPTODEV_BACKEND_TYPE_LKCF;
++    cc->type = QCRYPTODEV_BACKEND_TYPE_LKCF;
+     backend->conf.peers.ccs[0] = cc;
+ 
+     backend->conf.crypto_services =
+diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
+index ab3028e045..c165a1b1d6 100644
+--- a/backends/cryptodev-vhost-user.c
++++ b/backends/cryptodev-vhost-user.c
+@@ -67,7 +67,7 @@ cryptodev_vhost_user_get_vhost(
+ {
+     CryptoDevBackendVhostUser *s =
+                       CRYPTODEV_BACKEND_VHOST_USER(b);
+-    assert(cc->type == CRYPTODEV_BACKEND_TYPE_VHOST_USER);
++    assert(cc->type == QCRYPTODEV_BACKEND_TYPE_VHOST_USER);
+     assert(queue < MAX_CRYPTO_QUEUE_NUM);
+ 
+     return s->vhost_crypto[queue];
+@@ -203,7 +203,7 @@ static void cryptodev_vhost_user_init(
+         cc->info_str = g_strdup_printf("cryptodev-vhost-user%zu to %s ",
+                                        i, chr->label);
+         cc->queue_index = i;
+-        cc->type = CRYPTODEV_BACKEND_TYPE_VHOST_USER;
++        cc->type = QCRYPTODEV_BACKEND_TYPE_VHOST_USER;
+ 
+         backend->conf.peers.ccs[i] = cc;
+ 
+diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
+index 74ea0ad63d..93523732f3 100644
+--- a/backends/cryptodev-vhost.c
++++ b/backends/cryptodev-vhost.c
+@@ -127,7 +127,7 @@ cryptodev_get_vhost(CryptoDevBackendClient *cc,
+ 
+     switch (cc->type) {
+ #if defined(CONFIG_VHOST_USER) && defined(CONFIG_LINUX)
+-    case CRYPTODEV_BACKEND_TYPE_VHOST_USER:
++    case QCRYPTODEV_BACKEND_TYPE_VHOST_USER:
+         vhost_crypto = cryptodev_vhost_user_get_vhost(cc, b, queue);
+         break;
+ #endif
+@@ -195,7 +195,7 @@ int cryptodev_vhost_start(VirtIODevice *dev, int total_queues)
+          * because vhost user doesn't interrupt masking/unmasking
+          * properly.
+          */
+-        if (cc->type == CRYPTODEV_BACKEND_TYPE_VHOST_USER) {
++        if (cc->type == QCRYPTODEV_BACKEND_TYPE_VHOST_USER) {
+             dev->use_guest_notifier_mask = false;
+         }
+      }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5340de0515..cbb05de8eb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2879,6 +2879,7 @@ M: Gonglei <arei.gonglei@huawei.com>
+ S: Maintained
+ F: include/sysemu/cryptodev*.h
+ F: backends/cryptodev*.c
++F: qapi/cryptodev.json
+ 
+ Python library
+ M: John Snow <jsnow@redhat.com>
+diff --git a/qapi/meson.build b/qapi/meson.build
+index fbdb442fdf..1c37ae7491 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -56,6 +56,7 @@ if have_system
+   qapi_all_modules += [
+     'acpi',
+     'audio',
++    'cryptodev',
+     'qdev',
+     'pci',
+     'rdma',
+-- 
+MST
 
 
