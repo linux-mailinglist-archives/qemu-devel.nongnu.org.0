@@ -2,39 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAC16B0F8B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91366B0F89
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:00:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8b-0004sS-4n; Wed, 08 Mar 2023 11:59:37 -0500
+	id 1pZx8h-0004xM-LV; Wed, 08 Mar 2023 11:59:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8S-0004iN-I4; Wed, 08 Mar 2023 11:59:28 -0500
+ id 1pZx8b-0004tQ-Ge; Wed, 08 Mar 2023 11:59:37 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8M-00047g-3m; Wed, 08 Mar 2023 11:59:28 -0500
+ id 1pZx8Z-0004C3-Qa; Wed, 08 Mar 2023 11:59:37 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 146F8400E8;
- Wed,  8 Mar 2023 19:58:57 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id EFA3A40113;
+ Wed,  8 Mar 2023 19:58:58 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id DA5F513A;
- Wed,  8 Mar 2023 19:58:55 +0300 (MSK)
-Received: (nullmailer pid 2098371 invoked by uid 1000);
+ by tsrv.corpit.ru (Postfix) with SMTP id AF6A81FD;
+ Wed,  8 Mar 2023 19:58:57 +0300 (MSK)
+Received: (nullmailer pid 2098389 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:55 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 38/47] hw/timer/hpet: Fix expiration time overflow
-Date: Wed,  8 Mar 2023 19:57:41 +0300
-Message-Id: <20230308165815.2098148-38-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 47/47] build-sys: fix crlf-ending C code
+Date: Wed,  8 Mar 2023 19:57:50 +0300
+Message-Id: <20230308165815.2098148-47-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -58,83 +62,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The expiration time provided for timer_mod() can overflow if a
-ridiculously large value is set to the comparator register. The
-resulting value can represent a past time after rounded, forcing the
-timer to fire immediately. If the timer is configured as periodic, it
-will rearm the timer again, and form an endless loop.
+On msys2, the shader-to-C script produces bad C:
+./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " character [-Werror]
 
-Check if the expiration value will overflow, and if it will, stop the
-timer instead of rearming the timer with the overflowed time.
+Fix it by changing the line ending from crlf to lf, and convert the
+script to Python (qemu build seems perl-free after that).
 
-This bug was found by Alexander Bulekov when fuzzing igb, a new
-network device emulation:
-https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
-
-The fixed test case is:
-fuzz/crash_2d7036941dcda1ad4380bb8a9174ed0c949bcefd
-
-Fixes: 16b29ae180 ("Add HPET emulation to qemu (Beth Kon)")
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20230131030037.18856-1-akihiko.odaki@daynix.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 37d2bcbc2a4e9c2e9061bec72a32c7e49b9f81ec)
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230110132700.833690-2-marcandre.lureau@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230124180127.1881110-6-alex.bennee@linaro.org>
+(cherry picked from commit e2c4012bc35894d60e54bd077ceaaae565d43c15)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/timer/hpet.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ meson.build              |  2 +-
+ scripts/shaderinclude.pl | 16 ----------------
+ scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
+ 3 files changed, 27 insertions(+), 17 deletions(-)
+ delete mode 100644 scripts/shaderinclude.pl
+ create mode 100644 scripts/shaderinclude.py
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 9520471be2..5f88ffdef8 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -352,6 +352,16 @@ static const VMStateDescription vmstate_hpet = {
-     }
- };
+diff --git a/meson.build b/meson.build
+index 5c6b5a1c75..b88867ca9d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2777,7 +2777,7 @@ config_host_data.set('CONFIG_SLIRP', slirp.found())
+ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
  
-+static void hpet_arm(HPETTimer *t, uint64_t ticks)
-+{
-+    if (ticks < ns_to_ticks(INT64_MAX / 2)) {
-+        timer_mod(t->qemu_timer,
-+                  qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ticks_to_ns(ticks));
-+    } else {
-+        timer_del(t->qemu_timer);
-+    }
-+}
+ hxtool = find_program('scripts/hxtool')
+-shaderinclude = find_program('scripts/shaderinclude.pl')
++shaderinclude = find_program('scripts/shaderinclude.py')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
+                      meson.current_source_dir() / 'scripts/qapi/commands.py',
+diff --git a/scripts/shaderinclude.pl b/scripts/shaderinclude.pl
+deleted file mode 100644
+index cd3bb40b12..0000000000
+--- a/scripts/shaderinclude.pl
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#!/usr/bin/env perl
+-use strict;
+-use warnings;
+-
+-my $file = shift;
+-open FILE, "<", $file or die "open $file: $!";
+-my $name = $file;
+-$name =~ s|.*/||;
+-$name =~ s/[-.]/_/g;
+-print "static GLchar ${name}_src[] =\n";
+-while (<FILE>) {
+-    chomp;
+-    printf "    \"%s\\n\"\n", $_;
+-}
+-print "    \"\\n\";\n";
+-close FILE;
+diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
+new file mode 100644
+index 0000000000..ab2aade2cd
+--- /dev/null
++++ b/scripts/shaderinclude.py
+@@ -0,0 +1,26 @@
++#!/usr/bin/env python3
++#
++# Copyright (C) 2023 Red Hat, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
- /*
-  * timer expiration callback
-  */
-@@ -374,13 +384,11 @@ static void hpet_timer(void *opaque)
-             }
-         }
-         diff = hpet_calculate_diff(t, cur_tick);
--        timer_mod(t->qemu_timer,
--                       qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + (int64_t)ticks_to_ns(diff));
-+        hpet_arm(t, diff);
-     } else if (t->config & HPET_TN_32BIT && !timer_is_periodic(t)) {
-         if (t->wrap_flag) {
-             diff = hpet_calculate_diff(t, cur_tick);
--            timer_mod(t->qemu_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--                           (int64_t)ticks_to_ns(diff));
-+            hpet_arm(t, diff);
-             t->wrap_flag = 0;
-         }
-     }
-@@ -407,8 +415,7 @@ static void hpet_set_timer(HPETTimer *t)
-             t->wrap_flag = 1;
-         }
-     }
--    timer_mod(t->qemu_timer,
--                   qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + (int64_t)ticks_to_ns(diff));
-+    hpet_arm(t, diff);
- }
- 
- static void hpet_del_timer(HPETTimer *t)
++import sys
++import os
++
++
++def main(args):
++    file_path = args[1]
++    basename = os.path.basename(file_path)
++    varname = basename.replace('-', '_').replace('.', '_')
++
++    with os.fdopen(sys.stdout.fileno(), "wt", closefd=False, newline='\n') as stdout:
++        with open(file_path, "r", encoding='utf-8') as file:
++            print(f'static GLchar {varname}_src[] =', file=stdout)
++            for line in file:
++                line = line.rstrip()
++                print(f'    "{line}\\n"', file=stdout)
++            print('    "\\n";', file=stdout)
++
++
++if __name__ == '__main__':
++    sys.exit(main(sys.argv))
 -- 
 2.30.2
 
