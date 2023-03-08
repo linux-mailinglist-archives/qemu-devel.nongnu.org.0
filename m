@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC93F6AFC18
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F123D6AFBE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:14:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiNN-00025V-C7; Tue, 07 Mar 2023 20:13:53 -0500
+	id 1pZiNL-0001tp-TF; Tue, 07 Mar 2023 20:13:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNG-0001Qx-7z
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:46 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNI-0001lG-Jv
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:48 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNE-0001xI-6S
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:45 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNG-0001yJ-Oh
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678238023;
+ s=mimecast20190719; t=1678238026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NiVZH2cd8MhbH6SXMN81UWaoK1zb3nOIQh2BBsQUr/E=;
- b=eu/INKHihbx/o74JN8P2OvxJCEuWL2gI61hO6sF9XtKqI+5+WJao9UrITPNrO/qcAYOJ5B
- uPXOq8/Lof4p8Wdfm9d3Zbl2+v4hn4QpzkjtlPTKB8abF4jhnD9KDfMzXycYyR3vZNKcUY
- 31reFvXhqvW7jnHK604iqq6601qR8Ow=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VEGZepK0Rp8JIhaQqMzWupcnrgzDBH5zuK/fgFSMHbY=;
+ b=Rt/pT2HnpSqJGg6WFiLf5NJJPY/0pKRfXQwj5DT9kMqwDZuUZAGBkKVuZ4sss4/GxnEh8/
+ 7dDqep0i6dxVWGbWyFL3YobCEqyF7RZCXtJnaHxLjhSb/5/JmukBauHceNLUdCsDk0rdaA
+ uTNcULqt+WTFCtoOPp5jS73hX0yaWhg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-_x6cS_LHPZmQ1E_XN7vzRg-1; Tue, 07 Mar 2023 20:13:42 -0500
-X-MC-Unique: _x6cS_LHPZmQ1E_XN7vzRg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- ev6-20020a056402540600b004bc2358ac04so21656075edb.21
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:41 -0800 (PST)
+ us-mta-515-ZBnRvrQBMVqafP9V2UoU-A-1; Tue, 07 Mar 2023 20:13:45 -0500
+X-MC-Unique: ZBnRvrQBMVqafP9V2UoU-A-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ da22-20020a056402177600b004c60694083eso21255653edb.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678238020;
+ d=1e100.net; s=20210112; t=1678238023;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NiVZH2cd8MhbH6SXMN81UWaoK1zb3nOIQh2BBsQUr/E=;
- b=XQnCQQgs6v1lktLyHTimHUhhAJ9LNEy4MTrYQ+noFiFeyEzCA4NWdzf/wsjEwVkWZb
- DE3e+g6fPmr3sIsZkT6ruJ/6XuYNS8jJKVL29HAlKbTFxdkAnj47m+ZN5AgAAfVNA/ss
- y3rve81/aEm8SSfQg4r6LBGz1P+PG2leGnujbikpEFP4aarG7RLwtxRnYyK6MfYhlSsI
- 1XTrk5kxGRG0e4N8yu77Nial/cbVG5RnD6mwzkt8wus3SovzVL13V+mmEK0urmePZmVP
- Sk59cNCd7f+0pelMCh455HRok/1g7uidSNjTyyNkbnVRmKJmw3tabrCifMI3ax5JXliv
- d/NQ==
-X-Gm-Message-State: AO0yUKXrkourt/tG9GAqiUClR+Kx2f/6U0MUL49d0A/iUm5v2a08qes9
- dTNpRDWYfKNH4cgkBh4is/qMKB0Jtz9QQDJE0M1U3dI6txewvGzrjIx1Me8ug+Gl7nGgS0+l0DY
- gXjnEjsK0jnEUoTpOyyF89hz6QJRIsukEcpb4m5BqBmEHKcQhleKm58PHsjYXKyMyBzsG
-X-Received: by 2002:a17:906:b050:b0:8b1:e791:faef with SMTP id
- bj16-20020a170906b05000b008b1e791faefmr16070718ejb.67.1678238020462; 
- Tue, 07 Mar 2023 17:13:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set9wjztgnezAeIFAUh1i+Q0neiLpjXNQqE68dPjLfoMLeJfUdZIEH8HLlXy0LSTA8TzDtQVCug==
-X-Received: by 2002:a17:906:b050:b0:8b1:e791:faef with SMTP id
- bj16-20020a170906b05000b008b1e791faefmr16070703ejb.67.1678238020277; 
- Tue, 07 Mar 2023 17:13:40 -0800 (PST)
+ bh=VEGZepK0Rp8JIhaQqMzWupcnrgzDBH5zuK/fgFSMHbY=;
+ b=6IedMM/OpAVFeigbWUsWHuEz5a/dib2wRmJSAbPkxBbiw7DOhXhGL8g5vkc1kG+epH
+ MjS/lVfoQArXkKIJWpcCRzqy8HFQ/OC9hrXWXmytuDIKmAxe8CMTYxUPMyAnHrQU560F
+ 59IdPgqepU/J4MTCegaU4PHhRx9ZpVYEBdiCfN4yyjgSsYALSCKAAoyfUQmObIPdAsRK
+ K7GiAqLLB0VoAp+JTahwTSpGRunqRswl6UyTlHXbUNJPkaeQHtLNw3SHtRzxJaBnQf5y
+ o5g9L8BjM/1IQJgRJdLdh2LXhs1PpItnx0IvzvaVyG5iiPBpftYgD1F0/hpLDJaL2f+u
+ jPpg==
+X-Gm-Message-State: AO0yUKW97zBHKvoZKqJPZAlH5heWW10UXte3xXTNrx2h7XfuCzQaS6vS
+ 2gHAyjMZRjkmZTetMHyL+dbDKOHaHbUGcrNHJeT/NBPqOe1srmsWd+m6vqkp1KQEUdSA4Fu3ML+
+ iHQ6yieNXEIpgE0IBjCbH4zR1j7pvhRzaFdRh5Zzkft9PYNwiEWTvTM3UFs0Uzd8fKDbX
+X-Received: by 2002:a17:906:db0c:b0:909:3c55:a1b3 with SMTP id
+ xj12-20020a170906db0c00b009093c55a1b3mr22181098ejb.38.1678238023585; 
+ Tue, 07 Mar 2023 17:13:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set+1W9Xvum+at7tU1bMNPJCbV56mbb8BVncyjTQXAeIY4OaoYVVkEx9KxBXrcpu9WpU+TiBMJw==
+X-Received: by 2002:a17:906:db0c:b0:909:3c55:a1b3 with SMTP id
+ xj12-20020a170906db0c00b009093c55a1b3mr22181084ejb.38.1678238023376; 
+ Tue, 07 Mar 2023 17:13:43 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- 1-20020a170906308100b008de345f4f9asm6770149ejv.49.2023.03.07.17.13.38
+ d9-20020a17090648c900b008b17b0f5d07sm6762946ejt.217.2023.03.07.17.13.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:39 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:37 -0500
+ Tue, 07 Mar 2023 17:13:43 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:40 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 56/73] acpi: pci: drop BSEL usage when deciding that device
- isn't hotpluggable
-Message-ID: <419233b2b417eec65211b4a5160d94978546467b.1678237635.git.mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 57/73] acpi: pci: move BSEL into build_append_pcihp_slots()
+Message-ID: <62dd55fcf736994958eb5706cee5806480acfe25.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -104,37 +103,75 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-previous commit ("pci: fix 'hotplugglable' property behavior") fixed
-pcie root port's 'hotpluggable' property to behave consistently.
+Generic PCI enumeration code doesn't really need access to
+BSEL value, it is only used as means to decide if hotplug
+enumerator should be called.
 
-So we don't need a BSEL crutch anymore to see of device is not
-hotpluggable, drop it from 'generic' PCI slots description handling.
+Use stateless object_property_find() to do that, and move
+the rest of BSEL handling into build_append_pcihp_slots()
+where it belongs.
 
-BSEL is still used to decide if hotplug part should be called
-but that will be moved out of generic code to hotplug one by
-followup patches.
+This cleans up generic code a bit from hotplug stuff
+and follow up patch will remove remaining call to
+build_append_pcihp_slots() from generic code, making
+it possible to use without ACPI PCI hotplug dependencies.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-31-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-32-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/acpi-build.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 8e2481fe5e..ce14866eda 100644
+index ce14866eda..0459acfbb4 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -591,7 +591,7 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+@@ -520,12 +520,14 @@ static bool is_devfn_ignored_hotplug(const int devfn, const PCIBus *bus)
+     return false;
+ }
  
-         call_dev_aml_func(DEVICE(bus->devices[devfn]), dev);
-         /* add _DSM if device has acpi-index set */
--        if (pdev->acpi_index && !bsel &&
-+        if (pdev->acpi_index &&
-             !object_property_get_bool(OBJECT(pdev), "hotpluggable",
-                                       &error_abort)) {
-             aml_append(dev, aml_pci_static_endpoint_dsm(pdev));
+-static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus,
+-                                     QObject *bsel)
++static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus)
+ {
+     int devfn;
+     Aml *dev, *notify_method = NULL, *method;
++    QObject *bsel = object_property_get_qobject(OBJECT(bus),
++                        ACPI_PCIHP_PROP_BSEL, NULL);
+     uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
++    qobject_unref(bsel);
+ 
+     aml_append(parent_scope, aml_name_decl("BSEL", aml_int(bsel_val)));
+     notify_method = aml_method("DVNT", 2, AML_NOTSERIALIZED);
+@@ -570,12 +572,9 @@ static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus,
+ 
+ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+ {
+-    QObject *bsel;
+     int devfn;
+     Aml *dev;
+ 
+-    bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
+-
+     for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
+         /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
+         int adr = PCI_SLOT(devfn) << 16 | PCI_FUNC(devfn);
+@@ -601,11 +600,9 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+         aml_append(parent_scope, dev);
+     }
+ 
+-    if (bsel) {
+-        build_append_pcihp_slots(parent_scope, bus, bsel);
++    if (object_property_find(OBJECT(bus), ACPI_PCIHP_PROP_BSEL)) {
++        build_append_pcihp_slots(parent_scope, bus);
+     }
+-
+-    qobject_unref(bsel);
+ }
+ 
+ static bool build_append_notfication_callback(Aml *parent_scope,
 -- 
 MST
 
