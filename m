@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D4F6B0491
+	by mail.lfdr.de (Postfix) with ESMTPS id E006C6B0492
 	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 11:35:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZr7O-0005tp-S7; Wed, 08 Mar 2023 05:33:58 -0500
+	id 1pZr8E-0000Vy-GX; Wed, 08 Mar 2023 05:34:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pZr7L-0005hV-T2
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 05:33:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZr86-0000Ae-Cq
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 05:34:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pZr7J-0006AY-UQ
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 05:33:55 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZr84-0006Ch-Kx
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 05:34:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678271632;
+ s=mimecast20190719; t=1678271679;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mQ0+tbndmrSeJ2MRCzJFtDElBjLmEsE81eiEtKiIYOA=;
- b=hxw/Bbo+0huDpWcmtVb9qWuyoSG9ZQbUY14TBpZqv2GYx0l5SrchYtgZGdhiB5XuAAzJkU
- YwSqrM2TuUoYI8Xgtx5GtBxUkGRqOZRO0RSxifklW2vW+oQ6461MJWazQy6UpsVTrav0o3
- mLW4BNxtjQQ284a5UpEG4Jpy4mKcQns=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-TeEmy72MOmCqrogFGB3q8w-1; Wed, 08 Mar 2023 05:33:51 -0500
-X-MC-Unique: TeEmy72MOmCqrogFGB3q8w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3A57802D2A
- for <qemu-devel@nongnu.org>; Wed,  8 Mar 2023 10:33:48 +0000 (UTC)
-Received: from [10.39.208.18] (unknown [10.39.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DD06492B04;
- Wed,  8 Mar 2023 10:33:46 +0000 (UTC)
-Message-ID: <6e98c7a2-bab8-e91f-1718-cc8d5d6e8ddf@redhat.com>
-Date: Wed, 8 Mar 2023 11:33:45 +0100
+ bh=I/NPnoN9iaB0GVxT3iFavDkDJXFT49zrThzMgzfRUYU=;
+ b=A3Kdr1Eu6OXx6eVTI2HMZo6tMY7A57/d3B+tFAhOLhjf3PFvMdSM8LfV7ftSzwKSvtW04z
+ kwLJoky2/MtueP4hrN9Tywu7CmL/apv3Plil3mMXMMQxhDK8NO36qbiJEfpWokezKeVHFx
+ 5ecmCx11Lqwt1x6RttGOg1RibozFGQY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-79-vOzUSg5xNvK4v8kOEoJn7g-1; Wed, 08 Mar 2023 05:34:38 -0500
+X-MC-Unique: vOzUSg5xNvK4v8kOEoJn7g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r7-20020a05600c35c700b003eb3f2c4fb4so641034wmq.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 02:34:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678271677;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=I/NPnoN9iaB0GVxT3iFavDkDJXFT49zrThzMgzfRUYU=;
+ b=L9JmrKtGfD2peNs+QITAzJfcaA9pTYFS/rUJNAfGe+x4ANc5ez9LZQGb6L/YFYlXZm
+ +M5tEjku7888zqEucAwOOQ+sn26QzxVSHpc8NhAs3qK7RLSIAi8EFFv/zEjMeDiNydXV
+ aIXZI/XqrHdvUY0hRFX2mH2SekxZ+UiA8R0tEFujV63fsnHfUUl2l4QPR6kxtlotlUpI
+ H8Wy97j2TRbdIPX/u81wmTf6o3R57Kp5/dp4szAyE34rNQqGNc+0WDtEODdvWhH/VE1y
+ ljSfHyKCYebRFY/PL0BtvY2v97BhcOIlzc9xvHzWwT9l0zvAMeS28AWmSo5Rat0ANogI
+ KIsQ==
+X-Gm-Message-State: AO0yUKUaaBZjTwFAcoy4wPky97diYPd/ggSpRligIscBTO1YgCQrWHWd
+ 95CyIjRM66Xnh0dzayOdwFRYNKiDahwYKU7ZXONoPdnS7X5hRrSYHzPR0rCmaCr7jUKwx30IwhV
+ xJoPLquMozRN2Ne0=
+X-Received: by 2002:a05:600c:3148:b0:3eb:3fea:a2ac with SMTP id
+ h8-20020a05600c314800b003eb3feaa2acmr16100700wmo.22.1678271677307; 
+ Wed, 08 Mar 2023 02:34:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set/m8gtGC+Evnqc3bUC8sCbNqTJ+guLjQ50KtLM8LZP/LWgQs39ue+Z3dUH8bFs0HbBUrRmX0w==
+X-Received: by 2002:a05:600c:3148:b0:3eb:3fea:a2ac with SMTP id
+ h8-20020a05600c314800b003eb3feaa2acmr16100680wmo.22.1678271676945; 
+ Wed, 08 Mar 2023 02:34:36 -0800 (PST)
+Received: from ?IPV6:2003:cb:c71b:cb00:d372:1da8:9e9e:422d?
+ (p200300cbc71bcb00d3721da89e9e422d.dip0.t-ipconnect.de.
+ [2003:cb:c71b:cb00:d372:1da8:9e9e:422d])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020a05600c308900b003dfe5190376sm15222984wmn.35.2023.03.08.02.34.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Mar 2023 02:34:36 -0800 (PST)
+Message-ID: <0aad3683-b362-8bb1-4f5f-1761d0370c77@redhat.com>
+Date: Wed, 8 Mar 2023 11:34:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
+Subject: Re: [PATCH v2] virtio-balloon: optimize the virtio-balloon on the ARM
+ platform
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-level
- <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <6684066f-452d-a8b3-58b2-b0db2a3c2015@redhat.com>
- <20230201061709-mutt-send-email-mst@kernel.org>
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-In-Reply-To: <20230201061709-mutt-send-email-mst@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Yangming <yangming73@huawei.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "wangzhigang (O)" <wangzhigang17@huawei.com>,
+ "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+References: <20230301062642.1058-1-xiqi2@huawei.com>
+ <afd620a5e7c14a0794812e72ba1af545@huawei.com>
+ <20230307193739-mutt-send-email-mst@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230307193739-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=maxime.coquelin@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,88 +108,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Michael,
-
-On 2/1/23 12:20, Michael S. Tsirkin wrote:
-> On Wed, Feb 01, 2023 at 12:14:18PM +0100, Maxime Coquelin wrote:
->> Thanks Eugenio for working on this.
+On 08.03.23 01:42, Michael S. Tsirkin wrote:
+> On Wed, Mar 01, 2023 at 06:38:13AM +0000, Yangming wrote:
+>> Optimize the virtio-balloon feature on the ARM platform by adding
+>> a variable to keep track of the current hot-plugged pc-dimm size,
+>> instead of traversing the virtual machine's memory modules to count
+>> the current RAM size during the balloon inflation or deflation
+>> process. This variable can be updated only when plugging or unplugging
+>> the device, which will result in an increase of approximately 60%
+>> efficiency of balloon process on the ARM platform.
 >>
->> On 1/31/23 20:10, Eugenio Perez Martin wrote:
->>> Hi,
->>>
->>> The current approach of offering an emulated CVQ to the guest and map
->>> the commands to vhost-user is not scaling well:
->>> * Some devices already offer it, so the transformation is redundant.
->>> * There is no support for commands with variable length (RSS?)
->>>
->>> We can solve both of them by offering it through vhost-user the same
->>> way as vhost-vdpa do. With this approach qemu needs to track the
->>> commands, for similar reasons as vhost-vdpa: qemu needs to track the
->>> device status for live migration. vhost-user should use the same SVQ
->>> code for this, so we avoid duplications.
->>>
->>> One of the challenges here is to know what virtqueue to shadow /
->>> isolate. The vhost-user device may not have the same queues as the
->>> device frontend:
->>> * The first depends on the actual vhost-user device, and qemu fetches
->>> it with VHOST_USER_GET_QUEUE_NUM at the moment.
->>> * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
->>>
->>> For the device, the CVQ is the last one it offers, but for the guest
->>> it is the last one offered in config space.
->>>
->>> To create a new vhost-user command to decrease that maximum number of
->>> queues may be an option. But we can do it without adding more
->>> commands, remapping the CVQ index at virtqueue setup. I think it
->>> should be doable using (struct vhost_dev).vq_index and maybe a few
->>> adjustments here and there.
->>>
->>> Thoughts?
+>> We tested the total amount of time required for the balloon inflation process on ARM:
+>> inflate the balloon to 64GB of a 128GB guest under stress.
+>> Before: 102 seconds
+>> After: 42 seconds
 >>
->> I am fine with both proposals.
->> I think index remapping will require a bit more rework in the DPDK
->> Vhost-user library, but nothing insurmountable.
+>> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+>> Signed-off-by: Ming Yang yangming73@huawei.com
+>> ---
+>> Refactor the code by adding comments and removing unnecessary code.
 >>
->> I am currently working on a PoC adding support for VDUSE in the DPDK
->> Vhost library, and recently added control queue support. We can reuse it
->> if we want to prototype your proposal.
+>>   hw/mem/pc-dimm.c           |  7 +++++++
+>>   hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+>>   include/hw/boards.h        |  2 ++
+>>   3 files changed, 14 insertions(+), 28 deletions(-)
 >>
->> Maxime
->>
->>> Thanks!
->>>
+>> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+>> index 50ef83215c..3f2734a267 100644
+>> --- a/hw/mem/pc-dimm.c
+>> +++ b/hw/mem/pc-dimm.c
+>> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
+>>   
+>>       memory_device_plug(MEMORY_DEVICE(dimm), machine);
+>>       vmstate_register_ram(vmstate_mr, DEVICE(dimm));
+>> +    /* count only "real" DIMMs, not NVDIMMs */
+>> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
+>> +        machine->device_memory->dimm_size += vmstate_mr->size;
+>> +    }
+>>   }
+>>   
+>>   void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
 > 
+> vmstate_mr->size is Int128 you are not supposed to do math on it.
 > 
-> technically backend knows how many vqs are there, last one is cvq...
-> not sure we need full blown remapping ...
+> And generally poking at this struct is a bad idea.
 > 
+> I think memory_region_size will do what you want but not 100% sure.
+> Maybe you need to look at the flatview ...
 
-Before VHOST_USER_PROTOCOL_F_STATUS was supported by qemu (very
-recently, v7.2.0), we had no way for the backend to be sure the
-frontend won't configure new queue pairs, this not not defined in the
-spec AFAICT [0]. In DPDK Vhost library, we notify the application it can
-start to use the device once the first queue pair is setup and enabled,
-then we notify the application when new queues are ready to be
-processed. In this case, I think we cannot deduce whether the queue is a
-data or a control queue when it is setup.
+Good point, we should use memory_region_size().
 
-When VHOST_USER_PROTOCOL_F_STATUS is supported, we know no more queues
-will be configured once the DRIVER_OK status is set. In this case, we
-can deduce the last queue setup will be the control queue at DRIVER_OK
-time if the number of queues is odd.
-
-Using index remapping, we would know directly at queue setup time
-whether this is a data or control queue based on its index value,
-i.e. if the index equals to max queue index supported by the backend.
-But thinking at it again, we may at least back this with a protocol
-feature to avoid issues with legacy backends.
-
-I hope it clarifies, let me know if anything unclear.
-
+-- 
 Thanks,
-Maxime
 
-[0]: 
-https://elixir.bootlin.com/qemu/latest/source/docs/interop/vhost-user.rst
+David / dhildenb
 
 
