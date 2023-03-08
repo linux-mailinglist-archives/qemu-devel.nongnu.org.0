@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FEE6B14E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 23:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06296B1595
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 23:49:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa27t-0000V1-Lp; Wed, 08 Mar 2023 17:19:13 -0500
+	id 1pa2Zy-0008Km-Sl; Wed, 08 Mar 2023 17:48:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pa27i-0000U6-U2; Wed, 08 Mar 2023 17:19:05 -0500
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pa2Zx-0008KV-RA
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 17:48:13 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pa27h-0007ka-FL; Wed, 08 Mar 2023 17:19:02 -0500
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-536af432ee5so652327b3.0; 
- Wed, 08 Mar 2023 14:19:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pa2Zw-0007Ow-6w
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 17:48:13 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id n6so81005plf.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 14:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678313939;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4afL+pC8nFOxR3Hsl1Glq3TgDp2/qL4eDw9bqxvDQZQ=;
- b=Nd4VeuaK6q4sdX2kB5News1rnyxFktcmjT9DJBgoZwnrpdN3pLMZWI4mZdg/UGI9ZP
- 4lNpADcH+gA3tk8PQEDXHs1XpB4QVeJ7kweprgPdAUrq/hQACKHKWxsDQ876wwfhV0wa
- pcHZpPiuzNs7EWwTtYNbXDiaEu/5cKTzxkE+wUGFFCqeRn5vr2QvE8zIgg7VQye1x5RG
- yrzuLHNPYc52i20C8BNeT8E5eP9zFVurZCFZ+c9f9zIKoouiovOudVxK47rT/MRwGXKs
- 8B1b2vr3TeuoIRm0f+a2J17xBERMmi3lXmZCusWKxLpBHiBz7yx2m+yBq/yX4ZWe4v9P
- sP/g==
+ d=linaro.org; s=google; t=1678315691;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1pmyFb/Vg2laQ76iU6XBgWA6lQ33YM8+Mwj3t6uf8OQ=;
+ b=zGUVJlHB1KCOHRkgXLK3cjE2MqBKodcZTQF/YPkCjzGMZXoYjzut7ZwNw+mlpNRR3j
+ RAg2syqNgINFUp47RIPF0mt77+tXIQ+RdiXaT0H4bXi0jDeCbyDdpAQaIZoU/2VZnxgq
+ H7qEKZYXzlQ3dyx7JQ8MkHBukmi+VcbiKh+RtjKaFAWMzKK+S3WmtLOuLyDLd8GnJxGy
+ ADOqZKncmwucVn/gsgXr4EnTY88sSliHRYsJRdn392fHWenIJoPjeLmUzBLOUSM08CyP
+ 8Zw9OSPNEoZ+RWDOYfET3/wG36gnpKVor0TJU/pXo63dlvpDI+pJmNKflAntE/5O3ntW
+ TTPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678313939;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4afL+pC8nFOxR3Hsl1Glq3TgDp2/qL4eDw9bqxvDQZQ=;
- b=vbmvAulDUTNv5QGODpT3vWB4s7QM7XiQL/2qmIPxA3beyWhsQ973k34cqK0HlxurBC
- OnMAHVonft2tzk3vfevd+aKftA7J+ai6WmLHSr5Z+9Vje35SwynPmbc0pq1yYQ8Agrw9
- ExbC+gC0zPeSKMTG68eWxhxV/28XVRnINzQ5L19u3lbVe51sPysIMa1CJxeK5KFX+XxI
- 3NJmgeXXEf4qLPNQC5yiDruVbicIMvtkO3I/PELhF7RRMZ/lqhTNAunU+R2DhU0u2qIG
- rPbGsZQwa+B4TNw3XQ/wKyShV+2XpIZIFBe9UKsBK+EzbJgUk2xdev7glbB4VdcG/Ea2
- f3dg==
-X-Gm-Message-State: AO0yUKUmJQcUMdrLqz5OFFrYp+/OETsaAMCZtB3FclT0CHpc2UwCMYeH
- bAvNnkpyqVb7xOd/ek+IuMSHoocspW38GWPmSGw=
-X-Google-Smtp-Source: AK7set/n3xbkhMeGRgCxV58RZfo3MJTplpJejdIOKifPOe23Ye8HfKnM1b1V972YD9jsqbfGEM3Hjj+stV02bRXgUgs=
-X-Received: by 2002:a81:4520:0:b0:534:515:e472 with SMTP id
- s32-20020a814520000000b005340515e472mr12915941ywa.4.1678313939341; Wed, 08
- Mar 2023 14:18:59 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678315691;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1pmyFb/Vg2laQ76iU6XBgWA6lQ33YM8+Mwj3t6uf8OQ=;
+ b=Dh2SGO5KHDFj1GFNxrYBMWDbN5KD0vK3NhIFCih2oiR4gw+1Ik7d9mX+fuC1zsPTi5
+ 3TZMmpkyIE/PEVt9cXPSbgMcLERh6GIIi5BHc9GrFji5ObjvES+LuCC6vecLp/iH6TyX
+ g8sMDBwWpjvPdMTL54fIL7d4F/wIOIQ9yYtLIMBO7CxXIbLqnvAZj82aKiv9D/YSASek
+ HlEyxc1l3JK19xU5VXL46s9CUy3Pnn1+htt5Gwc+7zeI48xVCMqYqZoFt8kJRy8QUVBn
+ Ekly4zJzC/koS+kIhlUKj29TtsgBCY2AP+3Ht/qnf5ccymaethr7ob6PA6PsvdhKnY8j
+ k97A==
+X-Gm-Message-State: AO0yUKW/sDpAr921GOBulCUbxmsHjRxv3eStZs+HRmiQqDU9aH6x+BAC
+ dBzq/w2qzFdfXivw2Y1fPgeT6g==
+X-Google-Smtp-Source: AK7set/p+50lJVzuAmOXY4J24K/g36zS4AA8V32boBiyTWQ5Am9+rnIt1BmQJPkCcuK/65FwP451Bg==
+X-Received: by 2002:a17:902:c24c:b0:196:725c:6ea with SMTP id
+ 12-20020a170902c24c00b00196725c06eamr18176804plg.19.1678315690641; 
+ Wed, 08 Mar 2023 14:48:10 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:acd:bde4:fbf6:cc41?
+ ([2602:ae:154a:9f01:acd:bde4:fbf6:cc41])
+ by smtp.gmail.com with ESMTPSA id
+ lg12-20020a170902fb8c00b0019ad6451a67sm10274500plb.24.2023.03.08.14.48.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Mar 2023 14:48:10 -0800 (PST)
+Message-ID: <a870c3d7-7584-2a48-213a-d55310c1f9eb@linaro.org>
+Date: Wed, 8 Mar 2023 14:48:08 -0800
 MIME-Version: 1.0
-References: <20230308221739.352066-1-stefanha@redhat.com>
-In-Reply-To: <20230308221739.352066-1-stefanha@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 8 Mar 2023 17:18:47 -0500
-Message-ID: <CAJSP0QU8WhigEQaTnag8WTh2QDTP=zpgs2S8DUFJm1zq-HPcgw@mail.gmail.com>
-Subject: Re: [PATCH v2] block: add missing coroutine_fn to
- bdrv_sum_allocated_file_size()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1133.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/2] target/s390x: Fix emulation of C(G)HRL
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Ilya Leoshkevich
+ <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <20230308210226.2847503-1-nsg@linux.ibm.com>
+ <20230308210226.2847503-2-nsg@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230308210226.2847503-2-nsg@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,50 +96,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2 is the same as v1. I sent it by accident, sorry :).
-
-Stefan
-
-On Wed, 8 Mar 2023 at 17:18, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> Not a coroutine_fn, you say?
->
->   static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
->   {
->       BdrvChild *child;
->       int64_t child_size, sum = 0;
->
->       QLIST_FOREACH(child, &bs->children, next) {
->           if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
->                              BDRV_CHILD_FILTERED))
->           {
->               child_size = bdrv_co_get_allocated_file_size(child->bs);
->                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->
-> Well what do we have here?!
->
-> I rest my case, your honor.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 3/8/23 13:02, Nina Schoetterl-Glausch wrote:
+> The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
+> halfword, it does not have the same size as the first operand.
+> 
+> Fixes: a7e836d5eb ("target-s390: Convert COMPARE, COMPARE LOGICAL")
+> Signed-off-by: Nina Schoetterl-Glausch<nsg@linux.ibm.com>
 > ---
->  block.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/block.c b/block.c
-> index 0dd604d0f6..a79297f99b 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -5749,7 +5749,7 @@ exit:
->   * sums the size of all data-bearing children.  (This excludes backing
->   * children.)
->   */
-> -static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
-> +static int64_t coroutine_fn bdrv_sum_allocated_file_size(BlockDriverState *bs)
->  {
->      BdrvChild *child;
->      int64_t child_size, sum = 0;
-> --
-> 2.39.2
->
->
+>   target/s390x/tcg/insn-data.h.inc | 4 ++--
+>   target/s390x/tcg/translate.c     | 7 +++++++
+>   2 files changed, 9 insertions(+), 2 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
