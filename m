@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D80C6B0950
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDC26B0931
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:33:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZts7-0002K6-NQ; Wed, 08 Mar 2023 08:30:24 -0500
+	id 1pZttM-0004D3-5Y; Wed, 08 Mar 2023 08:31:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr6-0001lE-Mw
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:23 -0500
-Received: from mout.kundenserver.de ([212.227.17.13])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr5-0001kk-7A
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:19 -0500
+Received: from mout.kundenserver.de ([212.227.17.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr3-00068u-1c
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:20 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr2-000692-Mp
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:18 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MkYsS-1qHETk08li-00m0zo; Wed, 08
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MDy9C-1pjpTK25PI-009vM2; Wed, 08
  Mar 2023 14:29:14 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 24/28] linux-user/sparc: Handle coprocessor disabled trap
-Date: Wed,  8 Mar 2023 14:28:53 +0100
-Message-Id: <20230308132857.161793-25-laurent@vivier.eu>
+Subject: [PULL 25/28] linux-user/sparc: Handle unimplemented flush trap
+Date: Wed,  8 Mar 2023 14:28:54 +0100
+Message-Id: <20230308132857.161793-26-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QjSEjlT2k3w0y9I6CZCQZy/QUbx6GQ5cyO+X8+G6+wmviEjBq+U
- 52XkN6F3W5eQze2vPB5f9N0CrrUHRveaiyhb1Sz5ZgEFf0BEerHiLkDAGiZFSWoWsDjd4yS
- ehaRvtXui0IMXj+/YbrIv+B4HmrHx3jBu/5tQSUbkYTswDvWIGTTFMPitHPKXys+xRE5yPN
- AepqqMztB/9OxewhxF4rA==
-UI-OutboundReport: notjunk:1;M01:P0:E5NAmAY5gBc=;V8Z3gfQXhWoSKY3pm3goizdME4c
- 4jCUdl2GnNIRpcD9yfvf4xyEsFgreezBGTpdpBXYPJfhASNcP2ll8/kOhTlYT64CDWa0W3pny
- wlir32dPbOj0N3LHDMKthD64ctrDVkAfjxLUmNTyCEDYzZzUjTaa7nu6CG3ve/nJhsucbF+E5
- B6lhSYJtR9lL0gKbJkxDWOF4YWeV+AfU2CH2YJ+xytUYkn2U51y7/Igfngg3EKcwBBaIgO+vh
- oHlcaVGfjTngYY3VsuQ+TCyjpje+airZUK6w/4rTMd4ix5MuDTiIhcCj1BuWnMu2ItCUgdD+g
- If+JYMDrPMoKz3LMvoO5XtFQezRCbFFpRtQTRVldkAMZTV4hYpkTaVqKKqdjoMeVqkKTtGEp1
- 7x85Qce6mzmJztCHwR6wMHCtvbBncDYdVZ2ohOA4lKnR8baKdjkrxsZfMOo8J5gZBL5/HT8gJ
- IXCBpfrQlN/1oS9jZnpBOUM1JfNdzpQ+4mEh0xGkflodTdOjpzUXNDWQD92t/UPKH5Y1DIDJC
- DtorbEBkLPaXUWkJFR3lnFSGlBBMAHpM0beMlxiOExO6Ch8TsRr0YbN4Vlex3M7lQrACaaXac
- NRXjcweiJmpEwZ4iMVYrPhWMT01lYvIAqHE/YuaY+I6MsE4A3+Syg6tdfl8PaRqAUJnGsUVpc
- ljoJ9g51PvnJXziyBFsBX4a8UUx8No1K/COqwwMX6g==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Otbx1g0NSzrg8O1qhGQStI53DAYQ75e+sOyvIYFRp0/iw1i0qwj
+ +EHaf9NoPrH4OdVQ7/5YM541d0dXkInIH4nWCqTjTnzWZEmbzI9jnUHTgRfxA8zN0eKyG1o
+ HWqUrJZPMIjinyrQS289b9YCaDdSWRqsmveZw8aQrHGjla6HJu6rWXx5eqY/H4oqeSMB/6t
+ OcfO8lJIeYVDKHB+uyynQ==
+UI-OutboundReport: notjunk:1;M01:P0:k42t6i2XSOE=;AVZBb/+6UE5dfc2Ec9XMbOqwgOo
+ bEARao7c/XmAbwyjtspiqrSoiTCYhRuCKcI2lNY/dbX8xBpJbnan67xTD3czl5epckuOr7+o4
+ IXExIhSNshqEcR8+NDxPJYYbO9X3QXLoGhmp8cAlVBs1ISJgZL/DpNbnkoZtjqdGjS5/j28dU
+ yiNJc5NJZj/SBp2F5bM8dV+kyQLtogfCt3DAXD48Rf3MeyKYKVyUVddPO8WOee0umE9DRq+Zf
+ BMGzunNmIxikldN6h6hKjJ0z8VuB/jCSvd2Dj9/jraMjnj+iOwfn9c+3Z6+43hdYyUVOV5VWr
+ 1MA01utdN6+2pnq53xJzqIw5Qio9/RDodRUFDk/LHd6MrLfDzLWHcG15fd6nCeY3+Lv9hI1CD
+ /Cm9N7tKN6O4rHv+KLhsDRPxTLwENpAFe2tyH0rQNbwnTD28Lkr+9GQw8pn+7ccr+fJPlBSFK
+ AjMNXRsu+p46Bk0q5Dj/p5sQWNr8xDNbjH+me8PSQG5Qd9ozjG5rZPZ0Epihk4sdG8GUMl34i
+ 78KH5074/C6oEm5kbpuqCz6hpvQKQ7ziJvezBqJT1NE3tSwAJiykEEU6YCLXTRAtlw82QiaIZ
+ vs5cNciwhPmdHZQY2uadUrxg3k8KqcZffGX2mYhOo/bBesxcecJnQY6m0RGzW3ISJNhLrkg4k
+ MbShtnJJzMtKciO8lK/nBWFw66U5Z6Qf8v3vj/qyQg==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,28 +71,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Since qemu does not implement a sparc coprocessor, all such
-instructions raise this trap.  Because of that, we never raise
-the coprocessor exception trap, which would be vector 0x28.
+For sparc64, TT_UNIMP_FLUSH == TT_ILL_INSN, so this is
+already handled.  For sparc32, the kernel uses SKIP_TRAP.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230216054516.1267305-13-richard.henderson@linaro.org>
+Message-Id: <20230216054516.1267305-14-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/sparc/cpu_loop.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 43f19fbd9141..bf7e10216fe1 100644
+index bf7e10216fe1..093358a39a4a 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -311,6 +311,10 @@ void cpu_loop (CPUSPARCState *env)
-             /* Note do_privact defers to do_privop. */
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
+@@ -315,6 +315,9 @@ void cpu_loop (CPUSPARCState *env)
+         case TT_NCP_INSN:
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->pc);
              break;
-+#else
-+        case TT_NCP_INSN:
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->pc);
++        case TT_UNIMP_FLUSH:
++            next_instruction(env);
 +            break;
  #endif
          case EXCP_ATOMIC:
