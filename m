@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82456B0014
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 08:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BFD6B0023
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 08:47:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZoPu-0007DP-8g; Wed, 08 Mar 2023 02:40:54 -0500
+	id 1pZoV6-0005gB-Ix; Wed, 08 Mar 2023 02:46:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZoPr-000738-0H
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 02:40:51 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZoPn-0002d0-3I
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 02:40:50 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id bx12so14404955wrb.11
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 23:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678261244;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=so4BijStIwanSu+GF2rmzCW4j5iACzEFyV0r0Af/kU4=;
- b=vCSPWfFuvDWVM3mf5fGZw1kYL7CSO6p7GILs6TVSEZiH+shBMasaK7b/UvonAV4Mch
- wmtdRk6BKFlzcHCWORZgnBN+hdeFz2HEJmBKTA0vCEClWxM+pkChDhSWqIP6bdxnCq1e
- lYLHOBphjauBsQU/tXL3zZqyUlnE4eCgP8EBSZxDvfck3CxBXCJjDECiwIfUdJeFs1WY
- +ihKiPFFK39OhrXccN1IaFgF+63F1qORSNv7DzF9LY/YqBpm8DIxazyxE3W4LGLw2Ijy
- aQaZmL9HKywb4dg1/hCjkuniv0nRXm2F8TH8O6MwkNvm/a3mVqKVH2Klz+H1U5JLWron
- ewjw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZoV3-0005ZG-B1
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 02:46:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZoV1-0003ZT-B9
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 02:46:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678261569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n5sCnaxaMkZ5FTgU0PUuLw7oOVMtJq0TMWGZFH+y3aI=;
+ b=iDfy+otf9QGcRz8iUcZBKOqdvFIGcVKKFO4ZicRw25xg/ioA1JQ+mVssj2jiA9bxnVZp27
+ WfGkH/DGjRD3TBxq7kogORsBF+XEGLZb5WVMmLwV6xPryyvoQ2/5b5rUy75DYk8C1oukaE
+ 6c+kYQCna0dKOcFrtgUN6ARhcxGjt1w=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-367-KowjG4rdNI-ROOmZRZdUHQ-1; Wed, 08 Mar 2023 02:46:08 -0500
+X-MC-Unique: KowjG4rdNI-ROOmZRZdUHQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p22-20020a7bcc96000000b003e2036a1516so598837wma.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 23:46:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678261244;
+ d=1e100.net; s=20210112; t=1678261567;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=so4BijStIwanSu+GF2rmzCW4j5iACzEFyV0r0Af/kU4=;
- b=BNh1LPEfBbBjT6forcT9OPj0J6hq8ojGM4W/JC0x81I+SuH5X0mkGpXMIOcqMu3FhU
- lxp5LbSeZaeMW0Yg50NtNi6dI7XKGvMaKT70iauVsprNXHta+dFOoy4jjJxb3JSkxZYu
- rJ5SDFVQw+MQSvJN2h/g4x7odb2JTWXe6dlmm57ogHoWBXBSwmMiPjdJtIPypbk8rze9
- npSKcamaaM3BNcM733GnbvWwp9pImVZy7YBuuynCLPG+3+HpoKlAMikRv+abjq0WTjAM
- QPHz6iSFwyR/aOx1XaNfS13e/ix38ZxpCQ6XcG6wgSO5vaLrRznKFqj2iozpeoUS9Mw3
- 6tow==
-X-Gm-Message-State: AO0yUKWvrHx678M7JF50szSrsVMaiudPJLyMReXtJ5RjrwAzEdLIfMxG
- DOjx5YrpiZqS5SZQwbqBJqvf7Q==
-X-Google-Smtp-Source: AK7set/2dh0r6LhIGxetIxiG4+ItPQ+jiPRCZtem9iJmyRWcoci8udS6+W+Wi8vcfwiKM4A45og/pw==
-X-Received: by 2002:a05:6000:1a54:b0:2ca:6cb1:c9c5 with SMTP id
- t20-20020a0560001a5400b002ca6cb1c9c5mr11746861wry.30.1678261244473; 
- Tue, 07 Mar 2023 23:40:44 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- r4-20020a5d4944000000b002c56013c07fsm14246076wrs.109.2023.03.07.23.40.43
+ bh=n5sCnaxaMkZ5FTgU0PUuLw7oOVMtJq0TMWGZFH+y3aI=;
+ b=7JvKUNn1dp4IYBaMGDzOV+6BGeS0nR9hD4ZWyvXG7byEWOkH1WM2odVdh/ZuU1cYDl
+ u0zTf2rfkdRWPwrVf6rS6Wdg1zT3d17EqxTXKzzUMilmSGtd+RMHB36Zyh4ZmhgXGCWB
+ HsNc88UYM947UN48SoLi4MoMUqpmL9Px4bhsgKf6DEfXaMyO3RbM+bzLGx7WIJ+bw8eH
+ sWS33dNWWS56VUEWsJsTzwmFdr53YsDzL3etfxqfYw8IhPxHW87SqtvtZURpCD31GAoR
+ FW66U8lsFo9c8V7242f28m8ZJXj16sX0y7OwkCSQ7SqFJ9prG+JKMX8wmsIyMb+iTJve
+ 8zZw==
+X-Gm-Message-State: AO0yUKUYv2Skhq0qs/gzf2eW0om9VHti/8UupvK3lWIt3h0dTPF2TtTF
+ akZ0YPI5lSLTaMjC5ZrUWQhEuRbBYFlUOSoKCl1j/WqAbA//AYXNQISr8znP+GPmeNtMS5RPrOY
+ dp1Htqs7UyMzP6gg=
+X-Received: by 2002:adf:ee90:0:b0:2c8:9cfe:9e29 with SMTP id
+ b16-20020adfee90000000b002c89cfe9e29mr11036553wro.38.1678261567213; 
+ Tue, 07 Mar 2023 23:46:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set/Pn8yUbV+8ypKbUOgo1Nv9OnZ3D763OrX5DyPquTgPsrrYFX1c3zIcWnt90Cepk/iZaKsNJQ==
+X-Received: by 2002:adf:ee90:0:b0:2c8:9cfe:9e29 with SMTP id
+ b16-20020adfee90000000b002c89cfe9e29mr11036539wro.38.1678261566945; 
+ Tue, 07 Mar 2023 23:46:06 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-179-166.web.vodafone.de.
+ [109.43.179.166]) by smtp.gmail.com with ESMTPSA id
+ s17-20020a5d4ed1000000b002c5584d0e3dsm14223848wrv.24.2023.03.07.23.46.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 23:40:43 -0800 (PST)
-Message-ID: <719692c2-6401-fd6a-8718-1dd5e6ff1f85@linaro.org>
-Date: Wed, 8 Mar 2023 08:40:42 +0100
+ Tue, 07 Mar 2023 23:46:06 -0800 (PST)
+Message-ID: <083a95ed-b208-64bb-09e2-b2298f726a8c@redhat.com>
+Date: Wed, 8 Mar 2023 08:46:05 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PULL 00/51] Net patches
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 1/4] gitlab-ci: Remove mips64-softmmu from
+ build-without-defaults job
 Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
-References: <20230307070816.34833-1-jasowang@redhat.com>
- <CAFEAcA_Pctm1m30Cm2Q2cpyp9JmNgej5nB0ovZGtjfFHU2R9SQ@mail.gmail.com>
- <4b67f103-0df3-891c-2a0f-466a82e89732@linaro.org>
- <CACGkMEsuy_eCGcLy2C8-BybbwGC4ak9+Gfv9EeiG6DAZrLjZdQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CACGkMEsuy_eCGcLy2C8-BybbwGC4ak9+Gfv9EeiG6DAZrLjZdQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230308000745.56394-1-philmd@linaro.org>
+ <20230308000745.56394-2-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230308000745.56394-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,40 +104,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/3/23 07:56, Jason Wang wrote:
-> On Wed, Mar 8, 2023 at 4:43 AM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> On 7/3/23 18:01, Peter Maydell wrote:
->>> On Tue, 7 Mar 2023 at 07:08, Jason Wang <jasowang@redhat.com> wrote:
->>>>
->>>> The following changes since commit 817fd33836e73812df2f1907612b57750fcb9491:
->>>>
->>>>     Merge tag 'audio-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
->>>>
->>>> are available in the git repository at:
->>>>
->>>>     https://github.com/jasowang/qemu.git tags/net-pull-request
->>>>
->>>> for you to fetch changes up to c19b566a3898510ec2b3e881b3fb78614b240414:
->>>>
->>>>     hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100() (2023-03-07 14:55:39 +0800)
->>>>
->>>> ----------------------------------------------------------------
->>
->>> build-oss-fuzz failed on something involving fuzzing eepro100:
->>> https://gitlab.com/qemu-project/qemu/-/jobs/3889073821
->> Jason, please drop my patches. I'll look at that failure.
+On 08/03/2023 01.07, Philippe Mathieu-Daudé wrote:
+> With the introduction of the MIPS virt machine in a pair
+> of commits, all MIPS targets will require libfdt.
+> Since the 'build-without-defaults' job is configured with
+> '--disable-fdt', it won't be able to build any MIPS target.
+> In particular this job triggers:
+> 
+>    ../meson.build:2809:2: ERROR: Problem encountered: fdt not available but required by targets mips64-softmmu
+> 
+> Remove 'mips64-softmmu' from the job TARGETS.
+> To still cover a big-endian target in qtests, replace it by
+> the s390x target.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   .gitlab-ci.d/buildtest.yml | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 44b8275299..4897229f1a 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -526,9 +526,9 @@ build-without-defaults:
+>         --disable-pie
+>         --disable-qom-cast-debug
+>         --disable-strip
+> -    TARGETS: avr-softmmu mips64-softmmu s390x-softmmu sh4-softmmu
+> +    TARGETS: avr-softmmu s390x-softmmu sh4-softmmu
+>         sparc64-softmmu hexagon-linux-user i386-linux-user s390x-linux-user
+> -    MAKE_CHECK_ARGS: check-unit check-qtest-avr check-qtest-mips64
+> +    MAKE_CHECK_ARGS: check-unit check-qtest-avr check-qtest-s390x
 
-Before "hw/net/eepro100: Convert reset handler to DeviceReset",
-e100_pci_reset() is only called once from DeviceRealize _before_
-the device is realized.
+Did you check whether this really works? IIRC the qtests fail with s390x if 
+it is compiled with --without-default-devices ...?
 
-After, 1/ it can be called multiple times and 2/ it seems to do
-stuffs that really belong to DeviceRealize (should be called once),
-in particular pci_add_capability().
+  Thomas
 
-I *think* it should be illegal to call pci_add_capability() _after_
-a device is realized. Auditing pci_add_capability(), there is only
-one other use before realize: amdvi_sysbus_realize() in
-hw/i386/amd_iommu.c.
 
