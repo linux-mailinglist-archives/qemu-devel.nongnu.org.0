@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4330F6B1061
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:46:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BE66B1073
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:52:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZxqg-0000TZ-HD; Wed, 08 Mar 2023 12:45:10 -0500
+	id 1pZxwY-0006MH-Er; Wed, 08 Mar 2023 12:51:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZxqd-0000Ok-Qe
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:45:07 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1pZxwR-0006Gh-PQ
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:51:07 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZxqb-0000LH-K1
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:45:07 -0500
-Received: by mail-wr1-x436.google.com with SMTP id g3so16163456wri.6
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 09:45:05 -0800 (PST)
+ id 1pZxwP-00022A-Nl
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:51:07 -0500
+Received: by mail-wm1-x332.google.com with SMTP id p16so10308033wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 09:51:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678297504;
+ d=linaro.org; s=google; t=1678297863;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=S2b3l18QStlBtG93sm8H2YqTMy+4DIUd+ubdl4gZ/pY=;
- b=hFVxBQBTpUWFAVGyfQqDJymt+WdChvYIGpq/a5P0hmDrwrmZ4JwIkYnKNgXYyy8ekr
- LTW9gyWKexR3GbUzojlXFS4uxp9xfcRvteipGaqfCKWH19MZYx3PRDX/rjO0Grc74nIA
- YPC7Mnc1ACfUHnYbUkb6f0ZGKoefYHDG/uPvmgRnuftl3WWO15vRoaSknezNFoG7pGpp
- T01BLuF0s0eWQX3A2HZ9jv8er2GRS6Xgr6M/HT9cJcWpMmWVZ5nj7UsQ3Q2sBU3YTWb9
- /3tYbwJ18h8AHGxEWtv4kRWkYWhFE9pMZc+NCO4KpEuDtjxD8ii/jxC2WiBF8fIz1uJw
- hBCQ==
+ bh=HSzxxXTS8xn1S7uHYqF4TFab+ZhRYtoOW5py1fZK1oA=;
+ b=yglfWoL75T/rLlUuFprUgwFsDtjickuB1zfsffppbsHw1eaVNZt2QT9nQlehOu5xxh
+ 1OBqP8tABiRPhJqnK6VD9Ua8jPtIFlV51WCYeuHHbbbtmMQ7+1MZQEDGeGYyhbvSOjPp
+ JqwW7kx5fpUQUvM6myJoggpI3A3ozNdqqRAuK7YrvDAbAUUtTESn7EQoSEmZKTxEZYuI
+ MAo/QCzeyAkP0sxlSMh/qt0hsipBMLcVnCyq9JbijgSW7MtD494csxigDYj6av7lrVLP
+ vJpsZI67IxCI+jxHPMEQ7vOzQMdYoIIazmRUA0LFOiYEkzytgbdpXKOBDnYPrdcp3H46
+ v1sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678297504;
+ d=1e100.net; s=20210112; t=1678297863;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=S2b3l18QStlBtG93sm8H2YqTMy+4DIUd+ubdl4gZ/pY=;
- b=K/PevnFrKD1jlLZZqTTcLXu6jR9Kbp39usDm5i9rICU2BN4lJj7DYs6k4bhYlCkCMu
- oO3L2klvIpRpijzt90EwUBva5Yc7WYml8eKpHqQJUceRaqQagv9pTgoguI6ucguKrtTD
- QrTlEnLFNdFfFxo8+htJ+qJU1f5vAv0TTfcdMhJBk0FnI2MxucSFIQSktYIpR6g6itRJ
- 2gPgDDuqz0p3fNNfJAGUYqebjFWJHRwz5iiAm9+gNdzw7fsV1ZtVjVKbGMDJuQbskK+t
- iy/2GsF7WbNIvayjmTAdUxTdd7xSRgXABuM1etGVFyl5WsxvBe4QGmOYRALx4MWpK8ym
- aBSA==
-X-Gm-Message-State: AO0yUKUZbExijdHt7E+n4hCmwIFG8H6ZcOfRIKkRiI8cIMRcAspoiox5
- lUBwkUWoCBF810icritVNrR6oQ==
-X-Google-Smtp-Source: AK7set+7hv6PpUiBz2FCBFACsVYephy0yR+rxxDutGDRFDw1wBKgeN/Ghd7fHuTVGXBL1LutKhAgLw==
-X-Received: by 2002:a5d:5746:0:b0:2c9:5dd8:2978 with SMTP id
- q6-20020a5d5746000000b002c95dd82978mr12818715wrw.59.1678297503848; 
- Wed, 08 Mar 2023 09:45:03 -0800 (PST)
+ bh=HSzxxXTS8xn1S7uHYqF4TFab+ZhRYtoOW5py1fZK1oA=;
+ b=OIuy2/5i3zM7sKObYHO9xqWjj0TSGPaQo9AQxR5KuwGDpF2SRj8mlsWq1Gs1Nq+Sik
+ 8fj906/UJnKtosHgxe+saiBvUweCEIarXOv8C/FLIYsIoV0fc3mcBkXbSfUUjhfN1nzs
+ HNfcZm03ZMZadfPkz1PiPpv1TGDUxChPB5J2WcQIj886eSncXM9RfM982LJ9A+NOTmOF
+ EiUrRJtBsBV0x8Gnl9I4qrYsDZCI3IwpOGN8UR8trNfs9gVw77SBp1L2nAftfyVBob6o
+ KNnjihacgTanIDCGuWFxPf/7rrShjWBJCVNbdeGsuKAbtpsuhX44zbhZLUKqmv2s5Tgz
+ 825w==
+X-Gm-Message-State: AO0yUKUFSoBp8LhkEHjuIEH1jJr9KGx9GMmthMvM0SvuAKWlg3GEPZmu
+ nxwqPOxFC8exi+LnM3bjr5Juyw==
+X-Google-Smtp-Source: AK7set+s49kPCzNiqaJ7atdOqkcHIuXp+vf3wo0xFzU2CP+lfbXD6YxYnLVWc3f9g+xd2tY4AdTQZA==
+X-Received: by 2002:a05:600c:4692:b0:3ea:f73e:9d8a with SMTP id
+ p18-20020a05600c469200b003eaf73e9d8amr16676793wmo.30.1678297863641; 
+ Wed, 08 Mar 2023 09:51:03 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- u9-20020a05600c19c900b003e9ded91c27sm147496wmq.4.2023.03.08.09.45.03
+ g10-20020a05600c310a00b003eb369abd92sm171270wmo.2.2023.03.08.09.51.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 09:45:03 -0800 (PST)
+ Wed, 08 Mar 2023 09:51:03 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 28B5D1FFB7;
- Wed,  8 Mar 2023 17:45:03 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id F1DB21FFB7;
+ Wed,  8 Mar 2023 17:51:02 +0000 (GMT)
 References: <20230308111952.2728440-1-dwmw2@infradead.org>
- <20230308111952.2728440-3-dwmw2@infradead.org>
+ <20230308111952.2728440-4-dwmw2@infradead.org>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: David Woodhouse <dwmw2@infradead.org>
@@ -68,16 +68,15 @@ Cc: Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
  Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Paul
  Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
  <peterx@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 2/3] tests/avocado: Add Fedora 34 distro, including
- kernel/initrd checksums
-Date: Wed, 08 Mar 2023 17:42:45 +0000
-In-reply-to: <20230308111952.2728440-3-dwmw2@infradead.org>
-Message-ID: <87pm9jnnmo.fsf@linaro.org>
+Subject: Re: [PATCH v2 3/3] tests/avocado: Test Xen guest support under KVM
+Date: Wed, 08 Mar 2023 17:45:43 +0000
+In-reply-to: <20230308111952.2728440-4-dwmw2@infradead.org>
+Message-ID: <87lek7nncp.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,69 +104,198 @@ David Woodhouse <dwmw2@infradead.org> writes:
 
 > From: David Woodhouse <dwmw@amazon.co.uk>
 >
-> The kernel in Fedora 31 doesn't support 'xen_no_vector_callback' on
-> its command line, so add a slightly newer version as a prelude to
-> enabling avocado tests for Xen guests.
-
-Why slightly newer rather than current release?
-
-Our existing Fedora guest builds cause all sorts of timeout issues
-running under TCG and seem particularly heavyweight considering the
-coverage we manage to get.
-
+> Exercise guests with a few different modes for interrupt delivery. In
+> particular we want to cover:
+>
+>  =E2=80=A2 Xen event channel delivery via GSI to the I/O APIC
+>  =E2=80=A2 Xen event channel delivery via GSI to the i8259 PIC
+>  =E2=80=A2 MSIs routed to PIRQ event channels
+>  =E2=80=A2 GSIs routed to PIRQ event channels
+>
+> As well as some variants of normal non-Xen stuff like MSI to vAPIC and
+> PCI INTx going to the I/O APIC and PIC, which ought to still work even
+> in Xen mode.
 >
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->  tests/avocado/avocado_qemu/__init__.py | 27 ++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
+>  tests/avocado/xen_guest.py | 147 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 147 insertions(+)
+>  create mode 100644 tests/avocado/xen_guest.py
 >
-> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avoca=
-do_qemu/__init__.py
-> index a313e88c07..49e414e267 100644
-> --- a/tests/avocado/avocado_qemu/__init__.py
-> +++ b/tests/avocado/avocado_qemu/__init__.py
-> @@ -485,6 +485,23 @@ class LinuxDistro:
->                                    ' console=3Dtty0'),
->                   },
->              },
-> +            '34': {
-> +                'x86_64':
-> +                {'checksum': ('b9b621b26725ba95442d9a56cbaa0547'
-> +                              '84e0779a9522ec6eafff07c6e6f717ea'),
-> +                 'pxeboot_url': ('https://archives.fedoraproject.org/'
-> +                                 'pub/archive/fedora/linux/releases/34/'
-> +                                 'Everything/x86_64/os/images/pxeboot/'),
-> +                 'kernel_hash': ('085fc6e47f2e3a271b591f3e56739ca9'
-> +                                 '4c16718837a5f431ab95468e1e95f9eb'),
-> +                 'initrd_hash': ('d6cd2e03e8188eed6c896fd65ff05f81'
-> +                                 '2c4c1c8777d630b5909e9a1a4627e337'),
-> +                 'kernel_params': ('root=3DUUID=3D386769a3-cfa5-47c8-879=
-7-'
-> +                                   'd5ec58c9cb6c ro no_timer_check '
-> +                                   'net.ifnames=3D0 console=3Dtty1 '
-> +                                   'console=3DttyS0,115200n8'),
-> +                },
-> +            },
->          }
->      }
->=20=20
-> @@ -513,6 +530,16 @@ def pxeboot_url(self):
->          """Gets the repository url where pxeboot files can be found"""
->          return self._info.get('pxeboot_url', None)
->=20=20
-> +    @property
-> +    def kernel_hash(self):
-> +        """Gets checksum of the pxeboot kernel image"""
-> +        return self._info.get('kernel_hash', None)
+> diff --git a/tests/avocado/xen_guest.py b/tests/avocado/xen_guest.py
+> new file mode 100644
+> index 0000000000..c50b52958f
+> --- /dev/null
+> +++ b/tests/avocado/xen_guest.py
+> @@ -0,0 +1,147 @@
+> +# Xen guest functional tests
+> +#
+
+Perhaps to avoid confusion we should call the file kvm_xen_guests.py and
+make it clearer in the comment this is the mode we are talking about.
+c.f. the boot_xen.py tests which boot Xen (under TCG emulation) as a
+proper hypervisor.
+
+> +# Copyright =C2=A9 2021 Red Hat, Inc.
+> +# Copyright =C2=A9 2023 Amazon.com, Inc. or its affiliates. All Rights R=
+eserved.
+> +#
+> +# Author:
+> +#  David Woodhouse <dwmw2@infradead.org>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +import os
 > +
-> +    @property
-> +    def initrd_hash(self):
-> +        """Gets checksum of the pxeboot initrd image"""
-> +        return self._info.get('initrd_hash', None)
+> +from avocado import skipIf
+> +from avocado_qemu import LinuxTest
 > +
->      @property
->      def default_kernel_params(self):
->          """Gets the default kernel parameters"""
+> +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+
+This just means we will never have CI coverage. In theory when running
+on the GitLab shared runners the test should skip anyway when it can't
+find /dev/kvm and hopefully can run on our custom runners when it can
+see /dev/kvm.
+
+> +class XenGuest(LinuxTest):
+> +    """
+> +    :avocado: tags=3Darch:x86_64
+> +    :avocado: tags=3Ddistro:fedora
+> +    :avocado: tags=3Ddistro_version:34
+> +    :avocado: tags=3Dmachine:q35
+> +    :avocado: tags=3Daccel:kvm
+> +    :avocado: tags=3Dxen_guest
+> +    """
+> +
+> +    kernel_path =3D None
+> +    initrd_path =3D None
+> +    kernel_params =3D None
+> +
+> +    def set_up_boot(self):
+> +        path =3D self.download_boot()
+> +        self.vm.add_args('-drive', 'file=3D%s,if=3Dnone,id=3Ddrv0' % pat=
+h)
+> +        self.vm.add_args('-device', 'xen-disk,drive=3Ddrv0,vdev=3Dxvda')
+> +
+> +    def setUp(self):
+> +        super(XenGuest, self).setUp(None, 'virtio-net-pci')
+> +
+> +    def common_vm_setup(self, custom_kernel=3DNone):
+> +        self.require_accelerator("kvm")
+> +        self.vm.add_args("-accel", "kvm,xen-version=3D0x4000a,kernel-irq=
+chip=3Dsplit")
+> +        self.vm.add_args("-smp", "4")
+> +
+> +        if custom_kernel is None:
+> +            return
+> +
+> +        kernel_url =3D self.distro.pxeboot_url + 'vmlinuz'
+> +        initrd_url =3D self.distro.pxeboot_url + 'initrd.img'
+> +        self.kernel_path =3D self.fetch_asset(kernel_url, algorithm=3D's=
+ha256',
+> +                                            asset_hash=3Dself.distro.ker=
+nel_hash)
+> +        self.initrd_path =3D self.fetch_asset(initrd_url, algorithm=3D's=
+ha256',
+> +                                            asset_hash=3Dself.distro.ini=
+trd_hash)
+> +
+> +    def run_and_check(self):
+> +        if self.kernel_path:
+> +            self.vm.add_args('-kernel', self.kernel_path,
+> +                             '-append', self.kernel_params,
+> +                             '-initrd', self.initrd_path)
+> +        self.launch_and_wait()
+> +        self.ssh_command('cat /proc/cmdline')
+> +        self.ssh_command('dmesg | grep -e "Grant table initialized"')
+> +
+> +    def test_xen_guest(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq.*msi /proc/interrupts')
+> +
+> +    def test_xen_guest_nomsi(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest_nomsi
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks pci=3Dnomsi')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq.* /proc/interrupts')
+> +
+> +    def test_xen_guest_noapic_nomsi(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest_noapic_nomsi
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks noapic pci=
+=3Dnomsi')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq /proc/interrupts')
+> +
+> +    def test_xen_guest_vapic(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest_vapic
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.vm.add_args('-cpu', 'host,+xen-vapic')
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq /proc/interrupts')
+> +        self.ssh_command('grep PCI-MSI /proc/interrupts')
+> +
+> +    def test_xen_guest_novector(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest_novector
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks' +
+> +                              ' xen_no_vector_callback')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
+> +
+> +    def test_xen_guest_novector_nomsi(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest_novector_nomsi
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks pci=3Dnomsi'=
+ +
+> +                              ' xen_no_vector_callback')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
+> +
+> +    def test_xen_guest_novector_noapic(self):
+> +        """
+> +        :avocado: tags=3Dxen_guest_novector_noapic
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.kernel_params =3D (self.distro.default_kernel_params +
+> +                              ' xen_emul_unplug=3Dide-disks' +
+> +                              ' xen_no_vector_callback noapic')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
 
 
 --=20
