@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72346B0FC2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:05:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D726B0FC4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:06:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx7u-0004BN-Oe; Wed, 08 Mar 2023 11:58:54 -0500
+	id 1pZx83-0004Fu-9T; Wed, 08 Mar 2023 11:59:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx7r-00049i-AT; Wed, 08 Mar 2023 11:58:51 -0500
+ id 1pZx80-0004En-Mw; Wed, 08 Mar 2023 11:59:00 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx7p-0003yA-Qu; Wed, 08 Mar 2023 11:58:51 -0500
+ id 1pZx7y-00040X-PG; Wed, 08 Mar 2023 11:59:00 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 427FC400EA;
+ by isrv.corpit.ru (Postfix) with ESMTP id C647E400EC;
  Wed,  8 Mar 2023 19:58:20 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 05D7592;
+ by tsrv.corpit.ru (Postfix) with SMTP id 6DA531FE;
  Wed,  8 Mar 2023 19:58:19 +0300 (MSK)
-Received: (nullmailer pid 2098278 invoked by uid 1000);
+Received: (nullmailer pid 2098282 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:15 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
+Cc: qemu-stable@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Sid Manning <sidneym@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 13/47] target/arm: allow writes to SCR_EL3.HXEn bit when
- FEAT_HCX is enabled
-Date: Wed,  8 Mar 2023 19:57:16 +0300
-Message-Id: <20230308165815.2098148-13-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 15/47] target/arm: Fix physical address resolution for Stage2
+Date: Wed,  8 Mar 2023 19:57:18 +0300
+Message-Id: <20230308165815.2098148-15-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -59,40 +61,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-ARM trusted firmware, when built with FEAT_HCX support, sets SCR_EL3.HXEn bit
-to allow EL2 to modify HCRX_EL2 register without trapping it in EL3. Qemu
-uses a valid mask to clear unsupported SCR_EL3 bits when emulating SCR_EL3
-write, and that mask doesn't include SCR_EL3.HXEn bit even if FEAT_HCX is
-enabled and exposed to the guest. As a result EL3 writes of that bit are
-ignored.
+Conversion to probe_access_full missed applying the page offset.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Message-id: 20230105221251.17896-4-eiakovlev@linux.microsoft.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Sid Manning <sidneym@quicinc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230126233134.103193-1-richard.henderson@linaro.org
+Fixes: f3639a64f602 ("target/arm: Use softmmu tlbs for page table walking")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 08899b5c68a55a3780d707e2464073c8f2670d31)
+(cherry picked from commit 9d2617ac7d3139d870ba14204aedd74395990192)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- target/arm/helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/ptw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d8c8223ec3..22bc935242 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1820,6 +1820,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-         if (cpu_isar_feature(aa64_sme, cpu)) {
-             valid_mask |= SCR_ENTP2;
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index bb22271a1d..0b16068557 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -266,7 +266,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
+         if (unlikely(flags & TLB_INVALID_MASK)) {
+             goto fail;
          }
-+        if (cpu_isar_feature(aa64_hcx, cpu)) {
-+            valid_mask |= SCR_HXEN;
-+        }
-     } else {
-         valid_mask &= ~(SCR_RW | SCR_ST);
-         if (cpu_isar_feature(aa32_ras, cpu)) {
+-        ptw->out_phys = full->phys_addr;
++        ptw->out_phys = full->phys_addr | (addr & ~TARGET_PAGE_MASK);
+         ptw->out_rw = full->prot & PAGE_WRITE;
+         pte_attrs = full->pte_attrs;
+         pte_secure = full->attrs.secure;
 -- 
 2.30.2
 
