@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E807A6B0952
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C7F6B090D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:30:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtsb-0003Xp-0E; Wed, 08 Mar 2023 08:30:53 -0500
+	id 1pZtro-00022u-1O; Wed, 08 Mar 2023 08:30:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr5-0001kl-7F
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:19 -0500
-Received: from mout.kundenserver.de ([217.72.192.75])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr6-0001lF-OL
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:23 -0500
+Received: from mout.kundenserver.de ([212.227.17.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqz-00066d-SO
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:18 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr2-00066q-RT
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:20 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mbj7g-1q8OnD2xiA-00dF3y; Wed, 08
- Mar 2023 14:29:09 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M894P-1pf8uz0etX-005GcR; Wed, 08
+ Mar 2023 14:29:10 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 17/28] linux-user/sparc: Tidy window spill/fill traps
-Date: Wed,  8 Mar 2023 14:28:46 +0100
-Message-Id: <20230308132857.161793-18-laurent@vivier.eu>
+Subject: [PULL 18/28] linux-user/sparc: Fix sparc64_{get, set}_context traps
+Date: Wed,  8 Mar 2023 14:28:47 +0100
+Message-Id: <20230308132857.161793-19-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qF8BqfTZHyvBEz/BQyLZFKI+mzZylXNGIarDwpwSKTKkWOqV7bU
- uMKoYl430EjOjcxPUefjCFKFTpM0u0uJG3R3jTfzy2wWneoMzQxMblACjC3dVn7Mltq6bqX
- jslMOPwyei/B9KwtSxbOoAvDgzNJ6QxkJzHp1NjVBKgHWlSymWjg/9OJq97mYwAx28CUfnK
- m7ojPAJRRF33bFf5gRUkQ==
-UI-OutboundReport: notjunk:1;M01:P0:dt6hapDWLQI=;9ZejsjhzCDBV0tkNeTywNGh8PFv
- qmCStgz6qB1u0t8oLh8kyA4tMJI9Yk5/u04CHstU9KDlfwaOxSr6cg521yIcHrk6s65a5N6XO
- sQC1AicVFyMRG4vDsOCR3p9egb+RzADD2dDfkBoggGmW9UVdEl+qNvfmGYcjzIgUkwRH3XMAa
- mc1JG2X0GS41B6tLJRYzXeYEv+TamN2I1jtMBgMX2iB5OgVCfqcmWya+Ew4MHqHTN17oF2X9e
- bcbeVAXagMFLF/kkmEylFyM1XuTz8Ea5SpEoKhyQaVmHaql3iUvg7apXQqsnNDxaBG2qqZczK
- wW0c8vuCTRhIMq+dYoqAf5/3sx5KUyPqb5U8PVdcwGQkqUMAPYI6m0chjCWLCDQ2RnGtq7FKM
- MwUopPdzqX+3T8srPyuSnZhANFwlYoYB3XjspMaWojEyj9d9R2IkGr4gTy7AjGkVXCBdUw/UQ
- 6VhXOaU0Co/KNGFixwtsEYoSW4+n9Pwv4+jb9QEzfDnMUqfqSiNgANvQ8pruCShIfCLrqvUIy
- HB//AlxBU1keCUh1UeHl/JopSW8/jOXSrM+L3qtK2v0BT8b04ZN7T32m9pE5n/IOumzJVe7Fr
- HacfSVGiF7qRzLIbW7dgzGshAReATK/W0EHj5EfJIYQ2fwfxRnfR5dfUFQOYHdsLivh3qkpwn
- dcTjTUbCGG5GsgVzY9YI5Gg/Dk1FEw4QlV1MF56eDw==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:m843k0kBoCultNKsgrK6bnXtkmMQGCmOv1QB/g34Sv8iuQMvGRB
+ SWYnF+dnwyE9gBCpMXTCt0nZsJYVWEtXsvWavmh/Xo6pcXdy3vH329cVo6zr/Mc0WqNDrHz
+ kBvSRFlfQlg0Q1w2CznHktStY/EWNRO1RlAWgm4r9pNTGnXslhJKfnXOaxx0Db0qufx4RsJ
+ /wntGnkMEdEDrD5k4SDrA==
+UI-OutboundReport: notjunk:1;M01:P0:b1LHRQgv+To=;Ptw+EZXMTftM3wPoynduOJOCDc6
+ yLbXgDbYs4Oye/X7xwtBSbP3qG5/wrCSbwtWGbJwkvTCHeKh/bX41aR5Qh+/3XFLX1Qm45Ysz
+ AeO1UFDCURucmJ8ME0tolMbargEpYwXMy34uLj4xRi2xtKIG/1Z4CyoW99Vhm3qDsTyYl/4R5
+ 3oKRf3RtqimtEW+3mbX/JPGo+7Biaj2CboEl85K0WQ5pn3+eyUDTXjxijJDugs6HhscDU9PuI
+ 9OFDP50ckp6cX0vlm19ybmgQRNZut0j+jxGT5TPZ83Fi/8HdDVMHJQh2JxGts0tv+JK6t77lQ
+ tc7pqRE77gHZbAe/uzhn2Ka4CeKQNqh3O9xFW1AjixEXahz6DwnDE73Xipf/ePhz213xaXTbq
+ Bh9DVhmW3rW70UEDKsUbjkvYjmiWi2BcynT8rcOiM4iomfhRbj+xbkiEmtDUETr8BuCcAxLUM
+ 2F+56GsFcG8O58yagV8eKysoHTDfH0qcWB4s4RYEOBaAJw4ltW850prkPqqzlhDnhlosZNV7g
+ DJihmVhXu+qwAMcoWYTzq/VEVG/AlPtk6116jkk9D5wtTiCqQWzyOGFxlIRy9duSujyv/rzDU
+ xapyPTP6A2vC5zKwd3WQUQSt4SJdgdycD1XOtZU8LnPBqBIvx8eBSBYN7N8YAKK5/lXLVMUGa
+ PzznQpQ7dhWIEruxzzGVacwmeyud9ALCfIOIlTFgMQ==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,61 +71,117 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Add some macros to localize the hw difference between v9 and pre-v9.
+These traps are present for sparc64 with ilp32, aka sparc32plus.
+Enabling them means adjusting the defines over in signal.c,
+and fixing an incorrect usage of abi_ulong when we really meant
+the full register, target_ulong.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230216054516.1267305-6-richard.henderson@linaro.org>
+Message-Id: <20230216054516.1267305-7-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ linux-user/sparc/cpu_loop.c | 21 ++++++++++-----------
+ linux-user/sparc/signal.c   | 36 +++++++++++++++++++-----------------
+ 2 files changed, 29 insertions(+), 28 deletions(-)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index e1d08ff2045c..2bcf32590fa1 100644
+index 2bcf32590fa1..edbc4f3bdcbf 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -158,6 +158,15 @@ static void flush_windows(CPUSPARCState *env)
- #define syscall_cc         xcc
- #endif
- 
-+/* Avoid ifdefs below for the v9 and pre-v9 hw traps. */
-+#ifdef TARGET_SPARC64
-+#define TARGET_TT_SPILL  TT_SPILL
-+#define TARGET_TT_FILL   TT_FILL
-+#else
-+#define TARGET_TT_SPILL  TT_WIN_OVF
-+#define TARGET_TT_FILL   TT_WIN_UNF
-+#endif
-+
- void cpu_loop (CPUSPARCState *env)
- {
-     CPUState *cs = env_cpu(env);
-@@ -204,20 +213,14 @@ void cpu_loop (CPUSPARCState *env)
+@@ -213,25 +213,24 @@ void cpu_loop (CPUSPARCState *env)
              env->npc = env->npc + 4;
              break;
  
--#ifndef TARGET_SPARC64
--        case TT_WIN_OVF: /* window overflow */
+-        case TARGET_TT_SPILL: /* window overflow */
 -            save_window(env);
 -            break;
--        case TT_WIN_UNF: /* window underflow */
+-        case TARGET_TT_FILL:  /* window underflow */
 -            restore_window(env);
 -            break;
--#else
--        case TT_SPILL: /* window overflow */
+-
+ #ifdef TARGET_SPARC64
+-#ifndef TARGET_ABI32
+-        case 0x16e:
++        case TT_TRAP + 0x6e:
+             flush_windows(env);
+             sparc64_get_context(env);
+             break;
+-        case 0x16f:
++        case TT_TRAP + 0x6f:
+             flush_windows(env);
+             sparc64_set_context(env);
+             break;
+ #endif
+-#endif
++
 +        case TARGET_TT_SPILL: /* window overflow */
-             save_window(env);
-             break;
--        case TT_FILL: /* window underflow */
++            save_window(env);
++            break;
 +        case TARGET_TT_FILL:  /* window underflow */
-             restore_window(env);
++            restore_window(env);
++            break;
++
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
              break;
+diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
+index b501750fe0f1..2be9000b9e04 100644
+--- a/linux-user/sparc/signal.c
++++ b/linux-user/sparc/signal.c
+@@ -503,7 +503,23 @@ long do_rt_sigreturn(CPUSPARCState *env)
+     return -QEMU_ESIGRETURN;
+ }
+ 
+-#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
++#ifdef TARGET_ABI32
++void setup_sigtramp(abi_ulong sigtramp_page)
++{
++    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8, 0);
++    assert(tramp != NULL);
++
++    default_sigreturn = sigtramp_page;
++    install_sigtramp(tramp, TARGET_NR_sigreturn);
++
++    default_rt_sigreturn = sigtramp_page + 8;
++    install_sigtramp(tramp + 2, TARGET_NR_rt_sigreturn);
++
++    unlock_user(tramp, sigtramp_page, 2 * 8);
++}
++#endif
 +
 +#ifdef TARGET_SPARC64
- #ifndef TARGET_ABI32
-         case 0x16e:
-             flush_windows(env);
+ #define SPARC_MC_TSTATE 0
+ #define SPARC_MC_PC 1
+ #define SPARC_MC_NPC 2
+@@ -575,7 +591,7 @@ void sparc64_set_context(CPUSPARCState *env)
+     struct target_ucontext *ucp;
+     target_mc_gregset_t *grp;
+     target_mc_fpu_t *fpup;
+-    abi_ulong pc, npc, tstate;
++    target_ulong pc, npc, tstate;
+     unsigned int i;
+     unsigned char fenab;
+ 
+@@ -773,18 +789,4 @@ do_sigsegv:
+     unlock_user_struct(ucp, ucp_addr, 1);
+     force_sig(TARGET_SIGSEGV);
+ }
+-#else
+-void setup_sigtramp(abi_ulong sigtramp_page)
+-{
+-    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8, 0);
+-    assert(tramp != NULL);
+-
+-    default_sigreturn = sigtramp_page;
+-    install_sigtramp(tramp, TARGET_NR_sigreturn);
+-
+-    default_rt_sigreturn = sigtramp_page + 8;
+-    install_sigtramp(tramp + 2, TARGET_NR_rt_sigreturn);
+-
+-    unlock_user(tramp, sigtramp_page, 2 * 8);
+-}
+-#endif
++#endif /* TARGET_SPARC64 */
 -- 
 2.39.2
 
