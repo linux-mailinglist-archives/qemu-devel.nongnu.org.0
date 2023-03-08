@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2675A6B094F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43116B0933
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:33:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtth-0004OL-Ie; Wed, 08 Mar 2023 08:32:01 -0500
+	id 1pZtsT-000360-UH; Wed, 08 Mar 2023 08:30:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr6-0001lC-Mm
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:22 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr4-0001kh-Pr
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:19 -0500
 Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr2-00066j-RH
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:20 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqz-00066Y-QT
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:17 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MQdI8-1pxdH21iVi-00NlTO; Wed, 08
- Mar 2023 14:29:06 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Miqvq-1qETKw3dCe-00eswy; Wed, 08
+ Mar 2023 14:29:07 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Mathis Marion <mathis.marion@silabs.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 10/28] linux-user: fix sockaddr_in6 endianness
-Date: Wed,  8 Mar 2023 14:28:39 +0100
-Message-Id: <20230308132857.161793-11-laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 11/28] linux-user: handle netlink flag NLA_F_NESTED
+Date: Wed,  8 Mar 2023 14:28:40 +0100
+Message-Id: <20230308132857.161793-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Hy53xkBdeSLRXJ6pYxuYEEHOz9j/oWvZquYZC5qO8IouMOlyyiW
- TwCn8cilroAEizwUIbgaiErzZTCY7MzOSxXuG9u/DK5fxjCnWYKYqyYGx2rbVvs+ElOrDDK
- bNd6TvirFYymjbpdSlK9unSs6VXpKToyLzllQI/+9eIOjnYRmUphKYDsSfCGdsezjuQsuC7
- /ipSY6S/IUzJuTey7psYw==
-UI-OutboundReport: notjunk:1;M01:P0:0yyqnfcbaH8=;E4Qkf3VIQeOuYl/Z0jMgAvq+E6Y
- ANBEXO2XPAwmnt1RGkfnP3ZygPq2etPqld+1SF8LmBB8192UiMxaK6OHnL3ztsWdkGKLhKjA6
- tt1adLvYyE1x3to5MQb/HTUAMnzaSQEvTwJmtBu7xNQFIKkMhv3hTXszvmYd9bbg0qdwwWBqU
- 9rnkb54Cw7LB+GJ8aEG9Sz7PitjN3aVq6DTBgId8ws1voPmWAG6suVHTN/UT7/nXuTqYm7bvt
- sI1R7j5qP0MaJkAk9gYe7tJo80j6NyHFKFkD6+bruceb8BxoMdfWPGz0GI09aQDzZNd/7u8dL
- gsghJS9f8onDzqI3KpzaY7Us6JrIMbPt1eUo7RHDs22J0C5mEe7ysoUGkANWVIryzFOmcFAkR
- WC1YB8lFGO6d9OXVXVL2kVX8QrUpxpUcgTFfGToO3ML2E2Wq+QXAlAt0XDqOajsa4RSU4SPrk
- idlXkO3FPzNHXF7ALmWCunPKZO2gJ3WPrFG9j3je6GrC7saScX5dvOp1wONWRCybAmMfnkGej
- KeBWZcuDZC+1LeIv46q45N7W64vGfp5tP1EIcp+qFd/bgAOlhVGCGMLjeXhI/+N9/3HlQLn3q
- pjobkPjYPXAwl4h2i2SZYCNz0vNi0yxRiyCYG9J16CpCOU3+a3p6juqBNISINUmNpd1S4Oqkw
- rvy3+JT7ugGLloeChhFFSMcVzUycEchVdWy6z++q8A==
+X-Provags-ID: V03:K1:myyzQBA3S51OUodtii+2y2SRMVuCdOotEcp2Tvo+JQcolIFsSkY
+ lsxRgw1AM7gnNZEa/6Au2clwn4SAqNeN+zVq/8wLudn02p1qjVy/Ex+Ru9xXRCpMRXj/p4e
+ PEEezG7vKa52gA7l9KY4hlAFBgPNnXnIugZI6AowjhTBmhKMn38ZVyLsVhuHzGERPVxi/iu
+ IKtIsHKiYaKmFm22V8NRw==
+UI-OutboundReport: notjunk:1;M01:P0:Otmvlndgk9c=;u96K7ceLKm/rbpWmydHntfJAIDz
+ XpM/2VVSajR85DA1hVB/t/agV+ZirCeV1eGWFCUubCtTumUxzDb1TMVlGP1ZyQ0XGJKuuBKy2
+ EVF0cyA3oCGzQ5ZcNiVYkRsncFTh0h6XqfgyaDUOIiZ8wJJp434DOakFQkX8UgJx1HxZAuy7i
+ 3B4nckJuRDBvWvvcuhabuhhJGgM4rKjdlv9LEY7m2/nXxEmIwAgRnepyfgC1eBfmHeGRKem1x
+ OuH3VO7XMWfyrH2BcEzDGGExkuYg5T5m9lkUkI6vSRX+rMg80byrKBSlRmxX+8sbpYbaioQKo
+ UAd227FJ8DBvRO2E/GgcmpoXr0rW1k2cj+2911PwgLnhoAno0tWDcsf0+0Z+1+NDjOLVseBxH
+ oXwI+M1RO5EvVKZqDQ2lkTsOBaF3DYs0Ht69KLiKMshEjZ6iKzcqb4NJzvXX3+/rf5RAES8xC
+ eETQMm1UEiKhboeSWyeNV3PSh7keOCcntpn5koLoQpm2qy2v86yG17lVR6esqEqKcz3hD0pQC
+ yKQLKOuE9A6iBWTcUq1qp1K6/2CEehi+vgSDASCyUej5no4ZCiik8D5iKS/sZm6STXuRDMnN2
+ HUqBRIDJGXzu2/F5y70m8OoYKWQ2ibrFeeG8KmyUK08uYE+M0cYoijW42mpF5Oe/OIrTjnA07
+ OYEftS6G1CqAUJh8qZWaPFWzDKDd8lo3nxBbflJpww==
 Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,34 +71,61 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mathis Marion <mathis.marion@silabs.com>
 
-The sin6_scope_id field uses the host byte order, so there is a
-conversion to be made when host and target endianness differ.
+Newer kernel versions require this flag to be present contrary to older
+ones. Depending on the libnl version it is added or not.
+
+Typically when using rtnl_link_inet6_set_addr_gen_mode, the netlink
+packet generated may contain the following attribute:
+
+with libnl 3.4
+
+  {nla_len=16, nla_type=IFLA_AF_SPEC},
+  [
+    {nla_len=12, nla_type=AF_INET6},
+    [{nla_len=5, nla_type=IFLA_INET6_ADDR_GEN_MODE}, IN6_ADDR_GEN_MODE_NONE]
+  ]
+
+with libnl 3.7
+
+  {nla_len=16, nla_type=NLA_F_NESTED|IFLA_AF_SPEC},
+  [
+    {nla_len=12, nla_type=NLA_F_NESTED|AF_INET6},
+    [{nla_len=5, nla_type=IFLA_INET6_ADDR_GEN_MODE}, IN6_ADDR_GEN_MODE_NONE]]
+  ]
+
+Masking the type is likely needed in other places. Only the above cases
+are implemented in this patch.
 
 Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230307154256.101528-2-Mathis.Marion@silabs.com>
+Message-Id: <20230307154256.101528-3-Mathis.Marion@silabs.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/fd-trans.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index bcf409e134b4..1f903dd67cba 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1714,6 +1714,11 @@ static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
- 	lladdr = (struct target_sockaddr_ll *)addr;
- 	lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
- 	lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
-+    } else if (sa_family == AF_INET6) {
-+        struct sockaddr_in6 *in6addr;
-+
-+        in6addr = (struct sockaddr_in6 *)addr;
-+        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
-     }
-     unlock_user(target_saddr, target_addr, 0);
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 4852a75d9dcc..c04a97c73a31 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -1359,7 +1359,7 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
  
+ static abi_long target_to_host_data_spec_nlattr(struct nlattr *nlattr)
+ {
+-    switch (nlattr->nla_type) {
++    switch (nlattr->nla_type & NLA_TYPE_MASK) {
+     case AF_INET6:
+         return target_to_host_for_each_nlattr(NLA_DATA(nlattr), nlattr->nla_len,
+                                               target_to_host_data_inet6_nlattr);
+@@ -1375,7 +1375,7 @@ static abi_long target_to_host_data_link_rtattr(struct rtattr *rtattr)
+ {
+     uint32_t *u32;
+ 
+-    switch (rtattr->rta_type) {
++    switch (rtattr->rta_type & NLA_TYPE_MASK) {
+     /* uint32_t */
+     case QEMU_IFLA_MTU:
+     case QEMU_IFLA_TXQLEN:
 -- 
 2.39.2
 
