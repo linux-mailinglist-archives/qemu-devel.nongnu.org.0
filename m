@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C0E6B0946
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9936B094D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:34:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtu2-0004Wt-Tn; Wed, 08 Mar 2023 08:32:22 -0500
+	id 1pZtsW-0003DD-73; Wed, 08 Mar 2023 08:30:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqw-0001gv-RT
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:11 -0500
-Received: from mout.kundenserver.de ([217.72.192.73])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqx-0001hW-NQ
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:12 -0500
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqv-00065L-0w
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:10 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqv-00065X-OH
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:11 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MXH7g-1q4G2X1I9G-00Yil8; Wed, 08
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mj831-1qEkJq36Iv-00f9vt; Wed, 08
  Mar 2023 14:29:07 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 12/28] linux-user: Add translation for argument of msync()
-Date: Wed,  8 Mar 2023 14:28:41 +0100
-Message-Id: <20230308132857.161793-13-laurent@vivier.eu>
+Subject: [PULL 13/28] linux-user: Emulate CLONE_PIDFD flag in clone()
+Date: Wed,  8 Mar 2023 14:28:42 +0100
+Message-Id: <20230308132857.161793-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:q20SVmdaVHOUR7GXeDl9sTUNf31LYkjg0VSPqOvcEl8wx19L2kD
- tRia6aq7lntHe2TY5K+4DoDjuX/ljermER/Hpq/EDgZOR4cgZuqy9OX4RIlsntV/zUuZlaQ
- SewEpDtm7Hqt1BHyRNmcfcYsG+FbeELuJ/V+hTzhsK22FiDo9tjueH3CixUtV7QYt8nbJcM
- y/Tcg/XWhrAgb6d3x0P7Q==
-UI-OutboundReport: notjunk:1;M01:P0:BRI9fYN4/tc=;ReggTbUj3kmSk4QbcWaLO7tMiBu
- OIpEL26JuNfqTD+0BkCpv6vjXHJf0T91Wh/2kOmqQlmGKjAppy4/ja7XxxKh3unNZgDJIsDok
- sitrDIA26UmRAekrnDiWuXaB4nfNubFuJZYny9qcrFqJyJpwdLEUvrrpc731zT87m5FcTgzXk
- mA19GHKcXduVpuhCfGG4OoCD5T+8GjcwBQkpLzxhqsdj8s6kxTH4yHXac1TomB9H0qSAg3Cem
- poTBBfOuaktr8WAEDx4hQbHAq7s9hnrn7VbxQjqZdwAIJfqGn9bJnU5zWVPWt0XEdmx4MDGzo
- 6nRxeKUUhIimZL9f7Nt5E0hjZPxIXW/sZ/DAcks62hNMtegFo9KKz00YWfgHj4vUlEmensaVT
- VO+AfRV9fXQ8jz3Ju+jhYjzie+DboFTWLylQ7u7rDl5w65pzimdjJjW+Bb66odmx05qHDOzIU
- phFAkUhqYOCMCy3Xfjz3pvO938UAOb1V2Rj62zZQss+hVqotNshp9CU4Urb5bSSnEI3+fj+Q9
- l80IqcDuiWJrH7BfNc9LMotodeeD73vILpIbQDHe+/0xy3v7btTNET1Z5nMf0ZNTC8hOtugdX
- W3UKbQ+g1wdJfGe0BusF+gO0BMA+8SKuuDmV3tJP/SJsQnNj3/BMZkARYfUxSjZMkxCcpgpYz
- PD/5efNEGLePMzT69fU+OerORDg7eGeQFJhRJiDjuQ==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vzTXupv3oZ6QX7fYicY4rF1TH7pIV4mYhUqwhARE5D6hskIBAtk
+ bS5hl0nFB4uQaouWNZsuA+5vRJWOpaXqrg07GhNt+a/yn2nTrzLKzGMdVRdRMvdEhIhLBMK
+ M2fXhiPbzYev7jB9t0vYH56WRZtkLoLb4juYH2ou46zX+C8j1j0x7xgQBWGFHUxWjKeM8RX
+ xlTx3HR5UtXZZCd3dp+vA==
+UI-OutboundReport: notjunk:1;M01:P0:PdeuOIq5vd4=;tM/kwzGfOxKpIiTYz110UIN04yX
+ cL84H4kiTHn1TpVqDda7a2HPf5UpgkRsc/IBdUq6Y31+3+oRufcAsTDvvGrLkofUN3r5z23Fw
+ goGtr/bS/iKq6dTFEREyfNR2IXWsqCG5WmDb9dhPctMJZlxfWeIdfWaCfhWxoJMzJmyBaG6Od
+ Lhafy+oGgei8pJFf+6gH9BspEFE0nM1Ad09oDTlgY1EPhGxeqErPQahIAzM0RpPiQJ5Ul3+te
+ S/xfLKC1eNZ6GKVhqSXRUJbBVf7ovvTl0lLJZpJ+YFq6PPaBhWR0y5H53XiJu9aNWdrGket/Y
+ umQmtxPv1KrHm97wHmPl8gqs497GAnH/geePS7sh1NRT5iJT30aD27qofu7xi4Z0Bw/Z3uQEn
+ Mv7c38pBCWyVNnug+b8TzVVwgyYq9fc7Umceobmjo1as/cF4j+HzQwods8irsPSvvR5OC4O8a
+ pX8k+0w3EJE3rxMhGZl6WMEde+Iwr4gEF8fIy4bt9W4y8NigphNI/OeNuzk2TCdnO4thKPk9n
+ Zxu/QMqZE9TIjzb5oFNtrNPBrdv/cePZ1jBp07UpoPnCFrkbMd7NFVSlMJm5N/Cd+UlxMjea6
+ 2VsH7RRzzSE4dFW8l/0e/8dsKBSpoCCuAMeJ7vINmiODaY/FacYF60d/yWY5Y8bDh5p2bE2gL
+ 6Hs+SrrpoJh5lkhAxLBj2oMoi4kf7VJwCC/q5iuYuQ==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,130 +71,88 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
-msync() uses the flags MS_ASYNC, MS_INVALIDATE and MS_SYNC, which differ
-between platforms, specifcally on alpha and hppa.
+Add emulation for the CLONE_PIDFD flag of the clone() syscall.
+This flag was added in Linux kernel 5.2.
 
-Add a target to host translation for those and wire up a nicer strace
-output.
-
-This fixes the testsuite of the macaulay2 debian package with a hppa-linux
-guest on a x86-64 host.
+Successfully tested on a x86-64 Linux host with hppa-linux target.
+Can be verified by running the testsuite of the qcoro debian package,
+which breaks hard and kills the currently logged-in user without this
+patch.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-Message-Id: <Y5rMcts4qe15RaVN@p100>
+Message-Id: <Y4XoJCpvUA1JD7Sj@p100>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/alpha/target_mman.h   |  4 ++++
- linux-user/generic/target_mman.h | 13 +++++++++++++
- linux-user/hppa/target_mman.h    |  4 ++++
- linux-user/strace.list           |  2 +-
- linux-user/syscall.c             | 12 +++++++++++-
- 5 files changed, 33 insertions(+), 2 deletions(-)
+ linux-user/strace.c  |  1 +
+ linux-user/syscall.c | 27 ++++++++++++++++++++++++++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
-index cd6e3d70a604..051544f5abd8 100644
---- a/linux-user/alpha/target_mman.h
-+++ b/linux-user/alpha/target_mman.h
-@@ -3,6 +3,10 @@
- 
- #define TARGET_MADV_DONTNEED 6
- 
-+#define TARGET_MS_ASYNC 1
-+#define TARGET_MS_SYNC 2
-+#define TARGET_MS_INVALIDATE 4
-+
- #include "../generic/target_mman.h"
- 
- #endif
-diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
-index 1436a3c54308..32bf1a52d07e 100644
---- a/linux-user/generic/target_mman.h
-+++ b/linux-user/generic/target_mman.h
-@@ -89,4 +89,17 @@
- #define TARGET_MADV_DONTNEED_LOCKED 24
- #endif
- 
-+
-+#ifndef TARGET_MS_ASYNC
-+#define TARGET_MS_ASYNC 1
-+#endif
-+
-+#ifndef TARGET_MS_INVALIDATE
-+#define TARGET_MS_INVALIDATE 2
-+#endif
-+
-+#ifndef TARGET_MS_SYNC
-+#define TARGET_MS_SYNC 4
-+#endif
-+
- #endif
-diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
-index 66dd9f79414e..f9b6b9703255 100644
---- a/linux-user/hppa/target_mman.h
-+++ b/linux-user/hppa/target_mman.h
-@@ -10,6 +10,10 @@
- #define TARGET_MADV_WIPEONFORK 71
- #define TARGET_MADV_KEEPONFORK 72
- 
-+#define TARGET_MS_SYNC 1
-+#define TARGET_MS_ASYNC 2
-+#define TARGET_MS_INVALIDATE 4
-+
- #include "../generic/target_mman.h"
- 
- #endif
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index f776c73fa04c..c7808ea118f9 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -656,7 +656,7 @@
- { TARGET_NR_msgsnd, "msgsnd" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_msync
--{ TARGET_NR_msync, "msync" , NULL, NULL, NULL },
-+{ TARGET_NR_msync, "msync" , "%s(%p,%u,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_multiplexer
- { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index e9757ed9adee..5eff70d7727b 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1116,6 +1116,7 @@ UNUSED static const struct flags clone_flags[] = {
+     FLAG_GENERIC(CLONE_FS),
+     FLAG_GENERIC(CLONE_FILES),
+     FLAG_GENERIC(CLONE_SIGHAND),
++    FLAG_GENERIC(CLONE_PIDFD),
+     FLAG_GENERIC(CLONE_PTRACE),
+     FLAG_GENERIC(CLONE_VFORK),
+     FLAG_GENERIC(CLONE_PARENT),
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1f903dd67cba..44498e9e8ac7 100644
+index 44498e9e8ac7..374e115dab13 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -22,6 +22,7 @@
- #include "qemu/path.h"
- #include "qemu/memfd.h"
- #include "qemu/queue.h"
-+#include "target_mman.h"
- #include <elf.h>
- #include <endian.h>
- #include <grp.h>
-@@ -7612,6 +7613,14 @@ static inline int target_to_host_mlockall_arg(int arg)
- }
- #endif
+@@ -171,7 +171,7 @@
  
-+static inline int target_to_host_msync_arg(abi_long arg)
-+{
-+    return ((arg & TARGET_MS_ASYNC) ? MS_ASYNC : 0) |
-+           ((arg & TARGET_MS_INVALIDATE) ? MS_INVALIDATE : 0) |
-+           ((arg & TARGET_MS_SYNC) ? MS_SYNC : 0) |
-+           (arg & ~(TARGET_MS_ASYNC | TARGET_MS_INVALIDATE | TARGET_MS_SYNC));
-+}
+ /* Flags for fork which we can implement within QEMU itself */
+ #define CLONE_OPTIONAL_FORK_FLAGS               \
+-    (CLONE_SETTLS | CLONE_PARENT_SETTID |       \
++    (CLONE_SETTLS | CLONE_PARENT_SETTID | CLONE_PIDFD | \
+      CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID)
+ 
+ /* Flags for thread creation which we can implement within QEMU itself */
+@@ -6730,6 +6730,17 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+             return -TARGET_EINVAL;
+         }
+ 
++#if !defined(__NR_pidfd_open) || !defined(TARGET_NR_pidfd_open)
++        if (flags & CLONE_PIDFD) {
++            return -TARGET_EINVAL;
++        }
++#endif
 +
- #if (defined(TARGET_NR_stat64) || defined(TARGET_NR_lstat64) ||     \
-      defined(TARGET_NR_fstat64) || defined(TARGET_NR_fstatat64) ||  \
-      defined(TARGET_NR_newfstatat))
-@@ -10124,7 +10133,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         /* ??? msync/mlock/munlock are broken for softmmu.  */
- #ifdef TARGET_NR_msync
-     case TARGET_NR_msync:
--        return get_errno(msync(g2h(cpu, arg1), arg2, arg3));
-+        return get_errno(msync(g2h(cpu, arg1), arg2,
-+                               target_to_host_msync_arg(arg3)));
- #endif
- #ifdef TARGET_NR_mlock
-     case TARGET_NR_mlock:
++        /* Can not allow CLONE_PIDFD with CLONE_PARENT_SETTID */
++        if ((flags & CLONE_PIDFD) && (flags & CLONE_PARENT_SETTID)) {
++            return -TARGET_EINVAL;
++        }
++
+         if (block_signals()) {
+             return -QEMU_ERESTARTSYS;
+         }
+@@ -6757,6 +6768,20 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+                 ts->child_tidptr = child_tidptr;
+         } else {
+             cpu_clone_regs_parent(env, flags);
++            if (flags & CLONE_PIDFD) {
++                int pid_fd = 0;
++#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
++                int pid_child = ret;
++                pid_fd = pidfd_open(pid_child, 0);
++                if (pid_fd >= 0) {
++                        fcntl(pid_fd, F_SETFD, fcntl(pid_fd, F_GETFL)
++                                               | FD_CLOEXEC);
++                } else {
++                        pid_fd = 0;
++                }
++#endif
++                put_user_u32(pid_fd, parent_tidptr);
++                }
+             fork_end(0);
+         }
+         g_assert(!cpu_in_exclusive_context(cpu));
 -- 
 2.39.2
 
