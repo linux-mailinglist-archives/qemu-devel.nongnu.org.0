@@ -2,65 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF716B139D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 22:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DECA6B139E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 22:16:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa17X-000361-SR; Wed, 08 Mar 2023 16:14:47 -0500
+	id 1pa18o-0003s8-MM; Wed, 08 Mar 2023 16:16:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pa17T-00035B-Mp
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 16:14:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pa18k-0003ig-N1
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 16:16:02 -0500
+Received: from mailout08.t-online.de ([194.25.134.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pa17S-0007pW-Aw
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 16:14:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678310081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=8/SIKRDithAjEhANHTT4LO4v/XIQ6z36mmvkIy15cEs=;
- b=GNJOHRQJq2LINIwZdtaNjkXqzzR5obMz1oCWEURTcMItHtd/L5ZxuR5A/a+gpzSuHusBP0
- hxxGo8ro1vi8fQlEhzpmDhNFo/nvwiiFyaDv+NZHQLQvKR2YEKGfKGNEejA9N3lHCjiKMu
- HmEg5d9wD6aV0EVBRkPOlX8/8KAoVXI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-6yCB4JfYOIGrKCoWgiwI5A-1; Wed, 08 Mar 2023 16:14:37 -0500
-X-MC-Unique: 6yCB4JfYOIGrKCoWgiwI5A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83AC33C0257E;
- Wed,  8 Mar 2023 21:14:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6A3D440D9;
- Wed,  8 Mar 2023 21:14:36 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] block: add missing coroutine_fn to
- bdrv_sum_allocated_file_size()
-Date: Wed,  8 Mar 2023 16:14:35 -0500
-Message-Id: <20230308211435.346375-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pa18U-0008ND-4R
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 16:16:02 -0500
+Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
+ by mailout08.t-online.de (Postfix) with SMTP id 8068B1DEB3;
+ Wed,  8 Mar 2023 22:15:40 +0100 (CET)
+Received: from [192.168.211.200] ([84.175.228.75]) by fwd70.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pa18N-2BXSbp0; Wed, 8 Mar 2023 22:15:39 +0100
+Message-ID: <45aebc86-8408-0d2c-1dd2-058faf229a56@t-online.de>
+Date: Wed, 8 Mar 2023 22:15:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Dorinda Bassey <dbassey@redhat.com>, wtaymans@redhat.com
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com,
+ qemu_oss@crudebyte.com, pbonzini@redhat.com
+References: <20230306171020.381116-1-dbassey@redhat.com>
+ <CAJ+F1C+nnrji13CXDcjGOU-b7_dptanHUcCrjUW2d_WyvG3i_Q@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <CAJ+F1C+nnrji13CXDcjGOU-b7_dptanHUcCrjUW2d_WyvG3i_Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TOI-EXPURGATEID: 150726::1678310139-167FD778-D524289A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6b274eff-665d-4bef-8208-9e9bc25c356f
+Received-SPF: none client-ip=194.25.134.20; envelope-from=vr_qemu@t-online.de;
+ helo=mailout08.t-online.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,43 +67,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Not a coroutine_fn, you say?
+Am 08.03.23 um 11:39 schrieb Marc-André Lureau:
 
-  static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
-  {
-      BdrvChild *child;
-      int64_t child_size, sum = 0;
+> Volker, Wim, it would be nice if you could review/comment too!
+>
+> thanks
 
-      QLIST_FOREACH(child, &bs->children, next) {
-          if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-                             BDRV_CHILD_FILTERED))
-          {
-              child_size = bdrv_co_get_allocated_file_size(child->bs);
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Hi,
 
-Well what do we have here?!
+last weekend I replaced pulseaudio with pipewire on my host computer and 
+tested the QEMU pipewire backend. It doesn't work well on my computer, 
+but with a few changes it becomes usable. I hope to have some time 
+tomorrow evening to write down my suggestions and comments.
 
-I rest my case, your honor.
+With best regards,
+Volker
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block.c b/block.c
-index 0dd604d0f6..a79297f99b 100644
---- a/block.c
-+++ b/block.c
-@@ -5749,7 +5749,7 @@ exit:
-  * sums the size of all data-bearing children.  (This excludes backing
-  * children.)
-  */
--static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
-+static int64_t coroutine_fn bdrv_sum_allocated_file_size(BlockDriverState *bs)
- {
-     BdrvChild *child;
-     int64_t child_size, sum = 0;
--- 
-2.39.2
+> --
+> Marc-André Lureau
 
 
