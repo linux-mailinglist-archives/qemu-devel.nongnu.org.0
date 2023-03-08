@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5D16AFAE0
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41876AFADD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:09:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZhLa-0006aj-5N; Tue, 07 Mar 2023 19:07:58 -0500
+	id 1pZhLc-0006fs-P4; Tue, 07 Mar 2023 19:08:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZhLY-0006aa-Ba
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:07:56 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZhLa-0006bl-U5
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:07:58 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZhLT-0006IK-HO
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:07:56 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v16so13876974wrn.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:07:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZhLY-0006JM-Td
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:07:58 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id v16so13877132wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678234069;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5IGy0vF1LxHD+Mh0VVrt/9yAqy94SmqA9OIZ2xWARic=;
- b=XSHS3/pSdA9RQX6EPgBOLyfltwFTYtD1GB6jR6W9IZME46e/otggAMlfhjlNrNH9Oq
- tgF+cQLF5Xw0Itf2uBlZjfpDmYXlH9Tj1COjWlWJZ9UhRLLlT3RHkhgqxKpF5XvH3kuu
- V6MHX4tG3HHrCuMOn03eJCwoUaDLyR71OSLIBHr/I5eAQSpwPivfHejU3Wg8VYYpD6m8
- /OajKdeBrL4MspBlil0JQtHuCK5QtAs/5UiHA/Rc7OY2a5pe+DhsofM+0z2HZzaM+6bZ
- 6OWs1qdXZKXGbnRXqW7rhe27jKHiEdjNDEcfqXeJWShIYyeND6v8HpYRhcoYcrG5q4y1
- ND6A==
+ d=linaro.org; s=google; t=1678234075;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DkaId6AtwWP2ObACPU3FmZXE59O1U8IPJlFt48x/qyU=;
+ b=DL1ev3wVzbtzpn1RO7rbD+SGqwOnW2L72X88b5Efx6us76nwapTuhr7PkJW91Nb02F
+ qjE5+yZU3q3SuBheh0XMon1pxMSY5/6rzlLJnVVTIw1wxOM1YWzjMIc8QssFOtg8pXhk
+ 3ObdGn/n+pQtJyrCgGK1as6ZbIXpwHCB/uSpbnPvWLj6wYJKzIJbMosp+yC+AKQy6ZP9
+ 2uiPFoL/nw9k+Z7lOxTdoNnlG/hse2yEsCyCkEpF+ynGrVGsmhufoyVx/A22srb0Gs1q
+ uanar+C3heKt+0HChjo65/4LH6YiiUwsSQl871IvIWmq3rpDcAZKOG2jAILhRmJxzKhF
+ D+mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678234069;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5IGy0vF1LxHD+Mh0VVrt/9yAqy94SmqA9OIZ2xWARic=;
- b=aRq1qZ++MFGageQlQJ9tP22ukmUsAi8bfgz2v1KEqFKexVQ3MvOsl7K7E7C4hhZdgD
- xezasvaWYTIQT+mJM3RIsqC4UkfOpHzpw/T8sg9Of27c1tCPa7PTJkT6/HC7W9wn25/A
- 7zGfMBA7UhPvRIVFTmd8kJLMjRgcDTdjwUce8aO67odFbYlTi754wdXMfij2vDpcS0Ls
- /lzWtyPFbNXNJq5oIOyG3TIolooOlRhOjCjGTGCvi3BN9b3U0LJt7goDYZgYoKvNCgNz
- NIeerOSi21Ii9YL3LANvo/ju/vjkDssVhEXcjg2CVINY0D8QQFlr2WQ12nD5VL6T3N+m
- MdTA==
-X-Gm-Message-State: AO0yUKV8nKUBk30s7mSUH/pYs7qqX/Fh+CCEQPqUw5n2dT38MRjyo4vG
- wz5e8Dg2d87Ps+2a+FbiTr/i0NpIZoKNS+t3zUc=
-X-Google-Smtp-Source: AK7set+jyz/oJJqo6GaZ1kocd1v3V12qjLyfQrh7d8WFGlzePqVl9XBe3qRRBrXUqAK8rRm67eYe4w==
-X-Received: by 2002:a5d:6a0f:0:b0:2cb:f4:e59a with SMTP id
- m15-20020a5d6a0f000000b002cb00f4e59amr10068566wru.71.1678234069109; 
- Tue, 07 Mar 2023 16:07:49 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678234075;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DkaId6AtwWP2ObACPU3FmZXE59O1U8IPJlFt48x/qyU=;
+ b=46GqIkgNSYgrS7GoEVhbThg+ZDlv+5Y6Ui4mbNyI3XQglXnBmoZMsYXlmbYo2y7Qkm
+ 3f/RqbP0gSVBjhwFZqRUOR4v0WmIkj/zfj03uyNJ+D2en6SKbp9XQODhdF+B5opIUmSx
+ dZ8+NzWR0PrCprw3jXcVsRiO7junA2yJHSo4EGkHMHLx9nIsIY0ya1WAYA5nNLXqetXJ
+ tlGJC7CQoUdwFdwNpPJfNmOy2/2f+DzURPeIE7taUy8QSqKlzk0hH+OGP/OKEx4oo9J9
+ zMomjYms8fGZAhTGn2lnZdGdliNyQh9kwLIUBvZM8s/qXo6KRSXQBm2KQyzap2b8LdaV
+ m5gg==
+X-Gm-Message-State: AO0yUKUdri1SOHUp/cHqwys9I17dvJcnciNp29wOkYoATDxMWDxNA19V
+ 63LbuGRmbwG3+V1Jums0L7wzYSlGBIkHn38lHwo=
+X-Google-Smtp-Source: AK7set9qdwnMQ8m56MOWP2ffFlo16PWzP93/Jn8gwGs12cg8qaTADlJzbaGaCc7G0GsV0HIJcO/wDw==
+X-Received: by 2002:a5d:4ec4:0:b0:2c7:169b:c576 with SMTP id
+ s4-20020a5d4ec4000000b002c7169bc576mr11474188wrv.56.1678234075002; 
+ Tue, 07 Mar 2023 16:07:55 -0800 (PST)
 Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
  [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
- f10-20020a5d4dca000000b002c70bfe505esm13536808wru.82.2023.03.07.16.07.47
+ c2-20020a5d63c2000000b002c8ed82c56csm14085204wrw.116.2023.03.07.16.07.53
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Mar 2023 16:07:48 -0800 (PST)
+ Tue, 07 Mar 2023 16:07:54 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Jiaxun Yang <jiaxun.yang@flygoat.com>
 Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 0/4] MIPS Virt machine
-Date: Wed,  8 Mar 2023 01:07:41 +0100
-Message-Id: <20230308000745.56394-1-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v3 1/4] gitlab-ci: Remove mips64-softmmu from
+ build-without-defaults job
+Date: Wed,  8 Mar 2023 01:07:42 +0100
+Message-Id: <20230308000745.56394-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230308000745.56394-1-philmd@linaro.org>
+References: <20230308000745.56394-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,53 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since v2:
-- Remove mips64 from gitlab's build-without-defaults job
-- Require libfdt for all MIPS targets
-- Various changes described in each trickbox/virt patches
+With the introduction of the MIPS virt machine in a pair
+of commits, all MIPS targets will require libfdt.
+Since the 'build-without-defaults' job is configured with
+'--disable-fdt', it won't be able to build any MIPS target.
+In particular this job triggers:
 
-v2 cover from Jiaxun Yang:
+  ../meson.build:2809:2: ERROR: Problem encountered: fdt not available but required by targets mips64-softmmu
 
-  This patchset is to add a new machine type for MIPS architecture,
-  which is purely a VirtIO machine.
+Remove 'mips64-softmmu' from the job TARGETS.
+To still cover a big-endian target in qtests, replace it by
+the s390x target.
 
-  It is design to utilize existing VirtIO infrastures but also
-  compatible with MIPS's existing internal simulation tools.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ .gitlab-ci.d/buildtest.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  It should be able to cooperate with any MIPS core and boot Generic
-  MIPS kernel.
-
-  Kernel patch available at:
-  https://lore.kernel.org/linux-mips/20230304221524.47160-1-jiaxun.yang@flygoat.com/
-
-Jiaxun Yang (2):
-  hw/misc: Add MIPS Trickbox device
-  hw/mips: Add MIPS virt board
-
-Philippe Mathieu-Daudé (2):
-  gitlab-ci: Remove mips64-softmmu from build-without-defaults job
-  configs/targets: Have all MIPS targets select FDT
-
- .gitlab-ci.d/buildtest.yml              |   4 +-
- MAINTAINERS                             |   7 +
- configs/devices/mips-softmmu/common.mak |   1 +
- configs/targets/mips-softmmu.mak        |   1 +
- configs/targets/mips64-softmmu.mak      |   1 +
- configs/targets/mipsel-softmmu.mak      |   1 +
- docs/system/target-mips.rst             |  22 +
- hw/mips/Kconfig                         |  16 +
- hw/mips/meson.build                     |   1 +
- hw/mips/virt.c                          | 913 ++++++++++++++++++++++++
- hw/misc/Kconfig                         |   3 +
- hw/misc/meson.build                     |   1 +
- hw/misc/mips_trickbox.c                 |  97 +++
- hw/misc/trace-events                    |   4 +
- include/hw/misc/mips_trickbox.h         |  39 +
- 15 files changed, 1109 insertions(+), 2 deletions(-)
- create mode 100644 hw/mips/virt.c
- create mode 100644 hw/misc/mips_trickbox.c
- create mode 100644 include/hw/misc/mips_trickbox.h
-
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 44b8275299..4897229f1a 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -526,9 +526,9 @@ build-without-defaults:
+       --disable-pie
+       --disable-qom-cast-debug
+       --disable-strip
+-    TARGETS: avr-softmmu mips64-softmmu s390x-softmmu sh4-softmmu
++    TARGETS: avr-softmmu s390x-softmmu sh4-softmmu
+       sparc64-softmmu hexagon-linux-user i386-linux-user s390x-linux-user
+-    MAKE_CHECK_ARGS: check-unit check-qtest-avr check-qtest-mips64
++    MAKE_CHECK_ARGS: check-unit check-qtest-avr check-qtest-s390x
+ 
+ build-libvhost-user:
+   extends: .base_job_template
 -- 
 2.38.1
 
