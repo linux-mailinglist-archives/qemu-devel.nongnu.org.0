@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689F16B0ADF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574A06B0801
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:09:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZuc4-0000le-FQ; Wed, 08 Mar 2023 09:17:52 -0500
+	id 1pZtWY-00020c-DE; Wed, 08 Mar 2023 08:08:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
- id 1pZt2g-0001Vd-98; Wed, 08 Mar 2023 07:37:14 -0500
-Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net ([46.101.248.176])
- by eggs.gnu.org with smtp (Exim 4.90_1)
- (envelope-from <chenyi2000@zju.edu.cn>)
- id 1pZt2e-0003cs-1W; Wed, 08 Mar 2023 07:37:14 -0500
-Received: from toga-arch.localdomain (unknown [112.10.177.110])
- by mail-app2 (Coremail) with SMTP id by_KCgCXWrDugAhk_Ld1Cw--.43485S2;
- Wed, 08 Mar 2023 20:34:57 +0800 (CST)
-From: chenyi2000@zju.edu.cn
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1pZtWW-00020F-Ch
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:08:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1pZtWU-0000Yt-Pa
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:08:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678280881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=u3Ab7Oa0DL9m01oXQYyLKBpXwiadNu2U0TDqPSMhOfM=;
+ b=cCQWsE3KCU+sqTWqbcljopGsGyrINSJ1aKusgxpUSYBPMBhK6KDCAOhvKqLCmI+t4K13LW
+ JiyywKBoPFDeuGhUFNafmUDnnzA4wuO+YnCjR1uYlDBRggwdceQrUmxUcDwHfS+VrxrrdO
+ xedzWHowVO8wdpUXVaMhtxJSyakkxS0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-151-X0Crtv0gMruBRWmx8rxSPQ-1; Wed, 08 Mar 2023 08:06:19 -0500
+X-MC-Unique: X0Crtv0gMruBRWmx8rxSPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75BE0848D92;
+ Wed,  8 Mar 2023 13:06:18 +0000 (UTC)
+Received: from wi2021.rezanina.moe.rezanina.moe (unknown [10.45.224.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 774A3440DE;
+ Wed,  8 Mar 2023 13:06:17 +0000 (UTC)
+From: mrezanin@redhat.com
 To: qemu-devel@nongnu.org
-Cc: Yi Chen <chenyi2000@zju.edu.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
-Subject: [PATCH] target/riscv/csr.c: fix H extension TVM trap
-Date: Wed,  8 Mar 2023 20:34:17 +0800
-Message-Id: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
-X-Mailer: git-send-email 2.39.2
+Cc: dwmw@amazon.co.uk, paul@xen.org, pbonzini@redhat.com,
+ peter.maydell@linaro.org, Miroslav Rezanina <mrezanin@redhat.com>
+Subject: [PATCH] Fix build without CONFIG_XEN_EMU
+Date: Wed,  8 Mar 2023 08:05:57 -0500
+Message-Id: <20230308130557.2420-1-mrezanin@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: by_KCgCXWrDugAhk_Ld1Cw--.43485S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF43ZFyxCr4rCry3Cw4kZwb_yoW8Aw4kpa
- 18J390k3yUKFWqya1fJr1qgw13AFWUGayDA3Z7Wa1rAr1fAryrCF1DWr9FqFyDWFWDJFs2
- vFWDuFZ8AF42kFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
- 648v4I1lw4CEc2x0rVAKj4xxMxkF7I0Ew4C26cxK6c8Ij28IcwCY02Avz4vE14v_Xr1l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1l
- x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
- v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
- x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
- Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
- yTuYvjfUUD73UUUUU
-X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/
-Received-SPF: pass client-ip=46.101.248.176;
- envelope-from=chenyi2000@zju.edu.cn;
- helo=zg8tndyumtaxlji0oc4xnzya.icoremail.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mrezanin@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 08 Mar 2023 09:16:51 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,66 +75,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Yi Chen <chenyi2000@zju.edu.cn>
+From: Miroslav Rezanina <mrezanin@redhat.com>
 
-Trap accesses to hgatp if MSTATUS_TVM is enabled.
-Don't trap accesses to vsatp even if MSTATUS_TVM is enabled.
+Upstream commit ddf0fd9ae1 "hw/xen: Support HVM_PARAM_CALLBACK_TYPE_GSI callback"
+added kvm_xen_maybe_deassert_callback usage to target/i386/kvm/kvm.c file without
+conditional preprocessing check. This breaks any build not using CONFIG_XEN_EMU.
 
-Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
+Protect call by conditional preprocessing to allow build without CONFIG_XEN_EMU.
+
+Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 ---
- target/riscv/csr.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ target/i386/kvm/kvm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ab56663..09bc780 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -2655,7 +2655,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
-         return RISCV_EXCP_NONE;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 1aef54f87e..de531842f6 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -4991,6 +4991,7 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+         kvm_rate_limit_on_bus_lock();
      }
  
--    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-+    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) && get_field(env->mstatus, MSTATUS_TVM)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     } else {
-         *val = env->satp;
-@@ -2683,7 +2683,7 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
++#ifdef CONFIG_XEN_EMU    
+     /*
+      * If the callback is asserted as a GSI (or PCI INTx) then check if
+      * vcpu_info->evtchn_upcall_pending has been cleared, and deassert
+@@ -5001,6 +5002,7 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+     if (x86_cpu->env.xen_callback_asserted) {
+         kvm_xen_maybe_deassert_callback(cpu);
      }
++#endif
  
-     if (vm && mask) {
--        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-+        if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) && get_field(env->mstatus, MSTATUS_TVM)) {
-             return RISCV_EXCP_ILLEGAL_INST;
-         } else {
-             /*
-@@ -3047,14 +3047,24 @@ static RISCVException read_hgeip(CPURISCVState *env, int csrno,
- static RISCVException read_hgatp(CPURISCVState *env, int csrno,
-                                  target_ulong *val)
- {
--    *val = env->hgatp;
-+    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    } else {
-+        *val = env->hgatp;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException write_hgatp(CPURISCVState *env, int csrno,
-                                   target_ulong val)
- {
--    env->hgatp = val;
-+    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    } else {
-+        env->hgatp = val;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
+     /* We need to protect the apic state against concurrent accesses from
+      * different threads in case the userspace irqchip is used. */
 -- 
-2.39.2
+2.39.1
 
 
