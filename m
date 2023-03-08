@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BE66B1073
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29B46B109C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 19:05:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZxwY-0006MH-Er; Wed, 08 Mar 2023 12:51:14 -0500
+	id 1pZy93-0005b1-GA; Wed, 08 Mar 2023 13:04:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZxwR-0006Gh-PQ
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:51:07 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pZxwP-00022A-Nl
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:51:07 -0500
-Received: by mail-wm1-x332.google.com with SMTP id p16so10308033wmq.5
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 09:51:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678297863;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HSzxxXTS8xn1S7uHYqF4TFab+ZhRYtoOW5py1fZK1oA=;
- b=yglfWoL75T/rLlUuFprUgwFsDtjickuB1zfsffppbsHw1eaVNZt2QT9nQlehOu5xxh
- 1OBqP8tABiRPhJqnK6VD9Ua8jPtIFlV51WCYeuHHbbbtmMQ7+1MZQEDGeGYyhbvSOjPp
- JqwW7kx5fpUQUvM6myJoggpI3A3ozNdqqRAuK7YrvDAbAUUtTESn7EQoSEmZKTxEZYuI
- MAo/QCzeyAkP0sxlSMh/qt0hsipBMLcVnCyq9JbijgSW7MtD494csxigDYj6av7lrVLP
- vJpsZI67IxCI+jxHPMEQ7vOzQMdYoIIazmRUA0LFOiYEkzytgbdpXKOBDnYPrdcp3H46
- v1sw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pZy91-0005Zs-Il
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 13:04:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pZy8z-0005ah-L0
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 13:04:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678298645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ULMuGhenDMzJOMqCV7CU+NoigLk/a95PMgvS6PFIE8A=;
+ b=F8EGzxiJUkuneQJQLusiqBomiVweKdsxxUjkCnDr1ihwrokSe5m3HFTzztQBpPokQGowi8
+ maQWwMSme2D1sHRikvIqfMhew1AQTxyAjmi/7Dqf7r+O75AyzXRB6YepC4+Pt3K2oOWFxY
+ HRwSDJ0fsDdSKNOQUpsSlrUwB+TLxxQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-76-aVPK-KJON4mV6KYZ5r0F_Q-1; Wed, 08 Mar 2023 13:04:02 -0500
+X-MC-Unique: aVPK-KJON4mV6KYZ5r0F_Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a7-20020a056000188700b002cdd0562b11so3086372wri.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 10:04:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678297863;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ d=1e100.net; s=20210112; t=1678298641;
+ h=in-reply-to:references:cc:to:from:content-language:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=HSzxxXTS8xn1S7uHYqF4TFab+ZhRYtoOW5py1fZK1oA=;
- b=OIuy2/5i3zM7sKObYHO9xqWjj0TSGPaQo9AQxR5KuwGDpF2SRj8mlsWq1Gs1Nq+Sik
- 8fj906/UJnKtosHgxe+saiBvUweCEIarXOv8C/FLIYsIoV0fc3mcBkXbSfUUjhfN1nzs
- HNfcZm03ZMZadfPkz1PiPpv1TGDUxChPB5J2WcQIj886eSncXM9RfM982LJ9A+NOTmOF
- EiUrRJtBsBV0x8Gnl9I4qrYsDZCI3IwpOGN8UR8trNfs9gVw77SBp1L2nAftfyVBob6o
- KNnjihacgTanIDCGuWFxPf/7rrShjWBJCVNbdeGsuKAbtpsuhX44zbhZLUKqmv2s5Tgz
- 825w==
-X-Gm-Message-State: AO0yUKUFSoBp8LhkEHjuIEH1jJr9KGx9GMmthMvM0SvuAKWlg3GEPZmu
- nxwqPOxFC8exi+LnM3bjr5Juyw==
-X-Google-Smtp-Source: AK7set+s49kPCzNiqaJ7atdOqkcHIuXp+vf3wo0xFzU2CP+lfbXD6YxYnLVWc3f9g+xd2tY4AdTQZA==
-X-Received: by 2002:a05:600c:4692:b0:3ea:f73e:9d8a with SMTP id
- p18-20020a05600c469200b003eaf73e9d8amr16676793wmo.30.1678297863641; 
- Wed, 08 Mar 2023 09:51:03 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
+ bh=ULMuGhenDMzJOMqCV7CU+NoigLk/a95PMgvS6PFIE8A=;
+ b=lYY+D0ooYhJFUCsDiiZDeZWU1g618y5jdViPnvb07FaPDXVbrOyTahov6aHp/edSIr
+ +2tz5O4QeVBEpmRyw9hOe7BCbHVbTUZOgCGxDWfU4pxJMzBwQuPdPnzvdPukU3ZU0olX
+ Y0/F8rcQofB4xktw1Y+iV2k94PDfYnWOSuKkr4diI6tAZLFV1UczFc91aKA9bDSWoO3a
+ XQYgAFO+UglZurkLEOSGNS+FXOozbaeg1vZrGYL3dxPMg+9BPCt0S+lEWYzTSRcFq/z0
+ BSg4XITn9bFw0/T1lADP/OP9RJfhQbKGyUGnEHeExNeRRkx6ITxqOtxSiIeaGjdsCDps
+ jjHg==
+X-Gm-Message-State: AO0yUKUTqZjIKN+9u94FVqWsMz5Q/KBrrNJfBylxhVyC315dqKRVs8IP
+ YNsMQ/MnT0fSrWOGyDXkmfN5pKDJTyNKrpNidqSszRUbnDjTmaTfd2VwUdEnPNrNMiREsri4Bg+
+ 1CyStG2g2mlkCDEc=
+X-Received: by 2002:adf:e5c4:0:b0:2ce:8199:daba with SMTP id
+ a4-20020adfe5c4000000b002ce8199dabamr2264398wrn.19.1678298640823; 
+ Wed, 08 Mar 2023 10:04:00 -0800 (PST)
+X-Google-Smtp-Source: AK7set9uyfppdCluC/eh97RR6gmLiIyTpOdfC6ZfZe+2JQNQzXCHY4HmgHFzW4gmduy3hn/KzllebA==
+X-Received: by 2002:adf:e5c4:0:b0:2ce:8199:daba with SMTP id
+ a4-20020adfe5c4000000b002ce8199dabamr2264378wrn.19.1678298640418; 
+ Wed, 08 Mar 2023 10:04:00 -0800 (PST)
+Received: from ?IPV6:2003:cf:d729:7d22:58d:9cdf:192f:c786?
+ (p200300cfd7297d22058d9cdf192fc786.dip0.t-ipconnect.de.
+ [2003:cf:d729:7d22:58d:9cdf:192f:c786])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a05600c310a00b003eb369abd92sm171270wmo.2.2023.03.08.09.51.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 09:51:03 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F1DB21FFB7;
- Wed,  8 Mar 2023 17:51:02 +0000 (GMT)
-References: <20230308111952.2728440-1-dwmw2@infradead.org>
- <20230308111952.2728440-4-dwmw2@infradead.org>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Paul
- Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
- <peterx@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 3/3] tests/avocado: Test Xen guest support under KVM
-Date: Wed, 08 Mar 2023 17:45:43 +0000
-In-reply-to: <20230308111952.2728440-4-dwmw2@infradead.org>
-Message-ID: <87lek7nncp.fsf@linaro.org>
+ f2-20020adfdb42000000b002c54fb024b2sm15648977wrj.61.2023.03.08.10.03.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Mar 2023 10:03:59 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------akFXaH5KGjXJVpHmaI4Omu0i"
+Message-ID: <2c5b2bff-2ab2-e6e4-b324-19c2e11d9c54@redhat.com>
+Date: Wed, 8 Mar 2023 19:03:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Deadlock with ide_issue_trim and draining
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+To: Fiona Ebner <f.ebner@proxmox.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <1e3813b6-f2d0-9bd5-a270-e5835c13b495@proxmox.com>
+ <97638730-0dfa-918b-3c66-7874171b3e5c@redhat.com>
+In-Reply-To: <97638730-0dfa-918b-3c66-7874171b3e5c@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,206 +102,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is a multi-part message in MIME format.
+--------------akFXaH5KGjXJVpHmaI4Omu0i
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-David Woodhouse <dwmw2@infradead.org> writes:
-
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On 07.03.23 14:44, Hanna Czenczek wrote:
+> On 07.03.23 13:22, Fiona Ebner wrote:
+>> Hi,
+>> I am suspecting that commit 7e5cdb345f ("ide: Increment BB in-flight
+>> counter for TRIM BH") introduced an issue in combination with draining.
+>>
+>>  From a debug session on a costumer's machine I gathered the following
+>> information:
+>> * The QEMU process hangs in aio_poll called during draining and doesn't
+>> progress.
+>> * The in_flight counter for the BlockDriverState is 0 and for the
+>> BlockBackend it is 1.
+>> * There is a blk_aio_pdiscard_entry request in the BlockBackend's
+>> queued_requests.
+>> * The drive is attached via ahci.
+>>
+>> I suspect that something like the following happened:
+>>
+>> 1. ide_issue_trim is called, and increments the in_flight counter.
+>> 2. ide_issue_trim_cb calls blk_aio_pdiscard.
+>> 3. somebody else starts draining.
+>> 4. ide_issue_trim_cb is called as the completion callback for
+>> blk_aio_pdiscard.
+>> 5. ide_issue_trim_cb issues yet another blk_aio_pdiscard request.
+>> 6. The request is added to the wait queue via blk_wait_while_drained,
+>> because draining has been started.
+>> 7. Nobody ever decrements the in_flight counter and draining can't 
+>> finish.
 >
-> Exercise guests with a few different modes for interrupt delivery. In
-> particular we want to cover:
+> Sounds about right.
 >
->  =E2=80=A2 Xen event channel delivery via GSI to the I/O APIC
->  =E2=80=A2 Xen event channel delivery via GSI to the i8259 PIC
->  =E2=80=A2 MSIs routed to PIRQ event channels
->  =E2=80=A2 GSIs routed to PIRQ event channels
+>> The issue occurs very rarely and is difficult to reproduce, but with the
+>> help of GDB, I'm able to do it rather reliably:
+>> 1. Use GDB to break on blk_aio_pdiscard.
+>> 2. Run mkfs.ext4 on a huge disk in the guest.
+>> 3. Issue a drive-backup QMP command after landing on the breakpoint.
+>> 4. Continue a few times in GDB.
+>> 5. After that I can observe the same situation as described above.
+>>
+>> I'd be happy about suggestions for how to fix it. Unfortunately, I don't
+>> see a clear-cut way at the moment. The only idea I have right now is to
+>> change the code to issue all discard requests at the same time, but I
+>> fear there might pitfalls with that?
 >
-> As well as some variants of normal non-Xen stuff like MSI to vAPIC and
-> PCI INTx going to the I/O APIC and PIC, which ought to still work even
-> in Xen mode.
+> The point of 7e5cdb345f was that we need any in-flight count to 
+> accompany a set s->bus->dma->aiocb.  While blk_aio_pdiscard() is 
+> happening, we don’t necessarily need another count.  But we do need it 
+> while there is no blk_aio_pdiscard().
 >
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->  tests/avocado/xen_guest.py | 147 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 tests/avocado/xen_guest.py
+> ide_issue_trim_cb() returns in two cases (and, recursively through its 
+> callers, leaves s->bus->dma->aiocb set):
+> 1. After calling blk_aio_pdiscard(), which will keep an in-flight count,
+> 2. After calling replay_bh_schedule_event() (i.e. qemu_bh_schedule()), 
+> which does not keep an in-flight count.
 >
-> diff --git a/tests/avocado/xen_guest.py b/tests/avocado/xen_guest.py
-> new file mode 100644
-> index 0000000000..c50b52958f
-> --- /dev/null
-> +++ b/tests/avocado/xen_guest.py
-> @@ -0,0 +1,147 @@
-> +# Xen guest functional tests
-> +#
+> Perhaps we just need to move the blk_inc_in_flight() above the 
+> replay_bh_schedule_event() call?
 
-Perhaps to avoid confusion we should call the file kvm_xen_guests.py and
-make it clearer in the comment this is the mode we are talking about.
-c.f. the boot_xen.py tests which boot Xen (under TCG emulation) as a
-proper hypervisor.
+While writing the commit message for this, I noticed it isn’t quite 
+right: ide_cancel_dma_sync() drains s->blk only once, so once the 
+in-flight counter goes to 0, s->blk is considered drained and 
+ide_cancel_dma_sync() will go on to assert that s->bus->dma->aiocb is 
+now NULL.  However, if we do have a blk_aio_pdiscard() in flight, the 
+drain will wait only for that one to complete, not for the whole trim 
+operation to complete, i.e. the next discard or ide_trim_bh_cb() will be 
+scheduled, but neither will necessarily be run before blk_drain() returns.
 
-> +# Copyright =C2=A9 2021 Red Hat, Inc.
-> +# Copyright =C2=A9 2023 Amazon.com, Inc. or its affiliates. All Rights R=
-eserved.
-> +#
-> +# Author:
-> +#  David Woodhouse <dwmw2@infradead.org>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +import os
-> +
-> +from avocado import skipIf
-> +from avocado_qemu import LinuxTest
-> +
-> +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+I’ve attached a reproducer that issues two trim requests.  Before 
+7e5cdb345f, it makes qemu crash because the assertion fails (one or two 
+of the blk_aio_pdiscard()s is drained, but the trim isn’t settled yet).  
+After 7e5cdb345f, qemu hangs because of what you describe (the second 
+blk_aio_pdiscard() is enqueued, so the drain can’t make progress, 
+resulting in a deadlock).  With my proposed fix, qemu crashes again.
 
-This just means we will never have CI coverage. In theory when running
-on the GitLab shared runners the test should skip anyway when it can't
-find /dev/kvm and hopefully can run on our custom runners when it can
-see /dev/kvm.
+(Reproducer is run like this:
+$ qemu-system-x86_64 -drive if=ide,file=/tmp/test.bin,format=raw
+)
 
-> +class XenGuest(LinuxTest):
-> +    """
-> +    :avocado: tags=3Darch:x86_64
-> +    :avocado: tags=3Ddistro:fedora
-> +    :avocado: tags=3Ddistro_version:34
-> +    :avocado: tags=3Dmachine:q35
-> +    :avocado: tags=3Daccel:kvm
-> +    :avocado: tags=3Dxen_guest
-> +    """
-> +
-> +    kernel_path =3D None
-> +    initrd_path =3D None
-> +    kernel_params =3D None
-> +
-> +    def set_up_boot(self):
-> +        path =3D self.download_boot()
-> +        self.vm.add_args('-drive', 'file=3D%s,if=3Dnone,id=3Ddrv0' % pat=
-h)
-> +        self.vm.add_args('-device', 'xen-disk,drive=3Ddrv0,vdev=3Dxvda')
-> +
-> +    def setUp(self):
-> +        super(XenGuest, self).setUp(None, 'virtio-net-pci')
-> +
-> +    def common_vm_setup(self, custom_kernel=3DNone):
-> +        self.require_accelerator("kvm")
-> +        self.vm.add_args("-accel", "kvm,xen-version=3D0x4000a,kernel-irq=
-chip=3Dsplit")
-> +        self.vm.add_args("-smp", "4")
-> +
-> +        if custom_kernel is None:
-> +            return
-> +
-> +        kernel_url =3D self.distro.pxeboot_url + 'vmlinuz'
-> +        initrd_url =3D self.distro.pxeboot_url + 'initrd.img'
-> +        self.kernel_path =3D self.fetch_asset(kernel_url, algorithm=3D's=
-ha256',
-> +                                            asset_hash=3Dself.distro.ker=
-nel_hash)
-> +        self.initrd_path =3D self.fetch_asset(initrd_url, algorithm=3D's=
-ha256',
-> +                                            asset_hash=3Dself.distro.ini=
-trd_hash)
-> +
-> +    def run_and_check(self):
-> +        if self.kernel_path:
-> +            self.vm.add_args('-kernel', self.kernel_path,
-> +                             '-append', self.kernel_params,
-> +                             '-initrd', self.initrd_path)
-> +        self.launch_and_wait()
-> +        self.ssh_command('cat /proc/cmdline')
-> +        self.ssh_command('dmesg | grep -e "Grant table initialized"')
-> +
-> +    def test_xen_guest(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-pirq.*msi /proc/interrupts')
-> +
-> +    def test_xen_guest_nomsi(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest_nomsi
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks pci=3Dnomsi')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-pirq.* /proc/interrupts')
-> +
-> +    def test_xen_guest_noapic_nomsi(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest_noapic_nomsi
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks noapic pci=
-=3Dnomsi')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-pirq /proc/interrupts')
-> +
-> +    def test_xen_guest_vapic(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest_vapic
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +        self.vm.add_args('-cpu', 'host,+xen-vapic')
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-pirq /proc/interrupts')
-> +        self.ssh_command('grep PCI-MSI /proc/interrupts')
-> +
-> +    def test_xen_guest_novector(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest_novector
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks' +
-> +                              ' xen_no_vector_callback')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
-> +
-> +    def test_xen_guest_novector_nomsi(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest_novector_nomsi
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks pci=3Dnomsi'=
- +
-> +                              ' xen_no_vector_callback')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
-> +
-> +    def test_xen_guest_novector_noapic(self):
-> +        """
-> +        :avocado: tags=3Dxen_guest_novector_noapic
-> +        """
-> +
-> +        self.common_vm_setup(True)
-> +        self.kernel_params =3D (self.distro.default_kernel_params +
-> +                              ' xen_emul_unplug=3Dide-disks' +
-> +                              ' xen_no_vector_callback noapic')
-> +        self.run_and_check()
-> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
+What comes to my mind is either what you’ve proposed initially (issuing 
+all discards simultaneously), or to still use my proposed fix, but also 
+have ide_cancel_dma_sync() run blk_drain() in a loop until 
+s->bus->dma->aiocb becomes NULL.  (Kind of like my original patch 
+(https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00024.html), 
+only that we can still use blk_drain() instead of aio_poll() because we 
+increment the in-flight counter while the completion BH is scheduled.)
 
+Hanna
+--------------akFXaH5KGjXJVpHmaI4Omu0i
+Content-Type: application/octet-stream; name="test.bin"
+Content-Disposition: attachment; filename="test.bin"
+Content-Transfer-Encoding: base64
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+/DHAjtiOwL8AfjHAuQAB8qu/AH5mxwUBAAAAZsdFBAAAAQBmx0UIAQAAAGbHRQwAAAEAuAKx
+uoaAuRBwMfbNGlO/BAC4CrHNGltTgMkHvwQAuA2xzRpbU78gALgKsc0ag+H8UYnKMMDusASD
+wgLuZrigfAAAg8ICZu+68AG+lHy5CACs7kLi+1qwAe669gOwBO769AABAQAAAMAGAACQkAB+
+AAAAAgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVaoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+
+--------------akFXaH5KGjXJVpHmaI4Omu0i
+Content-Type: text/plain; charset=UTF-8; name="test.asm"
+Content-Disposition: attachment; filename="test.asm"
+Content-Transfer-Encoding: base64
+
+Zm9ybWF0IGJpbmFyeQp1c2UxNgoKb3JnIDB4N2MwMAoKRE1BX0JVRiA9IDB4N2UwMAoKY2xk
+Cgp4b3IgICAgIGF4LCBheAptb3YgICAgIGRzLCBheAptb3YgICAgIGVzLCBheAoKOyBjbGVh
+ciBETUEgYnVmZmVyCm1vdiAgICAgZGksIERNQV9CVUYKeG9yICAgICBheCwgYXgKbW92ICAg
+ICBjeCwgMjU2CnJlcG56IHN0b3N3Cgo7IHR3byBUUklNIHJlcXVlc3RzIChib3RoIGFyZSB0
+aGUgc2FtZTogb25lIHNlY3Rvciwgc3RhcnRpbmcgYXQgc2VjdG9yIGluZGV4IDEpCm1vdiAg
+ICAgZGksIERNQV9CVUYKbW92ICAgICBkd29yZCBbZGkrIDBdLCAweDAwMDAwMDAxCm1vdiAg
+ICAgZHdvcmQgW2RpKyA0XSwgMHgwMDAxMDAwMAptb3YgICAgIGR3b3JkIFtkaSsgOF0sIDB4
+MDAwMDAwMDEKbW92ICAgICBkd29yZCBbZGkrMTJdLCAweDAwMDEwMDAwCgo7IGZpbmQgSURF
+IFBDSSBkZXZpY2UKbW92ICAgICBheCwgMHhiMTAyCm1vdiAgICAgZHgsIDB4ODA4Ngptb3Yg
+ICAgIGN4LCAweDcwMTAKeG9yICAgICBzaSwgc2kKaW50ICAgICAweDFhCgo7IGJ4IGhhcyBQ
+Q0kgYWRkcmVzcwpwdXNoICAgIGJ4Cgo7IGVuYWJsZSBCTStNRU0rSU8KCm1vdiAgICAgZGks
+IDB4MDQgOyBjb21tYW5kL3N0YXR1cwptb3YgICAgIGF4LCAweGIxMGEgOyByZWFkIGNvbmZp
+ZyBkd29yZAppbnQgICAgIDB4MWEKCnBvcCAgICAgYngKcHVzaCAgICBieAoKb3IgICAgICBj
+bCwgMHg3IDsgQk0rTUVNK0lPCm1vdiAgICAgZGksIDB4MDQKbW92ICAgICBheCwgMHhiMTBk
+IDsgd3JpdGUgY29uZmlnIGR3b3JkCmludCAgICAgMHgxYQoKcG9wICAgICBieApwdXNoICAg
+IGJ4Cgo7IHJlYWQgQkFSNCAoRE1BIEkvTyBzcGFjZSkKCm1vdiAgICAgZGksIDB4MjAgOyBi
+YXI0Cm1vdiAgICAgYXgsIDB4YjEwYQppbnQgICAgIDB4MWEKCmFuZCAgICAgY3gsIDB4ZmZm
+YyA7IERNQSBJL08gYmFzZQpwdXNoICAgIGN4Cgptb3YgICAgIGR4LCBjeAoKOyBzZXQgdXAg
+RE1BCgp4b3IgICAgIGFsLCBhbCA7IHN0YXR1czogMApvdXQgICAgIGR4LCBhbAoKbW92ICAg
+ICBhbCwgMHgwNCA7IGNsZWFyIHBlbmRpbmcgaW50ZXJydXB0cwphZGQgICAgIGR4LCAyCm91
+dCAgICAgZHgsIGFsCgptb3YgICAgIGVheCwgcHJkdAphZGQgICAgIGR4LCAyCm91dCAgICAg
+ZHgsIGVheAoKOyBzZW5kIFRSSU0gY29tbWFuZAoKbW92ICAgICBkeCwgMHgxZjAKbW92ICAg
+ICBzaSwgZHNtX3RyaW1fY21kCm1vdiAgICAgY3gsIDgKb3V0X2xvb3A6CmxvZHNiCm91dCAg
+ICAgZHgsIGFsCmluYyAgICAgZHgKbG9vcCAgICBvdXRfbG9vcAoKOyBzdGFydCBETUEgdHJh
+bnNmZXIKCnBvcCAgICAgZHgKbW92ICAgICBhbCwgMHgwMQpvdXQgICAgIGR4LCBhbAoKOyBp
+bW1lZGlhdGVseSByZXNldCBkZXZpY2UsIGNhbmNlbGxpbmcgb25nb2luZyBUUklNCgptb3Yg
+ICAgIGR4LCAweDNmNgptb3YgICAgIGFsLCAweDA0Cm91dCAgICAgZHgsIGFsCgpjbGkKaGx0
+CgoKZHNtX3RyaW1fY21kOgpkYiAweDAwLCAweDAxLCAweDAxLCAweDAwLCAweDAwLCAweDAw
+LCAweGMwLCAweDA2CgpwY2lhZGRyOgpkdyA/CgphbGlnbig4KQpwcmR0OgpkZCBETUFfQlVG
+CmRkIDUxMiBvciAweDgwMDAwMDAwCgp0aW1lcyA1MTAtKCQtJCQpIGRiIDAKZHcgMHhhYTU1
+Cgp0aW1lcyA1MTIgZGIgMAo=
+
+--------------akFXaH5KGjXJVpHmaI4Omu0i--
+
 
