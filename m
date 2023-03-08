@@ -2,43 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4A46B0FDB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3126B0F9C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:03:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8U-0004k1-Bb; Wed, 08 Mar 2023 11:59:30 -0500
+	id 1pZx8Y-0004pE-Q4; Wed, 08 Mar 2023 11:59:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8G-0004Xd-BJ; Wed, 08 Mar 2023 11:59:16 -0500
+ id 1pZx8G-0004YW-VB; Wed, 08 Mar 2023 11:59:16 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8D-00045e-Vp; Wed, 08 Mar 2023 11:59:15 -0500
+ id 1pZx8E-00045m-3X; Wed, 08 Mar 2023 11:59:16 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 2B21E40109;
+ by isrv.corpit.ru (Postfix) with ESMTP id D03F94010C;
  Wed,  8 Mar 2023 19:58:37 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id E05071FD;
- Wed,  8 Mar 2023 19:58:35 +0300 (MSK)
-Received: (nullmailer pid 2098340 invoked by uid 1000);
+ by tsrv.corpit.ru (Postfix) with SMTP id 990D292;
+ Wed,  8 Mar 2023 19:58:36 +0300 (MSK)
+Received: (nullmailer pid 2098346 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:34 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Dov Murik <dovmurik@linux.ibm.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 31/47] Revert "x86: return modified setup_data only if read as
- memory, not as file"
-Date: Wed,  8 Mar 2023 19:57:34 +0300
-Message-Id: <20230308165815.2098148-31-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 34/47] vhost-user-i2c: Back up vqs before cleaning up vhost_dev
+Date: Wed,  8 Mar 2023 19:57:37 +0300
+Message-Id: <20230308165815.2098148-34-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -62,161 +58,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-This reverts commit e935b735085dfa61d8e6d276b6f9e7687796a3c7.
+vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
+the memory pointed by the member.
 
-Fixes: e935b73508 ("x86: return modified setup_data only if read as memory, not as file")
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Dov Murik <dovmurik@linux.ibm.com>
+Fixes: 7221d3b634 ("hw/virtio: add boilerplate for vhost-user-i2c device")
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Message-Id: <20230130140435.78049-1-akihiko.odaki@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-(cherry picked from commit ae80d81cfa865cbe443543679e013e7fa5fcd12c)
+(cherry picked from commit 0126793bee853e7c134627f51d2de5428a612e99)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/i386/x86.c             | 46 +++++++++------------------------------
- hw/nvram/fw_cfg.c         | 12 +++++-----
- include/hw/nvram/fw_cfg.h | 22 -------------------
- 3 files changed, 16 insertions(+), 64 deletions(-)
+ hw/virtio/vhost-user-i2c.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 76b12108b4..4831193c86 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -37,7 +37,6 @@
- #include "sysemu/whpx.h"
- #include "sysemu/numa.h"
- #include "sysemu/replay.h"
--#include "sysemu/reset.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/xen.h"
-@@ -769,24 +768,6 @@ static bool load_elfboot(const char *kernel_filename,
-     return true;
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index 1c9f3d20dc..2634d81539 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -143,8 +143,6 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserI2C *i2c)
+     vhost_user_cleanup(&i2c->vhost_user);
+     virtio_delete_queue(i2c->vq);
+     virtio_cleanup(vdev);
+-    g_free(i2c->vhost_dev.vqs);
+-    i2c->vhost_dev.vqs = NULL;
  }
  
--typedef struct SetupDataFixup {
--    void *pos;
--    hwaddr orig_val, new_val;
--    uint32_t addr;
--} SetupDataFixup;
--
--static void fixup_setup_data(void *opaque)
--{
--    SetupDataFixup *fixup = opaque;
--    stq_p(fixup->pos, fixup->new_val);
--}
--
--static void reset_setup_data(void *opaque)
--{
--    SetupDataFixup *fixup = opaque;
--    stq_p(fixup->pos, fixup->orig_val);
--}
--
- void x86_load_linux(X86MachineState *x86ms,
-                     FWCfgState *fw_cfg,
-                     int acpi_data_size,
-@@ -1111,11 +1092,8 @@ void x86_load_linux(X86MachineState *x86ms,
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+ static int vu_i2c_connect(DeviceState *dev)
+@@ -228,6 +226,7 @@ static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
+     ret = vhost_dev_init(&i2c->vhost_dev, &i2c->vhost_user,
+                          VHOST_BACKEND_TYPE_USER, 0, errp);
+     if (ret < 0) {
++        g_free(i2c->vhost_dev.vqs);
+         do_vhost_user_cleanup(vdev, i2c);
      }
  
--    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
--    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
--    sev_load_ctx.kernel_data = (char *)kernel;
--    sev_load_ctx.kernel_size = kernel_size;
-+    /* Offset 0x250 is a pointer to the first setup_data link. */
-+    stq_p(header + 0x250, first_setup_data);
- 
-     /*
-      * If we're starting an encrypted VM, it will be OVMF based, which uses the
-@@ -1125,20 +1103,16 @@ void x86_load_linux(X86MachineState *x86ms,
-      * file the user passed in.
-      */
-     if (!sev_enabled()) {
--        SetupDataFixup *fixup = g_malloc(sizeof(*fixup));
--
-         memcpy(setup, header, MIN(sizeof(header), setup_size));
--        /* Offset 0x250 is a pointer to the first setup_data link. */
--        fixup->pos = setup + 0x250;
--        fixup->orig_val = ldq_p(fixup->pos);
--        fixup->new_val = first_setup_data;
--        fixup->addr = cpu_to_le32(real_addr);
--        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_SETUP_ADDR, fixup_setup_data, NULL,
--                                  fixup, &fixup->addr, sizeof(fixup->addr), true);
--        qemu_register_reset(reset_setup_data, fixup);
--    } else {
--        fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
-     }
-+
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-+    sev_load_ctx.kernel_data = (char *)kernel;
-+    sev_load_ctx.kernel_size = kernel_size;
-+
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
-     sev_load_ctx.setup_data = (char *)setup;
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 6edf5ea3e9..371a45dfe2 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -693,12 +693,12 @@ static const VMStateDescription vmstate_fw_cfg = {
-     }
- };
- 
--void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
--                               FWCfgCallback select_cb,
--                               FWCfgWriteCallback write_cb,
--                               void *callback_opaque,
--                               void *data, size_t len,
--                               bool read_only)
-+static void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
-+                                      FWCfgCallback select_cb,
-+                                      FWCfgWriteCallback write_cb,
-+                                      void *callback_opaque,
-+                                      void *data, size_t len,
-+                                      bool read_only)
+@@ -239,10 +238,12 @@ static void vu_i2c_device_unrealize(DeviceState *dev)
  {
-     int arch = !!(key & FW_CFG_ARCH_LOCAL);
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VHostUserI2C *i2c = VHOST_USER_I2C(dev);
++    struct vhost_virtqueue *vhost_vqs = i2c->vhost_dev.vqs;
  
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index 2e503904dc..c1f81a5f13 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -117,28 +117,6 @@ struct FWCfgMemState {
-  */
- void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t len);
+     /* This will stop vhost backend if appropriate. */
+     vu_i2c_set_status(vdev, 0);
+     vhost_dev_cleanup(&i2c->vhost_dev);
++    g_free(vhost_vqs);
+     do_vhost_user_cleanup(vdev, i2c);
+ }
  
--/**
-- * fw_cfg_add_bytes_callback:
-- * @s: fw_cfg device being modified
-- * @key: selector key value for new fw_cfg item
-- * @select_cb: callback function when selecting
-- * @write_cb: callback function after a write
-- * @callback_opaque: argument to be passed into callback function
-- * @data: pointer to start of item data
-- * @len: size of item data
-- * @read_only: is file read only
-- *
-- * Add a new fw_cfg item, available by selecting the given key, as a raw
-- * "blob" of the given size. The data referenced by the starting pointer
-- * is only linked, NOT copied, into the data structure of the fw_cfg device.
-- */
--void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
--                               FWCfgCallback select_cb,
--                               FWCfgWriteCallback write_cb,
--                               void *callback_opaque,
--                               void *data, size_t len,
--                               bool read_only);
--
- /**
-  * fw_cfg_add_string:
-  * @s: fw_cfg device being modified
 -- 
 2.30.2
 
