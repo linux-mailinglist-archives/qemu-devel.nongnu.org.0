@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF296B0949
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735596B090E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:30:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtsO-0002r9-5w; Wed, 08 Mar 2023 08:30:41 -0500
+	id 1pZtr2-0001gW-36; Wed, 08 Mar 2023 08:29:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqx-0001gw-23
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:11 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqu-0001cD-77
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:08 -0500
 Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqv-00065G-84
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:10 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqs-00064T-Hs
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:07 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MQMi7-1pwG5O2hqT-00MO1t; Wed, 08
- Mar 2023 14:29:03 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MRSdf-1pxM1d0OSj-00NUUT; Wed, 08
+ Mar 2023 14:29:04 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 04/28] linux-user: Fix unaligned memory access in prlimit64
- syscall
-Date: Wed,  8 Mar 2023 14:28:33 +0100
-Message-Id: <20230308132857.161793-5-laurent@vivier.eu>
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 05/28] linux-user: add support for xtensa FDPIC
+Date: Wed,  8 Mar 2023 14:28:34 +0100
+Message-Id: <20230308132857.161793-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sUWutYqfWYek1hkWk0oBR4I5Yu3UG5yw42sO7gDJL04/SlgDl9W
- 97BxcseTV3pj6GBaq7frIx1ptB2Lu0YbWnYD8roK64Rkof2TE05yGaRQ6owcPzSlyjuU2hK
- XeVGnqkJ38m/Vci56/BkLiJkbLPTXsCnnNsWNJ1zJs7p8TtnWZL3/wEZJSnplyx0hUGmMuG
- gCQov/X87NaGk+/2WyG6w==
-UI-OutboundReport: notjunk:1;M01:P0:pjWhoxv7Nsk=;YULxpLiT/i3ybt5AgfV9M7HKJtV
- 6aMImSMb5wwoCY5aGbVzN2VpnJgWu6wpNmABUPNtGT3Zr5zLFpHD5K40VmZDSjrbU1TQtz9Ae
- 7sOhODMJhKEK9xeBINgYRlfHYU27JioqgKMFUtai/d8fs60VLB1Z7OSIRr/kffPfHQYCmuXjq
- nF63NuhJlYUGxmQwiws4jnZKeR0MTSn+nq0xy74wQIeJYqZWsy4axrt/0g/+OyDlXE30v7inV
- iFJJ0F2UnVVXUJswNlm3ZUXzCaQyiSt7Tla/EriLpsv7yKP27O5BHTkCw8Mpt988RAKV0glWV
- Jp/h3GHy95q9fKpOB5wJnMBCPuEQaIMA9o+iCUTAyfr5YosusZR+eb/pwMpGm7mSwHq4J/ajA
- spaZHOG9iLWUTPF9wojzyOJPSs0nQ+K4JPnBVbBysnd7E4qyyY2vUROeLeI/WpzsIdO0hN+bC
- ZlyCum3C8JzmOc/lb0qj5Dpc8lOIG3o+r5ijmaq7ZqgJ9OmCYLKtRtaQSl0zhuT5uBVBUgBTN
- J16/NnbjA0s6CDJABXwMfENX1NbnFX7YKrBqDXhzJD8R7OkBhO65uafgeJqh3biOvEum6nZ9J
- VTqbQTYtzuCNR7+I3dRDO8QcYe2sffTXMMYR1mDYpKdSES1imFzm2ps+UWUv+nwtflAKi4ITP
- QxCBcM4LQMFU5ps2elnwCh3N57WlUuCARbe4OaUTdg==
+X-Provags-ID: V03:K1:nFZixO7LBMEv975btAPm7kCQHI0Y9++A8uX2PfpieA8/yulWQ+5
+ 1hkLBByYi57yWaCTctwkm7ve/yylRu0NpKr6SvlBCDiv8HEvhpCRqdBOBZGveH7j7fK7pjD
+ FYqd+7FH870gLaD+LtQWhWbbYSBbOngYfJ8ZBfzKgjQsY0uTXa1vLBezthwL4vebf1QfMHX
+ fiXvF2n2fQg4OeOx5vq6Q==
+UI-OutboundReport: notjunk:1;M01:P0:9v7rkzWnp7Q=;ois5yiRvCWQz0058nu1TCRlj6bn
+ YqVSL0FFOZhMLe2yJ1NfzLptP7TYlO/DSWYZ1cySlZEmVFEyJchcZv2nsihcvMkjP1z+CK+ZA
+ 7Q9VAxFPl8kU6xnkQ/PUWyL4H3v6TOREPaYCtFy8RrFb37bb6w5beN/B7Sa26V+x7i+RVeamW
+ GN0EjRyO3mlHQHEoiaGv6VDPvR1geVquvShnNOvNTLpVqwMDG4uW4ri8TFis3OFoRQkbY3TaQ
+ RLY21WdKkcltehfcfGJCnavuoPMSeqfPOc38Z9h78LaOBB+kuSSGinSLsTq9J/CArLz01DbDW
+ wN+sAiSHPTSxhpyTmwuNPtVkROCKI1yCi84ZinIzXnmGgVWUy/eRLp6YiV2Y9gT1qTXFTsETz
+ eaI6tC0Ri5jKwl4KV2w3aeG4wb6jkpYOt85M9Xu3kqDwKmRODOUkVjEOMDq4MkwpastSo00m6
+ RGY2SMhQsWzwr7l0ZgsI9mfItAQo1IG9U3u9BneZ0BWd3obkFRaoJ118Cp4hDz5A3j1Vc8RWC
+ 6KlxcEGx4Tq3ZZsgfVyv9bKEosx0FZ/X7RFVK0yyn9jhA26Ej8mERG0Kx8Lq0g6SyQe617EH2
+ wvVl4yKkAMNfV8vZrLh9rK6P1BVPTOuSFFIOHSy/uxo02lorg1LljZN7r2X6mu9jgX7bJl2x4
+ dVQurhopnx2gAbG0ucXHIAXkhEwXSenAoZZsPLRBqQ==
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,72 +69,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
 
-target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
-some hosts, while some guests may align their respective type on a
-4-byte boundary. This may lead to an unaligned access, which is an UB.
+Define xtensa-specific info_is_fdpic and fill in FDPIC-specific
+registers in the xtensa version of init_thread.
 
-Fix by defining the fields as abi_ullong. This makes the host alignment
-match that of the guest, and lets the compiler know that it should emit
-code that can deal with the guest alignment.
-
-While at it, also use __get_user() and __put_user() instead of
-tswap64().
-
-Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230224003907.263914-2-iii@linux.ibm.com>
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+Message-Id: <20230205061230.544451-1-jcmvbkbc@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/generic/target_resource.h | 4 ++--
- linux-user/syscall.c                 | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ include/elf.h        |  1 +
+ linux-user/elfload.c | 16 +++++++++++++++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
-index 539d8c46772e..37d3eb09b3b3 100644
---- a/linux-user/generic/target_resource.h
-+++ b/linux-user/generic/target_resource.h
-@@ -12,8 +12,8 @@ struct target_rlimit {
- };
+diff --git a/include/elf.h b/include/elf.h
+index 8bf1e72720d5..e8bfe38a9fbd 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -1619,6 +1619,7 @@ typedef struct elf64_shdr {
+ #define ELFOSABI_MODESTO        11      /* Novell Modesto.  */
+ #define ELFOSABI_OPENBSD        12      /* OpenBSD.  */
+ #define ELFOSABI_ARM_FDPIC      65      /* ARM FDPIC */
++#define ELFOSABI_XTENSA_FDPIC   65      /* Xtensa FDPIC */
+ #define ELFOSABI_ARM            97      /* ARM */
+ #define ELFOSABI_STANDALONE     255     /* Standalone (embedded) application */
  
- struct target_rlimit64 {
--    uint64_t rlim_cur;
--    uint64_t rlim_max;
-+    abi_ullong rlim_cur;
-+    abi_ullong rlim_max;
- };
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 5928c14dfc97..150d1d450396 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1748,6 +1748,15 @@ static inline void init_thread(struct target_pt_regs *regs,
+     regs->windowstart = 1;
+     regs->areg[1] = infop->start_stack;
+     regs->pc = infop->entry;
++    if (info_is_fdpic(infop)) {
++        regs->areg[4] = infop->loadmap_addr;
++        regs->areg[5] = infop->interpreter_loadmap_addr;
++        if (infop->interpreter_loadmap_addr) {
++            regs->areg[6] = infop->interpreter_pt_dynamic_addr;
++        } else {
++            regs->areg[6] = infop->pt_dynamic_addr;
++        }
++    }
+ }
  
- #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 4f4c1fbc5b0f..db27c85abb8d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -12872,8 +12872,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
-                 return -TARGET_EFAULT;
-             }
--            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
--            rnew.rlim_max = tswap64(target_rnew->rlim_max);
-+            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
-+            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
-             unlock_user_struct(target_rnew, arg3, 0);
-             rnewp = &rnew;
-         }
-@@ -12883,8 +12883,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             if (!lock_user_struct(VERIFY_WRITE, target_rold, arg4, 1)) {
-                 return -TARGET_EFAULT;
-             }
--            target_rold->rlim_cur = tswap64(rold.rlim_cur);
--            target_rold->rlim_max = tswap64(rold.rlim_max);
-+            __put_user(rold.rlim_cur, &target_rold->rlim_cur);
-+            __put_user(rold.rlim_max, &target_rold->rlim_max);
-             unlock_user_struct(target_rold, arg4, 1);
-         }
-         return ret;
+ /* See linux kernel: arch/xtensa/include/asm/elf.h.  */
+@@ -2207,11 +2216,16 @@ static void zero_bss(abi_ulong elf_bss, abi_ulong last_bss, int prot)
+     }
+ }
+ 
+-#ifdef TARGET_ARM
++#if defined(TARGET_ARM)
+ static int elf_is_fdpic(struct elfhdr *exec)
+ {
+     return exec->e_ident[EI_OSABI] == ELFOSABI_ARM_FDPIC;
+ }
++#elif defined(TARGET_XTENSA)
++static int elf_is_fdpic(struct elfhdr *exec)
++{
++    return exec->e_ident[EI_OSABI] == ELFOSABI_XTENSA_FDPIC;
++}
+ #else
+ /* Default implementation, always false.  */
+ static int elf_is_fdpic(struct elfhdr *exec)
 -- 
 2.39.2
 
