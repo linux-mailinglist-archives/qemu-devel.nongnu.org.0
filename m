@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C0B6AFAD1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5D16AFAE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:09:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZhDD-0002ja-C6; Tue, 07 Mar 2023 18:59:19 -0500
+	id 1pZhLa-0006aj-5N; Tue, 07 Mar 2023 19:07:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZhD9-0002f6-GP
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:59:15 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZhD7-0004mS-JV
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 18:59:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ijLDxbd3oBQ/IBgzgS5tr8Gon8/7dW/g7XYoo1Agk8Y=; b=aXoK/NhZ/rUss07GFX8z8jlKPP
- FYmwZyfvvEVUK3L27AG5/79Hy9LIs6m/78DlHig2V0noZpEw6lyANGnGfGpbiUEgED07mvj5rWJ2O
- MnVuJuIqQ1euU0A//Hek5RdHvcTGLoM5IBt7wEIN4RpMrd1Il+f9m+uSCUH0nBQ5nL7V6kZotdTxP
- mXfdqNGhtuqQgv84ekcaZTvfzy+ozivhSB4m0afGTXeClew1VALizfQTqIXMXiv/bDitUR2AY0mk+
- X1NEDP7lln70Rmk2WJYlh670apNbo4ihA4HBj7FTGfKi23YT6EU7yePFeS9x7B+o7LUZanfeMak9Y
- ABWfQ0EV1oEEqeX3TbuGlqGUFRMYjKyhHlw1WUdvZ1DzD3viW2rWeWCPG1oeyAb16K0bAHRHDJ/8u
- 7qxtcXec9gjSYfIvfiS7cZGg4szf53bAHikZo0rV822N6iqB6xRh7q/voTDG17tboCBgv1uRtDimi
- 4jKKxCmd+oLylR1PhqZgIBdWpBkSVgJ6njmH/+bUJe1ZNehCTrO17DQiDjvRUac9H8e8fXpOFTLmm
- TFdjpbhZzUtIvj1uMXtr7kUoFBEm3mqKs1OmJgN7hgrQgHfDKl7lTuQyOK+JJOhwp/OTAcX5EU2OO
- Hh5zT5qiOxs36QVLKH+t/HAiAQMknXPjFiq8LkWhE=;
-Received: from [2a00:23c4:8bab:d400:2a4f:fc6b:227:2848]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pZhCT-000Bvp-Al; Tue, 07 Mar 2023 23:58:33 +0000
-Message-ID: <544123d9-b0da-bcfa-d06e-e93fa6ca3580@ilande.co.uk>
-Date: Tue, 7 Mar 2023 23:59:09 +0000
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZhLY-0006aa-Ba
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:07:56 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pZhLT-0006IK-HO
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:07:56 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v16so13876974wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678234069;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5IGy0vF1LxHD+Mh0VVrt/9yAqy94SmqA9OIZ2xWARic=;
+ b=XSHS3/pSdA9RQX6EPgBOLyfltwFTYtD1GB6jR6W9IZME46e/otggAMlfhjlNrNH9Oq
+ tgF+cQLF5Xw0Itf2uBlZjfpDmYXlH9Tj1COjWlWJZ9UhRLLlT3RHkhgqxKpF5XvH3kuu
+ V6MHX4tG3HHrCuMOn03eJCwoUaDLyR71OSLIBHr/I5eAQSpwPivfHejU3Wg8VYYpD6m8
+ /OajKdeBrL4MspBlil0JQtHuCK5QtAs/5UiHA/Rc7OY2a5pe+DhsofM+0z2HZzaM+6bZ
+ 6OWs1qdXZKXGbnRXqW7rhe27jKHiEdjNDEcfqXeJWShIYyeND6v8HpYRhcoYcrG5q4y1
+ ND6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678234069;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5IGy0vF1LxHD+Mh0VVrt/9yAqy94SmqA9OIZ2xWARic=;
+ b=aRq1qZ++MFGageQlQJ9tP22ukmUsAi8bfgz2v1KEqFKexVQ3MvOsl7K7E7C4hhZdgD
+ xezasvaWYTIQT+mJM3RIsqC4UkfOpHzpw/T8sg9Of27c1tCPa7PTJkT6/HC7W9wn25/A
+ 7zGfMBA7UhPvRIVFTmd8kJLMjRgcDTdjwUce8aO67odFbYlTi754wdXMfij2vDpcS0Ls
+ /lzWtyPFbNXNJq5oIOyG3TIolooOlRhOjCjGTGCvi3BN9b3U0LJt7goDYZgYoKvNCgNz
+ NIeerOSi21Ii9YL3LANvo/ju/vjkDssVhEXcjg2CVINY0D8QQFlr2WQ12nD5VL6T3N+m
+ MdTA==
+X-Gm-Message-State: AO0yUKV8nKUBk30s7mSUH/pYs7qqX/Fh+CCEQPqUw5n2dT38MRjyo4vG
+ wz5e8Dg2d87Ps+2a+FbiTr/i0NpIZoKNS+t3zUc=
+X-Google-Smtp-Source: AK7set+jyz/oJJqo6GaZ1kocd1v3V12qjLyfQrh7d8WFGlzePqVl9XBe3qRRBrXUqAK8rRm67eYe4w==
+X-Received: by 2002:a5d:6a0f:0:b0:2cb:f4:e59a with SMTP id
+ m15-20020a5d6a0f000000b002cb00f4e59amr10068566wru.71.1678234069109; 
+ Tue, 07 Mar 2023 16:07:49 -0800 (PST)
+Received: from localhost.localdomain (57.red-88-29-179.dynamicip.rima-tde.net.
+ [88.29.179.57]) by smtp.gmail.com with ESMTPSA id
+ f10-20020a5d4dca000000b002c70bfe505esm13536808wru.82.2023.03.07.16.07.47
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 07 Mar 2023 16:07:48 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v3 0/4] MIPS Virt machine
+Date: Wed,  8 Mar 2023 01:07:41 +0100
+Message-Id: <20230308000745.56394-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, richard.henderson@linaro.org, anjo@rev.ng
-References: <83144281-4b2d-4bd6-b8f3-345e4b795f5a@ilande.co.uk>
- <27d01c39-190a-28a6-b161-b79d3492229c@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <27d01c39-190a-28a6-b161-b79d3492229c@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bab:d400:2a4f:fc6b:227:2848
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: sh4-linux-user compile failure
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,34 +88,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/03/2023 23:52, Philippe Mathieu-Daudé wrote:
+Since v2:
+- Remove mips64 from gitlab's build-without-defaults job
+- Require libfdt for all MIPS targets
+- Various changes described in each trickbox/virt patches
 
-> On 8/3/23 00:46, Mark Cave-Ayland wrote:
->> Hi Richard/Anton,
->>
->> It looks as if a compile failure has crept into sh4-linux-user, most likely related 
->> to the recent TARGET_TB_PCREL/CF_PCREL changes:
-> 
-> 
->> In file included from ../accel/tcg/tb-hash.h:26,
->>                   from ../accel/tcg/tb-maint.c:28:
->> ../accel/tcg/tb-jmp-cache.h:24:5: error: "TARGET_TB_PCREL" is not defined, 
->> evaluates to 0 [-Werror=undef]
->>     24 | #if TARGET_TB_PCREL
->>        |     ^~~~~~~~~~~~~~~
-> 
-> Your tree seems desync / out of date:
-> 
-> $ git grep TARGET_TB_PCREL a2b5f8b8ab
-> $
+v2 cover from Jiaxun Yang:
 
-Hmmm I just did a standard "git pull" and rebuild as normal, although this time I did 
-a full build for all targets for testing. Maybe there's something old left in the 
-build/ directory that's causing a problem? I'll throw everything away and see if that 
-fixes it.
+  This patchset is to add a new machine type for MIPS architecture,
+  which is purely a VirtIO machine.
 
+  It is design to utilize existing VirtIO infrastures but also
+  compatible with MIPS's existing internal simulation tools.
 
-ATB,
+  It should be able to cooperate with any MIPS core and boot Generic
+  MIPS kernel.
 
-Mark.
+  Kernel patch available at:
+  https://lore.kernel.org/linux-mips/20230304221524.47160-1-jiaxun.yang@flygoat.com/
+
+Jiaxun Yang (2):
+  hw/misc: Add MIPS Trickbox device
+  hw/mips: Add MIPS virt board
+
+Philippe Mathieu-Daudé (2):
+  gitlab-ci: Remove mips64-softmmu from build-without-defaults job
+  configs/targets: Have all MIPS targets select FDT
+
+ .gitlab-ci.d/buildtest.yml              |   4 +-
+ MAINTAINERS                             |   7 +
+ configs/devices/mips-softmmu/common.mak |   1 +
+ configs/targets/mips-softmmu.mak        |   1 +
+ configs/targets/mips64-softmmu.mak      |   1 +
+ configs/targets/mipsel-softmmu.mak      |   1 +
+ docs/system/target-mips.rst             |  22 +
+ hw/mips/Kconfig                         |  16 +
+ hw/mips/meson.build                     |   1 +
+ hw/mips/virt.c                          | 913 ++++++++++++++++++++++++
+ hw/misc/Kconfig                         |   3 +
+ hw/misc/meson.build                     |   1 +
+ hw/misc/mips_trickbox.c                 |  97 +++
+ hw/misc/trace-events                    |   4 +
+ include/hw/misc/mips_trickbox.h         |  39 +
+ 15 files changed, 1109 insertions(+), 2 deletions(-)
+ create mode 100644 hw/mips/virt.c
+ create mode 100644 hw/misc/mips_trickbox.c
+ create mode 100644 include/hw/misc/mips_trickbox.h
+
+-- 
+2.38.1
+
 
