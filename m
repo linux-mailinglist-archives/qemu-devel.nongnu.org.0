@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA8C6AFC2C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31706AFBE6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:14:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiLH-00011U-01; Tue, 07 Mar 2023 20:11:43 -0500
+	id 1pZiLK-00015B-5K; Tue, 07 Mar 2023 20:11:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLF-00011G-0E
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLI-00011t-8f
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLD-0001Z6-Ko
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:40 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLG-0001ZH-T2
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237899;
+ s=mimecast20190719; t=1678237902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KoF+K0Z/bB0Jssj7kEbUqe1HsYBZTQrBtW/A5NQcmoE=;
- b=UMByV/UYq9sxKtXiE4Jm39xQZwPtsJtqo+YbnZEQj6BKUe2q03manNWNU3WpXrLT0Evc5D
- CbCwYEa+3XECMqKHL4TEiBIYuKSxQ8yyCyUAov6SzmQFy9nx30agytcxX4AipnahS5eVhh
- li0e4CgeXhAfDVBo2O1I17I5LJ9qVD8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FyT6N8lDTFKoLVEIvDcV9LdLznYSzYH679P93J0oUXE=;
+ b=MPnZg/6YhRBu5nFNbeOgDFjadsWbJ3d7uN3BuLFmVwvghheVwvR3TmzXtKOtE0vxdzJeDq
+ 4dFmEVef6sF5r79WftLKSW3CLQqYmkEN1n/GzyOdWGx3lc7FE1/q4UmBPZVYpoJS3f5+ir
+ 8CZGn6aRenjgvnEjFMQc9x0TBOK2fvc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-52-LJz-7DYBMnqLScILuBAGpA-1; Tue, 07 Mar 2023 20:11:38 -0500
-X-MC-Unique: LJz-7DYBMnqLScILuBAGpA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- d35-20020a056402402300b004e37aed9832so11979041eda.18
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:11:37 -0800 (PST)
+ us-mta-303-AfKxDybwPOK7B2Pbx0j5hg-1; Tue, 07 Mar 2023 20:11:40 -0500
+X-MC-Unique: AfKxDybwPOK7B2Pbx0j5hg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b7-20020a056402350700b004d2a3d5cd3fso16146416edd.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:11:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237896;
+ d=1e100.net; s=20210112; t=1678237899;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KoF+K0Z/bB0Jssj7kEbUqe1HsYBZTQrBtW/A5NQcmoE=;
- b=O+nYasFhEo4+8CVZNrtRmgWVsibFk4zSk6tascmDcdjBwmtUQbYlOmW4Q1mqZB+ZTi
- LQTzm0vM3quDOmjaAkuQhvErNhXvN/l4v+D0W44pbie3mwUO7sz4jURK0jmB2HLfUTQ4
- h5EfP0bx3bcXN6nnqQlEzPXlxnJX6N4L/oS3dZsVO/60+XS6sfY4fkamOCVCqto98BcS
- MfpLD0puDULUlvgxr/IIA0xjPc+jVK25iI04zLfraQKuf2Heya8bvhQqkLE/+RlkIWaf
- njUYQSNNTWGoiCEUYAb9IhBQ6/FcA4W5gMdIdH6RpTe9sd/C0tVV8Hj7uZ1rS5ELAWmy
- AsGA==
-X-Gm-Message-State: AO0yUKWGYKMm8N4+t4OaxSsNTSq2D9EwLNI9CpzxUydeT6ocypRbQzfu
- deu3luU4nFhpEqgwzA2NBGGKsWCH23A/Toc8+O8VTibO0npdm3ymyEicJ+ksvMZxhWF0e2GE5qo
- woR6TrqI4lwTD/W9/7clEhOdKE8XL7ZlC8YroWoA9fxuatMyG05rat3ytn0FqQBS6sWxQ
-X-Received: by 2002:a17:906:b10d:b0:8c0:6422:e0c2 with SMTP id
- u13-20020a170906b10d00b008c06422e0c2mr16594553ejy.22.1678237896305; 
- Tue, 07 Mar 2023 17:11:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set9hDjBKQgLNIyrszt0OyvQ3AuV2UyWwjc+JL8w2UWM/ZKyh+VAXaeNfGEQ+4ubNSYQs53gwiQ==
-X-Received: by 2002:a17:906:b10d:b0:8c0:6422:e0c2 with SMTP id
- u13-20020a170906b10d00b008c06422e0c2mr16594541ejy.22.1678237896026; 
- Tue, 07 Mar 2023 17:11:36 -0800 (PST)
+ bh=FyT6N8lDTFKoLVEIvDcV9LdLznYSzYH679P93J0oUXE=;
+ b=xRj7ShBl5grvRZqJuz4i+ykKOoWVM6Dsj5zMDRd4X528tOxUs4Lw4ctd8rNTwjIpOE
+ d8BRVIasNJudZQ0chZd00dvxVhNI0hl+XSknlohLc0uHPiXBCAN52VzJQg4Gm514nHcG
+ bBwD/Rb+vsOcAylPbirBJuFB2cRWB//QMh1/ISc1E6A+EBZq1LwgEhw/LOpG7AuC1pj9
+ CZk+SrS+J9xxDFssXVHdHXI1G86+U9uDdwydFZcAdwzA48bV8l5eiZysyAj51w5rgW7S
+ c4a7gk/yn48apPC7bweL/FjS4fOMoP75+inXbNYNCtBP/1SVZ6L2OyP60bV7YRAFceQk
+ F8fQ==
+X-Gm-Message-State: AO0yUKXCAecIWREHQjbfwajVQn3CUGHqbMxt09y1t32d/dFuqOqZ2LOq
+ SSP8YyeXEeNic1JCY4QXWkUcYtSd9HmkhMU9z0yzzQx+QZkNixS5mRYg+WPMXewNX9w1wB5b4Sb
+ 2MP9lQg4cU4OO9LyxEAKcEpAcNhslJJtvncsnInzD0ICguEeXgYcF+fAahJzxr7vWkerB
+X-Received: by 2002:a17:906:3197:b0:8b1:3293:ead2 with SMTP id
+ 23-20020a170906319700b008b13293ead2mr17389707ejy.25.1678237899020; 
+ Tue, 07 Mar 2023 17:11:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set83wB0wRh0T5Qkx8fAgsHJ2BDpc/+W7FSTwY1vpXj8Ci8VCbWhKeHMsAn4SQuVvAbFi1FXhAQ==
+X-Received: by 2002:a17:906:3197:b0:8b1:3293:ead2 with SMTP id
+ 23-20020a170906319700b008b13293ead2mr17389693ejy.25.1678237898822; 
+ Tue, 07 Mar 2023 17:11:38 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- p20-20020a17090653d400b008e97fdd6c7csm6725361ejo.129.2023.03.07.17.11.34
+ jy24-20020a170907763800b008d7a8083dffsm6767036ejc.222.2023.03.07.17.11.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:11:35 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:11:33 -0500
+ Tue, 07 Mar 2023 17:11:38 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:11:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- Lei Yang <leiyang@redhat.com>
-Subject: [PULL 14/73] vdpa: Remember last call fd set
-Message-ID: <b2765243863cf93d2bab1a1c2e14d6dc61981a6b.1678237635.git.mst@redhat.com>
+ Jason Wang <jasowang@redhat.com>, Lei Yang <leiyang@redhat.com>
+Subject: [PULL 15/73] vdpa: Negotiate _F_SUSPEND feature
+Message-ID: <d83b4945805d68f47742f70bba2ea4d5c9880dc8.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -76,7 +76,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1678237635.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,45 +102,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-As SVQ can be enabled dynamically at any time, it needs to store call fd
-always.
+This is needed for qemu to know it can suspend the device to retrieve
+its status and enable SVQ with it, so all the process is transparent to
+the guest.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Message-Id: <20230303172445.1089785-3-eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20230303172445.1089785-4-eperezma@redhat.com>
 Tested-by: Lei Yang <leiyang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/virtio/vhost-vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index df3a1e92ac..108cd63289 100644
+index 108cd63289..5cfa9d5d27 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -1227,16 +1227,16 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-                                        struct vhost_vring_file *file)
- {
-     struct vhost_vdpa *v = dev->opaque;
-+    int vdpa_idx = file->index - dev->vq_index;
-+    VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
+@@ -659,7 +659,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+     uint64_t features;
+     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
+         0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
+-        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
++        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID |
++        0x1ULL << VHOST_BACKEND_F_SUSPEND;
+     int r;
  
-+    /* Remember last call fd because we can switch to SVQ anytime. */
-+    vhost_svq_set_svq_call_fd(svq, file->fd);
-     if (v->shadow_vqs_enabled) {
--        int vdpa_idx = file->index - dev->vq_index;
--        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
--
--        vhost_svq_set_svq_call_fd(svq, file->fd);
-         return 0;
--    } else {
--        return vhost_vdpa_set_vring_dev_call(dev, file);
-     }
-+
-+    return vhost_vdpa_set_vring_dev_call(dev, file);
- }
- 
- static int vhost_vdpa_get_features(struct vhost_dev *dev,
+     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
 -- 
 MST
 
