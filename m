@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0DB6B003E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 08:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652AE6B0075
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 09:06:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZoab-0000E9-Pc; Wed, 08 Mar 2023 02:51:57 -0500
+	id 1pZon7-0003xv-Hl; Wed, 08 Mar 2023 03:04:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZoaa-0000Dg-1w
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 02:51:56 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZomV-0003fx-OA
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 03:04:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZoaY-0004JV-Eu
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 02:51:55 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZomS-0006RA-5Q
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 03:04:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678261913;
+ s=mimecast20190719; t=1678262651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n+LZqj9M9XfJAp5M+pzniSD4HdHHal6gae0oPqogZt4=;
- b=XiZBur7f5rmJowTMtNQ1EFesWuOhdDDyoBRY6R8vfqXfND8eRWzZoRvIZSuX+vD/7HnVNj
- pxW+0Iq+PE7kO49HjzibvGB+GsXpfNd2uVvmVZL+1YkkipW3Z8jC3v2brYnCN4J+qyxUOk
- 4d595FBmEsB7WkEya6RiLJhXygqiEow=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/UKHuk7l2sWMvtwVl3DLA45ZeIoeDs/Qm9epxemkMnY=;
+ b=fm8mRE5ZxjmLwjQRLgkYgykYiSbGAbC4d+iil5iQ10IRnsg/a5ocEZRN+mPfN0N59m67fA
+ oyxOfi7ScUVF2kNxPJx/JH9A/h71+qPzPc/McKxkHXgdd49cfKaJEFhyrGeF8mnJQdnbXj
+ 4qygSzrBo8frlur6z3zTUPI3A39qu7Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-275-3a5c29KtMJeYZhrCjYyZHw-1; Wed, 08 Mar 2023 02:51:52 -0500
-X-MC-Unique: 3a5c29KtMJeYZhrCjYyZHw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z6-20020a05600c220600b003e222c9c5f4so5574220wml.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 23:51:52 -0800 (PST)
+ us-mta-593-RBX1GQJfMlOhc--xlaDfWQ-1; Wed, 08 Mar 2023 03:04:09 -0500
+X-MC-Unique: RBX1GQJfMlOhc--xlaDfWQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r7-20020a05600c35c700b003eb3f2c4fb4so500181wmq.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 00:04:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678261911;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1678262648;
+ h=content-transfer-encoding:in-reply-to:references:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n+LZqj9M9XfJAp5M+pzniSD4HdHHal6gae0oPqogZt4=;
- b=tHHZNCd02zRNoQ3TXT78OradLFbgrP5thErEzgeANIDLq2DjsNHlxyn5cFf8k0/2I3
- r2jxsLGwTc2R4SpThTGpXuQPj3g2PaTmUpV2FS+NK+5JCYgVMtnOsSTtb2x/ItiSUXxB
- eMAgcRgILpjGxXd/frfDkrgjE+N5eINCYpVpI8a/Z3X2bW82GCR3WoJgbJz1O663Z2lM
- I7m/NlUGeo3dsChi735/eeVZ7A6uy2KMVrFfA0kDgHvaTIDR81PnJ7DwaOYPFwHSh0fa
- /efc/5nzUdM7s5bno6NQfnNtsLkQB6ouibFgA9hIOPARtvXSsy9K2yk2DTofO9U9MVv0
- HOpQ==
-X-Gm-Message-State: AO0yUKWpk64dCz395V+ORmA+ViX1HVHtHcfxPTArKe38hiTdfcmy3zdq
- 6auHMTViHtxqRCcUfeYLulXJFxcEBfvbQu8zMbHc55+/o2dHYjLK2V5c3Hcg1T/XlGGU9uv86Bf
- O0nuCEcTWTGLIT24y6NTz65vmAg==
-X-Received: by 2002:a05:600c:1c9e:b0:3ea:f883:180 with SMTP id
- k30-20020a05600c1c9e00b003eaf8830180mr15120355wms.7.1678261911535; 
- Tue, 07 Mar 2023 23:51:51 -0800 (PST)
-X-Google-Smtp-Source: AK7set98JiZyiWRFnJz6uGdQW6xAGFGJqbUL1s9E+ejP7CXzB4pLBkKKVrM0KsMb6FJXMxsC0wACJA==
-X-Received: by 2002:a05:600c:1c9e:b0:3ea:f883:180 with SMTP id
- k30-20020a05600c1c9e00b003eaf8830180mr15120346wms.7.1678261911274; 
- Tue, 07 Mar 2023 23:51:51 -0800 (PST)
+ bh=/UKHuk7l2sWMvtwVl3DLA45ZeIoeDs/Qm9epxemkMnY=;
+ b=ohFaJ3QWBrOnYZDew+zuS2nuomn9uZ376rhXiThpVHlIpi5m7VzOqgYpkaHH3Oy8Nc
+ VxLU13n3/HNvbKlj9/EgaJsqZ9SaG9FdteJarHClmBXw53uhqyQRJq/X9W9VucPEeLcr
+ s3zXkxW3kfl1+Xvoq4FSCfob2VTl4y5cPiyYjzCLyI8vViKVIG+yoVPEkc8unPmgY/ef
+ 4xWVy+COgIHHjNYKJPG/2i1lly/jmuVvV+KaWPJn0fGJ/4Um/xAKOhXvmkBMCEPhwESl
+ f3IPkfj+cWndWPRi3XgywzzBBa0iDvAUwmF4+YNDBcJc6nnd15JJJG4eRF8anc6sMX+0
+ BWAg==
+X-Gm-Message-State: AO0yUKXs/U8TYO3haaiSvx0YXphF/UAfUAP6VnJ0z3EQtftH8/AEp6yF
+ RUVWaAKTzqBybvnN3WlKsm5SAagfA0t7gDLmZI4fKhemaD0vXGblE4aYwPw+1m+OpZ8UE8HVoLI
+ QI1By+EoMMvFIk9vXvKgjfuVvx3jcRqY6Ig8TlmoJnrd63LmEpYz2xWAehNesjxMt3wwDhATehQ
+ ==
+X-Received: by 2002:a05:600c:a49:b0:3eb:3692:644e with SMTP id
+ c9-20020a05600c0a4900b003eb3692644emr14999156wmq.33.1678262648405; 
+ Wed, 08 Mar 2023 00:04:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set9qaYxnu6bibIZAh+58rbo27QTsbginv7PCi4/dFSE8hWkkzfpyukUO1ZPQIr0tYRUdhXTxxA==
+X-Received: by 2002:a05:600c:a49:b0:3eb:3692:644e with SMTP id
+ c9-20020a05600c0a4900b003eb3692644emr14999125wmq.33.1678262648038; 
+ Wed, 08 Mar 2023 00:04:08 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-179-166.web.vodafone.de.
  [109.43.179.166]) by smtp.gmail.com with ESMTPSA id
- m7-20020a7bcb87000000b003dc4a47605fsm18763871wmi.8.2023.03.07.23.51.48
+ m14-20020adffe4e000000b002c54c8e70b1sm14774401wrs.9.2023.03.08.00.04.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 23:51:50 -0800 (PST)
-Message-ID: <a49d66c6-dac4-34c4-cb81-3d54615225c1@redhat.com>
-Date: Wed, 8 Mar 2023 08:51:47 +0100
+ Wed, 08 Mar 2023 00:04:07 -0800 (PST)
+Message-ID: <008c8615-47f1-2d6d-12f7-01822a90797a@redhat.com>
+Date: Wed, 8 Mar 2023 09:04:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v3 3/4] hw/misc: Add MIPS Trickbox device
+Subject: Re: [PULL v2 00/13] Final tests, s390x and misc updates before the
+ soft freeze
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20230308000745.56394-1-philmd@linaro.org>
- <20230308000745.56394-4-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230308000745.56394-4-philmd@linaro.org>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20230307134631.571908-1-thuth@redhat.com>
+In-Reply-To: <20230307134631.571908-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -100,93 +100,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08/03/2023 01.07, Philippe Mathieu-Daudé wrote:
-> From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+On 07/03/2023 14.46, Thomas Huth wrote:
+>   Hi Peter!
 > 
-> MIPS Trickbox is a emulated device present in MIPS's IASIM simulator
-> for decades. It's capable of managing simulator status, signaling
-> interrupts, doing DMA and EJTAG signal stimulations.
+> The following changes since commit c29a2f40cd5d1fdad4632b48343cd968db041a44:
 > 
-> For now we just use definition of this device and implement power
-> management related functions.
+>    Merge tag 'pull-target-arm-20230306' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-03-07 09:58:43 +0000)
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Message-Id: <20230304223803.55764-2-jiaxun.yang@flygoat.com>
-> [PMD: Remove pointless mask in mips_trickbox_write(),
->        declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()]
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/misc/Kconfig                 |  3 +
->   hw/misc/meson.build             |  1 +
->   hw/misc/mips_trickbox.c         | 97 +++++++++++++++++++++++++++++++++
->   hw/misc/trace-events            |  4 ++
->   include/hw/misc/mips_trickbox.h | 39 +++++++++++++
->   5 files changed, 144 insertions(+)
->   create mode 100644 hw/misc/mips_trickbox.c
->   create mode 100644 include/hw/misc/mips_trickbox.h
+> are available in the Git repository at:
 > 
-> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> index 2ef5781ef8..9f09da23c1 100644
-> --- a/hw/misc/Kconfig
-> +++ b/hw/misc/Kconfig
-> @@ -85,6 +85,9 @@ config STM32F4XX_EXTI
->   config MIPS_ITU
->       bool
->   
-> +config MIPS_TRICKBOX
-> +    bool
-> +
->   config MPS2_FPGAIO
->       bool
->       select LED
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index a40245ad44..4b6c50832c 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -136,6 +136,7 @@ specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
->   
->   specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
->   specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
-> +specific_ss.add(when: 'CONFIG_MIPS_TRICKBOX', if_true: files('mips_trickbox.c'))
->   
->   softmmu_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
->   
-> diff --git a/hw/misc/mips_trickbox.c b/hw/misc/mips_trickbox.c
-> new file mode 100644
-> index 0000000000..86b00a8c0d
-> --- /dev/null
-> +++ b/hw/misc/mips_trickbox.c
-> @@ -0,0 +1,97 @@
-> +/*
-> + * SPDX-License-Identifier: LGPL-2.0-or-later
-> + *
-> + * MIPS Trickbox
+>    https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-07
+> 
+> for you to fetch changes up to 7687cd2b99454bd289c8854eec2653cb855cad67:
+> 
+>    pc-bios/s390-ccw: Update s390-ccw.img with the list-directed IPL fix (2023-03-07 14:30:43 +0100)
 
-I'd maybe add the description from the commit message here to tell the one 
-who's looking at this source code what this file is all about.
+FYI: I just repushed the tag to fix a typo in the arm 32-bit host 
+deprecation patch ("continuous" -> "continues", thanks to everybody who 
+spotted it, and sorry for missing to fix it earlier).
 
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sysbus.h"
-> +#include "qapi/error.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "trace.h"
-> +#include "sysemu/runstate.h"
-> +#include "hw/misc/mips_trickbox.h"
-> +
-> +static uint64_t mips_trickbox_read(void *opaque, hwaddr addr, unsigned int size)
-> +{
-> +    uint64_t value = 0;
-> +
-> +    qemu_log_mask(LOG_UNIMP,
-> +                    "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
-> +                    __func__, addr);
-> +    trace_mips_trickbox_read(size, value);
+New commit id is now e3b27e7985d57ce22fe0e308a27615acb07a1724 .
 
-Does it really make sense to have both, a trace point and a log for the same 
-thing?
+I hope that's still ok, please let me know if I should send a v3 instead.
 
   Thomas
 
