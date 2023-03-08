@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8730C6AFC01
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F158A6AFBE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:14:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiMX-0007SC-NW; Tue, 07 Mar 2023 20:13:01 -0500
+	id 1pZiMV-0007Ih-N7; Tue, 07 Mar 2023 20:12:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMU-0007Eq-Ey
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMT-0007A6-PW
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMS-0001hN-L4
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMR-0001hJ-Ut
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1678237975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fBOKE0cyKeoFLUCat4Ux/9uXF2e8CfWnWBPumDi1QW0=;
- b=S0WBTiVngCPumCtH+HGV0HNY2D6wxz9RL1VjOt3E5ZljbG8JKIc/JBXoRtyqfwh4DYYv50
- RDhPoEpRtM3CN3lREmWDA7CEp0iFg1CWvy/TYVXVZmPDzG74CqpzlPxLBrys8E5Ra4mbXC
- kG4+PvoIGfl1bw9MzKhD0PO4b24DSmE=
+ bh=mXazmb8yGfIFutAyjxdmizsN731JFjREXW9aEnmsoIQ=;
+ b=HRGxqGkKAhWKCAg0DIak0t5JRMUXIG6+rSqNT1jToLQwlQqSaJFRqrSGP4t3oTislB1+3Y
+ e0UFuABBc4wCXuWrsyDn9LjREwYPAxaGbThI7erWX/M8F9YLNn2LeJHtoJeqgTlZIkfn7y
+ njc+X6+A1VqD9J6nA1mJzhxeo4oBIkc=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-169-2OrRgSVwM-aLcMeppOJ1qQ-1; Tue, 07 Mar 2023 20:12:54 -0500
-X-MC-Unique: 2OrRgSVwM-aLcMeppOJ1qQ-1
+ us-mta-619-YB-1JxJ7O7G87s9jhQoAxg-1; Tue, 07 Mar 2023 20:12:54 -0500
+X-MC-Unique: YB-1JxJ7O7G87s9jhQoAxg-1
 Received: by mail-ed1-f72.google.com with SMTP id
- dn8-20020a05640222e800b004bd35dd76a9so21591149edb.13
+ b1-20020aa7dc01000000b004ad062fee5eso21183715edu.17
  for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:12:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237969;
+ d=1e100.net; s=20210112; t=1678237972;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fBOKE0cyKeoFLUCat4Ux/9uXF2e8CfWnWBPumDi1QW0=;
- b=Bqhon6sr3ZHSxVlmMKhdBkogmHZQIpTWQnE5E8gz3nDIGPrk2hdkmdwWUYOlm6CLxA
- qttPYmrbDz+DCJckK1/sQic9ZtQPtVa9yjghpWuhexHQ0aXQIGBdkZOJbQvefHeVZeBQ
- izDaA3VJ8nfCcZDTtMWHMScaJhSdd9RWJ5tchOK8SRDbccAyg7lxLVySd1Y0IcVtLYC5
- /sSBkyVxSQBRhGHWjqkA08a/E+6VNhDM3aTy9ZFSmI70eDoVhqxmQBxRsix2L/fbqR3B
- hnaSHK016a9a0j/76Gjw70TgG5vah/+hgu5w/oAT0RXXbiYv9hSJqdYM0ARsA8+UB2yD
- g1gQ==
-X-Gm-Message-State: AO0yUKVIG2kqxaBZ6GhEZM8aWmKv/rsfb+b86BT2NFLT0YxJuPnTl3uL
- 0xTxsRIkvuxYXg+XAh1LX4KctX+0eqWej+f5xP3FkWYsh48xvMAJCeImhR8IBovNqzuS8+7j+f4
- qZYJ+hQQaekTmDLemH9ntTv7qUzQa1qJ1zi5BOvhb1DsX+b7naZ2TA6qB7Qc1qgO9AO/S
-X-Received: by 2002:a17:907:98a3:b0:88a:1ea9:a5ea with SMTP id
- ju3-20020a17090798a300b0088a1ea9a5eamr16381451ejc.65.1678237969375; 
- Tue, 07 Mar 2023 17:12:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set/3g5eov8WEfQWyJVqOA2REqhGYL8Yi00FAtuBP5D8wCndj/zwEEWBlUcxw9o7RLnUHPqOpLQ==
-X-Received: by 2002:a17:907:98a3:b0:88a:1ea9:a5ea with SMTP id
- ju3-20020a17090798a300b0088a1ea9a5eamr16381441ejc.65.1678237969087; 
- Tue, 07 Mar 2023 17:12:49 -0800 (PST)
+ bh=mXazmb8yGfIFutAyjxdmizsN731JFjREXW9aEnmsoIQ=;
+ b=scXyQdWRAmn3apWzxZMlif2KI5ubgny7Y8jxpj2gEnWtUUJdagh6UoYHP0UNQhu4gP
+ UUhcPWN0Jy/OYxtCcFmp6whVGkYwiM/uwVOCgrASNrG7rrwdlxSj6ppmE3Bdz53p9l8+
+ HZLsSn2Khklzjtl1569/RPvLBUvRPBYbNV+jbDDBPvfd1pdCvZrnQLTOEuj9tVYOhqFh
+ eFceko4sJV/UwUNrMvKMbK9lPd3Gs94JJIzFBhE+mZe2FN5MqkIdGF9+9P+JYlHIS5Iz
+ lVmGmOXbY8pTsMpkUP1XAg6UT6dVXnHX03mdlm3MWIjyxMapvsbkh10XPmc3LhkrJlNS
+ YQtQ==
+X-Gm-Message-State: AO0yUKVZy8tshOMDHoRcj730eUBWTA89I9Y8XD9IweYRoot9U23tlEXT
+ Z8hngAMpQ4nalw1lvHA4GxdnJuyDHJ2tdUP4RnfCMitBbuOcYHA5L7IMcuHHqMiE7eTNWOELAdh
+ +8uGHRi1G/N53Y2BxOa2RZ7dUeWs1sfPN28CFBNTgJ4QBlfHNekeNoFdGRlDtSDbs7qRl
+X-Received: by 2002:a17:907:c24c:b0:8b1:293a:ef21 with SMTP id
+ tj12-20020a170907c24c00b008b1293aef21mr16356265ejc.64.1678237972633; 
+ Tue, 07 Mar 2023 17:12:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set9jlAueE+OQvY9zVleU1xkFxoX+b7++UekU3pQ+1ZyN7jlut7UGsFw3kd4LYVfzEiDBwnYKpg==
+X-Received: by 2002:a17:907:c24c:b0:8b1:293a:ef21 with SMTP id
+ tj12-20020a170907c24c00b008b1293aef21mr16356244ejc.64.1678237972375; 
+ Tue, 07 Mar 2023 17:12:52 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- bi23-20020a170906a25700b008d356cafaedsm6739807ejb.40.2023.03.07.17.12.47
+ d25-20020a1709064c5900b008b17de96f00sm6778740ejw.151.2023.03.07.17.12.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:12:48 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:12:46 -0500
+ Tue, 07 Mar 2023 17:12:51 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:12:49 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 39/73] tests: acpi: whitelist DSDT blobs before isolating PCI
- _DSM func 0 prolog
-Message-ID: <bd95cd5323293091d2edb168a8571f06aae40a4a.1678237635.git.mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 40/73] pcihp: move PCI _DSM function 0 prolog into separate
+ function
+Message-ID: <0a4584fca3b255fb75437d8b95491533512ed515.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,55 +104,106 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+it will be reused by follow up patches that will implement
+static _DSM for non-hotpluggable devices.
+
+no functional AML change, only context one, where 'cap' (Local1)
+initialization is moved after UUID/revision checks.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-14-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-15-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 35 +++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ hw/i386/acpi-build.c | 54 ++++++++++++++++++++++++--------------------
+ 1 file changed, 30 insertions(+), 24 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..7e7745db39 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,36 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
-+"tests/data/acpi/q35/DSDT.applesmc",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.core-count2",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.pvpanic-isa",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.xapic",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index c691104d47..d8ec91b8e3 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -373,6 +373,33 @@ Aml *aml_pci_device_dsm(void)
+     return method;
+ }
+ 
++static void build_append_pci_dsm_func0_common(Aml *ctx, Aml *retvar)
++{
++    Aml *UUID, *ifctx1;
++    uint8_t byte_list[1] = { 0 }; /* nothing supported yet */
++
++    aml_append(ctx, aml_store(aml_buffer(1, byte_list), retvar));
++    /*
++     * PCI Firmware Specification 3.1
++     * 4.6.  _DSM Definitions for PCI
++     */
++    UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
++    ifctx1 = aml_if(aml_lnot(aml_equal(aml_arg(0), UUID)));
++    {
++        /* call is for unsupported UUID, bail out */
++        aml_append(ifctx1, aml_return(retvar));
++    }
++    aml_append(ctx, ifctx1);
++
++    ifctx1 = aml_if(aml_lless(aml_arg(1), aml_int(2)));
++    {
++        /* call is for unsupported REV, bail out */
++        aml_append(ifctx1, aml_return(retvar));
++    }
++    aml_append(ctx, ifctx1);
++}
++
++
+ static void build_append_pcihp_notify_entry(Aml *method, int slot)
+ {
+     Aml *if_ctx;
+@@ -570,14 +597,13 @@ static bool build_append_notfication_callback(Aml *parent_scope,
+ 
+ static Aml *aml_pci_pdsm(void)
+ {
+-    Aml *method, *UUID, *ifctx, *ifctx1;
++    Aml *method, *ifctx, *ifctx1;
+     Aml *ret = aml_local(0);
+     Aml *caps = aml_local(1);
+     Aml *acpi_index = aml_local(2);
+     Aml *zero = aml_int(0);
+     Aml *one = aml_int(1);
+     Aml *func = aml_arg(2);
+-    Aml *rev = aml_arg(1);
+     Aml *params = aml_arg(4);
+     Aml *bnum = aml_derefof(aml_index(params, aml_int(0)));
+     Aml *sunum = aml_derefof(aml_index(params, aml_int(1)));
+@@ -587,29 +613,9 @@ static Aml *aml_pci_pdsm(void)
+     /* get supported functions */
+     ifctx = aml_if(aml_equal(func, zero));
+     {
+-        uint8_t byte_list[1] = { 0 }; /* nothing supported yet */
+-        aml_append(ifctx, aml_store(aml_buffer(1, byte_list), ret));
++        build_append_pci_dsm_func0_common(ifctx, ret);
++
+         aml_append(ifctx, aml_store(zero, caps));
+-
+-       /*
+-        * PCI Firmware Specification 3.1
+-        * 4.6.  _DSM Definitions for PCI
+-        */
+-        UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
+-        ifctx1 = aml_if(aml_lnot(aml_equal(aml_arg(0), UUID)));
+-        {
+-            /* call is for unsupported UUID, bail out */
+-            aml_append(ifctx1, aml_return(ret));
+-        }
+-        aml_append(ifctx, ifctx1);
+-
+-        ifctx1 = aml_if(aml_lless(rev, aml_int(2)));
+-        {
+-            /* call is for unsupported REV, bail out */
+-            aml_append(ifctx1, aml_return(ret));
+-        }
+-        aml_append(ifctx, ifctx1);
+-
+         aml_append(ifctx,
+             aml_store(aml_call2("AIDX", bnum, sunum), acpi_index));
+         /*
 -- 
 MST
 
