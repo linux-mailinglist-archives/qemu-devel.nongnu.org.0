@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CB76B12DB
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F346B12D9
 	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 21:20:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa0G9-00081h-Fs; Wed, 08 Mar 2023 15:19:37 -0500
+	id 1pa0GC-00082m-I9; Wed, 08 Mar 2023 15:19:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pa0G7-00081M-J5
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:19:35 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
+ id 1pa0GA-000829-E0
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:19:38 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pa0G5-0002Rc-U3
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:19:35 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id y184so13115762oiy.8
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 12:19:33 -0800 (PST)
+ id 1pa0G8-0002SF-Qx
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:19:38 -0500
+Received: by mail-oi1-x230.google.com with SMTP id bj30so13126727oib.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 12:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1678306772;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=K/wTU1insbTSQSCHyzMrWKAQ0M88DmCBOmdr8lZ66rw=;
- b=EAMFxLC7Yq0xWrRV8D+QN0cfOBQzLQn5fp1L6mvPWWfvbdqMwM4Mew8wTvdNnAQkP5
- 5gO9b+LTmxE95D/7UxiEF0h6R780IPeAZ/wAWXK4rdEsvhhqJaNvF7rHbk7gAQF5PKmA
- fiujHgngOeYC3uxhmaSoKyKQKrVJzt7DPGYaYe38kn0TqYIX0hxh+F8D1qr63YViUP8r
- WFzlz4+qxzH7lL5z2enEdtQ7ZfJ2JMSgvPhWpjWAWxy56DZoiaKAlA1URS7TFSfwofrL
- Mpo0ah/ywPhOWqxCj9ZqSDmxxK0n4Y0Rjjk45349VSjTfKy+5DGkmb1yKldRT/M7Ep9g
- ZSRg==
+ d=ventanamicro.com; s=google; t=1678306775;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h0P1UnDjGy/z/U1aQi6eJShdM9aLBbZfiZBKn3C8EKc=;
+ b=S5UztB6HOpAE75hStorc8hS8RBX+AyVbDp8ygLc3fHWFEnaG4R7KvtYWetr9KyARFn
+ K0bgz4zvJimiC9bRwtTJYtUYrqajA87HJNWF0QxrqSg20U7qm7/yHe+Tj2on7zYiZv4N
+ xtSE8JVUUG6fQXdu7siEQb5YL2UHldz1sVPO6KEEw0lU71RyzZbSyPT5WDs7GVkLYw2y
+ bq8SZAxE9LaWbk4SYrUeNHUmqFvsm5myqXBj3O0Q3C1suFkeuZOQe5f6WSs573rSaBLI
+ vHjcvSqHACX8eObX7bsgJ8g9o7o31itPQ668jX8wr5APlY/zKe42c//x/foywukZf5W4
+ lMPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678306772;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=K/wTU1insbTSQSCHyzMrWKAQ0M88DmCBOmdr8lZ66rw=;
- b=rFc2RN+eDKPO1M57VQv/iQbXTeV0IfPQAK2xwafXWD6asN/EBB5Amj0i3CSbFs6shP
- NRJW6jrcIsyrub2vO0/qjACKfwChO3NJ4pr4xlfmhJSWnCAuxe7+zCCeE2NI2NFvu0F4
- Wc356DgbzhOkNpzi2jNQ6v6JxqaRxdDFHyWtbCHaZ7UPfyLWzkNXcTNCmv93m4L/nBkL
- xoufgY3cgRm0BkCueE5rNm+oUKQNGUuIyzVwb2qEpSozRinKJUud98YzaQnAnQZYjDEh
- D5i2Gh8YWnycekA50f6nTNrl9V37YZKpZ0PHhsKj6EviA0lYpsI+bYm7HxE9k8L2qgEu
- jq8Q==
-X-Gm-Message-State: AO0yUKXMsNSotVE8sWGHFJmrOYRku2z4hgDB3u2rgiihJifm3Zb8BYD7
- n1y8aQYJVre3jeltze11iS3/AnE97bztj+lAXv8=
-X-Google-Smtp-Source: AK7set/25H2rAPO8E3uVpqv2IX1JjKpeZMgDYylQttLCXbMToG7ri7PF7jZUtKIL4hP2XiQkFgPn4Q==
-X-Received: by 2002:aca:2311:0:b0:383:f4fb:be63 with SMTP id
- e17-20020aca2311000000b00383f4fbbe63mr7817213oie.37.1678306772285; 
- Wed, 08 Mar 2023 12:19:32 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678306775;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h0P1UnDjGy/z/U1aQi6eJShdM9aLBbZfiZBKn3C8EKc=;
+ b=y9l/nanSYQ9GPoMmz7sexg6a7JFApvRNvU3faAMQkf7sTCAeentWG/UbQGuBRNZpZw
+ mHOF7OY2cwa4QTJGU5GFTeYK3O1UAb/nOU6eIsurh4S+98m6/oJ0ZClU/260r3VsNEd3
+ J18wyGFGijID4WXYWpnu6yEMpIjMMBTzT4A6dMwTHrwLdATZkXdFK6IEgretWLTBMYEQ
+ LPkOsqhygZuijmUpnJ5SahqwuJfGQoKX6OhuHys85R4h3B+m3nfu8XAHUGQSJsBXx8/l
+ NzGaPoD1nbHHDJjtQZpmf71ax4Tcg+m1ZELFGz7bgmvy4frt2+RBQATWfX7UI5NkqWGA
+ gd8A==
+X-Gm-Message-State: AO0yUKV5OccwoCaBI9r0Ij4INOnDtknl2iDCmdUiEddR5l9VwgTxOeZE
+ H7BA6cO4p0XLsaDhdwiZaED17zOJw37wM2epxP8=
+X-Google-Smtp-Source: AK7set8pZ5HYEkcxDHCTqvxnTmKWOK3KOP/vhuBGikudeCR/iWUWL4qIdUbMTNxsPITTXWuZTOywBA==
+X-Received: by 2002:a05:6808:344:b0:384:6ae4:afe8 with SMTP id
+ j4-20020a056808034400b003846ae4afe8mr9004426oie.47.1678306775420; 
+ Wed, 08 Mar 2023 12:19:35 -0800 (PST)
 Received: from grind.. ([177.189.53.31]) by smtp.gmail.com with ESMTPSA id
- i66-20020aca3b45000000b00383e9fa1eaasm6705790oia.43.2023.03.08.12.19.29
+ i66-20020aca3b45000000b00383e9fa1eaasm6705790oia.43.2023.03.08.12.19.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 12:19:31 -0800 (PST)
+ Wed, 08 Mar 2023 12:19:35 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH for-8.1 00/17] centralize CPU extensions logic
-Date: Wed,  8 Mar 2023 17:19:08 -0300
-Message-Id: <20230308201925.258223-1-dbarboza@ventanamicro.com>
+Subject: [PATCH for-8.1 01/17] target/riscv/cpu.c: add riscv_cpu_validate_v()
+Date: Wed,  8 Mar 2023 17:19:09 -0300
+Message-Id: <20230308201925.258223-2-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230308201925.258223-1-dbarboza@ventanamicro.com>
+References: <20230308201925.258223-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,70 +91,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+The code that validates ext_v in riscv_cpu_validate_set_extensions() is
+not properly indented - we're missing an extra indent level right after
+the first check that uses cfg->elen.
 
-During the review of a series that did some work in the RISCV_FEATURES*
-enum, Liu Zhiwei commented on how we could centralize the all the
-extension validation code and integrate it with write_misa() [1].
+In the end the 'v' verification is a bit too large in comparison with
+the others, and can be put in a separated function to enhance the
+readability of riscv_cpu_validate_set_extensions().
 
-This does at least part of what was suggested. The idea is that, ATM, we
-have too many places setting cpu->cfg and the validation logic is
-scattered around (e.g. there are some contraints in write_misa() that
-should be applicable elsewhere). This series is an attempt to centralize
-things a bit.
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+---
+ target/riscv/cpu.c | 83 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 47 insertions(+), 36 deletions(-)
 
-The main accomplishments of this series are:
-
-- the parent device riscv-cpu no longer sets any cpu->cfg attribute. This
-  was forcing init() functions to disable extensions that it wouldn't
-  use just because the parent device was enabling it;
-
-- all validations are centered in validate_set_extensions(), with
-  pontual exceptions in write_misa() that has exclusive contraints;
-
-- set_misa() now writes cpu->cfg. No need to have one function to set
-  env->misa_ext and then another to set cpu->cfg;
-
-- register_cpu_props() now only exposes user-facing props;
-
-- all validations from validate_set_extensions() are done at the start
-  of the function. Validate first, set extensions after;
-
-- RVE is now forbidden in all validations, not just in write_misa();
-
-- RVG is now forbidden in write_misa();
-
-- write_misa now uses set_misa() and validate_set_extensions().
-
-
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
-
-Daniel Henrique Barboza (17):
-  target/riscv/cpu.c: add riscv_cpu_validate_v()
-  target/riscv/cpu.c: remove set_vext_version()
-  target/riscv/cpu.c: remove set_priv_version()
-  target/riscv: add PRIV_VERSION_LATEST macro
-  target/riscv/cpu.c: add riscv_cpu_validate_priv_spec()
-  target/riscv: move realize() validations to
-    riscv_cpu_validate_set_extensions()
-  target/riscv/cpu.c: remove cfg setup from riscv_cpu_init()
-  target/riscv/cpu.c: avoid set_misa() in validate_set_extensions()
-  target/riscv/cpu.c: set cpu config in set_misa()
-  target/riscv/cpu.c: redesign register_cpu_props()
-  target/riscv/cpu.c: move riscv_cpu_validate_v() up
-  target/riscv: put env->misa_ext <-> cpu->cfg code into helpers
-  target/riscv/cpu.c: split riscv_cpu_validate_priv_spec()
-  target/riscv/cpu.c: do not allow RVE to be set
-  target/riscv: add RVG
-  target/riscv: do not allow RVG in write_misa()
-  target/riscv: rework write_misa()
-
- target/riscv/cpu.c | 516 +++++++++++++++++++++++++--------------------
- target/riscv/cpu.h |   9 +-
- target/riscv/csr.c |  52 ++---
- 3 files changed, 323 insertions(+), 254 deletions(-)
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1e97473af2..5060a98b6d 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -802,6 +802,46 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+     }
+ }
+ 
++static void riscv_cpu_validate_v(CPURISCVState *env, RISCVCPUConfig *cfg,
++                                 Error **errp)
++{
++    int vext_version = VEXT_VERSION_1_00_0;
++
++    if (!is_power_of_2(cfg->vlen)) {
++        error_setg(errp, "Vector extension VLEN must be power of 2");
++        return;
++    }
++    if (cfg->vlen > RV_VLEN_MAX || cfg->vlen < 128) {
++        error_setg(errp,
++                   "Vector extension implementation only supports VLEN "
++                   "in the range [128, %d]", RV_VLEN_MAX);
++        return;
++    }
++    if (!is_power_of_2(cfg->elen)) {
++        error_setg(errp, "Vector extension ELEN must be power of 2");
++        return;
++    }
++    if (cfg->elen > 64 || cfg->elen < 8) {
++        error_setg(errp,
++                   "Vector extension implementation only supports ELEN "
++                   "in the range [8, 64]");
++        return;
++    }
++    if (cfg->vext_spec) {
++        if (!g_strcmp0(cfg->vext_spec, "v1.0")) {
++            vext_version = VEXT_VERSION_1_00_0;
++        } else {
++            error_setg(errp, "Unsupported vector spec version '%s'",
++                       cfg->vext_spec);
++            return;
++        }
++    } else {
++        qemu_log("vector version is not specified, "
++                 "use the default value v1.0\n");
++    }
++    set_vext_version(env, vext_version);
++}
++
+ /*
+  * Check consistency between chosen extensions while setting
+  * cpu->cfg accordingly, doing a set_misa() in the end.
+@@ -993,44 +1033,15 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+         ext |= RVH;
+     }
+     if (cpu->cfg.ext_v) {
+-        int vext_version = VEXT_VERSION_1_00_0;
+-        ext |= RVV;
+-        if (!is_power_of_2(cpu->cfg.vlen)) {
+-            error_setg(errp,
+-                       "Vector extension VLEN must be power of 2");
+-            return;
+-        }
+-        if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
+-            error_setg(errp,
+-                       "Vector extension implementation only supports VLEN "
+-                       "in the range [128, %d]", RV_VLEN_MAX);
+-            return;
+-        }
+-        if (!is_power_of_2(cpu->cfg.elen)) {
+-            error_setg(errp,
+-                       "Vector extension ELEN must be power of 2");
+-            return;
+-        }
+-        if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
+-            error_setg(errp,
+-                       "Vector extension implementation only supports ELEN "
+-                       "in the range [8, 64]");
++        Error *local_err = NULL;
++
++        riscv_cpu_validate_v(env, &cpu->cfg, &local_err);
++        if (local_err != NULL) {
++            error_propagate(errp, local_err);
+             return;
+         }
+-        if (cpu->cfg.vext_spec) {
+-            if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
+-                vext_version = VEXT_VERSION_1_00_0;
+-            } else {
+-                error_setg(errp,
+-                           "Unsupported vector spec version '%s'",
+-                           cpu->cfg.vext_spec);
+-                return;
+-            }
+-        } else {
+-            qemu_log("vector version is not specified, "
+-                     "use the default value v1.0\n");
+-        }
+-        set_vext_version(env, vext_version);
++
++        ext |= RVV;
+     }
+     if (cpu->cfg.ext_j) {
+         ext |= RVJ;
 -- 
 2.39.2
 
