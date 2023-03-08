@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D826B0909
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7727E6B0957
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtqt-0001bg-RB; Wed, 08 Mar 2023 08:29:07 -0500
+	id 1pZtre-00020m-M1; Wed, 08 Mar 2023 08:29:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqs-0001b8-AC
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:06 -0500
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr1-0001k4-Vx
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:19 -0500
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqp-00063M-Ut
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:06 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqw-00065e-83
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:11 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MOAr1-1pu39w29wv-00OZtF; Wed, 08
- Mar 2023 14:29:01 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MbSXf-1q71br0um9-00brcT; Wed, 08
+ Mar 2023 14:29:02 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 01/28] linux-user: Fix access to /proc/self/exe
-Date: Wed,  8 Mar 2023 14:28:30 +0100
-Message-Id: <20230308132857.161793-2-laurent@vivier.eu>
+Cc: Mathis Marion <mathis.marion@silabs.com>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 02/28] linux-user: fix timerfd read endianness conversion
+Date: Wed,  8 Mar 2023 14:28:31 +0100
+Message-Id: <20230308132857.161793-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Va2nXUp8ccp8SmE7dnPBCF1RZ5p+gmFWYtw4vS7ZJMQwx7bUaRE
- f5WWpXRA2hZe9ICfQhLqcAj/db/aL6yp7B/lbe8SgDMSIg3dzsRQorEy408jyI8EvhoBmVM
- RMEy6gBvfAfvoL7efajSux+vXqzc423L/hHplNMM3BsCqznS9ziCisuADfRhpolgQNTjiFc
- Om66Lx0BDiksAymI6acqA==
-UI-OutboundReport: notjunk:1;M01:P0:P020ciQ7zR8=;rouxZB+9cUI2owhqnJdvqBNwUn7
- HfBYrFKGISUaWB4qoLqIcrA9VLvHaadBUB+g5DKszKMEcD3ThQHQJS1jDJ+d0NH/JMu33bdYU
- WvK9OiHrg3k7EbYzR+FN5zrmj/M/1He/Z/n6p9tRpqrYMPTXyXeYPNV0Bbcz96DHJKBrGhJ5W
- nZw7iaQ01eTck/gqcQCKsQbD3gmGZ7TA0v7cOnxPuUIa1EI9ZZAI4krYDZqvqsVC+X9449mXE
- tSVqw69YoLgp6cg2fECrdaiSxBYUB0SzxFxvPLA1AqQjxP5xL/eSoFgxqCekSeJT614pFM5r7
- R+o6apCqdxPI/Cc21VZu/oiZgH6XwTqGF+9Oh5dtMf9pc/BK2K51KhUw1UQm4xXeS4/+JlZSr
- YhDevQAtwu8RZRctbALNByEugnNCRjc+OODWGWXwgMFIrEWTEDhPrAu45aOOdOKnRSBlU/vP8
- n8rmxfvzasNRLFLEspalAfuEFoclDqJYIF6Q8/AKUyPvevNirvhFlz7U2bEo8B1Lzess46FXt
- YuMnYa5NHo//1pRbCWXogta0eweFYev6XNlr5fDPQ+Q7NPCWpLsbsFeloo/4ynB6zYPdvdf0r
- Ro+eCrn58H6s33QQue7SiA3492oLPBiidCPS2FIXt5RUIYl/N+duHvCzFiGhwz6P9oRM4BqlR
- 8DixGjMC5Jj8iIXK6R+3I2YANJWipoar05pE0fTpPA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:d12lBiK689hBH/JKKhwbKLB1xuDTnAabjs8sbWCHcqFa+nbMX9w
+ ba7kmDddhKUJ42/cW+6KprINdDmGv/VtwBCSAOt29xYjte5vekkTqn9foXEcVQVE20OfWdH
+ 8nhiAhr1OGLezw79ajBQIufhY0KAtQr+yg/l8ggLSBfwwe/JBz3nePduigPOVZ4AtVyNFvS
+ 37xFZEMIyDrcVDVXnPEKw==
+UI-OutboundReport: notjunk:1;M01:P0:lpe0SdTvPmI=;0Lu7d3996+FsxCZtnwJB9IlM+XB
+ ZbfiIR25oPi0gHaH80kSaiJJpYuH0cdtyjeHmHzWlezEhNqQEg8FHeuKjjfU4GDaMCHSS7HfQ
+ lPm7VYYnCkDgcXSzE8oo1mKIsc4xbQ2iQyw04zUMtscLzNaG5UX6gCjroBwTmxmpLShZDWp1M
+ 9iMkkq25SCfKD8fnXDrZTq3wz0a5I7/flKNt0RbHx8uDifa0fUGIIn/OUzFyIUQuJpAYHDjoE
+ OIUINsHGTj6EwTeingiHdxlVbWEfS7Y/GZqNs413Rk+swzLcLx1XgBpMMZwBzGem3p/YL5pWV
+ 4z3XNGuX4jSIUI5m688fwWR1QXqAs2/OhreA24NNVPzTQcB6rcP7y1mxrdnVSJOVDyF3aGLhz
+ NVKPgzzWo/Tl6SHFETYK0GkKNwxaEWNSOo1Q6WT3CsMshKQuuzJeuPths72cT5cQB1XGekV7x
+ dBd6Uv4akRTuHJq3z5SNvhAjNXZ9/SjCc2PfjVuFt+iqLfd/CP57EgWw4divOozNnfY5GIsZA
+ fmwL0XNNrlytJkBpXzdgYeMGDk/NexmNG+Dr7rOCoVYXmAjwrLenW2nKxbHF+T4wUVBKehRVS
+ qKRdCYQWpz5aVgno1QMI387hegBVFFAkaCsoxDAHBTCAGMeLDj2DSzgfnlpSaXasLrGWmVLxz
+ 7bMlx9rH95wQZiWJIRTsCJ0CVSFClA4SV9cyywxNqA==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,115 +69,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Helge Deller <deller@gmx.de>
+From: Mathis Marion <mathis.marion@silabs.com>
 
-When accsssing /proc/self/exe from a userspace program, linux-user tries
-to resolve the name via realpath(), which may fail if the process
-changed the working directory in the meantime.
+When reading the expiration count from a timerfd, the endianness of the
+64bit value read is the one of the host, just as for eventfds.
 
-An example:
-- a userspace program ist started with ./testprogram
-- the program runs chdir("/tmp")
-- then the program calls readlink("/proc/self/exe")
-- linux-user tries to run realpath("./testprogram") which fails
-  because ./testprogram isn't in /tmp
-- readlink() will return -ENOENT back to the program
-
-Avoid this issue by resolving the full path name of the started process
-at startup of linux-user and store it in real_exec_path[]. This then
-simplifies the emulation of readlink() and readlinkat() as well, because
-they can simply copy the path string to userspace.
-
-I noticed this bug because the testsuite of the debian package "pandoc"
-failed on linux-user while it succeeded on real hardware.  The full log
-is here:
-https://buildd.debian.org/status/fetch.php?pkg=pandoc&arch=hppa&ver=2.17.1.1-1.1%2Bb1&stamp=1670153210&raw=0
-
-Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221205113825.20615-1-deller@gmx.de>
+Message-Id: <20230220085822.626798-2-Mathis.Marion@silabs.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c    |  6 ++++++
- linux-user/syscall.c | 34 ++++++++++------------------------
- 2 files changed, 16 insertions(+), 24 deletions(-)
+ linux-user/fd-trans.c | 10 +++++++---
+ linux-user/fd-trans.h |  1 +
+ linux-user/syscall.c  |  8 ++++++--
+ 3 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 4ff30ff98066..798fdc0bce8e 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -65,6 +65,7 @@
- #endif
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 7b25468d0208..146aaaafaa13 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -1622,7 +1622,7 @@ TargetFdTrans target_signalfd_trans = {
+     .host_to_target_data = host_to_target_data_signalfd,
+ };
  
- char *exec_path;
-+char real_exec_path[PATH_MAX];
+-static abi_long swap_data_eventfd(void *buf, size_t len)
++static abi_long swap_data_u64(void *buf, size_t len)
+ {
+     uint64_t *counter = buf;
+     int i;
+@@ -1640,8 +1640,12 @@ static abi_long swap_data_eventfd(void *buf, size_t len)
+ }
  
- int singlestep;
- static const char *argv0;
-@@ -739,6 +740,11 @@ int main(int argc, char **argv, char **envp)
-         }
-     }
- 
-+    /* Resolve executable file name to full path name */
-+    if (realpath(exec_path, real_exec_path)) {
-+        exec_path = real_exec_path;
-+    }
+ TargetFdTrans target_eventfd_trans = {
+-    .host_to_target_data = swap_data_eventfd,
+-    .target_to_host_data = swap_data_eventfd,
++    .host_to_target_data = swap_data_u64,
++    .target_to_host_data = swap_data_u64,
++};
 +
-     /*
-      * get binfmt_misc flags
-      */
++TargetFdTrans target_timerfd_trans = {
++    .host_to_target_data = swap_data_u64,
+ };
+ 
+ #if defined(CONFIG_INOTIFY) && (defined(TARGET_NR_inotify_init) || \
+diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
+index 1b9fa2041c06..910faaf237cc 100644
+--- a/linux-user/fd-trans.h
++++ b/linux-user/fd-trans.h
+@@ -130,6 +130,7 @@ extern TargetFdTrans target_netlink_route_trans;
+ extern TargetFdTrans target_netlink_audit_trans;
+ extern TargetFdTrans target_signalfd_trans;
+ extern TargetFdTrans target_eventfd_trans;
++extern TargetFdTrans target_timerfd_trans;
+ #if (defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)) || \
+     (defined(CONFIG_INOTIFY1) && defined(TARGET_NR_inotify_init1) && \
+      defined(__NR_inotify_init1))
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a6c426d73cfe..6525a9c57a39 100644
+index 6525a9c57a39..4f4c1fbc5b0f 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -9989,18 +9989,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-                 /* Short circuit this for the magic exe check. */
-                 ret = -TARGET_EINVAL;
-             } else if (is_proc_myself((const char *)p, "exe")) {
--                char real[PATH_MAX], *temp;
--                temp = realpath(exec_path, real);
--                /* Return value is # of bytes that we wrote to the buffer. */
--                if (temp == NULL) {
--                    ret = get_errno(-1);
--                } else {
--                    /* Don't worry about sign mismatch as earlier mapping
--                     * logic would have thrown a bad address error. */
--                    ret = MIN(strlen(real), arg3);
--                    /* We cannot NUL terminate the string. */
--                    memcpy(p2, real, ret);
--                }
-+	        /* Don't worry about sign mismatch as earlier mapping
-+	         * logic would have thrown a bad address error. */
-+                ret = MIN(strlen(exec_path), arg3);
-+                /* We cannot NUL terminate the string. */
-+                memcpy(p2, exec_path, ret);
-             } else {
-                 ret = get_errno(readlink(path(p), p2, arg3));
-             }
-@@ -10021,18 +10014,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-                 /* Short circuit this for the magic exe check. */
-                 ret = -TARGET_EINVAL;
-             } else if (is_proc_myself((const char *)p, "exe")) {
--                char real[PATH_MAX], *temp;
--                temp = realpath(exec_path, real);
--                /* Return value is # of bytes that we wrote to the buffer. */
--                if (temp == NULL) {
--                    ret = get_errno(-1);
--                } else {
--                    /* Don't worry about sign mismatch as earlier mapping
--                     * logic would have thrown a bad address error. */
--                    ret = MIN(strlen(real), arg4);
--                    /* We cannot NUL terminate the string. */
--                    memcpy(p2, real, ret);
--                }
-+	        /* Don't worry about sign mismatch as earlier mapping
-+	         * logic would have thrown a bad address error. */
-+                ret = MIN(strlen(exec_path), arg4);
-+                /* We cannot NUL terminate the string. */
-+                memcpy(p2, exec_path, ret);
-             } else {
-                 ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
-             }
+@@ -13104,8 +13104,12 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ 
+ #if defined(TARGET_NR_timerfd_create) && defined(CONFIG_TIMERFD)
+     case TARGET_NR_timerfd_create:
+-        return get_errno(timerfd_create(arg1,
+-                          target_to_host_bitmask(arg2, fcntl_flags_tbl)));
++        ret = get_errno(timerfd_create(arg1,
++                        target_to_host_bitmask(arg2, fcntl_flags_tbl)));
++        if (ret >= 0) {
++            fd_trans_register(ret, &target_timerfd_trans);
++        }
++        return ret;
+ #endif
+ 
+ #if defined(TARGET_NR_timerfd_gettime) && defined(CONFIG_TIMERFD)
 -- 
 2.39.2
 
