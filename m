@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4132E6B11C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 20:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF5A6B11EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 20:22:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZz93-0005DY-Iq; Wed, 08 Mar 2023 14:08:13 -0500
+	id 1pZzLX-0007sR-F0; Wed, 08 Mar 2023 14:21:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b2970772c949732b78af+7136+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZz91-0005DM-5v
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 14:08:11 -0500
+ id 1pZzLS-0007sC-M9
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 14:21:03 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b2970772c949732b78af+7136+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pZz8x-0007gk-9m
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 14:08:09 -0500
+ id 1pZzLQ-0003AK-59
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 14:21:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=C3r9cCk1Og4PKxp53KYtYqg1hsr1ETl86nYvcZ3UxOE=; b=kxyNXPaRebyASMECTV3B8oA3hC
- gPOgdY9CrLMhHm1TWm+i1wfyMDnlzBBoYhm5FOR0RvwUCvl5zTWvyziWcsS+XUaNk/PvZslzTxMQh
- oETL/dXw9Cw3H8AGAxgnhr+29C5dv2HOO2aMGqziy0YgXo70XtRNwgcWNC/f9Yh/gLaTiUVyN9psG
- gd0E1dNMugL28Qtpa6+Fpfc1voDQgL2eTRmwK/+YtO2jSqwZ9kHN9qcX6RHJKQUSKGYBPJWaYduPc
- QkrW9AR68OjhExHTppPo8ddNPtZbnNGV7gYUGmzAyeTBo8G7FvpLpg5Ul6dDHu7npg8nocrGYbzVM
- k87uZ7lg==;
+ bh=5fUY4RFHq/ko+qQnutz8fl/Kg74/wfZOlK1/furxiww=; b=b/Wpk9o9DoMwAUDINs8zees9Ja
+ UOSP+HczDgHl1u5JySmcTDvqqWnr8W8HeIIiVOoD5Ii7EKOMnDJvx/04YWgUtz4w7IrlDz8w5bHdG
+ wbvz8rJjIt9AnQdvyFuqB+rGZDPXC1YsrJM5BeSdZkBXvS7/HLtvpJ80zuUlmgK+UNd7+YJTLsEB8
+ oJm9TtWbUKuALJWi3tAxhF6Tr9zN8pK+cERXFmWU3nj2bYzpCy2y+PXgs5Q6TryHHEMreeMADSBNa
+ kQDsh8ZVHAHbIbjC96v9cLW7BtlHgcK1893fZqyWVKekXMRnH18Be5OYcCDTzaFw8PO53cdmTiHrk
+ Qi3pi2EQ==;
 Received: from [2001:8b0:10b:5:3866:d921:bf99:a106]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZz8Y-007e7s-6l; Wed, 08 Mar 2023 19:07:42 +0000
-Message-ID: <03830c7daa0ac4388c5b2811889e63b200340773.camel@infradead.org>
-Subject: Re: [PATCH v2 3/3] tests/avocado: Test Xen guest support under KVM
+ id 1pZzLD-007ehH-Fr; Wed, 08 Mar 2023 19:20:49 +0000
+Message-ID: <c9959d02928c14a3e93f9419099a08102887b887.camel@infradead.org>
+Subject: Re: [PATCH v2 2/3] tests/avocado: Add Fedora 34 distro, including
+ kernel/initrd checksums
 From: David Woodhouse <dwmw2@infradead.org>
 To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Cc: Cleber Rosa <crosa@redhat.com>, Philippe
@@ -44,13 +45,13 @@ Cc: Cleber Rosa <crosa@redhat.com>, Philippe
  Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,  "Michael S.
  Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
  qemu-devel@nongnu.org
-Date: Wed, 08 Mar 2023 19:07:40 +0000
-In-Reply-To: <87lek7nncp.fsf@linaro.org>
+Date: Wed, 08 Mar 2023 19:20:46 +0000
+In-Reply-To: <87pm9jnnmo.fsf@linaro.org>
 References: <20230308111952.2728440-1-dwmw2@infradead.org>
- <20230308111952.2728440-4-dwmw2@infradead.org> <87lek7nncp.fsf@linaro.org>
+ <20230308111952.2728440-3-dwmw2@infradead.org> <87pm9jnnmo.fsf@linaro.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-Sf1ff6tIjWHUzHNjd6Wn"
+ boundary="=-FtgzhwvRuriNMxzqyV8j"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -81,79 +82,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-Sf1ff6tIjWHUzHNjd6Wn
+--=-FtgzhwvRuriNMxzqyV8j
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2023-03-08 at 17:45 +0000, Alex Benn=C3=A9e wrote:
+On Wed, 2023-03-08 at 17:42 +0000, Alex Benn=C3=A9e wrote:
 >=20
 > David Woodhouse <dwmw2@infradead.org> writes:
 >=20
 > > From: David Woodhouse <dwmw@amazon.co.uk>
 > >=20
-> > Exercise guests with a few different modes for interrupt delivery. In
-> > particular we want to cover:
-> >=20
-> > =C2=A0=E2=80=A2 Xen event channel delivery via GSI to the I/O APIC
-> > =C2=A0=E2=80=A2 Xen event channel delivery via GSI to the i8259 PIC
-> > =C2=A0=E2=80=A2 MSIs routed to PIRQ event channels
-> > =C2=A0=E2=80=A2 GSIs routed to PIRQ event channels
-> >=20
-> > As well as some variants of normal non-Xen stuff like MSI to vAPIC and
-> > PCI INTx going to the I/O APIC and PIC, which ought to still work even
-> > in Xen mode.
-> >=20
-> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> > ---
-> > =C2=A0tests/avocado/xen_guest.py | 147 ++++++++++++++++++++++++++++++++=
-+++++
-> > =C2=A01 file changed, 147 insertions(+)
-> > =C2=A0create mode 100644 tests/avocado/xen_guest.py
-> >=20
-> > diff --git a/tests/avocado/xen_guest.py b/tests/avocado/xen_guest.py
-> > new file mode 100644
-> > index 0000000000..c50b52958f
-> > --- /dev/null
-> > +++ b/tests/avocado/xen_guest.py
-> > @@ -0,0 +1,147 @@
-> > +# Xen guest functional tests
-> > +#
+> > The kernel in Fedora 31 doesn't support 'xen_no_vector_callback' on
+> > its command line, so add a slightly newer version as a prelude to
+> > enabling avocado tests for Xen guests.
 >=20
-> Perhaps to avoid confusion we should call the file kvm_xen_guests.py and
-> make it clearer in the comment this is the mode we are talking about.
-> c.f. the boot_xen.py tests which boot Xen (under TCG emulation) as a
-> proper hypervisor.
-
-Ack. I'll change it.
-
-> > +# Copyright =C2=A9 2021 Red Hat, Inc.
-> > +# Copyright =C2=A9 2023 Amazon.com, Inc. or its affiliates. All Rights=
- Reserved.
-> > +#
-> > +# Author:
-> > +#=C2=A0 David Woodhouse <dwmw2@infradead.org>
-> > +#
-> > +# This work is licensed under the terms of the GNU GPL, version 2 or
-> > +# later.=C2=A0 See the COPYING file in the top-level directory.
-> > +import os
-> > +
-> > +from avocado import skipIf
-> > +from avocado_qemu import LinuxTest
-> > +
-> > +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> Why slightly newer rather than current release?
 >=20
-> This just means we will never have CI coverage. In theory when running
-> on the GitLab shared runners the test should skip anyway when it can't
-> find /dev/kvm and hopefully can run on our custom runners when it can
-> see /dev/kvm.
->=20
+> Our existing Fedora guest builds cause all sorts of timeout issues
+> running under TCG and seem particularly heavyweight considering the
+> coverage we manage to get.
 
-That one was just cargo-culted from the Intel IOMMU test which I
-started from. Happy to drop that if it's redundant.
+Yeah, I spent a happy afternoon playing with this; I think you may have
+observed some of it on IRC. Although I kept some of the naughtier words
+to my side of the keyboard. From memory...
 
+I tried Fedora 37 and eventually got that to *boot* (hint:
+rootflags=3Dsubvol=3Droot) although it concerned me that it wasn't yet at
+the URL containing /archive/ so I wondered if adding it at its current
+URL might not work in the long term. And then cloudinit didn't seem to
+work on it (the finalize step failed in the guest IIRC).
 
+I tried Fedora 36 and cloudinit *did* work there, and it was in
+basically the same /pub/archive/fedora/ location so all that made me
+happier... but 'dnf install xen-runtime' didn't work, which I was using
+in my tests at that point to install the `xenstore-ls` binary. And in
+fact dnf didn't seem to find *anything* useful at all in the
+repositories which were configured in the Fedora Cloud 36 image.
 
---=-Sf1ff6tIjWHUzHNjd6Wn
+So I tried Fedora 34, which is the first to have the
+'xen_no_vector_callback' option that I'd added in the 5.12 kernel.
+And when that worked, I declared all the above to be "Someone Else's
+Problem".
+
+The fact that it didn't boot with `-smp 4` was clearly *my* problem,
+but the code was already merged upstream at that point, so fixing what
+turned out to be the I/OAPIC migration bug ended up being my top
+priority.=20
+
+Now, I've dropped the dnf invocation because now the second PR has=20
+been submitted I've switched it to use xen-disk anyway, and that's a
+good enough exercise for both xenstore and event channel interrupts.
+
+So it probably *could* move to Fedora 36, and the fact that the intel-
+iommu test wouldn't work on Fedora 36 could remain Someone Else's
+Problem. :)
+
+Please advise.
+
+--=-FtgzhwvRuriNMxzqyV8j
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -245,25 +231,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA4MTkwNzQwWjAvBgkqhkiG9w0BCQQxIgQgdlFPgP9Q
-8STqyQMdiwsBxhNXpzd0DaBsTSZwKqeuFv8wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA4MTkyMDQ2WjAvBgkqhkiG9w0BCQQxIgQgYIpFhq8R
+ADykrbSVKzKi9srRqi7FXZY9aTbxqaxAH6swgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCvqu0R8Ze5nEb9sLodxer63yMMe7Fm1AgJ
-d7blPtyl0P4uB95wsiGVDEZics1x89X1sqdu03Hs5PTdnI4vcElqz+9ajjzHZ+ZQwRgVBEtLE2zL
-xozFUqPzHw3Rql7QzZ8esBqcNewAPYhAfIuVxDW8zJwqs4GEqMvt7SI4hXXNL78vWP3ezDhcCpzF
-R9RwkagPWxbyO3uz/e4K4Uvl7XTOHZb7TWSDeYzjHP5UDJ/MGW88uT8r9CRU43ti8uGivOJmddH4
-38PA20ia0WI/s8zkurOcBGH7SmlxQcAYqA9vrDqkK7lULjc2+HKuZdmWuHl4TfYR9Ye+MN6Wv+Uv
-jAOaWKlhUfcTZv9TGaHwEyG0dhn8Jc4SiCrAAN1XRUWEZW+wX6RYmDnl+phyEA2MLmlIoANloXLQ
-h/Pr/Oa656AzxuelRkPyFpEUWzQb8TkXOkNMrLgqmMiDbPMzZU4lskM4XyBZi1OTzdadmV/TW8fe
-HPJbwuTKp7TPvKA7thhNhtsUxkO46yMqx2FSTyNzGEhfFlMgzNd6OGzC6AKAmJ/eWSSEIvqL0FrE
-oXVOTeS2DRip0e+SyHwQ7Fvvdt766Q8VGsnIRaclYDDju3SbYsKog1Ih8uuZvUeEaWL/cFtvSHin
-hkznDDz1dfR4kQOWCJc8GrYwbdlO19O4ylNNt2sZBgAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAVD8beFcW+z13bsKsqEdn8dInWqUem7vU4
+Nb2p4rNze9VxKoG0ONTh+mOYCwvK7Ff742GO/iVD2quzJwJhO2A3j97lWFGj5aFDtyNGX/AVrvmb
+7VzipOtLVXMPggIUzcDW1pKcqq7pqWLAjg+KmaCs+lVnMLONkUbZ8TVBGyegc0LOdTcCoSsfouxt
+K/G5VpLMh3ii5wblac6QBW+yDx8xFtLTW/rviTEdI+uR8xS6nmYZQL8eNvzMqQeMSYTRXbfCEDoP
+LEl6XyJTJdmY6fzdm8r9fRoNp7cf1fiyu45ZDqZWq3eCSmtQcTQdqu/vgb+agTeLvRh0uF2NS/Cc
+MDSwto6yt60Q0WOvAjYQZTwAZNvCktfDpc9NsS6q70yDosARUzTnsFR6NMgvVqW/058+r83ojKVU
+ke/O9q7x3VDPfy1g95FhCjHre2UcqQHr8hhnpGbLnBR2QhujBIORpru36gI0vMQ3zIcqfzt2sXSy
+F2S+TRR7jTbRcCMPPrKXUjsMNxv/sMWmh7JX6srPDYKA8ao5VpYjx8vik/UUVKjsjJdjUOegIrzo
+Wi5t0RBuVcZDfDZxJjB2OBIonHJPSfjYZ8XRI8OhYM4Q5zqRtd1UoY1+dg9LxaDJBML2zlxkTCSp
+Fk2iMWOjT5ZNb4h/t0YS5HEq+FgqVG7pkY2E30QEhwAAAAAAAA==
 
 
---=-Sf1ff6tIjWHUzHNjd6Wn--
+--=-FtgzhwvRuriNMxzqyV8j--
 
