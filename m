@@ -2,70 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960966B13D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 22:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4236B137F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 22:04:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa1LB-0001Nj-SJ; Wed, 08 Mar 2023 16:28:53 -0500
+	id 1pa0wI-0007SP-9Z; Wed, 08 Mar 2023 16:03:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dikidera@gmail.com>)
- id 1pa00C-0007yT-CC
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:03:09 -0500
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dikidera@gmail.com>)
- id 1pa008-0006Vw-Dx
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:03:06 -0500
-Received: by mail-lj1-x22d.google.com with SMTP id g18so17818317ljl.3
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 12:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678305780;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=vULi+08RwlN6a9noI7N1oR3owr7Kj38lTD5DB4EyC8k=;
- b=G8iUg4zs0gPqAYa/NaC5L3rnVghwIyWzUlpQjhp51bsoMCgtKpM4Pm3mRAFlDFxAxx
- QmURhmeiM3a+8yI3KNhI8JX3RlI+HeEPhmq7t+fVvaPzki5OhDwJREpzvHKzF0YwQRfD
- vpX8SMewXNeLYPhtspkuXSgZYyYpf/5Pi+JPTjQ65yO7pJc8aQSDwel/fHIpvx2EcEks
- YzDqfuhuv6nG6YvfC9NamWJLHgJLzdWDidf2p8SYFz0Pz9m7RGKYsrknGOgYADxff3tF
- L6+4In0Bqxfet+vlJ7YtF9whBcR1DY2KI5JEwvXe83eFcSG1ND/GsjNdrxWIoC2GHx+8
- 3pYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678305780;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vULi+08RwlN6a9noI7N1oR3owr7Kj38lTD5DB4EyC8k=;
- b=cH5FgpiVt0NY5SvMTfBo94fXHe38k9PB07eF/9qVPlo1LevZHcBQKRU4jjGIlQbcSL
- OulXrS7KWXUB7hSVvWc8xs4c5Gn7RQyJQwQoqHpFtCXr1qI9A40FaN5a1OB/9J9l0dzq
- FGBckBLmakUNjLL+F1lzT/wHKVh/VXKnRTkkoDv197UfJnvj/5J1kVqDhGW45ykSgfqy
- LNgH6KqQ03nxuOzQSLhDk8WZnv/Ftf45R83XC2CswFnLFbd+r1+2w4fXnWJZ7JreoQbg
- JWFzqBr5L2oPUmpVn9Jf7iazp2j1nGAHxrCEV+sfsu7/AR5TC5K7TeA+x7VGlQ/A2WD5
- touw==
-X-Gm-Message-State: AO0yUKUI2E4zL8D4ps2ieYpLiJv3RThYQ5/gildSHmNmjrcpqRolAWl+
- 6gQ8YTV/hV6Nq8gEW2GZ37/5Fm1K0RdpAEuvSLqpAgLu
-X-Google-Smtp-Source: AK7set9F6k3zFbOykMof9OVyIvU9o+ZiaA2tcYsoS5R2NKVzEqfTVT61RYgxASTOn4b/V6UFV2Qiif4tuUlgo1KWut4=
-X-Received: by 2002:a2e:a60b:0:b0:295:b026:8c34 with SMTP id
- v11-20020a2ea60b000000b00295b0268c34mr5997332ljp.4.1678305780354; Wed, 08 Mar
- 2023 12:03:00 -0800 (PST)
-MIME-Version: 1.0
-From: Diki Dera <dikidera@gmail.com>
-Date: Wed, 8 Mar 2023 22:02:48 +0200
-Message-ID: <CAOQbWYCojtyh-1yvBc123OwLVb+Odc71dFF1DG_BbjjjG18xQw@mail.gmail.com>
-Subject: Emulating a SH2 board?
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pa0vz-0007RB-Tr; Wed, 08 Mar 2023 16:02:53 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pa0vx-0004xO-Ul; Wed, 08 Mar 2023 16:02:51 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 328KGgNr012137; Wed, 8 Mar 2023 21:02:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=eVVJdONMek5IQv0eq/DFfV1FhJO4Rl/BpeNRTsRcV9U=;
+ b=IdQoypR/M3dn6rXGSBi5nS1I1M3qDwZz+b6epP2Q6Qf19f62NoZN3GjDa6C0cdIoLTms
+ Gww8pvG8EX43QiEePF4rBm5jQg8jnZRc77mDn3s6hwYHIPbBfO4z3BBbSSWR7L4avNNc
+ Xlj4vN5LkSws1LCDWmHe8OkbucuDmECl2tqs+i4u3t4+a8wKscjCv7A03sswBAP15y00
+ yyjrlww2TVHMtSq62xy4mIMkmSQRO/Y+PsXGlV5ZQifmE81RKOCkswGQh8ktThzqEqUt
+ P5kzV4pc4pkAO+e6FNm1CrUPCIY6S58R6FQV9IyP0TDUFuAWWdEKA8XzvVTOMJMc1jW5 gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p6ry3pqr9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 21:02:46 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 328Kr4p3032743;
+ Wed, 8 Mar 2023 21:02:46 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p6ry3pqky-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 21:02:46 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 328IAEkT015878;
+ Wed, 8 Mar 2023 21:02:31 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3p6g759039-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 21:02:31 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 328L2SbS1180272
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Mar 2023 21:02:28 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 00AFD20043;
+ Wed,  8 Mar 2023 21:02:28 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AB6FD20040;
+ Wed,  8 Mar 2023 21:02:27 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Mar 2023 21:02:27 +0000 (GMT)
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000dcd58e05f66903e5"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
- envelope-from=dikidera@gmail.com; helo=mail-lj1-x22d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-s390x@nongnu.org
+Subject: [PATCH v2 0/2] target/s390x: Fix emulation of C(G)HRL
+Date: Wed,  8 Mar 2023 22:02:24 +0100
+Message-Id: <20230308210226.2847503-1-nsg@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ygxzPQiDsFHlomiU2n2GuOjPMLatPXfc
+X-Proofpoint-ORIG-GUID: FNFcq6hgljESQD8KSZWnSoXNRHx_Szdf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ mlxlogscore=990 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0 clxscore=1015
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303080178
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 08 Mar 2023 16:28:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,35 +110,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000dcd58e05f66903e5
-Content-Type: text/plain; charset="UTF-8"
+The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
+halfword, it does not have the same size as the first operand.
+Fix this and add a tcg test for c(g)hrl.
 
-I am looking to emulate a SH2 board, specifically SH7055. I see that there
-is already an implementation for SH4, although in places, incomplete from
-the comment I saw. Especially interrupts.
+Nina Schoetterl-Glausch (2):
+  target/s390x: Fix emulation of C(G)HRL
+  tests/tcg/s390x: Add C(G)HRL test
 
-Compared to SH4, SH2 is simpler in that it has no MMU, so address 0x1000 is
-exactly that. And since SH4 is backwards compatible with SH2, I already
-have the necessary translation layer.
-My question is probably too broad for which I apologize, but what would it
-take to patch out the software MMU and focus more on emulating my board's
-devices such as SRAM and CMOS Flash chips as well the functionality
-specific to SH7055?
+ target/s390x/tcg/insn-data.h.inc |  4 +-
+ target/s390x/tcg/translate.c     |  7 +++
+ tests/tcg/s390x/chrl.c           | 76 ++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target  |  1 +
+ 4 files changed, 86 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/s390x/chrl.c
 
---000000000000dcd58e05f66903e5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Range-diff against v1:
+1:  f463507b25 ! 1:  228a1d9cfb target/s390x: Fix emulation of C(G)HRL
+    @@ target/s390x/tcg/translate.c: static void in2_m2_64a(DisasContext *s, DisasOps *
+      
+     +static void in2_mri2_16s(DisasContext *s, DisasOps *o)
+     +{
+    -+    in2_ri2(s, o);
+    -+    tcg_gen_qemu_ld16s(o->in2, o->in2, get_mem_index(s));
+    ++    o->in2 = tcg_temp_new_i64();
+    ++    tcg_gen_qemu_ld16s(o->in2, gen_ri2(s), get_mem_index(s));
+     +}
+     +#define SPEC_in2_mri2_16s 0
+     +
+      static void in2_mri2_16u(DisasContext *s, DisasOps *o)
+      {
+    -     in2_ri2(s, o);
+    +     o->in2 = tcg_temp_new_i64();
+2:  316b53ebd9 = 2:  3b1ca6b682 tests/tcg/s390x: Add C(G)HRL test
 
-<div dir=3D"ltr"><div>I am looking to emulate a SH2 board, specifically SH7=
-055. I see that there is already an implementation for SH4, although in pla=
-ces, incomplete from the comment I saw. Especially interrupts.<br></div><di=
-v><br></div><div>Compared to SH4, SH2 is simpler in that it has no MMU, so =
-address 0x1000 is exactly that. And since SH4 is backwards compatible with =
-SH2, I already have the necessary translation layer.<br></div><div>My quest=
-ion is probably too broad for which I apologize, but what would it take to =
-patch out the software MMU and focus more on emulating my board&#39;s devic=
-es such as SRAM and CMOS Flash chips as well the functionality specific to =
-SH7055?<br></div></div>
+base-commit: 817fd33836e73812df2f1907612b57750fcb9491
+-- 
+2.37.2
 
---000000000000dcd58e05f66903e5--
 
