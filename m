@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3004A6B0FC3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF66C6B0FCE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:06:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8j-0004yp-P4; Wed, 08 Mar 2023 11:59:45 -0500
+	id 1pZx8m-0004zV-W7; Wed, 08 Mar 2023 11:59:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8U-0004ln-Cp; Wed, 08 Mar 2023 11:59:30 -0500
+ id 1pZx8a-0004s7-4b; Wed, 08 Mar 2023 11:59:36 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8P-00049l-8x; Wed, 08 Mar 2023 11:59:30 -0500
+ id 1pZx8Y-0004BO-GW; Wed, 08 Mar 2023 11:59:35 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id A15B540111;
+ by isrv.corpit.ru (Postfix) with ESMTP id BE75E40112;
  Wed,  8 Mar 2023 19:58:58 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 41CE192;
+ by tsrv.corpit.ru (Postfix) with SMTP id 8D0C913A;
  Wed,  8 Mar 2023 19:58:57 +0300 (MSK)
-Received: (nullmailer pid 2098385 invoked by uid 1000);
+Received: (nullmailer pid 2098387 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:55 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Anton Johansson <anjo@rev.ng>,
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 45/47] block: Handle curl 7.55.0, 7.85.0 version changes
-Date: Wed,  8 Mar 2023 19:57:48 +0300
-Message-Id: <20230308165815.2098148-45-mjt@msgid.tls.msk.ru>
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 46/47] tests/tcg: fix unused variable in linux-test
+Date: Wed,  8 Mar 2023 19:57:49 +0300
+Message-Id: <20230308165815.2098148-46-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -60,122 +61,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Anton Johansson <anjo@rev.ng>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-* 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
-  version, which returns curl_off_t instead of a double.
-* 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
-  favour of *_STR variants, specifying the desired protocols via a
-  string.
+The latest hexagon compiler picks up that we never consume wcount.
+Given the name of the #define that rcount checks against is WCOUNT_MAX
+I figured the check just got missed.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1440
-Signed-off-by: Anton Johansson <anjo@rev.ng>
-Message-Id: <20230123201431.23118-1-anjo@rev.ng>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit e7b8d9d038f313c2b9e601609e7d7c3ca6ad0234)
+Message-Id: <20221221090411.1995037-5-alex.bennee@linaro.org>
+(cherry picked from commit 2bc6c79417b89c3306b724577e775f03fe61fb2e)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- block/curl.c | 44 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 37 insertions(+), 7 deletions(-)
+ tests/tcg/multiarch/linux/linux-test.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index cba4c4cac7..0b125095e3 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -37,8 +37,15 @@
- 
- // #define DEBUG_VERBOSE
- 
-+/* CURL 7.85.0 switches to a string based API for specifying
-+ * the desired protocols.
-+ */
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+#define PROTOCOLS "HTTP,HTTPS,FTP,FTPS"
-+#else
- #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
-                    CURLPROTO_FTP | CURLPROTO_FTPS)
-+#endif
- 
- #define CURL_NUM_STATES 8
- #define CURL_NUM_ACB    8
-@@ -509,9 +516,18 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
-          * obscure protocols.  For example, do not allow POP3/SMTP/IMAP see
-          * CVE-2013-0249.
-          *
--         * Restricting protocols is only supported from 7.19.4 upwards.
-+         * Restricting protocols is only supported from 7.19.4 upwards. Note:
-+         * version 7.85.0 deprecates CURLOPT_*PROTOCOLS in favour of a string
-+         * based CURLOPT_*PROTOCOLS_STR API.
-          */
--#if LIBCURL_VERSION_NUM >= 0x071304
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+        if (curl_easy_setopt(state->curl,
-+                             CURLOPT_PROTOCOLS_STR, PROTOCOLS) ||
-+            curl_easy_setopt(state->curl,
-+                             CURLOPT_REDIR_PROTOCOLS_STR, PROTOCOLS)) {
-+            goto err;
-+        }
-+#elif LIBCURL_VERSION_NUM >= 0x071304
-         if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
-             curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
-             goto err;
-@@ -669,7 +685,12 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     const char *file;
-     const char *cookie;
-     const char *cookie_secret;
--    double d;
-+    /* CURL >= 7.55.0 uses curl_off_t for content length instead of a double */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    curl_off_t cl;
-+#else
-+    double cl;
-+#endif
-     const char *secretid;
-     const char *protocol_delimiter;
-     int ret;
-@@ -796,27 +817,36 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/tests/tcg/multiarch/linux/linux-test.c b/tests/tcg/multiarch/linux/linux-test.c
+index 5a2a4f2258..64f57cb287 100644
+--- a/tests/tcg/multiarch/linux/linux-test.c
++++ b/tests/tcg/multiarch/linux/linux-test.c
+@@ -354,13 +354,17 @@ static void test_pipe(void)
+             if (FD_ISSET(fds[0], &rfds)) {
+                 chk_error(read(fds[0], &ch, 1));
+                 rcount++;
+-                if (rcount >= WCOUNT_MAX)
++                if (rcount >= WCOUNT_MAX) {
+                     break;
++                }
+             }
+             if (FD_ISSET(fds[1], &wfds)) {
+                 ch = 'a';
+                 chk_error(write(fds[1], &ch, 1));
+                 wcount++;
++                if (wcount >= WCOUNT_MAX) {
++                    break;
++                }
+             }
+         }
      }
-     if (curl_easy_perform(state->curl))
-         goto out;
--    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
-+    /* CURL 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of
-+     * the *_T version which returns a more sensible type for content length.
-+     */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl)) {
-+        goto out;
-+    }
-+#else
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &cl)) {
-         goto out;
-     }
-+#endif
-     /* Prior CURL 7.19.4 return value of 0 could mean that the file size is not
-      * know or the size is zero. From 7.19.4 CURL returns -1 if size is not
-      * known and zero if it is really zero-length file. */
- #if LIBCURL_VERSION_NUM >= 0x071304
--    if (d < 0) {
-+    if (cl < 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Server didn't report file size.");
-         goto out;
-     }
- #else
--    if (d <= 0) {
-+    if (cl <= 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Unknown file size or zero-length file.");
-         goto out;
-     }
- #endif
- 
--    s->len = d;
-+    s->len = cl;
- 
-     if ((!strncasecmp(s->url, "http://", strlen("http://"))
-         || !strncasecmp(s->url, "https://", strlen("https://")))
 -- 
 2.30.2
 
