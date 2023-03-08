@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440406AFC25
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1256AFC20
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:20:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiN9-0000bF-2o; Tue, 07 Mar 2023 20:13:39 -0500
+	id 1pZiNI-0001WA-1r; Tue, 07 Mar 2023 20:13:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMs-0000YC-BR
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:22 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMy-0000g4-Aj
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMq-0001qR-3n
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:21 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMu-0001r6-3e
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237999;
+ s=mimecast20190719; t=1678238002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=52ErR+y1nMMu9lZZj/vgcQcxjEFsUfP7aYsuP2kUOw8=;
- b=NVrHCCLpFPRoJlPUkORIxV/+bMLFe+dKf8olljW7DDYvdtsvN83sLH5CpsZYnyNMgMpkX1
- khlsSiT/uYM6/mVR3unHS1Tzb4aft6Qo2tvmfboYkT1ks5g/cmtiztZvwyQ/yEAn3oS6Wx
- mHZXMyQ4MGNrre97maSR4B5o/u4uyog=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cE1lvbrQD/be0DTValbD3GGh7xrknElB20eCW82+vjc=;
+ b=CSZiRewHZWxahpUPLRn5ddknkXBx4Vxdogqd7F3jl+zxQsQijqIvfcU0w316oD+DB7DCyF
+ s1rnN87L7utI21FhRUlxqMsAYSaPNJQMOE+YmjqRLNpPaM3gOEYJzjlCReL2JbGXnjVR5J
+ THXSBqhYkew/W3RhxJNptHdv/GKHg5E=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-538-gHZvMSu5NFWj2J0lhyVVqQ-1; Tue, 07 Mar 2023 20:13:18 -0500
-X-MC-Unique: gHZvMSu5NFWj2J0lhyVVqQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- u10-20020a056402064a00b004c689813557so21167961edx.10
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:18 -0800 (PST)
+ us-mta-586-SSy2PBXfPmKjW0Zxp8WnJQ-1; Tue, 07 Mar 2023 20:13:21 -0500
+X-MC-Unique: SSy2PBXfPmKjW0Zxp8WnJQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y1-20020a056402358100b004ea439d57b7so9288845edc.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237997;
+ d=1e100.net; s=20210112; t=1678238000;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=52ErR+y1nMMu9lZZj/vgcQcxjEFsUfP7aYsuP2kUOw8=;
- b=EZp8IkeqPjN6n+7DEGrUP5HK3b2bEn7qLZjymgjgsDtk9GEehJhONXybShsMhZCchC
- PcQ17JksN+TzxmVxraxQGkRsS+AULj7aQpYiApmFU0kKci2/ESDPe8mtGN01HykeFyZX
- BY0rY0l9yj+ULFiBiTukLT66UN2+lLHMK32NaS5n/uKgjAzM+kAoF0PyxtbcH9NZny6t
- NZJuSWwBgP+sscfQSTVKN4dtAcJqoep1BgZgLwpX1jSN1nx9S2Y3Ci39RNpnG82tBTJ0
- MS/TcFMnPA6ZI/HaES0LevT9x9UQaCIUXokJZ7ySY6c84UJsMTzjqMLXUJhqypu5MhGG
- r0OQ==
-X-Gm-Message-State: AO0yUKULzOEBzK2CjWrcXb/ZHZlKnusBMZ1Mr3EWO5AzsWhmFjYE8JoN
- uUXXMDUIOVVS4HgpVssNLagrsXSVTrKBbBt+Euic82YbvApVtoIwRZnNO7nE1T7lbA4cuziRJTX
- UlRSXm/5I7HLuNtX9SeMeGzB1i0jRabm0+yCDEE4FayI2cSQjcoD661YVGibBuMSoBX7C
-X-Received: by 2002:aa7:c153:0:b0:4ac:b309:3d76 with SMTP id
- r19-20020aa7c153000000b004acb3093d76mr19265588edp.31.1678237997055; 
- Tue, 07 Mar 2023 17:13:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set8dH/1cHjJieVMzkk7ckS/tOE4EsWYz1d8Unb5GDjKkOCI+c78h35Xa2TB/uRCYUM04/ByO8A==
-X-Received: by 2002:aa7:c153:0:b0:4ac:b309:3d76 with SMTP id
- r19-20020aa7c153000000b004acb3093d76mr19265563edp.31.1678237996675; 
- Tue, 07 Mar 2023 17:13:16 -0800 (PST)
+ bh=cE1lvbrQD/be0DTValbD3GGh7xrknElB20eCW82+vjc=;
+ b=YOsCDlOJM+OJbA/GSKoCfGRWNZi8ACnQb8Mqu5/uQ2X4QUgpwW0Vk3957nXed9Dyfe
+ 79f6KfueJ59KXKZ9lRYGYvU93NABy+mAirmguGpsZ3h3MM2euoNBvdzG7LIJgOxD44kE
+ FJaMSEQ15WdMKdRXKmjSm0yyhvvwESdu64MhKbvLTwCMjgOmvOMu51IvP0wtYDC2Ksfn
+ hXTJyUiUDQuapS69GzzM6zToZ4bGSdtqP24Wgi/RyG6d6b5fr5KmbNEIJGxxytEzejRX
+ j4blN8G+Y8oAisu93+pOmAmFpJw4lhA1WEs0k/VjvZHL3MW6JKHXTPHpxKS4vPYPEkZl
+ lKWQ==
+X-Gm-Message-State: AO0yUKUwHIbocdFAjMF4roiG28ZvnpshMoPYqrIvUqmcTaZ5/J0UW4Hp
+ zrVAY7W54ZU0NHSoOVsKK5U/bUg8vuAdqKGBbJaij7ViKMZpSajMO6ovTEn23qS4HwT8TD9kS8G
+ 5mDD/LoAoFegU04yDvh57UIPpiBWOqh1OzObX9EUZXNof8j8vFRLI/Z58JvkxSgNjUlXM
+X-Received: by 2002:a17:906:1411:b0:8b1:779c:a8ac with SMTP id
+ p17-20020a170906141100b008b1779ca8acmr16877988ejc.13.1678237999927; 
+ Tue, 07 Mar 2023 17:13:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set9UKOlRdfVIWchOoTPTst9M1aU83fP7chv5pMzY9Nl1Tk4rBgvvh66qmNs7YVxC7ZwRrkjLaQ==
+X-Received: by 2002:a17:906:1411:b0:8b1:779c:a8ac with SMTP id
+ p17-20020a170906141100b008b1779ca8acmr16877973ejc.13.1678237999682; 
+ Tue, 07 Mar 2023 17:13:19 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- f21-20020a50d555000000b004c059535b43sm7581122edj.31.2023.03.07.17.13.15
+ bj8-20020a170906b04800b008d85435f914sm6841593ejb.98.2023.03.07.17.13.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:16 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:14 -0500
+ Tue, 07 Mar 2023 17:13:19 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:16 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 48/73] tests: acpi: update expected blobs
-Message-ID: <f8e49d067f86c8d04bbb1a6cfed55e6390e3f47b.1678237635.git.mst@redhat.com>
+Subject: [PULL 49/73] tests: acpi: whitelist DSDT before exposing non zero
+ functions
+Message-ID: <a0facf38de479fc2d40d51dc4ad08ed5d160d21e.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,72 +100,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-the only chenge is addition of _DSM- > EDSM method
-on non-hotpluggable devices with configured acpi-index.
-Something like:
-
-  +                Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-  +                {
-  +                    Local0 = Package (0x01)
-  +                        {
-  +                            0x65
-  +                        }
-  +                    Return (EDSM (Arg0, Arg1, Arg2, Arg3, Local0))
-  +                }
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-23-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-24-imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
- tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3260 -> 3309 bytes
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 12637 -> 12678 bytes
- tests/data/acpi/q35/DSDT.noacpihp           | Bin 8114 -> 8188 bytes
- 4 files changed, 3 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 37 +++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 70244976c9..dfb8523c8b 100644
+index dfb8523c8b..8911b10650 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
+@@ -1 +1,38 @@
  /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT.hpbrroot",
--"tests/data/acpi/q35/DSDT.multi-bridge",
--"tests/data/acpi/q35/DSDT.noacpihp",
-diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
-index bfe0bf37180c0f0521d264d3e35b5f51feff2630..bee88c5ee815f0acf022b278876f0a212b1da84a 100644
-GIT binary patch
-delta 134
-zcmdlZ`Bsw4CD<k8Ee`_&<F1WdHe6ipS~2m#PVoZ%nwtZ-teKM3gN+U1IpQ5%f`Dq+
-z7(~S5U4ngi3WQh~xl$9BxB@vDnOWHh(M^`Y#ujje><rOO8o>q#0Y(N938+q1Ms8h3
-GB&`7G*&wt4
-
-delta 85
-zcmaDWxkr-ACD<io4-W$aqyI)O8!j$4^_cizr+5KBwao!s)=Y-{!Nvyh9Py4WK|nQZ
-X4AD&r!NwMF0d}AOf3N{UfRO<Jc*7Ed
-
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index 1240cede1a2fedc902b9dc71687880b73170e81b..595ab64601ae3deb12bbf18ca463e39ba0a86195 100644
-GIT binary patch
-delta 81
-zcmcbc)RxTU66_MvX2`(67`Tz^t{ita7h_C(uv5H16W8WXax(nt>cQp~@f`7vE<rpD
-j4Ezit;_)uQzB~m&ER0;K2}@jooQ%w@?1arcdV$OUo6Hrb
-
-delta 41
-xcmZomzMI7566_KZYskRBxM(BST{-S14#t@HV5fM2PWH{8<Yf3ao9p>A0{{}H42A#z
-
-diff --git a/tests/data/acpi/q35/DSDT.noacpihp b/tests/data/acpi/q35/DSDT.noacpihp
-index 44ee5e74c533f2c7554885b73adb947ed74b421f..c292c2369b011b779af44d0fa6fd2f7994098b2e 100644
-GIT binary patch
-delta 199
-zcmdmF|Hq!oCD<k8k30hdqtiw%7g;Vpt(f>=r+5K3t;rFx_Uh`vh8FQ0@s2J*JPZuX
-z3?kz3F2TM$1wt&0T&W35T!Ea7%&hE$$;)I_EG>hL5NcT&qMI~=4G;p13?dRx&8&>v
-lx{S!WU&$(%ng$yq6te?$s{|VuK&(d5`4w5`W;MAUMgVo#G5-Jn
-
-delta 125
-zcmexkzsa7<CD<iolRN_hW86kA7g;VBwV3!|r+5J$)yWaE_Wb<8h8FQ0@s2J*JPZuX
-z43qcCswgM~8zID48KRr`gAEV@j0}^d<rHLOf{hVk>_A1_!3G8plNdG^$n`J+09-yC
-ANdN!<
-
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.acpierst",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
++"tests/data/acpi/q35/DSDT.applesmc",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.core-count2",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.cxl",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.ipmismbus",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.noacpihp",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.pvpanic-isa",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.viot",
++"tests/data/acpi/q35/DSDT.xapic",
 -- 
 MST
 
