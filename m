@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644466AFB6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72AD96AFB8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 01:51:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZht0-0002F4-0I; Tue, 07 Mar 2023 19:42:30 -0500
+	id 1pZi17-0006Va-A0; Tue, 07 Mar 2023 19:50:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZhsj-0002D1-Pe
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:42:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZi12-0006V3-8d
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:50:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZhsh-00059C-Ic
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:42:13 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZi0y-0006de-P9
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 19:50:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678236129;
+ s=mimecast20190719; t=1678236643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5lOTMXcgnjz2mj+H8b7KETM14cPLs2Dgm6UbrM2tO4M=;
- b=LOBnDWWJBn61RCp/1PFBlD/N5Z4sj/TFZD2Pb7oLmnB9nGhnKyIWVQBtyydt1Jq6iCmsi3
- AoSENUn9KH6q0llXDGDmcSWJ7COX7zyLj2chba5sgu4Ly20TPvdUKoWQ0hiJquhWXUfm+k
- CebEbM5AzYaJmRzUrlDWUSF/wqW8/Rs=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OhgJHtsHqhR0ptWp5ZjVe6s8+8nnA5pAQuqk2sfmMHE=;
+ b=ULXKA0tGNDnB4bL7E5lTEnEyTep7uwEU0g1Ly1DSKnXN078G0cqT7T5kFDcaxJkEmNmZvX
+ 4l76MdkrWSzKyAKO1DpEF+LJ9dMeaNgwJVxsvhUbETvMwrdfWJX6/umHYzEtNK28BB8TA9
+ Y00aNjyTkBwEqMITLFse1YkhGpSalbc=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-pIZoI80FP9-UKMwK_Kcoxg-1; Tue, 07 Mar 2023 19:42:08 -0500
-X-MC-Unique: pIZoI80FP9-UKMwK_Kcoxg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- q13-20020a5085cd000000b004af50de0bcfso21622892edh.15
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:42:07 -0800 (PST)
+ us-mta-345-XyMMKqLePdSPEs9Y28OWpQ-1; Tue, 07 Mar 2023 19:50:42 -0500
+X-MC-Unique: XyMMKqLePdSPEs9Y28OWpQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ dn8-20020a05640222e800b004bd35dd76a9so21519506edb.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 16:50:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678236127;
+ d=1e100.net; s=20210112; t=1678236641;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5lOTMXcgnjz2mj+H8b7KETM14cPLs2Dgm6UbrM2tO4M=;
- b=sDkJG0nL8q90p4LXcUWPrz4Z6sJWf4/hHzv9C8FcqkQmuYaann9pHdz7y2fx+Vl6dd
- QeRBdAhfyIU+upMOc/O1ru98DtnmUeFJWwF3Hz+/yv6vP9s5B9VwYrA4OCM2u27oHnMu
- dNFrWV5YUiR1htCdqspy06lHeHKBNRo5NgFLeAk7Fyo1RFPkrZ5YTvRGGOG8ScLBtupa
- +kmvu28edK9TSCVPe4JtZZ9/kU7tcxCmfkayYZJpBpJDj1O1fw28FDyXB16YZKLcdYBl
- zeInKsQC+omp9E8jIBPccLlKSHNeXgpcgcV4LyQlydRk3JGcf8t9sTju7s6sAgRLbJtC
- gN1g==
-X-Gm-Message-State: AO0yUKWNPituIeg3+xhC2jYsnc/eGGFfCL7sJr4cfrmLDmiJFzoPIDmh
- Y4By3jYa4CAOFQnZQ2VN5HFkSGNuYPOJUFK3+OO2H2Tsh+nln2BweILuA7b8soosZKTjPv09jcA
- j4WUHHWZHvJDRIIA=
-X-Received: by 2002:a17:907:7e8a:b0:908:7fed:f0f with SMTP id
- qb10-20020a1709077e8a00b009087fed0f0fmr19841270ejc.42.1678236126843; 
- Tue, 07 Mar 2023 16:42:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set/IseVmp0xw6etsm5hx/oIlylk3l+1gSmZY3TIGL1fyBAxSPoBE+QCTqEbBZ69tf7ObFEq0KQ==
-X-Received: by 2002:a17:907:7e8a:b0:908:7fed:f0f with SMTP id
- qb10-20020a1709077e8a00b009087fed0f0fmr19841240ejc.42.1678236126548; 
- Tue, 07 Mar 2023 16:42:06 -0800 (PST)
+ bh=OhgJHtsHqhR0ptWp5ZjVe6s8+8nnA5pAQuqk2sfmMHE=;
+ b=hkZy38kyeqM8ikjzkYht4R1q8/YDFCFSkkzFt7Bzx/DjuKthLyBiBGP8AFTqeYWcKB
+ U1L01Fnuk1xnDl9xCD03xLFnCtKfqHPRaK7mjrR7Tgl3A2+hKoS4iknx6nq0anC+10Jc
+ YOezESBz8OsDMyPpt7i8Fb9dg6q9OttQTgVg8U/roQWrF8ciLQ56OPllPJ2d3qNRyore
+ F3CjGoBtciWGRJTWBExM3WedBLhS5MOVE7PhBxoK2vpc0CI1kqnrE6i2Z/iIAAhPP1gY
+ 3L6FugZn2nSoiUViPSvDLa1PWSPBC+jBPnEpLBp89IEI6MTLHlF3Pa+jlyR//SqZaLTX
+ WZ+Q==
+X-Gm-Message-State: AO0yUKW6CPf970ifTwiKmGJStonkMUQ2X99tIPh3v2HYqC0qjnVrcmi+
+ hRigcPJjOlD7AmOB3t6J/kXVQBwJtYUIFF/WrYQf/wM8Ec4CfLuwh5copF1hyZqC261qNfTpOxN
+ 5ZEOt8QobsKMRS1k=
+X-Received: by 2002:a17:906:fe07:b0:8b1:7de3:cfaa with SMTP id
+ wy7-20020a170906fe0700b008b17de3cfaamr22432161ejb.3.1678236641297; 
+ Tue, 07 Mar 2023 16:50:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set/L+JBdPaUhLfJEU+zCHm24hvmLMU8LOv32Z1A/86V/Vugz9PpgeCYbi7N6QtjkuwvjuoG4nQ==
+X-Received: by 2002:a17:906:fe07:b0:8b1:7de3:cfaa with SMTP id
+ wy7-20020a170906fe0700b008b17de3cfaamr22432133ejb.3.1678236640758; 
+ Tue, 07 Mar 2023 16:50:40 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- q8-20020a170906940800b008eb89a435c9sm6690731ejx.164.2023.03.07.16.42.04
+ dt9-20020a170906b78900b008dd76b67ae6sm6816657ejb.175.2023.03.07.16.50.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 16:42:05 -0800 (PST)
-Date: Tue, 7 Mar 2023 19:42:02 -0500
+ Tue, 07 Mar 2023 16:50:40 -0800 (PST)
+Date: Tue, 7 Mar 2023 19:50:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yangming <yangming73@huawei.com>
-Cc: "david@redhat.com" <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-Subject: Re: [PATCH v2] virtio-balloon: optimize the virtio-balloon on the
- ARM platform
-Message-ID: <20230307193739-mutt-send-email-mst@kernel.org>
-References: <20230301062642.1058-1-xiqi2@huawei.com>
- <afd620a5e7c14a0794812e72ba1af545@huawei.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Fan Ni <fan.ni@samsung.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gourry.memverge@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Mike Maslenkin <mike.maslenkin@gmail.com>,
+ Dave Jiang <dave.jiang@intel.com>
+Subject: Re: [PATCH v4 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Message-ID: <20230307194914-mutt-send-email-mst@kernel.org>
+References: <20230227163157.6621-1-Jonathan.Cameron@huawei.com>
+ <20230227163157.6621-3-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <afd620a5e7c14a0794812e72ba1af545@huawei.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230227163157.6621-3-Jonathan.Cameron@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,131 +102,860 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01, 2023 at 06:38:13AM +0000, Yangming wrote:
-> Optimize the virtio-balloon feature on the ARM platform by adding
-> a variable to keep track of the current hot-plugged pc-dimm size,
-> instead of traversing the virtual machine's memory modules to count
-> the current RAM size during the balloon inflation or deflation
-> process. This variable can be updated only when plugging or unplugging
-> the device, which will result in an increase of approximately 60%
-> efficiency of balloon process on the ARM platform.
+On Mon, Feb 27, 2023 at 04:31:57PM +0000, Jonathan Cameron wrote:
+> From: Gregory Price <gourry.memverge@gmail.com>
 > 
-> We tested the total amount of time required for the balloon inflation process on ARM:
-> inflate the balloon to 64GB of a 128GB guest under stress.
-> Before: 102 seconds
-> After: 42 seconds
+> This commit enables each CXL Type-3 device to contain one volatile
+> memory region and one persistent region.
 > 
-> Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> Signed-off-by: Ming Yang yangming73@huawei.com
+> Two new properties have been added to cxl-type3 device initialization:
+>     [volatile-memdev] and [persistent-memdev]
+> 
+> The existing [memdev] property has been deprecated and will default the
+> memory region to a persistent memory region (although a user may assign
+> the region to a ram or file backed region). It cannot be used in
+> combination with the new [persistent-memdev] property.
+> 
+> Partitioning volatile memory from persistent memory is not yet supported.
+> 
+> Volatile memory is mapped at DPA(0x0), while Persistent memory is mapped
+> at DPA(vmem->size), per CXL Spec 8.2.9.8.2.0 - Get Partition Info.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
+> Reviewed-by: Fan Ni <fan.ni@samsung.com>
+> Tested-by: Fan Ni <fan.ni@samsung.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
 > ---
-> Refactor the code by adding comments and removing unnecessary code.
+> v4:
+> - In the code that is being touched, add the missing little endian conversions.
+>   Note that only little endian architectures are supported so far, so there is
+>   no need to fix these urgently.  However, it seems sensible to clean up whilst
+>   we are here
+> - Add entry to docs/about/deprecated.rst (Philippe)
+> ---
+>  docs/about/deprecated.rst      |   8 +
+>  docs/system/devices/cxl.rst    |  49 ++++--
+>  hw/cxl/cxl-mailbox-utils.c     |  32 ++--
+>  hw/mem/cxl_type3.c             | 294 +++++++++++++++++++++++++--------
+>  include/hw/cxl/cxl_device.h    |  11 +-
+>  tests/qtest/bios-tables-test.c |   8 +-
+>  tests/qtest/cxl-test.c         |  76 +++++++--
+>  7 files changed, 364 insertions(+), 114 deletions(-)
 > 
->  hw/mem/pc-dimm.c           |  7 +++++++
->  hw/virtio/virtio-balloon.c | 33 +++++----------------------------
->  include/hw/boards.h        |  2 ++
->  3 files changed, 14 insertions(+), 28 deletions(-)
-> 
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-> index 50ef83215c..3f2734a267 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 15084f7bea..366d479498 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -273,6 +273,14 @@ from Intel that was not properly allocated. Since version 5.2, the controller
+>  has used a properly allocated identifier. Deprecate the ``use-intel-id``
+>  machine compatibility parameter.
 >  
->      memory_device_plug(MEMORY_DEVICE(dimm), machine);
->      vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-> +    /* count only "real" DIMMs, not NVDIMMs */
-> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
-> +        machine->device_memory->dimm_size += vmstate_mr->size;
-> +    }
->  }
+> +``-device cxl-type3,memdev=xxxx`` (since 8.0)
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +The ``cxl-type3`` device initially only used a single memory backend.  With
+> +the addition of volatile memory support, it is now necessary to distinguish
+> +between persistent and volatile memory backends.  As such, memdev is deprecated
+> +in favor of persistent-memdev.
+> +
 >  
->  void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
-
-vmstate_mr->size is Int128 you are not supposed to do math on it.
-
-And generally poking at this struct is a bad idea.
-
-I think memory_region_size will do what you want but not 100% sure.
-Maybe you need to look at the flatview ...
-
-David?
-
-
-> @@ -90,6 +94,9 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+>  Block device options
+>  ''''''''''''''''''''
+> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+> index f25783a4ec..89a41cff73 100644
+> --- a/docs/system/devices/cxl.rst
+> +++ b/docs/system/devices/cxl.rst
+> @@ -300,7 +300,7 @@ Example topology involving a switch::
 >  
->      memory_device_unplug(MEMORY_DEVICE(dimm), machine);
->      vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
-> +        machine->device_memory->dimm_size -= vmstate_mr->size;
-> +    }
->  }
+>  Example command lines
+>  ---------------------
+> -A very simple setup with just one directly attached CXL Type 3 device::
+> +A very simple setup with just one directly attached CXL Type 3 Persistent Memory device::
 >  
->  static int pc_dimm_slot2bitmap(Object *obj, void *opaque)
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index 746f07c4d2..2814a47cb1 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
->      memcpy(config_data, &config, virtio_balloon_config_size(dev));
->  }
+>    qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
+>    ...
+> @@ -308,7 +308,28 @@ A very simple setup with just one directly attached CXL Type 3 device::
+>    -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
+>    -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+>    -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+> -  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
+> +  -device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
+> +  -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+> +
+> +A very simple setup with just one directly attached CXL Type 3 Volatile Memory device::
+> +
+> +  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
+> +  ...
+> +  -object memory-backend-ram,id=vmem0,share=on,size=256M \
+> +  -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+> +  -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+> +  -device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0 \
+> +  -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+> +
+> +The same volatile setup may optionally include an LSA region::
+> +
+> +  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
+> +  ...
+> +  -object memory-backend-ram,id=vmem0,share=on,size=256M \
+> +  -object memory-backend-file,id=cxl-lsa0,share=on,mem-path=/tmp/lsa.raw,size=256M \
+> +  -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+> +  -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+> +  -device cxl-type3,bus=root_port13,volatile-memdev=vmem0,lsa=cxl-lsa0,id=cxl-vmem0 \
+>    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
 >  
-> -static int build_dimm_list(Object *obj, void *opaque)
-> -{
-> -    GSList **list = opaque;
-> -
-> -    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
-> -        DeviceState *dev = DEVICE(obj);
-> -        if (dev->realized) { /* only realized DIMMs matter */
-> -            *list = g_slist_prepend(*list, dev);
-> -        }
-> -    }
-> -
-> -    object_child_foreach(obj, build_dimm_list, opaque);
-> -    return 0;
-> -}
-> -
->  static ram_addr_t get_current_ram_size(void)
->  {
-> -    GSList *list = NULL, *item;
-> -    ram_addr_t size = current_machine->ram_size;
-> -
-> -    build_dimm_list(qdev_get_machine(), &list);
-> -    for (item = list; item; item = g_slist_next(item)) {
-> -        Object *obj = OBJECT(item->data);
-> -        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
-> -            size += object_property_get_int(obj, PC_DIMM_SIZE_PROP,
-> -                                            &error_abort);
-> -        }
-> +    MachineState *machine = MACHINE(qdev_get_machine());
-> +    if (machine->device_memory) {
-> +        return machine->ram_size + machine->device_memory->dimm_size;
-> +    } else {
-> +        return machine->ram_size;
+>  A setup suitable for 4 way interleave. Only one fixed window provided, to enable 2 way
+> @@ -328,13 +349,13 @@ the CXL Type3 device directly attached (no switches).::
+>    -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+>    -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2 \
+>    -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+> -  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
+> +  -device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
+>    -device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
+> -  -device cxl-type3,bus=root_port14,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
+> +  -device cxl-type3,bus=root_port14,persistent-memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
+>    -device cxl-rp,port=0,bus=cxl.2,id=root_port15,chassis=0,slot=5 \
+> -  -device cxl-type3,bus=root_port15,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
+> +  -device cxl-type3,bus=root_port15,persistent-memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
+>    -device cxl-rp,port=1,bus=cxl.2,id=root_port16,chassis=0,slot=6 \
+> -  -device cxl-type3,bus=root_port16,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
+> +  -device cxl-type3,bus=root_port16,persistent-memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
+>    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.targets.1=cxl.2,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
+>  
+>  An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
+> @@ -354,15 +375,23 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
+>    -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
+>    -device cxl-upstream,bus=root_port0,id=us0 \
+>    -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
+> -  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
+> +  -device cxl-type3,bus=swport0,persistent-memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
+>    -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
+> -  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
+> +  -device cxl-type3,bus=swport1,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
+>    -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
+> -  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
+> +  -device cxl-type3,bus=swport2,persistent-memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
+>    -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
+> -  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
+> +  -device cxl-type3,bus=swport3,persistent-memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
+>    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+>  
+> +Deprecations
+> +------------
+> +
+> +The Type 3 device [memdev] attribute has been deprecated in favor of the
+> +[persistent-memdev] attributes. [memdev] will default to a persistent memory
+> +device for backward compatibility and is incapable of being used in combination
+> +with [persistent-memdev].
+> +
+>  Kernel Configuration Options
+>  ----------------------------
+>  
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> index 206e04a4b8..ed663cc04a 100644
+> --- a/hw/cxl/cxl-mailbox-utils.c
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -141,7 +141,8 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+>      } QEMU_PACKED *fw_info;
+>      QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
+>  
+> -    if (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) {
+> +    if ((cxl_dstate->vmem_size < CXL_CAPACITY_MULTIPLIER) ||
+> +        (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER)) {
+>          return CXL_MBOX_INTERNAL_ERROR;
 >      }
-> -    g_slist_free(list);
-> -
-> -    return size;
+>  
+> @@ -288,21 +289,21 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+>  
+>      CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
+>      CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
+> -    uint64_t size = cxl_dstate->pmem_size;
+>  
+> -    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+> +    if ((!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, CXL_CAPACITY_MULTIPLIER)) ||
+> +        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER))) {
+>          return CXL_MBOX_INTERNAL_ERROR;
+>      }
+>  
+>      id = (void *)cmd->payload;
+>      memset(id, 0, sizeof(*id));
+>  
+> -    /* PMEM only */
+>      snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
+>  
+> -    id->total_capacity = size / CXL_CAPACITY_MULTIPLIER;
+> -    id->persistent_capacity = size / CXL_CAPACITY_MULTIPLIER;
+> -    id->lsa_size = cvc->get_lsa_size(ct3d);
+> +    stq_le_p(&id->total_capacity, cxl_dstate->mem_size / CXL_CAPACITY_MULTIPLIER);
+> +    stq_le_p(&id->persistent_capacity, cxl_dstate->pmem_size / CXL_CAPACITY_MULTIPLIER);
+> +    stq_le_p(&id->volatile_capacity, cxl_dstate->vmem_size / CXL_CAPACITY_MULTIPLIER);
+> +    stl_le_p(&id->lsa_size, cvc->get_lsa_size(ct3d));
+>  
+>      *len = sizeof(*id);
+>      return CXL_MBOX_SUCCESS;
+> @@ -319,17 +320,20 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+>          uint64_t next_pmem;
+>      } QEMU_PACKED *part_info = (void *)cmd->payload;
+>      QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
+> -    uint64_t size = cxl_dstate->pmem_size;
+>  
+> -    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+> +    if ((!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, CXL_CAPACITY_MULTIPLIER)) ||
+> +        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER))) {
+>          return CXL_MBOX_INTERNAL_ERROR;
+>      }
+>  
+> -    /* PMEM only */
+> -    part_info->active_vmem = 0;
+> -    part_info->next_vmem = 0;
+> -    part_info->active_pmem = size / CXL_CAPACITY_MULTIPLIER;
+> -    part_info->next_pmem = 0;
+> +    stq_le_p(&part_info->active_vmem, cxl_dstate->vmem_size / CXL_CAPACITY_MULTIPLIER);
+> +    /*
+> +     * When both next_vmem and next_pmem are 0, there is no pending change to
+> +     * partitioning.
+> +     */
+> +    stq_le_p(&part_info->next_vmem, 0);
+> +    stq_le_p(&part_info->active_pmem, cxl_dstate->pmem_size / CXL_CAPACITY_MULTIPLIER);
+> +    stq_le_p(&part_info->next_pmem, 0);
+>  
+>      *len = sizeof(*part_info);
+>      return CXL_MBOX_SUCCESS;
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index abe60b362c..572ad47fa2 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -31,7 +31,8 @@ enum {
+>  };
+>  
+>  static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+> -                                         int dsmad_handle, MemoryRegion *mr)
+> +                                         int dsmad_handle, MemoryRegion *mr,
+> +                                         bool is_pmem, uint64_t dpa_base)
+>  {
+>      g_autofree CDATDsmas *dsmas = NULL;
+>      g_autofree CDATDslbis *dslbis0 = NULL;
+> @@ -50,8 +51,8 @@ static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+>              .length = sizeof(*dsmas),
+>          },
+>          .DSMADhandle = dsmad_handle,
+> -        .flags = CDAT_DSMAS_FLAG_NV,
+> -        .DPA_base = 0,
+> +        .flags = is_pmem ? CDAT_DSMAS_FLAG_NV : 0,
+> +        .DPA_base = dpa_base,
+>          .DPA_length = int128_get64(mr->size),
+>      };
+>  
+> @@ -130,8 +131,11 @@ static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+>              .length = sizeof(*dsemts),
+>          },
+>          .DSMAS_handle = dsmad_handle,
+> -        /* Reserved - the non volatile from DSMAS matters */
+> -        .EFI_memory_type_attr = 2,
+> +        /*
+> +         * NV: Reserved - the non volatile from DSMAS matters
+> +         * V: EFI_MEMORY_SP
+> +         */
+> +        .EFI_memory_type_attr = is_pmem ? 2 : 1,
+>          .DPA_offset = 0,
+>          .DPA_length = int128_get64(mr->size),
+>      };
+> @@ -150,33 +154,66 @@ static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+>  static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
+>  {
+>      g_autofree CDATSubHeader **table = NULL;
+> -    MemoryRegion *nonvolatile_mr;
+>      CXLType3Dev *ct3d = priv;
+> +    MemoryRegion *volatile_mr = NULL, *nonvolatile_mr = NULL;
+>      int dsmad_handle = 0;
+> -    int rc;
+> +    int cur_ent = 0;
+> +    int len = 0;
+> +    int rc, i;
+>  
+> -    if (!ct3d->hostmem) {
+> +    if (!ct3d->hostpmem && !ct3d->hostvmem) {
+>          return 0;
+>      }
+>  
+> -    nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!nonvolatile_mr) {
+> -        return -EINVAL;
+> +    if (ct3d->hostvmem) {
+> +        volatile_mr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +        if (!volatile_mr) {
+> +            return -EINVAL;
+> +        }
+> +        len += CT3_CDAT_NUM_ENTRIES;
+> +    }
+> +
+> +    if (ct3d->hostpmem) {
+> +        nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +        if (!nonvolatile_mr) {
+> +            return -EINVAL;
+> +        }
+> +        len += CT3_CDAT_NUM_ENTRIES;
+>      }
+>  
+> -    table = g_malloc0(CT3_CDAT_NUM_ENTRIES * sizeof(*table));
+> +    table = g_malloc0(len * sizeof(*table));
+>      if (!table) {
+>          return -ENOMEM;
+>      }
+>  
+> -    rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, nonvolatile_mr);
+> -    if (rc < 0) {
+> -        return rc;
+> +    /* Now fill them in */
+> +    if (volatile_mr) {
+> +        rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, volatile_mr,
+> +                                           false, 0);
+> +        if (rc < 0) {
+> +            return rc;
+> +        }
+> +        cur_ent = CT3_CDAT_NUM_ENTRIES;
+>      }
+>  
+> +    if (nonvolatile_mr) {
+> +        rc = ct3_build_cdat_entries_for_mr(&(table[cur_ent]), dsmad_handle++,
+> +                nonvolatile_mr, true, (volatile_mr ? volatile_mr->size : 0));
+> +        if (rc < 0) {
+> +            goto error_cleanup;
+> +        }
+> +        cur_ent += CT3_CDAT_NUM_ENTRIES;
+> +    }
+> +    assert(len == cur_ent);
+> +
+>      *cdat_table = g_steal_pointer(&table);
+>  
+> -    return CT3_CDAT_NUM_ENTRIES;
+> +    return len;
+> +error_cleanup:
+> +    for (i = 0; i < cur_ent; i++) {
+> +        g_free(table[i]);
+> +    }
+> +    return rc;
 >  }
 >  
->  static bool virtio_balloon_page_poison_support(void *opaque)
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 6fbbfd56c8..397ec10468 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -292,10 +292,12 @@ struct MachineClass {
->   * @base: address in guest physical address space where the memory
->   * address space for memory devices starts
->   * @mr: address space container for memory devices
-> + * @dimm_size: the sum of plugged DIMMs' sizes
->   */
->  typedef struct DeviceMemoryState {
->      hwaddr base;
->      MemoryRegion mr;
-> +    ram_addr_t dimm_size;
->  } DeviceMemoryState;
+>  static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
+> @@ -264,16 +301,42 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+>  {
+>      CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+>      uint8_t *dvsec;
+> +    uint32_t range1_size_hi, range1_size_lo,
+> +             range1_base_hi = 0, range1_base_lo = 0,
+> +             range2_size_hi = 0, range2_size_lo = 0,
+> +             range2_base_hi = 0, range2_base_lo = 0;
+> +
+> +    /*
+> +     * Volatile memory is mapped as (0x0)
+> +     * Persistent memory is mapped at (volatile->size)
+> +     */
+> +    if (ct3d->hostvmem) {
+> +        range1_size_hi = ct3d->hostvmem->size >> 32;
+> +        range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> +                         (ct3d->hostvmem->size & 0xF0000000);
+> +        if (ct3d->hostpmem) {
+> +            range2_size_hi = ct3d->hostpmem->size >> 32;
+> +            range2_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> +                             (ct3d->hostpmem->size & 0xF0000000);
+> +        }
+> +    } else {
+> +        range1_size_hi = ct3d->hostpmem->size >> 32;
+> +        range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> +                         (ct3d->hostpmem->size & 0xF0000000);
+> +    }
 >  
->  /**
+>      dvsec = (uint8_t *)&(CXLDVSECDevice){
+>          .cap = 0x1e,
+>          .ctrl = 0x2,
+>          .status2 = 0x2,
+> -        .range1_size_hi = ct3d->hostmem->size >> 32,
+> -        .range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> -        (ct3d->hostmem->size & 0xF0000000),
+> -        .range1_base_hi = 0,
+> -        .range1_base_lo = 0,
+> +        .range1_size_hi = range1_size_hi,
+> +        .range1_size_lo = range1_size_lo,
+> +        .range1_base_hi = range1_base_hi,
+> +        .range1_base_lo = range1_base_lo,
+> +        .range2_size_hi = range2_size_hi,
+> +        .range2_size_lo = range2_size_lo,
+> +        .range2_base_hi = range2_base_hi,
+> +        .range2_base_lo = range2_base_lo,
+>      };
+>      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+>                                 PCIE_CXL_DEVICE_DVSEC_LENGTH,
+> @@ -492,36 +555,69 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+>  static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+>  {
+>      DeviceState *ds = DEVICE(ct3d);
+> -    MemoryRegion *mr;
+> -    char *name;
+>  
+> -    if (!ct3d->hostmem) {
+> -        error_setg(errp, "memdev property must be set");
+> +    if (!ct3d->hostmem && !ct3d->hostvmem && !ct3d->hostpmem) {
+> +        error_setg(errp, "at least one memdev property must be set");
+>          return false;
+> +    } else if (ct3d->hostmem && ct3d->hostpmem) {
+> +        error_setg(errp, "[memdev] cannot be used with new "
+> +                         "[persistent-memdev] property");
+> +        return false;
+> +    } else if (ct3d->hostmem) {
+> +        /* Use of hostmem property implies pmem */
+> +        ct3d->hostpmem = ct3d->hostmem;
+> +        ct3d->hostmem = NULL;
+>      }
+>  
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> -        error_setg(errp, "memdev property must be set");
+> +    if (ct3d->hostpmem && !ct3d->lsa) {
+> +        error_setg(errp, "lsa property must be set for persistent devices");
+>          return false;
+>      }
+> -    memory_region_set_nonvolatile(mr, true);
+> -    memory_region_set_enabled(mr, true);
+> -    host_memory_backend_set_mapped(ct3d->hostmem, true);
+>  
+> -    if (ds->id) {
+> -        name = g_strdup_printf("cxl-type3-dpa-space:%s", ds->id);
+> -    } else {
+> -        name = g_strdup("cxl-type3-dpa-space");
+> +    if (ct3d->hostvmem) {
+> +        MemoryRegion *vmr;
+> +        char *v_name;
+> +
+> +        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +        if (!vmr) {
+> +            error_setg(errp, "volatile memdev must have backing device");
+> +            return false;
+> +        }
+> +        memory_region_set_nonvolatile(vmr, false);
+> +        memory_region_set_enabled(vmr, true);
+> +        host_memory_backend_set_mapped(ct3d->hostvmem, true);
+> +        if (ds->id) {
+> +            v_name = g_strdup_printf("cxl-type3-dpa-vmem-space:%s", ds->id);
+> +        } else {
+> +            v_name = g_strdup("cxl-type3-dpa-vmem-space");
+> +        }
+> +        address_space_init(&ct3d->hostvmem_as, vmr, v_name);
+> +        ct3d->cxl_dstate.vmem_size = vmr->size;
+> +        ct3d->cxl_dstate.mem_size += vmr->size;
+> +        g_free(v_name);
+>      }
+> -    address_space_init(&ct3d->hostmem_as, mr, name);
+> -    g_free(name);
+>  
+> -    ct3d->cxl_dstate.pmem_size = ct3d->hostmem->size;
+> +    if (ct3d->hostpmem) {
+> +        MemoryRegion *pmr;
+> +        char *p_name;
+>  
+> -    if (!ct3d->lsa) {
+> -        error_setg(errp, "lsa property must be set");
+> -        return false;
+> +        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +        if (!pmr) {
+> +            error_setg(errp, "persistent memdev must have backing device");
+> +            return false;
+> +        }
+> +        memory_region_set_nonvolatile(pmr, true);
+> +        memory_region_set_enabled(pmr, true);
+> +        host_memory_backend_set_mapped(ct3d->hostpmem, true);
+> +        if (ds->id) {
+> +            p_name = g_strdup_printf("cxl-type3-dpa-pmem-space:%s", ds->id);
+> +        } else {
+> +            p_name = g_strdup("cxl-type3-dpa-pmem-space");
+> +        }
+> +        address_space_init(&ct3d->hostpmem_as, pmr, p_name);
+> +        ct3d->cxl_dstate.pmem_size = pmr->size;
+> +        ct3d->cxl_dstate.mem_size += pmr->size;
+> +        g_free(p_name);
+>      }
+>  
+>      return true;
+> @@ -607,7 +703,12 @@ err_release_cdat:
+>      cxl_doe_cdat_release(cxl_cstate);
+>      g_free(regs->special_ops);
+>  err_address_space_free:
+> -    address_space_destroy(&ct3d->hostmem_as);
+> +    if (ct3d->hostpmem) {
+> +        address_space_destroy(&ct3d->hostpmem_as);
+> +    }
+> +    if (ct3d->hostvmem) {
+> +        address_space_destroy(&ct3d->hostvmem_as);
+> +    }
+>      return;
+>  }
+>  
+> @@ -620,7 +721,12 @@ static void ct3_exit(PCIDevice *pci_dev)
+>      pcie_aer_exit(pci_dev);
+>      cxl_doe_cdat_release(cxl_cstate);
+>      g_free(regs->special_ops);
+> -    address_space_destroy(&ct3d->hostmem_as);
+> +    if (ct3d->hostpmem) {
+> +        address_space_destroy(&ct3d->hostpmem_as);
+> +    }
+> +    if (ct3d->hostvmem) {
+> +        address_space_destroy(&ct3d->hostvmem_as);
+> +    }
+>  }
+>  
+>  /* TODO: Support multiple HDM decoders and DPA skip */
+> @@ -655,51 +761,77 @@ static bool cxl_type3_dpa(CXLType3Dev *ct3d, hwaddr host_addr, uint64_t *dpa)
+>      return true;
+>  }
+>  
+> -MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> -                           unsigned size, MemTxAttrs attrs)
+> +static int cxl_type3_hpa_to_as_and_dpa(CXLType3Dev *ct3d,
+> +                                       hwaddr host_addr,
+> +                                       unsigned int size,
+> +                                       AddressSpace **as,
+> +                                       uint64_t *dpa_offset)
+>  {
+> -    CXLType3Dev *ct3d = CXL_TYPE3(d);
+> -    uint64_t dpa_offset;
+> -    MemoryRegion *mr;
+> +    MemoryRegion *vmr = NULL, *pmr = NULL;
+>  
+> -    /* TODO support volatile region */
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> -        return MEMTX_ERROR;
+> +    if (ct3d->hostvmem) {
+> +        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +    }
+> +    if (ct3d->hostpmem) {
+> +        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+>      }
+>  
+> -    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> -        return MEMTX_ERROR;
+> +    if (!vmr && !pmr) {
+> +        return -ENODEV;
+> +    }
+> +
+> +    if (!cxl_type3_dpa(ct3d, host_addr, dpa_offset)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (*dpa_offset > int128_get64(ct3d->cxl_dstate.mem_size)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (vmr) {
+> +        if (*dpa_offset < int128_get64(vmr->size)) {
+> +            *as = &ct3d->hostvmem_as;
+> +        } else {
+> +            *as = &ct3d->hostpmem_as;
+> +            *dpa_offset -= vmr->size;
+
+You can't do math on vmr->size, it's Int128.
+And generally please do not poke at mr->size use APIs.
+
+Which one will depend ...
+
+
+> +        }
+> +    } else {
+> +        *as = &ct3d->hostpmem_as;
+>      }
+>  
+> -    if (dpa_offset > int128_get64(mr->size)) {
+> +    return 0;
+> +}
+> +
+> +MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> +                           unsigned size, MemTxAttrs attrs)
+> +{
+> +    uint64_t dpa_offset = 0;
+> +    AddressSpace *as = NULL;
+> +    int res;
+> +
+> +    res = cxl_type3_hpa_to_as_and_dpa(CXL_TYPE3(d), host_addr, size,
+> +                                      &as, &dpa_offset);
+> +    if (res) {
+>          return MEMTX_ERROR;
+>      }
+>  
+> -    return address_space_read(&ct3d->hostmem_as, dpa_offset, attrs, data, size);
+> +    return address_space_read(as, dpa_offset, attrs, data, size);
+>  }
+>  
+>  MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+>                              unsigned size, MemTxAttrs attrs)
+>  {
+> -    CXLType3Dev *ct3d = CXL_TYPE3(d);
+> -    uint64_t dpa_offset;
+> -    MemoryRegion *mr;
+> -
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> -        return MEMTX_OK;
+> -    }
+> +    uint64_t dpa_offset = 0;
+> +    AddressSpace *as = NULL;
+> +    int res;
+>  
+> -    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> -        return MEMTX_OK;
+> +    res = cxl_type3_hpa_to_as_and_dpa(CXL_TYPE3(d), host_addr, size,
+> +                                      &as, &dpa_offset);
+> +    if (res) {
+> +        return MEMTX_ERROR;
+>      }
+>  
+> -    if (dpa_offset > int128_get64(mr->size)) {
+> -        return MEMTX_OK;
+> -    }
+> -    return address_space_write(&ct3d->hostmem_as, dpa_offset, attrs,
+> -                               &data, size);
+> +    return address_space_write(as, dpa_offset, attrs, &data, size);
+>  }
+>  
+>  static void ct3d_reset(DeviceState *dev)
+> @@ -714,7 +846,11 @@ static void ct3d_reset(DeviceState *dev)
+>  
+>  static Property ct3_props[] = {
+>      DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKEND,
+> -                     HostMemoryBackend *),
+> +                     HostMemoryBackend *), /* for backward compatibility */
+> +    DEFINE_PROP_LINK("persistent-memdev", CXLType3Dev, hostpmem,
+> +                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+> +    DEFINE_PROP_LINK("volatile-memdev", CXLType3Dev, hostvmem,
+> +                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+>      DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
+>                       HostMemoryBackend *),
+>      DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
+> @@ -726,6 +862,10 @@ static uint64_t get_lsa_size(CXLType3Dev *ct3d)
+>  {
+>      MemoryRegion *mr;
+>  
+> +    if (!ct3d->lsa) {
+> +        return 0;
+> +    }
+> +
+>      mr = host_memory_backend_get_memory(ct3d->lsa);
+>      return memory_region_size(mr);
+>  }
+> @@ -743,6 +883,10 @@ static uint64_t get_lsa(CXLType3Dev *ct3d, void *buf, uint64_t size,
+>      MemoryRegion *mr;
+>      void *lsa;
+>  
+> +    if (!ct3d->lsa) {
+> +        return 0;
+> +    }
+> +
+>      mr = host_memory_backend_get_memory(ct3d->lsa);
+>      validate_lsa_access(mr, size, offset);
+>  
+> @@ -758,6 +902,10 @@ static void set_lsa(CXLType3Dev *ct3d, const void *buf, uint64_t size,
+>      MemoryRegion *mr;
+>      void *lsa;
+>  
+> +    if (!ct3d->lsa) {
+> +        return;
+> +    }
+> +
+>      mr = host_memory_backend_get_memory(ct3d->lsa);
+>      validate_lsa_access(mr, size, offset);
+>  
+> @@ -929,7 +1077,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+>      pc->config_read = ct3d_config_read;
+>  
+>      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+> -    dc->desc = "CXL PMEM Device (Type 3)";
+> +    dc->desc = "CXL Memory Device (Type 3)";
+>      dc->reset = ct3d_reset;
+>      device_class_set_props(dc, ct3_props);
+>  
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index d589f78202..edb9791bab 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -119,8 +119,10 @@ typedef struct cxl_device_state {
+>          uint64_t host_set;
+>      } timestamp;
+>  
+> -    /* memory region for persistent memory, HDM */
+> +    /* memory region size, HDM */
+> +    uint64_t mem_size;
+>      uint64_t pmem_size;
+> +    uint64_t vmem_size;
+>  } CXLDeviceState;
+>  
+>  /* Initialize the register block for a device */
+> @@ -245,12 +247,15 @@ struct CXLType3Dev {
+>      PCIDevice parent_obj;
+>  
+>      /* Properties */
+> -    HostMemoryBackend *hostmem;
+> +    HostMemoryBackend *hostmem; /* deprecated */
+> +    HostMemoryBackend *hostvmem;
+> +    HostMemoryBackend *hostpmem;
+>      HostMemoryBackend *lsa;
+>      uint64_t sn;
+>  
+>      /* State */
+> -    AddressSpace hostmem_as;
+> +    AddressSpace hostvmem_as;
+> +    AddressSpace hostpmem_as;
+>      CXLComponentState cxl_cstate;
+>      CXLDeviceState cxl_dstate;
+>  
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index d29a4e47af..3fe418af63 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1922,13 +1922,13 @@ static void test_acpi_q35_cxl(void)
+>                               " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
+>                               " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
+>                               " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
+> -                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1"
+> +                             " -device cxl-type3,bus=rp1,persistent-memdev=cxl-mem1,lsa=lsa1"
+>                               " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
+> -                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2"
+> +                             " -device cxl-type3,bus=rp2,persistent-memdev=cxl-mem2,lsa=lsa2"
+>                               " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
+> -                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3"
+> +                             " -device cxl-type3,bus=rp3,persistent-memdev=cxl-mem3,lsa=lsa3"
+>                               " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
+> -                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,lsa=lsa4"
+> +                             " -device cxl-type3,bus=rp4,persistent-memdev=cxl-mem4,lsa=lsa4"
+>                               " -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k,"
+>                               "cxl-fmw.1.targets.0=cxl.1,cxl-fmw.1.targets.1=cxl.2,cxl-fmw.1.size=4G,cxl-fmw.1.interleave-granularity=8k",
+>                               tmp_path, tmp_path, tmp_path, tmp_path,
+> diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+> index eda2bbbbe6..edcad4a0ce 100644
+> --- a/tests/qtest/cxl-test.c
+> +++ b/tests/qtest/cxl-test.c
+> @@ -34,32 +34,46 @@
+>      "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
+>      "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
+>  
+> -#define QEMU_T3D \
+> +#define QEMU_T3D_DEPRECATED \
+>      "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+>      "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
+>  
+> +#define QEMU_T3D_PMEM \
+> +    "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> +    "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> +    "-device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=lsa0,id=pmem0 "
+> +
+> +#define QEMU_T3D_VMEM \
+> +    "-object memory-backend-ram,id=cxl-mem0,size=256M " \
+> +    "-device cxl-type3,bus=rp0,volatile-memdev=cxl-mem0,id=mem0 "
+> +
+> +#define QEMU_T3D_VMEM_LSA \
+> +    "-object memory-backend-ram,id=cxl-mem0,size=256M " \
+> +    "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> +    "-device cxl-type3,bus=rp0,volatile-memdev=cxl-mem0,lsa=lsa0,id=mem0 "
+> +
+>  #define QEMU_2T3D \
+>      "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> -    "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> +    "-device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=lsa0,id=pmem0 " \
+>      "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M " \
+> -    "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
+> +    "-device cxl-type3,bus=rp1,persistent-memdev=cxl-mem1,lsa=lsa1,id=pmem1 "
+>  
+>  #define QEMU_4T3D \
+>      "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> -    "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> +    "-device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=lsa0,id=pmem0 " \
+>      "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M " \
+> -    "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
+> +    "-device cxl-type3,bus=rp1,persistent-memdev=cxl-mem1,lsa=lsa1,id=pmem1 " \
+>      "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M " \
+> -    "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
+> +    "-device cxl-type3,bus=rp2,persistent-memdev=cxl-mem2,lsa=lsa2,id=pmem2 " \
+>      "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M " \
+>      "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M " \
+> -    "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
+> +    "-device cxl-type3,bus=rp3,persistent-memdev=cxl-mem3,lsa=lsa3,id=pmem3 "
+>  
+>  static void cxl_basic_hb(void)
+>  {
+> @@ -98,14 +112,53 @@ static void cxl_2root_port(void)
+>  }
+>  
+>  #ifdef CONFIG_POSIX
+> -static void cxl_t3d(void)
+> +static void cxl_t3d_deprecated(void)
+> +{
+> +    g_autoptr(GString) cmdline = g_string_new(NULL);
+> +    g_autofree const char *tmpfs = NULL;
+> +
+> +    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
+> +
+> +    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D_DEPRECATED,
+> +                    tmpfs, tmpfs);
+> +
+> +    qtest_start(cmdline->str);
+> +    qtest_end();
+> +}
+> +
+> +static void cxl_t3d_persistent(void)
+> +{
+> +    g_autoptr(GString) cmdline = g_string_new(NULL);
+> +    g_autofree const char *tmpfs = NULL;
+> +
+> +    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
+> +
+> +    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D_PMEM,
+> +                    tmpfs, tmpfs);
+> +
+> +    qtest_start(cmdline->str);
+> +    qtest_end();
+> +}
+> +
+> +static void cxl_t3d_volatile(void)
+> +{
+> +    g_autoptr(GString) cmdline = g_string_new(NULL);
+> +
+> +    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D_VMEM);
+> +
+> +    qtest_start(cmdline->str);
+> +    qtest_end();
+> +}
+> +
+> +static void cxl_t3d_volatile_lsa(void)
+>  {
+>      g_autoptr(GString) cmdline = g_string_new(NULL);
+>      g_autofree const char *tmpfs = NULL;
+>  
+>      tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
+>  
+> -    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D, tmpfs, tmpfs);
+> +    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D_VMEM_LSA,
+> +                    tmpfs);
+>  
+>      qtest_start(cmdline->str);
+>      qtest_end();
+> @@ -155,7 +208,10 @@ int main(int argc, char **argv)
+>      qtest_add_func("/pci/cxl/rp", cxl_root_port);
+>      qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
+>  #ifdef CONFIG_POSIX
+> -    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
+> +    qtest_add_func("/pci/cxl/type3_device", cxl_t3d_deprecated);
+> +    qtest_add_func("/pci/cxl/type3_device_pmem", cxl_t3d_persistent);
+> +    qtest_add_func("/pci/cxl/type3_device_vmem", cxl_t3d_volatile);
+> +    qtest_add_func("/pci/cxl/type3_device_vmem_lsa", cxl_t3d_volatile_lsa);
+>      qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
+>      qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
+>  #endif
 > -- 
-> 2.33.0
+> 2.37.2
 
 
