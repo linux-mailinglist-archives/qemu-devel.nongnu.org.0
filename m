@@ -2,39 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9016B0FA5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541756B0FB0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:04:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8H-0004XP-GC; Wed, 08 Mar 2023 11:59:17 -0500
+	id 1pZx8S-0004bm-PL; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8E-0004V8-Dq; Wed, 08 Mar 2023 11:59:14 -0500
+ id 1pZx8F-0004Wk-MJ; Wed, 08 Mar 2023 11:59:15 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8B-00044S-Ib; Wed, 08 Mar 2023 11:59:14 -0500
+ id 1pZx8C-000458-RP; Wed, 08 Mar 2023 11:59:15 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id E2F8440103;
- Wed,  8 Mar 2023 19:58:35 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 7076540106;
+ Wed,  8 Mar 2023 19:58:36 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id AEC5892;
- Wed,  8 Mar 2023 19:58:34 +0300 (MSK)
-Received: (nullmailer pid 2098327 invoked by uid 1000);
+ by tsrv.corpit.ru (Postfix) with SMTP id 2E3711FE;
+ Wed,  8 Mar 2023 19:58:35 +0300 (MSK)
+Received: (nullmailer pid 2098334 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:34 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: qemu-stable@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Nathan Chancellor <nathan@kernel.org>, Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 25/47] block/iscsi: fix double-free on BUSY or similar statuses
-Date: Wed,  8 Mar 2023 19:57:28 +0300
-Message-Id: <20230308165815.2098148-25-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 28/47] Revert "x86: re-initialize RNG seed when selecting
+ kernel"
+Date: Wed,  8 Mar 2023 19:57:31 +0300
+Message-Id: <20230308165815.2098148-28-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -58,35 +62,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-Commit 8c460269aa77 ("iscsi: base all handling of check condition on
-scsi_sense_to_errno", 2019-07-15) removed a "goto out" so that the
-same coroutine is re-entered twice; once from iscsi_co_generic_cb,
-once from the timer callback iscsi_retry_timer_expired.  This can
-cause a crash.
+This reverts commit cc63374a5a7c240b7d3be734ef589dabbefc7527.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1378
-Reported-by: Grzegorz Zdanowski <https://gitlab.com/kiler129>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 5080152e2ef6cde7aa692e29880c62bd54acb750)
+Fixes: cc63374a5a ("x86: re-initialize RNG seed when selecting kernel")
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Dov Murik <dovmurik@linux.ibm.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+(cherry picked from commit b4bfa0a31d86caf89223e10e701c5b00df369b37)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- block/iscsi.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/i386/x86.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index a316d46d96..1bba42a71b 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -268,6 +268,7 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
-                 timer_mod(&iTask->retry_timer,
-                           qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + retry_time);
-                 iTask->do_retry = 1;
-+                return;
-             } else if (status == SCSI_STATUS_CHECK_CONDITION) {
-                 int error = iscsi_translate_sense(&task->sense);
-                 if (error == EAGAIN) {
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 7984f65352..e1a5f244a9 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1116,14 +1116,11 @@ void x86_load_linux(X86MachineState *x86ms,
+         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
+         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+         qemu_register_reset(reset_rng_seed, setup_data);
+-        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
+-                                  setup_data, kernel, kernel_size, true);
+-    } else {
+-        fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+     }
+ 
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+     sev_load_ctx.kernel_data = (char *)kernel;
+     sev_load_ctx.kernel_size = kernel_size;
+ 
 -- 
 2.30.2
 
