@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53C66B0F98
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39936B0F87
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:00:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx88-0004Q0-PA; Wed, 08 Mar 2023 11:59:08 -0500
+	id 1pZx89-0004RR-SO; Wed, 08 Mar 2023 11:59:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx82-0004GM-Gy; Wed, 08 Mar 2023 11:59:02 -0500
+ id 1pZx83-0004HD-2r; Wed, 08 Mar 2023 11:59:03 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx80-00041s-Nf; Wed, 08 Mar 2023 11:59:02 -0500
+ id 1pZx80-00041u-OK; Wed, 08 Mar 2023 11:59:02 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 7FE7A400F1;
+ by isrv.corpit.ru (Postfix) with ESMTP id EFF56400F3;
  Wed,  8 Mar 2023 19:58:21 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 4B0681FD;
+ by tsrv.corpit.ru (Postfix) with SMTP id B0EC892;
  Wed,  8 Mar 2023 19:58:20 +0300 (MSK)
-Received: (nullmailer pid 2098290 invoked by uid 1000);
+Received: (nullmailer pid 2098294 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:15 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Fiona Ebner <f.ebner@proxmox.com>, Eric Blake <eblake@redhat.com>,
- Hanna Czenczek <hreitz@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 19/47] block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
-Date: Wed,  8 Mar 2023 19:57:22 +0300
-Message-Id: <20230308165815.2098148-19-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 21/47] target/i386: Fix BEXTR instruction
+Date: Wed,  8 Mar 2023 19:57:24 +0300
+Message-Id: <20230308165815.2098148-21-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -59,46 +58,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-When a write request is converted into a write zeroes request by the
-detect-zeroes= feature, it is no longer associated with an I/O buffer.
-The BDRV_REQ_REGISTERED_BUF flag doesn't make sense without an I/O
-buffer and must be cleared because bdrv_co_do_pwrite_zeroes() fails with
--EINVAL when it's set.
+There were two problems here: not limiting the input to operand bits,
+and not correctly handling large extraction length.
 
-Fiona Ebner <f.ebner@proxmox.com> bisected and diagnosed this QEMU 7.2
-regression where writes containing zeroes to a blockdev with
-discard=unmap,detect-zeroes=unmap fail.
-
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1404
-Fixes: e8b6535533be ("block: add BDRV_REQ_REGISTERED_BUF request flag")
-Tested-by: Fiona Ebner <f.ebner@proxmox.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1372
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230114230542.3116013-3-richard.henderson@linaro.org>
 Cc: qemu-stable@nongnu.org
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20230207203719.242926-2-stefanha@redhat.com>
-(cherry picked from commit 3c5867156eb81c7c71611d078b2c5c2c863f884a)
+Fixes: 1d0b926150e5 ("target/i386: move scalar 0F 38 and 0F 3A instruction to new decoder", 2022-10-18)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit b14c0098975264ed03144f145bca0179a6763a07)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- block/io.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/i386/tcg/emit.c.inc      | 22 +++++++++++-----------
+ tests/tcg/i386/test-i386-bmi2.c | 12 ++++++++++++
+ 2 files changed, 23 insertions(+), 11 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index b9424024f9..bbaa0d1b2d 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2087,6 +2087,9 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
-         if (bs->detect_zeroes == BLOCKDEV_DETECT_ZEROES_OPTIONS_UNMAP) {
-             flags |= BDRV_REQ_MAY_UNMAP;
-         }
-+
-+        /* Can't use optimization hint with bufferless zero write */
-+        flags &= ~BDRV_REQ_REGISTERED_BUF;
-     }
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index 7037ff91c6..99f6ba6e19 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -1078,30 +1078,30 @@ static void gen_ANDN(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ static void gen_BEXTR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ {
+     MemOp ot = decode->op[0].ot;
+-    TCGv bound, zero;
++    TCGv bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
++    TCGv zero = tcg_constant_tl(0);
++    TCGv mone = tcg_constant_tl(-1);
  
-     if (ret < 0) {
+     /*
+      * Extract START, and shift the operand.
+      * Shifts larger than operand size get zeros.
+      */
+     tcg_gen_ext8u_tl(s->A0, s->T1);
++    if (TARGET_LONG_BITS == 64 && ot == MO_32) {
++        tcg_gen_ext32u_tl(s->T0, s->T0);
++    }
+     tcg_gen_shr_tl(s->T0, s->T0, s->A0);
+ 
+-    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
+-    zero = tcg_constant_tl(0);
+     tcg_gen_movcond_tl(TCG_COND_LEU, s->T0, s->A0, bound, s->T0, zero);
+ 
+     /*
+-     * Extract the LEN into a mask.  Lengths larger than
+-     * operand size get all ones.
++     * Extract the LEN into an inverse mask.  Lengths larger than
++     * operand size get all zeros, length 0 gets all ones.
+      */
+     tcg_gen_extract_tl(s->A0, s->T1, 8, 8);
+-    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->A0, bound, s->A0, bound);
+-
+-    tcg_gen_movi_tl(s->T1, 1);
+-    tcg_gen_shl_tl(s->T1, s->T1, s->A0);
+-    tcg_gen_subi_tl(s->T1, s->T1, 1);
+-    tcg_gen_and_tl(s->T0, s->T0, s->T1);
++    tcg_gen_shl_tl(s->T1, mone, s->A0);
++    tcg_gen_movcond_tl(TCG_COND_LEU, s->T1, s->A0, bound, s->T1, zero);
++    tcg_gen_andc_tl(s->T0, s->T0, s->T1);
+ 
+     gen_op_update1_cc(s);
+     set_cc_op(s, CC_OP_LOGICB + ot);
+diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
+index 3c3ef85513..982d4abda4 100644
+--- a/tests/tcg/i386/test-i386-bmi2.c
++++ b/tests/tcg/i386/test-i386-bmi2.c
+@@ -99,6 +99,9 @@ int main(int argc, char *argv[]) {
+     result = bextrq(mask, 0x10f8);
+     assert(result == 0);
+ 
++    result = bextrq(0xfedcba9876543210ull, 0x7f00);
++    assert(result == 0xfedcba9876543210ull);
++
+     result = blsiq(0x30);
+     assert(result == 0x10);
+ 
+@@ -164,6 +167,15 @@ int main(int argc, char *argv[]) {
+     result = bextrl(mask, 0x1038);
+     assert(result == 0);
+ 
++    result = bextrl((reg_t)0x8f635a775ad3b9b4ull, 0x3018);
++    assert(result == 0x5a);
++
++    result = bextrl((reg_t)0xfedcba9876543210ull, 0x7f00);
++    assert(result == 0x76543210u);
++
++    result = bextrl(-1, 0);
++    assert(result == 0);
++
+     result = blsil(0xffff);
+     assert(result == 1);
+ 
 -- 
 2.30.2
 
