@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BFF6AFC19
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94F26AFC17
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:19:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiMO-0006T6-Hx; Tue, 07 Mar 2023 20:12:52 -0500
+	id 1pZiMQ-0006ki-G3; Tue, 07 Mar 2023 20:12:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiML-0006Ml-8U
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMN-0006ZC-MU
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMJ-0001gd-GO
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiML-0001h0-UK
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237966;
+ s=mimecast20190719; t=1678237969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SephERjw7iPJOmXRt8b/SpRqtuCQhkw927GRfe/TcY4=;
- b=G0u6goz4vsasN3AsqUxYvAtz/S4cw1uMBm7Jyqhltco1lqdmxGDEFMRO3kUVc6ZYkaMpyV
- udTYCeiwHTJTV6Fv0PF7HcRBbIihRXYERbqIqDxPEDQQE7U7ZvjK/OjhYeQH48nhOR/0i/
- qQAoCna0fZtoXXT1b2eN1yUFCg4Y/7Y=
+ bh=PlWCxBVoNHan2SX2kTcXYxvUjOFyDeTDnartL4mlgHo=;
+ b=KX3akl/9itOLFE/L6jeo241Wcc7cQA9fVTl2TwYSbPLmuKH/tJF5a+6ZW77nxteAs2bNCa
+ Tv23VjGMB8ZhMY31X8cTzAc+nSFb1v+vbdNbRP1sZfvfhrs5MkSKGf9wFmGlOBDfmCbPKU
+ TFK+t0AROsj8I4dAZJfrA5BnuWZMn9c=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-222-gupfG9AWM06EborXIGTm4w-1; Tue, 07 Mar 2023 20:12:45 -0500
-X-MC-Unique: gupfG9AWM06EborXIGTm4w-1
+ us-mta-573-U3dNjJORNN2fSFCse5cIzQ-1; Tue, 07 Mar 2023 20:12:48 -0500
+X-MC-Unique: U3dNjJORNN2fSFCse5cIzQ-1
 Received: by mail-ed1-f69.google.com with SMTP id
- u10-20020a056402064a00b004c689813557so21166349edx.10
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:12:45 -0800 (PST)
+ h15-20020a056402280f00b004bf9e193c23so21674763ede.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:12:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237963;
+ d=1e100.net; s=20210112; t=1678237966;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SephERjw7iPJOmXRt8b/SpRqtuCQhkw927GRfe/TcY4=;
- b=lM/VDz3YVtN5aP9z02Tvl0RkRlmd5qc+mqOzjQiBya1YA/LENGNvaMUaqEa/K30YSJ
- 0qVz3sVdykv3j7gOWt1wWH1E61i2zvsnyYBWE3gcypbFq0RfoyKn4ZWdPWDP15kFfceA
- UOx6LhvvJjapr2n7t35BJ5Q85NZA+8q4VuRnMS1yQLigoNZQKR850FTVaMfdUsEFeFm5
- w+RAr1PMJ8ELE3eMIi//fjgJ3uVcDB0eddnwGuQLhyNgch2lmrlMJwn4BQZxXFYMSuQs
- uMc3v5Ev7uCmlwcTp4qfIck8mwz6yFxiXN3x/rNP/kU7BbPCoOVn3v//oComU+njqt1q
- TFzw==
-X-Gm-Message-State: AO0yUKUtMbh9A3rTCnA9nNrEsdLxP5Yht8naQOtbroEdgDsdG7/Y7/nI
- jqRlDR2ABc0RZH+vkVMdLEITq5FQJtjaXabibTQ45sQAKaOCLY4QpE6Kf0uS9hBq4fEgsdP7OCK
- TMn/5OGREUfiqbch5rDl9va40tbE9Z0wI8w8DHQrCJXmcWMNN2iXU55c2lg4U2wIcS2J/
-X-Received: by 2002:a17:906:66d8:b0:872:b17a:9b59 with SMTP id
- k24-20020a17090666d800b00872b17a9b59mr16182066ejp.38.1678237963372; 
- Tue, 07 Mar 2023 17:12:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set/bYBqRfSLJdrM7wI4B5rg6EB99+A0jE60xTbboSTZ6k33MU3fsKmW93QnbjBRDHeRni+jHbg==
-X-Received: by 2002:a17:906:66d8:b0:872:b17a:9b59 with SMTP id
- k24-20020a17090666d800b00872b17a9b59mr16182051ejp.38.1678237963108; 
- Tue, 07 Mar 2023 17:12:43 -0800 (PST)
+ bh=PlWCxBVoNHan2SX2kTcXYxvUjOFyDeTDnartL4mlgHo=;
+ b=QgumIlJsEzcLdG6V05KUnxN6HjG5y/eGm1+SQIlBr2C9bo7Ick6PBhb619JwEpqCFS
+ GEBof3tnBQOzRf9aceYo4/9WK5Vbw8U9rvPTWfrUohxbBnHeChrJWUgUT/xiE4RYAbsA
+ xdjgJSSoNLE/JcnzEmi/0MqtSlilwts/cyUqMLfMOOlPdwF8S0x+0KhNkwhDCmSr6n1U
+ eywMSZanAvjnovDYbO/M2YXFHzhXWHN/TYlMWQk6vMr7slJhrGVft53cY8puBSNmz+le
+ 6au22OfgLna5KCzR+Qh4wXqeSRp6tXqHoSElWDuCnfEQI3whURIByjHS/trHxH1qFLdY
+ lQCQ==
+X-Gm-Message-State: AO0yUKWDcX+v0AbE/BYZOg9tF9gHnDYYR6qJPE+iiznhKRb5sbtokODq
+ 9oN7SCZmsBbyrhTcbYc0crgXTs7N/1/3xwjvHgqNmmV4+k5Apu/50ntEAyQbu0QTCRCXIcce7Za
+ H0WXcZdUZ+VWisvqbrDgK5iFcl2496gngGCtucPxpqDcNOEBSZ0Py3HAGpz1PftqH0nwQ
+X-Received: by 2002:a17:906:398a:b0:88d:d700:fe15 with SMTP id
+ h10-20020a170906398a00b0088dd700fe15mr17185794eje.0.1678237966570; 
+ Tue, 07 Mar 2023 17:12:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set/CH/d/L+jYdGYP17viXUEFkNE5kBE5acnIQEE3+qopU9eT89gkmuw8lvV6YYYFVM9dIovbKA==
+X-Received: by 2002:a17:906:398a:b0:88d:d700:fe15 with SMTP id
+ h10-20020a170906398a00b0088dd700fe15mr17185781eje.0.1678237966322; 
+ Tue, 07 Mar 2023 17:12:46 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- r25-20020a1709067fd900b008e125ee7be4sm6816227ejs.176.2023.03.07.17.12.41
+ d26-20020a50f69a000000b004c0239e41d8sm7401286edn.81.2023.03.07.17.12.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:12:42 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:12:40 -0500
+ Tue, 07 Mar 2023 17:12:45 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:12:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 37/73] pcihp: piix4: do not redirect hotplug controller to
- piix4 when ACPI hotplug is disabled
-Message-ID: <f40e6a4cc10cdb7901c172edaf34eaab7fe212b2.1678237635.git.mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 38/73] pci: fix 'hotplugglable' property behavior
+Message-ID: <ceefa0b74674f32aeedb1e93bcb6ec9cb12842b1.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,7 +77,7 @@ Content-Disposition: inline
 In-Reply-To: <cover.1678237635.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,72 +103,127 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-commit [1] added ability to disable ACPI PCI hotplug
-on hostbridge but forgot to take into account that it
-should disable all ACPI hotplug machinery in case both
-hostbridge and bridge hotplug are disabled.
+Currently the property may flip its state
+during VM bring up or just doesn't work as
+the name implies.
 
-Commit [2] tried to fix that, however it forgot to
-remove hotplug_handler override which hands hotplug
-control over to piix4 hotplug controller
-(uninitialized after [2]).
+In particular with PCIE root port that has
+'hotplug={on|off}' property, and when it's
+turned off, one would expect
+  'hotpluggable' == false
+for any devices attached to it.
+Which is not the case since qbus_is_hotpluggable()
+used by the property just checks for presence
+of any hotplug_handler set on bus.
 
-As result at the time bridge is plugged in, its default
-(SHPC) hotplug handler is replaced by piix4 one in
-  acpi_pcihp_device_plug_cb()
-    ...
-    if (!s->legacy_piix &&
-       ...
-       qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
+The problem is that name BusState::hotplug_handler
+from its inception is misnomer, as it handles
+not only hotplug but also in many cases coldplug
+as well (i.e. generic wiring interface), and
+it's fine to have hotplug_handler set on bus
+while it doesn't support hotplug (ex. pcie-slot
+with hotplug=off).
 
-which is acting on uninitialized s->legacy_piix value
-(0 by default) that was supposed to be initialized by
-acpi_pcihp_init(), that is no longer called due to
-following condition being false:
+Another case of root port flipping 'hotpluggable'
+state when ACPI PCI hotplug is enabled in this
+case root port with 'hotplug=off' starts as
+hotpluggable and then later on, pcihp
+hotplug_handler clears hotplug_handler
+explicitly after checking root port's 'hotplug'
+property.
 
-  piix4_acpi_system_hot_add_init()
-    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+So root-port hotpluggablity check sort of works
+if pcihp is enabled but is broken if pcihp is
+disabled.
 
-and the bridge ends up with piix4 as hotplug handler
-instead of shpc one.
+One way to deal with the issue is to ask
+hotplug_handler if bus it controls is hotpluggable
+or not. To do that add is_hotpluggable_bus()
+hook to HotplugHandler interface and use it in
+'hotpluggable' property + teach pcie-slot to
+actually look into 'hotplug' property state
+before deciding if bus is hotpluggable.
 
-Followup hotplug on that bridge as result yields
-piix4 specific error:
-
-  Error: Unsupported bus. Bus doesn't have property 'acpi-pcihp-bsel' set
-
-1) 3d7e78aa777 (Introduce a new flag for i440fx to disable PCI hotplug on the root bus)
-2) df4008c9c59 (piix4: don't reserve hw resources when hotplug is off globally)
-
-Fixes: df4008c9c59 (piix4: don't reserve hw resources when hotplug is off globally)
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-12-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-13-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/piix4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/hotplug.h   |  2 ++
+ include/hw/qdev-core.h | 13 ++++++++++++-
+ hw/pci/pcie_port.c     |  8 ++++++++
+ 3 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index eac2125abd..8fc422829a 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -492,7 +492,6 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+diff --git a/include/hw/hotplug.h b/include/hw/hotplug.h
+index e15f59c8b3..a9840ed485 100644
+--- a/include/hw/hotplug.h
++++ b/include/hw/hotplug.h
+@@ -48,6 +48,7 @@ typedef void (*hotplug_fn)(HotplugHandler *plug_handler,
+  * @unplug: unplug callback.
+  *          Used for device removal with devices that implement
+  *          asynchronous and synchronous (surprise) removal.
++ * @is_hotpluggable_bus: called to check if bus/its parent allow hotplug on bus
+  */
+ struct HotplugHandlerClass {
+     /* <private> */
+@@ -58,6 +59,7 @@ struct HotplugHandlerClass {
+     hotplug_fn plug;
+     hotplug_fn unplug_request;
+     hotplug_fn unplug;
++    bool (*is_hotpluggable_bus)(HotplugHandler *plug_handler, BusState *bus);
+ };
  
-     piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
-                                    pci_get_bus(dev), s);
--    qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
+ /**
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index f5b3b2f89a..bd50ad5ee1 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -812,7 +812,18 @@ void qbus_set_bus_hotplug_handler(BusState *bus);
  
-     piix4_pm_add_properties(s);
+ static inline bool qbus_is_hotpluggable(BusState *bus)
+ {
+-   return bus->hotplug_handler;
++    HotplugHandler *plug_handler = bus->hotplug_handler;
++    bool ret = !!plug_handler;
++
++    if (plug_handler) {
++        HotplugHandlerClass *hdc;
++
++        hdc = HOTPLUG_HANDLER_GET_CLASS(plug_handler);
++        if (hdc->is_hotpluggable_bus) {
++            ret = hdc->is_hotpluggable_bus(plug_handler, bus);
++        }
++    }
++    return ret;
  }
-@@ -564,6 +563,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-     if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-         acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-                         s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
-+        qbus_set_hotplug_handler(BUS(pci_get_bus(PCI_DEVICE(s))), OBJECT(s));
-     }
  
-     s->cpu_hotplug_legacy = true;
+ /**
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index 65a397ad23..000633fec1 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -161,6 +161,13 @@ PCIDevice *pcie_find_port_by_pn(PCIBus *bus, uint8_t pn)
+     return NULL;
+ }
+ 
++static bool pcie_slot_is_hotpluggbale_bus(HotplugHandler *plug_handler,
++                                          BusState *bus)
++{
++    PCIESlot *s = PCIE_SLOT(bus->parent);
++    return s->hotplug;
++}
++
+ static const TypeInfo pcie_port_type_info = {
+     .name = TYPE_PCIE_PORT,
+     .parent = TYPE_PCI_BRIDGE,
+@@ -188,6 +195,7 @@ static void pcie_slot_class_init(ObjectClass *oc, void *data)
+     hc->plug = pcie_cap_slot_plug_cb;
+     hc->unplug = pcie_cap_slot_unplug_cb;
+     hc->unplug_request = pcie_cap_slot_unplug_request_cb;
++    hc->is_hotpluggable_bus = pcie_slot_is_hotpluggbale_bus;
+ }
+ 
+ static const TypeInfo pcie_slot_type_info = {
 -- 
 MST
 
