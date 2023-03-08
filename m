@@ -2,92 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAF56B113D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 19:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AC36B1169
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 19:53:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZyjk-0004dI-QH; Wed, 08 Mar 2023 13:42:04 -0500
+	id 1pZytK-0006zD-8E; Wed, 08 Mar 2023 13:51:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZyji-0004cx-Mx
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 13:42:02 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pZyjg-00087E-Hi
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 13:42:02 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id x34so17404353pjj.0
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 10:41:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678300918;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=I3CMl+y7DSzC/nVkd1IeCfGb/MLoG9BCQx1gh+14kvI=;
- b=rtLJGC5MSFtxVPmMmFxsV/3frlVSX6OdJGI9vTZKNecwKdBsSXHQE02/EqA5qfWRVL
- nFSZ1pfC6Mh/f9fUKa79sLgHEpN4Xfrns8vcNb0B+A2PbYbAihiAhk0CC9eQzEqtijf9
- iY3pG4ikJdoTEDvZWou6gX6iZynBsui+y9v+VG3bBG+z17CM2s1NJiLZctPo6i4LHjQD
- K3VZ/x4Vwyc6qGbyJrD3+BlFBkc+7No6Muc4OyeSa90mNDSuWRX/nZ9uckre/RFWpaTC
- eJTsrZX/+XDYl+NCm3+XQjfSynRl4c5dEWQTDKZe41QPCNQaqmyvme0dJw9NRrlK9TTw
- mULQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678300918;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I3CMl+y7DSzC/nVkd1IeCfGb/MLoG9BCQx1gh+14kvI=;
- b=lAQZnksHetYQE9OX2tA1g6pRyTHFavHqoPKZZTjQ1oLYAfF7ElQU/ZIi9W/DOy00O/
- T80+Ht0j7GNJUJWFu23Q25KRpB3ELh3o1Rnu5whIOgYpjaTvo9P84I1NAdywEZaX6b1i
- THeNOYolKbjD3tgVJKKz/iaJmS5uOx2gSQjoyVdeQkIXWBc3Y1KCMtyEhnAqiuKljcv0
- Wh3oJEQ/BOMrGF45kNLPxfI0fktA5xdN5QZ7lYMS/9elUlJFWZiATPoPhwgkD0BA8sre
- pq8U8mN+15fD1QfHwwSMXyXOMQgUQEleohzY6TO2aEtadCn9jkGzmxXwSUsGKnHucrgJ
- 1ETA==
-X-Gm-Message-State: AO0yUKUjby/d4CngsllxedzBgpgK68oZM9fut2UODJQMP1htw7yt/4CR
- r3jUR8zR/c95pQRB537ql1lVqQ==
-X-Google-Smtp-Source: AK7set89GOkrC2ruqaFtF04X8l774eSbHUcTn39T8k2RIZmh/OKBluPap8U8aQ89IGUO6GRCfvko2g==
-X-Received: by 2002:a17:902:e745:b0:19c:eaab:653d with SMTP id
- p5-20020a170902e74500b0019ceaab653dmr22869910plf.15.1678300918453; 
- Wed, 08 Mar 2023 10:41:58 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:acd:bde4:fbf6:cc41?
- ([2602:ae:154a:9f01:acd:bde4:fbf6:cc41])
- by smtp.gmail.com with ESMTPSA id
- ky6-20020a170902f98600b0019cbec6c17bsm10141441plb.190.2023.03.08.10.41.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Mar 2023 10:41:58 -0800 (PST)
-Message-ID: <16b182f4-b77f-7aef-4010-ad335bae5862@linaro.org>
-Date: Wed, 8 Mar 2023 10:41:56 -0800
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZytH-0006yw-Uq; Wed, 08 Mar 2023 13:51:55 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZytF-0002m6-KY; Wed, 08 Mar 2023 13:51:55 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 114E7746335;
+ Wed,  8 Mar 2023 19:51:34 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B8EDD7457E7; Wed,  8 Mar 2023 19:51:33 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B6D9F745712;
+ Wed,  8 Mar 2023 19:51:33 +0100 (CET)
+Date: Wed, 8 Mar 2023 19:51:33 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Rene Engel <ReneEngel80@emailn.de>, Bernhard Beschow <shentey@gmail.com>
+Subject: Re: [PULL 14/20] hw/ppc/pegasos2: Fix PCI interrupt routing
+In-Reply-To: <6b0038c5-bd6a-d3c3-d43c-fad2aca299fe@eik.bme.hu>
+Message-ID: <4d34bbc1-5208-33f0-7117-69cabae8f440@eik.bme.hu>
+References: <20230307234711.55375-1-philmd@linaro.org>
+ <20230307234711.55375-15-philmd@linaro.org>
+ <dab7a6d9-4bfe-0afe-8098-50cfaf0c6aae@linaro.org>
+ <6b0038c5-bd6a-d3c3-d43c-fad2aca299fe@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 8/9] async: update documentation of the memory barriers
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: gshan@redhat.com, eesposit@redhat.com, david@redhat.com,
- stefanha@redhat.com, cohuck@redhat.com, eauger@redhat.com
-References: <20230306223306.84383-1-pbonzini@redhat.com>
- <20230306223306.84383-9-pbonzini@redhat.com>
- <10e49543-b4f8-f22c-a9ab-e6340c6a0074@linaro.org>
- <12ea9d46-1e95-62a1-70f7-d77a66b44bd0@redhat.com>
- <d661c4dd-309b-be7c-e60e-a035ae787c14@linaro.org>
- <d33a6fda-5b38-c136-9ec0-3c07b2031cd4@redhat.com>
- <aa14b8ad-8756-082b-3694-3c6177f6d46d@linaro.org>
- <9da5c9c5-0675-157d-f099-2b0b14c26002@redhat.com>
- <3c2362c4-1d2f-f749-db1e-201d985e67be@linaro.org>
- <b7af7150-af5d-de86-e237-7dafa326b862@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <b7af7150-af5d-de86-e237-7dafa326b862@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1750224472-1678301493=:84867"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,52 +63,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/8/23 10:08, Paolo Bonzini wrote:
-> On 3/8/23 17:47, Richard Henderson wrote:
->>> The case that I was imagining for smp_mb__before_rmw() is something like this:
->>>
->>>      wake_me = true;
->>>      smp_mb__before_rmw();
->>>      if (qatomic_xchg(&can_sleep, true)) { ... }
->>>
->>> where you really need a full barrier.
->>
->> What is different about this that doesn't apply to the remove-head case we've been 
->> talking about?
-> 
-> For remove-head, nothing is going to change the BH_PENDING flag while the code runs.  This 
-> would be an okay transformation of the code, at both the compiler and the processor level:
-> 
->    // first part of atomic_fetch_and
->    old_flags = LDAXR of bh->flags
-> 
->    // QSLIST_REMOVE_HEAD ends up between load and store of
->    // atomic_fetch_and
->    all the loads and stores for remove-head
-> 
->    // second part of atomic_fetch_and
->    new_flags = old_flags & ~(BH_PENDING|BH_SCHEDULED|BH_IDLE);
->    (successful) STLXR of new_flags into bh->flags
-> 
-> 
-> Instead in the case above, I was thinking you would get a missed wakeup without the 
-> barriers.  Here is the full pseudocode:
-> 
->    // this store can move below the load of can_sleep
->    qatomic_set(&wake_me, true);
->    if (qatomic_xchg(&can_sleep, true)) sleep;
-> 
->    // this store can move below the load of wake_me
->    qatomic_set(&can_sleep, false);
->    if (qatomic_xchg(&wake_me, false)) wake them;
-> 
-> The buggy case is where the threads observe can_sleep = true, wake_me = false, i.e. the 
-> original value of the variables.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Oh, I see, buggy in a larger context.
+--3866299591-1750224472-1678301493=:84867
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, 8 Mar 2023, BALATON Zoltan wrote:
+> On Wed, 8 Mar 2023, Philippe Mathieu-Daudé wrote:
+>> Hi Zoltan,
+>> 
+>> On 8/3/23 00:47, Philippe Mathieu-Daudé wrote:
+>>> From: BALATON Zoltan <balaton@eik.bme.hu>
+>>> 
+>>> According to the PegasosII schematics the PCI interrupt lines are
+>>> connected to both the gpp pins of the Mv64361 north bridge and the
+>>> PINT pins of the VT8231 south bridge so guests can get interrupts from
+>>> either of these. So far we only had the MV64361 connections which
+>>> worked for on board devices but for additional PCI devices (such as
+>>> network or sound card added with -device) guest OSes expect interrupt
+>>> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+>>> VT8231 ISA bridge. After the previous patches we can now model this
+>>> and also remove the board specific connection from mv64361. Also
+>>> configure routing of these lines when using Virtual Open Firmware to
+>>> match board firmware for guests that expect this.
+>> 
+>> IIUC the schematic, only tje INTA and INTB lines (AGP IRQs) are
+>> bidirectional and shared between NB/SB.
+>> 
+>> INTC and INTC are SB output to NB input.
+>
+> I'll check the schematics again when I have time later but what we know for 
+> sure is that guests expect PCI interrupts to raise ISA IRQ9 which is mapped 
+> by the VT8231 ISA function 0c55-0x57 registers. The PCI buses are otherwise 
+> handled by the north bridge. So how can the VIA PINT pins be outputs? Where 
+> do the signals from the PCI cards go into VT8231 otherwise? Also the VT8231 
+> datasheet on page 10 says PINTA-D pins are inputs so I can't understand your 
+> reasoning above.
 
+I think this may be an error in some schematic pages or nore likely 
+something we don't undestand about the drawing as both Sheet 2 with 
+MV64361 and Sheet 18 with VT8231 show the interrupts as inputs (which also 
+matches the VT8231 datasheet). Other sheets with individual PCI slots show 
+these interrupt lines as outputs as expected. Only sheet 13 shows INTA and 
+B as bidirectional and INTC and D as output but maybe only because that 
+sheet also shows the PCI slots from which the lines are output and the 
+VT8231 in which they are inputs so together for this sheet they are both 
+input and output but for the chips they are input only and for the slots 
+they are output only. The main sheet also has these directions maybe 
+because it shows links to the sheet that has the slots from where the IRQs 
+are coming and also links to the AGP port where only INTA and B are 
+connected so for these they are inputs for sheet 13. So this shows that 
+AGP interrupts are also inputs to Sheet 13 whereas other PCI INTC and D 
+are only outputs from this sheet because they are routed to the VT8231 
+sheet within sheet 13 so at higher level they don't appear as both the 
+outputs and inputs of INTC and D are on Sheet 13.
 
-r~
+So I think what we have here is correct and matches the schematics where 
+PCI interrupts come from slots, they are connected to VT8231 on Sheet 13 
+but INTA and B can also come from AGP which is on sheet 4 so these are 
+also input to sheet 13, finally all of these are output towards sheet 2 
+with MV64361 that's why the top level sheet has confusing bidirectional 
+arrows but if you look at the chips the lines are input there and output 
+at the slots which is only what makes sense anyway.
+
+What is it that bothers you and Mark about this that you both want to 
+change it to something else and what makes you think this can't be right?
+
+Regards,
+BALATON Zoltan
+
+>>> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+>>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>>> Message-Id: 
+>>> <520ff9e6eeef600ee14a4116c0c7b11940cc499c.1678188711.git.balaton@eik.bme.hu>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>> ---
+>>>   hw/pci-host/mv64361.c |  4 ----
+>>>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+>>>   2 files changed, 25 insertions(+), 5 deletions(-)
+>>> 
+>>> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+>>> index 298564f1f5..19e8031a3f 100644
+>>> --- a/hw/pci-host/mv64361.c
+>>> +++ b/hw/pci-host/mv64361.c
+>>> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error 
+>>> **errp)
+>>>       }
+>>>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+>>>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+>>> -    /* FIXME: PCI IRQ connections may be board specific */
+>>> -    for (i = 0; i < PCI_NUM_PINS; i++) {
+>>> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+>>> -    }
+>>>   }
+>>>     static void mv64361_reset(DeviceState *dev)
+>>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>>> index 7cc375df05..f1650be5ee 100644
+>>> --- a/hw/ppc/pegasos2.c
+>>> +++ b/hw/ppc/pegasos2.c
+>>> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+>>>       MachineState parent_obj;
+>>>       PowerPCCPU *cpu;
+>>>       DeviceState *mv;
+>>> +    qemu_irq mv_pirq[PCI_NUM_PINS];
+>>> +    qemu_irq via_pirq[PCI_NUM_PINS];
+>>>       Vof *vof;
+>>>       void *fdt_blob;
+>>>       uint64_t kernel_addr;
+>>> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+>>>       }
+>>>   }
+>>>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
+>> 
+>> So this handler is only for A/B. We could rename it pegasos2_agp_irq()
+>> and only wire it to the first 2 pins, but I since we can only register
+>> one handler per bus, simpler to ...
+>> 
+>>> +{
+>>> +    Pegasos2MachineState *pm = opaque;
+>>> +
+>>> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
+>>> +    qemu_set_irq(pm->mv_pirq[n], level);
+>> 
+>> ... add a 'if (n < 2)' check here.
+>> 
+>>> +    qemu_set_irq(pm->via_pirq[n], level);
+>>> +}
+>> 
+>>> @@ -156,11 +167,18 @@ static void pegasos2_init(MachineState *machine)
+>>>       /* Marvell Discovery II system controller */
+>>>       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+>>>                             qdev_get_gpio_in(DEVICE(pm->cpu), 
+>>> PPC6xx_INPUT_INT)));
+>>> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+>>> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
+>>> +    }
+>>>       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+>>> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+>>>         /* VIA VT8231 South Bridge (multifunction PCI device) */
+>>>       via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 
+>>> 0),
+>>>                                                    true, 
+>>> TYPE_VT8231_ISA));
+>>> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+>> 
+>> I'd rather declare as via_pirq[2] and iterate over ARRAY_SIZE() here
+>> (and also use ARRAY_SIZE() in the new check in pegasos2_pci_irq).
+>> 
+>>> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
+>>> +    }
+>> 
+>
+--3866299591-1750224472-1678301493=:84867--
 
