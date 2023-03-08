@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2876B0930
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7448B6B091C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:32:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtrS-0001l1-RE; Wed, 08 Mar 2023 08:29:45 -0500
+	id 1pZtrY-0001sS-Mu; Wed, 08 Mar 2023 08:29:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqu-0001cR-VG
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqv-0001gE-OE
  for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:09 -0500
-Received: from mout.kundenserver.de ([212.227.17.13])
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqt-00064i-5T
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:08 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtqt-00064t-Oc
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:09 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mv2gw-1qQcxl207U-00r49U; Wed, 08
- Mar 2023 14:29:05 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MiIhU-1qF1ZH3r3W-00fQuo; Wed, 08
+ Mar 2023 14:29:06 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 08/28] linux-user: Provide print_raw_param64() for 64-bit values
-Date: Wed,  8 Mar 2023 14:28:37 +0100
-Message-Id: <20230308132857.161793-9-laurent@vivier.eu>
+Subject: [PULL 09/28] linux-user: Add strace for prlimit64() syscall
+Date: Wed,  8 Mar 2023 14:28:38 +0100
+Message-Id: <20230308132857.161793-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Dl2UHpk1T11Kv0NoMlfZjWuBvWbsFR6XxNrRGS7xmoBE63BOPcH
- XYdQOo4Sz0JJkhKmEfUsW4vCT7eweSs5m03Vfl0dkry/soalwWfE3pri95J+qDZK0oRamrg
- hpo6tQo0LZbTPQk7TgHf8qC8GVOf0EEe3idSkMlEp4Y5EShWc2DR7f9Q0BE4n6ZC/zUbjPb
- 9KEAAUC+1dKC1nUhzjiAQ==
-UI-OutboundReport: notjunk:1;M01:P0:PFYOmQFLlV0=;6BA3mvl0j/LqR5GdU0902RYzh7z
- w1zrtxR09xhmGjoBqCLqTWhqUcB0cov0FQ1NB7BCwrMgHxjBs/SgvxON0TDJs+r8LvF2f9Xn9
- WnyqmfDcvAxttVJp/T/jIqi0U/jKl/yKrazLF82SDr//MP+wg7nfQSN0iuFj2qKbl0YpBu1Mb
- IksagNNXz5L5BrC7RVf2hTG9Q7ruwYGWFmMUZbGu2OejnHKDYZrPPCvpQM+Wv2B1krEPu30dQ
- cZjXq1ztVsVd4v1gMoFPvAjK45iVnHW9FTUoRj+Vt37WZcK8BnyYVcLjCfjFRiID9Fd5t2RI5
- 8mXmHdfg8ixlEjJ17lR871p+P53gWB/v5zmTSx9aKiZUX7nM3r4rLiiC7mHuzwZ+C6wbfHwwX
- f1ECfmY69uLFgqqoo0az5beaUnofaJQnURs9LKIFxoWBcQLvr3d1h1cz2/wgJS1xBiWipp40a
- e1t6W6oE8n+muRrWj9tHPRT82sxr46JvXelVscjRs5brwmm8aPcN+29t5Zz7KA4azYlHdGYD7
- 3DPIJ2EsToBIDgyWrbUfxCif0zLmejHPLltQkCkgSd4g49cL2o8yLu5JQwGkDQD5kqmJud3fm
- JmeYU8qAIifB+AFxYjM4DQu8I9wVYKQruPoVS4qIfA2Glcg29dpnJiPuJLAOlie4f7Y7VZy1g
- 75BY2QiTlQoZgMFh089G3ru3zRQBgv+1STR88FhPGQ==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:6M5hVxpwRSnHBokNSUPrMKj6YJ0n90k3+RXU9cz0flvJVIc78tA
+ yDpardP0hJOx9Lo6MVMcQRV+jicNxSYUU2dmREoYEEfPdK7oZmHS7NKGMW/j6ZQcEuqx7w+
+ 48yas+589J/SIf3syAqMwIX6KPvANYC/nQAavaOnYxX7WUryNm5f5Tx2TziOqlQFqUNU/wm
+ oQp1ZdXbcdTOGIEFFJ96Q==
+UI-OutboundReport: notjunk:1;M01:P0:LDalLGHIaek=;0tOSvA2Si+/ET+g+YQnizkcByct
+ flMenRVnYOcCcbnVe3KcJnb8BFHjrb5QaGR+zLxoDEBXIVCvEW+VY4kCWULw7ZS7P80wmY5Sv
+ JQlsJ055enb40zgvNCG4LOdf0fwv2COJbRDFbBlpk6TryY0KjB0RCOnDQ24wz98Ki5SQ/9CPY
+ 4TVjzlIEJQZ2Mm16WlgjL+QGVSauPmK9iUbmyHbbJVkRfJ3/F2+gw/WJEe7mhMiEzBeEYIrFS
+ 2rPvBwDE6vBWSqm0NW9wNpBz9suZxmA8icMhGdmnIYctavwjOPYrx6JdCuopNHq2Ls/meFHAe
+ eLkebMvZl35JeTnd3me96tu6f6MgjT6qcXVLOO/gFChhqACdlYFt3M5gpLn1S2p+GWpn7Q1hg
+ WezGrwXceoeIFuSWn60s8Os93poFEer/UoTo7e7FqsEkflubxRJVoHQKh8l6UhmaJm/fyRCSf
+ QxgFHRjeQ9wdrBDhsYpVQRAJ9mRGW/bX9LQQldQdwTCTl2BQnHKJVSKaSCXqZK8mHFFS+duQ+
+ UXD+hwGhdZ1VuxA/mrkqNnjoMxcOBlW6NQYpqHm3nzT+/3/RHBOExrFrTVAADTjiJ6bsPC1PG
+ lcoj0KLSwnN7+Fv9f4XXvZeh2ZATKvawzMebrvqThTYhzcC+uMh8HTgzUoj53WxIsPJotZA2q
+ OLSKkciXx8w8IIdjJdMNvN5y1ddzMDHRXnXTdAP9/A==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,71 +71,131 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
-Add a new function print_raw_param64() to print 64-bit values in the
-same way as print_raw_param(). This prevents that qemu_log() is used to
-work around the problem that print_raw_param() can only print 32-bit
-values when compiled for 32-bit targets.
+Add proper prlimit64() strace output.
 
-Additionally convert the existing 64-bit users in print_timespec64(),
-print_rlimit64() and print_preadwrite64() over to this new function and
-drop some unneccessary spaces.
-
-Suggested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-Message-Id: <Y9lNbFNyRSUhhrHa@p100>
-[lvivier: remove print_preadwrite64 and print_rlimit64 part]
+Message-Id: <20221222190639.124078-1-deller@gmx.de>
+[lvivier: use print_raw_param64()]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ linux-user/strace.c    | 88 ++++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list |  3 +-
+ 2 files changed, 90 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 340010661c4f..2cea93aec46e 100644
+index 2cea93aec46e..e9757ed9adee 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -81,6 +81,7 @@ UNUSED static void print_syscall_epilogue(const struct syscallname *);
- UNUSED static void print_string(abi_long, int);
- UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
-+UNUSED static void print_raw_param64(const char *, long long, int last);
- UNUSED static void print_timeval(abi_ulong, int);
- UNUSED static void print_timespec(abi_ulong, int);
- UNUSED static void print_timespec64(abi_ulong, int);
-@@ -1642,6 +1643,19 @@ print_raw_param(const char *fmt, abi_long param, int last)
-     qemu_log(format, param);
+@@ -3866,6 +3866,94 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
  }
+ #endif
  
-+/*
-+ * Same as print_raw_param() but prints out raw 64-bit parameter.
-+ */
-+static void
-+print_raw_param64(const char *fmt, long long param, int last)
++#ifdef TARGET_NR_prlimit64
++static const char *target_ressource_string(abi_ulong r)
 +{
-+    char format[64];
-+
-+    (void) snprintf(format, sizeof (format), "%s%s", fmt, get_comma(last));
-+    qemu_log(format, param);
++    #define RET_RES_ENTRY(res) case TARGET_##res:  return #res;
++    switch (r) {
++    RET_RES_ENTRY(RLIMIT_AS);
++    RET_RES_ENTRY(RLIMIT_CORE);
++    RET_RES_ENTRY(RLIMIT_CPU);
++    RET_RES_ENTRY(RLIMIT_DATA);
++    RET_RES_ENTRY(RLIMIT_FSIZE);
++    RET_RES_ENTRY(RLIMIT_LOCKS);
++    RET_RES_ENTRY(RLIMIT_MEMLOCK);
++    RET_RES_ENTRY(RLIMIT_MSGQUEUE);
++    RET_RES_ENTRY(RLIMIT_NICE);
++    RET_RES_ENTRY(RLIMIT_NOFILE);
++    RET_RES_ENTRY(RLIMIT_NPROC);
++    RET_RES_ENTRY(RLIMIT_RSS);
++    RET_RES_ENTRY(RLIMIT_RTPRIO);
++#ifdef RLIMIT_RTTIME
++    RET_RES_ENTRY(RLIMIT_RTTIME);
++#endif
++    RET_RES_ENTRY(RLIMIT_SIGPENDING);
++    RET_RES_ENTRY(RLIMIT_STACK);
++    default:
++        return NULL;
++    }
++    #undef RET_RES_ENTRY
 +}
 +
++static void
++print_rlimit64(abi_ulong rlim_addr, int last)
++{
++    if (rlim_addr) {
++        struct target_rlimit64 *rl;
 +
++        rl = lock_user(VERIFY_READ, rlim_addr, sizeof(*rl), 1);
++        if (!rl) {
++            print_pointer(rlim_addr, last);
++            return;
++        }
++        print_raw_param64("{rlim_cur=%" PRId64, tswap64(rl->rlim_cur), 0);
++        print_raw_param64("rlim_max=%" PRId64 "}", tswap64(rl->rlim_max),
++                            last);
++        unlock_user(rl, rlim_addr, 0);
++    } else {
++        qemu_log("NULL%s", get_comma(last));
++    }
++}
++
++static void
++print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
++           abi_long arg0, abi_long arg1, abi_long arg2,
++           abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    const char *rlim_name;
++
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    rlim_name = target_ressource_string(arg1);
++    if (rlim_name) {
++        qemu_log("%s,", rlim_name);
++    } else {
++        print_raw_param("%d", arg1, 0);
++    }
++    print_rlimit64(arg2, 0);
++    print_pointer(arg3, 1);
++    print_syscall_epilogue(name);
++}
++
++static void
++print_syscall_ret_prlimit64(CPUArchState *cpu_env,
++                       const struct syscallname *name,
++                       abi_long ret, abi_long arg0, abi_long arg1,
++                       abi_long arg2, abi_long arg3, abi_long arg4,
++                       abi_long arg5)
++{
++    if (!print_syscall_err(ret)) {
++        qemu_log(TARGET_ABI_FMT_ld, ret);
++        if (arg3) {
++            qemu_log(" (");
++            print_rlimit64(arg3, 1);
++            qemu_log(")");
++        }
++    }
++    qemu_log("\n");
++}
++#endif
++
+ #ifdef TARGET_NR_kill
  static void
- print_pointer(abi_long p, int last)
- {
-@@ -1718,10 +1732,8 @@ print_timespec64(abi_ulong ts_addr, int last)
-             print_pointer(ts_addr, last);
-             return;
-         }
--        qemu_log("{tv_sec = %lld"
--                 ",tv_nsec = %lld}%s",
--                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->tv_nsec),
--                 get_comma(last));
-+        print_raw_param64("{tv_sec=%" PRId64, tswap64(ts->tv_sec), 0);
-+        print_raw_param64("tv_nsec=%" PRId64 "}", tswap64(ts->tv_nsec), last);
-         unlock_user(ts, ts_addr, 0);
-     } else {
-         qemu_log("NULL%s", get_comma(last));
+ print_kill(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index d8acbeec6093..f776c73fa04c 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1074,7 +1074,8 @@
+ { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_prlimit64
+-{ TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
++{ TARGET_NR_prlimit64, "prlimit64" , NULL, print_prlimit64,
++                    print_syscall_ret_prlimit64 },
+ #endif
+ #ifdef TARGET_NR_process_vm_readv
+ { TARGET_NR_process_vm_readv, "process_vm_readv" , NULL, NULL, NULL },
 -- 
 2.39.2
 
