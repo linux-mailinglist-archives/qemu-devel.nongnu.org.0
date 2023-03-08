@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C8E6AFBEE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A776AFBE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:14:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiLR-0001Y2-EY; Tue, 07 Mar 2023 20:11:53 -0500
+	id 1pZiLW-00024O-HX; Tue, 07 Mar 2023 20:11:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLQ-0001Vw-8d
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLT-0001ow-88
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLO-0001ae-Jv
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLR-0001b7-KD
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:11:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237910;
+ s=mimecast20190719; t=1678237913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8J7gZZ73EUFltGtHdVYKijIV4gpjyA4HHIFnkio3PoY=;
- b=eL0TCEcYwkWx87GkNj6ikqH6NNyoH7LcaCJCoTT19rEzcLd7iZaD9vEabbwYGaaw2LKGJX
- 5Dy8ZZBzCfm+mBBse7seJpPOZUWMEdrorWq0PksAsXGBo3NGpJkoz6uvaJ8mb49iwh3iFZ
- 5v2Pzx/6Coco1z8FeMEAC0z8ulF76SA=
+ bh=LR/2NC5b3GMc7dlS3VMn63WeWMHdgJP7N4ThX8xxwRk=;
+ b=iwsRuJTT0R4XSgE3lzPWurmQEXtT2KgjUX0+MHQCrwzW1hw6iflp55ysPAZ6gAQO5LGCgU
+ ulSsNUZcFgBwRmRyN/LwLLHOnEiG1onJTvj0i5r8ABYkAZ+Nbeg3urw7MJrcW0iFyBUM3H
+ K+1UiXK7W1GstLsODaacHqJKQRx3YuY=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-T9bvATT3P2-yKKo0exAe0g-1; Tue, 07 Mar 2023 20:11:49 -0500
-X-MC-Unique: T9bvATT3P2-yKKo0exAe0g-1
+ us-mta-515-IXKHSVFvOvufomeJqEg_fw-1; Tue, 07 Mar 2023 20:11:51 -0500
+X-MC-Unique: IXKHSVFvOvufomeJqEg_fw-1
 Received: by mail-ed1-f71.google.com with SMTP id
- w7-20020a056402268700b004bbcdf3751bso21218137edd.1
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:11:48 -0800 (PST)
+ ec11-20020a0564020d4b00b004e2cb85c8bcso12385783edb.16
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:11:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237907;
+ d=1e100.net; s=20210112; t=1678237910;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8J7gZZ73EUFltGtHdVYKijIV4gpjyA4HHIFnkio3PoY=;
- b=L/RwX6OwB73z1t+zvOcKyY9MfnAvAFOtOkbcZhcKoHc/rAVjj7f9jXj93JXHiYoHUX
- JsI7ZRCh+4Yk8r/VGoQ+wVOmV/3YhIXoJ8IB1oeMcKjyUggYnnHp0jsEZh3kcgtC5lsD
- olev6aIVlHMSeaRe4LB5nA6JpLnoe9oaq6hGxcqJi8MzVrmejClnJWGna6X0FMDVJHsV
- g2V1uXPoVtfwNTeOBKrqo6fXU+l/umsccsa8AYFyTvWcZQksCLjVoHntcT1VAx2Jqb50
- dTsZ57RdmpFszO3kca6+cpekw8I1kPd2UCK5VQj84CI8c3HqgCcKK/7x4jMeDrJHSaOW
- 8WPg==
-X-Gm-Message-State: AO0yUKWI+3Ov00yH/XjLdu3sAmlzPNGn2nkkMTPoNrI2XlKLk8rL6b7Y
- UQtpo8Ja5kPFvYWuQRoNEWfj4rf4t5rBpVpFGO2ImCCuXL2k1sf8Rghm1Vsu3sQsYR/KalSqJqu
- bO0BzhmGPKAHfQBouusIy/h5h1R36POzdfXBefU6MLgw1JlBJeDqgef/zHugx3jcmqQV2
-X-Received: by 2002:a17:907:cbc1:b0:8aa:c2bd:a71c with SMTP id
- vk1-20020a170907cbc100b008aac2bda71cmr18342232ejc.75.1678237907406; 
- Tue, 07 Mar 2023 17:11:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set8floUVvrxtGjVuHaxpf2lnwQMfnzttdQwvBLEZPOAATc6d6f3rVglFrRRNhVOoXnpT2eK+Hg==
-X-Received: by 2002:a17:907:cbc1:b0:8aa:c2bd:a71c with SMTP id
- vk1-20020a170907cbc100b008aac2bda71cmr18342215ejc.75.1678237907095; 
- Tue, 07 Mar 2023 17:11:47 -0800 (PST)
+ bh=LR/2NC5b3GMc7dlS3VMn63WeWMHdgJP7N4ThX8xxwRk=;
+ b=6V3wJrshdZGjjqTsTPIEtT5yaheeTiaThks/0ld4mWr67KvpWG4TKBmMwiM3M8xsyL
+ xBU8FcUDAb1GVdxfNuRsd36Ujc1ZfsBTsPOo7nAHtIrZ4EymrGTjs1wq2XSJKLoE9ADy
+ UeBglEIX5oXWBGUXUN9PCakEkznykuChSk7/SzXMxNWIJsnG2SVpfI9QIvgu8FVy839E
+ CKITM6n2L7Vt4FJJYkqV8KlQSljo32nxw6kCZaBR3hrI4HkIxHexK1SQ4uwqlrtsgmGe
+ 8f/cdNqMGEdeEZWgVRdneNvoBXS7UFgHNnVpFEDBT7M6/wUP/p0gKp/ZkGcfHRi+ZFNH
+ wMIQ==
+X-Gm-Message-State: AO0yUKUoUV+w+CdwdoxtFH4/o9nbDe+yVaAMsYeow01Dqvg57Fu7og3n
+ lClwaP3PHZ8O3gVXHQshZWgB2X6/jneIKhSNgY/CftrnHdEvSPXFbhnCwPVft7WjghT9bGiNdYg
+ EH2K6ShIDwOANVmBRzbENMymHUAiIBmG/z6LixnbwDPY8hs5xjOxDLp4++X7EbMj+RbDP
+X-Received: by 2002:a17:906:9b88:b0:8b1:fc:b06d with SMTP id
+ dd8-20020a1709069b8800b008b100fcb06dmr20900164ejc.77.1678237910271; 
+ Tue, 07 Mar 2023 17:11:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set/K/17pZ+A2iTPLX4H+A10afWqFexZPDu8dIWNCW1taqyIo3ApBSeKlHdkDJKA1qi6Fsguscg==
+X-Received: by 2002:a17:906:9b88:b0:8b1:fc:b06d with SMTP id
+ dd8-20020a1709069b8800b008b100fcb06dmr20900143ejc.77.1678237909967; 
+ Tue, 07 Mar 2023 17:11:49 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- w19-20020a17090633d300b009197dc4138csm178839eja.84.2023.03.07.17.11.45
+ qt2-20020a170906ece200b008e938e98046sm6735972ejb.223.2023.03.07.17.11.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:11:46 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:11:44 -0500
+ Tue, 07 Mar 2023 17:11:49 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:11:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
  Lei Yang <leiyang@redhat.com>
-Subject: [PULL 18/73] vdpa: add vhost_vdpa_suspend
-Message-ID: <0bb302a9960a186fc488068d268dc373e6b70876.1678237635.git.mst@redhat.com>
+Subject: [PULL 19/73] vdpa: move vhost reset after get vring base
+Message-ID: <c3716f260bff1bd3586a0dc3477e1febdd3a3f35.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -76,7 +76,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1678237635.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,96 +102,103 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-The function vhost.c:vhost_dev_stop fetches the vring base so the vq
-state can be migrated to other devices.  However, this is unreliable in
-vdpa, since we didn't signal the device to suspend the queues, making
-the value fetched useless.
+The function vhost.c:vhost_dev_stop calls vhost operation
+vhost_dev_start(false). In the case of vdpa it totally reset and wipes
+the device, making the fetching of the vring base (virtqueue state) totally
+useless.
 
-Suspend the device if possible before fetching first and subsequent
-vring bases.
-
-Moreover, vdpa totally reset and wipes the device at the last device
-before fetch its vrings base, making that operation useless in the last
-device. This will be fixed in later patches of this series.
+The kernel backend does not use vhost_dev_start vhost op callback, but
+vhost-user do. A patch to make vhost_user_dev_start more similar to vdpa
+is desirable, but it can be added on top.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Message-Id: <20230303172445.1089785-7-eperezma@redhat.com>
+Message-Id: <20230303172445.1089785-8-eperezma@redhat.com>
 Tested-by: Lei Yang <leiyang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 26 ++++++++++++++++++++++++++
- hw/virtio/trace-events |  1 +
- 2 files changed, 27 insertions(+)
+ include/hw/virtio/vhost-backend.h |  4 ++++
+ hw/virtio/vhost-vdpa.c            | 24 +++++++++++++++++-------
+ hw/virtio/vhost.c                 |  3 +++
+ 3 files changed, 24 insertions(+), 7 deletions(-)
 
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index c5ab49051e..ec3fbae58d 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+ 
+ typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
+                                        int fd);
++
++typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
++
+ typedef struct VhostOps {
+     VhostBackendType backend_type;
+     vhost_backend_init vhost_backend_init;
+@@ -177,6 +180,7 @@ typedef struct VhostOps {
+     vhost_get_device_id_op vhost_get_device_id;
+     vhost_force_iommu_op vhost_force_iommu;
+     vhost_set_config_call_op vhost_set_config_call;
++    vhost_reset_status_op vhost_reset_status;
+ } VhostOps;
+ 
+ int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 517e3cdc8d..aecc01c6a7 100644
+index aecc01c6a7..c9a82ce5e0 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -692,11 +692,13 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
- 
- static int vhost_vdpa_reset_device(struct vhost_dev *dev)
- {
-+    struct vhost_vdpa *v = dev->opaque;
-     int ret;
-     uint8_t status = 0;
- 
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-     trace_vhost_vdpa_reset_device(dev, status);
-+    v->suspended = false;
-     return ret;
- }
- 
-@@ -1095,6 +1097,29 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+@@ -1146,14 +1146,23 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+     if (started) {
+         memory_listener_register(&v->listener, &address_space_memory);
+         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+-    } else {
+-        vhost_vdpa_reset_device(dev);
+-        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+-                                   VIRTIO_CONFIG_S_DRIVER);
+-        memory_listener_unregister(&v->listener);
+-
+-        return 0;
      }
- }
- 
-+static void vhost_vdpa_suspend(struct vhost_dev *dev)
++
++    return 0;
++}
++
++static void vhost_vdpa_reset_status(struct vhost_dev *dev)
 +{
 +    struct vhost_vdpa *v = dev->opaque;
-+    int r;
 +
-+    if (!vhost_vdpa_first_dev(dev)) {
++    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
 +        return;
 +    }
 +
-+    if (dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_SUSPEND)) {
-+        trace_vhost_vdpa_suspend(dev);
-+        r = ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
-+        if (unlikely(r)) {
-+            error_report("Cannot suspend: %s(%d)", g_strerror(errno), errno);
-+        } else {
-+            v->suspended = true;
-+            return;
-+        }
-+    }
-+
 +    vhost_vdpa_reset_device(dev);
-+}
-+
- static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
- {
-     struct vhost_vdpa *v = dev->opaque;
-@@ -1109,6 +1134,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         }
-         vhost_vdpa_set_vring_ready(dev);
-     } else {
-+        vhost_vdpa_suspend(dev);
-         vhost_vdpa_svqs_stop(dev);
-         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
++    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
++                               VIRTIO_CONFIG_S_DRIVER);
++    memory_listener_unregister(&v->listener);
+ }
+ 
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+@@ -1337,4 +1346,5 @@ const VhostOps vdpa_ops = {
+         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+         .vhost_force_iommu = vhost_vdpa_force_iommu,
+         .vhost_set_config_call = vhost_vdpa_set_config_call,
++        .vhost_reset_status = vhost_vdpa_reset_status,
+ };
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index eb8c4c378c..a266396576 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
+                              hdev->vqs + i,
+                              hdev->vq_index + i);
      }
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index a87c5f39a2..8f8d05cf9b 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -50,6 +50,7 @@ vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
- vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
- vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
- vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "dev: %p config: %p config_len: %"PRIu32
-+vhost_vdpa_suspend(void *dev) "dev: %p"
- vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
- vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu refcnt: %d fd: %d log: %p"
- vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
++    if (hdev->vhost_ops->vhost_reset_status) {
++        hdev->vhost_ops->vhost_reset_status(hdev);
++    }
+ 
+     if (vhost_dev_has_iommu(hdev)) {
+         if (hdev->vhost_ops->vhost_set_iotlb_callback) {
 -- 
 MST
 
