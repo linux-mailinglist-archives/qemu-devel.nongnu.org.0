@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A36D6B0953
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846196B0954
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:35:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZtt0-0003u5-7W; Wed, 08 Mar 2023 08:31:33 -0500
+	id 1pZtu5-0004na-6Y; Wed, 08 Mar 2023 08:32:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtrD-0001qg-Ng
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtrG-0001qz-U9
  for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:35 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr3-00069P-Ai
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:22 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtrD-0006Be-9z
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:30 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MeC1p-1qAshQ1a8F-00bJbt; Wed, 08
- Mar 2023 14:29:15 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M4rD7-1pbozq1Vu3-001yrJ; Wed, 08
+ Mar 2023 14:29:17 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: "fanwj@mail.ustc.edu.cn" <fanwj@mail.ustc.edu.cn>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 27/28] linux-user/sparc: Handle tag overflow traps
-Date: Wed,  8 Mar 2023 14:28:56 +0100
-Message-Id: <20230308132857.161793-28-laurent@vivier.eu>
+Subject: [PULL 28/28] linux-user: fix bug about incorrect base addresss of gdt
+ on i386 and x86_64
+Date: Wed,  8 Mar 2023 14:28:57 +0100
+Message-Id: <20230308132857.161793-29-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fdFnxhXLd3aIYncrq/iT6mDur/NrRQ4i76oAaIfyo0F6fxW4iGv
- r0EdVWCS26sZED5eCQtyLkKh2PBLXNAEpbXTiZRzq1BGcslRM/zm1yv/z1rFafrbNbYpeW0
- AM1A7zIR9OKl2p75E5ziFWFkqjgeKDvRRlQnfhItMUxoUs4PoubS0BGioM3BWBtApwCqQRm
- PywD+8X3tm2f62Y2og8zg==
-UI-OutboundReport: notjunk:1;M01:P0:+MdsCgA4oBY=;tV9CkY30a0Oe8eBBNfBlSABK+KJ
- ir9qxtS1jXyB6QUPmFK3lst065qnXoNmAdOhCEucF41GwsAeHYJvQJBJBXTC+g0uoxtSOfYQS
- YRrazUwm/tGyPZLGbqHb6DM2PWpey22ufP2EdsWHzmIGCBYmA5k57o6wV19UG//FScRbioFp9
- 1ZNHCAYhaSOEh0g6S3DEkUc1Br6RXEmnfqnTIwIkY/pXAcboHZGOE6nEg+jx9a2P0ruLG6Xg3
- bLzxh88WdxbrAB98+Kdz/tta1dpqT+K92NGoaAxiWE4hQpiM8pMLZ2RhbJ+vN0hM/f674sOrT
- p/yQIM6kfQVGeK9MX1qsm3illbQZK0o0Etab4T88Toc2GB0mYnjwCnae6YzpQO7EbMHfacLgx
- 3RGA6+UUkxVfGecDFtKM8ElYd1BhdwkUKRv4Rn768CcYdIj1+PcxHIW4WTa8V/y4DtmH8EE2T
- 1del1klG4ACJ7XMrgSIe6CW2gaQBpRIilivaifXr3ynO2VqWNG+Qp9OGw+g562JkNg4bajY6U
- HC2VQCrwxi9hob/ALXiTF2WoMiHjNczMWKQC0nfCTh96qgPW1oNbjApT/7p9TbjpcMwzbLxuP
- qaRjnngTKMy2Ma4D+7HpkzQYRG9G3/dhQQ/OJCFx141MdMCo5gvlen0nwNaXLRkwmuJE04laf
- qUmhc7MyYe1wAh3aG5HeyDjiztalLJ89rPOQjw8gyA==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:/ce/HEm01mDc34IyZsFfx4HnYPlh/PawtXMSggN7zsTuxfM5ZtX
+ LtlVVMpEYWZv5PGgyK8T66rQmzjmFtqR5leFS28LsT0eVUm4meHGWuKUycO4GwY+l6BxFKZ
+ 4UcdD+rvmWD5aB8AQ8PZvky5MhojqsgD9c2eMXeW1KYhGvUofRd3VtRUy451nVXlp9zoBGk
+ bbbVRrAJc+5depC0IllrA==
+UI-OutboundReport: notjunk:1;M01:P0:80GdTV8838A=;UsOPMBOXK6z5N6giV80HdVJnawn
+ Lp9FqWuT8rcNDAVG/1hSgltwYnXVJNgmHlk/crmmFsYL8j842u/qsNLLWhT7rsFxyhcVgX1BW
+ mmoLx83oDMED70qwOuBEFqUnwCz5CrZIxPMUTRJ9M7OxJ/9xj3PibkmiOHMfi3/Des5K5wmB1
+ LIf2jVkoO89AMl2Lrsap/v/mFOn0CUiXtIJddEYZRQ+SynDS30rhOui5dgybxNHMuL2F7Ak0t
+ tCTZQnigjPA7jZLZ+1F2c2bXzmK2vzyvKaRBmDPvVxFEwbvsGI/Ir4o6pBrLinU+35ygguMXK
+ 4nmfj4uD6rZw2jwUpqABOo58IjF9h0BxS+2jlj84KHHWVcRHp0+8oDseOxxYLkampof3yAFcC
+ DuWmoJWSvMDZO2XIstP8gX2jy2ybOEcotvhnAiWlHseHcfSjJwzETWP0JctkPiDjWblc/W9Tn
+ WIHFSyeuGgM8RU3Zf/Kd7fqQpuV7kAOs3hPvCUHM9LBgeCwfJn0+8SpobxDcmg8fAPD/NKL77
+ TcFhhhqbklPS1nWsP4PduRfKH1qXS8eVJUZua4HbSAu5/sslaW/qH6+2a7iDpob2bZ+ZCdn0w
+ iC4PNmS7oFVhbBXr8QRBpCSW6JoernfL4MUNZ/aG7kTe0ZSd/mieyzImPaEwpiRlBHI2GzndG
+ XLn7KJqnmR6PjYKsMKkw6IUAtc8J0kPH3N3wbI77vA==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,62 +70,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: "fanwj@mail.ustc.edu.cn" <fanwj@mail.ustc.edu.cn>
 
-This trap is raised by taddcctv and tsubcctv insns.
+On linux user mode, CPUX86State::gdt::base from Different CPUX86State Objects have same value, It is incorrect! Every CPUX86State::gdt::base Must points to independent memory space.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230216054516.1267305-16-richard.henderson@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1405
+Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
+Message-Id: <4172b90.58b08.18631b77860.Coremail.fanwj@mail.ustc.edu.cn>
+[lv: remove unnecessary casts, split overlong line]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c      | 3 +++
- linux-user/sparc/target_signal.h | 2 +-
- linux-user/syscall_defs.h        | 5 +++++
- 3 files changed, 9 insertions(+), 1 deletion(-)
+ linux-user/i386/cpu_loop.c | 9 +++++++++
+ linux-user/main.c          | 8 ++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 5a8a71e976bc..b36bb2574b94 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -328,6 +328,9 @@ void cpu_loop (CPUSPARCState *env)
-         case TT_PRIV_INSN:
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
-             break;
-+        case TT_TOVF:
-+            force_sig_fault(TARGET_SIGEMT, TARGET_EMT_TAGOVF, env->pc);
-+            break;
- #ifdef TARGET_SPARC64
-         case TT_PRIV_ACT:
-             /* Note do_privact defers to do_privop. */
-diff --git a/linux-user/sparc/target_signal.h b/linux-user/sparc/target_signal.h
-index 87757f0c4e76..f223eb4af6a5 100644
---- a/linux-user/sparc/target_signal.h
-+++ b/linux-user/sparc/target_signal.h
-@@ -8,7 +8,7 @@
- #define TARGET_SIGTRAP           5
- #define TARGET_SIGABRT           6
- #define TARGET_SIGIOT            6
--#define TARGET_SIGSTKFLT         7 /* actually EMT */
-+#define TARGET_SIGEMT            7
- #define TARGET_SIGFPE            8
- #define TARGET_SIGKILL           9
- #define TARGET_SIGBUS           10
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 77864de57fb6..614a1cbc8e3a 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -717,6 +717,11 @@ typedef struct target_siginfo {
- #define TARGET_TRAP_HWBKPT      (4)     /* hardware breakpoint/watchpoint */
- #define TARGET_TRAP_UNK         (5)     /* undiagnosed trap */
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 865413c08f07..48511cd68875 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -314,8 +314,17 @@ void cpu_loop(CPUX86State *env)
+     }
+ }
  
-+/*
-+ * SIGEMT si_codes
-+ */
-+#define TARGET_EMT_TAGOVF      1       /* tag overflow */
++static void target_cpu_free(void *obj)
++{
++    CPUArchState* env = ((CPUState*)obj)->env_ptr;
++    target_munmap(env->gdt.base, sizeof(uint64_t) * TARGET_GDT_ENTRIES);
++    g_free(obj);
++}
 +
- #include "target_resource.h"
+ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+ {
++    CPUState* cpu = env_cpu(env);
++    OBJECT(cpu)->free = target_cpu_free;
+     env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
+     env->hflags |= HF_PE_MASK | HF_CPL_MASK;
+     if (env->features[FEAT_1_EDX] & CPUID_SSE) {
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 798fdc0bce8e..69ca5a4b9b08 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -238,6 +238,14 @@ CPUArchState *cpu_copy(CPUArchState *env)
  
- struct target_pollfd {
+     new_cpu->tcg_cflags = cpu->tcg_cflags;
+     memcpy(new_env, env, sizeof(CPUArchState));
++#if defined(TARGET_I386) || defined(TARGET_X86_64)
++    new_env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
++                                    PROT_READ|PROT_WRITE,
++                                    MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
++    memcpy(g2h_untagged(new_env->gdt.base), g2h_untagged(env->gdt.base),
++           sizeof(uint64_t) * TARGET_GDT_ENTRIES);
++    OBJECT(new_cpu)->free = OBJECT(cpu)->free;
++#endif
+ 
+     /* Clone all break/watchpoints.
+        Note: Once we support ptrace with hw-debug register access, make sure
 -- 
 2.39.2
 
