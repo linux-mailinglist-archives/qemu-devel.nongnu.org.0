@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FD66AFBFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:16:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6436AFBE7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:14:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiLd-0002LE-86; Tue, 07 Mar 2023 20:12:05 -0500
+	id 1pZiM5-0003b9-QK; Tue, 07 Mar 2023 20:12:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLb-0002I0-EB
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLj-0002xY-Ux
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLZ-0001bi-Ot
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiLi-0001dX-AW
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:12:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237921;
+ s=mimecast20190719; t=1678237929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UuFH6NlrsTnaJq6Zh/BJrEuKPkPGNQB+Ipy4umSvtP0=;
- b=SYRT9Pe2sC7zOPs2Obf1CVc04wnT/4aB+h21xdpaTRWB1yqeVpCpL7QCvi2bphaUFhuzbf
- YIhbHX+a9w1MFKkPyCB06K+GDw3fATX/GfNf8m2Hri9Jsa38XjOaudAmRrRFcRH4WlEBet
- zDwpKgMPc2Dc7mq8ZJ865qySx6FjBPI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NTGWe/7pl2LtGkXf67BPThJG4gqOmFwAmyUVCwtNab0=;
+ b=UbX3hgy0hRCxHVtIPAoL7OF86i0l5xL9okWPdxnfcmHwhU6UiPE3XRJiawN9wTGgawEJd3
+ ZpF9+bSerMLP2YYn4ydo0T7UOLuIdQBcquLQ2i6XxbnU99npbULtOzQXW7P0BrdQ6VJTzG
+ Nn1HAcNjcFNMp6gt7WTFJaVAGHijM9w=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-9RL1nWXMOyOEQP0fB4l-TA-1; Tue, 07 Mar 2023 20:12:00 -0500
-X-MC-Unique: 9RL1nWXMOyOEQP0fB4l-TA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- h15-20020a056402280f00b004bf9e193c23so21672367ede.11
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:12:00 -0800 (PST)
+ us-mta-335-e2jdFNBdOdKr1K5KEl0tlQ-1; Tue, 07 Mar 2023 20:12:02 -0500
+X-MC-Unique: e2jdFNBdOdKr1K5KEl0tlQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b7-20020a056402350700b004d2a3d5cd3fso16147457edd.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:12:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237918;
+ d=1e100.net; s=20210112; t=1678237921;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UuFH6NlrsTnaJq6Zh/BJrEuKPkPGNQB+Ipy4umSvtP0=;
- b=XmJI5Xv1D1vv/xaqR+4LzF55pOSuPHOaMg3c5cD+kK0n4kxavmILcaN8u8DihmQKzc
- iVtzRGqmqxU2qdgFfpio1aPZq7HiYtAzQaGet0ujMEXmMYwR493OOpx+DXbf2PLXjpdr
- QWuox8wXetYTBeFucCYjbNBBsweFbI1J4vwLYGl3y6V5F4UzG95z8SS49DbmxPVTmink
- akGvRbK0KXc28+r9YPyDJZviaBUlZ12gkAPGnzyHRu6ymuqr8Fs61KL3kIZr5ZJM7BKv
- qZJ/7Rt20nc9VQ6g7RZUZ1cLnX9C2SEcrWwiH3cYg/LnU1eJRX5BmYPYL9U/xtV/kvnV
- ridA==
-X-Gm-Message-State: AO0yUKXygJWOd1qrc6d4KawZugxVZO/EbOHiVZCr6RXqcMHs5sgrEXp6
- ucK+R9XWkt2BzWPUDVsWhiGoJOjcdnUzgUz7Q1L+Cooo7stYqQd+6uhvmtOhWUKbtridOhwWSJE
- ynpAzAsIfy9Yg45YHz/8zWebGsKxCJfj0FSi5c5DQm154F/p3LwF3i1V57Ox/kJ79Vmap
-X-Received: by 2002:a17:906:6a18:b0:8a9:e031:c4ae with SMTP id
- qw24-20020a1709066a1800b008a9e031c4aemr21687154ejc.2.1678237918638; 
- Tue, 07 Mar 2023 17:11:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set/hLRCgZ+41dOBU36SZ/y2mHU7EC97RXRvThTl1V3/hZEpuzn2D+P1kZbnctccBKXlNQy1QeA==
-X-Received: by 2002:a17:906:6a18:b0:8a9:e031:c4ae with SMTP id
- qw24-20020a1709066a1800b008a9e031c4aemr21687139ejc.2.1678237918381; 
- Tue, 07 Mar 2023 17:11:58 -0800 (PST)
+ bh=NTGWe/7pl2LtGkXf67BPThJG4gqOmFwAmyUVCwtNab0=;
+ b=7S96jCpe4MJxzHvdXvCvcr3MtIXyI0OsTaLVd/aI3WakxEN5ihUPfLm4vUw6OEJ2xM
+ Qil+ljJEgmi4B0WB+c11ntdk3Q+rpUglMtPTjI7iYRScleihlEc+KIvn0ZaLNOetqPz2
+ hWviTJei+vixieWZQ9eI2F4WywSGy+4VsFWWSip23UH48MbZfAq6Lld0owGf1r5krGy8
+ GHzMu9ULVKFaGBE1+8yiYIWNAwDWSIhWfmKcFxAFGcfwkucomFiW12rcYMNrn5v6YZaj
+ rusx+NjCPXMQIo+GVvyK2SqemCZiyWrlS4LU7+/FsZK9NyJGz4YKOn16B9E6Nsmms2EA
+ wTUg==
+X-Gm-Message-State: AO0yUKVWlvusTGIV653rm0/6EgB28Ki1vYqHXzPCM984V7p2oqXob7/3
+ /zSHgxMra1rYlrcwwUwOhAT+03NJ21FcLcVEuFDEKadE90HKnbFp+ALFBVApodH7YLhTatlQCby
+ SvEYSngaqzFTeugLi+W5ASJzrxA+NB6jLWPMUFicUrgW0XXhHZix8D3s4kWp4Jlv5MYY9
+X-Received: by 2002:a17:907:6e25:b0:878:54e3:e3e1 with SMTP id
+ sd37-20020a1709076e2500b0087854e3e3e1mr20527869ejc.73.1678237921507; 
+ Tue, 07 Mar 2023 17:12:01 -0800 (PST)
+X-Google-Smtp-Source: AK7set8DUpOU7QS6qISDaILLKeDZ+CWtJ4Vha4a1VIxT4X4VQ0MBhixGTyn1bq3juX5fUq6sP/R0nQ==
+X-Received: by 2002:a17:907:6e25:b0:878:54e3:e3e1 with SMTP id
+ sd37-20020a1709076e2500b0087854e3e3e1mr20527854ejc.73.1678237921272; 
+ Tue, 07 Mar 2023 17:12:01 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- dt9-20020a170906b78900b008dd76b67ae6sm6833435ejb.175.2023.03.07.17.11.57
+ t26-20020a1709060c5a00b008ec793ac3f4sm6726429ejf.192.2023.03.07.17.11.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:11:57 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:11:55 -0500
+ Tue, 07 Mar 2023 17:12:00 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:11:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
  Lei Yang <leiyang@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 22/73] vdpa net: block migration if the device has CVQ
-Message-ID: <9c363cf6d5982c568431531a8da26ccb0fcb3038.1678237635.git.mst@redhat.com>
+Subject: [PULL 23/73] vdpa: block migration if device has unsupported features
+Message-ID: <5c1ebd4c432eda629aeb7a4ecab45220d0272616.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -76,7 +76,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1678237635.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,64 +102,72 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-Devices with CVQ need to migrate state beyond vq state.  Leaving this to
-future series.
+A vdpa net device must initialize with SVQ in order to be migratable at
+this moment, and initialization code verifies some conditions.  If the
+device is not initialized with the x-svq parameter, it will not expose
+_F_LOG so the vhost subsystem will block VM migration from its
+initialization.
+
+Next patches change this, so we need to verify migration conditions
+differently.
+
+QEMU only supports a subset of net features in SVQ, and it cannot
+migrate state that cannot track or restore in the destination.  Add a
+migration blocker if the device offers an unsupported feature.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Message-Id: <20230303172445.1089785-11-eperezma@redhat.com>
+Message-Id: <20230303172445.1089785-12-eperezma@redhat.com>
 Tested-by: Lei Yang <leiyang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h | 1 +
- hw/virtio/vhost-vdpa.c         | 1 +
- net/vhost-vdpa.c               | 9 +++++++++
- 3 files changed, 11 insertions(+)
+ net/vhost-vdpa.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 4a7d396674..c278a2a8de 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -50,6 +50,7 @@ typedef struct vhost_vdpa {
-     const VhostShadowVirtqueueOps *shadow_vq_ops;
-     void *shadow_vq_ops_opaque;
-     struct vhost_dev *dev;
-+    Error *migration_blocker;
-     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
- } VhostVDPA;
- 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 49afa59261..e9167977d5 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -438,6 +438,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-     v->msg_type = VHOST_IOTLB_MSG_V2;
-     vhost_vdpa_init_svq(dev, v);
- 
-+    error_propagate(&dev->migration_blocker, v->migration_blocker);
-     if (!vhost_vdpa_first_dev(dev)) {
-         return 0;
-     }
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 167b43679d..533ba54317 100644
+index 533ba54317..1089c35959 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -828,6 +828,15 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
-+
-+        /*
-+         * TODO: We cannot migrate devices with CVQ as there is no way to set
-+         * the device state (MAC, MQ, etc) before starting the datapath.
-+         *
-+         * Migration blocker ownership now belongs to s->vhost_vdpa.
-+         */
-+        error_setg(&s->vhost_vdpa.migration_blocker,
-+                   "net vdpa cannot migrate with CVQ feature");
+@@ -795,7 +795,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+                                        int nvqs,
+                                        bool is_datapath,
+                                        bool svq,
+-                                       struct vhost_vdpa_iova_range iova_range)
++                                       struct vhost_vdpa_iova_range iova_range,
++                                       uint64_t features)
+ {
+     NetClientState *nc = NULL;
+     VhostVDPAState *s;
+@@ -818,7 +819,10 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+     s->vhost_vdpa.shadow_vqs_enabled = svq;
+     s->vhost_vdpa.iova_range = iova_range;
+     s->vhost_vdpa.shadow_data = svq;
+-    if (!is_datapath) {
++    if (queue_pair_index == 0) {
++        vhost_vdpa_net_valid_svq_features(features,
++                                          &s->vhost_vdpa.migration_blocker);
++    } else if (!is_datapath) {
+         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
+                                             vhost_vdpa_net_cvq_cmd_page_len());
+         memset(s->cvq_cmd_out_buffer, 0, vhost_vdpa_net_cvq_cmd_page_len());
+@@ -956,7 +960,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     for (i = 0; i < queue_pairs; i++) {
+         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+                                      vdpa_device_fd, i, 2, true, opts->x_svq,
+-                                     iova_range);
++                                     iova_range, features);
+         if (!ncs[i])
+             goto err;
      }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
+@@ -964,7 +968,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     if (has_cvq) {
+         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+                                  vdpa_device_fd, i, 1, false,
+-                                 opts->x_svq, iova_range);
++                                 opts->x_svq, iova_range, features);
+         if (!nc)
+             goto err;
+     }
 -- 
 MST
 
