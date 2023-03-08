@@ -2,109 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04076B0C9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 16:25:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1B06B0CAA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 16:29:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZvei-0006kl-Vb; Wed, 08 Mar 2023 10:24:40 -0500
+	id 1pZvhp-0000jO-As; Wed, 08 Mar 2023 10:27:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pZved-0006ju-7B; Wed, 08 Mar 2023 10:24:35 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pZveb-0008Lp-8w; Wed, 08 Mar 2023 10:24:34 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 328EGrIh028349; Wed, 8 Mar 2023 15:24:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=cwv9W1Z1/PryWc40CBifjaXA3AIX0Q8YofBF3zmmnxA=;
- b=eThgYWtebwwHMz+uj9y5ZSt1VTU0nGRyjxgfv4Rawt4IrIsCOSF+dg5qwpPuggDbXrC9
- Dp6RNOGLSpVFw0JO56nZN75/2+ubePMcSURZg1RXgXCaB3WsQkJmq2+rqCPbE+tEAvGE
- uMGbFzQtSMFOcL/enESkJAcfd/Df0to6jka7bOz9RXQFRFYMioIhrwXLQO3gSoDq4cLd
- R4ZMfY3umdWhcD+aJkow+j1CovwAdT4h76is9jW6DPdvCGJe9IMr4lwFAmDu67srEpTi
- mrQdvhSxONstAGSSS9jQBK5iFG2xviy6vLlbIIUh6MYR9pmSxeenpFjdiba4LKubgWLC BA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p6pmxa5cg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Mar 2023 15:24:27 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 328FIWqG009241;
- Wed, 8 Mar 2023 15:24:26 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p6pmxa5ba-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Mar 2023 15:24:26 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3280dFnK002812;
- Wed, 8 Mar 2023 15:24:23 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3p6g0pgr15-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Mar 2023 15:24:23 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 328FOKo040042982
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Mar 2023 15:24:20 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E267220040;
- Wed,  8 Mar 2023 15:24:19 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 84D1F2004D;
- Wed,  8 Mar 2023 15:24:18 +0000 (GMT)
-Received: from [9.179.28.81] (unknown [9.179.28.81])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Wed,  8 Mar 2023 15:24:18 +0000 (GMT)
-Message-ID: <c924933e-4814-e7d8-e62b-76cc7f68fba4@linux.ibm.com>
-Date: Wed, 8 Mar 2023 16:24:17 +0100
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pZvhm-0000Zt-5B
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 10:27:50 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pZvhj-0000ve-W3
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 10:27:49 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so2731513pjg.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 07:27:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1678289265;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=A29QZiknsGn9+f5C+jCgpVc2MBqMyfVLkxw6alIqb28=;
+ b=e7PLaSCDy6vUt4x1wpGa9jMDfJhnX3kJF9phIq77cqUVpzpUpVDjScFeBR4av4qHwr
+ buT2LqXaAlCNXDhHdvJj4c5RC8HkAyA3B0dhB0cG0+Lhrw9D+PCiFbdb49Td/y2jyjjs
+ M8rWMWUsp1XZrCXoqkWgs1ZWmoHr2dImHgMwAP0neNJAYJq/k09aRY/RPpMF6ZsecfrX
+ 3lzwk3h4nSkEgJNurA2DVWHkV3lBO4ZIjddP7gEnomg3kJimks2/43ytM50FPGB+rI3B
+ /IfSELvo6f5LZEIz3oF9TZ4hCnho3LIgj9xq8PcbRSW+nVNjSy2eR/mJyEh0HCZUQKj3
+ UIWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678289265;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=A29QZiknsGn9+f5C+jCgpVc2MBqMyfVLkxw6alIqb28=;
+ b=7el04/Qc4ozJX0CvJTIsP/OOuBB9OEsgCUKOquWalbMY4v414jI0+CafmrY4AxCpsm
+ gnJiqLK4mbplM/cXLh3PXJTxLbzgO9ecR7g4y6bKWSBayTsgEJhu3WqYQKAmc4JT4vzk
+ WEszFR9ZdajcEufq6AEZaqdY575mTW4/co4xp6vdUZRXySAoPI40wvrL9OEqh8WO+1vV
+ hxhbUhv1YdXz/I3gW92crCd6Mm8OvZvID+OLAmnZcZ59nXSWUvZkZ+lr06jVNcR0h44U
+ nSY8DBhSSvLHda05BG1fmMyLyxatDWokuzKAKUyfZd1+HV3XtlU7u58MHp94BfT40buh
+ TMpw==
+X-Gm-Message-State: AO0yUKVmwSXAIn/M8L4e1DP3IhkRywVYTDj+f0gPPSICDl9MVxqpyZfC
+ 9rsMEuuYhQbL1G7o7JPHQObDeg==
+X-Google-Smtp-Source: AK7set+lNW2UmMQgLy4pw5wu0aVKeAkx6po60Sm0t8rJCPe+OdYmO9OIV31Tuznmjlteqc5QzFElmA==
+X-Received: by 2002:a17:903:2349:b0:19e:64b9:41c6 with SMTP id
+ c9-20020a170903234900b0019e64b941c6mr24220629plh.60.1678289264961; 
+ Wed, 08 Mar 2023 07:27:44 -0800 (PST)
+Received: from [10.200.9.28] ([139.177.225.230])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020a170903024e00b0019462aa090bsm9973529plh.284.2023.03.08.07.27.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Mar 2023 07:27:44 -0800 (PST)
+Message-ID: <827ec45d-7970-36d5-2dec-48f858369636@bytedance.com>
+Date: Wed, 8 Mar 2023 23:27:40 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v16 03/11] target/s390x/cpu topology: handle STSI(15) and
- build the SYSIB
-Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-4-pmorel@linux.ibm.com>
- <01fa83156fa7452b0e45fe9df8d799b1f3589295.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <01fa83156fa7452b0e45fe9df8d799b1f3589295.camel@linux.ibm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
+ non-iterable vmstate
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
+ <ZAUSPo9bJO0udf9p@x1n> <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
+ <ZAZRn9eNG1TEoEl1@x1n> <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
+ <ZAdupAAJjbSbJiss@x1n>
+ <CALophus_dTA6U3zGP6u0YnRr65GrhF665mBtX7SkBdLMVJKxBw@mail.gmail.com>
+ <ZAiir3qXiYr/Stma@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+In-Reply-To: <ZAiir3qXiYr/Stma@x1n>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: FIJRCvJGtB0jao56Vh1zzl99z4AZhk_L
-X-Proofpoint-ORIG-GUID: VsJ2ubrDMumfjN9nyfk1NvkvVR8vszZF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-08_08,2023-03-08_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303080129
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_LOCAL_NOVOWEL=0.5,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,165 +102,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi, Peter,
 
-On 2/27/23 14:21, Nina Schoetterl-Glausch wrote:
-> On Wed, 2023-02-22 at 15:20 +0100, Pierre Morel wrote:
->> On interception of STSI(15.1.x) the System Information Block
->> (SYSIB) is built from the list of pre-ordered topology entries.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/cpu-topology.h |  21 +++
->>   include/hw/s390x/sclp.h         |   1 +
->>   target/s390x/cpu.h              |  72 ++++++++
->>   hw/s390x/cpu-topology.c         |  14 +-
->>   target/s390x/kvm/cpu_topology.c | 312 ++++++++++++++++++++++++++++++++
->>   target/s390x/kvm/kvm.c          |   5 +-
->>   target/s390x/kvm/meson.build    |   3 +-
->>   7 files changed, 425 insertions(+), 3 deletions(-)
->>   create mode 100644 target/s390x/kvm/cpu_topology.c
->>
->> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->> index fa7f885a9f..8dc42d2942 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -16,8 +16,29 @@
->>   
->>   #define S390_TOPOLOGY_CPU_IFL   0x03
->>   
->> +typedef union s390_topology_id {
->> +    uint64_t id;
->> +    struct {
->> +        uint8_t level5;
-> You could rename this to sentinel, since that's the only use case and
-> if there ever is another level the sentinel implementation might need
-> to be changed anyway.
-
-
-OK
-
-
+On 2023/3/8 下午10:58, Peter Xu wrote:
+> On Wed, Mar 08, 2023 at 06:03:45AM -0800, Chuang Xu wrote:
+>> IIUC, Do you mean that different ways to get flatview are tricky?
+> Yes, and properly define when to use which.
 >
->> +        uint8_t drawer;
->> +        uint8_t book;
->> +        uint8_t socket;
->> +        uint8_t dedicated;
->> +        uint8_t entitlement;
->> +        uint8_t type;
->> +        uint8_t origin;
->> +    };
->> +} s390_topology_id;
->> +
->>
-> [...]
+>> As you said, it's slightly beyond what this series does. Maybe it would be
+>> better if we discuss it in a new series and keep this series at v6?
+>> what's your take?
+> Quotting your test result:
 >
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index d654267a71..c899f4e04b 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -560,6 +560,25 @@ typedef struct SysIB_322 {
->>
-> [...]
->>   
->> +/*
->> + * CPU Topology List provided by STSI with fc=15 provides a list
->> + * of two different Topology List Entries (TLE) types to specify
->> + * the topology hierarchy.
->> + *
->> + * - Container Topology List Entry
->> + *   Defines a container to contain other Topology List Entries
->> + *   of any type, nested containers or CPU.
->> + * - CPU Topology List Entry
->> + *   Specifies the CPUs position, type, entitlement and polarization
->> + *   of the CPUs contained in the last Container TLE.
->> + *
->> + * There can be theoretically up to five levels of containers, QEMU
->> + * uses only three levels, the drawer's, book's and socket's level.
->> + *
->> + * A container of with a nesting level (NL) greater than 1 can only
-> s/of//
-
-
-thanks.
-
-
+>                          time of loading non-iterable vmstate
+> before                                  112 ms
+> long's patch applied                    103 ms
+> my patch applied                         44 ms
+> both applied                             39 ms
+> add as_to_flat_rcu                       19 ms
 >
->> + * contain another container of nesting level NL-1.
->> + *
->> + * A container of nesting level 1 (socket), contains as many CPU TLE
->> + * as needed to describe the position and qualities of all CPUs inside
->> + * the container.
->> + * The qualities of a CPU are polarization, entitlement and type.
->> + *
->> + * The CPU TLE defines the position of the CPUs of identical qualities
->> + * using a 64bits mask which first bit has its offset defined by
->> + * the CPU address orgin field of the CPU TLE like in:
->> + * CPU address = origin * 64 + bit position within the mask
->> + *
->> + */
->> +/* Container type Topology List Entry */
->> +typedef struct SysIBTl_container {
->> +        uint8_t nl;
->> +        uint8_t reserved[6];
->> +        uint8_t id;
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
->> +
-> [...]
->> +
->> +/**
->> + * s390_topology_from_cpu:
->> + * @cpu: The S390CPU
->> + *
->> + * Initialize the topology id from the CPU environment.
->> + */
->> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
->> +{
->> +    s390_topology_id topology_id = {0};
->> +
->> +    topology_id.drawer = cpu->env.drawer_id;
->> +    topology_id.book = cpu->env.book_id;
->> +    topology_id.socket = cpu->env.socket_id;
->> +    topology_id.origin = cpu->env.core_id / 64;
->> +    topology_id.type = S390_TOPOLOGY_CPU_IFL;
->> +    topology_id.dedicated = cpu->env.dedicated;
->> +
->> +    if (s390_topology.polarization == S390_CPU_POLARIZATION_VERTICAL) {
->> +        /*
->> +         * Vertical polarization with dedicated CPU implies
->> +         * vertical high entitlement.
->> +         */
->> +        if (topology_id.dedicated) {
->> +            topology_id.entitlement = S390_CPU_ENTITLEMENT_HIGH;
->> +        } else {
->> +            topology_id.entitlement = cpu->env.entitlement;
->> +        }
-> I don't see why you need this if, it should already be correct.
+> If introducing address_space_to_flatview_rcu() can further half the time,
+> maybe still worth it?
 >
->> +    }
-> I'd suggest the following:
-> * rename entitlement in s390_topology_id back to polarization, but keep entitlement everywhere else.
-> * remove horizontal/none from CpuS390Entitlement, this way the user cannot set it,
-> 	and it doesn't show up in the output of query-cpus-fast.
-> * this is where you convert between the two, so:
-> 	if horizontal, id.polarization = 0,
-> 	otherwise id.polarization = entitlement + 1, or a switch case.
-> * in patch 6 in s390_topology_set_cpus_entitlement you don't set the entitlement if the polarization
-> 	is horizontal, which is ok because of the conversion above.
+> The thing is the extra _rcu() doesn't bring the major complexity, IMHO.  It
+> brings some on identifying which is really safe to not reference a latest
+> flatview (it seems to me only during a commit() hook..).
+>
+> The major complexity still comes from the nested enforced commit() during
+> address_space_to_flatview() but that is already in the patchset.
+>
+> Thanks,
+>
+OK, let me continue to finish v7.
 
-I do not like to remove the horizontal entitlement from the enum because 
-every
-existing s390 tool show "horizontal" entitlement when the polarization 
-is horizontal.
+Here I list some TODOs in v7:
 
-See, lscpu -e or "/sys/devices/system/cpu/cpu*/polarization"
+1. squash fix into patch1 of yours.
+2. introduce address_space_to_flatview_rcu()
+3. add specific comment to define when to use which as_to_flat()
+4. Does enforce commit() need further modification or keep current status?
+    Looks like you have some new thoughts on it?
 
-Also, the user may find strange that a field is missing depending of the 
-polarization in the output of query-cpu-fast.
+Are there any other missing points?
 
-Regards,
-
-Pierre
-
+Thanks!
 
 
