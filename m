@@ -2,42 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF76E6B0F96
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAC16B0F8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:00:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8J-0004aB-Om; Wed, 08 Mar 2023 11:59:19 -0500
+	id 1pZx8b-0004sS-4n; Wed, 08 Mar 2023 11:59:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8H-0004Yk-3c; Wed, 08 Mar 2023 11:59:17 -0500
+ id 1pZx8S-0004iN-I4; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8E-00045l-5a; Wed, 08 Mar 2023 11:59:16 -0500
+ id 1pZx8M-00047g-3m; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id A17C94010B;
- Wed,  8 Mar 2023 19:58:37 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 146F8400E8;
+ Wed,  8 Mar 2023 19:58:57 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 60AB013A;
- Wed,  8 Mar 2023 19:58:36 +0300 (MSK)
-Received: (nullmailer pid 2098344 invoked by uid 1000);
- Wed, 08 Mar 2023 16:58:34 -0000
+ by tsrv.corpit.ru (Postfix) with SMTP id DA5F513A;
+ Wed,  8 Mar 2023 19:58:55 +0300 (MSK)
+Received: (nullmailer pid 2098371 invoked by uid 1000);
+ Wed, 08 Mar 2023 16:58:55 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
 Cc: qemu-stable@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 33/47] vhost-user-gpio: Configure vhost_dev when connecting
-Date: Wed,  8 Mar 2023 19:57:36 +0300
-Message-Id: <20230308165815.2098148-33-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 38/47] hw/timer/hpet: Fix expiration time overflow
+Date: Wed,  8 Mar 2023 19:57:41 +0300
+Message-Id: <20230308165815.2098148-38-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -63,85 +60,81 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-vhost_dev_cleanup(), called from vu_gpio_disconnect(), clears vhost_dev
-so vhost-user-gpio must set the members of vhost_dev each time
-connecting.
+The expiration time provided for timer_mod() can overflow if a
+ridiculously large value is set to the comparator register. The
+resulting value can represent a past time after rounded, forcing the
+timer to fire immediately. If the timer is configured as periodic, it
+will rearm the timer again, and form an endless loop.
 
-do_vhost_user_cleanup() should also acquire the pointer to vqs directly
-from VHostUserGPIO instead of referring to vhost_dev as it can be called
-after vhost_dev_cleanup().
+Check if the expiration value will overflow, and if it will, stop the
+timer instead of rearming the timer with the overflowed time.
 
-Fixes: 27ba7b027f ("hw/virtio: add boilerplate for vhost-user-gpio device")
+This bug was found by Alexander Bulekov when fuzzing igb, a new
+network device emulation:
+https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
+
+The fixed test case is:
+fuzz/crash_2d7036941dcda1ad4380bb8a9174ed0c949bcefd
+
+Fixes: 16b29ae180 ("Add HPET emulation to qemu (Beth Kon)")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-Id: <20230130140320.77999-1-akihiko.odaki@daynix.com>
-Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20230131030037.18856-1-akihiko.odaki@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit daae36c13abc73cf1055abc2d33cb71cc5d34310)
+(cherry picked from commit 37d2bcbc2a4e9c2e9061bec72a32c7e49b9f81ec)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/virtio/vhost-user-gpio.c         | 10 ++++++----
- include/hw/virtio/vhost-user-gpio.h |  2 +-
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/timer/hpet.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index 5851cb3bc9..72af765f33 100644
---- a/hw/virtio/vhost-user-gpio.c
-+++ b/hw/virtio/vhost-user-gpio.c
-@@ -16,6 +16,7 @@
- #include "trace.h"
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 9520471be2..5f88ffdef8 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -352,6 +352,16 @@ static const VMStateDescription vmstate_hpet = {
+     }
+ };
  
- #define REALIZE_CONNECTION_RETRIES 3
-+#define VHOST_NVQS 2
- 
- /* Features required from VirtIO */
- static const int feature_bits[] = {
-@@ -201,8 +202,7 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserGPIO *gpio)
- {
-     virtio_delete_queue(gpio->command_vq);
-     virtio_delete_queue(gpio->interrupt_vq);
--    g_free(gpio->vhost_dev.vqs);
--    gpio->vhost_dev.vqs = NULL;
-+    g_free(gpio->vhost_vqs);
-     virtio_cleanup(vdev);
-     vhost_user_cleanup(&gpio->vhost_user);
- }
-@@ -222,6 +222,9 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
-     vhost_dev_set_config_notifier(vhost_dev, &gpio_ops);
-     gpio->vhost_user.supports_config = true;
- 
-+    gpio->vhost_dev.nvqs = VHOST_NVQS;
-+    gpio->vhost_dev.vqs = gpio->vhost_vqs;
++static void hpet_arm(HPETTimer *t, uint64_t ticks)
++{
++    if (ticks < ns_to_ticks(INT64_MAX / 2)) {
++        timer_mod(t->qemu_timer,
++                  qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ticks_to_ns(ticks));
++    } else {
++        timer_del(t->qemu_timer);
++    }
++}
 +
-     ret = vhost_dev_init(vhost_dev, &gpio->vhost_user,
-                          VHOST_BACKEND_TYPE_USER, 0, errp);
-     if (ret < 0) {
-@@ -331,10 +334,9 @@ static void vu_gpio_device_realize(DeviceState *dev, Error **errp)
+ /*
+  * timer expiration callback
+  */
+@@ -374,13 +384,11 @@ static void hpet_timer(void *opaque)
+             }
+         }
+         diff = hpet_calculate_diff(t, cur_tick);
+-        timer_mod(t->qemu_timer,
+-                       qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + (int64_t)ticks_to_ns(diff));
++        hpet_arm(t, diff);
+     } else if (t->config & HPET_TN_32BIT && !timer_is_periodic(t)) {
+         if (t->wrap_flag) {
+             diff = hpet_calculate_diff(t, cur_tick);
+-            timer_mod(t->qemu_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-                           (int64_t)ticks_to_ns(diff));
++            hpet_arm(t, diff);
+             t->wrap_flag = 0;
+         }
+     }
+@@ -407,8 +415,7 @@ static void hpet_set_timer(HPETTimer *t)
+             t->wrap_flag = 1;
+         }
+     }
+-    timer_mod(t->qemu_timer,
+-                   qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + (int64_t)ticks_to_ns(diff));
++    hpet_arm(t, diff);
+ }
  
-     virtio_init(vdev, VIRTIO_ID_GPIO, sizeof(gpio->config));
- 
--    gpio->vhost_dev.nvqs = 2;
-     gpio->command_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
-     gpio->interrupt_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
--    gpio->vhost_dev.vqs = g_new0(struct vhost_virtqueue, gpio->vhost_dev.nvqs);
-+    gpio->vhost_vqs = g_new0(struct vhost_virtqueue, VHOST_NVQS);
- 
-     gpio->connected = false;
- 
-diff --git a/include/hw/virtio/vhost-user-gpio.h b/include/hw/virtio/vhost-user-gpio.h
-index 4fe9aeecc0..c17a5a351a 100644
---- a/include/hw/virtio/vhost-user-gpio.h
-+++ b/include/hw/virtio/vhost-user-gpio.h
-@@ -23,7 +23,7 @@ struct VHostUserGPIO {
-     VirtIODevice parent_obj;
-     CharBackend chardev;
-     struct virtio_gpio_config config;
--    struct vhost_virtqueue *vhost_vq;
-+    struct vhost_virtqueue *vhost_vqs;
-     struct vhost_dev vhost_dev;
-     VhostUserState vhost_user;
-     VirtQueue *command_vq;
+ static void hpet_del_timer(HPETTimer *t)
 -- 
 2.30.2
 
