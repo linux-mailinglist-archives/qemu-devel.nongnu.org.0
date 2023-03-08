@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AEA6B0A71
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416C16B0AB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:13:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZuOj-00004t-Dr; Wed, 08 Mar 2023 09:04:05 -0500
+	id 1pZuWe-0004oJ-7u; Wed, 08 Mar 2023 09:12:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pZuOd-0008W5-US
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:04:00 -0500
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pZuOZ-0005wX-Ss
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:03:59 -0500
-Received: by mail-qt1-x836.google.com with SMTP id r5so18132303qtp.4
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 06:03:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1678284226;
- h=cc:to:subject:message-id:date:references:user-agent:from
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=X8tmgqAyy3QIp+LuqC6Z+wTIThXjabBCR2ixC1RO+KY=;
- b=QqfmYIP41Sxqe17Q9KhPg/j42/dYIS6DJaKImD7VyKohKehQM+Gi9lsoIYoBDqHvMY
- d49hBzbLq8dlu1aWCZZK6gYGIuZ1lwUtz3qTIyTLK1mn4TtsONkXf4Z+E1H8iHdFFEdB
- Ty6hIK98hPJEX1BwjzNLQkIo2ylTTIgoExpbFIyLjHwthjXoFO37MX1e7lHUSNiadxWO
- MwKGBvkg6YC+XOrQs8+FT9cV7sb76aq3gdNeqEgytT2F+Q23NTYoI47DItMRjtj8EYVb
- Oef/IseNwjsXLjNpYaVVtEWUYzfExMQWiFU1Kw4kcQ5fmZcpedami5jmjmKO9DPB0LgF
- zVnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678284226;
- h=cc:to:subject:message-id:date:references:user-agent:from
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X8tmgqAyy3QIp+LuqC6Z+wTIThXjabBCR2ixC1RO+KY=;
- b=LgZVrUuHTQyJocEcb7hMSz2X5UKdreEauJ4zLd/Q2a4nNAk3V4El2BTfFzESW5Usbh
- U0K+pupW9F/5O9ZGHAopItMWXNmEY7LlHce6VNZqHLtNW6/mxNnArU4WnMNi9H2EUlNw
- FatrP0lEzUqgiDQISkKuV0GHhVFiZzYWCb/ORd+/EPh2QWOUs+8okM5MfQhl7wR7ycUW
- BaKBbBBP9XnzFe+K3JZ2/3sDitrHIHSe6TBoK92pNwt0qExlisih7ljFaleKmzyIpdxv
- egAZ2gG0Wp21YycCM0IkOj8XmMUqt5IaJbA0zKNjtxVtmuX+b3mzhssX1oozKhQyUW/R
- b3Aw==
-X-Gm-Message-State: AO0yUKW3WDVKicIp0tGjcf+aGrO5OTgYjVMWXvmifI9j0lc95GBmLlFg
- mEJP5IhSIBhiFnjsyyrlSK2R2LkcfJO5WM4lYLexcA==
-X-Google-Smtp-Source: AK7set+cap/vuxpLfKn25cmaXnTv+mAkytZx/GZ+2Cl4PzIx72uiG10k2pox2SqCzcTCsQxumz1LTUlpLBuVo1rOgQ0=
-X-Received: by 2002:ac8:42d2:0:b0:3bc:f00b:931f with SMTP id
- g18-20020ac842d2000000b003bcf00b931fmr5289225qtm.10.1678284226521; Wed, 08
- Mar 2023 06:03:46 -0800 (PST)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Wed, 8 Mar 2023 06:03:45 -0800
-Mime-Version: 1.0
-In-Reply-To: <ZAdupAAJjbSbJiss@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
- <ZAUSPo9bJO0udf9p@x1n> <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
- <ZAZRn9eNG1TEoEl1@x1n> <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
- <ZAdupAAJjbSbJiss@x1n>
-Date: Wed, 8 Mar 2023 06:03:45 -0800
-Message-ID: <CALophus_dTA6U3zGP6u0YnRr65GrhF665mBtX7SkBdLMVJKxBw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
- non-iterable vmstate
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org, 
- zhouyibo@bytedance.com
-Content-Type: multipart/alternative; boundary="00000000000027921205f663ff27"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qt1-x836.google.com
-X-Spam_score_int: 27
-X-Spam_score: 2.7
-X-Spam_bar: ++
-X-Spam_report: (2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_MUA_MOZILLA=2.309,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZuWc-0004nl-8c
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:12:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pZuWa-0000rg-Cd
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:12:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678284730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6fO6MVK29AuWuIyP7LgX8WA5d3QGCHIKNJpV0DZ2PVA=;
+ b=JZ3WPPo+HF0wuCEVxX4o5um/0F8YM1v6/q+7rNK/dO8+/6X+U5V3QzDLocDySOy6mNojN/
+ gxyb6V70buJPOC8xFyplznwWSXMvHkoRRcHhvdkU22CB3rYjQ6uO3XaOueRqDVpt66jiLQ
+ rP6XQFJ0qK07bkaQcA+NM8vewTZisT8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-345-nzocinOMOTWXkNKZf7UK-Q-1; Wed, 08 Mar 2023 09:12:09 -0500
+X-MC-Unique: nzocinOMOTWXkNKZf7UK-Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EBD997C140
+ for <qemu-devel@nongnu.org>; Wed,  8 Mar 2023 14:12:07 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 507CF492B07;
+ Wed,  8 Mar 2023 14:12:06 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [qemu-web PATCH] Add a blog post about the upcoming KVM Forum 2023
+Date: Wed,  8 Mar 2023 15:12:04 +0100
+Message-Id: <20230308141204.718786-1-thuth@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,157 +73,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000027921205f663ff27
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Based on the announcement e-mail that Paolo sent to the qemu-devel
+mailing list two days ago - let's spread the word via the blog, too!
 
-Hi, Peter,
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ _posts/2023-03-08-kvm-forum-cfp.md | 62 ++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 _posts/2023-03-08-kvm-forum-cfp.md
 
-On 2023/3/8 =E4=B8=8A=E5=8D=881:04, Peter Xu wrote:
-> On Tue, Mar 07, 2023 at 09:24:31PM +0800, Chuang Xu wrote:
->>> Why do we need address_space_get_flatview_rcu()? I'm not sure whether
-you
->> address_space_cahce_init() uses address_space_get_flatview() to acquire
->> a ref-ed flatview. If we want to use address_space_to_flatview_rcu() and
->> make the flatview ref-ed, maybe we need to add
-address_space_get_flatview_rcu()?
->> Or if we use address_space_to_flatview_rcu() directly, then we'll get a
->> unref-ed flatview, I'm not sure wheather it's safe in other cases.. At
-least
->> I don't want the assertion to be triggered one day.
-> No we can't touch that, afaict. It was a real fix (447b0d0b9e) to a real
-> bug.
->
-> What I meant is we make address_space_get_flatview() always use
-> address_space_to_flatview_rcu().
+diff --git a/_posts/2023-03-08-kvm-forum-cfp.md b/_posts/2023-03-08-kvm-forum-cfp.md
+new file mode 100644
+index 0000000..8daf934
+--- /dev/null
++++ b/_posts/2023-03-08-kvm-forum-cfp.md
+@@ -0,0 +1,62 @@
++---
++layout: post
++title:  "KVM Forum 2023: Call for presentations"
++date:   2023-03-08 13:45:00 +0100
++categories: [presentations, conferences]
++---
++
++[KVM Forum](https://kvm-forum.qemu.org/2023/) is an annual event that presents
++a rare opportunity for KVM and QEMU developers and users to discuss the state
++of Linux irtualization technology and plan for the challenges ahead. Sessions
++include updates on the state of the KVM virtualization stack, planning for the
++future, and many opportunities for attendees to collaborate.
++
++This year's event will be held in Brno, Czech Republic on June 14-15, 2023.
++It will be in-person only and will be held right before the
++[DevConf.CZ](https://www.devconf.info/cz/) open source community conference.
++
++June 14 will be at least partly dedicated to a hackathon or "day of BoFs".
++This will provide time for people to get together and discuss strategic
++decisions, as well as other topics that are best solved within smaller groups.
++
++## Call for presentations
++
++We encourage you to submit presentations via the
++[KVM Forum CfP page](https://kvm-forum.qemu.org/2023/cfp).
++ Suggested topics include:
++
++* Scalability and Optimization
++* Hardening and security
++* Confidential computing
++* Testing
++* KVM and the Linux Kernel:
++  * New Features and Ports
++  * Device Passthrough: VFIO, mdev, vDPA
++  * Network Virtualization
++  * Virtio and vhost
++* Virtual Machine Monitors and Management:
++  * VMM Implementation: APIs, Live Migration, Performance Tuning, etc.
++  * Multi-process VMMs: vhost-user, vfio-user, QEMU Storage Daemon
++  * QEMU without KVM: Hypervisor.framework and other hypervisors
++  * Managing KVM: Libvirt, KubeVirt, Kata Containers
++* Emulation:
++  * New Devices, Boards and Architectures
++  * CPU Emulation and Binary Translation
++
++The deadline for submitting presentations is April 2, 2023 - 11:59 PM PDT.
++Accepted speakers will be notified on April 17, 2023.
++
++## Attending KVM Forum
++
++Admission to KVM Forum and DevConf.CZ is free. However,
++[registration](https://kvm-forum.qemu.org/2023/register/) is required and the
++number of attendees is limited by the space available at the venue.
++
++The DevConf.CZ program will feature technical talks on a variety of topics,
++including cloud and virtualization infrastructure—so make sure to register
++for DevConf.CZ as well if you would like to attend.
++
++Both conferences are committed to fostering an open and welcoming environment
++for everybody. Participants are expected to abide by the
++[Devconf.cz code of conduct](https://www.devconf.info/coc/)
++and [media policy](https://www.devconf.info/media-policy/).
+-- 
+2.31.1
 
-This time I clearly understand what you mean.=F0=9F=98=81
-
->
-> I think it's safe, if you see the current callers of it (after my patch 1
-> fixed version applied):
->
-> memory_region_sync_dirty_bitmap[2249] view =3D
-address_space_get_flatview(as);
-> memory_region_update_coalesced_range[2457] view =3D
-address_space_get_flatview(as);
-> memory_region_clear_dirty_bitmap[2285] view =3D
-address_space_get_flatview(as);
-> mtree_info_flatview[3418] view =3D address_space_get_flatview(as);
-> address_space_cache_init[3350] cache->fv =3D
-address_space_get_flatview(as);
->
-> Case 5 is what we're targeting for which I think it's fine. Logically any
-> commit() hook should just use address_space_get_flatview_raw() to
-reference
-> the flatview, but at least address_space_cache_init() is also called in
-> non-BQL sections, so _rcu is the only thing we can use here, iiuc..
->
-> Case 1-3 is never called during vm load, so I think it's safe.
->
-> Case 4 can be accessing stalled flatview but I assume fine since it's
-just
-> for debugging. E.g. if someone tries "info mtree -f" during vm loading
-> after your patch applied, then one can see stalled info. I don't think it
-> can even happen because so far "info mtree" should also take BQL.. so
-it'll
-> be blocked until vm load completes.
->
-> The whole thing is still tricky. I didn't yet make my mind through on how
-
-IIUC, Do you mean that different ways to get flatview are tricky?
-
-> to make it very clean, I think it's slightly beyond what this series does
-> and I need some more thinkings (or suggestions from others).
->
-As you said, it's slightly beyond what this series does. Maybe it would be
-better if we discuss it in a new series and keep this series at v6?
-what's your take?
-
-Thanks!
-
---00000000000027921205f663ff27
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p>Hi, Peter,
-<br>
-<br>On 2023/3/8 =E4=B8=8A=E5=8D=881:04, Peter Xu wrote:
-<br>&gt; On Tue, Mar 07, 2023 at 09:24:31PM +0800, Chuang Xu wrote:
-<br>&gt;&gt;&gt; Why do we need address_space_get_flatview_rcu()?  I&#39;m =
-not sure whether you
-<br>&gt;&gt; address_space_cahce_init() uses address_space_get_flatview() t=
-o acquire
-<br>&gt;&gt; a ref-ed flatview. If we want to use address_space_to_flatview=
-_rcu() and
-<br>&gt;&gt; make the flatview ref-ed, maybe we need to add address_space_g=
-et_flatview_rcu()?
-<br>&gt;&gt; Or if we use address_space_to_flatview_rcu() directly, then we=
-&#39;ll get a
-<br>&gt;&gt; unref-ed flatview, I&#39;m not sure wheather it&#39;s safe in =
-other cases.. At least
-<br>&gt;&gt; I don&#39;t want the assertion to be triggered one day.
-<br>&gt; No we can&#39;t touch that, afaict.  It was a real fix (447b0d0b9e=
-) to a real
-<br>&gt; bug.
-<br>&gt;
-<br>&gt; What I meant is we make address_space_get_flatview() always use
-<br>&gt; address_space_to_flatview_rcu().
-<br>
-<br>This time I clearly understand what you mean.=F0=9F=98=81
-<br>
-<br>&gt;
-<br>&gt; I think it&#39;s safe, if you see the current callers of it (after=
- my patch 1
-<br>&gt; fixed version applied):
-<br>&gt;
-<br>&gt; memory_region_sync_dirty_bitmap[2249] view =3D address_space_get_f=
-latview(as);
-<br>&gt; memory_region_update_coalesced_range[2457] view =3D address_space_=
-get_flatview(as);
-<br>&gt; memory_region_clear_dirty_bitmap[2285] view =3D address_space_get_=
-flatview(as);
-<br>&gt; mtree_info_flatview[3418]      view =3D address_space_get_flatview=
-(as);
-<br>&gt; address_space_cache_init[3350] cache-&gt;fv =3D address_space_get_=
-flatview(as);
-<br>&gt;
-<br>&gt; Case 5 is what we&#39;re targeting for which I think it&#39;s fine=
-. Logically any
-<br>&gt; commit() hook should just use address_space_get_flatview_raw() to =
-reference
-<br>&gt; the flatview, but at least address_space_cache_init() is also call=
-ed in
-<br>&gt; non-BQL sections, so _rcu is the only thing we can use here, iiuc.=
-.
-<br>&gt;
-<br>&gt; Case 1-3 is never called during vm load, so I think it&#39;s safe.
-<br>&gt;
-<br>&gt; Case 4 can be accessing stalled flatview but I assume fine since i=
-t&#39;s just
-<br>&gt; for debugging. E.g. if someone tries &quot;info mtree -f&quot; dur=
-ing vm loading
-<br>&gt; after your patch applied, then one can see stalled info.  I don&#3=
-9;t think it
-<br>&gt; can even happen because so far &quot;info mtree&quot; should also =
-take BQL.. so it&#39;ll
-<br>&gt; be blocked until vm load completes.
-<br>&gt;
-<br>&gt; The whole thing is still tricky.  I didn&#39;t yet make my mind th=
-rough on how
-<br>
-<br>IIUC, Do you mean that different ways to get flatview are tricky?
-<br>
-<br>&gt; to make it very clean, I think it&#39;s slightly beyond what this =
-series does
-<br>&gt; and I need some more thinkings (or suggestions from others).
-<br>&gt;
-<br>As you said, it&#39;s slightly beyond what this series does. Maybe it w=
-ould be
-<br>better if we discuss it in a new series and keep this series at v6?
-<br>what&#39;s your take?
-<br>
-<br>Thanks!</p>
-
---00000000000027921205f663ff27--
 
