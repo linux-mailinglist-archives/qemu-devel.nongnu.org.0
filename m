@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332596AFC28
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0966AFC0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:17:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiNa-0003wO-6y; Tue, 07 Mar 2023 20:14:06 -0500
+	id 1pZiNd-00043K-1f; Tue, 07 Mar 2023 20:14:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNX-0003lp-U2
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNb-00041v-02
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNW-0001zz-7I
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNZ-00020K-EX
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678238041;
+ s=mimecast20190719; t=1678238044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=N2NhsnhpjRETx99G++Bw+Z5dX+en0cbOsz59rYFYC2A=;
- b=FXJZB4JvXyXVRtUSOIO3MSJayR8vXBwE8OlRAi3jO/kmv+wAhEDmEMee6t1eHKnrq8cXDp
- S0ffBW2rtqsz+NRvXl6lyzn4IGpH/QSOZaNtvKTBNEBlAExg99fdV7Vemd+kY1Oa92MTgK
- qhgXPAws1WTejNYSIf88sV2p0dKFBro=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8u+wqiyIGWdIFx3L2uxAk2b2QIaEfOdTnlLdNSylGZw=;
+ b=jA7S6V3YrBIBDsn6DqVStvOBiHKelu5qzOlwNUXtEkczZeprfwy0vv1mUL80k0TCtCogTt
+ iuWUqX1pRhb+VAB9fGwVuLyOKxSF2IMUbs0D0KSaIbkF3UoNxGYKYk2R1jjyWVwnP9NWi9
+ Cxf0mwzMOv38EOJc/l2eJxB00Iw+eZA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-640-mW_AD0frNwarU8t-8ZRSvw-1; Tue, 07 Mar 2023 20:14:00 -0500
-X-MC-Unique: mW_AD0frNwarU8t-8ZRSvw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h11-20020a0564020e8b00b004e59d4722a3so11266171eda.6
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:14:00 -0800 (PST)
+ us-mta-180-LeaHc68hNqyXiDAWqWsoIA-1; Tue, 07 Mar 2023 20:14:03 -0500
+X-MC-Unique: LeaHc68hNqyXiDAWqWsoIA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y24-20020aa7ccd8000000b004be3955a42eso21658562edt.22
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:14:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678238039;
+ d=1e100.net; s=20210112; t=1678238042;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=N2NhsnhpjRETx99G++Bw+Z5dX+en0cbOsz59rYFYC2A=;
- b=SdoHfzrTHw526kBvmM5zHV9uNnbFtgn5sfCOGY0uz16plgvhh2HQhkO2WSLuzrV/KU
- 6rZ3t2/VX5DNMgctW9vghBAy5bmL1tN9lKrRCYLZ32Kfxqo4p8VO5trxv4dOak7H/idr
- uhA4OKjbm3PmpLkT1f7gGRUksPnom4qq2kuoSX/AmPFI5W7uYLBDlOeSP5Iw09fHIX1X
- 6iAg+LL0seM8l80fu56YUjfKvj2aSytpqrvVO2nrpov82ZWixK05VpFemb0Kuu0pbR3I
- FWqE6rvBlJjFIRrpJb+zdFOypVxQ1YBAGWfKmcTf7AxwfpLUEqP2RAr2KJrIExoXjWvD
- Ne+A==
-X-Gm-Message-State: AO0yUKUh6tX7iXUkwXHiAvT8o+tcNXBDTontHhqKLzKvDik7Lba4az02
- SB1P29Q151lfe7xz1kYeDTSkDImefPvyoLxPZnI5UB5u4Hd6g5np3bAaS+rlHE6gVvM5SlDlGYE
- Z2oDGPu5I1Co/X8kK9Z3qhb7BfNu+AwK+EXKhTkRDO5LTOxewLuNpMqq+EkiR3j3QxTGr
-X-Received: by 2002:a17:906:730d:b0:8b1:3193:4874 with SMTP id
- di13-20020a170906730d00b008b131934874mr20775406ejc.46.1678238038918; 
- Tue, 07 Mar 2023 17:13:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Z6qIhQmnmSmpNjTUIiGNQJMIjaiXe/Leaiuzdg2VmWPRlu1uw8/W8d9BqBUh4+bilPAIguA==
-X-Received: by 2002:a17:906:730d:b0:8b1:3193:4874 with SMTP id
- di13-20020a170906730d00b008b131934874mr20775387ejc.46.1678238038666; 
- Tue, 07 Mar 2023 17:13:58 -0800 (PST)
+ bh=8u+wqiyIGWdIFx3L2uxAk2b2QIaEfOdTnlLdNSylGZw=;
+ b=1Uh07dp0ohD2oG3S/XYpRoycBukiVnU57DM40hBgfzZEVsF8OO6CCxEYrzhLU95ODh
+ +CRgybqp7Exoc6mjGLwn8kgHCZ+8qF38G0J4f5aNzmUqYY7+e0STcjy8SiDrw1eMFfMI
+ zjq9wUj1EjYeHNxn1jgB+ilSeCJKBz5x5Vzk+7CL6AxMUnCRt/xI/g6SF57V8ct/3erD
+ SIXsMCuEUUGCJNRak0DgxDi/GbEXn2CGH1VFIu1tKbqlz2JiqsP84EKXYMAkTmr8Is+q
+ 1nIwMo3zol8D0kSvxncwUJP7KP+XSCYv4xq99xaAoY/jd49QwM/qRM3a/emF0I6LPMja
+ IccA==
+X-Gm-Message-State: AO0yUKVMTeXXxFWCr2s5DeG6ubt2N7fe108zhNgjTR+1XLXJU85ZL6bs
+ hezubsSb7lQqHCE3TtCuWhH6PfXfj3Fx9oGpfUzOxJnAVg+nDxV35gARZIvHiChknIhPyNvvCDB
+ I5fcWn6aqjWJUDk3XeF7K+m7aEXUAvLTObMxYWgJlkXwQJsA2VC9CpVF2FzvfhqFdCQeQ
+X-Received: by 2002:a05:6402:6cc:b0:4af:62ad:1571 with SMTP id
+ n12-20020a05640206cc00b004af62ad1571mr15810123edy.23.1678238041874; 
+ Tue, 07 Mar 2023 17:14:01 -0800 (PST)
+X-Google-Smtp-Source: AK7set9ZKCvuN5NUs64AJvyaIVuBJyGIfF0kxuQYmYcWTsyBIEPiMCjp4PRvN0gEPLNNMGKfjZZrFw==
+X-Received: by 2002:a05:6402:6cc:b0:4af:62ad:1571 with SMTP id
+ n12-20020a05640206cc00b004af62ad1571mr15810112edy.23.1678238041645; 
+ Tue, 07 Mar 2023 17:14:01 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- y26-20020a170906519a00b008e53874f8d8sm6774271ejk.180.2023.03.07.17.13.57
+ s22-20020a50ab16000000b004f238d1ad8asm250171edc.38.2023.03.07.17.14.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:58 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:56 -0500
+ Tue, 07 Mar 2023 17:14:01 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 62/73] hw/pci/aer: Add missing routing for AER errors
-Message-ID: <9a6ef182c03eaa138bae553f0fbb5a123bef9a53.1678237635.git.mst@redhat.com>
+Subject: [PULL 63/73] hw/pci-bridge/cxl_root_port: Wire up AER
+Message-ID: <47f0e7ab3272737c174ca68c03843e0d1996dc22.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,47 +101,39 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-PCIe r6.0 Figure 6-3 "Pseudo Logic Diagram for Selected Error Message Control
-and Status Bits" includes a right hand branch under "All PCI Express devices"
-that allows for messages to be generated or sent onwards without SERR#
-being set as long as the appropriate per error class bit in the PCIe
-Device Control Register is set.
-
-Implement that branch thus enabling routing of ERR_COR, ERR_NONFATAL
-and ERR_FATAL under OSes that set these bits appropriately (e.g. Linux)
+We are missing necessary config write handling for AER emulation in
+the CXL root port. Add it based on pcie_root_port.c
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-Message-Id: <20230302133709.30373-3-Jonathan.Cameron@huawei.com>
+Message-Id: <20230302133709.30373-4-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Fan Ni <fan.ni@samsung.com>
 ---
- hw/pci/pcie_aer.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/pci-bridge/cxl_root_port.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index 909e027d99..103667c368 100644
---- a/hw/pci/pcie_aer.c
-+++ b/hw/pci/pcie_aer.c
-@@ -192,8 +192,16 @@ static void pcie_aer_update_uncor_status(PCIDevice *dev)
- static bool
- pcie_aer_msg_alldev(PCIDevice *dev, const PCIEAERMsg *msg)
+diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_port.c
+index 6664783974..00195257f7 100644
+--- a/hw/pci-bridge/cxl_root_port.c
++++ b/hw/pci-bridge/cxl_root_port.c
+@@ -187,12 +187,15 @@ static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
+                                 int len)
  {
-+    uint16_t devctl = pci_get_word(dev->config + dev->exp.exp_cap +
-+                                   PCI_EXP_DEVCTL);
-     if (!(pcie_aer_msg_is_uncor(msg) &&
--          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR))) {
-+          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR)) &&
-+        !((msg->severity == PCI_ERR_ROOT_CMD_NONFATAL_EN) &&
-+          (devctl & PCI_EXP_DEVCTL_NFERE)) &&
-+        !((msg->severity == PCI_ERR_ROOT_CMD_COR_EN) &&
-+          (devctl & PCI_EXP_DEVCTL_CERE)) &&
-+        !((msg->severity == PCI_ERR_ROOT_CMD_FATAL_EN) &&
-+          (devctl & PCI_EXP_DEVCTL_FERE))) {
-         return false;
-     }
+     uint16_t slt_ctl, slt_sta;
++    uint32_t root_cmd =
++        pci_get_long(d->config + d->exp.aer_cap + PCI_ERR_ROOT_COMMAND);
  
+     pcie_cap_slot_get(d, &slt_ctl, &slt_sta);
+     pci_bridge_write_config(d, address, val, len);
+     pcie_cap_flr_write_config(d, address, val, len);
+     pcie_cap_slot_write_config(d, slt_ctl, slt_sta, address, val, len);
+     pcie_aer_write_config(d, address, val, len);
++    pcie_aer_root_write_config(d, address, val, len, root_cmd);
+ 
+     cxl_rp_dvsec_write_config(d, address, val, len);
+ }
 -- 
 MST
 
