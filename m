@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36256B0FA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4146B0F9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:03:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8c-0004t2-1p; Wed, 08 Mar 2023 11:59:38 -0500
+	id 1pZx8Y-0004pD-Py; Wed, 08 Mar 2023 11:59:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8S-0004iz-QY; Wed, 08 Mar 2023 11:59:28 -0500
+ id 1pZx8S-0004jJ-Uj; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8M-00047o-8f; Wed, 08 Mar 2023 11:59:28 -0500
+ id 1pZx8N-00048Z-Mt; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 58DA7400E9;
+ by isrv.corpit.ru (Postfix) with ESMTP id 8452D400EA;
  Wed,  8 Mar 2023 19:58:57 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 01F021FD;
- Wed,  8 Mar 2023 19:58:55 +0300 (MSK)
-Received: (nullmailer pid 2098373 invoked by uid 1000);
+ by tsrv.corpit.ru (Postfix) with SMTP id 450F41FE;
+ Wed,  8 Mar 2023 19:58:56 +0300 (MSK)
+Received: (nullmailer pid 2098375 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:55 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org,
- =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 39/47] vdpa: stop all svq on device deletion
-Date: Wed,  8 Mar 2023 19:57:42 +0300
-Message-Id: <20230308165815.2098148-39-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org, =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 40/47] vhost: avoid a potential use of an uninitialized
+ variable in vhost_svq_poll()
+Date: Wed,  8 Mar 2023 19:57:43 +0300
+Message-Id: <20230308165815.2098148-40-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -61,72 +60,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eugenio Pérez <eperezma@redhat.com>
+From: Carlos López <clopez@suse.de>
 
-Not stopping them leave the device in a bad state when virtio-net
-fronted device is unplugged with device_del monitor command.
+In vhost_svq_poll(), if vhost_svq_get_buf() fails due to a device
+providing invalid descriptors, len is left uninitialized and returned
+to the caller, potentally leaking stack data or causing undefined
+behavior.
 
-This is not triggable in regular poweroff or qemu forces shutdown
-because cleanup is called right after vhost_vdpa_dev_start(false).  But
-devices hot unplug does not call vdpa device cleanups.  This lead to all
-the vhost_vdpa devices without stop the SVQ but the last.
+Fix this by initializing len to 0.
 
-Fix it and clean the code, making it symmetric with
-vhost_vdpa_svqs_start.
+Found with GCC 13 and -fanalyzer (abridged):
 
-Fixes: dff4426fa656 ("vhost: Add Shadow VirtQueue kick forwarding capabilities")
-Reported-by: Lei Yang <leiyang@redhat.com>
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Message-Id: <20230209170004.899472-1-eperezma@redhat.com>
-Tested-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit 2e1a9de96b487cf818a22d681cad8d3f5d18dcca)
+../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
+../hw/virtio/vhost-shadow-virtqueue.c:538:12: warning: use of uninitialized value ‘len’ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+  538 |     return len;
+      |            ^~~
+  ‘vhost_svq_poll’: events 1-4
+    |
+    |  522 | size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+    |      |        ^~~~~~~~~~~~~~
+    |      |        |
+    |      |        (1) entry to ‘vhost_svq_poll’
+    |......
+    |  525 |     uint32_t len;
+    |      |              ~~~
+    |      |              |
+    |      |              (2) region created on stack here
+    |      |              (3) capacity: 4 bytes
+    |......
+    |  528 |         if (vhost_svq_more_used(svq)) {
+    |      |             ~
+    |      |             |
+    |      |             (4) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_poll’
+
+    (...)
+
+    |  528 |         if (vhost_svq_more_used(svq)) {
+    |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |            ||
+    |      |            |(8) ...to here
+    |      |            (7) following ‘true’ branch...
+    |......
+    |  537 |     vhost_svq_get_buf(svq, &len);
+    |      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |     |
+    |      |     (9) calling ‘vhost_svq_get_buf’ from ‘vhost_svq_poll’
+    |
+    +--> ‘vhost_svq_get_buf’: events 10-11
+           |
+           |  416 | static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+           |      |                          ^~~~~~~~~~~~~~~~~
+           |      |                          |
+           |      |                          (10) entry to ‘vhost_svq_get_buf’
+           |......
+           |  423 |     if (!vhost_svq_more_used(svq)) {
+           |      |          ~
+           |      |          |
+           |      |          (11) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_get_buf’
+           |
+
+           (...)
+
+           |
+         ‘vhost_svq_get_buf’: event 14
+           |
+           |  423 |     if (!vhost_svq_more_used(svq)) {
+           |      |        ^
+           |      |        |
+           |      |        (14) following ‘false’ branch...
+           |
+         ‘vhost_svq_get_buf’: event 15
+           |
+           |cc1:
+           | (15): ...to here
+           |
+    <------+
+    |
+  ‘vhost_svq_poll’: events 16-17
+    |
+    |  537 |     vhost_svq_get_buf(svq, &len);
+    |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |     |
+    |      |     (16) returning to ‘vhost_svq_poll’ from ‘vhost_svq_get_buf’
+    |  538 |     return len;
+    |      |            ~~~
+    |      |            |
+    |      |            (17) use of uninitialized value ‘len’ here
+
+Note by  Laurent Vivier <lvivier@redhat.com>:
+
+    The return value is only used to detect an error:
+
+    vhost_svq_poll
+        vhost_vdpa_net_cvq_add
+            vhost_vdpa_net_load_cmd
+                vhost_vdpa_net_load_mac
+                  -> a negative return is only used to detect error
+                vhost_vdpa_net_load_mq
+                  -> a negative return is only used to detect error
+            vhost_vdpa_net_handle_ctrl_avail
+              -> a negative return is only used to detect error
+
+Fixes: d368c0b052ad ("vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush")
+Signed-off-by: Carlos López <clopez@suse.de>
+Message-Id: <20230213085747.19956-1-clopez@suse.de>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit e4dd39c699b7d63a06f686ec06ded8adbee989c1)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Mjt: this required manual edit for stable-7.2
 ---
- hw/virtio/vhost-vdpa.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7468e44b87..03c78d25d8 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -707,26 +707,11 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-     return ret;
- }
- 
--static void vhost_vdpa_reset_svq(struct vhost_vdpa *v)
--{
--    if (!v->shadow_vqs_enabled) {
--        return;
--    }
--
--    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
--        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
--        vhost_svq_stop(svq);
--    }
--}
--
- static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 5bd14cad96..a723073747 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -522,7 +522,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
  {
--    struct vhost_vdpa *v = dev->opaque;
-     int ret;
-     uint8_t status = 0;
+     int64_t start_us = g_get_monotonic_time();
+-    uint32_t len;
++    uint32_t len = 0;
  
--    vhost_vdpa_reset_svq(v);
--
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-     trace_vhost_vdpa_reset_device(dev, status);
-     return ret;
-@@ -1088,6 +1073,8 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
- 
-     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-+
-+        vhost_svq_stop(svq);
-         vhost_vdpa_svq_unmap_rings(dev, svq);
-     }
- }
+     do {
+         if (vhost_svq_more_used(svq)) {
 -- 
 2.30.2
 
