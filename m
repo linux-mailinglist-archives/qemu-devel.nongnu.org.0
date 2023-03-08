@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7146B0A42
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AEA6B0A71
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:05:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZuL8-0006CD-3J; Wed, 08 Mar 2023 09:00:22 -0500
+	id 1pZuOj-00004t-Dr; Wed, 08 Mar 2023 09:04:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pZuL5-0006Bg-43
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:00:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pZuL3-00059v-DF
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:00:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678284015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GuYiNgcm28/bpZaMeH4ok28hRMXbeNsV/uE5Z3O9VTc=;
- b=RtdXjC+SkyMCK6FIDUBE5X3FiWiXEKztQwcU6OT6xTCN0i8dSefdrYZSr/aIvx/xl6S+hC
- QYJL93tFLyO12aQ4y4y5lzGbZrHuZEu5qopvaSa2s03tCR5ihyUhpHqxNe7zEiY+p9LEtF
- kIBCp/QKPOdHRQl+/6UmDTn+ABJV4RA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-482-qaqYCHOYP4e7pUGBQUznaw-1; Wed, 08 Mar 2023 09:00:13 -0500
-X-MC-Unique: qaqYCHOYP4e7pUGBQUznaw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b7-20020a056402350700b004d2a3d5cd3fso18693654edd.8
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 06:00:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pZuOd-0008W5-US
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:04:00 -0500
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pZuOZ-0005wX-Ss
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:03:59 -0500
+Received: by mail-qt1-x836.google.com with SMTP id r5so18132303qtp.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 06:03:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1678284226;
+ h=cc:to:subject:message-id:date:references:user-agent:from
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=X8tmgqAyy3QIp+LuqC6Z+wTIThXjabBCR2ixC1RO+KY=;
+ b=QqfmYIP41Sxqe17Q9KhPg/j42/dYIS6DJaKImD7VyKohKehQM+Gi9lsoIYoBDqHvMY
+ d49hBzbLq8dlu1aWCZZK6gYGIuZ1lwUtz3qTIyTLK1mn4TtsONkXf4Z+E1H8iHdFFEdB
+ Ty6hIK98hPJEX1BwjzNLQkIo2ylTTIgoExpbFIyLjHwthjXoFO37MX1e7lHUSNiadxWO
+ MwKGBvkg6YC+XOrQs8+FT9cV7sb76aq3gdNeqEgytT2F+Q23NTYoI47DItMRjtj8EYVb
+ Oef/IseNwjsXLjNpYaVVtEWUYzfExMQWiFU1Kw4kcQ5fmZcpedami5jmjmKO9DPB0LgF
+ zVnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678284011;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GuYiNgcm28/bpZaMeH4ok28hRMXbeNsV/uE5Z3O9VTc=;
- b=A1YaiBCtG7zaGmRmHC0zl9fNMfJao/4XyLJbGL7WzuhV90xiUYFfX4QR6KyajSpzY+
- kz8M6RXPWoxo5w8QYaqZznR50M4WU36D/78DaYdjNTBX888XsgU2g1F9nBeRw4bs7qWe
- H4Y+gP8e5QsCy/0tEImdSq3fkLFOFO2m44ZywjtphPDKx3d7D1uJIGPahI9ZXEbNrf46
- We64JdxVwRaWrjaO4XHajWr/w+bDk+XiiWS3ID0uFFRGDNn8A+dM9pa7qXfkUVkLSnPu
- CXbuatb3SpNyO413lTeL4GA9YJ7PO1FNfir2Z5ctP6ZjfWTh21awQInuTqjbXVfsA3Id
- NaKA==
-X-Gm-Message-State: AO0yUKVYyD1xY3yOe1EkziQ2QWoNZ0M/s4vdFUV7QCRqRNGgVk6Sp7xd
- y01+8FWYpTy8oAR6BElzZdgb9j/vTa+pJDNygScfBKrv5LTCo2cjwY6hXJJaVd7nIyRDfsuTgqa
- 0swdpIFZ6fAebEgeZqaEQDvDJ0E/eRgE=
-X-Received: by 2002:a50:d5d6:0:b0:4af:70a5:5609 with SMTP id
- g22-20020a50d5d6000000b004af70a55609mr9753264edj.1.1678284011431; 
- Wed, 08 Mar 2023 06:00:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set8m0TUVidxMG2bCsDcYxl4QZgL2UPnsvLJXr9L6yY7YNL4PJSKqNoC+rTTuLzMXj9jjAiOsAFIjUcfuDFpdLUU=
-X-Received: by 2002:a50:d5d6:0:b0:4af:70a5:5609 with SMTP id
- g22-20020a50d5d6000000b004af70a55609mr9753255edj.1.1678284011219; Wed, 08 Mar
- 2023 06:00:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20230307145825.2544850-1-marcandre.lureau@redhat.com>
- <877cvrxs81.fsf@pond.sub.org>
-In-Reply-To: <877cvrxs81.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 8 Mar 2023 17:59:59 +0400
-Message-ID: <CAMxuvawh0vwZrjnqiMs9atGpXVst5ew6FjBpcEWhsanJDHCUwA@mail.gmail.com>
-Subject: Re: [PATCH v3] qapi: give available enum values as error hint
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>
-Content-Type: multipart/alternative; boundary="00000000000052484b05f663f27c"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ d=1e100.net; s=20210112; t=1678284226;
+ h=cc:to:subject:message-id:date:references:user-agent:from
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X8tmgqAyy3QIp+LuqC6Z+wTIThXjabBCR2ixC1RO+KY=;
+ b=LgZVrUuHTQyJocEcb7hMSz2X5UKdreEauJ4zLd/Q2a4nNAk3V4El2BTfFzESW5Usbh
+ U0K+pupW9F/5O9ZGHAopItMWXNmEY7LlHce6VNZqHLtNW6/mxNnArU4WnMNi9H2EUlNw
+ FatrP0lEzUqgiDQISkKuV0GHhVFiZzYWCb/ORd+/EPh2QWOUs+8okM5MfQhl7wR7ycUW
+ BaKBbBBP9XnzFe+K3JZ2/3sDitrHIHSe6TBoK92pNwt0qExlisih7ljFaleKmzyIpdxv
+ egAZ2gG0Wp21YycCM0IkOj8XmMUqt5IaJbA0zKNjtxVtmuX+b3mzhssX1oozKhQyUW/R
+ b3Aw==
+X-Gm-Message-State: AO0yUKW3WDVKicIp0tGjcf+aGrO5OTgYjVMWXvmifI9j0lc95GBmLlFg
+ mEJP5IhSIBhiFnjsyyrlSK2R2LkcfJO5WM4lYLexcA==
+X-Google-Smtp-Source: AK7set+cap/vuxpLfKn25cmaXnTv+mAkytZx/GZ+2Cl4PzIx72uiG10k2pox2SqCzcTCsQxumz1LTUlpLBuVo1rOgQ0=
+X-Received: by 2002:ac8:42d2:0:b0:3bc:f00b:931f with SMTP id
+ g18-20020ac842d2000000b003bcf00b931fmr5289225qtm.10.1678284226521; Wed, 08
+ Mar 2023 06:03:46 -0800 (PST)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
+ Wed, 8 Mar 2023 06:03:45 -0800
+Mime-Version: 1.0
+In-Reply-To: <ZAdupAAJjbSbJiss@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
+ <ZAUSPo9bJO0udf9p@x1n> <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
+ <ZAZRn9eNG1TEoEl1@x1n> <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
+ <ZAdupAAJjbSbJiss@x1n>
+Date: Wed, 8 Mar 2023 06:03:45 -0800
+Message-ID: <CALophus_dTA6U3zGP6u0YnRr65GrhF665mBtX7SkBdLMVJKxBw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
+ non-iterable vmstate
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org, 
+ zhouyibo@bytedance.com
+Content-Type: multipart/alternative; boundary="00000000000027921205f663ff27"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qt1-x836.google.com
+X-Spam_score_int: 27
+X-Spam_score: 2.7
+X-Spam_bar: ++
+X-Spam_report: (2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_MUA_MOZILLA=2.309,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+ HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,164 +94,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000052484b05f663f27c
+--00000000000027921205f663ff27
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi, Peter,
 
-On Wed, Mar 8, 2023 at 5:55=E2=80=AFPM Markus Armbruster <armbru@redhat.com=
-> wrote:
+On 2023/3/8 =E4=B8=8A=E5=8D=881:04, Peter Xu wrote:
+> On Tue, Mar 07, 2023 at 09:24:31PM +0800, Chuang Xu wrote:
+>>> Why do we need address_space_get_flatview_rcu()? I'm not sure whether
+you
+>> address_space_cahce_init() uses address_space_get_flatview() to acquire
+>> a ref-ed flatview. If we want to use address_space_to_flatview_rcu() and
+>> make the flatview ref-ed, maybe we need to add
+address_space_get_flatview_rcu()?
+>> Or if we use address_space_to_flatview_rcu() directly, then we'll get a
+>> unref-ed flatview, I'm not sure wheather it's safe in other cases.. At
+least
+>> I don't want the assertion to be triggered one day.
+> No we can't touch that, afaict. It was a real fix (447b0d0b9e) to a real
+> bug.
+>
+> What I meant is we make address_space_get_flatview() always use
+> address_space_to_flatview_rcu().
 
-> marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > This allows for a more pleasant user experience.
-> >
-> > Before:
-> > $ ./qemu-system-x86_64 -display egl-headless,gl=3D
-> > qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does no=
-t
-> accept value ''
-> >
-> > After:
-> > $ ./qemu-system-x86_64 -display egl-headless,gl=3D
-> > qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does no=
-t
-> accept value ''
-> > Acceptable values are 'off', 'on', 'core', 'es'
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Nice improvement here.
->
-> Slightly ugly:
->
->     $ qemu-system-x86_64 -nic bad
->     upstream-qemu: -nic bad: Parameter 'type' does not accept value 'bad'
->     Acceptable values are 'none', 'nic', 'user', 'tap', 'l2tpv3',
-> 'socket', 'stream', 'dgram', 'vde', 'bridge', 'hubport', 'netmap',
-> 'vhost-user', 'vhost-vdpa'
->
-> Outright annoying:
->
-> $ upstream-qemu -object bad
-> upstream-qemu: -object bad: Parameter 'qom-type' does not accept value
-> 'bad'
-> Acceptable values are 'authz-list', 'authz-listfile', 'authz-pam',
-> 'authz-simple', 'can-bus', 'can-host-socketcan', 'colo-compare',
-> 'cryptodev-backend', 'cryptodev-backend-builtin', 'cryptodev-backend-lkcf=
-',
-> 'dbus-vmstate', 'filter-buffer', 'filter-dump', 'filter-mirror',
-> 'filter-redirector', 'filter-replay', 'filter-rewriter', 'input-barrier',
-> 'input-linux', 'iothread', 'main-loop', 'memory-backend-epc',
-> 'memory-backend-file', 'memory-backend-memfd', 'memory-backend-ram',
-> 'pef-guest', 'pr-manager-helper', 'qtest', 'rng-builtin', 'rng-egd',
-> 'rng-random', 'secret', 'secret_keyring', 'sev-guest', 'thread-context',
-> 's390-pv-guest', 'throttle-group', 'tls-creds-anon', 'tls-creds-psk',
-> 'tls-creds-x509', 'tls-cipher-suites', 'x-remote-object',
-> 'x-vfio-user-server'
->
-> Note we already let users ask for this information with -object help or
-> -object qom-type=3Dhelp.  Sadly, we can't hint at that here, because it's
-> implemented much further up the call chain, and other call chains don't.
->
-> If HMP command sendkey didn't bypass the input visitor, the 26 screen
-> lines of hint for QKeyCode would likely scroll the error message off the
-> screen.
->
-> Should we suppress this hint when it's too long to be useful?
->
+This time I clearly understand what you mean.=F0=9F=98=81
 
-I don't have strong opinions.. perhaps stop after first 5 with "..." ?
-(Ideally, we would have shell completion scripts that would be able to help
-us, but hey that's another level! :)
+>
+> I think it's safe, if you see the current callers of it (after my patch 1
+> fixed version applied):
+>
+> memory_region_sync_dirty_bitmap[2249] view =3D
+address_space_get_flatview(as);
+> memory_region_update_coalesced_range[2457] view =3D
+address_space_get_flatview(as);
+> memory_region_clear_dirty_bitmap[2285] view =3D
+address_space_get_flatview(as);
+> mtree_info_flatview[3418] view =3D address_space_get_flatview(as);
+> address_space_cache_init[3350] cache->fv =3D
+address_space_get_flatview(as);
+>
+> Case 5 is what we're targeting for which I think it's fine. Logically any
+> commit() hook should just use address_space_get_flatview_raw() to
+reference
+> the flatview, but at least address_space_cache_init() is also called in
+> non-BQL sections, so _rcu is the only thing we can use here, iiuc..
+>
+> Case 1-3 is never called during vm load, so I think it's safe.
+>
+> Case 4 can be accessing stalled flatview but I assume fine since it's
+just
+> for debugging. E.g. if someone tries "info mtree -f" during vm loading
+> after your patch applied, then one can see stalled info. I don't think it
+> can even happen because so far "info mtree" should also take BQL.. so
+it'll
+> be blocked until vm load completes.
+>
+> The whole thing is still tricky. I didn't yet make my mind through on how
 
---00000000000052484b05f663f27c
+IIUC, Do you mean that different ways to get flatview are tricky?
+
+> to make it very clean, I think it's slightly beyond what this series does
+> and I need some more thinkings (or suggestions from others).
+>
+As you said, it's slightly beyond what this series does. Maybe it would be
+better if we discuss it in a new series and keep this series at v6?
+what's your take?
+
+Thanks!
+
+--00000000000027921205f663ff27
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 8, 2023 at 5:55=E2=80=
-=AFPM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">mar=
-candre.lureau@redhat.com</a> writes:<br>
+<p>Hi, Peter,
 <br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; This allows for a more pleasant user experience.<br>
-&gt;<br>
-&gt; Before:<br>
-&gt; $ ./qemu-system-x86_64 -display egl-headless,gl=3D<br>
-&gt; qemu-system-x86_64: -display egl-headless,gl=3D: Parameter &#39;gl&#39=
-; does not accept value &#39;&#39;<br>
-&gt;<br>
-&gt; After:<br>
-&gt; $ ./qemu-system-x86_64 -display egl-headless,gl=3D<br>
-&gt; qemu-system-x86_64: -display egl-headless,gl=3D: Parameter &#39;gl&#39=
-; does not accept value &#39;&#39;<br>
-&gt; Acceptable values are &#39;off&#39;, &#39;on&#39;, &#39;core&#39;, &#3=
-9;es&#39;<br>
-&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
+<br>On 2023/3/8 =E4=B8=8A=E5=8D=881:04, Peter Xu wrote:
+<br>&gt; On Tue, Mar 07, 2023 at 09:24:31PM +0800, Chuang Xu wrote:
+<br>&gt;&gt;&gt; Why do we need address_space_get_flatview_rcu()?  I&#39;m =
+not sure whether you
+<br>&gt;&gt; address_space_cahce_init() uses address_space_get_flatview() t=
+o acquire
+<br>&gt;&gt; a ref-ed flatview. If we want to use address_space_to_flatview=
+_rcu() and
+<br>&gt;&gt; make the flatview ref-ed, maybe we need to add address_space_g=
+et_flatview_rcu()?
+<br>&gt;&gt; Or if we use address_space_to_flatview_rcu() directly, then we=
+&#39;ll get a
+<br>&gt;&gt; unref-ed flatview, I&#39;m not sure wheather it&#39;s safe in =
+other cases.. At least
+<br>&gt;&gt; I don&#39;t want the assertion to be triggered one day.
+<br>&gt; No we can&#39;t touch that, afaict.  It was a real fix (447b0d0b9e=
+) to a real
+<br>&gt; bug.
+<br>&gt;
+<br>&gt; What I meant is we make address_space_get_flatview() always use
+<br>&gt; address_space_to_flatview_rcu().
 <br>
-Nice improvement here.<br>
+<br>This time I clearly understand what you mean.=F0=9F=98=81
 <br>
-Slightly ugly:<br>
+<br>&gt;
+<br>&gt; I think it&#39;s safe, if you see the current callers of it (after=
+ my patch 1
+<br>&gt; fixed version applied):
+<br>&gt;
+<br>&gt; memory_region_sync_dirty_bitmap[2249] view =3D address_space_get_f=
+latview(as);
+<br>&gt; memory_region_update_coalesced_range[2457] view =3D address_space_=
+get_flatview(as);
+<br>&gt; memory_region_clear_dirty_bitmap[2285] view =3D address_space_get_=
+flatview(as);
+<br>&gt; mtree_info_flatview[3418]      view =3D address_space_get_flatview=
+(as);
+<br>&gt; address_space_cache_init[3350] cache-&gt;fv =3D address_space_get_=
+flatview(as);
+<br>&gt;
+<br>&gt; Case 5 is what we&#39;re targeting for which I think it&#39;s fine=
+. Logically any
+<br>&gt; commit() hook should just use address_space_get_flatview_raw() to =
+reference
+<br>&gt; the flatview, but at least address_space_cache_init() is also call=
+ed in
+<br>&gt; non-BQL sections, so _rcu is the only thing we can use here, iiuc.=
+.
+<br>&gt;
+<br>&gt; Case 1-3 is never called during vm load, so I think it&#39;s safe.
+<br>&gt;
+<br>&gt; Case 4 can be accessing stalled flatview but I assume fine since i=
+t&#39;s just
+<br>&gt; for debugging. E.g. if someone tries &quot;info mtree -f&quot; dur=
+ing vm loading
+<br>&gt; after your patch applied, then one can see stalled info.  I don&#3=
+9;t think it
+<br>&gt; can even happen because so far &quot;info mtree&quot; should also =
+take BQL.. so it&#39;ll
+<br>&gt; be blocked until vm load completes.
+<br>&gt;
+<br>&gt; The whole thing is still tricky.  I didn&#39;t yet make my mind th=
+rough on how
 <br>
-=C2=A0 =C2=A0 $ qemu-system-x86_64 -nic bad<br>
-=C2=A0 =C2=A0 upstream-qemu: -nic bad: Parameter &#39;type&#39; does not ac=
-cept value &#39;bad&#39;<br>
-=C2=A0 =C2=A0 Acceptable values are &#39;none&#39;, &#39;nic&#39;, &#39;use=
-r&#39;, &#39;tap&#39;, &#39;l2tpv3&#39;, &#39;socket&#39;, &#39;stream&#39;=
-, &#39;dgram&#39;, &#39;vde&#39;, &#39;bridge&#39;, &#39;hubport&#39;, &#39=
-;netmap&#39;, &#39;vhost-user&#39;, &#39;vhost-vdpa&#39;<br>
+<br>IIUC, Do you mean that different ways to get flatview are tricky?
 <br>
-Outright annoying:<br>
+<br>&gt; to make it very clean, I think it&#39;s slightly beyond what this =
+series does
+<br>&gt; and I need some more thinkings (or suggestions from others).
+<br>&gt;
+<br>As you said, it&#39;s slightly beyond what this series does. Maybe it w=
+ould be
+<br>better if we discuss it in a new series and keep this series at v6?
+<br>what&#39;s your take?
 <br>
-$ upstream-qemu -object bad<br>
-upstream-qemu: -object bad: Parameter &#39;qom-type&#39; does not accept va=
-lue &#39;bad&#39;<br>
-Acceptable values are &#39;authz-list&#39;, &#39;authz-listfile&#39;, &#39;=
-authz-pam&#39;, &#39;authz-simple&#39;, &#39;can-bus&#39;, &#39;can-host-so=
-cketcan&#39;, &#39;colo-compare&#39;, &#39;cryptodev-backend&#39;, &#39;cry=
-ptodev-backend-builtin&#39;, &#39;cryptodev-backend-lkcf&#39;, &#39;dbus-vm=
-state&#39;, &#39;filter-buffer&#39;, &#39;filter-dump&#39;, &#39;filter-mir=
-ror&#39;, &#39;filter-redirector&#39;, &#39;filter-replay&#39;, &#39;filter=
--rewriter&#39;, &#39;input-barrier&#39;, &#39;input-linux&#39;, &#39;iothre=
-ad&#39;, &#39;main-loop&#39;, &#39;memory-backend-epc&#39;, &#39;memory-bac=
-kend-file&#39;, &#39;memory-backend-memfd&#39;, &#39;memory-backend-ram&#39=
-;, &#39;pef-guest&#39;, &#39;pr-manager-helper&#39;, &#39;qtest&#39;, &#39;=
-rng-builtin&#39;, &#39;rng-egd&#39;, &#39;rng-random&#39;, &#39;secret&#39;=
-, &#39;secret_keyring&#39;, &#39;sev-guest&#39;, &#39;thread-context&#39;, =
-&#39;s390-pv-guest&#39;, &#39;throttle-group&#39;, &#39;tls-creds-anon&#39;=
-, &#39;tls-creds-psk&#39;, &#39;tls-creds-x509&#39;, &#39;tls-cipher-suites=
-&#39;, &#39;x-remote-object&#39;, &#39;x-vfio-user-server&#39;<br>
-<br>
-Note we already let users ask for this information with -object help or<br>
--object qom-type=3Dhelp.=C2=A0 Sadly, we can&#39;t hint at that here, becau=
-se it&#39;s<br>
-implemented much further up the call chain, and other call chains don&#39;t=
-.<br>
-<br>
-If HMP command sendkey didn&#39;t bypass the input visitor, the 26 screen<b=
-r>
-lines of hint for QKeyCode would likely scroll the error message off the<br=
->
-screen.<br>
-<br>
-Should we suppress this hint when it&#39;s too long to be useful?<br></bloc=
-kquote><div><br></div><div>I don&#39;t have strong opinions.. perhaps stop =
-after first 5 with &quot;...&quot; ? (Ideally, we would have shell completi=
-on scripts that would be able to help us, but hey that&#39;s another level!=
- :)<br></div></div></div>
+<br>Thanks!</p>
 
---00000000000052484b05f663f27c--
-
+--00000000000027921205f663ff27--
 
