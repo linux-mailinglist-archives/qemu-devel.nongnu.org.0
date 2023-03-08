@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F876B06C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 13:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0FE6B06C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 13:17:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZsiK-00076E-0D; Wed, 08 Mar 2023 07:16:12 -0500
+	id 1pZsjL-0008MR-NF; Wed, 08 Mar 2023 07:17:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZsi2-0006fZ-BX
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 07:15:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZsjI-0008MG-AE
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 07:17:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZshz-00008R-LF
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 07:15:53 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZsjG-0000Pp-Fs
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 07:17:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678277748;
+ s=mimecast20190719; t=1678277829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vuI7aCGTLI9l5zPBPqPbiawYASfv5arGWfUcTkqb4Jk=;
- b=Dfn++ZMjHtVxr5UQjR19vqZbsBjI5BJnhOM7a0Ygkb2pDwF44/Iw13+SILGkP++0OSKK/R
- Hez692Xb09L06JdYN3aED//MdtOU/i8IYxOCiEhsfxoE9Z7riiXGlaqFSYNjA9Eg//ydXY
- XjIn3rb3Pw6P+TNzyIdFZPUe79dIhmw=
+ bh=Up0uu0sJVHatmNkPQUaXaugaamWfw+hE5FG/AHj6StE=;
+ b=U4tgcnWkpQ41lrPJD/Ilms6rIW608dtLnwEbTCe/ateqpFUoLvfhEd+85r9+iMZQYyujr/
+ PzskFhiQrOLIeBrZ0O8ZuVCpXxZdFC+JBCRDC9vaXcey8ldLvTQQA+pwjLskMjnYbv+SGP
+ R7fwCFNghE8pDfXBh0fJ/LxJJelYdAM=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-66-At5tNw78PMeqntGuZzWR-w-1; Wed, 08 Mar 2023 07:15:47 -0500
-X-MC-Unique: At5tNw78PMeqntGuZzWR-w-1
+ us-mta-357-rVyYv1YhM4a3UpnypVl5zA-1; Wed, 08 Mar 2023 07:17:08 -0500
+X-MC-Unique: rVyYv1YhM4a3UpnypVl5zA-1
 Received: by mail-ed1-f72.google.com with SMTP id
- da22-20020a056402177600b004c60694083eso23401001edb.5
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 04:15:47 -0800 (PST)
+ y1-20020a056402358100b004ea439d57b7so11492177edc.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 04:17:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678277746;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vuI7aCGTLI9l5zPBPqPbiawYASfv5arGWfUcTkqb4Jk=;
- b=V5BskuKPAnHDbyP09LSY9Dr23GPmD31nNAAU4ymwKzifY5N5AzYszYnvMlDRF44qtx
- +3tjoGOA3cm4tZp5b6FNEIRUX5XPVbx7Da7absjVsW8EuGb+8Pos3+DXxDrJREd0unkn
- J051rGxQhkW15pUDu69TYOco6aAuLKdmYnlqIVgQKnwo9y5+XP5xR4NDFioijikjULOM
- F3wFaNmZasNG73S16CDFNFfxo8bKgxYNj3sW6C+eOWKqbEjCM7W4EMTXGFdlXMrsVL0T
- 4Se0Hr9JI++g8KKhSqp2GphRuPwz79TrCjsxL7O7YayLIa7CO/5VsltY8G5Fe1G0xgK8
- QnjQ==
-X-Gm-Message-State: AO0yUKWKLj1MGIXYBC0HW1PU01C0fQeQ75gwruboPBUKcCb/LFcSxq/E
- Nudu7XnSW3mK5xz79LB7qJ25nk951NzG38g7b0zQkT31xhuZwZNCY1ugR5JrgF0AMayHsTqEWSd
- tHJg6bFfeDbcNVJw=
-X-Received: by 2002:a17:906:6bc1:b0:8b1:304e:58a3 with SMTP id
- t1-20020a1709066bc100b008b1304e58a3mr19937907ejs.52.1678277746117; 
- Wed, 08 Mar 2023 04:15:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set9FHT8cAkr8QazgPlNYE147eWmfy6dy7k8/GEwV2pWQBZ3SLY4qjxTo45TCTeqL9WqyRw70BQ==
-X-Received: by 2002:a17:906:6bc1:b0:8b1:304e:58a3 with SMTP id
- t1-20020a1709066bc100b008b1304e58a3mr19937885ejs.52.1678277745770; 
- Wed, 08 Mar 2023 04:15:45 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678277827;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Up0uu0sJVHatmNkPQUaXaugaamWfw+hE5FG/AHj6StE=;
+ b=PSKq6L1DyeXGIscqsNI2NHmKHVa9kOOHw1/I/qqwOlo3NEuzCAxl2pQ1w8+v6n+M5v
+ luq6/TWrgu6An76+VXLYXWPiW/tgiY4uRJjy8CQbN2+7rGrWS7hXJYtqVxMpdJLzxtIU
+ mz7A9GSXBsF6eT1NWztmS229OFnRqnydeAeiS0D5Dfx/hAzgIK+ZnPyDEkpgBxJKzhi1
+ uOhypMrXx/0qjVPCdS8ovwQ4/k9EXmvwwWObXDOo87hdO5ppGC7/SAwES1Lae0AHFWQ6
+ 20RoEyX3VqPkuUFzEc5oBchX21tgw7NVjOi7tvvAu2xVFLnV3a3mMRhB/hdo2OHklrXj
+ Gd3A==
+X-Gm-Message-State: AO0yUKU7XVBJjMQRAKxyHl4+RV/MxjnnJPh5IUyIo6UZMbfnMUKdAVF6
+ OX+tw8M3k5RIPxxACusQSMJ8EeWYGDvctAh4BnYeYYC09/XZK3a+EZNDK2P/nS8OA/6nlDO8D5l
+ lc3hevuUU7D6xl2E=
+X-Received: by 2002:aa7:d514:0:b0:4c5:7a47:9234 with SMTP id
+ y20-20020aa7d514000000b004c57a479234mr16035797edq.8.1678277827423; 
+ Wed, 08 Mar 2023 04:17:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set+gO4Ub/+gW6IPm+RMlFWN+NmSzLYuDOlJdnvwc+4FfCGe0jtamkzzjOhgmCGx8BECvu+E1KQ==
+X-Received: by 2002:aa7:d514:0:b0:4c5:7a47:9234 with SMTP id
+ y20-20020aa7d514000000b004c57a479234mr16035780edq.8.1678277827169; 
+ Wed, 08 Mar 2023 04:17:07 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- d17-20020a50f691000000b004c0cc79f4aesm8059989edn.92.2023.03.08.04.15.44
+ o26-20020a50c29a000000b004ac54d4da22sm8136857edf.71.2023.03.08.04.17.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 04:15:45 -0800 (PST)
-Date: Wed, 8 Mar 2023 07:15:42 -0500
+ Wed, 08 Mar 2023 04:17:06 -0800 (PST)
+Date: Wed, 8 Mar 2023 07:17:03 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Maxime Coquelin <maxime.coquelin@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-Message-ID: <20230308071529-mutt-send-email-mst@kernel.org>
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <6684066f-452d-a8b3-58b2-b0db2a3c2015@redhat.com>
- <20230201061709-mutt-send-email-mst@kernel.org>
- <6e98c7a2-bab8-e91f-1718-cc8d5d6e8ddf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PULL 00/51] Net patches
+Message-ID: <20230308071628-mutt-send-email-mst@kernel.org>
+References: <20230307070816.34833-1-jasowang@redhat.com>
+ <CAFEAcA_Pctm1m30Cm2Q2cpyp9JmNgej5nB0ovZGtjfFHU2R9SQ@mail.gmail.com>
+ <4b67f103-0df3-891c-2a0f-466a82e89732@linaro.org>
+ <CACGkMEsuy_eCGcLy2C8-BybbwGC4ak9+Gfv9EeiG6DAZrLjZdQ@mail.gmail.com>
+ <719692c2-6401-fd6a-8718-1dd5e6ff1f85@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6e98c7a2-bab8-e91f-1718-cc8d5d6e8ddf@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <719692c2-6401-fd6a-8718-1dd5e6ff1f85@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,93 +102,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 08, 2023 at 11:33:45AM +0100, Maxime Coquelin wrote:
-> Hello Michael,
-> 
-> On 2/1/23 12:20, Michael S. Tsirkin wrote:
-> > On Wed, Feb 01, 2023 at 12:14:18PM +0100, Maxime Coquelin wrote:
-> > > Thanks Eugenio for working on this.
+On Wed, Mar 08, 2023 at 08:40:42AM +0100, Philippe Mathieu-Daudé wrote:
+> On 8/3/23 07:56, Jason Wang wrote:
+> > On Wed, Mar 8, 2023 at 4:43 AM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
 > > > 
-> > > On 1/31/23 20:10, Eugenio Perez Martin wrote:
-> > > > Hi,
-> > > > 
-> > > > The current approach of offering an emulated CVQ to the guest and map
-> > > > the commands to vhost-user is not scaling well:
-> > > > * Some devices already offer it, so the transformation is redundant.
-> > > > * There is no support for commands with variable length (RSS?)
-> > > > 
-> > > > We can solve both of them by offering it through vhost-user the same
-> > > > way as vhost-vdpa do. With this approach qemu needs to track the
-> > > > commands, for similar reasons as vhost-vdpa: qemu needs to track the
-> > > > device status for live migration. vhost-user should use the same SVQ
-> > > > code for this, so we avoid duplications.
-> > > > 
-> > > > One of the challenges here is to know what virtqueue to shadow /
-> > > > isolate. The vhost-user device may not have the same queues as the
-> > > > device frontend:
-> > > > * The first depends on the actual vhost-user device, and qemu fetches
-> > > > it with VHOST_USER_GET_QUEUE_NUM at the moment.
-> > > > * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
-> > > > 
-> > > > For the device, the CVQ is the last one it offers, but for the guest
-> > > > it is the last one offered in config space.
-> > > > 
-> > > > To create a new vhost-user command to decrease that maximum number of
-> > > > queues may be an option. But we can do it without adding more
-> > > > commands, remapping the CVQ index at virtqueue setup. I think it
-> > > > should be doable using (struct vhost_dev).vq_index and maybe a few
-> > > > adjustments here and there.
-> > > > 
-> > > > Thoughts?
+> > > On 7/3/23 18:01, Peter Maydell wrote:
+> > > > On Tue, 7 Mar 2023 at 07:08, Jason Wang <jasowang@redhat.com> wrote:
+> > > > > 
+> > > > > The following changes since commit 817fd33836e73812df2f1907612b57750fcb9491:
+> > > > > 
+> > > > >     Merge tag 'audio-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
+> > > > > 
+> > > > > are available in the git repository at:
+> > > > > 
+> > > > >     https://github.com/jasowang/qemu.git tags/net-pull-request
+> > > > > 
+> > > > > for you to fetch changes up to c19b566a3898510ec2b3e881b3fb78614b240414:
+> > > > > 
+> > > > >     hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100() (2023-03-07 14:55:39 +0800)
+> > > > > 
+> > > > > ----------------------------------------------------------------
 > > > 
-> > > I am fine with both proposals.
-> > > I think index remapping will require a bit more rework in the DPDK
-> > > Vhost-user library, but nothing insurmountable.
-> > > 
-> > > I am currently working on a PoC adding support for VDUSE in the DPDK
-> > > Vhost library, and recently added control queue support. We can reuse it
-> > > if we want to prototype your proposal.
-> > > 
-> > > Maxime
-> > > 
-> > > > Thanks!
-> > > > 
-> > 
-> > 
-> > technically backend knows how many vqs are there, last one is cvq...
-> > not sure we need full blown remapping ...
-> > 
+> > > > build-oss-fuzz failed on something involving fuzzing eepro100:
+> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3889073821
+> > > Jason, please drop my patches. I'll look at that failure.
 > 
-> Before VHOST_USER_PROTOCOL_F_STATUS was supported by qemu (very
-> recently, v7.2.0), we had no way for the backend to be sure the
-> frontend won't configure new queue pairs, this not not defined in the
-> spec AFAICT [0]. In DPDK Vhost library, we notify the application it can
-> start to use the device once the first queue pair is setup and enabled,
-> then we notify the application when new queues are ready to be
-> processed. In this case, I think we cannot deduce whether the queue is a
-> data or a control queue when it is setup.
+> Before "hw/net/eepro100: Convert reset handler to DeviceReset",
+> e100_pci_reset() is only called once from DeviceRealize _before_
+> the device is realized.
 > 
-> When VHOST_USER_PROTOCOL_F_STATUS is supported, we know no more queues
-> will be configured once the DRIVER_OK status is set. In this case, we
-> can deduce the last queue setup will be the control queue at DRIVER_OK
-> time if the number of queues is odd.
+> After, 1/ it can be called multiple times and 2/ it seems to do
+> stuffs that really belong to DeviceRealize (should be called once),
+> in particular pci_add_capability().
 > 
-> Using index remapping, we would know directly at queue setup time
-> whether this is a data or control queue based on its index value,
-> i.e. if the index equals to max queue index supported by the backend.
-> But thinking at it again, we may at least back this with a protocol
-> feature to avoid issues with legacy backends.
-> 
-> I hope it clarifies, let me know if anything unclear.
-> 
-> Thanks,
-> Maxime
-> 
-> [0]:
-> https://elixir.bootlin.com/qemu/latest/source/docs/interop/vhost-user.rst
+> I *think* it should be illegal to call pci_add_capability() _after_
+> a device is realized. Auditing pci_add_capability(), there is only
+> one other use before realize: amdvi_sysbus_realize() in
+> hw/i386/amd_iommu.c.
 
 
-OK maybe document this.
+Calling pci_add_capability when VM is running is likely to confuse
+guests, yes.
 
 -- 
 MST
