@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629BC6AFBF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC93F6AFC18
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:19:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiNJ-0001l4-QE; Tue, 07 Mar 2023 20:13:49 -0500
+	id 1pZiNN-00025V-C7; Tue, 07 Mar 2023 20:13:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiND-00010k-0j
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNG-0001Qx-7z
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNA-0001vx-Kg
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:42 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNE-0001xI-6S
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678238019;
+ s=mimecast20190719; t=1678238023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MO4qORxRLOBc3/4AUP8HBqjXu+QcEdhXTFIaUTOEzYU=;
- b=FcxYQVGr3NHrMsWxU6aRZZxdq/YyTJ5cAwviG4m2vN5Dd8YcMsThNl2IQGkd1V3LVthWLL
- tGl58ccRVX3VnrRMYSYTUhpQG7792uAhJxiMHYtJjnak5vyg4vbNIT9pNENpITiYWFv/LP
- vjUmTqT79ql3ZjX2SHpj2c0oOaBoTjU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NiVZH2cd8MhbH6SXMN81UWaoK1zb3nOIQh2BBsQUr/E=;
+ b=eu/INKHihbx/o74JN8P2OvxJCEuWL2gI61hO6sF9XtKqI+5+WJao9UrITPNrO/qcAYOJ5B
+ uPXOq8/Lof4p8Wdfm9d3Zbl2+v4hn4QpzkjtlPTKB8abF4jhnD9KDfMzXycYyR3vZNKcUY
+ 31reFvXhqvW7jnHK604iqq6601qR8Ow=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-575-4KPyGVjrN_m9dwebh3bb0g-1; Tue, 07 Mar 2023 20:13:38 -0500
-X-MC-Unique: 4KPyGVjrN_m9dwebh3bb0g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- g2-20020a056402320200b004e98d45ee7dso9600750eda.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:38 -0800 (PST)
+ us-mta-617-_x6cS_LHPZmQ1E_XN7vzRg-1; Tue, 07 Mar 2023 20:13:42 -0500
+X-MC-Unique: _x6cS_LHPZmQ1E_XN7vzRg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ ev6-20020a056402540600b004bc2358ac04so21656075edb.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678238017;
+ d=1e100.net; s=20210112; t=1678238020;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MO4qORxRLOBc3/4AUP8HBqjXu+QcEdhXTFIaUTOEzYU=;
- b=vmeBQxZojkswcne7ICh6Sc468FYMmfDcdbD0h2o7rmDWo8LcFy7X673L2pW7a9NBDQ
- OFQKyJAOqnPpBcDWa/O4mL+x64HstC4jhhuYGEcH+bDB85r/uTohNrMCFysgjK9hQxFy
- Mx1uxtvu99WoRFuQ1x20ezrHr1ruozBK2priCx3tQhGjQZEzCBv45c1KEJ884U85OV4c
- GVnafM6dfW/F0o6+Uk55kVjeIBuZgKSnC4L5wYoDoMqjnLlcgNw1/tdvZjewaU9Jc1Kk
- nrQFOn5mIaRw3l7gKGdWI7gbKSWOhM/tj9tqSKkPUJ97RYbS1h3M7LbVG01as+M43nhl
- M5gA==
-X-Gm-Message-State: AO0yUKUbeKsyHk1ER7CumPUirzka823FXteLOu3bTzXT5q2IVZjFiyaU
- aea4V8ZVnaMVbDWaukkY+TfdO9MZLv6FhZV5Tc9ivxCQBDSn01YCg1oeoiAiSn+LJgQPLvKpjV6
- Zt3rNF71dXdeJodmU+wkpRrskBrefUeMCP94qu5JStlHq9emjBcPJqdLIgptgx+2bpL7j
-X-Received: by 2002:a17:906:9451:b0:8e1:d996:dca2 with SMTP id
- z17-20020a170906945100b008e1d996dca2mr15205278ejx.64.1678238017129; 
- Tue, 07 Mar 2023 17:13:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set/qIsltI/lkzudNkjW9SrYpjPElR4/h1XRhBVwL6ijL07Zkvbo888nz7v+/LTLS2o7O83MKnA==
-X-Received: by 2002:a17:906:9451:b0:8e1:d996:dca2 with SMTP id
- z17-20020a170906945100b008e1d996dca2mr15205255ejx.64.1678238016776; 
- Tue, 07 Mar 2023 17:13:36 -0800 (PST)
+ bh=NiVZH2cd8MhbH6SXMN81UWaoK1zb3nOIQh2BBsQUr/E=;
+ b=XQnCQQgs6v1lktLyHTimHUhhAJ9LNEy4MTrYQ+noFiFeyEzCA4NWdzf/wsjEwVkWZb
+ DE3e+g6fPmr3sIsZkT6ruJ/6XuYNS8jJKVL29HAlKbTFxdkAnj47m+ZN5AgAAfVNA/ss
+ y3rve81/aEm8SSfQg4r6LBGz1P+PG2leGnujbikpEFP4aarG7RLwtxRnYyK6MfYhlSsI
+ 1XTrk5kxGRG0e4N8yu77Nial/cbVG5RnD6mwzkt8wus3SovzVL13V+mmEK0urmePZmVP
+ Sk59cNCd7f+0pelMCh455HRok/1g7uidSNjTyyNkbnVRmKJmw3tabrCifMI3ax5JXliv
+ d/NQ==
+X-Gm-Message-State: AO0yUKXrkourt/tG9GAqiUClR+Kx2f/6U0MUL49d0A/iUm5v2a08qes9
+ dTNpRDWYfKNH4cgkBh4is/qMKB0Jtz9QQDJE0M1U3dI6txewvGzrjIx1Me8ug+Gl7nGgS0+l0DY
+ gXjnEjsK0jnEUoTpOyyF89hz6QJRIsukEcpb4m5BqBmEHKcQhleKm58PHsjYXKyMyBzsG
+X-Received: by 2002:a17:906:b050:b0:8b1:e791:faef with SMTP id
+ bj16-20020a170906b05000b008b1e791faefmr16070718ejb.67.1678238020462; 
+ Tue, 07 Mar 2023 17:13:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set9wjztgnezAeIFAUh1i+Q0neiLpjXNQqE68dPjLfoMLeJfUdZIEH8HLlXy0LSTA8TzDtQVCug==
+X-Received: by 2002:a17:906:b050:b0:8b1:e791:faef with SMTP id
+ bj16-20020a170906b05000b008b1e791faefmr16070703ejb.67.1678238020277; 
+ Tue, 07 Mar 2023 17:13:40 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- 20-20020a170906301400b008cf1b61a73esm6776563ejz.41.2023.03.07.17.13.35
+ 1-20020a170906308100b008de345f4f9asm6770149ejv.49.2023.03.07.17.13.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:36 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:34 -0500
+ Tue, 07 Mar 2023 17:13:39 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:37 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 55/73] pci: move acpi-index uniqueness check to generic PCI
- device code
-Message-ID: <041b1c40f38a63baff7c375d1e3df6f365aa5882.1678237635.git.mst@redhat.com>
+Subject: [PULL 56/73] acpi: pci: drop BSEL usage when deciding that device
+ isn't hotpluggable
+Message-ID: <419233b2b417eec65211b4a5160d94978546467b.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,201 +104,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-acpi-index is now working with non-hotpluggable buses
-(pci/q35 machine hostbridge), it can be used even if
-ACPI PCI hotplug is disabled and as result acpi-index
-uniqueness check will be omitted (since the check is
-done by ACPI PCI hotplug handler, which isn't wired
-when ACPI PCI hotplug is disabled).
-Move check and related code to generic PCIDevice so it
-would be independent of ACPI PCI hotplug.
+previous commit ("pci: fix 'hotplugglable' property behavior") fixed
+pcie root port's 'hotpluggable' property to behave consistently.
+
+So we don't need a BSEL crutch anymore to see of device is not
+hotpluggable, drop it from 'generic' PCI slots description handling.
+
+BSEL is still used to decide if hotplug part should be called
+but that will be moved out of generic code to hotplug one by
+followup patches.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-30-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-31-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/pcihp.c | 56 ------------------------------------------------
- hw/pci/pci.c    | 57 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+), 56 deletions(-)
+ hw/i386/acpi-build.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 5dc7377411..adf45e8443 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -54,21 +54,6 @@ typedef struct AcpiPciHpFind {
-     PCIBus *bus;
- } AcpiPciHpFind;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 8e2481fe5e..ce14866eda 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -591,7 +591,7 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
  
--static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
--{
--    return a - b;
--}
--
--static GSequence *pci_acpi_index_list(void)
--{
--    static GSequence *used_acpi_index_list;
--
--    if (!used_acpi_index_list) {
--        used_acpi_index_list = g_sequence_new(NULL);
--    }
--    return used_acpi_index_list;
--}
--
- static int acpi_pcihp_get_bsel(PCIBus *bus)
- {
-     Error *local_err = NULL;
-@@ -300,8 +285,6 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
-     acpi_pcihp_update(s);
- }
- 
--#define ONBOARD_INDEX_MAX (16 * 1024 - 1)
--
- void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                    DeviceState *dev, Error **errp)
- {
-@@ -314,34 +297,6 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                    ACPI_PCIHP_PROP_BSEL "' set");
-         return;
-     }
--
--    /*
--     * capped by systemd (see: udev-builtin-net_id.c)
--     * as it's the only known user honor it to avoid users
--     * misconfigure QEMU and then wonder why acpi-index doesn't work
--     */
--    if (pdev->acpi_index > ONBOARD_INDEX_MAX) {
--        error_setg(errp, "acpi-index should be less or equal to %u",
--                   ONBOARD_INDEX_MAX);
--        return;
--    }
--
--    /*
--     * make sure that acpi-index is unique across all present PCI devices
--     */
--    if (pdev->acpi_index) {
--        GSequence *used_indexes = pci_acpi_index_list();
--
--        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
--                              g_cmp_uint32, NULL)) {
--            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
--                       " already exist", pdev->acpi_index);
--            return;
--        }
--        g_sequence_insert_sorted(used_indexes,
--                                 GINT_TO_POINTER(pdev->acpi_index),
--                                 g_cmp_uint32, NULL);
--    }
- }
- 
- void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-@@ -401,17 +356,6 @@ void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-     trace_acpi_pci_unplug(PCI_SLOT(pdev->devfn),
-                           acpi_pcihp_get_bsel(pci_get_bus(pdev)));
- 
--    /*
--     * clean up acpi-index so it could reused by another device
--     */
--    if (pdev->acpi_index) {
--        GSequence *used_indexes = pci_acpi_index_list();
--
--        g_sequence_remove(g_sequence_lookup(used_indexes,
--                          GINT_TO_POINTER(pdev->acpi_index),
--                          g_cmp_uint32, NULL));
--    }
--
-     qdev_unrealize(dev);
- }
- 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 034fe49e9a..def5000e7b 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -95,6 +95,21 @@ static const VMStateDescription vmstate_pcibus = {
-     }
- };
- 
-+static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
-+{
-+    return a - b;
-+}
-+
-+static GSequence *pci_acpi_index_list(void)
-+{
-+    static GSequence *used_acpi_index_list;
-+
-+    if (!used_acpi_index_list) {
-+        used_acpi_index_list = g_sequence_new(NULL);
-+    }
-+    return used_acpi_index_list;
-+}
-+
- static void pci_init_bus_master(PCIDevice *pci_dev)
- {
-     AddressSpace *dma_as = pci_device_iommu_address_space(pci_dev);
-@@ -1246,6 +1261,17 @@ static void pci_qdev_unrealize(DeviceState *dev)
-     do_pci_unregister_device(pci_dev);
- 
-     pci_dev->msi_trigger = NULL;
-+
-+    /*
-+     * clean up acpi-index so it could reused by another device
-+     */
-+    if (pci_dev->acpi_index) {
-+        GSequence *used_indexes = pci_acpi_index_list();
-+
-+        g_sequence_remove(g_sequence_lookup(used_indexes,
-+                          GINT_TO_POINTER(pci_dev->acpi_index),
-+                          g_cmp_uint32, NULL));
-+    }
- }
- 
- void pci_register_bar(PCIDevice *pci_dev, int region_num,
-@@ -2005,6 +2031,8 @@ PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
-     return bus->devices[devfn];
- }
- 
-+#define ONBOARD_INDEX_MAX (16 * 1024 - 1)
-+
- static void pci_qdev_realize(DeviceState *qdev, Error **errp)
- {
-     PCIDevice *pci_dev = (PCIDevice *)qdev;
-@@ -2014,6 +2042,35 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-     bool is_default_rom;
-     uint16_t class_id;
- 
-+    /*
-+     * capped by systemd (see: udev-builtin-net_id.c)
-+     * as it's the only known user honor it to avoid users
-+     * misconfigure QEMU and then wonder why acpi-index doesn't work
-+     */
-+    if (pci_dev->acpi_index > ONBOARD_INDEX_MAX) {
-+        error_setg(errp, "acpi-index should be less or equal to %u",
-+                   ONBOARD_INDEX_MAX);
-+        return;
-+    }
-+
-+    /*
-+     * make sure that acpi-index is unique across all present PCI devices
-+     */
-+    if (pci_dev->acpi_index) {
-+        GSequence *used_indexes = pci_acpi_index_list();
-+
-+        if (g_sequence_lookup(used_indexes,
-+                              GINT_TO_POINTER(pci_dev->acpi_index),
-+                              g_cmp_uint32, NULL)) {
-+            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
-+                       " already exist", pci_dev->acpi_index);
-+            return;
-+        }
-+        g_sequence_insert_sorted(used_indexes,
-+                                 GINT_TO_POINTER(pci_dev->acpi_index),
-+                                 g_cmp_uint32, NULL);
-+    }
-+
-     if (pci_dev->romsize != -1 && !is_power_of_2(pci_dev->romsize)) {
-         error_setg(errp, "ROM size %u is not a power of two", pci_dev->romsize);
-         return;
+         call_dev_aml_func(DEVICE(bus->devices[devfn]), dev);
+         /* add _DSM if device has acpi-index set */
+-        if (pdev->acpi_index && !bsel &&
++        if (pdev->acpi_index &&
+             !object_property_get_bool(OBJECT(pdev), "hotpluggable",
+                                       &error_abort)) {
+             aml_append(dev, aml_pci_static_endpoint_dsm(pdev));
 -- 
 MST
 
