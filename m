@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D60E6B0FDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE736B0FBD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:05:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZxDd-0003P7-Dt; Wed, 08 Mar 2023 12:04:51 -0500
+	id 1pZx7m-00047g-71; Wed, 08 Mar 2023 11:58:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZxDX-0002uN-Bf; Wed, 08 Mar 2023 12:04:43 -0500
+ id 1pZx7e-00046m-FT; Wed, 08 Mar 2023 11:58:38 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZxDU-0005XQ-B7; Wed, 08 Mar 2023 12:04:42 -0500
+ id 1pZx7V-0003vA-C1; Wed, 08 Mar 2023 11:58:31 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id E24BE400AF;
- Wed,  8 Mar 2023 19:58:16 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 25CF7400B1;
+ Wed,  8 Mar 2023 19:58:17 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id A694913A;
+ by tsrv.corpit.ru (Postfix) with SMTP id C804C1FD;
  Wed,  8 Mar 2023 19:58:15 +0300 (MSK)
-Received: (nullmailer pid 2098254 invoked by uid 1000);
+Received: (nullmailer pid 2098256 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:15 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Guenter Roeck <linux@roeck-us.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 01/47] target/sh4: Mask restore of env->flags from tb->flags
-Date: Wed,  8 Mar 2023 19:57:04 +0300
-Message-Id: <20230308165815.2098148-1-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Lei Yang <leiyang@redhat.com>, Yalan Zhang <yalzhang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 02/47] vhost: fix vq dirty bitmap syncing when vIOMMU is
+ enabled
+Date: Wed,  8 Mar 2023 19:57:05 +0300
+Message-Id: <20230308165815.2098148-2-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -59,36 +60,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Guenter Roeck <linux@roeck-us.net>
+From: Jason Wang <jasowang@redhat.com>
 
-The values in env->flags are a subset of tb->flags.
-Restore only the bits that belong.
+When vIOMMU is enabled, the vq->used_phys is actually the IOVA not
+GPA. So we need to translate it to GPA before the syncing otherwise we
+may hit the following crash since IOVA could be out of the scope of
+the GPA log size. This could be noted when using virtio-IOMMU with
+vhost using 1G memory.
 
+Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
 Cc: qemu-stable@nongnu.org
-Fixes: ab419fd8a035 ("target/sh4: Fix TB_FLAG_UNALIGN")
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <20221212011345.GA2235238@roeck-us.net>
-[rth: Reduce to only the the superh_cpu_synchronize_from_tb change]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-(cherry picked from commit bc2331635ce18ff068d2bb1e493bc546e1f786e1)
+Tested-by: Lei Yang <leiyang@redhat.com>
+Reported-by: Yalan Zhang <yalzhang@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20221216033552.77087-1-jasowang@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 345cc1cbcbce2bab00abc2b88338d7d89c702d6b)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- target/sh4/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/vhost.c | 84 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 64 insertions(+), 20 deletions(-)
 
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 453268392b..827cee25af 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -47,7 +47,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
-     SuperHCPU *cpu = SUPERH_CPU(cs);
- 
-     cpu->env.pc = tb_pc(tb);
--    cpu->env.flags = tb->flags;
-+    cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index d1c4c20b8c..34d356e903 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -20,6 +20,7 @@
+ #include "qemu/range.h"
+ #include "qemu/error-report.h"
+ #include "qemu/memfd.h"
++#include "qemu/log.h"
+ #include "standard-headers/linux/vhost_types.h"
+ #include "hw/virtio/virtio-bus.h"
+ #include "hw/virtio/virtio-access.h"
+@@ -106,6 +107,24 @@ static void vhost_dev_sync_region(struct vhost_dev *dev,
+     }
  }
  
- static void superh_restore_state_to_opc(CPUState *cs,
++static bool vhost_dev_has_iommu(struct vhost_dev *dev)
++{
++    VirtIODevice *vdev = dev->vdev;
++
++    /*
++     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
++     * incremental memory mapping API via IOTLB API. For platform that
++     * does not have IOMMU, there's no need to enable this feature
++     * which may cause unnecessary IOTLB miss/update transactions.
++     */
++    if (vdev) {
++        return virtio_bus_device_iommu_enabled(vdev) &&
++            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
++    } else {
++        return false;
++    }
++}
++
+ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+                                    MemoryRegionSection *section,
+                                    hwaddr first,
+@@ -137,8 +156,51 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+             continue;
+         }
+ 
+-        vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
+-                              range_get_last(vq->used_phys, vq->used_size));
++        if (vhost_dev_has_iommu(dev)) {
++            IOMMUTLBEntry iotlb;
++            hwaddr used_phys = vq->used_phys, used_size = vq->used_size;
++            hwaddr phys, s, offset;
++
++            while (used_size) {
++                rcu_read_lock();
++                iotlb = address_space_get_iotlb_entry(dev->vdev->dma_as,
++                                                      used_phys,
++                                                      true,
++                                                      MEMTXATTRS_UNSPECIFIED);
++                rcu_read_unlock();
++
++                if (!iotlb.target_as) {
++                    qemu_log_mask(LOG_GUEST_ERROR, "translation "
++                                  "failure for used_iova %"PRIx64"\n",
++                                  used_phys);
++                    return -EINVAL;
++                }
++
++                offset = used_phys & iotlb.addr_mask;
++                phys = iotlb.translated_addr + offset;
++
++                /*
++                 * Distance from start of used ring until last byte of
++                 * IOMMU page.
++                 */
++                s = iotlb.addr_mask - offset;
++                /*
++                 * Size of used ring, or of the part of it until end
++                 * of IOMMU page. To avoid zero result, do the adding
++                 * outside of MIN().
++                 */
++                s = MIN(s, used_size - 1) + 1;
++
++                vhost_dev_sync_region(dev, section, start_addr, end_addr, phys,
++                                      range_get_last(phys, s));
++                used_size -= s;
++                used_phys += s;
++            }
++        } else {
++            vhost_dev_sync_region(dev, section, start_addr,
++                                  end_addr, vq->used_phys,
++                                  range_get_last(vq->used_phys, vq->used_size));
++        }
+     }
+     return 0;
+ }
+@@ -306,24 +368,6 @@ static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t size)
+     dev->log_size = size;
+ }
+ 
+-static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+-{
+-    VirtIODevice *vdev = dev->vdev;
+-
+-    /*
+-     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+-     * incremental memory mapping API via IOTLB API. For platform that
+-     * does not have IOMMU, there's no need to enable this feature
+-     * which may cause unnecessary IOTLB miss/update transactions.
+-     */
+-    if (vdev) {
+-        return virtio_bus_device_iommu_enabled(vdev) &&
+-            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+-    } else {
+-        return false;
+-    }
+-}
+-
+ static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+                               hwaddr *plen, bool is_write)
+ {
 -- 
 2.30.2
 
