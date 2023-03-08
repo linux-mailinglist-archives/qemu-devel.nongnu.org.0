@@ -2,100 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA7D6B0C88
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 16:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04076B0C9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 16:25:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZvcB-0005TS-Fa; Wed, 08 Mar 2023 10:22:03 -0500
+	id 1pZvei-0006kl-Vb; Wed, 08 Mar 2023 10:24:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZvc8-0005T0-Pk
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 10:22:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pZved-0006ju-7B; Wed, 08 Mar 2023 10:24:35 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pZvc5-0007GJ-7t
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 10:22:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678288914;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iqPOBP/leOXXahEuqsmabrDuExuFwzyb2tfpQuifqVU=;
- b=eGcTozThZBAC8TKbeDDlHTSN90n742oOma8kE3XEt63TMfCCM2MizHCjmjxPpzDA1+G0KH
- Zpau3n8f9IekuEJMTnYBqfgi1gxBKcWiyZ4sSFAqZmZPV7jcO/DXU/uW79R/xThDgqmx1z
- qhJNo71rVgUp1v3pLjlOSpEFPpxbK0w=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-323-NO2hq4zGNnmg9zCwYAHFnw-1; Wed, 08 Mar 2023 10:21:52 -0500
-X-MC-Unique: NO2hq4zGNnmg9zCwYAHFnw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z6-20020a05600c220600b003e222c9c5f4so5983768wml.4
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 07:21:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678288911;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iqPOBP/leOXXahEuqsmabrDuExuFwzyb2tfpQuifqVU=;
- b=wABNXgaeB/LKCKVBceSFQym/qPqqSAc0XYvJ6mbIs8zFe9quXLZFzuVZ+f+4ob+rtK
- gtby+AMOEv8vRhwFjWWcGUaV4MGRxzcsUFDy/4I5fwbKubFSQ3LFU4tbfAMfOFr3xfPL
- UVCkLjqkndaP1Iyi3OJoaxe17lFMCrKQy5+Qeb1punsmrBLe+Xbs/TqiQJoH8QdNTa/k
- HcTNbcr4hlzI+nQalxIzbPTy2ee6trzZUlOC8/chQbVAMO0KxNlYUJldEeNvk42ST4Qp
- AJPn6ZRs/8xmJ/X41M8jzB7dRMNwQnN7UrHW+BZkBA+s/h7FnwcgNP9ZbWqnkMBjnfJj
- fekw==
-X-Gm-Message-State: AO0yUKUBn4+JU+NHeISp0sjOgdtpbyOQjdQzYJzCEi/rFoCNRULM/o6Y
- 3GZY5S8dtwqEKXqzmB+PJUInBd0sSgiQqyVaQi6Pu6XveA5YAMpYCk6a4htUp3oc1Rj8St/cC7+
- e3s9DnQbySMOVCDQ=
-X-Received: by 2002:a05:600c:2150:b0:3eb:253c:faae with SMTP id
- v16-20020a05600c215000b003eb253cfaaemr16577318wml.36.1678288911173; 
- Wed, 08 Mar 2023 07:21:51 -0800 (PST)
-X-Google-Smtp-Source: AK7set8FrzyJZtmVCWwr4/LVzpeAXEb+PYpbkdj6Ll8G06/VzkF8RzHih9VM2VamgxP5UxXo0rnkdQ==
-X-Received: by 2002:a05:600c:2150:b0:3eb:253c:faae with SMTP id
- v16-20020a05600c215000b003eb253cfaaemr16577301wml.36.1678288910839; 
- Wed, 08 Mar 2023 07:21:50 -0800 (PST)
-Received: from ?IPV6:2003:cb:c71b:cb00:d372:1da8:9e9e:422d?
- (p200300cbc71bcb00d3721da89e9e422d.dip0.t-ipconnect.de.
- [2003:cb:c71b:cb00:d372:1da8:9e9e:422d])
- by smtp.gmail.com with ESMTPSA id
- s7-20020a05600c45c700b003dc434b39c7sm2923285wmo.0.2023.03.08.07.21.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Mar 2023 07:21:50 -0800 (PST)
-Message-ID: <034f9e1c-ceb5-c8a5-e660-1b3a80d2059d@redhat.com>
-Date: Wed, 8 Mar 2023 16:21:49 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pZveb-0008Lp-8w; Wed, 08 Mar 2023 10:24:34 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 328EGrIh028349; Wed, 8 Mar 2023 15:24:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cwv9W1Z1/PryWc40CBifjaXA3AIX0Q8YofBF3zmmnxA=;
+ b=eThgYWtebwwHMz+uj9y5ZSt1VTU0nGRyjxgfv4Rawt4IrIsCOSF+dg5qwpPuggDbXrC9
+ Dp6RNOGLSpVFw0JO56nZN75/2+ubePMcSURZg1RXgXCaB3WsQkJmq2+rqCPbE+tEAvGE
+ uMGbFzQtSMFOcL/enESkJAcfd/Df0to6jka7bOz9RXQFRFYMioIhrwXLQO3gSoDq4cLd
+ R4ZMfY3umdWhcD+aJkow+j1CovwAdT4h76is9jW6DPdvCGJe9IMr4lwFAmDu67srEpTi
+ mrQdvhSxONstAGSSS9jQBK5iFG2xviy6vLlbIIUh6MYR9pmSxeenpFjdiba4LKubgWLC BA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p6pmxa5cg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 15:24:27 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 328FIWqG009241;
+ Wed, 8 Mar 2023 15:24:26 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p6pmxa5ba-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 15:24:26 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3280dFnK002812;
+ Wed, 8 Mar 2023 15:24:23 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3p6g0pgr15-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 15:24:23 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 328FOKo040042982
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Mar 2023 15:24:20 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E267220040;
+ Wed,  8 Mar 2023 15:24:19 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 84D1F2004D;
+ Wed,  8 Mar 2023 15:24:18 +0000 (GMT)
+Received: from [9.179.28.81] (unknown [9.179.28.81])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Wed,  8 Mar 2023 15:24:18 +0000 (GMT)
+Message-ID: <c924933e-4814-e7d8-e62b-76cc7f68fba4@linux.ibm.com>
+Date: Wed, 8 Mar 2023 16:24:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
+Subject: Re: [PATCH v16 03/11] target/s390x/cpu topology: handle STSI(15) and
+ build the SYSIB
 Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Tiwei Bie <tiwei.bie@intel.com>
-References: <20230216114752.198627-1-david@redhat.com>
- <20230216114752.198627-2-david@redhat.com>
- <20230307115147.42df4ba0@imammedo.users.ipa.redhat.com>
- <fad9136f-08d3-3fd9-71a1-502069c000cf@redhat.com>
- <20230308133020.28aabe98@imammedo.users.ipa.redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 1/2] vhost: Defer filtering memory sections until
- building the vhost memory structure
-In-Reply-To: <20230308133020.28aabe98@imammedo.users.ipa.redhat.com>
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
+ <20230222142105.84700-4-pmorel@linux.ibm.com>
+ <01fa83156fa7452b0e45fe9df8d799b1f3589295.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <01fa83156fa7452b0e45fe9df8d799b1f3589295.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: FIJRCvJGtB0jao56Vh1zzl99z4AZhk_L
+X-Proofpoint-ORIG-GUID: VsJ2ubrDMumfjN9nyfk1NvkvVR8vszZF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-08_08,2023-03-08_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303080129
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,101 +120,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+
+On 2/27/23 14:21, Nina Schoetterl-Glausch wrote:
+> On Wed, 2023-02-22 at 15:20 +0100, Pierre Morel wrote:
+>> On interception of STSI(15.1.x) the System Information Block
+>> (SYSIB) is built from the list of pre-ordered topology entries.
 >>
->> So we tricked used_memslots to be smaller than it actually has to be, because
->> we're ignoring the memslots filtered out by the vhost-user device.
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   include/hw/s390x/cpu-topology.h |  21 +++
+>>   include/hw/s390x/sclp.h         |   1 +
+>>   target/s390x/cpu.h              |  72 ++++++++
+>>   hw/s390x/cpu-topology.c         |  14 +-
+>>   target/s390x/kvm/cpu_topology.c | 312 ++++++++++++++++++++++++++++++++
+>>   target/s390x/kvm/kvm.c          |   5 +-
+>>   target/s390x/kvm/meson.build    |   3 +-
+>>   7 files changed, 425 insertions(+), 3 deletions(-)
+>>   create mode 100644 target/s390x/kvm/cpu_topology.c
 >>
+>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+>> index fa7f885a9f..8dc42d2942 100644
+>> --- a/include/hw/s390x/cpu-topology.h
+>> +++ b/include/hw/s390x/cpu-topology.h
+>> @@ -16,8 +16,29 @@
+>>   
+>>   #define S390_TOPOLOGY_CPU_IFL   0x03
+>>   
+>> +typedef union s390_topology_id {
+>> +    uint64_t id;
+>> +    struct {
+>> +        uint8_t level5;
+> You could rename this to sentinel, since that's the only use case and
+> if there ever is another level the sentinel implementation might need
+> to be changed anyway.
+
+
+OK
+
+
+>
+>> +        uint8_t drawer;
+>> +        uint8_t book;
+>> +        uint8_t socket;
+>> +        uint8_t dedicated;
+>> +        uint8_t entitlement;
+>> +        uint8_t type;
+>> +        uint8_t origin;
+>> +    };
+>> +} s390_topology_id;
+>> +
 >>
->> Now, this is all far from relevant in practice as of now I think, and
->> usually would indicate user errors already (memory that's not shared with
->> vhost-user?).
-> 
-> well vhost-user device_add should fail if it can't get hands on all RAM
-> (if it doesn't we have a bug somewhere else)
-
-There are some corner cases already. Like R/O NVDIMMs are completely 
-ignored -- I assume because we wouldn't be able to use them for virtio 
-queues either way, so it kind-of makes sense I guess.
-
-I have not yet figured out *why* 988a27754bbb ("vhost: allow backends to 
-filter memory sections") was included at all. Why should we have 
-memory-backend-ram mapped into guest address space that vhost-user 
-cannot handle?
-
-Take my NVDIMM example, if we'd use that NVDIMM memory in the guest as 
-ordinary RAM, it could eventually be used for virtio queues ... and we 
-don't even warn the user.
-
-So I agree that hotplugging that device should fail. But it could also 
-break some existing setups (we could work around it using compat 
-machines I guess).
-
-But we also have to fail hotplugging such a vhost-user device, ... and I 
-am not sure where to even put such checks.
-
-
-> 
+> [...]
+>
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index d654267a71..c899f4e04b 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -560,6 +560,25 @@ typedef struct SysIB_322 {
 >>
->> It might gets more relevant when virtio-mem dynamically adds/removes memslots and
->> relies on precise tracking of used vs. free memslots.
->>
->>
->> But maybe I should just ignore that case and live a happy life instead, it's
->> certainly hard to even trigger right now :)
->>>      
->>>> Further, it will be helpful in memory device context in the near future
->>>> to know that a RAM memory region section will consume a memslot, and be
->>>> accounted for in the used vs. free memslots, such that we can implement
->>>> reservation of memslots for memory devices properly. Whether a device
->>>> filters this out and would theoretically still have a free memslot is
->>>> then hidden internally, making overall vhost memslot accounting easier.
->>>>
-> 
->>>> Let's filter the memslots when creating the vhost memory array,
->>>> accounting all RAM && !ROM memory regions as "used_memslots" even if
->>>> vhost_user isn't interested in anonymous RAM regions, because it needs
->>>> an fd.
-> 
-> that would regress existing setups where it was possible
-> to start with N DIMMs and after this patch the same VM could fail to
-> start if N was close to vhost's limit in otherwise perfectly working
-> configuration. So this approach doesn't seem right.
+> [...]
+>>   
+>> +/*
+>> + * CPU Topology List provided by STSI with fc=15 provides a list
+>> + * of two different Topology List Entries (TLE) types to specify
+>> + * the topology hierarchy.
+>> + *
+>> + * - Container Topology List Entry
+>> + *   Defines a container to contain other Topology List Entries
+>> + *   of any type, nested containers or CPU.
+>> + * - CPU Topology List Entry
+>> + *   Specifies the CPUs position, type, entitlement and polarization
+>> + *   of the CPUs contained in the last Container TLE.
+>> + *
+>> + * There can be theoretically up to five levels of containers, QEMU
+>> + * uses only three levels, the drawer's, book's and socket's level.
+>> + *
+>> + * A container of with a nesting level (NL) greater than 1 can only
+> s/of//
 
-As discussed already with MST, this was the state before that change. So 
-I strongly doubt that we would break anything because using 
-memory-backend-ram in that setup would already be suspicious.
 
-Again, I did not figure out *why* that change was even included and 
-which setups even care about that.
+thanks.
 
-Maybe Tiwei can comment.
 
-> 
-> Perhaps redoing vhost's used_memslots accounting would be
-> a better approach, right down to introducing reservations you'd
-> like to have eventually.
+>
+>> + * contain another container of nesting level NL-1.
+>> + *
+>> + * A container of nesting level 1 (socket), contains as many CPU TLE
+>> + * as needed to describe the position and qualities of all CPUs inside
+>> + * the container.
+>> + * The qualities of a CPU are polarization, entitlement and type.
+>> + *
+>> + * The CPU TLE defines the position of the CPUs of identical qualities
+>> + * using a 64bits mask which first bit has its offset defined by
+>> + * the CPU address orgin field of the CPU TLE like in:
+>> + * CPU address = origin * 64 + bit position within the mask
+>> + *
+>> + */
+>> +/* Container type Topology List Entry */
+>> +typedef struct SysIBTl_container {
+>> +        uint8_t nl;
+>> +        uint8_t reserved[6];
+>> +        uint8_t id;
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>> +
+> [...]
+>> +
+>> +/**
+>> + * s390_topology_from_cpu:
+>> + * @cpu: The S390CPU
+>> + *
+>> + * Initialize the topology id from the CPU environment.
+>> + */
+>> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
+>> +{
+>> +    s390_topology_id topology_id = {0};
+>> +
+>> +    topology_id.drawer = cpu->env.drawer_id;
+>> +    topology_id.book = cpu->env.book_id;
+>> +    topology_id.socket = cpu->env.socket_id;
+>> +    topology_id.origin = cpu->env.core_id / 64;
+>> +    topology_id.type = S390_TOPOLOGY_CPU_IFL;
+>> +    topology_id.dedicated = cpu->env.dedicated;
+>> +
+>> +    if (s390_topology.polarization == S390_CPU_POLARIZATION_VERTICAL) {
+>> +        /*
+>> +         * Vertical polarization with dedicated CPU implies
+>> +         * vertical high entitlement.
+>> +         */
+>> +        if (topology_id.dedicated) {
+>> +            topology_id.entitlement = S390_CPU_ENTITLEMENT_HIGH;
+>> +        } else {
+>> +            topology_id.entitlement = cpu->env.entitlement;
+>> +        }
+> I don't see why you need this if, it should already be correct.
+>
+>> +    }
+> I'd suggest the following:
+> * rename entitlement in s390_topology_id back to polarization, but keep entitlement everywhere else.
+> * remove horizontal/none from CpuS390Entitlement, this way the user cannot set it,
+> 	and it doesn't show up in the output of query-cpus-fast.
+> * this is where you convert between the two, so:
+> 	if horizontal, id.polarization = 0,
+> 	otherwise id.polarization = entitlement + 1, or a switch case.
+> * in patch 6 in s390_topology_set_cpus_entitlement you don't set the entitlement if the polarization
+> 	is horizontal, which is ok because of the conversion above.
 
-The question what to do with memory-backend-ram for vhost-user still 
-remains. It's independent of the "used_memslot" tracking, because used 
-vs. reserved would depend on the vhost-backend filtering demands ... and 
-I really wanted to avoid that with this commit. It just makes tracking 
-much harder.
+I do not like to remove the horizontal entitlement from the enum because 
+every
+existing s390 tool show "horizontal" entitlement when the polarization 
+is horizontal.
 
-> 
-> Something like:
->    1: s/vhost_has_free_slot/vhost_memory_region_limit/
->       and maybe the same for kvm_has_free_slot
->    then rewrite memory_device_check_addable() moving all
->    used_memslots accounting into memory_device core.
+See, lscpu -e or "/sys/devices/system/cpu/cpu*/polarization"
 
-I do something similar already, however, by querying the free memslots 
-from kvm and vhost, not the limits (limits are not very expressive).
+Also, the user may find strange that a field is missing depending of the 
+polarization in the output of query-cpu-fast.
 
-Thanks!
+Regards,
 
--- 
-Thanks,
+Pierre
 
-David / dhildenb
 
 
