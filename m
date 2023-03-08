@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3126B0F9C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10796B0FAD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:04:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8Y-0004pE-Q4; Wed, 08 Mar 2023 11:59:34 -0500
+	id 1pZx8a-0004qi-0v; Wed, 08 Mar 2023 11:59:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8G-0004YW-VB; Wed, 08 Mar 2023 11:59:16 -0500
+ id 1pZx8R-0004cM-GP; Wed, 08 Mar 2023 11:59:27 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8E-00045m-3X; Wed, 08 Mar 2023 11:59:16 -0500
+ id 1pZx8L-00047J-Q4; Wed, 08 Mar 2023 11:59:27 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id D03F94010C;
- Wed,  8 Mar 2023 19:58:37 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 1D44A4010D;
+ Wed,  8 Mar 2023 19:58:38 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 990D292;
+ by tsrv.corpit.ru (Postfix) with SMTP id C6FC71FD;
  Wed,  8 Mar 2023 19:58:36 +0300 (MSK)
-Received: (nullmailer pid 2098346 invoked by uid 1000);
+Received: (nullmailer pid 2098348 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:34 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
 Cc: qemu-stable@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
  "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 34/47] vhost-user-i2c: Back up vqs before cleaning up vhost_dev
-Date: Wed,  8 Mar 2023 19:57:37 +0300
-Message-Id: <20230308165815.2098148-34-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 35/47] vhost-user-rng: Back up vqs before cleaning up vhost_dev
+Date: Wed,  8 Mar 2023 19:57:38 +0300
+Message-Id: <20230308165815.2098148-35-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -63,51 +63,44 @@ From: Akihiko Odaki <akihiko.odaki@daynix.com>
 vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
 the memory pointed by the member.
 
-Fixes: 7221d3b634 ("hw/virtio: add boilerplate for vhost-user-i2c device")
+Fixes: 821d28b88f ("vhost-user-rng: Add vhost-user-rng implementation")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-Id: <20230130140435.78049-1-akihiko.odaki@daynix.com>
+Message-Id: <20230130140516.78078-1-akihiko.odaki@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 0126793bee853e7c134627f51d2de5428a612e99)
+(cherry picked from commit f0dac71596d4b87a1a77d1f4efb6a6adb4730d7b)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/virtio/vhost-user-i2c.c | 5 +++--
+ hw/virtio/vhost-user-rng.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 1c9f3d20dc..2634d81539 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -143,8 +143,6 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserI2C *i2c)
-     vhost_user_cleanup(&i2c->vhost_user);
-     virtio_delete_queue(i2c->vq);
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index f9084cde58..3f7b59ec0d 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -229,6 +229,7 @@ static void vu_rng_device_realize(DeviceState *dev, Error **errp)
+     return;
+ 
+ vhost_dev_init_failed:
++    g_free(rng->vhost_dev.vqs);
+     virtio_delete_queue(rng->req_vq);
+ virtio_add_queue_failed:
      virtio_cleanup(vdev);
--    g_free(i2c->vhost_dev.vqs);
--    i2c->vhost_dev.vqs = NULL;
- }
- 
- static int vu_i2c_connect(DeviceState *dev)
-@@ -228,6 +226,7 @@ static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
-     ret = vhost_dev_init(&i2c->vhost_dev, &i2c->vhost_user,
-                          VHOST_BACKEND_TYPE_USER, 0, errp);
-     if (ret < 0) {
-+        g_free(i2c->vhost_dev.vqs);
-         do_vhost_user_cleanup(vdev, i2c);
-     }
- 
-@@ -239,10 +238,12 @@ static void vu_i2c_device_unrealize(DeviceState *dev)
+@@ -239,12 +240,12 @@ static void vu_rng_device_unrealize(DeviceState *dev)
  {
      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserI2C *i2c = VHOST_USER_I2C(dev);
-+    struct vhost_virtqueue *vhost_vqs = i2c->vhost_dev.vqs;
+     VHostUserRNG *rng = VHOST_USER_RNG(dev);
++    struct vhost_virtqueue *vhost_vqs = rng->vhost_dev.vqs;
  
-     /* This will stop vhost backend if appropriate. */
-     vu_i2c_set_status(vdev, 0);
-     vhost_dev_cleanup(&i2c->vhost_dev);
+     vu_rng_set_status(vdev, 0);
+ 
+     vhost_dev_cleanup(&rng->vhost_dev);
+-    g_free(rng->vhost_dev.vqs);
+-    rng->vhost_dev.vqs = NULL;
 +    g_free(vhost_vqs);
-     do_vhost_user_cleanup(vdev, i2c);
- }
- 
+     virtio_delete_queue(rng->req_vq);
+     virtio_cleanup(vdev);
+     vhost_user_cleanup(&rng->vhost_user);
 -- 
 2.30.2
 
