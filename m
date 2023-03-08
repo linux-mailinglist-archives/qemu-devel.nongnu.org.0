@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDC26B0931
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BCB6B095B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 14:36:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZttM-0004D3-5Y; Wed, 08 Mar 2023 08:31:40 -0500
+	id 1pZtty-0004Xs-CW; Wed, 08 Mar 2023 08:32:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr5-0001kk-7A
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:19 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtrD-0001ql-Pv
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:35 -0500
 Received: from mout.kundenserver.de ([212.227.17.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr2-000692-Mp
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:18 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pZtr3-00069G-66
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 08:29:22 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MDy9C-1pjpTK25PI-009vM2; Wed, 08
- Mar 2023 14:29:14 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MRnXY-1pykFs3thy-00TF9w; Wed, 08
+ Mar 2023 14:29:15 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 25/28] linux-user/sparc: Handle unimplemented flush trap
-Date: Wed,  8 Mar 2023 14:28:54 +0100
-Message-Id: <20230308132857.161793-26-laurent@vivier.eu>
+Subject: [PULL 26/28] linux-user/sparc: Handle floating-point exceptions
+Date: Wed,  8 Mar 2023 14:28:55 +0100
+Message-Id: <20230308132857.161793-27-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308132857.161793-1-laurent@vivier.eu>
 References: <20230308132857.161793-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Otbx1g0NSzrg8O1qhGQStI53DAYQ75e+sOyvIYFRp0/iw1i0qwj
- +EHaf9NoPrH4OdVQ7/5YM541d0dXkInIH4nWCqTjTnzWZEmbzI9jnUHTgRfxA8zN0eKyG1o
- HWqUrJZPMIjinyrQS289b9YCaDdSWRqsmveZw8aQrHGjla6HJu6rWXx5eqY/H4oqeSMB/6t
- OcfO8lJIeYVDKHB+uyynQ==
-UI-OutboundReport: notjunk:1;M01:P0:k42t6i2XSOE=;AVZBb/+6UE5dfc2Ec9XMbOqwgOo
- bEARao7c/XmAbwyjtspiqrSoiTCYhRuCKcI2lNY/dbX8xBpJbnan67xTD3czl5epckuOr7+o4
- IXExIhSNshqEcR8+NDxPJYYbO9X3QXLoGhmp8cAlVBs1ISJgZL/DpNbnkoZtjqdGjS5/j28dU
- yiNJc5NJZj/SBp2F5bM8dV+kyQLtogfCt3DAXD48Rf3MeyKYKVyUVddPO8WOee0umE9DRq+Zf
- BMGzunNmIxikldN6h6hKjJ0z8VuB/jCSvd2Dj9/jraMjnj+iOwfn9c+3Z6+43hdYyUVOV5VWr
- 1MA01utdN6+2pnq53xJzqIw5Qio9/RDodRUFDk/LHd6MrLfDzLWHcG15fd6nCeY3+Lv9hI1CD
- /Cm9N7tKN6O4rHv+KLhsDRPxTLwENpAFe2tyH0rQNbwnTD28Lkr+9GQw8pn+7ccr+fJPlBSFK
- AjMNXRsu+p46Bk0q5Dj/p5sQWNr8xDNbjH+me8PSQG5Qd9ozjG5rZPZ0Epihk4sdG8GUMl34i
- 78KH5074/C6oEm5kbpuqCz6hpvQKQ7ziJvezBqJT1NE3tSwAJiykEEU6YCLXTRAtlw82QiaIZ
- vs5cNciwhPmdHZQY2uadUrxg3k8KqcZffGX2mYhOo/bBesxcecJnQY6m0RGzW3ISJNhLrkg4k
- MbShtnJJzMtKciO8lK/nBWFw66U5Z6Qf8v3vj/qyQg==
+X-Provags-ID: V03:K1:cdCaLCEuPYp6LjNd40NuPkbrygQXunlN85LjOx8UtRkulL4eRbq
+ FKWLDDz3DAZGZhlm5QRudExxwxKBjq9lGV+QyeGQMIZoXaPfM8bYtulCyANOuxr+MYNOfN6
+ a6Jg9ZIc34/6qyHbP2Ymme4INDwR3SUifVyLfpMsR5jjgsjUL0H4okJYu/RGWj0ivrLdCEK
+ zY1Z9e66e/3o71x91LSkA==
+UI-OutboundReport: notjunk:1;M01:P0:gKuMY2h/z8M=;gBtJ6krGvV5XDr0qfqEtvX/GGTB
+ l4OJ7ROjZ1zZ8+BBjqsi2MMQc+6ZMq32CHMA3lEEgi5T3WtIne9UEKq2MAeLYbxAF1/bYX/Ub
+ GMN6sMtR+vVMyy+QaC/JY9K48p+0cr8ryZN1cJw4NrokWx4ehvwlS6nEjZapfxnFB0+fpT4zH
+ 1YzJbhYrvxInzxdi/PQ3vo+7REfp4/ptEPTmJ7tDX62lP0hRP7X0rN1NtAcqZ9y25iDYifU0C
+ /zMTmXgwdn2mpfziWleDCpgT7HK3P2xp+m2it23sRAwuD2u2nxQXhYQpI/ESVmP4pwFLjrbHD
+ ZxcVJg4WAx3c7n3m9HoYUcsNd0wEwEBnq5fXWbg8kSPbSW7vei+Hm117OJgsN+AJp0CmO0cbe
+ zVDgjh/twz9HPeSDYxoNBopFgBq7cbe9vMPeNe/fB4zhLqe2K6592vKM8V4dMaUF+Fv8+J+ef
+ 6dlPgVXTYbWPg4UIzIzmLPeaeh3XyDdW1wc2CGMej3pJ8FyIw7O9SnfUoXFPmqa8MWDPDnEY+
+ 8YTjjt3UAn5l3vlhBO/FN2arNPh9XXzYbnZ+oKZXNlrzr/FWfMeZkSZB6scVzIFXd0PRQgt7m
+ jX2rlzcrbW+AZ9up3ZqtZC5yA7xyCBXrYO5aaJCOmHGISXlHMbF198ZG7IKGe7eoJzU/Cdkvy
+ c9ff09ZjHaz1NEyvGQvLyhqb/a3Dj+CGd2UxpxwDVw==
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -71,30 +71,67 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-For sparc64, TT_UNIMP_FLUSH == TT_ILL_INSN, so this is
-already handled.  For sparc32, the kernel uses SKIP_TRAP.
+Raise SIGFPE for ieee exceptions.
+
+The other types, such as FSR_FTT_UNIMPFPOP, should not appear,
+because we enable normal emulation of missing insns at the
+start of sparc_cpu_realizefn().
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230216054516.1267305-14-richard.henderson@linaro.org>
+Message-Id: <20230216054516.1267305-15-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/sparc/cpu_loop.c | 22 ++++++++++++++++++++++
+ target/sparc/cpu.h          |  3 +--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index bf7e10216fe1..093358a39a4a 100644
+index 093358a39a4a..5a8a71e976bc 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -315,6 +315,9 @@ void cpu_loop (CPUSPARCState *env)
-         case TT_NCP_INSN:
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->pc);
+@@ -297,6 +297,28 @@ void cpu_loop (CPUSPARCState *env)
+             restore_window(env);
              break;
-+        case TT_UNIMP_FLUSH:
-+            next_instruction(env);
+ 
++        case TT_FP_EXCP:
++            {
++                int code = TARGET_FPE_FLTUNK;
++                target_ulong fsr = env->fsr;
++
++                if ((fsr & FSR_FTT_MASK) == FSR_FTT_IEEE_EXCP) {
++                    if (fsr & FSR_NVC) {
++                        code = TARGET_FPE_FLTINV;
++                    } else if (fsr & FSR_OFC) {
++                        code = TARGET_FPE_FLTOVF;
++                    } else if (fsr & FSR_UFC) {
++                        code = TARGET_FPE_FLTUND;
++                    } else if (fsr & FSR_DZC) {
++                        code = TARGET_FPE_FLTDIV;
++                    } else if (fsr & FSR_NXC) {
++                        code = TARGET_FPE_FLTRES;
++                    }
++                }
++                force_sig_fault(TARGET_SIGFPE, code, env->pc);
++            }
 +            break;
- #endif
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
++
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index ed0069d0b196..fb98843dad53 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -197,8 +197,7 @@ enum {
+ #define FSR_FTT2   (1ULL << 16)
+ #define FSR_FTT1   (1ULL << 15)
+ #define FSR_FTT0   (1ULL << 14)
+-//gcc warns about constant overflow for ~FSR_FTT_MASK
+-//#define FSR_FTT_MASK (FSR_FTT2 | FSR_FTT1 | FSR_FTT0)
++#define FSR_FTT_MASK (FSR_FTT2 | FSR_FTT1 | FSR_FTT0)
+ #ifdef TARGET_SPARC64
+ #define FSR_FTT_NMASK      0xfffffffffffe3fffULL
+ #define FSR_FTT_CEXC_NMASK 0xfffffffffffe3fe0ULL
 -- 
 2.39.2
 
