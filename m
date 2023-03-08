@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F123D6AFBE1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB3E6AFBEA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:15:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiNL-0001tp-TF; Tue, 07 Mar 2023 20:13:52 -0500
+	id 1pZiNU-0003RI-DG; Tue, 07 Mar 2023 20:14:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNI-0001lG-Jv
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNR-0002za-F0
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNG-0001yJ-Oh
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNP-0001z9-HK
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678238026;
+ s=mimecast20190719; t=1678238034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VEGZepK0Rp8JIhaQqMzWupcnrgzDBH5zuK/fgFSMHbY=;
- b=Rt/pT2HnpSqJGg6WFiLf5NJJPY/0pKRfXQwj5DT9kMqwDZuUZAGBkKVuZ4sss4/GxnEh8/
- 7dDqep0i6dxVWGbWyFL3YobCEqyF7RZCXtJnaHxLjhSb/5/JmukBauHceNLUdCsDk0rdaA
- uTNcULqt+WTFCtoOPp5jS73hX0yaWhg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PvK1sjWBwmXgmqva75M2OfnltUEHJkHEl+PUlTqgdeQ=;
+ b=VolWp5oIBIK4zGXb9bA09UmoOGDRuV+zglu4ZVfKtwuz15Fr6QRPjma/7y54J6xHyOiR62
+ QQRJT9hQ8sKOSL7jdrNujNsG77x280W1u7k3DI35moQ7xbqtnyArmXvnSdlf/r15NHq6CY
+ OulOnekP5lIFioUif8Bgu1EiYcURvWI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-ZBnRvrQBMVqafP9V2UoU-A-1; Tue, 07 Mar 2023 20:13:45 -0500
-X-MC-Unique: ZBnRvrQBMVqafP9V2UoU-A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- da22-20020a056402177600b004c60694083eso21255653edb.5
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:44 -0800 (PST)
+ us-mta-675-IP-sSnLFMki-Vcz6hNd2PA-1; Tue, 07 Mar 2023 20:13:48 -0500
+X-MC-Unique: IP-sSnLFMki-Vcz6hNd2PA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y1-20020a056402358100b004ea439d57b7so9290195edc.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678238023;
+ d=1e100.net; s=20210112; t=1678238026;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VEGZepK0Rp8JIhaQqMzWupcnrgzDBH5zuK/fgFSMHbY=;
- b=6IedMM/OpAVFeigbWUsWHuEz5a/dib2wRmJSAbPkxBbiw7DOhXhGL8g5vkc1kG+epH
- MjS/lVfoQArXkKIJWpcCRzqy8HFQ/OC9hrXWXmytuDIKmAxe8CMTYxUPMyAnHrQU560F
- 59IdPgqepU/J4MTCegaU4PHhRx9ZpVYEBdiCfN4yyjgSsYALSCKAAoyfUQmObIPdAsRK
- K7GiAqLLB0VoAp+JTahwTSpGRunqRswl6UyTlHXbUNJPkaeQHtLNw3SHtRzxJaBnQf5y
- o5g9L8BjM/1IQJgRJdLdh2LXhs1PpItnx0IvzvaVyG5iiPBpftYgD1F0/hpLDJaL2f+u
- jPpg==
-X-Gm-Message-State: AO0yUKW97zBHKvoZKqJPZAlH5heWW10UXte3xXTNrx2h7XfuCzQaS6vS
- 2gHAyjMZRjkmZTetMHyL+dbDKOHaHbUGcrNHJeT/NBPqOe1srmsWd+m6vqkp1KQEUdSA4Fu3ML+
- iHQ6yieNXEIpgE0IBjCbH4zR1j7pvhRzaFdRh5Zzkft9PYNwiEWTvTM3UFs0Uzd8fKDbX
-X-Received: by 2002:a17:906:db0c:b0:909:3c55:a1b3 with SMTP id
- xj12-20020a170906db0c00b009093c55a1b3mr22181098ejb.38.1678238023585; 
- Tue, 07 Mar 2023 17:13:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set+1W9Xvum+at7tU1bMNPJCbV56mbb8BVncyjTQXAeIY4OaoYVVkEx9KxBXrcpu9WpU+TiBMJw==
-X-Received: by 2002:a17:906:db0c:b0:909:3c55:a1b3 with SMTP id
- xj12-20020a170906db0c00b009093c55a1b3mr22181084ejb.38.1678238023376; 
- Tue, 07 Mar 2023 17:13:43 -0800 (PST)
+ bh=PvK1sjWBwmXgmqva75M2OfnltUEHJkHEl+PUlTqgdeQ=;
+ b=Zo7uOK4yQpQFCm3A72cO4+cmQKa7pm0z5mbY84985aX8bHqMtrf6wMK6epsKPebrr7
+ C6v25IbQX+o1MsKbQ0IkFraU3ih7gro7jfnQ6VS9Eaqx7BoAIqhNoaMc+KMVMm0cy4/W
+ gOgkbzvYA3n2gS46EHGVD6Pg3Ui7zZ0Qrlj30nVlnQtC/3QEPYhtSSp9J5SREyVPPl8o
+ DRjHMDnJNfMfljZDYQkRtttOyM/4nwS9dL2Vt+19gOSIbzIIPR/Vwxk+qA5PN7MAplTR
+ UIzLIxXFg91lOdoC3Vn3bREqHRaEF9Mk+twyABi6YJ9MqC8t9gy5wpplwlWTFtPqBynt
+ 9LHg==
+X-Gm-Message-State: AO0yUKV5W8GXFQrx7/YKHwYVs6Y5p4Jwty0wAi77ndDaGak9xLhNN7OT
+ qAj6nA5BwCU/YWCMYJrBi/870Vy5TbL7oVgNcraUgpPWKluch2DMSHuR0ehXlOcxkgJL4wvNdPq
+ DRpltrP0zx+uYX/mLPNwK2cq900ucJG/tOEQTS/qUbVsytI6UhWECHXdhEFAMjU8AIIYb
+X-Received: by 2002:a17:907:6d92:b0:8ed:e8d6:4e0e with SMTP id
+ sb18-20020a1709076d9200b008ede8d64e0emr23883328ejc.36.1678238026487; 
+ Tue, 07 Mar 2023 17:13:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set+OdbYu/0EOLsujRrBcupWcRM5JV5dUI2eXzTeQU+56efhMMh2/v2kyhx7jMVgw5rL31fv8hg==
+X-Received: by 2002:a17:907:6d92:b0:8ed:e8d6:4e0e with SMTP id
+ sb18-20020a1709076d9200b008ede8d64e0emr23883308ejc.36.1678238026289; 
+ Tue, 07 Mar 2023 17:13:46 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- d9-20020a17090648c900b008b17b0f5d07sm6762946ejt.217.2023.03.07.17.13.41
+ pv16-20020a170907209000b009079442dd11sm6773455ejb.154.2023.03.07.17.13.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:43 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:40 -0500
+ Tue, 07 Mar 2023 17:13:45 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -68,8 +68,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 57/73] acpi: pci: move BSEL into build_append_pcihp_slots()
-Message-ID: <62dd55fcf736994958eb5706cee5806480acfe25.1678237635.git.mst@redhat.com>
+Subject: [PULL 58/73] acpi: pci: move out ACPI PCI hotplug generator from
+ generic slot generator build_append_pci_bus_devices()
+Message-ID: <02c106139a5c01a5668246c748939b5a4bb0c467.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -103,75 +104,85 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Generic PCI enumeration code doesn't really need access to
-BSEL value, it is only used as means to decide if hotplug
-enumerator should be called.
-
-Use stateless object_property_find() to do that, and move
-the rest of BSEL handling into build_append_pcihp_slots()
-where it belongs.
-
-This cleans up generic code a bit from hotplug stuff
-and follow up patch will remove remaining call to
-build_append_pcihp_slots() from generic code, making
-it possible to use without ACPI PCI hotplug dependencies.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-32-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-33-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ include/hw/acpi/pcihp.h |  2 ++
+ hw/acpi/pci-bridge.c    | 12 +++++++++++-
+ hw/i386/acpi-build.c    |  9 ++++-----
+ 3 files changed, 17 insertions(+), 6 deletions(-)
 
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index 7e268c2c9c..cd18ebdcdc 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -71,6 +71,8 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+ /* Called on reset */
+ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+ 
++void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus);
++
+ extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+ 
+ #define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
+diff --git a/hw/acpi/pci-bridge.c b/hw/acpi/pci-bridge.c
+index 4fbf6da6ad..7baa7034a1 100644
+--- a/hw/acpi/pci-bridge.c
++++ b/hw/acpi/pci-bridge.c
+@@ -22,6 +22,16 @@ void build_pci_bridge_aml(AcpiDevAmlIf *adev, Aml *scope)
+     PCIBridge *br = PCI_BRIDGE(adev);
+ 
+     if (!DEVICE(br)->hotplugged) {
+-        build_append_pci_bus_devices(scope, pci_bridge_get_sec_bus(br));
++        PCIBus *sec_bus = pci_bridge_get_sec_bus(br);
++
++        build_append_pci_bus_devices(scope, sec_bus);
++
++        /*
++         * generate hotplug slots descriptors if
++         * bridge has ACPI PCI hotplug attached,
++         */
++        if (object_property_find(OBJECT(sec_bus), ACPI_PCIHP_PROP_BSEL)) {
++            build_append_pcihp_slots(scope, sec_bus);
++        }
+     }
+ }
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ce14866eda..0459acfbb4 100644
+index 0459acfbb4..ec857a117e 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -520,12 +520,14 @@ static bool is_devfn_ignored_hotplug(const int devfn, const PCIBus *bus)
+@@ -520,7 +520,7 @@ static bool is_devfn_ignored_hotplug(const int devfn, const PCIBus *bus)
      return false;
  }
  
--static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus,
--                                     QObject *bsel)
-+static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus)
+-static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus)
++void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus)
  {
      int devfn;
      Aml *dev, *notify_method = NULL, *method;
-+    QObject *bsel = object_property_get_qobject(OBJECT(bus),
-+                        ACPI_PCIHP_PROP_BSEL, NULL);
-     uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
-+    qobject_unref(bsel);
- 
-     aml_append(parent_scope, aml_name_decl("BSEL", aml_int(bsel_val)));
-     notify_method = aml_method("DVNT", 2, AML_NOTSERIALIZED);
-@@ -570,12 +572,9 @@ static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus,
- 
- void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
- {
--    QObject *bsel;
-     int devfn;
-     Aml *dev;
- 
--    bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
--
-     for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
-         /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
-         int adr = PCI_SLOT(devfn) << 16 | PCI_FUNC(devfn);
-@@ -601,11 +600,9 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+@@ -599,10 +599,6 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+         /* device descriptor has been composed, add it into parent context */
          aml_append(parent_scope, dev);
      }
- 
--    if (bsel) {
--        build_append_pcihp_slots(parent_scope, bus, bsel);
-+    if (object_property_find(OBJECT(bus), ACPI_PCIHP_PROP_BSEL)) {
-+        build_append_pcihp_slots(parent_scope, bus);
-     }
 -
--    qobject_unref(bsel);
+-    if (object_property_find(OBJECT(bus), ACPI_PCIHP_PROP_BSEL)) {
+-        build_append_pcihp_slots(parent_scope, bus);
+-    }
  }
  
  static bool build_append_notfication_callback(Aml *parent_scope,
+@@ -1790,6 +1786,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             Aml *scope = aml_scope("PCI0");
+             /* Scan all PCI buses. Generate tables to support hotplug. */
+             build_append_pci_bus_devices(scope, bus);
++            if (object_property_find(OBJECT(bus), ACPI_PCIHP_PROP_BSEL)) {
++                build_append_pcihp_slots(scope, bus);
++            }
+             aml_append(sb_scope, scope);
+         }
+     }
 -- 
 MST
 
