@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF1A6B12DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 21:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087A76B12E7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 21:21:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa0Gt-0008L6-B9; Wed, 08 Mar 2023 15:20:23 -0500
+	id 1pa0Gx-0008OI-HE; Wed, 08 Mar 2023 15:20:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pa0Gs-0008Kp-7T
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:20:22 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ id 1pa0Gw-0008O0-Bc
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:20:26 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pa0Gq-0002TN-PS
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:20:22 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id s41so13091118oiw.13
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 12:20:20 -0800 (PST)
+ id 1pa0Gu-0002nG-86
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 15:20:25 -0500
+Received: by mail-oi1-x236.google.com with SMTP id be16so49197oib.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 12:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1678306819;
+ d=ventanamicro.com; s=google; t=1678306823;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4/czgBHOiXNcAsTwIQvAKApd52rIzMfuuIKayIqgatA=;
- b=GhlrTJYZdDM9eFNmVMH+FfO2cnavbf8JpfO7Sp3sn2TSvBC7PHLAkI+czJcJaugILQ
- o+ImB/GH+/PL3nvkWJ6GXoBrPKCo9RlyIxbUPtf2LT8eFahkfil6ofPM6mA1D34W5tom
- MCAO+uciq/0s7sRLXATdlyh4Q8fociWl4w5Z3nP3Uu6pDdM3NugwUfx34yh8cbRlHQ0u
- dIn/K9AjFbY2vVmfUhUVvzfSqWy81OnEgIdlIALqBdPQZgsDtpQrY18sB3oejztfmYyN
- jEt4tleYcxWIqd4GbfuonGu3z9YlrnaYFWvPhARn0chx9bbkBhzrX2nM0szVxdLo91Pm
- wjqw==
+ bh=EimxToi/BazSalyp/y380Q6hQb77b660ehnq+DK3D7I=;
+ b=k4V3Sf5/+dq3Dq3abaWsRUkMKiO32iqs55XXcZtAs8Ny5P1UuP0YOvo4/mlWthfm+E
+ 2GeYol8V79yt3N87GHLxC1KuubCtYE6TMsGTryeT1EUxWsIePhD0KdumlHuJYMD6ur/8
+ SEAtLOhqRJmOTuaDLh/ygTV+qFVcwScCEQlI2rVG6tffQHVPc5oe+aEhVsRmIhJHdLJL
+ TnYVtfEd3DIr/7vCYNprGd5WHmHMlPwQsXzZTIHFRnywj9EwujBBhd3hvmoJ3bwwNWW9
+ vH3XNAb96U1IO6ITo/LR9ruvc+VsFl9LhtlzpJI4O8juhjLUyJ2h0s3Umrsv3SbISkPc
+ WdSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678306819;
+ d=1e100.net; s=20210112; t=1678306823;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4/czgBHOiXNcAsTwIQvAKApd52rIzMfuuIKayIqgatA=;
- b=lwkc7bDzIOl5/xwf8QnRPiadgsYxhgXdmkE+MbDi4aHOorp6oj6Uvx1la7Iab2T0SS
- GuZvYCtEed99USgaucHHMHYs7l70JHlzykKesFNA0A9n3qG0lHsAhRFv+Cf9NPHMFxWM
- G+NgGWBFXbuUnEGGC21vTL/h5zOilcPzqjKYyWkaufwd9hPG0HC5kMdPxuvMmoXOFNO+
- WdmpQS5X7kxVTbFXlgj/ocLKxSUSGTFaHcMo/4e/n8c+S7LbWf50Snm17XJtZrZ0c2/z
- PSnM3UU8FrQ81g+9uELrT/uyRn3svNs/39Tzrq+f5/CNjlvbiZ4YkE+UAFlV14wNViYQ
- xdHw==
-X-Gm-Message-State: AO0yUKXN9WHiKAQYSa5js4l5+JuRItAtWdqHruNDZHXdR/d15xtFZpUR
- W6nIaiF2CGQu4tPJ43tAyZHgt8OiM0OJ2lPaibc=
-X-Google-Smtp-Source: AK7set8q5hMtmbh/FlOOIxOlX79ppnjxa/9GV8cq2+GRqcErjRWgFWpeAiFOdTy5xyhUBkYmUHOjoQ==
-X-Received: by 2002:a54:4188:0:b0:364:9c99:f6cc with SMTP id
- 8-20020a544188000000b003649c99f6ccmr8220726oiy.22.1678306819784; 
- Wed, 08 Mar 2023 12:20:19 -0800 (PST)
+ bh=EimxToi/BazSalyp/y380Q6hQb77b660ehnq+DK3D7I=;
+ b=r5w93JURHKG3pK1CWa1S95Q4+dpgOH7EhuMmd1Elj76NLN4UbGw87IEfBea9GGuZ0I
+ uHHFGpeifu/fBinnx9ug31SaoXYEtqvmnrKJBg5GTCOQTs3mbC+x9IMjhm+7w0AV1bEO
+ aqQCOmOpE5SaUwLJpPB1zI9N0MedxJ6GJHNn9HmhTKUEiwfAvWKqcCFFbUEBZfDxeS38
+ fNg8lKbATZQ6ndl8aZbgPyrxZ7rzMN2/I6raH9FcKgzY7zRGBuvOVoagpdjZvLM3tjI+
+ DnmI4axDPtQydkkJHoA9TCJziadHL81CMavIykLCp+bcCJxqm1TMgi2h6GmlXTxhLCeC
+ zwOA==
+X-Gm-Message-State: AO0yUKUPcNcsPdXhRJrL7XwmUIgA3wlNpPuI8ojjIcnOC5odavgWEnNN
+ ASUmwdcZN9f1U27exIS9Tn4IE7NbeMezsWvFq64=
+X-Google-Smtp-Source: AK7set+sAzdLqPgAeeI7F5klEJ8lnp6NPg9uTtGWsr0Kvl4Cw02OE+eAiCrVDapvfNW9SJ3WLARRnQ==
+X-Received: by 2002:a05:6808:902:b0:378:a144:f7ad with SMTP id
+ w2-20020a056808090200b00378a144f7admr9466837oih.17.1678306823184; 
+ Wed, 08 Mar 2023 12:20:23 -0800 (PST)
 Received: from grind.. ([177.189.53.31]) by smtp.gmail.com with ESMTPSA id
- i66-20020aca3b45000000b00383e9fa1eaasm6705790oia.43.2023.03.08.12.20.17
+ i66-20020aca3b45000000b00383e9fa1eaasm6705790oia.43.2023.03.08.12.20.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 12:20:19 -0800 (PST)
+ Wed, 08 Mar 2023 12:20:22 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH for-8.1 16/17] target/riscv: do not allow RVG in write_misa()
-Date: Wed,  8 Mar 2023 17:19:24 -0300
-Message-Id: <20230308201925.258223-17-dbarboza@ventanamicro.com>
+Subject: [PATCH for-8.1 17/17] target/riscv: rework write_misa()
+Date: Wed,  8 Mar 2023 17:19:25 -0300
+Message-Id: <20230308201925.258223-18-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230308201925.258223-1-dbarboza@ventanamicro.com>
 References: <20230308201925.258223-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,44 +91,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We're getting ready to use riscv_cpu_validate_set_extensions() to unify
-the handling of write_misa() with the rest of the code base. But first
-we need to deal with RVG.
+write_misa() must use as much common logic as possible, only specifying
+the bits that are exclusive to the CSR write operation and TCG
+internals.
 
-The 'G' virtual extension enables a set of extensions in the CPU. At
-this moment, this is done at the start of our validation step in
-riscv_cpu_validate_set_extensions(). This means that enabling G will
-enable other extensions in the CPU before resuming the validation.
+Rewrite write_misa() to work as follows:
 
-This also means that, in case a write_misa() validation fails, we're
-going to set cpu->cfg attributes that are unrelated to misa_ext bits
-(icsr and ifencei). These would be 2 extra states that we would need to
-store to fallback from a validation failure.
+- supress RVC right after verifying that we're not updating RVG;
 
-Since write_misa() is still on experimental state let's make our lives
-easier for now and disable RVG updates.
+- mask the write using misa_ext_mask to avoid enabling unsupported
+  extensions;
+
+- emulate the steps done by the cpu init() functions: set cpu->cfg using
+  the desired misa value, validate it, and then commit;
+
+- fallback if the validation step fails. We'll need to re-write cpu->cfg
+  with the original misa_ext value for the hart.
+
+Let's keep write_misa() as experimental for now until this logic gains
+enough mileage.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- target/riscv/csr.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/riscv/cpu.c |  7 +++---
+ target/riscv/cpu.h |  2 ++
+ target/riscv/csr.c | 53 +++++++++++++++++++++-------------------------
+ 3 files changed, 29 insertions(+), 33 deletions(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 7be6a86305..4b2be32de3 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -281,8 +281,7 @@ static uint32_t riscv_get_misa_ext_with_cpucfg(RISCVCPUConfig *cfg)
+     return ext;
+ }
+ 
+-static void riscv_set_cpucfg_with_misa(RISCVCPUConfig *cfg,
+-                                       uint32_t misa_ext)
++static void riscv_set_cpucfg_with_misa(RISCVCPUConfig *cfg, uint32_t misa_ext)
+ {
+     cfg->ext_i = misa_ext & RVI;
+     cfg->ext_e = misa_ext & RVE;
+@@ -299,7 +298,7 @@ static void riscv_set_cpucfg_with_misa(RISCVCPUConfig *cfg,
+     cfg->ext_g = misa_ext & RVG;
+ }
+ 
+-static void set_misa(CPURISCVState *env, RISCVMXL mxl, uint32_t ext)
++void set_misa(CPURISCVState *env, RISCVMXL mxl, uint32_t ext)
+ {
+     env->misa_mxl_max = env->misa_mxl = mxl;
+     env->misa_ext_mask = env->misa_ext = ext;
+@@ -995,7 +994,7 @@ static void riscv_cpu_disable_priv_spec_isa_exts(RISCVCPU *cpu)
+  * Check consistency between chosen extensions while setting
+  * cpu->cfg accordingly, doing a set_misa() in the end.
+  */
+-static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
++void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+ {
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
+     CPUClass *cc = CPU_CLASS(mcc);
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 013a1389d6..d64d0f8dd6 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -591,6 +591,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         bool probe, uintptr_t retaddr);
+ char *riscv_isa_string(RISCVCPU *cpu);
+ void riscv_cpu_list(void);
++void set_misa(CPURISCVState *env, RISCVMXL mxl, uint32_t ext);
++void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp);
+ 
+ #define cpu_list riscv_cpu_list
+ #define cpu_mmu_index riscv_cpu_mmu_index
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ab566639e5..02a5c2a5ca 100644
+index 02a5c2a5ca..2e75c75fcc 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -1347,6 +1347,11 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+@@ -1342,6 +1342,11 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+ static RISCVException write_misa(CPURISCVState *env, int csrno,
+                                  target_ulong val)
+ {
++    RISCVCPU *cpu = env_archcpu(env);
++    uint32_t hart_ext_mask = env->misa_ext_mask;
++    uint32_t hart_ext = env->misa_ext;
++    Error *local_err = NULL;
++
+     if (!riscv_cpu_cfg(env)->misa_w) {
+         /* drop write to misa */
+         return RISCV_EXCP_NONE;
+@@ -1352,34 +1357,6 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
          return RISCV_EXCP_NONE;
      }
  
-+    /* Changing 'G' state is unsupported */
-+    if (val & RVG) {
+-    /* 'I' or 'E' must be present */
+-    if (!(val & (RVI | RVE))) {
+-        /* It is not, drop write to misa */
+-        return RISCV_EXCP_NONE;
+-    }
+-
+-    /* 'E' excludes all other extensions */
+-    if (val & RVE) {
+-        /*
+-         * when we support 'E' we can do "val = RVE;" however
+-         * for now we just drop writes if 'E' is present.
+-         */
+-        return RISCV_EXCP_NONE;
+-    }
+-
+-    /*
+-     * misa.MXL writes are not supported by QEMU.
+-     * Drop writes to those bits.
+-     */
+-
+-    /* Mask extensions that are not supported by this hart */
+-    val &= env->misa_ext_mask;
+-
+-    /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
+-    if ((val & RVD) && !(val & RVF)) {
+-        val &= ~RVD;
+-    }
+-
+     /*
+      * Suppress 'C' if next instruction is not aligned
+      * TODO: this should check next_pc
+@@ -1388,18 +1365,36 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+         val &= ~RVC;
+     }
+ 
++    /* Mask extensions that are not supported by this hart */
++    val &= hart_ext_mask;
++
+     /* If nothing changed, do nothing. */
+     if (val == env->misa_ext) {
+         return RISCV_EXCP_NONE;
+     }
+ 
++    /*
++     * Validate the new configuration. Rollback to previous
++     * values if something goes wrong.
++     */
++    set_misa(env, env->misa_mxl, val);
++    riscv_cpu_validate_set_extensions(cpu, &local_err);
++    if (local_err) {
++        set_misa(env, env->misa_mxl, hart_ext);
 +        return RISCV_EXCP_NONE;
 +    }
 +
-     /* 'I' or 'E' must be present */
-     if (!(val & (RVI | RVE))) {
-         /* It is not, drop write to misa */
++    /*
++     * Keep the original misa_ext_mask from the hart.
++     */
++    env->misa_ext_mask = hart_ext_mask;
++
+     if (!(val & RVF)) {
+         env->mstatus &= ~MSTATUS_FS;
+     }
+ 
+     /* flush translation cache */
+     tb_flush(env_cpu(env));
+-    env->misa_ext = val;
+     env->xl = riscv_cpu_mxl(env);
+     return RISCV_EXCP_NONE;
+ }
 -- 
 2.39.2
 
