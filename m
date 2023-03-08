@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9B06B0B22
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:28:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5BA6B0BD2
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 15:48:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZukd-0005sQ-RR; Wed, 08 Mar 2023 09:26:44 -0500
+	id 1pZv4T-0001it-R8; Wed, 08 Mar 2023 09:47:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pZukR-0005pO-58
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:26:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZv4R-0001i9-3L; Wed, 08 Mar 2023 09:47:11 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pZukP-0005wj-3s
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 09:26:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678285588;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p6tfIYNBcqGQAwuT9TSLaRaCamQ5CXuIpyLI8KPhyQA=;
- b=LbxA2rWZtJFf+tqf1F4a0yU0ROHFiRf7eseCV9AoK2cXymNB6W4UBhEWZenHRC2CwQMSNq
- xt/6ARG7JtebMmY2zTgFeq/i+WsJjW5iUYhFUSX4HieA/ImzJ63QSS5uSQ/b5AS3v0eDzR
- l9DWUemp2hl178Eja4TCcoHDmkhpuo4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-VDIefw0OMSyIE2pHFwbR_Q-1; Wed, 08 Mar 2023 09:26:25 -0500
-X-MC-Unique: VDIefw0OMSyIE2pHFwbR_Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F51438123B2;
- Wed,  8 Mar 2023 14:26:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCC952026D4B;
- Wed,  8 Mar 2023 14:26:23 +0000 (UTC)
-Date: Wed, 8 Mar 2023 09:26:21 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 1/6] block: don't acquire AioContext lock in
- bdrv_drain_all()
-Message-ID: <20230308142621.GD299426@fedora>
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-2-stefanha@redhat.com>
- <ZAdxog0T8XkSSUZd@redhat.com> <20230307192019.GB153228@fedora>
- <ZAhL0Xz4tuUWPeXY@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pZv4O-0004Fh-Tp; Wed, 08 Mar 2023 09:47:10 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9616D74634B;
+ Wed,  8 Mar 2023 15:46:47 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 56A54746346; Wed,  8 Mar 2023 15:46:47 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 554A874633D;
+ Wed,  8 Mar 2023 15:46:47 +0100 (CET)
+Date: Wed, 8 Mar 2023 15:46:47 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Rene Engel <ReneEngel80@emailn.de>, Bernhard Beschow <shentey@gmail.com>
+Subject: Re: [PULL 14/20] hw/ppc/pegasos2: Fix PCI interrupt routing
+In-Reply-To: <dab7a6d9-4bfe-0afe-8098-50cfaf0c6aae@linaro.org>
+Message-ID: <6b0038c5-bd6a-d3c3-d43c-fad2aca299fe@eik.bme.hu>
+References: <20230307234711.55375-1-philmd@linaro.org>
+ <20230307234711.55375-15-philmd@linaro.org>
+ <dab7a6d9-4bfe-0afe-8098-50cfaf0c6aae@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/l3G/0DvM7Gvl23W"
-Content-Disposition: inline
-In-Reply-To: <ZAhL0Xz4tuUWPeXY@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-581170101-1678286807=:30352"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,147 +62,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---/l3G/0DvM7Gvl23W
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--3866299591-581170101-1678286807=:30352
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-On Wed, Mar 08, 2023 at 09:48:17AM +0100, Kevin Wolf wrote:
-> Am 07.03.2023 um 20:20 hat Stefan Hajnoczi geschrieben:
-> > On Tue, Mar 07, 2023 at 06:17:22PM +0100, Kevin Wolf wrote:
-> > > Am 01.03.2023 um 21:57 hat Stefan Hajnoczi geschrieben:
-> > > > There is no need for the AioContext lock in bdrv_drain_all() because
-> > > > nothing in AIO_WAIT_WHILE() needs the lock and the condition is ato=
-mic.
-> > > >=20
-> > > > Note that the NULL AioContext argument to AIO_WAIT_WHILE() is odd. =
-In
-> > > > the future it can be removed.
-> > >=20
-> > > It can be removed for all callers that run in the main loop context. =
-For
-> > > code running in an iothread, it's still important to pass a non-NULL
-> > > context. This makes me doubt that the ctx parameter can really be
-> > > removed without changing more.
-> > >=20
-> > > Is your plan to remove the if from AIO_WAIT_WHILE_INTERNAL(), too, and
-> > > to poll qemu_get_current_aio_context() instead of ctx_ or the main
-> > > context?
-> >=20
-> > This is what I'd like once everything has been converted to
-> > AIO_WAIT_WHILE_UNLOCKED() - and at this point we might as well call it
-> > AIO_WAIT_WHILE() again:
-> >=20
-> >   #define AIO_WAIT_WHILE(cond) ({                                    \
-> >       bool waited_ =3D false;                                          \
-> >       AioWait *wait_ =3D &global_aio_wait;                             \
-> >       /* Increment wait_->num_waiters before evaluating cond. */     \
-> >       qatomic_inc(&wait_->num_waiters);                              \
-> >       /* Paired with smp_mb in aio_wait_kick(). */                   \
-> >       smp_mb();                                                      \
-> >       while ((cond)) {                                               \
-> >           aio_poll(qemu_get_current_aio_context(), true);            \
-> >           waited_ =3D true;                                            \
-> >       }                                                              \
-> >       qatomic_dec(&wait_->num_waiters);                              \
-> >       waited_; })
->=20
-> Ok, yes, this is what I tried to describe above.
->=20
-> > However, I just realized this only works in the main loop thread because
-> > that's where aio_wait_kick() notifications are received. An IOThread
-> > running AIO_WAIT_WHILE() won't be woken when another thread (including
-> > the main loop thread) calls aio_wait_kick().
->=20
-> Which is of course a limitation we already have today. You can wait for
-> things in your own iothread, or for all threads from the main loop.
->=20
-> However, in the future multiqueue world, the first case probably becomes
-> pretty much useless because even for the same node, you could get
-> activity in any thread.
->=20
-> So essentially AIO_WAIT_WHILE() becomes GLOBAL_STATE_CODE(). Which is
-> probably a good idea anyway, but I'm not entirely sure how many places
-> we currently have where it's called from an iothread. I know the drain
-> in mirror_run(), but Emanuele already had a patch in his queue where
-> bdrv_co_yield_to_drain() schedules drain in the main context, so if that
-> works, mirror_run() would be solved.
->=20
-> https://gitlab.com/eesposit/qemu/-/commit/63562351aca4fb05d5711eb410feb96=
-e64b5d4ad
->=20
-> > I would propose introducing a QemuCond for each condition that we wait
-> > on, but QemuCond lacks event loop integration. The current thread would
-> > be unable to run aio_poll() while also waiting on a QemuCond.
-> >=20
-> > Life outside coroutines is hard, man! I need to think about this more.
-> > Luckily this problem doesn't block this patch series.
->=20
-> I hope that we don't really need all of this if we can limit running
-> synchronous code to the main loop.
+On Wed, 8 Mar 2023, Philippe Mathieu-Daudé wrote:
+> Hi Zoltan,
+>
+> On 8/3/23 00:47, Philippe Mathieu-Daudé wrote:
+>> From: BALATON Zoltan <balaton@eik.bme.hu>
+>> 
+>> According to the PegasosII schematics the PCI interrupt lines are
+>> connected to both the gpp pins of the Mv64361 north bridge and the
+>> PINT pins of the VT8231 south bridge so guests can get interrupts from
+>> either of these. So far we only had the MV64361 connections which
+>> worked for on board devices but for additional PCI devices (such as
+>> network or sound card added with -device) guest OSes expect interrupt
+>> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+>> VT8231 ISA bridge. After the previous patches we can now model this
+>> and also remove the board specific connection from mv64361. Also
+>> configure routing of these lines when using Virtual Open Firmware to
+>> match board firmware for guests that expect this.
+>
+> IIUC the schematic, only tje INTA and INTB lines (AGP IRQs) are
+> bidirectional and shared between NB/SB.
+>
+> INTC and INTC are SB output to NB input.
 
-Great idea, I think you're right.
+I'll check the schematics again when I have time later but what we know 
+for sure is that guests expect PCI interrupts to raise ISA IRQ9 which is 
+mapped by the VT8231 ISA function 0c55-0x57 registers. The PCI buses are 
+otherwise handled by the north bridge. So how can the VIA PINT pins be 
+outputs? Where do the signals from the PCI cards go into VT8231 otherwise? 
+Also the VT8231 datasheet on page 10 says PINTA-D pins are inputs so I 
+can't understand your reasoning above.
 
-I'll audit the code to find the IOThread AIO_WAIT_WHILE() callers and
-maybe a future patch series can work on that.
+Regards,
+BALATON Zoltan
 
-> > > > There is an assertion in
-> > > > AIO_WAIT_WHILE() that checks that we're in the main loop AioContext=
- and
-> > > > we would lose that check by dropping the argument. However, that wa=
-s a
-> > > > precursor to the GLOBAL_STATE_CODE()/IO_CODE() macros and is now a
-> > > > duplicate check. So I think we won't lose much by dropping it, but =
-let's
-> > > > do a few more AIO_WAIT_WHILE_UNLOCKED() coversions of this sort to
-> > > > confirm this is the case.
-> > > >=20
-> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > >=20
-> > > Yes, it seems that we don't lose much, except maybe some consistency =
-in
-> > > the intermediate state. The commit message could state a bit more
-> > > directly what we gain, though. Since you mention removing the paramet=
-er
-> > > as a future possibility, I assume that's the goal with it, but I
-> > > wouldn't be sure just from reading the commit message.
-> >=20
-> > AIO_WAIT_WHILE() callers need to be weened of the AioContext lock.
-> > That's the main motivation and this patch series converts the easy
-> > cases where we already don't need the lock. Dropping the function
-> > argument eventually is a side benefit.
->=20
-> Yes, but the conversion to AIO_WAIT_WHILE_UNLOCKED() could be done with
-> ctx instead of NULL. So moving to NULL is a separate change that needs a
-> separate explanation. You could even argue that it should be a separate
-> patch if it's an independent change.
->=20
-> Or am I missing something and keeping ctx would actually break things?
-
-Yes, ctx argument does not need to be modified when converting from
-AIO_WAIT_WHILE() to AIO_WAIT_WHILE_UNLOCKED(). Passing it bothers me
-because we don't really use it when unlock=3Dfalse.
-
-Would you like me to keep ctx non-NULL for now?
-
-Stefan
-
---/l3G/0DvM7Gvl23W
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQImw0ACgkQnKSrs4Gr
-c8iDIwgAxa1yWLMy18i8QIgHwTu4kKMnYhXVgzrt/wLUynGXv0YGkg2rq2YzP91s
-PjYd97sFQziNHc7ZCwm7anqCLfwoUGLzP+nEblT5xnvFnVylOTNRs4njgme3mVr/
-gtjMXPFH7sjCrN5Pm0PFNrN/7irTqVPyvRAsXUzrHrTm477gYB1dG2C0gspMCY9e
-nay2KC6keFsj62Y1Aot8wZCKNhdwZXDE3enOWNBzRkyoPnBBm+dRCg9tKaFP5uvl
-VKJBUWiqPTXEIK2JO5duvKrs9KMLcogGxAXgKdeJOJmgTjs3Q8096hk2jTZg13wR
-n5/rgQpKDFXE+YDHLgd59YeIF7Wawg==
-=KudB
------END PGP SIGNATURE-----
-
---/l3G/0DvM7Gvl23W--
-
+>> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>> Message-Id: 
+>> <520ff9e6eeef600ee14a4116c0c7b11940cc499c.1678188711.git.balaton@eik.bme.hu>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/pci-host/mv64361.c |  4 ----
+>>   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+>>   2 files changed, 25 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+>> index 298564f1f5..19e8031a3f 100644
+>> --- a/hw/pci-host/mv64361.c
+>> +++ b/hw/pci-host/mv64361.c
+>> @@ -873,10 +873,6 @@ static void mv64361_realize(DeviceState *dev, Error 
+>> **errp)
+>>       }
+>>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+>>       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+>> -    /* FIXME: PCI IRQ connections may be board specific */
+>> -    for (i = 0; i < PCI_NUM_PINS; i++) {
+>> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+>> -    }
+>>   }
+>>     static void mv64361_reset(DeviceState *dev)
+>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>> index 7cc375df05..f1650be5ee 100644
+>> --- a/hw/ppc/pegasos2.c
+>> +++ b/hw/ppc/pegasos2.c
+>> @@ -73,6 +73,8 @@ struct Pegasos2MachineState {
+>>       MachineState parent_obj;
+>>       PowerPCCPU *cpu;
+>>       DeviceState *mv;
+>> +    qemu_irq mv_pirq[PCI_NUM_PINS];
+>> +    qemu_irq via_pirq[PCI_NUM_PINS];
+>>       Vof *vof;
+>>       void *fdt_blob;
+>>       uint64_t kernel_addr;
+>> @@ -95,6 +97,15 @@ static void pegasos2_cpu_reset(void *opaque)
+>>       }
+>>   }
+>>   +static void pegasos2_pci_irq(void *opaque, int n, int level)
+>
+> So this handler is only for A/B. We could rename it pegasos2_agp_irq()
+> and only wire it to the first 2 pins, but I since we can only register
+> one handler per bus, simpler to ...
+>
+>> +{
+>> +    Pegasos2MachineState *pm = opaque;
+>> +
+>> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
+>> +    qemu_set_irq(pm->mv_pirq[n], level);
+>
+> ... add a 'if (n < 2)' check here.
+>
+>> +    qemu_set_irq(pm->via_pirq[n], level);
+>> +}
+>
+>> @@ -156,11 +167,18 @@ static void pegasos2_init(MachineState *machine)
+>>       /* Marvell Discovery II system controller */
+>>       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+>>                             qdev_get_gpio_in(DEVICE(pm->cpu), 
+>> PPC6xx_INPUT_INT)));
+>> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+>> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
+>> +    }
+>>       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+>> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+>>         /* VIA VT8231 South Bridge (multifunction PCI device) */
+>>       via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 
+>> 0),
+>>                                                    true, TYPE_VT8231_ISA));
+>> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+>
+> I'd rather declare as via_pirq[2] and iterate over ARRAY_SIZE() here
+> (and also use ARRAY_SIZE() in the new check in pegasos2_pci_irq).
+>
+>> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
+>> +    }
+>
+>
+--3866299591-581170101-1678286807=:30352--
 
