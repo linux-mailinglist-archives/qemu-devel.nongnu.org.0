@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E446B05A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 12:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFA86B05B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 12:20:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZrl7-0004BC-0G; Wed, 08 Mar 2023 06:15:01 -0500
+	id 1pZrqC-0005ch-JG; Wed, 08 Mar 2023 06:20:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1pZrl4-0004Ah-9p
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 06:14:58 -0500
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1pZrl2-0005Pl-I5
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 06:14:57 -0500
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1767a208b30so16394604fac.2
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 03:14:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sifive.com; s=google; t=1678274095;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fbPGXRoFZx0QK8lm9D/pZpaZ0oDNBqf+IjxqEmzbdck=;
- b=gneKH3ge1a8O+5gdY9fdd+Krc0P+biuBEjw3Ug4sS1Ge82ZbrgBXXLuoODip3OJxCY
- Kp88OHHhmGRHaw48ekO7gqV8TVGFRjdJprZPAfvOIETC6ovkAytxRVbFtFntXlNd4cHf
- CfhtK3Ho/cqzPas9gEaER8iDjiUo7OG2t2SewnkyWjWDoBUAt3jsRwaAn/ia0D5xSg7c
- RoHdJgtduf7yj1XMZQD12aTu+LACezDggnTMSzTDIscyDsJ6F5DpFJvCwhqsrnmR58IM
- wBeVuTJs5Ask5h7svST1f9vRZ5ot2LasTcjUCteXu1YtzBhhSb6r1JxN2XRacwXl9Ue/
- h12A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678274095;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fbPGXRoFZx0QK8lm9D/pZpaZ0oDNBqf+IjxqEmzbdck=;
- b=ZuT3r1Q/Hhb6+2JsvwcuUmxhCGiqzgNsc6QC+oZu6BjLwB3Bh8ku056cMFIui28G5W
- MmL8ho+gAaVOatLDswa0njqUARllS7vO4XehcmAWuXHSn3apWqiT3vhRWonfOOW0zy6X
- La5/qQaGK1YDv++zj8cZqixfgbpa/u2VhI7rO+9gtImPPC7V70koRM/rZjzjIsiPJkLo
- nBH5FhhONMiUzeDMtbxA0SxJaiKsapoK0eB6+i3mzZ/huxDDTNaAr01Ze8bKYffTzfhJ
- ygES7Mh1dEV9sQ1J60xTfPA4JSU1bZHT8KY9nQO1MzViAu84G8z8PpOyuGDjOQmqKiD3
- Tajg==
-X-Gm-Message-State: AO0yUKUwoEmkisUcWqYmXk/19MiMW40CtMLMpmN2Gttwwk1S3wsGzW7d
- s+4XrBdKGwJe0tIt1Dqz2AXNN6x31g+8kuNvMKaU2g==
-X-Google-Smtp-Source: AK7set9dt6hUTjNqaMXXiOK0QZ47Mt+FP6slcufZ4HJuwT7oEL6mX2VevtGLQnSnz8X98wiU50FFeEzI/La6QZBDFJA=
-X-Received: by 2002:a05:6870:cd04:b0:176:be86:b659 with SMTP id
- qk4-20020a056870cd0400b00176be86b659mr5174284oab.5.1678274094756; Wed, 08 Mar
- 2023 03:14:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <BATV+9591d7c4daecea4c87af+7136+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZrq6-0005bC-DZ
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 06:20:10 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+9591d7c4daecea4c87af+7136+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pZrq2-0005zB-UX
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 06:20:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=GhFKJgGofODWcD6y76sA7JctwGb6UxxM0NMMIYt3IOE=; b=mHPc5ubL/xy6L+efYFT/HcFWhb
+ Cd+PJW9Pi0bN4Bm+b9MzZpzx/j7aGCwrd50eom11p/LTZskqc3hIZj5ZUcPS5Pwu6N7R73pRJM3P9
+ wOIQxo5ohqEpVk+ObtHwhWYipx0cmJtZ1FZLThfzyT8F58VghNDjtWVDtqJXhQ3EbodkFFI1xAD1N
+ EA/igzGGNqlQF1BM9uqZh9hMeW/upOly1xH11FdF3cIoG3524xC9ovxsBUfMSHSWDLKzetUnesgvy
+ 5DNuE78LoUliSR1YdFI7datIoqG6E7G0FQi9D0qwlkJB6u6MKaYXhsM0xHckapgmNmfx308Dcnq0g
+ rM/i0Bsw==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pZrpr-00HMr8-2k; Wed, 08 Mar 2023 11:19:56 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pZrpq-00BS0W-07; Wed, 08 Mar 2023 11:19:54 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PATCH v2 0/3] Enable avocado testing for Xen guests
+Date: Wed,  8 Mar 2023 11:19:49 +0000
+Message-Id: <20230308111952.2728440-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230305094231.1616-1-jim.shu@sifive.com>
- <20230305094231.1616-2-jim.shu@sifive.com>
- <0b2407ee-a7dd-d651-763a-a73b3802dc8f@linux.alibaba.com>
-In-Reply-To: <0b2407ee-a7dd-d651-763a-a73b3802dc8f@linux.alibaba.com>
-From: Jim Shu <jim.shu@sifive.com>
-Date: Wed, 8 Mar 2023 19:14:44 +0800
-Message-ID: <CALw707oB_CJmQBTV9Zft9qAhhzbBtBRvrrWZHvao1Q4nUhrK_g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: Make the "virt" register writable by GDB
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=jim.shu@sifive.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+9591d7c4daecea4c87af+7136+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,71 +77,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks for reviewing.
-I'll fix this issue.
+I'd love to test other operating systems too (FreeBSD does work if I 
+abuse the stuff in tests/vm/ and add a Xen guest mode). But this is
+enough for now to help catch regressions on the QEMU side.
+
+Especially the polling for the event channel GSI deassertion is likely 
+to be fragile, and in the not-so-distant future I really do want to add 
+an explicit EOI hook in the interrupt controllers; as discussed, VFIO 
+INTx would benefit from that too.
+
+When the guest kernel boots with 4 CPUs, it ends up initially targeting 
+the event channel GSI to CPU#2, and then testing the migration.
+
+Since nobody evidently cared about the I/OAPIC migration bug in the 7
+years since it was introduced with the first split-irqchip support,
+that fix might as well stay here in this series.
+
+v2: https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-test-2
+
+ • Use xen-disk now that the PR adding support for that has been submitted
+
+ • Include the I/O APIC migration fix, so that we can use -smp 4 
+
+v1: https://lore.kernel.org/qemu-devel/20230303125126.1269861-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-test
+
+David Woodhouse (3):
+      hw/intc/ioapic: Update KVM routes before redelivering IRQ, on RTE update
+      tests/avocado: Add Fedora 34 distro, including kernel/initrd checksums
+      tests/avocado: Test Xen guest support under KVM
+
+ hw/intc/ioapic.c                       |   3 +-
+ tests/avocado/avocado_qemu/__init__.py |  27 ++++++
+ tests/avocado/xen_guest.py             | 147 +++++++++++++++++++++++++++++++++
+ 3 files changed, 175 insertions(+), 2 deletions(-)
+ create mode 100644 tests/avocado/xen_guest.py
 
 
-On Mon, Mar 6, 2023 at 7:26=E2=80=AFPM LIU Zhiwei <zhiwei_liu@linux.alibaba=
-.com> wrote:
->
->
-> On 2023/3/5 17:42, Jim Shu wrote:
-> > This patch also enables debugger to set current privilege mode to
-> > VU/VS-mode.
-> >
-> > Extend previous commit 81d2929c41d32af138f3562f5a7b309f6eac7ca7 to
-> > support H-extension.
-> >
-> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
-> > Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> > ---
-> >   target/riscv/gdbstub.c | 18 ++++++++++++++++--
-> >   1 file changed, 16 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> > index 1755fd9d51..a7f234beaf 100644
-> > --- a/target/riscv/gdbstub.c
-> > +++ b/target/riscv/gdbstub.c
-> > @@ -203,15 +203,29 @@ static int riscv_gdb_get_virtual(CPURISCVState *c=
-s, GByteArray *buf, int n)
-> >
-> >   static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf,=
- int n)
-> >   {
-> > +#ifdef CONFIG_USER_ONLY
-> > +    if (n >=3D 0 && n <=3D 1) {
-> > +        return sizeof(target_ulong);
-> > +    }
-> > +#else
-> > +    bool virt;
-> > +
-> >       if (n =3D=3D 0) {
-> > -#ifndef CONFIG_USER_ONLY
-> >           cs->priv =3D ldtul_p(mem_buf) & 0x3;
-> >           if (cs->priv =3D=3D PRV_H) {
-> >               cs->priv =3D PRV_S;
-> >           }
-> > -#endif
-> > +        return sizeof(target_ulong);
-> We should return according to the misa_mxl_max. And this is a bug before
-> your commit.
-> > +    } else if (n =3D=3D 1) {
-> > +        virt =3D ldtul_p(mem_buf) & 0x1;
-> > +        if ((cs->priv =3D=3D PRV_M) && (virt =3D=3D true)) {
-> > +            /* M-mode only supports V=3D0. */
-> > +            virt =3D false;
-> > +        }
-> > +        riscv_cpu_set_virt_enabled(cs, virt);
-> >           return sizeof(target_ulong);
-> Same error here. Otherwise,
->
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->
-> Zhiwei
->
-> >       }
-> > +#endif
-> >       return 0;
-> >   }
-> >
 
