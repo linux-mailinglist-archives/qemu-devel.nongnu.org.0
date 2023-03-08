@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C35D6B0FC7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628016B0FCA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:06:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZxDb-00034Y-09; Wed, 08 Mar 2023 12:04:47 -0500
+	id 1pZxE2-00047Y-Kv; Wed, 08 Mar 2023 12:05:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pZxDX-0002uL-Bg
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:04:43 -0500
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pZxDZ-00037I-Hm; Wed, 08 Mar 2023 12:04:45 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pZxDU-0005XP-0q
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:04:41 -0500
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pZxDU-0005XV-DY; Wed, 08 Mar 2023 12:04:45 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 7CAEA400BC;
+ by isrv.corpit.ru (Postfix) with ESMTP id DDC87400C1;
  Wed,  8 Mar 2023 19:58:18 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 0944A1FD;
+ by tsrv.corpit.ru (Postfix) with SMTP id 70EA692;
  Wed,  8 Mar 2023 19:58:17 +0300 (MSK)
-Received: (nullmailer pid 2098266 invoked by uid 1000);
+Received: (nullmailer pid 2098268 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:15 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: qemu-stable@nongnu.org, Laszlo Ersek <lersek@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 07/47] target/riscv: Set pc_succ_insn for !rvc illegal insn
-Date: Wed,  8 Mar 2023 19:57:10 +0300
-Message-Id: <20230308165815.2098148-7-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 08/47] acpi: cpuhp: fix guest-visible maximum access size to
+ the legacy reg block
+Date: Wed,  8 Mar 2023 19:57:11 +0300
+Message-Id: <20230308165815.2098148-8-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -45,7 +48,7 @@ X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
 X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,119 +64,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Laszlo Ersek <lersek@redhat.com>
 
-Failure to set pc_succ_insn may result in a TB covering zero bytes,
-which triggers an assert within the code generator.
+The modern ACPI CPU hotplug interface was introduced in the following
+series (aa1dd39ca307..679dd1a957df), released in v2.7.0:
 
+  1  abd49bc2ed2f docs: update ACPI CPU hotplug spec with new protocol
+  2  16bcab97eb9f pc: piix4/ich9: add 'cpu-hotplug-legacy' property
+  3  5e1b5d93887b acpi: cpuhp: add CPU devices AML with _STA method
+  4  ac35f13ba8f8 pc: acpi: introduce AcpiDeviceIfClass.madt_cpu hook
+  5  d2238cb6781d acpi: cpuhp: implement hot-add parts of CPU hotplug
+                  interface
+  6  8872c25a26cc acpi: cpuhp: implement hot-remove parts of CPU hotplug
+                  interface
+  7  76623d00ae57 acpi: cpuhp: add cpu._OST handling
+  8  679dd1a957df pc: use new CPU hotplug interface since 2.7 machine type
+
+Before patch#1, "docs/specs/acpi_cpu_hotplug.txt" only specified 1-byte
+accesses for the hotplug register block.  Patch#1 preserved the same
+restriction for the legacy register block, but:
+
+- it specified DWORD accesses for some of the modern registers,
+
+- in particular, the switch from the legacy block to the modern block
+  would require a DWORD write to the *legacy* block.
+
+The latter functionality was then implemented in cpu_status_write()
+[hw/acpi/cpu_hotplug.c], in patch#8.
+
+Unfortunately, all DWORD accesses depended on a dormant bug: the one
+introduced in earlier commit a014ed07bd5a ("memory: accept mismatching
+sizes in memory_region_access_valid", 2013-05-29); first released in
+v1.6.0.  Due to commit a014ed07bd5a, the DWORD accesses to the *legacy*
+CPU hotplug register block would work in spite of the above series *not*
+relaxing "valid.max_access_size = 1" in "hw/acpi/cpu_hotplug.c":
+
+> static const MemoryRegionOps AcpiCpuHotplug_ops = {
+>     .read = cpu_status_read,
+>     .write = cpu_status_write,
+>     .endianness = DEVICE_LITTLE_ENDIAN,
+>     .valid = {
+>         .min_access_size = 1,
+>         .max_access_size = 1,
+>     },
+> };
+
+Later, in commits e6d0c3ce6895 ("acpi: cpuhp: introduce 'Command data 2'
+field", 2020-01-22) and ae340aa3d256 ("acpi: cpuhp: spec: add typical
+usecases", 2020-01-22), first released in v5.0.0, the modern CPU hotplug
+interface (including the documentation) was extended with another DWORD
+*read* access, namely to the "Command data 2" register, which would be
+important for the guest to confirm whether it managed to switch the
+register block from legacy to modern.
+
+This functionality too silently depended on the bug from commit
+a014ed07bd5a.
+
+In commit 5d971f9e6725 ('memory: Revert "memory: accept mismatching sizes
+in memory_region_access_valid"', 2020-06-26), first released in v5.1.0,
+the bug from commit a014ed07bd5a was fixed (the commit was reverted).
+That swiftly exposed the bug in "AcpiCpuHotplug_ops", still present from
+the v2.7.0 series quoted at the top -- namely the fact that
+"valid.max_access_size = 1" didn't match what the guest was supposed to
+do, according to the spec ("docs/specs/acpi_cpu_hotplug.txt").
+
+The symptom is that the "modern interface negotiation protocol"
+described in commit ae340aa3d256:
+
+> +      Use following steps to detect and enable modern CPU hotplug interface:
+> +        1. Store 0x0 to the 'CPU selector' register,
+> +           attempting to switch to modern mode
+> +        2. Store 0x0 to the 'CPU selector' register,
+> +           to ensure valid selector value
+> +        3. Store 0x0 to the 'Command field' register,
+> +        4. Read the 'Command data 2' register.
+> +           If read value is 0x0, the modern interface is enabled.
+> +           Otherwise legacy or no CPU hotplug interface available
+
+falls apart for the guest: steps 1 and 2 are lost, because they are DWORD
+writes; so no switching happens.  Step 3 (a single-byte write) is not
+lost, but it has no effect; see the condition in cpu_status_write() in
+patch#8.  And step 4 *misleads* the guest into thinking that the switch
+worked: the DWORD read is lost again -- it returns zero to the guest
+without ever reaching the device model, so the guest never learns the
+switch didn't work.
+
+This means that guest behavior centered on the "Command data 2" register
+worked *only* in the v5.0.0 release; it got effectively regressed in
+v5.1.0.
+
+To make things *even more* complicated, the breakage was (and remains, as
+of today) visible with TCG acceleration only.  Commit 5d971f9e6725 makes
+no difference with KVM acceleration -- the DWORD accesses still work,
+despite "valid.max_access_size = 1".
+
+As commit 5d971f9e6725 suggests, fix the problem by raising
+"valid.max_access_size" to 4 -- the spec now clearly instructs the guest
+to perform DWORD accesses to the legacy register block too, for enabling
+(and verifying!) the modern block.  In order to keep compatibility for the
+device model implementation though, set "impl.max_access_size = 1", so
+that wide accesses be split before they reach the legacy read/write
+handlers, like they always have been on KVM, and like they were on TCG
+before 5d971f9e6725 (v5.1.0).
+
+Tested with:
+
+- OVMF IA32 + qemu-system-i386, CPU hotplug/hot-unplug with SMM,
+  intermixed with ACPI S3 suspend/resume, using KVM accel
+  (regression-test);
+
+- OVMF IA32X64 + qemu-system-x86_64, CPU hotplug/hot-unplug with SMM,
+  intermixed with ACPI S3 suspend/resume, using KVM accel
+  (regression-test);
+
+- OVMF IA32 + qemu-system-i386, SMM enabled, using TCG accel; verified the
+  register block switch and the present/possible CPU counting through the
+  modern hotplug interface, during OVMF boot (bugfix test);
+
+- I do not have any testcase (guest payload) for regression-testing CPU
+  hotplug through the *legacy* CPU hotplug register block.
+
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
 Cc: qemu-stable@nongnu.org
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1224
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Ref: "IO port write width clamping differs between TCG and KVM"
+Link: http://mid.mail-archive.com/aaedee84-d3ed-a4f9-21e7-d221a28d1683@redhat.com
+Link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg00199.html
+Reported-by: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221203175744.151365-1-richard.henderson@linaro.org>
-[ Changes by AF:
- - Add missing run-plugin-test-noc-% line
-]
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-(cherry picked from commit ec2918b467228e7634f1dd5f35033ad3021b6ef7)
+Tested-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20230105161804.82486-1-lersek@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit dab30fbef3896bb652a09d46c37d3f55657cbcbb)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- target/riscv/translate.c          | 12 ++++--------
- tests/tcg/Makefile.target         |  2 ++
- tests/tcg/riscv64/Makefile.target |  6 ++++++
- tests/tcg/riscv64/test-noc.S      | 32 +++++++++++++++++++++++++++++++
- 4 files changed, 44 insertions(+), 8 deletions(-)
- create mode 100644 tests/tcg/riscv64/test-noc.S
+ hw/acpi/cpu_hotplug.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index db123da5ec..1ed4bb5ec3 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1064,14 +1064,10 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- 
-     /* Check for compressed insn */
-     if (insn_len(opcode) == 2) {
--        if (!has_ext(ctx, RVC)) {
--            gen_exception_illegal(ctx);
--        } else {
--            ctx->opcode = opcode;
--            ctx->pc_succ_insn = ctx->base.pc_next + 2;
--            if (decode_insn16(ctx, opcode)) {
--                return;
--            }
-+        ctx->opcode = opcode;
-+        ctx->pc_succ_insn = ctx->base.pc_next + 2;
-+        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
-+            return;
-         }
-     } else {
-         uint32_t opcode32 = opcode;
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 75257f2b29..14bc013181 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -117,6 +117,8 @@ endif
- 
- %: %.c
- 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+%: %.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
- else
- # For softmmu targets we include a different Makefile fragement as the
- # build options for bare programs are usually pretty different. They
-diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
-index b5b89dfb0e..cc3ed65ffd 100644
---- a/tests/tcg/riscv64/Makefile.target
-+++ b/tests/tcg/riscv64/Makefile.target
-@@ -4,3 +4,9 @@
- VPATH += $(SRC_PATH)/tests/tcg/riscv64
- TESTS += test-div
- TESTS += noexec
-+
-+# Disable compressed instructions for test-noc
-+TESTS += test-noc
-+test-noc: LDFLAGS = -nostdlib -static
-+run-test-noc: QEMU_OPTS += -cpu rv64,c=false
-+run-plugin-test-noc-%: QEMU_OPTS += -cpu rv64,c=false
-diff --git a/tests/tcg/riscv64/test-noc.S b/tests/tcg/riscv64/test-noc.S
-new file mode 100644
-index 0000000000..e29d60c8b3
---- /dev/null
-+++ b/tests/tcg/riscv64/test-noc.S
-@@ -0,0 +1,32 @@
-+#include <asm/unistd.h>
-+
-+	.text
-+	.globl _start
-+_start:
-+	.option	norvc
-+	li	a0, 4		/* SIGILL */
-+	la	a1, sa
-+	li	a2, 0
-+	li	a3, 8
-+	li	a7, __NR_rt_sigaction
-+	scall
-+
-+	.option	rvc
-+	li	a0, 1
-+	j	exit
-+	.option	norvc
-+
-+pass:
-+	li	a0, 0
-+exit:
-+	li	a7, __NR_exit
-+	scall
-+
-+	.data
-+	/* struct kernel_sigaction sa = { .sa_handler = pass }; */
-+	.type	sa, @object
-+	.size	sa, 32
-+sa:
-+	.dword	pass
-+	.zero	24
-+
+diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
+index 53654f8638..ff14c3f410 100644
+--- a/hw/acpi/cpu_hotplug.c
++++ b/hw/acpi/cpu_hotplug.c
+@@ -52,6 +52,9 @@ static const MemoryRegionOps AcpiCpuHotplug_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
++        .max_access_size = 4,
++    },
++    .impl = {
+         .max_access_size = 1,
+     },
+ };
 -- 
 2.30.2
 
