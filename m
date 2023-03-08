@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4146B0F9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BAF6B0FAF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:04:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZx8Y-0004pD-Py; Wed, 08 Mar 2023 11:59:34 -0500
+	id 1pZx8W-0004mb-Og; Wed, 08 Mar 2023 11:59:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8S-0004jJ-Uj; Wed, 08 Mar 2023 11:59:28 -0500
+ id 1pZx8S-0004jF-TJ; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pZx8N-00048Z-Mt; Wed, 08 Mar 2023 11:59:28 -0500
+ id 1pZx8N-00048h-Qq; Wed, 08 Mar 2023 11:59:28 -0500
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 8452D400EA;
+ by isrv.corpit.ru (Postfix) with ESMTP id A978D400EB;
  Wed,  8 Mar 2023 19:58:57 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 450F41FE;
+ by tsrv.corpit.ru (Postfix) with SMTP id 71E8013A;
  Wed,  8 Mar 2023 19:58:56 +0300 (MSK)
-Received: (nullmailer pid 2098375 invoked by uid 1000);
+Received: (nullmailer pid 2098377 invoked by uid 1000);
  Wed, 08 Mar 2023 16:58:55 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
 Cc: qemu-stable@nongnu.org, =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
  "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 40/47] vhost: avoid a potential use of an uninitialized
- variable in vhost_svq_poll()
-Date: Wed,  8 Mar 2023 19:57:43 +0300
-Message-Id: <20230308165815.2098148-40-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 41/47] libvhost-user: check for NULL when allocating a
+ virtqueue element
+Date: Wed,  8 Mar 2023 19:57:44 +0300
+Message-Id: <20230308165815.2098148-41-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
 References: <20230308165035.2097594-1-mjt@msgid.tls.msk.ru>
@@ -62,129 +62,70 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Carlos López <clopez@suse.de>
 
-In vhost_svq_poll(), if vhost_svq_get_buf() fails due to a device
-providing invalid descriptors, len is left uninitialized and returned
-to the caller, potentally leaking stack data or causing undefined
-behavior.
+Check the return value for malloc(), avoiding a NULL pointer
+dereference, and propagate error in function callers.
 
-Fix this by initializing len to 0.
+Found with GCC 13 and -fanalyzer:
 
-Found with GCC 13 and -fanalyzer (abridged):
-
-../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
-../hw/virtio/vhost-shadow-virtqueue.c:538:12: warning: use of uninitialized value ‘len’ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-  538 |     return len;
-      |            ^~~
-  ‘vhost_svq_poll’: events 1-4
+../subprojects/libvhost-user/libvhost-user.c: In function ‘virtqueue_alloc_element’:
+../subprojects/libvhost-user/libvhost-user.c:2556:19: error: dereference of possibly-NULL ‘elem’ [CWE-690] [-Werror=analyzer-possible-null-dereference]
+ 2556 |     elem->out_num = out_num;
+      |     ~~~~~~~~~~~~~~^~~~~~~~~
+  ‘virtqueue_alloc_element’: event 1
     |
-    |  522 | size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-    |      |        ^~~~~~~~~~~~~~
-    |      |        |
-    |      |        (1) entry to ‘vhost_svq_poll’
-    |......
-    |  525 |     uint32_t len;
-    |      |              ~~~
-    |      |              |
-    |      |              (2) region created on stack here
-    |      |              (3) capacity: 4 bytes
-    |......
-    |  528 |         if (vhost_svq_more_used(svq)) {
-    |      |             ~
-    |      |             |
-    |      |             (4) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_poll’
-
-    (...)
-
-    |  528 |         if (vhost_svq_more_used(svq)) {
-    |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-    |      |            ||
-    |      |            |(8) ...to here
-    |      |            (7) following ‘true’ branch...
-    |......
-    |  537 |     vhost_svq_get_buf(svq, &len);
-    |      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    | 2554 |     assert(sz >= sizeof(VuVirtqElement));
+    |      |     ^~~~~~
     |      |     |
-    |      |     (9) calling ‘vhost_svq_get_buf’ from ‘vhost_svq_poll’
+    |      |     (1) following ‘true’ branch (when ‘sz > 31’)...
     |
-    +--> ‘vhost_svq_get_buf’: events 10-11
-           |
-           |  416 | static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-           |      |                          ^~~~~~~~~~~~~~~~~
-           |      |                          |
-           |      |                          (10) entry to ‘vhost_svq_get_buf’
-           |......
-           |  423 |     if (!vhost_svq_more_used(svq)) {
-           |      |          ~
-           |      |          |
-           |      |          (11) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_get_buf’
-           |
-
-           (...)
-
-           |
-         ‘vhost_svq_get_buf’: event 14
-           |
-           |  423 |     if (!vhost_svq_more_used(svq)) {
-           |      |        ^
-           |      |        |
-           |      |        (14) following ‘false’ branch...
-           |
-         ‘vhost_svq_get_buf’: event 15
-           |
-           |cc1:
-           | (15): ...to here
-           |
-    <------+
+  ‘virtqueue_alloc_element’: events 2-4
     |
-  ‘vhost_svq_poll’: events 16-17
+    | 2555 |     elem = malloc(out_sg_end);
+    |      |     ^~~~   ~~~~~~~~~~~~~~~~~~
+    |      |     |      |
+    |      |     |      (3) this call could return NULL
+    |      |     (2) ...to here
+    | 2556 |     elem->out_num = out_num;
+    |      |     ~~~~~~~~~~~~~~~~~~~~~~~
+    |      |                   |
+    |      |                   (4) ‘elem’ could be NULL: unchecked value from (3)
     |
-    |  537 |     vhost_svq_get_buf(svq, &len);
-    |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    |      |     |
-    |      |     (16) returning to ‘vhost_svq_poll’ from ‘vhost_svq_get_buf’
-    |  538 |     return len;
-    |      |            ~~~
-    |      |            |
-    |      |            (17) use of uninitialized value ‘len’ here
 
-Note by  Laurent Vivier <lvivier@redhat.com>:
-
-    The return value is only used to detect an error:
-
-    vhost_svq_poll
-        vhost_vdpa_net_cvq_add
-            vhost_vdpa_net_load_cmd
-                vhost_vdpa_net_load_mac
-                  -> a negative return is only used to detect error
-                vhost_vdpa_net_load_mq
-                  -> a negative return is only used to detect error
-            vhost_vdpa_net_handle_ctrl_avail
-              -> a negative return is only used to detect error
-
-Fixes: d368c0b052ad ("vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush")
 Signed-off-by: Carlos López <clopez@suse.de>
-Message-Id: <20230213085747.19956-1-clopez@suse.de>
+Message-Id: <20230210112514.16858-1-clopez@suse.de>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit e4dd39c699b7d63a06f686ec06ded8adbee989c1)
+(cherry picked from commit 9c1916057a8b14411116106e5a5c0c33d551cfeb)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ subprojects/libvhost-user/libvhost-user.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 5bd14cad96..a723073747 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -522,7 +522,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
- size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
- {
-     int64_t start_us = g_get_monotonic_time();
--    uint32_t len;
-+    uint32_t len = 0;
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index d6ee6e7d91..b17e82b2b0 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -2547,6 +2547,10 @@ virtqueue_alloc_element(size_t sz,
  
-     do {
-         if (vhost_svq_more_used(svq)) {
+     assert(sz >= sizeof(VuVirtqElement));
+     elem = malloc(out_sg_end);
++    if (!elem) {
++        DPRINT("%s: failed to malloc virtqueue element\n", __func__);
++        return NULL;
++    }
+     elem->out_num = out_num;
+     elem->in_num = in_num;
+     elem->in_sg = (void *)elem + in_sg_ofs;
+@@ -2633,6 +2637,9 @@ vu_queue_map_desc(VuDev *dev, VuVirtq *vq, unsigned int idx, size_t sz)
+ 
+     /* Now copy what we have collected and mapped */
+     elem = virtqueue_alloc_element(sz, out_num, in_num);
++    if (!elem) {
++        return NULL;
++    }
+     elem->index = idx;
+     for (i = 0; i < out_num; i++) {
+         elem->out_sg[i] = iov[i];
 -- 
 2.30.2
 
