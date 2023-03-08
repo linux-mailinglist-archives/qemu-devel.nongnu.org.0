@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04166AFC1D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332596AFC28
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:20:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiNX-0003ej-6T; Tue, 07 Mar 2023 20:14:03 -0500
+	id 1pZiNa-0003wO-6y; Tue, 07 Mar 2023 20:14:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNV-0003XY-0f
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNX-0003lp-U2
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNT-0001zi-DC
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiNW-0001zz-7I
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:14:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678238038;
+ s=mimecast20190719; t=1678238041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=P/flEEtcx2Nxz0vaaqNrcWx22W07Ea7y0fK3PKtwLFs=;
- b=RbsRi6vNJ3HNwekrDZzY8a5w6h4E2fqnmtUJSyoV9mORnvF2xDKFuU2w4u9nrmiKi2Ud8Z
- EhC2Dq9hb9cpCoacOQsZcHDUGRUnTRpW3JQmYyOTkJZzb988Mv1XwanMM/tE4MvhqEEHrD
- R/++7IkSUJu7OVixCCkr3AQ5kBI76ys=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=N2NhsnhpjRETx99G++Bw+Z5dX+en0cbOsz59rYFYC2A=;
+ b=FXJZB4JvXyXVRtUSOIO3MSJayR8vXBwE8OlRAi3jO/kmv+wAhEDmEMee6t1eHKnrq8cXDp
+ S0ffBW2rtqsz+NRvXl6lyzn4IGpH/QSOZaNtvKTBNEBlAExg99fdV7Vemd+kY1Oa92MTgK
+ qhgXPAws1WTejNYSIf88sV2p0dKFBro=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-464-SKx21tBXOuy0lUSLSyfkIA-1; Tue, 07 Mar 2023 20:13:57 -0500
-X-MC-Unique: SKx21tBXOuy0lUSLSyfkIA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- fi8-20020a056402550800b004a26cc7f6cbso21411845edb.4
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:57 -0800 (PST)
+ us-mta-640-mW_AD0frNwarU8t-8ZRSvw-1; Tue, 07 Mar 2023 20:14:00 -0500
+X-MC-Unique: mW_AD0frNwarU8t-8ZRSvw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h11-20020a0564020e8b00b004e59d4722a3so11266171eda.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:14:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678238036;
+ d=1e100.net; s=20210112; t=1678238039;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P/flEEtcx2Nxz0vaaqNrcWx22W07Ea7y0fK3PKtwLFs=;
- b=Ir9a3FL/ZJbgw0eTbABlodnF3jUNhtSuYt0gl9h1podYNbI4w1+AJJJqFqjpDjGNE0
- RilvWOHu0nazfdcv1shi1XzbY0UEICg9gzTRr0LA881UYNS/fwp6kCaB/9jhT4DbFvM5
- qN1vetnJu9lxZS0V2i4apuy6g/zLYx6g+ns5q+pgGr5Vn5PGupyIeyGKMSJozeUzcnMB
- IVvPh/7u5weZVK9oRXHsKRKRSEISk2KCFgicY26dbdgkxSEzL0q59zHPjl+G8U7z5gxo
- GEzj+w1xKOqu5zZpLZ0FFOKYfmCVKlWVOTgmflixYgu8sMBqCaX/69tMOe5UMfU+LCw9
- 5Odg==
-X-Gm-Message-State: AO0yUKXb30VUz695qNLU36/2B4oomKzRrwq16JclaK1xljK25aqMrg9p
- B0DVCf8Lc2V9K0xeufztHVjAmikH3lKfxD1VlyBjvMr1ySDWFSt5wXBbumqPHuYnDZLfcuetKL1
- SDwgUSzbmx1RQkacISkLGNlHA+wZifUD4WCKsdKZYFmq9HauCmJW8cEheaTFDraflcAFQ
-X-Received: by 2002:a17:906:a1cc:b0:878:7189:a457 with SMTP id
- bx12-20020a170906a1cc00b008787189a457mr17235267ejb.51.1678238035910; 
- Tue, 07 Mar 2023 17:13:55 -0800 (PST)
-X-Google-Smtp-Source: AK7set8BWTnyXRlcm2Zqlw3PKZEvkqcE4NUGdK68J8rBVspLkWY55qZS+UrEk7gxRjAlSksiVj0QuQ==
-X-Received: by 2002:a17:906:a1cc:b0:878:7189:a457 with SMTP id
- bx12-20020a170906a1cc00b008787189a457mr17235256ejb.51.1678238035700; 
- Tue, 07 Mar 2023 17:13:55 -0800 (PST)
+ bh=N2NhsnhpjRETx99G++Bw+Z5dX+en0cbOsz59rYFYC2A=;
+ b=SdoHfzrTHw526kBvmM5zHV9uNnbFtgn5sfCOGY0uz16plgvhh2HQhkO2WSLuzrV/KU
+ 6rZ3t2/VX5DNMgctW9vghBAy5bmL1tN9lKrRCYLZ32Kfxqo4p8VO5trxv4dOak7H/idr
+ uhA4OKjbm3PmpLkT1f7gGRUksPnom4qq2kuoSX/AmPFI5W7uYLBDlOeSP5Iw09fHIX1X
+ 6iAg+LL0seM8l80fu56YUjfKvj2aSytpqrvVO2nrpov82ZWixK05VpFemb0Kuu0pbR3I
+ FWqE6rvBlJjFIRrpJb+zdFOypVxQ1YBAGWfKmcTf7AxwfpLUEqP2RAr2KJrIExoXjWvD
+ Ne+A==
+X-Gm-Message-State: AO0yUKUh6tX7iXUkwXHiAvT8o+tcNXBDTontHhqKLzKvDik7Lba4az02
+ SB1P29Q151lfe7xz1kYeDTSkDImefPvyoLxPZnI5UB5u4Hd6g5np3bAaS+rlHE6gVvM5SlDlGYE
+ Z2oDGPu5I1Co/X8kK9Z3qhb7BfNu+AwK+EXKhTkRDO5LTOxewLuNpMqq+EkiR3j3QxTGr
+X-Received: by 2002:a17:906:730d:b0:8b1:3193:4874 with SMTP id
+ di13-20020a170906730d00b008b131934874mr20775406ejc.46.1678238038918; 
+ Tue, 07 Mar 2023 17:13:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Z6qIhQmnmSmpNjTUIiGNQJMIjaiXe/Leaiuzdg2VmWPRlu1uw8/W8d9BqBUh4+bilPAIguA==
+X-Received: by 2002:a17:906:730d:b0:8b1:3193:4874 with SMTP id
+ di13-20020a170906730d00b008b131934874mr20775387ejc.46.1678238038666; 
+ Tue, 07 Mar 2023 17:13:58 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- 22-20020a508756000000b004c0ac1df341sm7557824edv.50.2023.03.07.17.13.54
+ y26-20020a170906519a00b008e53874f8d8sm6774271ejk.180.2023.03.07.17.13.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:55 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:53 -0500
+ Tue, 07 Mar 2023 17:13:58 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:56 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 61/73] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
-Message-ID: <010746ae1db7f52700cb2e2c46eb94f299cfa0d2.1678237635.git.mst@redhat.com>
+Subject: [PULL 62/73] hw/pci/aer: Add missing routing for AER errors
+Message-ID: <9a6ef182c03eaa138bae553f0fbb5a123bef9a53.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,51 +101,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-This register in AER should be both writeable and should
-have a default value with a couple of the errors masked
-including the Uncorrectable Internal Error used by CXL for
-it's error reporting.
+PCIe r6.0 Figure 6-3 "Pseudo Logic Diagram for Selected Error Message Control
+and Status Bits" includes a right hand branch under "All PCI Express devices"
+that allows for messages to be generated or sent onwards without SERR#
+being set as long as the appropriate per error class bit in the PCIe
+Device Control Register is set.
+
+Implement that branch thus enabling routing of ERR_COR, ERR_NONFATAL
+and ERR_FATAL under OSes that set these bits appropriately (e.g. Linux)
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-Message-Id: <20230302133709.30373-2-Jonathan.Cameron@huawei.com>
+Message-Id: <20230302133709.30373-3-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Fan Ni <fan.ni@samsung.com>
 ---
- include/hw/pci/pcie_regs.h | 3 +++
- hw/pci/pcie_aer.c          | 4 ++++
- 2 files changed, 7 insertions(+)
+ hw/pci/pcie_aer.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 1fe0bdd25b..4972106c42 100644
---- a/include/hw/pci/pcie_regs.h
-+++ b/include/hw/pci/pcie_regs.h
-@@ -141,6 +141,9 @@ typedef enum PCIExpLinkWidth {
-                                          PCI_ERR_UNC_ATOP_EBLOCKED |    \
-                                          PCI_ERR_UNC_TLP_PRF_BLOCKED)
- 
-+#define PCI_ERR_UNC_MASK_DEFAULT        (PCI_ERR_UNC_INTN | \
-+                                         PCI_ERR_UNC_TLP_PRF_BLOCKED)
-+
- #define PCI_ERR_UNC_SEVERITY_DEFAULT    (PCI_ERR_UNC_DLP |              \
-                                          PCI_ERR_UNC_SDN |              \
-                                          PCI_ERR_UNC_FCP |              \
 diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index 9a19be44ae..909e027d99 100644
+index 909e027d99..103667c368 100644
 --- a/hw/pci/pcie_aer.c
 +++ b/hw/pci/pcie_aer.c
-@@ -112,6 +112,10 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
+@@ -192,8 +192,16 @@ static void pcie_aer_update_uncor_status(PCIDevice *dev)
+ static bool
+ pcie_aer_msg_alldev(PCIDevice *dev, const PCIEAERMsg *msg)
+ {
++    uint16_t devctl = pci_get_word(dev->config + dev->exp.exp_cap +
++                                   PCI_EXP_DEVCTL);
+     if (!(pcie_aer_msg_is_uncor(msg) &&
+-          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR))) {
++          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR)) &&
++        !((msg->severity == PCI_ERR_ROOT_CMD_NONFATAL_EN) &&
++          (devctl & PCI_EXP_DEVCTL_NFERE)) &&
++        !((msg->severity == PCI_ERR_ROOT_CMD_COR_EN) &&
++          (devctl & PCI_EXP_DEVCTL_CERE)) &&
++        !((msg->severity == PCI_ERR_ROOT_CMD_FATAL_EN) &&
++          (devctl & PCI_EXP_DEVCTL_FERE))) {
+         return false;
+     }
  
-     pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-                  PCI_ERR_UNC_SUPPORTED);
-+    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-+                 PCI_ERR_UNC_MASK_DEFAULT);
-+    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-+                 PCI_ERR_UNC_SUPPORTED);
- 
-     pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
-                  PCI_ERR_UNC_SEVERITY_DEFAULT);
 -- 
 MST
 
