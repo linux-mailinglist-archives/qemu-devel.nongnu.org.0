@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC3E6B1029
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4330F6B1061
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 18:46:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZxY5-0002AS-46; Wed, 08 Mar 2023 12:25:57 -0500
+	id 1pZxqg-0000TZ-HD; Wed, 08 Mar 2023 12:45:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pZxY3-00029U-8l
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:25:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pZxY1-0003Bc-BD
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:25:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678296352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M+vFT7s4ZkltSs4Z3+HN/24vW/ar5o8E4MD5J3RO1hs=;
- b=Itj2Y8j5cEydIZKL+3yFqD4Ye6KCOPGq5jSiUeXpPQFvXDrhq8UzeEid6CwuCXH8vVkG2e
- qEm6DswTLIhnM6yEt9XsU8H8LaLP81e2PkjMboykPIsfKJIXJ851PYhi2AskWCiud9lE78
- hGZ1X2+O9cYa90c1WLGVoPQso1P8JNs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-w4OitJGlMiyX2McnGBHPSg-1; Wed, 08 Mar 2023 12:25:50 -0500
-X-MC-Unique: w4OitJGlMiyX2McnGBHPSg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C1B980D181;
- Wed,  8 Mar 2023 17:25:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C9D301121314;
- Wed,  8 Mar 2023 17:25:48 +0000 (UTC)
-Date: Wed, 8 Mar 2023 18:25:43 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 1/6] block: don't acquire AioContext lock in
- bdrv_drain_all()
-Message-ID: <ZAjFF+sfTZ1UmvFK@redhat.com>
-References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-2-stefanha@redhat.com>
- <ZAdxog0T8XkSSUZd@redhat.com> <20230307192019.GB153228@fedora>
- <ZAhL0Xz4tuUWPeXY@redhat.com> <20230308142621.GD299426@fedora>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZxqd-0000Ok-Qe
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:45:07 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pZxqb-0000LH-K1
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 12:45:07 -0500
+Received: by mail-wr1-x436.google.com with SMTP id g3so16163456wri.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 09:45:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678297504;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=S2b3l18QStlBtG93sm8H2YqTMy+4DIUd+ubdl4gZ/pY=;
+ b=hFVxBQBTpUWFAVGyfQqDJymt+WdChvYIGpq/a5P0hmDrwrmZ4JwIkYnKNgXYyy8ekr
+ LTW9gyWKexR3GbUzojlXFS4uxp9xfcRvteipGaqfCKWH19MZYx3PRDX/rjO0Grc74nIA
+ YPC7Mnc1ACfUHnYbUkb6f0ZGKoefYHDG/uPvmgRnuftl3WWO15vRoaSknezNFoG7pGpp
+ T01BLuF0s0eWQX3A2HZ9jv8er2GRS6Xgr6M/HT9cJcWpMmWVZ5nj7UsQ3Q2sBU3YTWb9
+ /3tYbwJ18h8AHGxEWtv4kRWkYWhFE9pMZc+NCO4KpEuDtjxD8ii/jxC2WiBF8fIz1uJw
+ hBCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678297504;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=S2b3l18QStlBtG93sm8H2YqTMy+4DIUd+ubdl4gZ/pY=;
+ b=K/PevnFrKD1jlLZZqTTcLXu6jR9Kbp39usDm5i9rICU2BN4lJj7DYs6k4bhYlCkCMu
+ oO3L2klvIpRpijzt90EwUBva5Yc7WYml8eKpHqQJUceRaqQagv9pTgoguI6ucguKrtTD
+ QrTlEnLFNdFfFxo8+htJ+qJU1f5vAv0TTfcdMhJBk0FnI2MxucSFIQSktYIpR6g6itRJ
+ 2gPgDDuqz0p3fNNfJAGUYqebjFWJHRwz5iiAm9+gNdzw7fsV1ZtVjVKbGMDJuQbskK+t
+ iy/2GsF7WbNIvayjmTAdUxTdd7xSRgXABuM1etGVFyl5WsxvBe4QGmOYRALx4MWpK8ym
+ aBSA==
+X-Gm-Message-State: AO0yUKUZbExijdHt7E+n4hCmwIFG8H6ZcOfRIKkRiI8cIMRcAspoiox5
+ lUBwkUWoCBF810icritVNrR6oQ==
+X-Google-Smtp-Source: AK7set+7hv6PpUiBz2FCBFACsVYephy0yR+rxxDutGDRFDw1wBKgeN/Ghd7fHuTVGXBL1LutKhAgLw==
+X-Received: by 2002:a5d:5746:0:b0:2c9:5dd8:2978 with SMTP id
+ q6-20020a5d5746000000b002c95dd82978mr12818715wrw.59.1678297503848; 
+ Wed, 08 Mar 2023 09:45:03 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ u9-20020a05600c19c900b003e9ded91c27sm147496wmq.4.2023.03.08.09.45.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Mar 2023 09:45:03 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 28B5D1FFB7;
+ Wed,  8 Mar 2023 17:45:03 +0000 (GMT)
+References: <20230308111952.2728440-1-dwmw2@infradead.org>
+ <20230308111952.2728440-3-dwmw2@infradead.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Paul
+ Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
+ <peterx@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/3] tests/avocado: Add Fedora 34 distro, including
+ kernel/initrd checksums
+Date: Wed, 08 Mar 2023 17:42:45 +0000
+In-reply-to: <20230308111952.2728440-3-dwmw2@infradead.org>
+Message-ID: <87pm9jnnmo.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RAvBhe4Y3oL+ZazP"
-Content-Disposition: inline
-In-Reply-To: <20230308142621.GD299426@fedora>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,164 +101,76 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---RAvBhe4Y3oL+ZazP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+David Woodhouse <dwmw2@infradead.org> writes:
 
-Am 08.03.2023 um 15:26 hat Stefan Hajnoczi geschrieben:
-> On Wed, Mar 08, 2023 at 09:48:17AM +0100, Kevin Wolf wrote:
-> > Am 07.03.2023 um 20:20 hat Stefan Hajnoczi geschrieben:
-> > > On Tue, Mar 07, 2023 at 06:17:22PM +0100, Kevin Wolf wrote:
-> > > > Am 01.03.2023 um 21:57 hat Stefan Hajnoczi geschrieben:
-> > > > > There is no need for the AioContext lock in bdrv_drain_all() beca=
-use
-> > > > > nothing in AIO_WAIT_WHILE() needs the lock and the condition is a=
-tomic.
-> > > > >=20
-> > > > > Note that the NULL AioContext argument to AIO_WAIT_WHILE() is odd=
-=2E In
-> > > > > the future it can be removed.
-> > > >=20
-> > > > It can be removed for all callers that run in the main loop context=
-=2E For
-> > > > code running in an iothread, it's still important to pass a non-NULL
-> > > > context. This makes me doubt that the ctx parameter can really be
-> > > > removed without changing more.
-> > > >=20
-> > > > Is your plan to remove the if from AIO_WAIT_WHILE_INTERNAL(), too, =
-and
-> > > > to poll qemu_get_current_aio_context() instead of ctx_ or the main
-> > > > context?
-> > >=20
-> > > This is what I'd like once everything has been converted to
-> > > AIO_WAIT_WHILE_UNLOCKED() - and at this point we might as well call it
-> > > AIO_WAIT_WHILE() again:
-> > >=20
-> > >   #define AIO_WAIT_WHILE(cond) ({                                    \
-> > >       bool waited_ =3D false;                                        =
-  \
-> > >       AioWait *wait_ =3D &global_aio_wait;                           =
-  \
-> > >       /* Increment wait_->num_waiters before evaluating cond. */     \
-> > >       qatomic_inc(&wait_->num_waiters);                              \
-> > >       /* Paired with smp_mb in aio_wait_kick(). */                   \
-> > >       smp_mb();                                                      \
-> > >       while ((cond)) {                                               \
-> > >           aio_poll(qemu_get_current_aio_context(), true);            \
-> > >           waited_ =3D true;                                          =
-  \
-> > >       }                                                              \
-> > >       qatomic_dec(&wait_->num_waiters);                              \
-> > >       waited_; })
-> >=20
-> > Ok, yes, this is what I tried to describe above.
-> >=20
-> > > However, I just realized this only works in the main loop thread beca=
-use
-> > > that's where aio_wait_kick() notifications are received. An IOThread
-> > > running AIO_WAIT_WHILE() won't be woken when another thread (including
-> > > the main loop thread) calls aio_wait_kick().
-> >=20
-> > Which is of course a limitation we already have today. You can wait for
-> > things in your own iothread, or for all threads from the main loop.
-> >=20
-> > However, in the future multiqueue world, the first case probably becomes
-> > pretty much useless because even for the same node, you could get
-> > activity in any thread.
-> >=20
-> > So essentially AIO_WAIT_WHILE() becomes GLOBAL_STATE_CODE(). Which is
-> > probably a good idea anyway, but I'm not entirely sure how many places
-> > we currently have where it's called from an iothread. I know the drain
-> > in mirror_run(), but Emanuele already had a patch in his queue where
-> > bdrv_co_yield_to_drain() schedules drain in the main context, so if that
-> > works, mirror_run() would be solved.
-> >=20
-> > https://gitlab.com/eesposit/qemu/-/commit/63562351aca4fb05d5711eb410feb=
-96e64b5d4ad
-> >=20
-> > > I would propose introducing a QemuCond for each condition that we wait
-> > > on, but QemuCond lacks event loop integration. The current thread wou=
-ld
-> > > be unable to run aio_poll() while also waiting on a QemuCond.
-> > >=20
-> > > Life outside coroutines is hard, man! I need to think about this more.
-> > > Luckily this problem doesn't block this patch series.
-> >=20
-> > I hope that we don't really need all of this if we can limit running
-> > synchronous code to the main loop.
->=20
-> Great idea, I think you're right.
->=20
-> I'll audit the code to find the IOThread AIO_WAIT_WHILE() callers and
-> maybe a future patch series can work on that.
->=20
-> > > > > There is an assertion in
-> > > > > AIO_WAIT_WHILE() that checks that we're in the main loop AioConte=
-xt and
-> > > > > we would lose that check by dropping the argument. However, that =
-was a
-> > > > > precursor to the GLOBAL_STATE_CODE()/IO_CODE() macros and is now a
-> > > > > duplicate check. So I think we won't lose much by dropping it, bu=
-t let's
-> > > > > do a few more AIO_WAIT_WHILE_UNLOCKED() coversions of this sort to
-> > > > > confirm this is the case.
-> > > > >=20
-> > > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > >=20
-> > > > Yes, it seems that we don't lose much, except maybe some consistenc=
-y in
-> > > > the intermediate state. The commit message could state a bit more
-> > > > directly what we gain, though. Since you mention removing the param=
-eter
-> > > > as a future possibility, I assume that's the goal with it, but I
-> > > > wouldn't be sure just from reading the commit message.
-> > >=20
-> > > AIO_WAIT_WHILE() callers need to be weened of the AioContext lock.
-> > > That's the main motivation and this patch series converts the easy
-> > > cases where we already don't need the lock. Dropping the function
-> > > argument eventually is a side benefit.
-> >=20
-> > Yes, but the conversion to AIO_WAIT_WHILE_UNLOCKED() could be done with
-> > ctx instead of NULL. So moving to NULL is a separate change that needs a
-> > separate explanation. You could even argue that it should be a separate
-> > patch if it's an independent change.
-> >=20
-> > Or am I missing something and keeping ctx would actually break things?
->=20
-> Yes, ctx argument does not need to be modified when converting from
-> AIO_WAIT_WHILE() to AIO_WAIT_WHILE_UNLOCKED(). Passing it bothers me
-> because we don't really use it when unlock=3Dfalse.
->=20
-> Would you like me to keep ctx non-NULL for now?
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>
+> The kernel in Fedora 31 doesn't support 'xen_no_vector_callback' on
+> its command line, so add a slightly newer version as a prelude to
+> enabling avocado tests for Xen guests.
 
-I don't really mind doing both changes in one commit because they are so
-small, but at least I'd like the commit message to be more explicit
-about the eventual goal we have with switching to NULL instead of just
-stating that it's odd, but harmless.
+Why slightly newer rather than current release?
 
-Kevin
+Our existing Fedora guest builds cause all sorts of timeout issues
+running under TCG and seem particularly heavyweight considering the
+coverage we manage to get.
 
---RAvBhe4Y3oL+ZazP
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>  tests/avocado/avocado_qemu/__init__.py | 27 ++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avoca=
+do_qemu/__init__.py
+> index a313e88c07..49e414e267 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -485,6 +485,23 @@ class LinuxDistro:
+>                                    ' console=3Dtty0'),
+>                   },
+>              },
+> +            '34': {
+> +                'x86_64':
+> +                {'checksum': ('b9b621b26725ba95442d9a56cbaa0547'
+> +                              '84e0779a9522ec6eafff07c6e6f717ea'),
+> +                 'pxeboot_url': ('https://archives.fedoraproject.org/'
+> +                                 'pub/archive/fedora/linux/releases/34/'
+> +                                 'Everything/x86_64/os/images/pxeboot/'),
+> +                 'kernel_hash': ('085fc6e47f2e3a271b591f3e56739ca9'
+> +                                 '4c16718837a5f431ab95468e1e95f9eb'),
+> +                 'initrd_hash': ('d6cd2e03e8188eed6c896fd65ff05f81'
+> +                                 '2c4c1c8777d630b5909e9a1a4627e337'),
+> +                 'kernel_params': ('root=3DUUID=3D386769a3-cfa5-47c8-879=
+7-'
+> +                                   'd5ec58c9cb6c ro no_timer_check '
+> +                                   'net.ifnames=3D0 console=3Dtty1 '
+> +                                   'console=3DttyS0,115200n8'),
+> +                },
+> +            },
+>          }
+>      }
+>=20=20
+> @@ -513,6 +530,16 @@ def pxeboot_url(self):
+>          """Gets the repository url where pxeboot files can be found"""
+>          return self._info.get('pxeboot_url', None)
+>=20=20
+> +    @property
+> +    def kernel_hash(self):
+> +        """Gets checksum of the pxeboot kernel image"""
+> +        return self._info.get('kernel_hash', None)
+> +
+> +    @property
+> +    def initrd_hash(self):
+> +        """Gets checksum of the pxeboot initrd image"""
+> +        return self._info.get('initrd_hash', None)
+> +
+>      @property
+>      def default_kernel_params(self):
+>          """Gets the default kernel parameters"""
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmQIxRcACgkQfwmycsiP
-L9b2IQ//T27vLDeAjuS7fjbsOsMhD0dkik7bCddJl+u5jSqVluAmkLuev6uMetAi
-mRZKhnHgyFHC6uFo5UBpU0OW86F8MTAitpy9urHyBvD1/0O0Vh2Z6pT98S8msiil
-CBU10jyaZHhIxKNey2TbVFPRvRjOSthOE1vTtg2xyyTgA7hQE1kOp3HbT/E+Xkfo
-7k4dkD80v9wH7oXuRiMqzAEChLakGoMEKngenuM28iJsDOjhYPehq8EKk3yAe2km
-MpfJLh9t1NCvQgE3LhOAxLGv+iDE3/ldUufispRh3LRZgUB7/3kSPSbixX0Xp04J
-K5IG1LdytBQTo7HQHZTlk3biHCMPIzp3Zl2ag/xNZxEFBcfEuQMML1zv1C1itRGk
-/g2vNgnNkHW+g3gJC1vGNZxf3G6/SAxTqpNl8yYatd4PEkMd9zmOCxyfqgnWBtO+
-5Iu6Hlz+VADtFusLPJeiHRb3e9thjoNicfh67eaU9BPUM1XXHuoaEXYNNhu42T2M
-SFkPwKh/Q3lgsqAicthnGgWjFJHrYfeLX0aYR4Ol6JPyN9xSR9R3JJSlq3fTmWb3
-nX3QrGIF8bo+eHSTK2O1YyRIKdT942rcdn9tSqmF282LQvQ2Fp/uOkz47NZwxuyA
-prdGM3/w8Zkrj15QTUvXXBygILGJID8lJWAFGzh67DNlMY+gt5A=
-=DYvG
------END PGP SIGNATURE-----
-
---RAvBhe4Y3oL+ZazP--
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
