@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E16C6AFBF4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3846AFC2E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Mar 2023 02:21:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pZiMo-0000H3-7O; Tue, 07 Mar 2023 20:13:18 -0500
+	id 1pZiMs-0000UW-6X; Tue, 07 Mar 2023 20:13:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMm-00008o-4d
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMp-0000Om-8k
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMk-0001mm-Lz
- for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pZiMn-0001pL-N0
+ for qemu-devel@nongnu.org; Tue, 07 Mar 2023 20:13:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678237994;
+ s=mimecast20190719; t=1678237997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nVFVvTqVMAy3jtA1iNwo3ZEuay2y2+K610EAHg197tI=;
- b=UEF+9gSExQBQhw/JbSllKLdwznFRecdFQgzAzJKyux7M7gxdna0X714MtS9gBnWJkfheOv
- 6pPS7fntk9emLK7gc9xgRcLO0jU6mh6t8nG9smJFVTHf/t+oceLy8/NIeeDxrZ5z4QByCB
- nTvKS5p13dhr6d2+6vaMp09CgeL9h+Q=
+ bh=ERnHGD+WHTZ7klTG5kNjn7sN1MSben7lbHWCXSMxb1Q=;
+ b=SNPsAG+/0DTFUugEuwNSIB/MxJjCPJl6dZAtkcB/P6XG3pgw2d6n7rtdLmdkS9qXEphDrv
+ 06m9jv7xMf86o2vxdWsAz7QXxcp7o5dGf7z73Xb49Bc4j1i42g+RyMksUyIkrWZM2pJo+p
+ xtXaXA/nRcop/8wOCY4TDXDjYvP2X0A=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-ldh4nVDhMbOq5tCZwToh1Q-1; Tue, 07 Mar 2023 20:13:12 -0500
-X-MC-Unique: ldh4nVDhMbOq5tCZwToh1Q-1
+ us-mta-391-D8_QNs5SM3ajRYXYnYDv2w-1; Tue, 07 Mar 2023 20:13:16 -0500
+X-MC-Unique: D8_QNs5SM3ajRYXYnYDv2w-1
 Received: by mail-ed1-f71.google.com with SMTP id
- g2-20020a056402320200b004e98d45ee7dso9599285eda.0
- for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:12 -0800 (PST)
+ u10-20020a056402064a00b004c689813557so21167773edx.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Mar 2023 17:13:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678237991;
+ d=1e100.net; s=20210112; t=1678237994;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nVFVvTqVMAy3jtA1iNwo3ZEuay2y2+K610EAHg197tI=;
- b=hBjsX1/UhiBD2cB4PDBT8kK8z78Wi1MBjxIaSvBZvyR2oShYgRXShsurCpVm+9BW6p
- bao+H4IyZ/GirwZm36s8zgkFXrDA354vvd3kCk3ZbYV2lnEF2sShp9B5c0zi61xtFVKK
- cS9wyjR/73NrnWg/mBG7QepjSzF0TmHnrJLLutIZx3vil63wSLU+vBdpc+qWXL2ZvzLV
- S5GLf7ZHzL7g86gyVWItCQ3sZX934vT/zOUcJn4U9z6xERluS3vL32ALhSP5JJxRLtCj
- oiL9hpGN6uoFkbpACOPJsGNMxhr6G0PU/TecQnECSU6jaemrYHzGyXNIrqGKZTgvH5EK
- c3Xw==
-X-Gm-Message-State: AO0yUKXL7Hx8SeZtGp7U4NCVpCHjodeCPn5KguC8OqIu1smbhH6sr9tW
- PrTcVN3dzgXm9xDJidjE7Tv7Fqr+agiS4NBoAtgxHaB+laeKlvMpmvr/XiTTzyBeLJ/Pd7bksf8
- ufKYVOtKIBg7z7TEirtiwIokDNm8LIcTXt+qNShyl3riiEPU/EBDo104nGJfwYXUnPoHm
-X-Received: by 2002:a17:906:63d2:b0:881:44e3:baae with SMTP id
- u18-20020a17090663d200b0088144e3baaemr14335012ejk.54.1678237991221; 
- Tue, 07 Mar 2023 17:13:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set+CzLrOgvAgs/+XIKq3ojpTakam9cVpC2xlXVNFaHiNH58BRu5qUCzmwUvKLI+0J0Kn04kJrQ==
-X-Received: by 2002:a17:906:63d2:b0:881:44e3:baae with SMTP id
- u18-20020a17090663d200b0088144e3baaemr14334995ejk.54.1678237990880; 
- Tue, 07 Mar 2023 17:13:10 -0800 (PST)
+ bh=ERnHGD+WHTZ7klTG5kNjn7sN1MSben7lbHWCXSMxb1Q=;
+ b=1flIpRkh/uInjW7U9QyARgvrvhQMxu/lAFdqtx3CO5Mmh3arMiYCS0in76AUVQAiq2
+ GSVpB9Wl9PLSthsBF+F59L4KYGXstByyNad1vRso76iH7UeYWxM+CeO0Byf0ciF97rXm
+ kLkRynqcn4c/RIJbd6IY5BRb6RoDZNIN1NSUrihCcKSibIEKqYhuplz1n6aQzWh3ZAaq
+ lvrraER/oXEm5mAMoqa2hnT+qcNcYRMxXJhFMdQG8yBgrymqiRrR7fbaqmXUMrzj1iSO
+ xfYaofPxwCxNwVGThxZdq0XdNB3g47LdSKripCOixF1cWS9Cvpx0y5yfAwKUTGu/VcM8
+ uMWA==
+X-Gm-Message-State: AO0yUKXSwWAPmta02g4pl4T9l8w7oWxbhJr563rnGm3gzBWuSqX94lfz
+ UwyztRj+6oG6kf6iO5UOTc2wAjPj/FCBuXprtpJH0eiNn+5EeSmsc6opOtVivGEyoPXnXtFQX6h
+ Etzo2NRWyUP7PQesDTO231dI8w62qYR8gcMFFPNDv1m+Ks+/0F7Ymnu5FeDlJvhHYOrZb
+X-Received: by 2002:a17:906:b307:b0:8b1:7eb1:590e with SMTP id
+ n7-20020a170906b30700b008b17eb1590emr15136416ejz.20.1678237994448; 
+ Tue, 07 Mar 2023 17:13:14 -0800 (PST)
+X-Google-Smtp-Source: AK7set827JLZkYrhcF605Gd7vhIy/FF4JX4cu8ACItZDblkV2a74274uM6dFsQ7czQQi0tP19kUqVQ==
+X-Received: by 2002:a17:906:b307:b0:8b1:7eb1:590e with SMTP id
+ n7-20020a170906b30700b008b17eb1590emr15136401ejz.20.1678237994077; 
+ Tue, 07 Mar 2023 17:13:14 -0800 (PST)
 Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- e19-20020a170906315300b008f2b0c6052csm6764693eje.89.2023.03.07.17.13.09
+ x22-20020a170906b09600b008d9ddd2da88sm6763929ejy.6.2023.03.07.17.13.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 17:13:10 -0800 (PST)
-Date: Tue, 7 Mar 2023 20:13:07 -0500
+ Tue, 07 Mar 2023 17:13:13 -0800 (PST)
+Date: Tue, 7 Mar 2023 20:13:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 46/73] tests: acpi: add device with acpi-index on
- non-hotpluggble bus
-Message-ID: <22c8dd000fe4e7ce74531c22a427af58c4042d9a.1678237635.git.mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 47/73] acpi: pci: support acpi-index for non-hotpluggable
+ devices
+Message-ID: <7fb1d7388b10f5d0738aee94110344ce4132fafe.1678237635.git.mst@redhat.com>
 References: <cover.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -74,7 +78,7 @@ Content-Disposition: inline
 In-Reply-To: <cover.1678237635.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,26 +104,62 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+Inject static _DSM (EDSM) if non-hotpluggable device has
+acpi-index configured on it.
+It lets use acpi-index non-hotpluggable devices / devices
+attached to non-hotpluggable bus.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230302161543.286002-21-imammedo@redhat.com>
+Message-Id: <20230302161543.286002-22-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/i386/acpi-build.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 295d80740e..d7c34ba504 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1054,6 +1054,7 @@ static void test_acpi_q35_multif_bridge(void)
-         " -device pcie-root-port,id=rphptgt3,port=0x0,chassis=7,addr=2.3"
-         " -device pci-testdev,bus=pcie.0,addr=2.4"
-         " -device pci-testdev,bus=pcie.0,addr=5.0"
-+        " -device pci-testdev,bus=pcie.0,addr=0xf.0,acpi-index=101"
-         " -device pci-testdev,bus=rp0,addr=0.0"
-         " -device pci-testdev,bus=br1"
-         " -device pcie-root-port,id=rpnohp,chassis=8,addr=0xA.0,hotplug=off"
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 6f5501fb74..46f78e9338 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -452,6 +452,25 @@ static Aml *aml_pci_edsm(void)
+     return method;
+ }
+ 
++static Aml *aml_pci_static_endpoint_dsm(PCIDevice *pdev)
++{
++    Aml *method;
++
++    g_assert(pdev->acpi_index != 0);
++    method = aml_method("_DSM", 4, AML_SERIALIZED);
++    {
++        Aml *params = aml_local(0);
++        Aml *pkg = aml_package(1);
++        aml_append(pkg, aml_int(pdev->acpi_index));
++        aml_append(method, aml_store(pkg, params));
++        aml_append(method,
++            aml_return(aml_call5("EDSM", aml_arg(0), aml_arg(1),
++                                 aml_arg(2), aml_arg(3), params))
++        );
++    }
++    return method;
++}
++
+ static void build_append_pcihp_notify_entry(Aml *method, int slot)
+ {
+     Aml *if_ctx;
+@@ -577,6 +596,12 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+         aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
+ 
+         call_dev_aml_func(DEVICE(bus->devices[devfn]), dev);
++        /* add _DSM if device has acpi-index set */
++        if (pdev->acpi_index && !bsel &&
++            !object_property_get_bool(OBJECT(pdev), "hotpluggable",
++                                      &error_abort)) {
++            aml_append(dev, aml_pci_static_endpoint_dsm(pdev));
++        }
+ 
+         /* device descriptor has been composed, add it into parent context */
+         aml_append(parent_scope, dev);
 -- 
 MST
 
