@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB91C6B258E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 14:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDA56B2592
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 14:37:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paGQ7-0004yY-S6; Thu, 09 Mar 2023 08:34:59 -0500
+	id 1paGS4-0006Ix-OZ; Thu, 09 Mar 2023 08:37:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGQ5-0004x5-QZ
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:34:57 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGS2-0006H9-GN
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:36:58 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGQ4-0004rm-3D
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:34:57 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id j3so1163737wms.2
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 05:34:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGS0-0005MU-S2
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:36:58 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ j19-20020a05600c191300b003eb3e1eb0caso3618100wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 05:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678368894;
+ d=linaro.org; s=google; t=1678369015;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=X2b0LUVs3uWmtk0aaVmsx7G97ldMWivPoS36cRGZARU=;
- b=jd8zt2AcpkvpaA9AFsbtmT+5bIjgek5mG7TgWbm2pOmxf8w4ei+qZxzEKhgovvkPJ8
- VFkGbp3xSzbXhIjmoJuYghGWx6ZEQ4zroekKm00yDAkeIDgh3v1JfRNfuGSQCCHTL8jr
- 4H9HHXR+UmUPRLkdBXtHedWjuwoE2IS0lLn7Yt5kMqF3XnWkG0li5XAZb9RlGLjv+LOZ
- jqSRiax7FdVVrUxnFQVBNrHn4cnq59EFNwPzs+F7TrdOdjSZvjy2oy08cQB4+x5zANF4
- G0RSXz+heSjR9637C+uineBqoGdTSG3Us7voE04ykpO5Iym7Np1Bh62+Y5azG87FEjAR
- 4nEg==
+ bh=HwYoA0Tw1M/lahmNA2YQlwLtLfmntrq8dlhEsYfJGGY=;
+ b=PBUxwl4hnpXebYAsZmwo4vNjEPyC+AuFt4QV/gcpIp8N9MoPXA256noOmzi9w0wJ0+
+ g0Kyy5r1HogzIqJr98F8+2UsOAOzu3SUzDxXLu9LfIsIS0ncW2uPiCBwhaYd/b9EB7XM
+ 6QWeWC8sZX74IC6kFvSlDFvJ9q3oymZVmTg8e2J4/lz1GQZ5JHR/T/wOBW26FqbXgkfO
+ jUzei79zxIZFP3FXM3otXlLha3ppfAFNJFf7XPnOYVXeRZh3GZuRcwqLwpX40KURRqgP
+ d9sMif+FomcuNdv005xdvKYHgO0iJyM5o+dtGYzVdIoye9qhIxO3NWGsYxexJ1+fh7CV
+ q3aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678368894;
+ d=1e100.net; s=20210112; t=1678369015;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X2b0LUVs3uWmtk0aaVmsx7G97ldMWivPoS36cRGZARU=;
- b=suK6eijjbWbJizCNpqHrROxEmfIegaBWEI/8T0mfHu0ovnJMHDV1BW2/ecIi2n7krD
- x4Hy92r5caPgxrS6ZBhnvz9yd53Yh4L5fzpZVl9wyFPWxN+5bisfKw0VWmx///9zmU6h
- flI4kmyVa7Asj3jfmacgn/3bxt3Sq3N7/cUEvQ3Hnm0rmypp1571PPpKDacKUKrPtGX/
- tt7wGRJVK3IhFCPXmD07EaAi55RGtS8NqAptI9Wsw88wPrcF0QHdOpKgVddUZAoeonMd
- DF8SRdu7Cuuu7vQ1hIYFZ4H6OXphGqAdjGssCiQ5IMkwaRd54/gO44tj4XRJruapNpv0
- 6lMA==
-X-Gm-Message-State: AO0yUKVLFxky0DBr2YM4JDdadJc3HfnxoG6knaAYVI3XFcCr4MriosAe
- TCKKOrUGMP1nSWXEfHSNPxOhsA==
-X-Google-Smtp-Source: AK7set8O7905Oqg7ogRkLodNiVvhq5BCfHeBHk/YDwqc5es4Os9oL0bqOQ9sG/6vfcrms46o1UjXxg==
-X-Received: by 2002:a05:600c:1e10:b0:3eb:39e0:3530 with SMTP id
- ay16-20020a05600c1e1000b003eb39e03530mr18617263wmb.41.1678368894416; 
- Thu, 09 Mar 2023 05:34:54 -0800 (PST)
+ bh=HwYoA0Tw1M/lahmNA2YQlwLtLfmntrq8dlhEsYfJGGY=;
+ b=H0b/zrPIun3xcFigcBMvRlHbG78/Yqnw6ZdnjvMBtyujr75XcCDoCfuQxkfGRI/7FR
+ Mnf8vdXR3UTvq8oWnK1zZk/r31SQ5R0DwEhQ8IP7Q38QwSQO+kF8aHuZ+kP5LKF7OTr8
+ fGD1xYDK/ngAkCj0EBPOF2Cy4BPuj8uwmjuXM+uqsv5NUdv2U3WG5TivOCKoV8uHjemb
+ eBBtiqiUhhZnW4xikHZVxbDOQpun0FYv833C55cqW0jOkxipCWFEVdEfClPmiF7kyPZb
+ NmJRG1SIDdphUVp6XSbOATA/mBLazktNO00g8gU6+L7CbbktxKpjkO86ukzSgN2ND7D6
+ AhfA==
+X-Gm-Message-State: AO0yUKUsoViDyG5V0Huy+jMj00jB07HPtcnh0UewS7CDv+eU9kd3GdtH
+ pnjL0IpbCKMuOcQRYzpMgxZYfNq96XhvZ7QzMBE=
+X-Google-Smtp-Source: AK7set/QAzh7lLiF26GPqVzoptDRcpCXnCpZQajXEQctciE4rSB0nuiI0sC9xNjlBRYQpO2YBY0nCQ==
+X-Received: by 2002:a05:600c:35cb:b0:3eb:3104:efec with SMTP id
+ r11-20020a05600c35cb00b003eb3104efecmr20205746wmq.16.1678369014840; 
+ Thu, 09 Mar 2023 05:36:54 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s18-20020a05600c45d200b003e8dcc67bdesm2969275wmo.30.2023.03.09.05.34.53
+ h18-20020a05600c351200b003dc42d48defsm2848465wmq.6.2023.03.09.05.36.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 05:34:53 -0800 (PST)
-Message-ID: <6bbbf2ee-0c89-d935-1555-38691d638d3b@linaro.org>
-Date: Thu, 9 Mar 2023 14:34:52 +0100
+ Thu, 09 Mar 2023 05:36:54 -0800 (PST)
+Message-ID: <89658f17-6c19-146a-62df-dae35bdbd5a6@linaro.org>
+Date: Thu, 9 Mar 2023 14:36:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] ui/cocoa: Override windowDidResignKey
+Subject: Re: [PATCH v2 0/4] target/mips: misc microMIPS fixes
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Gustavo Noronha Silva <gustavo@noronha.eti.br>,
- Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20230228070946.12370-1-akihiko.odaki@daynix.com>
+To: Marcin Nowakowski <marcin.nowakowski@fungible.com>, qemu-devel@nongnu.org
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+References: <20230216051717.3911212-1-marcin.nowakowski@fungible.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230228070946.12370-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20230216051717.3911212-1-marcin.nowakowski@fungible.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,20 +93,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 08:09, Akihiko Odaki wrote:
-> This fixes pressed keys being stuck when the deck is clicked and the
-> window loses focus.
-> 
-> In the past, Gustavo Noronha Silva also had a patch to fix this issue
-> though it only ungrabs mouse and does not release keys, and depends on
-> another out-of-tree patch:
-> https://github.com/akihikodaki/qemu/pull/3/commits/e906a80147b1dc6d4f31b6a08064ef9871a2b76c
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->   ui/cocoa.m | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
+> Marcin Nowakowski (4):
+>    target/mips: fix JALS32/J32 instruction handling for microMIPS
+>    target/mips: fix SWM32 handling for micromips
+>    target/mips: implement CP0.Config7.WII bit support
+>    target/mips: set correct CP0.Config[4,5] values for M14K(c)
 
-Merged as commit 9d9bc7db50.
+Merged as commits 9055ffd76e..dcebb36eb0.
 
 
