@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B5D6B2693
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E776B26FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:35:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paH4l-0004Mw-9n; Thu, 09 Mar 2023 09:16:59 -0500
+	id 1paHLD-0004M5-Hi; Thu, 09 Mar 2023 09:33:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paH4b-0004MO-9q
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:16:51 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1paHLA-0004LG-BK
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:33:56 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paH4Z-0003m2-Ji
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:16:48 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- d41-20020a05600c4c2900b003e9e066550fso1319843wmp.4
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 06:16:46 -0800 (PST)
+ id 1paHL8-0006ut-7w
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:33:56 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ t25-20020a1c7719000000b003eb052cc5ccso3739672wmi.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 06:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678371403;
+ d=linaro.org; s=google; t=1678372433;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yIQLmXseQZpe2X2GoWb66n0dmJKMfh4yQuGLUsKEuF4=;
- b=mouWYAm+2szOymzqwneG58seSQvHK6aZGDRr+5oCt/h8JczOFqK0VpgKjNPkeKciD8
- J2yquWXJzaN3b1Riu2sziClHTNVnG2vWI6wi5F9FPTnQbZlOgBRd76Duad4ZLqSBXYTv
- pLXrZUmaukNuY2sC7GHxv98ek9bZKUV1vT6pxVmYxMuQGdGnR6dxGr+BfzTZMNiJaEZm
- ogwog7C09xp9jLqg+bjejf9nygMOlMpbzdg5AKfJm64c+R8i3xPwfM36h1DPl+VAj2Lq
- BT95dmBM3e0ygCF8Ti4ZfLj+2XQQ0Z4Oomm7YX0hqxblMvIeqleLHx+4J3jHpoIesN8j
- gLCQ==
+ bh=tKMJWdUHFMBirrvnff0QPYxqH8hBw5todvarN2LbNy0=;
+ b=uBm5Wsrz12fJADz9zlpRQclt0wTAOgJ9Knn8Y07rZioVgbzN5ZbMrYBKKshqckk5Zs
+ RZWiuAm79cIzKQ1vrDFcPBNCX4NfWiAPoKhHL7Y3ah9NUZubwYYO20K7ejDhuo5PrXju
+ dweDjTEtfn5qETBcpl7cW3zaxI1TbASwCrhvuK/jsk0+taLJLdWFrLO5gxj4nZusBQay
+ wd6w0W/Fbw3XleAy7sUs2IUDoNlHPxM5p5nMK18Ap2KMOlD44md/uAs85zV39CP8OEYP
+ 39OcOHI7KBMTyACDnhCLSzp6QvBD2r4KHaAKvrKF3cdk0UsIHbTm3p6DBp6LrXnLxoYz
+ LrMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678371403;
+ d=1e100.net; s=20210112; t=1678372433;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=yIQLmXseQZpe2X2GoWb66n0dmJKMfh4yQuGLUsKEuF4=;
- b=J92hUZK0srdLePEzq0HB7YjUnTSldW5ETbVT5lpvEzR5gNROUmkQjAMYVj/l9osmw6
- S3ipc/sa/P3MDeZBvxafn+1AcikASfRPlEpNqbd3qiWw1S0iG4jigJCytMLdnsJEuFXO
- 1vdZ5OyFLQeIwP3qkvCClE7I1nGMVIOKuNRD+1U2Sws2Aszm5Eq1Lq78S6Uzq1LqePwv
- nkqqBaGqWj7XUC/kvp9GKCZDc6xVwkgZH20PlND7SEpcEh9VsT9U3xmJjrrQAitpMRLr
- 4soZB5AYadgpstHrqC26tV0jDW2GoqDTCPRb3Yn56BYUF+4a+ALJOQykjuD8KuIzqqbK
- miiw==
-X-Gm-Message-State: AO0yUKW7CZDKV82KIdwZtL3SrMdOxBz9SWk0utezDG6Uh4YldDYZqBf9
- soU8CC8fjR7+f/0S82shc+owOQ==
-X-Google-Smtp-Source: AK7set+cR8okYurAedQFUf67Rm5JDdJhF99MrE/Y4ZnnnZCkouTPmnz0iogNeRSP2vmtRtOEHKF74Q==
-X-Received: by 2002:a05:600c:c11:b0:3df:d431:cf64 with SMTP id
- fm17-20020a05600c0c1100b003dfd431cf64mr20228704wmb.39.1678371403718; 
- Thu, 09 Mar 2023 06:16:43 -0800 (PST)
+ bh=tKMJWdUHFMBirrvnff0QPYxqH8hBw5todvarN2LbNy0=;
+ b=S0kQk0dI6S1mXnLOHv42dtUKKclJcM2VjOs9LKvLn6uxBwXJ82ZFPPxrr+FzaN1gFp
+ PD71lVBsKk+gB9642DNvfMcYveCES3LKeC9HTXZ5xlCTWyZX+qK2S017oq9UvT/HFQFb
+ QIuQg5QREuFwfER6soxs7HjHCQj2npenj9+adfH9zfOQEfvAq2cwNd7hpxg2tmDadEIw
+ enPC23zSdRhxG1ARxKoXreL43g/+ig0F7Wfu9qLuPWfYbnA5Ax91o6+oEQCz9vgI2xN5
+ wPT+AQkAcH2sAUAzRCqJzdrgTsXyZIwf2JxOG1QzPkacCxgPhBgiaRNlWNF+IADTq5Ux
+ 27ag==
+X-Gm-Message-State: AO0yUKUdWNHZYLDNgrIEq60Z+lqkgRYMImcIxDm93QXPgJ6VsA5VlB/b
+ /7cYY4SxcoWnHLj04aqdsZYMXw==
+X-Google-Smtp-Source: AK7set9QHrsX6St/cy5Fj8m5XTCfe2v0j8qx/msP4f7it3Lo7YRgznRwvMBjMvwfeCRq8CTmJMR9Ow==
+X-Received: by 2002:a05:600c:4f4a:b0:3dc:4042:5c21 with SMTP id
+ m10-20020a05600c4f4a00b003dc40425c21mr19918478wmq.6.1678372432777; 
+ Thu, 09 Mar 2023 06:33:52 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- w2-20020a5d6802000000b002c7163660a9sm17887279wru.105.2023.03.09.06.16.43
+ k6-20020a05600c0b4600b003daf672a616sm26120wmr.22.2023.03.09.06.33.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 06:16:43 -0800 (PST)
+ Thu, 09 Mar 2023 06:33:52 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 132C01FFB7;
- Thu,  9 Mar 2023 14:16:43 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 1AE8A1FFB7;
+ Thu,  9 Mar 2023 14:33:52 +0000 (GMT)
 References: <20221213213757.4123265-1-fasano@mit.edu>
- <20221213213757.4123265-2-fasano@mit.edu>
+ <20221213213757.4123265-3-fasano@mit.edu>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Andrew Fasano <fasano@mit.edu>
 Cc: qemu-devel@nongnu.org, elysia.witham@ll.mit.edu, erdnaxe@crans.org,
  ma.mandourr@gmail.com
-Subject: Re: [PATCH 1/8] docs/devel: describe QPP API
-Date: Thu, 09 Mar 2023 14:15:59 +0000
-In-reply-to: <20221213213757.4123265-2-fasano@mit.edu>
-Message-ID: <87zg8mm2lw.fsf@linaro.org>
+Subject: Re: [PATCH 2/8] plugins: version 2, require unique plugin names
+Date: Thu, 09 Mar 2023 14:17:54 +0000
+In-reply-to: <20221213213757.4123265-3-fasano@mit.edu>
+Message-ID: <87v8jam1tb.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,43 +102,257 @@ Andrew Fasano <fasano@mit.edu> writes:
 
 > From: Elysia Witham <elysia.witham@ll.mit.edu>
 >
-> The new QPP API allows plugin-to-plugin interaction for creating
-> and using callbacks as well as importing and exporting functions.
-> The new test plugins qpp_srv and qpp_client demonstrate how
-> plugins use the new API.
+> In order for the QPP API to resolve interactions between plugins,
+> plugins must export their own names which cannot match any other
+> loaded plugins.
 >
 > Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
 > Signed-off-by: Andrew Fasano <fasano@mit.edu>
-
-Sorry about the delay getting to look at this.
-
 > ---
->  docs/devel/tcg-plugins.rst | 91 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 90 insertions(+), 1 deletion(-)
+>  include/qemu/qemu-plugin.h |  2 +-
+>  plugins/core.c             | 12 +++++++++
+>  plugins/loader.c           | 50 +++++++++++++++++++++++++++++++++-----
+>  plugins/plugin.h           |  7 ++++++
+>  tests/plugin/bb.c          |  1 +
+>  tests/plugin/empty.c       |  1 +
+>  tests/plugin/insn.c        |  1 +
+>  tests/plugin/mem.c         |  1 +
+>  tests/plugin/syscall.c     |  1 +
+>  9 files changed, 69 insertions(+), 7 deletions(-)
 >
-> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-> index 9740a70406..70ac09b96b 100644
-> --- a/docs/devel/tcg-plugins.rst
-> +++ b/docs/devel/tcg-plugins.rst
-> @@ -281,6 +281,14 @@ run::
->    160          1      0
->    135          1      0
+> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+> index d0e9d03adf..5326f33ce8 100644
+> --- a/include/qemu/qemu-plugin.h
+> +++ b/include/qemu/qemu-plugin.h
+> @@ -51,7 +51,7 @@ typedef uint64_t qemu_plugin_id_t;
 >=20=20
-> +- tests/plugins/qpp_srv.c & tests/plugins/qpp_client.c
+>  extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
+>=20=20
+> -#define QEMU_PLUGIN_VERSION 1
+> +#define QEMU_PLUGIN_VERSION 2
+>=20=20
+>  /**
+>   * struct qemu_info_t - system information for plugins
+> diff --git a/plugins/core.c b/plugins/core.c
+> index ccb770a485..5fbdcb5768 100644
+> --- a/plugins/core.c
+> +++ b/plugins/core.c
+> @@ -236,6 +236,18 @@ void qemu_plugin_vcpu_exit_hook(CPUState *cpu)
+>      qemu_rec_mutex_unlock(&plugin.lock);
+>  }
+>=20=20
+> +int name_to_plugin_version(const char *name)
+> +{
+> +    struct qemu_plugin_ctx *ctx;
+> +    QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
+> +        if (strcmp(ctx->name, name) =3D=3D 0) {
+> +            return ctx->version;
+> +        }
+> +    }
+> +    warn_report("Could not find any plugin named %s.", name);
+> +    return -1;
+> +}
 > +
-> +These plugins demonstrate QPP interactions. The qpp_srv plugin defines
-> +a few exported functions and its own callback which are then imported and
-> +used by the qpp_client plugin. The qpp_client plugin registers its own
-> +function to run on qpp_srv's defined callback. The tests for these plugi=
-ns
-> +are modified as both plugins must be loaded in order to work.
+
+This function seems to be unused.
+
+>  struct plugin_for_each_args {
+>      struct qemu_plugin_ctx *ctx;
+>      qemu_plugin_vcpu_simple_cb_t cb;
+> diff --git a/plugins/loader.c b/plugins/loader.c
+> index 88c30bde2d..12c0680e03 100644
+> --- a/plugins/loader.c
+> +++ b/plugins/loader.c
+> @@ -177,7 +177,7 @@ QEMU_DISABLE_CFI
+>  static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t =
+*info, Error **errp)
+>  {
+>      qemu_plugin_install_func_t install;
+> -    struct qemu_plugin_ctx *ctx;
+> +    struct qemu_plugin_ctx *ctx, *ctx2;
+>      gpointer sym;
+>      int rc;
+>=20=20
+> @@ -208,17 +208,55 @@ static int plugin_load(struct qemu_plugin_desc *des=
+c, const qemu_info_t *info, E
+>                     desc->path, g_module_error());
+>          goto err_symbol;
+>      } else {
+> -        int version =3D *(int *)sym;
+> -        if (version < QEMU_PLUGIN_MIN_VERSION) {
+> +        ctx->version =3D *(int *)sym;
+> +        if (ctx->version < QEMU_PLUGIN_MIN_VERSION) {
+>              error_setg(errp, "Could not load plugin %s: plugin requires =
+API version %d, but "
+>                         "this QEMU supports only a minimum version of %d",
+> -                       desc->path, version, QEMU_PLUGIN_MIN_VERSION);
+> +                       desc->path, ctx->version, QEMU_PLUGIN_MIN_VERSION=
+);
+>              goto err_symbol;
+> -        } else if (version > QEMU_PLUGIN_VERSION) {
+> +        } else if (ctx->version > QEMU_PLUGIN_VERSION) {
+>              error_setg(errp, "Could not load plugin %s: plugin requires =
+API version %d, but "
+>                         "this QEMU supports only up to version %d",
+> -                       desc->path, version, QEMU_PLUGIN_VERSION);
+> +                       desc->path, ctx->version, QEMU_PLUGIN_VERSION);
+>              goto err_symbol;
+> +        } else if (ctx->version < QPP_MINIMUM_VERSION) {
+> +            ctx->name =3D NULL;
+
+A comment wouldn't go amiss here. Something like:
+
+  "Older plugins will not be available for QPP calls".
+
+> +        } else {
+> +            if (!g_module_symbol(ctx->handle, "qemu_plugin_name", &sym))=
+ {
+> +                error_setg(errp, "Could not load plugin %s: plugin does =
+not "
+> +                           "declare plugin name %s",
+> +                           desc->path, g_module_error());
+> +                goto err_symbol;
+> +            }
+> +            ctx->name =3D (const char *)strdup(*(const char **)sym);
+> +            QTAILQ_FOREACH(ctx2, &plugin.ctxs, entry) {
+> +                if (strcmp(ctx2->name, ctx->name) =3D=3D 0) {
+> +                    error_setg(errp, "Could not load plugin %s as the na=
+me %s "
+> +                               "is already in use by plugin at %s",
+> +                               desc->path, ctx->name, ctx2->desc->path);
+> +                    goto err_symbol;
+> +                }
+> +            }
+> +            if (g_module_symbol(ctx->handle, "qemu_plugin_uses", &sym)) {
+> +                const char **dependencies =3D &(*(const char **)sym);
+> +                bool found =3D false;
+> +                while (*dependencies) {
+> +                    found =3D false;
+> +                    QTAILQ_FOREACH(ctx2, &plugin.ctxs, entry) {
+> +                        if (strcmp(ctx2->name, *dependencies) =3D=3D 0) {
+
+Lets use glib where we can, in this case g_strcmp0().
+
+> +                            dependencies++;
+> +                            found =3D true;
+> +                            break;
+> +                        }
+> +                    }
+> +                    if (!found) {
+> +                        error_setg(errp, "Could not load plugin %s as it=
+ is "
+> +                                   "dependent on %s which is not loaded",
+> +                                   ctx->name, *dependencies);
+> +                        goto err_symbol;
+> +                    }
+
+We are implying a load order here which we should document. Ideally we
+could avoid it but I suspect that requires too much hoop jumping.
+
+> +                }
+> +            }
+>          }
+>      }
+>=20=20
+> diff --git a/plugins/plugin.h b/plugins/plugin.h
+> index 5eb2fdbc85..ce885bfa98 100644
+> --- a/plugins/plugin.h
+> +++ b/plugins/plugin.h
+> @@ -16,6 +16,7 @@
+>  #include "qemu/qht.h"
+>=20=20
+>  #define QEMU_PLUGIN_MIN_VERSION 0
+> +#define QPP_MINIMUM_VERSION 2
+>=20=20
+>  /* global state */
+>  struct qemu_plugin_state {
+> @@ -50,6 +51,8 @@ struct qemu_plugin_state {
+>  struct qemu_plugin_ctx {
+>      GModule *handle;
+>      qemu_plugin_id_t id;
+> +    const char *name;
+> +    int version;
+>      struct qemu_plugin_cb *callbacks[QEMU_PLUGIN_EV_MAX];
+>      QTAILQ_ENTRY(qemu_plugin_ctx) entry;
+>      /*
+> @@ -64,6 +67,8 @@ struct qemu_plugin_ctx {
+>=20=20
+>  struct qemu_plugin_ctx *plugin_id_to_ctx_locked(qemu_plugin_id_t id);
+>=20=20
+> +struct qemu_plugin_ctx *plugin_name_to_ctx_locked(const char* name);
 > +
+>  void plugin_register_inline_op(GArray **arr,
+>                                 enum qemu_plugin_mem_rw rw,
+>                                 enum qemu_plugin_op op, void *ptr,
+> @@ -97,4 +102,6 @@ void plugin_register_vcpu_mem_cb(GArray **arr,
+>=20=20
+>  void exec_inline_op(struct qemu_plugin_dyn_cb *cb);
+>=20=20
+> +int name_to_plugin_version(const char *name);
+> +
+>  #endif /* PLUGIN_H */
+> diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+> index 7d470a1011..c04e5aaf90 100644
+> --- a/tests/plugin/bb.c
+> +++ b/tests/plugin/bb.c
+> @@ -15,6 +15,7 @@
+>  #include <qemu-plugin.h>
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "bb";
+>=20=20
+>  typedef struct {
+>      GMutex lock;
+> diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
+> index 8fa6bacd93..0f3d2b92b9 100644
+> --- a/tests/plugin/empty.c
+> +++ b/tests/plugin/empty.c
+> @@ -14,6 +14,7 @@
+>  #include <qemu-plugin.h>
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "empty";
+>=20=20
+>  /*
+>   * Empty TB translation callback.
+> diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+> index cd5ea5d4ae..3f71138139 100644
+> --- a/tests/plugin/insn.c
+> +++ b/tests/plugin/insn.c
+> @@ -15,6 +15,7 @@
+>  #include <qemu-plugin.h>
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "insn";
+>=20=20
+>  #define MAX_CPUS 8 /* lets not go nuts */
+>=20=20
+> diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+> index 4570f7d815..35e5d7fe2a 100644
+> --- a/tests/plugin/mem.c
+> +++ b/tests/plugin/mem.c
+> @@ -15,6 +15,7 @@
+>  #include <qemu-plugin.h>
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "mem";
+>=20=20
+>  static uint64_t inline_mem_count;
+>  static uint64_t cb_mem_count;
+> diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+> index 96040c578f..922bdbd2e6 100644
+> --- a/tests/plugin/syscall.c
+> +++ b/tests/plugin/syscall.c
+> @@ -15,6 +15,7 @@
+>  #include <qemu-plugin.h>
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "syscall";
+>=20=20
+>  typedef struct {
+>      int64_t num;
 
-This section should be split to where the plugins are introduced.
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+You should update the plugins in contrib/plugins as well.
 
 --=20
 Alex Benn=C3=A9e
