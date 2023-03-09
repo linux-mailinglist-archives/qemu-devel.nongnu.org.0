@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361916B2AF0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0B56B2B00
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:40:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paJHR-0003ri-0k; Thu, 09 Mar 2023 11:38:13 -0500
+	id 1paJJJ-0005ZW-Fb; Thu, 09 Mar 2023 11:40:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJHO-0003rH-K0
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:38:10 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJJF-0005ZJ-Gh
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:40:05 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJHN-0004Ti-1v
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:38:10 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so1625690wmi.3
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:38:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJJD-0004nE-Nb
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:40:05 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bx12so2487328wrb.11
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:40:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678379887;
+ d=linaro.org; s=google; t=1678380001;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=J7suhqJvoPxuvycmGtPcGl/ENBav8n9zRnMqaSi+NhU=;
- b=Yqq5IxyPIlO8fROf8mMfpYQ8/T32bhhxeUjIKnXC9KSkuXwxDD1C7Zp85814Rz3qAZ
- IO9BYb2XtmcOz7Bnmq0hlxpfwTXw6OnRhNe7NHCzzVevKMD2rTd+/Kz0Z+Ng/bTDaG5q
- 1cn05qsvZcgzRzzSqKUG35mHGvRQ4CcH7YAfTAI8KYa1mswmkM/3P478KFDfUHF8HUtt
- crMSyzBVDWVQxjgdj+pMvKGDLE/7jSZggDqMhuU3morqMGR8sMOvb93VlSURCTMwbifK
- L3cmFrV6AqW00e9Pw14/VlR8aFwDqDsgt9iV+TnVQB78eAjAXNlCrW3iWjYA1XrqgOQS
- r4Ng==
+ bh=EttGygbuiv20IM7glOWqdT982D+gSt2/g+QYcBS+i5s=;
+ b=fqXMBAh7LaD9kvrkLTSRGmnezs+df8sWYjMYinhJeXK54A8CZNX4xh+mvG1QCh33/p
+ 24xGcA/zjRV/p2PkQh8GwKOcRWuCEzo3Ae1CdIBOlSMQDowsgPoir0QnnXSs3Q5mHCO1
+ 1qSVe4QmVaQiHoUSrGwtHe4W/yIKsPIJcb5d/DSxu21vNv9O/clboHUkGCqytCiCMbmT
+ Jyb5Ly4YdT7WhET5UpwZzhYl7+NIP3BuTF84ACpW2LW+dyoG+FQdNKu82c+NmxczU7jL
+ yZGt5GZBZ4OQx3NvIRvwDqsPWI4jRI7xom1V+C7AycLfVrIBUK2n+htrRQHScpxwYKxY
+ uY3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678379887;
+ d=1e100.net; s=20210112; t=1678380001;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J7suhqJvoPxuvycmGtPcGl/ENBav8n9zRnMqaSi+NhU=;
- b=7Dy3JIbM5sRr2mofhpcM6vy5OP0uDHZsITL8vzN26T95Xmw+rwzrD4Jq4viS4o/Ebh
- d/tr8oOWZQ0JI/K1QKh/tfNSAzdofs9WsKgCxsw5byv4PblbfSEZVBJdit71OvK9cN/o
- rVt4zCvEw6AWdZu8V8K1+3GUJMQRiUZ2Ka44o+j/BriyZ1E6Pr3dAMnh0wzmiy8/xkxD
- fUaYNJyUwtXuNTY1xpzftoDrMPDL2ls78XS1hEbgktpEqZ8UETWe8nc2aSp3t9p8pHPR
- CVKB7UHRDudc+XY7+M3QJGMwM/Tb3Xh+rkrOgFVt9bDtLwbgyEIEH4sK/Vt7GoI4S6gv
- +CrQ==
-X-Gm-Message-State: AO0yUKXOEoMSl6amxpZuYIPwmow6yhF/N21ljDtIl4MDWHxdIOSOTWgZ
- a+a6er3uIrZWhdr2h3B2GWiOmA==
-X-Google-Smtp-Source: AK7set9dsCmOiY0INz5RnUEPDMDkLV+D4XBIUoKlPHNGgsctXT8hdI78KJionVPrczpNUR33jEH/vw==
-X-Received: by 2002:a05:600c:1c9c:b0:3e9:f15b:935b with SMTP id
- k28-20020a05600c1c9c00b003e9f15b935bmr20348730wms.32.1678379887283; 
- Thu, 09 Mar 2023 08:38:07 -0800 (PST)
+ bh=EttGygbuiv20IM7glOWqdT982D+gSt2/g+QYcBS+i5s=;
+ b=UaPISp7jRouuXnXlsAJxt9hYBe2EhhLdYMXkJyD5o8dPvxIgsb+iw3RqWFibh/w8LE
+ AsuHZ4s463Ako6Zg+oq1hnvo8/hIxgYs24+ZAojVQV9PUHj0N25wsFAWkrg9Xhqm4uVa
+ ZoOWcrjOqLYCF5kX5Vrn0L9GAIGZvGio3IhGTYhmMajikMKZVeO1RqavrWJuHcIrvjOG
+ KdMxFTYNnYi5915FZ+IgZ5G7Yxv2pywfeUL0KVZUHCX3x5NZW++ArYZPyM2a5BvghbCz
+ RSobGlas95eJ1HYQCoBttkGQc3zXc0hxZw329cizSclKQ8W9E0GOyUcuW0fxozO3bqeS
+ LMWQ==
+X-Gm-Message-State: AO0yUKVaovmU1RxysJnTOl7eXN8etY00nSWRnG3/3s9Offcpl5oc1HqZ
+ ICfZsgZ0rxmuVvCMo/r+etAC/A==
+X-Google-Smtp-Source: AK7set8EJ5jkYitSUiJ8bv3p4Ndi8z/+eXGwQApRKHFdqdXXExNnSg21N8sqywl4ADp8nUbYOTmguw==
+X-Received: by 2002:adf:fe90:0:b0:2bf:b199:c7eb with SMTP id
+ l16-20020adffe90000000b002bfb199c7ebmr13469529wrr.54.1678380001133; 
+ Thu, 09 Mar 2023 08:40:01 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t16-20020a05600c2f9000b003dc1d668866sm369539wmn.10.2023.03.09.08.38.06
+ t24-20020a1c7718000000b003eb20d4d4a8sm275667wmi.44.2023.03.09.08.40.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 08:38:06 -0800 (PST)
-Message-ID: <1b38469c-4d92-d4f5-fc56-7714b5375aa1@linaro.org>
-Date: Thu, 9 Mar 2023 17:38:05 +0100
+ Thu, 09 Mar 2023 08:40:00 -0800 (PST)
+Message-ID: <7dee3544-2f80-3e44-c73d-1ddd507f00df@linaro.org>
+Date: Thu, 9 Mar 2023 17:39:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 13/18] ui/egl: print EGL error, helping debugging
+Subject: Re: [PATCH v2 14/18] ui/sdl: add optional logging when _SDL_DEBUG is
+ set
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
  <berrange@redhat.com>, Laurent Vivier <lvivier@redhat.com>
 References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
- <20230307115637.2464377-14-marcandre.lureau@redhat.com>
+ <20230307115637.2464377-15-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307115637.2464377-14-marcandre.lureau@redhat.com>
+In-Reply-To: <20230307115637.2464377-15-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,11 +97,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 7/3/23 12:56, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
+> Apparently, there is no environment variable you can set for libsdl to
+> enable logging.
+
+Why not use getenv() in QEMU then?
+
+> (similar to _VNC_DEBUG)
+> 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   ui/egl-helpers.c | 54 ++++++++++++++++++++++++++++++++++++++++++------
->   1 file changed, 48 insertions(+), 6 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>   include/ui/sdl2.h | 2 ++
+>   ui/sdl2.c         | 4 ++++
+>   2 files changed, 6 insertions(+)
+> 
+> diff --git a/include/ui/sdl2.h b/include/ui/sdl2.h
+> index 8fb7e08262..6fea36db82 100644
+> --- a/include/ui/sdl2.h
+> +++ b/include/ui/sdl2.h
+> @@ -6,6 +6,8 @@
+>   
+>   #include <SDL.h>
+>   
+> +/* #define _SDL_DEBUG 1 */
+> +
+>   /* with Alpine / muslc SDL headers pull in directfb headers
+>    * which in turn trigger warning about redundant decls for
+>    * direct_waitqueue_deinit.
+> diff --git a/ui/sdl2.c b/ui/sdl2.c
+> index f259e4c4d1..592eca3e1c 100644
+> --- a/ui/sdl2.c
+> +++ b/ui/sdl2.c
+> @@ -841,6 +841,10 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+>       }
+>   #endif
+>   
+> +#ifdef _SDL_DEBUG
+> +    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
+> +#endif
+> +
+>       if (SDL_Init(SDL_INIT_VIDEO)) {
+>           fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
+>                   SDL_GetError());
 
 
