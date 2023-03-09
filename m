@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B868B6B2136
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 11:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42DC6B2170
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 11:31:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paDO1-0001W0-KQ; Thu, 09 Mar 2023 05:20:37 -0500
+	id 1paDXE-00053s-Hg; Thu, 09 Mar 2023 05:30:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1paDNx-0001Vb-SE
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:20:33 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1paDNw-0002o4-7C
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:20:33 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id x11so1431870pln.12
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 02:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678357230;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dN6x/50QnRtitXeBNurZVqCBCvuGuMbTKs2zZrkaoXY=;
- b=TwlsHXzyJp5nqhKiwDmQH9daqDYm1EjJo+FU4Z7/184Kw7Baa6Gv0/T1tdNNx1xpDD
- aq9KC5ScgtyymJ6eYMnS3LOEz5r1yBLGY77qO0LSIos//31f0/tO+venWkj+F0Qm8Poz
- cnRrN3sUld9LHuvQpBYMR+svXq0hqTxtKvB6JVo5S/dkZiDLGRFs5nJRWfZB8HHYDw+h
- H0G07bBkstVIBAKcRUNDwuEN7uPQe1lcDh35ITXrvIbSTs1ZT5nUC3DA7FeoxgKj2F7i
- tPXcPLDAqMt3vMdqjlrIgCEXHHoarVIQS9Dw26gw9qIPQE/AIi2E+QZ5xTdQV/PZNu/a
- yTBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678357230;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dN6x/50QnRtitXeBNurZVqCBCvuGuMbTKs2zZrkaoXY=;
- b=cwkys3yL/i8bvL6124CVCayJdLKEwXzSQPj1RWOOgGhz+2Yn+KKPbkUu/6FmuZDtzo
- G+cDhOB7botUuJp8mpB7aWkZQ05fLvAqwIrt0qBKAaNUbfCMyY4qO+eXhz0xUl3TuX0B
- S/h8gxKqAdtVb7JvWD+LMGKjpqKEIgZKFceNitUflFJyjiTx0KIYz0VgmVV/OhcbpEda
- CxJKu14g2IbjNHF4WmPNDgn3cW99eGRQJjWZLvQPgENPy3MvYjZKVZd6RSTLk9N5LlFH
- Dc/ABLRIDDvYZsrDFecctppwUPDsygHCF5okjPN6HdM53B8eFNylXrBsRCYSpsXuEJST
- lBsg==
-X-Gm-Message-State: AO0yUKVAfcGWjOL9QVUcRkFSmy8ZBMFq98T4xRRTCPSNyAZl+OEbuRcZ
- nx7XtVPSAhEuFGiPQpXGnO7y+zxed8gbthrTLnzVkg==
-X-Google-Smtp-Source: AK7set+BYV2VHHDAOKVJC3A1cwxvoc1E1ezoHRrDwJgLX2dYkYP/llGpiPQTNiS7Ph5eJLDGJ0iBP6xK6XO3GgM7V1M=
-X-Received: by 2002:a17:90a:d18a:b0:234:c035:7749 with SMTP id
- fu10-20020a17090ad18a00b00234c0357749mr7512975pjb.0.1678357230328; Thu, 09
- Mar 2023 02:20:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1paDXC-00053k-65
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:30:06 -0500
+Received: from mga12.intel.com ([192.55.52.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1paDXA-0005NK-1O
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:30:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678357804; x=1709893804;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yv1WAkaEUJq6B8lHZoSDox5n0FnnMQ6a34L5ICRHjwk=;
+ b=mLv1ZlC46+dMh4lcbijZDceU55qEDqG+Xk5ReAu1WuAtJj4KMqa5HMDo
+ O/WeSWjVsvmmPwVmRR2JsyJYRXaQuLU8EJ4lI9sWEdfoOxhteKMm1i/Pf
+ QgGdr4Lx9Mr/tZuVFn0aE4Ja8CrysknopCgsXL8cA5BbGCczWTd8jCMhO
+ JkXkTcUwUs6CavoY2M3Zb6wiE6u1DI36dbngz21RTlCxMGKWkWlBPt8xx
+ eqYUzZ59KgBN+7YkT8iy2DgDXcJ4YPDAcKSkcja3olccFZcSgK28mqjSV
+ 0Q229tKtl1h+GlS45jgJjM6Od0vRIkmhA1aWmD0AL8BguITRoIv7iv6kb w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316069720"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="316069720"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2023 02:29:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="787510012"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="787510012"
+Received: from tdx-lm.sh.intel.com ([10.239.53.27])
+ by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2023 02:29:58 -0800
+From: Wei Wang <wei.w.wang@intel.com>
+To: quintela@redhat.com,
+	dgilbert@redhat.com
+Cc: qemu-devel@nongnu.org,
+	Wei Wang <wei.w.wang@intel.com>
+Subject: [PATCH v1] migration/multifd: correct multifd_send_thread to trace
+ the flags
+Date: Thu,  9 Mar 2023 18:29:56 +0800
+Message-Id: <20230309102956.8030-1-wei.w.wang@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20230307114329.158094-1-pbonzini@redhat.com>
-In-Reply-To: <20230307114329.158094-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Mar 2023 10:20:19 +0000
-Message-ID: <CAFEAcA8OV0F2CkH=0Yy7pjvTN=Q_TNpSgyiHBeEBBspzZbBTzg@mail.gmail.com>
-Subject: Re: [PULL 0/9] Fix missing memory barriers on ARM
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=wei.w.wang@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,30 +76,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Mar 2023 at 11:43, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit c61d1a066cb6cf90662c82d0e35660fc0ccacbaf:
->
->   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-03-02 16:13:45 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream-mb
->
-> for you to fetch changes up to 6229438cca037d42f44a96d38feb15cb102a444f:
->
->   async: clarify usage of barriers in the polling case (2023-03-07 12:39:53 +0100)
->
-> ----------------------------------------------------------------
-> * Fix missing memory barriers
-> * Fix comments about memory ordering
->
+The p->flags could be updated via the send_prepare callback, e.g. OR-ed
+with MULTIFD_FLAG_ZLIB via zlib_send_prepare. Assign p->flags to the
+local "flags" before the send_prepare callback could only get partial of
+p->flags. Fix it by moving the assignment of p->flags to the local flags
+after the callback, so that the correct flags can be traced.
 
+Fixes: ab7cbb0b9a3b ("multifd: Make no compression operations into its own structure")
+Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+---
+ migration/multifd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Applied, thanks.
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 5e85c3ea9b..cbc0dfe39b 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -677,7 +677,7 @@ static void *multifd_send_thread(void *opaque)
+ 
+         if (p->pending_job) {
+             uint64_t packet_num = p->packet_num;
+-            uint32_t flags = p->flags;
++            uint32_t flags;
+             p->normal_num = 0;
+ 
+             if (use_zero_copy_send) {
+@@ -699,6 +699,7 @@ static void *multifd_send_thread(void *opaque)
+                 }
+             }
+             multifd_send_fill_packet(p);
++            flags = p->flags;
+             p->flags = 0;
+             p->num_packets++;
+             p->total_normal_pages += p->normal_num;
+-- 
+2.27.0
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
