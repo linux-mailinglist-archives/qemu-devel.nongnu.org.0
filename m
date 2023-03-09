@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6086B2E01
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 20:57:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0856B2E22
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:08:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMNC-0006bx-KM; Thu, 09 Mar 2023 14:56:22 -0500
+	id 1paMWX-0003lZ-47; Thu, 09 Mar 2023 15:06:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+1e8d8dc6e835cf614345+7137+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1paMN8-0006bj-Qh
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 14:56:19 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+1e8d8dc6e835cf614345+7137+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1paMN4-0007Py-3t
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 14:56:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=0G187/ZkFD+Rb+nvmPARX8rtVDUH1X3V13D44O3Sgnc=; b=K3+mdBQql0s77zFoB8fWjLzOGC
- fMjEkR763Rg9pIPVjo3ZlS4NeKLt24wjPyIUEgdjrmyDHHvjuV7II6sDBmY517wnJKtWG71jXyumY
- /QQABWXoXby2UK64y3lzcA6SmphYDY0WJGyAjQampKFeKcAv+a6tvQxJcRwSDt8et0qY+i6/4/elX
- c/pzpN2Oix2KZ51Rxl9wu85J8jmDSQzUTta/bizp8wUBrYMN/eSz63sIHSGwgBclZP2OICNZDQ4JJ
- kal68UQSmeWHeHsx2df5T6H8MpwC7iIOocK+w7fih4b8YfrskhaPx2cHg2MT69DDtA+ItCXJ/tzce
- koMuXizw==;
-Received: from [2001:8b0:10b:5:e62f:87cb:46b1:1399]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1paMMz-008k2j-0y; Thu, 09 Mar 2023 19:56:09 +0000
-Message-ID: <07ae19e96bd77a1bcbb0f90d2de4964f618fdc63.camel@infradead.org>
-Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
- IRQ, on RTE update
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Xu <peterx@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>
-Date: Thu, 09 Mar 2023 19:56:08 +0000
-In-Reply-To: <ZAoPlRMlcO4fm5rJ@x1n>
-References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
- <ZAUZYkChWfwCcfSn@x1n> <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
- <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
- <ZAYXUKUtU9ipksUq@x1n>
- <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
- <ZAkVwunxmEfXu4+H@x1n>
- <0754a758a46549dccde7878282721fe3835dc4b3.camel@infradead.org>
- <ZAoPlRMlcO4fm5rJ@x1n>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-lZLmaiLSApKEq4WKVRyx"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1paMWS-0003lB-R8
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:05:56 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1paMWQ-0000gG-Oo
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:05:56 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id y2so3141156pjg.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678392352;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=a9Bd4/EdjKT+8kF37Nq61bp5drfVkA5U4G2bDI+BNp4=;
+ b=GCvUotrVPf+6VjC6cfrud7ZgpRFEbcYt97X9BY+1Xs8pr5b6VytEQSdLjDGJYVR18e
+ keJiImSpe/HyTBUkJVKcc+cU6eBgKOGQwtrIgDj01315MpiDdFLwR8bTjiCdthRmToCC
+ y9XnFyeJ0LWc+uN8FlPVLhCZ1Xcwdz6NmVoZSN3gonNwDgpBD220p5JNDhfc27Gf1GF4
+ eDBmLPeLQTjXYLuxcifNygJbrXvtrVpJVWEQ46k3NPkWRcrGr7IxLlDpWXNSoYhtsY5t
+ UFTLwuWXLd8xGdfPRXSgp3st38EpJLRkYFcKQepcZGhFbeYjYOItOGaFqd+FkTFMYG+I
+ W7Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678392352;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a9Bd4/EdjKT+8kF37Nq61bp5drfVkA5U4G2bDI+BNp4=;
+ b=UWWloSmIvXzfTwdcOnHpR1hmyQm6Y8MMkQHsTZXat6761wr35ZVfc2/BpSisvxLW2e
+ GWBzNZh+p9fPr0pKONSSM/sFBA+eBvxCHsQ7mdTUgiq/Z2Zi8KL/JwH1PWYgBOgI3sjg
+ QSsHyUJ2VowXnOvUcIX4CnEFaoJ/3vF+8PAopj2+2ebi40h5VBLs1fvyo/amLMWSw2gX
+ 9nCljt6Y8gMolqoxw/Ubk45YkBxhRf5io9n7x8Tb2o/EKSL9/hF9ACzRAe8Y5c3/kmkM
+ srbxa7dK9pTQeb6/R336fInbFj51pD9AYIf2Uvz7geZHfSTDBb64DbGXLeAlEgGIubOw
+ m+dg==
+X-Gm-Message-State: AO0yUKXqtaSGKxwikWBie6hZmBl3gfPwEtpCsNh8hVEm6G22jKJ5e6HQ
+ ysEiZw64DQgu/uvkmHwvjTLSFG2A4k6N+4jZDTI=
+X-Google-Smtp-Source: AK7set8dbGcG29SVnITo3isFFhPUOTOqNTsQ0RWsAtBkudHFDN0GjQa9o5kZU1DIoc/lnZVFYkTnGQ==
+X-Received: by 2002:a17:90a:1917:b0:237:659a:a453 with SMTP id
+ 23-20020a17090a191700b00237659aa453mr23285111pjg.16.1678392352501; 
+ Thu, 09 Mar 2023 12:05:52 -0800 (PST)
+Received: from stoup.. ([2602:ae:154a:9f01:bf7f:79a0:a976:bdaf])
+ by smtp.gmail.com with ESMTPSA id
+ t20-20020a17090ad15400b002340f58e19bsm308083pjw.45.2023.03.09.12.05.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Mar 2023 12:05:51 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL v2 00/91] tcg patch queue
+Date: Thu,  9 Mar 2023 12:04:19 -0800
+Message-Id: <20230309200550.3878088-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+1e8d8dc6e835cf614345+7137+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,261 +88,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit 66a6aa8f9a56a6317e074b1f5e269fecdf4ad782:
 
---=-lZLmaiLSApKEq4WKVRyx
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  Merge tag 'vfio-updates-20230307.1' of https://gitlab.com/alex.williamson/qemu into staging (2023-03-09 15:19:44 +0000)
 
-On Thu, 2023-03-09 at 11:55 -0500, Peter Xu wrote:
-> On Thu, Mar 09, 2023 at 09:16:08AM +0000, David Woodhouse wrote:
-> > The only IRQs that are handled fully in the kernel are events arriving
-> > on some eventfd which is bound as an IRQFD to some IRQ in the KVM
-> > routing table. (Mostly MSIs coming from VFIO).
-> >=20
-> > If we want to "pause" one of those, all we have to do is unbind the
-> > IRQFD and then we can handle that eventfd in userspace instead. Which
-> > is what we do *anyway* in the case where IRQFD support isn't available.
-> >=20
-> > In
-> > https://lore.kernel.org/kvm/20201027143944.648769-1-dwmw2@infradead.org=
-/
-> > I *optimised* that dance, so userspace doesn't have to stop listening
-> > on the eventfd when the IRQFD is bound; the IRQFD code consumes the
-> > event first. But we can live without that in older kernels.
-> >=20
-> > Basically, it's just treating the IRQFD support as an *optimisation*,
-> > and retaining the 'slow path' of handling the event in userspace and
-> > injecting the resulting MSI.
-> >=20
-> > It's just that in that slow path, as we're translating and injecting
-> > the MSI, we *also* update the IRQ routing table and reattach the IRQFD
-> > for the next time that interrupt fires. Like a cache.
-> >=20
-> > And we stash an invalidation cookie (for Intel-IOMMU the IRTE index)
-> > for each routing table entry, so that when asked to invalidate a
-> > *range* of cookies (that's how the Intel IOMMU invalidate works), we
-> > can just detach the IRQFD from those ones, letting them get handled in
-> > userspace next time and retranslated (with associated fault report, as
-> > appropriate).
->=20
-> We can maintain a cookie per entry in the routing table in userspace, I
-> think, and ignore those when applying to KVM (perhaps need to regenerate
-> another table when applying?=C2=A0 As KVM won't recognize the cookies). B=
-esides
-> that, do we need other infrastructures to link this entry / GSI back to
-> which device registers with it?=C2=A0 Since I assume we need to tear down=
- irqfds
-> if there is, and rehook the event to an userspace handler here too.
->=20
+are available in the Git repository at:
 
-KVM doesn't need to recognise the cookies. Only the userspace code
-which handles the core IRQ routing table and the IRQFD assignment.
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230309
 
-I *have* just abused some S390-based fields for the cookie and a
-'stale' bit...
+for you to fetch changes up to 29fc660789547ceb5d6565e7fc39d8c1f65dd157:
 
-/* 64-bit cookie for IOMMU to use for invalidation choices */
-#define ire_ir_cookie(ire) ((ire)->u.adapter.ind_offset)
+  tcg: Drop tcg_const_* (2023-03-09 11:55:56 -0800)
 
-/* Flags, to indicate a stale entry that needs retranslating */
-#define ire_user_flags(ire) ((ire)->u.adapter.summary_offset)
-#define IRE_USER_FLAG_STALE		1
+----------------------------------------------------------------
+accel/tcg: Fix NB_MMU_MODES to 16
+Balance of the target/ patchset which eliminates tcg_temp_free
+Balance of the target/ patchset which eliminates tcg_const
 
-... but it could be done in a separate data structure just as well.
+----------------------------------------------------------------
+Anton Johansson (23):
+      include/exec: Set default `NB_MMU_MODES` to 16
+      target/alpha: Remove `NB_MMU_MODES` define
+      target/arm: Remove `NB_MMU_MODES` define
+      target/avr: Remove `NB_MMU_MODES` define
+      target/cris: Remove `NB_MMU_MODES` define
+      target/hexagon: Remove `NB_MMU_MODES` define
+      target/hppa: Remove `NB_MMU_MODES` define
+      target/i386: Remove `NB_MMU_MODES` define
+      target/loongarch: Remove `NB_MMU_MODES` define
+      target/m68k: Remove `NB_MMU_MODES` define
+      target/microblaze: Remove `NB_MMU_MODES` define
+      target/mips: Remove `NB_MMU_MODES` define
+      target/nios2: Remove `NB_MMU_MODES` define
+      target/openrisc: Remove `NB_MMU_MODES` define
+      target/ppc: Remove `NB_MMU_MODES` define
+      target/riscv: Remove `NB_MMU_MODES` define
+      target/rx: Remove `NB_MMU_MODES` define
+      target/s390x: Remove `NB_MMU_MODES` define
+      target/sh4: Remove `NB_MMU_MODES` define
+      target/sparc: Remove `NB_MMU_MODES` define
+      target/tricore: Remove `NB_MMU_MODES` define
+      target/xtensa: Remove `NB_MMU_MODES` define
+      include/exec: Remove guards around `NB_MMU_MODES`
 
-Given a range of cookies to invalidate, the core code just detaches the
-IRQFD for any entry in the KVM IRQ routing table that has a cookie
-within that range.
+Richard Henderson (68):
+      target/mips: Drop tcg_temp_free from micromips_translate.c.inc
+      target/mips: Drop tcg_temp_free from msa_translate.c
+      target/mips: Drop tcg_temp_free from mxu_translate.c
+      target/mips: Drop tcg_temp_free from nanomips_translate.c.inc
+      target/mips: Drop tcg_temp_free from octeon_translate.c
+      target/mips: Drop tcg_temp_free from translate_addr_const.c
+      target/mips: Drop tcg_temp_free from tx79_translate.c
+      target/mips: Drop tcg_temp_free from vr54xx_translate.c
+      target/mips: Drop tcg_temp_free from translate.c
+      target/s390x: Drop free_compare
+      target/s390x: Drop tcg_temp_free from translate_vx.c.inc
+      target/s390x: Drop tcg_temp_free from translate.c
+      target/s390x: Remove assert vs g_in2
+      target/s390x: Remove g_out, g_out2, g_in1, g_in2 from DisasContext
+      tcg: Create tcg/tcg-temp-internal.h
+      target/avr: Avoid use of tcg_const_i32 in SBIC, SBIS
+      target/avr: Avoid use of tcg_const_i32 throughout
+      target/cris: Avoid use of tcg_const_i32 throughout
+      target/hppa: Avoid tcg_const_i64 in trans_fid_f
+      target/hppa: Avoid use of tcg_const_i32 throughout
+      target/i386: Avoid use of tcg_const_* throughout
+      target/m68k: Avoid tcg_const_i32 when modified
+      target/m68k: Avoid tcg_const_i32 in bfop_reg
+      target/m68k: Avoid tcg_const_* throughout
+      target/mips: Split out gen_lxl
+      target/mips: Split out gen_lxr
+      target/mips: Avoid tcg_const_tl in gen_r6_ld
+      target/mips: Avoid tcg_const_* throughout
+      target/ppc: Split out gen_vx_vmul10
+      target/ppc: Avoid tcg_const_i64 in do_vector_shift_quad
+      target/rx: Use tcg_gen_abs_i32
+      target/rx: Use cpu_psw_z as temp in flags computation
+      target/rx: Avoid tcg_const_i32 when new temp needed
+      target/rx: Avoid tcg_const_i32
+      target/s390x: Avoid tcg_const_i64
+      target/sh4: Avoid tcg_const_i32 for TAS.B
+      target/sh4: Avoid tcg_const_i32
+      tcg/sparc: Avoid tcg_const_tl in gen_edge
+      target/tricore: Split t_n as constant from temp as variable
+      target/tricore: Rename t_off10 and use tcg_constant_i32
+      target/tricore: Use setcondi instead of explicit allocation
+      target/tricore: Drop some temp initialization
+      target/tricore: Avoid tcg_const_i32
+      tcg: Replace tcg_const_i64 in tcg-op.c
+      target/arm: Use rmode >= 0 for need_rmode
+      target/arm: Handle FPROUNDING_ODD in arm_rmode_to_sf
+      target/arm: Improve arm_rmode_to_sf
+      target/arm: Consistently use ARMFPRounding during translation
+      target/arm: Create gen_set_rmode, gen_restore_rmode
+      target/arm: Improve trans_BFCI
+      target/arm: Avoid tcg_const_ptr in gen_sve_{ldr,str}
+      target/arm: Avoid tcg_const_* in translate-mve.c
+      target/arm: Avoid tcg_const_ptr in disas_simd_zip_trn
+      target/arm: Avoid tcg_const_ptr in handle_vec_simd_sqshrn
+      target/arm: Avoid tcg_const_ptr in handle_rev
+      target/m68k: Use tcg_constant_i32 in gen_ea_mode
+      target/ppc: Avoid tcg_const_i64 in do_vcntmb
+      target/ppc: Avoid tcg_const_* in vmx-impl.c.inc
+      target/ppc: Avoid tcg_const_* in xxeval
+      target/ppc: Avoid tcg_const_* in vsx-impl.c.inc
+      target/ppc: Avoid tcg_const_* in fp-impl.c.inc
+      target/ppc: Avoid tcg_const_* in power8-pmu-regs.c.inc
+      target/ppc: Rewrite trans_ADDG6S
+      target/ppc: Fix gen_tlbsx_booke206
+      target/ppc: Avoid tcg_const_* in translate.c
+      target/tricore: Use min/max for saturate
+      tcg: Drop tcg_const_*_vec
+      tcg: Drop tcg_const_*
 
-> There're four devices that can hook onto this, IIUC.=C2=A0 Besides IOAPIC=
- and
-> VFIO, there's also ivshmem and vhost.=C2=A0 IIUC we'll need to change all=
- the
-> four devices to implement this.
->=20
-> Besides the changeset (which seems to be still non-trivial to me.. withou=
-t
-> yet evaluating whether that'll be worth the effort), one concern I have
-> right now is whether delaying the 1st irq would regress in any case.
-
-It's fine. In QEMU you don't *have* to delay the first IRQ; you *can*
-prepopulate the cache at the moment the guest programs a device's MSI
-table, for example.
-
-In a certain other implementation, we don't prepopulate so that first
-IRQ does get handled in userspace every time, because we want to keep
-track of whether a given MSI has *ever* fired or not. And there's been
-absolutely no issue with that latency.
-
-> I think you may have better knowledge here than me on how guest behaves i=
-n
-> IRQ subsystem.=C2=A0 For example, is there any case where IRQs can be mod=
-ified /
-> invalidated frequently (perhaps mask / unmask?)
-
-Mask/unmask shouldn't invalidate the cache.=20
-
->  so there can be a lot of IRQs delivered slower than before? Because
-> after this change the IRQ setup / cache overhead will be applied to
-> the 1st IRQ being triggered rather than when IRQ was established /
-> unmasked.
-
-We've launched... a lot... of guests with this model and not seen any
-issues :)
-
-I'll knock up a prototype in QEMU and we can reason about it far more
-coherently. I think it ends up actually being a simplification and
-leading to easier-to-understand code.
-
-> This also reminded me (just out of curiosity) on what will happen if
-> without IR at all: say, what if a device setup a wrong MSI (with a messed
-> up MSI data register) on bare metal?=C2=A0 Then, does QEMU properly emula=
-te that
-> too so far?
-
-For the most past, MSI isn't special; it's *just* a memory write
-transaction. Traditionally, we ask the device to write to some address
-in the 0xFEExxxxx range, which happens not to be actual memory, but is
-the APIC.
-
-But if you want to just pin a data structure in memory, and give the
-device the address of some 32-bit field in that data structure, then
-*poll* for completion to see when the device wrote there... that's just
-fine.
-
-That would *generally* work in QEMU too, since we mostly raise MSI from
-devices by doing that actual stl_le_phys() call.
-
-The caveat is the "special" KVM way of encoding APIC IDs > 255, by
-putting the high bits into the high bits of the 64-bit MSI target
-address. That means that if handled as an actual memory transaction, it
-would *miss* the APIC at 0x00000000FEExxxxx and really go to memory.
-
-Which is why in some (post-translation) cases we have to treat it
-"specially" as an MSI instead of just a memory write. Which I think is
-actually the reason for that explicit kvm_set_irq() in ioapic_service()
-which I mentioned at the start of this thread.
-
-You'll note that when I added basically the same special case to
-pci_msi_trigger() in commit 6096cf7877 I felt it warranted at least 5
-lines of comment to explain itself :)
-
-
-
-
-
-
---=-lZLmaiLSApKEq4WKVRyx
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA5MTk1NjA4WjAvBgkqhkiG9w0BCQQxIgQg6jop9HjQ
-+VGBvRIgdmBqFGTjVGG4x3DGKG4308wim1gwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAlUfY5Hio3AfoPgKk1pS0R+0N5BInhxyxy
-EavDWbYlMXtkGoRs5cdwrI9vvC263y/DIlyq17U+UJiHX4pgMdTAbZlWO+RfMuCJC6H4RBFK5gA1
-9sW58QiN3fvARxwx3eDViIsldisuB9HWDMjTzsHMI5atlobB8KdhbM3M2hzLNRf8YgaXhjRk8CmB
-nBqEsCUr1zWdrJQ3k9xjHd6CyScpfnmbMfhoxCQ/D1RVuvMiFdZj2ZrMJMXnBAQGa/1SeuwWrvER
-iKcBXZ0Nx/xRz+w8XpZm6H6bUjQrx722xa3OdgVauIyk/7Ssfc4p2QxdXfhNA57rxWBQ7UDVgymA
-vplnartCGtdErolHjVsUR/P9SrrI20yJBOfTnSJj14EIYLMmuYHh4pjpNfw38i2zaqudRU70YInD
-2AqRZ8HrJb6oyA/heMEOWW6ol2cNo/KxinYQLI+8YjiJ7KrOmCGzRetOzr/LZnt9LBgrZMfPyHXD
-UWrOdiD/ZMPtCr9/N5kDUJRYb1XT6dfg/PL9gssVGJ7QwxNWnjeJMcCyexM4VxOevbaQOLVE9vtm
-5zL92IJbcempjqo+KUFXceibIUUpVcDwjuaNB0zXkwB99JOBcml5Qmtxxs9PE3TIJH8gzCXFY9Dq
-hFv1mvSNNNJElIqiE1wYp+HwdrpxxBdBroDgtjBQkgAAAAAAAA==
-
-
---=-lZLmaiLSApKEq4WKVRyx--
+ include/exec/cpu-defs.h                    |   9 +-
+ include/tcg/tcg-op.h                       |   4 -
+ include/tcg/tcg-temp-internal.h            |  83 +++
+ include/tcg/tcg.h                          |  64 ---
+ target/alpha/cpu-param.h                   |   2 -
+ target/arm/cpu-param.h                     |   2 -
+ target/arm/internals.h                     |  12 +-
+ target/arm/tcg/translate.h                 |  17 +
+ target/avr/cpu-param.h                     |   1 -
+ target/cris/cpu-param.h                    |   1 -
+ target/hexagon/cpu-param.h                 |   2 -
+ target/hppa/cpu-param.h                    |   1 -
+ target/i386/cpu-param.h                    |   1 -
+ target/loongarch/cpu-param.h               |   1 -
+ target/m68k/cpu-param.h                    |   1 -
+ target/microblaze/cpu-param.h              |   1 -
+ target/microblaze/cpu.h                    |   2 +-
+ target/mips/cpu-param.h                    |   1 -
+ target/nios2/cpu-param.h                   |   1 -
+ target/openrisc/cpu-param.h                |   1 -
+ target/ppc/cpu-param.h                     |   1 -
+ target/riscv/cpu-param.h                   |   1 -
+ target/rx/cpu-param.h                      |   2 -
+ target/s390x/cpu-param.h                   |   1 -
+ target/sh4/cpu-param.h                     |   1 -
+ target/sparc/cpu-param.h                   |   2 -
+ target/tricore/cpu-param.h                 |   1 -
+ target/xtensa/cpu-param.h                  |   1 -
+ accel/tcg/plugin-gen.c                     |   1 +
+ target/arm/tcg/translate-a64.c             | 168 +++---
+ target/arm/tcg/translate-mve.c             |  56 +-
+ target/arm/tcg/translate-sve.c             |  28 +-
+ target/arm/tcg/translate-vfp.c             |  26 +-
+ target/arm/tcg/translate.c                 |  13 +-
+ target/arm/vfp_helper.c                    |  35 +-
+ target/avr/translate.c                     |  48 +-
+ target/cris/translate.c                    |  46 +-
+ target/hppa/translate.c                    |  35 +-
+ target/i386/tcg/translate.c                |  83 +--
+ target/m68k/translate.c                    | 231 ++++----
+ target/mips/tcg/msa_translate.c            |   9 -
+ target/mips/tcg/mxu_translate.c            |  55 +-
+ target/mips/tcg/octeon_translate.c         |  23 -
+ target/mips/tcg/translate.c                | 819 +++++------------------------
+ target/mips/tcg/translate_addr_const.c     |   7 -
+ target/mips/tcg/tx79_translate.c           |  45 +-
+ target/mips/tcg/vr54xx_translate.c         |   4 -
+ target/ppc/translate.c                     | 148 +++---
+ target/rx/translate.c                      |  84 ++-
+ target/s390x/tcg/translate.c               | 208 +-------
+ target/sh4/translate.c                     |  35 +-
+ target/sparc/translate.c                   |  14 +-
+ target/tricore/translate.c                 | 476 ++++++++---------
+ tcg/tcg-op-gvec.c                          |   1 +
+ tcg/tcg-op-vec.c                           |  35 +-
+ tcg/tcg-op.c                               |  13 +-
+ tcg/tcg.c                                  |  17 +-
+ target/cris/translate_v10.c.inc            |  26 +-
+ target/mips/tcg/micromips_translate.c.inc  |  12 +-
+ target/mips/tcg/nanomips_translate.c.inc   | 143 +----
+ target/ppc/power8-pmu-regs.c.inc           |   4 +-
+ target/ppc/translate/fixedpoint-impl.c.inc |  44 +-
+ target/ppc/translate/fp-impl.c.inc         |  26 +-
+ target/ppc/translate/vmx-impl.c.inc        | 130 ++---
+ target/ppc/translate/vsx-impl.c.inc        |  36 +-
+ target/s390x/tcg/translate_vx.c.inc        | 143 -----
+ tcg/i386/tcg-target.c.inc                  |   9 +-
+ 67 files changed, 1165 insertions(+), 2388 deletions(-)
+ create mode 100644 include/tcg/tcg-temp-internal.h
 
