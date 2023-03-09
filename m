@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79EA66B2625
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:01:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E7C6B2611
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:00:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paGpR-0004ja-CT; Thu, 09 Mar 2023 09:01:09 -0500
+	id 1paGnf-0003nS-Nq; Thu, 09 Mar 2023 08:59:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1paGpB-0004bp-Qz; Thu, 09 Mar 2023 09:00:55 -0500
-Received: from forward106j.mail.yandex.net ([2a02:6b8:0:801:2::109])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1paGnd-0003nB-R7
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:59:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1paGp9-0001Ip-K9; Thu, 09 Mar 2023 09:00:53 -0500
-Received: from iva3-dd2bb2ff2b5f.qloud-c.yandex.net
- (iva3-dd2bb2ff2b5f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:7611:0:640:dd2b:b2ff])
- by forward106j.mail.yandex.net (Yandex) with ESMTP id 8480F6BD89B3;
- Thu,  9 Mar 2023 16:54:14 +0300 (MSK)
-Received: by iva3-dd2bb2ff2b5f.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id BsdJhR3bk8c1-0CWZd0hO; Thu, 09 Mar 2023 16:54:13 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
- t=1678370053; bh=eFm8VCL1PLveRB8WCNxZodpv/TMfY4YITyhE/ClC8l8=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=eXO6xgfKMVH5YttMDw5vTLPnIxHBmLWpblKXzD9jQ30CGZnGI92I+GrTjuqsdHsXj
- snax24S5RkL5ff+OufcZSkRz+yiD1qmpy/P8OtA++8A3UDJ/AVZorlUvQoU4RSsQGq
- g2Lm4Axy6olegjmWxv6pEr1EdTEhOrgdr531f+6I=
-Authentication-Results: iva3-dd2bb2ff2b5f.qloud-c.yandex.net;
- dkim=pass header.i=@syntacore.com
-From: Ivan Klokov <ivan.klokov@syntacore.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, richard.henderson@linaro.org, pbonzini@redhat.com,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- wangyanan55@huawei.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com,
- liu@linux.alibaba.com, Ivan Klokov <ivan.klokov@syntacore.com>
-Subject: [PATCH v2] target/riscv: Add RVV registers to log
-Date: Thu,  9 Mar 2023 16:54:03 +0300
-Message-Id: <20230309135403.102703-1-ivan.klokov@syntacore.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1paGnc-0000sD-03
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:59:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678370355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ynWmACxz4x4cfinE6ArtHrBosu71xbBipALHdlr8/To=;
+ b=FMDXSOHQwYooyfHwQNfFYLQSPdsbjq0/3gSyk7azEsTRYsI7HYpIDi8ozz7/bwymJOjbxk
+ FZPdVod8zLbM+QU7hZV4Xwb9cQKOPVPxEnYtBM7TOHpcFobbgLx6fKzVrDayuPaBQa6W7Z
+ i/dmnyYY3+bks0lyq5+7WNbdNrnBaNY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-448-qc4brOfgPJ24i9yRWPrOug-1; Thu, 09 Mar 2023 08:59:13 -0500
+X-MC-Unique: qc4brOfgPJ24i9yRWPrOug-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b1-20020aa7dc01000000b004ad062fee5eso2997369edu.17
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 05:59:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678370352;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ynWmACxz4x4cfinE6ArtHrBosu71xbBipALHdlr8/To=;
+ b=Dv1acTz122XiDsPDIGkxc/gzPOa3oYnOMOwkNhK572ioNl9khl1H/rsFPNXlsPPAT7
+ AKOcKCnM/LZ7P/ILKnuuVgT5vte4HinH8kNYlmSv3ATOKXpctaBbEkn1dViDacwxhs+3
+ bg7f5XspT78FUpoxhrq9C2u/3giJ+KDQI/zXGzA1iS50sF9CB9Yd7ZiK+Yt7VBlURM1P
+ T/TTQak0+3Hl3HE6SETDHKuT05i2GkwC9nd2uVpASt7NiVaOJ1XusPJo5riZsTqkCWrB
+ Oj0wgV92fmT3rfHiRrpz8xv4d2v/qIFDaWW5mtR7g9bW9ATgEsKNE5VG+hL2G+6L6Smq
+ 7yaQ==
+X-Gm-Message-State: AO0yUKXyk1gmkY4/hwlL6hRa6I8HXnvvrcsorSxHlNxS6iwuTCB6RDwb
+ oi0NGLaI7ybGzm8e2Ta/q7AP8U4ti6BsnQf6+fk5e17HtqVM5KbuRPay2a/k1yhoEwBBkTgpEu7
+ 4ruvO+b/87HC3JsM=
+X-Received: by 2002:a17:907:320a:b0:87a:ee05:f7b with SMTP id
+ xg10-20020a170907320a00b0087aee050f7bmr25967262ejb.24.1678370352717; 
+ Thu, 09 Mar 2023 05:59:12 -0800 (PST)
+X-Google-Smtp-Source: AK7set9FnrTAiKe5S6L415bMonOGob5dt+aQcDf6X0z6bQ1XuFXv62Ys/Sg6Ly7+887RB+s/5ZwcSQ==
+X-Received: by 2002:a17:907:320a:b0:87a:ee05:f7b with SMTP id
+ xg10-20020a170907320a00b0087aee050f7bmr25967239ejb.24.1678370352364; 
+ Thu, 09 Mar 2023 05:59:12 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id
+ dt9-20020a170906b78900b008dd76b67ae6sm8959286ejb.175.2023.03.09.05.59.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Mar 2023 05:59:11 -0800 (PST)
+Message-ID: <3e695f64-13bb-1311-6cd6-09bffc312873@redhat.com>
+Date: Thu, 9 Mar 2023 14:59:11 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH for-8.0] ide: Fix manual in-flight count for TRIM BH
+Content-Language: en-US
+To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Fiona Ebner <f.ebner@proxmox.com>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20230309114430.33684-1-hreitz@redhat.com>
+ <88de2e68-61e2-9397-b202-d611247002ba@redhat.com>
+ <CABgObfZkSt6-0-vKkUtiWUy1TtHS_kEiYM2wRh+MfjTXmW497A@mail.gmail.com>
+ <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:801:2::109;
- envelope-from=ivan.klokov@syntacore.com; helo=forward106j.mail.yandex.net
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,163 +106,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Added QEMU option 'rvv' to add RISC-V RVV registers to log like regular regs.
+On 3/9/23 13:31, Hanna Czenczek wrote:
+> On 09.03.23 13:08, Paolo Bonzini wrote:
+>> On Thu, Mar 9, 2023 at 1:05 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>> I think having to do this is problematic, because the blk_drain should
+>>> leave no pending operation.
+>>>
+>>> Here it seems okay because you do it in a controlled situation, but the
+>>> main thread can also issue blk_drain(), or worse bdrv_drained_begin(),
+>>> and there would be pending I/O operations when it returns.
+> 
+> Not really.  We would stop in the middle of a trim that processes a list 
+> of discard requests.  So I see it more like stopping in the middle of 
+> anything that processes guest requests.  Once drain ends, we continue 
+> processing them, and that’s not exactly pending I/O.
+> 
+> There is a pending object in s->bus->dma->aiocb on the IDE side, so 
+> there is a pending DMA operation, but naïvely, I don’t see that as a 
+> problem.
 
-Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
----
-v2:
-   - fix option name
-   - fix byte ordering
----
- accel/tcg/cpu-exec.c  |  3 +++
- include/hw/core/cpu.h |  2 ++
- include/qemu/log.h    |  1 +
- target/riscv/cpu.c    | 59 ++++++++++++++++++++++++++++++++++++++++++-
- util/log.c            |  2 ++
- 5 files changed, 66 insertions(+), 1 deletion(-)
+What about the bdrv_drain_all() when a VM stops, would the guest 
+continue to access memory and disks after bdrv_drain() return?
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 56aaf58b9d..0dca69fccb 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -319,6 +319,9 @@ static void log_cpu_exec(target_ulong pc, CPUState *cpu,
- #if defined(TARGET_I386)
-                 flags |= CPU_DUMP_CCOP;
- #endif
-+                if (qemu_loglevel_mask(CPU_LOG_TB_VPU)) {
-+                    flags |= CPU_DUMP_VPU;
-+                }
-                 cpu_dump_state(cpu, logfile, flags);
-                 qemu_log_unlock(logfile);
-             }
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 75689bff02..7c9d25ff45 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -545,11 +545,13 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu);
-  * @CPU_DUMP_CODE:
-  * @CPU_DUMP_FPU: dump FPU register state, not just integer
-  * @CPU_DUMP_CCOP: dump info about TCG QEMU's condition code optimization state
-+ * @CPU_DUMP_VPU: dump VPU registers
-  */
- enum CPUDumpFlags {
-     CPU_DUMP_CODE = 0x00010000,
-     CPU_DUMP_FPU  = 0x00020000,
-     CPU_DUMP_CCOP = 0x00040000,
-+    CPU_DUMP_VPU  = 0x00080000,
- };
- 
- /**
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index c5643d8dd5..df59bfabcd 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -35,6 +35,7 @@ bool qemu_log_separate(void);
- /* LOG_STRACE is used for user-mode strace logging. */
- #define LOG_STRACE         (1 << 19)
- #define LOG_PER_THREAD     (1 << 20)
-+#define CPU_LOG_TB_VPU     (1 << 21)
- 
- /* Lock/unlock output. */
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 5bc0005cc7..0b16c9c8e3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -172,6 +172,14 @@ const char * const riscv_fpr_regnames[] = {
-   "f30/ft10", "f31/ft11"
- };
- 
-+const char * const riscv_rvv_regnames[] = {
-+  "v0",  "v1",  "v2",  "v3",  "v4",  "v5",  "v6",
-+  "v7",  "v8",  "v9",  "v10", "v11", "v12", "v13",
-+  "v14", "v15", "v16", "v17", "v18", "v19", "v20",
-+  "v21", "v22", "v23", "v24", "v25", "v26", "v27",
-+  "v28", "v29", "v30", "v31"
-+};
-+
- static const char * const riscv_excp_names[] = {
-     "misaligned_fetch",
-     "fault_fetch",
-@@ -422,7 +430,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--    int i;
-+    int i, j;
-+    uint8_t *p;
- 
- #if !defined(CONFIG_USER_ONLY)
-     if (riscv_has_ext(env, RVH)) {
-@@ -506,6 +515,54 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-             }
-         }
-     }
-+    if (riscv_has_ext(env, RVV)) {
-+        if (flags & CPU_DUMP_VPU) {
-+
-+            static const int dump_rvv_csrs[] = {
-+                        CSR_VSTART,
-+                        CSR_VXSAT,
-+                        CSR_VXRM,
-+                        CSR_VCSR,
-+                        CSR_VL,
-+                        CSR_VTYPE,
-+                        CSR_VLENB,
-+                    };
-+            for (int i = 0; i < ARRAY_SIZE(dump_rvv_csrs); ++i) {
-+                int csrno = dump_rvv_csrs[i];
-+                target_ulong val = 0;
-+                RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-+
-+                /*
-+                 * Rely on the smode, hmode, etc, predicates within csr.c
-+                 * to do the filtering of the registers that are present.
-+                 */
-+                if (res == RISCV_EXCP_NONE) {
-+                    qemu_fprintf(f, " %-8s " TARGET_FMT_lx "\n",
-+                                 csr_ops[csrno].name, val);
-+                }
-+            }
-+            uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-+
-+/*
-+ * From vector_helper.c
-+ * Note that vector data is stored in host-endian 64-bit chunks,
-+ * so addressing bytes needs a host-endian fixup.
-+ */
-+#if HOST_BIG_ENDIAN
-+#define BYTE(x)   ((x) ^ 7)
-+#else
-+#define BYTE(x)   (x)
-+#endif
-+            for (i = 0; i < 32; i++) {
-+                qemu_fprintf(f, " %-8s ", riscv_rvv_regnames[i]);
-+                p = (uint8_t *)env->vreg;
-+                for (j = vlenb - 1 ; j >= 0; j--) {
-+                    qemu_fprintf(f, "%02x", *(p + i * vlenb + BYTE(j)));
-+                }
-+                qemu_fprintf(f, "\n");
-+            }
-+        }
-+    }
- }
- 
- static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
-diff --git a/util/log.c b/util/log.c
-index 7837ff9917..93dccee7b8 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
-       "log every user-mode syscall, its input, and its result" },
-     { LOG_PER_THREAD, "tid",
-       "open a separate log file per thread; filename must contain '%d'" },
-+    { CPU_LOG_TB_VPU, "vpu",
-+      "include VPU registers in the 'cpu' logging" },
-     { 0, NULL, NULL },
- };
- 
--- 
-2.34.1
+Migration could also be a problem, because the partial TRIM would not be 
+recorded in the s->bus->error_status field of IDEState (no surprise 
+there, it's not an error).  Also, errors happening after bdrv_drain() 
+might not be migrated correctly.
+
+> Or the issue is generally that IDE uses dma_* functions, which might 
+> cause I/O functions to be run from new BHs (I guess through 
+> reschedule_dma()?).
+
+Ah, you mean that you can have pending I/O operations while 
+blk->in_flight is zero?  That would be a problem indeed.  We already 
+have BlockDevOps for ide-cd and ide-hd, should we add a .drained_poll 
+callback there?
+
+>> Hmm, what about making blk_aio_prwv non-static and calling
+>> bdrv_co_pdiscard directly from IDE?
+> 
+> You mean transforming ide_issue_trim_cb() into an iterative coroutine 
+> (instead of being recursive and using AIO) and invoking it via 
+> blk_aio_prwv()?
+> 
+> It doesn’t feel right to call a bdrv_* function directly from a user 
+> external to the core block layer, so in this case I’d rather fall back 
+> to Fiona’s idea of invoking all discards concurrently.
+
+Yeah, honestly it doesn't feel very much right to me either.
+
+Paolo
 
 
