@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C856B2585
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 14:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB91C6B258E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 14:35:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paGOy-0003QA-1n; Thu, 09 Mar 2023 08:33:48 -0500
+	id 1paGQ7-0004yY-S6; Thu, 09 Mar 2023 08:34:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGOw-0003Pg-5r
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:33:46 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGQ5-0004x5-QZ
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:34:57 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGOu-0004io-ME
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:33:45 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r18so1891872wrx.1
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 05:33:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paGQ4-0004rm-3D
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:34:57 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id j3so1163737wms.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 05:34:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678368822;
+ d=linaro.org; s=google; t=1678368894;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=00x3kO+yCNABnbgCgDedoIFiYN180YUQgFKU3+H3b3k=;
- b=WUDRf7fw3stacurWhmtyfalS6V+0GxcRVZzRFoTReAIfNgEHaoCW70k82o6qIFIcWR
- SHjvz0p3DRYGH+VYt45bm012BK2dcdZtAF3AWA9k5r9lbGN89tYSfPOe7CrOaxP6I7CH
- w2NI9yzI0SL7lCdQu81Uf37YWwjOvHMVm5bc5d5xAFAkdTJmbX/ePcXmXJOgguHUIRwo
- 2WjI+xbv4qlSvtQ9DAwv/vWVH64qjfjQM1E5a8Pgthu7/DWHAmrZGUboVKdwss9QMfAA
- g9r4yuKbn2ZJCSbik6MOR9JJPTfTDgKmZyv/j/4+w8Su3UeVjVceqHC45F7yQRDjtM9/
- sXrA==
+ bh=X2b0LUVs3uWmtk0aaVmsx7G97ldMWivPoS36cRGZARU=;
+ b=jd8zt2AcpkvpaA9AFsbtmT+5bIjgek5mG7TgWbm2pOmxf8w4ei+qZxzEKhgovvkPJ8
+ VFkGbp3xSzbXhIjmoJuYghGWx6ZEQ4zroekKm00yDAkeIDgh3v1JfRNfuGSQCCHTL8jr
+ 4H9HHXR+UmUPRLkdBXtHedWjuwoE2IS0lLn7Yt5kMqF3XnWkG0li5XAZb9RlGLjv+LOZ
+ jqSRiax7FdVVrUxnFQVBNrHn4cnq59EFNwPzs+F7TrdOdjSZvjy2oy08cQB4+x5zANF4
+ G0RSXz+heSjR9637C+uineBqoGdTSG3Us7voE04ykpO5Iym7Np1Bh62+Y5azG87FEjAR
+ 4nEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678368822;
+ d=1e100.net; s=20210112; t=1678368894;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=00x3kO+yCNABnbgCgDedoIFiYN180YUQgFKU3+H3b3k=;
- b=f7yrqyHz7/04GCtpYf6z79L7EMu4dWLa92DDRcNCZsHtvAvP/ewNWcnlL5AazYqrpc
- EMzTxEL1oZxzO0xHhajX/8/+HFV0+LeqRTsssJA85JbK9KsBd0dxoA90rhmvMATZtVZH
- 9rJZoFvwG7JpC0xnx0WR1sIL3hsOh3H2TUyPcm319BjTq5IhxjvYYJu5ydJh6P56y9w0
- TZLJP+f80X9IqyXcNNZqbmo2k3zFEwQEnJOVycRsNBwz4tmztRsX6ssiWWuFKmV48EwL
- 9DbrkIX5Ush1NnpPDlFuUTNBlByHUvXjLDjneM7ESN/Osu+uaWg9bfJGRhWRwQLmmX2l
- Hvzg==
-X-Gm-Message-State: AO0yUKUAZC2iMbmUZ/bahOgfp9Qkix8ecFkzcEz2gbPDuwh68EivIoMB
- Kxw5dWW1FtEinAKcccQPVQGD5A==
-X-Google-Smtp-Source: AK7set8/y8mb2Ak55UgkYsSDDJW5/9Z2WKva74c6WK738FYVQsNCUm0Ml35lS94b31JqYgqrfOIdiw==
-X-Received: by 2002:a05:6000:10cc:b0:2c7:e60:abe8 with SMTP id
- b12-20020a05600010cc00b002c70e60abe8mr18206014wrx.9.1678368822674; 
- Thu, 09 Mar 2023 05:33:42 -0800 (PST)
+ bh=X2b0LUVs3uWmtk0aaVmsx7G97ldMWivPoS36cRGZARU=;
+ b=suK6eijjbWbJizCNpqHrROxEmfIegaBWEI/8T0mfHu0ovnJMHDV1BW2/ecIi2n7krD
+ x4Hy92r5caPgxrS6ZBhnvz9yd53Yh4L5fzpZVl9wyFPWxN+5bisfKw0VWmx///9zmU6h
+ flI4kmyVa7Asj3jfmacgn/3bxt3Sq3N7/cUEvQ3Hnm0rmypp1571PPpKDacKUKrPtGX/
+ tt7wGRJVK3IhFCPXmD07EaAi55RGtS8NqAptI9Wsw88wPrcF0QHdOpKgVddUZAoeonMd
+ DF8SRdu7Cuuu7vQ1hIYFZ4H6OXphGqAdjGssCiQ5IMkwaRd54/gO44tj4XRJruapNpv0
+ 6lMA==
+X-Gm-Message-State: AO0yUKVLFxky0DBr2YM4JDdadJc3HfnxoG6knaAYVI3XFcCr4MriosAe
+ TCKKOrUGMP1nSWXEfHSNPxOhsA==
+X-Google-Smtp-Source: AK7set8O7905Oqg7ogRkLodNiVvhq5BCfHeBHk/YDwqc5es4Os9oL0bqOQ9sG/6vfcrms46o1UjXxg==
+X-Received: by 2002:a05:600c:1e10:b0:3eb:39e0:3530 with SMTP id
+ ay16-20020a05600c1e1000b003eb39e03530mr18617263wmb.41.1678368894416; 
+ Thu, 09 Mar 2023 05:34:54 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h18-20020a05600c351200b003dc42d48defsm2838923wmq.6.2023.03.09.05.33.40
+ s18-20020a05600c45d200b003e8dcc67bdesm2969275wmo.30.2023.03.09.05.34.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 05:33:41 -0800 (PST)
-Message-ID: <2c93cf00-1770-4d9b-3a46-9a52322c82c0@linaro.org>
-Date: Thu, 9 Mar 2023 14:33:40 +0100
+ Thu, 09 Mar 2023 05:34:53 -0800 (PST)
+Message-ID: <6bbbf2ee-0c89-d935-1555-38691d638d3b@linaro.org>
+Date: Thu, 9 Mar 2023 14:34:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] memory: dump HPA and access type of ramblocks
+Subject: Re: [PATCH] ui/cocoa: Override windowDidResignKey
 Content-Language: en-US
-To: Ted Chen <znscnchen@gmail.com>, pbonzini@redhat.com
-Cc: peterx@redhat.com, david@redhat.com, qemu-devel@nongnu.org
-References: <20221205120712.269013-1-znscnchen@gmail.com>
- <Y7hh37KTO5BcPs7z@x1n> <Y/8/+D5TYZQ3XVQH@ted-dallas>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Gustavo Noronha Silva <gustavo@noronha.eti.br>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20230228070946.12370-1-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y/8/+D5TYZQ3XVQH@ted-dallas>
+In-Reply-To: <20230228070946.12370-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,13 +91,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 13:07, Ted Chen wrote:
-> Thanks, Peter.
+On 28/2/23 08:09, Akihiko Odaki wrote:
+> This fixes pressed keys being stuck when the deck is clicked and the
+> window loses focus.
 > 
-> hi Paolo,
-> A gentle ping:)
-> May I know what's your opinion to this patch? Any concern or further improvement required?
+> In the past, Gustavo Noronha Silva also had a patch to fix this issue
+> though it only ungrabs mouse and does not release keys, and depends on
+> another out-of-tree patch:
+> https://github.com/akihikodaki/qemu/pull/3/commits/e906a80147b1dc6d4f31b6a08064ef9871a2b76c
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   ui/cocoa.m | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
 
-Merged as commit dbc6ae9c3b (fixing format string on 32-bit hosts).
+Merged as commit 9d9bc7db50.
 
 
