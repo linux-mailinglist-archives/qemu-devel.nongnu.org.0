@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C28F6B3131
+	by mail.lfdr.de (Postfix) with ESMTPS id A13AE6B3132
 	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 23:42:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paOwk-0002a2-7S; Thu, 09 Mar 2023 17:41:14 -0500
+	id 1paOwk-0002a7-Ep; Thu, 09 Mar 2023 17:41:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwi-0002ZO-Ay
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwi-0002ZV-KE
  for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:41:12 -0500
 Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwf-0003my-EK
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwg-0003n7-HZ
  for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:41:12 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id DE9FC5C019D;
- Thu,  9 Mar 2023 17:41:08 -0500 (EST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id AFFF85C00A4;
+ Thu,  9 Mar 2023 17:41:09 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 09 Mar 2023 17:41:08 -0500
+ by compute4.internal (MEProxy); Thu, 09 Mar 2023 17:41:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1678401668; x=
- 1678488068; bh=MCTKejwprUp8X263Wn8YvjYNgYFizbZ1OawyvOFQw7w=; b=g
- H7i1zuNKLilJ01A8tKxuCvsIBImlGMNn4iR59skrQhNo5kWDm+wrNm4dK/VECRAm
- Twgq5WEkLSVxNaiocmQeCX0Gg/pHjTKXwrmQ/RfUWwTD1GlwBT7VPVA8C+MRFU+j
- /uysA0ZK6ODU/lWI4ZIS9h6M+qDtC/3qiNK/tTDlcb5BBuaTg/aCEn3zjYzMnoA4
- BaisN3LOsBtyELkIwCtVYs/WE1dLT1ysFJjDPOhi2HK0tOanGwmqrhBAUcAkRKP3
- d8DCBbp/n0KhhPGpTJWUice9tFyNhV8aCQqv/M6IMb3j6SxVgck9VB6KZx2uYrJ3
- L5C3+1geU9YOrzy6NwUxQ==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1678401669; x=
+ 1678488069; bh=G+KSlsfGlpZ/1Z8LFsIUAIleZDnHwF2yylN0T2NQI1s=; b=X
+ L2hMjkYuPTN9V5WF2Qd/68Pr43Orl6wwdzsvcmcCucEh+SZqfRMPH0pXC5Sz6uMu
+ FdaDcZl0BvliJyNJ8dA6hmwwnUMfmHJ6RtEuf07/6dbTohQVxQ8bxJjUHfQAvedY
+ tShSCPR6WTuH61Ub+HN4W45pQL2q5sepeSogu87MNYI9R+JF4NrSw+A64OH7UEpa
+ /nM9GxEZcT2Um7/VugcM6p5pr47B8awUJ3Kve6bhNwu6CUj68qvFnEkB3HVmBCfU
+ 4hNwhvK3xcFXYKJOCKUUV2V9KfpanE1fg8fNStd/iUkLfplDhJhj7tEoDyVVAgV4
+ mDin86zzJY40xdM8FcvCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1678401668; x=
- 1678488068; bh=MCTKejwprUp8X263Wn8YvjYNgYFizbZ1OawyvOFQw7w=; b=n
- HFCH4g0FawXydy0BW0ljmV4UBrbSeNRpxxyz2dI1N8njvrya03xAioHzZmdDp37Q
- Q/G9m8Rvqdd8xZsc8+cqfYPo5LlPRLosyJ5o7h3I9WemLlcMFSPn4j1C44m1P8uA
- /dj+1QZW2G4OL3AQM32s6ZFJh3XBOqTNPLwneC2MYG5A//cPVIs514p8U+rfxHUp
- q088kHVhYTjdQL4cJMNiDyxkmKVAIAHRUkOgEAJ5pA6FcYzzS4qnvalamAadVFAS
- RXHaZCRqBpLxObfmCghpLPbT3PNcCBDGwcuyBQn6ko2BQs4THL06vMvy40ED2hHr
- tNyxllvyiDbcW7++zf9DA==
-X-ME-Sender: <xms:hGAKZCk2dLPP1zlkhqGhbuaPwshaAp_kbLMQc8V57imCxVZBGqf1Ig>
- <xme:hGAKZJ0B5pSqiJ8D9hTVeDN_opbO-bT057Rw9N6YPQXswfTZj2no6aHHqsQn8rd-M
- pjSTvCKySmWFDomIg>
-X-ME-Received: <xmr:hGAKZAoWfqVYjOcspt2-Tv8QHP_T1nNvH2Pd_y3FWCCWMKqw-5lIRoxd3KgVVM0qoSsLi0ydubNvj9czCLQYC0Wfg_SAvmOFYaCVGOryDfYulg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddujedgtdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
- evufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceo
- ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepgfefgfegjefhudeike
- dvueetffelieefuedvhfehjeeljeejkefgffeghfdttdetnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:hGAKZGnKlwDftIanNZlYq4_KAhL2yDJi2XED_w9cfdhdRMxgHX7IEA>
- <xmx:hGAKZA1Ji4NZaFuJsVGVrceR2o5lpuFKiXpL4nU5lFxrgaXeTmyZ1A>
- <xmx:hGAKZNtk0kTwNMrINbhTERfwvD9pDeuL_l_60ebBLpczsG6laLeYFA>
- <xmx:hGAKZNxqEgoeZfaXx_rXeXBeahYu3e5RrRqMToX9LvJvMog6UDVpMw>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1678401669; x=
+ 1678488069; bh=G+KSlsfGlpZ/1Z8LFsIUAIleZDnHwF2yylN0T2NQI1s=; b=s
+ uyyGX+JvokmdzBeQVLPaGKQPp25Fr2pL6Rov8HUpSU04k0ACmH//g/yT2QnNrueE
+ vcGx9YuMpcpHs+8akn+/pAAFtx2IJ2kJrx70zs5F2qepdH2RYFraK913+OlF/hxX
+ uH1iQtvpIIf/+DKxHc0btQCmvJKkle60AFjRTP/crm5e4JcznQNz5phEh+BHX6+T
+ Qm01oA+femsULBUTTreQsvV93329m15Tl+rCJYHjGWI/aTBooTLKHurYiDYs0y+z
+ ifPO6fWT6vtfF9UcFDzviyey4n+/Pwb8PHAqwRklLjQHRe8rS0mvRaQHhn5ivo27
+ KZOlK2uE/xyXkl4lp69Yw==
+X-ME-Sender: <xms:hWAKZE_DmNQZ3H1TSARdfdfjGTkyb65LnwEstwwwWIUFLZYMMPr9lQ>
+ <xme:hWAKZMs-TpuHgaNcpNxx6KkLA4zkAAJHz3ov5lFatrAhpaQFnyGLwgiz8wOqLDJ8Y
+ oF5Wxor9DakR9jNcA>
+X-ME-Received: <xmr:hWAKZKB2P1FIExzmZkriFFtD3Hz1-i7wbOW3DfF-xHLZgn6wnFhdlxumajvSSHbe_4aSiscccY5mm3zJ1SciOwDU2sEVGgHXe0TEIw01mI_CGQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddujecutefuodetggdotefrodftvfcurf
+ hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecufghrlhcuvffnffculdejtddmnecujfgurhephffvvefuff
+ fkofgjfhgggfestdekredtredttdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihu
+ segugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpefgfefggeejhfduieekvdeute
+ ffleeifeeuvdfhheejleejjeekgfffgefhtddtteenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:hWAKZEeu_Pweb5p8H8ERP0fnXcTafwyKiNsad_osZNUp-43enlA-DA>
+ <xmx:hWAKZJPC4TN01jaiFttM6Y5jUQhHKkc8cpmRpcr_6dcl_fcePvgQuQ>
+ <xmx:hWAKZOmGWkYETRnkPiDvxyqsDNx3RvJsZIEbOidBQVZpHZO6PFtzrQ>
+ <xmx:hWAKZKqAy2es83yZ4NthAyvg_Xcf_C00hrAx5PJQKVPbXhdWNwDWFw>
 Feedback-ID: i6a694271:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
  9 Mar 2023 17:41:08 -0500 (EST)
@@ -67,9 +67,9 @@ From: Daniel Xu <dxu@dxuuu.xyz>
 To: michael.roth@amd.com, kkostiuk@redhat.com, marcandre.lureau@gmail.com,
  berrange@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/3] qga: Add `merged` variant to GuestExecCaptureOutputMode
-Date: Thu,  9 Mar 2023 15:40:57 -0700
-Message-Id: <c73263127c3533c9da06042a57bed2f334c5ea2e.1678401400.git.dxu@dxuuu.xyz>
+Subject: [PATCH v5 3/3] qga: test: Add tests for `merged` flag
+Date: Thu,  9 Mar 2023 15:40:58 -0700
+Message-Id: <20a27290153aa05c4076d71c665f1090112765aa.1678401400.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <cover.1678401400.git.dxu@dxuuu.xyz>
 References: <cover.1678401400.git.dxu@dxuuu.xyz>
@@ -99,112 +99,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, any captured output (via `capture-output`) is segregated into
-separate GuestExecStatus fields (`out-data` and `err-data`). This means
-that downstream consumers have no way to reassemble the captured data
-back into the original stream.
-
-This is relevant for chatty and semi-interactive (ie. read only) CLI
-tools.  Such tools may deliberately interleave stdout and stderr for
-visual effect. If segregated, the output becomes harder to visually
-understand.
-
-This commit adds a new enum variant to the GuestExecCaptureOutputMode
-qapi to merge the output streams such that consumers can have a pristine
-view of the original command output.
+This commit adds a test to ensure `merged` functions as expected.
+We also add a negative test to ensure we haven't regressed previous
+functionality.
 
 Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
 ---
- qga/commands.c       | 31 +++++++++++++++++++++++++++++--
- qga/qapi-schema.json |  4 +++-
- 2 files changed, 32 insertions(+), 3 deletions(-)
+ tests/unit/test-qga.c | 158 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 141 insertions(+), 17 deletions(-)
 
-diff --git a/qga/commands.c b/qga/commands.c
-index 01f68b45ab..c347d434ed 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -270,12 +270,26 @@ static void guest_exec_child_watch(GPid pid, gint status, gpointer data)
-     g_spawn_close_pid(pid);
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index b4e0a14573..360b4cab23 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -755,6 +755,31 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
+     g_assert_cmpstr(status, ==, "thawed");
  }
  
--/** Reset ignored signals back to default. */
- static void guest_exec_task_setup(gpointer data)
- {
- #if !defined(G_OS_WIN32)
-+    bool has_merge = *(bool *)data;
-     struct sigaction sigact;
- 
-+    if (has_merge) {
-+        /*
-+         * FIXME: When `GLIB_VERSION_MIN_REQUIRED` is bumped to 2.58+, use
-+         * g_spawn_async_with_fds() to be portable on windows. The current
-+         * logic does not work on windows b/c `GSpawnChildSetupFunc` is run
-+         * inside the parent, not the child.
-+         */
-+        if (dup2(STDOUT_FILENO, STDERR_FILENO) != 0) {
-+            slog("dup2() failed to merge stderr into stdout: %s",
-+                 strerror(errno));
-+        }
-+    }
++static QDict *wait_for_guest_exec_completion(int fd, int64_t pid)
++{
++    QDict *ret = NULL;
++    int64_t now;
++    bool exited;
++    QDict *val;
 +
-+    /* Reset ignored signals back to default. */
-     memset(&sigact, 0, sizeof(struct sigaction));
-     sigact.sa_handler = SIG_DFL;
++    now = g_get_monotonic_time();
++    do {
++        ret = qmp_fd(fd,
++                     "{'execute': 'guest-exec-status',"
++                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
++        g_assert_nonnull(ret);
++        val = qdict_get_qdict(ret, "return");
++        exited = qdict_get_bool(val, "exited");
++        if (!exited) {
++            qobject_unref(ret);
++        }
++    } while (!exited &&
++             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
++    g_assert(exited);
++
++    return ret;
++}
++
+ static void test_qga_guest_exec(gconstpointer fix)
+ {
+     const TestFixture *fixture = fix;
+@@ -762,9 +787,8 @@ static void test_qga_guest_exec(gconstpointer fix)
+     QDict *val;
+     const gchar *out;
+     g_autofree guchar *decoded = NULL;
+-    int64_t pid, now, exitcode;
++    int64_t pid, exitcode;
+     gsize len;
+-    bool exited;
  
-@@ -409,6 +423,7 @@ GuestExec *qmp_guest_exec(const char *path,
-     GIOChannel *in_ch, *out_ch, *err_ch;
-     GSpawnFlags flags;
-     bool has_output = false;
-+    bool has_merge = false;
-     GuestExecCaptureOutputMode output_mode;
-     g_autofree uint8_t *input = NULL;
-     size_t ninput = 0;
-@@ -445,13 +460,25 @@ GuestExec *qmp_guest_exec(const char *path,
-     case GUEST_EXEC_CAPTURE_OUTPUT_MODE_SEPARATED:
-         has_output = true;
-         break;
-+    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_MERGED:
-+        has_output = true;
-+        has_merge = true;
-+        break;
-     case GUEST_EXEC_CAPTURE_OUTPUT_MODE__MAX:
-         /* Silence warning; impossible branch */
-         break;
-     }
+     /* exec 'echo foo bar' */
+     ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
+@@ -777,23 +801,10 @@ static void test_qga_guest_exec(gconstpointer fix)
+     g_assert_cmpint(pid, >, 0);
+     qobject_unref(ret);
+ 
+-    /* wait for completion */
+-    now = g_get_monotonic_time();
+-    do {
+-        ret = qmp_fd(fixture->fd,
+-                     "{'execute': 'guest-exec-status',"
+-                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
+-        g_assert_nonnull(ret);
+-        val = qdict_get_qdict(ret, "return");
+-        exited = qdict_get_bool(val, "exited");
+-        if (!exited) {
+-            qobject_unref(ret);
+-        }
+-    } while (!exited &&
+-             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
+-    g_assert(exited);
++    ret = wait_for_guest_exec_completion(fixture->fd, pid);
+ 
+     /* check stdout */
++    val = qdict_get_qdict(ret, "return");
+     exitcode = qdict_get_int(val, "exitcode");
+     g_assert_cmpint(exitcode, ==, 0);
+     out = qdict_get_str(val, "out-data");
+@@ -802,6 +813,115 @@ static void test_qga_guest_exec(gconstpointer fix)
+     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
+ }
  
 +#if defined(G_OS_WIN32)
-+    /* FIXME: see comment in guest_exec_task_setup() */
-+    if (has_merge) {
-+        error_setg(errp, "merged unsupported on windows");
-+        return NULL;
-+    }
++static void test_qga_guest_exec_separated(gconstpointer fix)
++{
++}
++static void test_qga_guest_exec_merged(gconstpointer fix)
++{
++    const TestFixture *fixture = fix;
++    g_autoptr(QDict) ret = NULL;
++    QDict *val;
++    const gchar *class, *desc;
++    g_autofree guchar *decoded = NULL;
++
++    /* exec 'echo foo bar' */
++    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
++                 " 'path': 'echo',"
++                 " 'arg': [ 'execution never reaches here' ],"
++                 " 'capture-output': 'merged' } }");
++
++    g_assert_nonnull(ret);
++    val = qdict_get_qdict(ret, "error");
++    g_assert_nonnull(val);
++    class = qdict_get_str(val, "class");
++    desc = qdict_get_str(val, "desc");
++    g_assert_cmpstr(class, ==, "GenericError");
++    g_assert_cmpint(strlen(desc), >, 0);
++}
++#else
++static void test_qga_guest_exec_separated(gconstpointer fix)
++{
++    const TestFixture *fixture = fix;
++    g_autoptr(QDict) ret = NULL;
++    QDict *val;
++    const gchar *out, *err;
++    g_autofree guchar *out_decoded = NULL;
++    g_autofree guchar *err_decoded = NULL;
++    int64_t pid, exitcode;
++    gsize len;
++
++    /* exec 'echo foo bar' */
++    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
++                 " 'path': '/bin/bash',"
++                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
++                 " 'capture-output': 'separated' } }");
++    g_assert_nonnull(ret);
++    qmp_assert_no_error(ret);
++    val = qdict_get_qdict(ret, "return");
++    pid = qdict_get_int(val, "pid");
++    g_assert_cmpint(pid, >, 0);
++    qobject_unref(ret);
++
++    ret = wait_for_guest_exec_completion(fixture->fd, pid);
++
++    val = qdict_get_qdict(ret, "return");
++    exitcode = qdict_get_int(val, "exitcode");
++    g_assert_cmpint(exitcode, ==, 0);
++
++    /* check stdout */
++    out = qdict_get_str(val, "out-data");
++    out_decoded = g_base64_decode(out, &len);
++    g_assert_cmpint(len, ==, 14);
++    g_assert_cmpstr((char *)out_decoded, ==, "stdout\nstdout\n");
++
++    /* check stderr */
++    err = qdict_get_try_str(val, "err-data");
++    err_decoded = g_base64_decode(err, &len);
++    g_assert_cmpint(len, ==, 14);
++    g_assert_cmpstr((char *)err_decoded, ==, "stderr\nstderr\n");
++}
++
++static void test_qga_guest_exec_merged(gconstpointer fix)
++{
++    const TestFixture *fixture = fix;
++    g_autoptr(QDict) ret = NULL;
++    QDict *val;
++    const gchar *out, *err;
++    g_autofree guchar *decoded = NULL;
++    int64_t pid, exitcode;
++    gsize len;
++
++    /* exec 'echo foo bar' */
++    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
++                 " 'path': '/bin/bash',"
++                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
++                 " 'capture-output': 'merged' } }");
++    g_assert_nonnull(ret);
++    qmp_assert_no_error(ret);
++    val = qdict_get_qdict(ret, "return");
++    pid = qdict_get_int(val, "pid");
++    g_assert_cmpint(pid, >, 0);
++    qobject_unref(ret);
++
++    ret = wait_for_guest_exec_completion(fixture->fd, pid);
++
++    val = qdict_get_qdict(ret, "return");
++    exitcode = qdict_get_int(val, "exitcode");
++    g_assert_cmpint(exitcode, ==, 0);
++
++    /* check stdout */
++    out = qdict_get_str(val, "out-data");
++    decoded = g_base64_decode(out, &len);
++    g_assert_cmpint(len, ==, 28);
++    g_assert_cmpstr((char *)decoded, ==, "stdout\nstderr\nstdout\nstderr\n");
++
++    /* check stderr */
++    err = qdict_get_try_str(val, "err-data");
++    g_assert_null(err);
++}
 +#endif
 +
-     ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
--            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NULL,
-+            guest_exec_task_setup, &has_merge, &pid, input_data ? &in_fd : NULL,
-             has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
-     if (!ret) {
-         error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index d1e00a4234..b4782525ae 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1210,11 +1210,13 @@
- # @stderr: only capture stderr
- # @separated: capture both stdout and stderr, but separated into
- #             GuestExecStatus out-data and err-data, respectively
-+# @merged: capture both stdout and stderr, but merge together
-+#          into out-data. not effective on windows guests.
- #
- # Since: 8.0
- ##
-  { 'enum': 'GuestExecCaptureOutputMode',
--   'data': [ 'none', 'stdout', 'stderr', 'separated' ] }
-+   'data': [ 'none', 'stdout', 'stderr', 'separated', 'merged' ] }
- 
- ##
- # @GuestExecCaptureOutput:
+ static void test_qga_guest_exec_invalid(gconstpointer fix)
+ {
+     const TestFixture *fixture = fix;
+@@ -972,6 +1092,10 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
+     g_test_add_data_func("/qga/config", NULL, test_qga_config);
+     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
++    g_test_add_data_func("/qga/guest-exec-separated", &fix,
++                         test_qga_guest_exec_separated);
++    g_test_add_data_func("/qga/guest-exec-merged", &fix,
++                         test_qga_guest_exec_merged);
+     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
+                          test_qga_guest_exec_invalid);
+     g_test_add_data_func("/qga/guest-get-osinfo", &fix,
 -- 
 2.39.1
 
