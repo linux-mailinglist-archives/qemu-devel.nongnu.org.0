@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A582F6B1F9D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 10:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF996B1FB3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 10:17:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paCLi-00072Q-Ti; Thu, 09 Mar 2023 04:14:10 -0500
+	id 1paCNu-0007sA-3P; Thu, 09 Mar 2023 04:16:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1paCLh-00072I-Cb
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 04:14:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+1e8d8dc6e835cf614345+7137+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1paCNo-0007nj-59
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 04:16:22 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1paCLf-0000Ab-Nz
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 04:14:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678353247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9k6qFQzTsSbxbdL1Hx3Wb5IwQp2hYLuVWUfG3MO9eJo=;
- b=FC+hl3JMk9Kj75hJyPDQCdJAXcKVe4lJ3syQkYWtPjCGDIVc0x4Kj2nsc5zr4hH7iR0/an
- QboGaZIkp0/IXk86PMTG7XvxGMICy+PAAQDRx3vffqraHSEhizTd0leVIrthzD3lcVTeJV
- HF9J1xF+46ox/OWoK87y8TNPYc33CLc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-613-DPfJFu0MMtmlFNJsGy3kWA-1; Thu, 09 Mar 2023 04:14:05 -0500
-X-MC-Unique: DPfJFu0MMtmlFNJsGy3kWA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j6-20020a05600c1c0600b003eaf882cb85so514650wms.9
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 01:14:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678353243;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9k6qFQzTsSbxbdL1Hx3Wb5IwQp2hYLuVWUfG3MO9eJo=;
- b=S+WSWdIW5GdeiEgo/uuWgb4iJjhyP3gOHwsQBB3n0bUa0ea/TdFeyDeXmLTgVDVrzF
- M7/4KJrjy8jaUZIY6EFAO5iRYvnM8TXK35zEuZnPo2abed9sjwtv1IRC2Dza/zHgTMYe
- 6MHtRA6dzc4TpMIEYJ+NVZmb9p/79bmJhLeGPUB6Az4AL2zA87P7lXFfUCjHcPHVycJa
- MSzVNwWwU2e4ss9bArezb6dkegByZjkH7Bq/dAWH1l4u40WWormVbKMAKsF7Z9CXV0Eq
- XX6lQYt8u4W6Wzs1iTWZvV9m1jy8BiUUwYWrUiCCoXHbHuFVd1b57s/0Mx2rc1SR4IwR
- +v8Q==
-X-Gm-Message-State: AO0yUKVYx85NOjXSVBmGlBGzh96H2RMQR2fVlYWJniZDseam/njRWPs/
- IrcrXJakCWOYJqvU2wBfseID/aAsR7Rv3hYk6+JnCRkotPo67MX0lmR9GPTTuQz272tBlHCxbCx
- /Nkds+y8gyNkx+MA=
-X-Received: by 2002:a5d:45c3:0:b0:2c5:6247:b89d with SMTP id
- b3-20020a5d45c3000000b002c56247b89dmr13664619wrs.6.1678353243594; 
- Thu, 09 Mar 2023 01:14:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set/CduTA2919fpsb3tdrDU8H51toZT5i/JNUowqp0toZiSk/nU6NSHMWZlLUEgau1mlk1OUY8w==
-X-Received: by 2002:a5d:45c3:0:b0:2c5:6247:b89d with SMTP id
- b3-20020a5d45c3000000b002c56247b89dmr13664603wrs.6.1678353243285; 
- Thu, 09 Mar 2023 01:14:03 -0800 (PST)
-Received: from ?IPV6:2003:cb:c702:5200:a73:3e7e:12c:b175?
- (p200300cbc70252000a733e7e012cb175.dip0.t-ipconnect.de.
- [2003:cb:c702:5200:a73:3e7e:12c:b175])
- by smtp.gmail.com with ESMTPSA id
- k5-20020adfe8c5000000b002c56179d39esm17271269wrn.44.2023.03.09.01.14.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 01:14:02 -0800 (PST)
-Message-ID: <66f9d36a-3095-5854-5004-030c963166b0@redhat.com>
-Date: Thu, 9 Mar 2023 10:14:02 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+1e8d8dc6e835cf614345+7137+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1paCNk-0000yB-K9
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 04:16:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=86bbHUNPJiBTeRZQ+9eQSBFNDOdbTAbwDB1KpDUU3H8=; b=NJw4llgsFo0NAF8/xjvOQ10+ef
+ ZXuBuotHnkiyl2iXbMYsNcgFKcZshMfFoWoJJse+kSCl4CnUxUFtpLCnEPStly4gFbTXLi9QwJTdh
+ BuLnZh3bnTzvGP2yYOXjylpHQgp2MzLYXkRt5f7CtzrgH4OnAVCmdLmvdNbGEKIsUoO6P4Dx5oZ0D
+ gIDEJO6Fyhg9GaGOhMwETTHNLVPYEWBdIhGjYxhB06WMJCqCEObbF9Rui2cIaJWsqfgm66PjEFNWK
+ vcbJOnieuDwOhyCFD7SsI2eBAuxfRtHYLGeJugmWt8VUdKQ8qRGsYizMjxoFgYGGIlLhJXObbIWdz
+ OnApVn2g==;
+Received: from [2001:8b0:10b:5:e62f:87cb:46b1:1399]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1paCNc-008GyK-Vl; Thu, 09 Mar 2023 09:16:09 +0000
+Message-ID: <0754a758a46549dccde7878282721fe3835dc4b3.camel@infradead.org>
+Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
+ IRQ, on RTE update
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>
+Date: Thu, 09 Mar 2023 09:16:08 +0000
+In-Reply-To: <ZAkVwunxmEfXu4+H@x1n>
+References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
+ <ZAUZYkChWfwCcfSn@x1n> <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
+ <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
+ <ZAYXUKUtU9ipksUq@x1n>
+ <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
+ <ZAkVwunxmEfXu4+H@x1n>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-ypjCBhxY2XyGOchA6i7L"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: Reply: [PATCH v2] virtio-balloon: optimize the virtio-balloon on
- the ARM platform
-Content-Language: en-US
-To: Yangming <yangming73@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-References: <9544c4fe084c4bf281b744eb4e0c998b@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <9544c4fe084c4bf281b744eb4e0c998b@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+1e8d8dc6e835cf614345+7137+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,83 +81,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09.03.23 07:14, Yangming wrote:
->> On 08.03.23 01:42, Michael S. Tsirkin wrote:
->>> On Wed, Mar 01, 2023 at 06:38:13AM +0000, Yangming wrote:
->>>> Optimize the virtio-balloon feature on the ARM platform by adding a
->>>> variable to keep track of the current hot-plugged pc-dimm size,
->>>> instead of traversing the virtual machine's memory modules to count
->>>> the current RAM size during the balloon inflation or deflation
->>>> process. This variable can be updated only when plugging or
->>>> unplugging the device, which will result in an increase of
->>>> approximately 60% efficiency of balloon process on the ARM platform.
->>>>
->>>> We tested the total amount of time required for the balloon inflation
->> process on ARM:
->>>> inflate the balloon to 64GB of a 128GB guest under stress.
->>>> Before: 102 seconds
->>>> After: 42 seconds
->>>>
->>>> Signed-off-by: Qi Xi <xiqi2@huawei.com>
->>>> Signed-off-by: Ming Yang yangming73@huawei.com
->>>> ---
->>>> Refactor the code by adding comments and removing unnecessary code.
->>>>
->>>>    hw/mem/pc-dimm.c           |  7 +++++++
->>>>    hw/virtio/virtio-balloon.c | 33 +++++----------------------------
->>>>    include/hw/boards.h        |  2 ++
->>>>    3 files changed, 14 insertions(+), 28 deletions(-)
->>>>
->>>> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c index
->>>> 50ef83215c..3f2734a267 100644
->>>> --- a/hw/mem/pc-dimm.c
->>>> +++ b/hw/mem/pc-dimm.c
->>>> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm,
->> MachineState
->>>> *machine)
->>>>
->>>>        memory_device_plug(MEMORY_DEVICE(dimm), machine);
->>>>        vmstate_register_ram(vmstate_mr, DEVICE(dimm));
->>>> +    /* count only "real" DIMMs, not NVDIMMs */
->>>> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
->>>> +        machine->device_memory->dimm_size += vmstate_mr->size;
->>>> +    }
->>>>    }
->>>>
->>>>    void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
->>>
->>> vmstate_mr->size is Int128 you are not supposed to do math on it.
->>>
->>> And generally poking at this struct is a bad idea.
->>>
->>> I think memory_region_size will do what you want but not 100% sure.
->>> Maybe you need to look at the flatview ...
->>
->> Good point, we should use memory_region_size().
->>
->> --
->> Thanks,
->>
->> David / dhildenb
-> 
-> Thanks for the suggestion. The problem will be fixed in the upcoming third version by using 'memory_region_size()'.
-> 
-> By the way, we found that the size of the object is aligned with 'qemu_host_page_size' before allocating the memory (see details in 'qemu_ram_alloc_internal()' from softmmu/physmem.c). This means that the actual allocated memory may differ from the size defined in the Object. As a result, in 'get_current_ram_size()', the original method of counting hot-plugged memory from the Object may not be accurate. Now, we count the size from the memory region, which is a proper way to get the actual size of memory allocated.
 
-You'd have to have a memory backend size that is not aligned to the host 
-page size.
+--=-ypjCBhxY2XyGOchA6i7L
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-qemu-system-x86_64 -nographic -nodefaults -object 
-memory-backend-ram,id=tmp,size=1K
+On Wed, 2023-03-08 at 18:09 -0500, Peter Xu wrote:
+> On Mon, Mar 06, 2023 at 05:28:24PM +0000, David Woodhouse wrote:
+> > Indeed, I don't think we care about the in-kernel I/OAPIC. I don't
+> > think we care about the kernel knowing about e.g. "GSI #11" at all. We
+> > can just deliver it as MSI (for the I/OAPIC) or using KVM_INTERRUPT and
+> > the interrupt window as we do for the PIC. Which is why I'd happily rip
+> > that out and let it be delivered via the APIC intercept at 0xfeexxxxx.
+> >=20
+> > The existing code which just keeps IRQ routes updated when they're
+> > valid is kind of OK, and well-behaved guests can function. But it isn't
+> > *right* in the case where they aren't valid.
+> >=20
+> > What *ought* to happen is that the IOMMU should raise a fault at the
+> > moment the interrupt occurs, if the translation isn't valid. And we
+> > don't have that at all.
+>=20
+> Right, that's definitely not ideal as an emulator.
+>=20
+> >=20
+> > As for why I care? I don't really *need* it, as I have everything I
+> > need for Xen PIRQ support already merged in=20
+> > https://gitlab.com/qemu-project/qemu/-/commit/6096cf7877
+> >=20
+> > So while the thread at
+> > https://lore.kernel.org/qemu-devel/aaef9961d210ac1873153bf3cf01d9847087=
+44fc.camel@infradead.org/
+> > was partly driven by expecting to need this for Xen PIRQ support
+> > (because in $DAYJOB I did those things in the other order and the PIRQ
+> > support ended up just being a trivial different translator like the
+> > IOMMU's IR)... I'd still quite like to fix it up in QEMU anyway, just
+> > for correctness and fidelity in the faulting cases.
+> >=20
+> > We can do more efficient invalidation too, rather than blowing away the
+> > entire routing table every time. Just disconnect the IRQFD for the
+> > specific interrupts that get invalidated, and let them get fixed up
+> > again next time they occur.
+>=20
+> I'm curious whether there's anything else beside the "correctness of
+> emulation" reason.
 
-While that seems to be possible, it's something very odd to happen (I 
-cannot think of a reasonable use case).
+Nah, at this point it's just because it annoys me. I did this in
+another VMM and it works nicely, and I'd like QEMU to do the same. ;)
+
+> I would think it nice if it existed or trivial to have as what you said.=
+=C2=A0 I
+> just don't know whether it's as easy, at least so far a new kernel
+> interface seems still needed, allowing a kernel irq to be paused until
+> being translated by QEMU from some channel we provide.
+
+It doesn't need a new kernel interface.
+
+With IRQ remapping we have a userspace I/OAPIC, so how we deliver its
+MSIs is entirely up to us =E2=80=94 we absolutely don't need the kernel to =
+have
+*any* KVM_IRQ_ROUTING_IRQCHIP entries.
+
+The only IRQs that are handled fully in the kernel are events arriving
+on some eventfd which is bound as an IRQFD to some IRQ in the KVM
+routing table. (Mostly MSIs coming from VFIO).
+
+If we want to "pause" one of those, all we have to do is unbind the
+IRQFD and then we can handle that eventfd in userspace instead. Which
+is what we do *anyway* in the case where IRQFD support isn't available.
+
+In
+https://lore.kernel.org/kvm/20201027143944.648769-1-dwmw2@infradead.org/
+I *optimised* that dance, so userspace doesn't have to stop listening
+on the eventfd when the IRQFD is bound; the IRQFD code consumes the
+event first. But we can live without that in older kernels.
+
+Basically, it's just treating the IRQFD support as an *optimisation*,
+and retaining the 'slow path' of handling the event in userspace and
+injecting the resulting MSI.
+
+It's just that in that slow path, as we're translating and injecting
+the MSI, we *also* update the IRQ routing table and reattach the IRQFD
+for the next time that interrupt fires. Like a cache.
+
+And we stash an invalidation cookie (for Intel-IOMMU the IRTE index)
+for each routing table entry, so that when asked to invalidate a
+*range* of cookies (that's how the Intel IOMMU invalidate works), we
+can just detach the IRQFD from those ones, letting them get handled in
+userspace next time and retranslated (with associated fault report, as
+appropriate).
 
 
 
--- 
-Thanks,
+--=-ypjCBhxY2XyGOchA6i7L
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-David / dhildenb
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzA5MDkxNjA4WjAvBgkqhkiG9w0BCQQxIgQgxOcalXSN
+C0COgDcvvFv3zdcTuNWl+/NJ/ydl/f2ICnUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA4JOJXSBdM+C+ZeRoe31h49VtF0e62Tl1n
+MAoDOJb8MVhF0Nvkam+2T6qdvyNKXhGOv9+cqLZs6qh/y0B2TMmQiWVDToZzuTin9GTy7RXk9qMC
+CKXjCGpCxPNG3UXv+wX8vLqZxYk7JJfkk/T72HF9fo6BDCiZKC9kwLZaDf8eAaekVEOuW3CxdAaE
+Y+fhjGoTM/cXNF0sSdqzEQ6a0ipJLkaptLpAgRD3xBh46cH8UWfdv88VkU5KCuU2wu4WxRc7dIvU
+yE+CnJDRaotLe63mID3DMi9h0k9lMPBRuJZoN171aZ8TNnfISp3PL/shl3ttzQ1rmEwygWSGQIyJ
+BQWK5iEETjRemgrMrLRYx1urNhE7FwBzOEgajr0Eb0TEPcPJSTOXq8KCIzAyBxo9+k9VK9llQjcT
+G0Yp4RO4vSvTy7nJuG9BhCDs4dfzTqFFpnedI9tM8/OKTlur1UDoqsn8iQ2nlji2mtVjrWyveRUA
+ljQxy8rbjE1+ZwVaYmkwF8vQx1sISye8Ddg9EHQ0/cUBti5oGBlbt8PtydEtJ7aMJ49gyqUF7VZd
+ynoYvN8AHC513aLwOAs2eEyeIn8AO8uNbbykPOYR8AyDNXQ4YNtUR5MuK6zGtD5XaujMm8nzF5z4
+IyXY5JYucbR69Qj0zInfK/owLnpDcrvXCoKs+xUlIgAAAAAAAA==
 
+
+--=-ypjCBhxY2XyGOchA6i7L--
 
