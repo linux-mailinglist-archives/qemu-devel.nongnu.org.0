@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0566B2E86
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF046B2E85
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:21:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMfc-0004Wh-0X; Thu, 09 Mar 2023 15:15:24 -0500
+	id 1paMfi-0004dP-7l; Thu, 09 Mar 2023 15:15:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paMfO-0003up-2U; Thu, 09 Mar 2023 15:15:10 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1paMfS-0004DE-DZ; Thu, 09 Mar 2023 15:15:18 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paMfK-0002f3-72; Thu, 09 Mar 2023 15:15:09 -0500
+ id 1paMfP-0002g6-5h; Thu, 09 Mar 2023 15:15:14 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7281A223D1;
- Thu,  9 Mar 2023 20:15:04 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 641B7223D2;
+ Thu,  9 Mar 2023 20:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678392904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1678392909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pd1uJcndQGza7Xg1Y9+g3ei6t64IYMU8H5WwIFGir7I=;
- b=zcfEL7XTq71kvC7c/FaJGhCoazFqPhoJjx9E7gHBX42q+wqN7sW4rQMq56IMGdSlcMSN0I
- sLYMtotF05K21DXWBF8TX6S0x9YVBkqmAsvrJdxz7Fsz/Jc1p7ZeyHAQ+9j0oA+z8lobFj
- R10m4Fyi2yuXRRSZQOBTMne7Vd7GiZI=
+ bh=nd8VaW1irxQb3bqzXlXlLymmUu5RWg8W4Szo9bph6gI=;
+ b=NoI5im4fE5OSM4b3yCy2rUm8b5WQWGWd4nQ9IZDjedeLyqyJYh4bMuzUyprNvGUBl6UTWJ
+ LfI4ftOXkMAwJY9fuCROvpLUB6oVwlZUCfWA8SSIHxQ1pIQeFLtDVwQGiSbjSe1gY5n9IT
+ ncRrVxrpOJYfpZYbLdyG+E4DA346GX4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678392904;
+ s=susede2_ed25519; t=1678392909;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pd1uJcndQGza7Xg1Y9+g3ei6t64IYMU8H5WwIFGir7I=;
- b=8oFd2f4g/SirWk3ZKnCD1142V3Y4u4L0U37UKu9eIEH0pffFfyYkboJgAf+hY/HJHY5Bs2
- z9IiojeVUk5qnEDQ==
+ bh=nd8VaW1irxQb3bqzXlXlLymmUu5RWg8W4Szo9bph6gI=;
+ b=11pG4uhzUYiWwq+HZkxQ5LupO3yw9iwVqSpZUBT40qZ1iap7N3oWCUPRnqGHOnXnvuBHL5
+ pb6gO4MttWLo/1DA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E1C5A1391B;
- Thu,  9 Mar 2023 20:15:00 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E4FD01391B;
+ Thu,  9 Mar 2023 20:15:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MJIOKkQ+CmTUZwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 09 Mar 2023 20:15:00 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id UNDhKkg+CmTUZwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 09 Mar 2023 20:15:04 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,19 +57,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v8 07/11] gitlab-ci: Check building KVM-only aarch64 target
-Date: Thu,  9 Mar 2023 17:14:30 -0300
-Message-Id: <20230309201434.10831-8-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are present
+Date: Thu,  9 Mar 2023 17:14:31 -0300
+Message-Id: <20230309201434.10831-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230309201434.10831-1-farosas@suse.de>
 References: <20230309201434.10831-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -93,57 +94,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+It is possible to have a build with both TCG and KVM disabled due to
+Xen requiring the i386 and x86_64 binaries to be present in an aarch64
+host.
 
-Add a manual new job to cross-build the aarch64 target with
-only the KVM accelerator enabled (in particular, no TCG).
+If we build with --disable-tcg on the aarch64 host, we will end-up
+with a QEMU binary (x86) that does not support TCG nor KVM.
 
-Re-enable running the similar job on the project Aarch64
-custom runner.
+Fix tests that crash or hang in the above scenario. Do not include any
+test cases if TCG and KVM are missing.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Make sure that calls to qtest_has_accel are placed after g_test_init
+in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
+printed before other messages") to avoid TAP parsing errors.
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml                         | 11 +++++++++++
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml |  4 ----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+This currently affects Arm, but will also affect x86 after the xenpvh
+series gets merged. This patch fixes both scenarios.
+---
+ tests/qtest/bios-tables-test.c | 10 ++++++++--
+ tests/qtest/boot-serial-test.c | 10 ++++++++++
+ tests/qtest/migration-test.c   |  9 ++++++++-
+ tests/qtest/pxe-test.c         |  7 ++++++-
+ tests/qtest/vmgenid-test.c     |  8 ++++++--
+ 5 files changed, 38 insertions(+), 6 deletions(-)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index d3a31a2112..e73efdf719 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -220,3 +220,14 @@ cross-arm64-xen-only:
-     IMAGE: debian-arm64-cross
-     ACCEL: xen
-     EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index d29a4e47af..5cbad2f29f 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -2109,8 +2109,7 @@ static void test_acpi_virt_oem_fields(void)
+ int main(int argc, char *argv[])
+ {
+     const char *arch = qtest_get_arch();
+-    const bool has_kvm = qtest_has_accel("kvm");
+-    const bool has_tcg = qtest_has_accel("tcg");
++    bool has_kvm, has_tcg;
+     char *v_env = getenv("V");
+     int ret;
+ 
+@@ -2120,6 +2119,13 @@ int main(int argc, char *argv[])
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
++    has_kvm = qtest_has_accel("kvm");
++    has_tcg = qtest_has_accel("tcg");
 +
-+# Similar job is run by qemu-project's custom runner by default
-+cross-arm64-kvm-only:
-+  extends: .cross_accel_build_job
-+  needs:
-+    job: arm64-debian-cross-container
-+  variables:
-+    QEMU_JOB_OPTIONAL: 1
-+    IMAGE: debian-arm64-cross
-+    ACCEL: kvm
-+    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-xen --without-default-devices
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index 13e14a0f87..c61be46b82 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -115,11 +115,7 @@ ubuntu-22.04-aarch64-notcg:
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-  - if: "$AARCH64_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-  script:
-  - mkdir build
-  - cd build
++    if (!has_tcg && !has_kvm) {
++        return 0;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+         ret = boot_sector_init(disk);
+         if (ret) {
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index 3aef3a97a9..406b4421cc 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -17,6 +17,9 @@
+ #include "libqtest.h"
+ #include "libqos/libqos-spapr.h"
+ 
++static bool has_tcg;
++static bool has_kvm;
++
+ static const uint8_t bios_avr[] = {
+     0x88, 0xe0,             /* ldi r24, 0x08   */
+     0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
+@@ -287,6 +290,13 @@ int main(int argc, char *argv[])
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
++    has_tcg = qtest_has_accel("tcg");
++    has_kvm = qtest_has_accel("kvm");
++
++    if (!has_tcg && !has_kvm) {
++        return 0;
++    }
++
+     for (i = 0; tests[i].arch != NULL; i++) {
+         if (g_str_equal(arch, tests[i].arch) &&
+             qtest_has_machine(tests[i].machine)) {
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index d4ab3934ed..7eedee7b2d 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -2459,7 +2459,7 @@ static bool kvm_dirty_ring_supported(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const bool has_kvm = qtest_has_accel("kvm");
++    bool has_kvm, has_tcg;
+     const bool has_uffd = ufd_version_check();
+     const char *arch = qtest_get_arch();
+     g_autoptr(GError) err = NULL;
+@@ -2467,6 +2467,13 @@ int main(int argc, char **argv)
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
++    has_kvm = qtest_has_accel("kvm");
++    has_tcg = qtest_has_accel("tcg");
++
++    if (!has_tcg && !has_kvm) {
++        return 0;
++    }
++
+     /*
+      * On ppc64, the test only works with kvm-hv, but not with kvm-pr and TCG
+      * is touchy due to race conditions on dirty bits (especially on PPC for
+diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
+index 62b6eef464..935b661dac 100644
+--- a/tests/qtest/pxe-test.c
++++ b/tests/qtest/pxe-test.c
+@@ -131,11 +131,16 @@ int main(int argc, char *argv[])
+     int ret;
+     const char *arch = qtest_get_arch();
+ 
++    g_test_init(&argc, &argv, NULL);
++
++    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
++        return 0;
++    }
++
+     ret = boot_sector_init(disk);
+     if(ret)
+         return ret;
+ 
+-    g_test_init(&argc, &argv, NULL);
+ 
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+         test_batch(x86_tests, false);
+diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
+index efba76e716..9eb6371ae8 100644
+--- a/tests/qtest/vmgenid-test.c
++++ b/tests/qtest/vmgenid-test.c
+@@ -165,13 +165,17 @@ int main(int argc, char **argv)
+ {
+     int ret;
+ 
++    g_test_init(&argc, &argv, NULL);
++
++    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
++        return 0;
++    }
++
+     ret = boot_sector_init(disk);
+     if (ret) {
+         return ret;
+     }
+ 
+-    g_test_init(&argc, &argv, NULL);
+-
+     qtest_add_func("/vmgenid/vmgenid/set-guid",
+                    vmgenid_set_guid_test);
+     qtest_add_func("/vmgenid/vmgenid/set-guid-auto",
 -- 
 2.35.3
 
