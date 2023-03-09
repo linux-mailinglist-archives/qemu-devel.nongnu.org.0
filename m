@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60ECA6B2E7C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905186B2E5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:15:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMax-0006fs-O5; Thu, 09 Mar 2023 15:10:35 -0500
+	id 1paMax-0006c5-7s; Thu, 09 Mar 2023 15:10:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMaP-0005YH-GH
+ id 1paMaQ-0005aW-A9
  for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:10:05 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMaN-0001dC-Le
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:10:01 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id y11so3242112plg.1
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:09:59 -0800 (PST)
+ id 1paMaO-0001VQ-Ns
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:10:02 -0500
+Received: by mail-pl1-x636.google.com with SMTP id ky4so3238470plb.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678392599;
+ d=linaro.org; s=google; t=1678392600;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1KeE8/x+gbRZ4wtBXKBEex8o90m+5WViCdselB5pOEg=;
- b=xWMpGfPupYXG5KzoIlS64FN/FKiuBRC67q64as2BQAyXfjAUYhx1j5F7Hnxfv+UeNr
- Mb0gWNBeNBXxjkKiWXgTMbNuXgwD7zERaOv5DVO06bt9stJ9suNt+0H7IIyH5n2ZMWPm
- i4NxYiKZ4742WlZj0WD412zHRmgxHpc44esCnvMJbRofGT3/h7Ao8d6J7nZdq9D2M9Ug
- 7JAq/78XG46N0fHRxExfo6X/ScHFybq7coLx5I1NWpTwyKdbAl3l+RSMQ2mnYABWu9KX
- RA16rgXJvLgKfMnLNhk6CjTusZy7BDbzSrtRU3SQ/MPDhhcG9qpIOII215E8AHkJpoSw
- ElcQ==
+ bh=qxgDTYXHfeCSjrJ315R2/sC0Bf/gryvtVm2qasIqXas=;
+ b=mDlwwd4Yr76a4DIvb0kqPix9AQAuIgvqdFNp6Ja5Js7orYiKRObgjiX0cp1R07SPQb
+ vGmyQjYhbznSWhaITXWkAwLbmxjc57GyQ6mAP3WvkR8H42iusJw5ftOZQm1HkK+CtUKD
+ uDyC5O/3fqlF58nMN2ld3pR5HXvD3cFDzWYXj4p/ihqZXe0PnSll4YSvsUfbjTEX8+kg
+ pNvt7w8U1Bw34CSJ4ETs+ekmrwASX43hWfO1fy7rFgczSdRqfCnP3VZCh7b2k9i28f+W
+ LOg7GKY8Y8ziavRzyZxwWQahl3OqzUPkwOr8wa4oGbJsk/+kiOWymM0HrZGkwDaQd60C
+ ++ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678392599;
+ d=1e100.net; s=20210112; t=1678392600;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1KeE8/x+gbRZ4wtBXKBEex8o90m+5WViCdselB5pOEg=;
- b=Ygjl+4u2oT4ctfaYTZzrCxcDjJmLXELKvxF2i3vmWS5RDBPadnND3jzS4CxoyDMdS4
- w4FQqynI/SjjinOrdG8ipEMvND45W2IRjXzM3gVVuEd7cmKFkI3881sc9RyA+yi9MYw+
- 1hfUiIdFOGC+hAY8OyCa9vu1n5ECV9FA9rGn9tO/iRE3waI4wkUSoC2JB5RTR/kFkFxA
- +KYL1/zfluA4YkCYbLDOcySkrLwAETQ4tEXfqcNHWvM7+5fpghnmvpHkhqf7dPEJFDcM
- km9yNYsLowj9aFClM5wd7njRHhRcsTRh8tn3ODtPO6pk8kYGjrin0NAMziY+Nl95Cv6m
- Nb9A==
-X-Gm-Message-State: AO0yUKUSy+y9x9fdiF3DJMEtbEi1zKjkVmh73VyH9/LhLuL4Vtzd+pMX
- CbA9iPbAiYDqJ6YlphxLcZpI88Xe69kTwSPhPtc=
-X-Google-Smtp-Source: AK7set/kEyCtdVhJ85i/pANFT5WyciyIstx7yeIxGdvGXBv3E26zIi1kK9HJHo6Q9Uc6SX3/R+28Ow==
-X-Received: by 2002:a17:902:ea03:b0:19e:2869:7793 with SMTP id
- s3-20020a170902ea0300b0019e28697793mr25795286plg.16.1678392598833; 
- Thu, 09 Mar 2023 12:09:58 -0800 (PST)
+ bh=qxgDTYXHfeCSjrJ315R2/sC0Bf/gryvtVm2qasIqXas=;
+ b=n5vU/IDfZTR+QiM0NSTFRp38CPa7K5bZOmbvmYoslzGh5Iyso7hv4NXvgxUNI26CGp
+ oexQNwxCIdnFRbfljak81g50BE/g6Up2jeXGkAaBHsxOSAlD1w/+g995jVT9goNKVAZd
+ vsGDyMorI12rQ9VSwge/sYXNeXc6xdT+gF3jKmpIi7KtwdI8NQT4wRpvtSoZv0Xwcdww
+ 44jovJkdeJQuK9P4ctDijehy9R4WVX3BescM/TcmsifT+Q8b2W0HA9h0Yj4aoc7sFp3g
+ pKl8Lk1u4CQ+nfBdSdJ/AdHhBv+rOcHofWFnC0sMnGRIZNWZRw4b7n0sX/9YuzxRYgqg
+ AusQ==
+X-Gm-Message-State: AO0yUKX3tFhyKn0xQhmAKAXIzcC6zU/5pRd0wNSAOXgxGyG8UL15rlxh
+ 5aREyYNUwvE8k9F24LitzRXxGz86K0lA4GemK1s=
+X-Google-Smtp-Source: AK7set8+RCmI6qU6ZqjSHbKihhR0cDLAfPzoXExOC5PVzAGeu1Psa+cO3lZ64Ah41A8lAPUP3Ivk7A==
+X-Received: by 2002:a17:903:1d2:b0:19d:19fb:55fd with SMTP id
+ e18-20020a17090301d200b0019d19fb55fdmr2298375plh.20.1678392599720; 
+ Thu, 09 Mar 2023 12:09:59 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:bf7f:79a0:a976:bdaf])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a170902aa4200b001991e4e0bdcsm43797plr.233.2023.03.09.12.09.58
+ c2-20020a170902aa4200b001991e4e0bdcsm43797plr.233.2023.03.09.12.09.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 12:09:58 -0800 (PST)
+ Thu, 09 Mar 2023 12:09:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 76/91] target/arm: Avoid tcg_const_ptr in disas_simd_zip_trn
-Date: Thu,  9 Mar 2023 12:05:35 -0800
-Message-Id: <20230309200550.3878088-77-richard.henderson@linaro.org>
+Subject: [PULL v2 77/91] target/arm: Avoid tcg_const_ptr in
+ handle_vec_simd_sqshrn
+Date: Thu,  9 Mar 2023 12:05:36 -0800
+Message-Id: <20230309200550.3878088-78-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230309200550.3878088-1-richard.henderson@linaro.org>
 References: <20230309200550.3878088-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,110 +93,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is easy enough to use mov instead of or-with-zero and relying
-on the optimizer to fold away the or.  Use an array for the output,
-rather than separate tcg_res{l,h} variables.
+It is easy enough to use mov instead of or-with-zero
+and relying on the optimizer to fold away the or.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/tcg/translate-a64.c | 41 +++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ target/arm/tcg/translate-a64.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/tcg/translate-a64.c b/target/arm/tcg/translate-a64.c
-index 989c958de6..2ad7c48901 100644
+index 2ad7c48901..082a8b82dd 100644
 --- a/target/arm/tcg/translate-a64.c
 +++ b/target/arm/tcg/translate-a64.c
-@@ -7442,10 +7442,10 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
-     bool part = extract32(insn, 14, 1);
-     bool is_q = extract32(insn, 30, 1);
-     int esize = 8 << size;
--    int i, ofs;
-+    int i;
-     int datasize = is_q ? 128 : 64;
-     int elements = datasize / esize;
--    TCGv_i64 tcg_res, tcg_resl, tcg_resh;
-+    TCGv_i64 tcg_res[2], tcg_ele;
+@@ -8459,7 +8459,7 @@ static void handle_vec_simd_sqshrn(DisasContext *s, bool is_scalar, bool is_q,
+     tcg_rn = tcg_temp_new_i64();
+     tcg_rd = tcg_temp_new_i64();
+     tcg_rd_narrowed = tcg_temp_new_i32();
+-    tcg_final = tcg_const_i64(0);
++    tcg_final = tcg_temp_new_i64();
  
-     if (opcode == 0 || (size == 3 && !is_q)) {
-         unallocated_encoding(s);
-@@ -7456,37 +7456,39 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
-         return;
+     if (round) {
+         tcg_round = tcg_constant_i64(1ULL << (shift - 1));
+@@ -8473,7 +8473,11 @@ static void handle_vec_simd_sqshrn(DisasContext *s, bool is_scalar, bool is_q,
+                                 false, is_u_shift, size+1, shift);
+         narrowfn(tcg_rd_narrowed, cpu_env, tcg_rd);
+         tcg_gen_extu_i32_i64(tcg_rd, tcg_rd_narrowed);
+-        tcg_gen_deposit_i64(tcg_final, tcg_final, tcg_rd, esize * i, esize);
++        if (i == 0) {
++            tcg_gen_mov_i64(tcg_final, tcg_rd);
++        } else {
++            tcg_gen_deposit_i64(tcg_final, tcg_final, tcg_rd, esize * i, esize);
++        }
      }
  
--    tcg_resl = tcg_const_i64(0);
--    tcg_resh = is_q ? tcg_const_i64(0) : NULL;
--    tcg_res = tcg_temp_new_i64();
-+    tcg_res[0] = tcg_temp_new_i64();
-+    tcg_res[1] = is_q ? tcg_temp_new_i64() : NULL;
-+    tcg_ele = tcg_temp_new_i64();
- 
-     for (i = 0; i < elements; i++) {
-+        int o, w;
-+
-         switch (opcode) {
-         case 1: /* UZP1/2 */
-         {
-             int midpoint = elements / 2;
-             if (i < midpoint) {
--                read_vec_element(s, tcg_res, rn, 2 * i + part, size);
-+                read_vec_element(s, tcg_ele, rn, 2 * i + part, size);
-             } else {
--                read_vec_element(s, tcg_res, rm,
-+                read_vec_element(s, tcg_ele, rm,
-                                  2 * (i - midpoint) + part, size);
-             }
-             break;
-         }
-         case 2: /* TRN1/2 */
-             if (i & 1) {
--                read_vec_element(s, tcg_res, rm, (i & ~1) + part, size);
-+                read_vec_element(s, tcg_ele, rm, (i & ~1) + part, size);
-             } else {
--                read_vec_element(s, tcg_res, rn, (i & ~1) + part, size);
-+                read_vec_element(s, tcg_ele, rn, (i & ~1) + part, size);
-             }
-             break;
-         case 3: /* ZIP1/2 */
-         {
-             int base = part * elements / 2;
-             if (i & 1) {
--                read_vec_element(s, tcg_res, rm, base + (i >> 1), size);
-+                read_vec_element(s, tcg_ele, rm, base + (i >> 1), size);
-             } else {
--                read_vec_element(s, tcg_res, rn, base + (i >> 1), size);
-+                read_vec_element(s, tcg_ele, rn, base + (i >> 1), size);
-             }
-             break;
-         }
-@@ -7494,19 +7496,18 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
-             g_assert_not_reached();
-         }
- 
--        ofs = i * esize;
--        if (ofs < 64) {
--            tcg_gen_shli_i64(tcg_res, tcg_res, ofs);
--            tcg_gen_or_i64(tcg_resl, tcg_resl, tcg_res);
-+        w = (i * esize) / 64;
-+        o = (i * esize) % 64;
-+        if (o == 0) {
-+            tcg_gen_mov_i64(tcg_res[w], tcg_ele);
-         } else {
--            tcg_gen_shli_i64(tcg_res, tcg_res, ofs - 64);
--            tcg_gen_or_i64(tcg_resh, tcg_resh, tcg_res);
-+            tcg_gen_shli_i64(tcg_ele, tcg_ele, o);
-+            tcg_gen_or_i64(tcg_res[w], tcg_res[w], tcg_ele);
-         }
-     }
- 
--    write_vec_element(s, tcg_resl, rd, 0, MO_64);
--    if (is_q) {
--        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+    for (i = 0; i <= is_q; ++i) {
-+        write_vec_element(s, tcg_res[i], rd, i, MO_64);
-     }
-     clear_vec_high(s, is_q, rd);
- }
+     if (!is_q) {
 -- 
 2.34.1
 
