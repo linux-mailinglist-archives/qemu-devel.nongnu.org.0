@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66986B2E8C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BF66B2E6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:17:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMaZ-0005Mw-GB; Thu, 09 Mar 2023 15:10:12 -0500
+	id 1paMad-0005iX-1k; Thu, 09 Mar 2023 15:10:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMaK-00052b-8n
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:56 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1paMaL-00059P-CE
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:57 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMaI-0001bb-If
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:55 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id p6so3272406plf.0
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:09:54 -0800 (PST)
+ id 1paMaJ-0001c2-Lv
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:57 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ u3-20020a17090a450300b00239db6d7d47so2999438pjg.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:09:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678392593;
+ d=linaro.org; s=google; t=1678392594;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yIghDNpSxJ6SxdMMppMACLdakWq5GNMtoSah4rU7gww=;
- b=pj1KNx90wAYf5Mw1ObQUz7dQYGB4s07tczb/UABrDyIqn2+gLjoOw0CmFl4QhJGiY2
- niaz31ahY+FtXJMe9HSbGOZ3Db9NBVHrmoW4k/2f3b1siqoROnfjU2VfFeU7n8K86Xsz
- OC9V1/U+TVGc7mORfHvvfzYqwct+Vf97wMzzxAFHdOOVnH07kiWJM2bY1DxWW6YhRpLn
- Nr/fKkyDLcUkj9uzsUkHvNW/nx4TzheSuANC5FfGFxvHYckW9zhcJDVH+TlFGphq9YkQ
- VR207dBYjgU42/n66Cg4Et6w/Ig/rYlHDZH2ygAhmRGUtp+elgJvtb+ihk692gZO7keP
- YJ1A==
+ bh=1cudVQ02HiPN679lxe7GeIU6QCBZXBjPIrdLqimdu9w=;
+ b=N6Aqxu+h7XKma8/6yd0681tHYOS5SeR+rbi35Hz951hfhwqPpizOoutPhxOwjux7yp
+ 6idup3etCenvOHk9ioHYLX4tAMenKiBeTbC1G5VeXhbVY95qbeiKmvCXXWzdiBTKNodw
+ OCtJXep+epbmJ3ODSNtFt4bxsjfoUwkZqJzxDO8iLLbgsqRf8QPPpK/4L94zULz/FWq0
+ +5gpLJxhyNnjREIpTWlx2t482f13yALAiSkcPJAhFDTpk74Y6bzRJHSVXLQVMJgOd3hN
+ Br2YbGoHutpKuuqb8yyO5nO7wdI7k+kvXeHUPM2GlIZO/TugexrgaWMcL3KtbBsM4Uvl
+ 9Efg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678392593;
+ d=1e100.net; s=20210112; t=1678392594;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yIghDNpSxJ6SxdMMppMACLdakWq5GNMtoSah4rU7gww=;
- b=DXotkksTLGClJQmJtEiyVabF3IM8u2lhUFtdw+6UQU2KvxRw0W1MkKN7T/BNVsk5LD
- Q9vnjE6RUMeDrQQtmN0FqNKvzSX60JYdP5DMZTHM8W+T2WPS/5E+4b1Smdx58XqRfjMZ
- Pns3cqoMOg7ChCOQ6l5yKWAgYDeBbiddIe8ZBX6G9eeD4j8LPgnnta2afOmPmXyrRFZ3
- ntt7h1ONH0VSq+ZhqE8GWyLq84r6wkA4xfLkynJXaiiNjljdJ5mkBRBZTES9mhe2Ki1o
- vgMeUlFZUAbMbGk+gNw9O255M94gX5JGvCO5Ox/tlo3PzKeSNjRoeY57nlLsHkAyEUak
- LUGA==
-X-Gm-Message-State: AO0yUKUszt7tQbRBwP8G7YaZbHxBVyX6d02O7KdRfuK9n7enm0ivJd6U
- PXLp7A75cq3VaBmcdr29ReT/8g6XQ5YicoJZgHA=
-X-Google-Smtp-Source: AK7set/sW8/ySjzKD4ZmbUN3Wy5biItL3zevCkl9Hq7RmJjhm2eMz9qASZa24CjzEQoX5W7nPTlzsA==
-X-Received: by 2002:a17:903:22c4:b0:19d:1897:8192 with SMTP id
- y4-20020a17090322c400b0019d18978192mr27629500plg.47.1678392593215; 
- Thu, 09 Mar 2023 12:09:53 -0800 (PST)
+ bh=1cudVQ02HiPN679lxe7GeIU6QCBZXBjPIrdLqimdu9w=;
+ b=vij7xI14NIrBU/OjPhpnL1YEvKwBrdo9pZhwBXNQYrPtcby2VmPZO1ebn1qm6KO3g0
+ Lki5SXeGpokFAYr3PEwX8ZsiyVKV20geDlmBCcCddpuwbD3JMtDNy8V4Rpsmy/woiLy/
+ ssu9IPMSoWFLafQ4QA59L9tz8nm+z8nMgv8qj8znzLYCunpqI2OXWrsKFz1tdrqtHppg
+ Ny0TMV0+NSvAzbcMNUx4YfDG8QrI0gkhiGxMqLrUEi5kzEcxW3X0+qRRkJIHYfiC0+RB
+ 8+nF+z67YNs99WzcjjF1sWidPomUfYNuknqo35bBZ7+DXDDyaYEnKjPwgOEtSvFAgWE3
+ 1FSw==
+X-Gm-Message-State: AO0yUKVKbBWwFH/AmD3oZ1BDazKMRtQ4B3I+i/x1GyNreym+NMY9MYC9
+ EketV7E1e639du2VaHcTvcQyNLnUQoBb2PrDh9k=
+X-Google-Smtp-Source: AK7set+4UhsRqDxFoOQZ7kXV6VMrgBKYrs2bMBGxgwTIfRIw3lo6DS7WrFOwvkA8IttBxGKKC8txnQ==
+X-Received: by 2002:a17:902:ee45:b0:19e:6c7a:481 with SMTP id
+ 5-20020a170902ee4500b0019e6c7a0481mr19320956plo.68.1678392594075; 
+ Thu, 09 Mar 2023 12:09:54 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:bf7f:79a0:a976:bdaf])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a170902aa4200b001991e4e0bdcsm43797plr.233.2023.03.09.12.09.52
+ c2-20020a170902aa4200b001991e4e0bdcsm43797plr.233.2023.03.09.12.09.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 12:09:52 -0800 (PST)
+ Thu, 09 Mar 2023 12:09:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 69/91] target/arm: Handle FPROUNDING_ODD in arm_rmode_to_sf
-Date: Thu,  9 Mar 2023 12:05:28 -0800
-Message-Id: <20230309200550.3878088-70-richard.henderson@linaro.org>
+Subject: [PULL v2 70/91] target/arm: Improve arm_rmode_to_sf
+Date: Thu,  9 Mar 2023 12:05:29 -0800
+Message-Id: <20230309200550.3878088-71-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230309200550.3878088-1-richard.henderson@linaro.org>
 References: <20230309200550.3878088-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,37 +93,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While this enumerator has been present since the first commit,
-it isn't ever used.  The first actual use of round-to-odd came
-with SVE, which currently uses float_round_to_odd instead of
-the arm-specific enumerator.
-
-Amusingly, the comment about unhandled TIEAWAY has been
-out of date since the initial commit of translate-a64.c.
+Use proper enumeration types for input and output.
+Use a const array to perform the mapping, with an
+assert that the input is valid.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/vfp_helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/arm/internals.h         | 12 +++++++++---
+ target/arm/tcg/translate-mve.c |  2 +-
+ target/arm/vfp_helper.c        | 33 ++++++++-------------------------
+ 3 files changed, 18 insertions(+), 29 deletions(-)
 
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index b1ef05963f..673519a24a 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -193,16 +193,22 @@ void arm_restore_state_to_opc(CPUState *cs,
+ void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+ #endif /* CONFIG_TCG */
+ 
+-enum arm_fprounding {
++typedef enum ARMFPRounding {
+     FPROUNDING_TIEEVEN,
+     FPROUNDING_POSINF,
+     FPROUNDING_NEGINF,
+     FPROUNDING_ZERO,
+     FPROUNDING_TIEAWAY,
+     FPROUNDING_ODD
+-};
++} ARMFPRounding;
+ 
+-int arm_rmode_to_sf(int rmode);
++extern const FloatRoundMode arm_rmode_to_sf_map[6];
++
++static inline FloatRoundMode arm_rmode_to_sf(ARMFPRounding rmode)
++{
++    assert((unsigned)rmode < ARRAY_SIZE(arm_rmode_to_sf_map));
++    return arm_rmode_to_sf_map[rmode];
++}
+ 
+ static inline void aarch64_save_sp(CPUARMState *env, int el)
+ {
+diff --git a/target/arm/tcg/translate-mve.c b/target/arm/tcg/translate-mve.c
+index 798b4fddfe..9744bf3de0 100644
+--- a/target/arm/tcg/translate-mve.c
++++ b/target/arm/tcg/translate-mve.c
+@@ -588,7 +588,7 @@ DO_VCVT(VCVT_FS, vcvt_hs, vcvt_fs)
+ DO_VCVT(VCVT_FU, vcvt_hu, vcvt_fu)
+ 
+ static bool do_vcvt_rmode(DisasContext *s, arg_1op *a,
+-                          enum arm_fprounding rmode, bool u)
++                          ARMFPRounding rmode, bool u)
+ {
+     /*
+      * Handle VCVT fp to int with specified rounding mode.
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 24e3d820a5..90cc324f71 100644
+index 90cc324f71..36906db8e0 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -1111,10 +1111,8 @@ int arm_rmode_to_sf(int rmode)
-         rmode = float_round_ties_away;
-         break;
-     case FPROUNDING_ODD:
--        /* FIXME: add support for TIEAWAY and ODD */
--        qemu_log_mask(LOG_UNIMP, "arm: unimplemented rounding mode: %d\n",
--                      rmode);
--        /* fall through for now */
-+        rmode = float_round_to_odd;
-+        break;
-     case FPROUNDING_TIEEVEN:
-     default:
-         rmode = float_round_nearest_even;
+@@ -1104,31 +1104,14 @@ float64 HELPER(rintd)(float64 x, void *fp_status)
+ }
+ 
+ /* Convert ARM rounding mode to softfloat */
+-int arm_rmode_to_sf(int rmode)
+-{
+-    switch (rmode) {
+-    case FPROUNDING_TIEAWAY:
+-        rmode = float_round_ties_away;
+-        break;
+-    case FPROUNDING_ODD:
+-        rmode = float_round_to_odd;
+-        break;
+-    case FPROUNDING_TIEEVEN:
+-    default:
+-        rmode = float_round_nearest_even;
+-        break;
+-    case FPROUNDING_POSINF:
+-        rmode = float_round_up;
+-        break;
+-    case FPROUNDING_NEGINF:
+-        rmode = float_round_down;
+-        break;
+-    case FPROUNDING_ZERO:
+-        rmode = float_round_to_zero;
+-        break;
+-    }
+-    return rmode;
+-}
++const FloatRoundMode arm_rmode_to_sf_map[] = {
++    [FPROUNDING_TIEEVEN] = float_round_nearest_even,
++    [FPROUNDING_POSINF] = float_round_up,
++    [FPROUNDING_NEGINF] = float_round_down,
++    [FPROUNDING_ZERO] = float_round_to_zero,
++    [FPROUNDING_TIEAWAY] = float_round_ties_away,
++    [FPROUNDING_ODD] = float_round_to_odd,
++};
+ 
+ /*
+  * Implement float64 to int32_t conversion without saturation;
 -- 
 2.34.1
 
