@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2968E6B2437
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 13:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2508E6B244C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 13:38:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paFS3-0002xs-NQ; Thu, 09 Mar 2023 07:32:55 -0500
+	id 1paFWG-0005Ux-5c; Thu, 09 Mar 2023 07:37:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1paFS2-0002v9-Aw
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:32:54 -0500
-Received: from mout.kundenserver.de ([212.227.126.135])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1paFWB-0005RS-J6
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:37:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1paFS0-0007zo-4X
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:32:53 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MK5BG-1prF8h13YE-00LXV3; Thu, 09 Mar 2023 13:32:49 +0100
-Message-ID: <20edcf58-d5f0-4b11-06a6-7b811d30586d@vivier.eu>
-Date: Thu, 9 Mar 2023 13:32:48 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1paFW9-0000i5-0c
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:37:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678365426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HHUpYliYbNM0ar953jdy3cmScV6iBG+lB2rO+KjyLgw=;
+ b=fq77UN/8Jn7V2tHUw2cq9tbI0I19qEdWBLLCgHlTKKq1LvJKRXV51cNFAZ++axaaPwAOn8
+ 4twa4PM1z66TbZrqo6lX6sDEdTvieD6AFf0HT4XYFhHIZcSuN1IF7Cj2BEsXKBbWA7UJ5Z
+ UzOs4UtzsZ/fB8pnZKL4G0BisfLMMbk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-ZRd5PR4hP8C5b4IWIZGmdQ-1; Thu, 09 Mar 2023 07:37:02 -0500
+X-MC-Unique: ZRd5PR4hP8C5b4IWIZGmdQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 638BC800B23;
+ Thu,  9 Mar 2023 12:37:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 39FA32026D4B;
+ Thu,  9 Mar 2023 12:37:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 16C3321E6A1F; Thu,  9 Mar 2023 13:37:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v3] qapi: give available enum values as error hint
+References: <20230307145825.2544850-1-marcandre.lureau@redhat.com>
+ <877cvrxs81.fsf@pond.sub.org>
+ <CAMxuvawh0vwZrjnqiMs9atGpXVst5ew6FjBpcEWhsanJDHCUwA@mail.gmail.com>
+Date: Thu, 09 Mar 2023 13:37:01 +0100
+In-Reply-To: <CAMxuvawh0vwZrjnqiMs9atGpXVst5ew6FjBpcEWhsanJDHCUwA@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Wed, 8 Mar 2023
+ 17:59:59 +0400")
+Message-ID: <87r0tynlsi.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230307183503.2512684-1-richard.henderson@linaro.org>
- <20230307183503.2512684-13-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v2 12/25] target/m68k: Reject immediate as destination in
- gen_ea_mode
-In-Reply-To: <20230307183503.2512684-13-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SD/Ydqz4oR7Mn0z1AR+FT64mxMAp1zKxcrhFh5M4eLrTAdCDIbl
- Q7LS/yfPuSaXyDcJabVJdHSuyFZJu6UmNW64vjp8uqef71z+DggaVieN3+SCZDpjUytpRww
- PvdBJnI/W3Bi+uILSsWqiy9LPzLjmAvrDo7ZMrJVqgCNs2wh9Yr8igJxR5X0cMq8rh1Hkcw
- /7tVpGLPfU0uMzM3PuIxQ==
-UI-OutboundReport: notjunk:1;M01:P0:SsKuWUBTvws=;xFbqmFb5kVikOBnsBOz8RBaFhoH
- 8t2l6kY96kx7x/hwQagZgfPfb6lppvjyCinT0L4bzozKZwAE6k75Frj+4+6jYiSzd2gNGBT+e
- jeKx7ZgBb3RDKZxfBKC5hEC54H/BLsRCgsGx8fOnY1iPYm2haxntmGiRPb29uB/2DdJEcBFTj
- NON/lEDiSOFzs9RZzEIWGABkOOuut+XuXyfLYG09F2lDcwBJfxuBL+ka1ltWt/KpbQrdRDOn1
- IYmVWvbAiyWBbdYaHyiA7AoF81yyV5pSsWFGSNp7zq6UYe4vlqQh3VLbgSwI1QSilDz+4KH6y
- somTHFH7HChV07gKCWCsfwBT8VZxXM26b0bj++y+ODUW3JpQAELhLwJlT76QciasY006welTS
- 3WnUFBzNepO6Q3/KQrFR/pg55EzRBJEq+SjbcGmrZUMHc2O7+VEwl6nxKi3Hs/gzboO7BLsEq
- HVBiFdToh3p3xh+1HPvtf6/dN2aiBr0qfDPik9cgr1LGs6U0VJknBBmhtCgdJBga89SMwZ8pm
- BIDAHNacdnX+jR2HORsrZzIGkI/+QnGJn84Snghj7CRKUmIJtcsCLetL33w8UfYaJQ2GQ77HE
- tq93+s5bDukXXZkv1VBrcdo2ensYUShTpE0emYeAHzLqwljCQGpU22AcBUb68oN2zgbVNfo2j
- uUL8RtFgegZZfaLQ4ubrbvdbSsjcYF80t8Flta2ZQw==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,45 +83,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 07/03/2023 à 19:34, Richard Henderson a écrit :
-> In theory this should never happen, as all such instructions
-> are illegal.  This is checked in e.g. gen_lea_mode and
-> gen_ea_mode_fp but not here.  In case something higher up
-> isn't checking modes properly, return NULL_QREG.  This will
-> result in an illegal instruction exception being raised.
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 
-NULL_QREG generates an address exception, not illegal instruction.
+> Hi
+>
+> On Wed, Mar 8, 2023 at 5:55=E2=80=AFPM Markus Armbruster <armbru@redhat.c=
+om> wrote:
+>
+>> marcandre.lureau@redhat.com writes:
+>>
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > This allows for a more pleasant user experience.
+>> >
+>> > Before:
+>> > $ ./qemu-system-x86_64 -display egl-headless,gl=3D
+>> > qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does n=
+ot accept value ''
+>> >
+>> > After:
+>> > $ ./qemu-system-x86_64 -display egl-headless,gl=3D
+>> > qemu-system-x86_64: -display egl-headless,gl=3D: Parameter 'gl' does n=
+ot accept value ''
+>> > Acceptable values are 'off', 'on', 'core', 'es'
+>> >
+>> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>> Nice improvement here.
+>>
+>> Slightly ugly:
+>>
+>>     $ qemu-system-x86_64 -nic bad
+>>     upstream-qemu: -nic bad: Parameter 'type' does not accept value 'bad'
+>>     Acceptable values are 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socke=
+t', 'stream', 'dgram', 'vde', 'bridge', 'hubport', 'netmap', 'vhost-user', =
+'vhost-vdpa'
+>>
+>> Outright annoying:
+>>
+>> $ upstream-qemu -object bad
+>> upstream-qemu: -object bad: Parameter 'qom-type' does not accept value '=
+bad'
+>> Acceptable values are 'authz-list', 'authz-listfile', 'authz-pam', 'auth=
+z-simple', 'can-bus', 'can-host-socketcan', 'colo-compare', 'cryptodev-back=
+end', 'cryptodev-backend-builtin', 'cryptodev-backend-lkcf', 'dbus-vmstate'=
+, 'filter-buffer', 'filter-dump', 'filter-mirror', 'filter-redirector', 'fi=
+lter-replay', 'filter-rewriter', 'input-barrier', 'input-linux', 'iothread'=
+, 'main-loop', 'memory-backend-epc', 'memory-backend-file', 'memory-backend=
+-memfd', 'memory-backend-ram', 'pef-guest', 'pr-manager-helper', 'qtest', '=
+rng-builtin', 'rng-egd', 'rng-random', 'secret', 'secret_keyring', 'sev-gue=
+st', 'thread-context', 's390-pv-guest', 'throttle-group', 'tls-creds-anon',=
+ 'tls-creds-psk', 'tls-creds-x509', 'tls-cipher-suites', 'x-remote-object',=
+ 'x-vfio-user-server'
+>>
+>> Note we already let users ask for this information with -object help or
+>> -object qom-type=3Dhelp.  Sadly, we can't hint at that here, because it's
+>> implemented much further up the call chain, and other call chains don't.
+>>
+>> If HMP command sendkey didn't bypass the input visitor, the 26 screen
+>> lines of hint for QKeyCode would likely scroll the error message off the
+>> screen.
+>>
+>> Should we suppress this hint when it's too long to be useful?
+>
+> I don't have strong opinions.. perhaps stop after first 5 with "..." ?
 
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> ---
->   target/m68k/translate.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index 44c3ac0bc3..fc65dad190 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -894,6 +894,10 @@ static TCGv gen_ea_mode(CPUM68KState *env, DisasContext *s, int mode, int reg0,
->           case 3: /* pc index+displacement.  */
->               goto do_indirect;
->           case 4: /* Immediate.  */
-> +            /* Should never be used for an output or RMW input. */
-> +            if (what == EA_STORE || addrp) {
+A hint like "Use CMD to show the possible values" would be better, but
+it's not feasible now.
 
-Why do you check addrp?
+Instead of cutting off after five, we cut off when the hint goes beyond
+a length limit.  A bit more involved.  Up to you.
 
-What happens for an instruction that provides addrp to SRC_EA() when it is used with immediate mode?
-In this case addrp is unused, but it should not trigger an exception.
+Enumerations with more than five members:
 
-Thanks,
-Laurent
-> +                return NULL_QREG;
-> +            }
->               /* Sign extend values for consistency.  */
->               switch (opsize) {
->               case OS_BYTE:
+      6 BlkdebugIOType
+      6 EvtchnPortType
+      6 GrabToggleKeys
+      6 HmatLBDataType
+      6 SevState
+      7 AudioFormat
+      7 QCryptoHashAlgorithm
+      7 SchemaMetaType
+      7 WatchdogAction
+      8 JSONType
+      9 DisplayType
+      9 InputButton
+      9 JobType
+      9 VncPrimaryAuth
+      9 VncVencryptSubAuth
+     11 JobStatus
+     11 ShutdownCause
+     12 AudiodevDriver
+     12 QCryptoCipherAlgorithm
+     12 TransactionActionKind
+     14 MigrationStatus
+     16 RunState
+     17 NetClientDriver
+     21 MigrationCapability
+     22 ChardevBackendKind
+     31 SysEmuTarget
+     44 ObjectType
+     47 BlockdevDriver
+     48 BlkdebugEvent
+    150 QKeyCode
+
+Not all of them are can be visited from CLI or HMP (which is how the
+hint gets used).
+
+> (Ideally, we would have shell completion scripts that would be able to he=
+lp
+> us, but hey that's another level! :)
+
+True :)
 
 
