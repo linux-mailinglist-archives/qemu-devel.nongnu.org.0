@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1B46B2AD6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD1F6B2AB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:28:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paJCs-0007sB-QX; Thu, 09 Mar 2023 11:33:30 -0500
+	id 1paJ7T-0003tU-2V; Thu, 09 Mar 2023 11:27:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paJCZ-0007cD-2G
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:33:11 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1paJ7Q-0003sC-HI
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:27:52 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paJCW-0003KH-1m
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:33:10 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- d41-20020a05600c4c2900b003e9e066550fso1613991wmp.4
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:32:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1paJ7O-0002Ag-6m
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:27:51 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id y11so2589383plg.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:27:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678379564;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p1bBQyHP1qZqv4ZaElj4B3aGTQfoQH6riVy8fW+x+gM=;
- b=HFaVtDQg23Ua6CrpF+S0dQ40Y30/mQ3C8Ak844MFJnmjo+w2MaS0R4cP/kL8JohzOs
- 1hYsN5BKZr5sIf54/IqwJ/pOgPgjfo8yMgf12fvO8GPY8tinFi+RoVh+F2sFQeYiInxn
- RUjALSfb0H3JygM4Ban/awj9aMh+CescnaXtDDZKkRkb5+Uv5AITZeDeWGf5AT6T+zRh
- 56FNFoSpw7ciYc75IZmdQLalTkCZmHVH0N434ZtOGB1pgBopFeXvoJ7jAuAwyHg/MfKd
- 5yJnBHg5jyuoM5lGXNrJW0pz3MMIfoew2qvOdOr1P2LqqphFROs5HQofKWYSG/fRHUsA
- SQwQ==
+ d=linaro.org; s=google; t=1678379269;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+dz8Zkhp10i9gHGlyoh4wGtRbFz6km/a+n3dwEB4jXk=;
+ b=dIl+MxYC7SwtEFqoyD0Ol60PHyG3cao1/fDs8yQ8ufQ3Rvti6IunBOLR3Eh1lj0Cq1
+ 5Dz+A9KucRJE0SfK3+b9nfnjHWMS0xSNjWd3QFilb0dO5Rs+pATQFszZpJlc5Pk3oVJY
+ DHZOK2wmONKniONsB7WtbLMXLygDWVliE7F0yEKc3WSegZP7hgwMECVfk7p7EVOYmtv1
+ NnEWt32jG+NY1f3pz2nFIzB4Qn6H4eaI3pwn3de39GcV8scK0+XkMN0z06EcF5Flb+HZ
+ Zb2t1EqOVB/u2QR7dhThCnaw37GsM2ASfToh2zhJXWR05JsASvk9a7igjeX8QA2mJ3+W
+ tMbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678379564;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=p1bBQyHP1qZqv4ZaElj4B3aGTQfoQH6riVy8fW+x+gM=;
- b=Bex7b4kik7j7p3Y6u9VdIMnP+v5vuZNV4KsTYKeag1fLerGRs3uqqMICNCw3wfRCDP
- H6dZsX0WlGE+Gi4KR+k1FdAU6AxBJtpWBA6+q9bPY6VonGCCSVNKMhWpgpSp4RA3Tk85
- fXTLZ4HvujKqW0MOBLFUBSs6lt4++PaM9CP2IDrVoRZpeoHRpMnyhDuzSQrtz1o2+viH
- zYNKmiQhJ02Ru6uDBmBLbCqZZTfaMZrIUv/o6GA4Ypn3XBIi5IWlz87FvVg+z1Px7jS4
- eFf1IOTJKQlnP6dQFK2T7tC1FRdKbpauDtIAezy6tEMWJOeUmTaFDA73EO/YsIJ8EEUv
- BQxQ==
-X-Gm-Message-State: AO0yUKWt6wlQ0fWEvL64YvHS/+vg937RD9gmS65rbaTnKazYUhfjynfU
- 7aGiNyaxtabl1/uoRDDdjm3JNJwV5x6FPtlcn8I=
-X-Google-Smtp-Source: AK7set8p+RIXPFc87nghyM+0AtjVebpWXDyvErjgd9V2RJwDZd8bF8EvF0E5JQ/xyI5vqjcL9o7BmQ==
-X-Received: by 2002:a05:600c:4f13:b0:3eb:3998:8bca with SMTP id
- l19-20020a05600c4f1300b003eb39988bcamr19308175wmq.17.1678379564423; 
- Thu, 09 Mar 2023 08:32:44 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1678379269;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+dz8Zkhp10i9gHGlyoh4wGtRbFz6km/a+n3dwEB4jXk=;
+ b=yyeMwueN0lrroXu5uM4W6KWiJszgx+zBcOXA2/LulBYykgiOoYLy8KJkkcydeSqpfC
+ qTveY4lImdDisySjrGFrFdRxbrs0xIOq98J8LIU+BFfPLBBXryWhHYv36SspcNqATrom
+ AmQuC3Fn7NpyfXMpbQbBoI5AnUfdYpu5FzE1oDKOeU16hKIOXJxf+Xm7z3MeoiJ+jhez
+ 77tB4JaKazK/uv5PcMi1bOv8cHMO0b7wB0MpwWlnKPS9/sYOrB4cYkD5q5iPA+u+WKyH
+ WCiMUnwukkZyppiR6bwto44tv6dRiKDitazgeRqzn1zlOcQUOzDCrotNd6VVyL7Q447x
+ kQLQ==
+X-Gm-Message-State: AO0yUKWlstk90gIrsHkMtJrqMKE+ucjsUCruyp7RGy93kFS1F/0YVsTB
+ KDVMcjR/lER0qAXUxun3aEnzBw==
+X-Google-Smtp-Source: AK7set/BepayMgLaaWusFeKJoV8wYZoy+m/6hgKOGFDw2xipkbx48aRBCOVJ9U3CCaTdI3ZctleTxA==
+X-Received: by 2002:a05:6a20:7fa8:b0:cd:1a05:f4f4 with SMTP id
+ d40-20020a056a207fa800b000cd1a05f4f4mr27314927pzj.19.1678379268596; 
+ Thu, 09 Mar 2023 08:27:48 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:bf7f:79a0:a976:bdaf?
+ ([2602:ae:154a:9f01:bf7f:79a0:a976:bdaf])
  by smtp.gmail.com with ESMTPSA id
- i21-20020a05600c355500b003e214803343sm339273wmq.46.2023.03.09.08.32.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 08:32:44 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C21AC1FFB7;
- Thu,  9 Mar 2023 16:32:43 +0000 (GMT)
-References: <20221213213757.4123265-1-fasano@mit.edu>
- <20221213213757.4123265-7-fasano@mit.edu>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Andrew Fasano <fasano@mit.edu>
-Cc: qemu-devel@nongnu.org, elysia.witham@ll.mit.edu, erdnaxe@crans.org,
- ma.mandourr@gmail.com
-Subject: Re: [PATCH 6/8] plugins: implement QPP import function
-Date: Thu, 09 Mar 2023 16:26:29 +0000
-In-reply-to: <20221213213757.4123265-7-fasano@mit.edu>
-Message-ID: <87edpxnavo.fsf@linaro.org>
+ y20-20020aa78554000000b00593a1f7c3dbsm11756204pfn.10.2023.03.09.08.27.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Mar 2023 08:27:48 -0800 (PST)
+Message-ID: <9e6b9f5c-452b-2c0a-d9fa-9f1e100b8542@linaro.org>
+Date: Thu, 9 Mar 2023 08:27:46 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 12/25] target/m68k: Reject immediate as destination in
+ gen_ea_mode
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20230307183503.2512684-1-richard.henderson@linaro.org>
+ <20230307183503.2512684-13-richard.henderson@linaro.org>
+ <20edcf58-d5f0-4b11-06a6-7b811d30586d@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20edcf58-d5f0-4b11-06a6-7b811d30586d@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,103 +96,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/9/23 04:32, Laurent Vivier wrote:
+> Le 07/03/2023 à 19:34, Richard Henderson a écrit :
+>> In theory this should never happen, as all such instructions
+>> are illegal.  This is checked in e.g. gen_lea_mode and
+>> gen_ea_mode_fp but not here.  In case something higher up
+>> isn't checking modes properly, return NULL_QREG.  This will
+>> result in an illegal instruction exception being raised.
+> 
+> NULL_QREG generates an address exception, not illegal instruction.
+> 
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> Cc: Laurent Vivier <laurent@vivier.eu>
+>> ---
+>>   target/m68k/translate.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+>> index 44c3ac0bc3..fc65dad190 100644
+>> --- a/target/m68k/translate.c
+>> +++ b/target/m68k/translate.c
+>> @@ -894,6 +894,10 @@ static TCGv gen_ea_mode(CPUM68KState *env, DisasContext *s, int 
+>> mode, int reg0,
+>>           case 3: /* pc index+displacement.  */
+>>               goto do_indirect;
+>>           case 4: /* Immediate.  */
+>> +            /* Should never be used for an output or RMW input. */
+>> +            if (what == EA_STORE || addrp) {
+> 
+> Why do you check addrp?
+> 
+> What happens for an instruction that provides addrp to SRC_EA() when it is used with 
+> immediate mode?
+> In this case addrp is unused, but it should not trigger an exception.
 
-Andrew Fasano <fasano@mit.edu> writes:
-
-> From: Elysia Witham <elysia.witham@ll.mit.edu>
->
-> Plugins can export functions or import functions from other
-> plugins using their name and the function name. This is also
-> described in <qemu-plugin.h>.
->
-> Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
-> Signed-off-by: Andrew Fasano <fasano@mit.edu>
-> ---
->  include/qemu/qemu-plugin.h   | 10 ++++++++++
->  plugins/api.c                | 21 +++++++++++++++++++++
->  plugins/qemu-plugins.symbols |  1 +
->  3 files changed, 32 insertions(+)
->
-> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-> index 4221545015..a0516e9a0e 100644
-> --- a/include/qemu/qemu-plugin.h
-> +++ b/include/qemu/qemu-plugin.h
-> @@ -354,6 +354,16 @@ size_t qemu_plugin_tb_n_insns(const struct qemu_plug=
-in_tb *tb);
->   */
->  uint64_t qemu_plugin_tb_vaddr(const struct qemu_plugin_tb *tb);
->=20=20
-> +/**
-> + * qemu_plugin_import_function() - return pointer to a function in anoth=
-er
-> + * plugin
-> + * @plugin: plugin name
-> + * @function: function name
-> + *
-> + * Returns: NULL on failure, function pointer on success
-> + */
-> +gpointer qemu_plugin_import_function(const char *plugin, const char *fun=
-ction);
-> +
->  /**
->   * qemu_plugin_create_callback() - create a new cb with given name
->   * @id: unique plugin id
-> diff --git a/plugins/api.c b/plugins/api.c
-> index 1f7ea718dc..a998df6942 100644
-> --- a/plugins/api.c
-> +++ b/plugins/api.c
-> @@ -400,6 +400,27 @@ bool qemu_plugin_bool_parse(const char *name, const =
-char *value, bool *ret)
->      return name && value && qapi_bool_parse(name, value, ret, NULL);
->  }
->=20=20
-> +/*
-> + * QPP: inter-plugin function resolution and callbacks
-> + */
-> +
-> +gpointer qemu_plugin_import_function(const char *target_plugin,
-> +                                     const char *function) {
-> +    gpointer function_pointer =3D NULL;
-> +    struct qemu_plugin_ctx *ctx =3D plugin_name_to_ctx_locked(target_plu=
-gin);
-> +    if (ctx =3D=3D NULL) {
-> +        error_report("Unable to load plugin %s by name", target_plugin);
-> +    } else if (g_module_symbol(ctx->handle, function,
-> +               (gpointer *)&function_pointer)) {
-> +        return function_pointer;
-> +    } else {
-> +      error_report("function: %s not found in plugin: %s", function,
-> +                   target_plugin);
-> +    }
-> +    abort();
-> +    return NULL;
-
-Hmm when does __attribute__ ((constructor)) get called during the
-g_module_open() of the plugin? I think aborting is a is a poor failure
-mode in this case as you can bring down the whole translator with a poor
-plugin load. I'd rather fail gracefully and uninstall the plugin.
-
-> +}
-> +
->  bool qemu_plugin_create_callback(qemu_plugin_id_t id, const char *cb_nam=
-e)
->  {
->      struct qemu_plugin_ctx *ctx =3D plugin_id_to_ctx_locked(id);
-> diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-> index b7013980cf..70a518839d 100644
-> --- a/plugins/qemu-plugins.symbols
-> +++ b/plugins/qemu-plugins.symbols
-> @@ -3,6 +3,7 @@
->    qemu_plugin_end_code;
->    qemu_plugin_entry_code;
->    qemu_plugin_get_hwaddr;
-> +  qemu_plugin_import_function;
->    qemu_plugin_create_callback;
->    qemu_plugin_run_callback;
->    qemu_plugin_reg_callback;
+Because addrp is *not* unused with SRC_EA.  It is a signal for a read-modify-write operand 
+and addrp will be passed to DEST_EA.
 
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+r~
 
