@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180136B2381
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2926B2383
 	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 12:58:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paEtx-0004ds-3G; Thu, 09 Mar 2023 06:57:41 -0500
+	id 1paEtn-0004F5-EZ; Thu, 09 Mar 2023 06:57:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1paEtv-0004Ye-9P
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 06:57:39 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1paEtd-00047z-Bf
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 06:57:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1paEtt-0007x4-JA
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 06:57:39 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1paEtb-0007sH-3z
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 06:57:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678363056;
+ s=mimecast20190719; t=1678363038;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VWbviqU0yQBjbu+wn7l16bdYV3wL2MFZTvb5Ddgmy/4=;
- b=idRtbIl3bVU0kWvH22C/1htPuKsOIwKzhpzxQbq7g12VeUuBJ4HohZm2FzVv9D+ohS714t
- iDAYKtGYHZtgUGPGJoxreOLhukWS4IBeU8z6O0Uem7q0HPvZsXHSLNcDtGGD4UVpWBD+pS
- 6d45id4bWbrg0z8LqVG3rmAV8wT2GAg=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fHaf0huwT1ANYnvlva3zLolhjrAeCYOpFoXyiL608lw=;
+ b=ETBQd9soy7QsWYfz16wPw0LntdJOYZj2NpX0s2eJmZdAWXAiYxPhuRe5xNGxGnQRUSan67
+ 4YxNOyz8NcQSobY+t0rU95y0fsmuejWL27CRzpYnQ5NDDPj3wq0288XdvXVU+wfxzIuPlR
+ bv1LPzU/1m/y6mgcSuf/83ZiuVIfqOw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-301-MqH-bp9hO3W-2aZRbIw-gg-1; Thu, 09 Mar 2023 06:57:35 -0500
-X-MC-Unique: MqH-bp9hO3W-2aZRbIw-gg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-351-KcixXQqxNc-hqOMvxzXk2w-1; Thu, 09 Mar 2023 06:57:16 -0500
+X-MC-Unique: KcixXQqxNc-hqOMvxzXk2w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABB012999B29;
- Thu,  9 Mar 2023 11:57:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54E682999B33;
+ Thu,  9 Mar 2023 11:57:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EF55C15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F06E2026D4B;
  Thu,  9 Mar 2023 11:57:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 542E91800082; Thu,  9 Mar 2023 12:57:14 +0100 (CET)
+ id 5EFFC1800381; Thu,  9 Mar 2023 12:57:14 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PULL 0/3] Edk2 stable202302 20230309 patches
-Date: Thu,  9 Mar 2023 12:57:11 +0100
-Message-Id: <20230309115714.906369-1-kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PULL 1/3] edk2: update submodule to edk2-stable202302
+Date: Thu,  9 Mar 2023 12:57:12 +0100
+Message-Id: <20230309115714.906369-2-kraxel@redhat.com>
+In-Reply-To: <20230309115714.906369-1-kraxel@redhat.com>
+References: <20230309115714.906369-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -76,51 +78,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ roms/edk2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/kraxel/qemu.git tags/edk2-stable202302-20230309-pull-request
-
-for you to fetch changes up to 75bc97ac50634229fa9da45faa1fa64bbe6024c7:
-
-  edk2: update firmware binaries (2023-03-09 12:49:29 +0100)
-
-----------------------------------------------------------------
-edk2: update to 202302 stable tag
-
-----------------------------------------------------------------
-
-Gerd Hoffmann (3):
-  edk2: update submodule to edk2-stable202302
-  edk2: replace build scripts
-  edk2: update firmware binaries
-
- roms/edk2-build.py                     | 372 +++++++++++++++++++++++++
- pc-bios/edk2-aarch64-code.fd.bz2       | Bin 1161290 -> 1508803 bytes
- pc-bios/edk2-arm-code.fd.bz2           | Bin 1161845 -> 1482646 bytes
- pc-bios/edk2-i386-code.fd.bz2          | Bin 1282120 -> 1695318 bytes
- pc-bios/edk2-i386-secure-code.fd.bz2   | Bin 1473677 -> 1922002 bytes
- pc-bios/edk2-riscv.fd.bz2              | Bin 0 -> 1096510 bytes
- pc-bios/edk2-x86_64-code.fd.bz2        | Bin 1327522 -> 1796544 bytes
- pc-bios/edk2-x86_64-microvm.fd.bz2     | Bin 1309407 -> 1697788 bytes
- pc-bios/edk2-x86_64-secure-code.fd.bz2 | Bin 1513711 -> 1999841 bytes
- roms/Makefile                          |  29 +-
- roms/Makefile.edk2                     | 178 ------------
- roms/edk2                              |   2 +-
- roms/edk2-build.config                 | 119 ++++++++
- roms/edk2-build.sh                     |  55 ----
- roms/edk2-funcs.sh                     | 273 ------------------
- 15 files changed, 499 insertions(+), 529 deletions(-)
- create mode 100755 roms/edk2-build.py
- create mode 100644 pc-bios/edk2-riscv.fd.bz2
- delete mode 100644 roms/Makefile.edk2
- create mode 100644 roms/edk2-build.config
- delete mode 100755 roms/edk2-build.sh
- delete mode 100644 roms/edk2-funcs.sh
-
+diff --git a/roms/edk2 b/roms/edk2
+index b24306f15daa..f80f052277c8 160000
+--- a/roms/edk2
++++ b/roms/edk2
+@@ -1 +1 @@
+-Subproject commit b24306f15daa2ff8510b06702114724b33895d3c
++Subproject commit f80f052277c88a67c55e107b550f504eeea947d3
 -- 
 2.39.2
 
