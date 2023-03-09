@@ -2,85 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E776B26FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C325E6B274F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:43:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paHLD-0004M5-Hi; Thu, 09 Mar 2023 09:33:59 -0500
+	id 1paHTn-0007MK-Mz; Thu, 09 Mar 2023 09:42:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paHLA-0004LG-BK
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:33:56 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paHL8-0006ut-7w
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:33:56 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- t25-20020a1c7719000000b003eb052cc5ccso3739672wmi.4
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 06:33:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678372433;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tKMJWdUHFMBirrvnff0QPYxqH8hBw5todvarN2LbNy0=;
- b=uBm5Wsrz12fJADz9zlpRQclt0wTAOgJ9Knn8Y07rZioVgbzN5ZbMrYBKKshqckk5Zs
- RZWiuAm79cIzKQ1vrDFcPBNCX4NfWiAPoKhHL7Y3ah9NUZubwYYO20K7ejDhuo5PrXju
- dweDjTEtfn5qETBcpl7cW3zaxI1TbASwCrhvuK/jsk0+taLJLdWFrLO5gxj4nZusBQay
- wd6w0W/Fbw3XleAy7sUs2IUDoNlHPxM5p5nMK18Ap2KMOlD44md/uAs85zV39CP8OEYP
- 39OcOHI7KBMTyACDnhCLSzp6QvBD2r4KHaAKvrKF3cdk0UsIHbTm3p6DBp6LrXnLxoYz
- LrMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678372433;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=tKMJWdUHFMBirrvnff0QPYxqH8hBw5todvarN2LbNy0=;
- b=S0kQk0dI6S1mXnLOHv42dtUKKclJcM2VjOs9LKvLn6uxBwXJ82ZFPPxrr+FzaN1gFp
- PD71lVBsKk+gB9642DNvfMcYveCES3LKeC9HTXZ5xlCTWyZX+qK2S017oq9UvT/HFQFb
- QIuQg5QREuFwfER6soxs7HjHCQj2npenj9+adfH9zfOQEfvAq2cwNd7hpxg2tmDadEIw
- enPC23zSdRhxG1ARxKoXreL43g/+ig0F7Wfu9qLuPWfYbnA5Ax91o6+oEQCz9vgI2xN5
- wPT+AQkAcH2sAUAzRCqJzdrgTsXyZIwf2JxOG1QzPkacCxgPhBgiaRNlWNF+IADTq5Ux
- 27ag==
-X-Gm-Message-State: AO0yUKUdWNHZYLDNgrIEq60Z+lqkgRYMImcIxDm93QXPgJ6VsA5VlB/b
- /7cYY4SxcoWnHLj04aqdsZYMXw==
-X-Google-Smtp-Source: AK7set9QHrsX6St/cy5Fj8m5XTCfe2v0j8qx/msP4f7it3Lo7YRgznRwvMBjMvwfeCRq8CTmJMR9Ow==
-X-Received: by 2002:a05:600c:4f4a:b0:3dc:4042:5c21 with SMTP id
- m10-20020a05600c4f4a00b003dc40425c21mr19918478wmq.6.1678372432777; 
- Thu, 09 Mar 2023 06:33:52 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- k6-20020a05600c0b4600b003daf672a616sm26120wmr.22.2023.03.09.06.33.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 06:33:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1AE8A1FFB7;
- Thu,  9 Mar 2023 14:33:52 +0000 (GMT)
-References: <20221213213757.4123265-1-fasano@mit.edu>
- <20221213213757.4123265-3-fasano@mit.edu>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Andrew Fasano <fasano@mit.edu>
-Cc: qemu-devel@nongnu.org, elysia.witham@ll.mit.edu, erdnaxe@crans.org,
- ma.mandourr@gmail.com
-Subject: Re: [PATCH 2/8] plugins: version 2, require unique plugin names
-Date: Thu, 09 Mar 2023 14:17:54 +0000
-In-reply-to: <20221213213757.4123265-3-fasano@mit.edu>
-Message-ID: <87v8jam1tb.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
+ id 1paHTl-0007Lm-8O; Thu, 09 Mar 2023 09:42:49 -0500
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net ([162.243.164.118])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <chenyi2000@zju.edu.cn>)
+ id 1paHTh-00005K-O9; Thu, 09 Mar 2023 09:42:48 -0500
+Received: by ajax-webmail-mail-app2 (Coremail) ; Thu, 9 Mar 2023 22:42:24
+ +0800 (GMT+08:00)
+X-Originating-IP: [112.10.177.110]
+Date: Thu, 9 Mar 2023 22:42:24 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "CHEN Yi" <chenyi2000@zju.edu.cn>
+To: "Daniel Henrique Barboza" <dbarboza@ventanamicro.com>, 
+ qemu-devel@nongnu.org
+Cc: "Palmer Dabbelt" <palmer@dabbelt.com>, 
+ "Alistair Francis" <alistair.francis@wdc.com>, 
+ "Bin Meng" <bin.meng@windriver.com>, "Weiwei Li" <liweiwei@iscas.ac.cn>, 
+ "Liu Zhiwei" <zhiwei_liu@linux.alibaba.com>, 
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+Subject: Re: Re: [PATCH] target/riscv/csr.c: fix H extension TVM trap
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2023 www.mailtech.cn zju.edu.cn
+In-Reply-To: <adbe0c52-61f0-2779-c32f-a75bf0a303e1@ventanamicro.com>
+References: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
+ <adbe0c52-61f0-2779-c32f-a75bf0a303e1@ventanamicro.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Message-ID: <376f8611.8a0fa.186c6d2b9da.Coremail.chenyi2000@zju.edu.cn>
+X-Coremail-Locale: en_US
+X-CM-TRANSID: by_KCgBHC7FR8AlkYYaCCw--.27616W
+X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/1tbiAQkJClZdwzLCEgABsg
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=162.243.164.118;
+ envelope-from=chenyi2000@zju.edu.cn;
+ helo=zg8tmtyylji0my4xnjqumte4.icoremail.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,264 +69,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Andrew Fasano <fasano@mit.edu> writes:
-
-> From: Elysia Witham <elysia.witham@ll.mit.edu>
->
-> In order for the QPP API to resolve interactions between plugins,
-> plugins must export their own names which cannot match any other
-> loaded plugins.
->
-> Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
-> Signed-off-by: Andrew Fasano <fasano@mit.edu>
-> ---
->  include/qemu/qemu-plugin.h |  2 +-
->  plugins/core.c             | 12 +++++++++
->  plugins/loader.c           | 50 +++++++++++++++++++++++++++++++++-----
->  plugins/plugin.h           |  7 ++++++
->  tests/plugin/bb.c          |  1 +
->  tests/plugin/empty.c       |  1 +
->  tests/plugin/insn.c        |  1 +
->  tests/plugin/mem.c         |  1 +
->  tests/plugin/syscall.c     |  1 +
->  9 files changed, 69 insertions(+), 7 deletions(-)
->
-> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-> index d0e9d03adf..5326f33ce8 100644
-> --- a/include/qemu/qemu-plugin.h
-> +++ b/include/qemu/qemu-plugin.h
-> @@ -51,7 +51,7 @@ typedef uint64_t qemu_plugin_id_t;
->=20=20
->  extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
->=20=20
-> -#define QEMU_PLUGIN_VERSION 1
-> +#define QEMU_PLUGIN_VERSION 2
->=20=20
->  /**
->   * struct qemu_info_t - system information for plugins
-> diff --git a/plugins/core.c b/plugins/core.c
-> index ccb770a485..5fbdcb5768 100644
-> --- a/plugins/core.c
-> +++ b/plugins/core.c
-> @@ -236,6 +236,18 @@ void qemu_plugin_vcpu_exit_hook(CPUState *cpu)
->      qemu_rec_mutex_unlock(&plugin.lock);
->  }
->=20=20
-> +int name_to_plugin_version(const char *name)
-> +{
-> +    struct qemu_plugin_ctx *ctx;
-> +    QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
-> +        if (strcmp(ctx->name, name) =3D=3D 0) {
-> +            return ctx->version;
-> +        }
-> +    }
-> +    warn_report("Could not find any plugin named %s.", name);
-> +    return -1;
-> +}
-> +
-
-This function seems to be unused.
-
->  struct plugin_for_each_args {
->      struct qemu_plugin_ctx *ctx;
->      qemu_plugin_vcpu_simple_cb_t cb;
-> diff --git a/plugins/loader.c b/plugins/loader.c
-> index 88c30bde2d..12c0680e03 100644
-> --- a/plugins/loader.c
-> +++ b/plugins/loader.c
-> @@ -177,7 +177,7 @@ QEMU_DISABLE_CFI
->  static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t =
-*info, Error **errp)
->  {
->      qemu_plugin_install_func_t install;
-> -    struct qemu_plugin_ctx *ctx;
-> +    struct qemu_plugin_ctx *ctx, *ctx2;
->      gpointer sym;
->      int rc;
->=20=20
-> @@ -208,17 +208,55 @@ static int plugin_load(struct qemu_plugin_desc *des=
-c, const qemu_info_t *info, E
->                     desc->path, g_module_error());
->          goto err_symbol;
->      } else {
-> -        int version =3D *(int *)sym;
-> -        if (version < QEMU_PLUGIN_MIN_VERSION) {
-> +        ctx->version =3D *(int *)sym;
-> +        if (ctx->version < QEMU_PLUGIN_MIN_VERSION) {
->              error_setg(errp, "Could not load plugin %s: plugin requires =
-API version %d, but "
->                         "this QEMU supports only a minimum version of %d",
-> -                       desc->path, version, QEMU_PLUGIN_MIN_VERSION);
-> +                       desc->path, ctx->version, QEMU_PLUGIN_MIN_VERSION=
-);
->              goto err_symbol;
-> -        } else if (version > QEMU_PLUGIN_VERSION) {
-> +        } else if (ctx->version > QEMU_PLUGIN_VERSION) {
->              error_setg(errp, "Could not load plugin %s: plugin requires =
-API version %d, but "
->                         "this QEMU supports only up to version %d",
-> -                       desc->path, version, QEMU_PLUGIN_VERSION);
-> +                       desc->path, ctx->version, QEMU_PLUGIN_VERSION);
->              goto err_symbol;
-> +        } else if (ctx->version < QPP_MINIMUM_VERSION) {
-> +            ctx->name =3D NULL;
-
-A comment wouldn't go amiss here. Something like:
-
-  "Older plugins will not be available for QPP calls".
-
-> +        } else {
-> +            if (!g_module_symbol(ctx->handle, "qemu_plugin_name", &sym))=
- {
-> +                error_setg(errp, "Could not load plugin %s: plugin does =
-not "
-> +                           "declare plugin name %s",
-> +                           desc->path, g_module_error());
-> +                goto err_symbol;
-> +            }
-> +            ctx->name =3D (const char *)strdup(*(const char **)sym);
-> +            QTAILQ_FOREACH(ctx2, &plugin.ctxs, entry) {
-> +                if (strcmp(ctx2->name, ctx->name) =3D=3D 0) {
-> +                    error_setg(errp, "Could not load plugin %s as the na=
-me %s "
-> +                               "is already in use by plugin at %s",
-> +                               desc->path, ctx->name, ctx2->desc->path);
-> +                    goto err_symbol;
-> +                }
-> +            }
-> +            if (g_module_symbol(ctx->handle, "qemu_plugin_uses", &sym)) {
-> +                const char **dependencies =3D &(*(const char **)sym);
-> +                bool found =3D false;
-> +                while (*dependencies) {
-> +                    found =3D false;
-> +                    QTAILQ_FOREACH(ctx2, &plugin.ctxs, entry) {
-> +                        if (strcmp(ctx2->name, *dependencies) =3D=3D 0) {
-
-Lets use glib where we can, in this case g_strcmp0().
-
-> +                            dependencies++;
-> +                            found =3D true;
-> +                            break;
-> +                        }
-> +                    }
-> +                    if (!found) {
-> +                        error_setg(errp, "Could not load plugin %s as it=
- is "
-> +                                   "dependent on %s which is not loaded",
-> +                                   ctx->name, *dependencies);
-> +                        goto err_symbol;
-> +                    }
-
-We are implying a load order here which we should document. Ideally we
-could avoid it but I suspect that requires too much hoop jumping.
-
-> +                }
-> +            }
->          }
->      }
->=20=20
-> diff --git a/plugins/plugin.h b/plugins/plugin.h
-> index 5eb2fdbc85..ce885bfa98 100644
-> --- a/plugins/plugin.h
-> +++ b/plugins/plugin.h
-> @@ -16,6 +16,7 @@
->  #include "qemu/qht.h"
->=20=20
->  #define QEMU_PLUGIN_MIN_VERSION 0
-> +#define QPP_MINIMUM_VERSION 2
->=20=20
->  /* global state */
->  struct qemu_plugin_state {
-> @@ -50,6 +51,8 @@ struct qemu_plugin_state {
->  struct qemu_plugin_ctx {
->      GModule *handle;
->      qemu_plugin_id_t id;
-> +    const char *name;
-> +    int version;
->      struct qemu_plugin_cb *callbacks[QEMU_PLUGIN_EV_MAX];
->      QTAILQ_ENTRY(qemu_plugin_ctx) entry;
->      /*
-> @@ -64,6 +67,8 @@ struct qemu_plugin_ctx {
->=20=20
->  struct qemu_plugin_ctx *plugin_id_to_ctx_locked(qemu_plugin_id_t id);
->=20=20
-> +struct qemu_plugin_ctx *plugin_name_to_ctx_locked(const char* name);
-> +
->  void plugin_register_inline_op(GArray **arr,
->                                 enum qemu_plugin_mem_rw rw,
->                                 enum qemu_plugin_op op, void *ptr,
-> @@ -97,4 +102,6 @@ void plugin_register_vcpu_mem_cb(GArray **arr,
->=20=20
->  void exec_inline_op(struct qemu_plugin_dyn_cb *cb);
->=20=20
-> +int name_to_plugin_version(const char *name);
-> +
->  #endif /* PLUGIN_H */
-> diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-> index 7d470a1011..c04e5aaf90 100644
-> --- a/tests/plugin/bb.c
-> +++ b/tests/plugin/bb.c
-> @@ -15,6 +15,7 @@
->  #include <qemu-plugin.h>
->=20=20
->  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "bb";
->=20=20
->  typedef struct {
->      GMutex lock;
-> diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
-> index 8fa6bacd93..0f3d2b92b9 100644
-> --- a/tests/plugin/empty.c
-> +++ b/tests/plugin/empty.c
-> @@ -14,6 +14,7 @@
->  #include <qemu-plugin.h>
->=20=20
->  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "empty";
->=20=20
->  /*
->   * Empty TB translation callback.
-> diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-> index cd5ea5d4ae..3f71138139 100644
-> --- a/tests/plugin/insn.c
-> +++ b/tests/plugin/insn.c
-> @@ -15,6 +15,7 @@
->  #include <qemu-plugin.h>
->=20=20
->  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "insn";
->=20=20
->  #define MAX_CPUS 8 /* lets not go nuts */
->=20=20
-> diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
-> index 4570f7d815..35e5d7fe2a 100644
-> --- a/tests/plugin/mem.c
-> +++ b/tests/plugin/mem.c
-> @@ -15,6 +15,7 @@
->  #include <qemu-plugin.h>
->=20=20
->  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "mem";
->=20=20
->  static uint64_t inline_mem_count;
->  static uint64_t cb_mem_count;
-> diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
-> index 96040c578f..922bdbd2e6 100644
-> --- a/tests/plugin/syscall.c
-> +++ b/tests/plugin/syscall.c
-> @@ -15,6 +15,7 @@
->  #include <qemu-plugin.h>
->=20=20
->  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +QEMU_PLUGIN_EXPORT const char *qemu_plugin_name =3D "syscall";
->=20=20
->  typedef struct {
->      int64_t num;
-
-You should update the plugins in contrib/plugins as well.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+CgoKPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KPiBGcm9tOiAiRGFuaWVsIEhlbnJpcXVl
+IEJhcmJvemEiIDxkYmFyYm96YUB2ZW50YW5hbWljcm8uY29tPgo+IFNlbnQgVGltZTogMjAyMy0w
+My0wOSAwMzo0NDowMyAoVGh1cnNkYXkpCj4gVG86IGNoZW55aTIwMDBAemp1LmVkdS5jbiwgcWVt
+dS1kZXZlbEBub25nbnUub3JnCj4gQ2M6ICJQYWxtZXIgRGFiYmVsdCIgPHBhbG1lckBkYWJiZWx0
+LmNvbT4sICJBbGlzdGFpciBGcmFuY2lzIiA8YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tPiwgIkJp
+biBNZW5nIiA8YmluLm1lbmdAd2luZHJpdmVyLmNvbT4sICJXZWl3ZWkgTGkiIDxsaXdlaXdlaUBp
+c2Nhcy5hYy5jbj4sICJMaXUgWmhpd2VpIiA8emhpd2VpX2xpdUBsaW51eC5hbGliYWJhLmNvbT4s
+ICJvcGVuIGxpc3Q6UklTQy1WIFRDRyBDUFVzIiA8cWVtdS1yaXNjdkBub25nbnUub3JnPgo+IFN1
+YmplY3Q6IFJlOiBbUEFUQ0hdIHRhcmdldC9yaXNjdi9jc3IuYzogZml4IEggZXh0ZW5zaW9uIFRW
+TSB0cmFwCj4gCj4gCj4gCj4gT24gMy84LzIzIDA5OjM0LCBjaGVueWkyMDAwQHpqdS5lZHUuY24g
+d3JvdGU6Cj4gPiBGcm9tOiBZaSBDaGVuIDxjaGVueWkyMDAwQHpqdS5lZHUuY24+Cj4gPiAKPiA+
+IFRyYXAgYWNjZXNzZXMgdG8gaGdhdHAgaWYgTVNUQVRVU19UVk0gaXMgZW5hYmxlZC4KPiA+IERv
+bid0IHRyYXAgYWNjZXNzZXMgdG8gdnNhdHAgZXZlbiBpZiBNU1RBVFVTX1RWTSBpcyBlbmFibGVk
+Lgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBZaSBDaGVuIDxjaGVueWkyMDAwQHpqdS5lZHUuY24+
+Cj4gPiAtLS0KPiA+ICAgdGFyZ2V0L3Jpc2N2L2Nzci5jIHwgMTggKysrKysrKysrKysrKystLS0t
+Cj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+
+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Jpc2N2L2Nzci5jIGIvdGFyZ2V0L3Jpc2N2L2Nz
+ci5jCj4gPiBpbmRleCBhYjU2NjYzLi4wOWJjNzgwIDEwMDY0NAo+ID4gLS0tIGEvdGFyZ2V0L3Jp
+c2N2L2Nzci5jCj4gPiArKysgYi90YXJnZXQvcmlzY3YvY3NyLmMKPiA+IEBAIC0yNjU1LDcgKzI2
+NTUsNyBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gcmVhZF9zYXRwKENQVVJJU0NWU3RhdGUgKmVu
+diwgaW50IGNzcm5vLAo+ID4gICAgICAgICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7Cj4gPiAg
+ICAgICB9Cj4gPiAgIAo+ID4gLSAgICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVs
+ZChlbnYtPm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgewo+ID4gKyAgICBpZiAoZW52LT5wcml2ID09
+IFBSVl9TICYmICFyaXNjdl9jcHVfdmlydF9lbmFibGVkKGVudikgJiYgZ2V0X2ZpZWxkKGVudi0+
+bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7Cj4gCj4gVGhlIGNvbW1pdCBtZXNzYWdlIG1lbnRpb25z
+ICd2c2F0cCcgYnV0IHRoaXMgcGF0Y2ggaXMgY2hhbmdpbmcgc2F0cCBjYWxsYmFja3MuCj4gCj4g
+QW55IHJlYXNvbiB0byBub3QgY2hhbmdlIHJlYWRfdnNhdHAoKSBhbmQgd3JpdGVfdnNhdHAoKSBp
+bnN0ZWFkPwoKcmVhZF92c2F0cCgpIGFuZCB3cml0ZV92c2F0cCgpIGhhdmUgY29ycmVjdGx5IGlt
+cGxlbWVudGVkIHRoZSBiZWhhdmlvciBvZiBNU1RBVFVTLlRWTS4KTWVhbndoaWxlLCBpZiBhbiBI
+Uy1tb2RlIGhhcnQgdHJpZXMgdG8gYWNjZXNzICdzYXRwJywgd2hhdCBpdCBhY3R1YWxseSBhY2Nl
+c3NlcyBpcyAndnNhdHAnIGFjY29yZGluZyB0byB0aGUgSVNBLiBJbiBRZW11J3MgaW1wbGVtZW50
+YXRpb24sIHRoZSAnc2F0cCcgY2FsbGJhY2tzIGFyZSBjYWxsZWQgYXQgZmlyc3QsIGFuZCByaXNj
+dl9jcHVfc3dhcF9oeXBlcnZpc29yX3JlZ3MoKSB3aWxsIGJlIGNhbGxlZCBhZnRlcndhcmQuIFNv
+IHdlIGFsc28gbmVlZCB0byBtb2RpZnkgcmVhZF9zYXRwKCkgYW5kIHdyaXRlX3NhdHAoKS4KCj4g
+Cj4gPiAgICAgICAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNUOwo+ID4gICAgICAg
+fSBlbHNlIHsKPiA+ICAgICAgICAgICAqdmFsID0gZW52LT5zYXRwOwo+ID4gQEAgLTI2ODMsNyAr
+MjY4Myw3IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiB3cml0ZV9zYXRwKENQVVJJU0NWU3RhdGUg
+KmVudiwgaW50IGNzcm5vLAo+ID4gICAgICAgfQo+ID4gICAKPiA+ICAgICAgIGlmICh2bSAmJiBt
+YXNrKSB7Cj4gPiAtICAgICAgICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVsZChl
+bnYtPm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgewo+ID4gKyAgICAgICAgaWYgKGVudi0+cHJpdiA9
+PSBQUlZfUyAmJiAhcmlzY3ZfY3B1X3ZpcnRfZW5hYmxlZChlbnYpICYmIGdldF9maWVsZChlbnYt
+Pm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgewo+ID4gICAgICAgICAgICAgICByZXR1cm4gUklTQ1Zf
+RVhDUF9JTExFR0FMX0lOU1Q7Cj4gPiAgICAgICAgICAgfSBlbHNlIHsKPiA+ICAgICAgICAgICAg
+ICAgLyoKPiA+IEBAIC0zMDQ3LDE0ICszMDQ3LDI0IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiBy
+ZWFkX2hnZWlwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAo+ID4gICBzdGF0aWMgUklT
+Q1ZFeGNlcHRpb24gcmVhZF9oZ2F0cChDUFVSSVNDVlN0YXRlICplbnYsIGludCBjc3JubywKPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0X3Vsb25nICp2YWwpCj4g
+PiAgIHsKPiA+IC0gICAgKnZhbCA9IGVudi0+aGdhdHA7Cj4gPiArICAgIGlmIChlbnYtPnByaXYg
+PT0gUFJWX1MgJiYgZ2V0X2ZpZWxkKGVudi0+bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7Cj4gPiAr
+ICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExFR0FMX0lOU1Q7Cj4gCj4gVGhlIGVuZCBvZiB0
+aGUgZmlyc3QgcGFyYWdyYXBoIG9mIElTQSA4LjIuMTAgZ29lcyBhcyBmb2xsb3dzOgo+IAo+ID09
+PT0KPiBXaGVuIG1zdGF0dXMuVFZNPTEsIGF0dGVtcHRzIHRvIHJlYWQgb3Igd3JpdGUgaGdhdHAg
+d2hpbGUgZXhlY3V0aW5nCj4gaW4gSFMtbW9kZSB3aWxsIHJhaXNlIGFuIGlsbGVnYWwgaW5zdHJ1
+Y3Rpb24gZXhjZXB0aW9uLgo+ID09PT0KPiAKPiBJIGJlbGlldmUgeW91IG5lZWQgdG8gY2hlY2sg
+Zm9yIEhTLW1vZGUsIG5vdCBqdXN0IFBSVl9TLiByaXNjdl9jc3Jyd19jaGVjaygpIGluCj4gdGFy
+Z2V0L3Jpc2N2L2Nzci5jIGNoZWNrcyBmb3IgSFMtbW9kZSBhcyBmb2xsb3dzOgo+IAo+ICAgICAg
+aWYgKHJpc2N2X2hhc19leHQoZW52LCBSVkgpICYmIGVudi0+cHJpdiA9PSBQUlZfUyAmJgo+ICAg
+ICAgICAgICFyaXNjdl9jcHVfdmlydF9lbmFibGVkKGVudikpIHsKPiAKPiBTYW1lIGdvZXMgZm9y
+IHdyaXRlX2hnYXRwKCkgYmVsb3cuCj4gCj4gPiArICAgIH0gZWxzZSB7Cj4gPiArICAgICAgICAq
+dmFsID0gZW52LT5oZ2F0cDsKPiA+ICsgICAgfQo+ID4gKwo+IAoKSSB0aGluayBWUy1tb2RlIGNh
+bid0IGFjY2VzcyBIUy1tb2RlIENTUiByZWdpc3RlcnMsIHdoaWNoIGhhcyBiZWVuIGVuc3VyZWQg
+aW4gcmlzY3ZfY3NycndfY2hlY2soKS4gWW91IGNhbiBzZWUgb3RoZXIgY2FsbGJhY2tzIG9mIEhT
+LW1vZGUgQ1NSIHJlZ2lzdGVycyAoZS5nLiwgcmVhZF9oZ2VpcCgpKSBhc3N1bWUgdGhhdCBpdCdz
+IE0tbW9kZSBvciBIUy1tb2RlLCB0b28uCgo+IFlvdSBjYW4gZGlzY2FyZCB0aGUgJ2Vsc2UnIHNp
+bmNlIHlvdSdyZSBkb2luZyBhIHJldHVybiBpbiB0aGUgaWY6Cj4gCj4gaWYgKC4uLikgewo+ICAg
+ICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNUOwo+IH0KPiAKPiAqdmFsID0gZW52LT5o
+Z2F0cDsKPiAKPiAKPiA+ICAgICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7Cj4gPiAgIH0KPiA+
+ICAgCj4gPiAgIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiB3cml0ZV9oZ2F0cChDUFVSSVNDVlN0YXRl
+ICplbnYsIGludCBjc3JubywKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHRhcmdldF91bG9uZyB2YWwpCj4gPiAgIHsKPiA+IC0gICAgZW52LT5oZ2F0cCA9IHZhbDsKPiA+
+ICsgICAgaWYgKGVudi0+cHJpdiA9PSBQUlZfUyAmJiBnZXRfZmllbGQoZW52LT5tc3RhdHVzLCBN
+U1RBVFVTX1RWTSkpIHsKPiA+ICsgICAgICAgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5T
+VDsKPiA+ICsgICAgfSBlbHNlIHsKPiA+ICsgICAgICAgIGVudi0+aGdhdHAgPSB2YWw7Cj4gPiAr
+ICAgIH0KPiAKPiBObyBuZWVkIGZvciBlbHNlIGhlcmUgZWl0aGVyOgo+IAo+IGlmICguLi4pIHsK
+PiAgICAgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKPiB9Cj4gCj4gZW52LT5oZ2F0
+cCA9IHZhbDsKPiAKPiAKCkkgc2VlLiBJIHdpbGwgZml4IHRoYXQgaW4gdGhlIG5leHQgdmVyc2lv
+biBvZiB0aGlzIHBhdGNoLgoKPiAKPiBUaGFua3MsCj4gCj4gCj4gRGFuaWVsCj4gCj4gPiArCj4g
+PiAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9OT05FOwo+ID4gICB9Cj4gPiAgIAoKVGhhbmtzIQoK
+WWkK
 
