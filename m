@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DB56B2133
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 11:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B868B6B2136
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 11:21:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paDLw-0000iR-1X; Thu, 09 Mar 2023 05:18:28 -0500
+	id 1paDO1-0001W0-KQ; Thu, 09 Mar 2023 05:20:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paDLp-0000hs-Mi
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:18:21 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paDNx-0001Vb-SE
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:20:33 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paDLn-00029Y-DW
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:18:21 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- j19-20020a05600c1c1300b003e9b564fae9so3193234wms.2
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 02:18:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paDNw-0002o4-7C
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:20:33 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id x11so1431870pln.12
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 02:20:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678357097;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4HGW4u37pZyA8+q+Mq6RcyMcikpDKhmrs1r82V9q72A=;
- b=GhEFDVRfFF5W9Y5e0p1GbW2E3laBRiU7hWXprSkB6n14jqbRGBOTGhqcL6Ewmu62Gj
- Hh/ebH5cyfMtu3I4/xdIa/O8B5jMfs54j7IB4nh6uzeJ73x0uk5DzR5QSZ4YL2Nxxcel
- 4oDiAZ8vmkhPPwbVuQuPx5Jvifs9vwJieO2BWFhmwb8oxlUMh5DrpIk9CCn3N+RH47dq
- 6e+b6xqmGL0rF04xnRi5XN2EXSbs3YmG8u8E6Ay3CujEQ73d/O5I3k1NfsQjxQ2yEcPX
- bIw87aUEo/Q+i6CDY3mB2viRbPOkykKmh2WDeJbQdIV0pQ2wNY8P8Tl8pwo6kB9v0fOM
- r5jA==
+ d=linaro.org; s=google; t=1678357230;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dN6x/50QnRtitXeBNurZVqCBCvuGuMbTKs2zZrkaoXY=;
+ b=TwlsHXzyJp5nqhKiwDmQH9daqDYm1EjJo+FU4Z7/184Kw7Baa6Gv0/T1tdNNx1xpDD
+ aq9KC5ScgtyymJ6eYMnS3LOEz5r1yBLGY77qO0LSIos//31f0/tO+venWkj+F0Qm8Poz
+ cnRrN3sUld9LHuvQpBYMR+svXq0hqTxtKvB6JVo5S/dkZiDLGRFs5nJRWfZB8HHYDw+h
+ H0G07bBkstVIBAKcRUNDwuEN7uPQe1lcDh35ITXrvIbSTs1ZT5nUC3DA7FeoxgKj2F7i
+ tPXcPLDAqMt3vMdqjlrIgCEXHHoarVIQS9Dw26gw9qIPQE/AIi2E+QZ5xTdQV/PZNu/a
+ yTBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678357097;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4HGW4u37pZyA8+q+Mq6RcyMcikpDKhmrs1r82V9q72A=;
- b=t4QWKa4UhsRwJRwQs3lc8GD11aDwz43jyjp85XXa/mhEzipmyk3DxdeEmxQ5d2C8NC
- qeoTWYdk+CIGxHcUfysXVKV4xXwbntVmOvzzfeleFOsnsFCoa+TUjWCatehgeUF4Hsoo
- 9InExBI6+XwSW29K+PE+Z9Os4d6KtoT1kXzg8nlddjKdm+1rMEPD83NkzXVFFxNeegFt
- NAUr59SE5QvHhPsfNJWNQRYqX19glYVTxUHIVExDt8aPgEIUQU0fuF6d5bGZpRBSH1Dn
- /e6oHCCCxo38W40G5wxhDcsiqtEw7RLlY6/pXnG20UYW1xi9UoajiqTQ4Fa7rIez5LiS
- vx3A==
-X-Gm-Message-State: AO0yUKWIUqO2jJCExT5z8UoxHY7rdv05jpPldNZaZpzd5hB+IQ/b0zcW
- 4A4OAbfmtSuZaE12/p9CQDpfOQ==
-X-Google-Smtp-Source: AK7set/42VP0ExI/y6BEF56lJwZ9LSMkJqGWMoPaCC7RnhCFBqKahTXFoCysF8LASlYRNCfVJXvGRw==
-X-Received: by 2002:a05:600c:a09:b0:3ea:c100:e974 with SMTP id
- z9-20020a05600c0a0900b003eac100e974mr19880240wmp.26.1678357097705; 
- Thu, 09 Mar 2023 02:18:17 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ay13-20020a05600c1e0d00b003ebff290a40sm1811356wmb.21.2023.03.09.02.18.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 02:18:17 -0800 (PST)
-Message-ID: <c32bce09-a02c-6311-a281-43a46e1d5e6c@linaro.org>
-Date: Thu, 9 Mar 2023 11:18:15 +0100
+ d=1e100.net; s=20210112; t=1678357230;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dN6x/50QnRtitXeBNurZVqCBCvuGuMbTKs2zZrkaoXY=;
+ b=cwkys3yL/i8bvL6124CVCayJdLKEwXzSQPj1RWOOgGhz+2Yn+KKPbkUu/6FmuZDtzo
+ G+cDhOB7botUuJp8mpB7aWkZQ05fLvAqwIrt0qBKAaNUbfCMyY4qO+eXhz0xUl3TuX0B
+ S/h8gxKqAdtVb7JvWD+LMGKjpqKEIgZKFceNitUflFJyjiTx0KIYz0VgmVV/OhcbpEda
+ CxJKu14g2IbjNHF4WmPNDgn3cW99eGRQJjWZLvQPgENPy3MvYjZKVZd6RSTLk9N5LlFH
+ Dc/ABLRIDDvYZsrDFecctppwUPDsygHCF5okjPN6HdM53B8eFNylXrBsRCYSpsXuEJST
+ lBsg==
+X-Gm-Message-State: AO0yUKVAfcGWjOL9QVUcRkFSmy8ZBMFq98T4xRRTCPSNyAZl+OEbuRcZ
+ nx7XtVPSAhEuFGiPQpXGnO7y+zxed8gbthrTLnzVkg==
+X-Google-Smtp-Source: AK7set+BYV2VHHDAOKVJC3A1cwxvoc1E1ezoHRrDwJgLX2dYkYP/llGpiPQTNiS7Ph5eJLDGJ0iBP6xK6XO3GgM7V1M=
+X-Received: by 2002:a17:90a:d18a:b0:234:c035:7749 with SMTP id
+ fu10-20020a17090ad18a00b00234c0357749mr7512975pjb.0.1678357230328; Thu, 09
+ Mar 2023 02:20:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 14/25] target/ppc: Avoid tcg_const_i64 in do_vcntmb
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org
-References: <20230307183503.2512684-1-richard.henderson@linaro.org>
- <20230307183503.2512684-15-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307183503.2512684-15-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+References: <20230307114329.158094-1-pbonzini@redhat.com>
+In-Reply-To: <20230307114329.158094-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Mar 2023 10:20:19 +0000
+Message-ID: <CAFEAcA8OV0F2CkH=0Yy7pjvTN=Q_TNpSgyiHBeEBBspzZbBTzg@mail.gmail.com>
+Subject: Re: [PULL 0/9] Fix missing memory barriers on ARM
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,21 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/3/23 19:34, Richard Henderson wrote:
-> Compute both partial results separately and accumulate
-> at the end, instead of accumulating in the middle.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: qemu-ppc@nongnu.org
-> ---
->   target/ppc/translate/vmx-impl.c.inc | 21 +++++++++++----------
->   1 file changed, 11 insertions(+), 10 deletions(-)
+On Tue, 7 Mar 2023 at 11:43, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit c61d1a066cb6cf90662c82d0e35660fc0ccacbaf:
+>
+>   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-03-02 16:13:45 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream-mb
+>
+> for you to fetch changes up to 6229438cca037d42f44a96d38feb15cb102a444f:
+>
+>   async: clarify usage of barriers in the polling case (2023-03-07 12:39:53 +0100)
+>
+> ----------------------------------------------------------------
+> * Fix missing memory barriers
+> * Fix comments about memory ordering
+>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
