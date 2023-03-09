@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EB26B1BE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 08:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7426B1BFD
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 08:10:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paAIL-0008R3-Il; Thu, 09 Mar 2023 02:02:33 -0500
+	id 1paAOu-0002kn-Hy; Thu, 09 Mar 2023 02:09:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1paAIK-0008Ql-4u
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 02:02:32 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1paAII-0002HS-3l
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 02:02:31 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.56])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2BBF5208EC;
- Thu,  9 Mar 2023 07:02:20 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 9 Mar
- 2023 08:02:19 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0028253eb65-5852-4702-a7ad-1d21d2294fef,
- 84FD3CBE3932495D325F994F326E5295DCA257A6) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a19618ae-199d-7536-aae2-aa4a07e6285b@kaod.org>
-Date: Thu, 9 Mar 2023 08:02:18 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paAOs-0002kS-Ed
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 02:09:18 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paAOq-0004Lj-E9
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 02:09:18 -0500
+Received: by mail-wr1-x432.google.com with SMTP id j2so850296wrh.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 23:09:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678345753;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zcqxyCjn1HiKd25QvCqzufTu8m9bBHyuYm0QcUe5sxo=;
+ b=J934DRmbmVFVxO3llc0N7G0GlYh4BdhOzQGxt0hQEx07nusKfbkhfDAn+tpgo4HFWK
+ fXKESAIweb4h8rFn2Tphb0sr7jDuhr4XDICzg1Zbr+KzeLeCkXq2I+b+8aydMcQuzyAo
+ Vf9N33FMdxNvtdzWIHAp4UFHZz5kUiNDQ8wZtNvt1GIGuGa1Z5USoq4jUEhuAxBXyvKu
+ KDLZDtmmPEKCyZ6RfEkpRGfzeV2IMHlb4IwlYTL8WIRKtzR8W6GD7d75dB2evQwS3i3T
+ pJ40+xKRZHjp5usO19pb27KpDR38NdR7Lx5SuKn52Z1Mss6uFUDvNJDa4EGz1qUOA+Pc
+ g6pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678345753;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zcqxyCjn1HiKd25QvCqzufTu8m9bBHyuYm0QcUe5sxo=;
+ b=ZP/UmxCiMOCwUNilpMPY06PmPuexHx31JL4PutnX8veEuOW4UcbIuWtwIx32XErIUc
+ aRAFXKlqJL9zcP51orPpYqm4oK1w1XPbZslykEA5VDJbia90QScN4ICrM1uFskvWTzmY
+ lYMCVPlDrJTolIkICH8ZvGpXLM0g6LIDV+zMKqgTA1MSVWK8G64SbmDL/3rZ5hwdD6kD
+ upbc9zIz3YT6h7/DOox85EgiOghi/QiICGFSv0nSihDOAoQYP5iabZ+vYPJ4Fu2E5oQR
+ ktlg325CUXXWJ3+wDpoAn25RKPw5Hwfy1YYCZMLDzbk4nrk6zmfyrBXbxeib/FnZo5VP
+ GTng==
+X-Gm-Message-State: AO0yUKWciIl6RLjM3bgAUqi1sw5+vCchJLcmuVYa3IZ+O1cAIi4zeVBQ
+ qjdZgfqkuJUC0pZ+0weJkX2hNQ==
+X-Google-Smtp-Source: AK7set+z0Ts7y1QtuFOmsvVViuQUQuunSEjfOpwP1Zs4Td+cJrdeJMYFr7qt82i9ob4I/CBphrFzGA==
+X-Received: by 2002:adf:fa4e:0:b0:2c9:d91b:a6ff with SMTP id
+ y14-20020adffa4e000000b002c9d91ba6ffmr14763888wrr.21.1678345753685; 
+ Wed, 08 Mar 2023 23:09:13 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c16-20020a5d4cd0000000b002be0b1e556esm16917904wrt.59.2023.03.08.23.09.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Mar 2023 23:09:13 -0800 (PST)
+Message-ID: <6d60991b-f9f6-0f2f-7da1-cf1cce61cb42@linaro.org>
+Date: Thu, 9 Mar 2023 08:09:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [qemu-web PATCH] Add a blog post about the upcoming KVM Forum 2023
-To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-References: <20230308141204.718786-1-thuth@redhat.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] block: add missing coroutine_fn to
+ bdrv_sum_allocated_file_size()
 Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230308141204.718786-1-thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: d7ea8c2d-f740-494f-bd29-7e892afaa7cb
-X-Ovh-Tracer-Id: 9546505313632422877
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdduhedgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefgfefggfdvffdtgfejveegiedtffelgedugffhtdejteduudekfedtfefhtdevgfenucffohhmrghinhepqhgvmhhurdhorhhgpdguvghvtghonhhfrdhinhhfohenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehthhhuthhhsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20230308211435.346375-1-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230308211435.346375-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,95 +92,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Thomas,
-
-one typo below,
-
-
-On 3/8/23 15:12, Thomas Huth wrote:
-> Based on the announcement e-mail that Paolo sent to the qemu-devel
-> mailing list two days ago - let's spread the word via the blog, too!
+On 8/3/23 22:14, Stefan Hajnoczi wrote:
+> Not a coroutine_fn, you say?
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>    static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
+>    {
+>        BdrvChild *child;
+>        int64_t child_size, sum = 0;
+> 
+>        QLIST_FOREACH(child, &bs->children, next) {
+>            if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
+>                               BDRV_CHILD_FILTERED))
+>            {
+>                child_size = bdrv_co_get_allocated_file_size(child->bs);
+>                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> Well what do we have here?!
+> 
+> I rest my case, your honor.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   _posts/2023-03-08-kvm-forum-cfp.md | 62 ++++++++++++++++++++++++++++++
->   1 file changed, 62 insertions(+)
->   create mode 100644 _posts/2023-03-08-kvm-forum-cfp.md
+>   block.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/_posts/2023-03-08-kvm-forum-cfp.md b/_posts/2023-03-08-kvm-forum-cfp.md
-> new file mode 100644
-> index 0000000..8daf934
-> --- /dev/null
-> +++ b/_posts/2023-03-08-kvm-forum-cfp.md
-> @@ -0,0 +1,62 @@
-> +---
-> +layout: post
-> +title:  "KVM Forum 2023: Call for presentations"
-> +date:   2023-03-08 13:45:00 +0100
-> +categories: [presentations, conferences]
-> +---
-> +
-> +[KVM Forum](https://kvm-forum.qemu.org/2023/) is an annual event that presents
-> +a rare opportunity for KVM and QEMU developers and users to discuss the state
-> +of Linux irtualization technology and plan for the challenges ahead. Sessions
+> diff --git a/block.c b/block.c
+> index 0dd604d0f6..a79297f99b 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -5749,7 +5749,7 @@ exit:
+>    * sums the size of all data-bearing children.  (This excludes backing
+>    * children.)
+>    */
+> -static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
+> +static int64_t coroutine_fn bdrv_sum_allocated_file_size(BlockDriverState *bs)
+>   {
+>       BdrvChild *child;
+>       int64_t child_size, sum = 0;
 
-irtualization -> virtualization
-
-Thanks,
-
-C.
-
-> +include updates on the state of the KVM virtualization stack, planning for the
-> +future, and many opportunities for attendees to collaborate.
-> +
-> +This year's event will be held in Brno, Czech Republic on June 14-15, 2023.
-> +It will be in-person only and will be held right before the
-> +[DevConf.CZ](https://www.devconf.info/cz/) open source community conference.
-> +
-> +June 14 will be at least partly dedicated to a hackathon or "day of BoFs".
-> +This will provide time for people to get together and discuss strategic
-> +decisions, as well as other topics that are best solved within smaller groups.
-> +
-> +## Call for presentations
-> +
-> +We encourage you to submit presentations via the
-> +[KVM Forum CfP page](https://kvm-forum.qemu.org/2023/cfp).
-> + Suggested topics include:
-> +
-> +* Scalability and Optimization
-> +* Hardening and security
-> +* Confidential computing
-> +* Testing
-> +* KVM and the Linux Kernel:
-> +  * New Features and Ports
-> +  * Device Passthrough: VFIO, mdev, vDPA
-> +  * Network Virtualization
-> +  * Virtio and vhost
-> +* Virtual Machine Monitors and Management:
-> +  * VMM Implementation: APIs, Live Migration, Performance Tuning, etc.
-> +  * Multi-process VMMs: vhost-user, vfio-user, QEMU Storage Daemon
-> +  * QEMU without KVM: Hypervisor.framework and other hypervisors
-> +  * Managing KVM: Libvirt, KubeVirt, Kata Containers
-> +* Emulation:
-> +  * New Devices, Boards and Architectures
-> +  * CPU Emulation and Binary Translation
-> +
-> +The deadline for submitting presentations is April 2, 2023 - 11:59 PM PDT.
-> +Accepted speakers will be notified on April 17, 2023.
-> +
-> +## Attending KVM Forum
-> +
-> +Admission to KVM Forum and DevConf.CZ is free. However,
-> +[registration](https://kvm-forum.qemu.org/2023/register/) is required and the
-> +number of attendees is limited by the space available at the venue.
-> +
-> +The DevConf.CZ program will feature technical talks on a variety of topics,
-> +including cloud and virtualization infrastructure—so make sure to register
-> +for DevConf.CZ as well if you would like to attend.
-> +
-> +Both conferences are committed to fostering an open and welcoming environment
-> +for everybody. Participants are expected to abide by the
-> +[Devconf.cz code of conduct](https://www.devconf.info/coc/)
-> +and [media policy](https://www.devconf.info/media-policy/).
-
+Since there is only 1 call site, maybe worth renaming as
+bdrv_co_sum_allocated_file_size() in the same patch?
 
