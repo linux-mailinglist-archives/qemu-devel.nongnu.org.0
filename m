@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1609F6B2F66
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 22:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B69E6B2FD1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 22:51:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paNbN-0006a2-Uz; Thu, 09 Mar 2023 16:15:05 -0500
+	id 1paO9b-0005oa-Qe; Thu, 09 Mar 2023 16:50:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1paNbL-0006Xe-Vs
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 16:15:04 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paO9Z-0005o9-Qh
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 16:50:25 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1paNbK-0004Vr-1w
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 16:15:03 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-17711f56136so3706738fac.12
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 13:15:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paO9Y-0002cW-6j
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 16:50:25 -0500
+Received: by mail-pg1-x533.google.com with SMTP id q23so1943371pgt.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 13:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1678396500;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YAB0nwTwTz5OL3ZASLpXeDoJNH2dEwFjDl4zjLqF4WU=;
- b=JtW+3/NQwwIkydWZ02laO2JvHRlydjxy40ofzKgxXjL/5I7eQMozjDiLLwJV27xlYW
- rrLGHTvDCanALkhEOZgzCkYcmr0kXy/s+/gkqQjuuNEbS60c+ZWPEGIDoLCVS62KGw4j
- rnHzSh+0U/t3tT/I3DqYi4kO318Au6fD5Imb1eTsx7e4riVfNFpCsQxq8VXdh5vdApd6
- qvU47G+vBLuE3IDvW2ayTEFiuh8uvjLME9E5TM5ERGubjRf2Pwjx7afEM78jlF87KraB
- gDJI9tLBkCAwDgfV31tH5JWRs3lW33FHzyzNxYVHQgMr/R/V6O5oHdbkh7aXVsPQB5CV
- a83g==
+ d=linaro.org; s=google; t=1678398622;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7fPsiSsYXg94prjHG0cRnt+Ptjv+OOLI34PwojHQmp0=;
+ b=XQskkL51bTT66DQ7mRZuMSz3u/JnNoHwIRWj1H8S5eoE82y3qa3MSAJcJ3LorC57oL
+ IfGkIhvIVwD8LArCr4aVCuRoAs1Jo0iM1m8frg7F/a66lNBWvf63dxARFj+eOe7LDOgl
+ 8RBUsaMgMhIepR3sKmgp+MIABPE6so+252aLVw7yUCsoTlUTy4CmkVwLqmE4llwx6Ekt
+ RaJx2/s+qlPPGLj5u/8+V2GQfV/QfpOeuwjV1bOXC5L0SF72NNPh4HnJhmzFe8p6EmZw
+ sRqHgSIeoab/eic5vxQsNvw1Ao5mKxYeroRn5ajQpRvVG8yEmn61H3lGiG5RHYLgGNF8
+ 63mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678396500;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YAB0nwTwTz5OL3ZASLpXeDoJNH2dEwFjDl4zjLqF4WU=;
- b=K+dJJPekzynqbljMljBA46Y3YuaBuwuVQcTJ0Tl2ewoNA0rz95dLFTHqq8ElwEgR50
- cz8z41hMy4bb/OejszWwBurtuA6z2UEOM1m5N5h+hp3wjKzkv+xz3W6vw2h5QzZ8HOPA
- w9NSJQR7JZ8lQnZ0QEBMCA90c7LZ1+cOGiMvxsCcXlDgINRYwoN5ahB1xd6KdmndV5jb
- HKsuigbBeDZ+Kt0FAF1esPIwGLbxnhE8eDG+a/p4Gv2qJdDEx0KoX9X7cabDZORbOsyl
- yaFOcdcIdyPgscalVZKKYu1hQpI0ML3cNGSpJz88h9g2XYvliMnpJJL20u0F0j8kDxkE
- OfRQ==
-X-Gm-Message-State: AO0yUKWnlTWqtsXf2zeVq+KvzTXRZz3/H331f6Ig2FqK7yrk7Py55Nvu
- 2D7NrmQSGlIAdii30ErqHPgmDDyTqar7BP9gKIk=
-X-Google-Smtp-Source: AK7set/wQn5Q+HSqr5Ebddl5nE3j9SP8Fqrxp1KbfBEwdZQ0Xr8k9ZcNE/oAFnDLdkAAWY+ZCD3yIw==
-X-Received: by 2002:a05:6870:a109:b0:172:acf5:1d25 with SMTP id
- m9-20020a056870a10900b00172acf51d25mr14861918oae.0.1678396500496; 
- Thu, 09 Mar 2023 13:15:00 -0800 (PST)
-Received: from [192.168.68.107] ([177.189.53.31])
- by smtp.gmail.com with ESMTPSA id
- k37-20020a4a94a8000000b0051ffe0fe11bsm141964ooi.6.2023.03.09.13.14.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 13:15:00 -0800 (PST)
-Message-ID: <2b4071aa-b584-a03f-1aaf-e73bafcf1db3@ventanamicro.com>
-Date: Thu, 9 Mar 2023 18:14:56 -0300
+ d=1e100.net; s=20210112; t=1678398622;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7fPsiSsYXg94prjHG0cRnt+Ptjv+OOLI34PwojHQmp0=;
+ b=Jp1Wqd44iWBhPqYZC2WU923TNUOZL1W9VD9nGI7Xpf65ve3nqyCdbltdohqwFryy+h
+ X9AM1PvEboBqVytB88LHhiDu6ZQMChTkepJToq4BuWWA/dz+jofYQbgYYONXAsDJJaV+
+ C/y9+3a6cvAoz2O2nFpLZ3aYJbKV9XPDXM2rtlKDi7ouJJL+OdcaJSm4eYnbGjzS7Z5N
+ OsfOjCN+FJ/m33iX8rYXwzTUuTOPAtr3gH2neDBEazqU1flZrYaa65WSIXLy+RoXh6d8
+ UkHOwCiAJ1OvHLBYs41tt0Kq+E3s+9hsnn7YSoqmZSqvjCKtbU/t9hnlDnqGzJW0JSVE
+ lvBw==
+X-Gm-Message-State: AO0yUKV1/+hRz4nCAVTcUCUI8kyJX/GpxhjjmxJHhewDmKXj/qzWZb2Y
+ BcTusfRCn9l7uMFrkMg+rW8IoAMPlVRwWOYl8y8Q5w==
+X-Google-Smtp-Source: AK7set/g2ylX9e31/lb2OMAv0xPO5I6BH1kFRXP43VJsRIM4jCt9tyYl2WDBERyz10TaDRtYJbIlJvtnlOYVy7j8yAQ=
+X-Received: by 2002:a62:65c1:0:b0:590:3182:933a with SMTP id
+ z184-20020a6265c1000000b005903182933amr9469913pfb.1.1678398622517; Thu, 09
+ Mar 2023 13:50:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH for-8.1 00/17] centralize CPU extensions logic
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-References: <20230308201925.258223-1-dbarboza@ventanamicro.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230308201925.258223-1-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2a.google.com
+References: <20230307212139.883112-1-alex.bennee@linaro.org>
+In-Reply-To: <20230307212139.883112-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Mar 2023 21:50:10 +0000
+Message-ID: <CAFEAcA-SZVXDcq7rgzCCUSzd=JkwD7ti7qzGp-GW-qnHTVJigQ@mail.gmail.com>
+Subject: Re: [PULL 00/30] gdbstub refactor for smaller build
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,79 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Just realized that the subject doesn't mention 'riscv' anywhere.
+On Tue, 7 Mar 2023 at 21:21, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8=
+bd:
+>
+>   Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-d=
+abbelt/qemu into staging (2023-03-07 12:53:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stsquad/qemu.git tags/pull-gdbstub-070323-3
+>
+> for you to fetch changes up to 412ae12647d1086c713e13841fd25d10d5418c7f:
+>
+>   gdbstub: move update guest debug to accel ops (2023-03-07 20:44:09 +000=
+0)
+>
+> ----------------------------------------------------------------
+> gdbstub refactor:
+>
+>   - split user and softmmu code
+>   - use cleaner headers for tb_flush, target_ulong
+>   - probe for gdb multiarch support at configure
+>   - make syscall handling target independent
+>   - add update guest debug of accel ops
 
-Yes, this is target/riscv specific. I'll make sure to mention that in the
-future versions.
 
-Thanks,
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-Daniel
-
-On 3/8/23 17:19, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> During the review of a series that did some work in the RISCV_FEATURES*
-> enum, Liu Zhiwei commented on how we could centralize the all the
-> extension validation code and integrate it with write_misa() [1].
-> 
-> This does at least part of what was suggested. The idea is that, ATM, we
-> have too many places setting cpu->cfg and the validation logic is
-> scattered around (e.g. there are some contraints in write_misa() that
-> should be applicable elsewhere). This series is an attempt to centralize
-> things a bit.
-> 
-> The main accomplishments of this series are:
-> 
-> - the parent device riscv-cpu no longer sets any cpu->cfg attribute. This
->    was forcing init() functions to disable extensions that it wouldn't
->    use just because the parent device was enabling it;
-> 
-> - all validations are centered in validate_set_extensions(), with
->    pontual exceptions in write_misa() that has exclusive contraints;
-> 
-> - set_misa() now writes cpu->cfg. No need to have one function to set
->    env->misa_ext and then another to set cpu->cfg;
-> 
-> - register_cpu_props() now only exposes user-facing props;
-> 
-> - all validations from validate_set_extensions() are done at the start
->    of the function. Validate first, set extensions after;
-> 
-> - RVE is now forbidden in all validations, not just in write_misa();
-> 
-> - RVG is now forbidden in write_misa();
-> 
-> - write_misa now uses set_misa() and validate_set_extensions().
-> 
-> 
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
-> 
-> Daniel Henrique Barboza (17):
->    target/riscv/cpu.c: add riscv_cpu_validate_v()
->    target/riscv/cpu.c: remove set_vext_version()
->    target/riscv/cpu.c: remove set_priv_version()
->    target/riscv: add PRIV_VERSION_LATEST macro
->    target/riscv/cpu.c: add riscv_cpu_validate_priv_spec()
->    target/riscv: move realize() validations to
->      riscv_cpu_validate_set_extensions()
->    target/riscv/cpu.c: remove cfg setup from riscv_cpu_init()
->    target/riscv/cpu.c: avoid set_misa() in validate_set_extensions()
->    target/riscv/cpu.c: set cpu config in set_misa()
->    target/riscv/cpu.c: redesign register_cpu_props()
->    target/riscv/cpu.c: move riscv_cpu_validate_v() up
->    target/riscv: put env->misa_ext <-> cpu->cfg code into helpers
->    target/riscv/cpu.c: split riscv_cpu_validate_priv_spec()
->    target/riscv/cpu.c: do not allow RVE to be set
->    target/riscv: add RVG
->    target/riscv: do not allow RVG in write_misa()
->    target/riscv: rework write_misa()
-> 
->   target/riscv/cpu.c | 516 +++++++++++++++++++++++++--------------------
->   target/riscv/cpu.h |   9 +-
->   target/riscv/csr.c |  52 ++---
->   3 files changed, 323 insertions(+), 254 deletions(-)
-> 
+-- PMM
 
