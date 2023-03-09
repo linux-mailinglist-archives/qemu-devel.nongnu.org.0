@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0B56B2B00
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371F56B2B2E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:50:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paJJJ-0005ZW-Fb; Thu, 09 Mar 2023 11:40:09 -0500
+	id 1paJS4-0003lq-E7; Thu, 09 Mar 2023 11:49:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJJF-0005ZJ-Gh
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:40:05 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJJD-0004nE-Nb
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:40:05 -0500
-Received: by mail-wr1-x434.google.com with SMTP id bx12so2487328wrb.11
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678380001;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EttGygbuiv20IM7glOWqdT982D+gSt2/g+QYcBS+i5s=;
- b=fqXMBAh7LaD9kvrkLTSRGmnezs+df8sWYjMYinhJeXK54A8CZNX4xh+mvG1QCh33/p
- 24xGcA/zjRV/p2PkQh8GwKOcRWuCEzo3Ae1CdIBOlSMQDowsgPoir0QnnXSs3Q5mHCO1
- 1qSVe4QmVaQiHoUSrGwtHe4W/yIKsPIJcb5d/DSxu21vNv9O/clboHUkGCqytCiCMbmT
- Jyb5Ly4YdT7WhET5UpwZzhYl7+NIP3BuTF84ACpW2LW+dyoG+FQdNKu82c+NmxczU7jL
- yZGt5GZBZ4OQx3NvIRvwDqsPWI4jRI7xom1V+C7AycLfVrIBUK2n+htrRQHScpxwYKxY
- uY3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678380001;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EttGygbuiv20IM7glOWqdT982D+gSt2/g+QYcBS+i5s=;
- b=UaPISp7jRouuXnXlsAJxt9hYBe2EhhLdYMXkJyD5o8dPvxIgsb+iw3RqWFibh/w8LE
- AsuHZ4s463Ako6Zg+oq1hnvo8/hIxgYs24+ZAojVQV9PUHj0N25wsFAWkrg9Xhqm4uVa
- ZoOWcrjOqLYCF5kX5Vrn0L9GAIGZvGio3IhGTYhmMajikMKZVeO1RqavrWJuHcIrvjOG
- KdMxFTYNnYi5915FZ+IgZ5G7Yxv2pywfeUL0KVZUHCX3x5NZW++ArYZPyM2a5BvghbCz
- RSobGlas95eJ1HYQCoBttkGQc3zXc0hxZw329cizSclKQ8W9E0GOyUcuW0fxozO3bqeS
- LMWQ==
-X-Gm-Message-State: AO0yUKVaovmU1RxysJnTOl7eXN8etY00nSWRnG3/3s9Offcpl5oc1HqZ
- ICfZsgZ0rxmuVvCMo/r+etAC/A==
-X-Google-Smtp-Source: AK7set8EJ5jkYitSUiJ8bv3p4Ndi8z/+eXGwQApRKHFdqdXXExNnSg21N8sqywl4ADp8nUbYOTmguw==
-X-Received: by 2002:adf:fe90:0:b0:2bf:b199:c7eb with SMTP id
- l16-20020adffe90000000b002bfb199c7ebmr13469529wrr.54.1678380001133; 
- Thu, 09 Mar 2023 08:40:01 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t24-20020a1c7718000000b003eb20d4d4a8sm275667wmi.44.2023.03.09.08.40.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 08:40:00 -0800 (PST)
-Message-ID: <7dee3544-2f80-3e44-c73d-1ddd507f00df@linaro.org>
-Date: Thu, 9 Mar 2023 17:39:59 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1paJS2-0003lh-De
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:49:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1paJS0-0006rz-Bl
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:49:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678380546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dXj7dKCVBTKvi8T+YRubnxL4DKGAGdHX9BHZIy2pBKA=;
+ b=KJDs0rUG9pH5m1ze1zyp4bAgD+r8pqH/cTIFqFp29Nm2XFEkZ+iRoB8yDVxBeiLpJdBRTz
+ gYdIbYuzn3/kI25p+ciIhP6eiQGkhQLMVvMXw7yylnnPIzZtP4xQVqA+e2A1qB0odcIHFm
+ iPMvenKFKB4yiYGAm3APSO4lk/lgFxo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-53-ILG1vHEpNmmH1Z0i6SsGYw-1; Thu, 09 Mar 2023 11:48:54 -0500
+X-MC-Unique: ILG1vHEpNmmH1Z0i6SsGYw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E0AE185A7A4;
+ Thu,  9 Mar 2023 16:48:54 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1405A4024CA3;
+ Thu,  9 Mar 2023 16:48:52 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] gitlab-ci.d/buildtest: Rework the target list of
+ build-system-alpine
+Date: Thu,  9 Mar 2023 17:48:50 +0100
+Message-Id: <20230309164850.109882-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 14/18] ui/sdl: add optional logging when _SDL_DEBUG is
- set
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
- <20230307115637.2464377-15-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307115637.2464377-15-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,49 +74,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/3/23 12:56, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Apparently, there is no environment variable you can set for libsdl to
-> enable logging.
+The target list of the build-system-alpine job is pretty much a copy
+of the build-system-ubuntu job (apart from "aarch64-softmmu" which
+has recently been removed from the ubuntu job in commit 6eda5ef5f8f4,
+but aarch64-softmmu is still also tested in the opensuse jobs, so
+we don't need to keep it here).
 
-Why not use getenv() in QEMU then?
+Let's stop wasting our CI minutes with such duplications, and focus
+on testing targets instead that do not have such a great test coverage
+yet: The "loongarch64-softmmu" target has never been added to our
+build tests yet since it has been introduced, and the "mips64-softmmu"
+target is so far only tested in jobs that lack the "avocado" testing
+stage (only the little endian or 32-bit MIPS variants are tested in
+jobs with avocado so far).
 
-> (similar to _VNC_DEBUG)
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   include/ui/sdl2.h | 2 ++
->   ui/sdl2.c         | 4 ++++
->   2 files changed, 6 insertions(+)
-> 
-> diff --git a/include/ui/sdl2.h b/include/ui/sdl2.h
-> index 8fb7e08262..6fea36db82 100644
-> --- a/include/ui/sdl2.h
-> +++ b/include/ui/sdl2.h
-> @@ -6,6 +6,8 @@
->   
->   #include <SDL.h>
->   
-> +/* #define _SDL_DEBUG 1 */
-> +
->   /* with Alpine / muslc SDL headers pull in directfb headers
->    * which in turn trigger warning about redundant decls for
->    * direct_waitqueue_deinit.
-> diff --git a/ui/sdl2.c b/ui/sdl2.c
-> index f259e4c4d1..592eca3e1c 100644
-> --- a/ui/sdl2.c
-> +++ b/ui/sdl2.c
-> @@ -841,6 +841,10 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
->       }
->   #endif
->   
-> +#ifdef _SDL_DEBUG
-> +    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
-> +#endif
-> +
->       if (SDL_Init(SDL_INIT_VIDEO)) {
->           fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
->                   SDL_GetError());
+While we're at it, also move the avr-softmmu and mipsel-softmmu targets
+from the Debian job to the alpine job, since the Debian job (and its
+following test jobs) has already a long runtime compared to the others
+jobs. With this movement, the runtimes should be more equally distributed
+along the parallel running jobs now.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/buildtest.yml | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 44b8275299..ba6f551752 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -9,8 +9,7 @@ build-system-alpine:
+     - job: amd64-alpine-container
+   variables:
+     IMAGE: alpine
+-    TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+-      microblazeel-softmmu mips64el-softmmu
++    TARGETS: avr-softmmu loongarch64-softmmu mips64-softmmu mipsel-softmmu
+     MAKE_CHECK_ARGS: check-build
+     CONFIGURE_ARGS: --enable-docs --enable-trace-backends=log,simple,syslog
+ 
+@@ -72,8 +71,8 @@ build-system-debian:
+   variables:
+     IMAGE: debian-amd64
+     CONFIGURE_ARGS: --with-coroutine=sigaltstack
+-    TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
+-      riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
++    TARGETS: arm-softmmu i386-softmmu riscv64-softmmu sh4eb-softmmu
++      sparc-softmmu xtensaeb-softmmu
+     MAKE_CHECK_ARGS: check-build
+ 
+ check-system-debian:
+-- 
+2.31.1
 
 
