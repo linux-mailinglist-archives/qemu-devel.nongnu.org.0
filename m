@@ -2,91 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC13A6B25D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 14:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EA66B2625
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:01:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paGcm-0001cM-B4; Thu, 09 Mar 2023 08:48:04 -0500
+	id 1paGpR-0004ja-CT; Thu, 09 Mar 2023 09:01:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1paGcj-0001bl-HB
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:48:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
+ id 1paGpB-0004bp-Qz; Thu, 09 Mar 2023 09:00:55 -0500
+Received: from forward106j.mail.yandex.net ([2a02:6b8:0:801:2::109])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1paGch-0007OW-Sw
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 08:48:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678369679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pcuuo4bni2qgZ8dPcEK8FNm2IBm/gAbIx1CVMhte0wE=;
- b=WX67ma9MSJlNrVFfPghd3YfewsD71SCiZwewrBOUHrb+G57kP3yeUK0OeRF4yAUX2REzKd
- gzKsqn/auqzxDZcNKcCxpqKOEfW+Xy62xXv+KPos2i9CzCrc4+mIAU191rHZKDxofpaTNj
- UUztxKMk/w5pn5L5VQXVxcmAWoUZ6iA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-159-URqzdiMLOtyxeYgR1kfQsA-1; Thu, 09 Mar 2023 08:47:57 -0500
-X-MC-Unique: URqzdiMLOtyxeYgR1kfQsA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y16-20020a1c4b10000000b003dd1b5d2a36so1559943wma.1
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 05:47:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678369676;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pcuuo4bni2qgZ8dPcEK8FNm2IBm/gAbIx1CVMhte0wE=;
- b=snCrjAEwHMVtbwJuK4daQFO7FJ9vHcmulzlNkqjEBlmUN/QnTktnqC3UjcubB9cRN9
- CE08zaPU5GvZRgX7g4JjQVWMS7Mlwbh89dRbbVgGwBKy6FAn9MqSDppXdmj7nXpCsRlA
- 0mH1rjDiB2z0ZMi9aYNSqhauCUcVY4VsPSrgu9X7d0TosUpUGr7WSlK8sHhmkZ5OugJD
- LFgAHsFJ/LfTS/eR7veErJnfD/Y6r2rG4KZunzmK+M/HscLerea0kuge+qWVr452v9w6
- gCGaGr5BAVba6f5HTwja5Areg3cIWvLEoBth74JmwpYZiwP18qDjuN4tCQfqQ1PopSvB
- LSpg==
-X-Gm-Message-State: AO0yUKXyPAbJu9VZ9IVwris9xDyMIoTL1D+FWwkmT6hGB+au2r9GD9Nx
- PvxyTfbIsGd6GTWkNUSRxf6doBiVCpicL3rygiyAim1f6Gy7r0tQEKo76H1+lPkjG9CBjDVylQw
- +PhMtMefG21rojAI=
-X-Received: by 2002:a5d:52cc:0:b0:2ca:2794:87e8 with SMTP id
- r12-20020a5d52cc000000b002ca279487e8mr13736517wrv.21.1678369676480; 
- Thu, 09 Mar 2023 05:47:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Z5LSVTWUUTlqC0knReSObwSwKl2rHMcW96KV42THHg+Hs9ykITW4nlhYp8g90AKsvBiakgg==
-X-Received: by 2002:a5d:52cc:0:b0:2ca:2794:87e8 with SMTP id
- r12-20020a5d52cc000000b002ca279487e8mr13736509wrv.21.1678369676228; 
- Thu, 09 Mar 2023 05:47:56 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-140.web.vodafone.de.
- [109.43.178.140]) by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c458700b003eb966d39desm2986995wmo.2.2023.03.09.05.47.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 05:47:54 -0800 (PST)
-Message-ID: <2e9087d2-3ea1-816f-40c6-c5cf879243f9@redhat.com>
-Date: Thu, 9 Mar 2023 14:47:53 +0100
+ (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
+ id 1paGp9-0001Ip-K9; Thu, 09 Mar 2023 09:00:53 -0500
+Received: from iva3-dd2bb2ff2b5f.qloud-c.yandex.net
+ (iva3-dd2bb2ff2b5f.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:7611:0:640:dd2b:b2ff])
+ by forward106j.mail.yandex.net (Yandex) with ESMTP id 8480F6BD89B3;
+ Thu,  9 Mar 2023 16:54:14 +0300 (MSK)
+Received: by iva3-dd2bb2ff2b5f.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id BsdJhR3bk8c1-0CWZd0hO; Thu, 09 Mar 2023 16:54:13 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
+ t=1678370053; bh=eFm8VCL1PLveRB8WCNxZodpv/TMfY4YITyhE/ClC8l8=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=eXO6xgfKMVH5YttMDw5vTLPnIxHBmLWpblKXzD9jQ30CGZnGI92I+GrTjuqsdHsXj
+ snax24S5RkL5ff+OufcZSkRz+yiD1qmpy/P8OtA++8A3UDJ/AVZorlUvQoU4RSsQGq
+ g2Lm4Axy6olegjmWxv6pEr1EdTEhOrgdr531f+6I=
+Authentication-Results: iva3-dd2bb2ff2b5f.qloud-c.yandex.net;
+ dkim=pass header.i=@syntacore.com
+From: Ivan Klokov <ivan.klokov@syntacore.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, richard.henderson@linaro.org, pbonzini@redhat.com,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ wangyanan55@huawei.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com,
+ liu@linux.alibaba.com, Ivan Klokov <ivan.klokov@syntacore.com>
+Subject: [PATCH v2] target/riscv: Add RVV registers to log
+Date: Thu,  9 Mar 2023 16:54:03 +0300
+Message-Id: <20230309135403.102703-1-ivan.klokov@syntacore.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 2/2] tests/tcg/s390x: Add C(G)HRL test
-Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- qemu-s390x@nongnu.org
-References: <20230308210226.2847503-1-nsg@linux.ibm.com>
- <20230308210226.2847503-3-nsg@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230308210226.2847503-3-nsg@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:801:2::109;
+ envelope-from=ivan.klokov@syntacore.com; helo=forward106j.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,25 +68,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08/03/2023 22.02, Nina Schoetterl-Glausch wrote:
-> Test COMPARE HALFWORD RELATIVE LONG instructions.
-> Test that the bytes following the second operand do not affect the
-> instruction.
-> Test the sign extension performed on the second operand.
-> 
-> Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-> ---
-> 
-> 
-> I don't know what the coding style is for inline asm.
-> checkpatch.sh complains about the tabs inside the asm, which I find a
-> bit surprising given they're inside a string.
-> IMO emitting tabs makes sense in order to be consistent with gcc output.
-> I left the tabs in for now, but can remove them.
+Added QEMU option 'rvv' to add RISC-V RVV registers to log like regular regs.
 
-I don't mind too much, but all the other files use spaces, not tabs, so I 
-think it's maybe best to also use spaces here for consistency?
+Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
+---
+v2:
+   - fix option name
+   - fix byte ordering
+---
+ accel/tcg/cpu-exec.c  |  3 +++
+ include/hw/core/cpu.h |  2 ++
+ include/qemu/log.h    |  1 +
+ target/riscv/cpu.c    | 59 ++++++++++++++++++++++++++++++++++++++++++-
+ util/log.c            |  2 ++
+ 5 files changed, 66 insertions(+), 1 deletion(-)
 
-  Thomas
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 56aaf58b9d..0dca69fccb 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -319,6 +319,9 @@ static void log_cpu_exec(target_ulong pc, CPUState *cpu,
+ #if defined(TARGET_I386)
+                 flags |= CPU_DUMP_CCOP;
+ #endif
++                if (qemu_loglevel_mask(CPU_LOG_TB_VPU)) {
++                    flags |= CPU_DUMP_VPU;
++                }
+                 cpu_dump_state(cpu, logfile, flags);
+                 qemu_log_unlock(logfile);
+             }
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 75689bff02..7c9d25ff45 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -545,11 +545,13 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu);
+  * @CPU_DUMP_CODE:
+  * @CPU_DUMP_FPU: dump FPU register state, not just integer
+  * @CPU_DUMP_CCOP: dump info about TCG QEMU's condition code optimization state
++ * @CPU_DUMP_VPU: dump VPU registers
+  */
+ enum CPUDumpFlags {
+     CPU_DUMP_CODE = 0x00010000,
+     CPU_DUMP_FPU  = 0x00020000,
+     CPU_DUMP_CCOP = 0x00040000,
++    CPU_DUMP_VPU  = 0x00080000,
+ };
+ 
+ /**
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index c5643d8dd5..df59bfabcd 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -35,6 +35,7 @@ bool qemu_log_separate(void);
+ /* LOG_STRACE is used for user-mode strace logging. */
+ #define LOG_STRACE         (1 << 19)
+ #define LOG_PER_THREAD     (1 << 20)
++#define CPU_LOG_TB_VPU     (1 << 21)
+ 
+ /* Lock/unlock output. */
+ 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 5bc0005cc7..0b16c9c8e3 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -172,6 +172,14 @@ const char * const riscv_fpr_regnames[] = {
+   "f30/ft10", "f31/ft11"
+ };
+ 
++const char * const riscv_rvv_regnames[] = {
++  "v0",  "v1",  "v2",  "v3",  "v4",  "v5",  "v6",
++  "v7",  "v8",  "v9",  "v10", "v11", "v12", "v13",
++  "v14", "v15", "v16", "v17", "v18", "v19", "v20",
++  "v21", "v22", "v23", "v24", "v25", "v26", "v27",
++  "v28", "v29", "v30", "v31"
++};
++
+ static const char * const riscv_excp_names[] = {
+     "misaligned_fetch",
+     "fault_fetch",
+@@ -422,7 +430,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ {
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
+-    int i;
++    int i, j;
++    uint8_t *p;
+ 
+ #if !defined(CONFIG_USER_ONLY)
+     if (riscv_has_ext(env, RVH)) {
+@@ -506,6 +515,54 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+             }
+         }
+     }
++    if (riscv_has_ext(env, RVV)) {
++        if (flags & CPU_DUMP_VPU) {
++
++            static const int dump_rvv_csrs[] = {
++                        CSR_VSTART,
++                        CSR_VXSAT,
++                        CSR_VXRM,
++                        CSR_VCSR,
++                        CSR_VL,
++                        CSR_VTYPE,
++                        CSR_VLENB,
++                    };
++            for (int i = 0; i < ARRAY_SIZE(dump_rvv_csrs); ++i) {
++                int csrno = dump_rvv_csrs[i];
++                target_ulong val = 0;
++                RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
++
++                /*
++                 * Rely on the smode, hmode, etc, predicates within csr.c
++                 * to do the filtering of the registers that are present.
++                 */
++                if (res == RISCV_EXCP_NONE) {
++                    qemu_fprintf(f, " %-8s " TARGET_FMT_lx "\n",
++                                 csr_ops[csrno].name, val);
++                }
++            }
++            uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
++
++/*
++ * From vector_helper.c
++ * Note that vector data is stored in host-endian 64-bit chunks,
++ * so addressing bytes needs a host-endian fixup.
++ */
++#if HOST_BIG_ENDIAN
++#define BYTE(x)   ((x) ^ 7)
++#else
++#define BYTE(x)   (x)
++#endif
++            for (i = 0; i < 32; i++) {
++                qemu_fprintf(f, " %-8s ", riscv_rvv_regnames[i]);
++                p = (uint8_t *)env->vreg;
++                for (j = vlenb - 1 ; j >= 0; j--) {
++                    qemu_fprintf(f, "%02x", *(p + i * vlenb + BYTE(j)));
++                }
++                qemu_fprintf(f, "\n");
++            }
++        }
++    }
+ }
+ 
+ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/util/log.c b/util/log.c
+index 7837ff9917..93dccee7b8 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
+       "log every user-mode syscall, its input, and its result" },
+     { LOG_PER_THREAD, "tid",
+       "open a separate log file per thread; filename must contain '%d'" },
++    { CPU_LOG_TB_VPU, "vpu",
++      "include VPU registers in the 'cpu' logging" },
+     { 0, NULL, NULL },
+ };
+ 
+-- 
+2.34.1
 
 
