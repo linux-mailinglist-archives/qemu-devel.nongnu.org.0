@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997C16B2E6C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B656B2E60
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:16:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMfk-0004lY-9m; Thu, 09 Mar 2023 15:15:32 -0500
+	id 1paMfn-0004sB-WD; Thu, 09 Mar 2023 15:15:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paMfU-0004Fm-JX; Thu, 09 Mar 2023 15:15:18 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ id 1paMfY-0004QX-1N; Thu, 09 Mar 2023 15:15:20 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paMfS-0002h6-Un; Thu, 09 Mar 2023 15:15:16 -0500
+ id 1paMfW-0002iq-Do; Thu, 09 Mar 2023 15:15:19 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 75AF7202A3;
- Thu,  9 Mar 2023 20:15:13 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C115B21C0B;
+ Thu,  9 Mar 2023 20:15:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678392913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678392916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p5YrNMxmCSXKAAgShoRgMvoDqaxZU1WpdCJ0XHKi6qI=;
- b=uhenQ2YDm2K6R72W2//4a0tPwsnyGWfQB3TLK8idO6rvh1jKMtyZ6ZKFRdxkqeB5gXYNRe
- QKHBmJ/1UeEwVzN/XhLqvpTAgdoMp0f1tCc+69B29Aoq9e7qAXqU/boRovsgyl+E5xc+77
- JQ2oVvmy6mWjIsw3x0mbl7r+prveIoE=
+ bh=Qp1zV7PiZ1mjCYLbNiX16Xw81PbK5WfPRc15DxtV7UM=;
+ b=cgJws/2hjrTlx2GVxs7SdBCJ1T12ORu139fvVQHvKuhukoXOa5OlbXmluJE4wvZEQaAS1C
+ rvf9VOndHH2yFo3hSeC1VNb9JkOHpCNVu7JCF+eNKRhKQXgwqlgKnmR5ITwjW1o6Gv/oyM
+ w3hIOhkcJGBDCa7qHHa8EE3n0e+EyKE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678392913;
+ s=susede2_ed25519; t=1678392916;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p5YrNMxmCSXKAAgShoRgMvoDqaxZU1WpdCJ0XHKi6qI=;
- b=vPDfMsZLDTXehPjivClesGfQv5OHi1qo2O8Zrn8QjDihjLCIdAkmjIeYD4tcf0ga8GdFof
- fqBtIHDB9o+vrJDA==
+ bh=Qp1zV7PiZ1mjCYLbNiX16Xw81PbK5WfPRc15DxtV7UM=;
+ b=tWDnS/69Ve5jja4VE8Knf7caX3kCfyCvdZzegU8d/v+NJnUrsg7FCN5GLBsDmFbQXSgZ+B
+ VUlIF0S69iYvA3CQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D164C1391B;
- Thu,  9 Mar 2023 20:15:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9A611391B;
+ Thu,  9 Mar 2023 20:15:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cPoFJk0+CmTUZwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 09 Mar 2023 20:15:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id CLamJ1E+CmTUZwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 09 Mar 2023 20:15:13 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,19 +57,18 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v8 09/11] tests/avocado: Pass parameters to migration test
-Date: Thu,  9 Mar 2023 17:14:32 -0300
-Message-Id: <20230309201434.10831-10-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v8 10/11] target/arm: gdbstub: Guard M-profile code with
+ CONFIG_TCG
+Date: Thu,  9 Mar 2023 17:14:33 -0300
+Message-Id: <20230309201434.10831-11-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230309201434.10831-1-farosas@suse.de>
 References: <20230309201434.10831-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,139 +91,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The migration tests are currently broken for an aarch64 host because
-the tests pass no 'machine' and 'cpu' options on the QEMU command
-line.
+This code is only relevant when TCG is present in the build. If we try
+to build with --disable-tcg we currently get:
 
-Add a separate class to each architecture so that we can specify
-'machine' and 'cpu' options instead of relying on defaults.
-
-Add a skip decorator to keep the current behavior of only running
-migration tests when the qemu target matches the host architecture.
+libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub.c.o: in function
+`m_sysreg_ptr': ../target/arm/gdbstub.c:356: undefined reference to
+`arm_v7m_get_sp_ptr'
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/avocado/migration.py | 83 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 78 insertions(+), 5 deletions(-)
+ target/arm/gdbstub.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
-index 4b25680c50..8b2ec0e3c4 100644
---- a/tests/avocado/migration.py
-+++ b/tests/avocado/migration.py
-@@ -11,6 +11,8 @@
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 3f799f5d05..2ecc362ac2 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -322,6 +322,7 @@ static int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
+     return cpu->dyn_sysreg_xml.num;
+ }
  
++#ifdef CONFIG_TCG
+ typedef enum {
+     M_SYSREG_MSP,
+     M_SYSREG_PSP,
+@@ -479,6 +480,7 @@ static int arm_gen_dynamic_m_secextreg_xml(CPUState *cs, int orig_base_reg)
+     return cpu->dyn_m_secextreg_xml.num;
+ }
+ #endif
++#endif /* CONFIG_TCG */
  
- import tempfile
-+import os
-+
- from avocado_qemu import QemuSystemTest
- from avocado import skipUnless
+ const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
+ {
+@@ -553,6 +555,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
+                              "system-registers.xml", 0);
  
-@@ -19,7 +21,7 @@
- from avocado.utils.path import find_command
- 
- 
--class Migration(QemuSystemTest):
-+class MigrationTest(QemuSystemTest):
-     """
-     :avocado: tags=migration
-     """
-@@ -62,20 +64,91 @@ def _get_free_port(self):
-             self.cancel('Failed to find a free port')
-         return port
- 
--
--    def test_migration_with_tcp_localhost(self):
-+    def migration_with_tcp_localhost(self):
-         dest_uri = 'tcp:localhost:%u' % self._get_free_port()
-         self.do_migrate(dest_uri)
- 
--    def test_migration_with_unix(self):
-+    def migration_with_unix(self):
-         with tempfile.TemporaryDirectory(prefix='socket_') as socket_path:
-             dest_uri = 'unix:%s/qemu-test.sock' % socket_path
-             self.do_migrate(dest_uri)
- 
-     @skipUnless(find_command('nc', default=False), "'nc' command not found")
--    def test_migration_with_exec(self):
-+    def migration_with_exec(self):
-         """The test works for both netcat-traditional and netcat-openbsd packages."""
-         free_port = self._get_free_port()
-         dest_uri = 'exec:nc -l localhost %u' % free_port
-         src_uri = 'exec:nc localhost %u' % free_port
-         self.do_migrate(dest_uri, src_uri)
-+
-+
-+@skipUnless('aarch64' in os.uname()[4], "host != target")
-+class Aarch64(MigrationTest):
-+    """
-+    :avocado: tags=arch:aarch64
-+    :avocado: tags=machine:virt
-+    :avocado: tags=cpu:max
-+    """
-+
-+    def test_migration_with_tcp_localhost(self):
-+        self.migration_with_tcp_localhost()
-+
-+    def test_migration_with_unix(self):
-+        self.migration_with_unix()
-+
-+    def test_migration_with_exec(self):
-+        self.migration_with_exec()
-+
-+
-+@skipUnless('x86_64' in os.uname()[4], "host != target")
-+class X86_64(MigrationTest):
-+    """
-+    :avocado: tags=arch:x86_64
-+    :avocado: tags=machine:pc
-+    :avocado: tags=cpu:qemu64
-+    """
-+
-+    def test_migration_with_tcp_localhost(self):
-+        self.migration_with_tcp_localhost()
-+
-+    def test_migration_with_unix(self):
-+        self.migration_with_unix()
-+
-+    def test_migration_with_exec(self):
-+        self.migration_with_exec()
-+
-+
-+@skipUnless('ppc64le' in os.uname()[4], "host != target")
-+class PPC64(MigrationTest):
-+    """
-+    :avocado: tags=arch:ppc64
-+    :avocado: tags=machine:pseries
-+    :avocado: tags=cpu:power9_v2.0
-+    """
-+
-+    def test_migration_with_tcp_localhost(self):
-+        self.migration_with_tcp_localhost()
-+
-+    def test_migration_with_unix(self):
-+        self.migration_with_unix()
-+
-+    def test_migration_with_exec(self):
-+        self.migration_with_exec()
-+
-+
-+@skipUnless('s390x' in os.uname()[4], "host != target")
-+class S390X(MigrationTest):
-+    """
-+    :avocado: tags=arch:s390x
-+    :avocado: tags=machine:s390-ccw-virtio
-+    :avocado: tags=cpu:qemu
-+    """
-+
-+    def test_migration_with_tcp_localhost(self):
-+        self.migration_with_tcp_localhost()
-+
-+    def test_migration_with_unix(self):
-+        self.migration_with_unix()
-+
-+    def test_migration_with_exec(self):
-+        self.migration_with_exec()
++#ifdef CONFIG_TCG
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         gdb_register_coprocessor(cs,
+             arm_gdb_get_m_systemreg, arm_gdb_set_m_systemreg,
+@@ -567,4 +570,5 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+         }
+ #endif
+     }
++#endif
+ }
 -- 
 2.35.3
 
