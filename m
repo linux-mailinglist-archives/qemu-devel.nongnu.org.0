@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF996B2FF4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 22:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B6D6B3038
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 23:11:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paOEU-0007Yu-MG; Thu, 09 Mar 2023 16:55:30 -0500
+	id 1paOSM-00041k-Kd; Thu, 09 Mar 2023 17:09:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1paOES-0007Yk-UK
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 16:55:28 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1paOEQ-0003Lr-EM
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 16:55:28 -0500
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:5da4:0:640:ef2d:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 5298960F04;
- Fri, 10 Mar 2023 00:55:18 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b4b7::1:3b] (unknown
- [2a02:6b8:b081:b4b7::1:3b])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id Etl7090Oo4Y0-r9ipACnE; Fri, 10 Mar 2023 00:55:17 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1678398917; bh=VTUjxT/wozogaakl0VtdcTLX5mD0+9CUvWPhlp1P/8Q=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=A2dMqnRG7BxillNAbI8Ma7Tsqq/h1NkR8kmy2ZCZ4cXcTnAuhLhqG9dTC5P7/dP4B
- c8pZMoRBrsOxI3bP4VdH2UoG9gcMXY+RBr3mo72d4tVIC2Ef7Tx8Br3/uo3WZtwvcm
- flaOEaliOOfo+w74EW2tXIeIc5vHJaJEmqHrQNAA=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <bb0f7eb0-1fde-56c6-8cf1-02fd3bb4edb1@yandex-team.ru>
-Date: Fri, 10 Mar 2023 00:55:14 +0300
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1paOSK-00041P-4V
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:09:48 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1paOSI-00061k-8Y
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:09:47 -0500
+Received: by mail-ed1-x533.google.com with SMTP id cw28so13013983edb.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 14:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1678399782;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7w8VbHSSP0+IhUIGMeTxJOQl+mQhK37QrDyCaS8wAXY=;
+ b=JUgahBLzPfrN9jHXSVPtxr7PBqSJD9ug1DWaB0fSuuyfavbIB2QuaDZU03ikVg4UV8
+ bbhlS2l/FXgXmNfzbo0dO3bpf3aIwtwOMZdEzS3nj5Vud8wKeLyc/xFz14Qg9I0ODjjS
+ +5c6bNOrzg3cHERtg3MXDoSI2dyBjcvZzBMDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678399782;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7w8VbHSSP0+IhUIGMeTxJOQl+mQhK37QrDyCaS8wAXY=;
+ b=nHQl4CCzRLLX65pZfB+SUVuVW21o2BGYec/1twRwigXDKwWGqvLlamWFjvH7NI7eq9
+ t+r+3wNmVvDKPKWVNF4f3Gmd8SQBe8XubkxAOpR9VvTT4Volhum7HH8gC6MZo4coSSo4
+ pP/gWY2Kj5mTKT/9i3i1IKc0xliyQBwUKDETzvXHUYEaQWmflITLmTAdSWDn9qmwofKD
+ 4kltUtKaZZXTEdkKANOLfX4oIrYGNljyCTEACqAq8AqhE2FgOoINBpzviOEE28JGSCRx
+ U8l0YayycHYpSls2VIPUIepSQXF9QOaPZUHCzUpzw11EnQ0xprZBdWljIGoAca5VSF94
+ cpbw==
+X-Gm-Message-State: AO0yUKXCvNFoQgTbxErA4oXVqy9jg1PT7onvnuYDBu1xhkepR75SlKXo
+ uprhKc+h/4AYn3wzi4+hCwofdqaWunpRRlWOgalN/w==
+X-Google-Smtp-Source: AK7set8OR/AOsLxRvkFqDJoXE4EnHDYiV3vA2eEI2RFiA9E4VNv4pzBp0NQyoLeHYKmSrO0JUMTtRl8ueuvlZMPHnfQ=
+X-Received: by 2002:a17:906:5811:b0:877:747d:4a90 with SMTP id
+ m17-20020a170906581100b00877747d4a90mr12082673ejq.14.1678399781837; Thu, 09
+ Mar 2023 14:09:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 2/4] qapi: add DEVICE_ON and query-hotplug
- infrastructure
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- eduardo@habkost.net, berrange@redhat.com, pbonzini@redhat.com,
- marcel.apfelbaum@gmail.com, den-plotnikov@yandex-team.ru,
- antonkuchin@yandex-team.ru, philmd@linaro.org
-References: <20230307160537.2261803-1-vsementsov@yandex-team.ru>
- <20230307160537.2261803-3-vsementsov@yandex-team.ru>
- <20230307122821-mutt-send-email-mst@kernel.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230307122821-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230309115714.906369-1-kraxel@redhat.com>
+ <20230309115714.906369-4-kraxel@redhat.com>
+In-Reply-To: <20230309115714.906369-4-kraxel@redhat.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Thu, 9 Mar 2023 14:09:30 -0800
+Message-ID: <CAPnjgZ2KaWyCCFAQMzkKO-mG+iQtQs3n_7gtnJHYQUHQjBO4Qw@mail.gmail.com>
+Subject: Re: [PULL 3/3] edk2: update firmware binaries
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=sjg@google.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -92
+X-Spam_score: -9.3
+X-Spam_bar: ---------
+X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,61 +81,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07.03.23 20:31, Michael S. Tsirkin wrote:
-> On Tue, Mar 07, 2023 at 07:05:35PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> We have DEVICE_DELETED event, that signals that device_del command is
->> actually completed. But we don't have a counter-part for device_add.
->> Still it's sensible for SHPC and PCIe-native hotplug, as there are time
->> when the device in some intermediate state. Let's add an event that say
->> that the device is finally powered on, power indicator is on and
->> everything is OK for next manipulation on that device.
->>
->> Motivations:
->> 1. To be sure that device is "accepted" by guest. Guest may ignore
->> hotplugged device for some reason (for example during OS booting).
->> Management wants to catch this and handle the problem, instead of
->> silent assume that everything is OK. So, if we don't get the event by
->> some timeout, we can report an error, try to unplug/plug the disk again
->> or do some other things to handle the problem.
->>
->> 2. The device can't be removed (by blockdev-del) while power indicator
->> of hotplug controller is blinking (QEMU reports "guest is busy (power
->> indicator blinking)"). So, management should avoid removing the device
->> until it gets the DEVICE_ON event.
->> (Probably, better solution for this point is to automatically postpone
->> deletion until power indicator stops blinking)
->>
->> 3. Also, management tool may make a GUI visualization of power
->> indicator with help of this event.
->>
->> As a counter-part add query-hotplug command, that shows "device-on"
->> state as well as some addtional information.
+Hi Gerd,
 
-I wanted to say s/as/and/ :)
+Where did these binaries come from? What commit and how were they built?
 
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
->  From commit log it sounds you are just adding one new event.
-> In fact there's more new stuff in qdev.json
-> 
-> Pls document in commit log too.
-> 
-> 
-
-But yes "some additional information" is not enough. Maybe, something like:
-
-"""
-New query-hotplug command in additon to "device-on" state also provides
-SHPC/PCIe-native specific hotplug controller properties (like leds) that
-may help to determine real state of hotplug controller. That may help to
-get additional information for further debugging when DEVICE_ON / DEVICE_DELETED
-not come in time as expected.
-"""
-
-
-
--- 
-Best regards,
-Vladimir
-
+Regards,
+Simon
 
