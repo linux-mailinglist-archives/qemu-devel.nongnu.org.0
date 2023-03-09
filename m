@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9926B2B2F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1ED66B2B34
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:52:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paJTV-0004mE-Lu; Thu, 09 Mar 2023 11:50:41 -0500
+	id 1paJUo-0006pl-RQ; Thu, 09 Mar 2023 11:52:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paJTP-0004kh-AK
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:50:35 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paJTN-0007IS-EM
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:50:34 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id A04FB5C00DC;
- Thu,  9 Mar 2023 11:50:32 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 09 Mar 2023 11:50:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1678380632; x=1678467032; bh=LdjgRhu0qSuu/mb0EhLt9ntwEFjkgDsxcRa
- fZEhNpmI=; b=o8bCdzc1W3Oc72yfOyarcYzQSk/BYUCpcOUBs11MPM/z5we/FKm
- IQKRBcEqPlpz3Qy1F98KX4PswQ85Hs8ho+u8tkY/LCDd0O/y/K4SGx80IZA04Ipi
- dToItXctzvGrNBWpNxZ295noXW8lh2w3N+voXv3H04Z97ZGq08huUIPeU5ucPYgf
- F3eXCwnh5ntGflCoXonTha5ejOFxkLO/OnejhbH3qJaFQi8RnxOswjP7uYHsRhr+
- g/kcioN2Pia9WGJoMszTsdLmEbLgioGtDeB2826HDSK8ekMAHcavZeFt+UO+Pm+1
- fMPNz9lUvsHpaDwvk1Hl7imy957rzCxB2nQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1678380632; x=1678467032; bh=LdjgRhu0qSuu/mb0EhLt9ntwEFjkgDsxcRa
- fZEhNpmI=; b=rVFIpYDqaGPUfFczoQDnyShIVqMDrZEJc5BZb6XtC2639vsM97q
- EIkQvRWwBwkCC53JkFxFWuz7UvsU3JHPhXuI5yv0nYEJPduZZl3vM0xAQRq/Joux
- uW33/v9Db3HZ+k/c7m5qcRUYl46rgTYLu7KjDIu37VrbbNEHNPMzdsftQRO1vALM
- WGal1nCIxD3p6ROawy4srY+QH6L9Q15KiQG02b0sjiDeAEc0jCNs3LXNVFUrX9A1
- cHo1wydk0fDGuMZIYzu/VpjU7BZl+CDjEwighLPsLSoOZwtRNbmIon4+oO+HvRls
- zapa5REs3jmDB6ye/Ppg1bGEBTH9D6Zrbiw==
-X-ME-Sender: <xms:WA4KZJb6Dp4CdmOi57PRjdSh_qH9AGnVc2VPoGzeYTRrvmW4DhFaBg>
- <xme:WA4KZAaSwR9TeOlFnyitzcamSNg_8mjWdhNlHox-CpaJGPXcfqbJcv78JP7yZD0PP
- pWl4k92Rax3wwtKUw>
-X-ME-Received: <xmr:WA4KZL_ohDd0inSPYykSddP5WX8OHwPnsZpZh2wjpaeBR_pULMqyeMZa0VTU3lhus3NvGc0rhm2UwgahrNJYtwbK4wBzD-H_zjAWGis>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdduiedgleduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredt
- tddtudenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
- enucggtffrrghtthgvrhhnpeegvdejveeuvdeigfejjeeufefhffetfeekuddtuddvuedt
- ueffvdejleehgeetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
- hlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:WA4KZHofqoP11gqDR-eCHgwP5IgEDcsBOqQN85_IKu3fWJ0YdscSxQ>
- <xmx:WA4KZErHcvQeQZyw_WhfDcvM2Ncq1ZQ5p-7dfpudUUuYqUCrkJZS4Q>
- <xmx:WA4KZNTyCZl4LlDB3RoQnrra9mNdOldU_zJ1O68B9n3sBKavoFWxqQ>
- <xmx:WA4KZPVeZpIUOqRrg9QHTLDEFJNE-THjDKEY5OpR0oyFBS9nDVa0Eg>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 9 Mar 2023 11:50:31 -0500 (EST)
-Date: Thu, 9 Mar 2023 09:50:30 -0700
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kkostiuk@redhat.com, michael.roth@amd.com, marcandre.lureau@gmail.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 1/3] qga: Refactor guest-exec capture-output to take
- enum
-Message-ID: <20230309165030.7vrrx2pt4vpd3h44@k2.tail1b9c7.ts.net>
-References: <cover.1678314204.git.dxu@dxuuu.xyz>
- <59f4f17ac2cbe719fa4f571a1c373c36597b12a3.1678314204.git.dxu@dxuuu.xyz>
- <ZAmm/p8t39c0b9XN@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paJUm-0006kv-Ek
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:52:00 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paJUk-0007bx-Ii
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:52:00 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id z11so1914602pfh.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:51:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678380717;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3AdBrpYUNb9YE9gSRgGj2dY9q0E0lre0B1jGk5Z3LAo=;
+ b=DWySdkHUDLkjaT97/uTdYxl+cVdKe7t/aUJ/QT5niZPXVytg2hrmZDrmxHj5OtjO2t
+ gSt22ir9Rucb8BHqgqoaeoxPxayVfI5+s6PQObaUVy/fb8JvyQxSSILWnyb0mM0m+mCv
+ R01MI8SdEfr4UGdIYEHiUqOZQb3t62APtpo/yBcrrekfU8Tv9dygMJgTzp6kt7gyOaNM
+ 641pIPJWwuGAJ1yETdG2a/9HzIVHFc9pfN6BszCuXtAHHxYuLIDCIvQ/VBu+ADo0Jy39
+ AieE8EYqYujvXowftOhETO0tlN/PaUYIaZwKw9TcRk5rEd3Qg10w7BfllyJ7wBV3ZNxg
+ m7Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678380717;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3AdBrpYUNb9YE9gSRgGj2dY9q0E0lre0B1jGk5Z3LAo=;
+ b=n6TPrBQWahm9oANzVt25ZbrQEnse9MfXYYwioC4BavjJSgAAacvbQ62xBltTTe0+Sf
+ l7zALCk5jKAHdWoGz+/weOWUY5u+jhNsyeUkBUINABuTmKrCU0qoA3+LN9DiZ00EfY8p
+ IeDili/QvjPAuV59QVBl13UCBd2vi5+Rj3+7AauR/0XJHawRngK+iEmY/2Xslt6/iVN4
+ L7lZSIbVjr395xsr5e2APpezL29aVtg1nz6GC8+D8JhobkFIHPzAu3Hewm4O9TBErZNG
+ G3Pq5GxC7Cu0LpQqukqTePN1EYlSDxVZe7oNsgWdXwAkY7JfeoH/swsIwFy45uNnH0dt
+ +TUw==
+X-Gm-Message-State: AO0yUKVGI1c0nCenCC4XnlFbWyysQkrxaAX1m3b8VZ8H9hFBIx8L6M4w
+ ye7SfC20pzKv5+PvWRZyrl8hvYE82FEpDWbBXfkPHA==
+X-Google-Smtp-Source: AK7set+xXKLzwj6PgfK2g5P8FDELZffNEQ64+FIVZURGsYhFKB5k3Q2bqoJRzpx6HnTisxXGSnNpMH7QjKa1llolCS8=
+X-Received: by 2002:a63:9c0a:0:b0:502:e4df:5f3f with SMTP id
+ f10-20020a639c0a000000b00502e4df5f3fmr7353917pge.6.1678380717142; Thu, 09 Mar
+ 2023 08:51:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZAmm/p8t39c0b9XN@redhat.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=dxu@dxuuu.xyz;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <167821508699.619792.1719671327865445814.stgit@omen>
+In-Reply-To: <167821508699.619792.1719671327865445814.stgit@omen>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Mar 2023 16:51:45 +0000
+Message-ID: <CAFEAcA-by=GZQWO2-rwfMzZAWobQXz6hDsnTsKcY5RdVBUW0_g@mail.gmail.com>
+Subject: Re: [PULL 00/17] VFIO updates for 8.0
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, avihaih@nvidia.com, clg@redhat.com, 
+ joao.m.martins@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,121 +86,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel,
+On Tue, 7 Mar 2023 at 18:52, Alex Williamson <alex.williamson@redhat.com> w=
+rote:
+>
+> The following changes since commit c29a2f40cd5d1fdad4632b48343cd968db041a=
+44:
+>
+>   Merge tag 'pull-target-arm-20230306' of https://git.linaro.org/people/p=
+maydell/qemu-arm into staging (2023-03-07 09:58:43 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/alex.williamson/qemu.git tags/vfio-updates-20230307.=
+1
+>
+> for you to fetch changes up to 969dae5448eaa2914be5b974f9e0311b3f95ee2c:
+>
+>   vfio: Fix vfio_get_dev_region() trace event (2023-03-07 11:19:07 -0700)
+>
+> ----------------------------------------------------------------
+> VFIO updates for 8.0
+>
+>  * Device level dirty page tracking support for vfio migration, as well a=
+s
+>    various cleanups and consolidations. (Avihai Horon, Joao Martins)
+>
+>  * Trivial cleanup of migration entry points. (Alex Williamson)
+>
+>  * Fix trace event typo. (C=C3=A9dric Le Goater)
+>
 
-On Thu, Mar 09, 2023 at 09:29:34AM +0000, Daniel P. Berrangé wrote:
-> On Wed, Mar 08, 2023 at 03:49:39PM -0700, Daniel Xu wrote:
-> > Previously capture-output was an optional boolean flag that either
-> > captured all output or captured none. While this is OK in most cases, it
-> > lacks flexibility for more advanced capture cases, such as wanting to
-> > only capture stdout.
-> > 
-> > This commits refactors guest-exec qapi to take an enum for capture mode
-> > instead while preserving backwards compatibility.
-> > 
-> > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> > Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
-> > ---
-> >  qga/commands.c       | 37 ++++++++++++++++++++++++++++++++++---
-> >  qga/qapi-schema.json | 32 +++++++++++++++++++++++++++++++-
-> >  2 files changed, 65 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/qga/commands.c b/qga/commands.c
-> > index 172826f8f8..5504fc5b8c 100644
-> > --- a/qga/commands.c
-> > +++ b/qga/commands.c
-> > @@ -379,11 +379,23 @@ close:
-> >      return false;
-> >  }
-> >  
-> > +static GuestExecCaptureOutputMode ga_parse_capture_output(
-> > +        GuestExecCaptureOutput *capture_output)
-> > +{
-> > +    if (!capture_output)
-> > +        return GUEST_EXEC_CAPTURE_OUTPUT_MODE_NONE;
-> > +    else if (capture_output->type == QTYPE_QBOOL)
-> > +        return capture_output->u.flag ? GUEST_EXEC_CAPTURE_OUTPUT_MODE_ALL
-> > +                                      : GUEST_EXEC_CAPTURE_OUTPUT_MODE_NONE;
-> > +    else
-> > +        return capture_output->u.mode;
-> > +}
-> > +
-> >  GuestExec *qmp_guest_exec(const char *path,
-> >                         bool has_arg, strList *arg,
-> >                         bool has_env, strList *env,
-> >                         const char *input_data,
-> > -                       bool has_capture_output, bool capture_output,
-> > +                       GuestExecCaptureOutput *capture_output,
-> >                         Error **errp)
-> >  {
-> >      GPid pid;
-> > @@ -396,7 +408,8 @@ GuestExec *qmp_guest_exec(const char *path,
-> >      gint in_fd, out_fd, err_fd;
-> >      GIOChannel *in_ch, *out_ch, *err_ch;
-> >      GSpawnFlags flags;
-> > -    bool has_output = (has_capture_output && capture_output);
-> > +    bool has_output = false;
-> > +    GuestExecCaptureOutputMode output_mode;
-> >      g_autofree uint8_t *input = NULL;
-> >      size_t ninput = 0;
-> >  
-> > @@ -415,8 +428,26 @@ GuestExec *qmp_guest_exec(const char *path,
-> >  
-> >      flags = G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD |
-> >          G_SPAWN_SEARCH_PATH_FROM_ENVP;
-> > -    if (!has_output) {
-> > +
-> > +    output_mode = ga_parse_capture_output(capture_output);
-> > +    switch (output_mode) {
-> > +    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_NONE:
-> >          flags |= G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL;
-> > +        break;
-> > +    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_STDOUT:
-> > +        has_output = true;
-> > +        flags |= G_SPAWN_STDERR_TO_DEV_NULL;
-> > +        break;
-> > +    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_STDERR:
-> > +        has_output = true;
-> > +        flags |= G_SPAWN_STDOUT_TO_DEV_NULL;
-> > +        break;
-> > +    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_ALL:
-> > +        has_output = true;
-> > +        break;
-> > +    case GUEST_EXEC_CAPTURE_OUTPUT_MODE__MAX:
-> > +        /* Silence warning; impossible branch */
-> > +        break;
-> >      }
-> >  
-> >      ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
-> > diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> > index 796434ed34..4ef585da5d 100644
-> > --- a/qga/qapi-schema.json
-> > +++ b/qga/qapi-schema.json
-> > @@ -1200,6 +1200,36 @@
-> >  { 'struct': 'GuestExec',
-> >    'data': { 'pid': 'int'} }
-> >  
-> > +##
-> > +# @GuestExecCaptureOutputMode:
-> > +#
-> > +# An enumeration of guest-exec capture modes.
-> > +#
-> > +# @none: do not capture any output
-> > +# @stdout: only capture stdout
-> > +# @stderr: only capture stderr
-> > +# @all: capture both stdout and stderr
-> 
-> Functionally fine. A minor naming thought.... How about we call
-> this '@separated' and tweak the docs
-> 
->   @separated: capture both stdout and stderr separately
-> 
-> Then in your in next patch you introduce
-> 
->   @merged: capture both stdout and stderr merged
 
-Sounds good to me.
+Applied, thanks.
 
-Thanks,
-Daniel
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
