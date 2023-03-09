@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E326B3130
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D596B3133
 	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 23:42:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paOwj-0002Zl-Fe; Thu, 09 Mar 2023 17:41:13 -0500
+	id 1paOwl-0002ae-W6; Thu, 09 Mar 2023 17:41:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwh-0002ZC-5T
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:41:11 -0500
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwi-0002ZN-Dt
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:41:12 -0500
 Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwd-0003mm-Rz
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:41:10 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5530E5C019A;
- Thu,  9 Mar 2023 17:41:06 -0500 (EST)
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1paOwe-0003ms-Iw
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 17:41:12 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 17D355C019C;
+ Thu,  9 Mar 2023 17:41:08 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 09 Mar 2023 17:41:06 -0500
+ by compute3.internal (MEProxy); Thu, 09 Mar 2023 17:41:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :content-transfer-encoding:content-type:content-type:date:date
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1678401666; x=1678488066; bh=zs
- gf/Mob0CcNqTyKreMrpZmvNoxfdtqo4ThMj9AyQrU=; b=G+qcWFQNQG77Z6pcMC
- 4YYGLDGmuPmuDc77IQKIJN7u0HdB5awNYQv5lNHFnoRTMuSZbxLSeoFUj+GviN0c
- aAfIatcnr1dkSiE0W2pWfCQOhOmNpU8i9o0kEaYKtuh/xGfkHB82xdVetKcaOdAF
- To3Z8MQS2yCXrKnxfhFlgAebnlxTtVd/KEAh7QId2K8abI96et93hisNQteX2EhD
- NuvDm+VVha090AELvBhOaLOm2XSTeIb9GkUsHy0fqvrHqaqcQjaGdA6tpfoWesbc
- UHJppd1fhWVhEcW/XV2t2IuOLphB7QjvkdYCdtET1OtcoV2Nzo1iWwYn+Adj+yWa
- n4cA==
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1678401668; x=1678488068; bh=911bRxRHfZhJbhh0SFAD0XuN3d4jdEvPV0L
+ FIHE2YVc=; b=oW01ICI8YO2wwJOGsq0fE1C/tt/HR4G4ZmG/iddexJmGItpYALF
+ LokIuNJSE0096sVEucUgg2EzHVWsEII21vyR6i9nBAGHEBEfdihHJ5o/qHMQoSqI
+ WtXxd3cV7j41uP4aHmHxxrlTD07UvkUnB2wN+Hs35kvJuEgP00ezYCUcB7BnaUKi
+ MLZgO1PObnENtiPgw4WuctXwPPZJyqB0qIbd+I6FYqTOzdOf2V4E1+mZ4gnUFA4y
+ Q/P9D84pg+TVCa5VXxOqD6SL3Nseld+BMJAKsbafBz4E5ie56u5bg+jRE8TXOv/W
+ zGMfO8gR4Zk0Up1Uw+TgN/yraYca3cqbTsw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1678401666; x=1678488066; bh=zsgf/Mob0CcNq
- TyKreMrpZmvNoxfdtqo4ThMj9AyQrU=; b=r7XOQja9t6oCzFZWZ8i2F+hAPSgeO
- 9o4UZ6drYdpvEH7Mw4KlU+TjFvLafqcJ4oAcZs5cFCl2hwUgM6GML9ZXqa8obK48
- tOoA4FRPSvoroMmIcAGoyWWRsP8B6ZEIACHXrZKDSrihQjxQBlMOms2323H/VPx7
- tYXBuLwY9MA0xqLkOgPIE2/5i+Mvf8gbWfc446YB5TmJ8OyEQpzqfcFMP/qfvRrp
- WqCU4dzpMUEH0eLNu0Unm6jeWH+iQTUCYKPfsNsAzWo9cKy0j9a7UmBOwNLYt8g4
- n1I8avxS3zw+xMLbGKeLFPemoicCOk6mYT31AUMQze/7LSdTbtWXT7k0Q==
-X-ME-Sender: <xms:gmAKZOcEjNWaxfqDHH2CMIB0honBU9MZVxCcUBqERKVEY47L0v44mA>
- <xme:gmAKZIO879dMrdTpr4ZeZ6tGbFkp_sBBEgKRZX_LAwYWLvP6LbsU4xHG3zq-UzL1G
- Igm8H7jDXS_BFc8tg>
-X-ME-Received: <xmr:gmAKZPhNla6DJrNk-4RBo5L5jQiJZwb6ALCLvCewsc1XwhQbP9VXyG6N6Vidc76f0eDJRt15PAY6E0GzgGO-e2eOC100KQCT0Q5BDI3ZRm7Q7Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddujecutefuodetggdotefrodftvfcurf
- hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecufghrlhcuvffnffculdejtddmnecujfgurhephffvufffkf
- fogggtgfesthekredtredtjeenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegu
- gihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpefhteevudeihfegkedtudfgleehve
- evhfevgeeltdehudejueetleekffeliedugfenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:gmAKZL9uIq-taf4z5eL0sxJzwkQmaS4EEJSMQqWHgne1tOiu2IyYqQ>
- <xmx:gmAKZKuFgHdZMo2VF02eeI-i_mwo7u6eXVw0OINn0ITQd9G0bmgeSg>
- <xmx:gmAKZCEoW15osGqqdtmmgUkETEBtoH-x_j6JFeD9MvUkU8EC4FWziw>
- <xmx:gmAKZPXyKrSyyVP9HDgd20AGKorCgjL7nBfBe2jkNBbsSpWW5WOH5g>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1678401668; x=1678488068; bh=911bRxRHfZhJbhh0SFAD0XuN3d4jdEvPV0L
+ FIHE2YVc=; b=SzIPkT5g8ZkCyhZPvptfPVMFLH44kAIpm9NrE0N7SO5esXSlE17
+ w7qYXVXOA0gFxCh+bUqwaufxsTwjPqb8yocfme574IWdrn4Bs7XPRLq165AjuHA4
+ /02HU5cJgpCn3GG919nJKJtQUCjlM7Aa4DlLnmiDG1FGo0G2/49Uq5fSsudA+dxi
+ qUsR5cmdzOI4DyEWQNQQ8Ss+v5jgeJ+92rrssZqSXxZzdZlAPRcvC48CyAco3K4B
+ aXibJSAbKhAuoqB0wKh6YLhVk1oCd4JMGDEtsDY8GjDZTc+FlMfmUTO/vJMo2+hr
+ 5E8y7pe8Nwtro0k1K6Ba88UQ1qmR52WmWBQ==
+X-ME-Sender: <xms:g2AKZGTO64Y6TozIc9XbRL-U9ePn-8wtqe_WLVirdCR7V2wIGa_0Zg>
+ <xme:g2AKZLzU-pFfzKbBf5jD7IkT30oniJaDeBC5MCF_vvp7yZ2X6BeFaICGrPpRN74ej
+ lWNiqKrRUE5aLj2IQ>
+X-ME-Received: <xmr:g2AKZD3UnZ9MKsYHpSLL5btgckDnNTCzzETdsuoHOaF_sS6qxr2yCZrd_SMCWkyx554ug4E3OtM9OkYNL99fjf5Ilv_IGd1CDEsGj-DcsHu6Jg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdduiedgudeitdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdefhedmnecujfgurhephf
+ fvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeffrghnihgvlhcuighu
+ uceougiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepteehkeekgffgie
+ evvdetgfeliefftdelgeefueelvddutddvudfhkefguddtveeknecuvehluhhsthgvrhfu
+ ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:g2AKZCCYAZY9_C6R-2AW-REr-BMSI2woJT2VcHPlrf7Wkwz5VcCQtg>
+ <xmx:g2AKZPhJHocPvCF_zewPcB3TPwqCy24QREmtxTjtATN9NB8br7kx8g>
+ <xmx:g2AKZOrq4H8TG1vo0evGkEcRQIGJ4On6RdDblKZ4xTKztCjuhQC4_w>
+ <xmx:hGAKZMsDYF1P_4JxM86LBWAnubIaRYs1SfIqL71PocdJXV6j5ph_sw>
 Feedback-ID: i6a694271:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 9 Mar 2023 17:41:05 -0500 (EST)
+ 9 Mar 2023 17:41:07 -0500 (EST)
 From: Daniel Xu <dxu@dxuuu.xyz>
-To: qemu-devel@nongnu.org,
-	marcandre.lureau@gmail.com,
-	berrange@redhat.com
-Subject: [PATCH v5 0/3] qga: Support merging output streams in guest-exec
-Date: Thu,  9 Mar 2023 15:40:55 -0700
-Message-Id: <cover.1678401400.git.dxu@dxuuu.xyz>
+To: michael.roth@amd.com, kkostiuk@redhat.com, marcandre.lureau@gmail.com,
+ berrange@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH v5 1/3] qga: Refactor guest-exec capture-output to take enum
+Date: Thu,  9 Mar 2023 15:40:56 -0700
+Message-Id: <23a0e6273bb21895b0937f60c03c2e3ffdb83d67.1678401400.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <cover.1678401400.git.dxu@dxuuu.xyz>
+References: <cover.1678401400.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -97,52 +100,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, the captured output (via `capture-output`) is segregated into
-separate GuestExecStatus fields (`out-data` and `err-data`). This means
-that downstream consumers have no way to reassemble the captured data
-back into the original stream.
+Previously capture-output was an optional boolean flag that either
+captured all output or captured none. While this is OK in most cases, it
+lacks flexibility for more advanced capture cases, such as wanting to
+only capture stdout.
 
-This is relevant for chatty and semi-interactive (ie. read only) CLI
-tools.  Such tools may deliberately interleave stdout and stderr for
-visual effect. If segregated, the output becomes harder to visually
-understand.
+This commits refactors guest-exec qapi to take an enum for capture mode
+instead while preserving backwards compatibility.
 
-This patchset adds support for merging stderr and stdout output streams
-via a backwards compatibile refactor and a new enum variant,
-`all-merge`.
-
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
 ---
+ qga/commands.c       | 37 ++++++++++++++++++++++++++++++++++---
+ qga/qapi-schema.json | 33 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 66 insertions(+), 4 deletions(-)
 
-Changes from v4:
-* Rename `all` -> `separated`
-* Rename `all-merge` -> `merged`
-
-Changes from v3:
-* Split out ASAN fixes into separate patch series
-* Refactor `capture-output` flag into an enum
-* Avoid using /bin/bash on windows
-
-Changes from v2:
-* Error out if `merge-output` on windows guests
-* Add FIXMEs for when glib is updated
-* Fix memory leaks in qemu-keymap
-
-Changes from v1:
-* Drop invalid test fix
-* Do not support `merge-output` on windows guests
-* Fix a UAF in tests
-
-
-Daniel Xu (3):
-  qga: Refactor guest-exec capture-output to take enum
-  qga: Add `merged` variant to GuestExecCaptureOutputMode
-  qga: test: Add tests for `merged` flag
-
- qga/commands.c        |  68 ++++++++++++++++--
- qga/qapi-schema.json  |  35 +++++++++-
- tests/unit/test-qga.c | 158 +++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 238 insertions(+), 23 deletions(-)
-
+diff --git a/qga/commands.c b/qga/commands.c
+index 172826f8f8..01f68b45ab 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -379,11 +379,23 @@ close:
+     return false;
+ }
+ 
++static GuestExecCaptureOutputMode ga_parse_capture_output(
++        GuestExecCaptureOutput *capture_output)
++{
++    if (!capture_output)
++        return GUEST_EXEC_CAPTURE_OUTPUT_MODE_NONE;
++    else if (capture_output->type == QTYPE_QBOOL)
++        return capture_output->u.flag ? GUEST_EXEC_CAPTURE_OUTPUT_MODE_SEPARATED
++                                      : GUEST_EXEC_CAPTURE_OUTPUT_MODE_NONE;
++    else
++        return capture_output->u.mode;
++}
++
+ GuestExec *qmp_guest_exec(const char *path,
+                        bool has_arg, strList *arg,
+                        bool has_env, strList *env,
+                        const char *input_data,
+-                       bool has_capture_output, bool capture_output,
++                       GuestExecCaptureOutput *capture_output,
+                        Error **errp)
+ {
+     GPid pid;
+@@ -396,7 +408,8 @@ GuestExec *qmp_guest_exec(const char *path,
+     gint in_fd, out_fd, err_fd;
+     GIOChannel *in_ch, *out_ch, *err_ch;
+     GSpawnFlags flags;
+-    bool has_output = (has_capture_output && capture_output);
++    bool has_output = false;
++    GuestExecCaptureOutputMode output_mode;
+     g_autofree uint8_t *input = NULL;
+     size_t ninput = 0;
+ 
+@@ -415,8 +428,26 @@ GuestExec *qmp_guest_exec(const char *path,
+ 
+     flags = G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD |
+         G_SPAWN_SEARCH_PATH_FROM_ENVP;
+-    if (!has_output) {
++
++    output_mode = ga_parse_capture_output(capture_output);
++    switch (output_mode) {
++    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_NONE:
+         flags |= G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL;
++        break;
++    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_STDOUT:
++        has_output = true;
++        flags |= G_SPAWN_STDERR_TO_DEV_NULL;
++        break;
++    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_STDERR:
++        has_output = true;
++        flags |= G_SPAWN_STDOUT_TO_DEV_NULL;
++        break;
++    case GUEST_EXEC_CAPTURE_OUTPUT_MODE_SEPARATED:
++        has_output = true;
++        break;
++    case GUEST_EXEC_CAPTURE_OUTPUT_MODE__MAX:
++        /* Silence warning; impossible branch */
++        break;
+     }
+ 
+     ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 796434ed34..d1e00a4234 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1200,6 +1200,37 @@
+ { 'struct': 'GuestExec',
+   'data': { 'pid': 'int'} }
+ 
++##
++# @GuestExecCaptureOutputMode:
++#
++# An enumeration of guest-exec capture modes.
++#
++# @none: do not capture any output
++# @stdout: only capture stdout
++# @stderr: only capture stderr
++# @separated: capture both stdout and stderr, but separated into
++#             GuestExecStatus out-data and err-data, respectively
++#
++# Since: 8.0
++##
++ { 'enum': 'GuestExecCaptureOutputMode',
++   'data': [ 'none', 'stdout', 'stderr', 'separated' ] }
++
++##
++# @GuestExecCaptureOutput:
++#
++# Controls what guest-exec output gets captures.
++#
++# @flag: captures both stdout and stderr if true. Equivalent
++#        to GuestExecCaptureOutputMode::all. (since 2.5)
++# @mode: capture mode; preferred interface
++#
++# Since: 8.0
++##
++ { 'alternate': 'GuestExecCaptureOutput',
++   'data': { 'flag': 'bool',
++             'mode': 'GuestExecCaptureOutputMode'} }
++
+ ##
+ # @guest-exec:
+ #
+@@ -1218,7 +1249,7 @@
+ ##
+ { 'command': 'guest-exec',
+   'data':    { 'path': 'str', '*arg': ['str'], '*env': ['str'],
+-               '*input-data': 'str', '*capture-output': 'bool' },
++               '*input-data': 'str', '*capture-output': 'GuestExecCaptureOutput' },
+   'returns': 'GuestExec' }
+ 
+ 
 -- 
 2.39.1
 
