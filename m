@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B656B2E60
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:16:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275F26B2E84
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:21:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMfn-0004sB-WD; Thu, 09 Mar 2023 15:15:36 -0500
+	id 1paMfl-0004le-1A; Thu, 09 Mar 2023 15:15:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paMfY-0004QX-1N; Thu, 09 Mar 2023 15:15:20 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1paMfb-0004Zf-MC; Thu, 09 Mar 2023 15:15:23 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paMfW-0002iq-Do; Thu, 09 Mar 2023 15:15:19 -0500
+ id 1paMfZ-0002jc-Qy; Thu, 09 Mar 2023 15:15:23 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C115B21C0B;
- Thu,  9 Mar 2023 20:15:16 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 292A9202A7;
+ Thu,  9 Mar 2023 20:15:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678392916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678392920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qp1zV7PiZ1mjCYLbNiX16Xw81PbK5WfPRc15DxtV7UM=;
- b=cgJws/2hjrTlx2GVxs7SdBCJ1T12ORu139fvVQHvKuhukoXOa5OlbXmluJE4wvZEQaAS1C
- rvf9VOndHH2yFo3hSeC1VNb9JkOHpCNVu7JCF+eNKRhKQXgwqlgKnmR5ITwjW1o6Gv/oyM
- w3hIOhkcJGBDCa7qHHa8EE3n0e+EyKE=
+ bh=b3ClZ5bqNSiKy/nbq5LS98oyuV7R9Cbo4BQLBqocESs=;
+ b=MsBnb0PBWSsVV9UC2zwBmQrbZNWi/u3xYz0OrzUfXxU3xI8Hz2TTlMNN/LmomiyJTaaPR5
+ MLw1EfmrYNuDZzoT0u7sBlnss73lFNeHPyGn162mTPnFe8YXuJjDKmC0UNSSRAUrE+Q3m4
+ p+drIAyA0PAhb2k30voSG4kc0ABY1BM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678392916;
+ s=susede2_ed25519; t=1678392920;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qp1zV7PiZ1mjCYLbNiX16Xw81PbK5WfPRc15DxtV7UM=;
- b=tWDnS/69Ve5jja4VE8Knf7caX3kCfyCvdZzegU8d/v+NJnUrsg7FCN5GLBsDmFbQXSgZ+B
- VUlIF0S69iYvA3CQ==
+ bh=b3ClZ5bqNSiKy/nbq5LS98oyuV7R9Cbo4BQLBqocESs=;
+ b=dZQC/ekyYIPxU0rB1i8fqryosmRjHgwgmYdLwDQa/hWUG8dFtzUcOv2cMZrcFss/SFxP8q
+ SqJLtHTRz5bJgsAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9A611391B;
- Thu,  9 Mar 2023 20:15:13 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B5B31391B;
+ Thu,  9 Mar 2023 20:15:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CLamJ1E+CmTUZwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 09 Mar 2023 20:15:13 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id SLpWAVU+CmTUZwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 09 Mar 2023 20:15:17 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -58,17 +58,16 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v8 10/11] target/arm: gdbstub: Guard M-profile code with
- CONFIG_TCG
-Date: Thu,  9 Mar 2023 17:14:33 -0300
-Message-Id: <20230309201434.10831-11-farosas@suse.de>
+Subject: [PATCH v8 11/11] target/arm: gdbstub: Guard pauth code with CONFIG_TCG
+Date: Thu,  9 Mar 2023 17:14:34 -0300
+Message-Id: <20230309201434.10831-12-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230309201434.10831-1-farosas@suse.de>
 References: <20230309201434.10831-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,52 +90,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This code is only relevant when TCG is present in the build. If we try
-to build with --disable-tcg we currently get:
+We currently don't have the reading of pauth regs implemented for KVM
+so wrap the pauth registration with CONFIG_TCG.
 
-libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub.c.o: in function
-`m_sysreg_ptr': ../target/arm/gdbstub.c:356: undefined reference to
-`arm_v7m_get_sp_ptr'
+This avoids the build error when using --disable-tcg:
+
+libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub64.c.o: in function
+`aarch64_gdb_get_pauth_reg': ../target/arm/gdbstub64.c:233: undefined
+reference to `pauth_ptr_mask'
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- target/arm/gdbstub.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Does this make sense? I seem to remember we had a rule that for KVM
+register values should come from the ONE_REG interface.
+---
+ target/arm/gdbstub.c   | 2 ++
+ target/arm/gdbstub64.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
 diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 3f799f5d05..2ecc362ac2 100644
+index 2ecc362ac2..fc937580dd 100644
 --- a/target/arm/gdbstub.c
 +++ b/target/arm/gdbstub.c
-@@ -322,6 +322,7 @@ static int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
-     return cpu->dyn_sysreg_xml.num;
- }
- 
-+#ifdef CONFIG_TCG
- typedef enum {
-     M_SYSREG_MSP,
-     M_SYSREG_PSP,
-@@ -479,6 +480,7 @@ static int arm_gen_dynamic_m_secextreg_xml(CPUState *cs, int orig_base_reg)
-     return cpu->dyn_m_secextreg_xml.num;
- }
- #endif
-+#endif /* CONFIG_TCG */
- 
- const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
- {
-@@ -553,6 +555,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
- 
-+#ifdef CONFIG_TCG
-     if (arm_feature(env, ARM_FEATURE_M)) {
-         gdb_register_coprocessor(cs,
-             arm_gdb_get_m_systemreg, arm_gdb_set_m_systemreg,
-@@ -567,4 +570,5 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+@@ -521,11 +521,13 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+                                      aarch64_gdb_set_fpu_reg,
+                                      34, "aarch64-fpu.xml", 0);
          }
++#ifdef CONFIG_TCG
+         if (isar_feature_aa64_pauth(&cpu->isar)) {
+             gdb_register_coprocessor(cs, aarch64_gdb_get_pauth_reg,
+                                      aarch64_gdb_set_pauth_reg,
+                                      4, "aarch64-pauth.xml", 0);
+         }
++#endif /* CONFIG_TCG */
  #endif
-     }
-+#endif
+     } else {
+         if (arm_feature(env, ARM_FEATURE_NEON)) {
+diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
+index 3bee892fb7..67c7cbb63c 100644
+--- a/target/arm/gdbstub64.c
++++ b/target/arm/gdbstub64.c
+@@ -210,6 +210,7 @@ int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg)
+     return 0;
  }
+ 
++#ifdef CONFIG_TCG
+ int aarch64_gdb_get_pauth_reg(CPUARMState *env, GByteArray *buf, int reg)
+ {
+     switch (reg) {
+@@ -243,6 +244,7 @@ int aarch64_gdb_set_pauth_reg(CPUARMState *env, uint8_t *buf, int reg)
+     /* All pseudo registers are read-only. */
+     return 0;
+ }
++#endif
+ 
+ static void output_vector_union_type(GString *s, int reg_width,
+                                      const char *name)
 -- 
 2.35.3
 
