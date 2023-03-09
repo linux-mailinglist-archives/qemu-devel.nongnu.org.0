@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CB26B2E5C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25BD6B2E80
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:21:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMaD-00049n-Tm; Thu, 09 Mar 2023 15:09:49 -0500
+	id 1paMaD-000490-VB; Thu, 09 Mar 2023 15:09:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMaB-00045U-CU
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:47 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1paMaC-00046m-9E
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:48 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMa9-0001Zw-RX
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:47 -0500
-Received: by mail-pl1-x636.google.com with SMTP id p20so3183629plw.13
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:09:45 -0800 (PST)
+ id 1paMaA-0001a8-Kv
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:09:48 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so7439110pjh.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:09:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678392584;
+ d=linaro.org; s=google; t=1678392585;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fzwtyfcwtH5chvyB0g074/RPrrrEvf/RZxDG43rklpU=;
- b=kYkt/b5HJZ5D2Y9o17dgyV3h2Ol3nDRXnMxURhAJDkygGsbAQkgZ3PZb4iiceMibTb
- 1+4T5itZnTixnyH877mdBuTp0zibl3HWwyn2T6RhRi0y6Lz6tnwA67Ofa3U8bXbWM1yb
- ltYbj333s79+TeydNuSBh6NKHjK/CBQtjV4k6x1TZ1CCMTRQDveEJ6DnSLrw4ciB3+1V
- VwX4r3Bh+58eK8JBV9ezVDJbomZMNfyiyMM6QWrYccxkyIF/TeEJ2aglK1jcQwxusjfN
- eLEp9NUUF8vv6yJv804VYis7sEctsO3qw1T3EzG/5uVkD0rl89/DFIHqSWmoKfH/c6vd
- Oeww==
+ bh=jJzdHK1Fs1NaHPQI0ScuWXrQe88rSwHY7MmaoPNCyJA=;
+ b=AE2Bs2XwP/2eHRCxFSlVwsNYYKwP3lkD22sJJ9olRcsjfuJU28VnfN/TEWsxD9nIyD
+ 38bp/CGofYY9/JEFRffEbKrLXhRHYzJqq2caDjHKX4+c35skw7E5v2nPIXSpUaIfxqPv
+ GJ8wCkQ+nygK/tZps68nC+YazF5UTTRk1VtHCUbTtVwZNAQ3vaM/wn1+jUYPYluPSIOR
+ pPrELg+x7XCDxk0u2BbslaWZCub/MLxoeK5k3zsXvgN/4fYu0hZvpe7kM8wcnfpGSfH8
+ 2haVUT0/zYikp0eipvZjhP4wnnJLwlzcSuju45DK2NYqa+aE/pZ0dxYSZT9uy9L+nsoI
+ xyfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678392584;
+ d=1e100.net; s=20210112; t=1678392585;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fzwtyfcwtH5chvyB0g074/RPrrrEvf/RZxDG43rklpU=;
- b=eW7ML/o4LnKMvPHYVpTqlLgZz2vsAbakR+vVR/tcQ7ck6wFebw4m1xm2XLWPji2jXS
- 4oIPxI/OSgD+XYRGKSM7OkqQ7BelcOT7hFabB9P1k7F+WR4pYkUk4BG86jzIYTXyaVdC
- c3NU38rjA8mW1E/baiWRnFuxpecJCn579rEmRxke5ViVqpKrJP8J1gEPCEuc1Wp3rdTX
- yNDchzVWQDfT0mc562H/USE6Vgj47ft/ooKYNO2pHfBIUW251gA/UyOU7PKSyjs5P3lI
- 0KaSTCYsg/otPTdMe4KrMwW5rdtbvO4+oBpFFgZAG9nwYzy5EH+ooIfi79YweNUyFb65
- 71tg==
-X-Gm-Message-State: AO0yUKW9WjMz5Du8P+sureLbZ8v9ijw0mSq8ga5klN+7YkBNKFUU09ks
- XylZme/VjchR+IdDxYr499sES+tf7DeXG0vrOuY=
-X-Google-Smtp-Source: AK7set+T6apIifrWZL/d0VRW/mBBc8NGVe/bQuJDuWCkI3sDhvb2nG6Pz38kB46dsc7bP3VUUusBNg==
-X-Received: by 2002:a17:902:e551:b0:19d:121a:6795 with SMTP id
- n17-20020a170902e55100b0019d121a6795mr27197939plf.55.1678392584620; 
- Thu, 09 Mar 2023 12:09:44 -0800 (PST)
+ bh=jJzdHK1Fs1NaHPQI0ScuWXrQe88rSwHY7MmaoPNCyJA=;
+ b=CkZbapEhXEkvLRO02kDR4Sqo02YoofOOE2nl4SizcfLCvBNY7DB8z4EGnMkh7bdrZC
+ DvTekg591iekBBYJYgP3wz9kbKw0d8SmMGlNBfrm1NMyBSif0LStfT3p7bNqZTQlnlLL
+ 4XZeVSH5O3ksrkxFG2c2pA1cWq+NCgfrmnMow3HM1q6YIQzG2b0OUjTqJ65R4Qal8DEK
+ atUkbjKWXDc/RdxSCTSxbvAJkBN5+zfRv/PrRvbx3y3c64hwGVPykHvT2AidvJJ1gn50
+ OUgEPnTFb0NqmWHVwrPTDk3yJ3JR2uF3c9H6GWaCniJlhumRXEBLfX8DfBCZcMQcfm07
+ DiOQ==
+X-Gm-Message-State: AO0yUKVopHuI4/WkE5Fo+7QDSjMD3/RSNwpmgvJp5TtZOHS/C4tEd1VF
+ 504TjY0WCR+gOITBOiTsl9txpO+NvRSQQ/eGrsY=
+X-Google-Smtp-Source: AK7set97MZNVkRkuCI2qqVfUDR89OFBubtg/9bJJ1YVPdNLLbW1obQCcYO8V1sRIzBTUWbi3v3z56g==
+X-Received: by 2002:a17:903:120b:b0:19e:82aa:dc8a with SMTP id
+ l11-20020a170903120b00b0019e82aadc8amr27020921plh.22.1678392585440; 
+ Thu, 09 Mar 2023 12:09:45 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:bf7f:79a0:a976:bdaf])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a170902aa4200b001991e4e0bdcsm43797plr.233.2023.03.09.12.09.43
+ c2-20020a170902aa4200b001991e4e0bdcsm43797plr.233.2023.03.09.12.09.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 12:09:44 -0800 (PST)
+ Thu, 09 Mar 2023 12:09:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 59/91] target/sh4: Avoid tcg_const_i32 for TAS.B
-Date: Thu,  9 Mar 2023 12:05:18 -0800
-Message-Id: <20230309200550.3878088-60-richard.henderson@linaro.org>
+Subject: [PULL v2 60/91] target/sh4: Avoid tcg_const_i32
+Date: Thu,  9 Mar 2023 12:05:19 -0800
+Message-Id: <20230309200550.3878088-61-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230309200550.3878088-1-richard.henderson@linaro.org>
 References: <20230309200550.3878088-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,35 +93,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since we're assigning to cpu_sr_t in the end,
-use that as the intermediate temp as well.
+All remaining uses are strictly read-only.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/translate.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ target/sh4/translate.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index ad6de41712..70a45c26e8 100644
+index 70a45c26e8..97da8bce48 100644
 --- a/target/sh4/translate.c
 +++ b/target/sh4/translate.c
-@@ -1610,12 +1610,9 @@ static void _decode_opc(DisasContext * ctx)
- 	tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 16);
+@@ -526,13 +526,13 @@ static void _decode_opc(DisasContext * ctx)
  	return;
-     case 0x401b:		/* tas.b @Rn */
--        {
--            TCGv val = tcg_const_i32(0x80);
--            tcg_gen_atomic_fetch_or_i32(val, REG(B11_8), val,
--                                        ctx->memidx, MO_UB);
--            tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, val, 0);
--        }
-+        tcg_gen_atomic_fetch_or_i32(cpu_sr_t, REG(B11_8),
-+                                    tcg_constant_i32(0x80), ctx->memidx, MO_UB);
-+        tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, cpu_sr_t, 0);
-         return;
-     case 0xf00d: /* fsts FPUL,FRn - FPSCR: Nothing */
- 	CHECK_FPU_ENABLED
+     case 0x9000:		/* mov.w @(disp,PC),Rn */
+ 	{
+-            TCGv addr = tcg_const_i32(ctx->base.pc_next + 4 + B7_0 * 2);
++            TCGv addr = tcg_constant_i32(ctx->base.pc_next + 4 + B7_0 * 2);
+             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESW);
+ 	}
+ 	return;
+     case 0xd000:		/* mov.l @(disp,PC),Rn */
+ 	{
+-            TCGv addr = tcg_const_i32((ctx->base.pc_next + 4 + B7_0 * 4) & ~3);
++            TCGv addr = tcg_constant_i32((ctx->base.pc_next + 4 + B7_0 * 4) & ~3);
+             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
+ 	}
+ 	return;
+@@ -694,7 +694,7 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x300e:		/* addc Rm,Rn */
+         {
+             TCGv t0, t1;
+-            t0 = tcg_const_tl(0);
++            t0 = tcg_constant_tl(0);
+             t1 = tcg_temp_new();
+             tcg_gen_add2_i32(t1, cpu_sr_t, cpu_sr_t, t0, REG(B7_4), t0);
+             tcg_gen_add2_i32(REG(B11_8), cpu_sr_t,
+@@ -754,7 +754,7 @@ static void _decode_opc(DisasContext * ctx)
+             TCGv t0 = tcg_temp_new();
+             TCGv t1 = tcg_temp_new();
+             TCGv t2 = tcg_temp_new();
+-            TCGv zero = tcg_const_i32(0);
++            TCGv zero = tcg_constant_i32(0);
+ 
+             /* shift left arg1, saving the bit being pushed out and inserting
+                T on the right */
+@@ -849,7 +849,7 @@ static void _decode_opc(DisasContext * ctx)
+ 	return;
+     case 0x600a:		/* negc Rm,Rn */
+         {
+-            TCGv t0 = tcg_const_i32(0);
++            TCGv t0 = tcg_constant_i32(0);
+             tcg_gen_add2_i32(REG(B11_8), cpu_sr_t,
+                              REG(B7_4), t0, cpu_sr_t, t0);
+             tcg_gen_sub2_i32(REG(B11_8), cpu_sr_t,
+@@ -913,7 +913,7 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x300a:		/* subc Rm,Rn */
+         {
+             TCGv t0, t1;
+-            t0 = tcg_const_tl(0);
++            t0 = tcg_constant_tl(0);
+             t1 = tcg_temp_new();
+             tcg_gen_add2_i32(t1, cpu_sr_t, cpu_sr_t, t0, REG(B7_4), t0);
+             tcg_gen_sub2_i32(REG(B11_8), cpu_sr_t,
+@@ -1242,7 +1242,7 @@ static void _decode_opc(DisasContext * ctx)
+ 	    TCGv imm;
+ 	    CHECK_NOT_DELAY_SLOT
+             gen_save_cpu_state(ctx, true);
+-	    imm = tcg_const_i32(B7_0);
++	    imm = tcg_constant_i32(B7_0);
+             gen_helper_trapa(cpu_env, imm);
+             ctx->base.is_jmp = DISAS_NORETURN;
+ 	}
+@@ -1709,8 +1709,8 @@ static void _decode_opc(DisasContext * ctx)
+         CHECK_FPU_ENABLED
+         CHECK_FPSCR_PR_1
+         {
+-            TCGv m = tcg_const_i32((ctx->opcode >> 8) & 3);
+-            TCGv n = tcg_const_i32((ctx->opcode >> 10) & 3);
++            TCGv m = tcg_constant_i32((ctx->opcode >> 8) & 3);
++            TCGv n = tcg_constant_i32((ctx->opcode >> 10) & 3);
+             gen_helper_fipr(cpu_env, m, n);
+             return;
+         }
+@@ -1722,7 +1722,7 @@ static void _decode_opc(DisasContext * ctx)
+             if ((ctx->opcode & 0x0300) != 0x0100) {
+                 goto do_illegal;
+             }
+-            TCGv n = tcg_const_i32((ctx->opcode >> 10) & 3);
++            TCGv n = tcg_constant_i32((ctx->opcode >> 10) & 3);
+             gen_helper_ftrv(cpu_env, n);
+             return;
+         }
+@@ -1926,7 +1926,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+         }
+         op_dst = B11_8;
+         op_opc = INDEX_op_xor_i32;
+-        op_arg = tcg_const_i32(-1);
++        op_arg = tcg_constant_i32(-1);
+         break;
+ 
+     case 0x7000 ... 0x700f: /* add #imm,Rn */
+@@ -1934,7 +1934,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+             goto fail;
+         }
+         op_opc = INDEX_op_add_i32;
+-        op_arg = tcg_const_i32(B7_0s);
++        op_arg = tcg_constant_i32(B7_0s);
+         break;
+ 
+     case 0x3000: /* cmp/eq Rm,Rn */
+@@ -1980,7 +1980,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+             goto fail;
+         }
+         op_opc = INDEX_op_setcond_i32;
+-        op_arg = tcg_const_i32(0);
++        op_arg = tcg_constant_i32(0);
+ 
+         NEXT_INSN;
+         if ((ctx->opcode & 0xff00) != 0x8900 /* bt label */
 -- 
 2.34.1
 
