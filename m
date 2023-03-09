@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADB36B2AC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582A36B2ACF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 17:32:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paJAO-00068g-79; Thu, 09 Mar 2023 11:30:56 -0500
+	id 1paJBO-0006qj-HO; Thu, 09 Mar 2023 11:31:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJAM-00068M-2A
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:30:54 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paJAK-0002qa-4F
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:30:53 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso1649028wmo.0
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 08:30:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678379449;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Th5JE1hUTXRn47Ez2DkSnujoHrgBkgzMYBLghKSoLYM=;
- b=enHUPChBumsaB8cgZwT+ShTiY4ZVYsuiFfb3Q+PjuJkaaStRnt/8Y4upEI5RI/ZF39
- x9Gl5DByMoiCo4+A2ywVHU0zUoBeoSKE4VoYEymUATjaBt22wPsDRwbm2WRqubYB5mr5
- z0cfo+/n11L2FktMHFP1tZkJTsaX6ppSeUrhPDm/rakAMpHpAF1g1GtxnD5hJ0P2kZqn
- UIiTVcgfpM4wuq8EQd7KoP0MWiWF77XeaTlp5CfBMryVgTTMPm2QZzNpSvr/c9nrrPpq
- sNpu58RsSGYvmpSjAyRAnRPp546Fz286b7JMDunjbhu/35kARQ8rS78p4vlE/BGDLBzk
- yf0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678379449;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Th5JE1hUTXRn47Ez2DkSnujoHrgBkgzMYBLghKSoLYM=;
- b=JRHAu4FRiPyNKLfOGVW+FCdmphx4iyiZgF3GfmXsc0agsSyEqW80/nze+VYXSFd92K
- uQBYtZs0jfLn3bNp+6f8PfvJkUVz+2Rv9kQxQsWiaJBRT1cXIuN9c3OhwJ5dRkXkRQWF
- AJ/k+iueCdvEgyCjrfhVSjX1AJrr3RJtRy5SMHFc27Nf+kqmbKOcXl1N/gmL5pShISCP
- ujlVbAQ1V6CmZRDLL9jKDWKyrWrWTuJ2Z2RBD1t2XJpfNACAhCNIEviz4ixxqEj55nsZ
- ROnvq6ASkB66XIL0ujTEOuv2soZMg1byjJnTOyXIVNz6cY05mhKfvZwpKiWU7sFk7/Nc
- nudA==
-X-Gm-Message-State: AO0yUKVrs+aO6Mu25/y5LOjBRAJku6Decd2ALlVgWgEwkDenJiAxz4st
- mZZOVEnA0rgr2nLMH0po29izMg==
-X-Google-Smtp-Source: AK7set9vdovsPaItO9hO3xbQiA7Xf9ncTlEalc4Via1UXvBEmO3K5RPDqGazHbbLoSJjWOlJgXQ20w==
-X-Received: by 2002:a05:600c:4ecb:b0:3eb:3148:a1b7 with SMTP id
- g11-20020a05600c4ecb00b003eb3148a1b7mr19837736wmq.12.1678379448727; 
- Thu, 09 Mar 2023 08:30:48 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c2caf00b003e8f0334db8sm470387wmc.5.2023.03.09.08.30.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 08:30:48 -0800 (PST)
-Message-ID: <995dde78-1a6e-0cd3-d802-87bd9b277362@linaro.org>
-Date: Thu, 9 Mar 2023 17:30:46 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1paJB9-0006jU-9G
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:31:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1paJB8-00033m-1P
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 11:31:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678379501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Xxchwmn++SQPnWfBYkNl5wXzAasnqzWL/4LPzS3yxkM=;
+ b=fn/LtluXtH/gJi2Eyz3Jmvjyit6RQPN9mekt/ZdDvZJ+emyljzbkzbQXxNak/335wh6HvI
+ YNGfvtfH67qcG8y5tbLuQWRTkpb+nNAyXY6lWLqYGFGZayz+YoR25Fj1RAdMOvcs56emeE
+ Zrq7Da0kQfF8ox9R0EriE0TTUnkyY0k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-586-aF4Ke-rIPKeIkze6MhYGaw-1; Thu, 09 Mar 2023 11:31:37 -0500
+X-MC-Unique: aF4Ke-rIPKeIkze6MhYGaw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B119218F0241;
+ Thu,  9 Mar 2023 16:31:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 196761121314;
+ Thu,  9 Mar 2023 16:31:35 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ pbonzini@redhat.com
+Subject: [PATCH] qed: remove spurious BDRV_POLL_WHILE()
+Date: Thu,  9 Mar 2023 11:31:34 -0500
+Message-Id: <20230309163134.398707-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 01/18] ui/dbus: initialize cursor_fb
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
- <20230307115637.2464377-2-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307115637.2464377-2-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,17 +76,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/3/23 12:56, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Or else, we may randomly destroy some textures..
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   include/ui/egl-helpers.h | 2 ++
->   ui/dbus-listener.c       | 2 +-
->   2 files changed, 3 insertions(+), 1 deletion(-)
+This looks like a copy-paste or merge error. BDRV_POLL_WHILE() is
+already called above. It's not needed in the qemu_in_coroutine() case.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: 9fb4dfc570ce ("qed: make bdrv_qed_do_open a coroutine_fn")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ block/qed.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/block/qed.c b/block/qed.c
+index ed94bb61ca..0705a7b4e2 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -594,7 +594,6 @@ static int bdrv_qed_open(BlockDriverState *bs, QDict *options, int flags,
+         qemu_coroutine_enter(qemu_coroutine_create(bdrv_qed_open_entry, &qoc));
+         BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
+     }
+-    BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
+     return qoc.ret;
+ }
+ 
+-- 
+2.39.2
 
 
