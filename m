@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C325E6B274F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC456B27A7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:47:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paHTn-0007MK-Mz; Thu, 09 Mar 2023 09:42:51 -0500
+	id 1paHXB-0004YI-31; Thu, 09 Mar 2023 09:46:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
- id 1paHTl-0007Lm-8O; Thu, 09 Mar 2023 09:42:49 -0500
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net ([162.243.164.118])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi2000@zju.edu.cn>)
- id 1paHTh-00005K-O9; Thu, 09 Mar 2023 09:42:48 -0500
-Received: by ajax-webmail-mail-app2 (Coremail) ; Thu, 9 Mar 2023 22:42:24
- +0800 (GMT+08:00)
-X-Originating-IP: [112.10.177.110]
-Date: Thu, 9 Mar 2023 22:42:24 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "CHEN Yi" <chenyi2000@zju.edu.cn>
-To: "Daniel Henrique Barboza" <dbarboza@ventanamicro.com>, 
- qemu-devel@nongnu.org
-Cc: "Palmer Dabbelt" <palmer@dabbelt.com>, 
- "Alistair Francis" <alistair.francis@wdc.com>, 
- "Bin Meng" <bin.meng@windriver.com>, "Weiwei Li" <liweiwei@iscas.ac.cn>, 
- "Liu Zhiwei" <zhiwei_liu@linux.alibaba.com>, 
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-Subject: Re: Re: [PATCH] target/riscv/csr.c: fix H extension TVM trap
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2023 www.mailtech.cn zju.edu.cn
-In-Reply-To: <adbe0c52-61f0-2779-c32f-a75bf0a303e1@ventanamicro.com>
-References: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
- <adbe0c52-61f0-2779-c32f-a75bf0a303e1@ventanamicro.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1paHX2-0004Vv-II
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:46:12 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1paHWz-0000fl-90
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:46:12 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so3761834wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 06:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678373167;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=A6MkCoRNlpy9D0RnanYFnTwYvFUOTcywSy3+75wLfc4=;
+ b=k7egjx0X1jrh0KzMaraa7HljID6vc8LsvX0DP4FteF/fB/EgbwTn854dHWhfGyNV3f
+ oBWEsKeQNAIMAON0/3dTlTnzveiellW5hriTjQl5eIqzluMndGmMAmQVeOLfpl3l8zyG
+ OqxEHaAOMQeeG+7oatzJeCGk3c2+l6G15vnvFcYSLVDOjgBMnlAIfdjcah0DdGe+3cA7
+ tWmZZCGZlTNNI8fNboSAvd/F3CItlevl+Y8L9SKpAVts2LDuB0ikYN0iBIDFxo7nkhH7
+ phlKdaIXOwF99/TiTy7c4yz1zNCUj3KrKglkRXMN2Cz2nTFQGZ5K9WDV7G1YWojQTV5O
+ SL1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678373167;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=A6MkCoRNlpy9D0RnanYFnTwYvFUOTcywSy3+75wLfc4=;
+ b=xf6B7/5fpVBtm1LlrzsDAq3F0nyqZlvGyXaO9YjN18HpMpeDAofW3m76L3Hci/Ja7s
+ 6pfZpfhJCVtnwDpTbkYCEcamn2Op4sPiWeFL4n8D07FoW2W8BMeycnFhldUxJZBle67P
+ kAOFNS47H1GqY+cLtfuecg2BY8l+4xbC5Vtm0LHWIe6CowxFgnSzgpfMDZRkCXiunN2X
+ FoCkHTWQfqVdFtMUFkIMaEERj4jLcrKAVWoOTAXksfEfUBj5LET2kmTF9JdAYX17vjOY
+ TAnx9KSYABhIXO3EvWbl3KhUbpo5NHPVtCACEHQPuHiWA6l6Mx+gyClylLxyvXiyQC8I
+ 6wbg==
+X-Gm-Message-State: AO0yUKWaBozYCJ+cnpZHL3wLgdksJcziU+526roESm3rLESxod08GN56
+ dSAi4tLoV+lxdVo5SctHu6nMGQ==
+X-Google-Smtp-Source: AK7set/RbvILAbxF0NeS9sc1kYm0zPIlveZPJp80JrylgL0VVujDHAlGivBjcQF571UdtONdyU4dpw==
+X-Received: by 2002:a05:600c:468e:b0:3eb:2de8:b72a with SMTP id
+ p14-20020a05600c468e00b003eb2de8b72amr18999426wmo.7.1678373167111; 
+ Thu, 09 Mar 2023 06:46:07 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ x17-20020adfdcd1000000b002c5804b6afasm18114870wrm.67.2023.03.09.06.46.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Mar 2023 06:46:06 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 75C181FFB7;
+ Thu,  9 Mar 2023 14:46:06 +0000 (GMT)
+References: <20221213213757.4123265-1-fasano@mit.edu>
+ <20221213213757.4123265-4-fasano@mit.edu>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Andrew Fasano <fasano@mit.edu>
+Cc: qemu-devel@nongnu.org, elysia.witham@ll.mit.edu, erdnaxe@crans.org,
+ ma.mandourr@gmail.com
+Subject: Re: [PATCH 3/8] plugins: add id_to_plugin_name
+Date: Thu, 09 Mar 2023 14:45:51 +0000
+In-reply-to: <20221213213757.4123265-4-fasano@mit.edu>
+Message-ID: <87r0tym18x.fsf@linaro.org>
 MIME-Version: 1.0
-Message-ID: <376f8611.8a0fa.186c6d2b9da.Coremail.chenyi2000@zju.edu.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: by_KCgBHC7FR8AlkYYaCCw--.27616W
-X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/1tbiAQkJClZdwzLCEgABsg
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=162.243.164.118;
- envelope-from=chenyi2000@zju.edu.cn;
- helo=zg8tmtyylji0my4xnjqumte4.icoremail.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,83 +97,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-CgoKPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KPiBGcm9tOiAiRGFuaWVsIEhlbnJpcXVl
-IEJhcmJvemEiIDxkYmFyYm96YUB2ZW50YW5hbWljcm8uY29tPgo+IFNlbnQgVGltZTogMjAyMy0w
-My0wOSAwMzo0NDowMyAoVGh1cnNkYXkpCj4gVG86IGNoZW55aTIwMDBAemp1LmVkdS5jbiwgcWVt
-dS1kZXZlbEBub25nbnUub3JnCj4gQ2M6ICJQYWxtZXIgRGFiYmVsdCIgPHBhbG1lckBkYWJiZWx0
-LmNvbT4sICJBbGlzdGFpciBGcmFuY2lzIiA8YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tPiwgIkJp
-biBNZW5nIiA8YmluLm1lbmdAd2luZHJpdmVyLmNvbT4sICJXZWl3ZWkgTGkiIDxsaXdlaXdlaUBp
-c2Nhcy5hYy5jbj4sICJMaXUgWmhpd2VpIiA8emhpd2VpX2xpdUBsaW51eC5hbGliYWJhLmNvbT4s
-ICJvcGVuIGxpc3Q6UklTQy1WIFRDRyBDUFVzIiA8cWVtdS1yaXNjdkBub25nbnUub3JnPgo+IFN1
-YmplY3Q6IFJlOiBbUEFUQ0hdIHRhcmdldC9yaXNjdi9jc3IuYzogZml4IEggZXh0ZW5zaW9uIFRW
-TSB0cmFwCj4gCj4gCj4gCj4gT24gMy84LzIzIDA5OjM0LCBjaGVueWkyMDAwQHpqdS5lZHUuY24g
-d3JvdGU6Cj4gPiBGcm9tOiBZaSBDaGVuIDxjaGVueWkyMDAwQHpqdS5lZHUuY24+Cj4gPiAKPiA+
-IFRyYXAgYWNjZXNzZXMgdG8gaGdhdHAgaWYgTVNUQVRVU19UVk0gaXMgZW5hYmxlZC4KPiA+IERv
-bid0IHRyYXAgYWNjZXNzZXMgdG8gdnNhdHAgZXZlbiBpZiBNU1RBVFVTX1RWTSBpcyBlbmFibGVk
-Lgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBZaSBDaGVuIDxjaGVueWkyMDAwQHpqdS5lZHUuY24+
-Cj4gPiAtLS0KPiA+ICAgdGFyZ2V0L3Jpc2N2L2Nzci5jIHwgMTggKysrKysrKysrKysrKystLS0t
-Cj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+
-ID4gCj4gPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Jpc2N2L2Nzci5jIGIvdGFyZ2V0L3Jpc2N2L2Nz
-ci5jCj4gPiBpbmRleCBhYjU2NjYzLi4wOWJjNzgwIDEwMDY0NAo+ID4gLS0tIGEvdGFyZ2V0L3Jp
-c2N2L2Nzci5jCj4gPiArKysgYi90YXJnZXQvcmlzY3YvY3NyLmMKPiA+IEBAIC0yNjU1LDcgKzI2
-NTUsNyBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gcmVhZF9zYXRwKENQVVJJU0NWU3RhdGUgKmVu
-diwgaW50IGNzcm5vLAo+ID4gICAgICAgICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7Cj4gPiAg
-ICAgICB9Cj4gPiAgIAo+ID4gLSAgICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVs
-ZChlbnYtPm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgewo+ID4gKyAgICBpZiAoZW52LT5wcml2ID09
-IFBSVl9TICYmICFyaXNjdl9jcHVfdmlydF9lbmFibGVkKGVudikgJiYgZ2V0X2ZpZWxkKGVudi0+
-bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7Cj4gCj4gVGhlIGNvbW1pdCBtZXNzYWdlIG1lbnRpb25z
-ICd2c2F0cCcgYnV0IHRoaXMgcGF0Y2ggaXMgY2hhbmdpbmcgc2F0cCBjYWxsYmFja3MuCj4gCj4g
-QW55IHJlYXNvbiB0byBub3QgY2hhbmdlIHJlYWRfdnNhdHAoKSBhbmQgd3JpdGVfdnNhdHAoKSBp
-bnN0ZWFkPwoKcmVhZF92c2F0cCgpIGFuZCB3cml0ZV92c2F0cCgpIGhhdmUgY29ycmVjdGx5IGlt
-cGxlbWVudGVkIHRoZSBiZWhhdmlvciBvZiBNU1RBVFVTLlRWTS4KTWVhbndoaWxlLCBpZiBhbiBI
-Uy1tb2RlIGhhcnQgdHJpZXMgdG8gYWNjZXNzICdzYXRwJywgd2hhdCBpdCBhY3R1YWxseSBhY2Nl
-c3NlcyBpcyAndnNhdHAnIGFjY29yZGluZyB0byB0aGUgSVNBLiBJbiBRZW11J3MgaW1wbGVtZW50
-YXRpb24sIHRoZSAnc2F0cCcgY2FsbGJhY2tzIGFyZSBjYWxsZWQgYXQgZmlyc3QsIGFuZCByaXNj
-dl9jcHVfc3dhcF9oeXBlcnZpc29yX3JlZ3MoKSB3aWxsIGJlIGNhbGxlZCBhZnRlcndhcmQuIFNv
-IHdlIGFsc28gbmVlZCB0byBtb2RpZnkgcmVhZF9zYXRwKCkgYW5kIHdyaXRlX3NhdHAoKS4KCj4g
-Cj4gPiAgICAgICAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNUOwo+ID4gICAgICAg
-fSBlbHNlIHsKPiA+ICAgICAgICAgICAqdmFsID0gZW52LT5zYXRwOwo+ID4gQEAgLTI2ODMsNyAr
-MjY4Myw3IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiB3cml0ZV9zYXRwKENQVVJJU0NWU3RhdGUg
-KmVudiwgaW50IGNzcm5vLAo+ID4gICAgICAgfQo+ID4gICAKPiA+ICAgICAgIGlmICh2bSAmJiBt
-YXNrKSB7Cj4gPiAtICAgICAgICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVsZChl
-bnYtPm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgewo+ID4gKyAgICAgICAgaWYgKGVudi0+cHJpdiA9
-PSBQUlZfUyAmJiAhcmlzY3ZfY3B1X3ZpcnRfZW5hYmxlZChlbnYpICYmIGdldF9maWVsZChlbnYt
-Pm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgewo+ID4gICAgICAgICAgICAgICByZXR1cm4gUklTQ1Zf
-RVhDUF9JTExFR0FMX0lOU1Q7Cj4gPiAgICAgICAgICAgfSBlbHNlIHsKPiA+ICAgICAgICAgICAg
-ICAgLyoKPiA+IEBAIC0zMDQ3LDE0ICszMDQ3LDI0IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiBy
-ZWFkX2hnZWlwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAo+ID4gICBzdGF0aWMgUklT
-Q1ZFeGNlcHRpb24gcmVhZF9oZ2F0cChDUFVSSVNDVlN0YXRlICplbnYsIGludCBjc3JubywKPiA+
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0X3Vsb25nICp2YWwpCj4g
-PiAgIHsKPiA+IC0gICAgKnZhbCA9IGVudi0+aGdhdHA7Cj4gPiArICAgIGlmIChlbnYtPnByaXYg
-PT0gUFJWX1MgJiYgZ2V0X2ZpZWxkKGVudi0+bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7Cj4gPiAr
-ICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExFR0FMX0lOU1Q7Cj4gCj4gVGhlIGVuZCBvZiB0
-aGUgZmlyc3QgcGFyYWdyYXBoIG9mIElTQSA4LjIuMTAgZ29lcyBhcyBmb2xsb3dzOgo+IAo+ID09
-PT0KPiBXaGVuIG1zdGF0dXMuVFZNPTEsIGF0dGVtcHRzIHRvIHJlYWQgb3Igd3JpdGUgaGdhdHAg
-d2hpbGUgZXhlY3V0aW5nCj4gaW4gSFMtbW9kZSB3aWxsIHJhaXNlIGFuIGlsbGVnYWwgaW5zdHJ1
-Y3Rpb24gZXhjZXB0aW9uLgo+ID09PT0KPiAKPiBJIGJlbGlldmUgeW91IG5lZWQgdG8gY2hlY2sg
-Zm9yIEhTLW1vZGUsIG5vdCBqdXN0IFBSVl9TLiByaXNjdl9jc3Jyd19jaGVjaygpIGluCj4gdGFy
-Z2V0L3Jpc2N2L2Nzci5jIGNoZWNrcyBmb3IgSFMtbW9kZSBhcyBmb2xsb3dzOgo+IAo+ICAgICAg
-aWYgKHJpc2N2X2hhc19leHQoZW52LCBSVkgpICYmIGVudi0+cHJpdiA9PSBQUlZfUyAmJgo+ICAg
-ICAgICAgICFyaXNjdl9jcHVfdmlydF9lbmFibGVkKGVudikpIHsKPiAKPiBTYW1lIGdvZXMgZm9y
-IHdyaXRlX2hnYXRwKCkgYmVsb3cuCj4gCj4gPiArICAgIH0gZWxzZSB7Cj4gPiArICAgICAgICAq
-dmFsID0gZW52LT5oZ2F0cDsKPiA+ICsgICAgfQo+ID4gKwo+IAoKSSB0aGluayBWUy1tb2RlIGNh
-bid0IGFjY2VzcyBIUy1tb2RlIENTUiByZWdpc3RlcnMsIHdoaWNoIGhhcyBiZWVuIGVuc3VyZWQg
-aW4gcmlzY3ZfY3NycndfY2hlY2soKS4gWW91IGNhbiBzZWUgb3RoZXIgY2FsbGJhY2tzIG9mIEhT
-LW1vZGUgQ1NSIHJlZ2lzdGVycyAoZS5nLiwgcmVhZF9oZ2VpcCgpKSBhc3N1bWUgdGhhdCBpdCdz
-IE0tbW9kZSBvciBIUy1tb2RlLCB0b28uCgo+IFlvdSBjYW4gZGlzY2FyZCB0aGUgJ2Vsc2UnIHNp
-bmNlIHlvdSdyZSBkb2luZyBhIHJldHVybiBpbiB0aGUgaWY6Cj4gCj4gaWYgKC4uLikgewo+ICAg
-ICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNUOwo+IH0KPiAKPiAqdmFsID0gZW52LT5o
-Z2F0cDsKPiAKPiAKPiA+ICAgICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7Cj4gPiAgIH0KPiA+
-ICAgCj4gPiAgIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiB3cml0ZV9oZ2F0cChDUFVSSVNDVlN0YXRl
-ICplbnYsIGludCBjc3JubywKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHRhcmdldF91bG9uZyB2YWwpCj4gPiAgIHsKPiA+IC0gICAgZW52LT5oZ2F0cCA9IHZhbDsKPiA+
-ICsgICAgaWYgKGVudi0+cHJpdiA9PSBQUlZfUyAmJiBnZXRfZmllbGQoZW52LT5tc3RhdHVzLCBN
-U1RBVFVTX1RWTSkpIHsKPiA+ICsgICAgICAgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5T
-VDsKPiA+ICsgICAgfSBlbHNlIHsKPiA+ICsgICAgICAgIGVudi0+aGdhdHAgPSB2YWw7Cj4gPiAr
-ICAgIH0KPiAKPiBObyBuZWVkIGZvciBlbHNlIGhlcmUgZWl0aGVyOgo+IAo+IGlmICguLi4pIHsK
-PiAgICAgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKPiB9Cj4gCj4gZW52LT5oZ2F0
-cCA9IHZhbDsKPiAKPiAKCkkgc2VlLiBJIHdpbGwgZml4IHRoYXQgaW4gdGhlIG5leHQgdmVyc2lv
-biBvZiB0aGlzIHBhdGNoLgoKPiAKPiBUaGFua3MsCj4gCj4gCj4gRGFuaWVsCj4gCj4gPiArCj4g
-PiAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9OT05FOwo+ID4gICB9Cj4gPiAgIAoKVGhhbmtzIQoK
-WWkK
+
+Andrew Fasano <fasano@mit.edu> writes:
+
+> From: Elysia Witham <elysia.witham@ll.mit.edu>
+>
+> Plugins will pass their unique id when creating callbacks to
+> ensure they are associated with the correct plugin. This
+> internal function resolves those ids to the declared names.
+>
+> Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
+> Signed-off-by: Andrew Fasano <fasano@mit.edu>
+> ---
+>  plugins/core.c   | 12 ++++++++++++
+>  plugins/plugin.h |  2 ++
+>  2 files changed, 14 insertions(+)
+>
+> diff --git a/plugins/core.c b/plugins/core.c
+> index 5fbdcb5768..6a50b4a6e6 100644
+> --- a/plugins/core.c
+> +++ b/plugins/core.c
+> @@ -248,6 +248,18 @@ int name_to_plugin_version(const char *name)
+>      return -1;
+>  }
+>=20=20
+> +const char *id_to_plugin_name(qemu_plugin_id_t id)
+> +{
+> +    const char *plugin =3D plugin_id_to_ctx_locked(id)->name;
+> +    if (plugin) {
+> +        return plugin;
+> +    } else {
+> +        warn_report("Unnamed plugin cannot use QPP, not supported in plu=
+gin "
+> +                    "version. Please update plugin.");
+> +        return NULL;
+> +    }
+> +}
+> +
+
+I don't see this function being used in this series.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
