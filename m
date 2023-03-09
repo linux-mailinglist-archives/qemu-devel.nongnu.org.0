@@ -2,54 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CFF6B1C08
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 08:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784DE6B1C21
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 08:15:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paAQj-0003Xu-Lw; Thu, 09 Mar 2023 02:11:13 -0500
+	id 1paATI-0004xG-9T; Thu, 09 Mar 2023 02:13:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1paAQg-0003XQ-Ft; Thu, 09 Mar 2023 02:11:10 -0500
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1paAQe-0005G8-4r; Thu, 09 Mar 2023 02:11:10 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0VdSWpVg_1678345858; 
-Received: from 30.221.99.193(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VdSWpVg_1678345858) by smtp.aliyun-inc.com;
- Thu, 09 Mar 2023 15:10:58 +0800
-Message-ID: <677e5ab2-4fc5-1670-725e-16faeff11734@linux.alibaba.com>
-Date: Thu, 9 Mar 2023 15:10:57 +0800
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1paATF-0004vM-Hq; Thu, 09 Mar 2023 02:13:49 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1paATC-0005sG-06; Thu, 09 Mar 2023 02:13:49 -0500
+Received: from localhost.localdomain (unknown [180.165.240.213])
+ by APP-05 (Coremail) with SMTP id zQCowABHNxQdhwlk2VFnAA--.11047S2;
+ Thu, 09 Mar 2023 15:13:34 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH 0/4] target/riscv: Some CPURISCVState related cleanup and
+ simplification
+Date: Thu,  9 Mar 2023 15:13:25 +0800
+Message-Id: <20230309071329.45932-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH for-8.1 14/17] target/riscv/cpu.c: do not allow RVE to be
- set
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, palmer@rivosinc.com
-References: <20230308201925.258223-1-dbarboza@ventanamicro.com>
- <20230308201925.258223-15-dbarboza@ventanamicro.com>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230308201925.258223-15-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.130;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-CM-TRANSID: zQCowABHNxQdhwlk2VFnAA--.11047S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFWfJw43Xw15trykuw4rXwb_yoWkWrg_GF
+ WIgFWfW3y7uas5tFWDAw12yrWUKrWFkr97tF47XrWUKry7WryUJw1ktFZ7Zw1rZr48JFn7
+ AF97JFy7Gw17CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbx8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+ xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+ MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+ 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+ JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHU
+ DUUUUU=
+X-Originating-IP: [180.165.240.213]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,49 +74,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The patchset tries to:
 
-On 2023/3/9 4:19, Daniel Henrique Barboza wrote:
-> This restriction is found at the current implementation of write_misa()
-> in csr.c. Add it in riscv_cpu_validate_set_extensions() as well, while
-> also removing the checks we're doing considering that I or E can be
-> enabled.
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->   target/riscv/cpu.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 49f0fd2c11..7a5d202069 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1045,15 +1045,15 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
->           cpu->cfg.ext_ifencei = true;
->       }
->   
-> -    if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
-> -        error_setg(errp,
-> -                   "I and E extensions are incompatible");
-> +    /* We do not have RV32E support  */
-> +    if (cpu->cfg.ext_e) {
-> +        error_setg(errp, "E extension (RV32E) is not supported");
->           return;
->       }
->   
-> -    if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
-> -        error_setg(errp,
-> -                   "Either I or E extension must be set");
-> +    /* When RV32E is supported we'll need to check for either I or E */
-> +    if (!cpu->cfg.ext_i) {
-> +        error_setg(errp, "I extension must be set");
+- Use riscv_cpu_cfg(env) instead of env_archcpu().cfg.
+- Use env_archcpu() to get RISCVCPU pointer from env directly
+- Use CPURISCVState as argument directly in riscv_cpu_update_mip and riscv_timer_write_timecmp to simplify type conversion
+- Remove RISCVCPU argument of riscv_csrrw_check, and get cfg infomation from CPURISCVState directly
 
-We currently have supported the RV64E and RV32E in fact. Although we 
-miss some checking when decoding, the current QEMU can run programs 
-written for RVE.  So we should not prohibit the RVE here.
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-cleanup-upstream
 
-Zhiwei
+Weiwei Li (4):
+  target/riscv: Avoid env_archcpu() when reading RISCVCPUConfig
+  target/riscv: Simplify getting RISCVCPU pointer from env
+  target/riscv: Simplify type conversion for CPURISCVState
+  target/riscv: Simplify arguments for riscv_csrrw_check
 
->           return;
->       }
->   
+ target/riscv/cpu.c         |  6 +--
+ target/riscv/cpu.h         |  3 +-
+ target/riscv/cpu_helper.c  | 17 ++++----
+ target/riscv/csr.c         | 87 ++++++++++++--------------------------
+ target/riscv/gdbstub.c     |  4 +-
+ target/riscv/pmu.c         | 14 +++---
+ target/riscv/time_helper.c | 15 +++----
+ target/riscv/time_helper.h |  2 +-
+ 8 files changed, 57 insertions(+), 91 deletions(-)
+
+-- 
+2.25.1
+
 
