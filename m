@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA536B20DA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 11:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5F46B20F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 11:10:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paD6J-0002tO-BO; Thu, 09 Mar 2023 05:02:19 -0500
+	id 1paDD0-0000Fs-Os; Thu, 09 Mar 2023 05:09:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paD6G-0002sc-7H
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:02:16 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paDCx-0008U7-1K
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:09:11 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paD6E-0005xu-EI
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:02:15 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- j19-20020a05600c1c1300b003e9b564fae9so3160585wms.2
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 02:02:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1paDCv-0007iG-H9
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 05:09:10 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso874762wmo.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 02:09:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678356132;
+ d=linaro.org; s=google; t=1678356547;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=lAqw6PffOJy0fHk9lBNCyL6gaQhFMvaU66Hs2tHyrKk=;
- b=IjEzcsD3sFkPv24Jzfrd52tvAp1jY3CEp1CR/Lk1WmeKrar6G3UfUAX+OlTlnuxYkg
- XqUa3JGnXFGN0SAh11EhiEcWD4se2hensPfWiPaq9Zo5H+SFGR346RBIAHA/GwK6VT40
- MPlL8zey1PC5p7RCOuviPtPv3gBdE+xtxO/VvqcthTlZoq+4FvCRgBAukQfZRrVtX/FD
- IQPNTAqxN1lF43ZwG7RfxQ6cBYnv85O4Uo9QzjAbiFQDtedogIJyQlX+joz6Pe09rIrm
- v5WTK166EVrODjiMy45V8O39Tr8kN98AWmiv0+XDdVMO78cUXXt2c/udgmJtB2iccu3t
- 38dg==
+ bh=vS2IVQAK/lSrGSlMQTTrbU3WWS+NGPrImq360fC7Tlw=;
+ b=KXnhd7bW705yt1pVgZSfSmp2eC8Tgl/npcrqQK/lSY3/9j8dFpVOWRTElGJOwAVAoW
+ wG3c+yDWSPC8xkmBowXVefQC0mZIUbcBZ9++6pK0/57q5cZzxsQ+HEPgvVOBPa/tfSHW
+ kKOQ7LbvoUICFwrF8JMM0Ll2PBbaCd2aUigPPHrlOXuU0fBQCeAYGwDCJF6/T4XPx3XL
+ LZXtHVqV/qqMRZTsRUbZ8E8alNQnC4ZuT+6qXb8U7yBIILMiAR8Pi3HSPcUNBMj2m3A9
+ PvTk7bAZfzCIQMH01PSqxd2xYzkrdPC1bgRWIDxJ8z8MRUJu8hhRmjg34GZUC9d19KPr
+ e31g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678356132;
+ d=1e100.net; s=20210112; t=1678356547;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lAqw6PffOJy0fHk9lBNCyL6gaQhFMvaU66Hs2tHyrKk=;
- b=bb8J2Csdx5uffGoxt+hG+XyNMG9G7C7ckdMBpRVGcYRgXd1VZ0o71kyee7MhSKVJNh
- cpVIJn9nG7U3s2fp2hj2fXXM+4pmpt7JZXX+eMNS4uXm7wgrYVJbNsfPKCRiWpNaF4wp
- nFj1tXApkGA6oBt6AWRScHEghJl6kAvj+LEblJwoBtq9jVQTc6z6vgWYJBSteCDWXSS8
- LdJakDJL20SpQLQW2uQsuBlZxxJiTYe7NMEAPgRUU05J3sx6C/E6dmdar/i/3gzBRAlS
- eO5uyta6dURYkiIhBDhHDyAtAxblrRxsDPKcvPVwrpOrfZof0mxiv5otRJtqB5+Ze1YQ
- gb3Q==
-X-Gm-Message-State: AO0yUKV31aPqxMGqNmNSfoxfyRb0DNnDaDDwA9ziqpR7vo0But5HFmBP
- FWc/i7zBqRHFRhTX/HZzuLN/hg==
-X-Google-Smtp-Source: AK7set8J9PdZHd6RGBnQYjC24r3H6S3FL6yONx5i11RiVbupqQN9pM6DF2f/CeVtqAXWUBePYh/pcA==
-X-Received: by 2002:a05:600c:a48:b0:3eb:3912:5ae9 with SMTP id
- c8-20020a05600c0a4800b003eb39125ae9mr19262879wmq.24.1678356132702; 
- Thu, 09 Mar 2023 02:02:12 -0800 (PST)
+ bh=vS2IVQAK/lSrGSlMQTTrbU3WWS+NGPrImq360fC7Tlw=;
+ b=YSoEl/UT90Z9Sd8ldb3FeBnKgH41aTleahwMLtpAezNQMoykpE8X9ZBfT3znL1YtKG
+ Mnuzlc4mFu7Ji7NuSVojnCcXcqLgWUy7wtu4GPE+HS0r4nU0V9kzFQhZqp1vtxUP+k4T
+ P4UM2HpV1lw+YgdBCoYBnO1xavxHs+ZPoRAXZFOqML8gmw2RqSMlmqNKG0XelQ3bUU6h
+ Y84ZdPtIk2dnUFRVwqu12Eq+s3LzqoiiOTSyFOCOKW6IX88iproI17VYiy2XNi8KjJS3
+ +AivyT3NbT+fC4m1Tbn0XBsoHbAHVSwfV+4IsDEJYLg+ewOK5wJLuFLkeTtZ25K66zWB
+ sOug==
+X-Gm-Message-State: AO0yUKXy2ZOQwrjiS24Np+YUpDxdcByGxj9LO5BgwAp9cOHMDGsmLaVI
+ meK9s8wAAwWPjyFHELW6QVuwdA==
+X-Google-Smtp-Source: AK7set/oz6g814ULJ8eWBS+EwiVRCz6pEQtq3/jJKYfVuTC5OMEnF0nAuUXkWcz4JKyXAV8OQUxd2A==
+X-Received: by 2002:a05:600c:3b10:b0:3eb:399d:ab18 with SMTP id
+ m16-20020a05600c3b1000b003eb399dab18mr19831790wms.35.1678356547395; 
+ Thu, 09 Mar 2023 02:09:07 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n5-20020a05600c4f8500b003e2096da239sm2222613wmq.7.2023.03.09.02.02.11
+ t24-20020a1c7718000000b003e209186c07sm1990014wmi.19.2023.03.09.02.09.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 02:02:12 -0800 (PST)
-Message-ID: <41353952-6a5e-8b8b-3fc8-022ec1d20706@linaro.org>
-Date: Thu, 9 Mar 2023 11:02:10 +0100
+ Thu, 09 Mar 2023 02:09:06 -0800 (PST)
+Message-ID: <a5f91afa-a47a-3f88-0277-e60ce9ead8d0@linaro.org>
+Date: Thu, 9 Mar 2023 11:09:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 22/25] target/ppc: Avoid tcg_const_* in translate.c
+Subject: Re: [PATCH v2 23/25] target/tricore: Use min/max for saturate
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 References: <20230307183503.2512684-1-richard.henderson@linaro.org>
- <20230307183503.2512684-23-richard.henderson@linaro.org>
+ <20230307183503.2512684-24-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230307183503.2512684-23-richard.henderson@linaro.org>
+In-Reply-To: <20230307183503.2512684-24-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,41 +93,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 7/3/23 19:35, Richard Henderson wrote:
-> All remaining uses are strictly read-only.
+> Use tcg_constant_i32 for the bounds.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: qemu-ppc@nongnu.org
+> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 > ---
->   target/ppc/translate.c | 142 +++++++++++++++++++++--------------------
->   1 file changed, 72 insertions(+), 70 deletions(-)
+>   target/tricore/translate.c | 14 +++-----------
+>   1 file changed, 3 insertions(+), 11 deletions(-)
 
-
-> @@ -386,7 +386,7 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sprn)
->   static void spr_load_dump_spr(int sprn)
+>   static void gen_saturate(TCGv ret, TCGv arg, int32_t up, int32_t low)
 >   {
->   #ifdef PPC_DUMP_SPR_ACCESSES
-> -    TCGv_i32 t0 = tcg_const_i32(sprn);
-> +    TCGv_i32 t0 = tcg_constant_i32(sprn);
->       gen_helper_load_dump_spr(cpu_env, t0);
->   #endif
->   }
-> @@ -400,7 +400,7 @@ void spr_read_generic(DisasContext *ctx, int gprn, int sprn)
->   static void spr_store_dump_spr(int sprn)
->   {
->   #ifdef PPC_DUMP_SPR_ACCESSES
-> -    TCGv_i32 t0 = tcg_const_i32(sprn);
-> +    TCGv_i32 t0 = tcg_constant_i32(sprn);
->       gen_helper_store_dump_spr(cpu_env, t0);
->   #endif
->   }
+> -    TCGv sat_neg = tcg_const_i32(low);
+> -    TCGv temp = tcg_const_i32(up);
+> -
+> -    /* sat_neg = (arg < low ) ? low : arg; */
+> -    tcg_gen_movcond_tl(TCG_COND_LT, sat_neg, arg, sat_neg, sat_neg, arg);
+> -
+> -    /* ret = (sat_neg > up ) ? up  : sat_neg; */
+> -    tcg_gen_movcond_tl(TCG_COND_GT, ret, sat_neg, temp, temp, sat_neg);
+> +    tcg_gen_smax_tl(ret, arg, tcg_constant_i32(low));
 
-Unrelated, but probably better to convert this PPC_DUMP_SPR_ACCESSES
-#ifdef'ry to a boolean in DisasContext.
+This one is trivial when looking at tcg_gen_smax implementation.
+
+> +    tcg_gen_smin_tl(ret, ret, tcg_constant_i32(up));
+
+OK, when changing TCG_COND_GT -> TCG_COND_LT and inverting the args,
+then this becomes obvious this is tcg_gen_smin.
+
+>   }
+>   
+>   static void gen_saturate_u(TCGv ret, TCGv arg, int32_t up)
+>   {
+> -    TCGv temp = tcg_const_i32(up);
+> -    /* sat_neg = (arg > up ) ? up : arg; */
+> -    tcg_gen_movcond_tl(TCG_COND_GTU, ret, arg, temp, temp, arg);
+> +    tcg_gen_umin_tl(ret, arg, tcg_constant_i32(up));
+
+Inverting args for TCG_COND_GTU -> TCG_COND_LTU, this is indeed
+tcg_gen_umin.
+
+>   }
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
