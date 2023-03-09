@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573846B2E77
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222446B2E87
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 21:22:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paMeL-0001eY-3a; Thu, 09 Mar 2023 15:14:05 -0500
+	id 1paMkT-0002xH-FA; Thu, 09 Mar 2023 15:20:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMdl-0000XX-Gv
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:13:31 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1paMkJ-0002m7-17
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:20:15 -0500
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paMdb-0002Gu-B0
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:13:22 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- m8-20020a17090a4d8800b002377bced051so7449108pjh.0
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:13:06 -0800 (PST)
+ id 1paMkH-0003VZ-Cw
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 15:20:14 -0500
+Received: by mail-vs1-xe32.google.com with SMTP id by13so2756814vsb.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 12:20:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678392785;
+ d=linaro.org; s=google; t=1678393212;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aAXtgCYMBwE2AiaiYre3aQe11+04XcAC1AIIbpJrYvc=;
- b=RhXPHQxK9/TFlPdIP0jwZifo0lyHXoyFNLKTCOHZkuDWb87dUlBtXu1093QjK7mtu+
- KGvsJrg9rSye/qLWpmF9Fosk3a/hSTeNrwpYGkTfhoVdh7XekwoeG0206G0oo5nI4SYm
- NMcHwpTYUrMqppJoCO14+gCue/lNtBzOQ2bm5tWljXC5NBxYielsZwzdFBLfNX/NPDGg
- Rq9+pAxWITdyjhOXDIyZc61SPVSTUfkcuQgImKMYH919nSQokExbC+jCunWoo4bfif1A
- QRQC8q7GPZHt5Hl3cDtsL/J62nu1RZJv4Ntp8OTOGtHhGk6sx4IkRULL2caSDjvjRP34
- 8y9g==
+ bh=E5qmvJC78dvP/8IR5foQ1MdkFwyxST3H7G2KLxHBk9o=;
+ b=zpo1cl6SNqZQBk/mX6Mq3vt1gpj5t2Q6eEHAgKpC856uI9WdHXg9wY9wdF/tZ0+gEf
+ zSzXilwXTRE8nxzBrUj7lOOAoFVPWKcNzMqqt2JN5p1zyzOJXTXFZoofZz3UpCSB7Q6u
+ j5dii+s44eImFehWHKgk7k6P0i2CIXfu/+4nKfvtq0PyF7IxSjzooD9SDJIXbcn2J5lZ
+ 0CJRuTwIqPvKKyAu5Aw66qgqP74z6MKSCQs3YOlfVMkdKZyaCYZuZ3i4oZOhypt/+1Kv
+ C/sG33RKdZxUqa54iUjsDG8gVSLbdRdOBJcX7HworK555gPZ2Ivjo/KIlrBcHt+4pd5D
+ JLMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678392785;
+ d=1e100.net; s=20210112; t=1678393212;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aAXtgCYMBwE2AiaiYre3aQe11+04XcAC1AIIbpJrYvc=;
- b=oYKBUnOKLoXaIEj6hoU1/OWba1HiMEot0BSzfEYMVPGZVuM4uO/MWuW6cO56yePpzX
- 7BjXH6Py+9jxaDHfDJHfQp7SHHkv+WVdO6LSKEsmbU98CqlmQF5NotxRdjcOcuSmu+mi
- Uy1E0YmOIwigPOJSAVi52NBrBXsyYoWJsOcq+QCxjYr6rJOFM1uBorkpwM5ipK1ACytK
- HPQWoJkwHShuejPTboOb6cmRJrEhCJb2fqG8yxiCZjsphxk7OyJnBCxnpDL3UMDT7tAe
- UEk681lY5VcS645Tb4MZoc2yEJLG4rEpnFmLnPdeirVxT96vkaP+h5/XFbdKM6S8v6U4
- gQxw==
-X-Gm-Message-State: AO0yUKXxWlOVWBDkT8SAjvcwVX0x1QmYHYymzvGEPu29fJVrA3QVuaiV
- +8F1j0mciUnLYoYmgDvgQeBD8cU52zGbJHUVj88=
-X-Google-Smtp-Source: AK7set9I2pWzTBUODxwkz9zzsAhKsPtGTJLjTH5XKGkcHWuDpj5m7it0rkHFunkuxUA26sDPaLZGsQ==
-X-Received: by 2002:a05:6a20:4290:b0:d0:3b46:3cf8 with SMTP id
- o16-20020a056a20429000b000d03b463cf8mr11942682pzj.30.1678392785514; 
- Thu, 09 Mar 2023 12:13:05 -0800 (PST)
+ bh=E5qmvJC78dvP/8IR5foQ1MdkFwyxST3H7G2KLxHBk9o=;
+ b=dSQrKnsSV5zVQ+SW4QOxVRJ7azO31rM1nayNgFqijxdknEmnif3gIM3pFiyWFIrwqJ
+ Ku/PfP/nC237HzXhKJMQ9wo8O3/6lGbxMgBrTBO0FizkFgisEKNCjfsXvbNLOdSFY8eN
+ FQY0JRU5SL4i3gi5o4yPdERqxGK4ryxZ8Yr7yQvGUUYS5nkmVKGqhcc7sGB8pdKmolog
+ 72CnWg5dM8oog+L5kzrqXPj1PVyesFLzpBudf3iPkgtclRvAGbmeqL0v7J+5ujnipdET
+ Pmb/17HyO6XhGNWCNMYjxG2I2KtzWRt2b8PPDuJT2bjxegTvxTbE3rWiT/cMMfvELNlT
+ M+UA==
+X-Gm-Message-State: AO0yUKWyrYaQxJvltlUNM8v6+dCn0tltJ5hBH2rx8JZppoD75QpZJ+qr
+ vazEeeiFEmkgAq583RjVJGkGLt0jEHiMwbg1kRQ=
+X-Google-Smtp-Source: AK7set/u4oLnao85Dpr4fJhmohcNZee8GcOouzIY0cXQ8oqWAB+MQknUOkVLm51nzXhtr/3PUgVbRQ==
+X-Received: by 2002:a62:6541:0:b0:5a8:d97d:c346 with SMTP id
+ z62-20020a626541000000b005a8d97dc346mr18841962pfb.12.1678392786418; 
+ Thu, 09 Mar 2023 12:13:06 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:bf7f:79a0:a976:bdaf])
  by smtp.gmail.com with ESMTPSA id
- v15-20020a62a50f000000b005b02ddd852dsm11867744pfm.142.2023.03.09.12.13.04
+ v15-20020a62a50f000000b005b02ddd852dsm11867744pfm.142.2023.03.09.12.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 12:13:05 -0800 (PST)
+ Thu, 09 Mar 2023 12:13:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL v2 81/91] target/ppc: Avoid tcg_const_* in vmx-impl.c.inc
-Date: Thu,  9 Mar 2023 12:05:40 -0800
-Message-Id: <20230309200550.3878088-82-richard.henderson@linaro.org>
+Subject: [PULL v2 82/91] target/ppc: Avoid tcg_const_* in xxeval
+Date: Thu,  9 Mar 2023 12:05:41 -0800
+Message-Id: <20230309200550.3878088-83-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230309200550.3878088-1-richard.henderson@linaro.org>
 References: <20230309200550.3878088-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,64 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All remaining uses are strictly read-only.
+Initialize a new temp instead of tcg_const_*.
+Fix a pasto in a comment.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate/vmx-impl.c.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ target/ppc/translate/vsx-impl.c.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index ca27c11d87..112233b541 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1624,7 +1624,7 @@ static void glue(gen_, name)(DisasContext *ctx)                         \
-             gen_exception(ctx, POWERPC_EXCP_VPU);                       \
-             return;                                                     \
-         }                                                               \
--        uimm = tcg_const_i32(UIMM5(ctx->opcode));                       \
-+        uimm = tcg_constant_i32(UIMM5(ctx->opcode));                    \
-         rb = gen_avr_ptr(rB(ctx->opcode));                              \
-         rd = gen_avr_ptr(rD(ctx->opcode));                              \
-         gen_helper_##name(cpu_env, rd, rb, uimm);                       \
-@@ -1965,7 +1965,7 @@ static void gen_vsldoi(DisasContext *ctx)
-     ra = gen_avr_ptr(rA(ctx->opcode));
-     rb = gen_avr_ptr(rB(ctx->opcode));
-     rd = gen_avr_ptr(rD(ctx->opcode));
--    sh = tcg_const_i32(VSH(ctx->opcode));
-+    sh = tcg_constant_i32(VSH(ctx->opcode));
-     gen_helper_vsldoi(rd, ra, rb, sh);
- }
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 6e63403727..9916784e64 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2449,7 +2449,8 @@ static void gen_xxeval_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b, TCGv_i64 c,
+     TCGv_i64 conj, disj;
  
-@@ -2575,7 +2575,7 @@ static void gen_##op(DisasContext *ctx)             \
-     rb = gen_avr_ptr(rB(ctx->opcode));              \
-     rd = gen_avr_ptr(rD(ctx->opcode));              \
-                                                     \
--    ps = tcg_const_i32((ctx->opcode & 0x200) != 0); \
-+    ps = tcg_constant_i32((ctx->opcode & 0x200) != 0); \
-                                                     \
-     gen_helper_##op(cpu_crf[6], rd, ra, rb, ps);    \
- }
-@@ -2594,7 +2594,7 @@ static void gen_##op(DisasContext *ctx)             \
-     rb = gen_avr_ptr(rB(ctx->opcode));              \
-     rd = gen_avr_ptr(rD(ctx->opcode));              \
-                                                     \
--    ps = tcg_const_i32((ctx->opcode & 0x200) != 0); \
-+    ps = tcg_constant_i32((ctx->opcode & 0x200) != 0); \
-                                                     \
-     gen_helper_##op(cpu_crf[6], rd, rb, ps);        \
- }
-@@ -2726,7 +2726,7 @@ static void gen_##op(DisasContext *ctx)       \
-     }                                         \
-     ra = gen_avr_ptr(rA(ctx->opcode));        \
-     rd = gen_avr_ptr(rD(ctx->opcode));        \
--    st_six = tcg_const_i32(rB(ctx->opcode));  \
-+    st_six = tcg_constant_i32(rB(ctx->opcode));  \
-     gen_helper_##op(rd, ra, st_six);          \
- }
+     conj = tcg_temp_new_i64();
+-    disj = tcg_const_i64(0);
++    disj = tcg_temp_new_i64();
++    tcg_gen_movi_i64(disj, 0);
  
+     /* Iterate over set bits from the least to the most significant bit */
+     while (imm) {
+@@ -2492,8 +2493,9 @@ static void gen_xxeval_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
+     int bit;
+     TCGv_vec disj, conj;
+ 
+-    disj = tcg_const_zeros_vec_matching(t);
+     conj = tcg_temp_new_vec_matching(t);
++    disj = tcg_temp_new_vec_matching(t);
++    tcg_gen_dupi_vec(vece, disj, 0);
+ 
+     /* Iterate over set bits from the least to the most significant bit */
+     while (imm) {
+@@ -2546,7 +2548,7 @@ static bool trans_XXEVAL(DisasContext *ctx, arg_8RR_XX4_imm *a)
+ 
+     /* Equivalent functions that can be implemented with a single gen_gvec */
+     switch (a->imm) {
+-    case 0b00000000: /* true */
++    case 0b00000000: /* false */
+         set_cpu_vsr(a->xt, tcg_constant_i64(0), true);
+         set_cpu_vsr(a->xt, tcg_constant_i64(0), false);
+         break;
 -- 
 2.34.1
 
