@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5836B1B2B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 07:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D726B1B3B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 07:16:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa9V4-0007XU-QC; Thu, 09 Mar 2023 01:11:38 -0500
+	id 1pa9YX-0000ie-AH; Thu, 09 Mar 2023 01:15:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pa9V1-0007X9-NE; Thu, 09 Mar 2023 01:11:35 -0500
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1pa9YT-0000iU-Bz
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 01:15:09 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pa9Ux-0003zF-Vm; Thu, 09 Mar 2023 01:11:35 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R761e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0VdSEgcl_1678342282; 
-Received: from 30.221.99.193(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VdSEgcl_1678342282) by smtp.aliyun-inc.com;
- Thu, 09 Mar 2023 14:11:23 +0800
-Message-ID: <87bbfaef-92df-52d7-da48-ff25a3c508a4@linux.alibaba.com>
-Date: Thu, 9 Mar 2023 14:11:22 +0800
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1pa9YQ-0004xi-OB
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 01:15:09 -0500
+Received: from dggpemm100004.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PXJkg6sdxzKq7C;
+ Thu,  9 Mar 2023 14:12:43 +0800 (CST)
+Received: from dggpemm500010.china.huawei.com (7.185.36.134) by
+ dggpemm100004.china.huawei.com (7.185.36.189) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 9 Mar 2023 14:14:49 +0800
+Received: from dggpemm500010.china.huawei.com ([7.185.36.134]) by
+ dggpemm500010.china.huawei.com ([7.185.36.134]) with mapi id 15.01.2507.021;
+ Thu, 9 Mar 2023 14:14:49 +0800
+To: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "wangzhigang (O)"
+ <wangzhigang17@huawei.com>, "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi
+ <xiqi2@huawei.com>
+Subject: Reply: [PATCH v2] virtio-balloon: optimize the virtio-balloon on the
+ ARM platform
+Thread-Topic: Reply: [PATCH v2] virtio-balloon: optimize the virtio-balloon on
+ the ARM platform
+Thread-Index: AdlSTll2RbBbWgbQQnGmOBsVVB0T7w==
+Date: Thu, 9 Mar 2023 06:14:49 +0000
+Message-ID: <9544c4fe084c4bf281b744eb4e0c998b@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.184.140]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 03/10] target/riscv: allow MISA writes as experimental
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>
-Cc: qemu-riscv@nongnu.org, bmeng@tinylab.org, liweiwei@iscas.ac.cn,
- palmer@rivosinc.com
-References: <20230222185205.355361-1-dbarboza@ventanamicro.com>
- <20230222185205.355361-4-dbarboza@ventanamicro.com>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230222185205.355361-4-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.97;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-97.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=yangming73@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,109 +67,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Yangming <yangming73@huawei.com>
+From:  Yangming via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2023/2/23 2:51, Daniel Henrique Barboza wrote:
-> At this moment, and apparently since ever, we have no way of enabling
-> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
-> the nuts and bolts that handles how to properly write this CSR, has
-> always been a no-op as well because write_misa() will always exit
-> earlier.
->
-> This seems to be benign in the majority of cases. Booting an Ubuntu
-> 'virt' guest and logging all the calls to 'write_misa' shows that no
-> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
-> RISC-V extensions after the machine is powered on, seems to be a niche
-> use.
->
-> After discussions in the mailing list, most notably in [1], we reached
-> the consensus that this code is not suited to be exposed to users
-> because it's not well tested, but at the same time removing it is a bit
-> extreme because we would like to fix it, and it's easier to do so with
-> the code available to use instead of fetching it from git log.
->
-> The approach taken here is to get rid of RISCV_FEATURE_MISA altogether
-> and use a new experimental flag called x-misa-w. The default value is
-> false, meaning that we're keeping the existing behavior of doing nothing
-> if a write_misa() is attempted. As with any existing experimental flag,
-> x-misa-w is also a temporary flag that we need to remove once we fix
-> write_misa().
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->   target/riscv/cpu.c | 6 ++++++
->   target/riscv/cpu.h | 2 +-
->   target/riscv/csr.c | 2 +-
->   3 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 93b52b826c..1d637b1acd 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1210,6 +1210,12 @@ static Property riscv_cpu_properties[] = {
->   
->       DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
->       DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-> +
-> +    /*
-> +     * write_misa() is marked as experimental for now so mark
-> +     * it with -x and default to 'false'.
-> +     */
-> +    DEFINE_PROP_BOOL("x-misa-w", RISCVCPU, cfg.misa_w, false),
-
-Just a question  I got when I reviewed another patch set:
-
-Why put x-misa-w to riscv_cpu_properties instead of riscv_cpu_extensions?
-
-I think this property should have a fixed value for a named cpu(such as 
-sifive_e). Therefore IMHO, putting x-misa-w into riscv_cpu_extensions is 
-more proper. At the same time,  the debug, rvv_ta_all_1s,  
-rvv_ma_all_1s, resetvec properties should be moved to 
-riscv_cpu_extentions. I am not sure why we should give the 
-marchid/mipid/mvendorid option for named cpus. Maybe @Frank knows.
-
-Have I missed something?
-
-Zhiwei
-
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 215423499e..9d3304bcda 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -89,7 +89,6 @@ enum {
->       RISCV_FEATURE_MMU,
->       RISCV_FEATURE_PMP,
->       RISCV_FEATURE_EPMP,
-> -    RISCV_FEATURE_MISA,
->       RISCV_FEATURE_DEBUG
->   };
->   
-> @@ -498,6 +497,7 @@ struct RISCVCPUConfig {
->       bool pmp;
->       bool epmp;
->       bool debug;
-> +    bool misa_w;
->   
->       bool short_isa_string;
->   };
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e149b453da..3cb8d2ffad 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1329,7 +1329,7 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
->   static RISCVException write_misa(CPURISCVState *env, int csrno,
->                                    target_ulong val)
->   {
-> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
-> +    if (!riscv_cpu_cfg(env)->misa_w) {
->           /* drop write to misa */
->           return RISCV_EXCP_NONE;
->       }
+PiBPbiAwOC4wMy4yMyAwMTo0MiwgTWljaGFlbCBTLiBUc2lya2luIHdyb3RlOg0KPiA+IE9uIFdl
+ZCwgTWFyIDAxLCAyMDIzIGF0IDA2OjM4OjEzQU0gKzAwMDAsIFlhbmdtaW5nIHdyb3RlOg0KPiA+
+PiBPcHRpbWl6ZSB0aGUgdmlydGlvLWJhbGxvb24gZmVhdHVyZSBvbiB0aGUgQVJNIHBsYXRmb3Jt
+IGJ5IGFkZGluZyBhDQo+ID4+IHZhcmlhYmxlIHRvIGtlZXAgdHJhY2sgb2YgdGhlIGN1cnJlbnQg
+aG90LXBsdWdnZWQgcGMtZGltbSBzaXplLA0KPiA+PiBpbnN0ZWFkIG9mIHRyYXZlcnNpbmcgdGhl
+IHZpcnR1YWwgbWFjaGluZSdzIG1lbW9yeSBtb2R1bGVzIHRvIGNvdW50DQo+ID4+IHRoZSBjdXJy
+ZW50IFJBTSBzaXplIGR1cmluZyB0aGUgYmFsbG9vbiBpbmZsYXRpb24gb3IgZGVmbGF0aW9uDQo+
+ID4+IHByb2Nlc3MuIFRoaXMgdmFyaWFibGUgY2FuIGJlIHVwZGF0ZWQgb25seSB3aGVuIHBsdWdn
+aW5nIG9yDQo+ID4+IHVucGx1Z2dpbmcgdGhlIGRldmljZSwgd2hpY2ggd2lsbCByZXN1bHQgaW4g
+YW4gaW5jcmVhc2Ugb2YNCj4gPj4gYXBwcm94aW1hdGVseSA2MCUgZWZmaWNpZW5jeSBvZiBiYWxs
+b29uIHByb2Nlc3Mgb24gdGhlIEFSTSBwbGF0Zm9ybS4NCj4gPj4NCj4gPj4gV2UgdGVzdGVkIHRo
+ZSB0b3RhbCBhbW91bnQgb2YgdGltZSByZXF1aXJlZCBmb3IgdGhlIGJhbGxvb24gaW5mbGF0aW9u
+DQo+IHByb2Nlc3Mgb24gQVJNOg0KPiA+PiBpbmZsYXRlIHRoZSBiYWxsb29uIHRvIDY0R0Igb2Yg
+YSAxMjhHQiBndWVzdCB1bmRlciBzdHJlc3MuDQo+ID4+IEJlZm9yZTogMTAyIHNlY29uZHMNCj4g
+Pj4gQWZ0ZXI6IDQyIHNlY29uZHMNCj4gPj4NCj4gPj4gU2lnbmVkLW9mZi1ieTogUWkgWGkgPHhp
+cWkyQGh1YXdlaS5jb20+DQo+ID4+IFNpZ25lZC1vZmYtYnk6IE1pbmcgWWFuZyB5YW5nbWluZzcz
+QGh1YXdlaS5jb20NCj4gPj4gLS0tDQo+ID4+IFJlZmFjdG9yIHRoZSBjb2RlIGJ5IGFkZGluZyBj
+b21tZW50cyBhbmQgcmVtb3ZpbmcgdW5uZWNlc3NhcnkgY29kZS4NCj4gPj4NCj4gPj4gICBody9t
+ZW0vcGMtZGltbS5jICAgICAgICAgICB8ICA3ICsrKysrKysNCj4gPj4gICBody92aXJ0aW8vdmly
+dGlvLWJhbGxvb24uYyB8IDMzICsrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+
+PiAgIGluY2x1ZGUvaHcvYm9hcmRzLmggICAgICAgIHwgIDIgKysNCj4gPj4gICAzIGZpbGVzIGNo
+YW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQ0KPiA+Pg0KPiA+PiBkaWZm
+IC0tZ2l0IGEvaHcvbWVtL3BjLWRpbW0uYyBiL2h3L21lbS9wYy1kaW1tLmMgaW5kZXgNCj4gPj4g
+NTBlZjgzMjE1Yy4uM2YyNzM0YTI2NyAxMDA2NDQNCj4gPj4gLS0tIGEvaHcvbWVtL3BjLWRpbW0u
+Yw0KPiA+PiArKysgYi9ody9tZW0vcGMtZGltbS5jDQo+ID4+IEBAIC04MSw2ICs4MSwxMCBAQCB2
+b2lkIHBjX2RpbW1fcGx1ZyhQQ0RJTU1EZXZpY2UgKmRpbW0sDQo+IE1hY2hpbmVTdGF0ZQ0KPiA+
+PiAqbWFjaGluZSkNCj4gPj4NCj4gPj4gICAgICAgbWVtb3J5X2RldmljZV9wbHVnKE1FTU9SWV9E
+RVZJQ0UoZGltbSksIG1hY2hpbmUpOw0KPiA+PiAgICAgICB2bXN0YXRlX3JlZ2lzdGVyX3JhbSh2
+bXN0YXRlX21yLCBERVZJQ0UoZGltbSkpOw0KPiA+PiArICAgIC8qIGNvdW50IG9ubHkgInJlYWwi
+IERJTU1zLCBub3QgTlZESU1NcyAqLw0KPiA+PiArICAgIGlmICghb2JqZWN0X2R5bmFtaWNfY2Fz
+dChPQkpFQ1QoZGltbSksIFRZUEVfTlZESU1NKSkgew0KPiA+PiArICAgICAgICBtYWNoaW5lLT5k
+ZXZpY2VfbWVtb3J5LT5kaW1tX3NpemUgKz0gdm1zdGF0ZV9tci0+c2l6ZTsNCj4gPj4gKyAgICB9
+DQo+ID4+ICAgfQ0KPiA+Pg0KPiA+PiAgIHZvaWQgcGNfZGltbV91bnBsdWcoUENESU1NRGV2aWNl
+ICpkaW1tLCBNYWNoaW5lU3RhdGUgKm1hY2hpbmUpDQo+ID4NCj4gPiB2bXN0YXRlX21yLT5zaXpl
+IGlzIEludDEyOCB5b3UgYXJlIG5vdCBzdXBwb3NlZCB0byBkbyBtYXRoIG9uIGl0Lg0KPiA+DQo+
+ID4gQW5kIGdlbmVyYWxseSBwb2tpbmcgYXQgdGhpcyBzdHJ1Y3QgaXMgYSBiYWQgaWRlYS4NCj4g
+Pg0KPiA+IEkgdGhpbmsgbWVtb3J5X3JlZ2lvbl9zaXplIHdpbGwgZG8gd2hhdCB5b3Ugd2FudCBi
+dXQgbm90IDEwMCUgc3VyZS4NCj4gPiBNYXliZSB5b3UgbmVlZCB0byBsb29rIGF0IHRoZSBmbGF0
+dmlldyAuLi4NCj4gDQo+IEdvb2QgcG9pbnQsIHdlIHNob3VsZCB1c2UgbWVtb3J5X3JlZ2lvbl9z
+aXplKCkuDQo+IA0KPiAtLQ0KPiBUaGFua3MsDQo+IA0KPiBEYXZpZCAvIGRoaWxkZW5iDQoNClRo
+YW5rcyBmb3IgdGhlIHN1Z2dlc3Rpb24uIFRoZSBwcm9ibGVtIHdpbGwgYmUgZml4ZWQgaW4gdGhl
+IHVwY29taW5nIHRoaXJkIHZlcnNpb24gYnkgdXNpbmcgJ21lbW9yeV9yZWdpb25fc2l6ZSgpJy4N
+Cg0KQnkgdGhlIHdheSwgd2UgZm91bmQgdGhhdCB0aGUgc2l6ZSBvZiB0aGUgb2JqZWN0IGlzIGFs
+aWduZWQgd2l0aCAncWVtdV9ob3N0X3BhZ2Vfc2l6ZScgYmVmb3JlIGFsbG9jYXRpbmcgdGhlIG1l
+bW9yeSAoc2VlIGRldGFpbHMgaW4gJ3FlbXVfcmFtX2FsbG9jX2ludGVybmFsKCknIGZyb20gc29m
+dG1tdS9waHlzbWVtLmMpLiBUaGlzIG1lYW5zIHRoYXQgdGhlIGFjdHVhbCBhbGxvY2F0ZWQgbWVt
+b3J5IG1heSBkaWZmZXIgZnJvbSB0aGUgc2l6ZSBkZWZpbmVkIGluIHRoZSBPYmplY3QuIEFzIGEg
+cmVzdWx0LCBpbiAnZ2V0X2N1cnJlbnRfcmFtX3NpemUoKScsIHRoZSBvcmlnaW5hbCBtZXRob2Qg
+b2YgY291bnRpbmcgaG90LXBsdWdnZWQgbWVtb3J5IGZyb20gdGhlIE9iamVjdCBtYXkgbm90IGJl
+IGFjY3VyYXRlLiBOb3csIHdlIGNvdW50IHRoZSBzaXplIGZyb20gdGhlIG1lbW9yeSByZWdpb24s
+IHdoaWNoIGlzIGEgcHJvcGVyIHdheSB0byBnZXQgdGhlIGFjdHVhbCBzaXplIG9mIG1lbW9yeSBh
+bGxvY2F0ZWQuDQoNClRoYW5rcywNCg0KWGlRaQ0K
 
