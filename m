@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7FB6B1CE4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 08:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A9B6B1D00
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 08:54:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paB0v-0002ov-Ov; Thu, 09 Mar 2023 02:48:37 -0500
+	id 1paB5J-0005Lk-0g; Thu, 09 Mar 2023 02:53:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1paB0l-0002nz-UM; Thu, 09 Mar 2023 02:48:29 -0500
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1paB0j-0007kg-0d; Thu, 09 Mar 2023 02:48:27 -0500
-Received: from [192.168.0.120] (unknown [180.165.240.213])
- by APP-01 (Coremail) with SMTP id qwCowAB3kNRBjwlkKUtEDQ--.19216S2;
- Thu, 09 Mar 2023 15:48:17 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------0LipbmQGvucsbdvYurQzdocT"
-Message-ID: <18d2b7d5-fa56-eb32-4803-74e85f24e1a2@iscas.ac.cn>
-Date: Thu, 9 Mar 2023 15:48:17 +0800
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1paB5F-0005LV-Nj
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 02:53:05 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1paB5C-0000el-Us
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 02:53:05 -0500
+Received: from dggpemm500002.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PXLv355xBznWtH;
+ Thu,  9 Mar 2023 15:50:07 +0800 (CST)
+Received: from dggpemm500010.china.huawei.com (7.185.36.134) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 9 Mar 2023 15:52:57 +0800
+Received: from dggpemm500010.china.huawei.com ([7.185.36.134]) by
+ dggpemm500010.china.huawei.com ([7.185.36.134]) with mapi id 15.01.2507.021;
+ Thu, 9 Mar 2023 15:52:57 +0800
+To: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "wangzhigang (O)" <wangzhigang17@huawei.com>, "zhangliang (AG)"
+ <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+Subject: [PATCH v3] virtio-balloon: optimize the virtio-balloon on the ARM
+ platform
+Thread-Topic: [PATCH v3] virtio-balloon: optimize the virtio-balloon on the
+ ARM platform
+Thread-Index: AQHZUi7A5PFV5xA+kk+ShXcQSn47C67yE0aw
+Date: Thu, 9 Mar 2023 07:52:57 +0000
+Message-ID: <e13bc78f96774bfab4576814c293aa52@huawei.com>
+References: <20230309022752.1013-1-xiqi2@huawei.com>
+In-Reply-To: <20230309022752.1013-1-xiqi2@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.184.140]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] target/riscv/csr.c: fix H extension TVM trap
-Content-Language: en-US
-To: chenyi2000@zju.edu.cn, qemu-devel@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-References: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
-X-CM-TRANSID: qwCowAB3kNRBjwlkKUtEDQ--.19216S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7urWUAFW8trW7tFykKF47CFg_yoW8tr4rpa
- 18t3yYkayjgFWqyayfJr1qg3W5ArWUGayDAwn7Wa1rAr1fAryrCF1DXr9IqF1DWryDJFs2
- vFWDuF93JF429a7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUk2b7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
- C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv2
- 0xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7
- xvr2IY64vIr41l7480Y4vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK
- 82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWw
- C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
- MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
- IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
- 87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUwyCGUUUUU
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=yangming73@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,194 +69,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Yangming <yangming73@huawei.com>
+From:  Yangming via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------0LipbmQGvucsbdvYurQzdocT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Optimize the virtio-balloon feature on the ARM platform by adding
+a variable to keep track of the current hot-plugged pc-dimm size,
+instead of traversing the virtual machine's memory modules to count
+the current RAM size during the balloon inflation or deflation
+process. This variable can be updated only when plugging or unplugging
+the device, which will result in an increase of approximately 60%
+efficiency of balloon process on the ARM platform.
 
+We tested the total amount of time required for the balloon inflation proce=
+ss on ARM:
+inflate the balloon to 64GB of a 128GB guest under stress.
+Before: 102 seconds
+After: 42 seconds
 
-On 2023/3/8 20:34, chenyi2000@zju.edu.cn wrote:
-> From: Yi Chen<chenyi2000@zju.edu.cn>
->
-> Trap accesses to hgatp if MSTATUS_TVM is enabled.
-> Don't trap accesses to vsatp even if MSTATUS_TVM is enabled.
->
-> Signed-off-by: Yi Chen<chenyi2000@zju.edu.cn>
-> ---
->   target/riscv/csr.c | 18 ++++++++++++++----
->   1 file changed, 14 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index ab56663..09bc780 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -2655,7 +2655,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
->           return RISCV_EXCP_NONE;
->       }
->   
-> -    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) && get_field(env->mstatus, MSTATUS_TVM)) {
->           return RISCV_EXCP_ILLEGAL_INST;
-
-This line seems too long (> 80).
-
-And hstatus.VTVM should also be taken into consideration.
-
-Similar to following write_satp.
-
->       } else {
->           *val = env->satp;
-> @@ -2683,7 +2683,7 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
->       }
->   
->       if (vm && mask) {
-> -        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +        if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) && get_field(env->mstatus, MSTATUS_TVM)) {
->               return RISCV_EXCP_ILLEGAL_INST;
->           } else {
->               /*
-> @@ -3047,14 +3047,24 @@ static RISCVException read_hgeip(CPURISCVState *env, int csrno,
->   static RISCVException read_hgatp(CPURISCVState *env, int csrno,
->                                    target_ulong *val)
->   {
-> -    *val = env->hgatp;
-> +    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-
-This check will do before privilege check in riscv_csrrw_check. So it 
-will make VS mode access trigger
-
-ILLEGAL_INST exception, However, it should be VIRTUAL_INST exception in 
-this case.
-
-Regards,
-
-Weiwei Li
-
-> +    } else {
-> +        *val = env->hgatp;
-> +    }
-> +
->       return RISCV_EXCP_NONE;
->   }
->   
->   static RISCVException write_hgatp(CPURISCVState *env, int csrno,
->                                     target_ulong val)
->   {
-> -    env->hgatp = val;
-> +    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    } else {
-> +        env->hgatp = val;
-> +    }
-> +
->       return RISCV_EXCP_NONE;
->   }
->   
---------------0LipbmQGvucsbdvYurQzdocT
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/3/8 20:34,
-      <a class="moz-txt-link-abbreviated" href="mailto:chenyi2000@zju.edu.cn">chenyi2000@zju.edu.cn</a> wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230308123417.12555-1-chenyi2000@zju.edu.cn">
-      <pre class="moz-quote-pre" wrap="">From: Yi Chen <a class="moz-txt-link-rfc2396E" href="mailto:chenyi2000@zju.edu.cn">&lt;chenyi2000@zju.edu.cn&gt;</a>
-
-Trap accesses to hgatp if MSTATUS_TVM is enabled.
-Don't trap accesses to vsatp even if MSTATUS_TVM is enabled.
-
-Signed-off-by: Yi Chen <a class="moz-txt-link-rfc2396E" href="mailto:chenyi2000@zju.edu.cn">&lt;chenyi2000@zju.edu.cn&gt;</a>
+Signed-off-by: Qi Xi <xiqi2@huawei.com>
+Signed-off-by: Ming Yang yangming73@huawei.com
 ---
- target/riscv/csr.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ hw/mem/pc-dimm.c           |  7 +++++++
+ hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+ include/hw/boards.h        |  2 ++
+ 3 files changed, 14 insertions(+), 28 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ab56663..09bc780 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -2655,7 +2655,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
-         return RISCV_EXCP_NONE;
-     }
- 
--    if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+    if (env-&gt;priv == PRV_S &amp;&amp; !riscv_cpu_virt_enabled(env) &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-         return RISCV_EXCP_ILLEGAL_INST;</pre>
-    </blockquote>
-    <p>This line seems too long (&gt; 80).<br>
-    </p>
-    <p>And hstatus.VTVM should also be taken into consideration.</p>
-    <p>Similar to following write_satp.</p>
-    <blockquote type="cite"
-      cite="mid:20230308123417.12555-1-chenyi2000@zju.edu.cn">
-      <pre class="moz-quote-pre" wrap="">
-     } else {
-         *val = env-&gt;satp;
-@@ -2683,7 +2683,7 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
-     }
- 
-     if (vm &amp;&amp; mask) {
--        if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+        if (env-&gt;priv == PRV_S &amp;&amp; !riscv_cpu_virt_enabled(env) &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-             return RISCV_EXCP_ILLEGAL_INST;
-         } else {
-             /*
-@@ -3047,14 +3047,24 @@ static RISCVException read_hgeip(CPURISCVState *env, int csrno,
- static RISCVException read_hgatp(CPURISCVState *env, int csrno,
-                                  target_ulong *val)
- {
--    *val = env-&gt;hgatp;
-+    if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;</pre>
-    </blockquote>
-    <p>This check will do before privilege check in <span style="color:
-        #000000;">riscv_csrrw_check</span>. So it will make VS mode
-      access trigger</p>
-    <p>ILLEGAL_INST exception, However, it should be VIRTUAL_INST
-      exception in this case. <br>
-    </p>
-    <p>Regards,</p>
-    <p>Weiwei Li</p>
-    <p></p>
-    <blockquote type="cite"
-      cite="mid:20230308123417.12555-1-chenyi2000@zju.edu.cn">
-      <pre class="moz-quote-pre" wrap="">
-+    } else {
-+        *val = env-&gt;hgatp;
+diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+index 50ef83215c..37f1f4ccfd 100644
+--- a/hw/mem/pc-dimm.c
++++ b/hw/mem/pc-dimm.c
+@@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *mach=
+ine)
+=20
+     memory_device_plug(MEMORY_DEVICE(dimm), machine);
+     vmstate_register_ram(vmstate_mr, DEVICE(dimm));
++    /* count only "real" DIMMs, not NVDIMMs */
++    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
++        machine->device_memory->dimm_size +=3D memory_region_size(vmstate_=
+mr);
 +    }
-+
-     return RISCV_EXCP_NONE;
  }
- 
- static RISCVException write_hgatp(CPURISCVState *env, int csrno,
-                                   target_ulong val)
- {
--    env-&gt;hgatp = val;
-+    if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    } else {
-+        env-&gt;hgatp = val;
+=20
+ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+@@ -90,6 +94,9 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *mac=
+hine)
+=20
+     memory_device_unplug(MEMORY_DEVICE(dimm), machine);
+     vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
++    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
++        machine->device_memory->dimm_size -=3D memory_region_size(vmstate_=
+mr);
 +    }
-+
-     return RISCV_EXCP_NONE;
  }
- 
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------0LipbmQGvucsbdvYurQzdocT--
+=20
+ static int pc_dimm_slot2bitmap(Object *obj, void *opaque)
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 746f07c4d2..2814a47cb1 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *v=
+dev, uint8_t *config_data)
+     memcpy(config_data, &config, virtio_balloon_config_size(dev));
+ }
+=20
+-static int build_dimm_list(Object *obj, void *opaque)
+-{
+-    GSList **list =3D opaque;
+-
+-    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
+-        DeviceState *dev =3D DEVICE(obj);
+-        if (dev->realized) { /* only realized DIMMs matter */
+-            *list =3D g_slist_prepend(*list, dev);
+-        }
+-    }
+-
+-    object_child_foreach(obj, build_dimm_list, opaque);
+-    return 0;
+-}
+-
+ static ram_addr_t get_current_ram_size(void)
+ {
+-    GSList *list =3D NULL, *item;
+-    ram_addr_t size =3D current_machine->ram_size;
+-
+-    build_dimm_list(qdev_get_machine(), &list);
+-    for (item =3D list; item; item =3D g_slist_next(item)) {
+-        Object *obj =3D OBJECT(item->data);
+-        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
+-            size +=3D object_property_get_int(obj, PC_DIMM_SIZE_PROP,
+-                                            &error_abort);
+-        }
++    MachineState *machine =3D MACHINE(qdev_get_machine());
++    if (machine->device_memory) {
++        return machine->ram_size + machine->device_memory->dimm_size;
++    } else {
++        return machine->ram_size;
+     }
+-    g_slist_free(list);
+-
+-    return size;
+ }
+=20
+ static bool virtio_balloon_page_poison_support(void *opaque)
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6fbbfd56c8..f840f88d54 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -292,10 +292,12 @@ struct MachineClass {
+  * @base: address in guest physical address space where the memory
+  * address space for memory devices starts
+  * @mr: address space container for memory devices
++ * @dimm_size: the sum of plugged DIMMs' sizes
+  */
+ typedef struct DeviceMemoryState {
+     hwaddr base;
+     MemoryRegion mr;
++    uint64_t dimm_size;
+ } DeviceMemoryState;
+=20
+ /**
+--=20
+2.33.0
 
 
