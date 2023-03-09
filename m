@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F193E6B163E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 00:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB626B1891
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 02:15:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pa2vC-0006Vq-QX; Wed, 08 Mar 2023 18:10:10 -0500
+	id 1pa4r3-0006V1-5y; Wed, 08 Mar 2023 20:14:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pa2vA-0006Vi-M3
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 18:10:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pa4r1-0006Uo-BP
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 20:13:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pa2v8-0005TI-OW
- for qemu-devel@nongnu.org; Wed, 08 Mar 2023 18:10:08 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pa4qz-0006gs-0S
+ for qemu-devel@nongnu.org; Wed, 08 Mar 2023 20:13:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678317005;
+ s=mimecast20190719; t=1678324435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r4oYqAlyLAmHEmllm9yvp4uwJMhMVjpJCCMizek1erg=;
- b=h5PuJ0rlUU08OXP0/KpjnFdhAhoUNE1RTffjVNaDL5tL79vQ/s4GklCOcs8q4qRx4SFAJi
- 2wLZUpHmSM75fx9MGitHMpj6i6++riFKm+/lYyxMsSUA6vLDZHRxjs29Ryp9hUK4N4NtT8
- 86G26Nqhl6Z/W63V1IQVwayJ4lgdF+k=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=T/58rnRV5UGKxHsIXQhXQ+/tnPe7gyQ4qdT7RXJu7vE=;
+ b=QuFQsyj87aOz88y5C/TFYdF1VvPqrkMgogxOxceDWRc7gSRY/ZVVEvOPxuHAVoVhfUgxB4
+ Wv68pbgFfYeU5WpL7KlqVbqRMV7tjk36ZiaK8NtulCWtmbSnYuqaG0o4aHhI1ioDUuYMoi
+ y/NducPVmx0YoGtUbLdWyKkVKHOO2/0=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-62-dNUvBRdVN0W5X0G8Te9h-A-1; Wed, 08 Mar 2023 18:09:56 -0500
-X-MC-Unique: dNUvBRdVN0W5X0G8Te9h-A-1
-Received: by mail-qv1-f71.google.com with SMTP id
- px25-20020a056214051900b0056f0794632bso227303qvb.18
- for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 15:09:56 -0800 (PST)
+ us-mta-653-DhLCuVfDP_6JRpiKAoNqfQ-1; Wed, 08 Mar 2023 20:13:53 -0500
+X-MC-Unique: DhLCuVfDP_6JRpiKAoNqfQ-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ d12-20020a05680813cc00b00383b76f4171so290842oiw.20
+ for <qemu-devel@nongnu.org>; Wed, 08 Mar 2023 17:13:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678316996;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=r4oYqAlyLAmHEmllm9yvp4uwJMhMVjpJCCMizek1erg=;
- b=EA60gG71BX4tUGA1nwFf0pL/KpxDRBlfnuBmLcNhtEGHXEwh7Sw5dzBKcyETqKdhAn
- jfYFDDNdwr+ftxAAklhfPZ23e7BhsknUS6SGRDINz0mZofeQs2yXfyaPh0EuF48zVCn7
- 5lFmEgLMbLBSxQRYoq/X1h9mRROZoxjiaYd87t8LmSDbI1LAJYELA+qzNBLs2AngKKeY
- AoaXOG1KZRzlsznhIkZEdowZIXjpLoN04xNKmCxVu0hOiIyHfxP5r8zafO1M27Q1Wmb+
- 9GLtnmvgvlBVYuIViBOELfpTsNyEc4KXABAEO72Yt8tFmTgL5LOqCXCnN5IDRt+iDl/J
- CBgQ==
-X-Gm-Message-State: AO0yUKV14ZfXiL6bixatN2bi0I8PK2PrUmgefaoEh12jzvo9gl5P2yL8
- QN3BsNdEDyUZ553+f0amEyDQjBExooBO5d+eVT+d+xZyzu6JesCd5j0bM3seYH6rrnFnCa+VCKH
- 0FJfEjHklRzicxjY=
-X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
- bp30-20020a05622a1b9e00b003bfa3d09023mr1678192qtb.5.1678316996235; 
- Wed, 08 Mar 2023 15:09:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set+iSdbImrmlIcmJXG2YP5jnMngXsknVUAcf5a+8AbjTSudmSCjtpbjXJ0W6AaUYXnlcA3iGfg==
-X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
- bp30-20020a05622a1b9e00b003bfa3d09023mr1678170qtb.5.1678316995950; 
- Wed, 08 Mar 2023 15:09:55 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- t62-20020ae9df41000000b0073b7f2a0bcbsm12252846qkf.36.2023.03.08.15.09.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 15:09:55 -0800 (PST)
-Date: Wed, 8 Mar 2023 18:09:54 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
- IRQ, on RTE update
-Message-ID: <ZAkVwunxmEfXu4+H@x1n>
-References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
- <ZAUZYkChWfwCcfSn@x1n>
- <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
- <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
- <ZAYXUKUtU9ipksUq@x1n>
- <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
+ d=1e100.net; s=20210112; t=1678324433;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=T/58rnRV5UGKxHsIXQhXQ+/tnPe7gyQ4qdT7RXJu7vE=;
+ b=YfpJJLsjEtBJui/O8kXkINgVbaPilAr7wTMDotGqJYHBb1u/KcidIjD4kokD4p9WXT
+ Z3yqxNERPjOA0SFsdPPnKjLtPt2K4F1LXepnk87WU2jn+lwY4IglrzyruUIoSacR7oS3
+ RfacRqRK60xuDdT3tFRcI3WId5Vmp/Q5W8qqRpg8IFlonc3phd8U+HfHQUTlTmFKuX+4
+ 6RkTFpXXAlDGPk/iGVyew9woZu/o0ND9Rm9N9qQ+9Ax1Zwld2FBHNJzRMD1g79vhHj6H
+ pVooFcUnjYI9sLRTD4QTkV4+NozwMezm8Z04WBmm0ztdZsqphwijfvkrTGuJLKmsLbGe
+ ifbw==
+X-Gm-Message-State: AO0yUKULC55pgHkW8+g8cTNl7WLtIh+tH9HPHRtRvOGErNhFXWZk7ua0
+ Ekwlfexav3gUx/WStPugr06eKttNFhGZE9RUx/RJbQaZviR8MN1EJJqqCeoKOfrazev0ac52fqL
+ TF0bFNgl5GLPVQDeFL9bb0q121F9QJl8=
+X-Received: by 2002:a05:6808:994:b0:37f:a0a1:bda1 with SMTP id
+ a20-20020a056808099400b0037fa0a1bda1mr6762779oic.3.1678324432912; 
+ Wed, 08 Mar 2023 17:13:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set+qkALXTAXFeiC2Ab7q45mDgm0OsceFe3MBDDUDn5RYXd6i2WzU6eOEM4OWeBSCrm1gt6G4gNBQrTF46CMYi4M=
+X-Received: by 2002:a05:6808:994:b0:37f:a0a1:bda1 with SMTP id
+ a20-20020a056808099400b0037fa0a1bda1mr6762769oic.3.1678324432527; Wed, 08 Mar
+ 2023 17:13:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+References: <20230307070816.34833-1-jasowang@redhat.com>
+ <CAFEAcA_Pctm1m30Cm2Q2cpyp9JmNgej5nB0ovZGtjfFHU2R9SQ@mail.gmail.com>
+ <4b67f103-0df3-891c-2a0f-466a82e89732@linaro.org>
+ <CACGkMEsuy_eCGcLy2C8-BybbwGC4ak9+Gfv9EeiG6DAZrLjZdQ@mail.gmail.com>
+ <719692c2-6401-fd6a-8718-1dd5e6ff1f85@linaro.org>
+ <20230308071628-mutt-send-email-mst@kernel.org>
+ <197b027e-1bbf-bd44-f78b-e01d535f3ac1@linaro.org>
+ <20230308072348-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230308072348-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 9 Mar 2023 09:13:41 +0800
+Message-ID: <CACGkMEtjmpX8G9HYZ0r3n5ErhAENKhQ81f4ocfCYrh=XoF=5hw@mail.gmail.com>
+Subject: Re: [PULL 00/51] Net patches
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ Stefan Weil <sw@weilnetz.de>, Igor Mammedov <imammedo@redhat.com>,
+ wei.huang2@amd.com, Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,55 +103,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 06, 2023 at 05:28:24PM +0000, David Woodhouse wrote:
-> Indeed, I don't think we care about the in-kernel I/OAPIC. I don't
-> think we care about the kernel knowing about e.g. "GSI #11" at all. We
-> can just deliver it as MSI (for the I/OAPIC) or using KVM_INTERRUPT and
-> the interrupt window as we do for the PIC. Which is why I'd happily rip
-> that out and let it be delivered via the APIC intercept at 0xfeexxxxx.
-> 
-> The existing code which just keeps IRQ routes updated when they're
-> valid is kind of OK, and well-behaved guests can function. But it isn't
-> *right* in the case where they aren't valid.
-> 
-> What *ought* to happen is that the IOMMU should raise a fault at the
-> moment the interrupt occurs, if the translation isn't valid. And we
-> don't have that at all.
+On Wed, Mar 8, 2023 at 8:25=E2=80=AFPM Michael S. Tsirkin <mst@redhat.com> =
+wrote:
+>
+> On Wed, Mar 08, 2023 at 01:21:52PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > On 8/3/23 13:17, Michael S. Tsirkin wrote:
+> > > On Wed, Mar 08, 2023 at 08:40:42AM +0100, Philippe Mathieu-Daud=C3=A9=
+ wrote:
+> > > > On 8/3/23 07:56, Jason Wang wrote:
+> > > > > On Wed, Mar 8, 2023 at 4:43=E2=80=AFAM Philippe Mathieu-Daud=C3=
+=A9 <philmd@linaro.org> wrote:
+> > > > > >
+> > > > > > On 7/3/23 18:01, Peter Maydell wrote:
+> > > > > > > On Tue, 7 Mar 2023 at 07:08, Jason Wang <jasowang@redhat.com>=
+ wrote:
+> > > > > > > >
+> > > > > > > > The following changes since commit 817fd33836e73812df2f1907=
+612b57750fcb9491:
+> > > > > > > >
+> > > > > > > >      Merge tag 'audio-pull-request' of https://gitlab.com/m=
+arcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
+> > > > > > > >
+> > > > > > > > are available in the git repository at:
+> > > > > > > >
+> > > > > > > >      https://github.com/jasowang/qemu.git tags/net-pull-req=
+uest
+> > > > > > > >
+> > > > > > > > for you to fetch changes up to c19b566a3898510ec2b3e881b3fb=
+78614b240414:
+> > > > > > > >
+> > > > > > > >      hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by E=
+EPRO100() (2023-03-07 14:55:39 +0800)
+> > > > > > > >
+> > > > > > > > -----------------------------------------------------------=
+-----
+> > > > > >
+> > > > > > > build-oss-fuzz failed on something involving fuzzing eepro100=
+:
+> > > > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3889073821
+> > > > > > Jason, please drop my patches. I'll look at that failure.
+> > > >
+> > > > Before "hw/net/eepro100: Convert reset handler to DeviceReset",
+> > > > e100_pci_reset() is only called once from DeviceRealize _before_
+> > > > the device is realized.
+> > > >
+> > > > After, 1/ it can be called multiple times and 2/ it seems to do
+> > > > stuffs that really belong to DeviceRealize (should be called once),
+> > > > in particular pci_add_capability().
+> > > >
+> > > > I *think* it should be illegal to call pci_add_capability() _after_
+> > > > a device is realized. Auditing pci_add_capability(), there is only
+> > > > one other use before realize: amdvi_sysbus_realize() in
+> > > > hw/i386/amd_iommu.c.
+> > >
+> > > Calling pci_add_capability when VM is running is likely to confuse
+> > > guests, yes.
+> >
+> > Thanks for confirming. Similar pattern: msi_init().
+> >
+> > While trying to fix that in hw/i386/amd_iommu.c I realized this device
+> > isn't in a good shape, almost unmaintained: 2 bugfixes in since 7 years=
+,
+> > the other commits are generic API cleanups.
 
-Right, that's definitely not ideal as an emulator.
+Last time I tried AMD vIOMMU it didn't even boot. We need to check if
+anyone can maintain that driver (adding Wei and Peter).
 
-> 
-> As for why I care? I don't really *need* it, as I have everything I
-> need for Xen PIRQ support already merged in 
-> https://gitlab.com/qemu-project/qemu/-/commit/6096cf7877
-> 
-> So while the thread at
-> https://lore.kernel.org/qemu-devel/aaef9961d210ac1873153bf3cf01d984708744fc.camel@infradead.org/
-> was partly driven by expecting to need this for Xen PIRQ support
-> (because in $DAYJOB I did those things in the other order and the PIRQ
-> support ended up just being a trivial different translator like the
-> IOMMU's IR)... I'd still quite like to fix it up in QEMU anyway, just
-> for correctness and fidelity in the faulting cases.
-> 
-> We can do more efficient invalidation too, rather than blowing away the
-> entire routing table every time. Just disconnect the IRQFD for the
-> specific interrupts that get invalidated, and let them get fixed up
-> again next time they occur.
+> I'll post the series and
+> > we can discuss that there.
+>
+> Absolutely. A mix of VTD or for that matter virtio iommu and AMD CPUs
+> seems to work well enough that most people don't bother.
+> I vaguely remember spec review showed some things were hard
+> to support correctly with shadowing, but I don't remember
+> the detail
 
-I'm curious whether there's anything else beside the "correctness of
-emulation" reason.
+Something like caching mode otherwise we need to trap the page table
+modification via userfaultfd?
 
-I would think it nice if it existed or trivial to have as what you said.  I
-just don't know whether it's as easy, at least so far a new kernel
-interface seems still needed, allowing a kernel irq to be paused until
-being translated by QEMU from some channel we provide.
+> (and our shadowing with VTD only works because
+> it matches what drivers are doing).
 
-So, IMHO it's about whether the reason that "we want to have a complete
-emulation of IR" can properly justify the complexity of at least the kernel
-interface (I don't worry on the qemu side a lot).  After all, even if it
-can completes the emulation, 99.99% of people will not use it. :(
+I think not, VTD has a caching mode that is designed to be friendly
+for virtualization/emulation (mentioned in the spec). But it would be
+replaced by hardware accelerated one soon.
 
--- 
-Peter Xu
+Thanks
+
+>
+> --
+> MST
+>
 
 
