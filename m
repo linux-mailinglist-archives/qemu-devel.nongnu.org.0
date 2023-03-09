@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD1E6B23F4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 13:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01BF6B2432
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 13:32:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paFEC-0003qe-Bi; Thu, 09 Mar 2023 07:18:36 -0500
+	id 1paFQg-00016a-82; Thu, 09 Mar 2023 07:31:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1paFE9-0003kn-By
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:18:33 -0500
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1paFQc-000161-QA
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:31:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1paFE0-0004nj-Kv
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:18:32 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MMY9X-1pt9193cmd-00JcoA; Thu, 09 Mar 2023 13:18:13 +0100
-Message-ID: <c2edd53e-8d41-d4dc-aca1-c99926ef7123@vivier.eu>
-Date: Thu, 9 Mar 2023 13:18:11 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1paFQa-0007hH-Vz
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 07:31:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678365084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qET+4+27RwgrKCcSozi+Q8gXcvGf0cF1/jP1FqbZMSQ=;
+ b=f9FquA151L6D1cPlCeZ0Dxmpr/k0vXesGUoXzxoQNk83Jxyy1FV7b3536B6yDSi7ZBps6+
+ nfsaJ1YS8HGRBasjlc8YXMqiuXiKOebtgRYxeD1vvSsxzZaY+6dSrb7Mh1RY40vkvs9UyK
+ rtIncsqkvGSYm6WIOy8f6R3CvSBnzl8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-440-X2YokiBUPmioWqFNPfKYaA-1; Thu, 09 Mar 2023 07:31:21 -0500
+X-MC-Unique: X2YokiBUPmioWqFNPfKYaA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EB3E889068;
+ Thu,  9 Mar 2023 12:31:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9F42492B00;
+ Thu,  9 Mar 2023 12:31:20 +0000 (UTC)
+Date: Thu, 9 Mar 2023 07:31:18 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v2 2/3] block: make BlockBackend->disable_request_queuing
+ atomic
+Message-ID: <20230309123118.GB370169@fedora>
+References: <20230307210427.269214-1-stefanha@redhat.com>
+ <20230307210427.269214-3-stefanha@redhat.com>
+ <d9ec7184-460d-f5f6-e45b-79c9979bafa0@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PULL 25/67] target/m68k: Remove `NB_MMU_MODES` define
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Anton Johansson <anjo@rev.ng>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230307175848.2508955-1-richard.henderson@linaro.org>
- <20230307175848.2508955-26-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230307175848.2508955-26-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:F22az0aF42Mv2oLKXSZMXzJ2dB+fGTlJkmwlHaP4BBcUQ1OfoFA
- wHJffyslacUfj8jEIfiHM8geNbrsSiGh8RcRZHP5MFZUqETHcg+5tof253SvsAikDfu1G91
- 9UTnfiTjSwBjDRJF8NdEO5ObRHv7rIxPSzz5jfaLgp/SV8az/PQjUzA7NFP7wO8PLnOYXWp
- 9pEEaTjhkaCJFydW9pr+w==
-UI-OutboundReport: notjunk:1;M01:P0:o8+ryAfZIwA=;JgVtiYPsWzCYCYReDnAIl8HmgUl
- O08Zky+fGGATcvZZ0+Abl/AOlDIV21pCp1rCrJdWErczdLa+1YU+bz5Z5B16jMr/WyeTtOYqh
- lK94pLNbq+bZYiMwJyqFWGm2/R4odOiyb1+2c6c4AiHR/LkJ543Na1KY5Q/if6qCtKm93WFZn
- wh71ajawt72x2xjNQLakTlSKYL0gfiRYzeherR8bQwbGxmfHuOWaNutNW/L5kEJ2Rwdmf04/m
- 0DJsTSW+Z5accpI0UyGyoBzlxXvQ+U/vYoKRvbnUiNRtb3a7uXpqfCKiLd8za4TLGlMNAtzXI
- Hb2psBK4kEnDD4oRtpJngUO/6vhk4pNnjfdIPOJFTfXiN7/wW7GIlLFI0JW3qVq5ZBbZQzhCm
- CkPsQD3pIX4FuQ9s0z2biOGTb2Rn2iUFN4IsrzUNAZfSXJU2WroZ81MYQZoBMoxwEZ/iwIqIC
- d9vBd0wH2YGhTi1OTfDiuQTGtZo0q/VcwOKQ73g+KbQVBxAucWKznpiZxB89GvA7rg/GZoY/s
- Ntq6oAMd10fOajSvRWwDc/VN26lwCUl+ftNY7RtSf8801evM/XVZ0JYNLtYMk4g9vWQHCLpHc
- DHMEklTfBWRskTxcf6DFBFgfWRzVHcGw2FR2hlzbyiypwNApGUayrsRmH1RshPj4vAF/ha3yJ
- wLe60CCdGndP3TSUFNbLCRm1rzNV+h/Gla0rmh8J6w==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+2Im774SYIXfeyXW"
+Content-Disposition: inline
+In-Reply-To: <d9ec7184-460d-f5f6-e45b-79c9979bafa0@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,34 +83,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 07/03/2023 à 18:58, Richard Henderson a écrit :
-> From: Anton Johansson via <qemu-devel@nongnu.org>
 
-The author field seems broken.
+--+2Im774SYIXfeyXW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Laurent
+On Thu, Mar 09, 2023 at 10:07:40AM +0100, Paolo Bonzini wrote:
+> On 3/7/23 22:04, Stefan Hajnoczi wrote:
+> > This field is accessed by multiple threads without a lock. Use explicit
+> > qatomic_read()/qatomic_set() calls. There is no need for acquire/release
+> > because blk_set_disable_request_queuing() doesn't provide any
+> > guarantees (it helps that it's used at BlockBackend creation time and
+> > not when there is I/O in flight).
+>=20
+> This in turn means itdoes not need to be atomic - atomics are only needed=
+ if
+> there are concurrent writes.  No big deal; I am now resurrecting the seri=
+es
+> from the time I had noticed the queued_requests thread-safety problem, so
+> this will be simplified in 8.1.  For now your version is okay, thanks for
+> fixing it!
 
-> Signed-off-by: Anton Johansson <anjo@rev.ng>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20230306175230.7110-11-anjo@rev.ng>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/cpu-param.h | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/target/m68k/cpu-param.h b/target/m68k/cpu-param.h
-> index 44a8d193f0..39dcbcece8 100644
-> --- a/target/m68k/cpu-param.h
-> +++ b/target/m68k/cpu-param.h
-> @@ -17,6 +17,5 @@
->   #define TARGET_PAGE_BITS 12
->   #define TARGET_PHYS_ADDR_SPACE_BITS 32
->   #define TARGET_VIRT_ADDR_SPACE_BITS 32
-> -#define NB_MMU_MODES 2
->   
->   #endif
+I was under the impression that variables accessed by multiple threads
+outside a lock or similar primitive need memory_order_relaxed both as
+documentation and to tell the compiler that they should indeed be atomic
+(but without ordering guarantees).
+
+I think memory_order_relaxed also tells the compiler to do a bit more,
+like to generate just a single store to the variable for each occurrence
+in the code ("speculative" and "out-of-thin air" stores).
+
+It's the documentation part that's most interesting in this case. Do we
+not want to identify variables that are accessed outside a lock and
+therefore require some thought?
+
+Stefan
+
+--+2Im774SYIXfeyXW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQJ0ZYACgkQnKSrs4Gr
+c8hAFgf/SuzUDChVRSoV0ayZokmexDaHGKPPmzpaUdwE8Mxqb0jKDXegIeYejDPB
+HoIbIP6wAZeeXumUlZZFqRS1m3XIfG00R4f17MllkXSNNoejVuI8lWF9ZGqKG59g
+D4F0jgaZcaYA/RjXouAttH8jc6K0AcGCawTGovVnxK2h0sQbpJHJ+yY8tq3t5g0Q
+0jw+S4DbANFktkd0L6DGcfZVmRHoPhOUYkV/rAab8D+zITlqBi0ASNybqjXHUDmM
+6F4rTfUVkauMxYdN/IOiUUBmYbJa32BUPt1o8X0DzAH5XAD6ypkDo12YM/V2ETgG
+vDUlJnndZJMtayLN/A7RuECTpWJTfA==
+=FbR9
+-----END PGP SIGNATURE-----
+
+--+2Im774SYIXfeyXW--
 
 
