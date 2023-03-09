@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C376B28FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 16:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F318A6B292C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 16:52:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paINj-0004R7-Kb; Thu, 09 Mar 2023 10:40:39 -0500
+	id 1paIY6-00024i-D0; Thu, 09 Mar 2023 10:51:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1paINe-0004Qk-0i
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 10:40:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1paINc-0001aa-28
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 10:40:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678376429;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bzIqygmxwlDi49ce9QxeipFTRy51JDR3rOBfoWZtzsk=;
- b=CquU5gXApX6Xp5KlJ4cvl8l3tMP51mQyq9vptH2YiYoxXaP3jGlQLFOD97h+huiEYcGXIF
- pDwtfyq9NNsHvNg+d+0Z3zhX3slRLtADY76WrybewrhZtNLGxp5PgQaLbUJFETHMhjPUS5
- JICZGqWzxyA6OucEYrYPn+X3I4LRmJU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-V6zPavKANn2jbmjTO8NqwA-1; Thu, 09 Mar 2023 10:40:28 -0500
-X-MC-Unique: V6zPavKANn2jbmjTO8NqwA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10B64101A52E;
- Thu,  9 Mar 2023 15:40:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A97CA40CF8ED;
- Thu,  9 Mar 2023 15:40:27 +0000 (UTC)
-Date: Thu, 9 Mar 2023 09:40:25 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH 4/9] nbd: mark more coroutine_fns, do not use co_wrappers
-Message-ID: <20230309154025.gadhwqel253khpg5@redhat.com>
-References: <20230309084456.304669-1-pbonzini@redhat.com>
- <20230309084456.304669-5-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1paIY4-00024E-8s
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 10:51:20 -0500
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1paIY2-0004CQ-Iw
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 10:51:20 -0500
+Received: by mail-lf1-x129.google.com with SMTP id n2so2844315lfb.12
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 07:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678377076;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sXOKGwgLoZmOkxoV7UTg4DU6WdFVbjgzUQuRhNdukas=;
+ b=BEwz9kheM+ktqPSMMwGoWzcgZgg+PgSS1dGsG4I0qIg0MMM7LF+Dxzd2PHcfBBbrOp
+ C72AphvW8I3quqk+IRg5Z7hxZpnCGimlGpD3aIqXC+Y0AAbbYqBpm2k+txOSWyH9KXCQ
+ cJ04hgCQWQbsYH0wPedS9yIfNopS4T6TdCINYc6qTUKjC95IP7vVbv3NsMD7TsZcjEfF
+ JnFffkddNFPpEUMwgoyFZGl7zl7UAMmkclVAYdIToW3Yoi2RgJvhcMB5fEANd+Q8yq9M
+ vOS5RT3THpT92HH+jaPR4ymVXiByOXMyL3mCxUWjuOxi87XqV07pcV8u4v5IgzaJBcCA
+ +jiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678377076;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sXOKGwgLoZmOkxoV7UTg4DU6WdFVbjgzUQuRhNdukas=;
+ b=7Y/wm4nsztzO4LzKIzguCbOlWQvwLPU5NHTHOu6X6a9RD1dHsk9JcLN9d1N7vOJyg8
+ LPI+54ZYhDoprgguaq6wDv6XKAWorhthTLqISqaGgLaNGp2mqyIlANdfBkW9czffvM/l
+ W1/wX4xDpkwaHY1UjNfttzsBZPrBn2WCt+gxULqdKqkBQwcMr6snjY1ECE+uBOK1oIRP
+ r8IobIbNNiGWMkrnAE8KbPVX9doBbF0VWfD4JaLSrwvRVL4OBzUa1YfvyFCoY8Z/y1NP
+ l2gRBUOm3DG85ug+Q4JobaZ8ts5W/ARWZjHSy0oXZoEM0U/M1nPrbE291cuabmiQ7eW0
+ M6cQ==
+X-Gm-Message-State: AO0yUKX2SSH8ywcljh4dUZZeT06aFZaR3Nqx8MDWDbGNuhuMtd0m99Kf
+ 2QbknVf9TcNV3OkUT8t7Q3xl7FXOgeBRG8++MUR2GZgjNwc=
+X-Google-Smtp-Source: AK7set8QsRzINRIr4JZXOTGDWmjWwOJYlqBSYA6LvaAzx7yvDtnnVe0cTjxjRAf+zRkXUgAH3a2VK/oXkUQPhqsexvM=
+X-Received: by 2002:ac2:5313:0:b0:4d8:5810:1ffa with SMTP id
+ c19-20020ac25313000000b004d858101ffamr6695613lfh.11.1678377075579; Thu, 09
+ Mar 2023 07:51:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230309084456.304669-5-pbonzini@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 9 Mar 2023 19:51:03 +0400
+Message-ID: <CAJ+F1CJbouyPsvtTLoRp1RZPzX8M5S1meurpN56LvfvhN22dWg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/18] ui: dbus & misc fixes
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x129.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,69 +89,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 09, 2023 at 09:44:51AM +0100, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  nbd/server.c | 48 ++++++++++++++++++++++++------------------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
-> 
-> diff --git a/nbd/server.c b/nbd/server.c
-> index a4750e41880a..6f5fcade2a54 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -1409,8 +1409,8 @@ nbd_read_eof(NBDClient *client, void *buffer, size_t size, Error **errp)
->      return 1;
->  }
->  
-> -static int nbd_receive_request(NBDClient *client, NBDRequest *request,
-> -                               Error **errp)
-> +static int coroutine_fn nbd_receive_request(NBDClient *client, NBDRequest *request,
-> +                                            Error **errp)
->  {
+Hi
 
-Should we rename this nbd_co_receive_request() while at it?
+On Tue, Mar 7, 2023 at 3:57=E2=80=AFPM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Hi,
+>
+> This is a respin of a series I sent end of January that didn't get review=
+s, here
+> is your chance! :) A collection of fixes for UI related-stuff, and paving=
+ the
+> way for accelerated/egl dbus display support on win32 (for 8.1 hopefully)=
+.
+>
+> I think they are worth including in 8.0, as little fixes and improvements=
+. It
+> would be nice to have included as early as rc0.
 
-...
-> @@ -2198,9 +2198,9 @@ static int coroutine_fn blockalloc_to_extents(BlockBackend *blk,
->   * @ea is converted to BE by the function
->   * @last controls whether NBD_REPLY_FLAG_DONE is sent.
->   */
-> -static int nbd_co_send_extents(NBDClient *client, uint64_t handle,
-> -                               NBDExtentArray *ea,
-> -                               bool last, uint32_t context_id, Error **errp)
-> +static int coroutine_fn nbd_co_send_extents(NBDClient *client, uint64_t handle,
-> +                                            NBDExtentArray *ea,
-> +                               bool              last, uint32_t context_id, Error **errp)
+If there is nobody available/interested enough to review, I wonder if
+I should use my ui/ maintainer hat and send a PR as is.
 
-Whitespace damage.
+thanks
 
-...
-> @@ -2297,8 +2297,8 @@ static int nbd_co_send_bitmap(NBDClient *client, uint64_t handle,
->   * to the client (although the caller may still need to disconnect after
->   * reporting the error).
->   */
-> -static int nbd_co_receive_request(NBDRequestData *req, NBDRequest *request,
-> -                                  Error **errp)
-> +static int coroutine_fn nbd_co_receive_request(NBDRequestData *req, NBDRequest *request,
-> +                                               Error **errp)
->  {
->      NBDClient *client = req->client;
->      int valid_flags;
-> @@ -2446,7 +2446,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
+>
+> v2:
+> - add "ui/dbus: initialize cursor_fb"
+> - add "ui/shader: fix #version directive must occur on first line"
+> - add "ui/egl: print EGL error, helping debugging"
+> - add "ui/sdl: add optional logging when _SDL_DEBUG is set"
+> - add "ui/sdl: try to instantiate the matching opengl renderer"
+> - add "ui: introduce egl_init()"
+> - add "ui/dbus: do not require opengl & gbm"
+> - add "ui/dbus: restrict opengl to gbm-enabled config"
+> - drop "ui/dbus: update the display when switching surface", as I
+>   am not yet confident enough about it
+> - rebased
+>
+> Marc-Andr=C3=A9 Lureau (18):
+>   ui/dbus: initialize cursor_fb
+>   ui/dbus: unregister clipboard on connection close
+>   audio/dbus: there are no sender for p2p mode
+>   ui/dbus: set mouse is-absolute during console creation
+>   meson: ensure dbus-display generated code is built before other units
+>   ui: rename cursor_{put->unref}
+>   ui: rename cursor_{get->ref}, return it
+>   ui: keep current cursor with QemuConsole
+>   ui: set cursor upon listener registration
+>   ui: set cursor position upon listener registration
+>   ui/sdl: get the GL context from the window
+>   ui/shader: fix #version directive must occur on first line
+>   ui/egl: print EGL error, helping debugging
+>   ui/sdl: add optional logging when _SDL_DEBUG is set
+>   ui/sdl: try to instantiate the matching opengl renderer
+>   ui: introduce egl_init()
+>   ui/dbus: do not require opengl & gbm
+>   ui/dbus: restrict opengl to gbm-enabled config
+>
+>  meson.build                      |  2 -
+>  audio/audio_int.h                |  2 +-
+>  include/ui/console.h             |  5 +-
+>  include/ui/egl-helpers.h         |  4 ++
+>  include/ui/sdl2.h                |  2 +
+>  ui/vnc.h                         |  1 -
+>  audio/dbusaudio.c                |  6 ++-
+>  hw/display/qxl-render.c          |  4 +-
+>  hw/display/qxl.c                 |  2 +-
+>  hw/display/vmware_vga.c          |  4 +-
+>  ui/console.c                     | 18 ++++++++
+>  ui/cursor.c                      |  5 +-
+>  ui/dbus-clipboard.c              | 18 +++-----
+>  ui/dbus-console.c                | 13 ++++--
+>  ui/dbus-listener.c               | 22 ++++++---
+>  ui/dbus.c                        | 29 ++++++++----
+>  ui/egl-headless.c                | 16 +++----
+>  ui/egl-helpers.c                 | 79 +++++++++++++++++++++++++++++---
+>  ui/sdl2.c                        | 17 ++++++-
+>  ui/spice-core.c                  |  7 +--
+>  ui/spice-display.c               |  8 ++--
+>  ui/vnc.c                         |  8 +---
+>  tests/qtest/meson.build          |  2 +-
+>  ui/meson.build                   |  6 ++-
+>  ui/shader/texture-blit-flip.vert |  1 -
+>  ui/shader/texture-blit.frag      |  1 -
+>  ui/shader/texture-blit.vert      |  1 -
+>  27 files changed, 203 insertions(+), 80 deletions(-)
+>
+> --
+> 2.39.2
+>
+>
 
-Most uses of coroutine_fn in this patch occur after the return type,
-but in this and later hunks, the function has it the other way around.
-Should we touch that up in this patch?  Likewise, should we add _co_
-in the name of these pre-existing coroutine_fn functions
-nbd_do_cmd_read and nbd_handle_request?
 
-But I'm liking the efforts to use our annotations more consistently,
-particularly if it is a result of you making progress on having the
-compiler point out inconsistencies.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
