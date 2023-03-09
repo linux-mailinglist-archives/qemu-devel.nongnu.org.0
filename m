@@ -2,94 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83586B27B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C416B27D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Mar 2023 15:52:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paHYz-0005g2-La; Thu, 09 Mar 2023 09:48:13 -0500
+	id 1paHd2-0000oC-RW; Thu, 09 Mar 2023 09:52:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paHYy-0005eI-5B
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:48:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paHYw-00014q-J7
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:48:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678373289;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y1dRqVVIWA3RceXjrECYZ3KVX0yXWMoY4HMSwnUr6Uo=;
- b=X9pT/qWKqITdWs3IosJz9U243g+sYViGE8VNNO2mEqwpTGcyKjzyUf7PUUElahdgWlDWMy
- VGDmE/oGIjh2KDEw396/YRRK2sn5xV601rHGMi8pWvHtS2fNPx+or0Byg41jVsGmux1i2w
- 8mKVlV+0ZvGs/6RxFFN5nGReXkF2pc4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-ead_zCN8MWKLCy_bvNEHfQ-1; Thu, 09 Mar 2023 09:48:08 -0500
-X-MC-Unique: ead_zCN8MWKLCy_bvNEHfQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- g2-20020a056402320200b004e98d45ee7dso3324066eda.0
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 06:48:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1paHd0-0000o2-NS
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:52:22 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1paHcy-0001jm-Dx
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 09:52:22 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ ce8-20020a17090aff0800b0023a61cff2c6so6153887pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 06:52:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1678373532;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=T3Oiq0E3aSAqu7A/XP+5d0kvG5e1RNGuWUB6aRuujSs=;
+ b=iw3h+oR/gSsEsL20TiszICkAHbhkAy4nw3PtOZtUM9ai+SiI393hsAQb5414y3wJxK
+ JOE+xSf8I+0a7d4RHgXEvrgb1ltF0yoGDWRGLIBBtTTDuVWsXJyrrAwkoWelDMCBt/Ps
+ llmXrc1ywduphcBZNh6tG9GyXnxwJewxXUZWSgtJVmskqH7BLRaLGxT+Jj0L2ZzECGgd
+ +gLWdK++BdpKyY42/ElNzM1rQplXAHkIXpLODkrYtd80nzsoesr1/gSRELuonzuHPT2S
+ 1gucRlNdySr59znhFo7Hxqbc6aSl5FlYPy/uFqc0sVV8Qq9aOiaitz71KTheOCsvrxC8
+ WWzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678373287;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=y1dRqVVIWA3RceXjrECYZ3KVX0yXWMoY4HMSwnUr6Uo=;
- b=gW7uxP/rsc2xN3nhohj/kVw30RjbHPjMzDtRCcMAsW+GKNufZeO6+BOugcGc/QZWMN
- 4FJgUSp9otOQtNAJCVAZwRtJ0RKD7tx3zYfYpVnQhQ9Y5S0WZulgd4kY6Vu1xGtwZR6N
- rALVOF2MRJlPbwjfMTLwSwm98UvcTlO/upeeUnKuhOFEgfH3W2l9kQwcicTSck50UixM
- 6axljNFxEJovGPB5gh7nuT+Hm0hXGdImsx6BRL9FaUtkRZZprTehiyZacZCPye/q+Ibk
- CyC87epJvxmMG7YQyGgFYfMYFG0KnB+ACppdi6snUOhQrouOUwl5B5+CepO5iZgLzDPA
- C7Gw==
-X-Gm-Message-State: AO0yUKWTFr+4aCRz87w/NDAxHM2pWxYV7ojZLC0RLUWV2aUEHbIWrtbJ
- Ro3OSeYSiFcymYQfapMau1lQPuX2Iizy5rSH6DhsZGzoT4piCUlSZKOeq5BCDnc5ylMp53CWRMp
- PArM73mk4++q3OO/6/xSc5+VRdI4bJUioFKhTnYmE3g5HjTU0YKsdQjIv1Ehs9WVgVieD
-X-Received: by 2002:a17:907:6eab:b0:7c0:efb9:bc0e with SMTP id
- sh43-20020a1709076eab00b007c0efb9bc0emr29312089ejc.62.1678373287131; 
- Thu, 09 Mar 2023 06:48:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set+9GpsumAxgKd5GLvET018yLUwCv9K/t10bm6bcKkD9iyVXqGMlIfdB33YSi9O1rG8dV+t9+Q==
-X-Received: by 2002:a17:907:6eab:b0:7c0:efb9:bc0e with SMTP id
- sh43-20020a1709076eab00b007c0efb9bc0emr29312048ejc.62.1678373286805; 
- Thu, 09 Mar 2023 06:48:06 -0800 (PST)
-Received: from redhat.com ([2.52.138.216]) by smtp.gmail.com with ESMTPSA id
- b18-20020a50b412000000b004af6e957b22sm9764265edh.6.2023.03.09.06.48.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 06:48:06 -0800 (PST)
-Date: Thu, 9 Mar 2023 09:48:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, qemu-s390x@nongnu.org
-Subject: Re: [PULL 73/73] virtio: refresh vring region cache after updating a
- virtqueue size
-Message-ID: <20230309094740-mutt-send-email-mst@kernel.org>
-References: <cover.1678237635.git.mst@redhat.com>
- <52062b213c13bd7fff966d36b554c04609c925d6.1678237635.git.mst@redhat.com>
+ d=1e100.net; s=20210112; t=1678373532;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=T3Oiq0E3aSAqu7A/XP+5d0kvG5e1RNGuWUB6aRuujSs=;
+ b=p8ucPmeVd0w3t+GMHyUOfGJln3/YOFXzAmo11+/t5EDjvpd9/Q1bXjW9p9zLYUSfcQ
+ 6LlD4qSGCw0wLL21jdGLkroM1E2Re41MzhFTQPGzQJip6ka1NlN8wkZVKF4h8o8Qz9on
+ R80oVjDGthYPoeZ9nvo7VKSVPuU/hoQwh8suJpMG/Amv5LotpLPdMxWlcAPdyuiS3V32
+ R9yqg9Eetk21fh22XCgxznN9kNL6ijPr7oCb5fscaLxmZJs3S7vLFYsT+QVF9vmL8o5V
+ DDtcAy7l5BwX3np9k8xaKOJPbRqHUV12shmsizowGkSpP1tgPBVUU8AIxF99lc70A42x
+ ifCQ==
+X-Gm-Message-State: AO0yUKXV/7YNENFmSUa98sqF+2gtYN4XOO7wxSSNh424+bjlGHiGhLdW
+ WgQZKtcsoFZsBXqefdA4FCSC0w==
+X-Google-Smtp-Source: AK7set9w+VmQI2/KxDPcp6hiAd2dL1mub5GsgRgc2syk7uUcTwF8QAaojskuzkvHm7fs9IKMVsWc6Q==
+X-Received: by 2002:a17:90b:3b90:b0:234:b35b:f905 with SMTP id
+ pc16-20020a17090b3b9000b00234b35bf905mr23937619pjb.2.1678373531826; 
+ Thu, 09 Mar 2023 06:52:11 -0800 (PST)
+Received: from [10.94.53.13] ([139.177.225.233])
+ by smtp.gmail.com with ESMTPSA id
+ k36-20020a17090a3ea700b002340b2c62e7sm11113pjc.55.2023.03.09.06.52.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Mar 2023 06:52:11 -0800 (PST)
+Message-ID: <1543e6ff-f569-cfce-bfcc-a763121de73d@bytedance.com>
+Date: Thu, 9 Mar 2023 22:52:05 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH RESEND v6 0/5] migration: reduce time of loading
+ non-iterable vmstate
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+References: <20230303105655.396446-1-xuchuangxclwt@bytedance.com>
+ <ZAUSPo9bJO0udf9p@x1n> <1ea4db90-7535-1dc3-a2ae-d44113a24e29@bytedance.com>
+ <ZAZRn9eNG1TEoEl1@x1n> <f6e36da0-d20b-af80-4239-5bb59b97f530@bytedance.com>
+ <ZAdupAAJjbSbJiss@x1n>
+ <CALophus_dTA6U3zGP6u0YnRr65GrhF665mBtX7SkBdLMVJKxBw@mail.gmail.com>
+ <ZAiir3qXiYr/Stma@x1n> <827ec45d-7970-36d5-2dec-48f858369636@bytedance.com>
+ <ZAit8yypJ2Mv44BH@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+In-Reply-To: <ZAit8yypJ2Mv44BH@x1n>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <52062b213c13bd7fff966d36b554c04609c925d6.1678237635.git.mst@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_LOCAL_NOVOWEL=0.5,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,98 +103,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 07, 2023 at 08:14:31PM -0500, Michael S. Tsirkin wrote:
-> From: Carlos López <clopez@suse.de>
-> 
-> When a virtqueue size is changed by the guest via
-> virtio_queue_set_num(), its region cache is not automatically updated.
-> If the size was increased, this could lead to accessing the cache out
-> of bounds. For example, in vring_get_used_event():
-> 
->     static inline uint16_t vring_get_used_event(VirtQueue *vq)
->     {
->         return vring_avail_ring(vq, vq->vring.num);
->     }
-> 
->     static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
->     {
->         VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
->         hwaddr pa = offsetof(VRingAvail, ring[i]);
-> 
->         if (!caches) {
->             return 0;
->         }
-> 
->         return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
->     }
-> 
-> vq->vring.num will be greater than caches->avail.len, which will
-> trigger a failed assertion down the call path of
-> virtio_lduw_phys_cached().
-> 
-> Fix this by calling virtio_queue_update_rings() after
-> virtio_queue_set_num() if we are not already calling
-> virtio_queue_set_rings().
-> 
-> Signed-off-by: Carlos López <clopez@suse.de>
-> Message-Id: <20230302101447.4499-1-clopez@suse.de>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Hi, Peter,
 
+On 2023/3/8 ä¸‹åˆ11:46, Peter Xu wrote:
+>> 1. squash fix into patch1 of yours.
+>> 2. introduce address_space_to_flatview_rcu()
+>> 3. add specific comment to define when to use which as_to_flat()
+> This can be together with 2).
+>
+> We should suggest using address_space_to_flatview() by default in the
+> comment, and only use _rcu() with cautions e.g. we can mention commit()
+> hooks as example, and also mention the possibility of seeing very old (or
+> purely empty flatview) if during vm load.  In that sense this can be the
+> last patch of your set so there's the vm load context to reference.
+>
+> I hope there'll be no outliers that takes only RCU (no bql) but still
+> expect a very new flatview then it'll crash easily if called in a vm load.
+> But let's see..  I assume your test cases are already a much larger set so
+> covers a lot of code paths already.
+>
+>> 4. Does enforce commit() need further modification or keep current status?
+>>     Looks like you have some new thoughts on it?
+> I don't.
+>
+> PS: I do have some thoughts but I don't think I mentioned them..  My
+> thoughts were that we can actually avoid calling begin()/commit()/... hooks
+> during a nested do_commit() at all but only update current_map.  That'll
+> further avoid the _rcu() patch to be introduced, but I think that needs
+> more changes and may not be necessary at all.  Ignore this.
+>
+Got it.
 
-I just dropped this from the pull. No other changes so
-not reposting, hope it's not too late.
+>> Are there any other missing points?
+> No from my side.
+>
+> Note that 8.0 reached soft freeze.  Sorry to say so, but it seems this work
+> will only be possible (if no further objections coming) for 8.1 merge
+> windows, so the early merge will be after middle of Apirl.  Thanks for
+> being consistent with it already so far.
 
-> ---
->  hw/s390x/virtio-ccw.c   | 1 +
->  hw/virtio/virtio-mmio.c | 5 ++---
->  hw/virtio/virtio-pci.c  | 1 +
->  3 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> index e33e5207ab..89891ac58a 100644
-> --- a/hw/s390x/virtio-ccw.c
-> +++ b/hw/s390x/virtio-ccw.c
-> @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
->                  return -EINVAL;
->              }
->              virtio_queue_set_num(vdev, index, num);
-> +            virtio_queue_update_rings(vdev, index);
->          } else if (virtio_queue_get_num(vdev, index) > num) {
->              /* Fail if we don't have a big enough queue. */
->              return -EINVAL;
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index 23ba625eb6..c74822308f 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -350,10 +350,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
->      case VIRTIO_MMIO_QUEUE_NUM:
->          trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
->          virtio_queue_set_num(vdev, vdev->queue_sel, value);
-> +        virtio_queue_update_rings(vdev, vdev->queue_sel);
->  
-> -        if (proxy->legacy) {
-> -            virtio_queue_update_rings(vdev, vdev->queue_sel);
-> -        } else {
-> +        if (!proxy->legacy) {
->              proxy->vqs[vdev->queue_sel].num = value;
->          }
->          break;
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 247325c193..a0a2f2c965 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
->          proxy->vqs[vdev->queue_sel].num = val;
->          virtio_queue_set_num(vdev, vdev->queue_sel,
->                               proxy->vqs[vdev->queue_sel].num);
-> +        virtio_queue_update_rings(vdev, vdev->queue_sel);
->          break;
->      case VIRTIO_PCI_COMMON_Q_MSIX:
->          vector = virtio_queue_vector(vdev, vdev->queue_sel);
-> -- 
-> MST
-> 
+I also want to thank you for your long-term guidance and suggestions for
+this series.
+
+To tell the truth, as a new comer, this is the first patch I try to send
+to the community. Your active discussion in the emails makes me feel that
+I am doing something really meaningful, so I am willing to continuously devote
+my energy to participate in the discussion, and at the same time, I benefit
+a lot from the discussion with you.
+
+Thanks!
 
 
