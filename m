@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2356B4226
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:00:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF476B44AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:27:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1padH7-0002KU-Ly; Fri, 10 Mar 2023 08:59:13 -0500
+	id 1padgj-0006IZ-JG; Fri, 10 Mar 2023 09:25:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1padH5-0002Ii-36
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:59:11 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1padH2-0000Ht-ND
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:59:10 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id x3so20717345edb.10
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 05:59:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678456747;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=r9BIXHg/0TVW2naTz0eBQTgpzZlTXxap+AGZvwJNhPA=;
- b=f961XeMMz/KcUr7apfQHu7AT8JyrdqHXjj0l904W+sJTmyRMfwoJ8MtLBgJ0AQ4b3g
- 1peitDxbe6hLeBjb+dqYNI+DAaeeFh7SSM7ybgeliogBU//tGSkIw4k2FwL8yVmNSuVm
- swsmSWkgDs5OMAuys01aV3EN9QiSKfPJqwefM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678456747;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=r9BIXHg/0TVW2naTz0eBQTgpzZlTXxap+AGZvwJNhPA=;
- b=I3BFkXuYp4+070Z8MvU5gdqhJ0aN98iq4z5KS5MdqomWODmSpfuxcppGC0zydrYSqG
- O2WNK09jHnmrBmC8vuNif69vj536MFDcaam26+Q3Z/vQldLBp0dVHb5J8AGHHLzP7rOt
- c/wvia/ca+nlBkwlEluinnQoh//cbVosNb5wi8mnhZMtIW6wMBsX3rxTeT/n9guSKwJ9
- LUPP8Xugkg4OO03S1BokiValUxq+C32z2RHYKGZ0cXPFNIieIIWO0Au4lP89f4Hqw7OZ
- iO5OJ7SxBucTcy26jXDx2IsxC0CFbc12cCSbeu1kudD3vf1kw7dCJHMgZ11UfJDr5oEO
- TnVg==
-X-Gm-Message-State: AO0yUKUmjS6x31yNnG9Xsp+J7eE7wossnDry0fwbwVtsNyKRcR0OW6/D
- NBV9l+i9Hi5IcFXixKEk2EuorLnC0U/cxLqzaG7bQQ==
-X-Google-Smtp-Source: AK7set8NvRaFB8LUZlnDH9qp4xhrZpnES4KaeadcfCCcAT01YuaZHwrlP2tNw91hVRU9dw6+yG1u+2ksWLuuCrH/D0E=
-X-Received: by 2002:a50:9fcd:0:b0:4ad:7389:d298 with SMTP id
- c71-20020a509fcd000000b004ad7389d298mr14225923edf.4.1678456746729; Fri, 10
- Mar 2023 05:59:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1padgh-0006Hm-3h
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:25:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1padge-0007OH-TJ
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:25:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678458335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vmRtwTBzb6inVAUL7J4Buv6V2OKWLD73fJciPCM8VuE=;
+ b=Z2yJWZp1H5oQGmqgRZcn1zH6X8AyBFhrs79DuQnSqqZTHgoA61jDOXBjjgVaX4ZBQ+OYQJ
+ 0JTUlrFvpN0UZPBM1lpaIHt4vcWhYyjWfXW2GEZxVrLUvpCcggsvYhlCSQtldt2Ogykurx
+ OG3n+Ktpop63JHeaG4dXE7AEadcXZlY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-140-Q5rA-m8iO1208NwAFxCYNA-1; Fri, 10 Mar 2023 09:25:33 -0500
+X-MC-Unique: Q5rA-m8iO1208NwAFxCYNA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADF59887430;
+ Fri, 10 Mar 2023 14:25:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55DCD405D4A2;
+ Fri, 10 Mar 2023 14:25:30 +0000 (UTC)
+Date: Fri, 10 Mar 2023 15:25:29 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Fiona Ebner <f.ebner@proxmox.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Czenczek <hreitz@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Re: [PATCH for-8.0] ide: Fix manual in-flight count for TRIM BH
+Message-ID: <ZAs92f/J9qvA6X5B@redhat.com>
+References: <20230309114430.33684-1-hreitz@redhat.com>
+ <88de2e68-61e2-9397-b202-d611247002ba@redhat.com>
+ <CABgObfZkSt6-0-vKkUtiWUy1TtHS_kEiYM2wRh+MfjTXmW497A@mail.gmail.com>
+ <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
+ <3e695f64-13bb-1311-6cd6-09bffc312873@redhat.com>
+ <ZAobe/wtsf//YGHJ@redhat.com>
+ <a432cb4d-8d7e-8408-15a9-c84414c03196@proxmox.com>
 MIME-Version: 1.0
-References: <20230309115714.906369-1-kraxel@redhat.com>
- <20230309115714.906369-3-kraxel@redhat.com>
-In-Reply-To: <20230309115714.906369-3-kraxel@redhat.com>
-From: Simon Glass <sjg@chromium.org>
-Date: Fri, 10 Mar 2023 05:58:55 -0800
-Message-ID: <CAPnjgZ3M4LCXJq6=V-zt3QiiP6PjcL5kUrBB-9OdZghC-sK12w@mail.gmail.com>
-Subject: Re: [PULL 2/3] edk2: replace build scripts
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=sjg@google.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -92
-X-Spam_score: -9.3
-X-Spam_bar: ---------
-X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a432cb4d-8d7e-8408-15a9-c84414c03196@proxmox.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,334 +85,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Gerd,
+Am 10.03.2023 um 14:05 hat Fiona Ebner geschrieben:
+> Am 09.03.23 um 18:46 schrieb Kevin Wolf:
+> > Am 09.03.2023 um 14:59 hat Paolo Bonzini geschrieben:
+> >> On 3/9/23 13:31, Hanna Czenczek wrote:
+> >>> On 09.03.23 13:08, Paolo Bonzini wrote:
+> >>>> On Thu, Mar 9, 2023 at 1:05 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>>>> I think having to do this is problematic, because the blk_drain should
+> >>>>> leave no pending operation.
+> >>>>>
+> >>>>> Here it seems okay because you do it in a controlled situation, but the
+> >>>>> main thread can also issue blk_drain(), or worse bdrv_drained_begin(),
+> >>>>> and there would be pending I/O operations when it returns.
+> >>>
+> >>> Not really.  We would stop in the middle of a trim that processes a list
+> >>> of discard requests.  So I see it more like stopping in the middle of
+> >>> anything that processes guest requests.  Once drain ends, we continue
+> >>> processing them, and that’s not exactly pending I/O.
+> >>>
+> >>> There is a pending object in s->bus->dma->aiocb on the IDE side, so
+> >>> there is a pending DMA operation, but naïvely, I don’t see that as a
+> >>> problem.
+> >>
+> >> What about the bdrv_drain_all() when a VM stops, would the guest continue to
+> >> access memory and disks after bdrv_drain() return?
+> > 
+> > That one shouldn't be a problem because the devices are stopped before
+> > the backends.
+> > 
+> >> Migration could also be a problem, because the partial TRIM would not be
+> >> recorded in the s->bus->error_status field of IDEState (no surprise there,
+> >> it's not an error).  Also, errors happening after bdrv_drain() might not be
+> >> migrated correctly.
+> > 
+> > Yes, I think it would be good to have the I/O operation fully completed
+> > on the IDE level rather than just in the block layer.
+> > 
+> >>> Or the issue is generally that IDE uses dma_* functions, which might
+> >>> cause I/O functions to be run from new BHs (I guess through
+> >>> reschedule_dma()?).
+> > 
+> > None of those complicated scenarios actually. The problem solved by the
+> > request queuing is simply that nothing else stops the guest from
+> > submitting new requests to drained nodes if the CPUs are still running.
+> > 
+> > Drain uses aio_disable_external() to disable processing of external
+> > events, in particular the ioeventfd used by virtio-blk and virtio-scsi.
+> > But IDE submits requests through MMIO or port I/O, i.e. the vcpu thread
+> > exits to userspace and calls directly into the IDE code, so it's
+> > completely unaffected by aio_disable_external().
+> > 
+> >> Ah, you mean that you can have pending I/O operations while blk->in_flight
+> >> is zero?  That would be a problem indeed.  We already have BlockDevOps for
+> >> ide-cd and ide-hd, should we add a .drained_poll callback there?
+> > 
+> > To be more precise, you suggested in the call that .drained_poll should
+> > return that IDE is still busy while aiocb != NULL. Without having looked
+> > at the code in detail yet, that seems to make sense to me. And maybe
+> > even the blk_inc/dec_in_flight() pair can then go completely away
+> > because IDE takes care of its drain state itself then.
+> > 
+> 
+> I assume the addition of drained_poll is meant to be orthogonal to the
+> fix of the deadlock? At least I can't see how it would help there?
 
-On Thu, 9 Mar 2023 at 03:58, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> Remove Makefile.edk2 and the edk2*.sh scripts with a python script
-> (which already handles fedora rpm builds) and a config file for it.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  roms/edk2-build.py     | 372 +++++++++++++++++++++++++++++++++++++++++
->  roms/Makefile          |  29 +---
->  roms/Makefile.edk2     | 178 --------------------
->  roms/edk2-build.config | 119 +++++++++++++
->  roms/edk2-build.sh     |  55 ------
->  roms/edk2-funcs.sh     | 273 ------------------------------
->  6 files changed, 498 insertions(+), 528 deletions(-)
->  create mode 100755 roms/edk2-build.py
->  delete mode 100644 roms/Makefile.edk2
->  create mode 100644 roms/edk2-build.config
->  delete mode 100755 roms/edk2-build.sh
->  delete mode 100644 roms/edk2-funcs.sh
+You're right, it doesn't.
 
-I am very pleased to see this as I find building edk2 a bit of a pain.
+Basically we're running into the old problem again that draining is
+overloaded with two different meanings: I want exclusive access to the
+backend or I want to wait for all my requests to complete. IDE or more
+generally blk_drain() wants the latter, but queuing is done for
+implementing the former.
 
-The README should mention that you need to use
+> If we have the assumptions:
+> 1. The TRIM operation should be completed on the IDE level before
+> draining ends.
+> 2. Block layer requests issued after draining has begun are queued.
+> 
+> To me, the conclusion seems to be:
+> Issue all block layer requests belonging to the IDE TRIM operation up
+> front.
+> 
+> The other alternative I see is to break assumption 2, introduce a way
+> to not queue certain requests while drained, and use it for the
+> recursive requests issued by ide_issue_trim_cb. But not the initial
+> one, if that would defeat the purpose of request queuing. Of course
+> this can't be done if QEMU relies on the assumption in other places
+> already.
 
-. edk2setup.sh
+I feel like this should be allowed because if anyone has exclusive
+access in this scenario, it's IDE, so it should be able to bypass the
+queuing. Of course, the queuing is still needed if someone else drained
+the backend, so we can't just make TRIM bypass it in general. And if you
+make it conditional on IDE being in blk_drain(), it already starts to
+become ugly again...
 
-first. Also you need to be in the edk2 directory, I think. Also
-mention that the builds appear as subdirs in the edk2/Build directory.
-It would be good if the edk2-clone.sh script could deal with updating
-an existing checkout so I don't need to remove the old ones each time.
+So maybe the while loop is unavoidable.
 
-When I tried to build platform.rpi I get this:
+Hmm... But could ide_cancel_dma_sync() just directly use
+AIO_WAIT_WHILE(s->bus->dma->aiocb) instead of using blk_drain()?
 
-edk2-build.py -c ../edk2-build-config/kraxel/x64.platforms -j30 --silent
+Kevin
 
-###
-### building: BaseTools
-###
-['make', '-C', '/scratch/sglass/edk2/BaseTools']
-### building in silent mode ...
-### writing log to build.basetools.log ...
-### OK
-
-###
-### building: Platform/RaspberryPi/RPi4/RPi4.dsc (AARCH64, DEBUG)
-### description: EFI Firmware for Raspberry PI 4
-###
-['build', '-t', 'GCC5', '-p', 'Platform/RaspberryPi/RPi4/RPi4.dsc',
-'-n', '30', '-a', 'AARCH64', '-b', 'DEBUG']
-### building in silent mode ...
-### writing log to build.platform.rpi4.DEBUG.log ...
-### BUILD FAILURE
-### output
-Build environment: Linux-5.15.0-60-generic-x86_64-with-glibc2.35
-Build start time: 06:46:28, Mar.10 2023
-
-
-
-build.py...
- : error 000E: One Path in PACKAGES_PATH doesn't exist
-/scratch/sglass/edk2/Platform/Intel
-
-- Failed -
-Build end time: 06:46:28, Mar.10 2023
-Build total time: 00:00:00
-
-
-### exit code: 14
-ERROR: build exited with 14 while building Platform/RaspberryPi/RPi4/RPi4.dsc
-
-
-
-Also the first time running it after cloning, I get errors:
-
-edk2-build.py -c ../edk2-build-config/kraxel/x64.core -j30  -m
-ovmf.qemu.ia32 --silent
-
-###
-### running BaseTools/BuildEnv
-###
-BaseTools/BuildEnv: 160: Bad substitution
-Using Pip Basetools
-BaseTools/BuildEnv: 184: Bad substitution
-BaseTools/BuildEnv: 202: -c: not found
-
-Do I need to make -C BaseTools first?
-
->
-> diff --git a/roms/edk2-build.py b/roms/edk2-build.py
-> new file mode 100755
-> index 000000000000..5b34620271f7
-> --- /dev/null
-> +++ b/roms/edk2-build.py
-> @@ -0,0 +1,372 @@
-> +#!/usr/bin/python3
-> +"""
-> +build helper script for edk2, see
-> +https://gitlab.com/kraxel/edk2-build-config
-> +
-> +"""
-> +import os
-> +import sys
-> +import glob
-> +import shutil
-> +import optparse
-
-I think this is obsolete and argparse should be used for new things.
-The conversion is pretty easy.
-
-> +import subprocess
-> +import configparser
-> +
-> +rebase_prefix    = ""
-> +version_override = None
-> +release_date     = None
-
-There are a lot of pylint warnings. Also functions / arguments /
-return values lack comments.
-
-Silent mode still produces output. Can you add a -s alias and also
-make it fully silent?
-
-If the config file is not found, it seems to say nothing, but just
-does not work. It should give an error.
-
-> +
-> +def check_rebase():
-> +    """ detect 'git rebase -x edk2-build.py master' testbuilds """
-> +    global rebase_prefix
-> +    global version_override
-> +    gitdir = '.git'
-> +
-> +    if os.path.isfile(gitdir):
-> +        with open(gitdir) as f:
-> +            (unused, gitdir) = f.read().split()
-> +
-> +    if not os.path.exists(f'{gitdir}/rebase-merge/msgnum'):
-> +        return ""
-> +    with open(f'{gitdir}/rebase-merge/msgnum', 'r') as f:
-> +        msgnum = int(f.read())
-> +    with open(f'{gitdir}/rebase-merge/end', 'r') as f:
-> +        end = int(f.read())
-> +    with open(f'{gitdir}/rebase-merge/head-name', 'r') as f:
-> +        head = f.read().strip().split('/')
-> +
-> +    rebase_prefix = f'[ {int(msgnum/2)} / {int(end/2)} - {head[-1]} ] '
-> +    if msgnum != end and not version_override:
-> +        # fixed version speeds up builds
-> +        version_override = "test-build-patch-series"
-> +
-> +def get_coredir(cfg):
-> +    if cfg.has_option('global', 'core'):
-> +        return os.path.abspath(cfg['global']['core'])
-> +    else:
-> +        return os.getcwd()
-> +
-> +def get_version(cfg):
-> +    coredir = get_coredir(cfg)
-> +    if version_override:
-> +        version = version_override
-> +        print('')
-> +        print(f'### version [override]: {version}')
-> +        return version
-> +    if os.environ.get('RPM_PACKAGE_NAME'):
-> +        version = os.environ.get('RPM_PACKAGE_NAME');
-> +        version += '-' + os.environ.get('RPM_PACKAGE_VERSION');
-> +        version += '-' + os.environ.get('RPM_PACKAGE_RELEASE');
-> +        print('')
-> +        print(f'### version [rpmbuild]: {version}')
-> +        return version
-> +    if os.path.exists(coredir + '/.git'):
-> +        cmdline = [ 'git', 'describe', '--tags', '--abbrev=8',
-> +                    '--match=edk2-stable*' ]
-> +        result = subprocess.run(cmdline, cwd = coredir,
-> +                                stdout = subprocess.PIPE)
-> +        version = result.stdout.decode().strip()
-> +        print('')
-> +        print(f'### version [git]: {version}')
-> +        return version
-> +    return None
-> +
-> +def pcd_string(name, value):
-> +    return f'{name}=L{value}\\0'
-> +
-> +def pcd_version(cfg):
-> +    version = get_version(cfg)
-> +    if version is None:
-> +        return []
-> +    return [ '--pcd', pcd_string('PcdFirmwareVersionString', version) ]
-> +
-> +def pcd_release_date(cfg):
-> +    if release_date is None:
-> +        return []
-> +    return [ '--pcd', pcd_string('PcdFirmwareReleaseDateString', release_date) ]
-> +
-> +def build_message(line, line2 = None):
-> +    if os.environ.get('TERM') in [ 'xterm', 'xterm-256color' ]:
-> +        # setxterm  title
-> +        start  = '\x1b]2;'
-> +        end    = '\x07'
-> +        print(f'{start}{rebase_prefix}{line}{end}', end = '')
-> +
-> +    print('')
-> +    print('###')
-> +    print(f'### {rebase_prefix}{line}')
-> +    if line2:
-> +        print(f'### {line2}')
-> +    print('###')
-> +
-> +def build_run(cmdline, name, section, silent = False):
-> +    print(cmdline)
-> +    if silent:
-> +        print('### building in silent mode ...', flush = True)
-> +        result = subprocess.run(cmdline,
-> +                                stdout = subprocess.PIPE,
-> +                                stderr = subprocess.STDOUT)
-> +
-> +        logfile = f'{section}.log'
-> +        print(f'### writing log to {logfile} ...')
-> +        with open(logfile, 'wb') as f:
-> +            f.write(result.stdout)
-> +
-> +        if result.returncode:
-> +            print('### BUILD FAILURE')
-> +            print('### output')
-> +            print(result.stdout.decode())
-> +            print(f'### exit code: {result.returncode}')
-> +        else:
-> +            print('### OK')
-> +    else:
-> +        result = subprocess.run(cmdline)
-> +    if result.returncode:
-> +        print(f'ERROR: {cmdline[0]} exited with {result.returncode}'
-> +              f' while building {name}')
-> +        sys.exit(result.returncode)
-> +
-> +def build_copy(plat, tgt, dstdir, copy):
-> +    srcdir = f'Build/{plat}/{tgt}_GCC5'
-> +    names = copy.split()
-> +    srcfile = names[0]
-> +    if len(names) > 1:
-> +        dstfile = names[1]
-> +    else:
-> +        dstfile = os.path.basename(srcfile)
-> +    print(f'# copy: {srcdir} / {srcfile}  =>  {dstdir} / {dstfile}')
-> +
-> +    src = srcdir + '/' + srcfile
-> +    dst = dstdir + '/' + dstfile
-> +    os.makedirs(os.path.dirname(dst), exist_ok = True)
-> +    shutil.copy(src, dst)
-> +
-> +def pad_file(dstdir, pad):
-> +    args = pad.split()
-> +    if len(args) < 2:
-> +        raise RuntimeError(f'missing arg for pad ({args})')
-> +    name = args[0]
-> +    size = args[1]
-> +    cmdline = [
-> +        'truncate',
-> +        '--size', size,
-> +        dstdir + '/' + name,
-> +    ]
-> +    print(f'# padding: {dstdir} / {name}  =>  {size}')
-> +    subprocess.run(cmdline)
-> +
-> +def build_one(cfg, build, jobs = None, silent = False):
-> +    cmdline  = [ 'build' ]
-> +    cmdline += [ '-t', 'GCC5' ]
-> +    cmdline += [ '-p', cfg[build]['conf'] ]
-
-Can you put cfg[build] in a local var to reduce the repetition /
-verbosity in this function?
-
-> +
-> +    if (cfg[build]['conf'].startswith('OvmfPkg/') or
-> +        cfg[build]['conf'].startswith('ArmVirtPkg/')):
-> +        cmdline += pcd_version(cfg)
-> +        cmdline += pcd_release_date(cfg)
-> +
-> +    if jobs:
-> +        cmdline += [ '-n', jobs ]
-> +    for arch in cfg[build]['arch'].split():
-> +        cmdline += [ '-a', arch ]
-> +    if 'opts' in cfg[build]:
-> +        for name in cfg[build]['opts'].split():
-> +            section = 'opts.' + name
-> +            for opt in cfg[section]:
-> +                cmdline += [ '-D', opt + '=' + cfg[section][opt] ]
-> +    if 'pcds' in cfg[build]:
-> +        for name in cfg[build]['pcds'].split():
-> +            section = 'pcds.' + name
-> +            for pcd in cfg[section]:
-> +                cmdline += [ '--pcd', pcd + '=' + cfg[section][pcd] ]
-> +    if 'tgts' in cfg[build]:
-> +        tgts = cfg[build]['tgts'].split()
-> +    else:
-> +        tgts = [ 'DEBUG' ]
-> +    for tgt in tgts:
-> +        desc = None
-> +        if 'desc' in cfg[build]:
-> +            desc = cfg[build]['desc']
-> +        build_message(f'building: {cfg[build]["conf"]} ({cfg[build]["arch"]}, {tgt})',
-> +                      f'description: {desc}')
-> +        build_run(cmdline + [ '-b', tgt ],
-> +                  cfg[build]['conf'],
-> +                  build + '.' + tgt,
-> +                  silent)
-> +
-> +        if 'plat' in cfg[build]:
-> +            # copy files
-> +            for cpy in cfg[build]:
-> +                if not cpy.startswith('cpy'):
-> +                    continue
-> +                build_copy(cfg[build]['plat'],
-> +                           tgt,
-> +                           cfg[build]['dest'],
-> +                           cfg[build][cpy])
-> +            # pad builds
-> +            for pad in cfg[build]:
-> +                if not pad.startswith('pad'):
-> +                    continue
-> +                pad_file(cfg[build]['dest'],
-> +                         cfg[build][pad])
-> +
-
-[..]
-Regards,
-Simon
 
