@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D006B3B19
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95AA6B3B28
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:45:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZE5-00065L-Vc; Fri, 10 Mar 2023 04:39:50 -0500
+	id 1paZJR-0006ln-WB; Fri, 10 Mar 2023 04:45:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1paZDk-0005u8-2n
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:39:30 -0500
+ id 1paZJN-0006gJ-Sc
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:45:19 -0500
 Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1paZDg-0000NF-2x
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:39:25 -0500
+ id 1paZJM-0001kM-6f
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:45:17 -0500
 Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
  by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
- id 1paYnf-00GpVx-MA; Fri, 10 Mar 2023 09:12:31 +0000
+ id 1paYnf-00GpVx-U5; Fri, 10 Mar 2023 09:12:31 +0000
 From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org
-Subject: [PATCH 32/45] target/riscv: Expose zvknh cpu properties
-Date: Fri, 10 Mar 2023 09:12:02 +0000
-Message-Id: <20230310091215.931644-33-lawrence.hunter@codethink.co.uk>
+Subject: [PATCH 33/45] target/riscv: Add zvksh cpu property
+Date: Fri, 10 Mar 2023 09:12:03 +0000
+Message-Id: <20230310091215.931644-34-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310091215.931644-1-lawrence.hunter@codethink.co.uk>
 References: <20230310091215.931644-1-lawrence.hunter@codethink.co.uk>
@@ -57,26 +57,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+From: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
 
-Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
 ---
- target/riscv/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/riscv/cpu.c | 4 +++-
+ target/riscv/cpu.h | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 3ffbdd53cc..b3f9638067 100644
+index b3f9638067..e218a00a2d 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -1482,6 +1482,8 @@ static Property riscv_cpu_extensions[] = {
-     /* Vector cryptography extensions */
-     DEFINE_PROP_BOOL("x-zvkb", RISCVCPU, cfg.ext_zvkb, false),
-     DEFINE_PROP_BOOL("x-zvkned", RISCVCPU, cfg.ext_zvkned, false),
-+    DEFINE_PROP_BOOL("x-zvknha", RISCVCPU, cfg.ext_zvknha, false),
-+    DEFINE_PROP_BOOL("x-zvknhb", RISCVCPU, cfg.ext_zvknhb, false),
- 
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -113,6 +113,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zvkned, true, PRIV_VERSION_1_12_0, ext_zvkned),
+     ISA_EXT_DATA_ENTRY(zvknha, true, PRIV_VERSION_1_12_0, ext_zvknha),
+     ISA_EXT_DATA_ENTRY(zvknhb, true, PRIV_VERSION_1_12_0, ext_zvknhb),
++    ISA_EXT_DATA_ENTRY(zvksh, true, PRIV_VERSION_1_12_0, ext_zvksh),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
+@@ -1219,7 +1220,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     * In principle zve*x would also suffice here, were they supported
+     * in qemu
+     */
+-    if ((cpu->cfg.ext_zvkb || cpu->cfg.ext_zvkned || cpu->cfg.ext_zvknha) &&
++    if ((cpu->cfg.ext_zvkb || cpu->cfg.ext_zvkned || cpu->cfg.ext_zvknha ||
++             cpu->cfg.ext_zvksh) &&
+         !(cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f ||
+             cpu->cfg.ext_zve64d || cpu->cfg.ext_v)) {
+         error_setg(
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5d101fc405..3b0f322f3e 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -474,6 +474,7 @@ struct RISCVCPUConfig {
+     bool ext_zvkned;
+     bool ext_zvknha;
+     bool ext_zvknhb;
++    bool ext_zvksh;
+     bool ext_zmmul;
+     bool ext_zvfh;
+     bool ext_zvfhmin;
 -- 
 2.39.2
 
