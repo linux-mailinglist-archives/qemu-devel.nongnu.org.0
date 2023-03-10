@@ -2,127 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A3C6B3FEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:05:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A522B6B3FEE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:06:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pacQ5-0001JZ-R7; Fri, 10 Mar 2023 08:04:26 -0500
+	id 1pacRC-0001jA-1D; Fri, 10 Mar 2023 08:05:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pacPy-0001JG-CZ
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:04:18 -0500
-Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pacQw-0001dp-3h; Fri, 10 Mar 2023 08:05:19 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pacPw-0000de-Hn
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:04:18 -0500
-X-IronPort-RemoteIP: 209.85.160.200
-X-IronPort-MID: 265177414
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:4+QjsK4gNZVr7rYoNM6rfgxRtIDFchMFZxGqfqrLsTDasY5as4F+v
- jEWCm+HOPnZamb8KNhxOtzlpxsHvpXdzdE3Gwpvrn81Eysa+MHIO4+lIxarNUt+DCFioGGLT
- Sk6QoOdRCzhZiaE/n9BCpC48T8nk/nOHuGmYAL9EngZbRd+Tys8gg5Ulec8g4p56fC0GArIs
- t7pyyHlEAbNNwVcbyRFu8pvlDs15K6p4GhB5gRnDRx2lAS2e0c9Xcp3yZ6ZciOQrrl8RoaSW
- +vFxbelyWLVlz9F5gSNy+uTnuUiG9Y+DCDX4pZkc/HKbitq/0Te5p0G2M80Mi+7vdkoc+dZk
- 72hvbToIesg0zaldO41CnG0GAknVUFKFSOuzdFSfqV/wmWfG0YAzcmCA2kHObNf8/pWClpLz
- tsKNBQyNBymheaflefTpulE3qzPLeHuNYIb/2h8lHTXV65+B5/ERKrO6JlT2zJYasJmR66PI
- ZpEL2MxNFKaO0Un1lQ/UfrSmM+hgmn5fydwok/TqKYqi4TW5FYvjeGyb4aMJrRmQ+11pETb5
- Tjj3l32BwMWap+W0yif03Cz07qncSTTHdh6+KeD3udnhUDWymENBRk+U1y9rv+kzEmkVLpix
- 1c8/yMvqe0r6BXuQIOlB1u3p3mLuhNaUN1VewEn1DywJmPvy17xLgA5ovRpMoB63CPqbVTGD
- mO0ou4=
-IronPort-HdrOrdr: A9a23:tWsHuK8NfwIeXPVeUUpuk+AEI+orL9Y04lQ7vn2ZKCYlCfBw8v
- rEoB1173HJYVoqNU3I2urwXJVoOEm8yXct2+ks1NSZLWvbUQmTXflfBOLZqlWLJ8SZzJ856U
- 4KScdD4bPLYWSSwvyKhzVQvuxQpuWv4eSDv8+b5XFoVARrY6Zr40NCDBqBGEEefngkOXN8Lu
- vk2vZ6
-Received: from mail-qt1-f200.google.com ([209.85.160.200])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 10 Mar 2023 08:02:50 -0500
-Received: by mail-qt1-f200.google.com with SMTP id
- z22-20020ac86b96000000b003bfc3f97097so2844780qts.14
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 05:02:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1678453370;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9qbwZkiSFlf9Z/CMhFOpMPLsavygBw1vKEZ/y++0F60=;
- b=MvyMEQljto9iDrs2CQdVi+hTNDwvqE2ciouBPb/i9oTyYfcSTGRtuVEfOd0nznBX1d
- xtqtVpcjjVb3NFzFb1uG5AshiDSyO3+gOMyxLiSvHgvlLwj4bVX93XbCwvX2apZ78yZE
- QYPlBPY05NsDvVjms8sMlHwibpZ2zwEZrckcnwfx89A/r+VwGGto/SvuAOB5rK9hrzZN
- vkePnqxDfBZPpdE+TJLknRk4w0nlSWcoIFRpnHTtSNrh32j0msI+V5SLwCIkEr9aRsrL
- MDqItlXy0nw1eDXtxdCFf3a3XmJ7Fh/mA0nHgpDy8bZOUUrAzHWf/1nrMyWQksM29wWT
- hbtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678453370;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9qbwZkiSFlf9Z/CMhFOpMPLsavygBw1vKEZ/y++0F60=;
- b=ziIlX4TSMWJQu6SAsZULLYdlCRLY12yPe+Sh3NvgW8b/MqeBBgFKhCu6U/tunaeepm
- iaYHSmm1HRsSTthvNA5UrXsYWRAj8Q3qSQBGkmkEY1Ovs48toPK5rfpq7t0HUWAYV3+s
- CHZmEeKveGg2MoaEySEJNezs4BWCndse3xHsQb1kzLUa+itwlXA0l1XRD5fKkHZVIQ7F
- +BOPaqAno0ZTJ+T5XlDa6Uc9rDdA1Z0XczfIYkQOrOMT1Ezfeg6njFrlsc1Innw3Rxo9
- GghJL/P3whmzMWlgwc0T7Ge2eZnoibJmNeX4/B+WHhpseqNRFKZbPVMCFA1IPa9GJc+v
- O6wA==
-X-Gm-Message-State: AO0yUKUm6UXnm8FZRu8n54sf1OQhYyRCz+nmHo2ylwXM9tHcIu0tZ+iO
- i2nyYuHsNt76fvqWOWpm9FMt5133vTqbiHdAvRc7700ZvTKF4RKwv7IF871TYwxaUeW7J4MRJjM
- yjmKkMO+13fIfvaW2sXWljWSw6QnMfw==
-X-Received: by 2002:a05:622a:308:b0:3b8:588c:40e9 with SMTP id
- q8-20020a05622a030800b003b8588c40e9mr11431125qtw.19.1678453370054; 
- Fri, 10 Mar 2023 05:02:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set8MWnBlRuW21UzD6fU/JYYwidxYrbRWr2r3sIrDOfqymmpW+k12Y0oHGcFn3YOX4MbcDWfCAw==
-X-Received: by 2002:a05:622a:308:b0:3b8:588c:40e9 with SMTP id
- q8-20020a05622a030800b003b8588c40e9mr11431056qtw.19.1678453369495; 
- Fri, 10 Mar 2023 05:02:49 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- x8-20020ac87008000000b003bfb6ddc49dsm1385339qtm.1.2023.03.10.05.02.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 05:02:49 -0800 (PST)
-Date: Fri, 10 Mar 2023 08:02:45 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>,
- Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH v6 1/4] memory: prevent dma-reentracy issues
-Message-ID: <20230310130245.oyjdeihisuvgl6rz@mozz.bu.edu>
-References: <20230205040737.3567731-1-alxndr@bu.edu>
- <20230205040737.3567731-2-alxndr@bu.edu>
- <9cfa0cc8-01c7-cf79-72ef-3224d1276e16@proxmox.com>
- <20230310122347.hghmijad7wajiqne@mozz.bu.edu>
- <20230310123117.d2uxze7zqtigmg44@mozz.bu.edu>
- <CAFEAcA8YLrr0Ltt-CAdTDrh2zyzzyqWgfx39fy0zJwLFqdGQGg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pacQt-000159-Fq; Fri, 10 Mar 2023 08:05:17 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 8ABD045895;
+ Fri, 10 Mar 2023 14:05:12 +0100 (CET)
+Message-ID: <a432cb4d-8d7e-8408-15a9-c84414c03196@proxmox.com>
+Date: Fri, 10 Mar 2023 14:05:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8YLrr0Ltt-CAdTDrh2zyzzyqWgfx39fy0zJwLFqdGQGg@mail.gmail.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
- helo=esa7.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH for-8.0] ide: Fix manual in-flight count for TRIM BH
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+References: <20230309114430.33684-1-hreitz@redhat.com>
+ <88de2e68-61e2-9397-b202-d611247002ba@redhat.com>
+ <CABgObfZkSt6-0-vKkUtiWUy1TtHS_kEiYM2wRh+MfjTXmW497A@mail.gmail.com>
+ <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
+ <3e695f64-13bb-1311-6cd6-09bffc312873@redhat.com>
+ <ZAobe/wtsf//YGHJ@redhat.com>
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <ZAobe/wtsf//YGHJ@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -138,31 +62,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 230310 1245, Peter Maydell wrote:
-> On Fri, 10 Mar 2023 at 12:32, Alexander Bulekov <alxndr@bu.edu> wrote:
-> > This MR seems to be "lsi-ram".
-> >
-> > From hw/scsi/lsi53c895a.c:
-> >
-> > memory_region_init_io(&s->ram_io, OBJECT(s), &lsi_ram_ops, s,
-> >         "lsi-ram", 0x2000);
-> >
-> > So the LSI device is reading an LSI "Script" from its own IO region.. In
-> > this particular case, I think there was no reason to use
-> > memory_region_init_io rather than memory_region_init_ram, but this makes
-> > me worried that there are other devices that use something like this.
+Am 09.03.23 um 18:46 schrieb Kevin Wolf:
+> Am 09.03.2023 um 14:59 hat Paolo Bonzini geschrieben:
+>> On 3/9/23 13:31, Hanna Czenczek wrote:
+>>> On 09.03.23 13:08, Paolo Bonzini wrote:
+>>>> On Thu, Mar 9, 2023 at 1:05 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>>> I think having to do this is problematic, because the blk_drain should
+>>>>> leave no pending operation.
+>>>>>
+>>>>> Here it seems okay because you do it in a controlled situation, but the
+>>>>> main thread can also issue blk_drain(), or worse bdrv_drained_begin(),
+>>>>> and there would be pending I/O operations when it returns.
+>>>
+>>> Not really.  We would stop in the middle of a trim that processes a list
+>>> of discard requests.  So I see it more like stopping in the middle of
+>>> anything that processes guest requests.  Once drain ends, we continue
+>>> processing them, and that’s not exactly pending I/O.
+>>>
+>>> There is a pending object in s->bus->dma->aiocb on the IDE side, so
+>>> there is a pending DMA operation, but naïvely, I don’t see that as a
+>>> problem.
+>>
+>> What about the bdrv_drain_all() when a VM stops, would the guest continue to
+>> access memory and disks after bdrv_drain() return?
 > 
-> This particular device predates the entire MemoryRegion set of
-> abstractions, so it might have seemed easier at the time.
-> The endianness handling of the current code is also a bit
-> confusing and might make it tricky to convert to a RAM MR.
+> That one shouldn't be a problem because the devices are stopped before
+> the backends.
+> 
+>> Migration could also be a problem, because the partial TRIM would not be
+>> recorded in the s->bus->error_status field of IDEState (no surprise there,
+>> it's not an error).  Also, errors happening after bdrv_drain() might not be
+>> migrated correctly.
+> 
+> Yes, I think it would be good to have the I/O operation fully completed
+> on the IDE level rather than just in the block layer.
+> 
+>>> Or the issue is generally that IDE uses dma_* functions, which might
+>>> cause I/O functions to be run from new BHs (I guess through
+>>> reschedule_dma()?).
+> 
+> None of those complicated scenarios actually. The problem solved by the
+> request queuing is simply that nothing else stops the guest from
+> submitting new requests to drained nodes if the CPUs are still running.
+> 
+> Drain uses aio_disable_external() to disable processing of external
+> events, in particular the ioeventfd used by virtio-blk and virtio-scsi.
+> But IDE submits requests through MMIO or port I/O, i.e. the vcpu thread
+> exits to userspace and calls directly into the IDE code, so it's
+> completely unaffected by aio_disable_external().
+> 
+>> Ah, you mean that you can have pending I/O operations while blk->in_flight
+>> is zero?  That would be a problem indeed.  We already have BlockDevOps for
+>> ide-cd and ide-hd, should we add a .drained_poll callback there?
+> 
+> To be more precise, you suggested in the call that .drained_poll should
+> return that IDE is still busy while aiocb != NULL. Without having looked
+> at the code in detail yet, that seems to make sense to me. And maybe
+> even the blk_inc/dec_in_flight() pair can then go completely away
+> because IDE takes care of its drain state itself then.
+> 
 
-With my trivial mr_io - > mr_ram conversion, I no longer hit the
-re-entrancy tracepoint, and my livecd boots, but it's probably not
-exhaustively using the script functionality.. 
+I assume the addition of drained_poll is meant to be orthogonal to the
+fix of the deadlock? At least I can't see how it would help there?
 
-Does the endianness actually cause a problem? As long as all accesses
-(CPU -> LSI_RAM and LSI -> LSI_RAM) occur through the address_space API,
-are we safe?
--Alex
+If we have the assumptions:
+1. The TRIM operation should be completed on the IDE level before
+draining ends.
+2. Block layer requests issued after draining has begun are queued.
+
+To me, the conclusion seems to be:
+Issue all block layer requests belonging to the IDE TRIM operation up front.
+
+The other alternative I see is to break assumption 2, introduce a way to
+not queue certain requests while drained, and use it for the recursive
+requests issued by ide_issue_trim_cb. But not the initial one, if that
+would defeat the purpose of request queuing. Of course this can't be
+done if QEMU relies on the assumption in other places already.
+
+Best Regards,
+Fiona
+
 
