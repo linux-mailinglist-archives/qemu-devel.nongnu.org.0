@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D487E6B3514
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303B06B3525
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:07:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paTuU-0000B2-U2; Thu, 09 Mar 2023 22:59:14 -0500
+	id 1paU0z-00052u-BY; Thu, 09 Mar 2023 23:05:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paTuS-0000Ab-Uk; Thu, 09 Mar 2023 22:59:13 -0500
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
+ id 1paU0x-00052K-JU
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 23:05:55 -0500
+Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paTuR-0001ni-Do; Thu, 09 Mar 2023 22:59:12 -0500
-Received: by mail-ua1-x92e.google.com with SMTP id x1so2678985uav.9;
- Thu, 09 Mar 2023 19:59:10 -0800 (PST)
+ id 1paU0v-0003DI-Qp
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 23:05:55 -0500
+Received: by mail-ua1-x935.google.com with SMTP id bx14so2723082uab.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 20:05:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678420750;
+ d=gmail.com; s=20210112; t=1678421152;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ce5Emz7Kx4FfBs4paLCODWnbHCptHGBkaFDAaQ79X+U=;
- b=JY5KRNdtUtB8D7cChNmlrBdqkDw5vxYQLf5iIGsF/o+dA2DddKF1F1UeBG782uYOR0
- U9UpEd67NQkSvX5Ztc1smQ+YK9m+A3fm2uD1fEYm8gqKSnhwu+6Ol6sPNsPAhcs2OD/F
- QvdZua3K9svDJipakxTqVlpWLfrVo8CSRXSL+8kQKQweXOmIM3OZdc4MdGWJ1WCpwYZI
- 4cA5s4OZKoXOzHRgL1WrQyq/I2Eo6MmD+h4XmAXudl9AAm6EfNoZlGq+ztZ6qJuf4fHQ
- 2anpbyRlV/oA/TwJ5aHKoMvmXTY3ZwEx/2XoR+FeIrNbO7MWK4SLbQGVddQm8v279Y/0
- 5NrQ==
+ bh=84LHOwV0CqRO/Vled2a8spha4tV4lM7tIuIXyx0RFvA=;
+ b=WiAPbVTphivm8MEbHE/352iRN8YcnFWXaiDAatc0SkBKH3s/mIpwLi6V3nPYU5h1/l
+ qm7lYCDitM8noWv7KUd+yO7nPDZ8Qn+B/fuYgNkEXY/utd/dge13Rx9GDO4ZCjGHw32w
+ zj42C7J8NnvjTF4Lsh8kmAj6rHQZpjrOnbM0PKoi2FaKSx2At6g8jevY5pjNLIghjJv9
+ goHdwHbf8tJgUKaxGnfjYES6/Z1ynUMktBl7qJGqAeRx5IrmPE5j47jJW2EL4XCETFZD
+ R3MlepF8VF+Ay0OA5Wsma0/MFY86gS/Rr1Z3qooGfQVOC8jQOlqyMw0RSDu3naGFTDeq
+ VLqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678420750;
+ d=1e100.net; s=20210112; t=1678421152;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ce5Emz7Kx4FfBs4paLCODWnbHCptHGBkaFDAaQ79X+U=;
- b=tP05P9Ajh7nTw8BRa+DAi/QthVCtfhR69x4wb81/YsLDT6XIZwxZfoMvDvPytoLr6v
- CA1fIIuGkzIzBkEKFpG2Oyz2BPCPbwIpDlJjiHeOw3eYksI3+6tXdR//PcvIF2uJMS8P
- tqQRRv2gftu9VN/1bhDZo02jEW4JHojjsOyTXy0XQP/UCeOINQWBmpW+ixnMzsaz0ipc
- Sq9BEw7cP65rb6db+bJ7ycwowjA+epdpTQsM0MV/B+xAExzHN4UKmBFJwxkEXjJP+i89
- 3PHkL/mcABkAQXi7keVXjFyIQbLx3H+QmVcAL3I1WO3AmI4KahE/xO72SiD4WlmhvSjR
- ljkg==
-X-Gm-Message-State: AO0yUKVncvCYIjrceK1lWUbJgBBKWGl/TndTeiqPZ3/pdG3baJOUXq4Z
- VcqbxjAFpuXRU29mPD8DVu3Jq7rCHBJs+juPZ+o=
-X-Google-Smtp-Source: AK7set/RZXdVIM9pNeI2sdgaS2qe86wzBaHYLKH/QtNRvnxuYcJCk0T4YfxCLK4PYELIes7coTwOBz1nLXVzk1MOTJM=
-X-Received: by 2002:a1f:6d42:0:b0:401:b9fd:7053 with SMTP id
- i63-20020a1f6d42000000b00401b9fd7053mr15756642vkc.2.1678420749974; Thu, 09
- Mar 2023 19:59:09 -0800 (PST)
+ bh=84LHOwV0CqRO/Vled2a8spha4tV4lM7tIuIXyx0RFvA=;
+ b=Jixt33jdOZu3i9dSxBSNv/CqCZRwT/ne67yB882GwBw5sMSkmdGPCKuVUxkq2b1h/a
+ pSYQtewdSh4ZZlFuEwc+FimiCJTiivUBec7kJQWc8FN1XFJ/k8J5DgS4k/7NyX8juczA
+ RELqEVBkFFYsb1TQqPTEULQo1qp4QDxNOC4qU3GIfpU3oTtwdMGomjk562QQtSkcx2+l
+ OVw4hc40uZeqrEpxYbSP9gex3JbQJ7Q9h+CfAxV35djRYk5pP3/L7PEPPQFuyv97o/xk
+ jluk6l6jC2+MtXkisbZakjCRBjAJaQUa1kwEMrE7eYVecakr5LTkiazhIwlXjYqqzBb+
+ 44gA==
+X-Gm-Message-State: AO0yUKV0x9daV7ubLs0sVophojGIhdD42dn1jy0TzZGoYYaezGFNFk/O
+ GjWtTUX4o2AVqpwLvshMuzP0diMFk6i7FuiYDWw=
+X-Google-Smtp-Source: AK7set/y2y9pjw3wD8KpNaGCieOIkvtps7INlCx1hftwGHrTXS066Hpq1fbfLW+ecxLRj/SkCGGNc7AqUO3Ml9XdJlo=
+X-Received: by 2002:a1f:6043:0:b0:42d:424c:aea3 with SMTP id
+ u64-20020a1f6043000000b0042d424caea3mr5054366vkb.2.1678421152589; Thu, 09 Mar
+ 2023 20:05:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20230305094231.1616-1-jim.shu@sifive.com>
- <20230305094231.1616-2-jim.shu@sifive.com>
-In-Reply-To: <20230305094231.1616-2-jim.shu@sifive.com>
+References: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
+In-Reply-To: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Mar 2023 13:58:43 +1000
-Message-ID: <CAKmqyKPm=EUrKn7DGobMG1ax1KtGv3Kf1fxAqDB961Mfa8Sb8w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: Make the "virt" register writable by GDB
-To: Jim Shu <jim.shu@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+Date: Fri, 10 Mar 2023 14:05:26 +1000
+Message-ID: <CAKmqyKNtjNsHeoRFtBE73Pw4UpTB+m5guVBe79FkYvNTUPuutg@mail.gmail.com>
+Subject: Re: [PATCH] Fix incorrect register name in RISC-V disassembler for
+ fmv,fabs,fneg instructions
+To: Mikhail Tyutin <m.tyutin@yadro.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+ "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x92e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,68 +89,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Mar 5, 2023 at 7:43=E2=80=AFPM Jim Shu <jim.shu@sifive.com> wrote:
+On Tue, Feb 28, 2023 at 12:53=E2=80=AFAM Mikhail Tyutin <m.tyutin@yadro.com=
+> wrote:
 >
-> This patch also enables debugger to set current privilege mode to
-> VU/VS-mode.
+> Fix incorrect register name in RISC-V disassembler for fmv,fabs,fneg inst=
+ructions
 >
-> Extend previous commit 81d2929c41d32af138f3562f5a7b309f6eac7ca7 to
-> support H-extension.
+> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
 
-I'm not sure we want this. What is the use case for this?
-
-Changing the virt mode on the fly like this is likely to break lots of
-software. Should we really allow users to do this?
+It looks like this needs to be rebased. Do you mind rebasing it and
+sending a v2?
 
 Alistair
 
->
-> Signed-off-by: Jim Shu <jim.shu@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 > ---
->  target/riscv/gdbstub.c | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
+>   disas/riscv.c | 19 ++++++++++---------
+>   1 file changed, 10 insertions(+), 9 deletions(-)
 >
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 1755fd9d51..a7f234beaf 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -203,15 +203,29 @@ static int riscv_gdb_get_virtual(CPURISCVState *cs,=
- GByteArray *buf, int n)
->
->  static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, in=
-t n)
->  {
-> +#ifdef CONFIG_USER_ONLY
-> +    if (n >=3D 0 && n <=3D 1) {
-> +        return sizeof(target_ulong);
-> +    }
-> +#else
-> +    bool virt;
-> +
->      if (n =3D=3D 0) {
-> -#ifndef CONFIG_USER_ONLY
->          cs->priv =3D ldtul_p(mem_buf) & 0x3;
->          if (cs->priv =3D=3D PRV_H) {
->              cs->priv =3D PRV_S;
->          }
-> -#endif
-> +        return sizeof(target_ulong);
-> +    } else if (n =3D=3D 1) {
-> +        virt =3D ldtul_p(mem_buf) & 0x1;
-> +        if ((cs->priv =3D=3D PRV_M) && (virt =3D=3D true)) {
-> +            /* M-mode only supports V=3D0. */
-> +            virt =3D false;
-> +        }
-> +        riscv_cpu_set_virt_enabled(cs, virt);
->          return sizeof(target_ulong);
->      }
-> +#endif
->      return 0;
->  }
->
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index ddda687c13..58ad3df24d 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -1014,6 +1014,7 @@ static const char rv_vreg_name_sym[32][4] =3D {
+>   #define rv_fmt_rd_offset              "O\t0,o"
+>   #define rv_fmt_rd_rs1_rs2             "O\t0,1,2"
+>   #define rv_fmt_frd_rs1                "O\t3,1"
+> +#define rv_fmt_frd_frs1               "O\t3,4"
+>   #define rv_fmt_rd_frs1                "O\t0,4"
+>   #define rv_fmt_rd_frs1_frs2           "O\t0,4,5"
+>   #define rv_fmt_frd_frs1_frs2          "O\t3,4,5"
+> @@ -1580,15 +1581,15 @@ const rv_opcode_data opcode_data[] =3D {
+>       { "snez", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
+>       { "sltz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>       { "sgtz", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
+> -    { "fmv.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fmv.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fmv.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> +    { "fmv.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fmv.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fmv.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+>       { "beqz", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
+>       { "bnez", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
+>       { "blez", rv_codec_sb, rv_fmt_rs2_offset, NULL, 0, 0, 0 },
 > --
-> 2.17.1
+> 2.34.1
 >
 >
 
