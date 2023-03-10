@@ -2,65 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0206B4FAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200F36B4FA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:57:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pagzL-00065R-Ue; Fri, 10 Mar 2023 12:57:07 -0500
+	id 1pagz4-0004t9-Vg; Fri, 10 Mar 2023 12:56:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pagzH-0005zy-DG
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:57:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pagzF-000393-Vc
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:57:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678471017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=81SVzWAlEv6BdKgmRvXHoevU8kfRl8j1VMv25IEirA4=;
- b=gQXqsZZ3ONVDCeqV3jr+VVkIBo2fl3iTJiyhu2CYegzpYSWtT8OndCukcMhgJyPivMK+i2
- 1Sf5xRZyLfrIRXJfLO4vq3sq5Mf2KFEIWpIkZu8q+QVbfRQwVtfNiAuwx95KtSefUM45y8
- 5oFH33jtLWlBPVN1lvu5mShYJvllddE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-5xyNvsv8P4Ka919fgqr9sw-1; Fri, 10 Mar 2023 12:55:53 -0500
-X-MC-Unique: 5xyNvsv8P4Ka919fgqr9sw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7990185CBE0;
- Fri, 10 Mar 2023 17:55:35 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.193.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C64F41121318;
- Fri, 10 Mar 2023 17:55:34 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 3/3] qed: remove spurious BDRV_POLL_WHILE()
-Date: Fri, 10 Mar 2023 18:55:29 +0100
-Message-Id: <20230310175529.240379-4-kwolf@redhat.com>
-In-Reply-To: <20230310175529.240379-1-kwolf@redhat.com>
-References: <20230310175529.240379-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pagyv-0004kG-6Z
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:56:43 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pagyt-00032Z-28
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:56:40 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso6687967wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 09:56:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678470996;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x+FDN7OkOKdLaGSLFaYBOOY7hiHWS1A5ruZL53w73X0=;
+ b=sRrxnt5MBBdBbIoI216k2+/3dUh9CUobhPl8IKUHgzJ/mOxWenoTWPD/R2ZtWyUjlL
+ qXjO0QDlHNCvdpyPsOxf9H36WCcrFE81grT3cFUBBTGPm+P1lBptMuw4ts4/9Ok6Niru
+ Wo8xgbk3um4Mhkrg19sIRL4HPqOEJb1aksXnw/Oz2OQx1QL6WO9MFkFNkPQTAoBJsb2I
+ 5jSA6FQDdYgyRz1sviHsIQLhjsSZeSaar5unSrpUM9NaINWUsWrnp7oVh2ViTafRl8uR
+ wNbiZO6/IcZZfaXhG4bXG8gwF+GDEmdhXO6GyaVCFbLGIvsj9Zk+We2OggaSfyikbHPd
+ 5IJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678470996;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=x+FDN7OkOKdLaGSLFaYBOOY7hiHWS1A5ruZL53w73X0=;
+ b=T8PUmdXFkdroDMAK94p7rr11ZcIDR3gmJab6PYK/6AaSvZP2A07rSBiXnYLA0Mt3gZ
+ cbMJ/dK6WCnWaVZhoHpvLrl9tZIPJQShtQJvoKD2dOSHbu/mH6F7WybpAQo1cvTJMB01
+ tF4GMmLX4YwD0uxMvXh8u4DufeN8xaINqTPRxyX5WTrF9rdC31BG/PwCU8jt/F96gMga
+ qHg6TWMVcFKqyDiWWgIVQyXWzsplIYO02PfFKzEDNNyvFxBoBNvGN/AXbmmMw/KawIKr
+ A5zAnXO3ftFuxN5BAERVC86sWXFISYDurRY52HvJ6tKFZzTqXqPLE6EmgJGhl2IoVpaZ
+ Sq1w==
+X-Gm-Message-State: AO0yUKXpiiktUiFWZm3hdqPGEJcsSlrBxC/MFllWGrIoCMFD3JcoO+Gy
+ fPNrfbv76SNhIJ1viRPC4/SI3A==
+X-Google-Smtp-Source: AK7set/fYMJ03EBi4heorj0gYXRWOKEjxMUwZFGL3s35K2yUvCbaI1GAeBc47qjmdWWGXn1m9xGt3A==
+X-Received: by 2002:a05:600c:3585:b0:3eb:29fe:70de with SMTP id
+ p5-20020a05600c358500b003eb29fe70demr3707629wmq.0.1678470996504; 
+ Fri, 10 Mar 2023 09:56:36 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ q11-20020a05600c46cb00b003ebf73acf9asm830403wmo.3.2023.03.10.09.56.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 09:56:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9CD461FFB7;
+ Fri, 10 Mar 2023 17:56:35 +0000 (GMT)
+References: <20230310103123.2118519-1-alex.bennee@linaro.org>
+ <20230310103123.2118519-8-alex.bennee@linaro.org>
+ <97cbb69d-eae9-e7e9-cabd-afdba875aed8@linaro.org>
+ <766cc218-dcbc-b6bf-d172-bb4d4ad0b7e2@linaro.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, Wainer dos
+ Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org, Peter Xu
+ <peterx@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Peter
+ Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>, Thomas
+ Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Beraldo Leal
+ <bleal@redhat.com>
+Subject: Re: [PATCH 07/11] tcg: Clear plugin_mem_cbs on TB exit
+Date: Fri, 10 Mar 2023 17:56:22 +0000
+In-reply-to: <766cc218-dcbc-b6bf-d172-bb4d4ad0b7e2@linaro.org>
+Message-ID: <87wn3olcbw.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,33 +104,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
 
-This looks like a copy-paste or merge error. BDRV_POLL_WHILE() is
-already called above. It's not needed in the qemu_in_coroutine() case.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Fixes: 9fb4dfc570ce ("qed: make bdrv_qed_do_open a coroutine_fn")
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20230309163134.398707-1-stefanha@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/qed.c | 1 -
- 1 file changed, 1 deletion(-)
+> On 3/10/23 09:39, Richard Henderson wrote:
+>> +=C2=A0=C2=A0=C2=A0 /* Undo any setting in generated code. */
+>> +=C2=A0=C2=A0=C2=A0 plugin_gen_disable_mem_helpers();
+>
+> Oh!  And this is the wrong function.  Should be
+> qemu_plugin_disable_mem_helpers.
 
-diff --git a/block/qed.c b/block/qed.c
-index ed94bb61ca..0705a7b4e2 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -594,7 +594,6 @@ static int bdrv_qed_open(BlockDriverState *bs, QDict *options, int flags,
-         qemu_coroutine_enter(qemu_coroutine_create(bdrv_qed_open_entry, &qoc));
-         BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
-     }
--    BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
-     return qoc.ret;
- }
- 
--- 
-2.39.2
+Did I miss a newer version of the patches?
 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
