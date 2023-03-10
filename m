@@ -2,104 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1514E6B5100
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC7E6B50FF
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:34:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paiVm-0007ET-J8; Fri, 10 Mar 2023 14:34:42 -0500
+	id 1paiVn-0007Ip-0k; Fri, 10 Mar 2023 14:34:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1paiVS-00077U-Iq; Fri, 10 Mar 2023 14:34:22 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1paiVQ-0000im-GU; Fri, 10 Mar 2023 14:34:22 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32AJVQpI000532; Fri, 10 Mar 2023 19:34:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=4H1Cmlea1hrzuI8amBVLvqje2srE6AE5Gl8zkq5zgvg=;
- b=gWYgA88xmPk6L1vsAGDtrtLZGubMB4rJq99fX48Qej/f/iWs3i1yFT01Brm/0waneFSP
- 24QmseY74QNFyyNj3qrYcySOa3uYMw0CFYrR9k7SujKkbyXd7fziDuIW8pcIrbYYTcSQ
- i7pTKhVnVksR4sronGgtyzstdfFo3UauY25o1SNybqnk2yJEfsd69jIoAGKXD734flx+
- 0nZIXpURgGAybL/fyZr9PrBZ3Ku4VzBR47Hz9T67dM/1sDhyXNBykpi0MsE5s4GHNg2m
- Tc5+iZMLgwa6pn1IMm/tbZAe062pPAOCb/cu9ZZcA9uUi4BAFxwFj1ziRLabPNA4grJo fw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p8aseg29b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Mar 2023 19:34:17 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32AJWJ1O004403;
- Fri, 10 Mar 2023 19:34:16 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p8aseg288-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Mar 2023 19:34:16 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32A84csR002694;
- Fri, 10 Mar 2023 19:34:14 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3p6g0pk7et-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Mar 2023 19:34:14 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32AJYBV957213256
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 10 Mar 2023 19:34:12 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E142620040;
- Fri, 10 Mar 2023 19:34:11 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5479D20043;
- Fri, 10 Mar 2023 19:34:11 +0000 (GMT)
-Received: from [9.171.22.18] (unknown [9.171.22.18])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 10 Mar 2023 19:34:11 +0000 (GMT)
-Message-ID: <f75b53839aebc414c45da99b7b9e6fccef72b2d2.camel@linux.ibm.com>
-Subject: Re: [PATCH 01/12] target/s390x: Handle branching to odd addresses
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Harold Grovesteen <h.grovsteen@tx.rr.com>, Nina
- Schoetterl-Glausch <nsg@linux.ibm.com>
-Date: Fri, 10 Mar 2023 20:34:10 +0100
-In-Reply-To: <ac8534ad-6cf5-6ba6-d1a5-10f4135490b2@linaro.org>
-References: <20230310174223.944843-1-iii@linux.ibm.com>
- <20230310174223.944843-2-iii@linux.ibm.com>
- <ac8534ad-6cf5-6ba6-d1a5-10f4135490b2@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1paiVZ-0007Ez-CT
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:30 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1paiVW-0000jk-9m
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:28 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id h31so3683160pgl.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:34:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678476864;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/2aCjQP1TaJLpVXcJP+cRv14HDdEAS4EI7lYCNYwteo=;
+ b=LkVoe40buFzwzawBLRJsfBjcpvazEGC0ZnLzZx0pmDoMeSljga7v0GYlR2P9iPhlW8
+ 2OhKQ8eX5W6FF+KUR6bHiH/ZXUcKscwnVMZTdZVG4WOQHvRvQH9P/AZIxRSW2zazdslO
+ SCOGXZwqfbhE2rkJOFgCS2OCLuJMspN5iGF6bE1tOr8r4i41FCV9wPLHO74NU83MqqAN
+ 4Fzo87TQ7vkR6hrpV2BcUkStvMRtSmrERCcnS3rkCvzYn+LkPtJN9Czb7Ga+Z9yRL3hq
+ LWBGMsWsM3W6GouwoO6mxxdnMERHCMG5SkTuWiQVglA2QNnVBn/qeUJbMKSRsIkswj0i
+ jwVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678476864;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/2aCjQP1TaJLpVXcJP+cRv14HDdEAS4EI7lYCNYwteo=;
+ b=I5DcGzCkTyQTdECZoeGd7Mrtu2d/vnGMb6LzVnLOtu76qeSz2NEa+csvjEzSxfmRo6
+ uNttDwAd+aGadOVwBzybRm10iq5H0i3jSXYCmNWTm8v4SeiybTw9N3nu301jlShptRoY
+ eeGmwzU7tW1h1/B0JG21lKc2T8YycmIUjMI4aycNx6qROwpcubcQUD6tjzpvBwhMt8aN
+ Gfr3iplW7IzUqJFjabw+2RIqYzztr08V3OwOc4z+UAqTDRAGFktW0fYj/iZ49M4jPaEd
+ FmnZx2OnbWzT82W4+OdcHAYV5qq3QAeDCRmuEeMoabs05iO7x2hxddTIrXfHfp7wFENo
+ kNuA==
+X-Gm-Message-State: AO0yUKXsWVukJUB/l4lQsjBZ1NMGyyVIoJqyIIcgKSIv7eSdjj+623U3
+ FOuc7oXpYVR8ItUhqACOxSaq6g==
+X-Google-Smtp-Source: AK7set9v2kLa8/ITlPW8GW+lAXbWyjAlycLZcY/Uf9REapzw2k9PvJZBZsBoYpf+OX24et0wfLSfHg==
+X-Received: by 2002:aa7:9514:0:b0:5df:5310:e2ee with SMTP id
+ b20-20020aa79514000000b005df5310e2eemr22636321pfp.29.1678476864599; 
+ Fri, 10 Mar 2023 11:34:24 -0800 (PST)
+Received: from ?IPV6:2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62?
+ ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
+ by smtp.gmail.com with ESMTPSA id
+ j26-20020aa78dda000000b005810c4286d6sm213711pfr.0.2023.03.10.11.34.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Mar 2023 11:34:24 -0800 (PST)
+Message-ID: <47b25222-16a1-c058-dd74-7ffbcf20151c@linaro.org>
+Date: Fri, 10 Mar 2023 11:34:22 -0800
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: GaDKyTsCe2E_KRensMuoGqePT3YFc6-l
-X-Proofpoint-GUID: BJR5qB2_PvZSOKvTZHwWuZA98ovDw4pO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-10_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 spamscore=0 clxscore=1015 mlxlogscore=556 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303100155
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 10/12] target/s390x: Handle STGRL to non-aligned addresses
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+References: <20230310174223.944843-1-iii@linux.ibm.com>
+ <20230310174223.944843-11-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230310174223.944843-11-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,50 +96,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2023-03-10 at 11:24 -0800, Richard Henderson wrote:
-> On 3/10/23 09:42, Ilya Leoshkevich wrote:
-> > @@ -381,6 +382,14 @@ static inline int cpu_mmu_index(CPUS390XState
-> > *env, bool ifetch)
-> > =C2=A0 static inline void cpu_get_tb_cpu_state(CPUS390XState* env,
-> > target_ulong *pc,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 target_ulong *cs_base,
-> > uint32_t *flags)
-> > =C2=A0 {
-> > +=C2=A0=C2=A0=C2=A0 if (env->psw.addr & 1) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Instructions must b=
-e at even addresses.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This needs to be ch=
-ecked before address translation.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->int_pgm_ilen =3D 2; /*=
- see s390_cpu_tlb_fill() */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcg_s390_program_interrupt(=
-env, PGM_SPECIFICATION, 0);
-> > +=C2=A0=C2=A0=C2=A0 }
->=20
-> This is incorrect placement.=C2=A0 You can't raise an exception from all
-> of the places from=20
-> which this is called.
->=20
-> You need to do this at the start of s390x_tr_translate_insn.
-> Compare aarch64_tr_translate_insn and the test for (pc & 3).
->=20
->=20
-> r~
+On 3/10/23 09:42, Ilya Leoshkevich wrote:
+> Use MO_ALIGN_8 and let do_unaligned_access() generate a specification
+> exception.
+> 
+> Reported-by: Nina Schoetterl-Glausch<nsg@linux.ibm.com>
+> Suggested-by: Nina Schoetterl-Glausch<nsg@linux.ibm.com>
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+>   target/s390x/tcg/insn-data.h.inc | 8 ++++----
+>   target/s390x/tcg/translate.c     | 3 ++-
+>   2 files changed, 6 insertions(+), 5 deletions(-)
 
-The problem is that it's too late - for non-mapped memory we would get
-a translation exception instead of a specification exception.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I see the following call sites:
-
-- HELPER(lookup_tb_ptr) - for helpers the exceptions should work;
-- cpu_exec_loop(), cpu_exec_step_atomic - these are wrapped in setjmp,
-  so it should be ok too?
-- tb_check_watchpoint() - is this the problematic one?
-
-Am I missing something?
+r~
 
