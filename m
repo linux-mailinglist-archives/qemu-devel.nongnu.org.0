@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B06C6B3F8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 13:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F256B3F9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 13:45:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pac5W-0000Fr-Jo; Fri, 10 Mar 2023 07:43:10 -0500
+	id 1pac7l-0001Av-TS; Fri, 10 Mar 2023 07:45:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pac5S-0000EX-5K
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 07:43:06 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pac7c-0001AP-Pu
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 07:45:20 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pac5P-0003U6-U0
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 07:43:05 -0500
-Received: by mail-wr1-x435.google.com with SMTP id bx12so4886956wrb.11
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 04:43:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pac7b-0004EU-3L
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 07:45:20 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ h17-20020a17090aea9100b0023739b10792so5059826pjz.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 04:45:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678452182;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iwJ6KP4qgwdAuCXE7G/5v1FQEfFrIi5j1Uvcr9rJKbY=;
- b=Vspqxqd4Gk8LECVh/Cu0jmLIKhYh1rd8mkkcH+6emtzRnv5VXqBYCXSogzpBjzL8H0
- AWO5dAw/2g7OCDy8BA97aD3OD4dKlas9OzwA0rsKDMGcAT59yfwh2b9MNIOK+L7hIsZc
- +jw5Yk/wzH4F5n4s8H+DwGQxLZUAyifF9JDVTNjqFpANvYy9CTGcRnMqEaZMdT+ySfdO
- 6DRwxdWN/nyfYZ6cTllmru/fMJ4Hp0aI9hGzup5Xyc3BXh8xfRY4G9U9rnX7iXuEwrQm
- 2BIg5IFyggfhqOCObXzF+MtJ8Yh1Rq8f+4Vkaj9YuAdyQSaSVAmUnJXC1bQbo6XQOYJ9
- bFsg==
+ d=linaro.org; s=google; t=1678452317;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RpuYiEAKbm4Qfr2AKsSAnd879Dy4ZTeAB8TgLuhER/c=;
+ b=Kl2BezlzW7es/06NzB30kxas1opljwlWmMi5ZVFb5rMVNCYC+lr9Bwc8gjCtZCSA85
+ ZGfQGwJqUm9FBsn8AuWQxxU+X2dTEZT/oPkUopKRTJ2loddyJ7dt/YFVLTPKitE2TfaA
+ XXOtMB/A6g+L4/9oJ64vlaTrW3rd6SXnMuuj/NE1qFbHyfEcO/oGbb7uE1jHWWexVBSj
+ uObyltnoZNcnNbeiYP4e6iSnhZnkRXQa5E5nE3hFczY8Z/p2dF+RJ1YjgNiZJUjDuqpc
+ gmm2SZ4R13se1CO8SMKByqXNcJC3t8yIUN3PD85b8Xrp/CYynKCKnSmBQ5DbjKtwMo5O
+ r8Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678452182;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iwJ6KP4qgwdAuCXE7G/5v1FQEfFrIi5j1Uvcr9rJKbY=;
- b=aZXnwl5rtHX+6Z4UrZUh6UP77NpskWFJXzdz4h2IWINFMszH/Xz5Vuiob2dlFuuqFQ
- vAlWS1piBiK1l0VSz0jDBdf6OAITRE6HYjfGegBUR5Yp/KfJdaTC5J/1NxCz8mNomMbR
- /6Ppv4Wmf5y+9O7kHx1J95XPXwqL90/zH9kDaLRTXbfIjDz4kKgmSaSa+TSPbX901gUJ
- pmdV3WaPdFmOLBpnRxVoJ5O+go75ZV1xzFhJLHsLFWnTVc0CtP9Vzh8402Mq1GX+5KAV
- nRSj61XMfec590yT/ZUuBpJHHtd0yF+kiMCTyR7nxxB7Z+zMCPE0axj6PNg9dsv+1kNr
- Fo0w==
-X-Gm-Message-State: AO0yUKUHG2+CVrIlVJZp5s8YSBibEVNLwN10uFpRF8nMKkV3C14eJyiv
- E5zUrrJ6FCYfCgoa5qyeIHqo9g==
-X-Google-Smtp-Source: AK7set/aEVcdVqGHS9nOa57VBe3dG32DdJb+uI5tVrKlL+yOVQCkuupMMp0OpSfv9v7WhS0hPlGodQ==
-X-Received: by 2002:adf:eac7:0:b0:2c7:161e:702f with SMTP id
- o7-20020adfeac7000000b002c7161e702fmr17304499wrn.47.1678452182146; 
- Fri, 10 Mar 2023 04:43:02 -0800 (PST)
-Received: from [192.168.1.115] (169.red-88-28-29.dynamicip.rima-tde.net.
- [88.28.29.169]) by smtp.gmail.com with ESMTPSA id
- s11-20020a5d4ecb000000b002c55efa9cbesm2069371wrv.39.2023.03.10.04.42.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 04:43:01 -0800 (PST)
-Message-ID: <bccf80e1-d4ed-248c-5702-885951ffe730@linaro.org>
-Date: Fri, 10 Mar 2023 13:42:58 +0100
+ d=1e100.net; s=20210112; t=1678452317;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RpuYiEAKbm4Qfr2AKsSAnd879Dy4ZTeAB8TgLuhER/c=;
+ b=A7TeKNDfDnlhTaktWJfpR/Kv/bNm8c+p8emd9Kc48ZWFyiUsZ9/my5zHtK2QH+I8Tt
+ K31hWd70SMuBxST88MtXJbyO5BwGq0HbFboOIyC6jxxQyvGFs3uGv3fiVYIyd25R/vzj
+ qKQEf39cp7EiUF3DRTHT/Nt6YJn/98sj1kMS4uXwjIAH1EolvoBKtuLy0vtxdoVrpU3+
+ fw1R3fHP5rgmNBEkxZUXUMwkNdzIMwBuIBUTUzxBi/kSmOxxaRp7n2CvfzsJtjjbNWCH
+ 4XeWA6n2mGBmpt8p/8bTXyTyhVvrjy+s0pBVRp3GaUclNaCmu5gk1BIkEm8t4OnoXYGQ
+ yWrA==
+X-Gm-Message-State: AO0yUKXqHnFmdlNsPGFDKw+Q8TsWLWWqEZUrCJUrjw7iHfN5PpIZC66i
+ /jtN6JxZ0u+tWUaAhqf68ZqcqVVASiU/qcWdxK2f6w==
+X-Google-Smtp-Source: AK7set8Q3ym1GXmnDqhCCSpmZnUx60vtG9pBjafalSnocKOF0obpg88yYKi8c8ebgh8kAZ62nVs7nfc5dEi2XztD75g=
+X-Received: by 2002:a17:90b:f12:b0:237:5834:2808 with SMTP id
+ br18-20020a17090b0f1200b0023758342808mr9517485pjb.0.1678452317328; Fri, 10
+ Mar 2023 04:45:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 11/11] tests/avocado: don't use tags to define drive
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Peter Xu <peterx@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
- <20230310103123.2118519-12-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230310103123.2118519-12-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230205040737.3567731-2-alxndr@bu.edu>
+ <9cfa0cc8-01c7-cf79-72ef-3224d1276e16@proxmox.com>
+ <20230310122347.hghmijad7wajiqne@mozz.bu.edu>
+ <20230310123117.d2uxze7zqtigmg44@mozz.bu.edu>
+In-Reply-To: <20230310123117.d2uxze7zqtigmg44@mozz.bu.edu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Mar 2023 12:45:05 +0000
+Message-ID: <CAFEAcA8YLrr0Ltt-CAdTDrh2zyzzyqWgfx39fy0zJwLFqdGQGg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] memory: prevent dma-reentracy issues
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Fam Zheng <fam@euphon.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,36 +102,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/3/23 11:31, Alex Bennée wrote:
-> We are abusing the avocado tags which are intended to provide test
-> selection metadata to provide parameters to our test.
+On Fri, 10 Mar 2023 at 12:32, Alexander Bulekov <alxndr@bu.edu> wrote:
+> This MR seems to be "lsi-ram".
+>
+> From hw/scsi/lsi53c895a.c:
+>
+> memory_region_init_io(&s->ram_io, OBJECT(s), &lsi_ram_ops, s,
+>         "lsi-ram", 0x2000);
+>
+> So the LSI device is reading an LSI "Script" from its own IO region.. In
+> this particular case, I think there was no reason to use
+> memory_region_init_io rather than memory_region_init_ram, but this makes
+> me worried that there are other devices that use something like this.
 
-Oh I missed that, good point.
+This particular device predates the entire MemoryRegion set of
+abstractions, so it might have seemed easier at the time.
+The endianness handling of the current code is also a bit
+confusing and might make it tricky to convert to a RAM MR.
 
-> This works OK up
-> until the point you need to have ,'s in the field as this is the tag
-> separator character which is the case for a number of the drive
-> parameters. Fix this by making drive a parameter to the common helper
-> function.
-> 
-> Fixes: 267fe57c23 (tests: add tuxrun baseline test to avocado)
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: David Woodhouse <dwmw2@infradead.org>
-> ---
->   tests/avocado/tuxrun_baselines.py | 60 +++++++++++++------------------
->   1 file changed, 24 insertions(+), 36 deletions(-)
-
-These also need to be cleaned:
-
->           :avocado: tags=tuxboot:armv5
->           :avocado: tags=image:zImage
->           :avocado: tags=console:ttyAMA0
->           :avocado: tags=root:sda
->           :avocado: tags=shutdown:nowait
->           :avocado: tags=extradev:driver=spapr-vscsi
-
-Can be done on top, so:
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+thanks
+-- PMM
 
