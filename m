@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D7C6B5131
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA116B5135
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:55:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1painY-0001HM-Im; Fri, 10 Mar 2023 14:53:04 -0500
+	id 1paina-0001Hj-47; Fri, 10 Mar 2023 14:53:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1painV-0001GJ-Rc
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:53:01 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1painW-0001Go-QR
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:53:02 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1painU-0004fZ-5n
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:53:01 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- p3-20020a17090ad30300b0023a1cd5065fso6222761pju.0
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:52:59 -0800 (PST)
+ id 1painV-0004fr-9S
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:53:02 -0500
+Received: by mail-pl1-x633.google.com with SMTP id a2so6799044plm.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:53:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678477979;
+ d=linaro.org; s=google; t=1678477980;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T5bbx8sg/Anm+07Z29jSPoGQLySawFafuCtWNzz/H14=;
- b=cWJQDoMyjUWqWTPZReKRO0DZCX2VzSlsrzFVF3CHUF3xks7vKk0ORhv+BUtxaKD5jm
- ttA0HA3hGTk6IoB7WqTFggagE+ApdE9I1MsL4yXHWfzFi5Obje8KIhZX2injtICv4Wr7
- e4diO2jQmLcPR42jNcG16qm1DlWx/JKiWFYQ4NrkygBTgbPkZ/yXsZCw2WUs87xccitJ
- Sc4S8LkqZP4wgrbWvgjLj3YfBPG9K8mlyaajqdVGdKOfZAfnR3rnG00RHEUTX3agxkyl
- TIZxD1Il/pzh5rH0BSLGgdVAi0NZqXEie4UWWp85gXFaqBOZF4MtLRzduA1iEmOuEA9v
- UVAQ==
+ bh=ZI3yEJ2Lc21he8le+fWeyTzXmLbDRb40vBMQaTo2uKo=;
+ b=O07Hx36OIOASh009kICTNTm+IvGKtb/wdB8UCZ+Hu/5G55YMmswXKI9IiWS/GyX2LM
+ vJp5yY56HaNDQ+v4Z0EHoYbkh6519Eq5ZJX4KxH7lpSs0f2UjgsgEBfE4pmZzdafc0VA
+ otw+x3tspp3LTNUMhxOyHl2wb9aNXM23f7BBssEpljBQY/spjUiPpFgtfKxkvRNAmFEm
+ yvLlzX9pQrukULz7p9w9ZyTXK7VrYTT6dE7UD8QpMM/FZx77vYP4GsnhXRh/0q9l2iOO
+ UByQ4YWVyr5Lax4r4rX7jvacAon7D1H5ggrUMDtvws4l/JSeI0dQYOjg0ET0r+ucvqNE
+ 523w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678477979;
+ d=1e100.net; s=20210112; t=1678477980;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T5bbx8sg/Anm+07Z29jSPoGQLySawFafuCtWNzz/H14=;
- b=kaLJg1FVAWtYj4UgGnwPMQbYUUYyig1fxrbUIS9a+9OzHQTZ+HIqYojV0teCXctqnc
- avJcWSzDkXXomzMRswQVqh2wyX3poUGTKFlw62nzN1VGoMPcHjxvieSTc2I7GTFPY8jV
- BcukujywnkB/1WWE9Dj8vAhH1vOSekJIEpT2MLOyB+X8rj1ykruwztmRohHDYtzx40TI
- i/Iu63ehT1PRDbfR3cAdo0pNwJwOAVgcwVZaahmPI8/MoxcFdNybVyGPfUvUMZfkl883
- m2NTgp6CfGmutgsgGpeaMFAu1BdvnJvQLcqu4lj3J/h/6CCMBlwFcoVGyf0+++LHi/K9
- y8nQ==
-X-Gm-Message-State: AO0yUKXwInFvplppprYPllnwhn2ZSmtQGzEkw67YZ+3KBDjgglwqox+A
- LvpVMt0hunHCj1e7NkTWJ6WfxS7A18HTzjrGBgQ=
-X-Google-Smtp-Source: AK7set9lJ9YnSW3BXTt4U+0RD/uMAPac54mGIXHkdr4fTGHPaXcpQAP+CMboPCzGT4FMtP6HJSwp8A==
-X-Received: by 2002:a17:902:da90:b0:19c:e405:4446 with SMTP id
- j16-20020a170902da9000b0019ce4054446mr31551859plx.30.1678477978841; 
- Fri, 10 Mar 2023 11:52:58 -0800 (PST)
+ bh=ZI3yEJ2Lc21he8le+fWeyTzXmLbDRb40vBMQaTo2uKo=;
+ b=lafWilVW3WeDbaxxwOhaOjDhs75Dh4/BcfF42S6cbB20OfGrZHfXSUu90Hn1hNhoQd
+ Hr5cxAutrMb26MuHA14Wc6lsQ86SaYwNJffE95YdLg72NJyRuC1oziUYmB5EaYCR6YJK
+ M8f1x883nDqxE1+p3RPbghZyWLo5BSYtHrU8NZN9BeIfNB3e4fZbQzqQbxZpE1gmo+7W
+ hlmxu+SXgEOD+JNjI0a5235v5rvcI61xZOVIUKVBl5tlirb5ElczlJztkqEjZcB0mpXZ
+ vSK+b04SfObBDVEc18HHNq1vVVadvUxvijz3CHa7ixMZeiDlsBUMKh2eTU1Xco1ZuDgX
+ 5yfQ==
+X-Gm-Message-State: AO0yUKXHjrNPjZIOx80FbD2K3e9xcnDSZ90RbOy8tXBZeOmgP75auS+x
+ FoCw3IrwUugBbaD8rvGHvy9ufb8X4aOltPOtZhk=
+X-Google-Smtp-Source: AK7set9kxIR3SZb7TZDDlqe1KIHierwSjXQaMIVB+su0lnS1GCAkZss2Euwmn3ICVlIP3Kbnusqnug==
+X-Received: by 2002:a17:902:ce90:b0:19a:9434:af30 with SMTP id
+ f16-20020a170902ce9000b0019a9434af30mr30396630plg.18.1678477979763; 
+ Fri, 10 Mar 2023 11:52:59 -0800 (PST)
 Received: from stoup.. ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a170903244100b001991d6c6c64sm351465pls.185.2023.03.10.11.52.57
+ l1-20020a170903244100b001991d6c6c64sm351465pls.185.2023.03.10.11.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 11:52:58 -0800 (PST)
+ Fri, 10 Mar 2023 11:52:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: cota@braap.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v2 6/7] include/qemu: Split out plugin-event.h
-Date: Fri, 10 Mar 2023 11:52:51 -0800
-Message-Id: <20230310195252.210956-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 7/7] include/qemu/plugin: Inline
+ qemu_plugin_disable_mem_helpers
+Date: Fri, 10 Mar 2023 11:52:52 -0800
+Message-Id: <20230310195252.210956-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230310195252.210956-1-richard.henderson@linaro.org>
 References: <20230310195252.210956-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,91 +92,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The usage in hw/core/cpu.h only requires QEMU_PLUGIN_EV_MAX.
+Now that we've broken the include loop with cpu.h,
+we can bring this inline.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h       |  2 +-
- include/qemu/plugin-event.h | 26 ++++++++++++++++++++++++++
- include/qemu/plugin.h       | 17 +----------------
- 3 files changed, 28 insertions(+), 17 deletions(-)
- create mode 100644 include/qemu/plugin-event.h
+ include/qemu/plugin.h |  6 +++++-
+ plugins/core.c        | 11 -----------
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 75689bff02..821e937020 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -30,7 +30,7 @@
- #include "qemu/rcu_queue.h"
- #include "qemu/queue.h"
- #include "qemu/thread.h"
--#include "qemu/plugin.h"
-+#include "qemu/plugin-event.h"
- #include "qom/object.h"
- 
- typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
-diff --git a/include/qemu/plugin-event.h b/include/qemu/plugin-event.h
-new file mode 100644
-index 0000000000..7056d8427b
---- /dev/null
-+++ b/include/qemu/plugin-event.h
-@@ -0,0 +1,26 @@
-+/*
-+ * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
-+ *
-+ * License: GNU GPL, version 2 or later.
-+ *   See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_PLUGIN_EVENT_H
-+#define QEMU_PLUGIN_EVENT_H
-+
-+/*
-+ * Events that plugins can subscribe to.
-+ */
-+enum qemu_plugin_event {
-+    QEMU_PLUGIN_EV_VCPU_INIT,
-+    QEMU_PLUGIN_EV_VCPU_EXIT,
-+    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
-+    QEMU_PLUGIN_EV_VCPU_IDLE,
-+    QEMU_PLUGIN_EV_VCPU_RESUME,
-+    QEMU_PLUGIN_EV_VCPU_SYSCALL,
-+    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
-+    QEMU_PLUGIN_EV_FLUSH,
-+    QEMU_PLUGIN_EV_ATEXIT,
-+    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
-+};
-+
-+#endif /* QEMU_PLUGIN_EVENT_H */
 diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-index e0ebedef84..6bf4bce188 100644
+index 6bf4bce188..bc0781cab8 100644
 --- a/include/qemu/plugin.h
 +++ b/include/qemu/plugin.h
-@@ -12,24 +12,9 @@
- #include "qemu/error-report.h"
- #include "qemu/queue.h"
+@@ -14,6 +14,7 @@
  #include "qemu/option.h"
-+#include "qemu/plugin-event.h"
+ #include "qemu/plugin-event.h"
  #include "exec/memopidx.h"
++#include "hw/core/cpu.h"
  
--/*
-- * Events that plugins can subscribe to.
-- */
--enum qemu_plugin_event {
--    QEMU_PLUGIN_EV_VCPU_INIT,
--    QEMU_PLUGIN_EV_VCPU_EXIT,
--    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
--    QEMU_PLUGIN_EV_VCPU_IDLE,
--    QEMU_PLUGIN_EV_VCPU_RESUME,
--    QEMU_PLUGIN_EV_VCPU_SYSCALL,
--    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
--    QEMU_PLUGIN_EV_FLUSH,
--    QEMU_PLUGIN_EV_ATEXIT,
--    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
--};
--
  /*
   * Option parsing/processing.
-  * Note that we can load an arbitrary number of plugins.
+@@ -204,7 +205,10 @@ void qemu_plugin_atexit_cb(void);
+ 
+ void qemu_plugin_add_dyn_cb_arr(GArray *arr);
+ 
+-void qemu_plugin_disable_mem_helpers(CPUState *cpu);
++static inline void qemu_plugin_disable_mem_helpers(CPUState *cpu)
++{
++    cpu->plugin_mem_cbs = NULL;
++}
+ 
+ /**
+  * qemu_plugin_user_exit(): clean-up callbacks before calling exit callbacks
+diff --git a/plugins/core.c b/plugins/core.c
+index 04632886b9..9912f2cfdb 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -553,17 +553,6 @@ void qemu_plugin_user_postfork(bool is_child)
+     }
+ }
+ 
+-
+-/*
+- * Call this function after longjmp'ing to the main loop. It's possible that the
+- * last instruction of a TB might have used helpers, and therefore the
+- * "disable" instruction will never execute because it ended up as dead code.
+- */
+-void qemu_plugin_disable_mem_helpers(CPUState *cpu)
+-{
+-    cpu->plugin_mem_cbs = NULL;
+-}
+-
+ static bool plugin_dyn_cb_arr_cmp(const void *ap, const void *bp)
+ {
+     return ap == bp;
 -- 
 2.34.1
 
