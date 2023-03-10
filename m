@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73DC96B3C5A
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C166B3C5B
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:35:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paa4g-0004mI-Ch; Fri, 10 Mar 2023 05:34:10 -0500
+	id 1paa4k-0005Eu-BA; Fri, 10 Mar 2023 05:34:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1paa4P-0004OY-3T
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:33:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1paa4M-0004yL-O3
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:33:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678444427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gFtl3SBGzMFZaZpTOgSMqIxOxMjbSNoM3gg52W0H3+E=;
- b=GpOy+P1ccQz0byBpL0zfCsPvFdjEy/DWG7Dy7W/CTVG0v5g4ijo2oSvsE2wu4rNp9i4eTx
- Om7gtCHv9TWIVOVzhd9FIMw81KvammDkQ02aq7ODOrrJm678unWNtFFfszgBeyR6ZMmhW7
- QEBrsZBBad+TWpoVRelcWW+LMe1VywU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-25-AYvJWjLdP96SVNCnM5C3pg-1; Fri, 10 Mar 2023 05:33:46 -0500
-X-MC-Unique: AYvJWjLdP96SVNCnM5C3pg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D2E02807D6C
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:33:46 +0000 (UTC)
-Received: from [10.39.208.18] (unknown [10.39.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DDD2C15BA0;
- Fri, 10 Mar 2023 10:33:44 +0000 (UTC)
-Message-ID: <29f5522c-c305-9bf5-3283-e096b38261ef@redhat.com>
-Date: Fri, 10 Mar 2023 11:33:42 +0100
+ (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
+ id 1paa4X-00059u-PJ; Fri, 10 Mar 2023 05:34:02 -0500
+Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net ([46.101.248.176])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <chenyi2000@zju.edu.cn>)
+ id 1paa4U-00050Y-RP; Fri, 10 Mar 2023 05:34:01 -0500
+Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 10 Mar 2023 18:33:50
+ +0800 (GMT+08:00)
+X-Originating-IP: [112.10.177.110]
+Date: Fri, 10 Mar 2023 18:33:50 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "CHEN Yi" <chenyi2000@zju.edu.cn>
+To: "LIU Zhiwei" <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: "Palmer Dabbelt" <palmer@dabbelt.com>, 
+ "Alistair Francis" <alistair.francis@wdc.com>, 
+ "Bin Meng" <bin.meng@windriver.com>, "Weiwei Li" <liweiwei@iscas.ac.cn>, 
+ "Daniel Henrique Barboza" <dbarboza@ventanamicro.com>, 
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+Subject: Re: Re: [PATCH] target/riscv/csr.c: fix H extension TVM trap
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2023 www.mailtech.cn zju.edu.cn
+In-Reply-To: <c78fd321-d287-f55e-fecf-1823367ea485@linux.alibaba.com>
+References: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
+ <087472fc-94f1-165d-9776-8e12d60be09d@linux.alibaba.com>
+ <33d93933.8ba4c.186cac784e7.Coremail.chenyi2000@zju.edu.cn>
+ <c78fd321-d287-f55e-fecf-1823367ea485@linux.alibaba.com>
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_3364150_18184957.1678444430022"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-level
- <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Eelco Chaudron <echaudro@redhat.com>
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <6684066f-452d-a8b3-58b2-b0db2a3c2015@redhat.com>
- <20230201061709-mutt-send-email-mst@kernel.org>
- <6e98c7a2-bab8-e91f-1718-cc8d5d6e8ddf@redhat.com>
- <20230308071529-mutt-send-email-mst@kernel.org>
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-In-Reply-To: <20230308071529-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=maxime.coquelin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <45765f42.8bdcd.186cb1582c6.Coremail.chenyi2000@zju.edu.cn>
+X-Coremail-Locale: en_US
+X-CM-TRANSID: cC_KCgCXnQyPBwtk6KEZDg--.31768W
+X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/1tbiAQQKClZdwzOE2AAAsi
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=46.101.248.176;
+ envelope-from=chenyi2000@zju.edu.cn;
+ helo=zg8tndyumtaxlji0oc4xnzya.icoremail.net
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,120 +71,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+------=_Part_3364150_18184957.1678444430022
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
+CgoKLS0tLS1PcmlnaW5hbCBNZXNzYWdlcy0tLS0tCkZyb206IkxJVSBaaGl3ZWkiIDx6aGl3ZWlf
+bGl1QGxpbnV4LmFsaWJhYmEuY29tPgpTZW50IFRpbWU6MjAyMy0wMy0xMCAxNzoxODo1NiAoRnJp
+ZGF5KQpUbzogIkNIRU4gWWkiIDxjaGVueWkyMDAwQHpqdS5lZHUuY24+LCBxZW11LWRldmVsQG5v
+bmdudS5vcmcKQ2M6ICJQYWxtZXIgRGFiYmVsdCIgPHBhbG1lckBkYWJiZWx0LmNvbT4sICJBbGlz
+dGFpciBGcmFuY2lzIiA8YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tPiwgIkJpbiBNZW5nIiA8Ymlu
+Lm1lbmdAd2luZHJpdmVyLmNvbT4sICJXZWl3ZWkgTGkiIDxsaXdlaXdlaUBpc2Nhcy5hYy5jbj4s
+ICJEYW5pZWwgSGVucmlxdWUgQmFyYm96YSIgPGRiYXJib3phQHZlbnRhbmFtaWNyby5jb20+LCAi
+b3BlbiBsaXN0OlJJU0MtViBUQ0cgQ1BVcyIgPHFlbXUtcmlzY3ZAbm9uZ251Lm9yZz4KU3ViamVj
+dDogUmU6IFtQQVRDSF0gdGFyZ2V0L3Jpc2N2L2Nzci5jOiBmaXggSCBleHRlbnNpb24gVFZNIHRy
+YXAKCgoKCgoKT24gMjAyMy8zLzEwIDE3OjA4LCBDSEVOIFlpIHdyb3RlOgoKLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlcy0tLS0tCkZyb206IkxJVSBaaGl3ZWkiIDx6aGl3ZWlfbGl1QGxpbnV4LmFsaWJh
+YmEuY29tPgpTZW50IFRpbWU6MjAyMy0wMy0xMCAxMDoxMjoxMCAoRnJpZGF5KQpUbzpjaGVueWky
+MDAwQHpqdS5lZHUuY24sIHFlbXUtZGV2ZWxAbm9uZ251Lm9yZwpDYzogIlBhbG1lciBEYWJiZWx0
+IiA8cGFsbWVyQGRhYmJlbHQuY29tPiwgIkFsaXN0YWlyIEZyYW5jaXMiIDxhbGlzdGFpci5mcmFu
+Y2lzQHdkYy5jb20+LCAiQmluIE1lbmciIDxiaW4ubWVuZ0B3aW5kcml2ZXIuY29tPiwgIldlaXdl
+aSBMaSIgPGxpd2Vpd2VpQGlzY2FzLmFjLmNuPiwgIkRhbmllbCBIZW5yaXF1ZSBCYXJib3phIiA8
+ZGJhcmJvemFAdmVudGFuYW1pY3JvLmNvbT4sICJvcGVuIGxpc3Q6UklTQy1WIFRDRyBDUFVzIiA8
+cWVtdS1yaXNjdkBub25nbnUub3JnPgpTdWJqZWN0OiBSZTogW1BBVENIXSB0YXJnZXQvcmlzY3Yv
+Y3NyLmM6IGZpeCBIIGV4dGVuc2lvbiBUVk0gdHJhcAoKCgoKCgpPbiAyMDIzLzMvOCAyMDozNCwg
+Y2hlbnlpMjAwMEB6anUuZWR1LmNuIHdyb3RlOgoKRnJvbTogWWkgQ2hlbiA8Y2hlbnlpMjAwMEB6
+anUuZWR1LmNuPiBUcmFwIGFjY2Vzc2VzIHRvIGhnYXRwIGlmIE1TVEFUVVNfVFZNIGlzIGVuYWJs
+ZWQuCkRvbid0IHRyYXAgYWNjZXNzZXMgdG8gdnNhdHAgZXZlbiBpZiBNU1RBVFVTX1RWTSBpcyBl
+bmFibGVkLgoKQnkgdGhlIHdheSwgZG8geW91IGtub3cgd2h5IG1zdGF0dXNfdHZtIGFuZCBoc3Rh
+dHVzX3R2bSBhcmUgbmVlZGVkPwoKVGhlIHNwZWNpZmljYXRpb24gc2FpZCwKClRoZSBUVk0gbWVj
+aGFuaXNtIGltcHJvdmVzIHZpcnR1YWxpemF0aW9uIGVmZmljaWVuY3kgYnkgcGVybWl0dGluZyBn
+dWVzdCBvcGVyYXRpbmcgc3lzdGVtcyB0bwpleGVjdXRlIGluIFMtbW9kZSwgcmF0aGVyIHRoYW4g
+Y2xhc3NpY2FsbHkgdmlydHVhbGl6aW5nIHRoZW0gaW4gVS1tb2RlLiBUaGlzIGFwcHJvYWNoIG9i
+dmlhdGVzCnRoZSBuZWVkIHRvIHRyYXAgYWNjZXNzZXMgdG8gbW9zdCBTLW1vZGUgQ1NScy4KCgpJ
+IGRvbid0IGtub3cgaG93IHRoZSB0dm0gZmllbGQgb2J2aWF0ZXMgdGhlIG5lZWQgdG8gdHJhcCBh
+Y2Nlc3NlcyB0byBtb3N0IFMtbW9kZSBDU1JzLgoKVGhhbmtzLApaaGl3ZWkKCgoKCldoZW4gVk1z
+IGFyZSBpbiBVLW1vZGUsIHRoZWlyIGFjY2Vzc2VzIHRvIFMtbW9kZSBDU1IgcmVnaXN0ZXJzIG11
+c3QgYmUgZW11bGF0ZWQuIE90aGVyd2lzZSwgdGhlIGJlaGF2aW9yIG9mIHRoZSBob3N0IE9TIHdp
+bGwgYmUgYWZmZWN0ZWQuIEJ1dCBJIGd1ZXNzIHNpbmNlIFRWTSBoZWxwcyBpbnNlcnQgYW5vdGhl
+ciBzdGFnZSBvZiBhZGRyZXNzIHRyYW5zbGF0aW9uIGJlbG93IHRoYXQgY29udHJvbGxlZCBieSB0
+aGUgT1MsIGl0IGVuYWJsZXMgVk1zIHRvIHJ1biBpbiBTLW1vZGUsIHdoaWNoIG1lYW5zIHRoYXQg
+Vk1zIGNhbiBkaXJlY3RseSB1c2UgbW9zdCBTLW1vZGUgQ1NSIHJlZ2lzdGVycyBpbnN0ZWFkIG9m
+IGVtdWxhdGVkIG9uZXMuCgpJZiB0aGUgZ3Vlc3QgcnVubmluZyBpbiBTLW1vZGUsIHRoZSBvdGhl
+ciBzbW9kZSBDU1IgYWNjZXNzZXMgbWF5IGJyZWFrIHRoZSBob3N0IE9TLiAKClpoaXdlaQoKCgoK
+SSBndWVzcyBoeXBlcnZpc29ycyBjYW4gYmUgKHBhcnRpYWxseSkgcHV0IGluIE0tbW9kZS4gRG8g
+eW91IGhhdmUgYW55IGV4YW1wbGUgd2hlcmUgYWNjZXNzIHRvIGEgc3BlY2lmaWMgQ1NSIGhhcyB0
+byBiZSB0cmFwcGVkPwoKCgoKQmVzdCwKCllpCgoKCgpCZXN0LAoKWWkKCgoKCgoKClNpZ25lZC1v
+ZmYtYnk6IFlpIENoZW4gPGNoZW55aTIwMDBAemp1LmVkdS5jbj4gLS0tCiB0YXJnZXQvcmlzY3Yv
+Y3NyLmMgfCAxOCArKysrKysrKysrKysrKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRp
+b25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3RhcmdldC9yaXNjdi9jc3IuYyBi
+L3RhcmdldC9yaXNjdi9jc3IuYwppbmRleCBhYjU2NjYzLi4wOWJjNzgwIDEwMDY0NAotLS0gYS90
+YXJnZXQvcmlzY3YvY3NyLmMKKysrIGIvdGFyZ2V0L3Jpc2N2L2Nzci5jCkBAIC0yNjU1LDcgKzI2
+NTUsNyBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gcmVhZF9zYXRwKENQVVJJU0NWU3RhdGUgKmVu
+diwgaW50IGNzcm5vLAogICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9OT05FOwogICAgIH0KIAot
+ICAgIGlmIChlbnYtPnByaXYgPT0gUFJWX1MgJiYgZ2V0X2ZpZWxkKGVudi0+bXN0YXR1cywgTVNU
+QVRVU19UVk0pKSB7CisgICAgaWYgKGVudi0+cHJpdiA9PSBQUlZfUyAmJiAhcmlzY3ZfY3B1X3Zp
+cnRfZW5hYmxlZChlbnYpICYmIGdldF9maWVsZChlbnYtPm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkg
+ewogICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExFR0FMX0lOU1Q7CiAgICAgfSBlbHNlIHsK
+ICAgICAgICAgKnZhbCA9IGVudi0+c2F0cDsKQEAgLTI2ODMsNyArMjY4Myw3IEBAIHN0YXRpYyBS
+SVNDVkV4Y2VwdGlvbiB3cml0ZV9zYXRwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAog
+ICAgIH0KIAogICAgIGlmICh2bSAmJiBtYXNrKSB7Ci0gICAgICAgIGlmIChlbnYtPnByaXYgPT0g
+UFJWX1MgJiYgZ2V0X2ZpZWxkKGVudi0+bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CisgICAgICAg
+IGlmIChlbnYtPnByaXYgPT0gUFJWX1MgJiYgIXJpc2N2X2NwdV92aXJ0X2VuYWJsZWQoZW52KSAm
+JiBnZXRfZmllbGQoZW52LT5tc3RhdHVzLCBNU1RBVFVTX1RWTSkpIHsKICAgICAgICAgICAgIHJl
+dHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKICAgICAgICAgfSBlbHNlIHsKICAgICAgICAg
+ICAgIC8qCkBAIC0zMDQ3LDE0ICszMDQ3LDI0IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiByZWFk
+X2hnZWlwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogc3RhdGljIFJJU0NWRXhjZXB0
+aW9uIHJlYWRfaGdhdHAoQ1BVUklTQ1ZTdGF0ZSAqZW52LCBpbnQgY3Nybm8sCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRfdWxvbmcgKnZhbCkKIHsKLSAgICAqdmFsID0g
+ZW52LT5oZ2F0cDsKKyAgICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVsZChlbnYt
+Pm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExF
+R0FMX0lOU1Q7CisgICAgfSBlbHNlIHsKKyAgICAgICAgKnZhbCA9IGVudi0+aGdhdHA7CisgICAg
+fQorCiAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfTk9ORTsKIH0KIAogc3RhdGljIFJJU0NWRXhjZXB0
+aW9uIHdyaXRlX2hnYXRwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldF91bG9uZyB2YWwpCiB7Ci0gICAgZW52LT5o
+Z2F0cCA9IHZhbDsKKyAgICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVsZChlbnYt
+Pm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExF
+R0FMX0lOU1Q7CisgICAgfSBlbHNlIHsKKyAgICAgICAgZW52LT5oZ2F0cCA9IHZhbDsKKyAgICB9
+CisKICAgICByZXR1cm4gUklTQ1ZfRVhDUF9OT05FOwogfSA=
+------=_Part_3364150_18184957.1678444430022
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On 3/8/23 13:15, Michael S. Tsirkin wrote:
-> On Wed, Mar 08, 2023 at 11:33:45AM +0100, Maxime Coquelin wrote:
->> Hello Michael,
->>
->> On 2/1/23 12:20, Michael S. Tsirkin wrote:
->>> On Wed, Feb 01, 2023 at 12:14:18PM +0100, Maxime Coquelin wrote:
->>>> Thanks Eugenio for working on this.
->>>>
->>>> On 1/31/23 20:10, Eugenio Perez Martin wrote:
->>>>> Hi,
->>>>>
->>>>> The current approach of offering an emulated CVQ to the guest and map
->>>>> the commands to vhost-user is not scaling well:
->>>>> * Some devices already offer it, so the transformation is redundant.
->>>>> * There is no support for commands with variable length (RSS?)
->>>>>
->>>>> We can solve both of them by offering it through vhost-user the same
->>>>> way as vhost-vdpa do. With this approach qemu needs to track the
->>>>> commands, for similar reasons as vhost-vdpa: qemu needs to track the
->>>>> device status for live migration. vhost-user should use the same SVQ
->>>>> code for this, so we avoid duplications.
->>>>>
->>>>> One of the challenges here is to know what virtqueue to shadow /
->>>>> isolate. The vhost-user device may not have the same queues as the
->>>>> device frontend:
->>>>> * The first depends on the actual vhost-user device, and qemu fetches
->>>>> it with VHOST_USER_GET_QUEUE_NUM at the moment.
->>>>> * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
->>>>>
->>>>> For the device, the CVQ is the last one it offers, but for the guest
->>>>> it is the last one offered in config space.
->>>>>
->>>>> To create a new vhost-user command to decrease that maximum number of
->>>>> queues may be an option. But we can do it without adding more
->>>>> commands, remapping the CVQ index at virtqueue setup. I think it
->>>>> should be doable using (struct vhost_dev).vq_index and maybe a few
->>>>> adjustments here and there.
->>>>>
->>>>> Thoughts?
->>>>
->>>> I am fine with both proposals.
->>>> I think index remapping will require a bit more rework in the DPDK
->>>> Vhost-user library, but nothing insurmountable.
->>>>
->>>> I am currently working on a PoC adding support for VDUSE in the DPDK
->>>> Vhost library, and recently added control queue support. We can reuse it
->>>> if we want to prototype your proposal.
->>>>
->>>> Maxime
->>>>
->>>>> Thanks!
->>>>>
->>>
->>>
->>> technically backend knows how many vqs are there, last one is cvq...
->>> not sure we need full blown remapping ...
->>>
->>
->> Before VHOST_USER_PROTOCOL_F_STATUS was supported by qemu (very
->> recently, v7.2.0), we had no way for the backend to be sure the
->> frontend won't configure new queue pairs, this not not defined in the
->> spec AFAICT [0]. In DPDK Vhost library, we notify the application it can
->> start to use the device once the first queue pair is setup and enabled,
->> then we notify the application when new queues are ready to be
->> processed. In this case, I think we cannot deduce whether the queue is a
->> data or a control queue when it is setup.
->>
->> When VHOST_USER_PROTOCOL_F_STATUS is supported, we know no more queues
->> will be configured once the DRIVER_OK status is set. In this case, we
->> can deduce the last queue setup will be the control queue at DRIVER_OK
->> time if the number of queues is odd.
->>
->> Using index remapping, we would know directly at queue setup time
->> whether this is a data or control queue based on its index value,
->> i.e. if the index equals to max queue index supported by the backend.
->> But thinking at it again, we may at least back this with a protocol
->> feature to avoid issues with legacy backends.
->>
->> I hope it clarifies, let me know if anything unclear.
->>
->> Thanks,
->> Maxime
->>
->> [0]:
->> https://elixir.bootlin.com/qemu/latest/source/docs/interop/vhost-user.rst
-> 
-> 
-> OK maybe document this.
-
-Sure, working on it... But I just found a discrepancy related to
-VHOST_USER_GET_QUEUE_NUM between the spec and the frontend/backend
-implementations.
-
-In the spec [0], VHOST_USER_GET_QUEUE_NUM reply is the number of queues.
-In Qemu Vhost-user Net frontend [1], VHOST_USER_GET_QUEUE_NUM is handled
-as the number of queue *pairs*, and so does the DPDK Vhost library. 
-Vhost-user-bridge Qemu test application handles it as the number of queues.
-
-Other device types seem to handle it as the number of queues, which
-makes sense since they don't have the notion of queue pair.
-
-Fixing the QEMU and DPDK implementations would require a new protocol 
-feature bit not to break compatibility with older versions.
-
-So maybe we should add in the spec that for network devices,
-VHOST_USER_GET_QUEUE_NUM reply represents the number of queue pairs, and
-also fix vhost-user-bridge to reply with the number of queue pairs?
-
-Maxime
-
-[0]: 
-https://elixir.bootlin.com/qemu/latest/source/docs/interop/vhost-user.rst#L1091
-[1]: https://elixir.bootlin.com/qemu/latest/source/net/vhost-user.c#L69
+PGJyPgo8YnI+Cjxicj4KPGJsb2NrcXVvdGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVm
+ZXJlbmNlUXVvdGUiIHN0eWxlPSJwYWRkaW5nLWxlZnQ6NXB4O21hcmdpbi1sZWZ0OjVweDtib3Jk
+ZXItbGVmdDojYjZiNmI2IDJweCBzb2xpZDttYXJnaW4tcmlnaHQ6MDsiPgoJLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlcy0tLS0tPGJyPgo8Yj5Gcm9tOjwvYj48c3BhbiBpZD0icmNfZnJvbSI+IkxJVSBa
+aGl3ZWkiICZsdDt6aGl3ZWlfbGl1QGxpbnV4LmFsaWJhYmEuY29tJmd0Ozwvc3Bhbj48YnI+Cjxi
+PlNlbnQgVGltZTo8L2I+PHNwYW4gaWQ9InJjX3NlbnR0aW1lIj4yMDIzLTAzLTEwIDE3OjE4OjU2
+IChGcmlkYXkpPC9zcGFuPjxicj4KPGI+VG86PC9iPiAiQ0hFTiBZaSIgJmx0O2NoZW55aTIwMDBA
+emp1LmVkdS5jbiZndDssIHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzxicj4KPGI+Q2M6PC9iPiAiUGFs
+bWVyIERhYmJlbHQiICZsdDtwYWxtZXJAZGFiYmVsdC5jb20mZ3Q7LCAiQWxpc3RhaXIgRnJhbmNp
+cyIgJmx0O2FsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbSZndDssICJCaW4gTWVuZyIgJmx0O2Jpbi5t
+ZW5nQHdpbmRyaXZlci5jb20mZ3Q7LCAiV2Vpd2VpIExpIiAmbHQ7bGl3ZWl3ZWlAaXNjYXMuYWMu
+Y24mZ3Q7LCAiRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEiICZsdDtkYmFyYm96YUB2ZW50YW5hbWlj
+cm8uY29tJmd0OywgIm9wZW4gbGlzdDpSSVNDLVYgVENHIENQVXMiICZsdDtxZW11LXJpc2N2QG5v
+bmdudS5vcmcmZ3Q7PGJyPgo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtQQVRDSF0gdGFyZ2V0L3Jpc2N2
+L2Nzci5jOiBmaXggSCBleHRlbnNpb24gVFZNIHRyYXA8YnI+Cjxicj4KCTxwPgoJCTxicj4KCTwv
+cD4KCTxkaXYgY2xhc3M9Im1vei1jaXRlLXByZWZpeCI+CgkJT24gMjAyMy8zLzEwIDE3OjA4LCBD
+SEVOIFlpIHdyb3RlOjxicj4KCTwvZGl2PgoJPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgY2l0ZT0i
+bWlkOjMzZDkzOTMzLjhiYTRjLjE4NmNhYzc4NGU3LkNvcmVtYWlsLmNoZW55aTIwMDBAemp1LmVk
+dS5jbiI+CgkJPGJsb2NrcXVvdGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNl
+UXVvdGUiIHN0eWxlPSJwYWRkaW5nLWxlZnQ6NXB4O21hcmdpbi1sZWZ0OjVweDtib3JkZXItbGVm
+dDojYjZiNmI2IDJweCBzb2xpZDttYXJnaW4tcmlnaHQ6MDsiPgoJCQktLS0tLU9yaWdpbmFsIE1l
+c3NhZ2VzLS0tLS08YnI+CjxiPkZyb206PC9iPjxzcGFuIGlkPSJyY19mcm9tIj4iTElVIFpoaXdl
+aSIgPGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOnpoaXdlaV9s
+aXVAbGludXguYWxpYmFiYS5jb20iPiZsdDt6aGl3ZWlfbGl1QGxpbnV4LmFsaWJhYmEuY29tJmd0
+OzwvYT48L3NwYW4+PGJyPgo8Yj5TZW50IFRpbWU6PC9iPjxzcGFuIGlkPSJyY19zZW50dGltZSI+
+MjAyMy0wMy0xMCAxMDoxMjoxMAogICAgICAgICAgKEZyaWRheSk8L3NwYW4+PGJyPgo8Yj5Ubzo8
+L2I+IDxhIGNsYXNzPSJtb3otdHh0LWxpbmstYWJicmV2aWF0ZWQiIGhyZWY9Im1haWx0bzpjaGVu
+eWkyMDAwQHpqdS5lZHUuY24iPmNoZW55aTIwMDBAemp1LmVkdS5jbjwvYT4sIDxhIGNsYXNzPSJt
+b3otdHh0LWxpbmstYWJicmV2aWF0ZWQiIGhyZWY9Im1haWx0bzpxZW11LWRldmVsQG5vbmdudS5v
+cmciPnFlbXUtZGV2ZWxAbm9uZ251Lm9yZzwvYT48YnI+CjxiPkNjOjwvYj4gIlBhbG1lciBEYWJi
+ZWx0IiA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWlsdG86cGFsbWVy
+QGRhYmJlbHQuY29tIj4mbHQ7cGFsbWVyQGRhYmJlbHQuY29tJmd0OzwvYT4sCiAgICAgICAgIkFs
+aXN0YWlyIEZyYW5jaXMiIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUiIGhyZWY9Im1h
+aWx0bzphbGlzdGFpci5mcmFuY2lzQHdkYy5jb20iPiZsdDthbGlzdGFpci5mcmFuY2lzQHdkYy5j
+b20mZ3Q7PC9hPiwgIkJpbiBNZW5nIiA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJmYzIzOTZFIiBo
+cmVmPSJtYWlsdG86YmluLm1lbmdAd2luZHJpdmVyLmNvbSI+Jmx0O2Jpbi5tZW5nQHdpbmRyaXZl
+ci5jb20mZ3Q7PC9hPiwgIldlaXdlaSBMaSIgPGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2
+RSIgaHJlZj0ibWFpbHRvOmxpd2Vpd2VpQGlzY2FzLmFjLmNuIj4mbHQ7bGl3ZWl3ZWlAaXNjYXMu
+YWMuY24mZ3Q7PC9hPiwgIkRhbmllbCBIZW5yaXF1ZSBCYXJib3phIiA8YSBjbGFzcz0ibW96LXR4
+dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWlsdG86ZGJhcmJvemFAdmVudGFuYW1pY3JvLmNvbSI+
+Jmx0O2RiYXJib3phQHZlbnRhbmFtaWNyby5jb20mZ3Q7PC9hPiwgIm9wZW4gbGlzdDpSSVNDLVYg
+VENHIENQVXMiIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUiIGhyZWY9Im1haWx0bzpx
+ZW11LXJpc2N2QG5vbmdudS5vcmciPiZsdDtxZW11LXJpc2N2QG5vbmdudS5vcmcmZ3Q7PC9hPjxi
+cj4KPGI+U3ViamVjdDo8L2I+IFJlOiBbUEFUQ0hdIHRhcmdldC9yaXNjdi9jc3IuYzogZml4IEgg
+ZXh0ZW5zaW9uCiAgICAgICAgVFZNIHRyYXA8YnI+Cjxicj4KCQkJPHA+CgkJCQk8YnI+CgkJCTwv
+cD4KCQkJPGRpdiBjbGFzcz0ibW96LWNpdGUtcHJlZml4Ij4KCQkJCU9uIDIwMjMvMy84IDIwOjM0
+LCA8YSBjbGFzcz0ibW96LXR4dC1saW5rLWFiYnJldmlhdGVkIG1vei10eHQtbGluay1mcmVldGV4
+dCIgaHJlZj0ibWFpbHRvOmNoZW55aTIwMDBAemp1LmVkdS5jbiIgbW96LWRvLW5vdC1zZW5kPSJ0
+cnVlIj5jaGVueWkyMDAwQHpqdS5lZHUuY248L2E+IHdyb3RlOjxicj4KCQkJPC9kaXY+CgkJCTxi
+bG9ja3F1b3RlIHR5cGU9ImNpdGUiIGNpdGU9Im1pZDoyMDIzMDMwODEyMzQxNy4xMjU1NS0xLWNo
+ZW55aTIwMDBAemp1LmVkdS5jbiI+CjxwcmUgY2xhc3M9Im1vei1xdW90ZS1wcmUiIHdyYXA9IiI+
+RnJvbTogWWkgQ2hlbiA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWls
+dG86Y2hlbnlpMjAwMEB6anUuZWR1LmNuIiBtb3otZG8tbm90LXNlbmQ9InRydWUiPiZsdDtjaGVu
+eWkyMDAwQHpqdS5lZHUuY24mZ3Q7PC9hPiBUcmFwIGFjY2Vzc2VzIHRvIGhnYXRwIGlmIE1TVEFU
+VVNfVFZNIGlzIGVuYWJsZWQuCkRvbid0IHRyYXAgYWNjZXNzZXMgdG8gdnNhdHAgZXZlbiBpZiBN
+U1RBVFVTX1RWTSBpcyBlbmFibGVkLjwvcHJlPgoJCQk8L2Jsb2NrcXVvdGU+CgkJCTxwPgoJCQkJ
+QnkgdGhlIHdheSwgZG8geW91IGtub3cgd2h5IG1zdGF0dXNfdHZtIGFuZCBoc3RhdHVzX3R2bSBh
+cmUKICAgICAgICAgIG5lZWRlZD8KCQkJPC9wPgoJCQk8cD4KCQkJCVRoZSBzcGVjaWZpY2F0aW9u
+IHNhaWQsCgkJCTwvcD4KPHByZT5UaGUgVFZNIG1lY2hhbmlzbSBpbXByb3ZlcyB2aXJ0dWFsaXph
+dGlvbiBlZmZpY2llbmN5IGJ5IHBlcm1pdHRpbmcgZ3Vlc3Qgb3BlcmF0aW5nIHN5c3RlbXMgdG8K
+ZXhlY3V0ZSBpbiBTLW1vZGUsIHJhdGhlciB0aGFuIGNsYXNzaWNhbGx5IHZpcnR1YWxpemluZyB0
+aGVtIGluIFUtbW9kZS4gVGhpcyBhcHByb2FjaCBvYnZpYXRlcwp0aGUgbmVlZCB0byB0cmFwIGFj
+Y2Vzc2VzIHRvIG1vc3QgUy1tb2RlIENTUnMuCjwvcHJlPgoJCQk8cD4KCQkJCUkgZG9uJ3Qga25v
+dyBob3cgdGhlIHR2bSBmaWVsZCBvYnZpYXRlcyB0aGUgbmVlZCB0byB0cmFwCiAgICAgICAgICBh
+Y2Nlc3NlcyB0byBtb3N0IFMtbW9kZSBDU1JzLgoJCQk8L3A+CgkJCTxwPgoJCQkJVGhhbmtzLDxi
+cj4KWmhpd2VpCgkJCTwvcD4KCQk8L2Jsb2NrcXVvdGU+CgkJPHA+CgkJCTxicj4KCQk8L3A+CgkJ
+PHA+CgkJCVdoZW4gVk1zIGFyZSBpbiBVLW1vZGUsIHRoZWlyIGFjY2Vzc2VzIHRvIFMtbW9kZSBD
+U1IgcmVnaXN0ZXJzCiAgICAgICAgbXVzdCBiZSBlbXVsYXRlZC4gT3RoZXJ3aXNlLCB0aGUgYmVo
+YXZpb3Igb2YgdGhlIGhvc3QgT1Mgd2lsbCBiZQogICAgICAgIGFmZmVjdGVkLiBCdXQgSSBndWVz
+cyBzaW5jZSBUVk0gaGVscHMgaW5zZXJ0IGFub3RoZXIgc3RhZ2Ugb2YKICAgICAgICBhZGRyZXNz
+IHRyYW5zbGF0aW9uIGJlbG93IHRoYXQgY29udHJvbGxlZCBieSB0aGUgT1MsIGl0IGVuYWJsZXMK
+ICAgICAgICBWTXMgdG8gcnVuIGluIFMtbW9kZSwgd2hpY2ggbWVhbnMgdGhhdCBWTXMgY2FuIGRp
+cmVjdGx5IHVzZSBtb3N0CiAgICAgICAgUy1tb2RlIENTUiByZWdpc3RlcnMgaW5zdGVhZCBvZiBl
+bXVsYXRlZCBvbmVzLgoJCTwvcD4KCTwvYmxvY2txdW90ZT4KCTxwPgoJCUlmIHRoZSBndWVzdCBy
+dW5uaW5nIGluIFMtbW9kZSwgdGhlIG90aGVyIHNtb2RlIENTUiBhY2Nlc3NlcyBtYXkKICAgICAg
+YnJlYWsgdGhlIGhvc3QgT1MuJm5ic3A7Cgk8L3A+Cgk8cD4KCQlaaGl3ZWkKCTwvcD4KCTxibG9j
+a3F1b3RlIHR5cGU9ImNpdGUiIGNpdGU9Im1pZDozM2Q5MzkzMy44YmE0Yy4xODZjYWM3ODRlNy5D
+b3JlbWFpbC5jaGVueWkyMDAwQHpqdS5lZHUuY24iPgoJCTxwPgoJCQk8YnI+CgkJPC9wPgoJPC9i
+bG9ja3F1b3RlPgo8L2Jsb2NrcXVvdGU+CjxwPgoJSSBndWVzcyBoeXBlcnZpc29ycyBjYW4gYmUg
+KHBhcnRpYWxseSkgcHV0IGluIE0tbW9kZS4gRG8geW91IGhhdmUgYW55IGV4YW1wbGUgd2hlcmUg
+YWNjZXNzIHRvIGEgc3BlY2lmaWMgQ1NSIGhhcyB0byBiZSB0cmFwcGVkPwo8L3A+CjxwPgoJPGJy
+Pgo8L3A+CjxwPgoJQmVzdCwKPC9wPgo8cD4KCVlpCjwvcD4KPGJsb2NrcXVvdGUgbmFtZT0icmVw
+bHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0eWxlPSJwYWRkaW5nLWxlZnQ6NXB4
+O21hcmdpbi1sZWZ0OjVweDtib3JkZXItbGVmdDojYjZiNmI2IDJweCBzb2xpZDttYXJnaW4tcmln
+aHQ6MDsiPgoJPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgY2l0ZT0ibWlkOjMzZDkzOTMzLjhiYTRj
+LjE4NmNhYzc4NGU3LkNvcmVtYWlsLmNoZW55aTIwMDBAemp1LmVkdS5jbiI+CgkJPHA+CgkJCTxi
+cj4KCQk8L3A+CgkJPHA+CgkJCUJlc3QsCgkJPC9wPgoJCTxwPgoJCQlZaQoJCTwvcD4KCQk8cD4K
+CQkJPGJyPgoJCTwvcD4KCQk8YmxvY2txdW90ZSBuYW1lPSJyZXBseUNvbnRlbnQiIGNsYXNzPSJS
+ZWZlcmVuY2VRdW90ZSIgc3R5bGU9InBhZGRpbmctbGVmdDo1cHg7bWFyZ2luLWxlZnQ6NXB4O2Jv
+cmRlci1sZWZ0OiNiNmI2YjYgMnB4IHNvbGlkO21hcmdpbi1yaWdodDowOyI+CgkJCTxwPgoJCQkJ
+PGJyPgoJCQk8L3A+CgkJCTxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIGNpdGU9Im1pZDoyMDIzMDMw
+ODEyMzQxNy4xMjU1NS0xLWNoZW55aTIwMDBAemp1LmVkdS5jbiI+CjxwcmUgY2xhc3M9Im1vei1x
+dW90ZS1wcmUiIHdyYXA9IiI+U2lnbmVkLW9mZi1ieTogWWkgQ2hlbiA8YSBjbGFzcz0ibW96LXR4
+dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWlsdG86Y2hlbnlpMjAwMEB6anUuZWR1LmNuIiBtb3ot
+ZG8tbm90LXNlbmQ9InRydWUiPiZsdDtjaGVueWkyMDAwQHpqdS5lZHUuY24mZ3Q7PC9hPiAtLS0K
+IHRhcmdldC9yaXNjdi9jc3IuYyB8IDE4ICsrKysrKysrKysrKysrLS0tLQogMSBmaWxlIGNoYW5n
+ZWQsIDE0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdGFyZ2V0
+L3Jpc2N2L2Nzci5jIGIvdGFyZ2V0L3Jpc2N2L2Nzci5jCmluZGV4IGFiNTY2NjMuLjA5YmM3ODAg
+MTAwNjQ0Ci0tLSBhL3RhcmdldC9yaXNjdi9jc3IuYworKysgYi90YXJnZXQvcmlzY3YvY3NyLmMK
+QEAgLTI2NTUsNyArMjY1NSw3IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiByZWFkX3NhdHAoQ1BV
+UklTQ1ZTdGF0ZSAqZW52LCBpbnQgY3Nybm8sCiAgICAgICAgIHJldHVybiBSSVNDVl9FWENQX05P
+TkU7CiAgICAgfQogCi0gICAgaWYgKGVudi0mZ3Q7cHJpdiA9PSBQUlZfUyAmYW1wOyZhbXA7IGdl
+dF9maWVsZChlbnYtJmd0O21zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgIGlmIChlbnYtJmd0
+O3ByaXYgPT0gUFJWX1MgJmFtcDsmYW1wOyAhcmlzY3ZfY3B1X3ZpcnRfZW5hYmxlZChlbnYpICZh
+bXA7JmFtcDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CiAgICAg
+ICAgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKICAgICB9IGVsc2UgewogICAgICAg
+ICAqdmFsID0gZW52LSZndDtzYXRwOwpAQCAtMjY4Myw3ICsyNjgzLDcgQEAgc3RhdGljIFJJU0NW
+RXhjZXB0aW9uIHdyaXRlX3NhdHAoQ1BVUklTQ1ZTdGF0ZSAqZW52LCBpbnQgY3Nybm8sCiAgICAg
+fQogCiAgICAgaWYgKHZtICZhbXA7JmFtcDsgbWFzaykgewotICAgICAgICBpZiAoZW52LSZndDtw
+cml2ID09IFBSVl9TICZhbXA7JmFtcDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7bXN0YXR1cywgTVNUQVRV
+U19UVk0pKSB7CisgICAgICAgIGlmIChlbnYtJmd0O3ByaXYgPT0gUFJWX1MgJmFtcDsmYW1wOyAh
+cmlzY3ZfY3B1X3ZpcnRfZW5hYmxlZChlbnYpICZhbXA7JmFtcDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7
+bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CiAgICAgICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9J
+TExFR0FMX0lOU1Q7CiAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgICAvKgpAQCAtMzA0Nywx
+NCArMzA0NywyNCBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gcmVhZF9oZ2VpcChDUFVSSVNDVlN0
+YXRlICplbnYsIGludCBjc3JubywKIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiByZWFkX2hnYXRwKENQ
+VVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgdGFyZ2V0X3Vsb25nICp2YWwpCiB7Ci0gICAgKnZhbCA9IGVudi0mZ3Q7aGdhdHA7Cisg
+ICAgaWYgKGVudi0mZ3Q7cHJpdiA9PSBQUlZfUyAmYW1wOyZhbXA7IGdldF9maWVsZChlbnYtJmd0
+O21zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExF
+R0FMX0lOU1Q7CisgICAgfSBlbHNlIHsKKyAgICAgICAgKnZhbCA9IGVudi0mZ3Q7aGdhdHA7Cisg
+ICAgfQorCiAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfTk9ORTsKIH0KIAogc3RhdGljIFJJU0NWRXhj
+ZXB0aW9uIHdyaXRlX2hnYXRwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldF91bG9uZyB2YWwpCiB7Ci0gICAgZW52
+LSZndDtoZ2F0cCA9IHZhbDsKKyAgICBpZiAoZW52LSZndDtwcml2ID09IFBSVl9TICZhbXA7JmFt
+cDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CisgICAgICAgIHJl
+dHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKKyAgICB9IGVsc2UgeworICAgICAgICBlbnYt
+Jmd0O2hnYXRwID0gdmFsOworICAgIH0KKwogICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7CiB9
+IDxzcGFuIHN0eWxlPSJmb250LWZhbWlseTon5a6L5L2TLCBhcmlhbCwgVmVyZGFuYSwgc2Fucy1z
+ZXJpZic7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6bm93cmFwOyI+IDwvc3Bhbj48L3NwYW4+
+PC9wcmU+CgkJCTwvYmxvY2txdW90ZT4KCQk8L2Jsb2NrcXVvdGU+Cgk8L2Jsb2NrcXVvdGU+Cjwv
+YmxvY2txdW90ZT4=
+------=_Part_3364150_18184957.1678444430022--
 
 
