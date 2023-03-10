@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732436B4535
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:32:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310386B45E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:38:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1padmL-0001l8-39; Fri, 10 Mar 2023 09:31:29 -0500
+	id 1padrf-0005SB-1j; Fri, 10 Mar 2023 09:37:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1padmG-0001iy-Sk
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:31:26 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1padmF-0000C3-4R
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:31:24 -0500
-Received: by mail-pg1-x535.google.com with SMTP id q23so3146096pgt.7
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:31:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678458682;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SLLAjgUbYOAubaI92v7ALZkUlecOKp7Dj0KfhZId94Q=;
- b=hVpaZIALvugitkH+G/k+sLKgb4VT3TlWQyEH6GxNKEJFpxSn3rkiHhnqOghwrA5FNi
- KsfYW9tzDyttVtkiaf++K9XvAITMjMp0RaOuhHq+rEWD3p5IZLnb54uEme+Q4fDwsYEw
- aaofKc51VNLZiF2uTSgNMB+BBzXKhW5aJ5OMJKFyX6dsUBbjuyz4xpOVFQ4gBmzf39cD
- 10k515MbbI/64RULI1w+efZaShe9XF0Bf8jcHfTd9MTx/oDs4ufk5c/CVEA16MJ7PaaD
- d+9639aGAWCe7GTAQTMiktdhpthz6TRUnauARph8M2XV2X7dRkr+113ZQEeSqxzxci6i
- dIVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678458682;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SLLAjgUbYOAubaI92v7ALZkUlecOKp7Dj0KfhZId94Q=;
- b=6t8iSVPITlQgKNluK5osiwhq1Cn2uD68OXGMO4QS74cZX3CpruzfNf9oIFa6DZ4lOl
- ouciLkB4Fb9ekFUclwEwv0Jf9IFfcoGeGmY1ZpHF1nAEzEi8al52nyVHXXSkc+JQlmB6
- FZCVCgM9tXyl2/QcQpxf6SHKFyC3OaTU5356Smg19Yutf3LaRfE4hcM9PFI3TL2/4ATl
- R87A0LhWnXy7JZhKnraZ+7dstHwMiHX6+vR6RKeJ0iRqOmeXVN/oxemy234pIcFp1fhq
- qWiFu/HJB/aQWk4CxJyPBfBoEJLBzPocGB43p2fp5pQqcEDaRT0lU1tXP7eBswHc7xce
- CNuA==
-X-Gm-Message-State: AO0yUKVXqqu2Gy+FZbaYA2+GlTmDSnirN+l56VhUKYnqjbmO/lAfauXr
- LvCMlJwSzhNwSOtMnQsSxkAyUatk4F9wK/YCWHku+w==
-X-Google-Smtp-Source: AK7set9Dxr5K+1FQLq+3bRCx6IBITH7aoR2u2sGbwL1iSdto5Sq29oqU3ATFOO35RGCWAtVjf0gGlx/sV26Z/jPFoXg=
-X-Received: by 2002:a62:8348:0:b0:5ef:95c9:6a88 with SMTP id
- h69-20020a628348000000b005ef95c96a88mr10550078pfe.5.1678458681702; Fri, 10
- Mar 2023 06:31:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
+ id 1padrW-0005QN-KD; Fri, 10 Mar 2023 09:36:51 -0500
+Received: from azure-sdnproxy.icoremail.net ([207.46.229.174])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <chenyi2000@zju.edu.cn>)
+ id 1padrT-0001AO-Pa; Fri, 10 Mar 2023 09:36:50 -0500
+Received: from toga-arch.localdomain (unknown [112.10.177.110])
+ by mail-app3 (Coremail) with SMTP id cC_KCgBHyLTwPwtkJzocDg--.54936S2;
+ Fri, 10 Mar 2023 22:34:30 +0800 (CST)
+From: chenyi2000@zju.edu.cn
+To: qemu-devel@nongnu.org
+Cc: Yi Chen <chenyi2000@zju.edu.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
+Subject: [PATCH v2] target/riscv: fix H extension TVM trap
+Date: Fri, 10 Mar 2023 22:33:27 +0800
+Message-Id: <20230310143328.145347-1-chenyi2000@zju.edu.cn>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230307053438.2416629-1-tsimpson@quicinc.com>
-In-Reply-To: <20230307053438.2416629-1-tsimpson@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Mar 2023 14:31:10 +0000
-Message-ID: <CAFEAcA-ZkA_bQRdBOvr+9TOYDmV3CaQ4HUrmLnV9T3m2reKD+g@mail.gmail.com>
-Subject: Re: [PULL 00/17] Hexagon (target/hexagon) updates
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
- bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com, ale@rev.ng, 
- anjo@rev.ng
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cC_KCgBHyLTwPwtkJzocDg--.54936S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ar45WFW5ur4kGr4rtrW5KFg_yoW7XFW8pF
+ 4UK39Ik3yUJF9rAan3tr1DGa1rAw1xGayjy3Z7Wa1FyF1fAr4rCryDXr9F9FykWr4Dur4j
+ vFW8ZFZ8Zr42yaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
+ 648v4I1lw4CEc2x0rVAKj4xxMxkF7I0Ew4C26cxK6c8Ij28IcwCY02Avz4vE14v_Xryl42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUbrWrUUUUU
+X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/
+Received-SPF: pass client-ip=207.46.229.174;
+ envelope-from=chenyi2000@zju.edu.cn; helo=azure-sdnproxy.icoremail.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,31 +74,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Mar 2023 at 05:34, Taylor Simpson <tsimpson@quicinc.com> wrote:
->
-> The following changes since commit f003dd8d81f7d88f4b1f8802309eaa76f6eb223a:
->
->   Merge tag 'pull-tcg-20230305' of https://gitlab.com/rth7680/qemu into staging (2023-03-06 10:20:04 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/quic/qemu tags/pull-hex-20230306
->
-> for you to fetch changes up to c2b33d0be998bf539953f1dad0aa0d1cc8d9d069:
->
->   Hexagon (target/hexagon) Improve code gen for predicated HVX instructions (2023-03-06 20:47:12 -0800)
->
-> ----------------------------------------------------------------
-> Hexagon (target/hexagon) updates
->
-> ----------------------------------------------------------------
+From: Yi Chen <chenyi2000@zju.edu.cn>
 
+- Trap satp/hgatp accesses from HS-mode when MSTATUS.TVM is enabled.
+- Trap satp accesses from VS-mode when HSTATUS.VTVM is enabled.
+- Raise RISCV_EXCP_ILLEGAL_INST when U-mode executes SFENCE.VMA/SINVAL.VMA.
+- Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
+  SFENCE.VMA/SINVAL.VMA or VS-mode executes SFENCE.VMA/SINVAL.VMA with
+  HSTATUS.VTVM enabled.
+- Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
+  HFENCE.GVMA/HFENCE.VVMA/HINVAL.GVMA/HINVAL.VVMA.
 
+Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
+---
+ target/riscv/csr.c       | 56 +++++++++++++++++++++++++---------------
+ target/riscv/op_helper.c |  9 ++++---
+ 2 files changed, 40 insertions(+), 25 deletions(-)
 
-Applied, thanks.
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index d522efc0b6..26a02e57bd 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -443,6 +443,30 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
+     return sstc(env, csrno);
+ }
+ 
++static RISCVException satp(CPURISCVState *env, int csrno)
++{
++    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
++        get_field(env->mstatus, MSTATUS_TVM)) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env) &&
++        get_field(env->hstatus, HSTATUS_VTVM)) {
++        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
++    }
++
++    return smode(env, csrno);
++}
++
++static RISCVException hgatp(CPURISCVState *env, int csrno)
++{
++    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
++        get_field(env->mstatus, MSTATUS_TVM)) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
++    return hmode(env, csrno);
++}
++
+ /* Checks if PointerMasking registers could be accessed */
+ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+ {
+@@ -2655,13 +2679,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+         *val = 0;
+         return RISCV_EXCP_NONE;
+     }
+-
+-    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+-        return RISCV_EXCP_ILLEGAL_INST;
+-    } else {
+-        *val = env->satp;
+-    }
+-
++    *val = env->satp;
+     return RISCV_EXCP_NONE;
+ }
+ 
+@@ -2684,18 +2702,14 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
+     }
+ 
+     if (vm && mask) {
+-        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+-            return RISCV_EXCP_ILLEGAL_INST;
+-        } else {
+-            /*
+-             * The ISA defines SATP.MODE=Bare as "no translation", but we still
+-             * pass these through QEMU's TLB emulation as it improves
+-             * performance.  Flushing the TLB on SATP writes with paging
+-             * enabled avoids leaking those invalid cached mappings.
+-             */
+-            tlb_flush(env_cpu(env));
+-            env->satp = val;
+-        }
++        /*
++         * The ISA defines SATP.MODE=Bare as "no translation", but we still
++         * pass these through QEMU's TLB emulation as it improves
++         * performance.  Flushing the TLB on SATP writes with paging
++         * enabled avoids leaking those invalid cached mappings.
++         */
++        tlb_flush(env_cpu(env));
++        env->satp = val;
+     }
+     return RISCV_EXCP_NONE;
+ }
+@@ -4180,7 +4194,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+ 
+     /* Supervisor Protection and Translation */
+-    [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
++    [CSR_SATP]     = { "satp",     satp, read_satp,     write_satp     },
+ 
+     /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
+     [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
+@@ -4217,7 +4231,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+                           .min_priv_ver = PRIV_VERSION_1_12_0                },
+     [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,
+                           .min_priv_ver = PRIV_VERSION_1_12_0                },
+-    [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,   write_hgatp,
++    [CSR_HGATP]       = { "hgatp",       hgatp,   read_hgatp,   write_hgatp,
+                           .min_priv_ver = PRIV_VERSION_1_12_0                },
+     [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,
+                           write_htimedelta,
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 84ee018f7d..fbccca9e0b 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -381,12 +381,13 @@ void helper_wfi(CPURISCVState *env)
+ void helper_tlb_flush(CPURISCVState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    if (!(env->priv >= PRV_S) ||
+-        (env->priv == PRV_S &&
++    if ((!(env->priv >= PRV_S) && !riscv_cpu_virt_enabled(env)) ||
++        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
+          get_field(env->mstatus, MSTATUS_TVM))) {
+         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+     } else if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
+-               get_field(env->hstatus, HSTATUS_VTVM)) {
++               (!(env->priv >= PRV_S) ||
++                get_field(env->hstatus, HSTATUS_VTVM))) {
+         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+     } else {
+         tlb_flush(cs);
+@@ -403,7 +404,7 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
+ {
+     CPUState *cs = env_cpu(env);
+ 
+-    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
++    if (env->priv <= PRV_S && riscv_cpu_virt_enabled(env)) {
+         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+     }
+ 
+-- 
+2.39.2
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
