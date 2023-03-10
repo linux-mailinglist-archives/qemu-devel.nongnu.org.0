@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D0A6B3B04
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4336B3AE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:40:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZBM-0004vt-MW; Fri, 10 Mar 2023 04:37:02 -0500
+	id 1paZBP-00056u-4c; Fri, 10 Mar 2023 04:37:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZBI-0004oW-LF
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1paZBM-0004y3-4c
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:37:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZBG-0008Rh-RY
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:56 -0500
+ id 1paZBK-0008Th-Md
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678441014;
+ s=mimecast20190719; t=1678441018;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BJWHCyiybHqubAP9hRuV8tlgsc9B0KlA+MAALiuykj4=;
- b=CpmGsQQTfaeO8unc65VQhegThVm4QQvsmkER9P+Bcz2H9SgbTZhr7nb3O2149BK6x3C6Tt
- lY+/p0sRcnzZPB6VQwQbdO9KWY6+aQObnAZuYP3b93TxSUfu5ClKeOMtDwxh12dkCPNYNu
- WAfzynUl6+dK5KOMkaDQiq6Udm217Cs=
+ bh=rYYum6ZqysMGa0AiVahtFh0aBNluVLli0qRQdGYMc1Q=;
+ b=iIhfE8RxD0TrKrslCuO5ht2aJJYsjlaG4ZRsuK4/RLkGSIURHsH/tr0ENqp13USxqq6O9U
+ hzXY6ll2kc/IjPUpW2sJTMncQvRu2RGrZEFHO1+mvQWXI7VJviof2U5XhNxdGsmtb/LSPQ
+ ihK3jI9s5fOiZE8N4DgYMnRM9TCqN48=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-_u3kYpKZOGGtZ1qjlM37vw-1; Fri, 10 Mar 2023 04:36:52 -0500
-X-MC-Unique: _u3kYpKZOGGtZ1qjlM37vw-1
+ us-mta-321-Pp_NHmPuOkKJqcHHT5M5Qg-1; Fri, 10 Mar 2023 04:36:54 -0500
+X-MC-Unique: Pp_NHmPuOkKJqcHHT5M5Qg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B671C857A84;
- Fri, 10 Mar 2023 09:36:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4161F101A52E;
+ Fri, 10 Mar 2023 09:36:54 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC3CD40C1106;
- Fri, 10 Mar 2023 09:36:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59DA7410B1ED;
+ Fri, 10 Mar 2023 09:36:52 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 30/44] e1000e: Combine rx traces
-Date: Fri, 10 Mar 2023 17:35:12 +0800
-Message-Id: <20230310093526.30828-31-jasowang@redhat.com>
+Subject: [PULL V2 31/44] e1000: Count CRC in Tx statistics
+Date: Fri, 10 Mar 2023 17:35:13 +0800
+Message-Id: <20230310093526.30828-32-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,70 +81,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-Whether a packet will be written back to the guest depends on the
-remaining space of the queue. Therefore, e1000e_rx_written_to_guest and
-e1000e_rx_not_written_to_guest should log the index of the queue instead
-of generated interrupts. This also removes the need of
-e1000e_rx_rss_dispatched_to_queue, which logs the queue index.
+The Software Developer's Manual 13.7.4.5 "Packets Transmitted (64 Bytes)
+Count" says:
+> This register counts the number of packets transmitted that are
+> exactly 64 bytes (from <Destination Address> through <CRC>,
+> inclusively) in length.
+
+It also says similar for the other Tx statistics registers. Add the
+number of bytes for CRC to those registers.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 6 ++----
- hw/net/trace-events  | 5 ++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ hw/net/e1000.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 76c7814..4fec6df 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1759,8 +1759,6 @@ e1000e_receive_internal(E1000ECore *core, const struct iovec *iov, int iovcnt,
-     e1000e_rss_parse_packet(core, core->rx_pkt, &rss_info);
-     e1000e_rx_ring_init(core, &rxr, rss_info.queue);
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index c81d914..c830798 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -571,7 +571,7 @@ e1000_send_packet(E1000State *s, const uint8_t *buf, int size)
+         qemu_send_packet(nc, buf, size);
+     }
+     inc_tx_bcast_or_mcast_count(s, buf);
+-    e1000x_increase_size_stats(s->mac_reg, PTCregs, size);
++    e1000x_increase_size_stats(s->mac_reg, PTCregs, size + 4);
+ }
  
--    trace_e1000e_rx_rss_dispatched_to_queue(rxr.i->idx);
--
-     total_size = net_rx_pkt_get_total_len(core->rx_pkt) +
-         e1000x_fcs_len(core->mac);
- 
-@@ -1786,12 +1784,12 @@ e1000e_receive_internal(E1000ECore *core, const struct iovec *iov, int iovcnt,
-         rdmts_hit = e1000e_rx_descr_threshold_hit(core, rxr.i);
-         n |= e1000e_rx_wb_interrupt_cause(core, rxr.i->idx, rdmts_hit);
- 
--        trace_e1000e_rx_written_to_guest(n);
-+        trace_e1000e_rx_written_to_guest(rxr.i->idx);
-     } else {
-         n |= E1000_ICS_RXO;
-         retval = 0;
- 
--        trace_e1000e_rx_not_written_to_guest(n);
-+        trace_e1000e_rx_not_written_to_guest(rxr.i->idx);
+ static void
+@@ -635,7 +635,7 @@ xmit_seg(E1000State *s)
      }
  
-     if (!e1000e_intrmgr_delay_rx_causes(core, &n)) {
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index f7257a0..d24ba94 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -165,8 +165,8 @@ e1000e_rx_descr(int ridx, uint64_t base, uint8_t len) "Next RX descriptor: ring
- e1000e_rx_set_rctl(uint32_t rctl) "RCTL = 0x%x"
- e1000e_rx_receive_iov(int iovcnt) "Received vector of %d fragments"
- e1000e_rx_flt_dropped(void) "Received packet dropped by RX filter"
--e1000e_rx_written_to_guest(uint32_t causes) "Received packet written to guest (ICR causes %u)"
--e1000e_rx_not_written_to_guest(uint32_t causes) "Received packet NOT written to guest (ICR causes %u)"
-+e1000e_rx_written_to_guest(int queue_idx) "Received packet written to guest (queue %d)"
-+e1000e_rx_not_written_to_guest(int queue_idx) "Received packet NOT written to guest (queue %d)"
- e1000e_rx_interrupt_set(uint32_t causes) "Receive interrupt set (ICR causes %u)"
- e1000e_rx_interrupt_delayed(uint32_t causes) "Receive interrupt delayed (ICR causes %u)"
- e1000e_rx_set_cso(int cso_state) "RX CSO state set to %d"
-@@ -180,7 +180,6 @@ e1000e_rx_rss_type(uint32_t type) "RSS type is %u"
- e1000e_rx_rss_ip4(bool isfragment, bool istcp, uint32_t mrqc, bool tcpipv4_enabled, bool ipv4_enabled) "RSS IPv4: fragment %d, tcp %d, mrqc 0x%X, tcpipv4 enabled %d, ipv4 enabled %d"
- e1000e_rx_rss_ip6_rfctl(uint32_t rfctl) "RSS IPv6: rfctl 0x%X"
- e1000e_rx_rss_ip6(bool ex_dis, bool new_ex_dis, bool istcp, bool has_ext_headers, bool ex_dst_valid, bool ex_src_valid, uint32_t mrqc, bool tcpipv6_enabled, bool ipv6ex_enabled, bool ipv6_enabled) "RSS IPv6: ex_dis: %d, new_ex_dis: %d, tcp %d, has_ext_headers %d, ex_dst_valid %d, ex_src_valid %d, mrqc 0x%X, tcpipv6 enabled %d, ipv6ex enabled %d, ipv6 enabled %d"
--e1000e_rx_rss_dispatched_to_queue(int queue_idx) "Packet being dispatched to queue %d"
- 
- e1000e_rx_metadata_protocols(bool isip4, bool isip6, bool isudp, bool istcp) "protocols: ip4: %d, ip6: %d, udp: %d, tcp: %d"
- e1000e_rx_metadata_vlan(uint16_t vlan_tag) "VLAN tag is 0x%X"
+     e1000x_inc_reg_if_not_full(s->mac_reg, TPT);
+-    e1000x_grow_8reg_if_not_full(s->mac_reg, TOTL, s->tx.size);
++    e1000x_grow_8reg_if_not_full(s->mac_reg, TOTL, s->tx.size + 4);
+     s->mac_reg[GPTC] = s->mac_reg[TPT];
+     s->mac_reg[GOTCL] = s->mac_reg[TOTL];
+     s->mac_reg[GOTCH] = s->mac_reg[TOTH];
 -- 
 2.7.4
 
