@@ -2,56 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DDC6B39B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB466B3A01
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:16:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paYkE-0004bZ-03; Fri, 10 Mar 2023 04:08:58 -0500
+	id 1paYnz-0007mz-Qu; Fri, 10 Mar 2023 04:12:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
- id 1paYkA-0004Yp-Tx; Fri, 10 Mar 2023 04:08:54 -0500
-Received: from azure-sdnproxy.icoremail.net ([20.228.234.168])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi2000@zju.edu.cn>)
- id 1paYk8-0001kz-Id; Fri, 10 Mar 2023 04:08:54 -0500
-Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 10 Mar 2023 17:08:38
- +0800 (GMT+08:00)
-X-Originating-IP: [112.10.177.110]
-Date: Fri, 10 Mar 2023 17:08:38 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "CHEN Yi" <chenyi2000@zju.edu.cn>
-To: "LIU Zhiwei" <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
-Cc: "Palmer Dabbelt" <palmer@dabbelt.com>, 
- "Alistair Francis" <alistair.francis@wdc.com>, 
- "Bin Meng" <bin.meng@windriver.com>, "Weiwei Li" <liweiwei@iscas.ac.cn>, 
- "Daniel Henrique Barboza" <dbarboza@ventanamicro.com>, 
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-Subject: Re: Re: [PATCH] target/riscv/csr.c: fix H extension TVM trap
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2023 www.mailtech.cn zju.edu.cn
-In-Reply-To: <087472fc-94f1-165d-9776-8e12d60be09d@linux.alibaba.com>
-References: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
- <087472fc-94f1-165d-9776-8e12d60be09d@linux.alibaba.com>
-Content-Type: multipart/alternative; 
- boundary="----=_Part_3361214_1106745380.1678439318758"
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1paYnv-0007js-ID
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:12:47 -0500
+Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1paYnp-0002Zs-RJ
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:12:47 -0500
+Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
+ by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
+ id 1paYnX-00GpVx-TB; Fri, 10 Mar 2023 09:12:23 +0000
+From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+To: qemu-devel@nongnu.org
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Subject: [PATCH 00/45] Add RISC-V vector cryptographic instruction set support
+Date: Fri, 10 Mar 2023 09:11:30 +0000
+Message-Id: <20230310091215.931644-1-lawrence.hunter@codethink.co.uk>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Message-ID: <33d93933.8ba4c.186cac784e7.Coremail.chenyi2000@zju.edu.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: cC_KCgCXnQyX8wpk1pIYDg--.31671W
-X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/1tbiAQEJClZdwzLDxgAIs0
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=20.228.234.168;
- envelope-from=chenyi2000@zju.edu.cn; helo=azure-sdnproxy.icoremail.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=78.40.148.171;
+ envelope-from=lawrence.hunter@codethink.co.uk; helo=imap5.colo.codethink.co.uk
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,157 +56,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_3361214_1106745380.1678439318758
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+This patchset provides an implementation for Zvkb, Zvkned, Zvknh, Zvksh, Zvkg, and Zvksed of the draft RISC-V vector cryptography extensions as per the 20230303 version of the specification(1) (1fcbb30). Please note that the Zvkt data-independent execution latency extension has not been implemented, and we would recommend not using these patches in an environment where timing attacks are an issue.
 
-LS0tLS1PcmlnaW5hbCBNZXNzYWdlcy0tLS0tCkZyb206IkxJVSBaaGl3ZWkiIDx6aGl3ZWlfbGl1
-QGxpbnV4LmFsaWJhYmEuY29tPgpTZW50IFRpbWU6MjAyMy0wMy0xMCAxMDoxMjoxMCAoRnJpZGF5
-KQpUbzogY2hlbnlpMjAwMEB6anUuZWR1LmNuLCBxZW11LWRldmVsQG5vbmdudS5vcmcKQ2M6ICJQ
-YWxtZXIgRGFiYmVsdCIgPHBhbG1lckBkYWJiZWx0LmNvbT4sICJBbGlzdGFpciBGcmFuY2lzIiA8
-YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tPiwgIkJpbiBNZW5nIiA8YmluLm1lbmdAd2luZHJpdmVy
-LmNvbT4sICJXZWl3ZWkgTGkiIDxsaXdlaXdlaUBpc2Nhcy5hYy5jbj4sICJEYW5pZWwgSGVucmlx
-dWUgQmFyYm96YSIgPGRiYXJib3phQHZlbnRhbmFtaWNyby5jb20+LCAib3BlbiBsaXN0OlJJU0Mt
-ViBUQ0cgQ1BVcyIgPHFlbXUtcmlzY3ZAbm9uZ251Lm9yZz4KU3ViamVjdDogUmU6IFtQQVRDSF0g
-dGFyZ2V0L3Jpc2N2L2Nzci5jOiBmaXggSCBleHRlbnNpb24gVFZNIHRyYXAKCgoKCgoKT24gMjAy
-My8zLzggMjA6MzQsIGNoZW55aTIwMDBAemp1LmVkdS5jbiB3cm90ZToKCkZyb206IFlpIENoZW4g
-PGNoZW55aTIwMDBAemp1LmVkdS5jbj4gVHJhcCBhY2Nlc3NlcyB0byBoZ2F0cCBpZiBNU1RBVFVT
-X1RWTSBpcyBlbmFibGVkLgpEb24ndCB0cmFwIGFjY2Vzc2VzIHRvIHZzYXRwIGV2ZW4gaWYgTVNU
-QVRVU19UVk0gaXMgZW5hYmxlZC4KCkJ5IHRoZSB3YXksIGRvIHlvdSBrbm93IHdoeSBtc3RhdHVz
-X3R2bSBhbmQgaHN0YXR1c190dm0gYXJlIG5lZWRlZD8KClRoZSBzcGVjaWZpY2F0aW9uIHNhaWQs
-CgpUaGUgVFZNIG1lY2hhbmlzbSBpbXByb3ZlcyB2aXJ0dWFsaXphdGlvbiBlZmZpY2llbmN5IGJ5
-IHBlcm1pdHRpbmcgZ3Vlc3Qgb3BlcmF0aW5nIHN5c3RlbXMgdG8KZXhlY3V0ZSBpbiBTLW1vZGUs
-IHJhdGhlciB0aGFuIGNsYXNzaWNhbGx5IHZpcnR1YWxpemluZyB0aGVtIGluIFUtbW9kZS4gVGhp
-cyBhcHByb2FjaCBvYnZpYXRlcwp0aGUgbmVlZCB0byB0cmFwIGFjY2Vzc2VzIHRvIG1vc3QgUy1t
-b2RlIENTUnMuCgoKSSBkb24ndCBrbm93IGhvdyB0aGUgdHZtIGZpZWxkIG9idmlhdGVzIHRoZSBu
-ZWVkIHRvIHRyYXAgYWNjZXNzZXMgdG8gbW9zdCBTLW1vZGUgQ1NScy4KClRoYW5rcywKWmhpd2Vp
-CgpXaGVuIFZNcyBhcmUgaW4gVS1tb2RlLCB0aGVpciBhY2Nlc3NlcyB0byBTLW1vZGUgQ1NSIHJl
-Z2lzdGVycyBtdXN0IGJlIGVtdWxhdGVkLiBPdGhlcndpc2UsIHRoZSBiZWhhdmlvciBvZiB0aGUg
-aG9zdCBPUyB3aWxsIGJlIGFmZmVjdGVkLiBCdXQgSSBndWVzcyBzaW5jZSBUVk0gaGVscHMgaW5z
-ZXJ0IGFub3RoZXIgc3RhZ2Ugb2YgYWRkcmVzcyB0cmFuc2xhdGlvbiBiZWxvdyB0aGF0IGNvbnRy
-b2xsZWQgYnkgdGhlIE9TLCBpdCBlbmFibGVzIFZNcyB0byBydW4gaW4gUy1tb2RlLCB3aGljaCBt
-ZWFucyB0aGF0IFZNcyBjYW4gZGlyZWN0bHkgdXNlIG1vc3QgUy1tb2RlIENTUiByZWdpc3RlcnMg
-aW5zdGVhZCBvZiBlbXVsYXRlZCBvbmVzLgoKCgoKQmVzdCwKCllpCgoKCgoKCgpTaWduZWQtb2Zm
-LWJ5OiBZaSBDaGVuIDxjaGVueWkyMDAwQHpqdS5lZHUuY24+IC0tLQogdGFyZ2V0L3Jpc2N2L2Nz
-ci5jIHwgMTggKysrKysrKysrKysrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9u
-cygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS90YXJnZXQvcmlzY3YvY3NyLmMgYi90
-YXJnZXQvcmlzY3YvY3NyLmMKaW5kZXggYWI1NjY2My4uMDliYzc4MCAxMDA2NDQKLS0tIGEvdGFy
-Z2V0L3Jpc2N2L2Nzci5jCisrKyBiL3RhcmdldC9yaXNjdi9jc3IuYwpAQCAtMjY1NSw3ICsyNjU1
-LDcgQEAgc3RhdGljIFJJU0NWRXhjZXB0aW9uIHJlYWRfc2F0cChDUFVSSVNDVlN0YXRlICplbnYs
-IGludCBjc3JubywKICAgICAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfTk9ORTsKICAgICB9CiAKLSAg
-ICBpZiAoZW52LT5wcml2ID09IFBSVl9TICYmIGdldF9maWVsZChlbnYtPm1zdGF0dXMsIE1TVEFU
-VVNfVFZNKSkgeworICAgIGlmIChlbnYtPnByaXYgPT0gUFJWX1MgJiYgIXJpc2N2X2NwdV92aXJ0
-X2VuYWJsZWQoZW52KSAmJiBnZXRfZmllbGQoZW52LT5tc3RhdHVzLCBNU1RBVFVTX1RWTSkpIHsK
-ICAgICAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNUOwogICAgIH0gZWxzZSB7CiAg
-ICAgICAgICp2YWwgPSBlbnYtPnNhdHA7CkBAIC0yNjgzLDcgKzI2ODMsNyBAQCBzdGF0aWMgUklT
-Q1ZFeGNlcHRpb24gd3JpdGVfc2F0cChDUFVSSVNDVlN0YXRlICplbnYsIGludCBjc3JubywKICAg
-ICB9CiAKICAgICBpZiAodm0gJiYgbWFzaykgewotICAgICAgICBpZiAoZW52LT5wcml2ID09IFBS
-Vl9TICYmIGdldF9maWVsZChlbnYtPm1zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgICAgICBp
-ZiAoZW52LT5wcml2ID09IFBSVl9TICYmICFyaXNjdl9jcHVfdmlydF9lbmFibGVkKGVudikgJiYg
-Z2V0X2ZpZWxkKGVudi0+bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CiAgICAgICAgICAgICByZXR1
-cm4gUklTQ1ZfRVhDUF9JTExFR0FMX0lOU1Q7CiAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAg
-ICAvKgpAQCAtMzA0NywxNCArMzA0NywyNCBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gcmVhZF9o
-Z2VpcChDUFVSSVNDVlN0YXRlICplbnYsIGludCBjc3JubywKIHN0YXRpYyBSSVNDVkV4Y2VwdGlv
-biByZWFkX2hnYXRwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0X3Vsb25nICp2YWwpCiB7Ci0gICAgKnZhbCA9IGVu
-di0+aGdhdHA7CisgICAgaWYgKGVudi0+cHJpdiA9PSBQUlZfUyAmJiBnZXRfZmllbGQoZW52LT5t
-c3RhdHVzLCBNU1RBVFVTX1RWTSkpIHsKKyAgICAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdB
-TF9JTlNUOworICAgIH0gZWxzZSB7CisgICAgICAgICp2YWwgPSBlbnYtPmhnYXRwOworICAgIH0K
-KwogICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7CiB9CiAKIHN0YXRpYyBSSVNDVkV4Y2VwdGlv
-biB3cml0ZV9oZ2F0cChDUFVSSVNDVlN0YXRlICplbnYsIGludCBjc3JubywKICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRfdWxvbmcgdmFsKQogewotICAgIGVudi0+aGdh
-dHAgPSB2YWw7CisgICAgaWYgKGVudi0+cHJpdiA9PSBQUlZfUyAmJiBnZXRfZmllbGQoZW52LT5t
-c3RhdHVzLCBNU1RBVFVTX1RWTSkpIHsKKyAgICAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdB
-TF9JTlNUOworICAgIH0gZWxzZSB7CisgICAgICAgIGVudi0+aGdhdHAgPSB2YWw7CisgICAgfQor
-CiAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfTk9ORTsKIH0g
-------=_Part_3361214_1106745380.1678439318758
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
 
-PGJsb2NrcXVvdGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0
-eWxlPSJwYWRkaW5nLWxlZnQ6NXB4O21hcmdpbi1sZWZ0OjVweDtib3JkZXItbGVmdDojYjZiNmI2
-IDJweCBzb2xpZDttYXJnaW4tcmlnaHQ6MDsiPgoJLS0tLS1PcmlnaW5hbCBNZXNzYWdlcy0tLS0t
-PGJyPgo8Yj5Gcm9tOjwvYj48c3BhbiBpZD0icmNfZnJvbSI+IkxJVSBaaGl3ZWkiICZsdDt6aGl3
-ZWlfbGl1QGxpbnV4LmFsaWJhYmEuY29tJmd0Ozwvc3Bhbj48YnI+CjxiPlNlbnQgVGltZTo8L2I+
-PHNwYW4gaWQ9InJjX3NlbnR0aW1lIj4yMDIzLTAzLTEwIDEwOjEyOjEwIChGcmlkYXkpPC9zcGFu
-Pjxicj4KPGI+VG86PC9iPiBjaGVueWkyMDAwQHpqdS5lZHUuY24sIHFlbXUtZGV2ZWxAbm9uZ251
-Lm9yZzxicj4KPGI+Q2M6PC9iPiAiUGFsbWVyIERhYmJlbHQiICZsdDtwYWxtZXJAZGFiYmVsdC5j
-b20mZ3Q7LCAiQWxpc3RhaXIgRnJhbmNpcyIgJmx0O2FsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbSZn
-dDssICJCaW4gTWVuZyIgJmx0O2Jpbi5tZW5nQHdpbmRyaXZlci5jb20mZ3Q7LCAiV2Vpd2VpIExp
-IiAmbHQ7bGl3ZWl3ZWlAaXNjYXMuYWMuY24mZ3Q7LCAiRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEi
-ICZsdDtkYmFyYm96YUB2ZW50YW5hbWljcm8uY29tJmd0OywgIm9wZW4gbGlzdDpSSVNDLVYgVENH
-IENQVXMiICZsdDtxZW11LXJpc2N2QG5vbmdudS5vcmcmZ3Q7PGJyPgo8Yj5TdWJqZWN0OjwvYj4g
-UmU6IFtQQVRDSF0gdGFyZ2V0L3Jpc2N2L2Nzci5jOiBmaXggSCBleHRlbnNpb24gVFZNIHRyYXA8
-YnI+Cjxicj4KCTxwPgoJCTxicj4KCTwvcD4KCTxkaXYgY2xhc3M9Im1vei1jaXRlLXByZWZpeCI+
-CgkJT24gMjAyMy8zLzggMjA6MzQsIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstYWJicmV2aWF0ZWQi
-IGhyZWY9Im1haWx0bzpjaGVueWkyMDAwQHpqdS5lZHUuY24iPmNoZW55aTIwMDBAemp1LmVkdS5j
-bjwvYT4gd3JvdGU6PGJyPgoJPC9kaXY+Cgk8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBjaXRlPSJt
-aWQ6MjAyMzAzMDgxMjM0MTcuMTI1NTUtMS1jaGVueWkyMDAwQHpqdS5lZHUuY24iPgo8cHJlIGNs
-YXNzPSJtb3otcXVvdGUtcHJlIiB3cmFwPSIiPkZyb206IFlpIENoZW4gPGEgY2xhc3M9Im1vei10
-eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOmNoZW55aTIwMDBAemp1LmVkdS5jbiI+Jmx0
-O2NoZW55aTIwMDBAemp1LmVkdS5jbiZndDs8L2E+IFRyYXAgYWNjZXNzZXMgdG8gaGdhdHAgaWYg
-TVNUQVRVU19UVk0gaXMgZW5hYmxlZC4KRG9uJ3QgdHJhcCBhY2Nlc3NlcyB0byB2c2F0cCBldmVu
-IGlmIE1TVEFUVVNfVFZNIGlzIGVuYWJsZWQuPC9wcmU+Cgk8L2Jsb2NrcXVvdGU+Cgk8cD4KCQlC
-eSB0aGUgd2F5LCBkbyB5b3Uga25vdyB3aHkgbXN0YXR1c190dm0gYW5kIGhzdGF0dXNfdHZtIGFy
-ZQogICAgICBuZWVkZWQ/Cgk8L3A+Cgk8cD4KCQlUaGUgc3BlY2lmaWNhdGlvbiBzYWlkLAoJPC9w
-Pgo8cHJlPlRoZSBUVk0gbWVjaGFuaXNtIGltcHJvdmVzIHZpcnR1YWxpemF0aW9uIGVmZmljaWVu
-Y3kgYnkgcGVybWl0dGluZyBndWVzdCBvcGVyYXRpbmcgc3lzdGVtcyB0bwpleGVjdXRlIGluIFMt
-bW9kZSwgcmF0aGVyIHRoYW4gY2xhc3NpY2FsbHkgdmlydHVhbGl6aW5nIHRoZW0gaW4gVS1tb2Rl
-LiBUaGlzIGFwcHJvYWNoIG9idmlhdGVzCnRoZSBuZWVkIHRvIHRyYXAgYWNjZXNzZXMgdG8gbW9z
-dCBTLW1vZGUgQ1NScy4KPC9wcmU+Cgk8cD4KCQlJIGRvbid0IGtub3cgaG93IHRoZSB0dm0gZmll
-bGQgb2J2aWF0ZXMgdGhlIG5lZWQgdG8gdHJhcCBhY2Nlc3NlcwogICAgICB0byBtb3N0IFMtbW9k
-ZSBDU1JzLgoJPC9wPgoJPHA+CgkJVGhhbmtzLDxicj4KWmhpd2VpCgk8L3A+CjwvYmxvY2txdW90
-ZT4KPHA+CjwvcD4KPHA+CglXaGVuIFZNcyBhcmUgaW4gVS1tb2RlLCB0aGVpciBhY2Nlc3NlcyB0
-byBTLW1vZGUgQ1NSIHJlZ2lzdGVycyBtdXN0IGJlIGVtdWxhdGVkLiBPdGhlcndpc2UsIHRoZSBi
-ZWhhdmlvciBvZiB0aGUgaG9zdCBPUyB3aWxsIGJlIGFmZmVjdGVkLiBCdXQgSSBndWVzcyBzaW5j
-ZSBUVk0gaGVscHMgaW5zZXJ0IGFub3RoZXIgc3RhZ2Ugb2YgYWRkcmVzcyB0cmFuc2xhdGlvbiBi
-ZWxvdyB0aGF0IGNvbnRyb2xsZWQgYnkgdGhlIE9TLCBpdCBlbmFibGVzIFZNcyB0byBydW4gaW4g
-Uy1tb2RlLCB3aGljaCBtZWFucyB0aGF0IFZNcyBjYW4gZGlyZWN0bHkgdXNlIG1vc3QgUy1tb2Rl
-IENTUiByZWdpc3RlcnMgaW5zdGVhZCBvZiBlbXVsYXRlZCBvbmVzLgo8L3A+CjxwPgoJPGJyPgo8
-L3A+CjxwPgoJQmVzdCwKPC9wPgo8cD4KCVlpCjwvcD4KPHA+Cgk8YnI+CjwvcD4KPGJsb2NrcXVv
-dGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0eWxlPSJwYWRk
-aW5nLWxlZnQ6NXB4O21hcmdpbi1sZWZ0OjVweDtib3JkZXItbGVmdDojYjZiNmI2IDJweCBzb2xp
-ZDttYXJnaW4tcmlnaHQ6MDsiPgoJPHA+CgkJPGJyPgoJPC9wPgoJPGJsb2NrcXVvdGUgdHlwZT0i
-Y2l0ZSIgY2l0ZT0ibWlkOjIwMjMwMzA4MTIzNDE3LjEyNTU1LTEtY2hlbnlpMjAwMEB6anUuZWR1
-LmNuIj4KPHByZSBjbGFzcz0ibW96LXF1b3RlLXByZSIgd3JhcD0iIj5TaWduZWQtb2ZmLWJ5OiBZ
-aSBDaGVuIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUiIGhyZWY9Im1haWx0bzpjaGVu
-eWkyMDAwQHpqdS5lZHUuY24iPiZsdDtjaGVueWkyMDAwQHpqdS5lZHUuY24mZ3Q7PC9hPiAtLS0K
-IHRhcmdldC9yaXNjdi9jc3IuYyB8IDE4ICsrKysrKysrKysrKysrLS0tLQogMSBmaWxlIGNoYW5n
-ZWQsIDE0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdGFyZ2V0
-L3Jpc2N2L2Nzci5jIGIvdGFyZ2V0L3Jpc2N2L2Nzci5jCmluZGV4IGFiNTY2NjMuLjA5YmM3ODAg
-MTAwNjQ0Ci0tLSBhL3RhcmdldC9yaXNjdi9jc3IuYworKysgYi90YXJnZXQvcmlzY3YvY3NyLmMK
-QEAgLTI2NTUsNyArMjY1NSw3IEBAIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiByZWFkX3NhdHAoQ1BV
-UklTQ1ZTdGF0ZSAqZW52LCBpbnQgY3Nybm8sCiAgICAgICAgIHJldHVybiBSSVNDVl9FWENQX05P
-TkU7CiAgICAgfQogCi0gICAgaWYgKGVudi0mZ3Q7cHJpdiA9PSBQUlZfUyAmYW1wOyZhbXA7IGdl
-dF9maWVsZChlbnYtJmd0O21zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgIGlmIChlbnYtJmd0
-O3ByaXYgPT0gUFJWX1MgJmFtcDsmYW1wOyAhcmlzY3ZfY3B1X3ZpcnRfZW5hYmxlZChlbnYpICZh
-bXA7JmFtcDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CiAgICAg
-ICAgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKICAgICB9IGVsc2UgewogICAgICAg
-ICAqdmFsID0gZW52LSZndDtzYXRwOwpAQCAtMjY4Myw3ICsyNjgzLDcgQEAgc3RhdGljIFJJU0NW
-RXhjZXB0aW9uIHdyaXRlX3NhdHAoQ1BVUklTQ1ZTdGF0ZSAqZW52LCBpbnQgY3Nybm8sCiAgICAg
-fQogCiAgICAgaWYgKHZtICZhbXA7JmFtcDsgbWFzaykgewotICAgICAgICBpZiAoZW52LSZndDtw
-cml2ID09IFBSVl9TICZhbXA7JmFtcDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7bXN0YXR1cywgTVNUQVRV
-U19UVk0pKSB7CisgICAgICAgIGlmIChlbnYtJmd0O3ByaXYgPT0gUFJWX1MgJmFtcDsmYW1wOyAh
-cmlzY3ZfY3B1X3ZpcnRfZW5hYmxlZChlbnYpICZhbXA7JmFtcDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7
-bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CiAgICAgICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9J
-TExFR0FMX0lOU1Q7CiAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgICAvKgpAQCAtMzA0Nywx
-NCArMzA0NywyNCBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gcmVhZF9oZ2VpcChDUFVSSVNDVlN0
-YXRlICplbnYsIGludCBjc3JubywKIHN0YXRpYyBSSVNDVkV4Y2VwdGlvbiByZWFkX2hnYXRwKENQ
-VVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgdGFyZ2V0X3Vsb25nICp2YWwpCiB7Ci0gICAgKnZhbCA9IGVudi0mZ3Q7aGdhdHA7Cisg
-ICAgaWYgKGVudi0mZ3Q7cHJpdiA9PSBQUlZfUyAmYW1wOyZhbXA7IGdldF9maWVsZChlbnYtJmd0
-O21zdGF0dXMsIE1TVEFUVVNfVFZNKSkgeworICAgICAgICByZXR1cm4gUklTQ1ZfRVhDUF9JTExF
-R0FMX0lOU1Q7CisgICAgfSBlbHNlIHsKKyAgICAgICAgKnZhbCA9IGVudi0mZ3Q7aGdhdHA7Cisg
-ICAgfQorCiAgICAgcmV0dXJuIFJJU0NWX0VYQ1BfTk9ORTsKIH0KIAogc3RhdGljIFJJU0NWRXhj
-ZXB0aW9uIHdyaXRlX2hnYXRwKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vLAogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldF91bG9uZyB2YWwpCiB7Ci0gICAgZW52
-LSZndDtoZ2F0cCA9IHZhbDsKKyAgICBpZiAoZW52LSZndDtwcml2ID09IFBSVl9TICZhbXA7JmFt
-cDsgZ2V0X2ZpZWxkKGVudi0mZ3Q7bXN0YXR1cywgTVNUQVRVU19UVk0pKSB7CisgICAgICAgIHJl
-dHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDsKKyAgICB9IGVsc2UgeworICAgICAgICBlbnYt
-Jmd0O2hnYXRwID0gdmFsOworICAgIH0KKwogICAgIHJldHVybiBSSVNDVl9FWENQX05PTkU7CiB9
-IDxzcGFuIHN0eWxlPSJmb250LWZhbWlseTon5a6L5L2TLCBhcmlhbCwgVmVyZGFuYSwgc2Fucy1z
-ZXJpZic7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6bm93cmFwOyI+IDwvc3Bhbj48L3NwYW4+
-PC9wcmU+Cgk8L2Jsb2NrcXVvdGU+CjwvYmxvY2txdW90ZT4=
-------=_Part_3361214_1106745380.1678439318758--
+For convenience we have created a git repo with our patches on top of a recent master. https://github.com/CodethinkLabs/qemu-ct
+
+1. https://github.com/riscv/riscv-crypto/releases
+
+
+Dickon Hood (2):
+  qemu/bitops.h: Limit rotate amounts
+  target/riscv: Add vrol.[vv,vx] and vror.[vv,vx,vi] decoding,
+    translation and execution support
+
+Kiran Ostrolenk (8):
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Add vsha2ms.vv decoding, translation and execution
+    support
+  target/riscv: Add zvksh cpu property
+  target/riscv: Add vsm3c.vi decoding, translation and execution support
+  target/riscv: Expose zvksh cpu property
+
+Lawrence Hunter (17):
+  target/riscv: Add vclmul.vv decoding, translation and execution
+    support
+  target/riscv: Add vclmul.vx decoding, translation and execution
+    support
+  target/riscv: Add vclmulh.vv decoding, translation and execution
+    support
+  target/riscv: Add vclmulh.vx decoding, translation and execution
+    support
+  target/riscv: Add vaesef.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesef.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesdf.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesdf.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesdm.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesdm.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesz.vs decoding, translation and execution support
+  target/riscv: Add vsha2c[hl].vv decoding, translation and execution
+    support
+  target/riscv: Add vsm3me.vv decoding, translation and execution
+    support
+  target/riscv: Add zvkg cpu property
+  target/riscv: Add vgmul.vv decoding, translation and execution support
+  target/riscv: Add vghsh.vv decoding, translation and execution support
+  target/riscv: Expose zvkg cpu property
+
+Max Chou (5):
+  crypto: Create sm4_subword
+  crypto: Add SM4 constant parameter CK
+  target/riscv: Add zvksed cfg property
+  target/riscv: Add Zvksed support
+  target/riscv: Expose Zvksed property
+
+Nazar Kazakov (10):
+  target/riscv: Add zvkb cpu property
+  target/riscv: Add vrev8.v decoding, translation and execution support
+  target/riscv: Add vandn.[vv,vx] decoding, translation and execution
+    support
+  target/riscv: Expose zvkb cpu property
+  target/riscv: Add zvkned cpu property
+  target/riscv: Add vaeskf1.vi decoding, translation and execution
+    support
+  target/riscv: Add vaeskf2.vi decoding, translation and execution
+    support
+  target/riscv: Expose zvkned cpu property
+  target/riscv: Add zvknh cpu properties
+  target/riscv: Expose zvknh cpu properties
+
+William Salmon (3):
+  target/riscv: Add vbrev8.v decoding, translation and execution support
+  target/riscv: Add vaesem.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesem.vs decoding, translation and execution
+    support
+
+ accel/tcg/tcg-runtime-gvec.c                 |   11 +
+ accel/tcg/tcg-runtime.h                      |    1 +
+ crypto/sm4.c                                 |   10 +
+ include/crypto/sm4.h                         |    9 +
+ include/qemu/bitops.h                        |   24 +-
+ target/arm/tcg/crypto_helper.c               |   10 +-
+ target/riscv/cpu.c                           |   36 +
+ target/riscv/cpu.h                           |    7 +
+ target/riscv/helper.h                        |   71 ++
+ target/riscv/insn32.decode                   |   49 +
+ target/riscv/insn_trans/trans_rvv.c.inc      |   93 +-
+ target/riscv/insn_trans/trans_rvzvkb.c.inc   |  220 ++++
+ target/riscv/insn_trans/trans_rvzvkg.c.inc   |   40 +
+ target/riscv/insn_trans/trans_rvzvkned.c.inc |  170 +++
+ target/riscv/insn_trans/trans_rvzvknh.c.inc  |   84 ++
+ target/riscv/insn_trans/trans_rvzvksed.c.inc |   57 +
+ target/riscv/insn_trans/trans_rvzvksh.c.inc  |   43 +
+ target/riscv/meson.build                     |    4 +-
+ target/riscv/op_helper.c                     |    5 +
+ target/riscv/translate.c                     |    6 +
+ target/riscv/vcrypto_helper.c                | 1001 ++++++++++++++++++
+ target/riscv/vector_helper.c                 |  240 +----
+ target/riscv/vector_internals.c              |   81 ++
+ target/riscv/vector_internals.h              |  222 ++++
+ 24 files changed, 2192 insertions(+), 302 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkg.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkned.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvknh.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvksed.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvksh.c.inc
+ create mode 100644 target/riscv/vcrypto_helper.c
+ create mode 100644 target/riscv/vector_internals.c
+ create mode 100644 target/riscv/vector_internals.h
+
+-- 
+2.39.2
 
 
