@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD526B3AC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:38:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0886B3AF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:41:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZBG-0004WN-7B; Fri, 10 Mar 2023 04:36:54 -0500
+	id 1paZBI-0004Xx-3U; Fri, 10 Mar 2023 04:36:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZB8-0004RV-AF
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:47 -0500
+ id 1paZBC-0004Sk-EL
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZB5-0008Q3-Fv
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:44 -0500
+ id 1paZBA-0008Qg-Gr
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678441002;
+ s=mimecast20190719; t=1678441008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YgZsjuKz/evgU7QNNHRJ0vQsaN+Tm2TmejOXBdO++Mo=;
- b=HvRH0gAe4TbwjZ0E2g7uOaxQtqERp/0AOJId2jPf1b9FztuKDdgmCwxn6Cf3c1dkm8TNRl
- +xIKzPstITWNDqbp7mUiahowu3LHICXN6S88K0BallWtgqH9REiALWGt8dyi6sfzBg+ZhM
- VsPjXkywI83J5NPvC/7K6dh5xolciVA=
+ bh=gjIx5SDMpja5GbvEXMQBJLPSstUi91acpPGFpSp1+NU=;
+ b=BbmBvCh0tANqjtxJc1Y40nTdD4NlKc4SAmwt7kPfvceKqn0X/JQazKOd6Yq1rMSpHHeiSm
+ PQxOmuX4yaFG16/Z3GI+dTY5ZDRrKN2a1brlgImy0ueq8+embBeyw4rZuLZuJsETQXWJ53
+ ax4BfZrEPlxEZXr0Q25Hmt4SP94Si3c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-T8A5QRZYN8ysccdr90Phdg-1; Fri, 10 Mar 2023 04:36:41 -0500
-X-MC-Unique: T8A5QRZYN8ysccdr90Phdg-1
+ us-mta-54-Mu-5UKwuNwWAEK1nEBdNKQ-1; Fri, 10 Mar 2023 04:36:43 -0500
+X-MC-Unique: Mu-5UKwuNwWAEK1nEBdNKQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB98985CCE0;
- Fri, 10 Mar 2023 09:36:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37C5085A588;
+ Fri, 10 Mar 2023 09:36:43 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3B284014CF3;
- Fri, 10 Mar 2023 09:36:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F55F40BC781;
+ Fri, 10 Mar 2023 09:36:41 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 26/44] hw/net/net_tx_pkt: Check the payload length
-Date: Fri, 10 Mar 2023 17:35:08 +0800
-Message-Id: <20230310093526.30828-27-jasowang@redhat.com>
+Subject: [PULL V2 27/44] e1000e: Do not assert when MSI-X is disabled later
+Date: Fri, 10 Mar 2023 17:35:09 +0800
+Message-Id: <20230310093526.30828-28-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -81,44 +81,48 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-Check the payload length if checksumming to ensure the payload contains
-the space for the resulting value.
+Assertions will fail if MSI-X gets disabled while a timer for MSI-X
+interrupts is running so remove them to avoid abortions. Fortunately,
+nothing bad happens even if the assertions won't trigger as
+msix_notify(), called by timer handlers, does nothing when MSI-X is
+disabled.
 
-This bug was found by Alexander Bulekov with the fuzzer:
+This bug was found by Alexander Bulekov when fuzzing igb, a new
+device implementation derived from e1000e:
 https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
 
 The fixed test case is:
-fuzz/crash_6aeaa33e7211ecd603726c53e834df4c6d1e08bc
+fuzz/crash_aea040166819193cf9fedb810c6d100221da721a
 
-Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
+Fixes: 6f3fbe4ed0 ("net: Introduce e1000e device emulation")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/net_tx_pkt.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/net/e1000e_core.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index 4a35e84..986a3ad 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -342,11 +342,17 @@ bool net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
-     if (csum_enable) {
-         switch (pkt->l4proto) {
-         case IP_PROTO_TCP:
-+            if (pkt->payload_len < sizeof(struct tcp_hdr)) {
-+                return false;
-+            }
-             pkt->virt_hdr.flags = VIRTIO_NET_HDR_F_NEEDS_CSUM;
-             pkt->virt_hdr.csum_start = pkt->hdr_len;
-             pkt->virt_hdr.csum_offset = offsetof(struct tcp_hdr, th_sum);
-             break;
-         case IP_PROTO_UDP:
-+            if (pkt->payload_len < sizeof(struct udp_hdr)) {
-+                return false;
-+            }
-             pkt->virt_hdr.flags = VIRTIO_NET_HDR_F_NEEDS_CSUM;
-             pkt->virt_hdr.csum_start = pkt->hdr_len;
-             pkt->virt_hdr.csum_offset = offsetof(struct udp_hdr, uh_sum);
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index ff93547..76c7814 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -162,8 +162,6 @@ e1000e_intrmgr_on_throttling_timer(void *opaque)
+ {
+     E1000IntrDelayTimer *timer = opaque;
+ 
+-    assert(!msix_enabled(timer->core->owner));
+-
+     timer->running = false;
+ 
+     if (msi_enabled(timer->core->owner)) {
+@@ -183,8 +181,6 @@ e1000e_intrmgr_on_msix_throttling_timer(void *opaque)
+     E1000IntrDelayTimer *timer = opaque;
+     int idx = timer - &timer->core->eitr[0];
+ 
+-    assert(msix_enabled(timer->core->owner));
+-
+     timer->running = false;
+ 
+     trace_e1000e_irq_msix_notify_postponed_vec(idx);
 -- 
 2.7.4
 
