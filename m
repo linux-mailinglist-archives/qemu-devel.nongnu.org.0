@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C266B53E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847F96B5405
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:13:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvr-0008I9-LD; Fri, 10 Mar 2023 17:09:47 -0500
+	id 1pakvr-0008I8-3r; Fri, 10 Mar 2023 17:09:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvn-0008FR-QF
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvn-0008FP-NQ
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:43 -0500
-Received: from mout.kundenserver.de ([212.227.126.131])
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvl-00033M-Ja
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvl-00033Z-Jw
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:43 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N3KkM-1qZhEf117q-010L9g; Fri, 10
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMGAg-1psyZR2eFK-00JGYq; Fri, 10
  Mar 2023 23:09:39 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 21/28] linux-user/sparc: Handle getcc, setcc, getpsr traps
-Date: Fri, 10 Mar 2023 23:09:20 +0100
-Message-Id: <20230310220927.326606-22-laurent@vivier.eu>
+Subject: [PULL 22/28] linux-user/sparc: Handle priviledged opcode trap
+Date: Fri, 10 Mar 2023 23:09:21 +0100
+Message-Id: <20230310220927.326606-23-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VHzsuxxPPKWyfOtCIGXTKlpnoif4oOTx6r8dnvKBJsoUhW/Xib1
- iUBCnfxLEAB5zq2fxl8UrwrwRrHTsHO/eboCQ0wg/X5/MeHKYRPjqcDVfuqmGWFpw/95Hpa
- jVEFKrsGWnTh1KRRE2xItM2STRJb6pfzwBao/7pw8Selb7Twc3BUGKLk1MqaqKif3sdg3Zz
- qBbHwPoTUQ7oEgbECz8lw==
-UI-OutboundReport: notjunk:1;M01:P0:iP4dggLz/Ho=;RqsK83/RCo/DQMua3FTulhXvx0E
- IBDNR4R3l9x/iVB9CB5guzZzBjspHrNWvj0QgeimnHUekrpJDBGS15lbDrZ61PCobGP6qrXTN
- bDoM/lbVhzEho9DNgnZGc4bAZe1aqFQ1z/u/fxPEyL9gwOBHxNGJC+md6wdwoaQf4A+KuIaKU
- xzyqsl4Lc4JuEOOo+o4mxdvwgBpMkbVSmkLMfYA1LZxbHof4e/seUEEC09Hb0JXoaaO9CULfO
- bM+OPHsQBe6XfmH68plLb/55kzPAjRLDEeEBVZuKQip5U4/Kj7OTobazLtz6r2Nmx7mwx1BE5
- Y0MrJQUI59OnRbekWerdPnW5SMkz3PlWRl3bzb64fU/W9fxzOBYq7Vp5XpeVaI2h583lxTSbl
- cqfH5mv0SkiYAS2LsZG2nzsL1qyShCHTYsP13UNXtOJR1nrXjcFCOfcNPRIaeo9UEdAWSFYp2
- /4eRw2NnamAkkouV8PX+Zta7OSqENXI/VH4ZDBhmrD1i+hLeDZ//55UnEKTY1QWbjbxgfiVjk
- ee0tPBCjt5x35b8Ca2DsYJIxdOPkEznHH4XQu0MJXfipPlJ4C6PyGT7EdTGm0iCNbSw/t60UR
- qdwQuytc7iUuumNnFCqX6TZuoxVq7IqSm/gATRQ30YXMpmyoNYd+IfrQM8o/HwSoeEW0A0NC5
- iLSBvUvuez1lCWaR9RsGaGWoflWG53Uj6NNOw6fjzA==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:P4ONyuy7N0jy4CWnfH799ipb6/iB8eLiOxaqw5I/3U0l8KdcpMB
+ MLP7pf/taNgSwnLq1zhXx3YTrqm6j6r50T0NG0l/KFc1CXgdaOE61SSxClimcFMVt/sHYpu
+ oCe56XVJj6X9/XuG1ZO7h4M8fjFaDGXWQxjeUDd9hAx0+5l2weljiKVoLwFyj+rFmR+BlDs
+ t4y7JL/m2VlYyflIilkZw==
+UI-OutboundReport: notjunk:1;M01:P0:+348JhsZYXg=;m3VI980DQbhz2WEZJ7A+hs6emRy
+ l/h8YK4c1UU1Y0XPxUe2796kOheZCxiJImTIDktRY0VnjjKSgaiYfrZ4bsECtDrAAp7qBvCEI
+ CPiOuKjrcCTSFw4vZO1z2RoCQC1m8NRdNQFwaHs4BrjRt7PiIxmRHJaA9EKfGEsuvdR4yUU1n
+ UZjTwvyp6JMMxJ6zEoQ2OKIS67gl6Ux78ribOuVN7TJSC9KLGTy6NsYTOYv/BlYJjuHsvXq6M
+ 1g+cVLuzwsrbVeAPABvTIvflwIthvf/TschlODbWeYryAHTa04EpBcHGsrhafWtqRBvTELW8U
+ dSfNO97SHjGHFBQokYYRjdno4Qn54K3QnYh7tfSQBTF07UHgsHIVmxuWiwH/o/kIYYsPyfqIv
+ M5jx7Tkn3Ozuq/jMx0uyivk08kAgodpzCEFYGmsTa9kP2FAoum+UgaKlyrO54z6zvsa4xIGoe
+ wiwqkIGFub2U3bnxbtlNIn8BK2W0JtRH6SfesJwKQj3feNZ/up5RZTdOCg1tBKOXwF9VuEsGv
+ TPx08kGXCaT9p3efiXgmj+cvAJ3pD1apzXUTFetJGazvtp+0DNNOmPykmmXgQhUq/OeTbnqym
+ UYTesNyzaCyvHLelrRhZPIYXlej+NXrT1d0RW8w/Hc1SWV9s/bnL1alDTqEJ7LUwoArVfasQ9
+ BLr76MiDQ9KQ5n1FVYSJ2k6b3mKpvGUvEjAcem8PGQ==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,96 +71,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These are really only meaningful for sparc32, but they're
-still present for backward compatibility for sparc64.
+For the most part priviledged opcodes are ifdefed out of the
+user-only sparc translator, which will then incorrectly produce
+illegal opcode traps.  But there are some code paths that
+properly raise TT_PRIV_INSN, so we must handle it.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230216054516.1267305-10-richard.henderson@linaro.org>
+Message-Id: <20230216054516.1267305-11-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 62 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 59 insertions(+), 3 deletions(-)
+ linux-user/sparc/cpu_loop.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index e04c84286769..a3edb353f6fd 100644
+index a3edb353f6fd..61b6e81459be 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -149,6 +149,51 @@ static void flush_windows(CPUSPARCState *env)
- #endif
- }
- 
-+static void next_instruction(CPUSPARCState *env)
-+{
-+    env->pc = env->npc;
-+    env->npc = env->npc + 4;
-+}
-+
-+static uint32_t do_getcc(CPUSPARCState *env)
-+{
-+#ifdef TARGET_SPARC64
-+    return cpu_get_ccr(env) & 0xf;
-+#else
-+    return extract32(cpu_get_psr(env), 20, 4);
-+#endif
-+}
-+
-+static void do_setcc(CPUSPARCState *env, uint32_t icc)
-+{
-+#ifdef TARGET_SPARC64
-+    cpu_put_ccr(env, (cpu_get_ccr(env) & 0xf0) | (icc & 0xf));
-+#else
-+    cpu_put_psr(env, deposit32(cpu_get_psr(env), 20, 4, icc));
-+#endif
-+}
-+
-+static uint32_t do_getpsr(CPUSPARCState *env)
-+{
-+#ifdef TARGET_SPARC64
-+    const uint64_t TSTATE_CWP = 0x1f;
-+    const uint64_t TSTATE_ICC = 0xfull << 32;
-+    const uint64_t TSTATE_XCC = 0xfull << 36;
-+    const uint32_t PSR_S      = 0x00000080u;
-+    const uint32_t PSR_V8PLUS = 0xff000000u;
-+    uint64_t tstate = sparc64_tstate(env);
-+
-+    /* See <asm/psrcompat.h>, tstate_to_psr. */
-+    return ((tstate & TSTATE_CWP)                   |
-+            PSR_S                                   |
-+            ((tstate & TSTATE_ICC) >> 12)           |
-+            ((tstate & TSTATE_XCC) >> 20)           |
-+            PSR_V8PLUS);
-+#else
-+    return (cpu_get_psr(env) & (PSR_ICC | PSR_CWP)) | PSR_S;
-+#endif
-+}
-+
- /* Avoid ifdefs below for the abi32 and abi64 paths. */
- #ifdef TARGET_ABI32
- #define TARGET_TT_SYSCALL  (TT_TRAP + 0x10) /* t_linux */
-@@ -218,9 +263,20 @@ void cpu_loop (CPUSPARCState *env)
- 
-         case TT_TRAP + 0x03: /* flush windows */
-             flush_windows(env);
--            /* next instruction */
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
-+            next_instruction(env);
-+            break;
-+
-+        case TT_TRAP + 0x20: /* getcc */
-+            env->gregs[1] = do_getcc(env);
-+            next_instruction(env);
-+            break;
-+        case TT_TRAP + 0x21: /* setcc */
-+            do_setcc(env, env->gregs[1]);
-+            next_instruction(env);
-+            break;
-+        case TT_TRAP + 0x22: /* getpsr */
-+            env->gregs[1] = do_getpsr(env);
-+            next_instruction(env);
+@@ -303,6 +303,9 @@ void cpu_loop (CPUSPARCState *env)
+         case TT_ILL_INSN:
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
              break;
- 
- #ifdef TARGET_SPARC64
++        case TT_PRIV_INSN:
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
++            break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
+             break;
 -- 
 2.39.2
 
