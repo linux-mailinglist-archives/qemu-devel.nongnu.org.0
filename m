@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2996B3277
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 01:00:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD83D6B3283
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 01:05:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paQA3-00008f-CR; Thu, 09 Mar 2023 18:59:03 -0500
+	id 1paQF9-0006fR-S3; Thu, 09 Mar 2023 19:04:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paQA1-0008Tk-Hd
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 18:59:01 -0500
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
+ id 1paQEy-0006ex-8a
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 19:04:08 -0500
+Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paQ9y-0008VM-Pw
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 18:59:00 -0500
-Received: by mail-vs1-xe30.google.com with SMTP id a3so3248605vsi.0
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 15:58:58 -0800 (PST)
+ id 1paQEw-0000pu-5b
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 19:04:07 -0500
+Received: by mail-ua1-x92b.google.com with SMTP id x1so2402149uav.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 16:04:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678406337;
+ d=gmail.com; s=20210112; t=1678406645;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GJt2WmWGFOdkvcLJkHvf5/xpm7dG9Ah0hk44x7rAvvk=;
- b=PQAQt5RmlPKwOuLlsiq5e2UONSTz8smAblQX9nzwcmwe2Or50Z17pNHas7g1v64ex9
- HsnGO/eGbmjecWEW374pRjVLAK/PgEUUTQMmgxj4QIHIx5Qb4yv2NvFs1jKC7GJB1cQ/
- BSCy9yjyB8deYLXn/HHHraAnjYAuIwdzWJDnibJrZdleK3/EVWIqvmAihDU2UF2Ju8lk
- f8YWIu3d0wCC+x7FkfyhimZ3kDEvNC3U+1h2DxYfKfirYe3gDvT1f3iU05BK7Fs22/sm
- U0Q2K8o7/xAxsmCDjDnHNfzi4wOvjYKrk30Uy5SbPuLkpsvnl+Dpbjc5bLY3bQKHDtjv
- jLnw==
+ bh=USsqsFwquQTHYFH6yf+SlxEm6dK7V2KCJEPifTuJHtM=;
+ b=jfHbILusEtGUqf0lj7wKeuueW3bKRokYN0huBVQZAwdQyqAFWAG7NoasIBn/Oo41Hz
+ 1Mi/cAc0fihAq/WvLD7lI7i039M5KJ3Pwh64d1ZHF6ewCVy+waQ5XMFqJdDRu7hZKWC3
+ 64fGebQoFuGGnWBhI/ZMoGDe74lV5N4FQI3wy5kZUqEUosHVjw/2LRVO0wVf3I7UBo69
+ SEQxsLs+0jxXgaIMj9QMo7geoWRgWfzX9X0Pv2tolooJTRdg/viSdKfB3RxmFvLtvO/X
+ S6ZyEhXyuZlsadXXdwOeNpzG/LGsEwiXbqZQikIQh/yA6cbryrzz+skIpie0qHggNciL
+ vchQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678406337;
+ d=1e100.net; s=20210112; t=1678406645;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GJt2WmWGFOdkvcLJkHvf5/xpm7dG9Ah0hk44x7rAvvk=;
- b=LzC3Q+D/ebbEdWuQ3KYSDYN0UsLFmvfXC/zP9h703Up7UeRJO/8AFzUUEFtbVbzR2F
- S0Sa590eHSw211bnfBOxG89E2Uo98KSPUJ3w2kPnnJsw5xX97DSLnOZ6NzlTd9hwO+V2
- KaFsHFcgfWvoWkgJ6u8gIaVFTo7+A1fqsjrIdrtQUVz66RkZO1j+GWqZLxgJ/m8mJ1VS
- vD5k6ZZd0LH/F4m35piF73eTw1m3aeJRp/H4Q1GAgls8heP9qBqsKyhDbUIAIGQX6wII
- AsKHkBjj5DvaYgXjshhXqBEDvBF9EXTHf3sLPzursy1XYp0WW5y8fLpsEdCFFrq6kzad
- 3oHg==
-X-Gm-Message-State: AO0yUKWAkW1H64iMkUY5ZUS/vFieGqwb/YJ9V1jLfmkdJQCtKr4XCiFT
- cCnNzvFm99uJW5BWakDYZiUyX4q2/xR20EL8L2I=
-X-Google-Smtp-Source: AK7set92vJHVYx+frbj4+3uP/YgEdrywqiTMFoiWAVvjM29nRNyPHBPA62wD2UM2R020dqLjZGD6u6KewFmW3BGWlKg=
-X-Received: by 2002:a67:db97:0:b0:412:2ed6:d79b with SMTP id
- f23-20020a67db97000000b004122ed6d79bmr15563349vsk.3.1678406337258; Thu, 09
- Mar 2023 15:58:57 -0800 (PST)
+ bh=USsqsFwquQTHYFH6yf+SlxEm6dK7V2KCJEPifTuJHtM=;
+ b=n5VFaNjR2Axf6N2BbMu20f0C1oKlNpQQauCkTZ+N9dspm+cchrhFhZOlcRzHN4hOY3
+ JrQVSgu2cPZ9PchLwth3gIo5Ai/f3YpuWTSdmiBUOnBk/mGrCyOATSHyZzU7SLTPrQ0k
+ D5AgNjlHgaOi8gO8yL0BjAL0DkFd8afxlDYHO8ukvol53XV9DVGw2lfEIRp9e2elLjFt
+ xSoR5Fb0BCwFJL4FYzMOds9H62AH41s1V+BLktTBtSj7lfLuebcTcEIsli0cPu2+0ttY
+ 53/SyuAaB0m9ktRnSj53jxlmn9EolqhA6I5qpcyslNYrAUYCBn0s/cSdcumtWJXdz6Dl
+ eMkQ==
+X-Gm-Message-State: AO0yUKXH0ECJ42LgMj5WQfmucs/iEL3LyDJ6wa7clXy1D9EfFKMQ68Wh
+ 6DdIJxBI/hzgPAebBuEM7rBCrzMxLsYnU2MnxNQ=
+X-Google-Smtp-Source: AK7set9BHt+Jp8T+xX+rBcOsjnZIbOIs+mXQGUAL2Y/En0mAkqHvS0Jg5euZzCKU0suNfV537C6jXA8SDeFruCuF7Dg=
+X-Received: by 2002:a1f:ea04:0:b0:412:611a:dce5 with SMTP id
+ i4-20020a1fea04000000b00412611adce5mr15258658vkh.0.1678406645032; Thu, 09 Mar
+ 2023 16:04:05 -0800 (PST)
 MIME-Version: 1.0
-References: <CGME20230307095900epcms2p1df2efea65eb017c23449b7a20effb5c0@epcms2p1>
- <20230307095900epcms2p1df2efea65eb017c23449b7a20effb5c0@epcms2p1>
-In-Reply-To: <20230307095900epcms2p1df2efea65eb017c23449b7a20effb5c0@epcms2p1>
+References: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
+In-Reply-To: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Mar 2023 09:58:31 +1000
-Message-ID: <CAKmqyKOmgE0BHDiayv52bzCX7tGGeaqX=fY_1_+ULQjz77NGcw@mail.gmail.com>
-Subject: Re: [Question] Support RISC-V Board on QEMU
-To: jh0703.kim@samsung.com
+Date: Fri, 10 Mar 2023 10:03:39 +1000
+Message-ID: <CAKmqyKPfNOu40vurhpupt4bjzHatZX-5Jdni0B5LX2PvwnZ0FQ@mail.gmail.com>
+Subject: Re: [PATCH] Fix incorrect register name in RISC-V disassembler for
+ fmv,fabs,fneg instructions
+To: Mikhail Tyutin <m.tyutin@yadro.com>
 Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?B?7Jyk7ISd7JiB?= <seok0.yoon@samsung.com>, 
- =?UTF-8?B?7KGw7ISx642V?= <sungduk.cho@samsung.com>, 
- =?UTF-8?B?66WY64+Z7Jqx?= <du.ryu@samsung.com>, 
- =?UTF-8?B?6rmA66O7?= <ruthk.kim@samsung.com>
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+ "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x92b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,46 +89,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 8, 2023 at 12:10=E2=80=AFAM =EA=B9=80=EC=A7=84=ED=99=8D <jh0703=
-.kim@samsung.com> wrote:
+On Tue, Feb 28, 2023 at 12:53=E2=80=AFAM Mikhail Tyutin <m.tyutin@yadro.com=
+> wrote:
 >
-> Dear Developer of QEMU.
+> Fix incorrect register name in RISC-V disassembler for fmv,fabs,fneg inst=
+ructions
 >
->
->
-> I have a question to run QEMU by RISC-V board.
->
->
->
-> Currently, sifive has "HiFive Unleashed" and "HiFive Unmatched" boards.
->
->
->
-> HiFive Unleashed board is set when executed with "-M sifive_u" option in =
-QEMU (v7.2.0).
->
->
->
-> And the official guide of QEMU is also the guide of "HiFive Unleashed". (=
-https://www.qemu.org/docs/master/system/riscv/sifive_u.html)
->
->
->
-> QEMU currently supports the HiFive Unmatched board? and if so, is there a=
- guide?
+> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
 
-QEMU doesn't support the HiFive Unmatched. Most QEMU users end up
-using the virt board, as it has the most extensions (more than any
-physical board).
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+> ---
+>   disas/riscv.c | 19 ++++++++++---------
+>   1 file changed, 10 insertions(+), 9 deletions(-)
 >
->
->
-> Thank you.
->
->
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index ddda687c13..58ad3df24d 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -1014,6 +1014,7 @@ static const char rv_vreg_name_sym[32][4] =3D {
+>   #define rv_fmt_rd_offset              "O\t0,o"
+>   #define rv_fmt_rd_rs1_rs2             "O\t0,1,2"
+>   #define rv_fmt_frd_rs1                "O\t3,1"
+> +#define rv_fmt_frd_frs1               "O\t3,4"
+>   #define rv_fmt_rd_frs1                "O\t0,4"
+>   #define rv_fmt_rd_frs1_frs2           "O\t0,4,5"
+>   #define rv_fmt_frd_frs1_frs2          "O\t3,4,5"
+> @@ -1580,15 +1581,15 @@ const rv_opcode_data opcode_data[] =3D {
+>       { "snez", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
+>       { "sltz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>       { "sgtz", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
+> -    { "fmv.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fmv.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fmv.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> +    { "fmv.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fmv.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fmv.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+>       { "beqz", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
+>       { "bnez", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
+>       { "blez", rv_codec_sb, rv_fmt_rs2_offset, NULL, 0, 0, 0 },
+> --
+> 2.34.1
 >
 >
 
