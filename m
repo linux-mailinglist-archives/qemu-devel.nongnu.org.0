@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C075A6B4790
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:51:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC4F6B479F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:52:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pae4W-0004qw-NG; Fri, 10 Mar 2023 09:50:16 -0500
+	id 1pae5v-0006NM-57; Fri, 10 Mar 2023 09:51:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pae4Q-0004pm-L9
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:50:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pae5t-0006NA-57
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:51:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pae4M-00049y-Kh
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:50:08 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pae5r-0004eg-PP
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:51:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678459804;
+ s=mimecast20190719; t=1678459898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AoeHYhUHES8+DlhTsrmZEDwxmHCD5CRwU7ioPMusGs8=;
- b=jLRIb7pL8EI6AMqCSYFJrA7zlewtfo4KV0B+giX5Ed8wxoKEZoK6OUUeWJA52EuV/qT7kj
- oIVC9Yks2V630DAdEYRmfaazH+TYQtXRVwmQ2pft5wper5agLYLbdGlxUZeVkhgS9dp+9D
- bERsDkc/TLHVaVvtQH+XDd1oexrzklU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gk9Uobz3Wpvg+CpBFQM98UVNnhUxqbl9se3YL0JUJrc=;
+ b=XoijYcW4gn9q2iSDNL5XTDTlZh8frmPCVZF5OfD/d8I0NiKPWuGgMtM/6YgqfTQi3Ax6T8
+ oTxADPT84nhBFri7BxwgpEQNY5cuEJT6zl3knULnb3qgRBZWginXIccx8vWJjJ9z8aMSxc
+ gFJPd+bi8jnLfqiW1IoioqAELGT/o10=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-9k-TJQgpP_eDizFM4iTBuw-1; Fri, 10 Mar 2023 09:50:03 -0500
-X-MC-Unique: 9k-TJQgpP_eDizFM4iTBuw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- d10-20020a05620a240a00b0073baf1de8ebso3179767qkn.19
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:50:03 -0800 (PST)
+ us-mta-68-Uz6U4I4CM0ekL6ypi_fEFQ-1; Fri, 10 Mar 2023 09:51:34 -0500
+X-MC-Unique: Uz6U4I4CM0ekL6ypi_fEFQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ m1-20020a05621402a100b004bb706b3a27so3030008qvv.20
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:51:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678459803;
+ d=1e100.net; s=20210112; t=1678459894;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AoeHYhUHES8+DlhTsrmZEDwxmHCD5CRwU7ioPMusGs8=;
- b=3FjfOvR7IkjVdghZsAtXhLx8wIWGEQwLTsaOhnL8LhnvYcKFnmm3hwJrE1S/n5mvH+
- G8wkun/voFh1nhEK808eSRkDGOKPwN97naGqefYsu8ApoE/784htxL12o77q3tE6ojuK
- RFUAy69SYY/wdyqPrQyZKUc6nhqGFhXlEal0VX9obrKeovmYfgbYV1D6cauu5mcvV/Jd
- XJKQQhTddoMB8blCLroN6VtExF7OJG1pN6ZhWppAreAq5dgnHtWACO7zkNl4/omrWMdP
- qptwwL6vB3dN9lF0dnp/nXe1+zQ9q6LPkffXhYLBvmBt5FVdQFiyIE4ZXsioIuKBi6aQ
- m8oQ==
-X-Gm-Message-State: AO0yUKVDg51n6sU4Dr6KsxPGrhvjcPhFqxj1DaRHBYguxvvBGp+BLH0K
- RvyWXGmn29RfkCdSUVFgtVidrVf47CA6ZIC9RbWTkKi/0+d9n8EvW2hLJVypurtc8FxB57edP/y
- 6hTokvVL38G2PMkE=
-X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
- bp30-20020a05622a1b9e00b003bfa3d09023mr11195226qtb.5.1678459802768; 
- Fri, 10 Mar 2023 06:50:02 -0800 (PST)
-X-Google-Smtp-Source: AK7set9M5XFbuJUPCX1frF9sKhg4cmE97t+iiGR1sT0DBsbePb+rT/qQrcwS7mhFBSnW3hqr0KjGZQ==
-X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
- bp30-20020a05622a1b9e00b003bfa3d09023mr11195194qtb.5.1678459802535; 
- Fri, 10 Mar 2023 06:50:02 -0800 (PST)
+ bh=gk9Uobz3Wpvg+CpBFQM98UVNnhUxqbl9se3YL0JUJrc=;
+ b=CYkqgRf5nsUN1oXtWw23bxI8JnHX1b6tnFV+2IUeQHjny9v3RYPZDSn/rurfSNjOBv
+ hoy6jL0n/H+gYLabq4C8w0j5v/ziwML8cRPbyiqrKvz7gt/6E1ok0k6M9JE0Xo76Gf23
+ A0PXCUxGD8UJlB45mIqnvBQQ3SW/2/sJpd8/rCwN1txWScOTb7RapwwF8riJDuHFpSIs
+ QuKBKG0g8HYp+d32sTga7NPntU7F9wLTMw26zq0WsAdAFdgiEnoI5b3lUzW7/htmUUgp
+ 4TCvFWi1k94EPeh4F6gsEHMGlQikc2dCsYHZlDac/x18PIflYfG2gpOFOaRawIclnG/h
+ CYUg==
+X-Gm-Message-State: AO0yUKXvgUDGal51Z5HqVnkxqIQEYabYz0Z9iO0ENxHE9XbA/jalFk1k
+ mIkqxvpjU0AN4N/RK8PW1WpBTk4Ge3cUf+2ANG4OcfCF2Ex5MuqMwQ45NLBPXy5LiT+N3H4GIpX
+ /LsTZrEVdPf6fBIo=
+X-Received: by 2002:a05:6214:1308:b0:57d:747b:1f7 with SMTP id
+ pn8-20020a056214130800b0057d747b01f7mr5181576qvb.1.1678459894174; 
+ Fri, 10 Mar 2023 06:51:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set+kpwnRnOgQpcTDFxzaxQR+6DLlSgUoy8eQjxOAzZyY+qHrGA2DcMEwwIo2Z1ptTOuZlH52hw==
+X-Received: by 2002:a05:6214:1308:b0:57d:747b:1f7 with SMTP id
+ pn8-20020a056214130800b0057d747b01f7mr5181549qvb.1.1678459893925; 
+ Fri, 10 Mar 2023 06:51:33 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
  [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- n189-20020a3740c6000000b007426b917031sm1391755qka.121.2023.03.10.06.50.01
+ n189-20020a3740c6000000b007426b917031sm1393846qka.121.2023.03.10.06.51.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 06:50:01 -0800 (PST)
-Date: Fri, 10 Mar 2023 09:50:00 -0500
+ Fri, 10 Mar 2023 06:51:33 -0800 (PST)
+Date: Fri, 10 Mar 2023 09:51:32 -0500
 From: Peter Xu <peterx@redhat.com>
 To: Chuang Xu <xuchuangxclwt@bytedance.com>
 Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
  pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
  zhouyibo@bytedance.com
-Subject: Re: [PATCH v7 2/6] rcu: Introduce rcu_read_is_locked()
-Message-ID: <ZAtDmE4GA8snZAIg@x1n>
+Subject: Re: [PATCH v7 3/6] memory: Introduce
+ memory_region_transaction_do_commit()
+Message-ID: <ZAtD9BZ4x2QwYUaH@x1n>
 References: <20230310022425.2992472-1-xuchuangxclwt@bytedance.com>
- <20230310022425.2992472-3-xuchuangxclwt@bytedance.com>
+ <20230310022425.2992472-4-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230310022425.2992472-3-xuchuangxclwt@bytedance.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20230310022425.2992472-4-xuchuangxclwt@bytedance.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,10 +99,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 10, 2023 at 10:24:21AM +0800, Chuang Xu wrote:
-> Add rcu_read_is_locked() to detect holding of rcu lock.
+On Fri, Mar 10, 2023 at 10:24:22AM +0800, Chuang Xu wrote:
+> Split memory_region_transaction_do_commit() from
+> memory_region_transaction_commit().
+> 
+> We'll call do_commit() in address_space_to_flatview() in the later patch.
 > 
 > Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
+
+[...]
+
+> +void memory_region_transaction_commit(void)
+> +{
+> +    assert(memory_region_transaction_depth);
+> +    assert(qemu_mutex_iothread_locked());
+
+This context has nothing to assert BQL, so this can be dropped I think (you
+have one in do_commit).
+
+> +
+> +    --memory_region_transaction_depth;
+> +    if (!memory_region_transaction_depth) {
+> +        memory_region_transaction_do_commit();
+> +    }
+>  }
+
+With above dropped:
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
 
