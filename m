@@ -2,62 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310386B45E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C075A6B4790
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:51:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1padrf-0005SB-1j; Fri, 10 Mar 2023 09:37:00 -0500
+	id 1pae4W-0004qw-NG; Fri, 10 Mar 2023 09:50:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi2000@zju.edu.cn>)
- id 1padrW-0005QN-KD; Fri, 10 Mar 2023 09:36:51 -0500
-Received: from azure-sdnproxy.icoremail.net ([207.46.229.174])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi2000@zju.edu.cn>)
- id 1padrT-0001AO-Pa; Fri, 10 Mar 2023 09:36:50 -0500
-Received: from toga-arch.localdomain (unknown [112.10.177.110])
- by mail-app3 (Coremail) with SMTP id cC_KCgBHyLTwPwtkJzocDg--.54936S2;
- Fri, 10 Mar 2023 22:34:30 +0800 (CST)
-From: chenyi2000@zju.edu.cn
-To: qemu-devel@nongnu.org
-Cc: Yi Chen <chenyi2000@zju.edu.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
-Subject: [PATCH v2] target/riscv: fix H extension TVM trap
-Date: Fri, 10 Mar 2023 22:33:27 +0800
-Message-Id: <20230310143328.145347-1-chenyi2000@zju.edu.cn>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pae4Q-0004pm-L9
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:50:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pae4M-00049y-Kh
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:50:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678459804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AoeHYhUHES8+DlhTsrmZEDwxmHCD5CRwU7ioPMusGs8=;
+ b=jLRIb7pL8EI6AMqCSYFJrA7zlewtfo4KV0B+giX5Ed8wxoKEZoK6OUUeWJA52EuV/qT7kj
+ oIVC9Yks2V630DAdEYRmfaazH+TYQtXRVwmQ2pft5wper5agLYLbdGlxUZeVkhgS9dp+9D
+ bERsDkc/TLHVaVvtQH+XDd1oexrzklU=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-9k-TJQgpP_eDizFM4iTBuw-1; Fri, 10 Mar 2023 09:50:03 -0500
+X-MC-Unique: 9k-TJQgpP_eDizFM4iTBuw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ d10-20020a05620a240a00b0073baf1de8ebso3179767qkn.19
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:50:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678459803;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AoeHYhUHES8+DlhTsrmZEDwxmHCD5CRwU7ioPMusGs8=;
+ b=3FjfOvR7IkjVdghZsAtXhLx8wIWGEQwLTsaOhnL8LhnvYcKFnmm3hwJrE1S/n5mvH+
+ G8wkun/voFh1nhEK808eSRkDGOKPwN97naGqefYsu8ApoE/784htxL12o77q3tE6ojuK
+ RFUAy69SYY/wdyqPrQyZKUc6nhqGFhXlEal0VX9obrKeovmYfgbYV1D6cauu5mcvV/Jd
+ XJKQQhTddoMB8blCLroN6VtExF7OJG1pN6ZhWppAreAq5dgnHtWACO7zkNl4/omrWMdP
+ qptwwL6vB3dN9lF0dnp/nXe1+zQ9q6LPkffXhYLBvmBt5FVdQFiyIE4ZXsioIuKBi6aQ
+ m8oQ==
+X-Gm-Message-State: AO0yUKVDg51n6sU4Dr6KsxPGrhvjcPhFqxj1DaRHBYguxvvBGp+BLH0K
+ RvyWXGmn29RfkCdSUVFgtVidrVf47CA6ZIC9RbWTkKi/0+d9n8EvW2hLJVypurtc8FxB57edP/y
+ 6hTokvVL38G2PMkE=
+X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
+ bp30-20020a05622a1b9e00b003bfa3d09023mr11195226qtb.5.1678459802768; 
+ Fri, 10 Mar 2023 06:50:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set9M5XFbuJUPCX1frF9sKhg4cmE97t+iiGR1sT0DBsbePb+rT/qQrcwS7mhFBSnW3hqr0KjGZQ==
+X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
+ bp30-20020a05622a1b9e00b003bfa3d09023mr11195194qtb.5.1678459802535; 
+ Fri, 10 Mar 2023 06:50:02 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ n189-20020a3740c6000000b007426b917031sm1391755qka.121.2023.03.10.06.50.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 06:50:01 -0800 (PST)
+Date: Fri, 10 Mar 2023 09:50:00 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Chuang Xu <xuchuangxclwt@bytedance.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+Subject: Re: [PATCH v7 2/6] rcu: Introduce rcu_read_is_locked()
+Message-ID: <ZAtDmE4GA8snZAIg@x1n>
+References: <20230310022425.2992472-1-xuchuangxclwt@bytedance.com>
+ <20230310022425.2992472-3-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: cC_KCgBHyLTwPwtkJzocDg--.54936S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar45WFW5ur4kGr4rtrW5KFg_yoW7XFW8pF
- 4UK39Ik3yUJF9rAan3tr1DGa1rAw1xGayjy3Z7Wa1FyF1fAr4rCryDXr9F9FykWr4Dur4j
- vFW8ZFZ8Zr42yaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
- 648v4I1lw4CEc2x0rVAKj4xxMxkF7I0Ew4C26cxK6c8Ij28IcwCY02Avz4vE14v_Xryl42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
- GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
- 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
- MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
- 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUbrWrUUUUU
-X-CM-SenderInfo: xfkh05blsqiio62m3hxhgxhubq/
-Received-SPF: pass client-ip=207.46.229.174;
- envelope-from=chenyi2000@zju.edu.cn; helo=azure-sdnproxy.icoremail.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230310022425.2992472-3-xuchuangxclwt@bytedance.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,149 +98,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Yi Chen <chenyi2000@zju.edu.cn>
+On Fri, Mar 10, 2023 at 10:24:21AM +0800, Chuang Xu wrote:
+> Add rcu_read_is_locked() to detect holding of rcu lock.
+> 
+> Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 
-- Trap satp/hgatp accesses from HS-mode when MSTATUS.TVM is enabled.
-- Trap satp accesses from VS-mode when HSTATUS.VTVM is enabled.
-- Raise RISCV_EXCP_ILLEGAL_INST when U-mode executes SFENCE.VMA/SINVAL.VMA.
-- Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
-  SFENCE.VMA/SINVAL.VMA or VS-mode executes SFENCE.VMA/SINVAL.VMA with
-  HSTATUS.VTVM enabled.
-- Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
-  HFENCE.GVMA/HFENCE.VVMA/HINVAL.GVMA/HINVAL.VVMA.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
----
- target/riscv/csr.c       | 56 +++++++++++++++++++++++++---------------
- target/riscv/op_helper.c |  9 ++++---
- 2 files changed, 40 insertions(+), 25 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d522efc0b6..26a02e57bd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -443,6 +443,30 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
-     return sstc(env, csrno);
- }
- 
-+static RISCVException satp(CPURISCVState *env, int csrno)
-+{
-+    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
-+        get_field(env->mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env) &&
-+        get_field(env->hstatus, HSTATUS_VTVM)) {
-+        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+    }
-+
-+    return smode(env, csrno);
-+}
-+
-+static RISCVException hgatp(CPURISCVState *env, int csrno)
-+{
-+    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
-+        get_field(env->mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    return hmode(env, csrno);
-+}
-+
- /* Checks if PointerMasking registers could be accessed */
- static RISCVException pointer_masking(CPURISCVState *env, int csrno)
- {
-@@ -2655,13 +2679,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
-         *val = 0;
-         return RISCV_EXCP_NONE;
-     }
--
--    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    } else {
--        *val = env->satp;
--    }
--
-+    *val = env->satp;
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -2684,18 +2702,14 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
-     }
- 
-     if (vm && mask) {
--        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
--            return RISCV_EXCP_ILLEGAL_INST;
--        } else {
--            /*
--             * The ISA defines SATP.MODE=Bare as "no translation", but we still
--             * pass these through QEMU's TLB emulation as it improves
--             * performance.  Flushing the TLB on SATP writes with paging
--             * enabled avoids leaking those invalid cached mappings.
--             */
--            tlb_flush(env_cpu(env));
--            env->satp = val;
--        }
-+        /*
-+         * The ISA defines SATP.MODE=Bare as "no translation", but we still
-+         * pass these through QEMU's TLB emulation as it improves
-+         * performance.  Flushing the TLB on SATP writes with paging
-+         * enabled avoids leaking those invalid cached mappings.
-+         */
-+        tlb_flush(env_cpu(env));
-+        env->satp = val;
-     }
-     return RISCV_EXCP_NONE;
- }
-@@ -4180,7 +4194,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-                          .min_priv_ver = PRIV_VERSION_1_12_0 },
- 
-     /* Supervisor Protection and Translation */
--    [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
-+    [CSR_SATP]     = { "satp",     satp, read_satp,     write_satp     },
- 
-     /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
-     [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
-@@ -4217,7 +4231,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-                           .min_priv_ver = PRIV_VERSION_1_12_0                },
-     [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,
-                           .min_priv_ver = PRIV_VERSION_1_12_0                },
--    [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,   write_hgatp,
-+    [CSR_HGATP]       = { "hgatp",       hgatp,   read_hgatp,   write_hgatp,
-                           .min_priv_ver = PRIV_VERSION_1_12_0                },
-     [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,
-                           write_htimedelta,
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 84ee018f7d..fbccca9e0b 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -381,12 +381,13 @@ void helper_wfi(CPURISCVState *env)
- void helper_tlb_flush(CPURISCVState *env)
- {
-     CPUState *cs = env_cpu(env);
--    if (!(env->priv >= PRV_S) ||
--        (env->priv == PRV_S &&
-+    if ((!(env->priv >= PRV_S) && !riscv_cpu_virt_enabled(env)) ||
-+        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
-          get_field(env->mstatus, MSTATUS_TVM))) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-     } else if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
--               get_field(env->hstatus, HSTATUS_VTVM)) {
-+               (!(env->priv >= PRV_S) ||
-+                get_field(env->hstatus, HSTATUS_VTVM))) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     } else {
-         tlb_flush(cs);
-@@ -403,7 +404,7 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
- {
-     CPUState *cs = env_cpu(env);
- 
--    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
-+    if (env->priv <= PRV_S && riscv_cpu_virt_enabled(env)) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     }
- 
 -- 
-2.39.2
+Peter Xu
 
 
