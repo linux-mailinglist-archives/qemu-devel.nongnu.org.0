@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E26E6B4FC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 19:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324346B4FC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 19:08:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pah8M-0007ur-MH; Fri, 10 Mar 2023 13:06:26 -0500
+	id 1pah9l-0001hx-Pd; Fri, 10 Mar 2023 13:07:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pah8H-0007rp-O2
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:06:21 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pah9j-0001h7-Bi
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:07:51 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pah8E-0005IH-QV
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:06:20 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id 16so3527317pge.11
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:06:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pah9h-0005c5-RO
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:07:51 -0500
+Received: by mail-pf1-x433.google.com with SMTP id c10so4156895pfv.13
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:07:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678471576;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=3UY6j2xf6fL0JpTSS8NDPMUq8QzKrt6F9N0GPqgXqMY=;
- b=BigGHXYt0B/0JptK6vNXMDf+CFTtB/FcFQgv3egcgieW17o/X3uoNSw51B8kAGOYPi
- Dvm0BYB4GemeWLBETWm8k5OqGtR0P6ujanlXXKUluOACjxge6AlXSXrJpMGevijN++Hk
- H+epZjZf5gNJB9OphP3y1kosX6bOKjExg5FFvjQK9lJ+c9i6/n9My2VzhwqDsI34QO/Z
- KSvpuvZ6TJ6EBPa5Bx48bvJcwQPUIAl8vDjTep8BX+e/Hl2+XdUJVwT0DExlnoSVTsgI
- qHunLHUiJ3VojXntQQNDO7/Zcu3N7NTA/yQb34bVqranB3RIowxsgHoIklUIn3NjQbDl
- c10g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678471576;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1678471668;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3UY6j2xf6fL0JpTSS8NDPMUq8QzKrt6F9N0GPqgXqMY=;
- b=H4VUkjFFirsCxdcNO3PYOqRJ9S9oz+9gXeRAiyURio/02aNNIBidV0nNHEpUPyIiuP
- +o+WbkTe6DRjyaREmzM9xLSZPjpLOWtzQenJn4b3O6LXpm41jjiJiEe4m3QQKjAcyW2c
- 1CRyO2dYu4LfZQia5u09uFYixtH2dYD1U75uhz/w23UYPx8HMAXm5b1E2+4onJXGYjUJ
- C5DDywq/hHKXxZF6Ik5QUrtYaxefera0yA6CODoJ7QAf2TPXrbTzKp/mZpmyfNR5ZtX7
- Xmg+NUIEHUkEz1nN/mlmZSrPyO5yRkiM2MRPhcqWvvHZpkj+DVMcXY62L3J/C8biDI1w
- PpHg==
-X-Gm-Message-State: AO0yUKUEHiMilW/c3I52bmlMcCK8S8NpUEF12Gv7qFImwaJp63xajWU+
- JON4H+HxO7dEnhQbr9/TDBUWPZA9Yds/3kFy4Jk=
-X-Google-Smtp-Source: AK7set8JiIleOEuPyUHku/OuulDvpG1RNvBA9khIsdmG0fIPUe7u8go0i13ywfWbqp43DeYDoqMBFQ==
-X-Received: by 2002:a62:1d93:0:b0:594:26a7:cbd2 with SMTP id
- d141-20020a621d93000000b0059426a7cbd2mr2558480pfd.8.1678471576141; 
- Fri, 10 Mar 2023 10:06:16 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- c2-20020a6566c2000000b004ff6b744248sm188790pgw.48.2023.03.10.10.06.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 10:06:15 -0800 (PST)
-Date: Fri, 10 Mar 2023 10:06:15 -0800 (PST)
-X-Google-Original-Date: Fri, 10 Mar 2023 10:05:26 PST (-0800)
-Subject: Re: [PATCH v2 01/10] contrib/gitdm: Add Rivos Inc to the domain map
-In-Reply-To: <20230310180332.2274827-2-alex.bennee@linaro.org>
-CC: qemu-devel@nongnu.org, alex.bennee@linaro.org,
- Atish Patra <atishp@rivosinc.com>, 
- daolu@rivosinc.com, abrestic@rivosinc.com, Vineet Gupta <vineetg@rivosinc.com>
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: alex.bennee@linaro.org
-Message-ID: <mhng-a129e7b1-0807-49cf-aa45-228ac8181743@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=palmer@rivosinc.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ bh=yDWH/Bafpq6Al4Qixgc7s1DXFTyThL0etvF5h9pL7lQ=;
+ b=ufUd3hGnNtztI7jy8iYLCXJtY8hs4V8LKpugLfajkYgv1yK0Bm2Mjl5tZlZN9gDBBr
+ zvmv1Mh+Y2+ZDxtta96pTjzmKbV8pDKK4hoIxVHO31AZFmOAYP0htE+C5wNGrZt1Udfu
+ /VjcfZf7C9fr+V9V1d9FyxQJs9rAf5k81jwM03Krj7d0W9AsmVif5sUFEdxzkmdDyN/L
+ 9YCdPTQYdP+dnZKo4uIxjoyXjXLc7DIs+ISvjDUyb3365SGzalaggnelUHDGMqavxMQC
+ STrzEXl6BRvNjtx0TWOBr0EHw9CZg6/L2Pfk2Jyqujaw8IvWoMjbpYB1h7vyVmXoZrIF
+ UujA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678471668;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yDWH/Bafpq6Al4Qixgc7s1DXFTyThL0etvF5h9pL7lQ=;
+ b=ySBsZeC1cUZ0RrAmX6Me1Sgd5JOpo8+SmOwvcrdncfIJLV1vI5lxQ9NOAa6OdPu4wi
+ qG8wDr14Dh6G3bijECX94UA77t2WB35KDsAZSSOlooJ/FI0gEYkMZ5O2Nm7IP6T2omWf
+ ewO4e3Ys3wZSd9fMQVdsWPYpY9h/oFAzLT7rexlyLgpatCCkxcwJf0jfeevFaTf1jLmB
+ q6fjHC2oc9i3fedgVr31uJzC+yQOcEO9DZCJZiQM82w02P8QMU1tKxxgb0VkjAtJBxjZ
+ zfV73M7dN8sPaCl9hfG3nTiyysAer0PSATc7DVk5k7uD9897Vu8orwGvU2MQecq/iFwt
+ 6Beg==
+X-Gm-Message-State: AO0yUKUPEi1vecHjIV1Z+XehbTzL94cv8qQqXJE+grUwzJqqCo1Q83DE
+ PvtGZDNXXNMRoP7qe5TRUh9ms1SzdEkDviBdea/wUw==
+X-Google-Smtp-Source: AK7set8HQKUciAtKD6ti0HoI8lLeBrCAPYFvgFEuiUaYb3zpsolCQraHgI6fMinx04ogvg/awNtpdszwf/iUn3wkfVo=
+X-Received: by 2002:a62:d041:0:b0:592:41a:1054 with SMTP id
+ p62-20020a62d041000000b00592041a1054mr10923450pfg.5.1678471667819; Fri, 10
+ Mar 2023 10:07:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20230310103123.2118519-1-alex.bennee@linaro.org>
+ <20230310103123.2118519-10-alex.bennee@linaro.org>
+ <CAFEAcA89K6_-Uc0XmEa1q+_z_yuppq1kvh=uPfv9V80MBH=aQg@mail.gmail.com>
+ <87wn3ocwqz.fsf@suse.de>
+In-Reply-To: <87wn3ocwqz.fsf@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Mar 2023 18:07:36 +0000
+Message-ID: <CAFEAcA_bjTPO+68gV0V7436S2n=iJAoH3qXGw1v9-xhG2N0CLA@mail.gmail.com>
+Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
+To: Fabiano Rosas <farosas@suse.de>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, Luis Machado <luis.machado@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,35 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Mar 2023 10:03:23 PST (-0800), alex.bennee@linaro.org wrote:
-> Whatever they are up to a number of people for the company are
-> contributing to QEMU so lets group them together.
+On Fri, 10 Mar 2023 at 18:00, Fabiano Rosas <farosas@suse.de> wrote:
 >
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Atish Patra <atishp@rivosinc.com>
-> Cc: Dao Lu <daolu@rivosinc.com>
-> Cc: Andrew Bresticker <abrestic@rivosinc.com>
-> Cc: Palmer Dabbelt <palmer@rivosinc.com>
-> Cc: Vineet Gupta <vineetg@rivosinc.com>
-> ---
->  contrib/gitdm/domain-map | 1 +
->  1 file changed, 1 insertion(+)
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index 8913a886c9..7a8077e241 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -32,6 +32,7 @@ oracle.com      Oracle
->  proxmox.com     Proxmox
->  quicinc.com     Qualcomm Innovation Center
->  redhat.com      Red Hat
-> +rivosinc.com    Rivos Inc
->  rt-rk.com       RT-RK
->  samsung.com     Samsung
->  siemens.com     Siemens
+> > On Fri, 10 Mar 2023 at 10:31, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+> >>
+> >> You need a very new gdb to be able to run with pauth support otherwise
+> >> your likely to hit asserts and aborts. Disable pauth for now until we
+> >> can properly probe support in gdb.
+> >>
+> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >
+> > If it makes gdb fall over, then shouldn't we be disabling
+> > the pauth gdbstub stuff entirely ? Otherwise even if our
+> > tests are fine our users will not be...
+> >
+>
+> Have you seem my message on IRC about changing the feature name in the
+> XML? I think the issue is that we're putting the .xml in a "namespace"
+> where GDB expects to only find stuff which it has code to
+> support. Changing from "org.gnu.gdb.aarch64.pauth" to
+> "org.qemu.aarch64.pauth" made it stop crashing and I can read the
+> registers just fine.
 
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+But then presumably a pauth-aware GDB won't actually know
+the values it needs to be able to convert between with-PAC
+and without-PAC addresses for backtracing?
 
-Thanks!
+Luis, how is this intended to work? Is there some way the
+stub can check with the gdb that's connected whether the
+gdb is able to cope with the pauth XML, so it can avoid
+sending it to a gdb that is going to crash if it sees it ?
+
+thanks
+-- PMM
 
