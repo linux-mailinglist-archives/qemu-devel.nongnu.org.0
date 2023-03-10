@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D866B3C4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEED76B3C4F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:33:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paa29-0007YR-CI; Fri, 10 Mar 2023 05:31:33 -0500
+	id 1paa2E-0007fV-4X; Fri, 10 Mar 2023 05:31:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1paa26-0007V7-F3; Fri, 10 Mar 2023 05:31:31 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1paa2A-0007cV-OC; Fri, 10 Mar 2023 05:31:34 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1paa23-0004Fm-5P; Fri, 10 Mar 2023 05:31:30 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id x34so4943099pjj.0;
- Fri, 10 Mar 2023 02:31:26 -0800 (PST)
+ id 1paa27-0004Io-JC; Fri, 10 Mar 2023 05:31:34 -0500
+Received: by mail-pl1-x635.google.com with SMTP id ky4so5102518plb.3;
+ Fri, 10 Mar 2023 02:31:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678444285;
+ d=gmail.com; s=20210112; t=1678444289;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VmozOyNwlvVr9QpT2aLte3LztUZpKB3jmOhQWmpI8Qk=;
- b=eys/4G1dIqBhRO2MlyMngcSvaPkYA4bL0sKxvOiQw7uS43uHJh4vtdU4MLz+nc24st
- d3/nNHoAR/uBq+HOYwZ6IKC+hWbV801kbnDD/R/Fqmk6/+H4wEx1QO0GoRRl2DRXGpNf
- XVWGNIVnPE7riAZrikH1tvRURLuADAlW6zPZ5tfxzBdqRC4qbl3/j43KnvfXJvFt/QAr
- AT/rNfGnYnGmA7/ndG3SzXDu5IL1iSpXZar4pikti1Xno/4DShGY252e+OJ4VLzKrU5c
- guZVvckjCMF6cntBUOUG6aOwnsn/S7OKT6rG4Wn8dJpYX1KD+DThPehSiyXa5LpJx7yN
- yOQQ==
+ bh=Egne3Xn+oSeQ2rsp/8Pj9qHVB+Me/dYC0IpKLswZwnw=;
+ b=VlVJQwvRO1blO7ij9D6jLCPzfPO1QFCDuYlDo58FhS8iA2vzyfznlNg6POaEo31SyU
+ EYPORg/sqz1vvypZPErVpJ3pQBqVPk+VHm5HLTEQQpswDwKT0QHAxc8VHoxvDg0jbxqm
+ U3qJRqVqWNIxYUCNj9FFIdI/xl9OeD6+357SuDw/SYzvmwIe3N3J2WvD3jn/CuvUXPyQ
+ EfCCliH2rYouweKmvf2KAZ+ZIHaNvy2vxb7+FoQ17dxgR3xSnSECKG5FqY4m1g4Rbqxn
+ 6IULp1G0TxWf72IRb6Qtn5QU5gSzdiSbH5uO6Y0v/y6/hoTHwjhAxmp/YA81Au2/jWaD
+ zBbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678444285;
+ d=1e100.net; s=20210112; t=1678444289;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VmozOyNwlvVr9QpT2aLte3LztUZpKB3jmOhQWmpI8Qk=;
- b=0YNod08GCIqls/sRJ/BcDfghrP1sP9vSEC7Om0aP3jt+vH6TFfFTlz5CYRAiGurevM
- UNT3e2VBqL6/3mHfuPo7MRKKEcOE7387lfdx8KhTFXHnsOXRpNWrl9dg3FjqI8Ikl4Vm
- /FCHdwiMwYwpDhRIbW3NNKXLD5D50lj4rxmnuJwMRHzMaCeDweYjIttGqhyUYd24d+mY
- xSzNIyfQxzZLufWuFUsw/Ly2Yzhz8kGSHlBnMfeYBDfCdLABjmygLgfecDD/BtkrphA5
- crzTM2rUa8xGeBuE0VEHronp1hRKVdkEODFR4uh8ZWzAcRU3yL5G3cpVQt5YYPhtiAZW
- ysWw==
-X-Gm-Message-State: AO0yUKUqPydUoB0GjSRM4gvrFFdFwz5R1zu9kUHRZVz/sKeOf8vfdg37
- 2+VJ/6xe4P+fx3HoCjDIeddoqMqqhDB0+GQ4j1A=
-X-Google-Smtp-Source: AK7set8DwP9MewXwfFlLkSjpzSUQqkWLh+LrhOSb/dNrSk9q1g18qNCDa9/lbTmwemGcBB1DAInpQg==
-X-Received: by 2002:a17:90b:17c4:b0:234:e0c:caaa with SMTP id
- me4-20020a17090b17c400b002340e0ccaaamr26061822pjb.6.1678444284786; 
- Fri, 10 Mar 2023 02:31:24 -0800 (PST)
+ bh=Egne3Xn+oSeQ2rsp/8Pj9qHVB+Me/dYC0IpKLswZwnw=;
+ b=ggtyW2pH9NzrGyGVWUF5H+aOrbMU8lJFwoDm2ibCsRtH/poiAA19P92nJIPXaW4a3w
+ GubjkaSKdUzjEnRdMc7TRPFgabV7arkAXEK7sJAGW2wAayBOSgM4tD3a/nxJmS6J+LZw
+ PisXyDGuYpLSZhACr4041QolR14iQqr+hIBOjiAyvtBe8JVUk1eBvWGkMcOewU/Sr4i4
+ fEHBcJEEV3byHe55ZuntbxuDTJ1exyUOdDhr+nXvgLVbVCRSfrmXgKrSouLFD5lFASAz
+ SYvfq0xU/5H9Relizx0Y1ReyLbYX06937DvGZq3JNdGLRrHW8AjNoAPxfJNn1FrvO212
+ 7Ktg==
+X-Gm-Message-State: AO0yUKV35FP+QCR0NJAXKrCoEnOIS7ckF8cx8AcKXuATak1WMDbXqKDM
+ t2dWACbk/EtbYdkWWdZ6kK/euWHj+0jh648CSiI=
+X-Google-Smtp-Source: AK7set9Mb6LUSdQDnYXt04q6r0gEjFf4U1DtgV4AiECbsrMGDdZiUG4PKfgmTa/uf2vY8n5WJPMO7A==
+X-Received: by 2002:a17:902:ce92:b0:19e:27a1:dd94 with SMTP id
+ f18-20020a170902ce9200b0019e27a1dd94mr30742102plg.35.1678444288838; 
+ Fri, 10 Mar 2023 02:31:28 -0800 (PST)
 Received: from fedlinux.. ([106.84.129.9]) by smtp.gmail.com with ESMTPSA id
- ke15-20020a170903340f00b0019a96d3b456sm1146930plb.44.2023.03.10.02.31.21
+ ke15-20020a170903340f00b0019a96d3b456sm1146930plb.44.2023.03.10.02.31.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 02:31:24 -0800 (PST)
+ Fri, 10 Mar 2023 02:31:28 -0800 (PST)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
@@ -60,16 +60,16 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Stefano Garzarella <sgarzare@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  damien.lemoal@opensource.wdc.com, Aarushi Mehta <mehta.aaru20@gmail.com>,
  Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v6 3/4] qemu-iotests: test zone append operation
-Date: Fri, 10 Mar 2023 18:31:05 +0800
-Message-Id: <20230310103106.62124-4-faithilikerun@gmail.com>
+Subject: [PATCH v6 4/4] block: add some trace events for zone append
+Date: Fri, 10 Mar 2023 18:31:06 +0800
+Message-Id: <20230310103106.62124-5-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310103106.62124-1-faithilikerun@gmail.com>
 References: <20230310103106.62124-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,135 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This tests is mainly a helper to indicate append writes in block layer
-behaves as expected.
-
 Signed-off-by: Sam Li <faithilikerun@gmail.com>
 ---
- qemu-io-cmds.c                     | 65 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/tests/zoned.out |  7 ++++
- tests/qemu-iotests/tests/zoned.sh  |  9 +++++
- 3 files changed, 81 insertions(+)
+ block/file-posix.c | 3 +++
+ block/trace-events | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index f35ea627d7..4159f41ab9 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1874,6 +1874,70 @@ static const cmdinfo_t zone_reset_cmd = {
-     .oneline = "reset a zone write pointer in zone block device",
- };
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 2ba9174778..5187f810e5 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2489,6 +2489,8 @@ out:
+             if (!BDRV_ZT_IS_CONV(wps->wp[index])) {
+                 if (type & QEMU_AIO_ZONE_APPEND) {
+                     *s->offset = wps->wp[index];
++                    trace_zbd_zone_append_complete(bs, *s->offset
++                        >> BDRV_SECTOR_BITS);
+                 }
+                 /* Advance the wp if needed */
+                 if (offset + bytes > wps->wp[index]) {
+@@ -3537,6 +3539,7 @@ static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
+         len += iov_len;
+     }
  
-+static int do_aio_zone_append(BlockBackend *blk, QEMUIOVector *qiov,
-+                              int64_t *offset, int flags, int *total)
-+{
-+    int async_ret = NOT_DONE;
-+
-+    blk_aio_zone_append(blk, offset, qiov, flags, aio_rw_done, &async_ret);
-+    while (async_ret == NOT_DONE) {
-+        main_loop_wait(false);
-+    }
-+
-+    *total = qiov->size;
-+    return async_ret < 0 ? async_ret : 1;
-+}
-+
-+static int zone_append_f(BlockBackend *blk, int argc, char **argv)
-+{
-+    int ret;
-+    int flags = 0;
-+    int total = 0;
-+    int64_t offset;
-+    char *buf;
-+    int nr_iov;
-+    int pattern = 0xcd;
-+    QEMUIOVector qiov;
-+
-+    if (optind > argc - 2) {
-+        return -EINVAL;
-+    }
-+    optind++;
-+    offset = cvtnum(argv[optind]);
-+    if (offset < 0) {
-+        print_cvtnum_err(offset, argv[optind]);
-+        return offset;
-+    }
-+    optind++;
-+    nr_iov = argc - optind;
-+    buf = create_iovec(blk, &qiov, &argv[optind], nr_iov, pattern,
-+                       flags & BDRV_REQ_REGISTERED_BUF);
-+    if (buf == NULL) {
-+        return -EINVAL;
-+    }
-+    ret = do_aio_zone_append(blk, &qiov, &offset, flags, &total);
-+    if (ret < 0) {
-+        printf("zone append failed: %s\n", strerror(-ret));
-+        goto out;
-+    }
-+
-+out:
-+    qemu_io_free(blk, buf, qiov.size,
-+                 flags & BDRV_REQ_REGISTERED_BUF);
-+    qemu_iovec_destroy(&qiov);
-+    return ret;
-+}
-+
-+static const cmdinfo_t zone_append_cmd = {
-+    .name = "zone_append",
-+    .altname = "zap",
-+    .cfunc = zone_append_f,
-+    .argmin = 3,
-+    .argmax = 3,
-+    .args = "offset len [len..]",
-+    .oneline = "append write a number of bytes at a specified offset",
-+};
-+
- static int truncate_f(BlockBackend *blk, int argc, char **argv);
- static const cmdinfo_t truncate_cmd = {
-     .name       = "truncate",
-@@ -2672,6 +2736,7 @@ static void __attribute((constructor)) init_qemuio_commands(void)
-     qemuio_add_command(&zone_close_cmd);
-     qemuio_add_command(&zone_finish_cmd);
-     qemuio_add_command(&zone_reset_cmd);
-+    qemuio_add_command(&zone_append_cmd);
-     qemuio_add_command(&truncate_cmd);
-     qemuio_add_command(&length_cmd);
-     qemuio_add_command(&info_cmd);
-diff --git a/tests/qemu-iotests/tests/zoned.out b/tests/qemu-iotests/tests/zoned.out
-index 0c8f96deb9..b3b139b4ec 100644
---- a/tests/qemu-iotests/tests/zoned.out
-+++ b/tests/qemu-iotests/tests/zoned.out
-@@ -50,4 +50,11 @@ start: 0x80000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:14, [type: 2]
- (5) resetting the second zone
- After resetting a zone:
- start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type: 2]
-+
-+
-+(6) append write
-+After appending the first zone:
-+start: 0x0, len 0x80000, cap 0x80000, wptr 0x18, zcond:2, [type: 2]
-+After appending the second zone:
-+start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80018, zcond:2, [type: 2]
- *** done
-diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
-index 9d7c15dde6..6c3ded6c4c 100755
---- a/tests/qemu-iotests/tests/zoned.sh
-+++ b/tests/qemu-iotests/tests/zoned.sh
-@@ -79,6 +79,15 @@ echo "(5) resetting the second zone"
- sudo $QEMU_IO $IMG -c "zrs 268435456 268435456"
- echo "After resetting a zone:"
- sudo $QEMU_IO $IMG -c "zrp 268435456 1"
-+echo
-+echo
-+echo "(6) append write" # physical block size of the device is 4096
-+sudo $QEMU_IO $IMG -c "zap 0 0x1000 0x2000"
-+echo "After appending the first zone:"
-+sudo $QEMU_IO $IMG -c "zrp 0 1"
-+sudo $QEMU_IO $IMG -c "zap 268435456 0x1000 0x2000"
-+echo "After appending the second zone:"
-+sudo $QEMU_IO $IMG -c "zrp 268435456 1"
++    trace_zbd_zone_append(bs, *offset >> BDRV_SECTOR_BITS);
+     return raw_co_prw(bs, *offset, len, qiov, QEMU_AIO_ZONE_APPEND);
+ }
+ #endif
+diff --git a/block/trace-events b/block/trace-events
+index 3f4e1d088a..32665158d6 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -211,6 +211,8 @@ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
+ file_flush_fdatasync_failed(int err) "errno %d"
+ zbd_zone_report(void *bs, unsigned int nr_zones, int64_t sector) "bs %p report %d zones starting at sector offset 0x%" PRIx64 ""
+ zbd_zone_mgmt(void *bs, const char *op_name, int64_t sector, int64_t len) "bs %p %s starts at sector offset 0x%" PRIx64 " over a range of 0x%" PRIx64 " sectors"
++zbd_zone_append(void *bs, int64_t sector) "bs %p append at sector offset 0x%" PRIx64 ""
++zbd_zone_append_complete(void *bs, int64_t sector) "bs %p returns append sector 0x%" PRIx64 ""
  
- # success, all done
- echo "*** done"
+ # ssh.c
+ sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
 -- 
 2.39.2
 
