@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB846B4C30
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 17:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD306B4C2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 17:09:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pafE8-0002ve-Pe; Fri, 10 Mar 2023 11:04:16 -0500
+	id 1pafEG-0002xd-1A; Fri, 10 Mar 2023 11:04:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1pafE2-0002pt-2P
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:04:10 -0500
+ id 1pafE3-0002r0-7b
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:04:11 -0500
 Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1pafDz-0006cu-T9
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:04:09 -0500
+ id 1pafE0-0006dG-Fu
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:04:10 -0500
 Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
  by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
- id 1pafDn-00H4ad-59; Fri, 10 Mar 2023 16:03:55 +0000
+ id 1pafDn-00H4ad-EI; Fri, 10 Mar 2023 16:03:55 +0000
 From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
@@ -28,10 +28,10 @@ Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
  Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-Subject: [PATCH 22/45] target/riscv: Add vaesdm.vs decoding,
+Subject: [PATCH 23/45] target/riscv: Add vaesz.vs decoding,
  translation and execution support
-Date: Fri, 10 Mar 2023 16:03:23 +0000
-Message-Id: <20230310160346.1193597-23-lawrence.hunter@codethink.co.uk>
+Date: Fri, 10 Mar 2023 16:03:24 +0000
+Message-Id: <20230310160346.1193597-24-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310160346.1193597-1-lawrence.hunter@codethink.co.uk>
 References: <20230310160346.1193597-1-lawrence.hunter@codethink.co.uk>
@@ -64,48 +64,46 @@ Signed-off-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
  target/riscv/helper.h                        | 1 +
  target/riscv/insn32.decode                   | 1 +
  target/riscv/insn_trans/trans_rvzvkned.c.inc | 1 +
- target/riscv/vcrypto_helper.c                | 4 ++++
- 4 files changed, 7 insertions(+)
+ target/riscv/vcrypto_helper.c                | 2 ++
+ 4 files changed, 5 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 9b04f90240..ab0d2a4225 100644
+index ab0d2a4225..58121ba8ad 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1193,3 +1193,4 @@ DEF_HELPER_4(vaesef_vs, void, ptr, ptr, env, i32)
- DEF_HELPER_4(vaesdf_vv, void, ptr, ptr, env, i32)
+@@ -1194,3 +1194,4 @@ DEF_HELPER_4(vaesdf_vv, void, ptr, ptr, env, i32)
  DEF_HELPER_4(vaesdf_vs, void, ptr, ptr, env, i32)
  DEF_HELPER_4(vaesdm_vv, void, ptr, ptr, env, i32)
-+DEF_HELPER_4(vaesdm_vs, void, ptr, ptr, env, i32)
+ DEF_HELPER_4(vaesdm_vs, void, ptr, ptr, env, i32)
++DEF_HELPER_4(vaesz_vs, void, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index cdaa320f19..61f6b81644 100644
+index 61f6b81644..22059ef95b 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -933,3 +933,4 @@ vaesef_vs       101001 1 ..... 00011 010 ..... 1110111 @r2_vm_1
- vaesdf_vv       101000 1 ..... 00001 010 ..... 1110111 @r2_vm_1
+@@ -934,3 +934,4 @@ vaesdf_vv       101000 1 ..... 00001 010 ..... 1110111 @r2_vm_1
  vaesdf_vs       101001 1 ..... 00001 010 ..... 1110111 @r2_vm_1
  vaesdm_vv       101000 1 ..... 00000 010 ..... 1110111 @r2_vm_1
-+vaesdm_vs       101001 1 ..... 00000 010 ..... 1110111 @r2_vm_1
+ vaesdm_vs       101001 1 ..... 00000 010 ..... 1110111 @r2_vm_1
++vaesz_vs        101001 1 ..... 00111 010 ..... 1110111 @r2_vm_1
 diff --git a/target/riscv/insn_trans/trans_rvzvkned.c.inc b/target/riscv/insn_trans/trans_rvzvkned.c.inc
-index 4f1105ce1d..93f0df6b78 100644
+index 93f0df6b78..1f59dbcc68 100644
 --- a/target/riscv/insn_trans/trans_rvzvkned.c.inc
 +++ b/target/riscv/insn_trans/trans_rvzvkned.c.inc
-@@ -93,3 +93,4 @@ GEN_V_UNMASKED_TRANS(vaesef_vs, vaes_check_vs)
- GEN_V_UNMASKED_TRANS(vaesdf_vv, vaes_check_vv)
+@@ -94,3 +94,4 @@ GEN_V_UNMASKED_TRANS(vaesdf_vv, vaes_check_vv)
  GEN_V_UNMASKED_TRANS(vaesdf_vs, vaes_check_vs)
  GEN_V_UNMASKED_TRANS(vaesdm_vv, vaes_check_vv)
-+GEN_V_UNMASKED_TRANS(vaesdm_vs, vaes_check_vs)
+ GEN_V_UNMASKED_TRANS(vaesdm_vs, vaes_check_vs)
++GEN_V_UNMASKED_TRANS(vaesz_vs, vaes_check_vs)
 diff --git a/target/riscv/vcrypto_helper.c b/target/riscv/vcrypto_helper.c
-index f3b9070768..04d5ce5dc0 100644
+index 04d5ce5dc0..41e138ece5 100644
 --- a/target/riscv/vcrypto_helper.c
 +++ b/target/riscv/vcrypto_helper.c
-@@ -323,3 +323,7 @@ GEN_ZVKNED_HELPER_VV(vaesdm_vv, aes_inv_shift_bytes(round_state);
+@@ -327,3 +327,5 @@ GEN_ZVKNED_HELPER_VS(vaesdm_vs, aes_inv_shift_bytes(round_state);
                      aes_inv_sub_bytes(round_state);
                      xor_round_key(round_state, (uint8_t *)round_key);
                      aes_inv_mix_cols(round_state);)
-+GEN_ZVKNED_HELPER_VS(vaesdm_vs, aes_inv_shift_bytes(round_state);
-+                    aes_inv_sub_bytes(round_state);
-+                    xor_round_key(round_state, (uint8_t *)round_key);
-+                    aes_inv_mix_cols(round_state);)
++GEN_ZVKNED_HELPER_VS(vaesz_vs,
++                    xor_round_key(round_state, (uint8_t *)round_key);)
 -- 
 2.39.2
 
