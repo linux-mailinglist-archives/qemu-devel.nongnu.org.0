@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6651A6B5101
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77076B5132
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:54:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paiVv-0007Vm-Ej; Fri, 10 Mar 2023 14:34:51 -0500
+	id 1painU-0001FU-51; Fri, 10 Mar 2023 14:53:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paiVp-0007UA-Ub
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:45 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1painR-0001Ed-Jt
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:52:57 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paiVo-0000nr-26
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:45 -0500
-Received: by mail-pl1-x632.google.com with SMTP id v11so6733829plz.8
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:34:43 -0800 (PST)
+ id 1painQ-0004eM-4N
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:52:57 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ q31-20020a17090a17a200b0023750b69614so6164406pja.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678476882;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KcvJSFloV2UM74PYdzh3vseeIocAoU+nM6qIsPFnc7o=;
- b=qfgT2JezmHlBefhmwSI7MWS8R1+8PS2VsXMC1Ub8cAfgCj8bt4Fg2p62JfXm3ZIIeI
- NeGQURTKBwtmfjguaUX66lqEvOCQJXOxG4hNZJoj+PnGX1gyDbk28ELa91gbbKXJWRi8
- YEB5b5M+k8Jzp+bichZfAZSdqv3SziPoMwAX3vLj0oZc67rEY7YgwFu4s0ghkLz7aA9R
- 31zNv5xItZpLlPHYu/BWxoTrUMyDs3FeIAsQ5y8D+V24kp2yQhQNuxu5UpCtD1Kufykb
- 9O6tbuKUWFA3vratSFfRfPHtvxbls8EbsV2X3nPfNFYFKeBss3r4iO+pjdzw1ZgopWDp
- iJpw==
+ d=linaro.org; s=google; t=1678477973;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=n2ldLpi0//dw1v+GWWc+CD5NADqZ1XFTEPmDyXqgJG0=;
+ b=yKmi0Qynh2F/IADM4ggKI/HdBbYpDM6jkOnVhve5L/R9EwPs3kWKvUoJ9rUTzljxqZ
+ O/R1c6H2cKxyaUtH3rC5dJ8POdM4E5N2daiBdUdhLpnsI2hXxua+jTz7hjEeHDfqGnUC
+ LGKzPOqBYKx/6oQAKS9b7LqxY++5XsxRd84+m9Os8Dj88i/2UaWoYzv/hEiuPcF5942Y
+ M21Z18XphRxN8thybPkJYmAw6+MAEv8nhE1//W1qozP8vp2Gb4G5ggKdgVUtky/bVCsL
+ GXBlJp5TW4BNo3TUWwgbdkqz39DKzJmUlxSJEM1i7pjxVtr4EXFGxGE0TpOM9TVqu/gS
+ VeYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678476882;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KcvJSFloV2UM74PYdzh3vseeIocAoU+nM6qIsPFnc7o=;
- b=C+OhABSlkKwcv468iQ8OC2bJlulytdF3A78OpxNrvzK4WM3x3BAuTJx19+4fQ85RSh
- nGz8Iw+dRn5esPZ4opWu+9Pd5gd1+PSxVMsaL8pExePl4jyDhSGnflREh35lwLEO7sHa
- YcKqkMU2jhO68r2tJAAMOvJhkkeHAgipIQSU9bw+LL0BelH5mq17TgqjlcGkNFDudw3u
- xdBP1P3bBepVBqIh9GLA7nlFUChEUJcLQ03dd8pHZp3XLqGkj4bcpkkNVZsipxNo5ZSv
- +XwGOJliHsw/gVP7zkFOtQZ4pui/46B50usXXk5aYXkhX/7MfVo7rUl9rRd4/DvRWAfI
- YZeQ==
-X-Gm-Message-State: AO0yUKWSargqJ5jO+iA0oPY7MBi58+A/G9uIAn474o74NZhHjL67jPuZ
- mHp7MuKFqw4YmL2g95JzGRwfNw==
-X-Google-Smtp-Source: AK7set+9xJS3Vtbayyi7g7/5i0Uv/d/FQEjB1CftrFZqaNLZsmlapTqkrICqug2dnb8JA5k5zzv3vA==
-X-Received: by 2002:a17:90a:1c3:b0:237:3f83:61f3 with SMTP id
- 3-20020a17090a01c300b002373f8361f3mr27591483pjd.16.1678476882487; 
- Fri, 10 Mar 2023 11:34:42 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62?
- ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
+ d=1e100.net; s=20210112; t=1678477973;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n2ldLpi0//dw1v+GWWc+CD5NADqZ1XFTEPmDyXqgJG0=;
+ b=yU0UFq9y6CFCRHt/GERaU6x5r4tzSCNsm9fAbnj48RXpyoENlNYj4HRtJjF+E42WuY
+ gLU2HHKF6yuWrA3dYTl++pYMUmicJEEisvbYPbemEeikHKWBWk8dDfyzccuW4p/aNiRH
+ bBxyF9g+oZGQGTx87Pl+ewHaR304pViJl4Ark5GdVpiPm7mWuzm9Vuy9WrcTWfuj/0vp
+ 9ZdY6s3xAopaYF5c//f3Zshw7awexjHsZ1m/L4N3pTcug8n8v/+E2YGhWwegWSfg+1OO
+ 6pTuNn/Y4GErZpgjPnZMyyUoqHWOfXqpxpZFtNz7PlDfxTxWjU4duykOIFO7xcGWScTr
+ k0/g==
+X-Gm-Message-State: AO0yUKVKXPAplyG2gC7YbMNZS/4UJWI19vzuvh/KYuHH+8zIhnP10txA
+ LfPmkjBkNRlbmBHxFfeJTX+f10vBISjKtLMI9pI=
+X-Google-Smtp-Source: AK7set/+tIzm2ZGgTF+c8SeIkBGffhd6piGMzCXkyAqczvAuH599YU/heQZ2LBDVe/4uqVC/WI0vMw==
+X-Received: by 2002:a17:902:db05:b0:19c:da7f:a238 with SMTP id
+ m5-20020a170902db0500b0019cda7fa238mr33014847plx.31.1678477973373; 
+ Fri, 10 Mar 2023 11:52:53 -0800 (PST)
+Received: from stoup.. ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a17090a664100b002353082958csm315166pjm.10.2023.03.10.11.34.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 11:34:41 -0800 (PST)
-Message-ID: <a34c69b0-2725-9cc1-4c79-0d3e5baaf953@linaro.org>
-Date: Fri, 10 Mar 2023 11:34:40 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 11/12] target/s390x: Update do_unaligned_access() comment
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230310174223.944843-1-iii@linux.ibm.com>
- <20230310174223.944843-12-iii@linux.ibm.com>
+ l1-20020a170903244100b001991d6c6c64sm351465pls.185.2023.03.10.11.52.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 11:52:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230310174223.944843-12-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+To: qemu-devel@nongnu.org
+Cc: cota@braap.org,
+	alex.bennee@linaro.org
+Subject: [PATCH v2 0/7] plugin: fix clearing of plugin_mem_cbs on TB exit
+Date: Fri, 10 Mar 2023 11:52:45 -0800
+Message-Id: <20230310195252.210956-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,15 +89,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/10/23 09:42, Ilya Leoshkevich wrote:
-> Relative long instructions now depend on do_unaligned_access() too.
-> 
-> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
-> ---
->   target/s390x/tcg/excp_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+Changes for v2:
+  * Use plugin_gen_disable_mem_helpers,
+  * Remove plugin_gen_disable_mem_helpers from tcg_gen_exit_tb.
+  * Break include loop with hw/core/cpu.h and qemu/plugins.h.
+  * Inline plugin_gen_disable_mem_helpers.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+
+Richard Henderson (7):
+  tcg: Clear plugin_mem_cbs on TB exit
+  tcg: Drop plugin_gen_disable_mem_helpers from tcg_gen_exit_tb
+  include/qemu/plugin: Remove QEMU_PLUGIN_ASSERT
+  *: Add missing includes of qemu/error-report.h
+  *: Add missing includes of qemu/plugin.h
+  include/qemu: Split out plugin-event.h
+  include/qemu/plugin: Inline qemu_plugin_disable_mem_helpers
+
+ include/hw/core/cpu.h          |  2 +-
+ include/qemu/plugin-event.h    | 26 ++++++++++++++++++++++++++
+ include/qemu/plugin.h          | 27 ++++++---------------------
+ accel/accel-softmmu.c          |  2 +-
+ accel/tcg/cpu-exec-common.c    |  3 +++
+ accel/tcg/cpu-exec.c           |  5 +----
+ block/monitor/block-hmp-cmds.c |  1 +
+ cpu.c                          |  1 +
+ dump/dump.c                    |  1 +
+ dump/win_dump.c                |  1 +
+ hw/arm/collie.c                |  2 ++
+ hw/arm/cubieboard.c            |  1 +
+ hw/arm/musicpal.c              |  2 ++
+ hw/arm/npcm7xx_boards.c        |  2 ++
+ hw/arm/nseries.c               |  2 ++
+ hw/arm/omap_sx1.c              |  2 ++
+ hw/arm/orangepi.c              |  1 +
+ hw/arm/palm.c                  |  2 ++
+ hw/core/machine-smp.c          |  2 ++
+ hw/i386/sgx.c                  |  1 +
+ hw/loongarch/acpi-build.c      |  1 +
+ hw/loongarch/virt.c            |  2 ++
+ hw/m68k/next-cube.c            |  1 +
+ hw/m68k/q800.c                 |  1 +
+ hw/m68k/virt.c                 |  1 +
+ hw/openrisc/boot.c             |  1 +
+ hw/ppc/spapr_softmmu.c         |  2 ++
+ hw/riscv/opentitan.c           |  1 +
+ hw/riscv/shakti_c.c            |  1 +
+ hw/riscv/virt-acpi-build.c     |  1 +
+ linux-user/elfload.c           |  1 +
+ linux-user/exit.c              |  1 +
+ linux-user/syscall.c           |  1 +
+ plugins/core.c                 | 11 -----------
+ target/i386/cpu.c              |  1 +
+ target/i386/host-cpu.c         |  1 +
+ target/s390x/cpu_models.c      |  1 +
+ target/s390x/diag.c            |  2 ++
+ tcg/tcg-op.c                   |  1 -
+ 39 files changed, 79 insertions(+), 39 deletions(-)
+ create mode 100644 include/qemu/plugin-event.h
+
+-- 
+2.34.1
+
 
