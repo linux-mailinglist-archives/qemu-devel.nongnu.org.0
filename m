@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFC36B3FEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84F36B3FF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:08:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pacRo-0002yF-A1; Fri, 10 Mar 2023 08:06:12 -0500
+	id 1pacTt-0005qt-7r; Fri, 10 Mar 2023 08:08:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pacRl-0002xI-No; Fri, 10 Mar 2023 08:06:09 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pacRj-0001Pr-QO; Fri, 10 Mar 2023 08:06:09 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DF1E820659;
- Fri, 10 Mar 2023 13:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678453564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2k9+tpCAeN/8/On3DVhNJslrvVdEZxM6eN5p2uLU9rA=;
- b=nYI/2EjYkdQ8q7VdzUc/CEWOCc2kMDRFV8NyoA3iXjCvI50T8rBkPf3bhEbWWJ6iMmEaz0
- 0VzQxyhZplFzEZANe26YsHMPRmn21PK5pQq0qrEcn8KBbqqzxZd3yzFUe1u98Ujx3uTIfl
- GSdCQA2Pi0/yM/InHjr39ifPS1eDVSk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678453564;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2k9+tpCAeN/8/On3DVhNJslrvVdEZxM6eN5p2uLU9rA=;
- b=vnzeLboL+aKoH6y59nC3FmrgR+xq3JoRJspjhURS0nI6WR1HBAHQFsagQbJ8sd0eabQfaM
- NqkzfL/Hf6tAPsDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 647EB13592;
- Fri, 10 Mar 2023 13:06:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GH7GCzwrC2SvNAAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 10 Mar 2023 13:06:04 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Peter Maydell
- <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
- Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>, Juan
- Quintela <quintela@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are
- present
-In-Reply-To: <20230310050550-mutt-send-email-mst@kernel.org>
-References: <20230309201434.10831-1-farosas@suse.de>
- <20230309201434.10831-9-farosas@suse.de>
- <20230310050550-mutt-send-email-mst@kernel.org>
-Date: Fri, 10 Mar 2023 10:06:01 -0300
-Message-ID: <87h6useoxy.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pacTq-0005qN-Hk
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:08:18 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pacTo-00023g-ET
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:08:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gW9Qn1AsBfSakypTHQQYO5XQPi9e7jh4adxkwqzFL4U=; b=D7CslRot5SD23e9+bN0846nh90
+ DEFhFjRhTqfZnrpqKdCp7UUk56xp8MMIOQCubtJ2J9V2j/iFssa8VxINAWOhGLRjPvV4P6p9p2zXj
+ ww4kBN4vlZmzOhPzQy8t3LDxbI53Zs+km+oi7MI1e8FwJxL29l3mQ5jSQx9JOKjm9HabxndlgWOqn
+ 6rBztTSji7DgwLBaF7CoubeZU1zNwxulxqDbhr8xj8B4+fB59VzRCG7wqHkCF6xMuka7CeqwuMn2d
+ O/rvVCyuqcL24c/7lQM4gElAzyOIt1RYuAE/eSh9lnIIOVIdiQmlrKOG9OQ9UV1cgqG7tqZ+D26oB
+ bvn8wmLKThy7opUkRA+RulXd7/QMW78VGOcXXWNMh0m7kYf0z8tDSCrG3sIqqOSRfRUNbd1fKmn/i
+ AAffy/qU+MyvLpOTOJz6dRRQvE3tGD+xqQTxwsOh4FRPkQUYaugkOvQWqKGMplGXxSd5qNvDf24lj
+ Ek/iZiZY46FdVe4u++Dpuj6xJqUvb3lcW4yEbaFYc9vq76WuLmByjuDQpfEIIm/EYhX+9DtaZAsNM
+ 9xCgUtrjDu0LDDFYNqSXbfuWiHUnHcJuBcUgqpuMkYj1sVnaCtnAgY11ToG4KqNLOopu5lIb23v9T
+ FxarZx02C6O2anwNdHBTRg2z+7+q70Mb2JwQBMvAI=;
+Received: from host86-130-37-175.range86-130.btcentralplus.com
+ ([86.130.37.175] helo=[10.8.0.6])
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pacSr-0006qc-0T; Fri, 10 Mar 2023 13:07:21 +0000
+Message-ID: <9edfe0f7-be73-a76b-a352-b8dcbfcbbf0f@ilande.co.uk>
+Date: Fri, 10 Mar 2023 13:07:51 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, Alexander Bulekov <alxndr@bu.edu>
+Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Fam Zheng <fam@euphon.net>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230205040737.3567731-2-alxndr@bu.edu>
+ <9cfa0cc8-01c7-cf79-72ef-3224d1276e16@proxmox.com>
+ <20230310122347.hghmijad7wajiqne@mozz.bu.edu>
+ <20230310123117.d2uxze7zqtigmg44@mozz.bu.edu>
+ <CAFEAcA8YLrr0Ltt-CAdTDrh2zyzzyqWgfx39fy0zJwLFqdGQGg@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAFEAcA8YLrr0Ltt-CAdTDrh2zyzzyqWgfx39fy0zJwLFqdGQGg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 86.130.37.175
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v6 1/4] memory: prevent dma-reentracy issues
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,205 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+On 10/03/2023 12:45, Peter Maydell wrote:
 
-> On Thu, Mar 09, 2023 at 05:14:31PM -0300, Fabiano Rosas wrote:
->> It is possible to have a build with both TCG and KVM disabled due to
->> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
->> host.
->> 
->> If we build with --disable-tcg on the aarch64 host, we will end-up
->> with a QEMU binary (x86) that does not support TCG nor KVM.
->> 
->> Fix tests that crash or hang in the above scenario. Do not include any
->> test cases if TCG and KVM are missing.
->> 
->> Make sure that calls to qtest_has_accel are placed after g_test_init
->> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
->> printed before other messages") to avoid TAP parsing errors.
->> 
->> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
->
-> I don't like it that we are hard-coding the list of accelerators
-> like this. Make a wrapper?
->
+> On Fri, 10 Mar 2023 at 12:32, Alexander Bulekov <alxndr@bu.edu> wrote:
+>> This MR seems to be "lsi-ram".
+>>
+>>  From hw/scsi/lsi53c895a.c:
+>>
+>> memory_region_init_io(&s->ram_io, OBJECT(s), &lsi_ram_ops, s,
+>>          "lsi-ram", 0x2000);
+>>
+>> So the LSI device is reading an LSI "Script" from its own IO region.. In
+>> this particular case, I think there was no reason to use
+>> memory_region_init_io rather than memory_region_init_ram, but this makes
+>> me worried that there are other devices that use something like this.
+> 
+> This particular device predates the entire MemoryRegion set of
+> abstractions, so it might have seemed easier at the time.
+> The endianness handling of the current code is also a bit
+> confusing and might make it tricky to convert to a RAM MR.
 
-Are you thinking of some sort of "has_any_accel" wrapper?
+Since the LSI controller is attached to a PCI BAR then the accesses from the host to 
+the RAM should all be little endian (you can see the conversions in the driver I 
+wrote for the 40p machine to allow it to boot Linux: 
+https://github.com/openbios/openbios/blob/master/drivers/lsi.c).
 
-Some of the code uses has_tcg/kvm for other purposes, so there would be
-slight duplication. And the issue really is !tcg && !kvm, i.e. other
-accelerators are not taken into account.
+I'm mildly curious that read_dword() which reads the SCRIPTS program internally 
+returns the value via cpu_to_le32(), as at first glance I would expect that to be the 
+other way around...
 
->> ---
->> This currently affects Arm, but will also affect x86 after the xenpvh
->> series gets merged. This patch fixes both scenarios.
->> ---
->>  tests/qtest/bios-tables-test.c | 10 ++++++++--
->>  tests/qtest/boot-serial-test.c | 10 ++++++++++
->>  tests/qtest/migration-test.c   |  9 ++++++++-
->>  tests/qtest/pxe-test.c         |  7 ++++++-
->>  tests/qtest/vmgenid-test.c     |  8 ++++++--
->>  5 files changed, 38 insertions(+), 6 deletions(-)
->> 
->> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
->> index d29a4e47af..5cbad2f29f 100644
->> --- a/tests/qtest/bios-tables-test.c
->> +++ b/tests/qtest/bios-tables-test.c
->> @@ -2109,8 +2109,7 @@ static void test_acpi_virt_oem_fields(void)
->>  int main(int argc, char *argv[])
->>  {
->>      const char *arch = qtest_get_arch();
->> -    const bool has_kvm = qtest_has_accel("kvm");
->> -    const bool has_tcg = qtest_has_accel("tcg");
->> +    bool has_kvm, has_tcg;
->>      char *v_env = getenv("V");
->>      int ret;
->>  
->> @@ -2120,6 +2119,13 @@ int main(int argc, char *argv[])
->>  
->>      g_test_init(&argc, &argv, NULL);
->>  
->> +    has_kvm = qtest_has_accel("kvm");
->> +    has_tcg = qtest_has_accel("tcg");
->> +
->
-> why are you moving these? init at declaration time is
-> generally cleaner.
->
 
-Thomas had asked me to put calls to qtest_has_accel after g_test_init. I
-just brought the existing one along for consistency. From the commit
-message:
 
- "Make sure that calls to qtest_has_accel are placed after g_test_init
- in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
- printed before other messages") to avoid TAP parsing errors."
+ATB,
 
->> +    if (!has_tcg && !has_kvm) {
->> +        return 0;
->> +    }
->> +
->>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->>          ret = boot_sector_init(disk);
->>          if (ret) {
->> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
->> index 3aef3a97a9..406b4421cc 100644
->> --- a/tests/qtest/boot-serial-test.c
->> +++ b/tests/qtest/boot-serial-test.c
->> @@ -17,6 +17,9 @@
->>  #include "libqtest.h"
->>  #include "libqos/libqos-spapr.h"
->>  
->> +static bool has_tcg;
->> +static bool has_kvm;
->> +
->>  static const uint8_t bios_avr[] = {
->>      0x88, 0xe0,             /* ldi r24, 0x08   */
->>      0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
->> @@ -287,6 +290,13 @@ int main(int argc, char *argv[])
->>  
->>      g_test_init(&argc, &argv, NULL);
->>  
->> +    has_tcg = qtest_has_accel("tcg");
->> +    has_kvm = qtest_has_accel("kvm");
->> +
->
-> and here why do we need them global?
->
-
-I was trying to make things easier when merging this other series that
-puts the variables there as well:
-https://lore.kernel.org/r/20230119145838.41835-5-philmd@linaro.org
-
-Second time I get asked this so I'll change it for the next version =)
-
->> +    if (!has_tcg && !has_kvm) {
->> +        return 0;
->> +    }
->> +
->>      for (i = 0; tests[i].arch != NULL; i++) {
->>          if (g_str_equal(arch, tests[i].arch) &&
->>              qtest_has_machine(tests[i].machine)) {
->> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
->> index d4ab3934ed..7eedee7b2d 100644
->> --- a/tests/qtest/migration-test.c
->> +++ b/tests/qtest/migration-test.c
->> @@ -2459,7 +2459,7 @@ static bool kvm_dirty_ring_supported(void)
->>  
->>  int main(int argc, char **argv)
->>  {
->> -    const bool has_kvm = qtest_has_accel("kvm");
->> +    bool has_kvm, has_tcg;
->>      const bool has_uffd = ufd_version_check();
->>      const char *arch = qtest_get_arch();
->>      g_autoptr(GError) err = NULL;
->> @@ -2467,6 +2467,13 @@ int main(int argc, char **argv)
->>  
->>      g_test_init(&argc, &argv, NULL);
->>  
->> +    has_kvm = qtest_has_accel("kvm");
->> +    has_tcg = qtest_has_accel("tcg");
->> +
->
-> same. why the move?
->
-
-g_test_init
-
->> +    if (!has_tcg && !has_kvm) {
->> +        return 0;
->> +    }
->> +
->>      /*
->>       * On ppc64, the test only works with kvm-hv, but not with kvm-pr and TCG
->>       * is touchy due to race conditions on dirty bits (especially on PPC for
->> diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
->> index 62b6eef464..935b661dac 100644
->> --- a/tests/qtest/pxe-test.c
->> +++ b/tests/qtest/pxe-test.c
->> @@ -131,11 +131,16 @@ int main(int argc, char *argv[])
->>      int ret;
->>      const char *arch = qtest_get_arch();
->>  
->> +    g_test_init(&argc, &argv, NULL);
->> +
->> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
->> +        return 0;
->> +    }
->> +
->>      ret = boot_sector_init(disk);
->>      if(ret)
->>          return ret;
->>  
->> -    g_test_init(&argc, &argv, NULL);
->>  
->>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->>          test_batch(x86_tests, false);
->> diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
->> index efba76e716..9eb6371ae8 100644
->> --- a/tests/qtest/vmgenid-test.c
->> +++ b/tests/qtest/vmgenid-test.c
->> @@ -165,13 +165,17 @@ int main(int argc, char **argv)
->>  {
->>      int ret;
->>  
->> +    g_test_init(&argc, &argv, NULL);
->> +
->> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
->> +        return 0;
->> +    }
->> +
->>      ret = boot_sector_init(disk);
->>      if (ret) {
->>          return ret;
->>      }
->>  
->> -    g_test_init(&argc, &argv, NULL);
->> -
->>      qtest_add_func("/vmgenid/vmgenid/set-guid",
->>                     vmgenid_set_guid_test);
->>      qtest_add_func("/vmgenid/vmgenid/set-guid-auto",
->> -- 
->> 2.35.3
+Mark.
 
