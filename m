@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258B16B4533
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732436B4535
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:32:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1padm6-0001hS-26; Fri, 10 Mar 2023 09:31:14 -0500
+	id 1padmL-0001l8-39; Fri, 10 Mar 2023 09:31:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1padm3-0001h6-Vo
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:31:12 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ id 1padmG-0001iy-Sk
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:31:26 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1padm1-00008B-5v
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:31:11 -0500
-Received: by mail-pg1-x533.google.com with SMTP id d8so3147199pgm.3
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:31:08 -0800 (PST)
+ id 1padmF-0000C3-4R
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:31:24 -0500
+Received: by mail-pg1-x535.google.com with SMTP id q23so3146096pgt.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:31:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678458667;
+ d=linaro.org; s=google; t=1678458682;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hti0sY1kS++Ec+FCzSunh/GZE1c4sL/w0NCtxNsznqs=;
- b=WoNEyJYZ1wsdhHjVCnUxLJduAZTr4yNXUXU2TRCjuInSkT616ZqrKJ2+C0C1r+E/65
- fKYWIp9o3AVgnxIAgjUlU61Su3ZtVe6HXun0RcMJqOk/L5mGLAiuL6zUUJOphBqqAEmr
- SoitKOa9rV4bgxLk8xTMRNLqsO0ux2G6zW+9TrTmoMclyxZwfh6XUFpWYuy7iKgyKTUn
- cGmSAmPoroqqjPqpoa0h6wYzwYSTHWEGvLkJCshzPig3h9iISCYpWOU+OGfyYB6Uam4v
- F9w5123n4TtTSI8vILTh0GIn1gGXgtz5NVDOkdBLkNVcI9DkWiXpWQghAR8Xw1zqAdO9
- odBQ==
+ bh=SLLAjgUbYOAubaI92v7ALZkUlecOKp7Dj0KfhZId94Q=;
+ b=hVpaZIALvugitkH+G/k+sLKgb4VT3TlWQyEH6GxNKEJFpxSn3rkiHhnqOghwrA5FNi
+ KsfYW9tzDyttVtkiaf++K9XvAITMjMp0RaOuhHq+rEWD3p5IZLnb54uEme+Q4fDwsYEw
+ aaofKc51VNLZiF2uTSgNMB+BBzXKhW5aJ5OMJKFyX6dsUBbjuyz4xpOVFQ4gBmzf39cD
+ 10k515MbbI/64RULI1w+efZaShe9XF0Bf8jcHfTd9MTx/oDs4ufk5c/CVEA16MJ7PaaD
+ d+9639aGAWCe7GTAQTMiktdhpthz6TRUnauARph8M2XV2X7dRkr+113ZQEeSqxzxci6i
+ dIVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678458667;
+ d=1e100.net; s=20210112; t=1678458682;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hti0sY1kS++Ec+FCzSunh/GZE1c4sL/w0NCtxNsznqs=;
- b=zGtbvqvdZQdSdek4St/Q6TgvZ8+h2CtdeNJa2Gb9pBF6tDBD9bHJOajteTnoQUHkk4
- +eaLT0yGqAEQggL1gTqf94ENFbh3gsHJd9DTWumCbdOIJwtHdTTusMvb8XiEY0Gax4LM
- 2ixSWeos/WMsGZG5ikpMBdz8KHFpKxVhPzWZ75xvUCIcn4ibdpilWol0bKoczDT5X9As
- aqrY9un6Yu98sJRn9PsnKkSB3Viwl8wt0PeK0S1Efy5SX0mnBCvvzoVXje3+rcDs2Kg1
- n2G87T6/xfzhqDsIm3qoGWWClsnUP1U9YGuYTT+dZwS15nECZAAAY/zuc5gv/uhLsjOW
- 0KYw==
-X-Gm-Message-State: AO0yUKUpiJIkQd1/lmVak9YPR70Lv2b7rRv/oeJxr87lk3fLoALmdS81
- DYBZlaSV++EiSS/s5JnNMU3nHyJ8EG06NZdQAXFxzw==
-X-Google-Smtp-Source: AK7set8Fn2A35yDSgEowtzvIYA85CJWzmufQsQqiDc80GiK5pNcT8V8jwLFjLeakfTMddTzvqqpN0iiarTIyOC9qY7Q=
-X-Received: by 2002:a63:7d03:0:b0:503:4a2c:5f0 with SMTP id
- y3-20020a637d03000000b005034a2c05f0mr8380180pgc.9.1678458667270; Fri, 10 Mar
- 2023 06:31:07 -0800 (PST)
+ bh=SLLAjgUbYOAubaI92v7ALZkUlecOKp7Dj0KfhZId94Q=;
+ b=6t8iSVPITlQgKNluK5osiwhq1Cn2uD68OXGMO4QS74cZX3CpruzfNf9oIFa6DZ4lOl
+ ouciLkB4Fb9ekFUclwEwv0Jf9IFfcoGeGmY1ZpHF1nAEzEi8al52nyVHXXSkc+JQlmB6
+ FZCVCgM9tXyl2/QcQpxf6SHKFyC3OaTU5356Smg19Yutf3LaRfE4hcM9PFI3TL2/4ATl
+ R87A0LhWnXy7JZhKnraZ+7dstHwMiHX6+vR6RKeJ0iRqOmeXVN/oxemy234pIcFp1fhq
+ qWiFu/HJB/aQWk4CxJyPBfBoEJLBzPocGB43p2fp5pQqcEDaRT0lU1tXP7eBswHc7xce
+ CNuA==
+X-Gm-Message-State: AO0yUKVXqqu2Gy+FZbaYA2+GlTmDSnirN+l56VhUKYnqjbmO/lAfauXr
+ LvCMlJwSzhNwSOtMnQsSxkAyUatk4F9wK/YCWHku+w==
+X-Google-Smtp-Source: AK7set9Dxr5K+1FQLq+3bRCx6IBITH7aoR2u2sGbwL1iSdto5Sq29oqU3ATFOO35RGCWAtVjf0gGlx/sV26Z/jPFoXg=
+X-Received: by 2002:a62:8348:0:b0:5ef:95c9:6a88 with SMTP id
+ h69-20020a628348000000b005ef95c96a88mr10550078pfe.5.1678458681702; Fri, 10
+ Mar 2023 06:31:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20230308200419.453688-1-kkostiuk@redhat.com>
-In-Reply-To: <20230308200419.453688-1-kkostiuk@redhat.com>
+References: <20230307053438.2416629-1-tsimpson@quicinc.com>
+In-Reply-To: <20230307053438.2416629-1-tsimpson@quicinc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Mar 2023 14:30:55 +0000
-Message-ID: <CAFEAcA_=EMp=6bRLdMx4BJtuMyKoBNVk5Ox=F3z8U4dupkcNMA@mail.gmail.com>
-Subject: Re: [PULL 0/5] QGA Misc patches
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Fri, 10 Mar 2023 14:31:10 +0000
+Message-ID: <CAFEAcA-ZkA_bQRdBOvr+9TOYDmV3CaQ4HUrmLnV9T3m2reKD+g@mail.gmail.com>
+Subject: Re: [PULL 00/17] Hexagon (target/hexagon) updates
+To: Taylor Simpson <tsimpson@quicinc.com>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
+ bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com, ale@rev.ng, 
+ anjo@rev.ng
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,23 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 8 Mar 2023 at 20:04, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+On Tue, 7 Mar 2023 at 05:34, Taylor Simpson <tsimpson@quicinc.com> wrote:
 >
-> The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8bd:
+> The following changes since commit f003dd8d81f7d88f4b1f8802309eaa76f6eb223a:
 >
->   Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-dabbelt/qemu into staging (2023-03-07 12:53:00 +0000)
+>   Merge tag 'pull-tcg-20230305' of https://gitlab.com/rth7680/qemu into staging (2023-03-06 10:20:04 +0000)
 >
 > are available in the Git repository at:
 >
->   git@github.com:kostyanf14/qemu.git tags/qga-pull-2023-03-08
+>   https://github.com/quic/qemu tags/pull-hex-20230306
 >
-> for you to fetch changes up to 0961f929c66ceb5e9e95756bfe418b9ef34510eb:
+> for you to fetch changes up to c2b33d0be998bf539953f1dad0aa0d1cc8d9d069:
 >
->   qga/win/vss: requester_freeze changes (2023-03-08 18:26:50 +0200)
+>   Hexagon (target/hexagon) Improve code gen for predicated HVX instructions (2023-03-06 20:47:12 -0800)
 >
 > ----------------------------------------------------------------
-> qga-pull-2023-03-08
+> Hexagon (target/hexagon) updates
 >
+> ----------------------------------------------------------------
+
 
 
 Applied, thanks.
