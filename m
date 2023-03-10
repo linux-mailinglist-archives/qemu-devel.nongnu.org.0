@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887C16B3DC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332366B3DCE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:31:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paawT-0006ks-Dk; Fri, 10 Mar 2023 06:29:45 -0500
+	id 1paaxr-0008AS-Ko; Fri, 10 Mar 2023 06:31:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paawR-0006kU-Tx
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:29:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paawQ-0001jH-2i
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:29:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678447781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JTQC0vXSzwM1nbYVW3UtmiCWIgmq5UCoNrVNSQJ8giI=;
- b=TTX/Q9w956ePpNAMLOIBhbD0HazX2bZp/GPU7P8RidHBWtVOy+7qLEXf1bjGLqFoMUZFzz
- B8cwL9xDYhhZL1m5MWdN3bQOY48HU7nArseerXEFJrBFHnOR4DsoOU46cqahL8oi1xOUT8
- /beUjIVKfJ83EUZSxX6AWq2iynu4XZ0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-9dYuZ8EzOyCwuYOcvaypIw-1; Fri, 10 Mar 2023 06:29:39 -0500
-X-MC-Unique: 9dYuZ8EzOyCwuYOcvaypIw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n15-20020a05600c500f00b003dd07ce79c8so1865421wmr.1
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 03:29:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paaxo-000885-UM
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:31:09 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1paaxl-00028S-TM
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:31:08 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id ky4so5237226plb.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 03:31:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678447864;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oHiWaNHWbPUQydF5OuQk9Nyspq0Lxc/46BWpvc8m3u8=;
+ b=nlKfwxYiDsaDnCwxpb4uz/8w9/Ol7aSu3Vi5N66a/TAOgSWadIgpFxU4BPklWiOxTp
+ GHfa/I09gNLQM0DywDfYwiwfL2BDIANTyXiTAulh7kwZxBMHLbFDfXwt4fT07/mV+MHm
+ g/KDtbWhXCdXutfhnbIY0viwWqbKIIy8aWSTX5oD5D0TtoIXOCkejj7QIJdr8ZnL/+4D
+ 9kJrUueNblqe5xZ2p9sSn1tdarmaK3SNXg/cr75fMWaQZpwGafRMLHWVGsbsJ7XJp69O
+ 8yGXUjZiCJ1fbQUzl03BD4IiAHAqI3ASoisDeHH1CjKbkJyYPS3rjgN0ZBvrTvlONwhv
+ 6luw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678447778;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JTQC0vXSzwM1nbYVW3UtmiCWIgmq5UCoNrVNSQJ8giI=;
- b=0AFGsfgDhoUAPLMFJiicVjUki786Z9s95yAxvFnAEsHPHOkui1mqHXAe1rxiLYedCk
- D9oAXzgQtSLIHI+WnjOvcboLz8r4MNfNfkwvr5bDqLjM1cYJjT9sr3pW7hd7Sh+crUJ6
- mE0TfrJHFT8twW1HU3uUx2LT6LythW0Zg8MooXpYPU+RjR9xM0sGO/Y89GVYDBG02Aab
- 42bqi71rzWFGYApRYLzrYSyTK6XzXQaQgXY16BTs4n+K/jBWC0+FZJg+23ygiulBNfHe
- PDplIU7KvwrjFiMvcL/PzMSbQvX0JWC31+gdb9MivjDILRMRq2Rr+PEyP//HvT9jFG8B
- wN9g==
-X-Gm-Message-State: AO0yUKXu3YcsrF3uW2rCbdx9MvycYwN+gSAqa43lMe5qYHVect1s2M8W
- GhDu3fp/1aqmXs8swivmPfAyvNc43p2jkAJLc3k3V9ABbew1sIYDjXRv1rrCYLt7WA5Jrz497hp
- 9Ds8dlmYmy7T6sxk=
-X-Received: by 2002:adf:ea90:0:b0:2c9:d90c:56c3 with SMTP id
- s16-20020adfea90000000b002c9d90c56c3mr16645404wrm.53.1678447778777; 
- Fri, 10 Mar 2023 03:29:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set+5W0Z3/5Mk4RcE4xTfzuDMmfeHMYszmwXdM0Cg+opRK8raSzzN2pceLfTTRaIUMttBnEycRw==
-X-Received: by 2002:adf:ea90:0:b0:2c9:d90c:56c3 with SMTP id
- s16-20020adfea90000000b002c9d90c56c3mr16645381wrm.53.1678447778398; 
- Fri, 10 Mar 2023 03:29:38 -0800 (PST)
-Received: from redhat.com ([2.52.9.88]) by smtp.gmail.com with ESMTPSA id
- e15-20020a056000120f00b002c5493a17efsm1904617wrx.25.2023.03.10.03.29.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 03:29:37 -0800 (PST)
-Date: Fri, 10 Mar 2023 06:29:33 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- "open list:virtio-ccw" <qemu-s390x@nongnu.org>
-Subject: Re: [PATCH] virtio: refresh vring region cache after updating a
- virtqueue size
-Message-ID: <20230310062925-mutt-send-email-mst@kernel.org>
-References: <20230302101447.4499-1-clopez@suse.de> <875ybajjbx.fsf@redhat.com>
+ d=1e100.net; s=20210112; t=1678447864;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oHiWaNHWbPUQydF5OuQk9Nyspq0Lxc/46BWpvc8m3u8=;
+ b=Ld4I+YvyoqWSZ86CbswYddqoKJR0PVMVH7wU4+jvLvidwltB7wX7Hh7WTkKcJ+ift5
+ f8P15zBcYsXDH7GCGDbDaIi4lDDlOIXsfPiwv0QOHLGDRa2BDiNSCd0Q/ZixnReBpMFC
+ k+zwntP8ZNi75/xraorTa3sfl4EEi8yNuyJ3wWyg+wmgyMZvk6ASbK6ct9qmewGd+hgD
+ iMbUFgSK/6trTMm/w/x3oPXZ58mqS0JcFpn51Wj+7FJYVo7qxuEVSIRKx6HM+VP+9V2T
+ Xd9lKepnh0EsoK2sjLSsaqiPmtIvBf/4rS+ZkJRaWvKb/wOKeXQrFk9SAQa+SLvT70Ud
+ i3Iw==
+X-Gm-Message-State: AO0yUKVOC01WrV+l/4IJzPmo+rCVyGmgHBWqOtGdT8aRt5nEKE97e6NH
+ c4vwLDssmmvDgAmO0FhKTegtRDDyvHr/MEOCzy/cqQ==
+X-Google-Smtp-Source: AK7set9uN1uTwCTXSQGN2dnp5Nuilp/Bwp662b6wSeiKs0rHIbPir1d5CfGbPg5DmNXas7U3JN9tnZ95hEqGy138GPY=
+X-Received: by 2002:a17:903:2788:b0:19a:9580:7130 with SMTP id
+ jw8-20020a170903278800b0019a95807130mr9519255plb.13.1678447864168; Fri, 10
+ Mar 2023 03:31:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <875ybajjbx.fsf@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230309115714.906369-1-kraxel@redhat.com>
+In-Reply-To: <20230309115714.906369-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Mar 2023 11:30:53 +0000
+Message-ID: <CAFEAcA_KwKQjgsx+4C_3an6ujhN=ETYFbaOjgU7Bg4OYt10OgA@mail.gmail.com>
+Subject: Re: [PULL 0/3] Edk2 stable202302 20230309 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,97 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 09, 2023 at 11:43:46AM +0100, Cornelia Huck wrote:
-> On Thu, Mar 02 2023, Carlos López <clopez@suse.de> wrote:
-> 
-> > When a virtqueue size is changed by the guest via
-> > virtio_queue_set_num(), its region cache is not automatically updated.
-> > If the size was increased, this could lead to accessing the cache out
-> > of bounds. For example, in vring_get_used_event():
-> >
-> >     static inline uint16_t vring_get_used_event(VirtQueue *vq)
-> >     {
-> >         return vring_avail_ring(vq, vq->vring.num);
-> >     }
-> >
-> >     static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
-> >     {
-> >         VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-> >         hwaddr pa = offsetof(VRingAvail, ring[i]);
-> >
-> >         if (!caches) {
-> >             return 0;
-> >         }
-> >
-> >         return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
-> >     }
-> >
-> > vq->vring.num will be greater than caches->avail.len, which will
-> > trigger a failed assertion down the call path of
-> > virtio_lduw_phys_cached().
-> >
-> > Fix this by calling virtio_queue_update_rings() after
-> > virtio_queue_set_num() if we are not already calling
-> > virtio_queue_set_rings().
-> 
-> Don't we instead need to call virtio_init_region_cache() to update the
-> caches? virtio_queue_set_rings() will calculate avail and used from
-> desc, which looks wrong for modern devices.
+On Thu, 9 Mar 2023 at 11:58, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8=
+bd:
+>
+>   Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-d=
+abbelt/qemu into staging (2023-03-07 12:53:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/kraxel/qemu.git tags/edk2-stable202302-20230309-pull=
+-request
+>
+> for you to fetch changes up to 75bc97ac50634229fa9da45faa1fa64bbe6024c7:
+>
+>   edk2: update firmware binaries (2023-03-09 12:49:29 +0100)
+>
+> ----------------------------------------------------------------
+> edk2: update to 202302 stable tag
+>
+> ----------------------------------------------------------------
+>
+> Gerd Hoffmann (3):
+>   edk2: update submodule to edk2-stable202302
+>   edk2: replace build scripts
+>   edk2: update firmware binaries
 
+The docker-edk2 CI job fails:
+https://gitlab.com/qemu-project/qemu/-/jobs/3910666498
 
-Carlos?
+Step 1/3 : FROM ubuntu:18.04
+18.04: Pulling from library/ubuntu
+mediaType in manifest should be
+'application/vnd.docker.distribution.manifest.v2+json' not
+'application/vnd.oci.image.manifest.v1+json'
 
-> >
-> > Signed-off-by: Carlos López <clopez@suse.de>
-> > ---
-> >  hw/s390x/virtio-ccw.c   | 1 +
-> >  hw/virtio/virtio-mmio.c | 5 ++---
-> >  hw/virtio/virtio-pci.c  | 1 +
-> >  3 files changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> > index e33e5207ab..89891ac58a 100644
-> > --- a/hw/s390x/virtio-ccw.c
-> > +++ b/hw/s390x/virtio-ccw.c
-> > @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
-> >                  return -EINVAL;
-> >              }
-> >              virtio_queue_set_num(vdev, index, num);
-> > +            virtio_queue_update_rings(vdev, index);
-> 
-> Note that this is the non-legacy path.
-> 
-> >          } else if (virtio_queue_get_num(vdev, index) > num) {
-> >              /* Fail if we don't have a big enough queue. */
-> >              return -EINVAL;
-> > diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> > index 23ba625eb6..c74822308f 100644
-> > --- a/hw/virtio/virtio-mmio.c
-> > +++ b/hw/virtio/virtio-mmio.c
-> > @@ -350,10 +350,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
-> >      case VIRTIO_MMIO_QUEUE_NUM:
-> >          trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
-> >          virtio_queue_set_num(vdev, vdev->queue_sel, value);
-> > +        virtio_queue_update_rings(vdev, vdev->queue_sel);
-> >  
-> > -        if (proxy->legacy) {
-> > -            virtio_queue_update_rings(vdev, vdev->queue_sel);
-> > -        } else {
-> > +        if (!proxy->legacy) {
-> >              proxy->vqs[vdev->queue_sel].num = value;
-> >          }
-> >          break;
-> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > index 247325c193..a0a2f2c965 100644
-> > --- a/hw/virtio/virtio-pci.c
-> > +++ b/hw/virtio/virtio-pci.c
-> > @@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-> >          proxy->vqs[vdev->queue_sel].num = val;
-> >          virtio_queue_set_num(vdev, vdev->queue_sel,
-> >                               proxy->vqs[vdev->queue_sel].num);
-> > +        virtio_queue_update_rings(vdev, vdev->queue_sel);
-> >          break;
-> >      case VIRTIO_PCI_COMMON_Q_MSIX:
-> >          vector = virtio_queue_vector(vdev, vdev->queue_sel);
+This may be fixable with an equivalent of:
+https://lore.kernel.org/qemu-devel/20230224212543.20462-2-palmer@rivosinc.c=
+om/
+for .gitlab-ci.d/edk2.yml
 
+What I still do not understand is why we have both:
+(1) binaries of edk2 committed to git
+(2) a gitlab CI job that is building edk2
+
+The bios-tables-test also fails:
+https://gitlab.com/qemu-project/qemu/-/jobs/3910666555
+(but also seen on other configs):
+
+=E2=96=B6 206/206 ERROR:../tests/qtest/acpi-utils.c:158:acpi_find_rsdp_addr=
+ess_uefi:
+code should not be reached ERROR
+206/206 qemu:qtest+qtest-aarch64 / qtest-aarch64/bios-tables-test
+ERROR 706.75s killed by signal 6 SIGABRT
+
+(I also tested this with the qga and hexagon pullreqs,
+but neither of those should have affected this.)
+
+thanks
+-- PMM
 
