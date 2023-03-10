@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303B06B3525
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70F76B357D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:19:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paU0z-00052u-BY; Thu, 09 Mar 2023 23:05:57 -0500
+	id 1paUCw-0002XI-4w; Thu, 09 Mar 2023 23:18:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paU0x-00052K-JU
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 23:05:55 -0500
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
+ id 1paUCu-0002Wo-83; Thu, 09 Mar 2023 23:18:16 -0500
+Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paU0v-0003DI-Qp
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 23:05:55 -0500
-Received: by mail-ua1-x935.google.com with SMTP id bx14so2723082uab.0
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 20:05:53 -0800 (PST)
+ id 1paUCs-0005EH-Da; Thu, 09 Mar 2023 23:18:15 -0500
+Received: by mail-vs1-xe2d.google.com with SMTP id d7so3617614vsj.2;
+ Thu, 09 Mar 2023 20:18:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678421152;
+ d=gmail.com; s=20210112; t=1678421892;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=84LHOwV0CqRO/Vled2a8spha4tV4lM7tIuIXyx0RFvA=;
- b=WiAPbVTphivm8MEbHE/352iRN8YcnFWXaiDAatc0SkBKH3s/mIpwLi6V3nPYU5h1/l
- qm7lYCDitM8noWv7KUd+yO7nPDZ8Qn+B/fuYgNkEXY/utd/dge13Rx9GDO4ZCjGHw32w
- zj42C7J8NnvjTF4Lsh8kmAj6rHQZpjrOnbM0PKoi2FaKSx2At6g8jevY5pjNLIghjJv9
- goHdwHbf8tJgUKaxGnfjYES6/Z1ynUMktBl7qJGqAeRx5IrmPE5j47jJW2EL4XCETFZD
- R3MlepF8VF+Ay0OA5Wsma0/MFY86gS/Rr1Z3qooGfQVOC8jQOlqyMw0RSDu3naGFTDeq
- VLqQ==
+ bh=2q0Jafov6kUZR8tyjsO+Csu6RGx6hFW3jb968e4aVuU=;
+ b=ZMX/hpURIkQbxE1c4/xkB3cgRzXrGrZuQdxCL9H9wpH1J0Sj5o08PqaMKK45Cf5oPM
+ sAc163VGrp1YA/UL0lwDGDKZB0CC7U6PyqbwCeijgTZQQIlQGFDBpAm24+rl5wriWaj4
+ mZ9nr2lLpbJXZulO2/t7KUziZUMJxc42b90SZNKfeSIbfGoOlp4uYNNnQY/2pyuJlNgI
+ CXQQCXV+M28qozXM4TpYAvyhwfGTwZTTByBoJEdKen8IyivIADQmtE8r0XF2qI+DrEGZ
+ OWg4hCuiIiV4OlO2/DFsUhUWmKn4QdfBKp7UmG3EFdJsHZwkRzIYqReRw+oWczvo9OE6
+ eTcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678421152;
+ d=1e100.net; s=20210112; t=1678421892;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=84LHOwV0CqRO/Vled2a8spha4tV4lM7tIuIXyx0RFvA=;
- b=Jixt33jdOZu3i9dSxBSNv/CqCZRwT/ne67yB882GwBw5sMSkmdGPCKuVUxkq2b1h/a
- pSYQtewdSh4ZZlFuEwc+FimiCJTiivUBec7kJQWc8FN1XFJ/k8J5DgS4k/7NyX8juczA
- RELqEVBkFFYsb1TQqPTEULQo1qp4QDxNOC4qU3GIfpU3oTtwdMGomjk562QQtSkcx2+l
- OVw4hc40uZeqrEpxYbSP9gex3JbQJ7Q9h+CfAxV35djRYk5pP3/L7PEPPQFuyv97o/xk
- jluk6l6jC2+MtXkisbZakjCRBjAJaQUa1kwEMrE7eYVecakr5LTkiazhIwlXjYqqzBb+
- 44gA==
-X-Gm-Message-State: AO0yUKV0x9daV7ubLs0sVophojGIhdD42dn1jy0TzZGoYYaezGFNFk/O
- GjWtTUX4o2AVqpwLvshMuzP0diMFk6i7FuiYDWw=
-X-Google-Smtp-Source: AK7set/y2y9pjw3wD8KpNaGCieOIkvtps7INlCx1hftwGHrTXS066Hpq1fbfLW+ecxLRj/SkCGGNc7AqUO3Ml9XdJlo=
-X-Received: by 2002:a1f:6043:0:b0:42d:424c:aea3 with SMTP id
- u64-20020a1f6043000000b0042d424caea3mr5054366vkb.2.1678421152589; Thu, 09 Mar
- 2023 20:05:52 -0800 (PST)
+ bh=2q0Jafov6kUZR8tyjsO+Csu6RGx6hFW3jb968e4aVuU=;
+ b=ovpGw3XVGfnzxKoPQ1GH9C5AT572vvOz1EYJtI9fY62yS7aaEsiBHdWnvnTFtTPoFC
+ IHvJ/wRlgXZi6morB9yJpDQe+Dtqrks6gqTEr/pf8vob017OxEM1HYg5AZYuBEaEo6Qs
+ ChmHgDOv4R3cJV5ICrvaAFaBtd7eKsgkaqrtrzoy4rnQZ8ptAa71jLwaSfGIZDzBRxlF
+ EIFih7rB/xXex+AY2Zkz9z98QqOjqXsY9acqGFFg6mSyQQe4WpGQcBsjC9Jc6s3wXfUF
+ eG1JRsvTAfa+r6zw7Nev8U5hgrgRKC37PZpCv39x5GFgcNbC0sTc4zoABAKeTHyyxjzj
+ wjew==
+X-Gm-Message-State: AO0yUKXbbwWE7v9FyTigOOQfP5teWVr9nRw6yEyHlSgp5KVkBSg72wPc
+ v7RQSHC5DGTXtXQkRraZdlswhrTkapUDtd9Qet8=
+X-Google-Smtp-Source: AK7set87Eb0lCVWgEIVBE4MAXB95JLxhw34L9nosEDOWjzMMiyDtu+3eQoI2bGHJ8KaZpUaE4zGVFdwS+97bwqcfOP8=
+X-Received: by 2002:a67:fd7a:0:b0:416:f1ea:1001 with SMTP id
+ h26-20020a67fd7a000000b00416f1ea1001mr16314222vsa.5.1678421891880; Thu, 09
+ Mar 2023 20:18:11 -0800 (PST)
 MIME-Version: 1.0
-References: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
-In-Reply-To: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
+References: <20230227090228.17117-1-ivan.klokov@syntacore.com>
+In-Reply-To: <20230227090228.17117-1-ivan.klokov@syntacore.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Mar 2023 14:05:26 +1000
-Message-ID: <CAKmqyKNtjNsHeoRFtBE73Pw4UpTB+m5guVBe79FkYvNTUPuutg@mail.gmail.com>
-Subject: Re: [PATCH] Fix incorrect register name in RISC-V disassembler for
- fmv,fabs,fneg instructions
-To: Mikhail Tyutin <m.tyutin@yadro.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>, 
- "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>
+Date: Fri, 10 Mar 2023 14:17:45 +1000
+Message-ID: <CAKmqyKMbr5ZTOmjyHLgjh266upSFDOgZUCo95OHk80REC+m6fg@mail.gmail.com>
+Subject: Re: [PATCH] Fix slli_uw decoding
+To: Ivan Klokov <ivan.klokov@syntacore.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, 
+ palmer@dabbelt.com, philipp.tomsich@vrull.eu
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,60 +85,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 12:53=E2=80=AFAM Mikhail Tyutin <m.tyutin@yadro.com=
-> wrote:
+On Mon, Feb 27, 2023 at 7:06=E2=80=AFPM Ivan Klokov <ivan.klokov@syntacore.=
+com> wrote:
 >
-> Fix incorrect register name in RISC-V disassembler for fmv,fabs,fneg inst=
-ructions
+> The decoding of the slli_uw currently contains decoding
+> error: shamt part of opcode has six bits, not five.
 >
-> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
+> Fixes 3de1fb71("target/riscv: update disas.c for xnor/orn/andn and slli.u=
+w")
+>
+> Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
 
-It looks like this needs to be rebased. Do you mind rebasing it and
-sending a v2?
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->   disas/riscv.c | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
+>  disas/riscv.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
 > diff --git a/disas/riscv.c b/disas/riscv.c
-> index ddda687c13..58ad3df24d 100644
+> index ddda687c13..03cfefb0d3 100644
 > --- a/disas/riscv.c
 > +++ b/disas/riscv.c
-> @@ -1014,6 +1014,7 @@ static const char rv_vreg_name_sym[32][4] =3D {
->   #define rv_fmt_rd_offset              "O\t0,o"
->   #define rv_fmt_rd_rs1_rs2             "O\t0,1,2"
->   #define rv_fmt_frd_rs1                "O\t3,1"
-> +#define rv_fmt_frd_frs1               "O\t3,4"
->   #define rv_fmt_rd_frs1                "O\t0,4"
->   #define rv_fmt_rd_frs1_frs2           "O\t0,4,5"
->   #define rv_fmt_frd_frs1_frs2          "O\t3,4,5"
-> @@ -1580,15 +1581,15 @@ const rv_opcode_data opcode_data[] =3D {
->       { "snez", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
->       { "sltz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->       { "sgtz", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-> -    { "fmv.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fabs.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fneg.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fmv.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fabs.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fneg.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fmv.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fabs.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fneg.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> +    { "fmv.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fabs.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fneg.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fmv.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fabs.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fneg.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fmv.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fabs.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fneg.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
->       { "beqz", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
->       { "bnez", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
->       { "blez", rv_codec_sb, rv_fmt_rs2_offset, NULL, 0, 0, 0 },
+> @@ -1647,7 +1647,7 @@ const rv_opcode_data opcode_data[] =3D {
+>      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>      { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+> +    { "slli.uw", rv_codec_i_sh6, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+>      { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> @@ -2617,10 +2617,10 @@ static void decode_inst_opcode(rv_decode *dec, rv=
+_isa isa)
+>              switch (((inst >> 12) & 0b111)) {
+>              case 0: op =3D rv_op_addiw; break;
+>              case 1:
+> -                switch (((inst >> 25) & 0b1111111)) {
+> +                switch (((inst >> 26) & 0b111111)) {
+>                  case 0: op =3D rv_op_slliw; break;
+> -                case 4: op =3D rv_op_slli_uw; break;
+> -                case 48:
+> +                case 2: op =3D rv_op_slli_uw; break;
+> +                case 24:
+>                      switch ((inst >> 20) & 0b11111) {
+>                      case 0b00000: op =3D rv_op_clzw; break;
+>                      case 0b00001: op =3D rv_op_ctzw; break;
 > --
 > 2.34.1
 >
