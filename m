@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD83D6B3283
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 01:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C83E6B3287
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 01:06:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paQF9-0006fR-S3; Thu, 09 Mar 2023 19:04:19 -0500
+	id 1paQGh-0000aA-1f; Thu, 09 Mar 2023 19:05:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paQEy-0006ex-8a
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 19:04:08 -0500
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b])
+ id 1paQGc-0000MS-Ak; Thu, 09 Mar 2023 19:05:51 -0500
+Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paQEw-0000pu-5b
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 19:04:07 -0500
-Received: by mail-ua1-x92b.google.com with SMTP id x1so2402149uav.9
- for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 16:04:05 -0800 (PST)
+ id 1paQGZ-0001Fe-I0; Thu, 09 Mar 2023 19:05:49 -0500
+Received: by mail-ua1-x92f.google.com with SMTP id l24so2392063uac.12;
+ Thu, 09 Mar 2023 16:05:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678406645;
+ d=gmail.com; s=20210112; t=1678406746;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=USsqsFwquQTHYFH6yf+SlxEm6dK7V2KCJEPifTuJHtM=;
- b=jfHbILusEtGUqf0lj7wKeuueW3bKRokYN0huBVQZAwdQyqAFWAG7NoasIBn/Oo41Hz
- 1Mi/cAc0fihAq/WvLD7lI7i039M5KJ3Pwh64d1ZHF6ewCVy+waQ5XMFqJdDRu7hZKWC3
- 64fGebQoFuGGnWBhI/ZMoGDe74lV5N4FQI3wy5kZUqEUosHVjw/2LRVO0wVf3I7UBo69
- SEQxsLs+0jxXgaIMj9QMo7geoWRgWfzX9X0Pv2tolooJTRdg/viSdKfB3RxmFvLtvO/X
- S6ZyEhXyuZlsadXXdwOeNpzG/LGsEwiXbqZQikIQh/yA6cbryrzz+skIpie0qHggNciL
- vchQ==
+ bh=wfWBwN4fvgZySkRNZaXY8NIsltpoyQATuC4cKHfHw4c=;
+ b=VzdtmMsQOHzzd/gqF4a7bf7Qu8KK6kHcOIr5bEShRO6cacKPvVmJEFe5d1T+7Uav2D
+ 4CpBIb0CYGrCPd5Mq1Ac4mamO7hL5obSLn1ydeDiEiX0dIviVtum70Hpeve+yai1ouIK
+ xUWnE3Dti2Jt28oQkqVJUVrM52PJuNLcNeJG4YwecLBCuog3o4szPOdW+GbtkVXJodFv
+ CcPE2MS0YIeAxrkfCY/j8lBOFrOX86dI6dm5lZoJeC6/A/t+3PwkaIkmSK8o8CPcL4Yy
+ TVgVDs9K73D9kOd19ZQ6TYcjQQ+rUQVEGKrxSIhfk0u7mGoibyfFICinFduyvDwoZROM
+ k1FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678406645;
+ d=1e100.net; s=20210112; t=1678406746;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=USsqsFwquQTHYFH6yf+SlxEm6dK7V2KCJEPifTuJHtM=;
- b=n5VFaNjR2Axf6N2BbMu20f0C1oKlNpQQauCkTZ+N9dspm+cchrhFhZOlcRzHN4hOY3
- JrQVSgu2cPZ9PchLwth3gIo5Ai/f3YpuWTSdmiBUOnBk/mGrCyOATSHyZzU7SLTPrQ0k
- D5AgNjlHgaOi8gO8yL0BjAL0DkFd8afxlDYHO8ukvol53XV9DVGw2lfEIRp9e2elLjFt
- xSoR5Fb0BCwFJL4FYzMOds9H62AH41s1V+BLktTBtSj7lfLuebcTcEIsli0cPu2+0ttY
- 53/SyuAaB0m9ktRnSj53jxlmn9EolqhA6I5qpcyslNYrAUYCBn0s/cSdcumtWJXdz6Dl
- eMkQ==
-X-Gm-Message-State: AO0yUKXH0ECJ42LgMj5WQfmucs/iEL3LyDJ6wa7clXy1D9EfFKMQ68Wh
- 6DdIJxBI/hzgPAebBuEM7rBCrzMxLsYnU2MnxNQ=
-X-Google-Smtp-Source: AK7set9BHt+Jp8T+xX+rBcOsjnZIbOIs+mXQGUAL2Y/En0mAkqHvS0Jg5euZzCKU0suNfV537C6jXA8SDeFruCuF7Dg=
-X-Received: by 2002:a1f:ea04:0:b0:412:611a:dce5 with SMTP id
- i4-20020a1fea04000000b00412611adce5mr15258658vkh.0.1678406645032; Thu, 09 Mar
- 2023 16:04:05 -0800 (PST)
+ bh=wfWBwN4fvgZySkRNZaXY8NIsltpoyQATuC4cKHfHw4c=;
+ b=MRvrw2gUdvJAT9pSagZ6aSw66hq/BsawauGisKfSRYY6S9CxfcrRsyaIil+w0vZqIh
+ La96I0dF8AcuhOySARgLWYRJMjg5lSoz8OC/WYBU1sVJTBkroTa9Wqoknvrg55v6CNtq
+ 4455oMGCqMu3F/LgNKlsiFDKDjvAVJUHdPHjZhAr+NOI1CdF/wjs60b06XQcc/jDciTv
+ tDQwLuf/zyVqoZBUa/wiCK0KT28DaasdSqQbyYhXruRlIUf9dC0mH47wXy/CYuLhQUXn
+ zQBbLwyV/y2Z8OZPzzAa4LIzhcqZGCsnJmT3lQQvt3azw/8Yhf7SEV9KQOYojQUu0RNt
+ 88xg==
+X-Gm-Message-State: AO0yUKXBXSZOOF4XT0Re/fPdf7Q05InoHFcrumn9by8hl6hz2g1SXWjo
+ mCPHzEfwvuJ/wti7huRNPcGVqczgTC2YPwME/bM=
+X-Google-Smtp-Source: AK7set/phmQ7eE+dAu2DmbxauZQkX2BmDpj+v/UjF5Wxn3BO33OdZvAtDR/gsK8R4rZjJnnu/TF1keV99sUjKMWi7sM=
+X-Received: by 2002:a1f:9817:0:b0:400:ea69:7082 with SMTP id
+ a23-20020a1f9817000000b00400ea697082mr14723613vke.0.1678406746071; Thu, 09
+ Mar 2023 16:05:46 -0800 (PST)
 MIME-Version: 1.0
-References: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
-In-Reply-To: <f625f89c-c0d5-ad7f-778e-b717261afc53@yadro.com>
+References: <20230305094231.1616-1-jim.shu@sifive.com>
+In-Reply-To: <20230305094231.1616-1-jim.shu@sifive.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Mar 2023 10:03:39 +1000
-Message-ID: <CAKmqyKPfNOu40vurhpupt4bjzHatZX-5Jdni0B5LX2PvwnZ0FQ@mail.gmail.com>
-Subject: Re: [PATCH] Fix incorrect register name in RISC-V disassembler for
- fmv,fabs,fneg instructions
-To: Mikhail Tyutin <m.tyutin@yadro.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>, 
- "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>
+Date: Fri, 10 Mar 2023 10:05:20 +1000
+Message-ID: <CAKmqyKOG-E9u5xUs=mRyMROkkn-kj1rKWH2E=yf4HYNvnXCZsQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/riscv: Expose "virt" register for GDB for reads
+To: Jim Shu <jim.shu@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x92b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x92f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,61 +91,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 12:53=E2=80=AFAM Mikhail Tyutin <m.tyutin@yadro.com=
-> wrote:
+On Sun, Mar 5, 2023 at 7:43=E2=80=AFPM Jim Shu <jim.shu@sifive.com> wrote:
 >
-> Fix incorrect register name in RISC-V disassembler for fmv,fabs,fneg inst=
-ructions
+> This patch enables a debugger to read current virtualization mode via
+> virtual "virt" register. After it, we could get full current privilege
+> mode via both "priv" and "virt" register.
 >
-> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
+> Extend previous commit ab9056ff9bdb3f95db6e7a666d10522d289f14ec to
+> support H-extension.
+>
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->   disas/riscv.c | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
+>  gdb-xml/riscv-32bit-virtual.xml |  1 +
+>  gdb-xml/riscv-64bit-virtual.xml |  1 +
+>  target/riscv/gdbstub.c          | 12 ++++++++----
+>  3 files changed, 10 insertions(+), 4 deletions(-)
 >
-> diff --git a/disas/riscv.c b/disas/riscv.c
-> index ddda687c13..58ad3df24d 100644
-> --- a/disas/riscv.c
-> +++ b/disas/riscv.c
-> @@ -1014,6 +1014,7 @@ static const char rv_vreg_name_sym[32][4] =3D {
->   #define rv_fmt_rd_offset              "O\t0,o"
->   #define rv_fmt_rd_rs1_rs2             "O\t0,1,2"
->   #define rv_fmt_frd_rs1                "O\t3,1"
-> +#define rv_fmt_frd_frs1               "O\t3,4"
->   #define rv_fmt_rd_frs1                "O\t0,4"
->   #define rv_fmt_rd_frs1_frs2           "O\t0,4,5"
->   #define rv_fmt_frd_frs1_frs2          "O\t3,4,5"
-> @@ -1580,15 +1581,15 @@ const rv_opcode_data opcode_data[] =3D {
->       { "snez", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
->       { "sltz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->       { "sgtz", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-> -    { "fmv.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fabs.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fneg.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fmv.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fabs.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fneg.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fmv.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fabs.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "fneg.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> +    { "fmv.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fabs.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fneg.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fmv.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fabs.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fneg.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fmv.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fabs.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-> +    { "fneg.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
->       { "beqz", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
->       { "bnez", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
->       { "blez", rv_codec_sb, rv_fmt_rs2_offset, NULL, 0, 0, 0 },
+> diff --git a/gdb-xml/riscv-32bit-virtual.xml b/gdb-xml/riscv-32bit-virtua=
+l.xml
+> index 905f1c555d..d44b6ca2dc 100644
+> --- a/gdb-xml/riscv-32bit-virtual.xml
+> +++ b/gdb-xml/riscv-32bit-virtual.xml
+> @@ -8,4 +8,5 @@
+>  <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>  <feature name=3D"org.gnu.gdb.riscv.virtual">
+>    <reg name=3D"priv" bitsize=3D"32"/>
+> +  <reg name=3D"virt" bitsize=3D"32"/>
+>  </feature>
+> diff --git a/gdb-xml/riscv-64bit-virtual.xml b/gdb-xml/riscv-64bit-virtua=
+l.xml
+> index 62d86c237b..7c9b63d5b6 100644
+> --- a/gdb-xml/riscv-64bit-virtual.xml
+> +++ b/gdb-xml/riscv-64bit-virtual.xml
+> @@ -8,4 +8,5 @@
+>  <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>  <feature name=3D"org.gnu.gdb.riscv.virtual">
+>    <reg name=3D"priv" bitsize=3D"64"/>
+> +  <reg name=3D"virt" bitsize=3D"64"/>
+>  </feature>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 6048541606..1755fd9d51 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -187,13 +187,17 @@ static int riscv_gdb_set_csr(CPURISCVState *env, ui=
+nt8_t *mem_buf, int n)
+>
+>  static int riscv_gdb_get_virtual(CPURISCVState *cs, GByteArray *buf, int=
+ n)
+>  {
+> -    if (n =3D=3D 0) {
+>  #ifdef CONFIG_USER_ONLY
+> +    if (n >=3D 0 && n <=3D 1) {
+>          return gdb_get_regl(buf, 0);
+> +    }
+>  #else
+> +    if (n =3D=3D 0) {
+>          return gdb_get_regl(buf, cs->priv);
+> -#endif
+> +    } else if (n =3D=3D 1) {
+> +        return gdb_get_regl(buf, riscv_cpu_virt_enabled(cs));
+>      }
+> +#endif
+>      return 0;
+>  }
+>
+> @@ -328,13 +332,13 @@ void riscv_cpu_register_gdb_regs_for_features(CPUSt=
+ate *cs)
+>      case MXL_RV32:
+>          gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>                                   riscv_gdb_set_virtual,
+> -                                 1, "riscv-32bit-virtual.xml", 0);
+> +                                 2, "riscv-32bit-virtual.xml", 0);
+>          break;
+>      case MXL_RV64:
+>      case MXL_RV128:
+>          gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>                                   riscv_gdb_set_virtual,
+> -                                 1, "riscv-64bit-virtual.xml", 0);
+> +                                 2, "riscv-64bit-virtual.xml", 0);
+>          break;
+>      default:
+>          g_assert_not_reached();
 > --
-> 2.34.1
+> 2.17.1
 >
 >
 
