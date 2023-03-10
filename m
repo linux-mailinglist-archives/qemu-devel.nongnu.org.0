@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4466B4093
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94B96B409C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:39:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pacwd-0002o0-BW; Fri, 10 Mar 2023 08:38:03 -0500
+	id 1pacxN-0003Tq-Jl; Fri, 10 Mar 2023 08:38:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pacwR-0002ni-30
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:37:51 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ id 1pacxF-0003Q7-RS
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:38:43 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pacwP-0003K7-3f
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:37:50 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id h8so5539176plf.10
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 05:37:48 -0800 (PST)
+ id 1pacxE-0003cv-Ba
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:38:41 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id p6so3071901pga.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 05:38:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678455467;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YsQLuAvterM4uGq/4S6HIRNg5KOO0qiZfrL+M2J/iP8=;
- b=YBYMxRqq5gYletOC22kGvDUvna6B8ERqWqaM2NdAq6IdQa9D7YRXtfXISlnbCN6gai
- /094qzDmMlJWZgZCCuu9jR6SILwTaGl//6uOwbyPhm41wV+oJmQ5lfbbUFdgtwuy854G
- BpS2VHzCeZF2oQA8Zwy4Gsz71LqKTtKUwbJLBNds+sjxCTf1BKoQd92Mn0dAkcLSYQgs
- JHVatzGaxFogGG/Lw6HGxUoumbTxVcz2QyNwPR8dRQvdrmCM6/qs8nwe6UB1FL9kKXhj
- dCdLLQdlRXMu6e1w+f3BW1cObTj8o7Dbk4Bw4gpmsgWIyzquaZALwsVqaKmXNqtyzS1+
- 865w==
+ d=linaro.org; s=google; t=1678455519;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JcYfk5BVv1XvdscoAre3udY9Wzw4SiLfZ1POfhRieVA=;
+ b=mc7N2cKYbsPHRV9r5Jocn2VkKZntpfLQJQbLGD3jF18vNnDCwCW9j9i3tqvIALpNq2
+ 87JzVeyxF4Che1W/BiZxKpRL7rgRYtTdaYets8pBvDchcwO4w2JrdfBphaDDgMQtmxzK
+ 9v7zYwqbd5H0GJAfuyWbemzP40QkngxSn0MEvsNTuc0wlxxEFk/Rz/S81dpKHikJFHJf
+ 1miYqEmm3KLau/yrxCsKFLhe7yTq/y5TPduWedj8iE1rGXRX8WskfaykCh99sDCdpT8a
+ AkjW5/J7tlSLWlfMAlMllJCiCJI1uD9Z3NVDDXUm3jnIhFuU2SGtcxpsZ5BHczO2vCbv
+ qmRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678455467;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YsQLuAvterM4uGq/4S6HIRNg5KOO0qiZfrL+M2J/iP8=;
- b=xQJ9rRgm723uirFEXetXwWjGk4KAZ5ZW4vSvc4z/l7t/esLCIVDUv+UJpCybZgJapl
- BxK+Kc6qShlBg4NohPTYVQxzmmeoBBJR2Jh6+Oufk/FBzZe7CVeWYZ+REcrPM1Ydn+Ty
- 2ZENeOMTW+2VL2Rln4XUmLeDq7qUQ9cLMWc1OceCIrFq5hHM82FXDTWpduD4sooZymDy
- xljCMMEDy+RaKwSCJRFPFdTipFtf8/u7QOwRsix1kzXJUFvOWuWyy0O/L+UQDo/dxWvE
- G8tCglQw7wnxsfDDFawXkCb/Fg6W15cMrjdSpc2M209mz+OgyP1ubcXg8EE8zPrCmubw
- FKOQ==
-X-Gm-Message-State: AO0yUKXhbnkz5xiYAaYo9h+UBPokCDg6KXPotBxsbNKAOHSayYcPSsph
- PtAc4IClD6GgMwPPlaX2604sJtVNy2N4zyXgYZM1+w==
-X-Google-Smtp-Source: AK7set/7aWIE5JQTWFq3bw50s5CXB72pzgR5uETaE4xUYUo/BAOwoP9MCoGIMXCb4yAo15zRwq4ntxGzW2cJdprm6rY=
-X-Received: by 2002:a17:90a:528d:b0:236:a1f9:9a9d with SMTP id
- w13-20020a17090a528d00b00236a1f99a9dmr883579pjh.2.1678455467506; Fri, 10 Mar
- 2023 05:37:47 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678455519;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JcYfk5BVv1XvdscoAre3udY9Wzw4SiLfZ1POfhRieVA=;
+ b=Wr5gxYXz6IJ6HtB9U0eBrPpFDLI698uJl58It1YDd0L5ftFn3ouPnLtarYHjeoV/Ox
+ 55jaa7BGvWjEady9u4mqaigx19YeNRCkelaRnzr09Ieseibu5Ubk80MfkfyiqE7XaaXx
+ 4fgr1HUwS6dtdoYkYaHAJ4EqGfgUroZti6WdGSzL9ofx7SKIXV0fJ4Z0NVtIKqsH4/ff
+ UdxaOfGAFChVWpiHKIU/t8lDaSDf9nEs73mpqU6I5c4h5lpH7Wv+og0dozc9yQl8IR55
+ pitHgsZ0YTZgSbTmTcVwItUeYoM+ZI/Cs1BdPDbdv+NCgai763V0sra5T7fpox35pTmp
+ i/ww==
+X-Gm-Message-State: AO0yUKWi7Pk699K82yM0gpgTzuCHBTKIgSeGqnDAJZ9aMEhstj3pjIrC
+ uRF35LdQQgAAImazaK1wCjeF09N23oHvZw5MhDsyRw==
+X-Google-Smtp-Source: AK7set+u+7eudutke9CPCgTqQE2wN2+f4OKI17X/D/B9tfzHju+OgwOm3HeJ6tE04RzY6SDL4TUlwH7w3krkcHu5RTg=
+X-Received: by 2002:a63:8c17:0:b0:503:7be0:ea51 with SMTP id
+ m23-20020a638c17000000b005037be0ea51mr8966484pgd.9.1678455518776; Fri, 10 Mar
+ 2023 05:38:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20230205040737.3567731-1-alxndr@bu.edu>
- <20230205040737.3567731-2-alxndr@bu.edu>
- <9cfa0cc8-01c7-cf79-72ef-3224d1276e16@proxmox.com>
- <20230310122347.hghmijad7wajiqne@mozz.bu.edu>
- <20230310123117.d2uxze7zqtigmg44@mozz.bu.edu>
- <CAFEAcA8YLrr0Ltt-CAdTDrh2zyzzyqWgfx39fy0zJwLFqdGQGg@mail.gmail.com>
- <20230310130245.oyjdeihisuvgl6rz@mozz.bu.edu>
- <20230310132858.dljb2wgx325shtgd@mozz.bu.edu>
-In-Reply-To: <20230310132858.dljb2wgx325shtgd@mozz.bu.edu>
+References: <20230310133247.39268-1-philmd@linaro.org>
+In-Reply-To: <20230310133247.39268-1-philmd@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Mar 2023 13:37:35 +0000
-Message-ID: <CAFEAcA-Laf223PWqLT1jZ0eFfGFK-c9VhAf8X-i=NFF5xhJbLg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] memory: prevent dma-reentracy issues
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>, 
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>, 
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, 
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Fam Zheng <fam@euphon.net>
+Date: Fri, 10 Mar 2023 13:38:27 +0000
+Message-ID: <CAFEAcA8hDiWBXPhKmo=AsS5wfu8wKf2YbxwF4p7xRSWrCW4xEg@mail.gmail.com>
+Subject: Re: [PATCH-for-8.0] gitlab-ci: Remove job building EDK2 firmware
+ binaries
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Simon Glass <sjg@chromium.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?B?UGF3ZcWCIFBvxYJhd3NraQ==?= <ppolawsk@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Palmer Dabbelt <palmer@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,51 +91,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Mar 2023 at 13:29, Alexander Bulekov <alxndr@bu.edu> wrote:
+On Fri, 10 Mar 2023 at 13:33, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
 >
-> On 230310 0802, Alexander Bulekov wrote:
-> > On 230310 1245, Peter Maydell wrote:
-> > > On Fri, 10 Mar 2023 at 12:32, Alexander Bulekov <alxndr@bu.edu> wrote:
-> > > > This MR seems to be "lsi-ram".
-> > > >
-> > > > From hw/scsi/lsi53c895a.c:
-> > > >
-> > > > memory_region_init_io(&s->ram_io, OBJECT(s), &lsi_ram_ops, s,
-> > > >         "lsi-ram", 0x2000);
-> > > >
-> > > > So the LSI device is reading an LSI "Script" from its own IO region.. In
-> > > > this particular case, I think there was no reason to use
-> > > > memory_region_init_io rather than memory_region_init_ram, but this makes
-> > > > me worried that there are other devices that use something like this.
-> > >
-> > > This particular device predates the entire MemoryRegion set of
-> > > abstractions, so it might have seemed easier at the time.
-> > > The endianness handling of the current code is also a bit
-> > > confusing and might make it tricky to convert to a RAM MR.
-> >
-> > With my trivial mr_io - > mr_ram conversion, I no longer hit the
-> > re-entrancy tracepoint, and my livecd boots, but it's probably not
-> > exhaustively using the script functionality..
-> >
-> > Does the endianness actually cause a problem? As long as all accesses
-> > (CPU -> LSI_RAM and LSI -> LSI_RAM) occur through the address_space API,
-> > are we safe?
+> When we introduced this Gitlab-CI job in commit 71920809ce
+> ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries"),
+> the naive plan was to have reproducible binaries by downloading
+> what this job would build, testing it and eventually committing
+> it. With retrospective, nothing happened 3 years later and this
+> job is just bitrotting:
+>
+>   Step 1/3 : FROM ubuntu:18.04
+>   18.04: Pulling from library/ubuntu
+>   mediaType in manifest should be
+>   'application/vnd.docker.distribution.manifest.v2+json' not
+>   'application/vnd.oci.image.manifest.v1+json'
+>
+> Remove this job to avoid wasting maintenance and CI ressources.
 
-I'm not sure -- I looked at the code and I wasn't confident
-on exactly what the combination of the DEVICE_LITTLE_ENDIAN
-MemoryRegion and the use of stn_le_p/ldn_le_p would be.
-I think it ought to be possible to use a RAM MR, but we'd
-need to check the handling on both BE and LE hosts. Migration
-compatibility is the other thing we would need to check, to
-avoid accidentally switching from "script_ram[] contents are
-in order X" to "they are in order Y"...
+Does the same thing hold for the opensbi job ?
 
-> Or maybe a rom_device with memory_region_rom_device_set_romd(romd_mode =
-> false) is better here?
-
-I don't think that helps -- if we can let the guest do direct
-reads from the region then it's equally OK to let it do
-direct writes, so we could just use a RAM MR.
-
+thanks
 -- PMM
 
