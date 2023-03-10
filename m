@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA20C6B3C36
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DC96B3C5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:35:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paa2E-0007fU-03; Fri, 10 Mar 2023 05:31:38 -0500
+	id 1paa4g-0004mI-Ch; Fri, 10 Mar 2023 05:34:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paa2B-0007d4-0C
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:31:35 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paa26-0004IH-Jb
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:31:34 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id j2so4562097wrh.9
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 02:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678444289;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FetjILDiJ9MYJMNfyzvSa3HdWAqlF1zpEkgwiMXEb9M=;
- b=nYZ55Ucp2C+joa9i54+jZxgDMogjLOLzo9z4FEmg50phFlThGYyn7Lj/a9xMbapc+r
- e2ITMTG7OnzOkctP3Pw5CdCeSCSLg+22CPU51SryXg5rbxvj7iq000VT7jJnZT4sSgCk
- 3tjblMSD2rK+XZOLCazu+UHapGP7bLkeqCY51Gsa029yEdS6iBuiAS99E/htOrBORdlD
- TWGa+iJQLsqMjAUD5aSUlzXPlEss2WaFHopuYFDYKXpqqkOL/SBinWukDettPCEg5Bdf
- VVZHD5LdPILBUbYecym40SaVUjh30OyvJsOtHX7hFRAJOkP0RT7EVZr7ySfGz9rHd8uX
- 1yDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678444289;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FetjILDiJ9MYJMNfyzvSa3HdWAqlF1zpEkgwiMXEb9M=;
- b=I8ElkmDA552GiyRQFvvKcCtIWEgGTLKconpi5XbZcDI7P+Y2R9J9hNJQzKqzXe9hFE
- v43fFaRdO+H6+5WfskeIRq9r43ewd6ELeRYGesASb1hFskIB7xCT2/HhGsieZ1gBWXmy
- daTnTHWC46H15g0GIeUQt3M3OyhHVA6RUKQt79exE4Mn+LjF+wKvyJjXh1XgAaayDujm
- /14UGoh9ymCeuWFpcdet0r8q1Ibu6Z2/tnyo00tFnNjM7FcCQ+/jJPVIUOvVlIF5BGc0
- TcjiyBfCQawZqHOZWpgePMBykaKxMNWSC1WXcB0guimlfEeuc+sJaYNAOnQT7KFYjFsy
- rLGQ==
-X-Gm-Message-State: AO0yUKWSwQxCv8DtzCGPXJPtVzcuhbmT+krSZnesW9FvXQ5NQn0fuxtH
- EFblUdt7yR5eTOSMmH2psu8sbA==
-X-Google-Smtp-Source: AK7set+Gun1ov8DNXmf+ZvOWD3/YjLyL160Qkv/aA3Bl2wkSkBJTjhBk6+ivdzbwWiPPv+9xCWcVGQ==
-X-Received: by 2002:adf:cf0a:0:b0:2c9:e713:7889 with SMTP id
- o10-20020adfcf0a000000b002c9e7137889mr15648427wrj.14.1678444288837; 
- Fri, 10 Mar 2023 02:31:28 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- d4-20020adfe844000000b002ce37d2464csm1791919wrn.83.2023.03.10.02.31.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 02:31:27 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A15891FFBA;
- Fri, 10 Mar 2023 10:31:24 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, David Woodhouse <dwmw2@infradead.org>
-Subject: [PATCH 11/11] tests/avocado: don't use tags to define drive
-Date: Fri, 10 Mar 2023 10:31:23 +0000
-Message-Id: <20230310103123.2118519-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230310103123.2118519-1-alex.bennee@linaro.org>
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
+ id 1paa4P-0004OY-3T
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:33:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
+ id 1paa4M-0004yL-O3
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:33:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678444427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gFtl3SBGzMFZaZpTOgSMqIxOxMjbSNoM3gg52W0H3+E=;
+ b=GpOy+P1ccQz0byBpL0zfCsPvFdjEy/DWG7Dy7W/CTVG0v5g4ijo2oSvsE2wu4rNp9i4eTx
+ Om7gtCHv9TWIVOVzhd9FIMw81KvammDkQ02aq7ODOrrJm678unWNtFFfszgBeyR6ZMmhW7
+ QEBrsZBBad+TWpoVRelcWW+LMe1VywU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-25-AYvJWjLdP96SVNCnM5C3pg-1; Fri, 10 Mar 2023 05:33:46 -0500
+X-MC-Unique: AYvJWjLdP96SVNCnM5C3pg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D2E02807D6C
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:33:46 +0000 (UTC)
+Received: from [10.39.208.18] (unknown [10.39.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DDD2C15BA0;
+ Fri, 10 Mar 2023 10:33:44 +0000 (UTC)
+Message-ID: <29f5522c-c305-9bf5-3283-e096b38261ef@redhat.com>
+Date: Fri, 10 Mar 2023 11:33:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, qemu-level
+ <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Eelco Chaudron <echaudro@redhat.com>
+References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
+ <6684066f-452d-a8b3-58b2-b0db2a3c2015@redhat.com>
+ <20230201061709-mutt-send-email-mst@kernel.org>
+ <6e98c7a2-bab8-e91f-1718-cc8d5d6e8ddf@redhat.com>
+ <20230308071529-mutt-send-email-mst@kernel.org>
+From: Maxime Coquelin <maxime.coquelin@redhat.com>
+Subject: Re: Emulating device configuration / max_virtqueue_pairs in
+ vhost-vdpa and vhost-user
+In-Reply-To: <20230308071529-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=maxime.coquelin@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,244 +91,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are abusing the avocado tags which are intended to provide test
-selection metadata to provide parameters to our test. This works OK up
-until the point you need to have ,'s in the field as this is the tag
-separator character which is the case for a number of the drive
-parameters. Fix this by making drive a parameter to the common helper
-function.
 
-Fixes: 267fe57c23 (tests: add tuxrun baseline test to avocado)
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: David Woodhouse <dwmw2@infradead.org>
----
- tests/avocado/tuxrun_baselines.py | 60 +++++++++++++------------------
- 1 file changed, 24 insertions(+), 36 deletions(-)
 
-diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-index 30aaefc1d3..c3fb67f5dc 100644
---- a/tests/avocado/tuxrun_baselines.py
-+++ b/tests/avocado/tuxrun_baselines.py
-@@ -67,9 +67,6 @@ def setUp(self):
-         # The name of the kernel Image file
-         self.image = self.get_tag('image', "Image")
- 
--        # The block device drive type
--        self.drive = self.get_tag('drive', "virtio-blk-device")
--
-         self.root = self.get_tag('root', "vda")
- 
-         # Occasionally we need extra devices to hook things up
-@@ -99,7 +96,7 @@ def fetch_tuxrun_assets(self, dt=None):
- 
-         return (kernel_image, self.workdir + "/rootfs.ext4", dtb)
- 
--    def prepare_run(self, kernel, disk, dtb=None, console_index=0):
-+    def prepare_run(self, kernel, disk, drive, dtb=None, console_index=0):
-         """
-         Setup to run and add the common parameters to the system
-         """
-@@ -121,10 +118,8 @@ def prepare_run(self, kernel, disk, dtb=None, console_index=0):
-         if self.extradev:
-             self.vm.add_args('-device', self.extradev)
- 
--        # Some machines already define a drive device
--        if self.drive != "none":
--            self.vm.add_args('-device',
--                             f"{self.drive},drive=hd0")
-+        self.vm.add_args('-device',
-+                         f"{drive},drive=hd0")
- 
-         # Some machines need an explicit DTB
-         if dtb:
-@@ -154,7 +149,9 @@ def run_tuxtest_tests(self, haltmsg):
-         else:
-             self.vm.wait()
- 
--    def common_tuxrun(self, dt=None, haltmsg="reboot: System halted",
-+    def common_tuxrun(self, dt=None,
-+                      drive="virtio-blk-device",
-+                      haltmsg="reboot: System halted",
-                       console_index=0):
-         """
-         Common path for LKFT tests. Unless we need to do something
-@@ -163,7 +160,7 @@ def common_tuxrun(self, dt=None, haltmsg="reboot: System halted",
-         """
-         (kernel, disk, dtb) = self.fetch_tuxrun_assets(dt)
- 
--        self.prepare_run(kernel, disk, dtb, console_index)
-+        self.prepare_run(kernel, disk, drive, dtb, console_index)
-         self.vm.launch()
-         self.run_tuxtest_tests(haltmsg)
- 
-@@ -206,11 +203,11 @@ def test_armv5(self):
-         :avocado: tags=machine:versatilepb
-         :avocado: tags=tuxboot:armv5
-         :avocado: tags=image:zImage
--        :avocado: tags=drive:virtio-blk-pci
-         :avocado: tags=console:ttyAMA0
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun(dt="versatile-pb.dtb")
-+        self.common_tuxrun(drive="virtio-blk-pci",
-+                           dt="versatile-pb.dtb")
- 
-     def test_armv7(self):
-         """
-@@ -244,10 +241,9 @@ def test_i386(self):
-         :avocado: tags=machine:q35
-         :avocado: tags=tuxboot:i386
-         :avocado: tags=image:bzImage
--        :avocado: tags=drive:virtio-blk-pci
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="virtio-blk-pci")
- 
-     def test_mips32(self):
-         """
-@@ -257,11 +253,10 @@ def test_mips32(self):
-         :avocado: tags=endian:big
-         :avocado: tags=tuxboot:mips32
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_mips32el(self):
-         """
-@@ -270,11 +265,10 @@ def test_mips32el(self):
-         :avocado: tags=cpu:mips32r6-generic
-         :avocado: tags=tuxboot:mips32el
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     @skip("QEMU currently broken") # regression against stable QEMU
-     def test_mips64(self):
-@@ -284,11 +278,10 @@ def test_mips64(self):
-         :avocado: tags=tuxboot:mips64
-         :avocado: tags=endian:big
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_mips64el(self):
-         """
-@@ -296,11 +289,10 @@ def test_mips64el(self):
-         :avocado: tags=machine:malta
-         :avocado: tags=tuxboot:mips64el
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_ppc32(self):
-         """
-@@ -309,10 +301,9 @@ def test_ppc32(self):
-         :avocado: tags=cpu:e500mc
-         :avocado: tags=tuxboot:ppc32
-         :avocado: tags=image:uImage
--        :avocado: tags=drive:virtio-blk-pci
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="virtio-blk-pci")
- 
-     def test_ppc64(self):
-         """
-@@ -324,10 +315,9 @@ def test_ppc64(self):
-         :avocado: tags=tuxboot:ppc64
-         :avocado: tags=image:vmlinux
-         :avocado: tags=extradev:driver=spapr-vscsi
--        :avocado: tags=drive:scsi-hd
-         :avocado: tags=root:sda
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="scsi-hd")
- 
-     def test_ppc64le(self):
-         """
-@@ -338,10 +328,9 @@ def test_ppc64le(self):
-         :avocado: tags=tuxboot:ppc64le
-         :avocado: tags=image:vmlinux
-         :avocado: tags=extradev:driver=spapr-vscsi
--        :avocado: tags=drive:scsi-hd
-         :avocado: tags=root:sda
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="scsi-hd")
- 
-     def test_riscv32(self):
-         """
-@@ -365,10 +354,10 @@ def test_s390(self):
-         :avocado: tags=endian:big
-         :avocado: tags=tuxboot:s390
-         :avocado: tags=image:bzImage
--        :avocado: tags=drive:virtio-blk-ccw
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun(haltmsg="Requesting system halt")
-+        self.common_tuxrun(drive="virtio-blk-ccw",
-+                           haltmsg="Requesting system halt")
- 
-     # Note: some segfaults caused by unaligned userspace access
-     @skipIf(os.getenv('GITLAB_CI'), 'Skipping unstable test on GitLab')
-@@ -380,7 +369,6 @@ def test_sh4(self):
-         :avocado: tags=tuxboot:sh4
-         :avocado: tags=image:zImage
-         :avocado: tags=root:sda
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=console:ttySC1
-         """
-         # The test is currently too unstable to do much in userspace
-@@ -388,7 +376,9 @@ def test_sh4(self):
-         (kernel, disk, dtb) = self.fetch_tuxrun_assets()
- 
-         # the console comes on the second serial port
--        self.prepare_run(kernel, disk, console_index=1)
-+        self.prepare_run(kernel, disk,
-+                         "driver=ide-hd,bus=ide.0,unit=0",
-+                         console_index=1)
-         self.vm.launch()
- 
-         self.wait_for_console_pattern("Welcome to TuxTest")
-@@ -404,10 +394,9 @@ def test_sparc64(self):
-         :avocado: tags=tuxboot:sparc64
-         :avocado: tags=image:vmlinux
-         :avocado: tags=root:sda
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_x86_64(self):
-         """
-@@ -417,7 +406,6 @@ def test_x86_64(self):
-         :avocado: tags=tuxboot:x86_64
-         :avocado: tags=image:bzImage
-         :avocado: tags=root:sda
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
--- 
-2.39.2
+On 3/8/23 13:15, Michael S. Tsirkin wrote:
+> On Wed, Mar 08, 2023 at 11:33:45AM +0100, Maxime Coquelin wrote:
+>> Hello Michael,
+>>
+>> On 2/1/23 12:20, Michael S. Tsirkin wrote:
+>>> On Wed, Feb 01, 2023 at 12:14:18PM +0100, Maxime Coquelin wrote:
+>>>> Thanks Eugenio for working on this.
+>>>>
+>>>> On 1/31/23 20:10, Eugenio Perez Martin wrote:
+>>>>> Hi,
+>>>>>
+>>>>> The current approach of offering an emulated CVQ to the guest and map
+>>>>> the commands to vhost-user is not scaling well:
+>>>>> * Some devices already offer it, so the transformation is redundant.
+>>>>> * There is no support for commands with variable length (RSS?)
+>>>>>
+>>>>> We can solve both of them by offering it through vhost-user the same
+>>>>> way as vhost-vdpa do. With this approach qemu needs to track the
+>>>>> commands, for similar reasons as vhost-vdpa: qemu needs to track the
+>>>>> device status for live migration. vhost-user should use the same SVQ
+>>>>> code for this, so we avoid duplications.
+>>>>>
+>>>>> One of the challenges here is to know what virtqueue to shadow /
+>>>>> isolate. The vhost-user device may not have the same queues as the
+>>>>> device frontend:
+>>>>> * The first depends on the actual vhost-user device, and qemu fetches
+>>>>> it with VHOST_USER_GET_QUEUE_NUM at the moment.
+>>>>> * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
+>>>>>
+>>>>> For the device, the CVQ is the last one it offers, but for the guest
+>>>>> it is the last one offered in config space.
+>>>>>
+>>>>> To create a new vhost-user command to decrease that maximum number of
+>>>>> queues may be an option. But we can do it without adding more
+>>>>> commands, remapping the CVQ index at virtqueue setup. I think it
+>>>>> should be doable using (struct vhost_dev).vq_index and maybe a few
+>>>>> adjustments here and there.
+>>>>>
+>>>>> Thoughts?
+>>>>
+>>>> I am fine with both proposals.
+>>>> I think index remapping will require a bit more rework in the DPDK
+>>>> Vhost-user library, but nothing insurmountable.
+>>>>
+>>>> I am currently working on a PoC adding support for VDUSE in the DPDK
+>>>> Vhost library, and recently added control queue support. We can reuse it
+>>>> if we want to prototype your proposal.
+>>>>
+>>>> Maxime
+>>>>
+>>>>> Thanks!
+>>>>>
+>>>
+>>>
+>>> technically backend knows how many vqs are there, last one is cvq...
+>>> not sure we need full blown remapping ...
+>>>
+>>
+>> Before VHOST_USER_PROTOCOL_F_STATUS was supported by qemu (very
+>> recently, v7.2.0), we had no way for the backend to be sure the
+>> frontend won't configure new queue pairs, this not not defined in the
+>> spec AFAICT [0]. In DPDK Vhost library, we notify the application it can
+>> start to use the device once the first queue pair is setup and enabled,
+>> then we notify the application when new queues are ready to be
+>> processed. In this case, I think we cannot deduce whether the queue is a
+>> data or a control queue when it is setup.
+>>
+>> When VHOST_USER_PROTOCOL_F_STATUS is supported, we know no more queues
+>> will be configured once the DRIVER_OK status is set. In this case, we
+>> can deduce the last queue setup will be the control queue at DRIVER_OK
+>> time if the number of queues is odd.
+>>
+>> Using index remapping, we would know directly at queue setup time
+>> whether this is a data or control queue based on its index value,
+>> i.e. if the index equals to max queue index supported by the backend.
+>> But thinking at it again, we may at least back this with a protocol
+>> feature to avoid issues with legacy backends.
+>>
+>> I hope it clarifies, let me know if anything unclear.
+>>
+>> Thanks,
+>> Maxime
+>>
+>> [0]:
+>> https://elixir.bootlin.com/qemu/latest/source/docs/interop/vhost-user.rst
+> 
+> 
+> OK maybe document this.
+
+Sure, working on it... But I just found a discrepancy related to
+VHOST_USER_GET_QUEUE_NUM between the spec and the frontend/backend
+implementations.
+
+In the spec [0], VHOST_USER_GET_QUEUE_NUM reply is the number of queues.
+In Qemu Vhost-user Net frontend [1], VHOST_USER_GET_QUEUE_NUM is handled
+as the number of queue *pairs*, and so does the DPDK Vhost library. 
+Vhost-user-bridge Qemu test application handles it as the number of queues.
+
+Other device types seem to handle it as the number of queues, which
+makes sense since they don't have the notion of queue pair.
+
+Fixing the QEMU and DPDK implementations would require a new protocol 
+feature bit not to break compatibility with older versions.
+
+So maybe we should add in the spec that for network devices,
+VHOST_USER_GET_QUEUE_NUM reply represents the number of queue pairs, and
+also fix vhost-user-bridge to reply with the number of queue pairs?
+
+Maxime
+
+[0]: 
+https://elixir.bootlin.com/qemu/latest/source/docs/interop/vhost-user.rst#L1091
+[1]: https://elixir.bootlin.com/qemu/latest/source/net/vhost-user.c#L69
 
 
