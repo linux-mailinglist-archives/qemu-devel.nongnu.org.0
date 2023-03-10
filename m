@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3219B6B53F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A726B53E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:10:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvt-0008Jb-KY; Fri, 10 Mar 2023 17:09:49 -0500
+	id 1pakvr-0008IA-O5; Fri, 10 Mar 2023 17:09:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvn-0008FQ-PB
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:43 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvo-0008Ff-0Y
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:44 -0500
 Received: from mout.kundenserver.de ([212.227.126.135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvm-00033r-2a
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvm-000343-Aw
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:43 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N63mC-1qcSOi05G4-016NpG; Fri, 10
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MT9v5-1pzG5j1liJ-00UaAb; Fri, 10
  Mar 2023 23:09:40 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 23/28] linux-user/sparc: Handle privilidged action trap
-Date: Fri, 10 Mar 2023 23:09:22 +0100
-Message-Id: <20230310220927.326606-24-laurent@vivier.eu>
+Subject: [PULL 24/28] linux-user/sparc: Handle coprocessor disabled trap
+Date: Fri, 10 Mar 2023 23:09:23 +0100
+Message-Id: <20230310220927.326606-25-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8BJjg9GKKN+ZES0CWZFB+QptCwjTaxKXKEC9uK8uWe86U9qn6Yp
- /0KQaVY0+BljQGzMJYPVdAW/XJ/k6gqqnkgr8RhAFQnh8jjhqmseg8s1LsLxlDgPc+87tQm
- VAqwGzFigomyHwids9Keu0Z/MN0zoApz5oTKbBoVOCbq+hPxIMgrDvt9Orbb8N5qyTAqY0T
- F+VSphYSizgN028kBVaFA==
-UI-OutboundReport: notjunk:1;M01:P0:n72FCPrgKjY=;nY8N0nOPS5Gz/yab84uSjm34wFZ
- YcUZ0/ClylupTDuSly4cq+Rh4LiBz0sy9wLcU4FjllUQC6695LQamCpCvS1wYvFzVeWlEmP+z
- kRH9pv8Pq+nvaLPsG7M74NiY0GaT7PU1Xd1VEWSkIaXS5CMcWgQF5va4ORcZV7LcsRoK8L7zO
- CpeIHXvk+u+9vciprDqGnIrBZ3Qmdoj1BFC03he2QR4mXISVnoqaaMSB1FtAXojMYfbfJeVb5
- S0Vbh68Rs0w3SoPSIMAFbc88IV0MS7R/ziaeguSW3LSyVk2tGQbVhV+qIj6mqcYlw322nKHoI
- 2CEe0bjccHcn8IzHEzRix1puz/VtjCD1OfendHo/U1dbwaAvBaOMdx5NEn2qERK5QQWdhCGcK
- sizsmZT8lSIdKSWTzf27gii/05Ssq8GWP6MZFsYQiG6AW646jlXlwZGFQP8e5awlOnir3YhLF
- 0w0rq7QQLzk7qAxxx0eVtAbVaFOe/smBfQHp0YA+Yt3Bon8fBgX16tHUCTCagqDOmho+YSZ6y
- X93PcYEilcMWR4iLIjzuQn776I6skufqmzY1UI7K965NLSDeqrBRUg7Srf7LjTBjbQjkobaqz
- p89sPgw5TSqG4eSFRhshvkVvzQ3iHcn5x5QK3jDqsB7/CnBhmD/DIIGlALupI4tx+8HH72ZGR
- f/pOAG6JJLqcsgpp8QMbPQOsTGKD5nY3b0jvn4O+Og==
+X-Provags-ID: V03:K1:9TX+eZuuOY4xjQjv8PKaO/zt5j3kT7yGZMA2ZGRHc9IMReKSOsE
+ VzB3Jro5JzhD5wnEff/kQATHeJzSLnbZ8lsjhi2xUkmsreMvQyCd+pKqP1eYA4GXo9S3pzr
+ fdTecH+DOmHkq3Xgp+AokrTJIKOf6SV+kTpYolli0WFZEIc6lsyY3TXJ6iaD3HohR3hPSMx
+ aJFTg9cHqVoYWY+2h4hKQ==
+UI-OutboundReport: notjunk:1;M01:P0:1PMoYEuiGq0=;OBE+Hn38qeorioRzNk85qvoC0zc
+ G++hIYmXenpSdgTIj5NTGIS969lZ7nGIht6mN/Pf+xyvVF9Q7Raz5Olgdf9jRPj1lC5OmyM4F
+ vpPovjdZJSkLVEx8ohSauG8fDJqTnKSgZBa3NMmOJTXupgLu/qt7yFFhYir/Of8HFZOxMRAOo
+ 4I8s5gPu0u3Sr0Sd9FrAwZeqjZwpJn68J9KUmRj35rUYLL5f3TCtkr1336CHq1PUV4i0IavPt
+ +6DP560z27ij1c9VCBjIREyB9MC1n0kVSXC98MfMhCj3bLHpk4jBvtoEMA4CFZe7NJg3kmdBZ
+ Das6MOPaHGpHt0ph3s/Tb7fzTTVi65o6/v6ZENwGRRiRIRfQITS1s46syWnpGq+I8M1I3DqpE
+ nVEd4zb2OYhILYstdWqqoM7iNyQENORxKuOCfh8uo7O3lcuCEwuV4OOwgKOsq0DvBEEMwQcML
+ 96p2w11FbvyOOYQunqfX+Jpnsecucj8GnrdQ79kr7gr4vKGZeGXg2YAwNQi4xOGO5uRFJtg0s
+ ZcTWNReF+dn01IwWpBY9yA6ijafJQRSIsmQpQEKKSlV09EYxaokBVGDMAMAyiTDgnsnD8J4jb
+ fiAgk5NaH9Afo7flVauHxZCKf13x1gg4QqeaNBWbNVUMBgNqcNCrepfQAKMB7sxJRe8pHtdCe
+ hR4EwyqWkqu8F3sfBaYnSF4ydM4vtbZ8dvwLCE7mng==
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -71,32 +71,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is raised by using an %asi < 0x80 in user-mode.
+Since qemu does not implement a sparc coprocessor, all such
+instructions raise this trap.  Because of that, we never raise
+the coprocessor exception trap, which would be vector 0x28.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230216054516.1267305-12-richard.henderson@linaro.org>
+Message-Id: <20230216054516.1267305-13-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ linux-user/sparc/cpu_loop.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 61b6e81459be..43f19fbd9141 100644
+index 43f19fbd9141..bf7e10216fe1 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -306,6 +306,12 @@ void cpu_loop (CPUSPARCState *env)
-         case TT_PRIV_INSN:
+@@ -311,6 +311,10 @@ void cpu_loop (CPUSPARCState *env)
+             /* Note do_privact defers to do_privop. */
              force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
              break;
-+#ifdef TARGET_SPARC64
-+        case TT_PRIV_ACT:
-+            /* Note do_privact defers to do_privop. */
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
++#else
++        case TT_NCP_INSN:
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->pc);
 +            break;
-+#endif
+ #endif
          case EXCP_ATOMIC:
              cpu_exec_step_atomic(cs);
-             break;
 -- 
 2.39.2
 
