@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99736B3AB4
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:37:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E6B6B3ACA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:38:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZAG-0002nr-IY; Fri, 10 Mar 2023 04:35:52 -0500
+	id 1paZAO-0002rP-9r; Fri, 10 Mar 2023 04:36:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAD-0002nj-Io
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:35:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1paZAL-0002qX-DR
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:35:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAB-0008Fq-W4
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:35:49 -0500
+ id 1paZAG-0008GX-5F
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:35:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678440946;
+ s=mimecast20190719; t=1678440951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iZSnZKmMJSwLI+KXTQYBAIDBbO7wyHOMhVlNhpUnus8=;
- b=DcN/fJ5UEsSFI8kxzTzzm1Cai7Y4lmbqkFbV0eOhk2SP8tZH6+34SJJu3nrafneEdLeUt2
- xMTdArWeBxaFz2BPle+cOwYrOckfy/OsOtCczu9is/F0w6bu7Cbe2ibRGmXQe9HFg/eDIi
- bzqajbqLT9O5aJDQ0VNFWMMNP+WloRg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FzOKIfYrEOJqCc5OXjNPvpQieB/iMudXEnCbXzPUYxM=;
+ b=Pnz18ogQxoUZF61dDHh9iaK6xUF1i2XIn7F7RSTN5gdW02iCbMJTE0F8rNzOxU0Xmr/Rcy
+ I6CeTxRg/cgFQlUl+tio5QSPVa7nsv0cUW/tDCrtroFIdCqizAFKGk0LEq1U7di3iGiCrF
+ TKitHbV2ObN+n4lXGqnlowanJXg9hsc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-wEW7XI9_Oz6ywxyF9FljPw-1; Fri, 10 Mar 2023 04:35:45 -0500
-X-MC-Unique: wEW7XI9_Oz6ywxyF9FljPw-1
+ us-mta-641-ihNxNHQZPmaCXBZsfKTGKA-1; Fri, 10 Mar 2023 04:35:48 -0500
+X-MC-Unique: ihNxNHQZPmaCXBZsfKTGKA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8B7A3806112;
- Fri, 10 Mar 2023 09:35:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A76D185A7A4;
+ Fri, 10 Mar 2023 09:35:47 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BCC640C945A;
- Fri, 10 Mar 2023 09:35:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92C114014CF3;
+ Fri, 10 Mar 2023 09:35:45 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 05/44] e1000: Mask registers when writing
-Date: Fri, 10 Mar 2023 17:34:47 +0800
-Message-Id: <20230310093526.30828-6-jasowang@redhat.com>
+Subject: [PULL V2 06/44] e1000e: Introduce E1000E_LOW_BITS_SET_FUNC
+Date: Fri, 10 Mar 2023 17:34:48 +0800
+Message-Id: <20230310093526.30828-7-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,152 +81,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-When a register has effective bits fewer than their width, the old code
-inconsistently masked when writing or reading. Make the code consistent
-by always masking when writing, and remove some code duplication.
+e1000e_set_16bit and e1000e_set_12bit look so similar so define a
+generic macro.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000.c | 84 ++++++++++++++++++++++------------------------------------
- 1 file changed, 31 insertions(+), 53 deletions(-)
+ hw/net/e1000e_core.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 9619a2e..0925a99 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -1063,30 +1063,6 @@ mac_readreg(E1000State *s, int index)
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 181c1e0..1cafc38 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2440,17 +2440,15 @@ e1000e_set_fcrtl(E1000ECore *core, int index, uint32_t val)
+     core->mac[FCRTL] = val & 0x8000FFF8;
  }
  
- static uint32_t
--mac_low4_read(E1000State *s, int index)
+-static inline void
+-e1000e_set_16bit(E1000ECore *core, int index, uint32_t val)
 -{
--    return s->mac_reg[index] & 0xf;
+-    core->mac[index] = val & 0xffff;
 -}
--
--static uint32_t
--mac_low11_read(E1000State *s, int index)
--{
--    return s->mac_reg[index] & 0x7ff;
--}
--
--static uint32_t
--mac_low13_read(E1000State *s, int index)
--{
--    return s->mac_reg[index] & 0x1fff;
--}
--
--static uint32_t
--mac_low16_read(E1000State *s, int index)
--{
--    return s->mac_reg[index] & 0xffff;
--}
--
--static uint32_t
- mac_icr_read(E1000State *s, int index)
- {
-     uint32_t ret = s->mac_reg[ICR];
-@@ -1138,11 +1114,17 @@ set_rdt(E1000State *s, int index, uint32_t val)
-     }
- }
++#define E1000E_LOW_BITS_SET_FUNC(num)                                \
++    static void                                                      \
++    e1000e_set_##num##bit(E1000ECore *core, int index, uint32_t val) \
++    {                                                                \
++        core->mac[index] = val & (BIT(num) - 1);                     \
++    }
  
 -static void
--set_16bit(E1000State *s, int index, uint32_t val)
+-e1000e_set_12bit(E1000ECore *core, int index, uint32_t val)
 -{
--    s->mac_reg[index] = val & 0xffff;
+-    core->mac[index] = val & 0xfff;
 -}
-+#define LOW_BITS_SET_FUNC(num)                             \
-+    static void                                            \
-+    set_##num##bit(E1000State *s, int index, uint32_t val) \
-+    {                                                      \
-+        s->mac_reg[index] = val & (BIT(num) - 1);          \
-+    }
-+
-+LOW_BITS_SET_FUNC(4)
-+LOW_BITS_SET_FUNC(11)
-+LOW_BITS_SET_FUNC(13)
-+LOW_BITS_SET_FUNC(16)
++E1000E_LOW_BITS_SET_FUNC(12)
++E1000E_LOW_BITS_SET_FUNC(16)
  
  static void
- set_dlen(E1000State *s, int index, uint32_t val)
-@@ -1196,7 +1178,9 @@ static const readops macreg_readops[] = {
-     getreg(XONRXC),   getreg(XONTXC),   getreg(XOFFRXC),  getreg(XOFFTXC),
-     getreg(RFC),      getreg(RJC),      getreg(RNBC),     getreg(TSCTFC),
-     getreg(MGTPRC),   getreg(MGTPDC),   getreg(MGTPTC),   getreg(GORCL),
--    getreg(GOTCL),
-+    getreg(GOTCL),    getreg(RDFH),     getreg(RDFT),     getreg(RDFHS),
-+    getreg(RDFTS),    getreg(RDFPC),    getreg(TDFH),     getreg(TDFT),
-+    getreg(TDFHS),    getreg(TDFTS),    getreg(TDFPC),    getreg(AIT),
- 
-     [TOTH]    = mac_read_clr8,      [TORH]    = mac_read_clr8,
-     [GOTCH]   = mac_read_clr8,      [GORCH]   = mac_read_clr8,
-@@ -1214,22 +1198,15 @@ static const readops macreg_readops[] = {
-     [MPTC]    = mac_read_clr4,
-     [ICR]     = mac_icr_read,       [EECD]    = get_eecd,
-     [EERD]    = flash_eerd_read,
--    [RDFH]    = mac_low13_read,     [RDFT]    = mac_low13_read,
--    [RDFHS]   = mac_low13_read,     [RDFTS]   = mac_low13_read,
--    [RDFPC]   = mac_low13_read,
--    [TDFH]    = mac_low11_read,     [TDFT]    = mac_low11_read,
--    [TDFHS]   = mac_low13_read,     [TDFTS]   = mac_low13_read,
--    [TDFPC]   = mac_low13_read,
--    [AIT]     = mac_low16_read,
- 
-     [CRCERRS ... MPC]     = &mac_readreg,
-     [IP6AT ... IP6AT + 3] = &mac_readreg,    [IP4AT ... IP4AT + 6] = &mac_readreg,
--    [FFLT ... FFLT + 6]   = &mac_low11_read,
-+    [FFLT ... FFLT + 6]   = &mac_readreg,
-     [RA ... RA + 31]      = &mac_readreg,
-     [WUPM ... WUPM + 31]  = &mac_readreg,
-     [MTA ... MTA + 127]   = &mac_readreg,
-     [VFTA ... VFTA + 127] = &mac_readreg,
--    [FFMT ... FFMT + 254] = &mac_low4_read,
-+    [FFMT ... FFMT + 254] = &mac_readreg,
-     [FFVT ... FFVT + 254] = &mac_readreg,
-     [PBM ... PBM + 16383] = &mac_readreg,
- };
-@@ -1241,26 +1218,27 @@ static const writeops macreg_writeops[] = {
-     putreg(PBA),      putreg(EERD),     putreg(SWSM),     putreg(WUFC),
-     putreg(TDBAL),    putreg(TDBAH),    putreg(TXDCTL),   putreg(RDBAH),
-     putreg(RDBAL),    putreg(LEDCTL),   putreg(VET),      putreg(FCRUC),
--    putreg(TDFH),     putreg(TDFT),     putreg(TDFHS),    putreg(TDFTS),
--    putreg(TDFPC),    putreg(RDFH),     putreg(RDFT),     putreg(RDFHS),
--    putreg(RDFTS),    putreg(RDFPC),    putreg(IPAV),     putreg(WUC),
--    putreg(WUS),      putreg(AIT),
--
--    [TDLEN]  = set_dlen,   [RDLEN]  = set_dlen,       [TCTL] = set_tctl,
--    [TDT]    = set_tctl,   [MDIC]   = set_mdic,       [ICS]  = set_ics,
--    [TDH]    = set_16bit,  [RDH]    = set_16bit,      [RDT]  = set_rdt,
--    [IMC]    = set_imc,    [IMS]    = set_ims,        [ICR]  = set_icr,
--    [EECD]   = set_eecd,   [RCTL]   = set_rx_control, [CTRL] = set_ctrl,
--    [RDTR]   = set_16bit,  [RADV]   = set_16bit,      [TADV] = set_16bit,
--    [ITR]    = set_16bit,
-+    putreg(IPAV),     putreg(WUC),
-+    putreg(WUS),
-+
-+    [TDLEN]  = set_dlen,   [RDLEN]  = set_dlen,       [TCTL]  = set_tctl,
-+    [TDT]    = set_tctl,   [MDIC]   = set_mdic,       [ICS]   = set_ics,
-+    [TDH]    = set_16bit,  [RDH]    = set_16bit,      [RDT]   = set_rdt,
-+    [IMC]    = set_imc,    [IMS]    = set_ims,        [ICR]   = set_icr,
-+    [EECD]   = set_eecd,   [RCTL]   = set_rx_control, [CTRL]  = set_ctrl,
-+    [RDTR]   = set_16bit,  [RADV]   = set_16bit,      [TADV]  = set_16bit,
-+    [ITR]    = set_16bit,  [TDFH]   = set_11bit,      [TDFT]  = set_11bit,
-+    [TDFHS]  = set_13bit,  [TDFTS]  = set_13bit,      [TDFPC] = set_13bit,
-+    [RDFH]   = set_13bit,  [RDFT]   = set_13bit,      [RDFHS] = set_13bit,
-+    [RDFTS]  = set_13bit,  [RDFPC]  = set_13bit,      [AIT]   = set_16bit,
- 
-     [IP6AT ... IP6AT + 3] = &mac_writereg, [IP4AT ... IP4AT + 6] = &mac_writereg,
--    [FFLT ... FFLT + 6]   = &mac_writereg,
-+    [FFLT ... FFLT + 6]   = &set_11bit,
-     [RA ... RA + 31]      = &mac_writereg,
-     [WUPM ... WUPM + 31]  = &mac_writereg,
-     [MTA ... MTA + 127]   = &mac_writereg,
-     [VFTA ... VFTA + 127] = &mac_writereg,
--    [FFMT ... FFMT + 254] = &mac_writereg, [FFVT ... FFVT + 254] = &mac_writereg,
-+    [FFMT ... FFMT + 254] = &set_4bit,     [FFVT ... FFVT + 254] = &mac_writereg,
-     [PBM ... PBM + 16383] = &mac_writereg,
- };
- 
+ e1000e_set_vet(E1000ECore *core, int index, uint32_t val)
 -- 
 2.7.4
 
