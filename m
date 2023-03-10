@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AC16B3C5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBDC6B3C5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:35:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paa26-0007Tz-2V; Fri, 10 Mar 2023 05:31:30 -0500
+	id 1paa28-0007VM-60; Fri, 10 Mar 2023 05:31:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paa24-0007Sc-33
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:31:28 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1paa25-0007Tq-A9
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:31:29 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paa22-0004FE-07
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:31:27 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so3077728wmi.3
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 02:31:25 -0800 (PST)
+ id 1paa22-0004Fc-RU
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:31:28 -0500
+Received: by mail-wr1-x435.google.com with SMTP id h11so4577036wrm.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 02:31:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678444284;
+ d=linaro.org; s=google; t=1678444285;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+9R+WJAtyA8SeJ/1as6Ou9Go9GUXAmG0Tw994EVyLcw=;
- b=f2o9vKZra78HWQnWncPu7hbGH9C93KTNsRZiibAVPngUCGKgCekmYIz8W4NrUYWQra
- fRBBPZ5QBwc9SkNEnB1jyrytWZhLqKWqBbztk6C5mXgYOXQFgnLIaXaVlhWqwYgRjLEJ
- anlcRZq40uhFBejT8uiH7TPOQ+iepTchPoF6xCpBCrQIutcmZhnVsANe24rel2D8eM6o
- aSETlUCcLJyVNZa/3s4J2DYySwOukRED9apGN+3Muw8nJUnDNx4Nor0S76LHRCHJsIP5
- J3SZq6I+qTLax8LEtKEfvT/cDFxmGcB+JmuQQeNKGdewTmrFmOIedKWpiwtflFnfsHKf
- M5uw==
+ bh=y4cpR7vA6XSXxWS6bHag8gq4h8YFalbW/SrKcN6qWB8=;
+ b=yJD+YSTuz7vpoXXmot7VlxR2O2T+u4PWtvW3AkDHAg3WffohrFj9zA53L6QHpcSPGS
+ SbZ6OaMR+KMNEL/cwYD21Lp+5vg3xqX2Tu/l+OCbHpjT5vxQrsuF8z3bxhj6VU2RcJ1L
+ H8mALYMfxKHkn3jXbp6T9RSB6m6UDB34oj6Wed31yRunnvPSMrbAyjanM16k2ev2tQ0H
+ pi/R31Y59NjphHKeppWnYW4bwoEsx4wdq4M3Qfok8rxxpAEwv97XawcYk0WCNN+tx3vX
+ Qut2VQggnmVe5XS8YZxxvtr6Gofk83ct1B8NFrVD/+G1Jt1dzrkgwU2UHw9ZhbUz8A6X
+ MYTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678444284;
+ d=1e100.net; s=20210112; t=1678444285;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+9R+WJAtyA8SeJ/1as6Ou9Go9GUXAmG0Tw994EVyLcw=;
- b=Iepd35vnBXzVSSBF7ECKbWGYFMgDKP5ZP9diBgkeWgBRy/9xPk6KFKH3lcbPCiqXqz
- 7tPdi8NW5ZSZgR7LbuQS5MuiQ5CUL55ZQSqP5Sfj3cNKtP2G5jy8D/R2RvP3uKbLlCCl
- /ShMjjZJE1c58wzfXd2BKxeo3D/YkE1b3ohSkCC5AOX2zQA9KRGAjNGfgxSYYKu0Nt7n
- NFfI273tcVHAkP2vzllyCC8zNPqeGXFRBGpP94ynmSQLw9Lf/QlfKukjSdJauTfUhPDY
- qC33DzYwR79wx9MhV34xIuep0Wc+0hHcy1qT696K74dPONS54AxxfNc3iaVthFqiXvba
- mBfw==
-X-Gm-Message-State: AO0yUKXTtvrCr6IUTSClizg8w4yqty80AwgpV1RC5eME4DiI0pEQKgta
- iNJ7Gkkvj0+/KNNtT6DTvuFFSQ==
-X-Google-Smtp-Source: AK7set9slgWQ7Wl+rxoQBIC9j++KjpoQ1I8aBhzPVkpSBStTN6dq9Bpg+JM6ByH2ZO2Ib3qF0JRS2g==
-X-Received: by 2002:a05:600c:3113:b0:3e2:24a0:ba26 with SMTP id
- g19-20020a05600c311300b003e224a0ba26mr2141410wmo.16.1678444284587; 
- Fri, 10 Mar 2023 02:31:24 -0800 (PST)
+ bh=y4cpR7vA6XSXxWS6bHag8gq4h8YFalbW/SrKcN6qWB8=;
+ b=n6vl72kX8f4l8LyQpPXuyYeuBngkB3ux32/vrHhg4JEDYP7fFwP4iDgS6DU9A6nKVP
+ XFKqCzzL/lvqy0a8gv8ageZyQlj5m2HIiHpIwPqvSDqBo8nUfhqJgRgW/BMWTSt3yOX3
+ GI8XoifAGBAofTQv6Nf5tqfCR5I3Px2ugIJQj/ZT345nVY9Ebv3iT5owMVnlUXusIP+l
+ s6CEuH4WNEsDyeuB3nHv21mGntgdcoLkGbtnCFbcTIZTSMimU2BSqe2m3Osa9ezs0+pn
+ poWiaLWVzeYH/NgTl386RbGZL3CbclLG2O6F7J9FPQrjl8QUV8G5eBsOrOZir/cXg2EA
+ crcA==
+X-Gm-Message-State: AO0yUKWFI2V/eFbBCQOgGJTPbZ+rrfSQcEcZvnEX6RFzFWnsNJ2TRugM
+ QfPBWPj7nndfIKETgvaBptcGqg==
+X-Google-Smtp-Source: AK7set9ayF5vM3mvRdTydN3/SKLZaR+ng7texETRhuRMM1m1q/O8hAE8EDHCmTo5HVoMXkjNgI083A==
+X-Received: by 2002:a5d:4c52:0:b0:2c9:5675:7def with SMTP id
+ n18-20020a5d4c52000000b002c956757defmr16189578wrt.2.1678444285375; 
+ Fri, 10 Mar 2023 02:31:25 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- 20-20020a05600c22d400b003ebfc075eaasm1748419wmg.16.2023.03.10.02.31.24
+ l10-20020a5d4bca000000b002c705058773sm1764094wrt.74.2023.03.10.02.31.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 10 Mar 2023 02:31:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B493C1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id CC8F91FFBB;
  Fri, 10 Mar 2023 10:31:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -69,26 +68,25 @@ Cc: David Hildenbrand <david@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Fabiano Rosas <farosas@suse.de>
-Subject: [PATCH 02/11] tests/docker: all add DOCKER_BUILDKIT to RUNC
- environment
-Date: Fri, 10 Mar 2023 10:31:14 +0000
-Message-Id: <20230310103123.2118519-3-alex.bennee@linaro.org>
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH 03/11] scripts/ci: add libslirp-devel to build-environment
+Date: Fri, 10 Mar 2023 10:31:15 +0000
+Message-Id: <20230310103123.2118519-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310103123.2118519-1-alex.bennee@linaro.org>
 References: <20230310103123.2118519-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,28 +102,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It seems we also need to pass DOCKER_BUILDKIT as an argument to docker
-itself to get the full benefit of caching.
+Without libslip enabled we won't have user networking which means the
+KVM tests won't run.
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Suggested-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/ci/org.centos/stream/8/build-environment.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 54ed77f671..9401525325 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -39,7 +39,7 @@ docker-qemu-src: $(DOCKER_SRC_COPY)
- # General rule for building docker images.
- docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 	  $(call quiet-command,			\
--		$(RUNC) build				\
-+		DOCKER_BUILDKIT=1 $(RUNC) build		\
- 		$(if $V,,--quiet)			\
- 		$(if $(NOCACHE),--no-cache,		\
- 			$(if $(DOCKER_REGISTRY),--cache-from $(DOCKER_REGISTRY)/qemu/$*)) \
+diff --git a/scripts/ci/org.centos/stream/8/build-environment.yml b/scripts/ci/org.centos/stream/8/build-environment.yml
+index 0d094d70c3..1ead77e2cb 100644
+--- a/scripts/ci/org.centos/stream/8/build-environment.yml
++++ b/scripts/ci/org.centos/stream/8/build-environment.yml
+@@ -55,6 +55,7 @@
+           - librados-devel
+           - librbd-devel
+           - libseccomp-devel
++          - libslirp-devel
+           - libssh-devel
+           - libxkbcommon-devel
+           - lzo-devel
 -- 
 2.39.2
 
