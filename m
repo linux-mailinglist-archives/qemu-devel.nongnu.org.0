@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B426B53F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F78F6B53FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:12:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvl-0008DC-1T; Fri, 10 Mar 2023 17:09:41 -0500
+	id 1pakvm-0008EL-DV; Fri, 10 Mar 2023 17:09:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvi-0008Bh-Kh
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:38 -0500
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvj-0008CD-Gt
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:39 -0500
+Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvg-00030y-P9
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:38 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvh-00031G-D6
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:39 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPXQi-1pwHwu3HsI-00MYZ7; Fri, 10
- Mar 2023 23:09:30 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M5PRT-1pbaPO1Gz7-001TZe; Fri, 10
+ Mar 2023 23:09:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Mathis Marion <mathis.marion@silabs.com>,
+Cc: Laurent Vivier <laurent@vivier.eu>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 03/28] linux-user: add target to host netlink conversions
-Date: Fri, 10 Mar 2023 23:09:02 +0100
-Message-Id: <20230310220927.326606-4-laurent@vivier.eu>
+Subject: [PULL 04/28] linux-user: Fix unaligned memory access in prlimit64
+ syscall
+Date: Fri, 10 Mar 2023 23:09:03 +0100
+Message-Id: <20230310220927.326606-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7u9fPsOHMczQ1uHtUIC1c6eobBN3i240rVKUv0g31zfib4OKhsQ
- EHunIvbGGEI0JF6/iVW6HZBQAlQx5ioGdnfVOHIkhFabLgzehkDv4Ib0bu3CQJvMTNkG+dF
- UJBkvwb6PCWg/eSwOjkJsQtaxOIAFTYzeGRqE3rBDzGsvWHXtTy/5Ed/7pxPQn10XdTBWNU
- 83K4LsCP3dtoUAL8BPLGA==
-UI-OutboundReport: notjunk:1;M01:P0:gldgVdujYKk=;xJXCfLfZLrexAAmW2OS+lB7u4Ez
- El01VXUTaslnAM2ae60Rn14m/qbX2Y4fAvGaarYT1G5ns4hqGBZhhhv/Vs7qAp+k6W7u8Y1/A
- hdkT1awe8lXW/aN1L44q8scEwpCY2Fwyt+EezXRnBngCLn6R2MOtdFsDFmQ+F5fn2uo08+Icc
- QPcv014etowqZiZi/remXaDGMDqgEXuSBISQ9zXUlz7xOfuxeDXDvjQSyXcsO/IS/6CzdeXIG
- 0SdWzQGHhB8f7PvYi/00P4qFeAeqJ5QZXT9+HrJQ0WRk4eYv8q7XLQKLuiNb7VsaGREVqQEHO
- hUV8SvqUwA9IT2D+Rro6UFcKKwnh93DHkpN2ajryWyDk3ft9KeCHZHhi1zH49MT3ScVY/ZB2K
- ZP0chUN7GT/Q5zfK4ArQ/+J0N9WBqYBJ+ZpMEX6CvecwFKfxmKDcH7oip6wMDL8SJGYNQoG6F
- rPiWGM4OVu+pIbrgV9pPZV32InN+g8UjQWfJHCq3mkfti3PLPeid4wvsREB3Y1MBYgdQhevBA
- Ys0e/SemyovuP6HPR57zv7AjdDRKj3zPbi8nrG/GKUzB/sPSyXefTjd99wb7AdtOraeixKqGL
- CLFXwrZ7JgpKjvP/7xjCof/4kj+YhMFsVP8vSMETk28QCR6Ke47dYwrirKwNl7Q9jCxQwYEcE
- xyP6SMsM+4gq/uwkVqa3Q/ebFaicAqiRay1egPFaUA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:WYvTP3MN+h/87DYEYmctzb+Y+Wr5Nyg4ZS6k1BcHnU1tEsj+Bs4
+ h7dH/CXM2Lxo4T7i55Q7t9d8+Qf9hFsstAGBGnsuyGSNhRDUBqG+ZVONW9RbXO2aEG8oD2R
+ DzK4nonefvmHtCEb5v1KNJdxDTEJZu7BJT8HkETJCPWxbzgn+a+Td9a5WEcwn3QOV2Z1BXQ
+ 4sRhzNEHp4PjIUpp+mbTw==
+UI-OutboundReport: notjunk:1;M01:P0:KpfpXM890dk=;7En5hx4hHTw6svSM55F26rzneiZ
+ zAzin8kaiPPAQ90cmkQkW6lDvux5dRwJluD5d42M/BdOWMgMtlQZ+GaS1borzPVUKOLrN1oZY
+ 0e8XQCYbYvWeKO+cKOc3jT8Ow1NhThz42jQ3C/zpEvbsvBZvTxiyz4IoE7z2zETY/vGNEyoWU
+ 0DK0W279M5/j11TXdgzDVlfofBv/SXBTTyqDT8kW27Ns626B7Stmd3SZbhQ168MlAuvkxKUMP
+ ln6OiilJwlMHQDhEUGF4NpVdheaRWjN6oZqf1R5AHblpWsOt5HMxGBbYMIt6RQtgXvZanl4aq
+ I9it5iQTJDTPyRneHso7pCTFCKg62W4RG3277zqTgy0HkoN7NQX/3LsRzX9xTLOo/jBo3DIfQ
+ xXtAIDYafDChyKx0IQUL0emTV93RdsHErh75D5oBpjfL3hA2/TPWtHBgU1f2fn0/D80ZDyKTK
+ zmvpLvzSKqZUAaN2nN3+PRGUsjmWCTCWnHjlpc+n5p/N+2CJdvrClH5fiYLjbdy6LQE6ZZbFB
+ RlkqlBe3Q/OSuxOlkDFSH5aISjVbbcWhUX7G66FscKhufW/JQT6inAjPBXSkPi4KD8FwYt478
+ p929j6vfG6mxUoaDwncE8rDvSQHZxHorFlxCopxSVF63AJ2YojjWkRZkjXoh4xmMoiueu/t16
+ Ea+1a5eS9E8+I+iYRuSlpx2B1mVrQkbLPvhsezrhCQ==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,114 +72,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mathis Marion <mathis.marion@silabs.com>
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Added conversions for:
-- IFLA_MTU
-- IFLA_TXQLEN
-- IFLA_AF_SPEC AF_INET6 IFLA_INET6_ADDR_GEN_MODE
-These relate to the libnl functions rtnl_link_set_mtu,
-rtnl_link_set_txqlen, and rtnl_link_inet6_set_addr_gen_mode.
+target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
+some hosts, while some guests may align their respective type on a
+4-byte boundary. This may lead to an unaligned access, which is an UB.
 
-Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
+Fix by defining the fields as abi_ullong. This makes the host alignment
+match that of the guest, and lets the compiler know that it should emit
+code that can deal with the guest alignment.
+
+While at it, also use __get_user() and __put_user() instead of
+tswap64().
+
+Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230220085822.626798-4-Mathis.Marion@silabs.com>
+Message-Id: <20230224003907.263914-2-iii@linux.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/fd-trans.c | 62 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ linux-user/generic/target_resource.h | 4 ++--
+ linux-user/syscall.c                 | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 146aaaafaa13..4852a75d9dcc 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -1284,6 +1284,49 @@ static inline abi_long host_to_target_nlmsg_route(struct nlmsghdr *nlh,
-     return host_to_target_for_each_nlmsg(nlh, len, host_to_target_data_route);
- }
+diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
+index 539d8c46772e..37d3eb09b3b3 100644
+--- a/linux-user/generic/target_resource.h
++++ b/linux-user/generic/target_resource.h
+@@ -12,8 +12,8 @@ struct target_rlimit {
+ };
  
-+static abi_long target_to_host_for_each_nlattr(struct nlattr *nlattr,
-+                                               size_t len,
-+                                               abi_long (*target_to_host_nlattr)
-+                                                        (struct nlattr *))
-+{
-+    unsigned short aligned_nla_len;
-+    abi_long ret;
-+
-+    while (len > sizeof(struct nlattr)) {
-+        if (tswap16(nlattr->nla_len) < sizeof(struct rtattr) ||
-+            tswap16(nlattr->nla_len) > len) {
-+            break;
-+        }
-+        nlattr->nla_len = tswap16(nlattr->nla_len);
-+        nlattr->nla_type = tswap16(nlattr->nla_type);
-+        ret = target_to_host_nlattr(nlattr);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        aligned_nla_len = NLA_ALIGN(nlattr->nla_len);
-+        if (aligned_nla_len >= len) {
-+            break;
-+        }
-+        len -= aligned_nla_len;
-+        nlattr = (struct nlattr *)(((char *)nlattr) + aligned_nla_len);
-+    }
-+    return 0;
-+}
-+
-+static abi_long target_to_host_data_inet6_nlattr(struct nlattr *nlattr)
-+{
-+    switch (nlattr->nla_type) {
-+    /* uint8_t */
-+    case QEMU_IFLA_INET6_ADDR_GEN_MODE:
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Unknown target AF_INET6 type: %d\n",
-+                      nlattr->nla_type);
-+    }
-+    return 0;
-+}
-+
- static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
-                                                size_t len,
-                                                abi_long (*target_to_host_rtattr)
-@@ -1314,16 +1357,35 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
-     return 0;
- }
+ struct target_rlimit64 {
+-    uint64_t rlim_cur;
+-    uint64_t rlim_max;
++    abi_ullong rlim_cur;
++    abi_ullong rlim_max;
+ };
  
-+static abi_long target_to_host_data_spec_nlattr(struct nlattr *nlattr)
-+{
-+    switch (nlattr->nla_type) {
-+    case AF_INET6:
-+        return target_to_host_for_each_nlattr(NLA_DATA(nlattr), nlattr->nla_len,
-+                                              target_to_host_data_inet6_nlattr);
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Unknown target AF_SPEC type: %d\n",
-+                      nlattr->nla_type);
-+        break;
-+    }
-+    return 0;
-+}
-+
- static abi_long target_to_host_data_link_rtattr(struct rtattr *rtattr)
- {
-     uint32_t *u32;
- 
-     switch (rtattr->rta_type) {
-     /* uint32_t */
-+    case QEMU_IFLA_MTU:
-+    case QEMU_IFLA_TXQLEN:
-     case QEMU_IFLA_EXT_MASK:
-         u32 = RTA_DATA(rtattr);
-         *u32 = tswap32(*u32);
-         break;
-+    case QEMU_IFLA_AF_SPEC:
-+        return target_to_host_for_each_nlattr(RTA_DATA(rtattr), rtattr->rta_len,
-+                                              target_to_host_data_spec_nlattr);
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unknown target QEMU_IFLA type: %d\n",
-                       rtattr->rta_type);
+ #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 64b71b1ff94b..69cc4b6e4219 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -12876,8 +12876,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
+                 return -TARGET_EFAULT;
+             }
+-            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
+-            rnew.rlim_max = tswap64(target_rnew->rlim_max);
++            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
++            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
+             unlock_user_struct(target_rnew, arg3, 0);
+             rnewp = &rnew;
+         }
+@@ -12887,8 +12887,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             if (!lock_user_struct(VERIFY_WRITE, target_rold, arg4, 1)) {
+                 return -TARGET_EFAULT;
+             }
+-            target_rold->rlim_cur = tswap64(rold.rlim_cur);
+-            target_rold->rlim_max = tswap64(rold.rlim_max);
++            __put_user(rold.rlim_cur, &target_rold->rlim_cur);
++            __put_user(rold.rlim_max, &target_rold->rlim_max);
+             unlock_user_struct(target_rold, arg4, 1);
+         }
+         return ret;
 -- 
 2.39.2
 
