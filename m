@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5746B3415
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 03:13:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7966B3431
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 03:25:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paSFA-00040B-5w; Thu, 09 Mar 2023 21:12:28 -0500
+	id 1paSQz-0005bd-E4; Thu, 09 Mar 2023 21:24:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1paSF7-0003zT-2y; Thu, 09 Mar 2023 21:12:25 -0500
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1paSF4-0007w3-Ci; Thu, 09 Mar 2023 21:12:24 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R771e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0VdVJAIe_1678414331; 
-Received: from 30.221.99.193(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VdVJAIe_1678414331) by smtp.aliyun-inc.com;
- Fri, 10 Mar 2023 10:12:12 +0800
-Content-Type: multipart/alternative;
- boundary="------------Q3SsejpLbgmwUjK7Bx0YaGKI"
-Message-ID: <087472fc-94f1-165d-9776-8e12d60be09d@linux.alibaba.com>
-Date: Fri, 10 Mar 2023 10:12:10 +0800
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1paSQx-0005bT-5s
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 21:24:39 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1paSQv-0001v3-5k
+ for qemu-devel@nongnu.org; Thu, 09 Mar 2023 21:24:38 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ h11-20020a17090a2ecb00b00237c740335cso3830136pjs.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Mar 2023 18:24:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1678415072;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1/ExqKro2p0winabOXE9Xm0U8lx8Tp3UeQkH8EGvmmg=;
+ b=eRihkAEDEPon1KUTdG5NuFsqixaRhPwz7vGMdd8EC+wZ59zhF+6nwD7f9rHHendNa9
+ VlM1O2iMfek5HaVoRMbfKtdff8h2UvJkfnKmdeMvapHaasz7AdB+puDPvCX56unQqR7O
+ Hw+clV4S/pT1Gucr8Vbi/y1GPtXUsxmRFiA7Ea1D0OGswx03CRkNA4zO6lXzWccanIY3
+ 2nrzWEdHayrlY/22IJQH+b7ZuxaN2WpuiLqGzCFgBzsmN5juXe7FFu4vtRFspeyADO8z
+ iuRn0ikordSHneaYCSFvyPFRnu3inMpIgPk87+gmCeBiB/9wYVLm3qWSxOzcbfwhzCfI
+ Av2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678415072;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1/ExqKro2p0winabOXE9Xm0U8lx8Tp3UeQkH8EGvmmg=;
+ b=zbx0FamLiA2H0HS5Kl/MEG43MWZ0gHnL46vyUILWvL6VpsP7EG3Opc7d6hJhP+Oae0
+ xufidpNhkiIK5E/LHd+tWPLJS4tD8gudeZEfhzEXOT4Ek3bonNNsVGR/OtuZqwBRGEM+
+ 29GJlBT8ifjzcPHqJYUMYyb2IkQw/Qwkx681TpFQ/t5vz57/Sc7hen1tmxjDIkiFpsUS
+ Mi0hUl86xLzFr8V1ckNJveZq77dJ9J6Te/YeXe6AiG4IpVqOhS7yCEWLf9R6eqTXzr9A
+ heIlzoT+wx9A119dj3M0gzkM3G9vEbMqNkYuSXvvKv63ZpTXck6F1XukZqsuR+b/ATuY
+ ZgYg==
+X-Gm-Message-State: AO0yUKXONB1eY4rjS/PCIbEIYrolBxoxuiFelwcrGdxJ9F3uou01u5wa
+ cZ7HmJiLYONzDETnE+jJPmYa5a83g/OGK3k0n3M=
+X-Google-Smtp-Source: AK7set+PyuhD6fIoI4XSd0Iehogl0MGxeokBA2GhHkH5NvFbwh0wrxKbIZ/LG9hla+SyX7WGxU8zKw==
+X-Received: by 2002:a05:6a20:160a:b0:cc:88af:12ab with SMTP id
+ l10-20020a056a20160a00b000cc88af12abmr28585342pzj.28.1678415072420; 
+ Thu, 09 Mar 2023 18:24:32 -0800 (PST)
+Received: from n250-032-048.byted.org ([221.194.189.28])
+ by smtp.gmail.com with ESMTPSA id
+ g7-20020aa78187000000b00571f66721aesm246081pfi.42.2023.03.09.18.24.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Mar 2023 18:24:31 -0800 (PST)
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
+ peterx@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+Subject: [PATCH v7 0/6] migration: reduce time of loading non-iterable vmstate
+Date: Fri, 10 Mar 2023 10:24:19 +0800
+Message-Id: <20230310022425.2992472-1-xuchuangxclwt@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] target/riscv/csr.c: fix H extension TVM trap
-Content-Language: en-US
-To: chenyi2000@zju.edu.cn, qemu-devel@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-References: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230308123417.12555-1-chenyi2000@zju.edu.cn>
-Received-SPF: pass client-ip=115.124.30.119;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-119.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_LOCAL_NOVOWEL=0.5,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,183 +90,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------Q3SsejpLbgmwUjK7Bx0YaGKI
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+
+In this version:
+
+- introduce address_space_to_flatview_rcu()
+- squash peter's fix into patch 1
+- rebase to latest upstream
+- update test results
+
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
+
+This patch packs all the changes to memory region during the period of	
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
+
+Here are the test1 results:
+test info:
+- Host
+  - Intel(R) Xeon(R) Platinum 8362 CPU
+  - Mellanox Technologies MT28841
+- VM
+  - 32 CPUs 128GB RAM VM
+  - 8 16-queue vhost-net device
+  - 16 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate     downtime
+before		 112 ms			  	  285 ms
+after		 20 ms			  	  194 ms
 
 
-On 2023/3/8 20:34, chenyi2000@zju.edu.cn wrote:
-> From: Yi Chen<chenyi2000@zju.edu.cn>
->
-> Trap accesses to hgatp if MSTATUS_TVM is enabled.
-> Don't trap accesses to vsatp even if MSTATUS_TVM is enabled.
+In test2, we keep the number of the device the same as test1, reduce the 
+number of queues per device:
 
-By the way, do you know why mstatus_tvm and hstatus_tvm are needed?
+Here are the test2 results:
+test info:
+- Host
+  - Intel(R) Xeon(R) Platinum 8362 CPU
+  - Mellanox Technologies MT28841
+- VM
+  - 32 CPUs 128GB RAM VM
+  - 8 1-queue vhost-net device
+  - 16 1-queue vhost-user-blk device.
 
-The specification said,
+	time of loading non-iterable vmstate     downtime
+before		 65 ms			 	  151 ms
 
-The TVM mechanism improves virtualization efficiency by permitting guest operating systems to
-execute in S-mode, rather than classically virtualizing them in U-mode. This approach obviates
-the need to trap accesses to most S-mode CSRs.
+after		 19 ms			  	  100 ms
 
-I don't know how the tvm field obviates the need to trap accesses to 
-most S-mode CSRs.
 
-Thanks,
-Zhiwei
+In test3, we keep the number of queues per device the same as test1, reduce 
+the number of devices:
 
->
-> Signed-off-by: Yi Chen<chenyi2000@zju.edu.cn>
-> ---
->   target/riscv/csr.c | 18 ++++++++++++++----
->   1 file changed, 14 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index ab56663..09bc780 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -2655,7 +2655,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
->           return RISCV_EXCP_NONE;
->       }
->   
-> -    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) && get_field(env->mstatus, MSTATUS_TVM)) {
->           return RISCV_EXCP_ILLEGAL_INST;
->       } else {
->           *val = env->satp;
-> @@ -2683,7 +2683,7 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
->       }
->   
->       if (vm && mask) {
-> -        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +        if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) && get_field(env->mstatus, MSTATUS_TVM)) {
->               return RISCV_EXCP_ILLEGAL_INST;
->           } else {
->               /*
-> @@ -3047,14 +3047,24 @@ static RISCVException read_hgeip(CPURISCVState *env, int csrno,
->   static RISCVException read_hgatp(CPURISCVState *env, int csrno,
->                                    target_ulong *val)
->   {
-> -    *val = env->hgatp;
-> +    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    } else {
-> +        *val = env->hgatp;
-> +    }
-> +
->       return RISCV_EXCP_NONE;
->   }
->   
->   static RISCVException write_hgatp(CPURISCVState *env, int csrno,
->                                     target_ulong val)
->   {
-> -    env->hgatp = val;
-> +    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    } else {
-> +        env->hgatp = val;
-> +    }
-> +
->       return RISCV_EXCP_NONE;
->   }
->   
---------------Q3SsejpLbgmwUjK7Bx0YaGKI
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Here are the test3 results:
+test info:
+- Host
+  - Intel(R) Xeon(R) Platinum 8362 CPU
+  - Mellanox Technologies MT28841
+- VM
+  - 32 CPUs 128GB RAM VM
+  - 1 16-queue vhost-net device
+  - 1 4-queue vhost-user-blk device.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/3/8 20:34,
-      <a class="moz-txt-link-abbreviated" href="mailto:chenyi2000@zju.edu.cn">chenyi2000@zju.edu.cn</a> wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230308123417.12555-1-chenyi2000@zju.edu.cn">
-      <pre class="moz-quote-pre" wrap="">From: Yi Chen <a class="moz-txt-link-rfc2396E" href="mailto:chenyi2000@zju.edu.cn">&lt;chenyi2000@zju.edu.cn&gt;</a>
+	time of loading non-iterable vmstate     downtime
+before		 24 ms			  	  51 ms
+after		 9 ms			 	  36 ms
 
-Trap accesses to hgatp if MSTATUS_TVM is enabled.
-Don't trap accesses to vsatp even if MSTATUS_TVM is enabled.</pre>
-    </blockquote>
-    <p>By the way, do you know why mstatus_tvm and hstatus_tvm are
-      needed?</p>
-    <p>The specification said,</p>
-    <pre>The TVM mechanism improves virtualization efficiency by permitting guest operating systems to
-execute in S-mode, rather than classically virtualizing them in U-mode. This approach obviates
-the need to trap accesses to most S-mode CSRs.
-</pre>
-    <p>I don't know how the tvm field obviates the need to trap accesses
-      to most S-mode CSRs.<br>
-    </p>
-    <p>Thanks,<br>
-      Zhiwei<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20230308123417.12555-1-chenyi2000@zju.edu.cn">
-      <pre class="moz-quote-pre" wrap="">
 
-Signed-off-by: Yi Chen <a class="moz-txt-link-rfc2396E" href="mailto:chenyi2000@zju.edu.cn">&lt;chenyi2000@zju.edu.cn&gt;</a>
----
- target/riscv/csr.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+As we can see from the test results above, both the number of queues and 
+the number of devices have a great impact on the time of loading non-iterable 
+vmstate. The growth of the number of devices and queues will lead to more 
+mr commits, and the time consumption caused by the flatview reconstruction 
+will also increase.
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ab56663..09bc780 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -2655,7 +2655,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
-         return RISCV_EXCP_NONE;
-     }
- 
--    if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+    if (env-&gt;priv == PRV_S &amp;&amp; !riscv_cpu_virt_enabled(env) &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     } else {
-         *val = env-&gt;satp;
-@@ -2683,7 +2683,7 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
-     }
- 
-     if (vm &amp;&amp; mask) {
--        if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+        if (env-&gt;priv == PRV_S &amp;&amp; !riscv_cpu_virt_enabled(env) &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-             return RISCV_EXCP_ILLEGAL_INST;
-         } else {
-             /*
-@@ -3047,14 +3047,24 @@ static RISCVException read_hgeip(CPURISCVState *env, int csrno,
- static RISCVException read_hgatp(CPURISCVState *env, int csrno,
-                                  target_ulong *val)
- {
--    *val = env-&gt;hgatp;
-+    if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    } else {
-+        *val = env-&gt;hgatp;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException write_hgatp(CPURISCVState *env, int csrno,
-                                   target_ulong val)
- {
--    env-&gt;hgatp = val;
-+    if (env-&gt;priv == PRV_S &amp;&amp; get_field(env-&gt;mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    } else {
-+        env-&gt;hgatp = val;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
-</pre>
-    </blockquote>
-  </body>
-</html>
+Please review, Chuang
 
---------------Q3SsejpLbgmwUjK7Bx0YaGKI--
+[v6]
+
+- add peter's patch.
+- split mr_do_commit() from mr_commit().
+- adjust the sanity check in address_space_to_flatview().
+- rebase to latest upstream.
+- replace 8260 with 8362 as testing host.
+- update the latest test results.
+
+[v5]
+
+- rename rcu_read_locked() to rcu_read_is_locked().
+- adjust the sanity check in address_space_to_flatview().
+- improve some comments.
+
+[v4]
+
+- attach more information in the cover letter.
+- remove changes on virtio_load.
+- add rcu_read_locked() to detect holding of rcu lock.
+
+[v3]
+
+- move virtio_load_check_delay() from virtio_memory_listener_commit() to 
+  virtio_vmstate_change().
+- add delay_check flag to VirtIODevice to make sure virtio_load_check_delay() 
+  will be called when delay_check is true.
+
+[v2]
+
+- rebase to latest upstream.
+- add sanity check to address_space_to_flatview().
+- postpone the init of the vring cache until migration's loading completes. 
+
+[v1]
+
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
+
+This patch packs all the changes to memory region during the period of
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
+
+Here are the test results:
+test vm info:
+- 32 CPUs 128GB RAM
+- 8 16-queue vhost-net device
+- 16 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate
+before		about 210 ms
+after		about 40 ms
+
+
+
 
