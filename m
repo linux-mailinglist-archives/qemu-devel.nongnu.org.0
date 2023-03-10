@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB006B35C9
+	by mail.lfdr.de (Postfix) with ESMTPS id 962F96B35C8
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:57:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paUn4-0005QN-Qu; Thu, 09 Mar 2023 23:55:38 -0500
+	id 1paUnd-0005WP-OM; Thu, 09 Mar 2023 23:56:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1paUn2-0005Pi-DI; Thu, 09 Mar 2023 23:55:36 -0500
-Received: from mail-pj1-f50.google.com ([209.85.216.50])
+ id 1paUnb-0005SW-Ar; Thu, 09 Mar 2023 23:56:11 -0500
+Received: from mail-pj1-f42.google.com ([209.85.216.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1paUmx-0004Xy-OQ; Thu, 09 Mar 2023 23:55:36 -0500
-Received: by mail-pj1-f50.google.com with SMTP id
- h17-20020a17090aea9100b0023739b10792so4101048pjz.1; 
- Thu, 09 Mar 2023 20:55:30 -0800 (PST)
+ id 1paUnY-0004sH-Kc; Thu, 09 Mar 2023 23:56:10 -0500
+Received: by mail-pj1-f42.google.com with SMTP id
+ cp7-20020a17090afb8700b0023756229427so8626520pjb.1; 
+ Thu, 09 Mar 2023 20:56:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678424129;
+ d=1e100.net; s=20210112; t=1678424167;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FF09gYyMDdb8XAyWRjco+ErOFe8wJLj2ky7wFjX9Jfs=;
- b=LOrjRG0dY1ejUQROGPCWhe/npIq06vKPl9Zv5M4ZerRl15EaNEiKAFfTeTZeFYzcwe
- AeNsitV1zPbEbbAyDezaJ0EcJ/5U5IvKd0nqB6E9ylwE3L3eb4V4m/34s5YvGTa1Aeez
- o/4NvPtFeeGvYY4vegrZL9xo/qcm9T3/DM+O9MyXX8Eb8zZNs/spUGkXkybi7HJeXY6D
- KklKtvWP+9oqmMzeHNUSE9JA7BJk6ZKguUpJmmLl7WW+vJ1R8BbQ4TsY77nYV4kCkZyH
- FbQeqP0W8xgkNjSFOUZcs7y3mLcycSGIU6RpUfXYV/n4iS6yVM9CWPxSDVyuG8tADeMv
- 0Wpw==
-X-Gm-Message-State: AO0yUKWzQi6Z6Th6S1sd+1ixV+LR9ei2PVZZJ2qdWn3rZ2WzQYgadP31
- PX/WBf5NxRr51dxB7DQeVvRpHgIvLms=
-X-Google-Smtp-Source: AK7set+bpHxp4gA3ys22+wKB1Q8tkULQYLQZhTprWieDbXPInJEleLv4m19anfNrrlL6oDk7xyD0+w==
-X-Received: by 2002:a17:902:dac8:b0:19c:a5dd:fadb with SMTP id
- q8-20020a170902dac800b0019ca5ddfadbmr27349765plx.54.1678424129049; 
- Thu, 09 Mar 2023 20:55:29 -0800 (PST)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com.
- [209.85.214.173]) by smtp.gmail.com with ESMTPSA id
- x129-20020a633187000000b00502fd12bc9bsm447000pgx.8.2023.03.09.20.55.28
+ bh=r7vU3otpW/t8/NYtcdnTGEl4pgANqkKmRggG9NUKpvA=;
+ b=RDgqGfaWpvBWD0cYwH+/FTKZ6iR7CghcN0yuYiM70PmvWxDWnPUaczytnP95XdkNI8
+ jQ1WRao42fCQNtWh+IRLcNhGqdZGUPYtCozaQ2KYyCAtpgYQwAl8x+sg1i8mHvDA9hZO
+ E2uF7lwVz/ewD3mG/0l2rjdaPHEHXtkhM7sUENylREzjIa3GCjkA95d9w4t7ASds+4AC
+ GQkHdVCM61zAH7cU6M+lPX/rz1ZOA6/JzIn9VCFXiGpLvaWWFt3NlpTj8RhoeIxl2g06
+ WjsC81no1MWSOaNm/aO/lNAQO9N0AWBGN/N/VI3Yz+4Eq8mkoL3aXrAOo2Rr+Sr6jXBI
+ 3lEg==
+X-Gm-Message-State: AO0yUKWAzvARfxMOkF0uQ8eXUcORo+m/fUf4Yz6e8EEktIaBdEKlTcGS
+ 5QMJuiNNRHmmvOwJF262EOMMFsGFOt8=
+X-Google-Smtp-Source: AK7set8UpyF/XI25ExAUFPuwTpQOtXiVRfu7XzZao5EyBfg0fDmcQy5vRl49DW1uZN6cgBGOhyypEw==
+X-Received: by 2002:a05:6a20:3d86:b0:c6:bf1d:9dc9 with SMTP id
+ s6-20020a056a203d8600b000c6bf1d9dc9mr27858105pzi.56.1678424166748; 
+ Thu, 09 Mar 2023 20:56:06 -0800 (PST)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com.
+ [209.85.214.171]) by smtp.gmail.com with ESMTPSA id
+ i35-20020a635423000000b0050362744b63sm404309pgb.90.2023.03.09.20.56.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 20:55:28 -0800 (PST)
-Received: by mail-pl1-f173.google.com with SMTP id i3so4381704plg.6;
- Thu, 09 Mar 2023 20:55:28 -0800 (PST)
-X-Received: by 2002:a17:902:a3c4:b0:19a:82a2:fcf9 with SMTP id
- q4-20020a170902a3c400b0019a82a2fcf9mr9219012plb.2.1678424128461; Thu, 09 Mar
- 2023 20:55:28 -0800 (PST)
+ Thu, 09 Mar 2023 20:56:06 -0800 (PST)
+Received: by mail-pl1-f171.google.com with SMTP id v11so4371298plz.8;
+ Thu, 09 Mar 2023 20:56:06 -0800 (PST)
+X-Received: by 2002:a17:90a:f8e:b0:234:1887:b46d with SMTP id
+ 14-20020a17090a0f8e00b002341887b46dmr9053810pjz.8.1678424166406; Thu, 09 Mar
+ 2023 20:56:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20221219220808.26392-1-agraf@csgraf.de>
-In-Reply-To: <20221219220808.26392-1-agraf@csgraf.de>
+References: <20221223085047.94832-1-agraf@csgraf.de>
+ <20221223085047.94832-2-agraf@csgraf.de>
+In-Reply-To: <20221223085047.94832-2-agraf@csgraf.de>
 From: Joelle van Dyne <j@getutm.app>
-Date: Thu, 9 Mar 2023 20:55:17 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSC-Q9SvTR29qbYRMPfo10xhM9OtaXZNO6iJp0UAA96kCg@mail.gmail.com>
-Message-ID: <CA+E+eSC-Q9SvTR29qbYRMPfo10xhM9OtaXZNO6iJp0UAA96kCg@mail.gmail.com>
-Subject: Re: [PATCH] hvf: arm: Add support for GICv3
+Date: Thu, 9 Mar 2023 20:55:55 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSB0zJAzJ_ZEGbH00459nDGY+Fc0yMaUdodAYBM3vsUNQA@mail.gmail.com>
+Message-ID: <CA+E+eSB0zJAzJ_ZEGbH00459nDGY+Fc0yMaUdodAYBM3vsUNQA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/intc/arm_gicv3: Make ITT entry size configurable
 To: Alexander Graf <agraf@csgraf.de>
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org
+ qemu-arm@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Shashi Mallela <shashi.mallela@linaro.org>, Eric Auger <eric.auger@redhat.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.216.50; envelope-from=osy86dev@gmail.com;
- helo=mail-pj1-f50.google.com
+Received-SPF: pass client-ip=209.85.216.42; envelope-from=osy86dev@gmail.com;
+ helo=mail-pj1-f42.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -84,24 +90,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 19, 2022 at 2:08=E2=80=AFPM Alexander Graf <agraf@csgraf.de> wr=
-ote:
+On Fri, Dec 23, 2022 at 12:50=E2=80=AFAM Alexander Graf <agraf@csgraf.de> w=
+rote:
 >
-> We currently only support GICv2 emulation. To also support GICv3, we will
-> need to pass a few system registers into their respective handler functio=
-ns.
+> An ITT entry is opaque to the OS. The only thing it does get told by HW i=
+s
+> its size. In theory, that size can be any byte aligned number, in practic=
+e
+> HW will always use power of 2s to simplify offset calculation. We current=
+ly
+> expose the size as 12, which is not a power of 2.
 >
-> This patch adds support for HVF to call into the TCG callbacks for GICv3
-> system register handlers. This is safe because the GICv3 TCG code is gene=
-ric
-> as long as we limit ourselves to EL0 and EL1 - which are the only modes
-> supported by HVF.
->
-> To make sure nobody trips over that, we also annotate callbacks that don'=
+> To prepare for a future where we expose power of 2 sized entry sizes, let=
+'s
+> make the size itself configurable. We only need to watch out that we don'=
 t
-> work in HVF mode, such as EL state change hooks.
->
-> With GICv3 support in place, we can run with more than 8 vCPUs.
+> have an entry be smaller than the fields we want to access inside. Bigger
+> is always fine.
 >
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > ---
