@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A50A6B4FB6
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD586B4FB7
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 19:04:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pah5n-0001xI-6y; Fri, 10 Mar 2023 13:03:47 -0500
+	id 1pah5l-0001wT-V3; Fri, 10 Mar 2023 13:03:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pah5h-0001tv-II
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:03:41 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pah5e-0001tJ-QC
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:03:39 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pah5d-0004bi-2E
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:03:41 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- j19-20020a05600c191300b003eb3e1eb0caso6676111wmq.1
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:03:36 -0800 (PST)
+ id 1pah5c-0004bh-7V
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:03:38 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ p23-20020a05600c1d9700b003ead4835046so5244840wms.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678471415;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DH9d0Q+vvilg4Dne3iVcYKZRMvVXPz/C/t62yxOMiF0=;
- b=Eez2e36NTigVnDpxFuAOfLsRGsxZ+2fndCDUqer7J+nJWIJstYN+rM/GpmXrlRfnFv
- LTtkZqHdzD+r5r+itYkvaYU0fUT2VUhN3V4nV0rbtK0AtiYSc7SAX/NVogeuCIvSbc0J
- F15Tfn+APeVFLMlTNYAijHSNTrD08WERw0eNfn3ndH++7QoHdccjFPoRIkrB9nQlka9b
- ooasS/rru2oDBO4RzDPuWnCbZN6HZfvhMJXouQHJk45xwrGd2RXvS06IvNBsj2RDHRFz
- pYnZFES36TGQ1r/JCRX7zCBzLJK3i9Q3t1lGy+GWoXbqHUOmb0kk+4tsbE8XPc9aQh6C
- 30ng==
+ bh=66O6js5YuYKZ11w3iRdKDgQbrfENXcjOpmWM7mo37Z8=;
+ b=URomjHUUxmt8j3S+yPK/AqaWJLzeHwDd2JJ+Pb6LAbJl5ns5RHqeQLmW69eBTknei8
+ cPw7CyvsYW8TvCMWSbOK5mrJaG9VoL1U/XZ0F3DqNCRgrEiOVh7/ieuRx6lNSOguibsK
+ ut0mHSD2Ag/cMGUA0YzvpHVujhbDvrTeOu3yS+c2yb6909LohXqBgZrvtFuICH5FCgjp
+ XDnFX1ZfFz6Au3yJYhJ//pwVC3l2CxI5QKMIHCSuFh9Ps8tHk6OTNNYuOjDJvsq8i+v7
+ C31hBT8TBARd+5rjUWL1wD+DiCZ/LbxclnOUd6ss6HSnIdkfOPZQPbTAabmrDx1ly4/k
+ cvbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678471415;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DH9d0Q+vvilg4Dne3iVcYKZRMvVXPz/C/t62yxOMiF0=;
- b=N/ZLgFjriDRKJMsd0fa5Dljhu8Q/KDo5r2toielvZ/GN8AC2RlU3kH+hQxs1Zg+L9u
- PdW9lxyjG/BfitJ+4sUkpn96rGYdFLMsIe+tjDQcK7tbIzOF0VarCicqZMYVkQQ4DJmm
- mJFBEyyijbXvvBW3JBNyR5YNoPOXRGW8jfwCRuHb4Muq+05sjRyg7mQcPFtFzV0/1zo0
- WqtFokKx62GBSuKQYt3O1lbcS6rA1s9RC9EeXHLyM1BeewsmsbuWThGbPeBy53el3+h3
- +kf5LNniZpDH2uyz62Q2/1+vFCQBseRetr4Z4q52VlE1DAzlouJHMfnzSrfEI/haA+O+
- OcGw==
-X-Gm-Message-State: AO0yUKUaeYA/sFe9hI/He79rRtc90w1V3Am5tsZqFPU9KNZCrtrXk3Mb
- PtyNjtaeUCy4DTK4avYBIzFAtw==
-X-Google-Smtp-Source: AK7set+PbSHpdWCB9A3SvhZpRSx3S36ynUCj4RtTaLjzUZNdMeibj+rEj3i3IuLr0d5vwZK8EFuN3g==
-X-Received: by 2002:a05:600c:458f:b0:3eb:4162:7344 with SMTP id
- r15-20020a05600c458f00b003eb41627344mr3922563wmo.22.1678471414756; 
+ bh=66O6js5YuYKZ11w3iRdKDgQbrfENXcjOpmWM7mo37Z8=;
+ b=cCqqc4dvBnWJVuYdRJxXbDj67B6QOvNn/O4Vw6ZeLRAVfodAk3i5vHTay+DI6YtyDA
+ sr8YNVKl+tOc7A/1x412szayS5dx2n9Alh3QF6OgUT4rImKTZdQJAt6lMtnRUU/vAmSD
+ ibTVRPW5EBDLTeeFZgbsANUZUmkzl7tm9cs8kFlG6dVlstHbRI4jtTgE1M/IPBb12rNM
+ dyjYDPEwzdlot2u6991hw35WZ1i0+sImBUmNGp/j4FQyCSbsnzGsmxOiAU0MPgJlLBQd
+ 2AgYfHMOqsEjvssbNmNcBYh3Km6NVnV6RjNxv5tDrgqYZF1YoDG/bkSOaQ/gDz4RHBiq
+ iqhQ==
+X-Gm-Message-State: AO0yUKXF2D0fzT72zTiT511YcOL7JqITN8WSRMCpp57eWmxOiAtAB4y7
+ ydd/emyXGsPMsuj3v5gytLodZmWo+pCGZMMfd2k=
+X-Google-Smtp-Source: AK7set/H3YicqkGXGmFARnbpkn6DNPBmN24G9GOaNEE5S7sNOzsfJO0hiVqFVHn3dq0DRp1mJ58ngw==
+X-Received: by 2002:a05:600c:b8a:b0:3eb:578d:ded3 with SMTP id
+ fl10-20020a05600c0b8a00b003eb578dded3mr3539135wmb.35.1678471414966; 
  Fri, 10 Mar 2023 10:03:34 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- t1-20020a05600c2f8100b003e896d953a8sm617499wmn.17.2023.03.10.10.03.33
+ h6-20020a05600c350600b003e1fee8baacsm637320wmq.25.2023.03.10.10.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 10 Mar 2023 10:03:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2B39A1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 42FBE1FFBC;
  Fri, 10 Mar 2023 18:03:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Steven Lee <steven_lee@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
- Howard Chiu <howard_chiu@aspeedtech.com>,
- Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: [PATCH v2 03/10] contrib/gitdm: Add ASPEED Technology to the domain
- map
-Date: Fri, 10 Mar 2023 18:03:25 +0000
-Message-Id: <20230310180332.2274827-4-alex.bennee@linaro.org>
+ Marc Zyngier <maz@kernel.org>
+Subject: [PATCH v2 04/10] contrib/gitdm: add a group map for Google
+Date: Fri, 10 Mar 2023 18:03:26 +0000
+Message-Id: <20230310180332.2274827-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310180332.2274827-1-alex.bennee@linaro.org>
 References: <20230310180332.2274827-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,30 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a number of contributors from this domain which looks like it
-is a corporate endeavour.
+Long standing community contributors often use their upstream email
+addresses when working on project.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Steven Lee <steven_lee@aspeedtech.com>
-Cc: Troy Lee <troy_lee@aspeedtech.com>
-Cc: Howard Chiu <howard_chiu@aspeedtech.com>
-Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+Cc: Marc Zyngier <maz@kernel.org>
 ---
- contrib/gitdm/domain-map | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/gitdm/group-map-google | 5 +++++
+ gitdm.config                   | 1 +
+ 2 files changed, 6 insertions(+)
+ create mode 100644 contrib/gitdm/group-map-google
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 7a8077e241..bd989d065c 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -5,6 +5,7 @@
- #
- 
- amd.com         AMD
-+aspeedtech.com  ASPEED Technology Inc.
- baidu.com       Baidu
- bytedance.com   ByteDance
- cmss.chinamobile.com China Mobile
+diff --git a/contrib/gitdm/group-map-google b/contrib/gitdm/group-map-google
+new file mode 100644
+index 0000000000..8c53e0cf67
+--- /dev/null
++++ b/contrib/gitdm/group-map-google
+@@ -0,0 +1,5 @@
++#
++# Some Google employees contribute using their upstream email addresses.
++#
++
++maz@kernel.org
+diff --git a/gitdm.config b/gitdm.config
+index 75b55b3603..4b52ee47be 100644
+--- a/gitdm.config
++++ b/gitdm.config
+@@ -34,6 +34,7 @@ EmailMap contrib/gitdm/domain-map
+ GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
+ GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
+ GroupMap contrib/gitdm/group-map-facebook Facebook
++GroupMap contrib/gitdm/group-map-google Google
+ GroupMap contrib/gitdm/group-map-ibm IBM
+ GroupMap contrib/gitdm/group-map-janustech Janus Technologies
+ GroupMap contrib/gitdm/group-map-netflix Netflix
 -- 
 2.39.2
 
