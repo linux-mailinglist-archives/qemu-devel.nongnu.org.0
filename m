@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D84F6B4C9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 17:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08C56B4D0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 17:31:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pafRP-0002aY-7o; Fri, 10 Mar 2023 11:17:59 -0500
+	id 1pafdd-0004gU-8Q; Fri, 10 Mar 2023 11:30:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pafRM-0002ZW-MU
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:17:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pafRK-0002lY-V7
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:17:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678465073;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oLpvfMwMA0YsVBQpv5gl4xvoHoYd9sXT8P4pDcUnFNg=;
- b=AAlVV2b1al+eVXJJc9uqgVpL2gJmh+5XAMgnymyIQQ73zzUcf7KRyIRxP/uPbPuQesVvlK
- IS3pcvjav3EtX4b0Ro3x51kjrzuhDb2vqUJoCpV/2MjKSuRFIlcwEUmbYPvxSNjlKdcY1d
- LOD+p6vLw4/r0lEiNiJkcCTYmwBo3UI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-7BPaUrbaNqW4JuCruW4Lqw-1; Fri, 10 Mar 2023 11:17:50 -0500
-X-MC-Unique: 7BPaUrbaNqW4JuCruW4Lqw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E91080D0E3;
- Fri, 10 Mar 2023 16:17:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CFF3E492B04;
- Fri, 10 Mar 2023 16:17:48 +0000 (UTC)
-Date: Fri, 10 Mar 2023 16:17:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 0/8] iotests: make meson aware of individual I/O tests
-Message-ID: <ZAtYKpR+OWgz5Rmj@redhat.com>
-References: <20230303160727.3977246-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pafdC-0004ct-QW
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:30:15 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pafd7-0005t2-28
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:30:10 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ qa18-20020a17090b4fd200b0023750b675f5so10392739pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 08:30:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678465803;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=65BWp2E6jptNzr8QnxwDtV2FZVH8YvfO0/Dktdrz8ZM=;
+ b=d7BSMARB1NO5c2Ra9TEKMuKeH+KpXvUXcLBjldW1hV1Ygg8xb6fzZL+Km8nkFJi9QK
+ HM02GA/suubvGqS/E3vIXiSQTvwwpl+iAKZKS8s2FsMZ8C5oW0VNXAv+oBVGm12BQaBt
+ CSRFS7L8C08h7V92GZ7TL/cVwotEmBruwpfSCluZtcitrHyFR2nO4YO8x/Fbstc0Mtct
+ KcFanw2ic5ykyBxVsVPi9WGlGHVHT13OoYgw6rxNcSKGkSGqGdNLkHQYVN1ov4pyyEpc
+ pusNogZ9sl7jMqLD30/0UFl4ScdKmF14pZlE6hjT/itFvFm7Ez+O3GsmCtpg2OmBMDX+
+ ArfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678465803;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=65BWp2E6jptNzr8QnxwDtV2FZVH8YvfO0/Dktdrz8ZM=;
+ b=Dj2bPssrWeFySlmFDrLqZqiuD+2wTZOP1lyrqR6j+yONBwRBk2CJMwDy65A6ESJaRw
+ UWE1wqiVkeG9S+TsbhZByHPPPgHS/yxGAga4RWKfIcwSReMuxsYI2mzX6TdMZxDZfKGM
+ BW2UAjJmomQPU0d7ZrYSG9rHTmULlzfDc8pyTJC/0l0ufywUv6mI6nFKDMYorY2yUXj3
+ 0X+VPm6eOK7ppnxbWheCfVKfn82KW44A95InKl7U1+jhz7Tuy+Eq3DNe7hyaiUawIoVR
+ tvP2hLiXSQ4m73OBnScP2EMmreL6vLklr6+KF7xh6afG5YQHbYAj8ndzuOugu7ZDFa1x
+ 1AAA==
+X-Gm-Message-State: AO0yUKUX4gFhK5hL6oHcgwxiFPo18OvNRTuOSq+O/GZY6bjXs+uJ2vIV
+ kRRo54NU8sCJqGo3G2CzCBHWZ/hr9SN4U9GigFeLPQ==
+X-Google-Smtp-Source: AK7set9dT/lOkL5pNYV1g4LhToC5CQSgrveKbapcJgHa+Coh1kEwCvwGPSln8WvJVeo1SDMjsYB+iNMgfHcEcbJGnQw=
+X-Received: by 2002:a17:902:efce:b0:19b:5233:51d8 with SMTP id
+ ja14-20020a170902efce00b0019b523351d8mr10404510plb.13.1678465803488; Fri, 10
+ Mar 2023 08:30:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230303160727.3977246-1-berrange@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230302114102.32236-1-qianfanguijin@163.com>
+ <CAPan3Wr=jqP5CVzsMtNmUTj-NvPZouxPWwC9DivY=GL65XJX4Q@mail.gmail.com>
+In-Reply-To: <CAPan3Wr=jqP5CVzsMtNmUTj-NvPZouxPWwC9DivY=GL65XJX4Q@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Mar 2023 16:29:51 +0000
+Message-ID: <CAFEAcA-vnac6CD36fsaoGD2zXVKe2L_FuGQDWHnBscy6iyiHYw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/12] *** Add allwinner R40 device support ***
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Cc: qianfanguijin@163.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,117 +85,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Kevin / Hanna.....  do you have any comments you want to
-make on this, since it is notionally under the maintainership
-of the block team ? If not Alex has volunteered to queue this
-via his testing tree.
+On Wed, 8 Mar 2023 at 20:47, Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+> Thanks for contributing this work to Qemu! With your contribution, we would get yet another Allwinner SoC supported, making it three in total (A10/H3/R40). That's great.
+> My thoughts are that maybe we should try to re-use commonality between these SoCs where we can. Ofcourse, that may be difficult as the internals/peripherals of these SoCs often really are different.
 
-On Fri, Mar 03, 2023 at 04:07:19PM +0000, Daniel P. Berrangé wrote:
-> To just repeat the patch 5 description...
-> 
-> Currently meson registers a single test that invokes an entire group of
-> I/O tests, hiding the test granularity from meson. There are various
-> downsides of doing this
-> 
->  * You cannot ask 'meson test' to invoke a single I/O test
->  * The meson test timeout can't be applied to the individual
->    tests
->  * Meson only gets a pass/fail for the overall I/O test group
->    not individual tests
->  * Meson can't show the time of individual I/O tests, so we
->    can't see why 4-5 are consuming the bulk of the time
->    and ripe for optimization
->  * If a CI job gets killed by the GitLab timeout, we don't
->    get visibility into how far through the I/O tests
->    execution got.
-> 
-> This is not really specific to the I/O tests, the problem is common
-> to any case of us running a test which is in fact another test
-> harness which runs many tests. It would be nice to have meson have
-> the full view of all tests run. Adapting the I/O tests is as easy
-> win in this respect.
-> 
-> This switches meson to perform test discovery by invoking 'check' in
-> dry-run mode. It then registers one meson test case for each I/O
-> test. Parallel execution remains disabled since the I/O tests do not
-> use self contained execution environments and thus conflict with
-> each other.
-> 
-> Compare contrast output from a current job:
-> 
->   https://gitlab.com/qemu-project/qemu/-/jobs/3863603546
-> 
-> [quote]
-> 204/224 qemu:block / qemu-iotests qcow2   OK 329.94s   119 subtests passed
-> [/quote]
-> 
-> Vs what is seen with this series:
-> 
->   https://gitlab.com/berrange/qemu/-/jobs/3865975463
-> 
-> [quote]
-> 204/350 qemu:block / qemu-iotests-qcow2-001   OK    2.16s   1 subtests passed
-> 205/350 qemu:block / qemu-iotests-qcow2-002   OK    2.77s   1 subtests passed
-> 
-> ...snip...
-> 
-> 329/350 qemu:block / qemu-iotests-qcow2-qemu-img-close-errors       OK    6.19s   1 subtests passed
-> 330/350 qemu:block / qemu-iotests-qcow2-qsd-jobs          OK    0.55s   1 subtests passed
-> [/quote]
-> 
-> A few tweaks were needed to the iotests runner because it had a few
-> assumptions about it always running in a tree that has already been
-> built, which is obviously not the case at the time meson does test
-> discovery.
-> 
-> In v2:
-> 
-> New example pipeline job
-> 
->    https://gitlab.com/berrange/qemu/-/jobs/3871446106
-> 
->  * Set build/source dir defaults in CLI option parser
->    instead of testenv.py (Alex)
->  * Fix messed up termios settings with parallel execution
->    by connecting stdin to /dev/null (Thomas)
->  * Remove the obsolete check-block.sh script (Thomas)
->  * Use a unique sub-directory per test to allow parallelization (Thomas)
->  * Enable parallel execution by meson (Thomas)
->  * Remove leftover debugging message (Thomas)
->  * Use a shorter meson test name 'io-qcow2-012' instead of
->    'qemu-iotests-qcow2-012'
-> 
-> Daniel P. Berrangé (8):
->   iotests: explicitly pass source/build dir to 'check' command
->   iotests: allow test discovery before building
->   iotests: strip subdir path when listing tests
->   iotests: print TAP protocol version when reporting tests
->   iotests: connect stdin to /dev/null when running tests
->   iotests: always use a unique sub-directory per test
->   iotests: register each I/O test separately with meson
->   iotests: remove the check-block.sh script
-> 
->  tests/check-block.sh             | 43 --------------------------------
->  tests/qemu-iotests/check         | 30 +++++++++++++++++++---
->  tests/qemu-iotests/meson.build   | 35 +++++++++++++++++++++-----
->  tests/qemu-iotests/testenv.py    | 20 +++++++--------
->  tests/qemu-iotests/testrunner.py | 43 ++++++++++----------------------
->  5 files changed, 78 insertions(+), 93 deletions(-)
->  delete mode 100755 tests/check-block.sh
-> 
-> -- 
-> 2.39.2
-> 
+Thanks for having had a look at this patchset, Niek -- it
+has saved me a job :-)
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Your patches look good already, and I saw patches 02 and 03 are already merged too. I did a quick regression test with
+> avocado for cubieboard/orangepi-pc with your patches applied and that went OK:
+>
+> $ ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes ./build/tests/venv/bin/avocado --show=app,console run -t machine:orangepi-pc -t machine:cubieboard tests/avocado/boot_linux_console.py
+> ...
+> PASS (22.09 s)
+> RESULTS    : PASS 8 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+> JOB TIME   : 169.73 s
+>
+> For now, I have only two suggestions for you to consider:
+> 1) You could add a new acceptance test for the new bananapi board to ./tests/avocado/boot_linux_console.py.
+> This helps in your current work to (re)test your code quickly, and after the code is merged it helps to keep to board working when other changes are done.
+> 2) If time permits, it may be interesting to document your board for example in a new file at ./docs/system/arm/bananapi.rst
+>    If you do this, it will make the board a lot more valuable for other people to use, since you can add some basic instructions on how to use the board with qemu there.
+>    Additionally, it also helps yourself to store this information somewhere, since it can be easy to forget all the specific commands/flags/arguments and links to board specific images.
 
+I think I would raise this to "definitely provide board documentation".
+All our board models should have at least a basic documentation
+page that says what the board model is, lists what QEMU does or
+doesn't implement, and describes any QEMU-specific oddities.
+
+thanks
+-- PMM
 
