@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0449A6B3BB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B587B6B3BBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:09:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZe2-0005pQ-SS; Fri, 10 Mar 2023 05:06:39 -0500
+	id 1paZgD-0007AO-OI; Fri, 10 Mar 2023 05:08:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1paZdz-0005pE-00
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:06:35 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paZgA-000777-IJ
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:08:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1paZdx-0006uT-5h
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:06:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paZg8-00078H-Bn
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:08:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678442792;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1678442925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QowY+D2uLiILv1F+eBxcgLnEyFGHjZ8xsgodpo1ApVs=;
- b=M3hjjUzDHGOPlRgYL2GypO/UeBn4FNFYKNLUZu/rSNNR2wPGbU2e6teE4KkCsoW1XrenfT
- lJxI4xQOG50wiwPGCN9qssg9Z6Z84gAO9Pinkbdb3JbkUSs9m4YP95CEqQk3AyC41WcCtO
- 5CgVB8jJJ66JV/ml04p3BGPPa7jnX2Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-bEfZxNNbPRWQFb-UIAQL0Q-1; Fri, 10 Mar 2023 05:06:30 -0500
-X-MC-Unique: bEfZxNNbPRWQFb-UIAQL0Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0107E101A5B4;
- Fri, 10 Mar 2023 10:06:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B7B9F2166B26;
- Fri, 10 Mar 2023 10:06:27 +0000 (UTC)
-Date: Fri, 10 Mar 2023 10:06:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2 16/18] ui: introduce egl_init()
-Message-ID: <ZAsBG9DQp07DuzTL@redhat.com>
-References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
- <20230307115637.2464377-17-marcandre.lureau@redhat.com>
+ bh=RUpaRZtvDE6dumiX9MCrj7jilPejIULl9NYGQmI8ieI=;
+ b=TpVQc20sEptVwtrMpJoH2faEF3MMm7kVbxmaXxhsFO0c3k1jupnh3F17QUAi3YEE8GDAXb
+ BAoQ9MWKJWldIvugLNCSRAqfyJ0YbjmDnNiaH8Y3xE7ic8ixXV1qnSJ7PpJDU/5GZV5u2E
+ GgLvqjQd9nxxwDpLrxEhA27zHehp8aE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-246-ErmspO1YNf6H0ByK0OBurg-1; Fri, 10 Mar 2023 05:08:44 -0500
+X-MC-Unique: ErmspO1YNf6H0ByK0OBurg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z6-20020a7bc7c6000000b003e0107732f4so1616182wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 02:08:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678442923;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RUpaRZtvDE6dumiX9MCrj7jilPejIULl9NYGQmI8ieI=;
+ b=1k5o6QmGDQeRRF33IZTe8a4tbFbdLatk2piqkYHgdX4sR+yAYGSlym7H3Fj4zfe6fI
+ /R9/xR1z5QnMc/uXR9mkZyobWpt2L16k2uNOU7OTRe4XRlyZWpGSig+yeg2ev8Dxl5G0
+ RcFTjJvN1inoRlYpmthAjTtqbhWPD4DNDbM2EVLKNrs1jYNIyZyUGCe4mSx/JBz+azcE
+ xU3pM72ep7oPf72xbRFX738I3DIbOTyq/lagJTL5WiG/vdb7BuHHJvpCcigr8oG7ZloW
+ uWiPVneDGa/Sqgc2lKsfrlRiw5ChBVn0mvpwmacbVx6IWBsAmKjyKDORdRKQEcu7wzxX
+ vIWw==
+X-Gm-Message-State: AO0yUKUW+e4x97MYIPKZcnCU+vFiLKhikn5e55CKXtpaZCeT1SRk5NBE
+ P74C5TdOkI5Qa1dUlamEG4R7jDcbEkaULmZt4sAm1R/Eg6SeSRR7cHb0vBVEs6VB8qfJCUYCYoZ
+ jTm6DQ/fCWjMatHk=
+X-Received: by 2002:a05:600c:4f08:b0:3ea:e554:7815 with SMTP id
+ l8-20020a05600c4f0800b003eae5547815mr2083803wmq.9.1678442923408; 
+ Fri, 10 Mar 2023 02:08:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set9tJE72mdXDl5CYACvCp4TeUWur23s/IzN4XBi+188TG1QpPmZT7WHUeLFw5D1Zk+lt+DFYEA==
+X-Received: by 2002:a05:600c:4f08:b0:3ea:e554:7815 with SMTP id
+ l8-20020a05600c4f0800b003eae5547815mr2083767wmq.9.1678442923057; 
+ Fri, 10 Mar 2023 02:08:43 -0800 (PST)
+Received: from redhat.com ([2.52.9.88]) by smtp.gmail.com with ESMTPSA id
+ l11-20020a05600c2ccb00b003e0015c8618sm2789642wmc.6.2023.03.10.02.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 02:08:42 -0800 (PST)
+Date: Fri, 10 Mar 2023 05:08:37 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are
+ present
+Message-ID: <20230310050550-mutt-send-email-mst@kernel.org>
+References: <20230309201434.10831-1-farosas@suse.de>
+ <20230309201434.10831-9-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307115637.2464377-17-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20230309201434.10831-9-farosas@suse.de>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,174 +104,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 07, 2023 at 03:56:35PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Thu, Mar 09, 2023 at 05:14:31PM -0300, Fabiano Rosas wrote:
+> It is possible to have a build with both TCG and KVM disabled due to
+> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
+> host.
 > 
-> Future patches will introduce EGL support on win32 (too late for 8.0
-> though). Having a common place for EGL initialization and error handling
-> will make it simpler.
+> If we build with --disable-tcg on the aarch64 host, we will end-up
+> with a QEMU binary (x86) that does not support TCG nor KVM.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Fix tests that crash or hang in the above scenario. Do not include any
+> test cases if TCG and KVM are missing.
+> 
+> Make sure that calls to qtest_has_accel are placed after g_test_init
+> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
+> printed before other messages") to avoid TAP parsing errors.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+I don't like it that we are hard-coding the list of accelerators
+like this. Make a wrapper?
+
 > ---
->  include/ui/egl-helpers.h |  2 ++
->  ui/dbus.c                |  7 +------
->  ui/egl-headless.c        | 16 ++++++++--------
->  ui/egl-helpers.c         | 25 +++++++++++++++++++++++++
->  ui/spice-core.c          |  7 +------
->  5 files changed, 37 insertions(+), 20 deletions(-)
+> This currently affects Arm, but will also affect x86 after the xenpvh
+> series gets merged. This patch fixes both scenarios.
+> ---
+>  tests/qtest/bios-tables-test.c | 10 ++++++++--
+>  tests/qtest/boot-serial-test.c | 10 ++++++++++
+>  tests/qtest/migration-test.c   |  9 ++++++++-
+>  tests/qtest/pxe-test.c         |  7 ++++++-
+>  tests/qtest/vmgenid-test.c     |  8 ++++++--
+>  5 files changed, 38 insertions(+), 6 deletions(-)
 > 
-> diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-> index c92dd90e33..53d953ddf4 100644
-> --- a/include/ui/egl-helpers.h
-> +++ b/include/ui/egl-helpers.h
-> @@ -65,4 +65,6 @@ int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode);
->  EGLContext qemu_egl_init_ctx(void);
->  bool qemu_egl_has_dmabuf(void);
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index d29a4e47af..5cbad2f29f 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -2109,8 +2109,7 @@ static void test_acpi_virt_oem_fields(void)
+>  int main(int argc, char *argv[])
+>  {
+>      const char *arch = qtest_get_arch();
+> -    const bool has_kvm = qtest_has_accel("kvm");
+> -    const bool has_tcg = qtest_has_accel("tcg");
+> +    bool has_kvm, has_tcg;
+>      char *v_env = getenv("V");
+>      int ret;
 >  
-> +bool egl_init(const char *rendernode, DisplayGLMode mode, Error **errp);
+> @@ -2120,6 +2119,13 @@ int main(int argc, char *argv[])
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> +    has_kvm = qtest_has_accel("kvm");
+> +    has_tcg = qtest_has_accel("tcg");
 > +
->  #endif /* EGL_HELPERS_H */
-> diff --git a/ui/dbus.c b/ui/dbus.c
-> index f529928f0b..ebf03bd84d 100644
-> --- a/ui/dbus.c
-> +++ b/ui/dbus.c
-> @@ -451,12 +451,7 @@ early_dbus_init(DisplayOptions *opts)
->      DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
+
+why are you moving these? init at declaration time is
+generally cleaner.
+
+> +    if (!has_tcg && !has_kvm) {
+> +        return 0;
+> +    }
+> +
+>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>          ret = boot_sector_init(disk);
+>          if (ret) {
+> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+> index 3aef3a97a9..406b4421cc 100644
+> --- a/tests/qtest/boot-serial-test.c
+> +++ b/tests/qtest/boot-serial-test.c
+> @@ -17,6 +17,9 @@
+>  #include "libqtest.h"
+>  #include "libqos/libqos-spapr.h"
 >  
->      if (mode != DISPLAYGL_MODE_OFF) {
-> -        if (egl_rendernode_init(opts->u.dbus.rendernode, mode) < 0) {
-> -            error_report("dbus: render node init failed");
-> -            exit(1);
-> -        }
-> -
-> -        display_opengl = 1;
-> +        egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
+> +static bool has_tcg;
+> +static bool has_kvm;
+> +
+>  static const uint8_t bios_avr[] = {
+>      0x88, 0xe0,             /* ldi r24, 0x08   */
+>      0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
+> @@ -287,6 +290,13 @@ int main(int argc, char *argv[])
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> +    has_tcg = qtest_has_accel("tcg");
+> +    has_kvm = qtest_has_accel("kvm");
+> +
+
+and here why do we need them global?
+
+> +    if (!has_tcg && !has_kvm) {
+> +        return 0;
+> +    }
+> +
+>      for (i = 0; tests[i].arch != NULL; i++) {
+>          if (g_str_equal(arch, tests[i].arch) &&
+>              qtest_has_machine(tests[i].machine)) {
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index d4ab3934ed..7eedee7b2d 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -2459,7 +2459,7 @@ static bool kvm_dirty_ring_supported(void)
+>  
+>  int main(int argc, char **argv)
+>  {
+> -    const bool has_kvm = qtest_has_accel("kvm");
+> +    bool has_kvm, has_tcg;
+>      const bool has_uffd = ufd_version_check();
+>      const char *arch = qtest_get_arch();
+>      g_autoptr(GError) err = NULL;
+> @@ -2467,6 +2467,13 @@ int main(int argc, char **argv)
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> +    has_kvm = qtest_has_accel("kvm");
+> +    has_tcg = qtest_has_accel("tcg");
+> +
+
+same. why the move?
+
+> +    if (!has_tcg && !has_kvm) {
+> +        return 0;
+> +    }
+> +
+>      /*
+>       * On ppc64, the test only works with kvm-hv, but not with kvm-pr and TCG
+>       * is touchy due to race conditions on dirty bits (especially on PPC for
+> diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
+> index 62b6eef464..935b661dac 100644
+> --- a/tests/qtest/pxe-test.c
+> +++ b/tests/qtest/pxe-test.c
+> @@ -131,11 +131,16 @@ int main(int argc, char *argv[])
+>      int ret;
+>      const char *arch = qtest_get_arch();
+>  
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
+> +        return 0;
+> +    }
+> +
+>      ret = boot_sector_init(disk);
+>      if(ret)
+>          return ret;
+>  
+> -    g_test_init(&argc, &argv, NULL);
+>  
+>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>          test_batch(x86_tests, false);
+> diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
+> index efba76e716..9eb6371ae8 100644
+> --- a/tests/qtest/vmgenid-test.c
+> +++ b/tests/qtest/vmgenid-test.c
+> @@ -165,13 +165,17 @@ int main(int argc, char **argv)
+>  {
+>      int ret;
+>  
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
+> +        return 0;
+> +    }
+> +
+>      ret = boot_sector_init(disk);
+>      if (ret) {
+>          return ret;
 >      }
 >  
->      type_register(&dbus_vc_type_info);
-> diff --git a/ui/egl-headless.c b/ui/egl-headless.c
-> index ae07e91302..ef70e6a18e 100644
-> --- a/ui/egl-headless.c
-> +++ b/ui/egl-headless.c
-> @@ -1,7 +1,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/error-report.h"
->  #include "qemu/module.h"
-> -#include "sysemu/sysemu.h"
-> +#include "qapi/error.h"
->  #include "ui/console.h"
->  #include "ui/egl-helpers.h"
->  #include "ui/egl-context.h"
-> @@ -191,21 +191,21 @@ static const DisplayGLCtxOps eglctx_ops = {
->  
->  static void early_egl_headless_init(DisplayOptions *opts)
->  {
-> -    display_opengl = 1;
-> +    DisplayGLMode mode = DISPLAYGL_MODE_ON;
-> +
-> +    if (opts->has_gl) {
-> +        mode = opts->gl;
-> +    }
-> +
-> +    egl_init(opts->u.egl_headless.rendernode, mode, &error_fatal);
->  }
->  
->  static void egl_headless_init(DisplayState *ds, DisplayOptions *opts)
->  {
-> -    DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_ON;
->      QemuConsole *con;
->      egl_dpy *edpy;
->      int idx;
->  
-> -    if (egl_rendernode_init(opts->u.egl_headless.rendernode, mode) < 0) {
-> -        error_report("egl: render node init failed");
-> -        exit(1);
-> -    }
+> -    g_test_init(&argc, &argv, NULL);
 > -
->      for (idx = 0;; idx++) {
->          DisplayGLCtx *ctx;
-
-Why isn't the egl_init() call being made from this egl_headless_init
-method, so egl_rendernode_init() is called at the same logical point
-as before this change ?
-
-
-> diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-> index 10772b6471..36b4fc51d9 100644
-> --- a/ui/egl-helpers.c
-> +++ b/ui/egl-helpers.c
-> @@ -19,6 +19,8 @@
->  #include "qemu/error-report.h"
->  #include "ui/console.h"
->  #include "ui/egl-helpers.h"
-> +#include "sysemu/sysemu.h"
-> +#include "qapi/error.h"
->  
->  EGLDisplay *qemu_egl_display;
->  EGLConfig qemu_egl_config;
-> @@ -569,3 +571,26 @@ EGLContext qemu_egl_init_ctx(void)
->  
->      return ectx;
->  }
-> +
-> +bool egl_init(const char *rendernode, DisplayGLMode mode, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +
-> +    if (mode == DISPLAYGL_MODE_OFF) {
-> +        error_setg(errp, "egl: turning off GL doesn't make sense");
-> +        return false;
-> +    }
-> +
-> +#ifdef CONFIG_GBM
-> +    if (egl_rendernode_init(rendernode, mode) < 0) {
-> +        error_setg(errp, "egl: render node init failed");
-> +        return false;
-> +    }
-> +#else
-> +    error_setg(errp, "egl: not available on this platform");
-> +    return false;
-> +#endif
-> +
-> +    display_opengl = 1;
-> +    return true;
-> +}
-
-Surely this is going to result in compile errors when !CONFIG_GBM
-because these two lines are going to be flagged as unreachable
-code, due to the 'return false' in the #else branch.
-
-> diff --git a/ui/spice-core.c b/ui/spice-core.c
-> index 76f7c2bc3d..b05c830086 100644
-> --- a/ui/spice-core.c
-> +++ b/ui/spice-core.c
-> @@ -820,12 +820,7 @@ static void qemu_spice_init(void)
->                           "incompatible with -spice port/tls-port");
->              exit(1);
->          }
-> -        if (egl_rendernode_init(qemu_opt_get(opts, "rendernode"),
-> -                                DISPLAYGL_MODE_ON) != 0) {
-> -            error_report("Failed to initialize EGL render node for SPICE GL");
-> -            exit(1);
-> -        }
-> -        display_opengl = 1;
-> +        egl_init(qemu_opt_get(opts, "rendernode"), DISPLAYGL_MODE_ON, &error_fatal);
->          spice_opengl = 1;
->      }
->  #endif
+>      qtest_add_func("/vmgenid/vmgenid/set-guid",
+>                     vmgenid_set_guid_test);
+>      qtest_add_func("/vmgenid/vmgenid/set-guid-auto",
 > -- 
-> 2.39.2
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 2.35.3
 
 
