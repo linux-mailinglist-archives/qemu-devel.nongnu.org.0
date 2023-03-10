@@ -2,50 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790596B4F70
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C8E6B4F8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:53:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pagsT-0001cL-UL; Fri, 10 Mar 2023 12:50:02 -0500
+	id 1pagvV-0002mw-Od; Fri, 10 Mar 2023 12:53:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+1265cd07cee6da11af5a+7138+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pagsO-0001bx-Bm
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:49:57 -0500
+ id 1pagvQ-0002lK-6P
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:53:04 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+1265cd07cee6da11af5a+7138+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pagsK-0001N3-IY
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:49:56 -0500
+ id 1pagvO-00026Q-Dm
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:53:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:Date:Cc:To:
- From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=MssrdJTHG5BRDdkIwfSnk5iB6KRQlo6/j8bIwExhqfs=; b=FLVmVQSUDAcIiikPgA5FXcqHdz
- 8hqOLrbLpGGyeDiGNni4cdxOswQ0j1z8xQoy0kUwQpUr+qjYvO5P7C95isIuAQiRVuY6vg3tWUOxV
- A9Vq34EmzUMz2akrJXXTSpRzXeLpqVEn15BtHpPlXRl24TA3Z1QyVQ5Lej3AHUd2ArAUoCRC9jH8o
- AgzJwCmH+p9+QSmCEIIVT2JzopFEGqWbp6c24JCennZ3gq14YPqMuhVGijivz357v/IBMT8dBx/di
- fDYW5OyIg2pzDUK1sZvatwBO91HnhP/LOvTIALDmFYCWTY1pwPCacPw469UAo+5G5E8mkFKnpO+RM
- yhhaxJJA==;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=szW/PP7I7FTvKiqtc2J5sg7foSgkiFmbHYLS7iiYrno=; b=QVUufvlR/AAMB1akc1eylq3yYL
+ /UbgHy9uLUMjehEhtvv1MT2iQTeUkgwE0eEqQk/5jyHY4n+kxzj20ijtmDMMvLCedvWXMKn/Oz5mG
+ lu+TWN7vPx4Fqs1zHe52vrzOizzcVisXWhYUbFMDF/z/zu7wmcXkTvIG1Vlwa+QY66W+I5M2vQLC9
+ ZpEzukbTx+XRStGwpYVVf9ykVe84zL6R6Q4kh167WHPt0AgcvkB7gZb6oIe4heYYaQFRFzQj37GCl
+ yVpU3Ise8LnxtyRuDjz1AJ+0gq7nSuK7vb3hTJUHJpVa9dh4KUlCAiGcswWoiTmJhsTOojHSMgJFO
+ Ctusbbow==;
 Received: from [2001:8b0:10b:5:fea5:d438:64bd:2b44]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pags8-009aWv-41; Fri, 10 Mar 2023 17:49:40 +0000
-Message-ID: <825854379f8d3b2f6e021f31fb117daab023c8c8.camel@infradead.org>
-Subject: [RFC PATCH] intel-iommu: Report interrupt remapping faults
+ id 1pagvK-009an7-0J; Fri, 10 Mar 2023 17:52:58 +0000
+Message-ID: <e8d8950b45cf35f16f3e9d3af979af1ea2ccead6.camel@infradead.org>
+Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
+ IRQ, on RTE update
 From: David Woodhouse <dwmw2@infradead.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>, 
- Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 10 Mar 2023 17:49:38 +0000
+To: Peter Xu <peterx@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>
+Date: Fri, 10 Mar 2023 17:52:57 +0000
+In-Reply-To: <ZAoPlRMlcO4fm5rJ@x1n>
+References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
+ <ZAUZYkChWfwCcfSn@x1n> <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
+ <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
+ <ZAYXUKUtU9ipksUq@x1n>
+ <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
+ <ZAkVwunxmEfXu4+H@x1n>
+ <0754a758a46549dccde7878282721fe3835dc4b3.camel@infradead.org>
+ <ZAoPlRMlcO4fm5rJ@x1n>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-oinrfVcfhFrmGjDwbp/a"
+ boundary="=-KZ68LoMo4Fmv2xStHCP3"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -76,365 +84,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-oinrfVcfhFrmGjDwbp/a
+--=-KZ68LoMo4Fmv2xStHCP3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Thu, 2023-03-09 at 11:55 -0500, Peter Xu wrote:
+>=20
+> There're four devices that can hook onto this, IIUC.=C2=A0 Besides IOAPIC=
+ and
+> VFIO, there's also ivshmem and vhost.=C2=A0 IIUC we'll need to change all=
+ the
+> four devices to implement this.
 
-There is more work to be done here, as pretranslations for the KVM IRQ
-routing table can't fault yet; they should be handled in userspace and
-the fault raised only when the IRQ actually happens (if indeed the IRTE
-is still not valid at that time). But we can work on that later; we can
-at least raise faults for the direct case.
+If you grep for kvm_irqchip_add_irqfd_notifier() there are more than that.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
+There's a bunch of largely duplicated code, with different code paths
+for kvm_irqfds_enabled() and other variants. In code that I don't think
+should even have to *know* about KVM, should it?=20
 
-Seemed like a good place to start.
+I think I'd like to provide a generic set of helpers which just allow
+callers to register a virtual IRQ and then trigger it manually and/or
+attach an irqfd (and a resamplefd, qv) to it.
 
-Utterly untested yet except for building it. Do we have unit tests for
-this; anything which will deliberately cause DMA faults that I can
-extend to also do IR faults? Or should I resort to just hacking a Linux
-kernel to do things wrong?
+This new helper code can then cope with listening in userspace on that
+fd if/when it needs to, and can even work for the non-KVM case. The
+actual devices get a *lot* simpler.
 
-Also, why does the generic X86IOMMUClass->int_remap function return
-VTD-specific values? Shouldn't it just return true or false, or an
-actual error from the system errno space?
-
-I also think we're allowing Compatibility Format MSIs when we shouldn't
-(when GSTS_CFIS is clear); the reporting of VTD_FR_IR_REQ_COMPAT is
-conspicuous in its absence. But I can fix that in a separate commit.
-
-
- hw/i386/intel_iommu.c          | 115 +++++++++++++++++++++++++--------
- hw/i386/intel_iommu_internal.h |   1 +
- 2 files changed, 89 insertions(+), 27 deletions(-)
-
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index faade7def8..946f6008fe 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -468,21 +468,12 @@ static void vtd_set_frcd_and_update_ppf(IntelIOMMUSta=
-te *s, uint16_t index)
-=20
- /* Must not update F field now, should be done later */
- static void vtd_record_frcd(IntelIOMMUState *s, uint16_t index,
--                            uint16_t source_id, hwaddr addr,
--                            VTDFaultReason fault, bool is_write,
--                            bool is_pasid, uint32_t pasid)
-+                            uint64_t hi, uint64_t lo)
- {
--    uint64_t hi =3D 0, lo;
-     hwaddr frcd_reg_addr =3D DMAR_FRCD_REG_OFFSET + (((uint64_t)index) << =
-4);
-=20
-     assert(index < DMAR_FRCD_REG_NR);
-=20
--    lo =3D VTD_FRCD_FI(addr);
--    hi =3D VTD_FRCD_SID(source_id) | VTD_FRCD_FR(fault) |
--         VTD_FRCD_PV(pasid) | VTD_FRCD_PP(is_pasid);
--    if (!is_write) {
--        hi |=3D VTD_FRCD_T;
--    }
-     vtd_set_quad_raw(s, frcd_reg_addr, lo);
-     vtd_set_quad_raw(s, frcd_reg_addr + 8, hi);
-=20
-@@ -508,17 +499,11 @@ static bool vtd_try_collapse_fault(IntelIOMMUState *s=
-, uint16_t source_id)
- }
-=20
- /* Log and report an DMAR (address translation) fault to software */
--static void vtd_report_dmar_fault(IntelIOMMUState *s, uint16_t source_id,
--                                  hwaddr addr, VTDFaultReason fault,
--                                  bool is_write, bool is_pasid,
--                                  uint32_t pasid)
-+static void vtd_report_frcd_fault(IntelIOMMUState *s, uint64_t source_id,
-+                                  uint64_t hi, uint64_t lo)
- {
-     uint32_t fsts_reg =3D vtd_get_long_raw(s, DMAR_FSTS_REG);
-=20
--    assert(fault < VTD_FR_MAX);
--
--    trace_vtd_dmar_fault(source_id, fault, addr, is_write);
--
-     if (fsts_reg & VTD_FSTS_PFO) {
-         error_report_once("New fault is not recorded due to "
-                           "Primary Fault Overflow");
-@@ -538,8 +523,7 @@ static void vtd_report_dmar_fault(IntelIOMMUState *s, u=
-int16_t source_id,
-         return;
-     }
-=20
--    vtd_record_frcd(s, s->next_frcd_reg, source_id, addr, fault,
--                    is_write, is_pasid, pasid);
-+    vtd_record_frcd(s, s->next_frcd_reg, hi, lo);
-=20
-     if (fsts_reg & VTD_FSTS_PPF) {
-         error_report_once("There are pending faults already, "
-@@ -564,6 +548,42 @@ static void vtd_report_dmar_fault(IntelIOMMUState *s, =
-uint16_t source_id,
-     }
- }
-=20
-+/* Log and report an DMAR (address translation) fault to software */
-+static void vtd_report_dmar_fault(IntelIOMMUState *s, uint16_t source_id,
-+                                  hwaddr addr, VTDFaultReason fault,
-+                                  bool is_write, bool is_pasid,
-+                                  uint32_t pasid)
-+{
-+    uint64_t hi, lo;
-+
-+    assert(fault < VTD_FR_MAX);
-+
-+    trace_vtd_dmar_fault(source_id, fault, addr, is_write);
-+
-+    lo =3D VTD_FRCD_FI(addr);
-+    hi =3D VTD_FRCD_SID(source_id) | VTD_FRCD_FR(fault) |
-+         VTD_FRCD_PV(pasid) | VTD_FRCD_PP(is_pasid);
-+    if (!is_write) {
-+        hi |=3D VTD_FRCD_T;
-+    }
-+
-+    vtd_report_frcd_fault(s, source_id, hi, lo);
-+}
-+
-+
-+static void vtd_report_ir_fault(IntelIOMMUState *s, uint64_t source_id,
-+                                VTDFaultReason fault, uint16_t index)
-+{
-+    uint64_t hi, lo;
-+
-+    lo =3D VTD_FRCD_IR_IDX(index);
-+    hi =3D VTD_FRCD_SID(source_id) | VTD_FRCD_FR(fault);
-+
-+    vtd_report_frcd_fault(s, source_id, hi, lo);
-+}
-+
-+#define log_irte_fault(f, sid, i) vtd_report_ir_fault(iommu, sid, f, i)
-+
- /* Handle Invalidation Queue Errors of queued invalidation interface error
-  * conditions.
-  */
-@@ -3300,7 +3320,8 @@ static Property vtd_properties[] =3D {
-=20
- /* Read IRTE entry with specific index */
- static int vtd_irte_get(IntelIOMMUState *iommu, uint16_t index,
--                        VTD_IR_TableEntry *entry, uint16_t sid)
-+                        VTD_IR_TableEntry *entry, uint16_t sid,
-+                        bool do_fault)
- {
-     static const uint16_t vtd_svt_mask[VTD_SQ_MAX] =3D \
-         {0xffff, 0xfffb, 0xfff9, 0xfff8};
-@@ -3311,6 +3332,9 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint1=
-6_t index,
-     if (index >=3D iommu->intr_size) {
-         error_report_once("%s: index too large: ind=3D0x%x",
-                           __func__, index);
-+        if (do_fault) {
-+            vtd_report_ir_fault(iommu, sid, VTD_FR_IR_INDEX_OVER, index);
-+        }
-         return -VTD_FR_IR_INDEX_OVER;
-     }
-=20
-@@ -3319,17 +3343,33 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uin=
-t16_t index,
-                         entry, sizeof(*entry), MEMTXATTRS_UNSPECIFIED)) {
-         error_report_once("%s: read failed: ind=3D0x%x addr=3D0x%" PRIx64,
-                           __func__, index, addr);
-+        if (do_fault) {
-+            vtd_report_ir_fault(iommu, sid, VTD_FR_IR_ROOT_INVAL, index);
-+        }
-         return -VTD_FR_IR_ROOT_INVAL;
-     }
-=20
-     trace_vtd_ir_irte_get(index, le64_to_cpu(entry->data[1]),
-                           le64_to_cpu(entry->data[0]));
-=20
-+	/*
-+	 * The remaining potential fault conditions are "qualified" by the
-+	 * Fault Processing Disable bit in the IRTE. Even "not present".
-+	 * So just clear the do_fault flag if PFD is set, which will
-+	 * prevent faults being raised.
-+	 */
-+	if (entry->irte.fault_disable) {
-+		do_fault =3D false;
-+    }
-+
-     if (!entry->irte.present) {
-         error_report_once("%s: detected non-present IRTE "
-                           "(index=3D%u, high=3D0x%" PRIx64 ", low=3D0x%" P=
-RIx64 ")",
-                           __func__, index, le64_to_cpu(entry->data[1]),
-                           le64_to_cpu(entry->data[0]));
-+        if (do_fault) {
-+            vtd_report_ir_fault(iommu, sid, VTD_FR_IR_ENTRY_P, index);
-+        }
-         return -VTD_FR_IR_ENTRY_P;
-     }
-=20
-@@ -3339,6 +3379,9 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint1=
-6_t index,
-                           "(index=3D%u, high=3D0x%" PRIx64 ", low=3D0x%" P=
-RIx64 ")",
-                           __func__, index, le64_to_cpu(entry->data[1]),
-                           le64_to_cpu(entry->data[0]));
-+        if (do_fault) {
-+            vtd_report_ir_fault(iommu, sid, VTD_FR_IR_IRTE_RSVD, index);
-+        }
-         return -VTD_FR_IR_IRTE_RSVD;
-     }
-=20
-@@ -3355,6 +3398,9 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint1=
-6_t index,
-                 error_report_once("%s: invalid IRTE SID "
-                                   "(index=3D%u, sid=3D%u, source_id=3D%u)"=
-,
-                                   __func__, index, sid, source_id);
-+                if (do_fault) {
-+                    vtd_report_ir_fault(iommu, sid, VTD_FR_IR_SID_ERR, ind=
-ex);
-+                }
-                 return -VTD_FR_IR_SID_ERR;
-             }
-             break;
-@@ -3367,6 +3413,9 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint1=
-6_t index,
-                 error_report_once("%s: invalid SVT_BUS "
-                                   "(index=3D%u, bus=3D%u, min=3D%u, max=3D=
-%u)",
-                                   __func__, index, bus, bus_min, bus_max);
-+                if (do_fault) {
-+                    vtd_report_ir_fault(iommu, sid, VTD_FR_IR_SID_ERR, ind=
-ex);
-+                }
-                 return -VTD_FR_IR_SID_ERR;
-             }
-             break;
-@@ -3376,6 +3425,9 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint1=
-6_t index,
-                               "(index=3D%u, type=3D%d)", __func__,
-                               index, entry->irte.sid_vtype);
-             /* Take this as verification failure. */
-+            if (do_fault) {
-+                vtd_report_ir_fault(iommu, sid, VTD_FR_IR_SID_ERR, index);
-+            }
-             return -VTD_FR_IR_SID_ERR;
-         }
-     }
-@@ -3385,12 +3437,12 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uin=
-t16_t index,
-=20
- /* Fetch IRQ information of specific IR index */
- static int vtd_remap_irq_get(IntelIOMMUState *iommu, uint16_t index,
--                             X86IOMMUIrq *irq, uint16_t sid)
-+                             X86IOMMUIrq *irq, uint16_t sid, bool do_fault=
-)
- {
-     VTD_IR_TableEntry irte =3D {};
-     int ret =3D 0;
-=20
--    ret =3D vtd_irte_get(iommu, index, &irte, sid);
-+    ret =3D vtd_irte_get(iommu, index, &irte, sid, do_fault);
-     if (ret) {
-         return ret;
-     }
-@@ -3418,7 +3470,7 @@ static int vtd_remap_irq_get(IntelIOMMUState *iommu, =
-uint16_t index,
- static int vtd_interrupt_remap_msi(IntelIOMMUState *iommu,
-                                    MSIMessage *origin,
-                                    MSIMessage *translated,
--                                   uint16_t sid)
-+                                   uint16_t sid, bool do_fault)
- {
-     int ret =3D 0;
-     VTD_IR_MSIAddress addr;
-@@ -3437,6 +3489,9 @@ static int vtd_interrupt_remap_msi(IntelIOMMUState *i=
-ommu,
-     if (origin->address & VTD_MSI_ADDR_HI_MASK) {
-         error_report_once("%s: MSI address high 32 bits non-zero detected:=
- "
-                           "address=3D0x%" PRIx64, __func__, origin->addres=
-s);
-+        if (do_fault) {
-+            vtd_report_ir_fault(iommu, sid, VTD_FR_IR_REQ_RSVD, 0);
-+        }
-         return -VTD_FR_IR_REQ_RSVD;
-     }
-=20
-@@ -3444,6 +3499,9 @@ static int vtd_interrupt_remap_msi(IntelIOMMUState *i=
-ommu,
-     if (addr.addr.__head !=3D 0xfee) {
-         error_report_once("%s: MSI address low 32 bit invalid: 0x%" PRIx32=
-,
-                           __func__, addr.data);
-+        if (do_fault) {
-+            vtd_report_ir_fault(iommu, sid, VTD_FR_IR_REQ_RSVD, 0);
-+        }
-         return -VTD_FR_IR_REQ_RSVD;
-     }
-=20
-@@ -3463,7 +3521,7 @@ static int vtd_interrupt_remap_msi(IntelIOMMUState *i=
-ommu,
-         index +=3D origin->data & VTD_IR_MSI_DATA_SUBHANDLE;
-     }
-=20
--    ret =3D vtd_remap_irq_get(iommu, index, &irq, sid);
-+    ret =3D vtd_remap_irq_get(iommu, index, &irq, sid, do_fault);
-     if (ret) {
-         return ret;
-     }
-@@ -3475,6 +3533,9 @@ static int vtd_interrupt_remap_msi(IntelIOMMUState *i=
-ommu,
-                               "(sid=3D%u, address=3D0x%" PRIx64
-                               ", data=3D0x%" PRIx32 ")",
-                               __func__, sid, origin->address, origin->data=
-);
-+            if (do_fault) {
-+                vtd_report_ir_fault(iommu, sid, VTD_FR_IR_REQ_RSVD, 0);
-+            }
-             return -VTD_FR_IR_REQ_RSVD;
-         }
-     } else {
-@@ -3515,7 +3576,7 @@ static int vtd_int_remap(X86IOMMUState *iommu, MSIMes=
-sage *src,
-                          MSIMessage *dst, uint16_t sid)
- {
-     return vtd_interrupt_remap_msi(INTEL_IOMMU_DEVICE(iommu),
--                                   src, dst, sid);
-+                                   src, dst, sid, false);
- }
-=20
- static MemTxResult vtd_mem_ir_read(void *opaque, hwaddr addr,
-@@ -3541,7 +3602,7 @@ static MemTxResult vtd_mem_ir_write(void *opaque, hwa=
-ddr addr,
-         sid =3D attrs.requester_id;
-     }
-=20
--    ret =3D vtd_interrupt_remap_msi(opaque, &from, &to, sid);
-+    ret =3D vtd_interrupt_remap_msi(opaque, &from, &to, sid, true);
-     if (ret) {
-         /* TODO: report error */
-         /* Drop this interrupt */
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.=
-h
-index f090e61e11..37db7d44df 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -268,6 +268,7 @@
- #define VTD_FRCD_FI(val)        ((val) & ~0xfffULL)
- #define VTD_FRCD_PV(val)        (((val) & 0xffffULL) << 40)
- #define VTD_FRCD_PP(val)        (((val) & 0x1) << 31)
-+#define VTD_FRCD_IR_IDX(val)    (((val) & 0xffffULL) << 48)
-=20
- /* DMA Remapping Fault Conditions */
- typedef enum VTDFaultReason {
---=20
-2.34.1
+It'll *broadly* look like the existing kvm_irqchip_* functions but be a
+lot simpler to use.
 
 
 
---=-oinrfVcfhFrmGjDwbp/a
+
+--=-KZ68LoMo4Fmv2xStHCP3
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -526,25 +208,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzEwMTc0OTM4WjAvBgkqhkiG9w0BCQQxIgQg78t8Ztnt
-7IBPI93Xex8/Ta3WUEMvm+K0LQvmmGHKaQUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzEwMTc1MjU3WjAvBgkqhkiG9w0BCQQxIgQgp9WjXZqo
+UNisuQeTwpLsunRaRGo7sHYK7uGtFAwsPZQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAMiPisLra/JSuhPn7xJ7OfEJiPJcGsXY8D
-D/UB7zp259F6rNi1Nw395nVwjJxrwPEzQymNey+KZih5QhhSoNlibe+FL6pmp7i3pOGsyq77liKU
-Si+6DoD3CZXCCWOS+PnpAVF2F5eKxMfhvXmWlpRxUQ/gi7sB/8Yp0IrhqKG9YKRHFbZQL1dOEUkW
-RiiGqoifsbzUHLxo+NLPD4pEbiMeCq9vr08WDMFz3q5aB3BFFsAL9JQdY18LAQDlWoABI6IVdQU9
-7G5kKNd4xPZRbgRwWpEtjjX4Xy8rly8sV5MFX2i+74Iypc/Z2rhB2TNZRxUjSMl+NQJEs5P0iPyA
-PQ123wVlMfhu0/vGK01m/wvwk2gD+DVnJt/Wvb0GEOlmfYedRdILGJvyOoCJxQsVrdaaUpmmS0Ju
-msLjO8Ra74LKxzyx85ozzpusHQgl01XZzXGaNC9pfZj9sS8Uoj8V5PMr0yWh8m7h2YXE5OfY7v5v
-KRsuCCtxJPbnBB267qommfTqXPgNiWtjY766SeNZZJIzPtKDCAvD1GOnaC3z9nh5Upw+ThBeOkge
-98iqFwzZIeHWEBoZ+W8l4DRdFMnraEiWvfmr8tYmfiKTZZOCi0jz1Pucul2m6Ss30j0GoT//KSeZ
-XPLwIuH/r43FW8NsUMcXuI/yf8GM9a0StCJpGsWAiAAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBg27cTpSiJB0MwQVYlsaF8QkMSBt/5iv1X
+BYfKn8ZxjY6kJJhf9YzVFP6CS3Ao5877sy9tKG93INwNdomzDhS8bAbjJhjLua2VHVSnIBRP3z9j
+BQyI7ACrDqAqNarF2NQ+HTKWu0QbHZ2yZLaSBDjZ2n9vy4uLndo/EWxPoRXsr6SYzkHsz6svpORn
+txTdOcnRvbEvzWf7YbIVfOu2Dwm+ho6YF20cyPPnVpLqpHZlqUwSdD74fMHPTidgFzEIEqm+S+ht
+0Frvv66WWktmY8dx//u14EzCFqVAaSFzRhc40Adhr62rxsW00cOifRvg9pmOc/hNrZ19FynSwbQ2
+LTp1HvpWxP1i6ZD3SjnLJI2xHJpBgZEE3Ju963rZvOo8IObWsX5/ZdDg7KZgGnV0+k/3gVJqVDuQ
+h9jjCvuLJlV5Czi+17PpUq0vthtwc7QFaN4F9YOhJRfOPovYMk7UqqRXcpjZ0o90WvjIwnvf6Iif
+tRToU7ECQxguf8UYupL10s0gFHjXaO+XJJduDcOvG0MczLpBzHEUZztrtx14iQHt3+kIHN2mKFSF
+ofRdK7cMYz17UU5YGPZsdN2WQnLnIEPTDcNPscJRxWueWWaVckh8GJ6utWdUgwkP6oAlCj+ikTQr
+TkSNOuBG1gU3pP4M7tMoeeC/pHZYI1U6n8YdHwwQ5QAAAAAAAA==
 
 
---=-oinrfVcfhFrmGjDwbp/a--
+--=-KZ68LoMo4Fmv2xStHCP3--
 
