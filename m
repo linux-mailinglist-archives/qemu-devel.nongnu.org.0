@@ -2,84 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050D06B4BD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9166B4BEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 17:05:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paf8R-0006nF-3u; Fri, 10 Mar 2023 10:58:23 -0500
+	id 1pafE6-0002rV-RT; Fri, 10 Mar 2023 11:04:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paf7m-0006W8-IF
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:57:43 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paf7e-0004Ky-UU
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:57:42 -0500
-Received: by mail-wr1-x433.google.com with SMTP id g3so5492983wri.6
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 07:57:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678463849;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6zDiFwGW/DvDHEIOg1D7Fm+5qEAPxrmz3h1kHYEyo1w=;
- b=KECn2jCru3lB/4/rd5z/uqq5DfCaUUO3k324s+1v+YfDliFsecxKnhgM9EqDv/btBa
- mbh0piS5sbzxwZiOHB1JE0jaVxLAW0pPGMmRsf//kZYBMwMtcYcFb7o2IkKk3Z1Uy3mj
- tPOsCgg3K1weBu+DJlXvrmK0XjeS+f4XFlKtSLF/8rERrA30kfwaiZAvPKxv2COlPVjP
- 1ydbPKFDEabRW2558OX2HsTzYy59aKdgadssg34pcc8ikbwajEo6DDQFSZJg9mgj6Ghh
- DWAg8sujvuot/J7XT4pWr/r+Oy5hRSV2tWWD4y9QSuya1ajC840QENVV5L+cAd6hJ9oP
- BL0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678463849;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6zDiFwGW/DvDHEIOg1D7Fm+5qEAPxrmz3h1kHYEyo1w=;
- b=G2YtdvrX4xj5gkbiUsV2P6gyTU5z2xzBQN127UmqprsDDxEKtdGfs7+UNC2ia6Tzgq
- s20ZFOd0g6T4gxafHowZapBvXa6VhZ4vsBa8fhxoaYBJ8EU9t6uOQrrLuvRPGfZvFPHf
- z2hvR679l82GaYdCP25kkKd5zEej1uYuQPU4N5Cpz97eTSN6MyIulVdnMpKMXLHu0ZKH
- 2OjmoqF9TqOrxo6Z+hl+gL/kcWB+ZybfTQdi6NV2Se6Ua1nte8+SvrNGPcsqbwSHI9fw
- j+AfiLzGQhjj9afpwGR9dXVnuCa34vxn/OW/RP08BTcMPJmD4VMSU5VDV+0Yw76MPONW
- hRNA==
-X-Gm-Message-State: AO0yUKVotPqy2s/Gg15woUS3WSzo2lbwS6JGntlhY5QP5wojX42j7qLW
- 1HzOhL5I/TI6vHVUXFCJxfQQUw==
-X-Google-Smtp-Source: AK7set82DogwlODBlIcjD6W1qbsAlog18JvKB1wHKTJfu771zin4bhgpqDNHmbRTVWjMBZN6dnzwMQ==
-X-Received: by 2002:adf:f612:0:b0:2bf:96ae:7cc8 with SMTP id
- t18-20020adff612000000b002bf96ae7cc8mr17271605wrp.4.1678463849141; 
- Fri, 10 Mar 2023 07:57:29 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- h5-20020adff185000000b002c8476dde7asm96774wro.114.2023.03.10.07.57.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 07:57:28 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 388661FFBD;
- Fri, 10 Mar 2023 15:57:27 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1pafDr-0002f2-2D
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:03:59 -0500
+Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1pafDn-0006at-7H
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 11:03:58 -0500
+Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
+ by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
+ id 1pafDh-00H4ad-0S; Fri, 10 Mar 2023 16:03:49 +0000
+From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Idan Horowitz <idan.horowitz@gmail.com>
-Subject: [PULL 5/5] contrib/gitdm: add Idan to IBM's group map
-Date: Fri, 10 Mar 2023 15:57:26 +0000
-Message-Id: <20230310155726.2222233-6-alex.bennee@linaro.org>
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Subject: [PATCH 00/45] Add RISC-V vector cryptographic instruction set support
+Date: Fri, 10 Mar 2023 16:03:01 +0000
+Message-Id: <20230310160346.1193597-1-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230310155726.2222233-1-alex.bennee@linaro.org>
-References: <20230310155726.2222233-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=78.40.148.171;
+ envelope-from=lawrence.hunter@codethink.co.uk; helo=imap5.colo.codethink.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,22 +56,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to LinkedIn Idan works at IBM. Please confirm if you want
-these contributions counted under IBM or as personal contributions.
+NB: this is an update over the patch series submitted today (2023/03/10) at 09:11. It fixes some accidental mangling of commits 02, 04 and 08/45.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Idan Horowitz <idan.horowitz@gmail.com>
-Message-Id: <20221219121914.851488-11-alex.bennee@linaro.org>
+This patchset provides an implementation for Zvkb, Zvkned, Zvknh, Zvksh, Zvkg, and Zvksed of the draft RISC-V vector cryptography extensions as per the 20230303 version of the specification(1) (1fcbb30). Please note that the Zvkt data-independent execution latency extension has not been implemented, and we would recommend not using these patches in an environment where timing attacks are an issue.
 
-diff --git a/contrib/gitdm/group-map-ibm b/contrib/gitdm/group-map-ibm
-index da62fa3f44..24d8dc1b86 100644
---- a/contrib/gitdm/group-map-ibm
-+++ b/contrib/gitdm/group-map-ibm
-@@ -12,3 +12,4 @@ jcfaracco@gmail.com
- joel@jms.id.au
- sjitindarsingh@gmail.com
- tommusta@gmail.com
-+idan.horowitz@gmail.com
+Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
+
+For convenience we have created a git repo with our patches on top of a recent master. https://github.com/CodethinkLabs/qemu-ct
+
+1. https://github.com/riscv/riscv-crypto/releases
+
+Dickon Hood (2):
+  qemu/bitops.h: Limit rotate amounts
+  target/riscv: Add vrol.[vv,vx] and vror.[vv,vx,vi] decoding,
+    translation and execution support
+
+Kiran Ostrolenk (7):
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Add vsha2ms.vv decoding, translation and execution
+    support
+  target/riscv: Add zvksh cpu property
+  target/riscv: Add vsm3c.vi decoding, translation and execution support
+  target/riscv: Expose zvksh cpu property
+
+Lawrence Hunter (17):
+  target/riscv: Add vclmul.vv decoding, translation and execution
+    support
+  target/riscv: Add vclmul.vx decoding, translation and execution
+    support
+  target/riscv: Add vclmulh.vv decoding, translation and execution
+    support
+  target/riscv: Add vclmulh.vx decoding, translation and execution
+    support
+  target/riscv: Add vaesef.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesef.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesdf.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesdf.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesdm.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesdm.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesz.vs decoding, translation and execution support
+  target/riscv: Add vsha2c[hl].vv decoding, translation and execution
+    support
+  target/riscv: Add vsm3me.vv decoding, translation and execution
+    support
+  target/riscv: Add zvkg cpu property
+  target/riscv: Add vgmul.vv decoding, translation and execution support
+  target/riscv: Add vghsh.vv decoding, translation and execution support
+  target/riscv: Expose zvkg cpu property
+
+Max Chou (5):
+  crypto: Create sm4_subword
+  crypto: Add SM4 constant parameter CK
+  target/riscv: Add zvksed cfg property
+  target/riscv: Add Zvksed support
+  target/riscv: Expose Zvksed property
+
+Nazar Kazakov (11):
+  target/riscv: Add zvkb cpu property
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Add vrev8.v decoding, translation and execution support
+  target/riscv: Add vandn.[vv,vx] decoding, translation and execution
+    support
+  target/riscv: Expose zvkb cpu property
+  target/riscv: Add zvkned cpu property
+  target/riscv: Add vaeskf1.vi decoding, translation and execution
+    support
+  target/riscv: Add vaeskf2.vi decoding, translation and execution
+    support
+  target/riscv: Expose zvkned cpu property
+  target/riscv: Add zvknh cpu properties
+  target/riscv: Expose zvknh cpu properties
+
+William Salmon (3):
+  target/riscv: Add vbrev8.v decoding, translation and execution support
+  target/riscv: Add vaesem.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesem.vs decoding, translation and execution
+    support
+
+ accel/tcg/tcg-runtime-gvec.c                 |   11 +
+ accel/tcg/tcg-runtime.h                      |    1 +
+ crypto/sm4.c                                 |   10 +
+ include/crypto/sm4.h                         |    9 +
+ include/qemu/bitops.h                        |   24 +-
+ target/arm/tcg/crypto_helper.c               |   10 +-
+ target/riscv/cpu.c                           |   36 +
+ target/riscv/cpu.h                           |    7 +
+ target/riscv/helper.h                        |   71 ++
+ target/riscv/insn32.decode                   |   49 +
+ target/riscv/insn_trans/trans_rvv.c.inc      |   93 +-
+ target/riscv/insn_trans/trans_rvzvkb.c.inc   |  220 ++++
+ target/riscv/insn_trans/trans_rvzvkg.c.inc   |   40 +
+ target/riscv/insn_trans/trans_rvzvkned.c.inc |  170 +++
+ target/riscv/insn_trans/trans_rvzvknh.c.inc  |   84 ++
+ target/riscv/insn_trans/trans_rvzvksed.c.inc |   57 +
+ target/riscv/insn_trans/trans_rvzvksh.c.inc  |   43 +
+ target/riscv/meson.build                     |    4 +-
+ target/riscv/op_helper.c                     |    5 +
+ target/riscv/translate.c                     |    6 +
+ target/riscv/vcrypto_helper.c                | 1001 ++++++++++++++++++
+ target/riscv/vector_helper.c                 |  240 +----
+ target/riscv/vector_internals.c              |   81 ++
+ target/riscv/vector_internals.h              |  222 ++++
+ 24 files changed, 2192 insertions(+), 302 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkg.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkned.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvknh.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvksed.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvksh.c.inc
+ create mode 100644 target/riscv/vcrypto_helper.c
+ create mode 100644 target/riscv/vector_internals.c
+ create mode 100644 target/riscv/vector_internals.h
+
 -- 
 2.39.2
 
