@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47D46B53EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:11:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E10C6B53DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:10:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvj-0008CB-MU; Fri, 10 Mar 2023 17:09:39 -0500
+	id 1pakvk-0008Ck-Mr; Fri, 10 Mar 2023 17:09:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvh-0008Ah-2P
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvh-0008Ag-2O
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:37 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvf-00030S-9p
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvf-00030M-14
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:36 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N8nrc-1qfDYb2wPG-015pYD; Fri, 10
- Mar 2023 23:09:31 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M2wbS-1pZeSm0fIC-003OJb; Fri, 10
+ Mar 2023 23:09:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PULL 05/28] linux-user: add support for xtensa FDPIC
-Date: Fri, 10 Mar 2023 23:09:04 +0100
-Message-Id: <20230310220927.326606-6-laurent@vivier.eu>
+	Andreas Schwab <schwab@suse.de>
+Subject: [PULL 06/28] linux-user: fill out task state in /proc/self/stat
+Date: Fri, 10 Mar 2023 23:09:05 +0100
+Message-Id: <20230310220927.326606-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZouFUeU7XVhD6UfZr07DfvEy61Uhggok1KwuvV18q+UcVNDlbi1
- kBn3vpAJqb2fYd3vZUBqypogoIusN0ox1RqPUyIOA+w9tPrmM8Y8UWMRhehGQGevn0F95jx
- XiDcxuriNaoeJMv7wOwIFfuMCA6NX+f71ksn+PEqtl1ui8dSljH/iyJxPViIJk9vyUujera
- aK2WU88o9HSuSb8Nj7Thg==
-UI-OutboundReport: notjunk:1;M01:P0:bpDUbaImUSg=;+K2+CKuYya4g2utNYTpqXR2B1Bn
- 5DwjGJYH7FMJbAopsEjNnhZnv6kzKCaywym2/puuOCLqLf6IgURVgB4Ez9hsPFTGvtGXrPBw6
- sBnXS69v401qGIhPuPtKIIcPEqdVVz5cPdmK1sbbAagNHtWE33Rk6/LKzqtKoU31azzZC7EAh
- H3YDxsLZDDhfg9pcL/Xoi0Vqy/GoWhPaQKEerIzfr4d/h0toAX8SN6WqBuZuuepFGZbX597iJ
- elgjz+qn+GXtlq2u6tEO3NC7TEplbTwIBzuwMyXAKr69tz01Co3DhinRMsMoo0EU6m/kCUfEE
- DptcVMY9sb+ud1hfMpmepohon6zZ57XuW2rk+KoDLpKULfIny73BSz/7FZC4uITJJ4OwF32KJ
- jqmNrQBAdYcEOONl4YAG9yh/7xmNdBwQm2aakRgBUb6qHMyICNCd9zwXqCwonb6xte/mq/IIb
- r9lJgqJI6dXGBsMg8FKKftDK/+VWFHbmM4574+0BeInatWCo6Pqko3BmDLQWm6i0MvFgbvF1x
- TaRnfq7Ovdv/Jnj1oMjvNmRAnrBchOYRBf4h7qJCwKUWJAjCVboNQf6oPcNvfjslzUsUTXg8K
- 7FtRVx9wVr1+lNaAOPaNqc1ThqIbRI55lKe0JbRLr1v8aSbMNVM/85sTAIwsC9oXTAeLjTo7u
- +LnDqMwmh37fpKvX6dJP8dwQmrqCNN9bPZ/DyyXw9w==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zZNYbCpF0r2BGRB37Nbzx89tz/Ied2/S6Jlj3hSpvunw3X6pgad
+ rrEnzK4ajF5BM3jy+UW1bMdXdWUPilTihCkkLydQSLstq5ZmfjxrdplYwFddaxLpEOhCaAD
+ 5s1mmW0Dfqo5E7TaLy3GfGv7X+tcITchvzgNQ2rKYaA7JhhKj1vUgo1DD26J4B2nPK3xCnC
+ WVnZCV2MPEmiRI7HqFomw==
+UI-OutboundReport: notjunk:1;M01:P0:/HZSFq5qN+s=;HgS8MTUZJ1S01RgL3OI/vnwORFt
+ aON5tPmYG0MSSjdG80ynWKPUo7YUhOo3SEiXJZzOryy4bBveHX0QM4k+gwME/iq1i5g2x/f7A
+ gxUNRvCVEgMgDA4+u7+C8sa0zfkolM4fpIQMKG50qblRYJ963QfKnGUrfK+MCWAO8jyinGlSm
+ eiYoKo8+Q7MhSU/tc+H0mwdT2EXSHe2a0bMNyERQCS0FEOgBVRG4hwxk+5cjaZkvbSvJwieHs
+ SosgtqqGVD7ZgUcOZgK33ioVDVaoqa+EjFKin6Kls2Ybj3n7SJ3kcZ/GEgGvHzxpv0aq1y+A2
+ PZcTxVsYz25mf0aV1AhbZwlyGDxepPf4Q8Qs0C4fwXoPSnHbZHG4CqBaMizHVnGNqwLIPdACo
+ /F7rTSWKMH0AnatZXdeMfJznZHpgtMasAlepqCx1hRINJgUduX5lKV0l/9rlad//iMsKibe7c
+ UAZ8xPwas2EuQ7lSUQiFrHjM/yfnhmlNJ5JPcQf9e7J8MbFo7ghwZmuCLwV4lTqLCoTyUUdnr
+ apmSPKGGAtm58bhyWTAIdVms6Ho8Hu58yU2Eeyr8bEXWq1sF4UFfRX9inYL86sIk6uf9c773J
+ YACMip1la9WvlR6wcd/+dYSwyaQm9Kmt5P/OKFlAxl+aFCCLOloGeO/ttd5+CFMPtR484MNmt
+ YqZyKwx3OQZw31jz1fErps5cMzMtBvt/3wVqtdRuXw==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,69 +69,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Max Filippov <jcmvbkbc@gmail.com>
+From: Andreas Schwab <schwab@suse.de>
 
-Define xtensa-specific info_is_fdpic and fill in FDPIC-specific
-registers in the xtensa version of init_thread.
+Some programs want to match an actual task state character.
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-Message-Id: <20230205061230.544451-1-jcmvbkbc@gmail.com>
+Signed-off-by: Andreas Schwab <schwab@suse.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <mvmedq2kxoe.fsf@suse.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/elf.h        |  1 +
- linux-user/elfload.c | 16 +++++++++++++++-
- 2 files changed, 16 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/elf.h b/include/elf.h
-index 8bf1e72720d5..e8bfe38a9fbd 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -1619,6 +1619,7 @@ typedef struct elf64_shdr {
- #define ELFOSABI_MODESTO        11      /* Novell Modesto.  */
- #define ELFOSABI_OPENBSD        12      /* OpenBSD.  */
- #define ELFOSABI_ARM_FDPIC      65      /* ARM FDPIC */
-+#define ELFOSABI_XTENSA_FDPIC   65      /* Xtensa FDPIC */
- #define ELFOSABI_ARM            97      /* ARM */
- #define ELFOSABI_STANDALONE     255     /* Standalone (embedded) application */
- 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 5928c14dfc97..150d1d450396 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1748,6 +1748,15 @@ static inline void init_thread(struct target_pt_regs *regs,
-     regs->windowstart = 1;
-     regs->areg[1] = infop->start_stack;
-     regs->pc = infop->entry;
-+    if (info_is_fdpic(infop)) {
-+        regs->areg[4] = infop->loadmap_addr;
-+        regs->areg[5] = infop->interpreter_loadmap_addr;
-+        if (infop->interpreter_loadmap_addr) {
-+            regs->areg[6] = infop->interpreter_pt_dynamic_addr;
-+        } else {
-+            regs->areg[6] = infop->pt_dynamic_addr;
-+        }
-+    }
- }
- 
- /* See linux kernel: arch/xtensa/include/asm/elf.h.  */
-@@ -2207,11 +2216,16 @@ static void zero_bss(abi_ulong elf_bss, abi_ulong last_bss, int prot)
-     }
- }
- 
--#ifdef TARGET_ARM
-+#if defined(TARGET_ARM)
- static int elf_is_fdpic(struct elfhdr *exec)
- {
-     return exec->e_ident[EI_OSABI] == ELFOSABI_ARM_FDPIC;
- }
-+#elif defined(TARGET_XTENSA)
-+static int elf_is_fdpic(struct elfhdr *exec)
-+{
-+    return exec->e_ident[EI_OSABI] == ELFOSABI_XTENSA_FDPIC;
-+}
- #else
- /* Default implementation, always false.  */
- static int elf_is_fdpic(struct elfhdr *exec)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 69cc4b6e4219..49a4fee89918 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8079,6 +8079,9 @@ static int open_self_stat(CPUArchState *cpu_env, int fd)
+             gchar *bin = g_strrstr(ts->bprm->argv[0], "/");
+             bin = bin ? bin + 1 : ts->bprm->argv[0];
+             g_string_printf(buf, "(%.15s) ", bin);
++        } else if (i == 2) {
++            /* task state */
++            g_string_assign(buf, "R "); /* we are running right now */
+         } else if (i == 3) {
+             /* ppid */
+             g_string_printf(buf, FMT_pid " ", getppid());
 -- 
 2.39.2
 
