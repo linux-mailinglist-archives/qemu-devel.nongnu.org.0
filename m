@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D306B53EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BFE6B5424
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:18:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvz-0008MD-Ny; Fri, 10 Mar 2023 17:09:55 -0500
+	id 1pal3M-0001th-Uk; Fri, 10 Mar 2023 17:17:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvy-0008M2-3l
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:54 -0500
-Received: from mout.kundenserver.de ([212.227.126.187])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pal3G-0001p7-RT
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:17:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvw-00036X-Bk
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:53 -0500
-Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MG9To-1pmpkR16oG-00Gc5K; Fri, 10
- Mar 2023 23:09:43 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- "fanwj@mail.ustc.edu.cn" <fanwj@mail.ustc.edu.cn>
-Subject: [PULL 28/28] linux-user: fix bug about incorrect base addresss of gdt
- on i386 and x86_64
-Date: Fri, 10 Mar 2023 23:09:27 +0100
-Message-Id: <20230310220927.326606-29-laurent@vivier.eu>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
-References: <20230310220927.326606-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pal3E-00052V-D2
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:17:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678486643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VoGATSYAmYDYHgE0LEJldi2s67n6gZJ7XV9ethas4So=;
+ b=RVZp3nYCLcAWNGh5W5Th4cMoGcjBz6Eu8BieHeKt/K12NIW7NyAMW3UjBjeIT+8tMO4q8i
+ M36V15mWPh4hTMofKi4vZ+WjoN5csLOMoqvgXhbFx12IseuzzKgJkY4ponDVI4LsBcxloh
+ iRd4EMPMPJLnw0cZ0DMuCchPrim/3/0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-204-Xp4jxYw_OdmI6YYNt0g32A-1; Fri, 10 Mar 2023 17:17:20 -0500
+X-MC-Unique: Xp4jxYw_OdmI6YYNt0g32A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A14E13C0253D;
+ Fri, 10 Mar 2023 22:17:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8E542026D4B;
+ Fri, 10 Mar 2023 22:17:18 +0000 (UTC)
+Date: Fri, 10 Mar 2023 16:17:17 -0600
+From: Eric Blake <eblake@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, vsementsov@yandex-team.ru,
+ hreitz@redhat.com, kwolf@redhat.com
+Subject: Re: [PATCH nbd 1/4] nbd: Add multi-conn option
+Message-ID: <20230310221717.vb2b72e3tkjkpyqi@redhat.com>
+References: <20230309113946.1528247-1-rjones@redhat.com>
+ <20230309113946.1528247-2-rjones@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3XJKxqtEkm1gEjnf04IlYzo9UetJwh8unQiZlSpIEDTY8mZu5l0
- oDAVglJmNyRG5Seu68didFFEIuxLvG73Gpv7YpifpbtRwkx3aAwWhulNTVKTA3CAFJpa3e2
- df2rltyDc1JPfSCzfbujFiVT2Uupvq3rnEv6WRpQTU/gMQeD6nZnUBGsRN2MlQeTbbENKLy
- fSCeMno4zfkfM6PW3ntMg==
-UI-OutboundReport: notjunk:1;M01:P0:A4492zbpkIs=;eisQV6cS4y6l70sd5zGoJzL0xOq
- +SuoPoa1hYD2Ok/BybL3AcVr7sMJI4FYTH1bgzrLzHGTW4PqU+mm3oxFWBCMaZRzfkmagm0vb
- pUD1Li6AoPWCYzNF2z4Nnrp/t5X+zMC1+0CrC4TEG3vdSQoHjMacFTLhLKSt6Eg5pA7GEKS//
- n1ic5b3+544gOEHYXFU6TxZQBuqkUkgEQNsX0NlbPkMAsB62jlXLFwlLPKjzGNvaKvOIiGp+M
- kld6M0Gu9CkCegfUh51ZxAPi2dg9CD/WRE2Da7d38de3utRBMjSFC3pjTZhW1jSJIKDpiHxM7
- Nu2H6nuyRoH+4NWto5Qvwqs02Q1iK83qm2QvMpOiycMjnlIvKuqp3QyAhKKnxY/VgoOFRMCRI
- edUBvKg0GzjVanRnp1wBVtolPyLPsJNxd/PiDwAyLTB0Sc+fQmzzU+gYDfQX/WCXRaCbhmATd
- 42aZsOD0r5uXGpJMWqxR2K5/OaO1d/0kS8PQL/aki0qTxcwT3hjZ6D473ZSRmGAKOQAFiGH2+
- 9irA7s07SMFiIN9SlnuGQrizaiKxhFUcXxdQX6a2iqDspRe49vBuYk+gBIJU+XhJ1rul5TMpH
- xoH8HgUCPzQNJZ5u5Nif7fA0lObRRJzhzC3T8PhpRoXud+stUuGHBvN0CXJNbekO8GC/8PJ2V
- Z+lvadsKo24wZndjLfZPA4XA97meWuC3mKF6ajodug==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230309113946.1528247-2-rjones@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,64 +78,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "fanwj@mail.ustc.edu.cn" <fanwj@mail.ustc.edu.cn>
+On Thu, Mar 09, 2023 at 11:39:43AM +0000, Richard W.M. Jones wrote:
+> Add multi-conn option to the NBD client.  This commit just adds the
+> option, it is not functional.
 
-On linux user mode, CPUX86State::gdt::base from Different CPUX86State
-Objects have same value, It is incorrect! Every CPUX86State::gdt::base
-Must points to independent memory space.
+Maybe add the phrase "until later in this patch series" ?
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1405
-Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
-Message-Id: <4172b90.58b08.18631b77860.Coremail.fanwj@mail.ustc.edu.cn>
-[lv: remove unnecessary casts, split overlong line]
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/i386/cpu_loop.c | 9 +++++++++
- linux-user/main.c          | 8 ++++++++
- 2 files changed, 17 insertions(+)
+> 
+> Setting this to a value > 1 permits multiple connections to the NBD
+> server; a typical value might be 4.  The default is 1, meaning only a
+> single connection is made.  If the NBD server does not advertise that
+> it is safe for multi-conn then this setting is forced to 1.
+> 
+> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
+> ---
+>  block/nbd.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index bf2894ad5c..5ffae0b798 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -49,6 +49,7 @@
+>  
+>  #define EN_OPTSTR ":exportname="
+>  #define MAX_NBD_REQUESTS    16
+> +#define MAX_MULTI_CONN      16
+>  
+>  #define HANDLE_TO_INDEX(bs, handle) ((handle) ^ (uint64_t)(intptr_t)(bs))
+>  #define INDEX_TO_HANDLE(bs, index)  ((index)  ^ (uint64_t)(intptr_t)(bs))
+> @@ -98,6 +99,7 @@ typedef struct BDRVNBDState {
+>      /* Connection parameters */
+>      uint32_t reconnect_delay;
+>      uint32_t open_timeout;
+> +    uint32_t multi_conn;
+>      SocketAddress *saddr;
+>      char *export;
+>      char *tlscredsid;
+> @@ -1803,6 +1805,15 @@ static QemuOptsList nbd_runtime_opts = {
+>                      "attempts until successful or until @open-timeout seconds "
+>                      "have elapsed. Default 0",
+>          },
+> +        {
+> +            .name = "multi-conn",
+> +            .type = QEMU_OPT_NUMBER,
+> +            .help = "If > 1 permit up to this number of connections to the "
+> +                    "server. The server must also advertise multi-conn "
+> +                    "support.  If <= 1, only a single connection is made "
+> +                    "to the server even if the server advertises multi-conn. "
+> +                    "Default 1",
+> +        },
+>          { /* end of list */ }
+>      },
+>  };
+> @@ -1858,6 +1869,10 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+>  
+>      s->reconnect_delay = qemu_opt_get_number(opts, "reconnect-delay", 0);
+>      s->open_timeout = qemu_opt_get_number(opts, "open-timeout", 0);
+> +    s->multi_conn = qemu_opt_get_number(opts, "multi-conn", 1);
+> +    if (s->multi_conn > MAX_MULTI_CONN) {
+> +        s->multi_conn = MAX_MULTI_CONN;
+> +    }
 
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index 865413c08f07..2d0918a93ff6 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -314,8 +314,17 @@ void cpu_loop(CPUX86State *env)
-     }
- }
- 
-+static void target_cpu_free(void *obj)
-+{
-+    CPUArchState *env = ((CPUState *)obj)->env_ptr;
-+    target_munmap(env->gdt.base, sizeof(uint64_t) * TARGET_GDT_ENTRIES);
-+    g_free(obj);
-+}
-+
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- {
-+    CPUState *cpu = env_cpu(env);
-+    OBJECT(cpu)->free = target_cpu_free;
-     env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
-     env->hflags |= HF_PE_MASK | HF_CPL_MASK;
-     if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 798fdc0bce8e..47b0c0fc4394 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -238,6 +238,14 @@ CPUArchState *cpu_copy(CPUArchState *env)
- 
-     new_cpu->tcg_cflags = cpu->tcg_cflags;
-     memcpy(new_env, env, sizeof(CPUArchState));
-+#if defined(TARGET_I386) || defined(TARGET_X86_64)
-+    new_env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
-+                                    PROT_READ | PROT_WRITE,
-+                                    MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+    memcpy(g2h_untagged(new_env->gdt.base), g2h_untagged(env->gdt.base),
-+           sizeof(uint64_t) * TARGET_GDT_ENTRIES);
-+    OBJECT(new_cpu)->free = OBJECT(cpu)->free;
-+#endif
- 
-     /* Clone all break/watchpoints.
-        Note: Once we support ptrace with hw-debug register access, make sure
+This silently ignores out-of-range values (negative, greater than 16)
+and treats 0 as a synonym for 1.  The latter I'm okay with, the former
+I wonder if we should instead raise an error that the user is
+requesting something we can't honor, instead of silently bounding it.
+
+>  
+>      ret = 0;
+>  
+> @@ -1912,6 +1927,15 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+>  
+>      nbd_client_connection_enable_retry(s->conn);
+>  
+> +    /*
+> +     * We set s->multi_conn in nbd_process_options above, but now that
+> +     * we have connected if the server doesn't advertise that it is
+
+s/connected/connected,/
+
+> +     * safe for multi-conn, force it to 1.
+> +     */
+> +    if (!(s->info.flags & NBD_FLAG_CAN_MULTI_CONN)) {
+> +        s->multi_conn = 1;
+> +    }
+> +
+>      return 0;
+
+Is there an intended QAPI counterpart for this command?  We'll need
+that if it is to be set during the command line of
+qemu-storage-daemon.
+
 -- 
-2.39.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
