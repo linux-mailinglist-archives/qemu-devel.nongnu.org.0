@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD2B6B3B0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDBB6B3AE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:41:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZBp-0006zn-FJ; Fri, 10 Mar 2023 04:37:29 -0500
+	id 1paZBn-0006sY-Bq; Fri, 10 Mar 2023 04:37:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZBl-0006ht-69
+ id 1paZBl-0006iI-8c
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:37:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZBj-00004u-AD
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:37:24 -0500
+ id 1paZBj-00004y-KN
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:37:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678441042;
+ s=mimecast20190719; t=1678441043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=anvdK/2eIO3AwmfLoEGqQwXaTcwJkaxymy1z+CPwLaE=;
- b=WoK3uTMz7/0Py9BIT81anmMIZFhnjmEx2uFbfGbwn5LyL4GqylhqbYnU3dA9WVYuxhLIR5
- qVkGG2rirnfTkNOR/Rt96vd30Lr6x8co63YmWIssSr+9XHkGq3MP/eoYB9XXZ+U2rp0JaM
- FtDyLGKM3JOQRloIHYVC3DR12q5yZCM=
+ bh=aEBetiDaMkDNBsywl2bM7y1ypQmFiG8L6J2ljxol76w=;
+ b=RT2+6ZSLy2EKHJWyKiJs3ETO05Kc9Pd4O3RBE1XkhjcdYFxKs3amXmmAp7UWoWxGdWnWdl
+ BQmzvDgekeJPwO8DlnwsJB7X3kVeugCBtm04qEAUJyz+qQf5QIgUWUG/+zBM3z83TOZHmw
+ spMTeW6aII3bLwvPlPBCPr25RjVxgmM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-541-fVrlQNqzOlC1DHNjaAhreQ-1; Fri, 10 Mar 2023 04:37:18 -0500
-X-MC-Unique: fVrlQNqzOlC1DHNjaAhreQ-1
+ us-mta-624-xlykdPp2N3qSYUCauv61cw-1; Fri, 10 Mar 2023 04:37:21 -0500
+X-MC-Unique: xlykdPp2N3qSYUCauv61cw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA5D31C0754E;
- Fri, 10 Mar 2023 09:37:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38FEF1C07546;
+ Fri, 10 Mar 2023 09:37:21 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95B6540BC781;
- Fri, 10 Mar 2023 09:37:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E60740C945A;
+ Fri, 10 Mar 2023 09:37:18 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Thomas Huth <thuth@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 39/44] tests/qtest/e1000e-test: Fabricate ethernet header
-Date: Fri, 10 Mar 2023 17:35:21 +0800
-Message-Id: <20230310093526.30828-40-jasowang@redhat.com>
+Subject: [PULL V2 40/44] tests/qtest/libqos/e1000e: Export macreg functions
+Date: Fri, 10 Mar 2023 17:35:22 +0800
+Message-Id: <20230310093526.30828-41-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,114 +82,62 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-e1000e understands ethernet header so fabricate something convincing.
+They will be useful for igb testing.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- tests/qtest/e1000e-test.c   | 25 +++++++++++++++----------
- tests/qtest/libqos/e1000e.h |  2 ++
- 2 files changed, 17 insertions(+), 10 deletions(-)
+ tests/qtest/libqos/e1000e.c | 12 ------------
+ tests/qtest/libqos/e1000e.h | 12 ++++++++++++
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-index b63a4d3..de9738f 100644
---- a/tests/qtest/e1000e-test.c
-+++ b/tests/qtest/e1000e-test.c
-@@ -27,6 +27,7 @@
- #include "qemu/osdep.h"
- #include "libqtest-single.h"
- #include "libqos/pci-pc.h"
-+#include "net/eth.h"
- #include "qemu/sockets.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
-@@ -35,9 +36,13 @@
- #include "libqos/e1000e.h"
- #include "hw/net/e1000_regs.h"
+diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
+index 28fb305..925654c 100644
+--- a/tests/qtest/libqos/e1000e.c
++++ b/tests/qtest/libqos/e1000e.c
+@@ -36,18 +36,6 @@
  
-+static const struct eth_header packet = {
-+    .h_dest = E1000E_ADDRESS,
-+    .h_source = E1000E_ADDRESS,
-+};
-+
- static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
+ #define E1000E_RING_LEN (0x1000)
+ 
+-static void e1000e_macreg_write(QE1000E *d, uint32_t reg, uint32_t val)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    qpci_io_writel(&d_pci->pci_dev, d_pci->mac_regs, reg, val);
+-}
+-
+-static uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    return qpci_io_readl(&d_pci->pci_dev, d_pci->mac_regs, reg);
+-}
+-
+ void e1000e_tx_ring_push(QE1000E *d, void *descr)
  {
--    static const char test[] = "TEST";
-     struct e1000_tx_desc descr;
-     char buffer[64];
-     int ret;
-@@ -45,7 +50,7 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
- 
-     /* Prepare test data buffer */
-     uint64_t data = guest_alloc(alloc, sizeof(buffer));
--    memwrite(data, test, sizeof(test));
-+    memwrite(data, &packet, sizeof(packet));
- 
-     /* Prepare TX descriptor */
-     memset(&descr, 0, sizeof(descr));
-@@ -71,7 +76,7 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
-     g_assert_cmpint(ret, == , sizeof(recv_len));
-     ret = recv(test_sockets[0], buffer, sizeof(buffer), 0);
-     g_assert_cmpint(ret, ==, sizeof(buffer));
--    g_assert_cmpstr(buffer, == , test);
-+    g_assert_false(memcmp(buffer, &packet, sizeof(packet)));
- 
-     /* Free test data buffer */
-     guest_free(alloc, data);
-@@ -81,15 +86,15 @@ static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator
- {
-     union e1000_rx_desc_extended descr;
- 
--    char test[] = "TEST";
--    int len = htonl(sizeof(test));
-+    struct eth_header test_iov = packet;
-+    int len = htonl(sizeof(packet));
-     struct iovec iov[] = {
-         {
-             .iov_base = &len,
-             .iov_len = sizeof(len),
-         },{
--            .iov_base = test,
--            .iov_len = sizeof(test),
-+            .iov_base = &test_iov,
-+            .iov_len = sizeof(packet),
-         },
-     };
- 
-@@ -97,8 +102,8 @@ static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator
-     int ret;
- 
-     /* Send a dummy packet to device's socket*/
--    ret = iov_send(test_sockets[0], iov, 2, 0, sizeof(len) + sizeof(test));
--    g_assert_cmpint(ret, == , sizeof(test) + sizeof(len));
-+    ret = iov_send(test_sockets[0], iov, 2, 0, sizeof(len) + sizeof(packet));
-+    g_assert_cmpint(ret, == , sizeof(packet) + sizeof(len));
- 
-     /* Prepare test data buffer */
-     uint64_t data = guest_alloc(alloc, sizeof(buffer));
-@@ -119,7 +124,7 @@ static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator
- 
-     /* Check data sent to the backend */
-     memread(data, buffer, sizeof(buffer));
--    g_assert_cmpstr(buffer, == , test);
-+    g_assert_false(memcmp(buffer, &packet, sizeof(packet)));
- 
-     /* Free test data buffer */
-     guest_free(alloc, data);
+     QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
 diff --git a/tests/qtest/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
-index 091ce13..5e2b201 100644
+index 5e2b201..30643c8 100644
 --- a/tests/qtest/libqos/e1000e.h
 +++ b/tests/qtest/libqos/e1000e.h
-@@ -25,6 +25,8 @@
- #define E1000E_RX0_MSG_ID           (0)
- #define E1000E_TX0_MSG_ID           (1)
+@@ -42,6 +42,18 @@ struct QE1000E_PCI {
+     QE1000E e1000e;
+ };
  
-+#define E1000E_ADDRESS { 0x52, 0x54, 0x00, 0x12, 0x34, 0x56 }
++static inline void e1000e_macreg_write(QE1000E *d, uint32_t reg, uint32_t val)
++{
++    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
++    qpci_io_writel(&d_pci->pci_dev, d_pci->mac_regs, reg, val);
++}
 +
- typedef struct QE1000E QE1000E;
- typedef struct QE1000E_PCI QE1000E_PCI;
- 
++static inline uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
++{
++    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
++    return qpci_io_readl(&d_pci->pci_dev, d_pci->mac_regs, reg);
++}
++
+ void e1000e_wait_isr(QE1000E *d, uint16_t msg_id);
+ void e1000e_tx_ring_push(QE1000E *d, void *descr);
+ void e1000e_rx_ring_push(QE1000E *d, void *descr);
 -- 
 2.7.4
 
