@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B1A6B3ACB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:38:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850196B3ACD
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:39:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZAy-0003kU-3s; Fri, 10 Mar 2023 04:36:36 -0500
+	id 1paZAx-0003hB-8e; Fri, 10 Mar 2023 04:36:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAv-0003Zk-Dd
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1paZAu-0003Wb-Go
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAt-0008O4-Gp
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:33 -0500
+ id 1paZAs-0008No-AX
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678440991;
+ s=mimecast20190719; t=1678440989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CTQ3R6E/qbj3JCR54sI1bZNLu02x1VgFh7tt3eRCBF4=;
- b=fr3wHZM4bMNvmRybfD+JyDtS/VwsNmHb460hF3/dDDGocH4/X4dzXeJWPND57JkIe0YzLc
- ORn6y7bcj5+DH8qARVZmyk88DRA6z/r0AnaghZyCzyqxbOWkCzWCBjBCjG7gqpp8iTVIj5
- XjSLtESK2awUzNcWiShqn29Z+1YVh9s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qXn9/2GiqSyQmfcNr+QM084DhjBQtlYvWAtQV3RBiDo=;
+ b=EVwXL3vOijE27GDKik1sH2jjgb0Yu0ggswc2p7aawEDQEV4NGkZDhHyAgPc21tuxR3hud4
+ 90xlTag7nqckhIuP3nR4DK3MJDxfxXvzH/oUbdVOVCegBB9ZZNDYXTm+FOKBWsRbK7+Lof
+ 8XbwFuqzSSqy3xa8wxnCogRTTUfENh4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-2E5eBJtnNFCOY-A12EKqlQ-1; Fri, 10 Mar 2023 04:36:25 -0500
-X-MC-Unique: 2E5eBJtnNFCOY-A12EKqlQ-1
+ us-mta-633-x2iIMyrWMyungdlAtXAfaQ-1; Fri, 10 Mar 2023 04:36:28 -0500
+X-MC-Unique: x2iIMyrWMyungdlAtXAfaQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7943C18ABF83;
- Fri, 10 Mar 2023 09:36:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 064333C0DDCF;
+ Fri, 10 Mar 2023 09:36:28 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9113B40BC781;
- Fri, 10 Mar 2023 09:36:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E04340C945A;
+ Fri, 10 Mar 2023 09:36:25 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 20/44] e1000x: Alter the signature of e1000x_is_vlan_packet
-Date: Fri, 10 Mar 2023 17:35:02 +0800
-Message-Id: <20230310093526.30828-21-jasowang@redhat.com>
+Subject: [PULL V2 21/44] net: Strip virtio-net header when dumping
+Date: Fri, 10 Mar 2023 17:35:03 +0800
+Message-Id: <20230310093526.30828-22-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,42 +81,179 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-e1000x_is_vlan_packet() had a pointer to uint8_t as a parameter, but
-it does not have to be uint8_t. Change the type to void *.
+filter-dump specifiees Ethernet as PCAP LinkType, which does not expect
+virtio-net header. Having virtio-net header in such PCAP file breaks
+PCAP unconsumable. Unfortunately currently there is no LinkType for
+virtio-net so for now strip virtio-net header to convert the output to
+Ethernet.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000x_common.c | 2 +-
- hw/net/e1000x_common.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/net/net.h |  6 ++++++
+ net/dump.c        | 11 +++++++----
+ net/net.c         | 18 ++++++++++++++++++
+ net/tap.c         | 16 ++++++++++++++++
+ 4 files changed, 47 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
-index b3bbf31..e6387dd 100644
---- a/hw/net/e1000x_common.c
-+++ b/hw/net/e1000x_common.c
-@@ -47,7 +47,7 @@ bool e1000x_rx_ready(PCIDevice *d, uint32_t *mac)
-     return true;
+diff --git a/include/net/net.h b/include/net/net.h
+index 1d88621..1448d00 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -56,8 +56,10 @@ typedef RxFilterInfo *(QueryRxFilter)(NetClientState *);
+ typedef bool (HasUfo)(NetClientState *);
+ typedef bool (HasVnetHdr)(NetClientState *);
+ typedef bool (HasVnetHdrLen)(NetClientState *, int);
++typedef bool (GetUsingVnetHdr)(NetClientState *);
+ typedef void (UsingVnetHdr)(NetClientState *, bool);
+ typedef void (SetOffload)(NetClientState *, int, int, int, int, int);
++typedef int (GetVnetHdrLen)(NetClientState *);
+ typedef void (SetVnetHdrLen)(NetClientState *, int);
+ typedef int (SetVnetLE)(NetClientState *, bool);
+ typedef int (SetVnetBE)(NetClientState *, bool);
+@@ -84,8 +86,10 @@ typedef struct NetClientInfo {
+     HasUfo *has_ufo;
+     HasVnetHdr *has_vnet_hdr;
+     HasVnetHdrLen *has_vnet_hdr_len;
++    GetUsingVnetHdr *get_using_vnet_hdr;
+     UsingVnetHdr *using_vnet_hdr;
+     SetOffload *set_offload;
++    GetVnetHdrLen *get_vnet_hdr_len;
+     SetVnetHdrLen *set_vnet_hdr_len;
+     SetVnetLE *set_vnet_le;
+     SetVnetBE *set_vnet_be;
+@@ -185,9 +189,11 @@ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
+ bool qemu_has_ufo(NetClientState *nc);
+ bool qemu_has_vnet_hdr(NetClientState *nc);
+ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len);
++bool qemu_get_using_vnet_hdr(NetClientState *nc);
+ void qemu_using_vnet_hdr(NetClientState *nc, bool enable);
+ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
+                       int ecn, int ufo);
++int qemu_get_vnet_hdr_len(NetClientState *nc);
+ void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
+ int qemu_set_vnet_le(NetClientState *nc, bool is_le);
+ int qemu_set_vnet_be(NetClientState *nc, bool is_be);
+diff --git a/net/dump.c b/net/dump.c
+index 6a63b15..7d05f16 100644
+--- a/net/dump.c
++++ b/net/dump.c
+@@ -61,12 +61,13 @@ struct pcap_sf_pkthdr {
+     uint32_t len;
+ };
+ 
+-static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
++static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt,
++                                int offset)
+ {
+     struct pcap_sf_pkthdr hdr;
+     int64_t ts;
+     int caplen;
+-    size_t size = iov_size(iov, cnt);
++    size_t size = iov_size(iov, cnt) - offset;
+     struct iovec dumpiov[cnt + 1];
+ 
+     /* Early return in case of previous error. */
+@@ -84,7 +85,7 @@ static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
+ 
+     dumpiov[0].iov_base = &hdr;
+     dumpiov[0].iov_len = sizeof(hdr);
+-    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
++    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, offset, caplen);
+ 
+     if (writev(s->fd, dumpiov, cnt + 1) != sizeof(hdr) + caplen) {
+         error_report("network dump write error - stopping dump");
+@@ -153,8 +154,10 @@ static ssize_t filter_dump_receive_iov(NetFilterState *nf, NetClientState *sndr,
+                                        int iovcnt, NetPacketSent *sent_cb)
+ {
+     NetFilterDumpState *nfds = FILTER_DUMP(nf);
++    int offset = qemu_get_using_vnet_hdr(nf->netdev) ?
++                 qemu_get_vnet_hdr_len(nf->netdev) : 0;
+ 
+-    dump_receive_iov(&nfds->ds, iov, iovcnt);
++    dump_receive_iov(&nfds->ds, iov, iovcnt, offset);
+     return 0;
  }
  
--bool e1000x_is_vlan_packet(const uint8_t *buf, uint16_t vet)
-+bool e1000x_is_vlan_packet(const void *buf, uint16_t vet)
+diff --git a/net/net.c b/net/net.c
+index ebc7ce0..6492ad5 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -513,6 +513,15 @@ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len)
+     return nc->info->has_vnet_hdr_len(nc, len);
+ }
+ 
++bool qemu_get_using_vnet_hdr(NetClientState *nc)
++{
++    if (!nc || !nc->info->get_using_vnet_hdr) {
++        return false;
++    }
++
++    return nc->info->get_using_vnet_hdr(nc);
++}
++
+ void qemu_using_vnet_hdr(NetClientState *nc, bool enable)
  {
-     uint16_t eth_proto = lduw_be_p(&PKT_GET_ETH_HDR(buf)->h_proto);
-     bool res = (eth_proto == vet);
-diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
-index b991d81..86a31b6 100644
---- a/hw/net/e1000x_common.h
-+++ b/hw/net/e1000x_common.h
-@@ -178,7 +178,7 @@ uint32_t e1000x_rxbufsize(uint32_t rctl);
+     if (!nc || !nc->info->using_vnet_hdr) {
+@@ -532,6 +541,15 @@ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
+     nc->info->set_offload(nc, csum, tso4, tso6, ecn, ufo);
+ }
  
- bool e1000x_rx_ready(PCIDevice *d, uint32_t *mac);
++int qemu_get_vnet_hdr_len(NetClientState *nc)
++{
++    if (!nc || !nc->info->get_vnet_hdr_len) {
++        return 0;
++    }
++
++    return nc->info->get_vnet_hdr_len(nc);
++}
++
+ void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
+ {
+     if (!nc || !nc->info->set_vnet_hdr_len) {
+diff --git a/net/tap.c b/net/tap.c
+index 7d7bc1d..1bf085d 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -255,6 +255,13 @@ static bool tap_has_vnet_hdr_len(NetClientState *nc, int len)
+     return !!tap_probe_vnet_hdr_len(s->fd, len);
+ }
  
--bool e1000x_is_vlan_packet(const uint8_t *buf, uint16_t vet);
-+bool e1000x_is_vlan_packet(const void *buf, uint16_t vet);
++static int tap_get_vnet_hdr_len(NetClientState *nc)
++{
++    TAPState *s = DO_UPCAST(TAPState, nc, nc);
++
++    return s->host_vnet_hdr_len;
++}
++
+ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
+ {
+     TAPState *s = DO_UPCAST(TAPState, nc, nc);
+@@ -268,6 +275,13 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
+     s->host_vnet_hdr_len = len;
+ }
  
- bool e1000x_rx_group_filter(uint32_t *mac, const uint8_t *buf);
- 
++static bool tap_get_using_vnet_hdr(NetClientState *nc)
++{
++    TAPState *s = DO_UPCAST(TAPState, nc, nc);
++
++    return s->using_vnet_hdr;
++}
++
+ static void tap_using_vnet_hdr(NetClientState *nc, bool using_vnet_hdr)
+ {
+     TAPState *s = DO_UPCAST(TAPState, nc, nc);
+@@ -372,8 +386,10 @@ static NetClientInfo net_tap_info = {
+     .has_ufo = tap_has_ufo,
+     .has_vnet_hdr = tap_has_vnet_hdr,
+     .has_vnet_hdr_len = tap_has_vnet_hdr_len,
++    .get_using_vnet_hdr = tap_get_using_vnet_hdr,
+     .using_vnet_hdr = tap_using_vnet_hdr,
+     .set_offload = tap_set_offload,
++    .get_vnet_hdr_len = tap_get_vnet_hdr_len,
+     .set_vnet_hdr_len = tap_set_vnet_hdr_len,
+     .set_vnet_le = tap_set_vnet_le,
+     .set_vnet_be = tap_set_vnet_be,
 -- 
 2.7.4
 
