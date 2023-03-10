@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406066B3AF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301F36B3B35
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:46:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZAt-0003La-JZ; Fri, 10 Mar 2023 04:36:31 -0500
+	id 1paZK8-0008Lw-OR; Fri, 10 Mar 2023 04:46:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1paZAk-0003EM-Gz
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1paZK6-0008L4-LM
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:46:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1paZAi-0008Ly-Vh
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:22 -0500
+ id 1paZK5-0001qN-32
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:46:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678440980;
+ s=mimecast20190719; t=1678441559;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oh75HnwSIDMAMf1ZPyebV1pwhbcjuiRltRl7ybLGu+Y=;
- b=RH+jcIZuBjdrZtWrklPJ3d0NE4C7B8Bq1GWDgW3Uo+6L1KI6ImaIQPp6RVvUagpViZB94O
- yJefOCrTWaIlhdquZpAEllN9csdyXsYkd49NnWuMf3rtNKaMkyVWHdXEs/Z18uq+QddmRV
- MS2+ucCK656PNJfm2QMX/zWBVxENhDY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eZjkCcy1RoEMLrsq5spZv3qzuc4S0roVWHW4eMBsq9w=;
+ b=DawipLOBIcnfJUzZnn8Jgj3ISWJuhpjquXbRKid1MUVl8CuBQ+7WlnEmPXckvdIllRVBil
+ CbAwbvnDoK9bQ5x616QhqAK2S8Ju0NB3LX2tzf3b1sHdqTwGgEFcfOXDi34VLFVNGUKN2q
+ WZUBZAXpO8HYSeuE8wovI1QailzZQ5w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-mrpUEQh6O02JavR_HaXsIg-1; Fri, 10 Mar 2023 04:36:16 -0500
-X-MC-Unique: mrpUEQh6O02JavR_HaXsIg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-355-_PTJNPY-O4u8ItJxGLCCBA-1; Fri, 10 Mar 2023 04:45:57 -0500
+X-MC-Unique: _PTJNPY-O4u8ItJxGLCCBA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7589785A588;
- Fri, 10 Mar 2023 09:36:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 266A93806112;
+ Fri, 10 Mar 2023 09:45:57 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 865072166B2C;
- Fri, 10 Mar 2023 09:36:15 +0000 (UTC)
-Date: Fri, 10 Mar 2023 09:36:13 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4069D2026D4B;
+ Fri, 10 Mar 2023 09:45:54 +0000 (UTC)
+Date: Fri, 10 Mar 2023 09:45:48 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: michael.roth@amd.com, kkostiuk@redhat.com, marcandre.lureau@gmail.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 3/3] qga: test: Add tests for `merged` flag
-Message-ID: <ZAr6DfC0Fa51neXy@redhat.com>
-References: <cover.1678401400.git.dxu@dxuuu.xyz>
- <20a27290153aa05c4076d71c665f1090112765aa.1678401400.git.dxu@dxuuu.xyz>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v2 02/18] ui/dbus: unregister clipboard on connection close
+Message-ID: <ZAr8TAOKTAaFnRHQ@redhat.com>
+References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
+ <20230307115637.2464377-3-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20a27290153aa05c4076d71c665f1090112765aa.1678401400.git.dxu@dxuuu.xyz>
+In-Reply-To: <20230307115637.2464377-3-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,19 +86,20 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 09, 2023 at 03:40:58PM -0700, Daniel Xu wrote:
-> This commit adds a test to ensure `merged` functions as expected.
-> We also add a negative test to ensure we haven't regressed previous
-> functionality.
+On Tue, Mar 07, 2023 at 03:56:21PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+> Fixes unregistration with p2p connections, since they don't have an
+> associated name owner.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  tests/unit/test-qga.c | 158 +++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 141 insertions(+), 17 deletions(-)
+>  ui/dbus-clipboard.c | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
- 
+
 With regards,
 Daniel
 -- 
