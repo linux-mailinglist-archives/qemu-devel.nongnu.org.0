@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC7E6B50FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6651A6B5101
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:35:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paiVn-0007Ip-0k; Fri, 10 Mar 2023 14:34:43 -0500
+	id 1paiVv-0007Vm-Ej; Fri, 10 Mar 2023 14:34:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paiVZ-0007Ez-CT
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:30 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ id 1paiVp-0007UA-Ub
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:45 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paiVW-0000jk-9m
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:28 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id h31so3683160pgl.6
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:34:25 -0800 (PST)
+ id 1paiVo-0000nr-26
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:34:45 -0500
+Received: by mail-pl1-x632.google.com with SMTP id v11so6733829plz.8
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:34:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678476864;
+ d=linaro.org; s=google; t=1678476882;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/2aCjQP1TaJLpVXcJP+cRv14HDdEAS4EI7lYCNYwteo=;
- b=LkVoe40buFzwzawBLRJsfBjcpvazEGC0ZnLzZx0pmDoMeSljga7v0GYlR2P9iPhlW8
- 2OhKQ8eX5W6FF+KUR6bHiH/ZXUcKscwnVMZTdZVG4WOQHvRvQH9P/AZIxRSW2zazdslO
- SCOGXZwqfbhE2rkJOFgCS2OCLuJMspN5iGF6bE1tOr8r4i41FCV9wPLHO74NU83MqqAN
- 4Fzo87TQ7vkR6hrpV2BcUkStvMRtSmrERCcnS3rkCvzYn+LkPtJN9Czb7Ga+Z9yRL3hq
- LWBGMsWsM3W6GouwoO6mxxdnMERHCMG5SkTuWiQVglA2QNnVBn/qeUJbMKSRsIkswj0i
- jwVA==
+ bh=KcvJSFloV2UM74PYdzh3vseeIocAoU+nM6qIsPFnc7o=;
+ b=qfgT2JezmHlBefhmwSI7MWS8R1+8PS2VsXMC1Ub8cAfgCj8bt4Fg2p62JfXm3ZIIeI
+ NeGQURTKBwtmfjguaUX66lqEvOCQJXOxG4hNZJoj+PnGX1gyDbk28ELa91gbbKXJWRi8
+ YEB5b5M+k8Jzp+bichZfAZSdqv3SziPoMwAX3vLj0oZc67rEY7YgwFu4s0ghkLz7aA9R
+ 31zNv5xItZpLlPHYu/BWxoTrUMyDs3FeIAsQ5y8D+V24kp2yQhQNuxu5UpCtD1Kufykb
+ 9O6tbuKUWFA3vratSFfRfPHtvxbls8EbsV2X3nPfNFYFKeBss3r4iO+pjdzw1ZgopWDp
+ iJpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678476864;
+ d=1e100.net; s=20210112; t=1678476882;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/2aCjQP1TaJLpVXcJP+cRv14HDdEAS4EI7lYCNYwteo=;
- b=I5DcGzCkTyQTdECZoeGd7Mrtu2d/vnGMb6LzVnLOtu76qeSz2NEa+csvjEzSxfmRo6
- uNttDwAd+aGadOVwBzybRm10iq5H0i3jSXYCmNWTm8v4SeiybTw9N3nu301jlShptRoY
- eeGmwzU7tW1h1/B0JG21lKc2T8YycmIUjMI4aycNx6qROwpcubcQUD6tjzpvBwhMt8aN
- Gfr3iplW7IzUqJFjabw+2RIqYzztr08V3OwOc4z+UAqTDRAGFktW0fYj/iZ49M4jPaEd
- FmnZx2OnbWzT82W4+OdcHAYV5qq3QAeDCRmuEeMoabs05iO7x2hxddTIrXfHfp7wFENo
- kNuA==
-X-Gm-Message-State: AO0yUKXsWVukJUB/l4lQsjBZ1NMGyyVIoJqyIIcgKSIv7eSdjj+623U3
- FOuc7oXpYVR8ItUhqACOxSaq6g==
-X-Google-Smtp-Source: AK7set9v2kLa8/ITlPW8GW+lAXbWyjAlycLZcY/Uf9REapzw2k9PvJZBZsBoYpf+OX24et0wfLSfHg==
-X-Received: by 2002:aa7:9514:0:b0:5df:5310:e2ee with SMTP id
- b20-20020aa79514000000b005df5310e2eemr22636321pfp.29.1678476864599; 
- Fri, 10 Mar 2023 11:34:24 -0800 (PST)
+ bh=KcvJSFloV2UM74PYdzh3vseeIocAoU+nM6qIsPFnc7o=;
+ b=C+OhABSlkKwcv468iQ8OC2bJlulytdF3A78OpxNrvzK4WM3x3BAuTJx19+4fQ85RSh
+ nGz8Iw+dRn5esPZ4opWu+9Pd5gd1+PSxVMsaL8pExePl4jyDhSGnflREh35lwLEO7sHa
+ YcKqkMU2jhO68r2tJAAMOvJhkkeHAgipIQSU9bw+LL0BelH5mq17TgqjlcGkNFDudw3u
+ xdBP1P3bBepVBqIh9GLA7nlFUChEUJcLQ03dd8pHZp3XLqGkj4bcpkkNVZsipxNo5ZSv
+ +XwGOJliHsw/gVP7zkFOtQZ4pui/46B50usXXk5aYXkhX/7MfVo7rUl9rRd4/DvRWAfI
+ YZeQ==
+X-Gm-Message-State: AO0yUKWSargqJ5jO+iA0oPY7MBi58+A/G9uIAn474o74NZhHjL67jPuZ
+ mHp7MuKFqw4YmL2g95JzGRwfNw==
+X-Google-Smtp-Source: AK7set+9xJS3Vtbayyi7g7/5i0Uv/d/FQEjB1CftrFZqaNLZsmlapTqkrICqug2dnb8JA5k5zzv3vA==
+X-Received: by 2002:a17:90a:1c3:b0:237:3f83:61f3 with SMTP id
+ 3-20020a17090a01c300b002373f8361f3mr27591483pjd.16.1678476882487; 
+ Fri, 10 Mar 2023 11:34:42 -0800 (PST)
 Received: from ?IPV6:2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62?
  ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
  by smtp.gmail.com with ESMTPSA id
- j26-20020aa78dda000000b005810c4286d6sm213711pfr.0.2023.03.10.11.34.23
+ f1-20020a17090a664100b002353082958csm315166pjm.10.2023.03.10.11.34.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 11:34:24 -0800 (PST)
-Message-ID: <47b25222-16a1-c058-dd74-7ffbcf20151c@linaro.org>
-Date: Fri, 10 Mar 2023 11:34:22 -0800
+ Fri, 10 Mar 2023 11:34:41 -0800 (PST)
+Message-ID: <a34c69b0-2725-9cc1-4c79-0d3e5baaf953@linaro.org>
+Date: Fri, 10 Mar 2023 11:34:40 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 10/12] target/s390x: Handle STGRL to non-aligned addresses
+Subject: Re: [PATCH 11/12] target/s390x: Update do_unaligned_access() comment
 Content-Language: en-US
 To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+ qemu-devel@nongnu.org
 References: <20230310174223.944843-1-iii@linux.ibm.com>
- <20230310174223.944843-11-iii@linux.ibm.com>
+ <20230310174223.944843-12-iii@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230310174223.944843-11-iii@linux.ibm.com>
+In-Reply-To: <20230310174223.944843-12-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,16 +97,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/10/23 09:42, Ilya Leoshkevich wrote:
-> Use MO_ALIGN_8 and let do_unaligned_access() generate a specification
-> exception.
+> Relative long instructions now depend on do_unaligned_access() too.
 > 
-> Reported-by: Nina Schoetterl-Glausch<nsg@linux.ibm.com>
-> Suggested-by: Nina Schoetterl-Glausch<nsg@linux.ibm.com>
 > Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
 > ---
->   target/s390x/tcg/insn-data.h.inc | 8 ++++----
->   target/s390x/tcg/translate.c     | 3 ++-
->   2 files changed, 6 insertions(+), 5 deletions(-)
+>   target/s390x/tcg/excp_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
