@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B946B3A05
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:16:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E886B39FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:16:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paYo0-0007no-GB; Fri, 10 Mar 2023 04:12:52 -0500
+	id 1paYnz-0007mU-9f; Fri, 10 Mar 2023 04:12:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1paYnw-0007ko-PF
+ id 1paYnw-0007kF-At
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:12:48 -0500
 Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1paYnq-0002aP-VQ
+ id 1paYnr-0002aS-2P
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:12:48 -0500
 Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
  by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
- id 1paYne-00GpVx-Fq; Fri, 10 Mar 2023 09:12:30 +0000
+ id 1paYne-00GpVx-NG; Fri, 10 Mar 2023 09:12:30 +0000
 From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org
-Subject: [PATCH 27/45] target/riscv: Add vaeskf2.vi decoding,
- translation and execution support
-Date: Fri, 10 Mar 2023 09:11:57 +0000
-Message-Id: <20230310091215.931644-28-lawrence.hunter@codethink.co.uk>
+Subject: [PATCH 28/45] target/riscv: Expose zvkned cpu property
+Date: Fri, 10 Mar 2023 09:11:58 +0000
+Message-Id: <20230310091215.931644-29-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310091215.931644-1-lawrence.hunter@codethink.co.uk>
 References: <20230310091215.931644-1-lawrence.hunter@codethink.co.uk>
@@ -62,119 +61,21 @@ From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 
 Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 ---
- target/riscv/helper.h                        |  1 +
- target/riscv/insn32.decode                   |  1 +
- target/riscv/insn_trans/trans_rvzvkned.c.inc | 13 +++++
- target/riscv/vcrypto_helper.c                | 59 ++++++++++++++++++++
- 4 files changed, 74 insertions(+)
+ target/riscv/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index e68ced7796..f07f261b7b 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1198,3 +1198,4 @@ DEF_HELPER_4(vaesdm_vv, void, ptr, ptr, env, i32)
- DEF_HELPER_4(vaesdm_vs, void, ptr, ptr, env, i32)
- DEF_HELPER_4(vaesz_vs, void, ptr, ptr, env, i32)
- DEF_HELPER_5(vaeskf1_vi, void, ptr, ptr, i32, env, i32)
-+DEF_HELPER_5(vaeskf2_vi, void, ptr, ptr, i32, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 0b3146c4f4..43dfd63e0d 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -938,3 +938,4 @@ vaesdm_vv       101000 1 ..... 00000 010 ..... 1110111 @r2_vm_1
- vaesdm_vs       101001 1 ..... 00000 010 ..... 1110111 @r2_vm_1
- vaesz_vs        101001 1 ..... 00111 010 ..... 1110111 @r2_vm_1
- vaeskf1_vi      100010 1 ..... ..... 010 ..... 1110111 @r_vm_1
-+vaeskf2_vi      101010 1 ..... ..... 010 ..... 1110111 @r_vm_1
-diff --git a/target/riscv/insn_trans/trans_rvzvkned.c.inc b/target/riscv/insn_trans/trans_rvzvkned.c.inc
-index c97780f468..c135b8f768 100644
---- a/target/riscv/insn_trans/trans_rvzvkned.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzvkned.c.inc
-@@ -154,4 +154,17 @@ static bool vaeskf1_check(DisasContext *s, arg_vaeskf1_vi * a)
-            require_align(a->rs2, s->lmul);
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 00e1d007a4..cd87eec919 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -1472,6 +1472,7 @@ static Property riscv_cpu_extensions[] = {
  
-+static bool vaeskf2_check(DisasContext *s, arg_vaeskf2_vi *a)
-+{
-+    return s->cfg_ptr->ext_zvkned == true &&
-+           require_rvv(s) &&
-+           vext_check_isa_ill(s) &&
-+           MAXSZ(s) >= (128 / 8) && /* EGW in bytes */
-+           s->vstart % 4 == 0 &&
-+           s->sew == MO_32 &&
-+           require_align(a->rd, s->lmul) &&
-+           require_align(a->rs2, s->lmul);
-+}
-+
- GEN_VI_UNMASKED_TRANS(vaeskf1_vi, vaeskf1_check, 4)
-+GEN_VI_UNMASKED_TRANS(vaeskf2_vi, vaeskf2_check, 4)
-diff --git a/target/riscv/vcrypto_helper.c b/target/riscv/vcrypto_helper.c
-index 619e7df0fc..4a50178676 100644
---- a/target/riscv/vcrypto_helper.c
-+++ b/target/riscv/vcrypto_helper.c
-@@ -393,3 +393,62 @@ void HELPER(vaeskf1_vi)(void *vd_vptr, void *vs2_vptr, uint32_t uimm,
-     /* set tail elements to 1s */
-     vext_set_elems_1s(vd, vta, vl * 4, total_elems * 4);
- }
-+
-+void HELPER(vaeskf2_vi)(void *vd_vptr, void *vs2_vptr, uint32_t uimm,
-+                        CPURISCVState *env, uint32_t desc)
-+{
-+    uint32_t *vd = vd_vptr;
-+    uint32_t *vs2 = vs2_vptr;
-+    uint32_t vl = env->vl;
-+    uint32_t total_elems = vext_get_total_elems(env, desc, 4);
-+    uint32_t vta = vext_vta(desc);
-+
-+    uimm &= 0b1111;
-+    if (uimm > 14 || uimm < 2) {
-+        uimm ^= 0b1000;
-+    }
-+
-+    for (uint32_t i = env->vstart / 4; i < env->vl / 4; i++) {
-+        uint32_t rk[12];
-+        static const uint32_t rcon[] = {
-+                0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000,
-+                0x20000000, 0x40000000, 0x80000000, 0x1B000000, 0x36000000,
-+        };
-+
-+        rk[0] = bswap32(vd[i * 4 + H4(0)]);
-+        rk[1] = bswap32(vd[i * 4 + H4(1)]);
-+        rk[2] = bswap32(vd[i * 4 + H4(2)]);
-+        rk[3] = bswap32(vd[i * 4 + H4(3)]);
-+        rk[4] = bswap32(vs2[i * 4 + H4(0)]);
-+        rk[5] = bswap32(vs2[i * 4 + H4(1)]);
-+        rk[6] = bswap32(vs2[i * 4 + H4(2)]);
-+        rk[7] = bswap32(vs2[i * 4 + H4(3)]);
-+
-+        if (uimm % 2 == 0) {
-+            rk[8] = rk[0] ^ (AES_Te4[(rk[7] >> 16) & 0xff] & 0xff000000) ^
-+                    (AES_Te4[(rk[7] >> 8) & 0xff] & 0x00ff0000) ^
-+                    (AES_Te4[(rk[7] >> 0) & 0xff] & 0x0000ff00) ^
-+                    (AES_Te4[(rk[7] >> 24) & 0xff] & 0x000000ff) ^
-+                    rcon[(uimm - 1) / 2];
-+            rk[9] = rk[1] ^ rk[8];
-+            rk[10] = rk[2] ^ rk[9];
-+            rk[11] = rk[3] ^ rk[10];
-+        } else {
-+            rk[8] = rk[0] ^ (AES_Te4[(rk[7] >> 24) & 0xff] & 0xff000000) ^
-+                    (AES_Te4[(rk[7] >> 16) & 0xff] & 0x00ff0000) ^
-+                    (AES_Te4[(rk[7] >> 8) & 0xff] & 0x0000ff00) ^
-+                    (AES_Te4[(rk[7] >> 0) & 0xff] & 0x000000ff);
-+            rk[9] = rk[1] ^ rk[8];
-+            rk[10] = rk[2] ^ rk[9];
-+            rk[11] = rk[3] ^ rk[10];
-+        }
-+
-+        vd[i * 4 + H4(0)] = bswap32(rk[8]);
-+        vd[i * 4 + H4(1)] = bswap32(rk[9]);
-+        vd[i * 4 + H4(2)] = bswap32(rk[10]);
-+        vd[i * 4 + H4(3)] = bswap32(rk[11]);
-+    }
-+    env->vstart = 0;
-+    /* set tail elements to 1s */
-+    vext_set_elems_1s(vd, vta, vl * 4, total_elems * 4);
-+}
+     /* Vector cryptography extensions */
+     DEFINE_PROP_BOOL("x-zvkb", RISCVCPU, cfg.ext_zvkb, false),
++    DEFINE_PROP_BOOL("x-zvkned", RISCVCPU, cfg.ext_zvkned, false),
+ 
+     DEFINE_PROP_END_OF_LIST(),
+ };
 -- 
 2.39.2
 
