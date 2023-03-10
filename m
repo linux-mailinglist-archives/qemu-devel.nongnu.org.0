@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1726B4F49
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:44:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD986B4F5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:48:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pagn9-0002W4-4c; Fri, 10 Mar 2023 12:44:37 -0500
+	id 1pagqU-0000f9-N8; Fri, 10 Mar 2023 12:47:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pagmo-0002OM-LK
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:44:10 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pagqS-0000eY-H3
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:47:56 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pagmm-0008Gj-VZ
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:44:10 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id h31so3504909pgl.6
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 09:44:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pagqP-0000u0-My
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:47:56 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id i5so6430993pla.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 09:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678470247;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tuiZ9a/hiVQeQ2ApwACp7vp+tO3Kq9zcHFaznjM4hZM=;
- b=WtmnzrB/6NPKmeSOvsh5H+YOnGmthqOy41Lzhg4FU0P6R4lR8YhzHxGvnPiD9Rbodh
- qFhkl6dwbaVOX2cmOM9QBAu0EK5KRWfwvmRh0X1sGtPzUsyQOTn1nAkaHcBwo+W5phcC
- 1EBnfTzwGXUWBz74fgMJKjKWJ9BuCi5po71XQWxGnoqkZMxmeEwI4DmysQ5kFIpBaLzv
- sQl7nvZd1UWpOVKFngezMHSDpKjk+04fw8fUVof7AxDxZjZz9gkzzN2OMAHC63TQdUDy
- C5UyI4Eh2WLUYLXtA68XZ+xyjhLTWqKMGzjb52XM86/1mqxpZs88v+q8AIOIjMKeWBUA
- irqQ==
+ d=linaro.org; s=google; t=1678470472;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mHuLcW6CZXp2/G/8uZuBsbRnSfvMp9s/ev/CpMxHZxQ=;
+ b=NQ5d4Eo76GkedUQMuZrll6ChJUhe8z6xVM7d/HFQV4PBgtu0aEL0jQNRgwFAsCehQy
+ dKG5jtmzZcM3biU7DuCchIyeHoeGTwn70YpqUul5FPIN8yzucR/y1mKVLzbqortIr2dj
+ MnGosMM0DlkrBqxKPO47RWFUq8IdFLWnFjJJrMwuffVM9kLXb2a2ARC5ychDq2FP+int
+ izqOBEwJywho2ryHbhqf9QCOCLAbQZYZ9bxCCQ2KWltGsCOrJFhtBBc+H4D+8qGK1kC7
+ 260PzE1ds/SXHKVeABIxeuc5eoDb9MA+O45AsfT6LkrMB6WFwBJy5L00MPvTLcYxze/k
+ v5Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678470247;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tuiZ9a/hiVQeQ2ApwACp7vp+tO3Kq9zcHFaznjM4hZM=;
- b=04EFEstIZa/6muY0N1pDLskW931k1B2TRUg7TylTciTR8am/UEify0H52kQkjlo5gX
- Qxhcy7E7/cWXRCa4mt3IsPl0IJAinncD0HOXrD5co9pMsu2b5xzMvhjS2gOJPEcW5NSI
- WZ0D4Z+fzODd+T97LItYyWJy/J8gOr+ck/5pcoQu83WSNnBF/SUzBHo4yHMLoq+lSEkX
- xoBaQzZHpxJC9k6w6AWv/Vv4Jiq7f01ni8laDua6dHgyq+JSlyYA3UjJHiZ9JlFSiCLH
- qLSAKjVeTvwd17KPHQqTDdE1OfxI4weIkObDBgGsJMlh967OGVIVe9sJoTOyj2Li+8oP
- 7jmg==
-X-Gm-Message-State: AO0yUKVgjYWmgezzSNU0UQXKQgE/thLPp+WeQc1pu5DFMWaZASOU3wyX
- Wz8kALVyUqNya+SXwMFzHbQKjg==
-X-Google-Smtp-Source: AK7set8MBn5nQNQ614WDNWoo8iSCmywBaGJphcvecesaLxN4Hju68G1x5ZI+6XzgIp4QCgcJrE5RxQ==
-X-Received: by 2002:a62:63c2:0:b0:5de:3c49:b06 with SMTP id
- x185-20020a6263c2000000b005de3c490b06mr5360858pfb.3.1678470247266; 
- Fri, 10 Mar 2023 09:44:07 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62?
- ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
- by smtp.gmail.com with ESMTPSA id
- 25-20020aa79219000000b005825b8e0540sm76177pfo.204.2023.03.10.09.44.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 09:44:06 -0800 (PST)
-Message-ID: <133f7c48-8b10-8b41-2b33-d593e46eea70@linaro.org>
-Date: Fri, 10 Mar 2023 09:44:04 -0800
+ d=1e100.net; s=20210112; t=1678470472;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mHuLcW6CZXp2/G/8uZuBsbRnSfvMp9s/ev/CpMxHZxQ=;
+ b=aKN1IJFKiZPhxUsBQZX65KXq8O7NrlFUBDYTzKErq02P5ErOY0MwbVk6gmpCqdJef3
+ a6dkxAy4ERmp9LQ90G9VtRt5mcip376FYg8Tqwh6JO/gllWkwVdtRL7ne76oCaGht9eX
+ aUnTysa2xccIFnsr3UUfkA24ruPSdQfD/aERFqrIidocaQdF4K1x664vrDMWl1+c5A9z
+ VwvQYMi9GdkFZbU7m2uIjt6vmef0UtnDSfMVH/1d+hfG1lS7uPaCu+BUQ/EH0OnX7ukp
+ aESTwi3EhM83k/QaNIxG4KN6Pql0ZR2VZWlOlJGoGeuIwp1X8LUlZnt2NDO9PzxSxVLt
+ Zoww==
+X-Gm-Message-State: AO0yUKWaos5MKsaIFWz5GQhGOFDoBMJXToq67zs1lJ9PdvNund71samc
+ YKHXaMP08LdMjuKRMrQ1cX3orowoikNZ1WnvizrgmQ==
+X-Google-Smtp-Source: AK7set/jslrXIKNTCbdQtVQtE4rxyAgOIAwvvA+PjcLOJG5yCaazrNa84XoIom/22PAtpr2keNE1KSAh/rey1vcmaK0=
+X-Received: by 2002:a17:903:1243:b0:19a:b151:eb83 with SMTP id
+ u3-20020a170903124300b0019ab151eb83mr9865747plh.13.1678470472141; Fri, 10 Mar
+ 2023 09:47:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Beraldo Leal <bleal@redhat.com>
 References: <20230310103123.2118519-1-alex.bennee@linaro.org>
  <20230310103123.2118519-10-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20230310103123.2118519-10-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Mar 2023 17:47:41 +0000
+Message-ID: <CAFEAcA89K6_-Uc0XmEa1q+_z_yuppq1kvh=uPfv9V80MBH=aQg@mail.gmail.com>
+Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,33 +92,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/10/23 02:31, Alex Bennée wrote:
+On Fri, 10 Mar 2023 at 10:31, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
 > You need a very new gdb to be able to run with pauth support otherwise
 > your likely to hit asserts and aborts. Disable pauth for now until we
 > can properly probe support in gdb.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/tcg/aarch64/Makefile.target | 2 ++
->   1 file changed, 2 insertions(+)
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+If it makes gdb fall over, then shouldn't we be disabling
+the pauth gdbstub stuff entirely ? Otherwise even if our
+tests are fine our users will not be...
 
-r~
-
-> 
-> diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-> index 9e91a20b0d..8ffde3b0ed 100644
-> --- a/tests/tcg/aarch64/Makefile.target
-> +++ b/tests/tcg/aarch64/Makefile.target
-> @@ -84,6 +84,8 @@ TESTS += sha512-vector
->   ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
->   GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
->   
-> +run-gdbstub-%: QEMU_OPTS=-cpu max,pauth=off
-> +
->   run-gdbstub-sysregs: sysregs
->   	$(call run-test, $@, $(GDB_SCRIPT) \
->   		--gdb $(HAVE_GDB_BIN) \
-
+-- PMM
 
