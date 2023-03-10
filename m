@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E4F6B53E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFFE6B53DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:10:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvj-0008Bg-2O; Fri, 10 Mar 2023 17:09:39 -0500
+	id 1pakvh-0008AU-E5; Fri, 10 Mar 2023 17:09:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakve-00089m-M8
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:34 -0500
-Received: from mout.kundenserver.de ([212.227.17.13])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvf-00089u-E2
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.74])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvc-0002yU-IU
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:34 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvd-0002ya-CZ
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:35 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M2wbS-1pZeSq45PA-003OJb; Fri, 10
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M4JVv-1paTwe1TRB-000N6w; Fri, 10
  Mar 2023 23:09:29 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 00/28] Linux user for 8.0 patches
-Date: Fri, 10 Mar 2023 23:08:59 +0100
-Message-Id: <20230310220927.326606-1-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+	Helge Deller <deller@gmx.de>
+Subject: [PULL 01/28] linux-user: Fix access to /proc/self/exe
+Date: Fri, 10 Mar 2023 23:09:00 +0100
+Message-Id: <20230310220927.326606-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
+References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8fftPF+BT/QnBRJmQR2K2ldh5k/QIj0VZUX1L1YKnHUJTFLQyQi
- kgEDzj7eNS8PacpYJZ0Wkeqa0ppiDIOHBG/8NlXTt3V6IzEDELW4KohpmLQpzGkKv9Zx9ik
- R0KRcfjZUY1DD8lXOgg2LzRjq3Plb3pKobVeV7MJYCCUwoUgAaQHTTivSuXmjraNh9Bv0G4
- F1XBLPSalhkoF5A8QMDhA==
-UI-OutboundReport: notjunk:1;M01:P0:7Gvh7V9v6qI=;/7jBNBWzcrKvzezyaJSYYi1ugJj
- gvSwkccI/GJbTxq0zwrl0ByahyhlsS1DfdHTZ+4Xu+WAYOII0riigvvw3skJrBC0X6Hkh3C6l
- M+f4DPY08TaM3C/jc5KCIj2P9VIlmABgPj5Xk+SknbtzJAWU4L3Gl2vgbVHeRw+KY4Z1A2Gif
- oAkgtBVOh4Qpy0nYeNk7uHpXif6AGztAhCFsFdBPH7g5W0gUh6F55Cv/lKdpPJGdMt7sVYIB9
- mr25tquHbb0Z2qymVkjN1yWVTI1TDxdjXWXtrIVWh+W4hKSFQHhcpIqHIi6LR40pZyZSbFWZx
- 7GpZk0vlHJWVn9Th/d3AC766l9UBQIUPAOYJKk6Srhd5d3Gz/EsxkGTlt4gtDv8/cj7xaVTnn
- JsAE1ze4v/KnbTZRWL2m5fPiYqDTYLb5k3dhO/B13r1XruiDYgHwPIaNCg4bKB6XqTNP4oTB3
- qbPAv1a4I0JhNYaYk/ujMK80d8YmF4X3bBrBpC9Cj90G2TSDS9BkhCNNS2GQ6OZltOuzl3oZP
- w8lBApf6A/7oaAUXnrOqob30xOn/Q+Uh5w6RLoPH3x7UEPGkpOuCQSsgQHiSVNswuEctvcVC2
- W02fm7hSUh9oPI46jDwV/2W9Vv4nQh/JPOdpgI0lMz0oocFxLw84CPY8e46CBice8DZK/35Bu
- +EgOuXcZNkAktqDl+jHu1zYrxjsBlDeU98mp9iIHwA==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:eguOYkggVnjq5Jx6mjXFOKPtbiBYoniwkFyt4Db/y09kIFHGMVl
+ o0iazAzfs5+b2BIrkbYFkazesGwsIW1y+dPwXqM1inADYj0yXm3puSsyvFOUAJxqEKilYDv
+ EEfv5TdfdSnoWSwbSQjkSEoP2S1TTIwHThd3l4CEvkDRxgSck2vLJ+dK6tiZtNJiqSrjrxL
+ iTtjczf7IYSpu8V9bUIJg==
+UI-OutboundReport: notjunk:1;M01:P0:US87ns4qjoU=;ThuHwj5BSDwGkVky2zXQb0gVdJE
+ 80KqV2yNMxRZeZg+AQiRlO2X7VDDdTgaLrwES7OFDlQgJa+0HdkH6wteJxx2UICKuKWprmelR
+ 9qsRtIFWH1r/0QVILIZ7euU9RD5OyRpZJt41qTfyNU1LlZHrKF+HFDMJlQB71Az23DwnDNRaD
+ UcVuwgJsosT35aEesZDqnmU/ndL6GmZKFRtXDOObcKc8A9jLX41iiKQS0m7WVj0GHaKWyx33t
+ IxYpfmKjPGbsncYT2fmy6kvKb+qMn1Ny2AH7xWu9SOqSZhcGOMitdd7k6Tk+7jiI+rhZjde07
+ JqiyW7yrVHnWGepx7L8lD0CtpGKJ924SzlZ0evaGqgXjpIcD+1qOQTfqsX+LxIT12Dmsai7ae
+ 91HNlnV4GSNBUbpRUzpmhb6KtKqqiaLj2N41JvSO7Ww+1E7n4E0lP9rCfYOTgu+zBXzZ5Ny7v
+ 84dDf+6HyeIyqcM4l1VSY4KL9in9NJx0uOugOIUg4cMRuNXkmUQFYIHBnrPoyqupyeq8S5XUG
+ +1ySp8p7/h7eaMm3jd4DAot4+LrFEYW3zLW5B/dOhCgXfw1ewWaSf/FT+nB5fsQBrDqe8oDB7
+ uK5jbcc9cGk2kXLXx+7o+RRt6tmu4vALTG/+fKPBL3eJtAx3o8A/NRXi5VQSVKOLPAxPQqDTE
+ HCo1VA2aWTSn5QWKH8YwFUUPJOsrm4kJefvenaRVBw==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -67,101 +69,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 817fd33836e73812df2f1907612b57750fcb9491:
+From: Helge Deller <deller@gmx.de>
 
-  Merge tag 'audio-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
+When accsssing /proc/self/exe from a userspace program, linux-user tries
+to resolve the name via realpath(), which may fail if the process
+changed the working directory in the meantime.
 
-are available in the Git repository at:
+An example:
+- a userspace program ist started with ./testprogram
+- the program runs chdir("/tmp")
+- then the program calls readlink("/proc/self/exe")
+- linux-user tries to run realpath("./testprogram") which fails
+  because ./testprogram isn't in /tmp
+- readlink() will return -ENOENT back to the program
 
-  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-8.0-pull-request
+Avoid this issue by resolving the full path name of the started process
+at startup of linux-user and store it in real_exec_path[]. This then
+simplifies the emulation of readlink() and readlinkat() as well, because
+they can simply copy the path string to userspace.
 
-for you to fetch changes up to 2732c739d846fc7a1972e984d71a3de0d3eef77b:
+I noticed this bug because the testsuite of the debian package "pandoc"
+failed on linux-user while it succeeded on real hardware.  The full log
+is here:
+https://buildd.debian.org/status/fetch.php?pkg=pandoc&arch=hppa&ver=2.17.1.1-1.1%2Bb1&stamp=1670153210&raw=0
 
-  linux-user: fix bug about incorrect base addresss of gdt on i386 and x86_64 (2023-03-10 20:50:11 +0100)
+Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20221205113825.20615-1-deller@gmx.de>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/main.c    |  6 ++++++
+ linux-user/syscall.c | 38 ++++++++++++++------------------------
+ 2 files changed, 20 insertions(+), 24 deletions(-)
 
-----------------------------------------------------------------
-Pull request linux-user 20230308-v2
-
-Fix gdt on i386/x86_64
-Handle traps on sparc
-Add translation for argument of msync
-Emulate CLONE_PIDFD flag in clone
-handle netlink flag NLA_F_NESTED
-fix sockaddr_in6 endianness
-Fix brk() to release pages
-fill out task state in /proc/self/stat
-add support for xtensa FDPIC
-Fix unaligned memory access in prlimit64 syscall
-add target to host netlink conversions
-fix timerfd read endianness conversion
-Fix access to /proc/self/exe
-Add strace for prlimit64() syscall
-
-----------------------------------------------------------------
-
-Andreas Schwab (1):
-  linux-user: fill out task state in /proc/self/stat
-
-Helge Deller (6):
-  linux-user: Fix access to /proc/self/exe
-  linux-user: Fix brk() to release pages
-  linux-user: Provide print_raw_param64() for 64-bit values
-  linux-user: Add strace for prlimit64() syscall
-  linux-user: Add translation for argument of msync()
-  linux-user: Emulate CLONE_PIDFD flag in clone()
-
-Ilya Leoshkevich (1):
-  linux-user: Fix unaligned memory access in prlimit64 syscall
-
-Mathis Marion (4):
-  linux-user: fix timerfd read endianness conversion
-  linux-user: add target to host netlink conversions
-  linux-user: fix sockaddr_in6 endianness
-  linux-user: handle netlink flag NLA_F_NESTED
-
-Max Filippov (1):
-  linux-user: add support for xtensa FDPIC
-
-Richard Henderson (14):
-  linux-user/sparc: Tidy syscall trap
-  linux-user/sparc: Tidy syscall error return
-  linux-user/sparc: Use TT_TRAP for flush windows
-  linux-user/sparc: Tidy window spill/fill traps
-  linux-user/sparc: Fix sparc64_{get, set}_context traps
-  linux-user/sparc: Handle software breakpoint trap
-  linux-user/sparc: Handle division by zero traps
-  linux-user/sparc: Handle getcc, setcc, getpsr traps
-  linux-user/sparc: Handle priviledged opcode trap
-  linux-user/sparc: Handle privilidged action trap
-  linux-user/sparc: Handle coprocessor disabled trap
-  linux-user/sparc: Handle unimplemented flush trap
-  linux-user/sparc: Handle floating-point exceptions
-  linux-user/sparc: Handle tag overflow traps
-
-fanwj@mail.ustc.edu.cn (1):
-  linux-user: fix bug about incorrect base addresss of gdt on i386 and
-    x86_64
-
- include/elf.h                        |   1 +
- linux-user/alpha/target_mman.h       |   4 +
- linux-user/elfload.c                 |  16 ++-
- linux-user/fd-trans.c                |  74 ++++++++++-
- linux-user/fd-trans.h                |   1 +
- linux-user/generic/target_mman.h     |  13 ++
- linux-user/generic/target_resource.h |   4 +-
- linux-user/hppa/target_mman.h        |   4 +
- linux-user/i386/cpu_loop.c           |   9 ++
- linux-user/main.c                    |  14 +++
- linux-user/sparc/cpu_loop.c          | 182 +++++++++++++++++++++------
- linux-user/sparc/signal.c            |  36 +++---
- linux-user/sparc/target_signal.h     |   2 +-
- linux-user/strace.c                  | 113 ++++++++++++++++-
- linux-user/strace.list               |   5 +-
- linux-user/syscall.c                 | 174 +++++++++++++++----------
- linux-user/syscall_defs.h            |   5 +
- target/sparc/cpu.h                   |   3 +-
- 18 files changed, 520 insertions(+), 140 deletions(-)
-
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 4ff30ff98066..798fdc0bce8e 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -65,6 +65,7 @@
+ #endif
+ 
+ char *exec_path;
++char real_exec_path[PATH_MAX];
+ 
+ int singlestep;
+ static const char *argv0;
+@@ -739,6 +740,11 @@ int main(int argc, char **argv, char **envp)
+         }
+     }
+ 
++    /* Resolve executable file name to full path name */
++    if (realpath(exec_path, real_exec_path)) {
++        exec_path = real_exec_path;
++    }
++
+     /*
+      * get binfmt_misc flags
+      */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index a6c426d73cfe..cc650d4ccbd6 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9989,18 +9989,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+                 /* Short circuit this for the magic exe check. */
+                 ret = -TARGET_EINVAL;
+             } else if (is_proc_myself((const char *)p, "exe")) {
+-                char real[PATH_MAX], *temp;
+-                temp = realpath(exec_path, real);
+-                /* Return value is # of bytes that we wrote to the buffer. */
+-                if (temp == NULL) {
+-                    ret = get_errno(-1);
+-                } else {
+-                    /* Don't worry about sign mismatch as earlier mapping
+-                     * logic would have thrown a bad address error. */
+-                    ret = MIN(strlen(real), arg3);
+-                    /* We cannot NUL terminate the string. */
+-                    memcpy(p2, real, ret);
+-                }
++                /*
++                 * Don't worry about sign mismatch as earlier mapping
++                 * logic would have thrown a bad address error.
++                 */
++                ret = MIN(strlen(exec_path), arg3);
++                /* We cannot NUL terminate the string. */
++                memcpy(p2, exec_path, ret);
+             } else {
+                 ret = get_errno(readlink(path(p), p2, arg3));
+             }
+@@ -10021,18 +10016,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+                 /* Short circuit this for the magic exe check. */
+                 ret = -TARGET_EINVAL;
+             } else if (is_proc_myself((const char *)p, "exe")) {
+-                char real[PATH_MAX], *temp;
+-                temp = realpath(exec_path, real);
+-                /* Return value is # of bytes that we wrote to the buffer. */
+-                if (temp == NULL) {
+-                    ret = get_errno(-1);
+-                } else {
+-                    /* Don't worry about sign mismatch as earlier mapping
+-                     * logic would have thrown a bad address error. */
+-                    ret = MIN(strlen(real), arg4);
+-                    /* We cannot NUL terminate the string. */
+-                    memcpy(p2, real, ret);
+-                }
++                /*
++                 * Don't worry about sign mismatch as earlier mapping
++                 * logic would have thrown a bad address error.
++                 */
++                ret = MIN(strlen(exec_path), arg4);
++                /* We cannot NUL terminate the string. */
++                memcpy(p2, exec_path, ret);
+             } else {
+                 ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+             }
 -- 
 2.39.2
 
