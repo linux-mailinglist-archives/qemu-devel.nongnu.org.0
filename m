@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BBB6B3AC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E886B3AB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:37:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZAW-0002wG-Vf; Fri, 10 Mar 2023 04:36:08 -0500
+	id 1paZAb-0002x3-Bo; Fri, 10 Mar 2023 04:36:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAU-0002vI-QD
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:06 -0500
+ id 1paZAX-0002wh-Vd
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAS-0008Jr-2q
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:05 -0500
+ id 1paZAW-0008KL-9B
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678440963;
+ s=mimecast20190719; t=1678440966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QFfhQe0bl4z6Alw5odhKqaZK0KBJImdeIBiGxZIDous=;
- b=Tmhqv4kvHkCnOBuKymfpcZ0rkxa9UdMa6iUUH+3sPJf9bLIgmrcdr1yahRE7X/EOi6aXrM
- t8MVnG7qM66Zb4zpJeLNOxSl6uREZqP+aiuBir3LLWW0JFcptxpYki+GJ5detwikupapqU
- 58Si8rYgrpgKQR12OfFH/Vv8n8+KU70=
+ bh=Jd4tabl404FHfSElMYbFZAHJXlSGxMqSX5jlXNGPQWw=;
+ b=dHT3+VIQIZ8ht3zH6CuSMw5KLqUj4YjH5+fDykT9+/9eFxafwQ3FO9R0HoLokISJN1RRu0
+ Dz5TwuLaOG/nBshzz8zpFjA2m7b7Kab9FgBQ0Vq6ym5Dd2N3mOxCwuDf3NSSKFeB6dh7KC
+ 13IIOLSY3LJQ8g1wM7Rt4NRaZ9HKU0E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-7-6tYOgrPBGmANbfhertqA-1; Fri, 10 Mar 2023 04:36:01 -0500
-X-MC-Unique: 7-6tYOgrPBGmANbfhertqA-1
+ us-mta-280-VbCnzuctNpa0sxYzdPKVaA-1; Fri, 10 Mar 2023 04:36:04 -0500
+X-MC-Unique: VbCnzuctNpa0sxYzdPKVaA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69296811E6E;
- Fri, 10 Mar 2023 09:36:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DF0B185A78B;
+ Fri, 10 Mar 2023 09:36:04 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 633BD4014EB9;
- Fri, 10 Mar 2023 09:35:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16BD040C945A;
+ Fri, 10 Mar 2023 09:36:01 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 11/44] e1000e: Use memcpy to intialize registers
-Date: Fri, 10 Mar 2023 17:34:53 +0800
-Message-Id: <20230310093526.30828-12-jasowang@redhat.com>
+Subject: [PULL V2 12/44] e1000e: Remove pending interrupt flags
+Date: Fri, 10 Mar 2023 17:34:54 +0800
+Message-Id: <20230310093526.30828-13-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -81,31 +81,128 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-Use memcpy instead of memmove to initialize registers. The initial
-register templates and register table instances will never overlap.
+They are duplicate of running throttling timer flags and incomplete as
+the flags are not cleared when the interrupts are fired or the device is
+reset.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/net/e1000e.c      |  5 ++---
+ hw/net/e1000e_core.c | 19 +++----------------
+ hw/net/e1000e_core.h |  2 --
+ hw/net/trace-events  |  2 --
+ 4 files changed, 5 insertions(+), 23 deletions(-)
 
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index d591d01..0bc222d 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -631,12 +631,11 @@ static const VMStateDescription e1000e_vmstate = {
+         VMSTATE_E1000E_INTR_DELAY_TIMER(core.tidv, E1000EState),
+ 
+         VMSTATE_E1000E_INTR_DELAY_TIMER(core.itr, E1000EState),
+-        VMSTATE_BOOL(core.itr_intr_pending, E1000EState),
++        VMSTATE_UNUSED(1),
+ 
+         VMSTATE_E1000E_INTR_DELAY_TIMER_ARRAY(core.eitr, E1000EState,
+                                               E1000E_MSIX_VEC_NUM),
+-        VMSTATE_BOOL_ARRAY(core.eitr_intr_pending, E1000EState,
+-                           E1000E_MSIX_VEC_NUM),
++        VMSTATE_UNUSED(E1000E_MSIX_VEC_NUM),
+ 
+         VMSTATE_UINT32(core.itr_guest_value, E1000EState),
+         VMSTATE_UINT32_ARRAY(core.eitr_guest_value, E1000EState,
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 6a4da72..87f964c 100644
+index 87f964c..37aec6a 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -3511,9 +3511,9 @@ e1000e_core_reset(E1000ECore *core)
-     e1000e_intrmgr_reset(core);
+@@ -154,11 +154,6 @@ e1000e_intrmgr_on_throttling_timer(void *opaque)
  
-     memset(core->phy, 0, sizeof core->phy);
--    memmove(core->phy, e1000e_phy_reg_init, sizeof e1000e_phy_reg_init);
-+    memcpy(core->phy, e1000e_phy_reg_init, sizeof e1000e_phy_reg_init);
-     memset(core->mac, 0, sizeof core->mac);
--    memmove(core->mac, e1000e_mac_reg_init, sizeof e1000e_mac_reg_init);
-+    memcpy(core->mac, e1000e_mac_reg_init, sizeof e1000e_mac_reg_init);
+     timer->running = false;
  
-     core->rxbuf_min_shift = 1 + E1000_RING_DESC_LEN_SHIFT;
+-    if (!timer->core->itr_intr_pending) {
+-        trace_e1000e_irq_throttling_no_pending_interrupts();
+-        return;
+-    }
+-
+     if (msi_enabled(timer->core->owner)) {
+         trace_e1000e_irq_msi_notify_postponed();
+         /* Clear msi_causes_pending to fire MSI eventually */
+@@ -180,11 +175,6 @@ e1000e_intrmgr_on_msix_throttling_timer(void *opaque)
  
+     timer->running = false;
+ 
+-    if (!timer->core->eitr_intr_pending[idx]) {
+-        trace_e1000e_irq_throttling_no_pending_vec(idx);
+-        return;
+-    }
+-
+     trace_e1000e_irq_msix_notify_postponed_vec(idx);
+     msix_notify(timer->core->owner, idx);
+ }
+@@ -2015,13 +2005,11 @@ e1000e_clear_ims_bits(E1000ECore *core, uint32_t bits)
+ }
+ 
+ static inline bool
+-e1000e_postpone_interrupt(bool *interrupt_pending,
+-                           E1000IntrDelayTimer *timer)
++e1000e_postpone_interrupt(E1000IntrDelayTimer *timer)
+ {
+     if (timer->running) {
+         trace_e1000e_irq_postponed_by_xitr(timer->delay_reg << 2);
+ 
+-        *interrupt_pending = true;
+         return true;
+     }
+ 
+@@ -2035,14 +2023,13 @@ e1000e_postpone_interrupt(bool *interrupt_pending,
+ static inline bool
+ e1000e_itr_should_postpone(E1000ECore *core)
+ {
+-    return e1000e_postpone_interrupt(&core->itr_intr_pending, &core->itr);
++    return e1000e_postpone_interrupt(&core->itr);
+ }
+ 
+ static inline bool
+ e1000e_eitr_should_postpone(E1000ECore *core, int idx)
+ {
+-    return e1000e_postpone_interrupt(&core->eitr_intr_pending[idx],
+-                                     &core->eitr[idx]);
++    return e1000e_postpone_interrupt(&core->eitr[idx]);
+ }
+ 
+ static void
+diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+index b8f38c4..d0a14b4 100644
+--- a/hw/net/e1000e_core.h
++++ b/hw/net/e1000e_core.h
+@@ -95,10 +95,8 @@ struct E1000Core {
+     E1000IntrDelayTimer tidv;
+ 
+     E1000IntrDelayTimer itr;
+-    bool itr_intr_pending;
+ 
+     E1000IntrDelayTimer eitr[E1000E_MSIX_VEC_NUM];
+-    bool eitr_intr_pending[E1000E_MSIX_VEC_NUM];
+ 
+     VMChangeStateEntry *vmstate;
+ 
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index 4c0ec3f..8fa4299 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -201,10 +201,8 @@ e1000e_rx_metadata_ipv6_filtering_disabled(void) "IPv6 RX filtering disabled by
+ e1000e_vlan_vet(uint16_t vet) "Setting VLAN ethernet type 0x%X"
+ 
+ e1000e_irq_msi_notify(uint32_t cause) "MSI notify 0x%x"
+-e1000e_irq_throttling_no_pending_interrupts(void) "No pending interrupts to notify"
+ e1000e_irq_msi_notify_postponed(void) "Sending MSI postponed by ITR"
+ e1000e_irq_legacy_notify_postponed(void) "Raising legacy IRQ postponed by ITR"
+-e1000e_irq_throttling_no_pending_vec(int idx) "No pending interrupts for vector %d"
+ e1000e_irq_msix_notify_postponed_vec(int idx) "Sending MSI-X postponed by EITR[%d]"
+ e1000e_irq_legacy_notify(bool level) "IRQ line state: %d"
+ e1000e_irq_msix_notify_vec(uint32_t vector) "MSI-X notify vector 0x%x"
 -- 
 2.7.4
 
