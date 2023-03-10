@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289F96B4FA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057096B4FA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 18:56:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pagxy-0003kQ-4S; Fri, 10 Mar 2023 12:55:42 -0500
+	id 1pagy0-0003mJ-7Q; Fri, 10 Mar 2023 12:55:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pagxw-0003jF-Fs
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:55:40 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pagxx-0003kL-9j
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:55:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pagxu-0002or-CZ
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:55:39 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pagxv-0002pE-2b
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 12:55:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678470936;
+ s=mimecast20190719; t=1678470937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Mc5Y5YxCXsJsH0PQmAvF5KiZ/6RN/7RAGC4/mtM1NwA=;
- b=gAHqo2XFaDarR7VOtXu1eAYM8jxbvAPLUM0GSPygefs+RHnHBjZYUIYO1D4J+8BeEgwo4T
- 01MZKPjdiwIN6J+tD0zKIWYZzcdEeSUz9ldqrid29/CX6UoY7NYl9SvgAVhEjpENEnmkDb
- H0FVU0SAegNsln+EkLqA2j/TKq/gLb0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2RitocbdoLpW1Xp/b3/4Z4VLVmr1YkektDJZ1jjja9s=;
+ b=Xr7qVs5tQo8ZFIOQujRCyshpswBf8ydxuv/x1V3T/FPHNQMXrC1TLorV9H+lTI2/3/+d99
+ EWoOWqbsX7kNDXytZ7Vuk5aVAcSrpRBWM0BHFgSGKJ1NhVah2Mg5l4nU73QUZgf0I6vnZ7
+ zHS6UXaK2ivTpP7IFJzttwcyl9CH4Vk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-149-IQdAHu5xPSei-KMZLhljNg-1; Fri, 10 Mar 2023 12:55:33 -0500
-X-MC-Unique: IQdAHu5xPSei-KMZLhljNg-1
+ us-mta-283-8R7yW-RaM5OrbBKbmxelcQ-1; Fri, 10 Mar 2023 12:55:34 -0500
+X-MC-Unique: 8R7yW-RaM5OrbBKbmxelcQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCE7285CBE2;
- Fri, 10 Mar 2023 17:55:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5EB5811E6E;
+ Fri, 10 Mar 2023 17:55:33 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1507C1121318;
- Fri, 10 Mar 2023 17:55:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F24021121318;
+ Fri, 10 Mar 2023 17:55:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/3] Block layer patches
-Date: Fri, 10 Mar 2023 18:55:26 +0100
-Message-Id: <20230310175529.240379-1-kwolf@redhat.com>
+Subject: [PULL 1/3] block/fuse: Let PUNCH_HOLE write zeroes
+Date: Fri, 10 Mar 2023 18:55:27 +0100
+Message-Id: <20230310175529.240379-2-kwolf@redhat.com>
+In-Reply-To: <20230310175529.240379-1-kwolf@redhat.com>
+References: <20230310175529.240379-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
@@ -74,36 +77,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c9932:
+From: Hanna Czenczek <hreitz@redhat.com>
 
-  Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qemu into staging (2023-03-09 16:55:03 +0000)
+fallocate(2) says about PUNCH_HOLE: "After a successful call, subsequent
+reads from this range will return zeros."  As it is, PUNCH_HOLE is
+implemented as a call to blk_pdiscard(), which does not guarantee this.
 
-are available in the Git repository at:
+We must call blk_pwrite_zeroes() instead.  The difference to ZERO_RANGE
+is that we pass the `BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK` flags to
+the call -- the storage is supposed to be unmapped, and a slow fallback
+by actually writing zeroes as data is not allowed.
 
-  https://repo.or.cz/qemu/kevin.git tags/for-upstream
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/1507
+Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+Message-Id: <20230227104725.33511-2-hreitz@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/export/fuse.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to ecf8191314798391b1df80bcb829c0ead4f8acc9:
-
-  qed: remove spurious BDRV_POLL_WHILE() (2023-03-10 15:14:46 +0100)
-
-----------------------------------------------------------------
-Block layer patches
-
-- fuse: Fix fallocate(PUNCH_HOLE) to zero out the range
-- qed: remove spurious BDRV_POLL_WHILE()
-
-----------------------------------------------------------------
-Hanna Czenczek (2):
-      block/fuse: Let PUNCH_HOLE write zeroes
-      iotests/308: Add test for 'write -zu'
-
-Stefan Hajnoczi (1):
-      qed: remove spurious BDRV_POLL_WHILE()
-
- block/export/fuse.c        | 11 ++++++++++-
- block/qed.c                |  1 -
- tests/qemu-iotests/308     | 43 +++++++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/308.out | 35 +++++++++++++++++++++++++++++++++++
- 4 files changed, 88 insertions(+), 2 deletions(-)
+diff --git a/block/export/fuse.c b/block/export/fuse.c
+index e5fc4af165..06fa41079e 100644
+--- a/block/export/fuse.c
++++ b/block/export/fuse.c
+@@ -673,7 +673,16 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+         do {
+             int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
+ 
+-            ret = blk_pdiscard(exp->common.blk, offset, size);
++            ret = blk_pwrite_zeroes(exp->common.blk, offset, size,
++                                    BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
++            if (ret == -ENOTSUP) {
++                /*
++                 * fallocate() specifies to return EOPNOTSUPP for unsupported
++                 * operations
++                 */
++                ret = -EOPNOTSUPP;
++            }
++
+             offset += size;
+             length -= size;
+         } while (ret == 0 && length > 0);
+-- 
+2.39.2
 
 
