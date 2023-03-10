@@ -2,101 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CF16B4A28
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEE66B4B1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:30:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paeVV-0004kM-H4; Fri, 10 Mar 2023 10:18:09 -0500
+	id 1paefu-00076g-RF; Fri, 10 Mar 2023 10:28:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1paeVR-0004jb-J4
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:18:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1paeVO-00022a-Rl
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:18:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678461481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r4duduEoAxMdu33kZxVuJL774cJlzxpw+p9v3Ihfwfc=;
- b=N6UHhw3H6M23B/++bwshaNvcJ5EGj+HDtAwCCofmbPx/WyVI8ICJ3hKAndT906X9OWjGQV
- NQDpQRr78ORwi2vxz3R+CwQL+3CVYwFPAPcj/CPqj38YADxX0tmiqxpad8j8ICxEZrCRiR
- eBDPbEslGZ0zQEe1nikgwrpHRui8VKI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-270-ECCj4ZRVOi66xPEa_ja9Ng-1; Fri, 10 Mar 2023 10:18:00 -0500
-X-MC-Unique: ECCj4ZRVOi66xPEa_ja9Ng-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p22-20020a7bcc96000000b003e2036a1516so3991049wma.7
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 07:17:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678461478;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r4duduEoAxMdu33kZxVuJL774cJlzxpw+p9v3Ihfwfc=;
- b=EpYEZhOzPmX8lPCbgJ4o8JylDZ3ql6Sm7VVu1I+uLoLL72Sa6LwUSLa1eNbBGf3d+b
- KnTFYkID2aM/ohXxJTM0Qa5/RktIjqKIOx4Qwxmd5TwOnP0V+YY+v0jiTkG6d7u5zlt/
- 5IvdC8WEz9h/OEMThbuFP5ZjI9a5UdINTNzIiA4Wk3YQCS4R9DJFXGmMswyHrVe+7X2l
- XLK7D7JmXmDgZwsyTXJemI51iphcJDBovzGMyFzSNOXFKoXBPw0/t3iv0Y6/uquQZk9k
- HA3LA0mcnnRF4FLRoFmq0nzU2iczJycYviwbj0m4I9dWk6n0i4qgCfpLollVd4edkNs9
- F0Tg==
-X-Gm-Message-State: AO0yUKWgNgHt4Bp0obG0Ufg/fKtOaZhM8FxdMwkxrGCjo+Iav6EgY+xB
- cC40DECmDpJ6D9oMAOok87zgdXpp1AxF+625+gDzxHY3DZui8ipwiNxvdEV2fXCVAMi0LzYBtlE
- PSr4h5Z6cBJ/jlK8=
-X-Received: by 2002:adf:f812:0:b0:2c7:17a2:b70 with SMTP id
- s18-20020adff812000000b002c717a20b70mr16624224wrp.69.1678461477900; 
- Fri, 10 Mar 2023 07:17:57 -0800 (PST)
-X-Google-Smtp-Source: AK7set9UJJ7ds+ZJp28Sl2ReekYrLjVsl77L+TCKhz6gxc7zY8dfKOcxBfRMcls/O7oBUQdG6fmAWg==
-X-Received: by 2002:adf:f812:0:b0:2c7:17a2:b70 with SMTP id
- s18-20020adff812000000b002c717a20b70mr16624198wrp.69.1678461477607; 
- Fri, 10 Mar 2023 07:17:57 -0800 (PST)
-Received: from [192.168.2.110] (p549d1c92.dip0.t-ipconnect.de. [84.157.28.146])
- by smtp.gmail.com with ESMTPSA id
- r12-20020a5d494c000000b002c59e001631sm41201wrs.77.2023.03.10.07.17.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 07:17:57 -0800 (PST)
-Message-ID: <0a2fcaf6-169e-a947-c03f-3aadba10da73@redhat.com>
-Date: Fri, 10 Mar 2023 16:17:55 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1paefr-00076P-SR; Fri, 10 Mar 2023 10:28:51 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1paefo-0004ZU-Pr; Fri, 10 Mar 2023 10:28:51 -0500
+Received: from [192.168.0.120] (unknown [180.165.240.213])
+ by APP-01 (Coremail) with SMTP id qwCowABn6NaiTAtkI7jLDQ--.34354S2;
+ Fri, 10 Mar 2023 23:28:35 +0800 (CST)
+Message-ID: <1b543dcc-600d-ef8e-d096-651dac620eae@iscas.ac.cn>
+Date: Fri, 10 Mar 2023 23:28:34 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are
- present
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+Subject: Re: [PATCH v2] target/riscv: fix H extension TVM trap
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20230309201434.10831-1-farosas@suse.de>
- <20230309201434.10831-9-farosas@suse.de>
- <20230310050550-mutt-send-email-mst@kernel.org> <87h6useoxy.fsf@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <87h6useoxy.fsf@suse.de>
+To: chenyi2000@zju.edu.cn, qemu-devel@nongnu.org
+References: <20230310143328.145347-1-chenyi2000@zju.edu.cn>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230310143328.145347-1-chenyi2000@zju.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: qwCowABn6NaiTAtkI7jLDQ--.34354S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKr4kuw1kAFyDXrWrZFy8AFb_yoW7tr1Upa
+ 1UG39IkayUJF9rGanaqr1DWF45Aw1xG3yUC3Z7WayrAr4fCr15CryDX3yv9FykWr4Dur40
+ vFW8uF98ZF4IyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.240.213]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,60 +79,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/03/2023 14.06, Fabiano Rosas wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
->> On Thu, Mar 09, 2023 at 05:14:31PM -0300, Fabiano Rosas wrote:
->>> It is possible to have a build with both TCG and KVM disabled due to
->>> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
->>> host.
->>>
->>> If we build with --disable-tcg on the aarch64 host, we will end-up
->>> with a QEMU binary (x86) that does not support TCG nor KVM.
->>>
->>> Fix tests that crash or hang in the above scenario. Do not include any
->>> test cases if TCG and KVM are missing.
->>>
->>> Make sure that calls to qtest_has_accel are placed after g_test_init
->>> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
->>> printed before other messages") to avoid TAP parsing errors.
->>>
->>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>> Reviewed-by: Juan Quintela <quintela@redhat.com>
->>
->> I don't like it that we are hard-coding the list of accelerators
->> like this. Make a wrapper?
->>
-> 
-> Are you thinking of some sort of "has_any_accel" wrapper?
 
-I think in the long run, we want something like what I described here:
+On 2023/3/10 22:33, chenyi2000@zju.edu.cn wrote:
+> From: Yi Chen <chenyi2000@zju.edu.cn>
+>
+> - Trap satp/hgatp accesses from HS-mode when MSTATUS.TVM is enabled.
+> - Trap satp accesses from VS-mode when HSTATUS.VTVM is enabled.
+> - Raise RISCV_EXCP_ILLEGAL_INST when U-mode executes SFENCE.VMA/SINVAL.VMA.
+> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
+>    SFENCE.VMA/SINVAL.VMA or VS-mode executes SFENCE.VMA/SINVAL.VMA with
+>    HSTATUS.VTVM enabled.
+> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
+>    HFENCE.GVMA/HFENCE.VVMA/HINVAL.GVMA/HINVAL.VVMA.
+>
+> Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
+> ---
+>   target/riscv/csr.c       | 56 +++++++++++++++++++++++++---------------
+>   target/riscv/op_helper.c |  9 ++++---
+>   2 files changed, 40 insertions(+), 25 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index d522efc0b6..26a02e57bd 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -443,6 +443,30 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
+>       return sstc(env, csrno);
+>   }
+>   
+> +static RISCVException satp(CPURISCVState *env, int csrno)
+> +{
+> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
+> +        get_field(env->mstatus, MSTATUS_TVM)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env) &&
+> +        get_field(env->hstatus, HSTATUS_VTVM)) {
+> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +    }
+> +
+> +    return smode(env, csrno);
+> +}
+> +
+> +static RISCVException hgatp(CPURISCVState *env, int csrno)
+> +{
+> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
+> +        get_field(env->mstatus, MSTATUS_TVM)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return hmode(env, csrno);
+> +}
+> +
+>   /* Checks if PointerMasking registers could be accessed */
+>   static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+>   {
+> @@ -2655,13 +2679,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+>           *val = 0;
+>           return RISCV_EXCP_NONE;
+>       }
+> -
+> -    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    } else {
+> -        *val = env->satp;
+> -    }
+> -
+> +    *val = env->satp;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> @@ -2684,18 +2702,14 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
+>       }
+>   
+>       if (vm && mask) {
+> -        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+> -            return RISCV_EXCP_ILLEGAL_INST;
+> -        } else {
+> -            /*
+> -             * The ISA defines SATP.MODE=Bare as "no translation", but we still
+> -             * pass these through QEMU's TLB emulation as it improves
+> -             * performance.  Flushing the TLB on SATP writes with paging
+> -             * enabled avoids leaking those invalid cached mappings.
+> -             */
+> -            tlb_flush(env_cpu(env));
+> -            env->satp = val;
+> -        }
+> +        /*
+> +         * The ISA defines SATP.MODE=Bare as "no translation", but we still
+> +         * pass these through QEMU's TLB emulation as it improves
+> +         * performance.  Flushing the TLB on SATP writes with paging
+> +         * enabled avoids leaking those invalid cached mappings.
+> +         */
+> +        tlb_flush(env_cpu(env));
+> +        env->satp = val;
+>       }
+>       return RISCV_EXCP_NONE;
+>   }
+> @@ -4180,7 +4194,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                            .min_priv_ver = PRIV_VERSION_1_12_0 },
+>   
+>       /* Supervisor Protection and Translation */
+> -    [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
+> +    [CSR_SATP]     = { "satp",     satp, read_satp,     write_satp     },
+>   
+>       /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
+>       [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
+> @@ -4217,7 +4231,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                             .min_priv_ver = PRIV_VERSION_1_12_0                },
+>       [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,
+>                             .min_priv_ver = PRIV_VERSION_1_12_0                },
+> -    [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,   write_hgatp,
+> +    [CSR_HGATP]       = { "hgatp",       hgatp,   read_hgatp,   write_hgatp,
+>                             .min_priv_ver = PRIV_VERSION_1_12_0                },
+>       [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,
+>                             write_htimedelta,
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index 84ee018f7d..fbccca9e0b 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -381,12 +381,13 @@ void helper_wfi(CPURISCVState *env)
+>   void helper_tlb_flush(CPURISCVState *env)
+>   {
+>       CPUState *cs = env_cpu(env);
+> -    if (!(env->priv >= PRV_S) ||
+> -        (env->priv == PRV_S &&
+> +    if ((!(env->priv >= PRV_S) && !riscv_cpu_virt_enabled(env)) ||
+> +        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
 
-https://lore.kernel.org/qemu-devel/ee0cad00-a6f3-f0c1-adf0-ba32329354f3@redhat.com/
+"!riscv_cpu_virt_enabled(env)" can be extracted out to be shared by the 
+two condition.
 
->>> @@ -2120,6 +2119,13 @@ int main(int argc, char *argv[])
->>>   
->>>       g_test_init(&argc, &argv, NULL);
->>>   
->>> +    has_kvm = qtest_has_accel("kvm");
->>> +    has_tcg = qtest_has_accel("tcg");
->>> +
->>
->> why are you moving these? init at declaration time is
->> generally cleaner.
->>
-> 
-> Thomas had asked me to put calls to qtest_has_accel after g_test_init. I
-> just brought the existing one along for consistency. From the commit
-> message:
-> 
->   "Make sure that calls to qtest_has_accel are placed after g_test_init
->   in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
->   printed before other messages") to avoid TAP parsing errors."
+And it may be more clear if "!(env->priv >= PRV_S)" is replaced by 
+"env->priv == PRV_U"
 
-Right, otherwise this might cause problems with the latest version of glib 
-(in Fedora, I think).
+Otherwise, this patch is LGTM.
 
-  Thomas
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+
+>            get_field(env->mstatus, MSTATUS_TVM))) {
+>           riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+>       } else if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
+
+By the way, "riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) " 
+can be simplified to use
+
+"riscv_cpu_virt_enabled(env)" only here.
+
+Regards,
+
+Weiwei Li
+> -               get_field(env->hstatus, HSTATUS_VTVM)) {
+> +               (!(env->priv >= PRV_S) ||
+> +                get_field(env->hstatus, HSTATUS_VTVM))) {
+>           riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>       } else {
+>           tlb_flush(cs);
+> @@ -403,7 +404,7 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
+>   {
+>       CPUState *cs = env_cpu(env);
+>   
+> -    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
+> +    if (env->priv <= PRV_S && riscv_cpu_virt_enabled(env)) {
+>           riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>       }
+>   
 
 
