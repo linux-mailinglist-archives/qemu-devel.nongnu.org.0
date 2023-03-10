@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70F76B357D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB006B35C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:57:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paUCw-0002XI-4w; Thu, 09 Mar 2023 23:18:18 -0500
+	id 1paUn4-0005QN-Qu; Thu, 09 Mar 2023 23:55:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paUCu-0002Wo-83; Thu, 09 Mar 2023 23:18:16 -0500
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1paUn2-0005Pi-DI; Thu, 09 Mar 2023 23:55:36 -0500
+Received: from mail-pj1-f50.google.com ([209.85.216.50])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1paUCs-0005EH-Da; Thu, 09 Mar 2023 23:18:15 -0500
-Received: by mail-vs1-xe2d.google.com with SMTP id d7so3617614vsj.2;
- Thu, 09 Mar 2023 20:18:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678421892;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2q0Jafov6kUZR8tyjsO+Csu6RGx6hFW3jb968e4aVuU=;
- b=ZMX/hpURIkQbxE1c4/xkB3cgRzXrGrZuQdxCL9H9wpH1J0Sj5o08PqaMKK45Cf5oPM
- sAc163VGrp1YA/UL0lwDGDKZB0CC7U6PyqbwCeijgTZQQIlQGFDBpAm24+rl5wriWaj4
- mZ9nr2lLpbJXZulO2/t7KUziZUMJxc42b90SZNKfeSIbfGoOlp4uYNNnQY/2pyuJlNgI
- CXQQCXV+M28qozXM4TpYAvyhwfGTwZTTByBoJEdKen8IyivIADQmtE8r0XF2qI+DrEGZ
- OWg4hCuiIiV4OlO2/DFsUhUWmKn4QdfBKp7UmG3EFdJsHZwkRzIYqReRw+oWczvo9OE6
- eTcg==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1paUmx-0004Xy-OQ; Thu, 09 Mar 2023 23:55:36 -0500
+Received: by mail-pj1-f50.google.com with SMTP id
+ h17-20020a17090aea9100b0023739b10792so4101048pjz.1; 
+ Thu, 09 Mar 2023 20:55:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678421892;
+ d=1e100.net; s=20210112; t=1678424129;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2q0Jafov6kUZR8tyjsO+Csu6RGx6hFW3jb968e4aVuU=;
- b=ovpGw3XVGfnzxKoPQ1GH9C5AT572vvOz1EYJtI9fY62yS7aaEsiBHdWnvnTFtTPoFC
- IHvJ/wRlgXZi6morB9yJpDQe+Dtqrks6gqTEr/pf8vob017OxEM1HYg5AZYuBEaEo6Qs
- ChmHgDOv4R3cJV5ICrvaAFaBtd7eKsgkaqrtrzoy4rnQZ8ptAa71jLwaSfGIZDzBRxlF
- EIFih7rB/xXex+AY2Zkz9z98QqOjqXsY9acqGFFg6mSyQQe4WpGQcBsjC9Jc6s3wXfUF
- eG1JRsvTAfa+r6zw7Nev8U5hgrgRKC37PZpCv39x5GFgcNbC0sTc4zoABAKeTHyyxjzj
- wjew==
-X-Gm-Message-State: AO0yUKXbbwWE7v9FyTigOOQfP5teWVr9nRw6yEyHlSgp5KVkBSg72wPc
- v7RQSHC5DGTXtXQkRraZdlswhrTkapUDtd9Qet8=
-X-Google-Smtp-Source: AK7set87Eb0lCVWgEIVBE4MAXB95JLxhw34L9nosEDOWjzMMiyDtu+3eQoI2bGHJ8KaZpUaE4zGVFdwS+97bwqcfOP8=
-X-Received: by 2002:a67:fd7a:0:b0:416:f1ea:1001 with SMTP id
- h26-20020a67fd7a000000b00416f1ea1001mr16314222vsa.5.1678421891880; Thu, 09
- Mar 2023 20:18:11 -0800 (PST)
+ bh=FF09gYyMDdb8XAyWRjco+ErOFe8wJLj2ky7wFjX9Jfs=;
+ b=LOrjRG0dY1ejUQROGPCWhe/npIq06vKPl9Zv5M4ZerRl15EaNEiKAFfTeTZeFYzcwe
+ AeNsitV1zPbEbbAyDezaJ0EcJ/5U5IvKd0nqB6E9ylwE3L3eb4V4m/34s5YvGTa1Aeez
+ o/4NvPtFeeGvYY4vegrZL9xo/qcm9T3/DM+O9MyXX8Eb8zZNs/spUGkXkybi7HJeXY6D
+ KklKtvWP+9oqmMzeHNUSE9JA7BJk6ZKguUpJmmLl7WW+vJ1R8BbQ4TsY77nYV4kCkZyH
+ FbQeqP0W8xgkNjSFOUZcs7y3mLcycSGIU6RpUfXYV/n4iS6yVM9CWPxSDVyuG8tADeMv
+ 0Wpw==
+X-Gm-Message-State: AO0yUKWzQi6Z6Th6S1sd+1ixV+LR9ei2PVZZJ2qdWn3rZ2WzQYgadP31
+ PX/WBf5NxRr51dxB7DQeVvRpHgIvLms=
+X-Google-Smtp-Source: AK7set+bpHxp4gA3ys22+wKB1Q8tkULQYLQZhTprWieDbXPInJEleLv4m19anfNrrlL6oDk7xyD0+w==
+X-Received: by 2002:a17:902:dac8:b0:19c:a5dd:fadb with SMTP id
+ q8-20020a170902dac800b0019ca5ddfadbmr27349765plx.54.1678424129049; 
+ Thu, 09 Mar 2023 20:55:29 -0800 (PST)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com.
+ [209.85.214.173]) by smtp.gmail.com with ESMTPSA id
+ x129-20020a633187000000b00502fd12bc9bsm447000pgx.8.2023.03.09.20.55.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Mar 2023 20:55:28 -0800 (PST)
+Received: by mail-pl1-f173.google.com with SMTP id i3so4381704plg.6;
+ Thu, 09 Mar 2023 20:55:28 -0800 (PST)
+X-Received: by 2002:a17:902:a3c4:b0:19a:82a2:fcf9 with SMTP id
+ q4-20020a170902a3c400b0019a82a2fcf9mr9219012plb.2.1678424128461; Thu, 09 Mar
+ 2023 20:55:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20230227090228.17117-1-ivan.klokov@syntacore.com>
-In-Reply-To: <20230227090228.17117-1-ivan.klokov@syntacore.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Mar 2023 14:17:45 +1000
-Message-ID: <CAKmqyKMbr5ZTOmjyHLgjh266upSFDOgZUCo95OHk80REC+m6fg@mail.gmail.com>
-Subject: Re: [PATCH] Fix slli_uw decoding
-To: Ivan Klokov <ivan.klokov@syntacore.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, 
- palmer@dabbelt.com, philipp.tomsich@vrull.eu
+References: <20221219220808.26392-1-agraf@csgraf.de>
+In-Reply-To: <20221219220808.26392-1-agraf@csgraf.de>
+From: Joelle van Dyne <j@getutm.app>
+Date: Thu, 9 Mar 2023 20:55:17 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSC-Q9SvTR29qbYRMPfo10xhM9OtaXZNO6iJp0UAA96kCg@mail.gmail.com>
+Message-ID: <CA+E+eSC-Q9SvTR29qbYRMPfo10xhM9OtaXZNO6iJp0UAA96kCg@mail.gmail.com>
+Subject: Re: [PATCH] hvf: arm: Add support for GICv3
+To: Alexander Graf <agraf@csgraf.de>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Received-SPF: pass client-ip=209.85.216.50; envelope-from=osy86dev@gmail.com;
+ helo=mail-pj1-f50.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,55 +84,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 7:06=E2=80=AFPM Ivan Klokov <ivan.klokov@syntacore.=
-com> wrote:
+On Mon, Dec 19, 2022 at 2:08=E2=80=AFPM Alexander Graf <agraf@csgraf.de> wr=
+ote:
 >
-> The decoding of the slli_uw currently contains decoding
-> error: shamt part of opcode has six bits, not five.
+> We currently only support GICv2 emulation. To also support GICv3, we will
+> need to pass a few system registers into their respective handler functio=
+ns.
 >
-> Fixes 3de1fb71("target/riscv: update disas.c for xnor/orn/andn and slli.u=
-w")
+> This patch adds support for HVF to call into the TCG callbacks for GICv3
+> system register handlers. This is safe because the GICv3 TCG code is gene=
+ric
+> as long as we limit ourselves to EL0 and EL1 - which are the only modes
+> supported by HVF.
 >
-> Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
-
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> To make sure nobody trips over that, we also annotate callbacks that don'=
+t
+> work in HVF mode, such as EL state change hooks.
+>
+> With GICv3 support in place, we can run with more than 8 vCPUs.
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > ---
->  disas/riscv.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/disas/riscv.c b/disas/riscv.c
-> index ddda687c13..03cfefb0d3 100644
-> --- a/disas/riscv.c
-> +++ b/disas/riscv.c
-> @@ -1647,7 +1647,7 @@ const rv_opcode_data opcode_data[] =3D {
->      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
->      { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-> -    { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-> +    { "slli.uw", rv_codec_i_sh6, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
->      { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
->      { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
->      { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-> @@ -2617,10 +2617,10 @@ static void decode_inst_opcode(rv_decode *dec, rv=
-_isa isa)
->              switch (((inst >> 12) & 0b111)) {
->              case 0: op =3D rv_op_addiw; break;
->              case 1:
-> -                switch (((inst >> 25) & 0b1111111)) {
-> +                switch (((inst >> 26) & 0b111111)) {
->                  case 0: op =3D rv_op_slliw; break;
-> -                case 4: op =3D rv_op_slli_uw; break;
-> -                case 48:
-> +                case 2: op =3D rv_op_slli_uw; break;
-> +                case 24:
->                      switch ((inst >> 20) & 0b11111) {
->                      case 0b00000: op =3D rv_op_clzw; break;
->                      case 0b00001: op =3D rv_op_ctzw; break;
-> --
-> 2.34.1
->
->
+
+Tested-by: Joelle van Dyne <j@getutm.app>
 
