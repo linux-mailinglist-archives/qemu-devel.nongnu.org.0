@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EDA6B4BCC
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D1D6B4BCF
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:58:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paf8C-0006Wt-Ca; Fri, 10 Mar 2023 10:58:12 -0500
+	id 1paf8K-0006ZG-7y; Fri, 10 Mar 2023 10:58:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paf7l-0006Uw-4P
+ id 1paf7l-0006Ux-5E
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:57:41 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1paf7e-0004KO-U8
+ id 1paf7e-0004KM-TO
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:57:37 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id l25so5496090wrb.3
+Received: by mail-wm1-x336.google.com with SMTP id p26so3694026wmc.4
  for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 07:57:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678463847;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XrLMjayfogfDKZiC6WfoYhb5uBbHhPLMkq9B8laGqh0=;
- b=zACNbS2PbbWWwB45utja0Z9Km2jT7SxDotjgfSV5/2GZu92KMlvKBYtiHuvjK8jl7s
- nx0J+gDM368O3IR55joWF9dDLWJDFnKsuHnuS+A28D7RLBOzLuHMP2GFMeK3V016ZhBr
- ij8JHsNfEtHcA8F45IQY2UQwx0rGJqrYU84DD2QejL3wcYIH7oQM7qm2PiyENIXMIgr7
- qv2XUIzTPQ6tTRFTDcu3rs5avpWV7fZsiG94N14okQ/gH6tf0W0CU/VI3Xx6f4mS+NNb
- Xc4uP+v0Di9JKWEDoE9U9wMNxaDPJZ95Kh9MxqyUal6tdx1/E0DQV7GTKDG1q7mk9O36
- I0UQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bMY8dvY13Pqnug8MKfJU9bIF1ZzoxssF8oKzAVGn1D4=;
+ b=HaAX5VFa/dNrt+wlAEaQqesc7dGqvPMcaLuAJQJ0OBjlMnytRQAD34drbGGohvjxLY
+ GzxyWpV8T75f2bV4tNiwgS78CCQtOsVxD+dBLOkH0dOTPy3oPiKyaQiQYkpLusrD1o7P
+ v6rfMDNGyVImxqC5NWra0lKIf6Ms+R4/b93gG/qV0LG8wuqfjiUoSCDmwUyjlVPnF3o6
+ pJEvLRG5frTOewdXtlvWz4zWEwto14EvKRg+pzVkGyipyr481WYBYu58zv/TQaktrFsp
+ njhxzC2mbC7XhJMpYyNOEuMZF+NqH46ybcuqaC+JDPai0KReHVzWw6vcZGfrF/YB3iyX
+ CG9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678463847;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XrLMjayfogfDKZiC6WfoYhb5uBbHhPLMkq9B8laGqh0=;
- b=ymb8Br+Gg8zkN4aMOeeYJ5BnHYrRDByWF7Dut7wb4aihEpAursp9uSFd9/FOtI8YAm
- 6MiGIOuncMRVDvgnvLtbMUK/jcmbGox0ndI2ce1GmaVR3M4OOr3ZTzN0Q3Npk7WACeP7
- oQVmn+a8XZMzsFQWnIwUwnQaja9wJjAKwfAi2kVNr6gN8sn20jIEOWzhLAdBim+9orP5
- yGT7D8JFpMlTLk8SGvK5/qltwvb7vTF9rM1nl7b7sx/qJQw+XsHiDln8Vl24Mx0HArNP
- UT0LOjpa1ahO81RQBbz25I9r21nFKL0KuA5XeV/DCiWvY77KJErftVKpYrhQ2VS8JEQ/
- hEuw==
-X-Gm-Message-State: AO0yUKVUCDuL9STIMeGNu9buIg/tfyZv6exb2WCPW1mk9pvJ+CDydXWF
- 3wun2hASP594A2/vU/sCqstEbw==
-X-Google-Smtp-Source: AK7set/ZVCjvC9DGvVdd+NmfkpEBH/SSby63e6eP1olnZkdgXuoxlYA8gsRqaJE9RA/BcUD07Z5Amg==
-X-Received: by 2002:adf:e585:0:b0:2c7:1e52:c5a8 with SMTP id
- l5-20020adfe585000000b002c71e52c5a8mr17030992wrm.21.1678463847573; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bMY8dvY13Pqnug8MKfJU9bIF1ZzoxssF8oKzAVGn1D4=;
+ b=hXTm3MqKLHYabi9CWTS0Nb7yEuctNJ/DMH4a3cc1W9rQLC8/oGWJwTQMc1tPxb0WTD
+ Sr747shumm++S1UMXh+JWRj7l/AbkpHAdgH2nuZSv4ul1DvYbAPes5OBFe/QWCSykdHn
+ eeN6iXR3BmhxCt9jKricSsIeLDvR1MSZi/1svTGxYqJmxMGewq2eSb1U2FFHT2kxB98t
+ fZnjdhY1sK/l5LXYtIERuQhOxlvf0qc46sPQpgdumeHTRZFs1A6Aa6VY18lq1Q29uk22
+ TkdY+BxofC3nEBzFsr3Kzt/KVE6un7SJVxsagS18jL9IsC9hriPjxOenDbSASYOSl6C0
+ Ws/g==
+X-Gm-Message-State: AO0yUKX63Y0tdxZimj9HWm28FxNcNL2mtCcyzIeZcHCl7Uvdxcs5UW6T
+ tTkp7pLhJ4gbccLCm0KAhf6K+A==
+X-Google-Smtp-Source: AK7set/2GuiUkNC2LI1veLsdE3LlI+iwPY6GQDQDmZe/0PhINycVpnMFb/3lI5AlVnLC9JF0ckE1oQ==
+X-Received: by 2002:a05:600c:524b:b0:3ea:dc1b:90c with SMTP id
+ fc11-20020a05600c524b00b003eadc1b090cmr3097051wmb.20.1678463847425; 
  Fri, 10 Mar 2023 07:57:27 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- q6-20020adff946000000b002c703d59fa7sm158761wrr.12.2023.03.10.07.57.27
+ a14-20020a5d570e000000b002c706c754fesm145605wrv.32.2023.03.10.07.57.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 10 Mar 2023 07:57:27 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B37711FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id CABF41FFB8;
  Fri, 10 Mar 2023 15:57:26 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 0/5] gitdm updates
-Date: Fri, 10 Mar 2023 15:57:21 +0000
-Message-Id: <20230310155726.2222233-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
+Subject: [PULL 1/5] contrib/gitdm: Add VRULL to the domain map
+Date: Fri, 10 Mar 2023 15:57:22 +0000
+Message-Id: <20230310155726.2222233-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230310155726.2222233-1-alex.bennee@linaro.org>
+References: <20230310155726.2222233-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,42 +96,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c9932:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Message-Id: <20221219121914.851488-4-alex.bennee@linaro.org>
 
-  Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qemu into staging (2023-03-09 16:55:03 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/stsquad/qemu.git tags/pull-gitdm-100323-1
-
-for you to fetch changes up to 0194e846c43f0ee18e0384c0c1f35757760e04ec:
-
-  contrib/gitdm: add Idan to IBM's group map (2023-03-10 15:54:43 +0000)
-
-----------------------------------------------------------------
-gitdm updates for:
-
-  - IBM
-  - Facebook
-  - Individual contributors
-  - Ventana
-
-----------------------------------------------------------------
-Alex Bennée (5):
-      contrib/gitdm: Add VRULL to the domain map
-      contrib/gitdm: Add Ventana Micro Systems to the domain map
-      contrib/gitdm: add Tsukasa as an individual contributor
-      contrib/gitdm: Add Facebook the domain map
-      contrib/gitdm: add Idan to IBM's group map
-
- contrib/gitdm/domain-map            | 3 +++
- contrib/gitdm/group-map-facebook    | 5 +++++
- contrib/gitdm/group-map-ibm         | 1 +
- contrib/gitdm/group-map-individuals | 1 +
- gitdm.config                        | 1 +
- 5 files changed, 11 insertions(+)
- create mode 100644 contrib/gitdm/group-map-facebook
-
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index 3727918641..16822fe471 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -38,6 +38,7 @@ sifive.com      SiFive
+ suse.com        SUSE
+ suse.de         SUSE
+ virtuozzo.com   Virtuozzo
++vrull.eu        VRULL
+ wdc.com         Western Digital
+ windriver.com   Wind River
+ xilinx.com      Xilinx
 -- 
 2.39.2
 
