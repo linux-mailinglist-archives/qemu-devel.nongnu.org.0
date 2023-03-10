@@ -2,94 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0986B3D5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF9C6B3D71
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:15:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paaei-0003FE-RV; Fri, 10 Mar 2023 06:11:24 -0500
+	id 1paaiI-0007ZD-5y; Fri, 10 Mar 2023 06:15:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1paaeg-0003Es-A0
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:11:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1paaiG-0007Yx-9m
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:15:04 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1paaee-0005pF-QS
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:11:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678446680;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BaqJblt1vjZ/RRfbVW2uwGDS8YqABNUaD5+hPkhLBpk=;
- b=MDlUkUmZTWKt3R4cZoSoLJgLnINGzpUCsaOijxr0IkTRXzPEGQKXAFCR7kp9Dp4Z1PIdqo
- GuCHTCvgy2a0HYqNVnMtfS5soBn2BqbGsj/5lRkLMj7pfqtWm69dk4enzHpf3Q88+xdTeJ
- /FPeucjvF8Th7CAus97oRaZ70WyYPHU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-58-KuNZUf35M_utuRxLrEOnhg-1; Fri, 10 Mar 2023 06:11:18 -0500
-X-MC-Unique: KuNZUf35M_utuRxLrEOnhg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z6-20020a7bc7c6000000b003e0107732f4so1677263wmk.1
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 03:11:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678446677;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BaqJblt1vjZ/RRfbVW2uwGDS8YqABNUaD5+hPkhLBpk=;
- b=ZHsTQXKrPIkb5Eq28Mxp3u3Swfi35y4S29pYnzrYcpwV5EevveR/qslT3nhZGPYmbV
- Spfi9JNm3x52k+aZn19KvC+nP0n51AY8bXW/mp/koj3qtxLmGAfim+0VQvazLeM1AscO
- 87VJUYKffCI8IHmUzvUiuG9J9hyl58qK1su0gkeBsCu0vYaL2SpVr+Z32oC+Fb/RguMx
- 6GjA1XLr6q5w2hf06+uxmOATnd7GY0xpPTZDJy0hm6XdJ0hQyGlzcyA+veGpIoG6/HGZ
- p3QnB7evsisBmsY9bMqUf7CsIFUm8ZFy01FNVcH7pOSPvlVrjqmMsogNBKXGQOUCfdvQ
- OFCw==
-X-Gm-Message-State: AO0yUKVjtluE5F5YOBSplrUskwmihI2d8fnCCoXe+Y+iuzAHghIJ4Lev
- V5eI054N1/lp2xTfp9a05Uy0B/EjhiYY23kJ121oKonSAlDbdJNgd++u6vfc00mBNbWge00ocd7
- udcKmD0oETxTCRLU=
-X-Received: by 2002:a05:600c:5487:b0:3dc:555c:dd30 with SMTP id
- iv7-20020a05600c548700b003dc555cdd30mr2494601wmb.27.1678446677144; 
- Fri, 10 Mar 2023 03:11:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set8SUP2/H17dYw0XSno10Bq8vR2gNT3+HHSOxCjtpJ5IMzYad4/2QnCspGgeW0f9fcrmPPXZ/w==
-X-Received: by 2002:a05:600c:5487:b0:3dc:555c:dd30 with SMTP id
- iv7-20020a05600c548700b003dc555cdd30mr2494580wmb.27.1678446676823; 
- Fri, 10 Mar 2023 03:11:16 -0800 (PST)
-Received: from ?IPV6:2003:cf:d729:7d22:58d:9cdf:192f:c786?
- (p200300cfd7297d22058d9cdf192fc786.dip0.t-ipconnect.de.
- [2003:cf:d729:7d22:58d:9cdf:192f:c786])
- by smtp.gmail.com with ESMTPSA id
- m27-20020a05600c3b1b00b003eb395a8280sm2972567wms.37.2023.03.10.03.11.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 03:11:16 -0800 (PST)
-Message-ID: <ca3b6018-638c-3618-58a7-de98360f9089@redhat.com>
-Date: Fri, 10 Mar 2023 12:11:15 +0100
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1paaiD-0006PQ-W9
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:15:03 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id E0DD445895;
+ Fri, 10 Mar 2023 12:14:51 +0100 (CET)
+Message-ID: <9cfa0cc8-01c7-cf79-72ef-3224d1276e16@proxmox.com>
+Date: Fri, 10 Mar 2023 12:14:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 07/12] parallels: Move check of cluster outside image
- to a separate function
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 1/4] memory: prevent dma-reentracy issues
 Content-Language: en-US
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
- vsementsov@yandex-team.ru, kwolf@redhat.com
-References: <20230203091854.2221397-1-alexander.ivanov@virtuozzo.com>
- <20230203091854.2221397-8-alexander.ivanov@virtuozzo.com>
- <fdc04f4c-b921-0d58-8b0a-8def13220847@redhat.com>
- <13f924cc-a47d-e117-4993-d223937744a5@virtuozzo.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <13f924cc-a47d-e117-4993-d223937744a5@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Fam Zheng <fam@euphon.net>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230205040737.3567731-2-alxndr@bu.edu>
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <20230205040737.3567731-2-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,53 +70,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.03.23 12:08, Alexander Ivanov wrote:
->
->
-> On 3/7/23 13:17, Hanna Czenczek wrote:
->> On 03.02.23 10:18, Alexander Ivanov wrote:
->>> We will add more and more checks so we need a better code structure in
->>> parallels_co_check. Let each check performs in a separate loop in a
->>> separate helper.
->>>
->>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
->>> Reviewed-by: Denis V. Lunev <den@openvz.org>
->>> ---
->>>   block/parallels.c | 81 
->>> ++++++++++++++++++++++++++++++-----------------
->>>   1 file changed, 52 insertions(+), 29 deletions(-)
->>>
->>> diff --git a/block/parallels.c b/block/parallels.c
->>> index 02fbaee1f2..f9acee1fa8 100644
->>> --- a/block/parallels.c
->>> +++ b/block/parallels.c
->>> @@ -438,14 +438,13 @@ static void 
->>> parallels_check_unclean(BlockDriverState *bs,
->>>       }
->>>   }
->>>   -static int coroutine_fn parallels_co_check(BlockDriverState *bs,
->>> -                                           BdrvCheckResult *res,
->>> -                                           BdrvCheckMode fix)
->>> +static int parallels_check_outside_image(BlockDriverState *bs,
->>> +                                         BdrvCheckResult *res,
->>> +                                         BdrvCheckMode fix)
->>
->> I wonder, should we mark this function coroutine_fn?  And with the 
->> graph lock changes that happened in the meantime, probably also 
->> GRAPH_RDLOCK (because it’s calling bdrv_getlength()).
->>
->> Hanna
->>
-> Thank you for your review.
->
-> It seems, parallels_collect_statistics(), parallels_check_unclean() 
-> and parallels_set_bat_entry() also should be marked as coroutine_fn, 
-> shouldn't they?
+Am 05.02.23 um 05:07 schrieb Alexander Bulekov:
+> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
+> This flag is set/checked prior to calling a device's MemoryRegion
+> handlers, and set when device code initiates DMA.  The purpose of this
+> flag is to prevent two types of DMA-based reentrancy issues:
+> 
+> 1.) mmio -> dma -> mmio case
+> 2.) bh -> dma write -> mmio case
+> 
+> These issues have led to problems such as stack-exhaustion and
+> use-after-frees.
+> 
+> Summary of the problem from Peter Maydell:
+> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
+> 
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Acked-by: Peter Xu <peterx@redhat.com>
+> ---
+>  include/hw/qdev-core.h |  7 +++++++
+>  softmmu/memory.c       | 17 +++++++++++++++++
+>  softmmu/trace-events   |  1 +
+>  3 files changed, 25 insertions(+)
+> 
+Hi,
+there seems to be an issue with this patch or existing issue exposed by
+this patch in combination with the LSI SCSI controller.
 
-There should be no harm in doing so.  I wasn’t mentioning it just 
-because those functions don’t call other coroutine functions themselves, 
-so I think it doesn’t really matter.
+After applying this patch on current master (i.e.
+ee59483267de29056b5b2ee2421ef3844e5c9932), a Debian 11 with the LSI
+controller would not boot properly anymore:
+> [    7.540907] sym0: <895a> rev 0x0 at pci 0000:00:05.0 irq 10
+> [    7.546028] sym0: No NVRAM, ID 7, Fast-40, LVD, parity checking
+> [    7.559724] sym0: SCSI BUS has been reset.
+> [    7.560820] sym0: interrupted SCRIPT address not found.
+> [    7.563802] scsi host2: sym-2.2.3
+> [    7.881111] e1000 0000:00:03.0 eth0: (PCI:33MHz:32-bit) 52:54:00:12:34:56
+> [    7.881998] e1000 0000:00:03.0 eth0: Intel(R) PRO/1000 Network Connection
+> [    7.925902] e1000 0000:00:03.0 ens3: renamed from eth0
+> [   32.654811] scsi 2:0:0:0: tag#192 ABORT operation started
+> [   37.764283] scsi 2:0:0:0: ABORT operation timed-out.
+> [   37.774974] scsi 2:0:0:0: tag#192 DEVICE RESET operation started
+> [   42.882488] scsi 2:0:0:0: DEVICE RESET operation timed-out.
+> [   42.883606] scsi 2:0:0:0: tag#192 BUS RESET operation started
+> [   48.002437] scsi 2:0:0:0: BUS RESET operation timed-out.
+> [   48.003030] scsi 2:0:0:0: tag#192 HOST RESET operation started
+> [   48.010226] sym0: SCSI BUS has been reset.
+> [   53.122472] scsi 2:0:0:0: HOST RESET operation timed-out.
+> [   53.123030] scsi 2:0:0:0: Device offlined - not ready after error recovery
 
-Hanna
+The commandline I used is:
+./qemu-system-x86_64 \
+   -cpu 'kvm64' \
+   -m 4096 \
+   -serial 'stdio' \
+   -device 'lsi,id=scsihw0,bus=pci.0,addr=0x5' \
+   -drive
+'file=/dev/zvol/myzpool/vm-9006-disk-0,if=none,id=drive-scsi0,format=raw' \
+   -device
+'scsi-hd,bus=scsihw0.0,scsi-id=0,drive=drive-scsi0,id=scsi0,bootindex=100' \
+   -machine 'pc'
+
+Happy to provide any more information if necessary!
+
+CC-ing Fam Zheng (reviewer:SCSI)
+
+Originally reported by one of our community members:
+https://forum.proxmox.com/threads/123843/
+
+Best Regards,
+Fiona
 
 
