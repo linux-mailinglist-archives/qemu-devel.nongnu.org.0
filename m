@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FB06B4818
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 15:58:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF0D6B4920
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:09:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paeCU-00034g-Q0; Fri, 10 Mar 2023 09:58:30 -0500
+	id 1paeM7-0008Rf-TB; Fri, 10 Mar 2023 10:08:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1paeCS-00034Q-Cn
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:58:28 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1paeM3-0008OM-Uc
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:08:24 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1paeCQ-0006Hv-M7
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 09:58:27 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1paeM1-0008Fw-6b
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:08:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678460305;
+ s=mimecast20190719; t=1678460899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=X8OavA2ipdEXnMD6rflEaKb+Y6ond5xGb9iVwHnPQTU=;
- b=NI14l/CRoWED0WIXy9l0QNvwboyMh2/rUfYY9KWtgIRyTbovRdqJycHK3odRWx7BW179pZ
- WKB1FBO5jO5GhJ5q2cOPULu167z+JRH1y+0KpWgoM9AJLeYznUB/UEzRibxcw15OkOYw+u
- Ix2yn5YDkIv42tU7vNMEqq/uIrBMoKM=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FqlOWDeVqgWm0xE3T/gn3gNCxuQ/ecMH2CjtJ0cAFTo=;
+ b=K8jCga0aelvshjyVgeNuuaiytTyaKmyBEKgCZM7iabVj5cU/fKE0zwDtvSBCtteYKoSAMv
+ dTm+2/vDlZ/H9sWrzSyFe8VvwbBQkJN9la6yuW41wvbi2crgdGBaXe34TO4bKqr7ds9m3g
+ 6qoCguzm5RDan7cyOnUJ8Bd/1difV6A=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-326-nadc0YaINQCdJPXvIthdsw-1; Fri, 10 Mar 2023 09:58:22 -0500
-X-MC-Unique: nadc0YaINQCdJPXvIthdsw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- l12-20020ac84a8c000000b003bfe751a7fdso3050571qtq.1
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 06:58:22 -0800 (PST)
+ us-mta-594-IpQAftrTM1mwz_cYfPqflg-1; Fri, 10 Mar 2023 10:08:17 -0500
+X-MC-Unique: IpQAftrTM1mwz_cYfPqflg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ d10-20020a05620a240a00b0073baf1de8ebso3210285qkn.19
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 07:08:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678460301;
+ d=1e100.net; s=20210112; t=1678460895;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=X8OavA2ipdEXnMD6rflEaKb+Y6ond5xGb9iVwHnPQTU=;
- b=N1hlCgUpu3eYDPdXVNxrIksPLr2rjjs0tAFrhKNMUZeLcaxs8hkwe/c3Nw7VgzJxmJ
- dfr5S2VAaWpvbDtPwp6+Pmwllovb5Beikz/5TtmoqD9fjEza5CRH5oq7yu859pTqq6wW
- X340Wp6xlFTpS6c7DtCBllooG2RBFjEmHiAj70um9v+H6PKPrvNlliJIQhNjNwM5c+b3
- Ccu6loqTQxv61chFdQXLPqqeTzsqSZ0SHXP3RSm578LvP2TFL8/UaGWc2qoLr0Yfjzxh
- 2H5iZUzzDRwk3oRUevFFF0VVqBaM8mjKvJDMYL/hqiDn+Iyy/d26wt8nv+VbbFdjcd5L
- 5ofQ==
-X-Gm-Message-State: AO0yUKVsAuB85A473Y6vH/0C7tNIPP4sFwMU+EirgYZAiN5JKRctpktq
- giggJpVnea/HAuxmAskbwpHMa0eYwz/CA0EzzuRy+y23Ijh3nU1BgXHaHD1BZEh3UhDk67T1Oer
- yI2KZkIiPYZgLTFo=
-X-Received: by 2002:ac8:574a:0:b0:3bf:da3a:4e0f with SMTP id
- 10-20020ac8574a000000b003bfda3a4e0fmr5901329qtx.0.1678460301736; 
- Fri, 10 Mar 2023 06:58:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set9m55Jt2vDZIqwGMDMT6vSFY6wJV0RUVqlboLmhkShC4b03BOUed5v93bX7xXF1/9yp8zkh9g==
-X-Received: by 2002:ac8:574a:0:b0:3bf:da3a:4e0f with SMTP id
- 10-20020ac8574a000000b003bfda3a4e0fmr5901295qtx.0.1678460301451; 
- Fri, 10 Mar 2023 06:58:21 -0800 (PST)
+ bh=FqlOWDeVqgWm0xE3T/gn3gNCxuQ/ecMH2CjtJ0cAFTo=;
+ b=t071Rk1DQQEhcz4M24F+QqZamxu3VR7R+CUh+Hk6VbFtZHjAIKPyD/un840qwld4mY
+ KVE/HrDJLx8B9hoD5z4pMQkX4wepjh1uMCoZHlMKXvihxXlrGx9kpULCCdCuEuGMpLnp
+ vuLLmO7M+wPRoNeJwu7xkO3ThbkAuJYxBtJa24bFuVzx8j4qftdKXc0rRK6Zeizyd7mA
+ e4Tgo51dB+Nz81I0wHmG940ymdMDoVNvCEplF2H/5w9F+HaEqcrMRTxPCHSEZLj7e3/O
+ 9MfYBj78II4HFgm6LWZti+J9/eoh6qtm+bc8CBDbgJ6JwotK3Ne8NloKoak0RlwomgMb
+ VXYw==
+X-Gm-Message-State: AO0yUKWEobcFlCfJdCZ3x9qrgzjaOt+hf5kq1GMoZ2GsqsK8DM8T5Xqc
+ JfMzzLRwI7RM6ygT/ELv+oEUMWl7/D27VWBJeG8JFJBlizDCx5/8YddP3Cbk2Ec4YMEvBwXYGf9
+ uILOVg4d5IExY5AE=
+X-Received: by 2002:a05:622a:282:b0:3c0:3e3e:2f96 with SMTP id
+ z2-20020a05622a028200b003c03e3e2f96mr12147501qtw.2.1678460895287; 
+ Fri, 10 Mar 2023 07:08:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set8+ovLMAPBYHWP51TF3SZ5gnLQWxSldKMvHUTBl1ySZ1LFsNHomvwlhz4eZ4Ev332oH3dXBfQ==
+X-Received: by 2002:a05:622a:282:b0:3c0:3e3e:2f96 with SMTP id
+ z2-20020a05622a028200b003c03e3e2f96mr12147465qtw.2.1678460894953; 
+ Fri, 10 Mar 2023 07:08:14 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
  [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- 14-20020a37050e000000b0073b9ccb171asm1382331qkf.130.2023.03.10.06.58.20
+ n80-20020a374053000000b00741a984943fsm1500037qka.40.2023.03.10.07.08.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 06:58:20 -0800 (PST)
-Date: Fri, 10 Mar 2023 09:58:19 -0500
+ Fri, 10 Mar 2023 07:08:14 -0800 (PST)
+Date: Fri, 10 Mar 2023 10:08:13 -0500
 From: Peter Xu <peterx@redhat.com>
 To: Chuang Xu <xuchuangxclwt@bytedance.com>
 Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
  pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
  zhouyibo@bytedance.com
-Subject: Re: [PATCH v7 5/6] migration: Reduce time of loading non-iterable
- vmstate
-Message-ID: <ZAtFi1aihE2mUoY1@x1n>
+Subject: Re: [PATCH v7 6/6] memory: Introduce address_space_to_flatview_rcu()
+Message-ID: <ZAtH3XgTtqwTpcOS@x1n>
 References: <20230310022425.2992472-1-xuchuangxclwt@bytedance.com>
- <20230310022425.2992472-6-xuchuangxclwt@bytedance.com>
+ <20230310022425.2992472-7-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230310022425.2992472-6-xuchuangxclwt@bytedance.com>
+In-Reply-To: <20230310022425.2992472-7-xuchuangxclwt@bytedance.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -99,97 +98,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 10, 2023 at 10:24:24AM +0800, Chuang Xu wrote:
-> The duration of loading non-iterable vmstate accounts for a significant
-> portion of downtime (starting with the timestamp of source qemu stop and
-> ending with the timestamp of target qemu start). Most of the time is spent
-> committing memory region changes repeatedly.
-> 
-> This patch packs all the changes to memory region during the period of
-> loading non-iterable vmstate in a single memory transaction. With the
-> increase of devices, this patch will greatly improve the performance.
-> 
-> Note that the following test results are based on the application of the
-> next patch. Without the next patch, the improvement will be reduced.
-> 
-> Here are the test1 results:
-> test info:
-> - Host
->   - Intel(R) Xeon(R) Platinum 8362 CPU
->   - Mellanox Technologies MT28841
-> - VM
->   - 32 CPUs 128GB RAM VM
->   - 8 16-queue vhost-net device
->   - 16 4-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate     downtime
-> before		about 112 ms			  285 ms
-> after		about 20 ms			  194 ms
-> 
-> In test2, we keep the number of the device the same as test1, reduce the
-> number of queues per device:
-> 
-> Here are the test2 results:
-> test info:
-> - Host
->   - Intel(R) Xeon(R) Platinum 8362 CPU
->   - Mellanox Technologies MT28841
-> - VM
->   - 32 CPUs 128GB RAM VM
->   - 8 1-queue vhost-net device
->   - 16 1-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate     downtime
-> before		about 65 ms			 about 151 ms
-> 
-> after		about 19 ms			 about 100 ms
-> 
-> In test3, we keep the number of queues per device the same as test1, reduce
-> the number of devices:
-> 
-> Here are the test3 results:
-> test info:
-> - Host
->   - Intel(R) Xeon(R) Platinum 8362 CPU
->   - Mellanox Technologies MT28841
-> - VM
->   - 32 CPUs 128GB RAM VM
->   - 1 16-queue vhost-net device
->   - 1 4-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate     downtime
-> before		about 24 ms			 about 51 ms
-> after		about 9 ms			 about 36 ms
-> 
-> As we can see from the test results above, both the number of queues and
-> the number of devices have a great impact on the time of loading non-iterable
-> vmstate. The growth of the number of devices and queues will lead to more
-> mr commits, and the time consumption caused by the flatview reconstruction
-> will also increase.
+On Fri, Mar 10, 2023 at 10:24:25AM +0800, Chuang Xu wrote:
+> In last patch, we wrap vm_load with begin/commit, here we introduce
+> address_space_to_flatview_rcu() to avoid unnecessary enforce commit
+> during vm_load.
 > 
 > Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 > ---
->  migration/savevm.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+>  include/exec/memory-internal.h |  2 +-
+>  include/exec/memory.h          | 20 ++++++++++++++++++++
+>  softmmu/memory.c               |  2 +-
+>  3 files changed, 22 insertions(+), 2 deletions(-)
 > 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index aa54a67fda..9a7d3e40d6 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2762,6 +2762,7 @@ out:
->              goto retry;
->          }
->      }
-> +
-
-Useless line change.
-
->      return ret;
+> diff --git a/include/exec/memory-internal.h b/include/exec/memory-internal.h
+> index 100c1237ac..1432240449 100644
+> --- a/include/exec/memory-internal.h
+> +++ b/include/exec/memory-internal.h
+> @@ -30,7 +30,7 @@ static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
+>  
+>  static inline AddressSpaceDispatch *address_space_to_dispatch(AddressSpace *as)
+>  {
+> -    return flatview_to_dispatch(address_space_to_flatview(as));
+> +    return flatview_to_dispatch(address_space_to_flatview_rcu(as));
 >  }
 
-Other than that,
+I'm not sure whether this one is always safe.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+tcg_commit() seems to be safe, but maybe address_space_translate_iommu() is
+not?  Maybe easier to leave this untouched?
+
+>  
+>  FlatView *address_space_get_flatview(AddressSpace *as);
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index d6fd89db64..235e3017bc 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -1100,6 +1100,9 @@ bool memory_region_transaction_in_progress(void);
+>  
+>  void memory_region_transaction_do_commit(void);
+>  
+> +/*
+> + * We recommend using this by default.
+> + */
+
+I think this comment doesn't really help.. drop it?
+
+>  static inline FlatView *address_space_to_flatview(AddressSpace *as)
 
 -- 
 Peter Xu
