@@ -2,88 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C416B5137
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 20:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB5C6B518C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 21:14:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paiou-0003zE-Bx; Fri, 10 Mar 2023 14:54:28 -0500
+	id 1paj7C-0004zf-Qq; Fri, 10 Mar 2023 15:13:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paios-0003vf-A6
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:54:26 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1paiop-0004x5-T6
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 14:54:25 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id kb15so6374789pjb.1
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 11:54:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678478062;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2p2sKzscWSaUSihBA16xlIhe4nleg+AoYBlRsbTYUJE=;
- b=SyPgctWz5IJuvHuC5DISHLkfqsto4vLecSBMbe5JTWVB8Hw3sKtRUDCDutspnd5Wml
- C1OMDcjDJ9eE1Li5SolccFFafPTvcwMBW8lryWM8NSkvAYc07JcpmAwzCBviOM7uqhaK
- eYmztP+NOfRe0EUEb79cuGV46SR/SUGiyyC1oJW9OgqsFyE8o7W7CkNeU4pIni9lETQ3
- 7yNhfXpFsCaTO766bj69gjlLzhy5ZvbvOU42n0NH0nk5zCi1/uPSkkGQkAOqVTUFqNpJ
- wCYD7Hw+Huo1+ydUHbM5oevY1RyXZb5X0svnIPfm+pH0UxZRr5/HumZrgIiYCLCmuAST
- JZRg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1paj79-0004zF-PR
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 15:13:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1paj78-0000nn-1G
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 15:13:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678479195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zn+VAGFn26bwBSZo3ltdu5088gL+1tacmUhXTa09CjM=;
+ b=E/d1ueySNElqgJ3U+B+GoFAe2BrP2hM+NTPAA+fRzUNSLKAUds9yaTGZN/E09UyM9xnjEu
+ 61qifbuQ0dWl97Iy0gK7RL4lu8gKzhPvd8X1vElu/UsHIOVqzi/kqvLD1ZJ37UBuVabo5A
+ YcQF4BUfxJOblHNfCsQ/eHPY0GsygF0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-640-FnxFNxCAMDShn83y3AgprQ-1; Fri, 10 Mar 2023 15:13:14 -0500
+X-MC-Unique: FnxFNxCAMDShn83y3AgprQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ pc36-20020a05620a842400b00742c715894bso3682698qkn.21
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 12:13:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678478062;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1678479194;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2p2sKzscWSaUSihBA16xlIhe4nleg+AoYBlRsbTYUJE=;
- b=YuorVE/MQDh2CLZQCOgzmYDYB7oU8CCBN3DyR0kO52NrZ+H6MSiiZQXTDplLBoNK14
- JCU2NiH2x3ali337sxHy8j4vIwIDG6fps2zHAFdjX89o+7a1rzUYTEDLbZJR/+LgB6eh
- NAHEqn5F7RKk+n5rtExpSLn1TQ//KcTth+PFKEvZMxxDoZlZMJAlu0jRKUAvTSsOZelA
- MHSEqvc5lm0O2jXHiWJBWeJwzZLzd2ucqxLdfShoGCaEf8hLJue/3M/IfVvsFDXdrSD+
- 8rz5HpSCkGkqDHLH29qX9vnCyCGwvYIUnHfcl+MSk7/mHg2TbcuJf7AhVOBqVKsp0gp1
- wlEA==
-X-Gm-Message-State: AO0yUKWexwQLdO0JFe7BCV0Lh9zbjiezhv3wg+1fMPV9F14BvFS+nt/F
- KyZloAC/xaARU9z75wx4Iki8Kw==
-X-Google-Smtp-Source: AK7set/2CFe0Uzh6R0vAByksiF2CzbVMk3z4jlRBJXY9V8/sWq0e32DYwz9sgxCsqMcsovckirFyjg==
-X-Received: by 2002:a05:6a20:429e:b0:cc:af12:44ea with SMTP id
- o30-20020a056a20429e00b000ccaf1244eamr29973307pzj.51.1678478062403; 
- Fri, 10 Mar 2023 11:54:22 -0800 (PST)
-Received: from ?IPV6:2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62?
- ([2602:ae:154a:9f01:cc1c:ced1:1ec5:bd62])
- by smtp.gmail.com with ESMTPSA id
- l10-20020a635b4a000000b004dff15fc121sm266665pgm.36.2023.03.10.11.54.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 11:54:21 -0800 (PST)
-Message-ID: <f82245db-3925-1eee-27b5-a83f6da2d169@linaro.org>
-Date: Fri, 10 Mar 2023 11:54:20 -0800
+ bh=zn+VAGFn26bwBSZo3ltdu5088gL+1tacmUhXTa09CjM=;
+ b=q+j42Pj1b47zsHynYcURbfyXhpQTJR9g2K1e3NSoAfRv72tgA1GAaa/PV1WqN62nh2
+ yyeywqPC9CD5eV/E8lVzgu2QFYm9hTt5ErC4gc2Yo2GuaXO6CokbLSEMje4HA4OuOzHa
+ j8JWuHBxfGfH1T7TQqmRlMoLBrCTPskGLk57QZZs2n9mgbo48mdBRM71ybFO1yyNximf
+ 5jr79PoWN2eos3Ia42X011K4P6M4aYLr+hwZaUAEHkwqmBEoeiDXoP2R8jCck5M0hncY
+ p+0taIf5m06/vk3bvIep8CT0sFICKZfjaVK1aAffNyuO7VgdZRxuwZ00ATkKpChkxad1
+ qxmg==
+X-Gm-Message-State: AO0yUKWcMkmGWFa3djG4vrTZnfxDZrCyIL6/PcfrAE8fkDxESW8cPTKc
+ VuiuR+378l9vRlTi6CiKG5WkPVgUyBrKnmlZ8Y2h9Gyc4hqvoEv4/11O4mShb/SsbBr2JIZjTez
+ 1YtC2zCnesAWzYnY=
+X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
+ bp30-20020a05622a1b9e00b003bfa3d09023mr13017342qtb.5.1678479193909; 
+ Fri, 10 Mar 2023 12:13:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Z/GUXTHBScrLlS+wnzCdLakQMj2efBUJcRRIwkuHEs3F8k1NdjTAh7BABIUhjtBE2OIVCsw==
+X-Received: by 2002:a05:622a:1b9e:b0:3bf:a3d0:9023 with SMTP id
+ bp30-20020a05622a1b9e00b003bfa3d09023mr13017315qtb.5.1678479193679; 
+ Fri, 10 Mar 2023 12:13:13 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ c20-20020a379a14000000b00742a23cada8sm379955qke.131.2023.03.10.12.13.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 12:13:12 -0800 (PST)
+Date: Fri, 10 Mar 2023 15:13:11 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] hw/intc/ioapic: Update KVM routes before redelivering
+ IRQ, on RTE update
+Message-ID: <ZAuPV0kTb0ruFihj@x1n>
+References: <e1b97564a7728a5106134bc7063a8c62f134a45e.camel@infradead.org>
+ <ZAUZYkChWfwCcfSn@x1n>
+ <6E7EA2EE-382C-4345-9A2A-D61E0139FB65@infradead.org>
+ <34f494519d1921e8b62a6f3e709511a9467df54d.camel@infradead.org>
+ <ZAYXUKUtU9ipksUq@x1n>
+ <55bab93ee00619ac5b5b7416c17aee175ada8a8b.camel@infradead.org>
+ <ZAkVwunxmEfXu4+H@x1n>
+ <0754a758a46549dccde7878282721fe3835dc4b3.camel@infradead.org>
+ <ZAoPlRMlcO4fm5rJ@x1n>
+ <e8d8950b45cf35f16f3e9d3af979af1ea2ccead6.camel@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 01/12] target/s390x: Handle branching to odd addresses
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Harold Grovesteen <h.grovsteen@tx.rr.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-References: <20230310174223.944843-1-iii@linux.ibm.com>
- <20230310174223.944843-2-iii@linux.ibm.com>
- <ac8534ad-6cf5-6ba6-d1a5-10f4135490b2@linaro.org>
- <f75b53839aebc414c45da99b7b9e6fccef72b2d2.camel@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <f75b53839aebc414c45da99b7b9e6fccef72b2d2.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+In-Reply-To: <e8d8950b45cf35f16f3e9d3af979af1ea2ccead6.camel@infradead.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,50 +108,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/10/23 11:34, Ilya Leoshkevich wrote:
-> On Fri, 2023-03-10 at 11:24 -0800, Richard Henderson wrote:
->> On 3/10/23 09:42, Ilya Leoshkevich wrote:
->>> @@ -381,6 +382,14 @@ static inline int cpu_mmu_index(CPUS390XState
->>> *env, bool ifetch)
->>>    static inline void cpu_get_tb_cpu_state(CPUS390XState* env,
->>> target_ulong *pc,
->>>                                            target_ulong *cs_base,
->>> uint32_t *flags)
->>>    {
->>> +    if (env->psw.addr & 1) {
->>> +        /*
->>> +         * Instructions must be at even addresses.
->>> +         * This needs to be checked before address translation.
->>> +         */
->>> +        env->int_pgm_ilen = 2; /* see s390_cpu_tlb_fill() */
->>> +        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, 0);
->>> +    }
->>
->> This is incorrect placement.  You can't raise an exception from all
->> of the places from
->> which this is called.
->>
->> You need to do this at the start of s390x_tr_translate_insn.
->> Compare aarch64_tr_translate_insn and the test for (pc & 3).
->>
->>
->> r~
+On Fri, Mar 10, 2023 at 05:52:57PM +0000, David Woodhouse wrote:
+> On Thu, 2023-03-09 at 11:55 -0500, Peter Xu wrote:
+> > 
+> > There're four devices that can hook onto this, IIUC.  Besides IOAPIC and
+> > VFIO, there's also ivshmem and vhost.  IIUC we'll need to change all the
+> > four devices to implement this.
 > 
-> The problem is that it's too late - for non-mapped memory we would get
-> a translation exception instead of a specification exception.
+> If you grep for kvm_irqchip_add_irqfd_notifier() there are more than that.
 
-Ah.  I wonder if I've got the placement right for arm.
+Looks right to me.  I assume they're all line based IRQs routed later to
+IOAPIC, so they're the real devices consuming the IOAPIC entries.
 
-
-> I see the following call sites:
+> There's a bunch of largely duplicated code, with different code paths
+> for kvm_irqfds_enabled() and other variants. In code that I don't think
+> should even have to *know* about KVM, should it? 
 > 
-> - HELPER(lookup_tb_ptr) - for helpers the exceptions should work;
-> - cpu_exec_loop(), cpu_exec_step_atomic - these are wrapped in setjmp,
->    so it should be ok too?
-> - tb_check_watchpoint() - is this the problematic one?
+> I think I'd like to provide a generic set of helpers which just allow
+> callers to register a virtual IRQ and then trigger it manually and/or
+> attach an irqfd (and a resamplefd, qv) to it.
 > 
-> Am I missing something?
+> This new helper code can then cope with listening in userspace on that
+> fd if/when it needs to, and can even work for the non-KVM case. The
+> actual devices get a *lot* simpler.
+> 
+> It'll *broadly* look like the existing kvm_irqchip_* functions but be a
+> lot simpler to use.
 
-Apparently not.  I thought the ones except for lookup_tb_ptr would be outside the setjmp, 
-but I was wrong.
+IIUC what's missing is the reverse chain of notifications from e.g. IRTE to
+the device, either via MSIs or via some pins of IOAPIC.
+
+I don't think I have very good knowledge on the whole IRQ path yet so I
+can't really tell anything useful, but what you said looks like a good
+thing to have.  If it can cleanup things besides achieving the goal of
+fault irq reporting it could be more worthwhile.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
