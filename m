@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0776B53F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7105B6B53E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:10:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvn-0008FA-Ob; Fri, 10 Mar 2023 17:09:43 -0500
+	id 1pakvn-0008Ey-OD; Fri, 10 Mar 2023 17:09:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvl-0008Dv-6K
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:41 -0500
-Received: from mout.kundenserver.de ([212.227.17.24])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvj-0008CC-Gw
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:39 -0500
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvj-000328-Bg
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:40 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvh-00031W-MQ
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:39 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MxVbb-1qTPyY05Rx-00xoOI; Fri, 10
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MSLlu-1pyyr11yZ6-00SeRP; Fri, 10
  Mar 2023 23:09:35 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
-	Helge Deller <deller@gmx.de>
-Subject: [PULL 13/28] linux-user: Emulate CLONE_PIDFD flag in clone()
-Date: Fri, 10 Mar 2023 23:09:12 +0100
-Message-Id: <20230310220927.326606-14-laurent@vivier.eu>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 14/28] linux-user/sparc: Tidy syscall trap
+Date: Fri, 10 Mar 2023 23:09:13 +0100
+Message-Id: <20230310220927.326606-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GvON6A3EF/oi0Cbxf72sNTEAcsDhL6RbOybPA4GkObzkQmVPmKf
- WPE6Xtzl7BLjrInpSHDp4tjMxFkh8V1jolZH9xHto2J6jJHtMRBdyf9ZYFRC2PQlKf6cgIx
- Jwh/M1CUNUT1OtjtoSlZJ2pt1iC0nJ0fu56lsuBLSbSClCiDlq1H9SJQX+eNaqjhYhujsoM
- V63oi7yHxPKHbTiEeNldQ==
-UI-OutboundReport: notjunk:1;M01:P0:9ZMAy8/KItI=;JKHdV4aIQD+KMEaKWrHoR8AzjrB
- 2diKdykXgM3JPmEs2UMWATVsEkeanqitxwAF8BYG71MUsCYOMIzF6QuPJARdNjS0jUcPdgN4l
- wWloxeDP3mFh3YG+h4GMIZeU1psleMPsGn1NrkSCrf1tLNpDAPukwfFciChdIHX1prjtqWaTO
- 8Ln7BT9OtwWIdBdvf1MCI2Zbw9puYqtI8meG30xnJw/xt26j81Wu5K4xou7HuDoD8Oa5IVuuv
- mT6XaCOSyuaYCgUDyE482GiveoMHtsV9H6Q5+kc/8Ox3NBsn2LBh4swwmJB9s22rnSmr9AwnT
- 4NPqcJLbR9vB+j23Cy2Y7qHRS/sT66E4c4FGmM6WjXxlLds5wVrAYqqKhX9gGNQ/GX8oJ7Qfx
- Lf6nRpR5pB8vrevEfc0BtEuCtBl8dUfdZd8BiHfk827lJiKNO88i+shYTZvG8dx2bUAsjpCOB
- cc0jCVZeqaCmvA6B+M2hsRqs/FiWEp6081G0y4gE+BpBtAQoAWrPVZOBX2wkEYzVLkuJ89ltP
- HVoQU9/Y8fzY8n6ox1c+khQtRteU+IT9hmIc8kq5QaaIbLtFGHNhPyvgg5CaQ/sTZ71eiDUEi
- p4gPFtFUHHhjjxf8PzjI4XTMJQ3MuExyto75I39JSyN7elzu+68sqIPlb9UDj+wLhwurAm/64
- 8ofgKN/ApM5mENKKgISeihHzdW8EO69R/WCbIN49Mg==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:cV4az+v6TnksWP2sepxsrOEm3GVw2zULcW4XLllXVNMC8MZQQx8
+ 2Z7SfrSJfvyULyNZTqDI/4z0eyHAFWbZa8C2+RlDRLnyenNexYsfyJceJsQhwrbExidWXIJ
+ CRS4g7XVG7o6Bm+swKigGZV31/8ISh28cJWgGaQdR9wi9mWDk/Yb+qTgMoajTAgWD3OKnE/
+ maAOIieomHrAD/Hnt2CHw==
+UI-OutboundReport: notjunk:1;M01:P0:RxtEefxb2Pc=;mdZ5smiUfc+Tra9V+37J+JWQEZu
+ Wntycb9iD/AbHfJKVy5KIjs2wRkpW2uOGHxvO5pW061K7fsBtNjWIpUlGVnnycuyRb1xS3Www
+ NTicx6/kn4N6q4jzPE0LUmRKCIS8JZLNfNFpyq02WXYQbb7k4ay2u1GCkxtwTDzgR+34qAnaF
+ Zhtm5b9mcXPJ25rlDZIPdFHjNMC1SvMnYFW4lXeYvcQ0eldK0Viy/2iqOvyYUMtLTSWMggnTr
+ Ved3RFLW85oE48mrUoANPJwi3IM3Im9YT/Wod+LUBeN3CgSfwVT9CNRKf3eomqM58yZKu0zLl
+ 2kZCR1ZTpF8bhrdZcLlWYLafUm07HRqtaeCMCAnFb5zywumEqHz3waaEf4W2c1dV4SQbkGU4w
+ tbPu7wYlIFXf1/VMeyteykDtnExgQag7FG6t1hUxpnL4HNQHx5KBiZFa+vcnIaPgddsL9dtAU
+ bEyoH3Q8sFamJI8wtGihmjtrmn/Br776kh4mKDV1Vb/wqPiFFzcjmHdG00M9trgIDv41cgXlI
+ KDT7zJSm+HYXU/nNXGtUg0MgF2Gv7ZhLe8STNzaowMveO6sGwScrXdLrQsrk4W8p0GwVUDrT0
+ c6JZLrdBV5FNUyVIV/9Nzrp9yStq16BeQcCJrxP/pFf3gmGd8AiOfUz7HhIyAUSzB0pm4V0ib
+ OvVGYeXFga2qHgoaZlxv+MvisM9Cp3e3+ILGN4a9YA==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,106 +71,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Helge Deller <deller@gmx.de>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Add emulation for the CLONE_PIDFD flag of the clone() syscall.
-This flag was added in Linux kernel 5.2.
+Use TT_TRAP.
 
-Successfully tested on a x86-64 Linux host with hppa-linux target.
-Can be verified by running the testsuite of the qcoro debian package,
-which breaks hard and kills the currently logged-in user without this
-patch.
+For sparc32, 0x88 is the "Slowaris" system call, currently BAD_TRAP
+in the kernel's ttable_32.S.  For sparc64, 0x110 is tl0_linux32, the
+sparc32 trap, now folded into the TARGET_ABI32 case via TT_TRAP.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+For sparc64, there does still exist trap 0x111 as tl0_oldlinux64,
+which was replaced by 0x16d as tl0_linux64 in 1998.  Since no one
+has noticed, don't bother implementing it now.
 
-Message-Id: <Y4XoJCpvUA1JD7Sj@p100>
-[lv: define CLONE_PIDFD if it is not]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230216054516.1267305-3-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c  |  5 +++++
- linux-user/syscall.c | 31 ++++++++++++++++++++++++++++++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
+ linux-user/sparc/cpu_loop.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index e08bd53afb48..aad2b62ca416 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1111,11 +1111,16 @@ UNUSED static const struct flags mmap_flags[] = {
-     FLAG_END,
- };
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index c120c422786a..d31ea057dba1 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -149,6 +149,12 @@ static void flush_windows(CPUSPARCState *env)
+ #endif
+ }
  
-+#ifndef CLONE_PIDFD
-+# define CLONE_PIDFD 0x00001000
++#ifdef TARGET_ABI32
++#define TARGET_TT_SYSCALL  (TT_TRAP + 0x10) /* t_linux */
++#else
++#define TARGET_TT_SYSCALL  (TT_TRAP + 0x6d) /* tl0_linux64 */
 +#endif
 +
- UNUSED static const struct flags clone_flags[] = {
-     FLAG_GENERIC(CLONE_VM),
-     FLAG_GENERIC(CLONE_FS),
-     FLAG_GENERIC(CLONE_FILES),
-     FLAG_GENERIC(CLONE_SIGHAND),
-+    FLAG_GENERIC(CLONE_PIDFD),
-     FLAG_GENERIC(CLONE_PTRACE),
-     FLAG_GENERIC(CLONE_VFORK),
-     FLAG_GENERIC(CLONE_PARENT),
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index dad2c3312032..24cea6fb6a63 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -169,9 +169,13 @@
- #define CLONE_IGNORED_FLAGS                     \
-     (CLONE_DETACHED | CLONE_IO)
- 
-+#ifndef CLONE_PIDFD
-+# define CLONE_PIDFD 0x00001000
-+#endif
-+
- /* Flags for fork which we can implement within QEMU itself */
- #define CLONE_OPTIONAL_FORK_FLAGS               \
--    (CLONE_SETTLS | CLONE_PARENT_SETTID |       \
-+    (CLONE_SETTLS | CLONE_PARENT_SETTID | CLONE_PIDFD | \
-      CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID)
- 
- /* Flags for thread creation which we can implement within QEMU itself */
-@@ -6730,6 +6734,17 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-             return -TARGET_EINVAL;
+ void cpu_loop (CPUSPARCState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -167,13 +173,7 @@ void cpu_loop (CPUSPARCState *env)
          }
  
-+#if !defined(__NR_pidfd_open) || !defined(TARGET_NR_pidfd_open)
-+        if (flags & CLONE_PIDFD) {
-+            return -TARGET_EINVAL;
-+        }
-+#endif
-+
-+        /* Can not allow CLONE_PIDFD with CLONE_PARENT_SETTID */
-+        if ((flags & CLONE_PIDFD) && (flags & CLONE_PARENT_SETTID)) {
-+            return -TARGET_EINVAL;
-+        }
-+
-         if (block_signals()) {
-             return -QEMU_ERESTARTSYS;
-         }
-@@ -6757,6 +6772,20 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-                 ts->child_tidptr = child_tidptr;
-         } else {
-             cpu_clone_regs_parent(env, flags);
-+            if (flags & CLONE_PIDFD) {
-+                int pid_fd = 0;
-+#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
-+                int pid_child = ret;
-+                pid_fd = pidfd_open(pid_child, 0);
-+                if (pid_fd >= 0) {
-+                        fcntl(pid_fd, F_SETFD, fcntl(pid_fd, F_GETFL)
-+                                               | FD_CLOEXEC);
-+                } else {
-+                        pid_fd = 0;
-+                }
-+#endif
-+                put_user_u32(pid_fd, parent_tidptr);
-+                }
-             fork_end(0);
-         }
-         g_assert(!cpu_in_exclusive_context(cpu));
+         switch (trapnr) {
+-#ifndef TARGET_SPARC64
+-        case 0x88:
+-        case 0x90:
+-#else
+-        case 0x110:
+-        case 0x16d:
+-#endif
++        case TARGET_TT_SYSCALL:
+             ret = do_syscall (env, env->gregs[1],
+                               env->regwptr[0], env->regwptr[1],
+                               env->regwptr[2], env->regwptr[3],
 -- 
 2.39.2
 
