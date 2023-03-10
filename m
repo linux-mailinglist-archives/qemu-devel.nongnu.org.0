@@ -2,80 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94B96B409C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622156B413F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:51:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pacxN-0003Tq-Jl; Fri, 10 Mar 2023 08:38:49 -0500
+	id 1pad7R-0007I7-L4; Fri, 10 Mar 2023 08:49:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pacxF-0003Q7-RS
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:38:43 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pacxE-0003cv-Ba
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 08:38:41 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id p6so3071901pga.0
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 05:38:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678455519;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JcYfk5BVv1XvdscoAre3udY9Wzw4SiLfZ1POfhRieVA=;
- b=mc7N2cKYbsPHRV9r5Jocn2VkKZntpfLQJQbLGD3jF18vNnDCwCW9j9i3tqvIALpNq2
- 87JzVeyxF4Che1W/BiZxKpRL7rgRYtTdaYets8pBvDchcwO4w2JrdfBphaDDgMQtmxzK
- 9v7zYwqbd5H0GJAfuyWbemzP40QkngxSn0MEvsNTuc0wlxxEFk/Rz/S81dpKHikJFHJf
- 1miYqEmm3KLau/yrxCsKFLhe7yTq/y5TPduWedj8iE1rGXRX8WskfaykCh99sDCdpT8a
- AkjW5/J7tlSLWlfMAlMllJCiCJI1uD9Z3NVDDXUm3jnIhFuU2SGtcxpsZ5BHczO2vCbv
- qmRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678455519;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JcYfk5BVv1XvdscoAre3udY9Wzw4SiLfZ1POfhRieVA=;
- b=Wr5gxYXz6IJ6HtB9U0eBrPpFDLI698uJl58It1YDd0L5ftFn3ouPnLtarYHjeoV/Ox
- 55jaa7BGvWjEady9u4mqaigx19YeNRCkelaRnzr09Ieseibu5Ubk80MfkfyiqE7XaaXx
- 4fgr1HUwS6dtdoYkYaHAJ4EqGfgUroZti6WdGSzL9ofx7SKIXV0fJ4Z0NVtIKqsH4/ff
- UdxaOfGAFChVWpiHKIU/t8lDaSDf9nEs73mpqU6I5c4h5lpH7Wv+og0dozc9yQl8IR55
- pitHgsZ0YTZgSbTmTcVwItUeYoM+ZI/Cs1BdPDbdv+NCgai763V0sra5T7fpox35pTmp
- i/ww==
-X-Gm-Message-State: AO0yUKWi7Pk699K82yM0gpgTzuCHBTKIgSeGqnDAJZ9aMEhstj3pjIrC
- uRF35LdQQgAAImazaK1wCjeF09N23oHvZw5MhDsyRw==
-X-Google-Smtp-Source: AK7set+u+7eudutke9CPCgTqQE2wN2+f4OKI17X/D/B9tfzHju+OgwOm3HeJ6tE04RzY6SDL4TUlwH7w3krkcHu5RTg=
-X-Received: by 2002:a63:8c17:0:b0:503:7be0:ea51 with SMTP id
- m23-20020a638c17000000b005037be0ea51mr8966484pgd.9.1678455518776; Fri, 10 Mar
- 2023 05:38:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1pad7P-0007Hn-RP; Fri, 10 Mar 2023 08:49:11 -0500
+Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1pad7N-00068h-G1; Fri, 10 Mar 2023 08:49:11 -0500
+Received: from [0.0.0.0] (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com
+ [3.122.114.9]) by csgraf.de (Postfix) with ESMTPSA id 8CA486080292;
+ Fri, 10 Mar 2023 14:48:57 +0100 (CET)
+Message-ID: <44c6459b-f17f-8cb7-ba2d-a9187f32cde0@csgraf.de>
+Date: Fri, 10 Mar 2023 14:48:56 +0100
 MIME-Version: 1.0
-References: <20230310133247.39268-1-philmd@linaro.org>
-In-Reply-To: <20230310133247.39268-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Mar 2023 13:38:27 +0000
-Message-ID: <CAFEAcA8hDiWBXPhKmo=AsS5wfu8wKf2YbxwF4p7xRSWrCW4xEg@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0] gitlab-ci: Remove job building EDK2 firmware
- binaries
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Simon Glass <sjg@chromium.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?UGF3ZcWCIFBvxYJhd3NraQ==?= <ppolawsk@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 0/2] hw/intc/arm_gicv3: Bump ITT entry size to 16
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>, Neil Armstrong <narmstrong@baylibre.com>
+References: <20221223085047.94832-1-agraf@csgraf.de>
+ <CAFEAcA-1PUCFZPAF25uy1VqjgciKXiYmfW-89q6QqKhf1io7Lw@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <CAFEAcA-1PUCFZPAF25uy1VqjgciKXiYmfW-89q6QqKhf1io7Lw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,26 +62,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Mar 2023 at 13:33, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> When we introduced this Gitlab-CI job in commit 71920809ce
-> ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries"),
-> the naive plan was to have reproducible binaries by downloading
-> what this job would build, testing it and eventually committing
-> it. With retrospective, nothing happened 3 years later and this
-> job is just bitrotting:
->
->   Step 1/3 : FROM ubuntu:18.04
->   18.04: Pulling from library/ubuntu
->   mediaType in manifest should be
->   'application/vnd.docker.distribution.manifest.v2+json' not
->   'application/vnd.oci.image.manifest.v1+json'
->
-> Remove this job to avoid wasting maintenance and CI ressources.
 
-Does the same thing hold for the opensbi job ?
+On 03.01.23 18:41, Peter Maydell wrote:
+> On Fri, 23 Dec 2022 at 08:50, Alexander Graf <agraf@csgraf.de> wrote:
+>> While trying to make Windows work with GICv3 emulation, I stumbled over
+>> the fact that it only supports ITT entry sizes that are power of 2 sized.
+>>
+>> While the spec allows arbitrary sizes, in practice hardware will always
+>> expose power of 2 sizes and so this limitation is not really a problem
+>> in real world scenarios. However, we only expose a 12 byte ITT entry size
+>> which makes Windows blue screen on boot.
+>>
+>> The easy way to get around that problem is to bump the size to 16. That
+>> is a power of 2, basically is what hardware would expose given the amount
+>> of bits we need per entry and doesn't break any existing scenarios. To
+>> play it safe, this patch set only bumps them on newer machine types.
+> This is a Windows bug and should IMHO be fixed in that guest OS.
+> Changing the ITT entry size of QEMU's implementation introduces
+> an unnecessary incompatibility in migration and wastes memory
+> (we're already a bit unnecessarily profligate with ITT entries
+> compared to real hardware).
 
-thanks
--- PMM
+
+Follow-up on this: Microsoft has fixed the issue in Windows. That won't 
+make older versions work, but the current should be fine with GICv3:
+
+https://fosstodon.org/@itanium/109909281184181276
+
+
+Alex
+
+
 
