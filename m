@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD586B4FB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 19:04:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718E56B4FBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 19:04:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pah5l-0001wT-V3; Fri, 10 Mar 2023 13:03:45 -0500
+	id 1pah5l-0001wK-HK; Fri, 10 Mar 2023 13:03:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pah5e-0001tJ-QC
+ id 1pah5e-0001tL-Vt
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:03:39 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pah5c-0004bh-7V
+ id 1pah5d-0004bw-4n
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 13:03:38 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- p23-20020a05600c1d9700b003ead4835046so5244840wms.0
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:03:35 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id g3so5845957wri.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 10:03:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678471415;
+ d=linaro.org; s=google; t=1678471416;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=66O6js5YuYKZ11w3iRdKDgQbrfENXcjOpmWM7mo37Z8=;
- b=URomjHUUxmt8j3S+yPK/AqaWJLzeHwDd2JJ+Pb6LAbJl5ns5RHqeQLmW69eBTknei8
- cPw7CyvsYW8TvCMWSbOK5mrJaG9VoL1U/XZ0F3DqNCRgrEiOVh7/ieuRx6lNSOguibsK
- ut0mHSD2Ag/cMGUA0YzvpHVujhbDvrTeOu3yS+c2yb6909LohXqBgZrvtFuICH5FCgjp
- XDnFX1ZfFz6Au3yJYhJ//pwVC3l2CxI5QKMIHCSuFh9Ps8tHk6OTNNYuOjDJvsq8i+v7
- C31hBT8TBARd+5rjUWL1wD+DiCZ/LbxclnOUd6ss6HSnIdkfOPZQPbTAabmrDx1ly4/k
- cvbw==
+ bh=bx6TPTTNCRJLDvJsFAvDdd+22wUA1I4Yr7f+owZFKdM=;
+ b=b4biTcxNdUADgyazoUwwGvHxIGjaul/IXryrP2be6QfMh2OJxwMcODqxCo6pQb7NRz
+ eOgIlczhMqDvG8aWIA7nrpa027mjsGNSMyvrbntzea+3eYnNlnphXyIEqo42xjVSitEl
+ xwFE+Ot57HFvfQ+D0I6A5rKJM+cIQGRSERu/ZSBn7PK45Fv9n4X/DJ9iaXE9sKVL3ULa
+ UsH/oTJyOOILATnchLQunRvOAuFm3sxgG8bNY/IKGQ/khUoysJEhIc2utajxIZ5d92ke
+ LA3FX0vjkHrfsjjB9xd50TbqWurxLryqaVrKa/1YGCkc3dQSN0HD0Lmnj7IgQhjm6ccL
+ MNVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678471415;
+ d=1e100.net; s=20210112; t=1678471416;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=66O6js5YuYKZ11w3iRdKDgQbrfENXcjOpmWM7mo37Z8=;
- b=cCqqc4dvBnWJVuYdRJxXbDj67B6QOvNn/O4Vw6ZeLRAVfodAk3i5vHTay+DI6YtyDA
- sr8YNVKl+tOc7A/1x412szayS5dx2n9Alh3QF6OgUT4rImKTZdQJAt6lMtnRUU/vAmSD
- ibTVRPW5EBDLTeeFZgbsANUZUmkzl7tm9cs8kFlG6dVlstHbRI4jtTgE1M/IPBb12rNM
- dyjYDPEwzdlot2u6991hw35WZ1i0+sImBUmNGp/j4FQyCSbsnzGsmxOiAU0MPgJlLBQd
- 2AgYfHMOqsEjvssbNmNcBYh3Km6NVnV6RjNxv5tDrgqYZF1YoDG/bkSOaQ/gDz4RHBiq
- iqhQ==
-X-Gm-Message-State: AO0yUKXF2D0fzT72zTiT511YcOL7JqITN8WSRMCpp57eWmxOiAtAB4y7
- ydd/emyXGsPMsuj3v5gytLodZmWo+pCGZMMfd2k=
-X-Google-Smtp-Source: AK7set/H3YicqkGXGmFARnbpkn6DNPBmN24G9GOaNEE5S7sNOzsfJO0hiVqFVHn3dq0DRp1mJ58ngw==
-X-Received: by 2002:a05:600c:b8a:b0:3eb:578d:ded3 with SMTP id
- fl10-20020a05600c0b8a00b003eb578dded3mr3539135wmb.35.1678471414966; 
- Fri, 10 Mar 2023 10:03:34 -0800 (PST)
+ bh=bx6TPTTNCRJLDvJsFAvDdd+22wUA1I4Yr7f+owZFKdM=;
+ b=Av58UzEp6xDCSBqTwaKstIWCVoBYdWfiriy084WB14ZCGk2iE3Ius2jxx8xoLDDauI
+ M2Pe7z1L35q+eeXE2aif2CpjyiEBiOUf0ckrTzJyNjY7DUOdSUAogYAJcgQdbd5EiKeL
+ GMSmNPfA4OAV28Huq+VqRwpfOckQ6JNZVOsAl9EmB7zTcxLoqRxo6KdONdqw+FY5ds49
+ bR29jXN9SHjnE0nWEZoe/3qwet/OKFdcnqpB40UcJueeEEj7E374X2SAgRR4ZHkUJwQ0
+ HOOU2UF1WmYSrqaUhg0LycaAWOTqOa0IqpQWnIhcBQXHynrZyz+dBB/MKRcSHU/YQboC
+ yonw==
+X-Gm-Message-State: AO0yUKWbw8ETIuckeH5zVMTewAXF3crcsN00F4SYXuQF7QKSdQvpj/zp
+ HARkvJE8OpCh+EDZ2cFnTN8afNzUKqKxluSAG3o=
+X-Google-Smtp-Source: AK7set+eS6Yr9Sdt2jdsFQ9G/v5CB4tIzVihx8nxVI+FMR3cfEu6LPWjuO0dpvFDTFCh3kjCEW21qw==
+X-Received: by 2002:a05:6000:48:b0:2c8:f1fc:d84a with SMTP id
+ k8-20020a056000004800b002c8f1fcd84amr18590844wrx.16.1678471415858; 
+ Fri, 10 Mar 2023 10:03:35 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- h6-20020a05600c350600b003e1fee8baacsm637320wmq.25.2023.03.10.10.03.33
+ s3-20020a1cf203000000b003e7f1086660sm529561wmc.15.2023.03.10.10.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 10:03:33 -0800 (PST)
+ Fri, 10 Mar 2023 10:03:34 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 42FBE1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 598A21FFBD;
  Fri, 10 Mar 2023 18:03:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Marc Zyngier <maz@kernel.org>
-Subject: [PATCH v2 04/10] contrib/gitdm: add a group map for Google
-Date: Fri, 10 Mar 2023 18:03:26 +0000
-Message-Id: <20230310180332.2274827-5-alex.bennee@linaro.org>
+ Milica Lazarevic <milica.lazarevic@syrmia.com>
+Subject: [PATCH v2 05/10] contrib/gitdm: Add SYRMIA to the domain map
+Date: Fri, 10 Mar 2023 18:03:27 +0000
+Message-Id: <20230310180332.2274827-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310180332.2274827-1-alex.bennee@linaro.org>
 References: <20230310180332.2274827-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,40 +95,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Long standing community contributors often use their upstream email
-addresses when working on project.
+The company website lists QEMU amongst the things they work on so I
+assume these are corporate contributions.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Marc Zyngier <maz@kernel.org>
+Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>
 ---
- contrib/gitdm/group-map-google | 5 +++++
- gitdm.config                   | 1 +
- 2 files changed, 6 insertions(+)
- create mode 100644 contrib/gitdm/group-map-google
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/contrib/gitdm/group-map-google b/contrib/gitdm/group-map-google
-new file mode 100644
-index 0000000000..8c53e0cf67
---- /dev/null
-+++ b/contrib/gitdm/group-map-google
-@@ -0,0 +1,5 @@
-+#
-+# Some Google employees contribute using their upstream email addresses.
-+#
-+
-+maz@kernel.org
-diff --git a/gitdm.config b/gitdm.config
-index 75b55b3603..4b52ee47be 100644
---- a/gitdm.config
-+++ b/gitdm.config
-@@ -34,6 +34,7 @@ EmailMap contrib/gitdm/domain-map
- GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
- GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
- GroupMap contrib/gitdm/group-map-facebook Facebook
-+GroupMap contrib/gitdm/group-map-google Google
- GroupMap contrib/gitdm/group-map-ibm IBM
- GroupMap contrib/gitdm/group-map-janustech Janus Technologies
- GroupMap contrib/gitdm/group-map-netflix Netflix
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index bd989d065c..570e63c9e1 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -40,6 +40,7 @@ siemens.com     Siemens
+ sifive.com      SiFive
+ suse.com        SUSE
+ suse.de         SUSE
++syrmia.com      SYRMIA
+ ventanamicro.com Ventana Micro Systems
+ virtuozzo.com   Virtuozzo
+ vrull.eu        VRULL
 -- 
 2.39.2
 
