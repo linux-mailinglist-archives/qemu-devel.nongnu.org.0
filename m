@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B587B6B3BBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31B96B3BCC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:14:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZgD-0007AO-OI; Fri, 10 Mar 2023 05:08:53 -0500
+	id 1paZl8-0000l8-Dj; Fri, 10 Mar 2023 05:13:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paZgA-000777-IJ
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:08:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paZkz-0000ka-GA
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:13:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paZg8-00078H-Bn
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:08:50 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1paZkv-0008O8-V1
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:13:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678442925;
+ s=mimecast20190719; t=1678443224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RUpaRZtvDE6dumiX9MCrj7jilPejIULl9NYGQmI8ieI=;
- b=TpVQc20sEptVwtrMpJoH2faEF3MMm7kVbxmaXxhsFO0c3k1jupnh3F17QUAi3YEE8GDAXb
- BAoQ9MWKJWldIvugLNCSRAqfyJ0YbjmDnNiaH8Y3xE7ic8ixXV1qnSJ7PpJDU/5GZV5u2E
- GgLvqjQd9nxxwDpLrxEhA27zHehp8aE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=c6dyfBbHrQmIFXX548DwdbrYMJG/HPnUsCZBuj1Qkiw=;
+ b=GnHxF3U3rzUKavQu/HtP2azHW+OBnLKRgbHVxcjngb5RWOhCYAZPlw078wcl63k/NkSsHd
+ KqPK55GyqIl37UlRzWIDuLgRKL6Sr1qk6RmUZt14eh3nu+R/JV6sBj769EFqkT3eUUWuH9
+ TflQ9TMdWcrerw2UeM41m7OPzxRw2VQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-ErmspO1YNf6H0ByK0OBurg-1; Fri, 10 Mar 2023 05:08:44 -0500
-X-MC-Unique: ErmspO1YNf6H0ByK0OBurg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z6-20020a7bc7c6000000b003e0107732f4so1616182wmk.1
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 02:08:44 -0800 (PST)
+ us-mta-263-sPLrRduBO3yMZKRQojoDiA-1; Fri, 10 Mar 2023 05:13:43 -0500
+X-MC-Unique: sPLrRduBO3yMZKRQojoDiA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l23-20020a7bc457000000b003e206cbce8dso1617603wmi.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 02:13:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678442923;
+ d=1e100.net; s=20210112; t=1678443222;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RUpaRZtvDE6dumiX9MCrj7jilPejIULl9NYGQmI8ieI=;
- b=1k5o6QmGDQeRRF33IZTe8a4tbFbdLatk2piqkYHgdX4sR+yAYGSlym7H3Fj4zfe6fI
- /R9/xR1z5QnMc/uXR9mkZyobWpt2L16k2uNOU7OTRe4XRlyZWpGSig+yeg2ev8Dxl5G0
- RcFTjJvN1inoRlYpmthAjTtqbhWPD4DNDbM2EVLKNrs1jYNIyZyUGCe4mSx/JBz+azcE
- xU3pM72ep7oPf72xbRFX738I3DIbOTyq/lagJTL5WiG/vdb7BuHHJvpCcigr8oG7ZloW
- uWiPVneDGa/Sqgc2lKsfrlRiw5ChBVn0mvpwmacbVx6IWBsAmKjyKDORdRKQEcu7wzxX
- vIWw==
-X-Gm-Message-State: AO0yUKUW+e4x97MYIPKZcnCU+vFiLKhikn5e55CKXtpaZCeT1SRk5NBE
- P74C5TdOkI5Qa1dUlamEG4R7jDcbEkaULmZt4sAm1R/Eg6SeSRR7cHb0vBVEs6VB8qfJCUYCYoZ
- jTm6DQ/fCWjMatHk=
-X-Received: by 2002:a05:600c:4f08:b0:3ea:e554:7815 with SMTP id
- l8-20020a05600c4f0800b003eae5547815mr2083803wmq.9.1678442923408; 
- Fri, 10 Mar 2023 02:08:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set9tJE72mdXDl5CYACvCp4TeUWur23s/IzN4XBi+188TG1QpPmZT7WHUeLFw5D1Zk+lt+DFYEA==
-X-Received: by 2002:a05:600c:4f08:b0:3ea:e554:7815 with SMTP id
- l8-20020a05600c4f0800b003eae5547815mr2083767wmq.9.1678442923057; 
- Fri, 10 Mar 2023 02:08:43 -0800 (PST)
+ bh=c6dyfBbHrQmIFXX548DwdbrYMJG/HPnUsCZBuj1Qkiw=;
+ b=NGPXljf2TduaxMteiyVBT2gtRbhZLGBi5yzX1I78QSjngcuMpwcqUzglcJDsja84jn
+ Rp44VlEHrFzkXQo/nyQB9J/kkfqac+s+8Mjx9vKRns6ljbv+5mivyTTSwKm5+urk47Au
+ eQaVViMn0I8aqTzXjowT7nhqTmhirMqv06yTYyHwhimzcfoucpkm1BUSHki3fm6/Xw1/
+ cXV4dkqU9Eyduwm5WTbup+pdo60Ffxln1/kA+ycIgi2E1QWIi0S8yjAwwCXfpmHe2NUz
+ JJzCqJvYT8g1MV6KqIi3bcJ8bO1WDg0GCInZhat0t82xTLtE5EfwXtBGTtefj5cRRuQ1
+ LcgQ==
+X-Gm-Message-State: AO0yUKV5SrWHGg0+QdZjQD8D/1frwaZsywe8lcx+Kj+0QmPj31Xi2tsr
+ WupZcZe9VlR5grCbpfPGIrU50gFwlujKyeM3v7+lXVFTeVlzuCM5a4PT+GsEJegZwJbUtFEi2t4
+ LzRQaIXEc1KONL2g=
+X-Received: by 2002:a1c:4b13:0:b0:3dc:16d2:ae5e with SMTP id
+ y19-20020a1c4b13000000b003dc16d2ae5emr2070358wma.32.1678443222481; 
+ Fri, 10 Mar 2023 02:13:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set+MTR2HM8xtbUW4DMiX7ww5uQuNiWR67YD/6glyXes0U60ELBdRl0vJ+Vb72smE/I42uZhMCA==
+X-Received: by 2002:a1c:4b13:0:b0:3dc:16d2:ae5e with SMTP id
+ y19-20020a1c4b13000000b003dc16d2ae5emr2070327wma.32.1678443222179; 
+ Fri, 10 Mar 2023 02:13:42 -0800 (PST)
 Received: from redhat.com ([2.52.9.88]) by smtp.gmail.com with ESMTPSA id
- l11-20020a05600c2ccb00b003e0015c8618sm2789642wmc.6.2023.03.10.02.08.40
+ x20-20020a1c7c14000000b003eb5ce1b734sm1683520wmc.7.2023.03.10.02.13.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 02:08:42 -0800 (PST)
-Date: Fri, 10 Mar 2023 05:08:37 -0500
+ Fri, 10 Mar 2023 02:13:41 -0800 (PST)
+Date: Fri, 10 Mar 2023 05:13:37 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Fabiano Rosas <farosas@suse.de>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
@@ -76,14 +76,14 @@ Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Subject: Re: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are
  present
-Message-ID: <20230310050550-mutt-send-email-mst@kernel.org>
+Message-ID: <20230310050853-mutt-send-email-mst@kernel.org>
 References: <20230309201434.10831-1-farosas@suse.de>
  <20230309201434.10831-9-farosas@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20230309201434.10831-9-farosas@suse.de>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -91,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -125,8 +125,17 @@ On Thu, Mar 09, 2023 at 05:14:31PM -0300, Fabiano Rosas wrote:
 > Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-I don't like it that we are hard-coding the list of accelerators
-like this. Make a wrapper?
+I don't like it that it's a pass not a skip.
+
+Also, if we are not testing acpi should we not
+skip building acpi?
+
+Also, a misconfigured qemu would previously be caught,
+now it will seem to pass tests.
+How about a special make check target that will just test
+xen things?
+
+
 
 > ---
 > This currently affects Arm, but will also affect x86 after the xenpvh
@@ -160,10 +169,6 @@ like this. Make a wrapper?
 > +    has_kvm = qtest_has_accel("kvm");
 > +    has_tcg = qtest_has_accel("tcg");
 > +
-
-why are you moving these? init at declaration time is
-generally cleaner.
-
 > +    if (!has_tcg && !has_kvm) {
 > +        return 0;
 > +    }
@@ -192,9 +197,6 @@ generally cleaner.
 > +    has_tcg = qtest_has_accel("tcg");
 > +    has_kvm = qtest_has_accel("kvm");
 > +
-
-and here why do we need them global?
-
 > +    if (!has_tcg && !has_kvm) {
 > +        return 0;
 > +    }
@@ -222,9 +224,6 @@ and here why do we need them global?
 > +    has_kvm = qtest_has_accel("kvm");
 > +    has_tcg = qtest_has_accel("tcg");
 > +
-
-same. why the move?
-
 > +    if (!has_tcg && !has_kvm) {
 > +        return 0;
 > +    }
