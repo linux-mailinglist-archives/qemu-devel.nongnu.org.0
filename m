@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDDB6B4B4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EDA6B4BCC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 16:58:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paeoH-0002b2-JR; Fri, 10 Mar 2023 10:37:33 -0500
+	id 1paf8C-0006Wt-Ca; Fri, 10 Mar 2023 10:58:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paeoE-0002aY-UD; Fri, 10 Mar 2023 10:37:30 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1paf7l-0006Uw-4P
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:57:41 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1paeoD-0006f0-9S; Fri, 10 Mar 2023 10:37:30 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 092221FD7C;
- Fri, 10 Mar 2023 15:37:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678462647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o1T0P574/azf2sOaHLEPXGLVbh9LW5dl78gDeUUIh6w=;
- b=i8r9BdTcpVaH4HNQRvCsHHLyxzFGUuRbIM8WqaDKRzHBMUQ+v9avRlxXSotcM2aey5BY1N
- sQwIHZSqzlr9kzJqQX62ZoNl7o52QQ49k5QZCSAIyhlt4nQ1t2Sl06b9Scvhj1LP0OQV2H
- dak+BPaZ1gR5TPsebXSOwpZ2gC2vSGM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678462647;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o1T0P574/azf2sOaHLEPXGLVbh9LW5dl78gDeUUIh6w=;
- b=b/cwbdPaTI8a9brBuI8/J681s0DxvSjaGXPU1aAqzufWMrUiI7epFwYpq0cqFZ8tjCuDdR
- oB0tvN+k9Et879CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B1C2134F7;
- Fri, 10 Mar 2023 15:37:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wD5eCrZOC2RNCQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 10 Mar 2023 15:37:26 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Peter Maydell
- <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
- Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>, Juan
- Quintela <quintela@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Laurent Vivier <lvivier@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are
- present
-In-Reply-To: <0a2fcaf6-169e-a947-c03f-3aadba10da73@redhat.com>
-References: <20230309201434.10831-1-farosas@suse.de>
- <20230309201434.10831-9-farosas@suse.de>
- <20230310050550-mutt-send-email-mst@kernel.org> <87h6useoxy.fsf@suse.de>
- <0a2fcaf6-169e-a947-c03f-3aadba10da73@redhat.com>
-Date: Fri, 10 Mar 2023 12:37:23 -0300
-Message-ID: <877cvoehxo.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1paf7e-0004KO-U8
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 10:57:37 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id l25so5496090wrb.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 07:57:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678463847;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XrLMjayfogfDKZiC6WfoYhb5uBbHhPLMkq9B8laGqh0=;
+ b=zACNbS2PbbWWwB45utja0Z9Km2jT7SxDotjgfSV5/2GZu92KMlvKBYtiHuvjK8jl7s
+ nx0J+gDM368O3IR55joWF9dDLWJDFnKsuHnuS+A28D7RLBOzLuHMP2GFMeK3V016ZhBr
+ ij8JHsNfEtHcA8F45IQY2UQwx0rGJqrYU84DD2QejL3wcYIH7oQM7qm2PiyENIXMIgr7
+ qv2XUIzTPQ6tTRFTDcu3rs5avpWV7fZsiG94N14okQ/gH6tf0W0CU/VI3Xx6f4mS+NNb
+ Xc4uP+v0Di9JKWEDoE9U9wMNxaDPJZ95Kh9MxqyUal6tdx1/E0DQV7GTKDG1q7mk9O36
+ I0UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678463847;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XrLMjayfogfDKZiC6WfoYhb5uBbHhPLMkq9B8laGqh0=;
+ b=ymb8Br+Gg8zkN4aMOeeYJ5BnHYrRDByWF7Dut7wb4aihEpAursp9uSFd9/FOtI8YAm
+ 6MiGIOuncMRVDvgnvLtbMUK/jcmbGox0ndI2ce1GmaVR3M4OOr3ZTzN0Q3Npk7WACeP7
+ oQVmn+a8XZMzsFQWnIwUwnQaja9wJjAKwfAi2kVNr6gN8sn20jIEOWzhLAdBim+9orP5
+ yGT7D8JFpMlTLk8SGvK5/qltwvb7vTF9rM1nl7b7sx/qJQw+XsHiDln8Vl24Mx0HArNP
+ UT0LOjpa1ahO81RQBbz25I9r21nFKL0KuA5XeV/DCiWvY77KJErftVKpYrhQ2VS8JEQ/
+ hEuw==
+X-Gm-Message-State: AO0yUKVUCDuL9STIMeGNu9buIg/tfyZv6exb2WCPW1mk9pvJ+CDydXWF
+ 3wun2hASP594A2/vU/sCqstEbw==
+X-Google-Smtp-Source: AK7set/ZVCjvC9DGvVdd+NmfkpEBH/SSby63e6eP1olnZkdgXuoxlYA8gsRqaJE9RA/BcUD07Z5Amg==
+X-Received: by 2002:adf:e585:0:b0:2c7:1e52:c5a8 with SMTP id
+ l5-20020adfe585000000b002c71e52c5a8mr17030992wrm.21.1678463847573; 
+ Fri, 10 Mar 2023 07:57:27 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ q6-20020adff946000000b002c703d59fa7sm158761wrr.12.2023.03.10.07.57.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 07:57:27 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B37711FFB7;
+ Fri, 10 Mar 2023 15:57:26 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 0/5] gitdm updates
+Date: Fri, 10 Mar 2023 15:57:21 +0000
+Message-Id: <20230310155726.2222233-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,78 +92,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> writes:
+The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c9932:
 
-> On 10/03/2023 14.06, Fabiano Rosas wrote:
->> "Michael S. Tsirkin" <mst@redhat.com> writes:
->> 
->>> On Thu, Mar 09, 2023 at 05:14:31PM -0300, Fabiano Rosas wrote:
->>>> It is possible to have a build with both TCG and KVM disabled due to
->>>> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
->>>> host.
->>>>
->>>> If we build with --disable-tcg on the aarch64 host, we will end-up
->>>> with a QEMU binary (x86) that does not support TCG nor KVM.
->>>>
->>>> Fix tests that crash or hang in the above scenario. Do not include any
->>>> test cases if TCG and KVM are missing.
->>>>
->>>> Make sure that calls to qtest_has_accel are placed after g_test_init
->>>> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
->>>> printed before other messages") to avoid TAP parsing errors.
->>>>
->>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>>> Reviewed-by: Juan Quintela <quintela@redhat.com>
->>>
->>> I don't like it that we are hard-coding the list of accelerators
->>> like this. Make a wrapper?
->>>
->> 
->> Are you thinking of some sort of "has_any_accel" wrapper?
->
-> I think in the long run, we want something like what I described here:
->
-> https://lore.kernel.org/qemu-devel/ee0cad00-a6f3-f0c1-adf0-ba32329354f3@redhat.com/
->
+  Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qemu into staging (2023-03-09 16:55:03 +0000)
 
-Wont't that function be too generic? The choice of accelerator is quite
-specific to each individual test, some might not work with TCG, some
-might not work with HVF and so on. There is no link between build-time
-configuration and runtime test execution after all. We could always have
-a build without an accelerator and then try to run a test that uses that
-accelerator. And also have an accelerator present that the test does not
-support at all.
+are available in the Git repository at:
 
+  https://gitlab.com/stsquad/qemu.git tags/pull-gitdm-100323-1
 
-For this particularly bizarre case of not having TCG nor KVM in the
-build I'm inclined to go with Michael's suggestion of checking it at
-build time and skipping all the hassle. This is what I'm preparing:
+for you to fetch changes up to 0194e846c43f0ee18e0384c0c1f35757760e04ec:
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 29a4efb4c2..e698cdcb60 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -27,6 +27,12 @@ if config_host.has_key('CONFIG_MODULES')
-   qtests_generic += [ 'modules-test' ]
- endif
- 
-+# For x86_64, i386 and aarch64 it is possible to have only Xen as an
-+# accelerator. Some tests require either TCG or KVM, so make sure they
-+# are present before building those tests.
-+tcg_or_kvm_available = (config_all.has_key('CONFIG_TCG') or
-+                        config_all.has_key('CONFIG_KVM'))
-+
- qtests_pci = \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
-   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
-@@ -40,11 +46,12 @@ qtests_filter = \
-   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : [])
- 
- qtests_i386 = \
--  (slirp.found() ? ['pxe-test'] : []) + \
-+  (slirp.found() and tcg_or_kvm_available ? ['pxe-test'] : []) +                            \
----
+  contrib/gitdm: add Idan to IBM's group map (2023-03-10 15:54:43 +0000)
 
-What do you think?
+----------------------------------------------------------------
+gitdm updates for:
+
+  - IBM
+  - Facebook
+  - Individual contributors
+  - Ventana
+
+----------------------------------------------------------------
+Alex Bennée (5):
+      contrib/gitdm: Add VRULL to the domain map
+      contrib/gitdm: Add Ventana Micro Systems to the domain map
+      contrib/gitdm: add Tsukasa as an individual contributor
+      contrib/gitdm: Add Facebook the domain map
+      contrib/gitdm: add Idan to IBM's group map
+
+ contrib/gitdm/domain-map            | 3 +++
+ contrib/gitdm/group-map-facebook    | 5 +++++
+ contrib/gitdm/group-map-ibm         | 1 +
+ contrib/gitdm/group-map-individuals | 1 +
+ gitdm.config                        | 1 +
+ 5 files changed, 11 insertions(+)
+ create mode 100644 contrib/gitdm/group-map-facebook
+
+-- 
+2.39.2
 
 
