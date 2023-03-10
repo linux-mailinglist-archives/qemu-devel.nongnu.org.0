@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D186B3AFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3DB6B3ABD
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 10:37:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paZAo-0003DB-T0; Fri, 10 Mar 2023 04:36:27 -0500
+	id 1paZAq-0003EC-21; Fri, 10 Mar 2023 04:36:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAe-00039B-CR
+ id 1paZAe-00039A-2a
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1paZAc-0008LJ-Mj
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:16 -0500
+ id 1paZAc-0008LH-Fe
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 04:36:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1678440974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S95kkZYRkx1NjrrewpBJhHJqr3aWx5/HJG1AfYm0NVc=;
- b=PHjJhzl8q2hzvp8CH04aYUVjGtv58503wHHVMVc2FYAUvzF9zezk5G/NIq/SPXNy5UYlu9
- RVsif6J9KVH1E+LDSaQQ9clgqkQKKEHSDuLwfda5DYOg4N9T59uZO75bcmXSmeencJfdpp
- j6lLvKpPllUzjmP54QpnMGXlg4+YnLQ=
+ bh=CLf/YwmM5IXeLQyQ+jh8YSph6lpa5I3WrVCCxyncly0=;
+ b=D4M+HS6LEOA3grJSRHBu5S8eQWMEcUHKkftZbJ0iS9smp5/8R3WMG8o72Zj8riXVpfJyQA
+ Lrpk9vsweobQ6lHGUjQXAVz++Oy1Hsi6MxjLvtevVr52V4BDBeHuzGvzQQyXGBacY+Q+I9
+ xjW0AsJSaEZZcjo1So1hS1Ppmo/6a1g=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-7-_7EWEiI-PWGOT4TBjuW7cw-1; Fri, 10 Mar 2023 04:36:09 -0500
-X-MC-Unique: _7EWEiI-PWGOT4TBjuW7cw-1
+ us-mta-322-iEtJbnFeOGy0qELcbSR8Lw-1; Fri, 10 Mar 2023 04:36:12 -0500
+X-MC-Unique: iEtJbnFeOGy0qELcbSR8Lw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A599185A794;
- Fri, 10 Mar 2023 09:36:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 44EBF800B23;
+ Fri, 10 Mar 2023 09:36:12 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33AD340C945A;
- Fri, 10 Mar 2023 09:36:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DCA7408573E;
+ Fri, 10 Mar 2023 09:36:09 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 14/44] e1000: Configure ResettableClass
-Date: Fri, 10 Mar 2023 17:34:56 +0800
-Message-Id: <20230310093526.30828-15-jasowang@redhat.com>
+Subject: [PULL V2 15/44] e1000e: Configure ResettableClass
+Date: Fri, 10 Mar 2023 17:34:57 +0800
+Message-Id: <20230310093526.30828-16-jasowang@redhat.com>
 In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
 References: <20230310093526.30828-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,57 +93,61 @@ Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ hw/net/e1000e.c     | 10 ++++++----
+ hw/net/trace-events |  2 +-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 3353a37..c81d914 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -377,9 +377,9 @@ static bool e1000_vet_init_need(void *opaque)
-     return chkflag(VET);
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index 0bc222d..ec27431 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -513,11 +513,11 @@ static void e1000e_pci_uninit(PCIDevice *pci_dev)
+     msi_uninit(pci_dev);
  }
  
--static void e1000_reset(void *opaque)
-+static void e1000_reset_hold(Object *obj)
+-static void e1000e_qdev_reset(DeviceState *dev)
++static void e1000e_qdev_reset_hold(Object *obj)
  {
--    E1000State *d = opaque;
-+    E1000State *d = E1000(obj);
-     E1000BaseClass *edc = E1000_GET_CLASS(d);
-     uint8_t *macaddr = d->conf.macaddr.a;
+-    E1000EState *s = E1000E(dev);
++    E1000EState *s = E1000E(obj);
  
-@@ -1731,12 +1731,6 @@ static void pci_e1000_realize(PCIDevice *pci_dev, Error **errp)
-                                         e1000_flush_queue_timer, d);
- }
+-    trace_e1000e_cb_qdev_reset();
++    trace_e1000e_cb_qdev_reset_hold();
  
--static void qdev_e1000_reset(DeviceState *dev)
--{
--    E1000State *d = E1000(dev);
--    e1000_reset(d);
--}
--
- static Property e1000_properties[] = {
-     DEFINE_NIC_PROPERTIES(E1000State, conf),
-     DEFINE_PROP_BIT("autonegotiation", E1000State,
-@@ -1762,6 +1756,7 @@ typedef struct E1000Info {
- static void e1000_class_init(ObjectClass *klass, void *data)
+     e1000e_core_reset(&s->core);
+ 
+@@ -669,6 +669,7 @@ static Property e1000e_properties[] = {
+ static void e1000e_class_init(ObjectClass *class, void *data)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-     E1000BaseClass *e = E1000_CLASS(klass);
-     const E1000Info *info = data;
-@@ -1774,9 +1769,9 @@ static void e1000_class_init(ObjectClass *klass, void *data)
-     k->revision = info->revision;
-     e->phy_id2 = info->phy_id2;
-     k->class_id = PCI_CLASS_NETWORK_ETHERNET;
-+    rc->phases.hold = e1000_reset_hold;
-     set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-     dc->desc = "Intel Gigabit Ethernet";
--    dc->reset = qdev_e1000_reset;
-     dc->vmsd = &vmstate_e1000;
-     device_class_set_props(dc, e1000_properties);
- }
+     DeviceClass *dc = DEVICE_CLASS(class);
++    ResettableClass *rc = RESETTABLE_CLASS(class);
+     PCIDeviceClass *c = PCI_DEVICE_CLASS(class);
+ 
+     c->realize = e1000e_pci_realize;
+@@ -679,8 +680,9 @@ static void e1000e_class_init(ObjectClass *class, void *data)
+     c->romfile = "efi-e1000e.rom";
+     c->class_id = PCI_CLASS_NETWORK_ETHERNET;
+ 
++    rc->phases.hold = e1000e_qdev_reset_hold;
++
+     dc->desc = "Intel 82574L GbE Controller";
+-    dc->reset = e1000e_qdev_reset;
+     dc->vmsd = &e1000e_vmstate;
+ 
+     e1000e_prop_disable_vnet = qdev_prop_uint8;
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index 8fa4299..c98ad12 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -251,7 +251,7 @@ e1000e_vm_state_stopped(void) "VM state is stopped"
+ # e1000e.c
+ e1000e_cb_pci_realize(void) "E1000E PCI realize entry"
+ e1000e_cb_pci_uninit(void) "E1000E PCI unit entry"
+-e1000e_cb_qdev_reset(void) "E1000E qdev reset entry"
++e1000e_cb_qdev_reset_hold(void) "E1000E qdev reset hold"
+ e1000e_cb_pre_save(void) "E1000E pre save entry"
+ e1000e_cb_post_load(void) "E1000E post load entry"
+ 
 -- 
 2.7.4
 
