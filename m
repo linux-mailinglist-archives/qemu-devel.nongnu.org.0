@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B0C6B34A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 04:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D487E6B3514
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 05:00:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paTEZ-0004p9-9n; Thu, 09 Mar 2023 22:15:55 -0500
+	id 1paTuU-0000B2-U2; Thu, 09 Mar 2023 22:59:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1paTEW-0004or-I3
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 22:15:52 -0500
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1paTEU-0002Rk-1D
- for qemu-devel@nongnu.org; Thu, 09 Mar 2023 22:15:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678418150; x=1709954150;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=XADA23lPV7Xh8GYzbrlqm6Mek6sY5wgy/cce61f3qH4=;
- b=fbHmxlHk1jw9Tpj499m/nLDJQ18aKqHp4E3FpFSWUNQ+pgshSKsgMoG7
- ZlO9OH0h6/fGY/5NAtUY+OSeHKRUzmdmeG5cHgT7CLRoMHunZK3Yi6XDo
- OHf6vyxNn2FLh/qdiXn0v8zSDTMocxgXmcs4tEAqESTLcTgkUZGRiO7RQ
- 41GFXrdbgFljgQuAyhf3Y2VCQac+twq+N1hDwl40KUxIAfSFloXZyb7p3
- V3n7obD5ib8kp0lwNNY6lM72KaavshzvOI4jqsA77Geh9Km4P16A/AWLk
- Qm/GReIC2HGfMTXqPe1H5gG3+DGd9mdKzyaUjb5NtxuAnx9I6DaE11/p4 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="324985333"
-X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; d="scan'208";a="324985333"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2023 19:15:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="627643087"
-X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; d="scan'208";a="627643087"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.212.199])
- ([10.254.212.199])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2023 19:15:40 -0800
-Message-ID: <96e49428-0c2a-2a50-42e0-31c8e553a34b@intel.com>
-Date: Fri, 10 Mar 2023 11:15:37 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1paTuS-0000Ab-Uk; Thu, 09 Mar 2023 22:59:13 -0500
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1paTuR-0001ni-Do; Thu, 09 Mar 2023 22:59:12 -0500
+Received: by mail-ua1-x92e.google.com with SMTP id x1so2678985uav.9;
+ Thu, 09 Mar 2023 19:59:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678420750;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ce5Emz7Kx4FfBs4paLCODWnbHCptHGBkaFDAaQ79X+U=;
+ b=JY5KRNdtUtB8D7cChNmlrBdqkDw5vxYQLf5iIGsF/o+dA2DddKF1F1UeBG782uYOR0
+ U9UpEd67NQkSvX5Ztc1smQ+YK9m+A3fm2uD1fEYm8gqKSnhwu+6Ol6sPNsPAhcs2OD/F
+ QvdZua3K9svDJipakxTqVlpWLfrVo8CSRXSL+8kQKQweXOmIM3OZdc4MdGWJ1WCpwYZI
+ 4cA5s4OZKoXOzHRgL1WrQyq/I2Eo6MmD+h4XmAXudl9AAm6EfNoZlGq+ztZ6qJuf4fHQ
+ 2anpbyRlV/oA/TwJ5aHKoMvmXTY3ZwEx/2XoR+FeIrNbO7MWK4SLbQGVddQm8v279Y/0
+ 5NrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678420750;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ce5Emz7Kx4FfBs4paLCODWnbHCptHGBkaFDAaQ79X+U=;
+ b=tP05P9Ajh7nTw8BRa+DAi/QthVCtfhR69x4wb81/YsLDT6XIZwxZfoMvDvPytoLr6v
+ CA1fIIuGkzIzBkEKFpG2Oyz2BPCPbwIpDlJjiHeOw3eYksI3+6tXdR//PcvIF2uJMS8P
+ tqQRRv2gftu9VN/1bhDZo02jEW4JHojjsOyTXy0XQP/UCeOINQWBmpW+ixnMzsaz0ipc
+ Sq9BEw7cP65rb6db+bJ7ycwowjA+epdpTQsM0MV/B+xAExzHN4UKmBFJwxkEXjJP+i89
+ 3PHkL/mcABkAQXi7keVXjFyIQbLx3H+QmVcAL3I1WO3AmI4KahE/xO72SiD4WlmhvSjR
+ ljkg==
+X-Gm-Message-State: AO0yUKVncvCYIjrceK1lWUbJgBBKWGl/TndTeiqPZ3/pdG3baJOUXq4Z
+ VcqbxjAFpuXRU29mPD8DVu3Jq7rCHBJs+juPZ+o=
+X-Google-Smtp-Source: AK7set/RZXdVIM9pNeI2sdgaS2qe86wzBaHYLKH/QtNRvnxuYcJCk0T4YfxCLK4PYELIes7coTwOBz1nLXVzk1MOTJM=
+X-Received: by 2002:a1f:6d42:0:b0:401:b9fd:7053 with SMTP id
+ i63-20020a1f6d42000000b00401b9fd7053mr15756642vkc.2.1678420749974; Thu, 09
+ Mar 2023 19:59:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH v15 15/60] i386/xen: add pc_machine_kvm_type to initialize
- XEN_EMULATE mode
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-References: <20230301135223.988336-1-dwmw2@infradead.org>
- <20230301135223.988336-16-dwmw2@infradead.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20230301135223.988336-16-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=xiaoyao.li@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230305094231.1616-1-jim.shu@sifive.com>
+ <20230305094231.1616-2-jim.shu@sifive.com>
+In-Reply-To: <20230305094231.1616-2-jim.shu@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 10 Mar 2023 13:58:43 +1000
+Message-ID: <CAKmqyKPm=EUrKn7DGobMG1ax1KtGv3Kf1fxAqDB961Mfa8Sb8w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: Make the "virt" register writable by GDB
+To: Jim Shu <jim.shu@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x92e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,85 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/1/2023 9:51 PM, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> The xen_overlay device (and later similar devices for event channels and
-> grant tables) need to be instantiated. Do this from a kvm_type method on
-> the PC machine derivatives, since KVM is only way to support Xen emulation
-> for now.
+On Sun, Mar 5, 2023 at 7:43=E2=80=AFPM Jim Shu <jim.shu@sifive.com> wrote:
+>
+> This patch also enables debugger to set current privilege mode to
+> VU/VS-mode.
+>
+> Extend previous commit 81d2929c41d32af138f3562f5a7b309f6eac7ca7 to
+> support H-extension.
 
-Just curious, isn't there any more reasonable place to add machine 
-specific initialization?
+I'm not sure we want this. What is the use case for this?
 
-abusing the mc->kvm_type() looks bad to me.
+Changing the virt mode on the fly like this is likely to break lots of
+software. Should we really allow users to do this?
 
-If everything goes well, KVM x86 will support multiple vm_type[1].
-At that time, QEMU will need to implement mc->kvm_type() to get/parse vm 
-type. I have posted the patch to enable it for TDX[2].
+Alistair
 
-[1] 
-https://github.com/sean-jc/linux/commit/fbc35ac0be99b5e02248e7c8f1f3cacb9da512ce
-
-[2] 
-https://lore.kernel.org/qemu-devel/20220802074750.2581308-4-xiaoyao.li@intel.com/ 
-
-
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Reviewed-by: Paul Durrant <paul@xen.org>
+>
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 > ---
->   hw/i386/pc.c         | 11 +++++++++++
->   include/hw/i386/pc.h |  3 +++
->   2 files changed, 14 insertions(+)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 992951c107..a316a01b15 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -90,6 +90,7 @@
->   #include "hw/virtio/virtio-iommu.h"
->   #include "hw/virtio/virtio-pmem-pci.h"
->   #include "hw/virtio/virtio-mem-pci.h"
-> +#include "hw/i386/kvm/xen_overlay.h"
->   #include "hw/mem/memory-device.h"
->   #include "sysemu/replay.h"
->   #include "target/i386/cpu.h"
-> @@ -1846,6 +1847,16 @@ static void pc_machine_initfn(Object *obj)
->       cxl_machine_init(obj, &pcms->cxl_devices_state);
->   }
->   
-> +int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
-> +{
-> +#ifdef CONFIG_XEN_EMU
-> +    if (xen_mode == XEN_EMULATE) {
-> +        xen_overlay_create();
+>  target/riscv/gdbstub.c | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 1755fd9d51..a7f234beaf 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -203,15 +203,29 @@ static int riscv_gdb_get_virtual(CPURISCVState *cs,=
+ GByteArray *buf, int n)
+>
+>  static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, in=
+t n)
+>  {
+> +#ifdef CONFIG_USER_ONLY
+> +    if (n >=3D 0 && n <=3D 1) {
+> +        return sizeof(target_ulong);
 > +    }
+> +#else
+> +    bool virt;
+> +
+>      if (n =3D=3D 0) {
+> -#ifndef CONFIG_USER_ONLY
+>          cs->priv =3D ldtul_p(mem_buf) & 0x3;
+>          if (cs->priv =3D=3D PRV_H) {
+>              cs->priv =3D PRV_S;
+>          }
+> -#endif
+> +        return sizeof(target_ulong);
+> +    } else if (n =3D=3D 1) {
+> +        virt =3D ldtul_p(mem_buf) & 0x1;
+> +        if ((cs->priv =3D=3D PRV_M) && (virt =3D=3D true)) {
+> +            /* M-mode only supports V=3D0. */
+> +            virt =3D false;
+> +        }
+> +        riscv_cpu_set_virt_enabled(cs, virt);
+>          return sizeof(target_ulong);
+>      }
 > +#endif
-> +    return 0;
-> +}
-> +
->   static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
->   {
->       CPUState *cs;
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 66e3d059ef..467311007e 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -291,12 +291,15 @@ extern const size_t pc_compat_1_5_len;
->   extern GlobalProperty pc_compat_1_4[];
->   extern const size_t pc_compat_1_4_len;
->   
-> +int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
-> +
->   #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
->       static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
->       { \
->           MachineClass *mc = MACHINE_CLASS(oc); \
->           optsfn(mc); \
->           mc->init = initfn; \
-> +        mc->kvm_type = pc_machine_kvm_type; \
->       } \
->       static const TypeInfo pc_machine_type_##suffix = { \
->           .name       = namestr TYPE_MACHINE_SUFFIX, \
-
+>      return 0;
+>  }
+>
+> --
+> 2.17.1
+>
+>
 
