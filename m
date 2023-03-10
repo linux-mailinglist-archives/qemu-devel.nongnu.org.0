@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9192F6B53F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:12:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15786B53E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:10:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pakvo-0008Fr-Lw; Fri, 10 Mar 2023 17:09:44 -0500
+	id 1pakvp-0008GV-BH; Fri, 10 Mar 2023 17:09:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvm-0008EX-DO
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvm-0008EY-Df
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:42 -0500
-Received: from mout.kundenserver.de ([212.227.126.134])
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvk-000331-Ol
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pakvk-00033C-Rp
  for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:09:42 -0500
 Received: from quad ([82.64.211.94]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MAOa3-1pgUDh1yLj-00BxOH; Fri, 10
- Mar 2023 23:09:38 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mr8zO-1qNY8q3bTq-00oHwe; Fri, 10
+ Mar 2023 23:09:39 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 19/28] linux-user/sparc: Handle software breakpoint trap
-Date: Fri, 10 Mar 2023 23:09:18 +0100
-Message-Id: <20230310220927.326606-20-laurent@vivier.eu>
+Subject: [PULL 20/28] linux-user/sparc: Handle division by zero traps
+Date: Fri, 10 Mar 2023 23:09:19 +0100
+Message-Id: <20230310220927.326606-21-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 References: <20230310220927.326606-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uinLufA9+QpEWx0rvu0QzlvVtOyW5M/ZpPMPDssj6w3j2U8+/Nd
- lvV84qdaMRnaUVxmCMYAKkZPd5thDkzNJZYmZDuFsGiIgAZG1iGYmpOhJWGd5zRZeB1B/Xb
- Pc33dbQdlio7XkKY/zVecwCOZRMRz2q5j8qWapLJ2Nkwv1/CnKkMPgNAJGF9wtX2onkdQ2F
- uqGbk0ErITuDGqwRk+o3w==
-UI-OutboundReport: notjunk:1;M01:P0:xdQqFgzZDHw=;CMDBuahdiGdndJ+3eP6z3YhNoA+
- luUtUXUSGE1xK2MFiRCwj4yPaUlLxW/Ws8fHDxAq7fRsXxSDRiV/0Z1QlAmbrX+uGixkXA38Z
- JBKUqFm0VCBtUFFEJkzusiui6ZCGnCpzJiwWP2rsAwchRFXtG6WokDBUAnHOjaUcrJkoKt37/
- xxwZb9xzSxpd/BWfKN5F0cerwykI27ZQKLFrfEahdAHZ0dtjCDB4xa5ao+biYt5Iz8uZXxXC1
- 1migLNT8Gg1it1T+6++bZADeoZGWdNQNDcntEjC5kkDOvCb3EXXdsl82jXp4V3koqHKinOmMD
- FKi4Aao14gllsAdSaH4GLkd3JY+tQyOUmsUQ3uvoTJeNs9u8j1HXxgzvebuIVKsMIdmpxwh2W
- skvjq49Z1czTYs5fq2Tu1gVmSKWuESLckpysZvLnwOvSTqN28Xc130eXTSWxkTYCExGXcSqvN
- OyNM+YIVbY8alpNA5nij1khx2kabzxjcBmTBIHAoJ3AhCYWPZHRIvEmhDAiO3ttTOH3irRg1l
- xGnFYC+WC4zmkE1nfyHW5DKgnRO8FVKijdacyLJYtpAU92xm4dcdKpeqNlru7aGe5Tdto+OiR
- tIrNct4NoeXIY6W+0jkp5qq4twdRyzjydl1Q3DcBz5s630YFUco7bVV5ILM+CqnOy4RYOrzPz
- 77C2zh9lQl9QD+U1XeKhvy3LP3dkdzO8MHXOA1JB6w==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:o2groeTZ8+ZVcXX/xdZJp5rwLZURwetlvvjb05fhozql/0czbYv
+ 5h1hK0x9wncC5Z9xcQysK8IUCvSITmoq1Qe4Yseduvc5k0DdJZizm5wB8selnKc0DLgaqVh
+ 81+W5GkcIp/HKW+P6Qyl3LydKaSlleOHnKVCknKkWpJOl1cWe777hjs0FqDY3XUxyfJhK4O
+ lAtJhjUJRU7Kk0Tqvt0Pg==
+UI-OutboundReport: notjunk:1;M01:P0:ah29MGxD33I=;a6SswT9F2eocKXfWVFmZIJLsrTc
+ m7GlqVp73QhJ6IvZ+IKc3nvYEc0dx1DbNlmjMpwYNwDjLAMf59bcN70NL7V0AXQ9JMSmFWI+7
+ 6ZoLnfH7kZtiKpl3J/3AXjemxND/EMwJuB0+/n7gMI+aTQCxy6p8//TCedMyOyl7w872lakRK
+ WUuUiSJoZPbQCBonVAheRuRyfFmhF4eIPTwCsIvPBL/Jn6+LL0pEJK/XEZ+GT2O+xUfl/Degv
+ ThLfEyy/f0X5siv4hD3ztUnF2KUfXjIX+rvQt/nFPddbwWgDntVeegLILytCA9E6mOHskCdic
+ LEN2PTucJZ/kUfW6bDse7+ya85Crhfm+t8yE0JhAJfXeeGr7VmMZZLa4TuUxcKoyWsQNRFIZU
+ lZEW62TnK/dpSKnx5Q2JVY86N3o3XU+trY9lxDQ5+DRxV/DsacReqX1JKBwDTbz198AjCyj8T
+ 8ts/9Hbm8nBf5aOrUgLwX9vNcHxo+m70IP61552POXwiWPgwkLtceDYhjvSmva3UEUvwUbcIy
+ fLnkTkJvYhEkclGByDj6nL7YfYn1PHfj2ydPBe0s9tkfILalz6EZMbw4TVfKqg0/8gnqy/J0S
+ ZlcgZP5uve3AJTYE5a2pYm1jm+DNNPNs/w24Ngn6ERTaLyPdwgWazTKP/bMx3uhBMY//b/vcM
+ qNg/a0DmY8oco4Biqi8tnS3CDNYE62Us9ZpIaAxN1A==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,41 +71,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is 'ta 1' for both v9 and pre-v9.
+In addition to the hw trap vector, there is a software trap
+assigned for older sparc without hw division instructions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230216054516.1267305-8-richard.henderson@linaro.org>
+Message-Id: <20230216054516.1267305-9-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ linux-user/sparc/cpu_loop.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index edbc4f3bdcbf..c14eaea16370 100644
+index c14eaea16370..e04c84286769 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -206,6 +206,11 @@ void cpu_loop (CPUSPARCState *env)
-             env->npc = env->npc + 4;
+@@ -211,6 +211,11 @@ void cpu_loop (CPUSPARCState *env)
+             force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
              break;
  
-+        case TT_TRAP + 0x01: /* breakpoint */
-+        case EXCP_DEBUG:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
++        case TT_TRAP + 0x02: /* div0 */
++        case TT_DIV_ZERO:
++            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
 +            break;
 +
          case TT_TRAP + 0x03: /* flush windows */
              flush_windows(env);
              /* next instruction */
-@@ -237,9 +242,6 @@ void cpu_loop (CPUSPARCState *env)
-         case TT_ILL_INSN:
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
-             break;
--        case EXCP_DEBUG:
--            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
--            break;
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
-             break;
 -- 
 2.39.2
 
