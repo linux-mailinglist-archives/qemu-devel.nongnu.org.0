@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B4E6B4056
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93666B406A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 14:30:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paciy-0006AY-Cb; Fri, 10 Mar 2023 08:23:56 -0500
+	id 1pacnt-0008Fu-H0; Fri, 10 Mar 2023 08:29:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pacii-00067s-DX; Fri, 10 Mar 2023 08:23:40 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pacnn-0008FZ-KT; Fri, 10 Mar 2023 08:28:55 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pacig-0007cZ-QQ; Fri, 10 Mar 2023 08:23:40 -0500
+ id 1pacnl-0001MO-UO; Fri, 10 Mar 2023 08:28:55 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9B02222ABD;
- Fri, 10 Mar 2023 13:23:36 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0E87420653;
+ Fri, 10 Mar 2023 13:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678454616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678454932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6QMlg4L/jhkDbg3C/URkS1zZ4NTHj++tS2mG97UZEmE=;
- b=ROhGunnE+Z00HB5t8hrExDrH3whWmJavPJqDVEFbCRQHGzLE9RBvuEffX2plTowLeexLlZ
- z1cM//E+Zpv0kHp4o3/e51YMKaGM9wuJrwmFKhnKSO7Nso67Okb9QKwtgG8Ztwl56AEFes
- uZO2zPafNW/9tnMKwn5uzTGw7Zk2uI0=
+ bh=2iPqXMUfIsAEqeZcV1a6ZwbIfCpqSP8BIPD4RI9e2so=;
+ b=YHhYI9uG371mP1QYPcJ9xVB08b01zdzwhEZqgg3fLAv3e3tvdy5ufIKGmWJ5r31OjUsitA
+ krGRXHUqSeSc7L+l6837xTH4wvAvGP8ACglv87nc5f8/jGjU3QQvv7Exz6cfOtJ/TqJeKN
+ x2qOxPBR8wmE/4vgPYJFbIGuAs8dVSM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678454616;
+ s=susede2_ed25519; t=1678454932;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6QMlg4L/jhkDbg3C/URkS1zZ4NTHj++tS2mG97UZEmE=;
- b=bM+AIP4gIBPu0qBSI4Hs+cpxB1PQaXo8rlrXEf5cLPBfG5FiUKkBFHx+zc/4UCcq1Okj0i
- zXs/HI2GXExW6EAA==
+ bh=2iPqXMUfIsAEqeZcV1a6ZwbIfCpqSP8BIPD4RI9e2so=;
+ b=D9fy2D2zhNLX58Ton9MXA/MrMybNuLBAIFruMMIiOSyO5V80eQ+MtbYVrl4sDJWzLDciQj
+ gI24rWNWBnIjo/Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1D285134F7;
- Fri, 10 Mar 2023 13:23:35 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90BAC134F7;
+ Fri, 10 Mar 2023 13:28:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id E2SwNVcvC2QfPgAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 10 Mar 2023 13:23:35 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id vSWJFpMwC2TxQAAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 10 Mar 2023 13:28:51 +0000
 From: Fabiano Rosas <farosas@suse.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Peter Maydell
- <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
- Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>, Juan
- Quintela <quintela@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v8 08/11] tests/qtest: Fix tests when no KVM or TCG are
- present
-In-Reply-To: <20230310050853-mutt-send-email-mst@kernel.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v8 03/11] target/arm: Move aa32_max_features out of
+ cpu_tcg.c
+In-Reply-To: <3f660759-b37a-6b9e-3eaa-1f879db5ed48@linaro.org>
 References: <20230309201434.10831-1-farosas@suse.de>
- <20230309201434.10831-9-farosas@suse.de>
- <20230310050853-mutt-send-email-mst@kernel.org>
-Date: Fri, 10 Mar 2023 10:23:33 -0300
-Message-ID: <87edpweo4q.fsf@suse.de>
+ <20230309201434.10831-4-farosas@suse.de>
+ <3f660759-b37a-6b9e-3eaa-1f879db5ed48@linaro.org>
+Date: Fri, 10 Mar 2023 10:28:49 -0300
+Message-ID: <87a60kenvy.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -94,55 +89,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On Thu, Mar 09, 2023 at 05:14:31PM -0300, Fabiano Rosas wrote:
->> It is possible to have a build with both TCG and KVM disabled due to
->> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
->> host.
->> 
->> If we build with --disable-tcg on the aarch64 host, we will end-up
->> with a QEMU binary (x86) that does not support TCG nor KVM.
->> 
->> Fix tests that crash or hang in the above scenario. Do not include any
->> test cases if TCG and KVM are missing.
->> 
->> Make sure that calls to qtest_has_accel are placed after g_test_init
->> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
->> printed before other messages") to avoid TAP parsing errors.
+> On 3/9/23 12:14, Fabiano Rosas wrote:
+>> In preparation to moving the cpu_tcg.c code into a 32-bit, tcg-only
+>> file, move the aa32_max_features function which is shared between
+>> 32/64/tcg/non-tcg into cpu.c.
 >> 
 >> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>   target/arm/cpu.c     | 69 ++++++++++++++++++++++++++++++++++++++++++++
+>>   target/arm/cpu_tcg.c | 69 --------------------------------------------
+>>   2 files changed, 69 insertions(+), 69 deletions(-)
 >
-> I don't like it that it's a pass not a skip.
+> I'm not keen on this, as it's completely tcg.
 >
-
-Noted. I'm always questioning myself whether to skip or pass.
-
-> Also, if we are not testing acpi should we not
-> skip building acpi?
+> Perhaps it would be better to let -cpu max devolve to aarch64_a57_initfn when tcg is not 
+> available (i.e. qtest_enabled())?  Move all of the tcg stuff out of aarch64_max_initfn 
+> into tcg/cpu64.c.
 >
-
-Good point. I'll try to do that for the next version.
-
-> Also, a misconfigured qemu would previously be caught,
-> now it will seem to pass tests.
-
-Well, we can only call it misconfigured if we have a specific setup in
-mind. In the general sense there is never a misconfigured qemu unless
-there's a bug in the configuration path (configure, Kconfig, meson,
-etc). Then these tests would have nothing to do with it.
-
-So in this particular case, the "bug" perhaps is that we're still trying
-to build and run the tests even when the accelerator(s) they require are
-not present. I think your suggestion above of not building the test
-covers that.
-
-> How about a special make check target that will just test
-> xen things?
+> Thoughts?
 >
 
-Probably overkill for this particular issue. I don't see any
-Xen-specific tests yet. It would run almost the same set of tests.
+That's what I had in v6. I would prefer it that way as well. Perhaps I
+was too quick in changing it.
 
+https://lore.kernel.org/all/20230217201150.22032-20-farosas@suse.de/
+
+Unless anyone says otherwise, I'll revert back to that state.
 
