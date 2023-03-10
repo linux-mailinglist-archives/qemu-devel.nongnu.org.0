@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15DF6B3D01
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 11:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623EE6B3D33
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:05:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paaPH-0001xy-1l; Fri, 10 Mar 2023 05:55:27 -0500
+	id 1paaXo-00056D-W6; Fri, 10 Mar 2023 06:04:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+1265cd07cee6da11af5a+7138+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1paaOx-0001nl-CE
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:55:09 -0500
+ id 1paaXl-00054e-At; Fri, 10 Mar 2023 06:04:13 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+1265cd07cee6da11af5a+7138+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1paaOs-0001Ky-Fk
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 05:55:07 -0500
+ id 1paaXi-0003p8-QW; Fri, 10 Mar 2023 06:04:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=zIRKENNHfTDZF/EfquPyUHjRgqqud531QLhbV2qR3eM=; b=jrvq5mM7FaeUTyltUwOk7qMqS2
- MUyki4g2oK0d52TKVTOpZbc4XpZXPoRU9M4/5DfmLdrijvTXUyAFu1tCyN9PFBxZaN90MFQFghztJ
- YGbppESEJg6TGXXQi3O9zG0c512wa3xF4AFG5VhRdmfUGfCsDZLhM3v7cv3KrM3XTWWzzY9oPOPqg
- jJyiMnC8wE1p6p+Lrg8ZP27KVH4PLp4OsfBQO/Rsbf+faDNeh2Xsf+S/ByLLrlWTP+iXUnwtibXbE
- /K5TVTITEryF6fLWPBWFAxSykKl5CDtjByh2skKxAXj4pUKq8rUYKcw5XcPcnc/M/oOCe8KFBBUY+
- CL3ziDDw==;
+ bh=CkPYT3sjpZEPsaCy0mckmW9riEHzfKwCEVMV/Jrdiw4=; b=eo8XlUX+tvWFkbCg40Dqi6lIZL
+ 5q9Yb/3ntc0b+gC4TLy/m7CCvTCnrwJSUmLdPW54ZHFeWBsozte+20ldjIzExs90D+Arw4Q5prpts
+ zAo0AMTjQQcZs55hsTjefoq8rz8AMnK2KjZQFpEGnnHanIcOuGLqybH8P+T3wpSKlDeiSkYAFGcwR
+ yVAx4Vhd9EQoFAIaRtUHn5c8gl9GhejpxHVp5VPEASup5h8JU1rmBpj3logsFJf7MSa1nDbZ5sCOG
+ jXv1z4a0P+s6UeGqY4A0tFOhIJNXX2tl3Do/jO85BcLS99DvkBtpfAD6iKht4uOOzkxqmfFDFgyfP
+ qE/+PXyg==;
 Received: from [2001:8b0:10b:5:fea5:d438:64bd:2b44]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1paaOc-009JqB-Le; Fri, 10 Mar 2023 10:54:47 +0000
-Message-ID: <4bae59aba8f3016afe295b2525ab76bb51ac3229.camel@infradead.org>
-Subject: [PATCH] hw/xen: Simplify emulated Xen platform init
+ id 1paaXb-009KC7-8p; Fri, 10 Mar 2023 11:04:03 +0000
+Message-ID: <239508a12b6384131ccebe484ffed624a69ff3a1.camel@infradead.org>
+Subject: Re: [PATCH 11/11] tests/avocado: don't use tags to define drive
 From: David Woodhouse <dwmw2@infradead.org>
-To: Paolo Bonzini <pbonzini@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>, 
- Ankur Arora <ankur.a.arora@oracle.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,  Thomas Huth
- <thuth@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>,  Claudio Fontana <cfontana@suse.de>,
- Julien Grall <julien@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  armbru@redhat.com, Stefano
- Stabellini <sstabellini@kernel.org>,  vikram.garhwal@amd.com
-Date: Fri, 10 Mar 2023 10:54:45 +0000
-In-Reply-To: <7d6e4ef2-1f27-f210-0378-879852a70024@redhat.com>
-References: <20230301135223.988336-1-dwmw2@infradead.org>
- <20230301135223.988336-16-dwmw2@infradead.org>
- <96e49428-0c2a-2a50-42e0-31c8e553a34b@intel.com>
- <ae5ce529ef1e492e4f8b06eece6528990ca965e6.camel@infradead.org>
- <7d6e4ef2-1f27-f210-0378-879852a70024@redhat.com>
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Richard Henderson <richard.henderson@linaro.org>, 
+ qemu-arm@nongnu.org, Peter Xu <peterx@redhat.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa
+ <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Date: Fri, 10 Mar 2023 11:04:02 +0000
+In-Reply-To: <20230310103123.2118519-12-alex.bennee@linaro.org>
+References: <20230310103123.2118519-1-alex.bennee@linaro.org>
+ <20230310103123.2118519-12-alex.bennee@linaro.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-i8gwMM4upyjwZHHYgb/Q"
+ boundary="=-XFDYvDNiOi8//2Obgha9"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -88,188 +81,84 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-i8gwMM4upyjwZHHYgb/Q
+--=-XFDYvDNiOi8//2Obgha9
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+On Fri, 2023-03-10 at 10:31 +0000, Alex Benn=C3=A9e wrote:
+> We are abusing the avocado tags which are intended to provide test
+> selection metadata to provide parameters to our test. This works OK
+> up
+> until the point you need to have ,'s in the field as this is the tag
+> separator character which is the case for a number of the drive
+> parameters. Fix this by making drive a parameter to the common helper
+> function.
+>=20
+> Fixes: 267fe57c23 (tests: add tuxrun baseline test to avocado)
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: David Woodhouse <dwmw2@infradead.org>
+
+
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+
+Thanks! Now this works (and I should update the commit message)...
+
+
+=46rom 8b9e04d1c7c942f51b575b94fd280bd2353f76b6 Mon Sep 17 00:00:00 2001
 From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Thu, 9 Mar 2023 17:34:44 +0000
+Subject: [PATCH] Boot KVM/Xen guest with tuxrun
 
-I initially put the basic platform init (overlay pages, grant tables,
-event channels) into mc->kvm_type because that was the earliest place
-that could sensibly test for xen_mode=3D=3DXEN_EMULATE.
-
-The intent was to do this early enough that we could then initialise the
-XenBus and other parts which would have depended on them, from a generic
-location for both Xen and KVM/Xen in the PC-specific code, as seen in
-https://lore.kernel.org/qemu-devel/20230116221919.1124201-16-dwmw2@infradea=
-d.org/
-
-However, then the Xen on Arm patches came along, and *they* wanted to
-do the XenBus init from a 'generic' Xen-specific location instead:
-https://lore.kernel.org/qemu-devel/20230210222729.957168-4-sstabellini@kern=
-el.org/
-
-Since there's no generic location that covers all three, I conceded to
-do it for XEN_EMULATE mode in pc_basic_devices_init().
-
-And now there's absolutely no point in having some of the platform init
-done from pc_machine_kvm_type(); we can move it all up to live in a
-single place in pc_basic_devices_init(). This has the added benefit that
-we can drop the separate xen_evtchn_connect_gsis() function completely,
-and pass just the system GSIs in directly to xen_evtchn_create().
-
-While I'm at it, it does no harm to explicitly pass in the *number* of
-said GSIs, because it does make me twitch a bit to pass an array of
-impicit size. During the lifetime of the KVM/Xen patchset, that had
-already changed (albeit just cosmetically) from GSI_NUM_PINS to
-IOAPIC_NUM_PINS.
-
-And document a bit better that this is for the *output* GSI for raising
-CPU0's events when the per-CPU vector isn't available. The fact that
-we create a whole set of them and then only waggle the one we're told
-to, instead of having a single output and only *connecting* it to the
-GSI that it should be connected to, is still non-intuitive for me.
+The drive tag doesn't work right, and drops extra args. And we're
+using a temporary kernel build.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_evtchn.c | 40 ++++++++++++++++++++--------------------
- hw/i386/kvm/xen_evtchn.h |  3 +--
- hw/i386/pc.c             | 13 ++++---------
- 3 files changed, 25 insertions(+), 31 deletions(-)
+ tests/avocado/tuxrun_baselines.py | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 98a7b85047..f4204949fb 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -146,7 +146,10 @@ struct XenEvtchnState {
-     QemuMutex port_lock;
-     uint32_t nr_ports;
-     XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
--    qemu_irq gsis[IOAPIC_NUM_PINS];
+diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_basel=
+ines.py
+index c3fb67f5dc..0abb77023d 100644
+--- a/tests/avocado/tuxrun_baselines.py
++++ b/tests/avocado/tuxrun_baselines.py
+@@ -83,7 +83,8 @@ def fetch_tuxrun_assets(self, dt=3DNone):
+         use the per-test tags to fetch details.
+         """
+         base_url =3D f"https://storage.tuxboot.com/{self.tuxboot}/"
+-        kernel_image =3D  self.fetch_asset(base_url + self.image)
++        #kernel_image =3D  self.fetch_asset(base_url + self.image)
++        kernel_image =3D self.fetch_asset('https://storage.tuxsuite.com/pu=
+blic/linaro/alex/builds/2MmnfXeo73oWy3oaJx1bxliw8z4/bzImage')
+         disk_image_zst =3D self.fetch_asset(base_url + "rootfs.ext4.zst")
+=20
+         cmd =3D f"{self.zstd} -d {disk_image_zst} -o {self.workdir}/rootfs=
+.ext4"
+@@ -409,3 +410,17 @@ def test_x86_64(self):
+         :avocado: tags=3Dshutdown:nowait
+         """
+         self.common_tuxrun(drive=3D"driver=3Dide-hd,bus=3Dide.0,unit=3D0")
 +
-+    /* Connected to the system GSIs for raising callback as GSI / INTx */
-+    unsigned int nr_callback_gsis;
-+    qemu_irq *callback_gsis;
-=20
-     struct xenevtchn_handle *be_handles[EVTCHN_2L_NR_CHANNELS];
-=20
-@@ -298,7 +301,7 @@ static void gsi_assert_bh(void *opaque)
-     }
- }
-=20
--void xen_evtchn_create(void)
-+void xen_evtchn_create(unsigned int nr_gsis, qemu_irq *system_gsis)
- {
-     XenEvtchnState *s =3D XEN_EVTCHN(sysbus_create_simple(TYPE_XEN_EVTCHN,
-                                                         -1, NULL));
-@@ -309,8 +312,19 @@ void xen_evtchn_create(void)
-     qemu_mutex_init(&s->port_lock);
-     s->gsi_bh =3D aio_bh_new(qemu_get_aio_context(), gsi_assert_bh, s);
-=20
--    for (i =3D 0; i < IOAPIC_NUM_PINS; i++) {
--        sysbus_init_irq(SYS_BUS_DEVICE(s), &s->gsis[i]);
-+    /*
-+     * These are the *output* GSI from event channel support, for
-+     * signalling CPU0's events via GSI or PCI INTx instead of the
-+     * per-CPU vector. We create a *set* of irqs and connect one to
-+     * each of the system GSIs which were passed in from the platform
-+     * code, and then just trigger the right one as appropriate from
-+     * xen_evtchn_set_callback_level().
-+     */
-+    s->nr_callback_gsis =3D nr_gsis;
-+    s->callback_gsis =3D g_new0(qemu_irq, nr_gsis);
-+    for (i =3D 0; i < nr_gsis; i++) {
-+        sysbus_init_irq(SYS_BUS_DEVICE(s), &s->callback_gsis[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(s), i, system_gsis[i]);
-     }
-=20
-     /*
-@@ -335,20 +349,6 @@ void xen_evtchn_create(void)
-     xen_evtchn_ops =3D &emu_evtchn_backend_ops;
- }
-=20
--void xen_evtchn_connect_gsis(qemu_irq *system_gsis)
--{
--    XenEvtchnState *s =3D xen_evtchn_singleton;
--    int i;
--
--    if (!s) {
--        return;
--    }
--
--    for (i =3D 0; i < IOAPIC_NUM_PINS; i++) {
--        sysbus_connect_irq(SYS_BUS_DEVICE(s), i, system_gsis[i]);
--    }
--}
--
- static void xen_evtchn_register_types(void)
- {
-     type_register_static(&xen_evtchn_info);
-@@ -429,8 +429,8 @@ void xen_evtchn_set_callback_level(int level)
-         return;
-     }
-=20
--    if (s->callback_gsi && s->callback_gsi < IOAPIC_NUM_PINS) {
--        qemu_set_irq(s->gsis[s->callback_gsi], level);
-+    if (s->callback_gsi && s->callback_gsi < s->nr_callback_gsis) {
-+        qemu_set_irq(s->callback_gsis[s->callback_gsi], level);
-         if (level) {
-             /* Ensure the vCPU polls for deassertion */
-             kvm_xen_set_callback_asserted();
-diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index bfb67ac2bc..b740acfc0d 100644
---- a/hw/i386/kvm/xen_evtchn.h
-+++ b/hw/i386/kvm/xen_evtchn.h
-@@ -16,10 +16,9 @@
-=20
- typedef uint32_t evtchn_port_t;
-=20
--void xen_evtchn_create(void);
-+void xen_evtchn_create(unsigned int nr_gsis, qemu_irq *system_gsis);
- int xen_evtchn_soft_reset(void);
- int xen_evtchn_set_callback_param(uint64_t param);
--void xen_evtchn_connect_gsis(qemu_irq *system_gsis);
- void xen_evtchn_set_callback_level(int level);
-=20
- int xen_evtchn_set_port(uint16_t port);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1489abf010..25584cb8f3 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1319,7 +1319,10 @@ void pc_basic_device_init(struct PCMachineState *pcm=
-s,
-=20
- #ifdef CONFIG_XEN_EMU
-     if (xen_mode =3D=3D XEN_EMULATE) {
--        xen_evtchn_connect_gsis(gsi);
-+        xen_overlay_create();
-+        xen_evtchn_create(IOAPIC_NUM_PINS, gsi);
-+        xen_gnttab_create();
-+        xen_xenstore_create();
-         if (pcms->bus) {
-             pci_create_simple(pcms->bus, -1, "xen-platform");
-         }
-@@ -1868,14 +1871,6 @@ static void pc_machine_initfn(Object *obj)
-=20
- int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
- {
--#ifdef CONFIG_XEN_EMU
--    if (xen_mode =3D=3D XEN_EMULATE) {
--        xen_overlay_create();
--        xen_evtchn_create();
--        xen_gnttab_create();
--        xen_xenstore_create();
--    }
--#endif
-     return 0;
- }
-=20
++    def test_x86_64_kvm_xen(self):
++        """
++        :avocado: tags=3Darch:x86_64
++        :avocado: tags=3Dmachine:q35
++        :avocado: tags=3Dcpu:Nehalem
++        :avocado: tags=3Dtuxboot:x86_64
++        :avocado: tags=3Dimage:bzImage
++        :avocado: tags=3Droot:xvda
++        :avocado: tags=3Dshutdown:nowait
++        """
++        self.require_accelerator("kvm")
++        self.vm.add_args("-accel", "kvm,xen-version=3D0x4000a,kernel-irqch=
+ip=3Dsplit")
++        self.common_tuxrun(drive=3D"driver=3Dxen-disk,vdev=3Dxvda")
 --=20
 2.34.1
 
 
 
---=-i8gwMM4upyjwZHHYgb/Q
+--=-XFDYvDNiOi8//2Obgha9
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -361,25 +250,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzEwMTA1NDQ1WjAvBgkqhkiG9w0BCQQxIgQg+Vw8X9KF
-OQiHtOLw08ZkdkdN3bpXr+zw0AM2Qryk94Uwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzEwMTEwNDAyWjAvBgkqhkiG9w0BCQQxIgQgnb/Rg2JA
+t8FD+4/WI/+/awk0Xi3wyIP6drayeJi01gYwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAS8O6JQnPqFx8TU6QaDe5qsacklF9I3WvQ
-+2kM5wLzPP5fbNnl4k66Bo10KY3fgtyDz5Y54QDFEWkWqIMBAUCXO1Op6XJF4VqexNiA4mbCL8NU
-Y2rI56g3PaML8Q3JlwXUxTf2yUfzV0l5BMEi8kmZzQ5mMK/i5URBc/Jqt4Hw8+oAsLgBw8HRvegd
-h8bVCzRzinPGLslKLV+zY/A6KQjJxWdWQB6PA/75b98q6GfI1VOMgTjDlbQL2vRKfaxso5vkpLzg
-chBUHh/1HhxchAhjIqsAPWbSlQ7UFSNWTWt/1GmlhjsJYRtCzEIdpWXS9Rx3V7Uw5KbCUomOvLxw
-/NZYxwbsz9idUyiTnZ66OQhdPZACcvkdWhtIg98OdGpG9CDKA3R7iM50Gdr6AB8ZGANaHb93ZDlN
-ZX2xUlopl+nYmsl3IZANivEwKOtUEuLkyyF/8/BeImXOt/VU1duP4mpFvkzFVBUT9Vwad1IU5WSa
-72vH5Xp2vFkzA59nIgc3XvZ0MQhKiAHCoIwExSb7uFqajAiez0bZEWsqXJGdbuMWuve4wzm8w5Mr
-IDQtPLLsovYS0S/BB3xyDb0afQlC3iXM5b6zwJ+fahSPb3SsaYeZKDiV1RednhW4SkApvEbGGeJ9
-+JMuz2XgBjtbNcqv1keWeZ6QqDgaMwg02JenDEWnFwAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCdA24zmCURq6GJY/5e5X6oXhdHajT1iWNZ
+S1XJ5Uj2zm0JKgYemfNXD9UJPkMVi/gPWJZX+QgLrS/4DbJWaZ+zKbjCo8y1+sJtXmOZM56cUHxL
+rki63Zwp01XzbWr9vaFCA3M/EDvCW6fZcLlVlNFpRgNvvrFeFjWuUXy2KEVlHE+Ykd/UHiwgIk6T
+1nHyPgTaPz1BMgM7w7Fsg2Ft81jllm32z6//QqIaZYKfyJOAe6RoAdsH4iSmLpE7m2QBHFPVsSWD
+CustnxBI1g02liOnehWqdD/Z0HVdByWHws4lF1Ze8dg6G7LU8j+0LL9gFymNP3ikg26DlM8QQbv8
+LhY6X79SSGfkGpM1SjcHn9A1k+/WcaZu+aWC8Y1dHTHmctzKuqsq9gJ+VfZWhfsCNv4h7La0J4ye
+SdH1dgLnBWeKR0XV0KxG+WqvbjLAA4VUB9QCGQ+Ub0T8/YRRW5M75REBLIEJdTl4+b3jnVyfRpFx
+PLkKstdILIEU6I6/7N83yJ7KHKL92IjAJka1mBN/zJVoDsy0Vkb1LuYqCvNTVi21LN6//8NW0Vql
+s8rVywnxFtkuzS9x6a+Zgs01/ptiEXKzA4ID8zuTzJin/KSr71sbDr9AY/8xeJ/upMOE6+ACpEc3
+XGfX6sOZDWLmZO7UYV7Y5WrHISARf/qR1CWbCHQUpQAAAAAAAA==
 
 
---=-i8gwMM4upyjwZHHYgb/Q--
+--=-XFDYvDNiOi8//2Obgha9--
 
