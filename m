@@ -2,76 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332366B3DCE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB37B6B3E3D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 12:43:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1paaxr-0008AS-Ko; Fri, 10 Mar 2023 06:31:11 -0500
+	id 1pab8W-0007fu-VW; Fri, 10 Mar 2023 06:42:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1paaxo-000885-UM
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:31:09 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1paaxl-00028S-TM
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 06:31:08 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id ky4so5237226plb.3
- for <qemu-devel@nongnu.org>; Fri, 10 Mar 2023 03:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678447864;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oHiWaNHWbPUQydF5OuQk9Nyspq0Lxc/46BWpvc8m3u8=;
- b=nlKfwxYiDsaDnCwxpb4uz/8w9/Ol7aSu3Vi5N66a/TAOgSWadIgpFxU4BPklWiOxTp
- GHfa/I09gNLQM0DywDfYwiwfL2BDIANTyXiTAulh7kwZxBMHLbFDfXwt4fT07/mV+MHm
- g/KDtbWhXCdXutfhnbIY0viwWqbKIIy8aWSTX5oD5D0TtoIXOCkejj7QIJdr8ZnL/+4D
- 9kJrUueNblqe5xZ2p9sSn1tdarmaK3SNXg/cr75fMWaQZpwGafRMLHWVGsbsJ7XJp69O
- 8yGXUjZiCJ1fbQUzl03BD4IiAHAqI3ASoisDeHH1CjKbkJyYPS3rjgN0ZBvrTvlONwhv
- 6luw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678447864;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oHiWaNHWbPUQydF5OuQk9Nyspq0Lxc/46BWpvc8m3u8=;
- b=Ld4I+YvyoqWSZ86CbswYddqoKJR0PVMVH7wU4+jvLvidwltB7wX7Hh7WTkKcJ+ift5
- f8P15zBcYsXDH7GCGDbDaIi4lDDlOIXsfPiwv0QOHLGDRa2BDiNSCd0Q/ZixnReBpMFC
- k+zwntP8ZNi75/xraorTa3sfl4EEi8yNuyJ3wWyg+wmgyMZvk6ASbK6ct9qmewGd+hgD
- iMbUFgSK/6trTMm/w/x3oPXZ58mqS0JcFpn51Wj+7FJYVo7qxuEVSIRKx6HM+VP+9V2T
- Xd9lKepnh0EsoK2sjLSsaqiPmtIvBf/4rS+ZkJRaWvKb/wOKeXQrFk9SAQa+SLvT70Ud
- i3Iw==
-X-Gm-Message-State: AO0yUKVOC01WrV+l/4IJzPmo+rCVyGmgHBWqOtGdT8aRt5nEKE97e6NH
- c4vwLDssmmvDgAmO0FhKTegtRDDyvHr/MEOCzy/cqQ==
-X-Google-Smtp-Source: AK7set9uN1uTwCTXSQGN2dnp5Nuilp/Bwp662b6wSeiKs0rHIbPir1d5CfGbPg5DmNXas7U3JN9tnZ95hEqGy138GPY=
-X-Received: by 2002:a17:903:2788:b0:19a:9580:7130 with SMTP id
- jw8-20020a170903278800b0019a95807130mr9519255plb.13.1678447864168; Fri, 10
- Mar 2023 03:31:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pab8U-0007ch-S8; Fri, 10 Mar 2023 06:42:10 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pab8T-00052V-0g; Fri, 10 Mar 2023 06:42:10 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32AA1NKJ022624; Fri, 10 Mar 2023 11:42:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=bAwamQG02eY5bVO0rhNQXiO8TnNrTCYZoq6+UCFitAI=;
+ b=eyNX6yinXhGCvAvhY06Us9Rc23hgZVxwE3kWpCSaIpV+uNDZgLmKzqtHwKisk4Fl0h2f
+ Y8qzmJgHicPoNNDCo6unSDF1tmmi+q7e5lyKHCwH9sxnIhlcjLubZSwnXMVqNcoJf4az
+ mRzK4/PDkGyRWLavLZORuWFeBU6I61EKvjI2YYIWrFtoNYIg4N1ak6YWOL6eS/58PA/9
+ ku+kOvaf0Ak6edD9fLUCCSexy1LuI+AUJOxmlMzpdiVd8QJl4CyrwZVrMA/3Ujv/2FsG
+ +MtXcKH/RrjX2CnAyQA+B+FKpBF1rfMshp/WwVqVBke8vqSoMBl+Dal1HdRnkcjfkeVq yA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p7j15tv2x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Mar 2023 11:42:04 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32ABanij023872;
+ Fri, 10 Mar 2023 11:42:04 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p7j15tv27-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Mar 2023 11:42:04 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32A8F7d5019984;
+ Fri, 10 Mar 2023 11:42:02 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3p6ftvkt0a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Mar 2023 11:42:02 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32ABfxQv61210910
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Mar 2023 11:41:59 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1CE7120040;
+ Fri, 10 Mar 2023 11:41:59 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA8DD20043;
+ Fri, 10 Mar 2023 11:41:58 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 10 Mar 2023 11:41:58 +0000 (GMT)
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-s390x@nongnu.org
+Subject: [PATCH v3 0/2] target/s390x: Fix emulation of C(G)HRL
+Date: Fri, 10 Mar 2023 12:41:55 +0100
+Message-Id: <20230310114157.3024170-1-nsg@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20230309115714.906369-1-kraxel@redhat.com>
-In-Reply-To: <20230309115714.906369-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Mar 2023 11:30:53 +0000
-Message-ID: <CAFEAcA_KwKQjgsx+4C_3an6ujhN=ETYFbaOjgU7Bg4OYt10OgA@mail.gmail.com>
-Subject: Re: [PULL 0/3] Edk2 stable202302 20230309 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: RE8yCI-0jtNFK1vmc2Rq2azMFMAP1EOa
+X-Proofpoint-GUID: 7NdRFk24K6XIEjDixWKNU3TZse4RNqIs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-10_03,2023-03-09_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=611 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303100091
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +111,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 9 Mar 2023 at 11:58, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 9832009d9dd2386664c15cc70f6e6bfe062be8=
-bd:
->
->   Merge tag 'pull-riscv-to-apply-20230306' of https://gitlab.com/palmer-d=
-abbelt/qemu into staging (2023-03-07 12:53:00 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/kraxel/qemu.git tags/edk2-stable202302-20230309-pull=
--request
->
-> for you to fetch changes up to 75bc97ac50634229fa9da45faa1fa64bbe6024c7:
->
->   edk2: update firmware binaries (2023-03-09 12:49:29 +0100)
->
-> ----------------------------------------------------------------
-> edk2: update to 202302 stable tag
->
-> ----------------------------------------------------------------
->
-> Gerd Hoffmann (3):
->   edk2: update submodule to edk2-stable202302
->   edk2: replace build scripts
->   edk2: update firmware binaries
+The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
+halfword, it does not have the same size as the first operand.
+Fix this and add a tcg test for c(g)hrl.
 
-The docker-edk2 CI job fails:
-https://gitlab.com/qemu-project/qemu/-/jobs/3910666498
+v2 -> v3
+ * pick up R-b's (thanks Richard)
+ * get rid of tabs in inline asm (cosmetic only)
 
-Step 1/3 : FROM ubuntu:18.04
-18.04: Pulling from library/ubuntu
-mediaType in manifest should be
-'application/vnd.docker.distribution.manifest.v2+json' not
-'application/vnd.oci.image.manifest.v1+json'
+v1 -> v2
+ * rebase on newer version
 
-This may be fixable with an equivalent of:
-https://lore.kernel.org/qemu-devel/20230224212543.20462-2-palmer@rivosinc.c=
-om/
-for .gitlab-ci.d/edk2.yml
+Nina Schoetterl-Glausch (2):
+  target/s390x: Fix emulation of C(G)HRL
+  tests/tcg/s390x: Add C(G)HRL test
 
-What I still do not understand is why we have both:
-(1) binaries of edk2 committed to git
-(2) a gitlab CI job that is building edk2
+ target/s390x/tcg/insn-data.h.inc |  4 +-
+ target/s390x/tcg/translate.c     |  7 +++
+ tests/tcg/s390x/chrl.c           | 80 ++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target  |  1 +
+ 4 files changed, 90 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/s390x/chrl.c
 
-The bios-tables-test also fails:
-https://gitlab.com/qemu-project/qemu/-/jobs/3910666555
-(but also seen on other configs):
+Range-diff against v2:
+1:  228a1d9cfb ! 1:  899db74823 target/s390x: Fix emulation of C(G)HRL
+    @@ Commit message
+         halfword, it does not have the same size as the first operand.
+     
+         Fixes: a7e836d5eb ("target-s390: Convert COMPARE, COMPARE LOGICAL")
+    +    Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+         Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+     
+      ## target/s390x/tcg/insn-data.h.inc ##
+2:  3b1ca6b682 ! 2:  30868c4692 tests/tcg/s390x: Add C(G)HRL test
+    @@ Commit message
+         instruction.
+         Test the sign extension performed on the second operand.
+     
+    +    Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+         Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+     
+      ## tests/tcg/s390x/chrl.c (new) ##
+    @@ tests/tcg/s390x/chrl.c (new)
+     +    uint32_t program_mask, cc;
+     +
+     +    asm volatile (
+    -+               ".pushsection .rodata\n"
+    -+        "0:	.short	1,0x8000\n"
+    -+        "	.popsection\n"
+    ++        ".pushsection .rodata\n"
+    ++        "0:\n\t"
+    ++        ".short 1, 0x8000\n\t"
+    ++        ".popsection\n\t"
+     +
+    -+        "	chrl	%[r],0b\n"
+    -+        "	ipm	%[program_mask]\n"
+    ++        "chrl %[r], 0b\n\t"
+    ++        "ipm %[program_mask]\n"
+     +        : [program_mask] "=r" (program_mask)
+     +        : [r] "r" (1)
+     +    );
+    @@ tests/tcg/s390x/chrl.c (new)
+     +    assert(!cc);
+     +
+     +    asm volatile (
+    -+               ".pushsection .rodata\n"
+    -+        "0:	.short	-1,0x8000\n"
+    -+        "	.popsection\n"
+    ++        ".pushsection .rodata\n"
+    ++        "0:\n\t"
+    ++        ".short -1, 0x8000\n\t"
+    ++        ".popsection\n\t"
+     +
+    -+        "	chrl	%[r],0b\n"
+    -+        "	ipm	%[program_mask]\n"
+    ++        "chrl %[r], 0b\n\t"
+    ++        "ipm %[program_mask]\n"
+     +        : [program_mask] "=r" (program_mask)
+     +        : [r] "r" (-1)
+     +    );
+    @@ tests/tcg/s390x/chrl.c (new)
+     +    uint32_t program_mask, cc;
+     +
+     +    asm volatile (
+    -+               ".pushsection .rodata\n"
+    -+        "0:	.short	1,0x8000,0,0\n"
+    -+        "	.popsection\n"
+    ++        ".pushsection .rodata\n"
+    ++        "0:\n\t"
+    ++        ".short 1, 0x8000, 0, 0\n\t"
+    ++        ".popsection\n\t"
+     +
+    -+        "	cghrl	%[r],0b\n"
+    -+        "	ipm	%[program_mask]\n"
+    ++        "cghrl %[r], 0b\n\t"
+    ++        "ipm %[program_mask]\n"
+     +        : [program_mask] "=r" (program_mask)
+     +        : [r] "r" (1L)
+     +    );
+    @@ tests/tcg/s390x/chrl.c (new)
+     +    assert(!cc);
+     +
+     +    asm volatile (
+    -+               ".pushsection .rodata\n"
+    -+        "0:	.short	-1,0x8000,0,0\n"
+    -+        "	.popsection\n"
+    ++        ".pushsection .rodata\n"
+    ++        "0:\n\t"
+    ++        ".short -1, 0x8000, 0, 0\n\t"
+    ++        ".popsection\n\t"
+     +
+    -+        "	cghrl	%[r],0b\n"
+    -+        "	ipm	%[program_mask]\n"
+    ++        "cghrl %[r], 0b\n\t"
+    ++        "ipm %[program_mask]\n"
+     +        : [program_mask] "=r" (program_mask)
+     +        : [r] "r" (-1L)
+     +    );
 
-=E2=96=B6 206/206 ERROR:../tests/qtest/acpi-utils.c:158:acpi_find_rsdp_addr=
-ess_uefi:
-code should not be reached ERROR
-206/206 qemu:qtest+qtest-aarch64 / qtest-aarch64/bios-tables-test
-ERROR 706.75s killed by signal 6 SIGABRT
+base-commit: 15002921e878e6cf485f655d580733b5319ea015
+-- 
+2.39.1
 
-(I also tested this with the qga and hexagon pullreqs,
-but neither of those should have affected this.)
-
-thanks
--- PMM
 
