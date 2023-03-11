@@ -2,104 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39FE6B6172
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Mar 2023 23:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4F86B6198
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Mar 2023 23:56:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pb7a4-000384-7d; Sat, 11 Mar 2023 17:20:48 -0500
+	id 1pb87L-0008Mq-6I; Sat, 11 Mar 2023 17:55:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pb7a1-00037a-Pd
- for qemu-devel@nongnu.org; Sat, 11 Mar 2023 17:20:45 -0500
-Received: from sonic312-24.consmr.mail.gq1.yahoo.com ([98.137.69.205])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pb7Zz-0002lv-1T
- for qemu-devel@nongnu.org; Sat, 11 Mar 2023 17:20:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1678573236; bh=qSs36eFlHmP8zhiAjsOMUGuV2ONkBkq0KY4mlkxHMZA=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=ez0nxzTQDcdN1ILsHwp59RZGq6eqrd28ETTl1z08hw00nOWiVfSlVbX3ZUdfSPOnT/ajeQveotTjzPYPxvVf/xQG49kLyedpCb63jMTZIEpwOa+2mad+K8RkXUeWUdcwzpnpwCHGTdcKy53p6R7kaC2ULssAY8I75/ewWRLqSMSSPqmvmPPZILwdSx+K6+efFW1LFCoPq7555Kw9pYZ5WS8aGYIL+TZaxXkMoud+k2cej12GXcEICcZTVz2ftC2+FJEgS8GMJQ0g2oWvkltOcz/fWgTbpabZVdiO2nl6x8BXyU3srXOR4s11sjRFYZFRHSUF2XK35DHEb4l7zTqOtA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1678573236; bh=snNRfoY63+RvjRWPUMnZFf5pOzpzpf/Sg1cPi5khqZf=;
- h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
- b=FlOOczTrKJqyFlQg9PRRB6pZ5tmvGV9XrMCfJxUJSt3QApsbxfDnUMQ6HwoLF1WDShx0sPTlWpiEPZx4CqUM26sHidcfmHEmuLRVLU5J9ycAdCY+J2XKof3WCxb4hwYp2gFtdhXAn+5gz8C36Mm5S5dPl9QAQrV89Lb+rYEZb2WGc7P9rwtEazWsWkzFrqXO2+74fyRb3MG5LjNTJdTG5fUVm8ew6JtlufWfMDLLVupi+jIXdzLSTPD7XC8fd2Jcc8ifO1q8nneV4GgxDOEmVG5DxSv8jEd/3ZiE8GtX5YsDPMN8NvOcwdtCd3hVfOIUsKC4GEnjXX/TWFD4b7tgyA==
-X-YMail-OSG: FaqhF0AVM1nF3IhLQO0VU.lnDaPalMv43J2I7_GUXGMZdq34kABMoCfZcaB_.YW
- pQBcqGLNdBcqa.2N8OMRPQzNQBFSHiuCRNY94O2WegdOJEhLvRW3Ua2RUA3Hq.I2MX0k84fWsiDn
- PY7vUlw84JtrRSgIFwqRRlfPteZ3v9aLyRALds47OfBWCXVW7FHWkCKOaOl3OpHtBoyF3t3kbhtB
- bmwHufPLnnojzYjIeDbot6eTkTJng7EOtG.437MKNmxpctncDsbC4zd7I58Bh5dXO26VmN5oObpj
- TkkqEyJ6EnbhbdA.ycKIQvD2zW6Oe1aVSd7UQI3MYzgH5lZNdj3fDftlrEJQpp3E1bYPPvkQI7g7
- fhPecgn.yCEv51h7nBOb44DEGC6HPY80SngEgjfoQNZG_NBAkrun6OLGnCRtJKojmsvfEuNvfRwt
- moD6nO6tbv3xOojQwHNBUkcJQs6To1Lo3gGXJAYnSTX8TQme1N1tTgMwsVY.xDo5mZClQRWhK90U
- zOEaROZh0Cljd2RjPeMfBKN0jcsX6UnOkTdnQs2aWRJCwPwfa77j.fc6HYh8hvgLnnV8xMpMuL6q
- SpIWwUbVWEX2MXtDaZu69K1U0ID03oe4K6IgGVT5oc6sZPJNxjFMa9ililZmuyIzZz8vAJ65GBy9
- UB48HK1JWB4Cml4Iw2eVzoNPgFpIHSnPb3Kdcezf0qAK2D36bmDQQdeJmIVR087qlllEeS8LGv2E
- YOnZWYXSJTXnB4OTz.naOVXd9QXf_j_pHNL9KnFcjxWjPDMWyapFGRtDNlLOxGhTLsDLRlj212vq
- LvmpaImbeFfkre6oNz1ROeMtxpLJW29Nb9SUyI11pbszWfqbBsZOIRnxkl3w2R2._c48m7zuPNfw
- 5QTYSGJcAs1m6RHVKsaADdIx.6rl_11p3Kvcw_Ms231xT9_NKXgB7zrgdehL5ZdUu7xqtTx2MqlE
- IStbE4uOsusTZCLvFLgi3ZfyI4WHldg.1UpRQc0ATJhvkxettVgvTPQSCkr4rprBrF1uah6F6sOX
- ZCN0LGZhF4dw3xzWWozRqGFhMdoP7eOzbIJvt0aMdr060HcHYs0Dfsui9ehFf1mMRiclvYY2pTRH
- r2Xt0ZY._YjPDYn.9rjHy4oZQphcPwUiqVTSzmXUNhqx3PMxBlBQJox0Sb4drbwgdl48xYEnTkj3
- 5snkOr0shSAGYzRdBiOh8NSmhLH8C019PY3w9kFqgIe7jMKdaD19sRj9amH9kXwtvTSLXHcZ5ynd
- afnqXISkOdtGCyYtWk3HK3yVrwlv.2lQuyKjksFrOKJKj8W2T_qUMwXuDCTaKf4DyCS_0DM9SrRN
- 4RGScRX5_XXewMaG1v71SBfSToQjVk4GmdGIM88LWCKW.UqzVKqyM9yh3tDQpbjykZHueCq1TN2j
- O.bFFtmhwY7SH6DerdZcJxT9gSxY9LIR5zs7L1wsu9ppov0dGDr5gt0CG6QJYKiHWtYrzg.xlzXX
- U5LVSfotC9g9gV7210mnz2dkJWrX.MBzkqbWW7oAmLpxfxRx8Zpx6wQJivcXtuEIr4ajUlxIrGs_
- nj0YD1NYlFMCPpiZRzJQRrB_RKpVtdLYHSLDkvuTMGA2Ywo_DYBogEmPmXDoZf0zR3H07XZKr6Ru
- 0Jzw7bW8u0f2vXVp_6lCP4jfBDPtUX8j8E9VXQu8BkO7c.9SpUoECFG6LMmOJIZTrimTMETfC1nb
- QYg.tY9Iin8v0pljI73.GakftO8rSUv_MoPtUr8WdIDr8nX7qNEgr0S3IwBp6XXQfiVrOWDpW70K
- ehuK0Bav78OJRA5O3hnlaxH6IbANcfuPW3Ymcod6aL4xkBYwn0ulpkPYMZbv1szdBW2V3_..aoNG
- mHACzj5BK7mM_3FY1faud3vGVXEZMOTQDAjHjp.U3Xp5bcez__eNHTy1B4ru9bX43xZJGGcgYx3W
- Dp5oyoN62Fnr3PyvlynOH6B7labzC5I..Ckg1MdtcHSZoHSUv73A167A_1Ew2FkSXejcGwhd0AFp
- dCIRKCLY.BRSlzeK5H139BGy5wUijLBEd6HAEBAxhMjhFXBSRvkM8aWa20tGCFvADJbQx6TGGMcg
- YfXFDyoYUVfJMUsgxYRtrVR965i_uA7NBSJpzhC5Kw3QFQ6tevD.Dc2P6ysqAb6fWGjEMiRwUhiY
- T_ef3m3VAiLqng1.xULs4boao4llMSK1HssWO8.fTXn3UkKRwCI0Aifxo_3R2SEmoMh_ahbMxgLo
- 9Tvgcal_V
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic312.consmr.mail.gq1.yahoo.com with HTTP; Sat, 11 Mar 2023 22:20:36 +0000
-Received: by hermes--production-ne1-759c9b8c64-gbrwf (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID eb77c033143cbf2c05ee25f23f1eb10c; 
- Sat, 11 Mar 2023 22:20:31 +0000 (UTC)
-Message-ID: <c20b7056-037d-67ff-0b2d-ea931d501bac@aol.com>
-Date: Sat, 11 Mar 2023 17:20:29 -0500
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pb87H-0008MW-Ec
+ for qemu-devel@nongnu.org; Sat, 11 Mar 2023 17:55:07 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pb87F-0000DE-Fs
+ for qemu-devel@nongnu.org; Sat, 11 Mar 2023 17:55:07 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 85836746324;
+ Sat, 11 Mar 2023 23:54:41 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4F905745720; Sat, 11 Mar 2023 23:54:41 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4E0E9745712;
+ Sat, 11 Mar 2023 23:54:41 +0100 (CET)
+Date: Sat, 11 Mar 2023 23:54:41 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org
+cc: Gerd Hoffmann <kraxel@redhat.com>, 
+ =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, 
+ =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>, 
+ Rene Engel <ReneEngel80@emailn.de>
+Subject: Re: Audio playback speed issue on sam460ex and pegasos2
+In-Reply-To: <f6d1f455-97a3-f7ab-4101-8249148f0384@eik.bme.hu>
+Message-ID: <f3d99778-ec4b-ac34-91f6-25dd19d00254@eik.bme.hu>
+References: <5207a2d9-e72b-3ce6-5b91-a9b187759b69@eik.bme.hu>
+ <f6d1f455-97a3-f7ab-4101-8249148f0384@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Chuck Zmudzinski <brchuckz@aol.com>
-Subject: Re: [PATCH v2 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Anthony PERARD <anthony.perard@citrix.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230118051230-mutt-send-email-mst@kernel.org>
- <Y9ADQ/Yu8QQD0oyD@perard.uk.xensource.com>
- <0C2B1FE4-BB48-4C38-9161-6569BA1D6226@gmail.com>
- <96A4863B-D6BA-48B5-B5E4-54DD103FEBAA@gmail.com>
- <6C8AA4D4-FF57-4E43-A464-7F64C576ED5B@gmail.com>
-Content-Language: en-US
-In-Reply-To: <6C8AA4D4-FF57-4E43-A464-7F64C576ED5B@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21284
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.205; envelope-from=brchuckz@aim.com;
- helo=sonic312-24.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,86 +63,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/9/2023 4:53 PM, Bernhard Beschow wrote:
-> Am 1. Februar 2023 08:11:10 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-> >
-> >
-> >Am 24. Januar 2023 17:07:30 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-> >>
-> >>
-> >>Am 24. Januar 2023 16:11:47 UTC schrieb Anthony PERARD <anthony.perard@citrix.com>:
-> >>>On Wed, Jan 18, 2023 at 05:13:03AM -0500, Michael S. Tsirkin wrote:
-> >>>> On Wed, Jan 04, 2023 at 03:44:31PM +0100, Bernhard Beschow wrote:
-> >>>> > This series first renders TYPE_PIIX3_XEN_DEVICE redundant and finally removes
-> >>>> > it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make Xen in the PC
-> >>>> > machine agnostic to the precise southbridge being used. 2/ will become
-> >>>> > particularily interesting once PIIX4 becomes usable in the PC machine, avoiding
-> >>>> > the "Frankenstein" use of PIIX4_ACPI in PIIX3.
-> >>>> 
-> >>>> Looks ok to me.
-> >>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >>>> 
-> >>>> Feel free to merge through Xen tree.
-> >>>
-> >>>Hi Bernhard,
-> >>
-> >>Hi Anthony,
-> >>
-> >>>The series currently doesn't apply on master. And a quick try at
-> >>>applying the series it is based on also failed. Could you rebase it , or
-> >>>maybe you would prefer to wait until the other series "Consolidate
-> >>>PIIX..." is fully applied?
-> >>
-> >>Thanks for looking into it!
-> >>
-> >>You can get the compilable series from https://patchew.org/QEMU/20230104144437.27479-1-shentey@gmail.com/ . If it doesn't work for you let me know, then I can rebase onto master. All necessary dependencies for the series are upstreamed meanwhile.
-> >
-> >Ping
->
-> Ping^2
+Hello,
 
-Hi Bernhard,
+I've noticed before that since commit a806f95904cdb audio plays slower 
+(like half speed) under AmigaOS on sam460ex with ES1370 but I did not have 
+any other guests to reproduce it and verify this with so I did not report 
+that yet. Now that we can also test with pegasos2 and via-ac97 it does not 
+play slower on that machine neither with ES1370 not via-ac97 but still can 
+reproduce it with sam460ex.
 
-I took a look at this today to see why it cannot be applied. I can see clearly that
-all the prerequisite patches have *not* been applied to master yet, so I can
-understand why Anthony cannot pull this up yet. Specifically, the series that
-consolidates PIIX3 and PIIX4 south bridges is not yet applied, and that is one of
-the prerequisites. I think you said it was reviewed, but it apparently never got
-pulled up into master.
+But on another host it seems to play faster with pegasos2. Here is a video 
+taken by Rene demonstrating the problem: https://youtu.be/Rg5buzDqGuk So 
+there seems to be a problem with playback speed here but I'm not sure if 
+this is related to AmigaOS or something else.
 
-For reference, here is the link to the prerequisite patch set I tested with
-this patch set:
+At least we have some issue with AmigaOS on sam460ex and ES1370 playing 
+too slow since commit a806f95904cdb on Linux with alsa backend and may 
+also have an issue with sound being too fast on pegasos2 with coreaudio. 
+However Rene said that recording it with a screen recorder did not show 
+the problem, only when playing it normally, that's why the video is taken 
+with a camera. I can't understand how that's possible but maybe you have 
+some idea to at least how to test this further to find out more what's 
+happening here or if you can see anything that can cause playback speed 
+issues with these machines.
 
-https://lore.kernel.org/qemu-devel/20221221170003.2929-1-shentey@gmail.com/
+So far I've reproduced obviously slow speed with AmigaOS on sam460ex with 
+ES1370 on Linux with alsa. The MorphOS and AmigaOS on pegasos2 with 
+via-ac97 or ES1370 (latter only works with AmigaOS) seems to be OK to me 
+on my machine but is playing too fast in Rene's video.
 
-The patch set I tested is a 30-patch series, and I don't know if it has
-been partially applied. The title of that patch set is:
+Could this be related to some differentce in host's sampling rate or some 
+other settings somewhere? I have defaults.pcm.dmix.rate 44100 in 
+/etc/asound.conf while Rene is using whatever macOS does with coreaudio.
+Any ideas what to check further?
 
-This series consolidates the implementations of the PIIX3 and PIIX4 south
-
-So before this patch set to resolve the TYPE_PIIX3_XEN_DEVICE can be
-applied, the patch set to consolidate the PIIX3 and PIIX4 south bridges
-needs to be applied.
-
-I don't know if the feature freeze means these patches that do not add any
-new features still need to wait until the next development cycle.
-
-Kind regards,
-
-Chuck
-
-> >
-> >>
-> >>Thanks,
-> >>Bernhard
-> >>>
-> >>>Thanks.
-> >>>
-> >>>> > Testing done:
-> >>>> > None, because I don't know how to conduct this properly :(
-> >>>> > 
-> >>>> > Based-on: <20221221170003.2929-1-shentey@gmail.com>
-> >>>> >           "[PATCH v4 00/30] Consolidate PIIX south bridges"
-> >>>
-
+Regards,
+BALATON Zoltan
 
