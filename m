@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CF16B5B78
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Mar 2023 13:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10A66B5BE7
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Mar 2023 13:41:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pay1e-0002g3-2s; Sat, 11 Mar 2023 07:08:38 -0500
+	id 1payW0-000083-0A; Sat, 11 Mar 2023 07:40:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pay1b-0002fi-BW
- for qemu-devel@nongnu.org; Sat, 11 Mar 2023 07:08:35 -0500
-Received: from mailout10.t-online.de ([194.25.134.21])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1payVx-00007q-H2
+ for qemu-devel@nongnu.org; Sat, 11 Mar 2023 07:39:57 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pay1Z-0007Wy-45
- for qemu-devel@nongnu.org; Sat, 11 Mar 2023 07:08:35 -0500
-Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
- by mailout10.t-online.de (Postfix) with SMTP id 578B91527A;
- Sat, 11 Mar 2023 13:08:29 +0100 (CET)
-Received: from linpower.localnet ([79.208.22.72]) by fwd84.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pay1S-0wFtOj0; Sat, 11 Mar 2023 13:08:26 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 1A582200474; Sat, 11 Mar 2023 13:08:26 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Dorinda Bassey <dbassey@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Paolo Bonzini <pbonzini@redhat.com>, wtaymans@redhat.com,
- qemu-devel@nongnu.org
-Subject: [PATCH] DO-NOT-MERGE: pipewire sample code
-Date: Sat, 11 Mar 2023 13:08:26 +0100
-Message-Id: <20230311120826.5584-1-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <a3717185-a930-e8e7-80cc-edb8d9e4d01d@t-online.de>
-References: <a3717185-a930-e8e7-80cc-edb8d9e4d01d@t-online.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1678536506-519B8A0B-02E9087F/0/0 CLEAN NORMAL
-X-TOI-MSGID: 1341f7e4-c7b1-48c9-b114-bb7cabd8ee0e
-Received-SPF: none client-ip=194.25.134.21;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1payVv-0005Jj-Fu
+ for qemu-devel@nongnu.org; Sat, 11 Mar 2023 07:39:57 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0C34B5C00A0;
+ Sat, 11 Mar 2023 07:39:53 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Sat, 11 Mar 2023 07:39:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1678538393; x=1678624793; bh=pFV+Bw60YX6DTyVcXuHL04yeO9DsLz811g6
+ VhNIkOyU=; b=HO2psaziXBiDKt+yxC3ZxPuZUsYHjTrX23XO0NmODB82ZjN+lZr
+ bFEyXHSBdd+jeCsqNbiPBnHULQDqdohX9onxnT8GpPkaNuWQFBcOOW91Bp0niw0K
+ M66RVHzr5L/KzJSi4xGM5jgCO/FQ/6vP81qTNnIlB2nkgpGk5/ch2J6sCzU8Yy0U
+ EudYFs+SCpo7oGuId+Jr/3qnviyb6s1IyA26LqWx16zyAP7nQ2SXs4ONk2b/muOn
+ uS8O9Gaqg8BopQhWuddfAHGlQGcVQo4WB7n1mpbudjibZCg04WkMLo4lQIRu0FIG
+ kL9avJg3MWdUa1zEj9dFpbBzQgTLDbNXIyQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1678538393; x=1678624793; bh=pFV+Bw60YX6DTyVcXuHL04yeO9DsLz811g6
+ VhNIkOyU=; b=queok/wnxGMAasZ4zFh6STjtF+CU/l2vw9AMUUeU7rjJYNEcI2O
+ lUAGZXjUCGaFufKKJVsFnvWjHdJmJiS/kbL96hS+XIQmdqM2aCQAV0i8nQaYCAuA
+ MhbsKhmUIorlWLKpp4kzXTYHbnJU7wihwXFsLNdc08YXRiREuGJO969s0f9BuAoJ
+ QDWbBf10cqDZbeqNybvOB1Ni47rho0oDfj0HHupVesWloqZVoFJDOjXhRLP4JXZp
+ ucc7NgY4AWdBWm2LaDIHA+AgtSd2UoEsSBRffL17D5GPC/tQd3q0CVAyUr910XJY
+ iXias8GOGxJaCy0WMTyzMKdnZZ0Eoh+KP0w==
+X-ME-Sender: <xms:mHYMZLv6Y4dqDzAbTiLUNfTw26ly8wwAkUREsSmC65SlOiuzD7gi7w>
+ <xme:mHYMZMffLw-6N2OmbLaMBqk_D-Crkw_hOG3KJDuczxzIYihn9fuMB-WWVtClW6MRN
+ xtV9IQGtKaQrndMt-A>
+X-ME-Received: <xmr:mHYMZOxpQ0-EKAPxZlCOs1eClpHQE-6hoCnZVhcse4Ptauf3qsrZGnokWOnIk0Hj-p7G>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvtddgudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepuddugfeigeduhfejtdetfefgheehgeeviedutefgjeeuvddu
+ keejkeevjedtieffnecuffhomhgrihhnpegtihhpuhhnihhtvggurdgtohhmnecuvehluh
+ hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdih
+ rghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:mHYMZKONUeOkkZqPvpdsO8bnLrtSpoOthW5tsB7pLR0zrZ-AxoGvkQ>
+ <xmx:mHYMZL-EgTf1vxm54wdQn-kcNO4FLSviOgDixL4eUuVlfUHaHqcWXg>
+ <xmx:mHYMZKW7Y4I2NhPEfRsDFturZyU-cCCHi9_Mc_Q941Ee3K7QQW7nuQ>
+ <xmx:mXYMZFmKYcWUZEM5UjCWEjXrdImvFb1q4C9yK0Q5WujNqH_xqDfpKw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 Mar 2023 07:39:52 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <aca2a158-ebb6-4010-3b94-8b60026a30ac@linaro.org>
+Date: Sat, 11 Mar 2023 12:39:40 +0000
+Cc: QEMU devel <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A26A47BA-643C-46AE-B148-2B06A1D7BDAB@flygoat.com>
+References: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+ <aca2a158-ebb6-4010-3b94-8b60026a30ac@linaro.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+X-Mailer: Apple Mail (2.3731.400.51.1.1)
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,231 +106,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: <20230306171020.381116-1-dbassey@redhat.com>
-([PATCH v7] audio/pwaudio.c: Add Pipewire audio backend for QEMU)
 
-This is sample code for the review of the pipewire backed. The
-code actually works.
 
-An email with explanations for the changes will follow.
+> 2023=E5=B9=B43=E6=9C=889=E6=97=A5 12:32=EF=BC=8CPhilippe =
+Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hi Jiaxun,
+>=20
+> On 11/2/23 18:34, Jiaxun Yang wrote:
+>> Previously switchable NaN2008 requires fcsr31.nan2008 to be writable
+>> for guest. However as per MIPS arch spec this bit can never be =
+writable.
+>> This cause NaN2008 ELF to be rejected by QEMU.
+>> NaN2008 can be enabled on R2~R5 processors, just make it available
+>> unconditionally.
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> ---
+>>  linux-user/mips/cpu_loop.c | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+>> index d5c1c7941d..b5c2ca4a3e 100644
+>> --- a/linux-user/mips/cpu_loop.c
+>> +++ b/linux-user/mips/cpu_loop.c
+>> @@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, =
+struct target_pt_regs *regs)
+>>      }
+>>      if (((info->elf_flags & EF_MIPS_NAN2008) !=3D 0) !=3D
+>>          ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) !=3D 0)) {
+>> -        if ((env->active_fpu.fcr31_rw_bitmask &
+>> -              (1 << FCR31_NAN2008)) =3D=3D 0) {
+>> +        if (!(env->insn_flags & ISA_MIPS_R2)) {
+>>              fprintf(stderr, "ELF binary's NaN mode not supported by =
+CPU\n");
+>>              exit(1);
+>>          }
+>=20
+> Looking at R6.06 revision history:
+>=20
+>  5.03 August 21, 2013
+>=20
+>  =E2=80=A2 ABS2008 and NAN2008 fields of Table 5.7 =E2=80=9CFCSR =
+RegisterField
+>    Descriptions=E2=80=9D were optional in release 3 and could be R/W,
+>    but as of release 5 are required, read-only, and preset by
+>    hardware.
+> So I tried with this change:
+>=20
+> -- >8 --
+> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+> index 05caf54999..5f1364ffaf 100644
+> --- a/target/mips/cpu.c
+> +++ b/target/mips/cpu.c
+> @@ -243,6 +243,13 @@ static void mips_cpu_reset_hold(Object *obj)
+>     env->CP0_EBaseWG_rw_bitmask =3D =
+env->cpu_model->CP0_EBaseWG_rw_bitmask;
+>     env->active_fpu.fcr0 =3D env->cpu_model->CP1_fcr0;
+>     env->active_fpu.fcr31_rw_bitmask =3D =
+env->cpu_model->CP1_fcr31_rw_bitmask;
+> +    if (env->insn_flags & ISA_MIPS_R5) {
+> +        assert(!(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_ABS2008)));
+> +        assert(!(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_NAN2008)));
+> +    } else if (env->insn_flags & ISA_MIPS_R3) {
+> +        assert(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_ABS2008));
+> +        assert(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_NAN2008));
+> +    }
+>     env->active_fpu.fcr31 =3D env->cpu_model->CP1_fcr31;
+>     env->msair =3D env->cpu_model->MSAIR;
+>     env->insn_flags =3D env->cpu_model->insn_flags;
+> ---
+>=20
+> and got:
+>=20
+> $ for cpu in $(./qemu-system-mips64el -cpu help | cut -d\' -f2); do \
+>  echo -n ${cpu}...;echo q \
+>  | ./qemu-system-mips64el -accel tcg -cpu ${cpu} \
+>                           -S -monitor stdio 1> /dev/null || break; \
+>  echo OK; done
+> 4Kc...OK
+> 4Km...OK
+> 4KEcR1...OK
+> 4KEmR1...OK
+> 4KEc...OK
+> 4KEm...OK
+> 24Kc...OK
+> 24KEc...OK
+> 24Kf...OK
+> 34Kf...OK
+> 74Kf...OK
+> M14K...OK
+> M14Kc...OK
+> P5600...OK
+> mips32r6-generic...OK
+> I7200...OK
+> R4000...OK
+> VR5432...OK
+> 5Kc...OK
+> 5Kf...OK
+> 20Kc...OK
+> MIPS64R2-generic...OK
+> 5KEc...OK
+> 5KEf...OK
+> I6400...OK
+> I6500...OK
+> Loongson-2E...OK
+> Loongson-2F...OK
+> Loongson-3A1000...OK
+> Loongson-3A4000...OK
+> mips64dspr2...OK
+> Octeon68XX...OK
+> $
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/pwaudio.c | 67 +++++++++++++++++++++++++++++++++----------------
- qapi/audio.json | 10 +++-----
- 2 files changed, 49 insertions(+), 28 deletions(-)
+Well that=E2=80=99s because there is no CPU being marked as MIPS Release =
+3 in QEMU, and only
+P5600 is marked as MIPS Release 5.
 
-diff --git a/audio/pwaudio.c b/audio/pwaudio.c
-index d357761152..8e2a38938f 100644
---- a/audio/pwaudio.c
-+++ b/audio/pwaudio.c
-@@ -23,7 +23,6 @@
- #define AUDIO_CAP "pipewire"
- #define RINGBUFFER_SIZE    (1u << 22)
- #define RINGBUFFER_MASK    (RINGBUFFER_SIZE - 1)
--#define BUFFER_SAMPLES    512
- 
- #include "audio_int.h"
- 
-@@ -48,6 +47,7 @@ typedef struct PWVoice {
-     struct pw_stream *stream;
-     struct spa_hook stream_listener;
-     struct spa_audio_info_raw info;
-+    uint32_t highwater_mark;
-     uint32_t frame_size;
-     struct spa_ringbuffer ring;
-     uint8_t buffer[RINGBUFFER_SIZE];
-@@ -82,7 +82,7 @@ playback_on_process(void *data)
-     void *p;
-     struct pw_buffer *b;
-     struct spa_buffer *buf;
--    uint32_t n_frames, req, index, n_bytes;
-+    uint32_t req, index, n_bytes;
-     int32_t avail;
- 
-     if (!v->stream) {
-@@ -105,8 +105,7 @@ playback_on_process(void *data)
-     if (req == 0) {
-         req = 4096 * v->frame_size;
-     }
--    n_frames = SPA_MIN(req, buf->datas[0].maxsize);
--    n_bytes = n_frames * v->frame_size;
-+    n_bytes = SPA_MIN(req, buf->datas[0].maxsize);
- 
-     /* get no of available bytes to read data from buffer */
- 
-@@ -270,6 +269,30 @@ done_unlock:
-     return l;
- }
- 
-+static size_t qpw_buffer_get_free(HWVoiceOut *hw)
-+{
-+    PWVoiceOut *pw = (PWVoiceOut *)hw;
-+    PWVoice *v = &pw->v;
-+    pwaudio *c = v->g;
-+    const char *error = NULL;
-+    int32_t filled, avail;
-+    uint32_t index;
-+
-+    pw_thread_loop_lock(c->thread_loop);
-+    if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
-+        /* wait for stream to become ready */
-+        avail = 0;
-+        goto done_unlock;
-+    }
-+
-+    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
-+    avail = v->highwater_mark - filled;
-+
-+done_unlock:
-+    pw_thread_loop_unlock(c->thread_loop);
-+    return avail;
-+}
-+
- static size_t
- qpw_write(HWVoiceOut *hw, void *data, size_t len)
- {
-@@ -277,20 +300,18 @@ qpw_write(HWVoiceOut *hw, void *data, size_t len)
-     PWVoice *v = &pw->v;
-     pwaudio *c = v->g;
-     const char *error = NULL;
--    const int periods = 3;
--    size_t l;
-     int32_t filled, avail;
-     uint32_t index;
- 
-     pw_thread_loop_lock(c->thread_loop);
-     if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
-         /* wait for stream to become ready */
--        l = 0;
-+        len = 0;
-         goto done_unlock;
-     }
--    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
- 
--    avail = BUFFER_SAMPLES * v->frame_size * periods - filled;
-+    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
-+    avail = v->highwater_mark - filled;
- 
-     trace_pw_write(filled, avail, index, len);
- 
-@@ -312,11 +333,10 @@ qpw_write(HWVoiceOut *hw, void *data, size_t len)
-                                 index & RINGBUFFER_MASK, data, len);
-     index += len;
-     spa_ringbuffer_write_update(&v->ring, index);
--    l = len;
- 
- done_unlock:
-     pw_thread_loop_unlock(c->thread_loop);
--    return l;
-+    return len;
- }
- 
- static int
-@@ -420,8 +440,13 @@ create_stream(pwaudio *c, PWVoice *v, const char *name)
-     const struct spa_pod *params[2];
-     uint8_t buffer[1024];
-     struct spa_pod_builder b;
-+    struct pw_properties *props;
- 
--    v->stream = pw_stream_new(c->core, name, NULL);
-+    props = pw_properties_new(NULL, NULL);
-+    pw_properties_setf(props, PW_KEY_NODE_LATENCY, "%" PRIu64 "/%u",
-+                       (uint64_t)v->g->dev->timer_period * v->info.rate
-+                       * 3 / 4 / 1000000, v->info.rate);
-+    v->stream = pw_stream_new(c->core, name, props);
- 
-     if (v->stream == NULL) {
-         goto error;
-@@ -563,7 +588,11 @@ qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
-     audio_pcm_init_info(&hw->info, &obt_as);
- 
-     /* report the buffer size to qemu */
--    hw->samples = BUFFER_SAMPLES;
-+    hw->samples = audio_buffer_frames(
-+        qapi_AudiodevPipewirePerDirectionOptions_base(ppdo), &obt_as, 46440);
-+    v->highwater_mark = MIN(RINGBUFFER_SIZE,
-+                            (ppdo->has_latency ? ppdo->latency : 46440)
-+                            * (uint64_t)v->info.rate / 1000000 * v->frame_size);
- 
-     pw_thread_loop_unlock(c->thread_loop);
-     return 0;
-@@ -606,7 +635,8 @@ qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-     audio_pcm_init_info(&hw->info, &obt_as);
- 
-     /* report the buffer size to qemu */
--    hw->samples = BUFFER_SAMPLES;
-+    hw->samples = audio_buffer_frames(
-+        qapi_AudiodevPipewirePerDirectionOptions_base(ppdo), &obt_as, 46440);
- 
-     pw_thread_loop_unlock(c->thread_loop);
-     return 0;
-@@ -695,15 +725,8 @@ qpw_audio_init(Audiodev *dev)
-     pw = g_new0(pwaudio, 1);
-     pw_init(NULL, NULL);
- 
--    AudiodevPipewireOptions *popts;
-     trace_pw_audio_init("Initialize Pipewire context\n");
-     assert(dev->driver == AUDIODEV_DRIVER_PIPEWIRE);
--    popts = &dev->u.pipewire;
--
--    if (!popts->has_latency) {
--        popts->has_latency = true;
--        popts->latency = 15000;
--    }
- 
-     pw->dev = dev;
-     pw->thread_loop = pw_thread_loop_new("Pipewire thread loop", NULL);
-@@ -781,7 +804,7 @@ static struct audio_pcm_ops qpw_pcm_ops = {
-     .init_out = qpw_init_out,
-     .fini_out = qpw_fini_out,
-     .write = qpw_write,
--    .buffer_get_free = audio_generic_buffer_get_free,
-+    .buffer_get_free = qpw_buffer_get_free,
-     .run_buffer_out = audio_generic_run_buffer_out,
-     .enable_out = qpw_enable_out,
- 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9a0d7d9ece..d49a8a670b 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -337,6 +337,7 @@
- #               create multiple Pipewire devices or run multiple qemu
- #               instances (default: audiodev's id, since 7.1)
- #
-+# @latency: Pipewire backend buffer size in microseconds (default 46440)
- #
- # Since: 8.0
- ##
-@@ -344,7 +345,8 @@
-   'base': 'AudiodevPerDirectionOptions',
-   'data': {
-     '*name': 'str',
--    '*stream-name': 'str' } }
-+    '*stream-name': 'str',
-+    '*latency': 'uint32' } }
- 
- ##
- # @AudiodevPipewireOptions:
-@@ -355,16 +357,12 @@
- #
- # @out: options of the playback stream
- #
--# @latency: add latency to playback in microseconds
--#           (default 15000)
--#
- # Since: 8.0
- ##
- { 'struct': 'AudiodevPipewireOptions',
-   'data': {
-     '*in':     'AudiodevPipewirePerDirectionOptions',
--    '*out':    'AudiodevPipewirePerDirectionOptions',
--    '*latency': 'uint32' } }
-+    '*out':    'AudiodevPipewirePerDirectionOptions' } }
- 
- ##
- # @AudiodevSdlPerDirectionOptions:
--- 
-2.35.3
+In reality R3 implementations are all advertising themself as R2, and =
+later RCs of microAptiv
+and interaptiv can all be configured as NaN2008 only. So for those CPUs =
+we have binary compiled
+with -march=3Dmips32r2 -mnan=3D2008.
+
+Given that default CPU of mips32r2 in QEMU is 24Kf, I think the best =
+approach to deal with such
+situation is to allow NaN2008 to be enabled for early processors for =
+linux-user.
+
+There is a NAN2008 Debian port for test:=20
+
+=
+http://repo.oss.cipunited.com/mipsel-nan2008/tarball/sid-mipsel-nan2008-20=
+230309-1.tar.xz
+
+Thanks
+
+>=20
+> Which CPU are you testing? Where can I get such ELF binary for =
+testing?
+>=20
+> Thanks,
+>=20
+> Phil.
+
 
 
