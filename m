@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A97D6B5479
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Mar 2023 23:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C906B56ED
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Mar 2023 01:46:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1palFE-0007eA-K3; Fri, 10 Mar 2023 17:29:49 -0500
+	id 1panLv-0005yT-C2; Fri, 10 Mar 2023 19:44:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1palFB-0007dw-EF
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:29:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1panLs-0005yB-2q
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 19:44:48 -0500
+Received: from mail-sender-0.a4lg.com ([2401:2500:203:30b:4000:6bfe:4757:0])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1palF9-0007DD-3p
- for qemu-devel@nongnu.org; Fri, 10 Mar 2023 17:29:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678487381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w74jaqKNW+gdP11pf3R3Y02lv95BckV90e+m0K+/Afs=;
- b=cfPPIKztlHMO2OE6jER4asHUdN5XJH1P696IICOAIV8aPhr2gffmWQfn6KeyK+S7x4cQur
- Zn8XenSxcFAy0BYWk9DLbr+dM7EjOzB8xUsiMPxVjE2QG7RWpv9j7++15U3povz2psVgL4
- s5oIGS/PBvm8wrqbKRPZvsGT7WFk8kI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-mX4SJD4OOa-t12ja2hyZEw-1; Fri, 10 Mar 2023 17:29:38 -0500
-X-MC-Unique: mX4SJD4OOa-t12ja2hyZEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99C5B800050;
- Fri, 10 Mar 2023 22:29:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3592540C83B6;
- Fri, 10 Mar 2023 22:29:36 +0000 (UTC)
-Date: Fri, 10 Mar 2023 22:29:36 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, vsementsov@yandex-team.ru,
- hreitz@redhat.com, kwolf@redhat.com
-Subject: Re: [PATCH nbd 1/4] nbd: Add multi-conn option
-Message-ID: <20230310222935.GU7636@redhat.com>
-References: <20230309113946.1528247-1-rjones@redhat.com>
- <20230309113946.1528247-2-rjones@redhat.com>
- <20230310221717.vb2b72e3tkjkpyqi@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230310221717.vb2b72e3tkjkpyqi@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1panLp-0000ds-00
+ for qemu-devel@nongnu.org; Fri, 10 Mar 2023 19:44:47 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 91959300089;
+ Sat, 11 Mar 2023 00:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1678495473;
+ bh=8sHWaf6wS6sAXi+LDAtkPkH/jiIT/YIXcV4Jf5/sQuo=;
+ h=Message-ID:Date:Mime-Version:Subject:To:References:From:
+ In-Reply-To:Content-Type:Content-Transfer-Encoding;
+ b=TVVHEMTZyEbSXmV4CGBYSvQPCDfpEV5llDkrTQ8wwg8v26DMecTISag0TOV7y70Bn
+ gdZUHK9kdb3Av9MGgr1jWmr5Vm2robDjH/7tewq6VgX5ufrnNL0iUrCppyrhXoEG5/
+ lTHX4340Wfvc77jGN23Kl7vI0bx8vk82J2/hrm/c=
+Message-ID: <2a7f3f7e-31ed-7ab3-f229-5f981be7f22d@irq.a4lg.com>
+Date: Sat, 11 Mar 2023 09:44:29 +0900
+Mime-Version: 1.0
+Subject: Re: [PULL 3/5] contrib/gitdm: add Tsukasa as an individual contributor
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <20230310155726.2222233-1-alex.bennee@linaro.org>
+ <20230310155726.2222233-4-alex.bennee@linaro.org>
+Content-Language: en-US
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+In-Reply-To: <20230310155726.2222233-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,31 +65,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 10, 2023 at 04:17:17PM -0600, Eric Blake wrote:
-> On Thu, Mar 09, 2023 at 11:39:43AM +0000, Richard W.M. Jones wrote:
-> > +     * safe for multi-conn, force it to 1.
-> > +     */
-> > +    if (!(s->info.flags & NBD_FLAG_CAN_MULTI_CONN)) {
-> > +        s->multi_conn = 1;
-> > +    }
-> > +
-> >      return 0;
+On 2023/03/11 0:57, Alex Bennée wrote:
+> I wasn't sure if you want to be added as an individual contributor or
+> an academic so please confirm.
+
+Individual.
+
 > 
-> Is there an intended QAPI counterpart for this command?  We'll need
-> that if it is to be set during the command line of
-> qemu-storage-daemon.
-
-Does it just need to be added to qapi/block-core.json?
-
-It's a shame we can't add the API in one place and have everything
-generated from there.  Like some kind of 'generator' ...
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-builder quickly builds VMs from scratch
-http://libguestfs.org/virt-builder.1.html
-
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Acked-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> Message-Id: <20221219121914.851488-7-alex.bennee@linaro.org>
+> 
+> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+> index 53883cc526..e2263a5ee3 100644
+> --- a/contrib/gitdm/group-map-individuals
+> +++ b/contrib/gitdm/group-map-individuals
+> @@ -37,3 +37,4 @@ akihiko.odaki@gmail.com
+>  paul@nowt.org
+>  git@xen0n.name
+>  simon@simonsafar.com
+> +research_trasio@irq.a4lg.com
 
