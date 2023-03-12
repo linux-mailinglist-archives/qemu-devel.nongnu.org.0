@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE196B6407
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 10:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA9C6B6402
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 10:25:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbHwd-0000n4-Vl; Sun, 12 Mar 2023 05:24:48 -0400
+	id 1pbHwf-0000vG-0d; Sun, 12 Mar 2023 05:24:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pbHwb-0000ba-HU
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 05:24:45 -0400
-Received: from mail-co1nam11on20613.outbound.protection.outlook.com
- ([2a01:111:f400:7eab::613]
- helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pbHwc-0000kZ-Q1
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 05:24:46 -0400
+Received: from mail-mw2nam04on20618.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8c::618]
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pbHwY-0004Xp-97
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 05:24:45 -0400
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pbHwZ-0004Yt-SI
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 05:24:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EyaruosxKMOHK/NgDOANwot/s+BJKTphY4jfG9PIzm6YW5z9tpD7Rh6SC3J3QnXVm//0Eo1oFWOrqC/gpxuE6kovtSDGsPI2T7sssPrRJLRH21cI4J6Jkybzo9K5DKLnXsHpvAEfcDYkbJyhBggf+3VMEb36rVonbeHItYBMRVisJe2XaeFxS76U1JZwClg0QPe4TlUg1sSc1MQQKOrG9K4Qn6IG/NrBzqC0eulbzn+mviBBu2l6qd2t4DKVQMJfrrBQPnJsJ1JVikZ59pUPE6AkJ/WG0OtA00HHO04vzts01CNDsdFZY4QKEkuOvq7/HLsy599GfOZZr11rj4NDcg==
+ b=T4BVFOQz+1oCDcCfyYMlezy6i2yl9caGQB3tdS1APBxUhcDx6VppFlOqsjHHWuPphpqVY6KxVC20nUZD7cC9SUMyG+hs/cGz9pZvKjvdi+SKMSXeJQNZwmisa6HzzGVKaN9/j6b7E/WRT/dZOQWih3vwYvhWSUd/RSUJ/ZwgHWo3q8YBE+daOnK83BTbpoFGnPy+rKQ9EugVBu0fA5UmnyUtOPiwkWxkFpYeFFW5/iw6ZfJcavuRC/WdIS6CdTTNLog8lBzN8W/yIkYB1rO6Dk/t/fjILgXsQswmf0NzaT9a15xglx9fX2Np/GGSyUBxInMQb8mOJsey15kTAJquVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PChcqlgg/1AX3q5gkPO8/Y72dq7j51chPEAff/NNK80=;
- b=lXdc5YMeYO1ppf/oQVMMhIRyuNM0QL6cufQ3VZEoEsUstEMzv0ock2qoaj3bpdLHYKvbjLpuYnOK4zzdZuk90Bez8NoL73oHs/wR3bDn2k81evs7K3qPSOODeW10mkrLwH6HcNjMa+2SYZADsYxI/hI1UhvddTo8isDWT+k24cwL/Fo4LWlO7WngENw85HxNqk4FPHqjYGRpe9f0pQdODNgOTztc1lklKvGaHovjstCkhdsUGhZ18Ycur4KHQRXCTjbxQPuGNKvgQa1ugxgE5owFRdVsSBnLyCYnTZunFJw7A9unti1w3peeL3FOAYkOlSz1LsTipEB3oX61kkG4MA==
+ bh=fdXw/VYVPUbUxiMUH7EPpY7XT11q7Fr3BSwkuljjJuA=;
+ b=gbGLTr2Y/ydr+7M3dIrtNo/8j7MAQPZ5wZdaDNyQ29VmFyByFbEhbOO5cjdKph21M/jxXA1tRNvA0NsnF9eEGBTdaCG9nF+M5Jg7JDbWU5sbh0btsYobFZHW+q7Ma2Rvtn9n89Ttu1pEgVZzS9AH6N0BvmdTdLiTqZ7TXyz4IfZPRdzlhLfW1/49YpNPct6bEpDxeH2RSTjA6/3VXwqZOpG3RLfejtRtp0mNipfGiMNVAdWICVry95jzmGV4uqv1mIMzwadnHzSAKQt6s4T7HDwyqe4RlJrRDfXzvjoIbVlxTiKizY4npfPYBlqt6BgIR/Ob84ws0SG1CuRhV2zSSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PChcqlgg/1AX3q5gkPO8/Y72dq7j51chPEAff/NNK80=;
- b=h5LZZ4Lg8mB6zZRXMsyx5zYf5HKjGuVOk5Elc82RiPburAFySWFnUKkWb5yUSqDOx9LlXM7aYk3a4neyCtsvLl5JXjJL/ivdQ0ZuMM/kdVVaUTh/oEW4Mes1JY9ku6xoxJGh88Pgo7hnFb4iiaj3KpPR2YxLNIWTSZ9afhVsA1c=
-Received: from MW4P221CA0005.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::10)
- by PH7PR12MB5901.namprd12.prod.outlook.com (2603:10b6:510:1d5::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Sun, 12 Mar
- 2023 09:24:34 +0000
-Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8b:cafe::6) by MW4P221CA0005.outlook.office365.com
- (2603:10b6:303:8b::10) with Microsoft SMTP Server (version=TLS1_2,
+ bh=fdXw/VYVPUbUxiMUH7EPpY7XT11q7Fr3BSwkuljjJuA=;
+ b=Rw8nreq6E3Cb6pVme74+5TirhnlQ0LIyOap+SeNh7VHSqV08OBRo/N05KHQ6fy4z4UDZaQZuzEn5Skrrj9leBu85pf7b4Vv9G+OXf1O70qImCOwKqDuDaUEUYTEd0D4VyJznIV0je4sk2sBLfM26SClxNjYaatW293eivQS92nI=
+Received: from MW4PR03CA0223.namprd03.prod.outlook.com (2603:10b6:303:b9::18)
+ by PH8PR12MB6962.namprd12.prod.outlook.com (2603:10b6:510:1bd::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.22; Sun, 12 Mar
+ 2023 09:24:38 +0000
+Received: from CO1NAM11FT088.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b9:cafe::dc) by MW4PR03CA0223.outlook.office365.com
+ (2603:10b6:303:b9::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24 via Frontend
- Transport; Sun, 12 Mar 2023 09:24:34 +0000
+ Transport; Sun, 12 Mar 2023 09:24:38 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,13 +50,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
+ CO1NAM11FT088.mail.protection.outlook.com (10.13.175.131) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.19 via Frontend Transport; Sun, 12 Mar 2023 09:24:33 +0000
+ 15.20.6178.24 via Frontend Transport; Sun, 12 Mar 2023 09:24:38 +0000
 Received: from hr-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Sun, 12 Mar
- 2023 04:24:28 -0500
+ 2023 04:24:33 -0500
 From: Huang Rui <ray.huang@amd.com>
 To: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, 
  Stefano Stabellini <sstabellini@kernel.org>, Anthony PERARD
@@ -71,10 +71,9 @@ CC: Alex Deucher <alexander.deucher@amd.com>,
  <burzalodowa@gmail.com>, Honglei Huang <honglei1.huang@amd.com>, Julia Zhang
  <julia.zhang@amd.com>, Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui
  <ray.huang@amd.com>
-Subject: [RFC QEMU PATCH 17/18] virtio-gpu: Add video hardware accelerate
- support for virgl
-Date: Sun, 12 Mar 2023 17:22:43 +0800
-Message-ID: <20230312092244.451465-18-ray.huang@amd.com>
+Subject: [RFC QEMU PATCH 18/18] xen: translate irq of host pci device to gsi
+Date: Sun, 12 Mar 2023 17:22:44 +0800
+Message-ID: <20230312092244.451465-19-ray.huang@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230312092244.451465-1-ray.huang@amd.com>
 References: <20230312092244.451465-1-ray.huang@amd.com>
@@ -86,29 +85,29 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT045:EE_|PH7PR12MB5901:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2230cd2f-e615-45e6-f989-08db22db97b1
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT088:EE_|PH8PR12MB6962:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc673529-2423-4135-5ed6-08db22db9a78
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PnQkbM6r1qZs+pSWIT7uQVEAF08dfnMK3vtkNn6EaBZohne2lBoTZr2SU9BspSXQ/+hWFHcJfW3TCGdtqJcQyWEk0L9Qm4PrpC7Ey5dUngo1O+ACThyJneacl5MruDO+tZhrHc+i2m78s+6ZF/WGqI42J4pRsgY/ePOJmoD/uipfXLRRDfbepM0NcCIknTCpuNUnmqK8OlCG9JL6TJ8dUY8OzWoHKXcSX9XWvOubu+urrg1oi5rqZOoWCRJKYITRRn9OmZZTMawvE1d38QY+b/wcPvMRGKWblQGiHrXSOMZmoLSq5qSDj0uLpOjEmcFJ1DSTzrz3UvprB5NnrZg2dyNmmmERFEoQDeHnKRBFnM/Py98bnpfOqZchCL7w4wjPNlu0DE74WE6PVRTxAjbH8Eb9LSsOD2SpPcLUOv85NJi++TdfQcKJVyonZJE/tHOzg0ugGTP2MvNCdwDYQVND5rLgc2MQ8QuKoMNmjjDXLEQ5gBioCB8feM7GUmzvnHYnkJSd1n8qjx01wlaizavz98pq1vH4QKdwUJ/SitE/qHXX0ULatD0Tcr7XJroWQYTSrmVlsCCfxHz6hcxDcc4LW0O7AG5swNUoXByELURwOxSqB5NgjtBDsvTy4zgVmX1NTS+xMOjwJfagIVYZVdiobwa2eieKkfLx98FWmlzx+AEl/bd7Oe2PbPepMLMGOV11daj6Nq8QwvNJZK+4Eb22/iFtgKVcFuWq1LrVrf5JJKyisC85kxwW83gjuEM4G4Pw
+X-Microsoft-Antispam-Message-Info: XJOZrVicCW17z/AcoTuCNDsCWVZBmtGSfp5oLSWAjg/A86NQilOIu5bUUyq7g+Rf3jewmAMNSsj6E4+CmvMZsx5lHjGA2fAVgJBOfelFqEVUEt23AskDYZdCcnQArJKTADn/3zR8htkA1g0sHE8QOmZrmTmhHBjFvccPC5v3NXr+I3oljE80f9J6pS4r3NnrGsMakxShAAa+crZ0RZLQfB6It8XX2IknYhPMoQSHyCCVxvz1MldJwELllb5RXr/gDDkt591Yr/6+uHa0udrrFZPC0KluHRA1a3RwyJMFpK8CI1jniIIuEhtJqYx4HM8zSQB5uBBJlH2o4r9xMlrzitg4JayEU1IbX3K+2t/4CmgO7hBjBiIXfVJGZJl7UZ6Wl0/DindZZN7vZpRWVUIw//4I88kwWpWYuh8/Bq0Owtn44gEcoxshJpoZ//gg4tc8T6R5Wbmc4bX2NxstjevyC90Jvri1FW04av5MUoXLxDG7RnGIlTR64aiRou4UXdqaaA18DDjzDbojQ8NsWFNEkxkeKRKZIbul/tATRT80Qm3BeIzAe0D4JY0xPrlOUktUbcv+03DlteyAqC/zHjPY1XL3T72DAl0PaLv+bjFGKsPDY59L5MkXzXxWgawlCcMeaw9sT5ZpYzt9MVHUflEHB147Z9mptw8GhicWYzkP+IMlhsfmhkd/SuIt6Ugng8cmCb/lbq8F/a71X3Vh6OAX5s6qn/qH1ZL/3PBdQYiL/q9EAkBnC0DZikWWfAUtM8yj
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(376002)(39860400002)(396003)(136003)(451199018)(46966006)(36840700001)(40470700004)(36756003)(81166007)(186003)(110136005)(40460700003)(921005)(54906003)(7696005)(7416002)(478600001)(4326008)(316002)(5660300002)(70206006)(8936002)(2906002)(8676002)(70586007)(41300700001)(36860700001)(16526019)(86362001)(40480700001)(6666004)(82740400003)(2616005)(82310400005)(26005)(1076003)(356005)(426003)(336012)(83380400001)(47076005)(36900700001);
+ SFS:(13230025)(4636009)(136003)(396003)(346002)(39860400002)(376002)(451199018)(40470700004)(36840700001)(46966006)(36860700001)(6666004)(7416002)(5660300002)(8936002)(70586007)(70206006)(4326008)(82310400005)(7696005)(40480700001)(8676002)(83380400001)(54906003)(110136005)(36756003)(316002)(478600001)(426003)(47076005)(41300700001)(40460700003)(336012)(86362001)(82740400003)(2906002)(356005)(921005)(186003)(16526019)(81166007)(1076003)(26005)(4744005)(2616005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2023 09:24:33.9075 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2230cd2f-e615-45e6-f989-08db22db97b1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2023 09:24:38.6256 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc673529-2423-4135-5ed6-08db22db9a78
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT088.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5901
-Received-SPF: softfail client-ip=2a01:111:f400:7eab::613;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6962
+Received-SPF: softfail client-ip=2a01:111:f400:7e8c::618;
  envelope-from=Ray.Huang@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -130,74 +129,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Honglei Huang <honglei1.huang@amd.com>
+From: Chen Jiqian <Jiqian.Chen@amd.com>
 
-Add get_drm_fd callback let the guest OS can get render node to using hw accel codec.
+Use the new interface in the kernel to map pirq for qemu.
 
-Signed-off-by: Honglei Huang <honglei1.huang@amd.com>
+Signed-off-by: Chen Jiqian <Jiqian.Chen@amd.com>
 Signed-off-by: Huang Rui <ray.huang@amd.com>
 ---
- hw/display/virtio-gpu-virgl.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ hw/xen/xen-host-pci-device.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index d5214e0f43..aef735a427 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -13,6 +13,7 @@
- 
+diff --git a/hw/xen/xen-host-pci-device.c b/hw/xen/xen-host-pci-device.c
+index 8c6e9a1716..6ca841a967 100644
+--- a/hw/xen/xen-host-pci-device.c
++++ b/hw/xen/xen-host-pci-device.c
+@@ -9,6 +9,7 @@
  #include "qemu/osdep.h"
- #include "qemu/iov.h"
-+#include "qemu/drm.h"
- #include "trace.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-gpu.h"
-@@ -827,12 +828,22 @@ static int virgl_make_context_current(void *opaque, int scanout_idx,
-                                    qctx);
- }
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
++#include "hw/xen/xen_common.h"
+ #include "xen-host-pci-device.h"
  
-+static int virgl_get_drm_fd(void *opaque)
-+{
-+    int fd = -1;
-+
-+    fd = qemu_drm_rendernode_open(NULL);
-+
-+    return fd;
-+}
-+
- static struct virgl_renderer_callbacks virtio_gpu_3d_cbs = {
-     .version             = 1,
-     .write_fence         = virgl_write_fence,
-     .create_gl_context   = virgl_create_context,
-     .destroy_gl_context  = virgl_destroy_context,
-     .make_current        = virgl_make_context_current,
-+    .get_drm_fd          = virgl_get_drm_fd,
- };
+ #define XEN_HOST_PCI_MAX_EXT_CAP \
+@@ -368,7 +369,7 @@ void xen_host_pci_device_get(XenHostPCIDevice *d, uint16_t domain,
+     if (*errp) {
+         goto error;
+     }
+-    d->irq = v;
++    d->irq = xc_physdev_gsi_from_irq(xen_xc, v);
  
- static void virtio_gpu_print_stats(void *opaque)
-@@ -886,14 +897,20 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
-     virgl_renderer_reset();
- }
- 
-+
-+
- int virtio_gpu_virgl_init(VirtIOGPU *g)
- {
-     int ret;
- 
-+#ifndef VIRGL_RENDERER_USE_VIDEO
-+#define VIRGL_RENDERER_USE_VIDEO (1 << 11)
-+#endif
-+
- #ifdef VIRGL_RENDERER_VENUS
--    ret = virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_gpu_3d_cbs);
-+    ret = virgl_renderer_init(g, VIRGL_RENDERER_VENUS | VIRGL_RENDERER_USE_VIDEO, &virtio_gpu_3d_cbs);
- #else
--    ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
-+    ret = virgl_renderer_init(g, 0 | VIRGL_RENDERER_USE_VIDEO, &virtio_gpu_3d_cbs);
- #endif
-     if (ret != 0) {
-         error_report("virgl could not be initialized: %d", ret);
+     xen_host_pci_get_hex_value(d, "class", &v, errp);
+     if (*errp) {
 -- 
 2.25.1
 
