@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC656B6BF0
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 23:26:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DCC6B6BF1
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 23:27:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbU8O-0002AS-0d; Sun, 12 Mar 2023 18:25:44 -0400
+	id 1pbU8w-0002Cy-Hz; Sun, 12 Mar 2023 18:26:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pbU8M-00029w-6S
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:25:42 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pbU8t-0002CJ-Tw
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:26:16 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pbU8K-0001ql-8M
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:25:41 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id be16so8254313oib.0
- for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 15:25:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pbU8s-0001ul-B8
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:26:15 -0400
+Received: by mail-ed1-x534.google.com with SMTP id g10so12701201eda.1
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 15:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1678659938;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gbNMLgN0w9Uk051YsUoabSGGG/ZBFHGD2XdPtfzHByk=;
- b=N1NL4GentwBxsDbgyVPoCg1+OYGTmxMijyfyIo27wgkJmU19cRLkiFsG99qt0xj7O4
- ecfDXXy90JfqNN5Rv9X2mWXUCEz//8Ew572Z1TQXCCLN2j7nZ1wW0iyjvjpYXzV5KXW1
- YTuwEW2nY5ZO1KD5JGnnQadCKZCEwhketHTY1MyzriWFTouaAxX1jL5PtRE2cMAFhD20
- HpGKaTJ+Sp+L9E7TlXKWnTPmRIPJhIU5PeDODYeOjQU+P0I9D/6TKp4etfjBBZFYlrm0
- 4ggFf+lhmztcb/x7PPgkPEPfAfUy9Lx28f5ljOif+3r99Nd9aREY/QWyA6589AOpTysE
- Cjqw==
+ d=gmail.com; s=20210112; t=1678659973;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L8qIkZZGxy+LRn8oi7XajbXy7vQKiqhBHGDgHBmfaDc=;
+ b=bnXUrW7Bpl/JGtIRgxFL/U173smZ1yLlaxbaGf/Up5aesfm6TbvoDH4SQuhewlLjrn
+ OZXofdnvf7GbImNGbe+84eihD+4hfQvZq3Xw8o79B62cebrcMoHe8Y/8YaTjl30dYL9R
+ 8ZUOqBXiabYVSZ+fpHwd3rTPL7INEdWoQAXvuHBuiBabEYml1NVx579SJ3N1p1OW0vyt
+ BSP1kYxDSO1O2R8/I8LTLIUkRUonWyZPNmVk2WN4oZ5g2nmo/NtwJ+ozh4TAxbm2OFLi
+ NG+X1iaGG021l5/DVc/dHmkyfmq9jw8NqJSHsEiQsyAESyTCTgVT5SIW2IpjzrAt8O1n
+ YFig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678659938;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gbNMLgN0w9Uk051YsUoabSGGG/ZBFHGD2XdPtfzHByk=;
- b=ajhXc8Zl08a62V/NN+cUuJ6Pf5Kyw6lgFnEBio3I89AlwTXOGzBkBGiGk2Dez7h1gz
- UceAfN8SwmP7qiGfSuj2MpZjwRi1692bLIBPa6eTowurjkhck+dFm1YTrJew1P8Y70yH
- gtl30OHb5V3i8buLEwz12BVlHs+Ls9u//B3PaN9ZR099UA+2+kTK4mbMj+EzJBLiLA8L
- N2lGyACM4uNoL92ssOXiZ7qA/b982NXDmuZhDD3I4Z8Syy8kA7a8us1/3CyB9FN7gaQe
- JNPj3f5dZ/UVqqSXkwYIN+CtN9lntZon78zqS5cu89hruvzM+m627JU6vtPfNA1RjLnU
- pH3Q==
-X-Gm-Message-State: AO0yUKV1TdAP0wy58EXL0FNl6F9cToM8p4q6b/XUVmqusLLOjEdlmf4n
- A7SLfmKRA5qioFz+M4SMUXj9ZA==
-X-Google-Smtp-Source: AK7set/aovWEzFFfm5inBDIta2aTIi6W/TVPZaxiEZVFa9sa5LyKdBcy1i+sor3dA7FnoLD7cVt/Ww==
-X-Received: by 2002:a05:6808:2c3:b0:384:2883:4de1 with SMTP id
- a3-20020a05680802c300b0038428834de1mr15011693oid.38.1678659938467; 
- Sun, 12 Mar 2023 15:25:38 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
- by smtp.gmail.com with ESMTPSA id
- q8-20020acaf208000000b003785996ef36sm2452769oih.19.2023.03.12.15.25.36
+ d=1e100.net; s=20210112; t=1678659973;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=L8qIkZZGxy+LRn8oi7XajbXy7vQKiqhBHGDgHBmfaDc=;
+ b=s6uwDttGFA2wIBRnNzzRvrulxneHS3SbN1kDdFVk9f/LamuIB4FgeDiGKXg9LcF4XU
+ DnUXphPLygmyGo8iB+aJxtgN8HKB5lvs9bJ2KQiDAGy01q3poizFflSl8aA96CLmd4ae
+ x4g+XHXCjLPtDbNoQoXUStUvzsSjjJnhQhAXLIHnd/ZzL5tVYx6WOuBEBwO8eizC077T
+ N4mN8T/Xf2T5PhOi5xgT5WYKUh384iZOLLJcADcHolmf8unKg/cg/RdrYkmeu5dZfVej
+ wCGb1xpHqw3NeqeqFfbpv0AbhZMl9FELm1ZsISJu9Bsq8NNvDhBk+8jMozVus9ZKZipH
+ Hr9Q==
+X-Gm-Message-State: AO0yUKXXqO+RGRLV/gFmlmW/LX6TuJi1HJasEQavMrsbluT3U3O0GnLg
+ gBgwGMsOjS5AcMvTXxeNmqU=
+X-Google-Smtp-Source: AK7set8PdoiyjWhKKcpVpF+VUxOAiZlrha9QuSJ0GRL5DTUAYhb8mhaoOdtRheyGjLVefGMzt2Dl5g==
+X-Received: by 2002:aa7:c056:0:b0:4fa:eccd:9849 with SMTP id
+ k22-20020aa7c056000000b004faeccd9849mr4150624edo.9.1678659972673; 
+ Sun, 12 Mar 2023 15:26:12 -0700 (PDT)
+Received: from [127.0.0.1] ([77.13.79.143]) by smtp.gmail.com with ESMTPSA id
+ ee25-20020a056402291900b004fb30fc1dabsm1461076edb.96.2023.03.12.15.26.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Mar 2023 15:25:38 -0700 (PDT)
-Message-ID: <a670e893-9eec-98e5-508c-ff0115fdbb06@ventanamicro.com>
-Date: Sun, 12 Mar 2023 19:25:33 -0300
+ Sun, 12 Mar 2023 15:26:12 -0700 (PDT)
+Date: Sun, 12 Mar 2023 22:26:05 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+CC: Amarjargal Gundjalam <amarjargal16@gmail.com>, Bin Meng <bmeng@tinylab.org>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+Subject: Re: [PATCH v2 09/10] contrib/gitdm: add more individual contributors
+In-Reply-To: <20230310180332.2274827-10-alex.bennee@linaro.org>
+References: <20230310180332.2274827-1-alex.bennee@linaro.org>
+ <20230310180332.2274827-10-alex.bennee@linaro.org>
+Message-ID: <5ECCA8A5-58ED-426B-933B-0602FA32FBE9@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] hw/riscv: Fix the bug of max size limit when put
- initrd to RAM
-To: Hang Xu <xuhang@eswincomputing.com>, qemu-riscv@nongnu.org
-Cc: palmer@rivosinc.com, bmeng@tinylab.org, alistair.francis@wdc.com,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20230312094022.1127-1-xuhang@eswincomputing.com>
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230312094022.1127-1-xuhang@eswincomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,224 +92,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-First, all patches in QEMU must also go to to the general mailing list (qemu-devel)
-as well. I'm adding it in the CC in this reply. Sorry to not mentioning it in the
-first version - I noticed that you didn't CC qemu-devel here, and in v1, just now
-when replying to this patch.
-
-As for the commit title, we don't need to mention that you're fixing a bug. I mean,
-at least for me, if it needs fixing it's already a bug :D
-
-I'd go with:
-
-"hw/riscv: Fix max initrd size limit when put initrd to RAM"
 
 
-On 3/12/23 06:40, Hang Xu wrote:
-> Because the starting address of ram is not necessarily 0,
-> the remaining free space in ram is
-> ram_size - (start - ram_base) instead of ram_size-start.
-> The changes based on patch1 are as follows:
-> 1. Rebase
-> 2. Considering that the ram block may be discontinuous
+Am 10=2E M=C3=A4rz 2023 18:03:31 UTC schrieb "Alex Benn=C3=A9e" <alex=2Ebe=
+nnee@linaro=2Eorg>:
+>I'll only add names explicitly acked here=2E Let me know if you want
+>contributions mapped to a company instead=2E
+>
+>Signed-off-by: Alex Benn=C3=A9e <alex=2Ebennee@linaro=2Eorg>
+>Cc: Bernhard Beschow <shentey@gmail=2Ecom>
+>Cc: Amarjargal Gundjalam <amarjargal16@gmail=2Ecom>
+>Cc: Bin Meng <bmeng@tinylab=2Eorg>
+>Cc: Jason A=2E Donenfeld <Jason@zx2c4=2Ecom>
+>Cc: Strahinja Jankovic <strahinja=2Ep=2Ejankovic@gmail=2Ecom>
+>---
+> contrib/gitdm/group-map-individuals | 5 +++++
+> 1 file changed, 5 insertions(+)
+>
+>diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-ma=
+p-individuals
+>index e2263a5ee3=2E=2E0e4618f1ce 100644
+>--- a/contrib/gitdm/group-map-individuals
+>+++ b/contrib/gitdm/group-map-individuals
+>@@ -38,3 +38,8 @@ paul@nowt=2Eorg
+> git@xen0n=2Ename
+> simon@simonsafar=2Ecom
+> research_trasio@irq=2Ea4lg=2Ecom
+>+shentey@gmail=2Ecom
+>+bmeng@tinylab=2Eorg
+>+amarjargal16@gmail=2Ecom
+>+strahinjapjankovic@gmail=2Ecom
+>+jason@zx2c4=2Ecom
 
-
-So, when documenting changes from one version to the other we usually do in one
-of two ways:
-
-- put it right after the "---"  after your "Signed-off-by". Everything you
-put there won't be converted into code or commit message when applying the
-patch;
-
-- create the patch with --cover-letter and document it there in separate.
-
-
-What you did here will force the maintainer to remove this change history
-from the commit message when applying it.
-
-> 
-> Signed-off-by: Hang Xu <xuhang@eswincomputing.com>
-> ---
->   hw/riscv/boot.c            | 18 ++++++++++++------
->   hw/riscv/microchip_pfsoc.c |  5 ++++-
->   hw/riscv/opentitan.c       |  2 +-
->   hw/riscv/sifive_e.c        |  2 +-
->   hw/riscv/sifive_u.c        |  5 ++++-
->   hw/riscv/spike.c           |  5 ++++-
->   hw/riscv/virt.c            |  5 ++++-
->   include/hw/riscv/boot.h    |  2 ++
->   8 files changed, 32 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 52bf8e67de..73b44a0c8b 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -173,10 +173,10 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
->       exit(1);
->   }
->   
-> -static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
-> +static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry,
-> +                              uint64_t ram_base, uint64_t ram_size)
->   {
->       const char *filename = machine->initrd_filename;
-> -    uint64_t mem_size = machine->ram_size;
->       void *fdt = machine->fdt;
->       hwaddr start, end;
->       ssize_t size;
-> @@ -193,12 +193,16 @@ static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
->        * So for boards with less  than 256MB of RAM we put the initrd
->        * halfway into RAM, and for boards with 256MB of RAM or more we put
->        * the initrd at 128MB.
-> +     * A ram_size == 0, usually from a MemMapEntry[].size element,
-> +     * means that the RAM block goes all the way to ms->ram_size.
->        */
-> -    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
-> +    ram_size = ram_size ? MIN(machine->ram_size, ram_size) : machine->ram_size;
-> +    start = kernel_entry + MIN(ram_size / 2, 128 * MiB);
-> +    uint64_t max_initrd = ram_size - (start - ram_base);
-
-Please declare 'max_initrd' at the start of the function with the other vars.
-
-
-Everything else looks good to me.
-
-
-Thanks,
-
-
-Daniel
-
->   
-> -    size = load_ramdisk(filename, start, mem_size - start);
-> +    size = load_ramdisk(filename, start, max_initrd);
->       if (size == -1) {
-> -        size = load_image_targphys(filename, start, mem_size - start);
-> +        size = load_image_targphys(filename, start, max_initrd);
->           if (size == -1) {
->               error_report("could not load ramdisk '%s'", filename);
->               exit(1);
-> @@ -217,6 +221,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->                                  RISCVHartArrayState *harts,
->                                  target_ulong kernel_start_addr,
->                                  bool load_initrd,
-> +                               uint64_t ram_base,
-> +                               uint64_t ram_size,
->                                  symbol_fn_t sym_cb)
->   {
->       const char *kernel_filename = machine->kernel_filename;
-> @@ -263,7 +269,7 @@ out:
->       }
->   
->       if (load_initrd && machine->initrd_filename) {
-> -        riscv_load_initrd(machine, kernel_entry);
-> +        riscv_load_initrd(machine, kernel_entry, ram_base, ram_size);
->       }
->   
->       if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index e81bbd12df..b42d90b89e 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -630,7 +630,10 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->                                                            firmware_end_addr);
->   
->           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
-> -                                         kernel_start_addr, true, NULL);
-> +                                         kernel_start_addr, true,
-> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].size,
-> +                                         NULL);
->   
->           /* Compute the fdt load address in dram */
->           fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index b06944d382..bb663523d5 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -103,7 +103,7 @@ static void opentitan_board_init(MachineState *machine)
->       if (machine->kernel_filename) {
->           riscv_load_kernel(machine, &s->soc.cpus,
->                             memmap[IBEX_DEV_RAM].base,
-> -                          false, NULL);
-> +                          false, 0, 0, NULL);
->       }
->   }
->   
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 04939b60c3..5b47d539a6 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -116,7 +116,7 @@ static void sifive_e_machine_init(MachineState *machine)
->       if (machine->kernel_filename) {
->           riscv_load_kernel(machine, &s->soc.cpus,
->                             memmap[SIFIVE_E_DEV_DTIM].base,
-> -                          false, NULL);
-> +                          false, 0, 0, NULL);
->       }
->   }
->   
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 35a335b8d0..b45fdc968c 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -599,7 +599,10 @@ static void sifive_u_machine_init(MachineState *machine)
->                                                            firmware_end_addr);
->   
->           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
-> -                                         kernel_start_addr, true, NULL);
-> +                                         kernel_start_addr, true,
-> +                                         memmap[SIFIVE_U_DEV_DRAM].base,
-> +                                         memmap[SIFIVE_U_DEV_DRAM].size,
-> +                                         NULL);
->       } else {
->          /*
->           * If dynamic firmware is used, it doesn't know where is the next mode
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index a584d5b3a2..e322ed8506 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -307,7 +307,10 @@ static void spike_board_init(MachineState *machine)
->   
->           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
->                                            kernel_start_addr,
-> -                                         true, htif_symbol_callback);
-> +                                         true,
-> +                                         memmap[SPIKE_DRAM].base,
-> +                                         memmap[SPIKE_DRAM].size,
-> +                                         htif_symbol_callback);
->       } else {
->          /*
->           * If dynamic firmware is used, it doesn't know where is the next mode
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4e3efbee16..11f26b0dc0 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1287,7 +1287,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
->                                                            firmware_end_addr);
->   
->           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
-> -                                         kernel_start_addr, true, NULL);
-> +                                         kernel_start_addr, true,
-> +                                         memmap[VIRT_DRAM].base,
-> +                                         memmap[VIRT_DRAM].size,
-> +                                         NULL);
->       } else {
->          /*
->           * If dynamic firmware is used, it doesn't know where is the next mode
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index a2e4ae9cb0..987e1add38 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -47,6 +47,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->                                  RISCVHartArrayState *harts,
->                                  target_ulong firmware_end_addr,
->                                  bool load_initrd,
-> +                               uint64_t ram_base,
-> +                               uint64_t ram_size,
->                                  symbol_fn_t sym_cb);
->   uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
->                                   MachineState *ms);
+Acked-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
