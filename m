@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12DCC6B6BF1
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 23:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8776B6C0C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 23:48:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbU8w-0002Cy-Hz; Sun, 12 Mar 2023 18:26:18 -0400
+	id 1pbUSZ-00060C-Ro; Sun, 12 Mar 2023 18:46:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pbU8t-0002CJ-Tw
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:26:16 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pbUSX-0005zV-S7
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:46:33 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pbU8s-0001ul-B8
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:26:15 -0400
-Received: by mail-ed1-x534.google.com with SMTP id g10so12701201eda.1
- for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 15:26:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pbUSV-0004vJ-FY
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:46:33 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id o12so41689482edb.9
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 15:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678659973;
+ d=gmail.com; s=20210112; t=1678661190;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=L8qIkZZGxy+LRn8oi7XajbXy7vQKiqhBHGDgHBmfaDc=;
- b=bnXUrW7Bpl/JGtIRgxFL/U173smZ1yLlaxbaGf/Up5aesfm6TbvoDH4SQuhewlLjrn
- OZXofdnvf7GbImNGbe+84eihD+4hfQvZq3Xw8o79B62cebrcMoHe8Y/8YaTjl30dYL9R
- 8ZUOqBXiabYVSZ+fpHwd3rTPL7INEdWoQAXvuHBuiBabEYml1NVx579SJ3N1p1OW0vyt
- BSP1kYxDSO1O2R8/I8LTLIUkRUonWyZPNmVk2WN4oZ5g2nmo/NtwJ+ozh4TAxbm2OFLi
- NG+X1iaGG021l5/DVc/dHmkyfmq9jw8NqJSHsEiQsyAESyTCTgVT5SIW2IpjzrAt8O1n
- YFig==
+ bh=qxxg+yMSmQOYh3KX1jXi8BFj1dKDUZyFIxwuTPFPlaE=;
+ b=JSVqcgfhDMXFrv3CEfgWjaaLyMLk5b44fkL7SYTWTEETR8E61gLU2pe5efUznA6CB3
+ AakuoNvvZqSFTuW+VER5sUyxh4HinuQRaK5uN4ao11gsI1TYwpojfkocZqvcOfZK0/v/
+ 8/eeUcwkpwMHQT+McCzzaHZYIFkJLdQy4YooZVZXp82jL8QKUsbJP+olc/DYNrbc1S71
+ GMhv2K2nGPsHdxo1Z7poSQ1PXQgk/6pKrseLfpdh+hzm1S9XACyAum2uucM6LcAmn2oO
+ KR7I2OUNPUBMp6USCfVzb7iOUFGAojQkHAajsL/2VfwSoRiQ2AS0cKsFhSCbPu0OHTfV
+ 2Ong==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678659973;
+ d=1e100.net; s=20210112; t=1678661190;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=L8qIkZZGxy+LRn8oi7XajbXy7vQKiqhBHGDgHBmfaDc=;
- b=s6uwDttGFA2wIBRnNzzRvrulxneHS3SbN1kDdFVk9f/LamuIB4FgeDiGKXg9LcF4XU
- DnUXphPLygmyGo8iB+aJxtgN8HKB5lvs9bJ2KQiDAGy01q3poizFflSl8aA96CLmd4ae
- x4g+XHXCjLPtDbNoQoXUStUvzsSjjJnhQhAXLIHnd/ZzL5tVYx6WOuBEBwO8eizC077T
- N4mN8T/Xf2T5PhOi5xgT5WYKUh384iZOLLJcADcHolmf8unKg/cg/RdrYkmeu5dZfVej
- wCGb1xpHqw3NeqeqFfbpv0AbhZMl9FELm1ZsISJu9Bsq8NNvDhBk+8jMozVus9ZKZipH
- Hr9Q==
-X-Gm-Message-State: AO0yUKXXqO+RGRLV/gFmlmW/LX6TuJi1HJasEQavMrsbluT3U3O0GnLg
- gBgwGMsOjS5AcMvTXxeNmqU=
-X-Google-Smtp-Source: AK7set8PdoiyjWhKKcpVpF+VUxOAiZlrha9QuSJ0GRL5DTUAYhb8mhaoOdtRheyGjLVefGMzt2Dl5g==
-X-Received: by 2002:aa7:c056:0:b0:4fa:eccd:9849 with SMTP id
- k22-20020aa7c056000000b004faeccd9849mr4150624edo.9.1678659972673; 
- Sun, 12 Mar 2023 15:26:12 -0700 (PDT)
+ bh=qxxg+yMSmQOYh3KX1jXi8BFj1dKDUZyFIxwuTPFPlaE=;
+ b=4ZYWZrVyAz6XEK1KQSGB1bwmx/+7IsIL430om5lRZd4GZXVUFIe0FTjF+e0TZMa0rk
+ lWHge0jlRxe72LDduQvDuAe4nE+MSu5UNMF+GCnpeKu8AooWeQsVILi7U44VZCGqcacd
+ 9ICC1qX8swTeWm5WI+i//zqjFCZvFvkpVzw79RZfcV1DNSpq3krMQgxyPwXnRO1GDBmi
+ BeZQ4InNiFixr8984GjmBTrB64poEMzstfgqGas2H1EBp9gJ+SkdMHVmWvhDchwUvOvJ
+ anZpfcrE8xF+AB6F2Ii+fYli6QGn4l1RTUhxnT/IyBmLN7OpcZehgqg1+5ykwX99qfuQ
+ 03LQ==
+X-Gm-Message-State: AO0yUKVd96xo6dcI7WjRf8IKkpXSrp0JA66duDMY2PltSyXgIBGUVkw+
+ V0fUgpdtxeztTSfZ/+dOpcE=
+X-Google-Smtp-Source: AK7set/xsFZ4RBNWkegWu0Pjo20Mag59ZycQ/FBq97AZcGItLDQDr1d7yFXtW76bHSRJP/21JssInA==
+X-Received: by 2002:a17:906:b007:b0:8aa:c038:974c with SMTP id
+ v7-20020a170906b00700b008aac038974cmr32473011ejy.54.1678661189735; 
+ Sun, 12 Mar 2023 15:46:29 -0700 (PDT)
 Received: from [127.0.0.1] ([77.13.79.143]) by smtp.gmail.com with ESMTPSA id
- ee25-20020a056402291900b004fb30fc1dabsm1461076edb.96.2023.03.12.15.26.12
+ b22-20020a170906709600b008c06de45e75sm2689035ejk.107.2023.03.12.15.46.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Mar 2023 15:26:12 -0700 (PDT)
-Date: Sun, 12 Mar 2023 22:26:05 +0000
+ Sun, 12 Mar 2023 15:46:29 -0700 (PDT)
+Date: Sun, 12 Mar 2023 22:46:22 +0000
 From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-CC: Amarjargal Gundjalam <amarjargal16@gmail.com>, Bin Meng <bmeng@tinylab.org>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: Re: [PATCH v2 09/10] contrib/gitdm: add more individual contributors
-In-Reply-To: <20230310180332.2274827-10-alex.bennee@linaro.org>
-References: <20230310180332.2274827-1-alex.bennee@linaro.org>
- <20230310180332.2274827-10-alex.bennee@linaro.org>
-Message-ID: <5ECCA8A5-58ED-426B-933B-0602FA32FBE9@gmail.com>
+To: Chuck Zmudzinski <brchuckz@aol.com>
+CC: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Anthony PERARD <anthony.perard@citrix.com>
+Subject: Re: [PATCH v2 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+In-Reply-To: <e79db0b0-8d35-91b7-1d60-8670c6594ef7@aol.com>
+References: <20230104144437.27479-1-shentey@gmail.com>
+ <20230118051230-mutt-send-email-mst@kernel.org>
+ <Y9ADQ/Yu8QQD0oyD@perard.uk.xensource.com>
+ <0C2B1FE4-BB48-4C38-9161-6569BA1D6226@gmail.com>
+ <96A4863B-D6BA-48B5-B5E4-54DD103FEBAA@gmail.com>
+ <6C8AA4D4-FF57-4E43-A464-7F64C576ED5B@gmail.com>
+ <c20b7056-037d-67ff-0b2d-ea931d501bac@aol.com>
+ <FD7FF486-D06D-4CC1-8618-13B4138596B2@gmail.com>
+ <e79db0b0-8d35-91b7-1d60-8670c6594ef7@aol.com>
+Message-ID: <06039976-94E0-4487-8854-C8F9E978422D@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,35 +106,112 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 10=2E M=C3=A4rz 2023 18:03:31 UTC schrieb "Alex Benn=C3=A9e" <alex=2Ebe=
-nnee@linaro=2Eorg>:
->I'll only add names explicitly acked here=2E Let me know if you want
->contributions mapped to a company instead=2E
+Am 12=2E M=C3=A4rz 2023 21:02:03 UTC schrieb Chuck Zmudzinski <brchuckz@ao=
+l=2Ecom>:
+>On 3/12/23 5:22=E2=80=AFAM, Bernhard Beschow wrote:
+>>=20
+>>=20
+>> Am 11=2E M=C3=A4rz 2023 22:20:29 UTC schrieb Chuck Zmudzinski <brchuckz=
+@aol=2Ecom>:
+>>>On 2/9/2023 4:53 PM, Bernhard Beschow wrote:
+>>>> Am 1=2E Februar 2023 08:11:10 UTC schrieb Bernhard Beschow <shentey@g=
+mail=2Ecom>:
+>>>> >
+>>>> >
+>>>> >Am 24=2E Januar 2023 17:07:30 UTC schrieb Bernhard Beschow <shentey@=
+gmail=2Ecom>:
+>>>> >>
+>>>> >>
+>>>> >>Am 24=2E Januar 2023 16:11:47 UTC schrieb Anthony PERARD <anthony=
+=2Eperard@citrix=2Ecom>:
+>>>> >>>On Wed, Jan 18, 2023 at 05:13:03AM -0500, Michael S=2E Tsirkin wro=
+te:
+>>>> >>>> On Wed, Jan 04, 2023 at 03:44:31PM +0100, Bernhard Beschow wrote=
+:
+>>>> >>>> > This series first renders TYPE_PIIX3_XEN_DEVICE redundant and =
+finally removes
+>>>> >>>> > it=2E The motivation is to 1/ decouple PIIX from Xen and 2/ to=
+ make Xen in the PC
+>>>> >>>> > machine agnostic to the precise southbridge being used=2E 2/ w=
+ill become
+>>>> >>>> > particularily interesting once PIIX4 becomes usable in the PC =
+machine, avoiding
+>>>> >>>> > the "Frankenstein" use of PIIX4_ACPI in PIIX3=2E
+>>>> >>>>=20
+>>>> >>>> Looks ok to me=2E
+>>>> >>>> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>>>> >>>>=20
+>>>> >>>> Feel free to merge through Xen tree=2E
+>>>> >>>
+>>>> >>>Hi Bernhard,
+>>>> >>
+>>>> >>Hi Anthony,
+>>>> >>
+>>>> >>>The series currently doesn't apply on master=2E And a quick try at
+>>>> >>>applying the series it is based on also failed=2E Could you rebase=
+ it , or
+>>>> >>>maybe you would prefer to wait until the other series "Consolidate
+>>>> >>>PIIX=2E=2E=2E" is fully applied?
+>>>> >>
+>>>> >>Thanks for looking into it!
+>>>> >>
+>>>> >>You can get the compilable series from https://patchew=2Eorg/QEMU/2=
+0230104144437=2E27479-1-shentey@gmail=2Ecom/ =2E If it doesn't work for you=
+ let me know, then I can rebase onto master=2E All necessary dependencies f=
+or the series are upstreamed meanwhile=2E
+>>>> >
+>>>> >Ping
+>>>>
+>>>> Ping^2
+>>>
+>>>Hi Bernhard,
+>>=20
+>> Hi Chuck,
+>>=20
+>>>I took a look at this today to see why it cannot be applied=2E
+>>=20
+>> Thanks for looking at it!
+>>=20
+>>>I can see clearly that
+>>>all the prerequisite patches have *not* been applied to master yet, so =
+I can
+>>>understand why Anthony cannot pull this up yet=2E Specifically, the ser=
+ies that
+>>>consolidates PIIX3 and PIIX4 south bridges is not yet applied, and that=
+ is one of
+>>>the prerequisites=2E I think you said it was reviewed, but it apparentl=
+y never got
+>>>pulled up into master=2E
+>>=20
+>> Correct, the PIIX consolidation series isn't merged yet=2E This series =
+currently depends on it to avoid merge conflicts but doesn't need it otherw=
+ise=2E Back then I anticipated that the consolidation series would land in =
+master soon since it was fully reviewed before this one=2E But that turned =
+out not to be the case=2E
+>>=20
+>> This series depends on some necessary refactoring [1] which I did in th=
+e context of PIIX consolidation which is already in master=2E So this serie=
+s can easily be rebased onto master and it even simplifies the consolidatio=
+n series a bit=2E I'll take this route now and I'll post a v3=2E
 >
->Signed-off-by: Alex Benn=C3=A9e <alex=2Ebennee@linaro=2Eorg>
->Cc: Bernhard Beschow <shentey@gmail=2Ecom>
->Cc: Amarjargal Gundjalam <amarjargal16@gmail=2Ecom>
->Cc: Bin Meng <bmeng@tinylab=2Eorg>
->Cc: Jason A=2E Donenfeld <Jason@zx2c4=2Ecom>
->Cc: Strahinja Jankovic <strahinja=2Ep=2Ejankovic@gmail=2Ecom>
->---
-> contrib/gitdm/group-map-individuals | 5 +++++
-> 1 file changed, 5 insertions(+)
->
->diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-ma=
-p-individuals
->index e2263a5ee3=2E=2E0e4618f1ce 100644
->--- a/contrib/gitdm/group-map-individuals
->+++ b/contrib/gitdm/group-map-individuals
->@@ -38,3 +38,8 @@ paul@nowt=2Eorg
-> git@xen0n=2Ename
-> simon@simonsafar=2Ecom
-> research_trasio@irq=2Ea4lg=2Ecom
->+shentey@gmail=2Ecom
->+bmeng@tinylab=2Eorg
->+amarjargal16@gmail=2Ecom
->+strahinjapjankovic@gmail=2Ecom
->+jason@zx2c4=2Ecom
+>Thanks for posting v3, I was at a loss trying to figure out how to merge =
+the 30-patch piix
+>consolidation series into the master branch=2E
 
-Acked-by: Bernhard Beschow <shentey@gmail=2Ecom>
+Yeah, the code suffered from bit rod=2E=2E=2E
+
+>I just tested your recent v3 (all 6 patches)
+>on top of the current master branch and it works well on my Xen guests, s=
+o you can keep my
+>Tested-by tag on that patch series!
+
+Thanks!
+
+Best regards,
+Bernhard
+
+>
+>Kind regards,
+>
+>Chuck
 
