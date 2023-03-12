@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7866B63C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 09:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE92F6B63DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 09:52:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbGeA-0008Ot-6S; Sun, 12 Mar 2023 04:01:38 -0400
+	id 1pbHPd-0000e7-0j; Sun, 12 Mar 2023 04:50:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pbGdo-0008O9-5q
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 04:01:23 -0400
-Received: from mailout03.t-online.de ([194.25.134.81])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pbGdk-0001T0-5T
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 04:01:13 -0400
-Received: from fwd80.dcpf.telekom.de (fwd80.aul.t-online.de [10.223.144.106])
- by mailout03.t-online.de (Postfix) with SMTP id 77A2E2065A;
- Sun, 12 Mar 2023 09:01:09 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.22.72]) by fwd80.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pbGdf-1PdvST0; Sun, 12 Mar 2023 09:01:07 +0100
-Message-ID: <64425814-c379-ef8f-b217-11d47f9f3bab@t-online.de>
-Date: Sun, 12 Mar 2023 09:01:07 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pbHPa-0000du-R4
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 04:50:38 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pbHPZ-0000Cg-1v
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 04:50:38 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q16so8704685wrw.2
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 00:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678611034;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oOoqhzhF+/KoUJKepIpTlPAStPWtK8KAlJD9ewMPx9E=;
+ b=ZXo71sV6747RQ64xj7irDqR2b7Lj2aaTugSg5rk39H/i36T30EQ3fHUC2fZx4HEQFB
+ I3Uy/yz1WdeINeQtWgrN+j05ZccPW1/88FISXNcsWQhqmoEx4tlbF/WwcEphhu4vQyPh
+ DmvNqYwX0bsQ41o+VRKXXlQBDQjz8GDLJhsTukDiliMVnC9YOGZhEA3R9Eg/Sam89Q15
+ YTEF8bqRQ2coyWzPL0QPI0JZf3Mmuxa16e8RVWSrFWwDvOWebvawOekDS2T/6bfe4p8l
+ RsktNu6Z+zVKV163iuv4rLqwXgrIjdnv3sdYSRJeVpADelwt/fcCRi/Z9cr4VUwne1Mj
+ iZkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678611034;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=oOoqhzhF+/KoUJKepIpTlPAStPWtK8KAlJD9ewMPx9E=;
+ b=c3Zh1Btv80pdrdbtgEbCzB9TXwAxaP4dbOzOi+ILQk4oOwdTUIlsg/BzvSp69e891P
+ dwAWEwCS/jvhwR2Pz7HwO+TdM9dGIH6//YhA7bhVm264zngBh08r/blcr78VvRRiOcYR
+ hNMw4KrONUFPYseVdLkuoZuoxAhz5BvJbUxH540yNozRIy9VqOIjTQGZQAEY+kXrq/O9
+ V+KumcXivkkUXORYmt56FuFZzmjLWlAOAjhNg0gJfM4WetEnI+1OSi5CiGfYt4wwLUTq
+ 76MQ14eC7bQ57kPZ4e52EXNn+WlWgVb1KMU1SUDFebFzowKkeca2bzEqm2DPkwwjW80K
+ HQGg==
+X-Gm-Message-State: AO0yUKXfxMs9+bhHZbsQxhuVMRPOIYGF3jKmywuXpNdR4/BAQzI9/I6J
+ t5Hh3/UbKdzPC+qPJeoyQNZp0w==
+X-Google-Smtp-Source: AK7set8hQyOEAaHk4LO56o1kL3G12pJnBC8bDHlLci+oi7z1LnFnmLbYRVvpe3AvC+GiyCb2mRcuiw==
+X-Received: by 2002:a05:6000:181a:b0:2ce:adda:f45a with SMTP id
+ m26-20020a056000181a00b002ceaddaf45amr458733wrh.62.1678611034682; 
+ Sun, 12 Mar 2023 00:50:34 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ f13-20020adff44d000000b002ceaeb24c0asm370129wrp.58.2023.03.12.00.50.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Mar 2023 00:50:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CD5C31FFB7;
+ Sun, 12 Mar 2023 08:50:33 +0000 (GMT)
+References: <20230310155726.2222233-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+Subject: Re: [PULL 0/5] gitdm updates
+Date: Sun, 12 Mar 2023 08:49:44 +0000
+In-reply-to: <20230310155726.2222233-1-alex.bennee@linaro.org>
+Message-ID: <87lek2z73a.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-To: Dorinda Bassey <dbassey@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: kraxel@redhat.com, armbru@redhat.com, qemu_oss@crudebyte.com,
- pbonzini@redhat.com, wtaymans@redhat.com, qemu-devel@nongnu.org
-References: <20230306171020.381116-1-dbassey@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <20230306171020.381116-1-dbassey@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TOI-EXPURGATEID: 150726::1678608067-ABFF2A74-72E06E47/0/0 CLEAN NORMAL
-X-TOI-MSGID: 969a7c65-eb11-40de-9fab-d41363a2814c
-Received-SPF: none client-ip=194.25.134.81; envelope-from=vr_qemu@t-online.de;
- helo=mailout03.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,82 +94,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> +/* output data processing function to read stuffs from the buffer */
-> +static void
-> +playback_on_process(void *data)
-> +{
-> +    PWVoice *v = (PWVoice *) data;
-> +    void *p;
-> +    struct pw_buffer *b;
-> +    struct spa_buffer *buf;
-> +    uint32_t n_frames, req, index, n_bytes;
-> +    int32_t avail;
-> +
-> +    if (!v->stream) {
-> +        return;
-> +    }
-> +
-> +    /* obtain a buffer to read from */
-> +    b = pw_stream_dequeue_buffer(v->stream);
-> +    if (b == NULL) {
-> +        error_report("out of buffers: %s", strerror(errno));
-> +        return;
-> +    }
-> +
-> +    buf = b->buffer;
-> +    p = buf->datas[0].data;
-> +    if (p == NULL) {
-> +        return;
-> +    }
-> +    req = b->requested * v->frame_size;
-> +    if (req == 0) {
-> +        req = 4096 * v->frame_size;
-> +    }
-> +    n_frames = SPA_MIN(req, buf->datas[0].maxsize);
-> +    n_bytes = n_frames * v->frame_size;
-> +
-> +    /* get no of available bytes to read data from buffer */
-> +
-> +    avail = spa_ringbuffer_get_read_index(&v->ring, &index);
-> +
-> +    if (!v->enabled) {
-> +        avail = 0;
-> +    }
-> +
-> +    if (avail == 0) {
-> +        memset(p, 0, n_bytes);
 
-memset() doesn't work for unsigned samples. For unsigned samples, a 
-stream of zeros is silence with a DC offset. When Pipewire mixes this 
-stream with another, the result is a clipped audio stream. To hear this, 
-start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=audio0 
--device ich9-intel-hda -device hda-duplex,audiodev=audio0 -audiodev 
-pipewire,id=audio0,out.mixing-engine=off ... and start playback with the 
-hda device.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-With best regards,
-Volker
-
-> +    } else {
-> +        if (avail < (int32_t) n_bytes) {
-> +            n_bytes = avail;
-> +        }
-> +
-> +        spa_ringbuffer_read_data(&v->ring,
-> +                                    v->buffer, RINGBUFFER_SIZE,
-> +                                    index & RINGBUFFER_MASK, p, n_bytes);
-> +
-> +        index += n_bytes;
-> +        spa_ringbuffer_read_update(&v->ring, index);
-> +    }
-> +
-> +    buf->datas[0].chunk->offset = 0;
-> +    buf->datas[0].chunk->stride = v->frame_size;
-> +    buf->datas[0].chunk->size = n_bytes;
-> +
-> +    /* queue the buffer for playback */
-> +    pw_stream_queue_buffer(v->stream, b);
-> +}
-> +
+> The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c99=
+32:
 >
+>   Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qemu =
+into staging (2023-03-09 16:55:03 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stsquad/qemu.git tags/pull-gitdm-100323-1
+>
+> for you to fetch changes up to 0194e846c43f0ee18e0384c0c1f35757760e04ec:
+>
+>   contrib/gitdm: add Idan to IBM's group map (2023-03-10 15:54:43 +0000)
+>
+> ----------------------------------------------------------------
+> gitdm updates for:
+>
+>   - IBM
+>   - Facebook
+>   - Individual contributors
+>   - Ventana
+
+I realise I should have scrubbed some of the questioning commments give
+the r-b/a-b tags. I'll re-spin a v2 of this.
+
+>
+> ----------------------------------------------------------------
+> Alex Benn=C3=A9e (5):
+>       contrib/gitdm: Add VRULL to the domain map
+>       contrib/gitdm: Add Ventana Micro Systems to the domain map
+>       contrib/gitdm: add Tsukasa as an individual contributor
+>       contrib/gitdm: Add Facebook the domain map
+>       contrib/gitdm: add Idan to IBM's group map
+>
+>  contrib/gitdm/domain-map            | 3 +++
+>  contrib/gitdm/group-map-facebook    | 5 +++++
+>  contrib/gitdm/group-map-ibm         | 1 +
+>  contrib/gitdm/group-map-individuals | 1 +
+>  gitdm.config                        | 1 +
+>  5 files changed, 11 insertions(+)
+>  create mode 100644 contrib/gitdm/group-map-facebook
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
