@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9E86B6698
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 14:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA72A6B6715
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 15:08:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbLgE-0004AP-8x; Sun, 12 Mar 2023 09:24:06 -0400
+	id 1pbMLN-00033y-2e; Sun, 12 Mar 2023 10:06:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pbLgC-00049j-4Z
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 09:24:04 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pbLg9-0007CC-Na
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 09:24:03 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BA79C745712;
- Sun, 12 Mar 2023 14:23:35 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 77EF6745706; Sun, 12 Mar 2023 14:23:35 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 756397456E3;
- Sun, 12 Mar 2023 14:23:35 +0100 (CET)
-Date: Sun, 12 Mar 2023 14:23:35 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>
-cc: Gerd Hoffmann <kraxel@redhat.com>, 
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, 
- Rene Engel <ReneEngel80@emailn.de>, qemu-devel@nongnu.org
-Subject: Re: Audio playback speed issue on sam460ex and pegasos2
-In-Reply-To: <efc13913-cf16-0323-403c-61b36139b4bc@t-online.de>
-Message-ID: <84a29575-d924-054e-565b-8cc14da7a8de@eik.bme.hu>
-References: <5207a2d9-e72b-3ce6-5b91-a9b187759b69@eik.bme.hu>
- <f6d1f455-97a3-f7ab-4101-8249148f0384@eik.bme.hu>
- <f3d99778-ec4b-ac34-91f6-25dd19d00254@eik.bme.hu>
- <efc13913-cf16-0323-403c-61b36139b4bc@t-online.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pbMLK-00033f-VH
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 10:06:34 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pbMLJ-0004ln-5s
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 10:06:34 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id ce7so6186948pfb.9
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 07:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678629990;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=za5LFQc4POW8VtZSyKxav9Ew1iaLpCkv0KRGo66pSGA=;
+ b=P341tsrr/pwMlRqtqs7leFCdGkXVFH6Pq/CcrXjoP3YsGIDzZYiI3D8y6dlqBzV2mU
+ pgm5la8DlmFPKM/YL92cO4lB/n5EyICYIIVYKHX9PSnQ69Jb7/L6xbRqildJm54Z/4yP
+ Y4JBCj3jS6SrGzzB92p1Bdv8ZOuW1GNNIxdbUMpJ+NnDGJoVMgqRuK68w4jlNTbtz4Mo
+ 0/Uh6OQgoqzuk6F4c+6IjzGVHMEHxECySnqZK+iXm4GzFm/wxmka+btiyK/2xF/p3mt7
+ EzNJ23l/2XHtqENsGDEFNbjoImib+4ZxIfdvVW6b86wn2m/ZKmymYuEt6UxWDdsQ/sGc
+ 39gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678629990;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=za5LFQc4POW8VtZSyKxav9Ew1iaLpCkv0KRGo66pSGA=;
+ b=CUr360FIk3FNeu8dYVgUYXjdvuKsZd3uRzdzRIGSBpawX2fafzk/PnLaQnSCVE0WTO
+ Ip5bpKTlWQ+8/SWBA0jGeM2DTllp/YTytLui4CKcDMTR29qNLpYJPhzqiK+Q+tcWsFpe
+ 001s66rlNxh0n266MfyEcu9hHbip94SoTj2bFdIDy1LmZRZSdz8SGtbb1rdWu07bmeO0
+ piBsTQMayxecwB1OAGykZi40+vES4qB2tsAbziFyy09xQM50MiZiMzWo/JljsWqe3Ey+
+ jYd0OMOl0f2f/DrigZk8/7YbIdlv4kRwwzTB3EGld/W/e7w1a7uX7hlAGkS7ZpWokTG7
+ TlVQ==
+X-Gm-Message-State: AO0yUKW58zqhuRjVdG8CPjFu17rIj4lNF/LSgD9J9CtuMVRDcgqCBPeT
+ 9BstDlOLlnwVSP+PikAePakN9kBmrMmx/ihPBEkfSFA6pDyIS8hWDK4=
+X-Google-Smtp-Source: AK7set/9s50tSiNC2O5UgI76C8mlynKcDzh25fYPxLhlKn4+cH4HChyzo6Guw1Uq5RSfkY/scOY+OsxfX/9SNcWehUE=
+X-Received: by 2002:a63:f0a:0:b0:502:f5c8:a00c with SMTP id
+ e10-20020a630f0a000000b00502f5c8a00cmr10062698pgl.9.1678629990203; Sun, 12
+ Mar 2023 07:06:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-662027666-1678620917=:87140"
-Content-ID: <e6aaefc2-41bf-f137-8f8f-7532563d6bf2@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20230302172211.4146376-1-peter.maydell@linaro.org>
+ <CAFEAcA_Pf11W3FuaLHvzQ7yrkh6KC556HDfvXpZYaHqN4iMvsg@mail.gmail.com>
+ <CAFEAcA92kLBwgJoAc9HCr4oX=S0V=RmdO4+rOnKPJn32hQAf4Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA92kLBwgJoAc9HCr4oX=S0V=RmdO4+rOnKPJn32hQAf4Q@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 12 Mar 2023 14:06:18 +0000
+Message-ID: <CAFEAcA-UaJsoA-rqmwEqh1j6xcCc=ifCctvN-jaW40VckRdp9Q@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,93 +90,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-662027666-1678620917=:87140
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <1be791a5-71a0-27ae-d313-f468dcb7e7c2@eik.bme.hu>
-
-On Sun, 12 Mar 2023, Volker Rümelin wrote:
-> Am 11.03.23 um 23:54 schrieb BALATON Zoltan:
->> Hello,
->> 
->> I've noticed before that since commit a806f95904cdb audio plays slower 
->> (like half speed) under AmigaOS on sam460ex with ES1370 but I did not have 
->> any other guests to reproduce it and verify this with so I did not report 
->> that yet. Now that we can also test with pegasos2 and via-ac97 it does not 
->> play slower on that machine neither with ES1370 not via-ac97 but still can 
->> reproduce it with sam460ex.
->> 
->> But on another host it seems to play faster with pegasos2. Here is a video 
->> taken by Rene demonstrating the problem: https://youtu.be/Rg5buzDqGuk So 
->> there seems to be a problem with playback speed here but I'm not sure if 
->> this is related to AmigaOS or something else.
->> 
->> At least we have some issue with AmigaOS on sam460ex and ES1370 playing too 
->> slow since commit a806f95904cdb on Linux with alsa backend and may also 
->> have an issue with sound being too fast on pegasos2 with coreaudio. However 
->> Rene said that recording it with a screen recorder did not show the 
->> problem, only when playing it normally, that's why the video is taken with 
->> a camera. I can't understand how that's possible but maybe you have some 
->> idea to at least how to test this further to find out more what's happening 
->> here or if you can see anything that can cause playback speed issues with 
->> these machines.
->> 
->> So far I've reproduced obviously slow speed with AmigaOS on sam460ex with 
->> ES1370 on Linux with alsa. The MorphOS and AmigaOS on pegasos2 with 
->> via-ac97 or ES1370 (latter only works with AmigaOS) seems to be OK to me on 
->> my machine but is playing too fast in Rene's video.
->> 
->> Could this be related to some differentce in host's sampling rate or some 
->> other settings somewhere? I have defaults.pcm.dmix.rate 44100 in 
->> /etc/asound.conf while Rene is using whatever macOS does with coreaudio.
->> Any ideas what to check further?
->
-> Hi,
->
-> perhaps this issue is similar to the Linux guest driver issue with an AC97 
-> device. The Linux driver tries to measure the AC97 clock frequency. It starts 
-> playback with a certain amount of audio frames and measures the time needed 
-> for playback. Since QEMU is not a cycle exact simulation the result is always 
-> wrong. Before my latency reducing patches the result was always way off and 
-> the Linux driver rejected the measurement and used a clock frequency of 
-> 48000Hz. Now the driver sometimes believes the measurement is correct and 
-> adjusts the clock frequency.
-
-I don't think that's the case with the AmigaOS driver. I don't know for 
-sure what exactly does that driver do but it is probably similiar to the 
-AROS driver which is here (the via-ac97 is one level up from that): 
-https://github.com/aros-development-team/AROS/tree/master/workbench/devs/AHI/Drivers/SB128 
-and I don's see anything like that in it. AROS doesn't run on pegasos2 yet 
-so I can't test with that. It should work with sam460ex which I've tried 
-but the SB128 driver used for ES1370 seems to have endianness problems and 
-only works on pc machine, not on big-endian PPC machines (a lot of AROS 
-network drivers have the same problem, these seem to be mostly tested on 
-PC only). On sam460ex it detects the card but doesn't make sound but works 
-with on the pc machine.
-
-But the question remains how commit a806f95904cdb could change playback 
-speed as the problem with sam460ex is bisectable to that commit.
-
-> This can be fixed with the kernel command-line 
-> argument snd_intel8x0.ac97_clock=48000.
->
-> If AmigaOS also tries to measure the audio clock frequency, it may help to 
-> increase the playback latency to make the measurement worse. I would start 
-> with -audiodev coreaudio,id=audio0,out.buffer-count=12. The default buffer 
-> count is 4.
-
-Are these options documented somewhere? I don't even know they exist and 
-which one to tune for different results so if this knowledge is only 
-something you have now it would be a great contribution to put it in some 
-docs for reference. Or if this is already described somewhere maybe it 
-should be made more prominent as I don't even know where to look for it. 
-Maybe also some generic intro on how the audio infrastructure in QEMU 
-works would be helpful too so one can understand what the options tweak.
-
-Regards,
-BALATON Zoltan
---3866299591-662027666-1678620917=:87140--
+T24gVHVlLCA3IE1hciAyMDIzIGF0IDA5OjUzLCBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxs
+QGxpbmFyby5vcmc+IHdyb3RlOg0KPg0KPiBPbiBTYXQsIDQgTWFyIDIwMjMgYXQgMTU6MzksIFBl
+dGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4gd3JvdGU6DQo+ID4NCj4gPiBP
+biBUaHUsIDIgTWFyIDIwMjMgYXQgMTc6MjIsIFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxA
+bGluYXJvLm9yZz4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gbWlncmF0aW9uLXRlc3QgaGFzIGJlZW4g
+Zmxha3kgZm9yIGEgbG9uZyB0aW1lLCBib3RoIGluIENJIGFuZA0KPiA+ID4gb3RoZXJ3aXNlOg0K
+PiA+ID4NCj4gPg0KPiA+DQo+ID4gPiBJbiB0aGUgY2FzZXMgd2hlcmUgSSd2ZSBsb29rZWQgYXQg
+dGhlIHVuZGVybHlpbmcgbG9nLCB0aGlzIHNlZW1zIHRvDQo+ID4gPiBiZSBpbiB0aGUgbWlncmF0
+aW9uL211bHRpZmQvdGNwL3BsYWluL2NhbmNlbCBzdWJ0ZXN0LiAgRGlzYWJsZSB0aGF0DQo+ID4g
+PiBzcGVjaWZpYyBzdWJ0ZXN0IGJ5IGRlZmF1bHQgdW50aWwgc29tZWJvZHkgY2FuIHRyYWNrIGRv
+d24gdGhlDQo+ID4gPiB1bmRlcmx5aW5nIGNhdXNlLiBFbnRodXNpYXN0cyBjYW4gb3B0IGJhY2sg
+aW4gYnkgc2V0dGluZw0KPiA+ID4gUUVNVV9URVNUX0ZMQUtZX1RFU1RTPTEgaW4gdGhlaXIgZW52
+aXJvbm1lbnQuDQo+ID4NCj4gPiBTbyBJJ20gZ29pbmcgdG8gYXBwbHkgdGhpcywgYmVjYXVzZSBo
+b3BlZnVsbHkgaXQgd2lsbCBpbXByb3ZlDQo+ID4gdGhlIHJlbGlhYmlsaXR5IGEgYml0LCBidXQg
+aXQncyBjbGVhcmx5IG5vdCBhbGwgb2YgdGhlDQo+ID4gaXNzdWVzIHdpdGggbWlncmF0aW9uLXRl
+c3QNCg0KSGVyZSdzIGFub3RoZXIgb25lLCBvbiB0aGUgczM5MHggQ0kgcnVubmVyOg0KaHR0cHM6
+Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11Ly0vam9icy8zOTE3NTg3OTk0DQoNCjMxLzY1
+OCBxZW11OnF0ZXN0K3F0ZXN0LWkzODYgLyBxdGVzdC1pMzg2L21pZ3JhdGlvbi10ZXN0IEVSUk9S
+IDM0LjM2cw0Ka2lsbGVkIGJ5IHNpZ25hbCA2IFNJR0FCUlQNCj4+PiBRVEVTVF9RRU1VX1NUT1JB
+R0VfREFFTU9OX0JJTkFSWT0uL3N0b3JhZ2UtZGFlbW9uL3FlbXUtc3RvcmFnZS1kYWVtb24gUVRF
+U1RfUUVNVV9JTUc9Li9xZW11LWltZyBRVEVTVF9RRU1VX0JJTkFSWT0uL3FlbXUtc3lzdGVtLWkz
+ODYgR19URVNUX0RCVVNfREFFTU9OPS9ob21lL2dpdGxhYi1ydW5uZXIvYnVpbGRzL0ZMYVprZHQx
+LzAvcWVtdS1wcm9qZWN0L3FlbXUvdGVzdHMvZGJ1cy12bXN0YXRlLWRhZW1vbi5zaCBNQUxMT0Nf
+UEVSVFVSQl89MTU0IC9ob21lL2dpdGxhYi1ydW5uZXIvYnVpbGRzL0ZMYVprZHQxLzAvcWVtdS1w
+cm9qZWN0L3FlbXUvYnVpbGQvdGVzdHMvcXRlc3QvbWlncmF0aW9uLXRlc3QgLS10YXAgLWsNCuKA
+leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
+leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAlSDinIAg
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQpz
+dGRlcnI6DQpCcm9rZW4gcGlwZQ0KLi4vdGVzdHMvcXRlc3QvbGlicXRlc3QuYzoxOTM6IGtpbGxf
+cWVtdSgpIGRldGVjdGVkIFFFTVUgZGVhdGggZnJvbQ0Kc2lnbmFsIDExIChTZWdtZW50YXRpb24g
+ZmF1bHQpIChjb3JlIGR1bXBlZCkNClRBUCBwYXJzaW5nIGVycm9yOiBUb28gZmV3IHRlc3RzIHJ1
+biAoZXhwZWN0ZWQgNDAsIGdvdCAxMSkNCih0ZXN0IHByb2dyYW0gZXhpdGVkIHdpdGggc3RhdHVz
+IGNvZGUgLTYpDQrigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
+gJXigJXigJXigJXigJXigJUNCg0KDQpEbyB5b3UgZm9sa3MgaGF2ZSBhIGNvbmNyZXRlIHByb3Bv
+c2FsIGZvciB0cmFja2luZyBkb3duIGFuZA0KZml4aW5nIHRoZSBmbGFraW5lc3MgaW4gdGhpcyB0
+ZXN0PyBJZiBub3QsIHdlJ2xsIGhhdmUgdG8NCmp1c3QgZGlzYWJsZSBpdCBlbnRpcmVseSwgSSB0
+aGluay4NCg0KdGhhbmtzDQotLSBQTU0NCg==
 
