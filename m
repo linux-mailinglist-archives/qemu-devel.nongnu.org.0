@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8BF6B6419
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 10:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F250A6B6440
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 10:47:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbI0r-0001oZ-3L; Sun, 12 Mar 2023 05:29:09 -0400
+	id 1pbIHa-0006B5-Pe; Sun, 12 Mar 2023 05:46:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pbI0d-0001ia-Uq; Sun, 12 Mar 2023 05:28:56 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pbI0Z-0005hw-Nh; Sun, 12 Mar 2023 05:28:55 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.213])
- by APP-05 (Coremail) with SMTP id zQCowAD3_s5Fmw1k2tqbAQ--.14626S2;
- Sun, 12 Mar 2023 17:28:38 +0800 (CST)
-Message-ID: <f4034683-bb26-2247-c336-89264d588069@iscas.ac.cn>
-Date: Sun, 12 Mar 2023 17:28:37 +0800
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pbIHY-0006Av-Gx
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 05:46:24 -0400
+Received: from mailout03.t-online.de ([194.25.134.81])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pbIHV-0008Na-18
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 05:46:23 -0400
+Received: from fwd74.dcpf.telekom.de (fwd74.aul.t-online.de [10.223.144.100])
+ by mailout03.t-online.de (Postfix) with SMTP id 0E0D3B12C;
+ Sun, 12 Mar 2023 10:46:17 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.22.72]) by fwd74.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pbIHP-4f6Ryj0; Sun, 12 Mar 2023 10:46:15 +0100
+Message-ID: <efc13913-cf16-0323-403c-61b36139b4bc@t-online.de>
+Date: Sun, 12 Mar 2023 10:46:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3] target/riscv: fix H extension TVM trap
+ Thunderbird/102.8.0
+Subject: Re: Audio playback speed issue on sam460ex and pegasos2
 Content-Language: en-US
-To: Yi Chen <chenyi2000@zju.edu.cn>, qemu-devel@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-References: <20230310164222.173368-1-chenyi2000@zju.edu.cn>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230310164222.173368-1-chenyi2000@zju.edu.cn>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Rene Engel <ReneEngel80@emailn.de>, qemu-devel@nongnu.org
+References: <5207a2d9-e72b-3ce6-5b91-a9b187759b69@eik.bme.hu>
+ <f6d1f455-97a3-f7ab-4101-8249148f0384@eik.bme.hu>
+ <f3d99778-ec4b-ac34-91f6-25dd19d00254@eik.bme.hu>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <f3d99778-ec4b-ac34-91f6-25dd19d00254@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_s5Fmw1k2tqbAQ--.14626S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gw4rJF4xZFyfGr1ftFyxZrb_yoW7ur43pa
- 1DG39IkayUXF9rJan3tr1DGF15Aw1xG3yUC3Z7WayrAr4fCr15Cr1DWryv9FykWr4Dur4v
- vFW8uFyDZr4IyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
- AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
- c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
- AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
- Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
- UUU
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TOI-EXPURGATEID: 150726::1678614375-B2834007-FB1E0D6D/0/0 CLEAN NORMAL
+X-TOI-MSGID: fd41a4c0-dbb3-4c65-8088-77589cc60151
+Received-SPF: none client-ip=194.25.134.81; envelope-from=vr_qemu@t-online.de;
+ helo=mailout03.t-online.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,163 +68,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2023/3/11 00:42, Yi Chen wrote:
-> - Trap satp/hgatp accesses from HS-mode when MSTATUS.TVM is enabled.
-> - Trap satp accesses from VS-mode when HSTATUS.VTVM is enabled.
-> - Raise RISCV_EXCP_ILLEGAL_INST when U-mode executes SFENCE.VMA/SINVAL.VMA.
-> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
->    SFENCE.VMA/SINVAL.VMA or VS-mode executes SFENCE.VMA/SINVAL.VMA with
->    HSTATUS.VTVM enabled.
-> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
->    HFENCE.GVMA/HFENCE.VVMA/HINVAL.GVMA/HINVAL.VVMA.
+Am 11.03.23 um 23:54 schrieb BALATON Zoltan:
+> Hello,
 >
-> Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
-
-I remember I have sent reviewed-by for this patch. Please add the 
-Reviewed-by.
-
-> ---
-It's better to describe the changes between different versions here.
->   target/riscv/csr.c       | 56 +++++++++++++++++++++++++---------------
->   target/riscv/op_helper.c | 12 ++++-----
->   2 files changed, 41 insertions(+), 27 deletions(-)
+> I've noticed before that since commit a806f95904cdb audio plays slower 
+> (like half speed) under AmigaOS on sam460ex with ES1370 but I did not 
+> have any other guests to reproduce it and verify this with so I did 
+> not report that yet. Now that we can also test with pegasos2 and 
+> via-ac97 it does not play slower on that machine neither with ES1370 
+> not via-ac97 but still can reproduce it with sam460ex.
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d522efc0b6..26a02e57bd 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -443,6 +443,30 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
->       return sstc(env, csrno);
->   }
->   
-> +static RISCVException satp(CPURISCVState *env, int csrno)
-> +{
-> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
-> +        get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env) &&
-> +        get_field(env->hstatus, HSTATUS_VTVM)) {
-> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> +    }
-> +
-> +    return smode(env, csrno);
-> +}
-> +
-> +static RISCVException hgatp(CPURISCVState *env, int csrno)
-> +{
-> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
-> +        get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return hmode(env, csrno);
-> +}
-> +
->   /* Checks if PointerMasking registers could be accessed */
->   static RISCVException pointer_masking(CPURISCVState *env, int csrno)
->   {
-> @@ -2655,13 +2679,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
->           *val = 0;
->           return RISCV_EXCP_NONE;
->       }
-> -
-> -    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> -        return RISCV_EXCP_ILLEGAL_INST;
-> -    } else {
-> -        *val = env->satp;
-> -    }
-> -
-> +    *val = env->satp;
->       return RISCV_EXCP_NONE;
->   }
->   
-> @@ -2684,18 +2702,14 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
->       }
->   
->       if (vm && mask) {
-> -        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> -            return RISCV_EXCP_ILLEGAL_INST;
-> -        } else {
-> -            /*
-> -             * The ISA defines SATP.MODE=Bare as "no translation", but we still
-> -             * pass these through QEMU's TLB emulation as it improves
-> -             * performance.  Flushing the TLB on SATP writes with paging
-> -             * enabled avoids leaking those invalid cached mappings.
-> -             */
-> -            tlb_flush(env_cpu(env));
-> -            env->satp = val;
-> -        }
-> +        /*
-> +         * The ISA defines SATP.MODE=Bare as "no translation", but we still
-> +         * pass these through QEMU's TLB emulation as it improves
-> +         * performance.  Flushing the TLB on SATP writes with paging
-> +         * enabled avoids leaking those invalid cached mappings.
-> +         */
-> +        tlb_flush(env_cpu(env));
-> +        env->satp = val;
->       }
->       return RISCV_EXCP_NONE;
->   }
-> @@ -4180,7 +4194,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->                            .min_priv_ver = PRIV_VERSION_1_12_0 },
->   
->       /* Supervisor Protection and Translation */
-> -    [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
-> +    [CSR_SATP]     = { "satp",     satp, read_satp,     write_satp     },
->   
->       /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
->       [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
-> @@ -4217,7 +4231,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->                             .min_priv_ver = PRIV_VERSION_1_12_0                },
->       [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,
->                             .min_priv_ver = PRIV_VERSION_1_12_0                },
-> -    [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,   write_hgatp,
-> +    [CSR_HGATP]       = { "hgatp",       hgatp,   read_hgatp,   write_hgatp,
->                             .min_priv_ver = PRIV_VERSION_1_12_0                },
->       [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,
->                             write_htimedelta,
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 84ee018f7d..093c2c6154 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -381,12 +381,12 @@ void helper_wfi(CPURISCVState *env)
->   void helper_tlb_flush(CPURISCVState *env)
->   {
->       CPUState *cs = env_cpu(env);
-> -    if (!(env->priv >= PRV_S) ||
-> -        (env->priv == PRV_S &&
-> -         get_field(env->mstatus, MSTATUS_TVM))) {
-> +    if (!riscv_cpu_virt_enabled(env) &&
-> +        (env->priv == PRV_U ||
-> +         (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)))) {
->           riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> -    } else if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
-> -               get_field(env->hstatus, HSTATUS_VTVM)) {
-> +    } else if (riscv_cpu_virt_enabled(env) &&
-> +               (env->priv == PRV_U || get_field(env->hstatus, HSTATUS_VTVM))) {
->           riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
->       } else {
->           tlb_flush(cs);
-> @@ -403,7 +403,7 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
->   {
->       CPUState *cs = env_cpu(env);
->   
-> -    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
-> +    if (env->priv <= PRV_S && riscv_cpu_virt_enabled(env)) {
->           riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
->       }
+> But on another host it seems to play faster with pegasos2. Here is a 
+> video taken by Rene demonstrating the problem: 
+> https://youtu.be/Rg5buzDqGuk So there seems to be a problem with 
+> playback speed here but I'm not sure if this is related to AmigaOS or 
+> something else.
+>
+> At least we have some issue with AmigaOS on sam460ex and ES1370 
+> playing too slow since commit a806f95904cdb on Linux with alsa backend 
+> and may also have an issue with sound being too fast on pegasos2 with 
+> coreaudio. However Rene said that recording it with a screen recorder 
+> did not show the problem, only when playing it normally, that's why 
+> the video is taken with a camera. I can't understand how that's 
+> possible but maybe you have some idea to at least how to test this 
+> further to find out more what's happening here or if you can see 
+> anything that can cause playback speed issues with these machines.
+>
+> So far I've reproduced obviously slow speed with AmigaOS on sam460ex 
+> with ES1370 on Linux with alsa. The MorphOS and AmigaOS on pegasos2 
+> with via-ac97 or ES1370 (latter only works with AmigaOS) seems to be 
+> OK to me on my machine but is playing too fast in Rene's video.
+>
+> Could this be related to some differentce in host's sampling rate or 
+> some other settings somewhere? I have defaults.pcm.dmix.rate 44100 in 
+> /etc/asound.conf while Rene is using whatever macOS does with coreaudio.
+> Any ideas what to check further?
 
-By the way, the check for "env->priv <= PRV_S " is not neccessary when  
-riscv_cpu_virt_enabled(env) is true
+Hi,
 
-since only VS/VU mode is supported currently.
+perhaps this issue is similar to the Linux guest driver issue with an 
+AC97 device. The Linux driver tries to measure the AC97 clock frequency. 
+It starts playback with a certain amount of audio frames and measures 
+the time needed for playback. Since QEMU is not a cycle exact simulation 
+the result is always wrong. Before my latency reducing patches the 
+result was always way off and the Linux driver rejected the measurement 
+and used a clock frequency of 48000Hz. Now the driver sometimes believes 
+the measurement is correct and adjusts the clock frequency. This can be 
+fixed with the kernel command-line argument snd_intel8x0.ac97_clock=48000.
 
-Regards,
+If AmigaOS also tries to measure the audio clock frequency, it may help 
+to increase the playback latency to make the measurement worse. I would 
+start with -audiodev coreaudio,id=audio0,out.buffer-count=12. The 
+default buffer count is 4.
 
-Weiwei Li
+With best regards,
+Volker
 
->   
+>
+> Regards,
+> BALATON Zoltan
 
 
