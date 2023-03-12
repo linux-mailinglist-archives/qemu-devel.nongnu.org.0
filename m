@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDFC6B6524
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 11:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689126B6529
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 11:59:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbJNC-0000M4-7E; Sun, 12 Mar 2023 06:56:18 -0400
+	id 1pbJPm-0002L8-5J; Sun, 12 Mar 2023 06:58:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbJNA-0000Kc-1d
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 06:56:16 -0400
+ id 1pbJPj-0002Jc-MG
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 06:58:55 -0400
 Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbJN8-00029j-C1
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 06:56:15 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id u5so10027950plq.7
- for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 03:56:13 -0700 (PDT)
+ id 1pbJPh-0002eW-9C
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 06:58:54 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id h8so10018129plf.10
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 03:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678618573;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=srR/hIYAu0HlZF7uOcPUu7VwCxPSZay/qjEP4+lQBas=;
- b=zGoXam3rAq1uRnRHJKDwVENvjnhXRUidup8dRLqiOHmyIcH3MZSBdgQb7y9NYPMx2p
- mIuUFmuGFvCjNHZQVPomtvus3i1FG+rW9RImAP3LDpK1JldRMCRVw4excePrHb2JM+oP
- UQ8UstVWPLiUVAv40loRz9W0i1ESRKuEKbu31wFaIpDAUI72c8s7mLLGiJNjPj+SqT8j
- JsKNkuBMbphFQxFssiZNKoaX1fgFTK0+oF+mvNBIIK1qCfh1oXfi1trZixP6iDUiOPIt
- ejBUoeSo4V0U750DY4evIBoPs9e4w5KIMFT3WV3Hg2URVI+nwwmN/xSyyFaXqv+/E4or
- Ckvw==
+ d=linaro.org; s=google; t=1678618732;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W24kykDwHMkG76NJ0GrtkqNWzSi57BsduCerUEk5SqM=;
+ b=lGZba2a6J+QZUFeKwUKaenJPFmt7pohoR/m4L+3TbW9pKCol0iHmlm3+uFVPPa2osZ
+ X4hNc/Z4LFDwaQZZ9kCrFRF1lEBODgZfDP8u+uoNTBqxzch/lwCy2a4HK1IvgDRLvU9h
+ VMr4gNXXTUlmtwcZvrvcF2b+jOr5ar3wUxs/ULUTyFa2waF2thqVpIBz4E2s++4hu+2H
+ qzY1iIiXPGcccZT7WtddEFK/EFJlo0wgBbvz1rSY5lkn+bo91AMW6IgNZJ4nZa/ujRR0
+ CiR/CBwMR4WlC/2yF+Ob7QO+EoxezyJ4G/0YXK6VY5mDIZp+LgpGB1klMJ76jWg6cMng
+ ZSRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678618573;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=srR/hIYAu0HlZF7uOcPUu7VwCxPSZay/qjEP4+lQBas=;
- b=g9XE/pLY6RzjKKkAyJTcEHL6OmMus590+Xbu+KRxfCvF6PZPPzK9BKBUmLQsrYcWvT
- fk3GTZ7oKiuQTPZ3s8F6IOVb69al393eNzom08bjxIFhqdsJkgMjVeErsJCB4upKWTwz
- uVZIFJHWSQE0xRmpIEsxuvP0Wn10JuMetkGFrdsFekbh1QkBpOFqDc+BuvtvLL3MYBCZ
- y9X8cB1i12vgCXj7lZoIXq2q5rtq5lAkjnLRPS8v35MMnAN4rD5DTNbyc4n5yMO7sR5z
- 1hFP7iALWvlJrlqfYBhPY7gwdAJ95NyIm/qrun2W2VYcaa3R3yvedYEpAwQHGk+llSK9
- mklg==
-X-Gm-Message-State: AO0yUKUA65PTg3kyZQ//562wnCYNZG082rJgS/IqJ8FciQE9JYOkAD1M
- i1snUXNYXlcIwL6pNlk8iPc9Rh2mc0SZqnN4Yejd29rounATjJcf
-X-Google-Smtp-Source: AK7set8SbKDTMcG3E89tB/io49OrNSRPa8Y2bmevlTzrn8v+SN+GYxgVtQXcIZ23+aYKiyZ6daTLQoVGTm/6GA6FRcw=
-X-Received: by 2002:a17:903:1243:b0:19a:b151:eb83 with SMTP id
- u3-20020a170903124300b0019ab151eb83mr11364533plh.13.1678618572852; Sun, 12
- Mar 2023 03:56:12 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678618732;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W24kykDwHMkG76NJ0GrtkqNWzSi57BsduCerUEk5SqM=;
+ b=bmnbIotbNQs4qIqtRvFQ9zfUFQBd855L+hSuQoKgfdyXW2RdPnjC1h1f2QnlIJ9qvN
+ 98KQkxtvX6FrqwKuzaiktrRDJ21py9gA6EipUvcV/8rwNJwBX62kmFKSQ209To0FUtxc
+ oChLwsT2HF9s36Sz37DAI2gCSWBI7D7l6VXw2UsMMYjucdnKqdhPnu8VhOlqaJNnBg0h
+ 27AiaIZ6TlWvBbLBaLvA4Pb4f6mxIm8kEX+6Ou+1Vimgm3fRcG7RBLAjPsufV21gs2Y5
+ W4gBvUDCnDuGjVXM4tea0Z5RN3k4YFO0D7yiAwWdPFmPHxV4I6OAai928yqqmZktZKPd
+ wkNQ==
+X-Gm-Message-State: AO0yUKX8XR+5g/IcKurh0j8kNmRZ+x/WgjnlThDGDFUg+fScVCRIfCub
+ Arni5Frqc4RJGxHev4I58OZ2VGeLTlvPuBwizRa3F3cuUYviCH6j
+X-Google-Smtp-Source: AK7set/cnNiTjnlVgznasC2MlWgBHa4TR44O7+peKzN4J+08jcgk9seXoshtV8vrFYOf6TDhzYt4puLhDr8+lStVnlU=
+X-Received: by 2002:a17:90a:dd86:b0:233:be3d:8a42 with SMTP id
+ l6-20020a17090add8600b00233be3d8a42mr11174546pjv.0.1678618732072; Sun, 12 Mar
+ 2023 03:58:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230310093526.30828-1-jasowang@redhat.com>
-In-Reply-To: <20230310093526.30828-1-jasowang@redhat.com>
+References: <20230310155726.2222233-1-alex.bennee@linaro.org>
+ <87lek2z73a.fsf@linaro.org>
+In-Reply-To: <87lek2z73a.fsf@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 12 Mar 2023 10:56:01 +0000
-Message-ID: <CAFEAcA_rXiTZTRZXs97CpjMXmkGCdnQyYSnUXvWg_puBaPvPcQ@mail.gmail.com>
-Subject: Re: [PULL V2 00/44] Net patches
-To: Jason Wang <jasowang@redhat.com>
+Date: Sun, 12 Mar 2023 10:58:40 +0000
+Message-ID: <CAFEAcA-75q=-Wxh+3s9mcqXQs6WskVn-BbVvboPAEzf8vqHXHA@mail.gmail.com>
+Subject: Re: [PULL 0/5] gitdm updates
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
  envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
@@ -83,33 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Mar 2023 at 09:35, Jason Wang <jasowang@redhat.com> wrote:
+On Sun, 12 Mar 2023 at 08:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c9932:
 >
->   Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qemu into staging (2023-03-09 16:55:03 +0000)
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 >
-> are available in the git repository at:
+> > The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c=
+9932:
+> >
+> >   Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qem=
+u into staging (2023-03-09 16:55:03 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/stsquad/qemu.git tags/pull-gitdm-100323-1
+> >
+> > for you to fetch changes up to 0194e846c43f0ee18e0384c0c1f35757760e04ec=
+:
+> >
+> >   contrib/gitdm: add Idan to IBM's group map (2023-03-10 15:54:43 +0000=
+)
+> >
+> > ----------------------------------------------------------------
+> > gitdm updates for:
+> >
+> >   - IBM
+> >   - Facebook
+> >   - Individual contributors
+> >   - Ventana
 >
->   https://github.com/jasowang/qemu.git tags/net-pull-request
->
-> for you to fetch changes up to 197a137290103993b33f93c90e788ab4984f103a:
->
->   ebpf: fix compatibility with libbpf 1.0+ (2023-03-10 17:26:47 +0800)
->
-> ----------------------------------------------------------------
->
-> Changes since V1:
->
-> - Drop eepro100 series
-> - Fix igb test on win32
-> - Fix igb abort on MSI(X) initialziation failure
+> I realise I should have scrubbed some of the questioning commments give
+> the r-b/a-b tags. I'll re-spin a v2 of this.
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Oops, I merged this before I saw this email...
 
 -- PMM
 
