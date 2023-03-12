@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5521F6B6BAD
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 22:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC656B6BF0
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 23:26:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbSuA-0000Wy-M3; Sun, 12 Mar 2023 17:06:58 -0400
+	id 1pbU8O-0002AS-0d; Sun, 12 Mar 2023 18:25:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pbSu8-0000Vq-5E
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 17:06:56 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pbU8M-00029w-6S
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:25:42 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pbSu6-0006l8-9n
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 17:06:55 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id nv15so7120713qvb.7
- for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 14:06:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pbU8K-0001ql-8M
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 18:25:41 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id be16so8254313oib.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 15:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678655213;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hJuQ9Ot9Rr33pUg6sU0ac4LU04XE1Atyy4CooADGLEw=;
- b=idoIzH8SVOE4Qnb4y+GOkgnF75qAoHKOXU61fsFEWMLwmT3xH5ZFoQ9sd/uxMg+T15
- NfoIMvEBVvLkywrhu/RNulayVI0rYPdVGMuPMVWatqhx5yWHIuZ6Wxd/AM9nV8iUdmo+
- kNsFY4aT3NFSYFeYV9n9nFHzkEMGLRE95dDDgEwmiFcg0TvTnfVvjsxxcVmr8uN/bpUE
- L+YeLVX49EPAxcftDnCZg5yV3zxhtVBh4cEl7F9oN0Y1/DhQmcIHGCWvoI6oHSvvggt6
- TUJNSUmJzBv9kjPC1ZaT0biwv5rdPq1NGSbfYW8oba48YaXiJj8++sJuYNRTyrYsyhhf
- gu/g==
+ d=ventanamicro.com; s=google; t=1678659938;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gbNMLgN0w9Uk051YsUoabSGGG/ZBFHGD2XdPtfzHByk=;
+ b=N1NL4GentwBxsDbgyVPoCg1+OYGTmxMijyfyIo27wgkJmU19cRLkiFsG99qt0xj7O4
+ ecfDXXy90JfqNN5Rv9X2mWXUCEz//8Ew572Z1TQXCCLN2j7nZ1wW0iyjvjpYXzV5KXW1
+ YTuwEW2nY5ZO1KD5JGnnQadCKZCEwhketHTY1MyzriWFTouaAxX1jL5PtRE2cMAFhD20
+ HpGKaTJ+Sp+L9E7TlXKWnTPmRIPJhIU5PeDODYeOjQU+P0I9D/6TKp4etfjBBZFYlrm0
+ 4ggFf+lhmztcb/x7PPgkPEPfAfUy9Lx28f5ljOif+3r99Nd9aREY/QWyA6589AOpTysE
+ Cjqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678655213;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hJuQ9Ot9Rr33pUg6sU0ac4LU04XE1Atyy4CooADGLEw=;
- b=1BixTz3N8BaXh4WvA6JxeCHi3A7yLlqcGCoFlPI3VloAChD0TLK6YrOsiQ5X8/BX9r
- U6eBhj4A0XzdHcQMi/GOORL+pz1g1hIKCSfikVKHI81Ny8x99VFf68oakU93TiSGLaKD
- GO/NU1u4kSxVl4w1R0GoR9Ic+j12XZxg4hWOyALBYyuLAT1AzaVPwXtaqPkO7ApfVS8M
- ViVtYNOVVrQpzlRWW/HKwmk3ffURwZPOSNlaijGZGK4sf3MO/9IfEkLqxUYM4B3XDYu3
- LLCzB5tHL9cCVWRlB8yoBvsNgNOtm9jVGjWD4zSU+LbzU3YGJNRFjThVq/JuqYAB/+zm
- fwAA==
-X-Gm-Message-State: AO0yUKULAO/N6n6nuY64wWkfKzEwvdq/cm/PJQzpUPnNNrQDhewMGRvw
- wTOFtg73Vs9v9WcaR1Eti9z46bjRUvakJg==
-X-Google-Smtp-Source: AK7set9gVYyvQe9trjZTfbt/JKxrZh8jd9QUu2V9mCc0gmt4wQxVkFxNl20D9+rOvrTqZt32bDSDqw==
-X-Received: by 2002:a05:6214:20a8:b0:56e:fdff:29f9 with SMTP id
- 8-20020a05621420a800b0056efdff29f9mr9475054qvd.18.1678655213071; 
- Sun, 12 Mar 2023 14:06:53 -0700 (PDT)
-Received: from debian.hsd1.ma.comcast.net ([2601:182:cc00:77b0::675])
+ d=1e100.net; s=20210112; t=1678659938;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gbNMLgN0w9Uk051YsUoabSGGG/ZBFHGD2XdPtfzHByk=;
+ b=ajhXc8Zl08a62V/NN+cUuJ6Pf5Kyw6lgFnEBio3I89AlwTXOGzBkBGiGk2Dez7h1gz
+ UceAfN8SwmP7qiGfSuj2MpZjwRi1692bLIBPa6eTowurjkhck+dFm1YTrJew1P8Y70yH
+ gtl30OHb5V3i8buLEwz12BVlHs+Ls9u//B3PaN9ZR099UA+2+kTK4mbMj+EzJBLiLA8L
+ N2lGyACM4uNoL92ssOXiZ7qA/b982NXDmuZhDD3I4Z8Syy8kA7a8us1/3CyB9FN7gaQe
+ JNPj3f5dZ/UVqqSXkwYIN+CtN9lntZon78zqS5cu89hruvzM+m627JU6vtPfNA1RjLnU
+ pH3Q==
+X-Gm-Message-State: AO0yUKV1TdAP0wy58EXL0FNl6F9cToM8p4q6b/XUVmqusLLOjEdlmf4n
+ A7SLfmKRA5qioFz+M4SMUXj9ZA==
+X-Google-Smtp-Source: AK7set/aovWEzFFfm5inBDIta2aTIi6W/TVPZaxiEZVFa9sa5LyKdBcy1i+sor3dA7FnoLD7cVt/Ww==
+X-Received: by 2002:a05:6808:2c3:b0:384:2883:4de1 with SMTP id
+ a3-20020a05680802c300b0038428834de1mr15011693oid.38.1678659938467; 
+ Sun, 12 Mar 2023 15:25:38 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
  by smtp.gmail.com with ESMTPSA id
- s17-20020a05622a019100b003b86b088755sm4291290qtw.15.2023.03.12.14.06.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Mar 2023 14:06:52 -0700 (PDT)
-From: Dinah Baum <dinahbaum123@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Dinah Baum <dinahbaum123@gmail.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 2/2] cpu, qdict, vl: Enable printing options for CPU type
-Date: Sun, 12 Mar 2023 17:06:24 -0400
-Message-Id: <20230312210624.2326264-3-dinahbaum123@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230312210624.2326264-1-dinahbaum123@gmail.com>
-References: <20230312210624.2326264-1-dinahbaum123@gmail.com>
+ q8-20020acaf208000000b003785996ef36sm2452769oih.19.2023.03.12.15.25.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Mar 2023 15:25:38 -0700 (PDT)
+Message-ID: <a670e893-9eec-98e5-508c-ff0115fdbb06@ventanamicro.com>
+Date: Sun, 12 Mar 2023 19:25:33 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=dinahbaum123@gmail.com; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] hw/riscv: Fix the bug of max size limit when put
+ initrd to RAM
+To: Hang Xu <xuhang@eswincomputing.com>, qemu-riscv@nongnu.org
+Cc: palmer@rivosinc.com, bmeng@tinylab.org, alistair.francis@wdc.com,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20230312094022.1127-1-xuhang@eswincomputing.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230312094022.1127-1-xuhang@eswincomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,221 +95,224 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Change parsing of -cpu argument to allow -cpu cpu,help
-to print options for the CPU type similar to
-how the '-device' option works.
+Hi,
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1480
+First, all patches in QEMU must also go to to the general mailing list (qemu-devel)
+as well. I'm adding it in the CC in this reply. Sorry to not mentioning it in the
+first version - I noticed that you didn't CC qemu-devel here, and in v1, just now
+when replying to this patch.
 
-Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
----
- cpu.c                     | 41 +++++++++++++++++++++++++++++++++++++++
- include/exec/cpu-common.h |  2 ++
- include/qapi/qmp/qdict.h  |  2 ++
- qemu-options.hx           |  7 ++++---
- qobject/qdict.c           |  5 +++++
- softmmu/vl.c              | 36 ++++++++++++++++++++++++++++++++--
- 6 files changed, 88 insertions(+), 5 deletions(-)
+As for the commit title, we don't need to mention that you're fixing a bug. I mean,
+at least for me, if it needs fixing it's already a bug :D
 
-diff --git a/cpu.c b/cpu.c
-index c09edc4556..fe33c51061 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -23,7 +23,9 @@
- #include "exec/target_page.h"
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
-+#include "qemu/cutils.h"
- #include "qemu/error-report.h"
-+#include "qemu/qemu-print.h"
- #include "migration/vmstate.h"
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
-@@ -42,6 +44,8 @@
- #include "hw/core/accel-cpu.h"
- #include "trace/trace-root.h"
- #include "qemu/accel.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qobject.h"
- 
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
-@@ -311,6 +315,43 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-     return get_cpu_model_expansion_info(type, model, errp);
- }
- 
-+void list_cpu_model_expansion(CpuModelExpansionType type,
-+                              CpuModelInfo *model,
-+                              Error **errp)
-+{
-+    CpuModelExpansionInfo *expansion_info;
-+    QDict *qdict;
-+    QDictEntry *qdict_entry;
-+    const char *key;
-+    QObject *obj;
-+    QType q_type;
-+    GPtrArray *array;
-+    int i;
-+    const char *type_name;
-+
-+    expansion_info = get_cpu_model_expansion_info(type, model, errp);
-+    if (expansion_info) {
-+        qdict = qobject_to(QDict, expansion_info->model->props);
-+        if (qdict) {
-+            qemu_printf("%s features:\n", model->name);
-+            array = g_ptr_array_new();
-+            for (qdict_entry = (QDictEntry *)qdict_first(qdict); qdict_entry;
-+                 qdict_entry = (QDictEntry *)qdict_next(qdict, qdict_entry)) {
-+                g_ptr_array_add(array, qdict_entry);
-+            }
-+            g_ptr_array_sort(array, (GCompareFunc)dict_key_compare);
-+            for (i = 0; i < array->len; i++) {
-+                qdict_entry = array->pdata[i];
-+                key = qdict_entry_key(qdict_entry);
-+                obj = qdict_get(qdict, key);
-+                q_type = qobject_type(obj);
-+                type_name = QType_str(q_type);
-+                qemu_printf("  %s=<%s>\n", key, type_name);
-+            }
-+        }
-+    }
-+}
-+
- #if defined(CONFIG_USER_ONLY)
- void tb_invalidate_phys_addr(target_ulong addr)
- {
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index ec6024dfde..8fc05307ad 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -174,5 +174,7 @@ typedef void (*cpu_model_expansion_func)(CpuModelExpansionType type,
- CpuModelExpansionInfo *get_cpu_model_expansion_info(CpuModelExpansionType type,
-                                                     CpuModelInfo *model,
-                                                     Error **errp);
-+void list_cpu_model_expansion(CpuModelExpansionType type,
-+                              CpuModelInfo *model, Error **errp);
- 
- #endif /* CPU_COMMON_H */
-diff --git a/include/qapi/qmp/qdict.h b/include/qapi/qmp/qdict.h
-index 82e90fc072..1ff9523a13 100644
---- a/include/qapi/qmp/qdict.h
-+++ b/include/qapi/qmp/qdict.h
-@@ -68,4 +68,6 @@ const char *qdict_get_try_str(const QDict *qdict, const char *key);
- 
- QDict *qdict_clone_shallow(const QDict *src);
- 
-+int dict_key_compare(QDictEntry **entry1, QDictEntry **entry2);
-+
- #endif /* QDICT_H */
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d42f60fb91..d5284b9330 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -169,11 +169,12 @@ SRST
- ERST
- 
- DEF("cpu", HAS_ARG, QEMU_OPTION_cpu,
--    "-cpu cpu        select CPU ('-cpu help' for list)\n", QEMU_ARCH_ALL)
-+    "-cpu cpu        select CPU ('-cpu help' for list)\n"
-+    "                use '-cpu cpu,help' to print possible properties\n", QEMU_ARCH_ALL)
- SRST
- ``-cpu model``
--    Select CPU model (``-cpu help`` for list and additional feature
--    selection)
-+    Select CPU model (``-cpu help`` and ``-cpu cpu,help``) for list and additional feature
-+    selection
- ERST
- 
- DEF("accel", HAS_ARG, QEMU_OPTION_accel,
-diff --git a/qobject/qdict.c b/qobject/qdict.c
-index 8faff230d3..31407e62f6 100644
---- a/qobject/qdict.c
-+++ b/qobject/qdict.c
-@@ -447,3 +447,8 @@ void qdict_unref(QDict *q)
- {
-     qobject_unref(q);
- }
-+
-+int dict_key_compare(QDictEntry **entry1, QDictEntry **entry2)
-+{
-+    return g_strcmp0(qdict_entry_key(*entry1), qdict_entry_key(*entry2));
-+}
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3340f63c37..a9d70e559e 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -500,6 +500,15 @@ static QemuOptsList qemu_action_opts = {
-     },
- };
- 
-+static QemuOptsList qemu_cpu_opts = {
-+    .name = "cpu",
-+    .implied_opt_name = "cpu",
-+    .head = QTAILQ_HEAD_INITIALIZER(qemu_cpu_opts.head),
-+    .desc = {
-+        { /* end of list */ }
-+    },
-+};
-+
- const char *qemu_get_vm_name(void)
- {
-     return qemu_name;
-@@ -1147,6 +1156,26 @@ static int device_init_func(void *opaque, QemuOpts *opts, Error **errp)
-     return 0;
- }
- 
-+static int cpu_help_func(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    CpuModelInfo *model;
-+
-+    if (cpu_option && is_help_option(cpu_option)) {
-+        list_cpus(cpu_option);
-+        return 1;
-+    }
-+
-+    if (!cpu_option || !qemu_opt_has_help_opt(opts)) {
-+        return 0;
-+    }
-+
-+    model = g_new0(CpuModelInfo, 1);
-+    model->name = (char *)qemu_opt_get(opts, "cpu");
-+    /* TODO: handle other expansion cases */
-+    list_cpu_model_expansion(CPU_MODEL_EXPANSION_TYPE_FULL, model, errp);
-+    return 1;
-+}
-+
- static int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp)
- {
-     Error *local_err = NULL;
-@@ -2431,8 +2460,9 @@ static void qemu_process_help_options(void)
-      * type and the user did not specify one, so that the user doesn't need
-      * to say '-cpu help -machine something'.
-      */
--    if (cpu_option && is_help_option(cpu_option)) {
--        list_cpus(cpu_option);
-+    Error *errp = NULL;
-+    if (qemu_opts_foreach(qemu_find_opts("cpu"),
-+                          cpu_help_func, NULL, &errp)) {
-         exit(0);
-     }
- 
-@@ -2672,6 +2702,7 @@ void qemu_init(int argc, char **argv)
-     qemu_add_opts(&qemu_semihosting_config_opts);
-     qemu_add_opts(&qemu_fw_cfg_opts);
-     qemu_add_opts(&qemu_action_opts);
-+    qemu_add_opts(&qemu_cpu_opts);
-     module_call_init(MODULE_INIT_OPTS);
- 
-     error_init(argv[0]);
-@@ -2723,6 +2754,7 @@ void qemu_init(int argc, char **argv)
-             switch(popt->index) {
-             case QEMU_OPTION_cpu:
-                 /* hw initialization will check this */
-+                qemu_opts_parse_noisily(qemu_find_opts("cpu"), optarg, true);
-                 cpu_option = optarg;
-                 break;
-             case QEMU_OPTION_hda:
--- 
-2.30.2
+I'd go with:
 
+"hw/riscv: Fix max initrd size limit when put initrd to RAM"
+
+
+On 3/12/23 06:40, Hang Xu wrote:
+> Because the starting address of ram is not necessarily 0,
+> the remaining free space in ram is
+> ram_size - (start - ram_base) instead of ram_size-start.
+> The changes based on patch1 are as follows:
+> 1. Rebase
+> 2. Considering that the ram block may be discontinuous
+
+
+So, when documenting changes from one version to the other we usually do in one
+of two ways:
+
+- put it right after the "---"  after your "Signed-off-by". Everything you
+put there won't be converted into code or commit message when applying the
+patch;
+
+- create the patch with --cover-letter and document it there in separate.
+
+
+What you did here will force the maintainer to remove this change history
+from the commit message when applying it.
+
+> 
+> Signed-off-by: Hang Xu <xuhang@eswincomputing.com>
+> ---
+>   hw/riscv/boot.c            | 18 ++++++++++++------
+>   hw/riscv/microchip_pfsoc.c |  5 ++++-
+>   hw/riscv/opentitan.c       |  2 +-
+>   hw/riscv/sifive_e.c        |  2 +-
+>   hw/riscv/sifive_u.c        |  5 ++++-
+>   hw/riscv/spike.c           |  5 ++++-
+>   hw/riscv/virt.c            |  5 ++++-
+>   include/hw/riscv/boot.h    |  2 ++
+>   8 files changed, 32 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 52bf8e67de..73b44a0c8b 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -173,10 +173,10 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>       exit(1);
+>   }
+>   
+> -static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+> +static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry,
+> +                              uint64_t ram_base, uint64_t ram_size)
+>   {
+>       const char *filename = machine->initrd_filename;
+> -    uint64_t mem_size = machine->ram_size;
+>       void *fdt = machine->fdt;
+>       hwaddr start, end;
+>       ssize_t size;
+> @@ -193,12 +193,16 @@ static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+>        * So for boards with less  than 256MB of RAM we put the initrd
+>        * halfway into RAM, and for boards with 256MB of RAM or more we put
+>        * the initrd at 128MB.
+> +     * A ram_size == 0, usually from a MemMapEntry[].size element,
+> +     * means that the RAM block goes all the way to ms->ram_size.
+>        */
+> -    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
+> +    ram_size = ram_size ? MIN(machine->ram_size, ram_size) : machine->ram_size;
+> +    start = kernel_entry + MIN(ram_size / 2, 128 * MiB);
+> +    uint64_t max_initrd = ram_size - (start - ram_base);
+
+Please declare 'max_initrd' at the start of the function with the other vars.
+
+
+Everything else looks good to me.
+
+
+Thanks,
+
+
+Daniel
+
+>   
+> -    size = load_ramdisk(filename, start, mem_size - start);
+> +    size = load_ramdisk(filename, start, max_initrd);
+>       if (size == -1) {
+> -        size = load_image_targphys(filename, start, mem_size - start);
+> +        size = load_image_targphys(filename, start, max_initrd);
+>           if (size == -1) {
+>               error_report("could not load ramdisk '%s'", filename);
+>               exit(1);
+> @@ -217,6 +221,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>                                  RISCVHartArrayState *harts,
+>                                  target_ulong kernel_start_addr,
+>                                  bool load_initrd,
+> +                               uint64_t ram_base,
+> +                               uint64_t ram_size,
+>                                  symbol_fn_t sym_cb)
+>   {
+>       const char *kernel_filename = machine->kernel_filename;
+> @@ -263,7 +269,7 @@ out:
+>       }
+>   
+>       if (load_initrd && machine->initrd_filename) {
+> -        riscv_load_initrd(machine, kernel_entry);
+> +        riscv_load_initrd(machine, kernel_entry, ram_base, ram_size);
+>       }
+>   
+>       if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index e81bbd12df..b42d90b89e 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -630,7 +630,10 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>                                                            firmware_end_addr);
+>   
+>           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
+> -                                         kernel_start_addr, true, NULL);
+> +                                         kernel_start_addr, true,
+> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].size,
+> +                                         NULL);
+>   
+>           /* Compute the fdt load address in dram */
+>           fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index b06944d382..bb663523d5 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -103,7 +103,7 @@ static void opentitan_board_init(MachineState *machine)
+>       if (machine->kernel_filename) {
+>           riscv_load_kernel(machine, &s->soc.cpus,
+>                             memmap[IBEX_DEV_RAM].base,
+> -                          false, NULL);
+> +                          false, 0, 0, NULL);
+>       }
+>   }
+>   
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index 04939b60c3..5b47d539a6 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -116,7 +116,7 @@ static void sifive_e_machine_init(MachineState *machine)
+>       if (machine->kernel_filename) {
+>           riscv_load_kernel(machine, &s->soc.cpus,
+>                             memmap[SIFIVE_E_DEV_DTIM].base,
+> -                          false, NULL);
+> +                          false, 0, 0, NULL);
+>       }
+>   }
+>   
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 35a335b8d0..b45fdc968c 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -599,7 +599,10 @@ static void sifive_u_machine_init(MachineState *machine)
+>                                                            firmware_end_addr);
+>   
+>           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
+> -                                         kernel_start_addr, true, NULL);
+> +                                         kernel_start_addr, true,
+> +                                         memmap[SIFIVE_U_DEV_DRAM].base,
+> +                                         memmap[SIFIVE_U_DEV_DRAM].size,
+> +                                         NULL);
+>       } else {
+>          /*
+>           * If dynamic firmware is used, it doesn't know where is the next mode
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index a584d5b3a2..e322ed8506 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -307,7 +307,10 @@ static void spike_board_init(MachineState *machine)
+>   
+>           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
+>                                            kernel_start_addr,
+> -                                         true, htif_symbol_callback);
+> +                                         true,
+> +                                         memmap[SPIKE_DRAM].base,
+> +                                         memmap[SPIKE_DRAM].size,
+> +                                         htif_symbol_callback);
+>       } else {
+>          /*
+>           * If dynamic firmware is used, it doesn't know where is the next mode
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 4e3efbee16..11f26b0dc0 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1287,7 +1287,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>                                                            firmware_end_addr);
+>   
+>           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
+> -                                         kernel_start_addr, true, NULL);
+> +                                         kernel_start_addr, true,
+> +                                         memmap[VIRT_DRAM].base,
+> +                                         memmap[VIRT_DRAM].size,
+> +                                         NULL);
+>       } else {
+>          /*
+>           * If dynamic firmware is used, it doesn't know where is the next mode
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index a2e4ae9cb0..987e1add38 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -47,6 +47,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>                                  RISCVHartArrayState *harts,
+>                                  target_ulong firmware_end_addr,
+>                                  bool load_initrd,
+> +                               uint64_t ram_base,
+> +                               uint64_t ram_size,
+>                                  symbol_fn_t sym_cb);
+>   uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
+>                                   MachineState *ms);
 
