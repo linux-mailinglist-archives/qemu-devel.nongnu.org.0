@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5774D6B68E4
+	by mail.lfdr.de (Postfix) with ESMTPS id 556636B68E3
 	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 18:43:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbPiA-00049F-61; Sun, 12 Mar 2023 13:42:22 -0400
+	id 1pbPiM-0004CK-3M; Sun, 12 Mar 2023 13:42:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbPhz-00048i-3U
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:42:11 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ id 1pbPiA-0004AP-TM
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:42:25 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbPhw-00013p-2o
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:42:10 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id p6so5720349pga.0
- for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 10:42:07 -0700 (PDT)
+ id 1pbPi8-00014q-DQ
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:42:22 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ cp7-20020a17090afb8700b0023756229427so14822639pjb.1
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 10:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678642926;
+ d=linaro.org; s=google; t=1678642939;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0wqL5N04d+Rk0mzDJgomR/W3wBjatARZDEh+Btxpf1o=;
- b=S7S7bj0qgm+NGp9ABsYNNtlsLtZUF98qfKbsCbCFFyYTj+wDGgSG2tP0jqQT1uA74y
- cSvc8R7eEusv6rhEWfewY0ZkjLc14QAYLvEI++OqWTLCMPyZz0KSjln45nPSn/NGt67v
- CkARb5n2ChxBEdArM8MEs98ZOV1+OOPikxt1qS3j1n76CVpJ6Qf12xMHSZ81AtR4d4TZ
- k3pGjKgMsk+4MBV+mKKC6h1g/aSnldM6uuFPdutF8kyJePhUhGCjQV0uqVVrd6gF8prb
- x1oYpMAWSJ5vhoq4m23irJzcUmJV2BFTMLq/Z05USYS43w7HgJaARScqnZQBnYPZRVeJ
- PFlw==
+ bh=QjvdzZ3/+iomuuTr8wJvk2+ouYHjK9XmaNE9F3q12us=;
+ b=aShRkgqOgLMzVqvPmxIkThBDmqWJlW81NOP5ua234LKEJve0Sr/SgtcTZp34sIIlaf
+ 6UewFbCISL8z92Jxt8t/6lb4iKgy6T14KeEQ7scoGgA7535D28swkDKIDYopF93YVVWr
+ VeSmE4FzQLbdc7K+tJAJLC/HPqB6ZWUf0cmgesoMKGrRxEH4imp1OZ1VGn+JiGrtVmhK
+ bmk0jIbK4RmoJI+uTw9OawDSBZcPUnU1VVEvtHWDWzTCLlYZA1TwJ3CzKrH1MM/+zTX2
+ OYMb8LnRhAJRs/Uh60WokVeidvFHpe1yoqYr3gDPD1Uy8Juw7IOrcf77KrFe91ETLbHy
+ FLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678642926;
+ d=1e100.net; s=20210112; t=1678642939;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0wqL5N04d+Rk0mzDJgomR/W3wBjatARZDEh+Btxpf1o=;
- b=ZT1j/U2tBynYuD80+SoPzR6eG/87G2gb/NBmIBm7s4EMrctlpvCpdr1qzk8numm/f4
- TGO9XV/CEhUzye73vbcqXRC0of2HM8/gBcf2d9inw9ij1oR7nQzNJq7r7OsMs0Jc7tvI
- vCk9qMOQgtspzCvo2eF3zmwbtGBYcHZH95n+WRBA2hnNUGZhPp9QZqPoBx2FFnIjNAhN
- 2n+GqRpUX3YDvlDI+4AvkXO/jsiCHbsf3zlEYmBjkfd0ZxPlG6HbyWup52Sv7TXyw7WK
- UpatfFjUJwWjZ1rQ+Z+oTpd5qq6vKjyz218T7HkQfMXWGIWn5j/Ya8Nvqff2rx2/yfiA
- Y28A==
-X-Gm-Message-State: AO0yUKWy8QOieQyHlhe/PiNMCKkXwqtUq1DfwTsfShVLyPAcvro4IWGK
- 6gVhNt3obayP/gy44AGdeaRSSdPuvp8Faayzhv6XkA==
-X-Google-Smtp-Source: AK7set9l9wsb6vXRJji3IxmfIQQiuF66vOSJMa3NurTVFge8YbWP18wO5BeaeKwt7FcWzv1YwBaaoqInC2q+n+x/UEc=
-X-Received: by 2002:a65:6944:0:b0:502:ecb9:4f23 with SMTP id
- w4-20020a656944000000b00502ecb94f23mr2711330pgq.5.1678642925997; Sun, 12 Mar
- 2023 10:42:05 -0700 (PDT)
+ bh=QjvdzZ3/+iomuuTr8wJvk2+ouYHjK9XmaNE9F3q12us=;
+ b=AzIxU4cUtzpYNdEq+tjTLDZ5D/IhYhsyVuYtQVcWuZ3Ay/2lTiHQpvjfP1Enyar3oP
+ eDZ5F0A5RQ/Bk+5J/YHoVEc78Lu1cov4vWyJRTlEdN5mDfYwkts3/vMZ4KGCToc4lh17
+ qVwID53aynaqisuKL+MIP7wXqkbstl1TOH8/DoovGJYvaEWBxR19L22ObGFb59Hwp0dP
+ fUrI+K/yqWxQVGJ3czRhDFYxLUHNVzP9pUzD4vH3ZRdoVih7P2VODs9R843WRmuts4uv
+ KYl7Sc5Ot4htDald2FaacnnnGt45R6IXcuY1izNzcucqI+y/Qnc2NBW0W7N4Y75088JU
+ SAhw==
+X-Gm-Message-State: AO0yUKWlJ+o1vLdOAUfauYWadhjerIKRwJaC7hqY+wx9dq28H/WP4Md3
+ zbSqfCd+TWQxzacmNCkN7klu3LfZNXI1JNGA5L24MEittWZxNA5B
+X-Google-Smtp-Source: AK7set+13+ufkE7VXHPO66XqQ595pTIpExwk1KHupf4W5FmbMY8G9qtPbw2UkoHm4lBPGc1rXfb+vpTW9IPwSM4DqtY=
+X-Received: by 2002:a17:902:ba94:b0:19f:2164:9b3b with SMTP id
+ k20-20020a170902ba9400b0019f21649b3bmr1957367pls.13.1678642939186; Sun, 12
+ Mar 2023 10:42:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230310175529.240379-1-kwolf@redhat.com>
-In-Reply-To: <20230310175529.240379-1-kwolf@redhat.com>
+References: <20230310220927.326606-1-laurent@vivier.eu>
+In-Reply-To: <20230310220927.326606-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 12 Mar 2023 17:41:54 +0000
-Message-ID: <CAFEAcA9MJZnNy4OacSpJvy4wyaQUecMtPwRUK0fnXEEgmM6PoQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Date: Sun, 12 Mar 2023 17:42:07 +0000
+Message-ID: <CAFEAcA_SgWD9SZgM78bLx4xX_DSpaaDz8M1P6MM8SS6KpPyyrA@mail.gmail.com>
+Subject: Re: [PULL 00/28] Linux user for 8.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,27 +84,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Mar 2023 at 17:55, Kevin Wolf <kwolf@redhat.com> wrote:
+On Fri, 10 Mar 2023 at 22:12, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> The following changes since commit ee59483267de29056b5b2ee2421ef3844e5c9932:
+> The following changes since commit 817fd33836e73812df2f1907612b57750fcb9491:
 >
->   Merge tag 'qemu-openbios-20230307' of https://github.com/mcayland/qemu into staging (2023-03-09 16:55:03 +0000)
+>   Merge tag 'audio-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-06 14:06:06 +0000)
 >
 > are available in the Git repository at:
 >
->   https://repo.or.cz/qemu/kevin.git tags/for-upstream
+>   https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-8.0-pull-request
 >
-> for you to fetch changes up to ecf8191314798391b1df80bcb829c0ead4f8acc9:
+> for you to fetch changes up to 2732c739d846fc7a1972e984d71a3de0d3eef77b:
 >
->   qed: remove spurious BDRV_POLL_WHILE() (2023-03-10 15:14:46 +0100)
->
-> ----------------------------------------------------------------
-> Block layer patches
->
-> - fuse: Fix fallocate(PUNCH_HOLE) to zero out the range
-> - qed: remove spurious BDRV_POLL_WHILE()
+>   linux-user: fix bug about incorrect base addresss of gdt on i386 and x86_64 (2023-03-10 20:50:11 +0100)
 >
 > ----------------------------------------------------------------
+> Pull request linux-user 20230308-v2
+>
+> Fix gdt on i386/x86_64
+> Handle traps on sparc
+> Add translation for argument of msync
+> Emulate CLONE_PIDFD flag in clone
+> handle netlink flag NLA_F_NESTED
+> fix sockaddr_in6 endianness
+> Fix brk() to release pages
+> fill out task state in /proc/self/stat
+> add support for xtensa FDPIC
+> Fix unaligned memory access in prlimit64 syscall
+> add target to host netlink conversions
+> fix timerfd read endianness conversion
+> Fix access to /proc/self/exe
+> Add strace for prlimit64() syscall
+>
 
 
 Applied, thanks.
