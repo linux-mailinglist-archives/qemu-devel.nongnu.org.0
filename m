@@ -2,77 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5166B68F6
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 18:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F5C6B6AC7
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Mar 2023 20:50:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbPqo-0006ov-BN; Sun, 12 Mar 2023 13:51:18 -0400
+	id 1pbRhV-0001ju-NS; Sun, 12 Mar 2023 15:49:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmitry.osipenko@collabora.com>)
- id 1pbPqk-0006oW-Qu
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:51:14 -0400
-Received: from madras.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e5ab])
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbPCd-0006ct-TF
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:09:48 -0400
+Received: from mail-sgaapc01olkn2109.outbound.protection.outlook.com
+ ([40.92.53.109] helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmitry.osipenko@collabora.com>)
- id 1pbPqi-0002nY-TT
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:51:14 -0400
-Received: from [192.168.2.203] (109-252-120-116.nat.spd-mgts.ru
- [109.252.120.116])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1C2746602E85;
- Sun, 12 Mar 2023 17:51:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678643467;
- bh=KmjCtilIVAnzFDIKkb0LhxYG2/8Y+tgikUJgYTvlXL0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Dr0o+IBtGS07EV9EJYpAoMYT9hxXlWHM6Ydt2PSMk9NGfv0b5QlurpjgaoYcuIrLs
- pbLMXs8hQhwCa6Xmz7Lm6yg2XA1WVMW5fnztnDJ0j4ta1GQezPd0pmTDwT73HiCQsz
- KqnuSlmZcxta79+ciVSgRV9ocBoeCl8KL3GBOgUXOPw6MSHXXkEA6OB2XInhorMDN1
- 284Pyc4q3RzXiFv3h0/JSnZI1v4r3p9XNWEFNoqVb3c8JwklWzCM/LRT7fjr74BTwl
- fVhQsk2aSuTc2Hg9wPNjKW5DVACpeh7snyBiYlr+oRz7GnXUb107Oly1CiQTciV0gJ
- 9KEJqIXopmlQA==
-Message-ID: <68195782-0309-2f81-7f1f-84a7fe7bb05c@collabora.com>
-Date: Sun, 12 Mar 2023 20:51:03 +0300
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbPCc-0004Qg-1h
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 13:09:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A/ZK68lxsVdegch31Bovi5XvsPBOJHqFDPK2qa5On7nSai6OX6gZ8p05HgzuzG2kMJiENLa4zujhDyD3SzitMpNFxtTJfJ9Pi4ZyCJTsWm4dlLkamFOm1c8g5PVKbS44/DJuXpqa1e0uuuruPAlV8YeQ8tYf9A9FvofY5ktO22Zj8FU7Jt82blCBaeUEF65FH3n2s7IlJU34ixmRKjaiLXlXr3se8LZKpMPkZqF4bh4c0bcyZ7lIOCnozPeVsFJkHsnLGxtycCPZQ90xxbwuGEV9K3BiuRXY8nWMcwAAMJLbCJzvxXKBkwqM3y2jNOE+mYxV0zJhLo/wyGvOgRALaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jv4xozC/hs6hw7hm/sDgc8byq0DHza8UjJ4WxUJx6O0=;
+ b=JoWfen6zjxlKZm4htr9runbUJJP9J/LzYsuLTmkNTcUTvJHVi3EfV4YY0GfxjJ/WjI5pl3ybCD3MV9d8DWiE6MIAdLU5/Yd+kfP0TojRhYZuSmEAtZPGzu+8HdqK7IgFRgxG21ln3mJQKQuhiddDG3gQdFv9sPJ7IDZ9Meu3wDkYn9QKPIr0vTytJZ55Q8IQBQue4wniZEt246bMoWj1G5pWxj7ojVIaUd7LSnpQeJGjSuh6AfA3LBd+omiSBf0ux76t2afN0aJFJIdP04W/OPRrHoj/5DF688PQFaN8vMaTgeI9uFxxS8aEJvffZK54rteAuNpUQdE+XdMV5dlc7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
+ by SEYPR06MB5280.apcprd06.prod.outlook.com (2603:1096:101:81::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.22; Sun, 12 Mar
+ 2023 17:04:37 +0000
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::5aac:46da:e945:95ae]) by TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::5aac:46da:e945:95ae%9]) with mapi id 15.20.6178.019; Sun, 12 Mar 2023
+ 17:04:37 +0000
+From: Yohei Kojima <y-koj@outlook.jp>
+To: qemu-devel@nongnu.org
+Cc: Yohei Kojima <y-koj@outlook.jp>
+Subject: [PATCH 0/2] util: Add thread-safe qemu_strerror() function
+Date: Mon, 13 Mar 2023 02:03:30 +0900
+Message-ID: <TYZPR06MB5418878CE06C457DF67D78B69DB89@TYZPR06MB5418.apcprd06.prod.outlook.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [l5CjxEal072KvQBhqhOp87KqJLsHhwI4Xpx/AAN7PhrEhlrqiK2cEM4g/oR+7FRs]
+X-ClientProxiedBy: TYWPR01CA0002.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::7) To TYZPR06MB5418.apcprd06.prod.outlook.com
+ (2603:1096:400:202::7)
+X-Microsoft-Original-Message-ID: <cover.1678640194.git.y-koj@outlook.jp>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC QEMU PATCH 08/18] virtio-gpu: Initialize Venus
-To: Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
- Jan Beulich <jbeulich@suse.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Robert Beckett <bob.beckett@collabora.com>, qemu-devel@nongnu.org,
- xen-devel@lists.xenproject.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>,
- Honglei Huang <honglei1.huang@amd.com>, Julia Zhang <julia.zhang@amd.com>,
- Chen Jiqian <Jiqian.Chen@amd.com>
-References: <20230312092244.451465-1-ray.huang@amd.com>
- <20230312092244.451465-9-ray.huang@amd.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230312092244.451465-9-ray.huang@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
- envelope-from=dmitry.osipenko@collabora.com; helo=madras.collabora.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|SEYPR06MB5280:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b969695-55d2-4785-9107-08db231bdcb8
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tD6CUeyjRURu9nooD2glFUbss+szvkLaHlfGxylKtTzkOChy7PGfNcvEcFMpyw0FkAc7rsvX2/mGj8dQvVbrURIEB90JRDF1CdGcAfIlFF5rnvdjo/3BYMa3SPEvw14x1DtNEMTpkAwd6eG3LnOhiA9gVk6MGzp7psI3OuvKzSrKU5sjrBt20cJkZLh8arHDXuMDkuRRFrNFSPxa1nbFWHepctvj6Gsx9XQEj6KDWgZaODfn15T9hMgDPqqgW5sHX3k2TiYak2hH4PqhWGK01vgWX6K14GKfPwa6a4kjd8zLZEnWneAjXOemRZJWXmiiyaBtnUddtK6RCtVIBKXJ3k6LBtDWDxXPffnKOjh5ookTMbmZ3m7qhA9IE5XnsWdBHsRHs8QdCijIepo/oQSn8b1ZCV2eqXCSRX5jGS9oeVyXuFefgZqoRhZTlbVwkiZ7PwSDwKtTt4AjvCykvDp25Efvd4eLfRE1k7OJKHis2W/NulYtxLi42XLJ9/3ilnkuLt3HnDueWvdhnY9k4PICpBuDOeGK446jkmqbVVqkjuV+g6HnNY35+Yf0LhVa0HOjWFvudPNCGQh1zMystU8OOOrO9a3z605rLu5uU0LKnx9uzPoP+fp19FPfW8CLDu6lL8EzpR6dr0pTsP/cuIoA+LCSCaXzpkqb5ReHGr3wY6E=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l6wgbAw7LQP/AtH1tSnXJxYQl2fHzxSPjknMHOek0H57Mcv2FDFV8Ob6pNMj?=
+ =?us-ascii?Q?zXxdw/4P3cglj9ZonDCG3Ba9TXbySNKDGneP6L+SsskMhantY/4j0QZvheq/?=
+ =?us-ascii?Q?8P21pJQT/BveLakCgcv+74ghAt44gV/Iw4umaQZG8ARiesuk2maMRZksiDwa?=
+ =?us-ascii?Q?lLNHlO0Bh49d9K7UJzx6MlcNxpu00fa/recRyjBAkn3yzFG+2+CJxHEQLzXp?=
+ =?us-ascii?Q?epl12cV6W4rh/R/QNuAZnX4Ug+L/wkLg7vzXrA2Ej94Ox7r3AYcAXQ2IuDGk?=
+ =?us-ascii?Q?Te7ocH4VLHeAcNKJwQ+Opf9JKONYAPr0kSh5cnFw8of6pnfv1uvolmKtSPst?=
+ =?us-ascii?Q?YF8+sO383Wrd2xt7USGizGkeDHMVgmY0+acEgvflzs+E22QB7xpQoz7S30xn?=
+ =?us-ascii?Q?vDNXWnDJb3U975IzqP73vE6TEMWzlncuwjGJlKGn3tD8K11Lx3DCUuFLfLzk?=
+ =?us-ascii?Q?kZ4QeWfEnvcJRkgSu45PT3Mz1HzGBLHx0xF/4dWO8Oy8yC+zdxiox1F9A2mr?=
+ =?us-ascii?Q?T6ajOlpBezzb5VMV1KdDKdjDzJHjbuuAUKPZFRnyffjdXeX1i+S7KqUATDDe?=
+ =?us-ascii?Q?I4etnZKjDnNFBDLFx4CdsoRkK/SFIJfkwDoPAba4RL6RLYjFr3zvh/jGFCWx?=
+ =?us-ascii?Q?s/njY85c1Gvi8TPRnie0gMUSCTu1CjNUPM0RWJ15/lMiTdhzIST6qmsWDETK?=
+ =?us-ascii?Q?80HbXdRI7nKYzAiNxw/MfZEp6uW8GXuhU5icpVUA4gZKTxAvbtOGDPqVSbHi?=
+ =?us-ascii?Q?XP4ZxlxaQFDigRCkG2Q/31Lg52vYQYaVBSmCf034cQLyS83/nCxFS8Cnt5C6?=
+ =?us-ascii?Q?+6sJwysRXSaLCJm9y13M8hqYgNLXo2iekgbYI91zEnI2xF6IUU1vvj2lqx1E?=
+ =?us-ascii?Q?c7HGkDILhCWOfRTEnUsmCiNEllvTvl6BAL5lvbO87G30uoKj/Sj2kKTdLvMy?=
+ =?us-ascii?Q?Fn9s+efUPHBioAEd0vs7uO/rvoYxjY7iNA6fjz5syHeQjk3ha/ukID8xupTp?=
+ =?us-ascii?Q?q8BkI9IiS0KlQn7A3EcKttQcWlrAbOcJJtso0FpHsscSzuNVE8Ll62xLg3wf?=
+ =?us-ascii?Q?UH5ZTrn0i5VM1jFc8OdsGL8sjRmPwYw3SQ8OTxPM5phgNkuN1Lbvbj0jkbfy?=
+ =?us-ascii?Q?Iaz4KUD2401HdZJR+aINMQWa7qg9a9kmqyqTVIMa1GmEuVzkIR8BUapm2uCW?=
+ =?us-ascii?Q?b2rYQNkMcEAuCIFC/1eppjZk36HB26XM7+FPfjXiMzOjzSarsQ6tCI0ryADG?=
+ =?us-ascii?Q?TH8NW4+MdTN65pnu6J49H4dmxEjUnbVdUvtmN1cdvGIFRJwGMlNV2T94OXG7?=
+ =?us-ascii?Q?Bg0srmPpDEyrRM9XZkFtgNo3y9mVE/I3q5cKXQkp/ol39w=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b969695-55d2-4785-9107-08db231bdcb8
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2023 17:04:37.8479 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5280
+Received-SPF: pass client-ip=40.92.53.109; envelope-from=y-koj@outlook.jp;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 12 Mar 2023 15:49:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,43 +113,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/12/23 12:22, Huang Rui wrote:
-> From: Antonio Caggiano <antonio.caggiano@collabora.com>
-> 
-> Request Venus when initializing VirGL.
-> 
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> ---
->  hw/display/virtio-gpu-virgl.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-> index fe03dc916f..f5ce206b93 100644
-> --- a/hw/display/virtio-gpu-virgl.c
-> +++ b/hw/display/virtio-gpu-virgl.c
-> @@ -803,7 +803,11 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
->  {
->      int ret;
->  
-> +#ifdef VIRGL_RENDERER_VENUS
-> +    ret = virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_gpu_3d_cbs);
-> +#else
->      ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
-> +#endif
+This patch series adds qemu_strerror() function, which is thread-safe
+version of the libc strerror(). The first patch adds the
+qemu_strerror() funciton, and the second patch replaces strerror()
+function in linux-user/* with qemu_strerror() function.
 
-Note that Venus now requires VIRGL_RENDERER_RENDER_SERVER flag to be
-set. Please test the patches with the latest virglrenderer and etc.
+Because it involves thread-safety, and the strerror_r()
+function called by qemu_strerror() has different type signatures between
+architectures because of historical reason, the implementation of
+qemu_strerror is a bit complicated.
 
-The #ifdef also doesn't allow adding new flags, it should look like:
+All tests except for skipped ones are passed in my environment (x86_64
+linux).
 
-#ifdef VIRGL_RENDERER_VENUS
-    flags |= VIRGL_RENDERER_RENDER_SERVER;
-#endif
+Yohei Kojima (2):
+  util: Add thread-safe qemu_strerror() function
+  linux-user: replace strerror() function to the thread safe
+    qemu_strerror()
 
-    ret = virgl_renderer_init(g, flags, &virtio_gpu_3d_cbs);
+ include/qemu/cutils.h | 20 +++++++++++++++++++
+ linux-user/elfload.c  |  4 ++--
+ linux-user/main.c     |  4 ++--
+ linux-user/syscall.c  |  2 +-
+ util/cutils.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 70 insertions(+), 5 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.39.2
 
 
