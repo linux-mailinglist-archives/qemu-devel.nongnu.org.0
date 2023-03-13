@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911216B7388
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E4B6B7384
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:13:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfBR-0004ld-Nd; Mon, 13 Mar 2023 06:13:37 -0400
+	id 1pbfBc-00059P-35; Mon, 13 Mar 2023 06:13:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfBN-0004dd-Ls
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:33 -0400
+ id 1pbfBR-0004st-5z
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:37 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfBL-0004Pm-JX
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:33 -0400
+ id 1pbfBP-0004RF-9O
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678702410;
+ s=mimecast20190719; t=1678702414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H/PdDlusUV8JCJwhq04cZCZTyf3LkL8CcCXM7AjRJRU=;
- b=Dy3WtwKogdYqTrl4hUKBPTuJrTJsVhI+3lxMbT+jGt2S+T3a2IWzFMYP+7YxuEOBVQpdCf
- 7Yk9YGTBV9t4NWntcrJk3mT4t9NRW3UNiZgAC0wFjBeaVQCOwB1Ud1J7iRBsZd7JJEcXGc
- WX0zNa3skIULZbf7VLn7NxlfY/e6Ar8=
+ bh=9+vkE9LuKiXw6hgpIr6rng/DVtJGgtEFf712e+28JsU=;
+ b=G7jJsYvez1WOfXQaKDd/ar46WDXeeJxHkz15m2RZ76IJ8Pr0g/ZZgez8BtnEu2faS7eNij
+ Q3LHI9FuiQCNrDYlWJEt4C3oQpaoiVQkhWR5qtizCmTVNzPEiceFIFvMFqubfLalSuhhNK
+ VeZBvR0N1A1wRxUWdFUITitrpTsWd98=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-LtVnHf7SN1iCJK82YnrvHg-1; Mon, 13 Mar 2023 06:13:26 -0400
-X-MC-Unique: LtVnHf7SN1iCJK82YnrvHg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-170-qYqltaxpNsiEznBRRxCOpg-1; Mon, 13 Mar 2023 06:13:31 -0400
+X-MC-Unique: qYqltaxpNsiEznBRRxCOpg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A38129ABA0C;
- Mon, 13 Mar 2023 10:13:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3119F3C0F180;
+ Mon, 13 Mar 2023 10:13:31 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 223AA400F52;
- Mon, 13 Mar 2023 10:13:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 262FD2A68;
+ Mon, 13 Mar 2023 10:13:29 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -49,15 +49,15 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 17/18] ui/dbus: do not require opengl & gbm
-Date: Mon, 13 Mar 2023 14:12:06 +0400
-Message-Id: <20230313101207.375125-18-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 18/18] ui/dbus: restrict opengl to gbm-enabled config
+Date: Mon, 13 Mar 2023 14:12:07 +0400
+Message-Id: <20230313101207.375125-19-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 References: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,215 +85,103 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Allow to build & use the DBus display without 3d/GPU acceleration support.
+We can enable EGL later for non-GBM hosts.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build             |  4 ++--
- ui/dbus-listener.c      | 15 +++++++++++++--
- ui/dbus.c               |  8 ++++++++
- tests/qtest/meson.build |  2 +-
- ui/meson.build          |  4 ++--
- 5 files changed, 26 insertions(+), 7 deletions(-)
+ ui/dbus-listener.c | 10 +++++-----
+ ui/dbus.c          | 12 +++++++++++-
+ 2 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 6bcab8bf0d..29f8644d6d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1746,8 +1746,8 @@ dbus_display = get_option('dbus_display') \
-            error_message: '-display dbus requires glib>=2.64') \
-   .require(gdbus_codegen.found(),
-            error_message: gdbus_codegen_error.format('-display dbus')) \
--  .require(opengl.found() and gbm.found(),
--           error_message: '-display dbus requires epoxy/egl and gbm') \
-+  .require(targetos != 'windows',
-+           error_message: '-display dbus is not available on Windows') \
-   .allowed()
- 
- have_virtfs = get_option('virtfs') \
 diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-index 2e87ed7e9a..85692f1b27 100644
+index 85692f1b27..911acdc529 100644
 --- a/ui/dbus-listener.c
 +++ b/ui/dbus-listener.c
-@@ -27,9 +27,11 @@
- #include "dbus.h"
- #include <gio/gunixfdlist.h>
- 
-+#ifdef CONFIG_OPENGL
- #include "ui/shader.h"
- #include "ui/egl-helpers.h"
- #include "ui/egl-context.h"
-+#endif
- #include "trace.h"
- 
- struct _DBusDisplayListener {
-@@ -48,6 +50,7 @@ struct _DBusDisplayListener {
+@@ -50,7 +50,7 @@ struct _DBusDisplayListener {
  
  G_DEFINE_TYPE(DBusDisplayListener, dbus_display_listener, G_TYPE_OBJECT)
  
-+#ifdef CONFIG_OPENGL
+-#ifdef CONFIG_OPENGL
++#ifdef CONFIG_GBM
  static void dbus_update_gl_cb(GObject *source_object,
                             GAsyncResult *res,
                             gpointer user_data)
-@@ -229,12 +232,14 @@ static void dbus_gl_refresh(DisplayChangeListener *dcl)
-         ddl->gl_updates = 0;
-     }
- }
-+#endif
- 
- static void dbus_refresh(DisplayChangeListener *dcl)
- {
+@@ -239,7 +239,7 @@ static void dbus_refresh(DisplayChangeListener *dcl)
      graphic_hw_update(dcl->con);
  }
  
-+#ifdef CONFIG_OPENGL
+-#ifdef CONFIG_OPENGL
++#ifdef CONFIG_GBM
  static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
                                 int x, int y, int w, int h)
  {
-@@ -242,6 +247,7 @@ static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
- 
-     ddl->gl_updates++;
- }
-+#endif
- 
- static void dbus_gfx_update(DisplayChangeListener *dcl,
-                             int x, int y, int w, int h)
-@@ -296,6 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dcl,
+@@ -302,7 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dcl,
          DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
  }
  
-+#ifdef CONFIG_OPENGL
+-#ifdef CONFIG_OPENGL
++#ifdef CONFIG_GBM
  static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
                                 struct DisplaySurface *new_surface)
  {
-@@ -311,6 +318,7 @@ static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
-                              width, height, 0, 0, width, height);
-     }
- }
-+#endif
- 
- static void dbus_gfx_switch(DisplayChangeListener *dcl,
-                             struct DisplaySurface *new_surface)
-@@ -361,6 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener *dcl,
+@@ -369,7 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener *dcl,
          NULL);
  }
  
-+#ifdef CONFIG_OPENGL
+-#ifdef CONFIG_OPENGL
++#ifdef CONFIG_GBM
  const DisplayChangeListenerOps dbus_gl_dcl_ops = {
      .dpy_name                = "dbus-gl",
      .dpy_gfx_update          = dbus_gl_gfx_update,
-@@ -378,6 +387,7 @@ const DisplayChangeListenerOps dbus_gl_dcl_ops = {
-     .dpy_gl_release_dmabuf   = dbus_release_dmabuf,
-     .dpy_gl_update           = dbus_scanout_update,
- };
-+#endif
- 
- const DisplayChangeListenerOps dbus_dcl_ops = {
-     .dpy_name                = "dbus",
-@@ -406,11 +416,12 @@ dbus_display_listener_constructed(GObject *object)
- {
+@@ -417,7 +417,7 @@ dbus_display_listener_constructed(GObject *object)
      DBusDisplayListener *ddl = DBUS_DISPLAY_LISTENER(object);
  
-+    ddl->dcl.ops = &dbus_dcl_ops;
-+#ifdef CONFIG_OPENGL
+     ddl->dcl.ops = &dbus_dcl_ops;
+-#ifdef CONFIG_OPENGL
++#ifdef CONFIG_GBM
      if (display_opengl) {
          ddl->dcl.ops = &dbus_gl_dcl_ops;
--    } else {
--        ddl->dcl.ops = &dbus_dcl_ops;
      }
-+#endif
- 
-     G_OBJECT_CLASS(dbus_display_listener_parent_class)->constructed(object);
- }
 diff --git a/ui/dbus.c b/ui/dbus.c
-index ebf03bd84d..904f5a0a6d 100644
+index 904f5a0a6d..0513de9918 100644
 --- a/ui/dbus.c
 +++ b/ui/dbus.c
-@@ -30,8 +30,10 @@
- #include "qom/object_interfaces.h"
- #include "sysemu/sysemu.h"
- #include "ui/dbus-module.h"
-+#ifdef CONFIG_OPENGL
- #include "ui/egl-helpers.h"
- #include "ui/egl-context.h"
-+#endif
- #include "audio/audio.h"
- #include "audio/audio_int.h"
- #include "qapi/error.h"
-@@ -41,6 +43,7 @@
- 
- static DBusDisplay *dbus_display;
- 
-+#ifdef CONFIG_OPENGL
+@@ -47,8 +47,10 @@ static DBusDisplay *dbus_display;
  static QEMUGLContext dbus_create_context(DisplayGLCtx *dgc,
                                           QEMUGLParams *params)
  {
-@@ -84,6 +87,7 @@ static const DisplayGLCtxOps dbus_gl_ops = {
-     .dpy_gl_ctx_destroy_texture = dbus_destroy_texture,
-     .dpy_gl_ctx_update_texture = dbus_update_texture,
- };
++#ifdef CONFIG_GBM
+     eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
+                    qemu_egl_rn_ctx);
 +#endif
- 
- static NotifierList dbus_display_notifiers =
-     NOTIFIER_LIST_INITIALIZER(dbus_display_notifiers);
-@@ -112,10 +116,12 @@ dbus_display_init(Object *o)
-     DBusDisplay *dd = DBUS_DISPLAY(o);
-     g_autoptr(GDBusObjectSkeleton) vm = NULL;
- 
-+#ifdef CONFIG_OPENGL
-     dd->glctx.ops = &dbus_gl_ops;
-     if (display_opengl) {
-         dd->glctx.gls = qemu_gl_init_shader();
-     }
-+#endif
-     dd->iface = qemu_dbus_display1_vm_skeleton_new();
-     dd->consoles = g_ptr_array_new_with_free_func(g_object_unref);
- 
-@@ -152,7 +158,9 @@ dbus_display_finalize(Object *o)
-     g_clear_object(&dd->iface);
-     g_free(dd->dbus_addr);
-     g_free(dd->audiodev);
-+#ifdef CONFIG_OPENGL
-     g_clear_pointer(&dd->glctx.gls, qemu_gl_fini_shader);
-+#endif
-     dbus_display = NULL;
+     return qemu_egl_create_context(dgc, params);
  }
  
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c9292b64fb..85ea4e8d99 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -101,7 +101,7 @@ qtests_i386 = \
-    'numa-test'
-   ]
+@@ -56,7 +58,11 @@ static bool
+ dbus_is_compatible_dcl(DisplayGLCtx *dgc,
+                        DisplayChangeListener *dcl)
+ {
+-    return dcl->ops == &dbus_gl_dcl_ops || dcl->ops == &dbus_console_dcl_ops;
++    return
++#ifdef CONFIG_GBM
++        dcl->ops == &dbus_gl_dcl_ops ||
++#endif
++        dcl->ops == &dbus_console_dcl_ops;
+ }
  
--if dbus_display
-+if dbus_display and targetos != 'windows'
-   qtests_i386 += ['dbus-display-test']
- endif
+ static void
+@@ -459,7 +465,11 @@ early_dbus_init(DisplayOptions *opts)
+     DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
  
-diff --git a/ui/meson.build b/ui/meson.build
-index 0b2d0d21d1..330369707d 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -85,7 +85,7 @@ if dbus_display
-                                           '--generate-c-code', '@BASENAME@'])
-   dbus_display1_lib = static_library('dbus-display1', dbus_display1, dependencies: gio)
-   dbus_display1_dep = declare_dependency(link_with: dbus_display1_lib, include_directories: include_directories('.'))
--  dbus_ss.add(when: [gio, pixman, opengl, gbm, dbus_display1_dep],
-+  dbus_ss.add(when: [gio, pixman, dbus_display1_dep],
-               if_true: [files(
-                 'dbus-chardev.c',
-                 'dbus-clipboard.c',
-@@ -93,7 +93,7 @@ if dbus_display
-                 'dbus-error.c',
-                 'dbus-listener.c',
-                 'dbus.c',
--              )])
-+              ), opengl, gbm])
-   ui_modules += {'dbus' : dbus_ss}
- endif
+     if (mode != DISPLAYGL_MODE_OFF) {
++#ifdef CONFIG_OPENGL
+         egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
++#else
++        error_report("dbus: GL rendering is not supported");
++#endif
+     }
  
+     type_register(&dbus_vc_type_info);
 -- 
 2.39.2
 
