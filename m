@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42816B7386
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB5D6B738A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfBJ-0003qj-Os; Mon, 13 Mar 2023 06:13:29 -0400
+	id 1pbfBK-00043n-UD; Mon, 13 Mar 2023 06:13:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfB6-0003SJ-UY
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:19 -0400
+ id 1pbfBD-0003Yf-Sf
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfB5-0004OM-Jk
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:16 -0400
+ id 1pbfBB-0004P2-IM
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678702395;
+ s=mimecast20190719; t=1678702400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m2ey6Me3RzhUnLl6Ogy7OrIpD9dgOkdSTYWhTPkqQR8=;
- b=bbb1zQ0SqLwF6v8k06qkX/sYaY9mEgduBIZRwiF1uJhUMV6DH6FCtI23pGbFQ8wwIRiPDh
- ipfX4oSt/0cnReTJZxg1l92t8dPh6OVQDCu97vifFDRzI0wyQLZtsCEGUuZA9Gm0F80PxJ
- 0HKRAhguuw2T5pTgr7qYrgIJgqWf6go=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=w3LL2Utc8DveH1ja8P2pWS7/E7RdJaNYiBkLmCG8WC4=;
+ b=XaE+R3eX4JWU5fc0UKHmIZmc2LKUa/om5UwYLhMcQjN1CIMRL9Q3T2QU5wymP0Cy2BnLrD
+ TsVWBBhhKBEItZsIv4O5dptg2f19H9Nvq/onraQlnj7XTviQC2PUhsqRst4O4b0mgD+KuF
+ /hgnYi/UZykGkME7vsy0KS3g2zkrRVY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-w2juYfhuMoi9F31ZU74Uaw-1; Mon, 13 Mar 2023 06:13:13 -0400
-X-MC-Unique: w2juYfhuMoi9F31ZU74Uaw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-147-HZ6af2faN1mexuWf2PRRVA-1; Mon, 13 Mar 2023 06:13:17 -0400
+X-MC-Unique: HZ6af2faN1mexuWf2PRRVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50EC81C05141;
- Mon, 13 Mar 2023 10:13:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2169385D066;
+ Mon, 13 Mar 2023 10:13:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 898E940C83A9;
- Mon, 13 Mar 2023 10:13:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 567DB1121315;
+ Mon, 13 Mar 2023 10:13:16 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -49,16 +49,16 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 14/18] ui/sdl: add QEMU_ENABLE_SDL_LOGGING
- setting/environment
-Date: Mon, 13 Mar 2023 14:12:03 +0400
-Message-Id: <20230313101207.375125-15-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 15/18] ui/sdl: try to instantiate the matching opengl
+ renderer
+Date: Mon, 13 Mar 2023 14:12:04 +0400
+Message-Id: <20230313101207.375125-16-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 References: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,29 +86,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Enable SDL logging when QEMU_ENABLE_SDL_LOGGING variable is set, as
-suggested by Sam Lantinga, upstream SDL maintainer.
+-display sdl,gl=es didn't actually use OpenGL ES.
+
+Using OpenGL ES allows to use ANGLE, which works generally better than
+Windows/OEM OpenGL driver.
+
+(note: users can still bypass the QEMU choice with SDL_RENDER_DRIVER
+environment variable)
+
+(note: for some reason, specifying a driver disables batching and
+breaks rendering, so enable it explicitly)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/sdl2.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ ui/sdl2.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 137f7ab57f..221cdced60 100644
+index 221cdced60..35c58c1104 100644
 --- a/ui/sdl2.c
 +++ b/ui/sdl2.c
-@@ -843,6 +843,10 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-     }
- #endif
+@@ -58,6 +58,11 @@ static Notifier mouse_mode_notifier;
+ #define SDL2_MAX_IDLE_COUNT (2 * GUI_REFRESH_INTERVAL_DEFAULT \
+                              / SDL2_REFRESH_INTERVAL_BUSY + 1)
  
-+    if (SDL_GetHintBoolean("QEMU_ENABLE_SDL_LOGGING", SDL_FALSE)) {
-+        SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
-+    }
++/* introduced in SDL 2.0.10 */
++#ifndef SDL_HINT_RENDER_BATCHING
++#define SDL_HINT_RENDER_BATCHING "SDL_RENDER_BATCHING"
++#endif
 +
-     if (SDL_Init(SDL_INIT_VIDEO)) {
-         fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
-                 SDL_GetError());
+ static void sdl_update_caption(struct sdl2_console *scon);
+ 
+ static struct sdl2_console *get_scon_from_window(uint32_t window_id)
+@@ -99,7 +104,18 @@ void sdl2_window_create(struct sdl2_console *scon)
+                                          surface_width(scon->surface),
+                                          surface_height(scon->surface),
+                                          flags);
++    if (scon->opengl) {
++        const char *driver = "opengl";
++
++        if (scon->opts->gl == DISPLAYGL_MODE_ES) {
++            driver = "opengles2";
++        }
++
++        SDL_SetHint(SDL_HINT_RENDER_DRIVER, driver);
++        SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
++    }
+     scon->real_renderer = SDL_CreateRenderer(scon->real_window, -1, 0);
++
+     if (scon->opengl) {
+         scon->winctx = SDL_GL_CreateContext(scon->real_window);
+     }
 -- 
 2.39.2
 
