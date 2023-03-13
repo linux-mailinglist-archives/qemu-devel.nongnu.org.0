@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D686B80C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 19:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FA16B80D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 19:34:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbmxq-0001qJ-9b; Mon, 13 Mar 2023 14:32:06 -0400
+	id 1pbmzp-0003M9-8Y; Mon, 13 Mar 2023 14:34:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pbmxm-0001pi-Nl
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:32:02 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pbmxl-0007HZ-4d
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:32:02 -0400
-Received: by mail-lf1-x130.google.com with SMTP id r27so16888345lfe.10
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 11:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678732318;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=vZ2lCdhoxWj/iJLpwwtuJdyIKt6gN/U0KcC6uwF5h0A=;
- b=fOP0gUucLG1SOPQYpyFkm3t6x8T5XKZDPtsOIv3XlKdh6HJK0GRpDqmJ+ACiVsFCUX
- Sm0E2xPLVi2QjxIdDtxgNEKanMZ5nPlFrB1up/hnkDlFAfqmmvNF51S7iZ1egJvCNa4Z
- 2e4lHyc/8oIxNnw18j20iS2f8N4dGCeL52A6Y5zEjwp2XLzl6VroVI+jNtjmSSMhafpZ
- x0xtPFZDCvQMN/m0EZUydmUc3L3cGJdJoO85uwjXnVMxYQYS1zkk9Kq+oSLgh9QJ2VqJ
- DTYUec3sia0uGuo3aJmgLqXAJaqpRDG1AJNRqzqPKyJGOEZXT6EUt30JeIaBw71WXvlc
- G4RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678732318;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vZ2lCdhoxWj/iJLpwwtuJdyIKt6gN/U0KcC6uwF5h0A=;
- b=O7hKSN6bQSjZTZRfpIdmN3IzzAeZvUqu0Hl7oZDCaE0vqCExV5PWm/q8BHh9uFS5zC
- CqdW8VWTQ4a8bvooipUip9B84zNc6QlXx4GY3UQtwI3frx/8JU1x5mccP43vyeyH19gF
- 1sqNDEqRbI1UJSkzdwz3UkfYbCjfrz97qd9sX+p8FkbWSL5hxlZ58g5ctq9VwKMJyKSy
- klwrS4PXvv9LILSCAMVFEIhfJDksG2pczQaLHL6+Cse+wAekgVG9Nqw5+VwMNPgUO4vl
- j2vO0475sjvVRthiMMXUVV5RyUNrnpniomt0P6V72ec4vPV45TXxTJvaMXkLRN2QB5yD
- rtKg==
-X-Gm-Message-State: AO0yUKWfLIDISs+9ftuZIactDp6BnrOIQkJXQYllub8ANNUf9xeHXvTN
- dRlI6bsXBNHVGjDb/TDA6CinXw==
-X-Google-Smtp-Source: AK7set/zMfOCiEtOl7NP0aN1cd18g6EgGqlxvhU/fQcGbLb8WZe5FRMpnpFdYcJZ5BR+K2zXyVDVBQ==
-X-Received: by 2002:ac2:51ad:0:b0:4ac:b7bf:697a with SMTP id
- f13-20020ac251ad000000b004acb7bf697amr3698950lfk.4.1678732318544; 
- Mon, 13 Mar 2023 11:31:58 -0700 (PDT)
-Received: from [192.168.200.206] (83.11.21.111.ipv4.supernova.orange.pl.
- [83.11.21.111]) by smtp.gmail.com with ESMTPSA id
- e19-20020ac25473000000b004e83f386878sm51266lfn.153.2023.03.13.11.31.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 11:31:58 -0700 (PDT)
-Message-ID: <a828d259-3682-958f-1bd5-cfb571554df5@linaro.org>
-Date: Mon, 13 Mar 2023 19:31:57 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbmzm-0003LH-Dt
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:34:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbmzk-0007ft-DB
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:34:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678732441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=F1i31qbkZv6CWPwg+wMSbJJ8+M5IWZ7hR8df6ZgJtNo=;
+ b=Bp25GwfGk/yt51Yolcjcs0nvP8UEVDaMZxcC1yTSeoaLn2JxKjqfMsTGVsyHKgltgzmTU8
+ l477OL7LPFd9LWzruRUEPDKG6jjezFZ4NicjJflTfC+7UkukPcegctpTnzLyEl7fH4ZQUN
+ DGTMb5y6CecPi2NXqegrUgcIJI2I4cc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-652-XAPvAUu2NB6N8bm7guz-BA-1; Mon, 13 Mar 2023 14:33:56 -0400
+X-MC-Unique: XAPvAUu2NB6N8bm7guz-BA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80DC429AA3B7;
+ Mon, 13 Mar 2023 18:33:55 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE2640C845F;
+ Mon, 13 Mar 2023 18:33:54 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Marek Vasut <marek.vasut@gmail.com>
+Subject: [PATCH] MAINTAINERS: Mark the Nios II CPU as orphan
+Date: Mon, 13 Mar 2023 19:33:52 +0100
+Message-Id: <20230313183352.274744-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4] target/arm: Add Neoverse-N1 registers
-Content-Language: pl-PL, en-GB, en-HK
-To: Chen Baozi <chenbaozi@phytium.com.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-References: <20230313033936.585669-1-chenbaozi@phytium.com.cn>
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-In-Reply-To: <20230313033936.585669-1-chenbaozi@phytium.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-lf1-x130.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,23 +75,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-W dniu 13.03.2023 o 04:39, Chen Baozi pisze:
-> Add implementation defined registers for neoverse-n1 which
-> would be accessed by TF-A. Since there is no DSU in Qemu,
-> CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
-> 
-> Signed-off-by: Chen Baozi<chenbaozi@phytium.com.cn>
+Marek and Chris haven't been active for Nios II since years
+(the last time seems to have been in 2017), and we've got
+unhandled severe Nios II bug tickets in the bug tracker since
+a long time, so to avoid wrong expectations of people who are
+looking at the MAINTAINERS file, it's maybe best to mark the
+Nios II entry as orphan nowadays.
 
-Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Suggested by Richard here:
+ https://lore.kernel.org/qemu-devel/cb2e92b7-40bb-4975-290d-6321c5574365@linaro.org/
+ 
+ And bugs like this sound like the linux-user target is in a bad shape, too:
+ https://gitlab.com/qemu-project/qemu/-/issues/261
 
-~ # cat /proc/cpuinfo
-processor       : 0
-BogoMIPS        : 125.00
-Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics 
-fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp ssbs
-CPU implementer : 0x41
-CPU architecture: 8
-CPU variant     : 0x4
-CPU part        : 0xd0c
-CPU revision    : 1
+ See also:
+ https://bugs.launchpad.net/qemu/+bug/1791796 (comment 3)
+
+ ... nobody tried to fix nios2 linux-user in years, maybe we should
+ deprecate it?
+
+ MAINTAINERS | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 95c957d587..9780430626 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -257,9 +257,9 @@ F: docs/system/cpu-models-mips.rst.inc
+ F: tests/tcg/mips/
+ 
+ NiosII TCG CPUs
+-M: Chris Wulff <crwulff@gmail.com>
+-M: Marek Vasut <marex@denx.de>
+-S: Maintained
++R: Chris Wulff <crwulff@gmail.com>
++R: Marek Vasut <marex@denx.de>
++S: Orphan
+ F: target/nios2/
+ F: hw/nios2/
+ F: disas/nios2.c
+-- 
+2.31.1
+
 
