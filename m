@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75076B737F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050086B7385
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfAO-0002OO-CZ; Mon, 13 Mar 2023 06:12:32 -0400
+	id 1pbfAa-0002al-0d; Mon, 13 Mar 2023 06:12:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfAM-0002OB-OA
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:12:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pbfAX-0002Yc-R8
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:12:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfAL-0004Bh-3j
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:12:30 -0400
+ id 1pbfAW-0004EP-4i
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:12:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678702348;
+ s=mimecast20190719; t=1678702359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O4igNrjk9KD9RDMi1RSLZacQpI7Uofe/DCpbxepvU14=;
- b=N7xMn/9SfZgFwz3zqqKwc36aUZQD4qyOXofgf0LAbCXifpWhxHmuFhLfABOVnB5hafnIbv
- OJRilO7AEhPHnqqQm3LgCtcLNttNijoIUJ7ZTTfPDcsn7mthAN+t3S+cqhIl2dPjvz4wm5
- sUAbHP205nJkQfcTrc6yGG5T8TMGHws=
+ bh=Um3n+CTQRxL3PnrARU7ObOzyxLsrZaGrEUDVOetGQuo=;
+ b=QbbWaOK55sxdvOFfGZfRc3s2NpbHAFuqO5a5ZMSwIMNlbliTDqlUvZldFhLtCjsg32UW0P
+ yiK/vE/khDJf8/QCRIw8G27mANK2szrISAx4wAdqismnTyiTwx6BDgr8qCpMDs/ZkEIOW7
+ DMvGX8dcrG960BY7QtrCfkIhM2QP/hk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-9SFT5_G1MIm33FwC-sdRwQ-1; Mon, 13 Mar 2023 06:12:24 -0400
-X-MC-Unique: 9SFT5_G1MIm33FwC-sdRwQ-1
+ us-mta-482-k_yfAqvSPkC9-IDnN_peGg-1; Mon, 13 Mar 2023 06:12:28 -0400
+X-MC-Unique: k_yfAqvSPkC9-IDnN_peGg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7538685A5B1;
- Mon, 13 Mar 2023 10:12:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1899B811E9C;
+ Mon, 13 Mar 2023 10:12:28 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AA07C090DC;
- Mon, 13 Mar 2023 10:12:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51AEDC15A0B;
+ Mon, 13 Mar 2023 10:12:27 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -49,16 +49,17 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 03/18] audio/dbus: there are no sender for p2p mode
-Date: Mon, 13 Mar 2023 14:11:52 +0400
-Message-Id: <20230313101207.375125-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 04/18] ui/dbus: set mouse is-absolute during console
+ creation
+Date: Mon, 13 Mar 2023 14:11:53 +0400
+Message-Id: <20230313101207.375125-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 References: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,78 +87,48 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- audio/audio_int.h | 2 +-
- audio/dbusaudio.c | 7 +++++--
- ui/dbus.c         | 2 +-
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ ui/dbus-console.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index d51d63f08d..e57ff50155 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -143,7 +143,7 @@ struct audio_driver {
-     void *(*init) (Audiodev *);
-     void (*fini) (void *);
- #ifdef CONFIG_GIO
--    void (*set_dbus_server) (AudioState *s, GDBusObjectManagerServer *manager);
-+    void (*set_dbus_server) (AudioState *s, GDBusObjectManagerServer *manager, bool p2p);
- #endif
-     struct audio_pcm_ops *pcm_ops;
-     int can_be_default;
-diff --git a/audio/dbusaudio.c b/audio/dbusaudio.c
-index 722df0355e..fece74f78c 100644
---- a/audio/dbusaudio.c
-+++ b/audio/dbusaudio.c
-@@ -43,6 +43,7 @@
- 
- typedef struct DBusAudio {
-     GDBusObjectManagerServer *server;
-+    bool p2p;
-     GDBusObjectSkeleton *audio;
-     QemuDBusDisplay1Audio *iface;
-     GHashTable *out_listeners;
-@@ -448,7 +449,8 @@ dbus_audio_register_listener(AudioState *s,
-                              bool out)
- {
-     DBusAudio *da = s->drv_opaque;
--    const char *sender = g_dbus_method_invocation_get_sender(invocation);
-+    const char *sender =
-+        da->p2p ? "p2p" : g_dbus_method_invocation_get_sender(invocation);
-     g_autoptr(GDBusConnection) listener_conn = NULL;
-     g_autoptr(GError) err = NULL;
-     g_autoptr(GSocket) socket = NULL;
-@@ -591,7 +593,7 @@ dbus_audio_register_in_listener(AudioState *s,
+diff --git a/ui/dbus-console.c b/ui/dbus-console.c
+index 0bfaa2298d..f77bc49d2e 100644
+--- a/ui/dbus-console.c
++++ b/ui/dbus-console.c
+@@ -411,15 +411,21 @@ dbus_mouse_release(DBusDisplayConsole *ddc,
+     return DBUS_METHOD_INVOCATION_HANDLED;
  }
  
++static void
++dbus_mouse_update_is_absolute(DBusDisplayConsole *ddc)
++{
++    g_object_set(ddc->iface_mouse,
++                 "is-absolute", qemu_input_is_absolute(),
++                 NULL);
++}
++
  static void
--dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server)
-+dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server, bool p2p)
+ dbus_mouse_mode_change(Notifier *notify, void *data)
  {
-     DBusAudio *da = s->drv_opaque;
+     DBusDisplayConsole *ddc =
+         container_of(notify, DBusDisplayConsole, mouse_mode_notifier);
  
-@@ -599,6 +601,7 @@ dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server)
-     g_assert(!da->server);
+-    g_object_set(ddc->iface_mouse,
+-                 "is-absolute", qemu_input_is_absolute(),
+-                 NULL);
++    dbus_mouse_update_is_absolute(ddc);
+ }
  
-     da->server = g_object_ref(server);
-+    da->p2p = p2p;
+ int dbus_display_console_get_index(DBusDisplayConsole *ddc)
+@@ -492,6 +498,7 @@ dbus_display_console_new(DBusDisplay *display, QemuConsole *con)
+     register_displaychangelistener(&ddc->dcl);
+     ddc->mouse_mode_notifier.notify = dbus_mouse_mode_change;
+     qemu_add_mouse_mode_change_notifier(&ddc->mouse_mode_notifier);
++    dbus_mouse_update_is_absolute(ddc);
  
-     da->audio = g_dbus_object_skeleton_new(DBUS_DISPLAY1_AUDIO_PATH);
-     da->iface = qemu_dbus_display1_audio_skeleton_new();
-diff --git a/ui/dbus.c b/ui/dbus.c
-index f2dcba03d0..f529928f0b 100644
---- a/ui/dbus.c
-+++ b/ui/dbus.c
-@@ -220,7 +220,7 @@ dbus_display_complete(UserCreatable *uc, Error **errp)
-                        dd->audiodev);
-             return;
-         }
--        audio_state->drv->set_dbus_server(audio_state, dd->server);
-+        audio_state->drv->set_dbus_server(audio_state, dd->server, dd->p2p);
-     }
- 
-     consoles = g_array_new(FALSE, FALSE, sizeof(guint32));
+     return ddc;
+ }
 -- 
 2.39.2
 
