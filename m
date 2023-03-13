@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B4A6B7946
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 14:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C176B798C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 14:55:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbiSy-0005l1-Tk; Mon, 13 Mar 2023 09:43:56 -0400
+	id 1pbicJ-0000mT-Ry; Mon, 13 Mar 2023 09:53:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbiSx-0005kt-IS
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:43:55 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbiSv-0001Lb-Sg
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:43:55 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- e15-20020a17090ac20f00b0023d1b009f52so1633833pjt.2
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 06:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678715032;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FZJS/XyIxoHsRnjaPL71DbOkYhjrANl+x3jNEbac4T8=;
- b=GXxcNK99F4PHucBAeheCSoOXZua4HQA50xlZjUDfutmmZsMmb4OMUcXME1a9TE4npK
- CuTWje42Kk2jBast6DN8dWcK0uV81aKGWiHnUZYL8yxT5D7jhlO7fsZdVclwSluhTAUn
- JC9sIQ343Vfdip8gnQ/gpLUTHNyhmD2SCg4yH5razl6/363jafEhFqxWWtd2Y3opZMkh
- XQXMGa0ZIkWgj7oVr0l6LE7/kbLLNdlEYYSckbqi8cWjCD6ZTzNWCSNBJXszWsPx/F4g
- Lf/3YjP+ZoZGsHLekxzIC54/lChyrN/PFvVlmJ1tP7x5AU8Svc/HYSyJrN7gewk/Wd2S
- PfBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678715032;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FZJS/XyIxoHsRnjaPL71DbOkYhjrANl+x3jNEbac4T8=;
- b=irTGnEqxlTOepmRp0ZN11W8TfOt/FuLMwSQ1hX13akNWtrrr7BJTbQEdYdH/cp57g4
- eTHNyCcYmOEbXA5SNUCh06j9pcFXUaq1qLSxv1XHXcikoiZMYPacu4DTYb2SZ7jTaih9
- YulBxnsq8yaO7Inx2NfI9Pb04IJAsUCq5Joqk/hBC9gM0zMr/0+Nysp2QYPwdtWvvqiw
- Di6efigtKb/YHg/zY0Wj5gRYb7V2xQ8WoEvuuBjk+qALYU5my7W/ugwsiVYibuOnWf0D
- rdqUPrCKtDPVbTgs9uKqMkJXj9KNwQnvqkCtz4GlcGSP3otRVVX/eU6P6jCRM8OaUVXl
- QeJg==
-X-Gm-Message-State: AO0yUKUq33QMVYJqqS+zc7JhW8xzfRdEVltHW1RIjKtJTfIbDe95LHwT
- Tl+o0SDkol6kZu3oPueDn0yPjW/ebjJ33Vh+hI6nNw==
-X-Google-Smtp-Source: AK7set/C+qSWU/cQekN6U0Bg3T+auw+UZcqnmG4s9EmoS9bl2BPJpcALsrIOfXjKWClHuOZgfMsKnKz6IXXhJeCHtAE=
-X-Received: by 2002:a17:903:2890:b0:1a0:419a:dc31 with SMTP id
- ku16-20020a170903289000b001a0419adc31mr1694694plb.9.1678715032222; Mon, 13
- Mar 2023 06:43:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pbicI-0000mL-JI
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:53:34 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pbicG-00030L-PZ
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:53:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ZLKsDDoYKsRsd5lhq7DIm3pbarGDeByQy/kyGjrqANg=; b=og46EmsJ1QxrLMthnEIv5nodrm
+ UCEJN7IbHddflFvm+NZ9dculYNfc+DhkFpGYVUnj0bHkcJwapXUByRMgJf78ToxpUwTB1GlYTl0e/
+ kuDPXnSe0F7ogxgv12hvEiBV3MJRN5W5ePFkoCbBgvi3rueNkml3hjSo7dXmA/K1wFffhdtVVDXzB
+ h4mY7MiFi+LnRaxFsVmXpMRkqffKC0/eCY5RZ/CdNA/WsCD7GBW00X0F6tqPvS6poTW4nNBtu2Fan
+ uvxcp2gJDUYjLRh+A90RXXavVAi78iA8SrAU2w5qogu0Ze1CTWQEWw70MIH5eq5oCGZaWmObmlj0W
+ TUlIUqvVk6NDbly3h/Fbb56fCTn78Ku1XkjMg5ZkFYAo0T8W6oc6qxxDqQN73KvtBAPQu0fjUnzMr
+ YGKYDnYYjO1OyJKnw6gpNBJRqA/mZoXls9yZKjiarg2kz8/26oJbBtt4RQj2dIcTBrjILXfnr6HW9
+ 0B6Q9RJ4aBP4zV5FYwmsaRNxKtYVrMHKV218UXiVSA2bWFPiOfbqV1dXScD3k7YBNChaO2PvahsPL
+ fZv51CQKNzDCYzPr541R9CduJY6VPJhNijlz77ljpxh5l1PiUMBgXJDm1D+skCF+Zj7XDVbuK3vwv
+ SIbue+rRgWTbVYLPP00FMqrSF7QQiQLwwxA+KFFWo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] ui/cocoa: user friendly characters for release mouse
+Date: Mon, 13 Mar 2023 14:53:29 +0100
+Message-ID: <1983408.hr7SJzzTYm@silver>
+In-Reply-To: <a04086d1-474c-8fcb-025d-27bc8b847fa8@eik.bme.hu>
+References: <E1pAClj-0003Jo-OB@lizzy.crudebyte.com> <4105880.gIe6kQ2GIU@silver>
+ <a04086d1-474c-8fcb-025d-27bc8b847fa8@eik.bme.hu>
 MIME-Version: 1.0
-References: <20230313110126.383392-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20230313110126.383392-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Mar 2023 13:43:40 +0000
-Message-ID: <CAFEAcA_VmZP=JSr7i0nMGFXPwUKKNrfajK1ZJ-2nSv0nONGLsw@mail.gmail.com>
-Subject: Re: [PULL 00/18] UI patches
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,51 +70,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Mar 2023 at 11:01, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The following changes since commit 29c8a9e31a982874ce4e2c15f2bf82d5f8dc35=
-17:
->
->   Merge tag 'linux-user-for-8.0-pull-request' of https://gitlab.com/laure=
-nt_vivier/qemu into staging (2023-03-12 10:57:00 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/marcandre.lureau/qemu.git tags/display-pull-request
->
-> for you to fetch changes up to 8af2d147cad9d150f977191ebef55f4ad6d01560:
->
->   ui/dbus: restrict opengl to gbm-enabled config (2023-03-13 14:58:57 +04=
-00)
->
-> ----------------------------------------------------------------
-> ui: dbus & misc fixes
->
+On Monday, March 13, 2023 2:42:36 PM CET BALATON Zoltan wrote:
+> On Mon, 13 Mar 2023, Christian Schoenebeck wrote:
+> > On Monday, February 27, 2023 12:28:02 PM CET Christian Schoenebeck wrote:
+> >> On Tuesday, December 27, 2022 5:15:31 PM CET Christian Schoenebeck wrote:
+> >>> While mouse is grabbed, window title contains a hint for the user what
+> >>> keyboard keys to press to release the mouse. Make that hint text a bit
+> >>> more user friendly for a Mac user:
+> >>>
+> >>>  - Replace "Ctrl" and "Alt" by appropriate symbols for those keyboard
+> >>>    keys typically displayed for them on a Mac (encode those symbols by
+> >>>    using UTF-8 characters).
+> >>>
+> >>>  - Drop " + " in between the keys, as that's not common on macOS for
+> >>>    documenting keyboard shortcuts.
+> >>>
+> >>>  - Convert lower case "g" to upper case "G", as that's common on macOS.
+> >>>
+> >>>  - Add one additional space at start and end of key stroke set, to
+> >>>    visually separate the key strokes from the rest of the text.
+> >>>
+> >>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> >>> ---
+> >>
+> >> Ping
+> >
+> > Gerd,
+> >
+> > given that I got a RB and TB from Philippe, would you queue this minor macOS
+> > patch please?
+> 
+> Isn't this already merged as 23bdd0de97a18 ?
 
-This breaks the avocado vnc tests:
-https://gitlab.com/qemu-project/qemu/-/jobs/3922220042
-https://gitlab.com/qemu-project/qemu/-/jobs/3922220038
-https://gitlab.com/qemu-project/qemu/-/jobs/3922517034
+Ah yes, thanks! Sorry for the noise!
 
-(205/218) tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password=
-:
-ERROR: ConnectError: Failed to establish session: EOFError\n Exit
-code: -11\n Command: ./qemu-system-x86_64 -display none -vga none
--chardev socket,id=3Dmon,fd=3D15 -mon chardev=3Dmon,mode=3Dcontrol -machine
-none -nodefaults -S -vnc :0\n Output: \n (0.39 s)
-(206/218) tests/avocado/vnc.py:Vnc.test_change_password: ERROR:
-ConnectError: Failed to establish session: EOFError\n Exit code: -11\n
-Command: ./qemu-system-x86_64 -display none -vga none -chardev
-socket,id=3Dmon,fd=3D15 -mon chardev=3Dmon,mode=3Dcontrol -machine none
--nodefaults -S -vnc :0,password=3Don\n Output: \n (0.18 s)
-(207/218) tests/avocado/vnc.py:Vnc.test_change_listen: ERROR:
-ConnectError: Failed to establish session: EOFError\n Exit code: -11\n
-Command: ./qemu-system-x86_64 -display none -vga none -chardev
-socket,id=3Dmon,fd=3D15 -mon chardev=3Dmon,mode=3Dcontrol -machine none
--nodefaults -S -vnc 127.0.0.1:26868\n Output: \n (0.18 s)
+Best regards,
+Christian Schoenebeck
 
-thanks
--- PMM
+
 
