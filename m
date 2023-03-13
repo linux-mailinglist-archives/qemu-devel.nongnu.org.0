@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866916B7FFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 19:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08526B80C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 19:33:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbmbF-0004yq-4L; Mon, 13 Mar 2023 14:08:45 -0400
+	id 1pbmxm-0001pK-Cg; Mon, 13 Mar 2023 14:32:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbmb7-0004uG-Ln
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:08:39 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbmb6-0003rZ-33
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 14:08:37 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id y11so13936828plg.1
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 11:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678730911;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UchdR41GGGsjV9M/bLgsRU97vcok19P93n1AF7kvcOo=;
- b=d63cBzDj9gGVqCJvoVn52/LWbOQ5/drzRMVva/zqI5SWJJh7sE0RRddLvaA2It2zwD
- +72soNm+AXgwokTL7O/AQfUctr5LU4ZKNqCjSuwEzfWPOV51Qat9CZkaHO4mD77IP4Ku
- Srf1Scq8bvJSGUZWVKlfLwujmjpaNIS3Gfo53ZvGPZHEo5KZ+r146KTIm0vLZAqNtYRS
- Q3DUaizU8o1Fp/xyviLFQ8POuBqpCoFDvNY+Y9Ymk7h9MB1WR6in52A5oriKzhVKzZuQ
- 86W07dbNogmEZ0dp+ngLjgRsm1OlezaoAYY7Tl94C329klp3wxx6TMIKCTbFV8Z7PiSc
- RF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678730911;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UchdR41GGGsjV9M/bLgsRU97vcok19P93n1AF7kvcOo=;
- b=dpPENCHa80xrkBPq6qvBt7m/hE98E0KX2FZFPyzmu+fgSiRDbI+NXtm/y3y26h8VNE
- VDfSk7lrQE5hYUeoN0/0iypaiNbRGcz7yXYrwzhXnv/vFXtEwnigkEmwfsZ8p2VsB1KP
- L8EmJRUpXI37Zu58Z56K+NVTqY+Vm83I1nqp5qi8StU2C8+cr0ve0Bbm5C8kvY+KLoys
- sVedijYkmMArTecfaNR6FV+uVz2qCZN8ioUwtrwor4CiPsQuPYzsUCbDRE8skzAns+q1
- VJk78faXs1t5r+TRv3jNmmvlDCyw341eVh7Z/HGWChBPEBsAnVckhVLyfT+QgjVB5UVu
- 646g==
-X-Gm-Message-State: AO0yUKU+Mfbuje20Pm578juVZBTu89Dzc8ZmpCrpTphyYz2LjgFx9Niq
- tj9kHvfCYVP2eg2dl3u8Yu18pxNEQbzO+Sn/CAZe/Q==
-X-Google-Smtp-Source: AK7set8EqpIA0Xay2r2SwSJSxruU56ZSogFvvWn5nHaxx820dFQ5YUtxo0Ys4nq4NvI001JM9P7uBmelupR1P98QhlM=
-X-Received: by 2002:a17:903:1388:b0:1a0:4be5:ccea with SMTP id
- jx8-20020a170903138800b001a04be5cceamr1480759plb.9.1678730911035; Mon, 13 Mar
- 2023 11:08:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pbmxk-0001p1-Pn; Mon, 13 Mar 2023 14:32:00 -0400
+Received: from mout.kundenserver.de ([217.72.192.74])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pbmxi-0007GT-OY; Mon, 13 Mar 2023 14:32:00 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MA7Su-1phnVy3FKk-00Bd7T; Mon, 13 Mar 2023 19:31:44 +0100
+Message-ID: <e883606b-7559-bc1e-3cee-0d129ccc648c@vivier.eu>
+Date: Mon, 13 Mar 2023 19:31:43 +0100
 MIME-Version: 1.0
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
- <20230310103123.2118519-11-alex.bennee@linaro.org>
- <c57c82bf-1b05-f29b-80fa-04a7279b5d39@redhat.com>
- <CAFEAcA94DQ9rhCwhXHUKQQG6QdWTVOLNEUcKk12t=_WVMtG--A@mail.gmail.com>
- <b23fcfab-cc1b-a861-94ed-217af69f1ef8@redhat.com>
- <CAFEAcA9gdHi0QV1zj7nMNz1=NQjPyMisqU_Wqdc-HaLZg45HYA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9gdHi0QV1zj7nMNz1=NQjPyMisqU_Wqdc-HaLZg45HYA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Mar 2023 18:08:19 +0000
-Message-ID: <CAFEAcA_-zbfHkHQqQHyv9EESkv1Xo2=exs2iGvZa_Up+9UPajw@mail.gmail.com>
-Subject: Re: [PATCH 10/11] include/exec: fix kerneldoc definition
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] MAINTAINERS: update my email address for the clock
+ framework
+Content-Language: fr
+To: Damien Hedde <damien.hedde@dahe.fr>, qemu-devel@nongnu.org
+Cc: luc@lmichel.fr, mark.burton@qti.qualcomm.com, philmd@linaro.org,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <20230213105227.2357-1-damien.hedde@dahe.fr>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20230213105227.2357-1-damien.hedde@dahe.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:zega/+qjlXSck5SMhg8E5O9gJLeMJfra3kSxUdRr433N4a8x6nv
+ I9bNRbwzqV4/uBmzHaB6U+BzLM937bGib5Jfwx1JGdUUMxuk1ATKiCUOomrCMcDTd3vwMy0
+ E/SguQnTQbcH2FshEWNVFJ5hvILqwbP9iVZHTATl2XO2yvXSVY/1F5Q+zIxvI8HJBtCqx8J
+ F12I/TLGqGGvNGintPzsg==
+UI-OutboundReport: notjunk:1;M01:P0:HLNdrVlkpxA=;sKTvaU7d9A0Tcrd2Gs/pdOZ0p7U
+ uk6DsHurgSqxMuSijp0JrZB2CO1HHgEnn/nzwD9Oxp2KUhPU6BpSvMA2z7zRk0Dsii73afYnM
+ qO8mh4FwIL6h8Dm4uOD09fS69sG6DXwdJH7t44S6cjFGrmElU2DZCSFeuR3JnfxujTADyixdr
+ yrCzcpUkca5SexcmnmacmtIKkAOoiSbnX5EO9lb8qnKFaXPEO15RS/EnxoHdXV+3eLkDUUJWc
+ 0/g9Bpdiws2ixL+UylL0dCt3evxDV1isK156cLQgqCbXXhG5V5wN2MpUpepL6TvzpssRhIUYB
+ UAE0GmqgJU5NMZOiS9/+r2dsvpo4iptj0VNtngBHRNm4UFnbbHpHLYKWdAmj76Tm6YBadQ0cM
+ XE5BZwZCUPIUhVbr4LZufGVI8c+u1kTvQVjWj10M1YDPZ7AOttcwsuaWCHTSFL2gOcuC6p0YG
+ jR6tiuRDVtBoxvIyvxx8pKNlTj6dWS712URQcmXPoZyk8/a4AbpPxCCe7PS4MQUQ9WyYLpZRH
+ 64hAssFGSLnYCBnasahOSAmHqzKRnQVZKKF9hmRcATN0ou3uDV63Lb1PpN2JzYp/qGfvqBmOh
+ p8a4stIsX9cRQ/BmXyW4uNlczuuSOa3isd3bAQ53qO7Vrfpi2zj50IBZ+YquNtwOuaW1b4Y0m
+ mIUQ5oZXcQnHWXaAR2FLOh+ViAu08xG1KDbg4leyGw==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,36 +73,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Mar 2023 at 17:30, Peter Maydell <peter.maydell@linaro.org> wrote:
-> So I think the problem here is not with Sphinx, but with the
-> kernel-doc script. That script has an option "-Werror" which
-> turns its warnings into errors, but our Sphinx extension
-> docs/sphinx/kerneldoc.py does not set it. I think we need to
-> have the extension say "if Sphinx was run with -W then
-> pass this flag along" (hopefully Sphinx lets us find out...)
+Le 13/02/2023 à 11:53, Damien Hedde a écrit :
+> Also update mailmap
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@dahe.fr>
+> ---
+>   MAINTAINERS | 2 +-
+>   .mailmap    | 1 +
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96e25f62ac..ceeda49d49 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3321,7 +3321,7 @@ F: .gitlab-ci.d/opensbi/
+> 
+>   Clock framework
+>   M: Luc Michel <luc@lmichel.fr>
+> -R: Damien Hedde <damien.hedde@greensocs.com>
+> +R: Damien Hedde <damien.hedde@dahe.fr>
+>   S: Maintained
+>   F: include/hw/clock.h
+>   F: include/hw/qdev-clock.h
+> diff --git a/.mailmap b/.mailmap
+> index fad2aff5aa..7677047950 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -56,6 +56,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+>   Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+>   Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+>   Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+> +Damien Hedde <damien.hedde@dahe.fr> <damien.hedde@greensocs.com>
+>   Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+>   Frederic Konrad <konrad.frederic@yahoo.fr> <fred.konrad@greensocs.com>
+>   Frederic Konrad <konrad.frederic@yahoo.fr> <konrad@adacore.com>
+> --
+> 2.37.0
+> 
+> 
+> 
 
-This works:
+Applied to my trivial-patches branch.
 
---- a/docs/sphinx/kerneldoc.py
-+++ b/docs/sphinx/kerneldoc.py
-@@ -74,6 +74,10 @@ def run(self):
-         # Sphinx versions
-         cmd += ['-sphinx-version', sphinx.__version__]
+Thanks,
+Laurent
 
-+        # Pass through the warnings-as-errors flag if appropriate
-+        if env.app.warningiserror:
-+            cmd += ['-Werror']
-+
-         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
-         export_file_patterns = []
-
-
-but I think it's prodding undocumented Sphinx internals, so
-I'm going to check whether there's a better way to do this.
-It might be more robust to have meson create a commandline
-with a -Dkerneldoc_werror option that we then pick up in
-the extension code, rather than trying to find out whether
--W was passed.
-
--- PMM
 
