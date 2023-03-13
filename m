@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B2A6B7C04
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EE06B7C06
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:32:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbk8Q-0007MV-0z; Mon, 13 Mar 2023 11:30:50 -0400
+	id 1pbk8V-0007N0-Uk; Mon, 13 Mar 2023 11:30:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8O-0007ML-LA
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:48 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8U-0007Ms-Iv
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:54 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8M-0003db-W1
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:48 -0400
-Received: by mail-wr1-x435.google.com with SMTP id p4so5522047wre.11
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:30:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8S-0003fJ-WD
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:54 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso8184083wmo.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678721445;
+ d=linaro.org; s=google; t=1678721451;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=21p1OPqj5Y9xihE9S2k5XwzFVa4uH1rFd/zKa50jrlw=;
- b=lxe3TxWwwtTpm4bE8wBD8UyNy/G+8c9GKwu832JVVqD8tdIDHR8HCWarASYLtnfDgM
- Z558xzGF72KY+sg2XnGTgmFZrUkWGGSPbqDFPsNmDvQUMw4MLjkm1BLWXi5kjxEH3JcY
- pcZUWHGhm1d89JyHJj24A1k/V919M6kC4iY3T49G/io+eZG4J4YlcNLFfPsit+C0QYb2
- dVezb4rc0fJwlMPFG7Xd/Lv5Rg5eMTVn2DOrn6j+WiEh6ujm8ID+uRfmdzNKvV9BUu62
- UfG9A3sW8gsCsABTjEw82uUK+c8Qy3pcE9jeH+HEqwNiiSjTrR38Z1V30LtcozNkIzto
- UVFA==
+ bh=N5CtT69IrDpUWsZ2cEH8Q0Ev0Hw6M0HQO47n0CmUmu0=;
+ b=Rjo4njV130v00sJkhialJyAt29GOMY5rwvNmQA6K5gfOBs7ej03QjycW84cOdFNzMa
+ NPZD6xiJp4UuRLcwtRGurBwP256hwbMD3pFq0YKZCI9zywTC19Ux1AnqyQzwhBUR5Fzm
+ 9guoPZzKDaIfpGTe1yFgtWh5jnMXamdq2HnLDmP5ijR1I1gVIs+z1seNmjRwZS9et1pS
+ Z9EVi7WhTdJy9Ox58sqp8b4R1RLkeMLyH2Z/XsbFYwY67+tmlGzjaC/A+4Y7gwYz0a8V
+ Y5V0KjQpj0ZzvD3PUfI6Uo9zzc3HTtEdnJZOGn6WUot5KPjBI4eVnP3jyE3EM1t02A8m
+ 47qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678721445;
+ d=1e100.net; s=20210112; t=1678721451;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=21p1OPqj5Y9xihE9S2k5XwzFVa4uH1rFd/zKa50jrlw=;
- b=nNnoiUGDbO4tekzT4rREpev7dEa3RKsczIhS528vPOKXwHPFlzBGwtSnTgWaxYtKJM
- 3JL7A2Aor68glleeoD4ItLheT1uL5rZSLH7p3NO21/cUw7ikGslOAjEJ48uGa269Ag3H
- sp/hSbpTWrVIrlkDqksqtPmnRmSfbYRy77BuyWdbelEBt/L0aJy7UyibkaARdabr3fZq
- 7VBivcqqIU0E1bs4jEzs2eaJ1LDCP7RHPBOzsq3CsVLQu+2mqnESE7rh3D0YXzK1qZ+F
- at7xgqcXyI6JUUZif2ug+mD71u5Cl9HUnQE7LTkDiWzjKEyNRnrdI9Dw40WGz9SrKHt5
- 2QHA==
-X-Gm-Message-State: AO0yUKXc6DQxwyO/Vnl5gXAkQWcFsl16vanVzQlsbUi3ZFpY629MnmMb
- 0uvxuUITfTnY4SK7m8X/K8RDOQ==
-X-Google-Smtp-Source: AK7set+w9c4LJ7JVhW7ATAm6X7x/LdXnXMwT7ykbWUKb17qZT7JOyD7TnqjYiYbMCZzUj9v+Ln1u5Q==
-X-Received: by 2002:a05:6000:1041:b0:2c7:604:52a1 with SMTP id
- c1-20020a056000104100b002c7060452a1mr22764340wrx.29.1678721445647; 
- Mon, 13 Mar 2023 08:30:45 -0700 (PDT)
+ bh=N5CtT69IrDpUWsZ2cEH8Q0Ev0Hw6M0HQO47n0CmUmu0=;
+ b=bSj6o8zm2C2iMh5afAN2vy2HBvmeWtW9f/OVoMpBMlYxivtssWr+YtyQ+4hg94nlO9
+ C2y1UyQR5hgcg3E8hgTwwjv9p0O1TlEv1esypgjLK/bQGfTxEVT+E0o6uVVD1WvI1OEx
+ ly0/INbUtCllsixNcuniBrXw+efCJ6OREUIpW2ykxfS35jJ/M3FdEKcbbUB0b2gSK9ge
+ hglRmptctUUTV7vVaUxtTa7iQhclmSbmuhEFIzvocbBRukiIY/XmKaM9Z+2Zg1/VnuRG
+ rWCZY8jRsaC/kDoElEol2zdrYDn1LqIYGaZbdcqUf89/9ld0zwVsbzSxXJrmr7neH3fw
+ ybvw==
+X-Gm-Message-State: AO0yUKWqcvoBKMzbV9Ihw/NwFgQB5yAvq0O8LPV4SESlDBu+GKY4ym5A
+ xJvwT3OdqZYHZY29Rn5nIenHsA==
+X-Google-Smtp-Source: AK7set9Jv/Iy/qOLRwQDYoFIzsjeiq28C4lGhOjYgUgwNIPFNvSNu7Nn48ppUkH0YPlJ+J9zebDaVA==
+X-Received: by 2002:a05:600c:3c8f:b0:3ea:f6c4:5f3d with SMTP id
+ bg15-20020a05600c3c8f00b003eaf6c45f3dmr11193646wmb.2.1678721451331; 
+ Mon, 13 Mar 2023 08:30:51 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s11-20020a5d4ecb000000b002c70851fdd8sm8155279wrv.75.2023.03.13.08.30.44
+ i5-20020a1c5405000000b003ed246f76a2sm107993wmb.1.2023.03.13.08.30.50
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Mar 2023 08:30:45 -0700 (PDT)
+ Mon, 13 Mar 2023 08:30:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Wei Huang <wei.huang2@amd.com>,
 	qemu-devel@nongnu.org
@@ -64,18 +65,18 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/6] hw/i386/amd_iommu: Explicit use of AMDVI_BASE_ADDR in
- amdvi_init
-Date: Mon, 13 Mar 2023 16:30:27 +0100
-Message-Id: <20230313153031.86107-3-philmd@linaro.org>
+Subject: [PATCH 3/6] hw/i386/amd_iommu: Remove intermediate AMDVIState::devid
+ field
+Date: Mon, 13 Mar 2023 16:30:28 +0100
+Message-Id: <20230313153031.86107-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230313153031.86107-1-philmd@linaro.org>
 References: <20230313153031.86107-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,34 +99,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-By accessing MemoryRegion internals, amdvi_init() gives the false
-idea that the PCI BAR can be modified. However this isn't true
-(at least the model isn't ready for that): the device is explicitly
-maps at the BAR at the fixed AMDVI_BASE_ADDR address in
-amdvi_sysbus_realize(). Since the SysBus API isn't designed to
-remap regions, directly use the fixed address in amdvi_init().
+AMDVIState::devid is only accessed by build_amd_iommu() which
+has access to the PCIDevice state. Directly get the property
+calling object_property_get_int() there.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/amd_iommu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/acpi-build.c | 4 +++-
+ hw/i386/amd_iommu.c  | 2 --
+ hw/i386/amd_iommu.h  | 2 --
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index ec857a117e..a27bc33956 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2395,7 +2395,9 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+     /* IVHD length */
+     build_append_int_noprefix(table_data, ivhd_table_len, 2);
+     /* DeviceID */
+-    build_append_int_noprefix(table_data, s->devid, 2);
++    build_append_int_noprefix(table_data,
++                              object_property_get_int(OBJECT(&s->pci), "addr",
++                                                      &error_abort), 2);
+     /* Capability offset */
+     build_append_int_noprefix(table_data, s->capab_offset, 2);
+     /* IOMMU base address */
 diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index bcd016f5c5..3813b341ec 100644
+index 3813b341ec..19f57e6318 100644
 --- a/hw/i386/amd_iommu.c
 +++ b/hw/i386/amd_iommu.c
-@@ -1519,9 +1519,9 @@ static void amdvi_init(AMDVIState *s)
+@@ -1513,7 +1513,6 @@ static void amdvi_init(AMDVIState *s)
+     /* reset device ident */
+     pci_config_set_vendor_id(s->pci.dev.config, PCI_VENDOR_ID_AMD);
+     pci_config_set_prog_interface(s->pci.dev.config, 00);
+-    pci_config_set_device_id(s->pci.dev.config, s->devid);
+     pci_config_set_class(s->pci.dev.config, 0x0806);
+ 
      /* reset AMDVI specific capabilities, all r/o */
-     pci_set_long(s->pci.dev.config + s->capab_offset, AMDVI_CAPAB_FEATURES);
-     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_BAR_LOW,
--                 s->mmio.addr & ~(0xffff0000));
-+                 AMDVI_BASE_ADDR & ~(0xffff0000));
-     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_BAR_HIGH,
--                (s->mmio.addr & ~(0xffff)) >> 16);
-+                (AMDVI_BASE_ADDR & ~(0xffff)) >> 16);
-     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_RANGE,
-                  0xff000000);
-     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_MISC, 0);
+@@ -1581,7 +1580,6 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
+     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, AMDVI_BASE_ADDR);
+     pci_setup_iommu(bus, amdvi_host_dma_iommu, s);
+-    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", &error_abort);
+     msi_init(&s->pci.dev, 0, 1, true, false, errp);
+     amdvi_init(s);
+ }
+diff --git a/hw/i386/amd_iommu.h b/hw/i386/amd_iommu.h
+index 79d38a3e41..5eccaad790 100644
+--- a/hw/i386/amd_iommu.h
++++ b/hw/i386/amd_iommu.h
+@@ -319,8 +319,6 @@ struct AMDVIState {
+ 
+     uint64_t mmio_addr;
+ 
+-    uint32_t devid;              /* auto-assigned devid          */
+-
+     bool enabled;                /* IOMMU enabled                */
+     bool ats_enabled;            /* address translation enabled  */
+     bool cmdbuf_enabled;         /* command buffer enabled       */
 -- 
 2.38.1
 
