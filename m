@@ -2,93 +2,171 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FF76B771F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 13:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D05D6B775E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 13:23:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgt5-0003Yh-N3; Mon, 13 Mar 2023 08:02:47 -0400
+	id 1pbhBZ-0000W4-IF; Mon, 13 Mar 2023 08:21:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ldoktor@redhat.com>)
- id 1pbgsx-0003Xn-JX
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 08:02:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1pbhBR-0000Vm-Tf
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 08:21:46 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ldoktor@redhat.com>)
- id 1pbgsu-0008DL-8f
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 08:02:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678708952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
- bh=AElG9ze1ZXDLGcLs6QB0ssuuuAsAFzzTCoqzSxcMX9o=;
- b=HLUX5MvSZ/yhQ6qa5g6MDY2/JzEoOdOy1H5FFkg9hI0sylyajGui/hqPfYVsusW+OePbZl
- exeezHHJNgdrMFB5u2/9gKbabJpF/3PmJv+zJA+atwFQ0yzxNZOPEBpUQ8xz5mB4chp112
- Wp0MaqS+Ec4jQWfSpPhM2C4LxKh6Grc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-2_kdWLFwObu0JZOBaSs2MQ-1; Mon, 13 Mar 2023 08:02:30 -0400
-X-MC-Unique: 2_kdWLFwObu0JZOBaSs2MQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E49622A5957C;
- Mon, 13 Mar 2023 12:02:29 +0000 (UTC)
-Received: from [10.45.224.62] (unknown [10.45.224.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06894400F5D;
- Mon, 13 Mar 2023 12:02:28 +0000 (UTC)
-Message-ID: <1bccb268-5583-0574-aaff-6d39b7def24d@redhat.com>
-Date: Mon, 13 Mar 2023 13:02:28 +0100
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1pbhBQ-00034d-0W
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 08:21:45 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32D00cm8008636; Mon, 13 Mar 2023 12:21:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=corp-2022-7-12;
+ bh=gaPeXRWPAASzqe2Tr7OR/UBUVOMI39cfkus50fqtMUU=;
+ b=cSd9MiOfpKAUrkRGXhnwgaT5iUVIwaz/g3HaB7iUOWDsp2DZEQRY9a+IYzo4KhQocV7V
+ mCKr6g6aaXJ/++bHod36QvgQVTVLlRb5+ABS85XEqAPESSMRUjptdXotyGUE8Z/LhYqJ
+ PIzCGTHGDcu8BYi+gndlDRzebUivNUoEqr1PTP9yJ3ZyMD12u+YD6/enI5mmlWVO3dM3
+ tuJI2W+fR8n3TiXsg4QpP29ggC6mfEiUi03J788fJdGjznNSjnWhKEEeRhl3eWig2x53
+ aOWm1E1IF2HOSu2tiBWjSv5rQdZq4qFgOWQjVkyG8FMUiV+1GKVU/u4VePEgb0MJHhH4 yQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p8g2dknb4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 13 Mar 2023 12:21:37 +0000
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 32DBFoOU025172; Mon, 13 Mar 2023 12:21:36 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2104.outbound.protection.outlook.com [104.47.58.104])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3p8g34jee3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 13 Mar 2023 12:21:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FDWe0Z85tOaC+uyh4bUeEEm36TjK3BMbKzZhW5eLS0gogLWxo/tMV7ra036vyAIzPMhIkuboI07aoEcc5SWEjcgVxweCY7jgB43qLY8kNDA9PlTH09EomTGhA8LRDuP+r9y+g62VipAteS98G5ONZw+GDSGW5St7CiG1rgbUoL/eREpt7atME9jNNVNwfhuXn1Hv3W7GqBxICG5ShNtsKu0BKhOmwEGKWKSK2krZlzNqhJTdgN0VIqKOXMjEe/PTX/TvWXABahXk8k5Un2HNG1OxAV7vZ838LabMwEFSzvj8qo3EqupI42giMo30ZGa4sEiCnGx3saONgAX36/sLCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gaPeXRWPAASzqe2Tr7OR/UBUVOMI39cfkus50fqtMUU=;
+ b=THVMrp/S9nmn37+uDIMstymfiNQvbncjr6l5ZDVxuHEIyeYM2G8uEHX9c/Bf0B7ScRrr0mbNX/t5RXLuoJsx9Ke6kNzpvDHBQRvMr3h/4F6bONjVdbjNM+oVVoNTlAyLGWj4S1Hfhi4WIjc4j8sPiZP8czQz7xo9ad1dTkWeG+k1EQmu3NB8rpbxJ8Uv5RQSquglLSjtvtJsahMSbaDQzTct7BOe09AZjdd7lEiOHI6VagBoNWgIFQ/0bpvQtkP7eUcNuiC40FO0nk3R9R2xyTx98UzHaqkkZ9+cDwnpqGoALFc6u1BosbNuNODVAzYJhdoYz/IAQKuvfMPopBqWjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gaPeXRWPAASzqe2Tr7OR/UBUVOMI39cfkus50fqtMUU=;
+ b=Yrbnx5UKYUTPz7Jmm3ZEGsganmA6RrB0b+SkJI++NAmcLAUbM9habSlpOltR56bTNZ9yNTMOK6H/EUi77urGVgFtTYKOayBaInJA5msDKEzFHN9WYMgTh/0uW8wxtyUY18jutxT6cPhjdSf3yP6DxW/MkAQcsEhWwht+m/ML9ww=
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
+ by IA0PR10MB7181.namprd10.prod.outlook.com (2603:10b6:208:400::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.23; Mon, 13 Mar
+ 2023 12:21:33 +0000
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::8a7d:60c:7965:98c3]) by BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::8a7d:60c:7965:98c3%5]) with mapi id 15.20.6178.025; Mon, 13 Mar 2023
+ 12:21:33 +0000
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Mauro
+ Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>, Jason
+ Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>, Gerd
+ Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>, Laurent
+ Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>, "Edgar E .
+ Iglesias" <edgar.iglesias@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, Eduardo
+ Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v7 5/6] memory: Allow disabling re-entrancy checking per-MR
+In-Reply-To: <20230313082417.827484-6-alxndr@bu.edu>
+References: <20230313082417.827484-1-alxndr@bu.edu>
+ <20230313082417.827484-6-alxndr@bu.edu>
+Date: Mon, 13 Mar 2023 12:21:29 +0000
+Message-ID: <m25yb47sfq.fsf@oracle.com>
+Content-Type: text/plain
+X-ClientProxiedBy: DB6PR0501CA0042.eurprd05.prod.outlook.com
+ (2603:10a6:4:67::28) To BLAPR10MB5138.namprd10.prod.outlook.com
+ (2603:10b6:208:322::8)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Content-Language: en-US
-To: qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-Autocrypt: addr=ldoktor@redhat.com; keydata=
- xsBNBFcV6vsBCADa8NUYov+a+AmCEEUB3stiiMM0NQc1WwlcxGoMxKHcqqIj/kdPhUDvFS32
- V94V7en1Lx+cpXKRMZP3n+3WG+VZWLwaktJgqrECZ161zE7xF5d1H3CLmwStbe6Cw1oR4LYQ
- HBpuqFEA5znoLuTTsP1uXs9h1cYNzX7hmOTvPCLJfDJ1iv954FsgCGtoVvl4CoxaR3u2VNOs
- hXsTTVyJM6gDTsyqn0uvLOHGWGIGVhDkLV4hv6pSdiKrtQKWIUji3Z8x41MbZybmJxHkpOVz
- Jl3jnNE3CbiEq77Is9LMI4yTF2CESs3V4XMBLfZPLrQBC0gzjeRxwCnbdOZRwY5KI457ABEB
- AAHNK0x1a2FzIERva3RvciAoUmVkIEhhdCkgPGxkb2t0b3JAcmVkaGF0LmNvbT7CwJUEEwEI
- AD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEF
- AmPzIV8FCRCqWrUACgkQJrNi5H/PIsHvywgAiraQGpYPxQvjYAFJzJZcPcp42pdHe2TvJjTS
- lT/w0ZOD76W/Y+b3S7wTzFaOXxxdECG0u9m63hBYL5wvgkWxfmhNfv2+qK21hhqEl8027qIv
- 6zyNIDPm3LiHAv6u9npOC07eEwECqTSzGKBpP0pRon591Tzscq0w3nKHQCWOEO+nv2Y5djM/
- rpUUqaRZiU6c1XbnbwnW9vFMozh5gC/4zma53rv94Jl5I1nhHtellNUgxLzvub4rcDnPC0vS
- UojdUq2GjGafeFq0zMIELmf5u2yi+cDTO6+BynmR0QHpkFhVlgRuckYZrbu/rCrSmNiIaR1b
- B+1morL7YKr/vbn9CM7ATQRXFer7AQgAw8JIK9pZUfZWNZirBIwOevkdZu1aLhgH84EfXw40
- ynMEFa1t/c0baOiuLNcVbdnHLGvUAQJ2oN/+rdGpEWITVSjDxFYf3JOnySZJhLnQgGMG4j3m
- dFZMubPG1GJEuubPAAB0huRfjQTvOvpIK03J2H5cMoug862OHOnT+mfonGruTkSO0PBq3wtf
- P+Z3gLCuEDkmEZSh4IKxs0CoLU4KxWRQHpoTOxcAiHzj8cm5qbu3Cb1KrXz8dEmYhCq2fpFf
- /h+GfEO8gU/ICJD8WQUHYcVK0bbiZskCcSOGtStjwq0QqitZMbcsPEset/2L3z44MLPuVApv
- c9wORs/3iT9BhwARAQABwsB8BBgBCAAmAhsMFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmPz
- IWoFCRCqWrUACgkQJrNi5H/PIsFuxAf/f05XIXj+CcefmLazMRJ8iGTSlCBDhWjqQbGLUtCs
- xNO/5adp24FpsXYcW2wNDynbu914IhHfRxyRAhMOk2YCu6aRtcuunvNhlYyzn23XoP6m0IMi
- uVpNzyeWtalPVRCPy32FfG3CS0JEOxd0fLuNJoziVdxlALZKugK6SO3J+bzve667Kl2mUwx9
- mXrP37Y79y8UlkNIjVITptktYBFAsTMIl/b+swGwCEy4kwxqZp/HMprQjMdhz5HBYix4eRam
- 50nhAfj1r6ASgGQKKYptjSU/yS9X+8Sgt7Sq9GnXjq4rCEA3wd2OicKzkFTwqLf9hDni6mNs
- 6mnnuy4hp59Pog==
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Qemu-storage-daemon crash with 8ab8140 or later
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------7qh2BSiUi4j0ZKd50oUX06OL"
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=ldoktor@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5138:EE_|IA0PR10MB7181:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6da27c7-5c6e-46cf-7cad-08db23bd7bc1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eVeS7wSJlMLIDPqZ516GkQIS2ZTgcn+Epv7xcqn2WhjntrDf4NqTKzs6RoPpqc20mOV1wLtcYyuzDToaPx/2VMtAj6Cqv+tnLHPUJxvNXkgrIlftVnxWCbrVvqxLf1kYupMag9t/+8pVPIlKzrw4WmHixTHG+qXJbTSXvEO0NSa3KyYKPYi8/egTogM2Q4OHKRUbP14Ag+8pLGZ+UqWaBSX/J0LE75RVv4Dq6M2NjWg0dU4a8xkTQcMCIC+vKd3x+ac6PquEIolXKj7EAjTBjvOtGv9nxvjrTmuIdLwmdtdbX3D9iwXYKTywvbZ67u1zC3PX3re1gd4c1ZgX3ujeE9XjjSiix3W/hN3y/hRxt2NmfEGYoqmGdd98oRKf6WDW+XymAtvpe+JhVt1HAfx3jkYhn5hAdjRUfQGfL4aQEJ2np/rvWNIV1bNpUu3usypEKoCEHPhzdSZvGXnv6j1X45nU2Udbkoyy9soBN475CcDIeRGrBw4Y6zhpFX9wHchi25Cwji38+v2UuIKpwraHZM01DmziGAlKJEoJVmbCFHJEcDUQHgY1MZuPnpURdmnemweN2+gXOsZqaRB3welxJ8gRr1srcdYeqpPMinhG5wBH/WllWliD4L2y3EUK9czQVqUJ1O8EJ/nQXmZy4aweBA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199018)(38100700002)(36756003)(2906002)(7416002)(4326008)(66946007)(5660300002)(8936002)(41300700001)(8676002)(44832011)(66476007)(66556008)(2616005)(186003)(83380400001)(54906003)(316002)(478600001)(6512007)(6506007)(6666004)(26005)(86362001)(6486002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0XGegBUxrqlaxyYJtCN2gRirPAYCGU2xm1PGKPs7ibL2UABmNe+Qp95ZbR8w?=
+ =?us-ascii?Q?82pzwas7FeZESfYK/2CsMCWh+f3zHh4E0gT5XyCpmnbLzvmuokiKxOT+1Bsq?=
+ =?us-ascii?Q?qrGBDiDYrya1fZMtDV5B2Si/8GLvgXdeQ9ygTWrxe62fB2FaSJkr0xD9ODFt?=
+ =?us-ascii?Q?U8UVj6foC8Nu1oHS7D/nfxWJBLfiZNKXhhwsJaAtUmAhBadWNmW3djxX1Bx/?=
+ =?us-ascii?Q?c0vA84s3IpKtnd1Q1k7LFKzr+k4T49edkGpgu2E8tB7kb6ZyrXJWBJGYC8FZ?=
+ =?us-ascii?Q?y+43wcpDOcae6Asvp14byzFSZiGhH3Y4FTdI3Dj/PY4muQLTdVNtlvil8f5k?=
+ =?us-ascii?Q?/55NZnwIO++Let8US4P0gQP1NRaqMB7yVpU/VzVjsxrk6xpfoS8iJFEgD+ki?=
+ =?us-ascii?Q?30zVE6+Abauf3eyTLrKlcrppu+jWd0+bPgFs0ZDLwDrY7ZODh9g0NILrA0LA?=
+ =?us-ascii?Q?HXziE4mktl/8LzD4tMxcdbqJsSgRSwUk71bcPcJId63rNQ1ekpqtTacLOomK?=
+ =?us-ascii?Q?w/Nd6fyoa+FpENvpQmHTc+3Il3L108m+4Pkt6kwCqUZKNBAQ+KWmvzdRPiTS?=
+ =?us-ascii?Q?3q4fmZgbfUpQVnC7AdMjFAstI7HypWxbigMrYa8f8r+7ans9WrzT3gv/1dxx?=
+ =?us-ascii?Q?e077CP1dxPe1HunrxUY4vuFLEhSVnwR7JZdxH2tvyI6CP2d8mlhsjeIvOCmV?=
+ =?us-ascii?Q?tUH90CsP516LO38ISyeRMU+iDdOFITimhnJYK9xzbtiXyWjYW7IjksojobYw?=
+ =?us-ascii?Q?dpQmdHg3WdcYYtnPQ240T8lvnpVIVk40xmYoQ3muShYyNSe3lH/+GsI2qcnn?=
+ =?us-ascii?Q?junr3FOmG6IIuijf3HenNGIAQvODeduKWmaLaoR65nbv2WGTINwDfNdmEeXK?=
+ =?us-ascii?Q?ICWXNYwibEheh12bQi9hn7mEMsPrGU80Gxn3A2KXoADKGM+4cW35MmhvxfvG?=
+ =?us-ascii?Q?hFo1ducRw6Op2hawhLw/btmIElFBYYqabmZk7fHHXTtj0pea4K/YwrivYcWP?=
+ =?us-ascii?Q?CxLHHcTJOsjjyyQyM+KqzJb6uXpO+p/Xf/eD8or0DHXbMFtIb/27O9L9auuH?=
+ =?us-ascii?Q?USJn98LgGiK57wpZvdB8ANI8FdcnraTyxOguS5b4345E0LdkxOu7/Dvs9mE1?=
+ =?us-ascii?Q?9KR5QQjIWI5EPuCdBh0pv5uI5JdExpQwsp9cTdyrci7nLmrGGNsHHXBXlyht?=
+ =?us-ascii?Q?+ndvur4nnrPpuU3jpu48TKKvWHAMRRjkojdBYIY5kULxa6jLJezyj3hTCvsM?=
+ =?us-ascii?Q?iv0A1UEjdEyMznc7AqmC8Ttzc4ngODyfkZelcGABm7XrUjGkM8rT5BmPY/+e?=
+ =?us-ascii?Q?u/eJ3ygae0UtzNIFR7ivnHcj421eeYpHuRy83pajPJj9zepoYu+Jj7c1l13T?=
+ =?us-ascii?Q?pFG24skN9X5k04mg9hc1Pxu4nG+ogtR0u/QsSdZIZWLt4CKtW/k9roS8SRfb?=
+ =?us-ascii?Q?R8soqHxrwoAg/1wUG9w7UF8c9SW7E9QY3WrUmwnRfWFIL/3ATO4ee1O4NeYO?=
+ =?us-ascii?Q?2SSBp/Bummaz6oaot7owIdwEpEEJTc8kjq13QsVPvUsglXx+eGPGlrhYv3tg?=
+ =?us-ascii?Q?P2EbmqSV9ETeDSzL3wEhcJ7zPaU/BPgQga6kieRHIjGIS/JQ265Y5HikgMl3?=
+ =?us-ascii?Q?rw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 60Qs13gufYK0ljgl29wzPwWsnqMvvjCdQxiMK2U8fO0V8+JGyxaFFiifOBLTioM5EhqkexfL1gK9rVIBW2XTYKmLCFM0tA8x7kjqctN7q9Ed9gt1PrO9wmO6LxcnU9//+FobVlj+Izbs/inkT2+u+2WKaUjSwOfZ0sYe+7ut9O/U+Yso0vkZHkGOPJddNR50M9KMBMdzGIYqmkpCNdTjb0STb9YCiCuO3alFl00VKAmcHLKx8sKnhwwviaFb5KkVqU/ojVCOfOFXWj7QG/Db+U/mwKejTIPRJRSUYv+tM0Q27t+ARj2f20UoahKJAg9wbUmbjTXCF087sV9VEJsGcK9c4Rfya4WbXyf3R/rJjgwy1dl0yV6Z2AFbp74wgDg02JzYeh7vzBY8hWS3HBITj460O9wNMx3hvpWqnjoQ4/tTJMKqwf+zumHEMYvWABu31T2f4JKh0lulvojxP8x6mEnh4XXfPcWb7oKoMzVK7MfMPPqtgTbH6b9a4OyzRkWg8A/nGGdpE5WRbSleoT3aV8SK1aRrl3sS9fu0jjPhMxzaIfLJlIr/rTP9yizEzpeiONW5AO74s2TCOZn/v7ASg5wDWCyA4NlSv6KB3aJ3AVRwU1sO5Za6p8dWzPqPHLZKrucMAB6RydCvuiY4xVlFFuDAhJj2DT6/eYT3RQo8qWZBZ3KpvxBYB2VDCW9GEUgC1HchFJqjOC8GVRlEcS/saYtnw/Ztum/XJ7u84EVGpwkT4dlq8SnhpA7rQ0GALCvES2Mo3TUPoDtQDEBRWpY792o664+knoR92XsAMJMu39lVSZ+xtbfrG9rbZNeO0cTPShABrq2w/BPuUiDervYTGLV2jIc7tjM+6j2omliJ8HG4PSrYwSbe4m3jVFj26MjT8/BbHLAfqKGH4HbTMgYZlLTmNlyZvjb0T+xdOitnKvE=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6da27c7-5c6e-46cf-7cad-08db23bd7bc1
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 12:21:33.7469 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mBied1FbN59e50C9geM8PHZmY2tpikkWMmsg3Zj52ylqk/e+EdGEFg8mdq8CQTpgttDpLYj2SGLZxcCeCWHnDg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7181
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-13_05,2023-03-13_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303130101
+X-Proofpoint-GUID: Jq4_ezwnlcAE5ZcFEEEuLy0U0YKmX4K_
+X-Proofpoint-ORIG-GUID: Jq4_ezwnlcAE5ZcFEEEuLy0U0YKmX4K_
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,368 +182,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7qh2BSiUi4j0ZKd50oUX06OL
-Content-Type: multipart/mixed; boundary="------------BQbiCYPtwPmFWSoKFpuUd34I";
- protected-headers="v1"
-From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-To: qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <1bccb268-5583-0574-aaff-6d39b7def24d@redhat.com>
-Subject: Qemu-storage-daemon crash with 8ab8140 or later
+On Monday, 2023-03-13 at 04:24:16 -04, Alexander Bulekov wrote:
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
---------------BQbiCYPtwPmFWSoKFpuUd34I
-Content-Type: multipart/mixed; boundary="------------9T61J6ft3vrLyfSdYySVnCO8"
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
---------------9T61J6ft3vrLyfSdYySVnCO8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hello folks,
-
-I found a functional regression in qemu which is making qemu-storage-daem=
-on to crash when using /dev/ram0 as the host device. I bisected it up to:=
-
-
-commit 8ab8140a04cf771d63e9754d6ba6c1e676bfe507
-Author: Kevin Wolf <kwolf@redhat.com>
-Date:   Fri Feb 3 16:22:02 2023 +0100
-
-    block: Mark bdrv_co_refresh_total_sectors() and callers GRAPH_RDLOCK
-   =20
-    This adds GRAPH_RDLOCK annotations to declare that callers of
-    bdrv_co_refresh_total_sectors() need to hold a reader lock for the
-    graph.
-   =20
-    Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-    Message-Id: <20230203152202.49054-24-kwolf@redhat.com>
-    Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-    Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-
-To reproduce it create the export by:
-
-    mkdir -p /var/lib/runperf/runperf-libblkio/
-    modprobe brd rd_nr=3D1 rd_size=3D1048576 max_part=3D0
-    qemu-storage-daemon --blockdev driver=3Dhost_device,node-name=3Dfile,=
-filename=3D/dev/ram0,cache.direct=3Don --object iothread,id=3Diothread0 -=
--export type=3Dvhost-user-blk,iothread=3Diothread0,id=3Dexport,node-name=3D=
-file,addr.type=3Dunix,addr.path=3D/var/lib/runperf/runperf-libblkio/vhost=
--user-blk.sock,writable=3Don
-
-Then create the following fio job in /var/lib/runperf/runperf-libblkio/li=
-bblkio.fio:
-
-[global]
-bs=3D4k
-ioengine=3Dlibblkio
-libblkio_driver=3Dvirtio-blk-vhost-user
-libblkio_path=3D/var/lib/runperf/runperf-libblkio/vhost-user-blk.sock
-rw=3Dread
-iodepth=3D1
-hipri=3D1        # Can not be set by pbench-fio, use 0 or 1
-direct=3D1
-sync=3D0
-time_based=3D1
-clocksource=3Dgettimeofday
-ramp_time=3D5
-runtime=3D10
-write_bw_log=3Dfio
-write_iops_log=3Dfio
-write_lat_log=3Dfio
-log_avg_msec=3D1000
-write_hist_log=3Dfio
-log_hist_msec=3D10000
-# log_hist_coarseness=3D4 # 76 bins
-
-[job0]
-
-And run it using:
-
-    timeout -s 9 20 fio /var/lib/runperf/runperf-libblkio/libblkio.fio
-
-Before the 8ab8140a04cf771d63e9754d6ba6c1e676bfe507 this worked well, usi=
-ng every newer commit results in qemu-storage-daemon coredump and fio han=
-g (which is why I added the timeout to this example)
-
-Coredump:
-
-[root@virtlab722 ~]# coredumpctl info
-           PID: 40972 (qemu-storage-da)
-           UID: 0 (root)
-           GID: 0 (root)
-        Signal: 6 (ABRT)
-     Timestamp: Mon 2023-03-13 07:51:09 EDT (34s ago)
-  Command Line: qemu-storage-daemon --blockdev driver=3Dhost_device,node-=
-name=3Dfile,filename=3D/dev/ram0,cache.direct=3Don --object iothread,id=3D=
-iothread0 ->
-    Executable: /usr/local/bin/qemu-storage-daemon
- Control Group: /user.slice/user-0.slice/session-5.scope
-          Unit: session-5.scope
-         Slice: user-0.slice
-       Session: 5
-     Owner UID: 0 (root)
-       Boot ID: 7705815f01cb4cce9999fe6ccfe2c0ba
-    Machine ID: 617b70389a7d4b4280ec97bdcb203def
-      Hostname: virtlab722.virt.lab.eng.bos.redhat.com
-       Storage: /var/lib/systemd/coredump/core.qemu-storage-da.0.7705815f=
-01cb4cce9999fe6ccfe2c0ba.40972.1678708269000000.zst (present)
-  Size on Disk: 115.8K
-       Message: Process 40972 (qemu-storage-da) of user 0 dumped core.
-               =20
-                Stack trace of thread 40974:
-                #0  0x00007f89c22a154c __pthread_kill_implementation (lib=
-c.so.6 + 0xa154c)
-                #1  0x00007f89c2254d46 raise (libc.so.6 + 0x54d46)
-                #2  0x00007f89c22287f3 abort (libc.so.6 + 0x287f3)
-                #3  0x00007f89c222871b __assert_fail_base.cold (libc.so.6=
- + 0x2871b)
-                #4  0x00007f89c224dce6 __assert_fail (libc.so.6 + 0x4dce6=
-)
-                #5  0x00005577565ac060 assert_bdrv_graph_readable (qemu-s=
-torage-daemon + 0xb9060)
-                #6  0x0000557756585552 bdrv_co_nb_sectors (qemu-storage-d=
-aemon + 0x92552)
-                #7  0x0000557756585639 bdrv_get_geometry (qemu-storage-da=
-emon + 0x92639)
-                #8  0x0000557756570a55 virtio_blk_sect_range_ok (qemu-sto=
-rage-daemon + 0x7da55)
-                #9  0x0000557756570387 vu_blk_virtio_process_req (qemu-st=
-orage-daemon + 0x7d387)
-                #10 0x000055775669cbcb coroutine_trampoline (qemu-storage=
--daemon + 0x1a9bcb)
-                #11 0x00007f89c222a360 n/a (libc.so.6 + 0x2a360)
-                ELF object binary architecture: AMD x86-64
-
-
-Regards,
-Luk=C3=A1=C5=A1 Doktor
---------------9T61J6ft3vrLyfSdYySVnCO8
-Content-Type: application/pgp-keys; name="OpenPGP_0x26B362E47FCF22C1.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x26B362E47FCF22C1.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-xMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEB
-AQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEE
-BSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2
-Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOU
-lZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn
-6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD0oqSf8aTBzyeKkJHvTPlB6H9a6DMT
-bzwaChI7UuRuz81PDL6sDSGVmi+bv+AqF4FB3knFXzsPQkVyniTxTBp7vb27LJcj
-gkdE/wDr1E6igrsqMHJ2RqzSwwgl3KqOvtUf9uaTZwFjdwBjk43ivJNV1m4vZCbm
-eRvRNx/yKxTO2/0+hrmdaUtjdUeXdnr8+v6Tc2RQX0e9fujdjmqlpqUIhlRbpWc9
-Ar5rytZn5Klvck4AqDz5A7P5zFh021Go+VHvkVyTDCwzygBp4uMFiTyRXkWi+M7/
-AE5FR5DPCoy0cnOB7HqK9H0PVLXXrNp4t8TrgMjEHHfr3rWLvoZNWKd1Mf7RuD6y
-UkUoDNjr3q9LoDSSs7XZJc5GFFRjQZFfiYbCeTnB/lT9mw5kN8/KjJ5NQGUg4yav
-/wBjx5wJ92PQ1C+kDccK5980vZthzo60jPam+WTyQPyqQ89ARTSoJ6ZNdZiAwByC
-KQsO1LsJ6Cq1/cixsJ7hhny0LY9TSbsrjSu7GH4q8SJpVsbeFx9qcdj9weteT3V8
-HZnL7nY5yT3pmu3091cytJJueRizHPU1Lovhu5vrczSSFS33cjoK86cud80mehTh
-y+6jPEgJOB7lmprTKR8qM/vjiu6sPCNtF/rQZD3LVsJ4dtFAAiX8qj2iNvZM8tCs
-y52H6VXkD7sbGPtzXro8OWp48sY+lMfQbNeBCg+gqlURDos8kaGdYWZEK8elb3g3
-xO+kXChiXtGY+Yp5K5Hb9K7K80OB4GRYwMg9uteaTWr6VrbW8g+STgZ/SrjO+xlO
-lbc980u9tNRg86zmEitzwM4/CrBhZlZYypAPG05rxjStXutBvlubdm8vjzI88Edx
-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
-jonCs5BU8Ki3/YQ54upjbOpp57suIaefT6I=3D
-=3DaBeO
------END PGP PUBLIC KEY BLOCK-----
-
---------------9T61J6ft3vrLyfSdYySVnCO8--
-
---------------BQbiCYPtwPmFWSoKFpuUd34I--
-
---------------7qh2BSiUi4j0ZKd50oUX06OL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmQPENQFAwAAAAAACgkQJrNi5H/PIsGR
-hAf8DWoFDbazISm2piEPn8aznac9oBjrHsLU5a40913Fkl/5I2q+ZAMACavKZ8JueapR+651kiqN
-8GkTIC5m7DsIe9wepu7VucxKkv/b1jzEIIl26EiYFDGWx42uAWEY6fTJtCBoDlRVNAVcJPyOns5m
-yPOuSRcPqCuZH5LlgnuX3BKGFfOjnFVgRR0Z6mnAcILLSEX78xLZHuW34HmH3yDeL5tArQ1WZDdR
-RIGa+9GVMFCMrKkC12qlqkiZTIMELdDrYrx0bsjEKEFBxoIynZvqECvoh+DojoI12cyn5zYV09hP
-hmRZfIFHnu7TKIB6obJTPVu63EysjMz0gxhm7o74yg==
-=R06r
------END PGP SIGNATURE-----
-
---------------7qh2BSiUi4j0ZKd50oUX06OL--
-
+> ---
+>  include/exec/memory.h | 3 +++
+>  softmmu/memory.c      | 2 +-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 6fa0b071f0..5154b123d8 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -791,6 +791,9 @@ struct MemoryRegion {
+>      unsigned ioeventfd_nb;
+>      MemoryRegionIoeventfd *ioeventfds;
+>      RamDiscardManager *rdm; /* Only for RAM */
+> +
+> +    /* For devices designed to perform re-entrant IO into their own IO MRs */
+> +    bool disable_reentrancy_guard;
+>  };
+>  
+>  struct IOMMUMemoryRegion {
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 57bf18a257..3018fa2edb 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -544,7 +544,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+>      }
+>  
+>      /* Do not allow more than one simultanous access to a device's IO Regions */
+> -    if (mr->owner &&
+> +    if (mr->owner && !mr->disable_reentrancy_guard &&
+>          !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
+>          dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
+>          if (dev) {
+> -- 
+> 2.39.0
 
