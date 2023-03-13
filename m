@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493066B7BAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17FA6B7BC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:18:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbjuK-0003IV-5m; Mon, 13 Mar 2023 11:16:16 -0400
+	id 1pbjwL-0004QD-AF; Mon, 13 Mar 2023 11:18:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pbjta-0003CW-Fj; Mon, 13 Mar 2023 11:15:40 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pbjwB-0004PF-6H
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:18:11 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pbjtX-0000sQ-Rf; Mon, 13 Mar 2023 11:15:29 -0400
-Received: by mail-ed1-x530.google.com with SMTP id j11so50114037edq.4;
- Mon, 13 Mar 2023 08:15:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pbjw9-0001IN-IU
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:18:10 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id d8so7106125pgm.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678720515;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a8AiZjlSnYImiU6voMEmmw3aJiJ1GxkAA5gesDrv5S8=;
- b=AWfedV6LO+ytF2dWn8jobzlgDKTMuLK1ZmIHWBvQTqTFACCELjQrJ3C4dB6N+tjrPc
- t++LG2eSMFGqf4QBLWJZr7FHDysqP6OL7+9pRGcjItXq9/wWv4FdjV7+i1LsBAF5/9gH
- WSwbnSQRB9kBHgVei7WDA2FltzdqGJkqLA7gexYlkD8BGnKBzxKFBnHfEjfFBvyBbPK/
- VSjwRU0p2Kf1MlAvH49hKrUpLSYP1qMHg21WoU6B1lL8yRgG4MN7U5qHtqCixretbUjN
- 8DN/61vgNd+IZLeYVN7I2n32dqq2R80/F5MmT2sv+mWqhKkP+kHYGBavdUiah31zC/CF
- /bcA==
+ d=linaro.org; s=google; t=1678720684;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/FxbcIBMjcx3ILsGfqyiSecPE4Nz/JkkWnxGE3Y/Py4=;
+ b=qvAg/fWUFeEj+bEwEK4c6yCpsQ7NtphUoaxaT75guRa5BTsZW6rlFVygw6H7taXyg5
+ K5zMmyDRKsOMzG7gY8jNouIn4pEcRHaSWLPRGPXLvEq1RYBySPOLVyACVtn+2PRlmQA3
+ b5Gwv9rdtzHeUOa3/+cQDHKHxvaTE7NIUgXb011Br6ozbNoGLzPinab5dhLPRq0zb03X
+ PLiFlmgqV6fuQZ119fazTsICoSFb/j74QiYTLFM0uaRmr7K3Mt5EF+2Jnk5Ih5bxi8Tb
+ 6oaYcKfZSCUymeQqgp37YZPVciU0XxKSPHUvVjPHOkOIRJgQtbd/9sY+GFvqeDc3bDD5
+ HoLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678720515;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a8AiZjlSnYImiU6voMEmmw3aJiJ1GxkAA5gesDrv5S8=;
- b=YKsM2JsEeWakyXsYy28tEiqzDl+0a0BwOvnWeHQxaTyjW3tez4jz5Ic8Vibc5Vu0SC
- RWz5VOnMC+8RFz1QF79uzs4tzd9w75l4svVPljLemURA+2RwvPUQa1nnqMQ/0IM6A2QZ
- uv4AdUr+bXiN+ue9iRJkMFUauWtX96Fj1i8a3OZksJvPq2RlLna2ftq8RVDvDrUiGiZv
- Auc3YOiEMUSsq70pAQYzvbdtzqlIV9PDtWLePuzYvPC50v0yKXJJhfI8rma/fAoIYtsh
- IuqvUXUKG5QmPuRkh8BaI7zKkkZbpB0a4aO6amf78hErXw0moq1XkOfEP8cxjlJiwa1y
- WMVg==
-X-Gm-Message-State: AO0yUKUexQaFJp/JoExtcfRoUk26pya42nlkg/fpi+UYiGwyFBu5zs2M
- mafDUwDphPHx4c7GIEhz7S/UJ1KbI2fr0PLny2E=
-X-Google-Smtp-Source: AK7set9n3KXPI95+I7isL6TO5xaALg6sidQm2AFmyS5fbsEUsCsT9vYXpQJgLE0x+ETKI2I5jF0JuLe3obW97yHYwq4=
-X-Received: by 2002:a50:9f44:0:b0:4fb:3549:a708 with SMTP id
- b62-20020a509f44000000b004fb3549a708mr3056321edf.6.1678720515070; Mon, 13 Mar
- 2023 08:15:15 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678720684;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/FxbcIBMjcx3ILsGfqyiSecPE4Nz/JkkWnxGE3Y/Py4=;
+ b=FZlH1tYkHhdcchdFf+2Dhqy5uONONQTzjGCS1lbzdLboBglMa+xKIQa54QvzyxpNQF
+ U4nonH2ClEQgkp3NCSMooYeXc10GlzLPD2ZUWsMt0xosqmq9RW5vtV7GI5WvLNl9AqM+
+ WjzQse6Tp9FzQd2fYwNQo/EUndQB1cCin8wuBHJDoDSdCMSb6THZaz7ctZWmKxq1PVvL
+ 2HkGW2CYsD+U07rs6iNGbkH4GjlkxOgvRUg7ZGtgUZvPp1CEnRy3LpGzEdblFpHP0CVG
+ 26eR+2v3sRxWydv/7VY+8GRAdktcAKTZR/R0Bp/f2tH2pPKri6UP8pHz9y+nisnAjqW0
+ gSCQ==
+X-Gm-Message-State: AO0yUKVX5em0qnDFymECEGp9zfCSSQjaGY/FIrYZ8pAy2emsU4bhJOzn
+ lys9L85jqwbvvx7otWhgdAys7jjyE2ikPt3ReVX+ow==
+X-Google-Smtp-Source: AK7set8Xbe6RRCEEwrkGQH6qr9HbHGUl4O2DCq0mtp9ME47gZ6UQFaH2RvshvawWIFWppWdy+P+FTJCADoeJ6JxX6YU=
+X-Received: by 2002:a63:7e11:0:b0:503:913f:77b9 with SMTP id
+ z17-20020a637e11000000b00503913f77b9mr11725676pgc.6.1678720684203; Mon, 13
+ Mar 2023 08:18:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230311144111.30468-1-strahinja.p.jankovic@gmail.com>
- <20230311144111.30468-4-strahinja.p.jankovic@gmail.com>
- <a63469d1-e163-43b2-c39c-c3b7c0a6eacc@linaro.org>
-In-Reply-To: <a63469d1-e163-43b2-c39c-c3b7c0a6eacc@linaro.org>
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Mon, 13 Mar 2023 16:15:03 +0100
-Message-ID: <CABtshVR-wrjJQ1kMNRVGjJuJdg1341carpbdiM91tiwfZE_Qxg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] hw/arm: Add WDT to Allwinner-H3 and Orangepi-PC
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, 
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+References: <20230313033936.585669-1-chenbaozi@phytium.com.cn>
+In-Reply-To: <20230313033936.585669-1-chenbaozi@phytium.com.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Mar 2023 15:17:52 +0000
+Message-ID: <CAFEAcA9zQeop9NTJb6W-fSZ+rdODRvE19914syS9sDApEiHpfw@mail.gmail.com>
+Subject: Re: [PATCH v4] target/arm: Add Neoverse-N1 registers
+To: Chen Baozi <chenbaozi@phytium.com.cn>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, 
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,71 +84,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-On Mon, Mar 13, 2023 at 8:53=E2=80=AFAM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
+On Mon, 13 Mar 2023 at 03:39, Chen Baozi <chenbaozi@phytium.com.cn> wrote:
 >
-> Hi,
+> Add implementation defined registers for neoverse-n1 which
+> would be accessed by TF-A. Since there is no DSU in Qemu,
+> CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
 >
-> On 11/3/23 15:41, Strahinja Jankovic wrote:
-> > This patch adds WDT to Allwinner-H3 and Orangepi-PC.
-> > WDT is added as an overlay to the Timer module memory area.
-> >
-> > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> > ---
-> >   docs/system/arm/orangepi.rst  | 1 +
-> >   hw/arm/Kconfig                | 1 +
-> >   hw/arm/allwinner-h3.c         | 8 ++++++++
-> >   include/hw/arm/allwinner-h3.h | 5 ++++-
-> >   4 files changed, 14 insertions(+), 1 deletion(-)
->
->
-> > diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-> > index 69d0ad6f50..f05afddf7e 100644
-> > --- a/hw/arm/allwinner-h3.c
-> > +++ b/hw/arm/allwinner-h3.c
-> > @@ -49,6 +49,7 @@ const hwaddr allwinner_h3_memmap[] =3D {
-> >       [AW_H3_DEV_OHCI3]      =3D 0x01c1d400,
-> >       [AW_H3_DEV_CCU]        =3D 0x01c20000,
-> >       [AW_H3_DEV_PIT]        =3D 0x01c20c00,
-> > +    [AW_H3_DEV_WDT]        =3D 0x01c20ca0,
-> >       [AW_H3_DEV_UART0]      =3D 0x01c28000,
-> >       [AW_H3_DEV_UART1]      =3D 0x01c28400,
-> >       [AW_H3_DEV_UART2]      =3D 0x01c28800,
-> > @@ -234,6 +235,8 @@ static void allwinner_h3_init(Object *obj)
-> >       object_initialize_child(obj, "twi1",  &s->i2c1,  TYPE_AW_I2C_SUN6=
-I);
-> >       object_initialize_child(obj, "twi2",  &s->i2c2,  TYPE_AW_I2C_SUN6=
-I);
-> >       object_initialize_child(obj, "r_twi", &s->r_twi, TYPE_AW_I2C_SUN6=
-I);
-> > +
-> > +    object_initialize_child(obj, "wdt", &s->wdt, TYPE_AW_WDT_SUN6I);
-> >   }
-> >
-> >   static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-> > @@ -453,6 +456,11 @@ static void allwinner_h3_realize(DeviceState *dev,=
- Error **errp)
-> >       sysbus_connect_irq(SYS_BUS_DEVICE(&s->r_twi), 0,
-> >                          qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SP=
-I_R_TWI));
-> >
-> > +    /* WDT */
-> > +    sysbus_realize(SYS_BUS_DEVICE(&s->wdt), &error_fatal);
-> > +    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->wdt), 0,
-> > +                            s->memmap[AW_H3_DEV_WDT], 1);
->
-> Why do you need to overlap?
+> Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
+> ---
+>  target/arm/cpu64.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 69 insertions(+)
 >
 
-The WDT is part of the Timer component and it lies in the part of
-memory already initialized by the AW_H3_DEV_PIT.
-I saw the overlay approach used for RTC in Allwinner A10 (same issue,
-in A10 both RTC and WDT are part of Timer), so I just reused it.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-If there is a better way to handle it, I can update the implementation.
-
-Best regards,
-Strahinja
+thanks
+-- PMM
 
