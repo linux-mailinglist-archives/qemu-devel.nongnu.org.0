@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2586B76ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FF46B76DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:53:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgfc-0008Oj-Qx; Mon, 13 Mar 2023 07:48:52 -0400
+	id 1pbgfe-00005D-Gp; Mon, 13 Mar 2023 07:48:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgfH-00073J-12
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:31 -0400
+ id 1pbgfM-0007eq-89
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:37 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgfF-0004re-Bn
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:30 -0400
+ id 1pbgfK-0004u0-4b
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678708108;
+ s=mimecast20190719; t=1678708113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QVXYek2aD1GDbLaBzwM+PhSho8Hk9PdY3riLVXeSemU=;
- b=eBbvxRLkSXB9miBLNsFTFAv2e/oSGAdz+S8QltewdCMi0qlzCquVyLjwr9NwePdTV3W/Ec
- wTGTSnoWGv25vCaJFAo1KcAzGeWcS3EiE0Fh/WBR/qmYJEk7psECq12ch5baaaiy+OXMtF
- +090OgK8VHZ4OiQfCp+AfiF+5NleqeA=
+ bh=vY41lKMgTDFfWz8h2Umz3+YohajBmUcq3B29GCIk2wU=;
+ b=eGpWyGxAlXl577MGocszuWgVYXs8J2CJ7Wa2dNPygfDJCDhsSYQiWwNVKAq1SQQOmBmeFG
+ ZTtG6S8L44tNmwVRqm3cUkTGM/xCkBk6eJaA7XLTRhsZrQwTp9yxRHU7zM0ywdiwRZ/a+D
+ HpmVwz9UQncRLRUuhPmhWxRC3kjSohs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-hlgN0zGXMp6p_UK9W3nVbQ-1; Mon, 13 Mar 2023 07:48:25 -0400
-X-MC-Unique: hlgN0zGXMp6p_UK9W3nVbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-133-RswgkX12MMK-Jtkzq-9haQ-1; Mon, 13 Mar 2023 07:48:30 -0400
+X-MC-Unique: RswgkX12MMK-Jtkzq-9haQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D66A811E9C;
- Mon, 13 Mar 2023 11:48:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C684858F0E;
+ Mon, 13 Mar 2023 11:48:29 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9761C4042AC8;
- Mon, 13 Mar 2023 11:48:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FE962A68;
+ Mon, 13 Mar 2023 11:48:27 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -62,15 +62,15 @@ Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PULL v2 20/25] qmp: 'add_client' actually expects sockets
-Date: Mon, 13 Mar 2023 15:46:43 +0400
-Message-Id: <20230313114648.426607-21-marcandre.lureau@redhat.com>
+Subject: [PULL v2 21/25] monitor: release the lock before calling close()
+Date: Mon, 13 Mar 2023 15:46:44 +0400
+Message-Id: <20230313114648.426607-22-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,67 +98,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
-actually expect a socket kind or will fail in different ways at runtime.
+As per comment, presumably to avoid syscall in critical section.
 
-Throw an error early if the given 'add_client' fd is not a socket, and
-close it to avoid leaks.
-
-This allows to replace the close() call with a more correct & portable
-closesocket() version.
-
-(this will allow importing sockets on Windows with a specialized command
-in the following patch, while keeping the remaining monitor associated
-sockets/add_client code & usage untouched)
-
+Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230306122751.2355515-6-marcandre.lureau@redhat.com>
+Message-Id: <20230306122751.2355515-7-marcandre.lureau@redhat.com>
 ---
- qapi/misc.json     | 3 +++
- monitor/qmp-cmds.c | 7 +++++++
- 2 files changed, 10 insertions(+)
+ monitor/fds.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 27ef5a2b20..f0217cfba0 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -14,6 +14,9 @@
- # Allow client connections for VNC, Spice and socket based
- # character devices to be passed in to QEMU via SCM_RIGHTS.
- #
-+# If the FD associated with @fdname is not a socket, the command will fail and
-+# the FD will be closed.
-+#
- # @protocol: protocol name. Valid names are "vnc", "spice", "@dbus-display" or
- #            the name of a character device (eg. from -chardev id=XXXX)
- #
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 859012aef4..b0f948d337 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -14,6 +14,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/sockets.h"
- #include "monitor-internal.h"
- #include "monitor/qdev.h"
- #include "monitor/qmp-helpers.h"
-@@ -139,6 +140,12 @@ void qmp_add_client(const char *protocol, const char *fdname,
+diff --git a/monitor/fds.c b/monitor/fds.c
+index 26b39a0ce6..7daf1064e1 100644
+--- a/monitor/fds.c
++++ b/monitor/fds.c
+@@ -80,7 +80,8 @@ void qmp_getfd(const char *fdname, Error **errp)
          return;
      }
  
-+    if (!fd_is_socket(fd)) {
-+        error_setg(errp, "parameter @fdname must name a socket");
-+        close(fd);
-+        return;
-+    }
-+
-     for (i = 0; i < ARRAY_SIZE(protocol_table); i++) {
-         if (!strcmp(protocol, protocol_table[i].name)) {
-             if (!protocol_table[i].add_client(fd, has_skipauth, skipauth,
+-    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
++    /* See close() call below. */
++    qemu_mutex_lock(&cur_mon->mon_lock);
+     QLIST_FOREACH(monfd, &cur_mon->fds, next) {
+         if (strcmp(monfd->name, fdname) != 0) {
+             continue;
+@@ -88,6 +89,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+ 
+         tmp_fd = monfd->fd;
+         monfd->fd = fd;
++        qemu_mutex_unlock(&cur_mon->mon_lock);
+         /* Make sure close() is outside critical section */
+         close(tmp_fd);
+         return;
+@@ -98,6 +100,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+     monfd->fd = fd;
+ 
+     QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
++    qemu_mutex_unlock(&cur_mon->mon_lock);
+ }
+ 
+ void qmp_closefd(const char *fdname, Error **errp)
 -- 
 2.39.2
 
