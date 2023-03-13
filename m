@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D756B76E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02FE6B76EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:54:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgeU-00051m-J0; Mon, 13 Mar 2023 07:47:42 -0400
+	id 1pbgee-0005an-IO; Mon, 13 Mar 2023 07:47:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgeS-0004nB-38
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:47:40 -0400
+ id 1pbgeW-0005Lm-BM
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:47:44 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgeQ-0004XG-4G
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:47:39 -0400
+ id 1pbgeU-0004ZJ-IY
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:47:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678708057;
+ s=mimecast20190719; t=1678708061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BqxGsWxXmu7LEVQhkjkpbn+02NihnK+bVamWmx0KeA4=;
- b=dG8i/QE5TdW1zfJQC6iMSjdmoXrzHIZMVCJ3wk/NU88wXYc7kbJukK5BE8pekdP+yo2oHy
- SYNzJC+7rMIS7cgPJ4tssm8IOG6WaRziDtEgr9FD4mmllgOEP65BWzAzANISjz/XOZ+CeG
- GThE9oJhNyarUSYBavjWpdq1ewDdX7g=
+ bh=JZoKqTSXrt6BQL8awns9NXpQ2ZsLtrEmc/UBtlwS1+8=;
+ b=hGPBXV6tP8fTnMKnA8QyeJAgqzFD3SjGI+IsShyUaIigCIdIWS5fqVLb7BDpGtJMwMORyA
+ goi6avjoPtfx7PGuWbhzBygDKl+3eRxRhByNxweHenoRD9jYItrAvKRQU1sRtklYOx2mDs
+ GgaSjXoYHG5v/RT1+F2Y2jFXnBe0SSc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-i4CaWVyjMPKajD6p4fYC_A-1; Mon, 13 Mar 2023 07:47:33 -0400
-X-MC-Unique: i4CaWVyjMPKajD6p4fYC_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-549-_1oiLSXrPTmx5ds_KLVf8w-1; Mon, 13 Mar 2023 07:47:38 -0400
+X-MC-Unique: _1oiLSXrPTmx5ds_KLVf8w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D3503828887;
- Mon, 13 Mar 2023 11:47:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2614A3828887;
+ Mon, 13 Mar 2023 11:47:37 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94CE61410F1D;
- Mon, 13 Mar 2023 11:47:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BC1A400F4F;
+ Mon, 13 Mar 2023 11:47:35 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -62,15 +62,16 @@ Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PULL v2 09/25] aio/win32: aio_set_fd_handler() only supports SOCKET
-Date: Mon, 13 Mar 2023 15:46:32 +0400
-Message-Id: <20230313114648.426607-10-marcandre.lureau@redhat.com>
+Subject: [PULL v2 10/25] main-loop: remove qemu_fd_register(),
+ win32/slirp/socket specific
+Date: Mon, 13 Mar 2023 15:46:33 +0400
+Message-Id: <20230313114648.426607-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,44 +99,82 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Let's check if the argument is actually a SOCKET, else report an error
-and return.
+Open-code the socket registration where it's needed, to avoid
+artificially used or unclear generic interface.
+
+Furthermore, the following patches are going to make socket handling use
+FD-only inside QEMU, but we need to handle win32 SOCKET from libslirp.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-Id: <20230221124802.4103554-10-marcandre.lureau@redhat.com>
+Message-Id: <20230221124802.4103554-12-marcandre.lureau@redhat.com>
 ---
- util/aio-win32.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ include/qemu/main-loop.h |  2 --
+ net/slirp.c              |  8 +++++++-
+ util/main-loop.c         | 11 -----------
+ 3 files changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/util/aio-win32.c b/util/aio-win32.c
-index 74d63fa21e..08e8f5615d 100644
---- a/util/aio-win32.c
-+++ b/util/aio-win32.c
-@@ -22,6 +22,7 @@
- #include "qemu/sockets.h"
- #include "qapi/error.h"
- #include "qemu/rcu_queue.h"
-+#include "qemu/error-report.h"
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index c25f390696..b3e54e00bc 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -387,8 +387,6 @@ void qemu_cond_timedwait_iothread(QemuCond *cond, int ms);
  
- struct AioHandler {
-     EventNotifier *e;
-@@ -70,10 +71,14 @@ void aio_set_fd_handler(AioContext *ctx,
-                         IOHandler *io_poll_ready,
-                         void *opaque)
+ /* internal interfaces */
+ 
+-void qemu_fd_register(int fd);
+-
+ #define qemu_bh_new(cb, opaque) \
+     qemu_bh_new_full((cb), (opaque), (stringify(cb)))
+ QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name);
+diff --git a/net/slirp.c b/net/slirp.c
+index 2ee3f1a0d7..0730a935ba 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -248,7 +248,13 @@ static void net_slirp_timer_mod(void *timer, int64_t expire_timer,
+ 
+ static void net_slirp_register_poll_fd(int fd, void *opaque)
  {
--    /* fd is a SOCKET in our case */
-     AioHandler *old_node;
-     AioHandler *node = NULL;
- 
-+    if (!fd_is_socket(fd)) {
-+        error_report("fd=%d is not a socket, AIO implementation is missing", fd);
-+        return;
-+    }
+-    qemu_fd_register(fd);
++#ifdef WIN32
++    AioContext *ctxt = qemu_get_aio_context();
 +
-     qemu_lockcnt_lock(&ctx->list_lock);
-     QLIST_FOREACH(old_node, &ctx->aio_handlers, node) {
-         if (old_node->pfd.fd == fd && !old_node->deleted) {
++    qemu_socket_select(fd, event_notifier_get_handle(&ctxt->notifier),
++                       FD_READ | FD_ACCEPT | FD_CLOSE |
++                       FD_CONNECT | FD_WRITE | FD_OOB, NULL);
++#endif
+ }
+ 
+ static void net_slirp_unregister_poll_fd(int fd, void *opaque)
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 16e837fb12..e180c85145 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -252,10 +252,6 @@ static int max_priority;
+ static int glib_pollfds_idx;
+ static int glib_n_poll_fds;
+ 
+-void qemu_fd_register(int fd)
+-{
+-}
+-
+ static void glib_pollfds_fill(int64_t *cur_timeout)
+ {
+     GMainContext *context = g_main_context_default();
+@@ -414,13 +410,6 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+     }
+ }
+ 
+-void qemu_fd_register(int fd)
+-{
+-    qemu_socket_select(fd, event_notifier_get_handle(&qemu_aio_context->notifier),
+-                       FD_READ | FD_ACCEPT | FD_CLOSE |
+-                       FD_CONNECT | FD_WRITE | FD_OOB, NULL);
+-}
+-
+ static int pollfds_fill(GArray *pollfds, fd_set *rfds, fd_set *wfds,
+                         fd_set *xfds)
+ {
 -- 
 2.39.2
 
