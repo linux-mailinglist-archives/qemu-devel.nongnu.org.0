@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE11F6B76A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:52:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7976B7694
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:50:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgff-0000Hf-SU; Mon, 13 Mar 2023 07:48:55 -0400
+	id 1pbgfo-0000Ww-9V; Mon, 13 Mar 2023 07:49:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgfd-0008Ub-1v
+ id 1pbgfd-000058-KF
  for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgfa-0004yM-7m
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:52 -0400
+ id 1pbgfb-0004yb-VL
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678708129;
+ s=mimecast20190719; t=1678708131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R25bg50OqmzQ3Y5wEs/8TI7A4DH0Jw/sYrrM0K5yItY=;
- b=D+nFBU4vAPMBN6gAWKCnyQ6ugBiKSglI55lw+nrWnSQOF6Nh77WAMI0wm0gSspQkC/M+1b
- 6BV9UuNM1avp42XD8SvxQigZwiPoMac2nplyg9y5jcCU5p0Z3gXGqbwUaIlZHEOEWvN3Fd
- gy4OANXpMDtJvzJylv/1oq25GWn1Zs4=
+ bh=8SMSiKbHRECIjx1vILPEIMZcCmojGbLhRPWW6JR2gVQ=;
+ b=QRW3tmtq+UhAmv+Su5GtsvZzaNf7jsH7F0tzLCiH0DF/+R3ZPpChF3Tf7lo7O/yp4AHByB
+ KWTWLrW+VCcsUJ3grR5sYLE1CPyJ049YrOJCDY8Hwt/nTKm3PdBqZ0B6eo0yi+WrQFMGkf
+ npjZSWMm5MPCrktYZvDIL0QWwpUaaLg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-403-4cQTnbtFMHKNpqfH7IWPzQ-1; Mon, 13 Mar 2023 07:48:43 -0400
-X-MC-Unique: 4cQTnbtFMHKNpqfH7IWPzQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-647-Gw97UR-TMO-e43WqiPCO8w-1; Mon, 13 Mar 2023 07:48:48 -0400
+X-MC-Unique: Gw97UR-TMO-e43WqiPCO8w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 004733C02B6B;
- Mon, 13 Mar 2023 11:48:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B2173828887;
+ Mon, 13 Mar 2023 11:48:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38C654042AC0;
- Mon, 13 Mar 2023 11:48:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 462AE1410F1C;
+ Mon, 13 Mar 2023 11:48:45 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -62,15 +62,15 @@ Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PULL v2 24/25] qtest: enable vnc-display test on win32
-Date: Mon, 13 Mar 2023 15:46:47 +0400
-Message-Id: <20230313114648.426607-25-marcandre.lureau@redhat.com>
+Subject: [PULL v2 25/25] monitor: restrict command getfd to POSIX hosts
+Date: Mon, 13 Mar 2023 15:46:48 +0400
+Message-Id: <20230313114648.426607-26-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -98,54 +98,101 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Now that qtest_qmp_add_client() works on win32, we can enable the VNC
-test.
+Currently, the function will simply fail if ancillary fds are not
+provided, for ex on unsupported platforms.
+
+This changes the failure from:
+
+    {"error": {"class": "GenericError", "desc": "No file descriptor
+    supplied via SCM_RIGHTS"}}
+
+to:
+
+    {"error": {"class": "CommandNotFound", "desc": "The command getfd
+    has not been found"}}
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230306122751.2355515-11-marcandre.lureau@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qtest/vnc-display-test.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ qapi/misc.json     | 2 +-
+ monitor/fds.c      | 2 ++
+ monitor/hmp-cmds.c | 2 ++
+ hmp-commands.hx    | 2 ++
+ 4 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
-index e52a4326ec..f8933b0761 100644
---- a/tests/qtest/vnc-display-test.c
-+++ b/tests/qtest/vnc-display-test.c
-@@ -19,7 +19,7 @@ typedef struct Test {
-     GMainLoop *loop;
- } Test;
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 5ef6286af3..6ddd16ea28 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -273,7 +273,7 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'getfd', 'data': {'fdname': 'str'} }
++{ 'command': 'getfd', 'data': {'fdname': 'str'}, 'if': 'CONFIG_POSIX' }
  
--#if !defined(WIN32) && !defined(CONFIG_DARWIN)
-+#if !defined(CONFIG_DARWIN)
+ ##
+ # @get-win32-socket:
+diff --git a/monitor/fds.c b/monitor/fds.c
+index 9ed4197358..d86c2c674c 100644
+--- a/monitor/fds.c
++++ b/monitor/fds.c
+@@ -98,6 +98,7 @@ static bool monitor_add_fd(Monitor *mon, int fd, const char *fdname, Error **err
+     return true;
+ }
  
- static void on_vnc_error(VncConnection* self,
-                          const char* msg)
-@@ -38,10 +38,7 @@ static void on_vnc_auth_failure(VncConnection *self,
- static bool
- test_setup(Test *test)
++#ifdef CONFIG_POSIX
+ void qmp_getfd(const char *fdname, Error **errp)
  {
--#ifdef WIN32
--    g_test_skip("Not supported on Windows yet");
--    return false;
--#elif defined(CONFIG_DARWIN)
-+#if defined(CONFIG_DARWIN)
-     g_test_skip("Broken on Darwin");
-     return false;
- #else
-@@ -59,7 +56,12 @@ test_setup(Test *test)
-     g_signal_connect(test->conn, "vnc-auth-failure",
-                      G_CALLBACK(on_vnc_auth_failure), NULL);
-     vnc_connection_set_auth_type(test->conn, VNC_CONNECTION_AUTH_NONE);
-+
-+#ifdef WIN32
-+    vnc_connection_open_fd(test->conn, _get_osfhandle(pair[0]));
-+#else
-     vnc_connection_open_fd(test->conn, pair[0]);
+     Monitor *cur_mon = monitor_cur();
+@@ -111,6 +112,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+ 
+     monitor_add_fd(cur_mon, fd, fdname, errp);
+ }
 +#endif
  
-     test->loop = g_main_loop_new(NULL, FALSE);
-     return true;
+ void qmp_closefd(const char *fdname, Error **errp)
+ {
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 34bd8c67d7..6c559b48c8 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -192,6 +192,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
+ }
+ 
++#ifdef CONFIG_POSIX
+ void hmp_getfd(Monitor *mon, const QDict *qdict)
+ {
+     const char *fdname = qdict_get_str(qdict, "fdname");
+@@ -200,6 +201,7 @@ void hmp_getfd(Monitor *mon, const QDict *qdict)
+     qmp_getfd(fdname, &err);
+     hmp_handle_error(mon, err);
+ }
++#endif
+ 
+ void hmp_closefd(Monitor *mon, const QDict *qdict)
+ {
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index b87c250e23..bb85ee1d26 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1486,6 +1486,7 @@ SRST
+   Inject an MCE on the given CPU (x86 only).
+ ERST
+ 
++#ifdef CONFIG_POSIX
+     {
+         .name       = "getfd",
+         .args_type  = "fdname:s",
+@@ -1501,6 +1502,7 @@ SRST
+   mechanism on unix sockets, it is stored using the name *fdname* for
+   later use by other monitor commands.
+ ERST
++#endif
+ 
+     {
+         .name       = "closefd",
 -- 
 2.39.2
 
