@@ -2,103 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED00E6B7141
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2486B7144
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:39:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbdhW-00010a-48; Mon, 13 Mar 2023 04:38:38 -0400
+	id 1pbdiA-00023Y-Np; Mon, 13 Mar 2023 04:39:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbdh7-0000rW-Iq
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:38:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbdh5-0002hx-1e
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:38:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678696687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=37KPC8iAAykTukpblmNIJM3vt2p0WkoVcga/+N/nJtQ=;
- b=BgLU6z2mogWwORIkFBmaVPclMsYLLB0OWSOik/kRV8r3ULXfthjc/P06OeH3rtvrqyc8bI
- T7ZS6Jsvm6GxIoR+t6SNvyaW5g4sMJB694dNl+TFBy2FiKoxX1CgZVbhjjozyKMMscSRPc
- qIL4r4iKI8RgLUY5x5TXWiB2xhF8WhE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-541-6HvAYMpENcmyt_oV_nboOA-1; Mon, 13 Mar 2023 04:38:05 -0400
-X-MC-Unique: 6HvAYMpENcmyt_oV_nboOA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- az7-20020a05600c600700b003ed25435106so511783wmb.2
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:38:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pbdi5-00023D-29
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:39:13 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pbdhy-0002sl-8T
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:39:12 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id x11so12057732pln.12
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1678696744;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j/Y7fpLisRhJ6/2kh7ch+nPCOuNDva4YWA3YxAsGO8w=;
+ b=JhqHProekDgIceUCK1ejLR3fOzQaTWxI58gGty4MMLYadhoPK63ZKZKuYObEZa4tJj
+ 6kOISTVrMAQiqvm9UrG3QFDdNp0eafJpebhfpzdqo2fQCDjIaAXYyQ1nB+yPDzwKwnR1
+ uaHsCqjbg6KHr5u/WVyhr3ojyM3ChivhapzDmgDzkRt73rHbhJR337rX/QijJvflM1WB
+ IOHeJ7DC6WxhfkC2wl1fyaHZSnYuvMgPs87WpogfzBfvQwr4bIJ+iTD1eECq111NsbSK
+ DXfbPXoylbgTJ4+5Pf3GeNh9lkG7fdhaShsLnCQg4qGsCpAwKKR19pYzkgDbJeE0F5Ye
+ QO0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678696684;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=37KPC8iAAykTukpblmNIJM3vt2p0WkoVcga/+N/nJtQ=;
- b=PA2aqf4Azfsx8vMxkzlo44c0SvnhV9KAk7BcMGF2FAjVk9Bu9dOH/jIuOtkPv3mjhX
- ixI+c4atS/TOK+o8R+971JgLmRYBlUkPFk5y4M2lirhwNDqO99a2IWWNPRxegalsgPas
- PtNHhD70MI349jjUXMyPcO93KdfGTHcyCZ7YUw+T4dwriXzp68iP+yrKPHdzkdnlhcZS
- zX5MwLqYtLvgUwDc7Cp2ESaGpf6175w42T9H9QiHHlD3g4dUfOY2KnyDEuq0mEro4LOQ
- L9igDHhT1yXMblZk8FaE74AwkGATJKJAAcYyqs0TO4HCKngYepmjaje/MC9Tv657vgXf
- JXqQ==
-X-Gm-Message-State: AO0yUKVAcZaO+lWXOZCr84nB8rE+tdeTfi5ZLzezAVFkBumuD2qEcZCh
- 6Y+YvmIOHaqtT+L1TTME1LaLgWgTmxEM3NIQY9M7JTInQfOoPh3gitw3rDxXdohWuryhMU43dtG
- n4YvnYiAmifEwkEY=
-X-Received: by 2002:a05:600c:4450:b0:3eb:36fa:b791 with SMTP id
- v16-20020a05600c445000b003eb36fab791mr9338089wmn.31.1678696684285; 
- Mon, 13 Mar 2023 01:38:04 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/5SD7Lt/rM8Fixz0OQJ4X3uUqX2Hyk/KzFkRmSPUrJIbnB4JyE4wbtp6EHr0ezP8zpA2L4Sg==
-X-Received: by 2002:a05:600c:4450:b0:3eb:36fa:b791 with SMTP id
- v16-20020a05600c445000b003eb36fab791mr9338059wmn.31.1678696683977; 
- Mon, 13 Mar 2023 01:38:03 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-179-26.web.vodafone.de.
- [109.43.179.26]) by smtp.gmail.com with ESMTPSA id
- o13-20020a05600c510d00b003e20970175dsm9202958wms.32.2023.03.13.01.38.02
+ d=1e100.net; s=20210112; t=1678696744;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=j/Y7fpLisRhJ6/2kh7ch+nPCOuNDva4YWA3YxAsGO8w=;
+ b=oqJP171DeTxfD614yNcdVBr2Cu+G9sdU5kd3sqxwC7QkSyeoHapV+N6CNfmXKVm2Zt
+ Xcl51kzjpnWS9la5PNR7hWXow3+Luz6JnVR2K4BJvjL/HzhcUI5akTJ4R/R9L2JG3X9E
+ QB5EMl2yQzQwf0zJvdrOgA4cxySez5a1e2+KMWduiKgoCKOxtbPC1CQcY0Q7D+hiVv7u
+ D+qbNscFXUOQlW8f5HQ9s+JMye5nipoJvtERQktLC4UP/FF/zRPnwCw3FtvsrqNgqqNs
+ VHLAIbUwTRJ08FLIXM5ltnvsqMKDMdKOp0qzuaBJ7f0mGcZjnTcoHbVroNyvm+HiwNVj
+ /HpQ==
+X-Gm-Message-State: AO0yUKU3dztjW85cCPtuh5k/fJWEUS7UoMcPHUzP2VxnIMe/AzgHAyQm
+ LXRLVKPqkd/ufcsgc88J4hGFLg==
+X-Google-Smtp-Source: AK7set8M5EoF5U8zInEnyi/uX+0vHL0uxMfMpq5BOtRsslfBdi2gJv1CCBrpn66X3nZjbmtEkZfccg==
+X-Received: by 2002:a17:90b:38c7:b0:234:b03:5a70 with SMTP id
+ nn7-20020a17090b38c700b002340b035a70mr35052082pjb.35.1678696744585; 
+ Mon, 13 Mar 2023 01:39:04 -0700 (PDT)
+Received: from [10.94.53.13] ([139.177.225.233])
+ by smtp.gmail.com with ESMTPSA id
+ kk7-20020a170903070700b001992521f23esm4174036plb.100.2023.03.13.01.39.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 01:38:03 -0700 (PDT)
-Message-ID: <e31aa3c6-fdc2-6e62-3b2d-44d9dc18c5d8@redhat.com>
-Date: Mon, 13 Mar 2023 09:38:01 +0100
+ Mon, 13 Mar 2023 01:39:04 -0700 (PDT)
+Message-ID: <c19d7ca8-f10f-5ff2-7ec8-ec939de0e474@bytedance.com>
+Date: Mon, 13 Mar 2023 16:38:58 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v7 6/6] lsi53c895a: disable reentrancy detection for
- script RAM
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Fiona Ebner <f.ebner@proxmox.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230313082417.827484-1-alxndr@bu.edu>
- <20230313082417.827484-7-alxndr@bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230313082417.827484-7-alxndr@bu.edu>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH v7 6/6] memory: Introduce address_space_to_flatview_rcu()
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+References: <20230310022425.2992472-1-xuchuangxclwt@bytedance.com>
+ <20230310022425.2992472-7-xuchuangxclwt@bytedance.com> <ZAtH3XgTtqwTpcOS@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+In-Reply-To: <ZAtH3XgTtqwTpcOS@x1n>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_LOCAL_NOVOWEL=0.5,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,36 +96,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/03/2023 09.24, Alexander Bulekov wrote:
-> As the code is designed to use the memory APIs to access the script ram,
-> disable reentrancy checks for the pseudo-RAM ram_io MemoryRegion.
-> 
-> In the future, ram_io may be converted from an IO to a proper RAM MemoryRegion.
-> 
-> Reported-by: Fiona Ebner <f.ebner@proxmox.com>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->   hw/scsi/lsi53c895a.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index af93557a9a..db27872963 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -2302,6 +2302,12 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
->       memory_region_init_io(&s->io_io, OBJECT(s), &lsi_io_ops, s,
->                             "lsi-io", 256);
->   
-> +    /*
-> +     * Since we use the address-space API to interact with ram_io, disable the
-> +     * re-entrancy guard.
-> +     */
-> +    s->ram_io.disable_reentrancy_guard = true;
-> +
->       address_space_init(&s->pci_io_as, pci_address_space_io(dev), "lsi-pci-io");
->       qdev_init_gpio_out(d, &s->ext_irq, 1);
->   
+Hi, Peter,
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+On 2023/3/10 下午11:08, Peter Xu wrote:
+> On Fri, Mar 10, 2023 at 10:24:25AM +0800, Chuang Xu wrote:
+>> In last patch, we wrap vm_load with begin/commit, here we introduce
+>> address_space_to_flatview_rcu() to avoid unnecessary enforce commit
+>> during vm_load.
+>>
+>> Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
+>> ---
+>>   include/exec/memory-internal.h |  2 +-
+>>   include/exec/memory.h          | 20 ++++++++++++++++++++
+>>   softmmu/memory.c               |  2 +-
+>>   3 files changed, 22 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/exec/memory-internal.h b/include/exec/memory-internal.h
+>> index 100c1237ac..1432240449 100644
+>> --- a/include/exec/memory-internal.h
+>> +++ b/include/exec/memory-internal.h
+>> @@ -30,7 +30,7 @@ static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
+>>   
+>>   static inline AddressSpaceDispatch *address_space_to_dispatch(AddressSpace *as)
+>>   {
+>> -    return flatview_to_dispatch(address_space_to_flatview(as));
+>> +    return flatview_to_dispatch(address_space_to_flatview_rcu(as));
+>>   }
+> I'm not sure whether this one is always safe.
+
+Previously I considered that there was no address_space_translate_iommu()
+traced during vm_load, so I took it as safe. But my trace may not be
+able to obtain all cases of triggering do_commit() during vm_load..
+
+>
+> tcg_commit() seems to be safe, but maybe address_space_translate_iommu() is
+> not?  Maybe easier to leave this untouched?
+
+Yes, I'll fix it in v8 later.
+
+>>   
+>>   FlatView *address_space_get_flatview(AddressSpace *as);
+>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>> index d6fd89db64..235e3017bc 100644
+>> --- a/include/exec/memory.h
+>> +++ b/include/exec/memory.h
+>> @@ -1100,6 +1100,9 @@ bool memory_region_transaction_in_progress(void);
+>>   
+>>   void memory_region_transaction_do_commit(void);
+>>   
+>> +/*
+>> + * We recommend using this by default.
+>> + */
+> I think this comment doesn't really help.. drop it?
+>
+>>   static inline FlatView *address_space_to_flatview(AddressSpace *as)
+
+Thanks!
 
 
