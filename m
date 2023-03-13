@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C6D6B8406
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 22:36:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD72A6B8461
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 23:00:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbppY-00034E-Rg; Mon, 13 Mar 2023 17:35:44 -0400
+	id 1pbqC8-0007IJ-5z; Mon, 13 Mar 2023 17:59:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbppS-00033u-6Q
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 17:35:38 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pbppQ-0002CS-LB
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 17:35:37 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id fd25so8539783pfb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 14:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678743335;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/KiiHFEfaXWnm+sHx7txOoG33p1V9KpHpy5ZFBA32w4=;
- b=r14mc1+iS17Elff/YGYu0lrnAeotbLmEl4AA2cp/E7SOLS4+0zch7+rJKes8mRSz4Z
- ZVb5QACbPv7z73OM/sL359oanum6Ux1sFQwvGvGP24L3LmApjKABf2er1mCjaGKCsw2E
- 7zDIxKyLQZHluPnO1/5XTHiDMe2jyYMxhAM43pVT68lVW1L5uo1uhkJ7g29FOc7tv6Ry
- AGaK+6qM+t4pEQ+FFojnOmeiDGzLwpMK0MNBhFuxSpokV7kpDKXA8SgwRoOWeFPyFyrH
- 1N2j8RrjiQWEND+1+wP2gEL83bMX/PIRbuQlLVtdroFnNPojdIvT6hoBvjY55X+Vfsy1
- 12kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678743335;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/KiiHFEfaXWnm+sHx7txOoG33p1V9KpHpy5ZFBA32w4=;
- b=jCDpo2r7KCBcd32KHOci774cFNh3eQsUL3rOhtmGX/P1Azy6SWkwdppRCTRvonuSpV
- RM4E/8MJaokODIhHdS/nHW/DtM7PKPrFaDmEeOUYEkb5xzfYIgZMEbVk7LmAHRelr0di
- bfhFaajaQJPV/+Sa3J1p7RlmHid2RBodBcIrHPyRuQpwq4LDuWK6m4hIBR2hwWehvF6v
- lRyXHGhmozcrixhRbipZawXRX0DzSGgt1n0uRfL+R+iQMyEpZF2nsXAHXdZfm9oo+lHT
- kxPZbxNHrSjVXLTONzFKuaRt2rDesV5eGMryyemVmk/0PWtYpUQ+5pGnHOyqnzOS2Skx
- bAIQ==
-X-Gm-Message-State: AO0yUKXu+vrpUKnN7ac2J2fDdlmh17mcAcyiY1JCyzJkg7v+bKtU1S9H
- LRofZlJl5OllaiX/QnDdrY6p7V9wEyGJfIQyBq/T0w==
-X-Google-Smtp-Source: AK7set++knaXFFSCmZIMRE0GQ+YYYKa0qnBAERFCsVxi7NQRyxrT2KRKxBChlfaHZGq8XuzL2Cc0ca+z9gicP/bHCRs=
-X-Received: by 2002:a65:6812:0:b0:50a:c06f:4186 with SMTP id
- l18-20020a656812000000b0050ac06f4186mr1763988pgt.6.1678743334823; Mon, 13 Mar
- 2023 14:35:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
+ id 1pbqC6-0007I6-8M
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 17:59:02 -0400
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
+ id 1pbqC4-0005jU-5c
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 17:59:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678744740; x=1710280740;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ content-transfer-encoding;
+ bh=bi3vB1Afvu+51J4YDYc5L/oLWYB9ZiZboTTv4WXhCbs=;
+ b=fsVZPtAzZiDi+OPJvlq9FmZXu/XzRbx9Gqx+mKuYpUm8U8DynDQpcf80
+ PTb9LXC6eRQgutisejFwwz6YDeywYGlxxpKIdmMMCYyUh4lB3hXbQiNJA
+ rYkpUwiyMSa6x44mTpz5o5dRtVZU01linv0vHKyMpBe34WQ4B5T88Wr+o
+ MtyjQQZpBI80kLx5mb9+QGCzF++il6FVGiPhbcqTGSJd1pCas98nZQEo8
+ n2LSgu+04sjxxmxYy2qA/YqxbhVqjGEMSlVsyNJrmTpMMg5hUTFG7yVbf
+ LKSk3J5BemcA/Hd7I2NjWbJtoUqeO3bx6pXZ5sUgD4N58xlG8vCkIEZhN A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399860148"
+X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="399860148"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2023 14:58:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="743052742"
+X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="743052742"
+Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.212.10.158])
+ ([10.212.10.158])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2023 14:58:42 -0700
+Message-ID: <c021051b-feb5-04e7-c88c-135697276977@intel.com>
+Date: Mon, 13 Mar 2023 14:58:42 -0700
 MIME-Version: 1.0
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
- <20230310103123.2118519-10-alex.bennee@linaro.org>
- <CAFEAcA89K6_-Uc0XmEa1q+_z_yuppq1kvh=uPfv9V80MBH=aQg@mail.gmail.com>
- <87wn3ocwqz.fsf@suse.de> <87sfeclb8o.fsf@linaro.org>
- <CAFEAcA8SFtzMAFPaE=_CJtwXDYiJQ8rDWgEE+Nx2Qz=-FjCmMA@mail.gmail.com>
- <9bb8ab52-c6ae-95a7-e6c8-64bcce166c19@arm.com>
- <29307e46-00f1-9e02-94a3-de8b4a399ada@linaro.org>
-In-Reply-To: <29307e46-00f1-9e02-94a3-de8b4a399ada@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Mar 2023 21:35:23 +0000
-Message-ID: <CAFEAcA_8LQUA45rEu5WmGqvVGrxu2_CaVf1AQLOsW3WBDa0qAg@mail.gmail.com>
-Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Luis Machado <luis.machado@arm.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.0
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+Subject: need help with ACPI generic port implementation for QEMU
+To: qemu-devel@nongnu.org
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Ira Weiny <ira.weiny@intel.com>, Michael Tsirkin <mst@redhat.com>,
+ Ben Widawsky <bwidawsk@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=dave.jiang@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,32 +80,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Mar 2023 at 19:21, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/13/23 04:44, Luis Machado wrote:
-> >> Luis: I think that rather than doing (2) with a QEMU namespace,
-> >> we should define a gdb namespace for this. That makes it clear
-> >> that this is still a gdb-upstream-sanctioned way of exposing
-> >> the pauth registers.
-> >
-> > That should be fine as well, and would work to side-step the gdb 12 bug so it doesn't crash.
-> >
-> > We could name the feature "org.gnu.gdb.aarch64.pauth_v2" or somesuch, and slowly stop
-> > using the original
-> > "org.gnu.gdb.aarch64.pauth" feature. I can document the requirements for a compliant
-> > pauth_v2.
->
-> What if we leave the original two registers, pauth_[cd]mask, in org.gnu.gdb.aarch64.pauth
-> and move the new *_high registers into a different feature?  That would maximize the set
-> of gdb version for which the original user-only support is functional.
+I'm attempting to implement the support of ACPI "generic port" detailed 
+in the ACPI r6.5 spec in QEMU. The spec section 5.2.16.7 details the 
+Generi Port Affinity Structure where it ties a Device Handle to a 
+Proximity Domain. And with section 6.2.28.4 for the HMAT table, the 
+latency and bandwidth information are provided by the System Locality 
+Latency and Bandwidth Information Structure (SLLBIS) sub-table.
 
-If that avoids the gdb crash, sure. But I had the impression from
-Luis' description of it that that would not help (i.e. that it was
-the not-used-by-gdb registers in other XML sections like sysregs
-that resulted in it getting confused about the register number
-for its internal pauth-related register).
+In the CXL world, a hotplugged type-3 device would not have the 
+approriate end to end latency and bandwidth data provided by the HMAT. 
+The QoS data needs to be computed from the CXL host bridge (HB) and the 
+endpoint device. Some parts of the data are supplemented by the CDAT 
+from the endpoint device and the CXL switch(es) if they exist in the 
+path. The component missing is the path between the CPU and the CXL HB 
+(generic port). The data provided by HMAT for generic port will fill 
+that gap.
 
-thanks
--- PMM
+In QEMU, the SRAT is generated by code and the table entry addition is a 
+somewhat straight forward implementation. The HMAT information is fed 
+through user parameter inputs and will require a new object to allow the 
+representation of generic port. The intention is to be able to do 
+something like:
+"-object genport,id=genport0"
+"-numa node,genport=genport0,nodeid=5,initiator=0"
+"-numa dist,src=0,dst=5,val=$dist"
+"-numa 
+hmat-lb,initiator=0,target=5,hierachy=memory,data-type=access-latency,latency=$lat"
+"-numa 
+hmat-lb,initiator=0,target=5,hierarchy=memory,data-type=access-bandwidth,bandwidth=$bw"
+
+I put together a skeletal generic port device that seems to pass the 
+numa parsing code parts. However I'm hitting an error after that that I 
+can't figure out how to deal with:
+qemu-system-x86_64: ../hw/core/qdev.c:316: 
+qdev_assert_realized_properly_cb: Assertion `dev->realized' failed.
+
+At what point is qdev_realize() being called for a device object? It 
+seems that this never happens for this generic port device. What am I 
+missing in terms of initialization or setup? Any assistance is 
+appreciated. Thanks in advance. Here's my latest code that I'm playing 
+with as reference:
+https://github.com/davejiang/qemu/tree/genport
+
+
+
+
+
 
