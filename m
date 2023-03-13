@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E366B7A03
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D945A6B7A07
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbitQ-0005dS-KT; Mon, 13 Mar 2023 10:11:16 -0400
+	id 1pbitO-0005aV-J3; Mon, 13 Mar 2023 10:11:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitM-0005Wy-3T
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitK-0005VF-N0
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitI-0006cH-Cp
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:11 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitH-0006cB-Ic
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678716667;
+ s=mimecast20190719; t=1678716666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MYl6zo2YFTzCRQbEr7TLJNfqD/29rvsOVKUOlTuU2Nw=;
- b=JLDFC/63EHAflcV96GczobdKnTpgIAH31nX3Pa56qfNiw5vMar4d1kXacy2jaFHvTUA2HF
- IUI2oekcvosiNYbhCkIbvpqnr9Y2HGG6L6L8Jx1xH5IzdpVK9TKIKJgpML9EHdaM+H3CXo
- 6wbLcRH6v5hEjv4GKD+PbX2nejmDNro=
+ bh=n4KjcrfQFXyRSIUVExEgxfCz3R/sBlg3iPX48okrKhw=;
+ b=c6z+zwWtWanjEixpXJrIf5uZXZW2DC346+un3l+BqUCgwfw2NqBXq+zzajI+W1jU6K9PLR
+ IoKstIRAgtO1ocRvs9qyP1SF+lVuB4BfTjaxUTSv/1yP0TiXkQH6CC0FqUsJGDzpXmVPNI
+ mUC7uroxfC2H/dZ1wTBmtTuRGBpHFo8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-QD9_E6CPM4qFR4GdcXCcGg-1; Mon, 13 Mar 2023 10:11:03 -0400
-X-MC-Unique: QD9_E6CPM4qFR4GdcXCcGg-1
+ us-mta-359-PIWCJSCzPRGb42FDG-Vg6g-1; Mon, 13 Mar 2023 10:11:04 -0400
+X-MC-Unique: PIWCJSCzPRGb42FDG-Vg6g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A79C1C04187;
- Mon, 13 Mar 2023 14:11:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AF722A2AD6E;
+ Mon, 13 Mar 2023 14:11:04 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68A5A1121315;
- Mon, 13 Mar 2023 14:11:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC341121315;
+ Mon, 13 Mar 2023 14:11:03 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 3/5] gitlab-ci.d/buildtest: Rework the target list of
- build-system-alpine
-Date: Mon, 13 Mar 2023 15:10:55 +0100
-Message-Id: <20230313141057.230810-4-thuth@redhat.com>
+Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Subject: [PULL 4/5] target/s390x: Fix emulation of C(G)HRL
+Date: Mon, 13 Mar 2023 15:10:56 +0100
+Message-Id: <20230313141057.230810-5-thuth@redhat.com>
 In-Reply-To: <20230313141057.230810-1-thuth@redhat.com>
 References: <20230313141057.230810-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,57 +78,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The target list of the build-system-alpine job is pretty much a copy
-of the build-system-ubuntu job (apart from "aarch64-softmmu" which
-has recently been removed from the ubuntu job in commit 6eda5ef5f8f4,
-but aarch64-softmmu is still also tested in the opensuse jobs, so
-we don't need to keep it here).
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 
-Let's stop wasting our CI minutes with such duplications, and focus
-on testing targets instead that do not have such a great test coverage
-yet: The "loongarch64-softmmu" target has never been added to our
-build tests yet since it has been introduced, and the "mips64-softmmu"
-target is so far only tested in jobs that lack the "avocado" testing
-stage (only the little endian or 32-bit MIPS variants are tested in
-jobs with avocado so far).
+The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
+halfword, it does not have the same size as the first operand.
 
-While we're at it, also move the avr-softmmu and mipsel-softmmu targets
-from the Debian job to the alpine job, since the Debian job (and its
-following test jobs) has already a long runtime compared to the others
-jobs. With this movement, the runtimes should be more equally distributed
-along the parallel running jobs now.
-
-Message-Id: <20230309164850.109882-1-thuth@redhat.com>
+Fixes: a7e836d5eb ("target-s390: Convert COMPARE, COMPARE LOGICAL")
+Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20230310114157.3024170-2-nsg@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/buildtest.yml | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ target/s390x/tcg/insn-data.h.inc | 4 ++--
+ target/s390x/tcg/translate.c     | 7 +++++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 44b8275299..ba6f551752 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -9,8 +9,7 @@ build-system-alpine:
-     - job: amd64-alpine-container
-   variables:
-     IMAGE: alpine
--    TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
--      microblazeel-softmmu mips64el-softmmu
-+    TARGETS: avr-softmmu loongarch64-softmmu mips64-softmmu mipsel-softmmu
-     MAKE_CHECK_ARGS: check-build
-     CONFIGURE_ARGS: --enable-docs --enable-trace-backends=log,simple,syslog
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 9d2d35f084..6fe8ca5143 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -199,8 +199,8 @@
+     C(0xe55c, CHSI,    SIL,   GIE, m1_32s, i2, 0, 0, 0, cmps64)
+     C(0xe558, CGHSI,   SIL,   GIE, m1_64, i2, 0, 0, 0, cmps64)
+ /* COMPARE HALFWORD RELATIVE LONG */
+-    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_32s, 0, 0, 0, cmps32)
+-    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_64, 0, 0, 0, cmps64)
++    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps32)
++    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps64)
+ /* COMPARE HIGH */
+     C(0xb9cd, CHHR,    RRE,   HW,  r1_sr32, r2_sr32, 0, 0, 0, cmps32)
+     C(0xb9dd, CHLR,    RRE,   HW,  r1_sr32, r2_o, 0, 0, 0, cmps32)
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 21a57d5eb2..d324c0b6f2 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -5979,6 +5979,13 @@ static void in2_m2_64a(DisasContext *s, DisasOps *o)
+ #define SPEC_in2_m2_64a 0
+ #endif
  
-@@ -72,8 +71,8 @@ build-system-debian:
-   variables:
-     IMAGE: debian-amd64
-     CONFIGURE_ARGS: --with-coroutine=sigaltstack
--    TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
--      riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
-+    TARGETS: arm-softmmu i386-softmmu riscv64-softmmu sh4eb-softmmu
-+      sparc-softmmu xtensaeb-softmmu
-     MAKE_CHECK_ARGS: check-build
- 
- check-system-debian:
++static void in2_mri2_16s(DisasContext *s, DisasOps *o)
++{
++    o->in2 = tcg_temp_new_i64();
++    tcg_gen_qemu_ld16s(o->in2, gen_ri2(s), get_mem_index(s));
++}
++#define SPEC_in2_mri2_16s 0
++
+ static void in2_mri2_16u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
 -- 
 2.31.1
 
