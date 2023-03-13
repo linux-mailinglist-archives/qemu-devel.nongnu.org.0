@@ -2,102 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D75A6B787A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 14:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8EF6B7890
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 14:12:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbhvb-0007yS-Qs; Mon, 13 Mar 2023 09:09:27 -0400
+	id 1pbhxd-0001CL-7G; Mon, 13 Mar 2023 09:11:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pbhvZ-0007xG-Tk
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:09:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dbassey@redhat.com>)
+ id 1pbhxZ-00018Z-4o
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:11:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pbhvX-0003Dl-M4
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:09:25 -0400
+ (Exim 4.90_1) (envelope-from <dbassey@redhat.com>)
+ id 1pbhxX-0003dr-BF
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:11:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678712962;
+ s=mimecast20190719; t=1678713086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bu44FXxZ0cnZh3U/qPfWE3A7X8UwkJ49apQu65y8qyQ=;
- b=aJyfCbLsGOPWYtVYAGwpqAu5nAen8R2HIQgk1z/JmWaXViXu4/j844FypXwP90NhQVaOZD
- EJrXqFB4lvhxkD4sMy9nr7rRLF3DbXcK6Q13tRxI1YnwjzQs50260jSyH8hNiwcWzCdMyi
- G+zduusHJx5Ema7Ok5QA1VRxa4ku5/0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=futdehKznYx6YFHaLDugVyttncMFjLJUsuDfE+3+PGI=;
+ b=BNnWcBkzvo+zbfR69ZjAZPfnCXYjNhU9487ATbhHXtWk0Plrdr/M4Xj0jrchDhsEClcyzt
+ VtLtKOEYen1kibKefo5aM1b898pny58k7++kWU1Ukyc/grWiUSVsI14ZTCLAz6ksZqMPhV
+ bpkzOZZa8fq7lavk4Oa6fFMF0bHq8hc=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-398-rZJC7SqBPF2rgs7mVC8pEQ-1; Mon, 13 Mar 2023 09:09:20 -0400
-X-MC-Unique: rZJC7SqBPF2rgs7mVC8pEQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o42-20020a05600c512a00b003ed26fa6ebdso618644wms.7
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 06:09:20 -0700 (PDT)
+ us-mta-581-6imhPoD4P6S40NI7ePYqvQ-1; Mon, 13 Mar 2023 09:11:23 -0400
+X-MC-Unique: 6imhPoD4P6S40NI7ePYqvQ-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ e14-20020a05620a208e00b0074270b9960dso6483226qka.22
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 06:11:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678712959;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bu44FXxZ0cnZh3U/qPfWE3A7X8UwkJ49apQu65y8qyQ=;
- b=yQPtGPqRenitj5NSxH40JfGFqvPVrZlZB3B1XrDYTztURCPKtZLb4fR51TeX4MBtjO
- zRUSBYVuech8yf332xIz0QR+iCf+ytBKszdJ4x9pD24ZqxRjWdoyq8rH1avx1F+7tn+5
- JsuTyyyDsir4vjEfx4q5JizP1q8er51VmMNibt0dueRfPinOUG74OEIn1w8F419eMHvj
- pBL+DOZwZnG55nYcZHlRy5JllyMVPDabpMCy/CsM8mt62MPuOC+6AWB1Vpzc21wLYyg5
- 3l8pMMovE/SWQZ+b76/CoW0SUoAAfpMDGj0BEJRtnkGmxKu7TVp8owbj4TksAzxLZJ8p
- HHcw==
-X-Gm-Message-State: AO0yUKWXA9JLXBsN+mA2MTcVy8QuhwgFZ//J67whpoqWdr2JaFlQDu2S
- UOxLo0auo65mVedm+wwgNqNZZmtTGP8X7iV6D40U+rNU672E4CaGaMeHFQwxFUK8HcTC1wS+qC6
- JrcupPXyQXW6/UI4=
-X-Received: by 2002:a05:600c:4f50:b0:3ea:bc08:42ad with SMTP id
- m16-20020a05600c4f5000b003eabc0842admr10823692wmq.2.1678712959430; 
- Mon, 13 Mar 2023 06:09:19 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9Ix21J76nlFgX1nX/ogtvm++8CTePWXPkMgzPOZzKPmoEn2pHtftGKqRrcwNayl/nPL9kBRw==
-X-Received: by 2002:a05:600c:4f50:b0:3ea:bc08:42ad with SMTP id
- m16-20020a05600c4f5000b003eabc0842admr10823663wmq.2.1678712959069; 
- Mon, 13 Mar 2023 06:09:19 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- i1-20020a05600c290100b003e89e3284fasm8983507wmd.36.2023.03.13.06.09.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 06:09:18 -0700 (PDT)
-Message-ID: <f060c5ab-f60e-a0a4-6415-f4ace8db479e@redhat.com>
-Date: Mon, 13 Mar 2023 14:09:17 +0100
+ d=1e100.net; s=20210112; t=1678713083;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=futdehKznYx6YFHaLDugVyttncMFjLJUsuDfE+3+PGI=;
+ b=izqQUsPp5Oi0D8zqXTT5FcuHUdD55+3fSe8vyUOHiAgfRI6lLmyEzPgtrEp+VsrdlV
+ WXo6N1IgixmtdRciCvHDhYUVvsgXJiCWMlQhbuw0tK6uJvjLt46q/6WP8Ax/Vjbu76Sp
+ kJ1hnLqJcylE6AHfC6CV+eZos520FvjGEAaK2T2c+xcy8skPKUvqscbTzWMEYt9Bz4Eg
+ rHHIEauzCmj7pSaYEkWDEzN71m2kC7SzyjEt9pkYL9GuAb38MRZTjtPeFTrvC4DEZz2H
+ A30T1XydWrwecZDazQ/XeUURxMGDbrLcg2W1XlQAK4M5s2C/KX/Mf0cDSy1PPDrGtilQ
+ mM8g==
+X-Gm-Message-State: AO0yUKWQSACCPJ/hjZqk0AKdDL5gOn3SHacVm2PpcXN6ImtnTwYWk4f9
+ jz3mdtaqTfoK1aXr0VeeD7jPH0J6kbZyM3TCN6MFIay4kbmOsLIVf10a58MjgtD7qkFh8bbBvWT
+ OYn81M+5RIDKPhlD8BE8TUDzo94TTVxE=
+X-Received: by 2002:aed:27d8:0:b0:3bf:dc7e:9e42 with SMTP id
+ m24-20020aed27d8000000b003bfdc7e9e42mr10305979qtg.10.1678713082779; 
+ Mon, 13 Mar 2023 06:11:22 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+FrIuKcY+ZHKJWsftPhabq7+mhpaXOFoawyE7LPV3MD9VdOZ7La3jzN6Mr8oUp4SLB5kbUfHtRBcLkt5LgLTs=
+X-Received: by 2002:aed:27d8:0:b0:3bf:dc7e:9e42 with SMTP id
+ m24-20020aed27d8000000b003bfdc7e9e42mr10305969qtg.10.1678713082404; Mon, 13
+ Mar 2023 06:11:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH for-8.0] ide: Fix manual in-flight count for TRIM BH
-Content-Language: en-US
-To: Fiona Ebner <f.ebner@proxmox.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-References: <20230309114430.33684-1-hreitz@redhat.com>
- <88de2e68-61e2-9397-b202-d611247002ba@redhat.com>
- <CABgObfZkSt6-0-vKkUtiWUy1TtHS_kEiYM2wRh+MfjTXmW497A@mail.gmail.com>
- <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
- <3e695f64-13bb-1311-6cd6-09bffc312873@redhat.com>
- <ZAobe/wtsf//YGHJ@redhat.com>
- <a432cb4d-8d7e-8408-15a9-c84414c03196@proxmox.com>
- <ZAs92f/J9qvA6X5B@redhat.com>
- <CABgObfbJ_20fk4H=w0HUBrAtUBbrzn53euqUc-D-s5a3-Xur5w@mail.gmail.com>
- <9bc7a6d8-744e-9593-1de0-88f19a1e1bc1@proxmox.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <9bc7a6d8-744e-9593-1de0-88f19a1e1bc1@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+References: <20230306171020.381116-1-dbassey@redhat.com>
+ <64425814-c379-ef8f-b217-11d47f9f3bab@t-online.de>
+In-Reply-To: <64425814-c379-ef8f-b217-11d47f9f3bab@t-online.de>
+From: Dorinda Bassey <dbassey@redhat.com>
+Date: Mon, 13 Mar 2023 14:11:11 +0100
+Message-ID: <CACzuRyyyt-L+iwFHOS3Tq5hQ9OToedyM79fmtKU3+X6KpUDSsw@mail.gmail.com>
+Subject: Re: [PATCH v7] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ kraxel@redhat.com, armbru@redhat.com, qemu_oss@crudebyte.com, 
+ pbonzini@redhat.com, wtaymans@redhat.com, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000f4f4de05f6c7d8eb"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dbassey@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,25 +94,245 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/13/23 13:29, Fiona Ebner wrote:
->> In fact, shouldn't request queuing was enabled at the _end_ of
->> bdrv_drained_begin (once the BlockBackend has reached a quiescent
->> state on its own terms), rather than at the beginning (which leads to
->> deadlocks like this one)?
+--000000000000f4f4de05f6c7d8eb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Volker,
+
+
+> To hear this,
+> start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=3Daudio0
+> -device ich9-intel-hda -device hda-duplex,audiodev=3Daudio0 -audiodev
+> pipewire,id=3Daudio0,out.mixing-engine=3Doff ...
 >
-> Couldn't this lead to scenarios where a busy or malicious guest, which
-> continues to submit new requests, slows down draining or even prevents
-> it from finishing?
+I hear the clipped audio stream with these options. IMO, I don't think
+memset is responsible for that behaviour, I still hear the harsh sound with
+"-audiodev pa". I also tried using an alternative like:
 
-Possibly, but there is also a .drained_begin/.drained_end callback that 
-can be defined in order to apply backpressure.  (For some other devices, 
-there's also aio_disable_external/aio_enable_external that do the 
-equivalent of request queuing but without the deadlocks)
+@@ -117,7 +118,7 @@ playback_on_process(void *data)
+     }
 
-Since starting the queuing of requests at the end of bdrv_drained_begin 
-wouldn't hurt correctness, and it would fix this kind of deadlock, I 
-think it would be worth giving it a try.
+     if (avail =3D=3D 0) {
+-        memset(p, 0, n_bytes);
++        p =3D g_malloc0(sizeof(n_bytes));
+     } else {
 
-Paolo
+The clipped audio issue is still persistent.
+
+Thanks,
+Dorinda.
+
+On Sun, Mar 12, 2023 at 9:01=E2=80=AFAM Volker R=C3=BCmelin <vr_qemu@t-onli=
+ne.de> wrote:
+
+> > +/* output data processing function to read stuffs from the buffer */
+> > +static void
+> > +playback_on_process(void *data)
+> > +{
+> > +    PWVoice *v =3D (PWVoice *) data;
+> > +    void *p;
+> > +    struct pw_buffer *b;
+> > +    struct spa_buffer *buf;
+> > +    uint32_t n_frames, req, index, n_bytes;
+> > +    int32_t avail;
+> > +
+> > +    if (!v->stream) {
+> > +        return;
+> > +    }
+> > +
+> > +    /* obtain a buffer to read from */
+> > +    b =3D pw_stream_dequeue_buffer(v->stream);
+> > +    if (b =3D=3D NULL) {
+> > +        error_report("out of buffers: %s", strerror(errno));
+> > +        return;
+> > +    }
+> > +
+> > +    buf =3D b->buffer;
+> > +    p =3D buf->datas[0].data;
+> > +    if (p =3D=3D NULL) {
+> > +        return;
+> > +    }
+> > +    req =3D b->requested * v->frame_size;
+> > +    if (req =3D=3D 0) {
+> > +        req =3D 4096 * v->frame_size;
+> > +    }
+> > +    n_frames =3D SPA_MIN(req, buf->datas[0].maxsize);
+> > +    n_bytes =3D n_frames * v->frame_size;
+> > +
+> > +    /* get no of available bytes to read data from buffer */
+> > +
+> > +    avail =3D spa_ringbuffer_get_read_index(&v->ring, &index);
+> > +
+> > +    if (!v->enabled) {
+> > +        avail =3D 0;
+> > +    }
+> > +
+> > +    if (avail =3D=3D 0) {
+> > +        memset(p, 0, n_bytes);
+>
+> memset() doesn't work for unsigned samples. For unsigned samples, a
+> stream of zeros is silence with a DC offset. When Pipewire mixes this
+> stream with another, the result is a clipped audio stream. To hear this,
+> start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=3Daudio0
+> -device ich9-intel-hda -device hda-duplex,audiodev=3Daudio0 -audiodev
+> pipewire,id=3Daudio0,out.mixing-engine=3Doff ... and start playback with =
+the
+> hda device.
+>
+> With best regards,
+> Volker
+>
+> > +    } else {
+> > +        if (avail < (int32_t) n_bytes) {
+> > +            n_bytes =3D avail;
+> > +        }
+> > +
+> > +        spa_ringbuffer_read_data(&v->ring,
+> > +                                    v->buffer, RINGBUFFER_SIZE,
+> > +                                    index & RINGBUFFER_MASK, p,
+> n_bytes);
+> > +
+> > +        index +=3D n_bytes;
+> > +        spa_ringbuffer_read_update(&v->ring, index);
+> > +    }
+> > +
+> > +    buf->datas[0].chunk->offset =3D 0;
+> > +    buf->datas[0].chunk->stride =3D v->frame_size;
+> > +    buf->datas[0].chunk->size =3D n_bytes;
+> > +
+> > +    /* queue the buffer for playback */
+> > +    pw_stream_queue_buffer(v->stream, b);
+> > +}
+> > +
+> >
+>
+>
+
+--000000000000f4f4de05f6c7d8eb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Volker,</div><span class=3D"gmail-im"><div>=C2=A0<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>To hear thi=
+s, <br>
+start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=3Daudio0 <br><sp=
+an>
+-device ich9-intel-hda -device hda-duplex,audiodev=3Daudio0 -audiodev <br><=
+/span>
+pipewire,id=3Daudio0,out.mixing-engine=3Doff ... </div></blockquote></span>=
+<div>I
+ hear the clipped audio stream with these options. IMO, I don&#39;t think=
+=20
+memset is responsible for that behaviour, I still hear the harsh sound=20
+with &quot;-audiodev pa&quot;. I also tried using an alternative like:</div=
+><div><br></div><div>@@ -117,7 +118,7 @@ playback_on_process(void *data)<br=
+>=C2=A0 =C2=A0 =C2=A0}<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0if (avail =3D=3D 0)=
+ {<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(p, 0, n_bytes);<br>+ =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0p =3D g_malloc0(sizeof(n_bytes));<br>=C2=A0 =C2=A0 =C2=A0}=
+ else {</div><div><br></div><div>The clipped audio issue is still persisten=
+t.</div><div><br></div><div>Thanks,</div><div>Dorinda.</div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Mar 12,=
+ 2023 at 9:01=E2=80=AFAM Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@=
+t-online.de">vr_qemu@t-online.de</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">&gt; +/* output data processing function t=
+o read stuffs from the buffer */<br>
+&gt; +static void<br>
+&gt; +playback_on_process(void *data)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 PWVoice *v =3D (PWVoice *) data;<br>
+&gt; +=C2=A0 =C2=A0 void *p;<br>
+&gt; +=C2=A0 =C2=A0 struct pw_buffer *b;<br>
+&gt; +=C2=A0 =C2=A0 struct spa_buffer *buf;<br>
+&gt; +=C2=A0 =C2=A0 uint32_t n_frames, req, index, n_bytes;<br>
+&gt; +=C2=A0 =C2=A0 int32_t avail;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!v-&gt;stream) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* obtain a buffer to read from */<br>
+&gt; +=C2=A0 =C2=A0 b =3D pw_stream_dequeue_buffer(v-&gt;stream);<br>
+&gt; +=C2=A0 =C2=A0 if (b =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;out of buffers: %s&quo=
+t;, strerror(errno));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 buf =3D b-&gt;buffer;<br>
+&gt; +=C2=A0 =C2=A0 p =3D buf-&gt;datas[0].data;<br>
+&gt; +=C2=A0 =C2=A0 if (p =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 req =3D b-&gt;requested * v-&gt;frame_size;<br>
+&gt; +=C2=A0 =C2=A0 if (req =3D=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 req =3D 4096 * v-&gt;frame_size;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 n_frames =3D SPA_MIN(req, buf-&gt;datas[0].maxsize);<br=
+>
+&gt; +=C2=A0 =C2=A0 n_bytes =3D n_frames * v-&gt;frame_size;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* get no of available bytes to read data from buffer *=
+/<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 avail =3D spa_ringbuffer_get_read_index(&amp;v-&gt;ring=
+, &amp;index);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!v-&gt;enabled) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 avail =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (avail =3D=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(p, 0, n_bytes);<br>
+<br>
+memset() doesn&#39;t work for unsigned samples. For unsigned samples, a <br=
+>
+stream of zeros is silence with a DC offset. When Pipewire mixes this <br>
+stream with another, the result is a clipped audio stream. To hear this, <b=
+r>
+start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=3Daudio0 <br>
+-device ich9-intel-hda -device hda-duplex,audiodev=3Daudio0 -audiodev <br>
+pipewire,id=3Daudio0,out.mixing-engine=3Doff ... and start playback with th=
+e <br>
+hda device.<br>
+<br>
+With best regards,<br>
+Volker<br>
+<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (avail &lt; (int32_t) n_bytes) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n_bytes =3D avail;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 spa_ringbuffer_read_data(&amp;v-&gt;ring,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v-&gt;buffer, RING=
+BUFFER_SIZE,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 index &amp; RINGBU=
+FFER_MASK, p, n_bytes);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 index +=3D n_bytes;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 spa_ringbuffer_read_update(&amp;v-&gt;rin=
+g, index);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 buf-&gt;datas[0].chunk-&gt;offset =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 buf-&gt;datas[0].chunk-&gt;stride =3D v-&gt;frame_size;=
+<br>
+&gt; +=C2=A0 =C2=A0 buf-&gt;datas[0].chunk-&gt;size =3D n_bytes;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* queue the buffer for playback */<br>
+&gt; +=C2=A0 =C2=A0 pw_stream_queue_buffer(v-&gt;stream, b);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;<br>
+<br>
+</blockquote></div>
+
+--000000000000f4f4de05f6c7d8eb--
 
 
