@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE836B7F9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 18:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851246B7FBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 18:50:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbm6w-000184-Fw; Mon, 13 Mar 2023 13:37:26 -0400
+	id 1pbmIF-0006GV-IG; Mon, 13 Mar 2023 13:49:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pbm6j-00013X-FL; Mon, 13 Mar 2023 13:37:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pbmHq-0006Ex-G4
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 13:48:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pbm6h-0007G7-RF; Mon, 13 Mar 2023 13:37:13 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N7AEs-1qcXoj2JRs-017TJt; Mon, 13 Mar 2023 18:37:05 +0100
-Message-ID: <d28906cb-42da-ac28-5609-281ce91245f9@vivier.eu>
-Date: Mon, 13 Mar 2023 18:37:02 +0100
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pbmHo-0000j7-S6
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 13:48:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678729716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aEqvPEHcZpqcSa/m3CU48A3ZOtYVsZnPIvlbZeJwru0=;
+ b=F9LxV58D1rybd++0kG63SBIDKOgvJ5c5UpnVWYaDd95zL45e0KVVbPE9Qnx3eGipb3XmrW
+ pFZ6pjnWBB6kniFJhSvMz/JtaSoeNBc44UWd0oHmhyvpAzpdk6wpBnbrhs+aYiZEW3pS10
+ Upgj2JET4olh4+uhxEls84bDJcovs40=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-674-DMrSVmTWOK2fZzCAA2hsTA-1; Mon, 13 Mar 2023 13:48:35 -0400
+X-MC-Unique: DMrSVmTWOK2fZzCAA2hsTA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17643857F47
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 17:48:35 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC4E11121315;
+ Mon, 13 Mar 2023 17:48:34 +0000 (UTC)
+From: Hanna Czenczek <hreitz@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Cc: Hanna Czenczek <hreitz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [RFC 0/2] vhost-user-fs: Stateful migration
+Date: Mon, 13 Mar 2023 18:48:31 +0100
+Message-Id: <20230313174833.28790-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] qemu-options.hx: remove stray quote
-Content-Language: fr
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20230202223121.252073-1-jsnow@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230202223121.252073-1-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:b5iq/fyX0fOLwqvKb7G32DW/5Px9yTQxmV8UMuLTU8EsLQ0UVzw
- aU4ncddF7HvLdEjI39vcqSpJDi8TMwjl47KgdltnUrLODQwgp2L9dyrccaXBZ/rFjLv1zCC
- 2ElJ3QvaFGnUCK/XMzvuzLZdnglgtqxA42EqrZdmqrgja1AJY+SffaCv6W3DnYgcC0hVgL0
- Vv4iqDpcR7OCagg6+HqVg==
-UI-OutboundReport: notjunk:1;M01:P0:c0ERZz0tOR4=;ZPnPwcmx0nWBDaw7PXgD4514xlL
- yA+YzmKRAXzWZ6AHHhE7D9fMfkSyUx8Xj6yFpqbSc6iVlMoZJZETE5HkS946GYmVWQEioNzOg
- 0tG0yD2b52OyepqgR8oFBbUNd2F02CGN4lgV9ZhExf9Q+760tNr779gNp6E5dKNKpTttcx2pU
- RhqEHFOgnT5NCq9a+IVmTmloQrpoI1kVLVKsQjY0M/MByfiSGhMtoN6D69OK5HZqX5k5wMpaU
- pnCavjDuL0dqToFnXfSao333GDgc91G5PkcTNcPuEZNCgFyEz2ETmkWloDj1kXQ0bdP9+SOef
- Rq5L2sfquc30AZcRJzuLNg56VhVoGxaHrmu3N4ajtYgPJs3tvLheysqCjlzUmS4LVJahIAbno
- hIfdlasrdS0Ry8+Mqm7mFXiGWzdnozAJ0j1FQNfJrDOqnmm0lxFtMQSTki+8SlLALDwCN4+qK
- S8DPiC3ex5hSzcz/RVRYQGkfHUxZFvQtwCuvJxdSdx7vYEb7cX0DACLPr/lS2PVb0BxvWt+Rb
- iYDcfFcv1hzyRAf5/gUlkyFRMc/sQcKIFZm2610E8Aj5UlL+b3R1eqxkbdDYTZ4CMihB/DBmI
- CPtUFwUYk8lI7zteQsbgdD1ErB9MciR/uvTj6MExpbZhcIukTecs5JjTQbY4k1FnSxMYfCljJ
- wI7KAzZp4nKUFr/eBL/yp/8XSVuspQ+wE9kERKZAnQ==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,29 +78,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 02/02/2023 à 23:31, John Snow a écrit :
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   qemu-options.hx | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index d59d19704bc..52d477547f5 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1606,7 +1606,7 @@ SRST
->   
->       .. parsed-literal::
->   
-> -        |qemu_system_x86| -drive file=a -drive file=b"
-> +        |qemu_system_x86| -drive file=a -drive file=b
->   
->       is interpreted like:
->   
+Hi,
 
-Applied to my trivial-patches branch.
+Patch 1 of this RFC series adds virtio-fs-specific operations to vhost
+for transferring a binary blob of back-end-internal state, and
+implements those for vhost-user.
 
-Thanks,
-Laurent
+Patch 2 uses those operations to implement stateful migration for
+vhost-user-fs devices, assuming the back-end (virtiofsd) supports it.
+
+This is an RFC for multiple reasons, most notably:
+- Patch 1 proposes yet undiscussed changes to the vhost protocol, which
+  makes it RFC by default.
+- Without much experience in the fields of migration or vhost (on the
+  qemu side), I hope marking this as an RFC leads to extra scrutiny on
+  the reviewer’s side. O:)
+
+
+Hanna Czenczek (2):
+  vhost-user: Add interface for virtio-fs migration
+  vhost-user-fs: Implement stateful migration
+
+ include/hw/virtio/vhost-backend.h |   9 ++
+ include/hw/virtio/vhost.h         |  68 ++++++++++++
+ hw/virtio/vhost-user-fs.c         | 171 +++++++++++++++++++++++++++++-
+ hw/virtio/vhost-user.c            | 138 ++++++++++++++++++++++++
+ hw/virtio/vhost.c                 |  29 +++++
+ 5 files changed, 414 insertions(+), 1 deletion(-)
+
+-- 
+2.39.1
 
 
