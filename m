@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192C76B72BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 10:37:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B036B72ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 10:43:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbebE-0001ss-2k; Mon, 13 Mar 2023 05:36:12 -0400
+	id 1pbei2-0003xk-TS; Mon, 13 Mar 2023 05:43:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pbeb9-0001s8-SG
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:36:07 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pbei0-0003xN-KJ
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:43:12 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pbeb7-0006Bm-4D
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:36:07 -0400
-Received: by mail-ed1-x536.google.com with SMTP id o12so45962310edb.9
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 02:36:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pbehy-0007ha-Ok
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:43:12 -0400
+Received: by mail-lf1-x136.google.com with SMTP id r27so14841686lfe.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 02:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678700163;
+ d=gmail.com; s=20210112; t=1678700587;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gEagsX9/QPvX5/jUXLfB/2mQockE5naDrIMR9X5hg7g=;
- b=G+H5E2qhjIMBOIAOcWHHDEcQd5jCZFkjyS/6woKuWU0p3Bz3SgUtbvOAaRHOYs2tlM
- 2unyA6MmK/c8xpT4JCIVcqv4EUrj302XQpSbZ4yDbfM3UI52TS6x310SPVIMvVMezbsH
- Qd7R1Z+5TWdNjrMurtUL5C3y4FfGt9leA1rqrHsxVGegSIEpd1t6zYfk7KYyPZnJPaSE
- 9OUQTxWwpq5Ga5sWY7tTxZBSdme0r3Hw7DqJezuw8ZACGa7IW4wjssuhZYxubhs4rgBF
- MziYFif9ZPMPuWb3tGnrQchFFyeZkLrvmyvofiEH76LKXe93NDShqHprnC41Ukr3JZoL
- EMCw==
+ bh=MlvW9roVhtWAuzR84ie3kfbvbxBlKbvRcbCAmGbkb5s=;
+ b=JTVLajanzUjCUuhF7smJxmADkRt+m1OdvcAt5QJXVDdoA96dc1kp7zud1We8bJDO46
+ hxguAuCdnRHnX9f76RvC3yeMG0YEM5tyf3ulPWbBAQwb1jnWhFvP0q3NPphX5SYG7SFc
+ Fq19LeghEfs9Clt6Yu0I/8JU+6DW1SfUjQMlROCEeFIteK3H7iu33X0FzHQxs527HBQf
+ ymQphGVbfJEZ9VKLSdGqif0Z7F/OkcuytP/la81iGq3kIYqEdTaZPktd+6JUnIujp0p0
+ zkw4zGrpXXo7LsCyKs+BzHWVT2gG0XNuyhfjeIqm+4ZZJWFGtp7UOIJ5QdtaVFsh21/D
+ DC1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678700163;
+ d=1e100.net; s=20210112; t=1678700587;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gEagsX9/QPvX5/jUXLfB/2mQockE5naDrIMR9X5hg7g=;
- b=flksTa+eVr9t4cCHgdu6dZi47j8kDZRXYEvvkCx79gCeEKos6BapKJWUZSZMbyQzlu
- B3RZcF4fMqb0tC37wL/d4i/HlMe5zqIUbq8kvytllp8C/h4GbqakkB03SeDMpk0z0RhP
- TR7sSP0F2l2R0Bg/Re8ULpsLPQQzK72r84KN0IIcSqN5d3A/I7PUEDpgbSPxXCdmxj8j
- c7v/2zCxdelNVsOJH7Lw+Tl0MDLSYUqdLN9cLNtfV9gydwrI0VJDz7SKfGA0hei8vSR9
- NbofljhpC05Lf0Rkt7Tu0t5rsQ6HbxrwapAvynCGUP10CwIfmU7OO1wjYknpM378aMTE
- gSKg==
-X-Gm-Message-State: AO0yUKU9R3WhzzQteA22LIpOP/kvXaCocjEx1Nv6LEkiHqye77kqzASv
- TQr7EKpj/caZRhEWc5hU9eVqRAM3cO8cMp77LgM=
-X-Google-Smtp-Source: AK7set9xrm/j25f+3QJsLzk0rPr8ZegkkM4CJ818dnBmxPx6vVWw7EcO7s52w09/XWXHoW5lJzpnlkyAhTvZIFDwSHM=
-X-Received: by 2002:a17:906:8548:b0:926:5020:1421 with SMTP id
- h8-20020a170906854800b0092650201421mr2015412ejy.9.1678700163012; Mon, 13 Mar
- 2023 02:36:03 -0700 (PDT)
+ bh=MlvW9roVhtWAuzR84ie3kfbvbxBlKbvRcbCAmGbkb5s=;
+ b=NaWxB9IxJjEZKb3Widyah85fsjQBXWvzDgM+horp6c8jsT4ZDPUoCUF+GiGmNxlccM
+ JzHHfRbAbWJHTJjyKCqb40uNlx7OIVpDHBkIGKcAkZ8TpTIpd+hrNOufpmQAy+fD3zze
+ YjjFOB1TF+6vIFdwARGgcUOcvMIrCzNHp3VAIkGSktreaYS7Y3Itrob/aVnn9T32aGN+
+ 3R2vCCtdWlEn68C4VxV2nUfugu8AV5oWbBPew01T0OY1oRERJT8OFVNfrHDQ7Y3IVTo3
+ 6VAiR3AJbTBQjjl1I43zANEjZ4UJ8LXKlO4pQQOHBwtqxhjBhvTlEMayTbHyMOiXdj9S
+ mARg==
+X-Gm-Message-State: AO0yUKURYqAref0ZPakGEQg93rdv281VoSLcqJAjSOzN6yhEobe454CI
+ odjN+25eULmf4EUDKiGhda/HWAPUityUsXYMOkw=
+X-Google-Smtp-Source: AK7set9E/D2O1IM4fxMptTICzkuYM0RlIWmxEgYgCgP3PpgRvyHRXoJ5fYGwQch9tKUgTkSFYqRRyf3bS78u75Ag5Yk=
+X-Received: by 2002:ac2:4884:0:b0:4db:4604:6328 with SMTP id
+ x4-20020ac24884000000b004db46046328mr10122194lfc.11.1678700587113; Mon, 13
+ Mar 2023 02:43:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230310133247.39268-1-philmd@linaro.org>
- <CAFEAcA8hDiWBXPhKmo=AsS5wfu8wKf2YbxwF4p7xRSWrCW4xEg@mail.gmail.com>
- <03a66cae-4822-7cd2-8dd3-106e8b3f4334@linaro.org>
- <CAEUhbmXoOPXQZaCBHjpwJbbkiAy8Hd4ywALQ_2AiOrPJ3294UQ@mail.gmail.com>
- <5f1e8a9e-d19b-c9c5-ed07-7393de520b36@linaro.org>
-In-Reply-To: <5f1e8a9e-d19b-c9c5-ed07-7393de520b36@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 13 Mar 2023 17:35:51 +0800
-Message-ID: <CAEUhbmX1sO4YBbQZ3HtMh+LEtO0q68zxekXzCCsjG1xC=yS46w@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0] gitlab-ci: Remove job building EDK2 firmware
- binaries
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Simon Glass <sjg@chromium.org>, Beraldo Leal <bleal@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?UGF3ZcWCIFBvxYJhd3NraQ==?= <ppolawsk@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Palmer Dabbelt <palmer@rivosinc.com>
+References: <20230307115637.2464377-1-marcandre.lureau@redhat.com>
+ <20230307115637.2464377-16-marcandre.lureau@redhat.com>
+ <ZAsANUeVUbLehjPQ@redhat.com>
+In-Reply-To: <ZAsANUeVUbLehjPQ@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 13 Mar 2023 13:42:55 +0400
+Message-ID: <CAJ+F1CKK4wwixaFQFbGDAzhthazP3yAXRsyp2XcfPi+U9ASsOw@mail.gmail.com>
+Subject: Re: [PATCH v2 15/18] ui/sdl: try to instantiate the matching opengl
+ renderer
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,56 +91,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Philippe,
+Hi
 
-On Mon, Mar 13, 2023 at 4:51=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
+On Fri, Mar 10, 2023 at 2:03=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com> wrote:
 >
-> On 13/3/23 03:09, Bin Meng wrote:
-> > On Fri, Mar 10, 2023 at 9:50=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
-> > <philmd@linaro.org> wrote:
-> >>
-> >> On 10/3/23 14:38, Peter Maydell wrote:
-> >>> On Fri, 10 Mar 2023 at 13:33, Philippe Mathieu-Daud=C3=A9 <philmd@lin=
-aro.org> wrote:
-> >>>>
-> >>>> When we introduced this Gitlab-CI job in commit 71920809ce
-> >>>> ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries"),
-> >>>> the naive plan was to have reproducible binaries by downloading
-> >>>> what this job would build, testing it and eventually committing
-> >>>> it. With retrospective, nothing happened 3 years later and this
-> >>>> job is just bitrotting:
-> >>>>
-> >>>>     Step 1/3 : FROM ubuntu:18.04
-> >>>>     18.04: Pulling from library/ubuntu
-> >>>>     mediaType in manifest should be
-> >>>>     'application/vnd.docker.distribution.manifest.v2+json' not
-> >>>>     'application/vnd.oci.image.manifest.v1+json'
-> >>>>
-> >>>> Remove this job to avoid wasting maintenance and CI ressources.
-> >>>
-> >>> Does the same thing hold for the opensbi job ?
-> >>
-> >> Cc'ing Bin, I have no idea.
-> >>
+> On Tue, Mar 07, 2023 at 03:56:34PM +0400, marcandre.lureau@redhat.com wro=
+te:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > The OpenSBI job now builds fine. I have no preference on keeping vs.
-> > removing it.
+> > User can still bypass the QEMU choice with SDL_RENDER_DRIVER environmen=
+t
+> > variable. (for some reason, specifying a driver disables batching and
+> > breaks rendering, so enable it explicitly)
+>
+> What problem is this change actually fixing ?  Can you explain here.
+
+Simply that -display sdl,gl=3Des didn't actually use OpenGL ES without this=
+.
+
+Using OpenGL ES allows to use ANGLE, which works generally better than
+Windows/OEM OpenGL.
+
+>
 > >
-> > I remember our previous goal was to create CI jobs for every pc-bios
-> > image but apparently that never happened.
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  ui/sdl2.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/ui/sdl2.c b/ui/sdl2.c
+> > index 592eca3e1c..e83ea53628 100644
+> > --- a/ui/sdl2.c
+> > +++ b/ui/sdl2.c
+> > @@ -99,7 +99,18 @@ void sdl2_window_create(struct sdl2_console *scon)
+> >                                           surface_width(scon->surface),
+> >                                           surface_height(scon->surface)=
+,
+> >                                           flags);
+> > +    if (scon->opengl) {
+> > +        const char *driver =3D "opengl";
+> > +
+> > +        if (scon->opts->gl =3D=3D DISPLAYGL_MODE_ES) {
+> > +            driver =3D "opengles2";
+> > +        }
+> > +
+> > +        SDL_SetHint(SDL_HINT_RENDER_DRIVER, driver);
+> > +        SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
+> > +    }
+> >      scon->real_renderer =3D SDL_CreateRenderer(scon->real_window, -1, =
+0);
+> > +
+> >      if (scon->opengl) {
+> >          scon->winctx =3D SDL_GL_CreateContext(scon->real_window);
+> >      }
+> > --
+> > 2.39.2
+> >
 >
-> Yes, and I don't see interest in the community (neither worry that
-> pc-bios/ images committed are built on each maintainer workstations).
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
-> If it isn't consumed by QEMU, then better remove that job and save
-> precious CI minutes. I presume OpenSBI itself is already tested
-> by its mainstream project.
+>
 
-Not sure what does "consumed" here mean?
 
-QEMU uses OpenSBI images on RISC-V machines by default.
-
-Regards,
-Bin
+--=20
+Marc-Andr=C3=A9 Lureau
 
