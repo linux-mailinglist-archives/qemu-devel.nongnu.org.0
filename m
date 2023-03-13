@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192AA6B821D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7F76B8232
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:06:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pboNu-0003si-5B; Mon, 13 Mar 2023 16:03:06 -0400
+	id 1pboRU-0004iL-7g; Mon, 13 Mar 2023 16:06:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pboNs-0003oR-0p
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:03:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pboRP-0004XZ-S8
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:06:45 -0400
+Received: from mailout09.t-online.de ([194.25.134.84])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pboNq-0004p9-Af
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:03:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678737781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hf121Qn75yq3DG5gMnWdxhFcrOF5SNTyR9wizYrqteM=;
- b=BxEU+P/rkADULCbLMAA5lfdogWolxrTcQnR8G3knazFeGY92LzDTwnw09FF5kDMuiftr7h
- gprm75fuU9SOe1jV85Ay9y8MCMlxl+4NXE2gF7Je0U4m1NPkDt0xmml0WLlUwfc4bAPw39
- hGP5ldhtXTSlgrR71n1dqGyMlXdCA6M=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-JMJlVpQ9P-W5x7G6lu92HA-1; Mon, 13 Mar 2023 16:02:59 -0400
-X-MC-Unique: JMJlVpQ9P-W5x7G6lu92HA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27C443810B35;
- Mon, 13 Mar 2023 20:02:59 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6019C492C13;
- Mon, 13 Mar 2023 20:02:58 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL v2 18/18] ui/dbus: restrict opengl to gbm-enabled config
-Date: Tue, 14 Mar 2023 00:01:34 +0400
-Message-Id: <20230313200134.503083-19-marcandre.lureau@redhat.com>
-In-Reply-To: <20230313200134.503083-1-marcandre.lureau@redhat.com>
-References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pboRN-0005KD-Rn
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:06:43 -0400
+Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
+ by mailout09.t-online.de (Postfix) with SMTP id 2D8D09819;
+ Mon, 13 Mar 2023 21:05:37 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.29.86]) by fwd77.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pboQJ-1A8JQf0; Mon, 13 Mar 2023 21:05:35 +0100
+Message-ID: <b7679119-44dc-0027-1819-2886bad79ce5@t-online.de>
+Date: Mon, 13 Mar 2023 21:05:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] DO-NOT-MERGE: pipewire sample code
+Content-Language: en-US
+To: Dorinda Bassey <dbassey@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, wtaymans@redhat.com,
+ qemu-devel@nongnu.org
+References: <a3717185-a930-e8e7-80cc-edb8d9e4d01d@t-online.de>
+ <20230311120826.5584-1-vr_qemu@t-online.de>
+ <5179fdbb-54f2-a24b-d9e0-fea89c5528fd@t-online.de>
+ <CACzuRyzZu1iw_KS-bQO=ZM2oEhZC=6BG2w7XE=Fyndpwi+jkQw@mail.gmail.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <CACzuRyzZu1iw_KS-bQO=ZM2oEhZC=6BG2w7XE=Fyndpwi+jkQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TOI-EXPURGATEID: 150726::1678737935-E8D5737F-AFD9E03A/0/0 CLEAN NORMAL
+X-TOI-MSGID: a7aff98c-7214-466b-b10e-d2ea2efbb01f
+Received-SPF: none client-ip=194.25.134.84; envelope-from=vr_qemu@t-online.de;
+ helo=mailout09.t-online.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,107 +71,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Am 13.03.23 um 13:28 schrieb Dorinda Bassey:
+> Hi Volker,
+>
+> Thanks for the patch, I've tested the patch and it works. I don't hear 
+> the choppy audio with this option "qemu-system-x86_64 -device 
+> ich9-intel-hda -device hda-duplex,audiodev=audio0 -audiodev 
+> pipewire,id=audio0,out.frequency=96000,in.frequency=96000 ...."
+>
+>     I don't understand how the req == 0 case can work at all.
+>
+> how this works is that  b->requested could be zero when no suggestion 
+> is provided. For playback streams, this field contains the suggested 
+> amount of data to provide. hence the reason for this check.
 
-We can enable EGL later for non-GBM hosts.
+Hi Dorinda,
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- ui/dbus-listener.c | 10 +++++-----
- ui/dbus.c          | 12 +++++++++++-
- 2 files changed, 16 insertions(+), 6 deletions(-)
+there has to be a control mechanism that ensures that our write rate on 
+average is exactly the frame rate that the down stream audio device 
+writes to the DAC. My question was how can this work if we always write 
+4096 frames.
 
-diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-index 85692f1b27..911acdc529 100644
---- a/ui/dbus-listener.c
-+++ b/ui/dbus-listener.c
-@@ -50,7 +50,7 @@ struct _DBusDisplayListener {
- 
- G_DEFINE_TYPE(DBusDisplayListener, dbus_display_listener, G_TYPE_OBJECT)
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- static void dbus_update_gl_cb(GObject *source_object,
-                            GAsyncResult *res,
-                            gpointer user_data)
-@@ -239,7 +239,7 @@ static void dbus_refresh(DisplayChangeListener *dcl)
-     graphic_hw_update(dcl->con);
- }
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
-                                int x, int y, int w, int h)
- {
-@@ -302,7 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dcl,
-         DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
- }
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
-                                struct DisplaySurface *new_surface)
- {
-@@ -369,7 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener *dcl,
-         NULL);
- }
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- const DisplayChangeListenerOps dbus_gl_dcl_ops = {
-     .dpy_name                = "dbus-gl",
-     .dpy_gfx_update          = dbus_gl_gfx_update,
-@@ -417,7 +417,7 @@ dbus_display_listener_constructed(GObject *object)
-     DBusDisplayListener *ddl = DBUS_DISPLAY_LISTENER(object);
- 
-     ddl->dcl.ops = &dbus_dcl_ops;
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
-     if (display_opengl) {
-         ddl->dcl.ops = &dbus_gl_dcl_ops;
-     }
-diff --git a/ui/dbus.c b/ui/dbus.c
-index 904f5a0a6d..0513de9918 100644
---- a/ui/dbus.c
-+++ b/ui/dbus.c
-@@ -47,8 +47,10 @@ static DBusDisplay *dbus_display;
- static QEMUGLContext dbus_create_context(DisplayGLCtx *dgc,
-                                          QEMUGLParams *params)
- {
-+#ifdef CONFIG_GBM
-     eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
-                    qemu_egl_rn_ctx);
-+#endif
-     return qemu_egl_create_context(dgc, params);
- }
- 
-@@ -56,7 +58,11 @@ static bool
- dbus_is_compatible_dcl(DisplayGLCtx *dgc,
-                        DisplayChangeListener *dcl)
- {
--    return dcl->ops == &dbus_gl_dcl_ops || dcl->ops == &dbus_console_dcl_ops;
-+    return
-+#ifdef CONFIG_GBM
-+        dcl->ops == &dbus_gl_dcl_ops ||
-+#endif
-+        dcl->ops == &dbus_console_dcl_ops;
- }
- 
- static void
-@@ -459,7 +465,11 @@ early_dbus_init(DisplayOptions *opts)
-     DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
- 
-     if (mode != DISPLAYGL_MODE_OFF) {
-+#ifdef CONFIG_OPENGL
-         egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
-+#else
-+        error_report("dbus: GL rendering is not supported");
-+#endif
-     }
- 
-     type_register(&dbus_vc_type_info);
--- 
-2.39.2
+The answer is, that after a 4096 frames write, the callback is delayed 
+by 4096 frames / 44100 frames/s = 93ms. This ensures that our write rate 
+is exactly 44100 frames/s.
+
+This means a fixed 4096 frames write is wrong for the req == 0 case. We 
+have to write 75% of timer-period frames.
+
+If you want to test this yourself, just ignore req and assume it's 0.
+
+With best regards,
+Volker
+
+>
+>     I suggest to use the same option names as the pulseaudio backend.
+>     out.latency is the effective Pipewire buffer size.
+>
+> Ack.
+>
+> Thanks,
+> Dorinda.
+>
+>
+> On Sat, Mar 11, 2023 at 5:19 PM Volker Rümelin <vr_qemu@t-online.de> 
+> wrote:
+>
+>     > Based-on:<20230306171020.381116-1-dbassey@redhat.com>
+>     > ([PATCH v7] audio/pwaudio.c: Add Pipewire audio backend for QEMU)
+>     >
+>     > This is sample code for the review of the pipewire backed. The
+>     > code actually works.
+>     >
+>     > An email with explanations for the changes will follow.
+>     >
+>     > Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
+>     > ---
+>     >   audio/pwaudio.c | 67
+>     +++++++++++++++++++++++++++++++++----------------
+>     >   qapi/audio.json | 10 +++-----
+>     >   2 files changed, 49 insertions(+), 28 deletions(-)
+>     >
+>     > diff --git a/audio/pwaudio.c b/audio/pwaudio.c
+>     > index d357761152..8e2a38938f 100644
+>     > --- a/audio/pwaudio.c
+>     > +++ b/audio/pwaudio.c
+>     > @@ -23,7 +23,6 @@
+>     >   #define AUDIO_CAP "pipewire"
+>     >   #define RINGBUFFER_SIZE    (1u << 22)
+>     >   #define RINGBUFFER_MASK    (RINGBUFFER_SIZE - 1)
+>     > -#define BUFFER_SAMPLES    512
+>     >
+>     >   #include "audio_int.h"
+>     >
+>     > @@ -48,6 +47,7 @@ typedef struct PWVoice {
+>     >       struct pw_stream *stream;
+>     >       struct spa_hook stream_listener;
+>     >       struct spa_audio_info_raw info;
+>     > +    uint32_t highwater_mark;
+>     >       uint32_t frame_size;
+>     >       struct spa_ringbuffer ring;
+>     >       uint8_t buffer[RINGBUFFER_SIZE];
+>     > @@ -82,7 +82,7 @@ playback_on_process(void *data)
+>     >       void *p;
+>     >       struct pw_buffer *b;
+>     >       struct spa_buffer *buf;
+>     > -    uint32_t n_frames, req, index, n_bytes;
+>     > +    uint32_t req, index, n_bytes;
+>     >       int32_t avail;
+>     >
+>     >       if (!v->stream) {
+>     > @@ -105,8 +105,7 @@ playback_on_process(void *data)
+>     >       if (req == 0) {
+>     >           req = 4096 * v->frame_size;
+>     >       }
+>
+>     I don't understand how the req == 0 case can work at all. The
+>     downstream
+>     audio device is the thinnest point in the playback stream. We can't
+>     write more audio frames than the audio device will consume.
+>
 
 
