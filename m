@@ -2,102 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A0B6B7D40
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 17:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27AC6B7DB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 17:34:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbksS-0007lq-Rx; Mon, 13 Mar 2023 12:18:24 -0400
+	id 1pbl6j-0001So-AG; Mon, 13 Mar 2023 12:33:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbksQ-0007ke-De
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 12:18:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pbl6U-0001PL-H6
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 12:33:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbksO-0003GX-Js
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 12:18:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pbl6S-0005WR-NY
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 12:32:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678724299;
+ s=mimecast20190719; t=1678725171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uSo4xVo5ehPbyf2cRBm7ZiNYdv/t7XfvXGro2zIAOjA=;
- b=Dn6wj8smCbhkcDcYgbDtPw40rvgzF7IYFY70BJzL58ozWegYzbhj+Zt0SF3i+lPcfLR1OW
- uBce8S09fOuKnJyClEu3xmqpfi8zaYRd/rc4nZRN60mSchDSyw5G3FgCsGhvDa1k1sbnZW
- wZGb95vPpAfdqvjetJTlZV1TY8LSVs8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-502-EqSOZh5wO6ahCqGhCb16yw-1; Mon, 13 Mar 2023 12:18:17 -0400
-X-MC-Unique: EqSOZh5wO6ahCqGhCb16yw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m28-20020a05600c3b1c00b003e7d4662b83so8028474wms.0
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 09:18:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678724296;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uSo4xVo5ehPbyf2cRBm7ZiNYdv/t7XfvXGro2zIAOjA=;
- b=W2bG14Sop897FbednwrVw/z0vwPadl9My6W4A02bS98fhcSVFy7zRx4GJ3fRu3pdPH
- XTT005mU4+MoGjh7p58/W4AePvgfVC7A5tZ/EBQZeReZLoTiONptGH+tfcgXMbTroMEe
- +sn93xwnUcgMcms7Pc8AHhraD03sfADDtGs7cSDd5aU8X5EjHAX+42VzQK7tT4NPLQJ+
- LGdB8+aId5qVwW+V3P6xRIMW5ee0muAVA9rbV7SVw3mT1m/2bkCiqgI5XjbLFKLC276Z
- 2f3/96BaTOqjARTLPvCGoyJHMJRFTpvWCP8zBoUxVi6gmNWomLz1OE+YJtBIHvwmeRLk
- OglQ==
-X-Gm-Message-State: AO0yUKU8X3o47ZIcgOs0oA20ZovZ1RsIMMRF8AZrixcpicFZ/wcPAZm1
- 46FT+jn7eCwraOjJqM3lSfgmbSMNJlM8uf2IgaeTKP182R4U2/4r+OKjll0z/YV5EAWcb7XdMzG
- UWaLn8AFG/hRoeDk=
-X-Received: by 2002:a05:6000:111:b0:2cf:e29f:d7f5 with SMTP id
- o17-20020a056000011100b002cfe29fd7f5mr1708700wrx.25.1678724296469; 
- Mon, 13 Mar 2023 09:18:16 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8fWtfqnuVkV7FetIkDmab08nMCX2O0V+CtUObDZ2n8z5Z01sUlxjDb37wAbyEdj3pcEBL9hw==
-X-Received: by 2002:a05:6000:111:b0:2cf:e29f:d7f5 with SMTP id
- o17-20020a056000011100b002cfe29fd7f5mr1708678wrx.25.1678724296233; 
- Mon, 13 Mar 2023 09:18:16 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-179-26.web.vodafone.de.
- [109.43.179.26]) by smtp.gmail.com with ESMTPSA id
- s6-20020adfecc6000000b002c5534db60bsm8388501wro.71.2023.03.13.09.18.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 09:18:15 -0700 (PDT)
-Message-ID: <58b400ee-bc9a-d762-5b34-b564e8edd6d5@redhat.com>
-Date: Mon, 13 Mar 2023 17:18:13 +0100
+ bh=Xu+qKa5rE7+bl9+U7wE+BCQUFSKBdJNDRXqN4+UGumg=;
+ b=a/K9SeVC+k8cE/zXPdwbWq4uoC4yGf+YtoOgpPUDhKtWW7x5+TsmDIan80ctbJtwPp2gE6
+ JQ860+dSkD6nY9i30SyCDJDtpv8J+XMxHi7jpfO1LXGjawRtlDVbfTnDZYlO4G7DXE1tJB
+ o6W8hS6ZDZFFlSqwNpqD6L1kwgmbDiQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-91-XVKcpvyyO526-xWksPf9Hw-1; Mon, 13 Mar 2023 12:32:49 -0400
+X-MC-Unique: XVKcpvyyO526-xWksPf9Hw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2771A3C025D1;
+ Mon, 13 Mar 2023 16:32:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9E683542A;
+ Mon, 13 Mar 2023 16:32:47 +0000 (UTC)
+Date: Mon, 13 Mar 2023 17:32:46 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fiona Ebner <f.ebner@proxmox.com>, Hanna Czenczek <hreitz@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Re: [PATCH for-8.0] ide: Fix manual in-flight count for TRIM BH
+Message-ID: <ZA9QLvv3P7da/Rvq@redhat.com>
+References: <20230309114430.33684-1-hreitz@redhat.com>
+ <88de2e68-61e2-9397-b202-d611247002ba@redhat.com>
+ <CABgObfZkSt6-0-vKkUtiWUy1TtHS_kEiYM2wRh+MfjTXmW497A@mail.gmail.com>
+ <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
+ <3e695f64-13bb-1311-6cd6-09bffc312873@redhat.com>
+ <ZAobe/wtsf//YGHJ@redhat.com>
+ <a432cb4d-8d7e-8408-15a9-c84414c03196@proxmox.com>
+ <ZAs92f/J9qvA6X5B@redhat.com>
+ <CABgObfbJ_20fk4H=w0HUBrAtUBbrzn53euqUc-D-s5a3-Xur5w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v7 0/6] memory: prevent dma-reentracy issues
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>
-References: <20230313082417.827484-1-alxndr@bu.edu>
- <c61ecf23-d055-01a8-b2d7-37367c4c1f63@redhat.com>
- <20230313145228.6hcgsuobgaxbyr5o@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230313145228.6hcgsuobgaxbyr5o@mozz.bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABgObfbJ_20fk4H=w0HUBrAtUBbrzn53euqUc-D-s5a3-Xur5w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,44 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/03/2023 15.52, Alexander Bulekov wrote:
-> On 230313 1502, Thomas Huth wrote:
->> On 13/03/2023 09.24, Alexander Bulekov wrote:
->>> v6 -> v7:
->>>       - Fix bad qemu_bh_new_guarded calls found by Thomas (Patch 4)
->>>       - Add an MR-specific flag to disable reentrancy (Patch 5)
->>>       - Disable reentrancy checks for lsi53c895a's RAM-like MR (Patch 6)
->>>       Patches 5 and 6 need review. I left the review-tags for Patch 4,
->>>       however a few of the qemu_bh_new_guarded calls have changed.
->>
->>   Hi Alexander,
->>
->> there seems to be another issue with one of the avocado tests:
->>
->>   make -j8 qemu-system-aarch64
->>   make check-venv
->>   ./tests/venv/bin/avocado run \
->>     tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_raspi3_atf
->>
->> ... works fine for me with the master branch, but it fails
->> for me after applying your patch series.
-...
-> Do the avocado tests exit on failure, or do you know if there are any
-> other test failures?
+Am 10.03.2023 um 16:13 hat Paolo Bonzini geschrieben:
+> On Fri, Mar 10, 2023 at 3:25 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> > > 1. The TRIM operation should be completed on the IDE level before
+> > > draining ends.
+> > > 2. Block layer requests issued after draining has begun are queued.
+> > >
+> > > To me, the conclusion seems to be:
+> > > Issue all block layer requests belonging to the IDE TRIM operation up
+> > > front.
+> > >
+> > > The other alternative I see is to break assumption 2, introduce a way
+> > > to not queue certain requests while drained, and use it for the
+> > > recursive requests issued by ide_issue_trim_cb. But not the initial
+> > > one, if that would defeat the purpose of request queuing. Of course
+> > > this can't be done if QEMU relies on the assumption in other places
+> > > already.
+> >
+> > I feel like this should be allowed because if anyone has exclusive
+> > access in this scenario, it's IDE, so it should be able to bypass the
+> > queuing. Of course, the queuing is still needed if someone else drained
+> > the backend, so we can't just make TRIM bypass it in general. And if you
+> > make it conditional on IDE being in blk_drain(), it already starts to
+> > become ugly again...
+> >
+> > So maybe the while loop is unavoidable.
+> >
+> > Hmm... But could ide_cancel_dma_sync() just directly use
+> > AIO_WAIT_WHILE(s->bus->dma->aiocb) instead of using blk_drain()?
+> 
+> While that should work, it would not fix other uses of
+> bdrv_drain_all(), for example in softmmu/cpus.c. Stopping the device
+> model relies on those to run *until the device model has finished
+> submitting requests*.
 
-I noticed it in the gitlab-CI, the test was hanging and got marked as 
-"INTERRUPTED":
+If so, do_vm_stop() really expects drain to do something it isn't
+designed to do. It's only for quiescing backends, not for any other
+activity a qdev device might still be doing. I think it's really the
+vm_state_notify() that should take care of stopping device activity.
 
-  https://gitlab.com/thuth/qemu/-/jobs/3922243532#L214
+But maybe we can make it work with drain anyway.
 
-As far as I could see, this was the only new failure there. There is another 
-one in the avocado-system-fedora job here:
+> So I still think that this bug is a symptom of a problem in the design
+> of request queuing.
+> 
+> In fact, shouldn't request queuing was enabled at the _end_ of
+> bdrv_drained_begin (once the BlockBackend has reached a quiescent
+> state on its own terms), rather than at the beginning (which leads to
+> deadlocks like this one)?
 
-  https://gitlab.com/thuth/qemu/-/jobs/3920337136#L307
+No, I don't think that is ever right. As I said earlier in this thread
+(and you said yourself previously), there are two different users of
+drain:
 
-... but I think that was pre-existing and was caused by one of Philippe's 
-reworks, hopefully to be fixed soon ... Phillipe?
+1. I want to have exclusive access to the node. This one wants request
+   queuing from the start to avoid losing time unnecessarily until the
+   guest stops sending new requests.
 
-  Thomas
+2. I want to wait for my requests to complete. This one never wants
+   request queuing. Enabling it at the end of bdrv_drained_begin()
+   wouldn't hurt it (because it has already achieved its goal then), but
+   it's also not necessary for the same reason.
+
+IDE reset and do_vm_stop() are case 2, implemented with blk_drain*().
+The request queuing was implemented for case 1, something else in the
+block graph draining the BlockBackend's root node with bdrv_drain*().
+
+So maybe what we could take from this is that request queuing should be
+temporarily disabled while we're in blk_drain*() because these
+interfaces are only meant for case 2. In all other cases, it should
+continue to work as it does now.
+
+Kevin
 
 
