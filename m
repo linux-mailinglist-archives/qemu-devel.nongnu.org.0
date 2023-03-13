@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15B86B7367
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E36E6B736F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:09:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbf4n-0000Op-3J; Mon, 13 Mar 2023 06:06:45 -0400
+	id 1pbf6n-0001FL-EV; Mon, 13 Mar 2023 06:08:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbf4l-0000Og-Fv
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:06:43 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pbf6l-0001FB-Ky
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:08:47 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbf4j-0003Gl-Ox
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:06:43 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso7445659wmo.0
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 03:06:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pbf6j-0003Vt-W3
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:08:47 -0400
+Received: by mail-ed1-x530.google.com with SMTP id er25so18228559edb.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 03:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678701999;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=C+GfHszVAROq90VK/0ukmJiK/wCjvT4xrufxPbjnQzI=;
- b=fRDg/c7OH5X9keyEC39OZFIjDzb86Q9aratcSVn9qxYMG9awH74lUvd7GiZZAUgA1r
- HgXUc7A79pUVvAqbLoVkvHloXkAsJrAXpCZyw0SQ1LBl2PhsUV2JsdQT6gQo13VuoW9T
- sVALi+oKOED2PWc74+t+L2t355wps1ZXNLPSfGTEvZKb/QhBL9uyE1uIH5Rm2fTBE1Bd
- 4KKCj4ldDRxNakU1deUY7sPeQSGJph8sb6F0WzxxgOvRMr5+h2CJ4dLvHeVH/JfyQOMS
- S2KRcWEveRjHIE6VP5AMhqJ6WDOJOP6mN/vlIvVfD6KbT7zbU7pI0gfQRDjAPKthqQF0
- 89Bw==
+ d=gmail.com; s=20210112; t=1678702124;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gNKiyROgdS6LJijuBu/KlKLtOxD2rtVZFzvaWNpfBMc=;
+ b=GuF+wBMS54OJR/B2Uk0GKwPh4tFguuT54mjke5JO78xD06aPLoaVLkhqXn2RbNSxVm
+ /KIp5lUbw+N42JB7z74cf8I4IHG86NYEQ0NaX+artzmFF630TYwP5IF+Y5kj6awubyoE
+ tfGj/vJc+RJL41OciIKLPaZKG61UJ2o4uTOEZF5XEhPRpAC1XY+KOjr8s6QWG2S5Ix1t
+ QFB6HS5Vt+FJrFC2o0/aQ6ylip/DtONwILSc6F0YE3lqTy0l0BSbJKOPEcZ85cBiJGf6
+ y9CfsZmbygdE1jGtm8eoFnhePGZG5MTarSFH73FXpSimPrLZ41h53/iuwhmqYGtaM6Qy
+ LayQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678701999;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C+GfHszVAROq90VK/0ukmJiK/wCjvT4xrufxPbjnQzI=;
- b=zAmQbiPt3QEEAhW8aAUwJeJsZIv2O/IJzDBsDgvWH/zoHY79LDfUQfW/LFiHJeh5V4
- VPtEuf7dCq121x7ftXE7Mmd3eBNI4UHmSLWZTAJPxu9rL92Z3G798MZS1q77BHhJ9PFY
- hCZ2sCjh+1TVTYNjdj8XRW2tI+yyZIWeKDEpXM4Y8QlDUzdA1n0XcNyi2T9fUaghcwev
- SPzo9Tc87KVKhyHuKxCyTdvhGUwUDwera5k+B2Qhka44oV0bZ641e05Qwvug6ywpnoHe
- IBjOTfkbf8ocyIBr8UYwIVlX5yNZulRxvVWBF5XxZeg67BniVKR2ZS6hqpIK0gQrqaNT
- +ydA==
-X-Gm-Message-State: AO0yUKXLd/to/149z/4E5g1T9k64iS5Ma24d5HaNBxIbmMrfl3s2kNjy
- tlfvfPZoR5Xq/NTLlZUwSO3boA==
-X-Google-Smtp-Source: AK7set9S76SyZwbOnv8aiZqXzlqAM84HtWRp8phuduLd6h7tcnG47rJpuMulCkKxAAhlVsjPW9J45g==
-X-Received: by 2002:a05:600c:600d:b0:3ea:f0d6:5d37 with SMTP id
- az13-20020a05600c600d00b003eaf0d65d37mr9913111wmb.8.1678701999199; 
- Mon, 13 Mar 2023 03:06:39 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i8-20020a1c5408000000b003ed246f76a2sm2541486wmb.1.2023.03.13.03.06.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 03:06:38 -0700 (PDT)
-Message-ID: <d26dc7f1-72d0-e0a1-df0f-9e38a7e347df@linaro.org>
-Date: Mon, 13 Mar 2023 11:06:36 +0100
+ d=1e100.net; s=20210112; t=1678702124;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gNKiyROgdS6LJijuBu/KlKLtOxD2rtVZFzvaWNpfBMc=;
+ b=VvNBE+QZuHEct+SqEUQyvOFxSh5qRJMZ3/6Mxwaec6FXRi/I7waSK0+ikWjxV8D/7o
+ hjk08OYQF6DQrUpB4qTjaYgz9ZNLcfo7PGl64MvFdZueU7mgvIbfY8QryoJy6OmkTc2H
+ eHZDTLFKTA1IdyUSxQrI4GHuFCSKwt7ebon4HE7g/aePjD/ZiJs0QH/AkYYiYGsBEHM1
+ 1KI8yFHteyjk9KeMo4pCNiZpE9uY1zCIWJ32yKgdNMvAguNaULdizbmVOodr6v6r0H9A
+ pALvN9dINqo0lF7chEyjez4NbTtFQCCYwIK0KkTbzn3cM31Vkz2BkCXSftvf67RsV/BG
+ JxQA==
+X-Gm-Message-State: AO0yUKUgJv2DpNad2ubtBZ5CZpN4UQCG3wSFkvsceuNAyYZlNE1mAMza
+ 60i34G3LDVHW70VgTeAgi/AEPdNHft32MwJE7hk=
+X-Google-Smtp-Source: AK7set/sTL7sZec6UmPRn3ZNNYj0x19jXzJZJCBImmp34964skprMiPJLcIkbrrmvAtiezVZTWoFxX/D99MQanjNBYM=
+X-Received: by 2002:a50:9fea:0:b0:4fc:532e:215d with SMTP id
+ c97-20020a509fea000000b004fc532e215dmr1498231edf.6.1678702124378; Mon, 13 Mar
+ 2023 03:08:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v7 1/6] memory: prevent dma-reentracy issues
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>
-References: <20230313082417.827484-1-alxndr@bu.edu>
- <20230313082417.827484-2-alxndr@bu.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230313082417.827484-2-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+References: <20230310133247.39268-1-philmd@linaro.org>
+ <CAFEAcA8hDiWBXPhKmo=AsS5wfu8wKf2YbxwF4p7xRSWrCW4xEg@mail.gmail.com>
+ <03a66cae-4822-7cd2-8dd3-106e8b3f4334@linaro.org>
+ <CAEUhbmXoOPXQZaCBHjpwJbbkiAy8Hd4ywALQ_2AiOrPJ3294UQ@mail.gmail.com>
+ <5f1e8a9e-d19b-c9c5-ed07-7393de520b36@linaro.org>
+ <CAEUhbmX1sO4YBbQZ3HtMh+LEtO0q68zxekXzCCsjG1xC=yS46w@mail.gmail.com>
+ <1600686e-a109-8ea4-4e1e-6844658150d8@linaro.org>
+In-Reply-To: <1600686e-a109-8ea4-4e1e-6844658150d8@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 13 Mar 2023 18:08:32 +0800
+Message-ID: <CAEUhbmXfiJ54_AtLDFQVK_QTiv62M8ob62+jbZQvP1MrCL1ztg@mail.gmail.com>
+Subject: Re: [PATCH-for-8.0] gitlab-ci: Remove job building EDK2 firmware
+ binaries
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Simon Glass <sjg@chromium.org>, Beraldo Leal <bleal@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?B?UGF3ZcWCIFBvxYJhd3NraQ==?= <ppolawsk@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,39 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/3/23 09:24, Alexander Bulekov wrote:
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag is set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent two types of DMA-based reentrancy issues:
-> 
-> 1.) mmio -> dma -> mmio case
-> 2.) bh -> dma write -> mmio case
-> 
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
-> 
-> Summary of the problem from Peter Maydell:
-> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
+On Mon, Mar 13, 2023 at 6:01=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> On 13/3/23 10:35, Bin Meng wrote:
+> > Hi Philippe,
+> >
+> > On Mon, Mar 13, 2023 at 4:51=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
+> > <philmd@linaro.org> wrote:
+> >>
+> >> On 13/3/23 03:09, Bin Meng wrote:
+> >>> On Fri, Mar 10, 2023 at 9:50=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
+> >>> <philmd@linaro.org> wrote:
+> >>>>
+> >>>> On 10/3/23 14:38, Peter Maydell wrote:
+> >>>>> On Fri, 10 Mar 2023 at 13:33, Philippe Mathieu-Daud=C3=A9 <philmd@l=
+inaro.org> wrote:
+> >>>>>>
+> >>>>>> When we introduced this Gitlab-CI job in commit 71920809ce
+> >>>>>> ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries"),
+> >>>>>> the naive plan was to have reproducible binaries by downloading
+> >>>>>> what this job would build, testing it and eventually committing
+> >>>>>> it. With retrospective, nothing happened 3 years later and this
+> >>>>>> job is just bitrotting:
+> >>>>>>
+> >>>>>>      Step 1/3 : FROM ubuntu:18.04
+> >>>>>>      18.04: Pulling from library/ubuntu
+> >>>>>>      mediaType in manifest should be
+> >>>>>>      'application/vnd.docker.distribution.manifest.v2+json' not
+> >>>>>>      'application/vnd.oci.image.manifest.v1+json'
+> >>>>>>
+> >>>>>> Remove this job to avoid wasting maintenance and CI ressources.
+> >>>>>
+> >>>>> Does the same thing hold for the opensbi job ?
+> >>>>
+> >>>> Cc'ing Bin, I have no idea.
+> >>>>
+> >>>
+> >>> The OpenSBI job now builds fine. I have no preference on keeping vs.
+> >>> removing it.
+> >>>
+> >>> I remember our previous goal was to create CI jobs for every pc-bios
+> >>> image but apparently that never happened.
+> >>
+> >> Yes, and I don't see interest in the community (neither worry that
+> >> pc-bios/ images committed are built on each maintainer workstations).
+> >>
+> >> If it isn't consumed by QEMU, then better remove that job and save
+> >> precious CI minutes. I presume OpenSBI itself is already tested
+> >> by its mainstream project.
+> >
+> > Not sure what does "consumed" here mean?
+> >
+> > QEMU uses OpenSBI images on RISC-V machines by default.
+>
+> QEMU repository allows building QEMU system binaries which 'consume'
+> the following (committed) files:
+> - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+> - pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+>
+> We don't need to run the build-opensbi job to run QEMU: we use the
+> prebuilt images.
 
-BTW we need to commit these reproducers as tests/qtest/fuzz-*.
+Okay, thanks for the clarification. I believe that's the case for
+every pc-bios image? If yes, we don't need to build these pc-bios
+images in QEMU CI.
 
-> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> Acked-by: Peter Xu <peterx@redhat.com>
-> ---
->   include/hw/qdev-core.h |  7 +++++++
->   softmmu/memory.c       | 17 +++++++++++++++++
->   softmmu/trace-events   |  1 +
->   3 files changed, 25 insertions(+)
-
+Regards,
+Bin
 
