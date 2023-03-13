@@ -2,100 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5BC6B7C33
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B7A6B7C37
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:41:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbkH5-00006l-TX; Mon, 13 Mar 2023 11:39:47 -0400
+	id 1pbkIf-0000LH-CN; Mon, 13 Mar 2023 11:41:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbkGv-0008Lc-RF; Mon, 13 Mar 2023 11:39:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbkGs-0004xx-9E; Mon, 13 Mar 2023 11:39:36 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32DEVQOY018522; Mon, 13 Mar 2023 15:39:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=OuHO3+rdrP3t5x8YpJnEKhhKwGXsd/9XJJ972IsTKj4=;
- b=iD91S+ScZB3nFWLVkZkRhqmnH9PkqDnHQYIdm9/Bs0/3FGE1yuYFcYSjgQs20coMzoD0
- rvfGc3Lbhj/yn8rCK/F0YUD23R4TEEqf15ouNZSJqJYt4buKkqFP/jQMefEwnyigLsle
- bNbh78kdJTd9thqEUJypM4Ax8iu3pM1JYPuQT2+Gc79l2CO3NoQIU3Oyok8HlM8L2CxH
- fM7n83ic/FVT+AWgjoaY8PENou/+EzXVCQbE72bMOJuYr0zz3iDszYGFmnfjQEnVnZMl
- dwVpLlbz2nSIeexPAZa8gLz+S8ShAjDAN07TGW7KxShTJ+rOcqm7by/80a4pqMlAfPeb Wg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa45956fr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:39:11 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32DCm4hm018138;
- Mon, 13 Mar 2023 15:39:11 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa45956eq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:39:11 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DEj74R001030;
- Mon, 13 Mar 2023 15:39:08 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3p8h96kjgs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:39:08 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32DFd6Xx27656792
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Mar 2023 15:39:06 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7453320049;
- Mon, 13 Mar 2023 15:39:06 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E200920040;
- Mon, 13 Mar 2023 15:39:05 +0000 (GMT)
-Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.87.70])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 13 Mar 2023 15:39:05 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 12/12] tests/tcg/s390x: Test unaligned accesses
-Date: Mon, 13 Mar 2023 16:38:44 +0100
-Message-Id: <20230313153844.9231-13-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230313153844.9231-1-iii@linux.ibm.com>
-References: <20230313153844.9231-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbkId-0000GS-0s
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:41:23 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbkIb-0005Z9-1x
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:41:22 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r18so11762971wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678722079;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YN8Be5m3vpBNqZBZE5qAACYIpYonOHt7xx457HgIQik=;
+ b=xZG920FyJ6KOyeIreI2VebMsUx6HExAb3FhMav/y9GNd8l2R1vLnbUt1K7yVjb+jQI
+ U2O9NM2Qec61u6AYAXldBBUOsN7mfePUbWtgz3DLs8HZAaHmm4XuvfMNc47G6QxQidGB
+ 5JN6u050dPCVUR2OM5OkY83UVnkDRzoCNm84PUuiJ5PHqe1npPSBlec0qW4y4KnQNTVg
+ JmAP1EJeNZdi3TBh00SmUarqZToWTkkCEkiRwdja0YdKzQCn682faVri+w6unHUKUoUx
+ NYjf1nNgqfI0RRGpg8fLyWdL7tR02nJvIzFz6Abmat9aZxZqEB5U7H7QwHRObUVHIUSy
+ pLjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678722079;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YN8Be5m3vpBNqZBZE5qAACYIpYonOHt7xx457HgIQik=;
+ b=kav6UPzSyhFzGxfxog4fh+rb9mijG/r0l/pyEK3zmrNb42VQVkTGj5NlZrzdr81WO/
+ kdtXZ3bus8QZRbbMhsaIlMCcwVk1FCdcyWnepQZafAzwNTBzKDOorqdTeGcwj4qV0hDO
+ 84rIBY+PkgNW5aSYI6It8Njeq+CeEdnyi5kPY6fKXiKPC2vzRCmq1PXe0CheuLcbK/WO
+ L99I/2SU2H8/0c0KLYXopuyQn4A8u86DgLABHA0AA854pNJabPJkzA9T9eyX+EhFlpnO
+ qD3gpM/YGJ9WEoJf7mSzUSQVxmWR6mjVuBUQVdGeyzAz0KzmfR5vurlrSp0/dnKkNlcx
+ nN7w==
+X-Gm-Message-State: AO0yUKWX2fOmnwB4XZrC7/pfepmdqH+OmwDqY5ml2QCDeh4A4i77anJv
+ tThT4WLiyElIt+GWf21B0mvztQ==
+X-Google-Smtp-Source: AK7set8Hkw/WylfxOl4cYO/RC3BJkVwD+yBN0g/hfcJwio1DMVObQXqlLkM320HsAlbcdZ0m1YXsOw==
+X-Received: by 2002:adf:fd02:0:b0:2ce:a651:d3f6 with SMTP id
+ e2-20020adffd02000000b002cea651d3f6mr5072068wrr.39.1678722079339; 
+ Mon, 13 Mar 2023 08:41:19 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q10-20020adfdfca000000b002cea392f000sm7416230wrn.69.2023.03.13.08.41.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 08:41:18 -0700 (PDT)
+Message-ID: <38b1989e-248d-88fb-2551-13c895999841@linaro.org>
+Date: Mon, 13 Mar 2023 16:41:17 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PZNXZMobkKcnE69gjRkNcVtWcpKrxU_V
-X-Proofpoint-GUID: TUyFA5L-RTScHx6KoZGPFB-sGe-LTuUy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-13_07,2023-03-13_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303130121
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v7 0/6] memory: prevent dma-reentracy issues
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>
+References: <20230313082417.827484-1-alxndr@bu.edu>
+ <c61ecf23-d055-01a8-b2d7-37367c4c1f63@redhat.com>
+ <20230313145228.6hcgsuobgaxbyr5o@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230313145228.6hcgsuobgaxbyr5o@mozz.bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,465 +103,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a number of small test that check whether accessing unaligned
-addresses in various ways leads to a specification exception.
+On 13/3/23 15:52, Alexander Bulekov wrote:
+> On 230313 1502, Thomas Huth wrote:
+>> On 13/03/2023 09.24, Alexander Bulekov wrote:
+>>> v6 -> v7:
+>>>       - Fix bad qemu_bh_new_guarded calls found by Thomas (Patch 4)
+>>>       - Add an MR-specific flag to disable reentrancy (Patch 5)
+>>>       - Disable reentrancy checks for lsi53c895a's RAM-like MR (Patch 6)
+>>>       Patches 5 and 6 need review. I left the review-tags for Patch 4,
+>>>       however a few of the qemu_bh_new_guarded calls have changed.
+>>
+>>   Hi Alexander,
+>>
+>> there seems to be another issue with one of the avocado tests:
+>>
+>>   make -j8 qemu-system-aarch64
+>>   make check-venv
+>>   ./tests/venv/bin/avocado run \
+>>     tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_raspi3_atf
+>>
+>> ... works fine for me with the master branch, but it fails
+>> for me after applying your patch series.
+>> Can you reproduce that failure?
+> 
+> #0  __GI_exit (status=0x1) at ./stdlib/exit.c:143
+> #1  0x0000555555f05819 in access_with_adjusted_size (addr=0x0, addr@entry=0x7ffff3b609d0, value=0x7ffff3b609d0, size=size@entry=0x4, access_size_min=0x1, access_size_max=0x4, access_fn=0x555555f0b4b0 <memory_region_read_accessor>, mr=0x7
+> #2  0x0000555555f05380 in memory_region_dispatch_read1 (mr=0x7ffff3e34990, addr=0x1, pval=<optimized out>, size=0x4, attrs=...) at ../softmmu/memory.c:1442
+> #3  memory_region_dispatch_read (mr=<optimized out>, mr@entry=0x7ffff3e34990, addr=0x1, pval=<optimized out>, pval@entry=0x7ffff3b609d0, op=<optimized out>, attrs=..., attrs@entry=...) at ../softmmu/memory.c:1476
+> #4  0x0000555555f1278f in address_space_ldl_internal (as=<optimized out>, addr=<optimized out>, attrs=..., result=0x0, endian=DEVICE_LITTLE_ENDIAN) at ../memory_ldst.c.inc:41
+> #5  0x00005555559ebb5d in ldl_le_phys (as=0x7ffff3e35258, addr=0x80) at /home/alxndr/Development/qemu-demo/qemu/include/exec/memory_ldst_phys.h.inc:79
+> #6  bcm2835_mbox_update (s=0x7ffff3e34f20) at ../hw/misc/bcm2835_mbox.c:109
+> #7  0x00005555559ecd5d in bcm2835_property_write (opaque=0x7ffff3e34600, offset=<optimized out>, value=<optimized out>, size=<optimized out>) at ../hw/misc/bcm2835_property.c:349
+> #8  0x0000555555f05903 in memory_region_write_accessor (mr=0x7ffff3e34990, addr=0x0, value=<optimized out>, size=0x4, shift=<optimized out>, mask=<optimized out>, attrs=...) at ../softmmu/memory.c:493
+> #9  0x0000555555f0576b in access_with_adjusted_size (addr=addr@entry=0x0, value=0x7ffff3b60c38, value@entry=0x7ffff3b60c28, size=size@entry=0x4, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x555555f05820 <
+> attrs=...) at ../softmmu/memory.c:570
+> #10 0x0000555555f055c6 in memory_region_dispatch_write (mr=<optimized out>, mr@entry=0x7ffff3e34990, addr=0x0, data=<optimized out>, data@entry=0x2f2228, op=<optimized out>, attrs=..., attrs@entry=...) at ../softmmu/memory.c:1532
+> #11 0x0000555555f132ec in address_space_stl_internal (as=<optimized out>, addr=<optimized out>, val=0x2f2228, attrs=..., result=0x0, endian=DEVICE_LITTLE_ENDIAN) at ../memory_ldst.c.inc:319
+> #12 0x00005555559eb9a4 in stl_le_phys (as=<optimized out>, addr=0x80, val=0x2f2228) at /home/alxndr/Development/qemu-demo/qemu/include/exec/memory_ldst_phys.h.inc:121
+> #13 bcm2835_mbox_write (opaque=0x7ffff3e34f20, offset=<optimized out>, value=0x2f2228, size=<optimized out>) at ../hw/misc/bcm2835_mbox.c:227
+> #14 0x0000555555f05903 in memory_region_write_accessor (mr=0x7ffff3e352b0, addr=0xa0, value=<optimized out>, size=0x4, shift=<optimized out>, mask=<optimized out>, attrs=...) at ../softmmu/memory.c:493
+> #15 0x0000555555f0576b in access_with_adjusted_size (addr=addr@entry=0xa0, value=0x7ffff3b60e48, value@entry=0x7ffff3b60e38, size=size@entry=0x4, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x555555f05820
+>   attrs=...) at ../softmmu/memory.c:570
+> #16 0x0000555555f055c6 in memory_region_dispatch_write (mr=<optimized out>, mr@entry=0x2, addr=addr@entry=0xa0, data=<optimized out>, data@entry=0x2f2228, op=<optimized out>, op@entry=MO_32, attrs=...) at ../softmmu/memory.c:1532
+> #17 0x0000555555f9b3ae in io_writex (env=0x7ffff3dd60e0, full=0x55555790c710, mmu_idx=0x7, val=0x4, val@entry=0x2f2228, addr=0x3f00b8a0, retaddr=retaddr@entry=0x7fffac01f9dd, op=MO_32) at ../accel/tcg/cputlb.c:1430
+> #18 0x0000555555f90062 in store_helper (env=<optimized out>, addr=<optimized out>, val=0x2f2228, oi=<optimized out>, retaddr=0x7ffff3b609d0, op=MO_32) at ../accel/tcg/cputlb.c:2454
+> #19 full_le_stl_mmu (env=<optimized out>, addr=<optimized out>, val=0x2f2228, oi=<optimized out>, retaddr=0x7ffff3b609d0) at ../accel/tcg/cputlb.c:2542
+> #20 0x00007fffac01f9dd in code_gen_buffer ()
+> #21 0x0000555555f7367e in cpu_tb_exec (cpu=cpu@entry=0x7ffff3dd4210, itb=itb@entry=0x7fffac01f8c0 <code_gen_buffer+129171>, tb_exit=tb_exit@entry=0x7ffff3b6148c) at ../accel/tcg/cpu-exec.c:460
+> #22 0x0000555555f744f9 in cpu_loop_exec_tb (cpu=0x7ffff3dd4210, tb=<optimized out>, pc=<optimized out>, tb_exit=0x7ffff3b6148c, last_tb=<optimized out>) at ../accel/tcg/cpu-exec.c:894
+> #23 cpu_exec_loop (cpu=cpu@entry=0x7ffff3dd4210, sc=sc@entry=0x7ffff3b61510) at ../accel/tcg/cpu-exec.c:1005
+> #24 0x0000555555f73c27 in cpu_exec_setjmp (cpu=cpu@entry=0x7ffff3dd4210, sc=sc@entry=0x7ffff3b61510) at ../accel/tcg/cpu-exec.c:1037
+> #25 0x0000555555f73aee in cpu_exec (cpu=cpu@entry=0x7ffff3dd4210) at ../accel/tcg/cpu-exec.c:1063
+> #26 0x0000555555f9da4f in tcg_cpus_exec (cpu=cpu@entry=0x7ffff3dd4210) at ../accel/tcg/tcg-accel-ops.c:81
+> #27 0x0000555555f9e019 in mttcg_cpu_thread_fn (arg=arg@entry=0x7ffff3dd4210) at ../accel/tcg/tcg-accel-ops-mttcg.c:95
+> #28 0x000055555611d0c5 in qemu_thread_start (args=0x555557923bf0) at ../util/qemu-thread-posix.c:541
+> #29 0x00007ffff6960fd4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:442
+> #30 0x00007ffff69e166c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+> 
+> Some sort of relationship between bcm2835_property and
+> bcm2835_mbox
+> 
+> bcm2835_property calls directly into bcm2835_mbox which reads from
+> bcm2835_property..
 
-Run these test both in softmmu and user configurations; expect a PGM
-in one case and SIGILL in the other.
+These models emulate (synchronously within vCPU) a vDSP firmware:
+another core accessing the address space asynchronously.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.softmmu-target |  4 +-
- tests/tcg/s390x/Makefile.target         |  3 +
- tests/tcg/s390x/asm-const.h             | 13 ++++
- tests/tcg/s390x/br-odd.S                | 18 +++++
- tests/tcg/s390x/cgrl-unaligned.S        | 17 +++++
- tests/tcg/s390x/clrl-unaligned.S        | 15 +++++
- tests/tcg/s390x/crl-unaligned.S         | 17 +++++
- tests/tcg/s390x/ex-odd.S                | 17 +++++
- tests/tcg/s390x/lgrl-unaligned.S        | 17 +++++
- tests/tcg/s390x/llgfrl-unaligned.S      | 17 +++++
- tests/tcg/s390x/lpswe-unaligned.S       | 17 +++++
- tests/tcg/s390x/lrl-unaligned.S         | 17 +++++
- tests/tcg/s390x/pgm-specification.inc   | 90 +++++++++++++++++++++++++
- tests/tcg/s390x/pgm-specification.mak   | 15 +++++
- tests/tcg/s390x/stgrl-unaligned.S       | 17 +++++
- tests/tcg/s390x/strl-unaligned.S        | 17 +++++
- 16 files changed, 310 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/s390x/asm-const.h
- create mode 100644 tests/tcg/s390x/br-odd.S
- create mode 100644 tests/tcg/s390x/cgrl-unaligned.S
- create mode 100644 tests/tcg/s390x/clrl-unaligned.S
- create mode 100644 tests/tcg/s390x/crl-unaligned.S
- create mode 100644 tests/tcg/s390x/ex-odd.S
- create mode 100644 tests/tcg/s390x/lgrl-unaligned.S
- create mode 100644 tests/tcg/s390x/llgfrl-unaligned.S
- create mode 100644 tests/tcg/s390x/lpswe-unaligned.S
- create mode 100644 tests/tcg/s390x/lrl-unaligned.S
- create mode 100644 tests/tcg/s390x/pgm-specification.inc
- create mode 100644 tests/tcg/s390x/pgm-specification.mak
- create mode 100644 tests/tcg/s390x/stgrl-unaligned.S
- create mode 100644 tests/tcg/s390x/strl-unaligned.S
+> Guess bcm2835_property s->iomem needs to be marked as reentrancy-safe
+> as-well.
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
-index 725b6c598db..f32b7872e51 100644
---- a/tests/tcg/s390x/Makefile.softmmu-target
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -4,8 +4,10 @@ QEMU_OPTS=-action panic=exit-failure -kernel
- 
- %: %.S
- 	$(CC) -march=z13 -m64 -nostdlib -static -Wl,-Ttext=0 \
--		-Wl,--build-id=none $< -o $@
-+		-Wl,--build-id=none -D__ASSEMBLY__ -DCONFIG_SOFTMMU $< -o $@
- 
- TESTS += unaligned-lowcore
- TESTS += bal
- TESTS += sam
-+
-+include $(S390X_SRC)/pgm-specification.mak
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index a3d3beeffe8..c826eb6fa24 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -33,6 +33,9 @@ TESTS+=chrl
- cdsg: CFLAGS+=-pthread
- cdsg: LDFLAGS+=-pthread
- 
-+include $(S390X_SRC)/pgm-specification.mak
-+$(PGM_SPECIFICATION_TESTS): CFLAGS+=-x c
-+
- Z13_TESTS=vistr
- $(Z13_TESTS): CFLAGS+=-march=z13 -O2
- TESTS+=$(Z13_TESTS)
-diff --git a/tests/tcg/s390x/asm-const.h b/tests/tcg/s390x/asm-const.h
-new file mode 100644
-index 00000000000..c7e2d6ddc45
---- /dev/null
-+++ b/tests/tcg/s390x/asm-const.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Based on linux kernel's arch/s390/include/asm/asm-const.h . */
-+#ifndef ASM_CONST_H
-+#define ASM_CONST_H
-+
-+#ifdef __ASSEMBLY__
-+#define stringify_in_c(...) __VA_ARGS__
-+#else
-+#define __stringify_in_c(...) #__VA_ARGS__
-+#define stringify_in_c(...) __stringify_in_c(__VA_ARGS__) " "
-+#endif
-+
-+#endif
-diff --git a/tests/tcg/s390x/br-odd.S b/tests/tcg/s390x/br-odd.S
-new file mode 100644
-index 00000000000..9848c18d6e0
---- /dev/null
-+++ b/tests/tcg/s390x/br-odd.S
-@@ -0,0 +1,18 @@
-+/*
-+ * Test BRanching to a non-mapped odd address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(    lgrl %r1,addr;)                                         \
-+    stringify_in_c(    br %r1;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(addr:;)                                                     \
-+    stringify_in_c(    .quad 0xDDDDDDDDDDDDDDDD;)
-+
-+#define EXPECTED_OLD_PSWA 0xDDDDDDDDDDDDDDDD
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/cgrl-unaligned.S b/tests/tcg/s390x/cgrl-unaligned.S
-new file mode 100644
-index 00000000000..573eaa5c849
---- /dev/null
-+++ b/tests/tcg/s390x/cgrl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test CGRL with a non-doubleword aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    cgrl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .long 0;)                                               \
-+    stringify_in_c(unaligned:;)                                                \
-+    stringify_in_c(    .quad 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/clrl-unaligned.S b/tests/tcg/s390x/clrl-unaligned.S
-new file mode 100644
-index 00000000000..bd0c02fac73
---- /dev/null
-+++ b/tests/tcg/s390x/clrl-unaligned.S
-@@ -0,0 +1,15 @@
-+/*
-+ * Test CLRL with a non-word aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa: clrl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(.short 0;)                                                  \
-+    stringify_in_c(unaligned: .long 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/crl-unaligned.S b/tests/tcg/s390x/crl-unaligned.S
-new file mode 100644
-index 00000000000..8446be13efc
---- /dev/null
-+++ b/tests/tcg/s390x/crl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test CRL with a non-word aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    crl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .short 0;)                                              \
-+    stringify_in_c(unaligned:;)                                                \
-+    stringify_in_c(    .long 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/ex-odd.S b/tests/tcg/s390x/ex-odd.S
-new file mode 100644
-index 00000000000..0427c79d8a4
---- /dev/null
-+++ b/tests/tcg/s390x/ex-odd.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test EXECUTEing a non-mapped odd address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(    lgrl %r1,odd_addr;)                                     \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    ex 0,%r1;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(odd_addr:;)                                                 \
-+    stringify_in_c(    .quad 0xDDDDDDDDDDDDDDDD;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/lgrl-unaligned.S b/tests/tcg/s390x/lgrl-unaligned.S
-new file mode 100644
-index 00000000000..8afb350f0fd
---- /dev/null
-+++ b/tests/tcg/s390x/lgrl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test LGRL from a non-doubleword aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    lgrl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .long 0;)                                               \
-+    stringify_in_c(unaligned:)                                                 \
-+    stringify_in_c(    .quad 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/llgfrl-unaligned.S b/tests/tcg/s390x/llgfrl-unaligned.S
-new file mode 100644
-index 00000000000..4b22a31c267
---- /dev/null
-+++ b/tests/tcg/s390x/llgfrl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test LLGFRL from a non-word aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    llgfrl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .short 0;)                                              \
-+    stringify_in_c(unaligned:;)                                                \
-+    stringify_in_c(    .long 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/lpswe-unaligned.S b/tests/tcg/s390x/lpswe-unaligned.S
-new file mode 100644
-index 00000000000..3aa1da7298f
---- /dev/null
-+++ b/tests/tcg/s390x/lpswe-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test LPSWE from a non-doubleword aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    lpswe unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .long 0;)                                               \
-+    stringify_in_c(unaligned:)                                                 \
-+    stringify_in_c(    .quad 0, 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/lrl-unaligned.S b/tests/tcg/s390x/lrl-unaligned.S
-new file mode 100644
-index 00000000000..a7f75a78d7d
---- /dev/null
-+++ b/tests/tcg/s390x/lrl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test LRL from a non-word aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    lrl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .short 0;)                                              \
-+    stringify_in_c(unaligned:;)                                                \
-+    stringify_in_c(    .long 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/pgm-specification.inc b/tests/tcg/s390x/pgm-specification.inc
-new file mode 100644
-index 00000000000..e3899ed4718
---- /dev/null
-+++ b/tests/tcg/s390x/pgm-specification.inc
-@@ -0,0 +1,90 @@
-+/*
-+ * Common code for specification exception testing.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifdef CONFIG_SOFTMMU
-+    .org 0x8d
-+ilc:
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1D0                         /* program new PSW */
-+    .quad 0x180000000,pgm              /* 64-bit mode */
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    lpswe start64_psw
-+start64:
-+    CODE
-+    j failure
-+
-+pgm:
-+    chhsi program_interruption_code,0x6          /* PGM_SPECIFICATION? */
-+    jne failure
-+    lg %r0,expected_old_psw+8                    /* ilc adjustment */
-+    llgc %r1,ilc
-+    agr %r0,%r1
-+    stg %r0,expected_old_psw+8
-+    clc expected_old_psw(16),program_old_psw     /* correct location? */
-+    jne failure
-+    lpswe success_psw
-+failure:
-+    lpswe failure_psw
-+
-+    .align 8
-+start64_psw:
-+    .quad 0x180000000,start64          /* 64-bit mode */
-+expected_old_psw:
-+#ifndef EXPECTED_OLD_PSWA
-+#define EXPECTED_OLD_PSWA expected_old_pswa
-+#endif
-+    .quad 0x180000000,EXPECTED_OLD_PSWA
-+success_psw:
-+    .quad 0x2000180000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000180000000,0            /* disabled wait */
-+    DATA
-+#else
-+#include <assert.h>
-+#include <signal.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#ifndef EXPECTED_OLD_PSWA
-+extern char expected_old_pswa[];
-+#define EXPECTED_OLD_PSWA (long)expected_old_pswa
-+#endif
-+
-+static void handle_sigill(int sig, siginfo_t *info, void *ucontext)
-+{
-+    if ((long)info->si_addr != EXPECTED_OLD_PSWA) {
-+        _exit(EXIT_FAILURE);
-+    }
-+    _exit(EXIT_SUCCESS);
-+}
-+
-+asm("    .data\n"
-+    "    .align 8\n"
-+    DATA
-+    "    .previous\n");
-+
-+int main(void)
-+{
-+    struct sigaction act;
-+    int err;
-+
-+    memset(&act, 0, sizeof(act));
-+    act.sa_sigaction = handle_sigill;
-+    act.sa_flags = SA_SIGINFO;
-+    err = sigaction(SIGILL, &act, NULL);
-+    assert(err == 0);
-+
-+    asm volatile(CODE);
-+
-+    return EXIT_FAILURE;
-+}
-+#endif
-diff --git a/tests/tcg/s390x/pgm-specification.mak b/tests/tcg/s390x/pgm-specification.mak
-new file mode 100644
-index 00000000000..6f8684901d5
---- /dev/null
-+++ b/tests/tcg/s390x/pgm-specification.mak
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+PGM_SPECIFICATION_TESTS = \
-+	br-odd \
-+	cgrl-unaligned \
-+	clrl-unaligned \
-+	crl-unaligned \
-+	ex-odd \
-+	lgrl-unaligned \
-+	llgfrl-unaligned \
-+	lpswe-unaligned \
-+	lrl-unaligned \
-+	stgrl-unaligned \
-+	strl-unaligned
-+$(PGM_SPECIFICATION_TESTS) : asm-const.h pgm-specification.inc
-+TESTS += $(PGM_SPECIFICATION_TESTS)
-diff --git a/tests/tcg/s390x/stgrl-unaligned.S b/tests/tcg/s390x/stgrl-unaligned.S
-new file mode 100644
-index 00000000000..f105560c5c4
---- /dev/null
-+++ b/tests/tcg/s390x/stgrl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test STGRL to a non-doubleword aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:)                                         \
-+    stringify_in_c(    stgrl %r1,unaligned)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .long 0;)                                               \
-+    stringify_in_c(unaligned:;)                                                \
-+    stringify_in_c(    .quad 0;)
-+
-+#include "pgm-specification.inc"
-diff --git a/tests/tcg/s390x/strl-unaligned.S b/tests/tcg/s390x/strl-unaligned.S
-new file mode 100644
-index 00000000000..896708cebd1
---- /dev/null
-+++ b/tests/tcg/s390x/strl-unaligned.S
-@@ -0,0 +1,17 @@
-+/*
-+ * Test STRL to a non-word aligned address.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "asm-const.h"
-+
-+#define CODE                                                                   \
-+    stringify_in_c(expected_old_pswa:;)                                        \
-+    stringify_in_c(    strl %r1,unaligned;)
-+
-+#define DATA                                                                   \
-+    stringify_in_c(    .short 0;)                                              \
-+    stringify_in_c(unaligned:;)                                                \
-+    stringify_in_c(    .long 0;)
-+
-+#include "pgm-specification.inc"
--- 
-2.39.2
+Right.
 
+Now I wonder again if this is a good time to merge this change set.
+Hopefully users will test the RC before the final release.
 
