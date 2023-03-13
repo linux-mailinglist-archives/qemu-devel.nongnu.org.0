@@ -2,85 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A306B70CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:04:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80D36B711D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:26:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbd9I-00065w-Fz; Mon, 13 Mar 2023 04:03:16 -0400
+	id 1pbdUI-0000uO-Bi; Mon, 13 Mar 2023 04:24:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbd9C-00065Z-9f
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:03:11 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbd99-0005Lz-PG
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:03:09 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l7-20020a05600c4f0700b003e79fa98ce1so7197010wmq.2
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:03:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pbdUG-0000u0-I5
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:24:56 -0400
+Received: from esa9.hc2706-39.iphmx.com ([216.71.140.197])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pbdUE-0000Fu-SH
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:24:56 -0400
+X-IronPort-RemoteIP: 209.85.160.72
+X-IronPort-MID: 265318209
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:ixPc260GLOIfXkdlWfbD5W5zkn2cJEfYwER7XKvMYLTBsI5bpzEOx
+ jZJXmGPa/6DNmDwfIsjOtm+/U4H7cODyNBgSgRrqSg9HnlHl5H5CIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnj/0bv666yE6jfrSLlbFILasEjhrQgN5QzsWhxtmmuoo6qZlmtH8CA6W0
+ T/Ii5S31GSNhnglYgr414rZ8Ek05K+r42tC1rADTasjUGH2xiF94K03ePnZw0vQGuF8AuO8T
+ uDf+7C1lkuxE8AFU47Nfh7TKyXmc5aLVeS8oiM+t5uK23CukhcPPpMTb5LwX6v2ZwKhxLidw
+ P0V3XC5pJxA0qfkwYzxWDEBe81y0DEvFBYq7hFTvOTKp3AqfUcAzN1nPGcfAq0nxt1lOiZH6
+ tcpFw4TSBeM0rfeLLKTEoGAh+wmJcjveYQW4zRukmufAvEhTpTOBa7N4Le03h9q3pEITauYP
+ pRBL2U1BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtvTWIlVwriOmF3Nz9Yu2Tdf51vQGhq
+ H/P2X26ME0fBsKg1m/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
+ khR/SN36KZtrgqkSd7yWxD+q3mB1vIBZ+dt/yQBwFnl4sLpD8yxXQDokhYphAQaifIL
+IronPort-HdrOrdr: A9a23:nZmbQaPXWWMWwsBcThujsMiBIKoaSvp037Dk7TEUdfUzSL3jqy
+ nKpp4mPHDP+VAssR0b6LK90cq7MAjhHOBOkPAs1N6ZNWGMyQiVxelZjbcKqAeQfBEWmNQtsJ
+ tIQuxVJOe1I2JHrfvX1iGFLvdI+qj7zElqv4vjJrVWID2Cp5sP0+4AMHfiLqS+fmYmOaYE
+Received: from mail-oa1-f72.google.com ([209.85.160.72])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 13 Mar 2023 04:24:50 -0400
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-1765e2031ccso6848470fac.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678694586;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VRVByIBjBiOzlr3Z/Pa5K+bxEgnDY1SGU7M2bbuRaik=;
- b=QUAxuevPn7oUofo+eeReN+4VYDwNLwsuxaNv5MCyIvY0yCZW1JHgur39IQxeMkxSYr
- l6fR6K3zsQWbxAxJo3nwQAXLfWvwUVxaKLVxczDmdHJ8nNYmUo79X+70GqylQVSnN+yN
- IIazXHpAqOcW+a3w6W5Jfp7HKo60Nc1hVv/2JbRT1sZ6R8jKVNXaIFtAsIZM9ZpjULHo
- EL8fBMnaK1fhdGEFt91vbXBTt3eqeHxfwKfCi/D6ko2cYy4iwcErO3ZwfORsuJFoOdSb
- JO7cbTiPfg5tWBtiN3ZHYAU7km3rKeWADe4NsgClpqADcpCl/j0f0ODeW14zhHE9+bot
- +JZQ==
+ d=bu.edu; s=s1gsbu; t=1678695890;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XcaLZq09Hc3yOwOcAr2aTWdpY4It79wxQBzukuXEB2k=;
+ b=HpodYEdqCiQ5/MrpJq8hwHfhiAj7OTnuY3Ral2FoFBCiOhLjD0cGX6ZU851P421v2+
+ 74Fi1Rm4r5N+469xUCyRnUT/SNfGO1PpnL1G7Lg9FJ69pRGH7z+gf94Rx0osYdem2hSt
+ 82boeEtjSGe8lY+Ki0VTX638bsmX7W7shI0+FvK8j23f/lWTwDYdu98pDCOWoj5vhXaD
+ bgX4psRgDSCgNfzF+OjpXPY2kvjGXSwlO7c6zlY7QvGn5YPQ6r5V+zVynjMGjeLbnOqC
+ 8nbnsXrvztdHEQX6XYo32tKVqRD0ujBp7JXutqVpczixYbY20/rLj2TOv1Mn4lmfVKrB
+ mC9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678694586;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VRVByIBjBiOzlr3Z/Pa5K+bxEgnDY1SGU7M2bbuRaik=;
- b=mrHssLqDlIkfXUvK6Plo5+L55dGZoAgpzKWTgMGfZVLOX25tLLLnH9VDr6QZ/XWRxr
- 5lQ78Xp8NJ+emw5DeDsjBbLUuSO9MUyxD4o7qjp+p1RvQi5dw0Gi/8GMvgp6UKDqrfYR
- Kw49VcMnfXVhsMnYpJbrfgHgb1+0xWfAgo9x3+5uEgkdbmuy5jPf86/9HldIT/gwg/We
- 1lXMhjKNkKq2sPmuU65hBZ4hZvJlgXJs/ETHMzqXlcUNNA8HUSjqo+pyn1+4X0TA1w5y
- kXVvdbCbqaBNOeksbc9g6vvkaLpM5VGnkt0XpKzXsQFeN9bg9l/nO32RYeTQuu85vI09
- iIvA==
-X-Gm-Message-State: AO0yUKVL7TR4R6MrXHFlLjFPwPIhP55pdxzDoOJ9+sjFXy58Bvl7wFgF
- a2luaG4ADg9aA62et3ZKHCrpmw==
-X-Google-Smtp-Source: AK7set8yzUwvZDN5dIf2wbyh9VrdDsQLxpUOJtSnZ2gxUpFY0Wb1UipWt8gUZJiTeLPmYWRA0lgoLA==
-X-Received: by 2002:a05:600c:4587:b0:3df:e468:17dc with SMTP id
- r7-20020a05600c458700b003dfe46817dcmr9363679wmo.40.1678694585968; 
- Mon, 13 Mar 2023 01:03:05 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k26-20020a05600c1c9a00b003dfe549da4fsm9030477wms.18.2023.03.13.01.03.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 01:03:05 -0700 (PDT)
-Message-ID: <ac03c48a-97ad-a02a-c5cf-1e0a0bc9625d@linaro.org>
-Date: Mon, 13 Mar 2023 09:03:04 +0100
+ d=1e100.net; s=20210112; t=1678695890;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XcaLZq09Hc3yOwOcAr2aTWdpY4It79wxQBzukuXEB2k=;
+ b=50jN4wf00H9uVFoeh3VFtiwdCGceYFfAuwlJGyUIJsObL7OQt1NhW3CmZQnVwbvtBc
+ L1jrKGKj7TCnxTx44atI9ss1Spx/3sYjbic17P5QbessOMTaBr1wyfRRZJm6xIE9OMqH
+ CUOjfKmoTSDUhQSltRtPeEC42Kjc+ZZ5faE8e2JbCzKGtgp10L9njYCMmfdYht6g4nd/
+ /Tv1BDf1VcEVGg8pvk40fS6FZPTkpsAU8BDelIHoltSqKU9QED+AYBmf39c1vo0Z9jky
+ IlZrqH+ZAN3MmjJrq3mowY/k/vdVlgDqjRU1tQjM8K+TBmzEgUcmZDsQNkLHYZlEJALU
+ EjIA==
+X-Gm-Message-State: AO0yUKU3QMwwG0z8mebrW9MvhnPTjXQQ4VihzBIvZHK2NU8U5n4PNFNu
+ hEu9a7fn4E0MbtMZ3BC7g848hh1bZ9Uqe5rZUgrBeLDn6h2wbK3yZeaDDGVOoZAXSrumxtbidh1
+ NgRLaUPq7wVgLCuiQHJr4ldcW+Uo9ma2TWgoa8yInLOg=
+X-Received: by 2002:a05:622a:1ba8:b0:3bd:f03:5f12 with SMTP id
+ bp40-20020a05622a1ba800b003bd0f035f12mr61284091qtb.42.1678695869006; 
+ Mon, 13 Mar 2023 01:24:29 -0700 (PDT)
+X-Google-Smtp-Source: AK7set99Kl5tri4anTOWi67cAB5ZLl83/3wVQ468msw11sGJci7HXaz3liOIly+71i5GORBrG7luRg==
+X-Received: by 2002:a05:622a:1ba8:b0:3bd:f03:5f12 with SMTP id
+ bp40-20020a05622a1ba800b003bd0f035f12mr61284057qtb.42.1678695868674; 
+ Mon, 13 Mar 2023 01:24:28 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ o191-20020a3741c8000000b0071a02d712b0sm4911259qka.99.2023.03.13.01.24.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 01:24:28 -0700 (PDT)
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>
+Subject: [PATCH v7 0/6] memory: prevent dma-reentracy issues
+Date: Mon, 13 Mar 2023 04:24:11 -0400
+Message-Id: <20230313082417.827484-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PULL 00/73] virtio,pc,pci: features, fixes
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <cover.1678237635.git.mst@redhat.com>
- <20230309094647-mutt-send-email-mst@kernel.org>
- <CAFEAcA-pO1OYwO8PZwSjFiLX=MJcK+cYqtFqaF3ZZtTGdZ_EXw@mail.gmail.com>
- <dbc5dad7-0bb7-e947-60f8-84b6ff5a2dde@linaro.org>
- <20230311141858-mutt-send-email-mst@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230311141858-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.140.197; envelope-from=alxndr@bu.edu;
+ helo=esa9.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,330 +126,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/23 20:22, Michael S. Tsirkin wrote:
-> On Fri, Mar 10, 2023 at 11:20:36PM +0100, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> On 10/3/23 18:32, Peter Maydell wrote:
->>> On Thu, 9 Mar 2023 at 14:47, Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->>>> I moved it one commit back, now at (96cb085897)
->>>> Cornelia posted some concerns about the last commit.
->>>>
->>>>> ----------------------------------------------------------------
->>>>> virtio,pc,pci: features, fixes
->>>>>
->>>>> Several features that landed at the last possible moment:
->>>>>
->>>>> Passthrough HDM decoder emulation
->>>>> Refactor cryptodev
->>>>> RAS error emulation and injection
->>>>> acpi-index support on non-hotpluggable slots
->>>>> Dynamically switch to vhost shadow virtqueues at vdpa net migration
->>>>>
->>>>> Plus a couple of bugfixes that look important to have in the release.
->>>>>
->>>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->>>>>
->>>
->>>
->>> Applied, thanks.
->>
->> I'm getting this failure on Darwin (m1):
->>
->> C compiler for the host machine: clang (clang 14.0.0 "Apple clang version
->> 14.0.0 (clang-1400.0.29.202)")
->> Program iasl found: YES (/opt/homebrew/bin/iasl)
->>
->> $ make check-qtest-i386 V=1
->>   ...
->>   3/61 qemu:qtest+qtest-i386 / qtest-i386/bios-tables-test ERROR
->> 17.52s   killed by signal 6 SIGABRT
->> ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->> ✀ ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->> stderr:
->> acpi-test: Warning! DSDT binary file mismatch. Actual
->> [aml:/var/folders/yj/r7khncsj4d77k04ybz9lw4tm0000gn/T/aml-HANQ11], Expected
->> [aml:tests/data/acpi/pc/DSDT.nosmm].
-> 
-> Philippe, is tests/data/acpi/DSDT.nosmm in your tree for some reason?
-> Because it's not in mine:
-> $ git log -- tests/data/acpi/DSDT.nosmm
-> 
-> 
-> It's a side effect of how our tests work ATM that a presence of
-> a corrupted file in the source directory will confuse the test
-> and make it fail, and git reset will not be enough since some
-> of these can be untracked - you need git clean.
+v6 -> v7:
+    - Fix bad qemu_bh_new_guarded calls found by Thomas (Patch 4)
+    - Add an MR-specific flag to disable reentrancy (Patch 5)
+    - Disable reentrancy checks for lsi53c895a's RAM-like MR (Patch 6)
+    
+    Patches 5 and 6 need review. I left the review-tags for Patch 4,
+    however a few of the qemu_bh_new_guarded calls have changed.
 
-Indeed 'git status' shows:
+v5 -> v6:
+    - Only apply checkpatch checks to code in paths containing "/hw/"
+      (/hw/ and include/hw/)
+    - Fix a bug in a _guarded call added to hw/block/virtio-blk.c
+v4-> v5:
+    - Add corresponding checkpatch checks
+    - Save/restore reentrancy-flag when entering/exiting BHs
+    - Improve documentation
+    - Check object_dynamic_cast return value
 
-	tests/data/acpi/microvm/APIC.rtc
-	tests/data/acpi/microvm/APIC.usb
-	tests/data/acpi/microvm/FACP.ioapic2
-	tests/data/acpi/microvm/FACP.pcie
-	tests/data/acpi/microvm/FACP.rtc
-	tests/data/acpi/microvm/FACP.usb
-	tests/data/acpi/pc/APIC.acpierst
-	tests/data/acpi/pc/APIC.bridge
-	tests/data/acpi/pc/APIC.hpbridge
-	tests/data/acpi/pc/APIC.hpbrroot
-	tests/data/acpi/pc/APIC.ipmikcs
-	tests/data/acpi/pc/APIC.memhp
-	tests/data/acpi/pc/APIC.nohpet
-	tests/data/acpi/pc/APIC.nosmm
-	tests/data/acpi/pc/APIC.numamem
-	tests/data/acpi/pc/APIC.roothp
-	tests/data/acpi/pc/APIC.smm-compat
-	tests/data/acpi/pc/APIC.smm-compat-nosmm
-	tests/data/acpi/pc/DSDT.nosmm
-	tests/data/acpi/pc/DSDT.smm-compat
-	tests/data/acpi/pc/DSDT.smm-compat-nosmm
-	tests/data/acpi/pc/FACP.acpierst
-	tests/data/acpi/pc/FACP.acpihmat
-	tests/data/acpi/pc/FACP.bridge
-	tests/data/acpi/pc/FACP.cphp
-	tests/data/acpi/pc/FACP.dimmpxm
-	tests/data/acpi/pc/FACP.hpbridge
-	tests/data/acpi/pc/FACP.hpbrroot
-	tests/data/acpi/pc/FACP.ipmikcs
-	tests/data/acpi/pc/FACP.memhp
-	tests/data/acpi/pc/FACP.nohpet
-	tests/data/acpi/pc/FACP.numamem
-	tests/data/acpi/pc/FACP.roothp
-	tests/data/acpi/pc/FACP.smm-compat
-	tests/data/acpi/pc/FACP.smm-compat-nosmm
-	tests/data/acpi/pc/FACS.acpierst
-	tests/data/acpi/pc/FACS.acpihmat
-	tests/data/acpi/pc/FACS.bridge
-	tests/data/acpi/pc/FACS.cphp
-	tests/data/acpi/pc/FACS.dimmpxm
-	tests/data/acpi/pc/FACS.hpbridge
-	tests/data/acpi/pc/FACS.hpbrroot
-	tests/data/acpi/pc/FACS.ipmikcs
-	tests/data/acpi/pc/FACS.memhp
-	tests/data/acpi/pc/FACS.nohpet
-	tests/data/acpi/pc/FACS.nosmm
-	tests/data/acpi/pc/FACS.numamem
-	tests/data/acpi/pc/FACS.roothp
-	tests/data/acpi/pc/FACS.smm-compat
-	tests/data/acpi/pc/FACS.smm-compat-nosmm
-	tests/data/acpi/pc/HPET.acpierst
-	tests/data/acpi/pc/HPET.acpihmat
-	tests/data/acpi/pc/HPET.bridge
-	tests/data/acpi/pc/HPET.cphp
-	tests/data/acpi/pc/HPET.dimmpxm
-	tests/data/acpi/pc/HPET.hpbridge
-	tests/data/acpi/pc/HPET.hpbrroot
-	tests/data/acpi/pc/HPET.ipmikcs
-	tests/data/acpi/pc/HPET.memhp
-	tests/data/acpi/pc/HPET.nosmm
-	tests/data/acpi/pc/HPET.numamem
-	tests/data/acpi/pc/HPET.roothp
-	tests/data/acpi/pc/HPET.smm-compat
-	tests/data/acpi/pc/HPET.smm-compat-nosmm
-	tests/data/acpi/pc/WAET.acpierst
-	tests/data/acpi/pc/WAET.acpihmat
-	tests/data/acpi/pc/WAET.bridge
-	tests/data/acpi/pc/WAET.cphp
-	tests/data/acpi/pc/WAET.dimmpxm
-	tests/data/acpi/pc/WAET.hpbridge
-	tests/data/acpi/pc/WAET.hpbrroot
-	tests/data/acpi/pc/WAET.ipmikcs
-	tests/data/acpi/pc/WAET.memhp
-	tests/data/acpi/pc/WAET.nohpet
-	tests/data/acpi/pc/WAET.nosmm
-	tests/data/acpi/pc/WAET.numamem
-	tests/data/acpi/pc/WAET.roothp
-	tests/data/acpi/pc/WAET.smm-compat
-	tests/data/acpi/pc/WAET.smm-compat-nosmm
-	tests/data/acpi/q35/APIC.acpierst
-	tests/data/acpi/q35/APIC.applesmc
-	tests/data/acpi/q35/APIC.bridge
-	tests/data/acpi/q35/APIC.cxl
-	tests/data/acpi/q35/APIC.ipmibt
-	tests/data/acpi/q35/APIC.ipmismbus
-	tests/data/acpi/q35/APIC.ivrs
-	tests/data/acpi/q35/APIC.memhp
-	tests/data/acpi/q35/APIC.mmio64
-	tests/data/acpi/q35/APIC.multi-bridge
-	tests/data/acpi/q35/APIC.noacpihp
-	tests/data/acpi/q35/APIC.nohpet
-	tests/data/acpi/q35/APIC.nosmm
-	tests/data/acpi/q35/APIC.numamem
-	tests/data/acpi/q35/APIC.pvpanic-isa
-	tests/data/acpi/q35/APIC.slic
-	tests/data/acpi/q35/APIC.smm-compat
-	tests/data/acpi/q35/APIC.smm-compat-nosmm
-	tests/data/acpi/q35/APIC.tis.tpm12
-	tests/data/acpi/q35/APIC.tis.tpm2
-	tests/data/acpi/q35/APIC.viot
-	tests/data/acpi/q35/DSDT.dsl
-	tests/data/acpi/q35/DSDT.nosmm
-	tests/data/acpi/q35/DSDT.slic
-	tests/data/acpi/q35/DSDT.smm-compat
-	tests/data/acpi/q35/DSDT.smm-compat-nosmm
-	tests/data/acpi/q35/FACP.acpierst
-	tests/data/acpi/q35/FACP.acpihmat
-	tests/data/acpi/q35/FACP.acpihmat-noinitiator
-	tests/data/acpi/q35/FACP.applesmc
-	tests/data/acpi/q35/FACP.bridge
-	tests/data/acpi/q35/FACP.cphp
-	tests/data/acpi/q35/FACP.cxl
-	tests/data/acpi/q35/FACP.dimmpxm
-	tests/data/acpi/q35/FACP.ipmibt
-	tests/data/acpi/q35/FACP.ipmismbus
-	tests/data/acpi/q35/FACP.ivrs
-	tests/data/acpi/q35/FACP.memhp
-	tests/data/acpi/q35/FACP.mmio64
-	tests/data/acpi/q35/FACP.multi-bridge
-	tests/data/acpi/q35/FACP.noacpihp
-	tests/data/acpi/q35/FACP.nohpet
-	tests/data/acpi/q35/FACP.numamem
-	tests/data/acpi/q35/FACP.pvpanic-isa
-	tests/data/acpi/q35/FACP.smm-compat
-	tests/data/acpi/q35/FACP.smm-compat-nosmm
-	tests/data/acpi/q35/FACP.tis.tpm12
-	tests/data/acpi/q35/FACP.tis.tpm2
-	tests/data/acpi/q35/FACP.viot
-	tests/data/acpi/q35/FACS.acpierst
-	tests/data/acpi/q35/FACS.acpihmat
-	tests/data/acpi/q35/FACS.acpihmat-noinitiator
-	tests/data/acpi/q35/FACS.applesmc
-	tests/data/acpi/q35/FACS.bridge
-	tests/data/acpi/q35/FACS.cphp
-	tests/data/acpi/q35/FACS.cxl
-	tests/data/acpi/q35/FACS.dimmpxm
-	tests/data/acpi/q35/FACS.ipmibt
-	tests/data/acpi/q35/FACS.ipmismbus
-	tests/data/acpi/q35/FACS.ivrs
-	tests/data/acpi/q35/FACS.memhp
-	tests/data/acpi/q35/FACS.mmio64
-	tests/data/acpi/q35/FACS.multi-bridge
-	tests/data/acpi/q35/FACS.noacpihp
-	tests/data/acpi/q35/FACS.nohpet
-	tests/data/acpi/q35/FACS.nosmm
-	tests/data/acpi/q35/FACS.numamem
-	tests/data/acpi/q35/FACS.pvpanic-isa
-	tests/data/acpi/q35/FACS.slic
-	tests/data/acpi/q35/FACS.smm-compat
-	tests/data/acpi/q35/FACS.smm-compat-nosmm
-	tests/data/acpi/q35/FACS.tis.tpm12
-	tests/data/acpi/q35/FACS.tis.tpm2
-	tests/data/acpi/q35/FACS.viot
-	tests/data/acpi/q35/HPET.acpierst
-	tests/data/acpi/q35/HPET.acpihmat
-	tests/data/acpi/q35/HPET.acpihmat-noinitiator
-	tests/data/acpi/q35/HPET.applesmc
-	tests/data/acpi/q35/HPET.bridge
-	tests/data/acpi/q35/HPET.cphp
-	tests/data/acpi/q35/HPET.cxl
-	tests/data/acpi/q35/HPET.dimmpxm
-	tests/data/acpi/q35/HPET.ipmibt
-	tests/data/acpi/q35/HPET.ipmismbus
-	tests/data/acpi/q35/HPET.ivrs
-	tests/data/acpi/q35/HPET.memhp
-	tests/data/acpi/q35/HPET.mmio64
-	tests/data/acpi/q35/HPET.multi-bridge
-	tests/data/acpi/q35/HPET.noacpihp
-	tests/data/acpi/q35/HPET.nosmm
-	tests/data/acpi/q35/HPET.numamem
-	tests/data/acpi/q35/HPET.pvpanic-isa
-	tests/data/acpi/q35/HPET.slic
-	tests/data/acpi/q35/HPET.smm-compat
-	tests/data/acpi/q35/HPET.smm-compat-nosmm
-	tests/data/acpi/q35/HPET.tis.tpm12
-	tests/data/acpi/q35/HPET.tis.tpm2
-	tests/data/acpi/q35/HPET.viot
-	tests/data/acpi/q35/MCFG.acpierst
-	tests/data/acpi/q35/MCFG.acpihmat
-	tests/data/acpi/q35/MCFG.acpihmat-noinitiator
-	tests/data/acpi/q35/MCFG.applesmc
-	tests/data/acpi/q35/MCFG.bridge
-	tests/data/acpi/q35/MCFG.cphp
-	tests/data/acpi/q35/MCFG.cxl
-	tests/data/acpi/q35/MCFG.dimmpxm
-	tests/data/acpi/q35/MCFG.ipmibt
-	tests/data/acpi/q35/MCFG.ipmismbus
-	tests/data/acpi/q35/MCFG.ivrs
-	tests/data/acpi/q35/MCFG.memhp
-	tests/data/acpi/q35/MCFG.mmio64
-	tests/data/acpi/q35/MCFG.multi-bridge
-	tests/data/acpi/q35/MCFG.noacpihp
-	tests/data/acpi/q35/MCFG.nohpet
-	tests/data/acpi/q35/MCFG.nosmm
-	tests/data/acpi/q35/MCFG.numamem
-	tests/data/acpi/q35/MCFG.pvpanic-isa
-	tests/data/acpi/q35/MCFG.slic
-	tests/data/acpi/q35/MCFG.smm-compat
-	tests/data/acpi/q35/MCFG.smm-compat-nosmm
-	tests/data/acpi/q35/MCFG.tis.tpm12
-	tests/data/acpi/q35/MCFG.tis.tpm2
-	tests/data/acpi/q35/MCFG.viot
-	tests/data/acpi/q35/WAET.acpierst
-	tests/data/acpi/q35/WAET.acpihmat
-	tests/data/acpi/q35/WAET.acpihmat-noinitiator
-	tests/data/acpi/q35/WAET.applesmc
-	tests/data/acpi/q35/WAET.bridge
-	tests/data/acpi/q35/WAET.cphp
-	tests/data/acpi/q35/WAET.cxl
-	tests/data/acpi/q35/WAET.dimmpxm
-	tests/data/acpi/q35/WAET.ipmibt
-	tests/data/acpi/q35/WAET.ipmismbus
-	tests/data/acpi/q35/WAET.ivrs
-	tests/data/acpi/q35/WAET.memhp
-	tests/data/acpi/q35/WAET.mmio64
-	tests/data/acpi/q35/WAET.multi-bridge
-	tests/data/acpi/q35/WAET.noacpihp
-	tests/data/acpi/q35/WAET.nohpet
-	tests/data/acpi/q35/WAET.nosmm
-	tests/data/acpi/q35/WAET.numamem
-	tests/data/acpi/q35/WAET.pvpanic-isa
-	tests/data/acpi/q35/WAET.slic
-	tests/data/acpi/q35/WAET.smm-compat
-	tests/data/acpi/q35/WAET.smm-compat-nosmm
-	tests/data/acpi/q35/WAET.tis.tpm12
-	tests/data/acpi/q35/WAET.tis.tpm2
-	tests/data/acpi/q35/WAET.viot
-	tests/data/acpi/virt/APIC.memhp
-	tests/data/acpi/virt/APIC.numamem
-	tests/data/acpi/virt/APIC.pxb
-	tests/data/acpi/virt/DBG2.acpihmatvirt
-	tests/data/acpi/virt/DBG2.memhp
-	tests/data/acpi/virt/DBG2.numamem
-	tests/data/acpi/virt/DBG2.pxb
-	tests/data/acpi/virt/DBG2.topology
-	tests/data/acpi/virt/DSDT.numamem
-	tests/data/acpi/virt/FACP.acpihmatvirt
-	tests/data/acpi/virt/FACP.memhp
-	tests/data/acpi/virt/FACP.numamem
-	tests/data/acpi/virt/FACP.pxb
-	tests/data/acpi/virt/FACP.topology
-	tests/data/acpi/virt/GTDT.acpihmatvirt
-	tests/data/acpi/virt/GTDT.memhp
-	tests/data/acpi/virt/GTDT.numamem
-	tests/data/acpi/virt/GTDT.pxb
-	tests/data/acpi/virt/GTDT.topology
-	tests/data/acpi/virt/IORT.acpihmatvirt
-	tests/data/acpi/virt/IORT.memhp
-	tests/data/acpi/virt/IORT.numamem
-	tests/data/acpi/virt/IORT.pxb
-	tests/data/acpi/virt/IORT.topology
-	tests/data/acpi/virt/MCFG.acpihmatvirt
-	tests/data/acpi/virt/MCFG.memhp
-	tests/data/acpi/virt/MCFG.numamem
-	tests/data/acpi/virt/MCFG.pxb
-	tests/data/acpi/virt/MCFG.topology
-	tests/data/acpi/virt/PPTT.memhp
-	tests/data/acpi/virt/PPTT.numamem
-	tests/data/acpi/virt/PPTT.pxb
-	tests/data/acpi/virt/SPCR.acpihmatvirt
-	tests/data/acpi/virt/SPCR.memhp
-	tests/data/acpi/virt/SPCR.numamem
-	tests/data/acpi/virt/SPCR.pxb
-	tests/data/acpi/virt/SPCR.topology
+v3 -> v4: Instead of changing all of the DMA APIs, instead add an
+    optional reentrancy guard to the BH API.
 
-Tests pass after removing all of them. I forgot to check their
-timestamp before removing, so I don't know how/when they appeared
-in my source directory...
+v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
+    attempting to guess DeviceStates in BHs.
+
+These patches aim to solve two types of DMA-reentrancy issues:
+    
+1.) mmio -> dma -> mmio case
+To solve this, we track whether the device is engaged in io by
+checking/setting a reentrancy-guard within APIs used for MMIO access.
+    
+2.) bh -> dma write -> mmio case
+This case is trickier, since we dont have a generic way to associate a
+bh with the underlying Device/DeviceState. Thus, this version allows a
+device to associate a reentrancy-guard with a bh, when creating it.
+(Instead of calling qemu_bh_new, you call qemu_bh_new_guarded)
+    
+I replaced most of the qemu_bh_new invocations with the guarded analog,
+except for the ones where the DeviceState was not trivially accessible.
+
+
+Alexander Bulekov (6):
+  memory: prevent dma-reentracy issues
+  async: Add an optional reentrancy guard to the BH API
+  checkpatch: add qemu_bh_new/aio_bh_new checks
+  hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
+  memory: Allow disabling re-entrancy checking per-MR
+  lsi53c895a: disable reentrancy detection for script RAM
+
+ docs/devel/multiple-iothreads.txt |  7 +++++++
+ hw/9pfs/xen-9p-backend.c          |  5 ++++-
+ hw/block/dataplane/virtio-blk.c   |  3 ++-
+ hw/block/dataplane/xen-block.c    |  5 +++--
+ hw/char/virtio-serial-bus.c       |  3 ++-
+ hw/display/qxl.c                  |  9 ++++++---
+ hw/display/virtio-gpu.c           |  6 ++++--
+ hw/ide/ahci.c                     |  3 ++-
+ hw/ide/ahci_internal.h            |  1 +
+ hw/ide/core.c                     |  4 +++-
+ hw/misc/imx_rngc.c                |  6 ++++--
+ hw/misc/macio/mac_dbdma.c         |  2 +-
+ hw/net/virtio-net.c               |  3 ++-
+ hw/nvme/ctrl.c                    |  6 ++++--
+ hw/scsi/lsi53c895a.c              |  6 ++++++
+ hw/scsi/mptsas.c                  |  3 ++-
+ hw/scsi/scsi-bus.c                |  3 ++-
+ hw/scsi/vmw_pvscsi.c              |  3 ++-
+ hw/usb/dev-uas.c                  |  3 ++-
+ hw/usb/hcd-dwc2.c                 |  3 ++-
+ hw/usb/hcd-ehci.c                 |  3 ++-
+ hw/usb/hcd-uhci.c                 |  2 +-
+ hw/usb/host-libusb.c              |  6 ++++--
+ hw/usb/redirect.c                 |  6 ++++--
+ hw/usb/xen-usb.c                  |  3 ++-
+ hw/virtio/virtio-balloon.c        |  5 +++--
+ hw/virtio/virtio-crypto.c         |  3 ++-
+ include/block/aio.h               | 18 ++++++++++++++++--
+ include/exec/memory.h             |  3 +++
+ include/hw/qdev-core.h            |  7 +++++++
+ include/qemu/main-loop.h          |  7 +++++--
+ scripts/checkpatch.pl             |  8 ++++++++
+ softmmu/memory.c                  | 17 +++++++++++++++++
+ softmmu/trace-events              |  1 +
+ tests/unit/ptimer-test-stubs.c    |  3 ++-
+ util/async.c                      | 18 +++++++++++++++++-
+ util/main-loop.c                  |  5 +++--
+ util/trace-events                 |  1 +
+ 38 files changed, 159 insertions(+), 41 deletions(-)
+
+-- 
+2.39.0
+
 
