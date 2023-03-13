@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E4B6B7384
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD156B73AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:19:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfBc-00059P-35; Mon, 13 Mar 2023 06:13:49 -0400
+	id 1pbfGc-0005l5-8g; Mon, 13 Mar 2023 06:18:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfBR-0004st-5z
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:37 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pbfGV-0005kJ-Ms
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:18:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfBP-0004RF-9O
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pbfGT-0005KE-U1
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:18:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678702414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1678702728;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9+vkE9LuKiXw6hgpIr6rng/DVtJGgtEFf712e+28JsU=;
- b=G7jJsYvez1WOfXQaKDd/ar46WDXeeJxHkz15m2RZ76IJ8Pr0g/ZZgez8BtnEu2faS7eNij
- Q3LHI9FuiQCNrDYlWJEt4C3oQpaoiVQkhWR5qtizCmTVNzPEiceFIFvMFqubfLalSuhhNK
- VeZBvR0N1A1wRxUWdFUITitrpTsWd98=
+ bh=+nqe8mT6T5rZyOea07n590jAk4znmVoULzhjrzn5BJQ=;
+ b=RaXja157JHi8EhdaWO+x8iNWr9aryU5+qsvnUf+rXnNS28sh1IqElUOJFZY2B9aVqbs68E
+ 1biP6HPbL5yeaOtA7VR32fJA2uDfCmG9cI+R32kip6WALWJC7xzoM1LPqss3UqUqzxZ51r
+ DFf/OOBhRIX6fQ15iM1QIc13s0LYNFQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-qYqltaxpNsiEznBRRxCOpg-1; Mon, 13 Mar 2023 06:13:31 -0400
-X-MC-Unique: qYqltaxpNsiEznBRRxCOpg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-462-OImOu7_kMQ6E2KcwHJO5zQ-1; Mon, 13 Mar 2023 06:18:45 -0400
+X-MC-Unique: OImOu7_kMQ6E2KcwHJO5zQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3119F3C0F180;
- Mon, 13 Mar 2023 10:13:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 262FD2A68;
- Mon, 13 Mar 2023 10:13:29 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BC0F1C05141;
+ Mon, 13 Mar 2023 10:18:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9BE81410F1B;
+ Mon, 13 Mar 2023 10:18:43 +0000 (UTC)
+Date: Mon, 13 Mar 2023 10:18:41 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 18/18] ui/dbus: restrict opengl to gbm-enabled config
-Date: Mon, 13 Mar 2023 14:12:07 +0400
-Message-Id: <20230313101207.375125-19-marcandre.lureau@redhat.com>
-In-Reply-To: <20230313101207.375125-1-marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v3 11/18] ui/sdl: get the GL context from the window
+Message-ID: <ZA74gQSEsSRQiGo7@redhat.com>
 References: <20230313101207.375125-1-marcandre.lureau@redhat.com>
+ <20230313101207.375125-12-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
+In-Reply-To: <20230313101207.375125-12-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,109 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Mon, Mar 13, 2023 at 02:12:00PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> There is no guarantee to have a current GL context here. The current
+> code seems to rely on the renderer using a GL backend, and to set a
+> current GL context. But this is not always the case, for example if the
+> renderer backend is DirectX.
+> 
+> This change is enough to fix using virgl with sdl2 on win32, on my setup.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  ui/sdl2.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-We can enable EGL later for non-GBM hosts.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- ui/dbus-listener.c | 10 +++++-----
- ui/dbus.c          | 12 +++++++++++-
- 2 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-index 85692f1b27..911acdc529 100644
---- a/ui/dbus-listener.c
-+++ b/ui/dbus-listener.c
-@@ -50,7 +50,7 @@ struct _DBusDisplayListener {
- 
- G_DEFINE_TYPE(DBusDisplayListener, dbus_display_listener, G_TYPE_OBJECT)
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- static void dbus_update_gl_cb(GObject *source_object,
-                            GAsyncResult *res,
-                            gpointer user_data)
-@@ -239,7 +239,7 @@ static void dbus_refresh(DisplayChangeListener *dcl)
-     graphic_hw_update(dcl->con);
- }
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
-                                int x, int y, int w, int h)
- {
-@@ -302,7 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dcl,
-         DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
- }
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
-                                struct DisplaySurface *new_surface)
- {
-@@ -369,7 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener *dcl,
-         NULL);
- }
- 
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
- const DisplayChangeListenerOps dbus_gl_dcl_ops = {
-     .dpy_name                = "dbus-gl",
-     .dpy_gfx_update          = dbus_gl_gfx_update,
-@@ -417,7 +417,7 @@ dbus_display_listener_constructed(GObject *object)
-     DBusDisplayListener *ddl = DBUS_DISPLAY_LISTENER(object);
- 
-     ddl->dcl.ops = &dbus_dcl_ops;
--#ifdef CONFIG_OPENGL
-+#ifdef CONFIG_GBM
-     if (display_opengl) {
-         ddl->dcl.ops = &dbus_gl_dcl_ops;
-     }
-diff --git a/ui/dbus.c b/ui/dbus.c
-index 904f5a0a6d..0513de9918 100644
---- a/ui/dbus.c
-+++ b/ui/dbus.c
-@@ -47,8 +47,10 @@ static DBusDisplay *dbus_display;
- static QEMUGLContext dbus_create_context(DisplayGLCtx *dgc,
-                                          QEMUGLParams *params)
- {
-+#ifdef CONFIG_GBM
-     eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
-                    qemu_egl_rn_ctx);
-+#endif
-     return qemu_egl_create_context(dgc, params);
- }
- 
-@@ -56,7 +58,11 @@ static bool
- dbus_is_compatible_dcl(DisplayGLCtx *dgc,
-                        DisplayChangeListener *dcl)
- {
--    return dcl->ops == &dbus_gl_dcl_ops || dcl->ops == &dbus_console_dcl_ops;
-+    return
-+#ifdef CONFIG_GBM
-+        dcl->ops == &dbus_gl_dcl_ops ||
-+#endif
-+        dcl->ops == &dbus_console_dcl_ops;
- }
- 
- static void
-@@ -459,7 +465,11 @@ early_dbus_init(DisplayOptions *opts)
-     DisplayGLMode mode = opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
- 
-     if (mode != DISPLAYGL_MODE_OFF) {
-+#ifdef CONFIG_OPENGL
-         egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
-+#else
-+        error_report("dbus: GL rendering is not supported");
-+#endif
-     }
- 
-     type_register(&dbus_vc_type_info);
+With regards,
+Daniel
 -- 
-2.39.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
