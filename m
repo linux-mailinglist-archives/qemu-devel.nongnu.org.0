@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F213C6B8216
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B396B8221
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:03:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pboNC-00019q-Rx; Mon, 13 Mar 2023 16:02:23 -0400
+	id 1pboNS-0001i5-Kg; Mon, 13 Mar 2023 16:02:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pboN8-00019R-Ql
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:02:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pboNJ-0001QJ-PK
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:02:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pboN6-0004jg-SK
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:02:18 -0400
+ id 1pboNH-0004jw-LC
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:02:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678737736;
+ s=mimecast20190719; t=1678737743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VDcbfDpFhk7vTcrdV+w1gSVlA/CJycSO0gXTIPyrtZM=;
- b=TlKUQKP9DosWXb3PRA9VTo5wmYFkkmeuvNEU4kNjEVrUVWv/mZtDQTuMiWkWLt7Aao/257
- W7KHUtYTL99FbEzy7KWImcfo5+Dd/pQhef+Gp3b/cecckPPHdhCagmYN4nMuv72wNGo/kC
- oP7AlPmuhB3KwNYcHoOHB+rKL7WFja4=
+ bh=e/J7Qe86lUxk4pfLEf1UXScxABH+t4jppUJXiAsGLFY=;
+ b=LawG+ALjePXyrhoC6f/rwtyPKr36fCGbFJeDDqBDPCywwU9xLgzCkxJbswppOXG2iLaB7p
+ UiQigQRiZAu5iJGluAsxY/Hz1rCN0f/F8GQE2X2UvZSaKmxII9/LlDoRhtcNr7GdlOTg6O
+ Lv9n5RBJFY5jEths3EW+UCHmNHs6xuI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-B_o_EMUtOpKDW1NcTuTRIw-1; Mon, 13 Mar 2023 16:02:15 -0400
-X-MC-Unique: B_o_EMUtOpKDW1NcTuTRIw-1
+ us-mta-361--BEYniG4MMGX3ZnJ4FZa9w-1; Mon, 13 Mar 2023 16:02:19 -0400
+X-MC-Unique: -BEYniG4MMGX3ZnJ4FZa9w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9D633C0F669;
- Mon, 13 Mar 2023 20:02:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61CBE3C0257D;
+ Mon, 13 Mar 2023 20:02:19 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBE7A400F50;
- Mon, 13 Mar 2023 20:02:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E721400F51;
+ Mon, 13 Mar 2023 20:02:17 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,16 +50,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL v2 08/18] ui: keep current cursor with QemuConsole
-Date: Tue, 14 Mar 2023 00:01:24 +0400
-Message-Id: <20230313200134.503083-9-marcandre.lureau@redhat.com>
+Subject: [PULL v2 09/18] ui: set cursor upon listener registration
+Date: Tue, 14 Mar 2023 00:01:25 +0400
+Message-Id: <20230313200134.503083-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313200134.503083-1-marcandre.lureau@redhat.com>
 References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,104 +86,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Keeping the current cursor around is useful, not only for VNC, but for
-other displays. Let's move it down, see the following patches for other
-usages.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/ui/console.h | 1 +
- ui/vnc.h             | 1 -
- ui/console.c         | 8 ++++++++
- ui/vnc.c             | 7 ++-----
- 4 files changed, 11 insertions(+), 6 deletions(-)
+ ui/console.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 0b01df947e..2a8fab091f 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -459,6 +459,7 @@ QemuConsole *qemu_console_lookup_by_device(DeviceState *dev, uint32_t head);
- QemuConsole *qemu_console_lookup_by_device_name(const char *device_id,
-                                                 uint32_t head, Error **errp);
- QemuConsole *qemu_console_lookup_unused(void);
-+QEMUCursor *qemu_console_get_cursor(QemuConsole *con);
- bool qemu_console_is_visible(QemuConsole *con);
- bool qemu_console_is_graphic(QemuConsole *con);
- bool qemu_console_is_fixedsize(QemuConsole *con);
-diff --git a/ui/vnc.h b/ui/vnc.h
-index a60fb13115..757fa83044 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -159,7 +159,6 @@ struct VncDisplay
-     QKbdState *kbd;
-     QemuMutex mutex;
- 
--    QEMUCursor *cursor;
-     int cursor_msize;
-     uint8_t *cursor_mask;
- 
 diff --git a/ui/console.c b/ui/console.c
-index 98b701f5a3..0dccbdd4be 100644
+index 0dccbdd4be..35f8274aab 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -94,6 +94,7 @@ struct QemuConsole {
-     uint32_t head;
-     QemuUIInfo ui_info;
-     QEMUTimer *ui_timer;
-+    QEMUCursor *cursor;
-     const GraphicHwOps *hw_ops;
-     void *hw;
- 
-@@ -1923,6 +1924,8 @@ void dpy_cursor_define(QemuConsole *con, QEMUCursor *cursor)
-     DisplayState *s = con->ds;
-     DisplayChangeListener *dcl;
- 
-+    cursor_unref(con->cursor);
-+    con->cursor = cursor_ref(cursor);
-     if (!qemu_console_is_visible(con)) {
-         return;
+@@ -1662,6 +1662,9 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+         con = active_console;
      }
-@@ -2288,6 +2291,11 @@ QemuConsole *qemu_console_lookup_unused(void)
-     return NULL;
+     displaychangelistener_display_console(dcl, con, dcl->con ? &error_fatal : NULL);
++    if (con && con->cursor && dcl->ops->dpy_cursor_define) {
++        dcl->ops->dpy_cursor_define(dcl, con->cursor);
++    }
+     text_console_update_cursor(NULL);
  }
  
-+QEMUCursor *qemu_console_get_cursor(QemuConsole *con)
-+{
-+    return con->cursor;
-+}
-+
- bool qemu_console_is_visible(QemuConsole *con)
- {
-     return (con == active_console) || (con->dcls > 0);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 8aec5d751e..bbd8b6baae 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -988,10 +988,10 @@ static void vnc_mouse_set(DisplayChangeListener *dcl,
- 
- static int vnc_cursor_define(VncState *vs)
- {
--    QEMUCursor *c = vs->vd->cursor;
-+    QEMUCursor *c = qemu_console_get_cursor(vs->vd->dcl.con);
-     int isize;
- 
--    if (!vs->vd->cursor) {
-+    if (!c) {
-         return -1;
-     }
- 
-@@ -1029,10 +1029,7 @@ static void vnc_dpy_cursor_define(DisplayChangeListener *dcl,
-     VncDisplay *vd = container_of(dcl, VncDisplay, dcl);
-     VncState *vs;
- 
--    cursor_unref(vd->cursor);
-     g_free(vd->cursor_mask);
--
--    vd->cursor = cursor_ref(vd->cursor);
-     vd->cursor_msize = cursor_get_mono_bpl(c) * c->height;
-     vd->cursor_mask = g_malloc0(vd->cursor_msize);
-     cursor_get_mono_mask(c, 0, vd->cursor_mask);
 -- 
 2.39.2
 
