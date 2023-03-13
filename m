@@ -2,94 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E80E6B720B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 10:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5E16B724A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 10:15:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbe8V-0003qP-2M; Mon, 13 Mar 2023 05:06:31 -0400
+	id 1pbeGR-0005le-N0; Mon, 13 Mar 2023 05:14:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe8O-0003pu-3b
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:06:24 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe8M-0007z3-Bj
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:06:23 -0400
-Received: by mail-wm1-x335.google.com with SMTP id ay8so2093485wmb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 02:06:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678698380;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Bhev4z8i7cRyDcQdQN1B0BbeMECVxNAmns4FuvOcp0I=;
- b=R79ynA+KmG8ZL2nRj6rCi8bulBRvvbLMJb0zK3oURLjHwssSi+Cq3ruaxEY/HBDZPF
- q4y+Cxgb3x4SgErHaXg1rTWmpz5oNYkNzkEfiy4seK67OgH5Q3r6/YQXQ6o7v376vC1G
- gNSd88Sr9h9qnpqN1Xd9cxAlZxhV2ZPf7WpR1VXMkC/1hB5K/jTaTQiBpG8ZCr4ydHyX
- TR7m51urv6S5c8Dpse3RIyf3mZVCw+/AG9GUqnexL/6B5v73LJSTFahy2izo5qvWWYwn
- xLxoE+aFxNAsJH58IraNHkCRFRhUAEk/Sc1RAP7I4siKELX8QBM0JpvtcloeCCXYnumu
- ZQYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678698380;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bhev4z8i7cRyDcQdQN1B0BbeMECVxNAmns4FuvOcp0I=;
- b=dw9SdCP6YhuBA5cu+Fu/6gxpAm/OP7lNGzJ8WfI6pXtoA2VWqcPP8csFCCBs4u445Z
- k3NQbcZE++ufXGJEVVByZaAhirNVBTEbatkmO76BSyL5YiBTH5afYs9dsLY6YR51P6Rf
- Js+FkPXPygNHx7YtsFCIez52y4u1QwtTstfH7/xerIdpT+5PWpt2Sh7R5u3yRNPyFKLO
- KclTcv4xL0fU7hWRUBxXGviTJcazwsTZj/fThf2efxuURx8ac7MjbxamWiDbmQrSWrwl
- ZQWKZgRaUcNXYz78nEEUJJZ34G2L3zmTmWTWneQ9kfPdtH91fvVX8Mln3fJQ76tQ/+Ln
- PPuA==
-X-Gm-Message-State: AO0yUKWu0gr+7ZJ9IoksMjZy59s1MnTGPHDt6VtNxOX93Tgak6GydMmA
- qSh1+f5UXkAUdBwBBt/NRPesNg==
-X-Google-Smtp-Source: AK7set/9LGwLLsHSEdQCFoX+K/JYEpsrTNO9WYnzPVS0+vntTKb80sMxu7ZftvwHUNuTbXYaqrpK8w==
-X-Received: by 2002:a05:600c:cc6:b0:3ed:2949:9847 with SMTP id
- fk6-20020a05600c0cc600b003ed29499847mr602775wmb.10.1678698379944; 
- Mon, 13 Mar 2023 02:06:19 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i10-20020a05600c354a00b003ed29b332b8sm597530wmq.35.2023.03.13.02.06.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 02:06:19 -0700 (PDT)
-Message-ID: <32588d0e-a1f2-30c4-5e9f-e6e7c4190b65@linaro.org>
-Date: Mon, 13 Mar 2023 10:06:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [RFC QEMU PATCH 04/18] virtio-gpu: CONTEXT_INIT feature
+ (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
+ id 1pbeGK-0005lE-UA
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:14:36 -0400
+Received: from mail-psaapc01on2106.outbound.protection.outlook.com
+ ([40.107.255.106] helo=APC01-PSA-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
+ id 1pbeGD-0000jp-38
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:14:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TP/91IaVZD+Pcq3aHO66j35C9kW0UW/lZJsDIkXCnhxU3SmPlPB0mlXGS4IoMh2Vh8CdOhaSxJPLzK6LSfkcEKHzX0WYOLmpT4d7rNzjQhy2eDqbk7aieSm1iNzc6yYlRY7UpyA9KnEAi/arc4d2MO2WzEiZycctw0omUiW9T2FO+axGLEJxkqmXxOmI2Xcav2+orhYdVrbJsfGrLIcCPgLzZgtGtoE/iAJckzfaA9g/QhCLOVg2PX6yHN2y7/3uBi1PNPzKvpmTzjOXJidG5rEAT+LwrdYyC5d7ySyVU9CeeMFsRoGSZnQ7B4BBPnu34HDtnYmcqG+cH6dnLmpWdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x0kKrNDl5AQqFjHGwZZP76Z6Czvz8AqnwwW0+7hyGyU=;
+ b=ViFIfpJYzIXutJZJJbkkvQrJld7jNXDYQXERUhcuWOUV2PhIinsRGgajXOHm8WEdlNaE5yPn1cjv4ZfVIFtpXwRoTvb2jMOuG1r8ffG0CzR0UnEQKvRRWw2pqHTULsRd+MxHFNKKPVAulHNMSZQs6x1mQo6J4JoF4AcrIBt2+oNDdf8HQ+WRWTQ/+UghcHakdnfFf9AFua+1xaP8u2vzhlnpssBOWVRaQ9K3qYdePoaJtWnodSRBNI+pwuy7TLsxT916JhEJPzrD5HWnaegURrT4UjKVjBI+KKxHYhJqkkjSzuDyUEdO7Iw5R8TuFsahyLT3Z3i166l/vv6O+ZL+Eg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x0kKrNDl5AQqFjHGwZZP76Z6Czvz8AqnwwW0+7hyGyU=;
+ b=UVtlUfao5jN+OnpjxpDltdToRCPz6yw95HdGpwTvE3ODSZqvwGqoHmWtFBELd8e2G1svnc7+4wDt68w3aSU731y+3rYlxfESkJSwgp7Opfj7YfnwvDLryBnJTC09SvcD5z8/A6Kr+cCA8QXaQQRFN6dcmslq7cGAQGfNT2qXO9jfwfBNiN68xQuVBTCDu+1Qq5aAZD1UESNdRkaJVhutV41TDStI3fJJyigQ4uGXGD2FBQ4yf41nvK60G8KH/MsQD3N072soxoGfLsyTn+wekGFa4fmykaA6dEm7InVDaUqjhc8c3GmvmD7FpsKvzJ6SO/uOSDL1y+K49Xw1bO3QRQ==
+Received: from TYAPR06MB2158.apcprd06.prod.outlook.com (2603:1096:404:19::21)
+ by KL1PR0601MB5840.apcprd06.prod.outlook.com (2603:1096:820:9a::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 09:09:19 +0000
+Received: from TYAPR06MB2158.apcprd06.prod.outlook.com
+ ([fe80::9ba0:2077:3447:d0c3]) by TYAPR06MB2158.apcprd06.prod.outlook.com
+ ([fe80::9ba0:2077:3447:d0c3%4]) with mapi id 15.20.6178.024; Mon, 13 Mar 2023
+ 09:09:19 +0000
+From: Troy Lee <troy_lee@aspeedtech.com>
+To: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Steven Lee <steven_lee@aspeedtech.com>, Howard Chiu
+ <howard_chiu@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>
+Subject: RE: [PATCH v2 03/10] contrib/gitdm: Add ASPEED Technology to the
+ domain map
+Thread-Topic: [PATCH v2 03/10] contrib/gitdm: Add ASPEED Technology to the
+ domain map
+Thread-Index: AQHZU3qlcW554Svh7UujMsUhPQ6glK74b5/w
+Date: Mon, 13 Mar 2023 09:09:19 +0000
+Message-ID: <TYAPR06MB2158E6E8730EB3BEEE371A0E8AB99@TYAPR06MB2158.apcprd06.prod.outlook.com>
+References: <20230310180332.2274827-1-alex.bennee@linaro.org>
+ <20230310180332.2274827-4-alex.bennee@linaro.org>
+In-Reply-To: <20230310180332.2274827-4-alex.bennee@linaro.org>
+Accept-Language: zh-TW, en-US
 Content-Language: en-US
-To: Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
- Jan Beulich <jbeulich@suse.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Robert Beckett <bob.beckett@collabora.com>, qemu-devel@nongnu.org,
- xen-devel@lists.xenproject.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>,
- Honglei Huang <honglei1.huang@amd.com>, Julia Zhang <julia.zhang@amd.com>,
- Chen Jiqian <Jiqian.Chen@amd.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230312092244.451465-1-ray.huang@amd.com>
- <20230312092244.451465-5-ray.huang@amd.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230312092244.451465-5-ray.huang@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYAPR06MB2158:EE_|KL1PR0601MB5840:EE_
+x-ms-office365-filtering-correlation-id: 89aa3682-5397-4975-fa64-08db23a2a0d4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xaqz/X9HOKM/49fe1PkbQh911cvdjqITlQQuAqdIPW+qyOjSATVuympnMwWMlT2olrjAkdsgXLHmLBRA4H0kFwxHd+GgHns1dFmwgyQXg6SBsuKw6IGUySDTbp5Rw0kYUxsrWfJAVQNHlTDf44s+A3qDTuu9D0wSFTm2ImPTvoQ4xylDhzbuIe8Bt1PK5jDpo9XU78L7hh2lpA1JGVaPFDLh6O3CKIzqvN30gOOeethm7jl9zLKgKudi0OG6m8yIhVvzxctKgYxdANOAJOkg4wJY0PdrErQZrSdoUv4f/euc8v7h8JRoBhXMdTEtdisw9Yu7SwPgVleC1BoXjDgTO1ggiUyRiPJuSHMj6EgE2udUC/J5Lah1Pm9ysAKNF4Fpr24nJssvZ4pjm79+SsjuFfe+cRrSb/+jzQH5aKSwpbOrGHqf9JlCTlgEau45Fk4iDHybCIPyVHq++J50EeTXUfUjxA7+rFA6NvUth6TJ62lvtyAYS2xaVRh/J9j15CXoUy4STSRidv0dLQuhByG2OCSC2gU8EeCRGWVlCiqPYR4yy/dhuvzp0tLsTYNfDcoIXqoWcoCNo5GYUgUJEfsJJtxzbFbOUVWpcNoc0YEeZZQenhkRIPLVOl0gtSn68iTcle1nm1lGgLn7EyYraH8W/QscGlrfAyZOOqdNRWzIzmeEUNOSlX2Y7IJkyY2/AeUmEzprZRWe+f/YRuSgKGTSxg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYAPR06MB2158.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(376002)(366004)(39850400004)(346002)(136003)(396003)(451199018)(4744005)(5660300002)(83380400001)(186003)(478600001)(71200400001)(26005)(6506007)(107886003)(7696005)(53546011)(9686003)(38070700005)(8676002)(66476007)(76116006)(66446008)(33656002)(64756008)(66946007)(52536014)(66556008)(4326008)(41300700001)(8936002)(86362001)(54906003)(110136005)(316002)(38100700002)(55016003)(122000001)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NWJtOHIyOEM1RTJHR0x5b2x0aCt3eXBUdFlETXFlNy94M3UrUmtzcjFOcG50?=
+ =?utf-8?B?bS84S0dDdGlkeHh4TEFocG5aVzlxUHhuZlpmQnhaUUlFVEVZczZrV09nakx1?=
+ =?utf-8?B?R3JJc2wwTzBFYjk4a2NLY0EweUxscVRzM2x4eHkrTGY2YnVtNVZwTmZYUFM4?=
+ =?utf-8?B?eUpOUVpmMDJrR1Y3RGRlblJrTG1pTDdyNzhmeHlRdVFjZ0VNWGVkTTJYbWFJ?=
+ =?utf-8?B?cEljcEFSM2ozd3BsRmE0TjlSQzJEYUp1OGJDVDArZXY0ZWxVTkFJV1d3VUF5?=
+ =?utf-8?B?c3MxbFFXNTl2MFpDWEQ2MSt2aUZYKy9UemRsWFU4NXZkeDBrT3hDNDdiNXpN?=
+ =?utf-8?B?L3lVM09LYlo1Vm9KYVVNQ2NjV05mV09GVURSVzBMTG1uU0VQZ25sL0xMR3lF?=
+ =?utf-8?B?K1gwZWhkeFdqMCtISEQzY01UUGg2UEVCbFNudjFXNm5iVFMvZUx6WVhpNW9p?=
+ =?utf-8?B?RitMMzJRc3prUDhCMTQ0OHY5WVg3Y21SOW02YVB3dlFRTzdqaG02VjI4V3Fr?=
+ =?utf-8?B?bzUrSkZKRU1LY1RqVlA0WnhrVTcrTGhjS1YvWUVHZkR1bmZIK1VtbkNzYTRs?=
+ =?utf-8?B?SmNQbGZuL0lSd2xjTEZ3clA3SzQzN1NDN05KVDlhMWpnY0g0UVpFWFZVSDcx?=
+ =?utf-8?B?V21TQXd3Z0xiM21Ld1lKQmUxcWUrUXVtZk94NHlsUmRFek1Wbk94NTZuMHlF?=
+ =?utf-8?B?eGRVZTdUM1A4TzJndEZnTUZSVUxMMGZpZUxUUDNRT2Z6a0NVbmxCdTJIajk5?=
+ =?utf-8?B?TXI1NXNWQWFuSmd1NXdPRG91VjlIbmU4dmNPTmlhQ0xTTEhzN3UvbWVjMG8x?=
+ =?utf-8?B?NUVMcXBmdXRyb29ROXc3WFlpeVYwL0laYUswL01hVS9YYTlYbFVEdnUvN3dk?=
+ =?utf-8?B?ODhJK0RPL1dCSytPT3RVNEJ0OVFSTEhDMmtMVWZBd3lkK1N4SE9TVVV3NXRn?=
+ =?utf-8?B?bk9VNEtyeHRYcklBd3hKb0dKR2NoRHVZcXRBVlgyRnMzTE5LYm5QYVNuMXJq?=
+ =?utf-8?B?TFhlTjBWUHRXaWlWUjNOREQ0YWF4UUh3bFpCMmV4Wm16Z2RTMTVwMnl2U3Jm?=
+ =?utf-8?B?V2YwOEovdFpXazJrVUs5T1J5aTlxZkQ3RE9tTks4MVEzZFUrMTU3aGRVUmVN?=
+ =?utf-8?B?aTIrTmk5T0s1THdEaW1abEQwa1o1NHUvN2dhTzdJVGU2cEZOcW9rUXNwOTVY?=
+ =?utf-8?B?THl1VERWNHdaUFFBLzlmZ2tSYzhMeTM0Yll2ZTdidXN5ZjNra2RIdktoOENW?=
+ =?utf-8?B?UW9jWU5UMUpUWUZ3VDAwb1FuQ01BMDIyTU0wT2VUZ0tKWU8wczRJak9halh6?=
+ =?utf-8?B?TVUrb2hrd0dyalF3UzhRZS9BNGt2WXBxS2xQaDdRZktqUkZVdlVvWnhiVDIw?=
+ =?utf-8?B?VW1CMXpYU3V3Zm9oRjlZWEthUHNtZWh6cjNQQUd6OEN2emtGK3pYUUlOUzdw?=
+ =?utf-8?B?L1pVeGtPc05nK2YrWVZ4QVdSSTJGZHFydEtJeC9FM2VObGpPRTByZlNNT0xl?=
+ =?utf-8?B?d29rU0hsQ3BMb25Xa1hwSnQvbFBlY0VWSC9TeC9MVHg0bThQYm10eUJ0UlJU?=
+ =?utf-8?B?N1pjZ2h6dWw5bi9qY0dMdTMybUhPRGRNZTFkV0RoR25JNHJxOVUvV1NVNDVX?=
+ =?utf-8?B?SFlSM2NSTDRaU0N1ZnVVY1laMktUbUozUEY5dG5iR2w3Y1FvVDJJL0pLVFZj?=
+ =?utf-8?B?bC90aTJaVWJNc0RSM2hOYW5Db2xvUjB3NmxWNE5rcVNyU0FzNXVUb3Y2WmRq?=
+ =?utf-8?B?UkJxeE5JMnp1d045Y2VJSC9NQVN6bkNRMm13QldOVjRKWjZSR1IrV1d5eFc4?=
+ =?utf-8?B?aURwaXpvZERSRnd1clRyVy9vLzQxK3pXbkJ6WnlINFgzbjhJTFQ5U2hUTVR0?=
+ =?utf-8?B?ZDNKVTRZRmJZUm5BM3J1aERwZk1SZVFOdUpZclNDTjRWU25vQTJ6SGlwbjZV?=
+ =?utf-8?B?WmJmU2s5MjVBNkcydEErM3B1djd1TTJxQjNad2ZnbVVGZEczaU1ER0hwK1p3?=
+ =?utf-8?B?TW9uRjdtcVQrc3F0NTJTK3Zlejl0aFgwVWVDZGQrSTRONnJ4VDdTK2ozZW15?=
+ =?utf-8?B?QXp6WFAyNHZCWmVBQ3pJazdUVk40dWY4elFpdEZtZkp4bC9qRWdiRHNXMnlD?=
+ =?utf-8?Q?cRYL5HkPEoLisKqSw6rbihCcV?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYAPR06MB2158.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89aa3682-5397-4975-fa64-08db23a2a0d4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2023 09:09:19.2887 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DtmMCcjMJs47+MZhAxFbTNywc11Vn7Y/kAY3z2xMuPM3pnMMFbDFmGjY6VoxB03KGFpfJnmwQ/gsn+VGo2G9OA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5840
+Received-SPF: pass client-ip=40.107.255.106;
+ envelope-from=troy_lee@aspeedtech.com;
+ helo=APC01-PSA-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,54 +150,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/3/23 10:22, Huang Rui wrote:
-> From: Antonio Caggiano <antonio.caggiano@collabora.com>
-> 
-> Create virgl renderer context with flags using context_id when valid.
-> The feature can be enabled via the context_init config option.
-> A warning message will be emitted and the feature will not be used
-> when linking with virglrenderer versions without context_init support.
-> 
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   hw/display/virtio-gpu-base.c   |  3 +++
->   hw/display/virtio-gpu-virgl.c  | 16 ++++++++++++++--
->   hw/display/virtio-gpu.c        |  2 ++
->   include/hw/virtio/virtio-gpu.h |  3 +++
->   meson.build                    |  4 ++++
->   5 files changed, 26 insertions(+), 2 deletions(-)
-
-
-> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-> index 9b5e3dc782..41712b79ee 100644
-> --- a/hw/display/virtio-gpu-virgl.c
-> +++ b/hw/display/virtio-gpu-virgl.c
-> @@ -99,8 +99,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
->       trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
->                                       cc.debug_name);
->   
-> -    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
-> -                                  cc.debug_name);
-> +    if (cc.context_init) {
-> +#ifdef HAVE_VIRGL_CONTEXT_INIT
-> +        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
-> +                                                 cc.context_init,
-> +                                                 cc.nlen,
-> +                                                 cc.debug_name);
-> +        return;
-> +#else
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "Linked virglrenderer does not support context-init\n");
-
-This is dubious, almost nobody will notice this log.
-
-Can this happen? If so, this void function doesn't create any context...
-
-> +#endif
-> +    }
-> +
-> +    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name);
->   }
-
+SGkgQWxleCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4IEJl
+bm7DqWUgPGFsZXguYmVubmVlQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFNhdHVyZGF5LCBNYXJjaCAx
+MSwgMjAyMyAyOjAzIEFNDQo+IFRvOiBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IEFsZXgg
+QmVubsOpZSA8YWxleC5iZW5uZWVAbGluYXJvLm9yZz47IFN0ZXZlbiBMZWUNCj4gPHN0ZXZlbl9s
+ZWVAYXNwZWVkdGVjaC5jb20+OyBUcm95IExlZSA8dHJveV9sZWVAYXNwZWVkdGVjaC5jb20+Ow0K
+PiBIb3dhcmQgQ2hpdSA8aG93YXJkX2NoaXVAYXNwZWVkdGVjaC5jb20+OyBKYW1pbiBMaW4NCj4g
+PGphbWluX2xpbkBhc3BlZWR0ZWNoLmNvbT4NCj4gU3ViamVjdDogW1BBVENIIHYyIDAzLzEwXSBj
+b250cmliL2dpdGRtOiBBZGQgQVNQRUVEIFRlY2hub2xvZ3kgdG8gdGhlDQo+IGRvbWFpbiBtYXAN
+Cj4gDQo+IFdlIGhhdmUgYSBudW1iZXIgb2YgY29udHJpYnV0b3JzIGZyb20gdGhpcyBkb21haW4g
+d2hpY2ggbG9va3MgbGlrZSBpdCBpcyBhDQo+IGNvcnBvcmF0ZSBlbmRlYXZvdXIuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBBbGV4IEJlbm7DqWUgPGFsZXguYmVubmVlQGxpbmFyby5vcmc+DQo+IENj
+OiBTdGV2ZW4gTGVlIDxzdGV2ZW5fbGVlQGFzcGVlZHRlY2guY29tPg0KPiBDYzogVHJveSBMZWUg
+PHRyb3lfbGVlQGFzcGVlZHRlY2guY29tPg0KPiBDYzogSG93YXJkIENoaXUgPGhvd2FyZF9jaGl1
+QGFzcGVlZHRlY2guY29tPg0KPiBDYzogSmFtaW4gTGluIDxqYW1pbl9saW5AYXNwZWVkdGVjaC5j
+b20+DQoNClJldmlld2VkLWJ5OiBUcm95IExlZSA8dHJveV9sZWVAYXNwZWVkdGVjaC5jb20+DQoN
+Cj4gLS0tDQo+ICBjb250cmliL2dpdGRtL2RvbWFpbi1tYXAgfCAxICsNCj4gIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2NvbnRyaWIvZ2l0ZG0vZG9t
+YWluLW1hcCBiL2NvbnRyaWIvZ2l0ZG0vZG9tYWluLW1hcCBpbmRleA0KPiA3YTgwNzdlMjQxLi5i
+ZDk4OWQwNjVjIDEwMDY0NA0KPiAtLS0gYS9jb250cmliL2dpdGRtL2RvbWFpbi1tYXANCj4gKysr
+IGIvY29udHJpYi9naXRkbS9kb21haW4tbWFwDQo+IEBAIC01LDYgKzUsNyBAQA0KPiAgIw0KPiAN
+Cj4gIGFtZC5jb20gICAgICAgICBBTUQNCj4gK2FzcGVlZHRlY2guY29tICBBU1BFRUQgVGVjaG5v
+bG9neSBJbmMuDQo+ICBiYWlkdS5jb20gICAgICAgQmFpZHUNCj4gIGJ5dGVkYW5jZS5jb20gICBC
+eXRlRGFuY2UNCj4gIGNtc3MuY2hpbmFtb2JpbGUuY29tIENoaW5hIE1vYmlsZQ0KPiAtLQ0KPiAy
+LjM5LjINCg0K
 
