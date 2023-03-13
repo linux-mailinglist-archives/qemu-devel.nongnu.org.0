@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32266B7BA3
+	by mail.lfdr.de (Postfix) with ESMTPS id D127E6B7BA2
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:13:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbjpa-0003Ti-Cd; Mon, 13 Mar 2023 11:11:22 -0400
+	id 1pbjpd-0003Up-0C; Mon, 13 Mar 2023 11:11:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pbjpW-0003RV-WB; Mon, 13 Mar 2023 11:11:19 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pbjpZ-0003TN-Dj; Mon, 13 Mar 2023 11:11:21 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pbjpU-0000Mg-IQ; Mon, 13 Mar 2023 11:11:18 -0400
+ id 1pbjpX-0000NA-Rl; Mon, 13 Mar 2023 11:11:21 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 277DD22ACC;
- Mon, 13 Mar 2023 15:11:15 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 735BE1FE0D;
+ Mon, 13 Mar 2023 15:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678720275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ t=1678720278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LJhCgLXvPMG6BXpC3z1pCms9e1fZH2LNIgtTChv1jE4=;
- b=jYavsGhFCi8ts82B7LFiDPS6LQTEmKiwZKAxDN6AaNx2pMauFac4sA2NfZ5folMWyIbZaS
- q2yNs17gwiZavpvClO13QW8RGsvTSR/pWlePRMl0KaP+I0IwV3zjrpa9ucCsUDoTaRqUx3
- iElPTdKbTFelxzGlDvgQ9vOP3tsynZM=
+ bh=PSIQn4qmrmgg/w3VwS88pHN3LpWrryUnRIkyIj+D7qA=;
+ b=MnyEtKH/Y0E7d/fZP33vu0sQXX6S9qUY3aj6KuBLp32B0w4y329sbHiZpvLpvkWIbxQ3jz
+ J41Ud2ca9Qn0G/GotzIeORzsEeUpYCb/gh27DwOyyqiUwtEgJc7w2NA5uWrH35ozMoKXc4
+ HosGK7+IPM6AqzCauKzhEh5jUz8lAkU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678720275;
+ s=susede2_ed25519; t=1678720278;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LJhCgLXvPMG6BXpC3z1pCms9e1fZH2LNIgtTChv1jE4=;
- b=Yg6JrmYMiQjtOKoaxQnAFwgutU68Ath9QVicgyeJyo0D9eKHJJbpFWlGLuu5+z5PwLGu5I
- h0SW7YuYoti4SHBA==
+ bh=PSIQn4qmrmgg/w3VwS88pHN3LpWrryUnRIkyIj+D7qA=;
+ b=aeH39iMeuIOUCgK/5L3NDiY3wfihuyVqXAudzVXeNKQk02ZLRcsEtvtvk1VHabDHauNgvF
+ xWGUUn57fO1MWVAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3D6D13582;
- Mon, 13 Mar 2023 15:11:11 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9452A13582;
+ Mon, 13 Mar 2023 15:11:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +DS7Jg89D2R1YwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 13 Mar 2023 15:11:11 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gEBGFxM9D2R1YwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 13 Mar 2023 15:11:15 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,18 +57,19 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v9 03/10] target/arm: move cpu_tcg to tcg/cpu32.c
-Date: Mon, 13 Mar 2023 12:10:51 -0300
-Message-Id: <20230313151058.19645-4-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v9 04/10] target/arm: gdbstub: Guard M-profile code with
+ CONFIG_TCG
+Date: Mon, 13 Mar 2023 12:10:52 -0300
+Message-Id: <20230313151058.19645-5-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230313151058.19645-1-farosas@suse.de>
 References: <20230313151058.19645-1-farosas@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,169 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+This code is only relevant when TCG is present in the build. We're
+about to enable the build with --disable-tcg, so avoid the error:
 
-move the module containing cpu models definitions
-for 32bit TCG-only CPUs to tcg/ and rename it for clarity.
+libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub.c.o: in function
+`m_sysreg_ptr': ../target/arm/gdbstub.c:356: undefined reference to
+`arm_v7m_get_sp_ptr'
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- hw/arm/virt.c                         |  2 +-
- target/arm/meson.build                |  1 -
- target/arm/{cpu_tcg.c => tcg/cpu32.c} | 13 +++----------
- target/arm/tcg/cpu64.c                |  2 +-
- target/arm/tcg/meson.build            |  1 +
- tests/qtest/arm-cpu-features.c        | 12 +++++++++---
- 6 files changed, 15 insertions(+), 16 deletions(-)
- rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (99%)
+ target/arm/gdbstub.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 999c1ada79..b661b8d91b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -204,9 +204,9 @@ static const int a15irqmap[] = {
- };
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 78105b8078..36a1d7dbc5 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -323,6 +323,7 @@ static int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
+     return cpu->dyn_sysreg_xml.num;
+ }
  
- static const char *valid_cpus[] = {
 +#ifdef CONFIG_TCG
-     ARM_CPU_TYPE_NAME("cortex-a7"),
-     ARM_CPU_TYPE_NAME("cortex-a15"),
--#ifdef CONFIG_TCG
-     ARM_CPU_TYPE_NAME("cortex-a35"),
-     ARM_CPU_TYPE_NAME("cortex-a55"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 3469926295..359a649eaf 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -5,7 +5,6 @@ arm_ss.add(files(
-   'gdbstub.c',
-   'helper.c',
-   'vfp_helper.c',
--  'cpu_tcg.c',
- ))
- arm_ss.add(zlib)
+ typedef enum {
+     M_SYSREG_MSP,
+     M_SYSREG_PSP,
+@@ -480,6 +481,7 @@ static int arm_gen_dynamic_m_secextreg_xml(CPUState *cs, int orig_base_reg)
+     return cpu->dyn_m_secextreg_xml.num;
+ }
+ #endif
++#endif /* CONFIG_TCG */
  
-diff --git a/target/arm/cpu_tcg.c b/target/arm/tcg/cpu32.c
-similarity index 99%
-rename from target/arm/cpu_tcg.c
-rename to target/arm/tcg/cpu32.c
-index 6ce728134f..a03c819b41 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/tcg/cpu32.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU ARM TCG CPUs.
-+ * QEMU ARM TCG-only CPUs.
-  *
-  * Copyright (c) 2012 SUSE LINUX Products GmbH
-  *
-@@ -10,9 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
- #include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "internals.h"
- #include "target/arm/idau.h"
- #if !defined(CONFIG_USER_ONLY)
-@@ -96,7 +94,7 @@ void aa32_max_features(ARMCPU *cpu)
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
- 
--#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
-+#if !defined(CONFIG_USER_ONLY)
- static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
  {
-     CPUClass *cc = CPU_GET_CLASS(cs);
-@@ -120,7 +118,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+@@ -554,6 +556,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
+                              "system-registers.xml", 0);
+ 
++#ifdef CONFIG_TCG
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         gdb_register_coprocessor(cs,
+             arm_gdb_get_m_systemreg, arm_gdb_set_m_systemreg,
+@@ -568,4 +571,5 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+         }
+ #endif
      }
-     return ret;
++#endif
  }
--#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
-+#endif /* !CONFIG_USER_ONLY */
- 
- static void arm926_initfn(Object *obj)
- {
-@@ -1016,7 +1014,6 @@ static void pxa270c5_initfn(Object *obj)
-     cpu->reset_sctlr = 0x00000078;
- }
- 
--#ifdef CONFIG_TCG
- static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
-@@ -1037,7 +1034,6 @@ static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .debug_check_breakpoint = arm_debug_check_breakpoint,
- #endif /* !CONFIG_USER_ONLY */
- };
--#endif /* CONFIG_TCG */
- 
- static void arm_v7m_class_init(ObjectClass *oc, void *data)
- {
-@@ -1045,10 +1041,7 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
-     CPUClass *cc = CPU_CLASS(oc);
- 
-     acc->info = data;
--#ifdef CONFIG_TCG
-     cc->tcg_ops = &arm_v7m_tcg_ops;
--#endif /* CONFIG_TCG */
--
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
- 
-diff --git a/target/arm/tcg/cpu64.c b/target/arm/tcg/cpu64.c
-index 89d54ec0f6..d0feb3eb52 100644
---- a/target/arm/tcg/cpu64.c
-+++ b/target/arm/tcg/cpu64.c
-@@ -457,7 +457,7 @@ static void aarch64_neoverse_n1_initfn(Object *obj)
- 
- /*
-  * -cpu max: a CPU with as many features enabled as our emulation supports.
-- * The version of '-cpu max' for qemu-system-arm is defined in cpu_tcg.c;
-+ * The version of '-cpu max' for qemu-system-arm is defined in cpu32.c;
-  * this only needs to handle 64 bits.
-  */
- void aarch64_max_tcg_initfn(Object *obj)
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 128f782816..4d99f6dacb 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -18,6 +18,7 @@ gen = [
- arm_ss.add(gen)
- 
- arm_ss.add(files(
-+  'cpu32.c',
-   'translate.c',
-   'translate-m-nocp.c',
-   'translate-mve.c',
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 1cb08138ad..1555b0bab8 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -506,9 +506,15 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         QDict *resp;
-         char *error;
- 
--        assert_error(qts, "cortex-a15",
--            "We cannot guarantee the CPU type 'cortex-a15' works "
--            "with KVM on this host", NULL);
-+        if (qtest_has_accel("tcg")) {
-+            assert_error(qts, "cortex-a15",
-+                         "We cannot guarantee the CPU type 'cortex-a15' works "
-+                         "with KVM on this host", NULL);
-+        } else {
-+            assert_error(qts, "cortex-a15",
-+                         "The CPU type 'cortex-a15' is not a "
-+                         "recognized ARM CPU type", NULL);
-+        }
- 
-         assert_has_feature_enabled(qts, "host", "aarch64");
- 
 -- 
 2.35.3
 
