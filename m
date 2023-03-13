@@ -2,97 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92E46B7F1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 18:15:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A776B7F53
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 18:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pblkw-0002HJ-6v; Mon, 13 Mar 2023 13:14:42 -0400
+	id 1pblrF-0003lb-3e; Mon, 13 Mar 2023 13:21:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pblku-0002Go-7h
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 13:14:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pblrB-0003lO-39
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 13:21:09 -0400
+Received: from esa11.hc2706-39.iphmx.com ([216.71.137.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pblks-0003fz-HF
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 13:14:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678727677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tJP6VUkwFGYAY1BpgXT9Iu7NR1d5+Kne1UwV2XxOSPc=;
- b=WdAbYsIsH2J4Y5IX6FNrMuFLQteoSwbSamEF5jpG76u3QYqpZeGaDr05Z1dWsAqijwUOTc
- wz1RdtZ1c64mV1Ztb8LX5TFvGJd7v1KPLSwJ46zY5sBBFRQbzwFKKO+SVB5tla/dpk1SYh
- tWtEDOfF01OeHPW0xp6ATwvxaqx7Q3c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-556-wqbNm1MwMEyuRflEgB_fRw-1; Mon, 13 Mar 2023 13:14:17 -0400
-X-MC-Unique: wqbNm1MwMEyuRflEgB_fRw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- i11-20020a5d522b000000b002ceac3d4413so673293wra.11
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 10:14:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pblr9-0004wv-FX
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 13:21:08 -0400
+X-IronPort-RemoteIP: 209.85.222.199
+X-IronPort-MID: 265210912
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:2hcvF6OxtigxKmTvrR0blcFynXyQoLVcMsEvi/4bfWQNrUpxgjwOx
+ zYbXmGFPKrbYzCjfttyO4m18R4AvsWGyoBqQQZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
+ q3yv/GZdJhcokf0/0vraf656yEnj8lkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
+ /uryyHkEALjim4c3l48sfrZ80s05a+q41v0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
+ 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
+ L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE3fpfKmxnPt0j++NYMThe0
+ fofFQsBcUXW7w626OrTpuhEg80iKIzyP9patCgxnHfWCvEpRZ2FSKLPjTNa9G1o14YeQLCEP
+ ZBfMGs+BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtvTWJlVQgieKF3Nz9VsGUQNRXnH2hn
+ Gfm0mX2CBI6LOWPxm/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
+ khR4yl36KZrpR3tQd76UBm15nWDu3bwRuZtLgHz0ynVooK83upTLjNsouJpADD+iPILeA==
+IronPort-HdrOrdr: A9a23:qLSNzK7z2ooBOscGvAPXwATXdLJyesId70hD6qm+c20zTiW9rb
+ HSoB19726JtN9xYgBbpTnkAsO9qBznhPxICOUqTNKftUzdyRSVxeJZnPDfKl/balTDH4dmvM
+ 8KAstD4Z/LfCBHZK7BgDVQeOxQpuVvnprY4dv2/jNGYTsvRZtdzzpUPC6mL2wefng5OXP7Lv
+ ahDwh8ygZItU54Ui1zPBZlY9T+
+Received: from mail-qk1-f199.google.com ([209.85.222.199])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 13 Mar 2023 13:21:02 -0400
+Received: by mail-qk1-f199.google.com with SMTP id
+ d4-20020a05620a166400b00742859d0d4fso6943644qko.15
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 10:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bu.edu; s=s1gsbu; t=1678728061;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IwrXtu3AWQTy4d/gIM/Mz05WsoamxIZITq24k3CTv7I=;
+ b=Pq8bQJNQlzQ6chpaxz/IFmWUCL2DznfIDSZgzB0aBwUdA+UHkCxNE0tSJJEkqd8QMw
+ /96lUoJql9CVKHuDBnVSK/SJcRA7Pz8P7K+2cpCJVa0Ge5vIxmaUdadzjFK4VmAjIzpN
+ 6UP4KlUsOUUpUwl1zv/BBxu8i1ossn19aF+NEiri0R5NqEQOMsKKQWkgbS1mQbuPLcX8
+ GEAwYUYv87QSkPvgp2LK01+s1yyvInhF7cNFVwupVj5QqqCAMSh7lMmRIr1WatSkuGrr
+ X6Tkpb4qcg8goFXzz/mtBJfc7K+gPlkwkojUpAWjK4vk7WYwRo7jv1uVJ6LeoyOsu3YD
+ 9IRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678727650;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1678728061;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tJP6VUkwFGYAY1BpgXT9Iu7NR1d5+Kne1UwV2XxOSPc=;
- b=Ya0Dzj3H3kS8OX1K+geNDHEzteTsSJbT9TRoQSOKWB10Y7w66m4xzapgDPoU7G4gu0
- IFsmJpHiRPCqKkXGaY6yNgbRh2KnaabNbZaapTh073UASXhybTwdg6+skKp67To20uOy
- 4yhNQBm2lYAM/s80cskEjgC88oA+aT2NS0q1Fc5kVnm/Y+WF0pMUPZKWJ1fbWANzfd2A
- pCtm+nydBBVeIzvuChF7XLXVK9i8YEVE9Jl0U4e3uCYgb9zJvrEc+Us/hPMh8k5eSwq3
- K5VEIkJfAAnQvbDf/Jo7s9hW7h+pLiu8MZf8+8+Gz3EjVYSohpn2ViR3tpa0iBcMsUR1
- pQUw==
-X-Gm-Message-State: AO0yUKV25aN8a8sSQjbRl0IM01ddcZaOhRtxm6T8FB4IR4EQN2kGh2A7
- OHORVvHri5IqPLjn+X5XYug4f1+OTxepv70QQERJ6nW3RdhCGcXcYeQcWFPjPc7F3q6V11s1kuN
- KuDKFjuMDnSOnO7Y=
-X-Received: by 2002:a5d:4f83:0:b0:2ce:a8e2:f89e with SMTP id
- d3-20020a5d4f83000000b002cea8e2f89emr4376261wru.46.1678727650508; 
- Mon, 13 Mar 2023 10:14:10 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8IIsXzX7tsPHYsgWKTUIfnUnCzl5pyG6pVrunrfidzr6la9MPKkcAwH7EFYI5o731bb3EIBg==
-X-Received: by 2002:a5d:4f83:0:b0:2ce:a8e2:f89e with SMTP id
- d3-20020a5d4f83000000b002cea8e2f89emr4376247wru.46.1678727650220; 
- Mon, 13 Mar 2023 10:14:10 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-179-26.web.vodafone.de.
- [109.43.179.26]) by smtp.gmail.com with ESMTPSA id
- t18-20020a5d42d2000000b002ceb7a11eb9sm7986wrr.42.2023.03.13.10.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 10:14:09 -0700 (PDT)
-Message-ID: <b23fcfab-cc1b-a861-94ed-217af69f1ef8@redhat.com>
-Date: Mon, 13 Mar 2023 18:14:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
+ bh=IwrXtu3AWQTy4d/gIM/Mz05WsoamxIZITq24k3CTv7I=;
+ b=n2YVquwOR85UzSaOWkeuh4juSoKNHU661a7bzNgmK+ijqdTYXo74wNy7JJ2Z/ZMUkY
+ DXDM8Rq+Q9vjX5Sq82JskV9x12CiPoA11mVdpmmTlLBwmXLFwwElnID4g8dFVlPkdzoQ
+ 6ztLJRGhRmRRzHIz3H9hsvrCXJFAeVXv/qyOTk+1F2zHgG2jQ72WfTVGeMYw7G5HgFtf
+ J80mHfsBGuyj3CuefoxuJ5TLlz1yL8kVfl2PUkTb7CPEyO6Bjg1izmpOGBAaBv89kvmw
+ ZJt5AVNKeJqBXjC0NV+P3A3Unyv6PhYDT9vjzluXszg7DsbOZ1kygKV6UslCCaxbJLva
+ xmTw==
+X-Gm-Message-State: AO0yUKXmGFpLRU5G6OmmMekPAws8QhamZBSQa/Vxa/i5XQAd0nS+JtD3
+ QFIe0sHmfx0U4QHNGo/K6qUinEdQgpx4PVF42TanXAmaqrKSbsVykBYDII3rmcl5T873cFm5Mbt
+ VkvaT2uc/8HkBnttv0R9utV7/7fbmiw==
+X-Received: by 2002:a05:6214:f23:b0:572:dbc8:23f6 with SMTP id
+ iw3-20020a0562140f2300b00572dbc823f6mr16262737qvb.45.1678728061651; 
+ Mon, 13 Mar 2023 10:21:01 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8RrClDJXkrZUnwPrvNQF/RftO7A4S5t4qihFrmmxm4ggzsGNPN8hxvX/fUT/nns3Fb7w/9pQ==
+X-Received: by 2002:a05:6214:f23:b0:572:dbc8:23f6 with SMTP id
+ iw3-20020a0562140f2300b00572dbc823f6mr16262688qvb.45.1678728061262; 
+ Mon, 13 Mar 2023 10:21:01 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ d3-20020a37b403000000b007426ec97253sm59720qkf.111.2023.03.13.10.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 10:21:00 -0700 (PDT)
+Date: Mon, 13 Mar 2023 13:20:57 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
 To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Beraldo Leal <bleal@redhat.com>
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
- <20230310103123.2118519-11-alex.bennee@linaro.org>
- <c57c82bf-1b05-f29b-80fa-04a7279b5d39@redhat.com>
- <CAFEAcA94DQ9rhCwhXHUKQQG6QdWTVOLNEUcKk12t=_WVMtG--A@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 10/11] include/exec: fix kerneldoc definition
-In-Reply-To: <CAFEAcA94DQ9rhCwhXHUKQQG6QdWTVOLNEUcKk12t=_WVMtG--A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v7 0/6] memory: prevent dma-reentracy issues
+Message-ID: <20230313172057.7gknyrgdo5rfece3@mozz.bu.edu>
+References: <20230313082417.827484-1-alxndr@bu.edu>
+ <c61ecf23-d055-01a8-b2d7-37367c4c1f63@redhat.com>
+ <20230313145228.6hcgsuobgaxbyr5o@mozz.bu.edu>
+ <38b1989e-248d-88fb-2551-13c895999841@linaro.org>
+ <CAFEAcA95qnh=B3DYTTi_65gF3geErw4gKZ3g3y3zd2tVp_A0aQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA95qnh=B3DYTTi_65gF3geErw4gKZ3g3y3zd2tVp_A0aQ@mail.gmail.com>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.81; envelope-from=alxndr@bu.edu;
+ helo=esa11.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,48 +136,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/03/2023 18.03, Peter Maydell wrote:
-> On Mon, 13 Mar 2023 at 17:00, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 10/03/2023 11.31, Alex Bennée wrote:
->>> The kerneldoc processor complains about the mismatched variable name.
->>> Fix it.
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>    include/exec/memory.h | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/include/exec/memory.h b/include/exec/memory.h
->>> index 6fa0b071f0..15ade918ba 100644
->>> --- a/include/exec/memory.h
->>> +++ b/include/exec/memory.h
->>> @@ -1738,7 +1738,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
->>>     *
->>>     * @notifier: the notifier to be notified
->>>     */
->>> -void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n);
->>> +void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier);
->>
->> I also keep running into this problem ... I wonder whether we should run
->> sphinx with "-W" to turn warnings into errors when configure has been run
->> with --enable-werror ...?
+On 230313 1608, Peter Maydell wrote:
+> On Mon, 13 Mar 2023 at 15:41, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+> > Now I wonder again if this is a good time to merge this change set.
 > 
-> We certainly try to do that: docs/meson.build says:
-> 
->    # If we're making warnings fatal, apply this to Sphinx runs as well
->    if get_option('werror')
->      SPHINX_ARGS += [ '-W' ]
->    endif
-> 
-> Has that broken ?
+> No, I don't think it is at this point in the release
+> cycle. I would vote for merging it when we reopen for 8.1,
+> so that we'll have a full cycle to find all the weird corner
+> cases that it breaks.
 
-It apparently does not work in our CI, see e.g.:
-
-https://gitlab.com/qemu-project/qemu/-/jobs/3922732898#L1420
-
-... there is a warning here, but the job succeeded happily.
-
-  Thomas
-
+Ok. I'll fix the rasbpi issue and look into adding some compile-time
+option to make the re-entrancy check fatal. That way we might catch
+additional edge-cases with fuzzing (though non-x86 coverage is poor) and
+unit-tests.
+-Alex
 
