@@ -2,87 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917576B71D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBE66B71E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 10:02:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbe11-0000vw-52; Mon, 13 Mar 2023 04:58:47 -0400
+	id 1pbe3U-0001o7-L2; Mon, 13 Mar 2023 05:01:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe0q-0000vT-Bv
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:58:36 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe3Q-0001nq-8E
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:01:16 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe0o-0006gd-PV
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:58:36 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso7309893wmo.0
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:58:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe3K-0007AY-2X
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 05:01:15 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id j3so7341117wms.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 02:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678697913;
+ d=linaro.org; s=google; t=1678698065;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=nwFUy0qPgo/d7vZtlR4ypK+dZBNwx+X5FK8USi/ohxs=;
- b=N/6JBjSgzQh7Ee+P5D8sMnBh/Nzg3K6AlGFhkj/d0kq4FDg5TrFd0SBl24dc5kb2MR
- 10AUniUJvCR8id8uGZ1zBsir3kWgNxFfse0cgdtdq7SgDeeDoiUXSNhYqOEW+wsZYCZP
- 5OgVJhQMv9DczSwJ34FbgLOhhhf+YCi+hpCrGCJ7Or/wsT53pmWP29AbvtBsbkZM14XK
- x9slvJ2arPpH5GdICaCbfeisBXZ1FEQ1SjNPCSdEiHvh4dw0WhXH/TzfyhtqwqW0U/9M
- zwyN8Rn8UWpGACGScNf7XGS/4VyOYYMxh3qrLQrhw8wRaXQVfOjcEkSTIbnuu20q4/IC
- H7BA==
+ bh=+yRTQUoioB4e4JGXFcl0uR5I7yidXlwRcuL8pkMIFhI=;
+ b=Hs11MoEiln8Nl7L2cl8mYfzcvur8zVlWaDOMrDRDM4ZqSmktfn6o3r2bGPbDrtW89U
+ UeDrdBTIbnT55ZYOPzclVKH5xTlFpql11GB4GCtk31k+SbWKDE11MT1ysY9fbunL0JLA
+ EheA9QIsfS1eo8gKN0sjiOlCCrXMs3HcEjcea9c+Sz8W7WZ0hdEp2CRbyly5rCO/lm1Y
+ 9N6LWkL3IF7APnDkF2gSYixabCw28x+NIkkGWQaOs5SbJixOoXrN5c50BJBRbYMJc3ho
+ KtQfn8EjY8TxNSDMihlq+7YCbHuorpgyYjTdpaGHcl4m9InBHCyRlQRGAJBERrQQeZH7
+ ggPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678697913;
+ d=1e100.net; s=20210112; t=1678698065;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nwFUy0qPgo/d7vZtlR4ypK+dZBNwx+X5FK8USi/ohxs=;
- b=HnHyR8m3DCGIGmVJNsu8Lqd5loOLlPPB4Kp4W7Ugm/aqKxCyLWph6ry4+HnkQHvH5K
- U0i8YgX4fgTFVZ9MviCdPZpxo3gOdYXdXvEJWPOKwckNR7U35E8bfWnu9Rrbp7jEmlxi
- PiQpNVjbO8TTxGXZcJ00jYfosHL9OjlEhI0BUEJlPHGVBNfzftOK26CfDBMFZo4IOLnA
- uILFtYPh5pQqW2xGnHj2qidY7q8cS1TVXxv0EEfRw4cKCPD0x37byEUU+R4ZwuHURtbI
- KaT9CxAnxDfnheF2HKG2sik5Zk3EOxqsuMeOwI3WEQwSUOk4lCLmjdWUgNWNGyyx3evd
- 0M+A==
-X-Gm-Message-State: AO0yUKWeUzHIjWOsb9KVSLEFpywy46w3FWBSb6P4VgFc3Ri9roMgE62k
- PXACaND/iDkmRgtFLPMuNswgWQ==
-X-Google-Smtp-Source: AK7set96KAfY9LHs0mf5f/uGqK56+xXpJb/r0UDgZ9c0ad5hC6QdM4oU767tv39ZwWmSrrmL3HuPMw==
-X-Received: by 2002:a05:600c:3c8f:b0:3ea:bc08:b63e with SMTP id
- bg15-20020a05600c3c8f00b003eabc08b63emr10268334wmb.2.1678697913009; 
- Mon, 13 Mar 2023 01:58:33 -0700 (PDT)
+ bh=+yRTQUoioB4e4JGXFcl0uR5I7yidXlwRcuL8pkMIFhI=;
+ b=yk026OzMwjqdyDB2G85NhZRIUZBkPl+CBwrr8+yN1HeBFqYTLJj7enkYnTHJ8i1TGO
+ bcNCWYlKAaZnWa1mkhme5J5zUgDUraExXVMfGZ+3GuV/mQS7ZaxgUHMZiDtLSjrg2kr1
+ MwmZMTwB4gztSzJGNw0ezKm8K4ZF+IJNs3x0+tJw4fGjQgAVV6R8so5ypjkZ+a3+YEbX
+ SKsj1rmHPGCCD5zb8q7hvfz+gCoDuoH63KJsWM1lR11NDYgCT4fcIYMbrpPQqkyQX6NL
+ Ke92k2jLZBZ7TyRPyp0tgt8WSzik/Mlpq6ZHyoMfs4NIF9zFlrSInMh4YVPebmcCwBxR
+ f2uA==
+X-Gm-Message-State: AO0yUKUiIK2Gjzq43blyjp8WSmaj2Hk4OKNuTQLSv2vjAPKakcxEMfT1
+ X+PiHI8Swsicy6eVXiUt7+8rnQ==
+X-Google-Smtp-Source: AK7set8YKjt4pCS2UPrBXHY3xTR5X6jSogUcNTsr00XQW/4qGiNyi7WB2Xnrt+5yoOc8daREainADg==
+X-Received: by 2002:a05:600c:1d18:b0:3ed:2981:1ea8 with SMTP id
+ l24-20020a05600c1d1800b003ed29811ea8mr553751wms.8.1678698065004; 
+ Mon, 13 Mar 2023 02:01:05 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o15-20020a5d4a8f000000b002c70e60abd4sm7390577wrq.2.2023.03.13.01.58.31
+ q6-20020adff946000000b002c703d59fa7sm7335537wrr.12.2023.03.13.02.01.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 01:58:32 -0700 (PDT)
-Message-ID: <71946be0-74ea-2596-3184-7ebe4ce21b4e@linaro.org>
-Date: Mon, 13 Mar 2023 09:58:30 +0100
+ Mon, 13 Mar 2023 02:01:04 -0700 (PDT)
+Message-ID: <193506e9-76bb-96b9-551d-cb08ee743c2d@linaro.org>
+Date: Mon, 13 Mar 2023 10:01:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v8 10/11] target/arm: gdbstub: Guard M-profile code with
- CONFIG_TCG
+Subject: Re: [RFC QEMU PATCH 01/18] virtio: Add shared memory capability
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20230309201434.10831-1-farosas@suse.de>
- <20230309201434.10831-11-farosas@suse.de>
+To: Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
+ Jan Beulich <jbeulich@suse.com>,
+ Antonio Caggiano <antonio.caggiano@collabora.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Robert Beckett <bob.beckett@collabora.com>, qemu-devel@nongnu.org,
+ xen-devel@lists.xenproject.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ Honglei Huang <honglei1.huang@amd.com>, Julia Zhang <julia.zhang@amd.com>,
+ Chen Jiqian <Jiqian.Chen@amd.com>
+References: <20230312092244.451465-1-ray.huang@amd.com>
+ <20230312092244.451465-2-ray.huang@amd.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230309201434.10831-11-farosas@suse.de>
+In-Reply-To: <20230312092244.451465-2-ray.huang@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,22 +105,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/3/23 21:14, Fabiano Rosas wrote:
-> This code is only relevant when TCG is present in the build. If we try
-> to build with --disable-tcg we currently get:
+On 12/3/23 10:22, Huang Rui wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub.c.o: in function
-> `m_sysreg_ptr': ../target/arm/gdbstub.c:356: undefined reference to
-> `arm_v7m_get_sp_ptr'
+> Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG' to allow
+> defining shared memory regions with sizes and offsets of 2^32 and more.
+> Multiple instances of the capability are allowed and distinguished
+> by a device-specific 'id'.
 > 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 > ---
->   target/arm/gdbstub.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>   hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
+>   include/hw/virtio/virtio-pci.h |  4 ++++
+>   2 files changed, 22 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index a1c9dfa7bb..ae4c29cb96 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1191,6 +1191,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
+>       return offset;
+>   }
+>   
+> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
+> +                           uint8_t bar, uint64_t offset, uint64_t length,
+> +                           uint8_t id)
+> +{
+> +    struct virtio_pci_cap64 cap = {
+> +        .cap.cap_len = sizeof cap,
+> +        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
+> +    };
+> +
+> +    cap.cap.bar = bar;
+> +    cap.cap.length = cpu_to_le32(length);
+> +    cap.length_hi = cpu_to_le32(length >> 32);
+> +    cap.cap.offset = cpu_to_le32(offset);
+> +    cap.offset_hi = cpu_to_le32(offset >> 32);
+> +    cap.cap.id = id;
 
-This patch should come before patches 5-6/11, or become
-first of this series.
+Why initializing 'cap' using 2 different coding styles?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> +    return virtio_pci_add_mem_cap(proxy, &cap.cap);
+> +}
 
 
