@@ -2,76 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9766B7CA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3155A6B7CFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 17:02:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbkRR-0003z9-QT; Mon, 13 Mar 2023 11:50:29 -0400
+	id 1pbkbP-0006cN-2S; Mon, 13 Mar 2023 12:00:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1pbkRE-0003wy-Ao
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:50:19 -0400
-Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1pbkRC-0007Dr-DR
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:50:16 -0400
-Received: by mail-vs1-xe31.google.com with SMTP id v27so11396803vsa.7
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1678722611;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sxrbsHkpatU/nkn3ViDXdDt4uKht/L5IAQzUmHQwdnE=;
- b=jQsblASWknOboaLr/EW+HhJqp8A0iUbxGNdnSiavedW92ylPKEVQZX0CX+n1g0dcyP
- MXTJkeUVLgcOy+wAQvoIyqa+t968WPHVcgC3X0czVjD2f+yNCYs7s9nCIvC93M7iazzV
- 77dR/FZj4l3skIm3fVeazC4U6lVaz/eyqUqNnhEPY9wSU64AZfp1jTM0lT2JMcP1X4hY
- o4b6Vg4azZyzvj1b8YIGSZRdbTA3WumwKe4CxMEZB2mSUAO+E6AZGEMKKimAQ0/mKjUD
- QNoTBZTEkWQBRoh91Ye1ZxSvitZH4JhNQduYGWcntCQSF+/WxkVk4wR0t3CjXAT67y3M
- UwbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678722611;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sxrbsHkpatU/nkn3ViDXdDt4uKht/L5IAQzUmHQwdnE=;
- b=EQHS3R3xP+g5opvmIEIiCnB3ecgHvi7o2aaRxaMTwqt1fLzE8NguaqrJ19VjKMbiV1
- B/xPim9JryLCdfYx26I/okKMz4iRoTJUH5nJD20i5S+LnRgygHZ/TqYTnVl4+UB0gH+u
- 1TjSlrpe/zg5mdHQGc19ZareikhhO1NPFSYFvCgfygFP6x14/XRXg62VYWptMEuQjvh8
- lZP1cZ0DGKvjgjVII7Ckwni+muOFcoPByn52DTM6lEfCNcunykf8+uqUlHgRejQ1iOBZ
- zlI4j7XXoPGrYL4z8eFlL3VCO8W6wFqyKTBtdb2ia59GDTjHFu53BaCZqiAvb/fyVw9E
- IwJw==
-X-Gm-Message-State: AO0yUKXsNIQXVfo+/noSWAqdbHB/WVGKvucDxWz4CgQo93Ksu/PM8yLE
- hdzqQzPdg38YH5fA3nghQmKZ0ziZ7oXwC01EhOc+SA==
-X-Google-Smtp-Source: AK7set+CBXtsB8KxhIL0RsluyJTotJ0mthroIcxB9ZxA311TQhOanOXL2nHE2vJ0mtk8F1qQqcgyoQeZwgkJ3gWgnMI=
-X-Received: by 2002:a67:ce05:0:b0:420:10e:14e8 with SMTP id
- s5-20020a67ce05000000b00420010e14e8mr7241357vsl.1.1678722611540; Mon, 13 Mar
- 2023 08:50:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pbkbM-0006aj-Rc
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 12:00:44 -0400
+Received: from mail-dm6nam10on2067.outbound.protection.outlook.com
+ ([40.107.93.67] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pbkbJ-0000R7-Ns
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 12:00:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H3YN7GPNIkyDopcf/8X8eO1wUvDmHJPqwVIE6VAP6f579VgnGMLavLM3MbsVbK/P3Q7nIuTyUkuzWbP9mEnCm/K5503gDbU9QL0wy94yMB5P6quNUpFs3Zln3G+lsOE3x5AkotZcDR36jr5lo3NhjuKXO04N4tqUnxrFvgFbDvrBR+jT6Ilpu/FI7iCxd3pp9PQ0bNbgrrInjrnG1f9+7i4p8pxcPai0OyKeZPBGxd7pG7Ze85RGZHEC1yxlYlINt4H/FvQXWY2eQr4ZhuLMtUnZyi5zg6drU34zUeF498BEIc3mCYnB75VIu/MzeAXTYpVCJ2leukkqW7xYZtoHQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QSEz8N7rHEQJu7Dymta3B4w544klpspLeFSIGoWsUsU=;
+ b=K3PkN408TmMs6fSIgFxw8xDSpQUezK328QL0X0OoOyfRzBi/h3qpQ25CaLIkrWfPADVrrQVWyAsjqE8r/CPRqeEt+SaHvZ9BA1iYZXPVkU0zfPaxWhZMTHoiJ/jdCNDVCjH8yfjozH+R3isKzj7akDRuj5Z2+WiTysbpN2MnYSXFVs6/HGzK42KS60MZ7V4zOkNRRKvuPDGYqKBK8R9SExC4uQA5vVY6GBXvquF86DAQYumSuikBE/e8uB2uVOJJb2WGhk5J0HJRz221iNqwie6jjkKfkIJDeO6P8IOo3YVKQdtPk7L3R2o1R+Xo0pascUkgpoXM3f+25e9EmvDSvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QSEz8N7rHEQJu7Dymta3B4w544klpspLeFSIGoWsUsU=;
+ b=l1yxnWfQ7B7ovA183T4ep06Hf0KIbRZF/7qtW2+XxvIGfC28G9wIeNwyOIF1EOoj9n+1stT3Jb0UjHiHLIR2RpbsnTFWlOgIb3XH0jS4/nRzZaFOwlhudDtTLfm9hYFXEIZURo7v20HVQYcxqk02uk7CN0IuEZF+OqVn21J/LhQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
+ PH8PR12MB7422.namprd12.prod.outlook.com (2603:10b6:510:22a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 15:55:32 +0000
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::4f9:60f8:cb12:d022]) by DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::4f9:60f8:cb12:d022%3]) with mapi id 15.20.6178.022; Mon, 13 Mar 2023
+ 15:55:32 +0000
+Date: Mon, 13 Mar 2023 23:55:05 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
+ Jan Beulich <jbeulich@suse.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Robert Beckett <bob.beckett@collabora.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Hildebrand, Stewart" <Stewart.Hildebrand@amd.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ "Huang, Honglei1" <Honglei1.Huang@amd.com>,
+ "Zhang, Julia" <Julia.Zhang@amd.com>, "Chen, Jiqian" <Jiqian.Chen@amd.com>
+Subject: Re: [RFC QEMU PATCH 08/18] virtio-gpu: Initialize Venus
+Message-ID: <ZA9HWRYxPUk1OeGe@amd.com>
+References: <20230312092244.451465-1-ray.huang@amd.com>
+ <20230312092244.451465-9-ray.huang@amd.com>
+ <68195782-0309-2f81-7f1f-84a7fe7bb05c@collabora.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68195782-0309-2f81-7f1f-84a7fe7bb05c@collabora.com>
+X-ClientProxiedBy: SG2P153CA0030.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::17)
+ To DM5PR12MB2504.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::19)
 MIME-Version: 1.0
-References: <20230313021826.6898-1-xuhang@eswincomputing.com>
- <20230313021826.6898-2-xuhang@eswincomputing.com>
-In-Reply-To: <20230313021826.6898-2-xuhang@eswincomputing.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Mon, 13 Mar 2023 21:19:59 +0530
-Message-ID: <CAK9=C2XpTZwJUTj-C1=QG6Ww_B5rwKSZDW741Z9qNtdVY=vP2g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] hw/riscv: Fix max size limit when put initrd to RAM
-To: Hang Xu <xuhang@eswincomputing.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@rivosinc.com, 
- dbarboza@ventanamicro.com, alistair.francis@wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
- envelope-from=apatel@ventanamicro.com; helo=mail-vs1-xe31.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:EE_|PH8PR12MB7422:EE_
+X-MS-Office365-Filtering-Correlation-Id: c74ef369-2829-46c6-2852-08db23db5fb6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /lWkIm6/60eX1VQaHd1Nw2v3i6B3ZvPeP9HVN+LGmMYJ68S2BO2uGkub8NXAcnjs2jEnFzhtVxdn2YrJYx2UPDb4kZwjiHTe7iAZ+Xk5HE26ygEvbfrmELAl1yg8tfQh/1HFBbCQZAlXmSCyPKQwUIRwVdWyiL1bSe5n71/dIUEmen06ioZlq4HSIZm3KJlgU1o68Vk0vuglGBMy4pQgzzWxwnLWLVAvHH5FuVNrEO4hVRyJntmYRqi4jnI9LEM5zJ8a/bThMHGa/mnAmSYtjjqbkmzxk8CmOxe3PtokFwGx7r8JihGQDm+W6c5xOPDz8GLzLEhTOD/b2gl3Zs9jiLt+ZvQx3hTAoJlqdvnBm+6y5cJLMEkytuBnxTHA1wFwZDvoLzomyJDHzGX03pAml1QNiohQ0EW4fIbdlsHHxfNJzhK/YTSqOgJPdF9I1osGEeC2X/ieUTwJN8hQKafWKVEf6iosAqCf48SaXAdptaPmnxwCRPB3g+3N894ZSJXk69NwaNwu/xwK9x7any9Y9mqNGLBVFyJjK+zFcn3vIAGNdA1TVlqaD3i0U8MyWerfRm/wga6yGBqJF3W29Pj7UA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(396003)(136003)(376002)(346002)(366004)(451199018)(2906002)(83380400001)(7416002)(5660300002)(36756003)(8936002)(66556008)(66946007)(8676002)(41300700001)(6916009)(54906003)(66476007)(4326008)(38100700002)(86362001)(316002)(478600001)(2616005)(186003)(53546011)(6666004)(6506007)(26005)(6512007)(6486002)(966005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7D+c2ZxUskADfZXksNKJpUQr4S/PkXjnMpNlyG5PpqG3vw+TcKSpxn12rvlu?=
+ =?us-ascii?Q?4cycLU7r8GDSCNN8UfZLb8RwrbUOGVJn4oFqe39EUdKFCO4sALvhxv9Txb6b?=
+ =?us-ascii?Q?vEbm6jtb5fb8n97pQwLM6b2KJ+fLR307ueaScn8xREyOmYSnMndwPV3q/nDE?=
+ =?us-ascii?Q?zbDOT0Ow3/COX7gYJwnc5R+0aGwH4YuvN4S1WVMmVKz2Di/UkU/sKxD6PC+x?=
+ =?us-ascii?Q?sM25Yo8ijPbgvl7kiNMBocmGeqWRKBan3WNu6O1Fm7lEA3569Bot0yyvgCo0?=
+ =?us-ascii?Q?olBrL7SvaciX/oLJYMJcYUcw7/p4NKZuNZM91EYPssED3gV4sHaDjBasdqrT?=
+ =?us-ascii?Q?KrmTgp5hWeNC7mo1vlK6Uz+Vt472gH4CiCHycjR8ImcgoZJNbcYtB8RaeO7k?=
+ =?us-ascii?Q?+U8PoG1Q69+lQf0c+zKze4Y6WLe5zLni8/J85r1uJcjcSsaH+iFTCf8QxQlr?=
+ =?us-ascii?Q?ZpODkk8xVZAp+YM/rWGbD9kqSrotvF6/ybPq+3KnUKyVIJ0R1+9/WXjp7cua?=
+ =?us-ascii?Q?fulfuV/PKmlaNJY8oGr93ci74FVewPWHORErQqjfl61yis9loaX98bE2W7dQ?=
+ =?us-ascii?Q?ZKQosz2ZsfrpWanfzS1PC02aPMeapeASoVFjzHen2xsAlgANKCtTExQS6/3v?=
+ =?us-ascii?Q?I+fzPk7C1MOp3Y5Jf/l3ONcGEzUsaP904IvCwFGgDwe7JtYRy0IFHbpoG71I?=
+ =?us-ascii?Q?vRTc8zlTYd6WzmnBayqoldd2EJtiC+j6eqGZkHQYK1aQ97uocH37/ySkWkKc?=
+ =?us-ascii?Q?claJlOJiMQzGswK+pPnI+dvAzrqUYae8mrUExF+qXqEU7pucUFoV2YDqvU9c?=
+ =?us-ascii?Q?S7FdD8hbVXiUaclfeSTo4KfpMSXMEx0+TQmmpwTwFZIqUY9YgYYYRXZkZxim?=
+ =?us-ascii?Q?8ot8ld8qlJcdJS5QDk1WO+2EwwHcLnq/YoDkSn2gSFCKhX5imhwt9Ifjhjxr?=
+ =?us-ascii?Q?egONBTBFEGgFF6QDKr1ym6SdtqRhKpTOw9kuz7luxa6DYTkBXWTyQWkpFkBN?=
+ =?us-ascii?Q?ZNU/ywLPtqDCW3FmPhWii0NR6iBrv7/QsamNr+NS8hlNnv+aqTMxMT6Bzjns?=
+ =?us-ascii?Q?CsOplrY1+3T8SamzMmLLme+PX+wq5c6I7dcnqHB4Osuca2co4zyScOddv2Kx?=
+ =?us-ascii?Q?NcwfeAVgj+0o54oN5qnWU4PlJceCaqrr24FCuo1ROIZ1MZv1lgNgoJD4YcMp?=
+ =?us-ascii?Q?E77jnN5lO5EDPVYbwjK35T88M6Uf4UlBfOkkpFRUJEpy+APLABkKw/iEcwBB?=
+ =?us-ascii?Q?De1Zy0KgLZ09o1B3x5rJAi7OtTZIS1E8ykDc2XPmvOeZBuJVE5RBjau9KiZn?=
+ =?us-ascii?Q?R7vj0sU+yMiB7+JPhlOaJGMpO0y+3dIk+vCebD1bLi2+A7E9505XT/acO0+H?=
+ =?us-ascii?Q?WKMybfvVGd1L+cJ4BJ1Mt8WFEgk82/JOpTZmQ7vOXw5X739eMzvBcZOAcZUs?=
+ =?us-ascii?Q?QY4amLnfbfGLO85xUEbv482QGGuiSc8VObnRGx/qZ2Sc+WnqBcKxIODf0rdX?=
+ =?us-ascii?Q?NXELu3cCTQ6w+22SZ+hM3gwxkuFhSHUeoZaGGuGXcH7Gg5vMYAbgteoB3eGs?=
+ =?us-ascii?Q?c/WH0HiIWy4FsS/4IsttIJm7Ek4xP1LAiRn+75cB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c74ef369-2829-46c6-2852-08db23db5fb6
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 15:55:31.8483 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R7H/CuKn7cwZIqf4HHWOUuFRbs0m5OE7HIJgVDo5IUMr9j0xsqFk/7lTbu4PI1BeHJjBsILsSCXSABRcDVGKvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7422
+Received-SPF: softfail client-ip=40.107.93.67; envelope-from=Ray.Huang@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,214 +145,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 13, 2023 at 7:49=E2=80=AFAM Hang Xu <xuhang@eswincomputing.com>=
- wrote:
->
-> Because the starting address of ram is not necessarily 0,
-> the remaining free space in ram is
-> ram_size - (start - ram_base) instead of ram_size-start.
->
-> Signed-off-by: Hang Xu <xuhang@eswincomputing.com>
+On Mon, Mar 13, 2023 at 01:51:03AM +0800, Dmitry Osipenko wrote:
+> On 3/12/23 12:22, Huang Rui wrote:
+> > From: Antonio Caggiano <antonio.caggiano@collabora.com>
+> > 
+> > Request Venus when initializing VirGL.
+> > 
+> > Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+> > ---
+> >  hw/display/virtio-gpu-virgl.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+> > index fe03dc916f..f5ce206b93 100644
+> > --- a/hw/display/virtio-gpu-virgl.c
+> > +++ b/hw/display/virtio-gpu-virgl.c
+> > @@ -803,7 +803,11 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
+> >  {
+> >      int ret;
+> >  
+> > +#ifdef VIRGL_RENDERER_VENUS
+> > +    ret = virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_gpu_3d_cbs);
+> > +#else
+> >      ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
+> > +#endif
+> 
+> Note that Venus now requires VIRGL_RENDERER_RENDER_SERVER flag to be
+> set. Please test the patches with the latest virglrenderer and etc.
+> 
+> The #ifdef also doesn't allow adding new flags, it should look like:
+> 
+> #ifdef VIRGL_RENDERER_VENUS
+>     flags |= VIRGL_RENDERER_RENDER_SERVER;
+> #endif
+> 
+>     ret = virgl_renderer_init(g, flags, &virtio_gpu_3d_cbs);
 
-What happens in-case a platform has multiple RAM banks ?
+In fact, we have rebased to the latest virglrenderer:
 
-Regards,
-Anup
+We check both VIRGL_RENDERER_RENDER_SERVER or VIRGL_RENDERER_VENUS in
+virglrenderer, alternative of them works.
 
-> ---
->  hw/riscv/boot.c            | 19 +++++++++++++------
->  hw/riscv/microchip_pfsoc.c |  5 ++++-
->  hw/riscv/opentitan.c       |  2 +-
->  hw/riscv/sifive_e.c        |  2 +-
->  hw/riscv/sifive_u.c        |  5 ++++-
->  hw/riscv/spike.c           |  5 ++++-
->  hw/riscv/virt.c            |  5 ++++-
->  include/hw/riscv/boot.h    |  2 ++
->  8 files changed, 33 insertions(+), 12 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 52bf8e67de..cfbc376a82 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -173,13 +173,14 @@ target_ulong riscv_load_firmware(const char *firmwa=
-re_filename,
->      exit(1);
->  }
->
-> -static void riscv_load_initrd(MachineState *machine, uint64_t kernel_ent=
-ry)
-> +static void riscv_load_initrd(MachineState *machine, uint64_t kernel_ent=
-ry,
-> +                              uint64_t ram_base, uint64_t ram_size)
->  {
->      const char *filename =3D machine->initrd_filename;
-> -    uint64_t mem_size =3D machine->ram_size;
->      void *fdt =3D machine->fdt;
->      hwaddr start, end;
->      ssize_t size;
-> +    uint64_t max_initrd;
->
->      g_assert(filename !=3D NULL);
->
-> @@ -193,12 +194,16 @@ static void riscv_load_initrd(MachineState *machine=
-, uint64_t kernel_entry)
->       * So for boards with less  than 256MB of RAM we put the initrd
->       * halfway into RAM, and for boards with 256MB of RAM or more we put
->       * the initrd at 128MB.
-> +     * A ram_size =3D=3D 0, usually from a MemMapEntry[].size element,
-> +     * means that the RAM block goes all the way to ms->ram_size.
->       */
-> -    start =3D kernel_entry + MIN(mem_size / 2, 128 * MiB);
-> +    ram_size =3D ram_size ? MIN(machine->ram_size, ram_size) : machine->=
-ram_size;
-> +    start =3D kernel_entry + MIN(ram_size / 2, 128 * MiB);
-> +    max_initrd =3D ram_size - (start - ram_base);
->
-> -    size =3D load_ramdisk(filename, start, mem_size - start);
-> +    size =3D load_ramdisk(filename, start, max_initrd);
->      if (size =3D=3D -1) {
-> -        size =3D load_image_targphys(filename, start, mem_size - start);
-> +        size =3D load_image_targphys(filename, start, max_initrd);
->          if (size =3D=3D -1) {
->              error_report("could not load ramdisk '%s'", filename);
->              exit(1);
-> @@ -217,6 +222,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->                                 RISCVHartArrayState *harts,
->                                 target_ulong kernel_start_addr,
->                                 bool load_initrd,
-> +                               uint64_t ram_base,
-> +                               uint64_t ram_size,
->                                 symbol_fn_t sym_cb)
->  {
->      const char *kernel_filename =3D machine->kernel_filename;
-> @@ -263,7 +270,7 @@ out:
->      }
->
->      if (load_initrd && machine->initrd_filename) {
-> -        riscv_load_initrd(machine, kernel_entry);
-> +        riscv_load_initrd(machine, kernel_entry, ram_base, ram_size);
->      }
->
->      if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index e81bbd12df..b42d90b89e 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -630,7 +630,10 @@ static void microchip_icicle_kit_machine_init(Machin=
-eState *machine)
->                                                           firmware_end_ad=
-dr);
->
->          kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> -                                         kernel_start_addr, true, NULL);
-> +                                         kernel_start_addr, true,
-> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO]=
-.base,
-> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO]=
-.size,
-> +                                         NULL);
->
->          /* Compute the fdt load address in dram */
->          fdt_load_addr =3D riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_=
-DRAM_LO].base,
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index b06944d382..bb663523d5 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -103,7 +103,7 @@ static void opentitan_board_init(MachineState *machin=
-e)
->      if (machine->kernel_filename) {
->          riscv_load_kernel(machine, &s->soc.cpus,
->                            memmap[IBEX_DEV_RAM].base,
-> -                          false, NULL);
-> +                          false, 0, 0, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 04939b60c3..5b47d539a6 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -116,7 +116,7 @@ static void sifive_e_machine_init(MachineState *machi=
-ne)
->      if (machine->kernel_filename) {
->          riscv_load_kernel(machine, &s->soc.cpus,
->                            memmap[SIFIVE_E_DEV_DTIM].base,
-> -                          false, NULL);
-> +                          false, 0, 0, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 35a335b8d0..b45fdc968c 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -599,7 +599,10 @@ static void sifive_u_machine_init(MachineState *mach=
-ine)
->                                                           firmware_end_ad=
-dr);
->
->          kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> -                                         kernel_start_addr, true, NULL);
-> +                                         kernel_start_addr, true,
-> +                                         memmap[SIFIVE_U_DEV_DRAM].base,
-> +                                         memmap[SIFIVE_U_DEV_DRAM].size,
-> +                                         NULL);
->      } else {
->         /*
->          * If dynamic firmware is used, it doesn't know where is the next=
- mode
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index a584d5b3a2..e322ed8506 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -307,7 +307,10 @@ static void spike_board_init(MachineState *machine)
->
->          kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
->                                           kernel_start_addr,
-> -                                         true, htif_symbol_callback);
-> +                                         true,
-> +                                         memmap[SPIKE_DRAM].base,
-> +                                         memmap[SPIKE_DRAM].size,
-> +                                         htif_symbol_callback);
->      } else {
->         /*
->          * If dynamic firmware is used, it doesn't know where is the next=
- mode
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4e3efbee16..11f26b0dc0 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1287,7 +1287,10 @@ static void virt_machine_done(Notifier *notifier, =
-void *data)
->                                                           firmware_end_ad=
-dr);
->
->          kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
-> -                                         kernel_start_addr, true, NULL);
-> +                                         kernel_start_addr, true,
-> +                                         memmap[VIRT_DRAM].base,
-> +                                         memmap[VIRT_DRAM].size,
-> +                                         NULL);
->      } else {
->         /*
->          * If dynamic firmware is used, it doesn't know where is the next=
- mode
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index a2e4ae9cb0..987e1add38 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -47,6 +47,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->                                 RISCVHartArrayState *harts,
->                                 target_ulong firmware_end_addr,
->                                 bool load_initrd,
-> +                               uint64_t ram_base,
-> +                               uint64_t ram_size,
->                                 symbol_fn_t sym_cb);
->  uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
->                                  MachineState *ms);
-> --
-> 2.17.1
->
->
+https://gitlab.freedesktop.org/rui/virglrenderer/-/commit/c1322a8a84379b1ef7939f56c6761b0114716f45
+
+Thanks,
+Ray
 
