@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D945A6B7A07
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEFC6B7A06
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbitO-0005aV-J3; Mon, 13 Mar 2023 10:11:14 -0400
+	id 1pbitQ-0005bJ-49; Mon, 13 Mar 2023 10:11:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitK-0005VF-N0
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitM-0005X2-5T
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitH-0006cB-Ic
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitK-0006cO-KS
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678716666;
+ s=mimecast20190719; t=1678716669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n4KjcrfQFXyRSIUVExEgxfCz3R/sBlg3iPX48okrKhw=;
- b=c6z+zwWtWanjEixpXJrIf5uZXZW2DC346+un3l+BqUCgwfw2NqBXq+zzajI+W1jU6K9PLR
- IoKstIRAgtO1ocRvs9qyP1SF+lVuB4BfTjaxUTSv/1yP0TiXkQH6CC0FqUsJGDzpXmVPNI
- mUC7uroxfC2H/dZ1wTBmtTuRGBpHFo8=
+ bh=xXUWi/D5ENS/HMywWSU2ibnGR6zQfeC988o8MFTww+s=;
+ b=IT6chbjlCsuL19iFLMbO/FDvrpGPHpWBaZ5W21UGr6jYqVFRsjctE5+Jyoc+MVlIL7qWp6
+ HEm5zcV3OkaHY10zd02hSga6VA00pYzkxR7r0gqbJeFkjpeVMYP/YtQWHo6/slzr2Fv8po
+ ObbKXQyoeWuW72gpPzn7Eb4CTalHDtk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-359-PIWCJSCzPRGb42FDG-Vg6g-1; Mon, 13 Mar 2023 10:11:04 -0400
-X-MC-Unique: PIWCJSCzPRGb42FDG-Vg6g-1
+ us-mta-88-0UWyOnf4Mdu9OH-Ov206pw-1; Mon, 13 Mar 2023 10:11:06 -0400
+X-MC-Unique: 0UWyOnf4Mdu9OH-Ov206pw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AF722A2AD6E;
- Mon, 13 Mar 2023 14:11:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A65AE3828889;
+ Mon, 13 Mar 2023 14:11:05 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC341121315;
- Mon, 13 Mar 2023 14:11:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1C21121315;
+ Mon, 13 Mar 2023 14:11:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>
-Subject: [PULL 4/5] target/s390x: Fix emulation of C(G)HRL
-Date: Mon, 13 Mar 2023 15:10:56 +0100
-Message-Id: <20230313141057.230810-5-thuth@redhat.com>
+Subject: [PULL 5/5] tests/tcg/s390x: Add C(G)HRL test
+Date: Mon, 13 Mar 2023 15:10:57 +0100
+Message-Id: <20230313141057.230810-6-thuth@redhat.com>
 In-Reply-To: <20230313141057.230810-1-thuth@redhat.com>
 References: <20230313141057.230810-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,53 +80,120 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 
-The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
-halfword, it does not have the same size as the first operand.
+Test COMPARE HALFWORD RELATIVE LONG instructions.
+Test that the bytes following the second operand do not affect the
+instruction.
+Test the sign extension performed on the second operand.
 
-Fixes: a7e836d5eb ("target-s390: Convert COMPARE, COMPARE LOGICAL")
 Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20230310114157.3024170-2-nsg@linux.ibm.com>
+Message-Id: <20230310114157.3024170-3-nsg@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/insn-data.h.inc | 4 ++--
- target/s390x/tcg/translate.c     | 7 +++++++
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ tests/tcg/s390x/chrl.c          | 80 +++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target |  1 +
+ 2 files changed, 81 insertions(+)
+ create mode 100644 tests/tcg/s390x/chrl.c
 
-diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
-index 9d2d35f084..6fe8ca5143 100644
---- a/target/s390x/tcg/insn-data.h.inc
-+++ b/target/s390x/tcg/insn-data.h.inc
-@@ -199,8 +199,8 @@
-     C(0xe55c, CHSI,    SIL,   GIE, m1_32s, i2, 0, 0, 0, cmps64)
-     C(0xe558, CGHSI,   SIL,   GIE, m1_64, i2, 0, 0, 0, cmps64)
- /* COMPARE HALFWORD RELATIVE LONG */
--    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_32s, 0, 0, 0, cmps32)
--    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_64, 0, 0, 0, cmps64)
-+    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps32)
-+    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps64)
- /* COMPARE HIGH */
-     C(0xb9cd, CHHR,    RRE,   HW,  r1_sr32, r2_sr32, 0, 0, 0, cmps32)
-     C(0xb9dd, CHLR,    RRE,   HW,  r1_sr32, r2_o, 0, 0, 0, cmps32)
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 21a57d5eb2..d324c0b6f2 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -5979,6 +5979,13 @@ static void in2_m2_64a(DisasContext *s, DisasOps *o)
- #define SPEC_in2_m2_64a 0
- #endif
- 
-+static void in2_mri2_16s(DisasContext *s, DisasOps *o)
-+{
-+    o->in2 = tcg_temp_new_i64();
-+    tcg_gen_qemu_ld16s(o->in2, gen_ri2(s), get_mem_index(s));
-+}
-+#define SPEC_in2_mri2_16s 0
+diff --git a/tests/tcg/s390x/chrl.c b/tests/tcg/s390x/chrl.c
+new file mode 100644
+index 0000000000..b1c3a1c561
+--- /dev/null
++++ b/tests/tcg/s390x/chrl.c
+@@ -0,0 +1,80 @@
++#include <stdlib.h>
++#include <assert.h>
++#include <stdint.h>
 +
- static void in2_mri2_16u(DisasContext *s, DisasOps *o)
- {
-     o->in2 = tcg_temp_new_i64();
++static void test_chrl(void)
++{
++    uint32_t program_mask, cc;
++
++    asm volatile (
++        ".pushsection .rodata\n"
++        "0:\n\t"
++        ".short 1, 0x8000\n\t"
++        ".popsection\n\t"
++
++        "chrl %[r], 0b\n\t"
++        "ipm %[program_mask]\n"
++        : [program_mask] "=r" (program_mask)
++        : [r] "r" (1)
++    );
++
++    cc = program_mask >> 28;
++    assert(!cc);
++
++    asm volatile (
++        ".pushsection .rodata\n"
++        "0:\n\t"
++        ".short -1, 0x8000\n\t"
++        ".popsection\n\t"
++
++        "chrl %[r], 0b\n\t"
++        "ipm %[program_mask]\n"
++        : [program_mask] "=r" (program_mask)
++        : [r] "r" (-1)
++    );
++
++    cc = program_mask >> 28;
++    assert(!cc);
++}
++
++static void test_cghrl(void)
++{
++    uint32_t program_mask, cc;
++
++    asm volatile (
++        ".pushsection .rodata\n"
++        "0:\n\t"
++        ".short 1, 0x8000, 0, 0\n\t"
++        ".popsection\n\t"
++
++        "cghrl %[r], 0b\n\t"
++        "ipm %[program_mask]\n"
++        : [program_mask] "=r" (program_mask)
++        : [r] "r" (1L)
++    );
++
++    cc = program_mask >> 28;
++    assert(!cc);
++
++    asm volatile (
++        ".pushsection .rodata\n"
++        "0:\n\t"
++        ".short -1, 0x8000, 0, 0\n\t"
++        ".popsection\n\t"
++
++        "cghrl %[r], 0b\n\t"
++        "ipm %[program_mask]\n"
++        : [program_mask] "=r" (program_mask)
++        : [r] "r" (-1L)
++    );
++
++    cc = program_mask >> 28;
++    assert(!cc);
++}
++
++int main(void)
++{
++    test_chrl();
++    test_cghrl();
++    return EXIT_SUCCESS;
++}
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index b7f576f983..cf93b96686 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -28,6 +28,7 @@ TESTS+=div
+ TESTS+=clst
+ TESTS+=long-double
+ TESTS+=cdsg
++TESTS+=chrl
+ 
+ cdsg: CFLAGS+=-pthread
+ cdsg: LDFLAGS+=-pthread
 -- 
 2.31.1
 
