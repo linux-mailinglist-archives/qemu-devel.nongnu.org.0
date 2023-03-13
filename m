@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D17F6B76C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C9D6B76F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:55:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgfK-0007IO-F5; Mon, 13 Mar 2023 07:48:34 -0400
+	id 1pbgfZ-0008Bh-9p; Mon, 13 Mar 2023 07:48:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgf1-0006m2-QC
+ id 1pbgf3-0006nr-DY
  for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgez-0004kh-Gl
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:15 -0400
+ id 1pbgf1-0004l1-SL
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:48:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678708091;
+ s=mimecast20190719; t=1678708095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GfH++KxViClX79pJGZ1W2CFcXUv/sIf0i0Z93ZRwtmQ=;
- b=BLvQVwkaOyk14NdhuQHJDvPSrTvivkDbLVHB4K3C86VWUBP5JlaX/pjd0vgeK/bgLOsjg7
- R6J9q7Te/JptFQ41rtBRsREO/X1jVtwfAXW6qkmPOUMopESCaCWm8b1JzQkhS8rOIpszR7
- XlJALSTAYd4f75LJGvxVEKXArHb0JpQ=
+ bh=S/KoWKb/m8WfBVa5j8E25z6nwOPM59iFUJ4sUBu8cTM=;
+ b=akU8Fp91hpjM/rCFDLcFOcw8jkhP/pLiq2akmePeP6bXxGRZdbVisbQPeu7S6CduOQjG4a
+ GdgnZKj42kH9a/+ZZhEXa2txiCpf1PSzVLGo8TYFlvzpYU1muwZ+a61V7n65MkIQN+s7Ot
+ gLgepgZg1qMDl1ijEcgrC/tsCXnmb5E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-6x3g4c71P2GIzKsaCKmxCA-1; Mon, 13 Mar 2023 07:48:07 -0400
-X-MC-Unique: 6x3g4c71P2GIzKsaCKmxCA-1
+ us-mta-611-UCS8Il92Mwi_ang5Fs5t5Q-1; Mon, 13 Mar 2023 07:48:12 -0400
+X-MC-Unique: UCS8Il92Mwi_ang5Fs5t5Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8EF88027FD;
- Mon, 13 Mar 2023 11:48:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A46C811E9C;
+ Mon, 13 Mar 2023 11:48:11 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 409FE1410F1B;
- Mon, 13 Mar 2023 11:48:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 857CC1410F1B;
+ Mon, 13 Mar 2023 11:48:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -62,16 +62,17 @@ Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PULL v2 16/25] tests: fix path separator, use g_build_filename()
-Date: Mon, 13 Mar 2023 15:46:39 +0400
-Message-Id: <20230313114648.426607-17-marcandre.lureau@redhat.com>
+Subject: [PULL v2 17/25] char: do not double-close fd when failing to add
+ client
+Date: Mon, 13 Mar 2023 15:46:40 +0400
+Message-Id: <20230313114648.426607-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,27 +99,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+The caller is already closing the fd on failure.
+
+Fixes: c3054a6e6a ("char: Factor out qmp_add_client() parts and move to chardev/")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230306122751.2355515-2-marcandre.lureau@redhat.com>
+Message-Id: <20230306122751.2355515-3-marcandre.lureau@redhat.com>
 ---
- tests/unit/test-io-channel-command.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ chardev/char.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index c6e66a8c33..4f022617df 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -35,7 +35,7 @@ static char *socat = NULL;
- static void test_io_channel_command_fifo(bool async)
- {
-     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
--    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
-+    g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
-     g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
-     g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
-     g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
+diff --git a/chardev/char.c b/chardev/char.c
+index 11eab7764c..e69390601f 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1175,12 +1175,10 @@ bool qmp_add_client_char(int fd, bool has_skipauth, bool skipauth,
+ 
+     if (!s) {
+         error_setg(errp, "protocol '%s' is invalid", protocol);
+-        close(fd);
+         return false;
+     }
+     if (qemu_chr_add_client(s, fd) < 0) {
+         error_setg(errp, "failed to add client");
+-        close(fd);
+         return false;
+     }
+     return true;
 -- 
 2.39.2
 
