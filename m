@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6BD6B7511
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDE26B750C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:02:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfw1-00023b-Cz; Mon, 13 Mar 2023 07:01:45 -0400
+	id 1pbfw4-00024W-OC; Mon, 13 Mar 2023 07:01:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfvz-00023O-0D
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:01:43 -0400
+ id 1pbfw2-00023t-QL
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:01:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfvx-0003tl-KC
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:01:42 -0400
+ id 1pbfw1-0003u3-Am
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:01:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678705301;
+ s=mimecast20190719; t=1678705304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4NNc/52APlEVsUfrxs3RhBrzY/pv7Yq9X27evoA0Gi4=;
- b=Gzk84l/SBqyz3XJUJ8aAaLOmfHODpl1+AdbR/VAmp7qYAPMXmdK2fMFrDglc4OnQamUwAE
- 4vzZTllrAg7FJS5rxzr866EZfMT1iolnMi5kz6X1qyt/bq91grrgVa3vlTtjuajzKvnm1h
- q4L85zpLRunXZO6KQuKMH1lUKxFLuNE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O4igNrjk9KD9RDMi1RSLZacQpI7Uofe/DCpbxepvU14=;
+ b=Y2q7sefmhC3eiUGUtatcVdSjfhMfC30iFcLVId0fvQtMUf8E2xV4+Dw46/sb2fRdzw1RXt
+ U+PDaqvaFrilUYJmwiqetFJ9a52iXDAaM5vWt2uNpaNwxf8SQVkS/CcFGS8aiKn+TT78eI
+ fKHyQs9s3eWDrzuzQZ7vDY1v8Zg/O6w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-Aaghc0iPPZS0BABlOvFmcw-1; Mon, 13 Mar 2023 07:01:39 -0400
-X-MC-Unique: Aaghc0iPPZS0BABlOvFmcw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-626-i3mKhBXAMYi5pavLhe-f-w-1; Mon, 13 Mar 2023 07:01:43 -0400
+X-MC-Unique: i3mKhBXAMYi5pavLhe-f-w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 57131381459A;
- Mon, 13 Mar 2023 11:01:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C888811E6E;
+ Mon, 13 Mar 2023 11:01:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86B7B492C13;
- Mon, 13 Mar 2023 11:01:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 653051410F1B;
+ Mon, 13 Mar 2023 11:01:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,15 +50,15 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PULL 02/18] ui/dbus: unregister clipboard on connection close
-Date: Mon, 13 Mar 2023 15:01:10 +0400
-Message-Id: <20230313110126.383392-3-marcandre.lureau@redhat.com>
+Subject: [PULL 03/18] audio/dbus: there are no sender for p2p mode
+Date: Mon, 13 Mar 2023 15:01:11 +0400
+Message-Id: <20230313110126.383392-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313110126.383392-1-marcandre.lureau@redhat.com>
 References: <20230313110126.383392-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,65 +86,79 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Fixes unregistration with p2p connections, since they don't have an
-associated name owner.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- ui/dbus-clipboard.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ audio/audio_int.h | 2 +-
+ audio/dbusaudio.c | 7 +++++--
+ ui/dbus.c         | 2 +-
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/ui/dbus-clipboard.c b/ui/dbus-clipboard.c
-index df9a754a8d..fe7fcdecb6 100644
---- a/ui/dbus-clipboard.c
-+++ b/ui/dbus-clipboard.c
-@@ -204,15 +204,6 @@ dbus_clipboard_unregister_proxy(DBusDisplay *dpy)
-     g_clear_object(&dpy->clipboard_proxy);
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index d51d63f08d..e57ff50155 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -143,7 +143,7 @@ struct audio_driver {
+     void *(*init) (Audiodev *);
+     void (*fini) (void *);
+ #ifdef CONFIG_GIO
+-    void (*set_dbus_server) (AudioState *s, GDBusObjectManagerServer *manager);
++    void (*set_dbus_server) (AudioState *s, GDBusObjectManagerServer *manager, bool p2p);
+ #endif
+     struct audio_pcm_ops *pcm_ops;
+     int can_be_default;
+diff --git a/audio/dbusaudio.c b/audio/dbusaudio.c
+index 722df0355e..fece74f78c 100644
+--- a/audio/dbusaudio.c
++++ b/audio/dbusaudio.c
+@@ -43,6 +43,7 @@
+ 
+ typedef struct DBusAudio {
+     GDBusObjectManagerServer *server;
++    bool p2p;
+     GDBusObjectSkeleton *audio;
+     QemuDBusDisplay1Audio *iface;
+     GHashTable *out_listeners;
+@@ -448,7 +449,8 @@ dbus_audio_register_listener(AudioState *s,
+                              bool out)
+ {
+     DBusAudio *da = s->drv_opaque;
+-    const char *sender = g_dbus_method_invocation_get_sender(invocation);
++    const char *sender =
++        da->p2p ? "p2p" : g_dbus_method_invocation_get_sender(invocation);
+     g_autoptr(GDBusConnection) listener_conn = NULL;
+     g_autoptr(GError) err = NULL;
+     g_autoptr(GSocket) socket = NULL;
+@@ -591,7 +593,7 @@ dbus_audio_register_in_listener(AudioState *s,
  }
  
--static void
--dbus_on_clipboard_proxy_name_owner_changed(
--    DBusDisplay *dpy,
--    GObject *object,
--    GParamSpec *pspec)
--{
--    dbus_clipboard_unregister_proxy(dpy);
--}
--
- static gboolean
- dbus_clipboard_register(
-     DBusDisplay *dpy,
-@@ -220,6 +211,7 @@ dbus_clipboard_register(
+ static void
+-dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server)
++dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server, bool p2p)
  {
-     g_autoptr(GError) err = NULL;
-     const char *name = NULL;
-+    GDBusConnection *connection = g_dbus_method_invocation_get_connection(invocation);
+     DBusAudio *da = s->drv_opaque;
  
-     if (dpy->clipboard_proxy) {
-         g_dbus_method_invocation_return_error(
-@@ -232,7 +224,7 @@ dbus_clipboard_register(
+@@ -599,6 +601,7 @@ dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server)
+     g_assert(!da->server);
  
-     dpy->clipboard_proxy =
-         qemu_dbus_display1_clipboard_proxy_new_sync(
--            g_dbus_method_invocation_get_connection(invocation),
-+            connection,
-             G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START,
-             g_dbus_method_invocation_get_sender(invocation),
-             "/org/qemu/Display1/Clipboard",
-@@ -252,7 +244,11 @@ dbus_clipboard_register(
+     da->server = g_object_ref(server);
++    da->p2p = p2p;
  
-     g_object_connect(dpy->clipboard_proxy,
-                      "swapped-signal::notify::g-name-owner",
--                     dbus_on_clipboard_proxy_name_owner_changed, dpy,
-+                     dbus_clipboard_unregister_proxy, dpy,
-+                     NULL);
-+    g_object_connect(connection,
-+                     "swapped-signal::closed",
-+                     dbus_clipboard_unregister_proxy, dpy,
-                      NULL);
-     qemu_clipboard_reset_serial();
+     da->audio = g_dbus_object_skeleton_new(DBUS_DISPLAY1_AUDIO_PATH);
+     da->iface = qemu_dbus_display1_audio_skeleton_new();
+diff --git a/ui/dbus.c b/ui/dbus.c
+index f2dcba03d0..f529928f0b 100644
+--- a/ui/dbus.c
++++ b/ui/dbus.c
+@@ -220,7 +220,7 @@ dbus_display_complete(UserCreatable *uc, Error **errp)
+                        dd->audiodev);
+             return;
+         }
+-        audio_state->drv->set_dbus_server(audio_state, dd->server);
++        audio_state->drv->set_dbus_server(audio_state, dd->server, dd->p2p);
+     }
  
+     consoles = g_array_new(FALSE, FALSE, sizeof(guint32));
 -- 
 2.39.2
 
