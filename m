@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B3A6B7C2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3816B7C32
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:40:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbkGY-00080M-Am; Mon, 13 Mar 2023 11:39:14 -0400
+	id 1pbkGa-00081Q-6l; Mon, 13 Mar 2023 11:39:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbkGV-0007wo-0M; Mon, 13 Mar 2023 11:39:11 -0400
+ id 1pbkGX-0007zY-2m; Mon, 13 Mar 2023 11:39:13 -0400
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbkGT-0004wh-CN; Mon, 13 Mar 2023 11:39:10 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1pbkGV-0004x7-8g; Mon, 13 Mar 2023 11:39:12 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32DEltVn012326; Mon, 13 Mar 2023 15:39:07 GMT
+ 32DFXh5r003592; Mon, 13 Mar 2023 15:39:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=TypN67BNpupBDZ90sMQ+5EwpCgAwPcCbvFAklLq7et8=;
- b=fPMKzylWRGmBkPcvKjnll4npg5mGmO/EYJVSFqLE88mK9D/jEe6HQ1Vd1mRWcyjReMPW
- xS48Zq3t2UHs11fLfOhHitpEbkmeRxuQ24nx2mVz3mYYBsEpn6kdOdg6dLBZWDjVeZjd
- h2OEh7NtX6k+USPTNm+y/DAMry6wrfKYi0CjmIRxZylCKabIKpPBTRMkulehn/12nF+X
- QQSlcDyh7ejkvh9XHuWzu9HxJQfxWoRRNanpemrm2kqRZj9wBetSwFEy/5Yus7644y9j
- bCfgmmTniCOj7yOu9NHJM3z90lZhj1AfJY0mHqXbsLeNQMRBUlzrpEkbUHOVu6Aa/7oT UQ== 
+ bh=feZstX7jbnujP1qIdQvjUngjaoXnBcrHUWHk/HqesbM=;
+ b=Qn6ZNfgGtOw8VzeloVd4twyfx5FqP9ffEoQDCNaK+UP3po7Gbsce0Z/Htz2N6l0CwT4z
+ JNJF/jLx3VwDpxBXKWl6XB4oT9AFTtpJj3sRkXVmqnNnVUsHWGXoZT1r4QLdWD4Dc3ZH
+ rYtXah8bOcEhJ8DHs7Mxu1o7LqthesnlE5xTcigMPvBsmJIXWxgjs1CY8unEGuRvESFu
+ Im6jPBYc0F9KHRzqF7tAPC/3NXqicCCIrnt9OrqTQDY46mCsHrjl3djt9+gApWQiSxY/
+ wn6yDhYGGk0ddmxN+Z+Wp/xAwl2jf0cnNc0RzmeiARVIJROpRJsG2BX7DT/BYmIlZnvR hQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa47s4uq3-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa3dkxntc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:39:06 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32DEH5HB012751;
- Mon, 13 Mar 2023 15:39:06 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa47s4up7-1
+ Mon, 13 Mar 2023 15:39:08 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32DCnEkF010650;
+ Mon, 13 Mar 2023 15:39:07 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa3dkxns8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:39:06 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DDA3ta015869;
- Mon, 13 Mar 2023 15:39:04 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3p8h96jrxu-1
+ Mon, 13 Mar 2023 15:39:07 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DDC43T018994;
+ Mon, 13 Mar 2023 15:39:05 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3p8h96js5q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:39:03 +0000
+ Mon, 13 Mar 2023 15:39:05 +0000
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
  [10.20.54.105])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32DFd0Ee40567096
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32DFd14849349014
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Mar 2023 15:39:00 GMT
+ Mon, 13 Mar 2023 15:39:01 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C08E20043;
+ by IMSVA (Postfix) with ESMTP id C3B8020043;
+ Mon, 13 Mar 2023 15:39:01 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B989F20040;
  Mon, 13 Mar 2023 15:39:00 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B943F20040;
- Mon, 13 Mar 2023 15:38:59 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.87.70])
  by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 13 Mar 2023 15:38:59 +0000 (GMT)
+ Mon, 13 Mar 2023 15:39:00 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
  qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
  Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Subject: [PATCH v2 08/12] target/s390x: Handle CLRL and CLGFRL with
- non-aligned addresses
-Date: Mon, 13 Mar 2023 16:38:40 +0100
-Message-Id: <20230313153844.9231-9-iii@linux.ibm.com>
+Subject: [PATCH v2 09/12] target/s390x: Handle STRL to non-aligned addresses
+Date: Mon, 13 Mar 2023 16:38:41 +0100
+Message-Id: <20230313153844.9231-10-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230313153844.9231-1-iii@linux.ibm.com>
 References: <20230313153844.9231-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: A0bweX7t71vsW9pSAvVpAx2FeYX8P6Bm
-X-Proofpoint-ORIG-GUID: csOMyH53GT8C7qg2HzqAkKTuIcTcZ2WV
+X-Proofpoint-ORIG-GUID: TI4IKvZL0MaYxo2e-2PlVFTN68mbMrWk
+X-Proofpoint-GUID: OBZ-jvpAypxDedg4bVR8vmoifZa8VMV9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-13_07,2023-03-13_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 adultscore=0
- mlxlogscore=999 clxscore=1015 phishscore=0 bulkscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0
+ mlxlogscore=999 suspectscore=0 clxscore=1015 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303130121
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -121,22 +120,57 @@ Suggested-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- target/s390x/tcg/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/s390x/tcg/insn-data.h.inc | 12 ++++++------
+ target/s390x/tcg/translate.c     |  3 ++-
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 3abd2dbedd5..30c02b3fcd6 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -840,15 +840,15 @@
+     F(0xed15, SQDB,    RXE,   Z,   0, m2_64, new, f1, sqdb, 0, IF_BFP)
+ 
+ /* STORE */
+-    C(0x5000, ST,      RX_a,  Z,   r1_o, a2, 0, 0, st32, 0)
+-    C(0xe350, STY,     RXY_a, LD,  r1_o, a2, 0, 0, st32, 0)
++    D(0x5000, ST,      RX_a,  Z,   r1_o, a2, 0, 0, st32, 0, 0)
++    D(0xe350, STY,     RXY_a, LD,  r1_o, a2, 0, 0, st32, 0, 0)
+     C(0xe324, STG,     RXY_a, Z,   r1_o, a2, 0, 0, st64, 0)
+     F(0x6000, STD,     RX_a,  Z,   f1, a2, 0, 0, st64, 0, IF_AFP1)
+     F(0xed67, STDY,    RXY_a, LD,  f1, a2, 0, 0, st64, 0, IF_AFP1)
+-    F(0x7000, STE,     RX_a,  Z,   e1, a2, 0, 0, st32, 0, IF_AFP1)
+-    F(0xed66, STEY,    RXY_a, LD,  e1, a2, 0, 0, st32, 0, IF_AFP1)
++    E(0x7000, STE,     RX_a,  Z,   e1, a2, 0, 0, st32, 0, 0, IF_AFP1)
++    E(0xed66, STEY,    RXY_a, LD,  e1, a2, 0, 0, st32, 0, 0, IF_AFP1)
+ /* STORE RELATIVE LONG */
+-    C(0xc40f, STRL,    RIL_b, GIE, r1_o, ri2, 0, 0, st32, 0)
++    D(0xc40f, STRL,    RIL_b, GIE, r1_o, ri2, 0, 0, st32, 0, MO_ALIGN)
+     C(0xc40b, STGRL,   RIL_b, GIE, r1_o, ri2, 0, 0, st64, 0)
+ /* STORE CHARACTER */
+     C(0x4200, STC,     RX_a,  Z,   r1_o, a2, 0, 0, st8, 0)
+@@ -867,7 +867,7 @@
+ /* STORE HALFWORD RELATIVE LONG */
+     C(0xc407, STHRL,   RIL_b, GIE, r1_o, ri2, 0, 0, st16, 0)
+ /* STORE HIGH */
+-    C(0xe3cb, STFH,    RXY_a, HW,  r1_sr32, a2, 0, 0, st32, 0)
++    D(0xe3cb, STFH,    RXY_a, HW,  r1_sr32, a2, 0, 0, st32, 0, 0)
+ /* STORE ON CONDITION */
+     D(0xebf3, STOC,    RSY_b, LOC, 0, 0, 0, 0, soc, 0, 0)
+     D(0xebe3, STOCG,   RSY_b, LOC, 0, 0, 0, 0, soc, 0, 1)
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index ba01067fff7..a6ac7b7e136 100644
+index a6ac7b7e136..29efbfab4e9 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -6007,7 +6007,8 @@ static void in2_mri2_32s(DisasContext *s, DisasOps *o)
- static void in2_mri2_32u(DisasContext *s, DisasOps *o)
+@@ -4497,7 +4497,8 @@ static DisasJumpType op_st16(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_st32(DisasContext *s, DisasOps *o)
  {
-     o->in2 = tcg_temp_new_i64();
--    tcg_gen_qemu_ld32u(o->in2, gen_ri2(s), get_mem_index(s));
-+    tcg_gen_qemu_ld_tl(o->in2, gen_ri2(s), get_mem_index(s),
-+                       MO_TEUL | MO_ALIGN);
+-    tcg_gen_qemu_st32(o->in1, o->in2, get_mem_index(s));
++    tcg_gen_qemu_st_tl(o->in1, o->in2, get_mem_index(s),
++                       MO_TEUL | s->insn->data);
+     return DISAS_NEXT;
  }
- #define SPEC_in2_mri2_32u 0
  
 -- 
 2.39.2
