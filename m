@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A39B6B7A09
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF63B6B7A04
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbitN-0005YP-Qe; Mon, 13 Mar 2023 10:11:13 -0400
+	id 1pbitN-0005Xh-Nl; Mon, 13 Mar 2023 10:11:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitK-0005VD-M8
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitK-0005VG-O2
  for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitG-0006bw-7g
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitG-0006c5-Oq
  for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678716665;
+ s=mimecast20190719; t=1678716666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o/i0rcKiB/Lm+gIKa6w8fX6K4qK1bqkU/Vy5l2Ma27g=;
- b=iL0hW3fiuWJ1VBHmYDIWvCajzblXxXfKTXb65usQA8mKpBzmVZ4rAiQXB4JwVHjqge4TtE
- It8YgorF0h733Y4FcgPw92BB8pGXDyqjJd9+Z3Q0Mt6YDYvZPHPO8pfZyw8jeNHVAljItN
- lhtoQTHm4Xk3Z6MZNAbaCDbZ7FFECus=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AKoYq+TnT9lsTglOxR3ZZ0c05Xmu/JVSt9SeN3s7wn0=;
+ b=Gp5GwdVZfaOktRmOjd2KSdm2MyRwExGKBzGYfqSGH3cVDmwjFTKlWji3Z7gqF2StysBlAy
+ h9a0zB+RhDmf6VUxpoFu/V9ePwlP4+lf2n8dslzAk5ntiC7Bw1VYh1hV401nmFgC1+t/Hd
+ kc+aSQN3kc7arXAnOVkQQaxkckA8BS4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-6KFzix50MH-LMc5AEYTT8w-1; Mon, 13 Mar 2023 10:11:01 -0400
-X-MC-Unique: 6KFzix50MH-LMc5AEYTT8w-1
+ us-mta-261-MikgCgCeMg-4zNxxWN6Tbg-1; Mon, 13 Mar 2023 10:11:02 -0400
+X-MC-Unique: MikgCgCeMg-4zNxxWN6Tbg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02EEF857A84;
- Mon, 13 Mar 2023 14:11:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 276F63C0F237;
+ Mon, 13 Mar 2023 14:11:02 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E60A1121315;
- Mon, 13 Mar 2023 14:10:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43F841121315;
+ Mon, 13 Mar 2023 14:11:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 1/5] tests/migration: Tweek auto converge limits check
-Date: Mon, 13 Mar 2023 15:10:53 +0100
-Message-Id: <20230313141057.230810-2-thuth@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Palmer Dabbelt <palmer@rivosinc.com>
+Subject: [PULL 2/5] gitlab-ci: Remove job building EDK2 firmware binaries
+Date: Mon, 13 Mar 2023 15:10:54 +0100
+Message-Id: <20230313141057.230810-3-thuth@redhat.com>
 In-Reply-To: <20230313141057.230810-1-thuth@redhat.com>
 References: <20230313141057.230810-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,75 +78,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Thomas found an autoconverge test failure where the
-migration completed before the autoconverge had kicked in.
+When we introduced this Gitlab-CI job in commit 71920809ce
+("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries"),
+the naive plan was to have reproducible binaries by downloading
+what this job would build, testing it and eventually committing
+it. With retrospective, nothing happened 3 years later and this
+job is just bitrotting:
 
-To try and avoid this again:
-  a) Reduce the usleep in test_migrate_auto_converge
-    so that it should exit quicker when autoconverge kicks in
-  b) Make the loop exit immediately rather than have the sleep
-     when it does start autoconverge, otherwise the autoconverge
-     might succeed during the sleep.
-  c) Reduce inc_pct so auto converge happens more slowly
-  d) Reduce the max-bandwidth in migrate_ensure_non_converge
-    to make the ensure more ensure.
+  Step 1/3 : FROM ubuntu:18.04
+  18.04: Pulling from library/ubuntu
+  mediaType in manifest should be
+  'application/vnd.docker.distribution.manifest.v2+json' not
+  'application/vnd.oci.image.manifest.v1+json'
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20230306152612.52291-1-dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Remove this job to avoid wasting maintenance and CI ressources.
+
+Reported-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230310133247.39268-1-philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ MAINTAINERS                   |  2 -
+ .gitlab-ci.d/edk2.yml         | 85 -----------------------------------
+ .gitlab-ci.d/edk2/Dockerfile  | 27 -----------
+ .gitlab-ci.d/qemu-project.yml |  1 -
+ 4 files changed, 115 deletions(-)
+ delete mode 100644 .gitlab-ci.d/edk2.yml
+ delete mode 100644 .gitlab-ci.d/edk2/Dockerfile
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index d4ab3934ed..75d4f1d4a9 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -408,8 +408,8 @@ static void migrate_set_parameter_str(QTestState *who, const char *parameter,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 95c957d587..d51ddee0b9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3344,8 +3344,6 @@ F: roms/edk2
+ F: roms/edk2-*
+ F: tests/data/uefi-boot-images/
+ F: tests/uefi-test-tools/
+-F: .gitlab-ci.d/edk2.yml
+-F: .gitlab-ci.d/edk2/
  
- static void migrate_ensure_non_converge(QTestState *who)
- {
--    /* Can't converge with 1ms downtime + 30 mbs bandwidth limit */
--    migrate_set_parameter_int(who, "max-bandwidth", 30 * 1000 * 1000);
-+    /* Can't converge with 1ms downtime + 3 mbs bandwidth limit */
-+    migrate_set_parameter_int(who, "max-bandwidth", 3 * 1000 * 1000);
-     migrate_set_parameter_int(who, "downtime-limit", 1);
- }
- 
-@@ -1808,7 +1808,7 @@ static void test_migrate_auto_converge(void)
-      * E.g., with 1Gb/s bandwith migration may pass without throttling,
-      * so we need to decrease a bandwidth.
-      */
--    const int64_t init_pct = 5, inc_pct = 50, max_pct = 95;
-+    const int64_t init_pct = 5, inc_pct = 25, max_pct = 95;
- 
-     if (test_migrate_start(&from, &to, uri, &args)) {
-         return;
-@@ -1835,13 +1835,16 @@ static void test_migrate_auto_converge(void)
- 
-     /* Wait for throttling begins */
-     percentage = 0;
--    while (percentage == 0) {
-+    do {
-         percentage = read_migrate_property_int(from, "cpu-throttle-percentage");
--        usleep(100);
-+        if (percentage != 0) {
-+            break;
-+        }
-+        usleep(20);
-         g_assert_false(got_stop);
--    }
--    /* The first percentage of throttling should be equal to init_pct */
--    g_assert_cmpint(percentage, ==, init_pct);
-+    } while (true);
-+    /* The first percentage of throttling should be at least init_pct */
-+    g_assert_cmpint(percentage, >=, init_pct);
-     /* Now, when we tested that throttling works, let it converge */
-     migrate_ensure_converge(from);
- 
+ VT-d Emulation
+ M: Michael S. Tsirkin <mst@redhat.com>
+diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+deleted file mode 100644
+index 314e101745..0000000000
+--- a/.gitlab-ci.d/edk2.yml
++++ /dev/null
+@@ -1,85 +0,0 @@
+-# All jobs needing docker-edk2 must use the same rules it uses.
+-.edk2_job_rules:
+-  rules:
+-    # Forks don't get pipelines unless QEMU_CI=1 or QEMU_CI=2 is set
+-    - if: '$QEMU_CI != "1" && $QEMU_CI != "2" && $CI_PROJECT_NAMESPACE != "qemu-project"'
+-      when: never
+-
+-    # In forks, if QEMU_CI=1 is set, then create manual job
+-    # if any of the files affecting the build are touched
+-    - if: '$QEMU_CI == "1" && $CI_PROJECT_NAMESPACE != "qemu-project"'
+-      changes:
+-        - .gitlab-ci.d/edk2.yml
+-        - .gitlab-ci.d/edk2/Dockerfile
+-        - roms/edk2/*
+-      when: manual
+-
+-    # In forks, if QEMU_CI=1 is set, then create manual job
+-    # if the branch/tag starts with 'edk2'
+-    - if: '$QEMU_CI == "1" && $CI_PROJECT_NAMESPACE != "qemu-project" && $CI_COMMIT_REF_NAME =~ /^edk2/'
+-      when: manual
+-
+-    # In forks, if QEMU_CI=1 is set, then create manual job
+-    # if last commit msg contains 'EDK2' (case insensitive)
+-    - if: '$QEMU_CI == "1" && $CI_PROJECT_NAMESPACE != "qemu-project" && $CI_COMMIT_MESSAGE =~ /edk2/i'
+-      when: manual
+-
+-    # Run if any files affecting the build output are touched
+-    - changes:
+-        - .gitlab-ci.d/edk2.yml
+-        - .gitlab-ci.d/edk2/Dockerfile
+-        - roms/edk2/*
+-      when: on_success
+-
+-    # Run if the branch/tag starts with 'edk2'
+-    - if: '$CI_COMMIT_REF_NAME =~ /^edk2/'
+-      when: on_success
+-
+-    # Run if last commit msg contains 'EDK2' (case insensitive)
+-    - if: '$CI_COMMIT_MESSAGE =~ /edk2/i'
+-      when: on_success
+-
+-docker-edk2:
+-  extends: .edk2_job_rules
+-  stage: containers
+-  image: docker:19.03.1
+-  services:
+-    - docker:19.03.1-dind
+-  variables:
+-    GIT_DEPTH: 3
+-    IMAGE_TAG: $CI_REGISTRY_IMAGE:edk2-cross-build
+-    # We don't use TLS
+-    DOCKER_HOST: tcp://docker:2375
+-    DOCKER_TLS_CERTDIR: ""
+-  before_script:
+-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+-  script:
+-    - docker pull $IMAGE_TAG || true
+-    - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+-                                           --tag $IMAGE_TAG .gitlab-ci.d/edk2
+-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+-    - docker push $IMAGE_TAG
+-
+-build-edk2:
+-  extends: .edk2_job_rules
+-  stage: build
+-  needs: ['docker-edk2']
+-  artifacts:
+-    paths: # 'artifacts.zip' will contains the following files:
+-      - pc-bios/edk2*bz2
+-      - pc-bios/edk2-licenses.txt
+-      - edk2-stdout.log
+-      - edk2-stderr.log
+-  image: $CI_REGISTRY_IMAGE:edk2-cross-build
+-  variables:
+-    GIT_DEPTH: 3
+-  script: # Clone the required submodules and build EDK2
+-    - git submodule update --init roms/edk2
+-    - git -C roms/edk2 submodule update --init --
+-       ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
+-       BaseTools/Source/C/BrotliCompress/brotli
+-       CryptoPkg/Library/OpensslLib/openssl
+-       MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+-    - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
+-    - echo "=== Using ${JOBS} simultaneous jobs ==="
+-    - make -j${JOBS} -C roms efi 2>&1 1>edk2-stdout.log | tee -a edk2-stderr.log >&2
+diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
+deleted file mode 100644
+index bbe50ff832..0000000000
+--- a/.gitlab-ci.d/edk2/Dockerfile
++++ /dev/null
+@@ -1,27 +0,0 @@
+-#
+-# Docker image to cross-compile EDK2 firmware binaries
+-#
+-FROM ubuntu:18.04
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-# Install packages required to build EDK2
+-RUN apt update \
+-    && \
+-    \
+-    DEBIAN_FRONTEND=noninteractive \
+-    apt install --assume-yes --no-install-recommends \
+-        build-essential \
+-        ca-certificates \
+-        dos2unix \
+-        gcc-aarch64-linux-gnu \
+-        gcc-arm-linux-gnueabi \
+-        git \
+-        iasl \
+-        make \
+-        nasm \
+-        python3 \
+-        uuid-dev \
+-    && \
+-    \
+-    rm -rf /var/lib/apt/lists/*
+diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
+index 691d9bf5dc..a7ed447fe4 100644
+--- a/.gitlab-ci.d/qemu-project.yml
++++ b/.gitlab-ci.d/qemu-project.yml
+@@ -4,7 +4,6 @@
+ include:
+   - local: '/.gitlab-ci.d/base.yml'
+   - local: '/.gitlab-ci.d/stages.yml'
+-  - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
+   - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/crossbuilds.yml'
 -- 
 2.31.1
 
