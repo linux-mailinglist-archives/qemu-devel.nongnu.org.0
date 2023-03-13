@@ -2,103 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7976B83DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 22:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CE26B8402
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 22:34:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbpX3-0005iq-28; Mon, 13 Mar 2023 17:16:37 -0400
+	id 1pbpmf-0001YC-Co; Mon, 13 Mar 2023 17:32:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbpX1-0005iX-Ay; Mon, 13 Mar 2023 17:16:35 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbpWx-0007jy-Gd; Mon, 13 Mar 2023 17:16:35 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32DLBNT6006731; Mon, 13 Mar 2023 21:16:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=fh/wOhxVATdbXox26mne9z/RyCa/fvA7HXwd3kR2C6k=;
- b=IyG0Ieaq2bn42KcQ/utXrqsQs8l3D/gaPt1cqZewbzWeuyHl8iczsqgB7SASrQNF2dtw
- xTuqG+dVe6hwhMvXxxXqCDK+u3OseXWDoiXFR/KFBmnfsOTubVh9+dWjhl1al2jouGRv
- R3YXxT8/rF6Beb59qD31cBPl1nsfHQ8RgfKUcHg7AufJmkUu57Z0K9yTxt8r9XEdQOez
- WGQ9aZqVsbIzyq32l/tRoXW3s4kS47z0Gg+E6hRcIdPCFYrDBVmy0odjx9DaUZjpfbkI
- A0ZNV0v8H4WN46leUaXriUeUhDgEsBgoSp3Z0qdU3p4adXp4zXmicY99NCCGm/kjd1ap vQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa7rrp8uk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 21:16:28 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32DKr1bN004223;
- Mon, 13 Mar 2023 21:16:28 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa7rrp8u3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 21:16:28 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DE1mOm029999;
- Mon, 13 Mar 2023 21:16:26 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3p8gwfbw15-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 21:16:26 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32DLGMDQ62390622
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Mar 2023 21:16:22 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 83CC920043;
- Mon, 13 Mar 2023 21:16:22 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B2C4D20040;
- Mon, 13 Mar 2023 21:16:21 +0000 (GMT)
-Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.57.117])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 13 Mar 2023 21:16:21 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH] s390x/gdb: Split s390-virt.xml
-Date: Mon, 13 Mar 2023 22:16:14 +0100
-Message-Id: <20230313211614.98739-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pbpmd-0001Xw-Pa
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 17:32:43 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pbpmb-0001Wa-Qv
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 17:32:43 -0400
+Received: by mail-oi1-x229.google.com with SMTP id bp19so10488208oib.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 14:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1678743160;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1gP7K2huonoSUFwLAvx3zz+AnPWSEeWFy71zwz7u9KU=;
+ b=IeRcrBM5EGuAeSHSjCgOSomriW1+MvH1wP0Nx0PezAc/EbBd5swtA/1maAFDi9f0eL
+ Ne4a5SWJMSHmvrEL3vx3AKbx746/TFDbvx6cKT6cUUnwGt5F4ksHPR+h1lLS4p7Gd61X
+ 7p8/veGFfoEVfWD+Mci8LklHAoZm7H0FxqRaJ6VHYlZV1v/HLfslaJO8K+47oxP07Vzs
+ SANiXxXsAguhKuQWwEVzg/7blbB+QDGL1U0bQ3H357B0oIukK6cw0SSHqCBdH1x0jygh
+ LLGRRo/wOTbY2jfeB2M2JQbBZG03Nt23S8feaAFqegLdnT9oJ5IfIYEZykmF/SrG+gcu
+ Z2ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678743160;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1gP7K2huonoSUFwLAvx3zz+AnPWSEeWFy71zwz7u9KU=;
+ b=zbbxmqqTGN9ldKo208Krmp4OfpSdr6ldEQMjAKQ4zr2gcGM95dJd398kd3w9Q6PHns
+ Ujpw1VOMwn7aB2iYyghFCrXXzFcM7yEnNcY2MDJt+Z+8ZtVuMKZVWeXgjO91FroZsl4J
+ bdu7MEIPhLHBZ5UHxoR6GrVy3X4Z5AWVHIHg0N1h70+M0LrEi3oUUxE3uCAlcXasNFU6
+ 5q3KdBNFw+myanU6d+zxawrvXNTaINQujczzE9ZrJhVzjoY7jhs7yZkSuetiAK+1WvTh
+ NWk/35GmxLB+rDcw46HjgFCBz8km4FhpnVDEU7nQC+2uCwbQSQvFMhS2mAo4ZQqw6+su
+ 3Zrw==
+X-Gm-Message-State: AO0yUKVxwECs9VB35TOmR9tYESlRU8O+DqSFYI3uIyVQ8E+9SXXsWk3v
+ gZUTgk1wV4IpAsmXmyLbApPpHw==
+X-Google-Smtp-Source: AK7set/Xlzuy23bJBOJdcTLJd21H3ejDinL/PNDMK4kBGhzXhFMeuTxWikTfAb4hLHuOKSgS6s3mYg==
+X-Received: by 2002:aca:674a:0:b0:35e:d286:231a with SMTP id
+ b10-20020aca674a000000b0035ed286231amr844810oiy.22.1678743160175; 
+ Mon, 13 Mar 2023 14:32:40 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
+ by smtp.gmail.com with ESMTPSA id
+ z189-20020aca33c6000000b0037fa61eb1dasm240813oiz.47.2023.03.13.14.32.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 14:32:39 -0700 (PDT)
+Message-ID: <f5fdb5a8-51a0-6218-117d-1e9c327a75aa@ventanamicro.com>
+Date: Mon, 13 Mar 2023 18:32:35 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 1/1] hw/riscv: Fix max size limit when put initrd to RAM
+To: Anup Patel <apatel@ventanamicro.com>, Hang Xu <xuhang@eswincomputing.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@rivosinc.com,
+ alistair.francis@wdc.com
+References: <20230313021826.6898-1-xuhang@eswincomputing.com>
+ <20230313021826.6898-2-xuhang@eswincomputing.com>
+ <CAK9=C2XpTZwJUTj-C1=QG6Ww_B5rwKSZDW741Z9qNtdVY=vP2g@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAK9=C2XpTZwJUTj-C1=QG6Ww_B5rwKSZDW741Z9qNtdVY=vP2g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uEg9hpu9jZY9OHyqB_hSu_5AH9_G6KCq
-X-Proofpoint-ORIG-GUID: 3qnC4Thqvas2WCDuv2xylo5Bx9ogBRDN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-13_11,2023-03-13_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 phishscore=0
- spamscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1011
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303130166
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x229.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,206 +96,213 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-TCG emulates ckc, cputm, last_break and prefix, and it's quite useful
-to have them during debugging.
 
-So move them into the new s390-virt-tcg.xml file.
 
-pp, pfault_token, pfault_select and pfault_compare are not emulated,
-so keep them in s390-virt.xml.
+On 3/13/23 12:49, Anup Patel wrote:
+> On Mon, Mar 13, 2023 at 7:49 AM Hang Xu <xuhang@eswincomputing.com> wrote:
+>>
+>> Because the starting address of ram is not necessarily 0,
+>> the remaining free space in ram is
+>> ram_size - (start - ram_base) instead of ram_size-start.
+>>
+>> Signed-off-by: Hang Xu <xuhang@eswincomputing.com>
+> 
+> What happens in-case a platform has multiple RAM banks ?
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- configs/targets/s390x-linux-user.mak |  2 +-
- configs/targets/s390x-softmmu.mak    |  2 +-
- gdb-xml/s390-virt-tcg.xml            | 14 +++++
- gdb-xml/s390-virt.xml                |  4 --
- target/s390x/gdbstub.c               | 82 ++++++++++++++++++----------
- 5 files changed, 69 insertions(+), 35 deletions(-)
- create mode 100644 gdb-xml/s390-virt-tcg.xml
+In this case the board must specify a contiguous RAM region to be used. It's
+not restricted to a single RAM bank - as long as it is contiguous RAM it can
+spam multiple RAM banks.
 
-diff --git a/configs/targets/s390x-linux-user.mak b/configs/targets/s390x-linux-user.mak
-index e2978248ede..fb3e2b73be7 100644
---- a/configs/targets/s390x-linux-user.mak
-+++ b/configs/targets/s390x-linux-user.mak
-@@ -2,4 +2,4 @@ TARGET_ARCH=s390x
- TARGET_SYSTBL_ABI=common,64
- TARGET_SYSTBL=syscall.tbl
- TARGET_BIG_ENDIAN=y
--TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
-+TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-tcg.xml gdb-xml/s390-gs.xml
-diff --git a/configs/targets/s390x-softmmu.mak b/configs/targets/s390x-softmmu.mak
-index 258b4cf3582..554330d7c85 100644
---- a/configs/targets/s390x-softmmu.mak
-+++ b/configs/targets/s390x-softmmu.mak
-@@ -1,4 +1,4 @@
- TARGET_ARCH=s390x
- TARGET_BIG_ENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
--TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
-+TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-tcg.xml gdb-xml/s390-gs.xml
-diff --git a/gdb-xml/s390-virt-tcg.xml b/gdb-xml/s390-virt-tcg.xml
-new file mode 100644
-index 00000000000..0f77c9b48c6
---- /dev/null
-+++ b/gdb-xml/s390-virt-tcg.xml
-@@ -0,0 +1,14 @@
-+<?xml version="1.0"?>
-+<!-- Copyright 2023 IBM Corp.
-+
-+     This work is licensed under the terms of the GNU GPL, version 2 or
-+     (at your option) any later version. See the COPYING file in the
-+     top-level directory. -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.s390.virt.tcg">
-+  <reg name="ckc" bitsize="64" type="uint64" group="system"/>
-+  <reg name="cputm" bitsize="64" type="uint64" group="system"/>
-+  <reg name="last_break" bitsize="64" type="code_ptr" group="system"/>
-+  <reg name="prefix" bitsize="64" type="data_ptr" group="system"/>
-+</feature>
-diff --git a/gdb-xml/s390-virt.xml b/gdb-xml/s390-virt.xml
-index e2e9a7ad3cc..a79c0307682 100644
---- a/gdb-xml/s390-virt.xml
-+++ b/gdb-xml/s390-virt.xml
-@@ -7,10 +7,6 @@
- 
- <!DOCTYPE feature SYSTEM "gdb-target.dtd">
- <feature name="org.gnu.gdb.s390.virt">
--  <reg name="ckc" bitsize="64" type="uint64" group="system"/>
--  <reg name="cputm" bitsize="64" type="uint64" group="system"/>
--  <reg name="last_break" bitsize="64" type="code_ptr" group="system"/>
--  <reg name="prefix" bitsize="64" type="data_ptr" group="system"/>
-   <reg name="pp" bitsize="64" type="uint64" group="system"/>
-   <reg name="pfault_token" bitsize="64" type="uint64" group="system"/>
-   <reg name="pfault_select" bitsize="64" type="uint64" group="system"/>
-diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
-index a5d69d0e0bc..111b695dc85 100644
---- a/target/s390x/gdbstub.c
-+++ b/target/s390x/gdbstub.c
-@@ -200,61 +200,81 @@ static int cpu_write_c_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
-     }
- }
- 
--/* the values represent the positions in s390-virt.xml */
--#define S390_VIRT_CKC_REGNUM    0
--#define S390_VIRT_CPUTM_REGNUM  1
--#define S390_VIRT_BEA_REGNUM    2
--#define S390_VIRT_PREFIX_REGNUM 3
--#define S390_VIRT_PP_REGNUM     4
--#define S390_VIRT_PFT_REGNUM    5
--#define S390_VIRT_PFS_REGNUM    6
--#define S390_VIRT_PFC_REGNUM    7
--/* total number of registers in s390-virt.xml */
--#define S390_NUM_VIRT_REGS 8
-+/* the values represent the positions in s390-virt-tcg.xml */
-+#define S390_VIRT_TCG_CKC_REGNUM    0
-+#define S390_VIRT_TCG_CPUTM_REGNUM  1
-+#define S390_VIRT_TCG_BEA_REGNUM    2
-+#define S390_VIRT_TCG_PREFIX_REGNUM 3
-+/* total number of registers in s390-virt-tcg.xml */
-+#define S390_NUM_VIRT_TCG_REGS 4
- 
--static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
-+static int cpu_read_virt_tcg_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
- {
-     switch (n) {
--    case S390_VIRT_CKC_REGNUM:
-+    case S390_VIRT_TCG_CKC_REGNUM:
-         return gdb_get_regl(mem_buf, env->ckc);
--    case S390_VIRT_CPUTM_REGNUM:
-+    case S390_VIRT_TCG_CPUTM_REGNUM:
-         return gdb_get_regl(mem_buf, env->cputm);
--    case S390_VIRT_BEA_REGNUM:
-+    case S390_VIRT_TCG_BEA_REGNUM:
-         return gdb_get_regl(mem_buf, env->gbea);
--    case S390_VIRT_PREFIX_REGNUM:
-+    case S390_VIRT_TCG_PREFIX_REGNUM:
-         return gdb_get_regl(mem_buf, env->psa);
--    case S390_VIRT_PP_REGNUM:
--        return gdb_get_regl(mem_buf, env->pp);
--    case S390_VIRT_PFT_REGNUM:
--        return gdb_get_regl(mem_buf, env->pfault_token);
--    case S390_VIRT_PFS_REGNUM:
--        return gdb_get_regl(mem_buf, env->pfault_select);
--    case S390_VIRT_PFC_REGNUM:
--        return gdb_get_regl(mem_buf, env->pfault_compare);
-     default:
-         return 0;
-     }
- }
- 
--static int cpu_write_virt_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
-+static int cpu_write_virt_tcg_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
- {
-     switch (n) {
--    case S390_VIRT_CKC_REGNUM:
-+    case S390_VIRT_TCG_CKC_REGNUM:
-         env->ckc = ldtul_p(mem_buf);
-         cpu_synchronize_post_init(env_cpu(env));
-         return 8;
--    case S390_VIRT_CPUTM_REGNUM:
-+    case S390_VIRT_TCG_CPUTM_REGNUM:
-         env->cputm = ldtul_p(mem_buf);
-         cpu_synchronize_post_init(env_cpu(env));
-         return 8;
--    case S390_VIRT_BEA_REGNUM:
-+    case S390_VIRT_TCG_BEA_REGNUM:
-         env->gbea = ldtul_p(mem_buf);
-         cpu_synchronize_post_init(env_cpu(env));
-         return 8;
--    case S390_VIRT_PREFIX_REGNUM:
-+    case S390_VIRT_TCG_PREFIX_REGNUM:
-         env->psa = ldtul_p(mem_buf);
-         cpu_synchronize_post_init(env_cpu(env));
-         return 8;
-+    default:
-+        return 0;
-+    }
-+}
-+
-+/* the values represent the positions in s390-virt.xml */
-+#define S390_VIRT_PP_REGNUM     0
-+#define S390_VIRT_PFT_REGNUM    1
-+#define S390_VIRT_PFS_REGNUM    2
-+#define S390_VIRT_PFC_REGNUM    3
-+/* total number of registers in s390-virt.xml */
-+#define S390_NUM_VIRT_REGS 4
-+
-+static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
-+{
-+    switch (n) {
-+    case S390_VIRT_PP_REGNUM:
-+        return gdb_get_regl(mem_buf, env->pp);
-+    case S390_VIRT_PFT_REGNUM:
-+        return gdb_get_regl(mem_buf, env->pfault_token);
-+    case S390_VIRT_PFS_REGNUM:
-+        return gdb_get_regl(mem_buf, env->pfault_select);
-+    case S390_VIRT_PFC_REGNUM:
-+        return gdb_get_regl(mem_buf, env->pfault_compare);
-+    default:
-+        return 0;
-+    }
-+}
-+
-+static int cpu_write_virt_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
-+{
-+    switch (n) {
-     case S390_VIRT_PP_REGNUM:
-         env->pp = ldtul_p(mem_buf);
-         cpu_synchronize_post_init(env_cpu(env));
-@@ -320,6 +340,10 @@ void s390_cpu_gdb_init(CPUState *cs)
-                              cpu_write_c_reg,
-                              S390_NUM_C_REGS, "s390-cr.xml", 0);
- 
-+    gdb_register_coprocessor(cs, cpu_read_virt_tcg_reg,
-+                             cpu_write_virt_tcg_reg,
-+                             S390_NUM_VIRT_TCG_REGS, "s390-virt-tcg.xml", 0);
-+
-     if (kvm_enabled()) {
-         gdb_register_coprocessor(cs, cpu_read_virt_reg,
-                                  cpu_write_virt_reg,
--- 
-2.39.2
+This was done to accomodate boards that has RAM gaps (at this moment the
+microchip board) and where we can't use the whole RAM to determine where
+to put the initrd/fdt.
 
+
+Thanks,
+
+
+Daniel
+
+
+> 
+> Regards,
+> Anup
+> 
+>> ---
+>>   hw/riscv/boot.c            | 19 +++++++++++++------
+>>   hw/riscv/microchip_pfsoc.c |  5 ++++-
+>>   hw/riscv/opentitan.c       |  2 +-
+>>   hw/riscv/sifive_e.c        |  2 +-
+>>   hw/riscv/sifive_u.c        |  5 ++++-
+>>   hw/riscv/spike.c           |  5 ++++-
+>>   hw/riscv/virt.c            |  5 ++++-
+>>   include/hw/riscv/boot.h    |  2 ++
+>>   8 files changed, 33 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>> index 52bf8e67de..cfbc376a82 100644
+>> --- a/hw/riscv/boot.c
+>> +++ b/hw/riscv/boot.c
+>> @@ -173,13 +173,14 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>>       exit(1);
+>>   }
+>>
+>> -static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+>> +static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry,
+>> +                              uint64_t ram_base, uint64_t ram_size)
+>>   {
+>>       const char *filename = machine->initrd_filename;
+>> -    uint64_t mem_size = machine->ram_size;
+>>       void *fdt = machine->fdt;
+>>       hwaddr start, end;
+>>       ssize_t size;
+>> +    uint64_t max_initrd;
+>>
+>>       g_assert(filename != NULL);
+>>
+>> @@ -193,12 +194,16 @@ static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+>>        * So for boards with less  than 256MB of RAM we put the initrd
+>>        * halfway into RAM, and for boards with 256MB of RAM or more we put
+>>        * the initrd at 128MB.
+>> +     * A ram_size == 0, usually from a MemMapEntry[].size element,
+>> +     * means that the RAM block goes all the way to ms->ram_size.
+>>        */
+>> -    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
+>> +    ram_size = ram_size ? MIN(machine->ram_size, ram_size) : machine->ram_size;
+>> +    start = kernel_entry + MIN(ram_size / 2, 128 * MiB);
+>> +    max_initrd = ram_size - (start - ram_base);
+>>
+>> -    size = load_ramdisk(filename, start, mem_size - start);
+>> +    size = load_ramdisk(filename, start, max_initrd);
+>>       if (size == -1) {
+>> -        size = load_image_targphys(filename, start, mem_size - start);
+>> +        size = load_image_targphys(filename, start, max_initrd);
+>>           if (size == -1) {
+>>               error_report("could not load ramdisk '%s'", filename);
+>>               exit(1);
+>> @@ -217,6 +222,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>                                  RISCVHartArrayState *harts,
+>>                                  target_ulong kernel_start_addr,
+>>                                  bool load_initrd,
+>> +                               uint64_t ram_base,
+>> +                               uint64_t ram_size,
+>>                                  symbol_fn_t sym_cb)
+>>   {
+>>       const char *kernel_filename = machine->kernel_filename;
+>> @@ -263,7 +270,7 @@ out:
+>>       }
+>>
+>>       if (load_initrd && machine->initrd_filename) {
+>> -        riscv_load_initrd(machine, kernel_entry);
+>> +        riscv_load_initrd(machine, kernel_entry, ram_base, ram_size);
+>>       }
+>>
+>>       if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
+>> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+>> index e81bbd12df..b42d90b89e 100644
+>> --- a/hw/riscv/microchip_pfsoc.c
+>> +++ b/hw/riscv/microchip_pfsoc.c
+>> @@ -630,7 +630,10 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>>                                                            firmware_end_addr);
+>>
+>>           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
+>> -                                         kernel_start_addr, true, NULL);
+>> +                                         kernel_start_addr, true,
+>> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+>> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].size,
+>> +                                         NULL);
+>>
+>>           /* Compute the fdt load address in dram */
+>>           fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+>> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+>> index b06944d382..bb663523d5 100644
+>> --- a/hw/riscv/opentitan.c
+>> +++ b/hw/riscv/opentitan.c
+>> @@ -103,7 +103,7 @@ static void opentitan_board_init(MachineState *machine)
+>>       if (machine->kernel_filename) {
+>>           riscv_load_kernel(machine, &s->soc.cpus,
+>>                             memmap[IBEX_DEV_RAM].base,
+>> -                          false, NULL);
+>> +                          false, 0, 0, NULL);
+>>       }
+>>   }
+>>
+>> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+>> index 04939b60c3..5b47d539a6 100644
+>> --- a/hw/riscv/sifive_e.c
+>> +++ b/hw/riscv/sifive_e.c
+>> @@ -116,7 +116,7 @@ static void sifive_e_machine_init(MachineState *machine)
+>>       if (machine->kernel_filename) {
+>>           riscv_load_kernel(machine, &s->soc.cpus,
+>>                             memmap[SIFIVE_E_DEV_DTIM].base,
+>> -                          false, NULL);
+>> +                          false, 0, 0, NULL);
+>>       }
+>>   }
+>>
+>> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+>> index 35a335b8d0..b45fdc968c 100644
+>> --- a/hw/riscv/sifive_u.c
+>> +++ b/hw/riscv/sifive_u.c
+>> @@ -599,7 +599,10 @@ static void sifive_u_machine_init(MachineState *machine)
+>>                                                            firmware_end_addr);
+>>
+>>           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
+>> -                                         kernel_start_addr, true, NULL);
+>> +                                         kernel_start_addr, true,
+>> +                                         memmap[SIFIVE_U_DEV_DRAM].base,
+>> +                                         memmap[SIFIVE_U_DEV_DRAM].size,
+>> +                                         NULL);
+>>       } else {
+>>          /*
+>>           * If dynamic firmware is used, it doesn't know where is the next mode
+>> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+>> index a584d5b3a2..e322ed8506 100644
+>> --- a/hw/riscv/spike.c
+>> +++ b/hw/riscv/spike.c
+>> @@ -307,7 +307,10 @@ static void spike_board_init(MachineState *machine)
+>>
+>>           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
+>>                                            kernel_start_addr,
+>> -                                         true, htif_symbol_callback);
+>> +                                         true,
+>> +                                         memmap[SPIKE_DRAM].base,
+>> +                                         memmap[SPIKE_DRAM].size,
+>> +                                         htif_symbol_callback);
+>>       } else {
+>>          /*
+>>           * If dynamic firmware is used, it doesn't know where is the next mode
+>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+>> index 4e3efbee16..11f26b0dc0 100644
+>> --- a/hw/riscv/virt.c
+>> +++ b/hw/riscv/virt.c
+>> @@ -1287,7 +1287,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>>                                                            firmware_end_addr);
+>>
+>>           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
+>> -                                         kernel_start_addr, true, NULL);
+>> +                                         kernel_start_addr, true,
+>> +                                         memmap[VIRT_DRAM].base,
+>> +                                         memmap[VIRT_DRAM].size,
+>> +                                         NULL);
+>>       } else {
+>>          /*
+>>           * If dynamic firmware is used, it doesn't know where is the next mode
+>> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+>> index a2e4ae9cb0..987e1add38 100644
+>> --- a/include/hw/riscv/boot.h
+>> +++ b/include/hw/riscv/boot.h
+>> @@ -47,6 +47,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>                                  RISCVHartArrayState *harts,
+>>                                  target_ulong firmware_end_addr,
+>>                                  bool load_initrd,
+>> +                               uint64_t ram_base,
+>> +                               uint64_t ram_size,
+>>                                  symbol_fn_t sym_cb);
+>>   uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
+>>                                   MachineState *ms);
+>> --
+>> 2.17.1
+>>
+>>
 
