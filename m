@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9AD6B76EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6FE6B76E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:53:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgcj-0007Rb-2s; Mon, 13 Mar 2023 07:45:53 -0400
+	id 1pbgcl-00081s-MO; Mon, 13 Mar 2023 07:45:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgcQ-00078F-LU
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pbgcb-0007bw-Df
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgcO-00047t-Tu
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:34 -0400
+ id 1pbgcR-0004AE-KN
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678707932;
+ s=mimecast20190719; t=1678707935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tCU3J7ltYDOiuEpkcpay2NUMcN9Mmty6BEjJzeBEQCg=;
- b=GQH52QuTxVeNWgqGvr/Yv4StfDIlrFKCFKVtp3JXaUCSvGIp1Ft0rngPYcWZVT5xH1i66e
- OYlvva6UGuaf+3rnK71lwyaij6Z9S+f3FoDiKlqjTpSIBEI/Xc01aIaz4yU9eVWi0gugnr
- TbgZ8CbkeTWvyfZHG9sTrPhW+Y4Ebzo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R25bg50OqmzQ3Y5wEs/8TI7A4DH0Jw/sYrrM0K5yItY=;
+ b=fzskv1P4ArEP6GnvNCVfpcn2SJc8Wemb1YcukDPNkQ/HUwaIaOVPtRmt0TDIgf70y+gRwu
+ cMmzSM8DesJuZONb7j/rVuqW/62WjtRGGDWCeuqEI+R5gVa4Zssg/cwcqOVk70Ds0/4/Bi
+ H6b9tjAL7eNguE1Bg1ZW3J0qWaQv3Js=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-lqaQgCP5PHqVoEbJIolsRQ-1; Mon, 13 Mar 2023 07:45:27 -0400
-X-MC-Unique: lqaQgCP5PHqVoEbJIolsRQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-28-kQZA9i1XMh-k56y4L3HaIg-1; Mon, 13 Mar 2023 07:45:31 -0400
+X-MC-Unique: kQZA9i1XMh-k56y4L3HaIg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5ACEB85A5A3;
- Mon, 13 Mar 2023 11:45:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4344F1C04324;
+ Mon, 13 Mar 2023 11:45:31 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E541AC15A0B;
- Mon, 13 Mar 2023 11:45:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A2734042AC3;
+ Mon, 13 Mar 2023 11:45:29 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -62,16 +62,16 @@ Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>, Fam Zheng <fam@euphon.net>,
  Hanna Reitz <hreitz@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 23/25] libqtest: make qtest_qmp_add_client work on win32
-Date: Mon, 13 Mar 2023 15:43:33 +0400
-Message-Id: <20230313114335.424093-24-marcandre.lureau@redhat.com>
+Subject: [PULL 24/25] qtest: enable vnc-display test on win32
+Date: Mon, 13 Mar 2023 15:43:34 +0400
+Message-Id: <20230313114335.424093-25-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114335.424093-1-marcandre.lureau@redhat.com>
 References: <20230313114335.424093-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,84 +98,54 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Use the "get-win32-socket" function to pass an opened socket to QEMU,
-instead of using "getfd", which relies on socket ancillary FD message
-passing.
+Now that qtest_qmp_add_client() works on win32, we can enable the VNC
+test.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230306122751.2355515-10-marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230306122751.2355515-11-marcandre.lureau@redhat.com>
 ---
- tests/qtest/libqtest.h |  5 ++---
- tests/qtest/libqtest.c | 18 ++++++++++++++++--
- 2 files changed, 18 insertions(+), 5 deletions(-)
+ tests/qtest/vnc-display-test.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-index fcf1c3c3b3..8d7d450963 100644
---- a/tests/qtest/libqtest.h
-+++ b/tests/qtest/libqtest.h
-@@ -758,17 +758,16 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
- void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-                           const char *fmt, ...) G_GNUC_PRINTF(4, 5);
+diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
+index e52a4326ec..f8933b0761 100644
+--- a/tests/qtest/vnc-display-test.c
++++ b/tests/qtest/vnc-display-test.c
+@@ -19,7 +19,7 @@ typedef struct Test {
+     GMainLoop *loop;
+ } Test;
  
--#ifndef _WIN32
- /**
-  * qtest_qmp_add_client:
-  * @qts: QTestState instance to operate on
-  * @protocol: the protocol to add to
-  * @fd: the client file-descriptor
-  *
-- * Call QMP ``getfd`` followed by ``add_client`` with the given @fd.
-+ * Call QMP ``getfd`` (on Windows ``get-win32-socket``) followed by
-+ * ``add_client`` with the given @fd.
-  */
- void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
--#endif /* _WIN32 */
+-#if !defined(WIN32) && !defined(CONFIG_DARWIN)
++#if !defined(CONFIG_DARWIN)
  
- /**
-  * qtest_qmp_device_del_send:
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index dee2032331..c3a0ef5bb4 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1478,13 +1478,28 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-     qobject_unref(args);
- }
- 
--#ifndef _WIN32
- void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
+ static void on_vnc_error(VncConnection* self,
+                          const char* msg)
+@@ -38,10 +38,7 @@ static void on_vnc_auth_failure(VncConnection *self,
+ static bool
+ test_setup(Test *test)
  {
-     QDict *resp;
- 
-+#ifdef WIN32
-+    WSAPROTOCOL_INFOW info;
-+    g_autofree char *info64  = NULL;
-+    SOCKET s;
+-#ifdef WIN32
+-    g_test_skip("Not supported on Windows yet");
+-    return false;
+-#elif defined(CONFIG_DARWIN)
++#if defined(CONFIG_DARWIN)
+     g_test_skip("Broken on Darwin");
+     return false;
+ #else
+@@ -59,7 +56,12 @@ test_setup(Test *test)
+     g_signal_connect(test->conn, "vnc-auth-failure",
+                      G_CALLBACK(on_vnc_auth_failure), NULL);
+     vnc_connection_set_auth_type(test->conn, VNC_CONNECTION_AUTH_NONE);
 +
-+    assert(fd_is_socket(fd));
-+    s = _get_osfhandle(fd);
-+    if (WSADuplicateSocketW(s, GetProcessId((HANDLE)qts->qemu_pid), &info) == SOCKET_ERROR) {
-+        g_autofree char *emsg = g_win32_error_message(WSAGetLastError());
-+        g_error("WSADuplicateSocketW failed: %s", emsg);
-+    }
-+    info64 = g_base64_encode((guchar *)&info, sizeof(info));
-+    resp = qtest_qmp(qts, "{'execute': 'get-win32-socket',"
-+                     "'arguments': {'fdname': 'fdname', 'info': %s}}", info64);
++#ifdef WIN32
++    vnc_connection_open_fd(test->conn, _get_osfhandle(pair[0]));
 +#else
-     resp = qtest_qmp_fds(qts, &fd, 1, "{'execute': 'getfd',"
-                          "'arguments': {'fdname': 'fdname'}}");
+     vnc_connection_open_fd(test->conn, pair[0]);
 +#endif
-     g_assert(resp);
-     g_assert(!qdict_haskey(resp, "event")); /* We don't expect any events */
-     g_assert(!qdict_haskey(resp, "error"));
-@@ -1498,7 +1513,6 @@ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
-     g_assert(!qdict_haskey(resp, "error"));
-     qobject_unref(resp);
- }
--#endif
  
- /*
-  * Generic hot-unplugging test via the device_del QMP command.
+     test->loop = g_main_loop_new(NULL, FALSE);
+     return true;
 -- 
 2.39.2
 
