@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB446B7BFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B2A6B7C04
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:32:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbk8M-0007Lv-7h; Mon, 13 Mar 2023 11:30:46 -0400
+	id 1pbk8Q-0007MV-0z; Mon, 13 Mar 2023 11:30:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8J-0007La-Gk
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:43 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8O-0007ML-LA
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:48 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8H-0003dD-SP
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:43 -0400
-Received: by mail-wr1-x434.google.com with SMTP id g3so11713876wri.6
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:30:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8M-0003db-W1
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:48 -0400
+Received: by mail-wr1-x435.google.com with SMTP id p4so5522047wre.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678721440;
+ d=linaro.org; s=google; t=1678721445;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tgvktAzfesfxD8WUyraQcM3eJl8p+SmOjICI4meUlWI=;
- b=kzaM8CL3Bv2JzTtRkdBQSzfk0m7eOfAWONTMMHd2HCls6qKe8BiCmi+pQb6G2iiczO
- Jd/4ZnrCZtUkAt+Z1OBiLNu3kGUCGhieVRMMPCQlNK4akr3uKNpnqj3yzTDRJEUrd/yb
- jOQiYxWal1QNR+KkVIrz/F+40i+BKDOpnNjRAR9RcAllx8bTHf3YDQUfAw2TVbfMghJz
- crJgB0UsQnDJW6Qpqki0uiaFStlwnQzTWpgeQBtL+fL057mNn4IKpOrXj/XQtMgA5NPz
- LX87GasE3ilXzHm68vJKBgS+mtREOixZVRw7UkHqN018eaxGhFu4idW3UCTS5UvLBlSS
- xlEw==
+ bh=21p1OPqj5Y9xihE9S2k5XwzFVa4uH1rFd/zKa50jrlw=;
+ b=lxe3TxWwwtTpm4bE8wBD8UyNy/G+8c9GKwu832JVVqD8tdIDHR8HCWarASYLtnfDgM
+ Z558xzGF72KY+sg2XnGTgmFZrUkWGGSPbqDFPsNmDvQUMw4MLjkm1BLWXi5kjxEH3JcY
+ pcZUWHGhm1d89JyHJj24A1k/V919M6kC4iY3T49G/io+eZG4J4YlcNLFfPsit+C0QYb2
+ dVezb4rc0fJwlMPFG7Xd/Lv5Rg5eMTVn2DOrn6j+WiEh6ujm8ID+uRfmdzNKvV9BUu62
+ UfG9A3sW8gsCsABTjEw82uUK+c8Qy3pcE9jeH+HEqwNiiSjTrR38Z1V30LtcozNkIzto
+ UVFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678721440;
+ d=1e100.net; s=20210112; t=1678721445;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tgvktAzfesfxD8WUyraQcM3eJl8p+SmOjICI4meUlWI=;
- b=4LtynaJlWgd7gfM8tF81EfCPcc7Gb/e/5Eh3eyeXYo5yVxy1QetDkXMMaepBa9dOtc
- nTZpDWUTLgtDaONF1Bn3kRSCqK6CcMsIK5JdqbGwfNtr3k84URWBSYoMnHSkkt2VCJiS
- Hb2om7Iet9Em2o1p+CHqSjUyzeucJDYdFh8gXWwcyttC33V1gz8hH39pq7sg+H7lOZOo
- 7P4s6t/HbWpkCFutpT1gvFXZzbm81mZaNYf3DT6toxF/2QDMjYvycFYogNyCbw7mc1Vp
- O8s/glTTcbi8n67+GjeO6EapfPOrb/CXvG+G/Du/eUOMWE/trnug7WzPnqHnpS2I8I0W
- eRIA==
-X-Gm-Message-State: AO0yUKWHrvU0fR+vHgTeRNXqImwzLqkzNrpr3DLVl57miKF+CJwXdRJh
- 9ihoueo4B+i/OaB8alANXs0Z2Q==
-X-Google-Smtp-Source: AK7set8gfd9PPU4XvUUhgXt+Drxu1nsHISoUzyX7ENFSeZBF6s8WdFTdjw29C4eIOCJaz9BOhoi0/Q==
-X-Received: by 2002:adf:f3c5:0:b0:2cf:e6de:c6ab with SMTP id
- g5-20020adff3c5000000b002cfe6dec6abmr922642wrp.11.1678721440130; 
- Mon, 13 Mar 2023 08:30:40 -0700 (PDT)
+ bh=21p1OPqj5Y9xihE9S2k5XwzFVa4uH1rFd/zKa50jrlw=;
+ b=nNnoiUGDbO4tekzT4rREpev7dEa3RKsczIhS528vPOKXwHPFlzBGwtSnTgWaxYtKJM
+ 3JL7A2Aor68glleeoD4ItLheT1uL5rZSLH7p3NO21/cUw7ikGslOAjEJ48uGa269Ag3H
+ sp/hSbpTWrVIrlkDqksqtPmnRmSfbYRy77BuyWdbelEBt/L0aJy7UyibkaARdabr3fZq
+ 7VBivcqqIU0E1bs4jEzs2eaJ1LDCP7RHPBOzsq3CsVLQu+2mqnESE7rh3D0YXzK1qZ+F
+ at7xgqcXyI6JUUZif2ug+mD71u5Cl9HUnQE7LTkDiWzjKEyNRnrdI9Dw40WGz9SrKHt5
+ 2QHA==
+X-Gm-Message-State: AO0yUKXc6DQxwyO/Vnl5gXAkQWcFsl16vanVzQlsbUi3ZFpY629MnmMb
+ 0uvxuUITfTnY4SK7m8X/K8RDOQ==
+X-Google-Smtp-Source: AK7set+w9c4LJ7JVhW7ATAm6X7x/LdXnXMwT7ykbWUKb17qZT7JOyD7TnqjYiYbMCZzUj9v+Ln1u5Q==
+X-Received: by 2002:a05:6000:1041:b0:2c7:604:52a1 with SMTP id
+ c1-20020a056000104100b002c7060452a1mr22764340wrx.29.1678721445647; 
+ Mon, 13 Mar 2023 08:30:45 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s11-20020a5d4ecb000000b002c70851fdd8sm8155117wrv.75.2023.03.13.08.30.38
+ s11-20020a5d4ecb000000b002c70851fdd8sm8155279wrv.75.2023.03.13.08.30.44
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Mar 2023 08:30:39 -0700 (PDT)
+ Mon, 13 Mar 2023 08:30:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Wei Huang <wei.huang2@amd.com>,
 	qemu-devel@nongnu.org
@@ -63,21 +63,19 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Roman Kapl <rka@sysgo.com>, Brijesh Singh <brijesh.singh@amd.com>,
- David Kiarie <davidkiarie4@gmail.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH 1/6] MAINTAINERS: Mark AMD-Vi emulation as orphan
-Date: Mon, 13 Mar 2023 16:30:26 +0100
-Message-Id: <20230313153031.86107-2-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 2/6] hw/i386/amd_iommu: Explicit use of AMDVI_BASE_ADDR in
+ amdvi_init
+Date: Mon, 13 Mar 2023 16:30:27 +0100
+Message-Id: <20230313153031.86107-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230313153031.86107-1-philmd@linaro.org>
 References: <20230313153031.86107-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,39 +98,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-hw/i386/amd_iommu.c seems unmaintained:
-After commit 1c7955c450 ("x86-iommu: introduce parent class",
-2016-07-14), almost no feature added, 2 bug fixes, other changes
-are generic tree-wide API cleanups.
+By accessing MemoryRegion internals, amdvi_init() gives the false
+idea that the PCI BAR can be modified. However this isn't true
+(at least the model isn't ready for that): the device is explicitly
+maps at the BAR at the fixed AMDVI_BASE_ADDR address in
+amdvi_sysbus_realize(). Since the SysBus API isn't designed to
+remap regions, directly use the fixed address in amdvi_init().
 
-Cc: Roman Kapl <rka@sysgo.com>
-Cc: Wei Huang <wei.huang2@amd.com>
-Cc: Brijesh Singh <brijesh.singh@amd.com>
-Cc: David Kiarie <davidkiarie4@gmail.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-Following
-https://lore.kernel.org/qemu-devel/CACGkMEtjmpX8G9HYZ0r3n5ErhAENKhQ81f4ocfCYrh=XoF=5hw@mail.gmail.com/
----
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/i386/amd_iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 95c957d587..8badbb01d3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3356,6 +3356,10 @@ F: hw/i386/intel_iommu.c
- F: hw/i386/intel_iommu_internal.h
- F: include/hw/i386/intel_iommu.h
- 
-+AMD-Vi Emulation
-+S: Orphan
-+F: hw/i386/amd_iommu.?
-+
- OpenSBI Firmware
- M: Bin Meng <bmeng.cn@gmail.com>
- S: Supported
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index bcd016f5c5..3813b341ec 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -1519,9 +1519,9 @@ static void amdvi_init(AMDVIState *s)
+     /* reset AMDVI specific capabilities, all r/o */
+     pci_set_long(s->pci.dev.config + s->capab_offset, AMDVI_CAPAB_FEATURES);
+     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_BAR_LOW,
+-                 s->mmio.addr & ~(0xffff0000));
++                 AMDVI_BASE_ADDR & ~(0xffff0000));
+     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_BAR_HIGH,
+-                (s->mmio.addr & ~(0xffff)) >> 16);
++                (AMDVI_BASE_ADDR & ~(0xffff)) >> 16);
+     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_RANGE,
+                  0xff000000);
+     pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_MISC, 0);
 -- 
 2.38.1
 
