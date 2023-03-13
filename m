@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E949B6B7518
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8456B7529
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:04:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfxE-0003JA-DV; Mon, 13 Mar 2023 07:03:02 -0400
+	id 1pbfxL-0003nw-CU; Mon, 13 Mar 2023 07:03:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfwa-0002wq-3L
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:02:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pbfwc-00031L-34
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:02:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfwV-000447-GJ
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:02:16 -0400
+ id 1pbfwa-00044S-Hf
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:02:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678705334;
+ s=mimecast20190719; t=1678705339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IPQsyKRbO4btBdnZazBC9mS721ul3H3jza4mXs2qvCc=;
- b=KLqaO16epDQda/VulwAZA08fBzcfaI62rA5Lxarnew6otmSUVH2DGJYVNSn2ZIzGPW6vHU
- QdH3cF9KZvBAy5Zkg394Fitn4LnAGJmir1vf7gemNpB11R3QOTh+wXoup7vpPeMISRTg9L
- doyyDE3EyNbHk0g+knhuk9Mpe19Yn6w=
+ bh=Zcef1UBya4yS5k18dPRa3pSP5JbCJlHXnYbYf1iXk0M=;
+ b=ZGlIwudBWhRITxJozKmZrFgjxIUN8DGqgV+DDvFOwySTyx+7lltY/N11mcfNf5ubbgd0oM
+ Lu/47fwzvRGrdvAHnXF1HEZoJNuhELt+92TCEtif12TJsbQOryBIsTBqJw3i8BcS/ehN6G
+ 921ofa2vMM6bkuhIQQp074HiLYlf62k=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-53_qkzdQPYCags5unIjckg-1; Mon, 13 Mar 2023 07:02:13 -0400
-X-MC-Unique: 53_qkzdQPYCags5unIjckg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-433-wtSGPkrCMS2aQ7wIoyupOA-1; Mon, 13 Mar 2023 07:02:18 -0400
+X-MC-Unique: wtSGPkrCMS2aQ7wIoyupOA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9064B101A55E;
- Mon, 13 Mar 2023 11:02:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5BE31100F90A;
+ Mon, 13 Mar 2023 11:02:18 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C84FA1121315;
- Mon, 13 Mar 2023 11:02:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B57A40C6E67;
+ Mon, 13 Mar 2023 11:02:17 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -50,16 +50,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PULL 10/18] ui: set cursor position upon listener registration
-Date: Mon, 13 Mar 2023 15:01:18 +0400
-Message-Id: <20230313110126.383392-11-marcandre.lureau@redhat.com>
+Subject: [PULL 11/18] ui/sdl: get the GL context from the window
+Date: Mon, 13 Mar 2023 15:01:19 +0400
+Message-Id: <20230313110126.383392-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313110126.383392-1-marcandre.lureau@redhat.com>
 References: <20230313110126.383392-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,44 +86,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+There is no guarantee to have a current GL context here. The current
+code seems to rely on the renderer using a GL backend, and to set a
+current GL context. But this is not always the case, for example if the
+renderer backend is DirectX.
+
+This change is enough to fix using virgl with sdl2 on win32, on my setup.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- ui/console.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ ui/sdl2.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/ui/console.c b/ui/console.c
-index 7b808f080e..8fc18c44bf 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -95,6 +95,7 @@ struct QemuConsole {
-     QemuUIInfo ui_info;
-     QEMUTimer *ui_timer;
-     QEMUCursor *cursor;
-+    int cursor_x, cursor_y, cursor_on;
-     const GraphicHwOps *hw_ops;
-     void *hw;
- 
-@@ -1665,6 +1666,9 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-     if (con->cursor && dcl->ops->dpy_cursor_define) {
-         dcl->ops->dpy_cursor_define(dcl, con->cursor);
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 8cb77416af..137f7ab57f 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -101,7 +101,7 @@ void sdl2_window_create(struct sdl2_console *scon)
+                                          flags);
+     scon->real_renderer = SDL_CreateRenderer(scon->real_window, -1, 0);
+     if (scon->opengl) {
+-        scon->winctx = SDL_GL_GetCurrentContext();
++        scon->winctx = SDL_GL_CreateContext(scon->real_window);
      }
-+    if (dcl->ops->dpy_mouse_set) {
-+        dcl->ops->dpy_mouse_set(dcl, con->cursor_x, con->cursor_y, con->cursor_on);
-+    }
-     text_console_update_cursor(NULL);
+     sdl_update_caption(scon);
  }
- 
-@@ -1909,6 +1913,9 @@ void dpy_mouse_set(QemuConsole *con, int x, int y, int on)
-     DisplayState *s = con->ds;
-     DisplayChangeListener *dcl;
- 
-+    con->cursor_x = x;
-+    con->cursor_y = y;
-+    con->cursor_on = on;
-     if (!qemu_console_is_visible(con)) {
+@@ -112,6 +112,8 @@ void sdl2_window_destroy(struct sdl2_console *scon)
          return;
      }
+ 
++    SDL_GL_DeleteContext(scon->winctx);
++    scon->winctx = NULL;
+     SDL_DestroyRenderer(scon->real_renderer);
+     scon->real_renderer = NULL;
+     SDL_DestroyWindow(scon->real_window);
 -- 
 2.39.2
 
