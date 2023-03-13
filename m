@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9E56B6D31
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 02:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C0A6B6D57
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 03:11:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbXIg-0003Ld-PV; Sun, 12 Mar 2023 21:48:34 -0400
+	id 1pbXdg-0006kb-Ax; Sun, 12 Mar 2023 22:10:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pbXIe-0003L9-9W
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 21:48:32 -0400
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pbXIb-0007KO-GN
- for qemu-devel@nongnu.org; Sun, 12 Mar 2023 21:48:32 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
- TI=SMTPD_---0VdeeQ5a_1678672093; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VdeeQ5a_1678672093) by smtp.aliyun-inc.com;
- Mon, 13 Mar 2023 09:48:13 +0800
-Message-ID: <1678672078.526416-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v2 07/10] contrib/gitdm: add Alibaba to the domain-map
-Date: Mon, 13 Mar 2023 09:47:58 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Guo Ren <guoren@kernel.org>,
- qemu-devel@nongnu.org
-References: <20230310180332.2274827-8-alex.bennee@linaro.org>
-In-Reply-To: <20230310180332.2274827-8-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pbXdd-0006kI-Tg
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 22:10:13 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pbXdc-0002N4-EK
+ for qemu-devel@nongnu.org; Sun, 12 Mar 2023 22:10:13 -0400
+Received: by mail-ed1-x534.google.com with SMTP id cn21so12631640edb.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Mar 2023 19:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678673410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hv73GzM05i0RanFnM+8pOxo8NV20DLRcHo5Yv7HDOok=;
+ b=YMnlhO2cw+SooZ0hzY5gN3y63h/G/U8/gsLDeg3x4kbpLBBbIcipevwAhWsNGKAvvf
+ S7b2KZx1wZE1OdZoRnVBL3nKwX5LClL74w8K47QzbEHilx4B34pPZeydzdjMSPtF2QBk
+ OSQwlGBJvupLsmF3nsycc6O2WD8865xRleKC1jf5mXriLKIA9sqjvRfsyvJjaIp7yvWD
+ yE/WrOiALUSZW5shAXEBKOiY7oWHktgLFrPxP1hoCambvxr+Q5Py6RAdza5d5YjqfIAO
+ 5dzd2gZOuUA1ZpX4JRw/lyJpnokJI+UgofpZElJ8l/2jvkKmA4CjlHV67qEN86msy9kz
+ Mymg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678673410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Hv73GzM05i0RanFnM+8pOxo8NV20DLRcHo5Yv7HDOok=;
+ b=CjEFUfXUReVk+UJRosAk9HeyrWZqnu9rJhTwRR0EYC6pBMmbCtBd5rOMNibV+eRwz2
+ q4eODidKxTkjb3D47yChToRKPwA6MNRhrwGdcnRV4otEj/dy0xg0nbyCQK9iLffeJOsU
+ 3mRq0iddeIxHMx2CFiloxoiAxh8o13MN+qGrFdORS7qqsOFCcTaKEqb9B2FE8uLpTxGN
+ dqe5jpMdtxIEX7bCw8hLLGivBchtxg9r3B+L9k5FqeKQLKEno9nPNHfq5wtdrZX0SUi2
+ BQ9bdVJBn1+wltdEnOsV3QtbXTjB8aOqZL7a+nqtlUN/4V+Vw+3KVyB17Z94xSC+d4rM
+ nKSw==
+X-Gm-Message-State: AO0yUKXRCRQBrP8dsysY3smkvSSign2Ac6gAp9vr4H00DNLObiecGxCf
+ hRjwiZ4t/Le/Gi3su7DHjm1raCzYcwCjouLAqNQ=
+X-Google-Smtp-Source: AK7set/7sidACYthND1fSvNSD2DCrDyUnDK0DV9+NiMvAWXj0gbgSX1f77zGX9g0IMGqDb1AmCVcOOwbLBvuQNyaIr8=
+X-Received: by 2002:a17:906:1749:b0:8b1:2fff:8689 with SMTP id
+ d9-20020a170906174900b008b12fff8689mr16794901eje.6.1678673410017; Sun, 12 Mar
+ 2023 19:10:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230310133247.39268-1-philmd@linaro.org>
+ <CAFEAcA8hDiWBXPhKmo=AsS5wfu8wKf2YbxwF4p7xRSWrCW4xEg@mail.gmail.com>
+ <03a66cae-4822-7cd2-8dd3-106e8b3f4334@linaro.org>
+In-Reply-To: <03a66cae-4822-7cd2-8dd3-106e8b3f4334@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 13 Mar 2023 10:09:58 +0800
+Message-ID: <CAEUhbmXoOPXQZaCBHjpwJbbkiAy8Hd4ywALQ_2AiOrPJ3294UQ@mail.gmail.com>
+Subject: Re: [PATCH-for-8.0] gitlab-ci: Remove job building EDK2 firmware
+ binaries
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Simon Glass <sjg@chromium.org>, 
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?UGF3ZcWCIFBvxYJhd3NraQ==?= <ppolawsk@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Palmer Dabbelt <palmer@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=115.124.30.112;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-112.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,71 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Mar 2023 18:03:29 +0000, =3D?utf-8?q?Alex_Benn=3DC3=3DA9e?=3D <a=
-lex.bennee@linaro.org> wrote:
-> This replaces the previous attempt to add c-sky.com so I've dropped
-> the review/ack tags. Group everything under Alibaba now.
+On Fri, Mar 10, 2023 at 9:50=E2=80=AFPM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
 >
-> Added as requested by LIU Zhiwei.
+> On 10/3/23 14:38, Peter Maydell wrote:
+> > On Fri, 10 Mar 2023 at 13:33, Philippe Mathieu-Daud=C3=A9 <philmd@linar=
+o.org> wrote:
+> >>
+> >> When we introduced this Gitlab-CI job in commit 71920809ce
+> >> ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries"),
+> >> the naive plan was to have reproducible binaries by downloading
+> >> what this job would build, testing it and eventually committing
+> >> it. With retrospective, nothing happened 3 years later and this
+> >> job is just bitrotting:
+> >>
+> >>    Step 1/3 : FROM ubuntu:18.04
+> >>    18.04: Pulling from library/ubuntu
+> >>    mediaType in manifest should be
+> >>    'application/vnd.docker.distribution.manifest.v2+json' not
+> >>    'application/vnd.oci.image.manifest.v1+json'
+> >>
+> >> Remove this job to avoid wasting maintenance and CI ressources.
+> >
+> > Does the same thing hold for the opensbi job ?
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> Cc: Guo Ren <guoren@kernel.org>
-
-Reviewed-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-
-
-Thanks.
-
-
-
-> ---
->  contrib/gitdm/domain-map        | 1 +
->  contrib/gitdm/group-map-alibaba | 7 +++++++
->  gitdm.config                    | 1 +
->  3 files changed, 9 insertions(+)
->  create mode 100644 contrib/gitdm/group-map-alibaba
+> Cc'ing Bin, I have no idea.
 >
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index 0261533990..e678c23a9c 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -4,6 +4,7 @@
->  # This maps email domains to nice easy to read company names
->  #
->
-> +linux.alibaba.com Alibaba
->  amazon.com      Amazon
->  amazon.co.uk    Amazon
->  amd.com         AMD
-> diff --git a/contrib/gitdm/group-map-alibaba b/contrib/gitdm/group-map-al=
-ibaba
-> new file mode 100644
-> index 0000000000..0ebbe6b06e
-> --- /dev/null
-> +++ b/contrib/gitdm/group-map-alibaba
-> @@ -0,0 +1,7 @@
-> +#
-> +# Alibaba contributors including its subsidiaries
-> +#
-> +
-> +# c-sky.com, now part of T-Head, wholly-owned entity of Alibaba Group
-> +ren_guo@c-sky.com
-> +zhiwei_liu@c-sky.com
-> diff --git a/gitdm.config b/gitdm.config
-> index 4b52ee47be..6908ddbd19 100644
-> --- a/gitdm.config
-> +++ b/gitdm.config
-> @@ -31,6 +31,7 @@ EmailMap contrib/gitdm/domain-map
->  # identifiable corporate emails. Please keep this list sorted.
->  #
->
-> +GroupMap contrib/gitdm/group-map-alibaba Alibaba
->  GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
->  GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
->  GroupMap contrib/gitdm/group-map-facebook Facebook
-> --
-> 2.39.2
->
+
+The OpenSBI job now builds fine. I have no preference on keeping vs.
+removing it.
+
+I remember our previous goal was to create CI jobs for every pc-bios
+image but apparently that never happened.
+
+Regards,
+Bin
 
