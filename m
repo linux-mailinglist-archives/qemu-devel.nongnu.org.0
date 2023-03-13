@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303856B81B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 20:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B8E6B81DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 20:50:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbnlR-0001bh-JI; Mon, 13 Mar 2023 15:23:21 -0400
+	id 1pboA1-0006xk-2c; Mon, 13 Mar 2023 15:48:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pbnlN-0001b9-0p
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 15:23:18 -0400
-Received: from mailout07.t-online.de ([194.25.134.83])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pbnlK-0007H1-RW
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 15:23:16 -0400
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
- by mailout07.t-online.de (Postfix) with SMTP id 0B6E218AEA;
- Mon, 13 Mar 2023 20:22:36 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.29.86]) by fwd79.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pbnkf-1O3Twv0; Mon, 13 Mar 2023 20:22:33 +0100
-Message-ID: <1e710d3b-3218-4228-3e3a-e1aca54c68e2@t-online.de>
-Date: Mon, 13 Mar 2023 20:22:33 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pbo9z-0006xV-F7
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 15:48:43 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pbo9x-0002fx-Jx
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 15:48:42 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id
+ 32-20020a9d0323000000b0069426a71d79so7288241otv.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 12:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678736920;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pz2uueUBACXMqWuZlpIgrQQ0BC3ocKBqHIVNDVqZhpY=;
+ b=tRvly6eSmqxJgjJj3Qp8Nv7TZYOPXleq9skDKSP8h9/gAgkO2x6lAWop5zr91x9kKU
+ 3D9p/rSuJUE6lWsMzFHIjh8Mp2JL5a9DXKGbVjsRLumvdIzmqNscvXjal/sNWXQn2I49
+ Fbv41RPggrBlILPXGRvY4/I4Bi9WmDxXbC7NFcpa8Pdg86gUX5PCQ5/vJAgMIH2Ssq+V
+ kzaO9aXF+AO+HYvaiQ6w+UDPCXqiTRzac3K2V7oOyhlo5fO2p4WT+iQhrfwFRrZ8gRCk
+ gFggtU3pd5TORyrG5c+u1Een+Y0HoBarx4XGFoUqXJV9uErQNzWDST/uNJF3EM0a9rk5
+ U8gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678736920;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pz2uueUBACXMqWuZlpIgrQQ0BC3ocKBqHIVNDVqZhpY=;
+ b=wUMiz4QwxrwBaNgFi4fs5Cu84vWmy5uSjXgOC/dOAyriSHanZ4d4aWP55BVAsmXRzk
+ 0ufuHHmGvPx83q1a+k4qFyMntwKphKaqgaetdnzW67tbQCIueC9FnoK2s/AM9kcuVIsx
+ S3pJB/9/C5+sGZqHK8ht0hlYsppJSUHlJdoCCiO0sMA/gNcG1Ov5ZCepkSrje/wu+LM0
+ DjrGwttETokpGn/xtxoGq4FCCcNXffCoRsojtPYE2tPyLDCUlJLKkUX40RILpT6PJOks
+ aKWyrrWN3dcoc/rabOia1ZQf3U8Mjd8jOKHucX87gTlWX2cxT810GtN0Ohgjx+bd954+
+ J9JQ==
+X-Gm-Message-State: AO0yUKUNV0M1+r3GI+oaClnYz+x7k/oBsfVsjGS3d6u41ACixBprlKNo
+ CC2Ent6m6nJe8qhnQ++q+uPbWg==
+X-Google-Smtp-Source: AK7set93bQUoC4OuKfUjmny0vQhEUZnFeUE11hdHPP3492inZ0TtHuZ930xSQNtz2l9ubae9OCx2dg==
+X-Received: by 2002:a05:6830:3141:b0:693:c3bb:863f with SMTP id
+ c1-20020a056830314100b00693c3bb863fmr18941472ots.36.1678736919988; 
+ Mon, 13 Mar 2023 12:48:39 -0700 (PDT)
+Received: from [172.20.4.181] ([50.232.40.61])
+ by smtp.gmail.com with ESMTPSA id
+ b3-20020a9d4783000000b0068bc48c61a5sm356614otf.19.2023.03.13.12.48.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 12:48:39 -0700 (PDT)
+Message-ID: <cd714314-d1cf-675b-0678-98e19ec4edee@linaro.org>
+Date: Mon, 13 Mar 2023 12:48:37 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] MAINTAINERS: Mark the Nios II CPU as orphan
 Content-Language: en-US
-To: Dorinda Bassey <dbassey@redhat.com>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- kraxel@redhat.com, armbru@redhat.com, qemu_oss@crudebyte.com,
- pbonzini@redhat.com, wtaymans@redhat.com, qemu-devel@nongnu.org
-References: <20230306171020.381116-1-dbassey@redhat.com>
- <64425814-c379-ef8f-b217-11d47f9f3bab@t-online.de>
- <CACzuRyyyt-L+iwFHOS3Tq5hQ9OToedyM79fmtKU3+X6KpUDSsw@mail.gmail.com>
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <CACzuRyyyt-L+iwFHOS3Tq5hQ9OToedyM79fmtKU3+X6KpUDSsw@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Marek Vasut <marek.vasut@gmail.com>
+References: <20230313183352.274744-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230313183352.274744-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1678735353-BFFFE9DF-B5B222C7/0/0 CLEAN NORMAL
-X-TOI-MSGID: cf5e8abf-a2dd-4403-8a61-3d196016beeb
-Received-SPF: none client-ip=194.25.134.83; envelope-from=vr_qemu@t-online.de;
- helo=mailout07.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,126 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 13.03.23 um 14:11 schrieb Dorinda Bassey:
-> Hi Volker,
->
->     To hear this,
->     start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=audio0
->     -device ich9-intel-hda -device hda-duplex,audiodev=audio0 -audiodev
->     pipewire,id=audio0,out.mixing-engine=off ...
->
-> I hear the clipped audio stream with these options. IMO, I don't think 
-> memset is responsible for that behaviour, I still hear the harsh sound 
-> with "-audiodev pa". I also tried using an alternative like:
+On 3/13/23 11:33, Thomas Huth wrote:
+> Marek and Chris haven't been active for Nios II since years
+> (the last time seems to have been in 2017), and we've got
+> unhandled severe Nios II bug tickets in the bug tracker since
+> a long time, so to avoid wrong expectations of people who are
+> looking at the MAINTAINERS file, it's maybe best to mark the
+> Nios II entry as orphan nowadays.
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Hi Dorinda,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-when you test -audiodev pa with a pulseaudio server, audio playback is 
-fine. Audio playback with -audiodev pa with the pipewire-pulse server is 
-clipped. This is a pipewire bug.
 
-With best regards,
-Volker
+r~
 
->
-> @@ -117,7 +118,7 @@ playback_on_process(void *data)
->      }
->
->      if (avail == 0) {
-> -        memset(p, 0, n_bytes);
-> +        p = g_malloc0(sizeof(n_bytes));
->      } else {
->
-> The clipped audio issue is still persistent.
->
-> Thanks,
-> Dorinda.
->
-> On Sun, Mar 12, 2023 at 9:01 AM Volker Rümelin <vr_qemu@t-online.de> 
-> wrote:
->
->     > +/* output data processing function to read stuffs from the
->     buffer */
->     > +static void
->     > +playback_on_process(void *data)
->     > +{
->     > +    PWVoice *v = (PWVoice *) data;
->     > +    void *p;
->     > +    struct pw_buffer *b;
->     > +    struct spa_buffer *buf;
->     > +    uint32_t n_frames, req, index, n_bytes;
->     > +    int32_t avail;
->     > +
->     > +    if (!v->stream) {
->     > +        return;
->     > +    }
->     > +
->     > +    /* obtain a buffer to read from */
->     > +    b = pw_stream_dequeue_buffer(v->stream);
->     > +    if (b == NULL) {
->     > +        error_report("out of buffers: %s", strerror(errno));
->     > +        return;
->     > +    }
->     > +
->     > +    buf = b->buffer;
->     > +    p = buf->datas[0].data;
->     > +    if (p == NULL) {
->     > +        return;
->     > +    }
->     > +    req = b->requested * v->frame_size;
->     > +    if (req == 0) {
->     > +        req = 4096 * v->frame_size;
->     > +    }
->     > +    n_frames = SPA_MIN(req, buf->datas[0].maxsize);
->     > +    n_bytes = n_frames * v->frame_size;
->     > +
->     > +    /* get no of available bytes to read data from buffer */
->     > +
->     > +    avail = spa_ringbuffer_get_read_index(&v->ring, &index);
->     > +
->     > +    if (!v->enabled) {
->     > +        avail = 0;
->     > +    }
->     > +
->     > +    if (avail == 0) {
->     > +        memset(p, 0, n_bytes);
->
->     memset() doesn't work for unsigned samples. For unsigned samples, a
->     stream of zeros is silence with a DC offset. When Pipewire mixes this
->     stream with another, the result is a clipped audio stream. To hear
->     this,
->     start QEMU with qemu-system-x86_64 -machine pcspk-audiodev=audio0
->     -device ich9-intel-hda -device hda-duplex,audiodev=audio0 -audiodev
->     pipewire,id=audio0,out.mixing-engine=off ... and start playback
->     with the
->     hda device.
->
->     With best regards,
->     Volker
->
->     > +    } else {
->     > +        if (avail < (int32_t) n_bytes) {
->     > +            n_bytes = avail;
->     > +        }
->     > +
->     > +        spa_ringbuffer_read_data(&v->ring,
->     > +                                    v->buffer, RINGBUFFER_SIZE,
->     > +                                    index & RINGBUFFER_MASK, p,
->     n_bytes);
->     > +
->     > +        index += n_bytes;
->     > +        spa_ringbuffer_read_update(&v->ring, index);
->     > +    }
->     > +
->     > +    buf->datas[0].chunk->offset = 0;
->     > +    buf->datas[0].chunk->stride = v->frame_size;
->     > +    buf->datas[0].chunk->size = n_bytes;
->     > +
->     > +    /* queue the buffer for playback */
->     > +    pw_stream_queue_buffer(v->stream, b);
->     > +}
->     > +
->     >
->
+> ---
+>   Suggested by Richard here:
+>   https://lore.kernel.org/qemu-devel/cb2e92b7-40bb-4975-290d-6321c5574365@linaro.org/
+>   
+>   And bugs like this sound like the linux-user target is in a bad shape, too:
+>   https://gitlab.com/qemu-project/qemu/-/issues/261
+> 
+>   See also:
+>   https://bugs.launchpad.net/qemu/+bug/1791796 (comment 3)
+> 
+>   ... nobody tried to fix nios2 linux-user in years, maybe we should
+>   deprecate it?
+> 
+>   MAINTAINERS | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 95c957d587..9780430626 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -257,9 +257,9 @@ F: docs/system/cpu-models-mips.rst.inc
+>   F: tests/tcg/mips/
+>   
+>   NiosII TCG CPUs
+> -M: Chris Wulff <crwulff@gmail.com>
+> -M: Marek Vasut <marex@denx.de>
+> -S: Maintained
+> +R: Chris Wulff <crwulff@gmail.com>
+> +R: Marek Vasut <marex@denx.de>
+> +S: Orphan
+>   F: target/nios2/
+>   F: hw/nios2/
+>   F: disas/nios2.c
 
 
