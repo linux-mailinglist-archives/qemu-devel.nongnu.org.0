@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67926B7390
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32336B738B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfBH-0003Mj-Nf; Mon, 13 Mar 2023 06:13:27 -0400
+	id 1pbfBH-0003Ra-JV; Mon, 13 Mar 2023 06:13:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfAy-0003AW-5A
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:09 -0400
+ id 1pbfAy-0003Ap-BM
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbfAr-0004I4-Qz
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:07 -0400
+ id 1pbfAt-0004KL-Ny
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:13:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678702376;
+ s=mimecast20190719; t=1678702380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pKLp1NF6vXd2FTLRKzlGQVEHmQOr4Nz1N5JZ7I4wYQg=;
- b=KwhksAmQpeT8+txMoTMPYmbrAxSfh2a3qrzcK+l2tEPhh+hOQs81dCFAXTNDvi7R03DRVx
- J0FRhjHftQk+qw8ApIO6oHfhbMO38cNSZgkn4sLuQIjUkvpRy6GAnKrLOUdDEAOUQ8YhfW
- nD3R25QmdYDqEOQz3xVTSyPorIKDhv0=
+ bh=IPQsyKRbO4btBdnZazBC9mS721ul3H3jza4mXs2qvCc=;
+ b=iTnIF0Xvk1f62U6HKzAgViKUGsgMUVbogqEd8Ku+RfRDM09AQYhZZUWeubtzgIkli9WF8t
+ x+nZ7NQM1TlZ8+IRPF2N0qtfzirkBr2MHKoNsIFAD3lgPypPknfoHkqqE9j0Wy/Uyh6EN+
+ GEH5rIlpdJHFeBYbnmTrnxQdRGMAIow=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-SxU3xNYsOGyuqaxS18zF7Q-1; Mon, 13 Mar 2023 06:12:53 -0400
-X-MC-Unique: SxU3xNYsOGyuqaxS18zF7Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-197-o7oqBWbQPaaOkoAk-wTWoQ-1; Mon, 13 Mar 2023 06:12:57 -0400
+X-MC-Unique: o7oqBWbQPaaOkoAk-wTWoQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC2C480D0E3;
- Mon, 13 Mar 2023 10:12:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5D2A101A55E;
+ Mon, 13 Mar 2023 10:12:56 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B56A62A68;
- Mon, 13 Mar 2023 10:12:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D24D940C6E67;
+ Mon, 13 Mar 2023 10:12:55 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -49,15 +49,15 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 09/18] ui: set cursor upon listener registration
-Date: Mon, 13 Mar 2023 14:11:58 +0400
-Message-Id: <20230313101207.375125-10-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 10/18] ui: set cursor position upon listener registration
+Date: Mon, 13 Mar 2023 14:11:59 +0400
+Message-Id: <20230313101207.375125-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 References: <20230313101207.375125-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,23 +88,41 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- ui/console.c | 3 +++
- 1 file changed, 3 insertions(+)
+ ui/console.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/ui/console.c b/ui/console.c
-index 0dccbdd4be..7b808f080e 100644
+index 7b808f080e..8fc18c44bf 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1662,6 +1662,9 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-         con = active_console;
+@@ -95,6 +95,7 @@ struct QemuConsole {
+     QemuUIInfo ui_info;
+     QEMUTimer *ui_timer;
+     QEMUCursor *cursor;
++    int cursor_x, cursor_y, cursor_on;
+     const GraphicHwOps *hw_ops;
+     void *hw;
+ 
+@@ -1665,6 +1666,9 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+     if (con->cursor && dcl->ops->dpy_cursor_define) {
+         dcl->ops->dpy_cursor_define(dcl, con->cursor);
      }
-     displaychangelistener_display_console(dcl, con, dcl->con ? &error_fatal : NULL);
-+    if (con->cursor && dcl->ops->dpy_cursor_define) {
-+        dcl->ops->dpy_cursor_define(dcl, con->cursor);
++    if (dcl->ops->dpy_mouse_set) {
++        dcl->ops->dpy_mouse_set(dcl, con->cursor_x, con->cursor_y, con->cursor_on);
 +    }
      text_console_update_cursor(NULL);
  }
  
+@@ -1909,6 +1913,9 @@ void dpy_mouse_set(QemuConsole *con, int x, int y, int on)
+     DisplayState *s = con->ds;
+     DisplayChangeListener *dcl;
+ 
++    con->cursor_x = x;
++    con->cursor_y = y;
++    con->cursor_on = on;
+     if (!qemu_console_is_visible(con)) {
+         return;
+     }
 -- 
 2.39.2
 
