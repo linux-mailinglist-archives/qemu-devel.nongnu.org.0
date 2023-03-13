@@ -2,69 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78B66B7873
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 14:09:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D75A6B787A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 14:09:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbhtr-0006iP-3w; Mon, 13 Mar 2023 09:07:39 -0400
+	id 1pbhvb-0007yS-Qs; Mon, 13 Mar 2023 09:09:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pbhtn-0006Yu-Mj
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:07:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pbhvZ-0007xG-Tk
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:09:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pbhtl-0002qN-Oj
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:07:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pbhvX-0003Dl-M4
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 09:09:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678712851;
+ s=mimecast20190719; t=1678712962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QVYRFzhHaoW5ZsP4j8zHsxcisFbazY0iok9f2q6pJMk=;
- b=C15MMNo3TXIfiytc74yv53slyNEbYuimowonsgKkX6VhRvzHMTtamtq4Q+dEjOLLTMHV5B
- xAb/Nz2ngTlBJZaDF6V0E/JviZ1gcDs5PMkzu2pUmR7tT6BtvH4hSSZHUNk0BnE+irW3iW
- lYTaNDkgjSheIljEAkjz2K55NJV3s9o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-W4f9tFq3PTOleMj5USIb_Q-1; Mon, 13 Mar 2023 09:07:30 -0400
-X-MC-Unique: W4f9tFq3PTOleMj5USIb_Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE904101A52E
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 13:07:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F5B9140E95F
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 13:07:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 45FD721E675B; Mon, 13 Mar 2023 14:07:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Eugenio
- Perez Martin <eperezma@redhat.com>,  Yalan Zhang <yalzhang@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC PATCH] qapi: net: fix -set parameter with modern style
-References: <20230313114255.1206609-1-lvivier@redhat.com>
-Date: Mon, 13 Mar 2023 14:07:28 +0100
-In-Reply-To: <20230313114255.1206609-1-lvivier@redhat.com> (Laurent Vivier's
- message of "Mon, 13 Mar 2023 12:42:55 +0100")
-Message-ID: <87h6uoer5b.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=Bu44FXxZ0cnZh3U/qPfWE3A7X8UwkJ49apQu65y8qyQ=;
+ b=aJyfCbLsGOPWYtVYAGwpqAu5nAen8R2HIQgk1z/JmWaXViXu4/j844FypXwP90NhQVaOZD
+ EJrXqFB4lvhxkD4sMy9nr7rRLF3DbXcK6Q13tRxI1YnwjzQs50260jSyH8hNiwcWzCdMyi
+ G+zduusHJx5Ema7Ok5QA1VRxa4ku5/0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-398-rZJC7SqBPF2rgs7mVC8pEQ-1; Mon, 13 Mar 2023 09:09:20 -0400
+X-MC-Unique: rZJC7SqBPF2rgs7mVC8pEQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o42-20020a05600c512a00b003ed26fa6ebdso618644wms.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 06:09:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678712959;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bu44FXxZ0cnZh3U/qPfWE3A7X8UwkJ49apQu65y8qyQ=;
+ b=yQPtGPqRenitj5NSxH40JfGFqvPVrZlZB3B1XrDYTztURCPKtZLb4fR51TeX4MBtjO
+ zRUSBYVuech8yf332xIz0QR+iCf+ytBKszdJ4x9pD24ZqxRjWdoyq8rH1avx1F+7tn+5
+ JsuTyyyDsir4vjEfx4q5JizP1q8er51VmMNibt0dueRfPinOUG74OEIn1w8F419eMHvj
+ pBL+DOZwZnG55nYcZHlRy5JllyMVPDabpMCy/CsM8mt62MPuOC+6AWB1Vpzc21wLYyg5
+ 3l8pMMovE/SWQZ+b76/CoW0SUoAAfpMDGj0BEJRtnkGmxKu7TVp8owbj4TksAzxLZJ8p
+ HHcw==
+X-Gm-Message-State: AO0yUKWXA9JLXBsN+mA2MTcVy8QuhwgFZ//J67whpoqWdr2JaFlQDu2S
+ UOxLo0auo65mVedm+wwgNqNZZmtTGP8X7iV6D40U+rNU672E4CaGaMeHFQwxFUK8HcTC1wS+qC6
+ JrcupPXyQXW6/UI4=
+X-Received: by 2002:a05:600c:4f50:b0:3ea:bc08:42ad with SMTP id
+ m16-20020a05600c4f5000b003eabc0842admr10823692wmq.2.1678712959430; 
+ Mon, 13 Mar 2023 06:09:19 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9Ix21J76nlFgX1nX/ogtvm++8CTePWXPkMgzPOZzKPmoEn2pHtftGKqRrcwNayl/nPL9kBRw==
+X-Received: by 2002:a05:600c:4f50:b0:3ea:bc08:42ad with SMTP id
+ m16-20020a05600c4f5000b003eabc0842admr10823663wmq.2.1678712959069; 
+ Mon, 13 Mar 2023 06:09:19 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ i1-20020a05600c290100b003e89e3284fasm8983507wmd.36.2023.03.13.06.09.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 06:09:18 -0700 (PDT)
+Message-ID: <f060c5ab-f60e-a0a4-6415-f4ace8db479e@redhat.com>
+Date: Mon, 13 Mar 2023 14:09:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH for-8.0] ide: Fix manual in-flight count for TRIM BH
+Content-Language: en-US
+To: Fiona Ebner <f.ebner@proxmox.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+References: <20230309114430.33684-1-hreitz@redhat.com>
+ <88de2e68-61e2-9397-b202-d611247002ba@redhat.com>
+ <CABgObfZkSt6-0-vKkUtiWUy1TtHS_kEiYM2wRh+MfjTXmW497A@mail.gmail.com>
+ <7ca18cb4-eeb1-4cba-feea-90f28fb9c2fc@redhat.com>
+ <3e695f64-13bb-1311-6cd6-09bffc312873@redhat.com>
+ <ZAobe/wtsf//YGHJ@redhat.com>
+ <a432cb4d-8d7e-8408-15a9-c84414c03196@proxmox.com>
+ <ZAs92f/J9qvA6X5B@redhat.com>
+ <CABgObfbJ_20fk4H=w0HUBrAtUBbrzn53euqUc-D-s5a3-Xur5w@mail.gmail.com>
+ <9bc7a6d8-744e-9593-1de0-88f19a1e1bc1@proxmox.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <9bc7a6d8-744e-9593-1de0-88f19a1e1bc1@proxmox.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,204 +113,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Laurent Vivier <lvivier@redhat.com> writes:
-
-> With netdev modern style, parameters cannot be found using
-> qemu_find_opts_err() and then qemu_set_option() cannot find
-> them to update them with the new option.
+On 3/13/23 13:29, Fiona Ebner wrote:
+>> In fact, shouldn't request queuing was enabled at the _end_ of
+>> bdrv_drained_begin (once the BlockBackend has reached a quiescent
+>> state on its own terms), rather than at the beginning (which leads to
+>> deadlocks like this one)?
 >
-> To fix that, update the code to manage the modern style by
-> searching the parameter in nd_queue, and update the entry
-> using visit_type_Netdev_members().
->
-> Fixes: f3eedcddba36 ("qapi: net: introduce a way to bypass qemu_opts_parse_noisily()")
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Couldn't this lead to scenarios where a busy or malicious guest, which
+> continues to submit new requests, slows down draining or even prevents
+> it from finishing?
 
-Let me add Some more background.
+Possibly, but there is also a .drained_begin/.drained_end callback that 
+can be defined in order to apply backpressure.  (For some other devices, 
+there's also aio_disable_external/aio_enable_external that do the 
+equivalent of request queuing but without the deadlocks)
 
-A long time ago, configuration was a bunch of global variables in
-various places, and CLI options and monitor commands to set them, all
-using ad hoc parsers.
+Since starting the queuing of requests at the end of bdrv_drained_begin 
+wouldn't hurt correctness, and it would fix this kind of deadlock, I 
+think it would be worth giving it a try.
 
-QemuOpts was an attempt at proper configuration infrastructure: a single
-configuration repository with a rigid structure.  It is a set of named
-"groups" (fixed at compile time, C type QemuOptsList).  Each group is a
-set of QemuOpts.  A QemuOpts has a user-defined ID and a list of
-QemuOpt.  A QemuOpt is essentially a key-value pair.  Values can be
-string, uint64_t, or bool.
-
-This is a *flat* design: GROUP.ID.NAME=VALUE.  Good enough back when it
-was created in 2009, but we've long outgrown "flat".  More on that in a
-jiffie.
-
--set operates on this repository.  -set GROUP.ID.NAME=VALUE selects the
-QemuOptsList GROUP, within that the QemuOpts ID, and within that sets
-the key NAME to value VALUE.
-
-For -set to work, the QemuOpts must be created with a CLI option, and
-used only after CLI parsing is complete.  This is how QemuOpts wants to
-be used (but we use (and abuse) it in other ways, too).
-
-The other way to configure a VM is of course the monitor.  QMP uses its
-own infrastructure: the QAPI schema (since 2011).  Considerably more
-expressive than QemuOpts: tree vs. flat, more scalar types.
-
-There's another fundamental difference between a QemuOpts-based CLI and
-the monitor.
-
-With QemuOpts (when using it the intended way), we separate parsing from
-acting.  First we parse the CLI entirely, populating the configuration
-repository.  Only then do we actually create the things demanded by the
-configuration.  Some errors get detected during parsing, and some during
-acting.
-
-In the monitor, however, each command acts immediately.  There is no
-configuration repository.  There is simply no space for something like
--set.
-
-There's also -readconfig: it parses a configuration file in a .INI
-syntax into the configuration repository.
-
-Over time, we grew bits of configurations QemuOpts can't express.  In
-particular, QMP object-add could do things -object could not.  This led
-to
-
-commit 155b5f8b8d3d5dedd7c57e5223e822dc1b5295c8
-Author: Kevin Wolf <kwolf@redhat.com>
-Date:   Fri Mar 12 14:19:21 2021 +0100
-
-    qom: Support JSON in HMP object_add and tools --object
-    
-    Support JSON for --object in all tools and in HMP object_add in the same
-    way as it is supported in qobject_input_visitor_new_str().
-    
-    Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-    Message-Id: <20210312131921.421023-1-kwolf@redhat.com>
-    Reviewed-by: Eric Blake <eblake@redhat.com>
-    Reviewed-by: Markus Armbruster <armbru@redhat.com>
-    Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-
-The commit message is arguably bad: it doesn't explain why.  The point
-is to make -object to work like QMP object-add when the option argument
-is JSON.  Full expressive power then, no QemuOpts, and therefore no
--set and no -readconfig.  This led to:
-
-commit 49e987695a1873a769a823604f9065aa88e00c55
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Mon May 24 06:57:52 2021 -0400
-
-    vl: plug -object back into -readconfig
-    
-    Commit bc2f4fcb1d ("qom: move user_creatable_add_opts logic to vl.c
-    and QAPIfy it", 2021-03-19) switched the creation of objects from
-    qemu_opts_foreach to a bespoke QTAILQ in preparation for supporting JSON
-    syntax in -object.
-    
-    Unfortunately in doing so it lost support for [object] stanzas in
-    configuration files and also for "-set object.ID.KEY=VAL".  The latter
-    is hard to re-establish and probably best solved by deprecating -set.
-    This patch uses the infrastructure introduced by the previous two
-    patches in order to parse QOM objects correctly from configuration
-    files.
-    
-    Cc: Markus Armbruster <armbru@redhat.com>
-    Cc: qemu-stable@nongnu.org
-    Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-    Message-Id: <20210524105752.3318299-4-pbonzini@redhat.com>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-> ---
->  include/net/net.h |  2 ++
->  net/net.c         | 35 +++++++++++++++++++++++++++++++++++
->  softmmu/vl.c      |  8 ++++++++
->  3 files changed, 45 insertions(+)
->
-> diff --git a/include/net/net.h b/include/net/net.h
-> index 1448d00afbc6..be42ba96ee3d 100644
-> --- a/include/net/net.h
-> +++ b/include/net/net.h
-> @@ -246,6 +246,8 @@ extern const char *host_net_devices[];
->  extern NetClientStateList net_clients;
->  bool netdev_is_modern(const char *optarg);
->  void netdev_parse_modern(const char *optarg);
-> +Netdev *netdev_find_modern(const char *id);
-> +void netdev_set_modern(Netdev *net, const char *arg, Error **errp);
->  void net_client_parse(QemuOptsList *opts_list, const char *str);
->  void show_netdevs(void);
->  void net_init_clients(void);
-> diff --git a/net/net.c b/net/net.c
-> index 6492ad530e21..9c384187255b 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1624,6 +1624,41 @@ out:
->      return ret;
->  }
->  
-> +Netdev *netdev_find_modern(const char *id)
-> +{
-> +    NetdevQueueEntry *e;
-> +
-> +    QSIMPLEQ_FOREACH(e, &nd_queue, entry) {
-> +        if (strcmp(id, e->nd->id) == 0) {
-> +            return e->nd;
-> +        }
-> +    }
-> +    return NULL;
-> +}
-> +
-> +void netdev_set_modern(Netdev *net, const char *arg, Error **errp)
-> +{
-> +    Visitor *v;
-> +    char *id = net->id;
-> +    char *opts = g_strdup_printf("type=%s,id=%s,%s",
-> +                                 NetClientDriver_lookup.array[net->type],
-> +                                 id, arg);
-> +
-> +    v = qobject_input_visitor_new_str(opts, NULL, errp);
-> +    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-> +        goto out;
-> +    }
-> +    if (visit_type_Netdev_members(v, net, errp)) {
-> +        g_free(id); /* re-allocated in visit_type_Netdev_members() */
-> +        visit_check_struct(v, errp);
-> +        visit_end_struct(v, NULL);
-> +    }
-
-This exploits the fact that visit_type_FOO_members() leaves alone the
-members that are not in @opts.  It overwrites net->type and net->id with
-identical values, and member NAME with VALUE, where NAME and value come
-from -set netdev.ID.NAME=VALUE.
-
-> +
-> +out:
-> +    visit_free(v);
-> +    g_free(opts);
-> +}
-> +
->  static void netdev_init_modern(void)
->  {
->      while (!QSIMPLEQ_EMPTY(&nd_queue)) {
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 3340f63c3764..c063857867e2 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2162,6 +2162,14 @@ static void qemu_set_option(const char *str, Error **errp)
->      if (!is_qemuopts_group(group)) {
->          error_setg(errp, "-set is not supported with %s", group);
->      } else {
-> +        if (strcmp(group, "netdev") == 0) {
-> +            Netdev *net = netdev_find_modern(id);
-> +            if (net) {
-> +                netdev_set_modern(net, str + strlen(group) + strlen(id) + 2,
-> +                                  errp);
-> +                return;
-> +            }
-> +        }
->          list = qemu_find_opts_err(group, errp);
->          if (list) {
->              opts = qemu_opts_find(list, id);
-
-Do we really want to special-case -set netdev... this way?
+Paolo
 
 
