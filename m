@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3316B71C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917576B71D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:59:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbdyO-0007wF-8s; Mon, 13 Mar 2023 04:56:04 -0400
+	id 1pbe11-0000vw-52; Mon, 13 Mar 2023 04:58:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbdyG-0007tC-UZ
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:55:57 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe0q-0000vT-Bv
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:58:36 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbdyE-00067n-GK
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:55:56 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- o11-20020a05600c4fcb00b003eb33ea29a8so7297749wmq.1
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:55:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbe0o-0006gd-PV
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:58:36 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso7309893wmo.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678697751;
+ d=linaro.org; s=google; t=1678697913;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LsVEQcED9WXT/Ve5daaXDWObqeHky7fpXTG5TLSN56A=;
- b=XLh5FzSsh8E2RPnrzMH7silIhoIZJjsceR15KYrTL93w1Hi1VpDZ+AebsgQT44/6rA
- k+wP5tYtPDs2S0Kqpc1GzbtYsmnvd0BbNRLdBiX1okxI7BB5LIfyYXIT2W5kOElRCOQ7
- wo+zYYlfS5G+B16MVg4pz2IMw5jiZOLizpMBN9IjrwhlXnpA/WKQhS6k9/McT3CDnNl/
- oeQeg6jT5SfBHxwwZqm3+RDGWjr5XaXhCgNDhG+8ALMGa/0y4Lh3Dpo+gHnChwooqH6+
- kiWPKboxKmnu/hqcit2ZRwQ8iZ9WNNrf62B+tpvlocpb+yUQRrvKf+LcyoW63pfDqLJq
- gP+Q==
+ bh=nwFUy0qPgo/d7vZtlR4ypK+dZBNwx+X5FK8USi/ohxs=;
+ b=N/6JBjSgzQh7Ee+P5D8sMnBh/Nzg3K6AlGFhkj/d0kq4FDg5TrFd0SBl24dc5kb2MR
+ 10AUniUJvCR8id8uGZ1zBsir3kWgNxFfse0cgdtdq7SgDeeDoiUXSNhYqOEW+wsZYCZP
+ 5OgVJhQMv9DczSwJ34FbgLOhhhf+YCi+hpCrGCJ7Or/wsT53pmWP29AbvtBsbkZM14XK
+ x9slvJ2arPpH5GdICaCbfeisBXZ1FEQ1SjNPCSdEiHvh4dw0WhXH/TzfyhtqwqW0U/9M
+ zwyN8Rn8UWpGACGScNf7XGS/4VyOYYMxh3qrLQrhw8wRaXQVfOjcEkSTIbnuu20q4/IC
+ H7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678697751;
+ d=1e100.net; s=20210112; t=1678697913;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LsVEQcED9WXT/Ve5daaXDWObqeHky7fpXTG5TLSN56A=;
- b=2w/jV6wpe4nPcf9ddctlkcvyxdd54XNCIHt+UmC1grdWjkWRao5+DjA9tUpUy5sQuB
- sweyOWkvs09s7MuhNbAMd1c+czQyRLYVE9zSRuMMwADrQPzxNxmyQPxWDwAuFjPDis80
- EIR/2flfwcisVjIzqBfrJkinapsUfs23N07/r30YWHJfoaGWmSu81YJXSLe6fFqFuOYS
- D9wR91d3k/j8kP8V63b613gGJd1jkBX+5aqql9g8prku3FYr4lE3SPkABEHhNZXPUfx5
- IjYzbj0k8W2RbNJV/gXlisdFGP9ggmJU4QsXeakoVphp4aUgP/4qbnugdHfNWpklT1wl
- NEUw==
-X-Gm-Message-State: AO0yUKVFZFuUjJKPXJOdR639Sbhe/l/rcE1ot7BPdFkLFoN1f+Kmc3RT
- xn1a43g+hMSxfR3N4262PJcsDA==
-X-Google-Smtp-Source: AK7set8hF8PJ0U70TCssvNqC+Oc72XPj+oi5UzXNsUmriEUdbleXTksapII8TKlCRoFNlP+HaL00kw==
-X-Received: by 2002:a05:600c:a0a:b0:3df:eecc:de2b with SMTP id
- z10-20020a05600c0a0a00b003dfeeccde2bmr9710440wmp.11.1678697750861; 
- Mon, 13 Mar 2023 01:55:50 -0700 (PDT)
+ bh=nwFUy0qPgo/d7vZtlR4ypK+dZBNwx+X5FK8USi/ohxs=;
+ b=HnHyR8m3DCGIGmVJNsu8Lqd5loOLlPPB4Kp4W7Ugm/aqKxCyLWph6ry4+HnkQHvH5K
+ U0i8YgX4fgTFVZ9MviCdPZpxo3gOdYXdXvEJWPOKwckNR7U35E8bfWnu9Rrbp7jEmlxi
+ PiQpNVjbO8TTxGXZcJ00jYfosHL9OjlEhI0BUEJlPHGVBNfzftOK26CfDBMFZo4IOLnA
+ uILFtYPh5pQqW2xGnHj2qidY7q8cS1TVXxv0EEfRw4cKCPD0x37byEUU+R4ZwuHURtbI
+ KaT9CxAnxDfnheF2HKG2sik5Zk3EOxqsuMeOwI3WEQwSUOk4lCLmjdWUgNWNGyyx3evd
+ 0M+A==
+X-Gm-Message-State: AO0yUKWeUzHIjWOsb9KVSLEFpywy46w3FWBSb6P4VgFc3Ri9roMgE62k
+ PXACaND/iDkmRgtFLPMuNswgWQ==
+X-Google-Smtp-Source: AK7set96KAfY9LHs0mf5f/uGqK56+xXpJb/r0UDgZ9c0ad5hC6QdM4oU767tv39ZwWmSrrmL3HuPMw==
+X-Received: by 2002:a05:600c:3c8f:b0:3ea:bc08:b63e with SMTP id
+ bg15-20020a05600c3c8f00b003eabc08b63emr10268334wmb.2.1678697913009; 
+ Mon, 13 Mar 2023 01:58:33 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c3b9300b003e1fee8baacsm867675wms.25.2023.03.13.01.55.49
+ o15-20020a5d4a8f000000b002c70e60abd4sm7390577wrq.2.2023.03.13.01.58.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 01:55:50 -0700 (PDT)
-Message-ID: <21b20a8a-090e-8196-720e-48469553ff53@linaro.org>
-Date: Mon, 13 Mar 2023 09:55:48 +0100
+ Mon, 13 Mar 2023 01:58:32 -0700 (PDT)
+Message-ID: <71946be0-74ea-2596-3184-7ebe4ce21b4e@linaro.org>
+Date: Mon, 13 Mar 2023 09:58:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v8 09/11] tests/avocado: Pass parameters to migration test
+Subject: Re: [PATCH v8 10/11] target/arm: gdbstub: Guard M-profile code with
+ CONFIG_TCG
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -66,17 +67,15 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>
 References: <20230309201434.10831-1-farosas@suse.de>
- <20230309201434.10831-10-farosas@suse.de>
+ <20230309201434.10831-11-farosas@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230309201434.10831-10-farosas@suse.de>
+In-Reply-To: <20230309201434.10831-11-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,20 +99,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/3/23 21:14, Fabiano Rosas wrote:
-> The migration tests are currently broken for an aarch64 host because
-> the tests pass no 'machine' and 'cpu' options on the QEMU command
-> line.
+> This code is only relevant when TCG is present in the build. If we try
+> to build with --disable-tcg we currently get:
 > 
-> Add a separate class to each architecture so that we can specify
-> 'machine' and 'cpu' options instead of relying on defaults.
-> 
-> Add a skip decorator to keep the current behavior of only running
-> migration tests when the qemu target matches the host architecture.
+> libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub.c.o: in function
+> `m_sysreg_ptr': ../target/arm/gdbstub.c:356: undefined reference to
+> `arm_v7m_get_sp_ptr'
 > 
 > Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   tests/avocado/migration.py | 83 +++++++++++++++++++++++++++++++++++---
->   1 file changed, 78 insertions(+), 5 deletions(-)
+>   target/arm/gdbstub.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+
+This patch should come before patches 5-6/11, or become
+first of this series.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
