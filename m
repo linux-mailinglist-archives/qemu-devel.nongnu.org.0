@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409BF6B7BFD
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB446B7BFE
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:31:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbk8H-0007LC-56; Mon, 13 Mar 2023 11:30:41 -0400
+	id 1pbk8M-0007Lv-7h; Mon, 13 Mar 2023 11:30:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8E-0007L3-0q
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:38 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8J-0007La-Gk
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:43 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8C-0003cL-Ap
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:37 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h14so11723907wru.4
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:30:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbk8H-0003dD-SP
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 11:30:43 -0400
+Received: by mail-wr1-x434.google.com with SMTP id g3so11713876wri.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 08:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678721434;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YmK4D6ZWvcLyT+3zP0TBMYxPeXlhmXeGjtiUoTZaEUw=;
- b=G2/N+9+gZCQVAU7Re8HeclmO1Z785RCxx6DzDz5pJSlP+qYGCLBV9AON1447hmz6zT
- PcHM+j8oKzvpPj4Whw7A500dltgoY6FXZi8zmwhuPfpqvNjU8dL0eeMFVheWvHox1Pg3
- ugXpMpkdcI0hWPkrAKNUqgRsoaGc+GUIdQgUS7goXZgMOjbYK59dZyBgI89tMn/D+EXj
- 6NbfGK2Bj8D6NEDHCffx5kjyyblS/8hhYaIuQdvkLMs3iTxFEe8UvHm00JhYOJTdUhHD
- 21PXPx2OJzbOCvg+TPtU1bRQhSXseWb5BQ2FQuuvZcNtrMdkt+LjCadf0Ruaxq9LJ2ui
- 3RWg==
+ d=linaro.org; s=google; t=1678721440;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tgvktAzfesfxD8WUyraQcM3eJl8p+SmOjICI4meUlWI=;
+ b=kzaM8CL3Bv2JzTtRkdBQSzfk0m7eOfAWONTMMHd2HCls6qKe8BiCmi+pQb6G2iiczO
+ Jd/4ZnrCZtUkAt+Z1OBiLNu3kGUCGhieVRMMPCQlNK4akr3uKNpnqj3yzTDRJEUrd/yb
+ jOQiYxWal1QNR+KkVIrz/F+40i+BKDOpnNjRAR9RcAllx8bTHf3YDQUfAw2TVbfMghJz
+ crJgB0UsQnDJW6Qpqki0uiaFStlwnQzTWpgeQBtL+fL057mNn4IKpOrXj/XQtMgA5NPz
+ LX87GasE3ilXzHm68vJKBgS+mtREOixZVRw7UkHqN018eaxGhFu4idW3UCTS5UvLBlSS
+ xlEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678721434;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YmK4D6ZWvcLyT+3zP0TBMYxPeXlhmXeGjtiUoTZaEUw=;
- b=0DqEKSB/OIK/uVId1tOyA4ZdQbRvqSvEVI/KaHbcMamqMA+FyllAyMjXBb/4J553yU
- VrBBbVTSHtNKRySvGZIJVmyBu9c1MgA4ZY+nPCYt5n7skTBiZPnXUVmCJZ7ZA6J5ijQb
- +d69P49Jo0bOs8uBksFW9kzVBmDQVM1r5Z5W0CbzOWhVfrXPifTHbaxc+yqD29KwsTW1
- mezyulkF8+KPjR38wOCdTQaMdaPjniZhUHMUWUbLoek0vXeq0rpfBGsCIR/bdGLx3oMr
- WZ90qStT4api1dVUHO5+uWqqlRNj0dgDP5IbNoih4ibyZDP9CR1Wc8F3f4HFEH04SU4Z
- 2BUg==
-X-Gm-Message-State: AO0yUKU5Xo14tMYnLWLbzU/t8R29hOJDpoOYAcA9kURLUmEJtBuDTaVJ
- e7VPV5J8bF+VkqnP69WiXJmZMA==
-X-Google-Smtp-Source: AK7set9k3OYFGNgqnIlcin6lA2g4o5D1/Va7pPjgxr1bkHn5PFzNNUnUhHznZCsdi6qAbXFZ5UB1FQ==
-X-Received: by 2002:adf:e887:0:b0:2ce:a9e9:490b with SMTP id
- d7-20020adfe887000000b002cea9e9490bmr4324005wrm.31.1678721434432; 
- Mon, 13 Mar 2023 08:30:34 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678721440;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tgvktAzfesfxD8WUyraQcM3eJl8p+SmOjICI4meUlWI=;
+ b=4LtynaJlWgd7gfM8tF81EfCPcc7Gb/e/5Eh3eyeXYo5yVxy1QetDkXMMaepBa9dOtc
+ nTZpDWUTLgtDaONF1Bn3kRSCqK6CcMsIK5JdqbGwfNtr3k84URWBSYoMnHSkkt2VCJiS
+ Hb2om7Iet9Em2o1p+CHqSjUyzeucJDYdFh8gXWwcyttC33V1gz8hH39pq7sg+H7lOZOo
+ 7P4s6t/HbWpkCFutpT1gvFXZzbm81mZaNYf3DT6toxF/2QDMjYvycFYogNyCbw7mc1Vp
+ O8s/glTTcbi8n67+GjeO6EapfPOrb/CXvG+G/Du/eUOMWE/trnug7WzPnqHnpS2I8I0W
+ eRIA==
+X-Gm-Message-State: AO0yUKWHrvU0fR+vHgTeRNXqImwzLqkzNrpr3DLVl57miKF+CJwXdRJh
+ 9ihoueo4B+i/OaB8alANXs0Z2Q==
+X-Google-Smtp-Source: AK7set8gfd9PPU4XvUUhgXt+Drxu1nsHISoUzyX7ENFSeZBF6s8WdFTdjw29C4eIOCJaz9BOhoi0/Q==
+X-Received: by 2002:adf:f3c5:0:b0:2cf:e6de:c6ab with SMTP id
+ g5-20020adff3c5000000b002cfe6dec6abmr922642wrp.11.1678721440130; 
+ Mon, 13 Mar 2023 08:30:40 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n15-20020a5d400f000000b002cea299a575sm7560716wrp.101.2023.03.13.08.30.32
+ s11-20020a5d4ecb000000b002c70851fdd8sm8155117wrv.75.2023.03.13.08.30.38
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Mar 2023 08:30:33 -0700 (PDT)
+ Mon, 13 Mar 2023 08:30:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Wei Huang <wei.huang2@amd.com>,
 	qemu-devel@nongnu.org
@@ -62,16 +63,21 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/6] hw/i386/amd_iommu: Orphanize & QDev cleanups
-Date: Mon, 13 Mar 2023 16:30:25 +0100
-Message-Id: <20230313153031.86107-1-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Roman Kapl <rka@sysgo.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ David Kiarie <davidkiarie4@gmail.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: [PATCH 1/6] MAINTAINERS: Mark AMD-Vi emulation as orphan
+Date: Mon, 13 Mar 2023 16:30:26 +0100
+Message-Id: <20230313153031.86107-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230313153031.86107-1-philmd@linaro.org>
+References: <20230313153031.86107-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,35 +100,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Following [*]:
+hw/i386/amd_iommu.c seems unmaintained:
+After commit 1c7955c450 ("x86-iommu: introduce parent class",
+2016-07-14), almost no feature added, 2 bug fixes, other changes
+are generic tree-wide API cleanups.
 
-  "Last time I tried AMD vIOMMU it didn't even boot."
+Cc: Roman Kapl <rka@sysgo.com>
+Cc: Wei Huang <wei.huang2@amd.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: David Kiarie <davidkiarie4@gmail.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+Following
+https://lore.kernel.org/qemu-devel/CACGkMEtjmpX8G9HYZ0r3n5ErhAENKhQ81f4ocfCYrh=XoF=5hw@mail.gmail.com/
+---
+ MAINTAINERS | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-mark amd_iommu as orphan in preparation of deprecating it
-(or should we do that directly?).
-
-Extract the PCI realize() code from sysbus one in order to
-remove the single case of calling pci_add_capability() and
-msi_init() on a *realized* QDev instance (in order to
-strengthen the PCI/MSI APIs in a follow up series).
-
-[*] https://lore.kernel.org/qemu-devel/CACGkMEtjmpX8G9HYZ0r3n5ErhAENKhQ81f4ocfCYrh=XoF=5hw@mail.gmail.com/
-
-Philippe Mathieu-Daudé (6):
-  MAINTAINERS: Mark AMD-Vi emulation as orphan
-  hw/i386/amd_iommu: Explicit use of AMDVI_BASE_ADDR in amdvi_init
-  hw/i386/amd_iommu: Remove intermediate AMDVIState::devid field
-  hw/i386/amd_iommu: Move capab_offset from AMDVIState to AMDVIPCIState
-  hw/i386/amd_iommu: Set PCI static/const fields via PCIDeviceClass
-  hw/i386/amd_iommu: Factor amdvi_pci_realize out of
-    amdvi_sysbus_realize
-
- MAINTAINERS          |  4 +++
- hw/i386/acpi-build.c |  6 ++--
- hw/i386/amd_iommu.c  | 74 +++++++++++++++++++++++++-------------------
- hw/i386/amd_iommu.h  |  9 +++---
- 4 files changed, 54 insertions(+), 39 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 95c957d587..8badbb01d3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3356,6 +3356,10 @@ F: hw/i386/intel_iommu.c
+ F: hw/i386/intel_iommu_internal.h
+ F: include/hw/i386/intel_iommu.h
+ 
++AMD-Vi Emulation
++S: Orphan
++F: hw/i386/amd_iommu.?
++
+ OpenSBI Firmware
+ M: Bin Meng <bmeng.cn@gmail.com>
+ S: Supported
 -- 
 2.38.1
 
