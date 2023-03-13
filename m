@@ -2,136 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618586B761C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93D56B762C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:41:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgRz-0005SY-Is; Mon, 13 Mar 2023 07:34:47 -0400
+	id 1pbgXG-0000zF-3y; Mon, 13 Mar 2023 07:40:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1pbgRs-0005S1-Ob; Mon, 13 Mar 2023 07:34:41 -0400
-Received: from mail-db8eur05on2070b.outbound.protection.outlook.com
- ([2a01:111:f400:7e1a::70b]
- helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1pbgRq-0001vd-T8; Mon, 13 Mar 2023 07:34:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UMfMYVg16o0rvjnVy6+AeaAfIdGpVVUGD3xjvwTG2rXqpuuTGUvMnGLvSZ+2ieWYI21sAbwr132jSnWrp15pbKSdnKynkYHVRFSQB7jnlo87lT8Ddn1VVWnF/UvVtSdMRCfvISqg8eSRgtzynMTDSQtgvtrUgg/QVAzSEy0RE/wbMhZqxFanUG2CMb7NTx5USieVJ1MYx/9QbGco9zfZt8idSRWPbvoEAqv1Kp//yImlmIYKfLvw3ne2+VQzIBw0Ka8JT5leGBPa0czxUDCiJlDSD9aSImAoXIVPaN4ZFlvcNUuglYMc+KX32IXtxUAQVmYAHnEEj295ebsz1nMcGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OKiBsecI4/uO942ACRQy7EgIG7hsCMS7Ycvz93M5Zd4=;
- b=LeR1rHqR2dN51nqJoSqZ4ccYRUzp46kgT9aQcKL8kxjNEEHdHVQ8jQZjZ3wLOMR+7NEROuROcBpiqJSVfNF4WuZsSwxQChvWpiFhZTOJb3WlbG1GcE8YkOXhzcJYwoODAtpl/dUxVQq3x6zkx+nFS9njkQNl9IbkBWJHXTLY4xkKsZhAtiLUUOzxBCf8gweS8TYWqpnQUxdeTQkJ3jtIn6Fke0x0MehQRHxx2WMatr5Q5ETjqNjawOnNRZAhTRFbDcjHLsf/V2MjLusLSF5MwM/e+w07bVGeVvw7w962VEgD+uDY3xArTal4tHsJGZ1pFjwWYGlh/uYBjj1QUiI0SA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OKiBsecI4/uO942ACRQy7EgIG7hsCMS7Ycvz93M5Zd4=;
- b=UYFuyibFeQYDsU7fzohNMMhuB4KRDji/Ul+ELTxwCB6GzXo0TsO47xV/22ZOBZonbeywwc+JorPNzEZzi3tk1EwoG01wxHpOQeMbxlAl54J1g/xzdpys9BEPkNztlR9ojz5RrPu4J2Rw+r4KPznyJtYpPrJ5s4NZWN/gLBbE0bn+CCBpQIqbx70gpLYRYk5IVBW8yQh3H/774Rf/8+9I4OOER/XdTtjRlsQrdRFr6Qe8h7Z2upF16Srtr8XqRIjaSmoGvIroBMalF1IlOvlLVwEfmHycxsTBLBpte52Rlrd753YQP8YRsK/Ngn2BDQUa5rNGr4ZMUEftN/S4xDg6RA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by GV2PR08MB8317.eurprd08.prod.outlook.com (2603:10a6:150:b5::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
- 2023 11:34:24 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::edbc:a240:6fd9:fd0c]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::edbc:a240:6fd9:fd0c%6]) with mapi id 15.20.6178.024; Mon, 13 Mar 2023
- 11:34:24 +0000
-Message-ID: <87af3aca-00cb-4378-394a-6c014be6fd4d@virtuozzo.com>
-Date: Mon, 13 Mar 2023 12:34:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 00/12] parallels: Refactor the code of images checks
- and fix a bug
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbgXE-0000yn-9w
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:40:12 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbgXB-0002yj-IH
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:40:11 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p4so4805732wre.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 04:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678707607;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UiFoUA81V4aPPuk00TispSuT5tLI9a4wkzitJ40zKPw=;
+ b=QpC6nUm0eRJxdnl5vA4C6A5oSoscBmorqvVWT/KVF4lJGnEkvr1Xd+fCqe1yacrwlQ
+ ioOtsmXR2MIq8xnBmsR0Y88SC/dUdEkiscEDaI2eWrG3kbkYHNoYbS51F2+EXbfhDLc+
+ wqFUtHRkPmAuIN3UZj2x61PML1WgOYBaidrQfsG4yUWZ1NPQqlArPlFKcouLB4eUkbR9
+ mTmZvriBeHgPxI1jYwRAEGWraQEeD4pIKxIyPh9a31rVN8WOOpj02a7VgVZlDI9aYMyl
+ Q49Y7DbAu4qVDUigg6MTp5GHjwvtnRVNSHzK53TXZ1Ct7sXBYuY8Y5gb8VlZUQFIfWiw
+ Sm3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678707607;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UiFoUA81V4aPPuk00TispSuT5tLI9a4wkzitJ40zKPw=;
+ b=J+EkaauzqgltKzStZxa8/BH8tV/Pt4X5eZw+a/UM2oYEKJQB1U7Dwog6fA+dUbRd7S
+ 3FxhPuwnoGv6GPORicL0e3Fg66JaJ3odDTucdTjZn0Neo5Bn6eW81BiqvS5eg3cZniWk
+ 1h4wjP2b2hIFQ9K37MgHDjQVB/qEcQyAD5xM86FUncFBzwFgxVYVKbkklEkG1oNvMw2u
+ f1cS7MOsOthX2tp8KRcHYvwC6+73ZEprnhhbUUgbOrnCYslKeIpD9qX1ICSeTrds47fR
+ oMIPaqP1obbRIsBdUy0CLJud0mgQzYNQLto/dtsRE6oqO1jmrJt+9jTx0tLPCTKjEmrq
+ Rxjw==
+X-Gm-Message-State: AO0yUKU7zVGy3WtDYdnzy3faRdaSniR1ndy/bN0MWPZV80scjlukbpfV
+ h0AwTXst9aT29+U0aqEqXNxyOA==
+X-Google-Smtp-Source: AK7set9Qc7TeQwizJiWSHoER0zmq1UY0RLh+GEh0dvINWzZw5YIvRJmDTfj0Ay9R9FLiJrKTCjtahg==
+X-Received: by 2002:adf:f1c2:0:b0:2cf:6088:3949 with SMTP id
+ z2-20020adff1c2000000b002cf60883949mr1859466wro.18.1678707607295; 
+ Mon, 13 Mar 2023 04:40:07 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ e3-20020adfdbc3000000b002c55efa9cbesm7911867wrj.39.2023.03.13.04.40.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 04:40:06 -0700 (PDT)
+Message-ID: <7853d60e-b2f2-c83d-7160-b69b2c7ad8b3@linaro.org>
+Date: Mon, 13 Mar 2023 12:40:03 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 1/3] numa: Validate cluster and NUMA node boundary if
+ required
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, rad@semihalf.com,
+ peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, thuth@redhat.com,
+ lvivier@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ yihyu@redhat.com, ajones@ventanamicro.com, berrange@redhat.com,
+ dbarboza@ventanamicro.com, shan.gavin@gmail.com
+References: <20230225063527.281479-1-gshan@redhat.com>
+ <20230225063527.281479-2-gshan@redhat.com>
 Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>,
- Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
- kwolf@redhat.com
-References: <20230203091854.2221397-1-alexander.ivanov@virtuozzo.com>
- <6bbbfd5f-90c3-5e15-d417-a54fc25222d6@redhat.com>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <6bbbfd5f-90c3-5e15-d417-a54fc25222d6@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230225063527.281479-2-gshan@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR07CA0272.eurprd07.prod.outlook.com
- (2603:10a6:803:b4::39) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|GV2PR08MB8317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68832901-7e27-4061-5567-08db23b6e581
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m0rkzcI1HrtbOZOwv9CIarPfOUpvyNwRqrE8SLy1/j5xgZY6sZwpgKpb0o2yweUBG0pM7f+0OER+GfLMDrALq8ko+P5CdlaRv+aPiLzcDzCxyM5ke+KDslI4wCRX0gWWde9r2sivJH8pyaumsTxPuOLUCThHTnISpfGzbU7e/imdp0nOYEmpeWmwro5R1k9JF828sXbOt7JAT3bwgTfdRjm2HxAkETCXpVyPtJrayn/tSaKUMRF1SYLAmEUOcXZiuaVMF/U11EBWzqhXkXyN5jraA3vUcEhCwOTJWsmdtM8aeOmC0btGO9ZU/GNlY/EnMIHUb0cZhqRxK8TjZiIa61XzIqm6ZrWqpi2rhbQeAk7tZGN5RH6cK2Jc0BqqpG2L6mPuT50xat8J25UTyF2Jx3YhTDYqhZfbRyFdRMDwEobrirf6AVggKR/d9TGnS6kyuEvv6z3YIktcKYUPC+xUL3TsCGzkSINXN+aoYV1duqNQy5mpFkNzjXVO4KihzY7WVzkAxIdyhtm8LA3xJw3eUjd5ipRZu6CWpdEs9IrzN5w7kLSfuaTIG2NFv/MbQimMML1SSGpUZ6qZp1Lbw3iJrJ0Y+mfEfl471ef6SKq1Rk/T0H54cAHNauVdnvzKE4Tc5hIOLmNmHSeG/BUCAS3A95QpEpQLZbzEAYKXjScudqrV7jrB8ERJ25JiFt+vs4CV0DLflMao8+VzTCzYxJqfm8FH7BTd3BOl9qq0UZP+yrk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(39850400004)(366004)(376002)(396003)(136003)(451199018)(5660300002)(4744005)(36756003)(83380400001)(186003)(478600001)(6512007)(6506007)(6486002)(2616005)(26005)(53546011)(4326008)(66476007)(8936002)(66556008)(66946007)(8676002)(86362001)(31696002)(110136005)(316002)(38100700002)(41300700001)(31686004)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UGVydjcybHdoNS9rYWtxNFNaSU1PclZjNVZnZmFSaGFqQjkrNHllL00zcGRD?=
- =?utf-8?B?U2xaWEkvdUlLTVFrUWRLMVBUdG90TDhwbVcrbDFDZkpEeXkvNzlwSkcybndi?=
- =?utf-8?B?bXp2TVNpbEhQemxBQU5oU1BuZkIvUmw1cjF1NXRVSTRtdW8xNlVxd1Bmclh1?=
- =?utf-8?B?QS8wSlM4cXZJTWlYYklkM1IwZ1NTNTA5L2QrMGVuaDdHbytlUEc0VmJYS1Zp?=
- =?utf-8?B?OFBGY05ybFZycXZLZ3VUWW92ZjQ0OGhxQjYwRkFzeGsrektWNjh1a1VKUDhr?=
- =?utf-8?B?UXpZYVFWNUd2TWZ1alVzTFc5aTcrYnhpeTVSVjIvVm1laW9ka0RBYjBCVWhn?=
- =?utf-8?B?b0JKTEF5Sjh5Q0hRcUdxWUgrSnc5REMxYlJURDc3a3k5ZjZacVhSWWtOaXMw?=
- =?utf-8?B?MC9FaGE3RnppVEFKUTJGM25EQ1VjV1QvYVo2NXlVT3VEUmltL1hKUlR4S0lN?=
- =?utf-8?B?MC9yY3lqVG5MeWVBMWxxd0xFZ3J3dFRPcDk4b05MRVhZb3NMK1RobFNHOXdp?=
- =?utf-8?B?ajZUL3FvNkNFODVNNEN3amFLNmVGM1kvWFZZU0FEQ0RyeHZQeDZrajJIWThD?=
- =?utf-8?B?VUVkU05NQ0NJLzh4QjJSTnFBYnRycms3Vk8wTTd0OFdscmpQR2gwL2Frbzky?=
- =?utf-8?B?YWNmeSs1bmlGMmZxV0xxbVB1UjJEUU5TczR0ZW10eGJEeVljU0taK2xJVGY2?=
- =?utf-8?B?alU0bVl2dzR1Y0h3c1FHTWtWdXc2RG9yaEd0VlJrVmVBbGtOMTJPZzVOQSty?=
- =?utf-8?B?WEF1WWszbmc1UEl1T21nQmJhTk4wMW1BWUlZMXIyQjMwYmxTWkJaaGgyOE12?=
- =?utf-8?B?UmJYTEMzZmVVb1RPYkhUekZUWllPRE5iZkdpc0x0ejFNTUEzbkhRVm42UnZr?=
- =?utf-8?B?cXdUWTJtTTdiWUllelNBSCtYYWNoczN3R3dVR1hrTjBKMlVqUVJucnNNcTdZ?=
- =?utf-8?B?cDlsRGZ0NWtPTmdKS2tPYUhCT2lVZnhKZzc1K0FUOWRDWFRDVUhDdnFOQjRR?=
- =?utf-8?B?NlhzRVl2bDhBaVI2NjM0N2QvbUwwTkFwUVpwQmxkZWo5eVlQSHZHQ2J5d3Zp?=
- =?utf-8?B?WU9aVW1peVdVN2FlTUVRWTVpTTZyZk9jSGpRcnVCdEtoSi9LYjk0THR1ZnlW?=
- =?utf-8?B?MHdBOUxDdW9WSEMyYUhuOU5tZDRtbU1tR0RZNXVyVTg0aXFJQVJiMS83YkJZ?=
- =?utf-8?B?MVRzdXJzMVhCK1pqZFBPdWdlcFI3eTFkSDdMK3hFVUx4T1VBMkRVUUlOaDNH?=
- =?utf-8?B?eTJHT09DdnUzQlhqTENzdklad3A0YWRVZTY5Znpzc3EvbFJyQm9LQ3VrZnNJ?=
- =?utf-8?B?M3dsSDhBVHUxQmV3T1pRUDdROHV2MkNBeWVuTXMzVWxDVGhBVlk4c0dZMG1Q?=
- =?utf-8?B?cm9ISkdYdDFsbmpsWXRNaWZydXorZ2g3STJraExCQURyQVFuWHkwVlczTTVJ?=
- =?utf-8?B?d3QrbjgwODhycFpHeUFiUlUrY20raFQvODZVdENsRUxlTU1acW5ZVDZRQTFs?=
- =?utf-8?B?SE5jQWdaMGg5R2VPVStWLzdzOVJaa1RqSVBkbjlVSVJ0YU9uWjg1U3VMUTlr?=
- =?utf-8?B?TmFNak54L3h0V1VyUFJqcEpjZ0prZEphdnJNakpNaUgzcktrSEhLR2RzWEZX?=
- =?utf-8?B?Ujc0TnpLMGhnZTViMzF3dU81SUFQc08zbWM3empOajBwdVVCT1NlcERKbWxT?=
- =?utf-8?B?eDVYYUdCRVRGK3lLa2FvRUdoYXFxVzcxK20xZERzSnBDMVo2c1Y5d1lpYUdu?=
- =?utf-8?B?SEdESnZsR1g4TFBYRGlUbGhaTHk0L0FSZFFZb0pxdTIvbDZSTjVSQittQzg4?=
- =?utf-8?B?SFVvTXpyZ0U2dmpPR0tYcEQ0VzdDY0MzVjEzVmNTTUVQLzVQeWJIRVJ5b2ln?=
- =?utf-8?B?VE9Ba3c1dWV4akpqMUc0Vm5yc1k2aW52VW45SGVuWklYVXIrZ1ZjSmxUdVgy?=
- =?utf-8?B?T0NlamlXL0hsWjluY0dVeDlYa0E2WGo3U1FOT0YyZ0NFZlUzNVZRWVhPYVkz?=
- =?utf-8?B?VDJmVVVCaXozWHFGTUMyNW5Wc2tES0tVOXEvaWJkYk40QW9PMWFkdTB2enJ5?=
- =?utf-8?B?QmhXcjVsZGFIdFpnK24vQnc4VVIzZTFkaC9IY0t3S1UydG0xbTQyWlA0YWJM?=
- =?utf-8?Q?GuZtrAC8GafBn6Gy5YnWHhHId?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68832901-7e27-4061-5567-08db23b6e581
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 11:34:24.6254 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LkNPbqC4cZC1Pe2C01mUZxxiNZouDwC3ofOP0333R+GwpyTPzxEFriQt8LO8hw8ENb/TukbmpTKh8Mbc/ixS0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8317
-Received-SPF: pass client-ip=2a01:111:f400:7e1a::70b;
- envelope-from=den@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -148,30 +98,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 13:20, Hanna Czenczek wrote:
-> On 03.02.23 10:18, Alexander Ivanov wrote:
->> Fix image inflation when offset in BAT is out of image.
->>
->> Replace whole BAT syncing by flushing only dirty blocks.
->>
->> Move all the checks outside the main check function in
->> separate functions
->>
->> Use WITH_QEMU_LOCK_GUARD for simplier code.
->>
->> Fix incorrect condition in out-of-image check.
->
-> Apart from my comments (and I think regardless of what happens for 
-> patch 1), looks good to me!  Some patches will need to be rebased on 
-> the GRAPH_RDLOCK changes, but that looks straightforward.
->
-> Hanna
->
-I think that I should pass the process of learning how to send
-pull request and make it as soon as possible in order to
-learn.
+On 25/2/23 07:35, Gavin Shan wrote:
+> For some architectures like ARM64, multiple CPUs in one cluster can be
+> associated with different NUMA nodes, which is irregular configuration
+> because we shouldn't have this in baremetal environment. The irregular
+> configuration causes Linux guest to misbehave, as the following warning
+> messages indicate.
+> 
+>    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
+>    -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
+>    -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
+>    -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
+> 
+>    ------------[ cut here ]------------
+>    WARNING: CPU: 0 PID: 1 at kernel/sched/topology.c:2271 build_sched_domains+0x284/0x910
+>    Modules linked in:
+>    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.14.0-268.el9.aarch64 #1
+>    pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>    pc : build_sched_domains+0x284/0x910
+>    lr : build_sched_domains+0x184/0x910
+>    sp : ffff80000804bd50
+>    x29: ffff80000804bd50 x28: 0000000000000002 x27: 0000000000000000
+>    x26: ffff800009cf9a80 x25: 0000000000000000 x24: ffff800009cbf840
+>    x23: ffff000080325000 x22: ffff0000005df800 x21: ffff80000a4ce508
+>    x20: 0000000000000000 x19: ffff000080324440 x18: 0000000000000014
+>    x17: 00000000388925c0 x16: 000000005386a066 x15: 000000009c10cc2e
+>    x14: 00000000000001c0 x13: 0000000000000001 x12: ffff00007fffb1a0
+>    x11: ffff00007fffb180 x10: ffff80000a4ce508 x9 : 0000000000000041
+>    x8 : ffff80000a4ce500 x7 : ffff80000a4cf920 x6 : 0000000000000001
+>    x5 : 0000000000000001 x4 : 0000000000000007 x3 : 0000000000000002
+>    x2 : 0000000000001000 x1 : ffff80000a4cf928 x0 : 0000000000000001
+>    Call trace:
+>     build_sched_domains+0x284/0x910
+>     sched_init_domains+0xac/0xe0
+>     sched_init_smp+0x48/0xc8
+>     kernel_init_freeable+0x140/0x1ac
+>     kernel_init+0x28/0x140
+>     ret_from_fork+0x10/0x20
+> 
+> Improve the situation to warn when multiple CPUs in one cluster have
+> been associated with different NUMA nodes. However, one NUMA node is
+> allowed to be associated with different clusters.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>   hw/core/machine.c   | 42 ++++++++++++++++++++++++++++++++++++++++++
+>   include/hw/boards.h |  1 +
+>   2 files changed, 43 insertions(+)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index f29e700ee4..3513df5a86 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1252,6 +1252,45 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
+>       g_string_free(s, true);
+>   }
+>   
+> +static void validate_cpu_cluster_to_numa_boundary(MachineState *ms)
+> +{
+> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+> +    NumaState *state = ms->numa_state;
+> +    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
+> +    const CPUArchId *cpus = possible_cpus->cpus;
+> +    int len = possible_cpus->len, i, j;
 
-We are really good enough.
+(Nitpicking, 'len' variable is not very useful).
 
-Den
+> +
+> +    if (state->num_nodes <= 1 || len <= 1) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * The Linux scheduling domain can't be parsed when the multiple CPUs
+> +     * in one cluster have been associated with different NUMA nodes. However,
+> +     * it's fine to associate one NUMA node with CPUs in different clusters.
+> +     */
+> +    for (i = 0; i < len; i++) {
+> +        for (j = i + 1; j < len; j++) {
+> +            if (cpus[i].props.has_socket_id &&
+> +                cpus[i].props.has_cluster_id &&
+> +                cpus[i].props.has_node_id &&
+> +                cpus[j].props.has_socket_id &&
+> +                cpus[j].props.has_cluster_id &&
+> +                cpus[j].props.has_node_id &&
+> +                cpus[i].props.socket_id == cpus[j].props.socket_id &&
+> +                cpus[i].props.cluster_id == cpus[j].props.cluster_id &&
+> +                cpus[i].props.node_id != cpus[j].props.node_id) {
+> +                warn_report("CPU-%d and CPU-%d in socket-%ld-cluster-%ld "
+> +                             "have been associated with node-%ld and node-%ld "
+> +                             "respectively. It can cause OSes like Linux to"
+> +                             "misbehave", i, j, cpus[i].props.socket_id,
+> +                             cpus[i].props.cluster_id, cpus[i].props.node_id,
+> +                             cpus[j].props.node_id);
+
+machine_run_board_init() takes an Error* argument, but is only called
+once by qemu_init_board() with errp=&error_fatal. I suppose using
+warn_report() here is OK.
+
+Acked-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> +            }
+> +        }
+> +    }
+> +}
+> +
+>   MemoryRegion *machine_consume_memdev(MachineState *machine,
+>                                        HostMemoryBackend *backend)
+>   {
+> @@ -1337,6 +1376,9 @@ void machine_run_board_init(MachineState *machine, const char *mem_path, Error *
+>           numa_complete_configuration(machine);
+>           if (machine->numa_state->num_nodes) {
+>               machine_numa_finish_cpu_init(machine);
+> +            if (machine_class->cpu_cluster_has_numa_boundary) {
+> +                validate_cpu_cluster_to_numa_boundary(machine);
+> +            }
+>           }
+>       }
+
 
