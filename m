@@ -2,119 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37EA6B7121
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC8C6B713F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 09:38:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbdVb-0001Qm-23; Mon, 13 Mar 2023 04:26:20 -0400
+	id 1pbdfX-0007eP-OY; Mon, 13 Mar 2023 04:36:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pbdVB-0001Ao-T5
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:25:54 -0400
-Received: from esa14.hc2706-39.iphmx.com ([216.71.140.199])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbdfS-0007cq-AQ
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:36:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pbdV8-0000ba-GP
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:25:53 -0400
-X-IronPort-RemoteIP: 209.85.160.200
-X-IronPort-MID: 287108782
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:0WFoHqKTXHHOWmTeFE+Rb5clxSXFcZb7ZxGr2PjKsXjdYENS1DZWx
- 2QaDG6HOveLZ2f1ftt+aI/j9UJUuseGytVhSlRorCE8RH908vbIVI+TRqvS04J+DSFhoGZPt
- Zh2hgzodZhsJpPkjk7xdOOn9T8kjvvgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziJ2yDhjlV
- ena+qUzA3f4nW8kWo4ow/jb8kg3562p4GlwUmEWPpingnePzxH5M7pCfcldH1OgKqFIE+izQ
- fr0zb3R1gs1KD90V7tJOp6iGqE7aue60Tqm0xK6aID76vR2nRHe545gXBYqhea7vB3S9zx54
- I0lWZVd0m7FNIWV8AgWe0Aw/y2TocSqUVIISJSymZX78qHIT5fj69NVEWYoJJIRw/pMPjtB2
- PFbJzZQUw/W0opawJrjIgVtrsEqLc2uJZ9G/386lWmfAvEhTpTOBa7N4Le03h9q3pEITauYP
- pRBL2A3NHwsYDUWUrsTIJs6jOGknFH1bntVpE/9Sa8fuTiMlVQhj+i3WDbTUsaKZt94skOIn
- 2Hh0T/cM00CCNKlyzXQpxpAgceKx0sXQrk6DbC967tmjUOewkQVDxsZU0b9puO24nNSQPpaI
- k0QvzMy9O08rhTzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBdJtKdQLTKbPMLeAE=
-IronPort-HdrOrdr: A9a23:i97DQa4ZoYPUg/xESQPXwPvXdLJyesId70hD6qhIIiYlFvBw9v
- re/sjzsCWe4gr5N0tMpTn+Atj4fZqxz/JICOoqTNSftWvd2VdARbsKhbcKpQeOJ8SUzI5gPM
- lbHZSXL7bLfD1HZf2Q2njeLz4Yq+P3lpxAjN2ut0tQcQ==
-Received: from mail-qt1-f200.google.com ([209.85.160.200])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 04:25:48 -0400
-Received: by mail-qt1-f200.google.com with SMTP id
- r3-20020ac84243000000b003b9a3ab9153so6454168qtm.8
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1678695947;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KpeFkI+n/R4JnjsLeFjb8CrnOXuUwmA/btTZScIGnXo=;
- b=bMMqmklJPiucjcRrFHTgtE/MLYv/2okRD40GEKh882iwDYeTAUFoPnImaoeQXn/4zD
- +L9u8RsCvMnYNedNqmjEQkpCp9grzyzyRGVXyyn4J0nzk4+REAqL+htsV/PH8linMdp1
- uHxKOMZFUGSH2oack5IAjjtJ5dR0nizKJ63s1EvvKfchvmbJdM3TWZn9EEe8s/dL0kL1
- Gd7dQ7V0RXZ8KNW90B/o0inGkXPSbbcZ9KjLfZThyzHDEM3XNKrYJoP6g0s+b6WIt06t
- OuIUwRzVMqiA2j5GZCjWUkNGGparOD9uZgqQNcSbSzaOcs/hJTsOrgP+kpyVFRfGxLbU
- u9Dw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbdfN-0002Ut-Mb
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 04:36:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678696584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OWt5vj9MMwXb4l9+uwottEsS1Nl//OGUSfQKqU3untY=;
+ b=X47CRGb3XaA3Y2sMQ1kWSGAXypOVI0TlgZ58jKdkALmWS35gVuImYuIwjxDw8i2U4uujmK
+ qLCMJkxu4/K8OgX8cZ1n48mOqZKFzOTTHHV9Vz28UxXJhvGXsHlqx7KSWoqYASML+yiJhV
+ qXMM/96fxz6rR7gjcz2lF+Xa60fpXoA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-652-6fSsu8ZXO8y6RdmtjTnJkw-1; Mon, 13 Mar 2023 04:36:23 -0400
+X-MC-Unique: 6fSsu8ZXO8y6RdmtjTnJkw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ ay12-20020a05600c1e0c00b003ed201dcf71so1058068wmb.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 01:36:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678695947;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KpeFkI+n/R4JnjsLeFjb8CrnOXuUwmA/btTZScIGnXo=;
- b=aOxYGAI8unC7LxjkOk3urSiAKsYYU2lsEV752T02PkbtPZjKRKCoMUg9e+i5F13tWa
- CndwrAQ0I+ufB09AIdo7ZsgqfNNjzWY1O66NozQuEX+Cnha0VAGitBpvsspcKjFIcycy
- yLhIt0hTMLCfAKQwyoQnvI3gz/6giq8U87PDO09cFRvsBxWw8N2RlMrkDwwh7RKx8QLZ
- Ro9B0FizHkt86UxtYPl8E/9RyS2QaeYLoCWs1U4eXLvpd96Nm8BhhAjWfP3G3fhlk8Xh
- 6zz2Gs4ID8aHEz72hZ8ZrWk06tUBqd+3tTt7Jg3C9sDNbaSEmRoRPY9YQslgETqyfNkO
- pjSw==
-X-Gm-Message-State: AO0yUKUbfSyLHinhBMq2Cn9PsCwoshGmsB1LGAhHpUcN/9gynvXcVmBb
- VFVNe6pgBDMnh0TJyrT6lajmZWogUKnnkFPQRkkQTMRmu3SLtXNbAu2JdLaCR5gysQb0JD/6Hs0
- tnago4k52Cav1u0TptwqBTLe+UzpuNifNWS72LWaTXZY=
-X-Received: by 2002:a05:622a:15c2:b0:3bf:cc1a:f0bf with SMTP id
- d2-20020a05622a15c200b003bfcc1af0bfmr62235703qty.24.1678695947577; 
- Mon, 13 Mar 2023 01:25:47 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+vhAvRPaKaOApdS2WxqDHC1jnbCz5it639ctifSVqlSqXngL3WZ1tEQuqp6/ltI2eh1SN8Bg==
-X-Received: by 2002:a05:622a:15c2:b0:3bf:cc1a:f0bf with SMTP id
- d2-20020a05622a15c200b003bfcc1af0bfmr62235683qty.24.1678695947350; 
- Mon, 13 Mar 2023 01:25:47 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- x27-20020a05620a0b5b00b0074230493ccfsm4911867qkg.73.2023.03.13.01.25.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 01:25:47 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ d=1e100.net; s=20210112; t=1678696582;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OWt5vj9MMwXb4l9+uwottEsS1Nl//OGUSfQKqU3untY=;
+ b=AH9a+dvNQcRPLWkrQ7OuXNUZEu4QMPh+LhPHPhuGcAw3mvt7d9CJZoC+e5ElS+BdhV
+ d7MxNOUJYjBHOdI157bCHGsT3KVv++dR3aGojqy8fpOu+/N4m8dzb9DqYNYXl1/Nw2mZ
+ F3eV4hElitg8W/Hsoo4KDrcnI87O2kp/SMT+spA6CIKY6C/P28QMUDfmvdbEHEMkIebi
+ 0F/MOvW4/KIWdlFDLZ3gR+KKFTIHxKGeXVTbg58iuJE9CIHqFVN7SaI7wohzUydDgtSk
+ 4pHBZDKZSa0m1hiZhGBpc7GMpVnOQW71MB64Pln05Of1C6i9YiAR3qKN3NoBw6pfUu8C
+ rJEA==
+X-Gm-Message-State: AO0yUKUpPkkJWItFCRVcA/ad5c+r36CU6Oi6RgWtMmxXgrHvE5oyOUbT
+ UDYZNzoXX8nvb8cL9yaHLby6bokAty5Zyd2zcNJ47uelQ+u+B1CFAwsrCW4rZ55deObwlDLTlIH
+ Lqc2VbQrzODSXnMk=
+X-Received: by 2002:a5d:6504:0:b0:2ce:39d3:c9a5 with SMTP id
+ x4-20020a5d6504000000b002ce39d3c9a5mr21946650wru.22.1678696582374; 
+ Mon, 13 Mar 2023 01:36:22 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+MQhE6wSCnJV1f3TtYtFcxGiN5fNsHY1JDaSaepfTCQcDtrqqNRgmQVYfYKIYqqxPt0EH8gA==
+X-Received: by 2002:a5d:6504:0:b0:2ce:39d3:c9a5 with SMTP id
+ x4-20020a5d6504000000b002ce39d3c9a5mr21946635wru.22.1678696582103; 
+ Mon, 13 Mar 2023 01:36:22 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-179-26.web.vodafone.de.
+ [109.43.179.26]) by smtp.gmail.com with ESMTPSA id
+ q12-20020adfcd8c000000b002ceaeb4b608sm3160170wrj.34.2023.03.13.01.36.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 01:36:21 -0700 (PDT)
+Message-ID: <18ea04ff-4ebf-b163-0dcf-f0b8e966bda4@redhat.com>
+Date: Mon, 13 Mar 2023 09:36:18 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v7 4/6] hw: replace most qemu_bh_new calls with
+ qemu_bh_new_guarded
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
  Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Fiona Ebner <f.ebner@proxmox.com>,
- Fam Zheng <fam@euphon.net>
-Subject: [PATCH v7 6/6] lsi53c895a: disable reentrancy detection for script RAM
-Date: Mon, 13 Mar 2023 04:24:17 -0400
-Message-Id: <20230313082417.827484-7-alxndr@bu.edu>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230313082417.827484-1-alxndr@bu.edu>
+ Siqi Chen <coc.cyqh@gmail.com>, Paul Durrant <paul@xen.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Amit Shah <amit@kernel.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ "open list:virtio-blk" <qemu-block@nongnu.org>,
+ "open list:i.MX31 (kzm)" <qemu-arm@nongnu.org>,
+ "open list:New World (mac99)" <qemu-ppc@nongnu.org>
 References: <20230313082417.827484-1-alxndr@bu.edu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.199; envelope-from=alxndr@bu.edu;
- helo=esa14.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ <20230313082417.827484-5-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230313082417.827484-5-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -130,35 +126,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As the code is designed to use the memory APIs to access the script ram,
-disable reentrancy checks for the pseudo-RAM ram_io MemoryRegion.
+On 13/03/2023 09.24, Alexander Bulekov wrote:
+> This protects devices from bh->mmio reentrancy issues.
+> 
+> Thanks: Thomas Huth <thuth@redhat.com> for diagnosing OS X test failure.
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Paul Durrant <paul@xen.org>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   hw/9pfs/xen-9p-backend.c        | 5 ++++-
+>   hw/block/dataplane/virtio-blk.c | 3 ++-
+>   hw/block/dataplane/xen-block.c  | 5 +++--
+>   hw/char/virtio-serial-bus.c     | 3 ++-
+>   hw/display/qxl.c                | 9 ++++++---
+>   hw/display/virtio-gpu.c         | 6 ++++--
+>   hw/ide/ahci.c                   | 3 ++-
+>   hw/ide/ahci_internal.h          | 1 +
+>   hw/ide/core.c                   | 4 +++-
+>   hw/misc/imx_rngc.c              | 6 ++++--
+>   hw/misc/macio/mac_dbdma.c       | 2 +-
+>   hw/net/virtio-net.c             | 3 ++-
+>   hw/nvme/ctrl.c                  | 6 ++++--
+>   hw/scsi/mptsas.c                | 3 ++-
+>   hw/scsi/scsi-bus.c              | 3 ++-
+>   hw/scsi/vmw_pvscsi.c            | 3 ++-
+>   hw/usb/dev-uas.c                | 3 ++-
+>   hw/usb/hcd-dwc2.c               | 3 ++-
+>   hw/usb/hcd-ehci.c               | 3 ++-
+>   hw/usb/hcd-uhci.c               | 2 +-
+>   hw/usb/host-libusb.c            | 6 ++++--
+>   hw/usb/redirect.c               | 6 ++++--
+>   hw/usb/xen-usb.c                | 3 ++-
+>   hw/virtio/virtio-balloon.c      | 5 +++--
+>   hw/virtio/virtio-crypto.c       | 3 ++-
+>   25 files changed, 66 insertions(+), 33 deletions(-)
 
-In the future, ram_io may be converted from an IO to a proper RAM MemoryRegion.
-
-Reported-by: Fiona Ebner <f.ebner@proxmox.com>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- hw/scsi/lsi53c895a.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-index af93557a9a..db27872963 100644
---- a/hw/scsi/lsi53c895a.c
-+++ b/hw/scsi/lsi53c895a.c
-@@ -2302,6 +2302,12 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
-     memory_region_init_io(&s->io_io, OBJECT(s), &lsi_io_ops, s,
-                           "lsi-io", 256);
- 
-+    /*
-+     * Since we use the address-space API to interact with ram_io, disable the
-+     * re-entrancy guard.
-+     */
-+    s->ram_io.disable_reentrancy_guard = true;
-+
-     address_space_init(&s->pci_io_as, pci_address_space_io(dev), "lsi-pci-io");
-     qdev_init_gpio_out(d, &s->ext_irq, 1);
- 
--- 
-2.39.0
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
