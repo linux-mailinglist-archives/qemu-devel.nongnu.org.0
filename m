@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEFC6B7A06
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:12:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 269486B7A8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:40:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbitQ-0005bJ-49; Mon, 13 Mar 2023 10:11:16 -0400
+	id 1pbjKG-0007nC-6Q; Mon, 13 Mar 2023 10:39:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitM-0005X2-5T
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pbitK-0006cO-KS
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:11:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678716669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xXUWi/D5ENS/HMywWSU2ibnGR6zQfeC988o8MFTww+s=;
- b=IT6chbjlCsuL19iFLMbO/FDvrpGPHpWBaZ5W21UGr6jYqVFRsjctE5+Jyoc+MVlIL7qWp6
- HEm5zcV3OkaHY10zd02hSga6VA00pYzkxR7r0gqbJeFkjpeVMYP/YtQWHo6/slzr2Fv8po
- ObbKXQyoeWuW72gpPzn7Eb4CTalHDtk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-88-0UWyOnf4Mdu9OH-Ov206pw-1; Mon, 13 Mar 2023 10:11:06 -0400
-X-MC-Unique: 0UWyOnf4Mdu9OH-Ov206pw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A65AE3828889;
- Mon, 13 Mar 2023 14:11:05 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1C21121315;
- Mon, 13 Mar 2023 14:11:04 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Subject: [PULL 5/5] tests/tcg/s390x: Add C(G)HRL test
-Date: Mon, 13 Mar 2023 15:10:57 +0100
-Message-Id: <20230313141057.230810-6-thuth@redhat.com>
-In-Reply-To: <20230313141057.230810-1-thuth@redhat.com>
-References: <20230313141057.230810-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbjKE-0007ml-Rm
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:38:58 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbjKD-0002vG-7K
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:38:58 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ l7-20020a05600c1d0700b003eb5e6d906bso8002841wms.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 07:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678718335;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eefq9S8GWPBoVR+errFRXd3NvCDAUKXeBI7/FD+lL2k=;
+ b=I8gfiRTRogf2QhB+YDqkcuVOpUdnxvxTwprgELJZayCqOii5n+xI6xfGig1NwOmpxp
+ LuOPdKVUUpCMQ93eFJznvFgKeQg5r0n+b6ODl1pACqN3qQyWkApsMiqxFbccJybUuxBj
+ kktgteoYVhAzvVch5/d3i3Tfq4cvdUT7ZE5q5IBIh0rc6iltbb7K/AfwE7wvfhMx4+M2
+ iaPDLLIAOrQLWhtLC+OVYp9CA04y3ocxmu9vI076TVqCaZwk8pcHIW4yp42djjYiNWb/
+ 38EocylfZ9wIYhG0/2r512Ky/l3RJpWlwuwfAa06JiAwMV9QG8uC8um4Ie/YoEZFBJnx
+ bZdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678718335;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eefq9S8GWPBoVR+errFRXd3NvCDAUKXeBI7/FD+lL2k=;
+ b=5G9thCPm3fJ1jUaZ6Eop0cfxTrkg7GGoJ2w0Hd9HNqU5Av5unYSsMLiY7eXa+ndDnG
+ 6hKvSiJBBxtn4gMVyJU7wlgFG/+qUb7njVjp9KA1QW+BUg6ErLdCXtvjkk0kaMGCLEh7
+ BnoOl1GEeYmqZm3pr/os8VvBofk/V5y8vlHh7KPv2FHfeL8110yqxQk556irWlVhlZVK
+ CWjJtGjS1ZgcQ43YqHlOv6OjgLDzfh61lPqNA3mQBfWF/x0Gd7Y4RhnWQuH8XcrHvbQw
+ COvNYIyZ0mZuXvYrTjnOTjdV5CdV7B9TgL/C/0RPpdtSF1sJGhOG+NAk/0WdBA+6vhY+
+ hxgw==
+X-Gm-Message-State: AO0yUKXg/FOa5KWF75F3HiECX/floVSmEB8MG5FnuVcg1JHKPchGiIyU
+ 3Jvh8aNrWm6eqfhF8heeeaWdUA==
+X-Google-Smtp-Source: AK7set+2qO/2jKIkOAvYerrNFkwoxH7jW2zu+iIbnLK5ui1TOczADBG6R7emIGhZHEZvjK6uJ1ZcGQ==
+X-Received: by 2002:a05:600c:310d:b0:3eb:3945:d405 with SMTP id
+ g13-20020a05600c310d00b003eb3945d405mr10746614wmo.38.1678718334944; 
+ Mon, 13 Mar 2023 07:38:54 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ e6-20020a056000120600b002c70bfe505esm8382524wrx.82.2023.03.13.07.38.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 07:38:54 -0700 (PDT)
+Message-ID: <10381f45-062a-0f14-b40c-bf7c10920ff6@linaro.org>
+Date: Mon, 13 Mar 2023 15:38:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] ui/cocoa: user friendly characters for release mouse
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, BALATON Zoltan <balaton@eik.bme.hu>
+References: <E1pAClj-0003Jo-OB@lizzy.crudebyte.com>
+ <4105880.gIe6kQ2GIU@silver> <a04086d1-474c-8fcb-025d-27bc8b847fa8@eik.bme.hu>
+ <1983408.hr7SJzzTYm@silver>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <1983408.hr7SJzzTYm@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,123 +95,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+On 13/3/23 14:53, Christian Schoenebeck wrote:
+> On Monday, March 13, 2023 2:42:36 PM CET BALATON Zoltan wrote:
+>> On Mon, 13 Mar 2023, Christian Schoenebeck wrote:
+>>> On Monday, February 27, 2023 12:28:02 PM CET Christian Schoenebeck wrote:
+>>>> On Tuesday, December 27, 2022 5:15:31 PM CET Christian Schoenebeck wrote:
+>>>>> While mouse is grabbed, window title contains a hint for the user what
+>>>>> keyboard keys to press to release the mouse. Make that hint text a bit
+>>>>> more user friendly for a Mac user:
+>>>>>
+>>>>>   - Replace "Ctrl" and "Alt" by appropriate symbols for those keyboard
+>>>>>     keys typically displayed for them on a Mac (encode those symbols by
+>>>>>     using UTF-8 characters).
+>>>>>
+>>>>>   - Drop " + " in between the keys, as that's not common on macOS for
+>>>>>     documenting keyboard shortcuts.
+>>>>>
+>>>>>   - Convert lower case "g" to upper case "G", as that's common on macOS.
+>>>>>
+>>>>>   - Add one additional space at start and end of key stroke set, to
+>>>>>     visually separate the key strokes from the rest of the text.
+>>>>>
+>>>>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+>>>>> ---
+>>>>
+>>>> Ping
+>>>
+>>> Gerd,
+>>>
+>>> given that I got a RB and TB from Philippe, would you queue this minor macOS
+>>> patch please?
+>>
+>> Isn't this already merged as 23bdd0de97a18 ?
+> 
+> Ah yes, thanks! Sorry for the noise!
 
-Test COMPARE HALFWORD RELATIVE LONG instructions.
-Test that the bytes following the second operand do not affect the
-instruction.
-Test the sign extension performed on the second operand.
-
-Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20230310114157.3024170-3-nsg@linux.ibm.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/tcg/s390x/chrl.c          | 80 +++++++++++++++++++++++++++++++++
- tests/tcg/s390x/Makefile.target |  1 +
- 2 files changed, 81 insertions(+)
- create mode 100644 tests/tcg/s390x/chrl.c
-
-diff --git a/tests/tcg/s390x/chrl.c b/tests/tcg/s390x/chrl.c
-new file mode 100644
-index 0000000000..b1c3a1c561
---- /dev/null
-+++ b/tests/tcg/s390x/chrl.c
-@@ -0,0 +1,80 @@
-+#include <stdlib.h>
-+#include <assert.h>
-+#include <stdint.h>
-+
-+static void test_chrl(void)
-+{
-+    uint32_t program_mask, cc;
-+
-+    asm volatile (
-+        ".pushsection .rodata\n"
-+        "0:\n\t"
-+        ".short 1, 0x8000\n\t"
-+        ".popsection\n\t"
-+
-+        "chrl %[r], 0b\n\t"
-+        "ipm %[program_mask]\n"
-+        : [program_mask] "=r" (program_mask)
-+        : [r] "r" (1)
-+    );
-+
-+    cc = program_mask >> 28;
-+    assert(!cc);
-+
-+    asm volatile (
-+        ".pushsection .rodata\n"
-+        "0:\n\t"
-+        ".short -1, 0x8000\n\t"
-+        ".popsection\n\t"
-+
-+        "chrl %[r], 0b\n\t"
-+        "ipm %[program_mask]\n"
-+        : [program_mask] "=r" (program_mask)
-+        : [r] "r" (-1)
-+    );
-+
-+    cc = program_mask >> 28;
-+    assert(!cc);
-+}
-+
-+static void test_cghrl(void)
-+{
-+    uint32_t program_mask, cc;
-+
-+    asm volatile (
-+        ".pushsection .rodata\n"
-+        "0:\n\t"
-+        ".short 1, 0x8000, 0, 0\n\t"
-+        ".popsection\n\t"
-+
-+        "cghrl %[r], 0b\n\t"
-+        "ipm %[program_mask]\n"
-+        : [program_mask] "=r" (program_mask)
-+        : [r] "r" (1L)
-+    );
-+
-+    cc = program_mask >> 28;
-+    assert(!cc);
-+
-+    asm volatile (
-+        ".pushsection .rodata\n"
-+        "0:\n\t"
-+        ".short -1, 0x8000, 0, 0\n\t"
-+        ".popsection\n\t"
-+
-+        "cghrl %[r], 0b\n\t"
-+        "ipm %[program_mask]\n"
-+        : [program_mask] "=r" (program_mask)
-+        : [r] "r" (-1L)
-+    );
-+
-+    cc = program_mask >> 28;
-+    assert(!cc);
-+}
-+
-+int main(void)
-+{
-+    test_chrl();
-+    test_cghrl();
-+    return EXIT_SUCCESS;
-+}
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index b7f576f983..cf93b96686 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -28,6 +28,7 @@ TESTS+=div
- TESTS+=clst
- TESTS+=long-double
- TESTS+=cdsg
-+TESTS+=chrl
- 
- cdsg: CFLAGS+=-pthread
- cdsg: LDFLAGS+=-pthread
--- 
-2.31.1
-
+Sorry my bad, back then I forgot to reply to the patch mentioning
+I'd queue this patch.
 
