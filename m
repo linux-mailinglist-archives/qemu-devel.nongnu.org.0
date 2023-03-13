@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197FF6B7C29
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1B86B7C34
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 16:41:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbkGT-0007na-4s; Mon, 13 Mar 2023 11:39:09 -0400
+	id 1pbkGV-0007vb-7K; Mon, 13 Mar 2023 11:39:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbkGM-0007jx-0D; Mon, 13 Mar 2023 11:39:02 -0400
+ id 1pbkGN-0007l3-5K; Mon, 13 Mar 2023 11:39:03 -0400
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pbkGK-0004ut-AP; Mon, 13 Mar 2023 11:39:01 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1pbkGL-0004v4-Di; Mon, 13 Mar 2023 11:39:02 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32DFC372013184; Mon, 13 Mar 2023 15:38:57 GMT
+ 32DF7pwq007638; Mon, 13 Mar 2023 15:38:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=C4S9U33SooANOhLXyMDCCye4+epUi5P9sre7jBAcYOk=;
- b=TUGwD8xDebJVMMNHftgtihxLiQdEeYq3LUSPIYD+zVMVlq1dm8l4kQEChSiXChcC8/kt
- 7Awt/U4RcAesOZjkSuIEaJ8/39s+YdijWzHRl+bwUsat7+2TCm8VHvyaEJwoZiO1DcAB
- 9l6C44FT0ZME0qGJkNVFizbSdx/vyr2LyqOCUCtPmalJ4/H2xwRW396gEYCDyhf/gijK
- 2jo2Hmg4t5od5P2AFi8HtbcmyxGUBBjMewKegDLM+flkPDOELZwZ16bXg4XiRmfn7mFH
- osoBsyx6OJOSb+2KxJGv09rWZsHhlq3+UkD3hmEXBrkYRpkiJ3UyQXM6opm7KuWxe6R3 0w== 
+ bh=SopI3bT10nFs+G/Z6vkYrxjFbp4FlJzEA/DA7IkYGbE=;
+ b=PdWFf8F9lV6wBamV3b6wGYMN0gvFGU/WnzzgNyEzh5pes4MdZWnTlaCjBxBUY9NqJCEg
+ YBJqnYebBZWF1WUQItw4zCWYAlUigYrHii/OSGwctj8Qhi6hRkVCWy24QEDDBcSyq1iH
+ Y6FQsvMfXdSGmG0N/HB6zhodb3AFBcn4KlYBpY3T4PFtq40fyj3QHWZB95CCDiJKMWVi
+ qCuFkw30dMs9GbeFB9oK/QzgTdH4hiOjAvyPUX1ycXWF9AWRS33QcHLKeCV0/X+v5+Gz
+ 4v3nVZUGVFrCCmRkvb4U0ebQs/E54zE2jrYLhFAAnBR2/gSxRiwqScFoj8wYJ6XnwHl3 3Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa68q8sdw-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa3ac6skj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:38:57 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32DFCDio013928;
- Mon, 13 Mar 2023 15:38:57 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa68q8sd7-1
+ Mon, 13 Mar 2023 15:38:58 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32DDXIJU016509;
+ Mon, 13 Mar 2023 15:38:58 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pa3ac6sjt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Mar 2023 15:38:58 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DDwlb0028628;
+ Mon, 13 Mar 2023 15:38:56 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3p8h96kjhe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 13 Mar 2023 15:38:56 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DCviiM015761;
- Mon, 13 Mar 2023 15:38:54 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3p8h96jrxr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Mar 2023 15:38:54 +0000
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
  [10.20.54.105])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32DFcoL118547302
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32DFcq5T47382894
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Mar 2023 15:38:51 GMT
+ Mon, 13 Mar 2023 15:38:52 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D774D20043;
- Mon, 13 Mar 2023 15:38:50 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id AD35B20049;
+ Mon, 13 Mar 2023 15:38:52 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4A06820040;
- Mon, 13 Mar 2023 15:38:50 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2559A20040;
+ Mon, 13 Mar 2023 15:38:52 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.87.70])
  by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 13 Mar 2023 15:38:50 +0000 (GMT)
+ Mon, 13 Mar 2023 15:38:52 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
  qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
- Harold Grovesteen <h.grovsteen@tx.rr.com>,
  Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Subject: [PATCH v2 01/12] target/s390x: Handle branching to odd addresses
-Date: Mon, 13 Mar 2023 16:38:33 +0100
-Message-Id: <20230313153844.9231-2-iii@linux.ibm.com>
+Subject: [PATCH v2 02/12] target/s390x: Handle EXECUTE of odd addresses
+Date: Mon, 13 Mar 2023 16:38:34 +0100
+Message-Id: <20230313153844.9231-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230313153844.9231-1-iii@linux.ibm.com>
 References: <20230313153844.9231-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: tQA5vtNce3-Hwfgrhh61eTnNudHMaAyx
-X-Proofpoint-GUID: bKokJ1qVYpmWxix4mGmNl3D08N095xzL
+X-Proofpoint-GUID: UalDZVdLUOtDs7-JhtdUQRHy9lCacZet
+X-Proofpoint-ORIG-GUID: HwoPGkF9Z7WEMA57GmoCfrkeqF6KAOqv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-13_07,2023-03-13_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 mlxlogscore=981 bulkscore=0 malwarescore=0
- clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303130121
+ malwarescore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 mlxlogscore=783 mlxscore=0
+ phishscore=0 impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303130121
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -113,44 +112,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let branching happen and try to generate a new translation block with
-an odd address. Generate a specification exception in
-cpu_get_tb_cpu_state().
+Generate a specification exception in the helper before trying to fetch
+the instruction.
 
-Reported-by: Harold Grovesteen <h.grovsteen@tx.rr.com>
 Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- target/s390x/cpu.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/s390x/tcg/mem_helper.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 7d6d01325b2..0a76e96e078 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -29,6 +29,7 @@
- #include "cpu_models.h"
- #include "exec/cpu-defs.h"
- #include "qemu/cpu-float.h"
-+#include "tcg/tcg_s390x.h"
- 
- #define ELF_MACHINE_UNAME "S390X"
- 
-@@ -381,6 +382,14 @@ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
- static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index 6835c26dda4..9d1c4bb7374 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -2468,8 +2468,16 @@ void HELPER(stpq_parallel)(CPUS390XState *env, uint64_t addr,
+ */
+ void HELPER(ex)(CPUS390XState *env, uint32_t ilen, uint64_t r1, uint64_t addr)
  {
-+    if (env->psw.addr & 1) {
-+        /*
-+         * Instructions must be at even addresses.
-+         * This needs to be checked before address translation.
-+         */
-+        env->int_pgm_ilen = 2; /* see s390_cpu_tlb_fill() */
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, 0);
+-    uint64_t insn = cpu_lduw_code(env, addr);
+-    uint8_t opc = insn >> 8;
++    uint64_t insn;
++    uint8_t opc;
++
++    /* EXECUTE targets must be at even addresses.  */
++    if (addr & 1) {
++        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
 +    }
-     *pc = env->psw.addr;
-     *cs_base = env->ex_value;
-     *flags = (env->psw.mask >> FLAG_MASK_PSW_SHIFT) & FLAG_MASK_PSW;
++
++    insn = cpu_lduw_code(env, addr);
++    opc = insn >> 8;
+ 
+     /* Or in the contents of R1[56:63].  */
+     insn |= r1 & 0xff;
 -- 
 2.39.2
 
