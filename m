@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D136B7672
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FA76B7679
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:47:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgcD-0005TK-9I; Mon, 13 Mar 2023 07:45:21 -0400
+	id 1pbgcK-00065B-6h; Mon, 13 Mar 2023 07:45:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgbz-0004nJ-QJ
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pbgc3-0005Db-07
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgbx-0003oc-HJ
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:07 -0400
+ id 1pbgc0-0003xn-TJ
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:45:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678707904;
+ s=mimecast20190719; t=1678707908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S/KoWKb/m8WfBVa5j8E25z6nwOPM59iFUJ4sUBu8cTM=;
- b=f8VW+CxNirXeRf5zlmuKE1fzjO+SGAMi/U9xBMCOOyt6LgiAbbA0ldwblc657cRT5pT/cA
- 31bfzWdqpkk/VzHC7O/SCutKkjFAJ6srbijyQbZiJIsdEGudpoQQLQXiyNlM1N+gElkOZo
- XK42e61Wjt9rbBkuydKprY+tm3YpPZY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QZYS21+hNTFE8tMKucJRzMuigz/ZedT2zkBrAltxQo4=;
+ b=jVdR3Ul8YdkrRrYdasFxNOR/du4zguTYYEoF47lZOt80M4iigyHOeD3ejcdV4fTFYH7jG4
+ sLPzkqhlXyrt62N8/Y/IG76PJLNghKlg0sI+qWHw4Jn7/zrNd0gS3wS7nLFg1kUNYzqOME
+ skqRHgs41cfN//As0Mdt7JHlVM5qcv4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-BrFNSqfNMGu39cqnLUaf8Q-1; Mon, 13 Mar 2023 07:45:00 -0400
-X-MC-Unique: BrFNSqfNMGu39cqnLUaf8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-54-aORot--wMna6Ri3DH7P2gA-1; Mon, 13 Mar 2023 07:45:04 -0400
+X-MC-Unique: aORot--wMna6Ri3DH7P2gA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86845800B23;
- Mon, 13 Mar 2023 11:44:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28E8A299E758;
+ Mon, 13 Mar 2023 11:45:04 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B64B51410F1B;
- Mon, 13 Mar 2023 11:44:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E07A34042AC0;
+ Mon, 13 Mar 2023 11:45:02 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -62,16 +62,16 @@ Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>, Fam Zheng <fam@euphon.net>,
  Hanna Reitz <hreitz@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 17/25] char: do not double-close fd when failing to add client
-Date: Mon, 13 Mar 2023 15:43:27 +0400
-Message-Id: <20230313114335.424093-18-marcandre.lureau@redhat.com>
+Subject: [PULL 18/25] tests/docker: fix a win32 error due to portability
+Date: Mon, 13 Mar 2023 15:43:28 +0400
+Message-Id: <20230313114335.424093-19-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114335.424093-1-marcandre.lureau@redhat.com>
 References: <20230313114335.424093-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -98,34 +98,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The caller is already closing the fd on failure.
+docker.py is run during configure, and produces an error: No module
+named 'pwd'.
 
-Fixes: c3054a6e6a ("char: Factor out qmp_add_client() parts and move to chardev/")
+Use a more portable and recommended alternative to lookup the user
+"login name".
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230306122751.2355515-3-marcandre.lureau@redhat.com>
+Message-Id: <20230306122751.2355515-4-marcandre.lureau@redhat.com>
 ---
- chardev/char.c | 2 --
- 1 file changed, 2 deletions(-)
+ tests/docker/docker.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/chardev/char.c b/chardev/char.c
-index 11eab7764c..e69390601f 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -1175,12 +1175,10 @@ bool qmp_add_client_char(int fd, bool has_skipauth, bool skipauth,
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 3a1ed7cb18..688ef62989 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -23,10 +23,10 @@
+ import tempfile
+ import re
+ import signal
++import getpass
+ from tarfile import TarFile, TarInfo
+ from io import StringIO, BytesIO
+ from shutil import copy, rmtree
+-from pwd import getpwuid
+ from datetime import datetime, timedelta
  
-     if (!s) {
-         error_setg(errp, "protocol '%s' is invalid", protocol);
--        close(fd);
-         return false;
-     }
-     if (qemu_chr_add_client(s, fd) < 0) {
-         error_setg(errp, "failed to add client");
--        close(fd);
-         return false;
-     }
-     return true;
+ 
+@@ -316,7 +316,7 @@ def build_image(self, tag, docker_dir, dockerfile,
+ 
+         if user:
+             uid = os.getuid()
+-            uname = getpwuid(uid).pw_name
++            uname = getpass.getuser()
+             tmp_df.write("\n")
+             tmp_df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
+                          (uname, uid, uname))
+@@ -570,7 +570,7 @@ def run(self, args, argv):
+ 
+         if args.user:
+             uid = os.getuid()
+-            uname = getpwuid(uid).pw_name
++            uname = getpass.getuser()
+             df.write("\n")
+             df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
+                      (uname, uid, uname))
 -- 
 2.39.2
 
