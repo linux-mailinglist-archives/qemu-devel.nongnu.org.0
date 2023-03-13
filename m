@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93D56B762C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C872F6B765B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:43:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgXG-0000zF-3y; Mon, 13 Mar 2023 07:40:14 -0400
+	id 1pbga4-0001yh-Aw; Mon, 13 Mar 2023 07:43:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbgXE-0000yn-9w
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:40:12 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbgXB-0002yj-IH
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:40:11 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id p4so4805732wre.11
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 04:40:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678707607;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UiFoUA81V4aPPuk00TispSuT5tLI9a4wkzitJ40zKPw=;
- b=QpC6nUm0eRJxdnl5vA4C6A5oSoscBmorqvVWT/KVF4lJGnEkvr1Xd+fCqe1yacrwlQ
- ioOtsmXR2MIq8xnBmsR0Y88SC/dUdEkiscEDaI2eWrG3kbkYHNoYbS51F2+EXbfhDLc+
- wqFUtHRkPmAuIN3UZj2x61PML1WgOYBaidrQfsG4yUWZ1NPQqlArPlFKcouLB4eUkbR9
- mTmZvriBeHgPxI1jYwRAEGWraQEeD4pIKxIyPh9a31rVN8WOOpj02a7VgVZlDI9aYMyl
- Q49Y7DbAu4qVDUigg6MTp5GHjwvtnRVNSHzK53TXZ1Ct7sXBYuY8Y5gb8VlZUQFIfWiw
- Sm3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678707607;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UiFoUA81V4aPPuk00TispSuT5tLI9a4wkzitJ40zKPw=;
- b=J+EkaauzqgltKzStZxa8/BH8tV/Pt4X5eZw+a/UM2oYEKJQB1U7Dwog6fA+dUbRd7S
- 3FxhPuwnoGv6GPORicL0e3Fg66JaJ3odDTucdTjZn0Neo5Bn6eW81BiqvS5eg3cZniWk
- 1h4wjP2b2hIFQ9K37MgHDjQVB/qEcQyAD5xM86FUncFBzwFgxVYVKbkklEkG1oNvMw2u
- f1cS7MOsOthX2tp8KRcHYvwC6+73ZEprnhhbUUgbOrnCYslKeIpD9qX1ICSeTrds47fR
- oMIPaqP1obbRIsBdUy0CLJud0mgQzYNQLto/dtsRE6oqO1jmrJt+9jTx0tLPCTKjEmrq
- Rxjw==
-X-Gm-Message-State: AO0yUKU7zVGy3WtDYdnzy3faRdaSniR1ndy/bN0MWPZV80scjlukbpfV
- h0AwTXst9aT29+U0aqEqXNxyOA==
-X-Google-Smtp-Source: AK7set9Qc7TeQwizJiWSHoER0zmq1UY0RLh+GEh0dvINWzZw5YIvRJmDTfj0Ay9R9FLiJrKTCjtahg==
-X-Received: by 2002:adf:f1c2:0:b0:2cf:6088:3949 with SMTP id
- z2-20020adff1c2000000b002cf60883949mr1859466wro.18.1678707607295; 
- Mon, 13 Mar 2023 04:40:07 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e3-20020adfdbc3000000b002c55efa9cbesm7911867wrj.39.2023.03.13.04.40.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 04:40:06 -0700 (PDT)
-Message-ID: <7853d60e-b2f2-c83d-7160-b69b2c7ad8b3@linaro.org>
-Date: Mon, 13 Mar 2023 12:40:03 +0100
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pbga1-0001yU-Ld
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:43:05 -0400
+Received: from mout.kundenserver.de ([212.227.126.134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pbgZz-0003Ht-Eh
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:43:05 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MvsN5-1qQlMb1JEV-00su2X; Mon, 13 Mar 2023 12:42:58 +0100
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>,
+ Yalan Zhang <yalzhang@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [RFC PATCH] qapi: net: fix -set parameter with modern style
+Date: Mon, 13 Mar 2023 12:42:55 +0100
+Message-Id: <20230313114255.1206609-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 1/3] numa: Validate cluster and NUMA node boundary if
- required
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, rad@semihalf.com,
- peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, thuth@redhat.com,
- lvivier@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- yihyu@redhat.com, ajones@ventanamicro.com, berrange@redhat.com,
- dbarboza@ventanamicro.com, shan.gavin@gmail.com
-References: <20230225063527.281479-1-gshan@redhat.com>
- <20230225063527.281479-2-gshan@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230225063527.281479-2-gshan@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:hsJ7sSE7i1jYn6d+HP918ASBvVZfd97Qn8QA493djIawrIJRAss
+ pQaYRUN3Qg/bRBOoU+B6JqizmG+aZnIVQtt5blpJXuQ3S/oLjSj5e9lUe9SbqKOAvC/hoBo
+ NCSe3vV9SHFjwStTUtAPUJreCd1W1vW4+7lYq/AxC4O5LLHkk2OTCEziv6O8Yp4q0IWK1Jy
+ usw+u36DvcVfeyPdGarVA==
+UI-OutboundReport: notjunk:1;M01:P0:fke//6gB/PM=;Hn/s+S8oWr+wHN1UyHlJ8kivz7G
+ mBekFze2EcDhQe1QLzVGXjhRM5rmYMW+sJO9d4+PS/u37JI12qyKErtXa3ZoARFtYw6EaDgtf
+ iO/ImWbBqVRPTHDidNXvq1pCLmVegdBVmhcSh5KFl2yD+gbIUusmAmWq9IXwmKXOH3tBhlsok
+ UZmZ8Xd9F7d9ozrzMavjVQ6MPjEZ8Q1mpON8vfGZ8P0rUENqwtFHAeT9I/efI77nTrN6pX/V1
+ rD3Yy1aAyfDSavPafZkNoWSLRw3zkkI+LY/bCdQiyLcT8OQvpMM5l9OmMORNTya0TS/uWc9+i
+ TPgWa7wIa4sCmvPuSVw3NMao5GAGmTI9W5PFHS2te5qZ4p3kxmsjghVAB/93lG7kq3R3Gnxub
+ ggzCCmNzGsctQBjHrUmSzBviplnkz0ESK66mukw4YaT9RwYvJgwVKt470EVN3mwT3FPRxcO+0
+ UQX8lo0cj4YqzHFCbZsf+xDLEzRIAPS52rX68KwUg58eWYtKKwKo+RJB1IUa7l16SneNLCETz
+ 3/rNCG5zfhAzglbzOTlHDS8vPDv51aYh3dnvvmx67cuT3pwjEYZ7/dlyHkQm/eNkpjglpGvc5
+ pBXiWEheJXVgE5iMGX1z3HL5m67jjLbXeFjRIlssVSGvcSQ8ECVQSUt/BsNuvn39yMa1m4JJL
+ jGRcStZEv3qk77Vzmt4qiyFZbbSXATtHTdPMLuJdDQ==
+Received-SPF: permerror client-ip=212.227.126.134;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,122 +71,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/2/23 07:35, Gavin Shan wrote:
-> For some architectures like ARM64, multiple CPUs in one cluster can be
-> associated with different NUMA nodes, which is irregular configuration
-> because we shouldn't have this in baremetal environment. The irregular
-> configuration causes Linux guest to misbehave, as the following warning
-> messages indicate.
-> 
->    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
->    -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
->    -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
->    -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
-> 
->    ------------[ cut here ]------------
->    WARNING: CPU: 0 PID: 1 at kernel/sched/topology.c:2271 build_sched_domains+0x284/0x910
->    Modules linked in:
->    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.14.0-268.el9.aarch64 #1
->    pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->    pc : build_sched_domains+0x284/0x910
->    lr : build_sched_domains+0x184/0x910
->    sp : ffff80000804bd50
->    x29: ffff80000804bd50 x28: 0000000000000002 x27: 0000000000000000
->    x26: ffff800009cf9a80 x25: 0000000000000000 x24: ffff800009cbf840
->    x23: ffff000080325000 x22: ffff0000005df800 x21: ffff80000a4ce508
->    x20: 0000000000000000 x19: ffff000080324440 x18: 0000000000000014
->    x17: 00000000388925c0 x16: 000000005386a066 x15: 000000009c10cc2e
->    x14: 00000000000001c0 x13: 0000000000000001 x12: ffff00007fffb1a0
->    x11: ffff00007fffb180 x10: ffff80000a4ce508 x9 : 0000000000000041
->    x8 : ffff80000a4ce500 x7 : ffff80000a4cf920 x6 : 0000000000000001
->    x5 : 0000000000000001 x4 : 0000000000000007 x3 : 0000000000000002
->    x2 : 0000000000001000 x1 : ffff80000a4cf928 x0 : 0000000000000001
->    Call trace:
->     build_sched_domains+0x284/0x910
->     sched_init_domains+0xac/0xe0
->     sched_init_smp+0x48/0xc8
->     kernel_init_freeable+0x140/0x1ac
->     kernel_init+0x28/0x140
->     ret_from_fork+0x10/0x20
-> 
-> Improve the situation to warn when multiple CPUs in one cluster have
-> been associated with different NUMA nodes. However, one NUMA node is
-> allowed to be associated with different clusters.
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->   hw/core/machine.c   | 42 ++++++++++++++++++++++++++++++++++++++++++
->   include/hw/boards.h |  1 +
->   2 files changed, 43 insertions(+)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index f29e700ee4..3513df5a86 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1252,6 +1252,45 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
->       g_string_free(s, true);
->   }
->   
-> +static void validate_cpu_cluster_to_numa_boundary(MachineState *ms)
-> +{
-> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
-> +    NumaState *state = ms->numa_state;
-> +    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
-> +    const CPUArchId *cpus = possible_cpus->cpus;
-> +    int len = possible_cpus->len, i, j;
+With netdev modern style, parameters cannot be found using
+qemu_find_opts_err() and then qemu_set_option() cannot find
+them to update them with the new option.
 
-(Nitpicking, 'len' variable is not very useful).
+To fix that, update the code to manage the modern style by
+searching the parameter in nd_queue, and update the entry
+using visit_type_Netdev_members().
 
-> +
-> +    if (state->num_nodes <= 1 || len <= 1) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * The Linux scheduling domain can't be parsed when the multiple CPUs
-> +     * in one cluster have been associated with different NUMA nodes. However,
-> +     * it's fine to associate one NUMA node with CPUs in different clusters.
-> +     */
-> +    for (i = 0; i < len; i++) {
-> +        for (j = i + 1; j < len; j++) {
-> +            if (cpus[i].props.has_socket_id &&
-> +                cpus[i].props.has_cluster_id &&
-> +                cpus[i].props.has_node_id &&
-> +                cpus[j].props.has_socket_id &&
-> +                cpus[j].props.has_cluster_id &&
-> +                cpus[j].props.has_node_id &&
-> +                cpus[i].props.socket_id == cpus[j].props.socket_id &&
-> +                cpus[i].props.cluster_id == cpus[j].props.cluster_id &&
-> +                cpus[i].props.node_id != cpus[j].props.node_id) {
-> +                warn_report("CPU-%d and CPU-%d in socket-%ld-cluster-%ld "
-> +                             "have been associated with node-%ld and node-%ld "
-> +                             "respectively. It can cause OSes like Linux to"
-> +                             "misbehave", i, j, cpus[i].props.socket_id,
-> +                             cpus[i].props.cluster_id, cpus[i].props.node_id,
-> +                             cpus[j].props.node_id);
+Fixes: f3eedcddba36 ("qapi: net: introduce a way to bypass qemu_opts_parse_noisily()")
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ include/net/net.h |  2 ++
+ net/net.c         | 35 +++++++++++++++++++++++++++++++++++
+ softmmu/vl.c      |  8 ++++++++
+ 3 files changed, 45 insertions(+)
 
-machine_run_board_init() takes an Error* argument, but is only called
-once by qemu_init_board() with errp=&error_fatal. I suppose using
-warn_report() here is OK.
-
-Acked-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> +            }
-> +        }
-> +    }
-> +}
-> +
->   MemoryRegion *machine_consume_memdev(MachineState *machine,
->                                        HostMemoryBackend *backend)
->   {
-> @@ -1337,6 +1376,9 @@ void machine_run_board_init(MachineState *machine, const char *mem_path, Error *
->           numa_complete_configuration(machine);
->           if (machine->numa_state->num_nodes) {
->               machine_numa_finish_cpu_init(machine);
-> +            if (machine_class->cpu_cluster_has_numa_boundary) {
-> +                validate_cpu_cluster_to_numa_boundary(machine);
-> +            }
->           }
->       }
+diff --git a/include/net/net.h b/include/net/net.h
+index 1448d00afbc6..be42ba96ee3d 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -246,6 +246,8 @@ extern const char *host_net_devices[];
+ extern NetClientStateList net_clients;
+ bool netdev_is_modern(const char *optarg);
+ void netdev_parse_modern(const char *optarg);
++Netdev *netdev_find_modern(const char *id);
++void netdev_set_modern(Netdev *net, const char *arg, Error **errp);
+ void net_client_parse(QemuOptsList *opts_list, const char *str);
+ void show_netdevs(void);
+ void net_init_clients(void);
+diff --git a/net/net.c b/net/net.c
+index 6492ad530e21..9c384187255b 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1624,6 +1624,41 @@ out:
+     return ret;
+ }
+ 
++Netdev *netdev_find_modern(const char *id)
++{
++    NetdevQueueEntry *e;
++
++    QSIMPLEQ_FOREACH(e, &nd_queue, entry) {
++        if (strcmp(id, e->nd->id) == 0) {
++            return e->nd;
++        }
++    }
++    return NULL;
++}
++
++void netdev_set_modern(Netdev *net, const char *arg, Error **errp)
++{
++    Visitor *v;
++    char *id = net->id;
++    char *opts = g_strdup_printf("type=%s,id=%s,%s",
++                                 NetClientDriver_lookup.array[net->type],
++                                 id, arg);
++
++    v = qobject_input_visitor_new_str(opts, NULL, errp);
++    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
++        goto out;
++    }
++    if (visit_type_Netdev_members(v, net, errp)) {
++        g_free(id); /* re-allocated in visit_type_Netdev_members() */
++        visit_check_struct(v, errp);
++        visit_end_struct(v, NULL);
++    }
++
++out:
++    visit_free(v);
++    g_free(opts);
++}
++
+ static void netdev_init_modern(void)
+ {
+     while (!QSIMPLEQ_EMPTY(&nd_queue)) {
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 3340f63c3764..c063857867e2 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2162,6 +2162,14 @@ static void qemu_set_option(const char *str, Error **errp)
+     if (!is_qemuopts_group(group)) {
+         error_setg(errp, "-set is not supported with %s", group);
+     } else {
++        if (strcmp(group, "netdev") == 0) {
++            Netdev *net = netdev_find_modern(id);
++            if (net) {
++                netdev_set_modern(net, str + strlen(group) + strlen(id) + 2,
++                                  errp);
++                return;
++            }
++        }
+         list = qemu_find_opts_err(group, errp);
+         if (list) {
+             opts = qemu_opts_find(list, id);
+-- 
+2.39.2
 
 
