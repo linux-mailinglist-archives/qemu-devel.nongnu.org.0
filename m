@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627416B7499
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F2E6B74F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 11:59:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbfic-0007WO-DS; Mon, 13 Mar 2023 06:47:54 -0400
+	id 1pbfsO-0000yb-Tw; Mon, 13 Mar 2023 06:58:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pbfiZ-0007W4-Gr
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:47:51 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbfsN-0000xK-9l
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:57:59 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pbfiU-0001bQ-R9
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:47:51 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g3so10844899wri.6
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 03:47:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbfsL-0003An-Ps
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 06:57:59 -0400
+Received: by mail-wr1-x436.google.com with SMTP id r18so10884991wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 03:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678704464;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PcgxOqqRNQq5oDBpmhT0FkP8TkBYbZR/2coCn8YAXgI=;
- b=Bt9xhHjXknrFGJ2RdBq8HZntHavPq2ZG1dZV0rs//TxNyy866lQGiE/n9LOp3JQD8W
- hvjRvXK1FoSPKB4tgfzIp4r4z4de1TaTn3oSzLqKxEUazGB5pKedRrVdpY4/r8o16zUM
- WwKsak4d2+cBApb00RqrCOUZU2fkvT58lPW02bHDYWw5oyJS5ye0wqli6d1L264jc33m
- IADHTJt5EPyewmAumM3qLustgpWId3hQuFZqbq4UMXFW41NGtxUg5jdYxz1/M38w/KK0
- tRveOM8tFQ22PrBD9hOdovCIDjOvc16eGo5gLykssR2c6C9z530l0RMOOMMc83xlKjBv
- RZ3Q==
+ d=linaro.org; s=google; t=1678705075;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wmWEEz7qynDe0evLXMfifJJC5g0zDU777gggwA6WsSU=;
+ b=aRRvoNvqeuCutDYuAdYgzGp+dzmlMoa9FPz/IaqqWL+82YqErQb/H9OI30pkm1Vc3h
+ RqaIv7chCXR59TVysBw0Ngln+P0yGWIguDt9ENFRbnkTYZMfg5W/K/3MlomSsd+6c1As
+ WZJpIQNTwRDnfA71gDld3dRk2zP3WMr4CiJoH31QuiEuU0iPIaCQ0JvTY1YB6ZvENhDF
+ cDgrmvK6iweCw+7He1zMi0TpMwwgmosFh8m2aGZpVbnYJKn7vx57OJVLW8gr0p7rw+KF
+ X/HSdVe5TlHVal3R3yXKbu67fzk6oe4vC+01D8Xp7eYmbpxsMV2aNnBJ0TK4WsX2LlbN
+ D7jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678704464;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PcgxOqqRNQq5oDBpmhT0FkP8TkBYbZR/2coCn8YAXgI=;
- b=dzXUcUunwWD0/TBpgdn9azmuRDSBOc6tUygt2DQP6GTS5rrX95QSUhUunlvJMf6Udz
- Ui/okr+15unuiQ9nse7RbMcFIxbtm6MRo+mkY9mydGPkN/NfxSq60QbB6H6c949zcXSI
- Oj96NhNyn8N4ZEjtlnMJ4yWTp7YRfJskZu+vowHcRrA1xrBlS8VrBJDPImq97lLeOCg0
- yjWJfBCI/Vx2MWZkHSayRcrBqLMrcNQ3tVTC3hWquqlWusR5A5fHYKF/FkOMjdNcGnbo
- iEiI7ZsRumob4cRF1r6O660SEkLLwxIlxtJMw4bKkvmLQ2O80aPDZBn1OEAViCaK2UYy
- OpgQ==
-X-Gm-Message-State: AO0yUKVe71kYphhI1COfZNsFS4G689yu7ygl3jOBqMVHz9PrBy927Xv9
- MiAwJ/OoRj04Lcx8H6YkHDWTjw==
-X-Google-Smtp-Source: AK7set8AdNdVP/qYQ2HnNXjr7mBelYu3EZKbAJVeU+TCiUCvaRHMySXFrGh2jW/c1C7mYX9z+LdnVw==
-X-Received: by 2002:a05:6000:1ce:b0:2ce:4fe6:db01 with SMTP id
- t14-20020a05600001ce00b002ce4fe6db01mr9042982wrx.28.1678704464590; 
- Mon, 13 Mar 2023 03:47:44 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- z17-20020a5d44d1000000b002c5691f13eesm7510745wrr.50.2023.03.13.03.47.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 03:47:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EC8451FFB7;
- Mon, 13 Mar 2023 10:47:43 +0000 (GMT)
-References: <20230310195252.210956-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.22; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, cota@braap.org
-Subject: Re: [PATCH v2 0/7] plugin: fix clearing of plugin_mem_cbs on TB exit
-Date: Mon, 13 Mar 2023 10:47:38 +0000
-In-reply-to: <20230310195252.210956-1-richard.henderson@linaro.org>
-Message-ID: <875yb59bcg.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1678705075;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wmWEEz7qynDe0evLXMfifJJC5g0zDU777gggwA6WsSU=;
+ b=L9/aD+hpP4zwtVti7OMrteHl83A3y/C70c9TSdfpFdi3xAXvnKLG06Y8BSwZO9oqAk
+ SkkshywBxno0MfeFJRdgVnmWlrMgSTInkKD/Y/uhEovY/RZJhnGJMDkE+IPpP69CoQXR
+ U22SUmJbDSnpuDaZq4h2d/DrZGBaag8rV6cG04vyn1x1z4pyGQf75Bv10pKC3klSurTb
+ FPoPHlVYVzdKMXzAkW8GUMCyWQ6lcXP1Ije5y8JzRIVjJuanA8iJnBekpiUtfILyjKSk
+ VvVnlCjnlnLKpTczV1v2aWFs5yNu8Zzp/f5UXKETE41ieedYLntKRptrtRTqdTzRjwSJ
+ aQlA==
+X-Gm-Message-State: AO0yUKXJZipE1yL+9gFty9RRpE1GECiGWQF80YwsD6pphfPkMZ4j0EYy
+ xTJaaD1P5bVJjtPZ5ZDpqyJi3A==
+X-Google-Smtp-Source: AK7set9mQzE1ghJAMmj3gMfqy2bcxGg9SO5KghlAZi/QUPZjesh0t8jdFF07Js1S4F8KEfoe1ggYdw==
+X-Received: by 2002:adf:ea91:0:b0:2cf:e3d5:34d9 with SMTP id
+ s17-20020adfea91000000b002cfe3d534d9mr965587wrm.55.1678705075103; 
+ Mon, 13 Mar 2023 03:57:55 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ b13-20020a056000054d00b002c573778432sm7674247wrf.102.2023.03.13.03.57.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 03:57:54 -0700 (PDT)
+Message-ID: <ff54f396-a75c-325b-6b37-e1959db09c95@linaro.org>
+Date: Mon, 13 Mar 2023 11:57:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PULL 30/73] tests: acpi: update expected blobs
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+References: <cover.1678237635.git.mst@redhat.com>
+ <6bf2d446d470dfbd8ba45da27d10ade4616586b1.1678237635.git.mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <6bf2d446d470dfbd8ba45da27d10ade4616586b1.1678237635.git.mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 8/3/23 02:12, Michael S. Tsirkin wrote:
+> From: Igor Mammedov <imammedo@redhat.com>
+> 
+> expected changes:
+> Basically adds devices present on root bus in form:
+>    Device (SXX)
+>    {
+>       Name (_ADR, 0xYYYYYYYY)  // _ADR: Address
+>    }
+> 
+> On top of that For q35.noacpihp, all ACPI PCI hotplug
+> AML is removed and _OSC get native hotplug enabled:
+> 
+>                         CreateDWordField (Arg3, 0x04, CDW2)
+>                         CreateDWordField (Arg3, 0x08, CDW3)
+>                         Local0 = CDW3 /* \_SB_.PCI0._OSC.CDW3 */
+>    -                    Local0 &= 0x1E
+>    +                    Local0 &= 0x1F
+>                         If ((Arg1 != One))
+>                         {
+>                             CDW1 |= 0x08
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Message-Id: <20230302161543.286002-5-imammedo@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Better safe than sorry! :P
 
-> Changes for v2:
->   * Use plugin_gen_disable_mem_helpers,
->   * Remove plugin_gen_disable_mem_helpers from tcg_gen_exit_tb.
->   * Break include loop with hw/core/cpu.h and qemu/plugins.h.
->   * Inline plugin_gen_disable_mem_helpers.
+> ---
+>   tests/qtest/bios-tables-test-allowed-diff.h |   2 --
+>   tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3081 -> 3115 bytes
+>   tests/data/acpi/q35/DSDT.noacpihp           | Bin 8252 -> 7932 bytes
+>   3 files changed, 2 deletions(-)
 
-Queued to for-8.0/tweaks-and-fixes, thanks.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
