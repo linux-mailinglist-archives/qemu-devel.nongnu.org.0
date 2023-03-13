@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8866B76C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7DD6B7666
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 12:45:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbgb1-0002mV-UA; Mon, 13 Mar 2023 07:44:07 -0400
+	id 1pbgb5-0002sk-7a; Mon, 13 Mar 2023 07:44:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgb0-0002lp-69
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:44:06 -0400
+ id 1pbgb3-0002od-Af
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:44:09 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pbgay-0003T4-4d
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:44:05 -0400
+ id 1pbgb1-0003TS-Er
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 07:44:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678707843;
+ s=mimecast20190719; t=1678707846;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cfNV7RjaIOfN3Dn3L+A2QafZQ00IrJbP8L8rITkyTzs=;
- b=eQVZAkzbr8CcQAGq/EyxopMSSsrDoHcwbCsYyAPiIOvalu/LDyLTFElU4BwkzxFwwa1TrH
- j/Xi32Jf9OOcxpfGrB/1TGMG0gMLvUv9ate5zVtxouZJsPpBtGtwsqZBOtDuv12nWxKtU9
- oeXntXllvSGEpBkiN4i+76zfGJGKyXU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4gzdeG8JG14oBGCiEmZ9KbDQRdYnK6I+do8sqYfYSKI=;
+ b=Y1lCjAleBp5vj3zV6svgrVeP1IlTscRWfwGTBRKKe/YREe4Uoyw4slIK9Ugr/d5FcJayai
+ 5sEalgtE00gpQYiTVFjLNlHG8WVx9zWuW+r0OBOf5ZL1Fnmtl5uHKhvZjJUsHRu++A1ta/
+ PYBrQa3ZsmcIUZOagQ3kv4gQERMm4jI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-Tu8sZAyMPNee9W2I-eQybA-1; Mon, 13 Mar 2023 07:43:59 -0400
-X-MC-Unique: Tu8sZAyMPNee9W2I-eQybA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-184-3WwoBRzSM0Sad1v-0J7yJg-1; Mon, 13 Mar 2023 07:44:03 -0400
+X-MC-Unique: 3WwoBRzSM0Sad1v-0J7yJg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C61051818E6A;
- Mon, 13 Mar 2023 11:43:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 082253823A0E;
+ Mon, 13 Mar 2023 11:44:03 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F21E40C6E67;
- Mon, 13 Mar 2023 11:43:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 041641410F1B;
+ Mon, 13 Mar 2023 11:44:01 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -62,15 +62,15 @@ Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>, Fam Zheng <fam@euphon.net>,
  Hanna Reitz <hreitz@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 04/25] tests: add test-error-report
-Date: Mon, 13 Mar 2023 15:43:14 +0400
-Message-Id: <20230313114335.424093-5-marcandre.lureau@redhat.com>
+Subject: [PULL 05/25] error: add global &error_warn destination
+Date: Mon, 13 Mar 2023 15:43:15 +0400
+Message-Id: <20230313114335.424093-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20230313114335.424093-1-marcandre.lureau@redhat.com>
 References: <20230313114335.424093-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,154 +98,121 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+This can help debugging issues or develop, when error handling is
+introduced.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-Id: <20230221124802.4103554-5-marcandre.lureau@redhat.com>
+Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
 ---
- tests/unit/test-error-report.c | 121 +++++++++++++++++++++++++++++++++
- tests/unit/meson.build         |   1 +
- 2 files changed, 122 insertions(+)
- create mode 100644 tests/unit/test-error-report.c
+ include/qapi/error.h           |  6 ++++++
+ tests/unit/test-error-report.c | 18 ++++++++++++++++++
+ util/error.c                   | 10 +++++++---
+ 3 files changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/tests/unit/test-error-report.c b/tests/unit/test-error-report.c
-new file mode 100644
-index 0000000000..b09650687b
---- /dev/null
-+++ b/tests/unit/test-error-report.c
-@@ -0,0 +1,121 @@
+diff --git a/include/qapi/error.h b/include/qapi/error.h
+index d798faeec3..f21a231bb1 100644
+--- a/include/qapi/error.h
++++ b/include/qapi/error.h
+@@ -519,6 +519,12 @@ static inline void error_propagator_cleanup(ErrorPropagator *prop)
+ 
+ G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup);
+ 
 +/*
-+ * Error reporting test
-+ *
-+ * Copyright (C) 2022 Red Hat Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Special error destination to warn on error.
++ * See error_setg() and error_propagate() for details.
 + */
++extern Error *error_warn;
 +
-+#include "qemu/osdep.h"
-+#include "glib-compat.h"
-+#include <locale.h>
-+
-+#include "qemu/error-report.h"
-+
+ /*
+  * Special error destination to abort on error.
+  * See error_setg() and error_propagate() for details.
+diff --git a/tests/unit/test-error-report.c b/tests/unit/test-error-report.c
+index b09650687b..54319c86c9 100644
+--- a/tests/unit/test-error-report.c
++++ b/tests/unit/test-error-report.c
+@@ -12,6 +12,7 @@
+ #include <locale.h>
+ 
+ #include "qemu/error-report.h"
++#include "qapi/error.h"
+ 
+ static void
+ test_error_report_simple(void)
+@@ -103,6 +104,22 @@ test_error_report_timestamp(void)
+ ");
+ }
+ 
 +static void
-+test_error_report_simple(void)
++test_error_warn(void)
 +{
 +    if (g_test_subprocess()) {
-+        error_report("%s", "test error");
-+        warn_report("%s", "test warn");
-+        info_report("%s", "test info");
++        error_setg(&error_warn, "Testing &error_warn");
 +        return;
 +    }
 +
 +    g_test_trap_subprocess(NULL, 0, 0);
 +    g_test_trap_assert_passed();
 +    g_test_trap_assert_stderr("\
-+test-error-report: test error*\
-+test-error-report: warning: test warn*\
-+test-error-report: info: test info*\
++test-error-report: warning: Testing &error_warn*\
 +");
 +}
 +
-+static void
-+test_error_report_loc(void)
-+{
-+    if (g_test_subprocess()) {
-+        loc_set_file("some-file.c", 7717);
-+        error_report("%s", "test error1");
-+        loc_set_none();
-+        error_report("%s", "test error2");
-+        return;
++
+ int
+ main(int argc, char *argv[])
+ {
+@@ -116,6 +133,7 @@ main(int argc, char *argv[])
+     g_test_add_func("/error-report/glog", test_error_report_glog);
+     g_test_add_func("/error-report/once", test_error_report_once);
+     g_test_add_func("/error-report/timestamp", test_error_report_timestamp);
++    g_test_add_func("/error-report/warn", test_error_warn);
+ 
+     return g_test_run();
+ }
+diff --git a/util/error.c b/util/error.c
+index 1e7af665b8..5537245da6 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -27,8 +27,9 @@ struct Error
+ 
+ Error *error_abort;
+ Error *error_fatal;
++Error *error_warn;
+ 
+-static void error_handle_fatal(Error **errp, Error *err)
++static void error_handle(Error **errp, Error *err)
+ {
+     if (errp == &error_abort) {
+         fprintf(stderr, "Unexpected error in %s() at %s:%d:\n",
+@@ -43,6 +44,9 @@ static void error_handle_fatal(Error **errp, Error *err)
+         error_report_err(err);
+         exit(1);
+     }
++    if (errp == &error_warn) {
++        warn_report_err(err);
 +    }
-+
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+    g_test_trap_assert_stderr("\
-+test-error-report:some-file.c:7717: test error1*\
-+test-error-report: test error2*\
-+");
-+}
-+
-+static void
-+test_error_report_glog(void)
-+{
-+    if (g_test_subprocess()) {
-+        g_message("gmessage");
-+        return;
-+    }
-+
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+    g_test_trap_assert_stderr("test-error-report: info: gmessage*");
-+}
-+
-+static void
-+test_error_report_once(void)
-+{
-+    int i;
-+
-+    if (g_test_subprocess()) {
-+        for (i = 0; i < 3; i++) {
-+            warn_report_once("warn");
-+            error_report_once("err");
-+        }
-+        return;
-+    }
-+
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+    g_test_trap_assert_stderr("\
-+test-error-report: warning: warn*\
-+test-error-report: err*\
-+");
-+}
-+
-+static void
-+test_error_report_timestamp(void)
-+{
-+    if (g_test_subprocess()) {
-+        message_with_timestamp = true;
-+        warn_report("warn");
-+        error_report("err");
-+        return;
-+    }
-+
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+    g_test_trap_assert_stderr("\
-+*-*-*:*:* test-error-report: warning: warn*\
-+*-*-*:*:* test-error-report: err*\
-+");
-+}
-+
-+int
-+main(int argc, char *argv[])
-+{
-+    setlocale(LC_ALL, "");
-+
-+    g_test_init(&argc, &argv, NULL);
-+    error_init("test-error-report");
-+
-+    g_test_add_func("/error-report/simple", test_error_report_simple);
-+    g_test_add_func("/error-report/loc", test_error_report_loc);
-+    g_test_add_func("/error-report/glog", test_error_report_glog);
-+    g_test_add_func("/error-report/once", test_error_report_once);
-+    g_test_add_func("/error-report/timestamp", test_error_report_timestamp);
-+
-+    return g_test_run();
-+}
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index d9c0a7eae6..fa63cfe6ff 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -11,6 +11,7 @@ tests = {
-   'check-qobject': [],
-   'check-qjson': [],
-   'check-qlit': [],
-+  'test-error-report': [],
-   'test-qobject-output-visitor': [testqapi],
-   'test-clone-visitor': [testqapi],
-   'test-qobject-input-visitor': [testqapi],
+ }
+ 
+ G_GNUC_PRINTF(6, 0)
+@@ -71,7 +75,7 @@ static void error_setv(Error **errp,
+     err->line = line;
+     err->func = func;
+ 
+-    error_handle_fatal(errp, err);
++    error_handle(errp, err);
+     *errp = err;
+ 
+     errno = saved_errno;
+@@ -284,7 +288,7 @@ void error_propagate(Error **dst_errp, Error *local_err)
+     if (!local_err) {
+         return;
+     }
+-    error_handle_fatal(dst_errp, local_err);
++    error_handle(dst_errp, local_err);
+     if (dst_errp && !*dst_errp) {
+         *dst_errp = local_err;
+     } else {
 -- 
 2.39.2
 
