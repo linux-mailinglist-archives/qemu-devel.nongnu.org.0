@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269486B7A8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB146B7B15
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 15:52:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbjKG-0007nC-6Q; Mon, 13 Mar 2023 10:39:00 -0400
+	id 1pbjWS-00047L-0T; Mon, 13 Mar 2023 10:51:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbjKE-0007ml-Rm
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:38:58 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pbjWD-00046h-SC
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:51:21 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbjKD-0002vG-7K
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:38:58 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- l7-20020a05600c1d0700b003eb5e6d906bso8002841wms.5
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 07:38:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pbjWA-0004rw-DI
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 10:51:21 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id cy23so49677873edb.12
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 07:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678718335;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eefq9S8GWPBoVR+errFRXd3NvCDAUKXeBI7/FD+lL2k=;
- b=I8gfiRTRogf2QhB+YDqkcuVOpUdnxvxTwprgELJZayCqOii5n+xI6xfGig1NwOmpxp
- LuOPdKVUUpCMQ93eFJznvFgKeQg5r0n+b6ODl1pACqN3qQyWkApsMiqxFbccJybUuxBj
- kktgteoYVhAzvVch5/d3i3Tfq4cvdUT7ZE5q5IBIh0rc6iltbb7K/AfwE7wvfhMx4+M2
- iaPDLLIAOrQLWhtLC+OVYp9CA04y3ocxmu9vI076TVqCaZwk8pcHIW4yp42djjYiNWb/
- 38EocylfZ9wIYhG0/2r512Ky/l3RJpWlwuwfAa06JiAwMV9QG8uC8um4Ie/YoEZFBJnx
- bZdA==
+ d=linaro.org; s=google; t=1678719076;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yeMyMDDWQDV8Ilfzex3/TxESKgsN8h0b3K1cyKPfMw8=;
+ b=q4lzG03aLCt1xQs4kc7tseRg7D+ghAU1n8cyOlpgQF/xtoCD0D65DVP3S1XW8wbYtO
+ dJJwJYPoWWpUL+Es/EtXTgkSvH2VyFk1dVSjB+6dVYnQHy3U0nJKlLIQf4PHHVoR6QWi
+ icBEvfJzKsD3clhqEdVSmZuyUCFgxHSlzF+h82s55cvCkT6cLgbeDvK+DiaN299w4A1c
+ NbTDXI15cCvYUbQmOR+lpBn/yaaf0ffRpiNehGpTi5Ke+zbiU3FcrsBawkaPK9UySFKj
+ J61PpEx9rhsQ1SHzwwTYusYCONj9J9qVyR9vsE9SpeTPoo04wsxBu5EMstnAOvXMVtZB
+ ssIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678718335;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eefq9S8GWPBoVR+errFRXd3NvCDAUKXeBI7/FD+lL2k=;
- b=5G9thCPm3fJ1jUaZ6Eop0cfxTrkg7GGoJ2w0Hd9HNqU5Av5unYSsMLiY7eXa+ndDnG
- 6hKvSiJBBxtn4gMVyJU7wlgFG/+qUb7njVjp9KA1QW+BUg6ErLdCXtvjkk0kaMGCLEh7
- BnoOl1GEeYmqZm3pr/os8VvBofk/V5y8vlHh7KPv2FHfeL8110yqxQk556irWlVhlZVK
- CWjJtGjS1ZgcQ43YqHlOv6OjgLDzfh61lPqNA3mQBfWF/x0Gd7Y4RhnWQuH8XcrHvbQw
- COvNYIyZ0mZuXvYrTjnOTjdV5CdV7B9TgL/C/0RPpdtSF1sJGhOG+NAk/0WdBA+6vhY+
- hxgw==
-X-Gm-Message-State: AO0yUKXg/FOa5KWF75F3HiECX/floVSmEB8MG5FnuVcg1JHKPchGiIyU
- 3Jvh8aNrWm6eqfhF8heeeaWdUA==
-X-Google-Smtp-Source: AK7set+2qO/2jKIkOAvYerrNFkwoxH7jW2zu+iIbnLK5ui1TOczADBG6R7emIGhZHEZvjK6uJ1ZcGQ==
-X-Received: by 2002:a05:600c:310d:b0:3eb:3945:d405 with SMTP id
- g13-20020a05600c310d00b003eb3945d405mr10746614wmo.38.1678718334944; 
- Mon, 13 Mar 2023 07:38:54 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e6-20020a056000120600b002c70bfe505esm8382524wrx.82.2023.03.13.07.38.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 07:38:54 -0700 (PDT)
-Message-ID: <10381f45-062a-0f14-b40c-bf7c10920ff6@linaro.org>
-Date: Mon, 13 Mar 2023 15:38:52 +0100
+ d=1e100.net; s=20210112; t=1678719076;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yeMyMDDWQDV8Ilfzex3/TxESKgsN8h0b3K1cyKPfMw8=;
+ b=zjNJa1JEhNjxfhpEDeV8YDxTgNksF3WIj5xwrkBim3hSiIq+j+aD7TyJeh9HyhfDUe
+ pGSJw2JWZoClsEcKxWPPJzb3pTxn7/w5i/GPm9y4c5/hPXO/Uzo8YhMCQTqzMO2JHCgQ
+ gz3xnMm0nOioSJKKDTcsC6hPttnUfZBY5jA4FCQXQQ9byyQhwZST/7W3FYQ5a9xFDm34
+ tYgu+1pEDHMlr0kd9qqa6ZmtrEFzdL6P1O0zS1gaVVtPoCVd27gvFQkiDm/8OJXPmK4+
+ leMZ1arsNN2j3STxgV6WGZsnugXYbhfaD9ZsqJXOhgldObQNMKnmuxprmNLD+MTEODDI
+ QWhg==
+X-Gm-Message-State: AO0yUKUpcmhlzZP0FovypJwyZXo0Xu2ooIVDLlv3N1kI4dzps3ZT3gHq
+ iat+fsdg2xGgsuDpwALXyh+i3+zSjdukJAUzAFdYYw==
+X-Google-Smtp-Source: AK7set/uSiR909a12bV0POXwcejhg7bNJ22uKfO2sLutVL9IWkDGPNKsZmU8LzJhredgzKaFm+S41OyAUXmZz25L26Q=
+X-Received: by 2002:a17:906:2d51:b0:8af:7efc:84af with SMTP id
+ e17-20020a1709062d5100b008af7efc84afmr17628286eji.11.1678719076387; Mon, 13
+ Mar 2023 07:51:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] ui/cocoa: user friendly characters for release mouse
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <E1pAClj-0003Jo-OB@lizzy.crudebyte.com>
- <4105880.gIe6kQ2GIU@silver> <a04086d1-474c-8fcb-025d-27bc8b847fa8@eik.bme.hu>
- <1983408.hr7SJzzTYm@silver>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <1983408.hr7SJzzTYm@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+References: <20220926142422.22325-1-antonio.caggiano@collabora.com>
+ <877cx46jjg.fsf@linaro.org>
+ <fc74d071-2563-ee8c-ab7e-c5d4a2f3b0cc@collabora.com>
+ <CAAfnVBmiB=fokNztOj4XR=6d1U7JFGK9Z0wcyfVYBu_bDmWPbQ@mail.gmail.com>
+ <CAJ+F1C+v9tM2FezYoGJ+yAPPoNzT6foPoyJ-_WvS+kTcBSJgPg@mail.gmail.com>
+ <e912b13f-4306-88f2-1fd6-ca7481374cdf@collabora.com>
+In-Reply-To: <e912b13f-4306-88f2-1fd6-ca7481374cdf@collabora.com>
+From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Mon, 13 Mar 2023 14:51:04 +0000
+Message-ID: <CAHDbmO3vjfS2goZFyhja9YvV1xMor20_73=LXhR-y+CBcgGmqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] virtio-gpu: Support Venus Vulkan driver
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, gert.wollny@collabora.com, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000039e49005f6c93ec3"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,41 +90,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/3/23 14:53, Christian Schoenebeck wrote:
-> On Monday, March 13, 2023 2:42:36 PM CET BALATON Zoltan wrote:
->> On Mon, 13 Mar 2023, Christian Schoenebeck wrote:
->>> On Monday, February 27, 2023 12:28:02 PM CET Christian Schoenebeck wrote:
->>>> On Tuesday, December 27, 2022 5:15:31 PM CET Christian Schoenebeck wrote:
->>>>> While mouse is grabbed, window title contains a hint for the user what
->>>>> keyboard keys to press to release the mouse. Make that hint text a bit
->>>>> more user friendly for a Mac user:
->>>>>
->>>>>   - Replace "Ctrl" and "Alt" by appropriate symbols for those keyboard
->>>>>     keys typically displayed for them on a Mac (encode those symbols by
->>>>>     using UTF-8 characters).
->>>>>
->>>>>   - Drop " + " in between the keys, as that's not common on macOS for
->>>>>     documenting keyboard shortcuts.
->>>>>
->>>>>   - Convert lower case "g" to upper case "G", as that's common on macOS.
->>>>>
->>>>>   - Add one additional space at start and end of key stroke set, to
->>>>>     visually separate the key strokes from the rest of the text.
->>>>>
->>>>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
->>>>> ---
->>>>
->>>> Ping
->>>
->>> Gerd,
->>>
->>> given that I got a RB and TB from Philippe, would you queue this minor macOS
->>> patch please?
->>
->> Isn't this already merged as 23bdd0de97a18 ?
-> 
-> Ah yes, thanks! Sorry for the noise!
+--00000000000039e49005f6c93ec3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry my bad, back then I forgot to reply to the patch mentioning
-I'd queue this patch.
+If gfxstream is the android pipe based transport I think it's a legacy from
+before the switch to pure VirtIO for the new Cuttlefish models.
+
+On Mon, 13 Mar 2023, 13:27 Dmitry Osipenko, <dmitry.osipenko@collabora.com>
+wrote:
+
+> On 3/13/23 15:58, Marc-Andr=C3=A9 Lureau wrote:
+> ...
+> >> 2) Additional context type: gfxstream [i]?
+> >>
+> >> One of the major motivations for adding context types in the
+> >> virtio-gpu spec was supporting gfxstream.  gfxstream is used in the
+> >> Android Studio emulator (a variant of QEMU) [ii], among other places.
+> >> That would move the Android emulator closer to the goal of using
+> >> upstream QEMU for everything.
+> >
+> > What is the advantage of using gfxstream over virgl? or zink+venus?
+> >
+> > Only AOSP can run with virgl perhaps? I am not familiar with Android
+> > development.. I guess it doesn't make use of Mesa, and thus no virgl
+> > at all?
+>
+> +1 I'm also very interested in getting an overview of gfxstream
+> advantages over virgl and why Android emulator can't move to use
+> virgl+venus (shouldn't it just work out-of-the-box already?). Thanks!
+>
+> --
+> Best regards,
+> Dmitry
+>
+>
+
+--00000000000039e49005f6c93ec3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">If gfxstream is the android pipe based transport I think =
+it&#39;s a legacy from before the switch to pure VirtIO for the new Cuttlef=
+ish models.=C2=A0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Mon, 13 Mar 2023, 13:27 Dmitry Osipenko, &lt;<a href=3D=
+"mailto:dmitry.osipenko@collabora.com">dmitry.osipenko@collabora.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">On 3/13/23 15:58, Marc-And=
+r=C3=A9 Lureau wrote:<br>
+...<br>
+&gt;&gt; 2) Additional context type: gfxstream [i]?<br>
+&gt;&gt;<br>
+&gt;&gt; One of the major motivations for adding context types in the<br>
+&gt;&gt; virtio-gpu spec was supporting gfxstream.=C2=A0 gfxstream is used =
+in the<br>
+&gt;&gt; Android Studio emulator (a variant of QEMU) [ii], among other plac=
+es.<br>
+&gt;&gt; That would move the Android emulator closer to the goal of using<b=
+r>
+&gt;&gt; upstream QEMU for everything.<br>
+&gt; <br>
+&gt; What is the advantage of using gfxstream over virgl? or zink+venus?<br=
+>
+&gt; <br>
+&gt; Only AOSP can run with virgl perhaps? I am not familiar with Android<b=
+r>
+&gt; development.. I guess it doesn&#39;t make use of Mesa, and thus no vir=
+gl<br>
+&gt; at all?<br>
+<br>
++1 I&#39;m also very interested in getting an overview of gfxstream<br>
+advantages over virgl and why Android emulator can&#39;t move to use<br>
+virgl+venus (shouldn&#39;t it just work out-of-the-box already?). Thanks!<b=
+r>
+<br>
+-- <br>
+Best regards,<br>
+Dmitry<br>
+<br>
+</blockquote></div>
+
+--00000000000039e49005f6c93ec3--
 
