@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDA06B823A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:08:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC236B82F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Mar 2023 21:41:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pboSw-0006DR-SZ; Mon, 13 Mar 2023 16:08:19 -0400
+	id 1pboxj-0006hs-CJ; Mon, 13 Mar 2023 16:40:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pboSu-0006D4-Et
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:08:16 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pboxd-0006hM-Bb
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:40:02 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pboSs-0005ge-V9
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:08:16 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id bp19so10331689oib.4
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 13:08:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pboxb-0002FI-8h
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 16:40:00 -0400
+Received: by mail-wr1-x436.google.com with SMTP id h14so12518880wru.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 13:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678738093;
+ d=linaro.org; s=google; t=1678739997;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kcNbHfzfjwgj4WAAB9HDgad/3nvdd38KZlpl06VEq68=;
- b=BG0rPpXjXXYnyJxCokumlwePN+gJSkbHS4RVdb2Qoqcd1SdoVXWnAB5dzIPNJm6Kn5
- ggJ9idQkhnPhhuB2CcaW8ujeMVbUu3ZKhzcpvLDj5aWoqXfoXSLvF6QnHegOTw9umj5e
- Dn2IOgW1sCZM7munNVo+22g1EmzZQlFuo9SICj8L3Qh31dE9DrXkmXgfUAR9LHMuRnFQ
- UJpbW5A0Vm4CtNiqNUKFEO7VVXk88xtjzWelD41XbOOXved6cRLFQyWRa+VPYeCdWdWC
- moGGD/P6ygeXTQnNRJJmd1UQ6gxRlfu3mTyKGje4OqlyxHWz1G4zqqN9DfdUbKfLM2Ty
- wnLw==
+ bh=8AWBbf22zSF/IFORwDUirLGCdhgIk8aaKpsxf0JEjCw=;
+ b=HqDn4ERDUPt/7FoxSGTKR+TkKT5qYp6mbGo4o02Fj0AFk6QkwX5RYiUoidNvY1osZ4
+ uskaAKqBCqh+W/Rn0rFi+4a84pZmMmQXNg0x4pxiuv+zSRXukZJi7FsP1f+YiUrSPur0
+ Id90vSGSFsLzCy+QRzoaE7rju1rm+gki1eZG+9wXrqvOudw/KHPrz2k4PQkTEuHpBTfM
+ NH+IPjwDJFWXMyfevbLBDy5mY7Tc6uTHqTVv1Fn/1cNU877QNBEG66XRS9lW+LtY9fuM
+ f8jvBmHCxxrEbcb0hpFKUFQhNYbOkz3WFAtciz9p/QwYpRIhYgTglUMBCBJlmNdpb12C
+ OLBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678738093;
+ d=1e100.net; s=20210112; t=1678739997;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kcNbHfzfjwgj4WAAB9HDgad/3nvdd38KZlpl06VEq68=;
- b=E613alic7O3gNsEiSd1VuTc3wXsUJlGX7f8rDKhX03VDgjn31kS4Eahr7/Isa28iCO
- 8KcJv7uSgDHXRlecf0zgMnP9LPAAduNMMBn8cIaRirXN1b/EjbBWGmgTWoCakQOxJiQO
- 8vQCUKUsJ5Uq49XgNsUai1KhVBFQCTNctlXNKnNUQzrN5fcm7hQ48gdF9DLIi/69AC6m
- 0a7RJMNLNwTQao8VyCXz8AgSWZD2nmTkWmAubXkxJzkjFahz4kp/yTUA+DsuzAbgXqKt
- 1iZ0878qEV6Libey8r1zquErF/6329/tAn95XmqfeGwq8n0GlHdjtmQ8WmqYxLFktOnj
- D6Jw==
-X-Gm-Message-State: AO0yUKU4j6jujgl2T6Al+qBWhxZ5di+O+ORiOF3uc3r87ayeSlC/KI7I
- 80PrExBOnVYVrf/OSqANhV1ktQ==
-X-Google-Smtp-Source: AK7set8puSvdQqOxta4Ht0s0kcgDDg8XOJ7UAvwSwEVvlZ6dGNuNwIxWLctXLXcRy8i2vH9AQOFBAw==
-X-Received: by 2002:a05:6808:4041:b0:386:8c30:6e92 with SMTP id
- cz1-20020a056808404100b003868c306e92mr200249oib.14.1678738093661; 
- Mon, 13 Mar 2023 13:08:13 -0700 (PDT)
-Received: from [172.20.4.181] ([50.232.40.61])
- by smtp.gmail.com with ESMTPSA id
- w130-20020aca6288000000b00383bfd8a184sm180886oib.25.2023.03.13.13.08.12
+ bh=8AWBbf22zSF/IFORwDUirLGCdhgIk8aaKpsxf0JEjCw=;
+ b=zIK3YpgiJ378VshM+ZQtRMuCx/7C3vVxzJsWA5dfu51atUDZCwXrafg0/iAsd7tQ2e
+ GgEkang3nUC5NePASEph+8lqv1qYrl8qu/U6LhJR+zmU/XMrh55NlJgQ5RsUnpa2Wily
+ bF7TCtDg01/4kLUOC92PeORU0xyasRaJdu6UTOf7OsKWcuTKZ+r36tXDnz9fqdLBCStv
+ 6eAPRE/BRQ9VSj2lC1u5uGXu7ZKI0A6RQ0fHOZRc6K+dl4q1abPjDuLmTSIuGVJSy7fK
+ TLFlq3AuVjlIzsvwNOahX7svagXuHIuHlM3jvZQj+6w0cY7hF7EHfRhWMmBEdgGLWkqF
+ E0fA==
+X-Gm-Message-State: AO0yUKVd9mk4c5Z/0ncSGNTrOb3Y/bRmrVvJ2EzI34y2BfGjruwLduvK
+ G25QJAPywei5HjYyfBv03vNe/w==
+X-Google-Smtp-Source: AK7set/xNfCKSZXdLQ6OKXa/D0bbN2aakNdB51oVHoWXbLIKlC3HfBka7Gw67NdqNLIOjcHWb56yJg==
+X-Received: by 2002:adf:e9c7:0:b0:2cf:9889:4979 with SMTP id
+ l7-20020adfe9c7000000b002cf98894979mr2745262wrn.58.1678739997653; 
+ Mon, 13 Mar 2023 13:39:57 -0700 (PDT)
+Received: from [192.168.1.115] (36.red-88-29-189.dynamicip.rima-tde.net.
+ [88.29.189.36]) by smtp.gmail.com with ESMTPSA id
+ u9-20020adfeb49000000b002c703d59fa7sm386084wrn.12.2023.03.13.13.39.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 13:08:13 -0700 (PDT)
-Message-ID: <02479679-c3e7-3239-f4d7-5b02e28451e5@linaro.org>
-Date: Mon, 13 Mar 2023 13:08:10 -0700
+ Mon, 13 Mar 2023 13:39:57 -0700 (PDT)
+Message-ID: <1ba017de-ebc3-f48f-8790-8e332230a327@linaro.org>
+Date: Mon, 13 Mar 2023 21:39:52 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v9 05/10] target/arm: gdbstub: Guard pauth code with
- CONFIG_TCG
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v7 0/6] memory: prevent dma-reentracy issues
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20230313151058.19645-1-farosas@suse.de>
- <20230313151058.19645-6-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230313151058.19645-6-farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20230313082417.827484-1-alxndr@bu.edu>
+ <c61ecf23-d055-01a8-b2d7-37367c4c1f63@redhat.com>
+ <20230313145228.6hcgsuobgaxbyr5o@mozz.bu.edu>
+ <58b400ee-bc9a-d762-5b34-b564e8edd6d5@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <58b400ee-bc9a-d762-5b34-b564e8edd6d5@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,23 +105,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/13/23 08:10, Fabiano Rosas wrote:
-> We currently don't have the reading of pauth regs implemented for KVM
-> so wrap the pauth registration with CONFIG_TCG.
-> 
-> This avoids the build error when using --disable-tcg:
-> 
-> libqemu-aarch64-softmmu.fa.p/target_arm_gdbstub64.c.o: in function
-> `aarch64_gdb_get_pauth_reg': ../target/arm/gdbstub64.c:233: undefined
-> reference to `pauth_ptr_mask'
-> 
-> Signed-off-by: Fabiano Rosas<farosas@suse.de>
-> ---
->   target/arm/gdbstub.c   | 4 +++-
->   target/arm/gdbstub64.c | 2 ++
->   2 files changed, 5 insertions(+), 1 deletion(-)
+On 13/3/23 17:18, Thomas Huth wrote:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>   https://gitlab.com/thuth/qemu/-/jobs/3920337136#L307
+> 
+> ... but I think that was pre-existing and was caused by one of 
+> Philippe's reworks, hopefully to be fixed soon ... Phillipe?
 
-r~
+Jiaxun fixed this on little-endian hosts, but this is still
+failing on big-endian ones so I was a bit reluctant until figuring
+out the full fix but since this helps CI...
 
