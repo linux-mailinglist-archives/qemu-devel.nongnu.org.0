@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48846B9F81
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 20:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4A16B9FB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 20:27:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcADb-0000gD-U3; Tue, 14 Mar 2023 15:21:55 -0400
+	id 1pcAIL-0003Zz-3R; Tue, 14 Mar 2023 15:26:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcADZ-0000fe-VM
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:53 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcADY-0003YV-8k
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:53 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id u5so17695953plq.7
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 12:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678821711;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SKrC58cpLzzekQXNHo2IJwvDEkYLoPjHxtHMnb7tZXA=;
- b=aBQXsAVXK6fm/12ELAf7gxQpqsT3xLJJhGEVtpafGnAUiZNq1NVl7+pZ6IAIuHjeiI
- lN1S7RnzjmP6rhxkAFA8h9x95gF0BkWBAl6uwYt9IfWhExt1aZt/T9AdN/DtlyLrnx6M
- uCBN5tfO+4eyASrogH8okynOX3VOmMUI5adNP3fUXP62N90GoZi8c9P+7GU8iVAzvdAc
- OW9nXagiHgTmxksZ8s7cQGvU5kZAgla2YO7Lx0hYiHQMmQVzjPAg/vOd6ItawUmaXc87
- JQ7CsRhGU7oZgh7C7pFWs9o5zX7Yig8FkWWhKx+KBtRERFqHJoDlWjzc6gV91UgA1Slp
- lx4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678821711;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SKrC58cpLzzekQXNHo2IJwvDEkYLoPjHxtHMnb7tZXA=;
- b=QUdzigTfQotRzKgsms933Oi9rS2E9SUc1CQk2JIgnBpe10llrG4Xu61u5CkAm5nC/H
- xQu6FayHlBmNgVw5By75ea+mvGOiCdjSeLSdvvVWFMAG3rKx9fVIMg70El/EU30FDkGZ
- YULXggZ4TYcBfP/bA57CrbnWUlE6ygd3IH3P2aXOt3WsF2fhLN5wiGHklmxHQ2aFHQsi
- jSU2Fu6O8Ik1vPBtid/IRoNIJ31sW1DQoy5nzR9W02kMnvX+WHUYnitPIIjoY00ZXMgY
- MaaJDX7OijNiLtjMPTCr6iBsFfLwaO5KoFD5l/rqYIfnI4B4yo/ySfGEu8wZNdRmeWKd
- ykLw==
-X-Gm-Message-State: AO0yUKXwIGYvC8kkJy5YOKBNl9Ii2BNsFG01K4gcaUuRureeg1YiDx4v
- X5iG69SlfwU/QhQrTLgfC+57aKF8id8xbsPUY8c9+w==
-X-Google-Smtp-Source: AK7set+KxJTpDkvTgKMzaPArCtKcZ2LkVtEYyBkUGfiwkHvgGriqONIEh2mdVeFE0nK416TrVc+ZOpaofJFgYh5CRAc=
-X-Received: by 2002:a17:90a:d901:b0:23c:fa47:e763 with SMTP id
- c1-20020a17090ad90100b0023cfa47e763mr3209664pjv.0.1678821710839; Tue, 14 Mar
- 2023 12:21:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pcAID-0003Ze-7t
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:26:41 -0400
+Received: from mailout09.t-online.de ([194.25.134.84])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pcAIB-0004IN-4o
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:26:41 -0400
+Received: from fwd86.dcpf.telekom.de (fwd86.aul.t-online.de [10.223.144.112])
+ by mailout09.t-online.de (Postfix) with SMTP id 8D99AC246;
+ Tue, 14 Mar 2023 20:26:35 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.29.86]) by fwd86.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pcAI6-0O74uP0; Tue, 14 Mar 2023 20:26:34 +0100
+Message-ID: <80083151-86da-8d51-2ed6-fb0646be8760@t-online.de>
+Date: Tue, 14 Mar 2023 20:26:34 +0100
 MIME-Version: 1.0
-References: <20230314134950.569342-1-laurent@vivier.eu>
-In-Reply-To: <20230314134950.569342-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Mar 2023 19:21:39 +0000
-Message-ID: <CAFEAcA-_VsB3en6oKgUcBaACZ2HVUHfVNtXw7xhkRXMq-MJjdw@mail.gmail.com>
-Subject: Re: [PULL 0/3] Trivial branch for 8.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] DO-NOT-MERGE: pipewire sample code
+Content-Language: en-US
+To: Dorinda Bassey <dbassey@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, wtaymans@redhat.com,
+ qemu-devel@nongnu.org
+References: <a3717185-a930-e8e7-80cc-edb8d9e4d01d@t-online.de>
+ <20230311120826.5584-1-vr_qemu@t-online.de>
+ <5179fdbb-54f2-a24b-d9e0-fea89c5528fd@t-online.de>
+ <CACzuRyzZu1iw_KS-bQO=ZM2oEhZC=6BG2w7XE=Fyndpwi+jkQw@mail.gmail.com>
+ <b7679119-44dc-0027-1819-2886bad79ce5@t-online.de>
+ <CACzuRyyaXs43it58LPiwvTRa9ELPUtTKFkiqGSUj9ap-0BaohA@mail.gmail.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <CACzuRyyaXs43it58LPiwvTRa9ELPUtTKFkiqGSUj9ap-0BaohA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1678821994-C8C30DB0-2859CF90/0/0 CLEAN NORMAL
+X-TOI-MSGID: c64070e4-6149-4290-aec6-3a00879fc987
+Received-SPF: none client-ip=194.25.134.84; envelope-from=vr_qemu@t-online.de;
+ helo=mailout09.t-online.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,33 +73,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 14 Mar 2023 at 13:53, Laurent Vivier <laurent@vivier.eu> wrote:
+Am 14.03.23 um 12:50 schrieb Dorinda Bassey:
+> Hi Volker,
 >
-> The following changes since commit 284c52eec2d0a1b9c47f06c3eee46762c5fc0915:
+> Thank you for the clarification. I see the problem now.
+> So is it safe to say that:
 >
->   Merge tag 'win-socket-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-13 13:44:17 +0000)
+> @@ -104,8 +104,9 @@ playback_on_process(void *data)
+>      /* calculate the total no of bytes to read data from buffer */
+>      req = b->requested * v->frame_size;
+>      if (req == 0) {
+> -        req = 4096 * v->frame_size;
+> +        req = v->g->dev->timer_period * v->info.rate * v->frame_size 
+> * 1 / 2 / 1000000;
+>      }
 >
-> are available in the Git repository at:
->
->   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-8.0-pull-request
->
-> for you to fetch changes up to fcc8f37ca3eca968932e5da716ec5e7fc05fdcf4:
->
->   MAINTAINERS: Remove CXL maintainer Ben Widawsky (2023-03-14 14:46:38 +0100)
->
-> ----------------------------------------------------------------
-> trivial branch pull request 20230314
->
-> Update MAINTAINER file
-> Fix typo in qemu-options.hx
->
-> ----------------------------------------------------------------
+> I used 50% of the timer-period and the frame_size which would give a 
+> close margin to what the downstream audio device writes to the DAC.
 
+Hi,
 
-Applied, thanks.
+50% is fine by me. But you should rearrange the term. The multiplication 
+by v->frame_size should come last, otherwise it's not guaranteed that 
+req is a multiple of v->frame_size. I would cast timer_period to 
+uint64_t. Then timer_period * info.rate has a 32bit * 32bit => 64bit 
+result. 20000 us * 256000 frames/s already has more than 32 bits.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
++        req = (uint64_t)v->g->dev->timer_period * v->info.rate * 1 / 2 
+/ 1000000 * v->frame_size;
 
--- PMM
+With best regards,
+Volker
+
+>
+> Thanks,
+> Dorinda.
+>
+> On Mon, Mar 13, 2023 at 9:06 PM Volker Rümelin <vr_qemu@t-online.de> 
+> wrote:
+>
+>     Am 13.03.23 um 13:28 schrieb Dorinda Bassey:
+>     > Hi Volker,
+>     >
+>     > Thanks for the patch, I've tested the patch and it works. I
+>     don't hear
+>     > the choppy audio with this option "qemu-system-x86_64 -device
+>     > ich9-intel-hda -device hda-duplex,audiodev=audio0 -audiodev
+>     > pipewire,id=audio0,out.frequency=96000,in.frequency=96000 ...."
+>     >
+>     >     I don't understand how the req == 0 case can work at all.
+>     >
+>     > how this works is that  b->requested could be zero when no
+>     suggestion
+>     > is provided. For playback streams, this field contains the
+>     suggested
+>     > amount of data to provide. hence the reason for this check.
+>
+>     Hi Dorinda,
+>
+>     there has to be a control mechanism that ensures that our write
+>     rate on
+>     average is exactly the frame rate that the down stream audio device
+>     writes to the DAC. My question was how can this work if we always
+>     write
+>     4096 frames.
+>
+>     The answer is, that after a 4096 frames write, the callback is
+>     delayed
+>     by 4096 frames / 44100 frames/s = 93ms. This ensures that our
+>     write rate
+>     is exactly 44100 frames/s.
+>
+>     This means a fixed 4096 frames write is wrong for the req == 0
+>     case. We
+>     have to write 75% of timer-period frames.
+>
+>     If you want to test this yourself, just ignore req and assume it's 0.
+>
+>     With best regards,
+>     Volker
+>
+>     >
+>     >     I suggest to use the same option names as the pulseaudio
+>     backend.
+>     >     out.latency is the effective Pipewire buffer size.
+>     >
+>     > Ack.
+>     >
+>     > Thanks,
+>     > Dorinda.
+>     >
+>     >
+>     > On Sat, Mar 11, 2023 at 5:19 PM Volker Rümelin
+>     <vr_qemu@t-online.de>
+>     > wrote:
+>     >
+>     >     > Based-on:<20230306171020.381116-1-dbassey@redhat.com>
+>     >     > ([PATCH v7] audio/pwaudio.c: Add Pipewire audio backend
+>     for QEMU)
+>     >     >
+>     >     > This is sample code for the review of the pipewire backed. The
+>     >     > code actually works.
+>     >     >
+>     >     > An email with explanations for the changes will follow.
+>     >     >
+>     >     > Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
+>     >     > ---
+>     >     >   audio/pwaudio.c | 67
+>     >     +++++++++++++++++++++++++++++++++----------------
+>     >     >   qapi/audio.json | 10 +++-----
+>     >     >   2 files changed, 49 insertions(+), 28 deletions(-)
+>     >     >
+>     >     > diff --git a/audio/pwaudio.c b/audio/pwaudio.c
+>     >     > index d357761152..8e2a38938f 100644
+>     >     > --- a/audio/pwaudio.c
+>     >     > +++ b/audio/pwaudio.c
+>     >     > @@ -23,7 +23,6 @@
+>     >     >   #define AUDIO_CAP "pipewire"
+>     >     >   #define RINGBUFFER_SIZE    (1u << 22)
+>     >     >   #define RINGBUFFER_MASK    (RINGBUFFER_SIZE - 1)
+>     >     > -#define BUFFER_SAMPLES    512
+>     >     >
+>     >     >   #include "audio_int.h"
+>     >     >
+>     >     > @@ -48,6 +47,7 @@ typedef struct PWVoice {
+>     >     >       struct pw_stream *stream;
+>     >     >       struct spa_hook stream_listener;
+>     >     >       struct spa_audio_info_raw info;
+>     >     > +    uint32_t highwater_mark;
+>     >     >       uint32_t frame_size;
+>     >     >       struct spa_ringbuffer ring;
+>     >     >       uint8_t buffer[RINGBUFFER_SIZE];
+>     >     > @@ -82,7 +82,7 @@ playback_on_process(void *data)
+>     >     >       void *p;
+>     >     >       struct pw_buffer *b;
+>     >     >       struct spa_buffer *buf;
+>     >     > -    uint32_t n_frames, req, index, n_bytes;
+>     >     > +    uint32_t req, index, n_bytes;
+>     >     >       int32_t avail;
+>     >     >
+>     >     >       if (!v->stream) {
+>     >     > @@ -105,8 +105,7 @@ playback_on_process(void *data)
+>     >     >       if (req == 0) {
+>     >     >           req = 4096 * v->frame_size;
+>     >     >       }
+>     >
+>     >     I don't understand how the req == 0 case can work at all. The
+>     >     downstream
+>     >     audio device is the thinnest point in the playback stream.
+>     We can't
+>     >     write more audio frames than the audio device will consume.
+>     >
+>
+
 
