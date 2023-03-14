@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1196B8B5A
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3A66B8B59
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:39:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbyIr-0004RK-Mz; Tue, 14 Mar 2023 02:38:33 -0400
+	id 1pbyIt-0004RZ-8w; Tue, 14 Mar 2023 02:38:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4300ac6ef=alistair.francis@opensource.wdc.com>)
- id 1pbyIo-0004Qe-Ql
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:38:30 -0400
+ id 1pbyIq-0004Qs-0c
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:38:32 -0400
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4300ac6ef=alistair.francis@opensource.wdc.com>)
- id 1pbyIm-000209-Lm
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:38:30 -0400
+ id 1pbyIm-000208-N7
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:38:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1678775908; x=1710311908;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=i0KafMsCfCkhFk9LHeyf9xfieoMBaeASX+sT50kgb2s=;
- b=CSa1VclXjG4dDqjSTx6OKNE54/CgU2cc57fdszzQ1dgZW0NZmhi7Vnrp
- 4msbbxizyvsdzSaIKj2gW5IqvkwGgb6nmfGqluDTyWwIdOZrtilwnkTYY
- E4FB0kyMm8KCI4AGDS5vhG05S4HDpQ4vj642/J1ZQoBlClyVn/sbqLKfe
- X8++aaglHCL+NeK9S61MEQSmADTW70XYDIS6t0vU+7Nmrw+ntQt80tShw
- pumr/j0fzmkDBSV2bBXRyhhNHBD6Hq+fZkPQYT2NlvzvJ4MBVNR9x6Q5a
- E+3LvBdbzRXKc/H0Ur35vBqdGvl5dxpturZdUrHI+3uq2rzPwluUwIdO+ A==;
-X-IronPort-AV: E=Sophos;i="5.98,259,1673884800"; d="scan'208";a="225576395"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Nej2fT+Gv89AaGPzZtoJCphzX030ni7No0S+4d/qB80=;
+ b=eas8To3m8aXaJI9sK+vz9hKHmw5tchhN1dhjwFkqKuD/GDsC8OZZiVcj
+ xxwW71LAPjt/Qjzuu59A5SUMESwVsSlJMmcQQdD/0wTpvECllL6smSepq
+ WqU48GGJKMEobPXIuLeYihpyFzSUWN4dfFx7yiXnGxKNMw1f9vDrmC6IX
+ j0e6S3uhkA/2tjb5huzQXIJf1F/FUoqlz6gUF4sclb6/nqXBKkH75xnhs
+ kwsq2wJBzYYEXDGKrm2dyqg8mqmni7luwOjffyP+SBwzlsdNdSa5Kimp0
+ N/ZbCqAUlGELxPTS4pQ5hs/jXHltAHp/AqXxaM0yu7GTpUL1S9xswWf8E w==;
+X-IronPort-AV: E=Sophos;i="5.98,259,1673884800"; d="scan'208";a="225576399"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2023 14:38:22 +0800
-IronPort-SDR: 4xCKYBlJMHCK9W88prLVZti1+c7hD85jeasjbvQ6f1nBQ7pdNnwlFvuvYrG7ZZoqDN4Rlo8tMY
- x6jgcyZ2iJnFI1XtzaG3dZucpIhHbShiFEPbWg/MwKiCYIkMuh/hbyZX1tj5RvNn1uU/rx5GI1
- ho/P8E0n1Y4UNqYEdufYsHzMS1sP0ndS0t5+YC+zsDVrgYS2xE1ywu3sCvXR3jR0Cs0LUwm4NF
- JQYCuYICkNm2tsg35Z4348sMpNOCzqRelUJGCDs8bfu0OTOMmMoCmWbeuYaj32OBJjcqw6Quvt
- IkI=
+ by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2023 14:38:24 +0800
+IronPort-SDR: kjr7iOguy6hN5sYfDw5QlgwBwYtxjqADKcK318IiWwdfgqc5ckFWEtiIk/ZRC+DeVErSxgxm9r
+ 78nb5pxPcICo52yUzvFsNxX+P7KDCJ0aVeskxtR5zAUypxmQUwmUA0rwZ77+Geb4H10QSD/45r
+ h1YRMkjvlQFW42MfvM+IQz7JiZDndzPK/39hVqj5z2LrTrgK20/cNWjjmK26tIFRKBUZthFVJ9
+ fbUHWdmM1MvtJY02ZesLgil4xVVomdtUarUdsx6rokYIHZ/X4DYF1HudHn6CJxIW/V5dhV48q6
+ qKs=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 22:54:50 -0700
-IronPort-SDR: yu2G5St9OrVTw1t8nJT6X6bbdlHP4ib7qSp38dfhjKkxCL5H8K87u8ifpcAMxDo4OC/piy/Uam
- Y55SzdR26jBZWbbJfjMInXg9LjMECXGzV3O2G4UZ3BeQYks2pL39KiiJ8kGIRdp0YKEKrAwlUo
- lMfb+gJMNad1Ty8Z/2n3PdUwbTg9HhTV1fnO/1IxtYj2pghbVxDsakJLrAuvHnCQguQUdPHjNF
- eTTbzAWy99+GvEppZ/EmeNt/9a7SEtTBsCXHqItkCNC9ys1tty4gPnVRUBAkdpsuxtAMOMM4ht
- vaU=
+ 13 Mar 2023 22:54:52 -0700
+IronPort-SDR: ucFsj9M5Was/M3i+IIvwD1U5Fd9d2F4VBTQECDhftIXeXDGlVUaqFaNqREgOgQsRYUyTF84q5S
+ GAfWrhvqpCo4KufRv1PujtJ5DWYL65SrIIJuguyVWTBsnpo16lQxPxRDw3INSP9EBbnZLm+ROA
+ IY1AXr9N0BzptZmdEgQ8h09kBGAmDIX1C9YFIwnvcV09Z9m6d+/OuMVt99POC2ow8bqZxKwYpp
+ 5HA231nKqawWO6BaUiRQ4bhSYDtDMjgg8JSZJMdhXVZseeIMZzMZ8CQzbMCFZoOnoG/mE9Klff
+ /gM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 23:38:23 -0700
+ 13 Mar 2023 23:38:24 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PbP3y44c6z1RtVp
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:38:22 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PbP402nZdz1RtVv
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:38:24 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
- :x-mailer:message-id:date:subject:to:from; s=dkim; t=1678775902;
- x=1681367903; bh=i0KafMsCfCkhFk9LHeyf9xfieoMBaeASX+sT50kgb2s=; b=
- T/Cd3IDY+b5xKcF/6uo4Wp9JR5bDTfTwnZ0swZ6eW5sjocezxDal8aNMD53ipWma
- DEfZZ41I4OTZvkVP6jHbt77sNmAzWNKcO1mxiDOwck1k8aBcM29h8lt31tBw3vAb
- AZzkYMUG2/Uw6aDAC6KJArnkFPNCVE7wU9fVg8NHsxbNRtJjKGzMhmDzAcHjKWbJ
- hDPT3Y09dJf4OVO0he9rDWNBGvXbrk9mXHNpPPEBNAzPGrwSMSwzq/+JHwT9XPjk
- e/4KaaqjvNQGkCROFkg+GnbS/8Zxm8u6wz5FDQLA5CGFwxMDdh9aUkZlofWQvRXE
- ETNvGiMegLRFTa9YtK1TIw==
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1678775903; x=1681367904; bh=Nej2fT+Gv89AaGPzZt
+ oJCphzX030ni7No0S+4d/qB80=; b=kQDsIGATSTsxog+6zLx/IEr9fuBl8s6luX
+ SxHsEmreZ8+AlRhx1hieZ/fL5Kh4HjZSzphmG4WlfTTbttbzD5FRpcUyqIeaurWa
+ +VeJAjAU8XgFSJhTcKLEjv8JRIYX+/OXMSQ/8pdJ/swIz7usmJyiPyWzPXf6NdX+
+ HZg98H9+/r0YIdLNUHh3cGDZ2Q0GVLa104MJYWXYlEuTKtvZKR9pOzk5iEWrmJYt
+ TGx3xLTxCYZ/BnaDMGRSQVhSW125QFtVvD8sEWLBJiXIZgPoWAqeZkO1AZnypCbm
+ 14+Tkjp+NzRC7QCd3iq8LZOSd/KwtjUlV5hW1B1AIZ3jmjD2LHFA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id MHsDjFWrVACi for <qemu-devel@nongnu.org>;
- Mon, 13 Mar 2023 23:38:22 -0700 (PDT)
+ port 10026) with ESMTP id JvNltWAF9P9d for <qemu-devel@nongnu.org>;
+ Mon, 13 Mar 2023 23:38:23 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.167.75])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PbP3x0MCnz1RtVm;
- Mon, 13 Mar 2023 23:38:20 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PbP3y3JL9z1RtVn;
+ Mon, 13 Mar 2023 23:38:22 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 0/2] riscv-to-apply queue
-Date: Tue, 14 Mar 2023 16:38:10 +1000
-Message-Id: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Ivan Klokov <ivan.klokov@syntacore.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 1/2] disas/riscv: Fix slli_uw decoding
+Date: Tue, 14 Mar 2023 16:38:11 +1000
+Message-Id: <20230314063812.30450-2-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
+References: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.154.45;
@@ -112,39 +115,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Ivan Klokov <ivan.klokov@syntacore.com>
 
-The following changes since commit 284c52eec2d0a1b9c47f06c3eee46762c5fc09=
-15:
+The decoding of the slli_uw currently contains decoding
+error: shamt part of opcode has six bits, not five.
 
-  Merge tag 'win-socket-pull-request' of https://gitlab.com/marcandre.lur=
-eau/qemu into staging (2023-03-13 13:44:17 +0000)
+Fixes 3de1fb71("target/riscv: update disas.c for xnor/orn/andn and slli.u=
+w")
 
-are available in the Git repository at:
+Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
+Reviewed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230227090228.17117-1-ivan.klokov@syntacore.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ disas/riscv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-  https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-2023031=
-4
+diff --git a/disas/riscv.c b/disas/riscv.c
+index 54455aaaa8..2aca11b90e 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -1647,7 +1647,7 @@ const rv_opcode_data opcode_data[] =3D {
+     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "slli.uw", rv_codec_i_sh6, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+@@ -2617,10 +2617,10 @@ static void decode_inst_opcode(rv_decode *dec, rv=
+_isa isa)
+             switch (((inst >> 12) & 0b111)) {
+             case 0: op =3D rv_op_addiw; break;
+             case 1:
+-                switch (((inst >> 25) & 0b1111111)) {
++                switch (((inst >> 26) & 0b111111)) {
+                 case 0: op =3D rv_op_slliw; break;
+-                case 4: op =3D rv_op_slli_uw; break;
+-                case 48:
++                case 2: op =3D rv_op_slli_uw; break;
++                case 24:
+                     switch ((inst >> 20) & 0b11111) {
+                     case 0b00000: op =3D rv_op_clzw; break;
+                     case 0b00001: op =3D rv_op_ctzw; break;
+--=20
+2.39.2
 
-for you to fetch changes up to 0d581506de803204c5a321100afa270573382932:
-
-  Fix incorrect register name in disassembler for fmv,fabs,fneg instructi=
-ons (2023-03-14 16:36:43 +1000)
-
-----------------------------------------------------------------
-Seventh RISC-V PR for 8.0
-
-* Fix slli_uw decoding
-* Fix incorrect register name in disassembler for fmv,fabs,fneg instructi=
-ons
-
-----------------------------------------------------------------
-Ivan Klokov (1):
-      disas/riscv: Fix slli_uw decoding
-
-Mikhail Tyutin (1):
-      Fix incorrect register name in disassembler for fmv,fabs,fneg instr=
-uctions
-
- disas/riscv.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
 
