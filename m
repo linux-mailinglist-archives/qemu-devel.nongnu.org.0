@@ -2,102 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0396B9DBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:59:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091C96B9DCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 19:04:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc8vG-00084V-UN; Tue, 14 Mar 2023 13:58:54 -0400
+	id 1pc8zx-0001ew-KK; Tue, 14 Mar 2023 14:03:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pc8vD-00083X-OO; Tue, 14 Mar 2023 13:58:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pc8zv-0001eT-6a
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 14:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pc8vB-0005xq-SU; Tue, 14 Mar 2023 13:58:51 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32EGvMER019707; Tue, 14 Mar 2023 17:58:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ForIrXgZnkrYz/GVgwW+9CSgxfFcXpLTTpehUbb/1tI=;
- b=dNv9RL2LDdyEWUsW2jKcY7NXhiPH2UoFWl8HraN/o/1a1kWEWsIfEKYc0sY0xbPL++F3
- EynFAEH6K/pu7Q9aRyujRyznofyymU8Zc30dpiA1rPRIL/DFzW1id8crq6pb3ZvVg16E
- Yv/CuSnrDJAKCfnvdCETwkoOsHY0tG6isUkNTqFZXm1faFxtr/+9gQ2heswieJe9W1JQ
- h/fDGSeCZjUK1ZwHjzT9lWn4+JVNZLv7v1OMHoqp/iFiVXqMtDgQ1r8zu3UPssIGhzXO
- d0IE+ETlIC0LJLTgmFl30UJ+Gk8L/dUU/Kg+Gtkgv4v4vE7AdR5qvENK6pdTkSHSQAHD TQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pavw9hneh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 17:58:45 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EGvpJ1020352;
- Tue, 14 Mar 2023 17:58:45 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pavw9hnb2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 17:58:44 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E8dNc9028582;
- Tue, 14 Mar 2023 17:58:42 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3p8gwfm3v2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 17:58:42 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32EHwdVD36503834
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Mar 2023 17:58:39 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C206820043;
- Tue, 14 Mar 2023 17:58:39 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F71420040;
- Tue, 14 Mar 2023 17:58:39 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.152.224.238])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 14 Mar 2023 17:58:39 +0000 (GMT)
-Message-ID: <bf44bcc551c1537eeda24cde88ed353a7a9bea31.camel@linux.ibm.com>
-Subject: Re: [PATCH 1/2] target/s390x: Implement Early Exception Recognition
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Richard Henderson
- <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Date: Tue, 14 Mar 2023 18:58:39 +0100
-In-Reply-To: <20230314110022.184717-2-iii@linux.ibm.com>
-References: <20230314110022.184717-1-iii@linux.ibm.com>
- <20230314110022.184717-2-iii@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pc8zt-0006p9-J3
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 14:03:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678817020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h7ca5T5UPHzyorqJD70yAyR8Pa2GyfJvs0M0CC3pF7s=;
+ b=HJsDkNIRt4BBmTnFxLJOAEtOHwCmGOpeEq2CUJo4wB6JxUDbCtZ1EAseYWWlcJF1HMYFvg
+ Ed3W0qvJIQ5aTJDX6H+gHwDGUixGCN8jnhAPZVnLv1jg9tNIK7FwHn0B/RtoE960KZbC4/
+ QCPnApfmN9TBuYTu+/KcHfmVtdRD1bQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-GhUWr8lTOzauujTEiT_4eQ-1; Tue, 14 Mar 2023 14:03:38 -0400
+X-MC-Unique: GhUWr8lTOzauujTEiT_4eQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n38-20020a05600c3ba600b003ed29a0b729so2100803wms.9
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 11:03:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678817017;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h7ca5T5UPHzyorqJD70yAyR8Pa2GyfJvs0M0CC3pF7s=;
+ b=7sgYWvPfhioXp2ZKgD9hGthns8m6xX99bbD4o/2fRdRSRscVbOt88mmqX6ajbPlwqu
+ eonCOguE+sEHyzLko0cMFSKN5VvwAv9n3v45uB5ioSWCETdyAZEY7+rIkQYwfwGxF3r9
+ 0WnBc+9zgbvKXPlnXN6Qjs663bp7gmWXEn+gdoFPrY+BuzHykv/f8a5gbiTyIohafaSL
+ 28OvRytY0uTRbZ+FB0YE9kPZ/fbt7H0mI1oBR+zaoDc/iFmt639A5Gbmq9i8x/9FpWhS
+ hcWBEXd8v7FMRThi1zLJUfgj6t/VhR5lr5H3bJ+a71RqEywwosKvBXmW+PADWsrHrHlY
+ 34vw==
+X-Gm-Message-State: AO0yUKU9L0QB6EZRqj3PiilcasrZaEm/misS6N/F6RGuYbH+EQp7nQqd
+ hCFB9svzV3y5CZ0VkWDgut/HlgQJKyK1mxFV47405AQIHzI5qg1c4Q3hkIXaDM09IaqRaK3H3P8
+ hbS2SxSIfCOzLVYE=
+X-Received: by 2002:a05:600c:3491:b0:3eb:2e19:ff3a with SMTP id
+ a17-20020a05600c349100b003eb2e19ff3amr14686909wmq.7.1678817017451; 
+ Tue, 14 Mar 2023 11:03:37 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9WviiBqIKsbVO4irmzM0KpP1A/Decx29X5zjNd2JlGNuk/NxFfm1bHRKvzzBDffwBqRl61dQ==
+X-Received: by 2002:a05:600c:3491:b0:3eb:2e19:ff3a with SMTP id
+ a17-20020a05600c349100b003eb2e19ff3amr14686882wmq.7.1678817017190; 
+ Tue, 14 Mar 2023 11:03:37 -0700 (PDT)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ f6-20020a7bc8c6000000b003e215a796fasm3408520wml.34.2023.03.14.11.03.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 11:03:36 -0700 (PDT)
+Date: Tue, 14 Mar 2023 18:03:34 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, lizhijian@cn.fujitsu.com,
+ jdenemar@redhat.com
+Subject: Re: [PATCH] migration/rdma: Fix return-path case
+Message-ID: <ZBC29kyulA6EWG3P@work-vm>
+References: <20230314171558.75941-1-dgilbert@redhat.com> <ZBC00qARI3Lu7YVw@x1n>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YRtkv89KujVS-rVz-qbSjHx8VXcMm_ct
-X-Proofpoint-ORIG-GUID: 5ICy2kuoZ1NE5OYZgdJzVJ1kIDDeBycL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-14_10,2023-03-14_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 mlxscore=0 priorityscore=1501 spamscore=0 clxscore=1015
- impostorscore=0 suspectscore=0 phishscore=0 adultscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303140144
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBC00qARI3Lu7YVw@x1n>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,135 +100,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-03-14 at 12:00 +0100, Ilya Leoshkevich wrote:
-> Generate specification exception if a reserved bit is set in the PSW
+* Peter Xu (peterx@redhat.com) wrote:
+> On Tue, Mar 14, 2023 at 05:15:58PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > The RDMA code has return-path handling code, but it's only enabled
+> > if postcopy is enabled; if the 'return-path' migration capability
+> > is enabled, the return path is NOT setup but the core migration
+> > code still tries to use it and breaks.
+> > 
+> > Enable the RDMA return path if either postcopy or the return-path
+> > capability is enabled.
+> > 
+> > bz: https://bugzilla.redhat.com/show_bug.cgi?id=2063615
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> Acked-by: Peter Xu <peterx@redhat.com>
+> 
+> > @@ -3373,7 +3373,8 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+> >       * initialize the RDMAContext for return path for postcopy after first
+> >       * connection request reached.
+> >       */
+> > -    if (migrate_postcopy() && !rdma->is_return_path) {
+> > +    if ((migrate_postcopy() || migrate_use_return_path())
+> > +        && !rdma->is_return_path) {
+> >          rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
+> >          if (rdma_return_path == NULL) {
+> >              rdma_ack_cm_event(cm_event);
+> 
+> It's not extremely clear to me yet on when we should use migrate_postcopy()
+> and when to use migrate_postcopy_ram().  I think it's because I don't know
+> enough on the dirty-bitmaps capability.  Do we have some good documentation
+> somewhere?
 
-Generate a ...
-> mask or if the PSW address is out of bounds dictated by the addresing
+Hmm that's probably a good point.
 
-addresSing
+> Not much I get from the qapi doc..
+> 
+> # @dirty-bitmaps: If enabled, QEMU will migrate named dirty bitmaps.
+> #                 (since 2.12)
 
-> mode.
+I don't know of any good docs; I think this is a blocks mechanism; I'm
+not even sure if it needs the return path.
 
-Does this approach also work with SET SYSTEM MASK and STORE THEN OR SYSTEM
-MASK, i.e. do these call s390_cpu_set_psw via some code path I'm not seeing=
-?
+Dave
 
-In any case, you don't seem to implement their special requirements with re=
-gards
-to the ilen, so you should at least mention that.
-
->=20
-> Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->  target/s390x/cpu.c             | 26 ++++++++++++++++++++++++++
->  target/s390x/cpu.h             |  1 +
->  target/s390x/tcg/excp_helper.c |  3 ++-
->  3 files changed, 29 insertions(+), 1 deletion(-)
->=20
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index b10a8541ff8..8e6e46aa3d8 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -41,6 +41,26 @@
->  #define CR0_RESET       0xE0UL
->  #define CR14_RESET      0xC2000000UL;
-> =20
-> +#ifndef CONFIG_USER_ONLY
-> +static bool is_early_exception_recognized(uint64_t mask, uint64_t addr)
-> +{
-> +    if (mask & PSW_MASK_RESERVED) {
-> +        return true;
-> +    }
-> +
-> +    switch (mask & (PSW_MASK_32 | PSW_MASK_64)) {
-> +    case 0:
-> +        return addr & ~0xffffffULL;
-> +    case PSW_MASK_32:
-> +        return addr & ~0x7fffffffULL;
-> +    case PSW_MASK_32 | PSW_MASK_64:
-> +        return false;
-> +    default: /* PSW_MASK_64 */
-> +        return true;
-> +    }
-> +}
-> +#endif
-> +
->  void s390_cpu_set_psw(CPUS390XState *env, uint64_t mask, uint64_t addr)
->  {
->  #ifndef CONFIG_USER_ONLY
-> @@ -57,6 +77,12 @@ void s390_cpu_set_psw(CPUS390XState *env, uint64_t mas=
-k, uint64_t addr)
->      env->cc_op =3D (mask >> 44) & 3;
-> =20
->  #ifndef CONFIG_USER_ONLY
-> +    if (is_early_exception_recognized(mask, addr)) {
-> +        env->int_pgm_ilen =3D 0;
-> +        trigger_pgm_exception(env, PGM_SPECIFICATION);
-> +        return;
-> +    }
-> +
->      if ((old_mask ^ mask) & PSW_MASK_PER) {
->          s390_cpu_recompute_watchpoints(env_cpu(env));
->      }
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 7d6d01325b2..b4de6945936 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -292,6 +292,7 @@ extern const VMStateDescription vmstate_s390_cpu;
->  #define PSW_MASK_32             0x0000000080000000ULL
->  #define PSW_MASK_SHORT_ADDR     0x000000007fffffffULL
->  #define PSW_MASK_SHORT_CTRL     0xffffffff80000000ULL
-> +#define PSW_MASK_RESERVED       0xb800007e7fffffffULL
-
-What about bit 12?
-
-With bit 12 added:
-I haven't checked, but I don't think that would be sufficient for short PSW=
-s loaded
-with lpsw. I'm not seeing op_lpsw flipping the 12th bit.
-op_lpsw looks pretty broken to me overall, putting the BA bit into the addr=
-ess.
-I think it should look something like this (didn't actually try it):
-
-static DisasJumpType op_lpsw(DisasContext *s, DisasOps *o)
-{
-    TCGv_i64 t1, t2;
-
-    per_breaking_event(s);
-
-    t1 =3D tcg_temp_new_i64();
-    t2 =3D tcg_temp_new_i64();
-    tcg_gen_qemu_ld_i64(t1, o->in2, get_mem_index(s),
-                        MO_TEUQ | MO_ALIGN);		//load 8byte instead of 4
-    tcg_gen_addi_i64(o->in2, o->in2, 4);
-    tcg_gen_qemu_ld32u(t2, o->in2, get_mem_index(s));
-    tcg_gen_andi_i64(t2, t2, PSW_MASK_SHORT_ADDR);
-    /* Convert the 32-bit PSW_MASK into the 64-bit PSW_MASK.  */
-    tcg_gen_andi_i64(t1, t1, PSW_MASK_SHORT_CTRL);
-    tcg_gen_xori_i64(t1, t1, PSW_MASK_SHORTPSW);
-    gen_helper_load_psw(cpu_env, t1, t2);
-    return DISAS_NORETURN;
-}
-> =20
->  #undef PSW_ASC_PRIMARY
->  #undef PSW_ASC_ACCREG
-> diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helpe=
-r.c
-> index bc767f04438..a7829b1e494 100644
-> --- a/target/s390x/tcg/excp_helper.c
-> +++ b/target/s390x/tcg/excp_helper.c
-> @@ -212,7 +212,8 @@ static void do_program_interrupt(CPUS390XState *env)
->      LowCore *lowcore;
->      int ilen =3D env->int_pgm_ilen;
-> =20
-> -    assert(ilen =3D=3D 2 || ilen =3D=3D 4 || ilen =3D=3D 6);
-> +    assert((env->int_pgm_code =3D=3D PGM_SPECIFICATION && ilen =3D=3D 0)=
- ||
-> +           ilen =3D=3D 2 || ilen =3D=3D 4 || ilen =3D=3D 6);
-> =20
->      switch (env->int_pgm_code) {
->      case PGM_PER:
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
