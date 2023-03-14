@@ -2,128 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146C56B9898
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 16:12:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8D76B9AAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:07:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc6Af-0008Eo-4j; Tue, 14 Mar 2023 11:02:37 -0400
+	id 1pc7AE-0004Lm-02; Tue, 14 Mar 2023 12:06:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nifan@outlook.com>) id 1pbxEH-00028o-4v
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 01:29:45 -0400
-Received: from mail-psaapc01olkn20831.outbound.protection.outlook.com
- ([2a01:111:f400:feae::831]
- helo=APC01-PSA-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pc7A7-0004LH-Or
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:06:07 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nifan@outlook.com>) id 1pbxEB-0007m5-54
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 01:29:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rz/cGubfD6JrgO6ZjcI14dXaXyUvc7LzMRJuXHsVzgXvVoAeGhSFOSKrX0fowK56aAnpRR2siZB0CdFlErwd+ngCVExmMZ20f7rf6GtsaLnPUyTQteG+pCEbNZlchovYuAZvri5/t4+7ZarLxhCrp7JYPUtMpY0rFubKxNkotE75TcKfx2bFwwX35hLIsDX1EWF2qyq6VocAhAmhW7bRVXR+7o54b6b5/peJRbUv/4XOWXxfom7tRKRB2Ys4Wp7AnghShYz5uGZZtoSS6Mvm1uVe2ERmelQes/itS6UrLnnG5bAYDMJ7xOCoVSce22KWxn7BBNcpWc3hkyR0A7B2qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DmhQLwAB21jpmWCRdK39W9gK/fujSSvx4+EQ5QF+5bo=;
- b=CkumViTlayfCYJnR5uh46ikhayfqrvx8MPcpWJO/zJTRr6Dp3dZpT6d5POk/Ne8EebY5SCBpMI0Hhw+5dwP0U63GaiAvCpbz18lJDvbUB+6sqmwcDaEQYnMdPWLWUeWXbq3XdkTINfCraPqLBPeMlwY2zGBMSrJGYNpgv9KYgTs8R1NkdlmzXYSWXfmvxhuC8xGWlSDqSwR7YUiAIEzP7vWxPGUULLycvrZ+g6YdPVmMY2IGlqnNvC89OvCHGnx2byINkaBrFxYSFO1nDyna0MqG1JDeDZiR5d+OkV5cQfAAmnR3GoLf/Zq+6NYm7QFZXgknkomfc2mluPujn/p5yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DmhQLwAB21jpmWCRdK39W9gK/fujSSvx4+EQ5QF+5bo=;
- b=OTsluuE9MwC1EvVORmceHNAm5qxpBVPYPh+EFnFgYFdQPZ1klOGq5O+IF/KKTKqwlTK1Tf87W0X+lq8oYzeAxTWfRPIGFMMs8mB8XV+AeIpS2BU0QkaU9xUL3eJMa8B+YEKxaQploy0GrKW6Egz1963wbPzpSzSb5t9HBVD4yHfaAXKLuurSjgYIQ+Huyi3jzuNKHkKiMDx623XOvRGWqFk8RCY9ZQ1ycrfGhOSTYuov3GdojiQLy3LzFCLyE+zKWSHEv/+Y+t87EAqkD3iMDCakMbyGXdP+EWQr7w5DeRNvJPtKFVUkZ3s3B2bkYq09W5LSGJQjuZUI3Byxyf5fCw==
-Received: from SG2PR06MB3397.apcprd06.prod.outlook.com (2603:1096:4:7a::17) by
- SEYPR06MB5513.apcprd06.prod.outlook.com (2603:1096:101:b4::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.24; Tue, 14 Mar 2023 05:29:31 +0000
-Received: from SG2PR06MB3397.apcprd06.prod.outlook.com
- ([fe80::822f:761f:a577:c76e]) by SG2PR06MB3397.apcprd06.prod.outlook.com
- ([fe80::822f:761f:a577:c76e%4]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
- 05:29:31 +0000
-Date: Mon, 13 Mar 2023 22:29:18 -0700
-From: Fan Ni <nifan@outlook.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
- Fan Ni <fan.ni@samsung.com>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Dave Jiang <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 6/6] hw/cxl: Add clear poison mailbox command support.
-Message-ID: <SG2PR06MB33977C429538FEF0D4153D8AB2BE9@SG2PR06MB3397.apcprd06.prod.outlook.com>
-References: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
- <20230303150908.27889-7-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230303150908.27889-7-Jonathan.Cameron@huawei.com>
-X-TMN: [oN+hrHyZ3k35dUs+Twmx08DYGgXwRlp/]
-X-ClientProxiedBy: BYAPR07CA0006.namprd07.prod.outlook.com
- (2603:10b6:a02:bc::19) To SG2PR06MB3397.apcprd06.prod.outlook.com
- (2603:1096:4:7a::17)
-X-Microsoft-Original-Message-ID: <ZBAGLgdJFiEwqchG@outlook.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pc7A4-0003tU-LF
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:06:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QqY9WGSD79k/khMXVHhknSNIB7Pfrv5+N2lWoQMCS7g=; b=TUxRHnW5LCc4A6AY0eWzClHvHq
+ 7HGdzlqP8DR+M52rbFBoRvXLX6GSpJqKFj7NDTtKZVsHK9HEPLCYAULRaFPqhW5aN/jSDXNdivIj5
+ n4qMHUktPyS3hupIcOPsh3GuEwBL95ezvwNh7hWCGF+RakIMRbbx1EWDgYDJBgZI4ipcyMFm1Jvfr
+ B14epwBgbqsi//C+B/G9oXC/2t/yEU76TXzRFpDkYGMHOrxHmcuXJKBnXn9mteC2NgKeZaM/EfS/r
+ 2JX5+yzPTgApkAElUYvT+QiWz7aLtgxSMYYMdbSFiykxY0J4jC17hX2wk+0RAu7r6FvYt5SFO2MFe
+ Gy6nnzHgFM9LfKp2qge9qeIvLhrMDAQ15ZILukPmBSxCkCpMmXtzeBw2hpRBA2DkkvfOA0QU/tYWb
+ 9xTfDhB63jdiEFYs127KO9/LSiMg0WjbEIHeEYGbVyrjGmue60NTgbm3JPRww3zWnQQIWOzz7ykQi
+ Uhd9PDctke6c+uvAzQ58dQ6lA6hZpSkJVdZCfLVyIT4bDO+F5aYbkL7GS2JkwSeFYncfkV/rlMHG5
+ k122Ijh68ZZl6W8KWKX2QvxN2DfveU2JbmBrkGTGMIRUHiigsaZLC6tX6g1hw894gdMfpSAOhCbny
+ DCWfTc9W0kMgkucW2X+uOHWBUcQnGMcxVaHjM6cyA=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Guohuai Shi <guohuai.shi@windriver.com>, Bin Meng <bin.meng@windriver.com>
+Subject: Re: [PATCH v5 04/16] hw/9pfs: Implement Windows specific xxxdir() APIs
+Date: Tue, 14 Mar 2023 17:05:42 +0100
+Message-ID: <1922294.e5CzDnASyn@silver>
+In-Reply-To: <20230220100815.1624266-5-bin.meng@windriver.com>
+References: <20230220100815.1624266-1-bin.meng@windriver.com>
+ <20230220100815.1624266-5-bin.meng@windriver.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PR06MB3397:EE_|SEYPR06MB5513:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c68eaf2-e165-4524-41ed-08db244d1635
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JZEH2YvouS/OhcV31eIZAN4RE4hwKBLjGANY1aszsJpIpRlSFzR/nwkTPp459acj7WsiGmrKl7IyeJSqbwar1Y7of+TZYC3WX0yHwk2s0XJ+28+MsYG9QLjZTB0E5DZ1xGxlPaxqgV3nN7h4G/Evi5Oe7fvaxTuUXR674v32H5GNPiYz4EpGNERCLxaX+j4/RDu88O1XdGk1Q2VLF4LxYh9RA1m9n+VB2+va0Nj4lT6Odd2Kk/jx8q/rVnXgbIdGKGT3J1XFguzMwzuwj+mep89Q9g+QZnWQug18qg2ZvrBOAcBbdbbWQzJfHuRE0SC1B7ZyEAwwPu8HWxbWdBBR3CfVTrQQ2hGgM8H1B5xMgjZoISirn3Ik3urx65M93psPNrXOUnC221LhCZrSsjWF3Pu+PzWGHdKuHxObBh0KTXW1qme+Z69vbfxPYKdnPp+ADbTe8RthuhEcRQwq2fpiCXuNa+o3XkkHVQe5pMGFvtLlqLITXuQNqxxhfUuk7DpFh4oO914rAd1NMqd8GucfOy+OjJ2b9AyiN4KqniEr+NtKVKZDsP40ckxqITdwIh0KFZaOt8jc4oziU2RXpOCKmVoLttipBuCSiIu+88EnoUnVadNoUP5gE7Y66bSsNl6aDF95KA2G28qcsn+4yzdcJw==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ME5nNnZSb3lZR1k0OWF2SElDN0lvRXQ0WVF5czFEbmlxTVBCdHJ4RWxjR2Fj?=
- =?utf-8?B?V1JBWk8wc3FEb2ZoWGFTM3AyV0VFY3BKdUNNWWFMMjloR2FXUUtUYm8yNmF0?=
- =?utf-8?B?WmdYRVRheWUyQXh2NWRCVUNNQ2pMS2RwdThDMjgxemVuK0ltU1VyZ2hoTEJp?=
- =?utf-8?B?bGRaalZOQ3RNZC9TclNPTUZnbE5VQVI5bVhlWis4dG0wVng0eGF2Q3RMTTdn?=
- =?utf-8?B?ZGc0T3FYLzdzK2xmSStpSEZxd0V0YTJMbGdBb3MrYW51OHBIZjJDS1djb3cr?=
- =?utf-8?B?dVpORGNhYTVtZWpHdVBVMXhPU1hGT1FuMzVVUnV3dGJtVHErZ09CMkNOWkhY?=
- =?utf-8?B?YXJLT3NvL1ljZFQ1aU9yME5QcFNab1V3WHM3Q1hpeE4wUTJ3c0FFVEo4amgv?=
- =?utf-8?B?NDZSM3BUV2hoUmxNUmNoVGxneXdTZSttalhCV2xJMmlsTUJRckgybnhaWm9G?=
- =?utf-8?B?aDZHTkVmT3piNVJwMmRBaUMwQThLZW41R2JLRi82Um1ud09SV3hkbkp3Sk1P?=
- =?utf-8?B?VHBpaGlUK00xODR3SzQ0cExIeFpXa040dGNpeGQxRUVRYktDVmJ1M0lZcHk3?=
- =?utf-8?B?UXFaMnZsM2VSaXM1Z1hGQTRQTW5yK3phd1J0bFllTytVNS9IeUkzTWxNdWxu?=
- =?utf-8?B?ek9uUG43UVpqQkMzWTNyU1BabzFyOTBCbTJyYlo0UE4rZVRvb0tpOFBBVGU1?=
- =?utf-8?B?SHdjSDVkNzZFTzFiVm8yQytUeGJKRGhvU3JxZnNxdEhUeWpMVUJiNkFKL0tu?=
- =?utf-8?B?eEVKbm5zWEhMZ3pZSmVnQzgxQ0ZCZmRTa2svOGlremxtVWE0T0FiZVMxN0Zk?=
- =?utf-8?B?aEdJRTBsTGFHcXNZWHFJeXZhV0JGN2cxYzNGL1BCQWd6V1hoQUNudFBQWlV2?=
- =?utf-8?B?UUovbUlRVEcreU5heHZHMEFxNUhwaE5QOFQ4MTdObEV3eWhKUkdycWxiV0RH?=
- =?utf-8?B?QXM1aFA5VWsrRElTajRlanBQSitITFNXNm5mSU9oN2plOTJTRUxnSWlDZldo?=
- =?utf-8?B?aFZna2t3MDMreGJ5S3dneFF6U1Q0K2ZiYUltN0hjdXVYVDBkbGZmUTR6REx1?=
- =?utf-8?B?VUJUUWlOLzBST1NIcmNuUGFOVHp1WmNYUWNBTzBTbmR6QzNucFY3R1FHd2RN?=
- =?utf-8?B?L3gvYzcva3orMFpaT3RIZFUwTHd0dndsRUV5UjJ1cTU5TnZTOEVIZThMWmlt?=
- =?utf-8?B?YzhlS3hPR28vcjFEYU9IVmpmNUZjNG5BVllmV3NHMEY0NTBvRWdEb0JtWVY1?=
- =?utf-8?B?WG0wWlZmQzFVQ3FFcmhvSnJiQktlYWQ5ZnhTQkFOWXZPSmNqbHBPVXNyOFQ1?=
- =?utf-8?B?dHcvUEJuRVJhK002SHllc1RlbVYyajFucVhHVjBla0Y5bDdXTTFYR2JhTk9Q?=
- =?utf-8?B?eVJrc0o0K0RRRlhzRWd6MHFIenozWjk1Um0xWFplYi9uNkkzTlZyNVhyME12?=
- =?utf-8?B?R09tdWoreE9MZ3dQSC9vcjlVQ3JIaCtqR1IxS3NjZUx5YXBnV1VvWFQ1RGpU?=
- =?utf-8?B?WDlZdXJpaFFtbTVnVDVvVGljWjlGYTZheGhTV202eUd6UGVNVWhzdno5U1Iv?=
- =?utf-8?B?ZG9ENTVST3VURDhZN0NYeThRMEZSOTBGV0RHalRoR3Fnbm0zR2U3ZERUMU44?=
- =?utf-8?B?bXp4VUk1Y2Rnd2dES2J3NWtzRXdzNEEzeGxTOUdEWWlwTmE2N2xSUldxVlI0?=
- =?utf-8?B?ZlpHZHBydlh1YWIvZm1sSnBmS1lNOGw4YTJjQmVodGYxRFR3S0IzUTRRPT0=?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c68eaf2-e165-4524-41ed-08db244d1635
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3397.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 05:29:31.0790 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5513
-Received-SPF: pass client-ip=2a01:111:f400:feae::831;
- envelope-from=nifan@outlook.com;
- helo=APC01-PSA-obe.outbound.protection.outlook.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 14 Mar 2023 11:02:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,206 +67,580 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The 03/03/2023 15:09, Jonathan Cameron wrote:
-> Current implementation is very simple so many of the corner
-> cases do not exist (e.g. fragmenting larger poison list entries)
+On Monday, February 20, 2023 11:08:03 AM CET Bin Meng wrote:
+> From: Guohuai Shi <guohuai.shi@windriver.com>
 > 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
+> This commit implements Windows specific xxxdir() APIs for safety
+> directory access.
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
+That comment is seriously too short for this patch.
 
-One minor thing as mentioned below.
-> v4:
-> - Fix off by one on check of edge of vmr (cut and paste from similar
->   but long fixed in the volatile memory series)
-> - Drop unnecessary overflow check.
-> - Ensure that even in case of overflow we still delete the element
->   replaced (in the hole punching case)
+1. You should describe the behaviour implementation that you have chosen and
+why you have chosen it.
+
+2. Like already said in the previous version of the patch, you should place a
+link to the discussion we had on this issue.
+
+> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  hw/cxl/cxl-mailbox-utils.c  | 77 +++++++++++++++++++++++++++++++++++++
->  hw/mem/cxl_type3.c          | 36 +++++++++++++++++
->  include/hw/cxl/cxl_device.h |  1 +
->  3 files changed, 114 insertions(+)
 > 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 64a3f3c1bf..0b30307fa3 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -65,6 +65,7 @@ enum {
->      MEDIA_AND_POISON = 0x43,
->          #define GET_POISON_LIST        0x0
->          #define INJECT_POISON          0x1
-> +        #define CLEAR_POISON           0x2
->  };
+>  hw/9pfs/9p-util.h       |   6 +
+>  hw/9pfs/9p-util-win32.c | 443 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 449 insertions(+)
+> 
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 0f159fb4ce..c1c251fbd1 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -141,6 +141,12 @@ int unlinkat_win32(int dirfd, const char *pathname, int flags);
+>  int statfs_win32(const char *root_path, struct statfs *stbuf);
+>  int openat_dir(int dirfd, const char *name);
+>  int openat_file(int dirfd, const char *name, int flags, mode_t mode);
+> +DIR *opendir_win32(const char *full_file_name);
+> +int closedir_win32(DIR *pDir);
+> +struct dirent *readdir_win32(DIR *pDir);
+> +void rewinddir_win32(DIR *pDir);
+> +void seekdir_win32(DIR *pDir, long pos);
+> +long telldir_win32(DIR *pDir);
+>  #endif
 >  
->  /* 8.2.8.4.5.1 Command Return Codes */
-> @@ -511,6 +512,80 @@ static CXLRetCode cmd_media_inject_poison(struct cxl_cmd *cmd,
->      return CXL_MBOX_SUCCESS;
+>  static inline void close_preserve_errno(int fd)
+> diff --git a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c
+> index a99d579a06..e9408f3c45 100644
+> --- a/hw/9pfs/9p-util-win32.c
+> +++ b/hw/9pfs/9p-util-win32.c
+> @@ -37,6 +37,16 @@
+>   *    Windows does not support opendir, the directory fd is created by
+>   *    CreateFile and convert to fd by _open_osfhandle(). Keep the fd open will
+>   *    lock and protect the directory (can not be modified or replaced)
+> + *
+> + * 5. Neither Windows native APIs, nor MinGW provide a POSIX compatible API for
+> + *    acquiring directory entries in a safe way. Calling those APIs (native
+> + *    _findfirst() and _findnext() or MinGW's readdir(), seekdir() and
+> + *    telldir()) directly can lead to an inconsistent state if directory is
+> + *    modified in between, e.g. the same directory appearing more than once
+> + *    in output, or directories not appearing at all in output even though they
+> + *    were neither newly created nor deleted. POSIX does not define what happens
+> + *    with deleted or newly created directories in between, but it guarantees a
+> + *    consistent state.
+>   */
+>  
+>  #include "qemu/osdep.h"
+> @@ -51,6 +61,25 @@
+>  
+>  #define V9FS_MAGIC  0x53465039  /* string "9PFS" */
+>  
+> +/*
+> + * MinGW and Windows does not provide a safe way to seek directory while other
+> + * thread is modifying the same directory.
+> + *
+> + * This structure is used to store sorted file id and ensure directory seek
+> + * consistency.
+> + */
+> +struct dir_win32 {
+> +    struct dirent dd_dir;
+> +    uint32_t offset;
+> +    uint32_t total_entries;
+> +    HANDLE hDir;
+> +    uint32_t dir_name_len;
+> +    uint64_t dot_id;
+> +    uint64_t dot_dot_id;
+> +    uint64_t *file_id_list;
+> +    char dd_name[1];
+> +};
+> +
+>  /*
+>   * win32_error_to_posix - convert Win32 error to POSIX error number
+>   *
+> @@ -977,3 +1006,417 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>      errno = ENOTSUP;
+>      return -1;
 >  }
->  
-> +static CXLRetCode cmd_media_clear_poison(struct cxl_cmd *cmd,
-> +                                         CXLDeviceState *cxl_dstate,
-> +                                         uint16_t *len)
-
-
-Since 'len' is never used in the function, I am wondering whether it
-would be better to rename it to makes that more obvious like "len_unused".
-
+> +
+> +static int file_id_compare(const void *id_ptr1, const void *id_ptr2)
 > +{
-> +    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-> +    CXLPoisonList *poison_list = &ct3d->poison_list;
-> +    CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-> +    struct clear_poison_pl {
-> +        uint64_t dpa;
-> +        uint8_t data[64];
-> +    };
-> +    CXLPoison *ent;
-> +    uint64_t dpa;
+> +    uint64_t id[2];
 > +
-> +    struct clear_poison_pl *in = (void *)cmd->payload;
+> +    id[0] = *(uint64_t *)id_ptr1;
+> +    id[1] = *(uint64_t *)id_ptr2;
 > +
-> +    dpa = ldq_le_p(&in->dpa);
-> +    if (dpa + 64 > cxl_dstate->mem_size) {
-> +        return CXL_MBOX_INVALID_PA;
-> +    }
-> +
-> +    /* Always exit loop on entry removal so no need for safe variant */
-> +    QLIST_FOREACH(ent, poison_list, node) {
-> +        /*
-> +         * Test for contained in entry. Simpler than general case
-> +         * as clearing 64 bytes and entries 64 byte aligned
-> +         */
-> +        if ((dpa < ent->start) || (dpa >= ent->start + ent->length)) {
-> +            continue;
-> +        }
-> +        /* Do accounting early as we know one will go away */
-> +        ct3d->poison_list_cnt--;
-> +        if (dpa > ent->start) {
-> +            CXLPoison *frag;
-> +            /* Cannot overflow as replacing existing entry */
-> +
-> +            frag = g_new0(CXLPoison, 1);
-> +
-> +            frag->start = ent->start;
-> +            frag->length = dpa - ent->start;
-> +            frag->type = ent->type;
-> +
-> +            QLIST_INSERT_HEAD(poison_list, frag, node);
-> +            ct3d->poison_list_cnt++;
-> +        }
-> +        if (dpa + 64 < ent->start + ent->length) {
-> +            CXLPoison *frag;
-> +
-> +            if (ct3d->poison_list_cnt == CXL_POISON_LIST_LIMIT) {
-> +                cxl_set_poison_list_overflowed(ct3d);
-> +            } else {
-> +                frag = g_new0(CXLPoison, 1);
-> +
-> +                frag->start = dpa + 64;
-> +                frag->length = ent->start + ent->length - frag->start;
-> +                frag->type = ent->type;
-> +                QLIST_INSERT_HEAD(poison_list, frag, node);
-> +                ct3d->poison_list_cnt++;
-> +            }
-> +        }
-> +        /* Any fragments have been added, free original entry */
-> +        QLIST_REMOVE(ent, node);
-> +        g_free(ent);
-> +        break;
-> +    }
-> +    /* Clearing a region with no poison is not an error so always do so */
-> +    if (cvc->set_cacheline)
-> +        if (!cvc->set_cacheline(ct3d, dpa, in->data)) {
-> +            return CXL_MBOX_INTERNAL_ERROR;
-> +        }
-> +
-> +    return CXL_MBOX_SUCCESS;
-> +}
-> +
->  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
->  #define IMMEDIATE_DATA_CHANGE (1 << 2)
->  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-> @@ -542,6 +617,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
->          cmd_media_get_poison_list, 16, 0 },
->      [MEDIA_AND_POISON][INJECT_POISON] = { "MEDIA_AND_POISON_INJECT_POISON",
->          cmd_media_inject_poison, 8, 0 },
-> +    [MEDIA_AND_POISON][CLEAR_POISON] = { "MEDIA_AND_POISON_CLEAR_POISON",
-> +        cmd_media_clear_poison, 72, 0 },
->  };
->  
->  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 21e3a84785..0d9de0ee03 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -919,6 +919,41 @@ static void set_lsa(CXLType3Dev *ct3d, const void *buf, uint64_t size,
->       */
->  }
->  
-> +static bool set_cacheline(CXLType3Dev *ct3d, uint64_t dpa_offset, uint8_t *data)
-> +{
-> +    MemoryRegion *vmr = NULL, *pmr = NULL;
-> +    AddressSpace *as;
-> +
-> +    if (ct3d->hostvmem) {
-> +        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
-> +    }
-> +    if (ct3d->hostpmem) {
-> +        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
-> +    }
-> +
-> +    if (!vmr && !pmr) {
-> +        return false;
-> +    }
-> +
-> +    if (dpa_offset + 64 > int128_get64(ct3d->cxl_dstate.mem_size)) {
-> +        return false;
-> +    }
-> +
-> +    if (vmr) {
-> +        if (dpa_offset < int128_get64(vmr->size)) {
-> +            as = &ct3d->hostvmem_as;
-> +        } else {
-> +            as = &ct3d->hostpmem_as;
-> +            dpa_offset -= vmr->size;
-> +        }
+> +    if (id[0] > id[1]) {
+> +        return 1;
+> +    } else if (id[0] < id[1]) {
+> +        return -1;
 > +    } else {
-> +        as = &ct3d->hostpmem_as;
+> +        return 0;
 > +    }
-> +
-> +    address_space_write(as, dpa_offset, MEMTXATTRS_UNSPECIFIED, &data, 64);
-> +    return true;
 > +}
 > +
->  void cxl_set_poison_list_overflowed(CXLType3Dev *ct3d)
->  {
->          ct3d->poison_list_overflowed = true;
-> @@ -1140,6 +1175,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
->      cvc->get_lsa_size = get_lsa_size;
->      cvc->get_lsa = get_lsa;
->      cvc->set_lsa = set_lsa;
-> +    cvc->set_cacheline = set_cacheline;
->  }
->  
->  static const TypeInfo ct3d_info = {
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 32c234ea91..73328a52cf 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -298,6 +298,7 @@ struct CXLType3Class {
->                          uint64_t offset);
->      void (*set_lsa)(CXLType3Dev *ct3d, const void *buf, uint64_t size,
->                      uint64_t offset);
-> +    bool (*set_cacheline)(CXLType3Dev *ct3d, uint64_t dpa_offset, uint8_t *data);
->  };
->  
->  MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
-> -- 
-> 2.37.2
+> +static int get_next_entry(struct dir_win32 *stream)
+> +{
+> +    HANDLE hDirEntry = INVALID_HANDLE_VALUE;
+> +    char *entry_name;
+> +    char *entry_start;
+> +    FILE_ID_DESCRIPTOR fid;
+> +    DWORD attribute;
+> +
+> +    if (stream->file_id_list[stream->offset] == stream->dot_id) {
+> +        strcpy(stream->dd_dir.d_name, ".");
+> +        return 0;
+> +    }
+> +
+> +    if (stream->file_id_list[stream->offset] == stream->dot_dot_id) {
+> +        strcpy(stream->dd_dir.d_name, "..");
+> +        return 0;
+> +    }
+> +
+> +    fid.dwSize = sizeof(fid);
+> +    fid.Type = FileIdType;
+> +
+> +    fid.FileId.QuadPart = stream->file_id_list[stream->offset];
+> +
+> +    hDirEntry = OpenFileById(stream->hDir, &fid, GENERIC_READ,
+> +                             FILE_SHARE_READ | FILE_SHARE_WRITE
+> +                             | FILE_SHARE_DELETE,
+> +                             NULL,
+> +                             FILE_FLAG_BACKUP_SEMANTICS
+> +                             | FILE_FLAG_OPEN_REPARSE_POINT);
+
+What's the purpose of FILE_FLAG_OPEN_REPARSE_POINT here? As it's apparently
+not obvious, please add a comment.
+
+> +
+> +    if (hDirEntry == INVALID_HANDLE_VALUE) {
+> +        /*
+> +         * Not open it successfully, it may be deleted.
+
+Wrong English. "Open failed, it may have been deleted in the meantime.".
+
+> +         * Try next id.
+> +         */
+> +        return -1;
+> +    }
+> +
+> +    entry_name = get_full_path_win32(hDirEntry, NULL);
+> +
+> +    CloseHandle(hDirEntry);
+> +
+> +    if (entry_name == NULL) {
+> +        return -1;
+> +    }
+> +
+> +    attribute = GetFileAttributes(entry_name);
+> +
+> +    /* symlink is not allowed */
+> +    if (attribute == INVALID_FILE_ATTRIBUTES
+> +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
+> +        return -1;
+
+Wouldn't it make sense to call warn_report_once() here to let the user know
+that he has some symlinks that are never delivered to guest?
+
+> +    }
+> +
+> +    if (memcmp(entry_name, stream->dd_name, stream->dir_name_len) != 0) {
+
+No, that's unsafe. You want to use something like strncmp() instead.
+
+> +        /*
+> +         * The full entry file name should be a part of parent directory name,
+> +         * except dot and dot_dot (is already handled).
+> +         * If not, this entry should not be returned.
+> +         */
+> +        return -1;
+> +    }
+> +
+> +    entry_start = entry_name + stream->dir_name_len;
+
+s/entry_start/entry_basename/ ?
+
+> +
+> +    /* skip slash */
+> +    while (*entry_start == '\\') {
+> +        entry_start++;
+> +    }
+> +
+> +    if (strchr(entry_start, '\\') != NULL) {
+> +        return -1;
+> +    }
+> +
+> +    if (strlen(entry_start) == 0
+> +        || strlen(entry_start) + 1 > sizeof(stream->dd_dir.d_name)) {
+> +        return -1;
+> +    }
+> +    strcpy(stream->dd_dir.d_name, entry_start);
+
+g_path_get_basename() ? :)
+
+> +
+> +    return 0;
+> +}
+> +
+> +/*
+> + * opendir_win32 - open a directory
+> + *
+> + * This function opens a directory and caches all directory entries.
+
+It just caches all file IDs, doesn't it?
+
+> + */
+> +DIR *opendir_win32(const char *full_file_name)
+> +{
+> +    HANDLE hDir = INVALID_HANDLE_VALUE;
+> +    HANDLE hDirEntry = INVALID_HANDLE_VALUE;
+> +    char *full_dir_entry = NULL;
+> +    DWORD attribute;
+> +    intptr_t dd_handle = -1;
+> +    struct _finddata_t dd_data;
+> +    uint64_t file_id;
+> +    uint64_t *file_id_list = NULL;
+> +    BY_HANDLE_FILE_INFORMATION FileInfo;
+
+FileInfo is the variable name, not a struct name, so no upper case for it
+please.
+
+> +    struct dir_win32 *stream = NULL;
+> +    int err = 0;
+> +    int find_status;
+> +    int sort_first_two_entry = 0;
+> +    uint32_t list_count = 16;
+
+Magic number 16?
+
+> +    uint32_t index = 0;
+> +
+> +    /* open directory to prevent it being removed */
+> +
+> +    hDir = CreateFile(full_file_name, GENERIC_READ,
+> +                      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+> +                      NULL,
+> +                      OPEN_EXISTING,
+> +                      FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT,
+> +                      NULL);
+> +
+> +    if (hDir == INVALID_HANDLE_VALUE) {
+> +        err = win32_error_to_posix(GetLastError());
+> +        goto out;
+> +    }
+> +
+> +    attribute = GetFileAttributes(full_file_name);
+> +
+> +    /* symlink is not allow */
+> +    if (attribute == INVALID_FILE_ATTRIBUTES
+> +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
+> +        err = EACCES;
+> +        goto out;
+> +    }
+> +
+> +    /* check if it is a directory */
+> +    if ((attribute & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+> +        err = ENOTDIR;
+> +        goto out;
+> +    }
+> +
+> +    file_id_list = g_malloc0(sizeof(uint64_t) * list_count);
+> +
+> +    /*
+> +     * findfirst() needs suffix format name like "\dir1\dir2\*",
+> +     * allocate more buffer to store suffix.
+> +     */
+> +    stream = g_malloc0(sizeof(struct dir_win32) + strlen(full_file_name) + 3);
+
+Not that I would care much, but +2 would be correct here, as you declared the
+struct with one character already, so it is not a classic (zero size) flex
+array:
+
+  struct dir_win32 {
+    ...
+    char dd_name[1];
+  };
+
+> +
+> +    strcpy(stream->dd_name, full_file_name);
+> +    strcat(stream->dd_name, "\\*");
+> +
+> +    stream->hDir = hDir;
+> +    stream->dir_name_len = strlen(full_file_name);
+> +
+> +    dd_handle = _findfirst(stream->dd_name, &dd_data);
+> +
+> +    if (dd_handle == -1) {
+> +        err = errno;
+> +        goto out;
+> +    }
+> +
+> +    /* read all entries to link list */
+
+"read all entries as a linked list"
+
+However there is no linked list here. It seems to be an array.
+
+> +    do {
+> +        full_dir_entry = get_full_path_win32(hDir, dd_data.name);
+> +
+> +        if (full_dir_entry == NULL) {
+> +            err = ENOMEM;
+> +            break;
+> +        }
+> +
+> +        /*
+> +         * Open every entry and get the file informations.
+> +         *
+> +         * Skip symbolic links during reading directory.
+> +         */
+> +        hDirEntry = CreateFile(full_dir_entry,
+> +                               GENERIC_READ,
+> +                               FILE_SHARE_READ | FILE_SHARE_WRITE
+> +                               | FILE_SHARE_DELETE,
+> +                               NULL,
+> +                               OPEN_EXISTING,
+> +                               FILE_FLAG_BACKUP_SEMANTICS
+> +                               | FILE_FLAG_OPEN_REPARSE_POINT, NULL);
+> +
+> +        if (hDirEntry != INVALID_HANDLE_VALUE) {
+> +            if (GetFileInformationByHandle(hDirEntry,
+> +                                           &FileInfo) == TRUE) {
+> +                attribute = FileInfo.dwFileAttributes;
+> +
+> +                /* only save validate entries */
+> +                if ((attribute & FILE_ATTRIBUTE_REPARSE_POINT) == 0) {
+> +                    if (index >= list_count) {
+> +                        list_count = list_count + 16;
+
+Magic number 16 again.
+
+> +                        file_id_list = g_realloc(file_id_list,
+> +                                                 sizeof(uint64_t)
+> +                                                 * list_count);
+
+OK, so here we are finally at the point where you chose the overall behaviour
+for this that we discussed before.
+
+So you are constantly appending 16 entry chunks to the end of the array,
+periodically reallocate the entire array, and potentially end up with one
+giant dense array with *all* file IDs of the directory.
+
+That's not really what I had in mind, as it still has the potential to easily
+crash QEMU if there are large directories on host. Theoretically a Windows
+directory might then consume up to 16 GB of RAM for looking up only one single
+directory.
+
+So is this the implementation that you said was very slow, or did you test a
+different one? Remember, my orgiginal idea (as starting point for Windows) was
+to only cache *one* file ID (the last being looked up). That's it. Not a list
+of file IDs.
+
+> +                    }
+> +                    file_id = (uint64_t)FileInfo.nFileIndexLow
+> +                              + (((uint64_t)FileInfo.nFileIndexHigh) << 32);
+> +
+> +
+> +                    file_id_list[index] = file_id;
+> +
+> +                    if (strcmp(dd_data.name, ".") == 0) {
+> +                        stream->dot_id = file_id_list[index];
+> +                        if (index != 0) {
+> +                            sort_first_two_entry = 1;
+> +                        }
+> +                    } else if (strcmp(dd_data.name, "..") == 0) {
+> +                        stream->dot_dot_id = file_id_list[index];
+> +                        if (index != 1) {
+> +                            sort_first_two_entry = 1;
+> +                        }
+> +                    }
+> +                    index++;
+> +                }
+> +            }
+> +            CloseHandle(hDirEntry);
+> +        }
+> +        g_free(full_dir_entry);
+> +        find_status = _findnext(dd_handle, &dd_data);
+> +    } while (find_status == 0);
+> +
+> +    if (errno == ENOENT) {
+> +        /* No more matching files could be found, clean errno */
+> +        errno = 0;
+> +    } else {
+> +        err = errno;
+> +        goto out;
+> +    }
+> +
+> +    stream->total_entries = index;
+> +    stream->file_id_list = file_id_list;
+> +
+> +    if (sort_first_two_entry == 0) {
+> +        /*
+> +         * If the first two entry is "." and "..", then do not sort them.
+> +         *
+> +         * If the guest OS always considers first two entries are "." and "..",
+> +         * sort the two entries may cause confused display in guest OS.
+> +         */
+> +        qsort(&file_id_list[2], index - 2, sizeof(file_id), file_id_compare);
+> +    } else {
+> +        qsort(&file_id_list[0], index, sizeof(file_id), file_id_compare);
+> +    }
+
+Were there cases where you did not get "." and ".." ?
+
+> +
+> +out:
+> +    if (err != 0) {
+> +        errno = err;
+> +        if (stream != NULL) {
+> +            if (file_id_list != NULL) {
+> +                g_free(file_id_list);
+> +            }
+> +            CloseHandle(hDir);
+> +            g_free(stream);
+> +            stream = NULL;
+> +        }
+> +    }
+> +
+> +    if (dd_handle != -1) {
+> +        _findclose(dd_handle);
+> +    }
+> +
+> +    return (DIR *)stream;
+> +}
+> +
+> +/*
+> + * closedir_win32 - close a directory
+> + *
+> + * This function closes directory and free all cached resources.
+> + */
+> +int closedir_win32(DIR *pDir)
+> +{
+> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
+> +
+> +    if (stream == NULL) {
+> +        errno = EBADF;
+> +        return -1;
+> +    }
+> +
+> +    /* free all resources */
+> +    CloseHandle(stream->hDir);
+> +
+> +    g_free(stream->file_id_list);
+> +
+> +    g_free(stream);
+> +
+> +    return 0;
+> +}
+> +
+> +/*
+> + * readdir_win32 - read a directory
+> + *
+> + * This function reads a directory entry from cached entry list.
+> + */
+> +struct dirent *readdir_win32(DIR *pDir)
+> +{
+> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
+> +
+> +    if (stream == NULL) {
+> +        errno = EBADF;
+> +        return NULL;
+> +    }
+> +
+> +retry:
+> +
+> +    if (stream->offset >= stream->total_entries) {
+> +        /* reach to the end, return NULL without set errno */
+> +        return NULL;
+> +    }
+> +
+> +    if (get_next_entry(stream) != 0) {
+> +        stream->offset++;
+> +        goto retry;
+> +    }
+> +
+> +    /* Windows does not provide inode number */
+> +    stream->dd_dir.d_ino = 0;
+> +    stream->dd_dir.d_reclen = 0;
+> +    stream->dd_dir.d_namlen = strlen(stream->dd_dir.d_name);
+> +
+> +    stream->offset++;
+> +
+> +    return &stream->dd_dir;
+> +}
+> +
+> +/*
+> + * rewinddir_win32 - reset directory stream
+> + *
+> + * This function resets the position of the directory stream to the
+> + * beginning of the directory.
+> + */
+> +void rewinddir_win32(DIR *pDir)
+> +{
+> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
+> +
+> +    if (stream == NULL) {
+> +        errno = EBADF;
+> +        return;
+> +    }
+> +
+> +    stream->offset = 0;
+> +
+> +    return;
+> +}
+> +
+> +/*
+> + * seekdir_win32 - set the position of the next readdir() call in the directory
+> + *
+> + * This function sets the position of the next readdir() call in the directory
+> + * from which the next readdir() call will start.
+> + */
+> +void seekdir_win32(DIR *pDir, long pos)
+> +{
+> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
+> +
+> +    if (stream == NULL) {
+> +        errno = EBADF;
+> +        return;
+> +    }
+> +
+> +    if (pos < -1) {
+> +        errno = EINVAL;
+> +        return;
+> +    }
+> +
+> +    if (pos == -1 || pos >= (long)stream->total_entries) {
+> +        /* seek to the end */
+> +        stream->offset = stream->total_entries;
+> +        return;
+> +    }
+> +
+> +    if (pos - (long)stream->offset == 0) {
+> +        /* no need to seek */
+> +        return;
+> +    }
+> +
+> +    stream->offset = pos;
+> +
+> +    return;
+> +}
+> +
+> +/*
+> + * telldir_win32 - return current location in directory
+> + *
+> + * This function returns current location in directory.
+> + */
+> +long telldir_win32(DIR *pDir)
+> +{
+> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
+> +
+> +    if (stream == NULL) {
+> +        errno = EBADF;
+> +        return -1;
+> +    }
+> +
+> +    if (stream->offset > stream->total_entries) {
+> +        return -1;
+> +    }
+> +
+> +    return (long)stream->offset;
+> +}
 > 
 
--- 
-John Smith
-My name is not generic at all.
+
 
