@@ -2,104 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02C76B97D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D30C6B983D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:45:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc5X3-0003UW-Bd; Tue, 14 Mar 2023 10:21:41 -0400
+	id 1pc5di-0005Uk-4q; Tue, 14 Mar 2023 10:28:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pc5X0-0003UJ-Bw
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 10:21:38 -0400
-Received: from sonic316-54.consmr.mail.gq1.yahoo.com ([98.137.69.30])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pc5da-0005Tf-8Q
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 10:28:27 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pc5Wx-0002Lf-KC
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 10:21:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1678803691; bh=/sCctfPa+8N77SEpv5uUOJ2i+cEhaseBE+7f3Z/dftM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=cgBWEI6pv3SuHdPrPN6LzTyRmTNvsdlRTCTY+wghqIO0PFx06zGcIeGJo17uXSYpSLr9Ah6aLHGQGeZ09svk2trUSuik/zARQD9Ldzr/GHC9QYOYD17V5TKXB80mEcXsIa6ggro4Xf/qfmScfa8l9R9bwRa0Svu4J/djwZ/+pHulRWbf343ZeY4CHpDxgng/q8YTQ/moutH7mjmc3gi7CUF5eTOcK4ZSn0613FKsNQayT5iGKQikAImAh9qS+fVBAwKuhOwEstZqTIkhE0MiQNL3V53mfedzj1gTUjwQ6cDwZW6Tq1ussAnnXgCYsV/2YwL7M13Nz/x3D2EBWjZ5SA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1678803691; bh=cxR8+ivoOWx3C4TMEJTPjMsZbKQpAUVtORDx9F/xvvF=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=tsYz4e+9yE2UFMMqmFlbV2fre1xDkLluLwoq7+Ho6pRje6x4I58B+1yB5P/GEiCm6fyIseaaEX2IjlXrocF/ULBjVwgqYX0Ov0r0dove4LFb8oZd+Lut2CfFi/8LOCJXQIBxpgczvnjwVSb/DNGsYwBToQ79Fgpd97BX+QaRAUI52xvyOiTmxE8ZdSfQLq77g+Q5ZDR4tcdUi4XSJ30IDWepGXGRTXy6uB5DakDafpn8FrFLhQf4pNR8brQ8+oEdAAYV8EU6AHDhxLQhpeGri1rrRG7tt7wWzOhFjZgS0h2WAiTxP00Aoju4xM/iWdWAJn8PFyH7cII5GXW8ErFLpw==
-X-YMail-OSG: rZ0G0ZgVM1kspkbBit1i7dIYV.gc6sfAgtAvcSXoEVaG.0xPPN9JbSEbrE3tWX6
- lN_LAjRPGE8QVJcl713EdjtVHpos.Mnf9eLZRhXv7CE2FnhXx0uDyrWLVnHPClm9MVXD9AEeIZz4
- 2CQJn.GNNhygNXaN7C91de14tCStFEW.UlLm6DZWmgSHDbFyqQju2RraYSJZ4jX.nareh2ViJlUu
- UsIKOA1dAjEcbshaNmpwaREdks3ldtiog0XWx9gIQRftNgNeGy.BMXcv1OMfTByYr2Ugjb0aFps0
- m1m1z3SvM6QVEi654fkR_f6B3A7FMHekV2ADXk9xley79r4QKCPliK_ZR2pIyhz84G1WPBU5Yli3
- QIcABNbx8t6bvfMUNTnEU66IJhZnrNTEVWjhCeY1y_FD2_l0C42xC8YUCBIQNGdWrh8utvvrjWtr
- BXmypFKG7SVjAov3067uvEW5Mfs01HJP13tVYsz_UdIYw4QtUxg4CWlTsmrSMfMjbquFZz1PS9wl
- IlNi570Q7ImiqslHj8cokR2v8ulWdm2AgaBZPes4SnvuG8vD9XtIGy1UuYEX6jdFccLG23k6yREK
- QDsWIHhOJThVXjya_XU3HdBsvVK2WFsQnpSxkIM3JXhps4k0FV166pdeWWN_UBPXTmzuvXtzmsJE
- Af16EJTsIPcz.LEHZ6.FA36.kDdzsloFVqv8np2_rN4ZpHhj__Qmix.vNiagYqYOBV6BeWiCl3PI
- RIKHFVrRsFPZlI.0CvtHx9ueGfAIsK.iDvahjGxObvo5GL_QZXBEU.WvANd5KnlDCEeLul.YZr8T
- v9jexg900MOEo.R_i8OOF8BPYLV16vlLNNp4IH18cRkw_C8F3ws0gNkEDWu_j638NZ2gN0IkMTVy
- JC3kFFnj2OAg_YzsOuRgReE9tuFo7fC4FEtWjMrZbjXtsdyV2I7V5Nuvlgyjr9E6GRb3rJQ.jais
- 4dmDZTtUDAJeGwnhJTU1YTMVhtELvLM_jOrkZTgEmOdNxpsT0ON8MACsMDpeOoSGgNcMbT_fcv6W
- Mba1pgjEluNpVjXBvfrC850drjFPnCtB2fvoLqLPuF_CZUS.wvVDXrqaEloXLnoJgdGCgGBIzel9
- qqxoPOIiYOwZDd1amqLCO7pkSxo5MhcKqhiC0NvDcNZbRV8QN3RlPMflyJz0oyah6iMw.siwdFpr
- IlujlkiXwOB0lkY4_3mMW3OZ6_5SPgunxp5MvTsInMuVwllkwn2_e6arjW_.tj2.BIJA31yvMmNR
- O.t6t_AXMRck2CmzzT0u5sGnJZWPFTQw7sTDyre6Hc_yNZbZxNFBB6yaKY1SZRSSJBg5qXPdMAu3
- seXD3vASitNHJHwuUbNb9DdiXBx4byn.6WX4euMNFpyGTGyaDqmemQiqUl1ilF2GE17bQhjJiXYk
- cWUIulYpLso2oaEqrRU_8X1K34W0TU0i5QE0Pn_1xO4GDhDHd0SLcHoju4QF2nR5LcHEJhVJ.s.8
- hkAo9r92TJ6B6DduIGNA8OJkKhEjKvZ4epTx4mDG8xQHo.rtJWzr_A9Hq4_j8zxV_ns1RJsaTl.I
- iv2PKB9O2d_3pm3VdLOSiB5CPG8u8PdSQL5iet04xrLwrcCJgfO9X4yqpYV3leTAccybShvUiWVE
- PGYkvGyu6_.LS1JQi1PgC8vXWp2P0XqNqaD_T5IfcwJg_QvkP80qlep9ewk1xBrbEzYsMVdq4ZNK
- mtR0p5jYiaivdaprlbdA.DJ0BzVuMz8Yb639L9qzCcqlHPHQ6ssTy4MdAOcYRJF1FLgxQwNXOghp
- uYh8jtQGWXVBhizkGKg_uagEjOMtk.VWmHZpd6ZGH0pc85OUGAWq_LtzMkggVvP7WvDmlutUijcN
- HrvKMeZd9ExKG29cEXveuMHFohD5.pxz03FHa7EwDAzzu8QaDa9fTX5UfAIszhR3OHFKZITszj4E
- CScFupBfwMqQPlOxxNxCLSD34eavTsZpYsaaO9mWlcKuEOsgTv9W52SOuoSVkroogHLa1HThMVMA
- OQBxh.1de7mOTdeXCQ6UBRfT6MKZu7pmtDrvzQ4lFqkSdxeDojpap1e0RVRyYad.nvOOyrzVmA8e
- Rt.CewFhEsK3e0ZPCfb4VsMXb_s8fmq1Abe5UmQ0GT5wJDT5CnVpRQE1hZAtSa84KL1kTEwUXJkv
- V4Y7W5wmBXEBCnPfBdOKYjAr9ztXLXaMuLjpw6XbEalREt0FX85syDOu_1KsLhmrggBeV8n97X1m
- BJ_SYpubSj3VQ_FTqfm6f
-X-Sonic-MF: <brchuckz@aim.com>
-X-Sonic-ID: 14a821b7-ea05-47e6-b905-a366b1dfa563
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic316.consmr.mail.gq1.yahoo.com with HTTP; Tue, 14 Mar 2023 14:21:31 +0000
-Received: by hermes--production-ne1-759c9b8c64-7lgm5 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 3ca88b3ab5c2ca17a44595379b04fcc2; 
- Tue, 14 Mar 2023 14:21:25 +0000 (UTC)
-Message-ID: <7b822b6c-a0dc-63c9-722e-e1e0361a8d9d@aol.com>
-Date: Tue, 14 Mar 2023 10:21:25 -0400
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pc5dW-0003Wh-9t
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 10:28:25 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ qa18-20020a17090b4fd200b0023750b675f5so20553975pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 07:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678804100;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+IQvOUkBfYWq+jIIkK1Hgmff1AE4D6mq72WCCJQF3Ro=;
+ b=xKB/F83LFITVndrvuG+x/HwosBGJNv/l0JmvrRR2vT2WWgaIUor8Q7bRUKaq7R/oUc
+ 5/A6RO/2EgfNCI6UeLPzdiVUODBjtgikT4rjNHtYxwsA15M5U/PUip6aPYtfzIuBhT0n
+ cjEaO4/dXzwRsKunHjePSncK5/AAHwUDb7ciZ01oD/Rv/TeyAZatCyWQR1Lgnp7mi59+
+ LxSCv0v1LR9rJmBwiQ8IDzSow//KvuYJJi2Onx2OhzlLSalYhmEc2D4KRfwWaomAm8YN
+ VEI0LLTjjwDQ2SKZnR8oskv85OydoSvzHdMvTxgMt9Q1svP1UVAZ6fVt036zfY8LDJ61
+ mcAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678804100;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+IQvOUkBfYWq+jIIkK1Hgmff1AE4D6mq72WCCJQF3Ro=;
+ b=3jwZhUXeeUcLbM+FONcuCdFCe+7Eu0+NUpMy8u1FGNu+OH8He8+DAUMks/tsd0brZt
+ 9WX5WMjsVAODtPKRVT5Wqn/H0WkMe2rzqe0EAQx+JrSzQSBbgEMrebrAIApNpuReG1Wx
+ 36NnKSQ5+uSY/CzizqMpFCU5uDjbs9NbGTSVPSHPtHFGrrx4tYqB4lOFfcjEw1spwX22
+ OXehRNKumdlXW8NFYTENjOq9xw5eGeP/K49eNycSUwbjy33VGLdcAhbtIaF3pQIZegjD
+ Otr6Faw6jiDuCxyiPy0+YyeqXtNUBOTvmKKRdW9ysD74tSkhMhAFRgs5JLPvb3CbB7lw
+ pu/w==
+X-Gm-Message-State: AO0yUKUEpUjoW5TLQD0Jczt8gTos5f6i1dTZUNAyP8xh19ASj4SLHG6X
+ aE3Jj7PjA7xO0UJFX7vmgaA+cIHYCKNoAXxnqe0MFg==
+X-Google-Smtp-Source: AK7set+iqeSZbSRyIbgQtpHnaf1OV1CTC4iTXlDxY6HOjxYJJ3ppG5y/qsh5TkEmr6XrCHl7+tpQNEFfwMUd6fptqKc=
+X-Received: by 2002:a17:90b:1015:b0:23d:32f9:93f8 with SMTP id
+ gm21-20020a17090b101500b0023d32f993f8mr1152502pjb.0.1678804099819; Tue, 14
+ Mar 2023 07:28:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] pci: allow slot_reserved_mask to be ignored with
- manual slot assignment
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- xen-devel@lists.xenproject.org
-References: <cover.1678763217.git.brchuckz@aol.com>
- <d9ae459b2814425c2d9e756e45d993c824da150a.1678763217.git.brchuckz@aol.com>
- <20230314023148-mutt-send-email-mst@kernel.org>
- <0c8ee7e9-dd23-262f-f67e-359e14abf6f2@ilande.co.uk>
- <20230314091653-mutt-send-email-mst@kernel.org>
- <34eda0c4-3d90-0e22-7888-81bf18e2a5f0@aol.com>
- <7b79ec08-064c-7940-0285-be8a96e2a144@ilande.co.uk>
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <7b79ec08-064c-7940-0285-be8a96e2a144@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21284
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.30; envelope-from=brchuckz@aim.com;
- helo=sonic316-54.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20230313185903.400351-1-richard.henderson@linaro.org>
+In-Reply-To: <20230313185903.400351-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Mar 2023 14:28:08 +0000
+Message-ID: <CAFEAcA_ajhOgS7YyMw0W=ZbpmM1f1cvQ7J3ooWQXfKa+XVrTgw@mail.gmail.com>
+Subject: Re: [PULL v3 00/91] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,244 +84,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/14/2023 9:41 AM, Mark Cave-Ayland wrote:
-> On 14/03/2023 13:26, Chuck Zmudzinski wrote:
+On Mon, 13 Mar 2023 at 18:59, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> > On 3/14/2023 9:17 AM, Michael S. Tsirkin wrote:
-> >> On Tue, Mar 14, 2023 at 12:43:12PM +0000, Mark Cave-Ayland wrote:
-> >>> On 14/03/2023 06:33, Michael S. Tsirkin wrote:
-> >>>
-> >>>> On Tue, Mar 14, 2023 at 12:01:09AM -0400, Chuck Zmudzinski wrote:
-> >>>>> Commit 4f67543bb8c5 ("xen/pt: reserve PCI slot 2 for Intel igd-passthru")
-> >>>>> uses slot_reserved_mask to reserve slot 2 for the Intel IGD for the
-> >>>>> xenfv machine when the guest is configured for igd-passthru.
-> >>>>>
-> >>>>> A desired extension to that commit is to allow use of the reserved slot
-> >>>>> if the administrator manually configures a device to use the reserved
-> >>>>> slot. Currently, slot_reserved_mask is enforced unconditionally. With
-> >>>>> this patch, the pci bus can be configured so the slot is only reserved
-> >>>>> if the pci device to be added to the bus is configured for automatic
-> >>>>> slot assignment.
-> >>>>>
-> >>>>> To enable the desired behavior of slot_reserved_mask machine, add a
-> >>>>> boolean member enforce_slot_reserved_mask_manual to struct PCIBus and
-> >>>>> add a function pci_bus_ignore_slot_reserved_mask_manual which can be
-> >>>>> called to change the default behavior of always enforcing
-> >>>>> slot_reserved_mask so, in that case, slot_reserved_mask is only enforced
-> >>>>> when the pci device being added is configured for automatic slot
-> >>>>> assignment.
-> >>>>>
-> >>>>> Call the new pci_bus_ignore_slot_reserved_mask_manual function after
-> >>>>> creating the pci bus for the pc/i440fx/xenfv machine type to implement
-> >>>>> the desired behavior of causing slot_reserved_mask to only apply when
-> >>>>> the pci device to be added to a pc/i440fx/xenfv machine is configured
-> >>>>> for automatic slot assignment.
-> >>>>>
-> >>>>> Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
-> >>>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-> >>>>
-> >>>> I really dislike this.
-> >>>> It seems that xen should not have used slot_reserved_mask,
-> >>>> and instead needs something new like slot_manual_mask.
-> >>>> No?
-> >>>
-> >>> My suggestion was to move the validation logic to a separate callback
-> >>> function in PCIBus (see
-> >>> https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg03988.html) but
-> >>> perhaps I wasn't clear enough in pointing out that I was thinking this could
-> >>> *replace* the existing slot_reserved_mask mechanism, rather than providing a
-> >>> hook to allow it to be manipulated.
-> >>>
-> >>> Here's a very rough patch put together over lunch that attempts this for
-> >>> pci_bus_devfn_reserved(): the idea is that sun4u and Xen would call
-> >>> pci_bus_set_slot_reserved_fn() with a suitable pci_slot_reserved_fn
-> >>> implementation, and slot_reserved_mask gets removed completely i.e.:
-> >>>
-> >>>
-> >>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> >>> index def5000e7b..30b856499a 100644
-> >>> --- a/hw/pci/pci.c
-> >>> +++ b/hw/pci/pci.c
-> >>> @@ -493,6 +493,13 @@ bool pci_bus_bypass_iommu(PCIBus *bus)
-> >>>       return host_bridge->bypass_iommu;
-> >>>   }
-> >>>
-> >>> +static bool pci_bus_default_slot_reserved(PCISlotReservationType restype,
-> >>> +                                          int devfn)
-> >>> +{
-> >>> +    /* All slots accessible by default */
-> >>> +    return false;
-> >>> +}
-> >>> +
-> >>>   static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
-> >>>                                          MemoryRegion *address_space_mem,
-> >>>                                          MemoryRegion *address_space_io,
-> >>> @@ -500,7 +507,7 @@ static void pci_root_bus_internal_init(PCIBus *bus,
-> >>> DeviceState *parent,
-> >>>   {
-> >>>       assert(PCI_FUNC(devfn_min) == 0);
-> >>>       bus->devfn_min = devfn_min;
-> >>> -    bus->slot_reserved_mask = 0x0;
-> >>> +    bus->slot_reserved_fn = pci_bus_default_slot_reserved;
-> >>>       bus->address_space_mem = address_space_mem;
-> >>>       bus->address_space_io = address_space_io;
-> >>>       bus->flags |= PCI_BUS_IS_ROOT;
-> >>> @@ -1111,9 +1118,15 @@ static bool pci_bus_devfn_available(PCIBus *bus, int devfn)
-> >>>       return !(bus->devices[devfn]);
-> >>>   }
-> >>>
-> >>> -static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
-> >>> +static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn,
-> >>> +                                   PCISlotReservationType restype)
-> >>> +{
-> >>> +    return bus->slot_reserved_fn(restype, devfn);
-> >>> +}
-> >>> +
-> >>> +void pci_bus_set_slot_reserved_fn(PCIBus *bus, pci_slot_reserved_fn fn)
-> >>>   {
-> >>> -    return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
-> >>> +    bus->slot_reserved_fn = fn;
-> >>>   }
-> >>>
-> >>>   /* -1 for devfn means auto assign */
-> >>> @@ -1141,7 +1154,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-> >>>           for(devfn = bus->devfn_min ; devfn < ARRAY_SIZE(bus->devices);
-> >>>               devfn += PCI_FUNC_MAX) {
-> >>>               if (pci_bus_devfn_available(bus, devfn) &&
-> >>> -                   !pci_bus_devfn_reserved(bus, devfn)) {
-> >>> +                   !pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_AUTO)) {
-> >>>                   goto found;
-> >>>               }
-> >>>           }
-> >>> @@ -1149,7 +1162,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-> >>>                      "or reserved", name);
-> >>>           return NULL;
-> >>>       found: ;
-> >>> -    } else if (pci_bus_devfn_reserved(bus, devfn)) {
-> >>> +    } else if (pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_MANUAL)) {
-> >>>           error_setg(errp, "PCI: slot %d function %d not available for %s,"
-> >>>                                          MemoryRegion *address_space_io,
-> >>> @@ -500,7 +507,7 @@ static void pci_root_bus_internal_init(PCIBus *bus,
-> >>> DeviceState *parent,
-> >>>   {
-> >>>       assert(PCI_FUNC(devfn_min) == 0);
-> >>>       bus->devfn_min = devfn_min;
-> >>> -    bus->slot_reserved_mask = 0x0;
-> >>> +    bus->slot_reserved_fn = pci_bus_default_slot_reserved;
-> >>>       bus->address_space_mem = address_space_mem;
-> >>>       bus->address_space_io = address_space_io;
-> >>>       bus->flags |= PCI_BUS_IS_ROOT;
-> >>> @@ -1111,9 +1118,15 @@ static bool pci_bus_devfn_available(PCIBus *bus, int devfn)
-> >>>       return !(bus->devices[devfn]);
-> >>>   }
-> >>>
-> >>> -static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
-> >>> +static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn,
-> >>> +                                   PCISlotReservationType restype)
-> >>> +{
-> >>> +    return bus->slot_reserved_fn(restype, devfn);
-> >>> +}
-> >>> +
-> >>> +void pci_bus_set_slot_reserved_fn(PCIBus *bus, pci_slot_reserved_fn fn)
-> >>>   {
-> >>> -    return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
-> >>> +    bus->slot_reserved_fn = fn;
-> >>>   }
-> >>>
-> >>>   /* -1 for devfn means auto assign */
-> >>> @@ -1141,7 +1154,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-> >>>           for(devfn = bus->devfn_min ; devfn < ARRAY_SIZE(bus->devices);
-> >>>               devfn += PCI_FUNC_MAX) {
-> >>>               if (pci_bus_devfn_available(bus, devfn) &&
-> >>> -                   !pci_bus_devfn_reserved(bus, devfn)) {
-> >>> +                   !pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_AUTO)) {
-> >>>                   goto found;
-> >>>               }
-> >>>           }
-> >>> @@ -1149,7 +1162,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-> >>>                      "or reserved", name);
-> >>>           return NULL;
-> >>>       found: ;
-> >>> -    } else if (pci_bus_devfn_reserved(bus, devfn)) {
-> >>> +    } else if (pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_MANUAL)) {
-> >>>           error_setg(errp, "PCI: slot %d function %d not available for %s,"
-> >>>                      " reserved",
-> >>>                      PCI_SLOT(devfn), PCI_FUNC(devfn), name);
-> >>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> >>> index d5a40cd058..8a949f7ae1 100644
-> >>> --- a/include/hw/pci/pci.h
-> >>> +++ b/include/hw/pci/pci.h
-> >>> @@ -257,10 +257,18 @@ MemoryRegion *pci_address_space_io(PCIDevice *dev);
-> >>>    */
-> >>>   int pci_bar(PCIDevice *d, int reg);
-> >>>
-> >>> +typedef enum PCISlotReservationType {
-> >>> +    PCI_SLOT_RESERVATION_AUTO,
-> >>> +    PCI_SLOT_RESERVATION_MANUAL
-> >>> +} PCISlotReservationType;
-> >>> +
-> >>> +typedef bool (*pci_slot_reserved_fn)(PCISlotReservationType restype, int devfn);
-> >>>   typedef void (*pci_set_irq_fn)(void *opaque, int irq_num, int level);
-> >>>   typedef int (*pci_map_irq_fn)(PCIDevice *pci_dev, int irq_num);
-> >>>   typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
-> >>>
-> >>> +void pci_bus_set_slot_reserved_fn(PCIBus *bus, pci_slot_reserved_fn fn);
-> >>> +
-> >>>   #define TYPE_PCI_BUS "PCI"
-> >>>   OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
-> >>>   #define TYPE_PCIE_BUS "PCIE"
-> >>> diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-> >>> index 5653175957..d68ea1418d 100644
-> >>> --- a/include/hw/pci/pci_bus.h
-> >>> +++ b/include/hw/pci/pci_bus.h
-> >>> @@ -36,7 +36,7 @@ struct PCIBus {
-> >>>       PCIIOMMUFunc iommu_fn;
-> >>>       void *iommu_opaque;
-> >>>       uint8_t devfn_min;
-> >>> -    uint32_t slot_reserved_mask;
-> >>> +    pci_slot_reserved_fn slot_reserved_fn;
-> >>>       pci_set_irq_fn set_irq;
-> >>>       pci_map_irq_fn map_irq;
-> >>>       pci_route_irq_fn route_intx_to_irq;
-> >>>
-> >>>
-> >>> If this approach seems reasonable, I'm happy for someone else to take this
-> >>> over and turn it into a proper series.
-> >>>
-> >>>
-> >>> ATB,
-> >>>
-> >>> Mark.
-> >>
-> >> It's ok too though I think I like chuck's proposal better:
-> >> less callbacks to chase.
-> >>
-> > 
-> > I would be willing to pursue this if there were more use cases for
-> > slot_reserved_mask than just the two cases we have now: xen and sun4u.
-> > Until there is a clear demand for a more general way to manipulate the
-> > mask, I agree with Michael that the KISS principle should apply here.
+> Version 3 fixes a rebase error from v2 affecting ARM BFC insn.
 >
-> No worries. The thinking behind this idea was that it feel like the Xen case is 
-> special in that it has separate requirements for auto slot allocation and manual slot 
-> allocation: if slot reservation were used in more places, I'd expect the sun4u case 
-> to be more common, in which case it seems a bit more work for the common case to have 
-> to set both slot_reserved_mask_auto and slot_reserved_mask_manual separately. Perhaps 
-> a single accessor function can be used to set both mask values together for a PCIBus?
+>
+> r~
+>
+>
+> The following changes since commit 29c8a9e31a982874ce4e2c15f2bf82d5f8dc3517:
+>
+>   Merge tag 'linux-user-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2023-03-12 10:57:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230313
+>
+> for you to fetch changes up to 0c8b6b9a6383e2e37ff3d1d12b40c58b7ed36c1c:
+>
+>   tcg: Drop tcg_const_* (2023-03-13 07:03:39 -0700)
+>
+> ----------------------------------------------------------------
+> accel/tcg: Fix NB_MMU_MODES to 16
+> Balance of the target/ patchset which eliminates tcg_temp_free
+> Balance of the target/ patchset which eliminates tcg_const
 
-My immediate thought as a way to avoid needing to set both masks in the
-sun4u machine would be to add an initialization function that defines the
-relationship between the two masks. The sun4u machine would use a default
-function that simply sets the manual mask equal to the auto mask. In the
-special case of xen, the manual mask would be set to 0.
 
->
-> Regardless, I'll take step back and leave you and Michael to come up with a solution 
-> that you're both happy with. Let me know if you need me to test anything on sun4u.
->
->
-> ATB,
->
-> Mark.
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
