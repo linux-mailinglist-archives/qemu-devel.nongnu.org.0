@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1D06B8B26
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CD76B8B2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:23:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pby16-0006TR-J9; Tue, 14 Mar 2023 02:20:12 -0400
+	id 1pby3W-0007JG-S5; Tue, 14 Mar 2023 02:22:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pby14-0006T8-N0
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:20:10 -0400
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pby3V-0007J6-Bk
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:22:41 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pby12-0007Un-Uy
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:20:10 -0400
-Received: by mail-ua1-x935.google.com with SMTP id h34so9855411uag.4
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:20:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pby3T-0007o8-Dn
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:22:41 -0400
+Received: by mail-wr1-x435.google.com with SMTP id p4so7072130wre.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:22:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678774808;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OzwwtPBgE/8kl7QCVOptpvUhARmhIGN0YRyurMspuwk=;
- b=ceDkdUAcKbzBoP5EMoncN/hlgltiz1NzV0eN0zxG36bR905saRNBMkF5UQvV1crsYx
- CNy8doqU9/1UzPCKdvNenomm0NkXA0WJYcss0UNcpy05mfQN/iSwacq/saenX425RRCR
- X0VcZ6cw6yjgu+Wh9GyeON5XlKb8Cpobj8wkCCyIongsw6PL1ISzVSd7KRHt6gFip3/U
- rgMMECXEMfne30mGx6ZuM3I0onIrRscdKWOW1TuX/kJJ9pF7/c5fziQwDySHwiL6a61h
- Cwm0+/JZS6eDCmvge2lDmGLAkcXjBZTBuj9x750WUb465PwH/ewHu/BZuWn0Z+Laov19
- fGSQ==
+ d=linaro.org; s=google; t=1678774957;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=00uQYOsidjD0CPAYsiK2rWil5R/oQs5nSJAxponlgTA=;
+ b=cFmTmKFSfTtvs+d5ZkvGea5xMDHa/ALk1kmuc0n/6Gn1PJj1pCQ8mDZhsa/p0PxFol
+ C1R5Oy/JLNikBbKCT/Zeqhfj4Gh5G7s7jDKjEeYnotEwnzNWAJfrftnFxQFhLrdG/+2f
+ 4qZC/3VokyFGs5j+UPJ69sKMO3pMTJHe+GW502m7TMaEvTPk6Siae3s8LL//h5lR4Rxz
+ DbKWlVAvSCfDaimteEuETDBNc38fd9H+GZ5GgFoIVNfECE4ZeVN1wxfxPmQyoSJWY5Y1
+ o9OH7fE2sAs1HBQQw7X12g6N8RkbY7pioDXcz/2bNnHJNzyoEeF9WeSpjasfNYfPdrSo
+ en9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678774808;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OzwwtPBgE/8kl7QCVOptpvUhARmhIGN0YRyurMspuwk=;
- b=Bkm1SwixhhiaXwNrqml2KBMuuMWBJN001T25XKXMWmn8WnqFxPS3DlDCm22qM/kru9
- BSKlI1Ini4o3i43iKmI2v4OsSbWGJId9GUWpGq3jpp0sxeNShcqd/73wDR4to8gEzv79
- Zs+VDiIGVQZ7Zmo/JWKQ5yVYDvE+lDavQkMZ+ZdEJz+44fAuplYJfwN9MaHXyuacyRYF
- javJ8P4CDyxESTpwUM5JpprSyU+ydppj3Pr4c7KGwe+i75mARB8p7gIZaacojs4bYWJC
- ZRvABeHpkC59hMmSF5S9zfXzLvYWxDUZiSNNz7FAtQpUmnCuaFUWki9FGxK+QpGDwx0i
- jf8Q==
-X-Gm-Message-State: AO0yUKWFZHj9GLJj5Ep/GChcSPpc55y72pfumjEqpbP9HTSJ679eMeMD
- /ABq1MBgY4zMhMwYQlGz9+Z0lhN3PhlZezAYZMs=
-X-Google-Smtp-Source: AK7set9cZUcrezuJ03EgNIh0huDnIV5bLsLmBgUqYAazjC1eP3yaqRUMNlxK4w+H0NDN0JpVTXdJNx5mEzb1v2O6jWc=
-X-Received: by 2002:a1f:c507:0:b0:401:2297:b2e0 with SMTP id
- v7-20020a1fc507000000b004012297b2e0mr21615003vkf.0.1678774807757; Mon, 13 Mar
- 2023 23:20:07 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678774957;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=00uQYOsidjD0CPAYsiK2rWil5R/oQs5nSJAxponlgTA=;
+ b=KMulMA0G3wyc4Emup/xzMxDHvldhiZ/GLP2oSGlR7UoxCPLLIMGLpKFy/SrYKD0Yjf
+ FE3iKd4wGPH3MatELcNt8+xRri3NwhZIBl6RLfk3KHA4Zz0wPKYGSweGI2HYWlDmTpgf
+ 1vdKknEUsIITSvzHZWGEOdACLNAX3SxGje+KPP13go6s6l0vt0fOGEjFtU/PcLU+B7L7
+ j6Df7f8ukx8R6BJkqI9OEykoRGQL2txnG/WZ4u2zsX/8jeECXfOjNm/ri8wf/b8pBGLh
+ bSDE1cg3tUvvH3W2IGLiTRgtyqeybUnCODeEktOSzi+xibIUvZWXvmMvUThSiC+rg8cI
+ N02A==
+X-Gm-Message-State: AO0yUKVIjEMmn1fXF1jfae217H365lUfFHf+EuvILASt20MfhGKRQpMj
+ 1sv6Uh0Lci3tDl3Y8DanAwituw==
+X-Google-Smtp-Source: AK7set//mf30nJ/z3BT2W3nv82wuEj5l7/wwAQu9QQmFmIfZd2KAuJVNKxMFlSKbZNCNOVpzvgTa9Q==
+X-Received: by 2002:a5d:5650:0:b0:2ce:98fc:f289 with SMTP id
+ j16-20020a5d5650000000b002ce98fcf289mr7085528wrw.49.1678774957700; 
+ Mon, 13 Mar 2023 23:22:37 -0700 (PDT)
+Received: from [192.168.150.175] (180.red-88-28-30.dynamicip.rima-tde.net.
+ [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
+ f3-20020a0560001b0300b002c559626a50sm1239393wrz.13.2023.03.13.23.22.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 23:22:37 -0700 (PDT)
+Message-ID: <3e7a9151-2f41-0ac5-2b47-f264574be73f@linaro.org>
+Date: Tue, 14 Mar 2023 07:22:32 +0100
 MIME-Version: 1.0
-References: <20230307180708.302867-1-philipp.tomsich@vrull.eu>
- <20230307180708.302867-3-philipp.tomsich@vrull.eu>
-In-Reply-To: <20230307180708.302867-3-philipp.tomsich@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 14 Mar 2023 16:19:41 +1000
-Message-ID: <CAKmqyKOY6v51+XgcuUVPcKYY_zQTQ1sTJ-eNMM27OgTmY+VYBg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] target/riscv: redirect XVentanaCondOps to use the
- Zicond functions
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Christoph Muellner <christoph.muellner@vrull.eu>,
- Kito Cheng <kito.cheng@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v4 4/6] hw/cxl: QMP based poison injection support
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Michael Tsirkin <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>
+Cc: linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Ira Weiny <ira.weiny@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Michael Roth <michael.roth@amd.com>, Dave Jiang <dave.jiang@intel.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
+ <20230303150908.27889-5-Jonathan.Cameron@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230303150908.27889-5-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,101 +101,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 8, 2023 at 4:10=E2=80=AFAM Philipp Tomsich <philipp.tomsich@vru=
-ll.eu> wrote:
->
-> The Zicond standard extension implements the same instruction
-> semantics as XVentanaCondOps, although using different mnemonics and
-> opcodes.
->
-> Point XVentanaCondOps to the (newly implemented) Zicond implementation
-> to reduce the future maintenance burden.
->
-> Also updating MAINTAINERS as trans_xventanacondops.c.inc.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+On 3/3/23 16:09, Jonathan Cameron wrote:
+> Inject poison using qmp command cxl-inject-poison to add an entry to the
+> poison list.
+> 
+> For now, the poison is not returned CXL.mem reads,
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+What do you mean?
 
-Alistair
-
+> but only via the
+> mailbox command Get Poison List.
+> 
+> See CXL rev 3.0, sec 8.2.9.8.4.1 Get Poison list (Opcode 4300h)
+> 
+> Kernel patches to use this interface here:
+> https://lore.kernel.org/linux-cxl/cover.1665606782.git.alison.schofield@intel.com/
+> 
+> To inject poison using qmp (telnet to the qmp port)
+> { "execute": "qmp_capabilities" }
+> 
+> { "execute": "cxl-inject-poison",
+>      "arguments": {
+>           "path": "/machine/peripheral/cxl-pmem0",
+>           "start": 2048,
+>           "length": 256
+>      }
+> }
+> 
+> Adjusted to select a device on your machine.
+> 
+> Note that the poison list supported is kept short enough to avoid the
+> complexity of state machine that is needed to handle the MORE flag.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
 > ---
->
-> (no changes since v3)
->
-> Changes in v3:
-> - Don't downgrade to "Odd Fixes", but rather to "Maintained" (we are
->   not being paid to look after this, but will look after it
->   nonetheless).
->
-> Changes in v2:
-> - Calls into the gen_czero_{eqz,nez} helpers instead of calling
->   trans_czero_{eqz,nez} to bypass the require-check and ensure that
->   XVentanaCondOps can be enabled/disabled independently of Zicond.
->
->  MAINTAINERS                                    |  2 +-
->  .../insn_trans/trans_xventanacondops.c.inc     | 18 +++---------------
->  2 files changed, 4 insertions(+), 16 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 011fd85a09..1ad3c6fc9a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -311,7 +311,7 @@ F: target/riscv/xthead*.decode
->  RISC-V XVentanaCondOps extension
->  M: Philipp Tomsich <philipp.tomsich@vrull.eu>
->  L: qemu-riscv@nongnu.org
-> -S: Supported
-> +S: Maintained
->  F: target/riscv/XVentanaCondOps.decode
->  F: target/riscv/insn_trans/trans_xventanacondops.c.inc
->
-> diff --git a/target/riscv/insn_trans/trans_xventanacondops.c.inc b/target=
-/riscv/insn_trans/trans_xventanacondops.c.inc
-> index 16849e6d4e..38c15f2825 100644
-> --- a/target/riscv/insn_trans/trans_xventanacondops.c.inc
-> +++ b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-> @@ -1,7 +1,7 @@
->  /*
->   * RISC-V translation routines for the XVentanaCondOps extension.
->   *
-> - * Copyright (c) 2021-2022 VRULL GmbH.
-> + * Copyright (c) 2021-2023 VRULL GmbH.
->   *
->   * This program is free software; you can redistribute it and/or modify =
-it
->   * under the terms and conditions of the GNU General Public License,
-> @@ -16,24 +16,12 @@
->   * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->
-> -static bool gen_vt_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
-> -{
-> -    TCGv dest =3D dest_gpr(ctx, a->rd);
-> -    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_NONE);
-> -    TCGv src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
-> -
-> -    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
-> -
-> -    gen_set_gpr(ctx, a->rd, dest);
-> -    return true;
-> -}
-> -
->  static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
->  {
-> -    return gen_vt_condmask(ctx, a, TCG_COND_NE);
-> +    return gen_logic(ctx, a, gen_czero_eqz);
->  }
->
->  static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
->  {
-> -    return gen_vt_condmask(ctx, a, TCG_COND_EQ);
-> +    return gen_logic(ctx, a, gen_czero_nez);
->  }
-> --
-> 2.34.1
->
->
+> v4:
+>   - Widen the mask on Poison source (lower bits of the address)
+>     to allow for Vendor Defined. Change will make it easier to potentially
+>     add a means to inject such poison in the future. Today it has no
+>     impact.
+> ---
+>   hw/cxl/cxl-mailbox-utils.c  | 90 +++++++++++++++++++++++++++++++++++++
+>   hw/mem/cxl_type3.c          | 56 +++++++++++++++++++++++
+>   hw/mem/cxl_type3_stubs.c    |  6 +++
+>   include/hw/cxl/cxl_device.h | 20 +++++++++
+>   qapi/cxl.json               | 18 ++++++++
+>   5 files changed, 190 insertions(+)
+
+
+> +/*
+> + * This is very inefficient, but good enough for now!
+> + * Also the payload will always fit, so no need to handle the MORE flag and
+> + * make this stateful. We may want to allow longer poison lists to aid
+> + * testing that kernel functionality.
+> + */
+> +static CXLRetCode cmd_media_get_poison_list(struct cxl_cmd *cmd,
+> +                                            CXLDeviceState *cxl_dstate,
+> +                                            uint16_t *len)
+> +{
+> +    struct get_poison_list_pl {
+> +        uint64_t pa;
+> +        uint64_t length;
+> +    } QEMU_PACKED;
+> +
+> +    struct get_poison_list_out_pl {
+> +        uint8_t flags;
+> +        uint8_t rsvd1;
+> +        uint64_t overflow_timestamp;
+> +        uint16_t count;
+> +        uint8_t rsvd2[0x14];
+> +        struct {
+> +            uint64_t addr;
+> +            uint32_t length;
+> +            uint32_t resv;
+> +        } QEMU_PACKED records[];
+> +    } QEMU_PACKED;
+> +
+> +    struct get_poison_list_pl *in = (void *)cmd->payload;
+> +    struct get_poison_list_out_pl *out = (void *)cmd->payload;
+> +    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
+> +    uint16_t record_count = 0, i = 0;
+> +    uint64_t query_start, query_length;
+> +    CXLPoisonList *poison_list = &ct3d->poison_list;
+> +    CXLPoison *ent;
+> +    uint16_t out_pl_len;
+> +
+> +    query_start = ldq_le_p(&in->pa);
+> +    /* 64 byte alignemnt required */
+> +    if (query_start & 0x3f) {
+> +        return CXL_MBOX_INVALID_INPUT;
+> +    }
+> +    query_length = ldq_le_p(&in->length) * 64;
+> +
+> +    QLIST_FOREACH(ent, poison_list, node) {
+> +        /* Check for no overlap */
+> +        if (ent->start >= query_start + query_length ||
+> +            ent->start + ent->length <= query_start) {
+> +            continue;
+> +        }
+> +        record_count++;
+> +    }
+> +    out_pl_len = sizeof(*out) + record_count * sizeof(out->records[0]);
+> +    assert(out_pl_len <= CXL_MAILBOX_MAX_PAYLOAD_SIZE);
+> +
+> +    memset(out, 0, out_pl_len);
+> +    QLIST_FOREACH(ent, poison_list, node) {
+> +        uint64_t start, stop;
+> +
+> +        /* Check for no overlap */
+> +        if (ent->start >= query_start + query_length ||
+> +            ent->start + ent->length <= query_start) {
+> +            continue;
+> +        }
+> +
+> +        /* Deal with overlap */
+> +        start = MAX(ent->start & 0xffffffffffffffc0, query_start);
+> +        stop = MIN((ent->start & 0xffffffffffffffc0) + ent->length,
+
+~63ull or ROUND_DOWN(, 64ull) could be easier to read.
+
+> +                   query_start + query_length);
+> +        stq_le_p(&out->records[i].addr, start | (ent->type & 0x7));
+> +        stl_le_p(&out->records[i].length, (stop - start) / 64);
+> +        i++;
+> +    }
+> +    if (ct3d->poison_list_overflowed) {
+> +        out->flags = (1 << 1);
+> +        stq_le_p(&out->overflow_timestamp, ct3d->poison_list_overflow_ts);
+> +    }
+> +    stw_le_p(&out->count, record_count);
+> +    *len = out_pl_len;
+> +    return CXL_MBOX_SUCCESS;
+> +}
+> +
+
+
+> diff --git a/qapi/cxl.json b/qapi/cxl.json
+> index 4be7d46041..9ebd680dfe 100644
+> --- a/qapi/cxl.json
+> +++ b/qapi/cxl.json
+> @@ -5,6 +5,24 @@
+>   # = CXL devices
+>   ##
+>   
+> +##
+> +# @cxl-inject-poison:
+> +#
+> +# Poison records indicate that a CXL memory device knows that a particular
+> +# memory region may be corrupted. This may be because of locally detected
+> +# errors (e.g. ECC failure) or poisoned writes received from other components
+> +# in the system. This injection mechanism enables testing of the OS handling
+> +# of poison records which may be queried via the CXL mailbox.
+> +#
+> +# @path: CXL type 3 device canonical QOM path
+> +# @start: Start address - must be 64 byte aligned.
+> +# @length: Length of poison to inject - must be a multiple of 64 bytes.
+> +#
+> +# Since: 8.0
+
+8.1 per the cover.
+
+> +##
+> +{ 'command': 'cxl-inject-poison',
+> +  'data': { 'path': 'str', 'start': 'uint64', 'length': 'uint64' }}
+> +
+
 
