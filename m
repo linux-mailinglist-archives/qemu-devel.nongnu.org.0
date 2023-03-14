@@ -2,84 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FDD6B9003
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 11:30:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AABFE6B9042
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 11:37:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc1u3-00018A-De; Tue, 14 Mar 2023 06:29:11 -0400
+	id 1pc215-0002cf-TX; Tue, 14 Mar 2023 06:36:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pc1u1-00017r-Jm
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 06:29:09 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pc1tz-00077c-G3
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 06:29:09 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- k25-20020a7bc419000000b003ed23114fa7so4067694wmi.4
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 03:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678789745;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9VmFz7uxWF/SUuHLftvHGRhUUWcutnmAckL8dW8X0mo=;
- b=ivey1tnMtDaBNu6Fj6zPz9CXeg2RlwnsGvqxc9JZivr84ZMKqkAR/cZPm3ecaerKwa
- 8Xx4UrG8b1x9KLX5ajmAD59hc5JYc7oX2TFUn2HgsMYc6LbnR1dxuJ767rV1mA0XDEu5
- BrzsfKcaBGSNCvpLkGRM3kh1HJELvpcJYYbcmNCXVwH3MbZOUeOZp7+ri80/vQWgjsUB
- 5X/SaPYVl17/7EBiD4Hci+xaI9GsCN1kA8kVU1W9BaUKVUQvJdgWdFptFap4bUZG/R8e
- jDnnET1CzWaiiYrl2OiFeVo9M6So/9n0OB8igmYgodtN+oZ7qpBIrbnqusJC/o9N5rs4
- 7wPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678789745;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9VmFz7uxWF/SUuHLftvHGRhUUWcutnmAckL8dW8X0mo=;
- b=Q7XYQCORvl8bZbKM4UMI29xoXOgVMfhdJ/qc+zd9M/RNFqXXb+ETasCMk5SWdxsoz2
- i/faDBuh1xi8bg/0SEFh09ZLlK8KqIRv6MzfxwkmubtOX3lguyuLNWZtyiaEW+9uZ2Qg
- lAy76gf/K0pC688u1HMfHK5cKbDHzW6cnum4JVZx856i1OiEeSghFI3HtROkQLOG8QBp
- z2X+LfWfuXXq01YwhAAa/bWmB+12Bzm/LA25+qZmtnYK3tGLGYfESssSAdNaS9qffkMO
- UlmKMItshaNaWiO2NtvJYWxO0naC/BHJdZlLU/ky1qI7RBfbc/MsQYXd7wCgb3+ldTiG
- StQA==
-X-Gm-Message-State: AO0yUKWgJ5DZoY9Gnigfzyqn0g72GrQsJeIzdSf60HxiEpFbkjL8CPqm
- GyFRBfEErOx+DESMuBE5ivMQzw==
-X-Google-Smtp-Source: AK7set//Y6M15cBDBUV2C8EzGQc2OSPWG7JZmzgQbc42cclxJh6D4mqfiHoiYjhKX5PDwW/HVPTrUA==
-X-Received: by 2002:a05:600c:1c28:b0:3eb:3b7e:7b89 with SMTP id
- j40-20020a05600c1c2800b003eb3b7e7b89mr13834825wms.3.1678789745707; 
- Tue, 14 Mar 2023 03:29:05 -0700 (PDT)
-Received: from [192.168.1.115] (233.red-88-29-167.dynamicip.rima-tde.net.
- [88.29.167.233]) by smtp.gmail.com with ESMTPSA id
- z22-20020a1c4c16000000b003ed246c1d28sm2324008wmf.44.2023.03.14.03.29.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Mar 2023 03:29:05 -0700 (PDT)
-Message-ID: <686bf557-e640-486b-7a24-c64d4e207f58@linaro.org>
-Date: Tue, 14 Mar 2023 11:29:01 +0100
+ (Exim 4.90_1) (envelope-from <ben@fluff.org>) id 1pc213-0002cX-Mw
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 06:36:25 -0400
+Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3] helo=hetzy.fluff.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben@fluff.org>) id 1pc211-00007S-6L
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 06:36:25 -0400
+Received: from ben by hetzy.fluff.org with local (Exim 4.89)
+ (envelope-from <ben@fluff.org>)
+ id 1pc20n-0004Gl-UY; Tue, 14 Mar 2023 10:36:10 +0000
+Date: Tue, 14 Mar 2023 10:36:09 +0000
+From: Ben Dooks <qemu@ben.fluff.org>
+To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>, jasowang@redhat.com,
+ fnu.vikram@xilinx.com, qemu-devel@nongnu.org,
+ Nazar Kazakov <nazar.kazakov@codethink.co.uk>,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>,
+ Frank Chang <frank.chang@sifive.com>, paul.walmsley@sifive.com
+Subject: Re: [PATCH] hw/net/can: Add mcp25625 model
+Message-ID: <20230314103609.kpf5o7eq7gdce2kh@hetzy.fluff.org>
+References: <20230104122220.110412-1-ben.dooks@codethink.co.uk>
+ <c29fe486-d510-2c0e-ed38-9f05c0f4679f@codethink.co.uk>
+ <202301171916.35965.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/3] qapi/machine-target: refactor machine-target
-Content-Language: en-US
-To: Dinah Baum <dinahbaum123@gmail.com>, qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
-References: <20230314100026.536079-1-dinahbaum123@gmail.com>
- <20230314100026.536079-2-dinahbaum123@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230314100026.536079-2-dinahbaum123@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202301171916.35965.pisa@cmp.felk.cvut.cz>
+X-Disclaimer: These are my views alone.
+X-URL: http://www.fluff.org/
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: ben@fluff.org
+X-SA-Exim-Scanned: No (on hetzy.fluff.org); SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2a01:4f8:222:2004::3; envelope-from=ben@fluff.org;
+ helo=hetzy.fluff.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,41 +64,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/3/23 11:00, Dinah Baum wrote:
-> Moved architecture agnostic data types to their own
-> file to avoid "attempt to use poisoned TARGET_*"
-> error that results when including qapi header
-> with commands that aren't defined for all architectures.
-> Required to implement enabling `query-cpu-model-expansion`
-> on all architectures
+On Tue, Jan 17, 2023 at 07:16:35PM +0100, Pavel Pisa wrote:
+> Dear Ben,
 > 
-> Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
-> ---
->   MAINTAINERS                     |  1 +
->   qapi/machine-target-common.json | 79 +++++++++++++++++++++++++++++++++
->   qapi/machine-target.json        | 73 +-----------------------------
->   qapi/meson.build                |  1 +
->   4 files changed, 82 insertions(+), 72 deletions(-)
->   create mode 100644 qapi/machine-target-common.json
+> sorry for longer response times...
 
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 9fd480c4d8..48be47170f 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -38,6 +38,7 @@ qapi_all_modules = [
->     'job',
->     'machine',
->     'machine-target',
-> +  'machine-target-common',
->     'migration',
->     'misc',
->     'misc-target',
+I think we've both dropped the ball on this one, just got reminded about
+this set and found it got deleted from work email.
 
-Eh, this reminds me of
-https://lore.kernel.org/qemu-devel/20220204152924.6253-5-f4bug@amsat.org/
+We've done review upates and will try and get some branches out today and
+maybe a new patch out for inclusion.
 
-I wonder between -common / -any / -all. Anyhow,
+> On Tuesday 17 of January 2023 14:32:29 Ben Dooks wrote:
+> > On 04/01/2023 12:22, Ben Dooks wrote:
+> > > From: Ben Dooks <ben.dooks@sifive.com>
+> > >
+> > > Add support for Microchip MCP25625 SPI based CAN controller which is
+> > > very similar to the MCP2515 (and covered by the same Linux driver).
+> ...
+> > Has anyone had chance to review this, it would be great to get
+> > this moving along.
+> 
+> Generally, I am happy that you consider use and extend our work.
+> 
+> I have looked at the code. But even that implementation of CAN
+> subsystem in QEMU was my idea and I led studnets working on
+> it and sometimes heavily rewritten code to be acceptable,
+> I am not QEMU expert and I have not studied its SSI subsystem
+> so for comment from QEMU code requiremts I would be happy
+> for some other to step in. 
+> 
+> I would like to test the peripheral. Please, can you try to elaborate
+> and prepare description how to config QEMU for RPi emulation with
+> mcp2515 overlay?
+> 
+>   https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/overlays/mcp2515-can0-overlay.dts
+> 
+> I have RPi images and I have experience with this hardware.
+> Even that I consider mcp2515 as really unfortunate solution
+> and we have spent lot of time to help colleagues to enhance a little
+> latencies of this solution when they chose that HW for serious
+> wok instead of some NXP, TI, Xilinx or other sane SoC with CAN.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I had a quick look at setting an pi3b emulation but it does not currently
+have an SSI port available by default. I will try and post the branch I
+used with the SiFive Unmatched board later.
+
+
+>   https://dspace.cvut.cz/bitstream/handle/10467/68605/F3-DP-2017-Prudek-Martin-Dp_2017_prudek_martin.pdf
+> 
+> But yes, people are using this chip a lot so it would worth to have
+> emulation in QEMU. If the SPI connection is required then mcp251xfd
+> seems to have chance for lower SPI transfer count overhead nd performance.
+> But real SoC bus connected controllers are much better for serious
+> project, if you design chip there are more cores available M-CAN,
+> GRCAN and even our own CTU CAN FD which has already emulation in QEMU.
+> 
+> Back to MCP25x1x. I have gone through code and try to understand
+> the function. There is lot of connected to the locations in the
+> registers maps in the chip
+> 
+> >   s->ssi_addr = 0x31;
+
+A lot of these where basically used in one place and we map the regs
+into internal data structs. Nazar and I have been through and tried
+to tidy some of this up and make it more explicit what is being done.
+
+> I have took manual but I think that it would help to add there comments
+> with registers names or even use defines for these. But may it be,
+> that for the easy ampping in the table and increment logic numbers
+> are reasonable option... But comments with register symbolic names
+> would help.
+> 
+> The code does define only single property ("canbus") to select CAN
+> bus to connect controller to. Mapping to the SPI peripheral is
+> provided by device tree on QEMU side or by some other machine specific
+> glue code? Please, can you provide more information for intended
+> target use and RPi option to use for testing?
+
+Yes, at the moment it seems that command-line mapping of SSI is not
+easy, or well documented? Currently, other than the CS line that is
+generally done with the controller, the only ouput needed is the IRQ
+line. We do have the RXB0 and RXB1 outputs but they're not really needed
+and only there for people to try if they want.
+
+> As for the code, I have read it the first time and for full check
+> I would need to spent more time with it. But I expect that
+> functionality check with the respect to mcp25x1x datasheet has been
+> done mainly by you so the full check bit by bit is not necessary.
+> If there is some omitted case it would be (hopefully) found during
+> code use. As for generic code style and redability, I see no problem.
+> I expect that you have checked for QEMU style and if there has been
+> some problem you have propably received QEMU CI and static analysis
+> feedback.
+> 
+> > +static void mcp25625_rx_into_buf(MCP25625State *s,
+> > +                                 const qemu_can_frame *frame,
+> > +                                 unsigned buffnr, int filthit)
+> > +{
+> > +    struct rxbuff *rxbuff = &s->rxbuffs[buffnr];
+> > +    qemu_canid_t e_id, sidl, id, q_id = frame->can_id;
+> > +    unsigned len = frame->can_dlc;
+> > +
+> 
+> I would suggest to check for can_dlc > 8 in this function or in
+> its caller (mcp25625_can_receive), to ensure that QEMU cannot be
+> attacked by some malformed CAN message from the host kernel
+> or other VM...
+
+Ok, added.
+
+> > +static ssize_t mcp25625_can_receive(CanBusClientState *client,
+> > +                                    const qemu_can_frame *buf,
+> > +                                    size_t frames_cnt)
+> > +{
+> > +    MCP25625State *s = client_to_mcp(client);
+> > +    int ret;
+> > +
+> > +    /* support receiving only one frame at a time */
+> > +    if (frames_cnt != 1) {
+> > +        return -1;
+> > +    }
+> > +
+> > +    /* we don't support error frames or buf->flags */
+> > +    if (buf->can_id & QEMU_CAN_ERR_FLAG || buf->flags != 0) {
+> > +        return -1;
+> > +    }
+> 
+> I see as next step that you provide description/patch etc
+> for some target that I can test the code with CAN tools on my
+> side. I would prefer connection to some ARM Cortex-A target
+> where I have some images t run ready. RISC-V is really interesting
+> for me too, so if there is some option to run something
+> small, I can try that too. I prefer minimal setup with
+> self compilled bysybox in initramfs and the mapping of some
+> development directories through virtfs into system.
+
+We did this with a riscv buildroot initramfs with sifive-u machine.
+
+I can see if we can share this and a branch.
+
+> If you plan to visit FOSDEM 2023, we can meet there in person
+> at RISC-V devroom and I want to take tour for automotive and other
+> areas. Another chance is Embedded World where we plan to show
+> CAN latency tester demo with CTU CAN FD and some MCUs... 
+
+Maybe next year.
+
+-- 
+Ben Dooks, ben@fluff.org, http://www.fluff.org/ben/
+
+Large Hadron Colada: A large Pina Colada that makes the universe disappear.
 
 
