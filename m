@@ -2,147 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6476A6B9D9D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FB96B9D9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:55:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc8qT-0006QF-4x; Tue, 14 Mar 2023 13:53:57 -0400
+	id 1pc8rR-0006fk-0H; Tue, 14 Mar 2023 13:54:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pc8qR-0006Pj-4W
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:53:55 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pc8r6-0006X4-Gt
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:54:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pc8qP-00057w-Fh
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:53:54 -0400
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32EEaHYx015585
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 17:53:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=TcFqljKZdDJIsU3/mrSMznDYPvQR1fy+EFM+lIIKU80=;
- b=JrxcEdJP26LF4Uhohrsk/s8g6HZfaxiJjashMa2d9swgrGTaud9D46o4EzYxkPSwBCFP
- IR5oyp4SdSh65E69VZAgEVZZs5ElGJq3x1Y+TXxbssVqFmV/MKCPbDonp3xgL7/AdTwV
- C0iU7hfecRk78pH/nqcutaBoThWqlZS98PVg3EP0oX8IdII/qyHf/shAlNdn+JRzICuC
- bAVE87EjUfc8Qoci8lLdTA9nGTP2vBxU7ubuBxdpgx0GURlMlXzf1JZTze8+2dWZjI1N
- wuFuj5chO9z6w5qwPAFfgfW/J1XyoZ72oGnspf9uBUXOzNnFuzAHZ9bnCccR3gug7Eoo jg== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3par34s3e1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 17:53:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ONtScHRXa/1rfZuLBJQ/19RaW7IA4XswoZrfnUbroiUCjQ8O88ndi6svlAt9SdxssoODCXWRcA+IWdLEk/nMrWvgeMJi+KwxedK8IRBvBkdgED3Ym5GttvRJJ9byoMuI9uHtJ7NiK+ct29HfUpOinjTUKAcUSGdkoj9rARP0Pv2sRiHo/gOUVcaY+ZSU9C1ZFfbX2vVVWCYFB0I+bUCGg7Yyk+NC4qejE0iNobDfko3vnmSdXRtNIzP4cmPsZwuZ+4KRQDiEKmFn3JpyF8HVpeckFzrL9AC0i9nmbcaWp3u50yNFubcJAgh2tmuGebNC2uQNeQ7XQzDBte7mSwsGug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TcFqljKZdDJIsU3/mrSMznDYPvQR1fy+EFM+lIIKU80=;
- b=mRTdi4PrcZzKjRiTxbEJ3uryzxY8W9YJslOFqMTQHvxiAm5OqJ+xiT4KdkiY2VmuU3EJG2Cucd5gOt6Tz6eMeWM0sr4cTn6m7nqrvjTTddVpixPS6MSoRPR4jELuwPIeDZ6i1P3woJBK/FEezF5NDuo5eBjD/zNupbUaoecWpg7yyJZ/xjdgoideqvCklgIBBxVlXCD78G8HcLlvj/D014yW0+6AaJY4DWmXPnOznL092143ttbxZbtTL7UKuCR4I82mdZNON3+35v1CYgeJTlBVYAY01SjF5SkS54xYoUk/T19Y1XV5+C11oTGzeL8JVwbAUWPw4gbRqGPWanUvMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by MW4PR02MB7428.namprd02.prod.outlook.com
- (2603:10b6:303:71::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Tue, 14 Mar
- 2023 17:53:46 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda%5]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
- 17:53:46 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: "Marco Liebel (QUIC)" <quic_mliebel@quicinc.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] Use f-strings in python scripts
-Thread-Topic: [PATCH] Use f-strings in python scripts
-Thread-Index: AQHZVdDaRknlRf8o60qckkGXKvK+6676eBRw
-Date: Tue, 14 Mar 2023 17:53:46 +0000
-Message-ID: <SN4PR0201MB88084D06E64FD6C029249202DEBE9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230313172535.2409370-1-quic_mliebel@quicinc.com>
-In-Reply-To: <20230313172535.2409370-1-quic_mliebel@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|MW4PR02MB7428:EE_
-x-ms-office365-filtering-correlation-id: e206440c-484b-4ff5-b991-08db24b50f20
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fJWKxVq8FC85GB8Y34XOKxnI9wXZVV1dxNe+y50wynjXH+SxhTBMZIRn438smsejerR0bjlSpXj7AxAR6IJkxcyiGPI0Lt+1md9vuklJzdtbgyp9OQlB6X4V8xtZUeayfWKipbgsxZeB/4HCdD9UYdt6BOGRN7FxEBMwpEIAHTJ/Bz6cZMadIJRB7fMj7ZhJObLaD7jQu1meemEWq9vO0TXxGE/xyRDelzHT1f5+GB1TmI4vh1iim2EHTs8dpGWsCb+0on5zA1PuziLU8JVZ5PndHhknvM5CPTUrkkAagrRXh2r6UKa75GnZTEvvqmroTBYn6c5Udyu2giCpV8hPlElgaEMGLSks4f8dQ8Ghri7VzQ3knrveIFF6MuMqv9SyWhRxlteDgBROexITvlU8xW2rWiTIE/ktyHTweKLVtedgiObTDho8V1u4l42rEJ4moaaShgdIx295y24gHCmEL3xKRq7RYR0QSmMB35xFtQJTJcG/8VgEygbV2jdRu40UlI9oK2pwM/9NVbRZLqs8kGMZjZlC3BqAbAQ6z7oZtdcr2OPZ85l/mDnm5jyMsJDmhKzHdisqLjSoZ0xMwU0rAdu5KtcFIzuOHkA1EhD4o8u/J91SjJRIpYbkL0RqUBVB6sR8UmyYnw7dPdGCJjbBDbuN+FakUvU3hjKWm7PDzvZLEFyDXYTuWa1xMqmp4puf
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(136003)(396003)(376002)(39860400002)(366004)(346002)(451199018)(86362001)(38070700005)(33656002)(55016003)(38100700002)(122000001)(110136005)(76116006)(8676002)(64756008)(66476007)(66946007)(8936002)(66556008)(52536014)(41300700001)(66446008)(478600001)(316002)(6506007)(2906002)(5660300002)(83380400001)(71200400001)(186003)(9686003)(26005)(7696005)(53546011);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?XsVg+zH/vW7+/SmE49mbLRn/cQxpMU0hyUDff9s+JGTNC1OelShIMp5SkL3G?=
- =?us-ascii?Q?nNzerWElr4i4l1AQr3FDYBx+lmymTYA3hhldP8zJZCa9FjN53nt6pSBjNY6N?=
- =?us-ascii?Q?1MtrAzw3B19SDG9nNn5XRzeXM559aVWodXg/QiXM7rjyvqVWPRByJ48xr3O6?=
- =?us-ascii?Q?IgfWxpdOuASejFxPy9aV3eJunxD4bOpQyoBgriROvtkzpiBqqFkvhB5oDsBm?=
- =?us-ascii?Q?jzmBHryLQ348OTH5MZrQVQChANF9f7AT1v6Kpk9Xmtr/X6j4d7QC4NrCC4nE?=
- =?us-ascii?Q?V5YlA8Anlvh4mgvHgyOnFlxF3b7jW5IwxYRRG5eg7agiS1mbhOg2ZCrPJJi9?=
- =?us-ascii?Q?NIJSKQjHhN1J1uyltgUh4nnN//l6anVGHH41VUdZ6qtz1oGvBp9YTMYE+7oi?=
- =?us-ascii?Q?NouArpOlznORUNPD1fcw9h8rB5C42mmz1avE7ePnbydTgMANh1GS4uYxmURD?=
- =?us-ascii?Q?pzwfMbUJmVdCeI3EmhDaGlhcKe2o97NNyKzZ2w16HRqSMlCLP5rFt5hFlpxw?=
- =?us-ascii?Q?ic5r3iv5Lq3s0yXG87qpPXsI0v4+A4N4byzFoLaT5zonEkQw+y1ULzUyLen0?=
- =?us-ascii?Q?rrFVD9GUE3z84Uym5PFhe9UvoPtSf0+UphPSuhmYpo/4VBeOTVTYo1sygjXD?=
- =?us-ascii?Q?3pz87s0Luif3FuFj17M1rH+PrfYUKzunV/JXmqktTLeZTt6VRM0k8Oj0H3ZH?=
- =?us-ascii?Q?2dPvHz2saIPhuOLwR/lSEeQZqHZx6M/dcfaqm07W2J6518FTcEWpzSdv/6Uw?=
- =?us-ascii?Q?LZdsrgeJ9ysWssyV8tPC4BdpqZMrdQLDlXHnvNQPn8HApC0oVjRYza5sV3VZ?=
- =?us-ascii?Q?1yiD3QtxDznMXoTSdQU/fYcu6JamleR+73G2hx5o2ZPkqT4vJGxe2308YpWV?=
- =?us-ascii?Q?buvCxOD6FcwhDecjhCSRHLdce1yrLaaTrWwfu4N8FdfIgZCcLcCVTsBr4499?=
- =?us-ascii?Q?zA7MzxGY+vRSFZDsvx2B2svlDgiR0uVsis0hlKoFrP6h/Ff0fYl5BOxysjIB?=
- =?us-ascii?Q?dnRj4oem7exK9q/ieXJCJoSMddoxDTHy1wSASGgdSlAH1JqizTMCveT7P92i?=
- =?us-ascii?Q?mZ4uwyeEIL937NZ1NbNsYv/AYdjeKIyBZLkbxSXX/U/sr/jB43rDXtvGSEGm?=
- =?us-ascii?Q?7V6IygzY9oEpwcLqKr8MOwKcaFIkBjcvebNe7JD6PWj1Jrg6eQvxBbCDQxVj?=
- =?us-ascii?Q?VXBV6/S9NjaWHxa50vKq+GQyLP+pHBYPFpeuvjwCY3uAD8x+01Yf6QYbEkFJ?=
- =?us-ascii?Q?HGMRBrmdLawXfeoZQzlO/4tGuKMEPllYjlFLo6TOiFomw9+sCxjrlY1yVll0?=
- =?us-ascii?Q?ZMYCv4g+dJrE1bfePUOBYfcjQCYRjKGrXNPSaumWwN3kI6O31rkM63xbFt6c?=
- =?us-ascii?Q?zWa9YWwcoMAujW4MPT8n6V+uyKUL1z5ox+0np1kZTOTRIKq9cAB+1zcQpxWV?=
- =?us-ascii?Q?28pR5txvV10DcT3Oxfyyy/pdpv1OcfmOu69bkZhA79BUPd430XjMuQ5o9j0v?=
- =?us-ascii?Q?xG4IWt4z+eTCJhWNCVe82dmr8LfqUvvKiL+Q6+gWP871JA3y1kh3fn6qg6Bu?=
- =?us-ascii?Q?7askXjFPPo7lofWeuN9wRaeyf8qK2DvTJejCBuaO?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pc8r4-0005CA-Gv
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:54:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678816470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DSf4qLbKhrSYZHRx2lC6gIZ7secedLZ5SibKTLzk0bA=;
+ b=LH1OHchrlu1f9WWdfRVYihAcsrVQb+/qyKc07x2U2hZXXbm7qANLD9BiAW87ZcGd7JNkYd
+ RN6idCUvmOivF5UjMkL8WLP6eDBAADfXhdoOAvN6/MtaKinmwvMTxS1cyYefFPKDW57A5K
+ CeUXD2MejrAqD9rlMgI+PkXOdPSeL0U=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-562-uT_owh4sMYSPD27IULMqPQ-1; Tue, 14 Mar 2023 13:54:29 -0400
+X-MC-Unique: uT_owh4sMYSPD27IULMqPQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ u18-20020a0cec92000000b0056ea549d728so9563258qvo.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 10:54:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678816468;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DSf4qLbKhrSYZHRx2lC6gIZ7secedLZ5SibKTLzk0bA=;
+ b=PcfB0nqGlufKqipxn00HpuuH8G5B7/HQnQ2GM/Frm5Q5oRrZo6Z7Pod6pnOzEZ0hlU
+ zE26bzoDhlB3RmOFypXhsW+0yYlzcENMonINACioTfhX/yzk1pPBdyqpEfbbfkoWh7fy
+ Y8ZOHPFQ4ErLuAoVXtsYdHWVCAlT5+p7QVcWd2BP1/MB/YKnxWMnvlv8njqA6dILsQqa
+ gmjiU9SQaSpJMa+Yg2AzaRBgG7knmwrT3f+xzHYZmohODj9c9o68A8fBOXGupE8mOpJI
+ vFgg00HGDfMmJ4bnbtS9Xo8asv+k/7DcnZ589p8xoo6Q7ru2yoSPKVNb7FwxbMdscdwa
+ mY+A==
+X-Gm-Message-State: AO0yUKVbYziDNnmPz994mYnjrf6/YuY7xbmk036wev1vtqFoRLofVtXP
+ XE2XtSrizcsW5wpAoq7qe6QawOfQ2jXVWmr17ru/covH4vZCx3WI8UmNirWI2PCVkP41M0/sPvG
+ eL2GcM98bgGF+aqY=
+X-Received: by 2002:a05:622a:1aa1:b0:3bf:a061:6cae with SMTP id
+ s33-20020a05622a1aa100b003bfa0616caemr23329437qtc.5.1678816468446; 
+ Tue, 14 Mar 2023 10:54:28 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8DKyXqZtNXkrwZ0FCmVHBS4WqugmiOSzr48m3odIBbwx16AclB9eITm+Ai/go9vLTY45MZbQ==
+X-Received: by 2002:a05:622a:1aa1:b0:3bf:a061:6cae with SMTP id
+ s33-20020a05622a1aa100b003bfa0616caemr23329417qtc.5.1678816468188; 
+ Tue, 14 Mar 2023 10:54:28 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ x7-20020ac87307000000b003b63b8df24asm2204236qto.36.2023.03.14.10.54.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 10:54:27 -0700 (PDT)
+Date: Tue, 14 Mar 2023 13:54:26 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, lizhijian@cn.fujitsu.com,
+ jdenemar@redhat.com
+Subject: Re: [PATCH] migration/rdma: Fix return-path case
+Message-ID: <ZBC00qARI3Lu7YVw@x1n>
+References: <20230314171558.75941-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: VG4EU/XD6Rftu4zsj7N+jbJEKaX233FM905vbUIQCjfGGxCtLNQWlzjfraEzLNUnBLRTVtiHcIZktFO9T97Uq4f/uydYQcTqx+pETFPayRUdUdivvuKwXs/+bispa6VN2DCgKTZRWH3gUFu7D6OAv8OMxT9kdGxkxMPfx2QwobYK3ONybXU493eVfiU7Al5nZFESzNv/TLFyJXXUf3nLM4lxkDwK38teQMFmfSmwbGZ179a3OhFygKaYee0cz8jQXYTThHgiSChlV2heubS8HYOO1j483Y1SjF9Fl/UdG+YklKjTsQ00yCM4JrRmzuSqeVuVvbos4iIUclJ/VwUIe4AVfuSIfcY1LsSqDorBTvil2Y9U/VCDX6WyaI2PZdWyDghxRWKyOLlgcuLq4o3cpF9gRVsPT11AVBFE+yMyIa9tDoEfPeWyKpHxDBtv9cYfSjUExHVh+2IwqX5E4U4VtbQEXx8rp2oFyqN0sUC1aSyYvHpwizU/nxF5VtwVRQ5vZezVjsY9g8x0yaB7SCWGySk+0kDdfe4C+1KQCUB3hjhVYTh07WYzHP3+uaZonQKNEzmVNXtb+1i48yvFVgqaxA1892DGWjPiLvPRpicY9SRLNOkQE5+AkH9HUf+UtUX6fLbo9Gqw2GlnaYPGbEG/5UvXEoqQylFIHszr/ozYiEdxOYVSZ78PrQ0RSm5GOs22cLxrcRMneH+E3GVh15lpq9Er5BmXZ85aqpxcazddEBWxddqLINdEm2CwDnaKI5kJceT6ZZkxis6PSeTinbYihA==
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e206440c-484b-4ff5-b991-08db24b50f20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2023 17:53:46.3915 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7lPyJDwWOCsH43HVubiUrgxJvgzoBppQ4mJAiEdPKYJd+Ss681vUqKqShdRqY/hWRNHwCfZ7sSezlnu9ZubH8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR02MB7428
-X-Proofpoint-GUID: vJUWNkzuk64a1noDCd71Tms67I0g2TWL
-X-Proofpoint-ORIG-GUID: vJUWNkzuk64a1noDCd71Tms67I0g2TWL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-14_10,2023-03-14_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=692 spamscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 lowpriorityscore=0
- mlxscore=0 suspectscore=0 malwarescore=0 impostorscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303140146
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230314171558.75941-1-dgilbert@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -159,40 +96,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Mar 14, 2023 at 05:15:58PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> The RDMA code has return-path handling code, but it's only enabled
+> if postcopy is enabled; if the 'return-path' migration capability
+> is enabled, the return path is NOT setup but the core migration
+> code still tries to use it and breaks.
+> 
+> Enable the RDMA return path if either postcopy or the return-path
+> capability is enabled.
+> 
+> bz: https://bugzilla.redhat.com/show_bug.cgi?id=2063615
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
+Acked-by: Peter Xu <peterx@redhat.com>
 
-> -----Original Message-----
-> From: Marco Liebel (QUIC) <quic_mliebel@quicinc.com>
-> Sent: Monday, March 13, 2023 11:26 AM
-> To: qemu-devel@nongnu.org
-> Cc: Taylor Simpson <tsimpson@quicinc.com>; Marco Liebel (QUIC)
-> <quic_mliebel@quicinc.com>
-> Subject: [PATCH] Use f-strings in python scripts
->=20
-> Replace python 2 format string with f-strings
->=20
-> Signed-off-by: Marco Liebel <quic_mliebel@quicinc.com>
-> ---
->  target/hexagon/gen_helper_funcs.py      |  54 ++--
->  target/hexagon/gen_helper_protos.py     |  10 +-
->  target/hexagon/gen_idef_parser_funcs.py |   8 +-
->  target/hexagon/gen_op_attribs.py        |   4 +-
->  target/hexagon/gen_op_regs.py           |  10 +-
->  target/hexagon/gen_opcodes_def.py       |   2 +-
->  target/hexagon/gen_printinsn.py         |  14 +-
->  target/hexagon/gen_shortcode.py         |   2 +-
->  target/hexagon/gen_tcg_func_table.py    |   2 +-
->  target/hexagon/gen_tcg_funcs.py         | 317 +++++++++++-------------
->  target/hexagon/hex_common.py            |   4 +-
->  11 files changed, 198 insertions(+), 229 deletions(-)
+> @@ -3373,7 +3373,8 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>       * initialize the RDMAContext for return path for postcopy after first
+>       * connection request reached.
+>       */
+> -    if (migrate_postcopy() && !rdma->is_return_path) {
+> +    if ((migrate_postcopy() || migrate_use_return_path())
+> +        && !rdma->is_return_path) {
+>          rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
+>          if (rdma_return_path == NULL) {
+>              rdma_ack_cm_event(cm_event);
 
-Tested-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+It's not extremely clear to me yet on when we should use migrate_postcopy()
+and when to use migrate_postcopy_ram().  I think it's because I don't know
+enough on the dirty-bitmaps capability.  Do we have some good documentation
+somewhere?
 
-Could you also create a patch to do the same thing to target/hexagon/gen_an=
-alyze_funcs.py?
+Not much I get from the qapi doc..
+
+# @dirty-bitmaps: If enabled, QEMU will migrate named dirty bitmaps.
+#                 (since 2.12)
 
 Thanks,
-Taylor
+
+-- 
+Peter Xu
 
 
