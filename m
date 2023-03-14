@@ -2,65 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026D46B9CCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1256B9DB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:59:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc8Fz-0001ES-UZ; Tue, 14 Mar 2023 13:16:15 -0400
+	id 1pc8v7-00082S-Or; Tue, 14 Mar 2023 13:58:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pc8Fx-0001DH-Hw
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:16:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1pc8v5-00082J-Eg
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:58:43 -0400
+Received: from cyan.elm.relay.mailchannels.net ([23.83.212.47])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pc8Fu-0007QC-9G
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:16:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678814168;
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1pc8v3-0005xH-Ma
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:58:43 -0400
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id 6EE3D8213EB;
+ Tue, 14 Mar 2023 17:58:37 +0000 (UTC)
+Received: from pdx1-sub0-mail-a205.dreamhost.com (unknown [127.0.0.6])
+ (Authenticated sender: dreamhost)
+ by relay.mailchannels.net (Postfix) with ESMTPA id 929D5820E0F;
+ Tue, 14 Mar 2023 17:58:36 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1678816717; a=rsa-sha256;
+ cv=none;
+ b=ytjWoIkNOYfmhd7dHzeBYDcmtkS2367nyydoyMX+2Q0wWtOMF6Ndk1yVr/59kPwvSdfvSx
+ biJz76os8Q/YvJMQ/vSH33hI99sf+gzGCkynd+I7uxQkYJVSCQdWW1fyeC4z4sbra3rtmh
+ 68GMjhEZcMFkc+OypHy8hwZ6/mFC7x2eAeuRmoEng9WDAmW/yxYLQq5kX7tewZLCzZnqjH
+ 70jbw+GerzDgOrpyU+QCXaUS1GKreoUKvFQwc74a0yrCo0C0z+e40RntL0dStv90tDkBDO
+ AXjbfQLlWZSJmCrM+B4G56hRZXuWBW/zNCojf4xQT36z8UYzQUVVt11iNLbpJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1678816716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RypGE9aoVlGXhYJoJTu4igqMGEuxpqfA0la/kxZd1rI=;
- b=foCu8FhRVEEWb0+9ee0nfHTtevVJPa7Is72MObU6IIm+P0ko0F+MzD01cm00iNzTcHmEvc
- uwlLjEpe5QC9paKz7sRyz9vPTEmqK3SOJmQjUt8F7sToneEUJSYuqe1M9HY2NYGYL2TSZw
- 7k2vYXP5g6oue8Lo2I1WDN9vkeGNhnU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-vYDQPwWFP8OkIwMfe1BI2w-1; Tue, 14 Mar 2023 13:16:07 -0400
-X-MC-Unique: vYDQPwWFP8OkIwMfe1BI2w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE2683C1485A;
- Tue, 14 Mar 2023 17:16:06 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.33.36.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD87B1121318;
- Tue, 14 Mar 2023 17:16:05 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	quintela@redhat.com,
-	peterx@redhat.com
-Cc: lizhijian@cn.fujitsu.com,
-	jdenemar@redhat.com
-Subject: [PATCH] migration/rdma: Fix return-path case
-Date: Tue, 14 Mar 2023 17:15:58 +0000
-Message-Id: <20230314171558.75941-1-dgilbert@redhat.com>
+ in-reply-to:in-reply-to:references:references:dkim-signature;
+ bh=PBSG1Zl26KdnK1pAiHWRiquRq4r5wjXZaWJGSKlBSig=;
+ b=DpvTt+xVmV9EgkLvdOoY2dIpNQwzsJm1yLndO3DuHNsnvEK7D5mARD1GN5mfW/SmWoeTOW
+ 5GK1DyfjMmbgf0iwZwJvlWQmgndNbDusFU8MYVWA+PSEM3en9r2PKBVixAsO4GK/xmJPj4
+ HV5tHNIPN02ODXHCII9X9kms/GcUgY6AFpui80KfRPq5UQwPtRq/lxJEiMTy2vwWUcztRz
+ tfMUdKSleH2hv2WHU/FqXhDjI31egrKlKiErVxLEoUXs2zON8cqeps2xqpIap1MfUt/Dwp
+ Vp/1C/d1jUWfMDgFjyPZeZ4IaPoX9DvjRduKK2jcqaUHFpKvZVGQrULGdVgs0Q==
+ARC-Authentication-Results: i=1; rspamd-7b575b84b5-n8p2r;
+ auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Wiry-Fumbling: 04095cc27bdf7cff_1678816717218_1920933532
+X-MC-Loop-Signature: 1678816717218:4186272266
+X-MC-Ingress-Time: 1678816717218
+Received: from pdx1-sub0-mail-a205.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+ by 100.117.156.54 (trex/6.7.2); Tue, 14 Mar 2023 17:58:37 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: dave@stgolabs.net)
+ by pdx1-sub0-mail-a205.dreamhost.com (Postfix) with ESMTPSA id 4Pbh8q4CcNz3Q; 
+ Tue, 14 Mar 2023 10:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+ s=dreamhost; t=1678816716;
+ bh=PBSG1Zl26KdnK1pAiHWRiquRq4r5wjXZaWJGSKlBSig=;
+ h=Date:From:To:Cc:Subject:Content-Type;
+ b=RRWHyJJVLkPIb7jQbfdDT/Al1csF5b0tNCh2Nu3juOveHUYP36WauTgkJeeBNmOm7
+ 7MQNalH/1Toq6H9K4LhXVPr7EEFr5uqfiOkS0uQu9xXgpif1KJ3V1G2oo1Wve3uWOa
+ otzwKxdOumo63CnWpN7UIxXgqxAE948YhO/4CM4EXZj3NU3YH8k7PYgaAwcbutG9IW
+ YC+KI4VHY4/rJ25e+sAHDj71OHfbFbKmL5gTY5O6ycKaVMHjQpdBOgt8NosthHYO15
+ LuCO0XXxXnsanXnYXuGuAZwXrNiF6rMU/5WO6rR8WHFbGQsm+2Mr7cAqLje+0q2y2Q
+ TDNVnBxolgcww==
+Date: Tue, 14 Mar 2023 10:29:10 -0700
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: Fan Ni <fan.ni@samsung.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "alison.schofield@intel.com" <alison.schofield@intel.com>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ "bwidawsk@kernel.org" <bwidawsk@kernel.org>,
+ "gregory.price@memverge.com" <gregory.price@memverge.com>,
+ "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
+ "cbrowy@avery-design.com" <cbrowy@avery-design.com>,
+ "ira.weiny@intel.com" <ira.weiny@intel.com>
+Subject: Re: [qemu PATCH] hw/cxl/cxl_device: Replace magic number in CXLError
+ definition
+Message-ID: <20230314172910.eidt57homgiytpsk@offworld>
+References: <CGME20230314165324uscas1p231d1f8aeceb1b8c118abb76e915e7614@uscas1p2.samsung.com>
+ <20230314165317.1550986-1-fan.ni@samsung.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20230314165317.1550986-1-fan.ni@samsung.com>
+User-Agent: NeoMutt/20220429
+Received-SPF: pass client-ip=23.83.212.47; envelope-from=dave@stgolabs.net;
+ helo=cyan.elm.relay.mailchannels.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,57 +118,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Tue, 14 Mar 2023, Fan Ni wrote:
 
-The RDMA code has return-path handling code, but it's only enabled
-if postcopy is enabled; if the 'return-path' migration capability
-is enabled, the return path is NOT setup but the core migration
-code still tries to use it and breaks.
+>Replace the magic number 32 with CXL_RAS_ERR_HEADER_NUM for better code
+>readability and maintainability.
+>
 
-Enable the RDMA return path if either postcopy or the return-path
-capability is enabled.
+Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
 
-bz: https://bugzilla.redhat.com/show_bug.cgi?id=2063615
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/rdma.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 288eadc2d2..9d70e9885b 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -3373,7 +3373,8 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-      * initialize the RDMAContext for return path for postcopy after first
-      * connection request reached.
-      */
--    if (migrate_postcopy() && !rdma->is_return_path) {
-+    if ((migrate_postcopy() || migrate_use_return_path())
-+        && !rdma->is_return_path) {
-         rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
-         if (rdma_return_path == NULL) {
-             rdma_ack_cm_event(cm_event);
-@@ -3455,7 +3456,8 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-     }
- 
-     /* Accept the second connection request for return path */
--    if (migrate_postcopy() && !rdma->is_return_path) {
-+    if ((migrate_postcopy() || migrate_use_return_path())
-+        && !rdma->is_return_path) {
-         qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
-                             NULL,
-                             (void *)(intptr_t)rdma->return_path);
-@@ -4192,7 +4194,7 @@ void rdma_start_outgoing_migration(void *opaque,
-     }
- 
-     /* RDMA postcopy need a separate queue pair for return path */
--    if (migrate_postcopy()) {
-+    if (migrate_postcopy() || migrate_use_return_path()) {
-         rdma_return_path = qemu_rdma_data_init(host_port, errp);
- 
-         if (rdma_return_path == NULL) {
--- 
-2.39.2
-
+>Signed-off-by: Fan Ni <fan.ni@samsung.com>
+>---
+> include/hw/cxl/cxl_device.h | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+>index d589f78202..34fde62eac 100644
+>--- a/include/hw/cxl/cxl_device.h
+>+++ b/include/hw/cxl/cxl_device.h
+>@@ -235,7 +235,7 @@ REG64(CXL_MEM_DEV_STS, 0)
+> typedef struct CXLError {
+>     QTAILQ_ENTRY(CXLError) node;
+>     int type; /* Error code as per FE definition */
+>-    uint32_t header[32];
+>+    uint32_t header[CXL_RAS_ERR_HEADER_NUM];
+> } CXLError;
+>
+> typedef QTAILQ_HEAD(, CXLError) CXLErrorList;
+>--
+>2.25.1
 
