@@ -2,55 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8D76B9AAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B56B9ABF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:10:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc7AE-0004Lm-02; Tue, 14 Mar 2023 12:06:14 -0400
+	id 1pc7DP-0005Zm-Ki; Tue, 14 Mar 2023 12:09:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pc7A7-0004LH-Or
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:06:07 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pc7DM-0005Pr-3T; Tue, 14 Mar 2023 12:09:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pc7A4-0003tU-LF
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=QqY9WGSD79k/khMXVHhknSNIB7Pfrv5+N2lWoQMCS7g=; b=TUxRHnW5LCc4A6AY0eWzClHvHq
- 7HGdzlqP8DR+M52rbFBoRvXLX6GSpJqKFj7NDTtKZVsHK9HEPLCYAULRaFPqhW5aN/jSDXNdivIj5
- n4qMHUktPyS3hupIcOPsh3GuEwBL95ezvwNh7hWCGF+RakIMRbbx1EWDgYDJBgZI4ipcyMFm1Jvfr
- B14epwBgbqsi//C+B/G9oXC/2t/yEU76TXzRFpDkYGMHOrxHmcuXJKBnXn9mteC2NgKeZaM/EfS/r
- 2JX5+yzPTgApkAElUYvT+QiWz7aLtgxSMYYMdbSFiykxY0J4jC17hX2wk+0RAu7r6FvYt5SFO2MFe
- Gy6nnzHgFM9LfKp2qge9qeIvLhrMDAQ15ZILukPmBSxCkCpMmXtzeBw2hpRBA2DkkvfOA0QU/tYWb
- 9xTfDhB63jdiEFYs127KO9/LSiMg0WjbEIHeEYGbVyrjGmue60NTgbm3JPRww3zWnQQIWOzz7ykQi
- Uhd9PDctke6c+uvAzQ58dQ6lA6hZpSkJVdZCfLVyIT4bDO+F5aYbkL7GS2JkwSeFYncfkV/rlMHG5
- k122Ijh68ZZl6W8KWKX2QvxN2DfveU2JbmBrkGTGMIRUHiigsaZLC6tX6g1hw894gdMfpSAOhCbny
- DCWfTc9W0kMgkucW2X+uOHWBUcQnGMcxVaHjM6cyA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-Cc: Guohuai Shi <guohuai.shi@windriver.com>, Bin Meng <bin.meng@windriver.com>
-Subject: Re: [PATCH v5 04/16] hw/9pfs: Implement Windows specific xxxdir() APIs
-Date: Tue, 14 Mar 2023 17:05:42 +0100
-Message-ID: <1922294.e5CzDnASyn@silver>
-In-Reply-To: <20230220100815.1624266-5-bin.meng@windriver.com>
-References: <20230220100815.1624266-1-bin.meng@windriver.com>
- <20230220100815.1624266-5-bin.meng@windriver.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pc7DJ-0004Ha-VG; Tue, 14 Mar 2023 12:09:27 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32EFH40l025071; Tue, 14 Mar 2023 16:09:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=YOiWtaNzms3LN/vTqd3NR543A+ISPYIWok1v0FtjtSo=;
+ b=EgkOD+Jx4o1zNXT9EJ8iiJdAZNdZ5LgxQ9zuE00lxp65Fn0/kHu3L0E5fNNckCsjh6iM
+ RTjmHnB1FTCck15Wq3zmwAdZbnod4KcaZ/nlYGFPDoFxfoqrxM0+jiUgSPBHLwNQRP8a
+ cJHhUQGKLuPbnM9nolHFSRGyCBBD3fnsKCa7JoXexXY++fEv5spG0DKe/zc93LFJJ1Yd
+ TBRnZf83BE8/HYJJIvw5dKY0U+sWrcGJPRkOySW7IWzU39QeSfDO6tAIQMXqqxiBItYD
+ oL3VMYkMmNOqaTuM6qv0+vpcSUmFgwrdCmYmL+rMjjsPbTkJ7aWgXQx+OkwP97qx0Ouz nQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pau6mtc8t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 16:09:12 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EFH4gH025051;
+ Tue, 14 Mar 2023 16:09:11 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pau6mtc7e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 16:09:11 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E7mhck018985;
+ Tue, 14 Mar 2023 16:09:09 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3p8h96m0nd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 16:09:09 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32EG957O44171602
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Mar 2023 16:09:05 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C12020040;
+ Tue, 14 Mar 2023 16:09:05 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 55D822004D;
+ Tue, 14 Mar 2023 16:09:04 +0000 (GMT)
+Received: from [9.171.84.250] (unknown [9.171.84.250])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 14 Mar 2023 16:09:04 +0000 (GMT)
+Message-ID: <8f153115-f12c-8434-79bd-1623555b5875@linux.ibm.com>
+Date: Tue, 14 Mar 2023 17:09:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v17 06/12] s390x/cpu topology: interception of PTF
+ instruction
+Content-Language: en-US
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com, clg@kaod.org
+References: <20230309121511.139152-1-pmorel@linux.ibm.com>
+ <20230309121511.139152-7-pmorel@linux.ibm.com>
+In-Reply-To: <20230309121511.139152-7-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 974_Xllzw97pycuPhtllFE7TKvIrFOv5
+X-Proofpoint-GUID: GnYisdVTAyPOdkoOfRXS6u6UXOXtZRqb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-14_09,2023-03-14_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ lowpriorityscore=0 malwarescore=0 phishscore=0 clxscore=1015
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303140134
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,580 +120,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Monday, February 20, 2023 11:08:03 AM CET Bin Meng wrote:
-> From: Guohuai Shi <guohuai.shi@windriver.com>
-> 
-> This commit implements Windows specific xxxdir() APIs for safety
-> directory access.
+I am currently developing tests under avocado to help debugging.
 
-That comment is seriously too short for this patch.
+And... it helps.
 
-1. You should describe the behaviour implementation that you have chosen and
-why you have chosen it.
+There is a bug here in s390_topology_set_cpus_entitlement for dedicated 
+CPUs.
 
-2. Like already said in the previous version of the patch, you should place a
-link to the discussion we had on this issue.
 
-> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  hw/9pfs/9p-util.h       |   6 +
->  hw/9pfs/9p-util-win32.c | 443 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 449 insertions(+)
-> 
-> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> index 0f159fb4ce..c1c251fbd1 100644
-> --- a/hw/9pfs/9p-util.h
-> +++ b/hw/9pfs/9p-util.h
-> @@ -141,6 +141,12 @@ int unlinkat_win32(int dirfd, const char *pathname, int flags);
->  int statfs_win32(const char *root_path, struct statfs *stbuf);
->  int openat_dir(int dirfd, const char *name);
->  int openat_file(int dirfd, const char *name, int flags, mode_t mode);
-> +DIR *opendir_win32(const char *full_file_name);
-> +int closedir_win32(DIR *pDir);
-> +struct dirent *readdir_win32(DIR *pDir);
-> +void rewinddir_win32(DIR *pDir);
-> +void seekdir_win32(DIR *pDir, long pos);
-> +long telldir_win32(DIR *pDir);
->  #endif
->  
->  static inline void close_preserve_errno(int fd)
-> diff --git a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c
-> index a99d579a06..e9408f3c45 100644
-> --- a/hw/9pfs/9p-util-win32.c
-> +++ b/hw/9pfs/9p-util-win32.c
-> @@ -37,6 +37,16 @@
->   *    Windows does not support opendir, the directory fd is created by
->   *    CreateFile and convert to fd by _open_osfhandle(). Keep the fd open will
->   *    lock and protect the directory (can not be modified or replaced)
+On 3/9/23 13:15, Pierre Morel wrote:
+[...]
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -87,6 +87,84 @@ static void s390_topology_init(MachineState *ms)
+>       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
+>   }
+>   
+> +/**
+> + * s390_topology_set_cpus_entitlement:
+> + * @polarization: polarization requested by the caller
 > + *
-> + * 5. Neither Windows native APIs, nor MinGW provide a POSIX compatible API for
-> + *    acquiring directory entries in a safe way. Calling those APIs (native
-> + *    _findfirst() and _findnext() or MinGW's readdir(), seekdir() and
-> + *    telldir()) directly can lead to an inconsistent state if directory is
-> + *    modified in between, e.g. the same directory appearing more than once
-> + *    in output, or directories not appearing at all in output even though they
-> + *    were neither newly created nor deleted. POSIX does not define what happens
-> + *    with deleted or newly created directories in between, but it guarantees a
-> + *    consistent state.
->   */
->  
->  #include "qemu/osdep.h"
-> @@ -51,6 +61,25 @@
->  
->  #define V9FS_MAGIC  0x53465039  /* string "9PFS" */
->  
-> +/*
-> + * MinGW and Windows does not provide a safe way to seek directory while other
-> + * thread is modifying the same directory.
-> + *
-> + * This structure is used to store sorted file id and ensure directory seek
-> + * consistency.
+> + * On hotplug or when changing CPU attributes the shadow_entitlement
+> + * is set to hold the entitlement used on a vertical polarization.
+> + * When polarization is horizontal, the entitlement is horizontal too.
 > + */
-> +struct dir_win32 {
-> +    struct dirent dd_dir;
-> +    uint32_t offset;
-> +    uint32_t total_entries;
-> +    HANDLE hDir;
-> +    uint32_t dir_name_len;
-> +    uint64_t dot_id;
-> +    uint64_t dot_dot_id;
-> +    uint64_t *file_id_list;
-> +    char dd_name[1];
-> +};
-> +
->  /*
->   * win32_error_to_posix - convert Win32 error to POSIX error number
->   *
-> @@ -977,3 +1006,417 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
->      errno = ENOTSUP;
->      return -1;
->  }
-> +
-> +static int file_id_compare(const void *id_ptr1, const void *id_ptr2)
+> +static void s390_topology_set_cpus_entitlement(int polarization)
 > +{
-> +    uint64_t id[2];
+> +    CPUState *cs;
 > +
-> +    id[0] = *(uint64_t *)id_ptr1;
-> +    id[1] = *(uint64_t *)id_ptr2;
+> +    CPU_FOREACH(cs) {
+> +        CPUS390XState *env = &S390_CPU(cs)->env;
 > +
-> +    if (id[0] > id[1]) {
-> +        return 1;
-> +    } else if (id[0] < id[1]) {
-> +        return -1;
-> +    } else {
-> +        return 0;
-> +    }
-> +}
-> +
-> +static int get_next_entry(struct dir_win32 *stream)
-> +{
-> +    HANDLE hDirEntry = INVALID_HANDLE_VALUE;
-> +    char *entry_name;
-> +    char *entry_start;
-> +    FILE_ID_DESCRIPTOR fid;
-> +    DWORD attribute;
-> +
-> +    if (stream->file_id_list[stream->offset] == stream->dot_id) {
-> +        strcpy(stream->dd_dir.d_name, ".");
-> +        return 0;
-> +    }
-> +
-> +    if (stream->file_id_list[stream->offset] == stream->dot_dot_id) {
-> +        strcpy(stream->dd_dir.d_name, "..");
-> +        return 0;
-> +    }
-> +
-> +    fid.dwSize = sizeof(fid);
-> +    fid.Type = FileIdType;
-> +
-> +    fid.FileId.QuadPart = stream->file_id_list[stream->offset];
-> +
-> +    hDirEntry = OpenFileById(stream->hDir, &fid, GENERIC_READ,
-> +                             FILE_SHARE_READ | FILE_SHARE_WRITE
-> +                             | FILE_SHARE_DELETE,
-> +                             NULL,
-> +                             FILE_FLAG_BACKUP_SEMANTICS
-> +                             | FILE_FLAG_OPEN_REPARSE_POINT);
-
-What's the purpose of FILE_FLAG_OPEN_REPARSE_POINT here? As it's apparently
-not obvious, please add a comment.
-
-> +
-> +    if (hDirEntry == INVALID_HANDLE_VALUE) {
-> +        /*
-> +         * Not open it successfully, it may be deleted.
-
-Wrong English. "Open failed, it may have been deleted in the meantime.".
-
-> +         * Try next id.
-> +         */
-> +        return -1;
-> +    }
-> +
-> +    entry_name = get_full_path_win32(hDirEntry, NULL);
-> +
-> +    CloseHandle(hDirEntry);
-> +
-> +    if (entry_name == NULL) {
-> +        return -1;
-> +    }
-> +
-> +    attribute = GetFileAttributes(entry_name);
-> +
-> +    /* symlink is not allowed */
-> +    if (attribute == INVALID_FILE_ATTRIBUTES
-> +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
-> +        return -1;
-
-Wouldn't it make sense to call warn_report_once() here to let the user know
-that he has some symlinks that are never delivered to guest?
-
-> +    }
-> +
-> +    if (memcmp(entry_name, stream->dd_name, stream->dir_name_len) != 0) {
-
-No, that's unsafe. You want to use something like strncmp() instead.
-
-> +        /*
-> +         * The full entry file name should be a part of parent directory name,
-> +         * except dot and dot_dot (is already handled).
-> +         * If not, this entry should not be returned.
-> +         */
-> +        return -1;
-> +    }
-> +
-> +    entry_start = entry_name + stream->dir_name_len;
-
-s/entry_start/entry_basename/ ?
-
-> +
-> +    /* skip slash */
-> +    while (*entry_start == '\\') {
-> +        entry_start++;
-> +    }
-> +
-> +    if (strchr(entry_start, '\\') != NULL) {
-> +        return -1;
-> +    }
-> +
-> +    if (strlen(entry_start) == 0
-> +        || strlen(entry_start) + 1 > sizeof(stream->dd_dir.d_name)) {
-> +        return -1;
-> +    }
-> +    strcpy(stream->dd_dir.d_name, entry_start);
-
-g_path_get_basename() ? :)
-
-> +
-> +    return 0;
-> +}
-> +
-> +/*
-> + * opendir_win32 - open a directory
-> + *
-> + * This function opens a directory and caches all directory entries.
-
-It just caches all file IDs, doesn't it?
-
-> + */
-> +DIR *opendir_win32(const char *full_file_name)
-> +{
-> +    HANDLE hDir = INVALID_HANDLE_VALUE;
-> +    HANDLE hDirEntry = INVALID_HANDLE_VALUE;
-> +    char *full_dir_entry = NULL;
-> +    DWORD attribute;
-> +    intptr_t dd_handle = -1;
-> +    struct _finddata_t dd_data;
-> +    uint64_t file_id;
-> +    uint64_t *file_id_list = NULL;
-> +    BY_HANDLE_FILE_INFORMATION FileInfo;
-
-FileInfo is the variable name, not a struct name, so no upper case for it
-please.
-
-> +    struct dir_win32 *stream = NULL;
-> +    int err = 0;
-> +    int find_status;
-> +    int sort_first_two_entry = 0;
-> +    uint32_t list_count = 16;
-
-Magic number 16?
-
-> +    uint32_t index = 0;
-> +
-> +    /* open directory to prevent it being removed */
-> +
-> +    hDir = CreateFile(full_file_name, GENERIC_READ,
-> +                      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-> +                      NULL,
-> +                      OPEN_EXISTING,
-> +                      FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT,
-> +                      NULL);
-> +
-> +    if (hDir == INVALID_HANDLE_VALUE) {
-> +        err = win32_error_to_posix(GetLastError());
-> +        goto out;
-> +    }
-> +
-> +    attribute = GetFileAttributes(full_file_name);
-> +
-> +    /* symlink is not allow */
-> +    if (attribute == INVALID_FILE_ATTRIBUTES
-> +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
-> +        err = EACCES;
-> +        goto out;
-> +    }
-> +
-> +    /* check if it is a directory */
-> +    if ((attribute & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-> +        err = ENOTDIR;
-> +        goto out;
-> +    }
-> +
-> +    file_id_list = g_malloc0(sizeof(uint64_t) * list_count);
-> +
-> +    /*
-> +     * findfirst() needs suffix format name like "\dir1\dir2\*",
-> +     * allocate more buffer to store suffix.
-> +     */
-> +    stream = g_malloc0(sizeof(struct dir_win32) + strlen(full_file_name) + 3);
-
-Not that I would care much, but +2 would be correct here, as you declared the
-struct with one character already, so it is not a classic (zero size) flex
-array:
-
-  struct dir_win32 {
-    ...
-    char dd_name[1];
-  };
-
-> +
-> +    strcpy(stream->dd_name, full_file_name);
-> +    strcat(stream->dd_name, "\\*");
-> +
-> +    stream->hDir = hDir;
-> +    stream->dir_name_len = strlen(full_file_name);
-> +
-> +    dd_handle = _findfirst(stream->dd_name, &dd_data);
-> +
-> +    if (dd_handle == -1) {
-> +        err = errno;
-> +        goto out;
-> +    }
-> +
-> +    /* read all entries to link list */
-
-"read all entries as a linked list"
-
-However there is no linked list here. It seems to be an array.
-
-> +    do {
-> +        full_dir_entry = get_full_path_win32(hDir, dd_data.name);
-> +
-> +        if (full_dir_entry == NULL) {
-> +            err = ENOMEM;
-> +            break;
-> +        }
-> +
-> +        /*
-> +         * Open every entry and get the file informations.
-> +         *
-> +         * Skip symbolic links during reading directory.
-> +         */
-> +        hDirEntry = CreateFile(full_dir_entry,
-> +                               GENERIC_READ,
-> +                               FILE_SHARE_READ | FILE_SHARE_WRITE
-> +                               | FILE_SHARE_DELETE,
-> +                               NULL,
-> +                               OPEN_EXISTING,
-> +                               FILE_FLAG_BACKUP_SEMANTICS
-> +                               | FILE_FLAG_OPEN_REPARSE_POINT, NULL);
-> +
-> +        if (hDirEntry != INVALID_HANDLE_VALUE) {
-> +            if (GetFileInformationByHandle(hDirEntry,
-> +                                           &FileInfo) == TRUE) {
-> +                attribute = FileInfo.dwFileAttributes;
-> +
-> +                /* only save validate entries */
-> +                if ((attribute & FILE_ATTRIBUTE_REPARSE_POINT) == 0) {
-> +                    if (index >= list_count) {
-> +                        list_count = list_count + 16;
-
-Magic number 16 again.
-
-> +                        file_id_list = g_realloc(file_id_list,
-> +                                                 sizeof(uint64_t)
-> +                                                 * list_count);
-
-OK, so here we are finally at the point where you chose the overall behaviour
-for this that we discussed before.
-
-So you are constantly appending 16 entry chunks to the end of the array,
-periodically reallocate the entire array, and potentially end up with one
-giant dense array with *all* file IDs of the directory.
-
-That's not really what I had in mind, as it still has the potential to easily
-crash QEMU if there are large directories on host. Theoretically a Windows
-directory might then consume up to 16 GB of RAM for looking up only one single
-directory.
-
-So is this the implementation that you said was very slow, or did you test a
-different one? Remember, my orgiginal idea (as starting point for Windows) was
-to only cache *one* file ID (the last being looked up). That's it. Not a list
-of file IDs.
-
-> +                    }
-> +                    file_id = (uint64_t)FileInfo.nFileIndexLow
-> +                              + (((uint64_t)FileInfo.nFileIndexHigh) << 32);
-> +
-> +
-> +                    file_id_list[index] = file_id;
-> +
-> +                    if (strcmp(dd_data.name, ".") == 0) {
-> +                        stream->dot_id = file_id_list[index];
-> +                        if (index != 0) {
-> +                            sort_first_two_entry = 1;
-> +                        }
-> +                    } else if (strcmp(dd_data.name, "..") == 0) {
-> +                        stream->dot_dot_id = file_id_list[index];
-> +                        if (index != 1) {
-> +                            sort_first_two_entry = 1;
-> +                        }
-> +                    }
-> +                    index++;
-> +                }
-> +            }
-> +            CloseHandle(hDirEntry);
-> +        }
-> +        g_free(full_dir_entry);
-> +        find_status = _findnext(dd_handle, &dd_data);
-> +    } while (find_status == 0);
-> +
-> +    if (errno == ENOENT) {
-> +        /* No more matching files could be found, clean errno */
-> +        errno = 0;
-> +    } else {
-> +        err = errno;
-> +        goto out;
-> +    }
-> +
-> +    stream->total_entries = index;
-> +    stream->file_id_list = file_id_list;
-> +
-> +    if (sort_first_two_entry == 0) {
-> +        /*
-> +         * If the first two entry is "." and "..", then do not sort them.
-> +         *
-> +         * If the guest OS always considers first two entries are "." and "..",
-> +         * sort the two entries may cause confused display in guest OS.
-> +         */
-> +        qsort(&file_id_list[2], index - 2, sizeof(file_id), file_id_compare);
-> +    } else {
-> +        qsort(&file_id_list[0], index, sizeof(file_id), file_id_compare);
-> +    }
-
-Were there cases where you did not get "." and ".." ?
-
-> +
-> +out:
-> +    if (err != 0) {
-> +        errno = err;
-> +        if (stream != NULL) {
-> +            if (file_id_list != NULL) {
-> +                g_free(file_id_list);
-> +            }
-> +            CloseHandle(hDir);
-> +            g_free(stream);
-> +            stream = NULL;
+> +        if (polarization == S390_CPU_POLARIZATION_HORIZONTAL) {
+> +            env->entitlement = S390_CPU_ENTITLEMENT_HORIZONTAL;
+> +        } else  {
+> +            env->entitlement = env->shadow_entitlement;
 > +        }
 > +    }
-> +
-> +    if (dd_handle != -1) {
-> +        _findclose(dd_handle);
-> +    }
-> +
-> +    return (DIR *)stream;
 > +}
-> +
-> +/*
-> + * closedir_win32 - close a directory
-> + *
-> + * This function closes directory and free all cached resources.
-> + */
-> +int closedir_win32(DIR *pDir)
-> +{
-> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-> +
-> +    if (stream == NULL) {
-> +        errno = EBADF;
-> +        return -1;
-> +    }
-> +
-> +    /* free all resources */
-> +    CloseHandle(stream->hDir);
-> +
-> +    g_free(stream->file_id_list);
-> +
-> +    g_free(stream);
-> +
-> +    return 0;
-> +}
-> +
-> +/*
-> + * readdir_win32 - read a directory
-> + *
-> + * This function reads a directory entry from cached entry list.
-> + */
-> +struct dirent *readdir_win32(DIR *pDir)
-> +{
-> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-> +
-> +    if (stream == NULL) {
-> +        errno = EBADF;
-> +        return NULL;
-> +    }
-> +
-> +retry:
-> +
-> +    if (stream->offset >= stream->total_entries) {
-> +        /* reach to the end, return NULL without set errno */
-> +        return NULL;
-> +    }
-> +
-> +    if (get_next_entry(stream) != 0) {
-> +        stream->offset++;
-> +        goto retry;
-> +    }
-> +
-> +    /* Windows does not provide inode number */
-> +    stream->dd_dir.d_ino = 0;
-> +    stream->dd_dir.d_reclen = 0;
-> +    stream->dd_dir.d_namlen = strlen(stream->dd_dir.d_name);
-> +
-> +    stream->offset++;
-> +
-> +    return &stream->dd_dir;
-> +}
-> +
-> +/*
-> + * rewinddir_win32 - reset directory stream
-> + *
-> + * This function resets the position of the directory stream to the
-> + * beginning of the directory.
-> + */
-> +void rewinddir_win32(DIR *pDir)
-> +{
-> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-> +
-> +    if (stream == NULL) {
-> +        errno = EBADF;
-> +        return;
-> +    }
-> +
-> +    stream->offset = 0;
-> +
-> +    return;
-> +}
-> +
-> +/*
-> + * seekdir_win32 - set the position of the next readdir() call in the directory
-> + *
-> + * This function sets the position of the next readdir() call in the directory
-> + * from which the next readdir() call will start.
-> + */
-> +void seekdir_win32(DIR *pDir, long pos)
-> +{
-> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-> +
-> +    if (stream == NULL) {
-> +        errno = EBADF;
-> +        return;
-> +    }
-> +
-> +    if (pos < -1) {
-> +        errno = EINVAL;
-> +        return;
-> +    }
-> +
-> +    if (pos == -1 || pos >= (long)stream->total_entries) {
-> +        /* seek to the end */
-> +        stream->offset = stream->total_entries;
-> +        return;
-> +    }
-> +
-> +    if (pos - (long)stream->offset == 0) {
-> +        /* no need to seek */
-> +        return;
-> +    }
-> +
-> +    stream->offset = pos;
-> +
-> +    return;
-> +}
-> +
-> +/*
-> + * telldir_win32 - return current location in directory
-> + *
-> + * This function returns current location in directory.
-> + */
-> +long telldir_win32(DIR *pDir)
-> +{
-> +    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-> +
-> +    if (stream == NULL) {
-> +        errno = EBADF;
-> +        return -1;
-> +    }
-> +
-> +    if (stream->offset > stream->total_entries) {
-> +        return -1;
-> +    }
-> +
-> +    return (long)stream->offset;
-> +}
-> 
 
+This should be something like:
+
+static void s390_topology_set_cpus_entitlement(void)
+{
+     CPUState *cs;
+
+     CPU_FOREACH(cs) {
+         CPUS390XState *env = &S390_CPU(cs)->env;
+
+         if (s390_topology.polarization == 
+S390_CPU_POLARIZATION_HORIZONTAL) {
+             env->entitlement = S390_CPU_ENTITLEMENT_HORIZONTAL;
+         } else if (env->entitlement == S390_CPU_ENTITLEMENT_HORIZONTAL) {
+             if (env->dedicated) {
+                 env->entitlement = S390_CPU_ENTITLEMENT_HIGH;
+             } else {
+                 env->entitlement = env->shadow_entitlement;
+             }
+         }
+     }
+}
+
+Sorry.
+
+I provide a new series including the avocado tests.
+
+regards,
+
+Pierre
 
 
