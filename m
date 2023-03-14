@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A826B9B61
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17FE6B9B5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:27:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc7TL-0004xO-6k; Tue, 14 Mar 2023 12:25:59 -0400
+	id 1pc7TM-0004y1-PG; Tue, 14 Mar 2023 12:26:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pc7TH-0004wH-GX
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:25:55 -0400
+ id 1pc7TJ-0004wr-VI
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:25:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pc7TF-0007Ot-3j
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:25:55 -0400
+ id 1pc7TI-0007PS-4U
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:25:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678811152;
+ s=mimecast20190719; t=1678811155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ih/6w4H6hHD/iCx/AvfJuJXmZZOwNOu437gWviSPGp0=;
- b=NoTTLH1iddF+trJfc+xEPkozKwu3Xb7FUXT+qZdfc9BHP6JHEihihpNSlSSvW11K21hYmC
- 96DzhD1k/h0AIWWdTOdR7mbbW5FsvcyU7M4EYB4vNWidzaFAEvOanFksBg4zX02sVg8XTv
- 4NR+idRjTVQLs8dd7qbjIUkG4TxWEr4=
+ bh=urFW4nSraIsPDPq4iZZOOIlcOzIvdO91+DoMI1iB4bE=;
+ b=QIESFnnKJ/6hyxFmw726Vp8KiPqYsft5WVUIDpiUNyEC99nf0cOk3TdUnMTIbcNaPhY/h/
+ yI+ztAU1qZkI7msSdkoiVRcI2x7HFMzk68wwiqPE4c3PM4XTyPdLSBZz1a0/zVg9qVW3ZI
+ RImSjUK5MeuAzZTp+5Fv5AzpLu9wRkQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-330-69AN3MJ7P3qeJkknzwWHrw-1; Tue, 14 Mar 2023 12:25:49 -0400
-X-MC-Unique: 69AN3MJ7P3qeJkknzwWHrw-1
+ us-mta-120-7fVx76jEPnCwVRnutSII5Q-1; Tue, 14 Mar 2023 12:25:52 -0400
+X-MC-Unique: 7fVx76jEPnCwVRnutSII5Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CC41857A99;
- Tue, 14 Mar 2023 16:25:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C48CC803D50;
+ Tue, 14 Mar 2023 16:25:50 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 616C14042AC2;
- Tue, 14 Mar 2023 16:25:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A36824042AC2;
+ Tue, 14 Mar 2023 16:25:48 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -51,10 +51,12 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
  libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Ross Lagerwall <ross.lagerwall@citrix.com>
-Subject: [PULL 2/3] ps2: Don't send key release event for Lang1, Lang2 keys
-Date: Tue, 14 Mar 2023 16:25:39 +0000
-Message-Id: <20230314162540.385954-3-berrange@redhat.com>
+ Eric Blake <eblake@redhat.com>,
+ Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 3/3] io/channel-tls: plug memory leakage on GSource
+Date: Tue, 14 Mar 2023 16:25:40 +0000
+Message-Id: <20230314162540.385954-4-berrange@redhat.com>
 In-Reply-To: <20230314162540.385954-1-berrange@redhat.com>
 References: <20230314162540.385954-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -85,45 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ross Lagerwall <ross.lagerwall@citrix.com>
+From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 
-The scancodes for the Lang1 and Lang2 keys (i.e. Hangeul, Hanja) are
-special since they already have the 0x80 bit set which is commonly used
-to indicate a key release in AT set 1. Reportedly, real hardware does
-not send a key release scancode. So, skip sending a release for these
-keys. This ensures that Windows behaves correctly and interprets it as a
-single keypress rather than two consecutive keypresses.
+This leakage can be seen through test-io-channel-tls:
 
-Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+$ ../configure --target-list=aarch64-softmmu --enable-sanitizers
+$ make ./tests/unit/test-io-channel-tls
+$ ./tests/unit/test-io-channel-tls
+
+Indirect leak of 104 byte(s) in 1 object(s) allocated from:
+    #0 0x7f81d1725808 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:144
+    #1 0x7f81d135ae98 in g_malloc (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x57e98)
+    #2 0x55616c5d4c1b in object_new_with_propv ../qom/object.c:795
+    #3 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
+    #4 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-channel-tls.c:70
+    #5 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channel-tls.c:158
+    #6 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
+
+Indirect leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7f81d1725a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
+    #1 0x7f81d1472a20 in gnutls_dh_params_init (/lib/x86_64-linux-gnu/libgnutls.so.30+0x46a20)
+    #2 0x55616c6485ff in qcrypto_tls_creds_x509_load ../crypto/tlscredsx509.c:634
+    #3 0x55616c648ba2 in qcrypto_tls_creds_x509_complete ../crypto/tlscredsx509.c:694
+    #4 0x55616c5e1fea in user_creatable_complete ../qom/object_interfaces.c:28
+    #5 0x55616c5d4c8c in object_new_with_propv ../qom/object.c:807
+    #6 0x55616c5d4a83 in object_new_with_props ../qom/object.c:768
+    #7 0x55616c5c5415 in test_tls_creds_create ../tests/unit/test-io-channel-tls.c:70
+    #8 0x55616c5c5a6b in test_io_channel_tls ../tests/unit/test-io-channel-tls.c:158
+    #9 0x7f81d137d58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
+
+...
+
+SUMMARY: AddressSanitizer: 49143 byte(s) leaked in 184 allocation(s).
+
+The docs for `g_source_add_child_source(source, child_source)` says
+"source will hold a reference on child_source while child_source is
+attached to it." Therefore, we should unreference the child source at
+`qio_channel_tls_read_watch()` after attaching it to `source`. With this
+change, ./tests/unit/test-io-channel-tls shows no leakages.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/input/ps2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ io/channel-tls.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 3253ab6a92..45af76a837 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -402,6 +402,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
-                     ps2_put_keycode(s, 0xaa);
-                 }
-             }
-+        } else if ((qcode == Q_KEY_CODE_LANG1 || qcode == Q_KEY_CODE_LANG2)
-+                   && !key->down) {
-+            /* Ignore release for these keys */
-         } else {
-             if (qcode < qemu_input_map_qcode_to_atset1_len) {
-                 keycode = qemu_input_map_qcode_to_atset1[qcode];
-@@ -497,6 +500,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
-                     ps2_put_keycode(s, 0x12);
-                 }
-             }
-+        } else if ((qcode == Q_KEY_CODE_LANG1 || qcode == Q_KEY_CODE_LANG2) &&
-+                   !key->down) {
-+            /* Ignore release for these keys */
-         } else {
-             if (qcode < qemu_input_map_qcode_to_atset2_len) {
-                 keycode = qemu_input_map_qcode_to_atset2[qcode];
+diff --git a/io/channel-tls.c b/io/channel-tls.c
+index 8052945ba0..5a7a3d48d6 100644
+--- a/io/channel-tls.c
++++ b/io/channel-tls.c
+@@ -446,6 +446,7 @@ qio_channel_tls_read_watch(QIOChannelTLS *tioc, GSource *source)
+     object_ref(OBJECT(tioc));
+ 
+     g_source_add_child_source(source, child);
++    g_source_unref(child);
+ }
+ 
+ static GSource *qio_channel_tls_create_watch(QIOChannel *ioc,
 -- 
 2.39.2
 
