@@ -2,88 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7F26B8B40
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955B56B8B44
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:34:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbyD2-00026q-7l; Tue, 14 Mar 2023 02:32:32 -0400
+	id 1pbyEV-0002oh-17; Tue, 14 Mar 2023 02:34:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbyD0-00026U-JN
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:32:30 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pbyCy-0000z6-Vv
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:32:30 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r29so5245252wra.13
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:32:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678775547;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JydG0wflcCsIHIkmoinsPUsKF3AFLzMW2HdeCY//o8M=;
- b=loYLY6T1dJ6CpoGW34hij2R1zNxtOBLW4OerVwoYERh8JguApZgVFP/71dHYsguTaW
- UU3HGvB6xBZJ3+Hq7IRH1zXZDCah2S4DLDw+T8rWgTu86OiSJb2i4AdjYPK5AhSI3TbH
- 7r9CUR7GBJb4X1jpFgnANnuVhWwlZATUe68sK8zIdiVoP32DGBfqgt7EwtXLCCExijcZ
- x4NAUkVjpuAKh6CKUH8EFwLtL25WNhSGBUKrAIDQIoFoWni5onA/pdi3GDwzdnqJDog7
- RjVUsN2i3QyEBHYV5h10Vg8hN+t+dzBgY7DKsOzZ3o99WvB5zV2p7hBy3VIiO7HJKGg9
- dZtA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pbyES-0002oS-J9
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:34:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pbyEQ-0001H8-IN
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:34:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678775637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lq5fRA91Dz76/36Mqq+Q+0pTC3rTPwX5ANXm7UXICR0=;
+ b=YD7Ar1myrXHxLoXx4d7noLJaeIK5aloO8HXJDdvNd4NgPa2zmzwfO3c41+abGrAOfQUC9B
+ F3oi9HbyQAhvjEoFTbR0no+rETgIiIcQLZWr+ym9v7mSNADxw4+MXcmwLI3gJ8Oq9QmU7B
+ ChXEyD08X6CbuB14KJuIoHBKtPWG96I=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-193-4Rn83w2ePLCqpAlBwOyixg-1; Tue, 14 Mar 2023 02:33:55 -0400
+X-MC-Unique: 4Rn83w2ePLCqpAlBwOyixg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ev6-20020a056402540600b004bc2358ac04so20562911edb.21
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:33:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678775547;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JydG0wflcCsIHIkmoinsPUsKF3AFLzMW2HdeCY//o8M=;
- b=hNIlrYUcPsv76knQIIZAYmrkjV8h8CxY52NAjesut1uqfD+8NS9MaWMesL1VR9aZ69
- dRvDs5NYaT8yHHrs13lgEymvyOxWhvxTFipgN3JSH8OZjouB76OFSG6IV+eOu8HGbOmu
- alUwpHZJMTYqSi4exMMyiPbeF1i8SdfV6CoZPi2m5GwRXVhzmetODwuLVDjXUSNLJbYT
- 7JDFe1x/HK27rYnxd/grqX1KLojY2Qg9Hovxda3UnrIGgnA2sBHkP8UUkJMzGTqYOrrv
- tFvyfJsFjfc5R1DD8QSKBDJ+YcupWdjFME6bMtoB2FANo7t3yISrI+OqorYsJ6xdXP4J
- u8Bg==
-X-Gm-Message-State: AO0yUKUr4GLKUiXp4tlasDGupzjRJosmngRav4W6euCR8Qg/SxA/3Xzs
- zlmoLxfub7HemvgPSl7CIjkP2w==
-X-Google-Smtp-Source: AK7set9Dj0H1pvsudsgMYC3B58XlAkWu0jszc/ksz5225KocRiesrDL79qNrt1DibhPRf4pDj0B1pA==
-X-Received: by 2002:a5d:4604:0:b0:2c3:be89:7c2b with SMTP id
- t4-20020a5d4604000000b002c3be897c2bmr8982224wrq.14.1678775547181; 
- Mon, 13 Mar 2023 23:32:27 -0700 (PDT)
-Received: from [192.168.150.175] (180.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.180]) by smtp.gmail.com with ESMTPSA id
- i10-20020a05600c290a00b003e8dc7a03basm1766307wmd.41.2023.03.13.23.32.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 23:32:25 -0700 (PDT)
-Message-ID: <ae5e2fa5-e641-f787-38e3-4de1defd0050@linaro.org>
-Date: Tue, 14 Mar 2023 07:32:22 +0100
+ d=1e100.net; s=20210112; t=1678775633;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lq5fRA91Dz76/36Mqq+Q+0pTC3rTPwX5ANXm7UXICR0=;
+ b=A1poY216K7MjvDuzBu59+lKIYhwxpAlMiDOlo/2Cu+R7y1W2MAY0ARIAGdSgFt0grM
+ jEp38P4FOKXy2igcdP8Uxjl3aNlKctWU/lJSfmHzoMH+kfgVY76+wQQQK47Rmbv4sOZZ
+ YYGPq9EnqrkJJFIIto7LprT+UVm1OqzVH8cDeBVjsjgipIBAPx/686PjnWXdDSd9bcE2
+ H8KwCFjlzPyvv0gIa2kqKXa+PyVJ5ncrl1V1T2IcSXSNqTLIWU9wBBGRwUixdIt2ddbY
+ K12hjzOpgif9C4wvA5I7Mh+hBvH8ml5abUz/c0G91yq/zHXsSdTSqDbpo5HBsi5T15IA
+ gj8g==
+X-Gm-Message-State: AO0yUKXgPgTv7yEaIxzDjouYYV7LHTe4SV7fb0kEaWOuZQqX7IovkwyR
+ RQasCORDOtUeLG/VZtROG8rU7NXxYDpVY8P8wPNT56pk7vcVyuXOtnS+oLzYmFZ5oWszuPBdblC
+ 93f/si2ukpOJQi6s=
+X-Received: by 2002:a50:ee18:0:b0:4a0:e31a:434 with SMTP id
+ g24-20020a50ee18000000b004a0e31a0434mr34907218eds.27.1678775633578; 
+ Mon, 13 Mar 2023 23:33:53 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8XZbrP0FadH8QOrNJ6E83pKOAATpnvma8FvoixrV7d5/Ux9eSRJV3bFA7NXa+cZhau384i3g==
+X-Received: by 2002:a50:ee18:0:b0:4a0:e31a:434 with SMTP id
+ g24-20020a50ee18000000b004a0e31a0434mr34907202eds.27.1678775633291; 
+ Mon, 13 Mar 2023 23:33:53 -0700 (PDT)
+Received: from redhat.com ([2a02:14f:1f7:4129:3ef9:ea05:f0ca:6b81])
+ by smtp.gmail.com with ESMTPSA id
+ q11-20020a5085cb000000b004bd6e3ed196sm493314edh.86.2023.03.13.23.33.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 23:33:52 -0700 (PDT)
+Date: Tue, 14 Mar 2023 02:33:48 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Chuck Zmudzinski <brchuckz@aol.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 2/2] pci: allow slot_reserved_mask to be ignored with
+ manual slot assignment
+Message-ID: <20230314023148-mutt-send-email-mst@kernel.org>
+References: <cover.1678763217.git.brchuckz@aol.com>
+ <d9ae459b2814425c2d9e756e45d993c824da150a.1678763217.git.brchuckz@aol.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 0/6] hw/cxl: Poison get, inject, clear
-Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Michael Tsirkin <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>
-Cc: linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Ira Weiny <ira.weiny@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Michael Roth <michael.roth@amd.com>, Dave Jiang <dave.jiang@intel.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d9ae459b2814425c2d9e756e45d993c824da150a.1678763217.git.brchuckz@aol.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,35 +102,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jonathan,
-
-On 3/3/23 16:09, Jonathan Cameron wrote:
-> Note there are several series ahead of this one and in particular
-> the RAS error injection series needs some QAPI review.
-> The QAPI stuff in this patch is similar but in essence very similar
-> to what we have in that series.
+On Tue, Mar 14, 2023 at 12:01:09AM -0400, Chuck Zmudzinski wrote:
+> Commit 4f67543bb8c5 ("xen/pt: reserve PCI slot 2 for Intel igd-passthru")
+> uses slot_reserved_mask to reserve slot 2 for the Intel IGD for the
+> xenfv machine when the guest is configured for igd-passthru.
 > 
-> Whilst I'm an always an optimist, this may well end up as 8.1 material
-> now.
-
-
-> Ira Weiny (2):
->    hw/cxl: Introduce cxl_device_get_timestamp() utility function
->    bswap: Add the ability to store to an unaligned 24 bit field
+> A desired extension to that commit is to allow use of the reserved slot
+> if the administrator manually configures a device to use the reserved
+> slot. Currently, slot_reserved_mask is enforced unconditionally. With
+> this patch, the pci bus can be configured so the slot is only reserved
+> if the pci device to be added to the bus is configured for automatic
+> slot assignment.
 > 
-> Jonathan Cameron (4):
->    hw/cxl: rename mailbox return code type from ret_code to CXLRetCode
->    hw/cxl: QMP based poison injection support
->    hw/cxl: Add poison injection via the mailbox.
->    hw/cxl: Add clear poison mailbox command support.
+> To enable the desired behavior of slot_reserved_mask machine, add a
+> boolean member enforce_slot_reserved_mask_manual to struct PCIBus and
+> add a function pci_bus_ignore_slot_reserved_mask_manual which can be
+> called to change the default behavior of always enforcing
+> slot_reserved_mask so, in that case, slot_reserved_mask is only enforced
+> when the pci device being added is configured for automatic slot
+> assignment.
 > 
->   hw/cxl/cxl-device-utils.c   |  15 ++
->   hw/cxl/cxl-mailbox-utils.c  | 283 ++++++++++++++++++++++++++++++------
->   hw/mem/cxl_type3.c          |  92 ++++++++++++
->   hw/mem/cxl_type3_stubs.c    |   6 +
->   include/hw/cxl/cxl_device.h |  23 +++
+> Call the new pci_bus_ignore_slot_reserved_mask_manual function after
+> creating the pci bus for the pc/i440fx/xenfv machine type to implement
+> the desired behavior of causing slot_reserved_mask to only apply when
+> the pci device to be added to a pc/i440fx/xenfv machine is configured
+> for automatic slot assignment.
+> 
+> Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
+> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
 
-There is a '64' magic number used in various places, I haven't tried to
-figure what is / where it comes from, but a CXL #definition for it could
-make sense.
+I really dislike this. 
+It seems that xen should not have used slot_reserved_mask,
+and instead needs something new like slot_manual_mask.
+No?
+
+> ---
+> Changelog
+> 
+> v2: Change Subject of patch from
+>     "pci: add enforce_slot_reserved_mask_manual property" To
+>     "pci: allow slot_reserved_mask to be ignored with manual slot assignment"
+> 
+>     Add pci_bus_ignore_slot_reserved_mask_manual function
+> 
+>     Call pci_bus_ignore_slot_reserved_mask_manual at appropriate place
+>     in hw/pci-host/i440fx.c
+> 
+>  hw/pci-host/i440fx.c     |  1 +
+>  hw/pci/pci.c             | 14 +++++++++++++-
+>  include/hw/pci/pci.h     |  1 +
+>  include/hw/pci/pci_bus.h |  1 +
+>  4 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+> index 262f82c303..8e00b88926 100644
+> --- a/hw/pci-host/i440fx.c
+> +++ b/hw/pci-host/i440fx.c
+> @@ -257,6 +257,7 @@ PCIBus *i440fx_init(const char *pci_type,
+>      s = PCI_HOST_BRIDGE(dev);
+>      b = pci_root_bus_new(dev, NULL, pci_address_space,
+>                           address_space_io, 0, TYPE_PCI_BUS);
+> +    pci_bus_ignore_slot_reserved_mask_manual(b);
+>      s->bus = b;
+>      object_property_add_child(qdev_get_machine(), "i440fx", OBJECT(dev));
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 8a87ccc8b0..670ecc6986 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -501,6 +501,7 @@ static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
+>      assert(PCI_FUNC(devfn_min) == 0);
+>      bus->devfn_min = devfn_min;
+>      bus->slot_reserved_mask = 0x0;
+> +    bus->enforce_slot_reserved_mask_manual = true;
+>      bus->address_space_mem = address_space_mem;
+>      bus->address_space_io = address_space_io;
+>      bus->flags |= PCI_BUS_IS_ROOT;
+> @@ -1116,6 +1117,17 @@ static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
+>      return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
+>  }
+>  
+> +static bool pci_bus_devfn_reserved_manual(PCIBus *bus, int devfn)
+> +{
+> +    return bus->enforce_slot_reserved_mask_manual &&
+> +            (bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn)));
+> +}
+> +
+> +void pci_bus_ignore_slot_reserved_mask_manual(PCIBus *bus)
+> +{
+> +    bus->enforce_slot_reserved_mask_manual = false;
+> +}
+> +
+>  uint32_t pci_bus_get_slot_reserved_mask(PCIBus *bus)
+>  {
+>      return bus->slot_reserved_mask;
+> @@ -1164,7 +1176,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+>                     "or reserved", name);
+>          return NULL;
+>      found: ;
+> -    } else if (pci_bus_devfn_reserved(bus, devfn)) {
+> +    } else if (pci_bus_devfn_reserved_manual(bus, devfn)) {
+>          error_setg(errp, "PCI: slot %d function %d not available for %s,"
+>                     " reserved",
+>                     PCI_SLOT(devfn), PCI_FUNC(devfn), name);
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 935b4b91b4..48d29ec234 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -287,6 +287,7 @@ void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
+>  void pci_bus_map_irqs(PCIBus *bus, pci_map_irq_fn map_irq);
+>  void pci_bus_irqs_cleanup(PCIBus *bus);
+>  int pci_bus_get_irq_level(PCIBus *bus, int irq_num);
+> +void pci_bus_ignore_slot_reserved_mask_manual(PCIBus *bus);
+>  uint32_t pci_bus_get_slot_reserved_mask(PCIBus *bus);
+>  void pci_bus_set_slot_reserved_mask(PCIBus *bus, uint32_t mask);
+>  void pci_bus_clear_slot_reserved_mask(PCIBus *bus, uint32_t mask);
+> diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+> index 5653175957..e0f15ee9be 100644
+> --- a/include/hw/pci/pci_bus.h
+> +++ b/include/hw/pci/pci_bus.h
+> @@ -37,6 +37,7 @@ struct PCIBus {
+>      void *iommu_opaque;
+>      uint8_t devfn_min;
+>      uint32_t slot_reserved_mask;
+> +    bool enforce_slot_reserved_mask_manual;
+>      pci_set_irq_fn set_irq;
+>      pci_map_irq_fn map_irq;
+>      pci_route_irq_fn route_intx_to_irq;
+> -- 
+> 2.39.2
+
 
