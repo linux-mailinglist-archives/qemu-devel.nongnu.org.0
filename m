@@ -2,107 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1256B9DB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE8D6B9D15
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:32:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc8v7-00082S-Or; Tue, 14 Mar 2023 13:58:45 -0400
+	id 1pc8Tz-0004xJ-QZ; Tue, 14 Mar 2023 13:30:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1pc8v5-00082J-Eg
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:58:43 -0400
-Received: from cyan.elm.relay.mailchannels.net ([23.83.212.47])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pc8Tp-0004vF-U2
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:30:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1pc8v3-0005xH-Ma
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:58:43 -0400
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id 6EE3D8213EB;
- Tue, 14 Mar 2023 17:58:37 +0000 (UTC)
-Received: from pdx1-sub0-mail-a205.dreamhost.com (unknown [127.0.0.6])
- (Authenticated sender: dreamhost)
- by relay.mailchannels.net (Postfix) with ESMTPA id 929D5820E0F;
- Tue, 14 Mar 2023 17:58:36 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1678816717; a=rsa-sha256;
- cv=none;
- b=ytjWoIkNOYfmhd7dHzeBYDcmtkS2367nyydoyMX+2Q0wWtOMF6Ndk1yVr/59kPwvSdfvSx
- biJz76os8Q/YvJMQ/vSH33hI99sf+gzGCkynd+I7uxQkYJVSCQdWW1fyeC4z4sbra3rtmh
- 68GMjhEZcMFkc+OypHy8hwZ6/mFC7x2eAeuRmoEng9WDAmW/yxYLQq5kX7tewZLCzZnqjH
- 70jbw+GerzDgOrpyU+QCXaUS1GKreoUKvFQwc74a0yrCo0C0z+e40RntL0dStv90tDkBDO
- AXjbfQLlWZSJmCrM+B4G56hRZXuWBW/zNCojf4xQT36z8UYzQUVVt11iNLbpJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net; s=arc-2022; t=1678816716;
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pc8To-0001Lv-1O
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:30:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678815026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:dkim-signature;
- bh=PBSG1Zl26KdnK1pAiHWRiquRq4r5wjXZaWJGSKlBSig=;
- b=DpvTt+xVmV9EgkLvdOoY2dIpNQwzsJm1yLndO3DuHNsnvEK7D5mARD1GN5mfW/SmWoeTOW
- 5GK1DyfjMmbgf0iwZwJvlWQmgndNbDusFU8MYVWA+PSEM3en9r2PKBVixAsO4GK/xmJPj4
- HV5tHNIPN02ODXHCII9X9kms/GcUgY6AFpui80KfRPq5UQwPtRq/lxJEiMTy2vwWUcztRz
- tfMUdKSleH2hv2WHU/FqXhDjI31egrKlKiErVxLEoUXs2zON8cqeps2xqpIap1MfUt/Dwp
- Vp/1C/d1jUWfMDgFjyPZeZ4IaPoX9DvjRduKK2jcqaUHFpKvZVGQrULGdVgs0Q==
-ARC-Authentication-Results: i=1; rspamd-7b575b84b5-n8p2r;
- auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Wiry-Fumbling: 04095cc27bdf7cff_1678816717218_1920933532
-X-MC-Loop-Signature: 1678816717218:4186272266
-X-MC-Ingress-Time: 1678816717218
-Received: from pdx1-sub0-mail-a205.dreamhost.com (pop.dreamhost.com
- [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
- by 100.117.156.54 (trex/6.7.2); Tue, 14 Mar 2023 17:58:37 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: dave@stgolabs.net)
- by pdx1-sub0-mail-a205.dreamhost.com (Postfix) with ESMTPSA id 4Pbh8q4CcNz3Q; 
- Tue, 14 Mar 2023 10:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
- s=dreamhost; t=1678816716;
- bh=PBSG1Zl26KdnK1pAiHWRiquRq4r5wjXZaWJGSKlBSig=;
- h=Date:From:To:Cc:Subject:Content-Type;
- b=RRWHyJJVLkPIb7jQbfdDT/Al1csF5b0tNCh2Nu3juOveHUYP36WauTgkJeeBNmOm7
- 7MQNalH/1Toq6H9K4LhXVPr7EEFr5uqfiOkS0uQu9xXgpif1KJ3V1G2oo1Wve3uWOa
- otzwKxdOumo63CnWpN7UIxXgqxAE948YhO/4CM4EXZj3NU3YH8k7PYgaAwcbutG9IW
- YC+KI4VHY4/rJ25e+sAHDj71OHfbFbKmL5gTY5O6ycKaVMHjQpdBOgt8NosthHYO15
- LuCO0XXxXnsanXnYXuGuAZwXrNiF6rMU/5WO6rR8WHFbGQsm+2Mr7cAqLje+0q2y2Q
- TDNVnBxolgcww==
-Date: Tue, 14 Mar 2023 10:29:10 -0700
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: Fan Ni <fan.ni@samsung.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "alison.schofield@intel.com" <alison.schofield@intel.com>,
- Adam Manzanares <a.manzanares@samsung.com>,
- "bwidawsk@kernel.org" <bwidawsk@kernel.org>,
- "gregory.price@memverge.com" <gregory.price@memverge.com>,
- "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
- "cbrowy@avery-design.com" <cbrowy@avery-design.com>,
- "ira.weiny@intel.com" <ira.weiny@intel.com>
-Subject: Re: [qemu PATCH] hw/cxl/cxl_device: Replace magic number in CXLError
- definition
-Message-ID: <20230314172910.eidt57homgiytpsk@offworld>
-References: <CGME20230314165324uscas1p231d1f8aeceb1b8c118abb76e915e7614@uscas1p2.samsung.com>
- <20230314165317.1550986-1-fan.ni@samsung.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2nmAO582NXGKE7cr6FY65qnIhagxKNTlNZUspKdrr7o=;
+ b=QMyBSHEVloa6XFlVM9BBnvWg26XPYT/P0eOwCFoH90/F5jZOpr1DB+2Il4KHHn9e24eHhL
+ f8zVaSsegNCAYwge9j97fsb5x+EFzPzRTq/JzJ2kFsp1uI7y9Laj6ppVb8TippcYlWPuUs
+ RsswPqjYXqJp+5iLu1HTfdTyTQDGwS0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-618-2jo6YYovNYSIXLanjZpNSA-1; Tue, 14 Mar 2023 13:30:21 -0400
+X-MC-Unique: 2jo6YYovNYSIXLanjZpNSA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2107E185A794;
+ Tue, 14 Mar 2023 17:30:20 +0000 (UTC)
+Received: from gondolin.redhat.com (unknown [10.39.193.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD202166B26;
+ Tue, 14 Mar 2023 17:30:16 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH for-8.1] hw: Add compat machines for 8.1
+Date: Tue, 14 Mar 2023 18:30:09 +0100
+Message-Id: <20230314173009.152667-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20230314165317.1550986-1-fan.ni@samsung.com>
-User-Agent: NeoMutt/20220429
-Received-SPF: pass client-ip=23.83.212.47; envelope-from=dave@stgolabs.net;
- helo=cyan.elm.relay.mailchannels.net
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,32 +87,265 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 14 Mar 2023, Fan Ni wrote:
+Add 8.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
 
->Replace the magic number 32 with CXL_RAS_ERR_HEADER_NUM for better code
->readability and maintainability.
->
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 16 +++++++++++++---
+ hw/i386/pc_q35.c           | 14 ++++++++++++--
+ hw/m68k/virt.c             |  9 ++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ 10 files changed, 79 insertions(+), 10 deletions(-)
 
-Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ac626b3bef74..267fe56fae76 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -3232,10 +3232,17 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+ 
++static void virt_machine_8_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(8, 1)
++
+ static void virt_machine_8_0_options(MachineClass *mc)
+ {
++    virt_machine_8_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(8, 0)
++DEFINE_VIRT_MACHINE(8, 0)
+ 
+ static void virt_machine_7_2_options(MachineClass *mc)
+ {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 45e3d24fdc89..5bda87fc7d91 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
++GlobalProperty hw_compat_8_0[] = {};
++const size_t hw_compat_8_0_len = G_N_ELEMENTS(hw_compat_8_0);
++
+ GlobalProperty hw_compat_7_2[] = {
+     { "e1000e", "migrate-timadj", "off" },
+     { "virtio-mem", "x-early-migration", "false" },
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 1489abf010a6..615e1d3d06ad 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -116,6 +116,9 @@
+     { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
+     { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
+ 
++GlobalProperty pc_compat_8_0[] = {};
++const size_t pc_compat_8_0_len = G_N_ELEMENTS(pc_compat_8_0);
++
+ GlobalProperty pc_compat_7_2[] = {
+     { "ICH9-LPC", "noreboot", "true" },
+ };
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 30eedd62a3a0..21591dad8d92 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -454,21 +454,31 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+ }
+ 
+-static void pc_i440fx_8_0_machine_options(MachineClass *m)
++static void pc_i440fx_8_1_machine_options(MachineClass *m)
+ {
+     pc_i440fx_machine_options(m);
+     m->alias = "pc";
+     m->is_default = true;
+ }
+ 
++DEFINE_I440FX_MACHINE(v8_1, "pc-i440fx-8.1", NULL,
++                      pc_i440fx_8_1_machine_options);
++
++static void pc_i440fx_8_0_machine_options(MachineClass *m)
++{
++    pc_i440fx_8_1_machine_options(m);
++    m->alias = NULL;
++    m->is_default = false;
++    compat_props_add(m->compat_props, hw_compat_8_0, hw_compat_8_0_len);
++    compat_props_add(m->compat_props, pc_compat_8_0, pc_compat_8_0_len);
++}
++
+ DEFINE_I440FX_MACHINE(v8_0, "pc-i440fx-8.0", NULL,
+                       pc_i440fx_8_0_machine_options);
+ 
+ static void pc_i440fx_7_2_machine_options(MachineClass *m)
+ {
+     pc_i440fx_8_0_machine_options(m);
+-    m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_7_2, hw_compat_7_2_len);
+     compat_props_add(m->compat_props, pc_compat_7_2, pc_compat_7_2_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 797ba347fd05..f02919d92c46 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -373,19 +373,29 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_8_0_machine_options(MachineClass *m)
++static void pc_q35_8_1_machine_options(MachineClass *m)
+ {
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+ }
+ 
++DEFINE_Q35_MACHINE(v8_1, "pc-q35-8.1", NULL,
++                   pc_q35_8_1_machine_options);
++
++static void pc_q35_8_0_machine_options(MachineClass *m)
++{
++    pc_q35_8_1_machine_options(m);
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_8_0, hw_compat_8_0_len);
++    compat_props_add(m->compat_props, pc_compat_8_0, pc_compat_8_0_len);
++}
++
+ DEFINE_Q35_MACHINE(v8_0, "pc-q35-8.0", NULL,
+                    pc_q35_8_0_machine_options);
+ 
+ static void pc_q35_7_2_machine_options(MachineClass *m)
+ {
+     pc_q35_8_0_machine_options(m);
+-    m->alias = NULL;
+     compat_props_add(m->compat_props, hw_compat_7_2, hw_compat_7_2_len);
+     compat_props_add(m->compat_props, pc_compat_7_2, pc_compat_7_2_len);
+ }
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 4cb5beef1a0c..f5ca2ca9054c 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -346,10 +346,17 @@ type_init(virt_machine_register_types)
+     } \
+     type_init(machvirt_machine_##major##_##minor##_init);
+ 
++static void virt_machine_8_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE(8, 1, true)
++
+ static void virt_machine_8_0_options(MachineClass *mc)
+ {
++    virt_machine_8_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+-DEFINE_VIRT_MACHINE(8, 0, true)
++DEFINE_VIRT_MACHINE(8, 0, false)
+ 
+ static void virt_machine_7_2_options(MachineClass *mc)
+ {
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4921198b9d6f..ddc9c7b1a1e2 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4734,15 +4734,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+ 
++/*
++ * pseries-8.1
++ */
++static void spapr_machine_8_1_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(8_1, "8.1", true);
++
+ /*
+  * pseries-8.0
+  */
+ static void spapr_machine_8_0_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_8_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+ 
+-DEFINE_SPAPR_MACHINE(8_0, "8.0", true);
++DEFINE_SPAPR_MACHINE(8_0, "8.0", false);
+ 
+ /*
+  * pseries-7.2
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 503f212a3131..e6f2c626254c 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -826,14 +826,26 @@ bool css_migration_enabled(void)
+     }                                                                         \
+     type_init(ccw_machine_register_##suffix)
+ 
++static void ccw_machine_8_1_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_8_1_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(8_1, "8.1", true);
++
+ static void ccw_machine_8_0_instance_options(MachineState *machine)
+ {
++    ccw_machine_8_1_instance_options(machine);
+ }
+ 
+ static void ccw_machine_8_0_class_options(MachineClass *mc)
+ {
++    ccw_machine_8_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+-DEFINE_CCW_MACHINE(8_0, "8.0", true);
++DEFINE_CCW_MACHINE(8_0, "8.0", false);
+ 
+ static void ccw_machine_7_2_instance_options(MachineState *machine)
+ {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6fbbfd56c808..bf5fc9e3e759 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -381,6 +381,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
++extern GlobalProperty hw_compat_8_0[];
++extern const size_t hw_compat_8_0_len;
++
+ extern GlobalProperty hw_compat_7_2[];
+ extern const size_t hw_compat_7_2_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 8206d5405a20..eb668e90344d 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -195,6 +195,9 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
+ /* sgx.c */
+ void pc_machine_init_sgx_epc(PCMachineState *pcms);
+ 
++extern GlobalProperty pc_compat_8_0[];
++extern const size_t pc_compat_8_0_len;
++
+ extern GlobalProperty pc_compat_7_2[];
+ extern const size_t pc_compat_7_2_len;
+ 
+-- 
+2.39.2
 
->Signed-off-by: Fan Ni <fan.ni@samsung.com>
->---
-> include/hw/cxl/cxl_device.h | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
->index d589f78202..34fde62eac 100644
->--- a/include/hw/cxl/cxl_device.h
->+++ b/include/hw/cxl/cxl_device.h
->@@ -235,7 +235,7 @@ REG64(CXL_MEM_DEV_STS, 0)
-> typedef struct CXLError {
->     QTAILQ_ENTRY(CXLError) node;
->     int type; /* Error code as per FE definition */
->-    uint32_t header[32];
->+    uint32_t header[CXL_RAS_ERR_HEADER_NUM];
-> } CXLError;
->
-> typedef QTAILQ_HEAD(, CXLError) CXLErrorList;
->--
->2.25.1
 
