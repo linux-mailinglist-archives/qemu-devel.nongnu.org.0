@@ -2,118 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3266B8B8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7AF6B8BB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 08:08:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbyVn-0001fT-5p; Tue, 14 Mar 2023 02:51:55 -0400
+	id 1pbykA-0005gM-Or; Tue, 14 Mar 2023 03:06:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbyVk-0001eq-Rz
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:51:52 -0400
-Received: from mail-sgaapc01olkn2081e.outbound.protection.outlook.com
- ([2a01:111:f400:feab::81e]
- helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1pbyk4-0005ft-Fd; Tue, 14 Mar 2023 03:06:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbyVj-0003yz-3b
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:51:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dmP4KGzuQz9GLb8k2ImBP4FJ4uy1GOxXCgM0b/J3AJcYu9YGxUBPssSM4wk8duBXidtcYfsqkhBcNB6yETkoI9HH3dNgtH5vHmR1CCXvsqcDSTIflb1mW+sflecJGhrBfZRP6dhkPxzBqJIFH7PWahuvCOSdNeEFrHSW9rsEIHWTncdCyaSncQ+7zT4/HU9jkAtpTyUTFDUP3xm0HwD5fM7+JL8yJ3AYq+pH++C0WGVVSJQHSuT1OF1uPs8hvtykBCnI4gFhflk0QNkuVuOs99kiujLrGbOPcsL7gQ+JVxvuLOxWUgNdiHN45RhHe6a8p/oIKAFz6UEilwv9YgZBzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2mTpmkenkOhlH1QHzVK42L4Gy3BBZz2zeiMTuhV3xAw=;
- b=XrjlSJVVPnawgLWSIwdO3hPmcmud0g+l/Nt+q2Om2Lcxi6/4SkuC9NHvRsPyaHwZdu5z0qRaKzNApHYE2UFllby7W6jCugoIqD2KWEKXnVhQizlGkhrJYU7etFjtC19LeqV4rMHfN0ZbZeoA3QcYsV/jyV5yoHjoh+Ed5dmmh6RBktaQH+5GQibuzD3AWAzvQDBMfB3Q91DliC7XULYnvHHUlWnOQLPAB7CRMs6NoaQJ9iR1kCmy7gifBuqXNcmNqF/ggEKjasi+3m+4mAVI6FTGyxaVm+7/k3YMcPPFHMX8NoE1d7EBTHjJV2NAqtTbw6qo/lMRbDLj/QJ9+z2X1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
- by PUZPR06MB4632.apcprd06.prod.outlook.com (2603:1096:301:b3::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Tue, 14 Mar
- 2023 06:51:44 +0000
-Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
- ([fe80::5aac:46da:e945:95ae]) by TYZPR06MB5418.apcprd06.prod.outlook.com
- ([fe80::5aac:46da:e945:95ae%7]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
- 06:51:44 +0000
-Message-ID: <TYZPR06MB541827F2D233142AF75534099DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Date: Tue, 14 Mar 2023 15:51:42 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 1/2] util: Add thread-safe qemu_strerror() function
-Content-Language: en-US
-To: TYZPR06MB5418216269D0ED2EB37D6FF49DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
-References: <cover.1678770219.git.y-koj@outlook.jp>
- <TYZPR06MB5418B64D371016CCEDE577419DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-From: Yohei Kojima <y-koj@outlook.jp>
-In-Reply-To: <TYZPR06MB5418B64D371016CCEDE577419DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TMN: [c+q3z5cCPP660Fa/Ji31fvojUKoSSoHvK5OLkI7Pi5Z9hCk81iDxlWG9APrw5TDPzDAnWgkLxws=]
-X-ClientProxiedBy: TYCP286CA0042.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29d::18) To TYZPR06MB5418.apcprd06.prod.outlook.com
- (2603:1096:400:202::7)
-X-Microsoft-Original-Message-ID: <8976ee09-205f-5e98-220c-dcecb30a1071@outlook.jp>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1pbyk2-00067r-Ih; Tue, 14 Mar 2023 03:06:40 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32E6i0SN005803; Tue, 14 Mar 2023 07:06:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=eK1iCJ15MViavthorNonw1EECvc/dA4YHpmkuz5xXeg=;
+ b=kL44ZlZ3hLojCqr/Wot9ajqsA2WxjfVh90HQiWqUJtbcD7z56+/UHA6CXrfEaXibs27N
+ 7YRFdcVSBcnYEZLNzAO9NV0OHlYGsimcibo8cW3WLRuc1yL80wrgj64wbVZkkjrploj/
+ 1FMX2XRSqt7DNG3dkLSG5Aoimcbdcnxi4Fzgh92Pd3iKzu+oCq6E+Vy5wGvOTg80r52i
+ vblshVTv+slMSOkv4UQfder3Z2QYUTOf3HFo3gyG/UDoFhh+JwGs6OE+t4321RIFfYe/
+ tMqp+pNUKpl5h4IeLgPOBF+tsqUZzS7xQvCxXPnVtFRLwBE2jPHp853lXJLnJI1Cl6V3 mQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pakwn8frr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 07:06:19 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32E75fVJ028983;
+ Tue, 14 Mar 2023 07:06:19 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pakwn8frb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 07:06:18 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32DG4VKa001449;
+ Tue, 14 Mar 2023 07:06:16 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3p8h96mc0v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 07:06:16 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32E76D4P44892504
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Mar 2023 07:06:13 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1FEC820040;
+ Tue, 14 Mar 2023 07:06:13 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F0A120043;
+ Tue, 14 Mar 2023 07:06:12 +0000 (GMT)
+Received: from [9.171.64.3] (unknown [9.171.64.3])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 14 Mar 2023 07:06:12 +0000 (GMT)
+Message-ID: <681f4bef-6beb-2e17-fe78-693506d97c66@linux.ibm.com>
+Date: Tue, 14 Mar 2023 08:06:12 +0100
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|PUZPR06MB4632:EE_
-X-MS-Office365-Filtering-Correlation-Id: a365a0d3-83f3-4bbc-4396-08db245892ca
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yceUgjHq6AlQbpLJb/UI+9mM3Vk/ZaGb/Cbh8p8+Ud2+53xRsXg2L/Scr6lbVHH1Du9UPDesv/DKSQqwODtgL4xMcKwRjlnuDdPgkq9IXUgCH+EXgnOstz0UjhEkdyZhjQpdzsQBjNZlwJ66lg5eqyphwghU0XN+h2Lqf+3cPURSdNvvx8Mljfky9o0/6OC7KwtDibs+0LXqudemgse7YHinbOybEWFrP7Lei7FKCA+vaMrdtO8s4fyOp/Y3/GLcXvyQ+OAJL5M9DMG0rtYvvDzedcWeVEYUrlp/+Oeg6PXHRMMwT89Ba6nXKYitLRX+x1etyrOe/srp4lmm1/HbSZb2yveDGaOasfjlVa0t/KkMDr8+vdPNnHx0mvX9WB1tHsAwQchdRWh8Y4aLLcMToi+1+3ZvO5fDCudBhHtlTdQ42ZPYE4q9BD3NyFLqeCjnCgnh+ccuW+r7YIMfELymYz6WLX+29ETOO0ublkEUMLJJf9G+mS0tLqj36kWRdguwz9pDyRscbq0jFIEkoRchHEq/1vXUqfDJQYGjgz9zVwL26uUjMcrydsiTnyNxdPd77lJk1oNqGbpQul8YlNwefJoeD1d79AvppwXVt2YOb9r5Arfcb1hJe0jURZZakTNTIuZXbIi7ZwngafzK2v7UIA==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGxlclVKNDM1NHR5TDArYkVYZWswUDJqamlCYVlSWVJtRDluZ2R4TFJYeHVW?=
- =?utf-8?B?YmdEZm9YM2FVRkdvYkNxck16UkFCSVZJRHhDTnpWaUtSVWpMTTc2eDl2QjV0?=
- =?utf-8?B?MWdJQ2VzL21mL1cvOThsSjhaVE9Zd3VkaFVmL3RSNFRaNlZleVRLbHh1b0JZ?=
- =?utf-8?B?NVRROEVrWktMdG9OTXN0ODJSOXNYT2xwNGgwNytpNy9CTVluT0hqUVVscm5Q?=
- =?utf-8?B?QkpmNWkvUzJvTnR2SHpLS0hrTFB6bUVweU1rZVp6MzQwQzIxVmFQcC9yMnlm?=
- =?utf-8?B?WEhDNWtlSFdaemZCYXZYWGhZNHVYcUFrZkNRU0NPOEw1VWZYT1lWNzducnYw?=
- =?utf-8?B?M1F5MTBxQ3JiYVNiOVFUWDJvR0hDQXZCclowSllIOVA3V3EvU3pjMnJxTU9F?=
- =?utf-8?B?KzZscnJFR3I2OTB6RVdOZHdYVVFsVnFiTEljb3NsZmQwZHJWcmRJTHJ4THN4?=
- =?utf-8?B?SGRva25abWg2c1gzN3VGM2dpY2s2QS9jNzhQWWp3YVpzVndaNjByYnZNT2JP?=
- =?utf-8?B?d0FKUVZKYkYwQUV4TWNvM2QzaFNja3lxeTRDNld5TGt0S2pvQy9uVXRmKytO?=
- =?utf-8?B?NmxJTXFxMGJqSnh5ZWJOTzE5aW1wbmtNSE11NVVQNHJTMmdMVlFLVWRsNTBP?=
- =?utf-8?B?NGVkRUEzenN5Njgyditaa3U0L1Y5aDIvWXYxSjdoT2FWMFREazdkckxNeDZz?=
- =?utf-8?B?ZkczRExUVHRqNUFqMVowUFNXL0wzZHJkRDR5bmhrWklmNWZYa2hBYVNBYm9a?=
- =?utf-8?B?RTFpeUdHSzlocVY2NWV1M1gwcEpnOW8zZjBCdGR1VHh4cUNUY3prZ1ZzenBH?=
- =?utf-8?B?c2tDcDRiZHRaNmdzKzZlUGNZYm9PZUVaYzV6djA5UjFIZ2pMa2RNanh0L0dW?=
- =?utf-8?B?OEpVN1AxQTZmZGhCWW1RNjZHdVhPendYbmQzcGhDZEJZVFRqdVVoSUZhR3lE?=
- =?utf-8?B?NkNhdkd2SGhWVnZ0VTdtRkE2b2Uwa2M1ajhVQjB5Mm5tUWlIZXlSMkFTM1pI?=
- =?utf-8?B?clVPWU8xYjNTODVkU296eGl2MlppUTdTZHhlRkhhSjFFRTk1N1p6aWFEdVA5?=
- =?utf-8?B?a0JMNUEydHhZa0g2dlRKVDREM1phR0JHMWpBRWNRNVZSd0ZHclo3djg1b1E5?=
- =?utf-8?B?Vis4d2N4dE9KY3JQa0l0TXF6WmpOdFBIZXhMOWtUcnRhRlVoTjBGQWFWK1pH?=
- =?utf-8?B?ZnkzNG1QQ1J6QXdTcFo2QlpqTjYwN0QvaTQ2YitiS3JSSGswMHUzOHRvNkF6?=
- =?utf-8?B?ZzUzY3cvOERJS1lvU0prVW1QUFB6dGY0VlhLVFdDMllod2praVFrakhWSW92?=
- =?utf-8?B?VDZ5akVJbGEyUlpoYlUyMUQrdWlQRSs1VzVWeS9GTmZwZFhPMXJ4WUZ2SWFu?=
- =?utf-8?B?ZHNsb3BQUWg4djhZbHlXZDdaZi8zeDErWjFqK2JGNEFnUTNMVC9DczgxRlJS?=
- =?utf-8?B?dU9JTm9kMDFIR2FKNzY4NEZ5ZTEwMWFuWEZXTVhpNXpGc2VMdUdvODJrVitl?=
- =?utf-8?B?RENONDVZNWVFV25jeWg4YllXV3JFbGdRbUpQUlVYdXhZL3FPT2xOWE9ZRGNE?=
- =?utf-8?B?T25xaEhhNEdBNUMrOTBBMnEzUkNxdGNoMy8vT0pETUx0UE8ycGQzRnFVUjdP?=
- =?utf-8?B?WHJNK3ZtdGJYcElMRGVHazdXeFNNWWpEQTViKzY4TU1vc3VOdHpGWE1GT25u?=
- =?utf-8?B?Q2hib3NqMElJOS9tQkUweU9nVWtQbHlieDdZVVY3R1lhaCtnSHRvT3ZoYytQ?=
- =?utf-8?B?WVlIUms1Tm9iR0VaaHJYZ0g2Q0ZrVnBuUEJSUlFFZUJWM2YwTkxXV2l6RVht?=
- =?utf-8?B?UXpnU1N5cTRvY05aZjZIdz09?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: a365a0d3-83f3-4bbc-4396-08db245892ca
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 06:51:44.4163 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB4632
-Received-SPF: pass client-ip=2a01:111:f400:feab::81e;
- envelope-from=y-koj@outlook.jp;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] s390x/gdb: Split s390-virt.xml
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+References: <20230313211614.98739-1-iii@linux.ibm.com>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20230313211614.98739-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: he9m4EzdMOjseDrVSIUJM-GRFi6L1B02
+X-Proofpoint-ORIG-GUID: ZL8wpk1LRxKikmwFpcl_AAk4Bxuu-TsF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-13_13,2023-03-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1011
+ phishscore=0 impostorscore=0 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 adultscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303140057
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -129,115 +119,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I'm sorry for sending ill-formed thread twice.
-This problem was because the SMTP server overwrites Message-ID,
-and git-sendemail does not reflect it to In-Reply-To: and Reply-To: in the header.
-I will test well before sending the next patch.
 
-The original cover letter was
-https://lore.kernel.org/qemu-devel/TYZPR06MB5418216269D0ED2EB37D6FF49DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com/T/#u
 
-Thank you.
+Am 13.03.23 um 22:16 schrieb Ilya Leoshkevich:
+> TCG emulates ckc, cputm, last_break and prefix, and it's quite useful
+> to have them during debugging.
 
-On 2023/03/14 15:40, Yohei Kojima wrote:
-> Add qemu_strerror() which follows the POSIX specification for
-> strerror(). While strerror() is not guaranteed to be thread-safe, this
-> function is thread-safe.
+KVM provides those as well so I dont get what you are trying to do here. (I would understand moving out the pfault things into a KVM section)
+
 > 
-> This function is added to solve the following issue:
-> https://gitlab.com/qemu-project/qemu/-/issues/416
-> 
-> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
-> ---
->  include/qemu/cutils.h | 20 +++++++++++++++++++
->  util/cutils.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 65 insertions(+)
-> 
-> diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-> index 92c436d8c7..0bcae0049a 100644
-> --- a/include/qemu/cutils.h
-> +++ b/include/qemu/cutils.h
-> @@ -117,6 +117,26 @@ int stristart(const char *str, const char *val, const char **ptr);
->   * Returns: length of @s in bytes, or @max_len, whichever is smaller.
->   */
->  int qemu_strnlen(const char *s, int max_len);
-> +/**
-> + * qemu_strerror:
-> + * @errnum: error number
-> + *
-> + * Return the pointer to a string that describes errnum, like
-> + * strerror(). This function is thread-safe because the buffer for
-> + * returned string is allocated per thread.
-> + *
-> + * This function is thread-safe, but not reentrant. In other words,
-> + * if a thread is interrupted by a signal in this function, and the
-> + * thread calls this function again in the signal handling, then
-> + * the result might be corrupted.
-> + *
-> + * This function has the same behaviour as the POSIX strerror()
-> + * function.
-> + *
-> + * Returns: the pointer to an error description, or an
-> + * "Unknown error nnn" message if errnum is invalid.
-> + */
-> +char *qemu_strerror(int errnum);
->  /**
->   * qemu_strsep:
->   * @input: pointer to string to parse
-> diff --git a/util/cutils.c b/util/cutils.c
-> index 5887e74414..3d14f50c75 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -131,6 +131,51 @@ int qemu_strnlen(const char *s, int max_len)
->      return i;
->  }
+> So move them into the new s390-virt-tcg.xml file.
 >  
-> +/**
-> + * It assumes the length of error descriptions are at most 1024.
-> + * The concern of write buffer overflow is cared by strerror_r().
-> + */
-> +static __thread char qemu_strerror_buf[1024];
+> pp, pfault_token, pfault_select and pfault_compare are not emulated,
+> so keep them in s390-virt.xml.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   configs/targets/s390x-linux-user.mak |  2 +-
+>   configs/targets/s390x-softmmu.mak    |  2 +-
+>   gdb-xml/s390-virt-tcg.xml            | 14 +++++
+>   gdb-xml/s390-virt.xml                |  4 --
+>   target/s390x/gdbstub.c               | 82 ++++++++++++++++++----------
+>   5 files changed, 69 insertions(+), 35 deletions(-)
+>   create mode 100644 gdb-xml/s390-virt-tcg.xml
+> 
+> diff --git a/configs/targets/s390x-linux-user.mak b/configs/targets/s390x-linux-user.mak
+> index e2978248ede..fb3e2b73be7 100644
+> --- a/configs/targets/s390x-linux-user.mak
+> +++ b/configs/targets/s390x-linux-user.mak
+> @@ -2,4 +2,4 @@ TARGET_ARCH=s390x
+>   TARGET_SYSTBL_ABI=common,64
+>   TARGET_SYSTBL=syscall.tbl
+>   TARGET_BIG_ENDIAN=y
+> -TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
+> +TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-tcg.xml gdb-xml/s390-gs.xml
+> diff --git a/configs/targets/s390x-softmmu.mak b/configs/targets/s390x-softmmu.mak
+> index 258b4cf3582..554330d7c85 100644
+> --- a/configs/targets/s390x-softmmu.mak
+> +++ b/configs/targets/s390x-softmmu.mak
+> @@ -1,4 +1,4 @@
+>   TARGET_ARCH=s390x
+>   TARGET_BIG_ENDIAN=y
+>   TARGET_SUPPORTS_MTTCG=y
+> -TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
+> +TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-tcg.xml gdb-xml/s390-gs.xml
+> diff --git a/gdb-xml/s390-virt-tcg.xml b/gdb-xml/s390-virt-tcg.xml
+> new file mode 100644
+> index 00000000000..0f77c9b48c6
+> --- /dev/null
+> +++ b/gdb-xml/s390-virt-tcg.xml
+> @@ -0,0 +1,14 @@
+> +<?xml version="1.0"?>
+> +<!-- Copyright 2023 IBM Corp.
 > +
-> +#if (_POSIX_C_SOURCE >= 200112L) && ! _GNU_SOURCE
-> +/**
-> + * In POSIX.1-2001 and after, the return type of strerror_r is int, but
-> + * glibc overrides the definition of strerror_r to the old strerror_r
-> + * if _GNU_SOURCE is defined. This condition handles it.
-> + */
+> +     This work is licensed under the terms of the GNU GPL, version 2 or
+> +     (at your option) any later version. See the COPYING file in the
+> +     top-level directory. -->
 > +
-> +char *qemu_strerror(int errnum)
-> +{
-> +    int is_error = strerror_r(errnum, qemu_strerror_buf, 1024);
-> +
-> +    if (is_error == 0) return qemu_strerror_buf;
-> +
-> +    /**
-> +     * handle the error occured in strerror_r
-> +     *
-> +     * If is_error is greater than 0, errno might not be updated by
-> +     * strerror_r. Otherwise, errno is updated.
-> +     */
-> +    if (is_error > 0) errno = is_error;
-> +
-> +    strncpy(qemu_strerror_buf, "Error %d occured\n", errno);
-> +    return qemu_strerror_buf;
+> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+> +<feature name="org.gnu.gdb.s390.virt.tcg">
+> +  <reg name="ckc" bitsize="64" type="uint64" group="system"/>
+> +  <reg name="cputm" bitsize="64" type="uint64" group="system"/>
+> +  <reg name="last_break" bitsize="64" type="code_ptr" group="system"/>
+> +  <reg name="prefix" bitsize="64" type="data_ptr" group="system"/>
+> +</feature>
+> diff --git a/gdb-xml/s390-virt.xml b/gdb-xml/s390-virt.xml
+> index e2e9a7ad3cc..a79c0307682 100644
+> --- a/gdb-xml/s390-virt.xml
+> +++ b/gdb-xml/s390-virt.xml
+> @@ -7,10 +7,6 @@
+>   
+>   <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>   <feature name="org.gnu.gdb.s390.virt">
+> -  <reg name="ckc" bitsize="64" type="uint64" group="system"/>
+> -  <reg name="cputm" bitsize="64" type="uint64" group="system"/>
+> -  <reg name="last_break" bitsize="64" type="code_ptr" group="system"/>
+> -  <reg name="prefix" bitsize="64" type="data_ptr" group="system"/>
+>     <reg name="pp" bitsize="64" type="uint64" group="system"/>
+>     <reg name="pfault_token" bitsize="64" type="uint64" group="system"/>
+>     <reg name="pfault_select" bitsize="64" type="uint64" group="system"/>
+> diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
+> index a5d69d0e0bc..111b695dc85 100644
+> --- a/target/s390x/gdbstub.c
+> +++ b/target/s390x/gdbstub.c
+> @@ -200,61 +200,81 @@ static int cpu_write_c_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+>       }
+>   }
+>   
+> -/* the values represent the positions in s390-virt.xml */
+> -#define S390_VIRT_CKC_REGNUM    0
+> -#define S390_VIRT_CPUTM_REGNUM  1
+> -#define S390_VIRT_BEA_REGNUM    2
+> -#define S390_VIRT_PREFIX_REGNUM 3
+> -#define S390_VIRT_PP_REGNUM     4
+> -#define S390_VIRT_PFT_REGNUM    5
+> -#define S390_VIRT_PFS_REGNUM    6
+> -#define S390_VIRT_PFC_REGNUM    7
+> -/* total number of registers in s390-virt.xml */
+> -#define S390_NUM_VIRT_REGS 8
+> +/* the values represent the positions in s390-virt-tcg.xml */
+> +#define S390_VIRT_TCG_CKC_REGNUM    0
+> +#define S390_VIRT_TCG_CPUTM_REGNUM  1
+> +#define S390_VIRT_TCG_BEA_REGNUM    2
+> +#define S390_VIRT_TCG_PREFIX_REGNUM 3
+> +/* total number of registers in s390-virt-tcg.xml */
+> +#define S390_NUM_VIRT_TCG_REGS 4
+>   
+> -static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
+> +static int cpu_read_virt_tcg_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
+>   {
+>       switch (n) {
+> -    case S390_VIRT_CKC_REGNUM:
+> +    case S390_VIRT_TCG_CKC_REGNUM:
+>           return gdb_get_regl(mem_buf, env->ckc);
+> -    case S390_VIRT_CPUTM_REGNUM:
+> +    case S390_VIRT_TCG_CPUTM_REGNUM:
+>           return gdb_get_regl(mem_buf, env->cputm);
+> -    case S390_VIRT_BEA_REGNUM:
+> +    case S390_VIRT_TCG_BEA_REGNUM:
+>           return gdb_get_regl(mem_buf, env->gbea);
+> -    case S390_VIRT_PREFIX_REGNUM:
+> +    case S390_VIRT_TCG_PREFIX_REGNUM:
+>           return gdb_get_regl(mem_buf, env->psa);
+> -    case S390_VIRT_PP_REGNUM:
+> -        return gdb_get_regl(mem_buf, env->pp);
+> -    case S390_VIRT_PFT_REGNUM:
+> -        return gdb_get_regl(mem_buf, env->pfault_token);
+> -    case S390_VIRT_PFS_REGNUM:
+> -        return gdb_get_regl(mem_buf, env->pfault_select);
+> -    case S390_VIRT_PFC_REGNUM:
+> -        return gdb_get_regl(mem_buf, env->pfault_compare);
+>       default:
+>           return 0;
+>       }
+>   }
+>   
+> -static int cpu_write_virt_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+> +static int cpu_write_virt_tcg_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+>   {
+>       switch (n) {
+> -    case S390_VIRT_CKC_REGNUM:
+> +    case S390_VIRT_TCG_CKC_REGNUM:
+>           env->ckc = ldtul_p(mem_buf);
+>           cpu_synchronize_post_init(env_cpu(env));
+>           return 8;
+> -    case S390_VIRT_CPUTM_REGNUM:
+> +    case S390_VIRT_TCG_CPUTM_REGNUM:
+>           env->cputm = ldtul_p(mem_buf);
+>           cpu_synchronize_post_init(env_cpu(env));
+>           return 8;
+> -    case S390_VIRT_BEA_REGNUM:
+> +    case S390_VIRT_TCG_BEA_REGNUM:
+>           env->gbea = ldtul_p(mem_buf);
+>           cpu_synchronize_post_init(env_cpu(env));
+>           return 8;
+> -    case S390_VIRT_PREFIX_REGNUM:
+> +    case S390_VIRT_TCG_PREFIX_REGNUM:
+>           env->psa = ldtul_p(mem_buf);
+>           cpu_synchronize_post_init(env_cpu(env));
+>           return 8;
+> +    default:
+> +        return 0;
+> +    }
 > +}
-> +#else
-> +/**
-> + * In glibc, the return type of strerror_r is char* if _GNU_SOURCE
-> + * is defined. In this case, strerror_r returns qemu_strerror_buf iff
-> + * some error occured in strerror_r, and otherwise it returns a pointer
-> + * to the pre-defined description for errnum.
-> + *
-> + * This is the same behaviour until POSIX.1-2001.
-> + */
-> +char *qemu_strerror(int errnum)
-> +{
-> +    return strerror_r(errnum, qemu_strerror_buf, 1024);
-> +}
-> +#endif
 > +
->  char *qemu_strsep(char **input, const char *delim)
->  {
->      char *result = *input;
+> +/* the values represent the positions in s390-virt.xml */
+> +#define S390_VIRT_PP_REGNUM     0
+> +#define S390_VIRT_PFT_REGNUM    1
+> +#define S390_VIRT_PFS_REGNUM    2
+> +#define S390_VIRT_PFC_REGNUM    3
+> +/* total number of registers in s390-virt.xml */
+> +#define S390_NUM_VIRT_REGS 4
+> +
+> +static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
+> +{
+> +    switch (n) {
+> +    case S390_VIRT_PP_REGNUM:
+> +        return gdb_get_regl(mem_buf, env->pp);
+> +    case S390_VIRT_PFT_REGNUM:
+> +        return gdb_get_regl(mem_buf, env->pfault_token);
+> +    case S390_VIRT_PFS_REGNUM:
+> +        return gdb_get_regl(mem_buf, env->pfault_select);
+> +    case S390_VIRT_PFC_REGNUM:
+> +        return gdb_get_regl(mem_buf, env->pfault_compare);
+> +    default:
+> +        return 0;
+> +    }
+> +}
+> +
+> +static int cpu_write_virt_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+> +{
+> +    switch (n) {
+>       case S390_VIRT_PP_REGNUM:
+>           env->pp = ldtul_p(mem_buf);
+>           cpu_synchronize_post_init(env_cpu(env));
+> @@ -320,6 +340,10 @@ void s390_cpu_gdb_init(CPUState *cs)
+>                                cpu_write_c_reg,
+>                                S390_NUM_C_REGS, "s390-cr.xml", 0);
+>   
+> +    gdb_register_coprocessor(cs, cpu_read_virt_tcg_reg,
+> +                             cpu_write_virt_tcg_reg,
+> +                             S390_NUM_VIRT_TCG_REGS, "s390-virt-tcg.xml", 0);
+> +
+>       if (kvm_enabled()) {
+>           gdb_register_coprocessor(cs, cpu_read_virt_reg,
+>                                    cpu_write_virt_reg,
 
