@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E8C6B9153
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 12:15:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F5B6B9156
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 12:15:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc2c8-0008Bx-On; Tue, 14 Mar 2023 07:14:44 -0400
+	id 1pc2cF-0008E6-Fu; Tue, 14 Mar 2023 07:14:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pc2c6-0008BY-Js
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 07:14:42 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pc2cC-0008Do-Oj
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 07:14:48 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pc2c4-0007R5-Su
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 07:14:42 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so12855718wmb.5
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 04:14:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pc2cB-0007Rd-5t
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 07:14:48 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id ay8so4740500wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 04:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678792479;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WBbB48OzEtBYggzYMJfettQvX0tSbRPsQ84f5gSG1Yg=;
- b=FIRoO6vpuudahcUCYoezHp/xmHcunz3bRdZ+hpkIDRLgC0OduwvBxKT44RXe+2rBTQ
- InlwYwPRPZKUz3Te4mXY6qZ9NUFeEZPpwwOKlYe1m8DmVa3X5hgtvk3vA+cIqg3uMcWh
- i5ldUpgdYoAge50nu8EYe7oPOovxzg85sKPzeJhD+oaiR9mSukS/FfFo7Xe8WI6iIKqD
- 29N3II1ZJqqj2bJwWJr+gLTSHZfdhQ2ZUCZpFkouPtJ5qTeZjAU50o3JZ0yGrXIXAA0I
- f6wQQbDjrdZPZpUt7AIxV5yykYTReFVx0i4n32y63R3XcdizbG+NVTi03eeoZcnCHqrH
- V/dg==
+ d=linaro.org; s=google; t=1678792485;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iC81pr4qU2yv+2N4TULW4UOxCyMavZBGsXLy6UiQSWE=;
+ b=eCdX05iuFaeVdqegOIlD7qOdfvplVYEZllmwRJ60hpjr4tPco8eE9jbM2YXE/Xd8Ep
+ 8IOX6VerT2irN+eefasnt6DwmYFZ7i7uIXgSmvoVTpbMkNSf7UnQMipinFkfkxA6pk2E
+ bzRmnQ2mXErwesI1siEDxKi2C2o0p+KThtofSR/8GUfaVxlXX39I5cdBGPUYCtshOIn1
+ zj5qnJO6ntunKTTrtuw9sTK5cJ7vl8peFoeRgUBGp/TgmBuFR/vp++RKwfO3DKAK90bm
+ lilgTWDeLH7BkQo7DNcAUz7YYyMZYUm/GA2lRXbwkY3Zm3zzFK4vSbaZSod3zOUTgxkq
+ 2Rlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678792479;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WBbB48OzEtBYggzYMJfettQvX0tSbRPsQ84f5gSG1Yg=;
- b=ToM/g9LrevBb8WpTn+oERRj27EuEbUEGeJNO+t/8dZp89Mnuhz338I/j3HEwmZWX9D
- uYtiupXwRb83rvVswO4JPaabZuifD3Xy3DNq9Q/b9h31k9x7Hdw/XRCdq0WnrL69Q8De
- 4mdnvT+GUQUtbE6hlZcNIjaNkG0eS/Z63vsYTPB8MSnUTKQstUQaQvHTQjhSVvGm8Pw5
- uHhzStV7ll6926L+nJzIgZlSH0iIV8zGMLa4nbgeCujp8uLYZYkyxOWNabqrfGQqBL9h
- RaPAbEWJMN7lccP7kOCD4u39FCusXdOlUNpMrd7gVR8t5f+2UD32byxc0WqQajTvaA5U
- /DHQ==
-X-Gm-Message-State: AO0yUKXvaA5sMr2OIpeFswFZTh4srY2VmgBjSlJzqjW4QyTrOx66ykgF
- RsIyA8b9w43BzdAZ7rCzsOEfDoC05Sq6ewZFlkY=
-X-Google-Smtp-Source: AK7set/MhZ9JpPqaWu50oYOWiiP68EMDgXzEknJcOCBh2K+xr1p9nnSE1NnqEbcPntyW7gKkxjGdFw==
-X-Received: by 2002:a05:600c:a02:b0:3e5:4fb9:ea60 with SMTP id
- z2-20020a05600c0a0200b003e54fb9ea60mr11147357wmp.9.1678792479023; 
- Tue, 14 Mar 2023 04:14:39 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678792485;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iC81pr4qU2yv+2N4TULW4UOxCyMavZBGsXLy6UiQSWE=;
+ b=tnW84GXl+lowNsDJVXxy2mVKyUVUUHqZ/i4Bd2O8WQ4Q9dTGFQ8cf/DpbI0B5h8qD1
+ 5sOL/HrJSm47Pb22IIjHSEZWksCg3XQFLp5YWA02jyx83JY9NENyUOqAdEnM1v4d4DvU
+ 3z2FlWRJdDIDOKcpnKr17zrYfVwwLFcPSRKovXLldFqLWvcJPrJhUsrfV1W91f6lcq10
+ TutgeBeKW+L6Wm8+CRq0PTr3VlWYu2i92aPyeK+AaKw5RWzC5YUoiJkkpCFsgTWWUE5G
+ ytPc1nt84Vh1O9yj59bpTWpidn3U5I/EVoCwLdxE3/9gl2TbY2ou0Lfam80zZB8ibBs9
+ VV1Q==
+X-Gm-Message-State: AO0yUKXxbVeB72ycdJAzeXip8bmecXqiOr8oavBvEPXfQ7mCcGrbOPPV
+ 7Crwy4lOKC3S2tLdNnMbfBy2Vz+2ec4andlajfc=
+X-Google-Smtp-Source: AK7set8uTpdUf5EG++km8tJMK4ghv3/C5XN2zVIfzcuRoe9fcdqEqzIDdMWJnE2AUYM8Ia/MjL1uyg==
+X-Received: by 2002:a05:600c:470b:b0:3eb:395b:8b62 with SMTP id
+ v11-20020a05600c470b00b003eb395b8b62mr14211111wmo.39.1678792485415; 
+ Tue, 14 Mar 2023 04:14:45 -0700 (PDT)
 Received: from localhost.localdomain
  (233.red-88-29-167.dynamicip.rima-tde.net. [88.29.167.233])
  by smtp.gmail.com with ESMTPSA id
- v15-20020a5d678f000000b002cda9aa1dc1sm1804120wru.111.2023.03.14.04.14.37
+ 12-20020a05600c228c00b003dec22de1b1sm2579915wmf.10.2023.03.14.04.14.44
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 14 Mar 2023 04:14:38 -0700 (PDT)
+ Tue, 14 Mar 2023 04:14:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/4] hw/pci: Ensure capabilities are added before calling
- pci_qdev_realize()
-Date: Tue, 14 Mar 2023 12:14:31 +0100
-Message-Id: <20230314111435.89796-1-philmd@linaro.org>
+Subject: [PATCH 1/4] hw/pci/msi: Fix debug format string
+Date: Tue, 14 Mar 2023 12:14:32 +0100
+Message-Id: <20230314111435.89796-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230314111435.89796-1-philmd@linaro.org>
+References: <20230314111435.89796-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,26 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Per MST in [*]: "Calling pci_add_capability when VM is running is
-likely to confuse guests".
-Ensure this can't happen by asserting pci_add_capability() is never
-called after a PCI device is realized.
+Fix this format string warning when defining MSI_DEBUG:
 
-[*] https://lore.kernel.org/qemu-devel/20230308071628-mutt-send-email-mst@kernel.org/
-Based-on: <20230313153031.86107-1-philmd@linaro.org>
-          "hw/i386/amd_iommu: Orphanize & QDev cleanups"
+  hw/pci/msi.c:209:28: warning: format specifies type 'char' but the argument has type 'unsigned int' [-Wformat]
+             offset, nr_vectors, msi64bit, msi_per_vector_mask);
+             ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/pci/msi.c:83:61: note: expanded from macro 'MSI_DEV_PRINTF'
+      MSI_DPRINTF("%s:%x " fmt, (dev)->name, (dev)->devfn, ## __VA_ARGS__)
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+  hw/pci/msi.c:78:58: note: expanded from macro 'MSI_DPRINTF'
+      fprintf(stderr, "%s:%d " fmt, __func__, __LINE__, ## __VA_ARGS__)
+                               ~~~                         ^~~~~~~~~~~
 
-Philippe Mathieu-Daudé (4):
-  hw/pci/msi: Fix debug format string
-  hw/pci/msi: Ensure msi_init() is called before device is realized
-  hw/pci: Add sanity check in pci_find_space()
-  hw/pci: Ensure pci_add_capability() is called before device is
-    realized
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/pci/msi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/pci/msi.c | 4 +++-
- hw/pci/pci.c | 5 ++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
-
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 041b0bdbec..5de6df8154 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -204,7 +204,7 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+     }
+ 
+     MSI_DEV_PRINTF(dev,
+-                   "init offset: 0x%"PRIx8" vector: %"PRId8
++                   "init offset: 0x%"PRIx8" vector: %u"
+                    " 64bit %d mask %d\n",
+                    offset, nr_vectors, msi64bit, msi_per_vector_mask);
+ 
 -- 
 2.38.1
 
