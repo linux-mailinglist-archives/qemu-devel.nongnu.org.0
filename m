@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4A56B9726
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:04:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669BF6B9721
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:02:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc52O-0001Jx-4d; Tue, 14 Mar 2023 09:50:00 -0400
+	id 1pc52a-0001Mb-Ti; Tue, 14 Mar 2023 09:50:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pc52M-0001Jf-G9; Tue, 14 Mar 2023 09:49:58 -0400
+ id 1pc52Z-0001MD-AG; Tue, 14 Mar 2023 09:50:11 -0400
 Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pc52K-0002ev-VQ; Tue, 14 Mar 2023 09:49:58 -0400
+ id 1pc52W-0002t1-A3; Tue, 14 Mar 2023 09:50:11 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mr8zO-1qHPoU1l4A-00oIDQ; Tue, 14
- Mar 2023 14:49:52 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MK3FW-1pxSD10OrO-00LTkG; Tue, 14
+ Mar 2023 14:49:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Damien Hedde <damien.hedde@dahe.fr>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 1/3] qemu-options.hx: remove stray quote
-Date: Tue, 14 Mar 2023 14:49:48 +0100
-Message-Id: <20230314134950.569342-2-laurent@vivier.eu>
+ Luc Michel <luc@lmichel.fr>, Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 2/3] MAINTAINERS: update my email address for the clock
+ framework
+Date: Tue, 14 Mar 2023 14:49:49 +0100
+Message-Id: <20230314134950.569342-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230314134950.569342-1-laurent@vivier.eu>
 References: <20230314134950.569342-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MTq0DicKlBNk5US0e5n/WkY7Ju4gmkNHngz5fwysSnWejVIAsSD
- /QWREycxXDL+o2IwzJLq03Km7gTAPheS/Hmul2uhXiulHWxIO9OyM+56t7RWhBKuXnKGIPN
- foE+rL+T5SGzTi9LoaNgPiLfP2HFrORuuwb27OaX6WZYTtcrGRieTExnQwDjR/+3Md1lVP6
- PXK871Wj8NklR8h1O5myw==
-UI-OutboundReport: notjunk:1;M01:P0:x9e0CALPf3w=;iihk2yY3QGZXlm8qRbyMstu1HNK
- M/aF2R9WKpmCA1T8Pk7jrYH4lYElsvJHXuNmP+ATTcdTdY+AQlM7QsU7l0AoI1LzIrKLi6U1a
- oAxOb4+cZ20NV+w7NKJrklE9JbfPff/m8qjhUlZu5vo/49w1Ve9yBD/ct7k6tdaHRpQvt04Nl
- ap9DjRouTn9dnJigqn4pIBH758I9VRXL4BSE5OIRZ7Atmcu526oR+gknYkkpd0N8HBmNYz7O4
- U/tGNPF6sxPDkKs92a2Sa0VY6pvmjHj+S2AzzfGz/IzpBrFE7nqOiG7NLtatNRN0EhsI/SOHb
- rLoO3B6LTWf0rQnX1OLSIbF2OtOwNg2snO+M/qlQJWjeTJtQ3dLPIzC3ty1LEIEkmao2hUwSJ
- WsQiJf3enw/chb9hEddbnwD/4I0G9PPiZW8F3+wkN+OZjt3Q65p2VSswzQjAjw//HOSzZ0wCS
- lwqZQcAOFtU8gzXifU10dMD3r8c1Uy3MF8K1DUwAO8EQIDq1NVZAzfQTOBfCCQP5kcv0p3f2e
- iAaKW5mJXngMVnMCjN+QL++k4aPjfZKQ9eBgcWMrxVpy5a99bIGyderbVJceZ+aJHus+7twsz
- maBjEm0SQQGGeN1niw78kMMWt0nKpMXcku1UuoQTPNR9qthJ5jBdqd9lJNzSnJEnvt1nSsKgO
- SRhmLeqYIXl7BXGUlVPux1wEhu0jwLxTCQc56AL1uQ==
+X-Provags-ID: V03:K1:L3ckVR4npaA99kSWjolKWpYqu4w2QaSPsgOMUV4AVDvjiTFjTW6
+ 3aQxeqpAxJra4EgRRESLJo9YX87T0RLoXOGPFeLRKgWZR6BYeSn3rgSizJb1hbckFQVw6ej
+ UoEyDuhSoqy+K4f+Kxa3FW3Bz4Ug5LrL52rpp+Xtr5PHDzW6FNJ+/UvfXkiPiGPjNJGWAyx
+ G6y3Se/W7f25GaGtI++9Q==
+UI-OutboundReport: notjunk:1;M01:P0:744K1th7fbI=;eTDf40YkN0awJc2TwsVLy1v2z3w
+ 9/xWWBXbDwlaaeIiwWVcQcHSj5IliHi2uardcCJvCpsUoVrscIuVaQL6Zi/B0YNrsYBy9lvEe
+ D7UfQLOBI50Dds3A0VPOoMYjpcLp9JOP8wR+FDj1JtBFVN1edknowr/ZrQ1A5emlyP18dxNnB
+ GJLexZjf+8OG0BMFsWIkE9YY72vKN2kU5Vv9bUnQZ8D1UynfsNPwayIKVKvzHUx18SR5JhEET
+ YUp+TwgIqdSETEnmTSoD50gVTpmknpRLD4uzrL281TwlZKGP0gqNzJ7o+PGEfRhVGLiSQvd1V
+ wI9wAExllko/sdZsLv487bm9ZrzQ8UHS+v28R/OWJj7iw5860yBV1kArKAtwJKWfI5Xtt9fLw
+ c0PxdlxeiQ45cyWaSkZl9lUVpttFj9GzRojymgfvW9v2WjImRV05/zES4s5ldKiavNXYLK7CH
+ 9+Pg2LBiZvx6xdJeORXmUKgiES7AW9u4zIMs78dygtuDIxIvj3u+HcUV5osYTM0nBLE/x95H1
+ qUtQzgHjhYoBUmY+Onms1mxyDpp7Wj37k1WmSHw3YaseVGc7Jj5DxY+eHbgGrQfHTqwUDPDLS
+ K3vxT1CCoH2bXytKJPpnvlIlTRF50oj6/EOrMLY1K54Bs5gRZfHebBBpTgL9ow8HYtqWLhjMC
+ 8CqsKquBD3oBRzhIg3BNeK9b904nRPkz3YE9kHlHtg==
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -71,29 +72,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: John Snow <jsnow@redhat.com>
+From: Damien Hedde <damien.hedde@dahe.fr>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+Also update mailmap
+
+Signed-off-by: Damien Hedde <damien.hedde@dahe.fr>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230202223121.252073-1-jsnow@redhat.com>
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+Message-Id: <20230213105227.2357-1-damien.hedde@dahe.fr>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qemu-options.hx | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .mailmap    | 1 +
+ MAINTAINERS | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d42f60fb9178..59bdf67a2c51 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1606,7 +1606,7 @@ SRST
+diff --git a/.mailmap b/.mailmap
+index fad2aff5aa55..767704795057 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -56,6 +56,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
++Damien Hedde <damien.hedde@dahe.fr> <damien.hedde@greensocs.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad.frederic@yahoo.fr> <fred.konrad@greensocs.com>
+ Frederic Konrad <konrad.frederic@yahoo.fr> <konrad@adacore.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 95c957d587d9..883dc52063bf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3365,7 +3365,7 @@ F: .gitlab-ci.d/opensbi/
  
-     .. parsed-literal::
- 
--        |qemu_system_x86| -drive file=a -drive file=b"
-+        |qemu_system_x86| -drive file=a -drive file=b
- 
-     is interpreted like:
- 
+ Clock framework
+ M: Luc Michel <luc@lmichel.fr>
+-R: Damien Hedde <damien.hedde@greensocs.com>
++R: Damien Hedde <damien.hedde@dahe.fr>
+ S: Maintained
+ F: include/hw/clock.h
+ F: include/hw/qdev-clock.h
 -- 
 2.39.2
 
