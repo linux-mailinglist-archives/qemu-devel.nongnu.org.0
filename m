@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4B06B9C71
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:05:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE68A6B9C83
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:09:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc85i-0003fJ-CW; Tue, 14 Mar 2023 13:05:38 -0400
+	id 1pc88H-00061E-GC; Tue, 14 Mar 2023 13:08:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pc85f-0003Ze-Gi
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:05:35 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pc88F-00060q-0g
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:08:15 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pc85d-0005cH-LJ
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:05:35 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id
- p13-20020a9d744d000000b0069438f0db7eso8777804otk.3
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 10:05:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pc889-000615-5E
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:08:14 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ m18-20020a05600c3b1200b003ed2a3d635eso2932053wms.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 10:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678813531;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QyAoC1ZI2Uajlnel4d4cTr9/iTn7x/C2G0Va7H6EAB0=;
- b=nm+30fQFHikvnOsvDi812Gym9gVkwwBKn3eXTGPiZTB/TuCTYy+wz+59cj1Zr6iVTd
- 0FRx7nYDGAvq/pbUQ+hPHx0crBxkSBZLcK8bqbx+YWNh1LZR1bRkSBzvkiq8z4JNSUKu
- 0qa9H3v9FyOSadGWQO9xaTv7+aRX7Um2OtXazl+rOcixNGbafHY3pN0Mp1hRnEuta6pC
- zbwBgg7qXtw3qp7Bhy83j9X5qCXLprPYqWH0zr0Xe4y4cAXnEk9Zr1ngc+zx5Nw42R05
- MZGaSuxdHkdocjRXh89UjqG93SFymeUGnpKfXT1a6hYjGFfU62gQCc8iCVFh8m1thv9T
- 5Dzg==
+ d=linaro.org; s=google; t=1678813687;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NQZU6a79X42jny9TR5/WHbUxyedgMvwNu/DoMNPB+vg=;
+ b=y6SK2sowYHGiXHyRJ2Aw3AQFmQUW0xyJDLlX49fwN4my0WT9hpEDkZ3yFR/QI/IRHh
+ PvxsboYE1T17cR81o0lK/NyoAKRWMTlsmE5uQuLn9LoC4ukl+LDzbbmrQmXjRT3JU75C
+ uyqFrDi6k89SyVyWg8chl6mDOMiJsSK5uPOULygkYx7bngtXvQFGK0XOCyDYsKWl1bEM
+ gkTSd6gAn013QQ31j1EHZB7zN1kOIgFqAdWTIIsThxnR4I1WduMfiTjjGeiJp77gMSAw
+ ludecF6g8NDboFAJ/+HG9R3O6d01t632QBVTcuOc7gsmZrWo/0Gygi0HL6Kiw/naeZFT
+ KOUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678813531;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QyAoC1ZI2Uajlnel4d4cTr9/iTn7x/C2G0Va7H6EAB0=;
- b=GiUwXvsj8KApYZPJ57J7RnckGZ0FerbDfvaZt2o0uvYnnZ4VK4+oxJ3kLD8zT4WIqY
- 3wZNq9mhw4t7OgeRfNybz6Hijc7cuCYiKomjHufUtUkmMqedgdIDt41nZIbaaxqnRtV6
- 8Z5hYNW5c5IopoDCLoBre+8ANck0JPPrnsP6BHo7yl3HeNMUNQBPHvMsi1HRaINv/97z
- KMBIjwOraG53/xR+RGAVOW7AqRlkfja5oT86bj5yNLr9rZEk2IvilNxxV44DJJXUNN25
- wgpLIJgSO9kF33R4CSOdTIUwe2mRxA14kN/8apdP/Bud0OS2GDAIy/6EMkb4z2H7NYMV
- 1CNA==
-X-Gm-Message-State: AO0yUKWGcR/FOGecUicdxsCG0nGo/l8ebSJJXHXXUuov04fBtync9YsR
- yDqgJ3rEVPVscxijH2IRCyXNvw==
-X-Google-Smtp-Source: AK7set+ow6xPqqIw/Hjy6FPrA7JGVW7jPmst2qpsIfN9IciIDUwYw2juu2VT0dnHn1v7JU41Ed8NtA==
-X-Received: by 2002:a05:6830:716:b0:68b:b79a:b3f4 with SMTP id
- y22-20020a056830071600b0068bb79ab3f4mr17109444ots.14.1678813531441; 
- Tue, 14 Mar 2023 10:05:31 -0700 (PDT)
-Received: from [172.20.4.181] ([50.232.40.61])
+ d=1e100.net; s=20210112; t=1678813687;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NQZU6a79X42jny9TR5/WHbUxyedgMvwNu/DoMNPB+vg=;
+ b=N6KBMYkb5Hx0jEjWWLwkZJ/iSTEstGk9v+eHepv/oOQyUght07CX57FJ5IgpYetzxQ
+ MDjsR31mxL7LU3Qwjsoza10kZP219cn1ACgrLvIbxpStL2B8wXT6qHsdtaoJuelPefiT
+ uM+wESJ2j8rKOKd1CwTA2Vpac5qCchKX09O9FqpoJw9/rO+cizvqhg56JJwqLHKQOjER
+ SHOClGxnlp+kEUm1EXjEYSbyznEnLCYUGnXvdHvmelPEdptafwHNEnPfc/vYBkUmGJX4
+ 8SND0FhOCorGpQN9+62j2sAdyP+HJYREG7YUC/uB9AGiXL2JchK5XYO7byEMgSKl8nrP
+ nkMA==
+X-Gm-Message-State: AO0yUKViFQVti6j0OorPBvg/FLICl8OamGQ+P0fklJf2AxAxuSNmFOoO
+ 9l/usNzHaz+wP/Vq2PokzNUwvw==
+X-Google-Smtp-Source: AK7set/s7pigz1kfyHpIR7AEB98BfTvKRx9kgs2PsmcnZ9z2uwcdUI7SH/ttq3Js4LYgzZXCIhm2zw==
+X-Received: by 2002:a05:600c:5028:b0:3eb:a4e:a2b2 with SMTP id
+ n40-20020a05600c502800b003eb0a4ea2b2mr14867108wmr.4.1678813687517; 
+ Tue, 14 Mar 2023 10:08:07 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- a21-20020a9d7255000000b0068bcf7995aesm367881otk.64.2023.03.14.10.05.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Mar 2023 10:05:31 -0700 (PDT)
-Message-ID: <b90a2b8e-f01e-210b-2bb5-3c002e0cb5f6@linaro.org>
-Date: Tue, 14 Mar 2023 10:05:28 -0700
+ i10-20020a05600c290a00b003e8dc7a03basm3378653wmd.41.2023.03.14.10.08.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 10:08:06 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH for-8.0] hw/char/cadence_uart: Fix guards on invalid BRGR/BDIV
+ settings
+Date: Tue, 14 Mar 2023 17:08:04 +0000
+Message-Id: <20230314170804.1196232-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] tests/tcg/s390x: Add ex-relative-long.c
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20230313233819.122329-1-iii@linux.ibm.com>
- <20230313233819.122329-3-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230313233819.122329-3-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,59 +91,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/13/23 16:38, Ilya Leoshkevich wrote:
-> Test EXECUTE and EXECUTE RELATIVE LONG with relative long instructions
-> as targets.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   tests/tcg/s390x/Makefile.target    |   1 +
->   tests/tcg/s390x/ex-relative-long.c | 149 +++++++++++++++++++++++++++++
->   2 files changed, 150 insertions(+)
->   create mode 100644 tests/tcg/s390x/ex-relative-long.c
-> 
-> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-> index 72ad309b273..ed2709ee2c3 100644
-> --- a/tests/tcg/s390x/Makefile.target
-> +++ b/tests/tcg/s390x/Makefile.target
-> @@ -28,6 +28,7 @@ TESTS+=div
->   TESTS+=clst
->   TESTS+=long-double
->   TESTS+=cdsg
-> +TESTS+=ex-relative-long
->   
->   cdsg: CFLAGS+=-pthread
->   cdsg: LDFLAGS+=-pthread
-> diff --git a/tests/tcg/s390x/ex-relative-long.c b/tests/tcg/s390x/ex-relative-long.c
-> new file mode 100644
-> index 00000000000..e47dac7e2c3
-> --- /dev/null
-> +++ b/tests/tcg/s390x/ex-relative-long.c
-> @@ -0,0 +1,149 @@
-> +/* Check EXECUTE with relative long instructions as targets. */
-> +#include <stdlib.h>
-> +#include <stdio.h>
-> +
-> +struct test {
-> +    const char *name;
-> +    long (*func)(long reg, long *cc);
-> +    long exp_reg;
-> +    long exp_mem;
-> +    long exp_cc;
-> +};
-> +
-> +/* Variable targeted by relative long instructions. */
-> +long mem;
+The cadence UART attempts to avoid allowing the guset to set invalid
+baud rate register values in the uart_write() function.  However it
+does the "mask to the size of the register field" and "check for
+invalid values" in the wrong order, which means that a malicious
+guest can get a bogus value into the register by setting also some
+high bits in the value, and cause QEMU to crash by division-by-zero.
 
-I guess you're assuming that the adjacent memory, which the buggy qemu would address, 
-contains something other than
+Do the mask before the bounds check instead of afterwards.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1493
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/char/cadence_uart.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> +/* Initial "mem" value. */
-> +#define MEM 0xfedcba9889abcdef
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index c069a30842e..807e3985419 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -450,13 +450,15 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
+         }
+         break;
+     case R_BRGR: /* Baud rate generator */
++        value &= 0xffff;
+         if (value >= 0x01) {
+-            s->r[offset] = value & 0xFFFF;
++            s->r[offset] = value;
+         }
+         break;
+     case R_BDIV:    /* Baud rate divider */
++        value &= 0xff;
+         if (value >= 0x04) {
+-            s->r[offset] = value & 0xFF;
++            s->r[offset] = value;
+         }
+         break;
+     default:
+-- 
+2.34.1
 
-this?  Perhaps better to use an array, and address the middle of it?
-
-
-r~
 
