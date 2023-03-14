@@ -2,117 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B50A6B892D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 04:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6C36B8946
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 05:02:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbvfr-0001Ct-9i; Mon, 13 Mar 2023 23:50:07 -0400
+	id 1pbvqy-0004Jb-JD; Tue, 14 Mar 2023 00:01:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=430a276cf=damien.lemoal@opensource.wdc.com>)
- id 1pbvfn-0001Ar-A2
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 23:50:03 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=430a276cf=damien.lemoal@opensource.wdc.com>)
- id 1pbvfk-0006SJ-Jb
- for qemu-devel@nongnu.org; Mon, 13 Mar 2023 23:50:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1678765800; x=1710301800;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=bcDdmn0q/ncXsB9fuT6nTVFX7CBoIUBLNkKV2r2aXBA=;
- b=cOqO8xMsZgjnpeubpg2QspnTJcz1oxHvwkuUrVWYN8Z6frOPWqa7C2oL
- kT+z+/9H5DaHI0bCR5cqtkK79+IEiyJEs+bbpHHNf/+SxfZdeEDkARpiN
- he7Vc/FxkxIlgDEra+v7Ft0iQtipDyRitOJuGFWBY5UQmy8W3nx8a9L8f
- tllU31aFurL4gDVyzNBJ4Hhqi4i3VMWzxaf6Hl3zMhtpJ3xwNgpP1ObjR
- HG4iOcRguUACeOrxfhxpOhZf2Ggzb19x5N4+IORPXzWhk+1+li3VnW4Bi
- PH8FN2yJYCL6ekhci4NjSilctCK3JTAR4NexbA/t6KWObWkccn+Y8WeIP w==;
-X-IronPort-AV: E=Sophos;i="5.98,258,1673884800"; d="scan'208";a="225566066"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2023 11:49:49 +0800
-IronPort-SDR: vsNuHIeMuImTQbSBo6Jz/zIU4IKn2F42JAfKe5BaiZcNbSZp6N0kpStwmQ70njqNUIm01vi6I9
- 0rxVV9ToTwn0jyN1QgWDFXM3gpbJOoNGFffSPbZuLTpzew0rWRHRZEM8sxwsNphU7epU67HACq
- aUAYheUYjLZyAYxWhnVSNLdQm1HyqYdRrjkrzPjaRUD8HkSKaidtxvTG8881EmDC/Pz3QbBwTL
- /bNt9hugKZ+bYsQQpDZLExXpUt0w0LmXqjT3v7Q64I9lB2erjpLdiLup/V5HSSoulRc8WIejAt
- N/E=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 20:00:36 -0700
-IronPort-SDR: 6h8N29HAMEbtdU7OXenJfbGvWiXjtP/GYFh3PX1ydNH4m2sr9ryKCz4iRz6nXQ9MpdUpkvOkxn
- qS4j/TKS39LvGqBdRojotJMgZ5Bta/yyxR0gXFzAcTOF1GxmYtbnutbdO0Y8LY/GNdDzf/g31L
- 9x+Lpgr5CLiQSbJagmvH2wBx16J61eZ4qU2pEmaUru2WNx+JySwm2gujUtGIhpuQdgSEcpqpYt
- wd+DTuafejlX2AnrDxWQD+lnYHvUX/XUbGsC2grdOgXea48Lj0QJhnsh7ANjVgEhxzKIUdF4Dk
- +rQ=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 20:49:50 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PbKKT2tWKz1RtVw
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 20:49:49 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :in-reply-to:organization:from:references:to:content-language
- :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1678765788; x=1681357789; bh=bcDdmn0q/ncXsB9fuT6nTVFX7CBoIUBLNkK
- V2r2aXBA=; b=FGX98tkCjXvLM3ibPejES3bUb+p42TD1ddGQVnTWwJIm5KKGYir
- v0qMe8YMVU9jOQmahlWI6TmVb7DGgcKJeYdtXKoWF+QVUtFMztNVF7cI7Sdem+Si
- hKdDTpWvu24/k42StOK9uxKxR89LP5skb9b98+NiwN4nEsXBaWCiMJjGPRcpIXP7
- lGX1quXqDsoSkkqJel/s53qJ5omcp+wp4sBSsa0+Z0sZfGLWH9fjJ2akYUAa1Y6t
- NAyJrA1R3CRzyqhjCVSG8kZc5drYP2E4wEHR9Lugq1/rUaiNAN9yN1QptKk725JW
- zIyrIU/niFi0umqS5P4gGSWZtxX21T65LSQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id YK2n0KJafqbt for <qemu-devel@nongnu.org>;
- Mon, 13 Mar 2023 20:49:48 -0700 (PDT)
-Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PbKKQ46z9z1RtVm;
- Mon, 13 Mar 2023 20:49:46 -0700 (PDT)
-Message-ID: <0ab0bafd-6e21-2f4d-8d73-8c6683b6d1dd@opensource.wdc.com>
-Date: Tue, 14 Mar 2023 12:49:45 +0900
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pbvqu-0004J4-1c
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 00:01:32 -0400
+Received: from sonic312-25.consmr.mail.gq1.yahoo.com ([98.137.69.206])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pbvqr-00007T-OD
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 00:01:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1678766482; bh=1+u0lRMKY06Q3afqGvjIRM93Hh6BLtsy7Va/1C/NuCg=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=S8YdMeALJ0dtBBv8ugZdhLn6w794VU3vXP+pU0a2hfm3rdYFMUrEWdLx6+vDeRJNfxCRs02Y5EAy/e9selVnsazOBoPrKhbhaA39wc20/wWyc1insCa4JU7T+lMooPVuG+ilT01v2iuOmYJB2Oi5e130xV7l4Ia7B2AaqeA52zOmoUVW+LfN7W1qwQTH0Xbd4TuviIWTaDXhUXVTIetAChifpjBhKXxIRvgAhC61u4mD3EjdHdWScRiyLf37GdxSgz/280eEj9A/krKJJRX50qaJjYLt4/t6+Yxr/xTAYWZaTHgZz8C+kmZD9usIzjqb2J3tXeMWumxhVRgeftcW3Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1678766482; bh=TSfXtiVDxZZ55hu83CwP8B5UBxaCuyvpUCRxBKpo5Lq=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=i1qgpHoND6l3VGC1VnwL0d5pIr/2Zbc/4bioad8ltFM7+vm9mHzTFojbqKM0UdoGGdcqMnic2WyttvdeqMPtqLDpbmlfQtbyPazQUAyjCmwDdbtTi1XjCh4B5veQWzHdSFegTMl4fsyH3axHT1PH+o81fZxBtGKEkL3Q0kcy5HPAWcVScb7QJvsolLQJH+JgYWYWfAg0i609j9k3OjzRaO2gVZ8lTHFj0xTZLDuxgMMR7csKYTr0hzs5GHtKEuIjgzJn69doSZ3+PFr9wB3lpneet+goi7XjgYiEuk3YbvpdNaFERrDa26pWnt/YMnqFqSUT56yyz4Mf7DWCt22ucQ==
+X-YMail-OSG: a9C.w0gVM1lCDMl2JTdGNzo_5tnf2l2.bZk3cMSDLidExWCAWJUzIDAfsoRcOyz
+ ZsvAaR8kDu_lQGVNpARz_PuOYiYf1v.MzlbT7lby7UrRmKETZE_T6HyjO4obxUnb5P1Hkd7zC0ZJ
+ AsxFAZ2QDErf6VK3y.vkWEB4OQNiHy9R4U8w_K50IWFP9ZmOmBXwyMEnZ1KxDyOrRi58FU.DZ0y_
+ t4bC2eH.FpjsTzsQyLheBU6pkxMjqkH3KA6zX0ODG6gg_DNmgHjsg8vdTt8tEO9Rw3IXANTr9QtB
+ en3oo8G.JoFofQwd_0ACBSVtUrCvb.xJHcq3O8HowgwNHglkQLj9BLlLBelQQajZWCv7e1w1CMJE
+ Sm5rwNnCpk.61YNLkvVMEnBBUyeA5uL7MQ83HrjfPiCEXJPC.eiOwF9prahphnpK9RVGR56Dfu3L
+ E4i5ULlZL0rBy.RpfN0epvHsaHRUkT9o1cJ1VSx_rSuNYhtUnB3nTQCoYN1GRnesodS09mfJqf8J
+ 6eZIPUtWclYdTEztcRpO2sZYj5iVc46sw12MzG7fuiZ4ld1_oCI8Lj_gJ1O0L6n14QranDBhOOG_
+ PmrEPi79.kS3zs0jO2pDaVT1KCLJCbQ8LfMEN8GayUzM1k1.kIwFvCVNlHKI4WelUyxwCfTYJelD
+ M2uCHMRDuzmRTANtMvpiOFdmz6zzefGwggrAiKuohRMQb0rs0SSFUL3eRdOse4u_.KNtXMIWe5Hr
+ Q8fitnoe0hHimSU3LfzHVhNRy.9V6n_tw96MaregJfgHkBufaM1N05BjSsie5WWyZhEeasWLMTYz
+ fOGyPfJrMefExgYpqqINOE2yXkVz.2GL7pd8uTRHxXrkHpDboU0D2xIa4s0ln9y3UqoIj_h_UoLy
+ X6BiGzhi0bw78HKlSZYn4Ht3n5MkPlbq11cn3I7Bwciib9.rd2V1m7Os4AACnH.SS4yoLCO4vQM2
+ TECbQ4BoWL2MxVHghS0pXzjSTcaQKUB92JT6wnUVMnrHCXjAO4BtmfAfrAAk8D0xmfeJz9MMg.tm
+ RNrSOpRcB5jGYPuj5DA1VEVRh5saGeTmFQR_aGV.8WYneawEDtsNHK68UETAPKEpAcwD5Cp4R7ua
+ VG0dOa3aIaB6UZtv9kJDK7tq40XvfHZs0Qp2cj6DwrAVs2WchW6Ey11V2nuaINHvb.LW9dKWf7mS
+ 2.aVBSoWXmNrEfe5YVJlXBExRSzxaYtuTQ4LAuDVxMEjHBAzafHr_KQlpJWPcr7gP1uAQz0_BWu5
+ sPbAYF1xmbVetLtUmHvoU9PtrwnX9MXw2jtg6bdOmw.czA1rGuSgbsBsr.m1k84aIJWKEtacZ0cB
+ 2kxkOCXMRvhkpGuIjVtyRqNEoBjIJocr6fZ3nftyDS_WWtKlMKg3e54MZ_Vd.MdyCIx6UqfGMidn
+ gwz7jP6hUom0h3Wssfq6nD_LZoyh5uqY6GX2m8.G_iZpgZfZkaOAGNRDTVlWn1C6li4ti_LlZiFL
+ DKfTYGhbmQkjkek1CBhuR.D9rYUEcgWlyXkS1ESnHDVLpEp.8MGKl.fIFdUeyWp2r74a4.MnPiV_
+ oQEBlvLRSnE_0qUXaGOr5Eixx.tbxGMk.nXAMC_4d.kgkSQq3Libsugjj8qC48i412fWtibV2tYa
+ Ukl.LqjhC643MlqfDSv4INAMFMWp3.p26a2vB396ndt9AgduHLuSLuJ4q0ZzBKnyaqppSgzDkxU4
+ J9hohQnpR3mLcF5d5IGM0tIyEx1z0MGLp6j_p1aqDeiQqwr9LOF12tocZKC2Fb98YGHECp0ZY3yZ
+ 6ZjSR6ZeQIEoLLeEIwGaClOIcd_EeMF9Ou.eufsJE28ZRiUyp2_pus3d.4pmjk8Q6DCyHQe0Idx4
+ 4.b7gF5SVZL7kZ7kwir2ai5lBmZtB8Ks7aK3P0t.rXYEeelApXVI9lfmFKp7zOoWtcswJbUADb_j
+ M5I4_s0qHk9U2Jt5m.R6uDx.guntRMbo3QV8J080pVHHZIwRXDJYgOvwZbSM.XSieWPr1YCalOQA
+ y_VVw2psXi8jckCncFugbmSyfxodP3z7__A3tLCe6XtOyPr_t4ypE3qLPeIkxpPEx0Vqgl5Egwml
+ DBRCEibyJsEzvtPYwsvRhfRsm_pCCXMRp35tjIMw37fu7HI_PLtsx1Y45SPkxX7Uj0l5YufWXx7f
+ Ed2D2HPptILnPlEyCxnDtNAaJIMdJG_ubC2zB.ZcHexoy.yRGaEwJu8dnWLVxgiEPIIccNdmO4h5
+ 4Zd3u9hE-
+X-Sonic-MF: <brchuckz@aim.com>
+X-Sonic-ID: d1a5d7b0-8caa-4204-ada0-a818a27dc087
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.gq1.yahoo.com with HTTP; Tue, 14 Mar 2023 04:01:22 +0000
+Received: by hermes--production-ne1-759c9b8c64-fztnz (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 76100b2c878269fd1c2471a41328eeeb; 
+ Tue, 14 Mar 2023 04:01:17 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ xen-devel@lists.xenproject.org
+Subject: [PATCH v2 0/2] pci: slot_reserved_mask improvements
+Date: Tue, 14 Mar 2023 00:01:07 -0400
+Message-Id: <cover.1678763217.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v6 1/4] file-posix: add tracking of the zone write pointers
-Content-Language: en-US
-To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- "faithilikerun@gmail.com" <faithilikerun@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "hreitz@redhat.com" <hreitz@redhat.com>, "hare@suse.de" <hare@suse.de>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>,
- "mehta.aaru20@gmail.com" <mehta.aaru20@gmail.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net"
- <fam@euphon.net>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "kwolf@redhat.com" <kwolf@redhat.com>, "jusual@redhat.com"
- <jusual@redhat.com>
-References: <20230310103106.62124-1-faithilikerun@gmail.com>
- <20230310103106.62124-2-faithilikerun@gmail.com>
- <e143490361477503b5e7bba43e79f369e3cd7d9b.camel@wdc.com>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <e143490361477503b5e7bba43e79f369e3cd7d9b.camel@wdc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=430a276cf=damien.lemoal@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+References: <cover.1678763217.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.69.206; envelope-from=brchuckz@aim.com;
+ helo=sonic312-25.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,42 +103,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/14/23 11:23, Dmitry Fomichev wrote:
->> @@ -3339,10 +3473,27 @@ static int coroutine_fn
->> raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-len >> BDRV_SECTOR_BITS);
->> =C2=A0=C2=A0=C2=A0=C2=A0 ret =3D raw_thread_pool_submit(bs, handle_aio=
-cb_zone_mgmt, &acb);
->> =C2=A0=C2=A0=C2=A0=C2=A0 if (ret !=3D 0) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 update_zones_wp(s->fd, wps=
-, offset, index);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D -errno;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("ioctl %=
-s failed %d", op_name, ret);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->> =C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0
->> +=C2=A0=C2=A0=C2=A0 if (zo =3D=3D BLKRESETZONE && len =3D=3D capacity)=
- {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (int i =3D 0; i < bs->=
-bl.nr_zones; ++i) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
- (!BDRV_ZT_IS_CONV(wps->wp[i])) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 wps->wp[i] =3D i * bs->bl.zone_size;
->=20
-> This will reset write pointers of all read-only zones that may exist on=
- the
-> device and make the data stored in those zones unreadable. R/O zones ne=
-ed to be
-> skipped in this loop.
+This patch series consists of two patches. The first provides accessor
+functions in pci.h to avoid direct access of slot_reserved_mask
+according to the comment at the top of include/hw/pci/pci_bus.h. No
+functional change is intended with this patch.
 
-And offline zones need to be skipped as well.
+The second patch allows a pci bus to be configured so slot_reserved_mask
+will only be enforced when the device to be added to the bus is
+configured for automatic slot assignment. The second patch also uses the
+new capability in the case of the pc/i440fx/xenfv machine types so
+the current behavior of reserving slot 2 for the Intel IGD for the
+xenfv machine will be ignored if an administrator manually configures
+another device to use the reserved slot.
 
---=20
-Damien Le Moal
-Western Digital Research
+The current behavior of always reserving slots in the sun4u machine is
+preserved by this patch series; the patch series only changes how
+slot_reserved_mask works in the xenfv machine. Although the patch
+series can affect xenfv machines configured for igd-passthru if an
+administrator assigns some of the pci slot addresses manually, it
+does not affect the libxl default configuration for igd-passthru because
+libxl uses automatic slot assignment by default.
+
+Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
+
+Chuck Zmudzinski (2):
+  pci: avoid accessing slot_reserved_mask directly outside of pci.c
+  pci: allow slot_reserved_mask to be ignored with manual slot
+    assignment
+
+Changelog
+
+v2: Add first patch and cover letter to make this a 2-patch series
+    Make changes to the second patch (see second patch for changelog)
+
+ hw/pci-host/i440fx.c     |  1 +
+ hw/pci/pci.c             | 29 ++++++++++++++++++++++++++++-
+ hw/sparc64/sun4u.c       |  7 +++----
+ hw/xen/xen_pt.c          |  7 +++----
+ include/hw/pci/pci.h     |  4 ++++
+ include/hw/pci/pci_bus.h |  1 +
+ 6 files changed, 40 insertions(+), 9 deletions(-)
+
+-- 
+2.39.2
 
 
