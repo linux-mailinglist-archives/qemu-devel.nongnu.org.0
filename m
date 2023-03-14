@@ -2,82 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3515E6B986A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B976B9880
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 16:06:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc5oO-0008At-5n; Tue, 14 Mar 2023 10:39:36 -0400
+	id 1pc6AX-000895-Bf; Tue, 14 Mar 2023 11:02:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pc5oM-000899-Hb
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 10:39:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <sandra.loosemore@siemens.com>)
+ id 1pbtk1-0006h0-PN
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 21:46:18 -0400
+Received: from mail-bn7nam10on2069.outbound.protection.outlook.com
+ ([40.107.92.69] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pc5oK-0005a0-4w
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 10:39:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MHeqY/i8JTacdCm6spIoosz74dKHC7KWM8iUBqmIX20=; b=ASuuMXR2uuC+AL5d8Q4Y9Ejp5A
- SIb8FNXadeu1gMI9Ea6OrmLmjIQ7KXxKngtYicbAhFSUuXZX408Se6kGQLBfLGNQShOwDomOJICsL
- 8c0QV821bGUWgSsDyNWXPgK9oh5GEuVntfhtv4LC0bBQiEqC2mQEwsKExCkwBIPD8gE5Sm3LgdAxC
- iIx6VOoAmJ+wdg1PUVq18UJ2F6jfFpGwPUolC+qM0EX2CnhwWz41XBP56UmR+CGStTp9L9Z14iZJJ
- XRTaSS3WSlrqMRCFVuer+NtZ9xRMBlnDRjEBIsvViuVd8nBO4/Jxi1y+jaeXo+elDH29Du+QPYAZO
- AZnHe/m31p4tRSMR/6O8l4utD7fFVSvqXKoZzBDipFwFph9wFJEx90SaVaIX3lepvzzliGSCi/d4K
- o6SmCdhVX1839ZXSOVmYohMkS+wu/tiiMGBZZ/8/i0LIfsxaYrcNnot7Biv3vp5ElWmBiVFTTxp22
- m+bTjCw5w60wqBB/j8MlXWaCHx00NEhbZyEV6we0ffdpeflLZfsEerrDeMj/ksnL8VsknoXO5xET9
- vKPrJ7AJJLif5yJ+KWzEF5BTIziXdqhyevkXjZPfQa8ITd7tx6I0I6Bdp74G7D9OM3h5FkllpeQtJ
- BqfaA5Simwtx9C7ax4EflrOsVXeDm6bgn2zDF32o0=;
-Received: from host86-163-239-161.range86-163.btcentralplus.com
- ([86.163.239.161] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pc5nX-0005Qr-Nu; Tue, 14 Mar 2023 14:38:47 +0000
-Message-ID: <850cf67e-151a-b1c3-7265-1428659e3a6a@ilande.co.uk>
-Date: Tue, 14 Mar 2023 14:39:22 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+ (Exim 4.90_1) (envelope-from <sandra.loosemore@siemens.com>)
+ id 1pbtjz-0004uA-Qj
+ for qemu-devel@nongnu.org; Mon, 13 Mar 2023 21:46:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jmgWDg1uVgzWk7gYjRWx9AEC7v4z8XxLodaXhuMWHDH2vVDKUPlfS5wbl9Goij10KHtpsLRwJ5G5xwlNnIR6DtyyjJxrCPYpbJm6gWadLRhRs0Tl0Fwx47HPGbqpfPe3QVsglcyhD8xHUpHAKkmtlSGH/IySiJ2xP4wBVu8V3pvd0n1+am9XDh8a1dCm7dNArX3+0w3s4hUgr0Rn2dOUhisK7GBBe7+1gHKGBrK8W2eSdz+k0eMyIQrjz6kAvG+kKdFNIA4pnoCnjXJxnvuuVZM9413O5/FdbVCERp0WpgOzqtUvqYWp6NK7QTPTNKAAxGi63twDv4+0zwIJdVGZDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=espNX4YlD28GKmwZPhiIvS2+N71Xy1xIe6uJn68Zj2s=;
+ b=XZcivCAhP1ZDqh4HK30ZfjiD+ELiT0H4itzthpDrqcImeKGRZd1hTf//TLOwtWaGphe9hJuTz4m/DSf7ahgM9Jang6zVYNoy18luhR/x6TbqX+bJBBInwhY3USX+YJkUc42PXCl75DLmR0XWDSGAKfI41XPiighjng5oa9OmKJGzKonQKbs9YX8Rm+TJAyEURL2asH+kW39DKvBdsmL0vxWEM1VUU4zvrmH9aNqHQATgSoWYmK0fw+Jm6vSravuSnLZ6yrz1KMPcopI/5VzD15GLAXUWuGa3Mli7yPCljpPyzB0WbTp932/ds0y92tprIrsWq/cGU2oxA9LuiTXVXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=espNX4YlD28GKmwZPhiIvS2+N71Xy1xIe6uJn68Zj2s=;
+ b=wtXICDR6TORul+1BMH7uM35Moihe+Ep8qwae4+F7ty025e1V3PFCSlJNsOVHh7VMmLgT9R5l+cxioO0YScyghnibCkQeFr2bfrQSddacgKckIpZzIwj1Msc/UEcoOF0zEaQVVcc9R0Dzq7k08aXTXx8SBfjm5sGT7DVF0gnxrCqCmZFEFbjsHnOCA0uLzuDC3MxrCbjxWMbJIjjURpfpP0Ase+ndjCDcIfLAxIIK6mxTiVeeD+17BGTlFYdJMpQSybmXQa2aBTiN0rbMzb8H6eqwhkMmTACrS0uDQTStsux9Gc/J7jEh7k+J2s5bUBIhbLPzI3xKYjRon4iUfNkGaA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from CH2PR07MB7222.namprd07.prod.outlook.com (2603:10b6:610:ab::21)
+ by PH0PR07MB9363.namprd07.prod.outlook.com (2603:10b6:510:16d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Tue, 14 Mar
+ 2023 01:40:58 +0000
+Received: from CH2PR07MB7222.namprd07.prod.outlook.com
+ ([fe80::5241:96f9:a640:6b29]) by CH2PR07MB7222.namprd07.prod.outlook.com
+ ([fe80::5241:96f9:a640:6b29%3]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
+ 01:40:57 +0000
+Message-ID: <6c73e5ad-897e-de93-8177-d7bb93c6c5a4@siemens.com>
+Date: Mon, 13 Mar 2023 19:40:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] MAINTAINERS: Mark the Nios II CPU as orphan
 Content-Language: en-US
-To: Chuck Zmudzinski <brchuckz@aol.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- xen-devel@lists.xenproject.org
-References: <cover.1678763217.git.brchuckz@aol.com>
- <d9ae459b2814425c2d9e756e45d993c824da150a.1678763217.git.brchuckz@aol.com>
- <20230314023148-mutt-send-email-mst@kernel.org>
- <0c8ee7e9-dd23-262f-f67e-359e14abf6f2@ilande.co.uk>
- <20230314091653-mutt-send-email-mst@kernel.org>
- <34eda0c4-3d90-0e22-7888-81bf18e2a5f0@aol.com>
- <7b79ec08-064c-7940-0285-be8a96e2a144@ilande.co.uk>
- <7b822b6c-a0dc-63c9-722e-e1e0361a8d9d@aol.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <7b822b6c-a0dc-63c9-722e-e1e0361a8d9d@aol.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Marek Vasut <marek.vasut@gmail.com>, Wentong Wu <wentong.wu@intel.com>,
+ Sandra Loosemore <sandra@codesourcery.com>,
+ Joseph Myers <joseph@codesourcery.com>,
+ Julian Brown <julian@codesourcery.com>,
+ Andrew Jenner <andrew@codesourcery.com>
+References: <20230313183352.274744-1-thuth@redhat.com>
+ <f3201c0a-8ac9-0147-ccc5-fa8195607b6c@linaro.org>
+From: Sandra Loosemore <sandra.loosemore@siemens.com>
+In-Reply-To: <f3201c0a-8ac9-0147-ccc5-fa8195607b6c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.163.239.161
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 2/2] pci: allow slot_reserved_mask to be ignored with
- manual slot assignment
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CY8PR12CA0038.namprd12.prod.outlook.com
+ (2603:10b6:930:49::26) To CH2PR07MB7222.namprd07.prod.outlook.com
+ (2603:10b6:610:ab::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR07MB7222:EE_|PH0PR07MB9363:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6cd61ef1-3818-41d1-4a6a-08db242d2877
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ADdO9EzH63LsZHICSADLSe0ynJQXDlf+bU+kVa39awtfukn08V9KNVCkLLW0O1HAe7eqTXYEq+LglwDvu0Bv5hNjyzCL63P+zIljEW+BPiVoJ2tDK1yjoiBPjUPxnCpYVQPMC/CNdMHrVpfRXxRKcIRBLEygn/wWt076Z5mHBK26cAJ3PRbXlkqQlIMFAIKktDDOIOZ3+GDmBvjMRFx+tnBFAtG/X6yTtJhLCWDrk6vojYmat7y3YJ5EXtg01ZxHKHIRFOWKy6sgeXbjOjwAgMv/WdZWM15aH5Jf2H4eH+7IqrElLfPDWdZn2cx+kiyKp48W+DCRZCXcdjbCI45WTIIznVm3B4cN1Ps9IMKc/Y3WWkgf+L28bjeYEjq+luh3HdD1/ML2iYVU0tjP6/rKO4rlCueUPkMF2gcbKj6JmSp0W2N6bkRUFCI7951nUCTcnGRcpjb11R38ngbAvvEkU71G4/dsjXjztaHmWVkZFkeef4io5qvkNxe+mL5mlN4uPk2MZ48QE0BdJfC6izDtxSx9pHnJ6vRcVW56WEjvtcuERJEbFLkUgenFGsdvUkEtbpIvdgEd5nt1N9e+2OSRr1IkI1Ob3L062Xz5bXurhbn07s4kIln4oz6UNuj0tZBQVs0Tk35Bzd/dTie158ZxWfCdXjJT+grn4ktjEKxIB6ntjqujDh/7hOJU8Ac2DMP5kvg1nikdFQvvmnEWo5KXnnHS0WHWHBsizs5+89rDT3M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR07MB7222.namprd07.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(366004)(39860400002)(376002)(346002)(396003)(451199018)(31686004)(54906003)(110136005)(36756003)(316002)(186003)(86362001)(38100700002)(31696002)(82960400001)(53546011)(83380400001)(2616005)(6512007)(6506007)(26005)(7416002)(478600001)(41300700001)(6486002)(5660300002)(6666004)(66556008)(8936002)(44832011)(4744005)(2906002)(4326008)(66476007)(66946007)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cHpTT0tiZ29pOFBHa1dOTzZHUXlMTllMci9nSnZKMkZ2aHlxaUF0ZS9LcW9a?=
+ =?utf-8?B?TVlNL25kMVdGU2FVTDVPVjFtNW93V21ZSkRYTVI2dDJQTTZITnFINGtxVVV5?=
+ =?utf-8?B?UU9mUnU2VTBGOThQbzNGKzNVL0IyU3dzUEZaTWVtdU8zQ2duSXFyNlBMaFZN?=
+ =?utf-8?B?dUJDVFBGTTF0elNzNWFOSWUyVmVnbTNzQ1NwN0s5ZzUvT2k5aERPcThSTEFW?=
+ =?utf-8?B?OWlnMTBObWdDSWVVSzk2Uk93bXFhRFhROHI0ZUtZTFNaSTBKblFCVWdzaVR6?=
+ =?utf-8?B?bEdzSkFLMTVNZzR2emRSVVhiajk0ZTFmZi9Ea2h0TEtsYzJiMGFkNExGNVlC?=
+ =?utf-8?B?N1ZLeXhoaTdOaWF4ZU9hSkZPY1ZCTUo5aENpc2poZFVvTXFjV0hVS25QMGx3?=
+ =?utf-8?B?eXl6bVpwT1oyZ1NGb2l5MWpGd1ZTVStWU1BFWFVtRDdMNHFnd29abTNSTy9H?=
+ =?utf-8?B?bWRoTkRjVmpYYytIcUE3dmpVT2I1aWk2bXBLd1JZSW5HM2x3ZjdlcFB0WXd0?=
+ =?utf-8?B?WS8ydkxqMWYyNXlmNC9mSGdkekpDYjNYVzdXL1dXbFRub3BKbkwxZzEwYUEx?=
+ =?utf-8?B?WXpDQnRPM3lhMU55SW5FNnk5aEZobDg2TGtZSUQrVFV1SUdmdExnSUdjS3ZM?=
+ =?utf-8?B?S3VBZkVxdWFjQjBBcDVRbVlidmk4b3VIZ2RoMStDczBiTEJLUkdhQm1yV2Uv?=
+ =?utf-8?B?VDFXZTBvWlBvSnZYVk9HY0RBc3NLSnZBS25CejZNZ0h5U2s3SDlKd1Q4cHdy?=
+ =?utf-8?B?MStMdUpud2FtaVYySzJyeS9XVUFRb1Q4L0V0UEU0dmoyVEhOaTcwZFoxdUw0?=
+ =?utf-8?B?UTV4ZVg0eEpjSm1pUVk5LzI5bitNSGVCNERxU3Y0b0lUcml3dXlVdlZHbE5T?=
+ =?utf-8?B?SGFqbGNod0laZXpUWVp4MGZiQkhIS0JuYS9SYlUrMGhTMThRT3hwTmVrRU1s?=
+ =?utf-8?B?TTB5TDI3MkJ3eU9qRDU4S2loYWZ5LzF2NmxIWWVSQ3JNU25Gb0JtQzlrZjRr?=
+ =?utf-8?B?a2lBdWZ1WFhVLzF5TVU3VlQzaG9kVWZEN0s3Y0dnZzVMaVZGc2Ywck1oNndC?=
+ =?utf-8?B?b0doVTBTNURHTjJGc1dLdmtrVHJZVm8vdU1CUXhQbUlmNThXaWM3LzIrQUx3?=
+ =?utf-8?B?eWVkR3BvbXFqQUFLMVIyRGlEREpKSzdMSjZlR2NRWVdQMVBpenRkd1A4S0gy?=
+ =?utf-8?B?S1JxSVhFZVkrRjRHeS9kUnd4Q05XMVlpYnlIWVlCd1oxZW9sbzY5dFptMk1r?=
+ =?utf-8?B?YzM5MFdsSEE1QTIzYmNXSzZld2NZSzJoa1gyRFRFOXRyK3RFWmc1ZThUWDFD?=
+ =?utf-8?B?aTBNWURtYkh6VERXNzZMQ0RhSGZ4Um9MZWUrK0ExdEFWV3NHWjRSVEtTcG95?=
+ =?utf-8?B?MHBTay9IMjMyL2cwdTFiZ0R5bnltLzRQbXcrQlczR0R6d3RGcHlFVkRVakh2?=
+ =?utf-8?B?T3I0bzFiZnhJT0YwWGxUbldHUnBscjBPMHNqUzUvaU5XQlpyeGZlbFNRcTM5?=
+ =?utf-8?B?ZDU0N1ZnUEd6dlhKVVAxUUc0UDl6dDI0Q0JwS2xtUzJBL2pwTHJOTk5BSXZn?=
+ =?utf-8?B?VWJoNTFaZW1GT2pTb2lvN2R5clFjSThRaTFBZ0tldm9vVDFnU0VtdXFlelBs?=
+ =?utf-8?B?S0lpc2xubTBkRHB3YmVRSFN2WWY0UmlSQVBGb2lUM01vd3kxdDRnMnAyZ0Zh?=
+ =?utf-8?B?Zy81ODFWaDYxMERBcFZQSENTNG9nMVNQejJFeXoyL2tZRWtObVpKL2RZZjZa?=
+ =?utf-8?B?bGtjYzM0MklzbHFCSjVuSWYxV2lTZmNmTi9oU1JqMkxiaFF1OHhITEd0azFk?=
+ =?utf-8?B?UjB2bnZuM2I0cHFzYXkyQXFuTkI4VXNEZzRGSnBEV2hjd3VPcEF2WUNTQU5X?=
+ =?utf-8?B?T2hHNXhWYTNwRldyenBjQkl6dVJpWlZBMlhrc3dHU2loYWtlZk5RdzdyNDU4?=
+ =?utf-8?B?R3pmZzdnVWZCSDhrdUZqLzBLbnJubEpUeE5mVkdpTlBTUWNPanlYV0JRSmR1?=
+ =?utf-8?B?enlvbzFWSlFYOVdoTGg4azNsaHNRb0VpTnpkalpHNFhHSlJqbTJjMS8yKzI4?=
+ =?utf-8?B?YmlUcW9sVXNrTzFPWDJTVlpRSzdPSzdMRXJyR1N3a1k0WGhGL3NGM1BNQWNl?=
+ =?utf-8?B?a3JrZnBNNHlON3didSs2WlNOL3VIbFg0T2VaWm84NDVXc3FzQ2hCWGd3djBU?=
+ =?utf-8?Q?dc9t5xfyuy2Un5/Ewpzh6nU=3D?=
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cd61ef1-3818-41d1-4a6a-08db242d2877
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR07MB7222.namprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 01:40:57.5966 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8xC1A2EjtopNvTdgdw0JtC5tSgbYPE2cmXWyR4s7SAwgoGm7XJpfKqF0+8llUESROZzGLEe5/tgxIQqaCY9T+yMx19t7vjtq0hdQ9QvswPk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR07MB9363
+Received-SPF: pass client-ip=40.107.92.69;
+ envelope-from=sandra.loosemore@siemens.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 14 Mar 2023 11:02:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,252 +156,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/03/2023 14:21, Chuck Zmudzinski wrote:
-
-> On 3/14/2023 9:41 AM, Mark Cave-Ayland wrote:
->> On 14/03/2023 13:26, Chuck Zmudzinski wrote:
->>
->>> On 3/14/2023 9:17 AM, Michael S. Tsirkin wrote:
->>>> On Tue, Mar 14, 2023 at 12:43:12PM +0000, Mark Cave-Ayland wrote:
->>>>> On 14/03/2023 06:33, Michael S. Tsirkin wrote:
->>>>>
->>>>>> On Tue, Mar 14, 2023 at 12:01:09AM -0400, Chuck Zmudzinski wrote:
->>>>>>> Commit 4f67543bb8c5 ("xen/pt: reserve PCI slot 2 for Intel igd-passthru")
->>>>>>> uses slot_reserved_mask to reserve slot 2 for the Intel IGD for the
->>>>>>> xenfv machine when the guest is configured for igd-passthru.
->>>>>>>
->>>>>>> A desired extension to that commit is to allow use of the reserved slot
->>>>>>> if the administrator manually configures a device to use the reserved
->>>>>>> slot. Currently, slot_reserved_mask is enforced unconditionally. With
->>>>>>> this patch, the pci bus can be configured so the slot is only reserved
->>>>>>> if the pci device to be added to the bus is configured for automatic
->>>>>>> slot assignment.
->>>>>>>
->>>>>>> To enable the desired behavior of slot_reserved_mask machine, add a
->>>>>>> boolean member enforce_slot_reserved_mask_manual to struct PCIBus and
->>>>>>> add a function pci_bus_ignore_slot_reserved_mask_manual which can be
->>>>>>> called to change the default behavior of always enforcing
->>>>>>> slot_reserved_mask so, in that case, slot_reserved_mask is only enforced
->>>>>>> when the pci device being added is configured for automatic slot
->>>>>>> assignment.
->>>>>>>
->>>>>>> Call the new pci_bus_ignore_slot_reserved_mask_manual function after
->>>>>>> creating the pci bus for the pc/i440fx/xenfv machine type to implement
->>>>>>> the desired behavior of causing slot_reserved_mask to only apply when
->>>>>>> the pci device to be added to a pc/i440fx/xenfv machine is configured
->>>>>>> for automatic slot assignment.
->>>>>>>
->>>>>>> Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
->>>>>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
->>>>>>
->>>>>> I really dislike this.
->>>>>> It seems that xen should not have used slot_reserved_mask,
->>>>>> and instead needs something new like slot_manual_mask.
->>>>>> No?
->>>>>
->>>>> My suggestion was to move the validation logic to a separate callback
->>>>> function in PCIBus (see
->>>>> https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg03988.html) but
->>>>> perhaps I wasn't clear enough in pointing out that I was thinking this could
->>>>> *replace* the existing slot_reserved_mask mechanism, rather than providing a
->>>>> hook to allow it to be manipulated.
->>>>>
->>>>> Here's a very rough patch put together over lunch that attempts this for
->>>>> pci_bus_devfn_reserved(): the idea is that sun4u and Xen would call
->>>>> pci_bus_set_slot_reserved_fn() with a suitable pci_slot_reserved_fn
->>>>> implementation, and slot_reserved_mask gets removed completely i.e.:
->>>>>
->>>>>
->>>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->>>>> index def5000e7b..30b856499a 100644
->>>>> --- a/hw/pci/pci.c
->>>>> +++ b/hw/pci/pci.c
->>>>> @@ -493,6 +493,13 @@ bool pci_bus_bypass_iommu(PCIBus *bus)
->>>>>        return host_bridge->bypass_iommu;
->>>>>    }
->>>>>
->>>>> +static bool pci_bus_default_slot_reserved(PCISlotReservationType restype,
->>>>> +                                          int devfn)
->>>>> +{
->>>>> +    /* All slots accessible by default */
->>>>> +    return false;
->>>>> +}
->>>>> +
->>>>>    static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
->>>>>                                           MemoryRegion *address_space_mem,
->>>>>                                           MemoryRegion *address_space_io,
->>>>> @@ -500,7 +507,7 @@ static void pci_root_bus_internal_init(PCIBus *bus,
->>>>> DeviceState *parent,
->>>>>    {
->>>>>        assert(PCI_FUNC(devfn_min) == 0);
->>>>>        bus->devfn_min = devfn_min;
->>>>> -    bus->slot_reserved_mask = 0x0;
->>>>> +    bus->slot_reserved_fn = pci_bus_default_slot_reserved;
->>>>>        bus->address_space_mem = address_space_mem;
->>>>>        bus->address_space_io = address_space_io;
->>>>>        bus->flags |= PCI_BUS_IS_ROOT;
->>>>> @@ -1111,9 +1118,15 @@ static bool pci_bus_devfn_available(PCIBus *bus, int devfn)
->>>>>        return !(bus->devices[devfn]);
->>>>>    }
->>>>>
->>>>> -static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
->>>>> +static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn,
->>>>> +                                   PCISlotReservationType restype)
->>>>> +{
->>>>> +    return bus->slot_reserved_fn(restype, devfn);
->>>>> +}
->>>>> +
->>>>> +void pci_bus_set_slot_reserved_fn(PCIBus *bus, pci_slot_reserved_fn fn)
->>>>>    {
->>>>> -    return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
->>>>> +    bus->slot_reserved_fn = fn;
->>>>>    }
->>>>>
->>>>>    /* -1 for devfn means auto assign */
->>>>> @@ -1141,7 +1154,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
->>>>>            for(devfn = bus->devfn_min ; devfn < ARRAY_SIZE(bus->devices);
->>>>>                devfn += PCI_FUNC_MAX) {
->>>>>                if (pci_bus_devfn_available(bus, devfn) &&
->>>>> -                   !pci_bus_devfn_reserved(bus, devfn)) {
->>>>> +                   !pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_AUTO)) {
->>>>>                    goto found;
->>>>>                }
->>>>>            }
->>>>> @@ -1149,7 +1162,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
->>>>>                       "or reserved", name);
->>>>>            return NULL;
->>>>>        found: ;
->>>>> -    } else if (pci_bus_devfn_reserved(bus, devfn)) {
->>>>> +    } else if (pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_MANUAL)) {
->>>>>            error_setg(errp, "PCI: slot %d function %d not available for %s,"
->>>>>                                           MemoryRegion *address_space_io,
->>>>> @@ -500,7 +507,7 @@ static void pci_root_bus_internal_init(PCIBus *bus,
->>>>> DeviceState *parent,
->>>>>    {
->>>>>        assert(PCI_FUNC(devfn_min) == 0);
->>>>>        bus->devfn_min = devfn_min;
->>>>> -    bus->slot_reserved_mask = 0x0;
->>>>> +    bus->slot_reserved_fn = pci_bus_default_slot_reserved;
->>>>>        bus->address_space_mem = address_space_mem;
->>>>>        bus->address_space_io = address_space_io;
->>>>>        bus->flags |= PCI_BUS_IS_ROOT;
->>>>> @@ -1111,9 +1118,15 @@ static bool pci_bus_devfn_available(PCIBus *bus, int devfn)
->>>>>        return !(bus->devices[devfn]);
->>>>>    }
->>>>>
->>>>> -static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
->>>>> +static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn,
->>>>> +                                   PCISlotReservationType restype)
->>>>> +{
->>>>> +    return bus->slot_reserved_fn(restype, devfn);
->>>>> +}
->>>>> +
->>>>> +void pci_bus_set_slot_reserved_fn(PCIBus *bus, pci_slot_reserved_fn fn)
->>>>>    {
->>>>> -    return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
->>>>> +    bus->slot_reserved_fn = fn;
->>>>>    }
->>>>>
->>>>>    /* -1 for devfn means auto assign */
->>>>> @@ -1141,7 +1154,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
->>>>>            for(devfn = bus->devfn_min ; devfn < ARRAY_SIZE(bus->devices);
->>>>>                devfn += PCI_FUNC_MAX) {
->>>>>                if (pci_bus_devfn_available(bus, devfn) &&
->>>>> -                   !pci_bus_devfn_reserved(bus, devfn)) {
->>>>> +                   !pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_AUTO)) {
->>>>>                    goto found;
->>>>>                }
->>>>>            }
->>>>> @@ -1149,7 +1162,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
->>>>>                       "or reserved", name);
->>>>>            return NULL;
->>>>>        found: ;
->>>>> -    } else if (pci_bus_devfn_reserved(bus, devfn)) {
->>>>> +    } else if (pci_bus_devfn_reserved(bus, devfn, PCI_SLOT_RESERVATION_MANUAL)) {
->>>>>            error_setg(errp, "PCI: slot %d function %d not available for %s,"
->>>>>                       " reserved",
->>>>>                       PCI_SLOT(devfn), PCI_FUNC(devfn), name);
->>>>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
->>>>> index d5a40cd058..8a949f7ae1 100644
->>>>> --- a/include/hw/pci/pci.h
->>>>> +++ b/include/hw/pci/pci.h
->>>>> @@ -257,10 +257,18 @@ MemoryRegion *pci_address_space_io(PCIDevice *dev);
->>>>>     */
->>>>>    int pci_bar(PCIDevice *d, int reg);
->>>>>
->>>>> +typedef enum PCISlotReservationType {
->>>>> +    PCI_SLOT_RESERVATION_AUTO,
->>>>> +    PCI_SLOT_RESERVATION_MANUAL
->>>>> +} PCISlotReservationType;
->>>>> +
->>>>> +typedef bool (*pci_slot_reserved_fn)(PCISlotReservationType restype, int devfn);
->>>>>    typedef void (*pci_set_irq_fn)(void *opaque, int irq_num, int level);
->>>>>    typedef int (*pci_map_irq_fn)(PCIDevice *pci_dev, int irq_num);
->>>>>    typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
->>>>>
->>>>> +void pci_bus_set_slot_reserved_fn(PCIBus *bus, pci_slot_reserved_fn fn);
->>>>> +
->>>>>    #define TYPE_PCI_BUS "PCI"
->>>>>    OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
->>>>>    #define TYPE_PCIE_BUS "PCIE"
->>>>> diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
->>>>> index 5653175957..d68ea1418d 100644
->>>>> --- a/include/hw/pci/pci_bus.h
->>>>> +++ b/include/hw/pci/pci_bus.h
->>>>> @@ -36,7 +36,7 @@ struct PCIBus {
->>>>>        PCIIOMMUFunc iommu_fn;
->>>>>        void *iommu_opaque;
->>>>>        uint8_t devfn_min;
->>>>> -    uint32_t slot_reserved_mask;
->>>>> +    pci_slot_reserved_fn slot_reserved_fn;
->>>>>        pci_set_irq_fn set_irq;
->>>>>        pci_map_irq_fn map_irq;
->>>>>        pci_route_irq_fn route_intx_to_irq;
->>>>>
->>>>>
->>>>> If this approach seems reasonable, I'm happy for someone else to take this
->>>>> over and turn it into a proper series.
->>>>>
->>>>>
->>>>> ATB,
->>>>>
->>>>> Mark.
->>>>
->>>> It's ok too though I think I like chuck's proposal better:
->>>> less callbacks to chase.
->>>>
->>>
->>> I would be willing to pursue this if there were more use cases for
->>> slot_reserved_mask than just the two cases we have now: xen and sun4u.
->>> Until there is a clear demand for a more general way to manipulate the
->>> mask, I agree with Michael that the KISS principle should apply here.
->>
->> No worries. The thinking behind this idea was that it feel like the Xen case is
->> special in that it has separate requirements for auto slot allocation and manual slot
->> allocation: if slot reservation were used in more places, I'd expect the sun4u case
->> to be more common, in which case it seems a bit more work for the common case to have
->> to set both slot_reserved_mask_auto and slot_reserved_mask_manual separately. Perhaps
->> a single accessor function can be used to set both mask values together for a PCIBus?
+On 3/13/23 14:46, Philippe Mathieu-Daudé wrote:
+> +CodeSourcery folks
 > 
-> My immediate thought as a way to avoid needing to set both masks in the
-> sun4u machine would be to add an initialization function that defines the
-> relationship between the two masks. The sun4u machine would use a default
-> function that simply sets the manual mask equal to the auto mask. In the
-> special case of xen, the manual mask would be set to 0.
+> On 13/3/23 19:33, Thomas Huth wrote:
+>> Marek and Chris haven't been active for Nios II since years
+>> (the last time seems to have been in 2017), and we've got
+>> unhandled severe Nios II bug tickets in the bug tracker since
+>> a long time, so to avoid wrong expectations of people who are
+>> looking at the MAINTAINERS file, it's maybe best to mark the
+>> Nios II entry as orphan nowadays.
 
-I must admit I wasn't too concerned about having two separate masks, more that in the 
-common case you would have to remember to call two functions. I was thinking that 
-instead of having separate pci_bus_set_slot_reserved_mask_auto() and 
-pci_bus_set_slot_reserved_mask_manual() accessors, you could just have:
+Thanks for the heads up.  We're still maintaining Nios II support in 
+other components like GCC for now, but I am not sure whether it makes 
+any sense for us to take on QEMU too at this point.  I'll raise the 
+issue, anyway.
 
-   pci_bus_set_slot_reserved_mask(uint32_t auto_mask, uint32_t manual_mask);
+-Sandra
 
-since that gives a single function call for all cases, and it seems fairly intuitive 
-what pci_bus_set_slot_reserved_mask(foo, foo) is doing vs. 
-pci_bus_set_slot_reserved_mask(foo, bar).
-
-
-ATB,
-
-Mark.
 
