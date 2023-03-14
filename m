@@ -2,103 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E9A6B8B58
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3C96B8B6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:42:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbyIr-0004RO-Mu; Tue, 14 Mar 2023 02:38:33 -0400
+	id 1pbyLn-0007BI-Qh; Tue, 14 Mar 2023 02:41:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4300ac6ef=alistair.francis@opensource.wdc.com>)
- id 1pbyIo-0004Qf-R4
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:38:30 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbyLl-0007B4-QF
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:41:33 -0400
+Received: from mail-tyzapc01olkn2081e.outbound.protection.outlook.com
+ ([2a01:111:f403:704b::81e]
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4300ac6ef=alistair.francis@opensource.wdc.com>)
- id 1pbyIn-00020C-5y
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:38:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1678775908; x=1710311908;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bClfELwB08urp8CbXAJKVnvdagZhKCaDt8ZhtgM4GwQ=;
- b=fDtYXLOENUJWNsAcLs+fXfp58HUfW+Peqalr7tc6EOoobUFroqxPKj2s
- WVDgYJZx2NYlX+Yz5O94++4VEkm87EnwlZEROdxVNN9DVrWhccjVwk5Nj
- aQ4tR8O2CRcH12zsEOmeXt1e6BEvkaDqCoze/3SZXH3rWKYEVzEcQSBRW
- GIfGqD+BfEai1j1jAN3QmveWp/p6wyR81v+e3W4aOd07VHYyCFMflpMTG
- rVXJe/qL34UH5tUYiXzbqWX7GS7BLw9PECukBMnMG6wzI4aOE4gPkhGcM
- KxIu9tGrIrTdf/jZCpaGwbs0X7GjF4Cwf9PpnEIU+xeFFQvJLkml4iNNG Q==;
-X-IronPort-AV: E=Sophos;i="5.98,259,1673884800"; d="scan'208";a="225576410"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2023 14:38:25 +0800
-IronPort-SDR: zP3SsoUEM02DzZQ4GYJ4je2s1gGqPjBVux+MyFrG2fvQV15UZbQ+PVkcaZQbtdemg2iI4Bby2y
- rbhcNmZjexMf8LJbkkKqtNoNXIHmJS63qKKPkCc1KJ7LzGZYmqPyxFQ3qFMGihVIiOzyBqhG9M
- tRakV0/Ae7RV4Cc3pfF+3wMZmI/hgCRlT+tWB4RHSXgInnYYEb3DvFfNCLAh6puL6XEzGS0fBz
- 4tLykZ+NjahxS52rojZP96RwQxU10LFPFomP1D1ZSvMg+RBl3JNiu76C1py5F9W+hBHAU5lSsQ
- Xyk=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 22:54:54 -0700
-IronPort-SDR: kDuTnFHw+XqCLlyUHrfdWUrmgYdgkSeKdKkk8k6ynsXHVMnMPwEtueZm+D8E/Qr+m7tN6WsVkN
- liJuX58tkTKcj9PIuBaygmAulqK9YQBhRzgCMOIbuZMv56YgtmuUmtZouDf5Ycmh1Fyfdi+B3V
- PNuv5rulZY0T55xG8NrHoWrkZdp3yXPU+SGEPD1MuNa2NlTkfEqmvHv+gaDFLsmN23V1mKij5f
- 7TLekX/BxcMueYsauqknq4+PM7srysTPNYnqcOBQAZ2Q84+vsPsDinU61hRGDbaCL0ZSfSb0lY
- jwM=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Mar 2023 23:38:26 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PbP420Bbgz1RtVt
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:38:26 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1678775905; x=1681367906; bh=bClfELwB08urp8CbXA
- JKVnvdagZhKCaDt8ZhtgM4GwQ=; b=QOTpFmVJQlPmA4fzjcptG4MNgFrtxkZbqz
- jOYHHmG7iODhyL1G+DjiOcmIEUyP3AYs0UDLoZLgaDKGHAy6dmCEioMPlf+OhvBi
- SMm2Iff4JyvmF0wIABP1VJItnT/CPrpdTlfO2fw4FxwZ1ZTGmb9CYxWFZIgy/+Zr
- GzFp8BopbhcZHJ8mRQHCqUoeLKEgJ+s7ZdSFv6/wXb1NFz/LYXofaZuEvLkeVNYG
- 7yi8WV19bcRjCGCNVGtoDH85XLpbD0p/FCPNG0oQfXd093KcfJuAjdxfvxnkAO2r
- XjZx5vPilcyDasf58E3idKHprle1c4Moh8NhLpedZBR2l84R9CdQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 7DPS99od_d65 for <qemu-devel@nongnu.org>;
- Mon, 13 Mar 2023 23:38:25 -0700 (PDT)
-Received: from toolbox.wdc.com (unknown [10.225.167.75])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PbP4029Wgz1RtVp;
- Mon, 13 Mar 2023 23:38:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbyLj-0002cY-F3
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:41:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nSTtBfgu+NgNCeGoqIPSJnM9OSKu6Y6d91Jkda/7g8g+cUGpnU0DKbbCTlJOi8s6Sm/giRO2zvRsIiS30Ro3I5/f3SR6LpyEEpruyUYLik+5G0586dTW+42lSO0wFE/Kp9cG/OPdJNUGwGygAhJKH2LwJ7DBxlx4mFY9JDohHaS2REJCMIjRryN4yj22mHdd/WqV1ZuaNkAlwQVJ/VNJvaGqz5KNfFdkIOm6v05Y/z/+52xaysazvpup9MTi1136CsGRDAzvOtn4c2nocALYgCYcObnQOqlmSfaWjWc2ZCMF2qH8+EjTrbsZm1F5r16oo3m+lbUHgCF2kJXrzYhlxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z7Sd8XC3ntktY6qY85agrZT0DXA0S9Txzj4nYaWdkLg=;
+ b=C9xs/wU6mM8QH4JDZRPV6iT4aHi1ndkRNJ63EwxCIT5AIi0tZNKBsMLi1rqL+Me4Mg8MtqpAVzMYgMzwdZymAj9L3rhb3ZUJ/NOSGePD2+JZwidKGNGGTcGiORkyu/GuHeiKsw/015GDNqmXcYa/1kQcpmsUAfIi55jNfdL2JnyhJh5ypC+tGc1thGwNc0+i20W7i0I/3mXnCoLmMeNPqa29D1IwutzVw5l5sJQyFMJUioFS2Aa5BcI5R/H7MFl4HCY0LOkqDzUjoZ/5Ce1WPt9HvYDue1FZal7EN/PFpy0QfnhqOc9qGPdmm8zXc/lml7GhYdvbzw07k35L8DBytw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
+ by KL1PR06MB6019.apcprd06.prod.outlook.com (2603:1096:820:d1::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.23; Tue, 14 Mar
+ 2023 06:40:49 +0000
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::5aac:46da:e945:95ae]) by TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::5aac:46da:e945:95ae%7]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
+ 06:40:48 +0000
+From: Yohei Kojima <y-koj@outlook.jp>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Mikhail Tyutin <m.tyutin@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 2/2] Fix incorrect register name in disassembler for fmv, fabs,
- fneg instructions
-Date: Tue, 14 Mar 2023 16:38:12 +1000
-Message-Id: <20230314063812.30450-3-alistair.francis@opensource.wdc.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Yohei Kojima <y-koj@outlook.jp>
+Subject: [RFC PATCH v2 1/2] util: Add thread-safe qemu_strerror() function
+Date: Tue, 14 Mar 2023 15:40:32 +0900
+Message-ID: <TYZPR06MB5418B64D371016CCEDE577419DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
-References: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <cover.1678770219.git.y-koj@outlook.jp>
+References: <cover.1678770219.git.y-koj@outlook.jp>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [zMyKE2pmFYO1poodyd9ueo3ZnSU7H8UDPDHEZ2WW1/FTSxyloaYMTwYRWe2sLD2/]
+X-ClientProxiedBy: TY2PR01CA0003.jpnprd01.prod.outlook.com
+ (2603:1096:404:a::15) To TYZPR06MB5418.apcprd06.prod.outlook.com
+ (2603:1096:400:202::7)
+X-Microsoft-Original-Message-ID: <3d89a554fc274d63d3242fcc56fe135e43e67351.1678770219.git.y-koj@outlook.jp>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=4300ac6ef=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|KL1PR06MB6019:EE_
+X-MS-Office365-Filtering-Correlation-Id: baadf154-61d5-4737-97c0-08db24570c20
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AnuH/2rzez3FHB9XeaOZTNpYjuKK8LbXbz6pturbzTj8utvweJCMZa7F8ezt85nC0dUM+8Sh7tc5ipQp3ZYuKu7jdwrDI+qTLkKCJWbBFk8Rd7qai8BCE3mJ0eGGmodoEMmEfwH0RQYKEp+Un1dHLTXOI8F/21o78uFkaQ0mBN4jF1KrqwmT3GhxOkcD1qAHWskcUDP8HDx6QjBFXMbbHuG63Xz0K0KOmmesfloW7y/UeU2OMGFSpFMeLhhJbJXUEJfGIVa4C5RMuRWw5YKBkFK+B07nN7J0NPcLHmk+UXkFjYYKx0qXFMJRqMV004pWvZ8oDPuNsfhFaipiQXsaMNvwgVXnItA+Jv8sZWc40M4wjWgJBJ5bcHf5c8302qDYR9d5ylZqqMXxD6+lDkkRWKnghEPN37Lkh/gk6T4SSoldrmSAlFoOoegDP+I3qFdsE4pr/DcgKJ3hlO/Nico5S5Ft+pbeAAxQjwL+fn1Ziry5kJXSOKdbIka3lTM5Dr+cv11XrVBkT6NGGGyKRzfBW56W0BD96bOMdywj77FSWKzloCsd/pDaEWAwOJLsMoFKCMdeYk8JvzDuBH3qfuyRFNH+TVARFNyIWX1d7CNPUA+iZTgecP0eItPfDMn8m9hqfuUlFBj5yetSyQd1vUXa2w==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vykKHXJDsrogsdLW6WExyKGctdttbNHfLVHVYAdjj0hKrAzPfOp6pKp/O6op?=
+ =?us-ascii?Q?OZ0+KjNfvf89bxm60IlWyQRBjgJas9/tVp9cYfhqbjZCkB9hEknoghsxEcb9?=
+ =?us-ascii?Q?gw3S64xTEFteFB/JEwms3kfrAEpex3xm/7ckoWgi57LNV3ktwJB6R+mzPdK5?=
+ =?us-ascii?Q?MbyXWrG0LRxHE1MZX3hQEnSgANV55DkKi6teM+OzRy9A81tA6bVsCgFTJ/DZ?=
+ =?us-ascii?Q?6+7YPhv8qwjD6Et2J5DG2OrfIzekyFPrsnBRzNjlz/15SWMQhF+5GyETlppj?=
+ =?us-ascii?Q?YjIxiWmNVfzncT7Whf0NxE/WhS6CUQVqsBXjbpeGuoejJ/OySIgurfIZ7rB6?=
+ =?us-ascii?Q?e6W0BzT0+N0a7T94psyMrBbJIbQV0G+J/IilBvyTaSfZv0M8Xc4pWIheOFjE?=
+ =?us-ascii?Q?PPZAM1fgEh0lq3V7Qfgdqu3eAEQInmbaqU3Ovwvezj6k1hLe61YScIqLedS8?=
+ =?us-ascii?Q?1kq7RhPbFfV6mHaYuRlqwsv+pn6YlKshe8Mjl39TlnOh9KXWRStdKK45aWIm?=
+ =?us-ascii?Q?eg3/xXjtrl0ZANHiZIYLkFGhDGP5FudRdDknfoxCxb42fWrsjaUuaAjCRIw6?=
+ =?us-ascii?Q?Njpf0gFKGeUUROUm0K0yGiNxU+20Qyo1eTvjbSM79nsuHu14T2yQyBAwb/KY?=
+ =?us-ascii?Q?fblrNlsXYn6b1sSDQKKjT0SCm6BuoUyNUYgi5TIqsdau4GDyoMIJRaLyJKk+?=
+ =?us-ascii?Q?WyS9r3/yRc6sg/MS7ZrCcBprppnJZzRcf95gMfd3YNhIOyijtwiItcJuALJB?=
+ =?us-ascii?Q?3JhgsWjPqkVuSt+brLYq9tyZpplr6Lhi/S/fPGtVxD8Aaohm3V76owA9yMWx?=
+ =?us-ascii?Q?SSTEXZVI4kg6GmOMLaVpb4UBrDVe+ccL4D8q8K660iYLUi+zoB1mT2NCPSi5?=
+ =?us-ascii?Q?8Y+BNcu4IXMOM5oroz9DZyglUoa4P4pNz5AjnGNDGzQCeuPxHrZ/0UerWPyi?=
+ =?us-ascii?Q?w23d10XqdX1jTF280QNzjE8k9Q5902opr7zDVr2sI6ldO+T24J8GWTE3vXw3?=
+ =?us-ascii?Q?b7FlyLC7Vyf1RwM9jas4Es2Pvj3FwwKqWEukvBtSms2g1UVtUKeqLyMC6uHE?=
+ =?us-ascii?Q?FaUmxHp5gPaD08ifk+wly/Y6+zuySeJaKoAb+djJj4u/WteNdlvJx8VqhCUV?=
+ =?us-ascii?Q?4n0zMxVAvQzqLcr/MP+kMXfoKWClUIg9AIjnRhox3tRMIl5ZzGto6GzLVs8T?=
+ =?us-ascii?Q?5ka3T9+druwBv8ytWzuVkfu7fSS52The73S7+nq6rP31cpT9UwwGlprCZcBJ?=
+ =?us-ascii?Q?p6v8xfWWGaMch9lXW4A+6u3YKu5Tqw+PTgbwSANChJ1IsQzignZaGPARljSQ?=
+ =?us-ascii?Q?Utex/NKVPUXubHYVA/kHQ2Dz?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: baadf154-61d5-4737-97c0-08db24570c20
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 06:40:48.8707 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6019
+Received-SPF: pass client-ip=2a01:111:f403:704b::81e;
+ envelope-from=y-koj@outlook.jp;
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,62 +113,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Alistair Francis <alistair.francis@opensource.wdc.com>
-From:  Alistair Francis via <qemu-devel@nongnu.org>
+Reply-To: TYZPR06MB5418216269D0ED2EB37D6FF49DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mikhail Tyutin <m.tyutin@yadro.com>
+Add qemu_strerror() which follows the POSIX specification for
+strerror(). While strerror() is not guaranteed to be thread-safe, this
+function is thread-safe.
 
-Fix incorrect register name in RISC-V disassembler for fmv,fabs,fneg inst=
-ructions
+This function is added to solve the following issue:
+https://gitlab.com/qemu-project/qemu/-/issues/416
 
-Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <3454991f-7f64-24c3-9a36-f5fa2cc389e1@yadro.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
 ---
- disas/riscv.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ include/qemu/cutils.h | 20 +++++++++++++++++++
+ util/cutils.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index 2aca11b90e..d6b0fbe5e8 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -1014,6 +1014,7 @@ static const char rv_vreg_name_sym[32][4] =3D {
- #define rv_fmt_rd_offset              "O\t0,o"
- #define rv_fmt_rd_rs1_rs2             "O\t0,1,2"
- #define rv_fmt_frd_rs1                "O\t3,1"
-+#define rv_fmt_frd_frs1               "O\t3,4"
- #define rv_fmt_rd_frs1                "O\t0,4"
- #define rv_fmt_rd_frs1_frs2           "O\t0,4,5"
- #define rv_fmt_frd_frs1_frs2          "O\t3,4,5"
-@@ -1580,15 +1581,15 @@ const rv_opcode_data opcode_data[] =3D {
-     { "snez", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
-     { "sltz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "sgtz", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
--    { "fmv.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fabs.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fneg.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fmv.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fabs.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fneg.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fmv.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fabs.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "fneg.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "fmv.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fabs.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fneg.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fmv.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fabs.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fneg.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fmv.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fabs.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-+    { "fneg.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
-     { "beqz", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
-     { "bnez", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
-     { "blez", rv_codec_sb, rv_fmt_rs2_offset, NULL, 0, 0, 0 },
---=20
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 92c436d8c7..0bcae0049a 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -117,6 +117,26 @@ int stristart(const char *str, const char *val, const char **ptr);
+  * Returns: length of @s in bytes, or @max_len, whichever is smaller.
+  */
+ int qemu_strnlen(const char *s, int max_len);
++/**
++ * qemu_strerror:
++ * @errnum: error number
++ *
++ * Return the pointer to a string that describes errnum, like
++ * strerror(). This function is thread-safe because the buffer for
++ * returned string is allocated per thread.
++ *
++ * This function is thread-safe, but not reentrant. In other words,
++ * if a thread is interrupted by a signal in this function, and the
++ * thread calls this function again in the signal handling, then
++ * the result might be corrupted.
++ *
++ * This function has the same behaviour as the POSIX strerror()
++ * function.
++ *
++ * Returns: the pointer to an error description, or an
++ * "Unknown error nnn" message if errnum is invalid.
++ */
++char *qemu_strerror(int errnum);
+ /**
+  * qemu_strsep:
+  * @input: pointer to string to parse
+diff --git a/util/cutils.c b/util/cutils.c
+index 5887e74414..3d14f50c75 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -131,6 +131,51 @@ int qemu_strnlen(const char *s, int max_len)
+     return i;
+ }
+ 
++/**
++ * It assumes the length of error descriptions are at most 1024.
++ * The concern of write buffer overflow is cared by strerror_r().
++ */
++static __thread char qemu_strerror_buf[1024];
++
++#if (_POSIX_C_SOURCE >= 200112L) && ! _GNU_SOURCE
++/**
++ * In POSIX.1-2001 and after, the return type of strerror_r is int, but
++ * glibc overrides the definition of strerror_r to the old strerror_r
++ * if _GNU_SOURCE is defined. This condition handles it.
++ */
++
++char *qemu_strerror(int errnum)
++{
++    int is_error = strerror_r(errnum, qemu_strerror_buf, 1024);
++
++    if (is_error == 0) return qemu_strerror_buf;
++
++    /**
++     * handle the error occured in strerror_r
++     *
++     * If is_error is greater than 0, errno might not be updated by
++     * strerror_r. Otherwise, errno is updated.
++     */
++    if (is_error > 0) errno = is_error;
++
++    strncpy(qemu_strerror_buf, "Error %d occured\n", errno);
++    return qemu_strerror_buf;
++}
++#else
++/**
++ * In glibc, the return type of strerror_r is char* if _GNU_SOURCE
++ * is defined. In this case, strerror_r returns qemu_strerror_buf iff
++ * some error occured in strerror_r, and otherwise it returns a pointer
++ * to the pre-defined description for errnum.
++ *
++ * This is the same behaviour until POSIX.1-2001.
++ */
++char *qemu_strerror(int errnum)
++{
++    return strerror_r(errnum, qemu_strerror_buf, 1024);
++}
++#endif
++
+ char *qemu_strsep(char **input, const char *delim)
+ {
+     char *result = *input;
+-- 
 2.39.2
 
 
