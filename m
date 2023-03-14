@@ -2,109 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B56B9ABF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44BB6B9B60
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 17:27:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc7DP-0005Zm-Ki; Tue, 14 Mar 2023 12:09:31 -0400
+	id 1pc7TE-0004tx-Dq; Tue, 14 Mar 2023 12:25:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pc7DM-0005Pr-3T; Tue, 14 Mar 2023 12:09:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pc7TB-0004tT-Pn
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:25:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pc7DJ-0004Ha-VG; Tue, 14 Mar 2023 12:09:27 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32EFH40l025071; Tue, 14 Mar 2023 16:09:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=YOiWtaNzms3LN/vTqd3NR543A+ISPYIWok1v0FtjtSo=;
- b=EgkOD+Jx4o1zNXT9EJ8iiJdAZNdZ5LgxQ9zuE00lxp65Fn0/kHu3L0E5fNNckCsjh6iM
- RTjmHnB1FTCck15Wq3zmwAdZbnod4KcaZ/nlYGFPDoFxfoqrxM0+jiUgSPBHLwNQRP8a
- cJHhUQGKLuPbnM9nolHFSRGyCBBD3fnsKCa7JoXexXY++fEv5spG0DKe/zc93LFJJ1Yd
- TBRnZf83BE8/HYJJIvw5dKY0U+sWrcGJPRkOySW7IWzU39QeSfDO6tAIQMXqqxiBItYD
- oL3VMYkMmNOqaTuM6qv0+vpcSUmFgwrdCmYmL+rMjjsPbTkJ7aWgXQx+OkwP97qx0Ouz nQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pau6mtc8t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 16:09:12 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EFH4gH025051;
- Tue, 14 Mar 2023 16:09:11 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pau6mtc7e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 16:09:11 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E7mhck018985;
- Tue, 14 Mar 2023 16:09:09 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3p8h96m0nd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 16:09:09 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32EG957O44171602
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Mar 2023 16:09:05 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7C12020040;
- Tue, 14 Mar 2023 16:09:05 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 55D822004D;
- Tue, 14 Mar 2023 16:09:04 +0000 (GMT)
-Received: from [9.171.84.250] (unknown [9.171.84.250])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue, 14 Mar 2023 16:09:04 +0000 (GMT)
-Message-ID: <8f153115-f12c-8434-79bd-1623555b5875@linux.ibm.com>
-Date: Tue, 14 Mar 2023 17:09:03 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pc7TA-0007OB-BR
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 12:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678811147;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=thDz3B2zhUJKJDD9hrLr0d2K2T7COSMLmbQxjYlWdfA=;
+ b=OFE8u4kKWyjbI4NK4jNyDHiYU1GHoOKrzJZaBfhMifL06VRdP9jasuBWVMjPnBE2QtBnub
+ 0L/qgxFAv9fo7uWEUkcenIt701v/9c6SA1iub2/IEoZ8bzP2ZNAv2ABc8nJUXsbaOh0z3n
+ cKuQ7MmDX1GG/QMQKlq19EcXGzceUtw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-526-olg8u3ooOFaQCCHgWp-DXA-1; Tue, 14 Mar 2023 12:25:44 -0400
+X-MC-Unique: olg8u3ooOFaQCCHgWp-DXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 045F01C27D89;
+ Tue, 14 Mar 2023 16:25:44 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA1104042AC4;
+ Tue, 14 Mar 2023 16:25:41 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Peter Lieven <pl@kamp.de>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
+ libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: [PULL 0/3] Misc next patches
+Date: Tue, 14 Mar 2023 16:25:37 +0000
+Message-Id: <20230314162540.385954-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v17 06/12] s390x/cpu topology: interception of PTF
- instruction
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com, clg@kaod.org
-References: <20230309121511.139152-1-pmorel@linux.ibm.com>
- <20230309121511.139152-7-pmorel@linux.ibm.com>
-In-Reply-To: <20230309121511.139152-7-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 974_Xllzw97pycuPhtllFE7TKvIrFOv5
-X-Proofpoint-GUID: GnYisdVTAyPOdkoOfRXS6u6UXOXtZRqb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-14_09,2023-03-14_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 clxscore=1015
- mlxlogscore=999 priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303140134
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,73 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I am currently developing tests under avocado to help debugging.
+The following changes since commit 5cfda4ce79dd455f1726874a555260a70f84b2ec:
 
-And... it helps.
+  Merge tag 'pull-request-2023-03-13' of https://gitlab.com/thuth/qemu into staging (2023-03-13 17:09:33 +0000)
 
-There is a bug here in s390_topology_set_cpus_entitlement for dedicated 
-CPUs.
+are available in the Git repository at:
 
+  https://gitlab.com/berrange/qemu tags/misc-next-pull-request
 
-On 3/9/23 13:15, Pierre Morel wrote:
-[...]
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -87,6 +87,84 @@ static void s390_topology_init(MachineState *ms)
->       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->   }
->   
-> +/**
-> + * s390_topology_set_cpus_entitlement:
-> + * @polarization: polarization requested by the caller
-> + *
-> + * On hotplug or when changing CPU attributes the shadow_entitlement
-> + * is set to hold the entitlement used on a vertical polarization.
-> + * When polarization is horizontal, the entitlement is horizontal too.
-> + */
-> +static void s390_topology_set_cpus_entitlement(int polarization)
-> +{
-> +    CPUState *cs;
-> +
-> +    CPU_FOREACH(cs) {
-> +        CPUS390XState *env = &S390_CPU(cs)->env;
-> +
-> +        if (polarization == S390_CPU_POLARIZATION_HORIZONTAL) {
-> +            env->entitlement = S390_CPU_ENTITLEMENT_HORIZONTAL;
-> +        } else  {
-> +            env->entitlement = env->shadow_entitlement;
-> +        }
-> +    }
-> +}
+for you to fetch changes up to c3a2c84ae3c1d5483ec30731321a674797dc5203:
 
-This should be something like:
+  io/channel-tls: plug memory leakage on GSource (2023-03-14 13:41:21 +0000)
 
-static void s390_topology_set_cpus_entitlement(void)
-{
-     CPUState *cs;
+----------------------------------------------------------------
+Miscellaneous fixes
 
-     CPU_FOREACH(cs) {
-         CPUS390XState *env = &S390_CPU(cs)->env;
+ * Avoid memory leak in TLS GSource usage
+ * Avoid sending key releases for lang1/lang2 keys in ps2 keyboard
+ * Add missing key name constants for F13-F24 keys
 
-         if (s390_topology.polarization == 
-S390_CPU_POLARIZATION_HORIZONTAL) {
-             env->entitlement = S390_CPU_ENTITLEMENT_HORIZONTAL;
-         } else if (env->entitlement == S390_CPU_ENTITLEMENT_HORIZONTAL) {
-             if (env->dedicated) {
-                 env->entitlement = S390_CPU_ENTITLEMENT_HIGH;
-             } else {
-                 env->entitlement = env->shadow_entitlement;
-             }
-         }
-     }
-}
+----------------------------------------------------------------
 
-Sorry.
+Matheus Tavares Bernardino (1):
+  io/channel-tls: plug memory leakage on GSource
 
-I provide a new series including the avocado tests.
+Ross Lagerwall (1):
+  ps2: Don't send key release event for Lang1, Lang2 keys
 
-regards,
+Willem van de Velde (1):
+  Add qemu qcode support for keys F13 to F24
 
-Pierre
+ hw/input/ps2.c   |  6 ++++++
+ io/channel-tls.c |  1 +
+ qapi/ui.json     | 15 ++++++++++++++-
+ ui/keycodemapdb  |  2 +-
+ 4 files changed, 22 insertions(+), 2 deletions(-)
+
+-- 
+2.39.2
 
 
