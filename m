@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCE16B9F1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 19:52:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E966B9F82
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 20:22:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc9k0-00005O-4G; Tue, 14 Mar 2023 14:51:20 -0400
+	id 1pcADD-0000Wt-De; Tue, 14 Mar 2023 15:21:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1pc9jt-00004z-Ce; Tue, 14 Mar 2023 14:51:13 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pcADA-0000WZ-JQ
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:28 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1pc9jr-0006nt-GL; Tue, 14 Mar 2023 14:51:13 -0400
-Received: by mail-ed1-x532.google.com with SMTP id o12so66037475edb.9;
- Tue, 14 Mar 2023 11:51:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pcAD8-0003Wf-O9
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:28 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ fy10-20020a17090b020a00b0023b4bcf0727so8757273pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 12:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678819869;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Wwlk8hb0CvwNxeIlyOIz7JGNOmqHFKUxUgrFzovJ034=;
- b=EC1yNjWc8SZoAyT32ZzF4odW1xQNsERgb0256VBurS2iY+nIYMjHN9MPVzSiAJ1XgB
- xwMZVCbk1MGeOAppu4KZdjEk3u/FFa3DvKiXxB96Ib9PR6xC5g1g4N6UFr3EZv2USoyW
- 7/OZ2i0lwpWzaocxCjC7czhh9UyGy/ujqHnw2PA63Zcet90yZDU7XY4MKHGtUp949PoC
- NUIWVm5HznHpbcrYpyh9EQV2cqKfFUe/lLrB7ovS/QHZVNTn+f3eoRmlDityP/ZD2+iI
- ELTVyfHEw1hh2Q/L5dli6oIhUqgOwYOqiI1scGWVvovdlB20SRSjftDkZkaQwTIjNA8R
- k9Bg==
+ d=linaro.org; s=google; t=1678821684;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OGTWkWgya236mexBQ6aWQASE1rii/2eGfUvSA23B678=;
+ b=iJw5i0WvvbpdjXkCOR219bI1G3P1aC2BJ4ggwC96jM/13VFcUtWs3RpbHSdqSbNiJk
+ Tdo3lBMS1rN9fwX6C5FAeskCxzsc0xXtgd92OGHrBZqCeKygnJXnktDhu5ponh6XGx1+
+ LUfkC89PlOdTPICIFGom2ECsXQXXuCTJ3jBXskOleUvJ6EXVbSY472DpZVIXGiwQ1vpF
+ SgQhnTE4y6jU0Ip+OSiFgRyEbBoVSRDv63n986wPu02PWoW9UFlGFXbM3X8kL1IcyBjH
+ inXUk95EeAfcQ4i10gH/Tnq6vDYaKJmDe/9Y8wGCf1L4e+pya6AVRBowVzfOuKR1TW61
+ fiXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678819869;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Wwlk8hb0CvwNxeIlyOIz7JGNOmqHFKUxUgrFzovJ034=;
- b=L8vbTu6tBTf1HQmz9Q8aNV3nP7mWQOE191JY09m7KcHljBS8HwD5PXo6exr7+CHkKL
- vxwqFkToVaEcMiaEvDqhOhlE6il03483wEDcvlFSi0olEZz9DvJdDp41dLi9BWKiU8LN
- aSqKUzLLsH1xkIBal8l5WJs7OYynF9NFaiEcZbAPpNj5alwNCtItTBRH00c+zBE/cWSf
- qsxQx7tF5HRkRXE7yuikh2xC+pIYg253HiY+irHaprat9LE3jHMO6/UWxyU57UZdmWCz
- J+mOclqRVQObn92QdiM+IIVPCuwkT2Lrx6GcOTCk78gG6Q127MpVgqYt7iYcdiJydjkC
- NvqQ==
-X-Gm-Message-State: AO0yUKUgedr9MG7tpaqzmkT7wPk+1eSZaNS7q1Ceq2Hrv4/JIuH/8lLB
- 8EP6wdKqQ1sXhRT9HuHrK727nnow+fxAgxKuhXU=
-X-Google-Smtp-Source: AK7set/Gp+s/DCBHlZCeu1Ia+5NnwVN2QRIZT9VIX0YThsSa+YyvrAEg3Fv3vMIDdEEr8pMvji1mSarzRu7Ravba9XE=
-X-Received: by 2002:a17:907:36e:b0:87b:db55:4887 with SMTP id
- rs14-20020a170907036e00b0087bdb554887mr1630806ejb.4.1678819868672; Tue, 14
- Mar 2023 11:51:08 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678821684;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OGTWkWgya236mexBQ6aWQASE1rii/2eGfUvSA23B678=;
+ b=PkZ0uiNzwtGIX/tx7kcN748kfMBTJkW01dqowIOmTl0kS5RoNDu29/xd5JyTjN9IXz
+ hU8v0D8bxhZ4p2wVGYG1R+/lQDuIh3ppOBbhNXRS2BCEN4gp/fmEWMLNH0TMX6hBaZvj
+ up5gUSyGWjbZRT0SPIKlTWFAwcpZahsQzmMj7d7XuK3UmYJWRlmEBx0kPSjspfsTNUTe
+ S1e/EIGFd7AFhFUcwHjnsb75CvbYwJl0rULIK3N9RxZ8AkoHsQRFXinzxii6UaH4kzs2
+ GgFhObcN2M6ifmwVKV5pP2uLWfs9sYrml3MUgisrizViKldApRW4u6MgCRtSJjXMJ2Cj
+ g8gw==
+X-Gm-Message-State: AO0yUKVKQdIXZ1X1kt5y4j2EtbpNeMzvlDzuCh8tF+8CNS9qFqg0icm6
+ LVorI/7JictPEim/TsI5YfejMJ+APdsbumrNe3UuLw==
+X-Google-Smtp-Source: AK7set88tDw8A/gd0rEtCRCfgdck/Fpe4cIdRBIODKWtB70JpVr7FEBe1ycGkKDQmhwA1KJJH0fvY5TsZu5Gtih9lJ8=
+X-Received: by 2002:a17:902:db07:b0:19f:87b5:186d with SMTP id
+ m7-20020a170902db0700b0019f87b5186dmr70138plx.9.1678821684610; Tue, 14 Mar
+ 2023 12:21:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230314170804.1196232-1-peter.maydell@linaro.org>
-In-Reply-To: <20230314170804.1196232-1-peter.maydell@linaro.org>
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Date: Tue, 14 Mar 2023 19:50:57 +0100
-Message-ID: <CAJy5ezom5DELwTM9JAeUkL7yrftnLwm2XuWVCizKwppk_XjKiw@mail.gmail.com>
-Subject: Re: [PATCH for-8.0] hw/char/cadence_uart: Fix guards on invalid
- BRGR/BDIV settings
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Alistair Francis <alistair@alistair23.me>
-Content-Type: multipart/alternative; boundary="000000000000ea063105f6e0b565"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-ed1-x532.google.com
+References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20230313200134.503083-1-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Mar 2023 19:21:13 +0000
+Message-ID: <CAFEAcA-SRZRRd4M-MzxJhAzpHXWmxgv+icE8O7xbii5Qnyf=jA@mail.gmail.com>
+Subject: Re: [PULL v2 00/18] Display patches
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,125 +91,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000ea063105f6e0b565
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Mar 14, 2023 at 6:08=E2=80=AFPM Peter Maydell <peter.maydell@linaro=
-.org>
-wrote:
-
-> The cadence UART attempts to avoid allowing the guset to set invalid
-> baud rate register values in the uart_write() function.  However it
-> does the "mask to the size of the register field" and "check for
-> invalid values" in the wrong order, which means that a malicious
-> guest can get a bogus value into the register by setting also some
-> high bits in the value, and cause QEMU to crash by division-by-zero.
+On Mon, 13 Mar 2023 at 20:02, <marcandre.lureau@redhat.com> wrote:
 >
-> Do the mask before the bounds check instead of afterwards.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1493
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> The following changes since commit 284c52eec2d0a1b9c47f06c3eee46762c5fc09=
+15:
 >
-
-Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
-
-
-
-> ---
->  hw/char/cadence_uart.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>   Merge tag 'win-socket-pull-request' of https://gitlab.com/marcandre.lur=
+eau/qemu into staging (2023-03-13 13:44:17 +0000)
 >
-> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> index c069a30842e..807e3985419 100644
-> --- a/hw/char/cadence_uart.c
-> +++ b/hw/char/cadence_uart.c
-> @@ -450,13 +450,15 @@ static MemTxResult uart_write(void *opaque, hwaddr
-> offset,
->          }
->          break;
->      case R_BRGR: /* Baud rate generator */
-> +        value &=3D 0xffff;
->          if (value >=3D 0x01) {
-> -            s->r[offset] =3D value & 0xFFFF;
-> +            s->r[offset] =3D value;
->          }
->          break;
->      case R_BDIV:    /* Baud rate divider */
-> +        value &=3D 0xff;
->          if (value >=3D 0x04) {
-> -            s->r[offset] =3D value & 0xFF;
-> +            s->r[offset] =3D value;
->          }
->          break;
->      default:
-> --
-> 2.34.1
+> are available in the Git repository at:
 >
+>   https://gitlab.com/marcandre.lureau/qemu.git tags/display-pull-request
 >
-
---000000000000ea063105f6e0b565
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Mar 14, 2023 at 6:08=E2=80=AFPM P=
-eter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@=
-linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">The cadence UART attempts to avoid all=
-owing the guset to set invalid<br>
-baud rate register values in the uart_write() function.=C2=A0 However it<br=
+> for you to fetch changes up to 4814d3cbf9f921b6f60a384b4aa3fc3151fdd3a7:
 >
-does the &quot;mask to the size of the register field&quot; and &quot;check=
- for<br>
-invalid values&quot; in the wrong order, which means that a malicious<br>
-guest can get a bogus value into the register by setting also some<br>
-high bits in the value, and cause QEMU to crash by division-by-zero.<br>
-<br>
-Do the mask before the bounds check instead of afterwards.<br>
-<br>
-Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/1493" re=
-l=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/i=
-ssues/1493</a><br>
-Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
-" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br></blockquote><div><=
-br></div><div>Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar@ze=
-roasic.com">edgar@zeroasic.com</a>&gt;<br></div><div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0hw/char/cadence_uart.c | 6 ++++--<br>
-=C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c<br>
-index c069a30842e..807e3985419 100644<br>
---- a/hw/char/cadence_uart.c<br>
-+++ b/hw/char/cadence_uart.c<br>
-@@ -450,13 +450,15 @@ static MemTxResult uart_write(void *opaque, hwaddr of=
-fset,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case R_BRGR: /* Baud rate generator */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 value &amp;=3D 0xffff;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (value &gt;=3D 0x01) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;r[offset] =3D value &amp; =
-0xFFFF;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;r[offset] =3D value;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case R_BDIV:=C2=A0 =C2=A0 /* Baud rate divider */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 value &amp;=3D 0xff;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (value &gt;=3D 0x04) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;r[offset] =3D value &amp; =
-0xFF;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;r[offset] =3D value;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div></div>
+>   ui/dbus: restrict opengl to gbm-enabled config (2023-03-13 23:48:45 +04=
+00)
+>
+> ----------------------------------------------------------------
+> ui: dbus & misc fixes
+>
+> v2:
+> - fix crash spotted by avocado VNC test
+>
+> ----------------------------------------------------------------
 
---000000000000ea063105f6e0b565--
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
