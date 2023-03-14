@@ -2,90 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955B56B8B44
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF0F6B8B71
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 07:43:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbyEV-0002oh-17; Tue, 14 Mar 2023 02:34:03 -0400
+	id 1pbyNc-0000S0-Q3; Tue, 14 Mar 2023 02:43:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pbyES-0002oS-J9
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:34:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbyNa-0000Q8-Hs
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:43:26 -0400
+Received: from mail-tyzapc01olkn2084.outbound.protection.outlook.com
+ ([40.92.107.84] helo=APC01-TYZ-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pbyEQ-0001H8-IN
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:34:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678775637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lq5fRA91Dz76/36Mqq+Q+0pTC3rTPwX5ANXm7UXICR0=;
- b=YD7Ar1myrXHxLoXx4d7noLJaeIK5aloO8HXJDdvNd4NgPa2zmzwfO3c41+abGrAOfQUC9B
- F3oi9HbyQAhvjEoFTbR0no+rETgIiIcQLZWr+ym9v7mSNADxw4+MXcmwLI3gJ8Oq9QmU7B
- ChXEyD08X6CbuB14KJuIoHBKtPWG96I=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-193-4Rn83w2ePLCqpAlBwOyixg-1; Tue, 14 Mar 2023 02:33:55 -0400
-X-MC-Unique: 4Rn83w2ePLCqpAlBwOyixg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- ev6-20020a056402540600b004bc2358ac04so20562911edb.21
- for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 23:33:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678775633;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lq5fRA91Dz76/36Mqq+Q+0pTC3rTPwX5ANXm7UXICR0=;
- b=A1poY216K7MjvDuzBu59+lKIYhwxpAlMiDOlo/2Cu+R7y1W2MAY0ARIAGdSgFt0grM
- jEp38P4FOKXy2igcdP8Uxjl3aNlKctWU/lJSfmHzoMH+kfgVY76+wQQQK47Rmbv4sOZZ
- YYGPq9EnqrkJJFIIto7LprT+UVm1OqzVH8cDeBVjsjgipIBAPx/686PjnWXdDSd9bcE2
- H8KwCFjlzPyvv0gIa2kqKXa+PyVJ5ncrl1V1T2IcSXSNqTLIWU9wBBGRwUixdIt2ddbY
- K12hjzOpgif9C4wvA5I7Mh+hBvH8ml5abUz/c0G91yq/zHXsSdTSqDbpo5HBsi5T15IA
- gj8g==
-X-Gm-Message-State: AO0yUKXgPgTv7yEaIxzDjouYYV7LHTe4SV7fb0kEaWOuZQqX7IovkwyR
- RQasCORDOtUeLG/VZtROG8rU7NXxYDpVY8P8wPNT56pk7vcVyuXOtnS+oLzYmFZ5oWszuPBdblC
- 93f/si2ukpOJQi6s=
-X-Received: by 2002:a50:ee18:0:b0:4a0:e31a:434 with SMTP id
- g24-20020a50ee18000000b004a0e31a0434mr34907218eds.27.1678775633578; 
- Mon, 13 Mar 2023 23:33:53 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8XZbrP0FadH8QOrNJ6E83pKOAATpnvma8FvoixrV7d5/Ux9eSRJV3bFA7NXa+cZhau384i3g==
-X-Received: by 2002:a50:ee18:0:b0:4a0:e31a:434 with SMTP id
- g24-20020a50ee18000000b004a0e31a0434mr34907202eds.27.1678775633291; 
- Mon, 13 Mar 2023 23:33:53 -0700 (PDT)
-Received: from redhat.com ([2a02:14f:1f7:4129:3ef9:ea05:f0ca:6b81])
- by smtp.gmail.com with ESMTPSA id
- q11-20020a5085cb000000b004bd6e3ed196sm493314edh.86.2023.03.13.23.33.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 23:33:52 -0700 (PDT)
-Date: Tue, 14 Mar 2023 02:33:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Chuck Zmudzinski <brchuckz@aol.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v2 2/2] pci: allow slot_reserved_mask to be ignored with
- manual slot assignment
-Message-ID: <20230314023148-mutt-send-email-mst@kernel.org>
-References: <cover.1678763217.git.brchuckz@aol.com>
- <d9ae459b2814425c2d9e756e45d993c824da150a.1678763217.git.brchuckz@aol.com>
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pbyNZ-0002ml-0l
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 02:43:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HRy5GjsI/+IS+kMUyTQqpBsZBPQcx+S3n7JdlHimhidQP3YOPt3qX2+UJ8YYf+oCf1W/5t0sL+idgR14LSHI5jP7yPUyg3MVu9RpcZEu+PfgFBShjLwANE8D2IeGghOee0BZOurJpdg34JPV073XkpFHOwJE7GVIeCEF/X0IpweRXca/nerXp2BJVjW32QE8M4D9cAGIMHuUzttuEf2lKEuD/ok9XfjR/QxFpPucETt4suyJrfBAN2kbNDrqi03euM6/Cm2MWQqABq/VEO9sMrmQG1umMHtqC1hJNDX4OU3lkUkuR0OgFNcGPpUwfybPARf0PObiPHabLYAGkDCyaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tNlcXWsfPoMCD8iBvxxGPLdfzYmg/4vhAb07uxVlQ3A=;
+ b=C29BZy/OTlNx0zHOA40CRNQQx9eHp4FLXw3xNkuSiv/e/Pk6je92ORIC+ao44xyr9kCf12XDj2m8B6mmgs2frZoq835TbWZImXGL/kDJlvFKc+xfEaf7Xd5jxDD4HTz8uwdExaEVlJvGXq36MgqFbI1Dz7yIiapILXQV2TD1i8rbDDt+/0kcbU3B4M3Ddp2OOY7LnXoFDjhga2bE4G8dVUAo6zhvA+TEknKZtsrTe4oqxTIocPK/wcsETdXmwKTTyQ+lFhpFXIY8MLGqmcyB4z6sGg7ZtFFARyhVKW00ZcOnkq3Kb0Xm6Nt7V6oxgB3ysYsIVrrhAG/rYLp8gOexXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
+ by KL1PR06MB6019.apcprd06.prod.outlook.com (2603:1096:820:d1::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.23; Tue, 14 Mar
+ 2023 06:38:15 +0000
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::5aac:46da:e945:95ae]) by TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::5aac:46da:e945:95ae%7]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
+ 06:38:15 +0000
+From: Yohei Kojima <y-koj@outlook.jp>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Yohei Kojima <y-koj@outlook.jp>
+Subject: [RFC PATCH v2 0/2] util: Add thread-safe qemu_strerror() function
+Date: Tue, 14 Mar 2023 15:36:32 +0900
+Message-ID: <TYZPR06MB5418216269D0ED2EB37D6FF49DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [vCYb2n7rpl3Q/VJqpKA5XjHU635+NRUk2586Jri4CFj21Hn4zyoJ5fQ2P5ftJt7+]
+X-ClientProxiedBy: TYCP301CA0036.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:380::20) To TYZPR06MB5418.apcprd06.prod.outlook.com
+ (2603:1096:400:202::7)
+X-Microsoft-Original-Message-ID: <cover.1678770219.git.y-koj@outlook.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9ae459b2814425c2d9e756e45d993c824da150a.1678763217.git.brchuckz@aol.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|KL1PR06MB6019:EE_
+X-MS-Office365-Filtering-Correlation-Id: f94e6062-c060-4b28-605d-08db2456b0cf
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /ci6noubLxb79PvtYXwk29SwlYk0IU5Sr5QE0oePT0yIBCLZyYb55AW4mczpPTzDFarDHYAFWXuURde+6Qx77Lg7Ssg+QNchjlms/kgfhELoN5Co/UZyjfEPxB1J6YObQwCBoXlTT6O5qhpoC0QPw/DtBhAqpMKtdXh0D6S7BYA/iFTCGCW/Id6lH0WiWEIpsiXsVJbgpqJYi2GXwTwrc/Skgy00atA4hHbWGMNsScmg/GNpMfxso6wSDBf2NuvnunzdLseH/fFNOtOHg2h+uVaBEMUa5Jp/lxAQZoY78kPRgycSn7B4x6CEutT06OyNSiXcyd2HfR81k+lPg2FKWgWNb0fUkrm9q4M+g6WXYeQTrWiGf24nbp5sqH0NZAY0JthZNLCLxXHnP1PfdWgB3Un2cYinoTO1IkfQ9PJBE2IxA9yKLzeuaWFSeJb/h/84nf6OuaNeoHVGBWEKtHBTga3UVtjCq9HL3nclrCr9izk6yx5pvV+Q4JrBAn+rwjx+OTNN1fDKRsNDgO0Y13dMcXFdjnsXoq9HBoQUsvWNPPX1lu5dgznyaHlJV3i8ay9w7gtBTqF917GhPV9gMxTsm7jFnMIRiaqBd+vd+rrOM50k0sJ7eNAeNvlA/qAWnPqHSCCwcMLAQKAwghzYPMhP4A==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1RV2lnFF0wH7IKdu7IzrvAB8osJ15RLvTGt955zzP4Ecuje898Zce1E1OQqc?=
+ =?us-ascii?Q?G1XQ/4iJHonVlS0CNVGZMIWRLeE/uO2eGSL1l0PaoQraPJdSwp7vDztHBe9F?=
+ =?us-ascii?Q?HP7xMHqu0ak9aRJMpudRZwX3Xc7YTy2b+MJAcd9KD250NCKEq6xIQeMPv0GS?=
+ =?us-ascii?Q?yexG4+1WqMvqsARHHaT3OUGLG61YrlExSV3NptLq7Q+wXK/ljUzlVJau70mW?=
+ =?us-ascii?Q?btArvB9fa1vpXEPl7oVzNPxwLpUh1wZ+vAfIeD/U/kumCSRSvwVFTbKn3VxK?=
+ =?us-ascii?Q?e7iZCaZ6UKLvh/K/Y82xMys5uQGltd7LqRlM/hJHLYl3r4iGHaZbC3P5X1Y1?=
+ =?us-ascii?Q?yjKSUtuVK+EjmT/fMiBwFimMws7ltEc6+B8+Yc8T/P/qMPch3gJlsFBPA62F?=
+ =?us-ascii?Q?o3s5oWaT3tVIshHTAHhlIVa+FeahzYJktU3xxXW0fPUN2/NY7W5aaTJ0NhrU?=
+ =?us-ascii?Q?rBSvblZCuGZmm5Lz49kH8Q0TfrMaeyKgZ126hFmu8230HmtZlSH2JzYhVZuD?=
+ =?us-ascii?Q?geWpBhZq5J9OSAZENWh78GMZOwvTy1dnisYyDgIM27IVzdBPLQcbWBM9NTzz?=
+ =?us-ascii?Q?lOO2cKJ9QEqvMOBHvsppTtbVprHvAth36XAw7qFeIS+WP87tNQe6nwyPH7NC?=
+ =?us-ascii?Q?PpIiT6/VN9h4t5ciepz5fzYdQcJ+a5tdqSX1OMIQ4021Xci79iO5D0HV9G17?=
+ =?us-ascii?Q?kieTr8PZ8llrmKPeS+K6YTqGVTC1AD1ELP7D86HZX6Yzg6Hwh8ehjgd2/mbO?=
+ =?us-ascii?Q?MR8SU8XLv1TUZYFm8RcIvxRBNmvqC1Xoo/oomppnfKi2OEh5s1+vvWSwwPPt?=
+ =?us-ascii?Q?SH7111MjO8AdqXWIIa+uY7hfjZGrk5RQ7enWQ7Jna68Q9tfo+7ZWukvKTmWd?=
+ =?us-ascii?Q?1RsjLmiHJQZsGjjZDo6yjStz1IZSd6vWqXZ6C2rOZ0w+ZX+PhoyRAApFeZ3x?=
+ =?us-ascii?Q?oKx0JRTE24dx3f3lhgGzdFPgQ0X3B7JxxNKChJRZWqFogtUhE+qkc6ruT/cf?=
+ =?us-ascii?Q?SmGtQJPwTQylUagsoPRkF6hGTz7t9WS3oHdeX2mBTj+c7Lw9aEr+FQ5BnIec?=
+ =?us-ascii?Q?GAQzT/lwfYa1LKv+tP/VgF45rdqwOJJXTJQLWELIQFvmkyIg4VBCRegQ1cr8?=
+ =?us-ascii?Q?jOOMXZCMJoc9TENFhxPNqfsz3izvGQ+NzIw0qUl+J0ZkllcjhrJ9KdWevzKI?=
+ =?us-ascii?Q?+VEovNQ2h2F4shmn/0Z1MCfCs4eJoIM3p0CbdLoFMujR9FwJ61xefdm1A0QF?=
+ =?us-ascii?Q?Wevg5Dni3ksO39tc1eNliE4X666+ernyqnTVbSut/LjXZw91p24cfZt9dmNs?=
+ =?us-ascii?Q?jgQc4Q0GG1iPcwqGSTWfBT9y?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f94e6062-c060-4b28-605d-08db2456b0cf
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 06:38:15.6631 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6019
+Received-SPF: pass client-ip=40.92.107.84; envelope-from=y-koj@outlook.jp;
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,137 +110,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: TYZPR06MB5418878CE06C457DF67D78B69DB89@TYZPR06MB5418.apcprd06.prod.outlook.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 14, 2023 at 12:01:09AM -0400, Chuck Zmudzinski wrote:
-> Commit 4f67543bb8c5 ("xen/pt: reserve PCI slot 2 for Intel igd-passthru")
-> uses slot_reserved_mask to reserve slot 2 for the Intel IGD for the
-> xenfv machine when the guest is configured for igd-passthru.
-> 
-> A desired extension to that commit is to allow use of the reserved slot
-> if the administrator manually configures a device to use the reserved
-> slot. Currently, slot_reserved_mask is enforced unconditionally. With
-> this patch, the pci bus can be configured so the slot is only reserved
-> if the pci device to be added to the bus is configured for automatic
-> slot assignment.
-> 
-> To enable the desired behavior of slot_reserved_mask machine, add a
-> boolean member enforce_slot_reserved_mask_manual to struct PCIBus and
-> add a function pci_bus_ignore_slot_reserved_mask_manual which can be
-> called to change the default behavior of always enforcing
-> slot_reserved_mask so, in that case, slot_reserved_mask is only enforced
-> when the pci device being added is configured for automatic slot
-> assignment.
-> 
-> Call the new pci_bus_ignore_slot_reserved_mask_manual function after
-> creating the pci bus for the pc/i440fx/xenfv machine type to implement
-> the desired behavior of causing slot_reserved_mask to only apply when
-> the pci device to be added to a pc/i440fx/xenfv machine is configured
-> for automatic slot assignment.
-> 
-> Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
-> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+This patch series adds qemu_strerror() function, which is thread-safe
+version of the libc strerror(). The first patch introduces the
+qemu_strerror() function, and the second patch replaces strerror()
+function in linux-user/* with qemu_strerror() function.
 
-I really dislike this. 
-It seems that xen should not have used slot_reserved_mask,
-and instead needs something new like slot_manual_mask.
-No?
+Because it involves thread safety, qemu_strerror() should be tested
+carefully. But before adding tests, I want to ask (1) will this patch be
+acceptable to QEMU project after adding tests, (2) where and how
+qemu_strerror() should be tested.
 
-> ---
-> Changelog
-> 
-> v2: Change Subject of patch from
->     "pci: add enforce_slot_reserved_mask_manual property" To
->     "pci: allow slot_reserved_mask to be ignored with manual slot assignment"
-> 
->     Add pci_bus_ignore_slot_reserved_mask_manual function
-> 
->     Call pci_bus_ignore_slot_reserved_mask_manual at appropriate place
->     in hw/pci-host/i440fx.c
-> 
->  hw/pci-host/i440fx.c     |  1 +
->  hw/pci/pci.c             | 14 +++++++++++++-
->  include/hw/pci/pci.h     |  1 +
->  include/hw/pci/pci_bus.h |  1 +
->  4 files changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-> index 262f82c303..8e00b88926 100644
-> --- a/hw/pci-host/i440fx.c
-> +++ b/hw/pci-host/i440fx.c
-> @@ -257,6 +257,7 @@ PCIBus *i440fx_init(const char *pci_type,
->      s = PCI_HOST_BRIDGE(dev);
->      b = pci_root_bus_new(dev, NULL, pci_address_space,
->                           address_space_io, 0, TYPE_PCI_BUS);
-> +    pci_bus_ignore_slot_reserved_mask_manual(b);
->      s->bus = b;
->      object_property_add_child(qdev_get_machine(), "i440fx", OBJECT(dev));
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 8a87ccc8b0..670ecc6986 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -501,6 +501,7 @@ static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
->      assert(PCI_FUNC(devfn_min) == 0);
->      bus->devfn_min = devfn_min;
->      bus->slot_reserved_mask = 0x0;
-> +    bus->enforce_slot_reserved_mask_manual = true;
->      bus->address_space_mem = address_space_mem;
->      bus->address_space_io = address_space_io;
->      bus->flags |= PCI_BUS_IS_ROOT;
-> @@ -1116,6 +1117,17 @@ static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
->      return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
->  }
->  
-> +static bool pci_bus_devfn_reserved_manual(PCIBus *bus, int devfn)
-> +{
-> +    return bus->enforce_slot_reserved_mask_manual &&
-> +            (bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn)));
-> +}
-> +
-> +void pci_bus_ignore_slot_reserved_mask_manual(PCIBus *bus)
-> +{
-> +    bus->enforce_slot_reserved_mask_manual = false;
-> +}
-> +
->  uint32_t pci_bus_get_slot_reserved_mask(PCIBus *bus)
->  {
->      return bus->slot_reserved_mask;
-> @@ -1164,7 +1176,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
->                     "or reserved", name);
->          return NULL;
->      found: ;
-> -    } else if (pci_bus_devfn_reserved(bus, devfn)) {
-> +    } else if (pci_bus_devfn_reserved_manual(bus, devfn)) {
->          error_setg(errp, "PCI: slot %d function %d not available for %s,"
->                     " reserved",
->                     PCI_SLOT(devfn), PCI_FUNC(devfn), name);
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 935b4b91b4..48d29ec234 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -287,6 +287,7 @@ void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
->  void pci_bus_map_irqs(PCIBus *bus, pci_map_irq_fn map_irq);
->  void pci_bus_irqs_cleanup(PCIBus *bus);
->  int pci_bus_get_irq_level(PCIBus *bus, int irq_num);
-> +void pci_bus_ignore_slot_reserved_mask_manual(PCIBus *bus);
->  uint32_t pci_bus_get_slot_reserved_mask(PCIBus *bus);
->  void pci_bus_set_slot_reserved_mask(PCIBus *bus, uint32_t mask);
->  void pci_bus_clear_slot_reserved_mask(PCIBus *bus, uint32_t mask);
-> diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-> index 5653175957..e0f15ee9be 100644
-> --- a/include/hw/pci/pci_bus.h
-> +++ b/include/hw/pci/pci_bus.h
-> @@ -37,6 +37,7 @@ struct PCIBus {
->      void *iommu_opaque;
->      uint8_t devfn_min;
->      uint32_t slot_reserved_mask;
-> +    bool enforce_slot_reserved_mask_manual;
->      pci_set_irq_fn set_irq;
->      pci_map_irq_fn map_irq;
->      pci_route_irq_fn route_intx_to_irq;
-> -- 
-> 2.39.2
+(1) means that: is my approach too complicated to solve potential
+thread-unsafe implementation of strerror()? Although strerror() is not
+guaranteed to be thread-safe, glibc implements thread-safe strerror().
+We have to consider the balance between maintenance costs and potential
+risks.
+
+(2) means that: is tests/unit/test-cutils.c a good place for tests?
+Because the behavior of qemu_strerror() is changed by the feature test
+macros, the tests should be run with different test macros, hopefully
+in different OSs.
+
+Note that strerror_r() function called by qemu_strerror() has
+different return types between architectures because of the historical
+reason. qemu_strerror() handles both the newer POSIX strerror() and the
+older POSIX strerror().
+
+All tests except for skipped ones are passed in my environment (x86_64
+linux).
+
+Yohei Kojima (2):
+  util: Add thread-safe qemu_strerror() function
+  linux-user: replace strerror() function to the thread safe
+    qemu_strerror()
+
+ include/qemu/cutils.h | 20 +++++++++++++++++++
+ linux-user/elfload.c  |  4 ++--
+ linux-user/main.c     |  4 ++--
+ linux-user/syscall.c  |  2 +-
+ util/cutils.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 70 insertions(+), 5 deletions(-)
+
+-- 
+2.39.2
 
 
