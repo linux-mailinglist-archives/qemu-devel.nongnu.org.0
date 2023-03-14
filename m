@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E966B9F82
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5A46B9F83
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 20:22:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcADD-0000Wt-De; Tue, 14 Mar 2023 15:21:32 -0400
+	id 1pcADU-0000e7-Nh; Tue, 14 Mar 2023 15:21:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcADA-0000WZ-JQ
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:28 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pcADM-0000aL-QP
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:43 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcAD8-0003Wf-O9
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:28 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- fy10-20020a17090b020a00b0023b4bcf0727so8757273pjb.0
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 12:21:25 -0700 (PDT)
+ id 1pcADL-0003Xx-3b
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:40 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id n16so4252343pfa.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 12:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678821684;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OGTWkWgya236mexBQ6aWQASE1rii/2eGfUvSA23B678=;
- b=iJw5i0WvvbpdjXkCOR219bI1G3P1aC2BJ4ggwC96jM/13VFcUtWs3RpbHSdqSbNiJk
- Tdo3lBMS1rN9fwX6C5FAeskCxzsc0xXtgd92OGHrBZqCeKygnJXnktDhu5ponh6XGx1+
- LUfkC89PlOdTPICIFGom2ECsXQXXuCTJ3jBXskOleUvJ6EXVbSY472DpZVIXGiwQ1vpF
- SgQhnTE4y6jU0Ip+OSiFgRyEbBoVSRDv63n986wPu02PWoW9UFlGFXbM3X8kL1IcyBjH
- inXUk95EeAfcQ4i10gH/Tnq6vDYaKJmDe/9Y8wGCf1L4e+pya6AVRBowVzfOuKR1TW61
- fiXA==
+ d=linaro.org; s=google; t=1678821698;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WU4ReylnqheDxq19FOND79achSDBUVZRzCnalq9fVTo=;
+ b=DYXSArW1jYbu1c/tP3kEeIR9g3NgRCuvJpdG4nSA8Hl+FznSQ41sIa/HnsiCDf6aMM
+ 3WdT7VOwtNL1PUy3pcDnFS4CQsvhBAonuMdLqsPa5C17Cj/fPhv3m96FjbjNemWFr8GM
+ bJzsATJEgLqBCqX4DlHEzoedOmRh4/MgEO1kw3sK78E0wbR1Xt+mKENozEvOi6cOSGqs
+ mJmrCL/shUHEoEbouAfcYC/IVcsqJqwV/ftvRmLYWjqu5VAehPjUdT0QA7ufgGiHCQe1
+ DudzhiGxL9JP7CekMhtkItv0Yo5Ak/cRkb8GuiX3t32JA4iWN4uUkJ9YPSO294lPaAdW
+ Un9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678821684;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OGTWkWgya236mexBQ6aWQASE1rii/2eGfUvSA23B678=;
- b=PkZ0uiNzwtGIX/tx7kcN748kfMBTJkW01dqowIOmTl0kS5RoNDu29/xd5JyTjN9IXz
- hU8v0D8bxhZ4p2wVGYG1R+/lQDuIh3ppOBbhNXRS2BCEN4gp/fmEWMLNH0TMX6hBaZvj
- up5gUSyGWjbZRT0SPIKlTWFAwcpZahsQzmMj7d7XuK3UmYJWRlmEBx0kPSjspfsTNUTe
- S1e/EIGFd7AFhFUcwHjnsb75CvbYwJl0rULIK3N9RxZ8AkoHsQRFXinzxii6UaH4kzs2
- GgFhObcN2M6ifmwVKV5pP2uLWfs9sYrml3MUgisrizViKldApRW4u6MgCRtSJjXMJ2Cj
- g8gw==
-X-Gm-Message-State: AO0yUKVKQdIXZ1X1kt5y4j2EtbpNeMzvlDzuCh8tF+8CNS9qFqg0icm6
- LVorI/7JictPEim/TsI5YfejMJ+APdsbumrNe3UuLw==
-X-Google-Smtp-Source: AK7set88tDw8A/gd0rEtCRCfgdck/Fpe4cIdRBIODKWtB70JpVr7FEBe1ycGkKDQmhwA1KJJH0fvY5TsZu5Gtih9lJ8=
-X-Received: by 2002:a17:902:db07:b0:19f:87b5:186d with SMTP id
- m7-20020a170902db0700b0019f87b5186dmr70138plx.9.1678821684610; Tue, 14 Mar
- 2023 12:21:24 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678821698;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WU4ReylnqheDxq19FOND79achSDBUVZRzCnalq9fVTo=;
+ b=WDqcGV3+NQXIMdJmkuPa8VMTKWFaTv+GvrkOvHgz7YkQ2EfQqCph7ou17pMg3TJPeN
+ twJ7vG8W18aoWT9RLoxyeOWSFaHntCOgIYyVYHyz79XuN0nRpbZEltGbnAWCSpp6ksSI
+ PeRCztMd5/GbtTkYxwWUp5YF8sLBg8Kp+4fWpSXtnFRykY2nkk2Xxlwm40s/ORjc9Mw8
+ iLo0ibZcjeMceSpcFFTETz+l6lm4bsXsjAbVuA21YGZi4vo00/hYwZUDs5V4lMwG0RxF
+ EHah8mJ3Rpcmss4F62Mx34Vo5q6ba60MuZGjeRx+EDye/4zxTHTnoPYBn2coRyN3MYgL
+ MJGQ==
+X-Gm-Message-State: AO0yUKVJN0IYQtlCfdaPnSIGaC1gckWvTtM9grq0zMtH7QySKgLbEbS6
+ WA/dF0wstByJ4u3cwLtWaAmxLwSVNb+t1/AhTWwAAStkuOF86aL8
+X-Google-Smtp-Source: AK7set90P8RrfnLe3O4+oJupm4aNZF31uvme/CKlQsLM0qbIoWM2sOl5i1HXNA5G2f8MPvb4rbifuTYgM0myLPASBKw=
+X-Received: by 2002:a63:5904:0:b0:503:a26a:2e7a with SMTP id
+ n4-20020a635904000000b00503a26a2e7amr13556342pgb.6.1678821697451; Tue, 14 Mar
+ 2023 12:21:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20230313200134.503083-1-marcandre.lureau@redhat.com>
+References: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Mar 2023 19:21:13 +0000
-Message-ID: <CAFEAcA-SRZRRd4M-MzxJhAzpHXWmxgv+icE8O7xbii5Qnyf=jA@mail.gmail.com>
-Subject: Re: [PULL v2 00/18] Display patches
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 14 Mar 2023 19:21:26 +0000
+Message-ID: <CAFEAcA8S4EPc=y+8BXxwfFZQP6k0=Bvmfm6=iMaH9yujsht++Q@mail.gmail.com>
+Subject: Re: [PULL 0/2] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
+ Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,30 +84,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Mar 2023 at 20:02, <marcandre.lureau@redhat.com> wrote:
+On Tue, 14 Mar 2023 at 06:39, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
 >
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
-> The following changes since commit 284c52eec2d0a1b9c47f06c3eee46762c5fc09=
-15:
+> The following changes since commit 284c52eec2d0a1b9c47f06c3eee46762c5fc0915:
 >
->   Merge tag 'win-socket-pull-request' of https://gitlab.com/marcandre.lur=
-eau/qemu into staging (2023-03-13 13:44:17 +0000)
+>   Merge tag 'win-socket-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2023-03-13 13:44:17 +0000)
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/marcandre.lureau/qemu.git tags/display-pull-request
+>   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20230314
 >
-> for you to fetch changes up to 4814d3cbf9f921b6f60a384b4aa3fc3151fdd3a7:
+> for you to fetch changes up to 0d581506de803204c5a321100afa270573382932:
 >
->   ui/dbus: restrict opengl to gbm-enabled config (2023-03-13 23:48:45 +04=
-00)
+>   Fix incorrect register name in disassembler for fmv,fabs,fneg instructions (2023-03-14 16:36:43 +1000)
 >
 > ----------------------------------------------------------------
-> ui: dbus & misc fixes
+> Seventh RISC-V PR for 8.0
 >
-> v2:
-> - fix crash spotted by avocado VNC test
+> * Fix slli_uw decoding
+> * Fix incorrect register name in disassembler for fmv,fabs,fneg instructions
 >
 > ----------------------------------------------------------------
 
