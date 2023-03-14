@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5A46B9F83
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 20:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48846B9F81
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 20:22:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcADU-0000e7-Nh; Tue, 14 Mar 2023 15:21:48 -0400
+	id 1pcADb-0000gD-U3; Tue, 14 Mar 2023 15:21:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcADM-0000aL-QP
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:43 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+ id 1pcADZ-0000fe-VM
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:53 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcADL-0003Xx-3b
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:40 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id n16so4252343pfa.12
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 12:21:38 -0700 (PDT)
+ id 1pcADY-0003YV-8k
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 15:21:53 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id u5so17695953plq.7
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 12:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678821698;
+ d=linaro.org; s=google; t=1678821711;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WU4ReylnqheDxq19FOND79achSDBUVZRzCnalq9fVTo=;
- b=DYXSArW1jYbu1c/tP3kEeIR9g3NgRCuvJpdG4nSA8Hl+FznSQ41sIa/HnsiCDf6aMM
- 3WdT7VOwtNL1PUy3pcDnFS4CQsvhBAonuMdLqsPa5C17Cj/fPhv3m96FjbjNemWFr8GM
- bJzsATJEgLqBCqX4DlHEzoedOmRh4/MgEO1kw3sK78E0wbR1Xt+mKENozEvOi6cOSGqs
- mJmrCL/shUHEoEbouAfcYC/IVcsqJqwV/ftvRmLYWjqu5VAehPjUdT0QA7ufgGiHCQe1
- DudzhiGxL9JP7CekMhtkItv0Yo5Ak/cRkb8GuiX3t32JA4iWN4uUkJ9YPSO294lPaAdW
- Un9g==
+ bh=SKrC58cpLzzekQXNHo2IJwvDEkYLoPjHxtHMnb7tZXA=;
+ b=aBQXsAVXK6fm/12ELAf7gxQpqsT3xLJJhGEVtpafGnAUiZNq1NVl7+pZ6IAIuHjeiI
+ lN1S7RnzjmP6rhxkAFA8h9x95gF0BkWBAl6uwYt9IfWhExt1aZt/T9AdN/DtlyLrnx6M
+ uCBN5tfO+4eyASrogH8okynOX3VOmMUI5adNP3fUXP62N90GoZi8c9P+7GU8iVAzvdAc
+ OW9nXagiHgTmxksZ8s7cQGvU5kZAgla2YO7Lx0hYiHQMmQVzjPAg/vOd6ItawUmaXc87
+ JQ7CsRhGU7oZgh7C7pFWs9o5zX7Yig8FkWWhKx+KBtRERFqHJoDlWjzc6gV91UgA1Slp
+ lx4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678821698;
+ d=1e100.net; s=20210112; t=1678821711;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=WU4ReylnqheDxq19FOND79achSDBUVZRzCnalq9fVTo=;
- b=WDqcGV3+NQXIMdJmkuPa8VMTKWFaTv+GvrkOvHgz7YkQ2EfQqCph7ou17pMg3TJPeN
- twJ7vG8W18aoWT9RLoxyeOWSFaHntCOgIYyVYHyz79XuN0nRpbZEltGbnAWCSpp6ksSI
- PeRCztMd5/GbtTkYxwWUp5YF8sLBg8Kp+4fWpSXtnFRykY2nkk2Xxlwm40s/ORjc9Mw8
- iLo0ibZcjeMceSpcFFTETz+l6lm4bsXsjAbVuA21YGZi4vo00/hYwZUDs5V4lMwG0RxF
- EHah8mJ3Rpcmss4F62Mx34Vo5q6ba60MuZGjeRx+EDye/4zxTHTnoPYBn2coRyN3MYgL
- MJGQ==
-X-Gm-Message-State: AO0yUKVJN0IYQtlCfdaPnSIGaC1gckWvTtM9grq0zMtH7QySKgLbEbS6
- WA/dF0wstByJ4u3cwLtWaAmxLwSVNb+t1/AhTWwAAStkuOF86aL8
-X-Google-Smtp-Source: AK7set90P8RrfnLe3O4+oJupm4aNZF31uvme/CKlQsLM0qbIoWM2sOl5i1HXNA5G2f8MPvb4rbifuTYgM0myLPASBKw=
-X-Received: by 2002:a63:5904:0:b0:503:a26a:2e7a with SMTP id
- n4-20020a635904000000b00503a26a2e7amr13556342pgb.6.1678821697451; Tue, 14 Mar
- 2023 12:21:37 -0700 (PDT)
+ bh=SKrC58cpLzzekQXNHo2IJwvDEkYLoPjHxtHMnb7tZXA=;
+ b=QUdzigTfQotRzKgsms933Oi9rS2E9SUc1CQk2JIgnBpe10llrG4Xu61u5CkAm5nC/H
+ xQu6FayHlBmNgVw5By75ea+mvGOiCdjSeLSdvvVWFMAG3rKx9fVIMg70El/EU30FDkGZ
+ YULXggZ4TYcBfP/bA57CrbnWUlE6ygd3IH3P2aXOt3WsF2fhLN5wiGHklmxHQ2aFHQsi
+ jSU2Fu6O8Ik1vPBtid/IRoNIJ31sW1DQoy5nzR9W02kMnvX+WHUYnitPIIjoY00ZXMgY
+ MaaJDX7OijNiLtjMPTCr6iBsFfLwaO5KoFD5l/rqYIfnI4B4yo/ySfGEu8wZNdRmeWKd
+ ykLw==
+X-Gm-Message-State: AO0yUKXwIGYvC8kkJy5YOKBNl9Ii2BNsFG01K4gcaUuRureeg1YiDx4v
+ X5iG69SlfwU/QhQrTLgfC+57aKF8id8xbsPUY8c9+w==
+X-Google-Smtp-Source: AK7set+KxJTpDkvTgKMzaPArCtKcZ2LkVtEYyBkUGfiwkHvgGriqONIEh2mdVeFE0nK416TrVc+ZOpaofJFgYh5CRAc=
+X-Received: by 2002:a17:90a:d901:b0:23c:fa47:e763 with SMTP id
+ c1-20020a17090ad90100b0023cfa47e763mr3209664pjv.0.1678821710839; Tue, 14 Mar
+ 2023 12:21:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20230314063812.30450-1-alistair.francis@opensource.wdc.com>
+References: <20230314134950.569342-1-laurent@vivier.eu>
+In-Reply-To: <20230314134950.569342-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Mar 2023 19:21:26 +0000
-Message-ID: <CAFEAcA8S4EPc=y+8BXxwfFZQP6k0=Bvmfm6=iMaH9yujsht++Q@mail.gmail.com>
-Subject: Re: [PULL 0/2] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
- Alistair Francis <alistair.francis@wdc.com>
+Date: Tue, 14 Mar 2023 19:21:39 +0000
+Message-ID: <CAFEAcA-_VsB3en6oKgUcBaACZ2HVUHfVNtXw7xhkRXMq-MJjdw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Trivial branch for 8.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,10 +83,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 14 Mar 2023 at 06:39, Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
+On Tue, 14 Mar 2023 at 13:53, Laurent Vivier <laurent@vivier.eu> wrote:
 >
 > The following changes since commit 284c52eec2d0a1b9c47f06c3eee46762c5fc0915:
 >
@@ -95,17 +91,17 @@ On Tue, 14 Mar 2023 at 06:39, Alistair Francis
 >
 > are available in the Git repository at:
 >
->   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20230314
+>   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-8.0-pull-request
 >
-> for you to fetch changes up to 0d581506de803204c5a321100afa270573382932:
+> for you to fetch changes up to fcc8f37ca3eca968932e5da716ec5e7fc05fdcf4:
 >
->   Fix incorrect register name in disassembler for fmv,fabs,fneg instructions (2023-03-14 16:36:43 +1000)
+>   MAINTAINERS: Remove CXL maintainer Ben Widawsky (2023-03-14 14:46:38 +0100)
 >
 > ----------------------------------------------------------------
-> Seventh RISC-V PR for 8.0
+> trivial branch pull request 20230314
 >
-> * Fix slli_uw decoding
-> * Fix incorrect register name in disassembler for fmv,fabs,fneg instructions
+> Update MAINTAINER file
+> Fix typo in qemu-options.hx
 >
 > ----------------------------------------------------------------
 
