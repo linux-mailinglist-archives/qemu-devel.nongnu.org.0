@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7856F6B9C76
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4B06B9C71
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:05:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc85X-0003J1-7J; Tue, 14 Mar 2023 13:05:29 -0400
+	id 1pc85i-0003fJ-CW; Tue, 14 Mar 2023 13:05:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pc85P-0003HS-2O
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:05:19 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pc85f-0003Ze-Gi
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:05:35 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pc85M-0005Zv-EQ
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:05:18 -0400
-Received: by mail-pl1-x633.google.com with SMTP id p20so17254674plw.13
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 10:05:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pc85d-0005cH-LJ
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:05:35 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id
+ p13-20020a9d744d000000b0069438f0db7eso8777804otk.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 10:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678813515;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sMG7llfNtooNocOJENG6MuSVf6E1WqgGs6wzJsB+Zs0=;
- b=wyEcx1PCTRmcJX3a68BxmG2ik+nrga9JPDQxJ1iEYlGsBEqJUYs2Oy06rQr44ReUD7
- 47AFT5LWff8aCf0HishlREJxFad6aIH1RKovYRLri9tasZgHJEIOGC232YtjTYv4AouG
- dw09TttNHyY3wS0HBwg8E1VlBdvvrNUajI28t2qx0S+oTIQc/BdGG8v2V2oj46gHWDiW
- rLLa58rLDGjHlJPQ+jDJ8bv8iN7VY7XutTfGfdm3glqZb14PLutpTK/sGxg5bav/orms
- K2D406tp1csV7L/FKeJKNYQJ90gkXdJnkrdSTFu8zayRcnT4aPI7AAoPunZ/A9eXXL2i
- nyfw==
+ d=linaro.org; s=google; t=1678813531;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QyAoC1ZI2Uajlnel4d4cTr9/iTn7x/C2G0Va7H6EAB0=;
+ b=nm+30fQFHikvnOsvDi812Gym9gVkwwBKn3eXTGPiZTB/TuCTYy+wz+59cj1Zr6iVTd
+ 0FRx7nYDGAvq/pbUQ+hPHx0crBxkSBZLcK8bqbx+YWNh1LZR1bRkSBzvkiq8z4JNSUKu
+ 0qa9H3v9FyOSadGWQO9xaTv7+aRX7Um2OtXazl+rOcixNGbafHY3pN0Mp1hRnEuta6pC
+ zbwBgg7qXtw3qp7Bhy83j9X5qCXLprPYqWH0zr0Xe4y4cAXnEk9Zr1ngc+zx5Nw42R05
+ MZGaSuxdHkdocjRXh89UjqG93SFymeUGnpKfXT1a6hYjGFfU62gQCc8iCVFh8m1thv9T
+ 5Dzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678813515;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sMG7llfNtooNocOJENG6MuSVf6E1WqgGs6wzJsB+Zs0=;
- b=7z2Ut/VivK4OaTOsx6Qk79Jw1QT/nMTRSdV15dE9CIXGI+Hxmv9tA/1K8l1MciNx5v
- RjVN/x9R1hko+bjjaKL9UApoZKOMggdAiuJ2iHz2/uEcs3AqDqd1PIFAHclnSptcMlQT
- rWPeGyfgRbzXesEO70jg7wEKUoPOnGIRO1dCwDBr1bg6I4XdafAdLcU237hbPWv9uTQ1
- dNQ4YAyh0LihDGIhRNQE8pGkYqaXcR40gTaI8qnS60CQ8b2R2Et+g32uR42GQSPesaGN
- am3CEDNHAXwGN0tJI1BJrRYPbgzS5PxDsASJS3w3630j7jOT1e1UBG+n38iqkq/qDosI
- PjJQ==
-X-Gm-Message-State: AO0yUKV7uRobiHmfwq7b3MSreAlA1f13Y+LmC8zjiv3EDooqN/6cHqAQ
- 8UfDby+habhsqOBUf3+rgjQPIPfNLEsmZ7kXHfvSpw==
-X-Google-Smtp-Source: AK7set/VPczAChgz1n6aJ2RbGlEEqH8LtHPaAfoq1VYqHLANiboTY7Tji72dZsPduZTy/QTZnbpTYn9or7a4wJCXj6Q=
-X-Received: by 2002:a17:902:fac6:b0:19f:3b0e:a463 with SMTP id
- ld6-20020a170902fac600b0019f3b0ea463mr3959106plb.9.1678813514827; Tue, 14 Mar
- 2023 10:05:14 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678813531;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QyAoC1ZI2Uajlnel4d4cTr9/iTn7x/C2G0Va7H6EAB0=;
+ b=GiUwXvsj8KApYZPJ57J7RnckGZ0FerbDfvaZt2o0uvYnnZ4VK4+oxJ3kLD8zT4WIqY
+ 3wZNq9mhw4t7OgeRfNybz6Hijc7cuCYiKomjHufUtUkmMqedgdIDt41nZIbaaxqnRtV6
+ 8Z5hYNW5c5IopoDCLoBre+8ANck0JPPrnsP6BHo7yl3HeNMUNQBPHvMsi1HRaINv/97z
+ KMBIjwOraG53/xR+RGAVOW7AqRlkfja5oT86bj5yNLr9rZEk2IvilNxxV44DJJXUNN25
+ wgpLIJgSO9kF33R4CSOdTIUwe2mRxA14kN/8apdP/Bud0OS2GDAIy/6EMkb4z2H7NYMV
+ 1CNA==
+X-Gm-Message-State: AO0yUKWGcR/FOGecUicdxsCG0nGo/l8ebSJJXHXXUuov04fBtync9YsR
+ yDqgJ3rEVPVscxijH2IRCyXNvw==
+X-Google-Smtp-Source: AK7set+ow6xPqqIw/Hjy6FPrA7JGVW7jPmst2qpsIfN9IciIDUwYw2juu2VT0dnHn1v7JU41Ed8NtA==
+X-Received: by 2002:a05:6830:716:b0:68b:b79a:b3f4 with SMTP id
+ y22-20020a056830071600b0068bb79ab3f4mr17109444ots.14.1678813531441; 
+ Tue, 14 Mar 2023 10:05:31 -0700 (PDT)
+Received: from [172.20.4.181] ([50.232.40.61])
+ by smtp.gmail.com with ESMTPSA id
+ a21-20020a9d7255000000b0068bcf7995aesm367881otk.64.2023.03.14.10.05.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Mar 2023 10:05:31 -0700 (PDT)
+Message-ID: <b90a2b8e-f01e-210b-2bb5-3c002e0cb5f6@linaro.org>
+Date: Tue, 14 Mar 2023 10:05:28 -0700
 MIME-Version: 1.0
-References: <20230227042629.339747-1-gshan@redhat.com>
- <a4a28aca-449e-0b95-c3ca-e036b82d76e7@redhat.com>
-In-Reply-To: <a4a28aca-449e-0b95-c3ca-e036b82d76e7@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Mar 2023 17:05:03 +0000
-Message-ID: <CAFEAcA_heAVWgcc8MsXovbOoea4NziBXZjNDLKpd1rF7cFoVDg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] hw/arm/virt: Support dirty ring
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com, 
- cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org, 
- zhenyzha@redhat.com, shan.gavin@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x633.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 2/2] tests/tcg/s390x: Add ex-relative-long.c
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20230313233819.122329-1-iii@linux.ibm.com>
+ <20230313233819.122329-3-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230313233819.122329-3-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,75 +95,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Mar 2023 at 07:13, Gavin Shan <gshan@redhat.com> wrote:
->
-> On 2/27/23 12:26 PM, Gavin Shan wrote:
-> > This series intends to support dirty ring for live migration for arm64. The
-> > dirty ring use discrete buffer to track dirty pages. For arm64, the speciality
-> > is to use backup bitmap to track dirty pages when there is no-running-vcpu
-> > context. It's known that the backup bitmap needs to be synchronized when
-> > KVM device "kvm-arm-gicv3" or "arm-its-kvm" has been enabled. The backup
-> > bitmap is collected in the last stage of migration. The policy here is to
-> > always enable the backup bitmap extension. The overhead to synchronize the
-> > backup bitmap in the last stage of migration, when those two devices aren't
-> > used, is introduced. However, the overhead should be very small and acceptable.
-> > The benefit is to support future cases where those two devices are used without
-> > modifying the code.
-> >
-> > PATCH[1] add migration last stage indicator
-> > PATCH[2] synchronize the backup bitmap in the last stage of migration
-> > PATCH[3] add helper kvm_dirty_ring_init() to enable dirty ring
-> > PATCH[4] enable dirty ring for arm64
-> >
-> >     v1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00434.html
-> > RFCv1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00171.html
-> >
-> > Testing
-> > =======
-> > (1) kvm-unit-tests/its-pending-migration and kvm-unit-tests/its-migration with
-> >      dirty ring or normal dirty page tracking mechanism. All test cases passed.
-> >
-> >      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
-> >      ./its-pending-migration
-> >
-> >      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
-> >      ./its-migration
-> >
-> >      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
-> >      ./its-pending-migration
-> >
-> >      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
-> >      ./its-migration
-> >
-> > (2) Combinations of migration, post-copy migration, e1000e and virtio-net
-> >      devices. All test cases passed.
-> >
-> >      -netdev tap,id=net0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown  \
-> >      -device e1000e,bus=pcie.5,netdev=net0,mac=52:54:00:f1:26:a0
-> >
-> >      -netdev tap,id=vnet0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown \
-> >      -device virtio-net-pci,bus=pcie.6,netdev=vnet0,mac=52:54:00:f1:26:b0
-> >
-> > Changelog
-> > =========
-> > v2:
-> >    * Drop PATCH[v1 1/6] to synchronize linux-headers                            (Gavin)
-> >    * More restrictive comments about struct MemoryListener::log_sync_global     (PeterX)
-> >    * Always enable the backup bitmap extension                                  (PeterM)
-> > v1:
-> >    * Combine two patches into one PATCH[v1 2/6] for the last stage indicator    (PeterX)
-> >    * Drop the secondary bitmap and use the original one directly                (Juan)
-> >    * Avoid "goto out" in helper kvm_dirty_ring_init()                           (Juan)
-> >
->
-> Ping, Paolo and Peter Maydell. Please take a look to see if it can be
-> merged, thanks!
+On 3/13/23 16:38, Ilya Leoshkevich wrote:
+> Test EXECUTE and EXECUTE RELATIVE LONG with relative long instructions
+> as targets.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   tests/tcg/s390x/Makefile.target    |   1 +
+>   tests/tcg/s390x/ex-relative-long.c | 149 +++++++++++++++++++++++++++++
+>   2 files changed, 150 insertions(+)
+>   create mode 100644 tests/tcg/s390x/ex-relative-long.c
+> 
+> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+> index 72ad309b273..ed2709ee2c3 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -28,6 +28,7 @@ TESTS+=div
+>   TESTS+=clst
+>   TESTS+=long-double
+>   TESTS+=cdsg
+> +TESTS+=ex-relative-long
+>   
+>   cdsg: CFLAGS+=-pthread
+>   cdsg: LDFLAGS+=-pthread
+> diff --git a/tests/tcg/s390x/ex-relative-long.c b/tests/tcg/s390x/ex-relative-long.c
+> new file mode 100644
+> index 00000000000..e47dac7e2c3
+> --- /dev/null
+> +++ b/tests/tcg/s390x/ex-relative-long.c
+> @@ -0,0 +1,149 @@
+> +/* Check EXECUTE with relative long instructions as targets. */
+> +#include <stdlib.h>
+> +#include <stdio.h>
+> +
+> +struct test {
+> +    const char *name;
+> +    long (*func)(long reg, long *cc);
+> +    long exp_reg;
+> +    long exp_mem;
+> +    long exp_cc;
+> +};
+> +
+> +/* Variable targeted by relative long instructions. */
+> +long mem;
 
-No objections here; I'm assuming that since it's only touching
-KVM core code that it would go via Paolo. However, as a new
-feature it has missed softfreeze for 8.0, so it'll have to
-wait until the tree re-opens for 8.1.
+I guess you're assuming that the adjacent memory, which the buggy qemu would address, 
+contains something other than
 
-thanks
--- PMM
+
+> +/* Initial "mem" value. */
+> +#define MEM 0xfedcba9889abcdef
+
+this?  Perhaps better to use an array, and address the middle of it?
+
+
+r~
 
