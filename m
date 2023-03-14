@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661B76B8D61
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 09:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764B86B8D66
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 09:35:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc05w-0001bT-Ew; Tue, 14 Mar 2023 04:33:20 -0400
+	id 1pc07w-0002gH-Nt; Tue, 14 Mar 2023 04:35:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+85aaf62de0f2ab7b978a+7142+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pc05t-0001bJ-Oc
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 04:33:17 -0400
+ id 1pc07i-0002d4-SW
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 04:35:10 -0400
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+85aaf62de0f2ab7b978a+7142+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pc05q-0002FW-MG
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 04:33:17 -0400
+ id 1pc07g-0002Zk-E4
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 04:35:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TcvCFh8lTutcMQPv+FvaU3nhL7FJ+Cdk/suPQBG8A0Q=; b=EchYpbUSzaMdTVB9u/LmksFY22
- GL1FdjbyM2hONs0RWSm0B2JZM7DTfwih/mLlPiu1EgA19yjuLhnDahk9woX9HSKyoEYWrxYlICFHj
- pioQJy25D6mqKwCQUcBt/PZL48jCwsfR1t1KV6DU94jO0RqhS0cP/SSCmoUvB7yhS8arEhC9MoMOw
- epwjYn7xShxxOtgv6VEgZwHn4Jz+JEe+HCelEmh1kG+kW4YFkl2IgJF70ZsBLB9UFc5zMscP5ccMJ
- /qQRQv/LXrUx1X2Jd1XA+tDR8Vame5vWb+5x627vhQc/27IPfh3SQZYYfY8nbkC/td8KIKi2nR9sW
- BlXpzKkw==;
+ bh=EsKGQKX5H5xQ8a7eKIcDS4lNhDTY1QgeDsjiXjaL+wY=; b=Q3KTTBjRp4HZROuSt1P5CO7dsl
+ ASM35AdLZE6b9pWaGCiKCGkvzdtPQ/qtisIo484KDeYG/YON9l59/o/Ht+4LBRc02lzPzlArSc20t
+ ETImXJAn16fiNXZYtpyPjk5O3ndTtggzg1qRCcFNuId5Dl4V3cTVo8nMmJxa17y4OvanlW8tTiQ6a
+ +Kf4oxCxVMO3B6bsW1+GCvpqFdOzoVyTCDxum/HG5XBKCG4hByHBTrN5yfswM3jfVS3623uvUXTEb
+ EUihNWtyYo2c5Zq4GuBVlgWLFaNTvtt1/xFT3QAZwUn+mcohXUpz7rezZC3q1TxJm6eKInStTYAvQ
+ k3sDqJqA==;
 Received: from [2001:8b0:10b:5:4cf8:b30f:f81:c818]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pc05c-00CjTU-8s; Tue, 14 Mar 2023 08:33:00 +0000
-Message-ID: <3122e6c25bac407a329e1ca105da1bb52323c9ca.camel@infradead.org>
-Subject: Re: [PULL 13/27] hw/xen: Add xenstore operations to allow
- redirection to internal emulation
+ id 1pc07c-00CjXL-CG; Tue, 14 Mar 2023 08:35:05 +0000
+Message-ID: <1f141995bb61af32c2867ef5559e253f39b0949c.camel@infradead.org>
+Subject: [PATCH] accel/xen: Fix DM state change notification in dm_restrict
+ mode
 From: David Woodhouse <dwmw2@infradead.org>
 To: Jason Andryuk <jandryuk@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, Paolo
@@ -46,7 +46,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, Paolo
  Anthony Perard <anthony.perard@citrix.com>, 
  xen-devel@lists.xenproject.org, Juan Quintela <quintela@redhat.com>, "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>
-Date: Tue, 14 Mar 2023 08:32:59 +0000
+Date: Tue, 14 Mar 2023 08:35:03 +0000
 In-Reply-To: <CAKf6xptRmeVmH3xmF8QffQA=aYeXxCWUw9ta2HaYx1xQngzjTA@mail.gmail.com>
 References: <20230307182707.2298618-1-dwmw2@infradead.org>
  <20230307182707.2298618-14-dwmw2@infradead.org>
@@ -55,7 +55,7 @@ References: <20230307182707.2298618-1-dwmw2@infradead.org>
  <CAKf6xptRmeVmH3xmF8QffQA=aYeXxCWUw9ta2HaYx1xQngzjTA@mail.gmail.com>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-jLYd3nS/7ICtpg4iKlz3"
+ boundary="=-0AISUeYVAr1UpMM4QQgt"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -86,72 +86,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-jLYd3nS/7ICtpg4iKlz3
+--=-0AISUeYVAr1UpMM4QQgt
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2023-03-13 at 19:17 -0400, Jason Andryuk wrote:
-> This looks good, better than what I posted, and seems to work for both
-> dm_restrict set and unset.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Thanks.
+When dm_restrict is set, QEMU isn't permitted to update the XenStore node
+to indicate its running status. Previously, the xs_write() call would fail
+but the failure was ignored.
 
-> For dm_restricted, xs_write() does fail.=C2=A0 I verified that with a pri=
-nt
-> statement.=C2=A0 I think "shouldn't even try" makes sense.=C2=A0 I'm thin=
-king
-> that=C2=A0 xen_domid_restricted shouldn't even add the callback.=C2=A0 So=
-mething
-> like:
->=20
-> --- a/accel/xen/xen-all.c
-> +++ b/accel/xen/xen-all.c
-> @@ -39,8 +39,7 @@ static void xenstore_record_dm_state(const char *state)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This call may fail when running restrict=
-ed so don't make it fatal in
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * that case. Toolstacks should instead use=
- QMP to listen for state changes.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> -=C2=A0=C2=A0=C2=A0 if (!qemu_xen_xs_write(xenstore, XBT_NULL, path, stat=
-e, strlen(state)) &&
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !xen_=
-domid_restrict) {
-> +=C2=A0=C2=A0=C2=A0 if (!qemu_xen_xs_write(xenstore, XBT_NULL, path, stat=
-e, strlen(state))) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("error reco=
-rding dm state");
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
-> @@ -101,7 +100,10 @@ static int xen_init(MachineState *ms)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 xc_interface_close(xen_x=
-c);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -1;
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
-> -=C2=A0=C2=A0=C2=A0 qemu_add_vm_change_state_handler(xen_change_state_han=
-dler, NULL);
-> +
-> +=C2=A0=C2=A0=C2=A0 if(!xen_domid_restrict)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_add_vm_change_state_hand=
-ler(xen_change_state_handler, NULL);
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0 /*
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * opt out of system RAM being allocated by=
- generic code
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->=20
-> That works for both dm_restrict 0 & 1.
->=20
-> I think you should submit your change and I can follow up with the
-> above if it seems desirable.
+However, in refactoring to allow for emulated XenStore operations, a new
+call to xs_open() was added. That one didn't fail gracefully, causing a
+fatal error when running in dm_restrict mode.
 
-Let's just do it in one. I'll move that comment about 'call may fail'
-down to where you've made the qemu_add_vm_change_state_handler()
-conditional. And QEMU style requires braces even for a one-line if().
+Partially revert the offending patch, removing the additional call to
+xs_open() because the global 'xenstore' variable is still available; it
+just needs to be used with qemu_xen_xs_write() now instead of directly
+with the xs_write() libxenstore function.
 
-I'll send it out and let you add your Signed-off-by: and Tested-by: to
-it.
+Also make the whole thing conditional on !xen_domid_restrict. There's no
+point even registering the state change handler to attempt to update the
+XenStore node when we know it's destined to fail.
 
---=-jLYd3nS/7ICtpg4iKlz3
+Fixes: ba2a92db1ff6 ("hw/xen: Add xenstore operations to allow redirection =
+to internal emulation")
+Reported-by: Jason Andryuk <jandryuk@gmail.com>
+Co-developed-by: Jason Andryuk <jandryuk@gmail.com>
+Not-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Will-be-Tested-by: Jason Andryuk <jandryuk@gmail.com>
+---
+ accel/xen/xen-all.c | 27 ++++++++++-----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
+
+diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+index 00221e23c5..5ff0cb8bd9 100644
+--- a/accel/xen/xen-all.c
++++ b/accel/xen/xen-all.c
+@@ -32,28 +32,13 @@ xendevicemodel_handle *xen_dmod;
+=20
+ static void xenstore_record_dm_state(const char *state)
+ {
+-    struct xs_handle *xs;
+     char path[50];
+=20
+-    /* We now have everything we need to set the xenstore entry. */
+-    xs =3D xs_open(0);
+-    if (xs =3D=3D NULL) {
+-        fprintf(stderr, "Could not contact XenStore\n");
+-        exit(1);
+-    }
+-
+     snprintf(path, sizeof (path), "device-model/%u/state", xen_domid);
+-    /*
+-     * This call may fail when running restricted so don't make it fatal i=
+n
+-     * that case. Toolstacks should instead use QMP to listen for state ch=
+anges.
+-     */
+-    if (!xs_write(xs, XBT_NULL, path, state, strlen(state)) &&
+-            !xen_domid_restrict) {
++    if (!qemu_xen_xs_write(xenstore, XBT_NULL, path, state, strlen(state))=
+) {
+         error_report("error recording dm state");
+         exit(1);
+     }
+-
+-    xs_close(xs);
+ }
+=20
+=20
+@@ -111,7 +96,15 @@ static int xen_init(MachineState *ms)
+         xc_interface_close(xen_xc);
+         return -1;
+     }
+-    qemu_add_vm_change_state_handler(xen_change_state_handler, NULL);
++
++    /*
++     * The XenStore write would fail when running restricted so don't atte=
+mpt
++     * it in that case. Toolstacks should instead use QMP to listen for st=
+ate
++     * changes.
++     */
++    if (!xen_domid_restrict) {
++        qemu_add_vm_change_state_handler(xen_change_state_handler, NULL);
++    }
+     /*
+      * opt out of system RAM being allocated by generic code
+      */
+--=20
+2.34.1
+
+
+
+--=-0AISUeYVAr1UpMM4QQgt
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -243,25 +273,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzE0MDgzMjU5WjAvBgkqhkiG9w0BCQQxIgQg3VWM+Zc8
-NL0V4vU1VBNtwgb3RvFpFDRXi+BC7CTPyt0wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzE0MDgzNTAzWjAvBgkqhkiG9w0BCQQxIgQgzxouJoy2
+dtblgaTHzshncWQebSNx0C6a74Ecuxm8ioUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCWFG72xXgAku9yqE6HMBncKqTLzKveQ7wj
-8x/HGE2qtSVUyfChasy4FzQVrK50aL6Hg4joHpWAMZGst4Sh0lfniOI4rHkPjiW0JfNZHpARSkWO
-CB4Xb+ysm+LAzvJT+Db8TEHfFFLPIu0V34OZcrz25WkyBB+cOecXBQW09BPnOIQ8wn7FjF5DOIU1
-CyYPcrdx7T2FjQoeEirPte+2Y+DPAjj/W7J2IDV5iP0J0zGXhm7t2Y3H3yS7Q2htnD2w15nWui+q
-GeiRtM4NRqE+CeqnrNgaQs4YemrNRDXU5nWohD4rkgoiOyJVWX844pL3c1ne1n4WqnFZJYW9cQ0X
-zAoGH8fwoS0B3hyG7KlHIPdUZO4ziLGU3o64oMI5fAxsKKbRmbXPa6+amsfFrY/+L/j42ssvnGId
-cmdbagBzVe98g7igNUWlW+hqjs975tLphCoRJiPATOFhp/C04rtG7VqorjnGWjm2cNCbXIdmJtAI
-3hAYq2/qoQPg3EQ/quRBkNNggY8Sr2MrcZvWnxr+Fgpjg8t7VwK28q4AidjR6qDfkcJ0Cw/yAJKv
-g0HmWYmMSuZ7wxCGSFQ3npRebi5OhjG4CUFJyXtFKUF8y44JtEPf8w7p0C8bzGsbvrgaknTR2qPa
-d4qMHrL6/klGm0rOBVDGvXDpK3FLJ4FO0AZg+w4F+gAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgALlmETifsxija7wvyZGuzmccaJByLcdgV1
+yrwYnOrZsvhHNash6oXADmfBvjuNWT+EGLL0HT8cV+1fT4Qh7PCK/6RF3YqWLjD3nkmmHtQUvRd3
+Ai6/COu0SeSgsBY3HNzrwHEZrdkmt0b3ElHMjr3e0ZrsESWXLeGihXU6WyxpO6PySFbxORh2z+dX
+MjqrOBjHbVh/nrRhKjt7PnZiqCx4L9W9T66ivwC6RFIp/vWw9aabgvTjJWV6pNsiIcOzRRqVytJM
+omKaZvrUUx2yCjbUn42EnCXwO5IZ5IFLnNa2bsiQLBj3Zq/y56Mj6BYXlNPUGLHYV+UacktMCQEL
+qzxK2YoS6iSzZLdnQ0OD4i243HBw+JNkyI7OlwSFn3iaqH0KqBiQBs3CDN71LLoTsqnvjUMHxwtp
+nahF3DCWmwtY/Uy0mcWYg+UAF/JiphPIffdSSZB3RTiDJ20hJLd4TifiPMKXkX2jUwLrsz0CulRM
+1UZZy5fED+ZfXIDPyfAGZV70Hd4pfsiH3vjnDD7rZL2weEO+8sf8XERfiLQfP1UEc8hgX7vAu+Gc
+I18AI8TtjUNCnLqGfxLyCJj2d259CWY+LDv8C2vtoNi0P2tvAjS/2LHyQY7GtCpOZgnIBp5xsCKn
+iamDKxiCFc36rNnXt8c2vSqMBGeHK7lJwj+iM7r7ZQAAAAAAAA==
 
 
---=-jLYd3nS/7ICtpg4iKlz3--
+--=-0AISUeYVAr1UpMM4QQgt--
 
