@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE68A6B9C83
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0166B9C97
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 18:12:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc88H-00061E-GC; Tue, 14 Mar 2023 13:08:17 -0400
+	id 1pc8At-0007tE-1L; Tue, 14 Mar 2023 13:10:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pc88F-00060q-0g
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:08:15 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pc889-000615-5E
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:08:14 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- m18-20020a05600c3b1200b003ed2a3d635eso2932053wms.4
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 10:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678813687;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NQZU6a79X42jny9TR5/WHbUxyedgMvwNu/DoMNPB+vg=;
- b=y6SK2sowYHGiXHyRJ2Aw3AQFmQUW0xyJDLlX49fwN4my0WT9hpEDkZ3yFR/QI/IRHh
- PvxsboYE1T17cR81o0lK/NyoAKRWMTlsmE5uQuLn9LoC4ukl+LDzbbmrQmXjRT3JU75C
- uyqFrDi6k89SyVyWg8chl6mDOMiJsSK5uPOULygkYx7bngtXvQFGK0XOCyDYsKWl1bEM
- gkTSd6gAn013QQ31j1EHZB7zN1kOIgFqAdWTIIsThxnR4I1WduMfiTjjGeiJp77gMSAw
- ludecF6g8NDboFAJ/+HG9R3O6d01t632QBVTcuOc7gsmZrWo/0Gygi0HL6Kiw/naeZFT
- KOUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678813687;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NQZU6a79X42jny9TR5/WHbUxyedgMvwNu/DoMNPB+vg=;
- b=N6KBMYkb5Hx0jEjWWLwkZJ/iSTEstGk9v+eHepv/oOQyUght07CX57FJ5IgpYetzxQ
- MDjsR31mxL7LU3Qwjsoza10kZP219cn1ACgrLvIbxpStL2B8wXT6qHsdtaoJuelPefiT
- uM+wESJ2j8rKOKd1CwTA2Vpac5qCchKX09O9FqpoJw9/rO+cizvqhg56JJwqLHKQOjER
- SHOClGxnlp+kEUm1EXjEYSbyznEnLCYUGnXvdHvmelPEdptafwHNEnPfc/vYBkUmGJX4
- 8SND0FhOCorGpQN9+62j2sAdyP+HJYREG7YUC/uB9AGiXL2JchK5XYO7byEMgSKl8nrP
- nkMA==
-X-Gm-Message-State: AO0yUKViFQVti6j0OorPBvg/FLICl8OamGQ+P0fklJf2AxAxuSNmFOoO
- 9l/usNzHaz+wP/Vq2PokzNUwvw==
-X-Google-Smtp-Source: AK7set/s7pigz1kfyHpIR7AEB98BfTvKRx9kgs2PsmcnZ9z2uwcdUI7SH/ttq3Js4LYgzZXCIhm2zw==
-X-Received: by 2002:a05:600c:5028:b0:3eb:a4e:a2b2 with SMTP id
- n40-20020a05600c502800b003eb0a4ea2b2mr14867108wmr.4.1678813687517; 
- Tue, 14 Mar 2023 10:08:07 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- i10-20020a05600c290a00b003e8dc7a03basm3378653wmd.41.2023.03.14.10.08.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 10:08:06 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH for-8.0] hw/char/cadence_uart: Fix guards on invalid BRGR/BDIV
- settings
-Date: Tue, 14 Mar 2023 17:08:04 +0000
-Message-Id: <20230314170804.1196232-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pc8Ar-0007sw-H2
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:10:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pc8Aq-0006hn-0j
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 13:10:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678813854;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4PYgyOxeR5+eOGjEFvqln5giBofMppJcvVU2OGTTScQ=;
+ b=VzhydFqAqdaF7uYRu1tShT0puZulQVjj0H6d7S4a8CPEfanKZe/apg7n4Z3ow5qZXNsnf3
+ FRBi8xAn6v6OY3u1KsnZzGO24gbogQFPzT1DnGzl/Zcl0+4nqQjBm5iOZ2tQXBs5WLtb1w
+ cvpIAaSFaAJiqEAAD7M5S53RAW8q890=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-197-aslWB7QiOWKrZBTSyB4Otw-1; Tue, 14 Mar 2023 13:10:50 -0400
+X-MC-Unique: aslWB7QiOWKrZBTSyB4Otw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9BBC381494A;
+ Tue, 14 Mar 2023 17:10:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 476552166B29;
+ Tue, 14 Mar 2023 17:10:47 +0000 (UTC)
+Date: Tue, 14 Mar 2023 18:10:45 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, armbru@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH v2 0/6] block: switch to AIO_WAIT_WHILE_UNLOCKED() where
+ possible
+Message-ID: <ZBCqlTExahQBniwy@redhat.com>
+References: <20230309190855.414275-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230309190855.414275-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,44 +81,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The cadence UART attempts to avoid allowing the guset to set invalid
-baud rate register values in the uart_write() function.  However it
-does the "mask to the size of the register field" and "check for
-invalid values" in the wrong order, which means that a malicious
-guest can get a bogus value into the register by setting also some
-high bits in the value, and cause QEMU to crash by division-by-zero.
+Am 09.03.2023 um 20:08 hat Stefan Hajnoczi geschrieben:
+> v2:
+> - Clarify NULL ctx argument in Patch 1 commit description [Kevin]
+> 
+> AIO_WAIT_WHILE_UNLOCKED() is the future replacement for AIO_WAIT_WHILE(). Most
+> callers haven't been converted yet because they rely on the AioContext lock. I
+> looked through the code and found the easy cases that can be converted today.
 
-Do the mask before the bounds check instead of afterwards.
+Thanks, applied to block-next.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1493
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/char/cadence_uart.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index c069a30842e..807e3985419 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -450,13 +450,15 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
-         }
-         break;
-     case R_BRGR: /* Baud rate generator */
-+        value &= 0xffff;
-         if (value >= 0x01) {
--            s->r[offset] = value & 0xFFFF;
-+            s->r[offset] = value;
-         }
-         break;
-     case R_BDIV:    /* Baud rate divider */
-+        value &= 0xff;
-         if (value >= 0x04) {
--            s->r[offset] = value & 0xFF;
-+            s->r[offset] = value;
-         }
-         break;
-     default:
--- 
-2.34.1
+Kevin
 
 
