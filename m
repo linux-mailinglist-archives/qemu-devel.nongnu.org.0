@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3761D6B9740
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:06:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D856B9743
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 15:08:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pc52k-0001Oi-NK; Tue, 14 Mar 2023 09:50:22 -0400
+	id 1pc56z-000333-2d; Tue, 14 Mar 2023 09:54:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pc52g-0001Nz-L9; Tue, 14 Mar 2023 09:50:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.135])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pc52d-0002wr-Hz; Tue, 14 Mar 2023 09:50:18 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MtO4E-1qWmxb2b5K-00uoYy; Tue, 14
- Mar 2023 14:49:53 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 3/3] MAINTAINERS: Remove CXL maintainer Ben Widawsky
-Date: Tue, 14 Mar 2023 14:49:50 +0100
-Message-Id: <20230314134950.569342-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230314134950.569342-1-laurent@vivier.eu>
-References: <20230314134950.569342-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pc56x-00032l-72
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 09:54:43 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pc56u-0003yv-QU
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 09:54:42 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ k25-20020a7bc419000000b003ed23114fa7so4515620wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 06:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678802079;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qiIMwJyID1dlHhh3qhyK4ssuGMiZaazm4Fav5QPdHfw=;
+ b=zRaCDpfCPnoNZnH0auxywF7nS7Gfla2hqHjdXzTMzvR6yIfWNmp6bwpnAfFcv34xkJ
+ 3IscoAMS95UF6+BnTpHurwUcltitgWh1K4e8v1nH6ok7qxer9OzGGJl57x6NcmWc5YKS
+ 7M7C7EvWQ4sCfkPNjvEKxbiaUeTdxV3II2YJJVuaXVuX0/RWaGxrk3yiEhZ49QJ+/KpL
+ veOvWgdgeECEof6DfZnYPOnEgDS1qovHQD3LpOHASUd/2X3ECU0D4CWSIYuYfwrfxN3z
+ LbarOdBFD37PHCceIlDdzgpDGC2h0rsxg7s2A/BYUWOaaPCrvAS/f5d8ttMSegIc0A5w
+ /SGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678802079;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qiIMwJyID1dlHhh3qhyK4ssuGMiZaazm4Fav5QPdHfw=;
+ b=P5Gg+RhkDf+gRFC/RMsF3IsZhpWvF9WJwqDCZW0xX0C+V2Ac/PBPiXZ9P2hhWKfWGT
+ B6AfDXHEtrxw1kEs1l88kBpM88WyrkcVINQZkTEzXvVp7VklKJgpPSI4JC1pYZI8fEB9
+ rdxOgQth9Vkvas37HVm2m9k9p6NxT7OI4c6qh1xlTEzIYnf7QQ7oXjhjIEZGDIedIBnw
+ 5PmtYu1Ewzx8h+K/WcCaHFTLdPZnXhTYHbCr+TWtEOy0UNHF8FjlKu6LhPszCcVxf0K6
+ nm+yXLiiJ2EI7EVsv0jLBFDmKtsHFvZVejTlMfa4vcShRlFxCB0MlILNZzkIc3RfHlk8
+ j/LQ==
+X-Gm-Message-State: AO0yUKXVSIxyTw4OdrHBeXFTkUXHk9UsK/5IABCKaU/AVzzXgOF36tIY
+ uPqgvCfnQUI/+dO70zu/9XQiOA==
+X-Google-Smtp-Source: AK7set95BPWNHzAo6Mk6R5zkXoO3KwEWBrn4qtcUTTVgfbaCuQaB0toHHaw1FVY2gTWqAW6ZYB5KBQ==
+X-Received: by 2002:a05:600c:4f91:b0:3eb:3908:8541 with SMTP id
+ n17-20020a05600c4f9100b003eb39088541mr14805841wmq.2.1678802078929; 
+ Tue, 14 Mar 2023 06:54:38 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ i10-20020a05600c290a00b003e8dc7a03basm2898254wmd.41.2023.03.14.06.54.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 06:54:38 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4776B1FFB7;
+ Tue, 14 Mar 2023 13:54:38 +0000 (GMT)
+References: <20230303160727.3977246-1-berrange@redhat.com>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf
+ <kwolf@redhat.com>, qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 0/8] iotests: make meson aware of individual I/O tests
+Date: Tue, 14 Mar 2023 13:54:17 +0000
+In-reply-to: <20230303160727.3977246-1-berrange@redhat.com>
+Message-ID: <87jzzj8mld.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Sk+IoRfLSqzBI+ETs6E5p4hBPTdSB+e29aoH2v0DExEh9bXk9/P
- 9KVyvumRRZs0ZFThOzHjGdthHdayvFbVk7yMJUEohIyWhoUVnpgwVB5Fqc1BcTRgBGKzD0T
- 6/lfGyLB4QjI1o1X/tsFZro5qQHobAA5NqjxSwJtvzTn9nYmOIA8KSvDrtzf0FxvAXbXjal
- NXW/Lt5pyL6i/SqkCR5vw==
-UI-OutboundReport: notjunk:1;M01:P0:KmSDpMowXZk=;CzFrhTEemBIrfM1S7izGkeuy/wh
- taKhJwPjRc1JPjYrspZLbmZXpjv037ujn1ElZuKGvJLckU4BPorHNhxmP/qHLb3liqzMdk8x6
- xC5rkBLKJPvOnHA1FN2Hzu20yrUncWw0GJEaT2fcDQCybj5Ay9t2DQIaxfiXnzM8qIB9nfVeB
- U1TEfL11LrLdI22Ra2Rkkf7oNPyH27aePhVMRfIskk/mMzlsO2iYPU49C68fMLR4bD7gvhTvU
- CRCcn4qSr2/5BIhMQpguygcpSkyF42o1pLjVJSq6Faqm5lLkr9TRUHWuC9WHQuVFj4/8qU412
- dh4fnCk4Rbm2AA/E+CfnnwF5Pqcx6yv4cOjipXCjZpwvI09TbB/V1GiWhI85FT1+Og17FkP37
- a7m4/RzLhR3VarO5KitUGETF40plDk56YFlkX53CpEqBEAAlQFtayhzXAQuzGFfD1Z5/I2JTt
- ZOmRK33bU+3YjcUh8rleeezBRR1go0FWEqA1EtjaWkWgTvcqfggx+klRIxMmc8XHGTlnDyf/L
- FvAy6pf+W4AvG9hsq3kljrJDME1JSXlBqAxDHgYnBUjja2sAmR3qFgrcmlPoSRMXPaYcOkgU1
- XInrhwa7j0MbnUqw0X+Qi4sWjkQ91ImKxXXqnvNanGsOSQaDYk458lTB9DhpSDGG9qTx0uPUe
- I83VPrr5RJv0o1cxDV5FS/+OesE2kF+FPYXJxCNrrQ==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,35 +97,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Markus Armbruster <armbru@redhat.com>
 
-Ben is no longer with intel.  He told me he expected to get back to
-CXL, but it's not happening as quickly as he'd like, and that it's
-best to remove him as maintainer.  So let's do that.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Thank you for serving as maintainer, Ben!
+> To just repeat the patch 5 description...
+>
+<snip>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20230220212437.1462314-1-armbru@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+Queued to for-8.0/tweaks-and-fixes, thanks.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 883dc52063bf..7eab1a266fb8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2666,7 +2666,6 @@ T: git https://gitlab.com/jsnow/qemu.git jobs
- T: git https://gitlab.com/vsementsov/qemu.git block
- 
- Compute Express Link
--M: Ben Widawsky <ben.widawsky@intel.com>
- M: Jonathan Cameron <jonathan.cameron@huawei.com>
- R: Fan Ni <fan.ni@samsung.com>
- S: Supported
--- 
-2.39.2
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
