@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A28C6B8947
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 05:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E1F6B895F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Mar 2023 05:15:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pbvwD-0006cC-Ae; Tue, 14 Mar 2023 00:07:01 -0400
+	id 1pbw32-0008Au-Jv; Tue, 14 Mar 2023 00:14:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pbvw7-0006bl-C9; Tue, 14 Mar 2023 00:06:55 -0400
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
+ id 1pbw30-0008AW-Ua
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 00:14:02 -0400
+Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pbvw5-0001Bf-Ee; Tue, 14 Mar 2023 00:06:55 -0400
-Received: by mail-vs1-xe30.google.com with SMTP id e19so6626589vsu.4;
- Mon, 13 Mar 2023 21:06:52 -0700 (PDT)
+ id 1pbw2z-0002M3-46
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 00:14:02 -0400
+Received: by mail-vs1-xe2f.google.com with SMTP id o32so12934250vsv.12
+ for <qemu-devel@nongnu.org>; Mon, 13 Mar 2023 21:14:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678766811;
+ d=gmail.com; s=20210112; t=1678767239;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bBv3Ln9Z6VXD2aMGmb/14bEKAd8SZHLgdBj6mnUUfW8=;
- b=eWW3WrUkW3AEt/A6UJk6cqXqhCRGw01mgvRYOSZ29FzSGR6RAh0qkDbvCcD6IMJA20
- 72tg0GTI8kshTuAbLb8vYUQlS027bHcMCVeQ51iWAsAPsdTGpuAVw0wT9EIxckgpqBGK
- Qyh4G8Qd8ZjiSuv6dtrtP5j6N24yjkWf6WkIFdzTRnp8Rtg/HRTyGhm6NN+PYkDmtt4e
- X2wk4FMiVd40QmARf+PqCkb7krGNZH/YRiSM4ZVzHIu0iohIqPyifbAIpOiQqbCgY9Ef
- BYEL/7Th6gWUBHYne81ji9jSG7ERcwCIXILqT8x3yI8BbHBfkmggg1OW+lrHMKS1ix2C
- QUyg==
+ bh=V8nIneNnY/XDbHc+5LtA7JL3WxxOqdyd13ytdsCo//o=;
+ b=CaWCikL1M0XR0GWyBbDnHxfco5GNGD56iJFj5Wr17dpYyodu0O69gzTBrs7fPcuM+O
+ nX6QcW5brY40No2wjBa9MsmfMTHDpoW5mcNGcqAzsFVFxfNsjvk7vxssf9MNpz0Pcgjl
+ zIZ0X8x3hdoZBSkyju14Vyr89xy4Gcujz2n2AASOsZZh4LqvvMbOkAniGlKLQRveXjmX
+ We5HBz16rYJm8m6y4E1MeZurmfL1iJhxFy9he9PFWRirr6ZwXiepmW53dLtPDLePzhqN
+ c+3rTFMCAzqXZ2Cy46JL2h6BjrrwPQrB7f6xKFgzLiossmhT56E6aHLEyvqHbuK8hVoU
+ jimw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678766811;
+ d=1e100.net; s=20210112; t=1678767239;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bBv3Ln9Z6VXD2aMGmb/14bEKAd8SZHLgdBj6mnUUfW8=;
- b=xD8Os2b1I2X7yMVqN7Yr5blMZPmTS9SNUmC92sCA6LG54rWY60UF56g9+mhlxomk6J
- XdTHHAJUDHjDcxzulqNLnQ4jB5v+5r5+cErocqx4slCBQHEz6L3qe7ZZU8k4tEqRAO+r
- XeRwYlfnGmBtEv6Cve5wjTF6Gb0hfMICLAptcYt9uqWfv70SFMEuWoiFHB85jIXbV1Q3
- AsPn2mI7pbso0gFe8LVMGm/MpAYo1LT7r4UmI6WCWG9MQz1ysvzOKNSHRFwg92nY8hM5
- d8QdkyR6bvlRt5lQMWuwhVjNXD4+4jeVb25jCVv+U4MFsagHUK5iTkHXwNMsVRCjOoB+
- +cmQ==
-X-Gm-Message-State: AO0yUKU9uH8elV6wl5cw0KEKPirrxOMVd14eaVDYUYRS4dQf10PObMZH
- xB6N1+NJbZWAQjf57VaV25KO6wLCPMa2gVAji9OpWJeGel4=
-X-Google-Smtp-Source: AK7set9gvVwoHq9yVfJetm6TC/5mJjyeb1B6muxsi/UJwRodgto5rVZbmoP4zwB0CrXizsqDgz6Pdc99vdHhgNuZ4A8=
+ bh=V8nIneNnY/XDbHc+5LtA7JL3WxxOqdyd13ytdsCo//o=;
+ b=v846DYUQXZpfgN8u9ZRkeOu65+aRfHYUU4ap0+K61EEwEtP5JCF/2xYPgEqKau+fno
+ GFgPrxEqwi1i6y3W5Vk+LnL7tPKoBLvyP0pkKKIx3m9od7zLGmoGFmpSnPAn1uXh7HDM
+ vfc180BVgw6Q4ghDYJr4OQ3ENozC7ttDe06o+rjNZ3Lhk0/x2tVZ6g5OKxBIpA+QctqE
+ +dpFcMJ3skJV2ND8NHnlx/MN1mxj4BsNDGPGjSt82EW+gqm4m01Jb3kK6N6Q7CegL6lE
+ 3+CdW/bRCRLEMXBrkJRCXRU3Q7/p5o9LF2PxctLTqhDpKRqnKc2znqUzR1vpkKnMBmV8
+ En9g==
+X-Gm-Message-State: AO0yUKUv76CaFWdRFremFEyX43srR/DfOlHB7LRgirFeQDgT3CgT/Uya
+ j1jB2iKcu6Ybopg2ZbEhOTB+4Ur7eknMEObc5Hw=
+X-Google-Smtp-Source: AK7set/Mww/lbvVh8cUxMzJVw6LAZJeEijIpOPGP4n1BcNjRaZThK/xv4SFJpadukagEAPjgUCKfm+PSPkB6K5ubAyY=
 X-Received: by 2002:a67:db97:0:b0:412:2ed6:d79b with SMTP id
- f23-20020a67db97000000b004122ed6d79bmr23150223vsk.3.1678766811575; Mon, 13
- Mar 2023 21:06:51 -0700 (PDT)
+ f23-20020a67db97000000b004122ed6d79bmr23158604vsk.3.1678767239583; Mon, 13
+ Mar 2023 21:13:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <167873059442.9885.15152085316575248452-0@git.sr.ht>
-In-Reply-To: <167873059442.9885.15152085316575248452-0@git.sr.ht>
+References: <3454991f-7f64-24c3-9a36-f5fa2cc389e1@yadro.com>
+In-Reply-To: <3454991f-7f64-24c3-9a36-f5fa2cc389e1@yadro.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 14 Mar 2023 14:06:25 +1000
-Message-ID: <CAKmqyKNe6KHHgsVywjMBJexfDNrX-wY1DXpoDJ4gK64s7Zoz9A@mail.gmail.com>
-Subject: Re: [PATCH qemu v2] linux-user: Emulate /proc/cpuinfo output for riscv
-To: "~abordado" <afonsobordado@gmail.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+Date: Tue, 14 Mar 2023 14:13:33 +1000
+Message-ID: <CAKmqyKOei71Mk41VHMevJDdeSqX2BL005Q9LJ4oxgrEMvX=JOw@mail.gmail.com>
+Subject: Re: [PATCH v2] Fix incorrect register name in disassembler for
+ fmv,fabs,fneg instructions
+To: Mikhail Tyutin <m.tyutin@yadro.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, palmer@dabbelt.com,
+ Alistair.Francis@wdc.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,160 +88,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 14, 2023 at 6:28=E2=80=AFAM ~abordado <abordado@git.sr.ht> wrot=
-e:
+On Sat, Mar 11, 2023 at 5:00=E2=80=AFAM Mikhail Tyutin <m.tyutin@yadro.com>=
+ wrote:
 >
-> From: Afonso Bordado <afonsobordado@gmail.com>
+> Fix incorrect register name in RISC-V disassembler for fmv,fabs,fneg
+> instructions
 >
-> RISC-V does not expose all extensions via hwcaps, thus some userspace
-> applications may want to query these via /proc/cpuinfo.
->
-> Currently when querying this file the host's file is shown instead
-> which is slightly confusing. Emulate a basic /proc/cpuinfo file
-> with mmu info and an ISA string.
->
-> Changes from V1:
->
-> - Call `g_free` on ISA string.
-> - Use `riscv_cpu_cfg` API.
-> - Query `cpu_env->xl` to check for RV32.
->
-> Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
-> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> ---
+> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-With the changelog below these dashes:
+Thanks!
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Applied to riscv-to-apply.next
 
 Alistair
 
-
->  linux-user/syscall.c              | 34 +++++++++++++++++++++++++++++--
->  tests/tcg/riscv64/Makefile.target |  1 +
->  tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++
->  3 files changed, 63 insertions(+), 2 deletions(-)
->  create mode 100644 tests/tcg/riscv64/cpuinfo.c
+> ---
+>   disas/riscv.c | 19 ++++++++++---------
+>   1 file changed, 10 insertions(+), 9 deletions(-)
 >
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 24cea6fb6a..0388f8b0b0 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8230,7 +8230,8 @@ void target_exception_dump(CPUArchState *env, const=
- char *fmt, int code)
->  }
->
->  #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN || \
-> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA=
-)
-> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA=
-) || \
-> +    defined(TARGET_RISCV)
->  static int is_proc(const char *filename, const char *entry)
->  {
->      return strcmp(filename, entry) =3D=3D 0;
-> @@ -8308,6 +8309,35 @@ static int open_cpuinfo(CPUArchState *cpu_env, int=
- fd)
->  }
->  #endif
->
-> +#if defined(TARGET_RISCV)
-> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
-> +{
-> +    int i;
-> +    int num_cpus =3D sysconf(_SC_NPROCESSORS_ONLN);
-> +    RISCVCPU *cpu =3D env_archcpu(cpu_env);
-> +    const RISCVCPUConfig *cfg =3D riscv_cpu_cfg((CPURISCVState *) cpu_en=
-v);
-> +    char *isa_string =3D riscv_isa_string(cpu);
-> +    const char *mmu;
-> +
-> +    if (cfg->mmu) {
-> +        mmu =3D (cpu_env->xl =3D=3D MXL_RV32) ? "sv32"  : "sv48";
-> +    } else {
-> +        mmu =3D "none";
-> +    }
-> +
-> +    for (i =3D 0; i < num_cpus; i++) {
-> +        dprintf(fd, "processor\t: %d\n", i);
-> +        dprintf(fd, "hart\t\t: %d\n", i);
-> +        dprintf(fd, "isa\t\t: %s\n", isa_string);
-> +        dprintf(fd, "mmu\t\t: %s\n", mmu);
-> +        dprintf(fd, "uarch\t\t: qemu\n\n");
-> +    }
-> +
-> +    g_free(isa_string);
-> +    return 0;
-> +}
-> +#endif
-> +
->  #if defined(TARGET_M68K)
->  static int open_hardware(CPUArchState *cpu_env, int fd)
->  {
-> @@ -8332,7 +8362,7 @@ static int do_openat(CPUArchState *cpu_env, int dir=
-fd, const char *pathname, int
->  #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN
->          { "/proc/net/route", open_net_route, is_proc },
->  #endif
-> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
-> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISC=
-V)
->          { "/proc/cpuinfo", open_cpuinfo, is_proc },
->  #endif
->  #if defined(TARGET_M68K)
-> diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefi=
-le.target
-> index cc3ed65ffd..df93a2ce1f 100644
-> --- a/tests/tcg/riscv64/Makefile.target
-> +++ b/tests/tcg/riscv64/Makefile.target
-> @@ -4,6 +4,7 @@
->  VPATH +=3D $(SRC_PATH)/tests/tcg/riscv64
->  TESTS +=3D test-div
->  TESTS +=3D noexec
-> +TESTS +=3D cpuinfo
->
->  # Disable compressed instructions for test-noc
->  TESTS +=3D test-noc
-> diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
-> new file mode 100644
-> index 0000000000..296abd0a8c
-> --- /dev/null
-> +++ b/tests/tcg/riscv64/cpuinfo.c
-> @@ -0,0 +1,30 @@
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <assert.h>
-> +
-> +#define BUFFER_SIZE 1024
-> +
-> +int main(void)
-> +{
-> +    char buffer[BUFFER_SIZE];
-> +    FILE *fp =3D fopen("/proc/cpuinfo", "r");
-> +    assert(fp !=3D NULL);
-> +
-> +    while (fgets(buffer, BUFFER_SIZE, fp) !=3D NULL) {
-> +        if (strstr(buffer, "processor") !=3D NULL) {
-> +            assert(strstr(buffer, "processor\t: ") =3D=3D buffer);
-> +        } else if (strstr(buffer, "hart") !=3D NULL) {
-> +            assert(strstr(buffer, "hart\t\t: ") =3D=3D buffer);
-> +        } else if (strstr(buffer, "isa") !=3D NULL) {
-> +            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n"=
-) =3D=3D 0);
-> +        } else if (strstr(buffer, "mmu") !=3D NULL) {
-> +            assert(strcmp(buffer, "mmu\t\t: sv48\n") =3D=3D 0);
-> +        } else if (strstr(buffer, "uarch") !=3D NULL) {
-> +            assert(strcmp(buffer, "uarch\t\t: qemu\n") =3D=3D 0);
-> +        }
-> +    }
-> +
-> +    fclose(fp);
-> +    return 0;
-> +}
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index 54455aaaa8..882594c1be 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -1014,6 +1014,7 @@ static const char rv_vreg_name_sym[32][4] =3D {
+>   #define rv_fmt_rd_offset              "O\t0,o"
+>   #define rv_fmt_rd_rs1_rs2             "O\t0,1,2"
+>   #define rv_fmt_frd_rs1                "O\t3,1"
+> +#define rv_fmt_frd_frs1               "O\t3,4"
+>   #define rv_fmt_rd_frs1                "O\t0,4"
+>   #define rv_fmt_rd_frs1_frs2           "O\t0,4,5"
+>   #define rv_fmt_frd_frs1_frs2          "O\t3,4,5"
+> @@ -1580,15 +1581,15 @@ const rv_opcode_data opcode_data[] =3D {
+>       { "snez", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
+>       { "sltz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>       { "sgtz", rv_codec_r, rv_fmt_rd_rs2, NULL, 0, 0, 0 },
+> -    { "fmv.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.s", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fmv.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.d", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fmv.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fabs.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "fneg.q", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> +    { "fmv.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.s", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fmv.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.d", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fmv.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fabs.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+> +    { "fneg.q", rv_codec_r, rv_fmt_frd_frs1, NULL, 0, 0, 0 },
+>       { "beqz", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
+>       { "bnez", rv_codec_sb, rv_fmt_rs1_offset, NULL, 0, 0, 0 },
+>       { "blez", rv_codec_sb, rv_fmt_rs2_offset, NULL, 0, 0, 0 },
 > --
-> 2.34.7
+> 2.34.1
+>
+>
 >
 
