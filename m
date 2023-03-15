@@ -2,76 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30FAB6BB774
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 16:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B266BB77A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 16:20:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcSur-0004Zy-1j; Wed, 15 Mar 2023 11:19:49 -0400
+	id 1pcSvO-0005BE-MB; Wed, 15 Mar 2023 11:20:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pcSuj-0004Yu-6X
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:19:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pcSvI-00053G-Tz
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:20:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pcSuh-0008Nn-Iw
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:19:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678893577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mcTfM44RSuru962OZIvDWU0ncftfq86SRtNTtDSqztY=;
- b=PSIuK9xTP3Zdx8BmsrKmVmqZEpESUGamaXBGA8fdoyj+BvKNKbojtM/aIjkwPsmH4XYzkZ
- xa06vVsUi885pcg7j6PKc9AVFD4bGkg3ca+YEMPGkRs8QytNo3BJM3dqEKvSzxLxfR/vVI
- aAx999qIqVtSxW1yGLqzfIIg4ouzhSo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-Y1iB8-ULMEmIOBRp7xXAWQ-1; Wed, 15 Mar 2023 11:19:31 -0400
-X-MC-Unique: Y1iB8-ULMEmIOBRp7xXAWQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7AD88028B3;
- Wed, 15 Mar 2023 15:19:29 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B1CA140E95F;
- Wed, 15 Mar 2023 15:19:28 +0000 (UTC)
-Date: Wed, 15 Mar 2023 11:19:26 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- stratos-dev@op-lists.linaro.org,
- Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
- Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>,
- Liu Jiang <gerry@linux.alibaba.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH V3 1/2] docs: vhost-user: Define memory region separately
-Message-ID: <20230315151926.GA16636@fedora>
-References: <cover.1678351495.git.viresh.kumar@linaro.org>
- <7c3718e5eb99178b22696682ae73aca6df1899c7.1678351495.git.viresh.kumar@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pcSvG-0000Bw-0X
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:20:16 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32FELRV0014968; Wed, 15 Mar 2023 15:19:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=yA7u5OZcapLJ4JsdAluBVyl3Z+cpJOEq8qOtfIFX290=;
+ b=ZOubbHGEVvDzIWR7bWX4jSeERrNS+KAASOaADV6gHyocLkXzJ1dtFPheOWSzconqG7EW
+ EBZnL1BAWMNuI8yuZzArm1sopa4a+ExJjlSuFtk+jUG4IfCrI7GfCK7tjs9PTiVcXT2k
+ nT82rNbKTsjbWQSw18Fyz/1If65k0EOJ1qM3NXagZIUR8SsYCmYriUesKm498Jm5ZulP
+ qeatJp6Slz7FCgSozEqPhUr6gne2DNWUC0MZX/l0qp6/HsKgNXzlKCvM1EdgFZlzGl4c
+ SVUDnKYhDa9pql6i9jnrY5pokEHFUjkHMXeE2xTmg1F6nwfZSlom/VDBrMAdcgus6GBJ Fw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbfq8sub4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 15:19:43 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32FEMs4j022803;
+ Wed, 15 Mar 2023 15:19:42 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbfq8suah-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 15:19:42 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FDsGUQ023527;
+ Wed, 15 Mar 2023 15:19:41 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+ by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3pb29skwcc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 15:19:41 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
+ [10.39.53.229])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32FFJeHn31064522
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Mar 2023 15:19:40 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3CAA858059;
+ Wed, 15 Mar 2023 15:19:40 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 397055805B;
+ Wed, 15 Mar 2023 15:19:39 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Mar 2023 15:19:39 +0000 (GMT)
+Message-ID: <68816687-b319-7c1a-f586-51201e12ecba@linux.ibm.com>
+Date: Wed, 15 Mar 2023 11:19:38 -0400
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="O6Z1j1jWA1rh9Wk0"
-Content-Disposition: inline
-In-Reply-To: <7c3718e5eb99178b22696682ae73aca6df1899c7.1678351495.git.viresh.kumar@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 2/3] qapi: Do not generate empty enum
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230315111304.21692-1-philmd@linaro.org>
+ <20230315111304.21692-3-philmd@linaro.org>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20230315111304.21692-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 9Giv6GIfXDZikqYalUEVy-ruCQtU6g2z
+X-Proofpoint-GUID: xJk553K2qK3w96mprz0Q8WUuHQC-uh3h
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_08,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ adultscore=0 clxscore=1011 impostorscore=0 suspectscore=0 mlxlogscore=972
+ mlxscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2302240000 definitions=main-2303150126
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,46 +123,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---O6Z1j1jWA1rh9Wk0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 09, 2023 at 02:21:00PM +0530, Viresh Kumar wrote:
-> The same layout is defined twice, once in "single memory region
-> description" and then in "memory regions description".
->=20
-> Separate out details of memory region from these two and reuse the same
-> definition later on.
->=20
-> While at it, also rename "memory regions description" to "multiple
-> memory regions description", to avoid potential confusion around similar
-> names. And define single region before multiple ones.
->=20
-> This is just a documentation optimization, the protocol remains the same.
->=20
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+On 3/15/23 07:13, Philippe Mathieu-Daudé wrote:
+> Per the C++ standard, empty enum are ill-formed. Do not generate
+> them in order to avoid:
+> 
+>    In file included from qga/qga-qapi-emit-events.c:14:
+>    qga/qga-qapi-emit-events.h:20:1: error: empty enum is invalid
+>       20 | } qga_QAPIEvent;
+>          | ^
+> 
+> Reported-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->  docs/interop/vhost-user.rst | 39 +++++++++++++++++--------------------
->  1 file changed, 18 insertions(+), 21 deletions(-)
+>   docs/devel/qapi-code-gen.rst | 6 +++---
+>   scripts/qapi/schema.py       | 5 ++++-
+>   2 files changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+> index 23e7f2fb1c..d684c7c24d 100644
+> --- a/docs/devel/qapi-code-gen.rst
+> +++ b/docs/devel/qapi-code-gen.rst
+> @@ -206,6 +206,9 @@ Syntax::
+> 
+>   Member 'enum' names the enum type.
+> 
+> +Empty enumeration (no member) does not generate anything (not even
+> +constant PREFIX__MAX).
+> +
+>   Each member of the 'data' array defines a value of the enumeration
+>   type.  The form STRING is shorthand for :code:`{ 'name': STRING }`.  The
+>   'name' values must be be distinct.
+> @@ -214,9 +217,6 @@ Example::
+> 
+>    { 'enum': 'MyEnum', 'data': [ 'value1', 'value2', 'value3' ] }
+> 
+> -Nothing prevents an empty enumeration, although it is probably not
+> -useful.
+> -
+>   On the wire, an enumeration type's value is represented by its
+>   (string) name.  In C, it's represented by an enumeration constant.
+>   These are of the form PREFIX_NAME, where PREFIX is derived from the
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 207e4d71f3..28045dbe93 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -309,6 +309,7 @@ class QAPISchemaEnumType(QAPISchemaType):
+> 
+>       def __init__(self, name, info, doc, ifcond, features, members, prefix):
+>           super().__init__(name, info, doc, ifcond, features)
+> +        assert members
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+not: assert isinstance(members, list)
 
---O6Z1j1jWA1rh9Wk0
-Content-Type: application/pgp-signature; name="signature.asc"
+>           for m in members:
+>               assert isinstance(m, QAPISchemaEnumMember)
+>               m.set_defined_in(name)
+> @@ -1047,8 +1048,10 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
+>           return name
+> 
+>       def _def_enum_type(self, expr: QAPIExpression):
+> -        name = expr['enum']
+>           data = expr['data']
+> +        if not data:
+> +            return
+> +        name = expr['enum']
+>           prefix = expr.get('prefix')
+>           ifcond = QAPISchemaIfCond(expr.get('if'))
+>           info = expr.info
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQR4f4ACgkQnKSrs4Gr
-c8hxuAgAp4tv1RvL4VEQf8h2eNofdFyh5KtzUUn3Q8+eRtHJ3diMD9MshFHl+4JC
-5M+4rQoODTICf0bgn659wYs5D2fF0cSYSAsqJx0594lLJknX0LX+YvRGWycVz/8l
-81+iNJPaGsPU5k32TGorK5F3ZoxrnzgH6f8BPnVkACmABhyOZcVd+ZLHZZdatiLr
-4En+5Ngv9Fd7eq66UO3JilZJZTTai0zWGU+enR8CmTGoD8olqx9gJvUOJjpEPkcK
-3Muq52sLH3DaiK1/KUaz9g6j0TYlHwu+65YGRXE4vNM4Po8bY8GeRZRrnBZFcLmA
-OPu6eaIIlskeujoEmUZ0StMCy0BT4w==
-=GWpD
------END PGP SIGNATURE-----
-
---O6Z1j1jWA1rh9Wk0--
-
+Acked-by: Stefan Berger <stefanb@linux.ibm.com>
 
