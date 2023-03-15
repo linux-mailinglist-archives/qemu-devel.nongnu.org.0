@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924496BBB65
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A4C6BBB6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:52:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVGe-0005SL-Jj; Wed, 15 Mar 2023 13:50:28 -0400
+	id 1pcVGI-0003m6-Mw; Wed, 15 Mar 2023 13:50:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFx-0002SI-33
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:48 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pcVFo-0002DU-AP
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:36 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFf-0002Cf-IG
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:44 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- bh21-20020a05600c3d1500b003ed1ff06fb0so1829515wmb.3
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:26 -0700 (PDT)
+ id 1pcVFd-0002An-Ec
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:36 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id m2so5296907wrh.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902566;
+ d=linaro.org; s=google; t=1678902563;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YPoCJ+dE6YMmOqr0FAgUbXJaGmEIUyPWQuUb/ZSLc9g=;
- b=BfmwHE0fBiOoZvl8esaX6Xv+suz6Sf4emTiaq+g2mYKBdiKauqOstnwS8MlSsjdw8B
- uvR3/L1cO1b9BxqE8LmeN9YfMSahaceNoohIaAqV7YmyUl5Na9nm8Pr8BBxLx5c1bEml
- 6sWHnUdXX9SuYlnWPqEpALi3UXbN1fzv6ZBXcKik4tiTVu6swn/aT6kndHvGY076jt5w
- ugpEe0VjoNev40v+HI8HEyFiTEJH6hgJqPkLHXodjRyG6o/F9yWhYQnj1KqIGSAMcw41
- ts3AUeMsUIxMD9zh2hS/4oqZrf9f0G+hO32UdjtF4zfRze7lwdWb72cmPFZMhX+zlg9D
- 3BSA==
+ bh=ppSEIztWs3xXXlNFmxb7gCAEPQ7PlB98pYGLeW4YOYE=;
+ b=WIO3ei+bYW7ojkqoukS+1PJLDudVTHC6RYsQF8hYA5vEQyo2CFtShEbvs0+omK2dcf
+ dHIPYNEucLD1qgZ+YHpLk4QZww4ts2+QRHBBgu0XqttzygMdHCzbwYEsrivMNNjuxO1/
+ Hf0+uxEmKTqMHLJ+Je7miLs8erttyjnqU6BbkoSC348P+JhGOwmce8mbog/KJ4iT/R64
+ tHF+IPu69rmbHK07Bj60SYaxfQL8BCKlxQNtnPuUUZMjGGCNnT9Kqh3Bf57bLjwHvIEB
+ 2seWWKTdwhhNbvJeHp5W9sgHtv/0lOHROuPzyjsycDYf/r7QZ/c3B6KPiMFKhkj9zO6x
+ I8AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902566;
+ d=1e100.net; s=20210112; t=1678902563;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YPoCJ+dE6YMmOqr0FAgUbXJaGmEIUyPWQuUb/ZSLc9g=;
- b=i+EwqLDEBXinDCpVeqYzlQICCQ8GYZZy22ndLFRkDxlo2f+gMmNLQCJtfjRuu98Joy
- 0atxHvrgXKUaDEXu+5SFwNZh8sujP1cTDIo2L4940v10TqT844LtmFvkM8yF+yIwBf4C
- +XjrHnjabcrpOIXEsQuWmwKnyxOEHTcrydeX4iWMk5i3aA/a4xg91RiRS5t3OxKCiPoh
- eA3MfJKlHzHp/r9sIvrxAgaW4p5rfc742XWPxtNL5iN4RpXiiOhSMO+SCvtFVMz04PoE
- 6/eQY0LNtdC/0VUsrL3+9Z+E4lqug1XFWBB7JV8u/rZipahGDsM90K7AEv6CQ6yDCc0D
- H8MA==
-X-Gm-Message-State: AO0yUKUhm0Gt3ikez4DMiedklsjl5yI5HP4rCzvx2Xoj833Ayc8z9EdS
- 1312UnuQi5smm0fZWriJmGPJoA==
-X-Google-Smtp-Source: AK7set+ynAVWb7BGmrdxaYnSAVLbgPOO0KHl8a7IgEJlDeKX4PFtwWpD61GYO6QjfdXpcdXTr8wh/g==
-X-Received: by 2002:a05:600c:4712:b0:3eb:2b88:a69a with SMTP id
- v18-20020a05600c471200b003eb2b88a69amr18958375wmo.14.1678902565778; 
- Wed, 15 Mar 2023 10:49:25 -0700 (PDT)
+ bh=ppSEIztWs3xXXlNFmxb7gCAEPQ7PlB98pYGLeW4YOYE=;
+ b=x6Wl8Ne/PZ3aBV8jDnRJM7hVS9/wU3ezFbQu/0W4AjroUx/wdxdnPhDCFGo/7FLG/a
+ P/jZWLyRnKTkerspmCIbmaKVhGZV2UCy8M9xGpxKSMy0WsAS9XONxwymTTL7MHSB+kr3
+ N2PM9/QhuHvTA0nB0k0h+M4RkPPnY+pSc68m6+397WFhLZDLGePl7XBMpP+HIP8tpwwK
+ Zc0WF6wnMjjBuSX7L27HlsQAC/1tVi8vGYC7gkE128WkXa/ywDyS2wB7CF/ZUUPmUlN6
+ vbGy8DZCafRt3hcVY3ty5IZk7jnlxgfLpdK5VIVOqH5NQ9b5ElFzarXA3si5bcuSV1FB
+ OflQ==
+X-Gm-Message-State: AO0yUKVoeL/RL5U74jeQDtnG7Oxyk8y4j3+qCPmlK5n4pHwHcSsRFOlD
+ m8xaE2goDVOfBi7gcC8HYpeCFA==
+X-Google-Smtp-Source: AK7set92+GpJFzgamUBL/iLBl6mPPE+572u7XyDEJLJYBXQan6/PHN9kdy2rDGo/XW+QKyfAlZorDQ==
+X-Received: by 2002:adf:fd86:0:b0:2cf:efc1:ba49 with SMTP id
+ d6-20020adffd86000000b002cfefc1ba49mr2309746wrr.68.1678902563534; 
+ Wed, 15 Mar 2023 10:49:23 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- k26-20020a7bc31a000000b003eb596cbc54sm2704615wmj.0.2023.03.15.10.49.22
+ n5-20020a05600c4f8500b003b47b80cec3sm2522328wmq.42.2023.03.15.10.49.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:49:25 -0700 (PDT)
+ Wed, 15 Mar 2023 10:49:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2998A1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 45E101FFC0;
  Wed, 15 Mar 2023 17:43:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -107,24 +106,24 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 08/32] tests/tcg: disable pauth for aarch64 gdb tests
-Date: Wed, 15 Mar 2023 17:43:07 +0000
-Message-Id: <20230315174331.2959-9-alex.bennee@linaro.org>
+Subject: [PATCH v2 09/32] include/exec: fix kerneldoc definition
+Date: Wed, 15 Mar 2023 17:43:08 +0000
+Message-Id: <20230315174331.2959-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,30 +139,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-You need a very new gdb to be able to run with pauth support otherwise
-your likely to hit asserts and aborts. Disable pauth for now until we
-can properly probe support in gdb.
+The kerneldoc processor complains about the mismatched variable name.
+Fix it.
 
-Message-Id: <20230310103123.2118519-10-alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230310103123.2118519-11-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/aarch64/Makefile.target | 2 ++
- 1 file changed, 2 insertions(+)
+ include/exec/memory.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 9e91a20b0d..8ffde3b0ed 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -84,6 +84,8 @@ TESTS += sha512-vector
- ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 6fa0b071f0..15ade918ba 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1738,7 +1738,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+  *
+  * @notifier: the notifier to be notified
+  */
+-void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n);
++void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier);
  
-+run-gdbstub-%: QEMU_OPTS=-cpu max,pauth=off
-+
- run-gdbstub-sysregs: sysregs
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
+ 
+ /**
 -- 
 2.39.2
 
