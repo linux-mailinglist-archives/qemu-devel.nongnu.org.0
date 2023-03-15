@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F346BBA5D
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AD56BBA5C
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:01:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcUTT-0005ao-IW; Wed, 15 Mar 2023 12:59:39 -0400
+	id 1pcUUK-0005m5-G3; Wed, 15 Mar 2023 13:00:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUTQ-0005aN-Tm
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:59:36 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUU9-0005ib-KW
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:00:23 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUTP-0001mZ-Dy
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:59:36 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- m18-20020a05600c3b1200b003ed2a3d635eso1728614wms.4
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 09:59:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUU8-00023b-2F
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:00:21 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p4so11755978wre.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678899573;
+ d=linaro.org; s=google; t=1678899618;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4NyrEP8E8Bqqs0C3aUrE1SRsgtoAWkeUzwuFFUFExHA=;
- b=fQf6iMQN+4ZHyI70NEGpIYVEJ6lkaj2Bch8xIvzm0GAuwf6FvyGKOctOZA9tAmdQtF
- 2cH+069ybB/1MI+5scMFYKRCQtoRwzTYsY94OMlJSnnf5YgcRM3Hc2m+lvYxz5O81Cuo
- W6vlaLQ2Adzfkn9fzuB/GK7PKL+J1ObiqdW7oG1uwyLeRQPM+Uj9h1Lav3ad54wkdpm5
- y6JQlEryLNsV12sw1JuiWbXIm/4zzM35pvzf5Wls11nFKmBIKwYKNz1RSmNL5Udynnhr
- qCxIk5wb+yoSwOr499KfUN1DXwSDFh/I82TF7pny4OedHwj8cDrR8YV9UM5VgxaMpBLC
- +SsQ==
+ bh=XuoZH8n6/y582VGtlT//Ved/gL6UQ8JXwf4cJ+tY/zQ=;
+ b=ZF38jHOEeZ8KeJK75mSxpXWoqXaAQ4fnabKsIrXlwI+2Qk11NMTZiVmtGnz6Z8ByKg
+ 3aFAirWLFDJ6uV1GjRjWd9PDiq7K3MvajaW/Ksl+K/aWQ5BeYo2enaicEGerGlZ21iVX
+ THLZ8nm6KH+MInipbDI3LS5PwJEP9DSQ5MhaNe+AvdB2Z5Hj7kJNUoplcNpe2KqVRv87
+ gx6LUApRFNhcEnTNx+gpnAYLhGSX6OxoZvKLVc9R8jhPDOcPq2JmUwGQsXB4yUMsW0qz
+ OM0q2y1fhodcmuC0wFThhadV51gBC5BJNFEy5WHXEyEnAGRcHQUc/KajT//9gaYOzidX
+ 0yMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678899573;
+ d=1e100.net; s=20210112; t=1678899618;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4NyrEP8E8Bqqs0C3aUrE1SRsgtoAWkeUzwuFFUFExHA=;
- b=5Pq/te8iyF2EccLFvQixDwvv8odtXPShBtVc9SvNRuZZDvPg5dEXXIOI5Tk+lbFj1n
- yNJqpgfcHJjGcE3kJ/tUJEHXQ3ShtRxUkxnRldzNXdVm5MC9frzMjRU8SqhPQNED02cZ
- vaxTk4ZPB1Gqe/aygrrPX5JZMafZbvFfWfMYEJ96bWW5kolRkTG/7TsLRU4Udi0L89jS
- /raeAYpAwRgFVt+5+Bn0denE3ijwV67hRXu7axKSaTKqYgbiwgVYgfczAcHE2I3gQggX
- uV1lQOZeJoJoV49pW6OwkvqQPDWujS73IyqJjO/+FFvYKBZtX6YlrF85A1LbSvUVv1xM
- e/Bg==
-X-Gm-Message-State: AO0yUKUCJuWSaIwUAi11MQnZt0c9ZCgwinv81fv4k40+7zohba67N579
- eJ5gFIGDA6SfV27LMaJe6h/5vw==
-X-Google-Smtp-Source: AK7set8lUAyl9aeTt8w73qFsUL82ujSKum8EDTMEgPIyujS3+HYF5GpSVH5JSKz2wLi7OmrvBnvCMw==
-X-Received: by 2002:a05:600c:b8c:b0:3ed:2f1a:883c with SMTP id
- fl12-20020a05600c0b8c00b003ed2f1a883cmr6062550wmb.14.1678899573187; 
- Wed, 15 Mar 2023 09:59:33 -0700 (PDT)
+ bh=XuoZH8n6/y582VGtlT//Ved/gL6UQ8JXwf4cJ+tY/zQ=;
+ b=nFDpHK22NhYJjF6SUubPPQ3a0XQyEgGxX6Qfkj4HOO2p4368S8v4iRvYdusnGnpmJT
+ JnxJE/rYSE9SFbbLabr33WuADG5hJKvnT6dZL5f7NY7GOlDfUMnd19bEuTcQLiUzZbrF
+ kmPe2SUc693kKoZGzBPhLGNPPaDz9/6V6Gp9/2ko9Im+6sRgroGX91S+hZIVp3DgXykB
+ Jo4dqIK5Nzy8hZpvGZQlr8BD5+3fSM0FlkJe1PiZcaP/xJhiSDz3mkXxmll+qciaWtHy
+ HiRW5wJt6nmPfDZLjFFsljR1mFFSYRbPZf3YTVKu9adWlnmtQnIU2ZQOIaxqS6OiHf1y
+ 95GA==
+X-Gm-Message-State: AO0yUKW+ciF4oqFtu21tUsJ9r5Jpo6tLWthMqhPba6PHT9H8hINzuXkA
+ W4ag+dJ6RDuCNs8+VnWZ8YSC9w==
+X-Google-Smtp-Source: AK7set/MIxnjTpEP94LttF7q2m3Ai5GmTkUCC3xvEVHDvukr0FFVTLz4Bfg/jczpaLzlm8ng2wgxlg==
+X-Received: by 2002:a5d:4586:0:b0:2cf:e65a:a5fc with SMTP id
+ p6-20020a5d4586000000b002cfe65aa5fcmr2550760wrq.8.1678899618547; 
+ Wed, 15 Mar 2023 10:00:18 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- p3-20020a05600c358300b003ed2eb5c2dcsm2630372wmq.43.2023.03.15.09.59.32
+ z13-20020a5d4d0d000000b002cfe1377fb1sm4995124wrt.70.2023.03.15.10.00.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 09:59:32 -0700 (PDT)
-Message-ID: <d680ac3e-fd83-09e0-351f-08ad5f73802c@linaro.org>
-Date: Wed, 15 Mar 2023 17:59:31 +0100
+ Wed, 15 Mar 2023 10:00:18 -0700 (PDT)
+Message-ID: <37cc184e-2b5c-a841-1cca-34db745f27dc@linaro.org>
+Date: Wed, 15 Mar 2023 18:00:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 18/30] tcg/aarch64: Detect have_lse, have_lse2 for
- darwin
+Subject: Re: [PATCH v2 17/30] tcg/aarch64: Detect have_lse, have_lse2 for linux
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20230216025739.1211680-1-richard.henderson@linaro.org>
- <20230216025739.1211680-19-richard.henderson@linaro.org>
+ <20230216025739.1211680-18-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230216025739.1211680-19-richard.henderson@linaro.org>
+In-Reply-To: <20230216025739.1211680-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,13 +91,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 16/2/23 03:57, Richard Henderson wrote:
-> These features are present for Apple M1.
+> Notice when the host has additional atomic instructions.
+> The new variables will also be used in generated code.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/aarch64/tcg-target.c.inc | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
+>   tcg/aarch64/tcg-target.h     |  3 +++
+>   tcg/aarch64/tcg-target.c.inc | 12 ++++++++++++
+>   2 files changed, 15 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
