@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1D16BBB53
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155F86BBB64
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:50:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVFn-0001un-9Y; Wed, 15 Mar 2023 13:49:35 -0400
+	id 1pcVGk-00069r-5P; Wed, 15 Mar 2023 13:50:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFe-0001Xu-Lw
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:26 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1pcVFx-0002SK-3n
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:48 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFa-000282-1M
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:26 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h17so4058202wrt.8
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:21 -0700 (PDT)
+ id 1pcVFe-0002Bt-Li
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:42 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ j19-20020a05600c191300b003eb3e1eb0caso1590741wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902560;
+ d=linaro.org; s=google; t=1678902564;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8ftomCMN9D7t/TUiloNrLyUYQ5fiuNqGTG1HcraBz2M=;
- b=v7vvvpLKuTVpAv8ps0Pq5QZaS+C/K2Uzyy9Kd6A4+ihyL3N/1JJjYNSBZX1ycukERb
- pzkJE41/Wmw+JG7EXuGc6a/1wIxEyLt1aaQE9yoI2DkJwYs8LZRNJXWC5yq1FAvDAV+O
- sBqPXOMx4lGGFNGlrtJ54AiimM7+1gfDjheacUJLzuvhR+G/ru6tIsq3SXerh3MvtZ7h
- nwtNXrBQejuD7vBhdIzyceekpMqTpqbUdZPYYnLjeItExVL7ThO6fD9v2jBp4rzwrvaQ
- BVUOt2P8vzX53Mnj7E+vRXdiGWZQuYHcntDQiFtMsPp3ooJAlPckNZGCH2qooPfqSaTy
- isFA==
+ bh=0N/4PabBLqV/G25pJQsAZWNm7Ckm3Whh6Khx55ga6lY=;
+ b=RDj1iHq8LoIMKN4MX+P7q9gwxajV2pOtRK3j6P8PFfd9B6NNnMSb9erc0MlIK5wQz6
+ 5fSTJQxdrk7jBmE0MQkxF+OazHIrjNnjwgzTw4mak1SdsouTcuziDx6x0CyeZBYJIM68
+ 2TMtV2y9zjZLQNMtVG3RvOfYJ/LGt7VaqRlMNbzfKmNSSNHgijPlF2bPv87hcMKdilgZ
+ dLG+nKf8efYN9UTxcIGNJscM+FdZu0MUxoitLrJETBAJKEtZs1H1Y8JeMJnpDCy7zlmU
+ 1CX+Sy6U6HQgWqtcsvhHNj1W4hhfTgrtOuiQ4PzxxeV+QPYl+s6DvpI8uTbdP1NGDxw+
+ HWqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902560;
+ d=1e100.net; s=20210112; t=1678902564;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8ftomCMN9D7t/TUiloNrLyUYQ5fiuNqGTG1HcraBz2M=;
- b=jZnnTG7+rX+xw7PN1VkuM/hhvMmZFrnOXYHQBTaRphMOGJNEhTHK1fcqkJvZisH9fj
- rCbcbPusKqyxjWbInpOZ+AHBzHixJKSHYReRsbS1zD+D528vRWSudbYOBbCh9g/5nRnn
- mU5fI0o6e/lc2cfBjddCZrY2vuYBYDOM4pJSTSGBm5v/wOr2vra54A8UnxHBiSwOC1x6
- kxj/sFRbvJojk8yJ6iuUxApd4qmCxRPw+zstwFLQSBVemWBraCVGLfknKwBmMR+ZtNMt
- aOUNYL+6ncjHY/mYihzqFS8RjPu2ujk4ifhhZTs/SEqQ5JkrsQVVqMeFZNKnRiNo5VQK
- OGEw==
-X-Gm-Message-State: AO0yUKWxYNyY8OM0QD7jj5htOEzpdN6UXUtt5pMyYd8nspVImZDYyXtl
- 47wDCHWbpYiKBErCY3e8BMwUyw==
-X-Google-Smtp-Source: AK7set+gIRu8mJmziJy9zHAyVl0XTVtsz+R+CSfjtPtXyE3J6uGRxhl0NzAlapKHUbHEtcUczbUTnQ==
-X-Received: by 2002:a5d:6ac6:0:b0:2cf:e70f:d1a8 with SMTP id
- u6-20020a5d6ac6000000b002cfe70fd1a8mr2652066wrw.10.1678902559959; 
- Wed, 15 Mar 2023 10:49:19 -0700 (PDT)
+ bh=0N/4PabBLqV/G25pJQsAZWNm7Ckm3Whh6Khx55ga6lY=;
+ b=NrEKW1m05aeRcoTT6dl5nLB1gsfdQa3rTC8xSqnhfIQKIznwYJpXH8kOuuD+HehQQK
+ zv2MNzpJgC+fCDg+z3WdgXR0GuaLw70dFbaz/opGNfW8+olCFjOZuJsxhrBNoZPNkqdJ
+ ZLoGv4gvkiE7gFjHuU+ajcE9vFfX4I2WLdQ/FGFt945RBYmhlrI9D1VHgCMLotP5tZRD
+ l/k+ie4ra46jyx4iHNNq+ZTkt37Gv4tjdzphbXxkfENxOQNP57ogHDwjfb+8RpU3cSev
+ oKsIz9If0aNwXQ7LsmfbZ4OxBWIUWG/lBmKbcT/hi/YQmhFs3U89ek9ykn5sJ8kADxY3
+ SZKw==
+X-Gm-Message-State: AO0yUKW+RotwSNvGX4V0u846df+fhqYS3eS0+0FSD0G1BWcYCdN+RJZt
+ opV35n8uRwSvFFgBnfrog0BROA==
+X-Google-Smtp-Source: AK7set/0RZJwAHZGDqwh5L+Jh0el5WLv2Y57y7FuRNcQLA19gfAyXP6PYgMI3jRUhG15cvJuK2x3Pg==
+X-Received: by 2002:a05:600c:46d0:b0:3ed:2346:44bd with SMTP id
+ q16-20020a05600c46d000b003ed234644bdmr5401196wmo.19.1678902564503; 
+ Wed, 15 Mar 2023 10:49:24 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- c10-20020adffb0a000000b002d1bfe3269esm88021wrr.59.2023.03.15.10.49.19
+ iz11-20020a05600c554b00b003ed201ddef2sm2641650wmb.2.2023.03.15.10.49.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:49:19 -0700 (PDT)
+ Wed, 15 Mar 2023 10:49:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9D4761FFC3;
+ by zen.linaroharston (Postfix) with ESMTP id B8E621FFC4;
  Wed, 15 Mar 2023 17:43:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,18 +107,17 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 12/32] tcg: Drop plugin_gen_disable_mem_helpers from
- tcg_gen_exit_tb
-Date: Wed, 15 Mar 2023 17:43:11 +0000
-Message-Id: <20230315174331.2959-13-alex.bennee@linaro.org>
+Subject: [PATCH v2 13/32] include/qemu/plugin: Remove QEMU_PLUGIN_ASSERT
+Date: Wed, 15 Mar 2023 17:43:12 +0000
+Message-Id: <20230315174331.2959-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -142,27 +142,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Now that we call qemu_plugin_disable_mem_helpers in cpu_tb_exec,
-we don't need to do this in generated code as well.
+This macro is no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230310195252.210956-3-richard.henderson@linaro.org>
+Message-Id: <20230310195252.210956-4-richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tcg/tcg-op.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/qemu/plugin.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index ddab20a6a6..3136cef81a 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2808,7 +2808,6 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
-         tcg_debug_assert(idx == TB_EXIT_REQUESTED);
-     }
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index fb338ba576..e0ebedef84 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -59,8 +59,6 @@ get_plugin_meminfo_rw(qemu_plugin_meminfo_t i)
+ #ifdef CONFIG_PLUGIN
+ extern QemuOptsList qemu_plugin_opts;
  
--    plugin_gen_disable_mem_helpers();
-     tcg_gen_op1i(INDEX_op_exit_tb, val);
- }
+-#define QEMU_PLUGIN_ASSERT(cond) g_assert(cond)
+-
+ static inline void qemu_plugin_add_opts(void)
+ {
+     qemu_add_opts(&qemu_plugin_opts);
+@@ -252,8 +250,6 @@ void qemu_plugin_user_postfork(bool is_child);
+ 
+ #else /* !CONFIG_PLUGIN */
+ 
+-#define QEMU_PLUGIN_ASSERT(cond)
+-
+ static inline void qemu_plugin_add_opts(void)
+ { }
  
 -- 
 2.39.2
