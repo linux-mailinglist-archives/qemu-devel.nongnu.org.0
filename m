@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A99D6BB004
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD6C6BB006
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 13:14:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcQ13-0007iT-0v; Wed, 15 Mar 2023 08:14:02 -0400
+	id 1pcQ0q-0007hd-6d; Wed, 15 Mar 2023 08:13:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcQ0j-0007gU-1U
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcQ0j-0007gW-Ot
  for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:13:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcQ0f-0001tv-Tf
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:13:40 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcQ0h-0001uA-Ba
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:13:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678882417;
+ s=mimecast20190719; t=1678882418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lXrwaPY903IdLCGPX8eUD0EqBBVuAxFcjj7IDcoMns8=;
- b=Cwdi+aH01JqO25eqJIjz94p8Ah8XCST4/MuszPEV7IZJk8YqyTHMhltDRuYme25vdR4rx7
- /8gQ0ySx6+/dKsXWyvnJUGPgA7ZvdC6f7F4/GEVaP5OcBV5Ftlih3cWvN+nSvQeK3zLz3u
- Uxx07fwbQjxvhWTU5EoJkXrTFnjHjQY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dxbujlmIm17bJAmGAy2mXMVgq8Bq8dCuw5A2QqXTsy0=;
+ b=Am/roxjRCoybTKEY5mVwfeinqgPvbn7iFnTS3lppWw4xuFWRSZI+TZA9w9wOC1iWZyfaD5
+ ZAl0Ji/Cda+Zo70G1K5lKQo8hKu8fDhIcf804i/Xb9hyB9svKZKeeTzg0d8CGAqamgZR5D
+ TxEebHcWrDUE+DpbmVF9pizPjoVpI28=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-ECKywTQvOw2To0QGfSnKeA-1; Wed, 15 Mar 2023 08:13:34 -0400
-X-MC-Unique: ECKywTQvOw2To0QGfSnKeA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-183-SaHrIHFzOsW_wbB_97ZqRg-1; Wed, 15 Mar 2023 08:13:35 -0400
+X-MC-Unique: SaHrIHFzOsW_wbB_97ZqRg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D27A185A792;
- Wed, 15 Mar 2023 12:13:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31B0229ABA11;
+ Wed, 15 Mar 2023 12:13:35 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 301211121314;
- Wed, 15 Mar 2023 12:13:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCBC640C6E68;
+ Wed, 15 Mar 2023 12:13:34 +0000 (UTC)
 From: Hanna Czenczek <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Czenczek <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [RFC 1/2] block: Split padded I/O vectors exceeding IOV_MAX
-Date: Wed, 15 Mar 2023 13:13:29 +0100
-Message-Id: <20230315121330.29679-2-hreitz@redhat.com>
+Subject: [RFC 2/2] iotests/iov-padding: New test
+Date: Wed, 15 Mar 2023 13:13:30 +0100
+Message-Id: <20230315121330.29679-3-hreitz@redhat.com>
 In-Reply-To: <20230315121330.29679-1-hreitz@redhat.com>
 References: <20230315121330.29679-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,287 +79,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When processing vectored guest requests that are not aligned to the
-storage request alignment, we pad them by adding head and/or tail
-buffers for a read-modify-write cycle.
+Test that even vectored IO requests with 1024 vector elements that are
+not aligned to the device's request alignment will succeed.
 
-The guest can submit I/O vectors up to IOV_MAX (1024) in length, but
-with this padding, the vector can exceed that limit.  As of
-4c002cef0e9abe7135d7916c51abce47f7fc1ee2 ("util/iov: make
-qemu_iovec_init_extended() honest"), we refuse to pad vectors beyond the
-limit, instead returning an error to the guest.
-
-To the guest, this appears as a random I/O error.  We should not return
-an I/O error to the guest when it issued a perfectly valid request.
-
-Before 4c002cef0e9abe7135d7916c51abce47f7fc1ee2, we just made the vector
-longer than IOV_MAX, which generally seems to work (because the guest
-assumes a smaller alignment than we really have, file-posix's
-raw_co_prw() will generally see bdrv_qiov_is_aligned() return false, and
-so emulate the request, so that the IOV_MAX does not matter).  However,
-that does not seem exactly great.
-
-I see two ways to fix this problem:
-1. We split such long requests into two requests.
-2. We join some elements of the vector into new buffers to make it
-   shorter.
-
-I am wary of (1), because it seems like it may have unintended side
-effects.
-
-(2) on the other hand seems relatively simple to implement, with
-hopefully few side effects, so this patch does that.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2141964
 Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
 ---
- block/io.c | 139 ++++++++++++++++++++++++++++++++++++++++++++++++++---
- util/iov.c |   4 --
- 2 files changed, 133 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/tests/iov-padding     | 85 ++++++++++++++++++++++++
+ tests/qemu-iotests/tests/iov-padding.out | 59 ++++++++++++++++
+ 2 files changed, 144 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/iov-padding
+ create mode 100644 tests/qemu-iotests/tests/iov-padding.out
 
-diff --git a/block/io.c b/block/io.c
-index 8974d46941..ee226d23d6 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1435,6 +1435,12 @@ out:
-  * @merge_reads is true for small requests,
-  * if @buf_len == @head + bytes + @tail. In this case it is possible that both
-  * head and tail exist but @buf_len == align and @tail_buf == @buf.
-+ *
-+ * @write is true for write requests, false for read requests.
-+ *
-+ * If padding makes the vector too long (exceeding IOV_MAX), then we need to
-+ * merge existing vector elements into a single one.  @collapse_buf acts as the
-+ * bounce buffer in such cases.
-  */
- typedef struct BdrvRequestPadding {
-     uint8_t *buf;
-@@ -1443,11 +1449,17 @@ typedef struct BdrvRequestPadding {
-     size_t head;
-     size_t tail;
-     bool merge_reads;
-+    bool write;
-     QEMUIOVector local_qiov;
+diff --git a/tests/qemu-iotests/tests/iov-padding b/tests/qemu-iotests/tests/iov-padding
+new file mode 100755
+index 0000000000..b9604900c7
+--- /dev/null
++++ b/tests/qemu-iotests/tests/iov-padding
+@@ -0,0 +1,85 @@
++#!/usr/bin/env bash
++# group: rw quick
++#
++# Check the interaction of request padding (to fit alignment restrictions) with
++# vectored I/O from the guest
++#
++# Copyright Red Hat
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+    uint8_t *collapse_buf;
-+    size_t collapse_len;
-+    QEMUIOVector collapsed_qiov;
- } BdrvRequestPadding;
- 
- static bool bdrv_init_padding(BlockDriverState *bs,
-                               int64_t offset, int64_t bytes,
-+                              bool write,
-                               BdrvRequestPadding *pad)
- {
-     int64_t align = bs->bl.request_alignment;
-@@ -1479,9 +1491,101 @@ static bool bdrv_init_padding(BlockDriverState *bs,
-         pad->tail_buf = pad->buf + pad->buf_len - align;
-     }
- 
-+    pad->write = write;
++seq=$(basename $0)
++echo "QA output created by $seq"
 +
-     return true;
- }
- 
-+/*
-+ * If padding has made the IOV (`pad->local_qiov`) too long (more than IOV_MAX
-+ * elements), collapse some elements into a single one so that it adheres to the
-+ * IOV_MAX limit again.
-+ *
-+ * If collapsing, `pad->collapse_buf` will be used as a bounce buffer of length
-+ * `pad->collapse_len`.  `pad->collapsed_qiov` will contain the previous entries
-+ * (before collapsing), so that bdrv_padding_destroy() can copy the bounce
-+ * buffer content back for read requests.
-+ *
-+ * Note that we will not touch the padding head or tail entries here.  We cannot
-+ * move them to a bounce buffer, because for RMWs, both head and tail expect to
-+ * be in an aligned buffer with scratch space after (head) or before (tail) to
-+ * perform the read into (because the whole buffer must be aligned, but head's
-+ * and tail's lengths naturally cannot be aligned, because they provide padding
-+ * for unaligned requests).  A collapsed bounce buffer for multiple IOV elements
-+ * cannot provide such scratch space.
-+ *
-+ * Therefore, this function collapses the first IOV elements after the
-+ * (potential) head element.
-+ */
-+static void bdrv_padding_collapse(BdrvRequestPadding *pad, BlockDriverState *bs)
++status=1	# failure is the default!
++
++_cleanup()
 +{
-+    int surplus_count, collapse_count;
-+    struct iovec *collapse_iovs;
-+    QEMUIOVector collapse_qiov;
-+    size_t move_count;
-+
-+    surplus_count = pad->local_qiov.niov - IOV_MAX;
-+    /* Not exceeding the limit?  Nothing to collapse. */
-+    if (surplus_count <= 0) {
-+        return;
-+    }
-+
-+    /*
-+     * Only head and tail can have lead to the number of entries exceeding
-+     * IOV_MAX, so we can exceed it by the head and tail at most
-+     */
-+    assert(surplus_count <= !!pad->head + !!pad->tail);
-+
-+    /*
-+     * We merge (collapse) `surplus_count` entries into the first entry that is
-+     * not padding, i.e. we merge `surplus_count + 1` entries into entry 0 if
-+     * there is no head, or entry 1 if there is one.
-+     */
-+    collapse_count = surplus_count + 1;
-+    collapse_iovs = &pad->local_qiov.iov[pad->head ? 1 : 0];
-+
-+    /* There must be no previously collapsed buffers in `pad` */
-+    assert(pad->collapse_len == 0);
-+    for (int i = 0; i < collapse_count; i++) {
-+        pad->collapse_len += collapse_iovs[i].iov_len;
-+    }
-+    pad->collapse_buf = qemu_blockalign(bs, pad->collapse_len);
-+
-+    /* Save the to-be-collapsed IOV elements in collapsed_qiov */
-+    qemu_iovec_init_external(&collapse_qiov, collapse_iovs, collapse_count);
-+    qemu_iovec_init_slice(&pad->collapsed_qiov,
-+                          &collapse_qiov, 0, pad->collapse_len);
-+    if (pad->write) {
-+        /* For writes: Copy all to-be-collapsed data into collapse_buf */
-+        qemu_iovec_to_buf(&pad->collapsed_qiov, 0,
-+                          pad->collapse_buf, pad->collapse_len);
-+    }
-+
-+    /* Create the collapsed entry in pad->local_qiov */
-+    collapse_iovs[0] = (struct iovec){
-+        .iov_base = pad->collapse_buf,
-+        .iov_len = pad->collapse_len,
-+    };
-+
-+    /*
-+     * To finalize collapsing, we must shift the rest of pad->local_qiov left by
-+     * `surplus_count`, i.e. we must move all elements after `collapse_iovs` to
-+     * immediately after the collapse target.
-+     *
-+     * Therefore, the memmove() target is `collapse_iovs[1]` and the source is
-+     * `collapse_iovs[collapse_count]`.  The number of elements to move is the
-+     * number of elements remaining in `pad->local_qiov` after and including
-+     * `collapse_iovs[collapse_count]`.
-+     */
-+    move_count = &pad->local_qiov.iov[pad->local_qiov.niov] -
-+        &collapse_iovs[collapse_count];
-+    memmove(&collapse_iovs[1],
-+            &collapse_iovs[collapse_count],
-+            move_count * sizeof(pad->local_qiov.iov[0]));
-+
-+    pad->local_qiov.niov -= surplus_count;
++    _cleanup_test_img
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
- static int coroutine_fn GRAPH_RDLOCK
- bdrv_padding_rmw_read(BdrvChild *child, BdrvTrackedRequest *req,
-                       BdrvRequestPadding *pad, bool zero_middle)
-@@ -1549,6 +1653,18 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
-         qemu_vfree(pad->buf);
-         qemu_iovec_destroy(&pad->local_qiov);
-     }
-+    if (pad->collapse_buf) {
-+        if (!pad->write) {
-+            /*
-+             * If padding required elements in the vector to be collapsed into a
-+             * bounce buffer, copy the bounce buffer content back
-+             */
-+            qemu_iovec_from_buf(&pad->collapsed_qiov, 0,
-+                                pad->collapse_buf, pad->collapse_len);
-+        }
-+        qemu_vfree(pad->collapse_buf);
-+        qemu_iovec_destroy(&pad->collapsed_qiov);
-+    }
-     memset(pad, 0, sizeof(*pad));
- }
- 
-@@ -1559,6 +1675,8 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
-  * read of padding, bdrv_padding_rmw_read() should be called separately if
-  * needed.
-  *
-+ * @write is true for write requests, false for read requests.
-+ *
-  * Request parameters (@qiov, &qiov_offset, &offset, &bytes) are in-out:
-  *  - on function start they represent original request
-  *  - on failure or when padding is not needed they are unchanged
-@@ -1567,6 +1685,7 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
- static int bdrv_pad_request(BlockDriverState *bs,
-                             QEMUIOVector **qiov, size_t *qiov_offset,
-                             int64_t *offset, int64_t *bytes,
-+                            bool write,
-                             BdrvRequestPadding *pad, bool *padded,
-                             BdrvRequestFlags *flags)
- {
-@@ -1574,7 +1693,7 @@ static int bdrv_pad_request(BlockDriverState *bs,
- 
-     bdrv_check_qiov_request(*offset, *bytes, *qiov, *qiov_offset, &error_abort);
- 
--    if (!bdrv_init_padding(bs, *offset, *bytes, pad)) {
-+    if (!bdrv_init_padding(bs, *offset, *bytes, write, pad)) {
-         if (padded) {
-             *padded = false;
-         }
-@@ -1589,6 +1708,14 @@ static int bdrv_pad_request(BlockDriverState *bs,
-         bdrv_padding_destroy(pad);
-         return ret;
-     }
++# get standard environment, filters and checks
++cd ..
++. ./common.rc
++. ./common.filter
 +
-+    /*
-+     * If the IOV is too long after padding, merge (collapse) some entries to
-+     * make it not exceed IOV_MAX
-+     */
-+    bdrv_padding_collapse(pad, bs);
-+    assert(pad->local_qiov.niov <= IOV_MAX);
++_supported_fmt raw
++_supported_proto file
 +
-     *bytes += pad->head + pad->tail;
-     *offset -= pad->head;
-     *qiov = &pad->local_qiov;
-@@ -1653,8 +1780,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
-         flags |= BDRV_REQ_COPY_ON_READ;
-     }
- 
--    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
--                           NULL, &flags);
-+    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
-+                           &pad, NULL, &flags);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -1996,7 +2123,7 @@ bdrv_co_do_zero_pwritev(BdrvChild *child, int64_t offset, int64_t bytes,
-     /* This flag doesn't make sense for padding or zero writes */
-     flags &= ~BDRV_REQ_REGISTERED_BUF;
- 
--    padding = bdrv_init_padding(bs, offset, bytes, &pad);
-+    padding = bdrv_init_padding(bs, offset, bytes, true, &pad);
-     if (padding) {
-         assert(!(flags & BDRV_REQ_NO_WAIT));
-         bdrv_make_request_serialising(req, align);
-@@ -2112,8 +2239,8 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
-          * bdrv_co_do_zero_pwritev() does aligning by itself, so, we do
-          * alignment only if there is no ZERO flag.
-          */
--        ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
--                               &padded, &flags);
-+        ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, true,
-+                               &pad, &padded, &flags);
-         if (ret < 0) {
-             return ret;
-         }
-diff --git a/util/iov.c b/util/iov.c
-index b4be580022..4d0d381949 100644
---- a/util/iov.c
-+++ b/util/iov.c
-@@ -444,10 +444,6 @@ int qemu_iovec_init_extended(
-     }
- 
-     total_niov = !!head_len + mid_niov + !!tail_len;
--    if (total_niov > IOV_MAX) {
--        return -EINVAL;
--    }
--
-     if (total_niov == 1) {
-         qemu_iovec_init_buf(qiov, NULL, 0);
-         p = &qiov->local_iov;
++_make_test_img 1M
++
++IMGSPEC="driver=blkdebug,align=4096,image.driver=file,image.filename=$TEST_IMG"
++
++# Four combinations:
++# - Offset 4096, length 1023 * 512 + 512: Fully aligned to 4k
++# - Offset 4096, length 1023 * 512 + 4096: Head is aligned, tail is not
++# - Offset 512, length 1023 * 512 + 512: Neither head nor tail are aligned
++# - Offset 512, length 1023 * 512 + 4096: Tail is aligned, head is not
++for start_offset in 4096 512; do
++    for last_element_length in 512 4096; do
++        length=$((1023 * 512 + $last_element_length))
++
++        echo
++        echo "== performing 1024-element vectored requests to image (offset: $start_offset; length: $length) =="
++
++        # Fill with data for testing
++        $QEMU_IO -c 'write -P 1 0 1M' "$TEST_IMG" | _filter_qemu_io
++
++        # 1023 512-byte buffers, and then one with length $last_element_length
++        cmd_params="-P 2 $start_offset $(yes 512 | head -n 1023 | tr '\n' ' ') $last_element_length"
++        QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" $QEMU_IO \
++            -c "writev $cmd_params" \
++            --image-opts \
++            "$IMGSPEC" \
++            | _filter_qemu_io
++
++        # Read all patterns -- read the part we just wrote with writev twice,
++        # once "normally", and once with a readv, so we see that that works, too
++        QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" $QEMU_IO \
++            -c "read -P 1 0 $start_offset" \
++            -c "read -P 2 $start_offset $length" \
++            -c "readv $cmd_params" \
++            -c "read -P 1 $((start_offset + length)) $((1024 * 1024 - length - start_offset))" \
++            --image-opts \
++            "$IMGSPEC" \
++            | _filter_qemu_io
++    done
++done
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/tests/iov-padding.out b/tests/qemu-iotests/tests/iov-padding.out
+new file mode 100644
+index 0000000000..e07a91fac7
+--- /dev/null
++++ b/tests/qemu-iotests/tests/iov-padding.out
+@@ -0,0 +1,59 @@
++QA output created by iov-padding
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
++
++== performing 1024-element vectored requests to image (offset: 4096; length: 524288) ==
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 524288/524288 bytes at offset 4096
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 524288/524288 bytes at offset 4096
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 524288/524288 bytes at offset 4096
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 520192/520192 bytes at offset 528384
++508 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== performing 1024-element vectored requests to image (offset: 4096; length: 527872) ==
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 527872/527872 bytes at offset 4096
++515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 527872/527872 bytes at offset 4096
++515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 527872/527872 bytes at offset 4096
++515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 516608/516608 bytes at offset 531968
++504.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== performing 1024-element vectored requests to image (offset: 512; length: 524288) ==
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 524288/524288 bytes at offset 512
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 524288/524288 bytes at offset 512
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 524288/524288 bytes at offset 512
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 523776/523776 bytes at offset 524800
++511.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== performing 1024-element vectored requests to image (offset: 512; length: 527872) ==
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 527872/527872 bytes at offset 512
++515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 527872/527872 bytes at offset 512
++515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 527872/527872 bytes at offset 512
++515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 520192/520192 bytes at offset 528384
++508 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
 -- 
 2.39.1
 
