@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE826BBE07
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 21:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0266BBE45
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 21:58:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcXsw-0007Po-KJ; Wed, 15 Mar 2023 16:38:10 -0400
+	id 1pcYAx-00019V-6K; Wed, 15 Mar 2023 16:56:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pcXst-0007P7-66
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:38:07 -0400
-Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pcXsh-0006sK-PP
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:37:57 -0400
-Received: by mail-oo1-xc2b.google.com with SMTP id
- h18-20020a4abb92000000b00525397f569fso2997330oop.3
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1678912674;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6kQdfL44+/xM7JhgW5vbtIZt8u4Ao+y12ni9e8tJewY=;
- b=JexK6bQeuWnwOsVbRW0Gs2pk1F9cpvDZjueLXXjIPCfgHWpd5mlg7ABixl/TtkaDo+
- TT90umQ++rgZVooyUr519XrKTEsLFHr0XY2oKwqlqrUcWIaOX+LoOYHdqKHp4ltxNWeo
- T4gb1qqBYUNEGifk7PSKpJpIVGYZSo3EVHWbhNFtCPovH5uoM4Jp294KiefjOaUECxh/
- hAdK9QuH5sd9LW6E0wJKH+uFaQIStWfe/CBvygzkilrb25diTCRPVHhr9e+5y8uJOe5F
- C5LALI8IwqKs/B2NnuwQlW5fkZSx0C5b39AbXrSeOgkstYfsPi54q8LSkx74nmCsTc5h
- onDA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pcYAu-00019G-3f
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:56:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pcYAs-0001x2-ER
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678913800;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=KQQGxNXqLqUh0iasPy2b44a8l+JmMbcgHDn6bnsefmc=;
+ b=fbYNM/Q2hfjh56ugrUMydj2vbLdPstSKQtwWN7TNHrkArEdxyjZuYu+k7K4Kn5w2SE88Ve
+ 99Bxm4pRRE4bp4e1wc4ilyHOPE/n9G6Cy/Qu2vMSxa+kfdDggpMJ2eP3nDMZh2Xi0iBWKL
+ nRKTB8LeRKlr2EpTuGRxrdQYNwpY9xI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-403-UFZ_scslNr63yj88bEyWPQ-1; Wed, 15 Mar 2023 16:56:39 -0400
+X-MC-Unique: UFZ_scslNr63yj88bEyWPQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k18-20020a05600c1c9200b003ed2a3f101fso1520161wms.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:56:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678912674;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6kQdfL44+/xM7JhgW5vbtIZt8u4Ao+y12ni9e8tJewY=;
- b=3i4Lbhn2vo78jWosQTTd7FmoeHRp2QJPmT2v96Em+KdMmsVzhc3Ra+RoC8v08BwjBY
- xFJ6gNO61VvE/VGHcgNJRtS7fsHRrNJl7SKukbK4JZ04g/u1oTrA7qJlzo2RSioKUQWZ
- tWjNI1nY2n9woNBxzRuaCxQtFnE/bL8tmaa4UaLhhxkKRRGUcVzf2ALZSVoN3YDJJ2z+
- vs1AwwD++D62FKXOoqOT1LD/Rxd/ocn0ehsSR0g5Oa3zWStOyr5sRFCcjT1PR76zljf2
- A6oz+MhSr/mEbUNMFCPLntjfMIAza3re4Iwa+waslqkCOnMsSBic//y0+Vr9z0i9Syb3
- iHCg==
-X-Gm-Message-State: AO0yUKX7R1knnCzBbMr5xHyjk3yjO9EezdVSPeVIo3F6DHoljoZM8BBk
- 0qizCHnsCtWaJbWWtj/XBPsL6A==
-X-Google-Smtp-Source: AK7set9WexeH/KLeMi5usFkhdehVXDAR9VTyeZ5D6XzDNSjbNMn0kq4ur8Ch9yiOh6bSF5l/o6Mihg==
-X-Received: by 2002:a4a:b78c:0:b0:525:2d37:5335 with SMTP id
- a12-20020a4ab78c000000b005252d375335mr20454529oop.8.1678912674030; 
- Wed, 15 Mar 2023 13:37:54 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
+ d=1e100.net; s=20210112; t=1678913798;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KQQGxNXqLqUh0iasPy2b44a8l+JmMbcgHDn6bnsefmc=;
+ b=CinqRHLEX2qWgcC4zfJIViZNkKycgFQZJBxXtgwkEGKHmsabYkt0XfYos6qZbzGr0r
+ hC7RElS5Fgv0oLp+CI3oPi++Fvp5YqTxM7NU2KnWBJznZu+TcqdtdXzIvR50JGIjQp2n
+ VAfAb/8SVG4U8QzLnzPDRWYaCHzN6gQkQwXC1bjRT5f+PTtV4H63na2suzlcWkVPlINA
+ 2anwoKnNMpojp+rLWXpVN6iKLvvXQwDDhc4SiuI2nc/mCwo7fIH+ufVJj+7I9KK9FyOh
+ Fdbud+gAMToM3dsyBuM/xN2PpvuCiIIgwpv5M2RLaQw0ghDmVPqHJOlN6qNpDtyO3FPL
+ 1QFg==
+X-Gm-Message-State: AO0yUKWh1uceNbTKI6SQjAVqkVN+TwWBnrTy4DfyttVCpxZ4j47hgLeQ
+ MkNtzkkQkZ/yrOvAhbRS1JZKWgGcuv/o9GGKmsopz5nJXprNWQ0oJMFz+LKwrlg5SNLzkVfQabA
+ K4y+xdU5h4jJjv6U=
+X-Received: by 2002:a05:600c:1c0a:b0:3ed:22b3:6263 with SMTP id
+ j10-20020a05600c1c0a00b003ed22b36263mr13189096wms.12.1678913798246; 
+ Wed, 15 Mar 2023 13:56:38 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+y8Bdw9SyF0QLt8uXQdW24/WWsEpc9UAUrX6RSsX7Rp3sLlFQpdDCKI/XN3hJEfOUjJsA9Kw==
+X-Received: by 2002:a05:600c:1c0a:b0:3ed:22b3:6263 with SMTP id
+ j10-20020a05600c1c0a00b003ed22b36263mr13189089wms.12.1678913797986; 
+ Wed, 15 Mar 2023 13:56:37 -0700 (PDT)
+Received: from redhat.com (62.117.238.225.dyn.user.ono.com. [62.117.238.225])
  by smtp.gmail.com with ESMTPSA id
- w6-20020a056830078600b0069417e65acasm2793687ots.45.2023.03.15.13.37.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 13:37:53 -0700 (PDT)
-Message-ID: <0edfc2c4-667e-fabd-dc45-195ab3c33f7a@ventanamicro.com>
-Date: Wed, 15 Mar 2023 17:37:49 -0300
+ t14-20020a05600c198e00b003ed29899dfdsm3169328wmq.21.2023.03.15.13.56.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Mar 2023 13:56:37 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+Cc: <qemu-devel@nongnu.org>,  <bcain@quicinc.com>,  <dgilbert@redhat.com>,
+ <ling1.xu@intel.com>,  <zhou.zhao@intel.com>,  <jun.i.jin@intel.com>
+Subject: Re: [PATCH RESEND v2 1/2] migration/xbzrle: use ctz64 to avoid
+ undefined result
+In-Reply-To: <117f3c2fdc17c319b0e04014bbd7e0c94992c197.1678733663.git.quic_mathbern@quicinc.com>
+ (Matheus Tavares Bernardino's message of "Mon, 13 Mar 2023 15:58:19
+ -0300")
+References: <cover.1678733663.git.quic_mathbern@quicinc.com>
+ <117f3c2fdc17c319b0e04014bbd7e0c94992c197.1678733663.git.quic_mathbern@quicinc.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 15 Mar 2023 21:56:36 +0100
+Message-ID: <87ttyln37f.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH for-8.1 v2 25/26] target/riscv: rework write_misa()
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-References: <20230314164948.539135-1-dbarboza@ventanamicro.com>
- <20230314164948.539135-26-dbarboza@ventanamicro.com>
- <dcb258d6-411c-27bc-794b-c928b8484cdc@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <dcb258d6-411c-27bc-794b-c928b8484cdc@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc2b.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,249 +99,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Matheus Tavares Bernardino <quic_mathbern@quicinc.com> wrote:
+> __builtin_ctzll() produces undefined results when the argument is 0.
+> This can be seen through test-xbzrle, which produces the following
+> warning:
+>
+> ../migration/xbzrle.c:265: runtime error: passing zero to ctz(), which is not a valid argument
+>
+> Replace __builtin_ctzll() with our ctz64() wrapper which properly
+> handles 0.
+>
+> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-On 3/15/23 02:25, liweiwei wrote:
-> 
-> On 2023/3/15 00:49, Daniel Henrique Barboza wrote:
->> write_misa() must use as much common logic as possible. We want to open
->> code just the bits that are exclusive to the CSR write operation and TCG
->> internals.
->>
->> Rewrite write_misa() to work as follows:
->>
->> - supress RVC right after verifying that we're not updating RVG;
->>
->> - mask the write using misa_ext_mask to avoid enabling unsupported
->>    extensions;
->>
->> - emulate the steps done by realize(): validate the candidate misa_ext
->>    val, then validate the configuration with the candidate misa_ext val,
->>    and finally commit the changes to cpu->cfg.
->>
->> If any of the validation steps fails simply ignore the write operation.
->>
->> Let's keep write_misa() as experimental for now until this logic gains
->> enough mileage.
->>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   target/riscv/cpu.c | 12 +++++-------
->>   target/riscv/cpu.h |  6 ++++++
->>   target/riscv/csr.c | 47 +++++++++++++++++++++-------------------------
->>   3 files changed, 32 insertions(+), 33 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 5bd92e1cda..4789a7b70d 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -1027,9 +1027,8 @@ static void riscv_cpu_disable_priv_spec_isa_exts(RISCVCPU *cpu)
->>   }
->> -static void riscv_cpu_validate_misa_ext(CPURISCVState *env,
->> -                                        uint32_t misa_ext,
->> -                                        Error **errp)
->> +void riscv_cpu_validate_misa_ext(CPURISCVState *env, uint32_t misa_ext,
->> +                                 Error **errp)
->>   {
->>       Error *local_err = NULL;
->> @@ -1134,9 +1133,8 @@ static void riscv_cpu_validate_misa_mxl(RISCVCPU *cpu, Error **errp)
->>    * candidate misa_ext value. No changes in env->misa_ext
->>    * are made.
->>    */
->> -static void riscv_cpu_validate_extensions(RISCVCPU *cpu,
->> -                                          uint32_t misa_ext,
->> -                                          Error **errp)
->> +void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
->> +                                   Error **errp)
->>   {
->>       if (cpu->cfg.epmp && !cpu->cfg.pmp) {
->>           /*
->> @@ -1227,7 +1225,7 @@ static void riscv_cpu_validate_extensions(RISCVCPU *cpu,
->>       }
->>   }
->> -static void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu)
->> +void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu)
->>   {
->>       if (cpu->cfg.ext_zk) {
->>           cpu->cfg.ext_zkn = true;
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index dbb4df9df0..ca2ba6a647 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -593,6 +593,12 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->>   char *riscv_isa_string(RISCVCPU *cpu);
->>   void riscv_cpu_list(void);
->> +void riscv_cpu_validate_misa_ext(CPURISCVState *env, uint32_t misa_ext,
->> +                                 Error **errp);
->> +void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
->> +                                   Error **errp);
->> +void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu);
->> +
->>   #define cpu_list riscv_cpu_list
->>   #define cpu_mmu_index riscv_cpu_mmu_index
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index 918d442ebd..6f26e7dbcd 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -1343,6 +1343,9 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
->>   static RISCVException write_misa(CPURISCVState *env, int csrno,
->>                                    target_ulong val)
->>   {
->> +    RISCVCPU *cpu = env_archcpu(env);
->> +    Error *local_err = NULL;
->> +
->>       if (!riscv_cpu_cfg(env)->misa_w) {
->>           /* drop write to misa */
->>           return RISCV_EXCP_NONE;
->> @@ -1353,47 +1356,39 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
->>           return RISCV_EXCP_NONE;
->>       }
->> -    /* 'I' or 'E' must be present */
->> -    if (!(val & (RVI | RVE))) {
->> -        /* It is not, drop write to misa */
->> -        return RISCV_EXCP_NONE;
->> -    }
->> -
->> -    /* 'E' excludes all other extensions */
->> -    if (val & RVE) {
->> -        /*
->> -         * when we support 'E' we can do "val = RVE;" however
->> -         * for now we just drop writes if 'E' is present.
->> -         */
->> -        return RISCV_EXCP_NONE;
->> -    }
->> -
->>       /*
->> -     * misa.MXL writes are not supported by QEMU.
->> -     * Drop writes to those bits.
->> +     * Suppress 'C' if next instruction is not aligned
->> +     * TODO: this should check next_pc
->>        */
->> +    if ((val & RVC) && (GETPC() & ~3) != 0) {
->> +        val &= ~RVC;
->> +    }
->>       /* Mask extensions that are not supported by this hart */
->>       val &= env->misa_ext_mask;
->> -    /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
->> -    if ((val & RVD) && !(val & RVF)) {
->> -        val &= ~RVD;
->> +    /* If nothing changed, do nothing. */
->> +    if (val == env->misa_ext) {
->> +        return RISCV_EXCP_NONE;
->>       }
->>       /*
->> -     * Suppress 'C' if next instruction is not aligned
->> -     * TODO: this should check next_pc
->> +     * This flow is similar to what riscv_cpu_realize() does,
->> +     * with the difference that we will update env->misa_ext
->> +     * value if everything is ok.
->>        */
->> -    if ((val & RVC) && (GETPC() & ~3) != 0) {
->> -        val &= ~RVC;
->> +    riscv_cpu_validate_misa_ext(env, val, &local_err);
->> +    if (local_err != NULL) {
->> +        return RISCV_EXCP_NONE;
->>       }
->> -    /* If nothing changed, do nothing. */
->> -    if (val == env->misa_ext) {
->> +    riscv_cpu_validate_extensions(cpu, val, &local_err);
->> +    if (local_err != NULL) {
->>           return RISCV_EXCP_NONE;
->>       }
->> +    riscv_cpu_commit_cpu_cfg(cpu);
->> +
-> 
-> In this way, it seems that Disabling V in misa may be enabled but will not work, since Zve64d/f... is still true.
-> 
-> The similar questions for C when Zc* extension is supported.
-> 
-> And in this way, if multi-letter extensions(such as Zfh) which depend on misa extensions(F) are supported, whether the misa extensions can be disabled? The answer is 'NO' in current implementation.
+queued.
 
-
-One problem we have here is that we can't re-enable Z extensions via CSR writes (at
-least as far as I'm aware of). This means that if write_misa() disables a Z extension
-we don't have a reliable way of bringing it back. Enabling a Z extension via a
-write_misa() call is less problematic.
-
-So I believe we have this hard rule: we don't disable Z extensions in write_misa().
-
-With this in mind, I took a look at all MISA bits. I believe it's good to have some special
-cases that would be prioritized in the CSR write. By special cases I mean bits that would
-cause more bits/z extensions to be enabled. We would prioritize handling them in write_misa(),
-dropping the changes of all other bits. I.e. if a special case is detected, we handle it
-and we finish the CSR write. This would spare us from covering a lot of weird cases, e.g.
-RVG being enabled while RVA is being disabled. In this case RVG takes precedence.
-
-- RVE
-
-RVE. RVE requires everything else to be disabled. IMO we can let the user at least try - perhaps
-the hart doesn't have Z extensions enabled at that point. If write_misa() tries to enable RVE,
-and only RVE, we proceed with the validation. This would be our first check: RVE being enabled,
-and enabled by itself.  If a RVE write has any other bits enabled, drop the write.
-
-- RVG
-
-All things considered, it's not that much of a big deal to support it. Enabling RVG, assuming it
-wasn't enabled already, would cause us to mass enable IMAFD_Zicsr_Zifencei. The only problem here
-is with F, which is mutually exclusive with Zfinx. If Zfinx is enabled we can't enable F, thus
-we can't enable RVG, and we would simply drop the write. Enabling RVG would also be a standalone
-action in write_misa().
-
-Disabling RVG has no side effects and it's not a special case.
-
-- RVV
-
-Enabling RVV requires enabling D, F, ext_zve64d, ext_zve64f and ext_zve32f. The same F constraint
-(Zfinx) applies here as well.  Assuming we can enable F, we can enable all these extensions,
-commit the RVV bit change and finish the write.
-
-Disabling RVV has no side-effects, at least as far as I can tell, because all these other extensions
-can exist without RVV, so it's not a special case.
-
-
-These are all the special cases that I can think of. RVE, then RVG, and then RVV. If any of these
-bits are enabled we should just handle them standalone and finish the write. I don't think we
-need to go through the regular validation workflow for them.
-
-
-The remaining cases would go through regular validation. We have certain bits that would
-deactivate Z extensions if disabled:
-
-- RVA: would disable Zawrs
-- RVD: would disable zve64d
-- RVF: would disable Zfh/Zfhmin, zve64f, zve32f, zve64d
-
-We can allow these bits to be disabled, as long as there's no Z extension being disabled
-in the process. If an enabled Z extension is impacted, we drop the misa write.
-
-Finally, we have  I, M, A, F and D and their relation with RVG. RVG would be disabled if any
-of these bits are disabled (and validation succeeds).
-
-
-That's all the caveats that I can think of. The code that enables a certain MISA bit can be
-shared with the existing code that riscv_cpu_realize() uses. Code that disables MISA bits would
-be new code that only write_misa() would use.
-
-
-Let me know what you all think. I intend to go this direction in v3.
-
-
-Thanks,
-
-
-Daniel
-
-
-> 
-> Regards,
-> 
-> Weiwei Li
-> 
->>       if (!(val & RVF)) {
->>           env->mstatus &= ~MSTATUS_FS;
->>       }
-> 
 
