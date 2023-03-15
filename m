@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63B76BBB6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015686BBB97
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 19:00:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVGB-0002zu-KI; Wed, 15 Mar 2023 13:49:59 -0400
+	id 1pcVPQ-0005t5-En; Wed, 15 Mar 2023 13:59:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFk-0001nz-I3
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:32 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1pcVPN-0005p6-Ep
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:59:29 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFa-000289-BN
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:28 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- c8-20020a05600c0ac800b003ed2f97a63eso1583824wmr.3
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:21 -0700 (PDT)
+ id 1pcVPG-0004BF-Ms
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:59:28 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so1591569wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902560;
+ d=linaro.org; s=google; t=1678903161;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Kz7lt0xm5BPRCHm1G6eqVDryZ05MXO1c0h+JE0rLmmA=;
- b=bNaT2vpbbehdm/qIsy3+TgfhjrFJ3XJLHmB6VUL1Zs3hbPlEekL4nMPtCEWVbHGIft
- +uqqJZze+SzlmR5+XbGswOw2gV28QZykyeKQDCduFr3rCosoyao3ujrKh73H9FAEK/A9
- Zc0rZCrYEEt49SCLyLy6SS7DN7dNMpnehLLgcEU33rRKhymSQiL1ZrY0n+z4UtfTsXMu
- 7VkEsida0B+zZdCuwHbV+9MZo4FhFi2JmUxbHHPtBQWCQPwBd49YnWjDYYwS7G985rJe
- gT/k5NFq+3dS3UcnUH1wtWCHqBChTYagQB9kvw/T3NHUHpyxr7iCWHkLdm0ZYzB0a672
- WlGw==
+ bh=wSr7AA9LUspzqEIDUMrwS93tNfDBE7VaQHLkhTtwqQI=;
+ b=CA3aWzQKDfY0/tjI5SY4VdvE6Ht0CUlxoIZOVbH9pm1rUFjMkq+Y8v/Jbz5QlmbecT
+ T756Xly0DeGbnrH2gh7vRdsqxDWl1tHcUxZlsZRpTuPsX5ssL++DA8GCkY2mRzPZX34q
+ F2Z+elwhIPVMmQwDQUzSZuBR0hl8pZVwCK9E1HXKgXin59IKuADvQdJZwwuZ7b17fzfl
+ qC7MgSFK0cIZvDdDKwTRs5gEwCq9VnN9VoI1/YlguUOD6BoAWCdJPZcNImZpNOBTR/vX
+ /rm6QKzyU/dXyyNSw55pFYqEoEti+mRdN6Wt72rc68F6KgS1eUBp1yyhMH36PoOMJTWK
+ H9LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902560;
+ d=1e100.net; s=20210112; t=1678903161;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Kz7lt0xm5BPRCHm1G6eqVDryZ05MXO1c0h+JE0rLmmA=;
- b=rYchm8YMdFAwinWBuYMpqZI0NafXKhODVIjINhIVN2NsBVtUFT5a1YP3fHOGjKX4y6
- 2FKhnhQicdC33J8pB/7iAEedA4Q3GHtGGvYs7QooS9FEi0ZvBlyQArydZYo/4AGZji3K
- nY4U5bKelh6n3NUUPdfoBFGDrbuSX/RhemGTGYinvU5SGOZmi3mA8RpRsfbmyDevyKeb
- ZqcTwQiiDgYXofNU1HrqVTSrRINVkufWnZzN/UxaT5T5V1f6wrv+nMgYDdoLx6MeV9Fh
- S+D+vnQ47wMPMcI7rgoO0XIkEIOjEODQ2BCcsM87zpPSbg/Ua9Kk0np5x07fjBnzfAwD
- EU/w==
-X-Gm-Message-State: AO0yUKXT8UjRZ5tpZE0/IaROHz1Of4YioIuiV8Q9rIaiOV6Z79JcAffA
- zCFWUGWyE45DhpotPVfdkxJtUQ==
-X-Google-Smtp-Source: AK7set+W3U2ebB184rL4uN6qOAW5BkAnAwjXheuRqduGYN8670olbbrt8buVpX+hsof9NfwroTRX/A==
-X-Received: by 2002:a05:600c:1c17:b0:3ed:2f7b:daf with SMTP id
- j23-20020a05600c1c1700b003ed2f7b0dafmr4623147wms.10.1678902560244; 
- Wed, 15 Mar 2023 10:49:20 -0700 (PDT)
+ bh=wSr7AA9LUspzqEIDUMrwS93tNfDBE7VaQHLkhTtwqQI=;
+ b=GAq/w05auEQCFAo7KwIpn2rKEvK7IfZ8RVD7f4J0s9zBzjhWYGwfCtsfgMxi2nn+dS
+ 1AznM5TtPkyNE5YGc96QZFuOjf4fLyvsAFrXjbz9wthedlrBNYNorDnwTQsA2gh0muLl
+ hf1+9fwImdYCZ5M1A+I49RML7lm0GIWBZsxbDSKnISEG58c7WdIwOPU8xQ2ZwVxBAam6
+ e266eIefwoA5G4EKyp6rp5P4BFPjcFfd16FrHQO6GmosU5IYX0l0Kj+NtNqm/tcifkd1
+ gTDstx+kMBAYuHYhqDQWQHeOmu47uypFT16wFX3083o2PO/tqDk0+71iXIw+SAPxQs1S
+ h5wg==
+X-Gm-Message-State: AO0yUKV+o3javLsaA5IzYN5wsnL1+nRhXcvsB8sDCkzHz/R3LWiCSGiY
+ rux8rTSTkWU5Qz+xSt42GSWJhw==
+X-Google-Smtp-Source: AK7set+mHJbSwrqVJ70M9KLWvjfzNuhPDLvz+h4o3g6e6TAAcXPmBfPAJtxti6m0HXCX81RTLVPvUw==
+X-Received: by 2002:a05:600c:4f91:b0:3eb:3908:8541 with SMTP id
+ n17-20020a05600c4f9100b003eb39088541mr19279346wmq.2.1678903160774; 
+ Wed, 15 Mar 2023 10:59:20 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c059300b003eb68bb61c8sm2680607wmd.3.2023.03.15.10.49.19
+ p15-20020a7bcdef000000b003dc4480df80sm2467357wmj.34.2023.03.15.10.59.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:49:19 -0700 (PDT)
+ Wed, 15 Mar 2023 10:59:20 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 62FEE1FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 80FD31FFC2;
  Wed, 15 Mar 2023 17:43:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,19 +106,18 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Bin Meng <bin.meng@windriver.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v2 10/32] tests/avocado: don't use tags to define drive
-Date: Wed, 15 Mar 2023 17:43:09 +0000
-Message-Id: <20230315174331.2959-11-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v2 11/32] tcg: Clear plugin_mem_cbs on TB exit
+Date: Wed, 15 Mar 2023 17:43:10 +0000
+Message-Id: <20230315174331.2959-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -141,246 +140,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are abusing the avocado tags which are intended to provide test
-selection metadata to provide parameters to our test. This works OK up
-until the point you need to have ,'s in the field as this is the tag
-separator character which is the case for a number of the drive
-parameters. Fix this by making drive a parameter to the common helper
-function.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Fixes: 267fe57c23 (tests: add tuxrun baseline test to avocado)
-Message-Id: <20230310103123.2118519-12-alex.bennee@linaro.org>
-Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Do this in cpu_tb_exec (normal exit) and cpu_loop_exit (exception),
+adjacent to where we reset can_do_io.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1381
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230310195252.210956-2-richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/avocado/tuxrun_baselines.py | 60 +++++++++++++------------------
- 1 file changed, 24 insertions(+), 36 deletions(-)
+ accel/tcg/cpu-exec-common.c | 2 ++
+ accel/tcg/cpu-exec.c        | 5 +----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-index 30aaefc1d3..c3fb67f5dc 100644
---- a/tests/avocado/tuxrun_baselines.py
-+++ b/tests/avocado/tuxrun_baselines.py
-@@ -67,9 +67,6 @@ def setUp(self):
-         # The name of the kernel Image file
-         self.image = self.get_tag('image', "Image")
+diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
+index c7bc8c6efa..176ea57281 100644
+--- a/accel/tcg/cpu-exec-common.c
++++ b/accel/tcg/cpu-exec-common.c
+@@ -65,6 +65,8 @@ void cpu_loop_exit(CPUState *cpu)
+ {
+     /* Undo the setting in cpu_tb_exec.  */
+     cpu->can_do_io = 1;
++    /* Undo any setting in generated code.  */
++    qemu_plugin_disable_mem_helpers(cpu);
+     siglongjmp(cpu->jmp_env, 1);
+ }
  
--        # The block device drive type
--        self.drive = self.get_tag('drive', "virtio-blk-device")
--
-         self.root = self.get_tag('root', "vda")
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 56aaf58b9d..c815f2dbfd 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -459,6 +459,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+     qemu_thread_jit_execute();
+     ret = tcg_qemu_tb_exec(env, tb_ptr);
+     cpu->can_do_io = 1;
++    qemu_plugin_disable_mem_helpers(cpu);
+     /*
+      * TODO: Delay swapping back to the read-write region of the TB
+      * until we actually need to modify the TB.  The read-only copy,
+@@ -526,7 +527,6 @@ static void cpu_exec_exit(CPUState *cpu)
+     if (cc->tcg_ops->cpu_exec_exit) {
+         cc->tcg_ops->cpu_exec_exit(cpu);
+     }
+-    QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
+ }
  
-         # Occasionally we need extra devices to hook things up
-@@ -99,7 +96,7 @@ def fetch_tuxrun_assets(self, dt=None):
+ void cpu_exec_step_atomic(CPUState *cpu)
+@@ -580,7 +580,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
+             qemu_mutex_unlock_iothread();
+         }
+         assert_no_pages_locked();
+-        qemu_plugin_disable_mem_helpers(cpu);
+     }
  
-         return (kernel_image, self.workdir + "/rootfs.ext4", dtb)
+     /*
+@@ -1004,7 +1003,6 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
  
--    def prepare_run(self, kernel, disk, dtb=None, console_index=0):
-+    def prepare_run(self, kernel, disk, drive, dtb=None, console_index=0):
-         """
-         Setup to run and add the common parameters to the system
-         """
-@@ -121,10 +118,8 @@ def prepare_run(self, kernel, disk, dtb=None, console_index=0):
-         if self.extradev:
-             self.vm.add_args('-device', self.extradev)
+             cpu_loop_exec_tb(cpu, tb, pc, &last_tb, &tb_exit);
  
--        # Some machines already define a drive device
--        if self.drive != "none":
--            self.vm.add_args('-device',
--                             f"{self.drive},drive=hd0")
-+        self.vm.add_args('-device',
-+                         f"{drive},drive=hd0")
+-            QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
+             /* Try to align the host and virtual clocks
+                if the guest is in advance */
+             align_clocks(sc, cpu);
+@@ -1029,7 +1027,6 @@ static int cpu_exec_setjmp(CPUState *cpu, SyncClocks *sc)
+         if (qemu_mutex_iothread_locked()) {
+             qemu_mutex_unlock_iothread();
+         }
+-        qemu_plugin_disable_mem_helpers(cpu);
  
-         # Some machines need an explicit DTB
-         if dtb:
-@@ -154,7 +149,9 @@ def run_tuxtest_tests(self, haltmsg):
-         else:
-             self.vm.wait()
- 
--    def common_tuxrun(self, dt=None, haltmsg="reboot: System halted",
-+    def common_tuxrun(self, dt=None,
-+                      drive="virtio-blk-device",
-+                      haltmsg="reboot: System halted",
-                       console_index=0):
-         """
-         Common path for LKFT tests. Unless we need to do something
-@@ -163,7 +160,7 @@ def common_tuxrun(self, dt=None, haltmsg="reboot: System halted",
-         """
-         (kernel, disk, dtb) = self.fetch_tuxrun_assets(dt)
- 
--        self.prepare_run(kernel, disk, dtb, console_index)
-+        self.prepare_run(kernel, disk, drive, dtb, console_index)
-         self.vm.launch()
-         self.run_tuxtest_tests(haltmsg)
- 
-@@ -206,11 +203,11 @@ def test_armv5(self):
-         :avocado: tags=machine:versatilepb
-         :avocado: tags=tuxboot:armv5
-         :avocado: tags=image:zImage
--        :avocado: tags=drive:virtio-blk-pci
-         :avocado: tags=console:ttyAMA0
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun(dt="versatile-pb.dtb")
-+        self.common_tuxrun(drive="virtio-blk-pci",
-+                           dt="versatile-pb.dtb")
- 
-     def test_armv7(self):
-         """
-@@ -244,10 +241,9 @@ def test_i386(self):
-         :avocado: tags=machine:q35
-         :avocado: tags=tuxboot:i386
-         :avocado: tags=image:bzImage
--        :avocado: tags=drive:virtio-blk-pci
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="virtio-blk-pci")
- 
-     def test_mips32(self):
-         """
-@@ -257,11 +253,10 @@ def test_mips32(self):
-         :avocado: tags=endian:big
-         :avocado: tags=tuxboot:mips32
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_mips32el(self):
-         """
-@@ -270,11 +265,10 @@ def test_mips32el(self):
-         :avocado: tags=cpu:mips32r6-generic
-         :avocado: tags=tuxboot:mips32el
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     @skip("QEMU currently broken") # regression against stable QEMU
-     def test_mips64(self):
-@@ -284,11 +278,10 @@ def test_mips64(self):
-         :avocado: tags=tuxboot:mips64
-         :avocado: tags=endian:big
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_mips64el(self):
-         """
-@@ -296,11 +289,10 @@ def test_mips64el(self):
-         :avocado: tags=machine:malta
-         :avocado: tags=tuxboot:mips64el
-         :avocado: tags=image:vmlinux
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=root:sda
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_ppc32(self):
-         """
-@@ -309,10 +301,9 @@ def test_ppc32(self):
-         :avocado: tags=cpu:e500mc
-         :avocado: tags=tuxboot:ppc32
-         :avocado: tags=image:uImage
--        :avocado: tags=drive:virtio-blk-pci
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="virtio-blk-pci")
- 
-     def test_ppc64(self):
-         """
-@@ -324,10 +315,9 @@ def test_ppc64(self):
-         :avocado: tags=tuxboot:ppc64
-         :avocado: tags=image:vmlinux
-         :avocado: tags=extradev:driver=spapr-vscsi
--        :avocado: tags=drive:scsi-hd
-         :avocado: tags=root:sda
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="scsi-hd")
- 
-     def test_ppc64le(self):
-         """
-@@ -338,10 +328,9 @@ def test_ppc64le(self):
-         :avocado: tags=tuxboot:ppc64le
-         :avocado: tags=image:vmlinux
-         :avocado: tags=extradev:driver=spapr-vscsi
--        :avocado: tags=drive:scsi-hd
-         :avocado: tags=root:sda
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="scsi-hd")
- 
-     def test_riscv32(self):
-         """
-@@ -365,10 +354,10 @@ def test_s390(self):
-         :avocado: tags=endian:big
-         :avocado: tags=tuxboot:s390
-         :avocado: tags=image:bzImage
--        :avocado: tags=drive:virtio-blk-ccw
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun(haltmsg="Requesting system halt")
-+        self.common_tuxrun(drive="virtio-blk-ccw",
-+                           haltmsg="Requesting system halt")
- 
-     # Note: some segfaults caused by unaligned userspace access
-     @skipIf(os.getenv('GITLAB_CI'), 'Skipping unstable test on GitLab')
-@@ -380,7 +369,6 @@ def test_sh4(self):
-         :avocado: tags=tuxboot:sh4
-         :avocado: tags=image:zImage
-         :avocado: tags=root:sda
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=console:ttySC1
-         """
-         # The test is currently too unstable to do much in userspace
-@@ -388,7 +376,9 @@ def test_sh4(self):
-         (kernel, disk, dtb) = self.fetch_tuxrun_assets()
- 
-         # the console comes on the second serial port
--        self.prepare_run(kernel, disk, console_index=1)
-+        self.prepare_run(kernel, disk,
-+                         "driver=ide-hd,bus=ide.0,unit=0",
-+                         console_index=1)
-         self.vm.launch()
- 
-         self.wait_for_console_pattern("Welcome to TuxTest")
-@@ -404,10 +394,9 @@ def test_sparc64(self):
-         :avocado: tags=tuxboot:sparc64
-         :avocado: tags=image:vmlinux
-         :avocado: tags=root:sda
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
- 
-     def test_x86_64(self):
-         """
-@@ -417,7 +406,6 @@ def test_x86_64(self):
-         :avocado: tags=tuxboot:x86_64
-         :avocado: tags=image:bzImage
-         :avocado: tags=root:sda
--        :avocado: tags=drive:driver=ide-hd,bus=ide.0,unit=0
-         :avocado: tags=shutdown:nowait
-         """
--        self.common_tuxrun()
-+        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
+         assert_no_pages_locked();
+     }
 -- 
 2.39.2
 
