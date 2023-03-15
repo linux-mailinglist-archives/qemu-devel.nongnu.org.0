@@ -2,100 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75A36BA4FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 03:05:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEE66BA546
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 03:36:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcGVC-0003jW-58; Tue, 14 Mar 2023 22:04:30 -0400
+	id 1pcGyR-0001rm-3W; Tue, 14 Mar 2023 22:34:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcGVA-0003jI-Sj; Tue, 14 Mar 2023 22:04:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcGV8-0000xg-Tx; Tue, 14 Mar 2023 22:04:28 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32F0ONTM014307; Wed, 15 Mar 2023 02:04:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=6bvv9v3NOdkjknja7n9qW0+/oGthEtjbk7LctoW+o48=;
- b=DttRLOexaNW+SMFQRzde4bx7YJCfUXd/ZFe3gULXHheNQ+nj31hOcLKekGtPknd/h+TI
- tn+bnHW2cY+GJzAthoPX3fpQu32kSDpuzHbcRdnLfRZMlf9ef9p6Ly1TfSzRZov0wBFs
- +AFM3GzEICulvrggczvPWQjlppKgyUThcBPppx5GsMtOzX83LOJ+gOFonBafmKOCvaLz
- gq1byJLw2zXUkKL2rbuM1oqelc3aeIwVeK76gJcjij2o0BpDiTzojqR9BusWQ6drB16h
- 0nWBaESfN5c+uanTI8Qr8Jik2xgswUWM7yp0CsmoeEEs58lsf1oDMa8pwuU7nBTfSaNu hQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pb3evst9w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Mar 2023 02:04:24 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32F15IOL024520;
- Wed, 15 Mar 2023 02:04:24 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pb3evst8w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Mar 2023 02:04:23 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32EN5TG7031403;
- Wed, 15 Mar 2023 02:04:21 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3pb29s0401-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Mar 2023 02:04:21 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32F24Jvr55050612
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Mar 2023 02:04:19 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA9582005A;
- Wed, 15 Mar 2023 02:04:18 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7970120040;
- Wed, 15 Mar 2023 02:04:18 +0000 (GMT)
-Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.45.154])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 15 Mar 2023 02:04:18 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 3/3] tests/tcg/s390x: Add PSW modification tests
-Date: Wed, 15 Mar 2023 03:04:08 +0100
-Message-Id: <20230315020408.384766-4-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230315020408.384766-1-iii@linux.ibm.com>
-References: <20230315020408.384766-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pcGyO-0001rL-Km
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 22:34:40 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pcGyM-0005cg-RK
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 22:34:40 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id y2so17301307pjg.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 19:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678847676;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=y6DLzmJoWt1vmQbipWXDqDJft5MZbWaEV1+Jevg7c1g=;
+ b=qguhIk2HNbFNZG9Zfw5oIKcEj+35bvHt6GRN08/P8q5tsnmnIcihPlAGCTVsuonF5B
+ jz3s31FheSKm7wxb2EkJowpssNWoDbpIN4MAFD8r1nJvrM/GDFRFeRoL6cVueu3TL4v8
+ LsG0QzHZH4R0qNfo5+MpUEKDofi4AAe0zYUFkHGfN34VnwNhOH06hVGPobInWjWGAxa8
+ FWElM1YhZo0K2j3b1vSDixjknVpDTjdCC6U4pfHpLU1+QXIRwBkDPIwvhVePAAtnCjUF
+ P+1iG4u5P/vmoI/m1RA0nUokEMJzD3gJyG13O24JXRunRdOKVUik67Ljk76SUkPUAhEG
+ GpKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678847676;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=y6DLzmJoWt1vmQbipWXDqDJft5MZbWaEV1+Jevg7c1g=;
+ b=nIo/7zvmV9bhvi7QyVnA6hygw1zImdvi9wDV7WXDR0IBPbCpF3QYzORR4H/W9ETOtz
+ NHIuRDMks6K+UuXLJ3f0Mvt4IACAZG716PiXgZI3sUrsyUw2Cb2g2kOItiHZx6CKtaRd
+ uDnBCD1jpIP1egQ/nifZo2qA2pOe52r8C977jQFN9qJvntWTOSi59crdK2GVISmz2c0D
+ KC/QcKULHlUfgJMzyJ5KGdFa2oxgXszzBGRK1/aoP+XU83hGLuX0HeiN0ClPGARspU09
+ xCF7GgbLFZr+qYOByfC/ZdQWQxW3Svno7iFCq574KEn5dzAQYxYxv40pnEzGdrpsydp/
+ xbHA==
+X-Gm-Message-State: AO0yUKULADbgJ9xEXYWjieMx4txHZ+LdrW4Gh2+vHvX8Q40rKW3Caqja
+ epTCz4jvSQfZftkU3dQj81D5sWJnrpc=
+X-Google-Smtp-Source: AK7set8J55EA7f66NtsuKERWS7wA3b5H3cPlBdhd/N95z8J3ehVWWr/dVGZx1FEdsQDGtDwNTIc6sA==
+X-Received: by 2002:a17:903:1106:b0:19d:7a4:4063 with SMTP id
+ n6-20020a170903110600b0019d07a44063mr1368608plh.46.1678847676487; 
+ Tue, 14 Mar 2023 19:34:36 -0700 (PDT)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:401:1d20:6cf0:82fd:def:4205])
+ by smtp.gmail.com with ESMTPSA id
+ v9-20020a1709029a0900b0019ac7319ed1sm2398763plp.126.2023.03.14.19.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 19:34:36 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH] tests/tcg/xtensa: allow testing big-endian cores
+Date: Tue, 14 Mar 2023 19:34:27 -0700
+Message-Id: <20230315023427.2224654-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oSKTADPBw5LPkQ8_DIq-X7MU0U1j-B6Z
-X-Proofpoint-ORIG-GUID: lYyxfy8dRHpPY3MIEZ8PAFthOy3p4RRv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-14_16,2023-03-14_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 mlxlogscore=803 bulkscore=0 malwarescore=0 mlxscore=0
- impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2302240000 definitions=main-2303150017
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,274 +91,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add several small tests that check the PSW modification instructions:
+Don't disable all big-endian tests, instead check whether $(CORE) is
+supported by the configured $(QEMU) and enable tests if it is.
 
-* lpsw.S checks whether LPSW works correctly in the "happy" case.
-
-* lpswe-early.S checks whether early exceptions are recognized and
-  whether the correct ILC and old PSW are stored when they happen.
-
-* ssm-early.S, stosm-early.S and exrl-ssm-early.S check the special
-  handling of SSM and STOSM with respect to early exceptions.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/tcg/s390x/Makefile.softmmu-target |  5 +++
- tests/tcg/s390x/exrl-ssm-early.S        | 43 +++++++++++++++++++++++++
- tests/tcg/s390x/lpsw.S                  | 36 +++++++++++++++++++++
- tests/tcg/s390x/lpswe-early.S           | 38 ++++++++++++++++++++++
- tests/tcg/s390x/ssm-early.S             | 41 +++++++++++++++++++++++
- tests/tcg/s390x/stosm-early.S           | 41 +++++++++++++++++++++++
- 6 files changed, 204 insertions(+)
- create mode 100644 tests/tcg/s390x/exrl-ssm-early.S
- create mode 100644 tests/tcg/s390x/lpsw.S
- create mode 100644 tests/tcg/s390x/lpswe-early.S
- create mode 100644 tests/tcg/s390x/ssm-early.S
- create mode 100644 tests/tcg/s390x/stosm-early.S
+ MAINTAINERS                                | 1 +
+ tests/tcg/xtensa/Makefile.softmmu-target   | 4 ++--
+ tests/tcg/xtensaeb/Makefile.softmmu-target | 5 +++++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
-index 725b6c598db..607f6ba21a4 100644
---- a/tests/tcg/s390x/Makefile.softmmu-target
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -9,3 +9,8 @@ QEMU_OPTS=-action panic=exit-failure -kernel
- TESTS += unaligned-lowcore
- TESTS += bal
- TESTS += sam
-+TESTS += lpsw
-+TESTS += lpswe-early
-+TESTS += ssm-early
-+TESTS += stosm-early
-+TESTS += exrl-ssm-early
-diff --git a/tests/tcg/s390x/exrl-ssm-early.S b/tests/tcg/s390x/exrl-ssm-early.S
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d51ddee0b94b..94faa804610e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -371,6 +371,7 @@ S: Maintained
+ F: target/xtensa/
+ F: hw/xtensa/
+ F: tests/tcg/xtensa/
++F: tests/tcg/xtensaeb/
+ F: disas/xtensa.c
+ F: include/hw/xtensa/xtensa-isa.h
+ F: configs/devices/xtensa*/default.mak
+diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
+index 948c0e6506bd..ba6cd9fde3fe 100644
+--- a/tests/tcg/xtensa/Makefile.softmmu-target
++++ b/tests/tcg/xtensa/Makefile.softmmu-target
+@@ -2,7 +2,8 @@
+ # Xtensa softmmu tests
+ #
+ 
+-ifneq ($(TARGET_BIG_ENDIAN),y)
++CORE=dc232b
++ifneq ($(shell $(QEMU) -cpu help | grep -w $(CORE)),)
+ 
+ XTENSA_SRC = $(SRC_PATH)/tests/tcg/xtensa
+ XTENSA_ALL = $(filter-out $(XTENSA_SRC)/linker.ld.S,$(wildcard $(XTENSA_SRC)/*.S))
+@@ -15,7 +16,6 @@ XTENSA_USABLE_TESTS = $(filter-out $(XTENSA_BROKEN_TESTS), $(XTENSA_TESTS))
+ TESTS += $(XTENSA_USABLE_TESTS)
+ VPATH += $(XTENSA_SRC)
+ 
+-CORE=dc232b
+ QEMU_OPTS+=-M sim -cpu $(CORE) -nographic -semihosting -icount 6 $(EXTFLAGS) -kernel
+ 
+ INCLUDE_DIRS = $(SRC_PATH)/target/xtensa/core-$(CORE)
+diff --git a/tests/tcg/xtensaeb/Makefile.softmmu-target b/tests/tcg/xtensaeb/Makefile.softmmu-target
 new file mode 100644
-index 00000000000..68fbd87b3a5
+index 000000000000..4204a96d53c0
 --- /dev/null
-+++ b/tests/tcg/s390x/exrl-ssm-early.S
-@@ -0,0 +1,43 @@
-+/*
-+ * Test early exception recognition using EXRL + SSM.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+    .org 0x8d
-+ilc:
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1D0                         /* program new PSW */
-+    .quad 0,pgm
-+    .org 0x200                         /* lowcore padding */
++++ b/tests/tcg/xtensaeb/Makefile.softmmu-target
+@@ -0,0 +1,5 @@
++#
++# Xtensa softmmu tests
++#
 +
-+    .globl _start
-+_start:
-+    exrl %r0,ssm
-+expected_pswa:
-+    j failure
-+ssm:
-+    ssm ssm_op
-+
-+pgm:
-+    chhsi program_interruption_code,0x6          /* specification exception? */
-+    jne failure
-+    cli ilc,6                                    /* ilc for EXRL? */
-+    jne failure
-+    clc program_old_psw(16),expected_old_psw     /* correct old PSW? */
-+    jne failure
-+    lpswe success_psw
-+failure:
-+    lpswe failure_psw
-+
-+ssm_op:
-+    .byte 0x08                                   /* bit 4 set */
-+    .align 8
-+expected_old_psw:
-+    .quad 0x0800000180000000,expected_pswa       /* bit 2 set */
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
-diff --git a/tests/tcg/s390x/lpsw.S b/tests/tcg/s390x/lpsw.S
-new file mode 100644
-index 00000000000..b37dec59b73
---- /dev/null
-+++ b/tests/tcg/s390x/lpsw.S
-@@ -0,0 +1,36 @@
-+/*
-+ * Test the LPSW instruction.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+    .org 0x140
-+svc_old_psw:
-+    .org 0x1c0                         /* supervisor call new PSW */
-+    .quad 0x80000000,svc               /* 31-bit mode */
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    lpsw short_psw
-+lpsw_target:
-+    svc 0
-+expected_pswa:
-+    j failure
-+
-+svc:
-+    clc svc_old_psw(16),expected_psw   /* correct full PSW? */
-+    jne failure
-+    lpswe success_psw
-+failure:
-+    lpswe failure_psw
-+
-+    .align 8
-+short_psw:
-+    .long 0x90001,0x80000000+lpsw_target         /* problem state,
-+                                                    64-bit mode */
-+expected_psw:
-+    .quad 0x1000180000000,expected_pswa          /* corresponds to short_psw */
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
-diff --git a/tests/tcg/s390x/lpswe-early.S b/tests/tcg/s390x/lpswe-early.S
-new file mode 100644
-index 00000000000..90a7f213dfb
---- /dev/null
-+++ b/tests/tcg/s390x/lpswe-early.S
-@@ -0,0 +1,38 @@
-+/*
-+ * Test early exception recognition using LPSWE.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+    .org 0x8d
-+ilc:
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1D0                         /* program new PSW */
-+    .quad 0,pgm
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    lpswe bad_psw
-+    j failure
-+
-+pgm:
-+    chhsi program_interruption_code,0x6          /* specification exception? */
-+    jne failure
-+    cli ilc,0                                    /* ilc zero? */
-+    jne failure
-+    clc program_old_psw(16),bad_psw              /* correct old PSW? */
-+    jne failure
-+    lpswe success_psw
-+failure:
-+    lpswe failure_psw
-+
-+    .align 8
-+bad_psw:
-+    .quad 0x8000000000000000,0xfedcba9876543210  /* bit 0 set */
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
-diff --git a/tests/tcg/s390x/ssm-early.S b/tests/tcg/s390x/ssm-early.S
-new file mode 100644
-index 00000000000..6dfe40c597b
---- /dev/null
-+++ b/tests/tcg/s390x/ssm-early.S
-@@ -0,0 +1,41 @@
-+/*
-+ * Test early exception recognition using SSM.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+    .org 0x8d
-+ilc:
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1D0                         /* program new PSW */
-+    .quad 0,pgm
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    ssm ssm_op
-+expected_pswa:
-+    j failure
-+
-+pgm:
-+    chhsi program_interruption_code,0x6          /* specification exception? */
-+    jne failure
-+    cli ilc,4                                    /* ilc for SSM? */
-+    jne failure
-+    clc program_old_psw(16),expected_old_psw     /* correct old PSW? */
-+    jne failure
-+    lpswe success_psw
-+failure:
-+    lpswe failure_psw
-+
-+ssm_op:
-+    .byte 0x20                                   /* bit 2 set */
-+    .align 8
-+expected_old_psw:
-+    .quad 0x2000000180000000,expected_pswa       /* bit 2 set */
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
-diff --git a/tests/tcg/s390x/stosm-early.S b/tests/tcg/s390x/stosm-early.S
-new file mode 100644
-index 00000000000..0689924f3a4
---- /dev/null
-+++ b/tests/tcg/s390x/stosm-early.S
-@@ -0,0 +1,41 @@
-+/*
-+ * Test early exception recognition using STOSM.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+    .org 0x8d
-+ilc:
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1D0                         /* program new PSW */
-+    .quad 0,pgm
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    stosm ssm_op,0x10                            /* bit 3 set */
-+expected_pswa:
-+    j failure
-+
-+pgm:
-+    chhsi program_interruption_code,0x6          /* specification exception? */
-+    jne failure
-+    cli ilc,4                                    /* ilc for STOSM? */
-+    jne failure
-+    clc program_old_psw(16),expected_old_psw     /* correct old PSW? */
-+    jne failure
-+    lpswe success_psw
-+failure:
-+    lpswe failure_psw
-+
-+ssm_op:
-+    .byte 0
-+    .align 8
-+expected_old_psw:
-+    .quad 0x1000000180000000,expected_pswa       /* bit 3 set */
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
++include $(SRC_PATH)/tests/tcg/xtensa/Makefile.softmmu-target
 -- 
-2.39.2
+2.30.2
 
 
