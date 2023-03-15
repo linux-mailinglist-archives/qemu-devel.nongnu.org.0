@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54D56BA668
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 05:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1846BA66E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 06:01:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcJDM-0002bR-J3; Wed, 15 Mar 2023 00:58:16 -0400
+	id 1pcJFm-0003Pg-Fu; Wed, 15 Mar 2023 01:00:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pcJCq-0002Xx-3S; Wed, 15 Mar 2023 00:57:44 -0400
-Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
+ id 1pcJFR-0003Oi-Rw
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 01:00:33 -0400
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pcJCn-0003iK-5a; Wed, 15 Mar 2023 00:57:43 -0400
-Received: by mail-ua1-x930.google.com with SMTP id i22so7541021uat.8;
- Tue, 14 Mar 2023 21:57:37 -0700 (PDT)
+ id 1pcJFQ-0004GP-Ds
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 01:00:25 -0400
+Received: by mail-vs1-xe36.google.com with SMTP id x14so15965057vso.9
+ for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 22:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678856256;
+ d=gmail.com; s=20210112; t=1678856423;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w1aQwP73QDxFiUiU9Cb7lmaQnKachzRaBdy9Y62YCEw=;
- b=nH4lA2o0Ey5CdyFQbCILIfnbCR+VhPp3Yu8+wM9YdC6bQtxNm/+/mUcV/2hohcc65T
- b21JxjIJlO1kvkw3Ve0LyuRxettATiYO2gEBVAGthZcpsxTkPdzPDaGyOZ34tYvZW2Uz
- EdqChgdEfKI20skaTnIeezejweeDqrKiSHngh2lKZoPJesnB70k3vOPURKCsOUluWtaB
- 8RuDv6lK6Xumslxa3gWo4pIO9EL8KvhcIS2HTu/OrdLHfhN+3IMd8OeSvOvBAo48Dpiz
- e1dAuweDHq9u841MF6mDHfW+z97g2AsgnjPeYxuigWj01pB9hLcU++FEQW2PZiIBB4iJ
- k+3w==
+ bh=V8qde8LjeaeypmYOsNjzHp7YT4kcc8BP0kPGpeX11Zg=;
+ b=qwX7KOf9tz006vYhJt3uvQt2HyiZALZWP780Z71ZCDs3Mq78VFZkWNWqj0upG9XsGd
+ SvDbq+IVrXcFTFnVUEgZ5eMT2iYb7XlAt8wkiN97YgRcsZcW8It99p4DDBaueRoBimhk
+ lCg9BnEWT51xzZcsa38pDYtV7nG3H3fcs1tKhzN/isYw1BHGt71tqOKBM4xSoFJQjZER
+ SvzskagG42jYYRH/lchsn+hBJsms60GXj886HkJo82d+He0bvZlEeWjXx/z0CHSAP7x/
+ WRd0z/9qm9rfEy/W3GIkoB8BO64/rsujJoyV1Q2u1wmT/0tpasESq9vNF9grYdWsb4oc
+ iHyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678856256;
+ d=1e100.net; s=20210112; t=1678856423;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w1aQwP73QDxFiUiU9Cb7lmaQnKachzRaBdy9Y62YCEw=;
- b=xJfle9P3TpMqKYEGdO6zYesz+kvHCX0DTQgSnA6OR/8msPRLlxKpjztruQNhq7qept
- e6c4c/6ixPLfoXQmTZkzAeh+3qZLAzzcgMuqR5hbnhKtQ9hhR5cstqEWS0jU8uKDz6/j
- eZz5K/+UeXu0pjZyvN7cmhKIZtzRQ5P5xl8+DX5wBmAKE5RcEpd3lfCGVMkiufVS89YE
- A9zn3R43Ree9mAePmdyACcGqOzWipDpNRZ+LhqYTnkLViVblZRTLaA4FgS7TU0p4YQED
- k77I+ABvF95USQOU8egdcTCBCajnohV05fAI6cRjjhPJCnLg7vuw+l0yOOYSJhJzenWM
- Py1w==
-X-Gm-Message-State: AO0yUKUQzAia6Hwo5M+xRtrCifzjuGKlGqeBsY327d25Ld0Z72NhQcRN
- E8vXbZYphd/6VK+fIvyFYeDGR/evMzI/qDfnD/d1OzZEZIk=
-X-Google-Smtp-Source: AK7set8mj/hbLYWHvktM/Sv9OjBSb5TkCN99y/3IcTjXwYQ27Uut0rbf0QIIuAozMLX6Q1/N1IEhG/NAtii2yjOCAv8=
-X-Received: by 2002:ab0:470b:0:b0:688:c23f:c22f with SMTP id
- h11-20020ab0470b000000b00688c23fc22fmr19484779uac.1.1678856256449; Tue, 14
- Mar 2023 21:57:36 -0700 (PDT)
+ bh=V8qde8LjeaeypmYOsNjzHp7YT4kcc8BP0kPGpeX11Zg=;
+ b=UiH4ERGsvp/i4gJr/lFe2bKx0aWUrteT+vp9QiuXp/CdAdVhIwvVcExqvFtUESXnSS
+ O3gWfYt3ip/MNhSv0rG3in253BysxGTeCYPqlEFaGYWdh2VrTatk8feGvF3baf7t2lRG
+ RR2CMxhgt1qD4jTUhrdwRLMFGfO30Zp8q99HEqgBsgu2BvkYzcowryqhztBU2P1jjmPE
+ Zwhx3SmrfFRAsviQ03F2Y19Fs9gt2PujcePbaB+Sq8VbbqYFIP79+qh1MauW6fDTqMS3
+ OHd+2H69HNyeeiV4gNJ27bWjfFWZHqTM1cJHgCfniX6ZLkjMWGy1VhBIucnyEcYFJL8d
+ onkg==
+X-Gm-Message-State: AO0yUKXptxsF7UdAb8yOIxWRPLozoBiA4XSaD8E95AEhxMYjvHyxMU0K
+ 7xcCIlPJZQIF00+BHG487HzKOUXz/FIurXn6X+c=
+X-Google-Smtp-Source: AK7set/DCuparK2BXhiGs1MuwsISvtx8Tw2jALUh3vYMqfWklrm3A4E7akhW0M0w/WfBuVhPyotxDmT7tKPh4tPlPHo=
+X-Received: by 2002:a67:e2d2:0:b0:423:e869:adbe with SMTP id
+ i18-20020a67e2d2000000b00423e869adbemr7070162vsm.3.1678856423280; Tue, 14 Mar
+ 2023 22:00:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230309071329.45932-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20230309071329.45932-1-liweiwei@iscas.ac.cn>
+References: <20230307180708.302867-1-philipp.tomsich@vrull.eu>
+In-Reply-To: <20230307180708.302867-1-philipp.tomsich@vrull.eu>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 15 Mar 2023 14:57:10 +1000
-Message-ID: <CAKmqyKMFKO89AwErj4r2PLndsbSK_Om9YDU5k6NU3wOMv6ME3A@mail.gmail.com>
-Subject: Re: [PATCH 0/4] target/riscv: Some CPURISCVState related cleanup and
- simplification
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@dabbelt.com, 
- alistair.francis@wdc.com, bin.meng@windriver.com, dbarboza@ventanamicro.com, 
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Date: Wed, 15 Mar 2023 14:59:57 +1000
+Message-ID: <CAKmqyKOOduh=D2dmNvP3BMqNqEnd_210Jo6=MaXfQ0mp165gYQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] target/riscv: refactor Zicond and reuse in
+ XVentanaCondOps
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Christoph Muellner <christoph.muellner@vrull.eu>,
+ Kito Cheng <kito.cheng@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x930.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe36.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,26 +90,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 9, 2023 at 5:15=E2=80=AFPM Weiwei Li <liweiwei@iscas.ac.cn> wro=
-te:
+On Wed, Mar 8, 2023 at 4:09=E2=80=AFAM Philipp Tomsich <philipp.tomsich@vru=
+ll.eu> wrote:
 >
-> The patchset tries to:
 >
-> - Use riscv_cpu_cfg(env) instead of env_archcpu().cfg.
-> - Use env_archcpu() to get RISCVCPU pointer from env directly
-> - Use CPURISCVState as argument directly in riscv_cpu_update_mip and risc=
-v_timer_write_timecmp to simplify type conversion
-> - Remove RISCVCPU argument of riscv_csrrw_check, and get cfg infomation f=
-rom CPURISCVState directly
+> After the original Zicond support was stuck/fell through the cracks on
+> the mailing list at v3 (and a different implementation was merged in
+> the meanwhile), we now refactor Zicond and then reuse it in
+> XVentanaCondOps.
 >
-> The port is available here:
-> https://github.com/plctlab/plct-qemu/tree/plct-cleanup-upstream
 >
-> Weiwei Li (4):
->   target/riscv: Avoid env_archcpu() when reading RISCVCPUConfig
->   target/riscv: Simplify getting RISCVCPU pointer from env
->   target/riscv: Simplify type conversion for CPURISCVState
->   target/riscv: Simplify arguments for riscv_csrrw_check
+> Philipp Tomsich (2):
+>   target/riscv: refactor Zicond support
+>   target/riscv: redirect XVentanaCondOps to use the Zicond functions
 
 Thanks!
 
@@ -115,18 +111,13 @@ Applied to riscv-to-apply.next
 Alistair
 
 >
->  target/riscv/cpu.c         |  6 +--
->  target/riscv/cpu.h         |  3 +-
->  target/riscv/cpu_helper.c  | 17 ++++----
->  target/riscv/csr.c         | 87 ++++++++++++--------------------------
->  target/riscv/gdbstub.c     |  4 +-
->  target/riscv/pmu.c         | 14 +++---
->  target/riscv/time_helper.c | 15 +++----
->  target/riscv/time_helper.h |  2 +-
->  8 files changed, 57 insertions(+), 91 deletions(-)
+>  MAINTAINERS                                   |  2 +-
+>  target/riscv/insn_trans/trans_rvzicond.c.inc  | 36 +++++++++++--------
+>  .../insn_trans/trans_xventanacondops.c.inc    | 18 ++--------
+>  3 files changed, 25 insertions(+), 31 deletions(-)
 >
 > --
-> 2.25.1
+> 2.34.1
 >
 >
 
