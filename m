@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3526BBB3C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998706BBB63
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:50:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVAm-0002qT-UF; Wed, 15 Mar 2023 13:44:24 -0400
+	id 1pcVGD-0003Jc-IH; Wed, 15 Mar 2023 13:50:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVAf-0002aE-Ps
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:44:18 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pcVFm-00027e-SY
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:34 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVAG-0000mp-Pp
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:44:17 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r18so18076530wrx.1
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:52 -0700 (PDT)
+ id 1pcVFc-00029u-Hw
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:34 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bh21-20020a05600c3d1500b003ed1ff06fb0so1829412wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902231;
+ d=linaro.org; s=google; t=1678902562;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1+Gk3L/rczHKMe28JnxrdRGaPdgdS8ubf+6dS/l9u58=;
- b=wm6TN9cDJHxUkJLZ37RkBeCftptRv0kpUc02mT9qgI4EXI/7hEEAg2iyvz3FeypWi9
- TZEWV8vBMO8H3890qaWwHTHpCZzopeLZs5sp+M6lkvV8XMNOoqQ3ggWz2OnjEyRNIv/s
- vFUNWQNklBxhaB1GQG1BQHclDIxO1+6L+akUO0M8Akyu8TLPyuSWUPkZx3NHA8aiIl4q
- tDYUuO4CDJqRJQfLtd8+07s+E5wa2bUDP8xHgiR4CuPD0r9gdEMqeHzFEjhJ2kxZqY+b
- 00/72iEmqVScGyhlSwhJ2s64D52Fhn3OprIu4b0O6u2EE9Le9Z+4OmLFgbys4Uq/xWFN
- Du/g==
+ bh=Fw0yP+1ZBc/H2+o37ZgzxeatA+xGyE5UatghhgQrblQ=;
+ b=PK6Qx2aRoV5zGR34fqA44kbG5SL34c4aG9XoK14NFI1vNkR58VJFp6iYJzwahWraro
+ WMzZ0OnyjAvroGfTigg2jjF70WRV1+CvKYr/3QxYVd84QD6/l8fbHjEcR9amdzMVo2y5
+ GOmXm43nw1k7zoMiC72SJipwi2L3Z1Wq2fZZ8kcJGr2oAYYN1ae5XxLTAb9llw4pD75F
+ rk4aBg0g/Q/ambXEU/vM56V0n4Mr469XXlsGI/S8s2LlCx/373glwaCnhoOG75vMAHNC
+ cKHL7HEGo+8UTHu//jsY9h3gdCK8T2JPZ+Vk7GSHWhM37IJuuMhbkeTA9xoZr3m93bPC
+ eCLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902231;
+ d=1e100.net; s=20210112; t=1678902562;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1+Gk3L/rczHKMe28JnxrdRGaPdgdS8ubf+6dS/l9u58=;
- b=3TMrimKRenQdOjFZ8xVSUO276gYoUArbeRlSofkR39EgX6r5xurUkIvpnmrYuEMYbs
- REXFH4a/eIQryOr9G+yIvK6Hz8Gx2yqbHx+E7PiYD4C8zbP5uzfKc44LGzEkeshh3YHY
- /OKJB3dslOivLZ6xRv4bmwgGsrozKHTNxLFfGXqji0nKx60aNP1n4atEwXsL4Y46NBrM
- gK8BZ666PNw6z1f0ZLd9LwMVT1Gr4aGBO9gbPD523NXZ+SlEzDQ9rJvlojAWBvS/o+GM
- ion6DI9OyQ89SllRaqfwsvOUOVdGtWq1ygyCbqPZ9kv+D+eH+PrRVouT2T+8dXwGtMjH
- rgPQ==
-X-Gm-Message-State: AO0yUKWcs0wQCNuYXfddrg6AQoP1T8SZry4iZcDOkASeiF6TcstxnVbA
- Lk51GD0WOalB5mKSOta4UponVg==
-X-Google-Smtp-Source: AK7set/XTzDPJnRDjComOqRJGu5FcKx0bJcQ+vjP3fbmc4KwdyM7SGpBwAlRkoWDCgdYe+O8+JKGIQ==
-X-Received: by 2002:adf:f982:0:b0:2ce:9f88:abb7 with SMTP id
- f2-20020adff982000000b002ce9f88abb7mr2411812wrr.30.1678902231014; 
- Wed, 15 Mar 2023 10:43:51 -0700 (PDT)
+ bh=Fw0yP+1ZBc/H2+o37ZgzxeatA+xGyE5UatghhgQrblQ=;
+ b=NIiOMbCFIaOYDUrEUjN07NFWy7twdcQADaH606zoKt3nsplOd0qhi2cJcJwG/VDJbe
+ XdP0+yLhCyNWMQ9pxWCPFucebtUA7Vvo+VDQTFhnIKX7I1AkXXFY8p2GjlfHYw7Aa188
+ mr6cB+yXf4NQIQK0WyyNWfGiGDnJUz6qthJCMjDKAOiwEK5h8L1jpnFVrkF+cEs80jAL
+ JwKECYGeAlYQxZ1ZzmHOjAg3+qm7Dko0uF/9PVOUB/Nx/N2u6LBzLspfqPMT+KWw8ytg
+ jyJlTKyyoGmUeRTUyHB0YOjdr0QK5RGtazg+ojXZXB+oCl+o2vtZUbtrJ+hF197oBvs6
+ hZiQ==
+X-Gm-Message-State: AO0yUKXiGN5h8vRrq2wO/QNcqKKhNIYNnnD6/VmohaCg3Uh2dYsezqsm
+ EulufBP7WF3vrllknGWDPdoUTg==
+X-Google-Smtp-Source: AK7set/WxodbZQv1TUH+U8tfvK59Z2utbmdpUZyMxUbYmyQsFkwsyXpo2gdfq3IDshVI0z2h/4yBTw==
+X-Received: by 2002:a05:600c:4e10:b0:3ea:f883:53ea with SMTP id
+ b16-20020a05600c4e1000b003eaf88353eamr18557177wmq.7.1678902562398; 
+ Wed, 15 Mar 2023 10:49:22 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- f15-20020a5d4dcf000000b002c70e60abd4sm5324559wru.2.2023.03.15.10.43.46
+ iz11-20020a05600c554b00b003ed201ddef2sm2641602wmb.2.2023.03.15.10.49.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:43:47 -0700 (PDT)
+ Wed, 15 Mar 2023 10:49:20 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B70CA1FFD1;
+ by zen.linaroharston (Postfix) with ESMTP id D228C1FFD2;
  Wed, 15 Mar 2023 17:43:44 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,18 +107,19 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH v2 27/32] contrib/gitdm: Add SYRMIA to the domain map
-Date: Wed, 15 Mar 2023 17:43:26 +0000
-Message-Id: <20230315174331.2959-28-alex.bennee@linaro.org>
+ Alexander Graf <graf@amazon.com>, Paul Durrant <pdurrant@amazon.com>,
+ David Wooodhouse <dwmw@amazon.co.uk>
+Subject: [PATCH v2 28/32] contrib/gitdm: add Amazon to the domain map
+Date: Wed, 15 Mar 2023 17:43:27 +0000
+Message-Id: <20230315174331.2959-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,29 +142,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The company website lists QEMU amongst the things they work on so I
-assume these are corporate contributions.
+We have multiple contributors from both .co.uk and .com versions of
+the address.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>
+Cc: Alexander Graf <graf@amazon.com>
+Cc: Paul Durrant <pdurrant@amazon.com>
+Cc: David Wooodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230310180332.2274827-6-alex.bennee@linaro.org>
+Message-Id: <20230310180332.2274827-7-alex.bennee@linaro.org>
 ---
- contrib/gitdm/domain-map | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/gitdm/domain-map | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 65e40fe8e1..4a988c5b5f 100644
+index 4a988c5b5f..8dce276a1c 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -39,6 +39,7 @@ siemens.com     Siemens
- sifive.com      SiFive
- suse.com        SUSE
- suse.de         SUSE
-+syrmia.com      SYRMIA
- ventanamicro.com Ventana Micro Systems
- virtuozzo.com   Virtuozzo
- vrull.eu        VRULL
+@@ -4,6 +4,8 @@
+ # This maps email domains to nice easy to read company names
+ #
+ 
++amazon.com      Amazon
++amazon.co.uk    Amazon
+ amd.com         AMD
+ aspeedtech.com  ASPEED Technology Inc.
+ baidu.com       Baidu
 -- 
 2.39.2
 
