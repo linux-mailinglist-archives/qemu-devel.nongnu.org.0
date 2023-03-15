@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6D86BB7AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 16:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0326BB7CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 16:30:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcT0R-00005d-Dy; Wed, 15 Mar 2023 11:25:35 -0400
+	id 1pcT4a-0002dR-Q3; Wed, 15 Mar 2023 11:29:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcT0O-00005D-R2
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:25:32 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcT0L-0001Wm-Lh
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:25:31 -0400
-Received: by mail-wm1-x331.google.com with SMTP id g18so1127999wmk.0
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 08:25:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678893927;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=y1ikRmVSE17z6Q74FRYA/LN1XWe2oWnl6sUw3c8SdOY=;
- b=IwhniqK5xmCF/3JaJbgK0mmG2ZSeOD0N1T/5IGiKjg7DkKTkl315DyAK78zmRAdl5Q
- 7pX2rhRHwNFSM90mXud29DRo4fZRnsmzJww+yHZuLYAVrZ7IcYGjcpsoiK32APnYT1+B
- VPzO1eh1UVBWfVrjY9rsk9oQqwz3m74rQ5XfMpwauIXHKtrX9+7Ab5u555xWN1pHDs1B
- F470P/2Cw60Rge0KirrvqkJHY9AXQk7pqPpPG4AxfFotqI0QmsS2gX3detMQeOf3s/W5
- fhGhFqf3tamhN3WuAXW5cxIpu9uTyrFaNyYCz2yF24RKTIX2UMugn+RwKhpghvo34Aom
- 8ypw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678893927;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=y1ikRmVSE17z6Q74FRYA/LN1XWe2oWnl6sUw3c8SdOY=;
- b=48Q1SKvT55FOjRcJRIddVu/D8vs1r95jQTor3YDyuoV0RS6PlubNrQNwO/ufdr6SwD
- VxwIGGXn6rSEaX/fITnAvddYybrlMBDgNpu1GWBUNPIhp/hYUHlB9d+IPoIe1Q24sDPs
- T+8gVHYc0hKJ02Lt4Yclj/3OnExdcCyvZDz5amPXKTTLnJCjqRvunPQ+X7iB885N2hD9
- 5wsaA1xaqFRaKVFufx1o2BYPqVWC3TeNImNe8AaDOGCSqAbcr2Un2kf38x9hf3NmzIwA
- ezi6L4RQMGrZIaFYlsl6LeHyHuVPaV8dDZ+mxrTGQljikcjPBbTyHGJk9wEz1aZheH3h
- U4rQ==
-X-Gm-Message-State: AO0yUKVe0NrL6zm3Lo548YCNYbdWW8FU/Tr9OivRgEGkIslRZRnL+i5d
- aIj9WX+Ng69gq8xX74kIbwL88Q==
-X-Google-Smtp-Source: AK7set/hwFOutQwzplNKff6x9wzQ6vbAd4dygRTB/rxUjAyLsQ4iUdA/+vKi+dw6T6SrDr1TF8Ucnw==
-X-Received: by 2002:a05:600c:1e20:b0:3eb:376e:2bb7 with SMTP id
- ay32-20020a05600c1e2000b003eb376e2bb7mr17841880wmb.3.1678893927365; 
- Wed, 15 Mar 2023 08:25:27 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- r14-20020a056000014e00b002c54c9bd71fsm4887665wrx.93.2023.03.15.08.25.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 08:25:27 -0700 (PDT)
-Message-ID: <d0546cb1-6797-8fd5-8533-e94358ac58a6@linaro.org>
-Date: Wed, 15 Mar 2023 16:25:25 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pcT4Y-0002bk-Ou
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:29:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pcT4W-0002B2-R1
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:29:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678894188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4oYPhgeOdjdGDd8Z/zXIrbSonwA3TZyROrZITN+qxCo=;
+ b=T20zpXd3xYpoTiPUWLGRboFA8P1BJFo9gUSuVafgXPvdZq+OajAqDO3OrNDsKWv6OxrVfi
+ K+yE0tIOoGPrtGmPyLmIixMIIZ2dTMgTAqy+R2gyZynafI9ZRsQZMjwHu06eCXZOyjWWiB
+ GjjzOdvDblg0Lmz/s4M3NnPi3s9/iIY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-428-BEFKImzeMSesduDgBa76yA-1; Wed, 15 Mar 2023 11:29:44 -0400
+X-MC-Unique: BEFKImzeMSesduDgBa76yA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25130299E743;
+ Wed, 15 Mar 2023 15:29:44 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 810BB492B00;
+ Wed, 15 Mar 2023 15:29:43 +0000 (UTC)
+Date: Wed, 15 Mar 2023 11:29:41 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+Subject: Re: [RFC 0/2] Split padded I/O vectors exceeding IOV_MAX
+Message-ID: <20230315152941.GD16636@fedora>
+References: <20230315121330.29679-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/3] qapi: Do not generate empty enum
-Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20230315111304.21692-1-philmd@linaro.org>
- <20230315111304.21692-3-philmd@linaro.org>
- <68816687-b319-7c1a-f586-51201e12ecba@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <68816687-b319-7c1a-f586-51201e12ecba@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XofcccYnqrGIwiNM"
+Content-Disposition: inline
+In-Reply-To: <20230315121330.29679-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,85 +81,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/3/23 16:19, Stefan Berger wrote:
-> On 3/15/23 07:13, Philippe Mathieu-Daudé wrote:
->> Per the C++ standard, empty enum are ill-formed. Do not generate
->> them in order to avoid:
->>
->>    In file included from qga/qga-qapi-emit-events.c:14:
->>    qga/qga-qapi-emit-events.h:20:1: error: empty enum is invalid
->>       20 | } qga_QAPIEvent;
->>          | ^
->>
->> Reported-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   docs/devel/qapi-code-gen.rst | 6 +++---
->>   scripts/qapi/schema.py       | 5 ++++-
->>   2 files changed, 7 insertions(+), 4 deletions(-)
->>
->> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
->> index 23e7f2fb1c..d684c7c24d 100644
->> --- a/docs/devel/qapi-code-gen.rst
->> +++ b/docs/devel/qapi-code-gen.rst
->> @@ -206,6 +206,9 @@ Syntax::
->>
->>   Member 'enum' names the enum type.
->>
->> +Empty enumeration (no member) does not generate anything (not even
->> +constant PREFIX__MAX).
->> +
->>   Each member of the 'data' array defines a value of the enumeration
->>   type.  The form STRING is shorthand for :code:`{ 'name': STRING }`.  
->> The
->>   'name' values must be be distinct.
->> @@ -214,9 +217,6 @@ Example::
->>
->>    { 'enum': 'MyEnum', 'data': [ 'value1', 'value2', 'value3' ] }
->>
->> -Nothing prevents an empty enumeration, although it is probably not
->> -useful.
->> -
->>   On the wire, an enumeration type's value is represented by its
->>   (string) name.  In C, it's represented by an enumeration constant.
->>   These are of the form PREFIX_NAME, where PREFIX is derived from the
->> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
->> index 207e4d71f3..28045dbe93 100644
->> --- a/scripts/qapi/schema.py
->> +++ b/scripts/qapi/schema.py
->> @@ -309,6 +309,7 @@ class QAPISchemaEnumType(QAPISchemaType):
->>
->>       def __init__(self, name, info, doc, ifcond, features, members, 
->> prefix):
->>           super().__init__(name, info, doc, ifcond, features)
->> +        assert members
-> 
-> not: assert isinstance(members, list)
 
-This doesn't work as [] is a list instance (we want to check the
-members[] array contains elements). More verbose could be:
+--XofcccYnqrGIwiNM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-             assert len(members) > 0
+On Wed, Mar 15, 2023 at 01:13:28PM +0100, Hanna Czenczek wrote:
+> Hi,
+>=20
+> We accept I/O vectors with up to 1024 (IOV_MAX) elements from guests.
+> When a guest request does not conform to the underlying storage's
+> alignment requirements, we pad it with head and/or tail buffers as
+> necessary, which are simply appended to the I/O vector.
+>=20
+> As of 4c002cef, we (sensibly) check that such-padded vectors do not then
+> exceed IOV_MAX.  However, there seems to be no sensible error handling;
+> instead, the guest simply receives an I/O error.
+>=20
+> That???s a problem, because it submitted a perfectly sensible I/O request
 
->>           for m in members:
->>               assert isinstance(m, QAPISchemaEnumMember)
->>               m.set_defined_in(name)
->> @@ -1047,8 +1048,10 @@ def _make_implicit_object_type(self, name, 
->> info, ifcond, role, members):
->>           return name
->>
->>       def _def_enum_type(self, expr: QAPIExpression):
->> -        name = expr['enum']
->>           data = expr['data']
->> +        if not data:
->> +            return
->> +        name = expr['enum']
->>           prefix = expr.get('prefix')
->>           ifcond = QAPISchemaIfCond(expr.get('if'))
->>           info = expr.info
-> 
-> 
-> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+Looks like there is an encoding issue. I get 3 question marks instead of
+an apostrophe. lore.kernel.org also renders mojibake:
+https://lore.kernel.org/qemu-devel/20230315121330.29679-1-hreitz@redhat.com/
 
-Thanks!
+Stefan
+
+--XofcccYnqrGIwiNM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQR5GUACgkQnKSrs4Gr
+c8i4YQgAvE3nW733VLdN/NSOPCkaPI50vaHznPG/h/VyR+NQwbkFPfml5mZXoKvV
+igQz3cCwS7dllOKDxBBEJQywi/IOnkcgz+5Ln5db2HB4RXQTXusnESIY6DEB3i9j
+CXueOkZ2VYon+2A2bWU4bP25Hp6tPYvSHhSoV9tv3eNri/hyij27UwBheBx90le8
+dcqNjEKrMXG6lWoHFLiDcwkQJ8Zt9YFa2QMAkocvz0WlReehyWo7jztskHUU4x3e
+HJzZfPRPuewLdx3eSLfzLSlIOAiPW6EF8cAsYlZdHQd2Z4Ph6WvjjCrLmesVTucl
+IS94EgfnTvr1KBb9jsEdgy6ru6NkFA==
+=TIYo
+-----END PGP SIGNATURE-----
+
+--XofcccYnqrGIwiNM--
+
 
