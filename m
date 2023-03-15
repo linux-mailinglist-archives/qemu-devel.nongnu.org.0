@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30706BAA6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 09:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BE36BAA9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 09:20:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcM7x-0001iq-3d; Wed, 15 Mar 2023 04:04:53 -0400
+	id 1pcMLS-0003bW-5C; Wed, 15 Mar 2023 04:18:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pcM7v-0001iC-5c; Wed, 15 Mar 2023 04:04:51 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcMLQ-0003XW-1v
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:18:48 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pcM7t-0006kO-7Q; Wed, 15 Mar 2023 04:04:50 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id h8so28261840ede.8;
- Wed, 15 Mar 2023 01:04:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcMLO-0000kR-4f
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:18:47 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id m35so2411753wms.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 01:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678867486;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YurBgA+nMbR7AkLy32GjMl8+UoHagXCimqpt2BdimHw=;
- b=HJhLxQakHnGQCR0BQ6oxZtxyMFVDQKSyGlTcUlm2cherXDB513CjhPiSBmvt1Imnig
- H5kR/zkHp4D9eHLzeRhzYvSKMIRnS+Pw15kXTY62C9NHi8YT3K2ywZG7cZk9jwO39MUY
- J5t6qbFGNK9/BjDCRE+3Uud5EhsQ7v+hRYv48eo7Z3DbM44NO4Bcr19duSKmI7+IilCf
- OiW4f3QPXmEFWgcQj5kSQEL5xHg7o4gfywpFWJlVutgypS3JFhVzGzsAr+jkBYcqEJey
- kNQ7eCmmtQSxDxIzLQJGV2iFoNNjMrHsfYq0W73PXe9CB7rbPkEM0ZDKoM3fXX/x5Df9
- pQkw==
+ d=linaro.org; s=google; t=1678868324;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hP7UKIcczD1Gsku9J8XCiP6Jw6U+DytS/gJqxqy+XVk=;
+ b=QltlaN09STyuyGg/031aEOel1W7D1zQ6siuPUDyJ9LXGitv5t4JYZbHznVSJAFnpaY
+ mz2cpF6ESH4mfDhMzLvNET7Y1UOr/GTq4H/ooApg6OwkCSEBwAunqDbarlkNTsMupfGr
+ NlFevfOD8N8/oC4QvF4g5SVEzY7L5SZtvw9fWgXxMzjJScccdWepvwzpxKM8YiLQHy2j
+ snoi21yHhx9FMyc4fAvUMJIsG6VOIpYkVK1L4mQScqzbRNO15a+RkMKbcs/7qmUglpIa
+ 3lAn44Z5unnP9U8TQqII6W5LOs5ruBbSaNdV130iV54k3Oxfm4r6zPfcenT2hoziQao8
+ j54g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678867486;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YurBgA+nMbR7AkLy32GjMl8+UoHagXCimqpt2BdimHw=;
- b=PLykiVPTYwq3b4UmRjppShtQgUafJiYU2c4Ag3jDdbLzH+JOUuSgvdr3MsJz3ys4tl
- K3y1Rz0TCyBM+j5+lUQjOxgxphh3x2XNSze9TXqUhouaTMnpXrcPFXkzxBCu5ZUYkYtr
- cUE7WeGniRmghgMI4Qyr1oKLSiCeLjT3WuJ4wnVOaqAW7ijmUhNozYQ7mP3djQrGXMnb
- /tMBsPiuzJWPRcow4hf458wLtm0M8sauV3K5w1MK4U0fkBKKJ3H8fY1NS2pIiroYokRi
- ZWiTq6uwBctw1I9I0676TySSSgjDS3ZclRbAht2oE0LX1xEMIZqnjAa1HkO+5tLxJ8Cv
- 11Zg==
-X-Gm-Message-State: AO0yUKXJA8zGB+MsDYYhft9xFXAnag0MrF/hhTRCczu7k33q9vpq/9QC
- rm9GROqqa/FQx1WkdnYbBQvD2TY3GJc=
-X-Google-Smtp-Source: AK7set9OWhT5wbaei9ltz46pA0QXhAYYn13w2N8CTrT60DR6c5PikuQdekdIzYFOQBuYno0wIu8eCw==
-X-Received: by 2002:a17:906:2b50:b0:8aa:c2e1:6a64 with SMTP id
- b16-20020a1709062b5000b008aac2e16a64mr5183727ejg.61.1678867486369; 
- Wed, 15 Mar 2023 01:04:46 -0700 (PDT)
-Received: from [127.0.0.1] ([62.214.191.67]) by smtp.gmail.com with ESMTPSA id
- kb1-20020a1709070f8100b00923f05b2931sm2118148ejc.118.2023.03.15.01.04.45
+ d=1e100.net; s=20210112; t=1678868324;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hP7UKIcczD1Gsku9J8XCiP6Jw6U+DytS/gJqxqy+XVk=;
+ b=6JlRN3W77V5Rf+IBJSdgKJElATDCSCB9agkm9Dcg6YJJwKQ/YnEBPGXIeU4PkUtulL
+ 1sgFesEbUHyWlr2h7us3nUtkW8gnFFBl/mVwlBzqsZStSkE6y/e6goJY01QS6Z38qRMQ
+ PvZAAypnZtMhb8QXMlrvIyHQjVTLi2Uaf+ARLGi9EmSSpWd7oe2hk7/FE8e7rJdeoF/k
+ YS12WWJKrhZl4QVlO45s5C1AFAAaXBIrQQIXF9Z0cxxo/fHOFf/MzMi9v7WctigSQTJF
+ SPDyJqkIN4HxGMdHZ6U17AWbLlPy9YpnMhQGz24Iq0D/wbNTe5m0ytKQa8iTbxbGPLIn
+ apEA==
+X-Gm-Message-State: AO0yUKXSqH5zyqeJKTXUNog8NUDrCI/rEyeydyY0Gqq0c4URjf875Hke
+ cuomg7LYh8bgl7XiGF0aHVnPwA==
+X-Google-Smtp-Source: AK7set+djUIDvIn/LICkQ0m0VBImIHdTGUNeE5GWdsQgulaeYg5F1s56dokdNGxGVUTWoo3c/80+Hw==
+X-Received: by 2002:a05:600c:4ecf:b0:3ed:3522:689a with SMTP id
+ g15-20020a05600c4ecf00b003ed3522689amr566690wmq.7.1678868324332; 
+ Wed, 15 Mar 2023 01:18:44 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n22-20020a7bcbd6000000b003eb395a8280sm1046603wmi.37.2023.03.15.01.18.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 01:04:45 -0700 (PDT)
-Date: Wed, 15 Mar 2023 07:57:20 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-CC: Peter Xu <peterx@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH for 8.0] exec/memory: Fix kernel-doc warning
-In-Reply-To: <20230315072552.47117-1-shentey@gmail.com>
-References: <20230315072552.47117-1-shentey@gmail.com>
-Message-ID: <49850BA4-972F-4177-A18B-8E9C65FA60E9@gmail.com>
+ Wed, 15 Mar 2023 01:18:43 -0700 (PDT)
+Message-ID: <616442ce-157f-2ca2-5cf8-b0f67cdf47be@linaro.org>
+Date: Wed, 15 Mar 2023 09:18:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: QEMU devel <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+References: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+ <aca2a158-ebb6-4010-3b94-8b60026a30ac@linaro.org>
+ <A26A47BA-643C-46AE-B148-2B06A1D7BDAB@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <A26A47BA-643C-46AE-B148-2B06A1D7BDAB@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,68 +92,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-+ qemu-trivial
+On 11/3/23 13:39, Jiaxun Yang wrote:
+> 
+> 
+>> 2023年3月9日 12:32，Philippe Mathieu-Daudé <philmd@linaro.org> 写道：
+>>
+>> Hi Jiaxun,
+>>
+>> On 11/2/23 18:34, Jiaxun Yang wrote:
+>>> Previously switchable NaN2008 requires fcsr31.nan2008 to be writable
+>>> for guest. However as per MIPS arch spec this bit can never be writable.
+>>> This cause NaN2008 ELF to be rejected by QEMU.
+>>> NaN2008 can be enabled on R2~R5 processors, just make it available
+>>> unconditionally.
+>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>> ---
+>>>   linux-user/mips/cpu_loop.c | 3 +--
+>>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+>>> index d5c1c7941d..b5c2ca4a3e 100644
+>>> --- a/linux-user/mips/cpu_loop.c
+>>> +++ b/linux-user/mips/cpu_loop.c
+>>> @@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+>>>       }
+>>>       if (((info->elf_flags & EF_MIPS_NAN2008) != 0) !=
+>>>           ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) != 0)) {
+>>> -        if ((env->active_fpu.fcr31_rw_bitmask &
+>>> -              (1 << FCR31_NAN2008)) == 0) {
+>>> +        if (!(env->insn_flags & ISA_MIPS_R2)) {
+>>>               fprintf(stderr, "ELF binary's NaN mode not supported by CPU\n");
+>>>               exit(1);
+>>>           }
+>>
+>> Looking at R6.06 revision history:
+>>
+>>   5.03 August 21, 2013
+>>
+>>   • ABS2008 and NAN2008 fields of Table 5.7 “FCSR RegisterField
+>>     Descriptions” were optional in release 3 and could be R/W,
+>>     but as of release 5 are required, read-only, and preset by
+>>     hardware.
+>> So I tried with this change:
+>>
+>> -- >8 --
+>> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+>> index 05caf54999..5f1364ffaf 100644
+>> --- a/target/mips/cpu.c
+>> +++ b/target/mips/cpu.c
+>> @@ -243,6 +243,13 @@ static void mips_cpu_reset_hold(Object *obj)
+>>      env->CP0_EBaseWG_rw_bitmask = env->cpu_model->CP0_EBaseWG_rw_bitmask;
+>>      env->active_fpu.fcr0 = env->cpu_model->CP1_fcr0;
+>>      env->active_fpu.fcr31_rw_bitmask = env->cpu_model->CP1_fcr31_rw_bitmask;
+>> +    if (env->insn_flags & ISA_MIPS_R5) {
+>> +        assert(!(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << FCR31_ABS2008)));
+>> +        assert(!(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << FCR31_NAN2008)));
+>> +    } else if (env->insn_flags & ISA_MIPS_R3) {
+>> +        assert(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << FCR31_ABS2008));
+>> +        assert(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << FCR31_NAN2008));
+>> +    }
+>>      env->active_fpu.fcr31 = env->cpu_model->CP1_fcr31;
+>>      env->msair = env->cpu_model->MSAIR;
+>>      env->insn_flags = env->cpu_model->insn_flags;
+>> ---
+>>
+>> and got:
+>>
+>> $ for cpu in $(./qemu-system-mips64el -cpu help | cut -d\' -f2); do \
+>>   echo -n ${cpu}...;echo q \
+>>   | ./qemu-system-mips64el -accel tcg -cpu ${cpu} \
+>>                            -S -monitor stdio 1> /dev/null || break; \
+>>   echo OK; done
+>> 4Kc...OK
+>> 4Km...OK
+>> 4KEcR1...OK
+>> 4KEmR1...OK
+>> 4KEc...OK
+>> 4KEm...OK
+>> 24Kc...OK
+>> 24KEc...OK
+>> 24Kf...OK
+>> 34Kf...OK
+>> 74Kf...OK
+>> M14K...OK
+>> M14Kc...OK
+>> P5600...OK
+>> mips32r6-generic...OK
+>> I7200...OK
+>> R4000...OK
+>> VR5432...OK
+>> 5Kc...OK
+>> 5Kf...OK
+>> 20Kc...OK
+>> MIPS64R2-generic...OK
+>> 5KEc...OK
+>> 5KEf...OK
+>> I6400...OK
+>> I6500...OK
+>> Loongson-2E...OK
+>> Loongson-2F...OK
+>> Loongson-3A1000...OK
+>> Loongson-3A4000...OK
+>> mips64dspr2...OK
+>> Octeon68XX...OK
+>> $
+> 
+> Well that’s because there is no CPU being marked as MIPS Release 3 in QEMU, and only
+> P5600 is marked as MIPS Release 5.
+> 
+> In reality R3 implementations are all advertising themself as R2, and later RCs of microAptiv
+> and interaptiv can all be configured as NaN2008 only. So for those CPUs we have binary compiled
+> with -march=mips32r2 -mnan=2008.
+> 
+> Given that default CPU of mips32r2 in QEMU is 24Kf, I think the best approach to deal with such
+> situation is to allow NaN2008 to be enabled for early processors for linux-user.
+> 
+> There is a NAN2008 Debian port for test:
+> 
+> http://repo.oss.cipunited.com/mipsel-nan2008/tarball/sid-mipsel-nan2008-20230309-1.tar.xz
 
-Am 15=2E M=C3=A4rz 2023 07:25:52 UTC schrieb Bernhard Beschow <shentey@gma=
-il=2Ecom>:
->During build the kernel-doc script complains about the following issue:
->
->  src/docs/=2E=2E/include/exec/memory=2Eh:1741: warning: Function paramet=
-er or member 'n' not described in 'memory_region_unmap_iommu_notifier_range=
-'
->  src/docs/=2E=2E/include/exec/memory=2Eh:1741: warning: Excess function =
-parameter 'notifier' description in 'memory_region_unmap_iommu_notifier_ran=
-ge'
->
->Settle on "notifier" for consistency with other memory functions=2E
->
->Fixes: 7caebbf9ea53
->       ("memory: introduce memory_region_unmap_iommu_notifier_range()")
->Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->---
-> include/exec/memory=2Eh | 2 +-
-> softmmu/memory=2Ec      | 8 ++++----
-> 2 files changed, 5 insertions(+), 5 deletions(-)
->
->diff --git a/include/exec/memory=2Eh b/include/exec/memory=2Eh
->index 6fa0b071f0=2E=2E15ade918ba 100644
->--- a/include/exec/memory=2Eh
->+++ b/include/exec/memory=2Eh
->@@ -1738,7 +1738,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *=
-notifier,
->  *
->  * @notifier: the notifier to be notified
->  */
->-void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n);
->+void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier);
->=20
->=20
-> /**
->diff --git a/softmmu/memory=2Ec b/softmmu/memory=2Ec
->index 4699ba55ec=2E=2E5305aca7ca 100644
->--- a/softmmu/memory=2Ec
->+++ b/softmmu/memory=2Ec
->@@ -1996,17 +1996,17 @@ void memory_region_notify_iommu_one(IOMMUNotifier=
- *notifier,
->     }
-> }
->=20
->-void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n)
->+void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier)
-> {
->     IOMMUTLBEvent event;
->=20
->     event=2Etype =3D IOMMU_NOTIFIER_UNMAP;
->     event=2Eentry=2Etarget_as =3D &address_space_memory;
->-    event=2Eentry=2Eiova =3D n->start;
->+    event=2Eentry=2Eiova =3D notifier->start;
->     event=2Eentry=2Eperm =3D IOMMU_NONE;
->-    event=2Eentry=2Eaddr_mask =3D n->end - n->start;
->+    event=2Eentry=2Eaddr_mask =3D notifier->end - notifier->start;
->=20
->-    memory_region_notify_iommu_one(n, &event);
->+    memory_region_notify_iommu_one(notifier, &event);
-> }
->=20
-> void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
+$ qemu-mipsel -L sid-mipsel-nan2008-20230313-1/usr -cpu P5600 
+usr/bin/uname  -ms
+Linux mips
+
+What about something like:
+
+-- >8 --
+--- a/linux-user/mips/target_elf.h
++++ b/linux-user/mips/target_elf.h
+@@ -15,6 +15,9 @@ static inline const char *cpu_get_model(uint32_t eflags)
+      if ((eflags & EF_MIPS_MACH) == EF_MIPS_MACH_5900) {
+          return "R5900";
+      }
++    if (eflags & EF_MIPS_NAN2008) {
++        return "P5600";
++    }
+      return "24Kf";
+  }
+  #endif
+---
 
