@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD6C6BB006
+	by mail.lfdr.de (Postfix) with ESMTPS id 339F46BB003
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 13:14:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcQ0q-0007hd-6d; Wed, 15 Mar 2023 08:13:48 -0400
+	id 1pcQ15-0007kM-Lo; Wed, 15 Mar 2023 08:14:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcQ0j-0007gW-Ot
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcQ0k-0007gl-18
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:13:42 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcQ0i-0001uC-4a
  for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:13:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcQ0h-0001uA-Ba
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:13:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678882418;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dxbujlmIm17bJAmGAy2mXMVgq8Bq8dCuw5A2QqXTsy0=;
- b=Am/roxjRCoybTKEY5mVwfeinqgPvbn7iFnTS3lppWw4xuFWRSZI+TZA9w9wOC1iWZyfaD5
- ZAl0Ji/Cda+Zo70G1K5lKQo8hKu8fDhIcf804i/Xb9hyB9svKZKeeTzg0d8CGAqamgZR5D
- TxEebHcWrDUE+DpbmVF9pizPjoVpI28=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-183-SaHrIHFzOsW_wbB_97ZqRg-1; Wed, 15 Mar 2023 08:13:35 -0400
-X-MC-Unique: SaHrIHFzOsW_wbB_97ZqRg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31B0229ABA11;
- Wed, 15 Mar 2023 12:13:35 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCBC640C6E68;
- Wed, 15 Mar 2023 12:13:34 +0000 (UTC)
-From: Hanna Czenczek <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Hanna Czenczek <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [RFC 2/2] iotests/iov-padding: New test
-Date: Wed, 15 Mar 2023 13:13:30 +0100
-Message-Id: <20230315121330.29679-3-hreitz@redhat.com>
-In-Reply-To: <20230315121330.29679-1-hreitz@redhat.com>
-References: <20230315121330.29679-1-hreitz@redhat.com>
+Received: by mail-wm1-x333.google.com with SMTP id m35so2866159wms.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 05:13:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678882418;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GO2muvAkQF711zvZCjj+JVcDtDId91mTV/Scq9Ftpw0=;
+ b=cft0iRIqzVavE9gUD4+TBFlxV7iEWBvXw4L2NlD6GXi3ezQT7O9qE9CbdZqQDM0yFu
+ 1i53aTxSuO/IJrVFhi2FhE7c+YFWBYqRa5xtDuh683ATfqK4P0d7MoI/ZGmhq2y6JReW
+ R+KGugdjXeu99eyXfPKnMLSB8BYCTpypV5fsYgWU28J8DuirTTHQnphG0hW9UdyosSnP
+ Sh7VnUgJrVr4OfwRlClH34ULdygSIW4dd+aJl4pdjfM/9urkIcKTcTke6JbERwIClHm8
+ dtY4iitzHJBbgWxkDCst94nOB9DJqG8O+ZrswWsEQSxAMncEtkBTrALBTOgD9AlxWOCp
+ 3THw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678882418;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GO2muvAkQF711zvZCjj+JVcDtDId91mTV/Scq9Ftpw0=;
+ b=zVjwuzTXjbYZFX7KdJdzCSmNafaTrr/0LIur0oCUd6byLfltBjxOHSIgnPni3De36e
+ 3V75VmQLKoEPddbcOAofvgQtnNGnclELlI+bknbPYsZ5uWrDhqYja6q7v+9Au6NcTzxk
+ fFntsRSz926lRYCF98I2NcqbhygAJvXzWH3ay/i9RvxOsxbbLvtEL/PNugBNp4a6XoDL
+ 68t4xgFgJwP7b98WPVoejOtYPEzKtqMkCi7SXlLOs/vbZphHXw+iuEyzO8hNHU+9WBDw
+ vWyFnm2+uPfo9aAAcOA6KJwhmkYSuZsU7wGr3ENfkJaPCmRo4JSkDqeUNuwPokxUpLiq
+ Ot/Q==
+X-Gm-Message-State: AO0yUKWRR/lZGmZXM41t+l+mIPMUFgH/WJ6/QDlu2vhylLmG/Sq/bpGw
+ JyP8EKXCj4r/ji0HYw/LF6MJSw==
+X-Google-Smtp-Source: AK7set/bzHh1icKCKlBartiHa0kEh1PYytBKHsqf1tNdnMIJpLHleOGor6d7HM1lrcNUkMBKy1rWDg==
+X-Received: by 2002:a05:600c:4753:b0:3dd:1c46:b92 with SMTP id
+ w19-20020a05600c475300b003dd1c460b92mr19489774wmo.16.1678882418367; 
+ Wed, 15 Mar 2023 05:13:38 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p3-20020a05600c358300b003ed2eb5c2dcsm1815821wmq.43.2023.03.15.05.13.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Mar 2023 05:13:37 -0700 (PDT)
+Message-ID: <36dae49c-34c9-0850-82ef-4a098b3e6d5d@linaro.org>
+Date: Wed, 15 Mar 2023 13:13:36 +0100
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH] Use f-strings in python scripts
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Marco Liebel <quic_mliebel@quicinc.com>, qemu-devel@nongnu.org,
+ Taylor Simpson <tsimpson@quicinc.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230313172535.2409370-1-quic_mliebel@quicinc.com>
+ <c05ddbd3-8f26-5492-3961-7f3d564373d7@linaro.org>
+ <ZBGo8WNlnRZUGYJZ@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ZBGo8WNlnRZUGYJZ@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,174 +96,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Test that even vectored IO requests with 1024 vector elements that are
-not aligned to the device's request alignment will succeed.
+On 15/3/23 12:16, Daniel P. Berrangé wrote:
+> On Wed, Mar 15, 2023 at 08:43:33AM +0100, Philippe Mathieu-Daudé wrote:
+>> Hi Marco,
+>>
+>> (+Python experts)
+>>
+>> On 13/3/23 18:25, Marco Liebel wrote:
+>>> Replace python 2 format string with f-strings
+>>>
+>>> Signed-off-by: Marco Liebel <quic_mliebel@quicinc.com>
+>>> ---
+>>>    target/hexagon/gen_helper_funcs.py      |  54 ++--
+>>>    target/hexagon/gen_helper_protos.py     |  10 +-
+>>>    target/hexagon/gen_idef_parser_funcs.py |   8 +-
+>>>    target/hexagon/gen_op_attribs.py        |   4 +-
+>>>    target/hexagon/gen_op_regs.py           |  10 +-
+>>>    target/hexagon/gen_opcodes_def.py       |   2 +-
+>>>    target/hexagon/gen_printinsn.py         |  14 +-
+>>>    target/hexagon/gen_shortcode.py         |   2 +-
+>>>    target/hexagon/gen_tcg_func_table.py    |   2 +-
+>>>    target/hexagon/gen_tcg_funcs.py         | 317 +++++++++++-------------
+>>>    target/hexagon/hex_common.py            |   4 +-
+>>>    11 files changed, 198 insertions(+), 229 deletions(-)
+>>
+>> These files use a mix of ', " and '''... Since you are modifying
+>> them, it would be nice to unify. I'm not sure there is a recommended
+>> style; matter of taste, I find the single quote (') less aggressive,
+>> then escaping it using ", and keeping ''' for multi-lines strings.
+> 
+> FWIW, rather than debating code style issues and coming up with a custom
+> set of rules for QEMU python code, my recommendation would be to consider
+> adopting 'black'
+> 
+>    https://black.readthedocs.io/en/stable/
+> 
+> There is a trend with recent languages to offer an opinionated code
+> formatting tool as standard to maximise consistency across projects
+> in a given language. 'black' is a decent attempt to bring this to
+> the python world. I found it pretty liberating when doing recent
+> python work in libvirt, to be able to mostly not worry about formatting
+> anymore.
 
-Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
----
- tests/qemu-iotests/tests/iov-padding     | 85 ++++++++++++++++++++++++
- tests/qemu-iotests/tests/iov-padding.out | 59 ++++++++++++++++
- 2 files changed, 144 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/iov-padding
- create mode 100644 tests/qemu-iotests/tests/iov-padding.out
+Clever.
 
-diff --git a/tests/qemu-iotests/tests/iov-padding b/tests/qemu-iotests/tests/iov-padding
-new file mode 100755
-index 0000000000..b9604900c7
---- /dev/null
-+++ b/tests/qemu-iotests/tests/iov-padding
-@@ -0,0 +1,85 @@
-+#!/usr/bin/env bash
-+# group: rw quick
-+#
-+# Check the interaction of request padding (to fit alignment restrictions) with
-+# vectored I/O from the guest
-+#
-+# Copyright Red Hat
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+cd ..
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt raw
-+_supported_proto file
-+
-+_make_test_img 1M
-+
-+IMGSPEC="driver=blkdebug,align=4096,image.driver=file,image.filename=$TEST_IMG"
-+
-+# Four combinations:
-+# - Offset 4096, length 1023 * 512 + 512: Fully aligned to 4k
-+# - Offset 4096, length 1023 * 512 + 4096: Head is aligned, tail is not
-+# - Offset 512, length 1023 * 512 + 512: Neither head nor tail are aligned
-+# - Offset 512, length 1023 * 512 + 4096: Tail is aligned, head is not
-+for start_offset in 4096 512; do
-+    for last_element_length in 512 4096; do
-+        length=$((1023 * 512 + $last_element_length))
-+
-+        echo
-+        echo "== performing 1024-element vectored requests to image (offset: $start_offset; length: $length) =="
-+
-+        # Fill with data for testing
-+        $QEMU_IO -c 'write -P 1 0 1M' "$TEST_IMG" | _filter_qemu_io
-+
-+        # 1023 512-byte buffers, and then one with length $last_element_length
-+        cmd_params="-P 2 $start_offset $(yes 512 | head -n 1023 | tr '\n' ' ') $last_element_length"
-+        QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" $QEMU_IO \
-+            -c "writev $cmd_params" \
-+            --image-opts \
-+            "$IMGSPEC" \
-+            | _filter_qemu_io
-+
-+        # Read all patterns -- read the part we just wrote with writev twice,
-+        # once "normally", and once with a readv, so we see that that works, too
-+        QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" $QEMU_IO \
-+            -c "read -P 1 0 $start_offset" \
-+            -c "read -P 2 $start_offset $length" \
-+            -c "readv $cmd_params" \
-+            -c "read -P 1 $((start_offset + length)) $((1024 * 1024 - length - start_offset))" \
-+            --image-opts \
-+            "$IMGSPEC" \
-+            | _filter_qemu_io
-+    done
-+done
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/tests/iov-padding.out b/tests/qemu-iotests/tests/iov-padding.out
-new file mode 100644
-index 0000000000..e07a91fac7
---- /dev/null
-+++ b/tests/qemu-iotests/tests/iov-padding.out
-@@ -0,0 +1,59 @@
-+QA output created by iov-padding
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+
-+== performing 1024-element vectored requests to image (offset: 4096; length: 524288) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 524288/524288 bytes at offset 4096
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 4096
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 4096
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 520192/520192 bytes at offset 528384
-+508 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== performing 1024-element vectored requests to image (offset: 4096; length: 527872) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 527872/527872 bytes at offset 4096
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 4096
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 4096
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 516608/516608 bytes at offset 531968
-+504.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== performing 1024-element vectored requests to image (offset: 512; length: 524288) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 524288/524288 bytes at offset 512
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 512
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 512
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 523776/523776 bytes at offset 524800
-+511.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== performing 1024-element vectored requests to image (offset: 512; length: 527872) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 527872/527872 bytes at offset 512
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 512
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 512
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 520192/520192 bytes at offset 528384
-+508 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
--- 
-2.39.1
+So per 'black -t py37' the style is """, I was not even close.
 
+> The main downside is the bulk-reformat in the history, which can
+> make backports more challenging. For "git blame" you can use the
+> .git-blame-ignore-revs file to hide the reformats.
+
+TIL .git-blame-ignore-revs, thanks!
 
