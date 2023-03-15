@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00B66BB90F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 17:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A6E6BB922
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 17:08:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcTdM-0006bf-02; Wed, 15 Mar 2023 12:05:48 -0400
+	id 1pcTfV-0007Tg-Bo; Wed, 15 Mar 2023 12:08:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcTdJ-0006bN-IA
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:05:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pcTdH-0000xp-Kz
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678896343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y8087H9SoZxZgFlumNUuWtCvDPZk5P7i2IdiBno9wF8=;
- b=PLT9xIfxxfZQwMvCxQkile/z4g8qLpVQ+RSamZlXvnK0OV1TjfcyHkOesaddR7tdCRcSX7
- FdaI8vWRN8J+bj/1JwBvGx3UWT9sHNXNjIsiq07JCpxxOygc+28OFUT33VivYwacTP97D4
- fJYEUFZZC3wUADmuRIvBKqZW1aQnWgM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-110-6XVZcXHDN5CtGspVssXAfQ-1; Wed, 15 Mar 2023 12:05:41 -0400
-X-MC-Unique: 6XVZcXHDN5CtGspVssXAfQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- b7-20020a056402350700b004d2a3d5cd3fso27374271edd.8
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 09:05:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcTfS-0007TJ-Pr
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:07:58 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcTfR-0001Gt-2V
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:07:58 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ az3-20020a05600c600300b003ed2920d585so1410049wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 09:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678896475;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FiMcwvgWjIeAN5mbfVzZjcLkZfJIz/H9ihV5hHxwzJ8=;
+ b=g+gsMjMSMuD1CAb1PWERCkkUfriS946BYfgZXv3Blt8r70xUsUkNbszxsEoDoqje0f
+ us/HAts6WT3ainPUOPTo41L/4JAXb2HxBPn74ccrIaHUlvN6Itb/8iXZRWRzSc3Ex1Tg
+ gP25WSr1r26Ukn/oIZd2GYexDfcV+O6H8mcm0OuqMBrhFNqpX2CfXUIHWxJSTVpsxjFr
+ I262LD3Iy9WanM55C/fzcaqiAMBYYM7HQgV5pZzmKj2CeGxc01tztU0pZcevYCqCXby8
+ p27TJFMK5dR09ukzbN7z6Y/HgKeiK8GBh+F9fHX+r1uk4PUJrC2DPTVulBkfkrzUQgU2
+ 32Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678896328;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20210112; t=1678896475;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=y8087H9SoZxZgFlumNUuWtCvDPZk5P7i2IdiBno9wF8=;
- b=Se2x6tT8iXFFxQURvAuBrJJiHuCtHmcAMV77d809Wz991ywO7OzpnaOSjlMv8Y6GYT
- fGK3Mg7GDN84VVL2o9uE7F0N1QV0d5hH2xm4L6uMCizz/kTq4BBGB7IFD+NILulTWqj/
- nMtsv8gzUoMeIbN/22LvK2Ok/pZBb0wVNq+CYSEC3H2xZq8eTvkLWtZgQ4+Bk/Bv0m6I
- YtKz4zEXvQ9IGaQF0vS8BA9u5AmM9z+Moz+TpeSF8sUHdXF2a89GzdXDCt/Y/4X+8AtQ
- 2hrQrBmruJT80tJJPrOq19B2+yovO/2O3lYlaV89aZXVXWfYqxC/rQDDuWyGz3wfKijj
- L+vw==
-X-Gm-Message-State: AO0yUKXyL7hG/c1k95+f4TtJKLet4cVTx9DVnB7bguowb927AAp/LGVV
- JnmTOU6TDqm1AzJ3h1dpA2vT2heRg0Vq0n7XU1soD6xRLQW5h+/x7zTzAtpKGSNKcKRpccewFYm
- 8QqCE8PlVSE/SZLA=
-X-Received: by 2002:a05:6402:7da:b0:4fa:e8f3:968b with SMTP id
- u26-20020a05640207da00b004fae8f3968bmr3025829edy.19.1678896328658; 
- Wed, 15 Mar 2023 09:05:28 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9mrHIBqWiNG23ed65XaRrRCbA4WOzmp8GWT/Wc4Xc6lBEoNazC/hchTT6qsLJi2pYd6VKlKw==
-X-Received: by 2002:a05:6402:7da:b0:4fa:e8f3:968b with SMTP id
- u26-20020a05640207da00b004fae8f3968bmr3025794edy.19.1678896328266; 
- Wed, 15 Mar 2023 09:05:28 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d72b:b3c3:84ec:cc63:3ddf:7d93?
- (p200300cfd72bb3c384eccc633ddf7d93.dip0.t-ipconnect.de.
- [2003:cf:d72b:b3c3:84ec:cc63:3ddf:7d93])
- by smtp.gmail.com with ESMTPSA id
- m20-20020a509994000000b004aef147add6sm2686944edb.47.2023.03.15.09.05.25
+ bh=FiMcwvgWjIeAN5mbfVzZjcLkZfJIz/H9ihV5hHxwzJ8=;
+ b=e/m7k1xrtb8uUVEgE2QbSk1OxKApqPaByXWtqrAlqTF//6pOGCG7J//Sybk1xzReV9
+ fuPfnfDJJVbUF/BhcOh7/a8EcgLH8c+waD7ZgxcFZAMSGiQh3HFpd63daUMsoYwrDzIQ
+ ZuBRXDFXOc3RpcaP0w9ZetzUgMWp5DxjJrunvFQ1g1BzIEWgVeXsACEaCSI6dFH8WFX4
+ RbQKNQgC/aPMlYJh+ksu1UuldXqQVu3Gt/nS3QF3SeUVmapQSa1BvpiQxt9LIseV/G5D
+ fU95pY7U7D0ATevd2z8e0K8sOa+tY2YX8kUjYWHWdTKQnuDIOL5f8Epdjvs5Rq4l++jU
+ VcjA==
+X-Gm-Message-State: AO0yUKV8mzy9Zwsnj7/Za5U99t6B+Fst/Jit5ENW4ajTAXRkNefV3nuo
+ g8vjW+UYjbKf7Zrpk+SZJJmeig==
+X-Google-Smtp-Source: AK7set+n4tWLvxB5XhhgVDr9flLcGUmowqfNYVdHnhSLN7+8xh6t+z6BU2o7xjzC+t0Z6sDzlv8UXw==
+X-Received: by 2002:a05:600c:3d8a:b0:3eb:3c76:c241 with SMTP id
+ bi10-20020a05600c3d8a00b003eb3c76c241mr17832715wmb.13.1678896475139; 
+ Wed, 15 Mar 2023 09:07:55 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u22-20020a05600c00d600b003e203681b26sm2353374wmm.29.2023.03.15.09.07.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 09:05:26 -0700 (PDT)
-Message-ID: <783b08e1-435b-a854-66cb-8c0587fb4cf9@redhat.com>
-Date: Wed, 15 Mar 2023 17:05:25 +0100
+ Wed, 15 Mar 2023 09:07:54 -0700 (PDT)
+Message-ID: <62e4dedc-585b-ef70-7b74-aac4037647dd@linaro.org>
+Date: Wed, 15 Mar 2023 17:07:53 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC 0/2] Split padded I/O vectors exceeding IOV_MAX
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 03/30] accel/tcg: Add cpu_in_serial_context
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230315121330.29679-1-hreitz@redhat.com>
- <20230315152941.GD16636@fedora>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230315152941.GD16636@fedora>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230216025739.1211680-1-richard.henderson@linaro.org>
+ <20230216025739.1211680-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230216025739.1211680-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,31 +91,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15.03.23 16:29, Stefan Hajnoczi wrote:
-> On Wed, Mar 15, 2023 at 01:13:28PM +0100, Hanna Czenczek wrote:
->> Hi,
->>
->> We accept I/O vectors with up to 1024 (IOV_MAX) elements from guests.
->> When a guest request does not conform to the underlying storage's
->> alignment requirements, we pad it with head and/or tail buffers as
->> necessary, which are simply appended to the I/O vector.
->>
->> As of 4c002cef, we (sensibly) check that such-padded vectors do not then
->> exceed IOV_MAX.  However, there seems to be no sensible error handling;
->> instead, the guest simply receives an I/O error.
->>
->> That???s a problem, because it submitted a perfectly sensible I/O request
-> Looks like there is an encoding issue. I get 3 question marks instead of
-> an apostrophe. lore.kernel.org also renders mojibake:
-> https://lore.kernel.org/qemu-devel/20230315121330.29679-1-hreitz@redhat.com/
+On 16/2/23 03:57, Richard Henderson wrote:
+> Like cpu_in_exclusive_context, but also true if
+> there is no other cpu against which we could race.
+> 
+> Use it in tb_flush as a direct replacement.
+> Use it in cpu_loop_exit_atomic to ensure that there
+> is no loop against cpu_exec_step_atomic.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   accel/tcg/internal.h        | 5 +++++
+>   accel/tcg/cpu-exec-common.c | 3 +++
+>   accel/tcg/tb-maint.c        | 2 +-
+>   3 files changed, 9 insertions(+), 1 deletion(-)
 
-Hm, yeah, no “charset=UTF-8” in that mail’s Content-type...  I think 
-that’s because it just uses what’s in the patch file and sends it, and I 
-needed to force it to be format.headers="Content-type: text/plain" in 
-.gitconfig at some point because of some Mimecast thing.  I hope putting 
-format.headers="Content-type: text/plain; charset=UTF-8" will fix that 
-for the future.  Thanks for telling me!
-
-Hanna
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
