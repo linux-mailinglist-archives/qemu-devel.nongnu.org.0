@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AD56BBA5C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:01:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6AF6BBA7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:08:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcUUK-0005m5-G3; Wed, 15 Mar 2023 13:00:32 -0400
+	id 1pcUaX-0000a8-3X; Wed, 15 Mar 2023 13:06:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUU9-0005ib-KW
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:00:23 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUaV-0000Zm-HN
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:06:55 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUU8-00023b-2F
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:00:21 -0400
-Received: by mail-wr1-x429.google.com with SMTP id p4so11755978wre.11
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:00:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUaT-0003Cy-VJ
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:06:55 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ l7-20020a05600c1d0700b003eb5e6d906bso1737585wms.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678899618;
+ d=linaro.org; s=google; t=1678900012;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=XuoZH8n6/y582VGtlT//Ved/gL6UQ8JXwf4cJ+tY/zQ=;
- b=ZF38jHOEeZ8KeJK75mSxpXWoqXaAQ4fnabKsIrXlwI+2Qk11NMTZiVmtGnz6Z8ByKg
- 3aFAirWLFDJ6uV1GjRjWd9PDiq7K3MvajaW/Ksl+K/aWQ5BeYo2enaicEGerGlZ21iVX
- THLZ8nm6KH+MInipbDI3LS5PwJEP9DSQ5MhaNe+AvdB2Z5Hj7kJNUoplcNpe2KqVRv87
- gx6LUApRFNhcEnTNx+gpnAYLhGSX6OxoZvKLVc9R8jhPDOcPq2JmUwGQsXB4yUMsW0qz
- OM0q2y1fhodcmuC0wFThhadV51gBC5BJNFEy5WHXEyEnAGRcHQUc/KajT//9gaYOzidX
- 0yMQ==
+ bh=E31+8ikWHf/RWbeu2o+z3RuJrctFqIM2P9eILfJI2WE=;
+ b=nST+a7r6JsJjLYY3RyOg31B4tb99DaCR1pouo7Um6pvCgdYs3SNNbicaHUWqiN34Fw
+ cDxTiVWJhQdQUJyDGtd5Zkneo1LNIcz1UHRqLWpHjTO5qwEMlQhEa3ZVhyal29e/rU0w
+ iUaUba7GO4zJLMfCZH/wGMd6aVBKwTl+merLUXNov57mK/32Spx60M9UrHAaEzKZ0wmm
+ OT6ozzd2FbTsro0j7aw/NkIsWVfAnQ7CA6eXjgBgECMR9i64+90HjqzovIZ0BFAH/Eoe
+ Dnkkrd+0CGMWiA8Cje33QlSGMEaI2JuBu7B20BSI7ir+cnjf3R/1Fmc+eltLaRdZxN1V
+ UNaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678899618;
+ d=1e100.net; s=20210112; t=1678900012;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XuoZH8n6/y582VGtlT//Ved/gL6UQ8JXwf4cJ+tY/zQ=;
- b=nFDpHK22NhYJjF6SUubPPQ3a0XQyEgGxX6Qfkj4HOO2p4368S8v4iRvYdusnGnpmJT
- JnxJE/rYSE9SFbbLabr33WuADG5hJKvnT6dZL5f7NY7GOlDfUMnd19bEuTcQLiUzZbrF
- kmPe2SUc693kKoZGzBPhLGNPPaDz9/6V6Gp9/2ko9Im+6sRgroGX91S+hZIVp3DgXykB
- Jo4dqIK5Nzy8hZpvGZQlr8BD5+3fSM0FlkJe1PiZcaP/xJhiSDz3mkXxmll+qciaWtHy
- HiRW5wJt6nmPfDZLjFFsljR1mFFSYRbPZf3YTVKu9adWlnmtQnIU2ZQOIaxqS6OiHf1y
- 95GA==
-X-Gm-Message-State: AO0yUKW+ciF4oqFtu21tUsJ9r5Jpo6tLWthMqhPba6PHT9H8hINzuXkA
- W4ag+dJ6RDuCNs8+VnWZ8YSC9w==
-X-Google-Smtp-Source: AK7set/MIxnjTpEP94LttF7q2m3Ai5GmTkUCC3xvEVHDvukr0FFVTLz4Bfg/jczpaLzlm8ng2wgxlg==
-X-Received: by 2002:a5d:4586:0:b0:2cf:e65a:a5fc with SMTP id
- p6-20020a5d4586000000b002cfe65aa5fcmr2550760wrq.8.1678899618547; 
- Wed, 15 Mar 2023 10:00:18 -0700 (PDT)
+ bh=E31+8ikWHf/RWbeu2o+z3RuJrctFqIM2P9eILfJI2WE=;
+ b=SSbHqpauhpsiWH01mdx1KJAGTuBYiDyaeKo3FbFg0EmaxRDPy3PIiZ0inHqTL4EykE
+ szLxcvoFZpvtio5yx6Ny+CITRwcwi6hqadGVPm0DnXb2V2/jKOWAXVJItyRkgWaTpmf7
+ v7LBvApOat0c5rRo2TiHsQBvgFRwNqMonUFlVRKhkPBT3E7cYrFdzDP+uGoIa8xodR0m
+ Elx/Kg/GoIH1hqwV5IdVuHO2cz0VKPIMDKLmuTHi9NRUjm0IIOcJ4wDqN5lH/IA+2uDf
+ 4iN1ShJZJGaCEH1JI2/iJ0pJBUAZhuiBUqgLocbQREjbWmfLCTesxKXN6I/6IOZXnK27
+ MSLQ==
+X-Gm-Message-State: AO0yUKVfEFEC79Ryd6MBaQ5otQMd1nDUpuYhoqjwztDcM1nVdUPSS5OC
+ re+BS+BZKz0ZtLV4PdSmxUrdQA==
+X-Google-Smtp-Source: AK7set9sJXwmKA3IA3doDkicKkJzG4zcHB6Jrb0xHPoPC9ZGtFy585i2pTjPM82Y2VTvQH0j9kr7Kg==
+X-Received: by 2002:a05:600c:3151:b0:3eb:f664:b6e with SMTP id
+ h17-20020a05600c315100b003ebf6640b6emr18223686wmo.24.1678900012096; 
+ Wed, 15 Mar 2023 10:06:52 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z13-20020a5d4d0d000000b002cfe1377fb1sm4995124wrt.70.2023.03.15.10.00.17
+ j8-20020a05600c1c0800b003ebf73acf9asm7448323wms.3.2023.03.15.10.06.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 10:00:18 -0700 (PDT)
-Message-ID: <37cc184e-2b5c-a841-1cca-34db745f27dc@linaro.org>
-Date: Wed, 15 Mar 2023 18:00:17 +0100
+ Wed, 15 Mar 2023 10:06:51 -0700 (PDT)
+Message-ID: <d497e26a-768c-50b9-c4a6-f116e612fcc7@linaro.org>
+Date: Wed, 15 Mar 2023 18:06:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 17/30] tcg/aarch64: Detect have_lse, have_lse2 for linux
+Subject: Re: [PATCH v2 14/30] tcg/i386: Add have_atomic16
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20230216025739.1211680-1-richard.henderson@linaro.org>
- <20230216025739.1211680-18-richard.henderson@linaro.org>
+ <20230216025739.1211680-15-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230216025739.1211680-18-richard.henderson@linaro.org>
+In-Reply-To: <20230216025739.1211680-15-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,15 +92,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 16/2/23 03:57, Richard Henderson wrote:
-> Notice when the host has additional atomic instructions.
-> The new variables will also be used in generated code.
+> Notice when Intel or AMD have guaranteed that vmovdqa is atomic.
+> The new variable will also be used in generated code.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/aarch64/tcg-target.h     |  3 +++
->   tcg/aarch64/tcg-target.c.inc | 12 ++++++++++++
->   2 files changed, 15 insertions(+)
+>   include/qemu/cpuid.h      | 18 ++++++++++++++++++
+>   tcg/i386/tcg-target.h     |  1 +
+>   tcg/i386/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
+>   3 files changed, 46 insertions(+)
+> 
+> diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> +/*
+> + * Signatures for different CPU implementations as returned from Leaf 0.
+> + */
+> +
+> +#ifndef signature_INTEL_ecx
+> +/* "Genu" "ineI" "ntel" */
+> +#define signature_INTEL_ebx     0x756e6547
+> +#define signature_INTEL_edx     0x49656e69
+> +#define signature_INTEL_ecx     0x6c65746e
+> +#endif
+> +
+> +#ifndef signature_AMD_ecx
+> +/* "Auth" "enti" "cAMD" */
+> +#define signature_AMD_ebx       0x68747541
+> +#define signature_AMD_edx       0x69746e65
+> +#define signature_AMD_ecx       0x444d4163
+> +#endif
 
+Hmm, I see the "??? Irritating that we have the same information in
+target/i386/." comment from commit 5dd8990841 ("util: Introduce
+include/qemu/cpuid.h") :/
 
