@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3396BAF01
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 12:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563A86BAF27
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 12:23:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcP7A-0001Dq-Si; Wed, 15 Mar 2023 07:16:16 -0400
+	id 1pcPDf-0002WL-24; Wed, 15 Mar 2023 07:22:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pcP75-0001B5-AA
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 07:16:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pcP72-0006UW-LD
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 07:16:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678878967;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kcADufBuko/0+uZ49Bk3bPRbK0qK8iXufR+pbhckNxk=;
- b=ZKvizfbPke632u3DiLoZUy2zgLJSzYVsvWwyssaURS6VK4uP/69kAgTpDkzWSEb0dgG44C
- l95bmBhv1noIjh9XKQ5yW61xsVW43GYiw1bcq7rG5FaWuInZJb5xFFu592V3c+GUifXdUA
- ktk0EmwEArUlbzFeKUHOIEBD4RiruHw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-6rJp4DRYNxSfSsYfnOn_Cg-1; Wed, 15 Mar 2023 07:16:06 -0400
-X-MC-Unique: 6rJp4DRYNxSfSsYfnOn_Cg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C191429AA3BD;
- Wed, 15 Mar 2023 11:16:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4654140CF8EF;
- Wed, 15 Mar 2023 11:16:04 +0000 (UTC)
-Date: Wed, 15 Mar 2023 11:16:01 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Marco Liebel <quic_mliebel@quicinc.com>, qemu-devel@nongnu.org,
- Taylor Simpson <tsimpson@quicinc.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH] Use f-strings in python scripts
-Message-ID: <ZBGo8WNlnRZUGYJZ@redhat.com>
-References: <20230313172535.2409370-1-quic_mliebel@quicinc.com>
- <c05ddbd3-8f26-5492-3961-7f3d564373d7@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcPDc-0002Ve-Uk
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 07:22:56 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcPDb-0007i9-Eo
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 07:22:56 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id r18so16975568wrx.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 04:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678879373;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2IBJve6AVokPgpEOEtDRyTXRYenVXGxE3k6sego2rNs=;
+ b=RWUtHdWbAOr7qOVCk+KXFLLqIQ087CDPjbeRKzXaB489cD7c2ts7iTr6LXPAdA2FK/
+ +OT/jCFMl5ewResJ9jW19ElJgRa3MU+NZbN099ggmdutc5BnlSCvqBWnkCHTTCPB3379
+ RXCXeM5+NGApm4Bja+LwoYd3au8/jaNs4KZ9ETE6wv9OKiC98VOKfxkbYlPKjEtQE9wa
+ jKVgUEc14F6cdSH86cmAT46aKJsqkBrzQ4YaE8UCTSxmIREGrsAzyEt+n8L0XkaQNWpd
+ FQQ3qLS8i3pUm6C7aozJR4TiU01dfJAQdsCgdkbH9xGaVoBZpreKTI+AvTJHKS+b3Hsk
+ tBYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678879373;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2IBJve6AVokPgpEOEtDRyTXRYenVXGxE3k6sego2rNs=;
+ b=WkpmbFKTyt6gkHhOVwv5pUe+JcJyvNUVHoUCFwdaWCgW5mPb/3aTOcGiSNYUs4k2Qn
+ S7poEvmwp7S19YCx579tzJFy3SGA0llNhpAA41sEBR0ra/OVefpy7Yapl30di12ZY4Jg
+ uagW0v1FBiwlPVZt2ZRtU0AxF1kpXfvf92GqXJZiPTJ5n3OGQgsCeSZMhvqE03F1NjAI
+ P7AmzKHap8MB+MKSfhxA/uFigOwCVqSjFwSaoszkvxzDQqNJ5twYhqFb62KXSD81S8sB
+ JD42QlNRAXx9px8KngxSMcX4hJKo4FZ/FUzEeyK5NSDiYm8D/x90awwGIdAxV6HIxb/F
+ U/ew==
+X-Gm-Message-State: AO0yUKX04ryvL1uWPmpxIc2c5XZAdjmSx1/qB0wwoKHCQLJgGLYuE8Ss
+ m4uqHNXNuU24FMegRjNCkyNtoKvo4lbavfxmfTZmJA==
+X-Google-Smtp-Source: AK7set/4xUAzrORFbMBMxMr+CpehtnRhF90ds8wQi9ZHN06dWqymyVG3MwmDIKwVhUSYbjbPoh4w2A==
+X-Received: by 2002:a5d:63c3:0:b0:2cf:e868:f789 with SMTP id
+ c3-20020a5d63c3000000b002cfe868f789mr1553957wrw.48.1678879373627; 
+ Wed, 15 Mar 2023 04:22:53 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l10-20020a5d560a000000b002cfeffb442bsm2498406wrv.57.2023.03.15.04.22.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Mar 2023 04:22:53 -0700 (PDT)
+Message-ID: <5ff09b4a-936f-8c69-2f13-f8c320e35f34@linaro.org>
+Date: Wed, 15 Mar 2023 12:22:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 0/3] qapi: Simplify enum generation
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230315111304.21692-1-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230315111304.21692-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c05ddbd3-8f26-5492-3961-7f3d564373d7@linaro.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,60 +93,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 15, 2023 at 08:43:33AM +0100, Philippe Mathieu-Daudé wrote:
-> Hi Marco,
+On 15/3/23 12:13, Philippe Mathieu-Daudé wrote:
+> QAPI generating enum count as part of the enum forces handling
+> impossible switch cases. Modify qapi/types.py to generate the
+> enum count as a definition.
+> Do not try to cover the unreachable 'default' case.
+> Clean files covering unreachable foo__MAX case.
 > 
-> (+Python experts)
+> Since v1:
+> - Update documentation (Markus)
+> - Do not generate empty enums (Markus)
+> - Collect R-b tags
 > 
-> On 13/3/23 18:25, Marco Liebel wrote:
-> > Replace python 2 format string with f-strings
-> > 
-> > Signed-off-by: Marco Liebel <quic_mliebel@quicinc.com>
-> > ---
-> >   target/hexagon/gen_helper_funcs.py      |  54 ++--
-> >   target/hexagon/gen_helper_protos.py     |  10 +-
-> >   target/hexagon/gen_idef_parser_funcs.py |   8 +-
-> >   target/hexagon/gen_op_attribs.py        |   4 +-
-> >   target/hexagon/gen_op_regs.py           |  10 +-
-> >   target/hexagon/gen_opcodes_def.py       |   2 +-
-> >   target/hexagon/gen_printinsn.py         |  14 +-
-> >   target/hexagon/gen_shortcode.py         |   2 +-
-> >   target/hexagon/gen_tcg_func_table.py    |   2 +-
-> >   target/hexagon/gen_tcg_funcs.py         | 317 +++++++++++-------------
-> >   target/hexagon/hex_common.py            |   4 +-
-> >   11 files changed, 198 insertions(+), 229 deletions(-)
-> 
-> These files use a mix of ', " and '''... Since you are modifying
-> them, it would be nice to unify. I'm not sure there is a recommended
-> style; matter of taste, I find the single quote (') less aggressive,
-> then escaping it using ", and keeping ''' for multi-lines strings.
+> Philippe Mathieu-Daudé (3):
+>    scripts/git.orderfile: Display QAPI script changes before schema ones
+>    qapi: Do not generate empty enum
 
-FWIW, rather than debating code style issues and coming up with a custom
-set of rules for QEMU python code, my recommendation would be to consider
-adopting 'black'
-
-  https://black.readthedocs.io/en/stable/
-
-There is a trend with recent languages to offer an opinionated code
-formatting tool as standard to maximise consistency across projects
-in a given language. 'black' is a decent attempt to bring this to
-the python world. I found it pretty liberating when doing recent
-python work in libvirt, to be able to mostly not worry about formatting
-anymore.
-
-The main downside is the bulk-reformat in the history, which can
-make backports more challenging. For "git blame" you can use the
-.git-blame-ignore-revs file to hide the reformats.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Wrong branch... v3 coming.
 
