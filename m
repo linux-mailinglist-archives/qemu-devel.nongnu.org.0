@@ -2,82 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6540D6BAB0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 09:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA8C6BAB37
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 09:53:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcMnV-0005qm-35; Wed, 15 Mar 2023 04:47:49 -0400
+	id 1pcMsE-00005g-AJ; Wed, 15 Mar 2023 04:52:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcMnQ-0005pT-DX
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:47:44 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcMnO-0005mH-OT
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:47:44 -0400
-Received: by mail-wr1-x434.google.com with SMTP id t15so16541929wrz.7
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 01:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678870061;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4yerwE9+4vPstoVuHRhEh4PA689XsXccyStWiJuEUPQ=;
- b=xoDAAUjW1475zxjbgGmouLq71XvjXUzUgsA3Gb2SW1DYgntPfDPV/SBPJ/8blG55qe
- SD7E8sQXlEiKycN1uTenVsmySOobnK6CwoV0TOAJ02Szi+y8IDhmMvDg5cLGdU2BRp0b
- xXopvT3DmWyVww9lDIY5zS86mdGJrttgHy2APUD48qAvA1vBXJW36YX9dIu/mfAnXM58
- USK5Cmn/Tg/jDD45MqasSl8H3AtSGe8m/I+8cuJWQYWnhnH61UNh2sr9vYE/KKY3U4Kf
- 7Nw+Igt637haeoMN80PilySMLqMWUJtUZRy8JLY9+672e6a1tBlilRND39cVY2T9bmX7
- OTUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678870061;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4yerwE9+4vPstoVuHRhEh4PA689XsXccyStWiJuEUPQ=;
- b=FTuis81YlAwdXrrPi9tEBbwMSxjqoew+nZ1rVwW8dkbx3MMIRd8WFT0pTIYiruxT6V
- q/raECAiaZq7V75I21BIFbUA10MNta6jvtHQx3UXhZvps0A+vlANyhvM2JCD9VgNKjNl
- qEGdg2/KHQwg6xrHqKu0bsBswVeVYB/rbS8BW2CtLTAfopBV9U/J+VLUwtwgcCMGFUBd
- Ph8a80Q/Nz6ja5NIfyTTEAxdYeVa1sWwZuh3VMuMyKt7XYqeJqiAj6bGhkiJQpHKVNSE
- d6XSzX9RElV/VYoEakGO8yE58HkVVtcANBnTZsrcF6BbqbXpUeHgn30g+la3MCkX7XRv
- Nd4w==
-X-Gm-Message-State: AO0yUKXQMLuoN1djKjHVv7GQhrDvIvmbRGhHH5u9RyVJYYBkaLfZ9C+g
- cBgGibeNLEuBuyGe5fyMvbG+gQ==
-X-Google-Smtp-Source: AK7set/F6qeimT3Ri2ekl6SnLyGjDGWWqEY9/U1lLTPgyRwkJshPnAR7d37ESL3WSXeA/fILUTLNRA==
-X-Received: by 2002:a05:6000:128f:b0:2d0:4321:b9de with SMTP id
- f15-20020a056000128f00b002d04321b9demr648390wrx.39.1678870061189; 
- Wed, 15 Mar 2023 01:47:41 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x8-20020a5d60c8000000b002cea8664304sm3990672wrt.91.2023.03.15.01.47.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 01:47:40 -0700 (PDT)
-Message-ID: <158de4e2-47e5-d3f7-84a9-56fe5882986c@linaro.org>
-Date: Wed, 15 Mar 2023 09:47:38 +0100
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pcMsB-0008SK-Kl
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:52:39 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pcMs9-0006Tf-Og
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:52:39 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 88721404DE;
+ Wed, 15 Mar 2023 09:52:27 +0100 (CET)
+Message-ID: <02f9bba3-1f3d-6f1f-af0e-a388dc2b7377@proxmox.com>
+Date: Wed, 15 Mar 2023 09:52:20 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH for-8.0] hw/char/cadence_uart: Fix guards on invalid
- BRGR/BDIV settings
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] vl: defuse PID file path resolve error
+From: Fiona Ebner <f.ebner@proxmox.com>
+To: qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: hreitz@redhat.com, t.lamprecht@proxmox.com, d.csapak@proxmox.com,
+ berrange@redhat.com
+References: <20221031094716.39786-1-f.ebner@proxmox.com>
+ <d4384eef-f55b-8ca8-9aeb-5ff77ceae8c2@proxmox.com>
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>
-References: <20230314170804.1196232-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230314170804.1196232-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d4384eef-f55b-8ca8-9aeb-5ff77ceae8c2@proxmox.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,22 +59,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/3/23 18:08, Peter Maydell wrote:
-> The cadence UART attempts to avoid allowing the guset to set invalid
-> baud rate register values in the uart_write() function.  However it
-> does the "mask to the size of the register field" and "check for
-> invalid values" in the wrong order, which means that a malicious
-> guest can get a bogus value into the register by setting also some
-> high bits in the value, and cause QEMU to crash by division-by-zero.
+Am 24.01.23 um 14:55 schrieb Fiona Ebner:
+> Am 31.10.22 um 10:47 schrieb Fiona Ebner:
+>> Commit 85c4bf8aa6 ("vl: Unlink absolute PID file path") introduced a
+>> critical error when the PID file path cannot be resolved. Before this
+>> commit, it was possible to invoke QEMU when the PID file was a file
+>> created with mkstemp that was already unlinked at the time of the
+>> invocation. There might be other similar scenarios.
+>>
+>> It should not be a critical error when the PID file unlink notifier
+>> can't be registered, because the path can't be resolved. If the file
+>> is already gone from QEMU's perspective, silently ignore the error.
+>> Otherwise, only print a warning.
+>>
+>> Fixes: 85c4bf8aa6 ("vl: Unlink absolute PID file path")
+>> Reported-by: Dominik Csapak <d.csapak@proxmox.com>
+>> Suggested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+>> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
+>> ---
+>>
+>> v1 -> v2:
+>>     * Ignore error if errno == ENOENT.
+>>
+>>  softmmu/vl.c | 9 +++++----
+>>  1 file changed, 5 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index b464da25bc..cf2c591ba5 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -2432,10 +2432,11 @@ static void qemu_maybe_daemonize(const char *pid_file)
+>>  
+>>          pid_file_realpath = g_malloc0(PATH_MAX);
+>>          if (!realpath(pid_file, pid_file_realpath)) {
+>> -            error_report("cannot resolve PID file path: %s: %s",
+>> -                         pid_file, strerror(errno));
+>> -            unlink(pid_file);
+>> -            exit(1);
+>> +            if (errno != ENOENT) {
+>> +                warn_report("not removing PID file on exit: cannot resolve PID "
+>> +                            "file path: %s: %s", pid_file, strerror(errno));
+>> +            }
+>> +            return;
+>>          }
+>>  
+>>          qemu_unlink_pidfile_notifier = (struct UnlinkPidfileNotifier) {
 > 
-> Do the mask before the bounds check instead of afterwards.
+> Ping
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1493
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/char/cadence_uart.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Ping again. While it's not a critical patch, it's also not a big one :)
+
+Best Regards,
+Fiona
 
 
