@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BAC6BB781
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 16:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67806BB799
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 16:24:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcSvu-0005rr-Tl; Wed, 15 Mar 2023 11:20:54 -0400
+	id 1pcSyw-0007Zt-Ih; Wed, 15 Mar 2023 11:24:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcSvr-0005lZ-9K
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:20:51 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcSvp-0000MC-Cm
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:20:50 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- p23-20020a05600c1d9700b003ead4835046so2200414wms.0
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 08:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678893647;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PunQBfCYfqEsOZC/O2MCOZ1yqt5S2SdmIj91K/o40lk=;
- b=zGwTRbRlo+8D9zmKhfzyXXa9wESc0mtzuZgga0cUFYijjxckMGMUnNi6wlgy95LdRQ
- /TjGKfOeZE1spEYF4pP1HLH6Ol0K/8+fFJDAtgjN+Yht/nbfmv2FE3YOkRCSbla10bM5
- NtQdLTQlb/uhpVrCJAF6Lp/amtoXEn15Q/vcSykNpUbKLORUjWWogMtez4oopebCp0So
- BhzcO20NnAF4/2fMybnirnLfpQPSE+M51Sh3TGHBYfiot163Xon7Y7Wg8lHLTvKUcAPL
- +gxrOUe+5HEdD6PpJGZAl8wBI0xNjugp2+WqO6/QYaY9+M/bToCotyzKSMYIVxaAG7Pr
- u+xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678893647;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PunQBfCYfqEsOZC/O2MCOZ1yqt5S2SdmIj91K/o40lk=;
- b=B5ZattMBFR8WKWYXkNtoI7rofvQ0ejYaL8JP1E52DVklzDitg7hV4OrOCTrrVTeVqP
- OL6KAi+pFnE+jNZnUhoHxoef0WXcIgauNeV2oGRS6Ufg71d3N0MJQxqEe2i3bF73vuIm
- njPPofNpqjLVBLrpTGlLcILPOxE9TU/NnYFoydvml3Q+QFBE4pTBESmJU8ohVIQsEQVq
- NewSgwoUw3wUekmQg2DRYWmtfTOyCyLSNQTobxQjHxNe5FIq8OgdddqJfzHSytjvXKSn
- U7ESWS6vyZCjqKgYX814n1BUoYwJPbJEN4XuMFjTQtjDHsGL/Vi5GpiPazSNqNLNOPsx
- 1NYg==
-X-Gm-Message-State: AO0yUKULISVzRp28+n9u7OsBwfniTH0P5f/s2Oqd0079pJEJ7ZinanpE
- 64NQAUXHDybOXBw8uLwtbeGvJw==
-X-Google-Smtp-Source: AK7set9PbR7/Tmakz7z+Bsmu6yaDt/WO+Uek+6Enxv7RnivVsV/wpxlSqc0oG06bRCSc856nFCX0jA==
-X-Received: by 2002:a05:600c:384b:b0:3ea:f6c4:5f3c with SMTP id
- s11-20020a05600c384b00b003eaf6c45f3cmr18389080wmr.7.1678893647698; 
- Wed, 15 Mar 2023 08:20:47 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o13-20020a5d4a8d000000b002c5534db60bsm4900572wrq.71.2023.03.15.08.20.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 08:20:47 -0700 (PDT)
-Message-ID: <69ab6023-04ad-fd12-38f1-22c651c3f796@linaro.org>
-Date: Wed, 15 Mar 2023 16:20:46 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pcSyt-0007ZJ-ST
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:23:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pcSyr-0001Bb-8l
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 11:23:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678893836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jTxjUwaGNrU997YXmd1Gd07OQ6YXEnGZ+ubJOcPfNTY=;
+ b=P7ruHrbm681cjZ6ufsJD1l9DijICSkhq522buP4vgl4Uomr209BhmA+3/pxgS1LP2a/yLu
+ ytTjCc89gC4jYTU6f2xZcQnS+GISTzXQumlj9yjiAn5Ue1tflC6fhyDXbKyLeUapbt1/8w
+ DM4tsaOdbXV2HriHyWVX7X3U4p8GCTY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-445-em-7fTesP0K7Dia1OiuQ0g-1; Wed, 15 Mar 2023 11:23:49 -0400
+X-MC-Unique: em-7fTesP0K7Dia1OiuQ0g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD832801206;
+ Wed, 15 Mar 2023 15:23:48 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32CEF400F5D;
+ Wed, 15 Mar 2023 15:23:47 +0000 (UTC)
+Date: Wed, 15 Mar 2023 11:23:46 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org,
+ Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
+ Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Liu Jiang <gerry@linux.alibaba.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH V3 2/2] docs: vhost-user: Add Xen specific memory mapping
+ support
+Message-ID: <20230315152346.GB16636@fedora>
+References: <cover.1678351495.git.viresh.kumar@linaro.org>
+ <6d0bd7f0e1aeec3ddb603ae4ff334c75c7d0d7b3.1678351495.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: raspi3b - dumpdtb
-Content-Language: en-US
-To: Little Tree <littletreetrunk32@gmail.com>, qemu-discuss@nongnu.org
-References: <CAHwOCLYgw081FF841QN2deex4KLRGkQBfLrGn0QLWoCaAVTAdQ@mail.gmail.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAHwOCLYgw081FF841QN2deex4KLRGkQBfLrGn0QLWoCaAVTAdQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="P0+YC7C2o+OYytsg"
+Content-Disposition: inline
+In-Reply-To: <6d0bd7f0e1aeec3ddb603ae4ff334c75c7d0d7b3.1678351495.git.viresh.kumar@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,38 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Little,
 
-On 15/3/23 13:43, Little Tree wrote:
-> I am using QEMU 6.2.0 to emulate raspi3b (Raspberry Pi 3b). I have used 
-> the following command to dump the DTB. It is neither terminating nor 
-> dumping the DTB.
-> 
-> $ qemu-system-aarch64 -machine raspi3b,dumpdtb=test.dtb
-> VNC server running on 127.0.0.1:5900 <http://127.0.0.1:5900>
-> 
-> If I change the machine to 'virt' as shown below, it dumps the DTB and 
-> exits. May I know the reason for this? How can I dump the DTB of the 
-> raspi3b machine?
+--P0+YC7C2o+OYytsg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-While the 'virt' machine _constructs_ a machine adapted to the command
-line options, it *produces* the equivalent DTB.
+On Thu, Mar 09, 2023 at 02:21:01PM +0530, Viresh Kumar wrote:
+> The current model of memory mapping at the back-end works fine where a
+> standard call to mmap() (for the respective file descriptor) is enough
+> before the front-end can start accessing the guest memory.
+>=20
+> There are other complex cases though where the back-end needs more
+> information and simple mmap() isn't enough. For example Xen, a type-1
+> hypervisor, currently supports memory mapping via two different methods,
+> foreign-mapping (via /dev/privcmd) and grant-dev (via /dev/gntdev). In
+> both these cases, the back-end needs to call mmap() and ioctl(), with
+> extra information like the Xen domain-id of the guest whose memory we
+> are trying to map.
+>=20
+> Add a new protocol feature, 'VHOST_USER_PROTOCOL_F_XEN_MMAP', which lets
+> the back-end know about the additional memory mapping requirements.
+> When this feature is negotiated, the front-end will send the additional
+> information within the memory regions themselves.
+>=20
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  docs/interop/vhost-user.rst | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 
-The raspi machines in contrast are not virtual machines, they respect
-the physical hardware. Therefore they *consume* already existing dtb
-blobs (with the -dtb command line argument).
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-See for example the test_arm_raspi2_initrd() test in
-tests/avocado/boot_linux_console.py which uses the bcm2709-rpi-2-b.dtb
-blob file.
+--P0+YC7C2o+OYytsg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> $qemu-system-aarch64 -machine virt,dumpdtb=test.dtb
-> qemu-system-aarch64: info: dtb dumped to test.dtb. Exiting.
-> 
-> Thanks a lot,
->    Little
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQR4wIACgkQnKSrs4Gr
+c8ijJQf/ROItbOzK05kO+CNPMWwO1kNa7SCAoOi6cgj452PZmF2b9cMDlBDfbsL6
+jliMKUFGBKkpKxBUD8JcxGlRwcJQT8AwG0KFjCWLwkzNx7BxnrDaXf0I2UgR5E/6
+nwHD2R+3K4Ay9QCyIUVrOWmId37SHX2e04d+1+iy7lWdQ1FM5/wc43Bt8aq80oYK
+YSuDIuFRXxJdr2Uxr8J9tKgukl3AkoKP8wzFUilzBN9GIMe9wPet8WF7sPwCi5+s
+QiQ9CVojLmqiXSDYUrAa2/Y8SypGimyvuy1C3kbNl7i2ow9r7vMr9Vw+/X0uhXb9
+Klhmo2NzmGmYT3bQ8RzENH0DYPwCNQ==
+=4b2c
+-----END PGP SIGNATURE-----
 
-Phil.
+--P0+YC7C2o+OYytsg--
+
 
