@@ -2,88 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C0D6BC1A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 00:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609646BC1EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 00:58:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcakB-0003bm-NJ; Wed, 15 Mar 2023 19:41:19 -0400
+	id 1pcazR-0005k5-Jf; Wed, 15 Mar 2023 19:57:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pcak5-0003bT-V2
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 19:41:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pcazP-0005je-Ja; Wed, 15 Mar 2023 19:57:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pcak3-0003mK-PQ
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 19:41:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678923669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u4ro2iFQxIOIZJYUh+4yiJVGUjsROSF7kc0zKFdqiKM=;
- b=GuBN9ETHdgI9dPzZq8AKsS2ThrIIdrChsMlzzEfmLLj6EvWSPfuasCd7R54bn2KuvyTDqP
- em/lhdzvBbUvUbH4MvLHldZcYT4oUL300eJLqa5/xGAlJfKk5/8JgeCD+wO0ZZml+M7LTV
- Y/B/6xx0eJh+LaJSTyaTdfguEq+K5g4=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-326-9L7ilF1eM--Tiel6H-UjSg-1; Wed, 15 Mar 2023 19:41:07 -0400
-X-MC-Unique: 9L7ilF1eM--Tiel6H-UjSg-1
-Received: by mail-pl1-f200.google.com with SMTP id
- a9-20020a170902b58900b0019e2eafafddso11139816pls.7
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 16:41:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678923666;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=u4ro2iFQxIOIZJYUh+4yiJVGUjsROSF7kc0zKFdqiKM=;
- b=kHYtvXv/K+ETaNlHUzEjCUwl9Ceo6nu0Mv/Y1DxyYLrS7VqQGvbI2TzIEBnbDoGdK2
- 8L38/66pKWUrb3avRWgluGaYfUCtG9GsaESuwYh0xDfxdCCzKpyvVFnNpg7D6YJvZdSp
- t9597jI/8LzZ7419sx10OZKQkVafQPjDi2tYQgjvsl3GpJp3F2cGUbax+PR0SAkDJ40Z
- J6ZRKJ51l2iL/4oHbI4+sZSynsmoBQT0GNXaZ9V0b72cVOV3HEoc3L54SAxIkrZwEF7x
- RQ6nvdL/gVR0KaCjObtJcX78U25yztkIXXxHiHghaUxPY+AX04xRdlaG7E6X96uG1cZ0
- oKNQ==
-X-Gm-Message-State: AO0yUKX6sVbD0JhIQjulgt7mQbreohyDh2hV7rfM6qE1hL1YgftB81P2
- r1NWfCQmPo/EBt7UOH1Px0fwYG7mDvgWU2/JjFpXU8GCsuFzx/R9fu+9ao3RnrbfKfmVeUUzMgS
- z7gOCB4nVRdyvuAl2YxblW86JhN+VCaQ=
-X-Received: by 2002:a17:90a:4f4d:b0:237:8c94:ada9 with SMTP id
- w13-20020a17090a4f4d00b002378c94ada9mr533133pjl.7.1678923665842; 
- Wed, 15 Mar 2023 16:41:05 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+njTkKfM2GL5ROExqf0dzhWwfaRxWtqBX+ht1rEzT8pGE1zYkkO9x8LMaEGPR3utgQCim8mWoQMLTAjKeEVJM=
-X-Received: by 2002:a17:90a:4f4d:b0:237:8c94:ada9 with SMTP id
- w13-20020a17090a4f4d00b002378c94ada9mr533129pjl.7.1678923665546; Wed, 15 Mar
- 2023 16:41:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pcazL-0007E0-JF; Wed, 15 Mar 2023 19:57:03 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32FMYJbo003679; Wed, 15 Mar 2023 23:56:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=grvbObaYJJwYizvVEPtCUewRCWL3pYTm74ggLAT0HXY=;
+ b=k96ykff/M5uOBWKdvSb+vwcT4bDGUjoqTohOISs4Ma/2NSRfyhbEEOxmgZEj6VPOSZnz
+ kpBGVcltulwWoyQBjM+iTETkg/fXeQ/cp4+deWRjdDLaAj6TufqOAFN0MiyQ2qCCco4Y
+ RhQLp5TNZdatB+esV2Sg+nwu9+V5BmD7RWht1dLCq/u/lhfOWWOlBYULzXEQ99y+7soS
+ IDKrCunmEO1Pt9I5YL4fqeF6dCUGYV4f16AepxefeNc4wl0Rc1fBC5XYwqg7Dpa/4LoS
+ Ovi0VZh6CPRMReG77+5T2Reqzts4JchN02Z9BT0eN9Yzoeg7Ifeo0gNkdQpRwAuO16Y8 Dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpx91cca-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 23:56:51 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32FNgH3A005829;
+ Wed, 15 Mar 2023 23:56:51 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpx91cc0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 23:56:51 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FKLOPO028724;
+ Wed, 15 Mar 2023 23:56:48 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pbmyjg577-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 23:56:48 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32FNukJF42533194
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Mar 2023 23:56:46 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32AC12004E;
+ Wed, 15 Mar 2023 23:56:46 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82BF520040;
+ Wed, 15 Mar 2023 23:56:45 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.19.28])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Mar 2023 23:56:45 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2 0/2] target/s390x: Fix R[NOX]SBG with T=1
+Date: Thu, 16 Mar 2023 00:56:40 +0100
+Message-Id: <20230315235642.118002-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: c0BESWrdJ8mIC0ak17nAHYl5Xyy-y7J4
+X-Proofpoint-ORIG-GUID: fDQdnpNzks8pQr5bogJTQ8QhJsBqYL-K
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20230313172535.2409370-1-quic_mliebel@quicinc.com>
- <c05ddbd3-8f26-5492-3961-7f3d564373d7@linaro.org>
- <ZBGo8WNlnRZUGYJZ@redhat.com>
- <36dae49c-34c9-0850-82ef-4a098b3e6d5d@linaro.org>
-In-Reply-To: <36dae49c-34c9-0850-82ef-4a098b3e6d5d@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 15 Mar 2023 19:40:54 -0400
-Message-ID: <CAFn=p-YH0Ak6nmFygvBHQA5CMcF0LrZMSNcwmKAgtWRm-Ydjng@mail.gmail.com>
-Subject: Re: [PATCH] Use f-strings in python scripts
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Marco Liebel <quic_mliebel@quicinc.com>, qemu-devel@nongnu.org, 
- Taylor Simpson <tsimpson@quicinc.com>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=828 suspectscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ adultscore=0 mlxscore=0 impostorscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303150192
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,81 +110,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 15, 2023 at 8:13=E2=80=AFAM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On 15/3/23 12:16, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Mar 15, 2023 at 08:43:33AM +0100, Philippe Mathieu-Daud=C3=A9 w=
-rote:
-> >> Hi Marco,
-> >>
-> >> (+Python experts)
-> >>
-> >> On 13/3/23 18:25, Marco Liebel wrote:
-> >>> Replace python 2 format string with f-strings
-> >>>
-> >>> Signed-off-by: Marco Liebel <quic_mliebel@quicinc.com>
-> >>> ---
-> >>>    target/hexagon/gen_helper_funcs.py      |  54 ++--
-> >>>    target/hexagon/gen_helper_protos.py     |  10 +-
-> >>>    target/hexagon/gen_idef_parser_funcs.py |   8 +-
-> >>>    target/hexagon/gen_op_attribs.py        |   4 +-
-> >>>    target/hexagon/gen_op_regs.py           |  10 +-
-> >>>    target/hexagon/gen_opcodes_def.py       |   2 +-
-> >>>    target/hexagon/gen_printinsn.py         |  14 +-
-> >>>    target/hexagon/gen_shortcode.py         |   2 +-
-> >>>    target/hexagon/gen_tcg_func_table.py    |   2 +-
-> >>>    target/hexagon/gen_tcg_funcs.py         | 317 +++++++++++---------=
-----
-> >>>    target/hexagon/hex_common.py            |   4 +-
-> >>>    11 files changed, 198 insertions(+), 229 deletions(-)
-> >>
-> >> These files use a mix of ', " and '''... Since you are modifying
-> >> them, it would be nice to unify. I'm not sure there is a recommended
-> >> style; matter of taste, I find the single quote (') less aggressive,
-> >> then escaping it using ", and keeping ''' for multi-lines strings.
-> >
+v1: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04493.html
+v1 -> v2: Work around a clang issue (Thomas).
+          Add cc=0 test, use more human-friendly constants.
 
-I pretty much agree with Dan, it's best to use a formatting tool and
-just stick with it. We don't have a unified standard across the code
-base right now, and it would be rude to make that a pre-requisite of a
-patch like this.
-Until then, docstrings should use triple-double quotes. Any other
-string can use whatever quoting style happens to be most convenient
-for the string being written to minimize escaping. Consistency is nice
-where reasonable, but minimizing escapes by using different styles on
-an as-needed basis is a respectable and good thing.
+Hi,
 
-I glanced *very quickly* at these files and it looks like the style is
-to use double quotes for format strings and single quotes for constant
-strings. That seems fine to me.
+This series fixes ROTATE THEN <do something with> SELECTED BITS when
+test-results control is on. The problem is the incorrect translation,
+which confuses the register allocator.
 
-> > FWIW, rather than debating code style issues and coming up with a custo=
-m
-> > set of rules for QEMU python code, my recommendation would be to consid=
-er
-> > adopting 'black'
-> >
-> >    https://black.readthedocs.io/en/stable/
-> >
-> > There is a trend with recent languages to offer an opinionated code
-> > formatting tool as standard to maximise consistency across projects
-> > in a given language. 'black' is a decent attempt to bring this to
-> > the python world. I found it pretty liberating when doing recent
-> > python work in libvirt, to be able to mostly not worry about formatting
-> > anymore.
->
-> Clever.
->
-> So per 'black -t py37' the style is """, I was not even close.
->
-> > The main downside is the bulk-reformat in the history, which can
-> > make backports more challenging. For "git blame" you can use the
-> > .git-blame-ignore-revs file to hide the reformats.
->
-> TIL .git-blame-ignore-revs, thanks!
->
+Patch 1 is the fix, patch 2 adds a test.
 
-Huh, that's awesome.
+Best regards,
+Ilya
+
+Ilya Leoshkevich (2):
+  target/s390x: Fix R[NOX]SBG with T=1
+  tests/tcg/s390x: Add rxsbg.c
+
+ target/s390x/tcg/translate.c    |  3 +++
+ tests/tcg/s390x/Makefile.target |  3 +++
+ tests/tcg/s390x/rxsbg.c         | 46 +++++++++++++++++++++++++++++++++
+ 3 files changed, 52 insertions(+)
+ create mode 100644 tests/tcg/s390x/rxsbg.c
+
+-- 
+2.39.2
 
 
