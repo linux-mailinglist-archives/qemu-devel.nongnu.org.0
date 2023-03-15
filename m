@@ -2,47 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA8C6BAB37
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 09:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48136BAB4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 09:57:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcMsE-00005g-AJ; Wed, 15 Mar 2023 04:52:42 -0400
+	id 1pcMwS-00030l-5p; Wed, 15 Mar 2023 04:57:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pcMsB-0008SK-Kl
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:52:39 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcMwK-0002tI-Eg
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:56:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pcMs9-0006Tf-Og
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:52:39 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 88721404DE;
- Wed, 15 Mar 2023 09:52:27 +0100 (CET)
-Message-ID: <02f9bba3-1f3d-6f1f-af0e-a388dc2b7377@proxmox.com>
-Date: Wed, 15 Mar 2023 09:52:20 +0100
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcMwI-00075K-7q
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 04:56:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678870610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pDiLbrkybvMs3y98EnwrfhF7jK0Mxrnxh7GKQH+7S5c=;
+ b=AzrKGTL5YTlVOPkHBH0Nu6wHEAqi16q9grvVGPoSxnxhnqgYHVGMZMOX59tbDmpdm6itUC
+ fLCRuD1YB9Re8eG1lu+MvSDdee4E7DyZ5CEbWrbca6df4hESVt7w3O3mUwBIy/O5D60K3q
+ 4zlFYc/Cfog3t6yWrfPnnEML593ryfU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-38-xa3tRkIqOceKMxP61iT58g-1; Wed, 15 Mar 2023 04:56:49 -0400
+X-MC-Unique: xa3tRkIqOceKMxP61iT58g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o15-20020a05600002cf00b002c54a27803cso3086136wry.22
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 01:56:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678870608;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pDiLbrkybvMs3y98EnwrfhF7jK0Mxrnxh7GKQH+7S5c=;
+ b=mKSuFguA39vcWQn1afudH9xC1c2pdJeGJF9Fk6yLJKPyOefh4NmugbSM7T2QT1i82c
+ ZWeWbcFv8w0h29sbzo3H4WR4csqK0F11QuR4xZ1XqFAKd0RA1Cfk4SeVpvsCeo1XrnLj
+ zSDfX+IQliRQQed/CwXxmj1dqaFhr0XFuCuR1BAvArYeXZ3iFlaUwBE2djrDCnY3CkZE
+ vKuf9AiiMseVlRsX2nYXtWfJvwvbSss9NzyKIDKEIru4P9q0pYow3a/redTvjJFt4kj9
+ dhq+EMxwS18I2/Jo1F49A1u4rSN51rUfMGMRjSBd1liPWO+Zi7VcWzNGdtkDuXcgR48b
+ mLxQ==
+X-Gm-Message-State: AO0yUKW0EDr43eBuDaUH+A1aNS7Hj8Q6bePBQcwD45ogV0xPByGaBHB0
+ oMxSgXpORhkL6EiE6ofGde5OC0vJ4w7iBj/lbXJe16tcxsK/rRIGy7++wkxcGaYGnqurMZ/qTHJ
+ n1Ini6oKOALwIuaQ=
+X-Received: by 2002:a5d:4a4c:0:b0:2d0:cf21:a40e with SMTP id
+ v12-20020a5d4a4c000000b002d0cf21a40emr360856wrs.30.1678870607840; 
+ Wed, 15 Mar 2023 01:56:47 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+gBl8ZdF8B+sBHn+oEK+S4yfMDaOIUPl31QX0YOAVdoVHFZPz26peuCRErHndPUGl/fgUWqw==
+X-Received: by 2002:a5d:4a4c:0:b0:2d0:cf21:a40e with SMTP id
+ v12-20020a5d4a4c000000b002d0cf21a40emr360841wrs.30.1678870607513; 
+ Wed, 15 Mar 2023 01:56:47 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:2f00:2038:213d:e59f:7d44?
+ (p200300cbc7022f002038213de59f7d44.dip0.t-ipconnect.de.
+ [2003:cb:c702:2f00:2038:213d:e59f:7d44])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020a5d5485000000b002c5a1bd5280sm4007762wrv.95.2023.03.15.01.56.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Mar 2023 01:56:47 -0700 (PDT)
+Message-ID: <10aa9232-4092-f8a0-811f-0b5f67fd9f48@redhat.com>
+Date: Wed, 15 Mar 2023 09:56:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2] vl: defuse PID file path resolve error
-From: Fiona Ebner <f.ebner@proxmox.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com
-Cc: hreitz@redhat.com, t.lamprecht@proxmox.com, d.csapak@proxmox.com,
- berrange@redhat.com
-References: <20221031094716.39786-1-f.ebner@proxmox.com>
- <d4384eef-f55b-8ca8-9aeb-5ff77ceae8c2@proxmox.com>
+Subject: Re: [PATCH v2 1/3] target/s390x: Fix LPSW
 Content-Language: en-US
-In-Reply-To: <d4384eef-f55b-8ca8-9aeb-5ff77ceae8c2@proxmox.com>
-Content-Type: text/plain; charset=UTF-8
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+References: <20230315020408.384766-1-iii@linux.ibm.com>
+ <20230315020408.384766-2-iii@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230315020408.384766-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,58 +107,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 24.01.23 um 14:55 schrieb Fiona Ebner:
-> Am 31.10.22 um 10:47 schrieb Fiona Ebner:
->> Commit 85c4bf8aa6 ("vl: Unlink absolute PID file path") introduced a
->> critical error when the PID file path cannot be resolved. Before this
->> commit, it was possible to invoke QEMU when the PID file was a file
->> created with mkstemp that was already unlinked at the time of the
->> invocation. There might be other similar scenarios.
->>
->> It should not be a critical error when the PID file unlink notifier
->> can't be registered, because the path can't be resolved. If the file
->> is already gone from QEMU's perspective, silently ignore the error.
->> Otherwise, only print a warning.
->>
->> Fixes: 85c4bf8aa6 ("vl: Unlink absolute PID file path")
->> Reported-by: Dominik Csapak <d.csapak@proxmox.com>
->> Suggested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
->> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
->> ---
->>
->> v1 -> v2:
->>     * Ignore error if errno == ENOENT.
->>
->>  softmmu/vl.c | 9 +++++----
->>  1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index b464da25bc..cf2c591ba5 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -2432,10 +2432,11 @@ static void qemu_maybe_daemonize(const char *pid_file)
->>  
->>          pid_file_realpath = g_malloc0(PATH_MAX);
->>          if (!realpath(pid_file, pid_file_realpath)) {
->> -            error_report("cannot resolve PID file path: %s: %s",
->> -                         pid_file, strerror(errno));
->> -            unlink(pid_file);
->> -            exit(1);
->> +            if (errno != ENOENT) {
->> +                warn_report("not removing PID file on exit: cannot resolve PID "
->> +                            "file path: %s: %s", pid_file, strerror(errno));
->> +            }
->> +            return;
->>          }
->>  
->>          qemu_unlink_pidfile_notifier = (struct UnlinkPidfileNotifier) {
+On 15.03.23 03:04, Ilya Leoshkevich wrote:
+> Currently LPSW does not invert the mask bit 12 and incorrectly copies
+> the BA bit into the address.
 > 
-> Ping
+> Fix by generating code similar to what s390_cpu_load_normal() does.
 > 
+> Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+> Co-developed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
 
-Ping again. While it's not a critical patch, it's also not a big one :)
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Best Regards,
-Fiona
+-- 
+Thanks,
+
+David / dhildenb
 
 
