@@ -2,79 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB666BC0B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 00:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BE26BC0DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 00:28:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcaKj-00057s-NJ; Wed, 15 Mar 2023 19:15:01 -0400
+	id 1pcaW2-0007Yq-Lz; Wed, 15 Mar 2023 19:26:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmitry.osipenko@collabora.com>)
- id 1pcaKg-00057M-CS
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 19:14:58 -0400
-Received: from madras.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e5ab])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pcaW0-0007Y6-6S; Wed, 15 Mar 2023 19:26:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmitry.osipenko@collabora.com>)
- id 1pcaKd-0003HD-OA
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 19:14:57 -0400
-Received: from [192.168.2.157] (109-252-120-116.nat.spd-mgts.ru
- [109.252.120.116])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6C7566602097;
- Wed, 15 Mar 2023 23:14:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678922091;
- bh=kfbQvx/fSEJBURTbw+/HXV8hkAheOenZMDFc7GsHgaA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TAsmnXa90YaFQQOG4k9koeZ3LR5Ie8vvLmANBMhpXuM5wFSm6KGVPa9zHNsMQio5n
- 2LEwXOACKu0vD0XTtAQO6eoQtlNKJRfhDF55FomfLvig1hogjFctUD6zx2C2uFTZB2
- gvbJx0psCt0B90Hc3ndt3flaGdSuArzw3zHap1uh68BuOi1hv6sQNaF1B/a3liZlJN
- EBgG2wI2C0XhYJF6Yru7DMurnjQGGyk6lwrFAMXEZhbI0euGu4GCdTOHrlT65p7ODh
- FMk1ayFUiLtKkwepYML19bsKMB3qJM+qGMYBSJITCA+LrFvkaJYecxmBC3fJ/sHjdp
- 0IaLGcZuFqWmg==
-Message-ID: <53c25304-bc30-b5af-846e-b247aab67be9@collabora.com>
-Date: Thu, 16 Mar 2023 02:14:47 +0300
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pcaVw-0006d6-Av; Wed, 15 Mar 2023 19:26:39 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32FMWLeb018587; Wed, 15 Mar 2023 23:26:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=liKYsTOzFZJjv4A2fItSVwEEFMIqUKEcPfXgb8tfRts=;
+ b=alwm/B/w//SXVhIQL4SzY/mic8UHKWkizcvS665AbP285TSjHHSvQxwsTbXfi9g5I7fW
+ uvuW5p4jV71ZiTSv98/v/cPtUUn2cCwkQ2Y2cYtvTcHPAQ67tn47STD93bUt7wNJQBjM
+ EsWjYe5ghZ3fhk47MsD0zrjuJEuJRBJWdw/IVU3bvxlfdeM+pZMKD6+Ef5ipR3FgXax6
+ LTFdjqrRPCGLvR4CHM8qit7YyAH+rT3toQVtP8Nvf+5NQTIkCp4KnYbnW8SFySrFeaec
+ b52pjiaYt5Wu9iztFtuFypJleH0d8a5uNsJcqQCoo/Uo4CsJhHsuAezvuAqr6OxJ5huh qA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpwarx5q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 23:26:32 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32FNQW9g009077;
+ Wed, 15 Mar 2023 23:26:32 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpwarx5a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 23:26:31 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FLtmIa019121;
+ Wed, 15 Mar 2023 23:26:29 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pbpbq025c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 23:26:29 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32FNQRDR42074796
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Mar 2023 23:26:27 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4AE782004B;
+ Wed, 15 Mar 2023 23:26:27 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 98D1C20040;
+ Wed, 15 Mar 2023 23:26:26 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.19.28])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Mar 2023 23:26:26 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v3 00/12] target/s390x: Handle unaligned accesses
+Date: Thu, 16 Mar 2023 00:26:12 +0100
+Message-Id: <20230315232624.107329-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XPsZJV5y0bWPtOS66m8g9O9omSFk_XSD
+X-Proofpoint-GUID: zf-kyTFJyF9GBmZCvpZbc5QSqzvFPf3Y
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC QEMU PATCH 08/18] virtio-gpu: Initialize Venus
-Content-Language: en-US
-To: Huang Rui <ray.huang@amd.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin"
- <mst@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
- Jan Beulich <jbeulich@suse.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Robert Beckett <bob.beckett@collabora.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Hildebrand, Stewart" <Stewart.Hildebrand@amd.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>,
- "Huang, Honglei1" <Honglei1.Huang@amd.com>,
- "Zhang, Julia" <Julia.Zhang@amd.com>, "Chen, Jiqian" <Jiqian.Chen@amd.com>
-References: <20230312092244.451465-1-ray.huang@amd.com>
- <20230312092244.451465-9-ray.huang@amd.com>
- <68195782-0309-2f81-7f1f-84a7fe7bb05c@collabora.com>
- <ZA9HWRYxPUk1OeGe@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <ZA9HWRYxPUk1OeGe@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
- envelope-from=dmitry.osipenko@collabora.com; helo=madras.collabora.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ phishscore=0 impostorscore=0 bulkscore=0 malwarescore=0 mlxlogscore=924
+ spamscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303150188
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,55 +109,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/13/23 18:55, Huang Rui wrote:
-> On Mon, Mar 13, 2023 at 01:51:03AM +0800, Dmitry Osipenko wrote:
->> On 3/12/23 12:22, Huang Rui wrote:
->>> From: Antonio Caggiano <antonio.caggiano@collabora.com>
->>>
->>> Request Venus when initializing VirGL.
->>>
->>> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
->>> ---
->>>  hw/display/virtio-gpu-virgl.c | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
->>> index fe03dc916f..f5ce206b93 100644
->>> --- a/hw/display/virtio-gpu-virgl.c
->>> +++ b/hw/display/virtio-gpu-virgl.c
->>> @@ -803,7 +803,11 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
->>>  {
->>>      int ret;
->>>  
->>> +#ifdef VIRGL_RENDERER_VENUS
->>> +    ret = virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_gpu_3d_cbs);
->>> +#else
->>>      ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
->>> +#endif
->>
->> Note that Venus now requires VIRGL_RENDERER_RENDER_SERVER flag to be
->> set. Please test the patches with the latest virglrenderer and etc.
->>
->> The #ifdef also doesn't allow adding new flags, it should look like:
->>
->> #ifdef VIRGL_RENDERER_VENUS
->>     flags |= VIRGL_RENDERER_RENDER_SERVER;
->> #endif
->>
->>     ret = virgl_renderer_init(g, flags, &virtio_gpu_3d_cbs);
-> 
-> In fact, we have rebased to the latest virglrenderer:
-> 
-> We check both VIRGL_RENDERER_RENDER_SERVER or VIRGL_RENDERER_VENUS in
-> virglrenderer, alternative of them works.
-> 
-> https://gitlab.freedesktop.org/rui/virglrenderer/-/commit/c1322a8a84379b1ef7939f56c6761b0114716f45
+v2: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04231.html
+v2 -> v3: Fix clang build (Thomas).
 
-All the extra changes you made to virglrenderer that Qemu depends on
-need to go upstream. Please open all the relevant merge requests. Thanks!
+v1: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg03821.html
+v1 -> v2: Use MO_ALIGN (Richard).
+
+Patches that need review:
+- [PATCH 12/12] tests/tcg/s390x: Test unaligned accesses
+
+Hi,
+
+This series makes accessing unaligned addresses with branching, LPSWE,
+EXECUTE and relative long instructions fail with a specification
+exception instead of succeeding.
+
+Patches 1-10 are fixes, patch 11 adjusts a comment to reflect a change
+done by fixes, patch 12 adds a number of softmmu and user tests.
+
+Best regards,
+Ilya
+
+Ilya Leoshkevich (12):
+  target/s390x: Handle branching to odd addresses
+  target/s390x: Handle EXECUTE of odd addresses
+  target/s390x: Handle LGRL from non-aligned addresses
+  target/s390x: Handle LRL and LGFRL from non-aligned addresses
+  target/s390x: Handle LLGFRL from non-aligned addresses
+  target/s390x: Handle CRL and CGFRL with non-aligned addresses
+  target/s390x: Handle CGRL and CLGRL with non-aligned addresses
+  target/s390x: Handle CLRL and CLGFRL with non-aligned addresses
+  target/s390x: Handle STRL to non-aligned addresses
+  target/s390x: Handle STGRL to non-aligned addresses
+  target/s390x: Update do_unaligned_access() comment
+  tests/tcg/s390x: Test unaligned accesses
+
+ target/s390x/cpu.h                      |  9 +++
+ target/s390x/tcg/excp_helper.c          |  4 +-
+ target/s390x/tcg/insn-data.h.inc        | 46 ++++++-------
+ target/s390x/tcg/mem_helper.c           | 12 +++-
+ target/s390x/tcg/translate.c            | 24 ++++---
+ tests/tcg/s390x/Makefile.softmmu-target |  4 +-
+ tests/tcg/s390x/Makefile.target         |  3 +
+ tests/tcg/s390x/asm-const.h             | 13 ++++
+ tests/tcg/s390x/br-odd.S                | 18 +++++
+ tests/tcg/s390x/cgrl-unaligned.S        | 17 +++++
+ tests/tcg/s390x/clrl-unaligned.S        | 15 +++++
+ tests/tcg/s390x/crl-unaligned.S         | 17 +++++
+ tests/tcg/s390x/ex-odd.S                | 17 +++++
+ tests/tcg/s390x/lgrl-unaligned.S        | 17 +++++
+ tests/tcg/s390x/llgfrl-unaligned.S      | 17 +++++
+ tests/tcg/s390x/lpswe-unaligned.S       | 17 +++++
+ tests/tcg/s390x/lrl-unaligned.S         | 17 +++++
+ tests/tcg/s390x/pgm-specification.inc   | 90 +++++++++++++++++++++++++
+ tests/tcg/s390x/pgm-specification.mak   | 15 +++++
+ tests/tcg/s390x/stgrl-unaligned.S       | 17 +++++
+ tests/tcg/s390x/strl-unaligned.S        | 17 +++++
+ 21 files changed, 370 insertions(+), 36 deletions(-)
+ create mode 100644 tests/tcg/s390x/asm-const.h
+ create mode 100644 tests/tcg/s390x/br-odd.S
+ create mode 100644 tests/tcg/s390x/cgrl-unaligned.S
+ create mode 100644 tests/tcg/s390x/clrl-unaligned.S
+ create mode 100644 tests/tcg/s390x/crl-unaligned.S
+ create mode 100644 tests/tcg/s390x/ex-odd.S
+ create mode 100644 tests/tcg/s390x/lgrl-unaligned.S
+ create mode 100644 tests/tcg/s390x/llgfrl-unaligned.S
+ create mode 100644 tests/tcg/s390x/lpswe-unaligned.S
+ create mode 100644 tests/tcg/s390x/lrl-unaligned.S
+ create mode 100644 tests/tcg/s390x/pgm-specification.inc
+ create mode 100644 tests/tcg/s390x/pgm-specification.mak
+ create mode 100644 tests/tcg/s390x/stgrl-unaligned.S
+ create mode 100644 tests/tcg/s390x/strl-unaligned.S
 
 -- 
-Best regards,
-Dmitry
+2.39.2
 
 
