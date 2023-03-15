@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B576BBA10
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 17:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25EB6BBA17
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 17:43:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcUCU-0000cM-4t; Wed, 15 Mar 2023 12:42:06 -0400
+	id 1pcUDh-0001fk-Co; Wed, 15 Mar 2023 12:43:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pcUCS-0000ad-DF
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:42:04 -0400
-Received: from mout.kundenserver.de ([212.227.126.130])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pcUCQ-0007Yi-PI
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:42:04 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M2NqA-1pgLHc08OU-003wjw; Wed, 15 Mar 2023 17:41:58 +0100
-Message-ID: <a427c95b-277e-2ade-bf1a-b94f30cefa32@vivier.eu>
-Date: Wed, 15 Mar 2023 17:41:57 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUDc-0001fP-U2
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:43:16 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcUDb-0007ql-F7
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 12:43:16 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ l7-20020a05600c1d0700b003eb5e6d906bso1684565wms.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 09:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678898593;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ApbcRmhUAIv76FZM20cBwdZF7oN3DSBff64qTgmRKcQ=;
+ b=EzoG2bB+VkiRdlGpAVYhAviXdO1l31KqnfRBeAVs7hdVOs4yJoxYX8IQQm7O5ZwfKo
+ vZiMCtPQqBldi/eQfdmi99sPpdvDQCpMFrqLas5oY9X/BtQMuGHv35LJ3JCJK2iZpph9
+ RhdzC1hQYrxAuHUqhBKXKqx+sbhtJgY1EQDjyu+MVZYSa3sdYMo/Yy0RUjlqxQPIa1ys
+ dbJswwtVK4Yvn8qpzt2Q4L7IH2bKWRk8habYWZsn+Ub8i73XrnODadJDftHaqmexhCsP
+ 7V2zKQz8Sc8sgkshhaXrUwEC/2UBYMDmqngsO4dodTGcFKTNufn65h0jo6+C2cHJdYtg
+ /Wfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678898593;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ApbcRmhUAIv76FZM20cBwdZF7oN3DSBff64qTgmRKcQ=;
+ b=DHZjTMh6IwjNPorU0qoGVtSTrEb46D7P6Go8vd4lnpmS0X+HR0Lv0qzNbvCnXYo917
+ hXWQO3gZM4rwsW28N8EcEsL8GYQfSPqcp8QRYTx+FYw2LxZ/c0bYcxNZtOYJEPC0CcAe
+ JRv+CJ//Dfl8a/X9EPZY/hyXaKKDZ0/+WbDN6XzgBe2HhEjUIFu7nZlwQAAUuBDVhilw
+ HYv7xKzJCt9QlaTuXQc4SOcfqU9nbc0dcrt26ZjMxGyG149C/BfDVbmHH2tFttn78Pp+
+ uymDqsFoF4DoTgWPDzZoI29QGGp/xPY2mBWtLB8j4pUvefToR10NkYsltg6SqeV+ePMF
+ dogg==
+X-Gm-Message-State: AO0yUKVSsd+Pnz2gexgh+IGny3JcWvphofvB3IWEkGtna/TTgkLXl2QA
+ XZJpn1sIYrts5UFuOaNx1GwbFCiOxta/EJ0CTaZvRA==
+X-Google-Smtp-Source: AK7set96SSyibIebeaNzv+VAbw6KncJkWf8bvegDQEDvan9YLPruwkDQSCPGgHRusmUD1/6/oHO1Cg==
+X-Received: by 2002:a05:600c:3d88:b0:3eb:33fb:9dcf with SMTP id
+ bi8-20020a05600c3d8800b003eb33fb9dcfmr19605579wmb.5.1678898593595; 
+ Wed, 15 Mar 2023 09:43:13 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ d10-20020adffd8a000000b002c705058773sm5061620wrr.74.2023.03.15.09.43.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Mar 2023 09:43:13 -0700 (PDT)
+Message-ID: <c0dc065d-6d9f-dd1a-edc2-752d35200671@linaro.org>
+Date: Wed, 15 Mar 2023 17:43:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/2] target/m68k: Reject immediate as destination in
- gen_ea_mode
-Content-Language: fr
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 29/30] tcg/i386: Add vex_v argument to
+ tcg_out_vex_modrm_pool
+Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230309201604.3885359-1-richard.henderson@linaro.org>
- <20230309201604.3885359-2-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230309201604.3885359-2-richard.henderson@linaro.org>
+References: <20230216025739.1211680-1-richard.henderson@linaro.org>
+ <20230216025739.1211680-30-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230216025739.1211680-30-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iwOBqqTkkWkBRZjjMtthVItfwF3JupezGfCwM8cNAFH9VOKx8AN
- KOcxRS368x98qTopB9mzNa3F0WAuk5iUDvgPEzF6MPeNih2AjD6vO2tQNYQtq7jIOKXEw7+
- JGpUiEZUZea24VeMSiND3g6OgcSVFB0jonNJnQcgbFXnwx19esI63j31mRjUEuBLt5KgPCR
- o7fDry5weVcDoFaSjhmFA==
-UI-OutboundReport: notjunk:1;M01:P0:Vf3lGe9krhY=;utTGDSsWpN7aMcoyrY+vVlrcsKD
- zeFwrq39t48bAnKQ0wb/QYqGlVHkdFMWcHl4StXeZ/S41+W5kMoTyn6Rrx9DnZ5UXQ0QiyBV4
- C1toW2z2QsUi5mK4dl23n4oOWCDi9cseI5uhxsGrpazeNK7s04nZmrw1syozac1rprEaTa+qs
- 8ErWtYxZFB61dMQjVwOjy1A9eeGuM0PBBRESef0amn5afBpp3ywZ8pSLhBmyTmMReZSwmVm/a
- oCkmh+lKl7F/IZo34NBLzTkflDKhGV+LeR1EY9wGYJZgiiYdfb91jyoQifg3sIVOAiTg35sxh
- eTAmliCk+lgIwGm/Wxc06c6f4MtZMB1u+pdkLO/ZuojFnVAZtpdL6vQ/Xso7htYbTXgEPeBFL
- n848jW411MfsaKyOCRknviRVv80N7Nj5a0tE9BcK8U8NYolSOj9e3Zdag0ncrFgRSFNrQk0x7
- nqgMxogI5jm06xwy22AHYJjXeU2TG/33btgIBHWyCoouEqHLg+qL6zbx1C4iJEVefichI+TRp
- ALhpDxjMIvi9dL2VDiLGY0K9xumjleMW1GjJhPliol00K06YcXuWWKIZR9stTDe19NZTcGk1q
- Dd/ZePLSmbF1JvmQ/9oYpiwndfMnA/6G6NzsBzRjWgUtdeIUqePg2x2Bo8hs9lN+Gj3jevsbv
- PRiqd0dGVrFFO9SV8RabbUt3cH+/T75IugEpQiD8tA==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,33 +92,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 09/03/2023 à 21:16, Richard Henderson a écrit :
-> In theory this should never happen, as all such instructions
-> are illegal.  This is checked in e.g. gen_lea_mode and
-> gen_ea_mode_fp but not here.  In case something higher up
-> isn't checking modes properly, return NULL_QREG.  This will
-> result in an illegal instruction exception being raised.
-> 
+On 16/2/23 03:57, Richard Henderson wrote:
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/m68k/translate.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index 422f4652f1..e16c608ef8 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -894,6 +894,10 @@ static TCGv gen_ea_mode(CPUM68KState *env, DisasContext *s, int mode, int reg0,
->           case 3: /* pc index+displacement.  */
->               goto do_indirect;
->           case 4: /* Immediate.  */
-> +            /* Should never be used for an output or RMW input. */
-> +            if (what == EA_STORE || addrp) {
-> +                return NULL_QREG;
-> +            }
->               /* Sign extend values for consistency.  */
->               switch (opsize) {
->               case OS_BYTE:
+>   tcg/i386/tcg-target.c.inc | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
