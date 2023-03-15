@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AE56BBB98
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 19:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7EE6BBB45
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:48:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVPM-0005mH-Nj; Wed, 15 Mar 2023 13:59:28 -0400
+	id 1pcVAo-0002wa-6s; Wed, 15 Mar 2023 13:44:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVPI-0005lt-Hu
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:59:24 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1pcVAb-0002Xb-U1
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:44:13 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVPG-0004B5-Aa
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:59:23 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- c8-20020a05600c0ac800b003ed2f97a63eso1600411wmr.3
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:59:21 -0700 (PDT)
+ id 1pcVAE-0000dO-QR
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:44:12 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id q16so18065848wrw.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678903160;
+ d=linaro.org; s=google; t=1678902230;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UdK4L7buRJRBhWENt6vEwjRP9U71/totQZg0N/PH0dY=;
- b=WfOmM7Pmqts8fO7pZEN4UjzlRO6WiUa6G4uOEWiBLr8cfUVMXdV80VYlYbohHUPOAB
- CdkeXPU0/cAeYi0S8fLOeCtDY68+LpcAYRA3Cggm6798NgIBjmxQQrPdf5wLV5v2oxZo
- S3TLlhCvGmC6K0kZM5X9DgypJ8EwgBciy69riFL4SZ2zHvY4guRshb0x5EAdHfonyUpp
- b/VrsSJ3ZPxtIlTvD1ejvzCjej/h0y6Xz/2TtkkrqHo5NcL62/P8nJBmhAb1LmCej27o
- Pzp9ePLOiRX+cTDne9OjTkN767wM3QBkQQvM+CJU7KUJ4mQVOycniOj36vtEB7bD+7CW
- ZQew==
+ bh=25098w81ZdJk4QE1ACGYU4dK9BpaVvc0WWo+YnpOAf4=;
+ b=P6dH6tvUd5JoqkM0dgrAaQ4Aq6b+lqgKbbGepq37H7nEO3POTkztFiAOEpjBKIuy1g
+ p1rH41NxyM9coPshGwHKl+TvTZsYuw6LzQYJuk1szpwCg0KNpRseNbTaXbt49hRLCR3X
+ AoLL3aVCIQmTRYOvWiycdhvC6806+SxPk8GIpbLdj95N0Ft1XQEUg+4dZPa4OVvzW8gL
+ 0Lj3s5YAvBNSFwQduhDQRKzKO9czvZC9sQpRHZ1NW1KyEf8n46pUPSOT8H0oU07usT19
+ kJtT8O9tgPgLhTuMgZj8OIzqPeyiGs1LuETQ+k/oxQqf9EQO2ICsG3IR2n3saNIRS4z7
+ N/lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678903160;
+ d=1e100.net; s=20210112; t=1678902230;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UdK4L7buRJRBhWENt6vEwjRP9U71/totQZg0N/PH0dY=;
- b=liacEEnsDIqVHu7jo8rAoyhKvbyDSQO0P6jZ08ieoRy77iLX85KhL44BPdYoirey8m
- kSIPg6U9kb5W1pwPV7sH/MoB1ThK/X8E4m5I/xJkfYmI7krsWfo1Hdu3V2vzTDyE+hFt
- 9phX4xXxuySw4OcSp1ngk60oD/oKuHBE5b/Wx6GFNqK60e75wZEBw5tadvxnO36JsmOn
- cjuP/PeCOmznDyJAq1Ot0ZVU6QhSdbSXyO81VSmHXbSZ3Qo29DL/kGznf8mIChzLbxWe
- N6ptEDwNAEu+Sflh308+9eK0CQtAy89sDgZJe8foR23/XyNFCZ/iTTxz3wWkWCp5wEeJ
- uVUw==
-X-Gm-Message-State: AO0yUKWocLi0eHgMSt2qgkLMLt9NOUCmMhidzArB0CxhDlEJc5pHTcZM
- 2EKPwMTnOuq+ziQkhgjqZbK2GA==
-X-Google-Smtp-Source: AK7set+9OzK5yNsExZae8z8rXhOX3AKBlkokIMl0uh6319WCOm8yvPXFNP/inALuD9U7quP1gYpp2g==
-X-Received: by 2002:a05:600c:450d:b0:3ed:314a:326c with SMTP id
- t13-20020a05600c450d00b003ed314a326cmr3501284wmo.11.1678903160398; 
- Wed, 15 Mar 2023 10:59:20 -0700 (PDT)
+ bh=25098w81ZdJk4QE1ACGYU4dK9BpaVvc0WWo+YnpOAf4=;
+ b=hcmbXtBe2NBxCsXjHp56vhbb9cDbT4hbhufUV9dOW/7R11t5l9wMzQGuvmEHFt8ne0
+ hFe3xyuOmDMiPm2csodE47xvGhR3qagNwPhk+OzGhR0MqGyDQ9ZV0ch7AcCr+BBfsub3
+ 8d57jTenFgPW6Z4FKvOGKQ9WEue+KgF02Asy1Vz4jwVrtnLztNdFdjvKRaI6e83NMfWN
+ 0LJLfpo4xvlmk9J3zjC4ctZcJtWchbQtYySVAan6slP36d3NanXuxHwEp37C8EaAwqEi
+ ukr5XyPkRtAvHNSWhrFWXBEazoeLRgG19M1Zg8b4KUj9mNS0uwZDRpWFRI4dkV6Pdc7d
+ xH3Q==
+X-Gm-Message-State: AO0yUKXcAK0V1OUFSKK53M71Z8IDa5V4JYAKVmtFKMAGPH5Ku5wWKeb1
+ 2Q/vDdmMtDC0kGkWkXpheeUMVw==
+X-Google-Smtp-Source: AK7set+F7vBr2fuLeTM+ocjNeJTTbIULQhEsD/SAM7kRDk1HYlrEIn5dP4nPXq/j/DcqvwdnZMEkTw==
+X-Received: by 2002:a5d:6686:0:b0:2cb:3deb:c014 with SMTP id
+ l6-20020a5d6686000000b002cb3debc014mr2630876wru.28.1678902229801; 
+ Wed, 15 Mar 2023 10:43:49 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- l26-20020a05600c2cda00b003dd1bd0b915sm2704802wmc.22.2023.03.15.10.59.20
+ a5-20020a056000100500b002cea299a575sm5090268wrx.101.2023.03.15.10.43.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:59:20 -0700 (PDT)
+ Wed, 15 Mar 2023 10:43:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7E9E11FFD0;
+ by zen.linaroharston (Postfix) with ESMTP id 9B5881FFBE;
  Wed, 15 Mar 2023 17:43:44 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -107,25 +106,28 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 25/32] iotests: remove the check-block.sh script
-Date: Wed, 15 Mar 2023 17:43:24 +0000
-Message-Id: <20230315174331.2959-26-alex.bennee@linaro.org>
+ Steven Lee <steven_lee@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
+ Howard Chiu <howard_chiu@aspeedtech.com>,
+ Jamin Lin <jamin_lin@aspeedtech.com>
+Subject: [PATCH v2 26/32] contrib/gitdm: Add ASPEED Technology to the domain
+ map
+Date: Wed, 15 Mar 2023 17:43:25 +0000
+Message-Id: <20230315174331.2959-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -141,71 +143,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+We have a number of contributors from this domain which is a corporate
+endeavour.
 
-Now that meson directly invokes the individual I/O tests, the
-check-block.sh wrapper script is no longer required.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Hanna Czenczek <hreitz@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230303160727.3977246-9-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Steven Lee <steven_lee@aspeedtech.com>
+Cc: Troy Lee <troy_lee@aspeedtech.com>
+Cc: Howard Chiu <howard_chiu@aspeedtech.com>
+Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+Reviewed-by: Troy Lee <troy_lee@aspeedtech.com>
+Message-Id: <20230310180332.2274827-4-alex.bennee@linaro.org>
 ---
- tests/check-block.sh | 43 -------------------------------------------
- 1 file changed, 43 deletions(-)
- delete mode 100755 tests/check-block.sh
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-deleted file mode 100755
-index 5de2c1ba0b..0000000000
---- a/tests/check-block.sh
-+++ /dev/null
-@@ -1,43 +0,0 @@
--#!/bin/sh
--
--if [ "$#" -eq 0 ]; then
--    echo "Usage: $0 fmt..." >&2
--    exit 99
--fi
--
--# Honor the SPEED environment variable, just like we do it for "meson test"
--format_list="$@"
--if [ "$SPEED" = "slow" ] || [ "$SPEED" = "thorough" ]; then
--    group=
--else
--    group="-g auto"
--fi
--
--skip() {
--    echo "1..0 #SKIP $*"
--    exit 0
--}
--
--if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
--    skip "No qemu-system binary available ==> Not running the qemu-iotests."
--fi
--
--cd tests/qemu-iotests
--
--# QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
--export QEMU_CHECK_BLOCK_AUTO=1
--export PYTHONUTF8=1
--# If make was called with -jN we want to call ./check with -j N. Extract the
--# flag from MAKEFLAGS, so that if it absent (or MAKEFLAGS is not defined), JOBS
--# would be an empty line otherwise JOBS is prepared string of flag with value:
--# "-j N"
--# Note, that the following works even if make was called with "-j N" or even
--# "--jobs N", as all these variants becomes simply "-jN" in MAKEFLAGS variable.
--JOBS=$(echo "$MAKEFLAGS" | sed -n 's/\(^\|.* \)-j\([0-9]\+\)\( .*\|$\)/-j \2/p')
--
--ret=0
--for fmt in $format_list ; do
--    ${PYTHON} ./check $JOBS -tap -$fmt $group || ret=1
--done
--
--exit $ret
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index 8913a886c9..65e40fe8e1 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -5,6 +5,7 @@
+ #
+ 
+ amd.com         AMD
++aspeedtech.com  ASPEED Technology Inc.
+ baidu.com       Baidu
+ bytedance.com   ByteDance
+ cmss.chinamobile.com China Mobile
 -- 
 2.39.2
 
