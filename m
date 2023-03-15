@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEBF6BB56A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 15:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DE16BB5F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 15:28:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcRea-0000je-VZ; Wed, 15 Mar 2023 09:58:56 -0400
+	id 1pcS5X-0007V0-UW; Wed, 15 Mar 2023 10:26:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pcReY-0000j9-0O
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 09:58:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pcReV-0000ax-8X
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 09:58:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678888729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CSkEUSxfg4sKMl1UFuOvOEIBEpo8Qqb/+Z0FDalJY+Q=;
- b=foY1ygXR2tZDi6IIdGbongfSeJoee5ngIp4B4+w86P5FYta50xza84vTJbC4vUYeKbD+6G
- vFLo559bx8cxdj5S04Ayn9YuRYIXyttI2AvKqxSjaLPw+ogDn6RCoY/T8Xkl6ma0/hAgl2
- Lt5SCkus9feX5xJl+Z2SeLOBRR3q6Cc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-qeFtJGnDMSK_FsevJW79Mg-1; Wed, 15 Mar 2023 09:58:47 -0400
-X-MC-Unique: qeFtJGnDMSK_FsevJW79Mg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D902A85A588
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:58:46 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6C6D2166B29;
- Wed, 15 Mar 2023 13:58:45 +0000 (UTC)
-Date: Wed, 15 Mar 2023 09:58:44 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [RFC 1/2] vhost-user: Add interface for virtio-fs migration
-Message-ID: <20230315135844.GC6146@fedora>
-References: <20230313174833.28790-1-hreitz@redhat.com>
- <20230313174833.28790-2-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pcS5V-0007Tk-Ej
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 10:26:45 -0400
+Received: from sonic314-19.consmr.mail.gq1.yahoo.com ([98.137.69.82])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pcS5R-0005jO-RJ
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 10:26:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1678890399; bh=rfRiZAw2pRW0nOWkSbfSm2BhVaykTTOOFvFPq5zktwY=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=q71rQ/cXFgxo8RHPpZcjb1grtVZq/BOTDsh/mxtjlopZ6HV6M0HoKRVHq6Mydt+lPvBDcPDyLr7sffW/wwkX13EpyHHsLbmVV7j4u1+bD4qgnljxvDIQAyAdbBxg26M4S9xfU+qCyO1t2/IXlDGRB4yjdHVAes5+79Ct4GOgfoTqxoabaXD66WxVQp7sVm8cVp0Tf3y8vBAayZYELmqbWRR/3NDVltC82T8a72s7xioT9f9Xdg28kYJoG68Zuuq2jRYZNckjN7rhHmAoiL6JBnat9W1p3J9lfmLop9AU+rwqk39UKFOJ2XbU+pSna5WtjtSwmHnI0jAG/yE02iG8GQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1678890399; bh=vmQ63dyO6yV8ovfwCz9Hvkrh1YckA6rkFM3OUKx63tS=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=tLxyumA7OgEUF4nm6mvPIlyiOL9R9dtmZTUuHCxjX2QfqXgXdNavGYHuTb8+UccSYBS5uJBLRLgQooatmoMso7kM8D3NY8WBRSv/PkWn3dp3oOj8qxOkD73WIzzt5kzejqSIqOHd+Twp+yoOboiGgczf46XnliL5XrLmrb0oq8KflWBhOgMonnKzEy8npLvLxvgDHwWN3GnCQY4uBzibJBfhY1JZJ4awwhRtw96nukGcfP2jZNYPLaWkwO1wJvBaPF/BzCghRA55OMbBLhSBWaL1fh3H2IJaqWgoMyGMOaZ+NbVEgyDMjpPGxmjUc+NOXn8ec9FucaMP6qknXeu7gA==
+X-YMail-OSG: H9HTV68VM1mWHDuOva5.E_PiS7OhkBk8HFQjAyt2FqF_JpGkKpKxgBHrK8wA3gE
+ NDeLbpyEpHdesuIjcICv7yiaC0IXnfmm0K9Fa6J380VJyWW95OxgEXOqbp4rkcdl9eyxS5uc4IbI
+ wN4qAnvAleAAQ4eU_TeFr_AtbOW2deHZcU62sostAm7ygLsi8USWeMnRcT8lehF.g.YWAHheNY60
+ 7fDCqV99v4BHhr0AoFH7Tab9swPj8qs4ApLkg07I4Mhvfkb1mLmsniMp6_apBk1SCALP.RCOytVC
+ 9sm_pj7B6z86nfFzdOsoEZX_5kdqo5c3cNtndSWZRtTA_.YXQH8LZ7Vs365zQTKZxZaElZN0XJOF
+ bgnVlCY3tyahVrx5uWRkWZopkpWgZvJ6rC6HhJTtgc_G7RCj5GsKamXYis0GU824ll2DjJo8_Dip
+ UJ9DjM739Jscu1sUJ4QjMYMiuWn4Ww7BLbIL_xwJL0vcxzPN8yVd6Y8Wn0lS6pg5EwAVCaUz4k6F
+ 2ve.0SUaOl_MxN4_dFeLI6sFBd3n5Bc8u015wpy0dXm8CcUQJSz_9tiWw73xiBUE6dNP91K.yZ2X
+ OqPivY2XNhPP1ZWX5UgeeEHvz7AQOmeJ_7ay_LovtTKgMZwMv_kAnCNb.Su0_l0w6dPFIwVmDSgt
+ yVbYdROTYOsQc._hrVkjkt8gAbD5rH.KXly5Tw1LTX8kXyXmxsVMBRSiftbJy1L6u1wjX._g1xlR
+ WQUK7VkKSrqzo2NnbSZKlSBtQf_SibYHFUVh0g7djZngH3NEHIYi9XOdgSiD6OLircoScBR11VZh
+ ywrSO1QddLgyYhhR1pugUquIOFyuMWhbMGBmdWmL47nuh.AbOYDgg1fNXSMP8.ugkiMP1RsOumv5
+ kxKh277ME1ypp3.pFGLBfrK_RAU6bulOzq3B24zzeA5s_eRgkPICf49PiNOulrfk1QhjWjGPZlpY
+ 13cWsVeHXvAGhVzGgRMUHW3fwCOukU5t9W322QYc7I93UnXMoys0FS9_VhN2E2Vnv.sbHyOymZNW
+ ulVGvXdmUFh50EKyjet3fL47l.99V3d3Qd3qKCUlHkCvDYfp5LQEzzN_nEAHgXJQR80eGPw1Wh_C
+ JmOsJRwl42WdS22lx_b4nEOYzuTrqns6qSULa9GLPg1H8W8B9c67L8DAHZHY3mEAAnoo53AelkKy
+ Mdocv5aHxjjFtpWw5.IKpKP5B0ZWZ.c_EPAdL9NzjlwsDghaU5blw6ES3tgyQzyMa5A4BJRw_6xv
+ yB0YGl1ELtvttAFJXCAYTlAjrEncFc6MZj0JAlmvkLXwKInafgpSbJaqqzcCLZquwhFYDlAewuUc
+ Sn5Pzjusoyy0YeXbCc3NhHZQCLQARy.k9B97XQ_O_jHMhog0z8IH8afNEIoxvjFchkgpm4jO_Tlt
+ Iyg0njsHtoD08n.VRTg0LRNUtIqR54j21BvjbaA5aJARZoA.OyN08Yp4P5R_jC1yZdW7poPHx5By
+ RV5eSI9yU.HionhV6cP6.3B2v0hE3uY2QlGM.wQb473BqeCLYQkXowotu6OLuNI.LEMy.WyKQwHp
+ mrlyxzb44ma3sOtRQc7N3lzC9vAy.WqG.TSiB7a1mcWFnk5LLOIVyF6c1ZagZRWBMA0JPg5Ywm2u
+ 2RGuRTAZ3fd2NAQ_iqT1NnRza6yz51mKR1i1dJHOdhkwpshKnO2h52gNMmSAPjAt8ZbDqC_a9G7j
+ HcZ0_4joEL5TbuYkKWONv5AfkubPlx0T2O_MsYBEMnKZ0d9lPwGiRx0Qi8NmL6117_2mUOUyT6pj
+ kEdZE5keU0enrx00bxq3qF5AizXF6IH44_WpiC8anqCNEFILL9V19gUZ__jQ1WrLswAS_5e9AzvL
+ wNZbxFZ89e8NvfSSfgwf8wvsWv.Q0fYvsOXo9Fd5t5Orl17nsBn0u3r3ED0ilsAtMp2WWZyv2Vv2
+ a.0Vsphfg1A4WHfrfppE7qZU3xHjCiG4XwgAFCFRotkHZtcG4nnQ0LzVx1tXPJ5eO_XfkcqVfLaA
+ MXE6.xH5NJ0uVSmG0mEjloRTLiLGIjIdBfncmqMm1BM45xVJ62BQyyO1oAXqF0XbVKXqOWTpdduN
+ zYrOV3BQhJavSgtGaWnugoiABW9LwxyDr2e9UUq50XyspsEoxhrLF2B8Q.EbjRiK4LaiKfPBqyCp
+ P8eyqKv1fh75.cwl7.UUwKcxveQoZZQDLQGbPlW8bsmdGXT3D0Qh4dH5F4QQGfPwvaXcllxFwETW
+ ybXPG
+X-Sonic-MF: <brchuckz@aim.com>
+X-Sonic-ID: 2f7900fe-8c1b-4398-9021-e97f795513b0
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.gq1.yahoo.com with HTTP; Wed, 15 Mar 2023 14:26:39 +0000
+Received: by hermes--production-bf1-777648578f-gg2qh (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 60044a03c62ff9d9db8c181d26f4f55f; 
+ Wed, 15 Mar 2023 14:26:36 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ xen-devel@lists.xenproject.org
+Subject: [PATCH v4 0/2] pci: slot_reserved_mask improvements
+Date: Wed, 15 Mar 2023 10:26:18 -0400
+Message-Id: <cover.1678888385.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rEz1nTbIy8gh5bi6"
-Content-Disposition: inline
-In-Reply-To: <20230313174833.28790-2-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+References: <cover.1678888385.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.69.82; envelope-from=brchuckz@aim.com;
+ helo=sonic314-19.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,454 +103,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This patch series consists of two patches. The first provides accessor
+functions in pci.h to avoid direct access of slot_reserved_mask
+according to the comment at the top of include/hw/pci/pci_bus.h. No
+functional change is intended with this patch.
 
---rEz1nTbIy8gh5bi6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The second patch replaces slot_reserved_mask with two new masks,
+slot_reserved_auto_mask and slot_reserved_manual_mask so the current
+behavior of reserving slot 2 for the Intel IGD for the xenfv machine
+will be ignored if an administrator manually configures a device to use
+the reserved slot.
 
-On Mon, Mar 13, 2023 at 06:48:32PM +0100, Hanna Czenczek wrote:
-> Add a virtio-fs-specific vhost-user interface to facilitate migrating
-> back-end-internal state.  We plan to migrate the internal state simply
+The current behavior of always reserving slots in the sun4u machine is
+preserved by this patch series; the patch series only changes how
+slot_reserved_mask works in the xenfv machine. Although the patch
+series can affect xenfv machines configured for igd-passthru if an
+administrator assigns some of the pci slot addresses manually, it
+does not affect the libxl default configuration for igd-passthru because
+libxl uses automatic slot assignment by default.
 
-Luckily the interface does not need to be virtiofs-specific since it
-only transfers opaque data. Any stateful device can use this for
-migration. Please make it generic both at the vhost-user protocol
-message level and at the QEMU vhost API level.
+Testing:
+   - Tested xenfv/igd with both manual and auto slot allocation - behaves as expected
+   - Verified that qemu-system-sparc64 still compiles with the patches to sun4u.c
+   - xen4u machine not tested -- Mark, can you do this?
 
-> as a binary blob after the streaming phase, so all we need is a way to
-> transfer such a blob from and to the back-end.  We do so by using a
-> dedicated area of shared memory through which the blob is transferred in
-> chunks.
+Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
 
-Keeping the migration data transfer separate from the vhost-user UNIX
-domain socket is a good idea since the amount of data could be large and
-may congest the UNIX domain socket. The shared memory interface solves
-this.
+Chuck Zmudzinski (2):
+  pci: avoid accessing slot_reserved_mask directly outside of pci.c
+  pci: introduce slot_reserved_auto_mask and slot_reserved_manual_mask
 
-Where I get lost is why it needs to be shared memory instead of simply
-an fd? On the source, the front-end could read the fd until EOF and
-transfer the opaque data. On the destination, the front-end could write
-to the fd and then close it. I think that would be simpler than the
-shared memory interface and could potentially support zero-copy via
-splice(2) (QEMU doesn't need to look at the data being transferred!).
+Changelog
 
-Here is an outline of an fd-based interface:
+v4: I forgot to check the patches in v3 for style corrections (sorry about
+    that), and the second patch had three lines that were too long. Other
+    than correcting the style problems, no changes since v3.
 
-- SET_DEVICE_STATE_FD: The front-end passes a file descriptor for
-  transferring device state.
+v3: Re-work second patch in response to comments/discussion of v2
 
-  The @direction argument:
-  - SAVE: the back-end transfers an outgoing device state over the fd.
-  - LOAD: the back-end transfers an incoming device state over the fd.
+v2: Add first patch and cover letter to make this a 2-patch series
+    Make changes to the second patch (see second patch for changelog)
 
-  The @phase argument:
-  - STOPPED: the device is stopped.
-  - PRE_COPY: reserved for future use.
-  - POST_COPY: reserved for future use.
+ hw/pci/pci.c             | 33 ++++++++++++++++++++++++++++-----
+ hw/sparc64/sun4u.c       |  7 +++----
+ hw/xen/xen_pt.c          |  8 ++++----
+ include/hw/pci/pci.h     |  3 +++
+ include/hw/pci/pci_bus.h |  3 ++-
+ 5 files changed, 40 insertions(+), 14 deletions(-)
 
-  The back-end transfers data over the fd according to @direction and
-  @phase upon receiving the SET_DEVICE_STATE_FD message.
-
-There are loose ends like how the message interacts with the virtqueue
-enabled state, what happens if multiple SET_DEVICE_STATE_FD messages are
-sent, etc. I have ignored them for now.
-
-What I wanted to mention about the fd-based interface is:
-
-- It's just one message. The I/O activity happens via the fd and does
-  not involve GET_STATE/SET_STATE messages over the vhost-user domain
-  socket.
-
-- Buffer management is up to the front-end and back-end implementations
-  and a bit simpler than the shared memory interface.
-
-Did you choose the shared memory approach because it has certain
-advantages?
-
->=20
-> This patch adds the following vhost operations (and implements them for
-> vhost-user):
->=20
-> - FS_SET_STATE_FD: The front-end passes a dedicated shared memory area
->   to the back-end.  This area will be used to transfer state via the
->   other two operations.
->   (After the transfer FS_SET_STATE_FD detaches the shared memory area
->   again.)
->
-> - FS_GET_STATE: The front-end asks the back-end to place a chunk of
->   internal state into the shared memory area.
->=20
-> - FS_SET_STATE: The front-end puts a chunk of internal state into the
->   shared memory area, and asks the back-end to fetch it.
->
-> On the source side, the back-end is expected to serialize its internal
-> state either when FS_SET_STATE_FD is invoked, or when FS_GET_STATE is
-> invoked the first time.  On subsequent FS_GET_STATE calls, it memcpy()s
-> parts of that serialized state into the shared memory area.
->=20
-> On the destination side, the back-end is expected to collect the state
-> blob over all FS_SET_STATE calls, and then deserialize and apply it once
-> FS_SET_STATE_FD detaches the shared memory area.
-
-What is the rationale for waiting to receive the entire incoming state
-before parsing it rather than parsing it in a streaming fashion? Can
-this be left as an implementation detail of the vhost-user back-end so
-that there's freedom in choosing either approach?
-
->=20
-> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
-> ---
->  include/hw/virtio/vhost-backend.h |   9 ++
->  include/hw/virtio/vhost.h         |  68 +++++++++++++++
->  hw/virtio/vhost-user.c            | 138 ++++++++++++++++++++++++++++++
->  hw/virtio/vhost.c                 |  29 +++++++
->  4 files changed, 244 insertions(+)
->=20
-> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-=
-backend.h
-> index ec3fbae58d..fa3bd19386 100644
-> --- a/include/hw/virtio/vhost-backend.h
-> +++ b/include/hw/virtio/vhost-backend.h
-> @@ -42,6 +42,12 @@ typedef int (*vhost_backend_init)(struct vhost_dev *de=
-v, void *opaque,
->  typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
->  typedef int (*vhost_backend_memslots_limit)(struct vhost_dev *dev);
-> =20
-> +typedef ssize_t (*vhost_fs_get_state_op)(struct vhost_dev *dev,
-> +                                         uint64_t state_offset, size_t s=
-ize);
-> +typedef int (*vhost_fs_set_state_op)(struct vhost_dev *dev,
-> +                                     uint64_t state_offset, size_t size);
-> +typedef int (*vhost_fs_set_state_fd_op)(struct vhost_dev *dev, int memfd,
-> +                                        size_t size);
->  typedef int (*vhost_net_set_backend_op)(struct vhost_dev *dev,
->                                  struct vhost_vring_file *file);
->  typedef int (*vhost_net_set_mtu_op)(struct vhost_dev *dev, uint16_t mtu);
-> @@ -138,6 +144,9 @@ typedef struct VhostOps {
->      vhost_backend_init vhost_backend_init;
->      vhost_backend_cleanup vhost_backend_cleanup;
->      vhost_backend_memslots_limit vhost_backend_memslots_limit;
-> +    vhost_fs_get_state_op vhost_fs_get_state;
-> +    vhost_fs_set_state_op vhost_fs_set_state;
-> +    vhost_fs_set_state_fd_op vhost_fs_set_state_fd;
->      vhost_net_set_backend_op vhost_net_set_backend;
->      vhost_net_set_mtu_op vhost_net_set_mtu;
->      vhost_scsi_set_endpoint_op vhost_scsi_set_endpoint;
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index a52f273347..b1ad9785dd 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -336,4 +336,72 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
->                             struct vhost_inflight *inflight);
->  int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
->                             struct vhost_inflight *inflight);
-> +
-> +/**
-> + * vhost_fs_set_state_fd(): Share memory with a virtio-fs vhost
-> + * back-end for transferring internal state for the purpose of
-> + * migration.  Calling this function again will have the back-end
-> + * unregister (free) the previously shared memory area.
-> + *
-> + * @dev: The vhost device
-> + * @memfd: File descriptor associated with the shared memory to share.
-> + *         If negative, no memory area is shared, only releasing the
-> + *         previously shared area, and announcing the end of transfer
-> + *         (which, on the destination side, should lead to the
-> + *         back-end deserializing and applying the received state).
-> + * @size: Size of the shared memory area
-> + *
-> + * Returns 0 on success, and -errno on failure.
-> + */
-> +int vhost_fs_set_state_fd(struct vhost_dev *dev, int memfd, size_t size);
-> +
-> +/**
-> + * vhost_fs_get_state(): Request the virtio-fs vhost back-end to place
-> + * a chunk of migration state into the shared memory area negotiated
-> + * through vhost_fs_set_state_fd().  May only be used for migration,
-> + * and only by the source side.
-> + *
-> + * The back-end-internal migration state is treated as a binary blob,
-> + * which is transferred in chunks to fit into the shared memory area.
-> + *
-> + * @dev: The vhost device
-> + * @state_offset: Offset into the state blob of the first byte to be
-> + *                transferred
-> + * @size: Number of bytes to transfer at most; must not exceed the
-> + *        size of the shared memory area
-> + *
-> + * On success, returns the number of bytes that remain in the full
-> + * state blob from the beginning of this chunk (i.e. the full size of
-> + * the blob, minus @state_offset).  When transferring the final chunk,
-> + * this may be less than @size.  The shared memory will contain the
-> + * requested data, starting at offset 0 into the SHM, and counting
-> + * `MIN(@size, returned value)` bytes.
-> + *
-> + * On failure, returns -errno.
-> + */
-> +ssize_t vhost_fs_get_state(struct vhost_dev *dev, uint64_t state_offset,
-> +                           uint64_t size);
-> +
-> +/**
-> + * vhost_fs_set_state(): Request the virtio-fs vhost back-end to fetch
-> + * a chunk of migration state from the shared memory area negotiated
-> + * through vhost_fs_set_state_fd().  May only be used for migration,
-> + * and only by the destination side.
-> + *
-> + * The back-end-internal migration state is treated as a binary blob,
-> + * which is transferred in chunks to fit into the shared memory area.
-> + *
-> + * The front-end (i.e. the caller) must transfer the whole state to
-> + * the back-end, without holes.
-> + *
-> + * @vdev: the VirtIODevice structure
-> + * @state_offset: Offset into the state blob of the first byte to be
-> + *                transferred
-> + * @size: Length of the chunk to transfer; must not exceed the size of
-> + *        the shared memory area
-> + *
-> + * Returns 0 on success, and -errno on failure.
-> + */
-> +int vhost_fs_set_state(struct vhost_dev *dev, uint64_t state_offset,
-> +                       uint64_t size);
->  #endif
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index e5285df4ba..7fd1fb1ed3 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -130,6 +130,9 @@ typedef enum VhostUserRequest {
->      VHOST_USER_REM_MEM_REG =3D 38,
->      VHOST_USER_SET_STATUS =3D 39,
->      VHOST_USER_GET_STATUS =3D 40,
-> +    VHOST_USER_FS_SET_STATE_FD =3D 41,
-> +    VHOST_USER_FS_GET_STATE =3D 42,
-> +    VHOST_USER_FS_SET_STATE =3D 43,
->      VHOST_USER_MAX
->  } VhostUserRequest;
-> =20
-> @@ -210,6 +213,15 @@ typedef struct {
->      uint32_t size; /* the following payload size */
->  } QEMU_PACKED VhostUserHeader;
-> =20
-> +/*
-> + * Request and reply payloads of VHOST_USER_FS_GET_STATE, and request
-> + * payload of VHOST_USER_FS_SET_STATE.
-> + */
-> +typedef struct VhostUserFsState {
-> +    uint64_t state_offset;
-> +    uint64_t size;
-> +} VhostUserFsState;
-> +
->  typedef union {
->  #define VHOST_USER_VRING_IDX_MASK   (0xff)
->  #define VHOST_USER_VRING_NOFD_MASK  (0x1 << 8)
-> @@ -224,6 +236,7 @@ typedef union {
->          VhostUserCryptoSession session;
->          VhostUserVringArea area;
->          VhostUserInflight inflight;
-> +        VhostUserFsState fs_state;
->  } VhostUserPayload;
-> =20
->  typedef struct VhostUserMsg {
-> @@ -2240,6 +2253,128 @@ static int vhost_user_net_set_mtu(struct vhost_de=
-v *dev, uint16_t mtu)
->      return 0;
->  }
-> =20
-> +static int vhost_user_fs_set_state_fd(struct vhost_dev *dev, int memfd,
-> +                                      size_t size)
-> +{
-> +    int ret;
-> +    bool reply_supported =3D virtio_has_feature(dev->protocol_features,
-> +                                              VHOST_USER_PROTOCOL_F_REPL=
-Y_ACK);
-> +    VhostUserMsg msg =3D {
-> +        .hdr =3D {
-> +            .request =3D VHOST_USER_FS_SET_STATE_FD,
-> +            .flags =3D VHOST_USER_VERSION,
-> +            .size =3D sizeof(msg.payload.u64),
-> +        },
-> +        .payload.u64 =3D size,
-> +    };
-> +
-> +    if (reply_supported) {
-> +        msg.hdr.flags |=3D VHOST_USER_NEED_REPLY_MASK;
-> +    }
-> +
-> +    if (memfd < 0) {
-> +        assert(size =3D=3D 0);
-> +        ret =3D vhost_user_write(dev, &msg, NULL, 0);
-> +    } else {
-> +        ret =3D vhost_user_write(dev, &msg, &memfd, 1);
-> +    }
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    if (reply_supported) {
-> +        return process_message_reply(dev, &msg);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static ssize_t vhost_user_fs_get_state(struct vhost_dev *dev,
-> +                                       uint64_t state_offset,
-> +                                       size_t size)
-> +{
-> +    int ret;
-> +    VhostUserMsg msg =3D {
-> +        .hdr =3D {
-> +            .request =3D VHOST_USER_FS_GET_STATE,
-> +            .flags =3D VHOST_USER_VERSION,
-> +            .size =3D sizeof(msg.payload.fs_state),
-> +        },
-> +        .payload.fs_state =3D {
-> +            .state_offset =3D state_offset,
-> +            .size =3D size,
-> +        },
-> +    };
-> +
-> +    ret =3D vhost_user_write(dev, &msg, NULL, 0);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    ret =3D vhost_user_read(dev, &msg);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    if (msg.hdr.request !=3D VHOST_USER_FS_GET_STATE) {
-> +        error_report("Received unexpected message type: "
-> +                     "Expected %d, received %d",
-> +                     VHOST_USER_FS_GET_STATE, msg.hdr.request);
-> +        return -EPROTO;
-> +    }
-> +
-> +    if (msg.hdr.size !=3D sizeof(VhostUserFsState)) {
-> +        error_report("Received unexpected message length: "
-> +                     "Expected %" PRIu32 ", received %zu",
-> +                     msg.hdr.size, sizeof(VhostUserFsState));
-> +        return -EPROTO;
-> +    }
-> +
-> +    if (msg.payload.fs_state.size > SSIZE_MAX) {
-> +        error_report("Remaining state size returned by back end is too h=
-igh: "
-> +                     "Expected up to %zd, reported %" PRIu64,
-> +                     SSIZE_MAX, msg.payload.fs_state.size);
-> +        return -EPROTO;
-> +    }
-> +
-> +    return msg.payload.fs_state.size;
-> +}
-> +
-> +static int vhost_user_fs_set_state(struct vhost_dev *dev,
-> +                                   uint64_t state_offset,
-> +                                   size_t size)
-> +{
-> +    int ret;
-> +    bool reply_supported =3D virtio_has_feature(dev->protocol_features,
-> +                                              VHOST_USER_PROTOCOL_F_REPL=
-Y_ACK);
-> +    VhostUserMsg msg =3D {
-> +        .hdr =3D {
-> +            .request =3D VHOST_USER_FS_SET_STATE,
-> +            .flags =3D VHOST_USER_VERSION,
-> +            .size =3D sizeof(msg.payload.fs_state),
-> +        },
-> +        .payload.fs_state =3D {
-> +            .state_offset =3D state_offset,
-> +            .size =3D size,
-> +        },
-> +    };
-> +
-> +    if (reply_supported) {
-> +        msg.hdr.flags |=3D VHOST_USER_NEED_REPLY_MASK;
-> +    }
-> +
-> +    ret =3D vhost_user_write(dev, &msg, NULL, 0);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    if (reply_supported) {
-> +        return process_message_reply(dev, &msg);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static int vhost_user_send_device_iotlb_msg(struct vhost_dev *dev,
->                                              struct vhost_iotlb_msg *imsg)
->  {
-> @@ -2716,4 +2851,7 @@ const VhostOps user_ops =3D {
->          .vhost_get_inflight_fd =3D vhost_user_get_inflight_fd,
->          .vhost_set_inflight_fd =3D vhost_user_set_inflight_fd,
->          .vhost_dev_start =3D vhost_user_dev_start,
-> +        .vhost_fs_set_state_fd =3D vhost_user_fs_set_state_fd,
-> +        .vhost_fs_get_state =3D vhost_user_fs_get_state,
-> +        .vhost_fs_set_state =3D vhost_user_fs_set_state,
->  };
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index a266396576..ef8252c90e 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -2075,3 +2075,32 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
-> =20
->      return -ENOSYS;
->  }
-> +
-> +int vhost_fs_set_state_fd(struct vhost_dev *dev, int memfd, size_t size)
-> +{
-> +    if (dev->vhost_ops->vhost_fs_set_state_fd) {
-> +        return dev->vhost_ops->vhost_fs_set_state_fd(dev, memfd, size);
-> +    }
-> +
-> +    return -ENOSYS;
-> +}
-> +
-> +ssize_t vhost_fs_get_state(struct vhost_dev *dev, uint64_t state_offset,
-> +                           uint64_t size)
-> +{
-> +    if (dev->vhost_ops->vhost_fs_get_state) {
-> +        return dev->vhost_ops->vhost_fs_get_state(dev, state_offset, siz=
-e);
-> +    }
-> +
-> +    return -ENOSYS;
-> +}
-> +
-> +int vhost_fs_set_state(struct vhost_dev *dev, uint64_t state_offset,
-> +                       uint64_t size)
-> +{
-> +    if (dev->vhost_ops->vhost_fs_set_state) {
-> +        return dev->vhost_ops->vhost_fs_set_state(dev, state_offset, siz=
-e);
-> +    }
-> +
-> +    return -ENOSYS;
-> +}
-> --=20
-> 2.39.1
->=20
-
---rEz1nTbIy8gh5bi6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQRzxQACgkQnKSrs4Gr
-c8gMEwgAkNDSusG/t5RLKkB466XFr2pZ5TEQ/cU+MLhgPfJxFYOP0+vVRIExxDoL
-Y0ny7Yie5bxIUyVTq60lBibQsM5b/pBMxax8NT85yuHjV6yY0+V73RX76ChtsHKX
-pvmGWpDY2g9shSgCZoQ6DayIPgVfsbefyT8Ykw4jFewSofxl0VVLxidJz5lg+DMU
-ZoAuqYs95hI6u0b/G0OQ8nAntR37SMUFWRGbwUfpjbU4TW7sW0XdLk5Av1hn25q1
-cmwGhYSMurJENUyETdEpMuJjTJS0x96F67k7hkM/aiYbc/IddJ1LaAbkmpzKCjzw
-K60TnOkn240sZ8CaqPepBrte4YspsQ==
-=OMUf
------END PGP SIGNATURE-----
-
---rEz1nTbIy8gh5bi6--
+-- 
+2.39.2
 
 
