@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D626BBB62
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924496BBB65
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:51:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVAI-0002Ea-IH; Wed, 15 Mar 2023 13:43:54 -0400
+	id 1pcVGe-0005SL-Jj; Wed, 15 Mar 2023 13:50:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVAG-0002C0-1X
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:52 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pcVFx-0002SI-33
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:48 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVA2-0000eD-H8
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:51 -0400
-Received: by mail-wm1-x329.google.com with SMTP id bi20so3207278wmb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:37 -0700 (PDT)
+ id 1pcVFf-0002Cf-IG
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:44 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ bh21-20020a05600c3d1500b003ed1ff06fb0so1829515wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902216;
+ d=linaro.org; s=google; t=1678902566;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OrymPH9qdF1LbwV8gLjsNCVK43k9DRaIqJfuQ5UvnQo=;
- b=r+XcLhj4ZE5rQGq6TiYnDWjpokJc5T9W32j4/kKFwhSfOdQhQs85QNp+z1OW/mV6c1
- 23pd5GyiofG86rXDn+2ZVEXAThoXtwOo+S4Gn0DbHbWTRw1MWbc1CGSiycOeoC08THmH
- vOSC2gAb/qsHJX7zqj2iGTypfu5ymeVlHFcTd+8HoQJ1qnGvwrcmd2/uk9E635HUG7+p
- yPH97ygrfvVx2OIpPyaXpx7uYS2+d3rnIoCQIaLCGeOmnSlOrBdf645qkof5JABSK8ff
- 7OIYUOSz6b0S4LbhGngax7H6ZcB6VC86MJAtQQm6BmsO3qqFG9u7O177mMIPOtkMDWXT
- ZBXQ==
+ bh=YPoCJ+dE6YMmOqr0FAgUbXJaGmEIUyPWQuUb/ZSLc9g=;
+ b=BfmwHE0fBiOoZvl8esaX6Xv+suz6Sf4emTiaq+g2mYKBdiKauqOstnwS8MlSsjdw8B
+ uvR3/L1cO1b9BxqE8LmeN9YfMSahaceNoohIaAqV7YmyUl5Na9nm8Pr8BBxLx5c1bEml
+ 6sWHnUdXX9SuYlnWPqEpALi3UXbN1fzv6ZBXcKik4tiTVu6swn/aT6kndHvGY076jt5w
+ ugpEe0VjoNev40v+HI8HEyFiTEJH6hgJqPkLHXodjRyG6o/F9yWhYQnj1KqIGSAMcw41
+ ts3AUeMsUIxMD9zh2hS/4oqZrf9f0G+hO32UdjtF4zfRze7lwdWb72cmPFZMhX+zlg9D
+ 3BSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902216;
+ d=1e100.net; s=20210112; t=1678902566;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OrymPH9qdF1LbwV8gLjsNCVK43k9DRaIqJfuQ5UvnQo=;
- b=s7k9l+jGRMdvZ7+ZoTFBwuR/9Esaf4V2L5ODHn+mO60R9bLx85SpVIAFeIn33dP6+I
- 9UJ+D9C+7t9JDMCdC/iIYM/EnVk4NAP15r5m4ozy9hR1nGXwXKtV24lN5ZoOqPlD5hgj
- AD/dEjrd50FPG5qgYwzdkNLe28vVGIzpoBA0HXDHf4E/2Le3bP2mw7hl2PZvDP4nRyuT
- Mp99aO40pJMdOPsGGyz5J0lGVJwWP7Lwk4n5nIqFfXDWb9aegYmcszwf0AiuWJcIzQuI
- jt7tdgXFBBLNisYNiiDE8jhez6aknET6WBEPWU/T2NbWex4zNMOrQkJ309+3hbR8eZSI
- BYUA==
-X-Gm-Message-State: AO0yUKWN2AhiqLI8otsd/IqLRRlwX09b1SqyjBgar++N7Oz4iywtGSXx
- dVSdJLmrl1OeAykicUdJIo4BFw==
-X-Google-Smtp-Source: AK7set9mNgRWdVa/Sl3ht5HW9D20+DV44igEbogmxcj4oqBoXJBmTKUe2ZCRMwiPhyrSnb8iyv9JbA==
-X-Received: by 2002:a05:600c:1c95:b0:3e2:1ef0:f585 with SMTP id
- k21-20020a05600c1c9500b003e21ef0f585mr19371145wms.2.1678902216664; 
- Wed, 15 Mar 2023 10:43:36 -0700 (PDT)
+ bh=YPoCJ+dE6YMmOqr0FAgUbXJaGmEIUyPWQuUb/ZSLc9g=;
+ b=i+EwqLDEBXinDCpVeqYzlQICCQ8GYZZy22ndLFRkDxlo2f+gMmNLQCJtfjRuu98Joy
+ 0atxHvrgXKUaDEXu+5SFwNZh8sujP1cTDIo2L4940v10TqT844LtmFvkM8yF+yIwBf4C
+ +XjrHnjabcrpOIXEsQuWmwKnyxOEHTcrydeX4iWMk5i3aA/a4xg91RiRS5t3OxKCiPoh
+ eA3MfJKlHzHp/r9sIvrxAgaW4p5rfc742XWPxtNL5iN4RpXiiOhSMO+SCvtFVMz04PoE
+ 6/eQY0LNtdC/0VUsrL3+9Z+E4lqug1XFWBB7JV8u/rZipahGDsM90K7AEv6CQ6yDCc0D
+ H8MA==
+X-Gm-Message-State: AO0yUKUhm0Gt3ikez4DMiedklsjl5yI5HP4rCzvx2Xoj833Ayc8z9EdS
+ 1312UnuQi5smm0fZWriJmGPJoA==
+X-Google-Smtp-Source: AK7set+ynAVWb7BGmrdxaYnSAVLbgPOO0KHl8a7IgEJlDeKX4PFtwWpD61GYO6QjfdXpcdXTr8wh/g==
+X-Received: by 2002:a05:600c:4712:b0:3eb:2b88:a69a with SMTP id
+ v18-20020a05600c471200b003eb2b88a69amr18958375wmo.14.1678902565778; 
+ Wed, 15 Mar 2023 10:49:25 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- c15-20020adfef4f000000b002c55ec7f661sm5352712wrp.5.2023.03.15.10.43.33
+ k26-20020a7bc31a000000b003eb596cbc54sm2704615wmj.0.2023.03.15.10.49.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:43:35 -0700 (PDT)
+ Wed, 15 Mar 2023 10:49:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0CD8D1FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 2998A1FFB7;
  Wed, 15 Mar 2023 17:43:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,18 +107,17 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 07/32] tests/tcg: add some help output for running
- individual tests
-Date: Wed, 15 Mar 2023 17:43:06 +0000
-Message-Id: <20230315174331.2959-8-alex.bennee@linaro.org>
+Subject: [PATCH v2 08/32] tests/tcg: disable pauth for aarch64 gdb tests
+Date: Wed, 15 Mar 2023 17:43:07 +0000
+Message-Id: <20230315174331.2959-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,33 +140,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-So you can do:
+You need a very new gdb to be able to run with pauth support otherwise
+your likely to hit asserts and aborts. Disable pauth for now until we
+can properly probe support in gdb.
 
-  cd tests/tcg/aarch64-linux-user
-  make -f ../Makefile.target help
-
-To see the list of tests. You can then run each one individually.
-
+Message-Id: <20230310103123.2118519-10-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/Makefile.target | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/tcg/aarch64/Makefile.target | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index a3b0aaf8af..8318caf924 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -201,3 +201,10 @@ clean:
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 9e91a20b0d..8ffde3b0ed 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -84,6 +84,8 @@ TESTS += sha512-vector
+ ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
  
- distclean:
- 	rm -f config-cc.mak config-target.mak ../config-$(TARGET).mak
++run-gdbstub-%: QEMU_OPTS=-cpu max,pauth=off
 +
-+.PHONY: help
-+help:
-+	@echo "TCG tests help $(TARGET_NAME)"
-+	@echo "Built with $(CC)"
-+	@echo "Available tests:"
-+	@$(foreach t,$(RUN_TESTS),echo "  $t";)
+ run-gdbstub-sysregs: sysregs
+ 	$(call run-test, $@, $(GDB_SCRIPT) \
+ 		--gdb $(HAVE_GDB_BIN) \
 -- 
 2.39.2
 
