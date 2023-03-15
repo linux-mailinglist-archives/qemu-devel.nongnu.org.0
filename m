@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0BFA6BBDF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 21:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5316BBDFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 21:35:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcXle-0004I5-DH; Wed, 15 Mar 2023 16:30:38 -0400
+	id 1pcXpq-0005om-EZ; Wed, 15 Mar 2023 16:34:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pcXlc-0004Hu-CS
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:30:36 -0400
+ id 1pcXpj-0005oN-Nu
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:34:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pcXla-0005iV-PU
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:30:36 -0400
+ id 1pcXpf-0006NA-AD
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:34:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678912232;
+ s=mimecast20190719; t=1678912485;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RNroU4OwaXj+QofMGCsKJc1IHE/7ob3FCwLCk3lREQs=;
- b=WkQubFYEntElj8QlyPXTqMUDZNXuKQ9/w3M/hzbtakCjZnr2KOQeEv9x66Ci+XOUdGcM7P
- 30VzJmPxM/Nkt32S2QRiTlQB6d9aa4j3tINgVFOizwsldfCULvPumPBeHqeNyvDFppf5Pa
- 43Tjo6/QNlWL8yPfxApOsDEiqoYp0fA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wjh+7cLzgXB4f5FOiqAhzhbFbtqybh3FuCpaHlNEJKw=;
+ b=ViZ5IPcqQpgsvwpxdMNVBqd/NbaGG5t8jG2WYUMgdKA8zQD4Sz8l1HcBWUYt4YWg1Dr0Na
+ 0aNEG6tyi2MOpj23cv6msAFdZ+/iOgCFHEyxXfjF3rBJeNrXFcM+w78sOozY0oSPynr8s7
+ AER8FLoYM8gJ4bJcMWOD9cP7d5VZWO0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-659-BWqZLHTlOvylmV-mkdwYhw-1; Wed, 15 Mar 2023 16:30:31 -0400
-X-MC-Unique: BWqZLHTlOvylmV-mkdwYhw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o42-20020a05600c512a00b003ed26fa6ebdso1180955wms.7
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:30:30 -0700 (PDT)
+ us-mta-629-sG2gc4IEM1G3v7_wOV-I4g-1; Wed, 15 Mar 2023 16:34:44 -0400
+X-MC-Unique: sG2gc4IEM1G3v7_wOV-I4g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ g14-20020a5d64ee000000b002cfe47b8ec4so1736162wri.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:34:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678912230;
+ d=1e100.net; s=20210112; t=1678912483;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RNroU4OwaXj+QofMGCsKJc1IHE/7ob3FCwLCk3lREQs=;
- b=6pbei0kmcU0RIS2b2DpgGHiQBfEHNWZTg4NGMXl7wdpCdoPHHxhTJ72aTxk729RcgA
- ofoV0YddReQCttne7xahSGGxEF+Ky5mgp9Raz0d4vqRYiuxSlxeGxk58uvpiAn5Kb4C7
- BPw7ihsznAzNSFDGLZL+GddhPAcR2UposphpZoalKq0sn5RtlUgWSiWBo0pb3bNhOuws
- K0zE8/fGxYrliCxLgFXmpwq59kXfu18NQCPRBh/NbYqgV0gaKjaF62gYz4HcM6MqT9dl
- GQlZ6aHHjgITsKDJhMSCZ9qmmjRElu5j2UPRro+qtxvC7DdQqhp6x6q4gTwbbEM5XCRs
- BARw==
-X-Gm-Message-State: AO0yUKXC4l3E3mCxuFoBnRVj7tNqpTi1K1p6ne8EoIj1aEYU4NXTl8b/
- QRyfZ/rtw+WhmlyiFaaUzmYk71LJWaIBrdlFKxB0EihW8FTgV0v8thAeArmqNYk0HCJddbb6ygo
- fMVe6GnOhu0q16UY=
-X-Received: by 2002:a5d:45cc:0:b0:2c7:cbea:1140 with SMTP id
- b12-20020a5d45cc000000b002c7cbea1140mr2731623wrs.71.1678912230118; 
- Wed, 15 Mar 2023 13:30:30 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9exaDdystYcpWncCuaT4kEcrX+T+z/tNezm3Z7O3uxfeBROsmeu+KFtXzbdQnaIN9/sbloGA==
-X-Received: by 2002:a5d:45cc:0:b0:2c7:cbea:1140 with SMTP id
- b12-20020a5d45cc000000b002c7cbea1140mr2731607wrs.71.1678912229849; 
- Wed, 15 Mar 2023 13:30:29 -0700 (PDT)
+ bh=wjh+7cLzgXB4f5FOiqAhzhbFbtqybh3FuCpaHlNEJKw=;
+ b=nCvTX5HrA8EjkBfohray4afg8cOyufkQCtRS8CjTV/YFyBL1eKxSGz7QIUTyEMCo1z
+ mnNaTUx2Vq7jnwz7DY4EyGzJAKrc1gAUYWLtC2hNrRyRtShs2Vt7gZyN0BNkqaUL8J6k
+ Or2OlU+b/aEiA28oGKNsPYug29xt66s+kVfOFtRwZ33Co181XRAkGZwRqubP+Q/LbfEk
+ QS2D8vuk4t42EvYTEnP6i/HBT04NFawipezBZp+iaJ2sTSy/m1QJ64MYs5bBlxn3YZ5R
+ DTtTWYJongbaMhKZYXBLTYeQHh7YEzd/5dxWJueZsDx69WC9knyP2MdylN6CspjyQ8jH
+ 3+zQ==
+X-Gm-Message-State: AO0yUKUmZ4NGP4eiXv6Xcnd4UavQ1XF5t+n4+acrpKWW7f+5hN00q9pR
+ FeecyCIkKYnKXObzWU6gKtpG5Neu0t0Cx89MR4JGFeHSh6m0Cqu1L+pz7vDH0wdc/3nA7jL7efb
+ 8IuLIKgp6W4R99i4=
+X-Received: by 2002:a05:600c:4f4e:b0:3eb:3945:d406 with SMTP id
+ m14-20020a05600c4f4e00b003eb3945d406mr19194364wmq.16.1678912483190; 
+ Wed, 15 Mar 2023 13:34:43 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/He1NWJ0B4GzdWgIG53Q0mQf9ean2hAMtD8bATjAmA9AWswDaPhXoDqc8O+0SJwCc9EDPvJg==
+X-Received: by 2002:a05:600c:4f4e:b0:3eb:3945:d406 with SMTP id
+ m14-20020a05600c4f4e00b003eb3945d406mr19194350wmq.16.1678912482907; 
+ Wed, 15 Mar 2023 13:34:42 -0700 (PDT)
 Received: from redhat.com (62.117.238.225.dyn.user.ono.com. [62.117.238.225])
  by smtp.gmail.com with ESMTPSA id
- d13-20020adffbcd000000b002c55521903bsm5372022wrs.51.2023.03.15.13.30.29
+ x2-20020a05600c21c200b003e1f2e43a1csm2847119wmj.48.2023.03.15.13.34.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 13:30:29 -0700 (PDT)
+ Wed, 15 Mar 2023 13:34:42 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org,  Markus Armbruster <armbru@redhat.com>,  Pavel
- Dovgalyuk <pavel.dovgaluk@ispras.ru>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Stefan
- Berger <stefanb@linux.vnet.ibm.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Gerd
- Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 1/3] scripts/git.orderfile: Display QAPI script
- changes before schema ones
-In-Reply-To: <20230315112811.22355-2-philmd@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 15 Mar 2023 12:28:09
- +0100")
-References: <20230315112811.22355-1-philmd@linaro.org>
- <20230315112811.22355-2-philmd@linaro.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Thomas
+ Huth <thuth@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>,  Daniel P . =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH] migration: Wait on preempt channel in preempt thread
+In-Reply-To: <20230314205429.1174295-1-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 14 Mar 2023 16:54:29 -0400")
+References: <20230314205429.1174295-1-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 15 Mar 2023 21:30:28 +0100
-Message-ID: <87ilf1oizf.fsf@secure.mitica>
+Date: Wed, 15 Mar 2023 21:34:41 +0100
+Message-ID: <87edppoise.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -110,12 +106,29 @@ Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
-> When modifying QAPI scripts and modifying C files along,
-> it makes sense to display QAPI changes first.
+Peter Xu <peterx@redhat.com> wrote:
+> QEMU main thread will wait until dest preempt channel established during
+> processing the LISTEN command (within the whole postcopy PACKAGED data), =
+by
+> waiting on the semaphore postcopy_qemufile_dst_done.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> That's racy, because it's possible that the dest QEMU main thread hasn't
+> yet accept()ed the new connection when processing the LISTEN event.  The
+> sem_wait() will yield the main thread without being able to run anything
+> else including the accept() of the new socket, which can cause deadlock
+> within the main thread.
+>
+> To avoid the race, move the "wait channel" from main thread to the preempt
+> thread right at the start.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 5655aab079 ("migration: Postpone postcopy preempt channel to be af=
+ter main")
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+queued.
 
 
