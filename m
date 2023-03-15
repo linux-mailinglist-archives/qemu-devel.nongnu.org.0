@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCA66BB6A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 15:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDE46BB6A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 15:54:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcSV7-0003cn-HG; Wed, 15 Mar 2023 10:53:13 -0400
+	id 1pcSVA-0003dc-GE; Wed, 15 Mar 2023 10:53:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pcSUw-0003aK-Ra; Wed, 15 Mar 2023 10:53:02 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+ id 1pcSUw-0003aJ-QS; Wed, 15 Mar 2023 10:53:02 -0400
+Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pcSUu-0002pl-Dk; Wed, 15 Mar 2023 10:53:02 -0400
-Received: by mail-io1-xd30.google.com with SMTP id o12so1943584iow.6;
- Wed, 15 Mar 2023 07:52:54 -0700 (PDT)
+ id 1pcSUu-0002pv-DB; Wed, 15 Mar 2023 10:53:02 -0400
+Received: by mail-il1-x136.google.com with SMTP id j6so6016640ilr.7;
+ Wed, 15 Mar 2023 07:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678891974;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=BuvaOfZ/Wt+HI1e/GHjGpIz7wYN5Yon49vtjiAvXON4=;
- b=mZ71dx7cn7rxobTXybZQzfLK1GHXUszS8+qcbIQuP5Xx4+akf4svpB1xMVCigV6UfO
- O0C2tdcnKLXG3/kuDyfwnlYBu2JFlV8SD9cH9e/OPoLhdhHjUvXNUXJw2ppK3v46KA0U
- HdRkJP6a8NgRYLsJ8UNcAV/WrN2nsF4DFMzT5MtgObPuRgo3I3gewvpSUQo60CjhWTtQ
- tQh4rLxrOEkSuvYFiJJpGBdlR/6xwJbJ7U7cL1+H0/xk2omVsznpi7zqPiQ4XWq8KfCt
- qMqKodUdJA0LbMHqvOguRxUa67PY/wRk5mcGIW+Gnl2VUxyxRK3A2DmXlfkOeyjBaLZA
- ncMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678891974;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20210112; t=1678891975;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BuvaOfZ/Wt+HI1e/GHjGpIz7wYN5Yon49vtjiAvXON4=;
- b=rd+RR4dBWeP0kuZDfZv2Z2HG5GDKLySJWjw4cnxPf1afH5riV+jtcRy+IL4XMezEDk
- y19SojLiaJeC8LecpNjeYk1tcDb3yvhYsO4dTVH4VUlQzKuqZMa2hLroi8zbV9Z5w3QL
- x55amgtdJV3+m1U9Ia7aUhWffYtBxn5o1FKRchgHM/4Uh62CsIqBRtaOtZlYGunRwaEn
- E1JfPFQZw4q2pts+MsCXWB36YgwBfxD5JZXnye5kbe6YLAXGxiM01hrz7e4RQJnDNQXZ
- mISv19HyJn2Hsdv0LZAnXRiLgK3k0jcbJxWaOjXO6FOYUvAXyGd0Ii+dJsghqSsfSvTW
- 7RGw==
-X-Gm-Message-State: AO0yUKXlwKCuTqNpBok8rV2VF2T/8jbGPdPfvBYUJOFXzdPoyz8f3sbK
- I4qmKzZ9A8FDQhHSVi+TtPc=
-X-Google-Smtp-Source: AK7set+zBjDw2KFUdyWoo/KbW6TM8eZTv4n4x7ZbNsgdT0wiJgObe0EiT4YI4WL7yKkTiOFplssKwQ==
-X-Received: by 2002:a5e:dd48:0:b0:74c:923c:7d84 with SMTP id
- u8-20020a5edd48000000b0074c923c7d84mr25559044iop.7.1678891973804; 
- Wed, 15 Mar 2023 07:52:53 -0700 (PDT)
+ bh=UqO73fu1QzAYLZc/W3Tc5v4+ufqBgz+jIwZ324r1rM0=;
+ b=h4mJ1pU9784qm5wIqTjpnUnrcSauMt0zOLWTVayWRxn7VB0bfAlAGU6UDGggnnsQ/R
+ 2NK9gnwzH+suqgk7HPucMILnCUwcnIBEKZuuz4+Hk5c1wBiMWVx5W58HPevOD7BH+cdn
+ zA4icbM4+LQLotMsbcqhqWWoe6sI4wSnPSGTL7mR0InB8grmEI6uaz81c1DJnCthmzt+
+ yFVDGD5odHcTmRl1PI7yLZO6j/guFnZb+A78WyfosuPXYNyAvEltd6seZteA1bUz8qA1
+ A9OnWDmbgei+Ls81Ff3GywnRaU+zvOlg1u8aCELTPjxHDSeCfe+dAQ40Ji/7s9mLWfs6
+ I/bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678891975;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=UqO73fu1QzAYLZc/W3Tc5v4+ufqBgz+jIwZ324r1rM0=;
+ b=irZ9AGBizNa8Z8/Y4USKX1K/3C8dJChH48WnKu6WehfVfFFjQPncRfCczZpLW7ZW8x
+ 5BooWexIjcgHl7yjWmT0Hcf81Y5OUXzRnauId9vPdx4u0NMOYvIvJ/afMK6iAJ0KyMWo
+ O0V/Zo0wohWLf3XK0SbOK7r5t20B1u74fE9Lk+Uhx5P7k1R9FKgdQI8UC5VjyTrNm5RC
+ B9+ETGXO6gZ4aI/IXlVTbZvetXzZ1GA+4YxmM1R2AUn9ztU2yQgLRs4xMj09Qxf6Sa7M
+ wt39+sJz2YeamRAV641WTJIfpOnYS7Qw+gKHpqWaCP9qxpMc//hkMggEJT2hoJVug1mb
+ 4U1g==
+X-Gm-Message-State: AO0yUKWksOj7Wdd47k7myMHjUVli84xW2twiapJ2tkMQm7ovoERKvJ27
+ L0YOnMlZrKhEc2mEev/+vog=
+X-Google-Smtp-Source: AK7set9hv3gJPlJrqies0/dG1TDi7dC8G4S1ckeds/xiLpEOdqK2Nh8/6qunDctE7J3+AC5sO9B8pQ==
+X-Received: by 2002:a92:dac7:0:b0:318:8674:bf3 with SMTP id
+ o7-20020a92dac7000000b0031886740bf3mr4693071ilq.19.1678891975439; 
+ Wed, 15 Mar 2023 07:52:55 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a056638022400b0040535426261sm1715461jaq.37.2023.03.15.07.52.53
+ a10-20020a92c70a000000b00318ad12246fsm1658860ilp.1.2023.03.15.07.52.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 07:52:53 -0700 (PDT)
+ Wed, 15 Mar 2023 07:52:55 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Jean-Christophe Dubois <jcd@tribudubois.net>
 Cc: Andrey Smirnov <andrew.smirnov@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org,
  Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
-Date: Wed, 15 Mar 2023 07:52:43 -0700
-Message-Id: <20230315145248.1639364-1-linux@roeck-us.net>
+Subject: [PATCH 1/5] hw/net/imx_fec: Support two Ethernet interfaces connected
+ to single MDIO bus
+Date: Wed, 15 Mar 2023 07:52:44 -0700
+Message-Id: <20230315145248.1639364-2-linux@roeck-us.net>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230315145248.1639364-1-linux@roeck-us.net>
+References: <20230315145248.1639364-1-linux@roeck-us.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=groeck7@gmail.com; helo=mail-io1-xd30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
+ envelope-from=groeck7@gmail.com; helo=mail-il1-x136.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -104,26 +108,84 @@ Second, if the MDIO bus on an interface is active, it needs a link to the
 consumer interface to be able to provide PHY access for it. Implement this
 property as phy-consumer.
 
-The first patch of the series implements support in hw/net/imx_fec.c.
-Patches 2..5 set the necessary properties in i.MX6UL and i.MX7 emulations.
-With this series in place, both Ethernet interfaces on affected emulations
-are functional.
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ hw/net/imx_fec.c         | 27 +++++++++++++++++++++++----
+ include/hw/net/imx_fec.h |  2 ++
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-----------------------------------------------------------------
-Guenter Roeck (5):
-      hw/net/imx_fec: Support two Ethernet interfaces connected to single MDIO bus
-      fsl-imx6ul: Add fec[12]-phy-connected properties
-      arm/mcimx6ul-evk: Set fec1-phy-connected property to false
-      fsl-imx7: Add fec[12]-phy-connected properties
-      arm/mcimx7d-sabre: Set fec2-phy-connected property to false
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index c862d96593..5d1f1f104c 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -282,11 +282,19 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
+     uint32_t val;
+     uint32_t phy = reg / 32;
+ 
+-    if (phy != s->phy_num) {
+-        trace_imx_phy_read_num(phy, s->phy_num);
++    if (!s->phy_connected) {
+         return 0xffff;
+     }
+ 
++    if (phy != s->phy_num) {
++        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
++            s = s->phy_consumer;
++        } else {
++            trace_imx_phy_read_num(phy, s->phy_num);
++            return 0xffff;
++        }
++    }
++
+     reg %= 32;
+ 
+     switch (reg) {
+@@ -343,11 +351,19 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
+ {
+     uint32_t phy = reg / 32;
+ 
+-    if (phy != s->phy_num) {
+-        trace_imx_phy_write_num(phy, s->phy_num);
++    if (!s->phy_connected) {
+         return;
+     }
+ 
++    if (phy != s->phy_num) {
++        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
++            s = s->phy_consumer;
++        } else {
++            trace_imx_phy_write_num(phy, s->phy_num);
++            return;
++        }
++    }
++
+     reg %= 32;
+ 
+     trace_imx_phy_write(val, phy, reg);
+@@ -1327,6 +1343,9 @@ static Property imx_eth_properties[] = {
+     DEFINE_NIC_PROPERTIES(IMXFECState, conf),
+     DEFINE_PROP_UINT32("tx-ring-num", IMXFECState, tx_ring_num, 1),
+     DEFINE_PROP_UINT32("phy-num", IMXFECState, phy_num, 0),
++    DEFINE_PROP_BOOL("phy-connected", IMXFECState, phy_connected, true),
++    DEFINE_PROP_LINK("phy-consumer", IMXFECState, phy_consumer, TYPE_IMX_FEC,
++                     IMXFECState *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/net/imx_fec.h b/include/hw/net/imx_fec.h
+index e3a8755db9..2d13290c78 100644
+--- a/include/hw/net/imx_fec.h
++++ b/include/hw/net/imx_fec.h
+@@ -270,6 +270,8 @@ struct IMXFECState {
+     uint32_t phy_int;
+     uint32_t phy_int_mask;
+     uint32_t phy_num;
++    bool phy_connected;
++    struct IMXFECState *phy_consumer;
+ 
+     bool is_fec;
+ 
+-- 
+2.39.2
 
- hw/arm/fsl-imx6ul.c         | 20 ++++++++++++++++++++
- hw/arm/fsl-imx7.c           | 20 ++++++++++++++++++++
- hw/arm/mcimx6ul-evk.c       |  2 ++
- hw/arm/mcimx7d-sabre.c      |  2 ++
- hw/net/imx_fec.c            | 27 +++++++++++++++++++++++----
- include/hw/arm/fsl-imx6ul.h |  1 +
- include/hw/arm/fsl-imx7.h   |  1 +
- include/hw/net/imx_fec.h    |  2 ++
- 8 files changed, 71 insertions(+), 4 deletions(-)
 
