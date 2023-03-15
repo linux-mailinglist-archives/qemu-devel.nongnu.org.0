@@ -2,69 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE91C6BBC01
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 19:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA296BBC13
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 19:31:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVoR-0004I1-7j; Wed, 15 Mar 2023 14:25:23 -0400
+	id 1pcVtA-0005Vu-Ny; Wed, 15 Mar 2023 14:30:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pcVoO-0004Hg-Ni
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 14:25:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pcVt7-0005Vi-Oc; Wed, 15 Mar 2023 14:30:13 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pcVoM-0000U2-Kv
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 14:25:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678904708;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uYVyVuVJ2hYegoJ77Py82bxNHVAidwO1ChscKE+byVg=;
- b=Y1dWn3Z5trhSwcKsIiKNzDW/9fXQI4iXqiaWsZ67mqUOA0Vzj9OJ2/aw2XXm+LQFOR4tIr
- NiFgcA+94rwdP3jzIn7mAO0clHWkG8yF3hoAy70w/P2tlAeEh1fIAfv5uaC3l5JAK4QznU
- KiYJdzzY2U7nGZrqOEDvCd09OFA+EVQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-B4z4yAaANVWJ39Vs4eJnxw-1; Wed, 15 Mar 2023 14:25:04 -0400
-X-MC-Unique: B4z4yAaANVWJ39Vs4eJnxw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E3A7385F36B;
- Wed, 15 Mar 2023 18:25:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AB82202701E;
- Wed, 15 Mar 2023 18:25:03 +0000 (UTC)
-Date: Wed, 15 Mar 2023 13:25:01 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [RFC 1/2] block: Split padded I/O vectors exceeding IOV_MAX
-Message-ID: <20230315182501.w5zed6yktlfeytlf@redhat.com>
-References: <20230315121330.29679-1-hreitz@redhat.com>
- <20230315121330.29679-2-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pcVt5-0001KL-O8; Wed, 15 Mar 2023 14:30:13 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32FHPDqG001701; Wed, 15 Mar 2023 18:30:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ni3luN4LY5k0v5z2pimGdBy4s9DF6Ule5vsePMIdF+o=;
+ b=NJMhLNHK/Q0Rw8H5m1fJjRkjLFjQ46Lp5GE8bos3yH9THqsyZ3fwYoEhRh6FgqB18rcP
+ AhNOojMuJoRhEM2Jtzj9D9g3AS3gYss0dURNNW6HZVXmfT84cDYncloDm+u+djCPkFyS
+ BNJ7NbbCNegCOclw5OGMoDEiapLTFov2a/AJ1V1+d8+5cdOt2CTZo+si+pCHsKr/U9dV
+ xyHHiFgNywWH9sfZfAgIyTkSsRoJH1/Lwkt6f2jZY72faCTHVvitqOoyu9HZlestsV/5
+ 2/bWO3I9TIUVkgdOLtCUXsmT5puMiAHCrNvFWHMbNKlioVvZj5y295esvti16VBUqj9c SA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbjdchjfj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 18:30:07 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32FIQAnr009701;
+ Wed, 15 Mar 2023 18:30:06 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbjdchjep-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 18:30:06 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FGW7sN019754;
+ Wed, 15 Mar 2023 18:30:04 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3pb29srxhq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Mar 2023 18:30:04 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32FIU2AT328280
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Mar 2023 18:30:02 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 46D5F20040;
+ Wed, 15 Mar 2023 18:30:02 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA8C520049;
+ Wed, 15 Mar 2023 18:30:01 +0000 (GMT)
+Received: from [9.171.20.11] (unknown [9.171.20.11])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Mar 2023 18:30:01 +0000 (GMT)
+Message-ID: <1b4f2d623ec943e280fa1c3b6343edf960bb41e1.camel@linux.ibm.com>
+Subject: Re: [PATCH 2/2] tests/tcg/s390x: Add rxsbg.c
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Date: Wed, 15 Mar 2023 19:30:01 +0100
+In-Reply-To: <70ded204-a499-0c23-6949-42244fc5bfe9@redhat.com>
+References: <20230314233443.324727-1-iii@linux.ibm.com>
+ <20230314233443.324727-3-iii@linux.ibm.com>
+ <70ded204-a499-0c23-6949-42244fc5bfe9@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230315121330.29679-2-hreitz@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Fp1za-jFIG9Rf1Eu594O5A69z1iZ2ZMM
+X-Proofpoint-ORIG-GUID: -stC7d_CqtCZsg-ONTJsJDinTemLFix0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_09,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 priorityscore=1501 mlxscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2302240000 definitions=main-2303150151
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,89 +114,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 15, 2023 at 01:13:29PM +0100, Hanna Czenczek wrote:
-> When processing vectored guest requests that are not aligned to the
-> storage request alignment, we pad them by adding head and/or tail
-> buffers for a read-modify-write cycle.
-> 
-> The guest can submit I/O vectors up to IOV_MAX (1024) in length, but
-> with this padding, the vector can exceed that limit.  As of
-> 4c002cef0e9abe7135d7916c51abce47f7fc1ee2 ("util/iov: make
-> qemu_iovec_init_extended() honest"), we refuse to pad vectors beyond the
-> limit, instead returning an error to the guest.
-> 
-> To the guest, this appears as a random I/O error.  We should not return
-> an I/O error to the guest when it issued a perfectly valid request.
-> 
-> Before 4c002cef0e9abe7135d7916c51abce47f7fc1ee2, we just made the vector
-> longer than IOV_MAX, which generally seems to work (because the guest
-> assumes a smaller alignment than we really have, file-posix's
-> raw_co_prw() will generally see bdrv_qiov_is_aligned() return false, and
-> so emulate the request, so that the IOV_MAX does not matter).  However,
-> that does not seem exactly great.
-> 
-> I see two ways to fix this problem:
-> 1. We split such long requests into two requests.
-> 2. We join some elements of the vector into new buffers to make it
->    shorter.
-> 
-> I am wary of (1), because it seems like it may have unintended side
-> effects.
-> 
-> (2) on the other hand seems relatively simple to implement, with
-> hopefully few side effects, so this patch does that.
+On Wed, 2023-03-15 at 19:12 +0100, Thomas Huth wrote:
+> On 15/03/2023 00.34, Ilya Leoshkevich wrote:
+> > Add a small test for RXSBG with T=3D1 to prevent regressions.
+> >=20
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> > ---
+> > =C2=A0 tests/tcg/s390x/Makefile.target |=C2=A0 1 +
+> > =C2=A0 tests/tcg/s390x/rxsbg.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 25 +++++++++++++++++++++++++
+> > =C2=A0 2 files changed, 26 insertions(+)
+> > =C2=A0 create mode 100644 tests/tcg/s390x/rxsbg.c
+> >=20
+> > diff --git a/tests/tcg/s390x/Makefile.target
+> > b/tests/tcg/s390x/Makefile.target
+> > index cf93b966862..b4d0d704534 100644
+> > --- a/tests/tcg/s390x/Makefile.target
+> > +++ b/tests/tcg/s390x/Makefile.target
+> > @@ -29,6 +29,7 @@ TESTS+=3Dclst
+> > =C2=A0 TESTS+=3Dlong-double
+> > =C2=A0 TESTS+=3Dcdsg
+> > =C2=A0 TESTS+=3Dchrl
+> > +TESTS+=3Drxsbg
+> > =C2=A0=20
+> > =C2=A0 cdsg: CFLAGS+=3D-pthread
+> > =C2=A0 cdsg: LDFLAGS+=3D-pthread
+> > diff --git a/tests/tcg/s390x/rxsbg.c b/tests/tcg/s390x/rxsbg.c
+> > new file mode 100644
+> > index 00000000000..b7f35411899
+> > --- /dev/null
+> > +++ b/tests/tcg/s390x/rxsbg.c
+> > @@ -0,0 +1,25 @@
+> > +/*
+> > + * Smoke test RXSBG instruction with T=3D1.
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +#include <assert.h>
+> > +#include <stdlib.h>
+> > +
+> > +int main(void)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0 unsigned long r1, r2, cc;
+> > +
+> > +=C2=A0=C2=A0=C2=A0 r1 =3D 0xc8dc86a225a77bb4;
+> > +=C2=A0=C2=A0=C2=A0 r2 =3D 0xd6aff24fa3e7320;
+> > +=C2=A0=C2=A0=C2=A0 cc =3D 0;
+> > +=C2=A0=C2=A0=C2=A0 asm("rxsbg %[r1],%[r2],177,43,228\n"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "ipm %[cc]"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : [cc] "+r" (cc)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : [r1] "r" (r1)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 , [r2] "r" (r2)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "cc");
+> > +=C2=A0=C2=A0=C2=A0 cc =3D (cc >> 28) & 1;
+> > +=C2=A0=C2=A0=C2=A0 assert(cc =3D=3D 1);
+> > +
+> > +=C2=A0=C2=A0=C2=A0 return EXIT_SUCCESS;
+> > +}
+>=20
+> This also fails with Clang 15:
+> tests/tcg/s390x/rxsbg.c:15:9: error: invalid operand for instruction
+> =C2=A0=C2=A0=C2=A0=C2=A0 asm("rxsbg %[r1],%[r2],177,43,228\n"
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> <inline asm>:1:23: note: instantiated into assembly here
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rxsbg %r1,%r2,177,43,228
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>=20
+> =C2=A0 Thomas
+>=20
 
-Agreed that approach 2 is more conservative.
+This seems to be a clang bug. PoP says:
 
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2141964
-> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
-> ---
->  block/io.c | 139 ++++++++++++++++++++++++++++++++++++++++++++++++++---
->  util/iov.c |   4 --
->  2 files changed, 133 insertions(+), 10 deletions(-)
->  
-> +/*
-> + * If padding has made the IOV (`pad->local_qiov`) too long (more than IOV_MAX
-> + * elements), collapse some elements into a single one so that it adheres to the
-> + * IOV_MAX limit again.
-> + *
-> + * If collapsing, `pad->collapse_buf` will be used as a bounce buffer of length
-> + * `pad->collapse_len`.  `pad->collapsed_qiov` will contain the previous entries
-> + * (before collapsing), so that bdrv_padding_destroy() can copy the bounce
-> + * buffer content back for read requests.
-> + *
-> + * Note that we will not touch the padding head or tail entries here.  We cannot
-> + * move them to a bounce buffer, because for RMWs, both head and tail expect to
-> + * be in an aligned buffer with scratch space after (head) or before (tail) to
-> + * perform the read into (because the whole buffer must be aligned, but head's
-> + * and tail's lengths naturally cannot be aligned, because they provide padding
-> + * for unaligned requests).  A collapsed bounce buffer for multiple IOV elements
-> + * cannot provide such scratch space.
-> + *
-> + * Therefore, this function collapses the first IOV elements after the
-> + * (potential) head element.
+    Bit 1 of the I3 field and bits 0-1 of the I4 field (bits 17
+    and 24-25 of the instruction) are reserved and should
+    contain zeros; otherwise, the program may not oper-
+    ate compatibly in the future. Bits 0-1 of the I5 field
+    (bits 32-33 of the instruction) are ignored.
 
-It looks like you blindly pick the first one or two non-padding iovs
-at the front of the array.  Would it be any wiser (in terms of less
-memmove() action or even a smaller bounce buffer) to pick iovs at the
-end of the array, and/or a sequential search for the smallest
-neighboring iovs?  Or is that a micro-optimization that costs more
-than it saves?
+But LLVM has:
 
-Would it be any easier to swap the order of padding vs. collapsing?
-That is, we already know the user is giving us a long list of iovs; if
-it is 1024 elements long, and we can detect that padding will be
-needed, should we collapse before padding instead of padding, finding
-that we now have 1026, and memmove'ing back into 1024?
+    imm32zx8:$I4, imm32zx6:$I5
 
-But logic-wise, your patch looks correct to me.
+which looks like a mixup (should be imm32zx6 + imm32zx8 IMHO).
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+I guess there is not much we can do about this at the moment, so I will
+choose another constant for the test and send a v2.
 
