@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFBA6BB3B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 13:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E566BB3CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 14:02:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcQdj-0004e0-4j; Wed, 15 Mar 2023 08:53:59 -0400
+	id 1pcQk6-0000Di-Lf; Wed, 15 Mar 2023 09:00:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pcQdY-0004SX-V8
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:53:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pcQdU-0003Vg-BA
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 08:53:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678884820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HX8qeuEMesZEFkB2vC5BE/6xfuLZeNPnXa1uf21GqAw=;
- b=bP8lJ5l1Sn5URzu5ExPaXSTRCSpinqFQUWpNS7kkOH94TyegPXIL+SA8dh8Jjqe1q1xTyc
- 2X5FqaOxAHv9vOOMiAk89B+30Y6oedCsvjey/u9fbDq8OM+sXr6sp+/GyxP/VkwajG5Mjs
- 7FuPDnbgrsQDK7YMqyEnvnhmpSGRJs8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-390-9it-cdKQOTyhJvPhz9NXfg-1; Wed, 15 Mar 2023 08:53:38 -0400
-X-MC-Unique: 9it-cdKQOTyhJvPhz9NXfg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r14-20020a0560001b8e00b002cdb76f7e80so3237430wru.19
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 05:53:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pcQk3-0000DW-7z; Wed, 15 Mar 2023 09:00:32 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pcQk1-0005c4-Ao; Wed, 15 Mar 2023 09:00:30 -0400
+Received: by mail-ed1-x533.google.com with SMTP id h8so31394407ede.8;
+ Wed, 15 Mar 2023 06:00:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678885225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qLtW2Kcu+uF+r/fD0VjJv+jYVeTmjRpJ3ZjVgUCB3/Y=;
+ b=j4SlxSc162UY9fCRBk6va95VWhllS6pSdFEs3xUTpfYRNoVRIJNanY3AtdOQqKDkqe
+ ZJtNwOrPwnjaR3WMbqrYEmbgVRXU6LbXuSd2/X2Or8H5luw/vRr0l5QP8RhjhdIVwMnb
+ 9npPO9tsiSS7A3UvjGe+JHRiGKbf4ZyD8TcGULxN3+WQRxjwlzfaLdPhy3bEOT9t5ufg
+ rLz6yyj+wlPbN9bDaw+Mjlgq+uExWhgDQLbQZMoS0RmwE+a2hQiNTJV8+rh9+J3cjmWf
+ pe8rn7Z0sgme8sCVf0FPWcnjrGie6Kl8XVdvUJHg2wDmHFEsqfA/kWXNifs4ItWBoOgg
+ aTYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678884817;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HX8qeuEMesZEFkB2vC5BE/6xfuLZeNPnXa1uf21GqAw=;
- b=BX4L0QWWvWEuA9/OpR5Qd+HFd2pGAotDQlKwfQSvchceK0PndMUUwO63YjXA5nUqci
- oMHufm8+HPmUssNUK/SvmRgo03gaCi6Gbo6fX+kHYr7+uFEESWLgj//mfSi0YxMVA/lp
- WLW+2RZ1A50wj6pVroDSsAITKFGd38MEh2/ZPQLI/iEN6eH9ZbxhNx1lSrzEnMVHJa9h
- JqRzEqPokEDgrBe68VLQbhroDCtT0w6PKW8tZ410ER7kq9poeZSeg7oO9rQg7lbLCNmZ
- 9RvA4BDBdelYhje0chjNKY5rt7mb9+aLYDUwcQHqGKQp+A+lxbE9tWTrxXDTgj91rYWS
- 6PVw==
-X-Gm-Message-State: AO0yUKVfP6u3VUn3soK58uYQn4wwsDnyNjvIzVly+d5PHDmuZPAi4871
- A3qQKODe+kYYY0l08dzcn0rQtonxMRXx8p/a4eKEVNRWQhuSo6tBIuB7WIVhXbEWH8nk0eTYv9P
- pJRT/z91GLREfdnI=
-X-Received: by 2002:a05:600c:4592:b0:3e2:201a:5bcc with SMTP id
- r18-20020a05600c459200b003e2201a5bccmr17620322wmo.33.1678884817706; 
- Wed, 15 Mar 2023 05:53:37 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9MXh5OWK+8RZ+42iJwxhXTbLnMXluHMOwgcTjt+tnPdtJIfNK141wZwGluKcS/13ZvYY7G3w==
-X-Received: by 2002:a05:600c:4592:b0:3e2:201a:5bcc with SMTP id
- r18-20020a05600c459200b003e2201a5bccmr17620309wmo.33.1678884817447; 
- Wed, 15 Mar 2023 05:53:37 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-177-185.web.vodafone.de.
- [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
- bg7-20020a05600c3c8700b003eb2e33f327sm6859226wmb.2.2023.03.15.05.53.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 05:53:36 -0700 (PDT)
-Message-ID: <3086c94d-678b-426f-540d-e81dcad6571e@redhat.com>
-Date: Wed, 15 Mar 2023 13:53:35 +0100
+ d=1e100.net; s=20210112; t=1678885225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qLtW2Kcu+uF+r/fD0VjJv+jYVeTmjRpJ3ZjVgUCB3/Y=;
+ b=jzBkAzcSjSjmJquYxfooD46IzxOWDED2aQ31YDVWsRFhIH0RpgH2zA4VhZfAnPhS73
+ xOpUqpDj3LZhKGSLWy08gd4OIiLMfTt3CUlMVhPVlCzyLtuFOYEE46UUx3PRgJlvKtPw
+ kj7N2iRlW+xS12wwmOLDBw27qXHkFc7i+WKiw/3gUYRLrVNP/x6qXaTHCt3b6Cl6+153
+ 1ajl95ZrtU6pSLM6crnFNgAHXI6LXUR+Lm6K5TD2qu90jaBx9OGF6DF5rnPOPmlg48VS
+ 9BMXuLf2zernt1601nxH52a8+JJ5F3ZnfVV5I/16hTdQhpT85USDSxC2fKKsOkoemh9L
+ OBnA==
+X-Gm-Message-State: AO0yUKUfyXgqvJvwsk2SQ9ya48rFQ8d1O0ZWBMFq9tTb6Xcx4h0dL9nR
+ 7LrwPIdAYelngFch+vPbm5qtIEAd0a+4YjTMqVY=
+X-Google-Smtp-Source: AK7set/x2guL63xLjR3CnqSkntxrZzadJBFEeSypLzndiY4Nk4Id42P7sSuiGXZrwNl4TcF4XyQBH0HG6IJvCYc4+dA=
+X-Received: by 2002:a50:ce54:0:b0:4fa:794a:c0cc with SMTP id
+ k20-20020a50ce54000000b004fa794ac0ccmr1356730edj.2.1678885225353; Wed, 15 Mar
+ 2023 06:00:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 09/10] Python: Drop support for Python 3.6
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
- alex.bennee@linaro.org, armbru@redhat.com
-References: <20230222143752.466090-1-pbonzini@redhat.com>
- <20230222143752.466090-10-pbonzini@redhat.com> <ZA9Xv0Mt2b39lVmS@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <ZA9Xv0Mt2b39lVmS@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230310103106.62124-1-faithilikerun@gmail.com>
+ <20230310103106.62124-2-faithilikerun@gmail.com>
+ <e143490361477503b5e7bba43e79f369e3cd7d9b.camel@wdc.com>
+ <0ab0bafd-6e21-2f4d-8d73-8c6683b6d1dd@opensource.wdc.com>
+In-Reply-To: <0ab0bafd-6e21-2f4d-8d73-8c6683b6d1dd@opensource.wdc.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Wed, 15 Mar 2023 20:59:58 +0800
+Message-ID: <CAAAx-8+9xaCuYtJCRuvVtMV1czdO6pOCPR6Dirpzf0N0-H6jgg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] file-posix: add tracking of the zone write pointers
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "hreitz@redhat.com" <hreitz@redhat.com>, "hare@suse.de" <hare@suse.de>, 
+ "sgarzare@redhat.com" <sgarzare@redhat.com>,
+ "mehta.aaru20@gmail.com" <mehta.aaru20@gmail.com>, 
+ "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "kwolf@redhat.com" <kwolf@redhat.com>, 
+ "jusual@redhat.com" <jusual@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,59 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/03/2023 18.05, Daniel P. Berrangé wrote:
-> On Wed, Feb 22, 2023 at 03:37:51PM +0100, Paolo Bonzini wrote:
->> Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
->> begun dropping support for this version and it is becoming more
->> cumbersome to support. Avocado-framework and qemu.qmp each have their
->> own reasons for wanting to drop Python 3.6, but won't until QEMU does.
->>
->> Versions of Python available in our supported build platforms as of today,
->> with optional versions available in parentheses:
->>
->> openSUSE Leap 15.4: 3.6.15 (3.9.10, 3.10.2)
->> CentOS Stream 8:    3.6.8  (3.8.13, 3.9.16)
->> CentOS Stream 9:    3.9.13
->> Fedora 36:          3.10
->> Fedora 37:          3.11
->> Debian 11:          3.9.2
->> Alpine 3.14, 3.15:  3.9.16
->> Alpine 3.16, 3.17:  3.10.10
->> Ubuntu 20.04 LTS:   3.8.10
->> Ubuntu 22.04 LTS:   3.10.4
->> NetBSD 9.3:         3.9.13*
->> FreeBSD 12.4:       3.9.16
->> FreeBSD 13.1:       3.9.16
->> OpenBSD 7.2:        3.9.16
->>
->> Note: Our VM tests install 3.7 specifically for freebsd and netbsd; the
->> default for "python" or "python3" in FreeBSD is 3.9.16. NetBSD does not
->> appear to have a default meta-package, but offers several options, the
->> lowest of which is 3.7.15. "python39" appears to be a pre-requisite to
->> one of the other packages we request in tests/vm/netbsd.
->>
->> Since it is safe to under our supported platform policy, bump our
->> minimum supported version of Python to 3.7.
-> 
-> In the above list of versions, there's no platform which actually
-> has 3.7 as a limiting factor. THe only mention of 3.7 comes from
-> our own VM scripts, which for freebsd is outdated compared to
-> their default, and for netbsd the 3.7 choice appears arbitrary
-> on our side given their lack of default.
-> 
-> Ubuntu 20.04 on 3.8 would be the hard constraint out of the above
-> list of distros.
-> 
-> Our normal practice wrt the support policy would be to go to the
-> baseline from the above distro list. IOW, if we're dropping 3.6,
-> then going to 3.8 would be the normal course of action, rather
-> than stopping at 3.7 which doesn't appear needed by our targetted
-> distros.
+Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2023=E5=B9=B43=
+=E6=9C=8814=E6=97=A5=E5=91=A8=E4=BA=8C 11:49=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 3/14/23 11:23, Dmitry Fomichev wrote:
+> >> @@ -3339,10 +3473,27 @@ static int coroutine_fn
+> >> raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
+> >>                          len >> BDRV_SECTOR_BITS);
+> >>      ret =3D raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
+> >>      if (ret !=3D 0) {
+> >> +        update_zones_wp(s->fd, wps, offset, index);
+> >>          ret =3D -errno;
+> >>          error_report("ioctl %s failed %d", op_name, ret);
+> >> +        goto out;
+> >>      }
+> >>
+> >> +    if (zo =3D=3D BLKRESETZONE && len =3D=3D capacity) {
+> >> +        for (int i =3D 0; i < bs->bl.nr_zones; ++i) {
+> >> +            if (!BDRV_ZT_IS_CONV(wps->wp[i])) {
+> >> +                wps->wp[i] =3D i * bs->bl.zone_size;
+> >
+> > This will reset write pointers of all read-only zones that may exist on=
+ the
+> > device and make the data stored in those zones unreadable. R/O zones ne=
+ed to be
+> > skipped in this loop.
+>
+> And offline zones need to be skipped as well.
 
-Additionally, Python 3.7 will be EOL by upstream in June 2023, if I've got 
-that right ... so when QEMU 8.1 will be released, it will already be out of 
-service...
+I see. That can be done thanks to get_zones_wp() which can show the
+state of the zone at specific position.
 
-  Thomas
-
+Sam
 
