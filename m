@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0266BBE45
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 21:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C486BBE46
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 21:58:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcYAx-00019V-6K; Wed, 15 Mar 2023 16:56:47 -0400
+	id 1pcYBx-0001W9-S0; Wed, 15 Mar 2023 16:57:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pcYAu-00019G-3f
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:56:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pcYBv-0001SN-2e
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:57:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pcYAs-0001x2-ER
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:56:43 -0400
+ id 1pcYBt-00024Q-En
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 16:57:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678913800;
+ s=mimecast20190719; t=1678913864;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=KQQGxNXqLqUh0iasPy2b44a8l+JmMbcgHDn6bnsefmc=;
- b=fbYNM/Q2hfjh56ugrUMydj2vbLdPstSKQtwWN7TNHrkArEdxyjZuYu+k7K4Kn5w2SE88Ve
- 99Bxm4pRRE4bp4e1wc4ilyHOPE/n9G6Cy/Qu2vMSxa+kfdDggpMJ2eP3nDMZh2Xi0iBWKL
- nRKTB8LeRKlr2EpTuGRxrdQYNwpY9xI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Su35NByslQ7vkyq8AYJmNhwF8Dawa03AgWtziG6uyVo=;
+ b=hL3Bzk0nOiexvbWyS5iltY2r8ixyBf+5pSdP0abrpMIBOe94D33YIe1sBvW4l8OBdsZ9iJ
+ iINjyyU+LZ260w9x0IcelNv8vjvON3B/VDl3BkSWS+Nce+knk6Ped5XP9GLvuijnBat+qR
+ uzVSrPQjrn00rbNZ72YXmSRFlcqFmd8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-403-UFZ_scslNr63yj88bEyWPQ-1; Wed, 15 Mar 2023 16:56:39 -0400
-X-MC-Unique: UFZ_scslNr63yj88bEyWPQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k18-20020a05600c1c9200b003ed2a3f101fso1520161wms.9
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:56:39 -0700 (PDT)
+ us-mta-346-32lqcqUbONqc5HyleNfdHw-1; Wed, 15 Mar 2023 16:57:43 -0400
+X-MC-Unique: 32lqcqUbONqc5HyleNfdHw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bd26-20020a05600c1f1a00b003ed23f09060so1205027wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 13:57:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678913798;
+ d=1e100.net; s=20210112; t=1678913861;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KQQGxNXqLqUh0iasPy2b44a8l+JmMbcgHDn6bnsefmc=;
- b=CinqRHLEX2qWgcC4zfJIViZNkKycgFQZJBxXtgwkEGKHmsabYkt0XfYos6qZbzGr0r
- hC7RElS5Fgv0oLp+CI3oPi++Fvp5YqTxM7NU2KnWBJznZu+TcqdtdXzIvR50JGIjQp2n
- VAfAb/8SVG4U8QzLnzPDRWYaCHzN6gQkQwXC1bjRT5f+PTtV4H63na2suzlcWkVPlINA
- 2anwoKnNMpojp+rLWXpVN6iKLvvXQwDDhc4SiuI2nc/mCwo7fIH+ufVJj+7I9KK9FyOh
- Fdbud+gAMToM3dsyBuM/xN2PpvuCiIIgwpv5M2RLaQw0ghDmVPqHJOlN6qNpDtyO3FPL
- 1QFg==
-X-Gm-Message-State: AO0yUKWh1uceNbTKI6SQjAVqkVN+TwWBnrTy4DfyttVCpxZ4j47hgLeQ
- MkNtzkkQkZ/yrOvAhbRS1JZKWgGcuv/o9GGKmsopz5nJXprNWQ0oJMFz+LKwrlg5SNLzkVfQabA
- K4y+xdU5h4jJjv6U=
-X-Received: by 2002:a05:600c:1c0a:b0:3ed:22b3:6263 with SMTP id
- j10-20020a05600c1c0a00b003ed22b36263mr13189096wms.12.1678913798246; 
- Wed, 15 Mar 2023 13:56:38 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+y8Bdw9SyF0QLt8uXQdW24/WWsEpc9UAUrX6RSsX7Rp3sLlFQpdDCKI/XN3hJEfOUjJsA9Kw==
-X-Received: by 2002:a05:600c:1c0a:b0:3ed:22b3:6263 with SMTP id
- j10-20020a05600c1c0a00b003ed22b36263mr13189089wms.12.1678913797986; 
- Wed, 15 Mar 2023 13:56:37 -0700 (PDT)
+ bh=Su35NByslQ7vkyq8AYJmNhwF8Dawa03AgWtziG6uyVo=;
+ b=Ep5ijMnCXnCkGQhZG7Z3mzIgcXbO31LIPdCvZf8b8ZzzoOOKj3B3kZKST3R5rTHy2W
+ GbrY+b2E7YLHe8LTpT1jnuwiKPkGBXRs/B8/5KcHK2epxRNKJyVHERXOeAXCLaTvOgpe
+ RHXuQN2mNB7ibu/ceml9iPCwfY4PRhXqeSkXHCFwWnpzUj68H/wQFxxoslOyxzHfEiTp
+ wgGUpHxdRVB5NjuFEdZSCGnkd8Qse83xSYw6/YVi5RPXlOplWZSa57zmlnTm5XtVV88v
+ KZ+hLKeeKii9HlaMa+M4oL3pD2tGL4a1lY9s+qgXxLTff30FidVszBNdw3s8bJo7ipzY
+ hFGQ==
+X-Gm-Message-State: AO0yUKUdAh/qRohiLlytBDT3ZT7aFp4olTmxVSDabwsSB8DIxVNsesgh
+ Amlzexb1+ZhQAyOqxBPZxLjjCKqZisIQTK3QvOF/oqDWnKhIn5S2MzEn3UzXMQLjpGDCiev2NKg
+ MCLbr41HSYtYptxE=
+X-Received: by 2002:a05:600c:470e:b0:3eb:29fe:734a with SMTP id
+ v14-20020a05600c470e00b003eb29fe734amr19253221wmo.39.1678913861693; 
+ Wed, 15 Mar 2023 13:57:41 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8/iOZwpgaY7VV5NavLetCjB4c1CGtkF7kIg8eoZxX1ociaUKGDtP/D5laPdGPzLfr9Ok/9Ag==
+X-Received: by 2002:a05:600c:470e:b0:3eb:29fe:734a with SMTP id
+ v14-20020a05600c470e00b003eb29fe734amr19253208wmo.39.1678913861340; 
+ Wed, 15 Mar 2023 13:57:41 -0700 (PDT)
 Received: from redhat.com (62.117.238.225.dyn.user.ono.com. [62.117.238.225])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a05600c198e00b003ed29899dfdsm3169328wmq.21.2023.03.15.13.56.37
+ u18-20020a5d4352000000b002d1daafea30sm222364wrr.34.2023.03.15.13.57.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 13:56:37 -0700 (PDT)
+ Wed, 15 Mar 2023 13:57:40 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 Cc: <qemu-devel@nongnu.org>,  <bcain@quicinc.com>,  <dgilbert@redhat.com>,
  <ling1.xu@intel.com>,  <zhou.zhao@intel.com>,  <jun.i.jin@intel.com>
-Subject: Re: [PATCH RESEND v2 1/2] migration/xbzrle: use ctz64 to avoid
- undefined result
-In-Reply-To: <117f3c2fdc17c319b0e04014bbd7e0c94992c197.1678733663.git.quic_mathbern@quicinc.com>
- (Matheus Tavares Bernardino's message of "Mon, 13 Mar 2023 15:58:19
+Subject: Re: [PATCH RESEND v2 2/2] migration/xbzrle: fix out-of-bounds write
+ with axv512
+In-Reply-To: <08a655a31d3161e76c4fceaf43e8960e751cdf87.1678733663.git.quic_mathbern@quicinc.com>
+ (Matheus Tavares Bernardino's message of "Mon, 13 Mar 2023 15:58:20
  -0300")
 References: <cover.1678733663.git.quic_mathbern@quicinc.com>
- <117f3c2fdc17c319b0e04014bbd7e0c94992c197.1678733663.git.quic_mathbern@quicinc.com>
+ <08a655a31d3161e76c4fceaf43e8960e751cdf87.1678733663.git.quic_mathbern@quicinc.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 15 Mar 2023 21:56:36 +0100
-Message-ID: <87ttyln37f.fsf@secure.mitica>
+Date: Wed, 15 Mar 2023 21:57:40 +0100
+Message-ID: <87pm99n35n.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,19 +104,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Matheus Tavares Bernardino <quic_mathbern@quicinc.com> wrote:
-> __builtin_ctzll() produces undefined results when the argument is 0.
-> This can be seen through test-xbzrle, which produces the following
-> warning:
+> xbzrle_encode_buffer_avx512() checks for overflows too scarcely in its
+> outer loop, causing out-of-bounds writes:
 >
-> ../migration/xbzrle.c:265: runtime error: passing zero to ctz(), which is not a valid argument
+> $ ../configure --target-list=aarch64-softmmu --enable-sanitizers --enable-avx512bw
+> $ make tests/unit/test-xbzrle && ./tests/unit/test-xbzrle
 >
-> Replace __builtin_ctzll() with our ctz64() wrapper which properly
-> handles 0.
+> ==5518==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62100000b100 at pc 0x561109a7714d bp 0x7ffed712a440 sp 0x7ffed712a430
+> WRITE of size 1 at 0x62100000b100 thread T0
+>     #0 0x561109a7714c in uleb128_encode_small ../util/cutils.c:831
+>     #1 0x561109b67f6a in xbzrle_encode_buffer_avx512 ../migration/xbzrle.c:275
+>     #2 0x5611099a7428 in test_encode_decode_overflow ../tests/unit/test-xbzrle.c:153
+>     #3 0x7fb2fb65a58d  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a58d)
+>     #4 0x7fb2fb65a333  (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7a333)
+>     #5 0x7fb2fb65aa79 in g_test_run_suite (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7aa79)
+>     #6 0x7fb2fb65aa94 in g_test_run (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x7aa94)
+>     #7 0x5611099a3a23 in main ../tests/unit/test-xbzrle.c:218
+>     #8 0x7fb2fa78c082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082)
+>     #9 0x5611099a608d in _start (/qemu/build/tests/unit/test-xbzrle+0x28408d)
+>
+> 0x62100000b100 is located 0 bytes to the right of 4096-byte region [0x62100000a100,0x62100000b100)
+> allocated by thread T0 here:
+>     #0 0x7fb2fb823a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
+>     #1 0x7fb2fb637ef0 in g_malloc0 (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x57ef0)
+>
+> Fix that by performing the overflow check in the inner loop, instead.
 >
 > Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 queued.
+
+As David said, we can still improve the code.
+
+thanks, Juan.
 
 
