@@ -2,80 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEE66BA546
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 03:36:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7356BA557
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 03:49:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcGyR-0001rm-3W; Tue, 14 Mar 2023 22:34:43 -0400
+	id 1pcHBT-0004My-Fh; Tue, 14 Mar 2023 22:48:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1pcGyO-0001rL-Km
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 22:34:40 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1pcGyM-0005cg-RK
- for qemu-devel@nongnu.org; Tue, 14 Mar 2023 22:34:40 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id y2so17301307pjg.3
- for <qemu-devel@nongnu.org>; Tue, 14 Mar 2023 19:34:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678847676;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=y6DLzmJoWt1vmQbipWXDqDJft5MZbWaEV1+Jevg7c1g=;
- b=qguhIk2HNbFNZG9Zfw5oIKcEj+35bvHt6GRN08/P8q5tsnmnIcihPlAGCTVsuonF5B
- jz3s31FheSKm7wxb2EkJowpssNWoDbpIN4MAFD8r1nJvrM/GDFRFeRoL6cVueu3TL4v8
- LsG0QzHZH4R0qNfo5+MpUEKDofi4AAe0zYUFkHGfN34VnwNhOH06hVGPobInWjWGAxa8
- FWElM1YhZo0K2j3b1vSDixjknVpDTjdCC6U4pfHpLU1+QXIRwBkDPIwvhVePAAtnCjUF
- P+1iG4u5P/vmoI/m1RA0nUokEMJzD3gJyG13O24JXRunRdOKVUik67Ljk76SUkPUAhEG
- GpKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678847676;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=y6DLzmJoWt1vmQbipWXDqDJft5MZbWaEV1+Jevg7c1g=;
- b=nIo/7zvmV9bhvi7QyVnA6hygw1zImdvi9wDV7WXDR0IBPbCpF3QYzORR4H/W9ETOtz
- NHIuRDMks6K+UuXLJ3f0Mvt4IACAZG716PiXgZI3sUrsyUw2Cb2g2kOItiHZx6CKtaRd
- uDnBCD1jpIP1egQ/nifZo2qA2pOe52r8C977jQFN9qJvntWTOSi59crdK2GVISmz2c0D
- KC/QcKULHlUfgJMzyJ5KGdFa2oxgXszzBGRK1/aoP+XU83hGLuX0HeiN0ClPGARspU09
- xCF7GgbLFZr+qYOByfC/ZdQWQxW3Svno7iFCq574KEn5dzAQYxYxv40pnEzGdrpsydp/
- xbHA==
-X-Gm-Message-State: AO0yUKULADbgJ9xEXYWjieMx4txHZ+LdrW4Gh2+vHvX8Q40rKW3Caqja
- epTCz4jvSQfZftkU3dQj81D5sWJnrpc=
-X-Google-Smtp-Source: AK7set8J55EA7f66NtsuKERWS7wA3b5H3cPlBdhd/N95z8J3ehVWWr/dVGZx1FEdsQDGtDwNTIc6sA==
-X-Received: by 2002:a17:903:1106:b0:19d:7a4:4063 with SMTP id
- n6-20020a170903110600b0019d07a44063mr1368608plh.46.1678847676487; 
- Tue, 14 Mar 2023 19:34:36 -0700 (PDT)
-Received: from octofox.hsd1.ca.comcast.net
- ([2601:641:401:1d20:6cf0:82fd:def:4205])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a1709029a0900b0019ac7319ed1sm2398763plp.126.2023.03.14.19.34.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 19:34:36 -0700 (PDT)
-From: Max Filippov <jcmvbkbc@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] tests/tcg/xtensa: allow testing big-endian cores
-Date: Tue, 14 Mar 2023 19:34:27 -0700
-Message-Id: <20230315023427.2224654-1-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pcHBP-0004Mb-PY
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 22:48:07 -0400
+Received: from mail-bn8nam12on2080.outbound.protection.outlook.com
+ ([40.107.237.80] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pcHBL-0007nL-T3
+ for qemu-devel@nongnu.org; Tue, 14 Mar 2023 22:48:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L3ueYTb+JNE97GfcFs/f66KxKkEuVDCyjtOvyU04K0KCXHMMGpAM3pgC4O0bSOAbMMV0NR8wkmt1wshbzNxk21TWiXz+A0c3Ztgy3P6lr6X55X6U4XvkZmA4fQVUGf0FAJJ64dmkMpIX18TtL6mah8hHw6rru6jeI9s0zQ5zAGJzeTxEVgCmovJajvb9BAV+0VBje2yMn1D3bjZ4TgmUFKZExqKmM/VSvA255r/G07BFEW/iJwxdo6TXvlfXQ1ERgP4EQ0EXix3IFYvtjbh9Js4rc68Wp5ZKtU9h0lAhumbc++aXmI/Avz5gSuXF0i9Va1eU2p09NgT6DOJtqT3gkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YXRq3thNq+a0VHt+seiANcdcppO7wlaBC8lQMdxlFak=;
+ b=lA7W5AwQ01+TudjIknCuqDNJG6K1uFw8ouFvFhSlNByZf93wPPWfKDa/JaOTdoXnFGs770BZy9ITtTYkq1dopGd5NjHSskD84C/zcFjI7JIme0PnvDQXDLE6sG46bMFUq90I0ex0Y4/OG2XtDEnVnDePJz6mG9qE3PazpG9w86qfLdNPHLH4lb87yhhbb0eck+EYoQ4toyxWUbdtWUcrt8SK8bpG8jtnwzjVPdM53l+Sn6M8v5lM+pqXs+FQTyCp+2IWUFTKgxJFwdqTcafqKJJgTonv2z8VrYJ1nH2V1/FJMvcfCQ23hI3n5VL4yzt0k6GvKgrhTLRS0wjWev8aqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YXRq3thNq+a0VHt+seiANcdcppO7wlaBC8lQMdxlFak=;
+ b=JguwEAF+etLXGx7FhtIAXkCmTa1oPtXdiTBtyRZBRhHoSwZtKCO9ZFSTf90jmBc+gUTeLv3nsC769pyEhqrBTeAChK4URamHKvVKcWDWLBwbeDeisiJvMAeIvM2eK7WKRgkLfYfNV+Ggq7l0fRRhvL8y3ZmIl49bLdcAd3cWgA4=
+Received: from DM6PR07CA0104.namprd07.prod.outlook.com (2603:10b6:5:330::30)
+ by CH0PR12MB5089.namprd12.prod.outlook.com (2603:10b6:610:bc::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Wed, 15 Mar
+ 2023 02:42:57 +0000
+Received: from DS1PEPF0000E655.namprd02.prod.outlook.com
+ (2603:10b6:5:330:cafe::62) by DM6PR07CA0104.outlook.office365.com
+ (2603:10b6:5:330::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.29 via Frontend
+ Transport; Wed, 15 Mar 2023 02:42:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E655.mail.protection.outlook.com (10.167.18.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.23 via Frontend Transport; Wed, 15 Mar 2023 02:42:56 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 14 Mar
+ 2023 21:42:56 -0500
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 8.0.0-rc0 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>
+Date: Tue, 14 Mar 2023 21:41:42 -0500
+Message-ID: <167884810272.1489828.13839404132668350154@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E655:EE_|CH0PR12MB5089:EE_
+X-MS-Office365-Filtering-Correlation-Id: bca1cad0-6dd0-4b8b-c61f-08db24fefbc6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VQ1cxLFkyUT/l/7h8DroaliuVGTrJULrcmxFM9ZOpNp/+ftL0deSnS5AuR/rmKBtjnJptzdCVdAiiapD7MG5VyNpO/jr80oSLYlZaarL/uWkI5GUSTrGYJFKy4iM8bHaJXOGBG9C6pl1LPdEipKBaoNoBO5ciYQ9Crwow47Mtwt1dq+MoLQvr6fwtnt4GOQm+cTBlFymWtkQuxCdjIE10c4tAfulOr55HUFY34CKG0vnRDnCxXoH5FEAMdecUdNwbqH7oFOchFT07/NvXiGtod+mc4iL8yBMeFUiHmruhZ2aVK94Datz63ub/1HJDsdiQr5AwgFHAYTLGVdwERW8He7RlJajaS07RVlcm1yNSyNpxq/XzfF/KxGTFPMiLzNvPVqdRjbOTK6nFNh5PsnUdC+bcExTP4uwNdppEZ4mC3Uw/IBMKKMdDO2/hF6sphX9JJOkHoqCE/ZpxNSfnUiI4jPdSWfit4mQIuo7xc0Yc7YQNK0g2N/BQEgYc1xRiIX0ifautQPeNY1JSgEfiIm6Yh7h6SSwpYQTV6+8BS41kL35r1hyHVaieZjj5jsgXfXO7L6gaN0wHLqhJvWXNLRyup8avtg7ADP1RSNLNSD9iAOgRhxUyRKV9+/2jLcNfUIksRn6+2T4asAaVFAnEi3t0xpFDKAgJkD7bU07FpnjEmC/zewYem70dFqPBptqGhBWpA1RmYrg7TjHOn0YB+cPczdRGXSdjVVdMqWixxtfN1lAQw6GCZKfDx4MeQgNnq5IgPPUZ0eKS8e40R3ocF6QdQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199018)(36840700001)(40470700004)(46966006)(26005)(36756003)(6666004)(82310400005)(966005)(426003)(70586007)(336012)(70206006)(36860700001)(40460700003)(478600001)(81166007)(4326008)(6916009)(8676002)(47076005)(5660300002)(82740400003)(316002)(16526019)(40480700001)(83380400001)(4744005)(86362001)(44832011)(2906002)(186003)(2616005)(41300700001)(8936002)(356005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 02:42:56.6677 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bca1cad0-6dd0-4b8b-c61f-08db24fefbc6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E655.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5089
+Received-SPF: softfail client-ip=40.107.237.80;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,64 +118,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Don't disable all big-endian tests, instead check whether $(CORE) is
-supported by the configured $(QEMU) and enable tests if it is.
+Hello,
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS                                | 1 +
- tests/tcg/xtensa/Makefile.softmmu-target   | 4 ++--
- tests/tcg/xtensaeb/Makefile.softmmu-target | 5 +++++
- 3 files changed, 8 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
+On behalf of the QEMU Team, I'd like to announce the availability of the
+first release candidate for the QEMU 8.0 release. This release is meant
+for testing purposes and should not be used in a production environment.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d51ddee0b94b..94faa804610e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -371,6 +371,7 @@ S: Maintained
- F: target/xtensa/
- F: hw/xtensa/
- F: tests/tcg/xtensa/
-+F: tests/tcg/xtensaeb/
- F: disas/xtensa.c
- F: include/hw/xtensa/xtensa-isa.h
- F: configs/devices/xtensa*/default.mak
-diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
-index 948c0e6506bd..ba6cd9fde3fe 100644
---- a/tests/tcg/xtensa/Makefile.softmmu-target
-+++ b/tests/tcg/xtensa/Makefile.softmmu-target
-@@ -2,7 +2,8 @@
- # Xtensa softmmu tests
- #
- 
--ifneq ($(TARGET_BIG_ENDIAN),y)
-+CORE=dc232b
-+ifneq ($(shell $(QEMU) -cpu help | grep -w $(CORE)),)
- 
- XTENSA_SRC = $(SRC_PATH)/tests/tcg/xtensa
- XTENSA_ALL = $(filter-out $(XTENSA_SRC)/linker.ld.S,$(wildcard $(XTENSA_SRC)/*.S))
-@@ -15,7 +16,6 @@ XTENSA_USABLE_TESTS = $(filter-out $(XTENSA_BROKEN_TESTS), $(XTENSA_TESTS))
- TESTS += $(XTENSA_USABLE_TESTS)
- VPATH += $(XTENSA_SRC)
- 
--CORE=dc232b
- QEMU_OPTS+=-M sim -cpu $(CORE) -nographic -semihosting -icount 6 $(EXTFLAGS) -kernel
- 
- INCLUDE_DIRS = $(SRC_PATH)/target/xtensa/core-$(CORE)
-diff --git a/tests/tcg/xtensaeb/Makefile.softmmu-target b/tests/tcg/xtensaeb/Makefile.softmmu-target
-new file mode 100644
-index 000000000000..4204a96d53c0
---- /dev/null
-+++ b/tests/tcg/xtensaeb/Makefile.softmmu-target
-@@ -0,0 +1,5 @@
-+#
-+# Xtensa softmmu tests
-+#
-+
-+include $(SRC_PATH)/tests/tcg/xtensa/Makefile.softmmu-target
--- 
-2.30.2
+  http://download.qemu.org/qemu-8.0.0-rc0.tar.xz
+  http://download.qemu.org/qemu-8.0.0-rc0.tar.xz.sig
 
+You can help improve the quality of the QEMU 8.0 release by testing this
+release and reporting bugs using our GitLab issue tracker:
+
+  https://gitlab.com/qemu-project/qemu/-/milestones/8#tab-issues
+
+The release plan, as well a documented known issues for release
+candidates, are available at:
+
+  http://wiki.qemu.org/Planning/8.0
+
+Please add entries to the ChangeLog for the 8.0 release below:
+
+  http://wiki.qemu.org/ChangeLog/8.0
+
+Thank you to everyone involved!
 
