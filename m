@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4CF6BBB4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F6E6BBB4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:49:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVAC-00024r-05; Wed, 15 Mar 2023 13:43:48 -0400
+	id 1pcVAA-00022L-4p; Wed, 15 Mar 2023 13:43:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVA9-00021c-2y
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:45 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pcVA7-000200-Ne
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:43 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVA0-0000cl-Cb
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:44 -0400
-Received: by mail-wr1-x431.google.com with SMTP id o7so8676865wrg.5
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:35 -0700 (PDT)
+ id 1pcVA0-0000c0-Bd
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:43 -0400
+Received: by mail-wm1-x330.google.com with SMTP id bi20so3207187wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902214;
+ d=linaro.org; s=google; t=1678902213;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y4cpR7vA6XSXxWS6bHag8gq4h8YFalbW/SrKcN6qWB8=;
- b=gb53RexSl8PB4IaOOG9vTrd+3BcQN0+X2Am1jwD+RpD/rPEOKxUfXSzSe4DYauDoAq
- BwfNcPM8KY6JvnQDUHY8DT1a2Pfcdi8XOIC09K8wbEN8O4vtpMXc84nHnMoAxKVz5XyI
- tl6psBNX6/vGm1pZbEPVmGtME5UQZqlkf8f1ggfc+Ip9lbnFapBhBBEnfMxOf+VWfAyO
- Hp+Uz+k0VMlEgUUmnuUzVttOxbO7IHeQPF2i64pBiNfzLgXIrWnqXT5997lsKogM5Hx2
- KUEHwjinTWn6LdBjwPAtR0KxKxLSMSJ34L3EhUBA72mCVUM64sj3Fej/wxBuwYHz0Ph4
- DiLw==
+ bh=6cCbPXzWfjZFi2jKGovhuePGEghRzJegWJl5AEsiLWo=;
+ b=e6frw5ss4POBsTvVuRn1RoJ1D1MFlJUoM+dG8WV65R1WDlJ6YIwdPIK41ldiQC0A7N
+ YJX4Wl+4jx/IALzWdtfbzmAV7s4LrySlL62iLsXR84XfLBCUEgeYqBtjB3XqzU8WdPwD
+ kDZe37PhbVn2DJZeJdXjQC4t50rQbPlF+HOPN3WdcKSyNCtFIWnbH0Za0AA8r02NUMy9
+ I/u6b5301gInJ0YqiezsVGaoksbvbrKgNoWBOUXtBTpODia4MKZ6MG10qoJuJna/L2eJ
+ x+9PfEFzvjfJX2y5zNWxOuIWppPblyB3YMRtx8MK2cqMJ5N9gOIqbbImeZ/r6dUcmANK
+ MR6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902214;
+ d=1e100.net; s=20210112; t=1678902213;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y4cpR7vA6XSXxWS6bHag8gq4h8YFalbW/SrKcN6qWB8=;
- b=xT86dtOrTLuFSdUJWjq/QwhWQumsmAp41EPZY91ot6RrPHgzGRxZVZGAgQGSsedleS
- XmF0RN9yxrH9vwiPfcY5AK6zsHV5lXIN3DggZL9TnETiPZZ9IDTHzJ5ZxNpc1PMMqFno
- 52rGFCTlJIAAv2yeqO+QyhdOvJVDH8QjdY0hy32Hua9K7iB204bFHwZebVxgZ+zCpp4A
- 5mYEQoFUzSgYHKU3+rWOaalgtmKm+qdkMNTTjNxiLfL8FfaaJAFcNfJP3TyXTwYyVPnC
- n9pbn7Oq09cjTqDg90eTbTX+pWbniP0l4mR337rkgI/tGhjA/rOFcxHguGKnVQSLgjyU
- TkzA==
-X-Gm-Message-State: AO0yUKVgj+hIZ1wiUUqMt1mPqWSm57ozz1aEHAjFzJT31aV2zBmWST6H
- xUU3cszfqBbnv5lny6VLsVVf7w==
-X-Google-Smtp-Source: AK7set9LElPNTXQiqOj+0ADODBobuAuRsu2Z5RFM9zCJWgYF1lFYWqWlOkJK+PxZbCiaZo7r224tiQ==
-X-Received: by 2002:a5d:6a4a:0:b0:2cf:3a99:9c1e with SMTP id
- t10-20020a5d6a4a000000b002cf3a999c1emr2611776wrw.49.1678902214472; 
- Wed, 15 Mar 2023 10:43:34 -0700 (PDT)
+ bh=6cCbPXzWfjZFi2jKGovhuePGEghRzJegWJl5AEsiLWo=;
+ b=zG+W2iSwjyxCl+7Yhg0E/8py+NDpZE8vGD0/FeKzlj6YEUm4bH9Fv5V7HJx3X2ulD5
+ ptHvO17dOaVv5WC0lWEoiSB7++bLEOZKNrOPcp1+kaZFod7E/f/L6OLeHjqOfT3wbOaj
+ c/c9RVeVDhy5QMZftph57KFmAwaUvkX/U1cBKgy7vSer8fLVSZmxXZ+ihTsBHG79Upjs
+ +XvUfHKV3e6xjsc+zULBg/t768LTWvAJUkpsPK98P4XpC6zffJOx8alEA1bSIiYX9kVr
+ 0Rl+f0MlvF+qS5oUmDCP2MXM+SRYg+XmjHTXWSB0RYue6opHerzDoP2/v2NpfMKCVhK8
+ p+XQ==
+X-Gm-Message-State: AO0yUKV5GAUREfHCO4nFIorWtpYm7PhuQqdIUR6Sht8N9eQ8tr/sAAZL
+ vZT7c+JCJMpWmiYPncYoCKZ1ZQ==
+X-Google-Smtp-Source: AK7set+GZ3LhDlTfYCxbbbBGyA0jqucVCYXoZoXtTcZmIqpprkGZWQ7DrRhMIycygSF8Q7YB9rEE2Q==
+X-Received: by 2002:a05:600c:450d:b0:3ea:fca4:8c48 with SMTP id
+ t13-20020a05600c450d00b003eafca48c48mr18220315wmo.23.1678902213685; 
+ Wed, 15 Mar 2023 10:43:33 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- n7-20020a5d4847000000b002c5d3f0f737sm5190409wrs.30.2023.03.15.10.43.32
+ p9-20020a1c5449000000b003dc1d668866sm2529134wmi.10.2023.03.15.10.43.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Mar 2023 10:43:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D4A31FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id A873D1FFBC;
  Wed, 15 Mar 2023 17:43:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,17 +106,18 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 03/32] scripts/ci: add libslirp-devel to build-environment
-Date: Wed, 15 Mar 2023 17:43:02 +0000
-Message-Id: <20230315174331.2959-4-alex.bennee@linaro.org>
+Subject: [PATCH v2 04/32] scripts/ci: update gitlab-runner playbook to handle
+ CentOS
+Date: Wed, 15 Mar 2023 17:43:03 +0000
+Message-Id: <20230315174331.2959-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -139,27 +140,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Without libslip enabled we won't have user networking which means the
-KVM tests won't run.
+This was broken when we moved to using the pre-built packages as we
+didn't take care to ensure we used RPMs where required.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+NB: I could never get this to complete on my test setup but I suspect
+this was down to network connectivity and timeouts while downloading.
+
+Fixes: 69c4befba1 (scripts/ci: update gitlab-runner playbook to use latest runner)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/ci/org.centos/stream/8/build-environment.yml | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/ci/setup/gitlab-runner.yml | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/ci/org.centos/stream/8/build-environment.yml b/scripts/ci/org.centos/stream/8/build-environment.yml
-index 0d094d70c3..1ead77e2cb 100644
---- a/scripts/ci/org.centos/stream/8/build-environment.yml
-+++ b/scripts/ci/org.centos/stream/8/build-environment.yml
-@@ -55,6 +55,7 @@
-           - librados-devel
-           - librbd-devel
-           - libseccomp-devel
-+          - libslirp-devel
-           - libssh-devel
-           - libxkbcommon-devel
-           - lzo-devel
+diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+index 95d4199c03..1a1b270ff2 100644
+--- a/scripts/ci/setup/gitlab-runner.yml
++++ b/scripts/ci/setup/gitlab-runner.yml
+@@ -48,13 +48,29 @@
+     - debug:
+         msg: gitlab-runner arch is {{ gitlab_runner_arch }}
+ 
+-    - name: Download the matching gitlab-runner
++    - name: Download the matching gitlab-runner (DEB)
+       get_url:
+         dest: "/root/"
+         url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_{{ gitlab_runner_arch }}.deb"
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++
++    - name: Download the matching gitlab-runner (RPM)
++      get_url:
++        dest: "/root/"
++        url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_{{ gitlab_runner_arch }}.rpm"
++      when:
++        - ansible_facts['distribution'] == 'CentOS'
+ 
+-    - name: Install gitlab-runner via package manager
++    - name: Install gitlab-runner via package manager (DEB)
+       apt: deb="/root/gitlab-runner_{{ gitlab_runner_arch }}.deb"
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++
++    - name: Install gitlab-runner via package manager (RPM)
++      yum: name="/root/gitlab-runner_{{ gitlab_runner_arch }}.rpm"
++      when:
++        - ansible_facts['distribution'] == 'CentOS'
+ 
+     - name: Register the gitlab-runner
+       command: "/usr/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
 -- 
 2.39.2
 
