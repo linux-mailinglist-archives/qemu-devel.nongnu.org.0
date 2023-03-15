@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F6E6BBB4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4146BBB30
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:45:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVAA-00022L-4p; Wed, 15 Mar 2023 13:43:46 -0400
+	id 1pcVAD-00026S-GG; Wed, 15 Mar 2023 13:43:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVA7-000200-Ne
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:43 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pcVAA-00023b-2b
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:46 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVA0-0000c0-Bd
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:43 -0400
-Received: by mail-wm1-x330.google.com with SMTP id bi20so3207187wmb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:34 -0700 (PDT)
+ id 1pcVA0-0000dR-PO
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:45 -0400
+Received: by mail-wr1-x432.google.com with SMTP id o7so8676912wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902213;
+ d=linaro.org; s=google; t=1678902215;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6cCbPXzWfjZFi2jKGovhuePGEghRzJegWJl5AEsiLWo=;
- b=e6frw5ss4POBsTvVuRn1RoJ1D1MFlJUoM+dG8WV65R1WDlJ6YIwdPIK41ldiQC0A7N
- YJX4Wl+4jx/IALzWdtfbzmAV7s4LrySlL62iLsXR84XfLBCUEgeYqBtjB3XqzU8WdPwD
- kDZe37PhbVn2DJZeJdXjQC4t50rQbPlF+HOPN3WdcKSyNCtFIWnbH0Za0AA8r02NUMy9
- I/u6b5301gInJ0YqiezsVGaoksbvbrKgNoWBOUXtBTpODia4MKZ6MG10qoJuJna/L2eJ
- x+9PfEFzvjfJX2y5zNWxOuIWppPblyB3YMRtx8MK2cqMJ5N9gOIqbbImeZ/r6dUcmANK
- MR6w==
+ bh=ZvCAx4F7D2VDKqlV3zkasos0ltqlJHomALeskNF44vQ=;
+ b=AjlqOME2l5f+IqgDvgtW5+CkYeuA4/tKB9XBYxUgEu3ueBpIzfu96BCHEPiULHgBBL
+ FooB/VtpQBdQkpDO4v/IMPVLvdKcTK9V3rZhZsuv5njFjvea8/ayGf6Ddg8gs8mTHDcv
+ JqDUgd14PceCjhoW67Qm/a5tvXJCKKALZZUmxx0bbPVte135ngmbji6xTxt4R63yB7Ke
+ X4LJ95o9cSH7pSfLjtP/bCLS+EbUhyoKKtO+2KOxARYp/cqT5VwwuTe451t3ohJopxwO
+ THwgKaTxK8c/tq7dYBBCtPaGFqsHkWZ1PGaDTzHuokKCgaXI+K0G9Lk9/7yjBLi6ywlm
+ E6Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902213;
+ d=1e100.net; s=20210112; t=1678902215;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6cCbPXzWfjZFi2jKGovhuePGEghRzJegWJl5AEsiLWo=;
- b=zG+W2iSwjyxCl+7Yhg0E/8py+NDpZE8vGD0/FeKzlj6YEUm4bH9Fv5V7HJx3X2ulD5
- ptHvO17dOaVv5WC0lWEoiSB7++bLEOZKNrOPcp1+kaZFod7E/f/L6OLeHjqOfT3wbOaj
- c/c9RVeVDhy5QMZftph57KFmAwaUvkX/U1cBKgy7vSer8fLVSZmxXZ+ihTsBHG79Upjs
- +XvUfHKV3e6xjsc+zULBg/t768LTWvAJUkpsPK98P4XpC6zffJOx8alEA1bSIiYX9kVr
- 0Rl+f0MlvF+qS5oUmDCP2MXM+SRYg+XmjHTXWSB0RYue6opHerzDoP2/v2NpfMKCVhK8
- p+XQ==
-X-Gm-Message-State: AO0yUKV5GAUREfHCO4nFIorWtpYm7PhuQqdIUR6Sht8N9eQ8tr/sAAZL
- vZT7c+JCJMpWmiYPncYoCKZ1ZQ==
-X-Google-Smtp-Source: AK7set+GZ3LhDlTfYCxbbbBGyA0jqucVCYXoZoXtTcZmIqpprkGZWQ7DrRhMIycygSF8Q7YB9rEE2Q==
-X-Received: by 2002:a05:600c:450d:b0:3ea:fca4:8c48 with SMTP id
- t13-20020a05600c450d00b003eafca48c48mr18220315wmo.23.1678902213685; 
- Wed, 15 Mar 2023 10:43:33 -0700 (PDT)
+ bh=ZvCAx4F7D2VDKqlV3zkasos0ltqlJHomALeskNF44vQ=;
+ b=beSeEGEGS5ySzjadjtxvUqJzqY3AAD2Q+iMlLSAvlH/v1fESET9q8DfzUGr0piV22R
+ cFg+ZP4opt2is8IWEqeBfE5amWevYC0EYuWukUG9ODjIm2WC/LA2mWU1RNaEsBtUBlN3
+ BaIhDVvCUt9sHgAn2uIHYIpHeYkoQCRKWUyQRgEc0pospprry3H2Lyg+UTMazoR12Odj
+ sgUlnjGiHNosKauQ+Izk6mGFcSrkQ3L/a6VjwtBK0tULV/l3G5DPHYLB7hIjqChERfu8
+ F1OuK56mHW2bT+30CGOwUe52PIMHw3UbAYXy9zSMTmvqa7io5mUOl5WA9ci0dfzZH77Y
+ KHEg==
+X-Gm-Message-State: AO0yUKVDbqQwpm0KCtWVYgFo0wg1g5rx/fLTn+Vo7g7EzTerBbjrcz67
+ kwnv5F6Ode3NPe/mSDBJ5c06sw==
+X-Google-Smtp-Source: AK7set9KVHdN8cCJxYnfTKxozvdOIEvbxQZu2fJTj7PcZnTypbf7faT4UqbTVLs/yAwbAsJxtteILg==
+X-Received: by 2002:adf:fe06:0:b0:2cf:e313:2860 with SMTP id
+ n6-20020adffe06000000b002cfe3132860mr3084467wrr.33.1678902215269; 
+ Wed, 15 Mar 2023 10:43:35 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p9-20020a1c5449000000b003dc1d668866sm2529134wmi.10.2023.03.15.10.43.32
+ f12-20020a5d568c000000b002cfe3f842c8sm5176145wrv.56.2023.03.15.10.43.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Mar 2023 10:43:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A873D1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id C89341FFBD;
  Wed, 15 Mar 2023 17:43:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,18 +106,17 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 04/32] scripts/ci: update gitlab-runner playbook to handle
- CentOS
-Date: Wed, 15 Mar 2023 17:43:03 +0000
-Message-Id: <20230315174331.2959-5-alex.bennee@linaro.org>
+Subject: [PATCH v2 05/32] gitlab: update centos-8-stream job
+Date: Wed, 15 Mar 2023 17:43:04 +0000
+Message-Id: <20230315174331.2959-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,54 +139,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This was broken when we moved to using the pre-built packages as we
-didn't take care to ensure we used RPMs where required.
+A couple of clean-ups here:
 
-NB: I could never get this to complete on my test setup but I suspect
-this was down to network connectivity and timeouts while downloading.
+  - inherit from the custom runners job for artefacts
+  - call check-avocado directly
+  - add some comments to the top about setup
 
-Fixes: 69c4befba1 (scripts/ci: update gitlab-runner playbook to use latest runner)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/ci/setup/gitlab-runner.yml | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ .../custom-runners/centos-stream-8-x86_64.yml  | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
-index 95d4199c03..1a1b270ff2 100644
---- a/scripts/ci/setup/gitlab-runner.yml
-+++ b/scripts/ci/setup/gitlab-runner.yml
-@@ -48,13 +48,29 @@
-     - debug:
-         msg: gitlab-runner arch is {{ gitlab_runner_arch }}
- 
--    - name: Download the matching gitlab-runner
-+    - name: Download the matching gitlab-runner (DEB)
-       get_url:
-         dest: "/root/"
-         url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_{{ gitlab_runner_arch }}.deb"
-+      when:
-+        - ansible_facts['distribution'] == 'Ubuntu'
+diff --git a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
+index 068b0c4335..367424db78 100644
+--- a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
++++ b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
+@@ -1,4 +1,9 @@
++# All centos-stream-8 jobs should run successfully in an environment
++# setup by the scripts/ci/setup/stream/8/build-environment.yml task
++# "Installation of extra packages to build QEMU"
 +
-+    - name: Download the matching gitlab-runner (RPM)
-+      get_url:
-+        dest: "/root/"
-+        url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_{{ gitlab_runner_arch }}.rpm"
-+      when:
-+        - ansible_facts['distribution'] == 'CentOS'
- 
--    - name: Install gitlab-runner via package manager
-+    - name: Install gitlab-runner via package manager (DEB)
-       apt: deb="/root/gitlab-runner_{{ gitlab_runner_arch }}.deb"
-+      when:
-+        - ansible_facts['distribution'] == 'Ubuntu'
-+
-+    - name: Install gitlab-runner via package manager (RPM)
-+      yum: name="/root/gitlab-runner_{{ gitlab_runner_arch }}.rpm"
-+      when:
-+        - ansible_facts['distribution'] == 'CentOS'
- 
-     - name: Register the gitlab-runner
-       command: "/usr/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+ centos-stream-8-x86_64:
++ extends: .custom_runner_template
+  allow_failure: true
+  needs: []
+  stage: build
+@@ -8,15 +13,6 @@ centos-stream-8-x86_64:
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+  - if: "$CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE"
+- artifacts:
+-   name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+-   when: on_failure
+-   expire_in: 7 days
+-   paths:
+-     - build/tests/results/latest/results.xml
+-     - build/tests/results/latest/test-results
+-   reports:
+-     junit: build/tests/results/latest/results.xml
+  before_script:
+  - JOBS=$(expr $(nproc) + 1)
+  script:
+@@ -25,6 +21,4 @@ centos-stream-8-x86_64:
+  - ../scripts/ci/org.centos/stream/8/x86_64/configure
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make -j"$JOBS"
+- - make NINJA=":" check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+- - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
++ - make NINJA=":" check check-avocado
 -- 
 2.39.2
 
