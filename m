@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2819E6BBB6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BF46BBB32
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:45:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVGB-000300-Lh; Wed, 15 Mar 2023 13:49:59 -0400
+	id 1pcVAq-00034g-CA; Wed, 15 Mar 2023 13:44:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFl-0001wA-2W
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:33 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pcVAh-0002fb-5q
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:44:19 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVFb-00029V-Tj
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:49:32 -0400
-Received: by mail-wm1-x330.google.com with SMTP id ay8so7868206wmb.1
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:49:22 -0700 (PDT)
+ id 1pcVAG-0000n6-Rx
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:44:18 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ o11-20020a05600c4fcb00b003eb33ea29a8so1821283wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902562;
+ d=linaro.org; s=google; t=1678902231;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/pYU24xJraNXcb1pbvZQddkU2/+s0yp2C0zt4F7Fw+M=;
- b=jNvHwdOpNMv2UO8KMK8p2lj29uq1MkeOJqe6I3QK1DNX6M21D2Hwea3rS4NXyPvGj/
- KGssmV4fPVqU2GH5Df0bzdCiC7ey4LDtsUcsSGXGA8YkYHAPumMbU9EnIkjULxtuLT04
- Yp7NDv2AV9JPi42jBr18x7v+e8wi82GLpxwcix3b6hzt2tzxvABSB7kOxVUAWyiMXgOG
- Ihb7JyJYEz8DsHzrF/P3+QevNJ0bbGfiMc0GFi4eeMWDHyfNYmUz8PsGRVA+KGTjuKpz
- 821zpWvYkr3zbPFxWfzZr2qraNazUvTcuAo35GOMyFaPE3RQJTkToRONF3J418BB1mk6
- SnxQ==
+ bh=v0p39ugLOaQczYK3TkGEmL7O7L8Oc7idQkhckXfJwmM=;
+ b=L6TgbpaKg3Edkx/Y//n4gApyrjCUyTeLy9IxlIxXNXRUXnUb7a9kRIUYEUEdmIu39S
+ Pu52UMnXk0A0/9ghApZAnv+qxn48udTQLLNTJb6uuFUumQfQ7FlbVWiYPoER4b/lfoPO
+ jE6rz0Uzd/uftZo5Lo3ixO21Hn7pEJ4werNmu+3UweAtzEytzuD0hMm7jrfCfs1GoLDf
+ 94D5iJfczesQDjnwmnhEso9mmrDROiis9hegOFdMnBdF3XaddDLG3BzKrBzuTI3fQFkp
+ SidO5vqUrlwobV2SVsC7lQ/2ou0f0Zef2KUmdFDmm5S54FBEwAs2x2Y3YOizNRZ3rsye
+ ltLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902562;
+ d=1e100.net; s=20210112; t=1678902231;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/pYU24xJraNXcb1pbvZQddkU2/+s0yp2C0zt4F7Fw+M=;
- b=xi0RsE/iJmzRZUUX6vj6IBmzZQxbQ1v70kKPCD+hxnZC8x9pORNaWC6UtxyUeaUVsw
- Id4DE03h0XzsteJmPhYlHc8bAuDQYFuUcnjNM2ay7ooAmAwn5lBYlXQMeukz8sTtpKQ9
- BtCKT20lWE/WonQt8ICO7FNKJWWTwrT+VAReh3UwR05yUkybLMdoL6mzh5yL/e7V9Spb
- QmesJqEa7abhzwDXSDNRvHVHvU9hXV8UHpsX9MVRvcDt4h5C+BuMsT1ib2mSUMwyPJZS
- e/BKaL1cYQNiYlnUHzl+3gs1XWrIlOkgqSsnM00VvxvgRqLC1tY/xVtDUDTVhzgaPJgm
- yGqQ==
-X-Gm-Message-State: AO0yUKXKhY/BSv07HiJLJ1gMa07X6ACJ1X3zN1MwZH2k39vPotW+pXdY
- HLT5+J1GREnf7jLCNvZ81qQAVA==
-X-Google-Smtp-Source: AK7set8yW+v7N/LBrGTYDq31McYh/t3FUJbbTwjEk/vI7LeqQDU0nd/+3ZVCM769O91zKqkJGMfXqQ==
-X-Received: by 2002:a05:600c:a0a:b0:3df:eecc:de2b with SMTP id
- z10-20020a05600c0a0a00b003dfeeccde2bmr18189537wmp.11.1678902561952; 
- Wed, 15 Mar 2023 10:49:21 -0700 (PDT)
+ bh=v0p39ugLOaQczYK3TkGEmL7O7L8Oc7idQkhckXfJwmM=;
+ b=7iNFG3VYcPRxnrEMcK9odpg8GXCFfFBnf2Kf4BcWOvaYM1oQklc+88PQXpToRTm6Jr
+ 2gx08GxS+uDfMzbMkL0GLZXyqwaXUoZ1IdoRDyJYS+wCFRry/2wHrDVE172DkK0SSQO7
+ UY/WR0ewY8rFTup5bZeoWFaJz7pFJEaETdke7moaYwsWrGe+Pb49JWKHCck+j+a086Qw
+ jc+hkHNewQYUpK/qYWqvYseFEGF75jBZJ8ex07LXvxCn+MvLntDAeay6h1Pv7pQqZxcR
+ SIvLpg9rzOhRuJYWfmQbel2vZEPBVULnnB4DAXQPWflBGJFhe4Od52t0uli+aeNuyr0B
+ CtMg==
+X-Gm-Message-State: AO0yUKU+3LgbSTwEKRdpK7GPgYHN4cVNS7DLJoA9Lc26BLTGNQXWJiyQ
+ TZ1cusBzO1S1ygaCLX+23s5SrQ==
+X-Google-Smtp-Source: AK7set+0XdSgmxCsuywCuQQEiQovrT78qUyLQqXs0AjgohDoSBgaCSQGBx5YLPMamDwmwdIz/Yr9Bg==
+X-Received: by 2002:a05:600c:4453:b0:3eb:1432:a78c with SMTP id
+ v19-20020a05600c445300b003eb1432a78cmr19256411wmn.37.1678902231077; 
+ Wed, 15 Mar 2023 10:43:51 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- az40-20020a05600c602800b003e2096da239sm2724726wmb.7.2023.03.15.10.49.20
+ f6-20020a1c6a06000000b003ed2fb86f85sm2498909wmc.47.2023.03.15.10.43.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:49:20 -0700 (PDT)
+ Wed, 15 Mar 2023 10:43:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36CF21FFD5;
+ by zen.linaroharston (Postfix) with ESMTP id 562151FFD6;
  Wed, 15 Mar 2023 17:43:45 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,20 +107,21 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>,
- Amarjargal Gundjalam <amarjargal16@gmail.com>,
- Bin Meng <bmeng@tinylab.org>, "Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v2 31/32] contrib/gitdm: add more individual contributors
-Date: Wed, 15 Mar 2023 17:43:30 +0000
-Message-Id: <20230315174331.2959-32-alex.bennee@linaro.org>
+ Vikram Garhwal <vikram.garhwal@amd.com>,
+ Stefano Stabellini <stefano.stabellini@amd.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Tong Ho <tong.ho@xilinx.com>,
+ Francisco Iglesias <francisco.iglesias@amd.com>
+Subject: [PATCH v2 32/32] contrib/gitdm: add group map for AMD
+Date: Wed, 15 Mar 2023 17:43:31 +0000
+Message-Id: <20230315174331.2959-33-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -142,29 +144,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I've only added the names explicitly acked.
+AMD recently acquired Xilinx and contributors have been transitioning
+their emails across.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Bernhard Beschow <shentey@gmail.com>
-Cc: Amarjargal Gundjalam <amarjargal16@gmail.com>
-Cc: Bin Meng <bmeng@tinylab.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Acked-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20230310180332.2274827-10-alex.bennee@linaro.org>
+Cc: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: Stefano Stabellini <stefano.stabellini@amd.com>
+Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Cc: Tong Ho <tong.ho@xilinx.com>
+Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
+Message-Id: <20230310180332.2274827-11-alex.bennee@linaro.org>
 ---
- contrib/gitdm/group-map-individuals | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/gitdm/domain-map    | 1 -
+ contrib/gitdm/group-map-amd | 8 ++++++++
+ gitdm.config                | 1 +
+ 3 files changed, 9 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/gitdm/group-map-amd
 
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index e2263a5ee3..3264c7383d 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -38,3 +38,4 @@ paul@nowt.org
- git@xen0n.name
- simon@simonsafar.com
- research_trasio@irq.a4lg.com
-+shentey@gmail.com
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index fa9cb5430f..f78c69fa54 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -49,6 +49,5 @@ virtuozzo.com   Virtuozzo
+ vrull.eu        VRULL
+ wdc.com         Western Digital
+ windriver.com   Wind River
+-xilinx.com      Xilinx
+ yadro.com       YADRO
+ yandex-team.ru  Yandex
+diff --git a/contrib/gitdm/group-map-amd b/contrib/gitdm/group-map-amd
+new file mode 100644
+index 0000000000..bda4239a8a
+--- /dev/null
++++ b/contrib/gitdm/group-map-amd
+@@ -0,0 +1,8 @@
++# AMD acquired Xilinx and contributors have been slowly updating emails
++
++edgar.iglesias@xilinx.com
++fnu.vikram@xilinx.com
++francisco.iglesias@xilinx.com
++sai.pavan.boddu@xilinx.com
++stefano.stabellini@xilinx.com
++tong.ho@xilinx.com
+diff --git a/gitdm.config b/gitdm.config
+index df4ba829ca..9db43ca142 100644
+--- a/gitdm.config
++++ b/gitdm.config
+@@ -32,6 +32,7 @@ EmailMap contrib/gitdm/domain-map
+ #
+ 
+ GroupMap contrib/gitdm/group-map-alibaba Alibaba
++GroupMap contrib/gitdm/group-map-amd AMD
+ GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
+ GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
+ GroupMap contrib/gitdm/group-map-facebook Facebook
 -- 
 2.39.2
 
