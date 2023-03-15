@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4146BBB30
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AEC6BBB3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Mar 2023 18:46:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcVAD-00026S-GG; Wed, 15 Mar 2023 13:43:49 -0400
+	id 1pcVAG-0002C5-UI; Wed, 15 Mar 2023 13:43:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVAA-00023b-2b
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:46 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ id 1pcVAE-00028v-AY
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:50 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pcVA0-0000dR-PO
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:45 -0400
-Received: by mail-wr1-x432.google.com with SMTP id o7so8676912wrg.5
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:36 -0700 (PDT)
+ id 1pcVA2-0000e2-Df
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 13:43:49 -0400
+Received: by mail-wm1-x335.google.com with SMTP id ay8so7857421wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 10:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678902215;
+ d=linaro.org; s=google; t=1678902216;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZvCAx4F7D2VDKqlV3zkasos0ltqlJHomALeskNF44vQ=;
- b=AjlqOME2l5f+IqgDvgtW5+CkYeuA4/tKB9XBYxUgEu3ueBpIzfu96BCHEPiULHgBBL
- FooB/VtpQBdQkpDO4v/IMPVLvdKcTK9V3rZhZsuv5njFjvea8/ayGf6Ddg8gs8mTHDcv
- JqDUgd14PceCjhoW67Qm/a5tvXJCKKALZZUmxx0bbPVte135ngmbji6xTxt4R63yB7Ke
- X4LJ95o9cSH7pSfLjtP/bCLS+EbUhyoKKtO+2KOxARYp/cqT5VwwuTe451t3ohJopxwO
- THwgKaTxK8c/tq7dYBBCtPaGFqsHkWZ1PGaDTzHuokKCgaXI+K0G9Lk9/7yjBLi6ywlm
- E6Tg==
+ bh=MDK+aMGOP0xpM2yh43emDI7/ZdusXKwC3yy2K8RboBM=;
+ b=cYPfFClnzeGxmVf2UT21TxMcZfXew1UtQ5Edief9qGCRA9JNtB+9QK2k3Xl5/eBKxI
+ ThWW+wzyYQYFhzb1zvoGoW40K7v9Oh9fUFg6eb+ggaj5gnZzAjYq1hxLktXyfkLcRr+1
+ Olsp3LHclUSQ5BrukvA2cL/7uahUoLbUD9gNX6+R/JhPbGe7pR6lTVUFHn5jaUrNzm3d
+ TvgtySdTuAMzkZOVkng2cducQ/KpL+VbuAkmwLZqRemLeECL22o4jgN9qukPzR771bcJ
+ ZLPss0TtYhugedtvJkUiWiVLBJnKcvn+dI1AGtqfaIIphIvbNotOIv+74Dg+vNVUNs5w
+ iPcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678902215;
+ d=1e100.net; s=20210112; t=1678902216;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZvCAx4F7D2VDKqlV3zkasos0ltqlJHomALeskNF44vQ=;
- b=beSeEGEGS5ySzjadjtxvUqJzqY3AAD2Q+iMlLSAvlH/v1fESET9q8DfzUGr0piV22R
- cFg+ZP4opt2is8IWEqeBfE5amWevYC0EYuWukUG9ODjIm2WC/LA2mWU1RNaEsBtUBlN3
- BaIhDVvCUt9sHgAn2uIHYIpHeYkoQCRKWUyQRgEc0pospprry3H2Lyg+UTMazoR12Odj
- sgUlnjGiHNosKauQ+Izk6mGFcSrkQ3L/a6VjwtBK0tULV/l3G5DPHYLB7hIjqChERfu8
- F1OuK56mHW2bT+30CGOwUe52PIMHw3UbAYXy9zSMTmvqa7io5mUOl5WA9ci0dfzZH77Y
- KHEg==
-X-Gm-Message-State: AO0yUKVDbqQwpm0KCtWVYgFo0wg1g5rx/fLTn+Vo7g7EzTerBbjrcz67
- kwnv5F6Ode3NPe/mSDBJ5c06sw==
-X-Google-Smtp-Source: AK7set9KVHdN8cCJxYnfTKxozvdOIEvbxQZu2fJTj7PcZnTypbf7faT4UqbTVLs/yAwbAsJxtteILg==
-X-Received: by 2002:adf:fe06:0:b0:2cf:e313:2860 with SMTP id
- n6-20020adffe06000000b002cfe3132860mr3084467wrr.33.1678902215269; 
- Wed, 15 Mar 2023 10:43:35 -0700 (PDT)
+ bh=MDK+aMGOP0xpM2yh43emDI7/ZdusXKwC3yy2K8RboBM=;
+ b=KpbsVZITvFoeRFF/rw5FjgT/6Z5iTtzhQtYNMMP4btkeI/LVy4RRNImeiXUkabZzZQ
+ RF8ry0NKEHRS33W3x4ktozaT5rkqgPXPZSEfV1IHMRiGFyosWyiDMZhluL0xJV1jt94V
+ NQELPTqa0ayPesiKY7ABJh4pWWHMHaIqTmSc4zymtcxAMMwN1S9Mutb+oRKyYQTZGdVw
+ RkVYQPC914ez4pAbg4N+oWeDQOzeaXXEZuIgQOIm6tFp9MEu1VEGweB0HuJfOcf/ceEn
+ 4GVU5I0v0zqRSGM8/KCuRtEvtg1KERM8m8kgsmyhGVTIlYOMkVRYxpw8CVDr1+qb+s7P
+ ZjDA==
+X-Gm-Message-State: AO0yUKWjVo0TYrES2z6ygA4/iUUOss4gs5Eaf59F0toWRHe9Bcg6/ffw
+ VLdxMFDs0uBPyoPgkHOoHSvikA==
+X-Google-Smtp-Source: AK7set/RAVB/FJAZyi4lkXqHU8ODU4l/Ll614CXhsVCLNCrkHkgbiyy0IhPld5MaOM4OMR99nZ6/Jg==
+X-Received: by 2002:a05:600c:198e:b0:3dc:405b:99bf with SMTP id
+ t14-20020a05600c198e00b003dc405b99bfmr19401156wmq.15.1678902216357; 
+ Wed, 15 Mar 2023 10:43:36 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d568c000000b002cfe3f842c8sm5176145wrv.56.2023.03.15.10.43.32
+ r6-20020a05600c458600b003ebff290a52sm2854532wmo.28.2023.03.15.10.43.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 10:43:33 -0700 (PDT)
+ Wed, 15 Mar 2023 10:43:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C89341FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id E55CE1FFBE;
  Wed, 15 Mar 2023 17:43:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -106,17 +106,17 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 05/32] gitlab: update centos-8-stream job
-Date: Wed, 15 Mar 2023 17:43:04 +0000
-Message-Id: <20230315174331.2959-6-alex.bennee@linaro.org>
+Subject: [PATCH v2 06/32] include/qemu: add documentation for memory callbacks
+Date: Wed, 15 Mar 2023 17:43:05 +0000
+Message-Id: <20230315174331.2959-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315174331.2959-1-alex.bennee@linaro.org>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -139,55 +139,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A couple of clean-ups here:
+Some API documentation was missed, rectify that.
 
-  - inherit from the custom runners job for artefacts
-  - call check-avocado directly
-  - add some comments to the top about setup
-
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1497
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .../custom-runners/centos-stream-8-x86_64.yml  | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ include/qemu/qemu-plugin.h | 47 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 43 insertions(+), 4 deletions(-)
 
-diff --git a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-index 068b0c4335..367424db78 100644
---- a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-+++ b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-@@ -1,4 +1,9 @@
-+# All centos-stream-8 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/stream/8/build-environment.yml task
-+# "Installation of extra packages to build QEMU"
-+
- centos-stream-8-x86_64:
-+ extends: .custom_runner_template
-  allow_failure: true
-  needs: []
-  stage: build
-@@ -8,15 +13,6 @@ centos-stream-8-x86_64:
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE"
-- artifacts:
--   name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
--   when: on_failure
--   expire_in: 7 days
--   paths:
--     - build/tests/results/latest/results.xml
--     - build/tests/results/latest/test-results
--   reports:
--     junit: build/tests/results/latest/results.xml
-  before_script:
-  - JOBS=$(expr $(nproc) + 1)
-  script:
-@@ -25,6 +21,4 @@ centos-stream-8-x86_64:
-  - ../scripts/ci/org.centos/stream/8/x86_64/configure
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make -j"$JOBS"
-- - make NINJA=":" check
--   || { cat meson-logs/testlog.txt; exit 1; } ;
-- - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
-+ - make NINJA=":" check check-avocado
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index d0e9d03adf..50a9957279 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -481,17 +481,56 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
+  */
+ const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h);
+ 
+-typedef void
+-(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
+-                             qemu_plugin_meminfo_t info, uint64_t vaddr,
+-                             void *userdata);
++/**
++ * typedef qemu_plugin_vcpu_mem_cb_t - memory callback function type
++ * @vcpu_index: the executing vCPU
++ * @info: an opaque handle for further queries about the memory
++ * @vaddr: the virtual address of the transaction
++ * @userdata: any user data attached to the callback
++ */
++typedef void (*qemu_plugin_vcpu_mem_cb_t) (unsigned int vcpu_index,
++                                           qemu_plugin_meminfo_t info,
++                                           uint64_t vaddr,
++                                           void *userdata);
+ 
++/**
++ * qemu_plugin_register_vcpu_mem_cb() - register memory access callback
++ * @insn: handle for instruction to instrument
++ * @cb: callback of type qemu_plugin_vcpu_mem_cb_t
++ * @flags: (currently unused) callback flags
++ * @rw: monitor reads, writes or both
++ * @userdata: opaque pointer for userdata
++ *
++ * This registers a full callback for every memory access generated by
++ * an instruction. If the instruction doesn't access memory no
++ * callback will be made.
++ *
++ * The callback reports the vCPU the access took place on, the virtual
++ * address of the access and a handle for further queries. The user
++ * can attach some userdata to the callback for additional purposes.
++ *
++ * Other execution threads will continue to execute during the
++ * callback so the plugin is responsible for ensuring it doesn't get
++ * confused by making appropriate use of locking if required.
++ */
+ void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
+                                       qemu_plugin_vcpu_mem_cb_t cb,
+                                       enum qemu_plugin_cb_flags flags,
+                                       enum qemu_plugin_mem_rw rw,
+                                       void *userdata);
+ 
++/**
++ * qemu_plugin_register_vcpu_mem_inline() - register an inline op to any memory access
++ * @insn: handle for instruction to instrument
++ * @rw: apply to reads, writes or both
++ * @op: the op, of type qemu_plugin_op
++ * @ptr: pointer memory for the op
++ * @imm: immediate data for @op
++ *
++ * This registers a inline op every memory access generated by the
++ * instruction. This provides for a lightweight but not thread-safe
++ * way of counting the number of operations done.
++ */
+ void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *insn,
+                                           enum qemu_plugin_mem_rw rw,
+                                           enum qemu_plugin_op op, void *ptr,
 -- 
 2.39.2
 
