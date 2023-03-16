@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343046BCF7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169336BCF7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:29:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcmjA-0007Xv-F9; Thu, 16 Mar 2023 08:29:04 -0400
+	id 1pcmjY-0007lU-6K; Thu, 16 Mar 2023 08:29:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pcmj6-0007XP-HZ
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:29:00 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ id 1pcmjP-0007j6-Go
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:29:19 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pcmj4-0003t1-Oy
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:29:00 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id z18so792422pgj.13
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 05:28:58 -0700 (PDT)
+ id 1pcmjN-0003uq-IH
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:29:19 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ e15-20020a17090ac20f00b0023d1b009f52so5214092pjt.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 05:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1678969737;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1678969756;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=49Rcm+E8kBL1RIMWWY5mnZGO9fEkOBkt9jJtdcI6My0=;
- b=le9i4qS7rqt8LHhDa6Zx1ZYTiqZ2v1M59LOMB7dEodq9SpehDwaNiPbpFFkgzoq4bo
- Sxb6OCKoy8AdYpK3M+gD9J9wu/Mtjg5yH8t/DLRnE3CRbjDn5KXTfdsBQN4qvE4fJ/GW
- 4R0ISJzEze2obn3j55IJvH5G4RKNQfE6eEpVWGojL7RnsnWnXWnLcMaZQNN2mSsg99GF
- oEYPpTivap5NoUm7RSM1pmvuVxIRk2wi0RI/H0YrNRrvT76RjWdmKafU/kXjx+kIeSW7
- E60hgica6CEEJG6wdBqrg1K2yHjIT7EGErEMGq0uuJAw3fOCPYvveZZSgDpn2wxIhA9s
- CNoA==
+ bh=oP8TzMUwJnd4ZL0SPUJwQi1ZJiJIj7OaeC9n7U6SPaA=;
+ b=1AQCzOapT3mGsdMMSBPkhWHHw7sXCbCPPlEoVPN6cyyGBHSHsp/laQ8tX970VBRiVD
+ MuBvEcxQzn42I0leI7kXJ9cBzYB7VlNVMlJzvaFDkyC0xCX2QFYjmlEPqPnZNnRbDmg9
+ gqg0b8CwlcgHTqY/eS+WHsTmna1j27WXNvQN5A76ubC4z+lmgRxBcneFq0aeoiFL7zTt
+ YQRovRcKO5GHCD5o4DBWwr/icdkRsdgKvC9wtHYbDIU1ZE4bOZ9k4BN7/0lXGUHtjDH8
+ i4CJ4DcJZtLHxn76wTxRoS5PFgOXXl40RtiDz7N8me7RZoJF7z0bISh82n3ydslipkRa
+ RByQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678969737;
+ d=1e100.net; s=20210112; t=1678969756;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=49Rcm+E8kBL1RIMWWY5mnZGO9fEkOBkt9jJtdcI6My0=;
- b=45ZNPXWBungZOTE+waDs9K4TY8gAJ+f600Gny+qehwkZCLydstNV4kkBOYUqoMnSQG
- qNOpLsr9xLc2rli7aJuStY7EEKjLnQalt7l5Z2+MUJpUD3Gpm84n8au6Bzcno5UR+eS8
- LileD5CriesEfIer+2xdO5GxKA05GaF0RezJk9ZZA9yPDIg1PBKot05/5Bz/tDt/JTvd
- Rsxhl07wLH+Nr043q6VuJqqfVpnizopfYZ9Eyq3ODV+zWiTmDMkmNszt189PNQixWbNI
- 2JBwukF5hyN0jaw3iUNGnrgCVJA/vDrHInwyVy1fN0LsAu/IccPcCftFw/KM21Jih0Py
- Wc+g==
-X-Gm-Message-State: AO0yUKUgYw/QOrC2Crl6DsK6gffHwRLe0nasiA3s+fA+6guuskQT47Ym
- iolwJplY/4wJcwDxuOrq0oEweP31A5QayvTPaWTpHA==
-X-Google-Smtp-Source: AK7set8ma3M9R1SqfzuVECeC2frbfO3uTXLlUk2uOG1Wb3HkpcSXh7yXRNzL5h2xjf4Ff8JmWjZFaQ==
-X-Received: by 2002:a62:5211:0:b0:625:e728:4c5f with SMTP id
- g17-20020a625211000000b00625e7284c5fmr2043458pfb.22.1678969737357; 
- Thu, 16 Mar 2023 05:28:57 -0700 (PDT)
+ bh=oP8TzMUwJnd4ZL0SPUJwQi1ZJiJIj7OaeC9n7U6SPaA=;
+ b=jyjFtx6X1wpBhGY1+O4jAiGFIjnMNbpaS1hM5qM4ek28b+EkS3KGsTwE7IxP+3rCyB
+ IWgEEaLtkG2rpZfEdQltAPHsAExJ6+UJoWq8LOddTl1oah5v/TEwWS0ApVfDV/cOwz9P
+ Qjs9ee1X8B52rG8c7XaytqiZG6sYc3nInNoD7IuT6EK09G8mdWSDHNx/zl1IzeZnKzkc
+ g7tAOFdcbZ/8NMkSm4FlvTtxPGn+YIenHDAATKYXhJ1zL8YRPQMu2ysWqx+gWUkbN0ho
+ 6VbLHGjXoYKn2yBmBeKlXck2pN6XOfK6omuTk+SEjWyp3h23B0PzPC0Xb1eEhsGjRH+Q
+ zGRQ==
+X-Gm-Message-State: AO0yUKXKwoN6z6Vn1fprC2ImTqwxrrXQTVhhkkJcvaUy5nmwCsXK+qsB
+ MoNo3ESYS+t4cFReolA9AvocUCBdaLIcVoFZGjd4HA==
+X-Google-Smtp-Source: AK7set9rKmB2qVm9OBo0f5Aqrwms6HOg+JEiKZNK3QL1TdTN7cY2f8jC2hHdA5TO0dFnaPDjIVgiDQ==
+X-Received: by 2002:a05:6a20:429e:b0:cc:f9f2:3047 with SMTP id
+ o30-20020a056a20429e00b000ccf9f23047mr4909700pzj.52.1678969756115; 
+ Thu, 16 Mar 2023 05:29:16 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- s11-20020aa7828b000000b005ded5d2d571sm5325082pfm.185.2023.03.16.05.28.55
+ h11-20020a63df4b000000b0050b19d24c3bsm5173659pgj.37.2023.03.16.05.29.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 05:28:57 -0700 (PDT)
+ Thu, 16 Mar 2023 05:29:15 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH for 8.0] igb: Save the entire Tx context descriptor
-Date: Thu, 16 Mar 2023 21:28:47 +0900
-Message-Id: <20230316122847.11003-1-akihiko.odaki@daynix.com>
+Subject: [PATCH for 8.0] igb: Fix DMA requester specification for Tx packet
+Date: Thu, 16 Mar 2023 21:29:11 +0900
+Message-Id: <20230316122911.11086-1-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,100 +89,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The current implementation of igb uses only part of a advanced Tx
-context descriptor because it misses some features and sniffs the trait
-of the packet instead of respecting the packet type specified in the
-descriptor. However, we will certainly need the entire Tx context
-descriptor when we update igb to respect these ignored fields. Save the
-entire Tx context descriptor to prepare for such a change.
+igb used to specify the PF as DMA requester when reading Tx packets.
+This made Tx requests from VFs to be performed on the address space of
+the PF, defeating the purpose of SR-IOV. Add some logic to change the
+requester depending on the queue, which can be assigned to a VF.
 
+Fixes: 3a977deebe ("Intrdocue igb device emulation")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/igb.c      |  6 ++++--
- hw/net/igb_core.c | 17 ++++++++++-------
- hw/net/igb_core.h |  3 +--
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ hw/net/e1000e_core.c |  6 +++---
+ hw/net/igb_core.c    | 13 ++++++++-----
+ hw/net/net_tx_pkt.c  |  3 ++-
+ hw/net/net_tx_pkt.h  |  3 ++-
+ hw/net/vmxnet3.c     |  4 ++--
+ 5 files changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/hw/net/igb.c b/hw/net/igb.c
-index 0792626322..50239a7cb1 100644
---- a/hw/net/igb.c
-+++ b/hw/net/igb.c
-@@ -499,8 +499,10 @@ static const VMStateDescription igb_vmstate_tx = {
-     .version_id = 1,
-     .minimum_version_id = 1,
-     .fields = (VMStateField[]) {
--        VMSTATE_UINT16(vlan, struct igb_tx),
--        VMSTATE_UINT16(mss, struct igb_tx),
-+        VMSTATE_UINT32(ctx.vlan_macip_lens, struct igb_tx),
-+        VMSTATE_UINT32(ctx.seqnum_seed, struct igb_tx),
-+        VMSTATE_UINT32(ctx.type_tucmd_mlhl, struct igb_tx),
-+        VMSTATE_UINT32(ctx.mss_l4len_idx, struct igb_tx),
-         VMSTATE_BOOL(tse, struct igb_tx),
-         VMSTATE_BOOL(ixsm, struct igb_tx),
-         VMSTATE_BOOL(txsm, struct igb_tx),
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 41d1abae03..dbe24739d0 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -390,7 +390,8 @@ static bool
- igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
- {
-     if (tx->tse) {
--        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
-+        uint32_t mss = tx->ctx.mss_l4len_idx >> 16;
-+        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
-             return false;
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 4d9679ca0b..c0c09b6965 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -765,7 +765,7 @@ e1000e_process_tx_desc(E1000ECore *core,
          }
  
-@@ -551,8 +552,10 @@ igb_process_tx_desc(IGBCore *core,
-                    E1000_ADVTXD_DTYP_CTXT) {
-             /* advanced transmit context descriptor */
-             tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
--            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
--            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
-+            tx->ctx.vlan_macip_lens = le32_to_cpu(tx_ctx_desc->vlan_macip_lens);
-+            tx->ctx.seqnum_seed = le32_to_cpu(tx_ctx_desc->seqnum_seed);
-+            tx->ctx.type_tucmd_mlhl = le32_to_cpu(tx_ctx_desc->type_tucmd_mlhl);
-+            tx->ctx.mss_l4len_idx = le32_to_cpu(tx_ctx_desc->mss_l4len_idx);
-             return;
-         } else {
-             /* unknown descriptor type */
-@@ -576,8 +579,9 @@ igb_process_tx_desc(IGBCore *core,
-     if (cmd_type_len & E1000_TXD_CMD_EOP) {
-         if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
-             if (cmd_type_len & E1000_TXD_CMD_VLE) {
--                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
--                    core->mac[VET] & 0xffff);
-+                uint16_t vlan = tx->ctx.vlan_macip_lens >> 16;
-+                uint16_t vet = core->mac[VET] & 0xffff;
-+                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
-             }
-             if (igb_tx_pkt_send(core, tx, queue_index)) {
-                 igb_on_tx_done_update_stats(core, tx->tx_pkt);
-@@ -4027,8 +4031,7 @@ static void igb_reset(IGBCore *core, bool sw)
+         tx->skip_cp = false;
+-        net_tx_pkt_reset(tx->tx_pkt);
++        net_tx_pkt_reset(tx->tx_pkt, core->owner);
+ 
+         tx->sum_needed = 0;
+         tx->cptse = 0;
+@@ -3447,7 +3447,7 @@ e1000e_core_pci_uninit(E1000ECore *core)
+     qemu_del_vm_change_state_handler(core->vmstate);
+ 
+     for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+-        net_tx_pkt_reset(core->tx[i].tx_pkt);
++        net_tx_pkt_reset(core->tx[i].tx_pkt, core->owner);
+         net_tx_pkt_uninit(core->tx[i].tx_pkt);
+     }
+ 
+@@ -3572,7 +3572,7 @@ static void e1000e_reset(E1000ECore *core, bool sw)
+     e1000x_reset_mac_addr(core->owner_nic, core->mac, core->permanent_mac);
+ 
+     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
+-        net_tx_pkt_reset(core->tx[i].tx_pkt);
++        net_tx_pkt_reset(core->tx[i].tx_pkt, core->owner);
+         memset(&core->tx[i].props, 0, sizeof(core->tx[i].props));
+         core->tx[i].skip_cp = false;
+     }
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index a7c7bfdc75..41d1abae03 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -521,6 +521,7 @@ igb_on_tx_done_update_stats(IGBCore *core, struct NetTxPkt *tx_pkt)
+ 
+ static void
+ igb_process_tx_desc(IGBCore *core,
++                    PCIDevice *dev,
+                     struct igb_tx *tx,
+                     union e1000_adv_tx_desc *tx_desc,
+                     int queue_index)
+@@ -585,7 +586,7 @@ igb_process_tx_desc(IGBCore *core,
+ 
+         tx->first = true;
+         tx->skip_cp = false;
+-        net_tx_pkt_reset(tx->tx_pkt);
++        net_tx_pkt_reset(tx->tx_pkt, dev);
+     }
+ }
+ 
+@@ -800,6 +801,8 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+         d = core->owner;
+     }
+ 
++    net_tx_pkt_reset(txr->tx->tx_pkt, d);
++
+     while (!igb_ring_empty(core, txi)) {
+         base = igb_ring_head_descr(core, txi);
+ 
+@@ -808,7 +811,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+         trace_e1000e_tx_descr((void *)(intptr_t)desc.read.buffer_addr,
+                               desc.read.cmd_type_len, desc.wb.status);
+ 
+-        igb_process_tx_desc(core, txr->tx, &desc, txi->idx);
++        igb_process_tx_desc(core, d, txr->tx, &desc, txi->idx);
+         igb_ring_advance(core, txi, 1);
+         eic |= igb_txdesc_writeback(core, base, &desc, txi);
+     }
+@@ -3825,7 +3828,7 @@ igb_core_pci_realize(IGBCore        *core,
+     core->vmstate = qemu_add_vm_change_state_handler(igb_vm_state_change, core);
+ 
+     for (i = 0; i < IGB_NUM_QUEUES; i++) {
+-        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_FRAGS);
++        net_tx_pkt_init(&core->tx[i].tx_pkt, NULL, E1000E_MAX_TX_FRAGS);
+     }
+ 
+     net_rx_pkt_init(&core->rx_pkt);
+@@ -3850,7 +3853,7 @@ igb_core_pci_uninit(IGBCore *core)
+     qemu_del_vm_change_state_handler(core->vmstate);
+ 
+     for (i = 0; i < IGB_NUM_QUEUES; i++) {
+-        net_tx_pkt_reset(core->tx[i].tx_pkt);
++        net_tx_pkt_reset(core->tx[i].tx_pkt, NULL);
+         net_tx_pkt_uninit(core->tx[i].tx_pkt);
+     }
+ 
+@@ -4023,7 +4026,7 @@ static void igb_reset(IGBCore *core, bool sw)
+ 
      for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
          tx = &core->tx[i];
-         net_tx_pkt_reset(tx->tx_pkt, NULL);
--        tx->vlan = 0;
--        tx->mss = 0;
-+        memset(&tx->ctx, 0, sizeof(tx->ctx));
+-        net_tx_pkt_reset(tx->tx_pkt);
++        net_tx_pkt_reset(tx->tx_pkt, NULL);
+         tx->vlan = 0;
+         tx->mss = 0;
          tx->tse = false;
-         tx->ixsm = false;
-         tx->txsm = false;
-diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
-index 814c1e264b..3483edc655 100644
---- a/hw/net/igb_core.h
-+++ b/hw/net/igb_core.h
-@@ -72,8 +72,7 @@ struct IGBCore {
-     QEMUTimer *autoneg_timer;
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index 986a3adfe9..cb606cc84b 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -443,7 +443,7 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt)
+ #endif
+ }
  
-     struct igb_tx {
--        uint16_t vlan;  /* VLAN Tag */
--        uint16_t mss;   /* Maximum Segment Size */
-+        struct e1000_adv_tx_context_desc ctx;
-         bool tse;       /* TCP/UDP Segmentation Enable */
-         bool ixsm;      /* Insert IP Checksum */
-         bool txsm;      /* Insert TCP/UDP Checksum */
+-void net_tx_pkt_reset(struct NetTxPkt *pkt)
++void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *pci_dev)
+ {
+     int i;
+ 
+@@ -467,6 +467,7 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt)
+                           pkt->raw[i].iov_len, DMA_DIRECTION_TO_DEVICE, 0);
+         }
+     }
++    pkt->pci_dev = pci_dev;
+     pkt->raw_frags = 0;
+ 
+     pkt->hdr_len = 0;
+diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+index f57b4e034b..e5ce6f20bc 100644
+--- a/hw/net/net_tx_pkt.h
++++ b/hw/net/net_tx_pkt.h
+@@ -148,9 +148,10 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt);
+  * reset tx packet private context (needed to be called between packets)
+  *
+  * @pkt:            packet
++ * @dev:            PCI device processing the next packet
+  *
+  */
+-void net_tx_pkt_reset(struct NetTxPkt *pkt);
++void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *dev);
+ 
+ /**
+  * Send packet to qemu. handles sw offloads if vhdr is not supported.
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index 1068b80868..f7b874c139 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -678,7 +678,7 @@ static void vmxnet3_process_tx_queue(VMXNET3State *s, int qidx)
+             vmxnet3_complete_packet(s, qidx, txd_idx);
+             s->tx_sop = true;
+             s->skip_current_tx_pkt = false;
+-            net_tx_pkt_reset(s->tx_pkt);
++            net_tx_pkt_reset(s->tx_pkt, PCI_DEVICE(s));
+         }
+     }
+ }
+@@ -1159,7 +1159,7 @@ static void vmxnet3_deactivate_device(VMXNET3State *s)
+ {
+     if (s->device_active) {
+         VMW_CBPRN("Deactivating vmxnet3...");
+-        net_tx_pkt_reset(s->tx_pkt);
++        net_tx_pkt_reset(s->tx_pkt, PCI_DEVICE(s));
+         net_tx_pkt_uninit(s->tx_pkt);
+         net_rx_pkt_uninit(s->rx_pkt);
+         s->device_active = false;
 -- 
 2.39.2
 
