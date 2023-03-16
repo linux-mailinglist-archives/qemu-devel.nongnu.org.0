@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256346BDA98
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C5E6BDA96
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 22:09:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcupT-0002SH-CQ; Thu, 16 Mar 2023 17:08:07 -0400
+	id 1pcupV-0002Tx-ET; Thu, 16 Mar 2023 17:08:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcupR-0002S4-HH; Thu, 16 Mar 2023 17:08:05 -0400
+ id 1pcupT-0002Sv-CM; Thu, 16 Mar 2023 17:08:07 -0400
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcupP-0008Ql-Os; Thu, 16 Mar 2023 17:08:05 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ id 1pcupR-0008R4-9j; Thu, 16 Mar 2023 17:08:07 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32GKYeXU007551; Thu, 16 Mar 2023 21:08:01 GMT
+ 32GL1jLb005992; Thu, 16 Mar 2023 21:08:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=0dFCbzw00PowtW0yQn1AoNywjWK6QpETPcMpwfrUATA=;
- b=Mu+vd6jw53cK3c13tH02zzDWyQIqtmzBJ3dJ3oqzc51RtK7FLP/d+yxLsWXv9LrirVW8
- c77CizVhnqGq6l0hC7O/H3J8BDAuuJD9UEGwvYHuGr6sqneoFFxDX/jjLIMXVNo06N9W
- zfa388T9AUmDfTBhOvNE8Jiy8OyO4belWddsRZxYDceu8XGe9z5YtFlLWcE37zAXMMdS
- 5yfFRo0HSs/eO8xed5wFjPBQGuu12StrMD1ofEeMmx4JGVgjXeot4t3Oy3E3AMHdZYg4
- 6ZSl85ls7CQvmc8Jh92fT6Wmsurr9i6KFjg81r0E7iGLwT2BRzyMtwv4+yDO9r5oVEJ4 Rw== 
+ bh=K+toebhe+Ntd6FGSKsZ75zXmjHDXrYh2LGhCOVOqY1k=;
+ b=FjQZVnkO6DL925xmpUAfALh4e/vVEE/Qcn7Ccl4wi7F0KxzrI1AoKHo3QSYoLq40IHWv
+ zYpBS+Y1O6v4h7YlpNlNy2gzv/930J0/kadkrDDbGNFf+95NuAv3+uLbLbW+/eojOjhK
+ QAoa7NaIutgSz1nY1wun8aCi4KIBJUDHnbiVjqD+SFJdepcLuWA4YbbZhMgvfNuigCkq
+ sNCq3rW5UCi3XoLwxOIKZE92w1O/Cbk9tJSwkiysX3KRgRSDqREArSw4aHRuIzAfNG7q
+ KHjc7tABS8PUTCa+K2paENqdS3kLmnwMz4gXDCSSU4cEmKiGQiSEmjR4SI39AOiAmXcD oA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pca958nyg-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcanw84ry-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 21:08:03 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GL28io006901;
+ Thu, 16 Mar 2023 21:08:03 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcanw84rd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 21:08:02 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GIImT2008160;
+ Thu, 16 Mar 2023 21:08:01 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3pbsu7h0e9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Mar 2023 21:08:01 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GKclC7019751;
- Thu, 16 Mar 2023 21:08:01 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pca958nxy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 21:08:00 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GEuwNY015019;
- Thu, 16 Mar 2023 21:07:59 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pbsf3h8uu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 21:07:59 +0000
 Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
  [10.20.54.104])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32GL7tc166322766
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32GL7vMd43254228
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Mar 2023 21:07:55 GMT
+ Thu, 16 Mar 2023 21:07:57 GMT
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8E8512004D;
- Thu, 16 Mar 2023 21:07:55 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 562A220040;
+ Thu, 16 Mar 2023 21:07:57 +0000 (GMT)
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0236820049;
- Thu, 16 Mar 2023 21:07:55 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BDB1820049;
+ Thu, 16 Mar 2023 21:07:56 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.2.157])
  by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 16 Mar 2023 21:07:54 +0000 (GMT)
+ Thu, 16 Mar 2023 21:07:56 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
 Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
  Ilya Leoshkevich <iii@linux.ibm.com>,
  Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Subject: [PATCH v3 1/2] target/s390x: Fix EXECUTE of relative long instructions
-Date: Thu, 16 Mar 2023 22:07:50 +0100
-Message-Id: <20230316210751.302423-2-iii@linux.ibm.com>
+Subject: [PATCH v3 2/2] tests/tcg/s390x: Add ex-relative-long.c
+Date: Thu, 16 Mar 2023 22:07:51 +0100
+Message-Id: <20230316210751.302423-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230316210751.302423-1-iii@linux.ibm.com>
 References: <20230316210751.302423-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0kWj8mwelOqkrxuN7o2VKLfJrqeO6RPl
-X-Proofpoint-GUID: yHd5RtuyKQoeNeeq_dGBEXShUaoYvbXk
+X-Proofpoint-GUID: uyxfvTPHwlpcPTr_7_nX8EROOD2_mC4M
+X-Proofpoint-ORIG-GUID: MaI4u6oZBX-9DWd8_5BgSeKuAz5w1ez_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-16_14,2023-03-16_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
- priorityscore=1501 mlxlogscore=970 clxscore=1015 bulkscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 spamscore=0
+ phishscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ mlxlogscore=995 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303150002 definitions=main-2303160158
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -113,70 +113,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The code uses the wrong base for relative addressing: it should use the
-target instruction address and not the EXECUTE's address.
+Test EXECUTE and EXECUTE RELATIVE LONG with relative long instructions
+as targets.
 
-Fix by storing the target instruction address in the new CPUS390XState
-member and loading it from the code generated by gen_ri2().
-
-Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- target/s390x/cpu.h            |  1 +
- target/s390x/tcg/mem_helper.c |  1 +
- target/s390x/tcg/translate.c  | 13 ++++++++++++-
- 3 files changed, 14 insertions(+), 1 deletion(-)
+ tests/tcg/s390x/Makefile.target    |   1 +
+ tests/tcg/s390x/ex-relative-long.c | 156 +++++++++++++++++++++++++++++
+ 2 files changed, 157 insertions(+)
+ create mode 100644 tests/tcg/s390x/ex-relative-long.c
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 7d6d01325b2..8aaf8dd5a3b 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -87,6 +87,7 @@ struct CPUArchState {
-     uint64_t cc_vr;
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index cf93b966862..90bc48227db 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -29,6 +29,7 @@ TESTS+=clst
+ TESTS+=long-double
+ TESTS+=cdsg
+ TESTS+=chrl
++TESTS+=ex-relative-long
  
-     uint64_t ex_value;
-+    uint64_t ex_target;
- 
-     uint64_t __excp_addr;
-     uint64_t psa;
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 6835c26dda4..00afae2b640 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -2530,6 +2530,7 @@ void HELPER(ex)(CPUS390XState *env, uint32_t ilen, uint64_t r1, uint64_t addr)
-        that ex_value is non-zero, which flags that we are in a state
-        that requires such execution.  */
-     env->ex_value = insn | ilen;
-+    env->ex_target = addr;
- }
- 
- uint32_t HELPER(mvcos)(CPUS390XState *env, uint64_t dest, uint64_t src,
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 14c3896d529..e938d8538f8 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -5747,7 +5747,18 @@ static void in2_a2(DisasContext *s, DisasOps *o)
- 
- static TCGv gen_ri2(DisasContext *s)
- {
--    return tcg_constant_i64(s->base.pc_next + (int64_t)get_field(s, i2) * 2);
-+    int64_t delta = (int64_t)get_field(s, i2) * 2;
-+    TCGv ri2;
+ cdsg: CFLAGS+=-pthread
+ cdsg: LDFLAGS+=-pthread
+diff --git a/tests/tcg/s390x/ex-relative-long.c b/tests/tcg/s390x/ex-relative-long.c
+new file mode 100644
+index 00000000000..21fbef62585
+--- /dev/null
++++ b/tests/tcg/s390x/ex-relative-long.c
+@@ -0,0 +1,156 @@
++/* Check EXECUTE with relative long instructions as targets. */
++#include <stdlib.h>
++#include <stdio.h>
 +
-+    if (unlikely(s->ex_value)) {
-+        ri2 = tcg_temp_new_i64();
-+        tcg_gen_ld_i64(ri2, cpu_env, offsetof(CPUS390XState, ex_target));
-+        tcg_gen_addi_i64(ri2, ri2, delta);
-+    } else {
-+        ri2 = tcg_constant_i64(s->base.pc_next + delta);
++struct test {
++    const char *name;
++    long (*func)(long reg, long *cc);
++    long exp_reg;
++    long exp_mem;
++    long exp_cc;
++};
++
++/*
++ * Each test sets the MEM_IDXth element of the mem array to MEM and uses a
++ * single relative long instruction on it. The other elements remain zero.
++ * This is in order to prevent stumbling upon MEM in random memory in case
++ * there is an off-by-a-small-value bug.
++ *
++ * Note that while gcc supports the ZL constraint for relative long operands,
++ * clang doesn't, so the assembly code accesses mem[MEM_IDX] using MEM_ASM.
++ */
++static long mem[0x1000];
++#define MEM_IDX 0x800
++#define MEM_ASM "mem+0x800*8"
++
++/* Initial %r2 value. */
++#define REG 0x1234567887654321
++
++/* Initial mem[MEM_IDX] value. */
++#define MEM 0xfedcba9889abcdef
++
++/* Initial cc value. */
++#define CC 0
++
++/* Relative long instructions and their expected effects. */
++#define FOR_EACH_INSN(F)                                                       \
++    F(cgfrl,  REG,                 MEM,                2)                      \
++    F(cghrl,  REG,                 MEM,                2)                      \
++    F(cgrl,   REG,                 MEM,                2)                      \
++    F(chrl,   REG,                 MEM,                1)                      \
++    F(clgfrl, REG,                 MEM,                2)                      \
++    F(clghrl, REG,                 MEM,                2)                      \
++    F(clgrl,  REG,                 MEM,                1)                      \
++    F(clhrl,  REG,                 MEM,                2)                      \
++    F(clrl,   REG,                 MEM,                1)                      \
++    F(crl,    REG,                 MEM,                1)                      \
++    F(larl,   (long)&mem[MEM_IDX], MEM,                CC)                     \
++    F(lgfrl,  0xfffffffffedcba98,  MEM,                CC)                     \
++    F(lghrl,  0xfffffffffffffedc,  MEM,                CC)                     \
++    F(lgrl,   MEM,                 MEM,                CC)                     \
++    F(lhrl,   0x12345678fffffedc,  MEM,                CC)                     \
++    F(llghrl, 0x000000000000fedc,  MEM,                CC)                     \
++    F(llhrl,  0x123456780000fedc,  MEM,                CC)                     \
++    F(lrl,    0x12345678fedcba98,  MEM,                CC)                     \
++    F(stgrl,  REG,                 REG,                CC)                     \
++    F(sthrl,  REG,                 0x4321ba9889abcdef, CC)                     \
++    F(strl,   REG,                 0x8765432189abcdef, CC)
++
++/* Test functions. */
++#define DEFINE_EX_TEST(insn, exp_reg, exp_mem, exp_cc)                         \
++    static long test_ex_ ## insn(long reg, long *cc)                           \
++    {                                                                          \
++        register long r2 asm("r2");                                            \
++        char mask = 0x20;  /* make target use %r2 */                           \
++        long pm, target;                                                       \
++                                                                               \
++        r2 = reg;                                                              \
++        asm("larl %[target],0f\n"                                              \
++            "cr %%r0,%%r0\n"  /* initial cc */                                 \
++            "ex %[mask],0(%[target])\n"                                        \
++            "jg 1f\n"                                                          \
++            "0: " #insn " %%r0," MEM_ASM "\n"                                  \
++            "1: ipm %[pm]\n"                                                   \
++            : [target] "=&a" (target), [r2] "+r" (r2), [pm] "=r" (pm)          \
++            : [mask] "a" (mask)                                                \
++            : "cc", "memory");                                                 \
++        reg = r2;                                                              \
++        *cc = (pm >> 28) & 3;                                                  \
++                                                                               \
++        return reg;                                                            \
 +    }
 +
-+    return ri2;
- }
- 
- static void in2_ri2(DisasContext *s, DisasOps *o)
++#define DEFINE_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)                       \
++    static long test_exrl_ ## insn(long reg, long *cc)                         \
++    {                                                                          \
++        register long r2 asm("r2");                                            \
++        char mask = 0x20;  /* make target use %r2 */                           \
++        long pm;                                                               \
++                                                                               \
++        r2 = reg;                                                              \
++        asm("cr %%r0,%%r0\n"  /* initial cc */                                 \
++            "exrl %[mask],0f\n"                                                \
++            "jg 1f\n"                                                          \
++            "0: " #insn " %%r0," MEM_ASM "\n"                                  \
++            "1: ipm %[pm]\n"                                                   \
++            : [r2] "+r" (r2), [pm] "=r" (pm)                                   \
++            : [mask] "a" (mask)                                                \
++            : "cc", "memory");                                                 \
++        reg = r2;                                                              \
++        *cc = (pm >> 28) & 3;                                                  \
++                                                                               \
++        return reg;                                                            \
++    }
++
++FOR_EACH_INSN(DEFINE_EX_TEST)
++FOR_EACH_INSN(DEFINE_EXRL_TEST)
++
++/* Test definitions. */
++#define REGISTER_EX_EXRL_TEST(ex_insn, insn, _exp_reg, _exp_mem, _exp_cc)      \
++    {                                                                          \
++        .name = #ex_insn " " #insn,                                            \
++        .func = test_ ## ex_insn ## _ ## insn,                                 \
++        .exp_reg = (_exp_reg),                                                 \
++        .exp_mem = (_exp_mem),                                                 \
++        .exp_cc = (_exp_cc),                                                   \
++    },
++
++#define REGISTER_EX_TEST(insn, exp_reg, exp_mem, exp_cc)                       \
++    REGISTER_EX_EXRL_TEST(ex, insn, exp_reg, exp_mem, exp_cc)
++
++#define REGISTER_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)                     \
++    REGISTER_EX_EXRL_TEST(exrl, insn, exp_reg, exp_mem, exp_cc)
++
++static const struct test tests[] = {
++    FOR_EACH_INSN(REGISTER_EX_TEST)
++    FOR_EACH_INSN(REGISTER_EXRL_TEST)
++};
++
++/* Loop over all tests and run them. */
++int main(void)
++{
++    const struct test *test;
++    int ret = EXIT_SUCCESS;
++    long reg, cc;
++    size_t i;
++
++    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
++        test = &tests[i];
++        mem[MEM_IDX] = MEM;
++        cc = -1;
++        reg = test->func(REG, &cc);
++#define ASSERT_EQ(expected, actual) do {                                       \
++    if (expected != actual) {                                                  \
++        fprintf(stderr, "%s: " #expected " (0x%lx) != " #actual " (0x%lx)\n",  \
++                test->name, expected, actual);                                 \
++        ret = EXIT_FAILURE;                                                    \
++    }                                                                          \
++} while (0)
++        ASSERT_EQ(test->exp_reg, reg);
++        ASSERT_EQ(test->exp_mem, mem[MEM_IDX]);
++        ASSERT_EQ(test->exp_cc, cc);
++#undef ASSERT_EQ
++    }
++
++    return ret;
++}
 -- 
 2.39.2
 
