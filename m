@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C506BCF70
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343046BCF7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:29:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcmiC-0006lN-Ux; Thu, 16 Mar 2023 08:28:05 -0400
+	id 1pcmjA-0007Xv-F9; Thu, 16 Mar 2023 08:29:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pcmiA-0006kb-5p
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:28:02 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pcmj6-0007XP-HZ
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:29:00 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pcmi8-000386-EM
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:28:01 -0400
-Received: by mail-pl1-x635.google.com with SMTP id v21so1536311ple.9
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 05:28:00 -0700 (PDT)
+ id 1pcmj4-0003t1-Oy
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:29:00 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id z18so792422pgj.13
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 05:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1678969679;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1678969737;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=n1R+aEVDBOJIlT2PKegpb/El2YxGuu/QJmhVuq/d/KI=;
- b=6gAzhUuqDYnGMeJu8JpHQ+gmAAL0D3uEMhY+m5n/RLcddY+c0em/k//rARm5pTEPwG
- 2de/Xm17hVKTE9yGEyvIJL+6FoyPbg9Lzw9f3nrKLaj2R1GFiPo0q3cmIIWf8kUtdI3Y
- pjXBAMJsfcNzW9g0BTF/bgUqbvsY5vkZJWpln6l4oItFNuysIQAH/DIUh3QoK5ISAXs/
- xhIXFecStcWDoxl2OZX3Mc7hm6q7clP3VA1pRiWA2xSOK4WF8m0X4r9Z2em3jy81uLWy
- 3OOZU4GOVKX5wNAG6AwkHZwgtb3LmfKLXKn1rwZmUfetOO4Q8QnmyhFcjprDrs1LIffI
- Tuxg==
+ bh=49Rcm+E8kBL1RIMWWY5mnZGO9fEkOBkt9jJtdcI6My0=;
+ b=le9i4qS7rqt8LHhDa6Zx1ZYTiqZ2v1M59LOMB7dEodq9SpehDwaNiPbpFFkgzoq4bo
+ Sxb6OCKoy8AdYpK3M+gD9J9wu/Mtjg5yH8t/DLRnE3CRbjDn5KXTfdsBQN4qvE4fJ/GW
+ 4R0ISJzEze2obn3j55IJvH5G4RKNQfE6eEpVWGojL7RnsnWnXWnLcMaZQNN2mSsg99GF
+ oEYPpTivap5NoUm7RSM1pmvuVxIRk2wi0RI/H0YrNRrvT76RjWdmKafU/kXjx+kIeSW7
+ E60hgica6CEEJG6wdBqrg1K2yHjIT7EGErEMGq0uuJAw3fOCPYvveZZSgDpn2wxIhA9s
+ CNoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678969679;
+ d=1e100.net; s=20210112; t=1678969737;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=n1R+aEVDBOJIlT2PKegpb/El2YxGuu/QJmhVuq/d/KI=;
- b=RDKfGpTe91yw5ZCWFgdc51e8WDhirkQCYfxG7ioioSgchO4M4OfpDCjNgy2mvwikLi
- ZIkaidnzjeHPTrPwhH22mQ6Bq9HQ1D3zTm10rwYnjVoxER05iOdBVtKNlKmCuaGBuedn
- nUw4dom9UI11hWhj6WuGHjWPEUCwxCVHfjBo177318NAVKCIdNuCsDNxxIm31Z6BxESo
- 0qUmRhFklbccW/SscCHR6xRne6ys2I6LkPni7EgkKLN4iI55aZBKwam7wJSSHtxnsrUg
- KGcmDa+NbuzUEHbuzQmAfnojgMb7uH4/RPdx+w/Em0kuHaMoDzPTd0Xd4j6EyIButb5R
- uDTg==
-X-Gm-Message-State: AO0yUKVk8xwXkPj48cZtVTpl0zguJzxCvUxC9ZCPH/W3cd3F7r1auM0y
- OP5hZVUb2Q9nROcdv0rzVAtlOJTTE+mO2hm+/Zd9nA==
-X-Google-Smtp-Source: AK7set8BvHddn1wsaXIEqFATcG3Z5v44fd0yqsvesxDWis5xF0QrsH9zL6Ep+itfZP07JPswmlLcew==
-X-Received: by 2002:a05:6a20:7f9c:b0:d4:bc25:4a05 with SMTP id
- d28-20020a056a207f9c00b000d4bc254a05mr4180149pzj.49.1678969679033; 
- Thu, 16 Mar 2023 05:27:59 -0700 (PDT)
+ bh=49Rcm+E8kBL1RIMWWY5mnZGO9fEkOBkt9jJtdcI6My0=;
+ b=45ZNPXWBungZOTE+waDs9K4TY8gAJ+f600Gny+qehwkZCLydstNV4kkBOYUqoMnSQG
+ qNOpLsr9xLc2rli7aJuStY7EEKjLnQalt7l5Z2+MUJpUD3Gpm84n8au6Bzcno5UR+eS8
+ LileD5CriesEfIer+2xdO5GxKA05GaF0RezJk9ZZA9yPDIg1PBKot05/5Bz/tDt/JTvd
+ Rsxhl07wLH+Nr043q6VuJqqfVpnizopfYZ9Eyq3ODV+zWiTmDMkmNszt189PNQixWbNI
+ 2JBwukF5hyN0jaw3iUNGnrgCVJA/vDrHInwyVy1fN0LsAu/IccPcCftFw/KM21Jih0Py
+ Wc+g==
+X-Gm-Message-State: AO0yUKUgYw/QOrC2Crl6DsK6gffHwRLe0nasiA3s+fA+6guuskQT47Ym
+ iolwJplY/4wJcwDxuOrq0oEweP31A5QayvTPaWTpHA==
+X-Google-Smtp-Source: AK7set8ma3M9R1SqfzuVECeC2frbfO3uTXLlUk2uOG1Wb3HkpcSXh7yXRNzL5h2xjf4Ff8JmWjZFaQ==
+X-Received: by 2002:a62:5211:0:b0:625:e728:4c5f with SMTP id
+ g17-20020a625211000000b00625e7284c5fmr2043458pfb.22.1678969737357; 
+ Thu, 16 Mar 2023 05:28:57 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a63cc49000000b00502fd70b0bdsm5108161pgi.52.2023.03.16.05.27.57
+ s11-20020aa7828b000000b005ded5d2d571sm5325082pfm.185.2023.03.16.05.28.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 05:27:58 -0700 (PDT)
+ Thu, 16 Mar 2023 05:28:57 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Alexander Bulekov <alxndr@bu.edu>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH for 8.0] hw/net/net_tx_pkt: Ignore ECN bit
-Date: Thu, 16 Mar 2023 21:27:51 +0900
-Message-Id: <20230316122751.10907-1-akihiko.odaki@daynix.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH for 8.0] igb: Save the entire Tx context descriptor
+Date: Thu, 16 Mar 2023 21:28:47 +0900
+Message-Id: <20230316122847.11003-1-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::635;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x635.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,44 +88,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No segmentation should be performed if gso type is
-VIRTIO_NET_HDR_GSO_NONE even if ECN bit is set.
+The current implementation of igb uses only part of a advanced Tx
+context descriptor because it misses some features and sniffs the trait
+of the packet instead of respecting the packet type specified in the
+descriptor. However, we will certainly need the entire Tx context
+descriptor when we update igb to respect these ignored fields. Save the
+entire Tx context descriptor to prepare for such a change.
 
-Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1544
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/net_tx_pkt.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/net/igb.c      |  6 ++++--
+ hw/net/igb_core.c | 17 ++++++++++-------
+ hw/net/igb_core.h |  3 +--
+ 3 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index cb606cc84b..efe80b1a80 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -796,11 +796,13 @@ bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
+diff --git a/hw/net/igb.c b/hw/net/igb.c
+index 0792626322..50239a7cb1 100644
+--- a/hw/net/igb.c
++++ b/hw/net/igb.c
+@@ -499,8 +499,10 @@ static const VMStateDescription igb_vmstate_tx = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_UINT16(vlan, struct igb_tx),
+-        VMSTATE_UINT16(mss, struct igb_tx),
++        VMSTATE_UINT32(ctx.vlan_macip_lens, struct igb_tx),
++        VMSTATE_UINT32(ctx.seqnum_seed, struct igb_tx),
++        VMSTATE_UINT32(ctx.type_tucmd_mlhl, struct igb_tx),
++        VMSTATE_UINT32(ctx.mss_l4len_idx, struct igb_tx),
+         VMSTATE_BOOL(tse, struct igb_tx),
+         VMSTATE_BOOL(ixsm, struct igb_tx),
+         VMSTATE_BOOL(txsm, struct igb_tx),
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index 41d1abae03..dbe24739d0 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -390,7 +390,8 @@ static bool
+ igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
  {
-     assert(pkt);
- 
-+    uint8_t gso_type = pkt->virt_hdr.gso_type & ~VIRTIO_NET_HDR_GSO_ECN;
-+
-     /*
-      * Since underlying infrastructure does not support IP datagrams longer
-      * than 64K we should drop such packets and don't even try to send
-      */
--    if (VIRTIO_NET_HDR_GSO_NONE != pkt->virt_hdr.gso_type) {
-+    if (VIRTIO_NET_HDR_GSO_NONE != gso_type) {
-         if (pkt->payload_len >
-             ETH_MAX_IP_DGRAM_LEN -
-             pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
-@@ -808,7 +810,7 @@ bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
+     if (tx->tse) {
+-        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
++        uint32_t mss = tx->ctx.mss_l4len_idx >> 16;
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
+             return false;
          }
-     }
  
--    if (offload || pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-+    if (offload || gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-         if (!offload && pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
-             net_tx_pkt_do_sw_csum(pkt, &pkt->vec[NET_TX_PKT_L2HDR_FRAG],
-                                   pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1,
+@@ -551,8 +552,10 @@ igb_process_tx_desc(IGBCore *core,
+                    E1000_ADVTXD_DTYP_CTXT) {
+             /* advanced transmit context descriptor */
+             tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
+-            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
+-            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
++            tx->ctx.vlan_macip_lens = le32_to_cpu(tx_ctx_desc->vlan_macip_lens);
++            tx->ctx.seqnum_seed = le32_to_cpu(tx_ctx_desc->seqnum_seed);
++            tx->ctx.type_tucmd_mlhl = le32_to_cpu(tx_ctx_desc->type_tucmd_mlhl);
++            tx->ctx.mss_l4len_idx = le32_to_cpu(tx_ctx_desc->mss_l4len_idx);
+             return;
+         } else {
+             /* unknown descriptor type */
+@@ -576,8 +579,9 @@ igb_process_tx_desc(IGBCore *core,
+     if (cmd_type_len & E1000_TXD_CMD_EOP) {
+         if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
+             if (cmd_type_len & E1000_TXD_CMD_VLE) {
+-                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
+-                    core->mac[VET] & 0xffff);
++                uint16_t vlan = tx->ctx.vlan_macip_lens >> 16;
++                uint16_t vet = core->mac[VET] & 0xffff;
++                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
+             }
+             if (igb_tx_pkt_send(core, tx, queue_index)) {
+                 igb_on_tx_done_update_stats(core, tx->tx_pkt);
+@@ -4027,8 +4031,7 @@ static void igb_reset(IGBCore *core, bool sw)
+     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
+         tx = &core->tx[i];
+         net_tx_pkt_reset(tx->tx_pkt, NULL);
+-        tx->vlan = 0;
+-        tx->mss = 0;
++        memset(&tx->ctx, 0, sizeof(tx->ctx));
+         tx->tse = false;
+         tx->ixsm = false;
+         tx->txsm = false;
+diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
+index 814c1e264b..3483edc655 100644
+--- a/hw/net/igb_core.h
++++ b/hw/net/igb_core.h
+@@ -72,8 +72,7 @@ struct IGBCore {
+     QEMUTimer *autoneg_timer;
+ 
+     struct igb_tx {
+-        uint16_t vlan;  /* VLAN Tag */
+-        uint16_t mss;   /* Maximum Segment Size */
++        struct e1000_adv_tx_context_desc ctx;
+         bool tse;       /* TCP/UDP Segmentation Enable */
+         bool ixsm;      /* Insert IP Checksum */
+         bool txsm;      /* Insert TCP/UDP Checksum */
 -- 
 2.39.2
 
