@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF4D6BCD3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 11:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401F66BCD5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 11:57:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pclBZ-0002H6-B7; Thu, 16 Mar 2023 06:50:17 -0400
+	id 1pclI0-0004sB-VR; Thu, 16 Mar 2023 06:56:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pclBW-0002GZ-H1
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 06:50:14 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pclHy-0004ra-Qe
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 06:56:54 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pclBS-00024a-F1
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 06:50:13 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so2844998wmb.5
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 03:50:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pclHw-0003dz-Vh
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 06:56:54 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id l1so1086044wry.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 03:56:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678963807;
+ d=linaro.org; s=google; t=1678964211;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zuzifyNCqNYV1GNXJvyRMiwr9buhZUz4MYSV8dsrfac=;
- b=fwK4OR96a1jMt8Sqx4zF2k+5r3pSpIDsgWMLIHiFDweHJzaQJx74eEV+B+fIjC8MRJ
- 2RjsSRYOC7hWuTp6zZ1Gz6kp2AGr0erROtFiDuDiU3eHT+gTQoYHW3RWR5E+S2dt/R4B
- 8rOKeD8jUtwB2mtrb3BMLRst9J7AwsBQecsM1xy+WT2loRh3vY/fW7tinT1MLepqoo2N
- 8FNKs0f0AjVto00dfFvIt3sXiy79PoAAT9anj6qgPNAuN+xtTB6LxtTCYxRUo0NEZ1YY
- RvChwf4ZdK9wpnWKa2VRlBDhSGhDgOGHATfrAWpVV6v+zAh91XWUrXH90cpLkSD4ZiqY
- ynAw==
+ bh=QiAh+y264aJaI4frtKI541OsuoMBfZSaxzXzs9N2XZQ=;
+ b=XMxDlD0hIuVvHBmT+viruv9dsP8fwy3kAcO71tHh1xtbpkKCppq8RwpURKX55NCBwG
+ GgBKMqHSw76ydTIAlPtRRmnZctMlhp3JFCh5cLY34QJjD/5Mh6qkNcGpoBy1epXvSsiD
+ G77Sp1KMhrG+3uVq9s8k4aBc+YM6NQr6xPys7h1zLw1VEvvVWjThSWGJgCwDKLLTT9/T
+ Hl6IobJrKY1NujNztTcQNecbEu5InfQPxX3xdFLvG6yTq8b0ACv2oREHzH0BXGAphTTD
+ Zmtjz/PuKHOnEK4fdp/0juXori0UGuFbMGgu/D0d5JnbAXD8JekZJ+IvV1GL/FFUPTRn
+ idLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678963807;
+ d=1e100.net; s=20210112; t=1678964211;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zuzifyNCqNYV1GNXJvyRMiwr9buhZUz4MYSV8dsrfac=;
- b=UPVF4hyZx/8uTjCSoPy9wE0yxtqZ/jVN7AwVSxWq2ME2HT8wlomb0IG3JqrCPF01Zm
- RlR8ChzvMdHWzFrYPPNiDuHxw2kPJKDxwNM2jRTzD5DBstqMiz8fKcpwZptfy0HUZNU6
- AgJ0P4fIGudZheCukVCuo9cJo9CAPE9SDSRT1BRZbhJeV+FgNz9GaOvlwD8j+EWzxBdq
- S7knrqtyz1Vga0Jq91oWGLRFgRtnzxfADWo0/7dXdk+m7CGnbTGrRh32bR0nO5M8QmJP
- WBP3cLKjx7Jas8nhC5tBZbO7s5ILU1YcVmoiS+9cQVG1HrhqJjYHnVud9+mWpc4Z17Gy
- ia+Q==
-X-Gm-Message-State: AO0yUKV8VVgZaqIS7gzrKsb6zAdvZcBJx7Q2eyz0kYaDuHCbz0lJfURE
- meDM3HZHr9IRZHQfZHIL5hJU8g==
-X-Google-Smtp-Source: AK7set9iyU7IgIf+uum1u89a+hTnmz8zfHesdv7Ccoh9RTCrQW2h8HgiRLVpjsPbbB3CYEZv27CakA==
-X-Received: by 2002:a05:600c:3b16:b0:3ed:2eb5:c2dd with SMTP id
- m22-20020a05600c3b1600b003ed2eb5c2ddmr7829556wms.39.1678963807221; 
- Thu, 16 Mar 2023 03:50:07 -0700 (PDT)
+ bh=QiAh+y264aJaI4frtKI541OsuoMBfZSaxzXzs9N2XZQ=;
+ b=mxCO2Nig0wx2lLjx88crWUGSniV/ekMgc13SuXo/WKFAxO36HEAxvURmEJ85Hey3hd
+ 9cqIU6Zf4TfuOOHIBPjv7DT+byDg5hz2LjSaFjcb8+h/cynPYBeII38aDji0+lrBTCwI
+ oT2qcHRh8KzA+IuAz+8CWbs03WEfv4HVtval8vZY+Y4pgjUH36FODJhBcl2jz2rmkxsv
+ dHl1h3B+de4ehWevUcnsH0NEnH16dHEUW3cHvnZNloDzdXZTRSomfaHk7x91QqHcG8VQ
+ ybaeEABmv0htPf8w7iPfNgPi5y/rJLlMR4ckCsScWkZDOvRysfIhUr/59zsg/6ED1Cin
+ 5UBQ==
+X-Gm-Message-State: AO0yUKX87TG5op2YqusWaRVTjNR7sN1RfZLtmKIpIFl29QG23bTHn+xs
+ Ltv018IGN9Uc3a7wCKILsH6VGg==
+X-Google-Smtp-Source: AK7set+NwD2QrW21wn/RPyTmiuVGOukDavjv/EmS/ahVVbUP2yWIfg4+uWGn/CIMrvsDfxcq/oTDZQ==
+X-Received: by 2002:a5d:6511:0:b0:2d1:6104:76ab with SMTP id
+ x17-20020a5d6511000000b002d1610476abmr2547216wru.2.1678964211056; 
+ Thu, 16 Mar 2023 03:56:51 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k6-20020a05600c1c8600b003e209b45f6bsm5016922wms.29.2023.03.16.03.50.06
+ e4-20020a5d5004000000b002ceaeb24c0asm6975820wrt.58.2023.03.16.03.56.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 03:50:06 -0700 (PDT)
-Message-ID: <05247be0-074c-1238-abe5-c25f3699dbb2@linaro.org>
-Date: Thu, 16 Mar 2023 11:50:05 +0100
+ Thu, 16 Mar 2023 03:56:50 -0700 (PDT)
+Message-ID: <333abd8d-035d-b9c9-a934-26876d33d7d0@linaro.org>
+Date: Thu, 16 Mar 2023 11:56:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 4/6] edk2: update submodule to edk2-stable202302
+Subject: Re: dropping 32-bit host support
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230316095432.1514080-1-kraxel@redhat.com>
- <20230316095432.1514080-5-kraxel@redhat.com>
+To: Andrew Randrianasulu <randrianasulu@gmail.com>,
+ Thomas Huth <thuth@redhat.com>
+Cc: qemu-discuss@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>
+References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
+ <f06fddef-1e40-1858-2715-50a0518a97f6@linaro.org>
+ <CA+rFky5=kc0Pwf3RRhuKrBqtRVkmtm=NDKhrVgJV2_Ame2nUOQ@mail.gmail.com>
+ <c33b0e07-5c46-6ebe-fe4c-5308ce508a70@linaro.org>
+ <632e7256-34f5-ca87-ff60-a5c11aa1dd7f@redhat.com>
+ <CA+rFky6WqdLjNpeU3sCXwjwMEuEK+XVHE5BBCKYC=umRGK81eg@mail.gmail.com>
+ <CA+rFky4su7ZEo8pNQGk3qEkTOLEkFAqO2Tsrh6VyDaNOf7w=_Q@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230316095432.1514080-5-kraxel@redhat.com>
+In-Reply-To: <CA+rFky4su7ZEo8pNQGk3qEkTOLEkFAqO2Tsrh6VyDaNOf7w=_Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,13 +97,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/3/23 10:54, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->   pc-bios/README | 4 ++--
->   roms/edk2      | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
+On 16/3/23 11:22, Andrew Randrianasulu wrote:
+> чт, 16 мар. 2023 г., 12:17 Andrew Randrianasulu <randrianasulu@gmail.com 
+> <mailto:randrianasulu@gmail.com>>:
+>     чт, 16 мар. 2023 г., 11:31 Thomas Huth <thuth@redhat.com
+>     <mailto:thuth@redhat.com>>:
+>         On 16/03/2023 08.36, Philippe Mathieu-Daudé wrote:
+>          > On 16/3/23 08:17, Andrew Randrianasulu wrote:
+>          >> чт, 16 мар. 2023 г., 10:05 Philippe Mathieu-Daudé
+>         <philmd@linaro.org <mailto:philmd@linaro.org>
+>          >> <mailto:philmd@linaro.org <mailto:philmd@linaro.org>>>:
+>          >>     On 16/3/23 01:57, Andrew Randrianasulu wrote:
+>          >>      > Looking at https://wiki.qemu.org/ChangeLog/8.0
+>         <https://wiki.qemu.org/ChangeLog/8.0>
+>          >>     <https://wiki.qemu.org/ChangeLog/8.0
+>         <https://wiki.qemu.org/ChangeLog/8.0>>
+>          >>      > <https://wiki.qemu.org/ChangeLog/8.0
+>         <https://wiki.qemu.org/ChangeLog/8.0>
+>          >>     <https://wiki.qemu.org/ChangeLog/8.0
+>         <https://wiki.qemu.org/ChangeLog/8.0>>>
+>          >>      >
+>          >>      > ===
+>          >>      > System emulation on 32-bit x86 and ARM hosts has been
+>         deprecated.
+>          >>     The
+>          >>      > QEMU project no longer considers 32-bit x86 and ARM
+>         support for
+>          >>     system
+>          >>      > emulation to be an effective use of its limited
+>         resources, and thus
+>          >>      > intends to discontinue.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+> Still, pushing users into endless hw upgrade is no fun:
+> 
+> https://hackaday.com/2023/02/28/repurposing-old-smartphones-when-reusing-makes-more-sense-than-recycling/ <https://hackaday.com/2023/02/28/repurposing-old-smartphones-when-reusing-makes-more-sense-than-recycling/>
+> 
+> note e-waste and energy consumption
+> 
+> This graph does not make me happy:
+> 
+> https://ourworldindata.org/grapher/global-energy-substitution?time=earliest..2021 <https://ourworldindata.org/grapher/global-energy-substitution?time=earliest..2021>
+> 
+> Note this paradox too
+> 
+> https://en.m.wikipedia.org/wiki/Jevons_paradox 
+> <https://en.m.wikipedia.org/wiki/Jevons_paradox>
+
+
+>          >> [...] I also ran qemu-system-ppc on Huawei Matepad T8 (32
+>         bit Android,
+>          >> too) for emulating old mac os 9. Yes, I can wait 10 min per
+>         guest boot.
+>          >> Fedora 36 armhf boots even slower on emulation!
+> 
+>         Yes, but for such scenarios, you can also use older versions of
+>         QEMU, you
+>         don't need the latest and greatest shiny QEMU version.
+
+Thomas answer still applies: if you can use QEMU v8.0.0 to emulate
+macOS 9 on your Huawei Matepad T8 with 32-bit Android, why worry
+about trying to use future QEMU versions?
 
