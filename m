@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E31B6BD35D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 16:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B846BD365
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 16:24:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcpQI-0000w0-1i; Thu, 16 Mar 2023 11:21:46 -0400
+	id 1pcpSh-0001xz-AO; Thu, 16 Mar 2023 11:24:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pcpQE-0000v3-QQ
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:21:42 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pcpSf-0001xf-GF
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:24:13 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pcpQC-0005LV-Up
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:21:42 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id ek18so9097227edb.6
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 08:21:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pcpSd-0006Bf-HN
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:24:13 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id j13so1985197pjd.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 08:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1678980097;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bbuD5VXV2CdnEJZBCujs32rLvwOfAwviQYlxquNi6do=;
- b=6Ho0G2ERoRoG9i/gvP600NcuijjPXL0smXgK+rTQhvuHD5uEI4xipa4Vh7+ki9h6zc
- 8jQmuyOmHxddie26gG6KFrKOeJcoD9etlBVV1IX1HEXXLMjefVEeG+sLGjLqxDmpCsRy
- vrSi/cPw+MTPLjPl1ZgtYhsQb0RLJczsPgJmpq9jkbdIHam1N0apiapPO0Rao66XREle
- MKW2XxxieMXVyyw4tK0nQ5jp5d0QTjrMpazgma1sS1dkeE4+46H/PgIWDneFe72nAfmD
- /7Xr/2EFz09PUezCfDKd/9JBqPlplQW1oC3nrtauKtLgtd5NdiD1vuG/JnjwjBS36pDk
- BHEg==
+ d=linaro.org; s=google; t=1678980250;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aAJFppXBi3TBcLP0ImZXXsCfoShRC86wnPfDVJR0w6E=;
+ b=iHqLlu11Vu2ptxjvJa/u2ACgTD/4yhfUTKZWg2wc1Rd3U85BsCMlWU77JRGo55Ztw1
+ 90HAkMh1g5BsxtR9eaobWVN/4DbDxFF0aFTpXcvph2kzBLnL0N+8Ba/EoiYd5wkmkrAv
+ WEops0tJk5N3DhasCmKj+ZkU/tOkHfHjgpfjShZei5CvGmMnXp2wmraaTi8My11hPmrq
+ itOe6qlKl0ATKOPpZijPlt0kWa3EiSQcnQBsLVJ/ORrnGMCs5U2btul2BusHsguNwFVX
+ 5/OCrCaYu1AzB/khT4piLsMgYCr75htxe902i1TGpShpCPxDh7L5G8I3PcJFBV4MnySF
+ +ZBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678980097;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bbuD5VXV2CdnEJZBCujs32rLvwOfAwviQYlxquNi6do=;
- b=4c8eTi4mErmtzgVqnPfj7pv5dKQqLS0ml0S59Xk5ER+cAaA2kbvPZHfWwVyo5Gaore
- l82PJTqDfLpQS27TYsKjiEfokIwqql9J3UHz0dIeUWFqRCWRSpuK75yYglnzuMppx0Hx
- HLD/lkEVHdhezwmNqaI+y7/pFlluz+waG6g7+Fa4CW7ZK+dtSDU48YVQiD8viUM/t65i
- ddQ5djRZgZj189KAAt2nXEQWnCb5T2G56qJTwaUdeOpHzEuKBBwFzXAdvdCLss9aQDpW
- ZM5UskqDwwLyMTr/nDFCX0wB9HSNsBjFhP45yqMUIw2PRf440cxrqqYWz2AxuscKSJjj
- gx6g==
-X-Gm-Message-State: AO0yUKXn79XM7A0rp7FqWADZyCdg+V7EqJh6qmzvQWExLJrpRu9neTu1
- 4SAnImj7Xju32rtQxekvxaCt8Z7x3jZxbC/2MroXoQ==
-X-Google-Smtp-Source: AK7set9KvW6V6f62Yt2sTvAl89oDRyk2Td1o3DIluHvu5OLoaOsFq5/KKDq0qmnz8GXICZE4r3Ug35aBeHkObuJwmsA=
-X-Received: by 2002:a17:906:55d4:b0:930:af80:5ba8 with SMTP id
- z20-20020a17090655d400b00930af805ba8mr1019105ejp.2.1678980096858; Thu, 16 Mar
- 2023 08:21:36 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678980250;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aAJFppXBi3TBcLP0ImZXXsCfoShRC86wnPfDVJR0w6E=;
+ b=ZIg+9K/xupbZLRNPlZ/bOtSe4r1WGU3sJ14EOVY0s1X+4AQC/m232pZiGmSULjKO7m
+ Sv3UlCK1UmkF6IBgQPdCmvSCB+D6uyLy11WcchYFSi58thanHMwRu+9eez47WybSNUWk
+ bIS8/NZ0fpm3tTUEXr23FP8gLr6QE/YaFzIugLTFCTRL1AMSR0dQLFg7s6lhEAs6hkMa
+ Yp94qy8MqmdqvEiSEkzYgXH8GtQpooG72SVqp/ExIqwaZ9A+GEY/sxfHd8TyTH+O7cvi
+ LyNbjodScqeO7WKbq1iHiAXyIsdYTrInxPpd2EfcX+UzBllFyj8vN0qhD7ZOTgCN1pcb
+ a41A==
+X-Gm-Message-State: AO0yUKXyIRGIEf+peffy4o3Vlb6cxxNYsQvg5NtwCjhcVf1lnu7VvgyE
+ 7zn2dtQuECWgoVCb/x6Ap/qmn9PCWEobgYWThqXuHg==
+X-Google-Smtp-Source: AK7set9+uj8TEzIiWVY6g9EoSfSof0NbpfTymdEw83U/3PwwqLWlN22ZAJ57RGHyiHVWx+UwTcaIwbud7jgpyDNZff8=
+X-Received: by 2002:a17:902:e54c:b0:19a:5953:e85c with SMTP id
+ n12-20020a170902e54c00b0019a5953e85cmr1615714plf.1.1678980250034; Thu, 16 Mar
+ 2023 08:24:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
- <f06fddef-1e40-1858-2715-50a0518a97f6@linaro.org>
- <CA+rFky5=kc0Pwf3RRhuKrBqtRVkmtm=NDKhrVgJV2_Ame2nUOQ@mail.gmail.com>
- <c33b0e07-5c46-6ebe-fe4c-5308ce508a70@linaro.org>
- <632e7256-34f5-ca87-ff60-a5c11aa1dd7f@redhat.com>
- <CA+rFky6WqdLjNpeU3sCXwjwMEuEK+XVHE5BBCKYC=umRGK81eg@mail.gmail.com>
- <CA+rFky4su7ZEo8pNQGk3qEkTOLEkFAqO2Tsrh6VyDaNOf7w=_Q@mail.gmail.com>
- <ac632c34-42e0-d715-52d9-b70ead6296a7@redhat.com>
- <CA+rFky6Tt0hcv9TuthS7Q-5SMXtPi+3W8B5qX5itJ0A+meh_Ew@mail.gmail.com>
- <ZBMNEdz9WnUsckd7@redhat.com>
- <CA+rFky6hnaCxF10ST=qsLsBjH6=M__kQPA=yoZhdCoB8sH96ug@mail.gmail.com>
- <0e06c704-40d7-b511-8353-0218c3d45d3b@redhat.com>
-In-Reply-To: <0e06c704-40d7-b511-8353-0218c3d45d3b@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 16 Mar 2023 09:21:25 -0600
-Message-ID: <CANCZdfo3UHiAWXgS3MBXB3XRzVtX+HOgimMXAyNwTkJQR6=PjA@mail.gmail.com>
-Subject: Re: dropping 32-bit host support
-To: Thomas Huth <thuth@redhat.com>
-Cc: Andrew Randrianasulu <randrianasulu@gmail.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-discuss@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>, 
- Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000422c2d05f70604cf"
-Received-SPF: none client-ip=2a00:1450:4864:20::52a;
- envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+References: <20230314114431.1096972-1-peter.maydell@linaro.org>
+ <8f048b8a-55f0-d124-3cb7-9a34e863149f@vivier.eu>
+ <CAFEAcA_wAUgEiL1T_E9mKKW7PCpdRASKaBnTEydJuC9cPGme2w@mail.gmail.com>
+ <67509d48-cf9d-bd01-e284-72f39c4d74f0@vivier.eu>
+In-Reply-To: <67509d48-cf9d-bd01-e284-72f39c4d74f0@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Mar 2023 15:23:58 +0000
+Message-ID: <CAFEAcA91vwRw409zFSQuRYiOVyeQ-GGcwE4QD0_Y2f7pebRHWA@mail.gmail.com>
+Subject: Re: [PATCH] docs/sphinx/kerneldoc.py: Honour --enable-werror
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,66 +91,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000422c2d05f70604cf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Mar 16, 2023 at 7:33=E2=80=AFAM Thomas Huth <thuth@redhat.com> wrot=
-e:
-
-> If you'd followed the QEMU project, you'd know that there are very helpfu=
-l
-> people around, from all kind of companies, Linaro guys who help with
-> reviewing and merging non-ARM patches, Red Hatters who help with BSD
-
-and Haiku patches, etc.
+On Thu, 16 Mar 2023 at 15:16, Laurent Vivier <laurent@vivier.eu> wrote:
 >
+> Le 16/03/2023 =C3=A0 14:42, Peter Maydell a =C3=A9crit :
+> >
+> >
+> > On Thu, 16 Mar 2023 at 13:40, Laurent Vivier <laurent@vivier.eu <mailto=
+:laurent@vivier.eu>> wrote:
+> >  >
+> >  > Le 14/03/2023 =C3=A0 12:44, Peter Maydell a =C3=A9crit :
+> >  > > Currently, the kerneldoc Sphinx plugin doesn't honour the
+> >  > > --enable-werror configure option, so its warnings are never fatal.
+> >  > > This is because although we do pass sphinx-build the -W switch, th=
+e
+> >  > > warnings from kerneldoc are produced by the scripts/kernel-doc scr=
+ipt
+> >  > > directly and don't go through Sphinx's "emit a warning" function.
+> >  > >
+> >  > > When --enable-werror is in effect, pass sphinx-build an extra
+> >  > > argument -Dkerneldoc_werror=3D1.  The kerneldoc plugin can then us=
+e
+> >  > > this to determine whether it should be passing the kernel-doc scri=
+pt
+> >  > > -Werror.
+> >  > >
+> >  > > We do this because there is no documented mechanism for
+> >  > > a Sphinx plugin to determine whether sphinx-build was
+> >  > > passed -W or not; if one is provided then we can switch to
+> >  > > that at a later date:
+> >  > > https://github.com/sphinx-doc/sphinx/issues/11239
+> > <https://github.com/sphinx-doc/sphinx/issues/11239>
+> >  > >
+> >  > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org <mailto:pet=
+er.maydell@linaro.org>>
+> >  > > ---
+> >  > > NB: we need to land the fix for the current outstanding
+> >  > > warning before this one can go in...
+> >  > > https://lore.kernel.org/qemu-devel/20230310103123.2118519-11-alex.=
+bennee@linaro.org/
+> > <https://lore.kernel.org/qemu-devel/20230310103123.2118519-11-alex.benn=
+ee@linaro.org/>
+> >  > > ---
+> >  > >   docs/meson.build         | 2 +-
+> >  > >   docs/sphinx/kerneldoc.py | 5 +++++
+> >  > >   2 files changed, 6 insertions(+), 1 deletion(-)
+> >
+> >  > I've applied it to my trivial-patches branch,
+> >  > but if you want to apply it via some doc or misc branches, let me kn=
+ow.
+> >
+> > Trivial is fine, but make sure you've put in the fix for
+> > the outstanding warning first :-)
+>
+> I didn't take this one but:
+>
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg949558.html
 
-Without this help, bsd-user would be dead. As it is, it is struggling with
-its own
-resource issues, but the kind help I've received from the QEMU project has
-motivated me to keep going in upstreaming what our fork has, as well as
-working to make the code better.
+Yeah, that one has the same effect.
 
-I'll only add that FreeBSD's efforts to improve its CI story was derailed
-for two
-years by people like this, so it makes me happy to see lines being drawn
-in this thread. They aren't unreasonable, and look to me to be in the best
-interest of the QEMU project. You can't make everybody happy all the time.
-And while it's good to try sometimes, other times it bogs down real efforts
-to
-make things better. This is one of those times.
-
-Warner
-
---000000000000422c2d05f70604cf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 16, 2023 at 7:33=E2=80=AF=
-AM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>=
-&gt; wrote:</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-If you&#39;d followed the QEMU project, you&#39;d know that there are very =
-helpful <br>
-people around, from all kind of companies, Linaro guys who help with <br>
-reviewing and merging non-ARM patches, Red Hatters who help with BSD=C2=A0<=
-/blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"> and Haiku pa=
-tches, etc.<br></blockquote><div><br></div><div>Without this help, bsd-user=
- would be dead. As it is, it is struggling with its own</div><div>resource =
-issues, but the kind help I&#39;ve received from the QEMU project has</div>=
-<div>motivated me to keep going in upstreaming what our fork has, as well a=
-s</div><div>working to make the code better.</div><div><br></div><div>I&#39=
-;ll only add that FreeBSD&#39;s efforts to improve its CI story was deraile=
-d for two</div><div>years by people like this, so it makes me happy to see =
-lines being drawn</div><div>in this thread. They aren&#39;t unreasonable, a=
-nd look to me to be in the best</div><div>interest of the QEMU project. You=
- can&#39;t make everybody happy all the time.</div><div>And while it&#39;s =
-good to try sometimes, other times it bogs down real efforts to</div><div>m=
-ake things better. This is one of those times.</div><div><br></div><div>War=
-ner=C2=A0<br></div></div></div>
-
---000000000000422c2d05f70604cf--
+-- PMM
 
