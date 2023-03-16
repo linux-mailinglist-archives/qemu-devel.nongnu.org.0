@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C596BC7CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 08:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C33D6BC7DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 08:56:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pciPx-00082u-3m; Thu, 16 Mar 2023 03:52:58 -0400
+	id 1pciSj-0000x5-Ek; Thu, 16 Mar 2023 03:55:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pciPl-00082D-0V
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:52:45 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pciPf-0007lm-3t
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:52:40 -0400
-Received: by mail-wm1-x329.google.com with SMTP id p16so559581wmq.5
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 00:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678953157;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BTrmkopY2tQw1IttF9YHuZpiFo3j08F1TAzT3W1WWLs=;
- b=ET4IWYg6r3Oq5oLFxoBSlMsnhxN/kQq9AGrfhYR8P5aojkorPurccZINch0Ai1UDek
- ulWz6p2z/E76JW/tbPIAJIhAVWaioUHwyrjR2Q3ykp6RLh9HCxFn5UFT6IQyZ3A+HkY1
- Vc4Kgh6pAkXTbLXMURWGRvjNu+7BckvZgAe3pUg0FB/4bFxhMFqEJaXhDzXwnFsfVUaY
- 6i6aGrP0DbOuIsY5fn2lex5v6VDFLl/Gun5JNp6NQDImaur9gnlcLo5i1oZH1lwzrSxD
- QX8E9V/mX6w56cB47oJX15IfL/0HMx8jd43RtZb3nCqJ2qIPipvVyUkIFdUCJ0D2xZi+
- gcbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678953157;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BTrmkopY2tQw1IttF9YHuZpiFo3j08F1TAzT3W1WWLs=;
- b=7VD4C/KBaLfZGOgsJvxc4FTpGLd5p9fxVfvjWw5rRPOr/Q2B6p8FhRFCRnRmc9lBKj
- TzeRI3N5A/zaBFOgNZrBI6BDQLzdbYWlGiOwrchdPcgbXhyr4jeI9fQoOwW21pOSznZ0
- rdjQ+VAvZVLFahts2VXBUAA7YIEej5VBzrQxTn75DzgEzd066V+8f3VrS0nkNvpyJpBv
- vQCCqJGJV6tCtTBqT/ZH9C6nNoDRijB+4RcLzKfhV8jdErfWYFfBer5uSSEqG0rTEh+Y
- 8bATg0/Ox4j+kaw2OJoXnpJa1fcN1d4kTjzuQBJWnrsNY2P2Y5hy5MyRgVL0mQRBd1Yj
- LAkw==
-X-Gm-Message-State: AO0yUKVE/vSRhH/ebw4rzRPKb82gY0N+neaMprP5LakVEAmsg5/262ey
- Kgxg8+HV4RwSigDv9/w5azmXxg==
-X-Google-Smtp-Source: AK7set8/rWMpEXkBEaOJ0Ot+5pSA6ffLtoEqf2nm6yCpG+VyNMGhN5v7AH5OJlYCv9XeIGRvs/Emsg==
-X-Received: by 2002:a05:600c:3591:b0:3e2:1dac:b071 with SMTP id
- p17-20020a05600c359100b003e21dacb071mr16915340wmq.13.1678953157301; 
- Thu, 16 Mar 2023 00:52:37 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t14-20020a05600c198e00b003ed29899dfdsm4361354wmq.21.2023.03.16.00.52.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 00:52:36 -0700 (PDT)
-Message-ID: <c854655d-642c-21dc-61a5-4d93b98fc7b1@linaro.org>
-Date: Thu, 16 Mar 2023 08:52:35 +0100
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pciSf-0000wU-EC
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:55:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pciSc-00018a-OT
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:55:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678953341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ksqTbdQ3++HKkrMwIORxGBff0/nDaT3KolwuqfyAaGM=;
+ b=QVomBL5sRDeBY91jJ7rKq3JXxw7utZa6unn+Y0V8nPHQ10mMvDP5UpmzPbCz89v1hyT501
+ XayiDN+OxTkqbwn3OytNat2pXvFHHwuZkpbyDxLzKId0l+zQT7J6WVFmN/heYI35dHk25P
+ sKtpNhcasJEQMlUBinKP7j0LKK9Myeg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-623-4ca1a97iPByBlfC5dLb3Qw-1; Thu, 16 Mar 2023 03:55:37 -0400
+X-MC-Unique: 4ca1a97iPByBlfC5dLb3Qw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F10172A5955D;
+ Thu, 16 Mar 2023 07:55:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32417492B00;
+ Thu, 16 Mar 2023 07:55:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CB9521801CF6; Thu, 16 Mar 2023 08:55:34 +0100 (CET)
+Date: Thu, 16 Mar 2023 08:55:34 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 0/3] Edk2 stable202302 20230309 patches
+Message-ID: <20230316075534.rhk6esmhjyeooyyq@sirius.home.kraxel.org>
+References: <20230309115714.906369-1-kraxel@redhat.com>
+ <CAFEAcA_KwKQjgsx+4C_3an6ujhN=ETYFbaOjgU7Bg4OYt10OgA@mail.gmail.com>
+ <20230315155655.ww75ox7hougl32wk@sirius.home.kraxel.org>
+ <703ac3d4-e14e-1df6-aaa1-a7456b7dd89c@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2] target/sh4: Honor QEMU_LOG_FILENAME with QEMU_LOG=cpu
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20230316003411.129462-1-iii@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230316003411.129462-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+In-Reply-To: <703ac3d4-e14e-1df6-aaa1-a7456b7dd89c@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,23 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/3/23 01:34, Ilya Leoshkevich wrote:
-> When using QEMU_LOG=cpu on sh4, QEMU_LOG_FILENAME is partially ignored.
-> Fix by using qemu_fprintf() instead of qemu_printf() in the respective
-> places.
+On Wed, Mar 15, 2023 at 05:16:10PM +0100, Laszlo Ersek wrote:
+> On 3/15/23 16:56, Gerd Hoffmann wrote:
+> >   Hi,
+> > 
+> >> ▶ 206/206 ERROR:../tests/qtest/acpi-utils.c:158:acpi_find_rsdp_address_uefi:
+> >> code should not be reached ERROR
+> >> 206/206 qemu:qtest+qtest-aarch64 / qtest-aarch64/bios-tables-test
+> >> ERROR 706.75s killed by signal 6 SIGABRT
+> > 
+> > mst?  laszlo?  Any hints how to debug that?
+> > 
+> > Tried to start qemu manually with the command line I get from
+> > "make V=1 check-qtest-aarch64", that seems to start the uefi
+> > app from the iso image just fine ...
 > 
-> Fixes: 90c84c560067 ("qom/cpu: Simplify how CPUClass:cpu_dump_state() prints")
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
-> 
-> Resend of https://patchew.org/QEMU/20220725142854.177451-1-iii@linux.ibm.com/
-> with a trivial rebase.
-> 
->   target/sh4/translate.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+> This is strange, the search is supposed to continue for 600 seconds (see
+> TEST_DELAY and TEST_CYCLES). I've got no better idea than to run the
+> UEFI application, then dump the guest memory from the QEMU monitor, and
+> then fish around in it...
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Turned out to be the numa test case only, and edk2 not booting due to
+small numa nodes.
+
+take care,
+  Gerd
 
 
