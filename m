@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1226BD196
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 14:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AFB6BD21E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 15:14:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pco4F-0003R0-GM; Thu, 16 Mar 2023 09:54:55 -0400
+	id 1pcoLr-00019T-3m; Thu, 16 Mar 2023 10:13:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pco4D-0003Qm-N7
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 09:54:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pco4B-0008EC-Ua
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 09:54:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678974890;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vYfwxis4mj5jW46oi5WQjkQucYku09OmxIHNO1SdDaw=;
- b=aoKWfXP8Bomv443z/0/mStXpjVNoWfHjzJSN14FQFDtCiiR/yzFXKZA+wKzd46z9/LfHvf
- 1LtWKxgjIAqxwZNNugRXzcrBc6H5pzJlT0UrNSnCKEy8/l33gKAgh0JV3OQCn2ZrmBofKC
- M/dJ0apHNYW2VBDlVGJOJu+h/ZwePLQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-RwEcyV3tM9G87h7XQ3-MNg-1; Thu, 16 Mar 2023 09:54:46 -0400
-X-MC-Unique: RwEcyV3tM9G87h7XQ3-MNg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81CB796DC80;
- Thu, 16 Mar 2023 13:54:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C776D35453;
- Thu, 16 Mar 2023 13:54:44 +0000 (UTC)
-Date: Thu, 16 Mar 2023 13:54:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 2/3] qapi: Do not generate empty enum
-Message-ID: <ZBMfosr0JDyfjhqs@redhat.com>
-References: <20230315112811.22355-1-philmd@linaro.org>
- <20230315112811.22355-3-philmd@linaro.org>
- <87cz58ubcn.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1pcoLl-00018N-C1; Thu, 16 Mar 2023 10:13:02 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1pcoLi-0000CH-3m; Thu, 16 Mar 2023 10:13:00 -0400
+Received: by mail-il1-x12d.google.com with SMTP id j6so1050186ilr.7;
+ Thu, 16 Mar 2023 07:12:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678975976;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/40C8gU8IUWJ5FN6czOFgWR+bxVkhM0PpGvwv826cEM=;
+ b=d5lqyHAMeWaIORptgC9lKXOStCz/5j4G4y3Xp/VUOZ7VWVV5FcUSoS5XkRalfRWE1z
+ CVSLSpw0/5gBr7nvXo6M9X17Pz2OuHTm5fW9nicWMEiGz2MUubCv9LQWJ+SyBMypECun
+ 30XBP+eMP647Y6Zhuu9u6eHjD/1zxpVa1cTLeEJyn18JzDSjlCNHGGlQYa9HUC0Zb7n7
+ GXHmJo3mG+2H51caBsFWOUneptILLiQlYZNEcDCTM5zATqkU6U5serWTiBIilyzxQIRM
+ UlmTgU1Bu0k/rlUBGi052TeceN/ZVsF2gIPkG6gI0qrhZag99oMpw3I13BGBbXcSdChn
+ K3Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678975976;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/40C8gU8IUWJ5FN6czOFgWR+bxVkhM0PpGvwv826cEM=;
+ b=Fzqk/z11C/C+2q/s478D0Rz1lNA3jsHH2s2uL8tHVoZ7SDsh0noRm4Eg+OMuH459Nh
+ qAeg1HoO/iOT5pRUSat/9viLYI9rVwMKQtOSHH1WZRR8sTZEtMPgFeKrOwWFZSq5DvUK
+ X7hqBkzJaAQz9fB6x1C61/f9yjIbBsxjLejdfAupgjZyIrPCI/JldxtKmFZmsYtB949D
+ rTPi5ob4i/5IvX6E625cQP2USWtPLGoZ5V2iD+9sne53Sr9QXpmUQCjoCyMwmd15j5Pb
+ 1eh4WOWDmJpXl4fpUkdwSzsKWz4XnD5FzFU1VjCM7+jePUH+iip54NAOWgtMdRpgorDk
+ 1n3g==
+X-Gm-Message-State: AO0yUKWH3R3ktn+6574ke5wbaP7GmVVb9QvzEr65rRxiNfe+TcuHcjdM
+ l+sgLqGFAyiULHD26GXW8PI=
+X-Google-Smtp-Source: AK7set+vJxDrAxNARA46HkYFqcKIXOZEWRquweLW2LKjJK8VooYh34QrAImskht1yIpsgifbNTRf+w==
+X-Received: by 2002:a05:6e02:1545:b0:322:ea3c:676f with SMTP id
+ j5-20020a056e02154500b00322ea3c676fmr9750496ilu.26.1678975975877; 
+ Thu, 16 Mar 2023 07:12:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020a92c141000000b00316e54a8287sm2446467ilh.14.2023.03.16.07.12.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Mar 2023 07:12:55 -0700 (PDT)
+Message-ID: <590fdf77-5478-1d94-162b-b543873b0299@roeck-us.net>
+Date: Thu, 16 Mar 2023 07:12:53 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cz58ubcn.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20200313014551.12554-1-linux@roeck-us.net>
+ <20200313014551.12554-2-linux@roeck-us.net>
+ <CAFEAcA_PT9kD1WCn9RWVem3uEY4AvmyA5T=-ouVsq9sbvDymKg@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v3 1/5] hw/usb: Add basic i.MX USB Phy support
+In-Reply-To: <CAFEAcA_PT9kD1WCn9RWVem3uEY4AvmyA5T=-ouVsq9sbvDymKg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=groeck7@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,75 +94,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 16, 2023 at 01:31:04PM +0100, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
-> 
-> > Per the C++ standard, empty enum are ill-formed. Do not generate
-> > them in order to avoid:
-> >
-> >   In file included from qga/qga-qapi-emit-events.c:14:
-> >   qga/qga-qapi-emit-events.h:20:1: error: empty enum is invalid
-> >      20 | } qga_QAPIEvent;
-> >         | ^
-> >
-> > Reported-by: Markus Armbruster <armbru@redhat.com>
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> Two failures in "make check-qapi-schema" (which is run by "make check"):
-> 
-> 1. Positive test case qapi-schema-test
-> 
->     --- /work/armbru/qemu/bld-x86/../tests/qapi-schema/qapi-schema-test.out
->     +++ 
->     @@ -19,7 +19,6 @@
->          member enum2: EnumOne optional=True
->          member enum3: EnumOne optional=False
->          member enum4: EnumOne optional=True
->     -enum MyEnum
->      object Empty1
->      object Empty2
->          base Empty1
-> 
->    You forgot to update expected test output.  No big deal.
-> 
-> 2. Negative test case union-empty
-> 
->     --- /work/armbru/qemu/bld-x86/../tests/qapi-schema/union-empty.err
->     +++ 
->     @@ -1,2 +1,2 @@
->     -union-empty.json: In union 'Union':
->     -union-empty.json:4: union has no branches
->     +union-empty.json: In struct 'Base':
->     +union-empty.json:3: member 'type' uses unknown type 'Empty'
->     stderr:
->     qapi-schema-test FAIL
->     union-empty FAIL
-> 
->    The error message regresses.
-> 
->    I can see two ways to fix this:
-> 
->    (A) You can't just drop empty enumeration types on the floor.  To not
->        generate code for them, you need to skip them wherever we
->        generate code for enumeration types.
-> 
->    (B) Outlaw empty enumeration types.
-> 
-> I recommend to give (B) a try, it's likely simpler.
+Hi Peter,
 
-Possible trap-door with (B), if we have any enums where *every*
-member is conditionalized on a CONFIG_XXX rule, there might be
-certain build scenarios where an enum suddenly becomes empty.
+On 3/16/23 06:41, Peter Maydell wrote:
+> On Fri, 13 Mar 2020 at 01:45, Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> Add basic USB PHY support as implemented in i.MX23, i.MX28, i.MX6,
+>> and i.MX7 SoCs.
+>>
+>> The only support really needed - at least to boot Linux - is support
+>> for soft reset, which needs to reset various registers to their initial
+>> value. Otherwise, just record register values.
+>>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> Hi Guenter; we've had a fuzzer report that this device model
+> accesses off the end of the usbphy[] array:
+> https://gitlab.com/qemu-project/qemu/-/issues/1408
+> 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Good catch. And an obvious bug, sorry.
 
+>> +static uint64_t imx_usbphy_read(void *opaque, hwaddr offset, unsigned size)
+>> +{
+>> +    IMXUSBPHYState *s = (IMXUSBPHYState *)opaque;
+>> +    uint32_t index = offset >> 2;
+>> +    uint32_t value;
+> 
+> 
+>> +    default:
+>> +        value = s->usbphy[index];
+> 
+> No bounds check in the default case (or ditto in the write function)...
+> 
+>> +        break;
+>> +    }
+>> +    return (uint64_t)value;
+>> +}
+> 
+>> +static void imx_usbphy_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    IMXUSBPHYState *s = IMX_USBPHY(dev);
+>> +
+>> +    memory_region_init_io(&s->iomem, OBJECT(s), &imx_usbphy_ops, s,
+>> +                          "imx-usbphy", 0x1000);
+> 
+> ...and the memory region is created at size 0x1000 so the read/write
+> fns can be called with offsets up to that size...
+> 
+>> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
+>> +}
+> 
+>> +enum IMXUsbPhyRegisters {
+>> +    USBPHY_PWD,
+>> +    USBPHY_PWD_SET,
+>> +    USBPHY_PWD_CLR,
+>> +    USBPHY_PWD_TOG,
+>> +    USBPHY_TX,
+>> +    USBPHY_TX_SET,
+>> +    USBPHY_TX_CLR,
+>> +    USBPHY_TX_TOG,
+>> +    USBPHY_RX,
+>> +    USBPHY_RX_SET,
+>> +    USBPHY_RX_CLR,
+>> +    USBPHY_RX_TOG,
+>> +    USBPHY_CTRL,
+>> +    USBPHY_CTRL_SET,
+>> +    USBPHY_CTRL_CLR,
+>> +    USBPHY_CTRL_TOG,
+>> +    USBPHY_STATUS,
+>> +    USBPHY_DEBUG = 0x14,
+>> +    USBPHY_DEBUG_SET,
+>> +    USBPHY_DEBUG_CLR,
+>> +    USBPHY_DEBUG_TOG,
+>> +    USBPHY_DEBUG0_STATUS,
+>> +    USBPHY_DEBUG1 = 0x1c,
+>> +    USBPHY_DEBUG1_SET,
+>> +    USBPHY_DEBUG1_CLR,
+>> +    USBPHY_DEBUG1_TOG,
+>> +    USBPHY_VERSION,
+>> +    USBPHY_MAX
+>> +};
+>> +
+>> +#define USBPHY_CTRL_SFTRST BIT(31)
+>> +
+>> +#define TYPE_IMX_USBPHY "imx.usbphy"
+>> +#define IMX_USBPHY(obj) OBJECT_CHECK(IMXUSBPHYState, (obj), TYPE_IMX_USBPHY)
+>> +
+>> +typedef struct IMXUSBPHYState {
+>> +    /* <private> */
+>> +    SysBusDevice parent_obj;
+>> +
+>> +    /* <public> */
+>> +    MemoryRegion iomem;
+>> +
+>> +    uint32_t usbphy[USBPHY_MAX];
+> 
+> ...but the array is only created with USBPHY_MAX entries.
+> 
+> Do you know what the device is supposed to do with these
+> off-the-end acceses? We could either reduce the memory region
+> size or bounds check and RAZ/WI the out-of-range accesses.
+> 
+
+I have no idea what the real hardware would do. The datasheets (at
+least the ones I checked) don't say, only that the region size is 4k.
+I would suggest a bounds check, ignore out-of-bounds writes (maybe
+with a log message), and return 0 for reads (which I think is what
+you suggest with RAZ/WI).
+
+Want me to send a patch ?
+
+Thanks,
+Guenter
 
