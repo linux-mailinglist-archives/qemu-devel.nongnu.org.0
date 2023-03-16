@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E931C6BCF99
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2152B6BCF9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:37:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcmph-0003SL-Fh; Thu, 16 Mar 2023 08:35:50 -0400
+	id 1pcmqE-0003rn-UO; Thu, 16 Mar 2023 08:36:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pcmpX-0003Rx-6O
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:35:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pcmpV-0002ip-5u
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:35:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678970136;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nUUnncZzc0xPcrtdiX5fMZ1d+/d7aCvjskN6Qzdm0OQ=;
- b=OT4H6Kzvn8FHv9WuXX8GorxNWizkit0xqWf4jDfkEAzFPgiSYGuNFrt0xQfbhYWAQiKbOQ
- mF/ANor1qqlv5+8cONabBKVqvKj3vLOwAlPDUI0mjFo+U43/ylab2GfF3EF9NtmbFEQ9pi
- x8pwP4V3vuCw/tRWp+q8m3am4H8ohY0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-So2bhigpNrCW7HOhfvzIHA-1; Thu, 16 Mar 2023 08:35:33 -0400
-X-MC-Unique: So2bhigpNrCW7HOhfvzIHA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90C6087A9E0;
- Thu, 16 Mar 2023 12:35:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7906540C6E68;
- Thu, 16 Mar 2023 12:35:31 +0000 (UTC)
-Date: Thu, 16 Mar 2023 12:35:29 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrew Randrianasulu <randrianasulu@gmail.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-discuss@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: dropping 32-bit host support
-Message-ID: <ZBMNEdz9WnUsckd7@redhat.com>
-References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
- <f06fddef-1e40-1858-2715-50a0518a97f6@linaro.org>
- <CA+rFky5=kc0Pwf3RRhuKrBqtRVkmtm=NDKhrVgJV2_Ame2nUOQ@mail.gmail.com>
- <c33b0e07-5c46-6ebe-fe4c-5308ce508a70@linaro.org>
- <632e7256-34f5-ca87-ff60-a5c11aa1dd7f@redhat.com>
- <CA+rFky6WqdLjNpeU3sCXwjwMEuEK+XVHE5BBCKYC=umRGK81eg@mail.gmail.com>
- <CA+rFky4su7ZEo8pNQGk3qEkTOLEkFAqO2Tsrh6VyDaNOf7w=_Q@mail.gmail.com>
- <ac632c34-42e0-d715-52d9-b70ead6296a7@redhat.com>
- <CA+rFky6Tt0hcv9TuthS7Q-5SMXtPi+3W8B5qX5itJ0A+meh_Ew@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcmqA-0003qw-Vw
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:36:19 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcmq7-0002mC-Tk
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:36:17 -0400
+Received: by mail-wr1-x432.google.com with SMTP id r29so1378163wra.13
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 05:36:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678970172;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HpuCKGKLlDEoXsRwiXHTsSc2ssBxPmqLr7dZ5rORoRk=;
+ b=ta7FvPusQdFCN/0Kv7VIKOHZqDXqR1rzOIzbpdl8sVHe6kJYhDh9Z8+EjxkqMGnAjV
+ Yjx0xWHsFarRHaUlLjbhJzmCpGo0Cnk9uBfkHt30sarEqhPLO7YnnHl8R82xPsl6ar1T
+ HpTeHo3PoDkyaB9W3QPx9jkdrrnOX+dfygZKkeuSSvPZtndbyhK80VVpcYQa0katSri3
+ ldtI470CM+YlQ/43etY8ZiRyeFM0FO5l7RTDSeybO2Y9j+PYhe6649c0Nj24oEVcV5a1
+ ac+HvOT8e7vLd/ml9TrOLRBESxMzPugYyksqu45taxei1Hs2cVLN6D9GTLbEUqBqHNQG
+ QmmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678970172;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HpuCKGKLlDEoXsRwiXHTsSc2ssBxPmqLr7dZ5rORoRk=;
+ b=dStN/NBmrAshivXrLNQlynXakJSTFlAwTEQHOncfrfkLj+pLMRSXHGXCOsEfZvljCV
+ 6eeNPRcxksZ2DZqlFb951J6P2hpz6dLWYWf2b2Zw50qQa5NnIpvghWtGTpJJqAP+Y71R
+ crQwuLWlQR2tw4YIWSZdk6SIr8olOdstIkUdAhF5zodESrZH6W+EzZZ38UwYNMd0YbiY
+ 9lacWXUdixdDWcud0+RLN5xYTH6sn7bpV0K3iMXa44+J+/KJUkSl+4f0bXgJXLsHUtJQ
+ Xz+IceCX4ODC0I+5Jz9eWVKpgFpYkmYrOplps4L0jLIHEDen49fizNYNA28mH+AmNura
+ sYRw==
+X-Gm-Message-State: AO0yUKV30+74ulR9MoETlZ74EdOTPJcbEqa6MwQuE1Cy78cChPin/sag
+ eemNV4pOOYkOtO4hHRj1OFaK5A==
+X-Google-Smtp-Source: AK7set8+6nTThdM7pywpyRLzh6uJB9BmHgHWi5tDn480nxeiJiBcJQzmUByIDwSG3ApsFxv3bzytPg==
+X-Received: by 2002:adf:e5c1:0:b0:2ce:a828:b248 with SMTP id
+ a1-20020adfe5c1000000b002cea828b248mr4235898wrn.71.1678970172595; 
+ Thu, 16 Mar 2023 05:36:12 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u7-20020a5d4687000000b002c5544b3a69sm7096843wrq.89.2023.03.16.05.36.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Mar 2023 05:36:12 -0700 (PDT)
+Message-ID: <d60df663-51e0-67bf-0888-cfd78acec7d2@linaro.org>
+Date: Thu, 16 Mar 2023 13:36:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+rFky6Tt0hcv9TuthS7Q-5SMXtPi+3W8B5qX5itJ0A+meh_Ew@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH for 8.0] igb: Save the entire Tx context descriptor
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>
+References: <20230316122847.11003-1-akihiko.odaki@daynix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230316122847.11003-1-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,171 +88,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 16, 2023 at 02:11:08PM +0300, Andrew Randrianasulu wrote:
-> чт, 16 мар. 2023 г., 14:02 Thomas Huth <thuth@redhat.com>:
+On 16/3/23 13:28, Akihiko Odaki wrote:
+> The current implementation of igb uses only part of a advanced Tx
+> context descriptor because it misses some features and sniffs the trait
+> of the packet instead of respecting the packet type specified in the
+> descriptor. However, we will certainly need the entire Tx context
+> descriptor when we update igb to respect these ignored fields. Save the
+> entire Tx context descriptor to prepare for such a change.
 > 
-> > On 16/03/2023 11.22, Andrew Randrianasulu wrote:
-> > >
-> > >
-> > > чт, 16 мар. 2023 г., 12:17 Andrew Randrianasulu <randrianasulu@gmail.com
-> > > <mailto:randrianasulu@gmail.com>>:
-> > >
-> > >
-> > >
-> > >     чт, 16 мар. 2023 г., 11:31 Thomas Huth <thuth@redhat.com
-> > >     <mailto:thuth@redhat.com>>:
-> > >
-> > >         On 16/03/2023 08.36, Philippe Mathieu-Daudé wrote:
-> > >          > On 16/3/23 08:17, Andrew Randrianasulu wrote:
-> > >          >>
-> > >          >> чт, 16 мар. 2023 г., 10:05 Philippe Mathieu-Daudé
-> > >         <philmd@linaro.org <mailto:philmd@linaro.org>
-> > >          >> <mailto:philmd@linaro.org <mailto:philmd@linaro.org>>>:
-> > >          >>
-> > >          >>     Hi Andrew,
-> > >          >>
-> > >          >>     On 16/3/23 01:57, Andrew Randrianasulu wrote:
-> > >          >>      > Looking at https://wiki.qemu.org/ChangeLog/8.0
-> > >         <https://wiki.qemu.org/ChangeLog/8.0>
-> > >          >>     <https://wiki.qemu.org/ChangeLog/8.0
-> > >         <https://wiki.qemu.org/ChangeLog/8.0>>
-> > >          >>      > <https://wiki.qemu.org/ChangeLog/8.0
-> > >         <https://wiki.qemu.org/ChangeLog/8.0>
-> > >          >>     <https://wiki.qemu.org/ChangeLog/8.0
-> > >         <https://wiki.qemu.org/ChangeLog/8.0>>>
-> > >          >>      >
-> > >          >>      > ===
-> > >          >>      > System emulation on 32-bit x86 and ARM hosts has been
-> > >         deprecated.
-> > >          >>     The
-> > >          >>      > QEMU project no longer considers 32-bit x86 and ARM
-> > >         support for
-> > >          >>     system
-> > >          >>      > emulation to be an effective use of its limited
-> > >         resources, and thus
-> > >          >>      > intends to discontinue.
-> > >          >>      >
-> > >          >>      >   ==
-> > >          >>      >
-> > >          >>      > well, I guess arguing from memory-consuption point on
-> > 32
-> > >         bit x86
-> > >          >>     hosts
-> > >          >>      > (like my machine where I run 32 bit userspace on 64
-> > bit
-> > >         kernel)
-> > >
-> > >         All current PCs have multiple gigabytes of RAM, so using a 32-bit
-> > >         userspace
-> > >         to save some few bytes sounds weird.
-> > >
-> > >
-> > >     I think difference more like in 20-30% (on disk and in ram), not *few
-> > >     bytes*.
-> > >
-> > >
-> > > I stand (self) corrected on *on disk* binary size, this parameter tend
-> > to be
-> > > ~same between bash / php binaries from Slackware 15.0 i586/x86_64. I do
-> > not
-> > > have full identical x64 Slackware setup for measuring memory impact.
-> > >
-> > >
-> > > Still, pushing users into endless hw upgrade is no fun:
-> > >
-> > >
-> > https://hackaday.com/2023/02/28/repurposing-old-smartphones-when-reusing-makes-more-sense-than-recycling/
-> > >
-> > >
-> > > note e-waste and energy consumption
-> >
-> > Now you're mixing things quite badly. That would be an argument in the
-> > years
-> > before 2010 maybe, when not everybody had a 64-bit processor in their PC
-> > yet, but it's been now more than 12 years that all recent Desktop
-> > processors
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   hw/net/igb.c      |  6 ++++--
+>   hw/net/igb_core.c | 17 ++++++++++-------
+>   hw/net/igb_core.h |  3 +--
+>   3 files changed, 15 insertions(+), 11 deletions(-)
 > 
-> ===
-> 
-> 
-> Laptops, tablets etc exist.
-> 
-> 
-> >
-> > feature 64-bit mode. So if QEMU stops supporting 32-bit x86 environments,
-> > this is not forcing you to buy a new hardware, since you're having a
-> > 64-bit
-> > hardware already anyway. If someone still has plain 32-bit x86 hardware
-> > around for their daily use, that's certainly not a piece of hardware you
-> > want to run QEMU on, since it's older than 12 years already, and thus not
-> > really strong enough to run a recent emulator in a recent way.
-> >
-> 
-> Well, current qemu runs quite well, than you very much (modulo all this
-> twiddling with command line switches). I think very fact it runs well (even
-> as tcg-only emulator, on integer tasks at least) on 32-bit hosts actually
-> good, and if 32-bit arm hardware can keep some codeways in working state
-> for me - even better.
+> diff --git a/hw/net/igb.c b/hw/net/igb.c
+> index 0792626322..50239a7cb1 100644
+> --- a/hw/net/igb.c
+> +++ b/hw/net/igb.c
+> @@ -499,8 +499,10 @@ static const VMStateDescription igb_vmstate_tx = {
+>       .version_id = 1,
 
-The problem being debated here is not a technical one, but a question
-of resource prioritization.
+Don't we need to increment the vmstate version? See
+https://qemu-project.gitlab.io/qemu/devel/migration.html#versions
 
-It is certainly technically possible to keep 32-bit support working
-indefinitely and there are certainly people who would benefit from
-that, like yourself.
-
-The issue is that it comes at a cost to the QEMU project both in terms
-of where our contributors invest their time, and in terms of what we
-use our CI resources for. Both maintainer time and hardware resources
-are finite quantities.
-
-IOW, if we continue to support 32-bit host, that means that we will
-be unable to work on some other feature(s) instead.
-
-The question we're battling with is where to draw the line, so that
-we can bring the biggest benefit to QEMU consumers as a whole.
-
-If we keep supporting 32-bit host, that may (hypothetically) benefit
-100 users.
-
-If we drop 32-bit host we might be able to develop some new features
-that (hypothetically) benefit 5000 new users.
-
-In this illustration, it would make sense to drop 32-bit, because in
-aggregate we would loose 100 users, but gain 5000 new users, meaning
-a net gain of 4900. Furthermore, since QEMU is open source the users
-that we drop support for, do (theoretically at least) still have the
-option of continuing to use older releases.
-
-Now those specific numbers were totally invented, and it isn't very
-easy to come up with especially accurate numbers. So we have to make
-a call based on a combination of factors, our intuition, consideration
-of the overall hardware market, feedback from users in response to a
-deprecation announcements, and more.
-
-With all those factors together, at this time it is looking likely
-that QEMU will be better (on aggregate) if we discontinued support
-for 32-bit hosts. We know that is going to upset some users, and
-we are sorry for that, but we believe more users will benefit in
-the long run by releasing resources to invest in other areas.
-
-The sad reality faced by most open source projects is that plenty
-of people are willing to complain when features are dropped or not
-accepted, but far far fewer are willing to contribute to the
-maintenence effort, to enable the projects to accomplish more
-overall.  So the project maintainers are left in an impossible
-situation where they unfortunately have to make tough decisions
-that leave some people disappointed.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>       .minimum_version_id = 1,
+>       .fields = (VMStateField[]) {
+> -        VMSTATE_UINT16(vlan, struct igb_tx),
+> -        VMSTATE_UINT16(mss, struct igb_tx),
+> +        VMSTATE_UINT32(ctx.vlan_macip_lens, struct igb_tx),
+> +        VMSTATE_UINT32(ctx.seqnum_seed, struct igb_tx),
+> +        VMSTATE_UINT32(ctx.type_tucmd_mlhl, struct igb_tx),
+> +        VMSTATE_UINT32(ctx.mss_l4len_idx, struct igb_tx),
+>           VMSTATE_BOOL(tse, struct igb_tx),
+>           VMSTATE_BOOL(ixsm, struct igb_tx),
+>           VMSTATE_BOOL(txsm, struct igb_tx),
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 41d1abae03..dbe24739d0 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -390,7 +390,8 @@ static bool
+>   igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
+>   {
+>       if (tx->tse) {
+> -        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
+> +        uint32_t mss = tx->ctx.mss_l4len_idx >> 16;
+> +        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
+>               return false;
+>           }
+>   
+> @@ -551,8 +552,10 @@ igb_process_tx_desc(IGBCore *core,
+>                      E1000_ADVTXD_DTYP_CTXT) {
+>               /* advanced transmit context descriptor */
+>               tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
+> -            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
+> -            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
+> +            tx->ctx.vlan_macip_lens = le32_to_cpu(tx_ctx_desc->vlan_macip_lens);
+> +            tx->ctx.seqnum_seed = le32_to_cpu(tx_ctx_desc->seqnum_seed);
+> +            tx->ctx.type_tucmd_mlhl = le32_to_cpu(tx_ctx_desc->type_tucmd_mlhl);
+> +            tx->ctx.mss_l4len_idx = le32_to_cpu(tx_ctx_desc->mss_l4len_idx);
+>               return;
+>           } else {
+>               /* unknown descriptor type */
+> @@ -576,8 +579,9 @@ igb_process_tx_desc(IGBCore *core,
+>       if (cmd_type_len & E1000_TXD_CMD_EOP) {
+>           if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
+>               if (cmd_type_len & E1000_TXD_CMD_VLE) {
+> -                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
+> -                    core->mac[VET] & 0xffff);
+> +                uint16_t vlan = tx->ctx.vlan_macip_lens >> 16;
+> +                uint16_t vet = core->mac[VET] & 0xffff;
+> +                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
+>               }
+>               if (igb_tx_pkt_send(core, tx, queue_index)) {
+>                   igb_on_tx_done_update_stats(core, tx->tx_pkt);
+> @@ -4027,8 +4031,7 @@ static void igb_reset(IGBCore *core, bool sw)
+>       for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
+>           tx = &core->tx[i];
+>           net_tx_pkt_reset(tx->tx_pkt, NULL);
+> -        tx->vlan = 0;
+> -        tx->mss = 0;
+> +        memset(&tx->ctx, 0, sizeof(tx->ctx));
+>           tx->tse = false;
+>           tx->ixsm = false;
+>           tx->txsm = false;
+> diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
+> index 814c1e264b..3483edc655 100644
+> --- a/hw/net/igb_core.h
+> +++ b/hw/net/igb_core.h
+> @@ -72,8 +72,7 @@ struct IGBCore {
+>       QEMUTimer *autoneg_timer;
+>   
+>       struct igb_tx {
+> -        uint16_t vlan;  /* VLAN Tag */
+> -        uint16_t mss;   /* Maximum Segment Size */
+> +        struct e1000_adv_tx_context_desc ctx;
+>           bool tse;       /* TCP/UDP Segmentation Enable */
+>           bool ixsm;      /* Insert IP Checksum */
+>           bool txsm;      /* Insert TCP/UDP Checksum */
 
 
