@@ -2,65 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAFA6BD766
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 18:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5A46BD785
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 18:51:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcreR-00024Y-F7; Thu, 16 Mar 2023 13:44:31 -0400
+	id 1pcrk6-0003pb-5y; Thu, 16 Mar 2023 13:50:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pcreO-00023j-PE; Thu, 16 Mar 2023 13:44:28 -0400
-Received: from forwardcorp1a.mail.yandex.net
- ([2a02:6b8:c0e:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pcrjx-0003oq-Tf; Thu, 16 Mar 2023 13:50:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pcreL-0008Qx-MG; Thu, 16 Mar 2023 13:44:28 -0400
-Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c18:1421:0:640:53a0:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 089AF602B0;
- Thu, 16 Mar 2023 20:44:14 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b66f::1:3b] (unknown
- [2a02:6b8:b081:b66f::1:3b])
- by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id Dio1wG0h90U0-Ok1BUq7D; Thu, 16 Mar 2023 20:44:13 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1678988653; bh=4VM6PPCBzkOcw9/A5G/4lAIa73N3JQfE9cSuPbYAu9U=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=JhIfwcoQB+tbhLwpF/xXKQj7ZKXY4dq1+tG+2B/fpMEMgAqc5mXJ+JLc8ERQRuZQP
- qy93c3wfkrVwZXwUpGuu3U2qjfYUIY/1b5Eu4H5Qm8OVcFoWrLK7Ytz3jn9YLSXi6t
- T2Rz6cEwT9c07iL6XDm9uKk2el4phqGjKNCgI1F0=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <0aef4058-53ea-3a12-673a-d48109a276c3@yandex-team.ru>
-Date: Thu, 16 Mar 2023 20:44:13 +0300
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pcrju-0004bq-V7; Thu, 16 Mar 2023 13:50:13 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32GHCMXA022781; Thu, 16 Mar 2023 17:50:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=KoygIkRcxgzjvSdLK3lx+evv+G1JnBqBiaQcdUpXcvk=;
+ b=a3lPaX1P4QQU1L6ygH8V6YyezQzgPilJoq2guAXgPmkUu+hskvREG5KK+1RrEWHahAhc
+ odmoqRwMW/MA+bBVYVct2zyQzMCpfmgsImgS3x8uGITTJClAT33xcaKOxDFfWWZIOq0c
+ 6b3uDkSWUfYJ+MwTIS4Fe7mcPXTrBuvrlKJ4LE8yyMF56TPFfISgb8s2XBoSKJkLOXNo
+ e9ay2+QXkgsjvq2ZlP3CzjYDymdx/GTcpkRiPsBMBL0QnURMmAAHwC29e8AedruBtbj2
+ IOjugUlmRrnXDGjblIuqUGo/trZZj+6Kia8jHAu3vk1YfyMwsldexYfyVwOXDx+OpeYz +w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pc7a4h2du-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 17:50:06 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GHa8cp020165;
+ Thu, 16 Mar 2023 17:50:05 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pc7a4h2ct-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 17:50:05 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GEuwAL015019;
+ Thu, 16 Mar 2023 17:50:03 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pbsf3h2wc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 17:50:03 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32GHo0lf19137204
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Mar 2023 17:50:00 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C05F22004F;
+ Thu, 16 Mar 2023 17:50:00 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8E2B120040;
+ Thu, 16 Mar 2023 17:50:00 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.178.56]) by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Mar 2023 17:50:00 +0000 (GMT)
+Message-ID: <5289dc2f8cc7c1b2ee3b6693b54b3b98746b4d0b.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 2/2] tests/tcg/s390x: Add ex-relative-long.c
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Date: Thu, 16 Mar 2023 18:50:00 +0100
+In-Reply-To: <20230315001117.337128-3-iii@linux.ibm.com>
+References: <20230315001117.337128-1-iii@linux.ibm.com>
+ <20230315001117.337128-3-iii@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC 1/2] block: Split padded I/O vectors exceeding IOV_MAX
-Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230315121330.29679-1-hreitz@redhat.com>
- <20230315121330.29679-2-hreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230315121330.29679-2-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kWeN7j8hS4ozcCNxxaJTXJ11p_D1oXdb
+X-Proofpoint-ORIG-GUID: 4L0bqp2FTDTwlShBjaslPiCpzRmkiYIR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_11,2023-03-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0
+ clxscore=1015 spamscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160135
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,310 +113,317 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15.03.23 15:13, Hanna Czenczek wrote:
-> When processing vectored guest requests that are not aligned to the
-> storage request alignment, we pad them by adding head and/or tail
-> buffers for a read-modify-write cycle.
-> 
-> The guest can submit I/O vectors up to IOV_MAX (1024) in length, but
-> with this padding, the vector can exceed that limit.  As of
-> 4c002cef0e9abe7135d7916c51abce47f7fc1ee2 ("util/iov: make
-> qemu_iovec_init_extended() honest"), we refuse to pad vectors beyond the
-> limit, instead returning an error to the guest.
-> 
-> To the guest, this appears as a random I/O error.  We should not return
-> an I/O error to the guest when it issued a perfectly valid request.
-> 
-> Before 4c002cef0e9abe7135d7916c51abce47f7fc1ee2, we just made the vector
-> longer than IOV_MAX, which generally seems to work (because the guest
-> assumes a smaller alignment than we really have, file-posix's
-> raw_co_prw() will generally see bdrv_qiov_is_aligned() return false, and
-> so emulate the request, so that the IOV_MAX does not matter).  However,
-> that does not seem exactly great.
-> 
-> I see two ways to fix this problem:
-> 1. We split such long requests into two requests.
-> 2. We join some elements of the vector into new buffers to make it
->     shorter.
-> 
-> I am wary of (1), because it seems like it may have unintended side
-> effects.
-> 
-> (2) on the other hand seems relatively simple to implement, with
-> hopefully few side effects, so this patch does that.
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2141964
-> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
-> ---
->   block/io.c | 139 ++++++++++++++++++++++++++++++++++++++++++++++++++---
->   util/iov.c |   4 --
->   2 files changed, 133 insertions(+), 10 deletions(-)
-> 
-> diff --git a/block/io.c b/block/io.c
-> index 8974d46941..ee226d23d6 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -1435,6 +1435,12 @@ out:
->    * @merge_reads is true for small requests,
->    * if @buf_len == @head + bytes + @tail. In this case it is possible that both
->    * head and tail exist but @buf_len == align and @tail_buf == @buf.
-> + *
-> + * @write is true for write requests, false for read requests.
-> + *
-> + * If padding makes the vector too long (exceeding IOV_MAX), then we need to
-> + * merge existing vector elements into a single one.  @collapse_buf acts as the
-> + * bounce buffer in such cases.
->    */
->   typedef struct BdrvRequestPadding {
->       uint8_t *buf;
-> @@ -1443,11 +1449,17 @@ typedef struct BdrvRequestPadding {
->       size_t head;
->       size_t tail;
->       bool merge_reads;
-> +    bool write;
->       QEMUIOVector local_qiov;
-> +
-> +    uint8_t *collapse_buf;
-> +    size_t collapse_len;
-> +    QEMUIOVector collapsed_qiov;
->   } BdrvRequestPadding;
->   
->   static bool bdrv_init_padding(BlockDriverState *bs,
->                                 int64_t offset, int64_t bytes,
-> +                              bool write,
->                                 BdrvRequestPadding *pad)
->   {
->       int64_t align = bs->bl.request_alignment;
-> @@ -1479,9 +1491,101 @@ static bool bdrv_init_padding(BlockDriverState *bs,
->           pad->tail_buf = pad->buf + pad->buf_len - align;
->       }
->   
-> +    pad->write = write;
-> +
->       return true;
->   }
->   
-> +/*
-> + * If padding has made the IOV (`pad->local_qiov`) too long (more than IOV_MAX
-> + * elements), collapse some elements into a single one so that it adheres to the
-> + * IOV_MAX limit again.
-> + *
-> + * If collapsing, `pad->collapse_buf` will be used as a bounce buffer of length
-> + * `pad->collapse_len`.  `pad->collapsed_qiov` will contain the previous entries
-> + * (before collapsing), so that bdrv_padding_destroy() can copy the bounce
-> + * buffer content back for read requests.
-> + *
-> + * Note that we will not touch the padding head or tail entries here.  We cannot
-> + * move them to a bounce buffer, because for RMWs, both head and tail expect to
-> + * be in an aligned buffer with scratch space after (head) or before (tail) to
-> + * perform the read into (because the whole buffer must be aligned, but head's
-> + * and tail's lengths naturally cannot be aligned, because they provide padding
-> + * for unaligned requests).  A collapsed bounce buffer for multiple IOV elements
-> + * cannot provide such scratch space.
-> + *
-> + * Therefore, this function collapses the first IOV elements after the
-> + * (potential) head element.
-> + */
-> +static void bdrv_padding_collapse(BdrvRequestPadding *pad, BlockDriverState *bs)
-> +{
-> +    int surplus_count, collapse_count;
-> +    struct iovec *collapse_iovs;
-> +    QEMUIOVector collapse_qiov;
-> +    size_t move_count;
-> +
-> +    surplus_count = pad->local_qiov.niov - IOV_MAX;
-> +    /* Not exceeding the limit?  Nothing to collapse. */
-> +    if (surplus_count <= 0) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Only head and tail can have lead to the number of entries exceeding
-> +     * IOV_MAX, so we can exceed it by the head and tail at most
-> +     */
-> +    assert(surplus_count <= !!pad->head + !!pad->tail);
-> +
-> +    /*
-> +     * We merge (collapse) `surplus_count` entries into the first entry that is
-> +     * not padding, i.e. we merge `surplus_count + 1` entries into entry 0 if
-> +     * there is no head, or entry 1 if there is one.
-> +     */
-> +    collapse_count = surplus_count + 1;
-> +    collapse_iovs = &pad->local_qiov.iov[pad->head ? 1 : 0];
-> +
-> +    /* There must be no previously collapsed buffers in `pad` */
-> +    assert(pad->collapse_len == 0);
-> +    for (int i = 0; i < collapse_count; i++) {
-> +        pad->collapse_len += collapse_iovs[i].iov_len;
-> +    }
-> +    pad->collapse_buf = qemu_blockalign(bs, pad->collapse_len);
-> +
-> +    /* Save the to-be-collapsed IOV elements in collapsed_qiov */
-> +    qemu_iovec_init_external(&collapse_qiov, collapse_iovs, collapse_count);
-> +    qemu_iovec_init_slice(&pad->collapsed_qiov,
-> +                          &collapse_qiov, 0, pad->collapse_len);
-> +    if (pad->write) {
-> +        /* For writes: Copy all to-be-collapsed data into collapse_buf */
-> +        qemu_iovec_to_buf(&pad->collapsed_qiov, 0,
-> +                          pad->collapse_buf, pad->collapse_len);
-> +    }
-> +
-> +    /* Create the collapsed entry in pad->local_qiov */
-> +    collapse_iovs[0] = (struct iovec){
-> +        .iov_base = pad->collapse_buf,
-> +        .iov_len = pad->collapse_len,
-> +    };
-> +
-> +    /*
-> +     * To finalize collapsing, we must shift the rest of pad->local_qiov left by
-> +     * `surplus_count`, i.e. we must move all elements after `collapse_iovs` to
-> +     * immediately after the collapse target.
-> +     *
-> +     * Therefore, the memmove() target is `collapse_iovs[1]` and the source is
-> +     * `collapse_iovs[collapse_count]`.  The number of elements to move is the
-> +     * number of elements remaining in `pad->local_qiov` after and including
-> +     * `collapse_iovs[collapse_count]`.
-> +     */
-> +    move_count = &pad->local_qiov.iov[pad->local_qiov.niov] -
-> +        &collapse_iovs[collapse_count];
-> +    memmove(&collapse_iovs[1],
-> +            &collapse_iovs[collapse_count],
-> +            move_count * sizeof(pad->local_qiov.iov[0]));
-> +
-> +    pad->local_qiov.niov -= surplus_count;
-> +}
+On Wed, 2023-03-15 at 01:11 +0100, Ilya Leoshkevich wrote:
+> > Test EXECUTE and EXECUTE RELATIVE LONG with relative long instructions
+> > as targets.
+> >=20
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
+Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 
-What I don't like is that qemu_iovec_init_extended() is really complex, and it is used only here [I mean bdrv_pad_request()] (qemu_iovec_init_slice() uses only small subset of qemu_iovec_init_extended() possibilities). And finally, we use this qemu_iovec_init_extended() only to rewrite the resulting qiov by hand using direct access to iov[] array and memmove. I think, such direct manipulations better be done in util/iov.c.. And anyway, this all show that qemu_iovec_init_extended() being complex doesn't meet our needs.
+Some comments below.
 
-Hmm. *improving* qemu_iovec_init_external() by allowing it to allocate additional bounce-buffer, and do collapsing doesn't look good.
+> > ---
+> >  tests/tcg/s390x/Makefile.target    |   1 +
+> >  tests/tcg/s390x/ex-relative-long.c | 159 +++++++++++++++++++++++++++++
+> >  2 files changed, 160 insertions(+)
+> >  create mode 100644 tests/tcg/s390x/ex-relative-long.c
+> >=20
+> > diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile=
+.target
+> > index cf93b966862..90bc48227db 100644
+> > --- a/tests/tcg/s390x/Makefile.target
+> > +++ b/tests/tcg/s390x/Makefile.target
+> > @@ -29,6 +29,7 @@ TESTS+=3Dclst
+> >  TESTS+=3Dlong-double
+> >  TESTS+=3Dcdsg
+> >  TESTS+=3Dchrl
+> > +TESTS+=3Dex-relative-long
+> > =20
+> >  cdsg: CFLAGS+=3D-pthread
+> >  cdsg: LDFLAGS+=3D-pthread
+> > diff --git a/tests/tcg/s390x/ex-relative-long.c b/tests/tcg/s390x/ex-re=
+lative-long.c
+> > new file mode 100644
+> > index 00000000000..4caa8c1b962
+> > --- /dev/null
+> > +++ b/tests/tcg/s390x/ex-relative-long.c
+> > @@ -0,0 +1,159 @@
+> > +/* Check EXECUTE with relative long instructions as targets. */
+> > +#include <stdlib.h>
+> > +#include <stdio.h>
+> > +
+> > +struct test {
+> > +    const char *name;
+> > +    long (*func)(long reg, long *cc);
+> > +    long exp_reg;
+> > +    long exp_mem;
+> > +    long exp_cc;
+> > +};
+> > +
+> > +/*
+> > + * Each test sets the MEM_IDXth element of the mem array to MEM and us=
+es a
+> > + * single relative long instruction on it. The other elements remain z=
+ero.
+> > + * This is in order to prevent stumbling upon MEM in random memory in =
+case
+> > + * there is an off-by-a-small-value bug.
+> > + *
+> > + * Note that while gcc supports the ZL constraint for relative long op=
+erands,
+> > + * clang doesn't, so the assembly code accesses mem[MEM_IDX] using MEM=
+_ASM.
+> > + */
+> > +long mem[0x1000];
 
-Maybe instead, do the logic of qemu_iovec_init_extended() together with bdrv_padding_collapse() in bdrv_pad_request() directly, using simpler qemu_iovec_* API?
+This could be static, no?
 
-Something like:
+> > +#define MEM_IDX 0x800
+> > +#define MEM_ASM "mem+0x800*8"
+> > +
+> > +/* Initial %r2 value. */
+> > +#define REG 0x1234567887654321
+> > +
+> > +/* Initial mem[MEM_IDX] value. */
+> > +#define MEM 0xfedcba9889abcdef
+> > +
+> > +/* Initial cc value. */
+> > +#define CC 0
+> > +
+> > +/* Relative long instructions and their expected effects. */
+> > +#define FOR_EACH_INSN(F)                                              =
+         \
 
-1. prepare bounce_buffer if want to collaps
-2. allocate local_qiov of calculated size
-3. compile the local_qiov:
+You could define some macros and then calculate a bunch of values in the ta=
+ble, i.e.
+#define SL(v) ((long)(v))
+#define UL(v) ((unsigned long)(v))
+#define SI(v, i) ((int)(v >> ((1 - i) * 32)))
+#define UI(v, i) ((unsigned int)(v >> ((1 - i) * 32)))
+#define SH(v, i) ((short)(v >> ((3 - i) * 16)))
+#define UH(v, i) ((unsigned short)(v >> ((3 - i) * 16)))
+#define CMP(f, s) ((f) =3D=3D (s) ? 0 : ((f) < (s) ? 1 : 2 ))
 
-   - if head: qemu_iovec_add(local_qiov, head)
-   - if collpase_buf: qemu_iovec_add(local_qiov, collapse_buf)
-   - qemu_iovec_concat(local_qiov, remaining part of qiov)
-   - if tail: qemu_iovec_add(local_qiov, tail)
+F(cgfrl,  REG,                 MEM,                CMP(SL(REG), SI(MEM, 0))
 
-> +
->   static int coroutine_fn GRAPH_RDLOCK
->   bdrv_padding_rmw_read(BdrvChild *child, BdrvTrackedRequest *req,
->                         BdrvRequestPadding *pad, bool zero_middle)
-> @@ -1549,6 +1653,18 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->           qemu_vfree(pad->buf);
->           qemu_iovec_destroy(&pad->local_qiov);
->       }
-> +    if (pad->collapse_buf) {
-> +        if (!pad->write) {
-> +            /*
-> +             * If padding required elements in the vector to be collapsed into a
-> +             * bounce buffer, copy the bounce buffer content back
-> +             */
-> +            qemu_iovec_from_buf(&pad->collapsed_qiov, 0,
-> +                                pad->collapse_buf, pad->collapse_len);
-> +        }
-> +        qemu_vfree(pad->collapse_buf);
-> +        qemu_iovec_destroy(&pad->collapsed_qiov);
-> +    }
->       memset(pad, 0, sizeof(*pad));
->   }
->   
-> @@ -1559,6 +1675,8 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->    * read of padding, bdrv_padding_rmw_read() should be called separately if
->    * needed.
->    *
-> + * @write is true for write requests, false for read requests.
-> + *
->    * Request parameters (@qiov, &qiov_offset, &offset, &bytes) are in-out:
->    *  - on function start they represent original request
->    *  - on failure or when padding is not needed they are unchanged
-> @@ -1567,6 +1685,7 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->   static int bdrv_pad_request(BlockDriverState *bs,
->                               QEMUIOVector **qiov, size_t *qiov_offset,
->                               int64_t *offset, int64_t *bytes,
-> +                            bool write,
->                               BdrvRequestPadding *pad, bool *padded,
->                               BdrvRequestFlags *flags)
->   {
-> @@ -1574,7 +1693,7 @@ static int bdrv_pad_request(BlockDriverState *bs,
->   
->       bdrv_check_qiov_request(*offset, *bytes, *qiov, *qiov_offset, &error_abort);
->   
-> -    if (!bdrv_init_padding(bs, *offset, *bytes, pad)) {
-> +    if (!bdrv_init_padding(bs, *offset, *bytes, write, pad)) {
->           if (padded) {
->               *padded = false;
->           }
-> @@ -1589,6 +1708,14 @@ static int bdrv_pad_request(BlockDriverState *bs,
->           bdrv_padding_destroy(pad);
->           return ret;
->       }
-> +
-> +    /*
-> +     * If the IOV is too long after padding, merge (collapse) some entries to
-> +     * make it not exceed IOV_MAX
-> +     */
-> +    bdrv_padding_collapse(pad, bs);
-> +    assert(pad->local_qiov.niov <= IOV_MAX);
-> +
->       *bytes += pad->head + pad->tail;
->       *offset -= pad->head;
->       *qiov = &pad->local_qiov;
-> @@ -1653,8 +1780,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
->           flags |= BDRV_REQ_COPY_ON_READ;
->       }
->   
-> -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
-> -                           NULL, &flags);
-> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
-> +                           &pad, NULL, &flags);
->       if (ret < 0) {
->           goto fail;
->       }
-> @@ -1996,7 +2123,7 @@ bdrv_co_do_zero_pwritev(BdrvChild *child, int64_t offset, int64_t bytes,
->       /* This flag doesn't make sense for padding or zero writes */
->       flags &= ~BDRV_REQ_REGISTERED_BUF;
->   
-> -    padding = bdrv_init_padding(bs, offset, bytes, &pad);
-> +    padding = bdrv_init_padding(bs, offset, bytes, true, &pad);
->       if (padding) {
->           assert(!(flags & BDRV_REQ_NO_WAIT));
->           bdrv_make_request_serialising(req, align);
-> @@ -2112,8 +2239,8 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
->            * bdrv_co_do_zero_pwritev() does aligning by itself, so, we do
->            * alignment only if there is no ZERO flag.
->            */
-> -        ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
-> -                               &padded, &flags);
-> +        ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, true,
-> +                               &pad, &padded, &flags);
->           if (ret < 0) {
->               return ret;
->           }
-> diff --git a/util/iov.c b/util/iov.c
-> index b4be580022..4d0d381949 100644
-> --- a/util/iov.c
-> +++ b/util/iov.c
-> @@ -444,10 +444,6 @@ int qemu_iovec_init_extended(
->       }
->   
->       total_niov = !!head_len + mid_niov + !!tail_len;
-> -    if (total_niov > IOV_MAX) {
-> -        return -EINVAL;
-> -    }
-> -
->       if (total_niov == 1) {
->           qemu_iovec_init_buf(qiov, NULL, 0);
->           p = &qiov->local_iov;
+But everything checks out, so no need.
 
--- 
-Best regards,
-Vladimir
+> > +    F(cgfrl,  REG,                 MEM,                2)             =
+         \
+> > +    F(cghrl,  REG,                 MEM,                2)             =
+         \
+> > +    F(cgrl,   REG,                 MEM,                2)             =
+         \
+> > +    F(chrl,   REG,                 MEM,                1)             =
+         \
+> > +    F(clgfrl, REG,                 MEM,                2)             =
+         \
+> > +    F(clghrl, REG,                 MEM,                2)             =
+         \
+> > +    F(clgrl,  REG,                 MEM,                1)             =
+         \
+> > +    F(clhrl,  REG,                 MEM,                2)             =
+         \
+> > +    F(clrl,   REG,                 MEM,                1)             =
+         \
+> > +    F(crl,    REG,                 MEM,                1)             =
+         \
+> > +    F(larl,   (long)&mem[MEM_IDX], MEM,                CC)            =
+         \
+> > +    F(lgfrl,  0xfffffffffedcba98,  MEM,                CC)            =
+         \
+> > +    F(lghrl,  0xfffffffffffffedc,  MEM,                CC)            =
+         \
+> > +    F(lgrl,   MEM,                 MEM,                CC)            =
+         \
+> > +    F(lhrl,   0x12345678fffffedc,  MEM,                CC)            =
+         \
+> > +    F(llghrl, 0x000000000000fedc,  MEM,                CC)            =
+         \
+> > +    F(llhrl,  0x123456780000fedc,  MEM,                CC)            =
+         \
+> > +    F(lrl,    0x12345678fedcba98,  MEM,                CC)            =
+         \
+> > +    F(stgrl,  REG,                 REG,                CC)            =
+         \
+> > +    F(sthrl,  REG,                 0x4321ba9889abcdef, CC)            =
+         \
+> > +    F(strl,   REG,                 0x8765432189abcdef, CC)
+> > +
+> > +/* Test functions. */
+> > +#define DEFINE_EX_TEST(insn, exp_reg, exp_mem, exp_cc)                =
+         \
+> > +    static long test_ex_ ## insn(long reg, long *cc)                  =
+         \
+> > +    {                                                                 =
+         \
+> > +        register long reg_val asm("r2");                              =
+         \
+> > +        long cc_val, mask, target;                                    =
+         \
+> > +                                                                      =
+         \
+> > +        reg_val =3D reg;                                              =
+           \
+> > +        asm("xgr %[cc_val],%[cc_val]\n"  /* initial cc */             =
+         \
+
+This confused me for a bit because it's not about cc_val at all.
+Maybe do "cr %%r0,%%r0\n" instead?
+Could also push it down before the ex, since that's where the change we car=
+e about
+takes place.
+
+> > +            "lghi %[mask],0x20\n"        /* make target use %r2 */    =
+         \
+> > +            "larl %[target],0f\n"                                     =
+         \
+> > +            "ex %[mask],0(%[target])\n"                               =
+         \
+> > +            "jg 1f\n"                                                 =
+         \
+> > +            "0: " #insn " %%r0," MEM_ASM "\n"                         =
+         \
+> > +            "1: ipm %[cc_val]\n"                                      =
+         \
+> > +            : [cc_val] "=3D&r" (cc_val)                               =
+           \
+> > +            , [mask] "=3D&r" (mask)                                   =
+           \
+> > +            , [target] "=3D&r" (target)                               =
+           \
+> > +            , [reg_val] "+&r" (reg_val)                               =
+         \
+> > +            : : "cc", "memory");                                      =
+         \
+> > +        reg =3D reg_val;                                              =
+           \
+
+What is the point of this assignment?
+
+> > +        *cc =3D (cc_val >> 28) & 3;                                   =
+           \
+> > +                                                                      =
+         \
+> > +        return reg_val;                                               =
+         \
+> > +    }
+> > +
+> > +#define DEFINE_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)              =
+         \
+> > +    static long test_exrl_ ## insn(long reg, long *cc)                =
+         \
+> > +    {                                                                 =
+         \
+> > +        register long reg_val asm("r2");                              =
+         \
+> > +        long cc_val, mask;                                            =
+         \
+> > +                                                                      =
+         \
+> > +        reg_val =3D reg;                                              =
+           \
+> > +        asm("xgr %[cc_val],%[cc_val]\n"  /* initial cc */             =
+         \
+> > +            "lghi %[mask],0x20\n"        /* make target use %r2 */    =
+         \
+> > +            "exrl %[mask],0f\n"                                       =
+         \
+> > +            "jg 1f\n"                                                 =
+         \
+> > +            "0: " #insn " %%r0," MEM_ASM "\n"                         =
+         \
+> > +            "1: ipm %[cc_val]\n"                                      =
+         \
+> > +            : [cc_val] "=3D&r" (cc_val)                               =
+           \
+> > +            , [mask] "=3D&r" (mask)                                   =
+           \
+> > +            , [reg_val] "+&r" (reg_val)                               =
+         \
+> > +            : : "cc", "memory");                                      =
+         \
+> > +        reg =3D reg_val;                                              =
+           \
+> > +        *cc =3D (cc_val >> 28) & 3;                                   =
+           \
+> > +                                                                      =
+         \
+> > +        return reg_val;                                               =
+         \
+> > +    }
+> > +
+> > +FOR_EACH_INSN(DEFINE_EX_TEST)
+> > +FOR_EACH_INSN(DEFINE_EXRL_TEST)
+> > +
+> > +/* Test definitions. */
+> > +#define REGISTER_EX_EXRL_TEST(ex_insn, insn, _exp_reg, _exp_mem, _exp_=
+cc)      \
+> > +    {                                                                 =
+         \
+> > +        .name =3D #ex_insn " " #insn,                                 =
+           \
+> > +        .func =3D test_ ## ex_insn ## _ ## insn,                      =
+           \
+> > +        .exp_reg =3D (long)(_exp_reg),                                =
+           \
+> > +        .exp_mem =3D (long)(_exp_mem),                                =
+           \
+> > +        .exp_cc =3D (long)(_exp_cc),                                  =
+           \
+
+You don't need the casts, do you?
+
+> > +    },
+> > +
+> > +#define REGISTER_EX_TEST(insn, exp_reg, exp_mem, exp_cc)              =
+         \
+> > +    REGISTER_EX_EXRL_TEST(ex, insn, exp_reg, exp_mem, exp_cc)
+> > +
+> > +#define REGISTER_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)            =
+         \
+> > +    REGISTER_EX_EXRL_TEST(exrl, insn, exp_reg, exp_mem, exp_cc)
+> > +
+> > +static const struct test tests[] =3D {
+> > +    FOR_EACH_INSN(REGISTER_EX_TEST)
+> > +    FOR_EACH_INSN(REGISTER_EXRL_TEST)
+> > +};
+> > +
+> > +/* Loop over all tests and run them. */
+> > +int main(void)
+> > +{
+> > +    const struct test *test;
+> > +    int ret =3D EXIT_SUCCESS;
+> > +    long reg, cc;
+> > +    size_t i;
+> > +
+> > +    for (i =3D 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
+> > +        test =3D &tests[i];
+> > +        mem[MEM_IDX] =3D MEM;
+> > +        cc =3D -1;
+> > +        reg =3D test->func(REG, &cc);
+> > +#define ASSERT_EQ(expected, actual) do {                              =
+         \
+> > +    if (expected !=3D actual) {                                       =
+           \
+> > +        fprintf(stderr, "%s: " #expected " (0x%lx) !=3D " #actual " (0=
+x%lx)\n",  \
+> > +                test->name, expected, actual);                        =
+         \
+> > +        ret =3D EXIT_FAILURE;                                         =
+           \
+> > +    }                                                                 =
+         \
+> > +} while (0)
+> > +        ASSERT_EQ(test->exp_reg, reg);
+> > +        ASSERT_EQ(test->exp_mem, mem[MEM_IDX]);
+> > +        ASSERT_EQ(test->exp_cc, cc);
+> > +#undef ASSERT_EQ
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+
 
 
