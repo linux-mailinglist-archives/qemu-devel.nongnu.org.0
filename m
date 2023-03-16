@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C5E6BDA96
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 22:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB906BDB1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 22:48:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcupV-0002Tx-ET; Thu, 16 Mar 2023 17:08:09 -0400
+	id 1pcvRb-0003cb-OX; Thu, 16 Mar 2023 17:47:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcupT-0002Sv-CM; Thu, 16 Mar 2023 17:08:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pcvRV-0003cT-O3
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 17:47:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcupR-0008R4-9j; Thu, 16 Mar 2023 17:08:07 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32GL1jLb005992; Thu, 16 Mar 2023 21:08:03 GMT
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pcvRS-0006ij-Ta
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 17:47:25 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32GLYLNg016763; Thu, 16 Mar 2023 21:47:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=K+toebhe+Ntd6FGSKsZ75zXmjHDXrYh2LGhCOVOqY1k=;
- b=FjQZVnkO6DL925xmpUAfALh4e/vVEE/Qcn7Ccl4wi7F0KxzrI1AoKHo3QSYoLq40IHWv
- zYpBS+Y1O6v4h7YlpNlNy2gzv/930J0/kadkrDDbGNFf+95NuAv3+uLbLbW+/eojOjhK
- QAoa7NaIutgSz1nY1wun8aCi4KIBJUDHnbiVjqD+SFJdepcLuWA4YbbZhMgvfNuigCkq
- sNCq3rW5UCi3XoLwxOIKZE92w1O/Cbk9tJSwkiysX3KRgRSDqREArSw4aHRuIzAfNG7q
- KHjc7tABS8PUTCa+K2paENqdS3kLmnwMz4gXDCSSU4cEmKiGQiSEmjR4SI39AOiAmXcD oA== 
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=aWKqh3AFM/2IHzxGWAVBuoqv+n7j/wKDd1UKQnKM/uA=;
+ b=iUzGiNunO7/Jq/dsC0ggrzsQ/a7Z/22HIZZlarcwiJ0uLkY6ojtOtf5ZAVjmdHXlTOlV
+ d2FdcaPFDXkzqIsAf1RKCwxVbLEO/9JTGfRXsO/TqyHb3GUGS9Fk1JFgXhno2Lj9oNeR
+ QLs34fuKA9zDW6sBNc648SRqJG3rN4g/G4Rr4qWm9lXuevE6HTfvGP1l1xW19yPG5aet
+ +9ZhEtK37vfRqWjHTV05Xm9W+Ui5RgxChj4p2CEEkmoeJGWu0OkynQGR2sxpMjiroXn5
+ Pu9wl1m8jqVSAhu++Pb2Seq76L+55MERj6/RlQTXYDqVNrX1pyUa2cvggoFG0Nq6yVfm kg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcanw84ry-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcb4xr9jj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 21:08:03 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GL28io006901;
- Thu, 16 Mar 2023 21:08:03 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcanw84rd-1
+ Thu, 16 Mar 2023 21:47:19 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GLYegB017106;
+ Thu, 16 Mar 2023 21:47:19 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcb4xr9hw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 21:08:02 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GIImT2008160;
- Thu, 16 Mar 2023 21:08:01 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3pbsu7h0e9-1
+ Thu, 16 Mar 2023 21:47:18 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GISAHt028037;
+ Thu, 16 Mar 2023 21:47:17 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3pbsyxs0x3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 21:08:01 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32GL7vMd43254228
+ Thu, 16 Mar 2023 21:47:17 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32GLlELH17367688
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Mar 2023 21:07:57 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 562A220040;
- Thu, 16 Mar 2023 21:07:57 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BDB1820049;
- Thu, 16 Mar 2023 21:07:56 +0000 (GMT)
+ Thu, 16 Mar 2023 21:47:14 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A01B42004B;
+ Thu, 16 Mar 2023 21:47:14 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 232AE2004E;
+ Thu, 16 Mar 2023 21:47:14 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.2.157])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 16 Mar 2023 21:07:56 +0000 (GMT)
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Mar 2023 21:47:14 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Subject: [PATCH v3 2/2] tests/tcg/s390x: Add ex-relative-long.c
-Date: Thu, 16 Mar 2023 22:07:51 +0100
-Message-Id: <20230316210751.302423-3-iii@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v3] tests/tcg/x86_64: add cross-modifying code test
+Date: Thu, 16 Mar 2023 22:47:11 +0100
+Message-Id: <20230316214711.318339-1-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230316210751.302423-1-iii@linux.ibm.com>
-References: <20230316210751.302423-1-iii@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uyxfvTPHwlpcPTr_7_nX8EROOD2_mC4M
-X-Proofpoint-ORIG-GUID: MaI4u6oZBX-9DWd8_5BgSeKuAz5w1ez_
+X-Proofpoint-GUID: 1bUCdIAsrYCZlgWH2wNFFgrxf2k8NRXq
+X-Proofpoint-ORIG-GUID: 1uRnFqtMGuhpip2Zfs-nUms9SEDMvfOj
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-16_14,2023-03-16_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- phishscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
- mlxlogscore=995 clxscore=1015 malwarescore=0 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303160158
+ phishscore=0 spamscore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160161
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -113,191 +110,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Test EXECUTE and EXECUTE RELATIVE LONG with relative long instructions
-as targets.
+commit f025692c992c ("accel/tcg: Clear PAGE_WRITE before translation")
+fixed cross-modifying code handling, but did not add a test. The
+changed code was further improved recently [1], and I was not sure
+whether these modifications were safe (spoiler: they were fine).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+Add a test to make sure there are no regressions.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00034.html
+
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- tests/tcg/s390x/Makefile.target    |   1 +
- tests/tcg/s390x/ex-relative-long.c | 156 +++++++++++++++++++++++++++++
- 2 files changed, 157 insertions(+)
- create mode 100644 tests/tcg/s390x/ex-relative-long.c
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index cf93b966862..90bc48227db 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -29,6 +29,7 @@ TESTS+=clst
- TESTS+=long-double
- TESTS+=cdsg
- TESTS+=chrl
-+TESTS+=ex-relative-long
+v2: https://patchew.org/QEMU/20220905154944.1284289-1-iii@linux.ibm.com/
+v2 -> v3: Resend with a trivial rebase.
+
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00455.html
+v1 -> v2: Fix tweaking the flags (Alex).
+          Keep the custom build rule for now.
+
+ tests/tcg/x86_64/Makefile.target        |  4 ++
+ tests/tcg/x86_64/cross-modifying-code.c | 80 +++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 tests/tcg/x86_64/cross-modifying-code.c
+
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index e64aab1b81c..331b0b1fcc5 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -13,6 +13,7 @@ X86_64_TESTS += vsyscall
+ X86_64_TESTS += noexec
+ X86_64_TESTS += cmpxchg
+ X86_64_TESTS += adox
++X86_64_TESTS += cross-modifying-code
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ else
+ TESTS=$(MULTIARCH_TESTS)
+@@ -29,3 +30,6 @@ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
  
- cdsg: CFLAGS+=-pthread
- cdsg: LDFLAGS+=-pthread
-diff --git a/tests/tcg/s390x/ex-relative-long.c b/tests/tcg/s390x/ex-relative-long.c
+ %: $(SRC_PATH)/tests/tcg/x86_64/%.c
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++
++cross-modifying-code: CFLAGS+=-pthread
++cross-modifying-code: LDFLAGS+=-pthread
+diff --git a/tests/tcg/x86_64/cross-modifying-code.c b/tests/tcg/x86_64/cross-modifying-code.c
 new file mode 100644
-index 00000000000..21fbef62585
+index 00000000000..2704df6061c
 --- /dev/null
-+++ b/tests/tcg/s390x/ex-relative-long.c
-@@ -0,0 +1,156 @@
-+/* Check EXECUTE with relative long instructions as targets. */
-+#include <stdlib.h>
-+#include <stdio.h>
-+
-+struct test {
-+    const char *name;
-+    long (*func)(long reg, long *cc);
-+    long exp_reg;
-+    long exp_mem;
-+    long exp_cc;
-+};
-+
++++ b/tests/tcg/x86_64/cross-modifying-code.c
+@@ -0,0 +1,80 @@
 +/*
-+ * Each test sets the MEM_IDXth element of the mem array to MEM and uses a
-+ * single relative long instruction on it. The other elements remain zero.
-+ * This is in order to prevent stumbling upon MEM in random memory in case
-+ * there is an off-by-a-small-value bug.
++ * Test patching code, running in one thread, from another thread.
 + *
-+ * Note that while gcc supports the ZL constraint for relative long operands,
-+ * clang doesn't, so the assembly code accesses mem[MEM_IDX] using MEM_ASM.
++ * Intel SDM calls this "cross-modifying code" and recommends a special
++ * sequence, which requires both threads to cooperate.
++ *
++ * Linux kernel uses a different sequence that does not require cooperation and
++ * involves patching the first byte with int3.
++ *
++ * Finally, there is user-mode software out there that simply uses atomics, and
++ * that seems to be good enough in practice. Test that QEMU has no problems
++ * with this as well.
 + */
-+static long mem[0x1000];
-+#define MEM_IDX 0x800
-+#define MEM_ASM "mem+0x800*8"
 +
-+/* Initial %r2 value. */
-+#define REG 0x1234567887654321
++#include <assert.h>
++#include <pthread.h>
++#include <stdbool.h>
++#include <stdlib.h>
 +
-+/* Initial mem[MEM_IDX] value. */
-+#define MEM 0xfedcba9889abcdef
++void add1_or_nop(long *x);
++asm(".pushsection .rwx,\"awx\",@progbits\n"
++    ".globl add1_or_nop\n"
++    /* addq $0x1,(%rdi) */
++    "add1_or_nop: .byte 0x48, 0x83, 0x07, 0x01\n"
++    "ret\n"
++    ".popsection\n");
 +
-+/* Initial cc value. */
-+#define CC 0
++#define THREAD_WAIT 0
++#define THREAD_PATCH 1
++#define THREAD_STOP 2
 +
-+/* Relative long instructions and their expected effects. */
-+#define FOR_EACH_INSN(F)                                                       \
-+    F(cgfrl,  REG,                 MEM,                2)                      \
-+    F(cghrl,  REG,                 MEM,                2)                      \
-+    F(cgrl,   REG,                 MEM,                2)                      \
-+    F(chrl,   REG,                 MEM,                1)                      \
-+    F(clgfrl, REG,                 MEM,                2)                      \
-+    F(clghrl, REG,                 MEM,                2)                      \
-+    F(clgrl,  REG,                 MEM,                1)                      \
-+    F(clhrl,  REG,                 MEM,                2)                      \
-+    F(clrl,   REG,                 MEM,                1)                      \
-+    F(crl,    REG,                 MEM,                1)                      \
-+    F(larl,   (long)&mem[MEM_IDX], MEM,                CC)                     \
-+    F(lgfrl,  0xfffffffffedcba98,  MEM,                CC)                     \
-+    F(lghrl,  0xfffffffffffffedc,  MEM,                CC)                     \
-+    F(lgrl,   MEM,                 MEM,                CC)                     \
-+    F(lhrl,   0x12345678fffffedc,  MEM,                CC)                     \
-+    F(llghrl, 0x000000000000fedc,  MEM,                CC)                     \
-+    F(llhrl,  0x123456780000fedc,  MEM,                CC)                     \
-+    F(lrl,    0x12345678fedcba98,  MEM,                CC)                     \
-+    F(stgrl,  REG,                 REG,                CC)                     \
-+    F(sthrl,  REG,                 0x4321ba9889abcdef, CC)                     \
-+    F(strl,   REG,                 0x8765432189abcdef, CC)
++static void *thread_func(void *arg)
++{
++    int val = 0x0026748d; /* nop */
 +
-+/* Test functions. */
-+#define DEFINE_EX_TEST(insn, exp_reg, exp_mem, exp_cc)                         \
-+    static long test_ex_ ## insn(long reg, long *cc)                           \
-+    {                                                                          \
-+        register long r2 asm("r2");                                            \
-+        char mask = 0x20;  /* make target use %r2 */                           \
-+        long pm, target;                                                       \
-+                                                                               \
-+        r2 = reg;                                                              \
-+        asm("larl %[target],0f\n"                                              \
-+            "cr %%r0,%%r0\n"  /* initial cc */                                 \
-+            "ex %[mask],0(%[target])\n"                                        \
-+            "jg 1f\n"                                                          \
-+            "0: " #insn " %%r0," MEM_ASM "\n"                                  \
-+            "1: ipm %[pm]\n"                                                   \
-+            : [target] "=&a" (target), [r2] "+r" (r2), [pm] "=r" (pm)          \
-+            : [mask] "a" (mask)                                                \
-+            : "cc", "memory");                                                 \
-+        reg = r2;                                                              \
-+        *cc = (pm >> 28) & 3;                                                  \
-+                                                                               \
-+        return reg;                                                            \
++    while (true) {
++        switch (__atomic_load_n((int *)arg, __ATOMIC_SEQ_CST)) {
++        case THREAD_WAIT:
++            break;
++        case THREAD_PATCH:
++            val = __atomic_exchange_n((int *)&add1_or_nop, val,
++                                      __ATOMIC_SEQ_CST);
++            break;
++        case THREAD_STOP:
++            return NULL;
++        default:
++            assert(false);
++            __builtin_unreachable();
++        }
 +    }
++}
 +
-+#define DEFINE_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)                       \
-+    static long test_exrl_ ## insn(long reg, long *cc)                         \
-+    {                                                                          \
-+        register long r2 asm("r2");                                            \
-+        char mask = 0x20;  /* make target use %r2 */                           \
-+        long pm;                                                               \
-+                                                                               \
-+        r2 = reg;                                                              \
-+        asm("cr %%r0,%%r0\n"  /* initial cc */                                 \
-+            "exrl %[mask],0f\n"                                                \
-+            "jg 1f\n"                                                          \
-+            "0: " #insn " %%r0," MEM_ASM "\n"                                  \
-+            "1: ipm %[pm]\n"                                                   \
-+            : [r2] "+r" (r2), [pm] "=r" (pm)                                   \
-+            : [mask] "a" (mask)                                                \
-+            : "cc", "memory");                                                 \
-+        reg = r2;                                                              \
-+        *cc = (pm >> 28) & 3;                                                  \
-+                                                                               \
-+        return reg;                                                            \
-+    }
++#define INITIAL 42
++#define COUNT 1000000
 +
-+FOR_EACH_INSN(DEFINE_EX_TEST)
-+FOR_EACH_INSN(DEFINE_EXRL_TEST)
-+
-+/* Test definitions. */
-+#define REGISTER_EX_EXRL_TEST(ex_insn, insn, _exp_reg, _exp_mem, _exp_cc)      \
-+    {                                                                          \
-+        .name = #ex_insn " " #insn,                                            \
-+        .func = test_ ## ex_insn ## _ ## insn,                                 \
-+        .exp_reg = (_exp_reg),                                                 \
-+        .exp_mem = (_exp_mem),                                                 \
-+        .exp_cc = (_exp_cc),                                                   \
-+    },
-+
-+#define REGISTER_EX_TEST(insn, exp_reg, exp_mem, exp_cc)                       \
-+    REGISTER_EX_EXRL_TEST(ex, insn, exp_reg, exp_mem, exp_cc)
-+
-+#define REGISTER_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)                     \
-+    REGISTER_EX_EXRL_TEST(exrl, insn, exp_reg, exp_mem, exp_cc)
-+
-+static const struct test tests[] = {
-+    FOR_EACH_INSN(REGISTER_EX_TEST)
-+    FOR_EACH_INSN(REGISTER_EXRL_TEST)
-+};
-+
-+/* Loop over all tests and run them. */
 +int main(void)
 +{
-+    const struct test *test;
-+    int ret = EXIT_SUCCESS;
-+    long reg, cc;
-+    size_t i;
++    int command = THREAD_WAIT;
++    pthread_t thread;
++    long x = 0;
++    int err;
++    int i;
 +
-+    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
-+        test = &tests[i];
-+        mem[MEM_IDX] = MEM;
-+        cc = -1;
-+        reg = test->func(REG, &cc);
-+#define ASSERT_EQ(expected, actual) do {                                       \
-+    if (expected != actual) {                                                  \
-+        fprintf(stderr, "%s: " #expected " (0x%lx) != " #actual " (0x%lx)\n",  \
-+                test->name, expected, actual);                                 \
-+        ret = EXIT_FAILURE;                                                    \
-+    }                                                                          \
-+} while (0)
-+        ASSERT_EQ(test->exp_reg, reg);
-+        ASSERT_EQ(test->exp_mem, mem[MEM_IDX]);
-+        ASSERT_EQ(test->exp_cc, cc);
-+#undef ASSERT_EQ
++    err = pthread_create(&thread, NULL, &thread_func, &command);
++    assert(err == 0);
++
++    __atomic_store_n(&command, THREAD_PATCH, __ATOMIC_SEQ_CST);
++    for (i = 0; i < COUNT; i++) {
++        add1_or_nop(&x);
 +    }
++    __atomic_store_n(&command, THREAD_STOP, __ATOMIC_SEQ_CST);
 +
-+    return ret;
++    err = pthread_join(thread, NULL);
++    assert(err == 0);
++
++    assert(x >= INITIAL);
++    assert(x <= INITIAL + COUNT);
++
++    return EXIT_SUCCESS;
 +}
 -- 
 2.39.2
