@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946C06BCEF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABD96BCF00
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:07:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcmM9-0002hM-AJ; Thu, 16 Mar 2023 08:05:17 -0400
+	id 1pcmMA-0002hr-SD; Thu, 16 Mar 2023 08:05:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pcmM6-0002h6-1J
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:05:14 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pcmM7-0002hE-AD
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:05:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pcmM4-0002lK-BR
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:05:13 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pcmM5-0002lS-HH
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:05:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678968310;
+ s=mimecast20190719; t=1678968312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hUxVDAYi+NaCLz6uprue5uFuxVPEcv3C6S2Tyly5Mh8=;
- b=DdSLc4MyEltqAhUecs0snivXz5xjedhwtMR1K2H+7TXwDCX7utmpbdYWHEt71qdnpFXFEp
- BhBE/pjjRIjW0zBEVmyVrbgoJ/5R5MmHPSvP+4ywgENSTLrXDzdnJoqndqUpPz9/6thYjf
- PMLglUPb0tFV5nLquAMJPRTCftgG9wM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YmJGY41XqyCGRPeTDO3+MBEiUMQeBjAmMfYNNBfiDjs=;
+ b=epY4txrcrF4pde+aCDVzPncHKbnrJE+9uWvAC0MzyWr4pTPjbEjNSWIlxJ7UaBlnuAfrTg
+ kShup/E5wO3wA87w9EMmIQiDqhxmyNjld47oT/Hvf4sSP5MGk+Y91i1yEfzY+wGQN40b0m
+ GRUQ4ETi+Kv48ws3hXILNtEf5DSZv6o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-VLkg72xXNDmma5AgjR1o0g-1; Thu, 16 Mar 2023 08:05:08 -0400
-X-MC-Unique: VLkg72xXNDmma5AgjR1o0g-1
+ us-mta-602-YcNiZK7-O12jEvVdIulLBg-1; Thu, 16 Mar 2023 08:05:10 -0400
+X-MC-Unique: YcNiZK7-O12jEvVdIulLBg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A7B710146E8;
- Thu, 16 Mar 2023 12:05:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D0C91C06EEB;
+ Thu, 16 Mar 2023 12:05:10 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.36.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB4C51410F1B;
- Thu, 16 Mar 2023 12:05:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8C4B1410F1B;
+ Thu, 16 Mar 2023 12:05:08 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>,
@@ -47,11 +48,13 @@ Cc: Eric Blake <eblake@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>
-Subject: [PATCH v2 0/6] Implement virtio-multitouch and enable GTK3 to use it
-Date: Thu, 16 Mar 2023 13:06:18 +0100
-Message-Id: <20230316120624.46410-1-slp@redhat.com>
+Subject: [PATCH v2 1/6] virtio-input: generalize virtio_input_key_config()
+Date: Thu, 16 Mar 2023 13:06:19 +0100
+Message-Id: <20230316120624.46410-2-slp@redhat.com>
+In-Reply-To: <20230316120624.46410-1-slp@redhat.com>
+References: <20230316120624.46410-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
@@ -78,46 +81,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series adds a virtio-multitouch device to the family of devices emulated
-by virtio-input implementing the Multi-touch protocol as descripted here:
+As there are other bitmap-based config properties that need to be dealt in a
+similar fashion as VIRTIO_INPUT_CFG_EV_BITS, generalize the function to
+receive select and subsel as arguments, and rename it to
+virtio_input_extend_config()
 
-https://www.kernel.org/doc/html/latest/input/multi-touch-protocol.html?highlight=multi+touch
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ hw/input/virtio-input-hid.c | 38 ++++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
-It also extends the GTK UI backend to be able to receive multi-touch events
-and transpose them to a guest, so the latter can recognize them as gestures
-when appropriate.
-
-An example of this in action can be seen here:
-
- https://fosstodon.org/@slp/109545849296546767
-
-Since v1:
-- Split 0002 patch to implement ui, virtio-input-hid and virtio-input-pci
-  changes in different patches (Marc-André).
-- Fix versioning in qapi/ui.json (Marc-André).
-- Print a warning if touch->sequence >= INPUT_EVENT_SLOTS_MAX (Marc-André).
-- Only send SYN_REPORT once, if needed (Marc-André).
-- Rebase and collect R-b.
-
-Sergio Lopez (6):
-  virtio-input: generalize virtio_input_key_config()
-  ui: add the infrastructure to support MT events
-  virtio-input: add a virtio-mulitouch device
-  virtio-input-pci: add virtio-multitouch-pci
-  ui: add helpers for virtio-multitouch events
-  ui/gtk: enable backend to send multi-touch events
-
- hw/input/virtio-input-hid.c      | 156 +++++++++++++++++++++++++++----
- hw/virtio/virtio-input-pci.c     |  25 ++++-
- include/hw/virtio/virtio-input.h |   9 +-
- include/ui/input.h               |   8 ++
- qapi/ui.json                     |  45 ++++++++-
- replay/replay-input.c            |  18 ++++
- ui/gtk.c                         |  92 ++++++++++++++++++
- ui/input.c                       |  42 +++++++++
- ui/trace-events                  |   1 +
- 9 files changed, 365 insertions(+), 31 deletions(-)
-
+diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
+index a7a244a95d..d28dab69ba 100644
+--- a/hw/input/virtio-input-hid.c
++++ b/hw/input/virtio-input-hid.c
+@@ -44,30 +44,31 @@ static const unsigned short axismap_abs[INPUT_AXIS__MAX] = {
+ 
+ /* ----------------------------------------------------------------- */
+ 
+-static void virtio_input_key_config(VirtIOInput *vinput,
+-                                    const unsigned short *keymap,
+-                                    size_t mapsize)
++static void virtio_input_extend_config(VirtIOInput *vinput,
++                                       const unsigned short *map,
++                                       size_t mapsize,
++                                       uint8_t select, uint8_t subsel)
+ {
+-    virtio_input_config keys;
++    virtio_input_config ext;
+     int i, bit, byte, bmax = 0;
+ 
+-    memset(&keys, 0, sizeof(keys));
++    memset(&ext, 0, sizeof(ext));
+     for (i = 0; i < mapsize; i++) {
+-        bit = keymap[i];
++        bit = map[i];
+         if (!bit) {
+             continue;
+         }
+         byte = bit / 8;
+         bit  = bit % 8;
+-        keys.u.bitmap[byte] |= (1 << bit);
++        ext.u.bitmap[byte] |= (1 << bit);
+         if (bmax < byte+1) {
+             bmax = byte+1;
+         }
+     }
+-    keys.select = VIRTIO_INPUT_CFG_EV_BITS;
+-    keys.subsel = EV_KEY;
+-    keys.size   = bmax;
+-    virtio_input_add_config(vinput, &keys);
++    ext.select = select;
++    ext.subsel = subsel;
++    ext.size   = bmax;
++    virtio_input_add_config(vinput, &ext);
+ }
+ 
+ static void virtio_input_handle_event(DeviceState *dev, QemuConsole *src,
+@@ -281,8 +282,9 @@ static void virtio_keyboard_init(Object *obj)
+ 
+     vhid->handler = &virtio_keyboard_handler;
+     virtio_input_init_config(vinput, virtio_keyboard_config);
+-    virtio_input_key_config(vinput, qemu_input_map_qcode_to_linux,
+-                            qemu_input_map_qcode_to_linux_len);
++    virtio_input_extend_config(vinput, qemu_input_map_qcode_to_linux,
++                               qemu_input_map_qcode_to_linux_len,
++                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+ }
+ 
+ static const TypeInfo virtio_keyboard_info = {
+@@ -373,8 +375,9 @@ static void virtio_mouse_init(Object *obj)
+     virtio_input_init_config(vinput, vhid->wheel_axis
+                              ? virtio_mouse_config_v2
+                              : virtio_mouse_config_v1);
+-    virtio_input_key_config(vinput, keymap_button,
+-                            ARRAY_SIZE(keymap_button));
++    virtio_input_extend_config(vinput, keymap_button,
++                               ARRAY_SIZE(keymap_button),
++                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+ }
+ 
+ static const TypeInfo virtio_mouse_info = {
+@@ -497,8 +500,9 @@ static void virtio_tablet_init(Object *obj)
+     virtio_input_init_config(vinput, vhid->wheel_axis
+                              ? virtio_tablet_config_v2
+                              : virtio_tablet_config_v1);
+-    virtio_input_key_config(vinput, keymap_button,
+-                            ARRAY_SIZE(keymap_button));
++    virtio_input_extend_config(vinput, keymap_button,
++                               ARRAY_SIZE(keymap_button),
++                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+ }
+ 
+ static const TypeInfo virtio_tablet_info = {
 -- 
 2.38.1
 
