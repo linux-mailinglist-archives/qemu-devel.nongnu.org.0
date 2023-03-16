@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75F26BD3FD
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBF76BD3FF
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 16:38:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcpfR-0006kq-EW; Thu, 16 Mar 2023 11:37:25 -0400
+	id 1pcpfV-0006lK-20; Thu, 16 Mar 2023 11:37:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcpfL-0006k8-AS
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:37:20 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcpfN-0006kR-MO
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:37:22 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcpf9-0005j2-FW
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:37:15 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcpfK-0005k1-QM
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:37:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678981024;
+ s=mimecast20190719; t=1678981035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=23BWlJtlZTmyyUevGgfuI80p4AJwBPHmthMjw6ey0ak=;
- b=EvgnfEzq3OIMm9q5Bjl5hDgHK2/oN5iwoiUz/h67GLnbN6IniBCMN/cwOG7woUM+wQo8kV
- HWSnhAwJDdooPKg1SvXFxf90Vg4OC1PfVPXxeEg+afR49UAk8UBquiAe73ghfp7nSxp856
- VfqWwNidTB3V6U+ocfSnOO3d6xom/r0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=X/lpiQF6/VJryQFtMZDOeHC3VYpMvTxv5c7SmgXBX7A=;
+ b=Zc6lvpo6MXDf9hQ7rBWF/9UqsLDEWlwBOW1Vg/beKrYqOFFn/b0KLkZH2kfZPzGkfc0KjV
+ 5AEGc0w5+A9JFUTnq4FLoJWjzKgrIOHAoRzSAiIoseTWK652Ajn656TZu+jc9BynMEyfgF
+ GMC0n/eMZuIR9ytapMwiFRqn972dpy0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-feBp9xytOmSWGTdgoXO0IA-1; Thu, 16 Mar 2023 11:37:03 -0400
-X-MC-Unique: feBp9xytOmSWGTdgoXO0IA-1
+ us-mta-595--AHpiXInNzGFcpgG5U65cg-1; Thu, 16 Mar 2023 11:37:11 -0400
+X-MC-Unique: -AHpiXInNzGFcpgG5U65cg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4853A1C29507;
- Thu, 16 Mar 2023 15:37:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 195BC88562E
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 15:37:04 +0000 (UTC)
 Received: from t480s.in.tum.de (unknown [10.39.194.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C24112A68;
- Thu, 16 Mar 2023 15:37:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BE1C35454;
+ Thu, 16 Mar 2023 15:37:02 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Tiwei Bie <tiwei.bie@intel.com>
-Subject: [PATCH v2 1/3] vhost: Rework memslot filtering and fix "used_memslot"
- tracking
-Date: Thu, 16 Mar 2023 16:36:56 +0100
-Message-Id: <20230316153658.214487-2-david@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>
+Subject: [PATCH v2 2/3] vhost: Remove vhost_backend_can_merge() callback
+Date: Thu, 16 Mar 2023 16:36:57 +0100
+Message-Id: <20230316153658.214487-3-david@redhat.com>
 In-Reply-To: <20230316153658.214487-1-david@redhat.com>
 References: <20230316153658.214487-1-david@redhat.com>
 MIME-Version: 1.0
@@ -80,212 +79,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Having multiple vhost devices, some filtering out fd-less memslots and
-some not, can mess up the "used_memslot" accounting. Consequently our
-"free memslot" checks become unreliable and we might run out of free
-memslots at runtime later.
+Checking whether the memory regions are equal is sufficient: if they are
+equal, then most certainly the contained fd is equal.
 
-An example sequence which can trigger a potential issue that involves
-different vhost backends (vhost-kernel and vhost-user) and hotplugged
-memory devices can be found at [1].
+The whole vhost-user memslot handling is suboptimal and overly
+complicated. We shouldn't have to lookup a RAM memory regions we got
+notified about in vhost_user_get_mr_data() using a host pointer. But that
+requires a bigger rework -- especially an alternative vhost_set_mem_table()
+backend call that simply consumes MemoryRegionSections.
 
-Let's make the filtering mechanism less generic and distinguish between
-backends that support private memslots (without a fd) and ones that only
-support shared memslots (with a fd). Track the used_memslots for both
-cases separately and use the corresponding value when required.
+For now, let's just drop vhost_backend_can_merge().
 
-Note: Most probably we should filter out MAP_PRIVATE fd-based RAM regions
-(for example, via memory-backend-memfd,...,shared=off or as default with
- memory-backend-file) as well. When not using MAP_SHARED, it might not work
-as expected. Add a TODO for now.
-
-[1] https://lkml.kernel.org/r/fad9136f-08d3-3fd9-71a1-502069c000cf@redhat.com
-
-Fixes: 988a27754bbb ("vhost: allow backends to filter memory sections")
-Cc: Tiwei Bie <tiwei.bie@intel.com>
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/vhost-user.c            |  7 ++--
- hw/virtio/vhost.c                 | 56 ++++++++++++++++++++++++++-----
- include/hw/virtio/vhost-backend.h |  5 ++-
- 3 files changed, 52 insertions(+), 16 deletions(-)
+ hw/virtio/vhost-user.c            | 14 --------------
+ hw/virtio/vhost-vdpa.c            |  1 -
+ hw/virtio/vhost.c                 |  6 +-----
+ include/hw/virtio/vhost-backend.h |  4 ----
+ 4 files changed, 1 insertion(+), 24 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index e5285df4ba..0c3e2702b1 100644
+index 0c3e2702b1..831375a967 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -2453,10 +2453,9 @@ vhost_user_crypto_close_session(struct vhost_dev *dev, uint64_t session_id)
-     return 0;
+@@ -2195,19 +2195,6 @@ static int vhost_user_migration_done(struct vhost_dev *dev, char* mac_addr)
+     return -ENOTSUP;
  }
  
--static bool vhost_user_mem_section_filter(struct vhost_dev *dev,
--                                          MemoryRegionSection *section)
-+static bool vhost_user_no_private_memslots(struct vhost_dev *dev)
+-static bool vhost_user_can_merge(struct vhost_dev *dev,
+-                                 uint64_t start1, uint64_t size1,
+-                                 uint64_t start2, uint64_t size2)
+-{
+-    ram_addr_t offset;
+-    int mfd, rfd;
+-
+-    (void)vhost_user_get_mr_data(start1, &offset, &mfd);
+-    (void)vhost_user_get_mr_data(start2, &offset, &rfd);
+-
+-    return mfd == rfd;
+-}
+-
+ static int vhost_user_net_set_mtu(struct vhost_dev *dev, uint16_t mtu)
  {
--    return memory_region_get_fd(section->mr) >= 0;
-+    return true;
- }
- 
- static int vhost_user_get_inflight_fd(struct vhost_dev *dev,
-@@ -2686,6 +2685,7 @@ const VhostOps user_ops = {
-         .vhost_backend_init = vhost_user_backend_init,
-         .vhost_backend_cleanup = vhost_user_backend_cleanup,
-         .vhost_backend_memslots_limit = vhost_user_memslots_limit,
-+        .vhost_backend_no_private_memslots = vhost_user_no_private_memslots,
-         .vhost_set_log_base = vhost_user_set_log_base,
-         .vhost_set_mem_table = vhost_user_set_mem_table,
-         .vhost_set_vring_addr = vhost_user_set_vring_addr,
-@@ -2712,7 +2712,6 @@ const VhostOps user_ops = {
-         .vhost_set_config = vhost_user_set_config,
-         .vhost_crypto_create_session = vhost_user_crypto_create_session,
-         .vhost_crypto_close_session = vhost_user_crypto_close_session,
--        .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
-         .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
-         .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
-         .vhost_dev_start = vhost_user_dev_start,
+     VhostUserMsg msg;
+@@ -2704,7 +2691,6 @@ const VhostOps user_ops = {
+         .vhost_set_vring_enable = vhost_user_set_vring_enable,
+         .vhost_requires_shm_log = vhost_user_requires_shm_log,
+         .vhost_migration_done = vhost_user_migration_done,
+-        .vhost_backend_can_merge = vhost_user_can_merge,
+         .vhost_net_set_mtu = vhost_user_net_set_mtu,
+         .vhost_set_iotlb_callback = vhost_user_set_iotlb_callback,
+         .vhost_send_device_iotlb_msg = vhost_user_send_device_iotlb_msg,
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index bc6bad23d5..38d98528e7 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -1355,7 +1355,6 @@ const VhostOps vdpa_ops = {
+         .vhost_set_config = vhost_vdpa_set_config,
+         .vhost_requires_shm_log = NULL,
+         .vhost_migration_done = NULL,
+-        .vhost_backend_can_merge = NULL,
+         .vhost_net_set_mtu = NULL,
+         .vhost_set_iotlb_callback = NULL,
+         .vhost_send_device_iotlb_msg = NULL,
 diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index a266396576..912cc56603 100644
+index 912cc56603..8706d189ec 100644
 --- a/hw/virtio/vhost.c
 +++ b/hw/virtio/vhost.c
-@@ -46,20 +46,33 @@
- static struct vhost_log *vhost_log;
- static struct vhost_log *vhost_log_shm;
+@@ -729,11 +729,7 @@ static void vhost_region_add_section(struct vhost_dev *dev,
+             size_t offset = mrs_gpa - prev_gpa_start;
  
-+/* Memslots used by backends that support private memslots (without an fd). */
- static unsigned int used_memslots;
-+
-+/* Memslots used by backends that only support shared memslots (with an fd). */
-+static unsigned int used_shared_memslots;
-+
- static QLIST_HEAD(, vhost_dev) vhost_devices =
-     QLIST_HEAD_INITIALIZER(vhost_devices);
- 
- bool vhost_has_free_slot(void)
- {
--    unsigned int slots_limit = ~0U;
-+    unsigned int free = UINT_MAX;
-     struct vhost_dev *hdev;
- 
-     QLIST_FOREACH(hdev, &vhost_devices, entry) {
-         unsigned int r = hdev->vhost_ops->vhost_backend_memslots_limit(hdev);
--        slots_limit = MIN(slots_limit, r);
-+        unsigned int cur_free;
-+
-+        if (hdev->vhost_ops->vhost_backend_no_private_memslots &&
-+            hdev->vhost_ops->vhost_backend_no_private_memslots(hdev)) {
-+            cur_free = r - used_shared_memslots;
-+        } else {
-+            cur_free = r - used_memslots;
-+        }
-+        free = MIN(free, cur_free);
-     }
--    return slots_limit > used_memslots;
-+    return free > 1;
- }
- 
- static void vhost_dev_sync_region(struct vhost_dev *dev,
-@@ -475,8 +488,7 @@ static int vhost_verify_ring_mappings(struct vhost_dev *dev,
-  * vhost_section: identify sections needed for vhost access
-  *
-  * We only care about RAM sections here (where virtqueue and guest
-- * internals accessed by virtio might live). If we find one we still
-- * allow the backend to potentially filter it out of our list.
-+ * internals accessed by virtio might live).
-  */
- static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection *section)
- {
-@@ -503,8 +515,16 @@ static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection *section)
-             return false;
-         }
- 
--        if (dev->vhost_ops->vhost_backend_mem_section_filter &&
--            !dev->vhost_ops->vhost_backend_mem_section_filter(dev, section)) {
-+        /*
-+         * Some backends (like vhost-user) can only handle memory regions
-+         * that have an fd (can be mapped into a different process). Filter
-+         * the ones without an fd out, if requested.
-+         *
-+         * TODO: we might have to limit to MAP_SHARED as well.
-+         */
-+        if (memory_region_get_fd(section->mr) < 0 &&
-+            dev->vhost_ops->vhost_backend_no_private_memslots &&
-+            dev->vhost_ops->vhost_backend_no_private_memslots(dev)) {
-             trace_vhost_reject_section(mr->name, 2);
-             return false;
-         }
-@@ -569,7 +589,14 @@ static void vhost_commit(MemoryListener *listener)
-                        dev->n_mem_sections * sizeof dev->mem->regions[0];
-     dev->mem = g_realloc(dev->mem, regions_size);
-     dev->mem->nregions = dev->n_mem_sections;
--    used_memslots = dev->mem->nregions;
-+
-+    if (dev->vhost_ops->vhost_backend_no_private_memslots &&
-+        dev->vhost_ops->vhost_backend_no_private_memslots(dev)) {
-+        used_shared_memslots = dev->mem->nregions;
-+    } else {
-+        used_memslots = dev->mem->nregions;
-+    }
-+
-     for (i = 0; i < dev->n_mem_sections; i++) {
-         struct vhost_memory_region *cur_vmr = dev->mem->regions + i;
-         struct MemoryRegionSection *mrs = dev->mem_sections + i;
-@@ -1399,6 +1426,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-                    VhostBackendType backend_type, uint32_t busyloop_timeout,
-                    Error **errp)
- {
-+    unsigned int used;
-     uint64_t features;
-     int i, r, n_initialized_vqs = 0;
- 
-@@ -1496,7 +1524,17 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-     memory_listener_register(&hdev->memory_listener, &address_space_memory);
-     QLIST_INSERT_HEAD(&vhost_devices, hdev, entry);
- 
--    if (used_memslots > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
-+    /*
-+     * The listener we registered properly updated the corresponding counter.
-+     * So we can trust that these values are accurate.
-+     */
-+    if (hdev->vhost_ops->vhost_backend_no_private_memslots &&
-+        hdev->vhost_ops->vhost_backend_no_private_memslots(hdev)) {
-+        used = used_shared_memslots;
-+    } else {
-+        used = used_memslots;
-+    }
-+    if (used > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
-         error_setg(errp, "vhost backend memory slots limit is less"
-                    " than current number of present memory slots");
-         r = -EINVAL;
+             if (prev_host_start + offset == mrs_host &&
+-                section->mr == prev_sec->mr &&
+-                (!dev->vhost_ops->vhost_backend_can_merge ||
+-                 dev->vhost_ops->vhost_backend_can_merge(dev,
+-                    mrs_host, mrs_size,
+-                    prev_host_start, prev_size))) {
++                section->mr == prev_sec->mr) {
+                 uint64_t max_end = MAX(prev_host_end, mrs_host + mrs_size);
+                 need_add = false;
+                 prev_sec->offset_within_address_space =
 diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index ec3fbae58d..2349a4a7d2 100644
+index 2349a4a7d2..f3ba7b676b 100644
 --- a/include/hw/virtio/vhost-backend.h
 +++ b/include/hw/virtio/vhost-backend.h
-@@ -108,8 +108,7 @@ typedef int (*vhost_crypto_create_session_op)(struct vhost_dev *dev,
- typedef int (*vhost_crypto_close_session_op)(struct vhost_dev *dev,
-                                              uint64_t session_id);
- 
--typedef bool (*vhost_backend_mem_section_filter_op)(struct vhost_dev *dev,
--                                                MemoryRegionSection *section);
-+typedef bool (*vhost_backend_no_private_memslots_op)(struct vhost_dev *dev);
- 
- typedef int (*vhost_get_inflight_fd_op)(struct vhost_dev *dev,
-                                         uint16_t queue_size,
-@@ -138,6 +137,7 @@ typedef struct VhostOps {
-     vhost_backend_init vhost_backend_init;
-     vhost_backend_cleanup vhost_backend_cleanup;
-     vhost_backend_memslots_limit vhost_backend_memslots_limit;
-+    vhost_backend_no_private_memslots_op vhost_backend_no_private_memslots;
-     vhost_net_set_backend_op vhost_net_set_backend;
-     vhost_net_set_mtu_op vhost_net_set_mtu;
-     vhost_scsi_set_endpoint_op vhost_scsi_set_endpoint;
-@@ -172,7 +172,6 @@ typedef struct VhostOps {
-     vhost_set_config_op vhost_set_config;
-     vhost_crypto_create_session_op vhost_crypto_create_session;
-     vhost_crypto_close_session_op vhost_crypto_close_session;
--    vhost_backend_mem_section_filter_op vhost_backend_mem_section_filter;
-     vhost_get_inflight_fd_op vhost_get_inflight_fd;
-     vhost_set_inflight_fd_op vhost_set_inflight_fd;
-     vhost_dev_start_op vhost_dev_start;
+@@ -86,9 +86,6 @@ typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+ typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
+ typedef int (*vhost_migration_done_op)(struct vhost_dev *dev,
+                                        char *mac_addr);
+-typedef bool (*vhost_backend_can_merge_op)(struct vhost_dev *dev,
+-                                           uint64_t start1, uint64_t size1,
+-                                           uint64_t start2, uint64_t size2);
+ typedef int (*vhost_vsock_set_guest_cid_op)(struct vhost_dev *dev,
+                                             uint64_t guest_cid);
+ typedef int (*vhost_vsock_set_running_op)(struct vhost_dev *dev, int start);
+@@ -163,7 +160,6 @@ typedef struct VhostOps {
+     vhost_set_vring_enable_op vhost_set_vring_enable;
+     vhost_requires_shm_log_op vhost_requires_shm_log;
+     vhost_migration_done_op vhost_migration_done;
+-    vhost_backend_can_merge_op vhost_backend_can_merge;
+     vhost_vsock_set_guest_cid_op vhost_vsock_set_guest_cid;
+     vhost_vsock_set_running_op vhost_vsock_set_running;
+     vhost_set_iotlb_callback_op vhost_set_iotlb_callback;
 -- 
 2.39.2
 
