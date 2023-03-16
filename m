@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB586BC77D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 08:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5A46BC789
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 08:45:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pciEw-0003HD-Gi; Thu, 16 Mar 2023 03:41:35 -0400
+	id 1pciIE-0004Ze-GP; Thu, 16 Mar 2023 03:44:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pciEm-0003Ek-RD
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:41:25 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
+ id 1pciIB-0004Yk-Fi; Thu, 16 Mar 2023 03:44:55 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pciEh-0001pp-2G
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:41:24 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- p23-20020a05600c1d9700b003ead4835046so3023855wms.0
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 00:41:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
+ id 1pciI9-0002hS-8D; Thu, 16 Mar 2023 03:44:55 -0400
+Received: by mail-pg1-x536.google.com with SMTP id h31so405044pgl.6;
+ Thu, 16 Mar 2023 00:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678952476;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=z5Ho8NRURfeB00BxrstQFIhPibV+VDjLDHfIFm2+A58=;
- b=FWbczOW77dDqqKZA37RZgwNC32SYavPgm03LxNhTOu7FO5z450bwDcULXFBxb4IbyC
- /GDWuMbjFN4hTvff093ecOkV55AJEBAXjEZMFypc84kSQ3oK2JOrZgyUyPJ98To/l5Mp
- tg8iGVqyq8AnydQ7jAIYEBW8ykdWZ+7cBORkDL/ysCBhG0WarWxHoqySYLT5UXqsbPge
- S+r0ulauDKkPQfx0AasG93NNs36+PY6a11jZHOQcc4g5d7j9+gjNqVofyizpmPqc71o8
- cp3EBTwfGGDZ4VxCKVpNV1E3AdfqpoWcTgeB9aeTFW3UZh42/BFjJot3yZU1tQLHs344
- IW9A==
+ d=gmail.com; s=20210112; t=1678952691;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=V4LC09VJN9mQD6QD3QR+JAICHiwA9D8anoT8uuN8IkI=;
+ b=n+k7YsR+rwl954QSYDZuNRcldbk5Y/uZ1WaMLkHHqOQGyylTZCFHP9omPOAXDYPhfn
+ hucRBqD3gfdHyMhimg5vynt845ILojXHzF8C1nnQwt5yARAqHBKzkVCDJvPuYQW1v1vl
+ JmNzY6jG6efTXIPcpz4HVILHtRuR5xI2NIvGnj2B09Gi3urrPDPnjYNtGOoh+SFbuaiv
+ jQYy8pg1V7dOIubQ5pOONb8eBqaWBeCZpHUaD93Mns+MOTZxn7cz/uP+ycUJNlPqu7sV
+ VlgdTz+eatwEYaY3Mw+4dwZCmq4zkpa5JG+7zLoZGUEKrC4SLQsyMUU6QVwlVqGwnv3z
+ Sxwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678952476;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z5Ho8NRURfeB00BxrstQFIhPibV+VDjLDHfIFm2+A58=;
- b=42ekezmddPPNz2vqiI3K7MwyO5cgzHqYCUQgLUcTBC9XZOmrcrRT4FyPnL9x+TuyiN
- B82v424ELg7YFOcCuT9NfUjdf99tbZRE9fudpWufbhrRplaXY3vjlQuhPPSdGNR4xTY9
- JIN2veuZlMBoBCVaSo3S5zewNfy/Sz2QxX51KUYh+OdPGjSRG2IHlvgColzc7j/fykZn
- SabZxaiOAGNzc02xIFYWuu62hZ2OcSjUvzfCExPyEE/iYY88KVkYTxaUbyDLUnLVaVSE
- BSJ43ahqT//e/6oDN8J56yOCXPKXOOvyAkseWsSYhf+rg9aldrzWj40pX6X6UEueuTSl
- HKig==
-X-Gm-Message-State: AO0yUKV8DQHcctdOvpi8AVYkOYN2Ja2DyBtyPH6VH4eECmooadOZyV37
- v0T5oVnwBIag1f8M26b2UcqEBw==
-X-Google-Smtp-Source: AK7set95im2WoVGgS3diojcIp1vEfjOqIG9eOV+mZdlqtZw1p1xJP0bgNRDqfN9mhI9KEys84ogHaA==
-X-Received: by 2002:a05:600c:3b98:b0:3ed:492f:7f37 with SMTP id
- n24-20020a05600c3b9800b003ed492f7f37mr1763726wms.10.1678952476016; 
- Thu, 16 Mar 2023 00:41:16 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q3-20020a1cf303000000b003ed341d2d68sm3868429wmq.16.2023.03.16.00.41.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 00:41:15 -0700 (PDT)
-Message-ID: <69ffd86f-6c52-6779-9725-b0d1642c759d@linaro.org>
-Date: Thu, 16 Mar 2023 08:41:14 +0100
+ d=1e100.net; s=20210112; t=1678952691;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=V4LC09VJN9mQD6QD3QR+JAICHiwA9D8anoT8uuN8IkI=;
+ b=NZ43a3nrPcfPIm7mFewNLdRoQQzpuQ1+XSk/0CSFwad+wUOQ0yIS+iCQVo/I5s+jbG
+ 371wqUGSx3L5wWtiJZE/hs2W4aXKoF69oK9/1MKwX/HRU+zP+4WTPdxQ68Kul9q2bC4H
+ IPA7O9L/srQZi8T44uIkUFP0zTFuAaeSdiFRCkAT1EtBxjhKU0AePkmUtIyXnXv/hTUU
+ FeeIOZtS9QLCt/gMIMZuCQrf7pNn9DM9bXZrQoo1mDVF9cNwJy73yPExBcoccrB587yy
+ v+eAGZQRdtxvGc0Bsf0rsFcDzfuzep0TIsr3S/DH9PHIF5MJwoGqOdU6XcHk4rn3Nicw
+ ZcxA==
+X-Gm-Message-State: AO0yUKXhJgZO1QncbUn3hQFdgJQtPcb9szmz/udYxF7zbl5xxabvHsC8
+ yddlxWku1KNVVnFOhaT0cVoIBu7/01LBv1kAg/M=
+X-Google-Smtp-Source: AK7set/GyuhRd68/CxpyAh1vkp73akVyCpO4+JtoJyUii4xuFOx9ri9PYpPAdswaVVJua1NmMcJnuF5OiYyTsfKj388=
+X-Received: by 2002:a05:6a00:2408:b0:624:c7cc:3d0e with SMTP id
+ z8-20020a056a00240800b00624c7cc3d0emr1104463pfh.6.1678952691052; Thu, 16 Mar
+ 2023 00:44:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 05/14] qapi: Improve error message for unexpected array
- types
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, marcandre.lureau@redhat.com, berrange@redhat.com,
- eblake@redhat.com, jsnow@redhat.com
-References: <20230316071325.492471-1-armbru@redhat.com>
- <20230316071325.492471-6-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230316071325.492471-6-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
+ <f06fddef-1e40-1858-2715-50a0518a97f6@linaro.org>
+ <CA+rFky5=kc0Pwf3RRhuKrBqtRVkmtm=NDKhrVgJV2_Ame2nUOQ@mail.gmail.com>
+ <c33b0e07-5c46-6ebe-fe4c-5308ce508a70@linaro.org>
+In-Reply-To: <c33b0e07-5c46-6ebe-fe4c-5308ce508a70@linaro.org>
+From: Andrew Randrianasulu <randrianasulu@gmail.com>
+Date: Thu, 16 Mar 2023 10:44:38 +0300
+Message-ID: <CA+rFky691rSqUUqaFgsS7TJKpkRNLXBuyWS+DsDFd5CakEZtAg@mail.gmail.com>
+Subject: Re: dropping 32-bit host support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-discuss@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>, 
+ Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000beb52705f6ffa2f6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=randrianasulu@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,19 +85,275 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/3/23 08:13, Markus Armbruster wrote:
-> We reject array types in certain places with "cannot be an array".
-> Deleting this check improves the error message to "should be a type
-> name" or "should be an object or type name", depending on context, so
-> do that.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   scripts/qapi/expr.py                     | 6 ------
->   tests/qapi-schema/bad-data.err           | 2 +-
->   tests/qapi-schema/union-array-branch.err | 2 +-
->   3 files changed, 2 insertions(+), 8 deletions(-)
+--000000000000beb52705f6ffa2f6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+=D1=87=D1=82, 16 =D0=BC=D0=B0=D1=80. 2023 =D0=B3., 10:36 Philippe Mathieu-D=
+aud=C3=A9 <philmd@linaro.org>:
 
+> On 16/3/23 08:17, Andrew Randrianasulu wrote:
+> >
+> >
+> > =D1=87=D1=82, 16 =D0=BC=D0=B0=D1=80. 2023 =D0=B3., 10:05 Philippe Mathi=
+eu-Daud=C3=A9 <philmd@linaro.org
+> > <mailto:philmd@linaro.org>>:
+> >
+> >     Hi Andrew,
+> >
+> >     On 16/3/23 01:57, Andrew Randrianasulu wrote:
+> >      > Looking at https://wiki.qemu.org/ChangeLog/8.0
+> >     <https://wiki.qemu.org/ChangeLog/8.0>
+> >      > <https://wiki.qemu.org/ChangeLog/8.0
+> >     <https://wiki.qemu.org/ChangeLog/8.0>>
+> >      >
+> >      > =3D=3D=3D
+> >      > System emulation on 32-bit x86 and ARM hosts has been deprecated=
+.
+> >     The
+> >      > QEMU project no longer considers 32-bit x86 and ARM support for
+> >     system
+> >      > emulation to be an effective use of its limited resources, and
+> thus
+> >      > intends to discontinue.
+> >      >
+> >      >   =3D=3D
+> >      >
+> >      > well, I guess arguing from memory-consuption point on 32 bit x86
+> >     hosts
+> >      > (like my machine where I run 32 bit userspace on 64 bit kernel)
+> >     is not
+> >
+> >     If you use a 64-bit kernel, then your host is 64-bit :)
+> >
+> >
+> >
+> > No, I mean *kernel* is 64 bit yet userspace (glibc, X , ...) all 32bit.
+> > So, qemu naturally will be 32-bit binary on my system.
+>
+> This configuration is still supported!
+>
+> Thomas, should we clarify yet again? Maybe adding examples?
+>
+> >     host: hardware where you run QEMU
+> >     guest: what is run within QEMU
+> >
+> >     Running 32-bit *guest* on your 64-bit *host* is still supported.
+> >
+> >     We don't plan to support running 32-bit WinXP x86 (guest) on 32-bit
+> >     Raspberry Pi 2 (host) for example.
+> >
+> >      > going anywhere, but what about 32bit userspace on Android tablet=
+s,
+> >      > either via Limbo emulator or qemu itself in Termux?
+> >
+> >     *System* emulation [on 32-bit hosts] is deprecated. User emulation
+> >     (such linux-user) is not. For example, you can still run 64-bit
+> x86_64
+> >     Linux binaries on a 32-bit ARM Raspberry Pi.
+> >
+> >
+> >
+> > Well, unrooted Android does not allow you to just load some perfectly
+> > fine kernel module, so user-space emulation can't do all things
+> > system-level one can. I also ran qemu-system-ppc on Huawei Matepad T8
+> > (32 bit Android, too) for emulating old mac os 9. Yes, I can wait 10 mi=
+n
+> > per guest boot. Fedora 36 armhf boots even slower on emulation!
+>
+> Huawei MatePad T8 is based on a MediaTek MT8768 CPU which contains
+> ARM Cortex-A53 cores. These cores implements the ARMv8-A 64-bit ISA,
+> so theoretically it is able to run a 64-bit Android.
+>
+
+Good luck installing non-vendor Android on off the shelf device, also good
+luck running 64bit Android in 2gb ram. To be honest yes before I had only
+Android + termux setup for all my computer needs I cared less about
+upstream removals - because I usually can revert things locally on
+Slackware. But Termux is rolling distro, and there is not many
+alternatives. So upstream decisions will hit here fast and hard.
+
+
+> >      > At least I hope it will be not *actively* (intentionally) broken=
+,
+> >     just
+> >      > ...unsupported (so users who know how to run git revert still
+> >     will get
+> >      > their build for some more time).
+> >
+> >     Unsupported code almost always unintentionally end bit-rotting...
+> >
+> >
+> >
+> > Well, sometimes simple patch restores functionality. I patched for
+> > example olive-editor to run on 32 bit, and before this intel embree
+> > (raytracing kernels for Lux renderer). So, _sometimes_ it really not
+> > that costly. While if this CI thing really runs per-commit and thrown
+> > away each result ... may be letting interested users to build things on
+> > their own machines (and share patches, if they develop them, publicly)
+> > actually good idea.
+> >
+> >
+> >
+> >     I hope this is clearer.
+> >
+> >     Regards,
+> >
+> >     Phil.
+> >
+>
+>
+
+--000000000000beb52705f6ffa2f6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">=D1=87=D1=82, 16 =D0=BC=D0=B0=D1=80. 2023 =D0=B3., 10:=
+36 Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">phi=
+lmd@linaro.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 16/3/23 =
+08:17, Andrew Randrianasulu wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; =D1=87=D1=82, 16 =D0=BC=D0=B0=D1=80. 2023 =D0=B3., 10:05 Philippe Math=
+ieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org" target=3D"_blank" r=
+el=3D"noreferrer">philmd@linaro.org</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:philmd@linaro.org" target=3D"_blank" rel=
+=3D"noreferrer">philmd@linaro.org</a>&gt;&gt;:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hi Andrew,<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 16/3/23 01:57, Andrew Randrianasulu wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Looking at <a href=3D"https://wiki.qemu.org/C=
+hangeLog/8.0" rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.=
+qemu.org/ChangeLog/8.0</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://wiki.qemu.org/ChangeLog/8.0"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.qemu.org/Chan=
+geLog/8.0</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; &lt;<a href=3D"https://wiki.qemu.org/ChangeLo=
+g/8.0" rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.qemu.or=
+g/ChangeLog/8.0</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://wiki.qemu.org/ChangeLog/8.0"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.qemu.org/Chan=
+geLog/8.0</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; =3D=3D=3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; System emulation on 32-bit x86 and ARM hosts =
+has been deprecated.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0The<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; QEMU project no longer considers 32-bit x86 a=
+nd ARM support for<br>
+&gt;=C2=A0 =C2=A0 =C2=A0system<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; emulation to be an effective use of its limit=
+ed resources, and thus<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; intends to discontinue.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0=3D=3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; well, I guess arguing from memory-consuption =
+point on 32 bit x86<br>
+&gt;=C2=A0 =C2=A0 =C2=A0hosts<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; (like my machine where I run 32 bit userspace=
+ on 64 bit kernel)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0is not<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0If you use a 64-bit kernel, then your host is 64-bi=
+t :)<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; No, I mean *kernel* is 64 bit yet userspace (glibc, X , ...) all 32bit=
+. <br>
+&gt; So, qemu naturally will be 32-bit binary on my system.<br>
+<br>
+This configuration is still supported!<br>
+<br>
+Thomas, should we clarify yet again? Maybe adding examples?<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0host: hardware where you run QEMU<br>
+&gt;=C2=A0 =C2=A0 =C2=A0guest: what is run within QEMU<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Running 32-bit *guest* on your 64-bit *host* is sti=
+ll supported.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0We don&#39;t plan to support running 32-bit WinXP x=
+86 (guest) on 32-bit<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Raspberry Pi 2 (host) for example.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; going anywhere, but what about 32bit userspac=
+e on Android tablets,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; either via Limbo emulator or qemu itself in T=
+ermux?<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0*System* emulation [on 32-bit hosts] is deprecated.=
+ User emulation<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(such linux-user) is not. For example, you can stil=
+l run 64-bit x86_64<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Linux binaries on a 32-bit ARM Raspberry Pi.<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Well, unrooted Android does not allow you to just load some perfectly =
+<br>
+&gt; fine kernel module, so user-space emulation can&#39;t do all things <b=
+r>
+&gt; system-level one can. I also ran qemu-system-ppc on Huawei Matepad T8 =
+<br>
+&gt; (32 bit Android, too) for emulating old mac os 9. Yes, I can wait 10 m=
+in <br>
+&gt; per guest boot. Fedora 36 armhf boots even slower on emulation!<br>
+<br>
+Huawei MatePad T8 is based on a MediaTek MT8768 CPU which contains<br>
+ARM Cortex-A53 cores. These cores implements the ARMv8-A 64-bit ISA,<br>
+so theoretically it is able to run a 64-bit Android.<br></blockquote></div>=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">Good luck installing no=
+n-vendor Android on off the shelf device, also good luck running 64bit Andr=
+oid in 2gb ram. To be honest yes before I had only Android + termux setup f=
+or all my computer needs I cared less about upstream removals - because I u=
+sually can revert things locally on Slackware. But Termux is rolling distro=
+, and there is not many alternatives. So upstream decisions will hit here f=
+ast and hard.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; At least I hope it will be not *actively* (in=
+tentionally) broken,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0just<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; ...unsupported (so users who know how to run =
+git revert still<br>
+&gt;=C2=A0 =C2=A0 =C2=A0will get<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; their build for some more time).<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Unsupported code almost always unintentionally end =
+bit-rotting...<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Well, sometimes simple patch restores functionality. I patched for <br=
+>
+&gt; example olive-editor to run on 32 bit, and before this intel embree <b=
+r>
+&gt; (raytracing kernels for Lux renderer). So, _sometimes_ it really not <=
+br>
+&gt; that costly. While if this CI thing really runs per-commit and thrown =
+<br>
+&gt; away each result ... may be letting interested users to build things o=
+n <br>
+&gt; their own machines (and share patches, if they develop them, publicly)=
+=C2=A0 <br>
+&gt; actually good idea.<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0I hope this is clearer.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Regards,<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Phil.<br>
+&gt; <br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000beb52705f6ffa2f6--
 
